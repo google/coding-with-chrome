@@ -1,0 +1,65 @@
+{
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "manifest_version": 2,
+  "name": "Coding with Chrome BETA",
+  "version": "1.11.27",
+  "default_locale": "en",
+  "description": "Coding with Chrome.",
+  "icons": {
+    "16":  "icons/16x16.png",
+    "32":  "icons/32x32.png",
+    "64":  "icons/64x64.png",
+    "128": "icons/128x128.png",
+    "256": "icons/256x256.png"
+  },
+  "author": "coding-with-chrome@google.com",
+  "file_handlers": {
+    "Coding with Chrome": {
+      "extensions": [
+        "cwc"
+      ]
+    },
+    "text": {
+      "types": [
+        "text/*"
+      ]
+    }
+  },
+  "minimum_chrome_version": "38",
+  "offline_enabled": true,
+  "bluetooth": {
+    "uuids": [
+      "00001101-0000-1000-8000-00805f9b34fb",
+      "00000000-deca-fade-deca-deafdecacaff"
+    ],
+    "socket": true
+  },
+  "sockets": {
+    "tcpServer": {
+      "listen": "127.0.0.1:80"
+    }
+  },
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "contextMenus",
+    "storage", {
+      "fileSystem": ["write"]
+    },
+    "serial",
+    "system.memory",
+    "identity",
+    "tts",
+    "usb",
+    "unlimitedStorage",
+    "webview",
+    "https://ssl.gstatic.com/",
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
+  ],
+  "short_name": "Coding with Chrome"
+}

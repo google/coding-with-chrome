@@ -1,0 +1,64 @@
+/**
+ * @fileoverview Runner terminal for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.RunnerTerminal autoescape="strict"}
+
+/**
+ * Main HTML template for the Runner terminal.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}terminal-body">
+    <h3>Terminal</h3>
+    <div id="{$prefix}terminal-output"></div>
+  </div>
+{/template}
+
+
+/**
+ * Runner terminal style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}terminal-body {lb}
+    height: 200px;
+    width: 100%;
+    z-index: 11;
+    border: 1px solid #E0E0E0;
+  {rb}
+
+  #{$prefix}terminal-body > h3 {lb}
+    height: 25px;
+    margin: 0;
+    padding: 5px;
+    color: #fff;
+    background: #607d8b;
+  {rb}
+
+  #{$prefix}terminal-output {lb}
+    height: 175px;
+    background: #000;
+    opacity: 0.9;
+    overflow: scroll;
+    white-space: pre;
+    padding: 5px;
+    color: #fff;
+  {rb}
+
+{/template}

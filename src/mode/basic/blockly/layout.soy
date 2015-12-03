@@ -1,0 +1,77 @@
+/**
+ * @fileoverview Layout template for the Blockly modification.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.Basic.blockly autoescape="deprecated-contextual"}
+
+
+/**
+ * Editor template.
+ */
+{template .editor}
+  {@param prefix: string}
+  <div id="{$prefix}editor-chrome"></div>
+  <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
+    <xml id="{$prefix}blockly-toolbox" style="display: none">
+      <category name="Logic">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>
+
+      <category name="Loops">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number"><field name="NUM">10</field></block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <value name="FROM">
+            <block type="math_number"><field name="NUM">1</field></block>
+          </value>
+          <value name="TO">
+            <block type="math_number"><field name="NUM">10</field></block>
+          </value><value name="BY">
+            <block type="math_number"><field name="NUM">1</field></block>
+          </value>
+        </block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
+      </category>
+      <category name="Draw">
+        <block type="draw_circle"></block>
+        <block type="draw_rectangle"></block>
+        <block type="draw_line"></block>
+        <block type="draw_point"></block>
+      </category>
+    </xml>
+  </div>
+{/template}
+
+/**
+ * Preview template.
+ */
+{template .preview}
+  {@param prefix: string}
+  <div id="{$prefix}preview-chrome"></div>
+{/template}

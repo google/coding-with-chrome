@@ -1,0 +1,128 @@
+/**
+ * @fileoverview Library for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Library autoescape="deprecated-contextual"}
+
+/**
+ * HTML template for the file library.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}overview">
+    File: <span id="{$prefix}file">No file selected</span>
+    <div id="{$prefix}preview-body">
+      <webview id="{$prefix}preview"></webview>
+    </div>
+    <div id="{$prefix}stats">
+      <span id="{$prefix}counter"></span>
+    </div>
+    <div id="{$prefix}content">
+      <table id="{$prefix}content-table" border="0">
+        <thead class="goog-tablesorter-header">
+          <tr>
+            <th>Name</th>
+            <th style="min-width: 150px;">Type</th>
+            <th style="min-width: 50px;">Size</th>
+         </tr>
+        </thead>
+        <tbody id="{$prefix}entries"></tbody>
+      </table>
+    </div>
+    <div id="{$prefix}actions">
+      <span id="{$prefix}add-file"></span>
+    </div>
+  </div>
+{/template}
+
+/**
+ * Library style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}overview {lb}
+   padding: 2px;
+   background: #fff;
+  {rb}
+
+  #{$prefix}chrome {lb}
+    background: #fff;
+  {rb}
+
+  #{$prefix}preview-body {lb}
+    height: 120px;
+    border: 1px solid #aaa;
+  {rb}
+
+  #{$prefix}preview-body webview, #{$prefix}preview {lb}
+    display: block;
+    height: 100px;
+    width: 100%;
+  {rb}
+
+  #{$prefix}content {lb}
+    overflow: auto;
+    height: 250px;
+    border: 1px solid #aaa;
+    margin: auto;
+  {rb}
+
+  #{$prefix}content > table {lb}
+    width: 100%;
+    min-width: 400px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  {rb}
+
+  #{$prefix}content tr {lb}
+    text-align: left;
+    padding: 1px;
+    background: #dedede;
+    opacity: .8;
+  {rb}
+
+  #{$prefix}content tr:nth-child(even):hover,
+  #{$prefix}content tr:nth-child(odd):hover {lb}
+    opacity: 1;
+  {rb}
+
+  #{$prefix}content tr:nth-child(even) {lb}
+    background: #ddd;
+  {rb}
+
+  #{$prefix}content tr:nth-child(odd) {lb}
+    background: #eee;
+  {rb}
+
+  #{$prefix}content th {lb}
+    text-align: left;
+    padding: 2px;
+    border-bottom: 1px solid #666;
+  {rb}
+
+  #{$prefix}content td {lb}
+    text-align: left;
+  {rb}
+
+  #{$prefix}action {lb}
+    padding: 3px;
+  {rb}
+
+{/template}

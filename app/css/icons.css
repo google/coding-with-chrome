@@ -1,0 +1,151 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Material icon set in different colors and sizes.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+.icon_auto,
+.icon_auto_black,
+.icon_auto_blue,
+.icon_auto_red,
+.icon_auto_grey,
+.icon_auto_white,
+.icon_36px,
+.icon_24px,
+.icon_18px,
+.icon_36px_black,
+.icon_24px_black,
+.icon_18px_black,
+.icon_36px_blue,
+.icon_24px_blue,
+.icon_18px_blue,
+.icon_36px_red,
+.icon_24px_red,
+.icon_18px_red,
+.icon_36px_grey,
+.icon_24px_grey,
+.icon_18px_grey,
+.icon_36px_white,
+.icon_24px_white,
+.icon_18px_white {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon_36px,
+.icon_36px_black,
+.icon_36px_blue,
+.icon_36px_red,
+.icon_36px_grey,
+.icon_36px_white {
+  font-size: 36px !important;
+  line-height: 36px !important;
+}
+
+.icon_24px,
+.icon_24px_black,
+.icon_24px_blue,
+.icon_24px_red,
+.icon_24px_grey,
+.icon_24px_white {
+  font-size: 24px !important;
+  line-height: 24px !important;
+}
+
+.icon_18px,
+.icon_18px_black,
+.icon_18px_blue,
+.icon_18px_red,
+.icon_18px_grey,
+.icon_18px_white {
+  font-size: 18px !important;
+  line-height: 18px !important;
+}
+
+.icon_auto_black,
+.icon_36px_black ,
+.icon_24px_black ,
+.icon_18px_black {
+  color: #000 !important;
+}
+
+.icon_auto_blue,
+.icon_36px_blue,
+.icon_24px_blue,
+.icon_18px_blue {
+  color: #4285F4 !important;
+}
+
+.icon_auto_red,
+.icon_36px_red,
+.icon_24px_red,
+.icon_18px_red {
+  color: #f00 !important;
+}
+
+.icon_auto_grey,
+.icon_36px_grey,
+.icon_24px_grey,
+.icon_18px_grey {
+  color: #ccc !important;
+}
+
+.icon_auto_white,
+.icon_36px_white,
+.icon_24px_white,
+.icon_18px_white {
+  color: #fff !important;
+}
+
+.icon_button {
+  border: 0;
+  background: transparent;
+  opacity: .55;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+.icon_button:hover {
+  opacity: .9;
+}
+
+.icon_button.goog-toolbar-button-disabled:hover {
+  opacity: .25;
+}
+
+.icon_button.goog-toolbar-button-checked {
+  opacity: 1;
+}
+
+.icon_button.floaty_right {
+  float: right;
+}
+
+.icon_button.floaty_left {
+  float: left;
+}

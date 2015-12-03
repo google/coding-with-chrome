@@ -1,0 +1,134 @@
+/**
+ * @fileoverview Editor template for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.ui.Editor autoescape="deprecated-contextual"}
+
+
+
+/**
+ * Editor layout.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}toolbar"></div>
+  <div id="{$prefix}code">
+    <div id="{$prefix}view"></div>
+  </div>
+  <div id="{$prefix}infobar">
+    <div id="{$prefix}info-line-col" class="{$prefix}info"></div>
+    <div id="{$prefix}info-mode" class="{$prefix}info"></div>
+  </div>
+{/template}
+
+
+/**
+ * Editor style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}toolbar > .goog-toolbar {lb}
+    padding-left: 55px!important;
+  {rb}
+
+  #{$prefix}toolbar {lb}
+    position: relative;
+  {rb}
+
+  #{$prefix}view {lb}
+    position: absolute;
+    bottom: 20px;
+    right: 5px;
+    z-index: 10;
+  {rb}
+
+  #{$prefix}view .goog-menu-button {lb}
+    background: #eee;
+    opacity: 0.7;
+  {rb}
+
+  #{$prefix}view .goog-menu-button:hover {lb}
+    opacity: 0.9;
+  {rb}
+
+  #{$prefix}view .goog-menu-button-outer-box {lb}
+    margin: 0;
+    border-width: 1px 0;
+    padding-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+  {rb}
+
+  #{$prefix}view .goog-menu-button-inner-box {lb}
+    line-height: 27px;
+  {rb}
+
+  #{$prefix}view .goog-menu-button-inner-box,
+  #{$prefix}infobar .goog-menu-button-inner-box {lb}
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAALCAYAAACzkJeoAAAAOklEQVQYV2P4//8/AwxHRkb+B2I4H13iP7ICbBJwBbgkwBhuLDaMXxLZddgk8duJTQKnP7E6CFkChAFpxL/ydoaj+QAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position: right;
+    border-right: none;
+  {rb}
+
+  #{$prefix}infobar .goog-menu-button-disabled .goog-menu-button-inner-box {lb}
+    background: none!important;
+  {rb}
+
+  #{$prefix}code {lb}
+    padding: 0;
+    position: relative;
+  {rb}
+
+  #{$prefix}code-custom {lb}
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  {rb}
+
+  #{$prefix}infobar {lb}
+    height: 26px;
+    background: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #ebebeb;
+  {rb}
+
+  #{$prefix}infobar .goog-menu-button {lb}
+    background: none;
+  {rb}
+
+  #{$prefix}infobar .goog-menu-button-outer-box {lb}
+    border-style: none;
+  {rb}
+
+  #{$prefix}infobar .goog-menu-button-inner-box {lb}
+    border-style: none;
+  {rb}
+
+  #{$prefix}info-line-col {lb}
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 27px;
+  {rb}
+
+  .{$prefix}info {lb}
+    border-right: 1px solid #e5e5e5;
+    padding: 0 5px;
+    float: left;
+  {rb}
+
+{/template}

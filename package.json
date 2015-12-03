@@ -1,0 +1,28 @@
+{
+  "name": "coding-with-chrome",
+  "description": "Coding with Chrome",
+  "version": "1.0.0",
+  "author": "Markus Bordihn (mbordihn@google.com)",
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "blockly": "https://github.com/google/blockly/tarball/master",
+    "closure-builder": "latest",
+    "codemirror": "latest",
+    "csslint": "latest",
+    "htmlhint": "latest",
+    "jquery": ">=1.7",
+    "jsdoc": "latest",
+    "jshint": "latest"
+  },
+  "devDependencies": {
+    "assert": "latest",
+    "eslint": "latest",
+    "mocha": "latest"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "build": "node build.js",
+    "documentation": "jsdoc src -r -c documentation.json -d docs"
+  }
+}

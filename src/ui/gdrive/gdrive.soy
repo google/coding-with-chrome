@@ -1,0 +1,137 @@
+/**
+ * @fileoverview GDrive gui for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.GDrive autoescape="deprecated-contextual"}
+
+
+/**
+ * Google Drive template.
+ */
+{template .gDriveTemplate}
+  {@param prefix: string}
+  <div id="{$prefix}body">
+    <div id="{$prefix}menu">
+    </div>
+    <div id="{$prefix}content">
+      <div id="{$prefix}filelist">
+      </div>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Google Drive file list.
+ */
+{template .gDriveFileList}
+  {@param files: ?}
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20px;"></th>
+        <th style="width: 380px;">Title</th>
+        <th style="width: 100px;">Owner</th>
+        <th style="width: 150px;">Last Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="4">&nbsp;</td>
+      </tr>
+      {foreach $file in $files}
+      <tr>
+        <td style="width: 20px;"></td>
+        <td style="width: 380px;">
+          <webview src="{$file['iconLink']}"></webview>
+          <span data-id="{$file['id']}" data-name="{$file['title']}" class="gdrive-loader">
+            {$file['title']}
+          </span>
+        </td>
+        <td style="width: 100px;">{$file['ownerNames'][0]}</td>
+        <td style="width: 150px;">{$file['modifiedDate']}</td>
+      </tr>
+      {/foreach}
+    </tbody>
+  </table>
+{/template}
+
+
+/**
+ * Google Drive style definitions.
+ */
+{template .gDriveStyle}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    min-width: 700px;
+  {rb}
+
+  #{$prefix}menu {lb}
+    width: 150px;
+    height: 205px;
+    border-right: 1px solid #ccc;
+    float: left;
+  {rb}
+
+  #{$prefix}menu>div {lb}
+    border: 0;
+    width: 150px;
+    box-shadow: none;
+  {rb}
+
+  #{$prefix}content {lb}
+    overflow: auto;
+  {rb}
+
+  #{$prefix}filelist {lb}
+    position: relative;
+    min-width: 750px;
+    height: 200px;
+  {rb}
+
+  #{$prefix}filelist td {lb}
+    border-bottom: 1px solid #EBEBEB;
+  {rb}
+
+  #{$prefix}filelist thead {lb}
+    width: 750px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    background: #fff;
+  {rb}
+
+  #{$prefix}filelist tbody {lb}
+    width: 750px;
+  {rb}
+
+  #{$prefix}filelist tr {lb}
+    padding-top: 20px;
+  {rb}
+
+  #{$prefix}filelist tr:hover td {lb}
+    background: #ffffcc;
+  {rb}
+
+  #{$prefix}filelist tr td webview {lb}
+    width: 16px;
+    height: 16px;
+  {rb}
+
+{/template}

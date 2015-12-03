@@ -1,0 +1,27 @@
+/**
+ * @fileoverview Preview for Coding in Chrome editor.
+ *
+ * @author: mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Statusbar autoescape="strict"}
+
+/**
+ * HTML template for the statusbar.
+ */
+{template .statusbarTemplate}
+  {@param prefix: string}
+  <div id="{$prefix}status"></div>
+{/template}
+
+/**
+ * Statusbar style definitions.
+ */
+{template .statusbarStyle}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    height: 20px;
+    line-height: 20px;
+    background: #CFD8DC;
+  {rb}
+{/template}

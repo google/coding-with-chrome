@@ -1,0 +1,210 @@
+/**
+ * @fileoverview Monitor template for the EV3 modification.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.ev3.Monitor autoescape="deprecated-contextual"}
+
+
+/**
+ * Monitor template.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}toolbar"></div>
+  <div id="{$prefix}monitor"></div>
+{/template}
+
+
+/**
+ * EV3 device / port monitor.
+ */
+{template .monitor}
+  {@param devices: ?}
+  {@param prefix: string}
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info
+                {if $devices[0]}{sp}{$prefix}{$devices[0].css}_{$devices[0].value}{/if}">
+      <span>1</span>{if $devices[0]}{$devices[0].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[0]}
+        <span title="mode: {$devices[0].mode}">{$devices[0].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info
+                {if $devices[1]}{sp}{$prefix}{$devices[1].css}_{$devices[1].value}{/if}">
+      <span>2</span>{if $devices[1]}{$devices[1].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[1]}
+        <span title="mode: {$devices[1].mode}">{$devices[1].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info
+                {if $devices[2]}{sp}{$prefix}{$devices[2].css}_{$devices[2].value}{/if}">
+      <span>3</span>{if $devices[2]}{$devices[2].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[2]}
+        <span title="mode: {$devices[2].mode}">{$devices[2].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info
+                {if $devices[3]}{sp}{$prefix}{$devices[3].css}_{$devices[3].value}{/if}">
+      <span>4</span>{if $devices[3]}{$devices[3].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[3]}
+        <span title="mode: {$devices[3].mode}">{$devices[3].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info">
+      <span>A</span>{if $devices[16]}{$devices[16].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[16]}
+        <span title="mode: {$devices[16].mode}">{$devices[16].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info">
+      <span>B</span>{if $devices[17]}{$devices[17].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[17]}
+        <span title="mode: {$devices[17].mode}">{$devices[17].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info">
+      <span>C</span>{if $devices[18]}{$devices[18].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[18]}
+        <span title="mode: {$devices[18].mode}">{$devices[18].name}</span>
+      {/if}
+    </div>
+  </div>
+  <div class="{$prefix}interface-view">
+    <div class="{$prefix}interface-view-info">
+      <span>D</span>{if $devices[19]}{$devices[19].value}{/if}
+    </div>
+    <div class="{$prefix}interface-view-type">
+      {if $devices[19]}
+        <span title="mode: {$devices[19].mode}">{$devices[19].name}</span>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Monitor stylesheets.
+ */
+{template .style}
+  {@param prefix: string}
+  {$prefix}test {lb}
+    border: 1px solid #ccc;
+  {rb}
+
+  .{$prefix}interface-view {lb}
+    width: 80px;
+    height: 60px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background: linear-gradient(to bottom,
+      #ffffff 0%,#f3f3f3 65%,#ededed 67%,#ffffff 100%);
+    float: left;
+    margin: 2px;
+  {rb}
+
+  .{$prefix}interface-view-info {lb}
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    height: 15px;
+  {rb}
+
+  .{$prefix}interface-view-info > span {lb}
+    color: #000;
+    background-color: #ccc;
+    border-left: 1px solid #aaa;
+    border-top-left-radius: 5px;
+    font-size: 12px;
+    width: 15px;
+    padding-left: 5px;
+    margin-right: 5px;
+    display: block;
+    float: left;
+  {rb}
+
+  .{$prefix}interface-view-type {lb}
+    clear: left;
+    height: 44px;
+  {rb}
+
+  .{$prefix}color_0 {lb}
+    color: #000;
+    background: #fff;
+  {rb}
+
+  .{$prefix}color_1 {lb}
+    color: #fff;
+    background: #404040;
+  {rb}
+
+  .{$prefix}color_2 {lb}
+    color: #000;
+    background: #4040ff;
+  {rb}
+
+  .{$prefix}color_3 {lb}
+    color: #000;
+    background: #40ff40;
+  {rb}
+
+  .{$prefix}color_4 {lb}
+    color: #000;
+    background: #ffff40;
+  {rb}
+
+  .{$prefix}color_5 {lb}
+    color: #000;
+    background: #ff4040;
+  {rb}
+
+  .{$prefix}color_6 {lb}
+    color: #000;
+    background: #fff;
+  {rb}
+
+  .{$prefix}color_7 {lb}
+    color: #000;
+    background: #896040;
+  {rb}
+
+{/template}

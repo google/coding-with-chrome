@@ -1,0 +1,112 @@
+/**
+ * @fileoverview Templates for Coding with Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.ui.Gui autoescape="strict"}
+
+/**
+ * Main HTML template for the Coding with Chrome GUI.
+ */
+{template .guiTemplate}
+  {@param prefix: string}
+  {@param? opt_title: string}
+  <div id="{$prefix}chrome">
+    // Header with title, menubar and icons.
+    <header id="{$prefix}header">
+      <div id="{$prefix}titlebar">
+        <div id="{$prefix}title">{$opt_title ? $opt_title : 'Untitled Project'}</div>
+      </div>
+      <div id="{$prefix}message"></div>
+      <div id="{$prefix}bar">
+        <div id="{$prefix}menubar"></div>
+      </div>
+    </header>
+
+    // Main with library, preview, editor and console.
+    <section id="{$prefix}layout"></section>
+
+    // Footer with statusbar.
+    <footer id="{$prefix}footer">
+      <div id="{$prefix}statusbar"></div>
+    </footer>
+  </div>
+{/template}
+
+
+/**
+ * GUI style definitions.
+ */
+{template .guiStyle}
+  {@param prefix: string}
+  #{$prefix}chrome {lb}
+    overflow: hidden;
+    position: relative;
+    font-family: Roboto, Gelvetica, Arial, sans-serif;;
+    font-size: 13px;
+  {rb}
+
+  #{$prefix}chrome header {lb}
+    position: relative;
+    background: #455A64;
+    min-height: 35px;
+    color: #fff;
+  {rb}
+
+  #{$prefix}chrome footer {lb}
+    background: #CFD8DC;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-top-right-radius: 5px;
+  {rb}
+
+  #{$prefix}header {lb}
+    -webkit-app-region: drag;
+  {rb}
+
+  #{$prefix}message *{lb}
+    -webkit-app-region: no-drag;
+  {rb}
+
+  #{$prefix}bar *{lb}
+    -webkit-app-region: no-drag;
+  {rb}
+
+  #{$prefix}titlebar *{lb}
+    position: absolute;
+    top: 5px;
+    left: 50px;
+    -webkit-app-region: no-drag;
+  {rb}
+
+  #{$prefix}title {lb}
+    margin-left: 17px;
+    color: #fff;
+    font-size: 18px;
+    font-style: italic;
+    display: inline;
+  {rb}
+
+  #{$prefix}layout{lb}
+    cursor: default;
+  {rb}
+
+{/template}

@@ -1,0 +1,173 @@
+/**
+ * @fileoverview Preview for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Runner autoescape="strict"}
+
+/**
+ * Main HTML template for the file library.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}body">
+    <div id="{$prefix}toolbar"></div>
+    <div id="{$prefix}content">
+      <div id="{$prefix}info"></div>
+      <div id="{$prefix}status"></div>
+      <div id="{$prefix}statusbar"></div>
+      <div id="{$prefix}overlay"></div>
+      <div id="{$prefix}terminal"></div>
+      <div id="{$prefix}runtime" class="hide"></div>
+    </div>
+    <div id="{$prefix}infobar"></div>
+  </div>
+{/template}
+
+/**
+ * Connect template.
+ */
+{template .connect}
+  <h2>Connected ...</h2>
+{/template}
+
+/**
+ * Disconnect template.
+ */
+{template .disconnect}
+  <h2>Disconnected ...</h2>
+{/template}
+
+/**
+ * Prepare template.
+ */
+{template .prepare}
+  <h2>Preparing Code ...</h2>
+{/template}
+
+/**
+ * Run template.
+ */
+{template .run}
+  <h2>Running Code ...</h2>
+{/template}
+
+/**
+ * Reload template.
+ */
+{template .reload}
+  <h2>Reloading Code ...</h2>
+{/template}
+
+/**
+ * Stop template.
+ */
+{template .stop}
+  <h2>Stopping the running Code</h2>
+{/template}
+
+/**
+ * Terminate template.
+ */
+{template .terminate}
+  <h2>Terminating the running Code</h2>
+{/template}
+
+/**
+ * Runner style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    background: #fff;
+  {rb}
+
+  #{$prefix}toolbar > .goog-toolbar {lb}
+    padding-left: 10px;
+  {rb}
+
+  #{$prefix}content-body {lb}
+    position: relative;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  {rb}
+
+  #{$prefix}runtime webview {lb}
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    top: 5px;
+    right: 0px;
+  {rb}
+
+  #{$prefix}runtime.hide webview{lb}
+    position: absolute;
+    width: 45px;
+    height: 45px;
+  {rb}
+
+  #{$prefix}runtime.show webview{lb}
+    position: relative;
+    width: 100%;
+    height: 100%;
+  {rb}
+
+  #{$prefix}content {lb}
+    overflow: auto;
+    position: relative;
+  {rb}
+
+  #{$prefix}status {lb}
+    position: relative;
+  {rb}
+
+  #{$prefix}overlay {lb}
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background: #fff;
+  {rb}
+
+  #{$prefix}info {lb}
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: #fff;
+  {rb}
+
+  #{$prefix}terminal {lb}
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    z-index: 11;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+  {rb}
+
+ #{$prefix}status {lb}
+    z-index: 12;
+  {rb}
+
+{/template}

@@ -1,0 +1,78 @@
+/**
+ * @fileoverview Debug overview for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Debug autoescape="deprecated-contextual"}
+
+/**
+ * Debug template.
+ */
+{template .template}
+  {@param prefix: string}
+  {@param file_types: ?}
+  {@param mode_types: ?}
+  <div id="{$prefix}body">
+    <h2>Debug screen</h2>
+
+    <h3>File Types</h3>
+    <ul>
+    {foreach $file_type in keys($file_types)}
+      <li><span id="type_{$file_type}">{$file_type}<span></li>
+    {/foreach}
+    </ul>
+
+    <h3>Mode Types</h3>
+    <ul>
+    {foreach $mode_type in keys($mode_types)}
+      <li><span id="mode_{$mode_type}">{$mode_type}<span></li>
+    {/foreach}
+    </ul>
+
+    <div id="{$prefix}footer">
+     Have fun testing ... ;)
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    border: 1px solid red;
+    padding: 10px;
+    background: #ccc;
+  {rb}
+
+  #{$prefix}left {lb}
+    width: 300px;
+    float: left;
+  {rb}
+
+  #{$prefix}right {lb}
+    width: 300px;
+    float: right;
+  {rb}
+
+  #{$prefix}footer {lb}
+    clear: both;
+  {rb}
+{/template}

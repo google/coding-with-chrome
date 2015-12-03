@@ -1,0 +1,93 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Modern styling for buttons created by goog.ui.MenuButton.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+.goog-menu-button {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAH0CAMAAADG/cfiAAAAwFBMVEX////g3+Do6Oj+/v7a2dnj5OPv7+/Ix8fv7/DHx8fe3t78/P3b29v29/b29vff39/h4eH9/fzZ2dr////4+Pnt7e3q6ury8fK9vL3Ozs7Kysq/v7/09PTX19fExMTk4+TBwcHl5ebn6Ojg4ODm5eXm5ubh4uH39vf39/b+/f7c3Nvm5ebb3Nzf4ODR0dHi4uHZ2dnc29va2tnk5OTl5ubIyMfb3Nvj4+Tm5uXw7++7u7vi4eHi4eLU1NT9/P36+/skQGk+AAAAAXRSTlMAQObYZgAAAJRJREFUeF7txVUOQlEUQ9He526ou7u7zH9WQJowBj7O6k6KHGGi69/gp6mfPn28CHlCOA6jMBqhTigRLOviWI6DAqFI0DSt+xn6nfNg1tnDNM3W7tTCMEmS++oGtVBxTyl4nhd/wj8RQgghhBBCCCGu9PsyoUZoE5oE++C6tmujSqgQloQHoUEwDGObrTMEwXwzDY5vEeYYeevpRXQAAAAASUVORK5CYII=);
+  border: 0;
+  color: #000;
+  cursor: pointer;
+  list-style: none;
+  margin: 2px;
+  outline: none;
+  padding: 0;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.goog-menu-button-outer-box,
+.goog-menu-button-inner-box {
+  border-style: solid;
+  border-color: #aaa;
+  vertical-align: top;
+}
+
+.goog-menu-button-outer-box {
+  margin: 0;
+  border-width: 1px 0;
+  padding: 0;
+}
+
+.goog-menu-button-inner-box {
+  margin: 0 -1px;
+  border-width: 0 1px;
+  padding: 3px 4px;
+}
+
+.goog-menu-button-disabled {
+  background-image: none !important;
+  opacity: 0.3;
+}
+
+.goog-menu-button-disabled .goog-menu-button-outer-box,
+.goog-menu-button-disabled .goog-menu-button-inner-box,
+.goog-menu-button-disabled .goog-menu-button-caption,
+.goog-menu-button-disabled .goog-menu-button-dropdown {
+  color: #333 !important;
+  border-color: #999 !important;
+}
+
+.goog-menu-button-hover .goog-menu-button-outer-box,
+.goog-menu-button-hover .goog-menu-button-inner-box {
+  border-color: #9cf #69e #69e #7af !important; /* Hover border wins. */
+}
+
+.goog-menu-button-active,
+.goog-menu-button-open {
+  background-color: #bbb;
+  background-position: bottom left;
+}
+
+.goog-menu-button-focused .goog-menu-button-outer-box,
+.goog-menu-button-focused .goog-menu-button-inner-box {
+  border-color: orange;
+}
+
+.goog-menu-button-caption {
+  padding: 0 4px 0 0;
+  vertical-align: top;
+}
+
+.goog-menu-button-dropdown {
+  height: 15px;
+  width: 7px;
+  vertical-align: top;
+}

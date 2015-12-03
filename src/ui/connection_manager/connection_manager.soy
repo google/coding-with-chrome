@@ -1,0 +1,113 @@
+/**
+ * @fileoverview Connection Manager for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.ConnectionManager autoescape="deprecated-contextual"}
+
+
+/**
+ * Connection Manager template..
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}body">
+    <div id="{$prefix}toolbar">
+     <h3>Connection Manager</h3>
+    </div>
+    <div id="{$prefix}content"></div>
+  </div>
+{/template}
+
+
+/**
+ * Serial Devices: Port selection.
+ */
+{template .serialDevice}
+  {@param prefix: string}
+  <h2>Device Selection</h2>
+  <p>
+    Please select the port your device is connected to.
+  </p>
+  <p>
+   <div id="{$prefix}serial-devices"></div>
+  </p>
+{/template}
+
+
+/**
+ * Serial Devices: Waiting.
+ */
+{template .serialDeviceWait}
+  <p>
+    Please wait. Gathering serial devices ...
+  </p>
+{/template}
+
+
+/**
+ * Serial Devices: No device found.
+ */
+{template .serialDeviceNone}
+  {@param prefix: string}
+  <h2>Found no supported serial Device!</h2>
+  <p>
+    Please check all connections and make sure that the device is turned on.<br>
+    Click on the refresh button after the device is connected and turned on.
+  </p>
+  <div id="{$prefix}link-refresh" class="goog-button">Refresh</div>
+  <div id="{$prefix}link-offline" class="goog-button">Offline mode</div>
+{/template}
+
+
+/**
+ * Connection Manager style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  .{$prefix}button-bar .goog-button{lb}
+    float: left;
+    width: 100px;
+    margin: 20px;
+  {rb}
+
+
+  #{$prefix}body {lb}
+    background-color: #fff;
+    width: 500px;
+    height: 300px;
+    margin: 150px auto;
+    border: 1px solid #ccc;
+  {rb}
+
+  #{$prefix}toolbar {lb}
+    position: relative;
+  {rb}
+
+  #{$prefix}toolbar h3 {lb}
+    color: #fff;
+    margin: 0;
+    position: absolute;
+    left: 40px;
+    top: 8px;
+  {rb}
+
+  #{$prefix}content {lb}
+    padding: 5px;
+  {rb}
+{/template}

@@ -1,0 +1,102 @@
+/**
+ * @fileoverview Layout templates and style definitons for the Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.ui.Layout autoescape="deprecated-contextual"}
+
+
+/**
+ * Layout template.
+ */
+{template .template}
+  {@param prefix: string}
+  <div id="{$prefix}content-overlay"></div>
+{/template}
+
+
+/**
+ * Preloader template.
+ */
+{template .preloader}
+  {@param prefix: string}
+  <div id="{$prefix}preloader">
+    <div class="{$prefix}loader">
+      <div class="icon_24px">info_outline</div>
+      <span>Working, please wait ...</span>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Layout style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}chrome-main {lb}
+    z-index: 0;
+    position: relative;
+  {rb}
+
+  #{$prefix}content-overlay {lb}
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1000;
+    overflow: auto;
+  {rb}
+
+  .{$prefix}bg_transparent {lb}
+    background: transparent;
+  {rb}
+
+  .{$prefix}bg_transparent_25 {lb}
+    background: rgba(0, 0, 0, 0.75);
+  {rb}
+
+  .{$prefix}bg_transparent_50 {lb}
+    background: rgba(0, 0, 0, 0.50);
+  {rb}
+
+  .{$prefix}bg_transparent_75 {lb}
+    background: rgba(0, 0, 0, 0.25);
+  {rb}
+
+  .{$prefix}bg_transparent_grey {lb}
+    background: grey;
+  {rb}
+
+  .{$prefix}bg_transparent_white {lb}
+    background: white;
+  {rb}
+
+  .{$prefix}loader {lb}
+    width: 200px;
+    height: 40px;
+    position: relative;
+    margin: 200px auto;
+  {rb}
+
+  .{$prefix}loader span {lb}
+    color: #fff;
+    position: absolute;
+    top: 3px;
+    left: 27px;
+  {rb}
+
+{/template}

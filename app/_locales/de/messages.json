@@ -1,0 +1,23 @@
+{
+  "File": {
+    "message": "Datei"
+  },
+  "Edit": {
+    "message": "Bearbeiten"
+  },
+  "Code": {
+    "message": "Code"
+  },
+  "Preview": {
+    "message": "Vorschau"
+  },
+  "Devices": {
+    "message": "Geräte"
+  },
+  "Examples": {
+    "message": "Beispiele"
+  },
+  "Help": {
+    "message": "Hilfe"
+  }
+}

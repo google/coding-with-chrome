@@ -1,0 +1,100 @@
+/**
+ * @fileoverview Layout template for the EV3 modification.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.ev3.Runner autoescape="deprecated-contextual"}
+
+
+/**
+ * General informations to display on the runner screen.
+ */
+{template .info}
+  <h2>Lego Mindstorms</h2>
+  <p>
+    Please make sure that the sensors are connected to the following ports:
+  <p>
+  <ul>
+    <li>Port 1 - Color Sensor</li>
+    <li>Port 2 - Touch Sensor</li>
+    <li>Port 4 - IR Sensor</li>
+    <li>Port A - Small Motor</li>
+    <li>Port B - Big Motor left</li>
+    <li>Port C - Big Motor right</li>
+  </ul>
+  <h3>Color Sensor Mode</h3>
+  <ul>
+   <li>0: Reflective</li>
+   <li>1: Ambient</li>
+   <li>2: Color</li>
+  </ul>
+  <h3>IR Sensor Mode</h3>
+  <ul>
+   <li>0: Proximity</li>
+   <li>1: Seek</li>
+   <li>2: Remote Control</li>
+  </ul>
+{/template}
+
+/**
+ * EV3 Overlay.
+ */
+{template .overlay}
+  <h2>EV3 Overlay ...</h2>
+{/template}
+
+/**
+ * Connect screen.
+ */
+{template .connect}
+  EV3 connected!
+{/template}
+
+/**
+ * Disconnect screen.
+ */
+{template .disconnect}
+  EV3 disconnected!
+{/template}
+
+/**
+ * Prepare screen.
+ */
+{template .prepare}
+  Prepare commands ...
+{/template}
+
+/**
+ * Run screen.
+ */
+{template .run}
+  Run commands ...
+{/template}
+
+/**
+ * Stop screen.
+ */
+{template .stop}
+  Stop execution of commands ...
+{/template}
+
+/**
+ * Reload screen.
+ */
+{template .reload}
+  Reload commands execution ...
+{/template}

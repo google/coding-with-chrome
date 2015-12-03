@@ -1,0 +1,190 @@
+/**
+ * @fileoverview Help for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.Help autoescape="strict"}
+
+
+/**
+ * Manifest template.
+ */
+{template .about}
+  {@param manifest: ?}
+  <h3>{$manifest['name']}</h3>
+  <b>Version:</b> {$manifest['version']}<br>
+{/template}
+
+/**
+ * Keyboard shortcuts.
+ */
+{template .keyboardShortcut}
+  <p>
+    There are different keyboard shortcuts for the different functions of the editor.
+  </p>
+
+  <h2>General</h2>
+  <p>
+  </p>
+  <dl>
+    <dt>Ctrl-Return</dt><dd>Execute / run preview</dd>
+  </dl>
+
+  <h2>Code / Text Editor</h2>
+  <p>
+    The following keyboard shortcuts will only work inside the code or text editor.
+  </p>
+  <dl>
+    <dt>Shift-Space</dt><dd>Autocomplete</dd>
+    <dt>Ctrl-F / Cmd-F</dt><dd>Start searching</dd>
+    <dt>Ctrl-G / Cmd-G</dt><dd>Find next</dd>
+    <dt>Shift-Ctrl-G / Shift-Cmd-G</dt><dd>Find previous</dd>
+    <dt>Shift-Ctrl-F / Cmd-Option-F</dt><dd>Replace</dd>
+    <dt>Shift-Ctrl-R / Shift-Cmd-Option-F</dt><dd>Replace all</dd>
+  </dl>
+{/template}
+
+/**
+ * First steps.
+ */
+{template .firstSteps}
+<div class="modal-dialog-content-large">
+  <p>
+    Coding with Chrome provides a easy and simple way to start programming on Chrome,
+    out of the box.<br>
+    This Guide explains the basics of Coding with Chrome: loading and saving a file,
+    elementary editing, adding assets to the file library and the preview and export functions.
+  </p>
+
+  <h2>The different modes of Coding with Chrome</h2>
+  <p>
+    Coding with Chrome has two modes: "Simple Mode" and "Advanced Mode".<br>
+    You can adjust the mode on the right side over the select box.<br>
+  </p>
+  <h3>Simple Mode</h3>
+  <p>
+    The "Simple Mode" is for beginners and should help to learn the basic of coding.<br>
+    It provides some simple commands to create or draw objects like
+    <code>draw.circle(20,20,50);</code> for drawing a circle.<br>
+    <br>
+    <b>Note:</b> In the "Simple Mode" you can only use the JavaScript editor;
+    any HTML and CSS code is completely ignored!
+  </p>
+  <h3>Advanced Mode</h3>
+  <p>
+    The "Advanced Mode" allows you create more complex code.<br>
+    Here you have access to the javascript, html and css editor.<br>
+    <br>
+    <b>Note:</b> In the "Advanced Mode" the simple commands will not work!
+  </p>
+
+  <h2>Entering / Editing code</h2>
+  <p>
+    In order to begin entering code, you must select one of the modes.<br>
+    Depending on your selected mode you can enter your code in the JavaScript,
+    HTML or CSS editor.
+  </p>
+  <h3>JavaScript Editor</h3>
+  <p>
+    Code entered in this editor will be placed in the header between
+    &lt;script&gt;...&lt;/script&gt;.<br>
+    You don't need to include any &lt;script&gt;...&lt;/script&gt; in this editor.
+  </p>
+  <h3>HTML Editor</h3>
+  <p>
+    Code entered in this editor will be placed in the HTML body between
+    &lt;body&gt;...&lt;/body&gt;.<br>
+    You don't need to include any doctype, body or header in this editor.
+  </p>
+  <h3>CSS Editor</h3>
+  <p>
+    Code entered in this editor will be placed in the style definitions between
+    &lt;style&gt;...&lt;/style&gt;.<br>
+  </p>
+
+  <h2>Basic edit commands</h2>
+  <p>
+    If you type a long line, you will notice that the editor will not word-warp your line,
+    but will scroll the content instead.<br>
+    If you make a mistake, you can use the BackSpace key, Delete key or the undo and redo function
+    inside the toolbar.<br>
+    <br>
+    <b>Note:</b> Each editor has its own undo / redo history, so make sure you are inside the
+    correct one.<br>
+  </p>
+  <h2>Other features</h2>
+  <p>
+    Coding with Chrome offers some hot keys for editor features as well; please take a look
+    at the Keyboard Shortcuts for more details about this.<br>
+  </p>
+  <h2>Loading / Saving a file</h2>
+  <p>
+    Coding with Chrome is only able to load and save ".cwc" files.
+    These ".cwc" files includes the settings, the content of the different editors and
+    the content of the file library if it was used.<br>
+  </p>
+  <h2>File Library</h2>
+  <p>
+    The file library is on your left side and includes all files which are needed for
+    your current project.<br>
+    This makes sure that you only need to take care of the important stuff and don't need to take
+    care of the file system or path to the different assets.<br>
+    Your file library is also include inside the ".cwc" file for easy sharing.<br>
+  </p>
+  <h3>Adding a file to the file library</h3>
+  <p>
+    To add a file to the file library click on "Add file" and select the file you want to use.<br>
+    The file will be automatically convered and add to the file library.<br>
+  </p>
+  <h3>Preview a file in the file library</h3>
+  <p>
+    By clicking on the name inside of the file library you will see a small preview of the file in
+    the little area above the file library.<br>
+    Please keep in mind that this only works for supported files from your OS.<br>
+  </p>
+  <h3>Use a file from the file library</h3>
+  <p>
+    To use a file from the file library, select the file and the button "Insert file" should be
+    enabled.<br>
+    If you now click on "Insert file" the specific macro for this will be inserted in the current
+    editor.<br>
+    Please keep in mind that you need to add the correct element for your usage.<br>
+    <br>
+    Example: &lt;img src="{lb}{lb} file:your_filename.jpeg {rb}{rb}"&gt; to insert your image in
+    the HTML editor.
+  </p>
+  <h2>Preview function</h2>
+  <p>
+    By clicking the "run" button or by selecting "Code &gt; Run" from the file menu your current
+    code will be executed in your preview window.<br>
+    The Preview will be executed in a sandbox and will log all errors seperately.<br>
+    If the script takes too long you have the option to terminate the preview at any time.<br>
+    <br>
+    <b>Note:</b> You can also use CTRL + RETURN to update the preview window after a change.<br>
+  </p>
+  <h2>Export features</h2>
+  <p>
+    If you only want to share the result, but not the whole source code, you can export your
+    code.<br>
+    If you export your code to an HTML file you can use it in any modern browser or upload it to
+    a webserver.<br>
+    <br>
+    <b>Note:</b> The export function only provides the content of the preview window, so it is not
+    possible to load such .html file in Coding with Chrome editor to see the original source code.
+  </p>
+</div>
+{/template}

@@ -1,0 +1,94 @@
+/**
+ * @fileoverview Renderer Template.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Renderer autoescape="deprecated-contextual"}
+
+/**
+ * Object template.
+ */
+{template .objectTemplate}
+  {@param data_url: string}
+  {@param type: string}
+  {@param width: number}
+  {@param height: number}
+  <object data="{$data_url|noAutoescape}" type="{$type}" width="{$width}" height="{$height}">
+  </object>
+{/template}
+
+
+/**
+ * HTML base template.
+ */
+{template .html autoescape="deprecated-contextual"}
+  {@param body: string}
+  {@param? head: string}
+  {@param? css: string}
+  {@param? js: string}
+<!DOCTYPE html>{\n}
+<html>{\n}
+  <head>{\n}
+    <style>
+      * {lb} margin:0; padding:0; {rb}
+      html, body {lb} width:100%; height:100%; {rb}
+      canvas {lb} display:block; {rb}
+    </style>
+    {if $css}
+      {call .css}{param content: $css /}{/call}
+    {/if}
+    {$head |noAutoescape}{\n}
+  </head>{\n}
+  <body>{\n}
+    {$body |noAutoescape}{\n}
+    {if $js}
+      {call .javascript}{param content: $js /}{/call}
+    {/if}
+  </body>{\n}
+</html>{\n}
+{/template}
+
+
+/**
+ * CSS tag.
+ */
+{template .css autoescape="deprecated-contextual"}
+  {@param content: string}
+  {@param? url: string}
+  {if $url}
+    {\n}<link rel="stylesheet" href="{$url |noAutoescape}">{\n}
+  {/if}
+  {if $content}
+    {\n}<style>{\n}{$content |noAutoescape}{\n}</style>{\n}
+  {/if}
+{/template}
+
+
+/**
+ * JavaScript tag.
+ */
+{template .javascript autoescape="deprecated-contextual"}
+  {@param content: string}
+  {@param? url: string}
+  {if $url}
+    {\n}<script src="{$url |noAutoescape}"></script>{\n}
+  {/if}
+  {if $content}
+    {\n}<script>{\n}{$content |noAutoescape}{\n}</script>{\n}
+  {/if}
+{/template}

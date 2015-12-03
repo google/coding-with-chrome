@@ -1,0 +1,65 @@
+{
+  "File": {
+    "message": "File"
+  },
+  "Edit": {
+    "message": "Edit"
+  },
+  "Code": {
+    "message": "Code"
+  },
+  "Preview": {
+    "message": "Preview"
+  },
+  "Devices": {
+    "message": "Devices"
+  },
+  "Examples": {
+    "message": "Examples"
+  },
+  "Help": {
+    "message": "Help"
+  },
+  "View": {
+    "message": "View"
+  },
+  "Insert": {
+    "message": "Insert"
+  },
+  "Create_new_project": {
+    "message": "Create new project"
+  },
+  "Menu": {
+    "message": "Menu"
+  },
+  "My_files": {
+    "message": "My files"
+  },
+  "Shared_with_me" : {
+    "message": "Shared with me"
+  },
+  "Last_opened": {
+    "message": "Last opened"
+  },
+  "Trash": {
+    "message": "Trash"
+  },
+  "Exit": {
+    "message": "Exit"
+  },
+  "New": {
+    "message": "New"
+  },
+  "Close": {
+    "message": "Close"
+  },
+  "Save": {
+    "message": "Save"
+  },
+  "from_local_drive": {
+    "message": "from local drive"
+  },
+  "from_google_drive": {
+    "message": "from google drive"
+  }
+}

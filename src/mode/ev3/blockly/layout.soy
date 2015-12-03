@@ -1,0 +1,162 @@
+/**
+ * @fileoverview Layout template for the EV3 Blockly modification.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.ev3.blockly autoescape="deprecated-contextual"}
+
+
+/**
+ * Editor template.
+ */
+{template .editor}
+  {@param prefix: string}
+  <div id="{$prefix}editor-chrome">Editor</div>
+  <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
+    {call .blocks}
+      {param prefix: $prefix /}
+    {/call}
+  </div>
+{/template}
+
+
+/**
+ * Blockly blocks.
+ */
+{template .blocks}
+  {@param prefix: string}
+  <xml id="{$prefix}blockly-toolbox" style="display: none">
+    <category name="Movements" colour="120">
+      <block type="ev3_move_forward"></block>
+      <block type="ev3_move_backward"></block>
+      <block type="ev3_rotate_left"></block>
+      <block type="ev3_rotate_right"></block>
+    </category>
+
+    <category name="Movements (Advance)" colour="120">
+      <block type="ev3_move_power"></block>
+      <block type="ev3_rotate_power"></block>
+      <block type="ev3_stop_immediately"></block>
+    </category>
+
+    <category name="Attachments" colour="120">
+      <block type="ev3_move_pen"></block>
+    </category>
+
+    <category name="Loops" colour="210">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number"><field name="NUM">10</field></block>
+        </value>
+      </block>
+      <block type="controls_for">
+        <value name="FROM">
+          <block type="math_number"><field name="NUM">1</field></block>
+        </value>
+        <value name="TO">
+          <block type="math_number"><field name="NUM">10</field></block>
+        </value>
+        <value name="BY">
+          <block type="math_number"><field name="NUM">1</field></block>
+        </value>
+      </block>
+      <block type="controls_flow_statements"></block>
+    </category>
+
+    <category name="Logic" colour="210">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+
+    <category name="Lights" colour="120">
+      <block type="ev3_led"></block>
+    </category>
+
+    <category name="Sounds" colour="120">
+      <block type="ev3_play_tone"></block>
+    </category>
+
+    <category name="Sensors" colour="120">
+      <block type="ev3_color_sensor_mode"></block>
+      <block type="ev3_ir_sensor_mode"></block>
+      <block type="ev3_color_sensor_value"></block>
+      <block type="ev3_touch_sensor_value"></block>
+      <block type="ev3_ir_sensor_value"></block>
+    </category>
+
+    <category name="Events" colour="20">
+      <block type="ev3_color_sensor_change"></block>
+      <block type="ev3_ir_sensor_change"></block>
+      <block type="ev3_touch_sensor_change"></block>
+      <block type="ev3_variable_value"></block>
+    </category>
+
+    <category name="Math" colour="210">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_change"><value name="DELTA">
+      <block type="math_number">
+        <field name="NUM">1</field></block></value></block>
+      <block type="math_round"></block><block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number"><field name="NUM">1</field></block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number"><field name="NUM">100</field></block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number"><field name="NUM">1</field></block>
+        </value>
+        <value name="TO">
+          <block type="math_number"><field name="NUM">100</field></block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+
+  </xml>
+{/template}
+
+
+/**
+ * Runner template.
+ */
+{template .runner}
+  {@param prefix: string}
+  <div id="{$prefix}runner-chrome">Runner</div>
+{/template}
+
+/**
+ * Monitor template.
+ */
+{template .monitor}
+  {@param prefix: string}
+  <div id="{$prefix}monitor-chrome">Monitor</div>
+{/template}
