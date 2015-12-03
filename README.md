@@ -22,19 +22,18 @@ Apache License, Version 2.0 see LICENSE.md
 ## What you need to build your own Coding with Chrome App
 In order to build the Coding with Chrome App, you only need to have Node.js/npm.
 If you want to clone/copy the Coding with Chrome App repo, you need git as well.
+Note: To avoid compatibility issues, please use NPM 2.x.
 
 ### Windows
-Install Node.js (4.2 or higher) from the offical webpage at https://nodejs.org
+Install Node.js (4.2) from the offical webpage at https://nodejs.org
 Optional: Install git from the offical webpage at https://git-scm.com/
 
 ### Mac OS X
-Install Node.js (4.2 or higher) from the offical webpage at https://nodejs.org
+Install Node.js (4.2) from the offical webpage at https://nodejs.org
 Optional: Install git from the offical webpage at https://git-scm.com/
 
 ### Linux/BSD
-Use your package manager to install Node.js (4.2 or higher),
-or build from source.
-
+Use your package manager to install Node.js (4.2), or build from source.
 Optional: Use your package manager to install git, or build from source.
 
 
