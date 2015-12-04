@@ -200,7 +200,7 @@ cwc.utils.StackQueue.prototype.stopTimer = function() {
 
 
 /**
- * @param {Event=} opt_event
+ * @param {Event=} event
  */
 cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
   if (!(this.default_group in this.stack_)) {
@@ -218,19 +218,20 @@ cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
 
   var task = this.stack_[this.default_group].shift();
   var type = task.getType();
+  var value = task.getValue();
   switch (type) {
     case cwc.utils.StackType.CMD:
       var func = task.getFunc();
       this.run = true;
       if (goog.isFunction(func)) {
-        func(task.getValue());
+        func(value);
       }
       this.run = false;
       break;
     case cwc.utils.StackType.DELAY:
       this.stopTimer();
       var delayEvent = this.startTimer.bind(this);
-      this.delayTimer = goog.Timer.callOnce(delayEvent, task.getValue());
+      this.delayTimer = goog.Timer.callOnce(delayEvent, value);
       break;
     default:
       console.error('Unknow Stack Type', type);
@@ -259,7 +260,7 @@ cwc.utils.StackQueue.prototype.getNext = function(opt_group) {
  */
 cwc.utils.StackQueue.prototype.getNextCommand = function(opt_group) {
   var stackItem = null;
-  while (stackItem = this.getNext(opt_group)) {
+  while ((stackItem = this.getNext(opt_group))) {
     if (stackItem.getType() == cwc.utils.StackType.CMD) {
       return stackItem.getFunc();
     }

@@ -147,7 +147,7 @@ cwc.utils.Features.prototype.monitorOnlineStatus = function() {
  */
 cwc.utils.Features.prototype.get = function(name, opt_group) {
   var group = opt_group || this.defaultGroup;
-  if (!group in this.feature_) {
+  if (!(group in this.feature_)) {
     this.log_.warn('Feature group', group, 'is unknown, yet.');
     return false;
   }
@@ -180,14 +180,14 @@ cwc.utils.Features.prototype.set = function(name, value, opt_group) {
  * @export
  */
 cwc.utils.Features.prototype.log = function() {
- for (var group in this.feature_) {
-   if (this.feature_.hasOwnProperty(group)) {
-     for (var feature in this.feature_[group]) {
-       if (this.feature_[group].hasOwnProperty(feature)) {
-         console.log('[', group, ']', feature, '=',
-             this.feature_[group][feature]);
-       }
-     }
-   }
- }
+  for (var group in this.feature_) {
+    if (this.feature_.hasOwnProperty(group)) {
+      for (var feature in this.feature_[group]) {
+        if (this.feature_[group].hasOwnProperty(feature)) {
+          console.log('[', group, ']', feature, '=',
+              this.feature_[group][feature]);
+        }
+      }
+    }
+  }
 };

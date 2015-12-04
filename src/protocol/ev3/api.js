@@ -98,16 +98,16 @@ cwc.protocol.ev3.Api = function(helper) {
   this.stepRotationRatio360 = 6.7;
 
   /** @type {boolean} */
-  this.ready = false;
+  this.prepared = false;
 
-  /** @type {boolean} */
-  this.connected = false;
+  /** @type {string} */
+  this.autoConnectName = 'EV3';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {cwc.protocol.bluetooth.Api} */
-  this.bluetooth = this.helper.getInstance('bluetooth');
+  /** @type {cwc.protocol.bluetooth.Device} */
+  this.device = null;
 
   /** @type {Object} */
   this.deviceInfo = {};
@@ -118,11 +118,8 @@ cwc.protocol.ev3.Api = function(helper) {
   /** @type {!string} */
   this.firmware = '';
 
-  /** @type {!number} */
-  this.socket_id = 0;
-
-  /** @type {string} */
-  this.socketName = 'EV3';
+  /** @type {!string} */
+  this.battery = '';
 
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
@@ -133,28 +130,65 @@ cwc.protocol.ev3.Api = function(helper) {
 
 
 /**
+ * AutoConnects the EV3 unit.
+ * @return {boolean}
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.autoConnect = function() {
+  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  var device = bluetoothInstance.getDeviceByName(this.autoConnectName);
+  if (device) {
+    if (device.isConnected()) {
+      return this.connect(device.getAddress());
+    } else {
+      this.helper.showInfo('Connecting EV3 unit...');
+      var connectEvent = function(socket_id, address) {
+        this.connect(address);
+      };
+      return device.connect(connectEvent.bind(this));
+    }
+  }
+
+  this.helper.showError('Was unable to auto connect to', this.autoConnectName);
+  return false;
+};
+
+
+/**
  * Connects the EV3 unit.
+ * @param {!string} address
  * @return {boolean} Was able to prepare and connect to the EV3.
  * @export
  */
-cwc.protocol.ev3.Api.prototype.connect = function() {
-  if (!this.isAvailable()) {
+cwc.protocol.ev3.Api.prototype.connect = function(address) {
+  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  var device = bluetoothInstance.getDevice(address);
+  if (!device) {
     console.error('EV3 unit is not ready yet ...');
     return false;
   }
 
-  console.log('Init EV3 Bluetooth api on socket ', this.socket_id);
-  this.connected = true;
-  this.bluetooth = this.helper.getInstance('bluetooth');
-  this.bluetooth.addEventHandler(this.socket_id,
-      this.handleOnReceive.bind(this));
+  if (!this.prepared && device.isConnected()) {
+    console.log('Prepare EV3 bluetooth api for', device.getAddress());
+    this.device = device;
+    this.prepare();
+  }
+
+  return true;
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.prepare = function() {
+  this.device.setDataHandler(this.handleOnReceive.bind(this));
   this.monitoring.init();
   this.playTone(2000, 200, 25);
   this.getFirmware();
   this.getDevices();
   this.playTone(3000, 200, 50);
-
-  return this.connected;
+  this.prepared = true;
 };
 
 
@@ -162,13 +196,8 @@ cwc.protocol.ev3.Api.prototype.connect = function() {
  * Disconnects the EV3 unit.
  */
 cwc.protocol.ev3.Api.prototype.disconnect = function() {
-  if (!this.connected) {
-    console.warn('EV3 unit is not connected, no need to disconnect!');
-    return;
-  }
-  console.log('Disconnect EV3 on socket ', this.socket_id);
+  this.device.disconnect();
   this.cleanUp();
-  this.connected = false;
 };
 
 
@@ -176,7 +205,7 @@ cwc.protocol.ev3.Api.prototype.disconnect = function() {
  * @return {boolean}
  */
 cwc.protocol.ev3.Api.prototype.isConnected = function() {
-  return this.connected;
+  return this.device && this.device.isConnected();
 };
 
 
@@ -268,38 +297,10 @@ cwc.protocol.ev3.Api.prototype.setStepSpeed = function(speed) {
 
 
 /**
- * Checks if the EV3 unit is available for connecting.
- * @return {boolean} EV3 unit is available.
- */
-cwc.protocol.ev3.Api.prototype.isAvailable = function() {
-  if (!this.helper.checkChromeFeature('bluetooth')) {
-    return false;
-  }
-
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
-  if (!bluetoothInstance) {
-    console.error('Bluetooth API is not available!');
-    return false;
-  } else if (!this.bluetooth && bluetoothInstance) {
-    this.bluetooth = this.helper.getInstance('bluetooth');
-  }
-
-  var socketId = this.bluetooth.getConnection(this.name, true);
-  if (socketId) {
-    this.socket_id = socketId;
-    return true;
-  }
-
-  return false;
-};
-
-
-/**
  * Detects all connected devices.
  */
 cwc.protocol.ev3.Api.prototype.getDevices = function() {
   this.monitoring.stop();
-  this.deviceData = {};
 
   // Sensor ports
   this.getDeviceType(InputPort.ONE);
@@ -444,14 +445,26 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData = function(port,
  * @param {number=} opt_delay
  */
 cwc.protocol.ev3.Api.prototype.send = function(buffer, opt_delay) {
-  if (this.connected) {
-    var data = buffer.readSigned();
-    if (opt_delay) {
-      this.bluetooth.sendDelayed(this.socketName, data, opt_delay);
-    } else {
-      this.bluetooth.send(this.socketName, data);
-    }
+  if (!this.device) {
+	return;
   }
+  var data = buffer.readSigned();
+  if (opt_delay) {
+    this.device.sendDelayed(data, opt_delay);
+  } else {
+    this.device.send(data);
+  }
+};
+
+
+/**
+ * Reads current EV3 battery level.
+ */
+cwc.protocol.ev3.Api.prototype.getBattery = function() {
+  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, CallbackType.BATTERY);
+  buffer.writeCommand(Command.UI.READ.BATTERY);
+  buffer.writeIndex();
+  this.send(buffer);
 };
 
 
@@ -681,14 +694,14 @@ cwc.protocol.ev3.Api.prototype.showImage = function(file_name) {
  */
 cwc.protocol.ev3.Api.prototype.playTone = function(frequency,
     opt_duration, opt_volume) {
-  var duration = Math.max(opt_duration, 100) || 100;
+  var duration = Math.max(opt_duration, 50) || 50;
   var volume = Math.min(opt_volume || 100, 100);
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(Command.SOUND.TONE);
   buffer.writeByte(volume);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
-  this.send(buffer, duration + 50);
+  this.send(buffer, duration + 10);
 };
 
 
@@ -828,12 +841,11 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle,
  */
 cwc.protocol.ev3.Api.prototype.handleOnReceive = function(
     raw_data) {
-  var data = data = new Uint8Array(raw_data);
-  if (!data) {
+  if (!raw_data) {
     console.error('Recieved no data!');
     return;
   }
-
+  var data = data = new Uint8Array(raw_data);
   if (data.length < 5) {
     console.error('Recieved data are to small!');
     return;
@@ -850,6 +862,11 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive = function(
       value = data.subarray(5, 5 + 16);
       this.firmware = (String.fromCharCode.apply(null, value)).trim();
       console.log('EV3 Firmware Version', this.firmware);
+      break;
+    case CallbackType.BATTERY:
+      value = data.subarray(5, 5 + 16);
+      this.battery = value;
+      console.log('EV3 Battery level', this.battery);
       break;
     case CallbackType.DEVICE_NAME:
       value = data.subarray(5, 5 + 0x7E);

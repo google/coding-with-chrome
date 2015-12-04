@@ -32,6 +32,7 @@ cwc.mode.Type = {
   COFFEESCRIPT: 'coffeescript',
   EV3: 'ev3',
   EV3_BLOCKLY: 'ev3_blockly',
+  SPHERO: 'sphero',
   HTML5: 'html5',
   JSON: 'json',
   NONE: 'none',

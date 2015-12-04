@@ -30,11 +30,10 @@ goog.require('cwc.utils.Helper');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!boolean} bluetooth_socket
  * @struct
  * @final
  */
-cwc.mode.ev3.Monitor = function(helper, bluetooth_socket) {
+cwc.mode.ev3.Monitor = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -46,9 +45,6 @@ cwc.mode.ev3.Monitor = function(helper, bluetooth_socket) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {boolean} */
-  this.bluetoothSocket = bluetooth_socket;
 
   /** @type {string} */
   this.prefix = helper.getPrefix('ev3-monitor');
@@ -96,7 +92,7 @@ cwc.mode.ev3.Monitor = function(helper, bluetooth_socket) {
   this.listener = [];
 
   /** @type {cwc.protocol.ev3.Api} */
-  this.ev3 = new cwc.protocol.ev3.Api(helper);
+  this.ev3 = this.helper.getInstance('ev3', true);
 };
 
 
@@ -112,8 +108,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   goog.soy.renderElement(
       this.node,
       cwc.soy.mode.ev3.Monitor.template,
-      {'prefix': this.prefix,
-        'bluetoothSocket': this.bluetoothSocket});
+      {'prefix': this.prefix});
 
   // Monitoring
   this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
@@ -122,7 +117,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   // Toolbar Buttons
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
 
-  this.toolbarConnect.setEnabled(this.bluetoothSocket);
+  this.toolbarConnect.setEnabled(this.ev3.isConnected());
   this.toolbarDisconnect.setVisible(false);
   this.toolbarDetect.setEnabled(false);
   this.toolbarStop.setEnabled(false);
@@ -144,7 +139,6 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   }
 
   // EV3 connection
-  this.ev3 = this.helper.getInstance('ev3');
   if (!this.timerMonitor) {
     this.timerMonitor = new goog.Timer(this.timerMonitorInterval);
     goog.events.listen(this.timerMonitor, goog.Timer.TICK,
@@ -154,11 +148,9 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   this.statusDetected = false;
 
   // Show connect notice.
-  if (this.bluetoothSocket) {
+  if (!this.ev3.isConnected()) {
     this.helper.showInfo('Please make sure to connect to the Bluetooth ' +
         'device by using the "Devices" menu.');
-  } else {
-    this.helper.showError('Bluetooth is not available!');
   }
 };
 
@@ -195,7 +187,7 @@ cwc.mode.ev3.Monitor.prototype.isReady = function() {
     return false;
   }
 
-  return this.ev3.isAvailable();
+  return this.ev3.isConnected();
 };
 
 
@@ -206,7 +198,7 @@ cwc.mode.ev3.Monitor.prototype.connect = function() {
   this.ev3 = this.helper.getInstance('ev3');
   console.log('Try to connect to the EV3 unit ...');
   var oldConnectStatus = this.connected;
-  this.connected = this.ev3.connect();
+  this.connected = this.ev3.isConnected();
   this.toolbarConnect.setVisible(!this.connected);
   this.toolbarDisconnect.setVisible(this.connected);
   this.toolbarStop.setEnabled(this.connected);

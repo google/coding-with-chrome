@@ -62,9 +62,9 @@ cwc.utils.Logger = function(opt_loglevel, opt_name) {
 
 /**
  * Trace logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.trace = function(var_args) {
+cwc.utils.Logger.prototype.trace = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.TRACE) {
     Function.prototype.apply.apply(console.log, [console, arguments]);
   }
@@ -73,9 +73,9 @@ cwc.utils.Logger.prototype.trace = function(var_args) {
 
 /**
  * Debug logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.debug = function(var_args) {
+cwc.utils.Logger.prototype.debug = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.DEBUG) {
     Function.prototype.apply.apply(console.log, [console, arguments]);
   }
@@ -84,9 +84,9 @@ cwc.utils.Logger.prototype.debug = function(var_args) {
 
 /**
  * Info logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.info = function(var_args) {
+cwc.utils.Logger.prototype.info = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.INFO) {
     Function.prototype.apply.apply(console.log, [console, arguments]);
   }
@@ -95,9 +95,9 @@ cwc.utils.Logger.prototype.info = function(var_args) {
 
 /**
  * Notice logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.notice = function(var_args) {
+cwc.utils.Logger.prototype.notice = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.NOTICE) {
     Function.prototype.apply.apply(console.log, [console, arguments]);
   }
@@ -106,9 +106,9 @@ cwc.utils.Logger.prototype.notice = function(var_args) {
 
 /**
  * Warn logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.warn = function(var_args) {
+cwc.utils.Logger.prototype.warn = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.WARN) {
     Function.prototype.apply.apply(console.warn, [console, arguments]);
   }
@@ -117,9 +117,9 @@ cwc.utils.Logger.prototype.warn = function(var_args) {
 
 /**
  * Error logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.error = function(var_args) {
+cwc.utils.Logger.prototype.error = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.ERROR) {
     Function.prototype.apply.apply(console.error, [console, arguments]);
   }
@@ -128,9 +128,9 @@ cwc.utils.Logger.prototype.error = function(var_args) {
 
 /**
  * Critical logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.critical = function(var_args) {
+cwc.utils.Logger.prototype.critical = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.CRITICAL) {
     Function.prototype.apply.apply(console.error, [console, arguments]);
   }
@@ -139,9 +139,9 @@ cwc.utils.Logger.prototype.critical = function(var_args) {
 
 /**
  * Alert logger.
- * @param {...*} var_args
+ * @param {...*} opt_args
  */
-cwc.utils.Logger.prototype.alert = function(var_args) {
+cwc.utils.Logger.prototype.alert = function(opt_args) {
   if (this.loglevel >= cwc.utils.LogLevel.ALERT) {
     Function.prototype.apply.apply(console.error, [console, arguments]);
   }

@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.DeviceMenu');
 
 goog.require('cwc.utils.Helper');
+goog.require('goog.ui.MenuItem');
 
 
 
@@ -34,10 +35,16 @@ cwc.ui.DeviceMenu = function(helper) {
   this.helper = helper;
 
   /** @type {goog.ui.PopupMenu} */
-  this.deviceMenu = null;
+  this.deviceConnectMenu = null;
+
+  /** @type {goog.ui.PopupMenu} */
+  this.deviceDisconnectMenu = null;
 
   /** @type {Object} */
   this.deviceMenuDevices = {};
+
+  /** @type {goog.ui.MenuItem} */
+  this.connectedDevice = null;
 };
 
 
@@ -46,50 +53,65 @@ cwc.ui.DeviceMenu = function(helper) {
  * @param {Element} node
  * @export
  */
-cwc.ui.DeviceMenu.prototype.decorate = function(node) {
+cwc.ui.DeviceMenu.prototype.decorateConnect = function(node) {
   if (!node) {
-    console.log('Was not able to decorate device menu!');
+    console.log('Was not able to decorate device connect menu!');
     return;
   }
 
-  this.deviceMenu = new goog.ui.PopupMenu();
-  this.deviceMenu.attach(node, goog.positioning.Corner.BOTTOM_START);
-  this.deviceMenu.render();
+  this.deviceConnectMenu = new goog.ui.PopupMenu();
+  this.deviceConnectMenu.attach(node, goog.positioning.Corner.BOTTOM_START);
+  this.deviceConnectMenu.render();
+};
+
+
+/**
+ * Decorates the help menu.
+ * @param {Element} node
+ * @export
+ */
+cwc.ui.DeviceMenu.prototype.decorateDisconnect = function(node) {
+  if (!node) {
+    console.log('Was not able to decorate device disconnect menu!');
+    return;
+  }
+
+  this.deviceDisconnectMenu = new goog.ui.PopupMenu();
+  this.deviceDisconnectMenu.attach(node, goog.positioning.Corner.BOTTOM_START);
+  this.deviceDisconnectMenu.render();
 };
 
 
 /**
 * @param {cwc.protocol.bluetooth.Device} device
-* @param {object} profile
-* @param {number=} opt_socket
 * @export
 */
-cwc.ui.DeviceMenu.prototype.updateDeviceList = function(device,
-    profile, opt_socket) {
-  var address = device.address;
-  var connected = device.connected;
-  var name = device.name;
-  var rssi = device.rssi || '-';
+cwc.ui.DeviceMenu.prototype.updateDeviceList = function(device) {
+  var address = device.getAddress();
+  var connected = device.isConnected();
+  var name = device.getName();
 
-  if (!(address in this.deviceMenuDevices)) {
-    console.log('Adding new Menu Item', name);
-    this.deviceMenuDevices[address] = new goog.ui.CheckBoxMenuItem(name);
-    this.deviceMenu.addChild(this.deviceMenuDevices[address], true);
-    goog.events.listen(this.deviceMenuDevices[address],
+
+  if (connected) {
+    this.connectedDevice = new goog.ui.MenuItem(name);
+    this.deviceDisconnectMenu.removeChildren(true);
+    this.deviceDisconnectMenu.addChild(this.connectedDevice, true);
+    goog.events.listen(this.connectedDevice,
         goog.ui.Component.EventType.ACTION, function() {
-          this.deviceMenuDevices[address].setChecked(connected && opt_socket);
-          var bluetoothInstance = this.helper.getInstance('bluetooth');
-          if (bluetoothInstance) {
-            bluetoothInstance.connectDevice(device, profile);
-          }
+          device.disconnect();
         }, false, this);
-  }
-  if (connected && opt_socket) {
-    this.deviceMenuDevices[address].setContent(name + ' (' +
-        address + ' / rssi: ' + rssi + ')');
-  } else {
-    this.deviceMenuDevices[address].setContent('Connect to ' + name + ' (' +
+    this.connectedDevice.setContent('Disconnect ' + name + ' (' +
         address + ')');
+  } else {
+    if (!(address in this.deviceMenuDevices)) {
+      this.deviceMenuDevices[address] = new goog.ui.MenuItem(name);
+      this.deviceConnectMenu.addChild(this.deviceMenuDevices[address], true);
+      goog.events.listen(this.deviceMenuDevices[address],
+        goog.ui.Component.EventType.ACTION, function() {
+          device.connect();
+        }, false, this);
+      this.deviceMenuDevices[address].setContent('Connect to ' + name + ' (' +
+          address + ')');
+    }
   }
-  this.deviceMenuDevices[address].setChecked(connected && opt_socket);
 };

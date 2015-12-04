@@ -22,7 +22,12 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "build": "node build.js",
+    "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",
+	"rebuild": "npm run build-static-files && npm run build-cwc-files",
+	"build-static-files": "node build/static_files.js",
+	"build-remote-files": "node build/remote_files.js",
+	"build-extra-files": "node build/extra_files.js",
+	"build-cwc-files": "node build/cwc_files.js",
     "documentation": "jsdoc src -r -c documentation.json -d docs"
   }
 }

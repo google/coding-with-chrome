@@ -178,6 +178,15 @@ cwc.fileHandler.Config.add('EV3 blockly file',
 
 
 /**
+ * EV3 file config.
+ */
+cwc.fileHandler.Config.add('Sphero file',
+    cwc.fileFormat.File.getSimpleFile,
+    cwc.file.Type.SPHERO,
+    cwc.mode.Type.SPHERO);
+
+
+/**
  * Coffeescript file config.
  */
 cwc.fileHandler.Config.add('Coffeescript file',

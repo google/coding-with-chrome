@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.ev3.advanced.Editor');
 
-goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');

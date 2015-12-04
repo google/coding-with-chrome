@@ -197,15 +197,20 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
 
   // Bluetooth icons
   if (this.helper.checkChromeFeature('bluetooth')) {
+    this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
+
+    // Bluetooth enabled
     this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
     this.bluetoothMenu.render(this.nodeBluetooth);
-    this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
-    this.deviceMenu.decorate(this.nodeBluetooth);
+    this.deviceMenu.decorateConnect(this.nodeBluetooth);
 
+    // Bluetooth connected
     this.nodeBluetoothConnected = goog.dom.getElement(
         this.prefix + 'bluetooth-connected');
     this.bluetoothConnected.render(this.nodeBluetoothConnected);
+    this.deviceMenu.decorateDisconnect(this.nodeBluetoothConnected);
 
+    // Bluetooth disabled
     this.nodeBluetoothDisabled = goog.dom.getElement(
         this.prefix + 'bluetooth-disabled');
     this.bluetoothDisabled.render(this.nodeBluetoothDisabled);
@@ -367,16 +372,12 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
 
 
 /**
-*
 * @param {cwc.protocol.bluetooth.Device} device
-* @param {object} profile
-* @param {number=} opt_socket
 * @export
 */
-cwc.ui.Menubar.prototype.updateDeviceList = function(
-    device, profile, opt_socket) {
+cwc.ui.Menubar.prototype.updateDeviceList = function(device) {
   if (this.deviceMenu) {
-    this.deviceMenu.updateDeviceList(device, profile, opt_socket);
+    this.deviceMenu.updateDeviceList(device);
   }
 };
 

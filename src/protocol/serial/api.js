@@ -75,7 +75,9 @@ cwc.protocol.Serial.api.prototype.prepare = function() {
  * @export
  */
 cwc.protocol.Serial.api.prototype.updateDevices = function() {
-  this.devices.updateDevices();
+  if (this.devices) {
+    this.devices.updateDevices();
+  }
 };
 
 

@@ -35,6 +35,7 @@ goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
+goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
@@ -69,6 +70,7 @@ cwc.ui.BuilderFrameworks = {
   'Arduino Framework': '../frameworks/arduino_framework.js',
   'Coffeescript Framework': '../frameworks/coffee-script.js',
   'EV3 Framework': '../frameworks/ev3_framework.js',
+  'Sphero Framework': '../frameworks/sphero_framework.js',
   'Runner Framework': '../frameworks/runner_framework.js',
   'Simple Framework': '../frameworks/simple_framework.js'
 };
@@ -86,6 +88,7 @@ cwc.ui.BuilderHelpers = {
   'debug': cwc.ui.Debug,
   'documentation': cwc.ui.Documentation,
   'ev3': cwc.protocol.ev3.Api,
+  'sphero': cwc.protocol.sphero.Api,
   'editor': cwc.ui.Editor,
   'file': cwc.fileHandler.File,
   'fileCreator': cwc.fileHandler.FileCreator,

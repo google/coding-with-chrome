@@ -82,6 +82,7 @@ cwc.protocol.ev3.CallbackType = {
   DEVICE_NAME: 0x03,
   ACTOR_VALUE: 0x05,
   FIRMWARE: 0x20,
+  BATTERY: 0x21,
   UNKNOWN: 0xF0
 };
 

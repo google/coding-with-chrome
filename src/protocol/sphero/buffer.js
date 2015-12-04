@@ -1,0 +1,140 @@
+/**
+ * @fileoverview Sphero Communication buffer
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+goog.provide('cwc.protocol.sphero.Buffer');
+
+goog.require('cwc.protocol.sphero.CallbackType');
+goog.require('cwc.protocol.sphero.CommandType');
+goog.require('cwc.utils.ByteArray');
+
+
+
+/**
+ * @constructor
+ * @param {cwc.protocol.sphero.CallbackType=} opt_callback
+ */
+cwc.protocol.sphero.Buffer = function(opt_callback) {
+  /** @type {!cwc.utils.ByteArray} */
+  this.data = new cwc.utils.ByteArray();
+
+  /** @type {cwc.protocol.sphero.CallbackType} */
+  this.callbackType = opt_callback ||
+      cwc.protocol.sphero.CallbackType.NONE;
+
+  /** @type {!number} */
+  this.commandType = [0x00, 0x01];
+
+  /** @type {!number} */
+  this.header = 0xFF;
+
+  /** @type {!cwc.protocol.sphero.CommandType} */
+  this.type = (opt_callback) ?
+      cwc.protocol.sphero.CommandType.DIRECT.REPLY :
+      cwc.protocol.sphero.CommandType.DIRECT.NOREPLY;
+
+};
+
+
+/**
+ * Writes null byte with 0x00.
+ */
+cwc.protocol.sphero.Buffer.prototype.writeNullByte = function() {
+  this.data.writeByte(0x00);
+};
+
+
+/**
+ * Writes single byte with 0x01.
+ */
+cwc.protocol.sphero.Buffer.prototype.writeSingleByte = function() {
+  this.data.writeByte(0x01);
+};
+
+
+/**
+ * @param {number} value
+ */
+cwc.protocol.sphero.Buffer.prototype.writeByte = function(value) {
+  this.data.writeByte(value);
+};
+
+
+/**
+ * @param {number} value
+ */
+cwc.protocol.sphero.Buffer.prototype.writeInt = function(value) {
+  this.data.writeInt(value);
+};
+
+
+/**
+ * @param {number} value
+ */
+cwc.protocol.sphero.Buffer.prototype.writeUInt = function(value) {
+  this.data.writeUInt16(value);
+};
+
+
+/**
+ * @param {number} value
+ */
+cwc.protocol.sphero.Buffer.prototype.writeShort = function(value) {
+  this.data.writeShort(value);
+};
+
+
+/**
+ * @param {string} value
+ */
+cwc.protocol.sphero.Buffer.prototype.writeString = function(value) {
+  this.data.writeString(value);
+};
+
+
+/**
+ * @param {!string} command
+ */
+cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
+  this.commandType = command;
+};
+
+
+/**
+ * @return {!ArrayBuffer}
+ */
+cwc.protocol.sphero.Buffer.prototype.readSigned = function() {
+  var buffer = this.data.getData();
+  var checkSum = 0;
+  var dataLength = buffer.length + 1;
+  var dataBuffer = new ArrayBuffer(dataLength + 6);
+  var data = new Uint8Array(dataBuffer);
+  data[0] = this.header;
+  data[1] = this.type;
+  data[2] = this.commandType[0];
+  data[3] = this.commandType[1];
+  data[4] = this.callbackType;
+  data[5] = dataLength;
+  checkSum += data[2] + data[3] + data[4] + data[5];
+  for (var i = 0; i < dataLength; i++) {
+    data[6 + i] = buffer[i] & 0xFF;
+    checkSum += data[6 + i];
+  }
+  data[5 + dataLength] = checkSum & 0xFF ^ 0xFF;
+  return dataBuffer;
+};

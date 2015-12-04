@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.blockly.Mod');
 
+goog.require('cwc.mode.ev3.Connection');
 goog.require('cwc.mode.ev3.Monitor');
 goog.require('cwc.mode.ev3.Runner');
 goog.require('cwc.mode.ev3.blockly.Editor');
@@ -32,8 +33,8 @@ goog.require('cwc.renderer.external.EV3');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.ev3.blockly.Mod = function(helper) {
-  /** @type {boolean} */
-  this.bluetoothSocket = helper.checkChromeFeature('bluetoothSocket');
+  /** @type {cwc.mode.ev3.Connection} */
+  this.connection = new cwc.mode.ev3.Connection(helper);
 
   /** @type {cwc.mode.ev3.advanced.Editor} */
   this.editor = new cwc.mode.ev3.blockly.Editor(helper);
@@ -58,6 +59,7 @@ cwc.mode.ev3.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.ev3.blockly.Mod.prototype.decorate = function() {
+  this.connection.init();
   this.layout.decorate();
   this.editor.decorate();
   this.monitor.decorate();

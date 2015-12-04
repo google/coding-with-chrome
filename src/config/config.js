@@ -54,13 +54,12 @@ cwc.config.Settings = {
  * @enum {!Object.<string>|boolean}
  */
 cwc.config.Debug = {
-  ENABLED: false,
+  ENABLED: true,
   EXPORT: false,
   PROPERTIES: false,
   EXAMPLES: false,
   SETTINGS: false,
   ARDUINO: false,
-  DEUBG: false,
   RESOURCES: false,
   GALLERY: false,
   SPHERO: false,
