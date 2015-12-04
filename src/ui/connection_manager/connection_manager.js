@@ -85,7 +85,7 @@ cwc.ui.ConnectionManager = function(helper) {
  *    inserted elements and style definitions.
  * @export
  */
-cwc.ui.ConnectionManager.prototype.decorate = function(node, 
+cwc.ui.ConnectionManager.prototype.decorate = function(node,
     opt_prefix) {
   this.node = node;
   this.prefix = (opt_prefix || '') + this.prefix;
@@ -127,8 +127,7 @@ cwc.ui.ConnectionManager.prototype.getArduino = function(
 /**
  * @private
  */
-cwc.ui.ConnectionManager.prototype.showArduinoPortSelect_ =
-    function() {
+cwc.ui.ConnectionManager.prototype.showArduinoPortSelect_ = function() {
   this.showTemplate_('Arduino', 'port_select');
   this.updateSerialDevices_();
 };
@@ -157,8 +156,7 @@ cwc.ui.ConnectionManager.prototype.updateSerialDevices_ = function() {
 /**
  * @private
  */
-cwc.ui.ConnectionManager.prototype.setSerialDeviceOffline_ =
-    function() {
+cwc.ui.ConnectionManager.prototype.setSerialDeviceOffline_ = function() {
   this.serialDevice = null;
   if (goog.isFunction(this.serialDeviceCallback)) {
     this.serialDeviceCallback(this.serialDevice);

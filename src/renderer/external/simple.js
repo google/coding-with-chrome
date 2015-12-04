@@ -82,6 +82,6 @@ cwc.renderer.external.Simple.prototype.render = function(
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
   var payload = 'new cwc.framework.simple.Loader().mapFramework();';
   var body = html + renderer_helper.getJavaScript(payload);
-  var html = renderer_helper.getHTML(body, header, css, javascript);
+  html = renderer_helper.getHTML(body, header, css, javascript);
   return html;
 };

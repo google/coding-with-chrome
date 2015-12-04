@@ -200,9 +200,9 @@ cwc.utils.StackQueue.prototype.stopTimer = function() {
 
 
 /**
- * @param {Event} event
+ * @param {Event=} opt_event
  */
-cwc.utils.StackQueue.prototype.handleQueueEvent = function(event) {
+cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
   if (!(this.default_group in this.stack_)) {
     return;
   }

@@ -79,13 +79,15 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
  * Adds click events.
  */
 cwc.ui.Debug.prototype.addEvents = function() {
+  var link = null;
+
   for (var file_type in cwc.file.Type) {
-    var link = goog.dom.getElement('type_' + file_type);
+    link = goog.dom.getElement('type_' + file_type);
     this.addLink(link, this.handleFileType);
   }
 
   for (var mode_type in cwc.mode.Type) {
-    var link = goog.dom.getElement('mode_' + mode_type);
+    link = goog.dom.getElement('mode_' + mode_type);
     this.addLink(link, this.handleModeType);
   }
 };

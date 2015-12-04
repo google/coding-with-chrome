@@ -30,6 +30,8 @@ engines:
 ratings:
  paths:
    - "*.js"
+   - "app/**.js"
+   - "src/**.js"
 
 # You can globally exclude files from being analyzed by any engine using the
 # exclude_paths key.
