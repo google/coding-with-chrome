@@ -174,28 +174,12 @@ cwc.ui.Helper.decorateButton = function(button, description, opt_func,
  * @return {!goog.ui.MenuItem}
  */
 cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
-  var menuItem = new goog.ui.MenuItem(cwc.ui.Helper.getText(name));
+  var menuItem = new goog.ui.MenuItem(i18n.get(name));
   if (opt_func) {
     goog.events.listen(menuItem, goog.ui.Component.EventType.ACTION, opt_func,
         false, opt_scope);
   }
   return menuItem;
-};
-
-
-/**
- * @param {string} text
- * @return {string}
- * @export
- */
-cwc.ui.Helper.getText = function(text) {
-  var textId = text.replace(/ /g, '_').replace(/[^a-zA-Z_]+/g, '');
-  var translated_text = chrome.i18n.getMessage(textId);
-  if (!translated_text) {
-    console.warn('Following Text is not translated:', textId);
-    return text;
-  }
-  return translated_text;
 };
 
 

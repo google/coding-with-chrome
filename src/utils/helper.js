@@ -416,12 +416,5 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 /**
  * @export
  */
-cwc.utils.Helper.prototype.getText = cwc.ui.Helper.getText;
-
-
-
-/**
- * @export
- */
 cwc.utils.Helper.prototype.uninstallStyles =
     cwc.ui.Helper.uninstallStyles;

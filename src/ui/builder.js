@@ -55,6 +55,7 @@ goog.require('cwc.ui.Setting');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 goog.require('goog.dom');
 goog.require('goog.events.EventHandler');
@@ -184,6 +185,11 @@ cwc.ui.Builder.prototype.load = function() {
   if (!this.error) {
     this.setProgress('Detect features ...', 0, 100);
     this.detectFeatures();
+  }
+
+  if (!this.error) {
+    this.setProgress('Loading and prepare i18n …', 5, 100);
+    this.loadI18n_();
   }
 
   if (!this.error) {
@@ -376,6 +382,17 @@ cwc.ui.Builder.prototype.loadConfig = function() {
   var configInstance = new cwc.ui.Config(this.helper);
   this.helper.setInstance('config', configInstance);
   configInstance.loadConfig();
+};
+
+
+/**
+ * Preloads i18n helper.
+ * @private
+ */
+cwc.ui.Builder.prototype.loadI18n_ = function() {
+  var i18nInstance = new cwc.utils.I18n();
+  this.helper.setInstance('i18n', i18nInstance);
+  i18nInstance.mapGlobal();
 };
 
 

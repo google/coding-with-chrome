@@ -111,6 +111,18 @@ npm run build
 ```
 After this you only need to reload the Chrome App to see your change in action.
 
+### Translation
+If you want to help with the translation perform the following steps:
+* Navigate around in the UI part you want to translate
+* Open the Chrome Developer Tools inside the Coding with Chrome App
+* Type the following command into the console:
+```
+i18n.getToDo()
+```
+This will return a list of all untranslated text for your language.
+Add your translations to the output and place them into the file
+ `app/_locales/[language]/message.json`.
+
 ### Google Drive support (experimental)
 To enable the experimental Google Drive support add your application key and
 your api key to the `app/manifest.json` file:
