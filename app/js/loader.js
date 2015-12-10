@@ -50,7 +50,7 @@ var cwcLoader = function() {
  *
  */
 cwcLoader.prototype.prepare = function() {
-  console.log('Loading the Coding with Chrome UI ...');
+  console.log('Loading the Coding with Chrome UI …');
   if (this.manifest && this.versionNode) {
     this.versionNode.innerText = this.manifest.version;
   }

@@ -61,7 +61,7 @@ cwc.protocol.Serial.api = function(helper) {
  */
 cwc.protocol.Serial.api.prototype.prepare = function() {
   if (this.serial && !this.prepared) {
-    console.log('Prepare serial support ...');
+    console.log('Prepare serial support …');
     this.devices = new cwc.protocol.Serial.Devices(this.helper,
         this.serial);
     this.updateDevices();

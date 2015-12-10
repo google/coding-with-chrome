@@ -62,7 +62,7 @@ cwc.HelpMenu.prototype.showFirstSteps = function(opt_event) {
 cwc.HelpMenu.prototype.showHelp = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: Help');
-  dialog.setContent('Not implemented yet ...');
+  dialog.setContent('Not implemented yet …');
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
@@ -95,6 +95,7 @@ cwc.HelpMenu.prototype.showDebug = function(opt_event) {
   var debugInstance = this.helper.getInstance('debug', true);
   var overlayNode = layoutInstance.getOverlay();
   debugInstance.decorate(overlayNode);
+  layoutInstance.showOverlay(true);
 };
 
 

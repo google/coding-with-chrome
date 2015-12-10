@@ -389,13 +389,12 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
  */
 cwc.ui.GDrive.prototype.loadFileContent = function(file, content,
     opt_callback, opt_callback_scope) {
-  var messageInstance = this.helper.getInstance('message');
   var fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (content) {
-    console.log('Load file content ...');
+    console.log('Load file content …');
     console.log(content);
     fileLoaderInstance.handleFileData(content, file.title, null, file.id);
   } else {
-    console.warn('Unable to open file ' + file.title + ' !');
+    this.helper.warn('Unable to open file ' + file.title + ' !');
   }
 };

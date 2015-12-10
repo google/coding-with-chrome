@@ -74,7 +74,7 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {goog.ui.ToolbarButton} */
   this.mediaButton = cwc.ui.Helper.getIconToolbarButton('perm_media',
-      'Insert Image ...', this.insertMedia.bind(this));
+      'Insert Image …', this.insertMedia.bind(this));
 
   /** @type {goog.ui.ToolbarToggleButton} */
   this.debugButton = cwc.ui.Helper.getIconToolbarToogleButton(
@@ -90,7 +90,7 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {goog.ui.ToolbarButton} */
   this.moreButton = cwc.ui.Helper.getIconToolbarButton('more_vert',
-      'More options ...');
+      'More options …');
 
   /** @type {goog.ui.PopupMenu} */
   this.moreMenu = new goog.ui.PopupMenu();

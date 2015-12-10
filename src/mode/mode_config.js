@@ -33,6 +33,7 @@ goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
+goog.require('cwc.mode.sphero.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
 
@@ -196,6 +197,17 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
   name: 'Sphero',
   file_type: cwc.file.Type.SPHERO,
   mod: cwc.mode.sphero.advanced.Mod,
+  authors: ['Markus Bordihn']
+});
+
+
+/**
+ * Sphero advanced mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
+  name: 'Sphero blockly',
+  file_type: cwc.file.Type.SPHERO_BLOCKLY,
+  mod: cwc.mode.sphero.blockly.Mod,
   authors: ['Markus Bordihn']
 });
 

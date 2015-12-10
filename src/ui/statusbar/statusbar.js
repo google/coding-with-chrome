@@ -79,7 +79,7 @@ cwc.ui.Statusbar.prototype.decorate = function(node, opt_prefix) {
   );
 
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
-  this.setStatus('...');
+  this.setStatus('…');
 };
 
 

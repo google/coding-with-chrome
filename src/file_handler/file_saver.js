@@ -60,7 +60,7 @@ cwc.fileHandler.FileSaver = function(helper) {
  */
 cwc.fileHandler.FileSaver.prototype.saveFile = function(
     opt_autodetect) {
-  console.log('saveFile ...');
+  console.log('saveFile …');
   this.prepareContent();
   if (opt_autodetect && this.gDriveId) {
     this.saveGDriveFile();
@@ -77,7 +77,7 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
-  console.log('saveFileAs ...');
+  console.log('saveFileAs …');
   this.prepareContent();
   this.selectFileToSave(this.fileName, this.fileData);
 };
@@ -103,7 +103,6 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   var blocklyInstance = this.helper.getInstance('blockly', true);
   var editorFlags = editorInstance.getEditorFlags();
   var gDriveId = fileInstance.getGDriveId();
-  var supportedFileType = true;
 
   var file = fileInstance.getFile();
   var fileType = fileInstance.getFileType();
@@ -117,21 +116,21 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   }
 
   if (file.isRaw()) {
-    var editorView = fileConfig.editor_views[0];
+    let editorView = fileConfig.editor_views[0];
     this.fileData = editorInstance.getEditorContent(editorView);
     this.fileName = this.addFileExtension(fileName || fileTitle || 'untitled',
         fileConfig.extension);
   } else {
     if (fileConfig.blockly_views) {
-      for (var i = 0; i < fileConfig.blockly_views.length; i++) {
+      for (let i = 0; i < fileConfig.blockly_views.length; i++) {
         var blocklyView = fileConfig.blockly_views[i];
         var blocklyContent = blocklyInstance.getXML();
         file.setContent(blocklyView, blocklyContent);
       }
     }
     if (fileConfig.editor_views) {
-      for (var i = 0; i < fileConfig.editor_views.length; i++) {
-        var editorView = fileConfig.editor_views[i];
+      for (let i = 0; i < fileConfig.editor_views.length; i++) {
+        let editorView = fileConfig.editor_views[i];
         var editorContent = editorInstance.getEditorContent(editorView);
         file.setContent(editorView, editorContent);
       }
@@ -141,6 +140,9 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     }
     if (fileUi) {
       file.setUi(fileUi);
+    }
+    if (editorFlags) {
+      file.setEditorFlags(editorFlags);
     }
     this.fileData = file.getJson();
     this.fileName = this.addFileExtension(fileName || fileTitle || 'untitled');
@@ -222,7 +224,7 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
   var truncated = false;
   console.log('Writing file', name, 'with filesize', blobContent.size, ':',
       content);
-  writer.onwriteend = function(event) {
+  writer.onwriteend = function(opt_event) {
     if (!truncated) {
       this.truncate(this.position);
       truncated = true;
@@ -234,7 +236,7 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     }
     console.log('Saved file', name, 'successful.');
   };
-  writer.onerror = function(event) {
+  writer.onerror = function(opt_event) {
     if (messageInstance) {
       messageInstance.error('Was not able to save file ' + name + '!');
     }

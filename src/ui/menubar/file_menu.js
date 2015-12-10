@@ -47,7 +47,7 @@ cwc.ui.FileMenu = function(helper) {
 
   /** @type {!goog.ui.MenuItem} */
   this.menuOpenGDrive = cwc.ui.Helper.getMenuItem(
-      'from google drive ...', this.openGDrive, this);
+      'from google drive …', this.openGDrive, this);
 
   /** @type {!goog.ui.MenuItem} */
   this.menuClose = cwc.ui.Helper.getMenuItem('Close');
@@ -97,7 +97,7 @@ cwc.ui.FileMenu.prototype.decorate = function(menu) {
     return;
   }
 
-  var submenuOpen = new goog.ui.SubMenu('Open ...');
+  var submenuOpen = new goog.ui.SubMenu('Open …');
   submenuOpen.addItem(this.menuOpen);
   if (this.helper.checkChromeFeature('oauth2')) {
     submenuOpen.addItem(this.menuOpenGDrive);
@@ -105,7 +105,7 @@ cwc.ui.FileMenu.prototype.decorate = function(menu) {
 
   this.menuClose.setEnabled(false);
 
-  var submenuSaveAs = new goog.ui.SubMenu('Save as ...');
+  var submenuSaveAs = new goog.ui.SubMenu('Save as …');
   submenuSaveAs.addItem(this.menuSaveAs);
   if (this.helper.checkChromeFeature('oauth2')) {
     submenuSaveAs.addItem(this.menuSaveGDrive);
@@ -290,7 +290,7 @@ cwc.ui.FileMenu.prototype.exportHtmlFile = function() {
  * Exports rendered output as Object tag.
  */
 cwc.ui.FileMenu.prototype.exportObjectTag = function() {
-  console.log('Export Object tag ...');
+  console.log('Export Object tag …');
   var rendererInstance = this.helper.getInstance('renderer');
   if (rendererInstance) {
     var objectTag = rendererInstance.getObjectTag();

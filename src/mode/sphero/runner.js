@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.sphero.Runner');
 
 goog.require('cwc.ui.Runner');
+goog.require('cwc.runner.profile.Sphero');
 goog.require('cwc.utils.Helper');
 goog.require('goog.Timer');
 goog.require('goog.dom');
@@ -32,7 +33,7 @@ goog.require('goog.dom');
  * @struct
  * @final
  */
-cwc.mode.sphero.Runner = function(helper) {
+cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero Runner';
 
@@ -42,8 +43,14 @@ cwc.mode.sphero.Runner = function(helper) {
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-runner');
 
-  /** @type {cwc.protocol.sphero.Api} */
-  this.sphero = null;
+  /** @type {!cwc.mode.sphero.Connection} */
+  this.connection = connection;
+
+  /** @type {!cwc.protocol.sphero.Api} */
+  this.api = this.connection.getApi();
+
+  /** @type {!cwc.runner.profile.Sphero} */
+  this.profile = new cwc.runner.profile.Sphero(this.api);
 
   /** @type {Element} */
   this.node = null;
@@ -63,23 +70,25 @@ cwc.mode.sphero.Runner = function(helper) {
 cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
+
   this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
   this.runner.addCommand('__reset__', this.handleReset.bind(this));
   this.runner.addCommand('__init__', this.handleInit.bind(this));
 
-  // Delayed Commands
-  this.runner.addCommand('boost', this.handleBoost.bind(this));
-  this.runner.addCommand('setRGB', this.handleSetRGB.bind(this));
-  this.runner.addCommand('setBackLed', this.handleSetBackLed.bind(this));
-  this.runner.addCommand('move', this.handleMove.bind(this));
+  // Normal Commands
+  this.runner.addCommand('boost', this.profile.boost, this);
+  this.runner.addCommand('setRGB', this.profile.setRGB, this);
+  this.runner.addCommand('setBackLed', this.profile.setBackLed, this);
+  this.runner.addCommand('move', this.profile.move, this);
+  this.runner.addCommand('stop', this.profile.stop, this);
 
+  // System Commands
+  this.runner.addCommand('calibrate', this.profile.calibrate, this);
+  this.runner.addCommand('sleep', this.profile.sleep, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
-
-  // Sphero connection
-  this.sphero = this.helper.getInstance('sphero');
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -88,6 +97,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
+
 };
 
 
@@ -95,7 +105,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
  * Prepares preview if needed.
  */
 cwc.mode.sphero.Runner.prototype.handleInit = function() {
-  console.log('Init Runner ...');
+  console.log('Init Runner …');
 };
 
 
@@ -103,7 +113,7 @@ cwc.mode.sphero.Runner.prototype.handleInit = function() {
 * Resets preview if needed.
 */
 cwc.mode.sphero.Runner.prototype.handleReset = function() {
-  console.log('Reset Runner ...');
+  console.log('Reset Runner …');
 };
 
 
@@ -112,11 +122,6 @@ cwc.mode.sphero.Runner.prototype.handleReset = function() {
  */
 cwc.mode.sphero.Runner.prototype.handleHandshake = function(opt_token) {
   console.log('Recieved Handshake:', opt_token);
-
-  // Stores Sphero instance.
-  if (!this.sphero) {
-    console.error('Was not able to get Sphero instance!');
-  }
 
   // Send acknowledge for the start.
   goog.Timer.callOnce(function() {
@@ -129,42 +134,7 @@ cwc.mode.sphero.Runner.prototype.handleHandshake = function(opt_token) {
  * Handles the cleanup and make sure that the Sphero stops.
  */
 cwc.mode.sphero.Runner.prototype.handleCleanUp = function() {
-  if (this.sphero) {
-    this.sphero.cleanUp();
-  }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.sphero.Runner.prototype.handleSetRGB = function(data) {
-  this.sphero.setRGB(data['red'], data['green'], data['blue'],
-      data['persistant']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.sphero.Runner.prototype.handleMove = function(data) {
-  this.sphero.move(data['speed'], data['heading'], data['state']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.sphero.Runner.prototype.handleBoost = function(data) {
-  this.sphero.boost(data['time'], data['heading']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.sphero.Runner.prototype.handleSetBackLed = function(data) {
-  this.sphero.setBackLed(data['brightness']);
+  this.api.cleanUp();
 };
 
 
@@ -172,7 +142,7 @@ cwc.mode.sphero.Runner.prototype.handleSetBackLed = function(data) {
  * @param {string} value
  */
 cwc.mode.sphero.Runner.prototype.handleEcho = function(value) {
-  this.sphero.echo(value);
+  this.api.echo(value);
 };
 
 

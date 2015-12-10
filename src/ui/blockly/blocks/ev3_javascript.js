@@ -168,20 +168,19 @@ Blockly.JavaScript['ev3_rotate_right'] = function(block) {
  */
 Blockly.JavaScript['ev3_stop'] = function(block) {
   var dropdown_immediately = block.getFieldValue('immediately');
+  var code = 'ev3.stop();\n';
   if (dropdown_immediately == 'when finished') {
-    var code = 'ev3.delayedStop();\n';
-  } else {
-    var code = 'ev3.stop();\n';
+    code = 'ev3.delayedStop();\n';
   }
   return code;
 };
 
 
 /**
- * @param {!Blockly.Block} block
+ * @param {!Blockly.Block=} opt_block
  * @return {string}
  */
-Blockly.JavaScript['ev3_stop_immediately'] = function(block) {
+Blockly.JavaScript['ev3_stop_immediately'] = function(opt_block) {
   var code = 'ev3.stop();\n';
   return code;
 };
@@ -280,30 +279,30 @@ Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
 
 
 /**
- * @param {Blockly.Block} block
+ * @param {Blockly.Block=} opt_block
  * @return {string}
  */
-Blockly.JavaScript['ev3_color_sensor_value'] = function(block) {
+Blockly.JavaScript['ev3_color_sensor_value'] = function(opt_block) {
   var code = 'ev3.getColorSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
- * @param {Blockly.Block} block
+ * @param {Blockly.Block=} opt_block
  * @return {string}
  */
-Blockly.JavaScript['ev3_touch_sensor_value'] = function(block) {
+Blockly.JavaScript['ev3_touch_sensor_value'] = function(opt_block) {
   var code = 'ev3.getTouchSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
- * @param {Blockly.Block} block
+ * @param {Blockly.Block=} opt_block
  * @return {string}
  */
-Blockly.JavaScript['ev3_ir_sensor_value'] = function(block) {
+Blockly.JavaScript['ev3_ir_sensor_value'] = function(opt_block) {
   var code = 'ev3.getIrSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -368,10 +367,10 @@ Blockly.JavaScript['ev3_on_collision_ir'] = function(block) {
 
 
 /**
- * @param {Blockly.Block} block
+ * @param {Blockly.Block=} opt_block
  * @return {string}
  */
-Blockly.JavaScript['ev3_variable_value'] = function(block) {
+Blockly.JavaScript['ev3_variable_value'] = function(opt_block) {
   var code = 'value';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

@@ -65,7 +65,7 @@ cwc.protocol.USB.Devices.prototype.updateDevices = function() {
     for (var i2 = 0; i2 < devices[i].length; i2++) {
       var vendorId = i;
       var productId = i2;
-      var device = devices[vendor][i2];
+      var device = devices[vendorId][i2];
       console.log('Search for usb device', device.name);
       chrome.usb.getDevices({'vendorId': vendorId, 'productId': productId},
           this.onDeviceFound);

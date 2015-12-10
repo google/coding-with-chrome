@@ -40,7 +40,6 @@ cwc.mode.sphero.advanced.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
-  layoutInstance.setFixBottomComponentSize(105);
   layoutInstance.setHandleSize(1);
 
   var nodes = layoutInstance.getNodes();

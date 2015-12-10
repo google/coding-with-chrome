@@ -1,0 +1,19 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "// JavaScript code\n\nfunction readValue() {\n  var formName = document.getElementById('name-input').value;\n  var output = document.getElementById('output');\n  output.innerHTML = 'Thanks ' + formName + 'for filling out this form!';\n}",
+    "html": "<!-- HTML code -->\n<h1>Example Formular</h1>\n<div>\n  Your name: <input type=\"text\" id=\"name-input\"/>\n  <input type=\"button\" value=\"click\" OnClick=\"readValue()\"/>\n</div>\n\n<p id=\"output\"></p>",
+    "css": "/* CSS code */\n\nbody {\n  padding: 10px;\n  margin: 10px;\n  background: #eee;\n}\n\nh1 {\n  margin-bottom: 10px;\n  border-bottom: 1px dotted #ccc;\n}\n\n#output {\n  color: #f00;\n}"
+  },
+  "description": "",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic_advanced",
+  "mode": "advanced",
+  "title": "Untitled Basic advanced file",
+  "ui": "default",
+  "version": "1.0"
+}

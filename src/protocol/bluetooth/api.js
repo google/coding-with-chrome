@@ -69,7 +69,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
  */
 cwc.protocol.bluetooth.Api.prototype.prepare = function() {
   if (this.bluetooth && !this.prepared) {
-    console.log('Prepare Bluetooth support ...');
+    console.log('Prepare Bluetooth support …');
 
     // Monitor Bluetooth adapter
     this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,
@@ -121,6 +121,16 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
     return this.devices.getDeviceByName(name);
   }
   return null;
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.bluetooth.Api.prototype.updateAdapterState = function() {
+  if (this.adapter) {
+    this.adapter.updateAdapterState();
+  }
 };
 
 

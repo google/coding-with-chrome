@@ -178,12 +178,21 @@ cwc.fileHandler.Config.add('EV3 blockly file',
 
 
 /**
- * EV3 file config.
+ * Sphero file config.
  */
 cwc.fileHandler.Config.add('Sphero file',
     cwc.fileFormat.File.getSimpleFile,
     cwc.file.Type.SPHERO,
     cwc.mode.Type.SPHERO);
+
+
+/**
+ * Sphero blockly file config.
+ */
+cwc.fileHandler.Config.add('Sphero blockly file',
+    cwc.fileFormat.File.getBlocklyFile,
+    cwc.file.Type.SPHERO_BLOCKLY,
+    cwc.mode.Type.SPHERO_BLOCKLY);
 
 
 /**

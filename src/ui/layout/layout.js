@@ -316,6 +316,7 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
   this.adjustSizeOnChange(this.firstSplitpane);
   this.closePreloader_();
   this.adjustSize();
+  this.firstSplitpane.setFirstComponentSize(opt_first_splitpane_size || 400);
 };
 
 
@@ -481,6 +482,8 @@ cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
  * Adjusts the UI to the correct size after an resize.
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
+  var firstSplitpaneComponentSize = null;
+  var secondSplitpaneComponentSize = null;
   this.updateSizeInformation();
   this.adjustLayoutChrome();
 
@@ -490,13 +493,19 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       break;
 
     case cwc.ui.LayoutType.SIMPLE_TWO_COLUMN:
+      if (!this.fullscreen) {
+        if (this.fixRightComponentSize) {
+          firstSplitpaneComponentSize = this.chromeSize.width -
+           this.handleSize - this.fixRightComponentSize;
+        }
+      }
+      this.firstSplitpane.setSize(this.chromeSize, firstSplitpaneComponentSize);
+      break;
     case cwc.ui.LayoutType.SINGLE_COLUMN:
       this.firstSplitpane.setSize(this.chromeSize);
       break;
 
     case cwc.ui.LayoutType.TWO_COLUMN:
-      var firstSplitpaneComponentSize = null;
-      var secondSplitpaneComponentSize = null;
       if (!this.fullscreen) {
         if (this.fixTopComponentSize) {
           firstSplitpaneComponentSize = this.fixTopComponentSize;
@@ -533,7 +542,7 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       break;
 
     default:
-      console.error('Unknown layout:' , this.layout);
+      console.error('Unknown layout:', this.layout);
       break;
   }
 };

@@ -93,7 +93,7 @@ cwc.protocol.ev3.Monitoring = function(api) {
  * Prepares events for port monitoring.
  */
 cwc.protocol.ev3.Monitoring.prototype.init = function() {
-  console.log('Init EV3 sensor and actor monitoring ...');
+  console.log('Init EV3 sensor and actor monitoring …');
 
   goog.events.listen(this.monitorSensorColor, goog.Timer.TICK,
       this.updateColorSensor, false, this);
@@ -244,8 +244,7 @@ cwc.protocol.ev3.Monitoring.prototype.updateMediumMotor = function() {
 /**
  * Request updated opt large motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt =
-    function() {
+cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt = function() {
   this.api.getActorData(
       this.deviceInfo[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT]);
 };
@@ -254,8 +253,7 @@ cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt =
 /**
  * Request updated opt medium motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt =
-    function() {
+cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
   this.api.getActorData(
       this.deviceInfo[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT]);
 };

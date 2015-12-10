@@ -38,9 +38,8 @@ cwc.mode.ev3.blockly.Layout = function(helper) {
  */
 cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateTwoColumnLayout();
+  layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
-  layoutInstance.setFixBottomComponentSize(105);
   layoutInstance.setHandleSize(1);
 
   var nodes = layoutInstance.getNodes();
@@ -56,12 +55,6 @@ cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
       nodes['content-right'],
       cwc.soy.mode.ev3.blockly.runner,
       {'prefix': this.helper.getPrefix('ev3-runner')}
-  );
-
-  goog.soy.renderElement(
-      nodes['content-bottom'],
-      cwc.soy.mode.ev3.blockly.monitor,
-      {'prefix': this.helper.getPrefix('ev3-monitor')}
   );
 
 };

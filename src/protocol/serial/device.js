@@ -157,7 +157,7 @@ cwc.protocol.Serial.Device.prototype.setDataHandler = function(
  * @export
  */
 cwc.protocol.Serial.Device.prototype.connect = function() {
-  console.log('Connect serial device', this.path, '...');
+  console.log('Connect serial device', this.path, '…');
   this.serial.connect(this.path, this.connectionOptions,
       this.handleConnect_.bind(this));
 };
@@ -184,11 +184,11 @@ cwc.protocol.Serial.Device.prototype.handleConnect_ = function(
  */
 cwc.protocol.Serial.Device.prototype.disconnect = function() {
   if (this.connected && this.connectionId) {
-    console.log('Disconnect serial device', this.path, '...');
+    console.log('Disconnect serial device', this.path, '…');
     this.serial.disconnect(this.connectionId,
         this.handleDisconnect_.bind(this));
   } else {
-    console.warn('Device was not connected ...');
+    console.warn('Device was not connected …');
   }
 };
 

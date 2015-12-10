@@ -17,8 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.BrickButton');
-goog.provide('cwc.protocol.ev3.CallbackTarget');
 goog.provide('cwc.protocol.ev3.CallbackType');
 goog.provide('cwc.protocol.ev3.ColorSensorMode');
 goog.provide('cwc.protocol.ev3.ColorSensorValues');
@@ -26,7 +24,6 @@ goog.provide('cwc.protocol.ev3.Command');
 goog.provide('cwc.protocol.ev3.CommandType');
 goog.provide('cwc.protocol.ev3.DeviceType');
 goog.provide('cwc.protocol.ev3.Events');
-goog.provide('cwc.protocol.ev3.GyroSensorMode');
 goog.provide('cwc.protocol.ev3.InputPort');
 goog.provide('cwc.protocol.ev3.IrSensorMode');
 goog.provide('cwc.protocol.ev3.LedColor');
@@ -37,38 +34,6 @@ goog.provide('cwc.protocol.ev3.OutputPort');
 goog.provide('cwc.protocol.ev3.ParameterSize');
 goog.provide('cwc.protocol.ev3.Polarity');
 
-
-/**
- * @enum {number}
- */
-cwc.protocol.ev3.BrickButton = {
-  NONE: 0,
-  UP: 1,
-  ENTER: 2,
-  DOWN: 3,
-  RIGHT: 4,
-  LEFT: 5,
-  BACK: 6,
-  ANY: 7
-};
-
-
-/**
- * Enum of implemented callback targets.
- * @enum {number}
- */
-cwc.protocol.ev3.CallbackTarget = {
-  ONE: 0x00,
-  TWO: 0x01,
-  THREE: 0x02,
-  FOUR: 0x03,
-  A: 0x10,
-  B: 0x11,
-  C: 0x12,
-  D: 0x13,
-  SYS: 0x20,
-  NONE: 0xF0
-};
 
 
 /**
@@ -245,16 +210,6 @@ cwc.protocol.ev3.Events = {
   IR_SENSOR_VALUE_CHANGED: 'ir_sensor_value_changed',
   COLOR_SENSOR_VALUE_CHANGED: 'color_sensor_value_changed',
   TOUCH_SENSOR_VALUE_CHANGED: 'touch_sensor_value_changed'
-};
-
-
-/**
- * Gyrosensor modes.
- * @enum {number}
- */
-cwc.protocol.ev3.GyroSensorMode = {
-  ANGLE: 0,
-  RATE: 1
 };
 
 

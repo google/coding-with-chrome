@@ -26,8 +26,8 @@ goog.provide('cwc.protocol.bluetooth.supportedDevices');
  *
  * DEVICE NAME {
  *   DEVICE CLASS: '',
- *   CUSTOM NAME: '...',
- *   DEVICE PROFILE: {...}
+ *   CUSTOM NAME: '…',
+ *   DEVICE PROFILE: {…}
  * }
  *
  * The profile will be automatically installed as soon the device is detected.

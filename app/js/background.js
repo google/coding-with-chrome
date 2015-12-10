@@ -55,7 +55,7 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   };
   chrome.app.window.create('html/loader.html', loaderConfig, function(
       opt_createdWindow) {
-        chrome.app.window.create('html/editor.html', editorConfig);});
+    chrome.app.window.create('html/editor.html', editorConfig);});
 });
 
 

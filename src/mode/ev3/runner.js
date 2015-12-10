@@ -31,19 +31,19 @@ goog.require('goog.dom');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {boolean} bluetooth_socket
+ * @param {!cwc.mode.ev3.Connection} connection
  * @struct
  * @final
  */
-cwc.mode.ev3.Runner = function(helper, bluetooth_socket) {
+cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {string} */
   this.name = 'EV3 Runner';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {boolean} */
-  this.bluetoothSocket = bluetooth_socket;
+  /** @type {!cwc.mode.ev3.Connection} */
+  this.connection = connection;
 
   /** @type {string} */
   this.prefix = helper.getPrefix('ev3-runner');
@@ -263,9 +263,9 @@ cwc.mode.ev3.Runner.prototype.handleRotate = function(data) {
 
 
 /**
- * @param {!Object} data
+ * @param {Object=} opt_data
  */
-cwc.mode.ev3.Runner.prototype.handleDelayedStop = function(data) {
+cwc.mode.ev3.Runner.prototype.handleDelayedStop = function(opt_data) {
   this.ev3.delayedStop();
 };
 
@@ -287,9 +287,9 @@ cwc.mode.ev3.Runner.prototype.handleRotatePower = function(data) {
 
 
 /**
- * @param {!Object} data
+ * @param {Object=} opt_data
  */
-cwc.mode.ev3.Runner.prototype.handleStop = function(data) {
+cwc.mode.ev3.Runner.prototype.handleStop = function(opt_data) {
   this.ev3.stop();
 };
 

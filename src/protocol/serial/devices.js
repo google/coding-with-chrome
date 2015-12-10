@@ -148,7 +148,7 @@ cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
   } else {
     var supportedDevices = cwc.protocol.Serial.supportedDevices;
     var supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
-    console.info('Found', filteredDevices.length, 'serial devices ...');
+    console.info('Found', filteredDevices.length, 'serial devices …');
     for (var i2 = 0; i2 < filteredDevices.length; i2++) {
       var deviceEntry = filteredDevices[i2];
       var devicePath = deviceEntry.path;

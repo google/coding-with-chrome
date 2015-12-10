@@ -100,7 +100,7 @@ cwc.mode.arduino.Runner.prototype.handleHandshake = function(
   }
 
   // Monitor Arduino events.
-  var eventHandler = this.arduino.getEventHandler();
+  //var eventHandler = this.arduino.getEventHandler();
 
   // Send acknowledge for the start.
   goog.Timer.callOnce(function() {
@@ -148,7 +148,7 @@ cwc.mode.arduino.Runner.prototype.cleanUp = function() {
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
  */
-cwc.mode.arduino.Runner.prototype.addEventListener = function(src, 
+cwc.mode.arduino.Runner.prototype.addEventListener = function(src,
     type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

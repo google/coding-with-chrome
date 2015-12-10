@@ -70,7 +70,7 @@ select Extensions under the Tools menu to get to the same place).
 Ensure that the Developer mode checkbox in the top right-hand corner is checked.
 
 ### Add the app
-On the same page click `Load unpacked extension...` to pop up a file-selection
+On the same page click `Load unpacked extension…` to pop up a file-selection
 dialog.
 
 Navigate to the directory in which your `genfiles/` files live, and select it.
@@ -111,22 +111,34 @@ npm run build
 ```
 After this you only need to reload the Chrome App to see your change in action.
 
+### Translation
+If you want to help with the translation perform the following steps:
+* Navigate around in the UI part you want to translate
+* Open the Chrome Developer Tools inside the Coding with Chrome App
+* Type the following command into the console:
+```
+i18n.getToDo()
+```
+This will return a list of all untranslated text for your language.
+Add your translations to the output and place them into the file
+ `app/_locales/[language]/message.json`.
+
 ### Google Drive support (experimental)
 To enable the experimental Google Drive support add your application key and
 your api key to the `app/manifest.json` file:
 ```
-...
+…
   "description": "Coding with Chrome.",
-  "key": "MIIBIjANBgkqhki...",
-...
+  "key": "MIIBIjANBgkqhki…",
+…
   "oauth2": {
-    "client_id": "958...",
+    "client_id": "958…",
     "scopes": [
       "https://www.googleapis.com/auth/drive",
       "https://www.googleapis.com/auth/userinfo.profile"
     ]
   },
-...
+…
 ```
 Since this feature is experimental, although problems are unlikely we can not
 guarantee this code is error free. Please make sure that you back up your

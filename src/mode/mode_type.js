@@ -33,6 +33,7 @@ cwc.mode.Type = {
   EV3: 'ev3',
   EV3_BLOCKLY: 'ev3_blockly',
   SPHERO: 'sphero',
+  SPHERO_BLOCKLY: 'sphero_blockly',
   HTML5: 'html5',
   JSON: 'json',
   NONE: 'none',

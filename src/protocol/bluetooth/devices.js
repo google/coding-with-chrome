@@ -65,6 +65,7 @@ cwc.protocol.bluetooth.Devices = function(helper, bluetooth) {
  */
 cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
   if (!this.prepared) {
+    console.log('Prepare Bluetooth devices …');
     this.closeSockets();
     this.throttledUpdateDevices = new goog.async.Throttle(
         this.updateDevices.bind(this), this.updateDevicesInterval);
@@ -93,7 +94,7 @@ cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
-  console.log('Closing all existing sockets ...');
+  console.log('Closing all existing sockets …');
   var handleSockets = function(sockets) {
     for (var i = 0; i < sockets.length; i++) {
       this.bluetoothSocket.close(sockets[i],
@@ -138,7 +139,7 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
   var supportedDevices = cwc.protocol.bluetooth.supportedDevices;
   for (var entry in supportedDevices) {
     if (supportedDevices.hasOwnProperty(entry)) {
-    var profile = supportedDevices[entry];
+      var profile = supportedDevices[entry];
       if (device.deviceClass == profile.deviceClass &&
           device.uuids.indexOf(profile.uuid) != -1 &&
           device.name.indexOf(profile.indicator) != -1) {
@@ -200,21 +201,21 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name) {
 
 
 /**
- * @param {Object} device
+ * @param {Object=} opt_device
  * @private
  */
 cwc.protocol.bluetooth.Devices.prototype.handleDeviceAdded_ = function(
-    device) {
+    opt_device) {
   this.throttledUpdateDevices.fire();
 };
 
 
 /**
- * @param {Object} device
+ * @param {Object=} opt_device
  * @private
  */
 cwc.protocol.bluetooth.Devices.prototype.handleDeviceChanged_ = function(
-    device) {
+    opt_device) {
   this.throttledUpdateDevices.fire();
 };
 

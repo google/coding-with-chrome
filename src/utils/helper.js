@@ -179,19 +179,18 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
  * @export
  */
 cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
+  var error = null;
   if (typeof this.instances_[name] == 'undefined') {
-    var error = 'Instance ' + name + ' is not implemented!';
-    if (opt_required) {
-      throw 'Required ' + error;
-    }
+    error = 'Instance ' + name + ' is not implemented!';
     this.log_.error(error);
-    return null;
   } else if (!this.instances_[name]) {
-    var error = 'Instance ' + name + ' is not initilized yet.';
-    if (opt_required) {
-      throw 'Required ' + error;
-    }
+    error = 'Instance ' + name + ' is not initilized yet.';
     this.log_.warn(error);
+  }
+  if (opt_required && error) {
+    throw 'Required ' + error;
+  } else if (error) {
+    return null;
   }
   return this.instances_[name];
 };
@@ -301,12 +300,9 @@ cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
 
 
 /**
- * @param {string} name
- * @param {string=} opt_group
- * @return {boolean}
  * @export
  */
-cwc.utils.Helper.prototype.detectFeatures = function(name, opt_group) {
+cwc.utils.Helper.prototype.detectFeatures = function() {
   return this.features_.detect();
 };
 
@@ -319,6 +315,30 @@ cwc.utils.Helper.prototype.detectFeatures = function(name, opt_group) {
  */
 cwc.utils.Helper.prototype.showFeatures = function(name, opt_group) {
   return this.features_.log();
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Helper.prototype.getManifest = function() {
+  if (this.checkChromeFeature('manifest')) {
+    return chrome.runtime.getManifest();
+  }
+  return null;
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Helper.prototype.getFileExtensions = function() {
+  var manifest = this.getManifest();
+  if (manifest) {
+    var fileExtensions = manifest['file_handlers']['supported']['extensions'];
+    return fileExtensions;
+  }
+  return null;
 };
 
 
@@ -411,13 +431,6 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
     func();
   }
 };
-
-
-/**
- * @export
- */
-cwc.utils.Helper.prototype.getText = cwc.ui.Helper.getText;
-
 
 
 /**

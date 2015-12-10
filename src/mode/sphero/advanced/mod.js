@@ -23,6 +23,7 @@ goog.require('cwc.mode.sphero.Connection');
 goog.require('cwc.mode.sphero.Runner');
 goog.require('cwc.mode.sphero.advanced.Editor');
 goog.require('cwc.mode.sphero.advanced.Layout');
+goog.require('cwc.mode.sphero.Monitor');
 goog.require('cwc.renderer.external.Sphero');
 
 
@@ -45,7 +46,10 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
   this.renderer = new cwc.renderer.external.Sphero(helper);
 
   /** @type {cwc.mode.sphero.Runner} */
-  this.runner = new cwc.mode.sphero.Runner(helper);
+  this.runner = new cwc.mode.sphero.Runner(helper, this.connection);
+
+  /** @type {cwc.mode.sphero.Monitor} */
+  this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 };
 
 
@@ -53,9 +57,10 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.sphero.advanced.Mod.prototype.decorate = function() {
-  this.connection.init();
   this.layout.decorate();
+  this.connection.init();
   this.editor.decorate();
   this.runner.decorate();
+  this.monitor.decorate();
   this.renderer.init();
 };

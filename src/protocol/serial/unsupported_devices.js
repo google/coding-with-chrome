@@ -25,7 +25,7 @@ goog.provide('cwc.protocol.Serial.unsupportedDevicePaths');
  * The Format is the following:
  *
  * Object {
- *   PATH: 'Comment ...'
+ *   PATH: 'Comment …'
  * }
  *
  * @enum {!Object.<!Object>}

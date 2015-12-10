@@ -38,6 +38,15 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'Resource files',
+  resources: [
+    'resources/'
+  ],
+  out: 'genfiles/'
+});
+
+
+closureBuilder.build({
   name: '3rd party Images',
   resources: glob([
     'third_party/**/*.png'

@@ -75,7 +75,7 @@ cwc.protocol.sphero.Api.prototype.autoConnect = function() {
     if (device.isConnected()) {
       return this.connect(device.getAddress());
     } else {
-      this.helper.showInfo('Connecting Sphero ball...');
+      this.helper.showInfo('Connecting Sphero ball…');
       var connectEvent = function(socket_id, address) {
         this.connect(address);
       };
@@ -97,7 +97,7 @@ cwc.protocol.sphero.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('Sphero ball is not ready yet ...');
+    console.error('Sphero ball is not ready yet …');
     return false;
   }
 
@@ -109,6 +109,14 @@ cwc.protocol.sphero.Api.prototype.connect = function(address) {
   }
 
   return true;
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.protocol.sphero.Api.prototype.isConnected = function() {
+  return (this.device && this.device.isConnected());
 };
 
 
@@ -136,10 +144,24 @@ cwc.protocol.sphero.Api.prototype.disconnect = function() {
 
 
 /**
+ * Resets the Sphero ball connection.
+ * @param {number=} opt_delay
+ */
+cwc.protocol.sphero.Api.prototype.reset = function(opt_delay) {
+  if (this.device) {
+    this.device.reset(opt_delay);
+  }
+};
+
+
+/**
  * @param {!cwc.protocol.sphero.Buffer} buffer
  * @param {number=} opt_delay
  */
 cwc.protocol.sphero.Api.prototype.send = function(buffer, opt_delay) {
+  if (!this.device) {
+    return;
+  }
   var data = buffer.readSigned();
   if (opt_delay) {
     this.device.sendDelayed(data, opt_delay);
@@ -154,16 +176,17 @@ cwc.protocol.sphero.Api.prototype.send = function(buffer, opt_delay) {
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
  * @param {boolean=} opt_persistant
+ * @param {number=} opt_delay in msec
  */
 cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
-    opt_persistant) {
+    opt_persistant, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.RGB_LED.SET);
   buffer.writeByte(red);
   buffer.writeByte(green);
   buffer.writeByte(blue);
   buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -179,23 +202,26 @@ cwc.protocol.sphero.Api.prototype.getRGB = function() {
 
 /**
  * @param {!number} brightness 0-255
+ * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness) {
+cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness,
+    opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.BACK_LED);
   buffer.writeByte(brightness);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * @param {!number} heading 0-359
+ * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
+cwc.protocol.sphero.Api.prototype.setHeading = function(heading, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.HEADING);
   buffer.writeUInt(heading);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -203,9 +229,10 @@ cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
  * @param {!number} speed 0-255
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_state
+ * @param {number=} opt_delay in msec
  */
 cwc.protocol.sphero.Api.prototype.move = function(speed, opt_heading,
-    opt_state) {
+    opt_state, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   var heading = opt_heading || 0;
   var state = typeof opt_state !== 'undefined' ? opt_state : 1;
@@ -213,6 +240,18 @@ cwc.protocol.sphero.Api.prototype.move = function(speed, opt_heading,
   buffer.writeByte(speed);
   buffer.writeUInt(heading);
   buffer.writeByte(state);
+  this.send(buffer, opt_delay);
+};
+
+
+/**
+ * @param {!boolean} enabled
+ * @param {number=} opt_delay in msec
+ */
+cwc.protocol.sphero.Api.prototype.boost = function(enabled, opt_delay) {
+  var buffer = new cwc.protocol.sphero.Buffer();
+  buffer.writeCommand(this.command.BOOST);
+  buffer.writeByte(enabled ? 0x01 : 0x00);
   this.send(buffer);
 };
 
@@ -220,8 +259,10 @@ cwc.protocol.sphero.Api.prototype.move = function(speed, opt_heading,
 /**
  * @param {number=} opt_time in 1/10 sec
  * @param {number=} opt_heading 0-359
+ * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.boost = function(opt_time, opt_heading) {
+cwc.protocol.sphero.Api.prototype.boosty = function(opt_time, opt_heading,
+    opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   var boostTime = typeof opt_time !== 'undefined' ? opt_time : 10;
   var heading = opt_heading || 0;
@@ -233,7 +274,58 @@ cwc.protocol.sphero.Api.prototype.boost = function(opt_time, opt_heading) {
 
 
 /**
- * Reads current EV3 firmware.
+ * Puts the Sphero into sleep.
+ * @param {number=} opt_wakeup
+ * @param {number=} opt_macro
+ * @param {number=} opt_orb_basic
+ * @param {number=} opt_delay
+ */
+cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
+    opt_orb_basic, opt_delay) {
+  console.log('Sends Sphero to sleep, good night.');
+  var buffer = new cwc.protocol.sphero.Buffer();
+  buffer.writeCommand(this.command.SYSTEM.SLEEP);
+  buffer.writeByte(opt_wakeup || 0);
+  buffer.writeByte(opt_macro || 0);
+  buffer.writeByte(opt_orb_basic || 0);
+  this.send(buffer, opt_delay);
+};
+
+
+/**
+ * Stops the Sphero and clears the buffer.
+ * @param {number=} opt_delay
+ */
+cwc.protocol.sphero.Api.prototype.stop = function(opt_delay) {
+  this.reset(opt_delay);
+  this.setRGB(0, 0, 0, 1, opt_delay);
+  this.setBackLed(0, opt_delay);
+  this.move(0, 0, 0, opt_delay);
+};
+
+
+/**
+ * Calibrate the Sphero.
+ * @param {!number} heading
+ */
+cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
+  this.setRGB(0, 0, 0);
+  this.setBackLed(255);
+  this.move(0, heading);
+};
+
+
+/**
+ * Ends the calibrate of the Sphero and store the new 0 point.
+ */
+cwc.protocol.sphero.Api.prototype.setCalibration = function() {
+  this.setBackLed(0);
+  this.setHeading(0);
+};
+
+
+/**
+ * Reads current Sphero version.
  */
 cwc.protocol.sphero.Api.prototype.getVersion = function() {
   var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.FIRMWARE);
@@ -243,21 +335,20 @@ cwc.protocol.sphero.Api.prototype.getVersion = function() {
 
 
 cwc.protocol.sphero.Api.prototype.runTest = function() {
-  console.log('Prepare self Tests...');
-  this.setRGB(255, 0, 0);
-  this.setRGB(0, 255, 0);
-  this.setRGB(0, 0, 255);
-  this.setRGB(0, 0, 0);
+  console.log('Prepare self Tests…');
+  this.setRGB(255, 0, 0, 1, 500);
+  this.setRGB(0, 255, 0, 1, 500);
+  this.setRGB(0, 0, 255, 1, 500);
+  this.setRGB(0, 0, 0, 1, 500);
 
-  this.setBackLed(100);
-  this.setBackLed(75);
-  this.setBackLed(50);
-  this.setBackLed(25);
-  this.setBackLed(0);
+  this.setBackLed(100, 100);
+  this.setBackLed(75, 100);
+  this.setBackLed(50, 100);
+  this.setBackLed(25, 100);
+  this.setBackLed(0, 100);
 
   this.setRGB(255, 0, 0);
   this.move(0, 180);
-  this.boost();
 };
 
 
@@ -277,8 +368,7 @@ cwc.protocol.sphero.Api.prototype.handleOnReceive = function(
     return;
   }
 
-  var callback = data[3];
-
+  //var callback = data[3];
   console.log('Recieved data:', raw_data, data);
 };
 
@@ -296,5 +386,6 @@ cwc.protocol.sphero.Api.prototype.echo = function(value) {
  * Basic cleanup for the Sphero ball.
  */
 cwc.protocol.sphero.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero ...');
+  console.log('Clean up Sphero …');
+  this.reset();
 };

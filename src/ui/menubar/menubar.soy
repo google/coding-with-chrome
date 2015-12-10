@@ -30,14 +30,19 @@
   <div id="{$prefix}new"></div>
   <div id="{$prefix}help"></div>
   <div id="{$prefix}settings"></div>
-  <div id="{$prefix}account">
-    <div id="{$prefix}account-login"></div>
+  <div id="{$prefix}account-body">
+    <div id="{$prefix}account"></div>
     <div id="{$prefix}account-logout"></div>
   </div>
   <div id="{$prefix}bluetooth-body">
     <div id="{$prefix}bluetooth"></div>
     <div id="{$prefix}bluetooth-connected"></div>
     <div id="{$prefix}bluetooth-disabled"></div>
+  </div>
+  <div id="{$prefix}usb-body">
+    <div id="{$prefix}usb"></div>
+    <div id="{$prefix}usb-connected"></div>
+    <div id="{$prefix}usb-disabled"></div>
   </div>
 {/template}
 
@@ -66,8 +71,9 @@
     z-index: 1;
   {rb}
 
-  #{$prefix}account,
+  #{$prefix}account-body,
   #{$prefix}bluetooth-body,
+  #{$prefix}usb-body,
   #{$prefix}close,
   #{$prefix}settings,
   #{$prefix}help {lb}

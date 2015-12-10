@@ -51,8 +51,7 @@ cwc.framework.simple.Loader = function(opt_target) {
  * @export
  * @return {cwc.framework.simple.Command}
  */
-cwc.framework.simple.Loader.prototype.getCommandFramework =
-    function() {
+cwc.framework.simple.Loader.prototype.getCommandFramework = function() {
   return this.commandFramework;
 };
 

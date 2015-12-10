@@ -29,12 +29,14 @@ rules:
 env:
   browser: true
   node: true
+  es6: true
 
 globals:
   Blockly: true
   CodeMirror: true
   describe: true
   it: true
+  i18n: true
   goog: true
   chrome: true
   cwc: true

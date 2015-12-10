@@ -40,8 +40,8 @@ cwc.fileHandler.FileLoader = function(helper) {
   /** @type {string} */
   this.name = 'FileLoader';
 
-  /** @type {Array} */
-  this.extensions = ['cwc', 'txt', 'html', 'htm', 'js', 'coffee'];
+  /** @type {!Array} */
+  this.extensions = helper.getFileExtensions() || [];
 
   /** @type {!cwc.utils.Helper} **/
   this.helper = helper;
@@ -147,14 +147,14 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   if (!fileTitle && fileInstance.getFileName()) {
     fileTitle = fileInstance.getFileName();
   }
-  var fileUi = fileInstance.getUi();
+
   if (fileTitle) {
     modeInstance.setTitle(fileTitle);
   }
 
   modeInstance.setMode(fileConfig.mode);
   if (fileConfig.blockly_views) {
-    for (var i = 0; i < fileConfig.blockly_views.length; i++) {
+    for (let i = 0; i < fileConfig.blockly_views.length; i++) {
       var blocklyView = fileConfig.blockly_views[i];
       var blocklyContent = file.getContent(blocklyView);
       modeInstance.addBlocklyView(blocklyContent);
@@ -162,7 +162,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   }
 
   if (fileConfig.editor_views) {
-    for (var i = 0; i < fileConfig.editor_views.length; i++) {
+    for (let i = 0; i < fileConfig.editor_views.length; i++) {
       var editorView = fileConfig.editor_views[i];
       var editorContent = file.getContent(editorView);
       var editorFlags = file.getEditorFlags();
@@ -197,6 +197,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   if (editorFlags) {
     modeInstance.setEditorFlags(editorFlags);
   }
+
+  var fileUi = fileInstance.getUi();
   if (fileUi) {
     if (fileUi == 'blockly') {
       modeInstance.showBlockly();
@@ -213,10 +215,14 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
  */
 cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     callback, opt_callback_scope) {
-  console.log('Select file to load content ...');
+  console.log('Select file to load content …');
   chrome.fileSystem.chooseEntry({
     'accepts': [{ 'extensions': this.extensions }]
   }, function(file_entry, file_entries) {
+    if (chrome.runtime.lastError) {
+      this.helper.showWarning(chrome.runtime.lastError);
+      return;
+    }
     if (file_entry && file_entry.isFile && !file_entries) {
       file_entry.file(function(file) {
         console.log('Load file: ' + file_entry.name);
@@ -261,7 +267,6 @@ cwc.fileHandler.FileLoader.prototype.readFile = function(file,
  */
 cwc.fileHandler.FileLoader.prototype.openFile = function(file,
     file_entry, content, callback, opt_callback_scope) {
-  var messageInstance = this.helper.getInstance('message');
   if (file && content) {
     console.log('Load file', file.name);
     console.log(file);

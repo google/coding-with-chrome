@@ -63,7 +63,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   }
 
   this.mode = mode;
-  console.log('Initialize mode', mode, '...');
+  console.log('Initialize mode', mode, '…');
   this.modder = new modeConfig.mod(this.helper);
   console.log('Decorate UI for mode', mode);
   this.modder.decorate();

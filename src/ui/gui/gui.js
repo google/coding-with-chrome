@@ -191,8 +191,5 @@ cwc.ui.Gui.prototype.getHeaderSize = function() {
 cwc.ui.Gui.prototype.adjustSize = function() {
   var viewportSize = this.viewport_monitor.getSize();
   var chrome = goog.dom.getElement(this.prefix + 'chrome');
-  var chromeHeaderSize = this.getHeaderSize();
-  var editorWidth = viewportSize.width;
-  var editorHeight = (viewportSize.height - chromeHeaderSize.height);
   goog.style.setSize(chrome, viewportSize);
 };

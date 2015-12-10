@@ -55,6 +55,18 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'cwc.framework.TTS',
+  srcs: [
+    glob('src/frameworks/**/*.js')
+  ],
+  deps: [
+    glob('src/**/*.js')
+  ],
+  out: 'genfiles/frameworks/tts_framework.js'
+});
+
+
+closureBuilder.build({
   name: 'cwc.framework.Runner',
   srcs: [
     glob('src/frameworks/**/*.js')

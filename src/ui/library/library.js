@@ -205,7 +205,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
  * Clears library data.
  */
 cwc.ui.Library.prototype.clearData = function() {
-  console.info('Clearing library ...');
+  console.info('Clearing library …');
   if (this.nodeEntries) {
     goog.dom.removeChildren(this.nodeEntries);
   }
@@ -216,7 +216,7 @@ cwc.ui.Library.prototype.clearData = function() {
  * Asks the user to select a file entry to add to the library.
  */
 cwc.ui.Library.prototype.selectFileToAdd = function() {
-  console.log('Select File to add ...');
+  console.log('Select File to add …');
   var selectEventHandler = this.chooseEntry.bind(this);
   chrome.fileSystem.chooseEntry({}, selectEventHandler);
 };

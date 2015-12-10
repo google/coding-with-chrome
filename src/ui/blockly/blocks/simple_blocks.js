@@ -22,7 +22,7 @@ goog.provide('Blockly.Blocks.Simple');
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
 goog.require('Blockly.JavaScript.Simple');
-goog.require('Blockly.Msg.Simple');
+
 
 
 /**

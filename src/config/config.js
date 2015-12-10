@@ -127,8 +127,8 @@ cwc.config.interpreter.Flag = {
   LOAD: {
     ONLOAD: 'onLoad',  // Load on "window.onload"
     ONDOMREADY: 'onDomReady',  // Load on "document.DOMContentLoaded"
-    INHEAD: 'inHead',  // Place script inside <head>...</head>
-    INBODY: 'inBody'  // Place script inside <body>...</body>
+    INHEAD: 'inHead',  // Place script inside <head>…</head>
+    INBODY: 'inBody'  // Place script inside <body>…</body>
   }
 };
 

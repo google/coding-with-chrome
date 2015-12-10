@@ -48,14 +48,14 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
   layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
   var nodes = layoutInstance.getNodes();
 
-  console.log('Decorate editor ...');
+  console.log('Decorate editor …');
   goog.soy.renderElement(
       nodes['content-left'],
       cwc.soy.mode.Basic.blockly.editor,
       {'prefix': this.prefix}
   );
 
-  console.log('Decorate preview ...');
+  console.log('Decorate preview …');
   goog.soy.renderElement(
       nodes['content-right'],
       cwc.soy.mode.Basic.blockly.preview,

@@ -94,7 +94,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   this.dataHandler = null;
 
   /** @type {number} */
-  this.senderStackInterval = 100;
+  this.senderStackInterval = 90;
 
   /** @type {!cwc.utils.StackQueue} */
   this.senderStack = new cwc.utils.StackQueue(
@@ -187,7 +187,7 @@ cwc.protocol.bluetooth.Device.prototype.getIndicator = function() {
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
-  console.log('Connecting bluetooth device', this.address, '...');
+  console.log('Connecting bluetooth device', this.address, '…');
 
   if (this.connected) {
     console.warn('Bluetooth socket is already connected!');
@@ -227,6 +227,29 @@ cwc.protocol.bluetooth.Device.prototype.disconnect = function() {
 
 
 /**
+ * @export
+ * @param {boolean=} opt_delay
+ */
+cwc.protocol.bluetooth.Device.prototype.reset = function(opt_delay) {
+  if (this.socketId == null) {
+    return;
+  }
+  var stackCall = function() {
+    if (this.senderStack) {
+      this.senderStack.clear();
+    }
+  }.bind(this);
+  if (opt_delay) {
+    this.senderStack.startTimer();
+    this.senderStack.addDelay(opt_delay);
+    this.senderStack.addCommand(stackCall);
+  } else {
+    stackCall();
+  }
+};
+
+
+/**
  * Updates the socket informations.
  * @export
  */
@@ -246,7 +269,7 @@ cwc.protocol.bluetooth.Device.prototype.updateInfo = function() {
  */
 cwc.protocol.bluetooth.Device.prototype.send = function(buffer) {
   if (this.socketId == null) {
-    console.error('Socket', socketId, 'is not ready!');
+    console.error('Socket', this.socketId, 'is not ready!');
     return;
   }
   chrome.bluetoothSocket.send(this.socketId, buffer,
@@ -255,7 +278,7 @@ cwc.protocol.bluetooth.Device.prototype.send = function(buffer) {
 
 
 /**
- * Sends the buffer to the named connection.
+ * Sends the buffer delayed to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
  * @param {!number} delay
  * @export
@@ -264,17 +287,9 @@ cwc.protocol.bluetooth.Device.prototype.sendDelayed = function(buffer, delay) {
   var stackCall = function() {
     this.send(buffer);
   };
+  this.senderStack.startTimer();
   this.senderStack.addCommand(stackCall.bind(this));
   this.senderStack.addDelay(delay);
-};
-
-
-/**
- * Clears Sender Stack.
- * @export
- */
-cwc.protocol.bluetooth.Device.prototype.clearSenderStack = function() {
-  this.senderStack.clear();
 };
 
 
@@ -287,6 +302,8 @@ cwc.protocol.bluetooth.Device.prototype.close = function() {
     return;
   }
   this.bluetoothSocket.close(this.socketId, this.handleClose.bind(this));
+  this.senderStack.stopTimer();
+  this.senderStack.clear();
 };
 
 
@@ -298,6 +315,7 @@ cwc.protocol.bluetooth.Device.prototype.paused = function() {
     chrome.bluetoothSocket.setPaused(this.socketId, true);
     this.updateInfo();
   }
+  this.stopSenderStack();
 };
 
 
@@ -309,6 +327,7 @@ cwc.protocol.bluetooth.Device.prototype.unpaused = function() {
     chrome.bluetoothSocket.setPaused(this.socketId, false);
     this.updateInfo();
   }
+  this.startSenderStack();
 };
 
 
@@ -347,11 +366,11 @@ cwc.protocol.bluetooth.Device.prototype.handleClose_ = function(socket_id) {
 
 
 /**
- * @param {number} bytes_sent
+ * @param {number=} opt_bytes_sent
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
-    bytes_sent) {
+    opt_bytes_sent) {
   if (chrome.runtime.lastError) {
     if (chrome.runtime.lastError.message == 'The socket is not connected') {
       this.connected = false;
@@ -376,11 +395,11 @@ cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
 
 
 /**
- * @param {Object} connection_info
+ * @param {Object=} opt_connection_info
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
-    connection_info) {
+    opt_connection_info) {
   if (chrome.runtime.lastError) {
     console.log('Socket connection failed:', chrome.runtime.lastError);
     return;
@@ -390,7 +409,6 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
   this.connected = true;
   this.updateInfo();
   this.senderStack.setTimer();
-  this.senderStack.startTimer();
   if (goog.isFunction(this.connectEvent)) {
     this.connectEvent(this.socketId, this.address);
   }
@@ -410,7 +428,7 @@ cwc.protocol.bluetooth.Device.prototype.handleDisconnect_ = function() {
   this.connectCallback = null;
   this.updateInfo();
   this.senderStack.stopTimer();
-  this.clearSenderStack();
+  this.senderStack.clear();
   if (goog.isFunction(this.disconnectEvent)) {
     this.disconnectEvent(this.socketId, this.address);
   }

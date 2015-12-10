@@ -39,7 +39,7 @@ cwc.mode.arduino.Layout = function(helper) {
 cwc.mode.arduino.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
 
-  console.log('Decorate Arduino layout ...');
+  console.log('Decorate Arduino layout …');
   layoutInstance.decorateSimpleTwoColumnLayout(500);
   var nodes = layoutInstance.getNodes();
 

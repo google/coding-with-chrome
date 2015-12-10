@@ -44,14 +44,14 @@ cwc.mode.ev3.advanced.Mod = function(helper) {
 
   /** @type {cwc.mode.ev3.Monitor} */
   this.monitor = new cwc.mode.ev3.Monitor(helper,
-      this.bluetoothSocket);
+      this.connection);
 
   /** @type {cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
 
   /** @type {cwc.mode.ev3.Runner} */
   this.runner = new cwc.mode.ev3.Runner(helper,
-      this.bluetoothSocket);
+      this.connection);
 };
 
 
@@ -62,7 +62,7 @@ cwc.mode.ev3.advanced.Mod.prototype.decorate = function() {
   this.connection.init();
   this.layout.decorate();
   this.editor.decorate();
-  this.monitor.decorate();
   this.runner.decorate();
+  this.monitor.decorate();
   this.renderer.init();
 };

@@ -30,69 +30,48 @@ goog.require('cwc.utils.Helper');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {!cwc.mode.ev3.Connection} connection
  * @struct
  * @final
  */
-cwc.mode.ev3.Monitor = function(helper) {
-  /** @type {Element} */
-  this.node = null;
+cwc.mode.ev3.Monitor = function(helper, connection) {
+  /** @type {string} */
+  this.name = 'EV3 Monitor';
 
   /** @type {Element} */
-  this.nodeToolbar = null;
+  this.nodeIntro = null;
 
   /** @type {Element} */
   this.nodeMonitor = null;
 
+  /** @type {Element} */
+  this.nodeMonitorValues = null;
+
+  /** @type {Element} */
+  this.nodeControl = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!cwc.mode.ev3.Connection} */
+  this.connection = connection;
+
+  /** @type {!cwc.protocol.ev3.Api} */
+  this.api = this.connection.getApi();
 
   /** @type {string} */
   this.prefix = helper.getPrefix('ev3-monitor');
 
-  /** @type {string} */
-  this.generalPrefix = helper.getPrefix();
-
-  /** @type {goog.ui.Toolbar} */
-  this.toolbar = null;
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarConnect = cwc.ui.Helper.getIconToolbarButton('cast',
-      'Connects Monitor to EV3 unit.', this.connect.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarDisconnect = cwc.ui.Helper.getIconToolbarButton(
-      'cast_connected', 'Disconnects Monitor from the EV3 unit.',
-      this.disconnect.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarStop = cwc.ui.Helper.getIconToolbarButton(
-      'stop', 'Stops the EV3 unit.', this.stop.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarDetect = cwc.ui.Helper.getIconToolbarButton(
-      'cached', 'Refreshes the detected sensors and actors.',
-      this.detect.bind(this));
-
-  /** @type {goog.Timer} */
-  this.timerMonitor = null;
-
-  /** @type {!number} */
-  this.timerMonitorInterval = 2500;
-
   /** @type {boolean} */
   this.prepared = false;
-
-  /** @type {boolean} */
-  this.connected = false;
-
-  /** @type {boolean} */
-  this.statusDetected = false;
 
   /** @type {!Array} */
   this.listener = [];
 
-  /** @type {cwc.protocol.ev3.Api} */
-  this.ev3 = this.helper.getInstance('ev3', true);
+  if (!this.connection) {
+    console.error('Missing connection instance !');
+  }
+
 };
 
 
@@ -100,165 +79,94 @@ cwc.mode.ev3.Monitor = function(helper) {
  * Decorates the EV3 monitor window.
  */
 cwc.mode.ev3.Monitor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'monitor-chrome');
+  var runnerInstance = this.helper.getInstance('runner', true);
+  var runnerMonitor = runnerInstance.getMonitor();
+  if (!runnerMonitor) {
+    console.error('Runner Monitor is not there!', this.runner);
+    return;
+  }
 
-  goog.style.installStyles(
-      cwc.soy.mode.ev3.Monitor.style({ 'prefix': this.prefix }));
+  this.nodeIntro = runnerMonitor.getIntroNode();
+  this.nodeControl = runnerMonitor.getControlNode();
+  this.nodeMonitor = runnerMonitor.getMonitorNode();
+  this.nodeCalibration = runnerMonitor.getCalibrationNode();
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.mode.ev3.Monitor.template,
-      {'prefix': this.prefix});
+      this.nodeIntro,
+      cwc.soy.mode.ev3.Monitor.intro,
+      {'prefix': this.prefix}
+  );
+
+  goog.soy.renderElement(
+      this.nodeMonitor,
+      cwc.soy.mode.ev3.Monitor.monitor,
+      {'prefix': this.prefix}
+  );
+
+  goog.soy.renderElement(
+      this.nodeControl,
+      cwc.soy.mode.ev3.Monitor.control,
+      {'prefix': this.prefix}
+  );
+
+  if (!this.styleSheet) {
+    this.styleSheet = goog.style.installStyles(
+      cwc.soy.mode.ev3.Monitor.style({'prefix': this.prefix}));
+  }
+
+  this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
+
+  // Update Event
+  var eventHandler = this.connection.getEventHandler();
+  this.addEventListener_(eventHandler, cwc.protocol.ev3.Events.CHANGED_VALUES,
+      this.updateDeviceData, false, this);
 
   // Monitoring
-  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
   this.updateDeviceData();
-
-  // Toolbar Buttons
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-
-  this.toolbarConnect.setEnabled(this.ev3.isConnected());
-  this.toolbarDisconnect.setVisible(false);
-  this.toolbarDetect.setEnabled(false);
-  this.toolbarStop.setEnabled(false);
-
-  this.toolbar = new goog.ui.Toolbar();
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.toolbarConnect, true);
-  this.toolbar.addChild(this.toolbarDisconnect, true);
-  this.toolbar.addChild(this.toolbarStop, true);
-  this.toolbar.addChild(this.toolbarDetect, true);
-  this.toolbar.render(this.nodeToolbar);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    let eventHandler = layoutInstance.getEventHandler();
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
-  // EV3 connection
-  if (!this.timerMonitor) {
-    this.timerMonitor = new goog.Timer(this.timerMonitorInterval);
-    goog.events.listen(this.timerMonitor, goog.Timer.TICK,
-        this.handleConnect.bind(this));
-  }
-  this.timerMonitor.start();
-  this.statusDetected = false;
-
-  // Show connect notice.
-  if (!this.ev3.isConnected()) {
-    this.helper.showInfo('Please make sure to connect to the Bluetooth ' +
-        'device by using the "Devices" menu.');
-  }
+  this.addEventHandler_();
+  runnerInstance.enableMonitor(true);
 };
 
 
 /**
- * Handles the EV3 connection state.
+ * @private
  */
-cwc.mode.ev3.Monitor.prototype.handleConnect = function() {
-  var runnerInstance = this.helper.getInstance('runner');
-  if (this.isReady() && !this.connected) {
-    if (runnerInstance) {
-      runnerInstance.showConnect();
-    }
-    this.connect();
-  } else if (!this.isReady() && (this.connected || !this.statusDetected)) {
-    if (runnerInstance) {
-      runnerInstance.showDisconnect();
-    }
-    if (!this.statusDetected) {
-      this.statusDetected = true;
-    } else {
-      this.disconnect();
-    }
-  }
-};
+cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
+  var moveLeft = goog.dom.getElement(this.prefix + 'move-left');
+  var moveForward = goog.dom.getElement(this.prefix + 'move-forward');
+  var moveBackward = goog.dom.getElement(this.prefix + 'move-backward');
+  var moveRight = goog.dom.getElement(this.prefix + 'move-right');
+  var stop = goog.dom.getElement(this.prefix + 'stop');
 
+  // Movements
+  this.addEventListener_(moveLeft, goog.events.EventType.CLICK, function() {
+    this.api.rotateAngle(90, true);
+  }.bind(this), false, this);
 
-/**
- * Checks if the EV3 unit is ready.
- * @return {boolean}
- */
-cwc.mode.ev3.Monitor.prototype.isReady = function() {
-  if (!this.ev3) {
-    return false;
-  }
+  this.addEventListener_(moveForward, goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(50);
+  }.bind(this), false, this);
 
-  return this.ev3.isConnected();
-};
+  this.addEventListener_(moveBackward, goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(50, true);
+  }.bind(this), false, this);
 
+  this.addEventListener_(moveRight, goog.events.EventType.CLICK, function() {
+    this.api.rotateAngle(90);
+  }.bind(this), false, this);
 
-/**
- * Connects the EV3 unit.
- */
-cwc.mode.ev3.Monitor.prototype.connect = function() {
-  this.ev3 = this.helper.getInstance('ev3');
-  console.log('Try to connect to the EV3 unit ...');
-  var oldConnectStatus = this.connected;
-  this.connected = this.ev3.isConnected();
-  this.toolbarConnect.setVisible(!this.connected);
-  this.toolbarDisconnect.setVisible(this.connected);
-  this.toolbarStop.setEnabled(this.connected);
-  this.toolbarDetect.setEnabled(this.connected);
-
-  if (oldConnectStatus && !this.connected) {
-    this.helper.showWarning('Lost connection to EV3');
-  } else if (!oldConnectStatus && this.connected) {
-    this.prepare();
-  } else if (!this.connected) {
-    this.helper.showWarning('Was unable to connect to the EV3 unit.\n' +
-        'Please make sure that the EV3 is connected under "Devices".\n' +
-        'Click on the "Connect" button after the device is connected!');
-  }
-};
-
-
-/**
- * Prepares Monitoring
- */
-cwc.mode.ev3.Monitor.prototype.prepare = function() {
-  if (this.prepared) {
-    return;
-  }
-  var eventHandler = this.ev3.getEventHandler();
-  goog.events.listen(eventHandler,
-      cwc.protocol.ev3.Events.CHANGED_VALUES,
-      this.updateDeviceData, false, this);
-  this.prepared = true;
-};
-
-
-/**
- * Disconnects the EV3 unit.
- */
-cwc.mode.ev3.Monitor.prototype.disconnect = function() {
-  if (this.ev3) {
-    this.ev3.disconnect();
-  }
-
-  if (this.timerMonitor) {
-    this.timerMonitor.stop();
-  }
-
-  this.connected = false;
-  this.toolbarConnect.setVisible(!this.connected);
-  this.toolbarConnect.setEnabled(!this.connected);
-  this.toolbarDisconnect.setVisible(this.connected);
-  this.toolbarStop.setEnabled(this.connected);
-  this.toolbarDetect.setEnabled(this.connected);
-};
-
-
-/**
- * Disconnects the EV3 unit.
- */
-cwc.mode.ev3.Monitor.prototype.stop = function() {
-  if (this.ev3) {
-    this.ev3.stop();
-  }
+  this.addEventListener_(stop, goog.events.EventType.CLICK, function() {
+    this.api.stop();
+  }.bind(this), false, this);
 };
 
 
@@ -266,20 +174,19 @@ cwc.mode.ev3.Monitor.prototype.stop = function() {
  * Detects the connected EV3 devices.
  */
 cwc.mode.ev3.Monitor.prototype.detect = function() {
-  if (this.ev3) {
-    this.ev3.getDevices();
-  }
+  this.connection.getDevices();
 };
 
 
 /**
  * Updates device Data.
+ * @param {Event=} opt_event
  */
-cwc.mode.ev3.Monitor.prototype.updateDeviceData = function() {
+cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
   goog.soy.renderElement(
-      this.nodeMonitor,
-      cwc.soy.mode.ev3.Monitor.monitor,
-      {'prefix': this.prefix, 'devices': this.ev3.getDeviceData()}
+      this.nodeMonitorValues,
+      cwc.soy.mode.ev3.Monitor.monitorValues,
+      {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
   );
 };
 
@@ -291,10 +198,7 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
   if (this.timerMonitor) {
     this.timerMonitor.stop();
   }
-  this.stop();
-  if (this.ev3) {
-    this.ev3.disconnect();
-  }
+  this.helper.removeEventListeners(this.listener, this.name);
 };
 
 
@@ -308,8 +212,9 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  * @param {function(?)} listener
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
+ * @private
  */
-cwc.mode.ev3.Monitor.prototype.addEventListener = function(src, type,
+cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

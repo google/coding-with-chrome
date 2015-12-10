@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.sphero.Buffer');
 
 goog.require('cwc.protocol.sphero.CallbackType');
+goog.require('cwc.protocol.sphero.Command');
 goog.require('cwc.protocol.sphero.CommandType');
 goog.require('cwc.utils.ByteArray');
 
@@ -37,8 +38,8 @@ cwc.protocol.sphero.Buffer = function(opt_callback) {
   this.callbackType = opt_callback ||
       cwc.protocol.sphero.CallbackType.NONE;
 
-  /** @type {!number} */
-  this.commandType = [0x00, 0x01];
+  /** @type {!cwc.protocol.sphero.Command} */
+  this.command = [0x00, 0x01];
 
   /** @type {!number} */
   this.header = 0xFF;
@@ -111,7 +112,7 @@ cwc.protocol.sphero.Buffer.prototype.writeString = function(value) {
  * @param {!string} command
  */
 cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
-  this.commandType = command;
+  this.command = command;
 };
 
 
@@ -126,8 +127,8 @@ cwc.protocol.sphero.Buffer.prototype.readSigned = function() {
   var data = new Uint8Array(dataBuffer);
   data[0] = this.header;
   data[1] = this.type;
-  data[2] = this.commandType[0];
-  data[3] = this.commandType[1];
+  data[2] = this.command[0];
+  data[3] = this.command[1];
   data[4] = this.callbackType;
   data[5] = dataLength;
   checkSum += data[2] + data[3] + data[4] + data[5];

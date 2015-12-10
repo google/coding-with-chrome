@@ -67,8 +67,8 @@ cwc.framework.Runner.prototype.addCommand = function(name, func) {
  * Adds sample commands like "ping".
  */
 cwc.framework.Runner.prototype.addSampleCommands = function() {
-  var pingEvent = function(data) {
-    console.log('Recieved ping, send pong ...');
+  var pingEvent = function(opt_data) {
+    console.log('Recieved ping, send pong …');
     this.sendData('pong', Math.random());
   };
   this.addCommand('ping', pingEvent.bind(this));
@@ -127,8 +127,7 @@ cwc.framework.Runner.prototype.send = function(data) {
  * @export
  */
 cwc.framework.Runner.prototype.sendData = function(name, value) {
-  var data = {'command': name, 'value': value};
-  this.send(data);
+  this.send({'command': name, 'value': value});
 };
 
 

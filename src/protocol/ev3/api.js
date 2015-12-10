@@ -23,16 +23,13 @@
 goog.provide('cwc.protocol.ev3.Api');
 
 goog.require('cwc.protocol.bluetooth.Api');
-goog.require('cwc.protocol.ev3.BrickButton');
 goog.require('cwc.protocol.ev3.Buffer');
 goog.require('cwc.protocol.ev3.ColorSensorMode');
 goog.require('cwc.protocol.ev3.Command');
-goog.require('cwc.protocol.ev3.CommandType');
 goog.require('cwc.protocol.ev3.Device');
 goog.require('cwc.protocol.ev3.DeviceName');
 goog.require('cwc.protocol.ev3.DeviceType');
 goog.require('cwc.protocol.ev3.Events');
-goog.require('cwc.protocol.ev3.GyroSensorMode');
 goog.require('cwc.protocol.ev3.InputPort');
 goog.require('cwc.protocol.ev3.IrSensorMode');
 goog.require('cwc.protocol.ev3.LedColor');
@@ -48,27 +45,6 @@ goog.require('cwc.utils.StackEntry');
 goog.require('goog.Timer');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
-
-
-goog.scope(function() {
-/* Local Aliases. */
-var BrickButton = cwc.protocol.ev3.BrickButton;
-var CallbackType = cwc.protocol.ev3.CallbackType;
-var CallbackTarget = cwc.protocol.ev3.CallbackTarget;
-var ColorSensorMode = cwc.protocol.ev3.ColorSensorMode;
-var Command = cwc.protocol.ev3.Command;
-var CommandType = cwc.protocol.ev3.CommandType;
-var DeviceName = cwc.protocol.ev3.DeviceName;
-var DeviceType = cwc.protocol.ev3.DeviceType;
-var Events = cwc.protocol.ev3.Events;
-var GyroSensorMode = cwc.protocol.ev3.GyroSensorMode;
-var InputPort = cwc.protocol.ev3.InputPort;
-var IrSensorMode = cwc.protocol.ev3.IrSensorMode;
-var LedColor = cwc.protocol.ev3.LedColor;
-var LedMode = cwc.protocol.ev3.LedMode;
-var MotorMode = cwc.protocol.ev3.MotorMode;
-var OutputPort = cwc.protocol.ev3.OutputPort;
-var Polarity = cwc.protocol.ev3.Polarity;
 
 
 
@@ -126,6 +102,49 @@ cwc.protocol.ev3.Api = function(helper) {
 
   /** @type {cwc.protocol.ev3.Monitoring} */
   this.monitoring = new cwc.protocol.ev3.Monitoring(this);
+
+  /** @type {!cwc.protocol.ev3.CallbackType} */
+  this.callbackType = cwc.protocol.ev3.CallbackType;
+
+  /** @type {!cwc.protocol.ev3.CallbackType} */
+  this.callbackType = cwc.protocol.ev3.CallbackType;
+  this.colorSensorMode = cwc.protocol.ev3.ColorSensorMode;
+
+  /** @type {!cwc.protocol.ev3.CallbackType} */
+  this.callbackType = cwc.protocol.ev3.CallbackType;
+
+  /** @type {!cwc.protocol.ev3.Command} */
+  this.command = cwc.protocol.ev3.Command;
+
+  /** @type {!cwc.protocol.ev3.DeviceName} */
+  this.deviceName = cwc.protocol.ev3.DeviceName;
+
+  /** @type {!cwc.protocol.ev3.DeviceType} */
+  this.deviceType = cwc.protocol.ev3.DeviceType;
+
+  /** @type {!cwc.protocol.ev3.Events} */
+  this.events = cwc.protocol.ev3.Events;
+
+  /** @type {!cwc.protocol.ev3.InputPort} */
+  this.inputPort = cwc.protocol.ev3.InputPort;
+
+  /** @type {!cwc.protocol.ev3.IrSensorMode} */
+  this.irSensorMode = cwc.protocol.ev3.IrSensorMode;
+
+  /** @type {!cwc.protocol.ev3.LedColor} */
+  this.ledColor = cwc.protocol.ev3.LedColor;
+
+  /** @type {!cwc.protocol.ev3.LedMode} */
+  this.ledMode = cwc.protocol.ev3.LedMode;
+
+  /** @type {!cwc.protocol.ev3.MotorMode} */
+  this.motorMode = cwc.protocol.ev3.MotorMode;
+
+  /** @type {!cwc.protocol.ev3.OutputPort} */
+  this.outputPort = cwc.protocol.ev3.OutputPort;
+
+  /** @type {!cwc.protocol.ev3.Polarity} */
+  this.polarity = cwc.protocol.ev3.Polarity;
 };
 
 
@@ -141,7 +160,7 @@ cwc.protocol.ev3.Api.prototype.autoConnect = function() {
     if (device.isConnected()) {
       return this.connect(device.getAddress());
     } else {
-      this.helper.showInfo('Connecting EV3 unit...');
+      this.helper.showInfo('Connecting EV3 unit…');
       var connectEvent = function(socket_id, address) {
         this.connect(address);
       };
@@ -164,7 +183,7 @@ cwc.protocol.ev3.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('EV3 unit is not ready yet ...');
+    console.error('EV3 unit is not ready yet …');
     return false;
   }
 
@@ -175,6 +194,14 @@ cwc.protocol.ev3.Api.prototype.connect = function(address) {
   }
 
   return true;
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.protocol.ev3.Api.prototype.isConnected = function() {
+  return this.device && this.device.isConnected();
 };
 
 
@@ -196,8 +223,21 @@ cwc.protocol.ev3.Api.prototype.prepare = function() {
  * Disconnects the EV3 unit.
  */
 cwc.protocol.ev3.Api.prototype.disconnect = function() {
-  this.device.disconnect();
+  if (this.device) {
+    this.device.disconnect();
+  }
   this.cleanUp();
+};
+
+
+/**
+ * Resets the Sphero ball connection.
+ * @param {number=} opt_delay
+ */
+cwc.protocol.ev3.Api.prototype.reset = function(opt_delay) {
+  if (this.device) {
+    this.device.reset(opt_delay);
+  }
 };
 
 
@@ -213,9 +253,6 @@ cwc.protocol.ev3.Api.prototype.isConnected = function() {
  * Basic cleanup for the EV3 unit.
  */
 cwc.protocol.ev3.Api.prototype.cleanUp = function() {
-  if (this.bluetooth) {
-    this.bluetooth.clearSenderStack('EV3');
-  }
   this.stop();
   this.clear();
 };
@@ -241,7 +278,7 @@ cwc.protocol.ev3.Api.prototype.getDeviceInfo = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getColorSensorData = function() {
-  return this.deviceData[this.deviceInfo[DeviceName.COLOR_SENSOR]];
+  return this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
 };
 
 
@@ -249,7 +286,7 @@ cwc.protocol.ev3.Api.prototype.getColorSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getIrSensorData = function() {
-  return this.deviceData[this.deviceInfo[DeviceName.IR_SENSOR]];
+  return this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
 };
 
 
@@ -257,7 +294,7 @@ cwc.protocol.ev3.Api.prototype.getIrSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getTouchSensorData = function() {
-  return this.deviceData[this.deviceInfo[DeviceName.TOUCH_SENSOR]];
+  return this.deviceData[this.deviceInfo[this.deviceName.TOUCH_SENSOR]];
 };
 
 
@@ -273,9 +310,9 @@ cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
  * @param {cwc.protocol.ev3.ColorSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
-  this.deviceData[this.deviceInfo[DeviceName.COLOR_SENSOR]].setMode(mode);
-  this.deviceData[this.deviceInfo[DeviceName.COLOR_SENSOR]].setCss(
-      (mode == ColorSensorMode.COLOR) ? 'color' : 'default');
+  this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setMode(mode);
+  this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setCss(
+      (mode == this.colorSensorMode.COLOR) ? 'color' : 'default');
 };
 
 
@@ -283,7 +320,7 @@ cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.IrSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
-  this.deviceData[this.deviceInfo[DeviceName.IR_SENSOR]].setMode(mode);
+  this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]].setMode(mode);
 };
 
 
@@ -303,16 +340,16 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
   this.monitoring.stop();
 
   // Sensor ports
-  this.getDeviceType(InputPort.ONE);
-  this.getDeviceType(InputPort.TWO);
-  this.getDeviceType(InputPort.THREE);
-  this.getDeviceType(InputPort.FOUR);
+  this.getDeviceType(this.inputPort.ONE);
+  this.getDeviceType(this.inputPort.TWO);
+  this.getDeviceType(this.inputPort.THREE);
+  this.getDeviceType(this.inputPort.FOUR);
 
   // Actor ports
-  this.getDeviceType(InputPort.A);
-  this.getDeviceType(InputPort.B);
-  this.getDeviceType(InputPort.C);
-  this.getDeviceType(InputPort.D);
+  this.getDeviceType(this.inputPort.A);
+  this.getDeviceType(this.inputPort.B);
+  this.getDeviceType(this.inputPort.C);
+  this.getDeviceType(this.inputPort.D);
 };
 
 
@@ -320,13 +357,12 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {!string} type
  */
-cwc.protocol.ev3.Api.prototype.updateDeviceType = function(port,
-    type) {
-  if (type == DeviceType.NONE) {
+cwc.protocol.ev3.Api.prototype.updateDeviceType = function(port, type) {
+  if (type == this.deviceType.NONE) {
     return;
   }
   var typeNormalized = type.replace(/-/g, '_');
-  if (!(typeNormalized in DeviceType)) {
+  if (!(typeNormalized in this.deviceType)) {
     if (type == 'PORT ERROR') {
       console.error('Recieved Port Error on port', port, '!');
       console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
@@ -335,74 +371,74 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType = function(port,
     }
     return;
   }
-  var deviceTypeName = DeviceType[typeNormalized];
+  var deviceTypeName = this.deviceType[typeNormalized];
   var deviceName = deviceTypeName;
   var deviceMode = 0;
   var deviceCss = '';
   var sensorGroup = true;
   switch (deviceTypeName) {
-    case DeviceType.IR_PROX:
-      deviceName = DeviceName.IR_SENSOR;
-      deviceMode = IrSensorMode.PROXIMITY;
+    case this.deviceType.IR_PROX:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.PROXIMITY;
       break;
-    case DeviceType.IR_SEEK:
-      deviceName = DeviceName.IR_SENSOR;
-      deviceMode = IrSensorMode.SEEK;
+    case this.deviceType.IR_SEEK:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.SEEK;
       break;
-    case DeviceType.IR_REMOTE:
-      deviceName = DeviceName.IR_SENSOR;
-      deviceMode = IrSensorMode.REMOTECONTROL;
+    case this.deviceType.IR_REMOTE:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.REMOTECONTROL;
       break;
-    case DeviceType.TOUCH:
-      deviceName = DeviceName.TOUCH_SENSOR;
+    case this.deviceType.TOUCH:
+      deviceName = this.deviceName.TOUCH_SENSOR;
       break;
-    case DeviceType.COL_REFLECT:
-      deviceName = DeviceName.COLOR_SENSOR;
-      deviceMode = ColorSensorMode.REFLECTIVE;
+    case this.deviceType.COL_REFLECT:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.REFLECTIVE;
       break;
-    case DeviceType.COL_AMBIENT:
-      deviceName = DeviceName.COLOR_SENSOR;
-      deviceMode = ColorSensorMode.AMBIENT;
+    case this.deviceType.COL_AMBIENT:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.AMBIENT;
       break;
-    case DeviceType.COL_COLOR:
-      deviceName = DeviceName.COLOR_SENSOR;
-      deviceMode = ColorSensorMode.COLOR;
+    case this.deviceType.COL_COLOR:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.COLOR;
       deviceCss = 'color';
       break;
-    case DeviceType.L_MOTOR_DEG:
-      deviceName = DeviceName.LARGE_MOTOR;
-      deviceMode = MotorMode.DEGREE;
+    case this.deviceType.L_MOTOR_DEG:
+      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceMode = this.motorMode.DEGREE;
       sensorGroup = false;
       break;
-    case DeviceType.L_MOTOR_ROT:
-      deviceName = DeviceName.LARGE_MOTOR;
-      deviceMode = MotorMode.ROTATION;
+    case this.deviceType.L_MOTOR_ROT:
+      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceMode = this.motorMode.ROTATION;
       sensorGroup = false;
       break;
-    case DeviceType.M_MOTOR_DEG:
-      deviceName = DeviceName.MEDIUM_MOTOR;
-      deviceMode = MotorMode.DEGREE;
+    case this.deviceType.M_MOTOR_DEG:
+      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceMode = this.motorMode.DEGREE;
       sensorGroup = false;
       break;
-    case DeviceType.M_MOTOR_ROT:
-      deviceName = DeviceName.MEDIUM_MOTOR;
-      deviceMode = MotorMode.ROTATION;
+    case this.deviceType.M_MOTOR_ROT:
+      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceMode = this.motorMode.ROTATION;
       sensorGroup = false;
       break;
   }
 
   if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
-    if (deviceName == DeviceName.LARGE_MOTOR) {
-      deviceName = DeviceName.LARGE_MOTOR_OPT;
-    } else if (deviceName == DeviceName.MEDIUM_MOTOR) {
-      deviceName = DeviceName.MEDIUM_MOTOR_OPT;
+    if (deviceName == this.deviceName.LARGE_MOTOR) {
+      deviceName = this.deviceName.LARGE_MOTOR_OPT;
+    } else if (deviceName == this.deviceName.MEDIUM_MOTOR) {
+      deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
     }
   }
 
   console.log('Found', deviceName, 'with mode', deviceMode, 'on port', port);
   this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
       deviceMode, 0, deviceCss);
-  this.eventHandler.dispatchEvent(Events.CHANGED_DEVICES);
+  this.eventHandler.dispatchEvent(this.events.CHANGED_DEVICES);
 
   if (sensorGroup) {
     this.deviceInfo[deviceName] = port;
@@ -420,20 +456,20 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType = function(port,
  * @param {!number} value
  * @param {cwc.protocol.ev3.DeviceName=} opt_device_name
  */
-cwc.protocol.ev3.Api.prototype.updateDeviceData = function(port,
-    value, opt_device_name) {
+cwc.protocol.ev3.Api.prototype.updateDeviceData = function(port, value,
+    opt_device_name) {
   if (this.deviceData[port] && this.deviceData[port].getValue() != value) {
     this.deviceData[port].setValue(value);
     this.monitoring.update();
     switch (opt_device_name) {
-      case DeviceName.COLOR_SENSOR:
-        this.eventHandler.dispatchEvent(Events.COLOR_SENSOR_VALUE_CHANGED);
+      case this.deviceName.COLOR_SENSOR:
+        this.eventHandler.dispatchEvent(this.events.COLOR_SENSOR_VALUE_CHANGED);
         break;
-      case DeviceName.IR_SENSOR:
-        this.eventHandler.dispatchEvent(Events.IR_SENSOR_VALUE_CHANGED);
+      case this.deviceName.IR_SENSOR:
+        this.eventHandler.dispatchEvent(this.events.IR_SENSOR_VALUE_CHANGED);
         break;
-      case DeviceName.TOUCH_SENSOR:
-        this.eventHandler.dispatchEvent(Events.TOUCH_SENSOR_VALUE_CHANGED);
+      case this.deviceName.TOUCH_SENSOR:
+        this.eventHandler.dispatchEvent(this.events.TOUCH_SENSOR_VALUE_CHANGED);
         break;
     }
   }
@@ -446,7 +482,7 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData = function(port,
  */
 cwc.protocol.ev3.Api.prototype.send = function(buffer, opt_delay) {
   if (!this.device) {
-	return;
+    return;
   }
   var data = buffer.readSigned();
   if (opt_delay) {
@@ -459,146 +495,156 @@ cwc.protocol.ev3.Api.prototype.send = function(buffer, opt_delay) {
 
 /**
  * Reads current EV3 battery level.
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.getBattery = function() {
-  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, CallbackType.BATTERY);
-  buffer.writeCommand(Command.UI.READ.BATTERY);
+cwc.protocol.ev3.Api.prototype.getBattery = function(opt_delay) {
+  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, this.callbackType.BATTERY);
+  buffer.writeCommand(this.command.UI.READ.BATTERY);
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Reads current EV3 firmware.
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.getFirmware = function() {
-  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, CallbackType.FIRMWARE);
-  buffer.writeCommand(Command.UI.READ.FIRMWARE);
+cwc.protocol.ev3.Api.prototype.getFirmware = function(opt_delay) {
+  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, this.callbackType.FIRMWARE);
+  buffer.writeCommand(this.command.UI.READ.FIRMWARE);
   buffer.writeByte(0x10);
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Reads the device type.
  * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.getDeviceType = function(port) {
-  var buffer = new cwc.protocol.ev3.Buffer(0x7F, 0, CallbackType.DEVICE_NAME);
-  buffer.writeCommand(Command.INPUT.DEVICE.GETDEVICENAME);
+cwc.protocol.ev3.Api.prototype.getDeviceType = function(port, opt_delay) {
+  var buffer = new cwc.protocol.ev3.Buffer(0x7F, 0,
+      this.callbackType.DEVICE_NAME);
+  buffer.writeCommand(this.command.INPUT.DEVICE.GETDEVICENAME);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeByte(0x7F);
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Gets the current data of the device.
  * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.getSensorData = function(port) {
+cwc.protocol.ev3.Api.prototype.getSensorData = function(port, opt_delay) {
   if (!(port in this.deviceData)) {
     return;
   }
   var device = this.deviceData[port];
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
-      CallbackType.DEVICE_SI_VALUE);
-  buffer.writeCommand(Command.INPUT.DEVICE.READSI);
+      this.callbackType.DEVICE_SI_VALUE);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READSI);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Get the current data of the device in Pct.
  * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.getSensorDataPct = function(port) {
+cwc.protocol.ev3.Api.prototype.getSensorDataPct = function(port, opt_delay) {
   if (!(port in this.deviceData)) {
     return;
   }
   var device = this.deviceData[port];
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
-      CallbackType.DEVICE_PCT_VALUE);
-  buffer.writeCommand(Command.INPUT.DEVICE.READPCT);
+      this.callbackType.DEVICE_PCT_VALUE);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READPCT);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Get the current data of the device.
  * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.getActorData = function(port) {
+cwc.protocol.ev3.Api.prototype.getActorData = function(port, opt_delay) {
   if (!(port in this.deviceData)) {
     return;
   }
   var device = this.deviceData[port];
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
-      CallbackType.ACTOR_VALUE);
-  buffer.writeCommand(Command.INPUT.DEVICE.READSI);
+      this.callbackType.ACTOR_VALUE);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READSI);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * @param {cwc.protocol.ev3.LedColor} color
  * @param {cwc.protocol.ev3.LedMode=} opt_mode
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode) {
+cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode, opt_delay) {
   var led = color + (opt_mode || 0);
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.UI.WRITE.LED);
+  buffer.writeCommand(this.command.UI.WRITE.LED);
   buffer.writeByte(led);
-  this.send(buffer, 10);
+  this.send(buffer, opt_delay);
+  //this.send(buffer, 10);
 };
 
 
 /**
  * @param {!number} power
  * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.movePower = function(power,
-    opt_invert) {
+cwc.protocol.ev3.Api.prototype.movePower = function(power, opt_invert,
+    opt_delay) {
   var brake = 1;
-  var ports = OutputPort.B | OutputPort.C;
+  var ports = this.outputPort.B | this.outputPort.C;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.POWER);
+  buffer.writeCommand(this.command.OUTPUT.POWER);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte((opt_invert) ? -power : power);
-  buffer.writeCommand(Command.OUTPUT.START);
+  buffer.writeCommand(this.command.OUTPUT.START);
   buffer.writeNullByte();
   buffer.writePorts(ports);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -606,82 +652,90 @@ cwc.protocol.ev3.Api.prototype.movePower = function(power,
  * @param {!number} power Main power value.
  * @param {number=} opt_power Optional second power value.
  * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.rotatePower = function(power,
-    opt_power, opt_invert) {
+cwc.protocol.ev3.Api.prototype.rotatePower = function(power, opt_power,
+    opt_invert, opt_delay) {
   var brake = 1;
   var power1 = (opt_invert) ? -power : power;
   var power2 = ((opt_invert) ? opt_power : -opt_power) || -power1;
-  var ports = OutputPort.B | OutputPort.C;
+  var ports = this.outputPort.B | this.outputPort.C;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.POWER);
+  buffer.writeCommand(this.command.OUTPUT.POWER);
   buffer.writeNullByte();
-  buffer.writePort(OutputPort.B);
+  buffer.writePort(this.outputPort.B);
   buffer.writeByte(power1);
-  buffer.writeCommand(Command.OUTPUT.POWER);
+  buffer.writeCommand(this.command.OUTPUT.POWER);
   buffer.writeNullByte();
-  buffer.writePort(OutputPort.C);
+  buffer.writePort(this.outputPort.C);
   buffer.writeByte(power2);
-  buffer.writeCommand(Command.OUTPUT.START);
+  buffer.writeCommand(this.command.OUTPUT.START);
   buffer.writeNullByte();
   buffer.writePorts(ports);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * @param {cwc.protocol.ev3.InputPort=} opt_port
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.stop = function(opt_port) {
+cwc.protocol.ev3.Api.prototype.stop = function(opt_port, opt_delay) {
   var brake = 1;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
-  buffer.writePorts(opt_port || OutputPort.ALL);
+  buffer.writePorts(opt_port || this.outputPort.ALL);
   buffer.writeByte(brake);
-  this.send(buffer);
+  this.send(buffer, opt_delay);
+  this.reset(opt_delay);
 };
 
 
 /**
  * @param {cwc.protocol.ev3.InputPort=} opt_port
+ * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.delayedStop = function(opt_port) {
+cwc.protocol.ev3.Api.prototype.delayedStop = function(opt_port, opt_delay) {
   var brake = 1;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
-  buffer.writePorts(opt_port || OutputPort.ALL);
+  buffer.writePorts(opt_port || this.outputPort.ALL);
   buffer.writeByte(brake);
-  this.send(buffer, 500);
+  //this.send(buffer, 500);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Clears the EV3 unit.
+ * @param {number=} opt_delay
+ * @export
  */
-cwc.protocol.ev3.Api.prototype.clear = function() {
+cwc.protocol.ev3.Api.prototype.clear = function(opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.INPUT.DEVICE.CLEARALL);
+  buffer.writeCommand(this.command.INPUT.DEVICE.CLEARALL);
   buffer.writeNullByte();
-  this.send(buffer);
+  this.send(buffer, opt_delay);
 };
 
 
 /**
  * Shows the selected image file.
  * @param {!string} file_name
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.showImage = function(file_name) {
+cwc.protocol.ev3.Api.prototype.showImage = function(file_name, opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.UI.DRAW.BMPFILE);
+  buffer.writeCommand(this.command.UI.DRAW.BMPFILE);
   buffer.writeString(file_name);
-  this.send(buffer, 100);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -690,18 +744,20 @@ cwc.protocol.ev3.Api.prototype.showImage = function(file_name) {
  * @param {!number} frequency
  * @param {number=} opt_duration
  * @param {number=} opt_volume
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.playTone = function(frequency,
-    opt_duration, opt_volume) {
+cwc.protocol.ev3.Api.prototype.playTone = function(frequency, opt_duration,
+    opt_volume, opt_delay) {
   var duration = Math.max(opt_duration, 50) || 50;
   var volume = Math.min(opt_volume || 100, 100);
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.SOUND.TONE);
+  buffer.writeCommand(this.command.SOUND.TONE);
   buffer.writeByte(volume);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
-  this.send(buffer, duration + 10);
+  //this.send(buffer, duration + 10);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -709,15 +765,17 @@ cwc.protocol.ev3.Api.prototype.playTone = function(frequency,
  * Plays the selected sound file.
  * @param {!string} file_name
  * @param {number=} opt_volume
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.playSound = function(file_name,
-    opt_volume) {
+cwc.protocol.ev3.Api.prototype.playSound = function(file_name, opt_volume,
+    opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.SOUND.PLAY);
+  buffer.writeCommand(this.command.SOUND.PLAY);
   buffer.writeByte(Math.min(100, Math.max(0, opt_volume)));
   buffer.writeString(file_name);
-  this.send(buffer, 100);
+  //this.send(buffer, 100);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -725,21 +783,22 @@ cwc.protocol.ev3.Api.prototype.playSound = function(file_name,
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
  * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.moveServo = function(steps,
-    opt_invert) {
+cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_invert,
+    opt_delay) {
   var brake = 1;
   var speed = (opt_invert) ? this.stepSpeed * -1 : this.stepSpeed;
-  var port = OutputPort.A;
+  var port = this.outputPort.A;
   var rampUp = 0;
   var rampDown = 0;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.STEP.SPEED);
+  buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeByte(speed);
@@ -747,7 +806,8 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps,
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, steps * 4);
+  //this.send(buffer, steps * 4);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -756,21 +816,22 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps,
  * @param {!number} steps
  * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_step_speed
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
-    opt_invert, opt_step_speed) {
+cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_invert,
+    opt_step_speed, opt_delay) {
   var speed = (opt_invert) ? this.stepSpeed * -1 : this.stepSpeed;
-  var ports = OutputPort.B | OutputPort.C;
+  var ports = this.outputPort.B | this.outputPort.C;
   var rampUp = 0;
   var rampDown = 0;
   var brake = 1;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.STEP.SPEED);
+  buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte(speed);
@@ -778,7 +839,8 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, steps * 4);
+  //this.send(buffer, steps * 4);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -788,10 +850,11 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
  * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_step_speed
  * @param {number=} opt_angle_ratio
+ * @param {number=} opt_delay
  * @export
  */
-cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle,
-    opt_invert, opt_step_speed, opt_angle_ratio) {
+cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
+    opt_step_speed, opt_angle_ratio, opt_delay) {
   var ratio = opt_angle_ratio;
   if (!ratio) {
     if (angle <= 45) {
@@ -809,29 +872,30 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle,
   var rampUp = 0;
   var rampDown = 0;
   var brake = 1;
-  var ports = OutputPort.B | OutputPort.C;
+  var ports = this.outputPort.B | this.outputPort.C;
   var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(Command.OUTPUT.STOP);
+  buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.STEP.SPEED);
+  buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
-  buffer.writePort(OutputPort.B);
+  buffer.writePort(this.outputPort.B);
   buffer.writeByte(speed);
   buffer.writeInt(rampUp);
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  buffer.writeCommand(Command.OUTPUT.STEP.SPEED);
+  buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
-  buffer.writePort(OutputPort.C);
+  buffer.writePort(this.outputPort.C);
   buffer.writeByte(-speed);
   buffer.writeInt(rampUp);
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, steps * 6);
+  //this.send(buffer, steps * 6);
+  this.send(buffer, opt_delay);
 };
 
 
@@ -839,8 +903,7 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle,
  * Handles received data and callbacks from the Bluetooth socket.
  * @param {Array<number>|ArrayBuffer|ArrayBufferView|null|number} raw_data
  */
-cwc.protocol.ev3.Api.prototype.handleOnReceive = function(
-    raw_data) {
+cwc.protocol.ev3.Api.prototype.handleOnReceive = function(raw_data) {
   if (!raw_data) {
     console.error('Recieved no data!');
     return;
@@ -858,27 +921,27 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive = function(
 
   // Handles the different callback types.
   switch (callback) {
-    case CallbackType.FIRMWARE:
+    case this.callbackType.FIRMWARE:
       value = data.subarray(5, 5 + 16);
       this.firmware = (String.fromCharCode.apply(null, value)).trim();
       console.log('EV3 Firmware Version', this.firmware);
       break;
-    case CallbackType.BATTERY:
+    case this.callbackType.BATTERY:
       value = data.subarray(5, 5 + 16);
       this.battery = value;
       console.log('EV3 Battery level', this.battery);
       break;
-    case CallbackType.DEVICE_NAME:
+    case this.callbackType.DEVICE_NAME:
       value = data.subarray(5, 5 + 0x7E);
       var type = (String.fromCharCode.apply(null, value)).trim();
       this.updateDeviceType(port, type);
       break;
-    case CallbackType.DEVICE_SI_VALUE:
-    case CallbackType.DEVICE_PCT_VALUE:
+    case this.callbackType.DEVICE_SI_VALUE:
+    case this.callbackType.DEVICE_PCT_VALUE:
       value = data[5];
       this.updateDeviceData(port, value, this.deviceData[port].getName());
       break;
-    case CallbackType.ACTOR_VALUE:
+    case this.callbackType.ACTOR_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);
       result = new Int32Array(value.buffer)[0];
       this.updateDeviceData(port, result, this.deviceData[port].getName());
@@ -894,5 +957,3 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive = function(
 cwc.protocol.ev3.Api.prototype.echo = function(value) {
   console.log('EV3 echo:', value);
 };
-
-});  // goog.scope

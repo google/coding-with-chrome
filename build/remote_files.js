@@ -18,13 +18,13 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
 
 
 closureBuilder.build({
   name: 'Coffeescript',
   resources: [
-    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/coffee-script.js'
+    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/' +
+    'coffee-script.js'
   ],
   out: 'genfiles/frameworks/'
 });
@@ -51,7 +51,8 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Material design icons',
   resources: [
-    'https://raw.github.com/google/material-design-icons/master/iconfont/MaterialIcons-Regular.woff2'
+    'https://raw.github.com/google/material-design-icons/master/iconfont/' +
+    'MaterialIcons-Regular.woff2'
   ],
   out: 'genfiles/fonts/'
 });

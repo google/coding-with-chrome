@@ -236,7 +236,6 @@ cwc.ui.RunnerInfobar.prototype.updateOverview = function() {
 cwc.ui.RunnerInfobar.prototype.addMessage = function(event) {
   var level = event.level;
   var message = event.message || '';
-  var line = event.line || null;
   var logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
   var logLevelName = 'Unknown';
 

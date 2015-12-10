@@ -6,7 +6,7 @@
   },
   "manifest_version": 2,
   "name": "Coding with Chrome BETA",
-  "version": "1.12.4",
+  "version": "1.12.12",
   "default_locale": "en",
   "description": "Coding with Chrome.",
   "icons": {
@@ -18,9 +18,9 @@
   },
   "author": "coding-with-chrome@google.com",
   "file_handlers": {
-    "Coding with Chrome": {
+    "supported": {
       "extensions": [
-        "cwc"
+        "cwc", "txt", "html", "htm", "js", "coffee"
       ]
     },
     "text": {

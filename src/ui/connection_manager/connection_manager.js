@@ -212,7 +212,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
         cwc.soy.ConnectionManager.serialDevice,
         {'prefix': this.prefix});
     var nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
-    var deviceList = new goog.ui.select('Select device ...');
+    var deviceList = new goog.ui.select('Select device …');
     for (var deviceEntry in devices) {
       var device = devices[deviceEntry];
       var menuItem = new goog.ui.MenuItem(

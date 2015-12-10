@@ -62,6 +62,7 @@ cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
  */
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
+    console.log('Prepare Bluetooth adapter …');
     this.bluetooth.onAdapterStateChanged.addListener(
         this.handleAdapterState_.bind(this));
     this.updateAdapterState();
@@ -76,6 +77,7 @@ cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
 cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
   this.bluetooth.getAdapterState(this.handleAdapterState_.bind(this));
 };
+
 
 /**
  * @export
@@ -101,10 +103,10 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
   this.discovering = adapter_info.discovering;
 
   if (adapter_info && this.available && this.powered && !this.enabled) {
-    console.log('Enable Bluetooth support ...');
+    console.log('Enable Bluetooth support …');
     this.enabled = true;
-  } else if (this.enabled) {
-    console.log('Disable Bluetooth support ...');
+  } else if (this.enabled || !this.prepared) {
+    console.log('Disable Bluetooth support …');
     this.enabled = false;
   }
   var menubarInstance = this.helper.getInstance('menubar');
