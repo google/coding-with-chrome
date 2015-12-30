@@ -22,6 +22,7 @@ goog.provide('cwc.mode.sphero.Runner');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.runner.profile.Sphero');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.Timer');
 goog.require('goog.dom');
 
@@ -71,9 +72,8 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
 
-  this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
-  this.runner.addCommand('__reset__', this.handleReset.bind(this));
   this.runner.addCommand('__init__', this.handleInit.bind(this));
+  this.runner.addCommand('__reset__', this.handleReset.bind(this));
 
   // Normal Commands
   this.runner.addCommand('boost', this.profile.boost, this);
@@ -118,31 +118,10 @@ cwc.mode.sphero.Runner.prototype.handleReset = function() {
 
 
 /**
- * @param {string=} opt_token
- */
-cwc.mode.sphero.Runner.prototype.handleHandshake = function(opt_token) {
-  console.log('Recieved Handshake:', opt_token);
-
-  // Send acknowledge for the start.
-  goog.Timer.callOnce(function() {
-    this.runner.send('__start__');
-  }.bind(this), 200);
-};
-
-
-/**
  * Handles the cleanup and make sure that the Sphero stops.
  */
 cwc.mode.sphero.Runner.prototype.handleCleanUp = function() {
   this.api.cleanUp();
-};
-
-
-/**
- * @param {string} value
- */
-cwc.mode.sphero.Runner.prototype.handleEcho = function(value) {
-  this.api.echo(value);
 };
 
 

@@ -260,7 +260,7 @@ cwc.ui.Helper.showElements = function(class_names, opt_type) {
  * @return {array} List of elements
  */
 cwc.ui.Helper.getElements = function(class_names, opt_type) {
-  var classes = (typeof someVar === 'string') ? [class_names] : class_names;
+  var classes = (typeof class_names === 'string') ? [class_names] : class_names;
   var result = [];
   for (var i = 0; i < classes.length; i++) {
     var elements = goog.dom.getElementsByTagNameAndClass(opt_type || 'div',

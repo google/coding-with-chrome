@@ -41,6 +41,9 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = helper.getLogger();
+
   /** @type {boolean} */
   this.enabled = false;
 
@@ -68,23 +71,25 @@ cwc.protocol.bluetooth.Api = function(helper) {
  * Prepares the bluetooth api and monitors Bluetooth adapter.
  */
 cwc.protocol.bluetooth.Api.prototype.prepare = function() {
-  if (this.bluetooth && !this.prepared) {
-    console.log('Prepare Bluetooth support …');
-
-    // Monitor Bluetooth adapter
-    this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,
-        this.bluetooth);
-    this.adapter.prepare();
-
-    // Monitor Bluetooth devices
-    this.devices = new cwc.protocol.bluetooth.Devices(this.helper,
-        this.bluetooth);
-    this.devices.prepare();
-
-    // Monitor Bluetooth sockets
-    this.addEventListener_();
-    this.prepared = true;
+  if (!this.bluetooth || this.prepared) {
+    return;
   }
+
+  this.log_.debug('Preparing Bluetooth support …');
+
+  // Monitor Bluetooth adapter
+  this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,
+      this.bluetooth);
+  this.adapter.prepare();
+
+  // Monitor Bluetooth devices
+  this.devices = new cwc.protocol.bluetooth.Devices(this.helper,
+      this.bluetooth);
+  this.devices.prepare();
+
+  // Monitor Bluetooth sockets
+  this.addEventListener_();
+  this.prepared = true;
 };
 
 
@@ -121,6 +126,19 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
     return this.devices.getDeviceByName(name);
   }
   return null;
+};
+
+
+/**
+ * @param {!string} device_name
+ * @param {function} callback
+ * @export
+ */
+cwc.protocol.bluetooth.Api.prototype.autoConnectDevice = function(device_name,
+    callback) {
+  if (this.devices) {
+    this.devices.autoConnectDevice(device_name, callback);
+  }
 };
 
 

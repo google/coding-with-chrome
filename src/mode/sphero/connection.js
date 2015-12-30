@@ -80,7 +80,6 @@ cwc.mode.sphero.Connection.prototype.init = function() {
  */
 cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
-    console.log('Connecting the Sphero ball …');
     this.api.autoConnect();
   }
 };

@@ -17,11 +17,12 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.Blocks.Sphero');
+goog.provide('cwc.blocks.sphero.Blocks');
+
+goog.require('cwc.blocks.sphero.JavaScript');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
-goog.require('Blockly.JavaScript.Sphero');
 
 
 

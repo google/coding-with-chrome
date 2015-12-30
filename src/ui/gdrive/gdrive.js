@@ -153,7 +153,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
  */
 cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   var fileEvent = this.handleFileList.bind(this);
-  var lastDays = new Date().setDate(lastDays.getDate() - 7);
+  var lastDays = new Date().setDate(new Date().getDate() - 7);
   this.getFiles({
     'maxResults': '100',
     'q': 'mimeType = \'' + this.mimeType + '\' and lastViewedByMeDate >= ' +

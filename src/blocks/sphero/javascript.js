@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.JavaScript.Sphero');
+goog.provide('cwc.blocks.sphero.JavaScript');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');

@@ -29,7 +29,8 @@ goog.provide('cwc.protocol.sphero.CommandType');
  */
 cwc.protocol.sphero.CallbackType = {
   NONE: 0x00,
-  RGB: 0x010,
+  LOCATION: 0x10,
+  RGB: 0x15,
   VESRION: 0x20,
   UNKNOWN: 0xF0
 };
@@ -50,6 +51,10 @@ cwc.protocol.sphero.Command = {
   POWER: [0x02, 0x33],
   MOTION_TIMEOUT: [0x02, 0x34],
   HEADING: [0x02, 0x01],
+  LOCATION: {
+    SET: [0x02, 0x13],
+    GET: [0x02, 0x15]
+  },
   RGB_LED: {
     SET: [0x02, 0x20],
     GET: [0x02, 0x22]

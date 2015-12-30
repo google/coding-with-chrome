@@ -69,8 +69,11 @@ cwc.ui.Runner = function(helper) {
   /** @type {string} */
   this.prefix = 'runner-';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {!cwc.runner.Connector} */
-  this.connector = new cwc.runner.Connector();
+  this.connector = new cwc.runner.Connector(helper);
 
   /** @type {string} */
   this.generalPrefix = '';
@@ -143,9 +146,6 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {cwc.ui.RunnerStatus} */
   this.status = cwc.ui.RunnerStatus.UNKNOWN;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {cwc.ui.RunnerInfobar} */
   this.infobar = null;
@@ -622,9 +622,6 @@ cwc.ui.Runner.prototype.stop = function() {
     console.info('Stop Runner …');
     this.status = cwc.ui.RunnerStatus.STOPPED;
     this.renderStatusTemplate(this.templateStop);
-    if (this.externalCleanUp) {
-      this.externalCleanUp();
-    }
     this.content.stop();
     if (this.externalCleanUp) {
       this.externalCleanUp();
@@ -678,6 +675,20 @@ cwc.ui.Runner.prototype.terminate = function() {
 
 
 /**
+ * Terminates the runner window.
+ * @export
+ */
+cwc.ui.Runner.prototype.remove = function() {
+  if (this.content) {
+    console.info('Remove Runner …');
+    this.terminate();
+    this.nodeRuntime.removeChild(this.content);
+    this.content = null;
+  }
+};
+
+
+/**
  * @param {!string} url
  */
 cwc.ui.Runner.prototype.setContentUrl = function(url) {
@@ -723,9 +734,7 @@ cwc.ui.Runner.prototype.handleLoadStop = function(opt_event) {
     this.toolbar.setLoadStatus(false);
   }
   this.setStatusText('Finished after ' + duration + ' seconds.');
-  this.connector.executeCommand('__init__', null, true);
-  this.connector.executeCommand('__reset__', null, true);
-  this.connector.send('__handshake__');
+  this.connector.start();
   this.renderStatusTemplate(this.templateRun);
 };
 
@@ -817,7 +826,8 @@ cwc.ui.Runner.prototype.addEventListener = function(src, type,
  * Clears all object based events.
  */
 cwc.ui.Runner.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener);
+  this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  this.terminate();
+  this.connector.cleanUp();
+  this.remove();
 };

@@ -55,15 +55,6 @@ cwc.framework.Arduino.prototype.init = function() {
 
 
 /**
- * @param {!string} text
- * @export
- */
-cwc.framework.Arduino.prototype.echo = function(text) {
-  this.runner.send({'command': 'echo', 'value' : text });
-};
-
-
-/**
  * Adds the Arduino framework to the runner listener.
  * @param {Function} callback
  * @export
@@ -76,8 +67,3 @@ cwc.framework.Arduino.prototype.listen = function(callback) {
     this.runner.listen(warper.bind(this));
   }
 };
-
-
-goog.exportSymbol('cwc.framework.Arduino', cwc.framework.Arduino);
-goog.exportSymbol('cwc.framework.Arduino.prototype.echo',
-    cwc.framework.Arduino.prototype.echo);

@@ -86,8 +86,8 @@ cwc.renderer.external.Arduino.prototype.render = function(
   var body = '\n<script>' +
       '  var customCode = function(arduino) {\n' +
       editor_content[cwc.file.ContentType.CUSTOM] +
-      '\n};\n' + '  var customRunner = new cwc.framework.Runner();\n' +
-      '  var customFramework = new cwc.framework.Arduino(customRunner);\n' +
+      '\n};\n' + '  var runner = new cwc.framework.Runner();\n' +
+      '  var customFramework = new cwc.framework.Arduino(runner);\n' +
       '  customFramework.listen(customCode);\n' +
       '</script>\n';
 

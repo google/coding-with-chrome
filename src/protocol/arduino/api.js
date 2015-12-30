@@ -125,15 +125,6 @@ cwc.protocol.Arduino.api.prototype.handleOnReceive = function(
 
 
 /**
- * Local echo command for testing.
- * @param {string} value
- */
-cwc.protocol.Arduino.api.prototype.echo = function(value) {
-  console.log('Arduino echo:', value);
-};
-
-
-/**
  * @return {goog.events.EventTarget}
  * @export
  */

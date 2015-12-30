@@ -22,7 +22,10 @@ goog.provide('cwc.mode.ev3.Runner');
 goog.require('cwc.mode.ev3.Preview');
 goog.require('cwc.soy.mode.ev3.Runner');
 goog.require('cwc.ui.Runner');
+goog.require('cwc.runner.profile.EV3');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.protocol.ev3.Events');
+
 goog.require('goog.Timer');
 goog.require('goog.dom');
 
@@ -39,17 +42,20 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {string} */
   this.name = 'EV3 Runner';
 
+  /** @type {string} */
+  this.prefix = helper.getPrefix('ev3-runner');
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {!cwc.mode.ev3.Connection} */
   this.connection = connection;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-runner');
+  /** @type {!cwc.protocol.ev3.Api} */
+  this.api = this.connection.getApi();
 
-  /** @type {cwc.protocol.ev3.Api} */
-  this.ev3 = null;
+  /** @type {!cwc.runner.profile.EV3} */
+  this.profile = new cwc.runner.profile.EV3(this.api);
 
   /** @type {Element} */
   this.node = null;
@@ -67,7 +73,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   this.showOverlay = true;
 
   /** @type {!boolean} */
-  this.showPreview = true;
+  this.showPreview = false;
 };
 
 
@@ -83,27 +89,24 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.addCommand('__init__', this.handleInit.bind(this));
 
   // Delayed Commands
-  this.runner.addCommand('delayedStop', this.handleDelayedStop.bind(this));
-  this.runner.addCommand('move', this.handleMove.bind(this));
-  this.runner.addCommand('moveServo', this.handleMoveServo.bind(this));
-  this.runner.addCommand('playSound', this.handlePlaySound.bind(this));
-  this.runner.addCommand('playTone', this.handlePlayTone.bind(this));
-  this.runner.addCommand('rotate', this.handleRotate.bind(this));
-  this.runner.addCommand('showImage', this.handleShowImage.bind(this));
+  this.runner.addCommand('moveSteps', this.profile.moveSteps, this);
+  this.runner.addCommand('moveServo', this.profile.moveServo, this);
+  this.runner.addCommand('rotateAngle', this.profile.rotateAngle, this);
+  this.runner.addCommand('playSound', this.profile.playSound, this);
+  this.runner.addCommand('playTone', this.profile.playTone, this);
+  this.runner.addCommand('showImage', this.profile.showImage, this);
 
   // Direct commands
-  this.runner.addCommand('movePower', this.handleMovePower.bind(this));
-  this.runner.addCommand('rotatePower', this.handleRotatePower.bind(this));
-  this.runner.addCommand('stop', this.handleStop.bind(this));
+  this.runner.addCommand('movePower', this.profile.movePower, this);
+  this.runner.addCommand('rotatePower', this.profile.rotatePower, this);
+  this.runner.addCommand('stop', this.profile.stop, this);
 
   // General commands
-  this.runner.addCommand('echo', this.handleEcho.bind(this));
-  this.runner.addCommand('setColorSensorMode',
-      this.handleSetColorSensorMode.bind(this));
-  this.runner.addCommand('setIrSensorMode',
-      this.handleSetIrSensorMode.bind(this));
-  this.runner.addCommand('setLed', this.handleSetLed.bind(this));
-  this.runner.addCommand('setStepSpeed', this.handleSetStepSpeed.bind(this));
+  this.runner.addCommand('setColorSensorMode', this.profile.setColorSensorMode,
+      this);
+  this.runner.addCommand('setIrSensorMode', this.profile.setIrSensorMode, this);
+  this.runner.addCommand('setLed', this.profile.setLed, this);
+  this.runner.addCommand('setStepSpeed', this.profile.setStepSpeed, this);
 
   // Overlay and templates.
   var templates = cwc.soy.mode.ev3.Runner;
@@ -123,16 +126,13 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     this.runner.setTerminateTemplate(templates.stop);
   }
 
-  this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
+  this.runner.setCleanUpFunction(this.profile.cleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
 
   if (this.showPreview) {
     this.preview.decorate();
   }
-
-  // EV3 connection
-  this.ev3 = this.helper.getInstance('ev3');
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -141,6 +141,24 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
+
+  // EV3 events
+  var apiEventHandler = this.api.getEventHandler();
+  this.addEventListener(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.CHANGED_VALUES,
+      this.updateDeviceData, false, this);
+  this.addEventListener(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
+      this.updateDeviceInfo, false, this);
+  this.addEventListener(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
+      this.updateIrSensor_, false, this);
+  this.addEventListener(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED,
+      this.updateColorSensor_, false, this);
+  this.addEventListener(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED,
+      this.updateTouchSensor_, false, this);
 };
 
 
@@ -170,23 +188,9 @@ cwc.mode.ev3.Runner.prototype.handleReset = function() {
 cwc.mode.ev3.Runner.prototype.handleHandshake = function(opt_token) {
   console.log('Recieved Handshake:', opt_token);
 
-  // Stores EV3 instance.
-  if (!this.ev3) {
-    console.error('Was not able to get EV3 instance!');
-  }
-
   // Monitor EV3 events.
   this.updateDeviceInfo();
   this.updateDeviceData();
-  var eventHandler = this.ev3.getEventHandler();
-
-  this.addEventListener(eventHandler,
-      cwc.protocol.ev3.Events.CHANGED_VALUES,
-      this.updateDeviceData, false, this);
-
-  this.addEventListener(eventHandler,
-      cwc.protocol.ev3.Events.CHANGED_DEVICES,
-      this.updateDeviceInfo, false, this);
 
   // Send acknowledge for the start.
   goog.Timer.callOnce(function() {
@@ -196,151 +200,10 @@ cwc.mode.ev3.Runner.prototype.handleHandshake = function(opt_token) {
 
 
 /**
- * Handles the cleanup and make sure that the EV3 stops.
- */
-cwc.mode.ev3.Runner.prototype.handleCleanUp = function() {
-  if (this.ev3) {
-    this.ev3.cleanUp();
-  }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handlePlayTone = function(data) {
-  this.ev3.playTone(data['frequency'], data['duration'], data['volume']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handlePlaySound = function(data) {
-  this.ev3.playSound(data['file'], data['volume']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleShowImage = function(data) {
-  this.ev3.showImage(data['file']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleMove = function(data) {
-  this.ev3.moveSteps(data['steps'], data['direction']);
-  if (this.showPreview) {
-    this.preview.addToBuffer({name: 'move', data: data});
-  }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleMoveServo = function(data) {
-  this.ev3.moveServo(data['steps'], data['direction']);
-  if (this.showPreview) {
-    this.preview.addToBuffer({name: 'setPenDown', data: !data['direction']});
-  }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleRotate = function(data) {
-  this.ev3.rotateAngle(data['angle'], data['direction']);
-  if (this.showPreview) {
-    this.preview.addToBuffer({name: 'rotate', data: data});
-  }
-};
-
-
-/**
- * @param {Object=} opt_data
- */
-cwc.mode.ev3.Runner.prototype.handleDelayedStop = function(opt_data) {
-  this.ev3.delayedStop();
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleMovePower = function(data) {
-  this.ev3.movePower(data['power'], data['direction']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleRotatePower = function(data) {
-  this.ev3.rotatePower(data['power'], data['opt_power'], data['direction']);
-};
-
-
-/**
- * @param {Object=} opt_data
- */
-cwc.mode.ev3.Runner.prototype.handleStop = function(opt_data) {
-  this.ev3.stop();
-};
-
-
-/**
- * @param {string} value
- */
-cwc.mode.ev3.Runner.prototype.handleEcho = function(value) {
-  this.ev3.echo(value);
-};
-
-
-/**
- * @param {!cwc.protocol.ev3.ColorSensorMode} mode
- */
-cwc.mode.ev3.Runner.prototype.handleSetColorSensorMode = function(
-    mode) {
-  this.ev3.setColorSensorMode(mode);
-};
-
-
-/**
- * @param {!cwc.protocol.ev3.IrSensorMode} mode
- */
-cwc.mode.ev3.Runner.prototype.handleSetIrSensorMode = function(
-    mode) {
-  this.ev3.setIrSensorMode(mode);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.mode.ev3.Runner.prototype.handleSetLed = function(data) {
-  this.ev3.setLed(data['color'], data['mode']);
-};
-
-
-/**
- * @param {!number} data
- */
-cwc.mode.ev3.Runner.prototype.handleSetStepSpeed = function(data) {
-  this.ev3.setStepSpeed(data);
-};
-
-
-/**
  * Updates the runner inside the sandbox with the device data.
  */
 cwc.mode.ev3.Runner.prototype.updateDeviceData = function() {
-  this.runner.send('updateDeviceData', this.ev3.getDeviceData());
+  this.runner.send('updateDeviceData', this.api.getDeviceData());
 };
 
 
@@ -348,7 +211,34 @@ cwc.mode.ev3.Runner.prototype.updateDeviceData = function() {
  * Updates the runner inside the sandbox with the device information.
  */
 cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
-  this.runner.send('updateDeviceInfo', this.ev3.getDeviceInfo());
+  this.runner.send('updateDeviceInfo', this.api.getDeviceInfo());
+};
+
+
+/**
+ * @param {event} e
+ * @private
+ */
+cwc.mode.ev3.Runner.prototype.updateIrSensor_ = function(e) {
+  this.runner.send('updateIrSensor', e.data);
+};
+
+
+/**
+ * @param {event} e
+ * @private
+ */
+cwc.mode.ev3.Runner.prototype.updateColorSensor_= function(e) {
+  this.runner.send('updateColorSensor', e.data);
+};
+
+
+/**
+ * @param {event} e
+ * @private
+ */
+cwc.mode.ev3.Runner.prototype.updateTouchSensor_ = function(e) {
+  this.runner.send('updateTouchSensor', e.data);
 };
 
 

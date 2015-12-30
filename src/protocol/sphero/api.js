@@ -22,7 +22,6 @@
  */
 goog.provide('cwc.protocol.sphero.Api');
 
-goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.sphero.Buffer');
 goog.require('cwc.protocol.sphero.CallbackType');
 goog.require('cwc.protocol.sphero.Command');
@@ -55,6 +54,15 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @private {!array} */
+  this.headerAck_ = [0xff, 0xff];
+
+  /** @private {!array} */
+  this.headerAsync_ = [0xff, 0xfe];
+
+  /** @private {!number} */
+  this.headerMinSize_ = 6;
+
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
 
@@ -64,26 +72,13 @@ cwc.protocol.sphero.Api = function(helper) {
 
 
 /**
- * AutoConnects the Sphero unit.
- * @return {boolean}
+ * AutoConnects the Sphero ball.
  * @export
  */
 cwc.protocol.sphero.Api.prototype.autoConnect = function() {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var device = bluetoothInstance.getDeviceByName(this.autoConnectName);
-  if (device) {
-    if (device.isConnected()) {
-      return this.connect(device.getAddress());
-    } else {
-      this.helper.showInfo('Connecting Sphero ball…');
-      var connectEvent = function(socket_id, address) {
-        this.connect(address);
-      };
-      return device.connect(connectEvent.bind(this));
-    }
-  }
-  this.helper.showError('Was unable to auto connect to', this.autoConnectName);
-  return false;
+  bluetoothInstance.autoConnectDevice(this.autoConnectName,
+      this.connect.bind(this));
 };
 
 
@@ -124,7 +119,8 @@ cwc.protocol.sphero.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.sphero.Api.prototype.prepare = function() {
-  this.device.setDataHandler(this.handleOnReceive.bind(this));
+  this.device.setDataHandler(this.handleAcknowledged_.bind(this),
+      this.headerAck_, this.headerMinSize_);
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
@@ -132,6 +128,8 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.setRGB(0, 0, 255);
   this.getRGB();
   this.prepared = true;
+
+  setInterval(this.getLocation.bind(this), 1000);
 };
 
 
@@ -325,6 +323,16 @@ cwc.protocol.sphero.Api.prototype.setCalibration = function() {
 
 
 /**
+ * Reads the current Sphero location.
+ */
+cwc.protocol.sphero.Api.prototype.getLocation = function() {
+  var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.LOCATION);
+  buffer.writeCommand(this.command.LOCATION.GET);
+  this.send(buffer);
+};
+
+
+/**
  * Reads current Sphero version.
  */
 cwc.protocol.sphero.Api.prototype.getVersion = function() {
@@ -354,31 +362,42 @@ cwc.protocol.sphero.Api.prototype.runTest = function() {
 
 /**
  * Handles received data and callbacks from the Bluetooth socket.
- * @param {Array<number>|ArrayBuffer|ArrayBufferView|null|number} raw_data
+ * @param {ArrayBuffer} buffer
+ * @private
  */
-cwc.protocol.sphero.Api.prototype.handleOnReceive = function(
-    raw_data) {
-  if (!raw_data) {
-    console.error('Recieved no data!');
+cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
+  if (!buffer || buffer.length < 7) {
     return;
   }
-  var data = data = new Uint8Array(raw_data);
-  if (data.length <= 5) {
-    console.error('Recieved data are to small!');
+  var type = buffer[3];
+  //var len = buffer[4];
+  var data = buffer.slice(5, buffer.length -1);
+  var chk = buffer[buffer.length - 1];
+  var bufferChk = 0;
+  for (var i = 2; i < buffer.length -1; i++) {
+    bufferChk += buffer[i];
+  }
+  bufferChk = (bufferChk % 256) ^ 0xFF;
+  if (chk !== bufferChk) {
     return;
   }
-
-  //var callback = data[3];
-  console.log('Recieved data:', raw_data, data);
-};
-
-
-/**
- * Local echo command for testing.
- * @param {string} value
- */
-cwc.protocol.sphero.Api.prototype.echo = function(value) {
-  console.log('Sphero echo:', value);
+  switch (type) {
+    case this.callbackType.RGB:
+      console.log('RGB:', data[0], data[1], data[2]);
+      break;
+    case this.callbackType.LOCATION:
+      var location = {
+        xpos: data[0] + data[1],
+        ypos: data[2] + data[3],
+        xvel: data[4] + data[5],
+        yvel: data[6] + data[7],
+        sog: data[8] + data[9]
+      };
+      console.log('Location:', location);
+      break;
+    default:
+      console.log('Recieved unknown data:', data);
+  }
 };
 
 

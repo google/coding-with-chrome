@@ -28,45 +28,20 @@ goog.require('cwc.framework.Runner');
 
 /**
  * @constructor
- * @param {!cwc.framework.Runner} runner
+ * @param {!Function} code
  * @struct
  * @final
+ * @export
  */
-cwc.framework.Sphero = function(runner) {
+cwc.framework.Sphero = function(code) {
   /** @type {string} */
   this.name = 'Sphero Framework';
 
+  /** @type {Function} */
+  this.code = function() {code(this);}.bind(this);
+
   /** @type {!cwc.framework.Runner} */
-  this.runner = runner;
-
-  if (this.runner) {
-    this.init();
-  } else {
-    console.error('Was unable to get runner:', runner);
-  }
-};
-
-
-/**
- * Inits the Sphero framework.
- */
-cwc.framework.Sphero.prototype.init = function() {
-
-};
-
-
-/**
- * Adds the Sphero framework to the runner listener.
- * @param {Function} callback
- * @export
- */
-cwc.framework.Sphero.prototype.listen = function(callback) {
-  if (this.runner) {
-    var warper = function() {
-      callback(this);
-    };
-    this.runner.listen(warper.bind(this));
-  }
+  this.runner = new cwc.framework.Runner(this.code);
 };
 
 
@@ -80,25 +55,24 @@ cwc.framework.Sphero.prototype.listen = function(callback) {
  */
 cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
     opt_persistant, opt_delay) {
-  this.runner.send({'command': 'setRGB', 'value': {
+  this.runner.send('setRGB', {
     'red': red,
     'green': green,
     'blue': blue,
     'persistant': opt_persistant,
-    'delay': opt_delay }
-  });
+    'delay': opt_delay });
 };
 
 
 /**
  * @param {!number} brightness 0-100
  * @param {number=} opt_delay in msec
+ * @export
  */
 cwc.framework.Sphero.prototype.setBackLed = function(brightness, opt_delay) {
-  this.runner.send({'command': 'setBackLed', 'value': {
+  this.runner.send('setBackLed', {
     'brightness': brightness,
-    'delay': opt_delay }
-  });
+    'delay': opt_delay });
 };
 
 
@@ -111,12 +85,11 @@ cwc.framework.Sphero.prototype.setBackLed = function(brightness, opt_delay) {
  */
 cwc.framework.Sphero.prototype.move = function(speed, opt_heading, opt_state,
     opt_delay) {
-  this.runner.send({'command': 'move', 'value': {
+  this.runner.send('move', {
     'speed': speed,
     'heading': opt_heading,
     'state': opt_state,
-    'delay': opt_delay }
-  });
+    'delay': opt_delay });
 };
 
 
@@ -128,11 +101,10 @@ cwc.framework.Sphero.prototype.move = function(speed, opt_heading, opt_state,
  */
 cwc.framework.Sphero.prototype.boost = function(opt_time, opt_heading,
     opt_delay) {
-  this.runner.send({'command': 'boost', 'value': {
+  this.runner.send('boost', {
     'time': opt_time,
     'heading': opt_heading,
-    'delay': opt_delay }
-  });
+    'delay': opt_delay });
 };
 
 
@@ -141,7 +113,7 @@ cwc.framework.Sphero.prototype.boost = function(opt_time, opt_heading,
  * @export
  */
 cwc.framework.Sphero.prototype.stop = function(opt_delay) {
-  this.runner.send({'command': 'stop', 'value': { 'delay': opt_delay }});
+  this.runner.send('stop', {'delay': opt_delay });
 };
 
 
@@ -150,9 +122,7 @@ cwc.framework.Sphero.prototype.stop = function(opt_delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.calibrate = function(heading) {
-  this.runner.send({'command': 'calibrate', 'value': {
-    'heading': heading }
- });
+  this.runner.send('calibrate', {'heading': heading });
 };
 
 
@@ -160,25 +130,5 @@ cwc.framework.Sphero.prototype.calibrate = function(heading) {
  * @export
  */
 cwc.framework.Sphero.prototype.sleep = function() {
-  this.runner.send({'command': 'sleep', 'value': {}});
+  this.runner.send('sleep');
 };
-
-
-
-goog.exportSymbol('cwc.framework.Sphero', cwc.framework.Sphero);
-goog.exportSymbol('cwc.framework.Sphero.prototype.listen',
-    cwc.framework.Sphero.prototype.listen);
-goog.exportSymbol('cwc.framework.Sphero.prototype.setRGB',
-    cwc.framework.Sphero.prototype.setRGB);
-goog.exportSymbol('cwc.framework.Sphero.prototype.setBackLed',
-    cwc.framework.Sphero.prototype.setBackLed);
-goog.exportSymbol('cwc.framework.Sphero.prototype.move',
-    cwc.framework.Sphero.prototype.move);
-goog.exportSymbol('cwc.framework.Sphero.prototype.boost',
-    cwc.framework.Sphero.prototype.boost);
-goog.exportSymbol('cwc.framework.Sphero.prototype.stop',
-    cwc.framework.Sphero.prototype.stop);
-goog.exportSymbol('cwc.framework.Sphero.prototype.calibrate',
-    cwc.framework.Sphero.prototype.calibrate);
-goog.exportSymbol('cwc.framework.Sphero.prototype.sleep',
-    cwc.framework.Sphero.prototype.sleep);

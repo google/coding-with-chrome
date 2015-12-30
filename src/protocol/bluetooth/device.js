@@ -90,11 +90,14 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!Function} */
   this.disconnectEvent = null;
 
+  /** @type {!Object} */
+  this.dataHandler = {};
+
   /** @type {!Function} */
-  this.dataHandler = null;
+  this.dataHandlerAll = null;
 
   /** @type {number} */
-  this.senderStackInterval = 90;
+  this.senderStackInterval = 50;
 
   /** @type {!cwc.utils.StackQueue} */
   this.senderStack = new cwc.utils.StackQueue(
@@ -124,11 +127,22 @@ cwc.protocol.bluetooth.Device.prototype.setDisconnectEvent = function(
 
 /**
  * @param {!Function} callback
+ * @param {Array=} opt_packet_header
+ * @param {number=} opt_min_packet_size
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.setDataHandler = function(
-    callback) {
-  this.dataHandler = callback;
+    callback, opt_packet_header, opt_min_packet_size) {
+  if (opt_packet_header) {
+    var id = opt_packet_header.join('_');
+    this.dataHandler[id] = {};
+    this.dataHandler[id]['callback'] = callback;
+    this.dataHandler[id]['headers'] = opt_packet_header;
+    this.dataHandler[id]['size'] = opt_min_packet_size || 4;
+    this.dataHandler[id]['buffer'] = null;
+  } else {
+    this.dataHandlerAll = callback;
+  }
 };
 
 
@@ -138,6 +152,15 @@ cwc.protocol.bluetooth.Device.prototype.setDataHandler = function(
  */
 cwc.protocol.bluetooth.Device.prototype.isConnected = function() {
   return this.connected;
+};
+
+
+/**
+ * @return {!boolean}
+ * @export
+ */
+cwc.protocol.bluetooth.Device.prototype.hasSocket = function() {
+  return this.socketId;
 };
 
 
@@ -189,7 +212,7 @@ cwc.protocol.bluetooth.Device.prototype.getIndicator = function() {
 cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
   console.log('Connecting bluetooth device', this.address, '…');
 
-  if (this.connected) {
+  if (this.connected && this.socketId) {
     console.warn('Bluetooth socket is already connected!');
     return;
   }
@@ -235,9 +258,7 @@ cwc.protocol.bluetooth.Device.prototype.reset = function(opt_delay) {
     return;
   }
   var stackCall = function() {
-    if (this.senderStack) {
-      this.senderStack.clear();
-    }
+    this.senderStack.clear();
   }.bind(this);
   if (opt_delay) {
     this.senderStack.startTimer();
@@ -301,7 +322,7 @@ cwc.protocol.bluetooth.Device.prototype.close = function() {
   if (this.socketId == null) {
     return;
   }
-  this.bluetoothSocket.close(this.socketId, this.handleClose.bind(this));
+  this.bluetoothSocket.close(this.socketId, this.handleClose_.bind(this));
   this.senderStack.stopTimer();
   this.senderStack.clear();
 };
@@ -336,8 +357,49 @@ cwc.protocol.bluetooth.Device.prototype.unpaused = function() {
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
-  if (data && this.dataHandler) {
-    this.dataHandler(data);
+  if (!data) {
+    return;
+  }
+  if (this.dataHandlerAll) {
+    this.dataHandlerAll(data);
+  }
+  if (!this.dataHandler) {
+    return;
+  }
+  var dataView = new Uint8Array(data);
+  for (var handler in this.dataHandler) {
+    var buffer = this.dataHandler[handler]['buffer'];
+    var foundHeader = false;
+    var packetHeaders = this.dataHandler[handler]['headers'];
+    var headerPosition = 0;
+    if (packetHeaders instanceof Array) {
+      if (dataView.indexOf(packetHeaders[0]) + 1 ===
+          dataView.indexOf(packetHeaders[1],
+              dataView.indexOf(packetHeaders[0]) + 1)) {
+        foundHeader = true;
+        headerPosition = dataView.indexOf(packetHeaders[0]);
+      }
+    } else if (dataView.indexOf(packetHeaders) !== -1) {
+      foundHeader = true;
+      headerPosition = dataView.indexOf(packetHeaders);
+    }
+
+    if (foundHeader) {
+      if (headerPosition !== 0) {
+        dataView = dataView.slice(headerPosition);
+      }
+      this.dataHandler[handler]['buffer'] = dataView;
+    } else if (buffer) {
+      var dataFragments = new Uint8Array(buffer.length + dataView.length);
+      dataFragments.set(buffer, 0);
+      dataFragments.set(dataView, buffer.length);
+      this.dataHandler[handler]['buffer'] = dataView;
+      dataView = dataFragments;
+    }
+    var packetSize = this.dataHandler[handler]['size'];
+    if (dataView.length >= packetSize) {
+      this.dataHandler[handler]['callback'](dataView);
+    }
   }
 };
 
@@ -372,10 +434,13 @@ cwc.protocol.bluetooth.Device.prototype.handleClose_ = function(socket_id) {
 cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
     opt_bytes_sent) {
   if (chrome.runtime.lastError) {
-    if (chrome.runtime.lastError.message == 'The socket is not connected') {
+    var errorMessage = chrome.runtime.lastError.message;
+    if (errorMessage.toLowerCase().indexOf('socket') !== -1 &&
+        errorMessage.toLowerCase().indexOf('not') !== -1 &&
+        errorMessage.toLowerCase().indexOf('connected') !== -1) {
       this.connected = false;
     } else {
-      console.error('Socket error:', chrome.runtime.lastError);
+      console.error('Socket error:', errorMessage);
       this.updateInfo();
     }
   }
@@ -388,6 +453,9 @@ cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
  */
 cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
     socket_info) {
+  if (!socket_info) {
+    return;
+  }
   this.connected = socket_info.connected;
   this.paused = socket_info.paused;
   this.persistent = socket_info.persistent;
@@ -401,7 +469,12 @@ cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
 cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
     opt_connection_info) {
   if (chrome.runtime.lastError) {
-    console.log('Socket connection failed:', chrome.runtime.lastError);
+    var errorMessage = chrome.runtime.lastError;
+    console.warn('Socket connection failed:', errorMessage);
+    if (errorMessage.message.toLowerCase().indexOf('connection') !== -1 &&
+        errorMessage.message.toLowerCase().indexOf('failed') !== -1) {
+      this.disconnect();
+    }
     return;
   }
 
@@ -423,12 +496,11 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleDisconnect_ = function() {
-  console.log('Disconnect from socket', this.socketId);
+  console.warn('Disconnected from socket', this.socketId);
   this.connected = false;
   this.connectCallback = null;
   this.updateInfo();
-  this.senderStack.stopTimer();
-  this.senderStack.clear();
+  this.reset();
   if (goog.isFunction(this.disconnectEvent)) {
     this.disconnectEvent(this.socketId, this.address);
   }

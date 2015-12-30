@@ -37,6 +37,9 @@ cwc.protocol.ev3.Monitoring = function(api) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = api;
 
+  /** @type {boolean} */
+  this.monitor = false;
+
   /** @type {!number} */
   this.monitorMotorInterval = 2000;  // Duration in ms.
 
@@ -86,6 +89,9 @@ cwc.protocol.ev3.Monitoring = function(api) {
 
   /** @type {boolean} */
   this.detectChangedValues = false;
+
+  /** @type {boolean} */
+  this.started = false;
 };
 
 
@@ -93,6 +99,10 @@ cwc.protocol.ev3.Monitoring = function(api) {
  * Prepares events for port monitoring.
  */
 cwc.protocol.ev3.Monitoring.prototype.init = function() {
+  if (this.monitor) {
+    return;
+  }
+
   console.log('Init EV3 sensor and actor monitoring …');
 
   goog.events.listen(this.monitorSensorColor, goog.Timer.TICK,
@@ -118,57 +128,64 @@ cwc.protocol.ev3.Monitoring.prototype.init = function() {
 
   goog.events.listen(this.monitorUpdate, goog.Timer.TICK,
       this.updateData, false, this);
+
+  this.monitor = true;
 };
 
 
 /**
  * Starts the port monitoring.
- * @param {Object} device_info
+ * @param {Object=} opt_device_info
  */
-cwc.protocol.ev3.Monitoring.prototype.start = function(device_info) {
-  this.deviceInfo = device_info;
+cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
+  if (opt_device_info) {
+    this.deviceInfo = opt_device_info;
+  }
 
-  /**  @type {cwc.protocol.ev3.DeviceName} */
-  var deviceName = cwc.protocol.ev3.DeviceName;
+  if (!this.deviceInfo) {
+    return;
+  }
+
   var monitoring = false;
 
-  if (deviceName.COLOR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
     this.monitorSensorColor.start();
     monitoring = true;
   }
 
-  if (deviceName.IR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.IR_SENSOR in this.deviceInfo) {
     this.monitorSensorIr.start();
     monitoring = true;
   }
 
-  if (deviceName.TOUCH_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.TOUCH_SENSOR in this.deviceInfo) {
     this.monitorSensorTouch.start();
     monitoring = true;
   }
 
-  if (deviceName.LARGE_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR in this.deviceInfo) {
     this.monitorLargeMotor.start();
     monitoring = true;
   }
 
-  if (deviceName.MEDIUM_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR in this.deviceInfo) {
     this.monitorMediumMotor.start();
     monitoring = true;
   }
 
-  if (deviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
     this.monitorLargeMotorOpt.start();
     monitoring = true;
   }
 
-  if (deviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
     this.monitorMediumMotorOpt.start();
     monitoring = true;
   }
 
   if (monitoring) {
     this.monitorUpdate.start();
+    this.started = true;
   }
 };
 
@@ -177,14 +194,16 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(device_info) {
  * Stops the port monitoring.
  */
 cwc.protocol.ev3.Monitoring.prototype.stop = function() {
-  this.monitorSensorColor.stop();
-  this.monitorSensorIr.stop();
-  this.monitorSensorTouch.stop();
-  this.monitorLargeMotor.stop();
-  this.monitorMediumMotor.stop();
-  this.monitorLargeMotorOpt.stop();
-  this.monitorMediumMotorOpt.stop();
-  this.monitorUpdate.stop();
+  if (this.started) {
+    this.monitorSensorColor.stop();
+    this.monitorSensorIr.stop();
+    this.monitorSensorTouch.stop();
+    this.monitorLargeMotor.stop();
+    this.monitorMediumMotor.stop();
+    this.monitorLargeMotorOpt.stop();
+    this.monitorMediumMotorOpt.stop();
+    this.monitorUpdate.stop();
+  }
 };
 
 
@@ -260,13 +279,13 @@ cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
 
 
 /**
- * Triggers event handler that updates values are avalible.
+ * Triggers event handler that updates values are available.
  */
 cwc.protocol.ev3.Monitoring.prototype.updateData = function() {
   if (this.api.isConnected()) {
     if (this.detectChangedValues) {
       this.eventHandler.dispatchEvent(
-          cwc.protocol.ev3.Events.CHANGED_VALUES);
+          cwc.protocol.ev3.Events.Type.CHANGED_VALUES);
       this.detectChangedValues = false;
     }
   } else {

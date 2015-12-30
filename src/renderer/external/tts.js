@@ -80,8 +80,8 @@ cwc.renderer.external.TTS.prototype.render = function(
   var body = '\n<script>' +
       '  var ttsCode = function(tts) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n' + '  var ttsRunner = new cwc.framework.Runner();\n' +
-      '  var ttsFramework = new cwc.framework.TTS(spheroRunner);\n' +
+      '\n};\n' + '  var runner = new cwc.framework.Runner();\n' +
+      '  var ttsFramework = new cwc.framework.TTS(runner);\n' +
       '  ttsFramework.listen(ttsCode);\n' +
       '</script>\n';
 

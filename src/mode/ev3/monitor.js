@@ -118,8 +118,9 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
 
   // Update Event
   var eventHandler = this.connection.getEventHandler();
-  this.addEventListener_(eventHandler, cwc.protocol.ev3.Events.CHANGED_VALUES,
-      this.updateDeviceData, false, this);
+  this.addEventListener_(eventHandler,
+      cwc.protocol.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData, false,
+      this);
 
   // Monitoring
   this.updateDeviceData();

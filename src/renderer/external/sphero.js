@@ -84,11 +84,10 @@ cwc.renderer.external.Sphero.prototype.render = function(
   }
 
   var body = '\n<script>' +
-      '  var spheroCode = function(sphero) {\n' +
+      '  var code = function(sphero) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n' + '  var spheroRunner = new cwc.framework.Runner();\n' +
-      '  var spheroFramework = new cwc.framework.Sphero(spheroRunner);\n' +
-      '  spheroFramework.listen(spheroCode);\n' +
+      '\n};\n'+
+      '  new cwc.framework.Sphero(code);\n' +
       '</script>\n';
 
   var html = renderer_helper.getHTML(body, header);

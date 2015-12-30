@@ -48,8 +48,8 @@ cwc.framework.simple.Loader = function(opt_target) {
 
 
 /**
- * @export
  * @return {cwc.framework.simple.Command}
+ * @export
  */
 cwc.framework.simple.Loader.prototype.getCommandFramework = function() {
   return this.commandFramework;
@@ -57,8 +57,8 @@ cwc.framework.simple.Loader.prototype.getCommandFramework = function() {
 
 
 /**
- * @export
  * @return {cwc.framework.simple.Draw}
+ * @export
  */
 cwc.framework.simple.Loader.prototype.getDrawFramework = function() {
   return this.drawFramework;
@@ -76,9 +76,3 @@ cwc.framework.simple.Loader.prototype.mapFramework = function() {
     this.drawFramework.mapGlobal();
   }
 };
-
-
-goog.exportSymbol('cwc.framework.simple.Loader',
-    cwc.framework.simple.Loader);
-goog.exportSymbol('cwc.framework.simple.Loader.prototype.mapFramework',
-    cwc.framework.simple.Loader.prototype.mapFramework);

@@ -69,9 +69,6 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
 
-  // General commands
-  this.runner.addCommand('echo', this.handleEcho.bind(this));
-
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
@@ -106,15 +103,6 @@ cwc.mode.arduino.Runner.prototype.handleHandshake = function(
   goog.Timer.callOnce(function() {
     this.runner.send('__start__');
   }.bind(this), 200);
-};
-
-
-/**
- * @param {string} value
- */
-cwc.mode.arduino.Runner.prototype.handleEcho = function(value) {
-  console.log(value);
-  //this.arduino.echo(value);
 };
 
 

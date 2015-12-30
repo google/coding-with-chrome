@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.JavaScript.Simple');
+goog.provide('cwc.blocks.simple.JavaScript');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');

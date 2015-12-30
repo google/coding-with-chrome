@@ -23,7 +23,6 @@ goog.provide('cwc.protocol.ev3.ColorSensorValues');
 goog.provide('cwc.protocol.ev3.Command');
 goog.provide('cwc.protocol.ev3.CommandType');
 goog.provide('cwc.protocol.ev3.DeviceType');
-goog.provide('cwc.protocol.ev3.Events');
 goog.provide('cwc.protocol.ev3.InputPort');
 goog.provide('cwc.protocol.ev3.IrSensorMode');
 goog.provide('cwc.protocol.ev3.LedColor');
@@ -194,22 +193,6 @@ cwc.protocol.ev3.DeviceType = {
   M_MOTOR_DEG: 'm-motor-deg',
   M_MOTOR_ROT: 'm-motor-rot',
   NONE: 'none'
-};
-
-
-/**
- * Custom events.
- * @enum {string}
- */
-cwc.protocol.ev3.Events = {
-  GET_VALUES: 'get_values',
-  CHANGED_VALUES: 'changed_values',
-  CHANGED_DEVICES: 'changed_devices',
-  ACTOR_VALUES_CHANGED: 'actor_values_changed',
-  SENSOR_VALUES_CHANGED: 'sensor_values_changed',
-  IR_SENSOR_VALUE_CHANGED: 'ir_sensor_value_changed',
-  COLOR_SENSOR_VALUE_CHANGED: 'color_sensor_value_changed',
-  TOUCH_SENSOR_VALUE_CHANGED: 'touch_sensor_value_changed'
 };
 
 

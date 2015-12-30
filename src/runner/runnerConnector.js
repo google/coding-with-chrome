@@ -26,13 +26,20 @@ goog.require('goog.events.EventType');
 
 
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.runner.Connector = function() {
+cwc.runner.Connector = function(helper) {
   /** @type {!string} */
-  this.name = 'Runner';
+  this.name = 'Runner Connector';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = helper.getLogger();
 
   /** @type {!Object} */
   this.commands = {};
@@ -48,6 +55,21 @@ cwc.runner.Connector = function() {
 
   /** @type {!Array} */
   this.listener = [];
+
+  /** @type {!boolean} */
+  this.directUpdate = false;
+
+  /** @type {!number} */
+  this.token = 0;
+
+  /** @type {!Object} */
+  this.pingTime = {};
+
+  /** @type {!number} */
+  this.pingCounter = 0;
+
+  /** @type {Object} */
+  this.pingTestWorker = null;
 };
 
 
@@ -57,6 +79,9 @@ cwc.runner.Connector = function() {
  */
 cwc.runner.Connector.prototype.init = function() {
   this.addEventListener_(window, 'message', this.handleMessage_, false, this);
+  this.addCommand('__direct_update__', this.enableDirectUpdate_.bind(this));
+  this.addCommand('__handshake__', this.handleHandshake_.bind(this));
+  this.addCommand('__pong__', this.handlePong_.bind(this));
 };
 
 
@@ -92,12 +117,36 @@ cwc.runner.Connector.prototype.send = function(command, opt_value) {
 
 
 /**
- * @param {string} name
- * @param {function(?)} func
+ * @export
+ */
+cwc.runner.Connector.prototype.start = function() {
+  this.executeCommand('__init__', null, true);
+  this.token = new Date().getTime();
+  console.log('Sending handhshake with token', this.token);
+  this.send('__handshake__', this.token);
+};
+
+
+/**
+ * @private
+ */
+cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
+  console.log('Enabled direct update ...');
+  this.directUpdate = true;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!function(?)} func
  * @param {?} opt_scope
  * @export
  */
 cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
+  if (!func) {
+    console.error('Runner function is undefined for', name);
+    return;
+  }
   if (opt_scope) {
     this.commands[name] = func.bind(opt_scope);
   } else {
@@ -117,7 +166,31 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
   if (name in this.commands) {
     this.commands[name](value);
   } else if (!opt_ignore_unknown) {
-    console.log('Received unknow command', name, 'with value', value);
+    console.log('Runner connector received unknow command', name,
+        'with value', value);
+  }
+};
+
+
+/**
+ * @export
+ */
+cwc.runner.Connector.prototype.ping = function() {
+  var pingId = this.pingCounter++;
+  this.pingTime[pingId] = new Date().getTime();
+  this.send('__ping__', pingId);
+};
+
+
+/**
+ * @param {boolean=} opt_disable
+ * @export
+ */
+cwc.runner.Connector.prototype.pingTest = function(opt_disable) {
+  if (opt_disable && this.pingTestWorker) {
+    clearInterval(this.pingTestWorker);
+  } else if (!this.pingTestWorker) {
+    this.pingTestWorker = setInterval(this.ping.bind(this), 0);
   }
 };
 
@@ -128,6 +201,8 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
  */
 cwc.runner.Connector.prototype.handleContentLoad_ = function(opt_event) {
   this.targetLoaded = true;
+  this.target.executeScript({
+    code: 'console.log("Hello World");' });
 };
 
 
@@ -144,6 +219,35 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
 
   this.executeCommand(browserEvent['data']['command'],
       browserEvent['data']['value']);
+};
+
+
+/**
+ * @param {!string} token
+ * @private
+ */
+cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
+  if (!token || this.token !== token) {
+    console.error('Recieved wrong handshake token:', token);
+    return;
+  }
+  console.log('Recieved handshake with token:', token);
+  this.ping();
+  this.send('__start__');
+};
+
+
+/**
+ * @param {!Object} data
+ * @private
+ */
+cwc.runner.Connector.prototype.handlePong_ = function(data) {
+  var currentTime = new Date().getTime();
+  var sendTime =  data['time'] - this.pingTime[data['id']];
+  var responseTime = currentTime - data['time'];
+  var delay = currentTime - this.pingTime[data['id']];
+  console.log('PONG from', data['id'], ':', 'send=', sendTime + 'ms',
+      'response=', responseTime + 'ms', 'delay=', delay + 'ms');
 };
 
 
@@ -171,5 +275,5 @@ cwc.runner.Connector.prototype.addEventListener_ = function(src, type,
  * Clears all object based events.
  */
 cwc.runner.Connector.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener);
+  this.listener = this.helper.removeEventListeners(this.listener, this.name);
 };

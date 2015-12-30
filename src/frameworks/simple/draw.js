@@ -69,12 +69,12 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
     throw 'Window name space is not avalible in this instance.';
   }
   window['draw'] = {
-    circle: this.circle.bind(this),
-    line: this.line.bind(this),
-    rectangle: this.rectangle.bind(this),
-    point: this.point.bind(this),
-    ellipse: this.ellipse.bind(this),
-    triangle: this.triangle.bind(this)
+    'circle': this.circle.bind(this),
+    'line': this.line.bind(this),
+    'rectangle': this.rectangle.bind(this),
+    'point': this.point.bind(this),
+    'ellipse': this.ellipse.bind(this),
+    'triangle': this.triangle.bind(this)
   };
 };
 
