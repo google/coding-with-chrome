@@ -350,105 +350,6 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
 
 
 /**
- * @param {!cwc.protocol.ev3.InputPort} port
- * @param {!string} type
- */
-cwc.protocol.ev3.Api.prototype.updateDeviceType = function(port, type) {
-  if (type == this.deviceType.NONE) {
-    return;
-  }
-  var typeNormalized = type.replace(/-/g, '_');
-  if (!(typeNormalized in this.deviceType)) {
-    if (type == 'PORT ERROR') {
-      console.error('Recieved Port Error on port', port, '!');
-      console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
-    } else {
-      console.warn('Unknown device type "', type, '" on port', port, '!');
-    }
-    return;
-  }
-  var deviceTypeName = this.deviceType[typeNormalized];
-  var deviceName = deviceTypeName;
-  var deviceMode = 0;
-  var deviceCss = '';
-  var sensorGroup = true;
-  switch (deviceTypeName) {
-    case this.deviceType.IR_PROX:
-      deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.PROXIMITY;
-      break;
-    case this.deviceType.IR_SEEK:
-      deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.SEEK;
-      break;
-    case this.deviceType.IR_REMOTE:
-      deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.REMOTECONTROL;
-      break;
-    case this.deviceType.TOUCH:
-      deviceName = this.deviceName.TOUCH_SENSOR;
-      break;
-    case this.deviceType.COL_REFLECT:
-      deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.REFLECTIVE;
-      break;
-    case this.deviceType.COL_AMBIENT:
-      deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.AMBIENT;
-      break;
-    case this.deviceType.COL_COLOR:
-      deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.COLOR;
-      deviceCss = 'color';
-      break;
-    case this.deviceType.L_MOTOR_DEG:
-      deviceName = this.deviceName.LARGE_MOTOR;
-      deviceMode = this.motorMode.DEGREE;
-      sensorGroup = false;
-      break;
-    case this.deviceType.L_MOTOR_ROT:
-      deviceName = this.deviceName.LARGE_MOTOR;
-      deviceMode = this.motorMode.ROTATION;
-      sensorGroup = false;
-      break;
-    case this.deviceType.M_MOTOR_DEG:
-      deviceName = this.deviceName.MEDIUM_MOTOR;
-      deviceMode = this.motorMode.DEGREE;
-      sensorGroup = false;
-      break;
-    case this.deviceType.M_MOTOR_ROT:
-      deviceName = this.deviceName.MEDIUM_MOTOR;
-      deviceMode = this.motorMode.ROTATION;
-      sensorGroup = false;
-      break;
-  }
-
-  if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
-    if (deviceName == this.deviceName.LARGE_MOTOR) {
-      deviceName = this.deviceName.LARGE_MOTOR_OPT;
-    } else if (deviceName == this.deviceName.MEDIUM_MOTOR) {
-      deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
-    }
-  }
-
-  console.log('Found', deviceName, 'with mode', deviceMode, 'on port', port);
-  this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
-      deviceMode, 0, deviceCss);
-  this.eventHandler.dispatchEvent(
-      new this.events.ChangedDevices(this.deviceData));
-
-  if (sensorGroup) {
-    this.deviceInfo[deviceName] = port;
-    this.getSensorData(port);
-  } else {
-    this.deviceInfo[deviceName] = port;
-    this.getActorData(port);
-  }
-  this.monitoring.start(this.deviceInfo);
-};
-
-
-/**
  * @param {!cwc.protocol.ev3.Buffer} buffer
  * @param {number=} opt_delay
  */
@@ -852,6 +753,106 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
 
 /**
  * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {!string} type
+ * @private
+ */
+cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
+  if (type == this.deviceType.NONE) {
+    return;
+  }
+  var typeNormalized = type.replace(/-/g, '_');
+  if (!(typeNormalized in this.deviceType)) {
+    if (type == 'PORT ERROR') {
+      console.error('Recieved Port Error on port', port, '!');
+      console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
+    } else {
+      console.warn('Unknown device type "', type, '" on port', port, '!');
+    }
+    return;
+  }
+  var deviceTypeName = this.deviceType[typeNormalized];
+  var deviceName = deviceTypeName;
+  var deviceMode = 0;
+  var deviceCss = '';
+  var sensorGroup = true;
+  switch (deviceTypeName) {
+    case this.deviceType.IR_PROX:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.PROXIMITY;
+      break;
+    case this.deviceType.IR_SEEK:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.SEEK;
+      break;
+    case this.deviceType.IR_REMOTE:
+      deviceName = this.deviceName.IR_SENSOR;
+      deviceMode = this.irSensorMode.REMOTECONTROL;
+      break;
+    case this.deviceType.TOUCH:
+      deviceName = this.deviceName.TOUCH_SENSOR;
+      break;
+    case this.deviceType.COL_REFLECT:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.REFLECTIVE;
+      break;
+    case this.deviceType.COL_AMBIENT:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.AMBIENT;
+      break;
+    case this.deviceType.COL_COLOR:
+      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceMode = this.colorSensorMode.COLOR;
+      deviceCss = 'color';
+      break;
+    case this.deviceType.L_MOTOR_DEG:
+      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceMode = this.motorMode.DEGREE;
+      sensorGroup = false;
+      break;
+    case this.deviceType.L_MOTOR_ROT:
+      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceMode = this.motorMode.ROTATION;
+      sensorGroup = false;
+      break;
+    case this.deviceType.M_MOTOR_DEG:
+      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceMode = this.motorMode.DEGREE;
+      sensorGroup = false;
+      break;
+    case this.deviceType.M_MOTOR_ROT:
+      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceMode = this.motorMode.ROTATION;
+      sensorGroup = false;
+      break;
+  }
+
+  if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
+    if (deviceName == this.deviceName.LARGE_MOTOR) {
+      deviceName = this.deviceName.LARGE_MOTOR_OPT;
+    } else if (deviceName == this.deviceName.MEDIUM_MOTOR) {
+      deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
+    }
+  }
+
+  console.log('Found', deviceName, 'with mode', deviceMode, 'on port', port);
+  this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
+      deviceMode, 0, deviceCss);
+  this.eventHandler.dispatchEvent(
+      new this.events.ChangedDevices(this.deviceData));
+
+  if (sensorGroup) {
+    this.deviceInfo[deviceName] = port;
+    this.getSensorData(port);
+  } else {
+    this.deviceInfo[deviceName] = port;
+    this.getActorData(port);
+  }
+  this.monitoring.start(this.deviceInfo);
+};
+
+
+/**
+ * @param {!cwc.protocol.ev3.InputPort} port
  * @param {!number} value
  * @param {cwc.protocol.ev3.DeviceName=} opt_device_name
  * @private
@@ -864,15 +865,31 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
     switch (opt_device_name) {
       case this.deviceName.COLOR_SENSOR:
         this.eventHandler.dispatchEvent(
-            new this.events.ColorSensorValue(value));
+            this.events.ColorSensorValue(value, port));
         break;
       case this.deviceName.IR_SENSOR:
         this.eventHandler.dispatchEvent(
-            new this.events.IrSensorValue(value));
+            this.events.IrSensorValue(value, port));
         break;
       case this.deviceName.TOUCH_SENSOR:
         this.eventHandler.dispatchEvent(
-            new this.events.TouchSensorValue(value));
+            this.events.TouchSensorValue(value, port));
+        break;
+      case this.deviceName.LARGE_MOTOR:
+        this.eventHandler.dispatchEvent(
+            this.events.TouchSensorValue(value, port));
+        break;
+      case this.deviceName.MEDIUM_MOTOR:
+        this.eventHandler.dispatchEvent(
+            this.events.MediumMotorValue(value, port));
+        break;
+      case this.deviceName.LARGE_MOTOR_OPT:
+        this.eventHandler.dispatchEvent(
+            this.events.LargeMotorOptValue(value, port));
+        break;
+      case this.deviceName.MEDIUM_MOTOR_OPT:
+        this.eventHandler.dispatchEvent(
+            this.events.MediumMotorOptValue(value, port));
         break;
     }
   }
@@ -915,7 +932,7 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
     case this.callbackType.DEVICE_NAME:
       value = data.subarray(5, 5 + 0x7E);
       var type = (String.fromCharCode.apply(null, value)).trim();
-      this.updateDeviceType(port, type);
+      this.updateDeviceType_(port, type);
       break;
     case this.callbackType.DEVICE_SI_VALUE:
     case this.callbackType.DEVICE_PCT_VALUE:

@@ -156,6 +156,21 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
+ * @param {EventTarget|goog.events.Listenable} event_handler
+ * @param {!string} event
+ * @param {!string} command
+ * @export
+ */
+cwc.runner.Connector.prototype.addEvent = function(event_handler, event,
+    command) {
+  var customEvent = function(e) {
+    this.send(command, e.data);
+  };
+  this.addEventListener_(event_handler, event, customEvent, false, this);
+};
+
+
+/**
  * @param {!string} name
  * @param {?} value
  * @param {boolean=} opt_ignore_unknown

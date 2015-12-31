@@ -785,6 +785,16 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
+ * @param {EventTarget|goog.events.Listenable} event_handler
+ * @param {!string} event
+ * @param {!string} command
+ */
+cwc.ui.Runner.prototype.addEvent = function(event_handler, event, command) {
+  this.connector.addEvent(event_handler, event, command);
+};
+
+
+/**
  * @param {string!} command
  * @param {object|number|string|array=} opt_value
  */

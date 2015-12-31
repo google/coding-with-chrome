@@ -108,6 +108,18 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.addCommand('setLed', this.profile.setLed, this);
   this.runner.addCommand('setStepSpeed', this.profile.setStepSpeed, this);
 
+  // Events
+  var apiEventHandler = this.api.getEventHandler();
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
+      'updateIrSensor');
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED,
+      'updateColorSensor');
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED,
+      'updateTouchSensor');
+
   // Overlay and templates.
   var templates = cwc.soy.mode.ev3.Runner;
   this.runner.setInfoTemplate(templates.info);
@@ -143,22 +155,12 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   }
 
   // EV3 events
-  var apiEventHandler = this.api.getEventHandler();
   this.addEventListener(apiEventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_VALUES,
       this.updateDeviceData, false, this);
   this.addEventListener(apiEventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
       this.updateDeviceInfo, false, this);
-  this.addEventListener(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
-      this.updateIrSensor_, false, this);
-  this.addEventListener(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED,
-      this.updateColorSensor_, false, this);
-  this.addEventListener(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED,
-      this.updateTouchSensor_, false, this);
 };
 
 
@@ -212,33 +214,6 @@ cwc.mode.ev3.Runner.prototype.updateDeviceData = function() {
  */
 cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
   this.runner.send('updateDeviceInfo', this.api.getDeviceInfo());
-};
-
-
-/**
- * @param {event} e
- * @private
- */
-cwc.mode.ev3.Runner.prototype.updateIrSensor_ = function(e) {
-  this.runner.send('updateIrSensor', e.data);
-};
-
-
-/**
- * @param {event} e
- * @private
- */
-cwc.mode.ev3.Runner.prototype.updateColorSensor_= function(e) {
-  this.runner.send('updateColorSensor', e.data);
-};
-
-
-/**
- * @param {event} e
- * @private
- */
-cwc.mode.ev3.Runner.prototype.updateTouchSensor_ = function(e) {
-  this.runner.send('updateTouchSensor', e.data);
 };
 
 

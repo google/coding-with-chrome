@@ -387,11 +387,11 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
       break;
     case this.callbackType.LOCATION:
       var location = {
-        xpos: data[0] + data[1],
-        ypos: data[2] + data[3],
-        xvel: data[4] + data[5],
-        yvel: data[6] + data[7],
-        sog: data[8] + data[9]
+        xpos: (data[0] << 8) + data[1],
+        ypos: (data[2] << 8) + data[3],
+        xvel: (data[4] << 8) + data[5],
+        yvel: (data[6] << 8) + data[7],
+        sog: (data[8] << 8) + data[9]
       };
       console.log('Location:', location);
       break;
