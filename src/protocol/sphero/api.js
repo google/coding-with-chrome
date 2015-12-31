@@ -25,6 +25,7 @@ goog.provide('cwc.protocol.sphero.Api');
 goog.require('cwc.protocol.sphero.Buffer');
 goog.require('cwc.protocol.sphero.CallbackType');
 goog.require('cwc.protocol.sphero.Command');
+goog.require('cwc.protocol.sphero.Monitoring');
 
 
 
@@ -54,6 +55,9 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {cwc.protocol.sphero.Monitoring} */
+  this.monitoring = new cwc.protocol.sphero.Monitoring(this);
+
   /** @private {!array} */
   this.headerAck_ = [0xff, 0xff];
 
@@ -65,6 +69,9 @@ cwc.protocol.sphero.Api = function(helper) {
 
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
+
+  /** @type {?} */
+  this.locationData = {};
 
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
@@ -121,6 +128,8 @@ cwc.protocol.sphero.Api.prototype.isConnected = function() {
 cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAcknowledged_.bind(this),
       this.headerAck_, this.headerMinSize_);
+  this.monitoring.init();
+  this.monitoring.start();
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
@@ -128,8 +137,6 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.setRGB(0, 0, 255);
   this.getRGB();
   this.prepared = true;
-
-  setInterval(this.getLocation.bind(this), 1000);
 };
 
 
@@ -137,7 +144,10 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
  * Disconnects the Sphero ball.
  */
 cwc.protocol.sphero.Api.prototype.disconnect = function() {
-  this.device.disconnect();
+  if (this.device) {
+    this.device.disconnect();
+  }
+  this.cleanUp();
 };
 
 
@@ -153,19 +163,18 @@ cwc.protocol.sphero.Api.prototype.reset = function(opt_delay) {
 
 
 /**
- * @param {!cwc.protocol.sphero.Buffer} buffer
- * @param {number=} opt_delay
+ * @return {goog.events.EventTarget}
  */
-cwc.protocol.sphero.Api.prototype.send = function(buffer, opt_delay) {
-  if (!this.device) {
-    return;
-  }
-  var data = buffer.readSigned();
-  if (opt_delay) {
-    this.device.sendDelayed(data, opt_delay);
-  } else {
-    this.device.send(data);
-  }
+cwc.protocol.sphero.Api.prototype.getEventHandler = function() {
+  return this.eventHandler;
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ */
+cwc.protocol.sphero.Api.prototype.getLocationData = function() {
+  return this.locationData;
 };
 
 
@@ -184,7 +193,7 @@ cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
   buffer.writeByte(green);
   buffer.writeByte(blue);
   buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -194,7 +203,7 @@ cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
 cwc.protocol.sphero.Api.prototype.getRGB = function() {
   var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.RGB);
   buffer.writeCommand(this.command.RGB_LED.GET);
-  this.send(buffer);
+  this.send_(buffer);
 };
 
 
@@ -207,7 +216,7 @@ cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness,
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.BACK_LED);
   buffer.writeByte(brightness);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -219,7 +228,7 @@ cwc.protocol.sphero.Api.prototype.setHeading = function(heading, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.HEADING);
   buffer.writeUInt(heading);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -238,7 +247,7 @@ cwc.protocol.sphero.Api.prototype.move = function(speed, opt_heading,
   buffer.writeByte(speed);
   buffer.writeUInt(heading);
   buffer.writeByte(state);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -250,7 +259,7 @@ cwc.protocol.sphero.Api.prototype.boost = function(enabled, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.BOOST);
   buffer.writeByte(enabled ? 0x01 : 0x00);
-  this.send(buffer);
+  this.send_(buffer);
 };
 
 
@@ -267,7 +276,7 @@ cwc.protocol.sphero.Api.prototype.boosty = function(opt_time, opt_heading,
   buffer.writeCommand(this.command.BOOST);
   buffer.writeByte(boostTime);
   buffer.writeUInt(heading);
-  this.send(buffer);
+  this.send_(buffer);
 };
 
 
@@ -286,7 +295,7 @@ cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
   buffer.writeByte(opt_wakeup || 0);
   buffer.writeByte(opt_macro || 0);
   buffer.writeByte(opt_orb_basic || 0);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -328,7 +337,7 @@ cwc.protocol.sphero.Api.prototype.setCalibration = function() {
 cwc.protocol.sphero.Api.prototype.getLocation = function() {
   var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.LOCATION);
   buffer.writeCommand(this.command.LOCATION.GET);
-  this.send(buffer);
+  this.send_(buffer);
 };
 
 
@@ -338,7 +347,7 @@ cwc.protocol.sphero.Api.prototype.getLocation = function() {
 cwc.protocol.sphero.Api.prototype.getVersion = function() {
   var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.FIRMWARE);
   buffer.writeCommand(this.command.SYSTEM.VERSION);
-  this.send(buffer);
+  this.send_(buffer);
 };
 
 
@@ -357,6 +366,34 @@ cwc.protocol.sphero.Api.prototype.runTest = function() {
 
   this.setRGB(255, 0, 0);
   this.move(0, 180);
+};
+
+
+/**
+ * Basic cleanup for the Sphero ball.
+ */
+cwc.protocol.sphero.Api.prototype.cleanUp = function() {
+  console.log('Clean up Sphero …');
+  this.monitoring.stop();
+  this.reset();
+};
+
+
+/**
+ * @param {!cwc.protocol.sphero.Buffer} buffer
+ * @param {number=} opt_delay
+ * @private
+ */
+cwc.protocol.sphero.Api.prototype.send_ = function(buffer, opt_delay) {
+  if (!this.device) {
+    return;
+  }
+  var data = buffer.readSigned();
+  if (opt_delay) {
+    this.device.sendDelayed(data, opt_delay);
+  } else {
+    this.device.send(data);
+  }
 };
 
 
@@ -386,25 +423,18 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
       console.log('RGB:', data[0], data[1], data[2]);
       break;
     case this.callbackType.LOCATION:
-      var location = {
-        xpos: (data[0] << 8) + data[1],
-        ypos: (data[2] << 8) + data[3],
+      var xpos = (data[0] << 8) + data[1];
+      var ypos = (data[2] << 8) + data[3];
+      this.locationData = {
+        xpos: xpos > 32768 ? (xpos - 65535) : xpos,
+        ypos: ypos > 32768 ? (ypos - 65535) : ypos,
         xvel: (data[4] << 8) + data[5],
         yvel: (data[6] << 8) + data[7],
         sog: (data[8] << 8) + data[9]
       };
-      console.log('Location:', location);
+      console.log('Location:', this.locationData);
       break;
     default:
       console.log('Recieved unknown data:', data);
   }
-};
-
-
-/**
- * Basic cleanup for the Sphero ball.
- */
-cwc.protocol.sphero.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero …');
-  this.reset();
 };

@@ -435,9 +435,11 @@ cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
     opt_bytes_sent) {
   if (chrome.runtime.lastError) {
     var errorMessage = chrome.runtime.lastError.message;
-    if (errorMessage.toLowerCase().indexOf('socket') !== -1 &&
-        errorMessage.toLowerCase().indexOf('not') !== -1 &&
-        errorMessage.toLowerCase().indexOf('connected') !== -1) {
+    if ((errorMessage.toLowerCase().indexOf('socket') !== -1 &&
+         errorMessage.toLowerCase().indexOf('not') !== -1 &&
+         errorMessage.toLowerCase().indexOf('connected') !== -1) ||
+        (errorMessage.toLowerCase().indexOf('connection') !== -1 &&
+         errorMessage.toLowerCase().indexOf('aborted') !== -1)) {
       this.connected = false;
     } else {
       console.error('Socket error:', errorMessage);

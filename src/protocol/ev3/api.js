@@ -350,23 +350,6 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
 
 
 /**
- * @param {!cwc.protocol.ev3.Buffer} buffer
- * @param {number=} opt_delay
- */
-cwc.protocol.ev3.Api.prototype.send = function(buffer, opt_delay) {
-  if (!this.device) {
-    return;
-  }
-  var data = buffer.readSigned();
-  if (opt_delay) {
-    this.device.sendDelayed(data, opt_delay);
-  } else {
-    this.device.send(data);
-  }
-};
-
-
-/**
  * Reads current EV3 battery level.
  * @param {number=} opt_delay
  */
@@ -374,7 +357,7 @@ cwc.protocol.ev3.Api.prototype.getBattery = function(opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer(0x10, 0, this.callbackType.BATTERY);
   buffer.writeCommand(this.command.UI.READ.BATTERY);
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -387,7 +370,7 @@ cwc.protocol.ev3.Api.prototype.getFirmware = function(opt_delay) {
   buffer.writeCommand(this.command.UI.READ.FIRMWARE);
   buffer.writeByte(0x10);
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -405,7 +388,7 @@ cwc.protocol.ev3.Api.prototype.getDeviceType = function(port, opt_delay) {
   buffer.writePort(port);
   buffer.writeByte(0x7F);
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -429,7 +412,7 @@ cwc.protocol.ev3.Api.prototype.getSensorData = function(port, opt_delay) {
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -453,7 +436,7 @@ cwc.protocol.ev3.Api.prototype.getSensorDataPct = function(port, opt_delay) {
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -477,7 +460,7 @@ cwc.protocol.ev3.Api.prototype.getActorData = function(port, opt_delay) {
   buffer.writeByte(device.getMode());
   buffer.writeSingleByte();
   buffer.writeIndex();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -491,7 +474,7 @@ cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode, opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.UI.WRITE.LED);
   buffer.writeByte(led);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -516,7 +499,7 @@ cwc.protocol.ev3.Api.prototype.movePower = function(power, opt_invert,
   buffer.writeCommand(this.command.OUTPUT.START);
   buffer.writeNullByte();
   buffer.writePorts(ports);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -548,7 +531,7 @@ cwc.protocol.ev3.Api.prototype.rotatePower = function(power, opt_power,
   buffer.writeCommand(this.command.OUTPUT.START);
   buffer.writeNullByte();
   buffer.writePorts(ports);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -563,7 +546,7 @@ cwc.protocol.ev3.Api.prototype.stop = function(opt_port, opt_delay) {
   buffer.writeNullByte();
   buffer.writePorts(opt_port || this.outputPort.ALL);
   buffer.writeByte(brake);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
   this.reset(opt_delay);
 };
 
@@ -577,7 +560,7 @@ cwc.protocol.ev3.Api.prototype.clear = function(opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.INPUT.DEVICE.CLEARALL);
   buffer.writeNullByte();
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -591,7 +574,7 @@ cwc.protocol.ev3.Api.prototype.showImage = function(file_name, opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.UI.DRAW.BMPFILE);
   buffer.writeString(file_name);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -612,7 +595,7 @@ cwc.protocol.ev3.Api.prototype.playTone = function(frequency, opt_duration,
   buffer.writeByte(volume);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -629,7 +612,7 @@ cwc.protocol.ev3.Api.prototype.playSound = function(file_name, opt_volume,
   buffer.writeCommand(this.command.SOUND.PLAY);
   buffer.writeByte(Math.min(100, Math.max(0, opt_volume)));
   buffer.writeString(file_name);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -661,7 +644,7 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_invert,
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -693,7 +676,7 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_invert,
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
 };
 
 
@@ -747,7 +730,25 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
   buffer.writeInt(steps);
   buffer.writeInt(rampDown);
   buffer.writeByte(brake);
-  this.send(buffer, opt_delay);
+  this.send_(buffer, opt_delay);
+};
+
+
+/**
+ * @param {!cwc.protocol.ev3.Buffer} buffer
+ * @param {number=} opt_delay
+ * @private
+ */
+cwc.protocol.ev3.Api.prototype.send_ = function(buffer, opt_delay) {
+  if (!this.device) {
+    return;
+  }
+  var data = buffer.readSigned();
+  if (opt_delay) {
+    this.device.sendDelayed(data, opt_delay);
+  } else {
+    this.device.send(data);
+  }
 };
 
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 Monitoring logic.
+ * @fileoverview EV3 monitoring logic.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -92,6 +92,9 @@ cwc.protocol.ev3.Monitoring = function(api) {
 
   /** @type {boolean} */
   this.started = false;
+
+  /** @type {!Array} */
+  this.listener = [];
 };
 
 
@@ -105,28 +108,28 @@ cwc.protocol.ev3.Monitoring.prototype.init = function() {
 
   console.log('Init EV3 sensor and actor monitoring …');
 
-  goog.events.listen(this.monitorSensorColor, goog.Timer.TICK,
+  this.addEventListener_(this.monitorSensorColor, goog.Timer.TICK,
       this.updateColorSensor, false, this);
 
-  goog.events.listen(this.monitorSensorIr, goog.Timer.TICK,
+  this.addEventListener_(this.monitorSensorIr, goog.Timer.TICK,
       this.updateIrSensor, false, this);
 
-  goog.events.listen(this.monitorSensorTouch, goog.Timer.TICK,
+  this.addEventListener_(this.monitorSensorTouch, goog.Timer.TICK,
       this.updateTouchSensor, false, this);
 
-  goog.events.listen(this.monitorLargeMotor, goog.Timer.TICK,
+  this.addEventListener_(this.monitorLargeMotor, goog.Timer.TICK,
       this.updateLargeMotor, false, this);
 
-  goog.events.listen(this.monitorMediumMotor, goog.Timer.TICK,
+  this.addEventListener_(this.monitorMediumMotor, goog.Timer.TICK,
       this.updateMediumMotor, false, this);
 
-  goog.events.listen(this.monitorLargeMotorOpt, goog.Timer.TICK,
+  this.addEventListener_(this.monitorLargeMotorOpt, goog.Timer.TICK,
       this.updateLargeMotorOpt, false, this);
 
-  goog.events.listen(this.monitorMediumMotorOpt, goog.Timer.TICK,
+  this.addEventListener_(this.monitorMediumMotorOpt, goog.Timer.TICK,
       this.updateMediumMotorOpt, false, this);
 
-  goog.events.listen(this.monitorUpdate, goog.Timer.TICK,
+  this.addEventListener_(this.monitorUpdate, goog.Timer.TICK,
       this.updateData, false, this);
 
   this.monitor = true;
@@ -291,4 +294,24 @@ cwc.protocol.ev3.Monitoring.prototype.updateData = function() {
   } else {
     this.stop();
   }
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function()} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.protocol.ev3.Monitoring.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };
