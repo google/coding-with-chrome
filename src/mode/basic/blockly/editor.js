@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.basic.blockly.Editor');
 
+goog.require('cwc.blocks.simple.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -115,8 +116,7 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
 /**
  * Code change handler.
  */
-cwc.mode.basic.blockly.Editor.prototype.changeHandler =
-    function() {
+cwc.mode.basic.blockly.Editor.prototype.changeHandler = function() {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance.getUi() != 'custom') {
     var content = this.blockly.getJavaScript();
@@ -139,8 +139,7 @@ cwc.mode.basic.blockly.Editor.prototype.runCode = function() {
 /**
  * Switches from the Blockly ui to the code editor.
  */
-cwc.mode.basic.blockly.Editor.prototype.showEditor =
-    function() {
+cwc.mode.basic.blockly.Editor.prototype.showEditor = function() {
   var fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
@@ -151,8 +150,7 @@ cwc.mode.basic.blockly.Editor.prototype.showEditor =
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.basic.blockly.Editor.prototype.showBlockly =
-    function() {
+cwc.mode.basic.blockly.Editor.prototype.showBlockly = function() {
   var fileInstance = this.helper.getInstance('file');
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Warning');

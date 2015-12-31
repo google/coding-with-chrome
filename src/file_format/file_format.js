@@ -60,9 +60,6 @@ cwc.fileFormat.File = function(opt_content) {
   /** @private {string} */
   this.description_ = '';
 
-  /** @private {cwc.ui.EditorFlags} */
-  this.editorFlags_ = null;
-
   /** @private {string} */
   this.format_ = cwc.fileFormat.FILE_HEADER;
 
@@ -112,11 +109,10 @@ cwc.fileFormat.File = function(opt_content) {
  * Initializes the file data with default values.
  */
 cwc.fileFormat.File.prototype.init = function() {
-  this.log_.info('Clearing existing file information ...');
+  this.log_.info('Clearing existing file information …');
   this.author_ = 'Unknown';
   this.content_ = {};
   this.description_ = '';
-  this.editorFlags_ = new cwc.ui.EditorFlags();
   this.fileName_ = '';
   this.files_ = new cwc.file.Files();
   this.flags_ = {};
@@ -128,6 +124,7 @@ cwc.fileFormat.File.prototype.init = function() {
   this.title_ = 'Untitled file';
   this.type_ = cwc.file.Type.UNKNOWN;
   this.version_ = '1.0';
+  this.setFlag('__editor__', new cwc.ui.EditorFlags());
 };
 
 
@@ -383,7 +380,7 @@ cwc.fileFormat.File.prototype.hasFiles = function() {
 
 
 /**
- * @return {!Object.<string>|string}
+ * @return {!Object.<string>}
  */
 cwc.fileFormat.File.prototype.getFlags = function() {
   return this.flags_;
@@ -391,8 +388,8 @@ cwc.fileFormat.File.prototype.getFlags = function() {
 
 
 /**
- * @param {string} name
- * @param {string} value
+ * @param {!string} name
+ * @param {Object.<string>|string|cwc.ui.EditorFlags} value
  */
 cwc.fileFormat.File.prototype.setFlag = function(name, value) {
   this.flags_[name] = value;
@@ -400,8 +397,8 @@ cwc.fileFormat.File.prototype.setFlag = function(name, value) {
 
 
 /**
- * @param {string} name
- * @return {string}
+ * @param {!string} name
+ * @return {Object.<string>|string|cwc.ui.EditorFlags}
  */
 cwc.fileFormat.File.prototype.getFlag = function(name) {
   return this.flags_[name] || '';
@@ -412,7 +409,7 @@ cwc.fileFormat.File.prototype.getFlag = function(name) {
  * @return {cwc.ui.EditorFlags}
  */
 cwc.fileFormat.File.prototype.getEditorFlags = function() {
-  return this.editorFlags_;
+  return this.getFlag('__editor__');
 };
 
 
@@ -420,8 +417,7 @@ cwc.fileFormat.File.prototype.getEditorFlags = function() {
  * @param {cwc.ui.EditorFlags} flags
  */
 cwc.fileFormat.File.prototype.setEditorFlags = function(flags) {
-  this.log_.debug('setEditorFlags:', flags);
-  this.editorFlags_ = flags;
+  this.setFlag('__editor__', flags);
 };
 
 
@@ -532,22 +528,6 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
     this.setHistory(jsonData.history);
   }
 
-  // Handle old 1.0 format definition for the dogfood.
-  if (jsonData.javascript) {
-    this.setContent(cwc.file.ContentType.JAVASCRIPT,
-        decodeURIComponent(jsonData.javascript));
-  }
-  if (jsonData.html) {
-    this.setContent(cwc.file.ContentType.HTML,
-        decodeURIComponent(jsonData.html));
-  }
-  if (jsonData.css) {
-    this.setContent(cwc.file.ContentType.CSS,
-        decodeURIComponent(jsonData.css));
-  }
-  if (jsonData.loadFlag) {
-    this.editorFlags_.setFlag('interpreter.load', jsonData.loadFlag);
-  }
 };
 
 

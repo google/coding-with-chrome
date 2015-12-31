@@ -84,11 +84,10 @@ cwc.renderer.external.EV3.prototype.render = function(
   }
 
   var body = '\n<script>' +
-      '  var ev3Code = function(ev3) {\n' +
+      '  var code = function(ev3) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n' + '  var ev3Runner = new cwc.framework.Runner();\n' +
-      '  var ev3Framework = new cwc.framework.Ev3(ev3Runner);\n' +
-      '  ev3Framework.listen(ev3Code);\n' +
+      '\n};\n' +
+      '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';
 
   var html = renderer_helper.getHTML(body, header);

@@ -42,9 +42,9 @@ cwc.HelpMenu = function(helper) {
 
 /**
  * Shows the help for the first steps.
- * @param {Event} e
+ * @param {Event=} opt_event
  */
-cwc.HelpMenu.prototype.showFirstSteps = function(e) {
+cwc.HelpMenu.prototype.showFirstSteps = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: First Steps');
   dialog.setContent(cwc.soy.Help.firstSteps());
@@ -57,12 +57,12 @@ cwc.HelpMenu.prototype.showFirstSteps = function(e) {
 
 /**
  * Shows the general help.
- * @param {Event} e
+ * @param {Event=} opt_event
  */
-cwc.HelpMenu.prototype.showHelp = function(e) {
+cwc.HelpMenu.prototype.showHelp = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: Help');
-  dialog.setContent('Not implemented yet ...');
+  dialog.setContent('Not implemented yet …');
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
@@ -72,9 +72,9 @@ cwc.HelpMenu.prototype.showHelp = function(e) {
 
 /**
  * Shows the about information.
- * @param {Event} e
+ * @param {Event=} opt_event
  */
-cwc.HelpMenu.prototype.showAbout = function(e) {
+cwc.HelpMenu.prototype.showAbout = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('About Coding with Chrome');
   dialog.setContent(cwc.soy.Help.about({
@@ -88,21 +88,22 @@ cwc.HelpMenu.prototype.showAbout = function(e) {
 
 /**
  * Shows some debug information.
- * @param {Event} e
+ * @param {Event=} opt_event
  */
-cwc.HelpMenu.prototype.showDebug = function(e) {
+cwc.HelpMenu.prototype.showDebug = function(opt_event) {
   var layoutInstance = this.helper.getInstance('layout', true);
   var debugInstance = this.helper.getInstance('debug', true);
   var overlayNode = layoutInstance.getOverlay();
   debugInstance.decorate(overlayNode);
+  layoutInstance.showOverlay(true);
 };
 
 
 /**
  * Shows the available keyboard shortcuts.
- * @param {Event} e
+ * @param {Event=} opt_event
  */
-cwc.HelpMenu.prototype.showKeyboardShortcut = function(e) {
+cwc.HelpMenu.prototype.showKeyboardShortcut = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: Keyboard Shortcuts');
   dialog.setContent(cwc.soy.Help.keyboardShortcut());

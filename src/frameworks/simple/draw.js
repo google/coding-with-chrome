@@ -69,12 +69,12 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
     throw 'Window name space is not avalible in this instance.';
   }
   window['draw'] = {
-    circle: this.circle.bind(this),
-    line: this.line.bind(this),
-    rectangle: this.rectangle.bind(this),
-    point: this.point.bind(this),
-    ellipse: this.ellipse.bind(this),
-    triangle: this.triangle.bind(this)
+    'circle': this.circle.bind(this),
+    'line': this.line.bind(this),
+    'rectangle': this.rectangle.bind(this),
+    'point': this.point.bind(this),
+    'ellipse': this.ellipse.bind(this),
+    'triangle': this.triangle.bind(this)
   };
 };
 
@@ -106,7 +106,7 @@ cwc.framework.simple.Draw.convertString_ = function(opt_content) {
 /**
  * Class for representing colors.
  * @param {string=} opt_color Color in hex (e.g #3CA or #33CCAA),
- *     RGB(...), RGBA(...), HSLA(...), or named (e.g. blue) format.
+ *     RGB(…), RGBA(…), HSLA(…), or named (e.g. blue) format.
  *     Alpha/transparent colors are supported as well.
  * @param {string=} opt_hex A a string containing a hex representation of the
  *     color.
@@ -147,9 +147,9 @@ cwc.framework.simple.Draw.Color_ = function(
  * Class for representing manipulations of the canvas object.
  * @param {boolean=} opt_preset
  * @param {string=} opt_backgroundColor Color in hex (e.g #3CA or #33CCAA),
- *     RGB(...), RGBA(...), HSLA(...), or named (e.g. blue) format.
+ *     RGB(…), RGBA(…), HSLA(…), or named (e.g. blue) format.
  * @param {string=} opt_borderColor Color in hex (e.g #3CA or #33CCAA),
- *     RGB(...), RGBA(...), HSLA(...), or named (e.g. blue) format.
+ *     RGB(…), RGBA(…), HSLA(…), or named (e.g. blue) format.
  * @param {number=} opt_borderSize
  * @param {number=} opt_rotation
  * @constructor
@@ -182,20 +182,19 @@ cwc.framework.simple.Draw.Manipulation_ = function(
 /**
  * @return {boolean} Whether a preset of values has been set.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.hasPreset =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.hasPreset = function() {
   return !!this.preset_;
 };
 
 
 /**
  * @param {string} backgroundColor Color in hex (e.g #3CA or #33CCAA),
- *     RGB(...), RGBA(...), HSLA(...), or named (e.g. blue) format.
+ *     RGB(…), RGBA(…), HSLA(…), or named (e.g. blue) format.
  * @return {!cwc.framework.simple.Draw.Manipulation_} This manipulation
  *     object, for chaining with other manipulation operations.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.setBackgroundColor =
-    function(backgroundColor) {
+cwc.framework.simple.Draw.Manipulation_.prototype.setBgColor = function(
+    backgroundColor) {
   this.backgroundColor_ = new cwc.framework.simple.Draw.Color_(
       backgroundColor);
   return this;
@@ -205,8 +204,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.setBackgroundColor =
 /**
  * @return {boolean} Whether the background color has been set.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.hasBackgroundColor =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.hasBgColor = function() {
   return !!this.backgroundColor_.hex;
 };
 
@@ -215,20 +213,19 @@ cwc.framework.simple.Draw.Manipulation_.prototype.hasBackgroundColor =
  * @return {string} A string containing a hex representation of the background
  *     color.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.getBackgroundColor =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.getBgColor = function() {
   return this.backgroundColor_.hex;
 };
 
 
 /**
  * @param {string} borderColor Color in hex (e.g #3CA or #33CCAA),
- *     RGB(...), RGBA(...), HSLA(...), or named (e.g. blue) format.
+ *     RGB(…), RGBA(…), HSLA(…), or named (e.g. blue) format.
  * @return {!cwc.framework.simple.Draw.Manipulation_} This manipulation
  *     object, for chaining with other manipulation operations.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.setBorderColor =
-    function(borderColor) {
+cwc.framework.simple.Draw.Manipulation_.prototype.setBorderColor = function(
+	borderColor) {
   this.borderColor_ = new cwc.framework.simple.Draw.Color_(
       borderColor);
   return this;
@@ -238,8 +235,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.setBorderColor =
 /**
  * @return {boolean} Whether the border color has been set.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderColor =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderColor = function() {
   return !!this.borderColor_.hex;
 };
 
@@ -248,8 +244,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderColor =
  * @return {string} A string containing a hex representation of the border
  *     color.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.getBorderColor =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.getBorderColor = function() {
   return this.borderColor_.hex;
 };
 
@@ -259,8 +254,8 @@ cwc.framework.simple.Draw.Manipulation_.prototype.getBorderColor =
  * @return {!cwc.framework.simple.Draw.Manipulation_} This manipulation
  *     object, for chaining with other manipulation operations.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.setBorderSize =
-    function(borderSize) {
+cwc.framework.simple.Draw.Manipulation_.prototype.setBorderSize = function(
+	borderSize) {
   this.borderSize_ = borderSize;
   return this;
 };
@@ -269,8 +264,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.setBorderSize =
 /**
  * @return {boolean} Whether the border size has been set.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderSize =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderSize = function() {
   return !!this.borderSize_;
 };
 
@@ -278,8 +272,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.hasBorderSize =
 /**
  * @return {number} The border size.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.getBorderSize =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.getBorderSize = function() {
   return this.borderSize_;
 };
 
@@ -290,8 +283,8 @@ cwc.framework.simple.Draw.Manipulation_.prototype.getBorderSize =
  * @return {!cwc.framework.simple.Draw.Manipulation_} This manipulation
  *     object, for chaining with other manipulation operations.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.setRotation =
-    function(degrees) {
+cwc.framework.simple.Draw.Manipulation_.prototype.setRotation = function(
+	degrees) {
   this.rotation_ = degrees;
   return this;
 };
@@ -300,8 +293,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.setRotation =
 /**
  * @return {boolean} Whether the object rotation has been set.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.hasRotation =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.hasRotation = function() {
   return !!this.rotation_;
 };
 
@@ -309,8 +301,7 @@ cwc.framework.simple.Draw.Manipulation_.prototype.hasRotation =
 /**
  * @return {number} The object rotation.
  */
-cwc.framework.simple.Draw.Manipulation_.prototype.getRotation =
-    function() {
+cwc.framework.simple.Draw.Manipulation_.prototype.getRotation = function() {
   return this.rotation_;
 };
 
@@ -346,7 +337,7 @@ cwc.framework.simple.Draw.prototype.circle = function(
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBackgroundColor(background_color);
+      manipulation.setBgColor(background_color);
     }
 
     if (opt_borderColor) {
@@ -434,7 +425,7 @@ cwc.framework.simple.Draw.prototype.rectangle = function(
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBackgroundColor(background_color);
+      manipulation.setBgColor(background_color);
     }
 
     if (opt_borderColor) {
@@ -477,7 +468,7 @@ cwc.framework.simple.Draw.prototype.point = function(
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBackgroundColor(background_color);
+      manipulation.setBgColor(background_color);
     }
   }
   var canvasInstructions = function() {
@@ -512,7 +503,7 @@ cwc.framework.simple.Draw.prototype.ellipse = function(
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBackgroundColor(background_color);
+      manipulation.setBgColor(background_color);
     }
 
     if (opt_borderColor) {
@@ -577,7 +568,7 @@ cwc.framework.simple.Draw.prototype.triangle = function(
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBackgroundColor(background_color);
+      manipulation.setBgColor(background_color);
     }
 
     if (opt_borderColor) {
@@ -645,8 +636,8 @@ cwc.framework.simple.Draw.doPreManipulations_ = function(
 cwc.framework.simple.Draw.doPostManipulations_ = function(
     display, manipulation) {
   // Background Color
-  if (manipulation.hasBackgroundColor()) {
-    display.fillStyle = manipulation.getBackgroundColor();
+  if (manipulation.hasBgColor()) {
+    display.fillStyle = manipulation.getBgColor();
     display.fill();
   } else {
     display.fillStyle = '#ccc';

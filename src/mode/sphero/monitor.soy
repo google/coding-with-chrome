@@ -1,0 +1,102 @@
+/**
+ * @fileoverview Monitor for the Sphero mode.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.mode.sphero.Monitor autoescape="strict"}
+
+
+/**
+ * Intro template.
+ */
+{template .intro}
+  {@param prefix: string}
+  <div id="{$prefix}intro">
+    This screens allow you to control, monitor and calibrate the
+    Sphero ball.<br>
+    <br>
+    Please calibrate your Sphero in the calibration screen before you
+    execute any programm.<br>
+  </div>
+{/template}
+
+
+/**
+ * Calibration template.
+ */
+{template .calibration}
+  {@param prefix: string}
+  <div id="{$prefix}calibration">
+    Sphero Callibration Screen<hr>
+    <div id="{$prefix}calibration-buttons"></div>
+  </div>
+  <p>
+    Press the -2, -1, +1 and +2 button until the tailing light shows in your
+    direction.<br>
+    To end the calibration and to store the new "0" point, press the 0 button.
+  </p>
+{/template}
+
+
+/**
+ * Calibration template.
+ */
+{template .control}
+  {@param prefix: string}
+  <div id="{$prefix}control">
+    Sphero Control Screen<hr>
+    <div id="{$prefix}control-buttons"></div>
+    <div id="{$prefix}system-buttons"></div>
+  </div>
+{/template}
+
+
+/**
+ * Style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+
+  #{$prefix}intro,
+  #{$prefix}control,
+  #{$prefix}calibration {lb}
+    padding: 5px;
+    position: relative;
+  {rb}
+
+  #{$prefix}control-buttons {lb}
+    width: 150px;
+    margin: auto;
+    padding-bottom: 10px;
+  {rb}
+
+  #{$prefix}calibration-buttons {lb}
+    width: 200px;
+    margin: auto;
+    padding-bottom: 10px;
+  {rb}
+
+  #{$prefix}control-buttons:first-child {lb}
+    padding-left: 3px;
+  {rb}
+
+  #{$prefix}system-buttons > div {lb}
+    padding: 10px;
+  {rb}
+
+{/template}

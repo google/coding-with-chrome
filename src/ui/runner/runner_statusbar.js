@@ -85,7 +85,7 @@ cwc.ui.RunnerStatusbar.prototype.decorate = function(node,
   }
 
   this.nodeStatus = goog.dom.getElement(this.prefix + 'statusbar');
-  this.setStatus('...');
+  this.setStatus('…');
 };
 
 

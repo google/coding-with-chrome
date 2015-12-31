@@ -63,12 +63,12 @@ cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
     file.setContent(fileConfig.contentType, fileConfig.content);
   } else {
     if (fileConfig.blockly_views) {
-      for (var i = 0; i < fileConfig.blockly_views.length; i++) {
+      for (let i = 0; i < fileConfig.blockly_views.length; i++) {
         file.setContent(fileConfig.blockly_views[i], '');
       }
     }
     if (fileConfig.editor_views) {
-      for (var i = 0; i < fileConfig.editor_views.length; i++) {
+      for (let i = 0; i < fileConfig.editor_views.length; i++) {
         file.setContent(fileConfig.editor_views[i], '');
       }
     }

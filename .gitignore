@@ -4,6 +4,7 @@ npm-debug.log
 Thumbs.db
 create_npm_test.sh
 genfiles
+.DS_Store
 .settings
 .project
 .c9

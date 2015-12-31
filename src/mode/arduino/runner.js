@@ -69,9 +69,6 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
 
-  // General commands
-  this.runner.addCommand('echo', this.handleEcho.bind(this));
-
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
@@ -100,21 +97,12 @@ cwc.mode.arduino.Runner.prototype.handleHandshake = function(
   }
 
   // Monitor Arduino events.
-  var eventHandler = this.arduino.getEventHandler();
+  //var eventHandler = this.arduino.getEventHandler();
 
   // Send acknowledge for the start.
   goog.Timer.callOnce(function() {
     this.runner.send('__start__');
   }.bind(this), 200);
-};
-
-
-/**
- * @param {string} value
- */
-cwc.mode.arduino.Runner.prototype.handleEcho = function(value) {
-  console.log(value);
-  //this.arduino.echo(value);
 };
 
 
@@ -148,7 +136,7 @@ cwc.mode.arduino.Runner.prototype.cleanUp = function() {
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
  */
-cwc.mode.arduino.Runner.prototype.addEventListener = function(src, 
+cwc.mode.arduino.Runner.prototype.addEventListener = function(src,
     type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

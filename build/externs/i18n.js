@@ -1,5 +1,5 @@
 /**
- * @fileoverview Text for the Simple blocks.
+ * @fileoverview I18n externs for Coding with Chrome.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,17 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.Msg.Simple');
 
 
-/**
- * @enum {!string}
- */
-Blockly.Msg.Simple = {
-  TEXT_WRITE_TITLE: 'write %1',
-  TEXT_WRITE_HELPURL: '',
-  TEXT_WRITE_TOOLTIP: '',
-  DRAW_CIRCLE_TITLE: 'circle %1',
-  DRAW_CIRCLE_HELPURL: '',
-  DRAW_CIRCLE_TOOLTIP: ''
-};
+
+/** @type {object} */
+var i18n = function() {};

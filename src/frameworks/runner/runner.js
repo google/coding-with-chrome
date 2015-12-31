@@ -27,12 +27,13 @@ goog.require('goog.events.BrowserEvent');
 
 
 /**
+ * @param {function=} opt_callback
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function() {
+cwc.framework.Runner = function(opt_callback) {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -46,9 +47,27 @@ cwc.framework.Runner = function() {
   this.commands = {};
 
   /** @type {?Function} */
-  this.callback = null;
+  this.callback = opt_callback || null;
 
-  this.addSampleCommands();
+  /** @type {!boolean} */
+  this.init_ = false;
+
+  this.init();
+};
+
+
+/**
+ * Adds the command to the listener.
+ * @private
+ */
+cwc.framework.Runner.prototype.init = function() {
+  if (!this.init_) {
+    goog.events.listen(window, 'message', this.handleMessage_, false, this);
+    this.addCommand('__handshake__', this.handleHandshake_.bind(this));
+    this.addCommand('__start__', this.handleStart_.bind(this));
+    this.addCommand('__ping__', this.handlePing_.bind(this));
+    this.init_ = true;
+  }
 };
 
 
@@ -56,49 +75,64 @@ cwc.framework.Runner = function() {
  * Adds the command to the listener.
  * @param {string} name
  * @param {!function(?)} func
+ * @param {?} opt_scope
  * @export
  */
-cwc.framework.Runner.prototype.addCommand = function(name, func) {
-  this.commands[name] = func;
+cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
+  if (opt_scope) {
+    this.commands[name] = func.bind(opt_scope);
+  } else {
+    this.commands[name] = func;
+  }
 };
 
 
 /**
- * Adds sample commands like "ping".
+ * Sends the defined data to the runner.
+ * @param {!string} name
+ * @param {!string} value
+ * @export
  */
-cwc.framework.Runner.prototype.addSampleCommands = function() {
-  var pingEvent = function(data) {
-    console.log('Recieved ping, send pong ...');
-    this.sendData('pong', Math.random());
-  };
-  this.addCommand('ping', pingEvent.bind(this));
+cwc.framework.Runner.prototype.send = function(name, value) {
+  if (!this.appWindow || !this.appOrigin) {
+    console.error('Communication channel has not yet been opened');
+    return;
+  }
+  this.appWindow.postMessage({'command': name, 'value': value}, this.appOrigin);
+};
+
+
+/**
+ * Sets the callback function event.
+ * @param {Function=} opt_callback
+ * @export
+ */
+cwc.framework.Runner.prototype.setCallback = function(opt_callback) {
+  if (goog.isFunction(opt_callback)) {
+    this.callback = opt_callback;
+  }
 };
 
 
 /**
  * Handles the received messages and executes the predefined actions.
  * @param {goog.events.BrowserEvent} event
+ * @private
  */
-cwc.framework.Runner.prototype.handleMessage = function(event) {
+cwc.framework.Runner.prototype.handleMessage_ = function(event) {
   var browserEvent = event.getBrowserEvent();
   if (!browserEvent) {
     throw 'Was not able to get browser event!';
   }
-
+  if (!this.appWindow) {
+    this.appWindow = browserEvent['source'];
+  }
+  if (!this.appOrigin) {
+    this.appOrigin = browserEvent['origin'];
+  }
   var command = browserEvent['data']['command'];
   var value = browserEvent['data']['value'];
-  if (command == '__handshake__') {
-    console.log('Received Handshake');
-    this.appWindow = browserEvent['source'];
-    this.appOrigin = browserEvent['origin'];
-    if (this.appWindow && this.appOrigin) {
-      this.sendData('__handshake__', 'ack');
-    }
-  } else if (command == '__start__') {
-    if (goog.isFunction(this.callback)) {
-      this.callback();
-    }
-  } else if (command in this.commands) {
+  if (command in this.commands) {
     this.commands[command](value);
   } else {
     console.error('Command ' + command + ' is not defined yet');
@@ -107,48 +141,44 @@ cwc.framework.Runner.prototype.handleMessage = function(event) {
 
 
 /**
- * Sends the defined data to the runner.
- * @param {Object} data
- * @export
+ * Handles the received handshake message.
+ * @param {!Object} data
+ * @private
  */
-cwc.framework.Runner.prototype.send = function(data) {
-  if (!this.appWindow || !this.appOrigin) {
-    console.error('Communication channel has not yet been opened');
-    return;
-  }
-  this.appWindow.postMessage(data, this.appOrigin);
-};
-
-
-/**
- * Sends the defined value under the defined name to the runner.
- * @param {!string} name
- * @param {!string} value
- * @export
- */
-cwc.framework.Runner.prototype.sendData = function(name, value) {
-  var data = {'command': name, 'value': value};
-  this.send(data);
-};
-
-
-/**
- * Adds the event listener for the "message" event.
- * @param {Function=} opt_callback
- * @export
- */
-cwc.framework.Runner.prototype.listen = function(opt_callback) {
-  goog.events.listen(window, 'message', this.handleMessage, false, this);
-  if (goog.isFunction(opt_callback)) {
-    this.callback = opt_callback;
+cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
+  if (this.appWindow && this.appOrigin) {
+    this.send('__handshake__', data);
   }
 };
 
 
-goog.exportSymbol('cwc.framework.Runner', cwc.framework.Runner);
-goog.exportSymbol('cwc.framework.Runner.prototype.listen',
-    cwc.framework.Runner.prototype.listen);
-goog.exportSymbol('cwc.framework.Runner.prototype.send',
-    cwc.framework.Runner.prototype.send);
-goog.exportSymbol('cwc.framework.Runner.prototype.addCommand',
-    cwc.framework.Runner.prototype.addCommand);
+/**
+ * Handles the received start message.
+ * @private
+ */
+cwc.framework.Runner.prototype.handleStart_ = function() {
+  console.log('Starting programm...');
+  if (this.callback) {
+    this.callback();
+  }
+};
+
+
+/**
+ * Handles the received "ping" command.
+ * @param {!number} ping_id
+ */
+cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
+  this.send('__pong__', {id: ping_id, time: new Date().getTime()});
+};
+
+
+/**
+ * Sends the direct update confirmation to the runner..
+ * @param {string=} opt_data
+ * @export
+ */
+cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
+  console.log('Recieved request to enable direct update.');
+  this.send('__direct_update__', opt_data);
+};

@@ -20,12 +20,26 @@
 {namespace cwc.soy.mode.ev3.Monitor autoescape="deprecated-contextual"}
 
 
+
+
+/**
+ * Intro template.
+ */
+{template .intro}
+  {@param prefix: string}
+  <div id="{$prefix}intro">
+    This screens allow you to control, monitor and calibrate the EV3 unit.<br>
+    <br>
+    The monitor screen will help you to understand your roboters reactions.<br>
+  </div>
+{/template}
+
+
 /**
  * Monitor template.
  */
-{template .template}
+{template .monitor}
   {@param prefix: string}
-  <div id="{$prefix}toolbar"></div>
   <div id="{$prefix}monitor"></div>
 {/template}
 
@@ -33,9 +47,10 @@
 /**
  * EV3 device / port monitor.
  */
-{template .monitor}
+{template .monitorValues}
   {@param devices: ?}
   {@param prefix: string}
+  Input<br>
   <div class="{$prefix}interface-view">
     <div class="{$prefix}interface-view-info
                 {if $devices[0]}{sp}{$prefix}{$devices[0].css}_{$devices[0].value}{/if}">
@@ -80,6 +95,7 @@
       {/if}
     </div>
   </div>
+  Output<br>
   <div class="{$prefix}interface-view">
     <div class="{$prefix}interface-view-info">
       <span>A</span>{if $devices[16]}{$devices[16].value}{/if}
@@ -124,23 +140,48 @@
 
 
 /**
+ * Calibration template.
+ */
+{template .control}
+  {@param prefix: string}
+  <div id="{$prefix}control">
+    EV3 Control Screen<hr>
+    <button type="button" id="{$prefix}move-left">Left</button>
+    <button type="button" id="{$prefix}move-forward">Forward</button>
+    <button type="button" id="{$prefix}move-backward">Backward</button>
+    <button type="button" id="{$prefix}move-right">Right</button>
+    <br>
+    <button type="button" id="{$prefix}stop">Stop</button>
+  </div>
+{/template}
+
+
+/**
  * Monitor stylesheets.
  */
 {template .style}
   {@param prefix: string}
+  #{$prefix}intro,
+  #{$prefix}control,
+  #{$prefix}calibration,
+  #{$prefix}monitor {lb}
+    padding: 5px;
+    position: relative;
+  {rb}
+
   {$prefix}test {lb}
     border: 1px solid #ccc;
   {rb}
 
   .{$prefix}interface-view {lb}
-    width: 80px;
+    width: 85px;
     height: 60px;
     border: 1px solid #aaa;
     border-radius: 5px;
     background: linear-gradient(to bottom,
       #ffffff 0%,#f3f3f3 65%,#ededed 67%,#ffffff 100%);
     float: left;
-    margin: 2px;
+    margin: 5px;
   {rb}
 
   .{$prefix}interface-view-info {lb}

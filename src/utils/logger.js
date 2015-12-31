@@ -21,6 +21,7 @@ goog.provide('cwc.utils.LogLevel');
 goog.provide('cwc.utils.Logger');
 
 
+
 /**
  * Log levels:
  * 0 (AUTO)      Automatic handling
@@ -50,13 +51,19 @@ cwc.utils.LogLevel = {
 
 /**
  * @constructor
- * @param {string=} opt_loglevel
+ * @param {number=} opt_loglevel
  * @param {string=} opt_name
  * @final
  */
 cwc.utils.Logger = function(opt_loglevel, opt_name) {
+  /** @type {!number} */
   this.loglevel = opt_loglevel || 5;
+
+  /** @type {!string} */
   this.name = opt_name || '';
+
+  /** @private {object} */
+  this.cache_ = {};
 };
 
 
@@ -109,8 +116,10 @@ cwc.utils.Logger.prototype.notice = function(opt_args) {
  * @param {...*} opt_args
  */
 cwc.utils.Logger.prototype.warn = function(opt_args) {
-  if (this.loglevel >= cwc.utils.LogLevel.WARN) {
+  if (this.loglevel >= cwc.utils.LogLevel.WARN &&
+      JSON.stringify(this.cache_.warn) != JSON.stringify(arguments)) {
     Function.prototype.apply.apply(console.warn, [console, arguments]);
+    this.cache_.warn = arguments;
   }
 };
 
@@ -120,8 +129,10 @@ cwc.utils.Logger.prototype.warn = function(opt_args) {
  * @param {...*} opt_args
  */
 cwc.utils.Logger.prototype.error = function(opt_args) {
-  if (this.loglevel >= cwc.utils.LogLevel.ERROR) {
+  if (this.loglevel >= cwc.utils.LogLevel.ERROR &&
+      JSON.stringify(this.cache_.error) != JSON.stringify(arguments)) {
     Function.prototype.apply.apply(console.error, [console, arguments]);
+    this.cache_.error = arguments;
   }
 };
 

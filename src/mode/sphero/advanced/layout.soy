@@ -1,5 +1,5 @@
 /**
- * @fileoverview Text for the EV3 blocks.
+ * @fileoverview Layout template for the Sphero modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,4 +17,21 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.Msg.EV3');
+{namespace cwc.soy.mode.sphero.advanced autoescape="strict"}
+
+
+/**
+ * Editor template.
+ */
+{template .editor}
+  {@param prefix: string}
+  <div id="{$prefix}editor-chrome">Editor</div>
+{/template}
+
+/**
+ * Runner template.
+ */
+{template .runner}
+  {@param prefix: string}
+  <div id="{$prefix}runner-chrome">Runner</div>
+{/template}

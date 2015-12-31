@@ -70,7 +70,7 @@ select Extensions under the Tools menu to get to the same place).
 Ensure that the Developer mode checkbox in the top right-hand corner is checked.
 
 ### Add the app
-On the same page click `Load unpacked extension...` to pop up a file-selection
+On the same page click `Load unpacked extension…` to pop up a file-selection
 dialog.
 
 Navigate to the directory in which your `genfiles/` files live, and select it.
@@ -127,18 +127,18 @@ Add your translations to the output and place them into the file
 To enable the experimental Google Drive support add your application key and
 your api key to the `app/manifest.json` file:
 ```
-...
+…
   "description": "Coding with Chrome.",
-  "key": "MIIBIjANBgkqhki...",
-...
+  "key": "MIIBIjANBgkqhki…",
+…
   "oauth2": {
-    "client_id": "958...",
+    "client_id": "958…",
     "scopes": [
       "https://www.googleapis.com/auth/drive",
       "https://www.googleapis.com/auth/userinfo.profile"
     ]
   },
-...
+…
 ```
 Since this feature is experimental, although problems are unlikely we can not
 guarantee this code is error free. Please make sure that you back up your

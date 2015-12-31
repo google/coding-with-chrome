@@ -115,5 +115,5 @@ cwc.ui.Setting.prototype.decorate = function(node, opt_prefix) {
 cwc.ui.Setting.prototype.setJavaScriptLoadFlag = function(event) {
   var select = event.target;
   var value = select.getValue();
-  var editorInstance = this.helper.getInstance('editor');
+  console.log(select, value);
 };

@@ -197,7 +197,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
  * @param {Element} node
  */
 cwc.ui.Editor.prototype.decorateEditor = function(node) {
-  console.log('Decorate code editor ...');
+  console.log('Decorate code editor …');
   if (!node) {
     console.error('Was unable to create editor at node ' + node);
     return;
@@ -558,9 +558,9 @@ cwc.ui.Editor.prototype.getCurrentView = function() {
 
 
 /**
- * @param {Event} event
+ * @param {Event=} opt_event
  */
-cwc.ui.Editor.prototype.handleChangeEvent = function(event) {
+cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
   if (!this.modified) {
     this.modified = true;
     if (this.toolbar) {
@@ -629,7 +629,7 @@ cwc.ui.Editor.createMarker = function() {
  * Updates the editor Infobar.
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
-  console.info('Update Infobar ...');
+  console.info('Update Infobar …');
   if (this.nodeInfobarMode) {
     if (this.infobarModeSelect) {
       this.infobarModeSelect.setValue(this.getEditorMode());

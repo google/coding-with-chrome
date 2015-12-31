@@ -68,7 +68,7 @@ cwc.ui.BlocklyToolbar = function(helper) {
 
   /** @type {goog.ui.ToolbarButton} */
   this.moreButton = cwc.ui.Helper.getIconToolbarButton('more_vert',
-      'More options ...');
+      'More options …');
 
   /** @type {goog.ui.PopupMenu} */
   this.moreMenu = new goog.ui.PopupMenu();

@@ -20,7 +20,7 @@
 goog.provide('cwc.fileHandler.File');
 
 goog.require('cwc.file.Type');
-goog.require('cwc.fileFormat.File');
+goog.require('cwc.fileHandler.File');
 goog.require('cwc.utils.Helper');
 
 
@@ -54,7 +54,7 @@ cwc.fileHandler.File = function(helper) {
  * Clears the file instance.
  */
 cwc.fileHandler.File.prototype.clear = function() {
-  console.log('Clear File instance ...');
+  console.log('Clear File instance …');
   this.file_ = new cwc.fileFormat.File();
   this.fileHandler_ = null;
   this.gDriveId_ = '';
@@ -63,7 +63,7 @@ cwc.fileHandler.File.prototype.clear = function() {
 
 
 /**
- * @param {!cwc.fileFormat.File} file
+ * @param {!cwc.fileHandler.File} file
  */
 cwc.fileHandler.File.prototype.setFile = function(file) {
   this.clear();
@@ -73,7 +73,7 @@ cwc.fileHandler.File.prototype.setFile = function(file) {
 
 
 /**
- * @return {!cwc.fileFormat.File}
+ * @return {!cwc.fileHandler.File}
  */
 cwc.fileHandler.File.prototype.getFile = function() {
   return this.file_;
@@ -91,7 +91,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 /**
  * @param {!string} name
  * @param {string=} opt_group
- * @return {cwc.fileFormat.File}
+ * @return {cwc.fileHandler.File}
  */
 cwc.fileHandler.File.prototype.getLibraryFile = function(name,
     opt_group) {
@@ -105,7 +105,7 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name,
  * @param {string=} opt_type
  * @param {number=} opt_size
  * @param {string=} opt_group
- * @return {cwc.fileFormat.File}
+ * @return {cwc.fileHandler.File}
  */
 cwc.fileHandler.File.prototype.addLibraryFile = function(name, content,
     opt_type, opt_size, opt_group) {
@@ -178,6 +178,39 @@ cwc.fileHandler.File.prototype.getUi = function() {
   return this.file_.getUi();
 };
 
+/**
+ * @param {!string} name
+ * @param {Object.<string>|string|cwc.ui.EditorFlags} value
+ */
+cwc.fileHandler.File.prototype.setFlag = function(name, value) {
+  this.file_.setFlag(name, value);
+};
+
+
+/**
+ * @param {!string} name
+ * @return {Object.<string>|string|cwc.ui.EditorFlags}
+ */
+cwc.fileHandler.File.prototype.getFlag = function(name) {
+  return this.file_.getFlag(name);
+};
+
+
+/**
+ * @return {cwc.ui.EditorFlags}
+ */
+cwc.fileHandler.File.prototype.getEditorFlags = function() {
+  return this.file_.getEditorFlags();
+};
+
+
+/**
+ * @param {cwc.ui.EditorFlags} flags
+ */
+cwc.fileHandler.File.prototype.setEditorFlags = function(flags) {
+  this.file_.setEditorFlags(flags);
+};
+
 
 /**
  * @param {string} file_title
@@ -220,6 +253,24 @@ cwc.fileHandler.File.prototype.getFileHandler = function() {
 
 
 /**
+ * @param {!string} id
+ */
+cwc.fileHandler.File.prototype.setGDriveId = function(id) {
+  this.gDriveId_ = id;
+  this.fileHandler_ = null;
+  console.log('setGDriveId:', id);
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getGDriveId = function() {
+  return this.gDriveId_;
+};
+
+
+/**
  * @param {boolean} unsaved_change
  */
 cwc.fileHandler.File.prototype.setUnsavedChange = function(
@@ -255,22 +306,4 @@ cwc.fileHandler.File.prototype.isModified = function() {
   }
 
   return false;
-};
-
-
-/**
- * @param {!string} id
- */
-cwc.fileHandler.File.prototype.setGDriveId = function(id) {
-  this.gDriveId_ = id;
-  this.fileHandler_ = null;
-  console.log('setGDriveId:', id);
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileHandler.File.prototype.getGDriveId = function() {
-  return this.gDriveId_;
 };

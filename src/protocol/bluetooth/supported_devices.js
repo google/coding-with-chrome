@@ -20,14 +20,14 @@
 goog.provide('cwc.protocol.bluetooth.supportedDevices');
 
 
+
 /**
  * List Format:
  *
- * DEVICE CLASS {
- *   DEVICE NAME {
- *     CUSTOM NAME: '...',
- *     DEVICE PROFILE: {...}
- *   }
+ * DEVICE NAME {
+ *   DEVICE CLASS: '',
+ *   CUSTOM NAME: '…',
+ *   DEVICE PROFILE: {…}
  * }
  *
  * The profile will be automatically installed as soon the device is detected.
@@ -36,12 +36,16 @@ goog.provide('cwc.protocol.bluetooth.supportedDevices');
  * @enum {!Object.<!Object>}
  */
 cwc.protocol.bluetooth.supportedDevices = {
-  2052: {
-    EV3: {
-      'name': 'Lego Mindstorms EV3',
-      'profile': {
-        'uuid': '00001101-0000-1000-8000-00805f9b34fb'
-      }
-    }
+  EV3: {
+    'name': 'Lego Mindstorms EV3',
+    'indicator': 'EV3',
+    'deviceClass': 2052,
+    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
+  },
+  SPHERO: {
+    'name': 'Sphero 2.0',
+    'indicator': 'Sphero',
+    'deviceClass': 2360392,
+    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
   }
 };

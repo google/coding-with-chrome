@@ -26,7 +26,7 @@ goog.provide('cwc.protocol.USB.supportedDevices');
  *
  * VENDOR ID {
  *   PRODUCT ID {
- *     CUSTOM NAME: '...'
+ *     CUSTOM NAME: '…'
  *   }
  * }
  *
@@ -35,14 +35,14 @@ goog.provide('cwc.protocol.USB.supportedDevices');
  * @enum {!Object.<!Object>}
  */
 cwc.protocol.USB.supportedDevices = {
-  9025: {
-    32822: {
+  '9025': {
+    '32822': {
       'id': 'arduino_leonardo',
       'name': 'Arduino Leonardo'
     }
   },
-  2341: {
-    0043: {
+  '2341': {
+    '0043': {
       'name': 'Ardunio Uno'
     }
   }

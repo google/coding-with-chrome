@@ -54,13 +54,12 @@ cwc.config.Settings = {
  * @enum {!Object.<string>|boolean}
  */
 cwc.config.Debug = {
-  ENABLED: false,
+  ENABLED: true,
   EXPORT: false,
   PROPERTIES: false,
   EXAMPLES: false,
   SETTINGS: false,
   ARDUINO: false,
-  DEUBG: false,
   RESOURCES: false,
   GALLERY: false,
   SPHERO: false,
@@ -128,8 +127,8 @@ cwc.config.interpreter.Flag = {
   LOAD: {
     ONLOAD: 'onLoad',  // Load on "window.onload"
     ONDOMREADY: 'onDomReady',  // Load on "document.DOMContentLoaded"
-    INHEAD: 'inHead',  // Place script inside <head>...</head>
-    INBODY: 'inBody'  // Place script inside <body>...</body>
+    INHEAD: 'inHead',  // Place script inside <head>…</head>
+    INBODY: 'inBody'  // Place script inside <body>…</body>
   }
 };
 

@@ -17,13 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('Blockly.Blocks.EV3');
+goog.provide('cwc.blocks.ev3.Blocks');
+
+goog.require('cwc.blocks.ev3.JavaScript');
+goog.require('cwc.config.sound');
 
 goog.require('Blockly');
 goog.require('Blockly.Blocks');
-goog.require('Blockly.JavaScript.EV3');
-goog.require('Blockly.Msg.EV3');
-goog.require('cwc.config.sound');
+
 
 
 Blockly.Blocks['ev3_play_music_note'] = {
@@ -91,6 +92,7 @@ Blockly.Blocks['ev3_move'] = {
   }
 };
 
+
 Blockly.Blocks['ev3_move_forward'] = {
   init: function() {
     this.setHelpUrl('');
@@ -117,6 +119,7 @@ Blockly.Blocks['ev3_move_backward'] = {
     this.setTooltip('Move the robot backward for a specified number of steps.');
   }
 };
+
 
 Blockly.Blocks['ev3_rotate_left'] = {
   init: function() {
@@ -145,6 +148,7 @@ Blockly.Blocks['ev3_rotate_right'] = {
   }
 };
 
+
 Blockly.Blocks['ev3_move_pen'] = {
   init: function() {
     this.setHelpUrl('');
@@ -153,10 +157,28 @@ Blockly.Blocks['ev3_move_pen'] = {
         .appendField(i18n.get('move pen('))
         .appendField(new Blockly.FieldDropdown(
             [['down', 'down'], ['up', 'up']]), 'direction')
+        .appendField(new Blockly.FieldTextInput('300'), 'steps')
         .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the pen up or down by a certain number of steps.');
+  }
+};
+
+
+Blockly.Blocks['ev3_move_servo'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(i18n.get('move servo('))
+        .appendField(new Blockly.FieldDropdown(
+            [['normal', 'normal'], ['inverted', 'inverted']]), 'direction')
+        .appendField(new Blockly.FieldTextInput('300'), 'steps')
+        .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the servo by a certain number of steps.');
   }
 };
 
@@ -196,6 +218,7 @@ Blockly.Blocks['ev3_stop'] = {
         'has finished.'); }
 };
 
+
 Blockly.Blocks['ev3_stop_immediately'] = {
   init: function() {
     this.setHelpUrl('');
@@ -206,6 +229,7 @@ Blockly.Blocks['ev3_stop_immediately'] = {
     this.setNextStatement(true);
     this.setTooltip('Stop all motors immediately'); }
 };
+
 
 Blockly.Blocks['ev3_move_power'] = {
   init: function() {

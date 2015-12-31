@@ -31,13 +31,20 @@ goog.require('cwc.protocol.ev3.LedMode');
 
 /**
  * @constructor
- * @param {!cwc.framework.Runner} runner
+ * @param {!Function} code
  * @struct
  * @final
+ * @export
  */
-cwc.framework.Ev3 = function(runner) {
+cwc.framework.Ev3 = function(code) {
   /** @type {string} */
   this.name = 'EV3 Framework';
+
+  /** @type {Function} */
+  this.code = function() {code(this);}.bind(this);
+
+  /** @type {!cwc.framework.Runner} */
+  this.runner = new cwc.framework.Runner(this.code);
 
   /** @type {Object} */
   this.deviceData = {};
@@ -54,102 +61,34 @@ cwc.framework.Ev3 = function(runner) {
   /** @type {Object} */
   this.touchSensorData = null;
 
-  /** @type {function(?)} */
+  /** @type {!function(?)} */
   this.colorSensorEvent = function() {};
 
-  /** @type {function(?)} */
+  /** @type {!function(?)} */
   this.touchSensorEvent = function() {};
 
-  /** @type {function(?)} */
+  /** @type {!function(?)} */
   this.irSensorEvent = function() {};
 
   /** @type {number} */
-  this.colorSensorValue = 0;
+  this.colorSensorValue = null;
 
   /** @type {number} */
-  this.touchSensorValue = 0;
+  this.touchSensorValue = null;
 
   /** @type {number} */
-  this.irSensorValue = 0;
+  this.irSensorValue = null;
 
-  /** @type {!cwc.framework.Runner} */
-  this.runner = runner;
+  this.runner.addCommand(
+      'updateDeviceData', this.handleUpdateDeviceData_, this);
+  this.runner.addCommand(
+      'updateDeviceInfo', this.handleUpdateDeviceInfo_, this);
 
-  /** @type {number} */
-  this.penSteps = 290;
-
-  /** @type {boolean} */
-  this.penMovedUp = false;
-
-  /** @type {boolean} */
-  this.penMovedDown = false;
-
-  /** @type {boolean} */
-  this.robotForwardDirection = false;
-
-  /** @type {boolean} */
-  this.robotBackwardDirection = true;
-
-  if (this.runner) {
-    this.init();
-  } else {
-    console.error('Was unable to get runner:', runner);
-  }
-};
-
-
-/**
- * Adds the default commands which are used by the EV3 framework.
- */
-cwc.framework.Ev3.prototype.init = function() {
-  this.runner.addCommand('updateDeviceData',
-      this.handleUpdateDeviceData.bind(this));
-  this.runner.addCommand('updateDeviceInfo',
-      this.handleUpdateDeviceInfo.bind(this));
-  this.penMovedDown = false;
-  this.penMovedUp = false;
-};
-
-
-/**
- * Updates the current sensor / actor states with the received data.
- * @param {Object} data
- */
-cwc.framework.Ev3.prototype.handleUpdateDeviceData = function(data) {
-  for (var device_name in this.deviceInfo) {
-    var devicePort = this.deviceInfo[device_name];
-    if (!(devicePort in this.deviceData) ||
-        this.deviceData[devicePort].value != data[devicePort].value) {
-      this.deviceData[devicePort] = data[devicePort];
-      switch (device_name) {
-        case cwc.protocol.ev3.DeviceName.IR_SENSOR:
-          this.irSensorData = data[devicePort];
-          this.irSensorValue = data[devicePort].value;
-          this.irSensorEvent(this.irSensorValue);
-          break;
-        case cwc.protocol.ev3.DeviceName.COLOR_SENSOR:
-          this.colorSensorData = data[devicePort];
-          this.colorSensorValue = data[devicePort].value;
-          this.colorSensorEvent(this.colorSensorValue);
-          break;
-        case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
-          this.touchSensorData = data[devicePort];
-          this.touchSensorValue = data[devicePort].value;
-          this.touchSensorEvent(this.touchSensorValue);
-          break;
-      }
-    }
-  }
-  this.deviceData = data;
-};
-
-
-/**
- * Updates the current sensor / actor states with the received data.
- * @param {Object} data
- */
-cwc.framework.Ev3.prototype.handleUpdateDeviceInfo = function(data) {
-  this.deviceInfo = data;
+  this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_, this);
+  this.runner.addCommand(
+      'updateColorSensor', this.handleUpdateColorSensor_, this);
+  this.runner.addCommand(
+      'updateTouchSensor', this.handleUpdateTouchSensor_, this);
 };
 
 
@@ -263,12 +202,11 @@ cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
 /**
  * Displays the selected file name on the EV3 display.
  * @param {!string} file_name
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.showImage = function(file_name) {
-  this.runner.send({'command': 'showImage', 'value': {
-    'file': file_name }
-  });
+cwc.framework.Ev3.prototype.showImage = function(file_name, opt_delay) {
+  this.runner.send('showImage', {'file': file_name, 'delay': opt_delay });
 };
 
 
@@ -277,15 +215,16 @@ cwc.framework.Ev3.prototype.showImage = function(file_name) {
  * @param {!number} frequency
  * @param {number=} opt_duration
  * @param {number=} opt_volume
+ * @param {number=} opt_delay in msec
  * @export
  */
 cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
-    opt_volume) {
-  this.runner.send({'command': 'playTone', 'value': {
+    opt_volume, opt_delay) {
+  this.runner.send('playTone', {
     'frequency': frequency,
     'duration': opt_duration,
-    'volume': opt_volume }
-  });
+    'volume': opt_volume,
+    'delay': opt_delay });
 };
 
 
@@ -293,168 +232,87 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
  * Plays a sound file.
  * @param {!string} file_name
  * @param {number=} opt_volume
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.playSound = function(file_name, opt_volume) {
-  this.runner.send({'command': 'playSound', 'value': {
+cwc.framework.Ev3.prototype.playSound = function(file_name, opt_volume,
+    opt_delay) {
+  this.runner.send('playSound', {
     'file': file_name,
-    'volume': opt_volume }
-  });
+    'volume': opt_volume,
+    'delay': opt_delay });
 };
 
 
 /**
- * Moves forward / backward.
+ * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {boolean=} opt_direction
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_speed
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.move = function(steps, opt_direction) {
-  this.runner.send({'command': 'move', 'value': {
+cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
+    opt_speed, opt_delay) {
+  this.runner.send('moveServo', {
     'steps': steps,
-    'direction': opt_direction }
-  });
+    'invert': opt_invert,
+    'speed': opt_speed,
+    'delay': opt_delay });
 };
 
 
 /**
- * Moves forward.
+ * Moves the motors for the predefined specific steps.
  * @param {!number} steps
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_speed
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.moveForward = function(steps) {
-  this.move(steps, this.robotForwardDirection);
-};
-
-
-/**
- * Moves forward.
- * @param {!number} steps
- * @export
- */
-cwc.framework.Ev3.prototype.moveBackward = function(steps) {
-  this.move(steps, this.robotBackwardDirection);
-};
-
-
-/**
- * Moves the pen.
- * @param {!number} steps
- * @param {boolean=} opt_direction
- * @export
- */
-cwc.framework.Ev3.prototype.movePen = function(steps, opt_direction) {
-  this.runner.send({'command': 'moveServo', 'value': {
+cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_invert,
+    opt_speed, opt_delay) {
+  this.runner.send('moveSteps', {
     'steps': steps,
-    'direction': opt_direction }
-  });
+    'speed': opt_speed,
+    'invert': opt_invert,
+    'delay': opt_delay });
 };
 
 
 /**
- * Moves the pen down.
- * @export
- */
-cwc.framework.Ev3.prototype.movePenDown = function() {
-  if (!this.penMovedDown) {
-    this.movePen(this.penSteps, false);
-    this.penMovedDown = true;
-    this.penMovedUp = false;
-  } else {
-    console.log('Pen was already moved down.');
-  }
-};
-
-
-/**
- * Moves the pen up.
- * @export
- */
-cwc.framework.Ev3.prototype.movePenUp = function() {
-  if (!this.penMovedUp) {
-    this.movePen(this.penSteps, true);
-    this.penMovedDown = false;
-    this.penMovedUp = true;
-  } else {
-    console.log('Pen was already moved up.');
-  }
-};
-
-
-/**
- * Rotates left / right.
+ * Rotates the motors for the predefined specific steps.
  * @param {!number} angle
- * @param {boolean=} opt_direction
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_speed
+ * @param {number=} opt_ratio
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotate = function(angle, opt_direction) {
-  this.runner.send({'command': 'rotate', 'value': {
+cwc.framework.Ev3.prototype.rotateAngle = function(angle, opt_invert, opt_speed,
+    opt_ratio, opt_delay) {
+  this.runner.send('rotateAngle', {
     'angle': angle,
-    'direction': opt_direction }
-  });
-};
-
-
-/**
- * Rotates left.
- * @param {!number} angle
- * @export
- */
-cwc.framework.Ev3.prototype.rotateLeft = function(angle) {
-  this.rotate(angle, this.robotBackwardDirection);
-};
-
-
-/**
- * Rotates right.
- * @param {!number} angle
- * @export
- */
-cwc.framework.Ev3.prototype.rotateRight = function(angle) {
-  this.rotate(angle, this.robotForwardDirection);
-};
-
-
-/**
- * Stops all motors, but only after the last command was processed.
- * @export
- */
-cwc.framework.Ev3.prototype.delayedStop = function() {
-  this.runner.send({'command': 'delayedStop', 'value': {} });
+    'invert': opt_invert,
+    'speed': opt_speed,
+    'ratio': opt_ratio,
+    'delay': opt_delay });
 };
 
 
 /**
  * Moves forward / backward with power.
  * @param {!number} power
- * @param {boolean=} opt_direction
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePower = function(power, opt_direction) {
-  this.runner.send({'command': 'movePower', 'value': {
+cwc.framework.Ev3.prototype.movePower = function(power, opt_invert,
+    opt_delay) {
+  this.runner.send('movePower', {
     'power': power,
-    'direction': opt_direction }
-  });
-};
-
-
-/**
- * Moves forward with power.
- * @param {!number} power
- * @export
- */
-cwc.framework.Ev3.prototype.movePowerForward = function(power) {
-  this.movePower(power, this.robotForwardDirection);
-};
-
-
-/**
- * Moves backward with power.
- * @param {!number} power
- * @export
- */
-cwc.framework.Ev3.prototype.movePowerBackward = function(power) {
-  this.movePower(power, this.robotBackwardDirection);
+    'invert': opt_invert,
+    'delay': opt_delay });
 };
 
 
@@ -462,178 +320,137 @@ cwc.framework.Ev3.prototype.movePowerBackward = function(power) {
  * Rotates left / right with power.
  * @param {!number} power General power value.
  * @param {number=} opt_power Dedicated power value for the second motor.
- * @param {boolean=} opt_direction
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_delay in msec
  * @export
  */
 cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
-    opt_direction) {
-  this.runner.send({'command': 'rotatePower', 'value': {
+    opt_invert, opt_delay) {
+  this.runner.send('rotatePower', {
     'power': power,
     'opt_power': opt_power,
-    'direction': opt_direction }
-  });
-};
-
-
-/**
- * Rotates left with power.
- * @param {!number} power General power value.
- * @export
- */
-cwc.framework.Ev3.prototype.rotatePowerLeft = function(power) {
-  this.rotatePower(power, power, this.robotBackwardDirection);
-};
-
-
-/**
- * Rotates right with power.
- * @param {!number} power General power value.
- * @export
- */
-cwc.framework.Ev3.prototype.rotatePowerRight = function(power) {
-  this.rotatePower(power, power, this.robotForwardDirection);
+    'invert': opt_invert,
+    'delay': opt_delay });
 };
 
 
 /**
  * Stops all motors.
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.stop = function() {
-  this.runner.send({'command': 'stop', 'value': {} });
-};
-
-
-/**
- * @param {!string} text
- * @export
- */
-cwc.framework.Ev3.prototype.echo = function(text) {
-  this.runner.send({'command': 'echo', 'value' : text });
+cwc.framework.Ev3.prototype.stop = function(opt_delay) {
+  this.runner.send('stop', {'delay': opt_delay });
 };
 
 
 /**
  * @param {!number} mode
+ * @param {number=} opt_delay in msec
+ * @export
  */
-cwc.framework.Ev3.prototype.setColorSensorMode = function(mode) {
-  this.runner.send({'command': 'setColorSensorMode', 'value': mode });
+cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
+  this.runner.send('setColorSensorMode', {'mode': mode, 'delay': opt_delay });
 };
 
 
 /**
  * @param {!number} mode
+ * @param {number=} opt_delay in msec
+ * @export
  */
-cwc.framework.Ev3.prototype.setIrSensorMode = function(mode) {
-  this.runner.send({'command': 'setIrSensorMode', 'value': mode });
+cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
+  this.runner.send('setIrSensorMode', {'mode': mode, 'delay': opt_delay });
 };
 
 
 /**
  * @param {cwc.protocol.ev3.LedColor} color
  * @param {cwc.protocol.ev3.LedMode=} opt_mode
+ * @param {number=} opt_delay in msec
+ * @export
  */
-cwc.framework.Ev3.prototype.setLed = function(color, opt_mode) {
-  this.runner.send({'command': 'setLed', 'value': {
+cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
+  this.runner.send('setLed', {
     'color': color,
-    'mode': opt_mode }
-  });
+    'mode': opt_mode,
+    'delay': opt_delay });
 };
 
 
 /**
  * @param {!number} speed
+ * @param {number=} opt_delay in msec
+ * @export
  */
-cwc.framework.Ev3.prototype.setStepSpeed = function(speed) {
-  this.runner.send({'command': 'setStepSpeed', 'value': speed });
+cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
+  this.runner.send('setStepSpeed', {'speed': speed, 'delay': opt_delay });
 };
 
 
 /**
- * Adds the EV3 framework to the runner listener.
- * @param {Function} callback
- * @export
+ * Updates the current sensor / actor states with the received data.
+ * @param {Object} data
+ * @private
  */
-cwc.framework.Ev3.prototype.listen = function(callback) {
-  if (this.runner) {
-    var warper = function() {
-      callback(this);
-    };
-    this.runner.listen(warper.bind(this));
+cwc.framework.Ev3.prototype.handleUpdateDeviceData_ = function(data) {
+  for (var device_name in this.deviceInfo) {
+    var devicePort = this.deviceInfo[device_name];
+    if (!(devicePort in this.deviceData) ||
+        this.deviceData[devicePort].value != data[devicePort].value) {
+      this.deviceData[devicePort] = data[devicePort];
+      switch (device_name) {
+        case cwc.protocol.ev3.DeviceName.IR_SENSOR:
+          this.irSensorData = data[devicePort];
+          break;
+        case cwc.protocol.ev3.DeviceName.COLOR_SENSOR:
+          this.colorSensorData = data[devicePort];
+          break;
+        case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
+          this.touchSensorData = data[devicePort];
+          break;
+      }
+    }
   }
+  this.deviceData = data;
 };
 
 
-goog.exportSymbol('cwc.framework.Ev3', cwc.framework.Ev3);
-goog.exportSymbol('cwc.framework.Ev3.prototype.delayedStop',
-    cwc.framework.Ev3.prototype.delayedStop);
-goog.exportSymbol('cwc.framework.Ev3.prototype.echo',
-    cwc.framework.Ev3.prototype.echo);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getColorSensor',
-    cwc.framework.Ev3.prototype.getColorSensor);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getColorSensorValue',
-    cwc.framework.Ev3.prototype.getColorSensorValue);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getInterface',
-    cwc.framework.Ev3.prototype.getInterface);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getIrSensor',
-    cwc.framework.Ev3.prototype.getIrSensor);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getIrSensorValue',
-    cwc.framework.Ev3.prototype.getIrSensorValue);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getTouchSensor',
-    cwc.framework.Ev3.prototype.getTouchSensor);
-goog.exportSymbol('cwc.framework.Ev3.prototype.getTouchSensorValue',
-    cwc.framework.Ev3.prototype.getTouchSensorValue);
-goog.exportSymbol('cwc.framework.Ev3.prototype.listen',
-    cwc.framework.Ev3.prototype.listen);
-goog.exportSymbol('cwc.framework.Ev3.prototype.move',
-    cwc.framework.Ev3.prototype.move);
-goog.exportSymbol('cwc.framework.Ev3.prototype.moveForward',
-    cwc.framework.Ev3.prototype.moveForward);
-goog.exportSymbol('cwc.framework.Ev3.prototype.moveBackward',
-    cwc.framework.Ev3.prototype.moveBackward);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePen',
-    cwc.framework.Ev3.prototype.movePen);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePenDown',
-    cwc.framework.Ev3.prototype.movePenDown);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePenUp',
-    cwc.framework.Ev3.prototype.movePenUp);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePower',
-    cwc.framework.Ev3.prototype.movePower);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePowerForward',
-    cwc.framework.Ev3.prototype.movePowerForward);
-goog.exportSymbol('cwc.framework.Ev3.prototype.movePowerBackward',
-    cwc.framework.Ev3.prototype.movePowerBackward);
-goog.exportSymbol('cwc.framework.Ev3.prototype.onColorSensorChange',
-    cwc.framework.Ev3.prototype.onColorSensorChange);
-goog.exportSymbol('cwc.framework.Ev3.prototype.onIrSensorChange',
-    cwc.framework.Ev3.prototype.onIrSensorChange);
-goog.exportSymbol('cwc.framework.Ev3.prototype.onTouchSensorChange',
-    cwc.framework.Ev3.prototype.onTouchSensorChange);
-goog.exportSymbol('cwc.framework.Ev3.prototype.playSound',
-    cwc.framework.Ev3.prototype.playSound);
-goog.exportSymbol('cwc.framework.Ev3.prototype.playTone',
-    cwc.framework.Ev3.prototype.playTone);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotate',
-    cwc.framework.Ev3.prototype.rotate);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotateLeft',
-    cwc.framework.Ev3.prototype.rotateLeft);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotateRight',
-    cwc.framework.Ev3.prototype.rotateRight);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotatePower',
-    cwc.framework.Ev3.prototype.rotatePower);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotatePowerLeft',
-    cwc.framework.Ev3.prototype.rotatePowerLeft);
-goog.exportSymbol('cwc.framework.Ev3.prototype.rotatePowerRight',
-    cwc.framework.Ev3.prototype.rotatePowerRight);
-goog.exportSymbol('cwc.framework.Ev3.prototype.showImage',
-    cwc.framework.Ev3.prototype.showImage);
-goog.exportSymbol('cwc.framework.Ev3.prototype.setColorSensorMode',
-    cwc.framework.Ev3.prototype.setColorSensorMode);
-goog.exportSymbol('cwc.framework.Ev3.prototype.setIrSensorMode',
-    cwc.framework.Ev3.prototype.setIrSensorMode);
-goog.exportSymbol('cwc.framework.Ev3.prototype.setLed',
-    cwc.framework.Ev3.prototype.setLed);
-goog.exportSymbol('cwc.framework.Ev3.prototype.setStepSpeed',
-    cwc.framework.Ev3.prototype.setStepSpeed);
-goog.exportSymbol('cwc.framework.Ev3.prototype.stop',
-    cwc.framework.Ev3.prototype.stop);
+/**
+ * Updates the current sensor / actor states with the received data.
+ * @param {Object} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateDeviceInfo_ = function(data) {
+  this.deviceInfo = data;
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateIrSensor_ = function(data) {
+  this.irSensorValue = data;
+  this.irSensorEvent(data);
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateColorSensor_ = function(data) {
+  this.colorSensorValue = data;
+  this.colorSensorEvent(data);
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateTouchSensor_ = function(data) {
+  this.touchSensorValue = data;
+  this.touchSensorEvent(data);
+};

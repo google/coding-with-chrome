@@ -70,11 +70,18 @@ cwc.ui.ConnectionManager = function(helper) {
   this.closeButton = cwc.ui.Helper.getIconToolbarButton('close',
       'Close Connection Manager', this.closeWindow_.bind(this));
 
+  /** @type {cwc.protocol.bluetooth.Devices} */
+  this.bluetoothDevices = null;
+
+  /** @type {cwc.protocol.bluetooth.Device} */
+  this.bluetoothDevice = null;
+
   /** @type {cwc.protocol.Serial.Device} */
   this.serialDevice = null;
 
   /** @type {function(?)} */
   this.serialDeviceCallback = null;
+
 };
 
 
@@ -108,6 +115,19 @@ cwc.ui.ConnectionManager.prototype.decorate = function(node,
   this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
   this.toolbar.addChild(this.closeButton, true);
   this.toolbar.render(this.nodeToolbar);
+};
+
+
+/**
+ * @param {function(?)=} opt_callback
+ * @export
+ */
+cwc.ui.ConnectionManager.prototype.getMindstorms = function(
+    opt_callback) {
+  this.prepare_();
+  this.showTemplate_('Mindstorms', 'template');
+  this.setClickEvent('link-next', this.showMindstormsSelect_);
+  this.serialDeviceCallback = opt_callback;
 };
 
 
@@ -192,7 +212,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
         cwc.soy.ConnectionManager.serialDevice,
         {'prefix': this.prefix});
     var nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
-    var deviceList = new goog.ui.select('Select device ...');
+    var deviceList = new goog.ui.select('Select device …');
     for (var deviceEntry in devices) {
       var device = devices[deviceEntry];
       var menuItem = new goog.ui.MenuItem(
@@ -238,6 +258,16 @@ cwc.ui.ConnectionManager.prototype.connectSerialDevice_ = function(
  */
 cwc.ui.ConnectionManager.prototype.getSerialDevice = function() {
   return this.serialDevice;
+};
+
+
+/**
+ * @param {!cwc.protocol.Serial.Devices.devices} devices
+ * @export
+ */
+cwc.ui.ConnectionManager.prototype.setBluetoothDevices = function(
+    devices) {
+  this.bluetoothDevices = devices;
 };
 
 

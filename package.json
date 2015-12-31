@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -23,6 +23,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",
+    "prebuild": "npm run lint",
     "rebuild": "npm run build-static-files && npm run build-cwc-files",
     "build-static-files": "node build/static_files.js",
     "build-remote-files": "node build/remote_files.js",

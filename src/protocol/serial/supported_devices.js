@@ -57,7 +57,7 @@ cwc.protocol.Serial.supportedDevice = {
  *
  * VENDOR ID {
  *   PRODUCT ID {
- *     CUSTOM NAME: '...'
+ *     CUSTOM NAME: '…'
  *   }
  * }
  *
@@ -80,7 +80,7 @@ cwc.protocol.Serial.supportedDevices = {
  * The Format is the following:
  *
  * PATH NAME {
- *   CUSTOM NAME: '...'
+ *   CUSTOM NAME: '…'
  * }
  *
  * @enum {!Object.<!Object>}

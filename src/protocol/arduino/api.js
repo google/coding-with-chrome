@@ -61,7 +61,7 @@ cwc.protocol.Arduino.api = function(helper) {
  */
 cwc.protocol.Arduino.api.prototype.connect = function(device) {
   if (!device) {
-    console.error('Arduino is not ready yet ...');
+    console.error('Arduino is not ready yet …');
     return false;
   }
   if (this.device && this.connected && this.device != device) {
@@ -121,15 +121,6 @@ cwc.protocol.Arduino.api.prototype.handleOnReceive = function(
     buffer[0] = 128;
     this.device.send(buffer);
   }
-};
-
-
-/**
- * Local echo command for testing.
- * @param {string} value
- */
-cwc.protocol.Arduino.api.prototype.echo = function(value) {
-  console.log('Arduino echo:', value);
 };
 
 

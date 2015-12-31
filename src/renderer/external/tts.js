@@ -64,6 +64,27 @@ cwc.renderer.external.TTS.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var code = editor_content[cwc.file.ContentType.CUSTOM];
-  return code;
+  var header = '';
+  var runnerFramework = frameworks.getFile(this.runnerFramework);
+  if (runnerFramework) {
+    var runner = runnerFramework.getContent();
+    header += '<script src="' + runner + '"></script>';
+  }
+
+  var ttsFramework = frameworks.getFile(this.customFramework);
+  if (ttsFramework) {
+    var tts = ttsFramework.getContent();
+    header += '<script src="' + tts + '"></script>';
+  }
+
+  var body = '\n<script>' +
+      '  var ttsCode = function(tts) {\n' +
+      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      '\n};\n' + '  var runner = new cwc.framework.Runner();\n' +
+      '  var ttsFramework = new cwc.framework.TTS(runner);\n' +
+      '  ttsFramework.listen(ttsCode);\n' +
+      '</script>\n';
+
+  var html = renderer_helper.getHTML(body, header);
+  return html;
 };

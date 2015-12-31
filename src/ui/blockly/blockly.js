@@ -20,8 +20,6 @@
 goog.provide('cwc.ui.Blockly');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.EV3');
-goog.require('Blockly.Blocks.Simple');
 goog.require('Blockly.Blocks.colour');
 goog.require('Blockly.Blocks.lists');
 goog.require('Blockly.Blocks.logic');

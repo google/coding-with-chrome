@@ -21,7 +21,9 @@ goog.provide('cwc.ui.Runner');
 goog.provide('cwc.ui.RunnerStatus');
 
 goog.require('cwc.soy.Runner');
+goog.require('cwc.runner.Connector');
 goog.require('cwc.ui.RunnerInfobar');
+goog.require('cwc.ui.RunnerMonitor');
 goog.require('cwc.ui.RunnerStatusbar');
 goog.require('cwc.ui.RunnerTerminal');
 goog.require('cwc.ui.RunnerToolbar');
@@ -66,6 +68,12 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {string} */
   this.prefix = 'runner-';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {!cwc.runner.Connector} */
+  this.connector = new cwc.runner.Connector(helper);
 
   /** @type {string} */
   this.generalPrefix = '';
@@ -139,9 +147,6 @@ cwc.ui.Runner = function(helper) {
   /** @type {cwc.ui.RunnerStatus} */
   this.status = cwc.ui.RunnerStatus.UNKNOWN;
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
   /** @type {cwc.ui.RunnerInfobar} */
   this.infobar = null;
 
@@ -153,6 +158,12 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {cwc.ui.RunnerToolbar} */
   this.toolbar = null;
+
+  /** @type {cwc.ui.RunnerMonitor} */
+  this.monitor = null;
+
+  /** @type {!boolean} */
+  this.monitorEnabled = false;
 
   /** @type {number} */
   this.startTime = new Date().getTime();
@@ -166,7 +177,7 @@ cwc.ui.Runner = function(helper) {
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
 
-  /** @type {Array} */
+  /** @type {!Array} */
   this.listener = [];
 };
 
@@ -211,8 +222,7 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
 
   // Statusbar
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  this.statusbar = new cwc.ui.RunnerStatusbar(this.helper,
-      this.prefix);
+  this.statusbar = new cwc.ui.RunnerStatusbar(this.helper, this.prefix);
   this.statusbar.decorate(this.nodeStatusbar);
 
   // Terminal
@@ -220,6 +230,12 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
   this.terminal = new cwc.ui.RunnerTerminal(this.helper, this.prefix);
   this.terminal.decorate(this.nodeTerminal);
   this.enableTerminal(false);
+
+  // Monitor
+  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
+  this.monitor = new cwc.ui.RunnerMonitor(this.helper, this.prefix);
+  this.monitor.decorate(this.nodeMonitor);
+  this.enableMonitor(false);
 
   // Overlay
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
@@ -234,8 +250,8 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
   this.showInfo(hasInfoTemplate);
   this.renderInfoTemplate(this.infoTemplate);
 
-  // Window Messages
-  this.addEventListener(window, 'message', this.handleMessage, false, this);
+  // Runner
+  this.connector.init();
 
   // Monitor Changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -274,8 +290,16 @@ cwc.ui.Runner.prototype.adjustSize = function() {
       newHeight = newHeight - infobarSize.height;
     }
 
+    if (this.nodeMonitor && this.monitorEnabled) {
+      var monitorSize = goog.style.getSize(this.nodeMonitor);
+      newHeight = newHeight - monitorSize.height;
+    }
+
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeContent, contentSize);
+  }
+  if (this.monitor && this.monitorEnabled) {
+    this.monitor.adjustSize();
   }
 };
 
@@ -495,6 +519,45 @@ cwc.ui.Runner.prototype.writeTerminal = function(data) {
 
 
 /**
+ * Enable / disable monitor.
+ * @param {boolean} enable
+ * @param {number=} opt_height
+ * @export
+ */
+cwc.ui.Runner.prototype.enableMonitor = function(enable, opt_height) {
+  this.monitorEnabled = enable;
+  this.showMonitor(enable);
+  if (enable) {
+    var height = opt_height || 250;
+    goog.style.setHeight(this.nodeMonitor, height);
+  }
+  this.adjustSize();
+  this.monitor.showIntro();
+};
+
+
+/**
+ * Shows / hides terminal window.
+ * @param {boolean} visible
+ * @export
+ */
+cwc.ui.Runner.prototype.showMonitor = function(visible) {
+  if (this.nodeMonitor) {
+    goog.style.setElementShown(this.nodeMonitor, visible);
+  }
+};
+
+
+/**
+ * @return {cwc.ui.RunnerMonitor}
+ * @export
+ */
+cwc.ui.Runner.prototype.getMonitor = function() {
+  return this.monitor;
+};
+
+
+/**
  * Constructs the runner and executes the content.
  * @param {Event=} opt_event
  * @export
@@ -544,6 +607,7 @@ cwc.ui.Runner.prototype.prepare = function() {
       this.handleLoadStop.bind(this), false);
   this.content.addEventListener('unresponsive',
       this.handleUnresponsive.bind(this), false);
+  this.connector.setTarget(this.content);
 
   goog.dom.appendChild(this.nodeRuntime, this.content);
 };
@@ -555,12 +619,9 @@ cwc.ui.Runner.prototype.prepare = function() {
  */
 cwc.ui.Runner.prototype.stop = function() {
   if (this.content) {
-    console.info('Stop Runner ...');
+    console.info('Stop Runner …');
     this.status = cwc.ui.RunnerStatus.STOPPED;
     this.renderStatusTemplate(this.templateStop);
-    if (this.externalCleanUp) {
-      this.externalCleanUp();
-    }
     this.content.stop();
     if (this.externalCleanUp) {
       this.externalCleanUp();
@@ -579,7 +640,7 @@ cwc.ui.Runner.prototype.stop = function() {
  */
 cwc.ui.Runner.prototype.reload = function() {
   if (this.content) {
-    console.info('Reload Runner ...');
+    console.info('Reload Runner …');
     this.renderStatusTemplate(this.templateReload);
     if (this.externalCleanUp) {
       this.externalCleanUp();
@@ -598,7 +659,7 @@ cwc.ui.Runner.prototype.reload = function() {
  */
 cwc.ui.Runner.prototype.terminate = function() {
   if (this.content) {
-    console.info('Terminate Runner ...');
+    console.info('Terminate Runner …');
     this.status = cwc.ui.RunnerStatus.TERMINATED;
     this.renderStatusTemplate(this.templateTerminate);
 
@@ -614,28 +675,25 @@ cwc.ui.Runner.prototype.terminate = function() {
 
 
 /**
- * @param {!string} url
+ * Terminates the runner window.
+ * @export
  */
-cwc.ui.Runner.prototype.setContentUrl = function(url) {
+cwc.ui.Runner.prototype.remove = function() {
   if (this.content) {
-    this.content.src = url;
+    console.info('Remove Runner …');
+    this.terminate();
+    this.nodeRuntime.removeChild(this.content);
+    this.content = null;
   }
 };
 
 
 /**
- * @param {string!} command
- * @param {object|number|string|array=} opt_value
+ * @param {!string} url
  */
-cwc.ui.Runner.prototype.send = function(command, opt_value) {
-  if (!this.content) {
-    console.error('Was not able to send command:', command);
-    return;
-  }
-
-  if (this.status == cwc.ui.RunnerStatus.LOADED) {
-    var commandBlock = {'command': command, 'value': opt_value};
-    this.content.contentWindow.postMessage(commandBlock, this.targetOrigin);
+cwc.ui.Runner.prototype.setContentUrl = function(url) {
+  if (this.content) {
+    this.content.src = url;
   }
 };
 
@@ -661,7 +719,7 @@ cwc.ui.Runner.prototype.handleLoadStart = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setLoadStatus(true);
   }
-  this.setStatusText('Loading ...');
+  this.setStatusText('Loading …');
 };
 
 
@@ -676,9 +734,7 @@ cwc.ui.Runner.prototype.handleLoadStop = function(opt_event) {
     this.toolbar.setLoadStatus(false);
   }
   this.setStatusText('Finished after ' + duration + ' seconds.');
-  this.executeCommand('__init__', null, true);
-  this.executeCommand('__reset__', null, true);
-  this.send('__handshake__');
+  this.connector.start();
   this.renderStatusTemplate(this.templateRun);
 };
 
@@ -719,41 +775,31 @@ cwc.ui.Runner.prototype.setStatusText = function(status) {
 
 
 /**
- * @param {goog.events.BrowserEvent} event
- */
-cwc.ui.Runner.prototype.handleMessage = function(event) {
-  var browserEvent = event.getBrowserEvent();
-  if (!browserEvent) {
-    console.error('Was not able to get browser event!');
-    return;
-  }
-
-  this.executeCommand(browserEvent['data']['command'],
-      browserEvent['data']['value']);
-};
-
-
-/**
  * @param {string} name
  * @param {function(?)} func
+ * @param {?} opt_scope
  */
-cwc.ui.Runner.prototype.addCommand = function(name, func) {
-  this.commands[name] = func;
+cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
+  this.connector.addCommand(name, func, opt_scope);
 };
 
 
 /**
- * @param {!string} name
- * @param {?} value
- * @param {boolean=} opt_ignore_unknown
+ * @param {EventTarget|goog.events.Listenable} event_handler
+ * @param {!string} event
+ * @param {!string} command
  */
-cwc.ui.Runner.prototype.executeCommand = function(name, value,
-    opt_ignore_unknown) {
-  if (name in this.commands) {
-    this.commands[name](value);
-  } else if (!opt_ignore_unknown) {
-    console.log('Received unknow command', name, 'with value', value);
-  }
+cwc.ui.Runner.prototype.addEvent = function(event_handler, event, command) {
+  this.connector.addEvent(event_handler, event, command);
+};
+
+
+/**
+ * @param {string!} command
+ * @param {object|number|string|array=} opt_value
+ */
+cwc.ui.Runner.prototype.send = function(command, opt_value) {
+  this.connector.send(command, opt_value);
 };
 
 
@@ -790,8 +836,8 @@ cwc.ui.Runner.prototype.addEventListener = function(src, type,
  * Clears all object based events.
  */
 cwc.ui.Runner.prototype.cleanUp = function() {
-  window.removeEventListener('message', this.handleMessage.bind(this));
-  this.listener = this.helper.removeEventListeners(this.listener);
+  this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  this.terminate();
+  this.connector.cleanUp();
+  this.remove();
 };

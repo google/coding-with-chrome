@@ -91,6 +91,9 @@ cwc.ui.Menubar = function(helper) {
   this.nodeBluetoothDisabled = null;
 
   /** @type {Element} */
+  this.nodeUsb = null;
+
+  /** @type {Element} */
   this.nodeCloseButton = null;
 
   /** @type {Element} */
@@ -141,15 +144,19 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {!goog.ui.Button} */
   this.bluetoothMenu = cwc.ui.Helper.getIconButton('bluetooth',
-      'Connect Bluetooth device ...');
+      'Connect Bluetooth device …');
 
   /** @type {!goog.ui.Button} */
   this.bluetoothConnected = cwc.ui.Helper.getIconButton(
-      'bluetooth_connected', 'Disconnect Bluetooth device ...');
+      'bluetooth_connected', 'Disconnect Bluetooth device …');
 
   /** @type {!goog.ui.Button} */
   this.bluetoothDisabled = cwc.ui.Helper.getIconButton(
-      'bluetooth_disabled', 'Bluetooth is disabled!');
+      'bluetooth_disabled', 'Bluetooth is disabled!',
+      this.checkBluetoothState_.bind(this));
+
+  /** @type {!goog.ui.Button} */
+  this.usbMenu = cwc.ui.Helper.getIconButton('usb', 'Connect USB device …');
 
   /** @type {!goog.ui.Button} */
   this.settingsMenu = cwc.ui.Helper.getIconButton(
@@ -197,24 +204,36 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
 
   // Bluetooth icons
   if (this.helper.checkChromeFeature('bluetooth')) {
+    this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
+
+    // Bluetooth enabled
     this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
     this.bluetoothMenu.render(this.nodeBluetooth);
-    this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
-    this.deviceMenu.decorate(this.nodeBluetooth);
+    this.deviceMenu.decorateConnect(this.nodeBluetooth);
 
+    // Bluetooth connected
     this.nodeBluetoothConnected = goog.dom.getElement(
         this.prefix + 'bluetooth-connected');
     this.bluetoothConnected.render(this.nodeBluetoothConnected);
+    this.deviceMenu.decorateDisconnect(this.nodeBluetoothConnected);
 
+    // Bluetooth disabled
     this.nodeBluetoothDisabled = goog.dom.getElement(
         this.prefix + 'bluetooth-disabled');
     this.bluetoothDisabled.render(this.nodeBluetoothDisabled);
   }
 
+  // USB and serial icon
+  if (this.helper.checkChromeFeature('serial') &&
+      this.helper.checkChromeFeature('usb')) {
+    //this.usbMenu = new cwc.ui.usbMenu(this.helper);
+    this.nodeUsbEnabled = goog.dom.getElement(this.prefix + 'usb-enabled');
+  }
+
   // Account icons
   if (this.helper.checkChromeFeature('oauth2')) {
     this.nodeAccountLogin = goog.dom.getElement(
-        this.prefix + 'account-login');
+        this.prefix + 'account');
     this.accountLogin.render(this.nodeAccountLogin);
 
     this.nodeAccountLogout = goog.dom.getElement(
@@ -361,22 +380,18 @@ cwc.ui.Menubar.prototype.requestCloseWindow = function() {
  * Close editor window.
  */
 cwc.ui.Menubar.prototype.closeWindow = function() {
-  console.log('Close Coding with Chrome editor ...');
+  console.log('Close Coding with Chrome editor …');
   chrome.app.window.current().close();
 };
 
 
 /**
-*
 * @param {cwc.protocol.bluetooth.Device} device
-* @param {object} profile
-* @param {number=} opt_socket
 * @export
 */
-cwc.ui.Menubar.prototype.updateDeviceList = function(
-    device, profile, opt_socket) {
+cwc.ui.Menubar.prototype.updateDeviceList = function(device) {
   if (this.deviceMenu) {
-    this.deviceMenu.updateDeviceList(device, profile, opt_socket);
+    this.deviceMenu.updateDeviceList(device);
   }
 };
 
@@ -403,5 +418,18 @@ cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
     goog.style.setElementShown(this.nodeBluetooth, !connected);
     goog.style.setElementShown(this.nodeBluetoothConnected, connected);
     goog.style.setElementShown(this.nodeBluetoothDisabled, !connected);
+  }
+};
+
+
+/**
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
+  this.helper.showInfo('Checking bluetooth state ...');
+  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    bluetoothInstance.updateAdapterState();
   }
 };

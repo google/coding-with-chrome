@@ -153,7 +153,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
  */
 cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   var fileEvent = this.handleFileList.bind(this);
-  var lastDays = new Date().setDate(lastDays.getDate() - 7);
+  var lastDays = new Date().setDate(new Date().getDate() - 7);
   this.getFiles({
     'maxResults': '100',
     'q': 'mimeType = \'' + this.mimeType + '\' and lastViewedByMeDate >= ' +
@@ -389,13 +389,12 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
  */
 cwc.ui.GDrive.prototype.loadFileContent = function(file, content,
     opt_callback, opt_callback_scope) {
-  var messageInstance = this.helper.getInstance('message');
   var fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (content) {
-    console.log('Load file content ...');
+    console.log('Load file content …');
     console.log(content);
     fileLoaderInstance.handleFileData(content, file.title, null, file.id);
   } else {
-    console.warn('Unable to open file ' + file.title + ' !');
+    this.helper.warn('Unable to open file ' + file.title + ' !');
   }
 };

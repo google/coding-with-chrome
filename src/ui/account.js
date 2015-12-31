@@ -70,8 +70,8 @@ cwc.ui.Account.prototype.prepare = function() {
  * Handles the oAuth 2.0 authentication.
  */
 cwc.ui.Account.prototype.authenticate = function() {
-  console.log('Try to authenticated ...');
-  this.helper.setStatus('Authentication ...');
+  console.log('Try to authenticated …');
+  this.helper.setStatus('Authentication …');
   var authentificationEvent = this.handleAuthentication.bind(this);
   chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
 };
@@ -110,7 +110,7 @@ cwc.ui.Account.prototype.handleAuthentication = function(
     this.setAuthenticated();
     console.log('Access token: ' + this.accessToken);
     this.requestUserInfo();
-    this.helper.setStatus('Successfull authentificated ...');
+    this.helper.setStatus('Successfull authentificated …');
   } else {
     this.setUnauthenticated();
     var errorMsg = chrome.runtime.lastError.message;
@@ -126,10 +126,9 @@ cwc.ui.Account.prototype.handleAuthentication = function(
  * Requests user informations.
  */
 cwc.ui.Account.prototype.requestUserInfo = function() {
-  var userInfoEvent = this.setUserInfo.bind(this);
-  var request = this.request({
+  this.request({
     'path': '/oauth2/v1/userinfo',
-    'callback': userInfoEvent
+    'callback':  this.setUserInfo.bind(this)
   });
 };
 
@@ -159,9 +158,9 @@ cwc.ui.Account.prototype.setOnlineStatus = function(online) {
 
 
 /**
- * @param {Event} event
+ * @param {Event=} opt_event
  */
-cwc.ui.Account.prototype.handleOnlineStatus = function(event) {
+cwc.ui.Account.prototype.handleOnlineStatus = function(opt_event) {
   this.setOnlineStatus(window.navigator.onLine);
 };
 
@@ -221,7 +220,7 @@ cwc.ui.Account.prototype.request = function(args) {
   var method = args.method || 'GET';
   var content = args.content;
   var token = args.token || this.accessToken || '';
-  this.helper.setStatus('Send request ...');
+  this.helper.setStatus('Send request …');
 
   var params = args.params || '';
   if (typeof params == 'object') {
@@ -259,7 +258,7 @@ cwc.ui.Account.prototype.request = function(args) {
  */
 cwc.ui.Account.prototype.handleXhrResponse = function(e,
     opt_callback) {
-  this.helper.setStatus('Handle Xhr response ...');
+  this.helper.setStatus('Handle Xhr response …');
 
   /** @type {EventTarget|goog.net.XhrIo} */
   var xhr = e.target;

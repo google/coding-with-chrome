@@ -71,11 +71,6 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   var css = editor_content[cwc.file.ContentType.CSS];
   var html = editor_content[cwc.file.ContentType.HTML];
   var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT];
-  var editorLoadFlag = editor_flags.getFlag('interpreter.load');
-  if (editorLoadFlag) {
-    javascript = renderer_helper.prependText(javascript,
-        '"use ' + editorLoadFlag + '";');
-  }
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
 
   if ((css || javascript) && html) {

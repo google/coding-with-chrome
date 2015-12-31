@@ -96,8 +96,8 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateSimpleSingleColumnLayout();
-    var overlayNode = layoutInstance.getOverlay();
-    this.decorate(overlayNode);
+    var nodes = layoutInstance.getNodes();
+    this.decorate(nodes['content']);
     this.showOverview();
   }
 };
@@ -120,6 +120,7 @@ cwc.ui.SelectScreen.prototype.showBlocks = function() {
   this.setOverviewLinks();
   this.setHomeLink();
   this.setClickEvent('link-ev3', this.newEV3Blockly);
+  this.setClickEvent('link-sphero', this.newSpheroBlockly);
   this.setClickEvent('link-cwc-blockly', this.newCwcBlockly);
   this.setClickEvent('link-home', this.showOverview);
 };
@@ -136,6 +137,7 @@ cwc.ui.SelectScreen.prototype.showCode = function() {
   this.setClickEvent('link-cwc-basic', this.newCwcBasic);
   this.setClickEvent('link-cwc-advanced', this.newCwcAdvanced);
   this.setClickEvent('link-ev3', this.newEV3);
+  this.setClickEvent('link-sphero', this.newSphero);
   this.setClickEvent('link-home', this.showOverview);
 };
 
@@ -147,6 +149,10 @@ cwc.ui.SelectScreen.prototype.showGallery = function() {
   this.showTemplate('gallery');
   this.setOverviewLinks();
   this.setHomeLink();
+  this.setClickEvent('link-sphero', this.showSpheroExample);
+  this.setClickEvent('link-ev3', this.showEV3Example);
+  this.setClickEvent('link-cwc-basic', this.showDrawExample);
+  this.setClickEvent('link-cwc-html', this.showHTMLExample);
   this.setClickEvent('link-home', this.showOverview);
 };
 
@@ -199,9 +205,27 @@ cwc.ui.SelectScreen.prototype.newCwcAdvanced = function() {
 };
 
 
+/** Loads a new EV3 file */
+cwc.ui.SelectScreen.prototype.newEV3 = function() {
+  this.newFile(cwc.file.Type.EV3);
+};
+
+
 /** Loads a new EV3 Blockly file */
 cwc.ui.SelectScreen.prototype.newEV3Blockly = function() {
   this.newFile(cwc.file.Type.EV3_BLOCKLY);
+};
+
+
+/** Loads a new Sphero file */
+cwc.ui.SelectScreen.prototype.newSphero = function() {
+  this.newFile(cwc.file.Type.SPHERO);
+};
+
+
+/** Loads a new Sphero Blockly file */
+cwc.ui.SelectScreen.prototype.newSpheroBlockly = function() {
+  this.newFile(cwc.file.Type.SPHERO_BLOCKLY);
 };
 
 
@@ -211,16 +235,35 @@ cwc.ui.SelectScreen.prototype.newCoffeescript = function() {
 };
 
 
-/** Loads a new EV3 file */
-cwc.ui.SelectScreen.prototype.newEV3 = function() {
-  this.newFile(cwc.file.Type.EV3);
-};
-
-
 /** Loads a new Arduino file */
 cwc.ui.SelectScreen.prototype.newArduino = function() {
   this.newFile(cwc.file.Type.ARDUINO);
 };
+
+
+/** Loads a EV3 Example */
+cwc.ui.SelectScreen.prototype.showEV3Example = function() {
+  this.loadExample('../../resources/examples/ev3/Line-follow-EV3.cwc');
+};
+
+
+/** Loads a Sphero Example */
+cwc.ui.SelectScreen.prototype.showSpheroExample = function() {
+  this.loadExample('../../resources/examples/sphero/Sphero-example.cwc');
+};
+
+
+/** Loads a Drawing Example */
+cwc.ui.SelectScreen.prototype.showDrawExample = function() {
+  this.loadExample('../../resources/examples/simple/Basic-draw-example.cwc');
+};
+
+
+/** Loads a HTML Example */
+cwc.ui.SelectScreen.prototype.showHTMLExample = function() {
+  this.loadExample('../../resources/examples/html5/Basic-formular.cwc');
+};
+
 
 
 /**
@@ -231,6 +274,19 @@ cwc.ui.SelectScreen.prototype.newFile = function(type) {
   var fileCreatorInstance = this.helper.getInstance('fileCreator');
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
+  }
+};
+
+
+/**
+ * Loads example file into editor.
+ * @param {string} file_name Example file name to load.
+ * @private
+ */
+cwc.ui.SelectScreen.prototype.loadExample = function(file_name) {
+  var loaderInstance = this.helper.getInstance('fileLoader');
+  if (loaderInstance) {
+    loaderInstance.loadExampleFile(file_name);
   }
 };
 
@@ -254,10 +310,6 @@ cwc.ui.SelectScreen.prototype.showTemplate = function(template_name) {
     var templateConfig = {'prefix': this.prefix};
     goog.soy.renderElement(this.nodeContent,
         cwc.soy.SelectScreen[template_name], templateConfig);
-    var layoutInstance = this.helper.getInstance('layout');
-    if (layoutInstance) {
-      layoutInstance.showOverlay(true);
-    }
   } else {
     console.error('Unable to render template', template_name);
   }

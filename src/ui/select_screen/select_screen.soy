@@ -130,14 +130,6 @@
     {/call}
 
     <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'Robots' /}
-        {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
-        {param link: 'ev3' /}
-        {param opt_class: 'subheader-orange' /}
-        {param opt_button_class: 'adb' /}
-      {/call}
 
       {call .subheader}
         {param prefix: $prefix /}
@@ -146,6 +138,24 @@
         {param link: 'cwc-blockly' /}
         {param opt_class: 'subheader-green' /}
         {param opt_button_class: 'palette' /}
+      {/call}
+
+      {call .subheader}
+        {param prefix: $prefix /}
+        {param title: 'LEGO® MINDSTORMS® EV3 robot' /}
+        {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
+        {param link: 'ev3' /}
+        {param opt_class: 'subheader-orange' /}
+        {param opt_button_class: 'adb' /}
+      {/call}
+
+      {call .subheader}
+        {param prefix: $prefix /}
+        {param title: 'Sphero robot' /}
+        {param text: 'Control a Sphero ball' /}
+        {param link: 'sphero' /}
+        {param opt_class: 'subheader-blue' /}
+        {param opt_button_class: 'adjust' /}
       {/call}
 
       {call .homeSubLink}
@@ -181,11 +191,11 @@
 
    {call .subheader}
       {param prefix: $prefix /}
-      {param title: 'Easy Coding' /}
-      {param text: 'Use Coffeescript to create simple programs' /}
+      {param title: 'Simplified Coding' /}
+      {param text: 'Use Coffeescript to create simplified programs' /}
       {param link: 'coffeescript' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'view_stream' /}
+      {param opt_class: 'subheader-light-blue' /}
+      {param opt_button_class: 'local_cafe' /}
     {/call}
 
    {call .subheader}
@@ -208,11 +218,20 @@
 
     {call .subheader}
       {param prefix: $prefix /}
-      {param title: 'Robots' /}
+      {param title: 'LEGO® MINDSTORMS® EV3 robot' /}
       {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
       {param link: 'ev3' /}
       {param opt_class: 'subheader-orange' /}
       {param opt_button_class: 'adb' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: 'Sphero robots' /}
+      {param text: 'Control a Sphero ball' /}
+      {param link: 'sphero' /}
+      {param opt_class: 'subheader-blue' /}
+      {param opt_button_class: 'adjust' /}
     {/call}
 
     {call .homeSubLink}
@@ -244,6 +263,43 @@
   {/call}
 
     <div class="{$prefix}content-pane" id="{$prefix}overview-right">
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: 'Sphero Example' /}
+      {param text: 'An simple example for the Sphero' /}
+      {param link: 'sphero' /}
+      {param opt_class: 'subheader-blue' /}
+      {param opt_button_class: 'adjust' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: 'EV3 Example' /}
+      {param text: 'Advanced line following example for the EV3 robot' /}
+      {param link: 'ev3' /}
+      {param opt_class: 'subheader-orange' /}
+      {param opt_button_class: 'adb' /}
+    {/call}
+
+   {call .subheader}
+      {param prefix: $prefix /}
+      {param title: 'Basic Coding' /}
+      {param text: 'Use Javascript to create simple functions' /}
+      {param link: 'cwc-basic' /}
+      {param opt_class: 'subheader-orange' /}
+      {param opt_button_class: 'view_stream' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: 'Websites' /}
+      {param text: 'Create websites using HTML, CSS and JavaScript' /}
+      {param link: 'cwc-html' /}
+      {param opt_class: 'subheader-green' /}
+      {param opt_button_class: 'public' /}
+    {/call}
+
     {call .homeSubLink}
       {param prefix: $prefix /}
     {/call}

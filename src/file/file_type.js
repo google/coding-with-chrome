@@ -37,6 +37,8 @@ cwc.file.Type = {
   COFFEESCRIPT: 'coffeescript',
   EV3: 'ev3',
   EV3_BLOCKLY: 'ev3_blockly',
+  SPHERO: 'sphero',
+  SPHERO_BLOCKLY: 'sphero_blockly',
   HTML: 'html',
   JSON: 'json',
   NONE: 'none',

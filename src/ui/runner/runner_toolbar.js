@@ -66,19 +66,19 @@ cwc.ui.RunnerToolbar = function(helper, prefix) {
 
   /** @type {goog.ui.ToolbarButton} */
   this.runButton = cwc.ui.Helper.getIconToolbarButton('play_arrow',
-      'Runs the code ...', this.run.bind(this));
+      'Runs the code …', this.run.bind(this));
 
   /** @type {goog.ui.ToolbarButton} */
   this.stopButton = cwc.ui.Helper.getIconToolbarButton('stop',
-      'Stops the code ...', this.terminate.bind(this));
+      'Stops the code …', this.terminate.bind(this));
 
   /** @type {goog.ui.ToolbarButton} */
   this.reloadButton = cwc.ui.Helper.getIconToolbarButton('refresh',
-      'Reloads preview ...', this.reload.bind(this));
+      'Reloads preview …', this.reload.bind(this));
 
   /** @type {goog.ui.ToolbarButton} */
   this.infoButton = cwc.ui.Helper.getIconToolbarButton('info_outline',
-      'Shows general information ...', this.toggleInfo.bind(this));
+      'Shows general information …', this.toggleInfo.bind(this));
 };
 
 

@@ -54,8 +54,8 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
     minHeight: loaderHeight
   };
   chrome.app.window.create('html/loader.html', loaderConfig, function(
-      createdWindow) {
-        chrome.app.window.create('html/editor.html', editorConfig);});
+      opt_createdWindow) {
+    chrome.app.window.create('html/editor.html', editorConfig);});
 });
 
 

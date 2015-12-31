@@ -107,7 +107,7 @@ cwc.ui.ExampleMenu.prototype.decorate = function(menu) {
   mainMenuGeneral.addItem(submenuForm);
 
   var submenuMisc = new goog.ui.SubMenu('Misc');
-  var menuMiscPlaceholder = cwc.ui.Helper.getMenuItem('...');
+  var menuMiscPlaceholder = cwc.ui.Helper.getMenuItem('…');
   submenuMisc.addItem(menuMiscPlaceholder);
   mainMenuGeneral.addItem(submenuMisc);
 

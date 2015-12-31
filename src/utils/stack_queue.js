@@ -184,8 +184,10 @@ cwc.utils.StackQueue.prototype.setTimer = function(opt_interval) {
  * @export
  */
 cwc.utils.StackQueue.prototype.startTimer = function() {
-  this.timer_.start();
-  this.run = false;
+  if (this.timer_) {
+    this.timer_.start();
+    this.run = false;
+  }
 };
 
 
@@ -194,8 +196,10 @@ cwc.utils.StackQueue.prototype.startTimer = function() {
  * @export
  */
 cwc.utils.StackQueue.prototype.stopTimer = function() {
-  this.timer_.stop();
-  this.run = false;
+  if (this.timer_) {
+    this.timer_.stop();
+    this.run = false;
+  }
 };
 
 

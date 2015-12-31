@@ -1,3 +1,4 @@
+build/externs
 doc
 node_modules
 third_party

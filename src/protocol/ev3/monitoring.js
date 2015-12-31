@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 Monitoring logic.
+ * @fileoverview EV3 monitoring logic.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -36,6 +36,9 @@ goog.require('goog.events.EventTarget');
 cwc.protocol.ev3.Monitoring = function(api) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = api;
+
+  /** @type {boolean} */
+  this.monitor = false;
 
   /** @type {!number} */
   this.monitorMotorInterval = 2000;  // Duration in ms.
@@ -86,6 +89,12 @@ cwc.protocol.ev3.Monitoring = function(api) {
 
   /** @type {boolean} */
   this.detectChangedValues = false;
+
+  /** @type {boolean} */
+  this.started = false;
+
+  /** @type {!Array} */
+  this.listener = [];
 };
 
 
@@ -93,82 +102,93 @@ cwc.protocol.ev3.Monitoring = function(api) {
  * Prepares events for port monitoring.
  */
 cwc.protocol.ev3.Monitoring.prototype.init = function() {
-  console.log('Init EV3 sensor and actor monitoring ...');
+  if (this.monitor) {
+    return;
+  }
 
-  goog.events.listen(this.monitorSensorColor, goog.Timer.TICK,
+  console.log('Init EV3 sensor and actor monitoring …');
+
+  this.addEventListener_(this.monitorSensorColor, goog.Timer.TICK,
       this.updateColorSensor, false, this);
 
-  goog.events.listen(this.monitorSensorIr, goog.Timer.TICK,
+  this.addEventListener_(this.monitorSensorIr, goog.Timer.TICK,
       this.updateIrSensor, false, this);
 
-  goog.events.listen(this.monitorSensorTouch, goog.Timer.TICK,
+  this.addEventListener_(this.monitorSensorTouch, goog.Timer.TICK,
       this.updateTouchSensor, false, this);
 
-  goog.events.listen(this.monitorLargeMotor, goog.Timer.TICK,
+  this.addEventListener_(this.monitorLargeMotor, goog.Timer.TICK,
       this.updateLargeMotor, false, this);
 
-  goog.events.listen(this.monitorMediumMotor, goog.Timer.TICK,
+  this.addEventListener_(this.monitorMediumMotor, goog.Timer.TICK,
       this.updateMediumMotor, false, this);
 
-  goog.events.listen(this.monitorLargeMotorOpt, goog.Timer.TICK,
+  this.addEventListener_(this.monitorLargeMotorOpt, goog.Timer.TICK,
       this.updateLargeMotorOpt, false, this);
 
-  goog.events.listen(this.monitorMediumMotorOpt, goog.Timer.TICK,
+  this.addEventListener_(this.monitorMediumMotorOpt, goog.Timer.TICK,
       this.updateMediumMotorOpt, false, this);
 
-  goog.events.listen(this.monitorUpdate, goog.Timer.TICK,
+  this.addEventListener_(this.monitorUpdate, goog.Timer.TICK,
       this.updateData, false, this);
+
+  this.monitor = true;
 };
 
 
 /**
  * Starts the port monitoring.
- * @param {Object} device_info
+ * @param {Object=} opt_device_info
  */
-cwc.protocol.ev3.Monitoring.prototype.start = function(device_info) {
-  this.deviceInfo = device_info;
+cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
+  if (opt_device_info) {
+    this.deviceInfo = opt_device_info;
+  }
 
-  /**  @type {cwc.protocol.ev3.DeviceName} */
-  var deviceName = cwc.protocol.ev3.DeviceName;
+  if (!this.deviceInfo) {
+    return;
+  }
+
   var monitoring = false;
 
-  if (deviceName.COLOR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
     this.monitorSensorColor.start();
     monitoring = true;
   }
 
-  if (deviceName.IR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.IR_SENSOR in this.deviceInfo) {
     this.monitorSensorIr.start();
     monitoring = true;
   }
 
-  if (deviceName.TOUCH_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.TOUCH_SENSOR in this.deviceInfo) {
     this.monitorSensorTouch.start();
     monitoring = true;
   }
 
-  if (deviceName.LARGE_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR in this.deviceInfo) {
     this.monitorLargeMotor.start();
     monitoring = true;
   }
 
-  if (deviceName.MEDIUM_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR in this.deviceInfo) {
     this.monitorMediumMotor.start();
     monitoring = true;
   }
 
-  if (deviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
     this.monitorLargeMotorOpt.start();
     monitoring = true;
   }
 
-  if (deviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
     this.monitorMediumMotorOpt.start();
     monitoring = true;
   }
 
   if (monitoring) {
     this.monitorUpdate.start();
+    this.started = true;
   }
 };
 
@@ -177,14 +197,16 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(device_info) {
  * Stops the port monitoring.
  */
 cwc.protocol.ev3.Monitoring.prototype.stop = function() {
-  this.monitorSensorColor.stop();
-  this.monitorSensorIr.stop();
-  this.monitorSensorTouch.stop();
-  this.monitorLargeMotor.stop();
-  this.monitorMediumMotor.stop();
-  this.monitorLargeMotorOpt.stop();
-  this.monitorMediumMotorOpt.stop();
-  this.monitorUpdate.stop();
+  if (this.started) {
+    this.monitorSensorColor.stop();
+    this.monitorSensorIr.stop();
+    this.monitorSensorTouch.stop();
+    this.monitorLargeMotor.stop();
+    this.monitorMediumMotor.stop();
+    this.monitorLargeMotorOpt.stop();
+    this.monitorMediumMotorOpt.stop();
+    this.monitorUpdate.stop();
+  }
 };
 
 
@@ -244,8 +266,7 @@ cwc.protocol.ev3.Monitoring.prototype.updateMediumMotor = function() {
 /**
  * Request updated opt large motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt =
-    function() {
+cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt = function() {
   this.api.getActorData(
       this.deviceInfo[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT]);
 };
@@ -254,24 +275,43 @@ cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt =
 /**
  * Request updated opt medium motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt =
-    function() {
+cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
   this.api.getActorData(
       this.deviceInfo[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT]);
 };
 
 
 /**
- * Triggers event handler that updates values are avalible.
+ * Triggers event handler that updates values are available.
  */
 cwc.protocol.ev3.Monitoring.prototype.updateData = function() {
   if (this.api.isConnected()) {
     if (this.detectChangedValues) {
       this.eventHandler.dispatchEvent(
-          cwc.protocol.ev3.Events.CHANGED_VALUES);
+          cwc.protocol.ev3.Events.Type.CHANGED_VALUES);
       this.detectChangedValues = false;
     }
   } else {
     this.stop();
   }
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function()} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.protocol.ev3.Monitoring.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

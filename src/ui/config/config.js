@@ -55,7 +55,7 @@ cwc.ui.Config = function(helper) {
  */
 cwc.ui.Config.prototype.loadConfig = function() {
   var sync_event = this.syncConfig.bind(this);
-  this.log.info('Try to load synced config ...');
+  this.log.info('Try to load synced config …');
   chrome.storage.sync.get('settings', sync_event);
 };
 
@@ -139,7 +139,7 @@ cwc.ui.Config.prototype.syncConfig = function(config) {
  * @return {!string} Value of the config entry.
  */
 cwc.ui.Config.prototype.get = function(name) {
-  if (!name in this.config) {
+  if (!(name in this.config)) {
     this.log.warn('Failed to get config entry ' + name + '!');
     return '';
   }

@@ -369,7 +369,7 @@ cwc.ui.Preview.prototype.handleLoadStart = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setRunStatus(true);
   }
-  this.setStatusText('Loading ...');
+  this.setStatusText('Loading …');
   this.status = 'loading';
 };
 
@@ -442,7 +442,7 @@ cwc.ui.Preview.prototype.handlePermissionRequest = function(event) {
  */
 cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
   if (active && !this.autoUpdateEvent) {
-    console.log('Activate AutoUpdate ...');
+    console.log('Activate AutoUpdate …');
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       var editorEventHandler = editorInstance.getEventHandler();
@@ -454,7 +454,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
       }
     }
   } else if (!active && this.autoUpdateEvent) {
-    console.log('Deactivate AutoUpdate ...');
+    console.log('Deactivate AutoUpdate …');
     goog.events.unlistenByKey(this.autoUpdateEvent);
     this.autoUpdateEvent = null;
     if (this.toolbar) {

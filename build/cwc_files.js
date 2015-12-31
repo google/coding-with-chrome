@@ -23,53 +23,86 @@ var glob = closureBuilder.globSupport();
 
 closureBuilder.build({
   name: 'cwc.framework.Arduino',
-  srcs: [
-    glob('src/frameworks/**/*.js')
-  ],
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
   out: 'genfiles/frameworks/arduino_framework.js'
 });
 
 
 closureBuilder.build({
   name: 'cwc.framework.Ev3',
-  srcs: [
-    glob('src/frameworks/**/*.js')
-  ],
-  deps: [
-    glob('src/**/*.js')
-  ],
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
+  deps: glob([
+    'src/**/*.js'
+  ]),
   out: 'genfiles/frameworks/ev3_framework.js'
 });
 
 
 closureBuilder.build({
+  name: 'cwc.framework.Sphero',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
+  deps: glob([
+    'src/**/*.js'
+  ]),
+  out: 'genfiles/frameworks/sphero_framework.js'
+});
+
+
+closureBuilder.build({
+  name: 'cwc.framework.TTS',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
+  deps: glob([
+    'src/**/*.js'
+  ]),
+  out: 'genfiles/frameworks/tts_framework.js'
+});
+
+
+closureBuilder.build({
   name: 'cwc.framework.Runner',
-  srcs: [
-    glob('src/frameworks/**/*.js')
-  ],
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
   out: 'genfiles/frameworks/runner_framework.js'
 });
 
 
 closureBuilder.build({
   name: 'cwc.framework.simple.Loader',
-  srcs: [
-    glob('src/frameworks/**/*.js')
-  ],
-  deps: [
-    glob('src/**/*.js')
-  ],
+  compress: true,
+  srcs: glob([
+    'src/frameworks/**/*.js'
+  ]),
+  deps: glob([
+    'src/**/*.js'
+  ]),
   out: 'genfiles/frameworks/simple_framework.js'
 });
 
 
 closureBuilder.build({
   name: 'cwc.ui.Builder',
-  srcs: [
-    glob('src/**/*')
-  ],
-  deps: [
-    glob('node_modules/blockly/**/*.js')
-  ],
+  srcs: glob([
+    'src/**/*'
+  ]),
+  deps: glob([
+    'node_modules/blockly/**/*.js'
+  ]),
+  externs: glob([
+    'build/externs/*.js'
+  ]),
   out: 'genfiles/js/cwc_ui.js'
 });

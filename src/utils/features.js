@@ -76,17 +76,22 @@ cwc.utils.Features.prototype.detect = function() {
  */
 cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   var group = 'chrome';
-  var manifest = chrome.runtime.getManifest();
+
+  // General features
   this.set('bluetooth', goog.isObject(chrome.bluetooth), group);
   this.set('bluetoothSocket', goog.isObject(chrome.bluetoothSocket), group);
   this.set('tts', goog.isObject(chrome.tts), group);
   this.set('sockets', goog.isObject(chrome.sockets), group);
   this.set('serial', goog.isObject(chrome.serial), group);
   this.set('system.memory', goog.isObject(chrome.system.memory), group);
+  this.set('manifest', goog.isObject(chrome.runtime.getManifest), group);
   this.set('tcp', goog.isObject(chrome.sockets.tcp), group);
   this.set('udp', goog.isObject(chrome.sockets.udp), group);
   this.set('usb', goog.isObject(chrome.usb), group);
   this.set('tcpServer', goog.isObject(chrome.sockets.tcpServer), group);
+
+  // Manifest specific
+  var manifest = chrome.runtime.getManifest();
   this.set('oauth2', typeof manifest.oauth2 != 'undefined', group);
   this.set('key', typeof manifest.key != 'undefined', group);
 };

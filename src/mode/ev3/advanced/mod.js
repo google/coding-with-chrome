@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.advanced.Mod');
 
+goog.require('cwc.mode.ev3.Connection');
 goog.require('cwc.mode.ev3.Monitor');
 goog.require('cwc.mode.ev3.Runner');
 goog.require('cwc.mode.ev3.advanced.Editor');
@@ -32,8 +33,8 @@ goog.require('cwc.renderer.external.EV3');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.ev3.advanced.Mod = function(helper) {
-  /** @type {boolean} */
-  this.bluetoothSocket = helper.checkChromeFeature('bluetoothSocket');
+  /** @type {cwc.mode.ev3.Connection} */
+  this.connection = new cwc.mode.ev3.Connection(helper);
 
   /** @type {cwc.mode.ev3.advanced.Editor} */
   this.editor = new cwc.mode.ev3.advanced.Editor(helper);
@@ -43,14 +44,14 @@ cwc.mode.ev3.advanced.Mod = function(helper) {
 
   /** @type {cwc.mode.ev3.Monitor} */
   this.monitor = new cwc.mode.ev3.Monitor(helper,
-      this.bluetoothSocket);
+      this.connection);
 
   /** @type {cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
 
   /** @type {cwc.mode.ev3.Runner} */
   this.runner = new cwc.mode.ev3.Runner(helper,
-      this.bluetoothSocket);
+      this.connection);
 };
 
 
@@ -58,9 +59,10 @@ cwc.mode.ev3.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.ev3.advanced.Mod.prototype.decorate = function() {
+  this.connection.init();
   this.layout.decorate();
   this.editor.decorate();
-  this.monitor.decorate();
   this.runner.decorate();
+  this.monitor.decorate();
   this.renderer.init();
 };

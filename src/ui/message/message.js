@@ -131,7 +131,7 @@ cwc.ui.Message.prototype.warning = function(message) {
  */
 cwc.ui.Message.prototype.showMessage_ = function(message, opt_type) {
   var type = opt_type || cwc.ui.MessageType.INFO;
-  console.log('[' + opt_type + '] :' + message);
+  console.log('[' + type + '] :' + message);
 };
 
 

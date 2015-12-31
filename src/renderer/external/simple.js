@@ -74,11 +74,6 @@ cwc.renderer.external.Simple.prototype.render = function(
       editor_content[cwc.file.ContentType.HTML] : '';
   var css = (cwc.file.ContentType.CSS in editor_content) ?
       editor_content[cwc.file.ContentType.CSS] : '';
-  var editorLoadFlag = editor_flags.getFlag('interpreter.load');
-  if (editorLoadFlag) {
-    javascript = renderer_helper.prependText(javascript,
-        '"use ' + editorLoadFlag + '";');
-  }
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
   var payload = 'new cwc.framework.simple.Loader().mapFramework();';
   var body = html + renderer_helper.getJavaScript(payload);
