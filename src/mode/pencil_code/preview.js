@@ -1,5 +1,5 @@
 /**
- * @fileoverview Editor for the Basic modification.
+ * @fileoverview Preview for the Pencil Code editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,10 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Editor');
 
-goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.EditorType');
+goog.provide('cwc.mode.pencilCode.Preview');
+
+goog.require('cwc.ui.Preview');
+goog.require('cwc.utils.Helper');
 
 
 
@@ -30,18 +31,15 @@ goog.require('cwc.ui.EditorType');
  * @struct
  * @final
  */
-cwc.mode.basic.simple.Editor = function(helper) {
+cwc.mode.pencilCode.Preview = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
+  /** @type {!cwc.ui.Preview} */
+  this.preview = new cwc.ui.Preview(helper);
 
   /** @type {string} */
   this.prefix = helper.getPrefix();
@@ -49,13 +47,19 @@ cwc.mode.basic.simple.Editor = function(helper) {
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the preview window.
  */
-cwc.mode.basic.simple.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
-  this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node, this.prefix);
-  this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
-  this.editor.enableMediaButton(true);
+cwc.mode.pencilCode.Preview.prototype.decorate = function() {
+  this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
+  this.helper.setInstance('preview', this.preview, true);
+  this.preview.decorate(this.node, this.prefix);
+};
+
+
+/**
+ * Shows or hides the built in console.
+ * @param {boolean} visible
+ */
+cwc.mode.pencilCode.Preview.prototype.showConsole = function(visible) {
+  this.preview.showConsole(visible);
 };

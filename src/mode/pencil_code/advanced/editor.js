@@ -1,5 +1,5 @@
 /**
- * @fileoverview Editor for the Basic modification.
+ * @fileoverview Editor for the Pencil Code modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Editor');
+goog.provide('cwc.mode.pencilCode.advanced.Editor');
 
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.EditorType');
@@ -30,7 +30,7 @@ goog.require('cwc.ui.EditorType');
  * @struct
  * @final
  */
-cwc.mode.basic.simple.Editor = function(helper) {
+cwc.mode.pencilCode.advanced.Editor = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -51,7 +51,7 @@ cwc.mode.basic.simple.Editor = function(helper) {
 /**
  * Decorates the simple editor.
  */
-cwc.mode.basic.simple.Editor.prototype.decorate = function() {
+cwc.mode.pencilCode.advanced.Editor.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node, this.prefix);

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout template for the EV3 modification.
+ * @fileoverview Turtle template for Coding in Chrome editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,31 +17,53 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.ev3.advanced autoescape="deprecated-contextual"}
 
+{namespace cwc.soy.Turtle autoescape="deprecated-contextual"}
 
 /**
- * Editor template.
+ * HTML template for the preview.
  */
-{template .editor}
+{template .template}
   {@param prefix: string}
-  <div id="{$prefix}editor-chrome">Editor</div>
+  <div id="{$prefix}body">
+    <div id="{$prefix}content"></div>
+  </div>
 {/template}
 
 
 /**
- * Runner template.
+ * Preview style definitions.
  */
-{template .runner}
+{template .style}
   {@param prefix: string}
-  <div id="{$prefix}runner-chrome">Runner</div>
-{/template}
 
+  #{$prefix}body {lb}
+    height: 100%;
+  {rb}
 
-/**
- * Monitor template.
- */
-{template .monitor}
-  {@param prefix: string}
-  <div id="{$prefix}monitor-chrome">Monitor</div>
+  #{$prefix}content {lb}
+    overflow: auto;
+    position: relative;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+  {rb}
+
+  #{$prefix}content.hide {lb}
+    display: none;
+    width: 1px;
+    height: 1px;
+  {rb}
+
+  #{$prefix}content.show {lb}
+    display: block;
+    width: 100%;
+    height: 100%;
+  {rb}
+
+  #{$prefix}content webview {lb}
+    height: calc(100% - 4px);
+    width: 100%;
+  {rb}
+
 {/template}

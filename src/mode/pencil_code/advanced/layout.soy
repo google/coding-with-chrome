@@ -1,5 +1,5 @@
 /**
- * @fileoverview Preview template for the EV3 modification.
+ * @fileoverview Layout template for the Pencil Code modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,29 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.ev3.Preview autoescape="deprecated-contextual"}
+{namespace cwc.soy.mode.pencilCode.Advanced autoescape="strict"}
 
 
 /**
- * EV3 Preview template.
+ * Editor template.
  */
-{template .template}
+{template .editor}
   {@param prefix: string}
-  <h3>Preview</h3>
-  <div id="{$prefix}preview">
-    <canvas id="{$prefix}display"></canvas>
-    <canvas id="{$prefix}scratch"></canvas>
-  </div>
+  <div id="{$prefix}editor-chrome"></div>
 {/template}
 
 
 /**
- * EV3 Preview style definitions.
+ * Preview template.
  */
-{template .style}
+{template .preview}
   {@param prefix: string}
-  #{$prefix}scratch {lb}
-    display: none;
-  {rb}
-
+  <div id="{$prefix}preview-chrome"></div>
 {/template}

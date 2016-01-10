@@ -44,7 +44,7 @@ cwc.framework.Ev3 = function(code) {
   this.code = function() {code(this);}.bind(this);
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code);
+  this.runner = new cwc.framework.Runner(this.code, this);
 
   /** @type {Object} */
   this.deviceData = {};
@@ -79,16 +79,11 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.irSensorValue = null;
 
-  this.runner.addCommand(
-      'updateDeviceData', this.handleUpdateDeviceData_, this);
-  this.runner.addCommand(
-      'updateDeviceInfo', this.handleUpdateDeviceInfo_, this);
-
-  this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_, this);
-  this.runner.addCommand(
-      'updateColorSensor', this.handleUpdateColorSensor_, this);
-  this.runner.addCommand(
-      'updateTouchSensor', this.handleUpdateTouchSensor_, this);
+  this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
+  this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
+  this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
+  this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
+  this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
 };
 
 

@@ -19,12 +19,13 @@
  */
 goog.provide('cwc.mode.ev3.Runner');
 
-goog.require('cwc.mode.ev3.Preview');
+goog.require('cwc.protocol.ev3.Events');
+goog.require('cwc.runner.profile.ev3.Command');
+goog.require('cwc.runner.profile.ev3.Monitor');
 goog.require('cwc.soy.mode.ev3.Runner');
 goog.require('cwc.ui.Runner');
-goog.require('cwc.runner.profile.EV3');
+goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
-goog.require('cwc.protocol.ev3.Events');
 
 goog.require('goog.Timer');
 goog.require('goog.dom');
@@ -43,7 +44,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   this.name = 'EV3 Runner';
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-runner');
+  this.prefix = helper.getPrefix('ev3');
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -54,8 +55,11 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.EV3} */
-  this.profile = new cwc.runner.profile.EV3(this.api);
+  /** @type {!cwc.runner.profile.ev3.Command} */
+  this.command = new cwc.runner.profile.ev3.Command(this.api);
+
+  /** @type {!cwc.runner.profile.ev3.Command} */
+  this.monitor = new cwc.runner.profile.ev3.Monitor(this.turtle);
 
   /** @type {Element} */
   this.node = null;
@@ -66,14 +70,14 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
 
-  /** @type {!cwc.mode.ev3.Preview} */
-  this.preview = new cwc.mode.ev3.Preview(helper);
+  /** @type {!cwc.ui.Turtle} */
+  this.turtle = new cwc.ui.Turtle(helper);
 
   /** @type {!boolean} */
   this.showOverlay = true;
 
   /** @type {!boolean} */
-  this.showPreview = false;
+  this.showPreview = true;
 };
 
 
@@ -84,29 +88,34 @@ cwc.mode.ev3.Runner = function(helper, connection) {
 cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
-  this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
-  this.runner.addCommand('__reset__', this.handleReset.bind(this));
-  this.runner.addCommand('__init__', this.handleInit.bind(this));
+  this.helper.setInstance('turtle', this.turtle, true);
+
+  this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Delayed Commands
-  this.runner.addCommand('moveSteps', this.profile.moveSteps, this);
-  this.runner.addCommand('moveServo', this.profile.moveServo, this);
-  this.runner.addCommand('rotateAngle', this.profile.rotateAngle, this);
-  this.runner.addCommand('playSound', this.profile.playSound, this);
-  this.runner.addCommand('playTone', this.profile.playTone, this);
-  this.runner.addCommand('showImage', this.profile.showImage, this);
+  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
+  this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this);
+
+  this.runner.addCommand('moveServo', this.command.moveServo, this);
+
+  this.runner.addCommand('rotateAngle', this.command.rotateAngle, this);
+  this.runner.addMonitor('rotateAngle', this.monitor.rotateAngle, this);
+
+  this.runner.addCommand('playSound', this.command.playSound, this);
+  this.runner.addCommand('playTone', this.command.playTone, this);
+  this.runner.addCommand('showImage', this.command.showImage, this);
 
   // Direct commands
-  this.runner.addCommand('movePower', this.profile.movePower, this);
-  this.runner.addCommand('rotatePower', this.profile.rotatePower, this);
-  this.runner.addCommand('stop', this.profile.stop, this);
+  this.runner.addCommand('movePower', this.command.movePower, this);
+  this.runner.addCommand('rotatePower', this.command.rotatePower, this);
+  this.runner.addCommand('stop', this.command.stop, this);
 
   // General commands
-  this.runner.addCommand('setColorSensorMode', this.profile.setColorSensorMode,
+  this.runner.addCommand('setColorSensorMode', this.command.setColorSensorMode,
       this);
-  this.runner.addCommand('setIrSensorMode', this.profile.setIrSensorMode, this);
-  this.runner.addCommand('setLed', this.profile.setLed, this);
-  this.runner.addCommand('setStepSpeed', this.profile.setStepSpeed, this);
+  this.runner.addCommand('setIrSensorMode', this.command.setIrSensorMode, this);
+  this.runner.addCommand('setLed', this.command.setLed, this);
+  this.runner.addCommand('setStepSpeed', this.command.setStepSpeed, this);
 
   // Events
   var apiEventHandler = this.api.getEventHandler();
@@ -125,10 +134,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.setInfoTemplate(templates.info);
   if (this.showOverlay && !this.showPreview) {
     this.runner.setOverlayTemplate(templates.overlay);
-  } else if (this.showPreview) {
-    this.runner.setOverlayTemplate(this.preview.getTemplate(),
-        this.helper.getPrefix('ev3-preview'));
-  } else {
+  } else if (!this.showPreview) {
     this.runner.setConnectTemplate(templates.connect);
     this.runner.setDisconnectTemplate(templates.disconnect);
     this.runner.setPrepareTemplate(templates.prepare);
@@ -138,13 +144,16 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     this.runner.setTerminateTemplate(templates.stop);
   }
 
-  this.runner.setCleanUpFunction(this.profile.cleanUp.bind(this));
+  this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
-
   if (this.showPreview) {
-    this.preview.decorate();
+    this.runner.showTurtle(true);
   }
+
+  // Preview output
+  var turtleNode = this.runner.getTurtleNode();
+  this.turtle.decorate(turtleNode, this.prefix);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -165,39 +174,13 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
 
 /**
- * Prepares preview if needed.
+ * @private
  */
-cwc.mode.ev3.Runner.prototype.handleInit = function() {
-  if (this.showPreview) {
-    this.preview.prepareDisplay();
-  }
-};
-
-
-/**
-* Resets preview if needed.
-*/
-cwc.mode.ev3.Runner.prototype.handleReset = function() {
-  if (this.showPreview) {
-    this.preview.clearBuffer();
-  }
-};
-
-
-/**
- * @param {string=} opt_token
- */
-cwc.mode.ev3.Runner.prototype.handleHandshake = function(opt_token) {
-  console.log('Recieved Handshake:', opt_token);
-
-  // Monitor EV3 events.
+cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
   this.updateDeviceData();
 
-  // Send acknowledge for the start.
-  goog.Timer.callOnce(function() {
-    this.runner.send('__start__');
-  }.bind(this), 200);
+  this.turtle.reset();
 };
 
 

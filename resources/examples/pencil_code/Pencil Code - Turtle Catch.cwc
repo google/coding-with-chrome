@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "speed Infinity\nwrite \"Catch blue before red gets you.\"\nbk 200\nr = hatch red\nb = hatch blue\ntick 10, ->\n  turnto lastmousemove\n  fd 6\n  r.turnto turtle\n  r.fd 4\n  b.turnto direction b\n  b.fd 3\n  if b.touches(turtle)\n    write \"You win!\"\n    tick off\n  else if r.touches(turtle)\n    write \"Red got you!\"\n    tick off\n  else if not b.inside(document)\n    write \"Blue got away!\"\n    tick off"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "pencil_code",
+  "mode": "pencil_code",
+  "title": "Pencil Code - Turtle Catch",
+  "ui": "default",
+  "version": "1.0"
+}

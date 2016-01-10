@@ -27,13 +27,14 @@ goog.require('goog.events.EventType');
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {string=} opt_name
  * @constructor
  * @struct
  * @final
  */
-cwc.runner.Connector = function(helper) {
+cwc.runner.Connector = function(helper, opt_name) {
   /** @type {!string} */
-  this.name = 'Runner Connector';
+  this.name = 'Runner Connector' || opt_name;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -44,14 +45,17 @@ cwc.runner.Connector = function(helper) {
   /** @type {!Object} */
   this.commands = {};
 
+  /** @type {!Object} */
+  this.monitor = {};
+
   /** @type {Object} */
   this.target = null;
 
-  /** @type {!boolean} */
-  this.target = false;
-
   /** @type {!string} */
   this.targetOrigin = '*';
+
+  /** @type {!boolean} */
+  this.listen = false;
 
   /** @type {!Array} */
   this.listener = [];
@@ -60,7 +64,7 @@ cwc.runner.Connector = function(helper) {
   this.directUpdate = false;
 
   /** @type {!number} */
-  this.token = 0;
+  this.token = new Date().getTime();
 
   /** @type {!Object} */
   this.pingTime = {};
@@ -75,13 +79,21 @@ cwc.runner.Connector = function(helper) {
 
 /**
  * Inits the runner instance.
- * @param {Object} content
+ * @param {boolean} opt_listen
  */
-cwc.runner.Connector.prototype.init = function() {
-  this.addEventListener_(window, 'message', this.handleMessage_, false, this);
+cwc.runner.Connector.prototype.init = function(opt_listen) {
+  if (opt_listen) {
+    this.initListener();
+  }
   this.addCommand('__direct_update__', this.enableDirectUpdate_.bind(this));
   this.addCommand('__handshake__', this.handleHandshake_.bind(this));
   this.addCommand('__pong__', this.handlePong_.bind(this));
+};
+
+
+cwc.runner.Connector.prototype.initListener = function() {
+  this.addEventListener_(window, 'message', this.handleMessage_, false, this);
+  this.listen = true;
 };
 
 
@@ -121,9 +133,10 @@ cwc.runner.Connector.prototype.send = function(command, opt_value) {
  */
 cwc.runner.Connector.prototype.start = function() {
   this.executeCommand('__init__', null, true);
-  this.token = new Date().getTime();
-  console.log('Sending handhshake with token', this.token);
-  this.send('__handshake__', this.token);
+  if (this.listen) {
+    console.log('Sending handhshake with token', this.token);
+    this.send('__handshake__', this.token);
+  }
 };
 
 
@@ -156,6 +169,25 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
+ * @param {!string} name
+ * @param {!function(?)} func
+ * @param {?} opt_scope
+ * @export
+ */
+cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {
+  if (!func) {
+    console.error('Runner monitor function is undefined for', name);
+    return;
+  }
+  if (opt_scope) {
+    this.monitor[name] = func.bind(opt_scope);
+  } else {
+    this.monitor[name] = func;
+  }
+};
+
+
+/**
  * @param {EventTarget|goog.events.Listenable} event_handler
  * @param {!string} event
  * @param {!string} command
@@ -178,12 +210,19 @@ cwc.runner.Connector.prototype.addEvent = function(event_handler, event,
  */
 cwc.runner.Connector.prototype.executeCommand = function(name, value,
     opt_ignore_unknown) {
-  if (name in this.commands) {
-    this.commands[name](value);
-  } else if (!opt_ignore_unknown) {
-    console.log('Runner connector received unknow command', name,
+  if (typeof this.commands[name] === 'undefined') {
+    if (!opt_ignore_unknown) {
+      console.log('Runner connector received unknow command', name,
         'with value', value);
+    }
+    return;
   }
+  this.commands[name](value);
+
+  if (typeof this.monitor[name] === 'undefined') {
+    return;
+  }
+  this.monitor[name](value);
 };
 
 
@@ -247,6 +286,7 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
     return;
   }
   console.log('Recieved handshake with token:', token);
+  this.executeCommand('__start__', null, true);
   this.ping();
   this.send('__start__');
 };

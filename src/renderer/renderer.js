@@ -44,13 +44,13 @@ cwc.renderer.Renderer = function(helper) {
   /** @type {Function} */
   this.renderer = null;
 
-  /** @type {cwc.renderer.Helper} */
+  /** @type {!cwc.renderer.Helper} */
   this.rendererHelper = new cwc.renderer.Helper();
 
-  /** @type {cwc.file.Files} */
+  /** @type {!cwc.file.Files} */
   this.frameworkFiles = new cwc.file.Files();
 
-  /** @type {cwc.file.Files} */
+  /** @type {!cwc.file.Files} */
   this.libraryFiles = new cwc.file.Files();
 };
 
@@ -84,8 +84,8 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content,
   }
 
   if (!goog.string.startsWith(content, 'data:')) {
-    frameworkContent = 'data:text/javascript;charset=utf-8,' +
-        encodeURIComponent(content);
+    frameworkContent = this.rendererHelper.getDataUrl(content,
+      'text/javascript');
   }
 
   var frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,
@@ -95,6 +95,24 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content,
   } else {
     console.info('Added framework', name, frameworkFile);
   }
+};
+
+
+/**
+ * @return {!cwc.file.Files}
+ * @export
+ */
+cwc.renderer.Renderer.prototype.getFrameworks = function() {
+  return this.frameworkFiles;
+};
+
+
+/**
+ * @return {!cwc.renderer.Helper}
+ * @export
+ */
+cwc.renderer.Renderer.prototype.getRendererHelper = function() {
+  return this.rendererHelper;
 };
 
 
@@ -145,7 +163,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
  */
 cwc.renderer.Renderer.prototype.getContentUrl = function() {
   var content = this.getRenderedContent();
-  return this.getDataUrl_(content);
+  return this.rendererHelper.getDataUrl(content);
 };
 
 
@@ -164,7 +182,7 @@ cwc.renderer.Renderer.prototype.getRenderedPreview = function() {
 cwc.renderer.Renderer.prototype.getPreviewUrl = function() {
   var content = this.getRenderedPreview();
   if (content) {
-    return this.getDataUrl_(content);
+    return this.rendererHelper.getDataUrl(content);
   } else {
     console.error('Was not able to get preview URL: ' + content);
   }
@@ -178,18 +196,4 @@ cwc.renderer.Renderer.prototype.getPreviewUrl = function() {
  */
 cwc.renderer.Renderer.prototype.getObjectTag = function() {
   return this.rendererHelper.getObjectTag(this.getContentUrl());
-};
-
-
-/**
- * Returns data encoded preview.
- * @param {string} content
- * @param {string=} opt_type
- * @return {string}
- * @private
- */
-cwc.renderer.Renderer.prototype.getDataUrl_ = function(content,
-    opt_type) {
-  var dataType = opt_type || 'text/html';
-  return 'data:' + dataType + ';charset=utf-8,' + encodeURIComponent(content);
 };

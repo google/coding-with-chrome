@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.renderer.internal.Coffeescript');
 
 goog.require('cwc.file.ContentType');

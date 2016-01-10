@@ -1,5 +1,5 @@
 /**
- * @fileoverview Editor for the Basic modification.
+ * @fileoverview Library for the Pencil Code editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,10 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Editor');
+goog.provide('cwc.mode.pencilCode.Library');
 
-goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.EditorType');
+goog.require('cwc.ui.Library');
 
 
 
@@ -30,15 +29,12 @@ goog.require('cwc.ui.EditorType');
  * @struct
  * @final
  */
-cwc.mode.basic.simple.Editor = function(helper) {
+cwc.mode.pencilCode.Library = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
+  /** @type {!cwc.ui.Library} */
+  this.library = new cwc.ui.Library(helper);
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -51,11 +47,8 @@ cwc.mode.basic.simple.Editor = function(helper) {
 /**
  * Decorates the simple editor.
  */
-cwc.mode.basic.simple.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
-  this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node, this.prefix);
-  this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
-  this.editor.enableMediaButton(true);
+cwc.mode.pencilCode.Library.prototype.decorate = function() {
+  this.node = goog.dom.getElement(this.prefix + 'library-chrome');
+  this.helper.setInstance('library', this.library, true);
+  this.library.decorate(this.node, this.prefix);
 };

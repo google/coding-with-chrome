@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout for the EV3 Blockly modification.
+ * @fileoverview Layout for the Pencil Code modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.blockly.Layout');
+goog.provide('cwc.mode.pencilCode.advanced.Layout');
 
-goog.require('cwc.soy.mode.ev3.blockly');
+goog.require('cwc.soy.mode.pencilCode.Advanced');
 
 
 
@@ -27,36 +27,33 @@ goog.require('cwc.soy.mode.ev3.blockly');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.ev3.blockly.Layout = function(helper) {
+cwc.mode.pencilCode.advanced.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3');
+  this.prefix = helper.getPrefix();
 };
 
 
 /**
- * Decorates the EV3 layout.
+ * Decorates the basic simple layout.
  */
-cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
+cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout();
-  layoutInstance.setFixRightComponentSize(400);
-  layoutInstance.setHandleSize(1);
-
+  layoutInstance.decorateSimpleTwoColumnLayout(500);
   var nodes = layoutInstance.getNodes();
-  console.log('Adding Content');
 
+  console.log('Adding Content');
   goog.soy.renderElement(
       nodes['content-left'],
-      cwc.soy.mode.ev3.blockly.editor,
+      cwc.soy.mode.pencilCode.Advanced.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
-      cwc.soy.mode.ev3.blockly.runner,
+      cwc.soy.mode.pencilCode.Advanced.preview,
       {'prefix': this.prefix}
   );
 

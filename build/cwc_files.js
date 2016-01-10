@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome.
+ * @fileoverview BUILD configuration for Coding with Chrome editor files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -19,78 +19,6 @@
  */
 var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
-
-
-closureBuilder.build({
-  name: 'cwc.framework.Arduino',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/arduino_framework.js'
-});
-
-
-closureBuilder.build({
-  name: 'cwc.framework.Ev3',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  deps: glob([
-    'src/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/ev3_framework.js'
-});
-
-
-closureBuilder.build({
-  name: 'cwc.framework.Sphero',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  deps: glob([
-    'src/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/sphero_framework.js'
-});
-
-
-closureBuilder.build({
-  name: 'cwc.framework.TTS',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  deps: glob([
-    'src/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/tts_framework.js'
-});
-
-
-closureBuilder.build({
-  name: 'cwc.framework.Runner',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/runner_framework.js'
-});
-
-
-closureBuilder.build({
-  name: 'cwc.framework.simple.Loader',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/**/*.js'
-  ]),
-  deps: glob([
-    'src/**/*.js'
-  ]),
-  out: 'genfiles/frameworks/simple_framework.js'
-});
 
 
 closureBuilder.build({

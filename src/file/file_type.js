@@ -39,6 +39,7 @@ cwc.file.Type = {
   EV3_BLOCKLY: 'ev3_blockly',
   SPHERO: 'sphero',
   SPHERO_BLOCKLY: 'sphero_blockly',
+  PENCIL_CODE: 'pencil_code',
   HTML: 'html',
   JSON: 'json',
   NONE: 'none',

@@ -29,6 +29,7 @@ cwc.file.ContentType = {
   CSS: 'css',
   COFFEESCRIPT: 'coffeescript',
   BLOCKLY: 'blockly',
+  PENCIL_CODE: 'pencil_code',
   PYTHON: 'python',
   CUSTOM: 'custom',
   RAW: 'raw'

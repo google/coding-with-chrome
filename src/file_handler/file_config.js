@@ -208,6 +208,21 @@ cwc.fileHandler.Config.add('Coffeescript file',
 
 
 /**
+ * Basic simple file config.
+ */
+cwc.fileHandler.Config.add('Pencil Code file',
+    cwc.fileFormat.File.getSimpleFile,
+    cwc.file.Type.PENCIL_CODE,
+    cwc.mode.Type.PENCIL_CODE,
+    cwc.file.Extensions.CWC,
+    cwc.file.ContentType.COFFEESCRIPT,
+    '', {
+      library: true,
+      preview: true,
+      auto_update: true });
+
+
+/**
  * JSON file config.
  */
 cwc.fileHandler.Config.add('JSON file',

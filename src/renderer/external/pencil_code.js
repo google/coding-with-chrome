@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero renderer.
+ * @fileoverview Renderer for Pencil Code modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.external.Sphero');
+goog.provide('cwc.renderer.external.PencilCode');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -32,19 +32,25 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.Sphero = function(helper) {
+cwc.renderer.external.PencilCode = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.spheroFramework = 'sphero_framework.js';
+  this.coffeeScriptFramework = 'coffee-script.js';
+
+  /** @type {string} */
+  this.jqueryFramework = 'jquery.min.js';
+
+  /** @type {string} */
+  this.jqueryTurtleFramework = 'jquery-turtle.js';
 };
 
 
 /**
- * Initializes and defines the Sphero renderer.
+ * Initializes and defines the simple renderer.
  */
-cwc.renderer.external.Sphero.prototype.init = function() {
+cwc.renderer.external.PencilCode.prototype.init = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
@@ -54,28 +60,29 @@ cwc.renderer.external.Sphero.prototype.init = function() {
 /**
  * @param {Object} editor_content
  * @param {Object} editor_flags
- * @param {cwc.file.Files} library_files
- * @param {cwc.file.Files} frameworks
+ * @param {!cwc.file.Files} library_files
+ * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
  * @return {string}
  * @export
  */
-cwc.renderer.external.Sphero.prototype.render = function(
+cwc.renderer.external.PencilCode.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
     frameworks,
     renderer_helper) {
 
-  var header = renderer_helper.getFrameworkHeader(
-    this.spheroFramework, frameworks);
-  var body = '\n<script>' +
-      '  var code = function(sphero) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n'+
-      '  new cwc.framework.Sphero(code);\n' +
-      '</script>\n';
-
-  var html = renderer_helper.getHTML(body, header);
+  var javascript =
+      editor_content[cwc.file.ContentType.JAVASCRIPT];
+  var html = (cwc.file.ContentType.HTML in editor_content) ?
+      editor_content[cwc.file.ContentType.HTML] : '';
+  var css = (cwc.file.ContentType.CSS in editor_content) ?
+      editor_content[cwc.file.ContentType.CSS] : '';
+  var header = renderer_helper.getFrameworkHeaders([this.coffeeScriptFramework,
+    this.jqueryFramework, this.jqueryTurtleFramework], frameworks);
+  var body = '\n<script type="text\/coffeescript">\n' +
+    '$.turtle();\n' + javascript + '\n</script>\n';
+  html = renderer_helper.getHTMLGrid(body, header, css);
   return html;
 };

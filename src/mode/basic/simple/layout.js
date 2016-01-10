@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.basic.simple.Layout');
 
-goog.require('cwc.soy.mode.Basic.simple');
+goog.require('cwc.soy.mode.basic.Simple');
 
 
 
@@ -47,13 +47,13 @@ cwc.mode.basic.simple.Layout.prototype.decorate = function() {
   console.log('Adding Content');
   goog.soy.renderElement(
       nodes['content-left'],
-      cwc.soy.mode.Basic.simple.editor,
+      cwc.soy.mode.basic.Simple.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
-      cwc.soy.mode.Basic.simple.preview,
+      cwc.soy.mode.basic.Simple.preview,
       {'prefix': this.prefix}
   );
 

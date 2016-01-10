@@ -47,7 +47,7 @@ cwc.mode.ev3.advanced.Editor = function(helper) {
   this.nodeEditor = null;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-editor');
+  this.prefix = helper.getPrefix('ev3');
 
   /** @type {string} */
   this.generalPrefix = helper.getPrefix();

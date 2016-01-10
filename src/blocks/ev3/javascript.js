@@ -62,7 +62,7 @@ Blockly.JavaScript['ev3_move'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'backwards';
   var delay = Number(text_steps) * 5 ;
-  var code = 'ev3.moveSteps(' + text_steps + ', null, ' + invert + ', ' +
+  var code = 'ev3.moveSteps(' + text_steps + ', ' + invert + ', null, ' +
       delay + ');\n';
   return code;
 };
@@ -75,7 +75,7 @@ Blockly.JavaScript['ev3_move'] = function(block) {
 Blockly.JavaScript['ev3_move_forward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', null, false, ' + delay + ');\n';
+  var code = 'ev3.moveSteps(' + text_steps + ', false, null, ' + delay + ');\n';
   return code;
 };
 
@@ -87,7 +87,7 @@ Blockly.JavaScript['ev3_move_forward'] = function(block) {
 Blockly.JavaScript['ev3_move_backward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', null, true, ' + delay + ');\n';
+  var code = 'ev3.moveSteps(' + text_steps + ', true, null, ' + delay + ');\n';
   return code;
 };
 

@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.0.0",
+  "version": "2.1.10",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -13,7 +13,8 @@
     "htmlhint": "latest",
     "jquery": ">=1.7",
     "jsdoc": "latest",
-    "jshint": "latest"
+    "jshint": "latest",
+    "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master"
   },
   "devDependencies": {
     "assert": "latest",
@@ -22,13 +23,14 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",
+    "build": "npm run build-remote-files && npm run build-extra-files && npm run rebuild",
     "prebuild": "npm run lint",
-    "rebuild": "npm run build-static-files && npm run build-cwc-files",
+    "rebuild": "npm run build-static-files && npm run build-framework-files && npm run build-cwc-files",
     "build-static-files": "node build/static_files.js",
     "build-remote-files": "node build/remote_files.js",
     "build-extra-files": "node build/extra_files.js",
     "build-cwc-files": "node build/cwc_files.js",
+    "build-framework-files":  "node build/framework_files.js",
     "documentation": "jsdoc src -r -c documentation.json -d docs"
   }
 }

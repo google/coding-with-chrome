@@ -37,10 +37,7 @@ cwc.renderer.external.EV3 = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.customFramework = 'ev3_framework.js';
-
-  /** @type {string} */
-  this.runnerFramework = 'runner_framework.js';
+  this.ev3Framework = 'ev3_framework.js';
 };
 
 
@@ -70,19 +67,8 @@ cwc.renderer.external.EV3.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var header = '';
-  var runnerFramework = frameworks.getFile(this.runnerFramework);
-  if (runnerFramework) {
-    var runner = runnerFramework.getContent();
-    header += '<script src="' + runner + '"></script>';
-  }
-
-  var ev3Framework = frameworks.getFile(this.customFramework);
-  if (ev3Framework) {
-    var ev3 = ev3Framework.getContent();
-    header += '<script src="' + ev3 + '"></script>';
-  }
-
+  var header = renderer_helper.getFrameworkHeader(
+    this.ev3Framework, frameworks);
   var body = '\n<script>' +
       '  var code = function(ev3) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +

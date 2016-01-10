@@ -28,12 +28,13 @@ goog.require('goog.events.BrowserEvent');
 
 /**
  * @param {function=} opt_callback
+ * @param {function=} opt_scope
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function(opt_callback) {
+cwc.framework.Runner = function(opt_callback, opt_scope) {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -48,6 +49,9 @@ cwc.framework.Runner = function(opt_callback) {
 
   /** @type {?Function} */
   this.callback = opt_callback || null;
+
+  /** @type {Object} */
+  this.scope = opt_scope || null;
 
   /** @type {!boolean} */
   this.init_ = false;
@@ -79,8 +83,12 @@ cwc.framework.Runner.prototype.init = function() {
  * @export
  */
 cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
-  if (opt_scope) {
-    this.commands[name] = func.bind(opt_scope);
+  if (!func) {
+    console.error('Runner function is undefined for ' + name);
+    return;
+  }
+  if (opt_scope || this.scope) {
+    this.commands[name] = func.bind(opt_scope || this.scope);
   } else {
     this.commands[name] = func;
   }
