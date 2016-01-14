@@ -628,6 +628,7 @@ cwc.ui.Runner.prototype.prepare = function() {
   this.renderStatusTemplate(this.templatePrepare);
 
   this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'runner');
   this.content.addEventListener('consolemessage',
       this.handleConsoleMessage_.bind(this), false);
   this.content.addEventListener('loadstart',

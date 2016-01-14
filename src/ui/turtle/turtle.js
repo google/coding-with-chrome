@@ -27,11 +27,12 @@ goog.require('cwc.soy.Turtle');
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {string=} opt_image
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.Turtle = function(helper) {
+cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {string} */
   this.name = 'Turtle';
 
@@ -76,6 +77,9 @@ cwc.ui.Turtle = function(helper) {
 
   /** @type {boolean} */
   this.ready = false;
+
+  /** @type {string} */
+  this.image = opt_image;
 };
 
 
@@ -105,6 +109,7 @@ cwc.ui.Turtle.prototype.decorate = function(node, opt_prefix) {
   // Content
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'turtle');
   this.content.addEventListener('consolemessage',
       this.handleConsoleMessage_.bind(this), false);
   this.content.addEventListener('loadstop',
@@ -147,7 +152,12 @@ cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
   var css = '';
   var header = helper.getFrameworkHeaders([this.jqueryFramework,
     this.jqueryTurtleFramework, this.turtleFramework], frameworks);
-  var body = '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
+  var body = '';
+  if (this.image) {
+    body += '<img id="turtle" src="' + this.image + '" ' +
+      'style="display: none;">\n';
+  }
+  body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
   var html = helper.getHTMLGrid(body, header, css);
   return helper.getDataUrl(html);
 };
@@ -170,5 +180,5 @@ cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
  * @private
  */
 cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
-  console.log('Turtle Runner:', e);
+  console.log('Turtle Runner message:', e);
 };

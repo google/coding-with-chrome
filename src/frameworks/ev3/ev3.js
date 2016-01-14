@@ -258,6 +258,26 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
 
 
 /**
+ * Moves the servo motor for the predefined specific steps.
+ * @param {!number} steps
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_speed
+ * @param {string=} opt_color
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.Ev3.prototype.movePen = function(steps, opt_invert,
+    opt_speed, opt_color, opt_delay) {
+  this.runner.send('movePen', {
+    'steps': steps,
+    'invert': opt_invert,
+    'speed': opt_speed,
+    'color': opt_color,
+    'delay': opt_delay });
+};
+
+
+/**
  * Moves the motors for the predefined specific steps.
  * @param {!number} steps
  * @param {boolean=} opt_invert Inverts the motor directions.

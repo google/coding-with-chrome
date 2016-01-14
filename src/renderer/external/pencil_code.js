@@ -73,16 +73,11 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var javascript =
-      editor_content[cwc.file.ContentType.JAVASCRIPT];
-  var html = (cwc.file.ContentType.HTML in editor_content) ?
-      editor_content[cwc.file.ContentType.HTML] : '';
-  var css = (cwc.file.ContentType.CSS in editor_content) ?
-      editor_content[cwc.file.ContentType.CSS] : '';
+  var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   var header = renderer_helper.getFrameworkHeaders([this.coffeeScriptFramework,
     this.jqueryFramework, this.jqueryTurtleFramework], frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
-    '$.turtle();\n' + javascript + '\n</script>\n';
-  html = renderer_helper.getHTMLGrid(body, header, css);
+    '$.turtle();\n' + coffeescript + '\n</script>\n';
+  var html = renderer_helper.getHTMLGrid(body, header);
   return html;
 };

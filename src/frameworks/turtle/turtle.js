@@ -24,14 +24,24 @@ goog.require('cwc.framework.Runner');
 
 
 /**
+ * @param {string=} opt_target
+ * @param {Object=} opt_options
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Turtle = function() {
+cwc.framework.Turtle = function(opt_target, opt_options) {
   /** @type {string} */
   this.name = 'Turtle Framework';
+
+  /** @type {string} */
+  this.target = opt_target;
+
+  /** @type {Object} */
+  this.options = opt_options || {
+    'panel': false
+  };
 
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(null, this);
@@ -40,10 +50,7 @@ cwc.framework.Turtle = function() {
   this.turtle = $['turtle'];
 
   /** @type {Object} */
-  this.turtleTarget = window;
-
-  // Init
-  this.init();
+  this.turtleTarget = this.turtle(this.target, this.options);
 
   // Mapping available commands.
   this.runner.addCommand('__reset__', this.reset);
@@ -92,25 +99,20 @@ cwc.framework.Turtle = function() {
   this.runner.addCommand('notwithin', this.handleNotwithin_);
   this.runner.addCommand('cell', this.handleCell_);
   this.runner.addCommand('hatch', this.handleHatch_);
+
+  // Global Methods
+  this.runner.addCommand('cs', this.handleCs_);
+  this.runner.addCommand('cg', this.handleCg_);
+  this.runner.addCommand('ct', this.handleCt_);
 };
 
 
 /**
- * Inits turtle.
- * @export
- */
-cwc.framework.Turtle.prototype.init = function() {
-  this.turtle();
-};
-
-
-/**
- * Resets the turtle.
+ * Resets the turtle and the screen.
  * @export
  */
 cwc.framework.Turtle.prototype.reset = function() {
-  console.log('__reset__');
-  this.init();
+  this.turtleTarget.show();
   this.handleHome_();
 };
 
@@ -277,11 +279,12 @@ cwc.framework.Turtle.prototype.handleFill_ = function(color) {
 
 /**
  * Draws a circular dot of diameter 12. Color second arg.
- * @param {!number} distance
+ * @param {!number} diameter
+ * @param {string=} color
  * @private
  */
-cwc.framework.Turtle.prototype.handleDot_ = function(number) {
-  this.turtleTarget['dot'](number);
+cwc.framework.Turtle.prototype.handleDot_ = function(diameter, color) {
+  this.turtleTarget['dot'](diameter, color);
 };
 
 
@@ -316,7 +319,6 @@ cwc.framework.Turtle.prototype.handleHt_ = function() {
 
 /**
  * Shows the turtle.
- * @param {!number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleSt_ = function() {
@@ -520,4 +522,31 @@ cwc.framework.Turtle.prototype.handleCell_ = function(x, y) {
  */
 cwc.framework.Turtle.prototype.handleHatch_ = function(distance) {
   this.turtleTarget['hatch'](distance);
+};
+
+
+/**
+ * Clears the screen, both the canvas and the body text.
+ * @private
+ */
+cwc.framework.Turtle.prototype.handleCs_ = function() {
+  this.turtle['cs']();
+};
+
+
+/**
+ * Clears the graphics canvas without clearing the text.
+ * @private
+ */
+cwc.framework.Turtle.prototype.handleCg_ = function() {
+  this.turtle['cg']();
+};
+
+
+/**
+ * Clears the text without clearing the canvas.
+ * @private
+ */
+cwc.framework.Turtle.prototype.handleCt_ = function() {
+  this.turtle['ct']();
 };

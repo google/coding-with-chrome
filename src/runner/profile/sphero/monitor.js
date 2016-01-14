@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner monitor profile for EV3 unit.
+ * @fileoverview Runner command profile for Sphero ball.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.runner.profile.ev3.Monitor');
+goog.provide('cwc.runner.profile.sphero.Monitor');
 
 
 
@@ -27,42 +27,26 @@ goog.provide('cwc.runner.profile.ev3.Monitor');
  * @struct
  * @final
  */
-cwc.runner.profile.ev3.Monitor = function(turtle) {
+cwc.runner.profile.sphero.Monitor = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
+
+  /** @type {!number} */
+  this.angle = 0;
 };
 
 
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.moveSteps = function(data) {
-  if (data['invert']) {
-    this.turtle.action('bk', data['steps']);
-  } else {
-    this.turtle.action('fd', data['steps']);
+cwc.runner.profile.sphero.Monitor.prototype.move = function(data) {
+  var angle = data['heading'] - this.angle;
+  if (angle > 360) {
+    angle -= 360;
+  } else if (this.angle < 0) {
+    angle += 360;
   }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.runner.profile.ev3.Monitor.prototype.rotateAngle = function(data) {
-  if (data['invert']) {
-    this.turtle.action('lt', data['angle']);
-  } else {
-    this.turtle.action('rt', data['angle']);
-  }
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.runner.profile.ev3.Monitor.prototype.movePen = function(data) {
-  this.turtle.action('pen', data['color'] || !data['invert']);
-  if (data['invert']) {
-    this.turtle.action('pu');
-  }
+  this.angle = angle;
+  this.turtle.action('rt', angle);
+  this.turtle.action('fd', data['speed']);
 };

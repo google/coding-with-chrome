@@ -97,12 +97,13 @@ Blockly.JavaScript['ev3_move_backward'] = function(block) {
  * @return {string}
  */
 Blockly.JavaScript['ev3_move_pen'] = function(block) {
+  var colour = block.getFieldValue('colour');
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'up';
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveServo(' + text_steps + ', ' + invert + ', null, ' +
-      delay + ');\n';
+  var code = 'ev3.movePen(' + text_steps + ', ' + invert + ', null, \'' +
+      colour + '\', ' + delay + ');\n';
   return code;
 };
 

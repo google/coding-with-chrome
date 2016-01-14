@@ -58,6 +58,23 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.runner.profile.ev3.Command} */
   this.command = new cwc.runner.profile.ev3.Command(this.api);
 
+  /** @type {!string} */
+  this.sprite = ' data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAMAA' +
+    'AACYceEAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAEVAAABFQEpfgIbAAAAGXRFWHRTb2Z0d' +
+    '2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAMxQTFRFAAAAAAAAYGBgcXFxZmZmdHR0iXZ2j' +
+    '4BwgICAioqKhISEhISElnZcmnFZkJCQl5eXjIyMi4uLmZmZmpqamJiYpKSkn5+fmJiYp6enp' +
+    'qamqampp6enw4lgzoZYr6+vsLCwr6+vrq6upKSk1YdS14VOxoFSuLi4tbW1t7e3tLS04IFD4' +
+    'INEurq6v7+/u7u7vr6+w8PDwsLCwsLCw8PDv7+/83opxsbGx8fHyMjI9HUhyMjIwbClwrGm+' +
+    'HEW+W8TxbGjy8vLzMzM/mcC/2YAuorQHQAAAD90Uk5TAAEICQoLDRAWGBsdJysuMTM3NzpUV' +
+    'FhcdHV5en+Dk5SZmqqsrbS4ub3Dz8/V1tjZ6Ors7u/2+Pj5+fr7/P39zRrHRwAAAJNJREFUG' +
+    'BltwQUCgkAUBcCH3d0tdncX33//OymKsgs7A4HW06BWe9ahFNjxKQiVDjN3oRC7MfM9DrcJm' +
+    '8ZwyVwepmsWTkP6GmmQFQ2yFCDxzuhn4YeoSrYKBJE12TZR2NokauEvtSfROY2fPskGsOQMk' +
+    'hl5fHim5DT3wVQmtxLeQktyW4UBNEmlASQOpHJMQt+q6S/tLkQmfwmdrwAAAABJRU5ErkJgg' +
+    'g==';
+
+  /** @type {!cwc.ui.Turtle} */
+  this.turtle = new cwc.ui.Turtle(helper, this.sprite);
+
   /** @type {!cwc.runner.profile.ev3.Command} */
   this.monitor = new cwc.runner.profile.ev3.Monitor(this.turtle);
 
@@ -69,9 +86,6 @@ cwc.mode.ev3.Runner = function(helper, connection) {
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
-
-  /** @type {!cwc.ui.Turtle} */
-  this.turtle = new cwc.ui.Turtle(helper);
 
   /** @type {!boolean} */
   this.showOverlay = true;
@@ -95,6 +109,9 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // Delayed Commands
   this.runner.addCommand('moveSteps', this.command.moveSteps, this);
   this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this);
+
+  this.runner.addCommand('movePen', this.command.movePen, this);
+  this.runner.addMonitor('movePen', this.monitor.movePen, this);
 
   this.runner.addCommand('moveServo', this.command.moveServo, this);
 
@@ -181,6 +198,7 @@ cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceData();
 
   this.turtle.reset();
+  this.turtle.action('speed', 1);
 };
 
 

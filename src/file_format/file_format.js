@@ -597,10 +597,28 @@ cwc.fileFormat.File.getSimpleFile = function(opt_content, opt_type) {
 cwc.fileFormat.File.getBlocklyFile = function(opt_content, opt_type) {
   return new cwc.fileFormat.File(opt_content)
       .setType(opt_type || cwc.file.Type.BLOCKLY, !opt_type)
-      .setTitle('Untitled blockly file', true)
+      .setTitle('Untitled Blockly file', true)
       .setContent(cwc.file.ContentType.BLOCKLY, '', true)
       .setContent(cwc.file.ContentType.JAVASCRIPT, '', true)
       .setMode('blockly', true);
+};
+
+
+/**
+ * @param {string=} opt_content
+ * @param {cwc.file.Type=} opt_type
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.getPencilCodeFile = function(opt_content, opt_type) {
+  return new cwc.fileFormat.File(opt_content)
+      .setType(opt_type || cwc.file.Type.PENCIL_CODE, !opt_type)
+      .setTitle('Untitled Pencil Code file', true)
+      .setContent(cwc.file.ContentType.COFFEESCRIPT,
+        'speed 2\n' +
+        'pen red\n' +
+        'for [1..45]\n' +
+        '  fd 100\n' +
+        '  rt 88\n', true);
 };
 
 

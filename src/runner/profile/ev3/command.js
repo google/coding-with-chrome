@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner profile for EV3 unit.
+ * @fileoverview Runner command profile for EV3 unit.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -61,6 +61,15 @@ cwc.runner.profile.ev3.Command.prototype.showImage = function(data) {
 /**
  * @param {!Object} data
  */
+cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
+  this.api.moveServo(data['steps'], data['invert'], data['speed'],
+      data['delay']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
 cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
   this.api.moveServo(data['steps'], data['invert'], data['speed'],
       data['delay']);
@@ -71,7 +80,7 @@ cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
-  this.api.moveSteps(data['steps'], data['speed'], data['invert'],
+  this.api.moveSteps(data['steps'], data['invert'], data['speed'],
       data['delay']);
 };
 

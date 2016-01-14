@@ -304,6 +304,7 @@ cwc.ui.Preview.prototype.prepare = function() {
   }
 
   this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'preview');
 
   // goog.events.listen is not working, drops the event for what's ever reason.
   this.content.addEventListener('consolemessage',

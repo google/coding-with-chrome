@@ -82,7 +82,7 @@ Blockly.Blocks['ev3_move'] = {
         .appendField(i18n.get('move robot('))
         .appendField(new Blockly.FieldDropdown(
             [['forward', 'forward'], ['backward', 'backward']]), 'direction')
-        .appendField('by')
+        .appendField(', ')
         .appendField(new Blockly.FieldTextInput('200'), 'steps')
         .appendField(')');
     this.setPreviousStatement(true);
@@ -98,8 +98,9 @@ Blockly.Blocks['ev3_move_forward'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-              .appendField(i18n.get('move forward by'))
-              .appendField(new Blockly.FieldTextInput('200'), 'steps');
+              .appendField(i18n.get('move forward('))
+              .appendField(new Blockly.FieldTextInput('200'), 'steps')
+              .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot forward for a specified number of steps. ');
@@ -112,8 +113,9 @@ Blockly.Blocks['ev3_move_backward'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-              .appendField(i18n.get('move backward by'))
-              .appendField(new Blockly.FieldTextInput('200'), 'steps');
+              .appendField(i18n.get('move backward('))
+              .appendField(new Blockly.FieldTextInput('200'), 'steps')
+              .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot backward for a specified number of steps.');
@@ -126,8 +128,9 @@ Blockly.Blocks['ev3_rotate_left'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-              .appendField(i18n.get('turn left by'))
-              .appendField(new Blockly.FieldAngle('90'), 'angle');
+              .appendField(i18n.get('turn left('))
+              .appendField(new Blockly.FieldAngle('90'), 'angle')
+              .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Turn the robot left by amount of the specified angle.');
@@ -140,8 +143,9 @@ Blockly.Blocks['ev3_rotate_right'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-              .appendField(i18n.get('turn right by'))
-              .appendField(new Blockly.FieldAngle('90'), 'angle');
+              .appendField(i18n.get('turn right('))
+              .appendField(new Blockly.FieldAngle('90'), 'angle')
+              .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Turn the robot right by amount of the specified angle.');
@@ -157,8 +161,10 @@ Blockly.Blocks['ev3_move_pen'] = {
         .appendField(i18n.get('move pen('))
         .appendField(new Blockly.FieldDropdown(
             [['down', 'down'], ['up', 'up']]), 'direction')
+        .appendField(', ')
         .appendField(new Blockly.FieldTextInput('300'), 'steps')
-        .appendField(')');
+        .appendField(')')
+        .appendField(new Blockly.FieldColour('#cccccc'), 'colour');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the pen up or down by a certain number of steps.');
@@ -174,6 +180,7 @@ Blockly.Blocks['ev3_move_servo'] = {
         .appendField(i18n.get('move servo('))
         .appendField(new Blockly.FieldDropdown(
             [['normal', 'normal'], ['inverted', 'inverted']]), 'direction')
+        .appendField(', ')
         .appendField(new Blockly.FieldTextInput('300'), 'steps')
         .appendField(')');
     this.setPreviousStatement(true);
@@ -191,7 +198,7 @@ Blockly.Blocks['ev3_rotate'] = {
         .appendField(i18n.get('rotate robot('))
         .appendField(new Blockly.FieldDropdown(
             [['right', 'right'], ['left', 'left']]), 'direction')
-        .appendField('by')
+        .appendField(', ')
         .appendField(new Blockly.FieldAngle('90'), 'angle')
         .appendField(')');
     this.setPreviousStatement(true);
@@ -224,7 +231,7 @@ Blockly.Blocks['ev3_stop_immediately'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-              .appendField(i18n.get('stop moving'));
+              .appendField(i18n.get('stop moving()'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stop all motors immediately'); }
@@ -239,9 +246,9 @@ Blockly.Blocks['ev3_move_power'] = {
         .appendField(i18n.get('set motor power('))
         .appendField(new Blockly.FieldDropdown(
             [['forward', 'forward'], ['backward', 'backward']]), 'direction')
-        .appendField('at')
+        .appendField(', ')
         .appendField(new Blockly.FieldTextInput('10'), 'power')
-        .appendField('% power)');
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Set the power of the motors to a certain power.' +
@@ -258,9 +265,9 @@ Blockly.Blocks['ev3_rotate_power'] = {
         .appendField(i18n.get('set rotate power('))
         .appendField(new Blockly.FieldDropdown(
             [['right', 'right'], ['left', 'left']]), 'direction')
-        .appendField('at')
+        .appendField(', ')
         .appendField(new Blockly.FieldTextInput('10'), 'power')
-        .appendField('% power)');
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Set the power of the motors to a certain power.' +
@@ -274,11 +281,12 @@ Blockly.Blocks['ev3_color_sensor_mode'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18n.get('color sensor mode ('))
+        .appendField(i18n.get('color sensor mode('))
         .appendField(new Blockly.FieldDropdown(
             [['reflected light of red light', 'reflection'],
              ['ambient light intensity', 'ambient light'],
-             ['color', 'color']]), 'mode').appendField(')');
+             ['color', 'color']]), 'mode')
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the colors sensor mode.');
@@ -291,11 +299,12 @@ Blockly.Blocks['ev3_ir_sensor_mode'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18n.get('ir sensor mode ('))
+        .appendField(i18n.get('ir sensor mode('))
         .appendField(new Blockly.FieldDropdown(
             [['proximity', 'proximity'],
              ['ir beacon', 'ir beacon'],
-             ['ir remote', 'ir remote']]), 'mode').appendField(')');
+             ['ir remote', 'ir remote']]), 'mode')
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the ir sensor mode.'); }
@@ -307,12 +316,13 @@ Blockly.Blocks['ev3_led'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18n.get('set led ('))
+        .appendField(i18n.get('set led('))
         .appendField(new Blockly.FieldDropdown(
             [['off', 'off'],
              ['green', 'green'],
              ['red', 'red'],
              ['orange', 'orange']]), 'color')
+        .appendField(', ')
         .appendField(new Blockly.FieldDropdown(
             [['normal', 'normal'],
              ['flash', 'flash'],

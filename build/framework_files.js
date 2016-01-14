@@ -134,5 +134,9 @@ closureBuilder.build({
   srcs: [
     'node_modules/jquery-turtle/jquery-turtle.js'
   ],
+  externs: [
+    'build/externs/coffeescript.js',
+    'build/externs/jquery.js'
+  ],
   out: 'genfiles/frameworks/external/jquery-turtle.js'
 });
