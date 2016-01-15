@@ -21,33 +21,35 @@
 
 
 module.exports = function(config) {
+  var closureTemplates = 'node_modules/closure-templates/';
+  var closurePath = 'node_modules/google-closure-library/';
+  var files = [
+    {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
+    {pattern: 'test/**/*_test.js'},
+    {pattern: 'app/js/*.js', included: false},
+    {pattern: 'src/**/*.js', included: false},
+    {pattern: 'test/genfiles/**/*.js', included: false},
+    {pattern: closureTemplates + 'soyutils_usegoog.js', included: false},
+    {pattern: closurePath + 'closure/goog/**/*.js', included: false},
+    {pattern: closurePath + 'third_party/closure/goog/**/*.js', included: false}
+  ];
+  var preprocessors = {
+    'test/**/*_test.js': ['closure', 'closure-iit'],
+    'app/js/*.js': ['closure'],
+    'src/**/*.js': ['closure'],
+    'test/genfiles/**/*.js': ['closure']
+  };
+  preprocessors[closureTemplates + 'soyutils_usegoog.js'] = ['closure'];
+  preprocessors[closurePath + 'closure/goog/**/*.js'] = ['closure'];
+  preprocessors[closurePath + 'third_party/closure/goog/**/*.js'] = ['closure'];
+
   config.set({
     colors: true,
     logLevel: config.LOG_WARN,
     frameworks: ['jasmine', 'closure'],
-    files: [
-      {pattern: 'node_modules/google-closure-library/closure/goog/base.js'},
-      {pattern: 'test/**/*_test.js'},
-      {pattern: 'app/js/*.js', included: false},
-      {pattern: 'src/**/*.js', included: false},
-      {pattern: 'test/genfiles/**/*.js', included: false},
-      {pattern: 'node_modules/closure-templates/soyutils_usegoog.js', included: false},
-      {pattern: 'node_modules/google-closure-library/closure/goog/**/*.js', included: false},
-      {pattern: 'node_modules/google-closure-library/third_party/closure/goog/**/*.js', included: false}
-    ],
-
+    files: files,
     singleRun: true,
-
-    preprocessors: {
-      'test/**/*_test.js': ['closure', 'closure-iit'],
-      'app/js/*.js': ['closure'],
-      'src/**/*.js': ['closure'],
-      'test/genfiles/**/*.js': ['closure'],
-      'node_modules/closure-templates/soyutils_usegoog.js': ['closure'],
-      'node_modules/google-closure-library/closure/goog/**/*.js': ['closure'],
-      'node_modules/google-closure-library/third_party/closure/goog/**/*.js': ['closure']
-    },
-
+    preprocessors: preprocessors,
     browsers: ['Chrome'],
     autoWatch: false
   });

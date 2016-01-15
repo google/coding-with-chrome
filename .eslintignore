@@ -1,4 +1,5 @@
 build/externs
+test/genfiles
 doc
 node_modules
 third_party

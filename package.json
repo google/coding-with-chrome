@@ -29,7 +29,7 @@
   },
   "scripts": {
     "test": "karma start",
-    "pretest": "npm run build-test-files",
+    "pretest": "npm run lint && npm run build-test-files",
     "retest": "karam start",
 
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",

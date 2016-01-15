@@ -34,12 +34,13 @@ env:
 globals:
   Blockly: true
   CodeMirror: true
-  describe: true
-  it: true
-  i18n: true
-  goog: true
   chrome: true
   cwc: true
+  describe: true
+  expect: true
+  goog: true
+  i18n: true
+  it: true
   opt_event: true
   var_args: true
 
