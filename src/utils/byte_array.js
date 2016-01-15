@@ -21,6 +21,7 @@ goog.provide('cwc.utils.ByteArray');
 goog.provide('cwc.utils.ByteArrayTypes');
 
 
+
 /**
  * @enum {!string}
  */
@@ -45,11 +46,11 @@ cwc.utils.ByteArrayTypes = {
  */
 cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
     opt_integer_header, opt_string_header) {
-  /** @type {!Array} */
-  this.data = [];
+  /** @private {!Array} */
+  this.data_ = [];
 
-  /** @type {Object.<cwc.utils.ByteArrayTypes>} */
-  this.headers = {};
+  /** @private {Object.<cwc.utils.ByteArrayTypes>} */
+  this.headers_ = {};
 
   if (opt_byte_header) {
     this.setHeader(cwc.utils.ByteArrayTypes.BYTE, opt_byte_header);
@@ -138,7 +139,7 @@ cwc.utils.ByteArray.prototype.writeString = function(value) {
  * @export
  */
 cwc.utils.ByteArray.prototype.write = function(data) {
-  this.data.push(data);
+  this.data_.push(data);
 };
 
 
@@ -147,7 +148,7 @@ cwc.utils.ByteArray.prototype.write = function(data) {
  * @export
  */
 cwc.utils.ByteArray.prototype.length = function() {
-  return this.data.length;
+  return this.data_.length;
 };
 
 
@@ -156,7 +157,15 @@ cwc.utils.ByteArray.prototype.length = function() {
  * @export
  */
 cwc.utils.ByteArray.prototype.getData = function() {
-  return this.data;
+  return this.data_;
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.ByteArray.prototype.clearData = function() {
+  this.data_ = [];
 };
 
 
@@ -166,7 +175,7 @@ cwc.utils.ByteArray.prototype.getData = function() {
  */
 cwc.utils.ByteArray.prototype.addHeader = function(type) {
   if (this.hasHeader(type)) {
-    this.write(this.headers[type]);
+    this.write(this.headers_[type]);
   }
 };
 
@@ -177,7 +186,7 @@ cwc.utils.ByteArray.prototype.addHeader = function(type) {
  * @export
  */
 cwc.utils.ByteArray.prototype.setHeader = function(type, data) {
-  this.headers[type] = data;
+  this.headers_[type] = data;
 };
 
 
@@ -187,5 +196,15 @@ cwc.utils.ByteArray.prototype.setHeader = function(type, data) {
  * @export
  */
 cwc.utils.ByteArray.prototype.hasHeader = function(type) {
-  return type in this.headers;
+  return type in this.headers_;
+};
+
+
+/**
+ * @param {cwc.utils.ByteArrayTypes} type
+ * @return {string|number}
+ * @export
+ */
+cwc.utils.ByteArray.prototype.getHeader = function(type) {
+  return this.headers_[type];
 };
