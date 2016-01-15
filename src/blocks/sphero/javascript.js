@@ -33,7 +33,7 @@ Blockly.JavaScript['sphero_roll'] = function(block) {
       Blockly.JavaScript.ORDER_ATOMIC));
   var value_heading = parseInt(block.getFieldValue('heading'));
   var duration = 500 + value_speed;
-  var code = 'sphero.move(' + value_speed + ', ' + value_heading + ', 1, ' +
+  var code = 'sphero.roll(' + value_speed + ', ' + value_heading + ', 1, ' +
     duration + ');\n';
   return code;
 };

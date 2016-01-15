@@ -74,7 +74,8 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-        cwc.soy.SelectScreenStyle.style({ 'prefix': this.prefix }));
+        cwc.soy.SelectScreenStyle.style({ 'prefix': this.prefix,
+          'version': this.helper.getAppVersion() }));
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');

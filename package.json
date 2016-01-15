@@ -1,19 +1,19 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.0.0",
+  "version": "2.1.15",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
-    "closure-builder": "latest",
-    "codemirror": "latest",
-    "csslint": "latest",
-    "htmlhint": "latest",
-    "jquery": ">=1.7",
-    "jsdoc": "latest",
-    "jshint": "latest"
+    "closure-builder": "^1.0.23",
+    "codemirror": "^5.10.0",
+    "csslint": "^0.10.0",
+    "htmlhint": "^0.9.12",
+    "jquery": "^2.2.0",
+    "jsdoc": "^3.4.0",
+    "jshint": "^2.9.1"
   },
   "devDependencies": {
     "assert": "latest",
@@ -23,9 +23,10 @@
     "jasmine": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
-    "karma-chrome-launcher": "^0.2.2",
+    "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
-    "karma-jasmine": "latest"
+    "karma-jasmine": "latest",
+    "npm-check-updates": "latest"
   },
   "scripts": {
     "test": "karma start",
@@ -42,6 +43,7 @@
     "build-cwc-files": "node build/cwc_files.js",
     "build-test-files": "node build/test_files.js",
     "documentation": "jsdoc src -r -c documentation.json -d docs",
+    "update": "ncu -u && npm update && npm test && npm run build",
     "lint": "eslint ."
   }
 }

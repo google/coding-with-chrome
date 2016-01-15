@@ -107,7 +107,14 @@ them using our [issue tracker](https://github.com/google/coding-with-chrome/issu
 ### Rebuild the app
 If you change something in the source code, you will need to re-compile it by:
 ```bash
-npm run build
+npm run rebuild
+```
+After this you only need to reload the Chrome App to see your change in action.
+
+### Update dependencies
+Run the following command to update the dependencies to the latest version:
+```bash
+npm run update
 ```
 After this you only need to reload the Chrome App to see your change in action.
 

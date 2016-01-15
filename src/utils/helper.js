@@ -331,6 +331,19 @@ cwc.utils.Helper.prototype.getManifest = function() {
 
 /**
  * @export
+ * @return {!string}
+ */
+cwc.utils.Helper.prototype.getAppVersion = function() {
+  var manifest = this.getManifest();
+  if (manifest) {
+    return manifest['version'];
+  }
+  return String(Date().getTime());
+};
+
+
+/**
+ * @export
  */
 cwc.utils.Helper.prototype.getFileExtensions = function() {
   var manifest = this.getManifest();

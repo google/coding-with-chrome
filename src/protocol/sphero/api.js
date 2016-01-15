@@ -128,6 +128,8 @@ cwc.protocol.sphero.Api.prototype.isConnected = function() {
 cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAcknowledged_.bind(this),
       this.headerAck_, this.headerMinSize_);
+  this.device.setDataHandler(this.handleAsync_.bind(this),
+      this.headerAsync_, this.headerMinSize_);
   this.monitoring.init();
   this.monitoring.start();
   this.setRGB(255, 0, 0);
@@ -238,15 +240,27 @@ cwc.protocol.sphero.Api.prototype.setHeading = function(heading, opt_delay) {
  * @param {boolean=} opt_state
  * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.move = function(speed, opt_heading,
+cwc.protocol.sphero.Api.prototype.roll = function(speed, opt_heading,
     opt_state, opt_delay) {
   var buffer = new cwc.protocol.sphero.Buffer();
   var heading = opt_heading || 0;
-  var state = typeof opt_state !== 'undefined' ? opt_state : 1;
-  buffer.writeCommand(this.command.MOVE);
+  var state = typeof opt_state !== 'undefined' ? opt_state : 0x01;
+  buffer.writeCommand(this.command.ROLL);
   buffer.writeByte(speed);
   buffer.writeUInt(heading);
   buffer.writeByte(state);
+  this.send_(buffer, opt_delay);
+};
+
+
+/**
+ * @param {!number} timeout in msec
+ */
+cwc.protocol.sphero.Api.prototype.setMotionTimeout = function(timeout,
+    opt_delay) {
+  var buffer = new cwc.protocol.sphero.Buffer();
+  buffer.writeCommand(this.command.MOTION_TIMEOUT);
+  buffer.writeByte(timeout);
   this.send_(buffer, opt_delay);
 };
 
@@ -437,4 +451,17 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
     default:
       console.log('Recieved unknown data:', data);
   }
+};
+
+
+/**
+ * Handles async packets from the Bluetooth socket.
+ * @param {ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
+  if (!buffer || buffer.length < 7) {
+    return;
+  }
+  console.log('Async:', buffer);
 };

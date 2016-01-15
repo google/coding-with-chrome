@@ -79,6 +79,8 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.addCommand('boost', this.profile.boost, this);
   this.runner.addCommand('setRGB', this.profile.setRGB, this);
   this.runner.addCommand('setBackLed', this.profile.setBackLed, this);
+  this.runner.addCommand('setMotionTimeout', this.profile.setMotionTimeout,
+    this);
   this.runner.addCommand('move', this.profile.move, this);
   this.runner.addCommand('stop', this.profile.stop, this);
 

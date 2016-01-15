@@ -45,8 +45,8 @@ cwc.runner.profile.Sphero.prototype.setRGB = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.move = function(data) {
-  this.api.move(data['speed'], data['heading'], data['state'], data['delay']);
+cwc.runner.profile.Sphero.prototype.roll = function(data) {
+  this.api.roll(data['speed'], data['heading'], data['state'], data['delay']);
 };
 
 
@@ -63,6 +63,14 @@ cwc.runner.profile.Sphero.prototype.boost = function(data) {
  */
 cwc.runner.profile.Sphero.prototype.setBackLed = function(data) {
   this.api.setBackLed(data['brightness'], data['delay']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.runner.profile.Sphero.prototype.setMotionTimeout = function(data) {
+  this.api.setMotionTimeout(data['timeout'], data['delay']);
 };
 
 

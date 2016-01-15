@@ -77,15 +77,26 @@ cwc.framework.Sphero.prototype.setBackLed = function(brightness, opt_delay) {
 
 
 /**
+ * @param {!number} timeout in msec
+ * @export
+ */
+cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, opt_delay) {
+  this.runner.send('setMotionTimeout', {
+    'timeout': timeout,
+    'delay': opt_delay });
+};
+
+
+/**
  * @param {!number} speed 0-255
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_state
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.move = function(speed, opt_heading, opt_state,
+cwc.framework.Sphero.prototype.roll = function(speed, opt_heading, opt_state,
     opt_delay) {
-  this.runner.send('move', {
+  this.runner.send('roll', {
     'speed': speed,
     'heading': opt_heading,
     'state': opt_state,
