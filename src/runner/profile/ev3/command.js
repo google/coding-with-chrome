@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner profile for EV3 unit.
+ * @fileoverview Runner command profile for EV3 unit.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.runner.profile.EV3');
+goog.provide('cwc.runner.profile.ev3.Command');
 
 
 
@@ -27,7 +27,7 @@ goog.provide('cwc.runner.profile.EV3');
  * @struct
  * @final
  */
-cwc.runner.profile.EV3 = function(api) {
+cwc.runner.profile.ev3.Command = function(api) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = api;
 };
@@ -36,7 +36,7 @@ cwc.runner.profile.EV3 = function(api) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.playTone = function(data) {
+cwc.runner.profile.ev3.Command.prototype.playTone = function(data) {
   this.api.playTone(data['frequency'], data['duration'], data['volume'],
       data['delay']);
 };
@@ -45,7 +45,7 @@ cwc.runner.profile.EV3.prototype.playTone = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.playSound = function(data) {
+cwc.runner.profile.ev3.Command.prototype.playSound = function(data) {
   this.api.playSound(data['file'], data['volume'], data['delay']);
 };
 
@@ -53,7 +53,7 @@ cwc.runner.profile.EV3.prototype.playSound = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.showImage = function(data) {
+cwc.runner.profile.ev3.Command.prototype.showImage = function(data) {
   this.api.showImage(data['file'], data['delay']);
 };
 
@@ -61,7 +61,7 @@ cwc.runner.profile.EV3.prototype.showImage = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.moveServo = function(data) {
+cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
   this.api.moveServo(data['steps'], data['invert'], data['speed'],
       data['delay']);
 };
@@ -70,8 +70,8 @@ cwc.runner.profile.EV3.prototype.moveServo = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.moveSteps = function(data) {
-  this.api.moveSteps(data['steps'], data['speed'], data['invert'],
+cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
+  this.api.moveServo(data['steps'], data['invert'], data['speed'],
       data['delay']);
 };
 
@@ -79,7 +79,16 @@ cwc.runner.profile.EV3.prototype.moveSteps = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.rotateAngle = function(data) {
+cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
+  this.api.moveSteps(data['steps'], data['invert'], data['speed'],
+      data['delay']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.runner.profile.ev3.Command.prototype.rotateAngle = function(data) {
   this.api.rotateAngle(data['angle'], data['invert'], data['speed'],
       data['ratio'], data['delay']);
 };
@@ -88,7 +97,7 @@ cwc.runner.profile.EV3.prototype.rotateAngle = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.movePower = function(data) {
+cwc.runner.profile.ev3.Command.prototype.movePower = function(data) {
   this.api.movePower(data['power'], data['invert'], data['delay']);
 };
 
@@ -96,7 +105,7 @@ cwc.runner.profile.EV3.prototype.movePower = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.rotatePower = function(data) {
+cwc.runner.profile.ev3.Command.prototype.rotatePower = function(data) {
   this.api.rotatePower(data['power'], data['opt_power'], data['invert'],
       data['delay']);
 };
@@ -105,7 +114,7 @@ cwc.runner.profile.EV3.prototype.rotatePower = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.stop = function(data) {
+cwc.runner.profile.ev3.Command.prototype.stop = function(data) {
   this.api.stop(data['delay']);
 };
 
@@ -113,7 +122,7 @@ cwc.runner.profile.EV3.prototype.stop = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.setColorSensorMode = function(data) {
+cwc.runner.profile.ev3.Command.prototype.setColorSensorMode = function(data) {
   this.api.setColorSensorMode(data['mode'], data['delay']);
 };
 
@@ -121,7 +130,7 @@ cwc.runner.profile.EV3.prototype.setColorSensorMode = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.setIrSensorMode = function(data) {
+cwc.runner.profile.ev3.Command.prototype.setIrSensorMode = function(data) {
   this.api.setIrSensorMode(data['mode'], data['delay']);
 };
 
@@ -129,7 +138,7 @@ cwc.runner.profile.EV3.prototype.setIrSensorMode = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.setLed = function(data) {
+cwc.runner.profile.ev3.Command.prototype.setLed = function(data) {
   this.api.setLed(data['color'], data['mode'], data['delay']);
 };
 
@@ -137,7 +146,7 @@ cwc.runner.profile.EV3.prototype.setLed = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.EV3.prototype.setStepSpeed = function(data) {
+cwc.runner.profile.ev3.Command.prototype.setStepSpeed = function(data) {
   this.api.setStepSpeed(data['speed'], data['delay']);
 };
 
@@ -145,6 +154,6 @@ cwc.runner.profile.EV3.prototype.setStepSpeed = function(data) {
 /**
  * Handles the cleanup and make sure that the EV3 stops.
  */
-cwc.runner.profile.EV3.prototype.cleanUp = function() {
+cwc.runner.profile.ev3.Command.prototype.cleanUp = function() {
   this.api.cleanUp();
 };

@@ -231,11 +231,11 @@ cwc.ui.RunnerInfobar.prototype.updateOverview = function() {
 
 
 /**
- * @param {Event} event
+ * @param {Event} e
  */
-cwc.ui.RunnerInfobar.prototype.addMessage = function(event) {
-  var level = event.level;
-  var message = event.message || '';
+cwc.ui.RunnerInfobar.prototype.addMessage = function(e) {
+  var level = e.level;
+  var message = e.message || '';
   var logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
   var logLevelName = 'Unknown';
 
@@ -243,7 +243,7 @@ cwc.ui.RunnerInfobar.prototype.addMessage = function(event) {
     this.debugNum = (this.debugNum || 0) + 1;
     logLevel = goog.debug.Logger.Level.getPredefinedLevel('FINE');
     logLevelName = 'Debug';
-    message = goog.debug.expose(event);
+    message = goog.debug.expose(e);
   } else if (level == cwc.ui.RunnerInfobarLevel.INFO) {
     this.infoNum = (this.infoNum || 0) + 1;
     logLevel = goog.debug.Logger.Level.getPredefinedLevel('INFO');

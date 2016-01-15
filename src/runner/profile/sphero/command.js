@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner profile for Sphero ball.
+ * @fileoverview Runner command profile for Sphero ball.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.runner.profile.Sphero');
+goog.provide('cwc.runner.profile.sphero.Command');
 
 
 
@@ -27,7 +27,7 @@ goog.provide('cwc.runner.profile.Sphero');
  * @struct
  * @final
  */
-cwc.runner.profile.Sphero = function(api) {
+cwc.runner.profile.sphero.Command = function(api) {
   /* @type {cwc.protocol.sphero.Api} */
   this.api = api;
 };
@@ -36,7 +36,7 @@ cwc.runner.profile.Sphero = function(api) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.setRGB = function(data) {
+cwc.runner.profile.sphero.Command.prototype.setRGB = function(data) {
   this.api.setRGB(data['red'], data['green'], data['blue'],
       data['persistant'], data['delay']);
 };
@@ -45,7 +45,7 @@ cwc.runner.profile.Sphero.prototype.setRGB = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.roll = function(data) {
+cwc.runner.profile.sphero.Command.prototype.roll = function(data) {
   this.api.roll(data['speed'], data['heading'], data['state'], data['delay']);
 };
 
@@ -53,7 +53,7 @@ cwc.runner.profile.Sphero.prototype.roll = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.boost = function(data) {
+cwc.runner.profile.sphero.Command.prototype.boost = function(data) {
   this.api.boost(data['time'], data['heading'], data['delay']);
 };
 
@@ -61,7 +61,7 @@ cwc.runner.profile.Sphero.prototype.boost = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.setBackLed = function(data) {
+cwc.runner.profile.sphero.Command.prototype.setBackLed = function(data) {
   this.api.setBackLed(data['brightness'], data['delay']);
 };
 
@@ -69,7 +69,7 @@ cwc.runner.profile.Sphero.prototype.setBackLed = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.setMotionTimeout = function(data) {
+cwc.runner.profile.sphero.Command.prototype.setMotionTimeout = function(data) {
   this.api.setMotionTimeout(data['timeout'], data['delay']);
 };
 
@@ -77,7 +77,7 @@ cwc.runner.profile.Sphero.prototype.setMotionTimeout = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.calibrate = function(data) {
+cwc.runner.profile.sphero.Command.prototype.calibrate = function(data) {
   this.api.calibrate(data['heading']);
 };
 
@@ -85,7 +85,7 @@ cwc.runner.profile.Sphero.prototype.calibrate = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.Sphero.prototype.stop = function(data) {
+cwc.runner.profile.sphero.Command.prototype.stop = function(data) {
   this.api.stop(data['delay']);
 };
 
@@ -93,6 +93,6 @@ cwc.runner.profile.Sphero.prototype.stop = function(data) {
 /**
  * @param {!Object} opt_data
  */
-cwc.runner.profile.Sphero.prototype.sleep = function(opt_data) {
+cwc.runner.profile.sphero.Command.prototype.sleep = function(opt_data) {
   this.api.sleep();
 };

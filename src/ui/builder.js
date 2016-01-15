@@ -54,6 +54,7 @@ goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.Setting');
 goog.require('cwc.ui.Statusbar');
+goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
@@ -68,12 +69,18 @@ goog.require('goog.events.EventHandler');
  * @type {!Object.<string>}
  */
 cwc.ui.BuilderFrameworks = {
-  'Arduino Framework': '../frameworks/arduino_framework.js',
-  'Coffeescript Framework': '../frameworks/coffee-script.js',
-  'EV3 Framework': '../frameworks/ev3_framework.js',
-  'Sphero Framework': '../frameworks/sphero_framework.js',
-  'Runner Framework': '../frameworks/runner_framework.js',
-  'Simple Framework': '../frameworks/simple_framework.js'
+  // Internal frameworks
+  'Arduino Framework': '../frameworks/internal/arduino_framework.js',
+  'EV3 Framework': '../frameworks/internal/ev3_framework.js',
+  'Runner Framework': '../frameworks/internal/runner_framework.js',
+  'Simple Framework': '../frameworks/internal/simple_framework.js',
+  'Sphero Framework': '../frameworks/internal/sphero_framework.js',
+  'Turtle Framework': '../frameworks/internal/turtle_framework.js',
+
+  // External frameworks
+  'Coffeescript Framework': '../frameworks/external/coffee-script.js',
+  'jQuery Framework': '../frameworks/external/jquery.min.js',
+  'jQuery Turtle Framework': '../frameworks/external/jquery-turtle.js'
 };
 
 
@@ -88,9 +95,8 @@ cwc.ui.BuilderHelpers = {
   'connectionManager': cwc.ui.ConnectionManager,
   'debug': cwc.ui.Debug,
   'documentation': cwc.ui.Documentation,
-  'ev3': cwc.protocol.ev3.Api,
-  'sphero': cwc.protocol.sphero.Api,
   'editor': cwc.ui.Editor,
+  'ev3': cwc.protocol.ev3.Api,
   'file': cwc.fileHandler.File,
   'fileCreator': cwc.fileHandler.FileCreator,
   'fileExporter': cwc.fileHandler.FileExporter,
@@ -106,8 +112,10 @@ cwc.ui.BuilderHelpers = {
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
-  'statusbar': cwc.ui.Statusbar,
   'serial': cwc.protocol.Serial.api,
+  'sphero': cwc.protocol.sphero.Api,
+  'statusbar': cwc.ui.Statusbar,
+  'turtle': cwc.ui.Turtle,
   'tutorial': cwc.ui.Tutorial
 };
 

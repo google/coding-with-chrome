@@ -27,6 +27,7 @@ goog.require('cwc.ui.RunnerMonitor');
 goog.require('cwc.ui.RunnerStatusbar');
 goog.require('cwc.ui.RunnerTerminal');
 goog.require('cwc.ui.RunnerToolbar');
+goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
@@ -106,6 +107,9 @@ cwc.ui.Runner = function(helper) {
   this.nodeOverlay = null;
 
   /** @type {Element} */
+  this.nodeTurtle = null;
+
+  /** @type {Element} */
   this.nodeInfobar = null;
 
   /** @type {Object} */
@@ -159,6 +163,9 @@ cwc.ui.Runner = function(helper) {
   /** @type {cwc.ui.RunnerToolbar} */
   this.toolbar = null;
 
+  /** @type {cwc.ui.Turtle} */
+  this.turtle = null;
+
   /** @type {cwc.ui.RunnerMonitor} */
   this.monitor = null;
 
@@ -210,6 +217,9 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
 
+  // Turtle
+  this.nodeTurtle = goog.dom.getElement(this.prefix + 'turtle');
+
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   this.infobar = new cwc.ui.RunnerInfobar(this.helper, this.prefix);
@@ -251,7 +261,7 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
   this.renderInfoTemplate(this.infoTemplate);
 
   // Runner
-  this.connector.init();
+  this.connector.init(true);
 
   // Monitor Changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -486,6 +496,25 @@ cwc.ui.Runner.prototype.showOverlay = function(visible) {
 
 
 /**
+ * Shows / hides turtle window.
+ * @param {boolean} visible
+ */
+cwc.ui.Runner.prototype.showTurtle = function(visible) {
+  if (this.nodeTurtle) {
+    goog.style.setElementShown(this.nodeTurtle, visible);
+  }
+};
+
+
+/**
+ * @return {Element}
+ */
+cwc.ui.Runner.prototype.getTurtleNode = function() {
+  return this.nodeTurtle;
+};
+
+
+/**
  * Shows / hides terminal window.
  * @param {boolean} visible
  */
@@ -599,8 +628,9 @@ cwc.ui.Runner.prototype.prepare = function() {
   this.renderStatusTemplate(this.templatePrepare);
 
   this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'runner');
   this.content.addEventListener('consolemessage',
-      this.handleConsoleMessage.bind(this), false);
+      this.handleConsoleMessage_.bind(this), false);
   this.content.addEventListener('loadstart',
       this.handleLoadStart.bind(this), false);
   this.content.addEventListener('loadstop',
@@ -700,11 +730,12 @@ cwc.ui.Runner.prototype.setContentUrl = function(url) {
 
 /**
  * Collects all messages from the preview window for the console.
- * @param {Event} event
+ * @param {Event} e
+ * @private
  */
-cwc.ui.Runner.prototype.handleConsoleMessage = function(event) {
+cwc.ui.Runner.prototype.handleConsoleMessage_ = function(e) {
   if (this.infobar) {
-    this.infobar.addMessage(event);
+    this.infobar.addMessage(e);
   }
 };
 
@@ -781,6 +812,16 @@ cwc.ui.Runner.prototype.setStatusText = function(status) {
  */
 cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
   this.connector.addCommand(name, func, opt_scope);
+};
+
+
+/**
+ * @param {string} name
+ * @param {function(?)} func
+ * @param {?} opt_scope
+ */
+cwc.ui.Runner.prototype.addMonitor = function(name, func, opt_scope) {
+  this.connector.addMonitor(name, func, opt_scope);
 };
 
 

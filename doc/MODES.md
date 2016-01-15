@@ -24,8 +24,8 @@ src/file/file_type.js
 Add the offical file extension if you don't want to use the .cwc file format.
 src/file/file_extension.js
 
-### Define a file_content
-src/file/file_content.js
+### Define a file_content_type
+src/file/file_content_type.js
 
 ### Setup file_config
 src/file_handler/file_config.js
@@ -37,4 +37,3 @@ src/file_handler/file_config.js
 ### Add your mode to the mode_type.js
 
 ### Add your mode to the mode_config.js
-

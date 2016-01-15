@@ -65,34 +65,34 @@ cwc.utils.Helper = function() {
   this.instances_ = {
     'account': null,  /** @type {?cwc.ui.Account} */
     'arduino': null, /** @type {?cwc.protocol.Arduino.api} */
-    'bluetooth': null,  /** @type {?cwc.protocol.bluetooth.Api} */
-    'serial': null,  /** @type {?cwc.protocol.Serial.api} */
     'blockly': null,  /** @type {?cwc.ui.Blockly} */
-    /** @type {?cwc.ui.ConnectionManager} */
-    'connectionManager': null,
+    'bluetooth': null,  /** @type {?cwc.protocol.bluetooth.Api} */
     'config': null,  /** @type {?cwc.ui.Config} */
+    'connectionManager': null,  /** @type {?cwc.ui.ConnectionManager} */
     'debug': null, /** @type {?cwc.ui.Debug} */
+    'documentation': null,  /** @type {?cwc.ui.Documentation} */
     'editor': null,  /** @type {?cwc.ui.Editor} */
     'ev3': null,  /** @type {?cwc.protocol.ev3.Api} */
-    'documentation': null,  /** @type {?cwc.ui.Documentation} */
     'file': null,  /** @type {?cwc.ui.File} */
     'fileCreator': null,  /** @type {?cwc.fileHandler.FileCreator} */
+    'fileExporter': null,  /** @type {?cwc.fileHandler.FileExporter} */
     'fileLoader': null,  /** @type {?cwc.fileHandler.FileLoader} */
     'fileSaver': null,  /** @type {?cwc.fileHandler.FileSaver} */
-    'fileExporter': null,  /** @type {?cwc.fileHandler.FileExporter} */
     'gDrive': null,  /** @type {?cwc.ui.GDrive} */
     'gui': null,  /** @type {?cwc.ui.Gui} */
-    'message': null,  /** @type {?cwc.ui.Message} */
-    'menubar': null,  /** @type {?cwc.ui.Menubar} */
-    'mode': null,  /** @type {?cwc.mode.Modder} */
-    'renderer': null,  /** @type {?cwc.renderer.Renderer} */
-    'settings': null,  /** @type {?cwc.ui.Setting} */
     'layout': null,  /** @type {?cwc.ui.Layout} */
     'library': null,  /** @type {?cwc.ui.Library} */
+    'menubar': null,  /** @type {?cwc.ui.Menubar} */
+    'message': null,  /** @type {?cwc.ui.Message} */
+    'mode': null,  /** @type {?cwc.mode.Modder} */
     'preview': null,  /** @type {?cwc.ui.Preview} */
+    'renderer': null,  /** @type {?cwc.renderer.Renderer} */
     'runner': null,  /** @type {?cwc.ui.Runner} */
     'selectScreen': null,  /** @type {?cwc.ui.SelectScreen} */
+    'serial': null,  /** @type {?cwc.protocol.Serial.api} */
+    'settings': null,  /** @type {?cwc.ui.Setting} */
     'statusbar': null,  /** @type {?cwc.ui.Statusbar} */
+    'turtle': null, /** @type {?cwc.ui.Turtle} */
     'tutorial': null /** @type {?cwc.ui.Tutorial} */
   };
 
@@ -129,6 +129,7 @@ cwc.utils.Helper = function() {
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
  *   cwc.ui.Statusbar|
+ *   cwc.ui.Turtle |
  *   cwc.ui.Tutorial} instance
  * @param {boolean=} opt_overwrite
  * @export
@@ -175,6 +176,7 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
  *   cwc.ui.Statusbar|
+ *   cwc.ui.Turtle |
  *   cwc.ui.Tutorial}
  * @export
  */

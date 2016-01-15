@@ -81,6 +81,24 @@ cwc.renderer.Helper.prototype.getHTMLCanvas = function(body,
 
 
 /**
+ * @param {!string} body
+ * @param {string=} opt_header
+ * @param {string=} opt_css
+ * @param {string=} opt_javascript
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getHTMLGrid = function(body, opt_header,
+    opt_css, opt_javascript) {
+  return cwc.soy.Renderer.htmlGrid({
+    'body': body,
+    'head': opt_header,
+    'css': opt_css,
+    'js': opt_javascript
+  });
+};
+
+
+/**
  * @param {!string} data_url
  * @param {number=} opt_width
  * @param {number=} opt_height
@@ -95,6 +113,29 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
     'width': opt_width || 400,
     'height': opt_height || 400
   });
+};
+
+
+/**
+ * Returns data encoded content.
+ * @param {!string} content
+ * @param {string=} opt_type
+ * @return {!string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.getDataUrl = function(content,
+    opt_type) {
+  var dataUrl = '';
+  var dataType = opt_type || 'text/html';
+
+  try {
+    dataUrl = 'data:' + dataType + ';base64,' + btoa(content);
+  } catch(err) {
+    dataUrl = 'data:' + dataType + ';charset=utf-8,' +
+      encodeURIComponent(content);
+  }
+
+  return dataUrl;
 };
 
 
@@ -126,5 +167,22 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
   }
   return this.getJavaScript('', framework.getContent());
 };
+
+
+/**
+ * @param {!array} filenames
+ * @param {!cwc.file.Files} renderer_frameworks
+ * @return {string}
+ */
+cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
+    renderer_frameworks) {
+  var headers = '';
+  for (var filename in filenames) {
+    headers += this.getFrameworkHeader(filenames[filename],
+      renderer_frameworks);
+  }
+  return headers;
+};
+
 
 

@@ -30,6 +30,9 @@ goog.require('cwc.soy.mode.ev3.advanced');
 cwc.mode.ev3.advanced.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix('ev3');
 };
 
 
@@ -48,13 +51,13 @@ cwc.mode.ev3.advanced.Layout.prototype.decorate = function() {
   goog.soy.renderElement(
       nodes['content-left'],
       cwc.soy.mode.ev3.advanced.editor,
-      {'prefix': this.helper.getPrefix('ev3-editor')}
+      {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
       cwc.soy.mode.ev3.advanced.runner,
-      {'prefix': this.helper.getPrefix('ev3-runner')}
+      {'prefix': this.prefix}
   );
 
 };

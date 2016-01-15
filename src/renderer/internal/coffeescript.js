@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.renderer.internal.Coffeescript');
 
 goog.require('cwc.file.ContentType');
@@ -71,9 +70,7 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
-    coffeescript +
-    '\n</script>\n';
-
+    coffeescript + '\n</script>\n';
   var html = renderer_helper.getHTML(body, header);
   return html;
 };

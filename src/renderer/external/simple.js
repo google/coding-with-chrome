@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.renderer.external.Simple');
 
 goog.require('cwc.file.ContentType');

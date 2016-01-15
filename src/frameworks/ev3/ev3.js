@@ -44,7 +44,7 @@ cwc.framework.Ev3 = function(code) {
   this.code = function() {code(this);}.bind(this);
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code);
+  this.runner = new cwc.framework.Runner(this.code, this);
 
   /** @type {Object} */
   this.deviceData = {};
@@ -79,16 +79,11 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.irSensorValue = null;
 
-  this.runner.addCommand(
-      'updateDeviceData', this.handleUpdateDeviceData_, this);
-  this.runner.addCommand(
-      'updateDeviceInfo', this.handleUpdateDeviceInfo_, this);
-
-  this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_, this);
-  this.runner.addCommand(
-      'updateColorSensor', this.handleUpdateColorSensor_, this);
-  this.runner.addCommand(
-      'updateTouchSensor', this.handleUpdateTouchSensor_, this);
+  this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
+  this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
+  this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
+  this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
+  this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
 };
 
 
@@ -258,6 +253,26 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
     'steps': steps,
     'invert': opt_invert,
     'speed': opt_speed,
+    'delay': opt_delay });
+};
+
+
+/**
+ * Moves the servo motor for the predefined specific steps.
+ * @param {!number} steps
+ * @param {boolean=} opt_invert Inverts the motor directions.
+ * @param {number=} opt_speed
+ * @param {string=} opt_color
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.Ev3.prototype.movePen = function(steps, opt_invert,
+    opt_speed, opt_color, opt_delay) {
+  this.runner.send('movePen', {
+    'steps': steps,
+    'invert': opt_invert,
+    'speed': opt_speed,
+    'color': opt_color,
     'delay': opt_delay });
 };
 

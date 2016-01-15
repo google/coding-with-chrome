@@ -30,6 +30,9 @@ goog.require('cwc.soy.mode.ev3.blockly');
 cwc.mode.ev3.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix('ev3');
 };
 
 
@@ -48,13 +51,13 @@ cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
   goog.soy.renderElement(
       nodes['content-left'],
       cwc.soy.mode.ev3.blockly.editor,
-      {'prefix': this.helper.getPrefix('ev3-editor')}
+      {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
       cwc.soy.mode.ev3.blockly.runner,
-      {'prefix': this.helper.getPrefix('ev3-runner')}
+      {'prefix': this.prefix}
   );
 
 };

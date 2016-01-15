@@ -32,6 +32,7 @@ goog.require('cwc.mode.ev3.advanced.Mod');
 goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.json.Mod');
+goog.require('cwc.mode.pencilCode.advanced.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
@@ -187,6 +188,17 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
   file_type: cwc.file.Type.EV3_BLOCKLY,
   mod: cwc.mode.ev3.blockly.Mod,
   authors: ['Markus Bordihn, Stefan Sauer']
+});
+
+
+/**
+ * Basic mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
+  name: 'Pencil Code',
+  file_type: cwc.file.Type.PENCIL_CODE,
+  mod: cwc.mode.pencilCode.advanced.Mod,
+  authors: ['Markus Bordihn']
 });
 
 

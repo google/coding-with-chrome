@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.basic.simple.Editor');
 
-goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.EditorType');
 
@@ -36,19 +35,10 @@ cwc.mode.basic.simple.Editor = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeBlockly = null;
-
-  /** @type {Element} */
-  this.nodeBlocklyToolbox = null;
-
-  /** @type {Element} */
   this.nodeEditor = null;
 
   /** @type {cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
-
-  /** @type {cwc.ui.Blockly} */
-  this.blockly = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;

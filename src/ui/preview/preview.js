@@ -304,10 +304,11 @@ cwc.ui.Preview.prototype.prepare = function() {
   }
 
   this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'preview');
 
   // goog.events.listen is not working, drops the event for what's ever reason.
   this.content.addEventListener('consolemessage',
-      this.handleConsoleMessage.bind(this), false);
+      this.handleConsoleMessage_.bind(this), false);
   this.content.addEventListener('dialog',
       this.handleDialog.bind(this), false);
   this.content.addEventListener('loadstart',
@@ -352,8 +353,9 @@ cwc.ui.Preview.prototype.handleShortcut = function(event) {
 /**
  * Collects all messages from the preview window for the console.
  * @param {Event} event
+ * @private
  */
-cwc.ui.Preview.prototype.handleConsoleMessage = function(event) {
+cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
   if (this.infobar) {
     this.infobar.addMessage(event);
   }

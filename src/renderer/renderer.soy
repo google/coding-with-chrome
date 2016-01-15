@@ -65,6 +65,41 @@
 
 
 /**
+ * HTML base template.
+ */
+{template .htmlGrid autoescape="deprecated-contextual"}
+  {@param body: string}
+  {@param? head: string}
+  {@param? css: string}
+  {@param? js: string}
+<!DOCTYPE html>{\n}
+<html>{\n}
+  <head>{\n}
+    <style>
+      * {lb} margin:0; padding:0; {rb}
+      html, body {lb} width:100%; height:100%; {rb}
+      body {lb}
+        background-size: 25px 25px;
+        background-image: linear-gradient(to right, #eee 1px, transparent 1px),
+          linear-gradient(to bottom, #eee 1px, transparent 1px);
+      {rb}
+    </style>
+    {if $css}
+      {call .css}{param content: $css /}{/call}
+    {/if}
+    {$head |noAutoescape}{\n}
+  </head>{\n}
+  <body>{\n}
+    {$body |noAutoescape}{\n}
+    {if $js}
+      {call .javascript}{param content: $js /}{/call}
+    {/if}
+  </body>{\n}
+</html>{\n}
+{/template}
+
+
+/**
  * CSS tag.
  */
 {template .css autoescape="deprecated-contextual"}

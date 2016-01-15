@@ -1,5 +1,5 @@
 /**
- * @fileoverview Preview template for the EV3 modification.
+ * @fileoverview CoffeeScript externs for Coding with Chrome.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,29 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.ev3.Preview autoescape="deprecated-contextual"}
 
 
-/**
- * EV3 Preview template.
- */
-{template .template}
-  {@param prefix: string}
-  <h3>Preview</h3>
-  <div id="{$prefix}preview">
-    <canvas id="{$prefix}display"></canvas>
-    <canvas id="{$prefix}scratch"></canvas>
-  </div>
-{/template}
 
-
-/**
- * EV3 Preview style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  #{$prefix}scratch {lb}
-    display: none;
-  {rb}
-
-{/template}
+/** @type {object} */
+var CoffeeScript = function() {};

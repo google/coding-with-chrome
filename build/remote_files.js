@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome.
+ * @fileoverview BUILD configuration for Coding with Chrome remote files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -18,16 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 var closureBuilder = require('closure-builder');
-
-
-closureBuilder.build({
-  name: 'Coffeescript',
-  resources: [
-    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/' +
-    'coffee-script.js'
-  ],
-  out: 'genfiles/frameworks/'
-});
 
 
 closureBuilder.build({

@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.1.15",
+  "version": "2.1.17",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -12,6 +12,7 @@
     "csslint": "^0.10.0",
     "htmlhint": "^0.9.12",
     "jquery": "^2.2.0",
+    "jquery-turtle": "https://github.com/PencilCode/jquery-turtle/tarball/master",
     "jsdoc": "^3.4.0",
     "jshint": "^2.9.1"
   },
@@ -29,21 +30,24 @@
     "npm-check-updates": "latest"
   },
   "scripts": {
+    // Tests
     "test": "karma start",
     "pretest": "npm run lint && npm run build-test-files",
     "retest": "karam start",
-
-    "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",
+    // Build
+    "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run rebuild",
     "prebuild": "npm run lint",
-    "rebuild": "npm run build-static-files && npm run build-cwc-files",
-
-    "build-static-files": "node build/static_files.js",
-    "build-remote-files": "node build/remote_files.js",
-    "build-extra-files": "node build/extra_files.js",
+    "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",
+    // Build rules
     "build-cwc-files": "node build/cwc_files.js",
+    "build-extra-files": "node build/extra_files.js",
+    "build-framework-files":  "node build/framework_files.js",
+    "build-remote-files": "node build/remote_files.js",
+    "build-static-files": "node build/static_files.js",
     "build-test-files": "node build/test_files.js",
+    // Misc
     "documentation": "jsdoc src -r -c documentation.json -d docs",
-    "update": "ncu -u && npm update && npm test && npm run build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "update": "ncu -u && npm update && npm test && npm run build"
   }
 }

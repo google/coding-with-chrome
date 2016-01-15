@@ -19,8 +19,10 @@
  */
 goog.provide('cwc.mode.sphero.Runner');
 
+goog.require('cwc.runner.profile.sphero.Command');
+goog.require('cwc.runner.profile.sphero.Monitor');
 goog.require('cwc.ui.Runner');
-goog.require('cwc.runner.profile.Sphero');
+goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.Timer');
@@ -50,8 +52,32 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.sphero.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.Sphero} */
-  this.profile = new cwc.runner.profile.Sphero(this.api);
+  /** @type {!cwc.runner.profile.sphero.Command} */
+  this.command = new cwc.runner.profile.sphero.Command(this.api);
+
+  /** @type {string} */
+  this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAA' +
+    'DE6YVjAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAxAAAAMQBz4pYTAAAABl0RVh0U29mdH' +
+    'dhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKwSURBVEiJtdY9b9NAGAfw/9m5OG9qm6atSB' +
+    'NRXhbUJVXldAgqDG2XdELqUGBCiA/AJ2CDhR0GxMJSJFbKgCrEYlTFUlSpHUBVWgWaRDImSW' +
+    'Unjs/2sVBU0ryoov6PZ+v53fl0vodgQBRFCUej0ZVYLJYXRXGOc54khIxxzhuEkKrrukXDMD' +
+    '6Ypvkxl8u1+9UhvQZVVaXRaPR+JBJ5Qim9MmgiAOA4zlGr1XpeKpVe5PP5zlCkUChcSyQSb0' +
+    'OhkDyseHcsyyrour6ezWZLfZFisZibmJh4J4pisleRWq2GcrkMXdfR6XTAOYckSRgdHUUqlc' +
+    'LMzAw8z6tomrY2Pz//5Qyiqur1ycnJz5TSVC9AURTs7u4OXMn09DTy+Txc162Vy+Xbi4uL3w' +
+    'BAAIC9vb3g+Pj4Rj8AAAzDGAgAgGma4JyDUnopnU6/UVWVAkAAAAghj4btwfLyMvb39//5XJ' +
+    '7nIRQKYWxsDMlkErOzsxBFEQAgSdJCOBx+COAlUVU1MjU19TUQCKSHTvWcsW27XKlUbgjBYH' +
+    'DFDwAAgsHg5Xg8viTEYrG8H8BJKKWrAiFkzk9EFMU5AUDPM3GBSQqEkLifAiEkIXDOf/mJcM' +
+    '5/CgCqfiIAqoLneUU/BcdxikK73d70E2GMvRcsy9pyHOe7H4Bt2+VGo/FJkGW51Wq1nvmBmK' +
+    'b5NJfLtQUAMAzjlWVZhYsEbNvebrfbr4E/v3pZlpmu6+uMsaOLABzHqWmadk+WZfYXAYBsNl' +
+    'tqNBprrutW/gdwXfdI07Q7p6/gM3f8zs7O1ZGRkQ1JkhbOC9i2vd1sNu9mMpmD0+NC94uZTO' +
+    'bg8PDwZrPZfMAYO+h+3iuMsR/Hx8ePTdO81Q0AfVqikyiKEo7H40uU0tVAIHDSd8U553VCSJ' +
+    'UxVnQcZ7Ner28N6rt+A5fqLKDwdn52AAAAAElFTkSuQmCC';
+
+  /** @type {!cwc.ui.Turtle} */
+  this.turtle = new cwc.ui.Turtle(helper, this.sprite);
+
+  /** @type {!cwc.runner.profile.ev3.Command} */
+  this.monitor = new cwc.runner.profile.sphero.Monitor(this.turtle);
 
   /** @type {Element} */
   this.node = null;
@@ -71,26 +97,33 @@ cwc.mode.sphero.Runner = function(helper, connection) {
 cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
+  this.helper.setInstance('turtle', this.turtle, true);
 
-  this.runner.addCommand('__init__', this.handleInit.bind(this));
-  this.runner.addCommand('__reset__', this.handleReset.bind(this));
+  this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Normal Commands
-  this.runner.addCommand('boost', this.profile.boost, this);
-  this.runner.addCommand('setRGB', this.profile.setRGB, this);
-  this.runner.addCommand('setBackLed', this.profile.setBackLed, this);
+  this.runner.addCommand('boost', this.command.boost, this);
+  this.runner.addCommand('setRGB', this.command.setRGB, this);
+  this.runner.addCommand('setBackLed', this.command.setBackLed, this);
   this.runner.addCommand('setMotionTimeout', this.profile.setMotionTimeout,
     this);
-  this.runner.addCommand('move', this.profile.move, this);
-  this.runner.addCommand('stop', this.profile.stop, this);
+
+  this.runner.addCommand('move', this.command.move, this);
+  this.runner.addMonitor('move', this.monitor.move, this.monitor);
+
+  this.runner.addCommand('stop', this.command.stop, this);
 
   // System Commands
-  this.runner.addCommand('calibrate', this.profile.calibrate, this);
-  this.runner.addCommand('sleep', this.profile.sleep, this);
+  this.runner.addCommand('calibrate', this.command.calibrate, this);
+  this.runner.addCommand('sleep', this.command.sleep, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
   this.runner.showRunButton(false);
+
+  // Preview output
+  var turtleNode = this.runner.getTurtleNode();
+  this.turtle.decorate(turtleNode, this.prefix);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -104,18 +137,11 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
 
 
 /**
- * Prepares preview if needed.
+ * @private
  */
-cwc.mode.sphero.Runner.prototype.handleInit = function() {
-  console.log('Init Runner …');
-};
-
-
-/**
-* Resets preview if needed.
-*/
-cwc.mode.sphero.Runner.prototype.handleReset = function() {
-  console.log('Reset Runner …');
+cwc.mode.sphero.Runner.prototype.handleStart_ = function() {
+  this.turtle.reset();
+  this.turtle.action('speed', 1);
 };
 
 

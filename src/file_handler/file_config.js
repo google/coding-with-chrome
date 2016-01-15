@@ -71,6 +71,8 @@ cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
       config.editor_views = [cwc.file.ContentType.JAVASCRIPT,
                              cwc.file.ContentType.HTML,
                              cwc.file.ContentType.CSS];
+    } else if (file == cwc.fileFormat.File.getPencilCodeFile) {
+      config.editor_views = [cwc.file.ContentType.COFFEESCRIPT];
     } else if (file == cwc.fileFormat.File.getRawFile && opt_content_type) {
       config.editor_views = [opt_content_type];
     } else {
@@ -205,6 +207,21 @@ cwc.fileHandler.Config.add('Coffeescript file',
     cwc.file.Extensions.COFFEESCRIPT,
     cwc.file.ContentType.COFFEESCRIPT,
     '# Untitled Coffeescript\n');
+
+
+/**
+ * Basic simple file config.
+ */
+cwc.fileHandler.Config.add('Pencil Code file',
+    cwc.fileFormat.File.getPencilCodeFile,
+    cwc.file.Type.PENCIL_CODE,
+    cwc.mode.Type.PENCIL_CODE,
+    cwc.file.Extensions.CWC,
+    cwc.file.ContentType.COFFEESCRIPT,
+    null, {
+      library: true,
+      preview: true,
+      auto_update: true });
 
 
 /**

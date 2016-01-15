@@ -37,10 +37,7 @@ cwc.renderer.external.Sphero = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.customFramework = 'sphero_framework.js';
-
-  /** @type {string} */
-  this.runnerFramework = 'runner_framework.js';
+  this.spheroFramework = 'sphero_framework.js';
 };
 
 
@@ -70,19 +67,8 @@ cwc.renderer.external.Sphero.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var header = '';
-  var runnerFramework = frameworks.getFile(this.runnerFramework);
-  if (runnerFramework) {
-    var runner = runnerFramework.getContent();
-    header += '<script src="' + runner + '"></script>';
-  }
-
-  var spheroFramework = frameworks.getFile(this.customFramework);
-  if (spheroFramework) {
-    var sphero = spheroFramework.getContent();
-    header += '<script src="' + sphero + '"></script>';
-  }
-
+  var header = renderer_helper.getFrameworkHeader(
+    this.spheroFramework, frameworks);
   var body = '\n<script>' +
       '  var code = function(sphero) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
