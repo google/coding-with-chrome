@@ -23,7 +23,7 @@ var cwcBuildUi = function() {
   var loader = chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({'command': 'progress',
-      'text': 'Build the Coding with Chrome UI …',
+      'text': 'Build the Coding with Chrome UI ...',
       'current': 1, 'total': 100 }, '*');
   }
   var editorNode = document.getElementById('cwc-editor');
@@ -36,9 +36,10 @@ var cwcLoadScripts = function() {
   var header = document.getElementsByTagName('head')[0];
   if (header) {
     var loader = chrome.app.window.get('loader');
+    var message = 'Loading additional JavaScripts ...';
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
-        'text': 'Loading additiona JavaScripts …',
+        'text': message,
         'current': 0, 'total': 100 }, '*');
     }
     var uiScript = document.createElement('script');
@@ -47,7 +48,7 @@ var cwcLoadScripts = function() {
     header.appendChild(uiScript);
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
-        'text': 'Loading additiona JavaScripts …',
+        'text': message,
         'current': 100, 'total': 100 }, '*');
     }
   } else {

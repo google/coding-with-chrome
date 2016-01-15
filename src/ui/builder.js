@@ -166,8 +166,7 @@ cwc.ui.Builder = function() {
  */
 cwc.ui.Builder.prototype.decorate = function(node,
     opt_overlayer) {
-  this.log_.info('Loading Coding with Chrome editor …');
-  this.setProgress('Loading Coding with Chrome editor', 1, 1);
+  this.setProgress('Loading Coding with Chrome editor ...', 1, 1);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
@@ -186,12 +185,12 @@ cwc.ui.Builder.prototype.decorate = function(node,
 cwc.ui.Builder.prototype.load = function() {
 
   if (!this.error) {
-    this.setProgress('Detect features …', 0, 100);
+    this.setProgress('Detect features ...', 0, 100);
     this.detectFeatures();
   }
 
   if (!this.error) {
-    this.setProgress('Loading and prepare i18n …', 5, 100);
+    this.setProgress('Loading and prepare i18n ...', 5, 100);
     this.loadI18n_();
   }
 
@@ -201,42 +200,42 @@ cwc.ui.Builder.prototype.load = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading Config …', 40, 100);
+    this.setProgress('Loading Config ...', 40, 100);
     this.loadConfig();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Helpers …', 50, 100);
+    this.setProgress('Prepare Helpers ...', 50, 100);
     this.prepareHelper();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare oauth2 Helpers …', 55, 100);
+    this.setProgress('Prepare OAuth2 Helpers ...', 55, 100);
     this.prepareOauth2Helper();
   }
 
   if (!this.error) {
-    this.setProgress('Loading Frameworks …', 60, 100);
+    this.setProgress('Loading Frameworks ...', 60, 100);
     this.loadFrameworks();
   }
 
   if (!this.error) {
-    this.setProgress('Render editor GUI …', 70, 100);
+    this.setProgress('Render editor GUI ...', 70, 100);
     this.renderGui();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Bluetooth support …', 80, 100);
+    this.setProgress('Prepare Bluetooth support ...', 80, 100);
     this.prepareBluetooth();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Serial support …', 90, 100);
+    this.setProgress('Prepare Serial support ...', 90, 100);
     this.prepareSerial();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare account support …', 95, 100);
+    this.setProgress('Prepare account support ...', 95, 100);
     this.prepareAccount();
   }
 
@@ -254,6 +253,7 @@ cwc.ui.Builder.prototype.load = function() {
  * @param {!number} total
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
+  this.log_.info('[' + current + '%] ' + text);
   var loader = chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
@@ -393,7 +393,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
  * Prepare the UI and load the needed additional extensions.
  */
 cwc.ui.Builder.prototype.prepareHelper = function() {
-  this.log_.debug('Prepare Helper instances…');
+  this.log_.debug('Prepare Helper instances ...');
   var helpers = cwc.ui.BuilderHelpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
@@ -413,13 +413,13 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
  * Load additional oauth2 helpers.
  */
 cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
-  this.log_.debug('Prepare oauth2 Helper instances…');
+  this.log_.debug('Prepare OAuth2 Helper instances ...');
   var helpers = cwc.ui.oauth2Helpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
   for (var helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
-      this.setProgress('Loading helper: ' + helper, counter,
+      this.setProgress('Loading OAuth2 helper: ' + helper, counter,
           numOfHelpers);
       this.loadHelper(helpers[helper], helper);
       counter++;
@@ -480,7 +480,7 @@ cwc.ui.Builder.prototype.loadFrameworks = function() {
 
   for (var framework in frameworks) {
     if (frameworks.hasOwnProperty(framework)) {
-      var message = 'Loading ' + framework + ' framework …';
+      var message = 'Loading ' + framework + ' framework ...';
       this.setProgress(message, counter, numOfFrameworks);
       rendererInstance.loadFramework(frameworks[framework]);
       counter++;
@@ -500,7 +500,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   // Decorate GUI with all other components.
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance && !this.error) {
-    this.setProgress('Decorate gui …', 30, 100);
+    this.setProgress('Decorate gui ...', 30, 100);
     guiInstance.decorate(this.node, this.prefix);
   } else {
     this.raiseError('The gui instance was not loaded!');
@@ -509,7 +509,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   // Prepare Layout
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.setProgress('Prepare layout …', 60, 100);
+    this.setProgress('Prepare layout ...', 60, 100);
     layoutInstance.prepare();
   } else {
     this.raiseError('The layout instance was not loaded!');
@@ -518,7 +518,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   // Show Select screen
   var selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
-    this.setProgress('Loading select screen …', 90, 100);
+    this.setProgress('Loading select screen ...', 90, 100);
     selectScreenInstance.showSelectScreen();
   }
 };

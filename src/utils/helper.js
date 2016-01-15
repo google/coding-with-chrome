@@ -414,8 +414,8 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 
   console.log('File was saved:', fileModified);
   if (fileModified) {
-    dialog.setTitle('Unsaved Changes');
-    dialog.setContent(fileName + ' has been modified. Continue?');
+    dialog.setTitle('Unsaved Changes for ' + fileName);
+    dialog.setContent('Changes have not been saved. Exit?');
     dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
     dialog.setDisposeOnHide(true);
     dialog.render();
