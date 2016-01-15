@@ -17,18 +17,31 @@
   },
   "devDependencies": {
     "assert": "latest",
+    "closure-templates": "latest",
     "eslint": "latest",
-    "mocha": "latest"
+    "google-closure-library": "latest",
+    "jasmine": "latest",
+    "jasmine-core": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-closure": "latest",
+    "karma-jasmine": "latest"
   },
   "scripts": {
-    "lint": "eslint .",
+    "test": "karma start",
+    "pretest": "npm run build-test-files",
+    "retest": "karam start",
+
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run build-cwc-files",
     "prebuild": "npm run lint",
     "rebuild": "npm run build-static-files && npm run build-cwc-files",
+
     "build-static-files": "node build/static_files.js",
     "build-remote-files": "node build/remote_files.js",
     "build-extra-files": "node build/extra_files.js",
     "build-cwc-files": "node build/cwc_files.js",
-    "documentation": "jsdoc src -r -c documentation.json -d docs"
+    "build-test-files": "node build/test_files.js",
+    "documentation": "jsdoc src -r -c documentation.json -d docs",
+    "lint": "eslint ."
   }
 }

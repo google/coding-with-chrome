@@ -23,13 +23,13 @@ goog.provide('cwc.ui.Helper');
 
 goog.require('cwc.config.Prefix');
 
-goog.require('goog.dom');
 goog.require('goog.dom.classes');
 goog.require('goog.style');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.CustomButton');
 goog.require('goog.ui.ToolbarButton');
 goog.require('goog.ui.ToolbarToggleButton');
+
 
 
 /**
