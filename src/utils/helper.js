@@ -427,7 +427,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
     fileModified = fileInstance.isModified();
   }
 
-  console.log('File was saved:', fileModified);
+  console.log('File was modified:', fileModified);
   if (fileModified) {
     dialog.setTitle('Unsaved Changes for ' + fileName);
     dialog.setContent('Changes have not been saved. Exit?');

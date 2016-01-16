@@ -284,7 +284,6 @@ cwc.ui.Menubar.prototype.decorateMainMenu_ = function(node) {
 
   menu.addChild(new goog.ui.Separator, true);
   menu.addChild(this.menuExit, true);
-
 };
 
 
@@ -380,7 +379,11 @@ cwc.ui.Menubar.prototype.requestCloseWindow = function() {
  * Close editor window.
  */
 cwc.ui.Menubar.prototype.closeWindow = function() {
-  console.log('Close Coding with Chrome editor …');
+  console.log('Close Coding with Chrome editor ...');
+  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    bluetoothInstance.closeSockets();
+  }
   chrome.app.window.current().close();
 };
 

@@ -220,7 +220,7 @@ cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
  * @privat
  */
 cwc.mode.sphero.Monitor.prototype.moveLeft_ = function(opt_event) {
-  this.api.move(50, 270);
+  this.api.roll(50, 270);
 };
 
 
@@ -229,7 +229,7 @@ cwc.mode.sphero.Monitor.prototype.moveLeft_ = function(opt_event) {
  * @privat
  */
 cwc.mode.sphero.Monitor.prototype.moveForward_ = function(opt_event) {
-  this.api.move(50, 0);
+  this.api.roll(50, 0);
 };
 
 
@@ -238,7 +238,7 @@ cwc.mode.sphero.Monitor.prototype.moveForward_ = function(opt_event) {
  * @privat
  */
 cwc.mode.sphero.Monitor.prototype.moveRight_ = function(opt_event) {
-  this.api.move(50, 90);
+  this.api.roll(50, 90);
 };
 
 
@@ -247,7 +247,7 @@ cwc.mode.sphero.Monitor.prototype.moveRight_ = function(opt_event) {
  * @privat
  */
 cwc.mode.sphero.Monitor.prototype.moveBackward_ = function(opt_event) {
-  this.api.move(50, 180);
+  this.api.roll(50, 180);
 };
 
 

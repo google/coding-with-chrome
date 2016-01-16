@@ -41,10 +41,11 @@ goog.provide('cwc.protocol.ev3.Polarity');
  */
 cwc.protocol.ev3.CallbackType = {
   NONE: 0x00,
-  DEVICE_PCT_VALUE: 0x01,
-  DEVICE_SI_VALUE: 0x02,
-  DEVICE_NAME: 0x03,
+  DEVICE_NAME: 0x01,
   ACTOR_VALUE: 0x05,
+  DEVICE_PCT_VALUE: 0x10,
+  DEVICE_RAW_VALUE: 0x11,
+  DEVICE_SI_VALUE: 0x12,
   FIRMWARE: 0x20,
   BATTERY: 0x21,
   UNKNOWN: 0xF0
@@ -128,7 +129,8 @@ cwc.protocol.ev3.Command = {
       GETDEVICENAME: [0x99, 0x15],
       GETMODENAME: [0x99, 0x16],
       READPCT: [0x99, 0x1B],
-      READSI: [0x99, 0x1C],
+      READRAW: [0x99, 0x1C],
+      READSI: [0x99, 0x1D],
       CLEARALL: [0x99, 0x0A],
       CLEARCHANGES: [0x99, 0x1A]
     },
@@ -177,22 +179,27 @@ cwc.protocol.ev3.CommandType = {
 
 
 /**
- * Device types.
+ * Sensor and Actors device types.
  * @enum {string}
  */
 cwc.protocol.ev3.DeviceType = {
-  IR_PROX: 'ir-prox',
-  IR_SEEK: 'ir-seek',
-  IR_REMOTE: 'ir-remote',
-  TOUCH: 'touch',
-  COL_REFLECT: 'col-reflect',
   COL_AMBIENT: 'col-ambient',
   COL_COLOR: 'col-color',
+  COL_REFLECT: 'col-reflect',
+  GYRO_ANG: 'gyro-ang',
+  GYRO_RATE: 'gyro-rate',
+  IR_PROX: 'ir-prox',
+  IR_REMOTE: 'ir-remote',
+  IR_SEEK: 'ir-seek',
   L_MOTOR_DEG: 'l-motor-deg',
   L_MOTOR_ROT: 'l-motor-rot',
   M_MOTOR_DEG: 'm-motor-deg',
   M_MOTOR_ROT: 'm-motor-rot',
-  NONE: 'none'
+  NONE: 'none',
+  TOUCH: 'touch',
+  US_DIST_CM: 'us-dist-cm',
+  US_DIST_IN: 'us-dist-in',
+  US_LISTEN: 'us-listen'
 };
 
 
@@ -269,7 +276,31 @@ cwc.protocol.ev3.LedType = {
  */
 cwc.protocol.ev3.MotorMode = {
   DEGREE: 0,
-  ROTATION: 1
+  ROTATION: 1,
+  PERCENT: 2
+};
+
+
+/**
+ * Motor modes.
+ * @enum {number}
+ */
+cwc.protocol.ev3.UltrasonicMode = {
+  DIST_CM: 0,
+  DIST_INCH: 1,
+  LISTEN: 2
+};
+
+
+/**
+ * Motor modes.
+ * @enum {number}
+ */
+cwc.protocol.ev3.GyroMode = {
+  ANGLE: 0,
+  RATE: 1,
+  FAS: 2,
+  CALIBRATION: 4
 };
 
 

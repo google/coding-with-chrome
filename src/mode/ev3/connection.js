@@ -76,6 +76,7 @@ cwc.mode.ev3.Connection.prototype.connect = function() {
     console.log('Connect to the EV3 unit …');
     this.api.autoConnect();
   }
+  this.api.monitor(true);
 };
 
 
@@ -145,6 +146,7 @@ cwc.mode.ev3.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
+  this.api.monitor(false);
   this.helper.removeEventListeners(this.listener, this.name);
 };
 

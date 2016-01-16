@@ -105,11 +105,11 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.addCommand('boost', this.command.boost, this);
   this.runner.addCommand('setRGB', this.command.setRGB, this);
   this.runner.addCommand('setBackLed', this.command.setBackLed, this);
-  this.runner.addCommand('setMotionTimeout', this.profile.setMotionTimeout,
+  this.runner.addCommand('setMotionTimeout', this.command.setMotionTimeout,
     this);
 
-  this.runner.addCommand('move', this.command.move, this);
-  this.runner.addMonitor('move', this.monitor.move, this.monitor);
+  this.runner.addCommand('roll', this.command.roll, this);
+  this.runner.addMonitor('roll', this.monitor.roll, this.monitor);
 
   this.runner.addCommand('stop', this.command.stop, this);
 
@@ -140,8 +140,8 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
  * @private
  */
 cwc.mode.sphero.Runner.prototype.handleStart_ = function() {
+  this.monitor.reset();
   this.turtle.reset();
-  this.turtle.action('speed', 1);
 };
 
 

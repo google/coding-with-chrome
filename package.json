@@ -30,24 +30,23 @@
     "npm-check-updates": "latest"
   },
   "scripts": {
-    // Tests
     "test": "karma start",
     "pretest": "npm run lint && npm run build-test-files",
     "retest": "karam start",
-    // Build
+
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run rebuild",
     "prebuild": "npm run lint",
     "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",
-    // Build rules
+
     "build-cwc-files": "node build/cwc_files.js",
     "build-extra-files": "node build/extra_files.js",
     "build-framework-files":  "node build/framework_files.js",
     "build-remote-files": "node build/remote_files.js",
     "build-static-files": "node build/static_files.js",
     "build-test-files": "node build/test_files.js",
-    // Misc
+
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
-    "update": "ncu -u && npm update && npm test && npm run build"
+    "update": "ncu -u && npm install && npm test && npm run build"
   }
 }

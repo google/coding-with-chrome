@@ -266,7 +266,6 @@ cwc.ui.SelectScreen.prototype.showHTMLExample = function() {
 };
 
 
-
 /**
  * Creates a new file of the given type.
  * @param {cwc.file.Type} type

@@ -185,32 +185,6 @@ cwc.ui.Layout.prototype.getNode_ = function(name) {
 
 
 /**
- * @param {!cwc.ui.LayoutType} type
- * @private
- */
-cwc.ui.Layout.prototype.renderTemplate_ = function(type) {
-  var template = cwc.ui.LayoutTypeTemplate[type];
-  if (!template) {
-    console.error('Template', type, 'is not implemented!');
-    return;
-  }
-
-  this.resetLayout();
-  goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
-  this.nodes = {
-    'content': this.getNode_('content-chrome'),
-    'content-left': this.getNode_('content-left-chrome'),
-    'content-right': this.getNode_('content-right-chrome'),
-    'content-top': this.getNode_('content-top-chrome'),
-    'content-bottom': this.getNode_('content-bottom-chrome'),
-    'overlay': this.getNode_('content-overlay')
-  };
-  this.showPreloader_();
-  this.layout = type;
-};
-
-
-/**
  * Prepares the layout.
  * @export
  */
@@ -397,32 +371,7 @@ cwc.ui.Layout.prototype.setOverlayBackground = function(background) {
 
 
 /**
- * Shows preloader screen.
- * @private
- */
-cwc.ui.Layout.prototype.showPreloader_ = function() {
-  this.showOverlay(true);
-  this.setOverlayBackground(
-      cwc.ui.LayoutOverlayBackground.TRANSPARENT_25);
-  goog.soy.renderElement(
-      this.getOverlay(),
-      cwc.soy.ui.Layout.preloader,
-      {'prefix': this.prefix});
-};
-
-
-/**
- * Hides preloader screen.
- * @private
- */
-cwc.ui.Layout.prototype.closePreloader_ = function() {
-  this.showOverlay(false);
-  this.setOverlayBackground(cwc.ui.LayoutOverlayBackground.NONE);
-};
-
-
-/**
- * Return the available Splitpanes for the current layout.
+ * Return the available splitpanes for the current layout.
  * @return {Object}
  * @export
  */
@@ -661,7 +610,7 @@ cwc.ui.Layout.prototype.setFullscreen = function(fullscreen) {
 
 
 /**
- * Adds an event listern to monitor the size of the split spane.
+ * Adds an event listener to monitor the size of the split spane.
  * @param {!goog.ui.SplitPane} splitpane
  */
 cwc.ui.Layout.prototype.monitorResize = function(splitpane) {
@@ -680,6 +629,73 @@ cwc.ui.Layout.prototype.monitorResize = function(splitpane) {
  */
 cwc.ui.Layout.prototype.handleResizeEvent = function() {
   this.eventHandler.dispatchEvent(goog.events.EventType.RESIZE);
+};
+
+
+/**
+ * @param {!cwc.ui.LayoutType} type
+ * @private
+ */
+cwc.ui.Layout.prototype.renderTemplate_ = function(type) {
+  var template = cwc.ui.LayoutTypeTemplate[type];
+  if (!template) {
+    console.error('Template', type, 'is not implemented!');
+    return;
+  }
+
+  this.resetLayout();
+  goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
+  this.nodes = {
+    'content': this.getNode_('content-chrome'),
+    'content-left': this.getNode_('content-left-chrome'),
+    'content-right': this.getNode_('content-right-chrome'),
+    'content-top': this.getNode_('content-top-chrome'),
+    'content-bottom': this.getNode_('content-bottom-chrome'),
+    'overlay': this.getNode_('content-overlay')
+  };
+  this.showPreloader_();
+  this.layout = type;
+};
+
+
+/**
+ * Shows preloader screen.
+ * @private
+ */
+cwc.ui.Layout.prototype.showPreloader_ = function() {
+  this.showOverlay(true);
+  this.setOverlayBackground(
+      cwc.ui.LayoutOverlayBackground.TRANSPARENT_25);
+  goog.soy.renderElement(
+      this.getOverlay(),
+      cwc.soy.ui.Layout.preloader,
+      {'prefix': this.prefix});
+};
+
+
+/**
+ * Hides preloader screen.
+ * @private
+ */
+cwc.ui.Layout.prototype.closePreloader_ = function() {
+  this.showOverlay(false);
+  this.setOverlayBackground(cwc.ui.LayoutOverlayBackground.NONE);
+};
+
+
+/**
+ * Resets event handler and cached values.
+ */
+cwc.ui.Layout.prototype.resetLayout = function() {
+  this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
+  this.setFullscreen(false);
+  this.setHandleSize(this.defaultHandleSize);
+  this.customListener = this.helper.removeEventListeners(this.customListener,
+      this.name);
+  this.cleanFixComponentSizes();
+  this.cleanSplitpaneCachedSize();
+  this.firstSplitpane = null;
+  this.secondSplitpane = null;
 };
 
 
@@ -719,22 +735,6 @@ cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.customListener, eventListener);
-};
-
-
-/**
- * Resets event handler and cached values.
- */
-cwc.ui.Layout.prototype.resetLayout = function() {
-  this.setFullscreen(false);
-  this.setHandleSize(this.defaultHandleSize);
-  this.customListener = this.helper.removeEventListeners(this.customListener,
-      this.name);
-  this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
-  this.cleanFixComponentSizes();
-  this.cleanSplitpaneCachedSize();
-  this.firstSplitpane = null;
-  this.secondSplitpane = null;
 };
 
 

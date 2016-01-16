@@ -37,16 +37,26 @@ cwc.runner.profile.sphero.Monitor = function(turtle) {
 
 
 /**
+ * Resets the monitor.
+ */
+cwc.runner.profile.sphero.Monitor.prototype.reset = function() {
+  this.angle = 0;
+};
+
+
+/**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Monitor.prototype.move = function(data) {
+cwc.runner.profile.sphero.Monitor.prototype.roll = function(data) {
   var angle = data['heading'] - this.angle;
-  if (angle > 360) {
+  if (angle == 360) {
+    angle = 0;
+  } else if (angle > 360) {
     angle -= 360;
-  } else if (this.angle < 0) {
+  } else if (angle < 0) {
     angle += 360;
   }
-  this.angle = angle;
+  this.angle = data['heading'];
   this.turtle.action('rt', angle);
   this.turtle.action('fd', data['speed']);
 };

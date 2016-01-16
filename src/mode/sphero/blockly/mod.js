@@ -57,8 +57,8 @@ cwc.mode.sphero.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.sphero.blockly.Mod.prototype.decorate = function() {
-  this.layout.decorate();
   this.connection.init();
+  this.layout.decorate();
   this.editor.decorate();
   this.runner.decorate();
   this.monitor.decorate();

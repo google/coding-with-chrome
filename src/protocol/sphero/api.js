@@ -321,7 +321,7 @@ cwc.protocol.sphero.Api.prototype.stop = function(opt_delay) {
   this.reset(opt_delay);
   this.setRGB(0, 0, 0, 1, opt_delay);
   this.setBackLed(0, opt_delay);
-  this.move(0, 0, 0, opt_delay);
+  this.roll(0, 0, 0, opt_delay);
 };
 
 
@@ -332,7 +332,7 @@ cwc.protocol.sphero.Api.prototype.stop = function(opt_delay) {
 cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
   this.setRGB(0, 0, 0);
   this.setBackLed(255);
-  this.move(0, heading);
+  this.roll(0, heading);
 };
 
 
@@ -379,7 +379,7 @@ cwc.protocol.sphero.Api.prototype.runTest = function() {
   this.setBackLed(0, 100);
 
   this.setRGB(255, 0, 0);
-  this.move(0, 180);
+  this.roll(0, 180);
 };
 
 

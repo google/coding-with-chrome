@@ -50,8 +50,7 @@ cwc.mode.ev3.blockly.Mod = function(helper) {
   this.renderer = new cwc.renderer.external.EV3(helper);
 
   /** @type {cwc.mode.ev3.Runner} */
-  this.runner = new cwc.mode.ev3.Runner(helper,
-      this.connection);
+  this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
 };
 
 

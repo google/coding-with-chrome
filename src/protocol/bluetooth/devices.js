@@ -71,7 +71,7 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
     return;
   }
 
-  this.log_.debug('Preparing Bluetooth devices …');
+  this.log_.debug('Preparing Bluetooth devices ...');
   this.closeSockets();
   this.throttledUpdateDevices = new goog.async.Throttle(
       this.updateDevices.bind(this), this.updateDevicesInterval);
@@ -98,7 +98,7 @@ cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
-  this.log_.debug('Closing all existing sockets …');
+  this.log_.debug('Closing all existing sockets ...');
   var handleSockets = function(sockets) {
     for (var i = 0; i < sockets.length; i++) {
       this.bluetoothSocket.close(sockets[i].socketId,

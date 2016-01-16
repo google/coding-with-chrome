@@ -25,13 +25,16 @@ goog.provide('cwc.protocol.ev3.DeviceName');
  * @enum {!Object.<string>|string}
  */
 cwc.protocol.ev3.DeviceName = {
-  IR_SENSOR: 'IR Sensor',
-  TOUCH_SENSOR: 'Touch Sensor',
   COLOR_SENSOR: 'Color Sensor',
+  GYRO_SENSOR: 'Gyro Sensor',
+  IR_SENSOR: 'IR Sensor',
   LARGE_MOTOR: 'Large Servo Motor',
-  MEDIUM_MOTOR: 'Medium Servo Motor',
   LARGE_MOTOR_OPT: 'Opt Large Servo Motor',
-  MEDIUM_MOTOR_OPT: 'Opt Medium Servo Motor'
+  MEDIUM_MOTOR: 'Medium Servo Motor',
+  MEDIUM_MOTOR_OPT: 'Opt Medium Servo Motor',
+  TOUCH_SENSOR: 'Touch Sensor',
+  TOUCH_SENSOR_OPT: 'Opt Touch Sensor',
+  ULTRASONIC_SENSOR: 'Ultrasonic Sensor'
 };
 
 

@@ -153,6 +153,16 @@ cwc.protocol.bluetooth.Api.prototype.updateAdapterState = function() {
 
 
 /**
+ * @export
+ */
+cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
+  if (this.devices) {
+    this.devices.closeSockets();
+  }
+};
+
+
+/**
  * Adds the different types of event listener to device.
  * @private
  */

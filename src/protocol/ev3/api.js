@@ -92,6 +92,12 @@ cwc.protocol.ev3.Api = function(helper) {
   this.headerMinSize_ = 5;
 
   /** @type {Object} */
+  this.actor = {};
+
+  /** @type {Object} */
+  this.sensor = {};
+
+  /** @type {Object} */
   this.deviceInfo = {};
 
   /** @type {Object} */
@@ -112,47 +118,17 @@ cwc.protocol.ev3.Api = function(helper) {
   /** @type {!cwc.protocol.ev3.CallbackType} */
   this.callbackType = cwc.protocol.ev3.CallbackType;
 
-  /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = cwc.protocol.ev3.CallbackType;
-
-  /** @type {!cwc.protocol.ev3.ColorSensorMode} */
-  this.colorSensorMode = cwc.protocol.ev3.ColorSensorMode;
-
-  /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = cwc.protocol.ev3.CallbackType;
-
   /** @type {!cwc.protocol.ev3.Command} */
   this.command = cwc.protocol.ev3.Command;
 
   /** @type {!cwc.protocol.ev3.DeviceName} */
   this.deviceName = cwc.protocol.ev3.DeviceName;
 
-  /** @type {!cwc.protocol.ev3.DeviceType} */
-  this.deviceType = cwc.protocol.ev3.DeviceType;
-
-  /** @type {!cwc.protocol.ev3.Events} */
-  this.events = cwc.protocol.ev3.Events;
-
   /** @type {!cwc.protocol.ev3.InputPort} */
   this.inputPort = cwc.protocol.ev3.InputPort;
 
-  /** @type {!cwc.protocol.ev3.IrSensorMode} */
-  this.irSensorMode = cwc.protocol.ev3.IrSensorMode;
-
-  /** @type {!cwc.protocol.ev3.LedColor} */
-  this.ledColor = cwc.protocol.ev3.LedColor;
-
-  /** @type {!cwc.protocol.ev3.LedMode} */
-  this.ledMode = cwc.protocol.ev3.LedMode;
-
-  /** @type {!cwc.protocol.ev3.MotorMode} */
-  this.motorMode = cwc.protocol.ev3.MotorMode;
-
   /** @type {!cwc.protocol.ev3.OutputPort} */
   this.outputPort = cwc.protocol.ev3.OutputPort;
-
-  /** @type {!cwc.protocol.ev3.Polarity} */
-  this.polarity = cwc.protocol.ev3.Polarity;
 };
 
 
@@ -222,6 +198,7 @@ cwc.protocol.ev3.Api.prototype.disconnect = function() {
   if (this.device) {
     this.device.disconnect();
   }
+  this.monitor(false);
   this.cleanUp();
 };
 
@@ -295,6 +272,30 @@ cwc.protocol.ev3.Api.prototype.getTouchSensorData = function() {
 
 
 /**
+ * @return {Object}
+ */
+cwc.protocol.ev3.Api.prototype.getTouchSensorOptData = function() {
+  return this.deviceData[this.deviceInfo[this.deviceName.TOUCH_SENSOR_OPT]];
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.protocol.ev3.Api.prototype.getUltraSonicSensorData = function() {
+  return this.deviceData[this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]];
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.protocol.ev3.Api.prototype.getGyroSensorData = function() {
+  return this.deviceData[this.deviceInfo[this.deviceName.GYRO_SENSOR]];
+};
+
+
+/**
  * @return {goog.events.EventTarget}
  */
 cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
@@ -308,7 +309,7 @@ cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
 cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
   this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setMode(mode);
   this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setCss(
-      (mode == this.colorSensorMode.COLOR) ? 'color' : 'default');
+      (mode == cwc.protocol.ev3.ColorSensorMode.COLOR) ? 'color' : 'default');
 };
 
 
@@ -330,18 +331,33 @@ cwc.protocol.ev3.Api.prototype.setStepSpeed = function(speed) {
 
 
 /**
+ * @param {!boolean} enabled
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.monitor = function(enabled) {
+  if (enabled) {
+    this.monitoring.start();
+  } else {
+    this.monitoring.stop();
+  }
+};
+
+
+/**
  * Detects all connected devices.
  */
 cwc.protocol.ev3.Api.prototype.getDevices = function() {
-  this.monitoring.stop();
+  this.monitor(false);
 
   // Sensor ports
+  this.sensor = {};
   this.getDeviceType(this.inputPort.ONE);
   this.getDeviceType(this.inputPort.TWO);
   this.getDeviceType(this.inputPort.THREE);
   this.getDeviceType(this.inputPort.FOUR);
 
   // Actor ports
+  this.actor = {};
   this.getDeviceType(this.inputPort.A);
   this.getDeviceType(this.inputPort.B);
   this.getDeviceType(this.inputPort.C);
@@ -404,8 +420,8 @@ cwc.protocol.ev3.Api.prototype.getSensorData = function(port, opt_delay) {
   }
   var device = this.deviceData[port];
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
-      this.callbackType.DEVICE_SI_VALUE);
-  buffer.writeCommand(this.command.INPUT.DEVICE.READSI);
+      this.callbackType.DEVICE_RAW_VALUE);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READRAW);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
@@ -441,6 +457,30 @@ cwc.protocol.ev3.Api.prototype.getSensorDataPct = function(port, opt_delay) {
 
 
 /**
+ * Get the current data of the device in Pct.
+ * @param {!cwc.protocol.ev3.InputPort} port
+ * @param {number=} opt_delay
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.getSensorDataSi = function(port, opt_delay) {
+  if (!(port in this.deviceData)) {
+    return;
+  }
+  var device = this.deviceData[port];
+  var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
+      this.callbackType.DEVICE_SI_VALUE);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READSI);
+  buffer.writeNullByte();
+  buffer.writePort(port);
+  buffer.writeNullByte();
+  buffer.writeByte(device.getMode());
+  buffer.writeSingleByte();
+  buffer.writeIndex();
+  this.send_(buffer, opt_delay);
+};
+
+
+/**
  * Get the current data of the device.
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {number=} opt_delay
@@ -453,7 +493,7 @@ cwc.protocol.ev3.Api.prototype.getActorData = function(port, opt_delay) {
   var device = this.deviceData[port];
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       this.callbackType.ACTOR_VALUE);
-  buffer.writeCommand(this.command.INPUT.DEVICE.READSI);
+  buffer.writeCommand(this.command.INPUT.DEVICE.READRAW);
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
@@ -659,7 +699,9 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_invert,
 cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_invert,
     opt_step_speed, opt_delay) {
   var speed = (opt_invert) ? this.stepSpeed * -1 : this.stepSpeed;
-  var ports = this.outputPort.B | this.outputPort.C;
+  var motor1 = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor2 = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  var ports = motor1 | motor2;
   var rampUp = 0;
   var rampDown = 0;
   var brake = 1;
@@ -758,80 +800,104 @@ cwc.protocol.ev3.Api.prototype.send_ = function(buffer, opt_delay) {
  * @private
  */
 cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
-  if (type == this.deviceType.NONE) {
+  if (type == cwc.protocol.ev3.DeviceType.NONE) {
     return;
   }
   var typeNormalized = type.replace(/-/g, '_');
-  if (!(typeNormalized in this.deviceType)) {
+  if (!(typeNormalized in cwc.protocol.ev3.DeviceType)) {
     if (type == 'PORT ERROR') {
-      console.error('Recieved Port Error on port', port, '!');
+      console.error('Received Port Error on port', port, '!');
       console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
     } else {
       console.warn('Unknown device type "', type, '" on port', port, '!');
     }
     return;
   }
-  var deviceTypeName = this.deviceType[typeNormalized];
+  var deviceTypeName = cwc.protocol.ev3.DeviceType[typeNormalized];
   var deviceName = deviceTypeName;
   var deviceMode = 0;
   var deviceCss = '';
-  var sensorGroup = true;
   switch (deviceTypeName) {
-    case this.deviceType.IR_PROX:
+    case cwc.protocol.ev3.DeviceType.IR_PROX:
       deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.PROXIMITY;
+      deviceMode = cwc.protocol.ev3.IrSensorMode.PROXIMITY;
       break;
-    case this.deviceType.IR_SEEK:
+    case cwc.protocol.ev3.DeviceType.IR_SEEK:
       deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.SEEK;
+      deviceMode = cwc.protocol.ev3.IrSensorMode.SEEK;
       break;
-    case this.deviceType.IR_REMOTE:
+    case cwc.protocol.ev3.DeviceType.IR_REMOTE:
       deviceName = this.deviceName.IR_SENSOR;
-      deviceMode = this.irSensorMode.REMOTECONTROL;
+      deviceMode = cwc.protocol.ev3.IrSensorMode.REMOTECONTROL;
       break;
-    case this.deviceType.TOUCH:
+    case cwc.protocol.ev3.DeviceType.TOUCH:
       deviceName = this.deviceName.TOUCH_SENSOR;
       break;
-    case this.deviceType.COL_REFLECT:
+    case cwc.protocol.ev3.DeviceType.COL_REFLECT:
       deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.REFLECTIVE;
+      deviceMode = cwc.protocol.ev3.ColorSensorMode.REFLECTIVE;
       break;
-    case this.deviceType.COL_AMBIENT:
+    case cwc.protocol.ev3.DeviceType.COL_AMBIENT:
       deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.AMBIENT;
+      deviceMode = cwc.protocol.ev3.ColorSensorMode.AMBIENT;
       break;
-    case this.deviceType.COL_COLOR:
+    case cwc.protocol.ev3.DeviceType.COL_COLOR:
       deviceName = this.deviceName.COLOR_SENSOR;
-      deviceMode = this.colorSensorMode.COLOR;
+      deviceMode = cwc.protocol.ev3.ColorSensorMode.COLOR;
       deviceCss = 'color';
       break;
-    case this.deviceType.L_MOTOR_DEG:
+    case cwc.protocol.ev3.DeviceType.US_DIST_CM:
+      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_CM;
+      break;
+    case cwc.protocol.ev3.DeviceType.US_DIST_IN:
+      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_IN;
+      break;
+    case cwc.protocol.ev3.DeviceType.US_DIST_LISTEN:
+      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_LISTEN;
+      break;
+    case cwc.protocol.ev3.DeviceType.GYRO_ANG:
+      deviceName = this.deviceName.GYRO_SENSOR;
+      deviceMode = cwc.protocol.ev3.GyroMode.ANGLE;
+      break;
+    case cwc.protocol.ev3.DeviceType.GYRO_RATE:
+      deviceName = this.deviceName.GYRO_SENSOR;
+      deviceMode = cwc.protocol.ev3.GyroMode.RATE;
+      break;
+    case cwc.protocol.ev3.DeviceType.L_MOTOR_DEG:
       deviceName = this.deviceName.LARGE_MOTOR;
-      deviceMode = this.motorMode.DEGREE;
-      sensorGroup = false;
+      deviceMode = cwc.protocol.ev3.MotorMode.DEGREE;
       break;
-    case this.deviceType.L_MOTOR_ROT:
+    case cwc.protocol.ev3.DeviceType.L_MOTOR_ROT:
       deviceName = this.deviceName.LARGE_MOTOR;
-      deviceMode = this.motorMode.ROTATION;
-      sensorGroup = false;
+      deviceMode = cwc.protocol.ev3.MotorMode.ROTATION;
       break;
-    case this.deviceType.M_MOTOR_DEG:
+    case cwc.protocol.ev3.DeviceType.M_MOTOR_DEG:
       deviceName = this.deviceName.MEDIUM_MOTOR;
-      deviceMode = this.motorMode.DEGREE;
-      sensorGroup = false;
+      deviceMode = cwc.protocol.ev3.MotorMode.DEGREE;
       break;
-    case this.deviceType.M_MOTOR_ROT:
+    case cwc.protocol.ev3.DeviceType.M_MOTOR_ROT:
       deviceName = this.deviceName.MEDIUM_MOTOR;
-      deviceMode = this.motorMode.ROTATION;
-      sensorGroup = false;
+      deviceMode = cwc.protocol.ev3.MotorMode.ROTATION;
       break;
+    default:
+      return;
   }
 
+  // Support of two devices of the same type.
   if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
-    if (deviceName == this.deviceName.LARGE_MOTOR) {
-      deviceName = this.deviceName.LARGE_MOTOR_OPT;
-    } else if (deviceName == this.deviceName.MEDIUM_MOTOR) {
-      deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
+    switch (deviceName) {
+      case this.deviceName.LARGE_MOTOR:
+        deviceName = this.deviceName.LARGE_MOTOR_OPT;
+        break;
+      case this.deviceName.MEDIUM_MOTOR:
+        deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
+        break;
+      case this.deviceName.TOUCH_SENSOR:
+        deviceName = this.deviceName.TOUCH_SENSOR_OPT;
+        break;
     }
   }
 
@@ -839,14 +905,24 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
       deviceMode, 0, deviceCss);
   this.eventHandler.dispatchEvent(
-      new this.events.ChangedDevices(this.deviceData));
+      new cwc.protocol.ev3.Events.ChangedDevices(this.deviceData));
+  this.deviceInfo[deviceName] = port;
 
-  if (sensorGroup) {
-    this.deviceInfo[deviceName] = port;
-    this.getSensorData(port);
-  } else {
-    this.deviceInfo[deviceName] = port;
-    this.getActorData(port);
+  switch (port) {
+    case cwc.protocol.ev3.InputPort.ONE:
+    case cwc.protocol.ev3.InputPort.TWO:
+    case cwc.protocol.ev3.InputPort.THREE:
+    case cwc.protocol.ev3.InputPort.FOUR:
+      this.sensor[deviceName] = port;
+      this.getSensorData(port);
+      break;
+    case cwc.protocol.ev3.InputPort.A:
+    case cwc.protocol.ev3.InputPort.B:
+    case cwc.protocol.ev3.InputPort.C:
+    case cwc.protocol.ev3.InputPort.D:
+      this.actor[deviceName] = Math.pow(2, (port - 0x10));
+      this.getActorData(port);
+      break;
   }
   this.monitoring.start(this.deviceInfo);
 };
@@ -866,31 +942,35 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
     switch (opt_device_name) {
       case this.deviceName.COLOR_SENSOR:
         this.eventHandler.dispatchEvent(
-            this.events.ColorSensorValue(value, port));
+            cwc.protocol.ev3.Events.ColorSensorValue(value, port));
         break;
       case this.deviceName.IR_SENSOR:
         this.eventHandler.dispatchEvent(
-            this.events.IrSensorValue(value, port));
+            cwc.protocol.ev3.Events.IrSensorValue(value, port));
         break;
       case this.deviceName.TOUCH_SENSOR:
         this.eventHandler.dispatchEvent(
-            this.events.TouchSensorValue(value, port));
+            cwc.protocol.ev3.Events.TouchSensorValue(value, port));
+        break;
+      case this.deviceName.TOUCH_SENSOR_OPT:
+        this.eventHandler.dispatchEvent(
+            cwc.protocol.ev3.Events.TouchSensorOptValue(value, port));
         break;
       case this.deviceName.LARGE_MOTOR:
         this.eventHandler.dispatchEvent(
-            this.events.TouchSensorValue(value, port));
+            cwc.protocol.ev3.Events.TouchSensorValue(value, port));
         break;
       case this.deviceName.MEDIUM_MOTOR:
         this.eventHandler.dispatchEvent(
-            this.events.MediumMotorValue(value, port));
+            cwc.protocol.ev3.Events.MediumMotorValue(value, port));
         break;
       case this.deviceName.LARGE_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
-            this.events.LargeMotorOptValue(value, port));
+            cwc.protocol.ev3.Events.LargeMotorOptValue(value, port));
         break;
       case this.deviceName.MEDIUM_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
-            this.events.MediumMotorOptValue(value, port));
+            cwc.protocol.ev3.Events.MediumMotorOptValue(value, port));
         break;
     }
   }
@@ -904,15 +984,14 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
  */
 cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
   if (!raw_data) {
-    console.error('Recieved no data!');
+    console.error('Received no data!');
     return;
   }
   var data = data = new Uint8Array(raw_data);
   if (data.length < 5) {
-    console.error('Recieved data are to small!');
+    console.error('Received data are to small!');
     return;
   }
-
   var value = 0;
   var result = 0;
   var callback = data[2];
@@ -935,10 +1014,15 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
       var type = (String.fromCharCode.apply(null, value)).trim();
       this.updateDeviceType_(port, type);
       break;
-    case this.callbackType.DEVICE_SI_VALUE:
     case this.callbackType.DEVICE_PCT_VALUE:
+    case this.callbackType.DEVICE_RAW_VALUE:
       value = data[5];
       this.updateDeviceData_(port, value, this.deviceData[port].getName());
+      break;
+    case this.callbackType.DEVICE_SI_VALUE:
+      value = new Uint8Array([data[5], data[6], data[7], data[8]]);
+      result = (new Float32Array(value.buffer)[0]).toFixed(1);
+      this.updateDeviceData_(port, result, this.deviceData[port].getName());
       break;
     case this.callbackType.ACTOR_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);

@@ -94,7 +94,7 @@ cwc.protocol.bluetooth.Adapter.prototype.getState = function() {
 cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
     adapter_info) {
   if (!adapter_info) {
-    console.log('Error recieving adapter state.');
+    console.log('Error receiving adapter state.');
   }
   this.address = adapter_info.address;
   this.name = adapter_info.name;
@@ -103,10 +103,10 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
   this.discovering = adapter_info.discovering;
 
   if (adapter_info && this.available && this.powered && !this.enabled) {
-    console.log('Enable Bluetooth support …');
+    console.log('Enable Bluetooth adapter:', adapter_info);
     this.enabled = true;
   } else if (this.enabled || !this.prepared) {
-    console.log('Disable Bluetooth support …');
+    console.log('Disable Bluetooth adapter:', adapter_info);
     this.enabled = false;
   }
   var menubarInstance = this.helper.getInstance('menubar');

@@ -210,7 +210,7 @@ cwc.protocol.bluetooth.Device.prototype.getIndicator = function() {
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
-  console.log('Connecting bluetooth device', this.address, '…');
+  console.log('Connecting bluetooth device', this.address, '...');
 
   if (this.connected && this.socketId) {
     console.warn('Bluetooth socket is already connected!');
@@ -229,6 +229,8 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
     if (opt_callback) {
       this.connectCallback = opt_callback;
     }
+    console.log('Connecting socket', create_info.socketId, 'for',
+      this.address, '...');
     this.socketId = create_info.socketId;
     this.bluetoothSocket.connect(this.socketId, this.address,
         this.profile.uuid, this.handleConnect_.bind(this));
@@ -319,7 +321,7 @@ cwc.protocol.bluetooth.Device.prototype.sendDelayed = function(buffer, delay) {
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.close = function() {
-  if (this.socketId == null) {
+  if (this.socketId == null || !this.socketId) {
     return;
   }
   this.bluetoothSocket.close(this.socketId, this.handleClose_.bind(this));
@@ -411,7 +413,7 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
 cwc.protocol.bluetooth.Device.prototype.handleError = function(error) {
   console.log('handleError', error);
   if (error.indexOf('disconnected') != -1) {
-    this.disconnect();
+    this.close();
   }
 };
 
@@ -421,7 +423,9 @@ cwc.protocol.bluetooth.Device.prototype.handleError = function(error) {
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleClose_ = function(socket_id) {
-  console.log('Closed socket', socket_id, '!');
+  if (socket_id) {
+    console.log('Closed socket', socket_id, '!');
+  }
   this.connected = false;
   this.socketId = null;
 };
@@ -474,8 +478,9 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
     var errorMessage = chrome.runtime.lastError;
     console.warn('Socket connection failed:', errorMessage);
     if (errorMessage.message.toLowerCase().indexOf('connection') !== -1 &&
-        errorMessage.message.toLowerCase().indexOf('failed') !== -1) {
-      this.disconnect();
+        errorMessage.message.toLowerCase().indexOf('failed') !== -1 ||
+        errorMessage.message.toLowerCase().indexOf('0x2743')) {
+      this.close();
     }
     return;
   }
