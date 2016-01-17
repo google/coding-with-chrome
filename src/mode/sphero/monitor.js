@@ -256,7 +256,7 @@ cwc.mode.sphero.Monitor.prototype.moveBackward_ = function(opt_event) {
  * @privat
  */
 cwc.mode.sphero.Monitor.prototype.stop_ = function(opt_event) {
-  this.api.stop();
+  this.connection.stop();
 };
 
 

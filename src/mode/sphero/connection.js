@@ -57,12 +57,6 @@ cwc.mode.sphero.Connection = function(helper) {
  * @export
  */
 cwc.mode.sphero.Connection.prototype.init = function() {
-  // Unload event
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var eventHandler = layoutInstance.getEventHandler();
-  this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
-    this.cleanUp, false, this);
-
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
@@ -82,6 +76,18 @@ cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
+};
+
+
+/**
+ * Stops the current executions.
+ */
+cwc.mode.sphero.Connection.prototype.stop = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.terminate();
+  }
+  this.api.stop();
 };
 
 

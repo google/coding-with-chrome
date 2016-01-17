@@ -52,12 +52,6 @@ cwc.mode.ev3.Connection = function(helper) {
  * Connects the EV3 unit.
  */
 cwc.mode.ev3.Connection.prototype.init = function() {
-  // Unload event
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var eventHandler = layoutInstance.getEventHandler();
-  this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
-      this.cleanUp, false, this);
-
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.addEventListener_(this.connectMonitor, goog.Timer.TICK,

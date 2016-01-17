@@ -99,6 +99,9 @@ cwc.utils.StackEntry.prototype.getName = function() {
  * @param {number=} opt_update_time
  */
 cwc.utils.StackQueue = function(opt_update_time) {
+  /** @private {boolean} */
+  this.autopause_ = false;
+
   /** @private {Object} */
   this.stack_ = {};
 
@@ -121,15 +124,15 @@ cwc.utils.StackQueue = function(opt_update_time) {
  * @param {number|string=} opt_group
  * @private
  */
-cwc.utils.StackQueue.prototype.addStack_ = function(stack_entry,
-    opt_group) {
+cwc.utils.StackQueue.prototype.addStack_ = function(stack_entry, opt_group) {
   var group = opt_group || this.default_group;
   if (!(group in this.stack_)) {
     this.stack_[group] = [];
   }
   this.stack_[group].push(stack_entry);
-  if (this.timer_ && !opt_group) {
+  if (this.timer_ && this.autopause_ && !opt_group) {
     this.startTimer();
+    this.autopause_=false;
   }
 };
 
@@ -139,11 +142,9 @@ cwc.utils.StackQueue.prototype.addStack_ = function(stack_entry,
  * @param {number|string=} opt_group
  * @export
  */
-cwc.utils.StackQueue.prototype.addCommand = function(command,
-    opt_group) {
-  var stackEntry = new cwc.utils.StackEntry(
-      cwc.utils.StackType.CMD, command);
-  this.addStack_(stackEntry, opt_group);
+cwc.utils.StackQueue.prototype.addCommand = function(command, opt_group) {
+  this.addStack_(new cwc.utils.StackEntry(cwc.utils.StackType.CMD, command),
+    opt_group);
 };
 
 
@@ -153,9 +154,8 @@ cwc.utils.StackQueue.prototype.addCommand = function(command,
  * @export
  */
 cwc.utils.StackQueue.prototype.addDelay = function(delay, opt_group) {
-  var stackEntry = new cwc.utils.StackEntry(
-      cwc.utils.StackType.DELAY, null, delay);
-  this.addStack_(stackEntry, opt_group);
+  this.addStack_(new cwc.utils.StackEntry(
+    cwc.utils.StackType.DELAY, null, delay), opt_group);
 };
 
 
@@ -184,10 +184,11 @@ cwc.utils.StackQueue.prototype.setTimer = function(opt_interval) {
  * @export
  */
 cwc.utils.StackQueue.prototype.startTimer = function() {
-  if (this.timer_) {
-    this.timer_.start();
-    this.run = false;
+  if (!this.timer_) {
+    this.setTimer();
   }
+  this.timer_.start();
+  this.run = false;
 };
 
 
@@ -204,7 +205,7 @@ cwc.utils.StackQueue.prototype.stopTimer = function() {
 
 
 /**
- * @param {Event=} event
+ * @param {Event=} opt_event
  */
 cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
   if (!(this.default_group in this.stack_)) {
@@ -217,6 +218,7 @@ cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
 
   if (this.stack_[this.default_group].length <= 0) {
     this.stopTimer();
+    this.autopause_ = true;
     return;
   }
 

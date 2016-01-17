@@ -164,17 +164,15 @@ cwc.protocol.ev3.Monitoring.prototype.init = function() {
  * @param {Object=} opt_device_info
  */
 cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
-  if (this.started) {
-    return;
-  }
   if (opt_device_info) {
     this.deviceInfo = opt_device_info;
   }
   if (!this.deviceInfo) {
     return;
   }
-
-  console.log('Starting EV3 Monitoring ...');
+  if (!this.started) {
+    console.log('Preparing EV3 monitoring ...');
+  }
   var monitoring = false;
 
   if (cwc.protocol.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {

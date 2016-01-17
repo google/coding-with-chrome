@@ -263,7 +263,6 @@ cwc.protocol.bluetooth.Device.prototype.reset = function(opt_delay) {
     this.senderStack.clear();
   }.bind(this);
   if (opt_delay) {
-    this.senderStack.startTimer();
     this.senderStack.addDelay(opt_delay);
     this.senderStack.addCommand(stackCall);
   } else {
@@ -292,7 +291,6 @@ cwc.protocol.bluetooth.Device.prototype.updateInfo = function() {
  */
 cwc.protocol.bluetooth.Device.prototype.send = function(buffer) {
   if (this.socketId == null) {
-    console.error('Socket', this.socketId, 'is not ready!');
     return;
   }
   chrome.bluetoothSocket.send(this.socketId, buffer,
@@ -310,7 +308,6 @@ cwc.protocol.bluetooth.Device.prototype.sendDelayed = function(buffer, delay) {
   var stackCall = function() {
     this.send(buffer);
   };
-  this.senderStack.startTimer();
   this.senderStack.addCommand(stackCall.bind(this));
   this.senderStack.addDelay(delay);
 };

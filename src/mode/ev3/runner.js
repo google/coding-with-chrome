@@ -222,6 +222,7 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.ev3.Runner.prototype.cleanUp = function() {
+  this.connection.cleanUp();
   this.helper.removeEventListeners(this.listener, this.name);
   this.listener = [];
 };

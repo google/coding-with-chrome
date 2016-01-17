@@ -40,15 +40,36 @@
 {template .blocks}
   {@param prefix: string}
   <xml id="{$prefix}blockly-toolbox" style="display: none">
-    <category name="Commands" colour="120">
+
+    <category name="Movements" colour="120">
       <block type="sphero_roll">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
+      <block type="sphero_heading"></block>
+      <block type="sphero_stop"></block>
+    </category>
+
+    <category name="Movements (Advance)" colour="120">
+      <block type="sphero_roll_step">
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="sphero_roll_time">
+        <value name="time">
+          <block type="math_number"><field name="NUM">2</field></block>
+        </value>
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+    </category>
+
+    <category name="Lights" colour="120">
       <block type="sphero_rgb"></block>
       <block type="sphero_backlight"></block>
-      <block type="sphero_stop"></block>
     </category>
 
     <category name="Control" colour="210">

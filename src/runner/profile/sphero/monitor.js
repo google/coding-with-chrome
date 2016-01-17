@@ -31,8 +31,14 @@ cwc.runner.profile.sphero.Monitor = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
-  /** @type {!number} */
-  this.angle = 0;
+  /** @private {!number} */
+  this.angle_ = 0;
+
+  /** @private {!number} */
+  this.heading_ = 0;
+
+  /** @private {!number} */
+  this.speed_ = 40;
 };
 
 
@@ -40,7 +46,9 @@ cwc.runner.profile.sphero.Monitor = function(turtle) {
  * Resets the monitor.
  */
 cwc.runner.profile.sphero.Monitor.prototype.reset = function() {
-  this.angle = 0;
+  this.angle_ = 0;
+  this.heading_ = 0;
+  this.speed_ = 0;
 };
 
 
@@ -48,7 +56,11 @@ cwc.runner.profile.sphero.Monitor.prototype.reset = function() {
  * @param {!Object} data
  */
 cwc.runner.profile.sphero.Monitor.prototype.roll = function(data) {
-  var angle = data['heading'] - this.angle;
+  var speed = this.speed_ = data['speed'] === undefined ?
+    this.speed_ : data['speed'];
+  var heading = this.heading_ = data['heading'] === undefined ?
+    this.heading_ :  data['heading'];
+  var angle = heading - this.angle_;
   if (angle == 360) {
     angle = 0;
   } else if (angle > 360) {
@@ -56,7 +68,7 @@ cwc.runner.profile.sphero.Monitor.prototype.roll = function(data) {
   } else if (angle < 0) {
     angle += 360;
   }
-  this.angle = data['heading'];
+  this.angle_ = heading;
   this.turtle.action('rt', angle);
-  this.turtle.action('fd', data['speed']);
+  this.turtle.action('fd', speed);
 };

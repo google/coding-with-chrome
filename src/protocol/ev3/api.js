@@ -331,13 +331,13 @@ cwc.protocol.ev3.Api.prototype.setStepSpeed = function(speed) {
 
 
 /**
- * @param {!boolean} enabled
+ * @param {!boolean} enable
  * @export
  */
-cwc.protocol.ev3.Api.prototype.monitor = function(enabled) {
-  if (enabled) {
+cwc.protocol.ev3.Api.prototype.monitor = function(enable) {
+  if (enable && this.device) {
     this.monitoring.start();
-  } else {
+  } else if (!enable) {
     this.monitoring.stop();
   }
 };

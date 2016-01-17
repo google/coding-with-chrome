@@ -32,11 +32,63 @@ Blockly.Blocks['sphero_roll'] = {
     this.setColour(260);
     this.appendValueInput('speed')
       .setCheck('Number')
-      .appendField('roll Sphero with');
+      .appendField('roll speed(');
+    this.appendDummyInput()
+      .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the sphero in a direction');
+  }
+};
+
+
+Blockly.Blocks['sphero_roll_step'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('speed')
+      .setCheck('Number')
+      .appendField('roll with');
     this.appendDummyInput('heading')
       .appendField('speed and')
       .appendField(new Blockly.FieldAngle(0), 'heading')
       .appendField('heading');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the sphero in a direction');
+  }
+};
+
+
+Blockly.Blocks['sphero_roll_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time')
+      .setCheck('Number')
+      .appendField('roll for');
+    this.appendValueInput('speed')
+      .setCheck('Number')
+      .appendField('sec with');
+    this.appendDummyInput('heading')
+      .appendField('speed and')
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField('heading');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the sphero in a direction for the given seconds');
+  }
+};
+
+
+Blockly.Blocks['sphero_heading'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput('heading')
+      .appendField('set heading(')
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the sphero in a direction');
@@ -49,8 +101,9 @@ Blockly.Blocks['sphero_rgb'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18n.get('set Sphero color'))
-        .appendField(new Blockly.FieldColour('#ff0000'), 'colour');
+        .appendField(i18n.get('set color('))
+        .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the leds on the Sphero ball.');
@@ -63,12 +116,13 @@ Blockly.Blocks['sphero_backlight'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18n.get('set Sphero backlight brightness'))
+        .appendField(i18n.get('set backlight ('))
         .appendField(new Blockly.FieldTextInput('254'), 'brightness')
-        .appendField(i18n.get('(0 - 254)'));
+        .appendField(i18n.get('(0 - 254)'))
+        .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Sets the leds on the Sphero ball.');
+    this.setTooltip('Sets the backlight on the Sphero ball.');
   }
 };
 

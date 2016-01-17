@@ -29,6 +29,9 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/**/*.js'
   ]),
+  deps: glob([
+    'src/**/*.js'
+  ]),
   out: 'genfiles/frameworks/internal/arduino_framework.js'
 });
 
@@ -90,6 +93,9 @@ closureBuilder.build({
   compress: true,
   srcs: glob([
     'src/frameworks/**/*.js'
+  ]),
+  deps: glob([
+    'src/**/*.js'
   ]),
   out: 'genfiles/frameworks/internal/runner_framework.js'
 });

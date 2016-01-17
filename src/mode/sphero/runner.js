@@ -141,6 +141,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
  */
 cwc.mode.sphero.Runner.prototype.handleStart_ = function() {
   this.monitor.reset();
+  this.turtle.action('speed', 5);
   this.turtle.reset();
 };
 
@@ -157,6 +158,7 @@ cwc.mode.sphero.Runner.prototype.handleCleanUp = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.sphero.Runner.prototype.cleanUp = function() {
+  this.connection.cleanUp();
   this.helper.removeEventListeners(this.listener, this.name);
   this.listener = [];
 };

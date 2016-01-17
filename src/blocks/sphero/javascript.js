@@ -31,10 +31,52 @@ goog.require('Blockly.JavaScript');
 Blockly.JavaScript['sphero_roll'] = function(block) {
   var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
       Blockly.JavaScript.ORDER_ATOMIC));
-  var value_heading = parseInt(block.getFieldValue('heading'));
-  var duration = 500 + value_speed;
-  var code = 'sphero.roll(' + value_speed + ', ' + value_heading + ', 1, ' +
+  var duration = 500 + (value_speed * 20);
+  var code = 'sphero.roll(' + value_speed + ', undefined, undefined, ' +
     duration + ');\n';
+  return code;
+};
+
+
+/**
+ * @param {!Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_roll_step'] = function(block) {
+  var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
+      Blockly.JavaScript.ORDER_ATOMIC));
+  var value_heading = parseInt(block.getFieldValue('heading'));
+  var duration = 500 + (value_speed * 20);
+  var code = 'sphero.roll(' + value_speed + ', ' + value_heading + ', 0x01, ' +
+    duration + ');\n';
+  return code;
+};
+
+
+/**
+ * @param {!Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_roll_time'] = function(block) {
+  var value_time = parseInt(Blockly.JavaScript.valueToCode(block, 'time',
+      Blockly.JavaScript.ORDER_ATOMIC));
+  var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
+      Blockly.JavaScript.ORDER_ATOMIC));
+  var value_heading = parseInt(block.getFieldValue('heading'));
+  var code = 'sphero.rollTime(' + value_time + ', ' + value_speed + ', ' +
+    value_heading + ', true);\n';
+  return code;
+};
+
+
+/**
+ * @param {!Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_heading'] = function(block) {
+  var value_heading = parseInt(block.getFieldValue('heading'));
+  var duration = 500;
+  var code = 'sphero.roll(0, ' + value_heading + ', 0x01, ' + duration + ');\n';
   return code;
 };
 

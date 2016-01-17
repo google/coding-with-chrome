@@ -21,6 +21,8 @@
 
 goog.provide('cwc.framework.Runner');
 
+goog.require('cwc.utils.StackQueue');
+
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 
@@ -53,8 +55,14 @@ cwc.framework.Runner = function(opt_callback, opt_scope) {
   /** @type {Object} */
   this.scope = opt_scope || null;
 
-  /** @type {!boolean} */
+  /** @private {!boolean} */
   this.init_ = false;
+
+  /** @private {number} */
+  this.senderStackInterval_ = 50;
+
+  /** @private {!cwc.utils.StackQueue} */
+  this.senderStack_ = new cwc.utils.StackQueue(this.senderStackInterval_);
 
   this.init();
 };
@@ -70,6 +78,7 @@ cwc.framework.Runner.prototype.init = function() {
     this.addCommand('__handshake__', this.handleHandshake_.bind(this));
     this.addCommand('__start__', this.handleStart_.bind(this));
     this.addCommand('__ping__', this.handlePing_.bind(this));
+    this.senderStack_.startTimer();
     this.init_ = true;
   }
 };
@@ -98,15 +107,27 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
 /**
  * Sends the defined data to the runner.
  * @param {!string} name
- * @param {!string} value
+ * @param {object|string=} opt_value
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Runner.prototype.send = function(name, value) {
+cwc.framework.Runner.prototype.send = function(name, opt_value, opt_delay) {
   if (!this.appWindow || !this.appOrigin) {
     console.error('Communication channel has not yet been opened');
     return;
   }
-  this.appWindow.postMessage({'command': name, 'value': value}, this.appOrigin);
+  var value = opt_value || {};
+  if (opt_delay) {
+    var stackCall = function() {
+      this.appWindow.postMessage({'command': name, 'value': value},
+        this.appOrigin);
+    }.bind(this);
+    this.senderStack_.addCommand(stackCall);
+    this.senderStack_.addDelay(opt_delay);
+  } else {
+    this.appWindow.postMessage({'command': name, 'value': value},
+      this.appOrigin);
+  }
 };
 
 

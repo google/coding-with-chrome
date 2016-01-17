@@ -73,6 +73,12 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {?} */
   this.locationData = {};
 
+  /** @private {!number} */
+  this.heading_ = 0;
+
+  /** @private {!number} */
+  this.speed_ = 20;
+
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 };
@@ -155,11 +161,10 @@ cwc.protocol.sphero.Api.prototype.disconnect = function() {
 
 /**
  * Resets the Sphero ball connection.
- * @param {number=} opt_delay
  */
-cwc.protocol.sphero.Api.prototype.reset = function(opt_delay) {
+cwc.protocol.sphero.Api.prototype.reset = function() {
   if (this.device) {
-    this.device.reset(opt_delay);
+    this.device.reset();
   }
 };
 
@@ -185,17 +190,16 @@ cwc.protocol.sphero.Api.prototype.getLocationData = function() {
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
  * @param {boolean=} opt_persistant
- * @param {number=} opt_delay in msec
  */
 cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
-    opt_persistant, opt_delay) {
+    opt_persistant) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.RGB_LED.SET);
   buffer.writeByte(red);
   buffer.writeByte(green);
   buffer.writeByte(blue);
   buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
-  this.send_(buffer, opt_delay);
+  this.send_(buffer);
 };
 
 
@@ -211,85 +215,65 @@ cwc.protocol.sphero.Api.prototype.getRGB = function() {
 
 /**
  * @param {!number} brightness 0-255
- * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness,
-    opt_delay) {
+cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.BACK_LED);
   buffer.writeByte(brightness);
-  this.send_(buffer, opt_delay);
+  this.send_(buffer);
 };
 
 
 /**
  * @param {!number} heading 0-359
- * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.setHeading = function(heading, opt_delay) {
+cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.HEADING);
   buffer.writeUInt(heading);
-  this.send_(buffer, opt_delay);
+  this.send_(buffer);
 };
 
 
 /**
- * @param {!number} speed 0-255
+ * @param {number} opt_speed 0-255
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_state
- * @param {number=} opt_delay in msec
  */
-cwc.protocol.sphero.Api.prototype.roll = function(speed, opt_heading,
-    opt_state, opt_delay) {
+cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
+    opt_state) {
   var buffer = new cwc.protocol.sphero.Buffer();
-  var heading = opt_heading || 0;
-  var state = typeof opt_state !== 'undefined' ? opt_state : 0x01;
+  var speed = this.speed_ = opt_speed === undefined ?
+    this.speed_ : opt_speed;
+  var heading = this.heading_ = opt_heading === undefined ?
+    this.heading_ : opt_heading;
+  var state = opt_state === undefined ? 0x01 : opt_state ;
   buffer.writeCommand(this.command.ROLL);
   buffer.writeByte(speed);
   buffer.writeUInt(heading);
   buffer.writeByte(state);
-  this.send_(buffer, opt_delay);
+  this.send_(buffer);
 };
 
 
 /**
  * @param {!number} timeout in msec
  */
-cwc.protocol.sphero.Api.prototype.setMotionTimeout = function(timeout,
-    opt_delay) {
+cwc.protocol.sphero.Api.prototype.setMotionTimeout = function(timeout) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.MOTION_TIMEOUT);
   buffer.writeByte(timeout);
-  this.send_(buffer, opt_delay);
-};
-
-
-/**
- * @param {!boolean} enabled
- * @param {number=} opt_delay in msec
- */
-cwc.protocol.sphero.Api.prototype.boost = function(enabled, opt_delay) {
-  var buffer = new cwc.protocol.sphero.Buffer();
-  buffer.writeCommand(this.command.BOOST);
-  buffer.writeByte(enabled ? 0x01 : 0x00);
   this.send_(buffer);
 };
 
 
 /**
- * @param {number=} opt_time in 1/10 sec
- * @param {number=} opt_heading 0-359
- * @param {number=} opt_delay in msec
+ * @param {!boolean} enable
  */
-cwc.protocol.sphero.Api.prototype.boosty = function(opt_time, opt_heading,
-    opt_delay) {
+cwc.protocol.sphero.Api.prototype.boost = function(enable) {
   var buffer = new cwc.protocol.sphero.Buffer();
-  var boostTime = typeof opt_time !== 'undefined' ? opt_time : 10;
-  var heading = opt_heading || 0;
   buffer.writeCommand(this.command.BOOST);
-  buffer.writeByte(boostTime);
-  buffer.writeUInt(heading);
+  buffer.writeByte(enable ? 0x01 : 0x00);
   this.send_(buffer);
 };
 
@@ -299,29 +283,27 @@ cwc.protocol.sphero.Api.prototype.boosty = function(opt_time, opt_heading,
  * @param {number=} opt_wakeup
  * @param {number=} opt_macro
  * @param {number=} opt_orb_basic
- * @param {number=} opt_delay
  */
 cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
-    opt_orb_basic, opt_delay) {
+    opt_orb_basic) {
   console.log('Sends Sphero to sleep, good night.');
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(this.command.SYSTEM.SLEEP);
   buffer.writeByte(opt_wakeup || 0);
   buffer.writeByte(opt_macro || 0);
   buffer.writeByte(opt_orb_basic || 0);
-  this.send_(buffer, opt_delay);
+  this.send_(buffer);
 };
 
 
 /**
  * Stops the Sphero and clears the buffer.
- * @param {number=} opt_delay
  */
-cwc.protocol.sphero.Api.prototype.stop = function(opt_delay) {
-  this.reset(opt_delay);
-  this.setRGB(0, 0, 0, 1, opt_delay);
-  this.setBackLed(0, opt_delay);
-  this.roll(0, 0, 0, opt_delay);
+cwc.protocol.sphero.Api.prototype.stop = function() {
+  this.reset();
+  this.setRGB(0, 0, 0, 1);
+  this.setBackLed(0);
+  this.roll(0, 0, 0);
 };
 
 
@@ -395,19 +377,13 @@ cwc.protocol.sphero.Api.prototype.cleanUp = function() {
 
 /**
  * @param {!cwc.protocol.sphero.Buffer} buffer
- * @param {number=} opt_delay
  * @private
  */
-cwc.protocol.sphero.Api.prototype.send_ = function(buffer, opt_delay) {
+cwc.protocol.sphero.Api.prototype.send_ = function(buffer) {
   if (!this.device) {
     return;
   }
-  var data = buffer.readSigned();
-  if (opt_delay) {
-    this.device.sendDelayed(data, opt_delay);
-  } else {
-    this.device.send(data);
-  }
+  this.device.send(buffer.readSigned());
 };
 
 
