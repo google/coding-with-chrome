@@ -604,19 +604,6 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
   }
 
   this.showInfo(false);
-  this.prepare();
-  if (this.toolbar) {
-    this.toolbar.setRunStatus(true);
-  }
-  this.setContentUrl(contentUrl);
-  console.log('Locally executing code: ', contentUrl);
-};
-
-
-/**
- * Prepares the webview element for the Runner content.
- */
-cwc.ui.Runner.prototype.prepare = function() {
   if (this.content) {
     if (this.status == cwc.ui.RunnerStatus.LOADING ||
         this.status == cwc.ui.RunnerStatus.UNRESPONSIVE) {
@@ -640,6 +627,11 @@ cwc.ui.Runner.prototype.prepare = function() {
   this.connector.setTarget(this.content);
 
   goog.dom.appendChild(this.nodeRuntime, this.content);
+  if (this.toolbar) {
+    this.toolbar.setRunStatus(true);
+  }
+  this.setContentUrl(contentUrl);
+  console.log('Locally executing code: ', contentUrl);
 };
 
 
@@ -653,6 +645,7 @@ cwc.ui.Runner.prototype.stop = function() {
     this.status = cwc.ui.RunnerStatus.STOPPED;
     this.renderStatusTemplate(this.templateStop);
     this.content.stop();
+    this.setContentUrl('about:blank');
     if (this.externalCleanUp) {
       this.externalCleanUp();
     }

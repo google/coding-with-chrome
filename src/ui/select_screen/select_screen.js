@@ -139,6 +139,7 @@ cwc.ui.SelectScreen.prototype.showCode = function() {
   this.setClickEvent('link-cwc-advanced', this.newCwcAdvanced);
   this.setClickEvent('link-ev3', this.newEV3);
   this.setClickEvent('link-sphero', this.newSphero);
+  this.setClickEvent('link-pencil-code', this.newPencilCode);
   this.setClickEvent('link-home', this.showOverview);
 };
 
@@ -154,6 +155,7 @@ cwc.ui.SelectScreen.prototype.showGallery = function() {
   this.setClickEvent('link-ev3', this.showEV3Example);
   this.setClickEvent('link-cwc-basic', this.showDrawExample);
   this.setClickEvent('link-cwc-html', this.showHTMLExample);
+  this.setClickEvent('link-pencil-code', this.showPencilCodeExample);
   this.setClickEvent('link-home', this.showOverview);
 };
 
@@ -236,6 +238,12 @@ cwc.ui.SelectScreen.prototype.newCoffeescript = function() {
 };
 
 
+/** Loads a new coffeescript file */
+cwc.ui.SelectScreen.prototype.newPencilCode = function() {
+  this.newFile(cwc.file.Type.PENCIL_CODE);
+};
+
+
 /** Loads a new Arduino file */
 cwc.ui.SelectScreen.prototype.newArduino = function() {
   this.newFile(cwc.file.Type.ARDUINO);
@@ -263,6 +271,12 @@ cwc.ui.SelectScreen.prototype.showDrawExample = function() {
 /** Loads a HTML Example */
 cwc.ui.SelectScreen.prototype.showHTMLExample = function() {
   this.loadExample('../../resources/examples/html5/Basic-formular.cwc');
+};
+
+
+/** Loads a Pencil Code Example */
+cwc.ui.SelectScreen.prototype.showPencilCodeExample = function() {
+  this.loadExample('../../resources/examples/pencil_code/Turtle-catch.cwc');
 };
 
 

@@ -1,4 +1,7 @@
-# Coding with Chrome (beta)
+Coding with Chrome
+==================
+
+[![Code Climate](https://codeclimate.com/github/google/coding-with-chrome/badges/gpa.svg)](https://codeclimate.com/github/google/coding-with-chrome)
 
 Coding with Chrome is an Educational Development Environment built around two
 core philosophies:

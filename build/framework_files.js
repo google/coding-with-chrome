@@ -71,6 +71,9 @@ closureBuilder.build({
   deps: glob([
     'src/**/*.js'
   ]),
+  externs: [
+    'build/externs/jquery.js'
+  ],
   out: 'genfiles/frameworks/internal/turtle_framework.js'
 });
 
@@ -142,7 +145,8 @@ closureBuilder.build({
   ],
   externs: [
     'build/externs/coffeescript.js',
-    'build/externs/jquery.js'
+    'build/externs/jquery.js',
+    'build/externs/jquery-turtle.js'
   ],
   out: 'genfiles/frameworks/external/jquery-turtle.js'
 });

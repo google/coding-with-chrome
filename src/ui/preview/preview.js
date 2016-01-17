@@ -19,6 +19,7 @@
  */
 
 goog.provide('cwc.ui.Preview');
+goog.provide('cwc.ui.PreviewStatus');
 
 goog.require('cwc.soy.Preview');
 goog.require('cwc.ui.PreviewInfobar');
@@ -31,6 +32,19 @@ goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
+
+
+/**
+ * @enum {number}
+ */
+cwc.ui.PreviewStatus = {
+  UNKNOWN: 0,
+  LOADING: 1,
+  STOPPED: 2,
+  TERMINATED: 3,
+  UNRESPONSIVE: 4,
+  LOADED: 5
+};
 
 
 
@@ -84,7 +98,7 @@ cwc.ui.Preview = function(helper) {
   this.startTime = new Date().getTime();
 
   /** @type {string} */
-  this.status = '';
+  this.status = cwc.ui.PreviewStatus.UNKNOWN;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -198,8 +212,11 @@ cwc.ui.Preview.prototype.adjustSize = function() {
  * @param {Event=} opt_event
  */
 cwc.ui.Preview.prototype.run = function(opt_event) {
-  if (this.status == 'loading') {
+  if (this.status == cwc.ui.PreviewStatus.LOADING) {
     this.terminate();
+  }
+  if (this.toolbar) {
+    this.toolbar.setRunStatus(true);
   }
   this.render();
 };
@@ -212,11 +229,12 @@ cwc.ui.Preview.prototype.stop = function() {
   if (this.content) {
     console.info('Stop Preview');
     this.content.stop();
+    this.setContentUrl('about:blank');
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
     }
     this.setStatusText('Stopped');
-    this.status = 'stopped';
+    this.status = cwc.ui.PreviewStatus.STOPPED;
   }
 };
 
@@ -227,6 +245,9 @@ cwc.ui.Preview.prototype.stop = function() {
 cwc.ui.Preview.prototype.reload = function() {
   if (this.content) {
     console.info('Reload Preview');
+    if (this.toolbar) {
+      this.toolbar.setRunStatus(true);
+    }
     this.content.reload();
   }
 };
@@ -238,8 +259,11 @@ cwc.ui.Preview.prototype.reload = function() {
 cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
     console.info('Terminate Preview');
+    this.status = cwc.ui.PreviewStatus.TERMINATED;
+    if (this.toolbar) {
+      this.toolbar.setRunStatus(false);
+    }
     this.content.terminate();
-    this.status = 'terminated';
   }
 };
 
@@ -248,12 +272,40 @@ cwc.ui.Preview.prototype.terminate = function() {
  * Renders content for preview window.
  */
 cwc.ui.Preview.prototype.render = function() {
-  var contentUrl = this.getContentUrl();
   if (this.infobar) {
     this.infobar.clear();
   }
-  this.prepare();
-  this.setContentUrl(contentUrl);
+  if (this.content) {
+    if (this.status == cwc.ui.PreviewStatus.LOADING ||
+        this.status == cwc.ui.PreviewStatus.UNRESPONSIVE) {
+      this.terminate();
+    }
+    this.stop();
+    goog.dom.removeChildren(this.nodeContent);
+  }
+
+  this.content = document.createElement('webview');
+  this.content.setAttribute('partition', 'preview');
+  this.content.addEventListener('consolemessage',
+      this.handleConsoleMessage_.bind(this), false);
+  this.content.addEventListener('dialog',
+      this.handleDialog.bind(this), false);
+  this.content.addEventListener('loadstart',
+      this.handleLoadStart.bind(this), false);
+  this.content.addEventListener('loadstop',
+      this.handleLoadStop.bind(this), false);
+  this.content.addEventListener(cwc.ui.PreviewStatus.UNRESPONSIVE,
+      this.handleUnresponsive.bind(this), false);
+  this.content.addEventListener('newwindow',
+      this.handleNewWindow.bind(this), false);
+  this.content.addEventListener('permissionrequest',
+      this.handlePermissionRequest.bind(this), false);
+
+  goog.dom.appendChild(this.nodeContent, this.content);
+  if (this.toolbar) {
+    this.toolbar.setRunStatus(true);
+  }
+  this.setContentUrl(this.getContentUrl());
 };
 
 
@@ -277,52 +329,14 @@ cwc.ui.Preview.prototype.showConsole = function(visible) {
  * @return {string}
  */
 cwc.ui.Preview.prototype.getContentUrl = function() {
-  var rendererInstance = this.helper.getInstance('renderer');
-  if (!rendererInstance) {
-    return console.error('Was not able to render content!');
-  }
-
+  var rendererInstance = this.helper.getInstance('renderer', true);
   var contentUrl = rendererInstance.getContentUrl();
   if (!contentUrl) {
-    return console.error('Was not able to get content url!');
+    console.error('Was not able to get content url!');
+    return;
   }
 
   return contentUrl;
-};
-
-
-/**
- * Prepares the webview element for the preview content.
- */
-cwc.ui.Preview.prototype.prepare = function() {
-  if (this.content) {
-    if (this.status == 'loading' || this.status == 'unresponsive') {
-      this.terminate();
-    }
-    this.stop();
-    goog.dom.removeChildren(this.nodeContent);
-  }
-
-  this.content = document.createElement('webview');
-  this.content.setAttribute('partition', 'preview');
-
-  // goog.events.listen is not working, drops the event for what's ever reason.
-  this.content.addEventListener('consolemessage',
-      this.handleConsoleMessage_.bind(this), false);
-  this.content.addEventListener('dialog',
-      this.handleDialog.bind(this), false);
-  this.content.addEventListener('loadstart',
-      this.handleLoadStart.bind(this), false);
-  this.content.addEventListener('loadstop',
-      this.handleLoadStop.bind(this), false);
-  this.content.addEventListener('unresponsive',
-      this.handleUnresponsive.bind(this), false);
-  this.content.addEventListener('newwindow',
-      this.handleNewWindow.bind(this), false);
-  this.content.addEventListener('permissionrequest',
-      this.handlePermissionRequest.bind(this), false);
-
-  goog.dom.appendChild(this.nodeContent, this.content);
 };
 
 
@@ -368,11 +382,11 @@ cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
  */
 cwc.ui.Preview.prototype.handleLoadStart = function(opt_event) {
   this.startTime = new Date().getTime();
+  this.status = cwc.ui.PreviewStatus.LOADING;
   if (this.toolbar) {
-    this.toolbar.setRunStatus(true);
+    this.toolbar.setLoadStatus(true);
   }
   this.setStatusText('Loading …');
-  this.status = 'loading';
 };
 
 
@@ -382,11 +396,11 @@ cwc.ui.Preview.prototype.handleLoadStart = function(opt_event) {
  */
 cwc.ui.Preview.prototype.handleLoadStop = function(opt_event) {
   var duration = (new Date().getTime() - this.startTime) / 1000;
+  this.status = cwc.ui.PreviewStatus.LOADED;
   if (this.toolbar) {
-    this.toolbar.setRunStatus(false);
+    this.toolbar.setLoadStatus(false);
   }
   this.setStatusText('Finished after ' + duration + ' seconds.');
-  this.status = 'finished';
 };
 
 
@@ -395,8 +409,8 @@ cwc.ui.Preview.prototype.handleLoadStop = function(opt_event) {
  * @param {Event=} opt_event
  */
 cwc.ui.Preview.prototype.handleUnresponsive = function(opt_event) {
-  this.setStatusText('Unresponsive');
-  this.status = 'unresponsive';
+  this.setStatusText('Unresponsive …');
+  this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
 
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Unresponsive Warning');
