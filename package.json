@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
-    "closure-builder": "^1.0.23",
+    "closure-builder": "^1.0.26",
     "codemirror": "^5.10.0",
     "csslint": "^0.10.0",
     "htmlhint": "^0.9.12",
@@ -47,6 +47,7 @@
 
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
-    "update": "ncu -u && npm install && npm test && npm run build"
+    "update": "ncu -u && npm install && npm update && npm test && npm run build",
+    "show-updates": "ncu"
   }
 }
