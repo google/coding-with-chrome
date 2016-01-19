@@ -44,7 +44,7 @@ cwc.mode.html5.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
 
   console.log('Decorate HTML5 layout …');
-  layoutInstance.decorateSimpleTwoColumnLayout();
+  layoutInstance.decorateSimpleTwoColumnLayout(630);
   var nodes = layoutInstance.getNodes();
 
   goog.soy.renderElement(

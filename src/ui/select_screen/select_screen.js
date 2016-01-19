@@ -101,6 +101,10 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
     this.decorate(nodes['content']);
     this.showOverview();
   }
+  var guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.setTitle('');
+  }
 };
 
 

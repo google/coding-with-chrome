@@ -41,7 +41,7 @@ cwc.mode.basic.simple.Layout = function(helper) {
  */
 cwc.mode.basic.simple.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(500);
+  layoutInstance.decorateSimpleTwoColumnLayout(630);
   var nodes = layoutInstance.getNodes();
 
   console.log('Adding Content');

@@ -135,6 +135,10 @@ cwc.ui.Menubar = function(helper) {
       'close', 'Close', this.requestCloseWindow.bind(this));
 
   /** @type {!goog.ui.Button} */
+  this.minimizeButton = cwc.ui.Helper.getIconButton(
+      'photo_size_select_small', 'minimize', this.minimizeWindow.bind(this));
+
+  /** @type {!goog.ui.Button} */
   this.accountLogin = cwc.ui.Helper.getIconButton(
       'perm_identity', 'Login', this.loginAccount.bind(this));
 
@@ -251,6 +255,10 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   this.nodeHelp = goog.dom.getElement(this.prefix + 'help');
   this.helpMenu.render(this.nodeHelp);
   this.decorateHelpMenu_(this.nodeHelp);
+
+  // Minimize icon
+  this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
+  this.minimizeButton.render(this.nodeMinimizeButton);
 
   // Close icon
   this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
@@ -385,6 +393,14 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
     bluetoothInstance.closeSockets();
   }
   chrome.app.window.current().close();
+};
+
+
+/**
+ * Minimized editor window.
+ */
+cwc.ui.Menubar.prototype.minimizeWindow = function() {
+  chrome.app.window.current().minimize();
 };
 
 

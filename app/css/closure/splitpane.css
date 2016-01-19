@@ -32,6 +32,7 @@
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAANCAYAAABhPKSIAAAAFElEQVR42mPYvXv3fwYgQKFHsCAAPg18UTl1gYYAAAAASUVORK5CYII=") -0px -0px no-repeat;
   background-color: #f5f5f5;
   background-position: center center;
+  box-shadow: -1px 0 2px #eee;
 }
 
 .goog-splitpane-first-container,

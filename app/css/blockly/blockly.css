@@ -492,3 +492,18 @@
   margin: 4px 0;
   padding: 0;
 }
+
+.blocklyWidgetDiv .goog-option-selected .goog-menuitem-checkbox,
+.blocklyWidgetDiv .goog-option-selected .goog-menuitem-icon {
+  background: url(../../external/blockly/media/sprites.png) no-repeat -48px -16px !important;
+}
+
+.blocklyIconShape {
+  fill: #00f;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.blocklyIconSymbol {
+  fill: #fff;
+}

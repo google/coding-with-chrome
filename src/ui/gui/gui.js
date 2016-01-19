@@ -143,7 +143,7 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
   var titleNode = goog.dom.getElement(this.prefix + 'title');
-  if (titleNode && title) {
+  if (titleNode && title !== undefined) {
     goog.dom.setTextContent(titleNode, title);
   }
 };
