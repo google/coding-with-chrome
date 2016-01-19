@@ -19,3 +19,7 @@
  */
 
 var parent = function() {};
+
+var require = function() {};
+
+var global = {};

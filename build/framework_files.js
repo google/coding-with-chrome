@@ -141,7 +141,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'jQuery Turtle file',
   srcs: [
-    'node_modules/jquery-turtle/jquery-turtle.js'
+    'node_modules/jquery-turtle/dist/jquery-turtle.js'
   ],
   externs: [
     'build/externs/coffeescript.js',

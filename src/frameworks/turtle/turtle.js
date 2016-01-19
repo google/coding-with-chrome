@@ -112,6 +112,7 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
  * @export
  */
 cwc.framework.Turtle.prototype.reset = function() {
+  this.handleCg_();
   this.turtleTarget.show();
   this.handleHome_();
 };

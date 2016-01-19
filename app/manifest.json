@@ -5,10 +5,10 @@
     }
   },
   "manifest_version": 2,
-  "name": "Coding with Chrome BETA",
-  "version": "2.1.17",
+  "name": "Coding with Chrome",
+  "version": "2.1.19",
   "default_locale": "en",
-  "description": "Coding with Chrome.",
+  "description": "An Educational IDE showing off various Google EDU technologies.",
   "icons": {
     "16":  "icons/16x16.png",
     "32":  "icons/32x32.png",

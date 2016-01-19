@@ -347,9 +347,46 @@
   {/call}
 
     <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-      {call .homeSubLink}
-        {param prefix: $prefix /}
-      {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: '1: JavaScript Intro' /}
+      {param text: '(Video opens in a separate window)' /}
+      {param link: 'cwc-video-1' /}
+      {param opt_class: 'subheader-ligth-blue' /}
+      {param opt_button_class: 'ondemand_video' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: '2: Dates' /}
+      {param text: '(Video opens in a separate window)' /}
+      {param link: 'cwc-video-2' /}
+      {param opt_class: 'subheader-blue' /}
+      {param opt_button_class: 'ondemand_video' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: '3: Birthdays' /}
+      {param text: '(Video opens in a separate window)' /}
+      {param link: 'cwc-video-3' /}
+      {param opt_class: 'subheader-orange' /}
+      {param opt_button_class: 'ondemand_video' /}
+    {/call}
+
+    {call .subheader}
+      {param prefix: $prefix /}
+      {param title: '4: Birthday Counter' /}
+      {param text: '(Video opens in a separate window)' /}
+      {param link: 'cwc-video-4' /}
+      {param opt_class: 'subheader-green' /}
+      {param opt_button_class: 'ondemand_video' /}
+    {/call}
+
+    {call .homeSubLink}
+      {param prefix: $prefix /}
+    {/call}
     </div>
   </div>
 {/template}

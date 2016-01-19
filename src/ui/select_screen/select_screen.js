@@ -171,6 +171,10 @@ cwc.ui.SelectScreen.prototype.showResources = function() {
   this.showTemplate('resources');
   this.setOverviewLinks();
   this.setHomeLink();
+  this.setClickEvent('link-cwc-video-1', this.showVideo1);
+  this.setClickEvent('link-cwc-video-2', this.showVideo2);
+  this.setClickEvent('link-cwc-video-3', this.showVideo3);
+  this.setClickEvent('link-cwc-video-4', this.showVideo4);
   this.setClickEvent('link-home', this.showOverview);
 };
 
@@ -254,33 +258,57 @@ cwc.ui.SelectScreen.prototype.newArduino = function() {
 };
 
 
-/** Loads a EV3 Example */
+/** Loads a EV3 example */
 cwc.ui.SelectScreen.prototype.showEV3Example = function() {
   this.loadExample('../../resources/examples/ev3/Line-follow-EV3.cwc');
 };
 
 
-/** Loads a Sphero Example */
+/** Loads a Sphero example */
 cwc.ui.SelectScreen.prototype.showSpheroExample = function() {
   this.loadExample('../../resources/examples/sphero/Sphero-example.cwc');
 };
 
 
-/** Loads a Drawing Example */
+/** Loads a Drawing example */
 cwc.ui.SelectScreen.prototype.showDrawExample = function() {
   this.loadExample('../../resources/examples/simple/Basic-draw-example.cwc');
 };
 
 
-/** Loads a HTML Example */
+/** Loads a HTML example */
 cwc.ui.SelectScreen.prototype.showHTMLExample = function() {
   this.loadExample('../../resources/examples/html5/Basic-formular.cwc');
 };
 
 
-/** Loads a Pencil Code Example */
+/** Loads a Pencil Code example */
 cwc.ui.SelectScreen.prototype.showPencilCodeExample = function() {
   this.loadExample('../../resources/examples/pencil_code/Turtle-catch.cwc');
+};
+
+
+/** Shows an example video */
+cwc.ui.SelectScreen.prototype.showVideo1 = function() {
+  window.open('https://www.youtube.com/watch?v=Cbpug5Atmmo');
+};
+
+
+/** Shows an example video */
+cwc.ui.SelectScreen.prototype.showVideo2 = function() {
+  window.open('https://www.youtube.com/watch?v=S3DhDiw0pXs');
+};
+
+
+/** Shows an example video */
+cwc.ui.SelectScreen.prototype.showVideo3 = function() {
+  window.open('https://www.youtube.com/watch?v=R4XE3GW1EUc');
+};
+
+
+/** Shows an example video */
+cwc.ui.SelectScreen.prototype.showVideo4 = function() {
+  window.open('https://www.youtube.com/watch?v=CkoJWKWIWFU');
 };
 
 
