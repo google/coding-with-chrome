@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome.
+ * @fileoverview Builder tests.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,14 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
+describe('Builder', function() {
+  var builder = new cwc.ui.Builder();
 
+  it('export', function() {
+    expect(typeof builder).toEqual('object');
+  });
 
-closureBuilder.build({
-  name: 'Soy files',
-  srcs: glob([
-    'src/**/*.soy'
-  ]),
-  out: 'test/genfiles/soy'
 });

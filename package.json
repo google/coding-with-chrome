@@ -30,9 +30,11 @@
     "npm-check-updates": "latest"
   },
   "scripts": {
-    "test": "karma start",
-    "pretest": "npm run lint && npm run build-test-files",
-    "retest": "karam start",
+    "test": "npm run test-units && npm run test-core",
+    "pretest": "npm run lint",
+
+    "test-units": "npm run build-test-files && karma start unit_tests.conf",
+    "test-core": "npm run build && karma start core_tests.conf",
 
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run rebuild",
     "prebuild": "npm run lint",
