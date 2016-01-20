@@ -17,11 +17,9 @@
     "jshint": "^2.9.1"
   },
   "devDependencies": {
-    "assert": "latest",
     "closure-templates": "latest",
     "eslint": "latest",
     "google-closure-library": "latest",
-    "jasmine": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
