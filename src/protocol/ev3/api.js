@@ -123,12 +123,6 @@ cwc.protocol.ev3.Api = function(helper) {
 
   /** @type {!cwc.protocol.ev3.DeviceName} */
   this.deviceName = cwc.protocol.ev3.DeviceName;
-
-  /** @type {!cwc.protocol.ev3.InputPort} */
-  this.inputPort = cwc.protocol.ev3.InputPort;
-
-  /** @type {!cwc.protocol.ev3.OutputPort} */
-  this.outputPort = cwc.protocol.ev3.OutputPort;
 };
 
 
@@ -351,17 +345,23 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
 
   // Sensor ports
   this.sensor = {};
-  this.getDeviceType(this.inputPort.ONE);
-  this.getDeviceType(this.inputPort.TWO);
-  this.getDeviceType(this.inputPort.THREE);
-  this.getDeviceType(this.inputPort.FOUR);
+  this.sensor[this.deviceName.COLOR_SENSOR] = cwc.protocol.ev3.InputPort.ONE;
+  this.sensor[this.deviceName.TOUCH_SENSOR] = cwc.protocol.ev3.InputPort.TWO;
+  this.sensor[this.deviceName.IR_SENSOR] = cwc.protocol.ev3.InputPort.FOUR;
+  this.getDeviceType(cwc.protocol.ev3.InputPort.ONE);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.TWO);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.THREE);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.FOUR);
 
   // Actor ports
   this.actor = {};
-  this.getDeviceType(this.inputPort.A);
-  this.getDeviceType(this.inputPort.B);
-  this.getDeviceType(this.inputPort.C);
-  this.getDeviceType(this.inputPort.D);
+  this.actor[this.deviceName.MEDIUM_MOTOR] = cwc.protocol.ev3.OutputPort.A;
+  this.actor[this.deviceName.LARGE_MOTOR] = cwc.protocol.ev3.OutputPort.B;
+  this.actor[this.deviceName.LARGE_MOTOR_OPT] = cwc.protocol.ev3.OutputPort.C;
+  this.getDeviceType(cwc.protocol.ev3.InputPort.A);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.B);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.C);
+  this.getDeviceType(cwc.protocol.ev3.InputPort.D);
 };
 
 
@@ -526,7 +526,9 @@ cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode, opt_delay) {
 cwc.protocol.ev3.Api.prototype.movePower = function(power, opt_invert,
     opt_delay) {
   var brake = 1;
-  var ports = this.outputPort.B | this.outputPort.C;
+  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  var ports = motor_left | motor_right;
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -554,7 +556,9 @@ cwc.protocol.ev3.Api.prototype.rotatePower = function(power, opt_power,
   var brake = 1;
   var power1 = (opt_invert) ? -power : power;
   var power2 = ((opt_invert) ? opt_power : -opt_power) || -power1;
-  var ports = this.outputPort.B | this.outputPort.C;
+  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  var ports = motor_left | motor_right;
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -562,11 +566,11 @@ cwc.protocol.ev3.Api.prototype.rotatePower = function(power, opt_power,
   buffer.writeByte(brake);
   buffer.writeCommand(this.command.OUTPUT.POWER);
   buffer.writeNullByte();
-  buffer.writePort(this.outputPort.B);
+  buffer.writePort(motor_left);
   buffer.writeByte(power1);
   buffer.writeCommand(this.command.OUTPUT.POWER);
   buffer.writeNullByte();
-  buffer.writePort(this.outputPort.C);
+  buffer.writePort(motor_right);
   buffer.writeByte(power2);
   buffer.writeCommand(this.command.OUTPUT.START);
   buffer.writeNullByte();
@@ -584,7 +588,7 @@ cwc.protocol.ev3.Api.prototype.stop = function(opt_port, opt_delay) {
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
-  buffer.writePorts(opt_port || this.outputPort.ALL);
+  buffer.writePorts(opt_port || cwc.protocol.ev3.OutputPort.ALL);
   buffer.writeByte(brake);
   this.send_(buffer, opt_delay);
   this.reset(opt_delay);
@@ -668,7 +672,7 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_invert,
     opt_speed, opt_delay) {
   var brake = 1;
   var speed = (opt_invert) ? this.stepSpeed * -1 : this.stepSpeed;
-  var port = this.outputPort.A;
+  var port = this.actor[this.deviceName.MEDIUM_MOTOR];
   var rampUp = 0;
   var rampDown = 0;
   var buffer = new cwc.protocol.ev3.Buffer();
@@ -699,9 +703,9 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_invert,
 cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_invert,
     opt_step_speed, opt_delay) {
   var speed = (opt_invert) ? this.stepSpeed * -1 : this.stepSpeed;
-  var motor1 = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor2 = this.actor[this.deviceName.LARGE_MOTOR_OPT];
-  var ports = motor1 | motor2;
+  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  var ports = motor_left | motor_right;
   var rampUp = 0;
   var rampDown = 0;
   var brake = 1;
@@ -750,7 +754,9 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
   var rampUp = 0;
   var rampDown = 0;
   var brake = 1;
-  var ports = this.outputPort.B | this.outputPort.C;
+  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  var ports = motor_left | motor_right;
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(this.command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -758,7 +764,7 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
   buffer.writeByte(brake);
   buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
-  buffer.writePort(this.outputPort.B);
+  buffer.writePort(motor_left);
   buffer.writeByte(speed);
   buffer.writeInt(rampUp);
   buffer.writeInt(steps);
@@ -766,7 +772,7 @@ cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_invert,
   buffer.writeByte(brake);
   buffer.writeCommand(this.command.OUTPUT.STEP.SPEED);
   buffer.writeNullByte();
-  buffer.writePort(this.outputPort.C);
+  buffer.writePort(motor_right);
   buffer.writeByte(-speed);
   buffer.writeInt(rampUp);
   buffer.writeInt(steps);

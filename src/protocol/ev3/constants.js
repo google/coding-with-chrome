@@ -220,6 +220,19 @@ cwc.protocol.ev3.InputPort = {
 
 
 /**
+ * Output ports.
+ * @enum {number}
+ */
+cwc.protocol.ev3.OutputPort = {
+  A: 0x01,
+  B: 0x02,
+  C: 0x04,
+  D: 0x08,
+  ALL: 0x0F
+};
+
+
+/**
  * IR sensor modes.
  * @enum {number}
  */
@@ -301,19 +314,6 @@ cwc.protocol.ev3.GyroMode = {
   RATE: 1,
   FAS: 2,
   CALIBRATION: 4
-};
-
-
-/**
- * Output ports.
- * @enum {number}
- */
-cwc.protocol.ev3.OutputPort = {
-  A: 0x01,
-  B: 0x02,
-  C: 0x04,
-  D: 0x08,
-  ALL: 0x0F
 };
 
 
