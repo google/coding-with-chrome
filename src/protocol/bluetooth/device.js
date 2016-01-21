@@ -45,6 +45,9 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!boolean} */
   this.connected = connected;
 
+  /** @type {!boolean} */
+  this.connecting = false;
+
   /** @type {!string} */
   this.device_class = device_class;
 
@@ -84,6 +87,9 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!Function} */
   this.connectEvent = null;
 
+  /** @type {!number} */
+  this.connectErrors = 0;
+
   /** @type {!Function} */
   this.connectCallback = null;
 
@@ -102,6 +108,13 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!cwc.utils.StackQueue} */
   this.senderStack = new cwc.utils.StackQueue(
       this.senderStackInterval);
+
+  /** @type {object} */
+  this.socketProperties = {
+    persistent: false,
+    name: 'CwC bluetooth device',
+    bufferSize: 8192
+  };
 };
 
 
@@ -210,20 +223,27 @@ cwc.protocol.bluetooth.Device.prototype.getIndicator = function() {
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
-  console.log('Connecting bluetooth device', this.address, '...');
-
-  if (this.connected && this.socketId) {
-    console.warn('Bluetooth socket is already connected!');
+  if (this.connecting) {
     return;
   }
 
+  if (this.connected && this.socketId) {
+    console.warn('Bluetooth device', this.address, 'is already connected',
+      'to socket', this.socketId, '!');
+    return;
+  }
+
+  console.log('Connecting bluetooth device', this.address, '...');
+  this.connecting = true;
   var createSocketEvent = function(create_info) {
     if (chrome.runtime.lastError) {
       console.log('Error creating socket:', chrome.runtime.lastError);
+      this.connecting = false;
       return;
     }
     if (!create_info) {
       console.log('Error creating socket, no socket info:', create_info);
+      this.connecting = false;
       return;
     }
     if (opt_callback) {
@@ -235,15 +255,20 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
     this.bluetoothSocket.connect(this.socketId, this.address,
         this.profile.uuid, this.handleConnect_.bind(this));
   };
-  this.bluetoothSocket.create(createSocketEvent.bind(this));
+  this.bluetoothSocket.create(this.socketProperties,
+    createSocketEvent.bind(this));
 };
 
 
 /**
+ * @param {boolean=} opt_force
  * @export
  */
-cwc.protocol.bluetooth.Device.prototype.disconnect = function() {
+cwc.protocol.bluetooth.Device.prototype.disconnect = function(opt_force) {
   if (this.socketId == null) {
+    if (opt_force) {
+      this.connecting = false;
+    }
     return;
   }
   this.bluetoothSocket.disconnect(this.socketId,
@@ -412,6 +437,7 @@ cwc.protocol.bluetooth.Device.prototype.handleError = function(error) {
   if (error.indexOf('disconnected') != -1) {
     this.close();
   }
+  this.connecting = false;
 };
 
 
@@ -424,6 +450,7 @@ cwc.protocol.bluetooth.Device.prototype.handleClose_ = function(socket_id) {
     console.log('Closed socket', socket_id, '!');
   }
   this.connected = false;
+  this.connecting = false;
   this.socketId = null;
 };
 
@@ -477,13 +504,16 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
     if (errorMessage.message.toLowerCase().indexOf('connection') !== -1 &&
         errorMessage.message.toLowerCase().indexOf('failed') !== -1 ||
         errorMessage.message.toLowerCase().indexOf('0x2743')) {
+      this.connectErrors++;
       this.close();
     }
+    this.connecting = false;
     return;
   }
 
   console.log('Connected to socket', this.socketId);
   this.connected = true;
+  this.connecting = false;
   this.updateInfo();
   this.senderStack.setTimer();
   if (goog.isFunction(this.connectEvent)) {
@@ -502,6 +532,7 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
 cwc.protocol.bluetooth.Device.prototype.handleDisconnect_ = function() {
   console.warn('Disconnected from socket', this.socketId);
   this.connected = false;
+  this.connecting = false;
   this.connectCallback = null;
   this.updateInfo();
   this.reset();

@@ -67,7 +67,6 @@ cwc.mode.ev3.Connection.prototype.init = function() {
  */
 cwc.mode.ev3.Connection.prototype.connect = function() {
   if (!this.isConnected()) {
-    console.log('Connect to the EV3 unit …');
     this.api.autoConnect();
   }
   this.api.monitor(true);

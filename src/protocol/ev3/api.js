@@ -133,7 +133,7 @@ cwc.protocol.ev3.Api = function(helper) {
 cwc.protocol.ev3.Api.prototype.autoConnect = function() {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   bluetoothInstance.autoConnectDevice(this.autoConnectName,
-      this.connect.bind(this));
+      this.connect.bind(this), true);
 };
 
 
@@ -809,11 +809,13 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   if (type == cwc.protocol.ev3.DeviceType.NONE) {
     return;
   }
-  var typeNormalized = type.replace(/-/g, '_');
+  var typeNormalized = type.replace(/-/g, '_').replace(/ /g, '');
   if (!(typeNormalized in cwc.protocol.ev3.DeviceType)) {
     if (type == 'PORT ERROR') {
       console.error('Received Port Error on port', port, '!');
       console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
+    } else if (type == 'TERMINAL') {
+      console.warn('Please check connection on port', port, '!');
     } else {
       console.warn('Unknown device type "', type, '" on port', port, '!');
     }

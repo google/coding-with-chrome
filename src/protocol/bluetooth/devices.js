@@ -172,31 +172,43 @@ cwc.protocol.bluetooth.Devices.prototype.getDevice = function(address) {
 
 /**
  * @param {!string} name
+ * @param {boolean=} opt_multisearch
  * @return {cwc.protocol.bluetooth.Device}
  * @export
  */
-cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name) {
-  var connectedDevice = null;
-  var disconnectedDevice = null;
-
+cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
+    opt_multisearch) {
+  var connectedDevice = [];
+  var disconnectedDevice = [];
   for (var entry in this.devices) {
     if (this.devices.hasOwnProperty(entry)) {
       var device = this.devices[entry];
       if (device.getIndicator().indexOf(name) !== -1) {
         if (device.isConnected()) {
-          connectedDevice = device;
+          connectedDevice.push(device);
         } else {
-          disconnectedDevice = device;
+          disconnectedDevice.push(device);
         }
       }
     }
   }
-  if (connectedDevice) {
-    this.log_.debug('Found connected device', name, ':', connectedDevice);
-    return connectedDevice;
-  } else if (disconnectedDevice) {
-    this.log_.debug('Found disconnected device', name, ':', disconnectedDevice);
-    return disconnectedDevice;
+  var numConnected = connectedDevice.length;
+  var numDisconnected = disconnectedDevice.length;
+  if (numConnected) {
+    this.log_.debug('Found', numConnected, 'connected device for', name, ':',
+      connectedDevice);
+    if (opt_multisearch) {
+      return connectedDevice[Math.floor(Math.random() * numConnected) + 1];
+    }
+    return connectedDevice[0];
+  } else if (numDisconnected) {
+    this.log_.debug('Found', numDisconnected, 'disconnected device for', name,
+      ':', disconnectedDevice);
+    if (opt_multisearch) {
+      return disconnectedDevice[Math.floor(Math.random() *
+        numDisconnected) + 1];
+    }
+    return disconnectedDevice[0];
   } else {
     this.log_.error('Bluetooth device with name', name, 'is unknown!');
     return null;
@@ -207,11 +219,12 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name) {
 /**
  * @param {!string} device_name
  * @param {function} callback
+ * @param {boolean=} opt_multisearch
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(
-    device_name, callback) {
-  var device = this.getDeviceByName(device_name);
+    device_name, callback, opt_multisearch) {
+  var device = this.getDeviceByName(device_name, opt_multisearch);
   if (device) {
     if (device.isConnected() && device.hasSocket()) {
       callback(device.getAddress());

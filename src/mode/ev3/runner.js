@@ -108,15 +108,15 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   // Delayed Commands
   this.runner.addCommand('moveSteps', this.command.moveSteps, this);
-  this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this);
+  this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this.monitor);
 
   this.runner.addCommand('movePen', this.command.movePen, this);
-  this.runner.addMonitor('movePen', this.monitor.movePen, this);
+  this.runner.addMonitor('movePen', this.monitor.movePen, this.monitor);
 
   this.runner.addCommand('moveServo', this.command.moveServo, this);
 
   this.runner.addCommand('rotateAngle', this.command.rotateAngle, this);
-  this.runner.addMonitor('rotateAngle', this.monitor.rotateAngle, this);
+  this.runner.addMonitor('rotateAngle', this.monitor.rotateAngle, this.monitor);
 
   this.runner.addCommand('playSound', this.command.playSound, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
@@ -197,8 +197,9 @@ cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
   this.updateDeviceData();
 
+  this.monitor.reset();
+  this.turtle.action('speed', 3);
   this.turtle.reset();
-  this.turtle.action('speed', 1);
 };
 
 

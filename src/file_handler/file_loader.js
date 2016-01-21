@@ -285,7 +285,7 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     opt_callback, opt_callback_scope) {
   if (file) {
-    console.log('Get resource file', file);
+    console.log('Loading file', file, '...');
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');

@@ -30,6 +30,17 @@ goog.provide('cwc.runner.profile.ev3.Monitor');
 cwc.runner.profile.ev3.Monitor = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
+
+  /** @private {!number} */
+  this.speed_ = 40;
+};
+
+
+/**
+ * Resets the monitor.
+ */
+cwc.runner.profile.ev3.Monitor.prototype.reset = function() {
+  this.speed_ = 0;
 };
 
 

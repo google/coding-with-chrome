@@ -98,7 +98,7 @@ cwc.ui.DeviceMenu.prototype.updateDeviceList = function(device) {
     this.deviceDisconnectMenu.addChild(this.connectedDevice, true);
     goog.events.listen(this.connectedDevice,
         goog.ui.Component.EventType.ACTION, function() {
-          device.disconnect();
+          device.disconnect(true);
         }, false, this);
     this.connectedDevice.setContent('Disconnect ' + name + ' (' +
         address + ')');

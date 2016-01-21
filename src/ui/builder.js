@@ -208,12 +208,12 @@ cwc.ui.Builder.prototype.load = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading Config ...', 40, 100);
+    this.setProgress('Loading config ...', 40, 100);
     this.loadConfig();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Helpers ...', 50, 100);
+    this.setProgress('Prepare helpers ...', 50, 100);
     this.prepareHelper();
   }
 
@@ -223,7 +223,7 @@ cwc.ui.Builder.prototype.load = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading Frameworks ...', 60, 100);
+    this.setProgress('Loading frameworks ...', 60, 100);
     this.loadFrameworks();
   }
 

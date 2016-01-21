@@ -57,16 +57,11 @@ cwc.renderer.Renderer = function(helper) {
 
 /**
  * Loads framework into memory.
- * @param {string} file Filename of the framework file.
+ * @param {!string} file Filename of the framework file.
  */
 cwc.renderer.Renderer.prototype.loadFramework = function(file) {
-  var fileLoaderInstance = this.helper.getInstance('fileLoader');
-  if (file && fileLoaderInstance) {
-    console.log('Load additional Framework', file);
-    fileLoaderInstance.getResourceFile(file, this.addFramework, this);
-  } else {
-    console.error('Unable to load Framework:', file);
-  }
+  var fileLoaderInstance = this.helper.getInstance('fileLoader', true);
+  fileLoaderInstance.getResourceFile(file, this.addFramework, this);
 };
 
 
@@ -79,7 +74,7 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content,
     opt_type) {
   var frameworkContent = content;
   if (!frameworkContent) {
-    console.error('Recieved empty content for framework', name);
+    console.error('Received empty content for framework', name);
     return;
   }
 
@@ -93,7 +88,7 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content,
   if (!frameworkFile) {
     console.error('Was not able to add File', frameworkFile);
   } else {
-    console.info('Added framework', name, frameworkFile);
+    console.info('Add framework', name, frameworkFile.getSize());
   }
 };
 
@@ -137,12 +132,7 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
  */
 cwc.renderer.Renderer.prototype.getRenderedContent = function(
     opt_preview_mode) {
-  var editorInstance = this.helper.getInstance('editor');
-  if (!editorInstance) {
-    console.error('Missing editor instanace!');
-    return '';
-  }
-
+  var editorInstance = this.helper.getInstance('editor', true);
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     this.libraryFiles = fileInstance.getFiles();

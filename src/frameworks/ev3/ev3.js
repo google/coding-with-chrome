@@ -201,7 +201,7 @@ cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.showImage = function(file_name, opt_delay) {
-  this.runner.send('showImage', {'file': file_name, 'delay': opt_delay });
+  this.runner.send('showImage', {'file': file_name}, opt_delay);
 };
 
 
@@ -218,8 +218,7 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
   this.runner.send('playTone', {
     'frequency': frequency,
     'duration': opt_duration,
-    'volume': opt_volume,
-    'delay': opt_delay });
+    'volume': opt_volume}, opt_delay);
 };
 
 
@@ -234,8 +233,7 @@ cwc.framework.Ev3.prototype.playSound = function(file_name, opt_volume,
     opt_delay) {
   this.runner.send('playSound', {
     'file': file_name,
-    'volume': opt_volume,
-    'delay': opt_delay });
+    'volume': opt_volume}, opt_delay);
 };
 
 
@@ -252,8 +250,7 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
   this.runner.send('moveServo', {
     'steps': steps,
     'invert': opt_invert,
-    'speed': opt_speed,
-    'delay': opt_delay });
+    'speed': opt_speed}, opt_delay);
 };
 
 
@@ -272,8 +269,7 @@ cwc.framework.Ev3.prototype.movePen = function(steps, opt_invert,
     'steps': steps,
     'invert': opt_invert,
     'speed': opt_speed,
-    'color': opt_color,
-    'delay': opt_delay });
+    'color': opt_color}, opt_delay);
 };
 
 
@@ -290,8 +286,7 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_invert,
   this.runner.send('moveSteps', {
     'steps': steps,
     'speed': opt_speed,
-    'invert': opt_invert,
-    'delay': opt_delay });
+    'invert': opt_invert}, opt_delay);
 };
 
 
@@ -310,8 +305,7 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle, opt_invert, opt_speed,
     'angle': angle,
     'invert': opt_invert,
     'speed': opt_speed,
-    'ratio': opt_ratio,
-    'delay': opt_delay });
+    'ratio': opt_ratio}, opt_delay);
 };
 
 
@@ -326,8 +320,7 @@ cwc.framework.Ev3.prototype.movePower = function(power, opt_invert,
     opt_delay) {
   this.runner.send('movePower', {
     'power': power,
-    'invert': opt_invert,
-    'delay': opt_delay });
+    'invert': opt_invert}, opt_delay);
 };
 
 
@@ -344,8 +337,7 @@ cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
   this.runner.send('rotatePower', {
     'power': power,
     'opt_power': opt_power,
-    'invert': opt_invert,
-    'delay': opt_delay });
+    'invert': opt_invert}, opt_delay);
 };
 
 
@@ -355,7 +347,7 @@ cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
  * @export
  */
 cwc.framework.Ev3.prototype.stop = function(opt_delay) {
-  this.runner.send('stop', {'delay': opt_delay });
+  this.runner.send('stop', null, opt_delay);
 };
 
 
@@ -365,7 +357,7 @@ cwc.framework.Ev3.prototype.stop = function(opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
-  this.runner.send('setColorSensorMode', {'mode': mode, 'delay': opt_delay });
+  this.runner.send('setColorSensorMode', {'mode': mode}, opt_delay);
 };
 
 
@@ -375,7 +367,7 @@ cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
-  this.runner.send('setIrSensorMode', {'mode': mode, 'delay': opt_delay });
+  this.runner.send('setIrSensorMode', {'mode': mode}, opt_delay);
 };
 
 
@@ -388,8 +380,7 @@ cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
 cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
   this.runner.send('setLed', {
     'color': color,
-    'mode': opt_mode,
-    'delay': opt_delay });
+    'mode': opt_mode}, opt_delay);
 };
 
 
@@ -399,7 +390,7 @@ cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
-  this.runner.send('setStepSpeed', {'speed': speed, 'delay': opt_delay });
+  this.runner.send('setStepSpeed', {'speed': speed}, opt_delay);
 };
 
 
