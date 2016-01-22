@@ -232,7 +232,7 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
  * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
-  return this.blockly.JavaScript.workspaceToCode();
+  return this.blockly.JavaScript.workspaceToCode(this.getWorkspace());
 };
 
 

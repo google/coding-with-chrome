@@ -59,7 +59,13 @@ cwc.protocol.bluetooth.Devices = function(helper, bluetooth) {
   this.throttledUpdateDevices = null;
 
   /** @type {!number} */
-  this.updateDevicesInterval = 1000;
+  this.updateDevicesInterval = 5000;
+
+  /** @type {!goog.Timer} */
+  this.deviceMonitor = new goog.Timer(this.updateDevicesInterval);
+
+  /** @type {!Array} */
+  this.listener = [];
 };
 
 
@@ -80,6 +86,9 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
       this.handleDeviceChanged_.bind(this));
   this.bluetooth.onDeviceRemoved.addListener(
       this.handleDeviceRemoved_.bind(this));
+  this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
+      this.updateDevices.bind(this));
+  this.deviceMonitor.start();
   this.updateDevices();
   this.preapred = true;
 };
@@ -300,14 +309,14 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(
     if (profile) {
       var address = deviceEntry.address;
       var connected = deviceEntry.connected;
-      var deviceClass = deviceEntry.deviceClass;
-      var name = deviceEntry.name;
-      var paired = deviceEntry.paired;
-      var uuids = deviceEntry.uuids;
-      var type = profile.name;
       if (address in this.devices) {
         this.devices[address].updateInfo();
       } else {
+        var deviceClass = deviceEntry.deviceClass;
+        var name = deviceEntry.name;
+        var paired = deviceEntry.paired;
+        var type = profile.name;
+        var uuids = deviceEntry.uuids;
         var device = new cwc.protocol.bluetooth.Device(
             address, connected, deviceClass, name, paired, uuids, profile,
             type, this.bluetooth);
@@ -316,6 +325,7 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(
         this.devices[address] = device;
       }
       if (connected) {
+        this.devices[address].getSocket();
         deviceConnected = true;
       }
       if (menubarInstance) {
@@ -373,4 +383,24 @@ cwc.protocol.bluetooth.Devices.prototype.handleDisconnect_ = function(socket_id,
     menubarInstance.updateDeviceList(device);
     menubarInstance.setBluetoothConnected(false);
   }
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function(?)} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.protocol.bluetooth.Devices.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

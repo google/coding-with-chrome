@@ -105,6 +105,10 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
   if (adapter_info && this.available && this.powered && !this.enabled) {
     console.log('Enable Bluetooth adapter:', adapter_info);
     this.enabled = true;
+    var bluetoothInstance = this.helper.getInstance('bluetooth');
+    if (bluetoothInstance) {
+      bluetoothInstance.updateDevices();
+    }
   } else if (this.enabled || !this.prepared) {
     console.log('Disable Bluetooth adapter:', adapter_info);
     this.enabled = false;

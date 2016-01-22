@@ -219,6 +219,14 @@ cwc.protocol.bluetooth.Device.prototype.getIndicator = function() {
 
 
 /**
+ * @export
+ */
+cwc.protocol.bluetooth.Device.prototype.getSocket = function() {
+  this.bluetoothSocket.getSockets(this.handleSockets_.bind(this));
+};
+
+
+/**
  * @param {function=} opt_callback Will be only called  after an connection.
  * @export
  */
@@ -489,6 +497,30 @@ cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
   this.connected = socket_info.connected;
   this.paused = socket_info.paused;
   this.persistent = socket_info.persistent;
+};
+
+
+/**
+ * @param {object} socket_info
+ * @private
+ */
+cwc.protocol.bluetooth.Device.prototype.handleSockets_ = function(socket_info) {
+  if (!socket_info) {
+    this.socketId = null;
+    this.connected = false;
+    return;
+  }
+  for (var i in socket_info) {
+    var socket = socket_info[i];
+    if (socket.connected && socket.address == this.address &&
+        this.socketId != socket.socketId) {
+      console.log('Reconnecting bluetooth device', this.address, 'to socket',
+        socket.socketId);
+      this.socketId = socket.socketId;
+      this.paused = socket.paused;
+      return;
+    }
+  }
 };
 
 
