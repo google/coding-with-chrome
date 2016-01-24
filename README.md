@@ -28,17 +28,23 @@ If you want to clone/copy the Coding with Chrome App repo, you need git as well.
 
 ### Windows
 Install Node.js from the offical webpage at https://nodejs.org
+
 Optional: Install git from the offical webpage at https://git-scm.com/
+
 Optional: Install Java JRE
 
 ### Mac OS X
 Install Node.js from the offical webpage at https://nodejs.org
+
 Optional: Install git from the offical webpage at https://git-scm.com/
+
 Optional: Install Java JRE
 
 ### Linux/BSD
 Use your package manager to install Node.js, or build from source.
+
 Optional: Use your package manager to install git, or build from source.
+
 Optional: Install Open JDK or Java JRE
 
 
@@ -138,7 +144,7 @@ Add your translations to the output and place them into the file
 ### Google Drive support (experimental)
 To enable the experimental Google Drive support add your application key and
 your api key to the `app/manifest.json` file:
-```
+```json
 …
   "description": "Coding with Chrome.",
   "key": "MIIBIjANBgkqhki…",
