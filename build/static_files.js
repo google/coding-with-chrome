@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome static files.
+ * @fileoverview BUILD configuration for static files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *

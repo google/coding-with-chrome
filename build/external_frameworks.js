@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for remote files.
+ * @fileoverview BUILD configuration external framework files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -21,28 +21,33 @@ var closureBuilder = require('closure-builder');
 
 
 closureBuilder.build({
-  name: 'Coffeescript file',
+  name: 'Coffeescript',
   resources: [
-    'http://coffeescript.org/extras/coffee-script.js'
+    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/' +
+    'coffee-script.js'
   ],
-  out: 'genfiles/external/coffeescript/'
+  out: 'genfiles/frameworks/external/'
 });
 
 
 closureBuilder.build({
-  name: 'Coffeelint file',
+  name: 'jQuery file',
   resources: [
-    'http://www.coffeelint.org/js/coffeelint.js'
+    'node_modules/jquery/dist/jquery.min.js'
   ],
-  out: 'genfiles/external/coffeelint/'
+  out: 'genfiles/frameworks/external/'
 });
 
 
 closureBuilder.build({
-  name: 'Material design icons',
-  resources: [
-    'https://raw.github.com/google/material-design-icons/master/iconfont/' +
-    'MaterialIcons-Regular.woff2'
+  name: 'jQuery Turtle file',
+  srcs: [
+    'node_modules/jquery-turtle/dist/jquery-turtle.js'
   ],
-  out: 'genfiles/fonts/'
+  externs: [
+    'build/externs/coffeescript.js',
+    'build/externs/jquery.js',
+    'build/externs/jquery-turtle.js'
+  ],
+  out: 'genfiles/frameworks/external/jquery-turtle.js'
 });

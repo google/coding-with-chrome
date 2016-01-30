@@ -140,7 +140,7 @@
 
 
 /**
- * Calibration template.
+ * Control template.
  */
 {template .control}
   {@param prefix: string}
@@ -152,6 +152,18 @@
     <button type="button" id="{$prefix}move-right">Right</button>
     <br>
     <button type="button" id="{$prefix}stop">Stop</button>
+  </div>
+{/template}
+
+
+/**
+ * Calibration template.
+ */
+{template .calibration}
+  {@param prefix: string}
+  <div id="{$prefix}calibration">
+    EV3 Calibration Screen<hr>
+    <button type="button" id="{$prefix}detect-sensors">Detect Sensors</button>
   </div>
 {/template}
 

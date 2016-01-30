@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.1.21",
+  "version": "2.1.30",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -40,10 +40,12 @@
 
     "build-cwc-files": "node build/cwc_files.js",
     "build-extra-files": "node build/extra_files.js",
-    "build-framework-files":  "node build/framework_files.js",
     "build-remote-files": "node build/remote_files.js",
     "build-static-files": "node build/static_files.js",
     "build-test-files": "node build/test_files.js",
+    "build-framework-files":  "npm run build-external-frameworks && npm run build-internal-frameworks",
+    "build-external-frameworks": "node build/external_frameworks.js",
+    "build-internal-frameworks": "node build/internal_frameworks.js",
 
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",

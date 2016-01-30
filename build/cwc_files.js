@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome editor files.
+ * @fileoverview BUILD configuration for Coding with Chrome files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *

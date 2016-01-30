@@ -109,6 +109,12 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
       {'prefix': this.prefix}
   );
 
+  goog.soy.renderElement(
+      this.nodeCalibration,
+      cwc.soy.mode.ev3.Monitor.calibration,
+      {'prefix': this.prefix}
+  );
+
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
       cwc.soy.mode.ev3.Monitor.style({'prefix': this.prefix}));
@@ -134,6 +140,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   }
 
   this.addEventHandler_();
+  this.detect();
   runnerInstance.enableMonitor(true);
 };
 
@@ -147,6 +154,7 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   var moveBackward = goog.dom.getElement(this.prefix + 'move-backward');
   var moveRight = goog.dom.getElement(this.prefix + 'move-right');
   var stop = goog.dom.getElement(this.prefix + 'stop');
+  var detectSensors = goog.dom.getElement(this.prefix + 'detect-sensors');
 
   // Movements
   this.addEventListener_(moveLeft, goog.events.EventType.CLICK, function() {
@@ -168,6 +176,10 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   this.addEventListener_(stop, goog.events.EventType.CLICK, function() {
     this.api.stop();
   }.bind(this), false, this);
+
+  // Calibration
+  this.addEventListener_(detectSensors, goog.events.EventType.CLICK,
+    this.detect.bind(this), false, this);
 };
 
 

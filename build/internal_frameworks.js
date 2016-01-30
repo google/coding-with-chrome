@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome framework files.
+ * @fileoverview BUILD configuration for internal framework files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -20,8 +20,6 @@
 var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
 
-
-// Internal frameworks
 
 closureBuilder.build({
   name: 'cwc.framework.Arduino',
@@ -114,39 +112,4 @@ closureBuilder.build({
     'src/**/*.js'
   ]),
   out: 'genfiles/frameworks/internal/simple_framework.js'
-});
-
-
-// External frameworks
-
-closureBuilder.build({
-  name: 'Coffeescript',
-  resources: [
-    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/' +
-    'coffee-script.js'
-  ],
-  out: 'genfiles/frameworks/external/'
-});
-
-
-closureBuilder.build({
-  name: 'jQuery file',
-  resources: [
-    'node_modules/jquery/dist/jquery.min.js'
-  ],
-  out: 'genfiles/frameworks/external/'
-});
-
-
-closureBuilder.build({
-  name: 'jQuery Turtle file',
-  srcs: [
-    'node_modules/jquery-turtle/dist/jquery-turtle.js'
-  ],
-  externs: [
-    'build/externs/coffeescript.js',
-    'build/externs/jquery.js',
-    'build/externs/jquery-turtle.js'
-  ],
-  out: 'genfiles/frameworks/external/jquery-turtle.js'
 });
