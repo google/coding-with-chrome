@@ -6,7 +6,7 @@
   },
   "manifest_version": 2,
   "name": "Coding with Chrome",
-  "version": "2.1.30",
+  "version": "2.1.31",
   "default_locale": "en",
   "description": "An Educational IDE showing off various Google EDU technologies.",
   "icons": {
@@ -36,6 +36,7 @@
       "00001101-0000-1000-8000-00805f9b34fb",
       "00000000-deca-fade-deca-deafdecacaff"
     ],
+    "low_energy": true,
     "socket": true
   },
   "sockets": {

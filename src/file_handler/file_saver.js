@@ -231,16 +231,10 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
       return;
     }
     fileInstance.setFileHandler(file_entry);
-    if (messageInstance) {
-      messageInstance.info('Saved file ' + name + ' successful.');
-    }
-    console.log('Saved file', name, 'successful.');
+    messageInstance.success('Saved file ' + name + ' successful.');
   };
   writer.onerror = function(opt_event) {
-    if (messageInstance) {
-      messageInstance.error('Was not able to save file ' + name + '!');
-    }
-    console.error('Was not able to save file', name);
+    messageInstance.error('Unable to save file ' + name);
   };
   writer.seek(0);
   writer.write(blobContent, {'type': 'text/plain'});

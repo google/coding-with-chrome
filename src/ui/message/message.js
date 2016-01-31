@@ -1,5 +1,5 @@
 /**
- * @fileoverview Messager for the Coding with Chrome editor.
+ * @fileoverview UI Messenger for the Coding with Chrome editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -23,6 +23,7 @@ goog.provide('cwc.ui.MessageType');
 goog.require('cwc.soy.ui.Message');
 goog.require('goog.Timer');
 goog.require('goog.array');
+goog.require('goog.dom.classes');
 goog.require('goog.dom.classlist');
 goog.require('goog.soy');
 
@@ -31,11 +32,12 @@ goog.require('goog.soy');
  * @enum {string}
  */
 cwc.ui.MessageType = {
-  DEBUG: 'Debug',
-  INFO: 'Info',
-  ERROR: 'Error',
-  PROMOTION: 'Promotion',
-  WARNING: 'Warning'
+  CONFIRM: 'confirm',
+  DEBUG: 'debug',
+  ERROR: 'error',
+  INFO: 'info',
+  SUCCESS: 'success',
+  WARNING: 'warning'
 };
 
 
@@ -56,16 +58,19 @@ cwc.ui.Message = function() {
   this.prefix = 'message-';
 
   /** @type {Element} */
-  this.nodeWarp = null;
+  this.nodeBody = null;
 
   /** @type {Element} */
-  this.nodeContainer = null;
+  this.nodeText = null;
+
+  /** @type {cwc.ui.MessageType} */
+  this.messageType = null;
 };
 
 
 /**
- * Decorates the given node and adds a ui messanger.
- * @param {Element} node The target node to add the ui messagner.
+ * Decorates the given node and adds a ui messenger.
+ * @param {Element} node The target node to add the ui messenger.
  * @param {string=} opt_prefix Additional prefix for the ids of the
  *    inserted elements and style definitions.
  */
@@ -83,9 +88,8 @@ cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
       cwc.soy.ui.Message.messageStyle({ 'prefix': this.prefix })
   );
 
-  this.nodeContainer = goog.dom.getElement(
-      this.prefix + 'butterBar-container');
-  this.nodeWarp = goog.dom.getElement(this.prefix + 'butterBar-wrap');
+  this.nodeBody = goog.dom.getElement(this.prefix + 'body');
+  this.nodeText = goog.dom.getElement(this.prefix + 'text');
   this.hide();
 };
 
@@ -94,8 +98,15 @@ cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
  * @param {!string} message Shows info message.
  */
 cwc.ui.Message.prototype.info = function(message) {
-  this.showMessage_(message, cwc.ui.MessageType.INFO);
-  goog.Timer.callOnce(this.hide.bind(this), 5000);
+  this.showMessage(message, cwc.ui.MessageType.INFO);
+};
+
+
+/**
+ * @param {!string} message Shows promotion message.
+ */
+cwc.ui.Message.prototype.success = function(message) {
+  this.showMessage(message, cwc.ui.MessageType.SUCCESS);
 };
 
 
@@ -103,15 +114,7 @@ cwc.ui.Message.prototype.info = function(message) {
  * @param {!string} message Shows error message.
  */
 cwc.ui.Message.prototype.error = function(message) {
-  this.showMessage_(message, cwc.ui.MessageType.ERROR);
-};
-
-
-/**
- * @param {!string} message Shows promotion message.
- */
-cwc.ui.Message.prototype.promo = function(message) {
-  this.showMessage_(message, cwc.ui.MessageType.PROMOTION);
+  this.showMessage(message, cwc.ui.MessageType.ERROR);
 };
 
 
@@ -119,19 +122,42 @@ cwc.ui.Message.prototype.promo = function(message) {
  * @param {!string} message Shows warning message.
  */
 cwc.ui.Message.prototype.warning = function(message) {
-  this.showMessage_(message, cwc.ui.MessageType.WARNING);
+  this.showMessage(message, cwc.ui.MessageType.WARNING);
 };
 
 
 /**
- * Renders content and shows defined butter bar.
+ * Renders content and shows defined message window.
  * @param {string} message
  * @param {cwc.ui.MessageType=} opt_type
- * @private
+ * @export
  */
-cwc.ui.Message.prototype.showMessage_ = function(message, opt_type) {
+cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
   var type = opt_type || cwc.ui.MessageType.INFO;
-  console.log('[' + type + '] :' + message);
+  var prefix = '[' + type + ' message]';
+
+  switch (type) {
+    case cwc.ui.MessageType.INFO:
+    case cwc.ui.MessageType.SUCCESS:
+      console.info(prefix, message);
+      goog.Timer.callOnce(this.autoHide.bind(this),  5000);
+      break;
+    case cwc.ui.MessageType.WARNING:
+      console.warn(prefix, message);
+      break;
+    case cwc.ui.MessageType.ERROR:
+      console.error(prefix, message);
+      break;
+    default:
+      console.log(prefix, message);
+  }
+
+  if (this.nodeBody && this.nodeText) {
+    goog.dom.classes.set(this.nodeBody, this.prefix + 'type-' + type);
+    goog.dom.setTextContent(this.nodeText, message);
+    this.messageType = type;
+    this.show();
+  }
 };
 
 
@@ -147,35 +173,31 @@ cwc.ui.Message.prototype.dismiss = function(event) {
 
 
 /**
- * Shows the butter bar.
+ * Shows the message window.
  */
 cwc.ui.Message.prototype.show = function() {
   goog.style.setElementShown(this.node, true);
   goog.style.setStyle(this.node, 'width', '100%');
-  goog.style.setStyle(this.nodeContainer, 'width', '100%');
+  goog.style.setStyle(this.nodeBody, 'width', '100%');
 };
 
 
 /**
- * Hides the butter bar.
+ * Auto hides the message window.
+ */
+cwc.ui.Message.prototype.autoHide = function() {
+  if (this.messageType == cwc.ui.MessageType.INFO ||
+      this.messageType == cwc.ui.MessageType.SUCCESS) {
+    this.hide();
+  }
+};
+
+
+/**
+ * Hides the message window.
  */
 cwc.ui.Message.prototype.hide = function() {
-  goog.Timer.callOnce(function() {
-    goog.style.setElementShown(this.node, false);
-    goog.style.setStyle(this.node, 'width', '1px');
-    goog.style.setStyle(this.nodeContainer, 'width', '1px');
-  }.bind(this), 1000);
-};
-
-
-/**
- * Base container for all messages.
- * @param {string} message Message to display
- * @return {Element}
- */
-cwc.ui.Message.prototype.buildContent = function(message) {
-  var content = goog.dom.createDom('span', undefined, message + '\u00A0');
-  var hideLink = goog.dom.createDom('span', 'fava-style-link', 'Dismiss');
-  content.appendChild(hideLink);
-  return content;
+  goog.style.setElementShown(this.node, false);
+  goog.style.setStyle(this.node, 'width', '1px');
+  goog.style.setStyle(this.nodeBody, 'width', '1px');
 };

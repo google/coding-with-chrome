@@ -70,6 +70,12 @@ cwc.framework.Ev3 = function(code) {
   /** @type {!function(?)} */
   this.irSensorEvent = function() {};
 
+  /** @type {!function(?)} */
+  this.ultrasonicSensorEvent = function() {};
+
+  /** @type {!function(?)} */
+  this.gyroSensorEvent = function() {};
+
   /** @type {number} */
   this.colorSensorValue = null;
 
@@ -79,10 +85,16 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.irSensorValue = null;
 
+  /** @type {number} */
+  this.ultrasonicSensorValue = null;
+
+  /** @type {number} */
+  this.gyroSensorValue = null;
+
+  this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
   this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
   this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
-  this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
 };
 
@@ -144,6 +156,26 @@ cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
  */
 cwc.framework.Ev3.prototype.getIrSensorValue = function() {
   return this.irSensorValue;
+};
+
+
+/**
+ * Returns the Gyro object.
+ * @return {number}
+ * @export
+ */
+cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
+  return this.gyroSensorValue;
+};
+
+
+/**
+ * Returns the Ultrasonic object.
+ * @return {number}
+ * @export
+ */
+cwc.framework.Ev3.prototype.getUltrasonicSensorValue = function() {
+  return this.ultrasonicSensorValue;
 };
 
 
@@ -414,6 +446,12 @@ cwc.framework.Ev3.prototype.handleUpdateDeviceData_ = function(data) {
           break;
         case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
           this.touchSensorData = data[devicePort];
+          break;
+        case cwc.protocol.ev3.DeviceName.GYRO_SENSOR:
+          this.gyroSensorValue = data[devicePort];
+          break;
+        case cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR:
+          this.ultrasonicSensorValue = data[devicePort];
           break;
       }
     }

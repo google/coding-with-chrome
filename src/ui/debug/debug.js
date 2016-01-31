@@ -22,6 +22,7 @@ goog.provide('cwc.ui.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
+goog.require('cwc.ui.Message');
 goog.require('cwc.utils.Helper');
 
 
@@ -62,7 +63,8 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
       cwc.soy.Debug.template, {
         'prefix': this.prefix,
         'file_types': cwc.file.Type,
-        'mode_types': cwc.mode.Type
+        'mode_types': cwc.mode.Type,
+        'message_types': cwc.ui.MessageType
       }
   );
 
@@ -79,17 +81,14 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
  * Adds click events.
  */
 cwc.ui.Debug.prototype.addEvents = function() {
-  var link = null;
+  this.addChangeHandler(goog.dom.getElement('file_types'),
+    this.handleFileType);
 
-  for (var file_type in cwc.file.Type) {
-    link = goog.dom.getElement('type_' + file_type);
-    this.addLink(link, this.handleFileType);
-  }
+  this.addChangeHandler(goog.dom.getElement('mode_types'),
+    this.handleModeType);
 
-  for (var mode_type in cwc.mode.Type) {
-    link = goog.dom.getElement('mode_' + mode_type);
-    this.addLink(link, this.handleModeType);
-  }
+  this.addChangeHandler(goog.dom.getElement('message_types'),
+    this.handleMessageType);
 };
 
 
@@ -97,7 +96,8 @@ cwc.ui.Debug.prototype.addEvents = function() {
  * @param {?} event
  */
 cwc.ui.Debug.prototype.handleFileType = function(event) {
-  var fileType = event.target.innerText;
+  var target = event.target;
+  var fileType = target.options[target.selectedIndex].value;
   console.log('FileType:', fileType);
   if (fileType) {
     this.newFile(cwc.file.Type[fileType]);
@@ -109,10 +109,24 @@ cwc.ui.Debug.prototype.handleFileType = function(event) {
  * @param {?} event
  */
 cwc.ui.Debug.prototype.handleModeType = function(event) {
-  var editorMode = event.target.innerText;
+  var target = event.target;
+  var editorMode = target.options[target.selectedIndex].value;
   console.log('ModeType:', editorMode);
   if (editorMode) {
     this.newMode(cwc.mode.Type[editorMode]);
+  }
+};
+
+
+/**
+ * @param {?} event
+ */
+cwc.ui.Debug.prototype.handleMessageType = function(event) {
+  var target = event.target;
+  var messageType = target.options[target.selectedIndex].value;
+  console.log('MessageType:', messageType);
+  if (messageType) {
+    this.newMessage(cwc.ui.MessageType[messageType]);
   }
 };
 
@@ -123,6 +137,15 @@ cwc.ui.Debug.prototype.handleModeType = function(event) {
  */
 cwc.ui.Debug.prototype.addLink = function(element, func) {
   goog.events.listen(element, goog.events.EventType.CLICK, func, false, this);
+};
+
+
+/**
+ * @param {Element} element
+ * @param {Function} func
+ */
+cwc.ui.Debug.prototype.addChangeHandler = function(element, func) {
+  goog.events.listen(element, goog.events.EventType.CHANGE, func, false, this);
 };
 
 
@@ -150,3 +173,13 @@ cwc.ui.Debug.prototype.newMode = function(type) {
 };
 
 
+/**
+ * Creates a new mode of the given type.
+ * @param {cwc.file.Type} type
+ */
+cwc.ui.Debug.prototype.newMessage = function(type) {
+  var messageInstance = this.helper.getInstance('message');
+  if (messageInstance) {
+    messageInstance.showMessage('Test message: ' + type, type);
+  }
+};

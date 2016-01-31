@@ -207,8 +207,9 @@ cwc.utils.Helper.prototype.showError = function(error_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.error(error_msg);
+  } else {
+    this.log_.error(error_msg);
   }
-  this.log_.error(error_msg);
 };
 
 
@@ -221,8 +222,9 @@ cwc.utils.Helper.prototype.showWarning = function(warn_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.warning(warn_msg);
+  } else {
+    this.log_.warn(warn_msg);
   }
-  this.log_.warn(warn_msg);
 };
 
 
@@ -235,8 +237,24 @@ cwc.utils.Helper.prototype.showInfo = function(info_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.info(info_msg);
+  } else {
+    this.log_.info(info_msg);
   }
-  this.log_.info(info_msg);
+};
+
+
+/**
+ * Shows an success message over the message instance.
+ * @param {!string} success_msg
+ * @export
+ */
+cwc.utils.Helper.prototype.showSuccess = function(success_msg) {
+  var messageInstance = this.getInstance('message');
+  if (messageInstance) {
+    messageInstance.success(success_msg);
+  } else {
+    this.log_.info(success_msg);
+  }
 };
 
 

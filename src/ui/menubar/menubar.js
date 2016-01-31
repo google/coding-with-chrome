@@ -111,6 +111,12 @@ cwc.ui.Menubar = function(helper) {
   /** @type {Element} */
   this.nodeSettings = null;
 
+  /** @type {boolean} */
+  this.bluetooth = false;
+
+  /** @type {boolean} */
+  this.bluetoothConnected = false;
+
   /** @type {goog.ui.Button} */
   this.menu = cwc.ui.Helper.getIconButton('menu', 'Menu');
 
@@ -421,10 +427,12 @@ cwc.ui.Menubar.prototype.updateDeviceList = function(device) {
  */
 cwc.ui.Menubar.prototype.setBluetoothEnabled = function(enabled) {
   if (this.helper.checkChromeFeature('bluetooth')) {
+    console.log('Set Bluetooth to', enabled ? 'enabled' : 'disabled');
     goog.style.setElementShown(this.nodeBluetooth, enabled);
     goog.style.setElementShown(this.nodeBluetoothConnected, false);
     goog.style.setElementShown(this.nodeBluetoothDisabled, !enabled);
   }
+  this.bluetooth = enabled;
 };
 
 
@@ -433,11 +441,15 @@ cwc.ui.Menubar.prototype.setBluetoothEnabled = function(enabled) {
  * @export
  */
 cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
-  if (this.helper.checkChromeFeature('bluetooth')) {
+  if (this.helper.checkChromeFeature('bluetooth') && this.bluetooth &&
+      this.bluetoothConnected != connected) {
+    console.log('Set Bluetooth status to',
+      connected ? 'connected' : 'disconnected');
     goog.style.setElementShown(this.nodeBluetooth, !connected);
     goog.style.setElementShown(this.nodeBluetoothConnected, connected);
     goog.style.setElementShown(this.nodeBluetoothDisabled, !connected);
   }
+  this.bluetoothConnected = connected;
 };
 
 

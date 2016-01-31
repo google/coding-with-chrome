@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-{namespace cwc.soy.Debug autoescape="deprecated-contextual"}
+{namespace cwc.soy.Debug autoescape="strict"}
 
 /**
  * Debug template.
@@ -27,22 +27,30 @@
   {@param prefix: string}
   {@param file_types: ?}
   {@param mode_types: ?}
+  {@param message_types: ?}
   <div id="{$prefix}body">
     <h2>Debug screen</h2>
 
     <h3>File Types</h3>
-    <ul>
+    <select id="file_types">
     {foreach $file_type in keys($file_types)}
-      <li><span id="type_{$file_type}">{$file_type}<span></li>
+      <option value="{$file_type}">{$file_type}</option>
     {/foreach}
-    </ul>
+    </select>
 
     <h3>Mode Types</h3>
-    <ul>
+    <select id="mode_types">
     {foreach $mode_type in keys($mode_types)}
-      <li><span id="mode_{$mode_type}">{$mode_type}<span></li>
+      <option value="{$mode_type}">{$mode_type}</option>
     {/foreach}
-    </ul>
+    </select>
+
+    <h3>Message Types</h3>
+    <select id="message_types">
+    {foreach $message_type in keys($message_types)}
+      <option value="{$message_type}">{$message_type}</option>
+    {/foreach}
+    </select>
 
     <div id="{$prefix}footer">
      Have fun testing … ;)
@@ -60,6 +68,7 @@
     border: 1px solid red;
     padding: 10px;
     background: #ccc;
+    width: 200px;
   {rb}
 
   #{$prefix}left {lb}
