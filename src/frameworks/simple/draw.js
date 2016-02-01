@@ -38,25 +38,69 @@ goog.require('goog.style');
 cwc.framework.simple.Draw = function(opt_target) {
 
   /** @type {Element} */
-  this.target = opt_target || document.body;
+  this.target = opt_target;
 
   /** @type {Element} */
-  this.stage = goog.dom.createDom('div');
-  goog.style.setStyle(this.stage, 'position', 'relative');
-  goog.dom.append(this.target, this.stage);
+  this.stage = null;
 
   /** @type {Element} */
-  this.canvas = goog.dom.createDom('canvas');
-  goog.style.setStyle(this.canvas, 'position', 'absolute');
-  goog.style.setStyle(this.canvas, 'top', 0);
-  goog.style.setStyle(this.canvas, 'left', 0);
-  goog.dom.append(this.stage, this.canvas);
+  this.canvas = null;
 
-  /** @type {!CanvasRenderingContext2D} */
-  this.context2d = this.canvas.getContext('2d');
+  /** @type {CanvasRenderingContext2D} */
+  this.context2d = null;
 
-  this.handleResize_();
   window.addEventListener('resize', this.handleResize_.bind(this), false);
+};
+
+
+/**
+ * @private
+ */
+cwc.framework.simple.Draw.prototype.prepare_ = function() {
+  var target = this.getTarget();
+  if (!target) {
+    return;
+  }
+
+  if (!this.stage) {
+    this.stage = goog.dom.createDom('div');
+    goog.style.setStyle(this.stage, 'position', 'relative');
+    goog.dom.append(target, this.stage);
+    this.handleResize_();
+  }
+
+  if (!this.canvas) {
+    this.canvas = goog.dom.createDom('canvas');
+    goog.style.setStyle(this.canvas, 'position', 'absolute');
+    goog.style.setStyle(this.canvas, 'top', 0);
+    goog.style.setStyle(this.canvas, 'left', 0);
+    goog.dom.append(this.stage, this.canvas);
+    this.handleResize_();
+  }
+
+  if (!this.context2d) {
+    this.context2d = this.canvas.getContext('2d');
+  }
+};
+
+
+/**
+ * @private
+ * @return {CanvasRenderingContext2D}
+ */
+cwc.framework.simple.Draw.prototype.getDisplay_ = function() {
+  if (!this.context2d) {
+    this.prepare_();
+  }
+  return this.context2d;
+};
+
+
+/**
+ * @export
+ */
+cwc.framework.simple.Draw.prototype.getTarget = function() {
+  return this.target || document.body;
 };
 
 
@@ -66,7 +110,7 @@ cwc.framework.simple.Draw = function(opt_target) {
  */
 cwc.framework.simple.Draw.prototype.mapGlobal = function() {
   if (!window) {
-    throw 'Window name space is not avalible in this instance.';
+    throw 'Window name space is not available in this instance.';
   }
   window['draw'] = {
     'circle': this.circle.bind(this),
@@ -330,7 +374,7 @@ cwc.framework.simple.Draw.ManipulationContent;
  */
 cwc.framework.simple.Draw.prototype.circle = function(
     x, y, radius, opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
@@ -372,7 +416,7 @@ cwc.framework.simple.Draw.prototype.circle = function(
  */
 cwc.framework.simple.Draw.prototype.line = function(
     from_x, from_y, to_x, to_y, opt_colorOrManipulation, opt_width) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
@@ -417,7 +461,7 @@ cwc.framework.simple.Draw.prototype.line = function(
 cwc.framework.simple.Draw.prototype.rectangle = function(
     x, y, width, height,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
 
@@ -459,7 +503,7 @@ cwc.framework.simple.Draw.prototype.rectangle = function(
  */
 cwc.framework.simple.Draw.prototype.point = function(
     x, y, opt_colorOrManipulation, opt_size) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   var size = opt_size || 1;
@@ -496,7 +540,7 @@ cwc.framework.simple.Draw.prototype.point = function(
 cwc.framework.simple.Draw.prototype.ellipse = function(
     x, y, width, height,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
@@ -561,7 +605,7 @@ cwc.framework.simple.Draw.prototype.ellipse = function(
 cwc.framework.simple.Draw.prototype.triangle = function(
     x1, y1, x2, y2, x3, y3,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.context2d;
+  var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {

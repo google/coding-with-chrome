@@ -99,6 +99,29 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(body, opt_header,
 
 
 /**
+ * @param {!string} html
+ * @param {string=} opt_header
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
+  if (!html) {
+    return '';
+  }
+  if (opt_header) {
+    if (html.indexOf('</head>') != -1) {
+      return html.replace('</head>', opt_header + '\n</head>');
+    } else if (html.indexOf('<body') != -1) {
+      return html.replace('<body',
+        '<head>\n' + opt_header + '\n</head>\n<body');
+    } else if (html.indexOf('<html') == -1) {
+      return '<head>\n' + opt_header + '\n</head>\n' + html;
+    }
+  }
+  return html;
+};
+
+
+/**
  * @param {!string} data_url
  * @param {number=} opt_width
  * @param {number=} opt_height
@@ -144,8 +167,7 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
  * @param {string=} opt_url
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScript = function(content,
-    opt_url) {
+cwc.renderer.Helper.prototype.getJavaScript = function(content, opt_url) {
   return cwc.soy.Renderer.javascript({
     'content': content,
     'url': opt_url
@@ -172,7 +194,7 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
 /**
  * @param {!array} filenames
  * @param {!cwc.file.Files} renderer_frameworks
- * @return {string}
+ * @return {!string}
  */
 cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
     renderer_frameworks) {

@@ -37,7 +37,13 @@ cwc.renderer.internal.HTML5 = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.framework = 'simple_framework.js';
+  this.simpleFramework = 'simple_framework.js';
+
+  /** @type {string} */
+  this.coffeeScriptFramework = 'coffee-script.js';
+
+  /** @type {string} */
+  this.jQueryFramework = 'jquery.min.js';
 };
 
 
@@ -67,13 +73,31 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var css = editor_content[cwc.file.ContentType.CSS];
-  var html = editor_content[cwc.file.ContentType.HTML];
-  var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT];
-  var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
+  var css = editor_content[cwc.file.ContentType.CSS] || '';
+  var html = editor_content[cwc.file.ContentType.HTML] || '';
+  var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
+  var headers = [];
 
-  if ((css || javascript) && html) {
+  // Coffeescript framework.
+  if (html) {
+    if (html.indexOf('text/coffeescript') != -1) {
+      headers.push(this.coffeeScriptFramework);
+    }
+  }
+
+  // Additional frameworks.
+  var script = javascript || html || '';
+  if (script.indexOf('draw.') != -1 || script.indexOf('write(') != -1) {
+    headers.push(this.simpleFramework);
+  }
+  if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||
+      script.indexOf('$(document).ready') != -1) {
+    headers.push(this.jQueryFramework);
+  }
+
+  var header = renderer_helper.getFrameworkHeaders(headers, frameworks);
+  if (((css || javascript) && html) || (javascript && !html && !css)) {
     return renderer_helper.getHTML(html, header, css, javascript);
   }
-  return html;
+  return renderer_helper.getRawHTML(html, header);
 };

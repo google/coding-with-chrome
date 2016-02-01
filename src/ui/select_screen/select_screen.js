@@ -94,6 +94,10 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function() {
  * Renders and shows the select screen.
  */
 cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
+  var messageInstance = this.helper.getInstance('message');
+  if (messageInstance) {
+    messageInstance.hide();
+  }
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateSimpleSingleColumnLayout();
@@ -104,6 +108,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle('');
+    guiInstance.setStatus('');
   }
 };
 

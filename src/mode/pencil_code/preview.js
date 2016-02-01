@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.mode.pencilCode.Preview');
 
 goog.require('cwc.ui.Preview');

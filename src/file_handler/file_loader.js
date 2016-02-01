@@ -226,8 +226,11 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     'accepts': [{ 'extensions': this.extensions }]
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
-      this.helper.showWarning(chrome.runtime.lastError);
-      return;
+      var message = chrome.runtime.lastError.message;
+      if (message != 'User cancelled') {
+        this.helper.showWarning(message);
+        return;
+      }
     }
     if (file_entry && file_entry.isFile && !file_entries) {
       file_entry.file(function(file) {

@@ -33,7 +33,15 @@ goog.require('goog.dom');
  */
 cwc.framework.simple.Command = function(opt_target) {
   /** @type {Element} */
-  this.target = opt_target || document.body;
+  this.target = opt_target;
+};
+
+
+/**
+ * @export
+ */
+cwc.framework.simple.Command.prototype.getTarget = function() {
+  return this.target || document.body;
 };
 
 
@@ -53,7 +61,7 @@ cwc.framework.simple.Command.prototype.write = function(text) {
  */
 cwc.framework.simple.Command.prototype.mapGlobal = function() {
   if (!window) {
-    throw 'Window name space is not avalible in this instance.';
+    throw 'Window name space is not available in this instance.';
   }
   window['write'] = this.write.bind(this);
 };
@@ -65,7 +73,8 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
  * @private
  */
 cwc.framework.simple.Command.prototype.addNode_ = function(node) {
-  if (node && this.target) {
-    goog.dom.appendChild(this.target, node);
+  var target = this.getTarget();
+  if (node && target) {
+    goog.dom.appendChild(target, node);
   }
 };

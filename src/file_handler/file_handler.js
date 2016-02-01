@@ -93,8 +93,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
  * @param {string=} opt_group
  * @return {cwc.fileHandler.File}
  */
-cwc.fileHandler.File.prototype.getLibraryFile = function(name,
-    opt_group) {
+cwc.fileHandler.File.prototype.getLibraryFile = function(name, opt_group) {
   return this.file_.getFiles().getFile(name, opt_group);
 };
 
@@ -236,8 +235,7 @@ cwc.fileHandler.File.prototype.getFileTitle = function() {
 /**
  * @param {!Object} file_handler
  */
-cwc.fileHandler.File.prototype.setFileHandler = function(
-    file_handler) {
+cwc.fileHandler.File.prototype.setFileHandler = function(file_handler) {
   this.fileHandler_ = file_handler;
   this.gDriveId_ = '';
   console.log('setFileHandler:', file_handler);
@@ -273,8 +271,7 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
 /**
  * @param {boolean} unsaved_change
  */
-cwc.fileHandler.File.prototype.setUnsavedChange = function(
-    unsaved_change) {
+cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {
   this.hasUnsavedChange_ = unsaved_change;
 };
 

@@ -25,10 +25,11 @@ closureBuilder.build({
   name: 'cwc.framework.Arduino',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/arduino/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/arduino_framework.js'
 });
@@ -38,10 +39,12 @@ closureBuilder.build({
   name: 'cwc.framework.Ev3',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/ev3/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/frameworks/runner/runner.js',
+    'src/protocol/ev3/*.js',
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/ev3_framework.js'
 });
@@ -51,10 +54,11 @@ closureBuilder.build({
   name: 'cwc.framework.Sphero',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/sphero/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/sphero_framework.js'
 });
@@ -64,10 +68,11 @@ closureBuilder.build({
   name: 'cwc.framework.Turtle',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/turtle/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
   ]),
   externs: [
     'build/externs/jquery.js'
@@ -80,10 +85,11 @@ closureBuilder.build({
   name: 'cwc.framework.TTS',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/tts/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/tts_framework.js'
 });
@@ -93,10 +99,10 @@ closureBuilder.build({
   name: 'cwc.framework.Runner',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/runner/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/runner_framework.js'
 });
@@ -106,10 +112,12 @@ closureBuilder.build({
   name: 'cwc.framework.simple.Loader',
   compress: true,
   srcs: glob([
-    'src/frameworks/**/*.js'
+    'src/frameworks/simple/*.js'
   ]),
   deps: glob([
-    'src/**/*.js'
+    'src/config/config.js',
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
   ]),
   out: 'genfiles/frameworks/internal/simple_framework.js'
 });

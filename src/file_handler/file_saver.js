@@ -179,13 +179,12 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name,
   var prepareSaveFile = function(file_entry) {
     this.prepareSaveFile(file_entry, name, content, opt_callback,
         opt_callback_scope);
-  };
-  var selectFileHandler = prepareSaveFile.bind(this);
+  }.bind(this);
   console.log('Select file to save content for', name);
   chrome.fileSystem.chooseEntry({
     'type': 'saveFile',
     'suggestedName': name
-  }, selectFileHandler);
+  }, prepareSaveFile);
 };
 
 
@@ -198,11 +197,16 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name,
  */
 cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
     file_entry, name, content, opt_callback, opt_callback_scope) {
-  var fileWriter = this.fileWriterHandler.bind(this);
+  if (!file_entry) {
+    console.log('No file was selected for', name);
+    return;
+  }
+
   console.log('Prepare fileWriter for', name);
+  var fileWriter = this.fileWriterHandler.bind(this);
   file_entry.createWriter(function(writer) {
     fileWriter(writer, name, content, file_entry, opt_callback,
-        opt_callback_scope);
+      opt_callback_scope);
   });
 };
 

@@ -567,6 +567,10 @@ cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
       this.toolbar.enableUndoButton(this.modified);
     }
   }
+  var guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.setStatus(this.modified ? '*' : '');
+  }
   this.eventHandler.dispatchEvent(goog.ui.Component.EventType.CHANGE);
 };
 

@@ -22,7 +22,7 @@ goog.provide('cwc.mode.basic.blockly.Mod');
 goog.require('cwc.mode.basic.Preview');
 goog.require('cwc.mode.basic.blockly.Editor');
 goog.require('cwc.mode.basic.blockly.Layout');
-goog.require('cwc.renderer.external.Simple');
+goog.require('cwc.renderer.internal.HTML5');
 goog.require('cwc.utils.Helper');
 
 
@@ -42,7 +42,7 @@ cwc.mode.basic.blockly.Mod = function(helper) {
   this.preview = new cwc.mode.basic.Preview(helper);
 
   /** @type {cwc.renderer.external.Simple} */
-  this.renderer = new cwc.renderer.external.Simple(helper);
+  this.renderer = new cwc.renderer.internal.HTML5(helper);
 };
 
 

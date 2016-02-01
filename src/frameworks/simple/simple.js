@@ -21,58 +21,27 @@ goog.provide('cwc.framework.simple.Loader');
 
 goog.require('cwc.framework.simple.Command');
 goog.require('cwc.framework.simple.Draw');
-goog.require('goog.dom');
 
 
 
 /**
- * @param {Element=} opt_target
- * @constructor
- * @struct
- * @final
  * @export
  */
-cwc.framework.simple.Loader = function(opt_target) {
-
-  /** @type {Element} */
-  this.target = opt_target || document.body;
+cwc.framework.simple.Loader.mapFramework = function() {
 
   /** @type {cwc.framework.simple.Command} */
-  this.commandFramework = new cwc.framework.simple.Command(
-      this.target);
+  var commandFramework = new cwc.framework.simple.Command();
 
   /** @type {cwc.framework.simple.Draw} */
-  this.drawFramework = new cwc.framework.simple.Draw(
-      this.target);
-};
+  var drawFramework = new cwc.framework.simple.Draw();
 
-
-/**
- * @return {cwc.framework.simple.Command}
- * @export
- */
-cwc.framework.simple.Loader.prototype.getCommandFramework = function() {
-  return this.commandFramework;
-};
-
-
-/**
- * @return {cwc.framework.simple.Draw}
- * @export
- */
-cwc.framework.simple.Loader.prototype.getDrawFramework = function() {
-  return this.drawFramework;
-};
-
-
-/**
- * @export
- */
-cwc.framework.simple.Loader.prototype.mapFramework = function() {
-  if (this.commandFramework) {
-    this.commandFramework.mapGlobal();
+  if (commandFramework) {
+    commandFramework.mapGlobal();
   }
-  if (this.drawFramework) {
-    this.drawFramework.mapGlobal();
+  if (drawFramework) {
+    drawFramework.mapGlobal();
   }
 };
+
+
+cwc.framework.simple.Loader.mapFramework();

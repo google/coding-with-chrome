@@ -74,7 +74,7 @@ cwc.renderer.external.Simple.prototype.render = function(
   var css = (cwc.file.ContentType.CSS in editor_content) ?
       editor_content[cwc.file.ContentType.CSS] : '';
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
-  var payload = 'new cwc.framework.simple.Loader().mapFramework();';
+  var payload = 'cwc.framework.simple.Loader.mapFramework();';
   var body = html + renderer_helper.getJavaScript(payload);
   html = renderer_helper.getHTML(body, header, css, javascript);
   return html;

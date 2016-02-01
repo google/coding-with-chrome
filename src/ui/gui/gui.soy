@@ -31,6 +31,7 @@
     <header id="{$prefix}header">
       <div id="{$prefix}titlebar">
         <div id="{$prefix}title">{$opt_title ? $opt_title : 'Untitled Project'}</div>
+        <div id="{$prefix}status">*</div>
       </div>
       <div id="{$prefix}message"></div>
       <div id="{$prefix}bar">
@@ -82,6 +83,12 @@
     -webkit-app-region: drag;
   {rb}
 
+  #{$prefix}bar *,
+  #{$prefix}message *,
+  #{$prefix}titlebar *{lb}
+    -webkit-app-region: no-drag;
+  {rb}
+
   #{$prefix}message {lb}
     position: absolute;
     top: 35px;
@@ -89,19 +96,10 @@
     z-index: 10;
   {rb}
 
-  #{$prefix}message *{lb}
-    -webkit-app-region: no-drag;
-  {rb}
-
-  #{$prefix}bar *{lb}
-    -webkit-app-region: no-drag;
-  {rb}
-
-  #{$prefix}titlebar *{lb}
+  #{$prefix}titlebar {lb}
     position: absolute;
     top: 5px;
     left: 50px;
-    -webkit-app-region: no-drag;
   {rb}
 
   #{$prefix}title {lb}
@@ -110,6 +108,11 @@
     font-size: 18px;
     font-style: italic;
     display: inline;
+  {rb}
+
+  #{$prefix}status {lb}
+    float: right;
+    margin-left: 5px;
   {rb}
 
   #{$prefix}layout{lb}

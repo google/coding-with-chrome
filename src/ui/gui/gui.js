@@ -142,9 +142,21 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
  * @param {string} title Title to display in the gui.
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
-  var titleNode = goog.dom.getElement(this.prefix + 'title');
-  if (titleNode && title !== undefined) {
-    goog.dom.setTextContent(titleNode, title);
+  var node = goog.dom.getElement(this.prefix + 'title');
+  if (node && title !== undefined) {
+    goog.dom.setTextContent(node, title);
+  }
+};
+
+
+/**
+ * Sets the status of the gui.
+ * @param {string} status Status to display in the gui.
+ */
+cwc.ui.Gui.prototype.setStatus = function(status) {
+  var node = goog.dom.getElement(this.prefix + 'status');
+  if (node && status !== undefined) {
+    goog.dom.setTextContent(node, status);
   }
 };
 
