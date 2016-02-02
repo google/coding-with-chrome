@@ -80,20 +80,33 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   // General features
   this.set('bluetooth', goog.isObject(chrome.bluetooth), group);
   this.set('bluetoothSocket', goog.isObject(chrome.bluetoothSocket), group);
-  this.set('tts', goog.isObject(chrome.tts), group);
-  this.set('sockets', goog.isObject(chrome.sockets), group);
   this.set('serial', goog.isObject(chrome.serial), group);
   this.set('system.memory', goog.isObject(chrome.system.memory), group);
-  this.set('manifest', goog.isObject(chrome.runtime.getManifest), group);
-  this.set('tcp', goog.isObject(chrome.sockets.tcp), group);
-  this.set('udp', goog.isObject(chrome.sockets.udp), group);
+  this.set('tts', goog.isObject(chrome.tts), group);
   this.set('usb', goog.isObject(chrome.usb), group);
-  this.set('tcpServer', goog.isObject(chrome.sockets.tcpServer), group);
 
-  // Manifest specific
-  var manifest = chrome.runtime.getManifest();
-  this.set('oauth2', typeof manifest.oauth2 != 'undefined', group);
-  this.set('key', typeof manifest.key != 'undefined', group);
+  // Sockets
+  this.set('sockets', goog.isObject(chrome.sockets), group);
+  if (this.get('sockets', group)) {
+    this.set('tcp', goog.isObject(chrome.sockets.tcp), group);
+    this.set('udp', goog.isObject(chrome.sockets.udp), group);
+    this.set('tcpServer', goog.isObject(chrome.sockets.tcpServer), group);
+  } else {
+    this.set('tcp', false, group);
+    this.set('udp', false, group);
+    this.set('tcpServer', false, group);
+  }
+
+  // Manifest
+  this.set('manifest', goog.isObject(chrome.runtime.getManifest), group);
+  if (this.get('manifest', group)) {
+    var manifest = chrome.runtime.getManifest();
+    this.set('oauth2', typeof manifest.oauth2 != 'undefined', group);
+    this.set('key', typeof manifest.key != 'undefined', group);
+  } else {
+    this.set('oauth2', false, group);
+    this.set('key', false, group);
+  }
 };
 
 
@@ -105,11 +118,10 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
 cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
   var group = 'js';
   this.set('codemirror', typeof window['CodeMirror'] != 'undefined', group);
-  this.set('jshint', typeof window['JSHINT'] != 'undefined', group);
-  this.set('htmlhint', typeof window['HTMLHint'] != 'undefined', group);
   this.set('coffeelint', typeof window['coffeelint'] != 'undefined', group);
-  this.set('coffeescript', typeof window['CoffeeScript'] != 'undefined',
-      group);
+  this.set('coffeescript', typeof window['CoffeeScript'] != 'undefined', group);
+  this.set('htmlhint', typeof window['HTMLHint'] != 'undefined', group);
+  this.set('jshint', typeof window['JSHINT'] != 'undefined', group);
 };
 
 
