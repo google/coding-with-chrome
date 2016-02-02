@@ -39,11 +39,6 @@
     "low_energy": true,
     "socket": true
   },
-  "sockets": {
-    "tcpServer": {
-      "listen": "127.0.0.1:80"
-    }
-  },
   "permissions": [
     "clipboardRead",
     "clipboardWrite",
