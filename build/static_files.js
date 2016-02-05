@@ -26,7 +26,6 @@ closureBuilder.build({
   resources: [
     'app/_locales/',
     'app/css/',
-    'app/fonts/',
     'app/html/',
     'app/icons/',
     'app/images/',

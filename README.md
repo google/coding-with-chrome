@@ -2,6 +2,7 @@ Coding with Chrome
 ==================
 
 [![Code Climate](https://codeclimate.com/github/google/coding-with-chrome/badges/gpa.svg)](https://codeclimate.com/github/google/coding-with-chrome)
+[![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome)
 
 Coding with Chrome is an Educational Development Environment built around two
 core philosophies:
@@ -19,27 +20,35 @@ core philosophies:
     * Tutorial engine for self learning
 
 ## Licensing
-Apache License, Version 2.0 see LICENSE.md
+Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 
 
 ## What you need to build your own Coding with Chrome App
 In order to build the Coding with Chrome App, you only need to have Node.js/npm.
 If you want to clone/copy the Coding with Chrome App repo, you need git as well.
 
+Each build is cross platform compatible. Which mean if you build the
+Coding with Chrome App for e.g. on Windows you could use the generated code
+`genfiles/` folder on the other platforms as well.
+
+
 ### Windows
 Install Node.js from the offical webpage at https://nodejs.org
-Optional: Install git from the offical webpage at https://git-scm.com/
-Optional: Install Java JRE
+* Optional
+  * Install git from the offical webpage at https://git-scm.com/
+  * Install Java JRE
 
 ### Mac OS X
 Install Node.js from the offical webpage at https://nodejs.org
-Optional: Install git from the offical webpage at https://git-scm.com/
-Optional: Install Java JRE
+* Optional
+  * Install git from the offical webpage at https://git-scm.com/
+  * Install Java JRE
 
 ### Linux/BSD
 Use your package manager to install Node.js, or build from source.
-Optional: Use your package manager to install git, or build from source.
-Optional: Install Open JDK or Java JRE
+* Optional
+  * Use your package manager to install git, or build from source.
+  * Install Open JDK or Java JRE
 
 
 ## How to build your own Coding with Chrome App
@@ -128,7 +137,7 @@ If you want to help with the translation perform the following steps:
 * Navigate around in the UI part you want to translate
 * Open the Chrome Developer Tools inside the Coding with Chrome App
 * Type the following command into the console:
-```
+```javascript
 i18n.getToDo()
 ```
 This will return a list of all untranslated text for your language.
@@ -138,7 +147,7 @@ Add your translations to the output and place them into the file
 ### Google Drive support (experimental)
 To enable the experimental Google Drive support add your application key and
 your api key to the `app/manifest.json` file:
-```
+```json
 …
   "description": "Coding with Chrome.",
   "key": "MIIBIjANBgkqhki…",
@@ -157,3 +166,7 @@ guarantee this code is error free. Please make sure that you back up your
 Google Drive data, or only use test accounts without critical files or data.
 
 See: https://developer.chrome.com/apps/app_identity
+
+
+## Credits
+See [NOTICE.md](NOTICE.md)
