@@ -213,8 +213,8 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
 
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Google Drive');
-  dialog.setContent(cwc.soy.GDrive.gDriveTemplate({
-    'prefix': this.prefix}));
+  dialog.setSafeHtmlContent(cwc.soy.GDrive.gDriveTemplate({
+    'prefix': this.prefix}).toSafeHtml());
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();

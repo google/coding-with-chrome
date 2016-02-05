@@ -29,12 +29,14 @@ goog.require('cwc.ui.RunnerTerminal');
 goog.require('cwc.ui.RunnerToolbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
+goog.require('goog.html.SafeHtml');
 goog.require('goog.math');
 goog.require('goog.soy');
 goog.require('goog.style');
@@ -773,7 +775,10 @@ cwc.ui.Runner.prototype.handleUnresponsive = function(opt_event) {
 
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Unresponsive Warning');
-  dialog.setContent('The runner is unresponsive, terminate ?');
+  dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
+      'The runner is unresponsive!',
+      goog.html.SafeHtml.BR,
+      goog.html.SafeHtml.create('b', {}, 'Terminate?')));
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
   dialog.setDisposeOnHide(true);
   dialog.render();

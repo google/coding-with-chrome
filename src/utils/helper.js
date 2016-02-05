@@ -27,10 +27,13 @@ goog.require('cwc.config.Prefix');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
+
 goog.require('goog.dom');
 goog.require('goog.dom.classes');
+goog.require('goog.html.SafeHtml');
 goog.require('goog.style');
 goog.require('goog.ui.Button');
+goog.require('goog.ui.Dialog');
 goog.require('goog.ui.ToolbarButton');
 goog.require('goog.ui.ToolbarToggleButton');
 
@@ -448,7 +451,10 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
   console.log('File was modified:', fileModified);
   if (fileModified) {
     dialog.setTitle('Unsaved Changes for ' + fileName);
-    dialog.setContent('Changes have not been saved. Exit?');
+    dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
+      'Changes have not been saved.',
+      goog.html.SafeHtml.BR,
+      goog.html.SafeHtml.create('b', {}, 'Exit?')));
     dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
     dialog.setDisposeOnHide(true);
     dialog.render();

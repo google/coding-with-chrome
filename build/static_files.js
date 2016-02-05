@@ -52,3 +52,13 @@ closureBuilder.build({
   ]),
   out: 'genfiles/images/'
 });
+
+
+closureBuilder.build({
+  name: 'Markdown files',
+  markdown: [
+    'LICENSE.md',
+    'NOTICE.md'
+  ],
+  out: 'genfiles/'
+});

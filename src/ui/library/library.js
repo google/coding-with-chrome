@@ -162,8 +162,8 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
  */
 cwc.ui.Library.prototype.showLibrary = function() {
   this.dialog.setTitle('File Library');
-  this.dialog.setContent(cwc.soy.Library.template({
-    'prefix': this.prefix}));
+  this.dialog.setSafeHtmlContent(cwc.soy.Library.template({
+    'prefix': this.prefix}).toSafeHtml());
   this.dialog.setButtonSet(null);
   this.dialog.setDisposeOnHide(true);
   if (!this.dialog.isInDocument()) {

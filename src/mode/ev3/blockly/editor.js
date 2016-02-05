@@ -25,6 +25,7 @@ goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.html.SafeHtml');
 goog.require('goog.ui.Dialog');
 
 
@@ -158,8 +159,10 @@ cwc.mode.ev3.blockly.Editor.prototype.showBlockly = function() {
   var fileInstance = this.helper.getInstance('file');
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Warning');
-  dialog.setContent('Switching to Blockly mode will overwrite any manual ' +
-      'changes!<br><b>Continue?</b>');
+  dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
+      'Switching to Blockly mode will overwrite any manual changes!',
+      goog.html.SafeHtml.BR,
+      goog.html.SafeHtml.create('b', {}, 'Continue?')));
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
   dialog.setDisposeOnHide(true);
   dialog.render();

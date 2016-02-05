@@ -1,13 +1,13 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.2.2",
+  "version": "2.2.5",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
-    "closure-builder": "^1.0.27",
+    "closure-builder": "^1.0.31",
     "codemirror": "^5.10.0",
     "csslint": "^0.10.0",
     "htmlhint": "^0.9.12",

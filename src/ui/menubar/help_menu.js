@@ -23,6 +23,7 @@ goog.require('cwc.soy.Help');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.html.SafeHtml');
 goog.require('goog.soy');
 goog.require('goog.ui.Dialog');
 
@@ -47,7 +48,7 @@ cwc.HelpMenu = function(helper) {
 cwc.HelpMenu.prototype.showFirstSteps = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: First Steps');
-  dialog.setContent(cwc.soy.Help.firstSteps());
+  dialog.setSafeHtmlContent(cwc.soy.Help.firstSteps().toSafeHtml());
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
@@ -62,7 +63,7 @@ cwc.HelpMenu.prototype.showFirstSteps = function(opt_event) {
 cwc.HelpMenu.prototype.showHelp = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: Help');
-  dialog.setContent('Not implemented yet …');
+  dialog.setSafeHtmlContent('Not implemented yet ...');
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
@@ -77,8 +78,8 @@ cwc.HelpMenu.prototype.showHelp = function(opt_event) {
 cwc.HelpMenu.prototype.showAbout = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('About Coding with Chrome');
-  dialog.setContent(cwc.soy.Help.about({
-    'manifest': chrome.runtime.getManifest()}));
+  dialog.setSafeHtmlContent(cwc.soy.Help.about({
+    'manifest': chrome.runtime.getManifest()}).toSafeHtml());
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
@@ -106,7 +107,7 @@ cwc.HelpMenu.prototype.showDebug = function(opt_event) {
 cwc.HelpMenu.prototype.showKeyboardShortcut = function(opt_event) {
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Coding with Chrome: Keyboard Shortcuts');
-  dialog.setContent(cwc.soy.Help.keyboardShortcut());
+  dialog.setSafeHtmlContent(cwc.soy.Help.keyboardShortcut().toSafeHtml());
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();

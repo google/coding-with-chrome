@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.ui.Preview');
 goog.provide('cwc.ui.PreviewStatus');
 
@@ -25,13 +24,16 @@ goog.require('cwc.soy.Preview');
 goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewToolbar');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
+goog.require('goog.html.SafeHtml');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
+goog.require('goog.ui.Dialog');
 
 
 /**
@@ -414,7 +416,10 @@ cwc.ui.Preview.prototype.handleUnresponsive = function(opt_event) {
 
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Unresponsive Warning');
-  dialog.setContent('The preview is unresponsive, terminate ?');
+  dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
+      'The preview is unresponsive!',
+      goog.html.SafeHtml.BR,
+      goog.html.SafeHtml.create('b', {}, 'Terminate?')));
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
   dialog.setDisposeOnHide(true);
   dialog.render();
