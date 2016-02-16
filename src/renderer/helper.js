@@ -153,7 +153,7 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
 
   try {
     dataUrl = 'data:' + dataType + ';base64,' + btoa(content);
-  } catch(err) {
+  } catch (err) {
     dataUrl = 'data:' + dataType + ';charset=utf-8,' +
       encodeURIComponent(content);
   }

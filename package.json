@@ -35,9 +35,6 @@
     "test-core": "npm run build && karma start core_tests.conf",
 
     "build": "npm run build-static-files && npm run build-remote-files && npm run build-extra-files && npm run rebuild",
-    "prebuild": "npm run lint",
-    "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",
-
     "build-cwc-files": "node build/cwc_files.js",
     "build-extra-files": "node build/extra_files.js",
     "build-remote-files": "node build/remote_files.js",
@@ -46,6 +43,7 @@
     "build-framework-files":  "npm run build-external-frameworks && npm run build-internal-frameworks",
     "build-external-frameworks": "node build/external_frameworks.js",
     "build-internal-frameworks": "node build/internal_frameworks.js",
+    "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",
 
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",

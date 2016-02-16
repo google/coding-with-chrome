@@ -16,7 +16,7 @@ rules:
     - 2
     - always
   comma-spacing: 2
-  space-return-throw-case: 2
+  keyword-spacing: 2
   space-before-function-paren: [2, "never"]
   no-mixed-spaces-and-tabs: 2
   no-unused-vars: [2, {"args": "after-used", "argsIgnorePattern": "^opt_"}]
