@@ -31,6 +31,6 @@
   text-decoration: none;
 }
 
-.goog-link :hover {
+.goog-link:hover {
   text-decoration: underline;
 }

@@ -70,9 +70,6 @@ cwc.ui.Menubar = function(helper) {
   this.nodeMenu = null;
 
   /** @type {Element} */
-  this.nodeNew = null;
-
-  /** @type {Element} */
   this.nodeHelp = null;
 
   /** @type {Element} */
@@ -106,10 +103,16 @@ cwc.ui.Menubar = function(helper) {
   this.nodeHelpMenu = null;
 
   /** @type {Element} */
-  this.nodeNewMenu = null;
+  this.nodeSettings = null;
 
   /** @type {Element} */
-  this.nodeSettings = null;
+  this.nodeMinimizeButton = null;
+
+  /** @type {Element} */
+  this.nodeMaximizeButton = null;
+
+  /** @type {Element} */
+  this.nodeRestoreButton = null;
 
   /** @type {boolean} */
   this.bluetooth = false;
@@ -143,6 +146,14 @@ cwc.ui.Menubar = function(helper) {
   /** @type {!goog.ui.Button} */
   this.minimizeButton = cwc.ui.Helper.getIconButton(
       'photo_size_select_small', 'minimize', this.minimizeWindow.bind(this));
+
+  /** @type {!goog.ui.Button} */
+  this.maximizeButton = cwc.ui.Helper.getIconButton(
+      'fullscreen', 'maximize', this.maximizeWindow.bind(this));
+
+  /** @type {!goog.ui.Button} */
+  this.restoreButton = cwc.ui.Helper.getIconButton(
+      'fullscreen_exit', 'restore', this.restoreWindow.bind(this));
 
   /** @type {!goog.ui.Button} */
   this.accountLogin = cwc.ui.Helper.getIconButton(
@@ -208,10 +219,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   this.menu.render(this.nodeMenu);
   this.decorateMainMenu_(this.nodeMenu);
 
-  // New icon
-  this.nodeNewMenu = goog.dom.getElement(this.prefix + 'new');
-  this.menuNew.render(this.nodeNewMenu);
-
   // Bluetooth icons
   if (this.helper.checkChromeFeature('bluetooth')) {
     this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
@@ -266,6 +273,18 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
   this.minimizeButton.render(this.nodeMinimizeButton);
 
+  // Maximize icon
+  this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
+  this.maximizeButton.render(this.nodeMaximizeButton);
+
+  // Restore icon
+  this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
+  this.restoreButton.render(this.nodeRestoreButton);
+  goog.style.setElementShown(this.nodeMaximizeButton,
+    !chrome.app.window.current().isMaximized());
+  goog.style.setElementShown(this.nodeRestoreButton,
+    chrome.app.window.current().isMaximized());
+
   // Close icon
   this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
   this.closeButton.render(this.nodeCloseButton);
@@ -315,15 +334,15 @@ cwc.ui.Menubar.prototype.decorateHelpMenu_ = function(node) {
   var menu = new goog.ui.PopupMenu();
   var helpMenu = new cwc.HelpMenu(this.helper);
   var menuFirstSteps = cwc.ui.Helper.getMenuItem('First Steps',
-      helpMenu.showFirstSteps, this);
+      helpMenu.showFirstSteps, helpMenu);
   var menuHelp = cwc.ui.Helper.getMenuItem('Help',
-      helpMenu.showHelp, this);
+      helpMenu.showHelp, helpMenu);
   var menuShortcuts = cwc.ui.Helper.getMenuItem('Keyboard Shortcuts',
-      helpMenu.showKeyboardShortcut, this);
+      helpMenu.showKeyboardShortcut, helpMenu);
   var menuAbout = cwc.ui.Helper.getMenuItem('About Coding with Chrome',
-      helpMenu.showAbout, this);
+      helpMenu.showAbout, helpMenu);
   var menuDebug = cwc.ui.Helper.getMenuItem('Debug',
-        helpMenu.showDebug, this);
+        helpMenu.showDebug, helpMenu);
   menu.attach(node, goog.positioning.Corner.BOTTOM_START);
   menu.addChild(menuFirstSteps, true);
   menu.addChild(new goog.ui.Separator, true);
@@ -341,7 +360,7 @@ cwc.ui.Menubar.prototype.decorateHelpMenu_ = function(node) {
 
 /**
  * Sets authentication for the current view.
- * @param {boolean} auth Determinate if user is authentificated.
+ * @param {boolean} auth Determinate if user is authenticated.
  */
 cwc.ui.Menubar.prototype.setAuthenticated = function(auth) {
   if (this.fileMenu) {
@@ -403,10 +422,30 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
 
 
 /**
- * Minimized editor window.
+ * Minimize editor window.
  */
 cwc.ui.Menubar.prototype.minimizeWindow = function() {
   chrome.app.window.current().minimize();
+};
+
+
+/**
+ * Maximize editor window.
+ */
+cwc.ui.Menubar.prototype.maximizeWindow = function() {
+  chrome.app.window.current().maximize();
+  goog.style.setElementShown(this.nodeMaximizeButton, false);
+  goog.style.setElementShown(this.nodeRestoreButton, true);
+};
+
+
+/**
+ * Restore editor window.
+ */
+cwc.ui.Menubar.prototype.restoreWindow = function() {
+  chrome.app.window.current().restore();
+  goog.style.setElementShown(this.nodeMaximizeButton, true);
+  goog.style.setElementShown(this.nodeRestoreButton, false);
 };
 
 

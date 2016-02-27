@@ -6,7 +6,7 @@
   },
   "manifest_version": 2,
   "name": "Coding with Chrome",
-  "version": "2.2.5",
+  "version": "2.2.27",
   "default_locale": "en",
   "description": "An Educational IDE showing off various Google EDU technologies.",
   "icons": {
@@ -28,6 +28,19 @@
         "text/*"
       ]
     }
+  },
+  "sandbox": {
+    "pages": [
+      "LICENSE.html",
+      "NOTICE.html"
+    ]
+  },
+  "webview": {
+    "partitions": [{
+        "name": "static",
+        "accessible_resources": ["LICENSE.html", "NOTICE.html"]
+      }
+    ]
   },
   "minimum_chrome_version": "38",
   "offline_enabled": true,

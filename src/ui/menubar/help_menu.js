@@ -83,6 +83,29 @@ cwc.HelpMenu.prototype.showAbout = function(opt_event) {
   dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
   dialog.setDisposeOnHide(true);
   dialog.render();
+  var noticeLink = goog.dom.getElement('notice-link');
+  goog.events.listen(noticeLink, goog.events.EventType.CLICK,
+    this.showNotice, false, this);
+  dialog.setVisible(true);
+};
+
+
+/**
+ * Shows the notice information.
+ * @param {Event=} opt_event
+ */
+cwc.HelpMenu.prototype.showNotice = function(opt_event) {
+  var dialog = new goog.ui.Dialog();
+  dialog.setTitle('Coding with Chrome Credits');
+  dialog.setSafeHtmlContent(cwc.soy.Help.notice({
+    'manifest': chrome.runtime.getManifest()}).toSafeHtml());
+  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
+  dialog.setDisposeOnHide(true);
+  dialog.render();
+  var noticeWebview = goog.dom.getElement('webview-notice');
+  noticeWebview.addEventListener('contentload', function() {
+    noticeWebview.insertCSS({ code: 'html {overflow-y: scroll;}'});
+  }.bind(this));
   dialog.setVisible(true);
 };
 

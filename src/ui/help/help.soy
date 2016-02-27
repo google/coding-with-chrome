@@ -21,13 +21,32 @@
 
 
 /**
- * Manifest template.
+ * About Coding with Chrome.
  */
 {template .about}
   {@param manifest: ?}
-  <h3>{$manifest['name']}</h3>
-  <b>Version:</b> {$manifest['version']}<br>
+  <img src="/images/cwc_logo.png" alt="{$manifest['name']}"
+    style="display: block; margin: auto;">
+  <p>
+    Version {$manifest['version']}<br>
+    Copyright 2015 Google Inc. All Rights Reserved.<br>
+    <br>
+    <a href="https://github.com/google/coding-with-chrome" target="_blank"
+      class="goog-link">{$manifest['name']}</a>
+    &nbsp;is made possible by other&nbsp;
+    <span id="notice-link" class="goog-link">open source software</span>.
+  </p>
 {/template}
+
+
+/**
+ * Notice information.
+ */
+{template .notice}
+  <webview id="webview-notice" partition="static"
+    src="/NOTICE.html" style="width: 500px; height: 500px;"></webview>
+{/template}
+
 
 /**
  * Keyboard shortcuts.
@@ -57,6 +76,7 @@
     <dt>Shift-Ctrl-R / Shift-Cmd-Option-F</dt><dd>Replace all</dd>
   </dl>
 {/template}
+
 
 /**
  * First steps.
