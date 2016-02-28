@@ -62,8 +62,7 @@ cwc.runner.profile.ev3.Command.prototype.showImage = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
-  this.api.moveServo(data['steps'], data['invert'], data['speed'],
-      data['delay']);
+  this.api.moveServo(data['steps'], data['speed'], data['delay']);
 };
 
 
@@ -71,8 +70,7 @@ cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
-  this.api.moveServo(data['steps'], data['invert'], data['speed'],
-      data['delay']);
+  this.api.moveServo(data['steps'], data['speed'], data['delay']);
 };
 
 
@@ -80,8 +78,7 @@ cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
-  this.api.moveSteps(data['steps'], data['invert'], data['speed'],
-      data['delay']);
+  this.api.moveSteps(data['steps'], data['speed'], data['delay']);
 };
 
 
@@ -89,8 +86,8 @@ cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.rotateAngle = function(data) {
-  this.api.rotateAngle(data['angle'], data['invert'], data['speed'],
-      data['ratio'], data['delay']);
+  this.api.rotateAngle(data['angle'], data['speed'], data['ratio'],
+      data['delay']);
 };
 
 
@@ -98,7 +95,7 @@ cwc.runner.profile.ev3.Command.prototype.rotateAngle = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.movePower = function(data) {
-  this.api.movePower(data['power'], data['invert'], data['delay']);
+  this.api.movePower(data['power'], data['delay']);
 };
 
 
@@ -106,8 +103,7 @@ cwc.runner.profile.ev3.Command.prototype.movePower = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.rotatePower = function(data) {
-  this.api.rotatePower(data['power'], data['opt_power'], data['invert'],
-      data['delay']);
+  this.api.rotatePower(data['power'], data['opt_power'], data['delay']);
 };
 
 

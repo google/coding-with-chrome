@@ -272,16 +272,13 @@ cwc.framework.Ev3.prototype.playSound = function(file_name, opt_volume,
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_speed
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
-    opt_speed, opt_delay) {
+cwc.framework.Ev3.prototype.moveServo = function(steps, opt_speed, opt_delay) {
   this.runner.send('moveServo', {
     'steps': steps,
-    'invert': opt_invert,
     'speed': opt_speed}, opt_delay);
 };
 
@@ -289,17 +286,15 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, opt_invert,
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_speed
  * @param {string=} opt_color
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePen = function(steps, opt_invert,
+cwc.framework.Ev3.prototype.movePen = function(steps,
     opt_speed, opt_color, opt_delay) {
   this.runner.send('movePen', {
     'steps': steps,
-    'invert': opt_invert,
     'speed': opt_speed,
     'color': opt_color}, opt_delay);
 };
@@ -308,34 +303,29 @@ cwc.framework.Ev3.prototype.movePen = function(steps, opt_invert,
 /**
  * Moves the motors for the predefined specific steps.
  * @param {!number} steps
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_speed
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_invert,
-    opt_speed, opt_delay) {
+cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
   this.runner.send('moveSteps', {
     'steps': steps,
-    'speed': opt_speed,
-    'invert': opt_invert}, opt_delay);
+    'speed': opt_speed}, opt_delay);
 };
 
 
 /**
  * Rotates the motors for the predefined specific steps.
  * @param {!number} angle
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_speed
  * @param {number=} opt_ratio
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotateAngle = function(angle, opt_invert, opt_speed,
-    opt_ratio, opt_delay) {
+cwc.framework.Ev3.prototype.rotateAngle = function(angle,
+    opt_speed, opt_ratio, opt_delay) {
   this.runner.send('rotateAngle', {
     'angle': angle,
-    'invert': opt_invert,
     'speed': opt_speed,
     'ratio': opt_ratio}, opt_delay);
 };
@@ -344,15 +334,11 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle, opt_invert, opt_speed,
 /**
  * Moves forward / backward with power.
  * @param {!number} power
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePower = function(power, opt_invert,
-    opt_delay) {
-  this.runner.send('movePower', {
-    'power': power,
-    'invert': opt_invert}, opt_delay);
+cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
+  this.runner.send('movePower', {'power': power}, opt_delay);
 };
 
 
@@ -360,16 +346,14 @@ cwc.framework.Ev3.prototype.movePower = function(power, opt_invert,
  * Rotates left / right with power.
  * @param {!number} power General power value.
  * @param {number=} opt_power Dedicated power value for the second motor.
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_delay in msec
  * @export
  */
 cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
-    opt_invert, opt_delay) {
+    opt_delay) {
   this.runner.send('rotatePower', {
     'power': power,
-    'opt_power': opt_power,
-    'invert': opt_invert}, opt_delay);
+    'opt_power': opt_power}, opt_delay);
 };
 
 

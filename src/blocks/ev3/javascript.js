@@ -62,8 +62,8 @@ Blockly.JavaScript['ev3_move'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'backwards';
   var delay = Number(text_steps) * 5 ;
-  var code = 'ev3.moveSteps(' + text_steps + ', ' + invert + ', null, ' +
-      delay + ');\n';
+  var code = 'ev3.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', ' + delay + ');\n';
   return code;
 };
 
@@ -75,7 +75,7 @@ Blockly.JavaScript['ev3_move'] = function(block) {
 Blockly.JavaScript['ev3_move_forward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', false, null, ' + delay + ');\n';
+  var code = 'ev3.moveSteps(' + text_steps + ', 50, ' + delay + ');\n';
   return code;
 };
 
@@ -87,7 +87,7 @@ Blockly.JavaScript['ev3_move_forward'] = function(block) {
 Blockly.JavaScript['ev3_move_backward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', true, null, ' + delay + ');\n';
+  var code = 'ev3.moveSteps(' + text_steps + ', -50, ' + delay + ');\n';
   return code;
 };
 
@@ -102,8 +102,8 @@ Blockly.JavaScript['ev3_move_pen'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'up';
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.movePen(' + text_steps + ', ' + invert + ', null, \'' +
-      colour + '\', ' + delay + ');\n';
+  var code = 'ev3.movePen(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', \'' + colour + '\', ' + delay + ');\n';
   return code;
 };
 
@@ -117,8 +117,8 @@ Blockly.JavaScript['ev3_move_servo'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'inverted';
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveServo(' + text_steps + ', ' + invert + ', null, ' +
-      delay + ');\n';
+  var code = 'ev3.moveServo(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', ' + delay + ');\n';
   return code;
 };
 
@@ -132,8 +132,9 @@ Blockly.JavaScript['ev3_rotate'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   var invert = dropdown_direction == 'left';
   var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', ' + invert +
-      ', null, null, ' + delay + ');\n';
+  var speed = invert ? -50 : 50;
+  var code = 'ev3.rotateAngle(' + angle_value + ', ' + speed + ', null, ' +
+    delay + ');\n';
   return code;
 };
 
@@ -145,8 +146,7 @@ Blockly.JavaScript['ev3_rotate'] = function(block) {
 Blockly.JavaScript['ev3_rotate_left'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', true, null, null, ' +
-      delay + ');\n';
+  var code = 'ev3.rotateAngle(' + angle_value + ', -50, null, ' + delay + ');\n';
   return code;
 };
 
@@ -158,8 +158,7 @@ Blockly.JavaScript['ev3_rotate_left'] = function(block) {
 Blockly.JavaScript['ev3_rotate_right'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', false, null, null, ' +
-      delay + ');\n';
+  var code = 'ev3.rotateAngle(' + angle_value + ', 50, null, ' + delay + ');\n';
   return code;
 };
 
@@ -195,8 +194,9 @@ Blockly.JavaScript['ev3_stop_immediately'] = function(opt_block) {
 Blockly.JavaScript['ev3_move_power'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
-  var invert = dropdown_direction == 'backwards';
-  var code = 'ev3.movePower(' + value_power + ', ' + invert + ');\n';
+  var invert = dropdown_direction == 'backward';
+  var code = 'ev3.movePower(' + (invert ? -value_power : value_power) +
+    ');\n';
   return code;
 };
 
@@ -209,8 +209,8 @@ Blockly.JavaScript['ev3_rotate_power'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
   var invert = dropdown_direction == 'left';
-  var code = 'ev3.rotatePower(' + value_power + ', ' + value_power + ',' +
-    invert + ');\n';
+  var power = (invert ? -value_power : value_power);
+  var code = 'ev3.rotatePower(' + power + ', ' + power + ');\n';
   return code;
 };
 

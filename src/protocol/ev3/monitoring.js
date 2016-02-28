@@ -167,7 +167,8 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
   if (opt_device_info) {
     this.deviceInfo = opt_device_info;
   }
-  if (!this.deviceInfo) {
+  if (!this.deviceInfo ||
+      !Object.getOwnPropertyNames(this.deviceInfo).length > 0) {
     return;
   }
   if (!this.started) {

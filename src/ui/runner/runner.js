@@ -633,7 +633,6 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
     this.toolbar.setRunStatus(true);
   }
   this.setContentUrl(contentUrl);
-  console.log('Locally executing code: ', contentUrl);
 };
 
 
