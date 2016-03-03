@@ -24,7 +24,6 @@ goog.require('cwc.soy.ui.Setting');
 goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 goog.require('goog.events');
-goog.require('goog.events.EventType');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.Option');

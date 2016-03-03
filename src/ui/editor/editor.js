@@ -20,20 +20,20 @@
 goog.provide('cwc.ui.Editor');
 
 goog.require('cwc.file.ContentType');
-goog.require('cwc.fileFormat.File');
 goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorToolbar');
-goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
-goog.require('goog.events.KeyCodes');
+goog.require('goog.events.EventTarget');
 goog.require('goog.soy');
 goog.require('goog.style');
 goog.require('goog.ui.Component.EventType');
+goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
 goog.require('goog.ui.ToolbarButton');
 

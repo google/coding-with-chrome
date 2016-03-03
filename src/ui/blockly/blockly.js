@@ -20,25 +20,7 @@
 goog.provide('cwc.ui.Blockly');
 
 goog.require('Blockly');
-goog.require('Blockly.Blocks.colour');
-goog.require('Blockly.Blocks.lists');
-goog.require('Blockly.Blocks.logic');
-goog.require('Blockly.Blocks.loops');
-goog.require('Blockly.Blocks.math');
-goog.require('Blockly.Blocks.procedures');
-goog.require('Blockly.Blocks.texts');
-goog.require('Blockly.Blocks.variables');
-goog.require('Blockly.JavaScript');
-goog.require('Blockly.JavaScript.colour');
-goog.require('Blockly.JavaScript.lists');
-goog.require('Blockly.JavaScript.logic');
-goog.require('Blockly.JavaScript.loops');
-goog.require('Blockly.JavaScript.math');
-goog.require('Blockly.JavaScript.procedures');
-goog.require('Blockly.JavaScript.texts');
-goog.require('Blockly.JavaScript.variables');
-goog.require('Blockly.Msg.en');
-goog.require('Blockly.Xml');
+goog.require('Blockly.Blocks');
 
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
@@ -47,8 +29,8 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
+goog.require('goog.math.Size');
 goog.require('goog.style');
-goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.ToolbarButton');
 
 
@@ -60,6 +42,7 @@ goog.require('goog.ui.ToolbarButton');
  * @final
  */
 cwc.ui.Blockly = function(helper) {
+
   /** @type {boolean} */
   this.css = false;
 
@@ -81,8 +64,11 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditorToolbox = null;
 
-  /** @type {Blockly} */
+  /** @type {!Blockly} */
   this.blockly = Blockly;
+
+  /** @type {!Blockly} */
+  this.blocks_ = Blockly.Blocks;
 
   /** @type {string} */
   this.mediaFiles = '../../external/blockly/';

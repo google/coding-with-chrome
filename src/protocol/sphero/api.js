@@ -27,6 +27,8 @@ goog.require('cwc.protocol.sphero.CallbackType');
 goog.require('cwc.protocol.sphero.Command');
 goog.require('cwc.protocol.sphero.Monitoring');
 
+goog.require('goog.events.EventTarget');
+
 
 
 /**
@@ -247,7 +249,7 @@ cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
     this.speed_ : opt_speed;
   var heading = this.heading_ = opt_heading === undefined ?
     this.heading_ : opt_heading;
-  var state = opt_state === undefined ? 0x01 : opt_state ;
+  var state = !opt_state ? 0x00 : 0x01;
   buffer.writeCommand(this.command.ROLL);
   buffer.writeByte(speed);
   buffer.writeUInt(heading);

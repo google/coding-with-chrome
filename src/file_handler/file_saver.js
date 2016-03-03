@@ -20,8 +20,6 @@
 goog.provide('cwc.fileHandler.FileSaver');
 
 goog.require('cwc.file.Extensions');
-goog.require('cwc.file.Type');
-goog.require('cwc.fileFormat.File');
 goog.require('cwc.fileHandler.Config');
 goog.require('cwc.utils.Helper');
 

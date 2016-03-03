@@ -32,7 +32,7 @@ goog.require('goog.dom');
  * @export
  */
 cwc.framework.simple.Command = function(opt_target) {
-  /** @type {Element} */
+  /** @type {Element|undefined} */
   this.target = opt_target;
 };
 

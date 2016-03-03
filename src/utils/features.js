@@ -22,7 +22,6 @@
 goog.provide('cwc.utils.Features');
 
 goog.require('cwc.utils.Logger');
-goog.require('goog.events.EventHandler');
 goog.require('goog.events.OnlineHandler');
 goog.require('goog.net.NetworkStatusMonitor');
 

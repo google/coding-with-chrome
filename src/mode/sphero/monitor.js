@@ -22,7 +22,6 @@ goog.provide('cwc.mode.sphero.Monitor');
 goog.require('cwc.soy.mode.sphero.Monitor');
 goog.require('cwc.ui.Helper');
 
-goog.require('goog.Timer');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');

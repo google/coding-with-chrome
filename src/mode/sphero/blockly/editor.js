@@ -36,6 +36,10 @@ goog.require('goog.ui.Dialog');
  * @final
  */
 cwc.mode.sphero.blockly.Editor = function(helper) {
+
+  /** @type {!cwc.blocks.sphero.Blocks} */
+  this.blocks = cwc.blocks.sphero.Blocks;
+
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
 

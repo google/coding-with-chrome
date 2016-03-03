@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.Library');
 
 goog.require('cwc.file.File');
-goog.require('cwc.file.Files');
 goog.require('cwc.soy.Library');
 goog.require('cwc.utils.Helper');
 goog.require('goog.dom');

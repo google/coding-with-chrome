@@ -29,14 +29,16 @@ goog.require('cwc.soy.ui.Layout.simpleTwoColumn');
 goog.require('cwc.soy.ui.Layout.singleColumn');
 goog.require('cwc.soy.ui.Layout.twoColumn');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.dom.classes');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
+goog.require('goog.math.Size');
 goog.require('goog.style');
-goog.require('goog.ui.Component.EventType');
+goog.require('goog.ui.Component');
 goog.require('goog.ui.SplitPane');
 goog.require('goog.ui.SplitPane.Orientation');
 

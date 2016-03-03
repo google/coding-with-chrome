@@ -28,14 +28,8 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
-goog.require('goog.dom');
-goog.require('goog.dom.classes');
 goog.require('goog.html.SafeHtml');
-goog.require('goog.style');
-goog.require('goog.ui.Button');
 goog.require('goog.ui.Dialog');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarToggleButton');
 
 
 
@@ -436,7 +430,7 @@ cwc.utils.Helper.prototype.getPrefix = function(
 
 
 /**
- * @param {function} func
+ * @param {Function} func
  */
 cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
   var dialog = new goog.ui.Dialog();

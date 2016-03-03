@@ -22,6 +22,9 @@ goog.provide('cwc.ui.ExampleMenu');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.ui.Separator');
+goog.require('goog.ui.SubMenu');
+
 
 
 /**

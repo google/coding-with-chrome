@@ -21,9 +21,6 @@ goog.provide('cwc.ui.RunnerTerminal');
 
 goog.require('cwc.soy.RunnerTerminal');
 
-goog.require('goog.debug.DivConsole');
-goog.require('goog.debug.HtmlFormatter');
-
 
 
 /**

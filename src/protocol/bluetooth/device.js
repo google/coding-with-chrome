@@ -227,7 +227,7 @@ cwc.protocol.bluetooth.Device.prototype.getSocket = function() {
 
 
 /**
- * @param {function=} opt_callback Will be only called  after an connection.
+ * @param {Function} opt_callback Will be only called  after an connection.
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {

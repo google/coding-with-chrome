@@ -37,7 +37,7 @@ goog.require('goog.style');
  */
 cwc.framework.simple.Draw = function(opt_target) {
 
-  /** @type {Element} */
+  /** @type {Element|undefined} */
   this.target = opt_target;
 
   /** @type {Element} */
@@ -637,7 +637,7 @@ cwc.framework.simple.Draw.prototype.triangle = function(
  * Executes the canvas instructions and adds pre manipulations and post
  * manipulations which are defined in the manipulation object.
  * @param {!Function} drawFn Execute the canvas instructions.
- * @param {!CanvasRenderingContext2D} display
+ * @param {CanvasRenderingContext2D} display
  * @param {!cwc.framework.simple.Draw.Manipulation_} manipulation
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
@@ -645,6 +645,9 @@ cwc.framework.simple.Draw.prototype.triangle = function(
  */
 cwc.framework.simple.Draw.prototype.execute_ = function(
     drawFn, display, manipulation) {
+  if (!display) {
+    return this;
+  }
   cwc.framework.simple.Draw.doPreManipulations_(display,
       manipulation);
   drawFn.call(this);

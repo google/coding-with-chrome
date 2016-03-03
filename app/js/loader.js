@@ -50,7 +50,7 @@ var cwcLoader = function() {
  *
  */
 cwcLoader.prototype.prepare = function() {
-  console.log('Loading the Coding with Chrome UI …');
+  console.log('Loading the Coding with Chrome UI ...');
   if (this.manifest && this.versionNode) {
     this.versionNode.innerText = this.manifest.version;
   }
@@ -76,6 +76,7 @@ cwcLoader.prototype.messageHandler = function(event) {
       var editor = chrome.app.window.get('editor');
       if (editor) {
         editor.show(true);
+        editor.drawAttention();
       }
       chrome.app.window.current().close();
       break;

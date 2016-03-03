@@ -20,9 +20,9 @@
 
 
 
-/** @type {object} */
+/** @type {Object} */
 var jQuery = function() {};
 
 
-/** @type {object} */
+/** @type {Object} */
 var $ = function() {};

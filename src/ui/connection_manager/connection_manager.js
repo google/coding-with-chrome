@@ -27,10 +27,9 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.object');
 goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.Select');
 goog.require('goog.ui.Toolbar');
 goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarRenderer');
+goog.require('goog.ui.Select');
 
 
 
@@ -212,7 +211,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
         cwc.soy.ConnectionManager.serialDevice,
         {'prefix': this.prefix});
     var nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
-    var deviceList = new goog.ui.select('Select device …');
+    var deviceList = new goog.ui.Select('Select device …');
     for (var deviceEntry in devices) {
       var device = devices[deviceEntry];
       var menuItem = new goog.ui.MenuItem(
@@ -292,9 +291,12 @@ cwc.ui.ConnectionManager.prototype.prepare_ = function() {
 cwc.ui.ConnectionManager.prototype.showTemplate_ = function(
     template_type, template_name) {
   if (this.nodeContent && template_type && template_name) {
+    /** @type {cwc.soy.ConnectionManager.Arduino} */
+    var template = cwc.soy.ConnectionManager[template_type][template_name];
+
     goog.soy.renderElement(
         this.nodeContent,
-        cwc.soy.ConnectionManager[template_type][template_name],
+        template,
         {'prefix': this.prefix});
     var layoutInstance = this.helper.getInstance('layout');
     if (layoutInstance) {

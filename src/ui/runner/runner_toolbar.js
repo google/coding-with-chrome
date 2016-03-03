@@ -23,15 +23,8 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.ui.Container');
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.KeyboardShortcutHandler');
-goog.require('goog.ui.Separator');
 goog.require('goog.ui.Toolbar');
 goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarRenderer');
-goog.require('goog.ui.ToolbarSelect');
-goog.require('goog.ui.ToolbarSeparator');
-goog.require('goog.ui.ToolbarToggleButton');
 
 
 

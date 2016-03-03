@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.pencilCode.advanced.Editor');
 
 goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.EditorType');
 
 
 

@@ -22,7 +22,6 @@ goog.provide('cwc.ui.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
-goog.require('cwc.ui.Message');
 goog.require('cwc.utils.Helper');
 
 

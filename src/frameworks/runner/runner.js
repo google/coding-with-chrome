@@ -29,8 +29,8 @@ goog.require('goog.events.BrowserEvent');
 
 
 /**
- * @param {function=} opt_callback
- * @param {function=} opt_scope
+ * @param {Function=} opt_callback
+ * @param {Object=} opt_scope
  * @constructor
  * @struct
  * @final
@@ -87,8 +87,8 @@ cwc.framework.Runner.prototype.init = function() {
 /**
  * Adds the command to the listener.
  * @param {string} name
- * @param {!function(?)} func
- * @param {?} opt_scope
+ * @param {!Function} func
+ * @param {?=} opt_scope
  * @export
  */
 cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
@@ -107,7 +107,7 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
 /**
  * Sends the defined data to the runner.
  * @param {!string} name
- * @param {object|string=} opt_value
+ * @param {Object|string=} opt_value
  * @param {number=} opt_delay in msec
  * @export
  */

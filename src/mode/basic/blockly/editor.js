@@ -37,6 +37,13 @@ goog.require('goog.ui.Dialog');
  * @final
  */
 cwc.mode.basic.blockly.Editor = function(helper) {
+
+  /** @type {!cwc.blocks.simple.Blocks} */
+  this.blocks = cwc.blocks.simple.Blocks;
+
+  /** @type {!cwc.ui.Blockly} */
+  this.blockly = new cwc.ui.Blockly(helper);
+
   /** @type {Element} */
   this.nodeBlockly = null;
 
@@ -48,9 +55,6 @@ cwc.mode.basic.blockly.Editor = function(helper) {
 
   /** @type {!cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
-
-  /** @type {!cwc.ui.Blockly} */
-  this.blockly = new cwc.ui.Blockly(helper);
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;

@@ -20,5 +20,5 @@
 
 
 
-/** @type {object} */
+/** @type {Object} */
 var CoffeeScript = function() {};

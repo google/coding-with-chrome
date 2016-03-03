@@ -31,9 +31,11 @@ goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.html.SafeHtml');
+goog.require('goog.math.Size');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.Dialog');
+goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 /**
