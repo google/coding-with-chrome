@@ -20,9 +20,7 @@
 goog.provide('cwc.fileHandler.FileLoader');
 
 goog.require('cwc.file.ContentType');
-goog.require('cwc.file.Type');
 goog.require('cwc.file.detector');
-goog.require('cwc.fileFormat.File');
 goog.require('cwc.fileHandler.Config');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.utils.Helper');

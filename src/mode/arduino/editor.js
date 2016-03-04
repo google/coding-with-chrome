@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.arduino.Editor');
 
 goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.Helper');
 
 

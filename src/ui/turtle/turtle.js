@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.ui.Turtle');
 
-goog.require('cwc.renderer.Helper');
 goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.Turtle');
 

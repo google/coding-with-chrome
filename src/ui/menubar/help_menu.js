@@ -20,11 +20,8 @@
 goog.provide('cwc.HelpMenu');
 
 goog.require('cwc.soy.Help');
-goog.require('cwc.ui.Debug');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.html.SafeHtml');
-goog.require('goog.soy');
 goog.require('goog.ui.Dialog');
 
 

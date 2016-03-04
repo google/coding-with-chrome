@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.sphero.Monitoring');
 
+goog.require('goog.Timer');
+
 
 
 /**

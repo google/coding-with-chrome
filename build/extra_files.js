@@ -70,7 +70,8 @@ closureBuilder.build({
     'node_modules/codemirror/addon/selection/active-line.js'
   ]),
   externs: [
-    'build/externs/codemirror.js'
+    'build/externs/codemirror.js',
+    'build/externs/global.js'
   ],
   out: 'genfiles/external/codemirror/addons.js',
   options: {
@@ -94,7 +95,8 @@ closureBuilder.build({
     'node_modules/codemirror/mode/schemen/*.js'
   ]),
   externs: [
-    'build/externs/codemirror.js'
+    'build/externs/codemirror.js',
+    'build/externs/global.js'
   ],
   out: 'genfiles/external/codemirror/modes.js'
 });

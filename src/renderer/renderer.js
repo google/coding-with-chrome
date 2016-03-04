@@ -21,10 +21,8 @@ goog.provide('cwc.renderer.Renderer');
 
 goog.require('cwc.file.Files');
 goog.require('cwc.renderer.Helper');
-goog.require('cwc.soy.Renderer');
 goog.require('cwc.utils.Helper');
 goog.require('goog.string');
-goog.require('soydata.SanitizedHtml');
 
 
 

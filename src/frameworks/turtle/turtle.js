@@ -204,7 +204,7 @@ cwc.framework.Turtle.prototype.handleJumpto_ = function(x, y) {
 
 /**
  * Absolute direction adjustment.
- * @param {!?} target
+ * @param {!Object|number|string} target
  * @private
  */
 cwc.framework.Turtle.prototype.handleTurnto_ = function(target) {
@@ -359,7 +359,6 @@ cwc.framework.Turtle.prototype.handleTwist_ = function(distance) {
 
 /**
  * Flips the turtle across its main axis.
- * @param {!number}
  * @private
  */
 cwc.framework.Turtle.prototype.handleMirror_ = function() {

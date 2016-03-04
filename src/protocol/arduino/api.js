@@ -20,7 +20,6 @@
  */
 goog.provide('cwc.protocol.Arduino.api');
 
-goog.require('goog.Timer');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 

@@ -37,17 +37,17 @@ cwc.utils.StackType = {
 /**
  * @constructor
  * @param {!cwc.utils.StackType} type
- * @param {!Function} func
+ * @param {Function=} opt_func
  * @param {string|number=} opt_value
  * @param {string=} opt_name
  * @final
  */
-cwc.utils.StackEntry = function(type, func, opt_value, opt_name) {
+cwc.utils.StackEntry = function(type, opt_func, opt_value, opt_name) {
   /** @private {cwc.utils.StackType} */
   this.type_ = type;
 
-  /** @private {Function} */
-  this.func_ = func;
+  /** @private {Function|undefined} */
+  this.func_ = opt_func;
 
   /** @private {string|number} */
   this.value_ = opt_value || '';
@@ -67,7 +67,7 @@ cwc.utils.StackEntry.prototype.getType = function() {
 
 
 /**
- * @return {Function}
+ * @return {Function|undefined}
  * @export
  */
 cwc.utils.StackEntry.prototype.getFunc = function() {
@@ -261,7 +261,7 @@ cwc.utils.StackQueue.prototype.getNext = function(opt_group) {
 /**
  * Returns the next valid command.
  * @param {number|string=} opt_group
- * @return {?Function}
+ * @return {Function|undefined}
  * @export
  */
 cwc.utils.StackQueue.prototype.getNextCommand = function(opt_group) {

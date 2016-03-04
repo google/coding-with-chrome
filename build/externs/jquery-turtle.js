@@ -18,8 +18,10 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+
+
+/** @type {Function} */
 var parent = function() {};
 
-var require = function() {};
-
+/** @type {Object} */
 var global = {};

@@ -21,7 +21,6 @@ goog.provide('cwc.ui.Account');
 
 goog.require('cwc.utils.Helper');
 goog.require('goog.Uri');
-goog.require('goog.Uri.QueryData');
 goog.require('goog.events');
 goog.require('goog.net.XhrIo');
 goog.require('goog.structs.Map');

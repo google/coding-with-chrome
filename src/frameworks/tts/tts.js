@@ -72,9 +72,7 @@ cwc.framework.TTS.prototype.listen = function(callback) {
  * @export
  */
 cwc.framework.TTS.prototype.speak = function(text) {
-  this.runner.send({'command': 'speak', 'value': {
-    'text': text
-  }});
+  this.runner.send('speak', {'text': text});
 };
 
 

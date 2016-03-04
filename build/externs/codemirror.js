@@ -20,35 +20,23 @@
 
 
 
-/** @type {object} */
+/** @type {Object} */
 var CodeMirror = function() {};
 
-/** @type {object} */
-var exports = {};
-
-/** @type {object} */
-var define = {};
-
-/** @type {object} */
-var module = {};
-
-/** @type {object} */
-var require = {};
-
-/** @type {object} */
+/** @type {Object} */
 var coffeelint = function() {};
 
-/** @type {object} */
+/** @type {Object} */
 var CSSLint = function() {};
 
-/** @type {object} */
+/** @type {Object} */
 var HTMLHint = function() {};
 
-/** @type {object} */
+/** @type {Object} */
 var JSHINT = function() {};
 
-/** @type {object} */
+/** @type {Object} */
 var jsonlint = function() {};
 
-/** @type {object} */
+/** @type {Object} */
 var jsyaml = function() {};

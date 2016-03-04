@@ -116,7 +116,7 @@ cwc.mode.Mod = function(config_data) {
   /** @type {array} Additional supported file types */
   this.fileTypes = config_data.file_types || [];
 
-  /** @type {Object=} */
+  /** @type {!Object} */
   this.config = config_data.config || {};
 
   if (!goog.isFunction(config_data.mod)) {

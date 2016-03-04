@@ -25,6 +25,7 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.debug.DivConsole');
 goog.require('goog.debug.HtmlFormatter');
+goog.require('goog.debug.LogRecord');
 goog.require('goog.debug.Logger');
 goog.require('goog.debug.Logger.Level');
 goog.require('goog.dom');

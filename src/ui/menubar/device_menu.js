@@ -20,7 +20,9 @@
 goog.provide('cwc.ui.DeviceMenu');
 
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.ui.MenuItem');
+goog.require('goog.ui.PopupMenu');
 
 
 

@@ -20,5 +20,5 @@
 
 
 
-/** @type {object} */
+/** @type {Object} */
 var i18n = function() {};

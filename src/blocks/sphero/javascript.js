@@ -19,105 +19,93 @@
  */
 goog.provide('cwc.blocks.sphero.JavaScript');
 
-goog.require('Blockly');
+goog.require('cwc.blocks');
 goog.require('Blockly.JavaScript');
 
 
+/**
+ * @private {string}
+ */
+cwc.blocks.sphero.JavaScript.prefix_ = 'sphero_';
+
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero roll.
  */
-Blockly.JavaScript['sphero_roll'] = function(block) {
-  var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
-      Blockly.JavaScript.ORDER_ATOMIC));
+cwc.blocks.addJavaScript('roll', function(block) {
+  var value_speed = cwc.blocks.valueToInt(block, 'speed');
   var duration = 500 + (value_speed * 20);
-  var code = 'sphero.roll(' + value_speed + ', undefined, undefined, ' +
+  return 'sphero.roll(' + value_speed + ', undefined, undefined, ' +
     duration + ');\n';
-  return code;
-};
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero roll step.
  */
-Blockly.JavaScript['sphero_roll_step'] = function(block) {
-  var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
-      Blockly.JavaScript.ORDER_ATOMIC));
-  var value_heading = parseInt(block.getFieldValue('heading'));
+cwc.blocks.addJavaScript('roll_step', function(block) {
+  var value_speed = cwc.blocks.valueToInt(block, 'speed');
+  var value_heading = cwc.blocks.getFieldValueInt(block, 'heading');
   var duration = 500 + (value_speed * 20);
-  var code = 'sphero.roll(' + value_speed + ', ' + value_heading + ', 0x01, ' +
+  return 'sphero.roll(' + value_speed + ', ' + value_heading + ', 0x01, ' +
     duration + ');\n';
-  return code;
-};
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero roll time.
  */
-Blockly.JavaScript['sphero_roll_time'] = function(block) {
-  var value_time = parseInt(Blockly.JavaScript.valueToCode(block, 'time',
-      Blockly.JavaScript.ORDER_ATOMIC));
-  var value_speed = parseInt(Blockly.JavaScript.valueToCode(block, 'speed',
-      Blockly.JavaScript.ORDER_ATOMIC));
-  var value_heading = parseInt(block.getFieldValue('heading'));
-  var code = 'sphero.rollTime(' + value_time + ', ' + value_speed + ', ' +
+cwc.blocks.addJavaScript('roll_time', function(block) {
+  var value_time = cwc.blocks.valueToInt(block, 'time');
+  var value_speed = cwc.blocks.valueToInt(block, 'speed');
+  var value_heading = cwc.blocks.getFieldValueInt(block, 'heading');
+  return 'sphero.rollTime(' + value_time + ', ' + value_speed + ', ' +
     value_heading + ', true);\n';
-  return code;
-};
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero heading.
  */
-Blockly.JavaScript['sphero_heading'] = function(block) {
-  var value_heading = parseInt(block.getFieldValue('heading'));
+cwc.blocks.addJavaScript('heading', function(block) {
+  var angle_heading = cwc.blocks.getFieldValueInt(block, 'heading');
+  var value_heading = cwc.blocks.valueToInt(block, 'heading');
   var duration = 500;
-  var code = 'sphero.roll(0, ' + value_heading + ', 0x01, ' + duration + ');\n';
-  return code;
-};
+  return 'sphero.roll(0, ' + (angle_heading || value_heading || 0) +
+    ', 0x01, ' + duration + ');\n';
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero RGB.
  */
-Blockly.JavaScript['sphero_rgb'] = function(block) {
-  var colour_colour = parseInt(
-      block.getFieldValue('colour').replace('#', ''), 16);
+cwc.blocks.addJavaScript('rgb', function(block) {
+  var colour_colour = cwc.blocks.getFieldValueColor(block, 'colour');
   var red = colour_colour >> 16;
   var green = colour_colour >> 8 & 0xFF;
   var blue = colour_colour & 0xFF;
-  var code = 'sphero.setRGB(' + red + ', ' + green+ ', ' + blue + ', 1, 100' +
+  return 'sphero.setRGB(' + red + ', ' + green+ ', ' + blue + ', 1, 100' +
     ');\n';
-  return code;
-};
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero backlight.
  */
-Blockly.JavaScript['sphero_backlight'] = function(block) {
-  var text_brightness = Math.min(Math.max(
-      parseInt(block.getFieldValue('brightness')), 0), 254);
-  var code = 'sphero.setBackLed(' + text_brightness + ', 100);\n';
-  return code;
-};
+cwc.blocks.addJavaScript('backlight', function(block) {
+  var text_brightness = cwc.blocks.getFieldValueMinMax(
+    block, 'brightness', 0, 254);
+  return 'sphero.setBackLed(' + text_brightness + ', 100);\n';
+}, cwc.blocks.sphero.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sphero stop.
  */
-Blockly.JavaScript['sphero_stop'] = function(block) {
-  var dropdown_immediately = block.getFieldValue('immediately');
-  var code = 'sphero.stop();\n';
+cwc.blocks.addJavaScript('stop', function(block) {
+  var dropdown_immediately = cwc.blocks.getFieldValue(block, 'immediately');
   if (dropdown_immediately == 'when finished') {
-    code = 'sphero.stop(100);\n';
+    return 'sphero.stop(100);\n';
   }
-  return code;
-};
+  return 'sphero.stop();\n';
+}, cwc.blocks.sphero.JavaScript.prefix_);

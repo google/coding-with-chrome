@@ -31,7 +31,9 @@ closureBuilder.build({
     'src/frameworks/runner/runner.js',
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/arduino_framework.js'
+  out: 'genfiles/frameworks/internal/arduino_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -46,7 +48,9 @@ closureBuilder.build({
     'src/protocol/ev3/*.js',
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/ev3_framework.js'
+  out: 'genfiles/frameworks/internal/ev3_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -60,7 +64,9 @@ closureBuilder.build({
     'src/frameworks/runner/runner.js',
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/sphero_framework.js'
+  out: 'genfiles/frameworks/internal/sphero_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -77,7 +83,9 @@ closureBuilder.build({
   externs: [
     'build/externs/jquery.js'
   ],
-  out: 'genfiles/frameworks/internal/turtle_framework.js'
+  out: 'genfiles/frameworks/internal/turtle_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -91,7 +99,9 @@ closureBuilder.build({
     'src/frameworks/runner/runner.js',
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/tts_framework.js'
+  out: 'genfiles/frameworks/internal/tts_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -104,7 +114,9 @@ closureBuilder.build({
   deps: glob([
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/runner_framework.js'
+  out: 'genfiles/frameworks/internal/runner_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });
 
 
@@ -119,5 +131,7 @@ closureBuilder.build({
     'src/frameworks/runner/runner.js',
     'src/utils/*.js'
   ]),
-  out: 'genfiles/frameworks/internal/simple_framework.js'
+  out: 'genfiles/frameworks/internal/simple_framework.js',
+  jscomp_warning: ['checkVars', 'deprecated', 'extraRequire', 'missingProvide',
+    'missingRequire', 'newCheckTypes']
 });

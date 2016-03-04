@@ -24,7 +24,6 @@ goog.provide('cwc.ui.BuilderFrameworks');
 goog.provide('cwc.ui.BuilderHelpers');
 
 goog.require('cwc.config');
-goog.require('cwc.file.Type');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
@@ -52,15 +51,14 @@ goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
-goog.require('cwc.ui.Setting');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
+
 goog.require('goog.dom');
-goog.require('goog.events.EventHandler');
 
 
 
@@ -163,6 +161,9 @@ cwc.ui.Builder = function() {
 
   /** @type {Element} */
   this.nodeOverlayer = null;
+
+  /** @type {Array} */
+  this.listener = [];
 };
 
 
@@ -183,14 +184,22 @@ cwc.ui.Builder.prototype.decorate = function(node,
     this.raiseError('Required node is neither a string or an object!');
   }
   this.nodeOverlayer = opt_overlayer || null;
-  this.load();
+
+  this.addEventListener(window, goog.events.EventType.ERROR, function(event) {
+    var browserEvent = event.getBrowserEvent();
+    this.raiseError('Runtime Error\n' + browserEvent.message, true);
+  }, false, this);
+
+  this.loadApp();
+
+  this.helper.removeEventListeners(this.listener, this.name);
 };
 
 
 /**
  * Loads all needed helper and the ui.
  */
-cwc.ui.Builder.prototype.load = function() {
+cwc.ui.Builder.prototype.loadApp = function() {
 
   if (!this.error) {
     this.setProgress('Detect features ...', 0, 100);
@@ -247,11 +256,13 @@ cwc.ui.Builder.prototype.load = function() {
     this.prepareAccount();
   }
 
-  this.setProgress('Done.', 100, 100);
-  if (this.nodeOverlayer) {
-    goog.dom.removeNode(this.nodeOverlayer);
+  if (!this.error) {
+    this.setProgress('Done.', 100, 100);
+    if (this.nodeOverlayer) {
+      goog.dom.removeNode(this.nodeOverlayer);
+    }
+    this.closeLoader();
   }
-  this.closeLoader();
 };
 
 
@@ -293,16 +304,19 @@ cwc.ui.Builder.prototype.detectFeatures = function() {
 
 /**
  * @param {!string} error_msg
+ * @param {boolean=} opt_skip_throw
  * @return {throw}
  */
-cwc.ui.Builder.prototype.raiseError = function(error_msg) {
+cwc.ui.Builder.prototype.raiseError = function(error_msg, opt_skip_throw) {
   this.error = true;
   var loader = chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'error', 'msg': error_msg}, '*');
   }
-  throw error_msg;
+  if (!opt_skip_throw) {
+    throw error_msg;
+  }
 };
 
 
@@ -529,4 +543,23 @@ cwc.ui.Builder.prototype.renderGui = function() {
     this.setProgress('Loading select screen ...', 90, 100);
     selectScreenInstance.showSelectScreen();
   }
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function()} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ */
+cwc.ui.Builder.prototype.addEventListener = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

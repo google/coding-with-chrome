@@ -46,8 +46,9 @@ closureBuilder.build({
   ],
   externs: [
     'build/externs/coffeescript.js',
-    'build/externs/jquery.js',
-    'build/externs/jquery-turtle.js'
+    'build/externs/global.js',
+    'build/externs/jquery-turtle.js',
+    'build/externs/jquery.js'
   ],
   out: 'genfiles/frameworks/external/jquery-turtle.js'
 });

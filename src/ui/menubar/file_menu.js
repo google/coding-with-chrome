@@ -23,7 +23,10 @@ goog.require('cwc.file.Type');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.ui.Dialog');
 goog.require('goog.ui.PopupMenu');
+goog.require('goog.ui.Separator');
+goog.require('goog.ui.SubMenu');
 
 
 

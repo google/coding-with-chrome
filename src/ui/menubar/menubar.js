@@ -26,21 +26,12 @@ goog.require('cwc.ui.ExampleMenu');
 goog.require('cwc.ui.FileMenu');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
-goog.require('goog.Disposable');
-goog.require('goog.array');
-goog.require('goog.dispose');
+
 goog.require('goog.dom');
-goog.require('goog.events');
-goog.require('goog.events.EventType');
 goog.require('goog.positioning.Corner');
 goog.require('goog.soy');
-goog.require('goog.ui.CheckBoxMenuItem');
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.Menu');
 goog.require('goog.ui.PopupMenu');
 goog.require('goog.ui.Separator');
-goog.require('goog.ui.SubMenu');
-goog.require('goog.ui.menuBar');
 
 
 
@@ -426,6 +417,10 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
  */
 cwc.ui.Menubar.prototype.minimizeWindow = function() {
   chrome.app.window.current().minimize();
+  var editorWindow = chrome.app.window.get('editor');
+  if (editorWindow) {
+    editorWindow.drawAttention();
+  }
 };
 
 

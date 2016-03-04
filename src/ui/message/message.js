@@ -22,7 +22,6 @@ goog.provide('cwc.ui.MessageType');
 
 goog.require('cwc.soy.ui.Message');
 goog.require('goog.Timer');
-goog.require('goog.array');
 goog.require('goog.dom.classes');
 goog.require('goog.dom.classlist');
 goog.require('goog.soy');

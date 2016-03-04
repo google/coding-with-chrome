@@ -21,7 +21,6 @@ goog.provide('cwc.file.detector');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.fileFormat.FILE_HEADER');
-goog.require('cwc.fileFormat.File');
 
 
 

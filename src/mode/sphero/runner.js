@@ -25,7 +25,6 @@ goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.Timer');
 goog.require('goog.dom');
 
 

@@ -23,8 +23,6 @@ goog.require('cwc.protocol.bluetooth.Adapter');
 goog.require('cwc.protocol.bluetooth.Devices');
 
 goog.require('cwc.utils.Helper');
-goog.require('goog.Timer');
-goog.require('goog.async.Throttle');
 
 
 
@@ -131,7 +129,7 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
 
 /**
  * @param {!string} device_name
- * @param {function} callback
+ * @param {Function} callback
  * @export
  */
 cwc.protocol.bluetooth.Api.prototype.autoConnectDevice = function(device_name,

@@ -227,7 +227,7 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
 
 /**
  * @param {!string} device_name
- * @param {function} callback
+ * @param {Function} callback
  * @param {boolean=} opt_multisearch
  * @export
  */

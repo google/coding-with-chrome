@@ -1,5 +1,5 @@
 /**
- * @fileoverview Launches the Coding with Chrome editor.
+ * @fileoverview Launches the Coding with Chrome loader and editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -40,21 +40,26 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   var loaderWidth = 500;
   var loaderHeight = 170;
   var loaderConfig = {
+    alwaysOnTop: true,
     frame: 'chrome',
     id: 'loader',
     focused: true,
     resizable: false,
     outerBounds: {
       width: loaderWidth,
-      height: loaderHeight,
-      left: Math.round((screenWidth - loaderWidth) / 2),
-      top: Math.round((screenHeight - loaderHeight) / 2)
+      height: loaderHeight
     },
     minWidth: loaderWidth,
     minHeight: loaderHeight
   };
+  console.log(loaderConfig);
   chrome.app.window.create('html/loader.html', loaderConfig, function(
-      opt_createdWindow) {
+      loaderWindow) {
+    loaderWindow.outerBounds.setPosition(
+      Math.round((screenWidth - loaderWidth) / 2),
+      Math.round((screenHeight - loaderHeight) / 2)
+    );
+    loaderWindow.drawAttention();
     chrome.app.window.create('html/editor.html', editorConfig);});
 });
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview jQuery externs for Coding with Chrome.
+ * @fileoverview Global externs for Coding with Chrome.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -21,8 +21,13 @@
 
 
 /** @type {Object} */
-var jQuery = function() {};
-
+var exports = {};
 
 /** @type {Object} */
-var $ = function() {};
+var define = {};
+
+/** @type {Object} */
+var module = {};
+
+/** @type {Object} */
+var require = {};

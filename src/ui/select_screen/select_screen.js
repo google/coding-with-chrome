@@ -20,11 +20,9 @@
  */
 goog.provide('cwc.ui.SelectScreen');
 
-goog.require('cwc.config.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenStyle');
-goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
@@ -326,6 +324,10 @@ cwc.ui.SelectScreen.prototype.newFile = function(type) {
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
+  var editorWindow = chrome.app.window.get('editor');
+  if (editorWindow) {
+    editorWindow.clearAttention();
+  }
 };
 
 
@@ -338,6 +340,10 @@ cwc.ui.SelectScreen.prototype.loadExample = function(file_name) {
   var loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
     loaderInstance.loadExampleFile(file_name);
+  }
+  var editorWindow = chrome.app.window.get('editor');
+  if (editorWindow) {
+    editorWindow.clearAttention();
   }
 };
 

@@ -20,7 +20,6 @@
 goog.provide('cwc.renderer.Helper');
 
 goog.require('cwc.soy.Renderer');
-goog.require('goog.string');
 
 
 

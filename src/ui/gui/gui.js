@@ -21,14 +21,11 @@ goog.provide('cwc.ui.Gui');
 
 goog.require('cwc.soy.ui.Gui');
 goog.require('cwc.utils.Helper');
-goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.soy');
-goog.require('goog.ui.Component');
-goog.require('goog.ui.Dialog');
 goog.require('goog.ui.Prompt');
 
 

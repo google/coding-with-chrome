@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.basic.advanced.Editor');
 
 goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.EditorType');
 goog.require('cwc.utils.Helper');
 
 
