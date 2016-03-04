@@ -24,18 +24,6 @@
 var CodeMirror = function() {};
 
 /** @type {Object} */
-var exports = {};
-
-/** @type {Object} */
-var define = {};
-
-/** @type {Object} */
-var module = {};
-
-/** @type {Object} */
-var require = {};
-
-/** @type {Object} */
 var coffeelint = function() {};
 
 /** @type {Object} */

@@ -1,5 +1,6 @@
 /**
  * @fileoverview Blocky Blocks for the Coding with Chrome editor.
+ * @suppress {extraRequire}
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -16,7 +17,6 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
- * @suppress {extraRequire}
  */
 goog.provide('cwc.blocks');
 
@@ -93,7 +93,7 @@ cwc.blocks.valueToCode = function(block, name, opt_order) {
  * @param {number=} opt_base int base
  */
 cwc.blocks.valueToInt = function(block, name, opt_order, opt_base) {
-  return parseInt(cwc.blocks.valueToCode(block, name, opt_order) || 0,
+  return parseInt(cwc.blocks.valueToCode(block, name, opt_order) || 0,
     opt_base);
 };
 
@@ -114,7 +114,7 @@ cwc.blocks.getFieldValue = function(block, name) {
  */
 cwc.blocks.getFieldValueInt = function(block, name, opt_base) {
   console.log(cwc.blocks.getFieldValue(block, name));
-  return parseInt(cwc.blocks.getFieldValue(block, name) || 0, opt_base);
+  return parseInt(cwc.blocks.getFieldValue(block, name) || 0, opt_base);
 };
 
 

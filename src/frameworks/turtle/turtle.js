@@ -35,7 +35,7 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
   /** @type {string} */
   this.name = 'Turtle Framework';
 
-  /** @type {string=} */
+  /** @type {string} */
   this.target = opt_target;
 
   /** @type {Object} */
