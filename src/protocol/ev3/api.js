@@ -25,7 +25,6 @@ goog.provide('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Buffer');
 goog.require('cwc.protocol.ev3.ColorSensorMode');
-goog.require('cwc.protocol.ev3.Command');
 goog.require('cwc.protocol.ev3.Commands');
 goog.require('cwc.protocol.ev3.Device');
 goog.require('cwc.protocol.ev3.DeviceName');
@@ -118,9 +117,6 @@ cwc.protocol.ev3.Api = function(helper) {
 
   /** @type {!cwc.protocol.ev3.CallbackType} */
   this.callbackType = cwc.protocol.ev3.CallbackType;
-
-  /** @type {!cwc.protocol.ev3.Command} */
-  this.command = cwc.protocol.ev3.Command;
 
   /** @type {!cwc.protocol.ev3.Commands} */
   this.commands = new cwc.protocol.ev3.Commands();
@@ -508,7 +504,7 @@ cwc.protocol.ev3.Api.prototype.clear = function() {
  * @export
  */
 cwc.protocol.ev3.Api.prototype.showImage = function(file_name) {
-  this.send_(this.command.showImage(file_name));
+  this.send_(this.commands.showImage(file_name));
 };
 
 
@@ -597,8 +593,22 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_speed) {
 
 /**
  * Rotates the motors for the predefined specific steps.
+ * @param {!number} steps
+ * @param {number=} opt_step_speed
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.rotateAngle = function(steps, opt_step_speed) {
+  var brake = true;
+  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,
+    opt_step_speed, opt_step_speed, 0, 0, brake));
+};
+
+
+/**
+ * Rotates the motors for the predefined specific steps.
  * @param {!number} angle
- * @param {boolean=} opt_invert Inverts the motor directions.
  * @param {number=} opt_step_speed
  * @param {number=} opt_angle_ratio
  * @export

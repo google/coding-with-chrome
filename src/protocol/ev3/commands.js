@@ -250,8 +250,8 @@ cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
  * @param {boolean=} opt_brake Stop current movements.
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps, opt_speed,
-    opt_ramp_up, opt_ramp_down, opt_brake) {
+cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
+    opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
   var buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout template for the EV3 modification.
+ * @fileoverview Predefined settings for the different EV3 roboters.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,31 +17,25 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.ev3.advanced autoescape="strict"}
+goog.provide('cwc.protocol.ev3.Robots');
 
-
-/**
- * Editor template.
- */
-{template .editor}
-  {@param prefix: string}
-  <div id="{$prefix}editor-chrome">Editor</div>
-{/template}
 
 
 /**
- * Runner template.
+ * EV3 TRACK3R
+ * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
-{template .runner}
-  {@param prefix: string}
-  <div id="{$prefix}runner-chrome">Runner</div>
-{/template}
+cwc.protocol.ev3.Robots['TRACK3R'] = {
+  wheel_diameter: 32,
+  wheelbase: 156
+};
 
 
 /**
- * Monitor template.
+ * GRYO BOY
+ * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
-{template .monitor}
-  {@param prefix: string}
-  <div id="{$prefix}monitor-chrome">Monitor</div>
-{/template}
+cwc.protocol.ev3.Robots['GRYO BOY'] = {
+  wheel_diameter: 55,
+  wheelbase: 75
+};

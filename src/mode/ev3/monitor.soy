@@ -20,8 +20,6 @@
 {namespace cwc.soy.mode.ev3.Monitor autoescape="deprecated-contextual"}
 
 
-
-
 /**
  * Intro template.
  */
@@ -38,7 +36,7 @@
 /**
  * Monitor template.
  */
-{template .monitor}
+{template .template}
   {@param prefix: string}
   <div id="{$prefix}monitor"></div>
 {/template}
@@ -152,18 +150,6 @@
     <button type="button" id="{$prefix}move-right">Right</button>
     <br>
     <button type="button" id="{$prefix}stop">Stop</button>
-  </div>
-{/template}
-
-
-/**
- * Calibration template.
- */
-{template .calibration}
-  {@param prefix: string}
-  <div id="{$prefix}calibration">
-    EV3 Calibration Screen<hr>
-    <button type="button" id="{$prefix}detect-sensors">Detect Sensors</button>
   </div>
 {/template}
 

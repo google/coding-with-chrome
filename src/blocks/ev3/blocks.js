@@ -93,6 +93,24 @@ Blockly.Blocks['ev3_move'] = {
 };
 
 
+Blockly.Blocks['ev3_move_distance'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(i18n.get('move robot('))
+        .appendField(new Blockly.FieldDropdown(
+            [['forward', 'forward'], ['backward', 'backward']]), 'direction')
+        .appendField(', ')
+        .appendField(new Blockly.FieldTextInput('10'), 'distance')
+        .appendField(' cm)');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the robot in a direction for a specified distance');
+  }
+};
+
+
 Blockly.Blocks['ev3_move_forward'] = {
   init: function() {
     this.setHelpUrl('');

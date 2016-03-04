@@ -92,6 +92,12 @@ cwc.mode.ev3.Runner = function(helper, connection) {
 
   /** @type {!boolean} */
   this.showPreview = true;
+
+  /** @type {!number} */
+  this.wheelDiameter = 32;
+
+  /** @type {!number} */
+  this.wheelbase = 156;
 };
 
 
@@ -196,6 +202,8 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
   this.updateDeviceData();
+  this.updateWheelDiameter();
+  this.updateWheelbase();
 
   this.monitor.reset();
   this.turtle.action('speed', 3);
@@ -216,6 +224,40 @@ cwc.mode.ev3.Runner.prototype.updateDeviceData = function() {
  */
 cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
   this.runner.send('updateDeviceInfo', this.api.getDeviceInfo());
+};
+
+
+/**
+ * Updates the wheel diameter.
+ */
+cwc.mode.ev3.Runner.prototype.updateWheelDiameter = function() {
+  this.runner.send('updateWheelDiameter', this.wheelDiameter);
+};
+
+
+/**
+ * Updates the wheelbase.
+ */
+cwc.mode.ev3.Runner.prototype.updateWheelbase = function() {
+  this.runner.send('updateWheelbase', this.wheelbase);
+};
+
+
+/**
+ * @param {!number} distance in diameter
+ */
+cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(diameter) {
+  this.wheelDiameter = diameter;
+  this.updateWheelDiameter();
+};
+
+
+/**
+ * @param {!number} distance in millimeter
+ */
+cwc.mode.ev3.Runner.prototype.setWheelbase = function(distance) {
+  this.wheelbase = distance;
+  this.updateWheelbase();
 };
 
 

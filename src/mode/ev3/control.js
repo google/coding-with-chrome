@@ -1,5 +1,5 @@
 /**
- * @fileoverview Monitor for the EV3 modification.
+ * @fileoverview Control screen for the EV3 modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,11 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.Monitor');
+goog.provide('cwc.mode.ev3.Control');
 
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.ev3.Events');
-goog.require('cwc.soy.mode.ev3.Monitor');
+goog.require('cwc.soy.mode.ev3.Control');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -34,18 +34,12 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.mode.ev3.Monitor = function(helper, connection) {
+cwc.mode.ev3.Control = function(helper, connection) {
   /** @type {string} */
-  this.name = 'EV3 Monitor';
+  this.name = 'EV3 Control';
 
   /** @type {Element} */
-  this.nodeIntro = null;
-
-  /** @type {Element} */
-  this.nodeMonitor = null;
-
-  /** @type {Element} */
-  this.nodeMonitorValues = null;
+  this.nodeControl = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -57,7 +51,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   this.api = this.connection.getApi();
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-monitor');
+  this.prefix = helper.getPrefix('ev3-control');
 
   /** @type {boolean} */
   this.prepared = false;
@@ -75,7 +69,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
 /**
  * Decorates the EV3 monitor window.
  */
-cwc.mode.ev3.Monitor.prototype.decorate = function() {
+cwc.mode.ev3.Control.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
   var runnerMonitor = runnerInstance.getMonitor();
   if (!runnerMonitor) {
@@ -83,38 +77,19 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
     return;
   }
 
-  this.nodeIntro = runnerMonitor.getIntroNode();
-  this.nodeMonitor = runnerMonitor.getMonitorNode();
+  this.nodeControl = runnerMonitor.getControlNode();
 
   goog.soy.renderElement(
-      this.nodeIntro,
-      cwc.soy.mode.ev3.Monitor.intro, {
-        'prefix': this.prefix
-      }
-  );
-
-  goog.soy.renderElement(
-      this.nodeMonitor,
-      cwc.soy.mode.ev3.Monitor.template, {
+      this.nodeControl,
+      cwc.soy.mode.ev3.Control.template, {
         'prefix': this.prefix
       }
   );
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.ev3.Monitor.style({'prefix': this.prefix}));
+      cwc.soy.mode.ev3.Control.style({'prefix': this.prefix}));
   }
-
-  this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
-
-  // Update Event
-  var eventHandler = this.connection.getEventHandler();
-  this.addEventListener_(eventHandler,
-      cwc.protocol.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData, false,
-      this);
-
-  // Monitoring
-  this.updateDeviceData();
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -124,30 +99,48 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
         this.cleanUp, false, this);
   }
 
+  this.addEventHandler_();
   runnerInstance.enableMonitor(true);
 };
 
 
 /**
- * Updates device Data.
- * @param {Event=} opt_event
+ * @private
  */
-cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
-  goog.soy.renderElement(
-      this.nodeMonitorValues,
-      cwc.soy.mode.ev3.Monitor.monitorValues,
-      {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
-  );
+cwc.mode.ev3.Control.prototype.addEventHandler_ = function() {
+  var moveLeft = goog.dom.getElement(this.prefix + 'move-left');
+  var moveForward = goog.dom.getElement(this.prefix + 'move-forward');
+  var moveBackward = goog.dom.getElement(this.prefix + 'move-backward');
+  var moveRight = goog.dom.getElement(this.prefix + 'move-right');
+  var stop = goog.dom.getElement(this.prefix + 'stop');
+
+  // Movements
+  this.addEventListener_(moveLeft, goog.events.EventType.CLICK, function() {
+    this.api.rotateAngle(-45);
+  }.bind(this), false, this);
+
+  this.addEventListener_(moveForward, goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(50);
+  }.bind(this), false, this);
+
+  this.addEventListener_(moveBackward, goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(-50);
+  }.bind(this), false, this);
+
+  this.addEventListener_(moveRight, goog.events.EventType.CLICK, function() {
+    this.api.rotateAngle(45);
+  }.bind(this), false, this);
+
+  this.addEventListener_(stop, goog.events.EventType.CLICK, function() {
+    this.api.stop();
+  }.bind(this), false, this);
 };
 
 
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
-  if (this.timerMonitor) {
-    this.timerMonitor.stop();
-  }
+cwc.mode.ev3.Control.prototype.cleanUp = function() {
   this.helper.removeEventListeners(this.listener, this.name);
 };
 
@@ -164,7 +157,7 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type,
+cwc.mode.ev3.Control.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

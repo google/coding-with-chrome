@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout template for the EV3 modification.
+ * @fileoverview Control template for the EV3 modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,31 +17,29 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.ev3.advanced autoescape="strict"}
+{namespace cwc.soy.mode.ev3.Control autoescape="strict"}
 
 
 /**
- * Editor template.
+ * Control template.
  */
-{template .editor}
+{template .template}
   {@param prefix: string}
-  <div id="{$prefix}editor-chrome">Editor</div>
+  <div id="{$prefix}control">
+    EV3 Control Screen<hr>
+    <button type="button" id="{$prefix}move-left">Left</button>
+    <button type="button" id="{$prefix}move-forward">Forward</button>
+    <button type="button" id="{$prefix}move-backward">Backward</button>
+    <button type="button" id="{$prefix}move-right">Right</button>
+    <br>
+    <button type="button" id="{$prefix}stop">Stop</button>
+  </div>
 {/template}
 
 
 /**
- * Runner template.
+ * Control stylesheets.
  */
-{template .runner}
-  {@param prefix: string}
-  <div id="{$prefix}runner-chrome">Runner</div>
-{/template}
+{template .style}
 
-
-/**
- * Monitor template.
- */
-{template .monitor}
-  {@param prefix: string}
-  <div id="{$prefix}monitor-chrome">Monitor</div>
 {/template}

@@ -91,11 +91,40 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.gyroSensorValue = null;
 
+  /** @type {number} */
+  this.wheelDiameter = null;
+
+  /** @type {number} */
+  this.wheelCircumference = null;
+
+  /** @type {number} */
+  this.wheelbase = null;
+
   this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
   this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
   this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
   this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
+  this.runner.addCommand('updateWheelDiameter',
+    this.handleUpdateWheelDiameter_);
+  this.runner.addCommand('updateWheelbase', this.handleUpdateWheelbase_);
+};
+
+
+/**
+ * @param {!number} diameter in millimeter
+ */
+cwc.framework.Ev3.prototype.setWheelDiameter = function(diameter) {
+  this.wheelDiameter = diameter;
+  this.wheelCircumference = diameter * Math.PI;
+};
+
+
+/**
+ * @param {!number} distance in millimeter
+ */
+cwc.framework.Ev3.prototype.setWheelbase = function(distance) {
+  this.wheelbase = distance;
 };
 
 
@@ -301,13 +330,29 @@ cwc.framework.Ev3.prototype.movePen = function(steps,
 
 
 /**
- * Moves the motors for the predefined specific steps.
+ * Moves the motors for the specific steps.
  * @param {!number} steps
  * @param {number=} opt_speed
  * @param {number=} opt_delay in msec
  * @export
  */
 cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
+  this.runner.send('moveSteps', {
+    'steps': steps,
+    'speed': opt_speed}, opt_delay);
+};
+
+
+/**
+ * Moves the motors for the specific distance.
+ * @param {!number} distance in cm
+ * @param {number=} opt_speed
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
+    opt_delay) {
+  var steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
   this.runner.send('moveSteps', {
     'steps': steps,
     'speed': opt_speed}, opt_delay);
@@ -481,4 +526,24 @@ cwc.framework.Ev3.prototype.handleUpdateColorSensor_ = function(data) {
 cwc.framework.Ev3.prototype.handleUpdateTouchSensor_ = function(data) {
   this.touchSensorValue = data;
   this.touchSensorEvent(data);
+};
+
+
+/**
+ * Sets the wheel diameter.
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
+  this.setWheelDiameter(data);
+};
+
+
+/**
+ * Sets the wheelbase.
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateWheelbase_ = function(data) {
+  this.setWheelbase(data);
 };

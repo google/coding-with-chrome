@@ -60,9 +60,24 @@ Blockly.JavaScript['ev3_play_tone'] = function(block) {
 Blockly.JavaScript['ev3_move'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
-  var invert = dropdown_direction == 'backwards';
+  var invert = dropdown_direction == 'backward';
   var delay = Number(text_steps) * 5 ;
   var code = 'ev3.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', ' + delay + ');\n';
+  return code;
+};
+
+
+/**
+ * @param {!Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['ev3_move_distance'] = function(block) {
+  var dropdown_direction = block.getFieldValue('direction');
+  var text_distance = block.getFieldValue('distance');
+  var invert = dropdown_direction == 'backward';
+  var delay = Number(text_distance) * 5 ;
+  var code = 'ev3.moveDistance(' + text_distance + ', ' + (invert ? -50 : 50) +
     ', ' + delay + ');\n';
   return code;
 };
@@ -146,7 +161,8 @@ Blockly.JavaScript['ev3_rotate'] = function(block) {
 Blockly.JavaScript['ev3_rotate_left'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', -50, null, ' + delay + ');\n';
+  var code = 'ev3.rotateAngle(' + angle_value + ', -50, null, ' + delay +
+    ');\n';
   return code;
 };
 

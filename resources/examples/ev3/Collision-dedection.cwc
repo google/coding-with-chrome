@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "// Plays start tone.\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\n\n// Move forward with 40% power.\nev3.movePower(40);\n\n// Stops EV3 if distance is to short\nvar move = function(value) {\n if (value < 40) {\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.movePower(-40);\n } else if (value < 80) {\n   ev3.rotatePower(40);\n } else {\n   ev3.movePower(40);\n }\n};\nev3.onIrSensorChange(move);\n"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "ev3",
+  "mode": "ev3",
+  "title": "EV3 line follow Example",
+  "ui": "default",
+  "version": "1.0"
+}

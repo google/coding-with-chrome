@@ -19,7 +19,9 @@
  */
 goog.provide('cwc.mode.ev3.blockly.Mod');
 
+goog.require('cwc.mode.ev3.Calibration');
 goog.require('cwc.mode.ev3.Connection');
+goog.require('cwc.mode.ev3.Control');
 goog.require('cwc.mode.ev3.Monitor');
 goog.require('cwc.mode.ev3.Runner');
 goog.require('cwc.mode.ev3.blockly.Editor');
@@ -39,18 +41,24 @@ cwc.mode.ev3.blockly.Mod = function(helper) {
   /** @type {cwc.mode.ev3.advanced.Editor} */
   this.editor = new cwc.mode.ev3.blockly.Editor(helper);
 
+  /** @type {cwc.mode.ev3.Runner} */
+  this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
+
   /** @type {cwc.mode.ev3.Layout} */
   this.layout = new cwc.mode.ev3.blockly.Layout(helper);
 
   /** @type {cwc.mode.ev3.Monitor} */
-  this.monitor = new cwc.mode.ev3.Monitor(helper,
-      this.connection);
+  this.monitor = new cwc.mode.ev3.Monitor(helper, this.connection);
+
+  /** @type {cwc.mode.ev3.Control} */
+  this.control = new cwc.mode.ev3.Control(helper, this.connection);
+
+  /** @type {cwc.mode.ev3.Calibration} */
+  this.calibration = new cwc.mode.ev3.Calibration(helper, this.connection,
+    this.runner);
 
   /** @type {cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
-
-  /** @type {cwc.mode.ev3.Runner} */
-  this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
 };
 
 
@@ -63,5 +71,7 @@ cwc.mode.ev3.blockly.Mod.prototype.decorate = function() {
   this.editor.decorate();
   this.runner.decorate();
   this.monitor.decorate();
+  this.control.decorate();
+  this.calibration.decorate();
   this.renderer.init();
 };
