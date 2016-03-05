@@ -22,7 +22,6 @@ goog.provide('cwc.mode.ev3.Monitor');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.ev3.Events');
 goog.require('cwc.soy.mode.ev3.Monitor');
-goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 

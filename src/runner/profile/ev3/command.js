@@ -37,8 +37,7 @@ cwc.runner.profile.ev3.Command = function(api) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.playTone = function(data) {
-  this.api.playTone(data['frequency'], data['duration'], data['volume'],
-      data['delay']);
+  this.api.playTone(data['frequency'], data['duration'], data['volume']);
 };
 
 
@@ -46,7 +45,7 @@ cwc.runner.profile.ev3.Command.prototype.playTone = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.playSound = function(data) {
-  this.api.playSound(data['file'], data['volume'], data['delay']);
+  this.api.playSound(data['file'], data['volume']);
 };
 
 
@@ -62,7 +61,7 @@ cwc.runner.profile.ev3.Command.prototype.showImage = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
-  this.api.moveServo(data['steps'], data['speed'], data['delay']);
+  this.api.moveServo(data['steps'], data['speed']);
 };
 
 
@@ -70,7 +69,7 @@ cwc.runner.profile.ev3.Command.prototype.movePen = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
-  this.api.moveServo(data['steps'], data['speed'], data['delay']);
+  this.api.moveServo(data['steps'], data['speed']);
 };
 
 
@@ -78,16 +77,15 @@ cwc.runner.profile.ev3.Command.prototype.moveServo = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
-  this.api.moveSteps(data['steps'], data['speed'], data['delay']);
+  this.api.moveSteps(data['steps'], data['speed']);
 };
 
 
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Command.prototype.rotateAngle = function(data) {
-  this.api.rotateAngle(data['angle'], data['speed'], data['ratio'],
-      data['delay']);
+cwc.runner.profile.ev3.Command.prototype.rotateSteps = function(data) {
+  this.api.rotateSteps(data['steps'], data['speed']);
 };
 
 
@@ -95,7 +93,7 @@ cwc.runner.profile.ev3.Command.prototype.rotateAngle = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.movePower = function(data) {
-  this.api.movePower(data['power'], data['delay']);
+  this.api.movePower(data['power']);
 };
 
 
@@ -103,15 +101,15 @@ cwc.runner.profile.ev3.Command.prototype.movePower = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.rotatePower = function(data) {
-  this.api.rotatePower(data['power'], data['opt_power'], data['delay']);
+  this.api.rotatePower(data['power'], data['opt_power']);
 };
 
 
 /**
- * @param {!Object} data
+ * @param {!Object} opt_data
  */
-cwc.runner.profile.ev3.Command.prototype.stop = function(data) {
-  this.api.stop(data['delay']);
+cwc.runner.profile.ev3.Command.prototype.stop = function(opt_data) {
+  this.api.stop();
 };
 
 
@@ -119,7 +117,7 @@ cwc.runner.profile.ev3.Command.prototype.stop = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.setColorSensorMode = function(data) {
-  this.api.setColorSensorMode(data['mode'], data['delay']);
+  this.api.setColorSensorMode(data['mode']);
 };
 
 
@@ -127,7 +125,7 @@ cwc.runner.profile.ev3.Command.prototype.setColorSensorMode = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.setIrSensorMode = function(data) {
-  this.api.setIrSensorMode(data['mode'], data['delay']);
+  this.api.setIrSensorMode(data['mode']);
 };
 
 
@@ -135,15 +133,7 @@ cwc.runner.profile.ev3.Command.prototype.setIrSensorMode = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.setLed = function(data) {
-  this.api.setLed(data['color'], data['mode'], data['delay']);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.runner.profile.ev3.Command.prototype.setStepSpeed = function(data) {
-  this.api.setStepSpeed(data['speed'], data['delay']);
+  this.api.setLed(data['color'], data['mode']);
 };
 
 

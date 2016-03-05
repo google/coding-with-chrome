@@ -26,8 +26,9 @@ goog.provide('cwc.protocol.ev3.Robots');
  * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['TRACK3R'] = {
-  wheel_diameter: 32,
-  wheelbase: 156
+  wheelDiameter: 32,
+  wheelWidth: 20,
+  wheelbase: 157
 };
 
 
@@ -36,6 +37,7 @@ cwc.protocol.ev3.Robots['TRACK3R'] = {
  * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['GRYO BOY'] = {
-  wheel_diameter: 55,
+  wheelDiameter: 55,
+  wheelWidth: 30,
   wheelbase: 75
 };

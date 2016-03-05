@@ -20,9 +20,7 @@
 goog.provide('cwc.mode.ev3.Control');
 
 goog.require('cwc.protocol.ev3.Api');
-goog.require('cwc.protocol.ev3.Events');
 goog.require('cwc.soy.mode.ev3.Control');
-goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
@@ -116,7 +114,7 @@ cwc.mode.ev3.Control.prototype.addEventHandler_ = function() {
 
   // Movements
   this.addEventListener_(moveLeft, goog.events.EventType.CLICK, function() {
-    this.api.rotateAngle(-45);
+    this.api.rotateSteps(45, -50);
   }.bind(this), false, this);
 
   this.addEventListener_(moveForward, goog.events.EventType.CLICK, function() {
@@ -124,11 +122,11 @@ cwc.mode.ev3.Control.prototype.addEventHandler_ = function() {
   }.bind(this), false, this);
 
   this.addEventListener_(moveBackward, goog.events.EventType.CLICK, function() {
-    this.api.moveSteps(-50);
+    this.api.moveSteps(50, -50);
   }.bind(this), false, this);
 
   this.addEventListener_(moveRight, goog.events.EventType.CLICK, function() {
-    this.api.rotateAngle(45);
+    this.api.rotateSteps(45);
   }.bind(this), false, this);
 
   this.addEventListener_(stop, goog.events.EventType.CLICK, function() {

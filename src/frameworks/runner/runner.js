@@ -186,7 +186,7 @@ cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
  * @private
  */
 cwc.framework.Runner.prototype.handleStart_ = function() {
-  console.log('Starting programm...');
+  console.log('Starting program...');
   if (this.callback) {
     this.callback();
   }
@@ -208,6 +208,6 @@ cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
  * @export
  */
 cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
-  console.log('Recieved request to enable direct update.');
+  console.log('Enable direct update.');
   this.send('__direct_update__', opt_data);
 };

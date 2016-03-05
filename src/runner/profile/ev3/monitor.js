@@ -48,10 +48,10 @@ cwc.runner.profile.ev3.Monitor.prototype.reset = function() {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Monitor.prototype.moveSteps = function(data) {
-  if (data['invert']) {
-    this.turtle.action('bk', data['steps']);
-  } else {
-    this.turtle.action('fd', data['steps']);
+  if (data['speed'] > 0) {
+    this.turtle.action('fd', data['distance'] * 2.5 || data['steps']);
+  } else if (data['speed'] < 0) {
+    this.turtle.action('bk', data['distance'] * 2.5 || data['steps']);
   }
 };
 
@@ -59,11 +59,13 @@ cwc.runner.profile.ev3.Monitor.prototype.moveSteps = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.rotateAngle = function(data) {
-  if (data['invert']) {
-    this.turtle.action('lt', data['angle']);
-  } else {
-    this.turtle.action('rt', data['angle']);
+cwc.runner.profile.ev3.Monitor.prototype.rotateSteps = function(data) {
+  if (data['angle']) {
+    if (data['speed'] > 0) {
+      this.turtle.action('rt', data['angle']);
+    } else if (data['speed'] < 0) {
+      this.turtle.action('lt', data['angle']);
+    }
   }
 };
 

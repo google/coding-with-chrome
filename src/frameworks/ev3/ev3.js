@@ -97,8 +97,20 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.wheelCircumference = null;
 
+  /** @type {!number} */
+  this.wheelWidth = 0;
+
   /** @type {number} */
   this.wheelbase = null;
+
+  /** @type {number} */
+  this.rotateCircumference = null;
+
+  /** @type {!number} */
+  this.largeMotorSpeed = 170 / 60;
+
+  /** @type {!number} */
+  this.mediumMotorSpeed = 250 / 60;
 
   this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
@@ -106,25 +118,65 @@ cwc.framework.Ev3 = function(code) {
   this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
   this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
   this.runner.addCommand('updateWheelDiameter',
-    this.handleUpdateWheelDiameter_);
+      this.handleUpdateWheelDiameter_);
+  this.runner.addCommand('updateWheelWidth', this.handleUpdateWheelWidth_);
   this.runner.addCommand('updateWheelbase', this.handleUpdateWheelbase_);
 };
 
 
 /**
  * @param {!number} diameter in millimeter
+ * @export
  */
 cwc.framework.Ev3.prototype.setWheelDiameter = function(diameter) {
-  this.wheelDiameter = diameter;
-  this.wheelCircumference = diameter * Math.PI;
+  this.wheelDiameter = Number(diameter);
+  this.wheelCircumference = this.wheelDiameter * Math.PI;
+};
+
+
+/**
+ * @param {!number} diameter in millimeter
+ * @export
+ */
+cwc.framework.Ev3.prototype.setWheelWidth = function(wheel_width) {
+  this.wheelWidth = Number(wheel_width);
+  this.setRotateCircumference_();
 };
 
 
 /**
  * @param {!number} distance in millimeter
+ * @export
  */
 cwc.framework.Ev3.prototype.setWheelbase = function(distance) {
-  this.wheelbase = distance;
+  this.wheelbase = Number(distance);
+  this.setRotateCircumference_();
+};
+
+
+/**
+ * @private
+ */
+cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
+  if (this.wheelbase) {
+    this.rotateCircumference = (this.wheelbase + this.wheelWidth) * Math.PI;
+  }
+};
+
+
+/**
+ * @param {!number} steps
+ * @param {!number} opt_speed
+ * @param {string=} opt_type
+ * @param {!number} Calculated delay + buffer.
+ */
+cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed, opt_type) {
+  var buffer = 200;
+  var motorSpeed = this.largeMotorSpeed;
+  var speed = opt_speed || 50;
+  var delay = Math.floor(
+    (((steps / 360) * Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
+  return delay;
 };
 
 
@@ -337,7 +389,9 @@ cwc.framework.Ev3.prototype.movePen = function(steps,
  * @export
  */
 cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
+  var distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
   this.runner.send('moveSteps', {
+    'distance': distance,
     'steps': steps,
     'speed': opt_speed}, opt_delay);
 };
@@ -347,15 +401,17 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
  * Moves the motors for the specific distance.
  * @param {!number} distance in cm
  * @param {number=} opt_speed
- * @param {number=} opt_delay in msec
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
     opt_delay) {
   var steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
+  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
   this.runner.send('moveSteps', {
+    'distance': distance,
     'steps': steps,
-    'speed': opt_speed}, opt_delay);
+    'speed': opt_speed}, delay);
 };
 
 
@@ -367,12 +423,33 @@ cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotateAngle = function(angle,
+cwc.framework.Ev3.prototype.rotateSteps = function(steps,
     opt_speed, opt_ratio, opt_delay) {
-  this.runner.send('rotateAngle', {
-    'angle': angle,
+  this.runner.send('rotateSteps', {
+    'steps': steps,
     'speed': opt_speed,
     'ratio': opt_ratio}, opt_delay);
+};
+
+
+/**
+ * Rotates the motors for the predefined specific steps.
+ * @param {!number} angle
+ * @param {number=} opt_speed
+ * @param {number=} opt_ratio
+ * @param {number=} opt_delay in msec or true for auto
+ * @export
+ */
+cwc.framework.Ev3.prototype.rotateAngle = function(angle,
+    opt_speed, opt_delay) {
+  var rotateDistance = this.rotateCircumference / 360;
+  var steps = Math.round(
+    (rotateDistance * angle / this.wheelCircumference) * 360);
+  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  this.runner.send('rotateSteps', {
+    'angle': angle,
+    'steps': steps,
+    'speed': opt_speed}, delay);
 };
 
 
@@ -536,6 +613,16 @@ cwc.framework.Ev3.prototype.handleUpdateTouchSensor_ = function(data) {
  */
 cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
   this.setWheelDiameter(data);
+};
+
+
+/**
+ * Sets the wheel diameter.
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
+  this.setWheelWidth(data);
 };
 
 

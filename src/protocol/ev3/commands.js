@@ -22,7 +22,6 @@ goog.provide('cwc.protocol.ev3.Commands');
 goog.require('cwc.protocol.ev3.Buffer');
 goog.require('cwc.protocol.ev3.CallbackType');
 goog.require('cwc.protocol.ev3.Command');
-goog.require('cwc.protocol.ev3.ColorSensorMode');
 
 
 
@@ -32,6 +31,42 @@ goog.require('cwc.protocol.ev3.ColorSensorMode');
  * @final
  */
 cwc.protocol.ev3.Commands = function() {
+  /** @private {Object} */
+  this.cache_ = {};
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!Object} params
+ */
+cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
+  var key = this.getCacheName(name, param);
+  if (key in this.cache_) {
+    return this.cache_[key];
+  }
+  return false;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!Object} params
+ * @param {!Object} result
+ */
+cwc.protocol.ev3.Commands.prototype.setCache = function(name, param, result) {
+  var key = this.getCacheName(name, param);
+  this.cache_[key] = result;
+  return result;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!Object} params
+ */
+cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, params) {
+  return name + ':' + JSON.stringify(Array.prototype.slice.call(params));
 };
 
 
@@ -88,6 +123,10 @@ cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
+  var cache = this.getCache('getActorData', arguments);
+  if (cache) {
+    return cache;
+  }
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.ACTOR_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READRAW);
@@ -97,7 +136,7 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return buffer.readSigned();
+  return this.setCache('getActorData', arguments, buffer.readSigned());
 };
 
 
@@ -109,6 +148,10 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
+  var cache = this.getCache('getSensorData', arguments);
+  if (cache) {
+    return cache;
+  }
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
      cwc.protocol.ev3.CallbackType.DEVICE_RAW_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READRAW);
@@ -118,7 +161,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return buffer.readSigned();
+  return this.setCache('getSensorData', arguments, buffer.readSigned());
 };
 
 
@@ -131,6 +174,10 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
     opt_mode) {
+  var cache = this.getCache('getSensorDataPct', arguments);
+  if (cache) {
+    return cache;
+  }
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_PCT_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READPCT);
@@ -140,7 +187,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return buffer.readSigned();
+  return this.setCache('getSensorDataPct', arguments, buffer.readSigned());
 };
 
 
@@ -152,6 +199,10 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
+  var cache = this.getCache('getSensorDataSi', arguments);
+  if (cache) {
+    return cache;
+  }
   var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_SI_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READSI);
@@ -161,7 +212,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return buffer.readSigned();
+  return this.setCache('getSensorDataSi', arguments, buffer.readSigned());
 };
 
 
@@ -338,20 +389,6 @@ cwc.protocol.ev3.Commands.prototype.clear = function() {
 
 
 /**
- * Shows the selected image file.
- * @param {!string} file_name
- * @return {!cwc.protocol.ev3.Buffer}
- * @export
- */
-cwc.protocol.ev3.Commands.prototype.showImage = function(file_name) {
-  var buffer = new cwc.protocol.ev3.Buffer();
-  buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.BMPFILE);
-  buffer.writeString(file_name);
-  return buffer.readSigned();
-};
-
-
-/**
  * Plays a tone with the defined volume, frequency and duration.
  * @param {!number} frequency
  * @param {number=} opt_duration
@@ -410,6 +447,28 @@ cwc.protocol.ev3.Commands.prototype.drawUpdate = function() {
 
 
 /**
+ * Shows the selected image file.
+ * @param {!string} file_name
+ * @param {number=} opt_x
+ * @param {number=} opt_y
+ * @param {number=} opt_color
+ * @return {!cwc.protocol.ev3.Buffer}
+ * @export
+ */
+cwc.protocol.ev3.Commands.prototype.drawImage = function(file_name,
+    opt_x, opt_y, opt_color) {
+  var buffer = new cwc.protocol.ev3.Buffer();
+  var filename = '/home/root/lms2012/prjs/' + file_name.replace('.rgf', '');
+  buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.BMPFILE);
+  buffer.writeByte(opt_color == undefined ? 0x01 : opt_color);
+  buffer.writeInt(Math.min(177, Math.max(0, opt_x || 0)));
+  buffer.writeInt(Math.min(127, Math.max(0, opt_y || 0)));
+  buffer.writeString(filename);
+  return buffer.readSigned();
+};
+
+
+/**
  * Draws a line.
  * @param {!number} x1 (0-177)
  * @param {!number} y1 (0-127)
@@ -430,3 +489,5 @@ cwc.protocol.ev3.Commands.prototype.drawLine = function(x1, y1, x2, y2,
   buffer.writeInt(Math.min(127, Math.max(0, y2)));
   return buffer.readSigned();
 };
+
+

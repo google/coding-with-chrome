@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.ev3.Runner');
 
 goog.require('cwc.protocol.ev3.Events');
+goog.require('cwc.protocol.ev3.Robots');
 goog.require('cwc.runner.profile.ev3.Command');
 goog.require('cwc.runner.profile.ev3.Monitor');
 goog.require('cwc.soy.mode.ev3.Runner');
@@ -27,7 +28,6 @@ goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.Timer');
 goog.require('goog.dom');
 
 
@@ -94,10 +94,13 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   this.showPreview = true;
 
   /** @type {!number} */
-  this.wheelDiameter = 32;
+  this.wheelDiameter = cwc.protocol.ev3.Robots['TRACK3R'].wheelDiameter;
 
   /** @type {!number} */
-  this.wheelbase = 156;
+  this.wheelWidth = cwc.protocol.ev3.Robots['TRACK3R'].wheelWidth;
+
+  /** @type {!number} */
+  this.wheelbase = cwc.protocol.ev3.Robots['TRACK3R'].wheelbase;
 };
 
 
@@ -110,6 +113,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
+  // Start command
   this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Delayed Commands
@@ -121,8 +125,8 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   this.runner.addCommand('moveServo', this.command.moveServo, this);
 
-  this.runner.addCommand('rotateAngle', this.command.rotateAngle, this);
-  this.runner.addMonitor('rotateAngle', this.monitor.rotateAngle, this.monitor);
+  this.runner.addCommand('rotateSteps', this.command.rotateSteps, this);
+  this.runner.addMonitor('rotateSteps', this.monitor.rotateSteps, this.monitor);
 
   this.runner.addCommand('playSound', this.command.playSound, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
@@ -138,10 +142,12 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
       this);
   this.runner.addCommand('setIrSensorMode', this.command.setIrSensorMode, this);
   this.runner.addCommand('setLed', this.command.setLed, this);
-  this.runner.addCommand('setStepSpeed', this.command.setStepSpeed, this);
 
   // Events
   var apiEventHandler = this.api.getEventHandler();
+  if (!apiEventHandler) {
+    console.error('EV3 API event handler is not defined!');
+  }
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
       'updateIrSensor');
@@ -202,11 +208,13 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
   this.updateDeviceData();
-  this.updateWheelDiameter();
-  this.updateWheelbase();
+  this.setWheelDiameter();
+  this.setWheelWidth();
+  this.setWheelbase();
 
   this.monitor.reset();
-  this.turtle.action('speed', 3);
+  this.turtle.action('speed', 1);
+  this.turtle.action('scale', 1);
   this.turtle.reset();
 };
 
@@ -228,36 +236,35 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
 
 
 /**
- * Updates the wheel diameter.
+ * @param {!number} opt_diameter in diameter
  */
-cwc.mode.ev3.Runner.prototype.updateWheelDiameter = function() {
+cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(opt_diameter) {
+  if (opt_diameter !== undefined) {
+    this.wheelDiameter = opt_diameter;
+  }
   this.runner.send('updateWheelDiameter', this.wheelDiameter);
 };
 
 
 /**
- * Updates the wheelbase.
+ * @param {number=} opt_width in diameter
  */
-cwc.mode.ev3.Runner.prototype.updateWheelbase = function() {
+cwc.mode.ev3.Runner.prototype.setWheelWidth = function(opt_width) {
+  if (opt_width !== undefined) {
+    this.wheelWidth = opt_width;
+  }
+  this.runner.send('updateWheelWidth', this.wheelWidth);
+};
+
+
+/**
+ * @param {number=} opt_distance in millimeter
+ */
+cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
+  if (opt_distance) {
+    this.wheelbase = opt_distance;
+  }
   this.runner.send('updateWheelbase', this.wheelbase);
-};
-
-
-/**
- * @param {!number} distance in diameter
- */
-cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(diameter) {
-  this.wheelDiameter = diameter;
-  this.updateWheelDiameter();
-};
-
-
-/**
- * @param {!number} distance in millimeter
- */
-cwc.mode.ev3.Runner.prototype.setWheelbase = function(distance) {
-  this.wheelbase = distance;
-  this.updateWheelbase();
 };
 
 

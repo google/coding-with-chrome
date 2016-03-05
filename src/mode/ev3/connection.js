@@ -21,6 +21,8 @@ goog.provide('cwc.mode.ev3.Connection');
 
 goog.require('cwc.protocol.ev3.Api');
 
+goog.require('goog.Timer');
+
 
 
 /**

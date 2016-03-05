@@ -25,217 +25,182 @@ goog.require('cwc.config.sound');
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * @private {string}
  */
-Blockly.JavaScript['ev3_play_music_note'] = function(block) {
+cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
+
+
+/**
+ * Play music note.
+ */
+cwc.blocks.addJavaScript('play_music_note', function(block) {
   var dropdown_note = block.getFieldValue('note');
   var text_duration = block.getFieldValue('duration');
   var text_volume = 100;
   var duration = Number(text_duration) * 1000 / cwc.config.sound.BPM;
-  var code = 'ev3.playTone(' + Math.round(dropdown_note) + ', ' +
+  return 'ev3.playTone(' + Math.round(dropdown_note) + ', ' +
       Math.round(duration) + ', ' + text_volume + ');\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Play tone.
  */
-Blockly.JavaScript['ev3_play_tone'] = function(block) {
+cwc.blocks.addJavaScript('play_tone', function(block) {
   var text_frequency = block.getFieldValue('frequency');
   var text_duration = block.getFieldValue('duration');
   var text_volume = block.getFieldValue('volume');
-  var code = 'ev3.playTone(' + text_frequency + ', ' + text_duration + ', ' +
+  return 'ev3.playTone(' + text_frequency + ', ' + text_duration + ', ' +
       text_volume + ', ' + (Number(text_duration)) + ');\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move.
  */
-Blockly.JavaScript['ev3_move'] = function(block) {
+cwc.blocks.addJavaScript('move', function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'backward';
-  var delay = Number(text_steps) * 5 ;
-  var code = 'ev3.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
-    ', ' + delay + ');\n';
-  return code;
-};
+  return 'ev3.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move distance.
  */
-Blockly.JavaScript['ev3_move_distance'] = function(block) {
+cwc.blocks.addJavaScript('move_distance', function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_distance = block.getFieldValue('distance');
   var invert = dropdown_direction == 'backward';
-  var delay = Number(text_distance) * 5 ;
-  var code = 'ev3.moveDistance(' + text_distance + ', ' + (invert ? -50 : 50) +
-    ', ' + delay + ');\n';
-  return code;
-};
+  return 'ev3.moveDistance(' + text_distance + ', ' + (invert ? -50 : 50) +
+    ', true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move forward.
  */
-Blockly.JavaScript['ev3_move_forward'] = function(block) {
+cwc.blocks.addJavaScript('move_forward', function(block) {
   var text_steps = block.getFieldValue('steps');
-  var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', 50, ' + delay + ');\n';
-  return code;
-};
+  return 'ev3.moveSteps(' + text_steps + ', 50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move backward.
  */
-Blockly.JavaScript['ev3_move_backward'] = function(block) {
+cwc.blocks.addJavaScript('move_backward', function(block) {
   var text_steps = block.getFieldValue('steps');
-  var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveSteps(' + text_steps + ', -50, ' + delay + ');\n';
-  return code;
-};
+  return 'ev3.moveSteps(' + text_steps + ', -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move pen.
  */
-Blockly.JavaScript['ev3_move_pen'] = function(block) {
+cwc.blocks.addJavaScript('move_pen', function(block) {
   var colour = block.getFieldValue('colour');
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'up';
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.movePen(' + text_steps + ', ' + (invert ? -50 : 50) +
+  return 'ev3.movePen(' + text_steps + ', ' + (invert ? -50 : 50) +
     ', \'' + colour + '\', ' + delay + ');\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move servo.
  */
-Blockly.JavaScript['ev3_move_servo'] = function(block) {
+cwc.blocks.addJavaScript('move_servo', function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'inverted';
   var delay = Number(text_steps) * 5;
-  var code = 'ev3.moveServo(' + text_steps + ', ' + (invert ? -50 : 50) +
+  return 'ev3.moveServo(' + text_steps + ', ' + (invert ? -50 : 50) +
     ', ' + delay + ');\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Rotate.
  */
-Blockly.JavaScript['ev3_rotate'] = function(block) {
+cwc.blocks.addJavaScript('rotate', function(block) {
+  var angle_value = block.getFieldValue('angle');
   var dropdown_direction = block.getFieldValue('direction');
-  var angle_value = block.getFieldValue('angle');
   var invert = dropdown_direction == 'left';
-  var delay = (angle_value * 5) + 1250;
   var speed = invert ? -50 : 50;
-  var code = 'ev3.rotateAngle(' + angle_value + ', ' + speed + ', null, ' +
-    delay + ');\n';
-  return code;
-};
+  return 'ev3.rotateAngle(' + angle_value + ', ' + speed + ', true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Rotate left.
  */
-Blockly.JavaScript['ev3_rotate_left'] = function(block) {
+cwc.blocks.addJavaScript('rotate_left', function(block) {
   var angle_value = block.getFieldValue('angle');
-  var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', -50, null, ' + delay +
-    ');\n';
-  return code;
-};
+  return 'ev3.rotateAngle(' + angle_value + ', -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Rotate right.
  */
-Blockly.JavaScript['ev3_rotate_right'] = function(block) {
+cwc.blocks.addJavaScript('rotate_right', function(block) {
   var angle_value = block.getFieldValue('angle');
-  var delay = (angle_value * 5) + 1250;
-  var code = 'ev3.rotateAngle(' + angle_value + ', 50, null, ' + delay + ');\n';
-  return code;
-};
+  return 'ev3.rotateAngle(' + angle_value + ', 50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Stop.
  */
-Blockly.JavaScript['ev3_stop'] = function(block) {
+cwc.blocks.addJavaScript('stop', function(block) {
   var dropdown_immediately = block.getFieldValue('immediately');
-  var code = 'ev3.stop();\n';
   if (dropdown_immediately == 'when finished') {
-    code = 'ev3.stop(500);\n';
+    return 'ev3.stop(500);\n';
   }
-  return code;
-};
+  return 'ev3.stop();\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block=} opt_block
- * @return {string}
+ * Stop immediately.
  */
-Blockly.JavaScript['ev3_stop_immediately'] = function(opt_block) {
-  var code = 'ev3.stop();\n';
-  return code;
-};
+cwc.blocks.addJavaScript('stop_immediately', function(opt_block) {
+  return 'ev3.stop();\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Move power.
  */
-Blockly.JavaScript['ev3_move_power'] = function(block) {
+cwc.blocks.addJavaScript('move_power', function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
   var invert = dropdown_direction == 'backward';
-  var code = 'ev3.movePower(' + (invert ? -value_power : value_power) +
-    ');\n';
-  return code;
-};
+  return 'ev3.movePower(' + (invert ? -value_power : value_power) + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Rotate power.
  */
-Blockly.JavaScript['ev3_rotate_power'] = function(block) {
+cwc.blocks.addJavaScript('rotate_power', function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
   var invert = dropdown_direction == 'left';
   var power = (invert ? -value_power : value_power);
-  var code = 'ev3.rotatePower(' + power + ', ' + power + ');\n';
-  return code;
-};
+  return 'ev3.rotatePower(' + power + ', ' + power + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Color sensor mode.
  */
-Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
+cwc.blocks.addJavaScript('color_sensor_mode', function(block) {
   var dropdown_mode = block.getFieldValue('mode');
   var mode = 0;
   switch (dropdown_mode) {
@@ -249,16 +214,14 @@ Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
       mode = 2;
       break;
   }
-  var code = 'ev3.setColorSensorMode(' + mode + ');\n';
-  return code;
-};
+  return 'ev3.setColorSensorMode(' + mode + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Sensor mode.
  */
-Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
+cwc.blocks.addJavaScript('ir_sensor_mode', function(block) {
   var dropdown_mode = block.getFieldValue('mode');
   var mode = 0;
   switch (dropdown_mode) {
@@ -272,113 +235,99 @@ Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
       mode = 2;
       break;
   }
-  var code = 'ev3.setIrSensorMode(' + mode + ');\n';
-  return code;
-};
+  return 'ev3.setIrSensorMode(' + mode + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {Blockly.Block=} opt_block
- * @return {string}
+ * Color sensor value.
  */
-Blockly.JavaScript['ev3_color_sensor_value'] = function(opt_block) {
+cwc.blocks.addJavaScript('color_sensor_value', function(opt_block) {
   var code = 'ev3.getColorSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {Blockly.Block=} opt_block
- * @return {string}
+ * Touch sensor value.
  */
-Blockly.JavaScript['ev3_touch_sensor_value'] = function(opt_block) {
+cwc.blocks.addJavaScript('touch_sensor_value', function(opt_block) {
   var code = 'ev3.getTouchSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {Blockly.Block=} opt_block
- * @return {string}
+ * Ir sensor value.
  */
-Blockly.JavaScript['ev3_ir_sensor_value'] = function(opt_block) {
+cwc.blocks.addJavaScript('ir_sensor_value', function(opt_block) {
   var code = 'ev3.getIrSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Color sensor change.
  */
-Blockly.JavaScript['ev3_color_sensor_change'] = function(block) {
+cwc.blocks.addJavaScript('color_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  var code = 'var colorSensorEvent = function(value) {\n' +
+  return 'var colorSensorEvent = function(value) {\n' +
       statements_code + '};\nev3.onColorSensorChange(colorSensorEvent);\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Ir sensor change.
  */
-Blockly.JavaScript['ev3_ir_sensor_change'] = function(block) {
+cwc.blocks.addJavaScript('ir_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  var code = 'var irSensorEvent = function(value) {\n' +
+  return 'var irSensorEvent = function(value) {\n' +
       statements_code + '};\nev3.onIrSensorChange(irSensorEvent);\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Touch sensor change.
  */
-Blockly.JavaScript['ev3_touch_sensor_change'] = function(block) {
+cwc.blocks.addJavaScript('touch_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  var code = 'var touchEvent = function(value) {\n' +
+  return 'var touchEvent = function(value) {\n' +
       statements_code +
       '};\nev3.onTouchSensorChange(touchEvent);\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {!Blockly.Block} block
- * @return {string}
+ * Ir collision.
  */
-Blockly.JavaScript['ev3_on_collision_ir'] = function(block) {
+cwc.blocks.addJavaScript('on_collision_ir', function(block) {
   var statements_code1 = Blockly.JavaScript.statementToCode(block, 'CODE1');
   var statements_code2 = Blockly.JavaScript.statementToCode(block, 'CODE2');
   var value1 = block.getFieldValue('VALUE1');
   var value2 = block.getFieldValue('VALUE2');
-  var code = 'var irSensorEvent = function(value) {\n' +
+  return 'var irSensorEvent = function(value) {\n' +
       'if(value > ' + value1 + ') {\n' +
       statements_code1 + '\n}\nelse if(value < ' +
       value2 + ') {\n' +
       statements_code2 + '\n}' +
       '};\nev3.onIrSensorChange(irSensorEvent);\n' +
       'ev3.setIrSensorMode(0);\n';
-  return code;
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {Blockly.Block=} opt_block
- * @return {string}
+ * Variable.
  */
-Blockly.JavaScript['ev3_variable_value'] = function(opt_block) {
+cwc.blocks.addJavaScript('variable_value', function(opt_block) {
   var code = 'value';
   return [code, Blockly.JavaScript.ORDER_NONE];
-};
+}, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * @param {Blockly.Block} block
- * @return {string}
+ * Led.
  */
-Blockly.JavaScript['ev3_led'] = function(block) {
+cwc.blocks.addJavaScript('led', function(block) {
   var dropdown_color = block.getFieldValue('color');
   var dropdown_mode = block.getFieldValue('mode');
   var color = 0;
@@ -402,7 +351,5 @@ Blockly.JavaScript['ev3_led'] = function(block) {
       mode = 6;
       break;
   }
-
-  var code = 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
-  return code;
-};
+  return 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);

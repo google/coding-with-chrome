@@ -22,8 +22,6 @@
  */
 goog.provide('cwc.protocol.ev3.Api');
 
-goog.require('cwc.protocol.bluetooth.Api');
-goog.require('cwc.protocol.ev3.Buffer');
 goog.require('cwc.protocol.ev3.ColorSensorMode');
 goog.require('cwc.protocol.ev3.Commands');
 goog.require('cwc.protocol.ev3.Device');
@@ -37,12 +35,9 @@ goog.require('cwc.protocol.ev3.LedMode');
 goog.require('cwc.protocol.ev3.Monitoring');
 goog.require('cwc.protocol.ev3.MotorMode');
 goog.require('cwc.protocol.ev3.OutputPort');
-goog.require('cwc.protocol.ev3.Polarity');
 
 goog.require('cwc.utils.Helper');
-goog.require('cwc.utils.StackEntry');
 
-goog.require('goog.Timer');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
@@ -57,21 +52,6 @@ goog.require('goog.events.EventTarget');
 cwc.protocol.ev3.Api = function(helper) {
   /** @type {string} */
   this.name = 'EV3';
-
-  /** @type {number} */
-  this.stepSpeed = 40;
-
-  /** @type {number} */
-  this.stepRotationRatio45 = 6.3;
-
-  /** @type {number} */
-  this.stepRotationRatio90 = 6.4;
-
-  /** @type {number} */
-  this.stepRotationRatio180 = 6.5;
-
-  /** @type {number} */
-  this.stepRotationRatio360 = 6.6;
 
   /** @type {boolean} */
   this.prepared = false;
@@ -186,6 +166,7 @@ cwc.protocol.ev3.Api.prototype.prepare = function() {
   this.playTone(3000, 200, 50);
   this.drawClean();
   this.drawLine(0, 0, 999, 999);
+  this.drawImage('Test/Smile');
   this.drawUpdate();
   this.prepared = true;
 };
@@ -204,7 +185,7 @@ cwc.protocol.ev3.Api.prototype.disconnect = function() {
 
 
 /**
- * Resets the Sphero ball connection.
+ * Resets the EV3 connection.
  * @param {number=} opt_delay
  */
 cwc.protocol.ev3.Api.prototype.reset = function(opt_delay) {
@@ -318,15 +299,6 @@ cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
  */
 cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
   this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]].setMode(mode);
-};
-
-
-/**
- * @param {!number} speed
- */
-cwc.protocol.ev3.Api.prototype.setStepSpeed = function(speed) {
-  console.log('Set default step speed to', speed);
-  this.stepSpeed = speed;
 };
 
 
@@ -499,16 +471,6 @@ cwc.protocol.ev3.Api.prototype.clear = function() {
 
 
 /**
- * Shows the selected image file.
- * @param {!string} file_name
- * @export
- */
-cwc.protocol.ev3.Api.prototype.showImage = function(file_name) {
-  this.send_(this.commands.showImage(file_name));
-};
-
-
-/**
  * Clears the EV3 display.
  * @export
  */
@@ -523,6 +485,16 @@ cwc.protocol.ev3.Api.prototype.drawClean = function() {
  */
 cwc.protocol.ev3.Api.prototype.drawUpdate = function() {
   this.send_(this.commands.drawUpdate());
+};
+
+
+/**
+ * Shows the selected image file.
+ * @param {!string} file_name
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.drawImage = function(file_name) {
+  this.send_(this.commands.drawImage(file_name));
 };
 
 
@@ -597,38 +569,8 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps, opt_speed) {
  * @param {number=} opt_step_speed
  * @export
  */
-cwc.protocol.ev3.Api.prototype.rotateAngle = function(steps, opt_step_speed) {
+cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps, opt_step_speed) {
   var brake = true;
-  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
-  this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,
-    opt_step_speed, opt_step_speed, 0, 0, brake));
-};
-
-
-/**
- * Rotates the motors for the predefined specific steps.
- * @param {!number} angle
- * @param {number=} opt_step_speed
- * @param {number=} opt_angle_ratio
- * @export
- */
-cwc.protocol.ev3.Api.prototype.rotateAngle = function(angle, opt_step_speed,
-    opt_angle_ratio) {
-  var brake = true;
-  var ratio = opt_angle_ratio;
-  if (!ratio) {
-    if (angle <= 45) {
-      ratio = this.stepRotationRatio45;
-    } else if (angle <= 90) {
-      ratio = this.stepRotationRatio90;
-    } else if (angle <= 180) {
-      ratio = this.stepRotationRatio180;
-    } else {
-      ratio = this.stepRotationRatio360;
-    }
-  }
-  var steps = ratio * angle;
   var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
   var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,

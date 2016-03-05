@@ -23,8 +23,6 @@ goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.ui.Dialog');
-
 
 
 /**

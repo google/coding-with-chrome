@@ -21,7 +21,6 @@ goog.provide('cwc.mode.ev3.Calibration');
 
 goog.require('cwc.protocol.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Calibration');
-goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.ui.Select');
@@ -54,6 +53,9 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
 
   /** @type {Element} */
   this.nodeWheelDiameter = null;
+
+  /** @type {Element} */
+  this.nodeWheelWidth = null;
 
   /** @type {Element} */
   this.nodeWheelbase = null;
@@ -118,9 +120,13 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   this.nodeRoboterType = goog.dom.getElement(this.prefix + 'roboter-type');
   this.nodeRoboterCustom = goog.dom.getElement(this.prefix + 'roboter-custom');
   this.nodeWheelDiameter = goog.dom.getElement(this.prefix + 'wheel-diameter');
+  this.nodeWheelWidth = goog.dom.getElement(this.prefix + 'wheel-width');
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
   this.nodeSet = goog.dom.getElement(this.prefix + 'set');
+
+  // Roboter type
   this.selectRoboterType.decorate(this.nodeRoboterType);
+  this.setRoboterType('TRACK3R');
   goog.style.showElement(this.nodeRoboterCustom, false);
 
   // Unload event
@@ -174,11 +180,20 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
     goog.style.showElement(this.nodeRoboterCustom, true);
     return;
   }
-
-  this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[type].wheel_diameter;
-  this.nodeWheelbase.value = cwc.protocol.ev3.Robots[type].wheelbase;
+  this.setRoboterType(type);
   goog.style.showElement(this.nodeRoboterCustom, false);
 };
+
+
+/**
+ * Detects the connected EV3 devices.
+ * @param {!string} type
+ */
+cwc.mode.ev3.Calibration.prototype.setRoboterType = function(type) {
+  this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[type].wheelDiameter;
+  this.nodeWheelWidth.value = cwc.protocol.ev3.Robots[type].wheelWidth;
+  this.nodeWheelbase.value = cwc.protocol.ev3.Robots[type].wheelbase;
+} ;
 
 
 /**
@@ -186,8 +201,9 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
  * @param {Event=} opt_event
  */
 cwc.mode.ev3.Calibration.prototype.setCalibration = function(opt_event) {
-  this.runner.setWheelDiameter(this.nodeWheelDiameter.value || 0);
-  this.runner.setWheelbase(this.nodeWheelbase.value || 0);
+  this.runner.setWheelDiameter(this.nodeWheelDiameter.value);
+  this.runner.setWheelWidth(this.nodeWheelWidth.value);
+  this.runner.setWheelbase(this.nodeWheelbase.value);
 };
 
 

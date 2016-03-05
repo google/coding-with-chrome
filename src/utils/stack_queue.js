@@ -149,7 +149,7 @@ cwc.utils.StackQueue.prototype.addCommand = function(command, opt_group) {
 
 
 /**
- * @param {number} delay
+ * @param {number} delay in ms
  * @param {number|string=} opt_group
  * @export
  */

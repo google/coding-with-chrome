@@ -46,7 +46,10 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(null, this);
 
-  /** @type {Object} */
+  /** @type {number} */
+  this.scale = 1/10;
+
+  /** @type {Function} */
   this.turtle = $['turtle'];
 
   /** @type {Object} */
@@ -338,22 +341,22 @@ cwc.framework.Turtle.prototype.handleWear_ = function(color) {
 
 
 /**
- * Scales turtle size and motion by 150%.
- * @param {!number} distance
+ * Scales turtle size and motion by scale.
+ * @param {!number} scale e.g. 1.5 for 150%
  * @private
  */
-cwc.framework.Turtle.prototype.handleScale_ = function(distance) {
-  this.turtleTarget['scale'](distance);
+cwc.framework.Turtle.prototype.handleScale_ = function(scale) {
+  this.turtleTarget['scale'](scale);
 };
 
 
 /**
  * Changes which direction is considered "forward".
- * @param {!number} distance
+ * @param {!number} angle
  * @private
  */
-cwc.framework.Turtle.prototype.handleTwist_ = function(distance) {
-  this.turtleTarget['twist'](distance);
+cwc.framework.Turtle.prototype.handleTwist_ = function(angle) {
+  this.turtleTarget['twist'](angle);
 };
 
 

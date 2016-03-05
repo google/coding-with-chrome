@@ -133,7 +133,7 @@ cwc.runner.Connector.prototype.send = function(command, opt_value) {
 cwc.runner.Connector.prototype.start = function() {
   this.executeCommand('__init__', null, true);
   if (this.listen) {
-    console.log('Sending handhshake with token', this.token);
+    console.log('Sending handshake with token', this.token);
     this.send('__handshake__', this.token);
   }
 };
@@ -211,7 +211,7 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
     opt_ignore_unknown) {
   if (typeof this.commands[name] === 'undefined') {
     if (!opt_ignore_unknown) {
-      console.log('Runner connector received unknow command', name,
+      console.log('Runner connector received unknown command', name,
         'with value', value);
     }
     return;
@@ -254,8 +254,6 @@ cwc.runner.Connector.prototype.pingTest = function(opt_disable) {
  */
 cwc.runner.Connector.prototype.handleContentLoad_ = function(opt_event) {
   this.targetLoaded = true;
-  this.target.executeScript({
-    code: 'console.log("Hello World");' });
 };
 
 
@@ -281,10 +279,10 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
  */
 cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
   if (!token || this.token !== token) {
-    console.error('Recieved wrong handshake token:', token);
+    console.error('Received wrong handshake token:', token);
     return;
   }
-  console.log('Recieved handshake with token:', token);
+  console.log('Received handshake with token:', token);
   this.executeCommand('__start__', null, true);
   this.ping();
   this.send('__start__');

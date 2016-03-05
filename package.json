@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.3.3",
+  "version": "2.3.5",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
