@@ -241,7 +241,7 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
     return;
   }
 
-  console.log('Connecting bluetooth device', this.address, '...');
+  console.log('Connecting Bluetooth device', this.address, '...');
   this.connecting = true;
   var createSocketEvent = function(create_info) {
     if (chrome.runtime.lastError) {

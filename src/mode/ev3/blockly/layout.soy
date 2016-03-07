@@ -40,7 +40,16 @@
 {template .blocks}
   {@param prefix: string}
   <xml id="{$prefix}blockly-toolbox" style="display: none">
+
+    <category name="Roboter Settings" colour="120">
+      <block type="ev3_set_roboter_type"></block>
+      <block type="ev3_set_wheel_diameter"></block>
+      <block type="ev3_set_wheel_width"></block>
+      <block type="ev3_set_wheelbase"></block>
+    </category>
+
     <category name="Movements" colour="120">
+      <block type="ev3_move_distance"></block>
       <block type="ev3_move_forward"></block>
       <block type="ev3_move_backward"></block>
       <block type="ev3_rotate_left"></block>
@@ -50,8 +59,8 @@
     <category name="Movements (Advance)" colour="120">
       <block type="ev3_move_power"></block>
       <block type="ev3_rotate_power"></block>
-      <block type="ev3_move_distance"></block>
       <block type="ev3_stop_immediately"></block>
+      <block type="ev3_wait"></block>
     </category>
 
     <category name="Attachments" colour="120">
@@ -109,6 +118,27 @@
       <block type="ev3_color_sensor_change"></block>
       <block type="ev3_ir_sensor_change"></block>
       <block type="ev3_touch_sensor_change"></block>
+      <block type="ev3_ultrasonic_sensor_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">distance</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">10</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
       <block type="ev3_variable_value"></block>
     </category>
 
@@ -119,10 +149,15 @@
       <block type="math_trig"></block>
       <block type="math_constant"></block>
       <block type="math_number_property"></block>
-      <block type="math_change"><value name="DELTA">
-      <block type="math_number">
-        <field name="NUM">1</field></block></value></block>
-      <block type="math_round"></block><block type="math_on_list"></block>
+      <block type="math_change">
+        <value name="DELTA">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
       <block type="math_modulo"></block>
       <block type="math_constrain">
         <value name="LOW">

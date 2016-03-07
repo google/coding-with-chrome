@@ -149,14 +149,20 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     console.error('EV3 API event handler is not defined!');
   }
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
-      'updateIrSensor');
-  this.runner.addEvent(apiEventHandler,
       cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED,
       'updateColorSensor');
   this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.GYRO_SENSOR_VALUE_CHANGED,
+      'updateGyroSensor');
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
+      'updateIrSensor');
+  this.runner.addEvent(apiEventHandler,
       cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED,
       'updateTouchSensor');
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      'updateUltrasonicSensor');
 
   // Overlay and templates.
   var templates = cwc.soy.mode.ev3.Runner;
@@ -194,9 +200,6 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   // EV3 events
   this.addEventListener(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.CHANGED_VALUES,
-      this.updateDeviceData, false, this);
-  this.addEventListener(apiEventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
       this.updateDeviceInfo, false, this);
 };
@@ -207,7 +210,6 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
  */
 cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
-  this.updateDeviceData();
   this.setWheelDiameter();
   this.setWheelWidth();
   this.setWheelbase();
@@ -216,14 +218,6 @@ cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.turtle.action('speed', 1);
   this.turtle.action('scale', 1);
   this.turtle.reset();
-};
-
-
-/**
- * Updates the runner inside the sandbox with the device data.
- */
-cwc.mode.ev3.Runner.prototype.updateDeviceData = function() {
-  this.runner.send('updateDeviceData', this.api.getDeviceData());
 };
 
 

@@ -742,9 +742,17 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.ColorSensorValue(value, port));
         break;
+      case this.deviceName.GYRO_SENSOR:
+        this.eventHandler.dispatchEvent(
+            cwc.protocol.ev3.Events.GyroSensorValue(value, port));
+        break;
       case this.deviceName.IR_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.IrSensorValue(value, port));
+        break;
+      case this.deviceName.ULTRASONIC_SENSOR:
+        this.eventHandler.dispatchEvent(
+            cwc.protocol.ev3.Events.UltrasonicSensorValue(value, port));
         break;
       case this.deviceName.TOUCH_SENSOR:
         this.eventHandler.dispatchEvent(

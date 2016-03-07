@@ -113,8 +113,16 @@ cwc.blocks.getFieldValue = function(block, name) {
  * @param {number=} opt_base int base
  */
 cwc.blocks.getFieldValueInt = function(block, name, opt_base) {
-  console.log(cwc.blocks.getFieldValue(block, name));
   return parseInt(cwc.blocks.getFieldValue(block, name) || 0, opt_base);
+};
+
+
+/**
+ * @param {Object} block
+ * @param {string} name
+ */
+cwc.blocks.getFieldValueNumber = function(block, name) {
+  return Number(cwc.blocks.getFieldValue(block, name) || 0);
 };
 
 

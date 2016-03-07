@@ -26,6 +26,7 @@ goog.require('cwc.framework.Runner');
 goog.require('cwc.protocol.ev3.DeviceName');
 goog.require('cwc.protocol.ev3.LedColor');
 goog.require('cwc.protocol.ev3.LedMode');
+goog.require('cwc.protocol.ev3.Robots');
 
 
 
@@ -47,19 +48,7 @@ cwc.framework.Ev3 = function(code) {
   this.runner = new cwc.framework.Runner(this.code, this);
 
   /** @type {Object} */
-  this.deviceData = {};
-
-  /** @type {Object} */
   this.deviceInfo = {};
-
-  /** @type {Object} */
-  this.colorSensorData = null;
-
-  /** @type {Object} */
-  this.irSensorData = null;
-
-  /** @type {Object} */
-  this.touchSensorData = null;
 
   /** @type {!function(?)} */
   this.colorSensorEvent = function() {};
@@ -71,10 +60,10 @@ cwc.framework.Ev3 = function(code) {
   this.irSensorEvent = function() {};
 
   /** @type {!function(?)} */
-  this.ultrasonicSensorEvent = function() {};
+  this.gyroSensorEvent = function() {};
 
   /** @type {!function(?)} */
-  this.gyroSensorEvent = function() {};
+  this.ultrasonicSensorEvent = function() {};
 
   /** @type {number} */
   this.colorSensorValue = null;
@@ -86,10 +75,10 @@ cwc.framework.Ev3 = function(code) {
   this.irSensorValue = null;
 
   /** @type {number} */
-  this.ultrasonicSensorValue = null;
+  this.gyroSensorValue = null;
 
   /** @type {number} */
-  this.gyroSensorValue = null;
+  this.ultrasonicSensorValue = null;
 
   /** @type {number} */
   this.wheelDiameter = null;
@@ -113,14 +102,35 @@ cwc.framework.Ev3 = function(code) {
   this.mediumMotorSpeed = 250 / 60;
 
   this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
-  this.runner.addCommand('updateDeviceData', this.handleUpdateDeviceData_);
   this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
+  this.runner.addCommand('updateGyroSensor', this.handleUpdateGyroSensor_);
   this.runner.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
   this.runner.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
+  this.runner.addCommand('updateUltrasonicSensor',
+      this.handleUpdateUltrasonicSensor_);
   this.runner.addCommand('updateWheelDiameter',
       this.handleUpdateWheelDiameter_);
   this.runner.addCommand('updateWheelWidth', this.handleUpdateWheelWidth_);
   this.runner.addCommand('updateWheelbase', this.handleUpdateWheelbase_);
+};
+
+
+/**
+ * Sets the EV3 roboter type.
+ * @param {!string} type
+ * @export
+ */
+cwc.framework.Ev3.prototype.setRoboterType = function(type) {
+  if (type == 'custom') {
+    return;
+  }
+  if (!(type in cwc.protocol.ev3.Robots)) {
+    console.error('Unknown roboter type: ' + type);
+    return;
+  }
+  this.setWheelDiameter(cwc.protocol.ev3.Robots[type].wheelDiameter);
+  this.setWheelWidth(cwc.protocol.ev3.Robots[type].wheelWidth);
+  this.setWheelbase(cwc.protocol.ev3.Robots[type].wheelbase);
 };
 
 
@@ -171,42 +181,12 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
  * @param {!number} Calculated delay + buffer.
  */
 cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed, opt_type) {
-  var buffer = 200;
+  var buffer = 250;
   var motorSpeed = this.largeMotorSpeed;
   var speed = opt_speed || 50;
   var delay = Math.floor(
     (((steps / 360) * Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
   return delay;
-};
-
-
-/**
- * Returns the Color Sensor object.
- * @return {Object}
- * @export
- */
-cwc.framework.Ev3.prototype.getColorSensor = function() {
-  return this.colorSensorData;
-};
-
-
-/**
- * Returns the Touch object.
- * @return {Object}
- * @export
- */
-cwc.framework.Ev3.prototype.getTouchSensor = function() {
-  return this.touchSensorData;
-};
-
-
-/**
- * Returns the IR object.
- * @return {Object}
- * @export
- */
-cwc.framework.Ev3.prototype.getIrSensor = function() {
-  return this.irSensorData;
 };
 
 
@@ -221,12 +201,12 @@ cwc.framework.Ev3.prototype.getColorSensorValue = function() {
 
 
 /**
- * Returns the Touch value.
+ * Returns the Gyro object.
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
-  return this.touchSensorValue;
+cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
+  return this.gyroSensorValue;
 };
 
 
@@ -241,12 +221,12 @@ cwc.framework.Ev3.prototype.getIrSensorValue = function() {
 
 
 /**
- * Returns the Gyro object.
+ * Returns the Touch value.
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
-  return this.gyroSensorValue;
+cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
+  return this.touchSensorValue;
 };
 
 
@@ -261,16 +241,13 @@ cwc.framework.Ev3.prototype.getUltrasonicSensorValue = function() {
 
 
 /**
- * Returns the data for the given interface name.
- * @param {!string} port
- * @return {Object}
+ * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.getInterface = function(port) {
-  if (port in this.deviceData) {
-    return this.deviceData[port];
+cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
+  if (goog.isFunction(func)) {
+    this.colorSensorEvent = func;
   }
-  return null;
 };
 
 
@@ -278,9 +255,20 @@ cwc.framework.Ev3.prototype.getInterface = function(port) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
+cwc.framework.Ev3.prototype.onGyroSensorChange = function(func) {
   if (goog.isFunction(func)) {
-    this.colorSensorEvent = func;
+    this.gyroSensorEvent = func;
+  }
+};
+
+
+/**
+ * @param {!Function} func
+ * @export
+ */
+cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
+  if (goog.isFunction(func)) {
+    this.irSensorEvent = func;
   }
 };
 
@@ -300,9 +288,9 @@ cwc.framework.Ev3.prototype.onTouchSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
+cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
   if (goog.isFunction(func)) {
-    this.irSensorEvent = func;
+    this.ultrasonicSensorEvent = func;
   }
 };
 
@@ -490,6 +478,16 @@ cwc.framework.Ev3.prototype.stop = function(opt_delay) {
 
 
 /**
+ * Waits for the given time.
+ * @param {!number} time in msec
+ * @export
+ */
+cwc.framework.Ev3.prototype.wait = function(time) {
+  this.runner.send('wait', null, time);
+};
+
+
+/**
  * @param {!number} mode
  * @param {number=} opt_delay in msec
  * @export
@@ -533,36 +531,12 @@ cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
 
 
 /**
- * Updates the current sensor / actor states with the received data.
- * @param {Object} data
+ * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateDeviceData_ = function(data) {
-  for (var device_name in this.deviceInfo) {
-    var devicePort = this.deviceInfo[device_name];
-    if (!(devicePort in this.deviceData) ||
-        this.deviceData[devicePort].value != data[devicePort].value) {
-      this.deviceData[devicePort] = data[devicePort];
-      switch (device_name) {
-        case cwc.protocol.ev3.DeviceName.IR_SENSOR:
-          this.irSensorData = data[devicePort];
-          break;
-        case cwc.protocol.ev3.DeviceName.COLOR_SENSOR:
-          this.colorSensorData = data[devicePort];
-          break;
-        case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
-          this.touchSensorData = data[devicePort];
-          break;
-        case cwc.protocol.ev3.DeviceName.GYRO_SENSOR:
-          this.gyroSensorValue = data[devicePort];
-          break;
-        case cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR:
-          this.ultrasonicSensorValue = data[devicePort];
-          break;
-      }
-    }
-  }
-  this.deviceData = data;
+cwc.framework.Ev3.prototype.handleUpdateColorSensor_ = function(data) {
+  this.colorSensorValue = data;
+  this.colorSensorEvent(data);
 };
 
 
@@ -580,9 +554,9 @@ cwc.framework.Ev3.prototype.handleUpdateDeviceInfo_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateIrSensor_ = function(data) {
-  this.irSensorValue = data;
-  this.irSensorEvent(data);
+cwc.framework.Ev3.prototype.handleUpdateGyroSensor_ = function(data) {
+  this.gyroSensorValue = data;
+  this.gyroSensorEvent(data);
 };
 
 
@@ -590,9 +564,9 @@ cwc.framework.Ev3.prototype.handleUpdateIrSensor_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateColorSensor_ = function(data) {
-  this.colorSensorValue = data;
-  this.colorSensorEvent(data);
+cwc.framework.Ev3.prototype.handleUpdateIrSensor_ = function(data) {
+  this.irSensorValue = data;
+  this.irSensorEvent(data);
 };
 
 
@@ -604,6 +578,17 @@ cwc.framework.Ev3.prototype.handleUpdateTouchSensor_ = function(data) {
   this.touchSensorValue = data;
   this.touchSensorEvent(data);
 };
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateUltrasonicSensor_ = function(data) {
+  this.ultrasonicSensorValue = data;
+  this.ultrasonicSensorEvent(data);
+};
+
 
 
 /**

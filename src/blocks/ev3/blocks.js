@@ -25,6 +25,8 @@ goog.require('Blockly.Blocks');
 goog.require('cwc.blocks');
 goog.require('cwc.blocks.ev3.JavaScript');
 goog.require('cwc.config.sound');
+goog.require('cwc.protocol.ev3.Robots');
+
 
 
 /**
@@ -32,19 +34,87 @@ goog.require('cwc.config.sound');
  */
 cwc.blocks.ev3.Blocks.prefix_ = 'ev3_';
 
+
+/**
+ * Set roboter type.
+ */
+cwc.blocks.addBlock('set_roboter_type', function() {
+  var roboters = [['custom', 'custom']];
+  for (var roboter in cwc.protocol.ev3.Robots) {
+    roboters.push([roboter, roboter]);
+  }
+  this.setHelpUrl('');
+  this.setColour(65);
+  this.appendDummyInput()
+    .appendField('set roboter type(')
+    .appendField(new Blockly.FieldDropdown(roboters), 'roboter')
+    .appendField(')');
+  this.setNextStatement(true);
+  this.setTooltip('Sets the EV3 roboter type.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Set wheel diameter.
+ */
+cwc.blocks.addBlock('set_wheel_diameter', function() {
+  this.setHelpUrl('');
+  this.setColour(65);
+  this.appendDummyInput()
+    .appendField('set wheel diameter(')
+    .appendField(new Blockly.FieldTextInput('32'), 'diameter')
+    .appendField('mm)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Sets the wheel diameter.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Set wheel width.
+ */
+cwc.blocks.addBlock('set_wheel_width', function() {
+  this.setHelpUrl('');
+  this.setColour(65);
+  this.appendDummyInput()
+    .appendField('set wheel width(')
+    .appendField(new Blockly.FieldTextInput('20'), 'width')
+    .appendField('mm)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Sets the wheel width.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Set wheelbase.
+ */
+cwc.blocks.addBlock('set_wheelbase', function() {
+  this.setHelpUrl('');
+  this.setColour(65);
+  this.appendDummyInput()
+    .appendField('set wheelbase(')
+    .appendField(new Blockly.FieldTextInput('157'), 'wheelbase')
+    .appendField('mm)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Sets wheelbase.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
 /**
  * Play music note.
  */
 cwc.blocks.addBlock('play_music_note', function() {
-  var sound_map = cwc.config.sound;
+  var map = cwc.config.sound;
   var note_list = [];
-  for (var note in sound_map.NOTE) {
-    note_list.push([note, sound_map.NOTE[note]['f'].toString()]);
+  for (var note in map.NOTE) {
+    note_list.push([note, map.NOTE[note]['f'].toString()]);
   }
   var duration_list = [];
-  for (var duration in sound_map.DURATION) {
+  for (var duration in map.DURATION) {
     duration_list.push([duration,
-                        sound_map.DURATION[duration]['d'].toString()]);
+                        map.DURATION[duration]['d'].toString()]);
   }
   this.setHelpUrl('');
   this.setColour(65);
@@ -106,7 +176,7 @@ cwc.blocks.addBlock('move', function() {
  */
 cwc.blocks.addBlock('move_distance', function() {
   this.setHelpUrl('');
-  this.setColour(260);
+  this.setColour(120);
   this.appendDummyInput()
     .appendField(i18n.get('move robot('))
     .appendField(new Blockly.FieldDropdown(
@@ -189,7 +259,7 @@ cwc.blocks.addBlock('rotate_right', function() {
  */
 cwc.blocks.addBlock('move_pen', function() {
   this.setHelpUrl('');
-  this.setColour(260);
+  this.setColour(210);
   this.appendDummyInput()
     .appendField(i18n.get('move pen('))
     .appendField(new Blockly.FieldDropdown(
@@ -209,7 +279,7 @@ cwc.blocks.addBlock('move_pen', function() {
  */
 cwc.blocks.addBlock('move_servo', function() {
   this.setHelpUrl('');
-  this.setColour(260);
+  this.setColour(210);
   this.appendDummyInput()
     .appendField(i18n.get('move servo('))
     .appendField(new Blockly.FieldDropdown(
@@ -267,12 +337,28 @@ cwc.blocks.addBlock('stop', function() {
  */
 cwc.blocks.addBlock('stop_immediately', function() {
   this.setHelpUrl('');
-  this.setColour(120);
+  this.setColour(260);
   this.appendDummyInput()
     .appendField(i18n.get('stop moving()'));
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Stop all motors immediately');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Wait.
+ */
+cwc.blocks.addBlock('wait', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('wait ('))
+    .appendField(new Blockly.FieldTextInput('2000'), 'time')
+    .appendField('msec)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Wait for the given milliseconds.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -473,24 +559,19 @@ cwc.blocks.addBlock('touch_sensor_change', function() {
 
 
 /**
- * On collision ir.
+ * Ir sensor change.
  */
-cwc.blocks.addBlock('on_collision_ir', function() {
+cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('If distance >'))
-    .appendField(new Blockly.FieldTextInput('50'), 'VALUE1');
-  this.appendStatementInput('CODE1');
-  this.appendDummyInput()
-    .appendField(i18n.get('If distance <'))
-    .appendField(new Blockly.FieldTextInput('25'), 'VALUE2');
-  this.appendStatementInput('CODE2')
+    .appendField(i18n.get('on ultrasonic sensor change'));
+  this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
   this.setNextStatement(true);
-  this.setTooltip('Performs different commands depending on proximity to' +
-      'nearby objects using IR sensor');
+  this.setTooltip('Stores the output from the sensor in a variable named ' +
+      '"value", when the ultrasonic sensor detects a change.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 

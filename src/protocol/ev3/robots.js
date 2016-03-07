@@ -22,8 +22,19 @@ goog.provide('cwc.protocol.ev3.Robots');
 
 
 /**
+ * EV3 EDU EDUCATOR
+ * See EV3 education default instruction.
+ */
+cwc.protocol.ev3.Robots['EDUCATOR'] = {
+  wheelDiameter: 54.5,
+  wheelWidth: 28,
+  wheelbase: 90
+};
+
+
+/**
  * EV3 TRACK3R
- * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
+ * See http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['TRACK3R'] = {
   wheelDiameter: 32,
@@ -34,10 +45,10 @@ cwc.protocol.ev3.Robots['TRACK3R'] = {
 
 /**
  * GRYO BOY
- * see http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
+ * See http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['GRYO BOY'] = {
-  wheelDiameter: 55,
+  wheelDiameter: 54.5,
   wheelWidth: 30,
   wheelbase: 75
 };

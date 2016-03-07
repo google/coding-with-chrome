@@ -33,13 +33,13 @@ cwc.utils.I18n = function(opt_area) {
   /** @type {!string} */
   this.area = opt_area || 'general';
 
-  /** @type {!object} */
+  /** @type {!Object} */
   this.untranslated = {};
 
-  /** @type {!object} */
+  /** @type {!Object} */
   this.usage = {};
 
-  /** @type {!array} */
+  /** @type {!Array} */
   this.appendix = ['(', ')', '{', '}', '[', ']', ' ', ',', '.', '!', '?', '=',
                    '-', '+', '…'];
 };

@@ -298,7 +298,7 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(
     devices) {
 
   if (!devices || devices.length == 0) {
-    this.log_.warn('Did not find any bluetooth devices!');
+    this.log_.warn('Did not find any Bluetooth devices!');
   }
   var connectionManagerInstance = this.helper.getInstance('connectionManager');
   var menubarInstance = this.helper.getInstance('menubar');

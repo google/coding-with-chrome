@@ -114,6 +114,12 @@ cwc.runner.profile.ev3.Command.prototype.stop = function(opt_data) {
 
 
 /**
+ * @param {!Object} opt_data
+ */
+cwc.runner.profile.ev3.Command.prototype.wait = function(opt_data) {};
+
+
+/**
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.setColorSensorMode = function(data) {

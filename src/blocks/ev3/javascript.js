@@ -21,6 +21,7 @@ goog.provide('cwc.blocks.ev3.JavaScript');
 
 goog.require('Blockly');
 goog.require('Blockly.JavaScript');
+goog.require('cwc.blocks');
 goog.require('cwc.config.sound');
 
 
@@ -31,15 +32,38 @@ cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
 
 
 /**
- * Play music note.
+ * Set roboter type.
  */
-cwc.blocks.addJavaScript('play_music_note', function(block) {
-  var dropdown_note = block.getFieldValue('note');
-  var text_duration = block.getFieldValue('duration');
-  var text_volume = 100;
-  var duration = Number(text_duration) * 1000 / cwc.config.sound.BPM;
-  return 'ev3.playTone(' + Math.round(dropdown_note) + ', ' +
-      Math.round(duration) + ', ' + text_volume + ');\n';
+cwc.blocks.addJavaScript('set_roboter_type', function(block) {
+  var dropdown_roboter = block.getFieldValue('roboter');
+  return 'ev3.setRoboterType("' + dropdown_roboter + '");\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Set wheel diameter.
+ */
+cwc.blocks.addJavaScript('set_wheel_diameter', function(block) {
+  var text_diameter = cwc.blocks.getFieldValueNumber(block, 'diameter');
+  return 'ev3.setWheelDiameter(' + text_diameter + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Set wheel width.
+ */
+cwc.blocks.addJavaScript('set_wheel_width', function(block) {
+  var text_width = cwc.blocks.getFieldValueNumber(block, 'width');
+  return 'ev3.setWheelWidth(' + text_width + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Set wheelbase.
+ */
+cwc.blocks.addJavaScript('set_wheelbase', function(block) {
+  var text_wheelbase = cwc.blocks.getFieldValueNumber(block, 'wheelbase');
+  return 'ev3.setWheelbase(' + text_wheelbase + ');\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -175,6 +199,15 @@ cwc.blocks.addJavaScript('stop_immediately', function(opt_block) {
 
 
 /**
+ * Wait.
+ */
+cwc.blocks.addJavaScript('wait', function(block) {
+  var time = block.getFieldValue('time');
+  return 'ev3.wait(' + time + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
  * Move power.
  */
 cwc.blocks.addJavaScript('move_power', function(block) {
@@ -293,25 +326,18 @@ cwc.blocks.addJavaScript('touch_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var touchEvent = function(value) {\n' +
       statements_code +
-      '};\nev3.onTouchSensorChange(touchEvent);\n';
+    '};\nev3.onTouchSensorChange(touchEvent);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
 /**
- * Ir collision.
+ * Ultrasonic sensor change.
  */
-cwc.blocks.addJavaScript('on_collision_ir', function(block) {
-  var statements_code1 = Blockly.JavaScript.statementToCode(block, 'CODE1');
-  var statements_code2 = Blockly.JavaScript.statementToCode(block, 'CODE2');
-  var value1 = block.getFieldValue('VALUE1');
-  var value2 = block.getFieldValue('VALUE2');
-  return 'var irSensorEvent = function(value) {\n' +
-      'if(value > ' + value1 + ') {\n' +
-      statements_code1 + '\n}\nelse if(value < ' +
-      value2 + ') {\n' +
-      statements_code2 + '\n}' +
-      '};\nev3.onIrSensorChange(irSensorEvent);\n' +
-      'ev3.setIrSensorMode(0);\n';
+cwc.blocks.addJavaScript('ultrasonic_sensor_change', function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var ultrasonicSensorEvent = function(distance) {\n' +
+      statements_code +
+    '};\nev3.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 

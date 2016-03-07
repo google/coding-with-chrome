@@ -92,8 +92,11 @@ cwc.framework.Runner.prototype.init = function() {
  * @export
  */
 cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
-  if (!func) {
-    console.error('Runner function is undefined for ' + name);
+  if (!name) {
+    console.error('Runner command is undefined!');
+    return;
+  } else if (!func) {
+    console.error('Runner function ' + name + ' is undefined!');
     return;
   }
   if (opt_scope || this.scope) {

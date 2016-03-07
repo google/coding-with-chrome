@@ -186,7 +186,7 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
 
 
 /**
- * Detects the connected EV3 devices.
+ * Sets the EV3 roboter type.
  * @param {!string} type
  */
 cwc.mode.ev3.Calibration.prototype.setRoboterType = function(type) {

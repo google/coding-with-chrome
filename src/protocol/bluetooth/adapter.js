@@ -1,5 +1,5 @@
 /**
- * @fileoverview Bluetooth adapther constructor.
+ * @fileoverview Bluetooth adapter constructor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
