@@ -199,10 +199,17 @@ cwc.ui.Blockly.prototype.addOption = function(name, func,
 /**
  * @param {!goog.ui.ToolbarButton} button
  * @param {boolean=} opt_seperator
+ * @param {string=} opt_hint
  */
 cwc.ui.Blockly.prototype.addToolbarButton = function(button,
-    opt_seperator) {
+    opt_seperator, opt_hint) {
   this.toolbar.addToolbarButton(button, opt_seperator);
+  if (opt_hint) {
+    var elem = button.getContentElement().parentNode.parentNode;
+    goog.dom.setProperties(elem, {'data-hint': opt_hint});
+    goog.dom.classes.add(elem, 'hint--right');
+    console.log(elem);
+  }
 };
 
 

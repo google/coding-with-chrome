@@ -110,7 +110,8 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
   var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
       'play_arrow', runText, this.runCode.bind(this));
 
-  this.blockly.addToolbarButton(blocklyRunButton, true);
+  this.blockly.addToolbarButton(blocklyRunButton, true,
+      'Click here to execute your code!');
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
   this.blockly.addChangeListener(this.changeHandler.bind(this));

@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.3.3",
+  "version": "2.3.11",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -10,6 +10,7 @@
     "closure-builder": "^1.0.34",
     "codemirror": "^5.10.0",
     "csslint": "^0.10.0",
+    "hint.css": "^2.2.0",
     "htmlhint": "^0.9.12",
     "jquery": "^2.2.0",
     "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master",
