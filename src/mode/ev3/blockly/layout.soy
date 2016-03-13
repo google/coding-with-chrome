@@ -41,8 +41,8 @@
   {@param prefix: string}
   <xml id="{$prefix}blockly-toolbox" style="display: none">
 
-    <category name="Roboter Settings" colour="120">
-      <block type="ev3_set_roboter_type"></block>
+    <category name="Robot Settings" colour="120">
+      <block type="ev3_set_robot_type"></block>
       <block type="ev3_set_wheel_diameter"></block>
       <block type="ev3_set_wheel_width"></block>
       <block type="ev3_set_wheelbase"></block>
@@ -108,16 +108,59 @@
 
     <category name="Sensors" colour="120">
       <block type="ev3_color_sensor_mode"></block>
-      <block type="ev3_ir_sensor_mode"></block>
       <block type="ev3_color_sensor_value"></block>
-      <block type="ev3_touch_sensor_value"></block>
+      <block type="ev3_ir_sensor_mode"></block>
       <block type="ev3_ir_sensor_value"></block>
+      <block type="ev3_touch_sensor_value"></block>
+      <block type="ev3_ultrasonic_sensor_mode"></block>
+      <block type="ev3_ultrasonic_sensor_value"></block>
     </category>
 
     <category name="Events" colour="20">
       <block type="ev3_color_sensor_change"></block>
+      <block type="ev3_gyro_sensor_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">angle</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">90</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
       <block type="ev3_ir_sensor_change"></block>
-      <block type="ev3_touch_sensor_change"></block>
+      <block type="ev3_touch_sensor_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">pressed</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">100</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
       <block type="ev3_ultrasonic_sensor_change">
         <value name="CODE">
           <block type="controls_if">

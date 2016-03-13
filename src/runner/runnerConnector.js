@@ -211,7 +211,7 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
     opt_ignore_unknown) {
   if (typeof this.commands[name] === 'undefined') {
     if (!opt_ignore_unknown) {
-      console.log('Runner connector received unknown command', name,
+      console.warn('Runner connector received unknown command', name,
         'with value', value);
     }
     return;

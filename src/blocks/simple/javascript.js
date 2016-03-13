@@ -23,7 +23,9 @@ goog.require('Blockly');
 goog.require('Blockly.JavaScript');
 
 
-
+/**
+ * Write text.
+ */
 Blockly.JavaScript['text_write'] = function(block) {
   var text = Blockly.JavaScript.valueToCode(block, 'TEXT',
       Blockly.JavaScript.ORDER_NONE) || '\'\'';
@@ -31,6 +33,9 @@ Blockly.JavaScript['text_write'] = function(block) {
 };
 
 
+/**
+ * Draw circle.
+ */
 Blockly.JavaScript['draw_circle'] = function(block) {
   var text_x = block.getFieldValue('x');
   var text_y = block.getFieldValue('y');
@@ -43,6 +48,9 @@ Blockly.JavaScript['draw_circle'] = function(block) {
 };
 
 
+/**
+ * Draw rectangle.
+ */
 Blockly.JavaScript['draw_rectangle'] = function(block) {
   var start_x = block.getFieldValue('start_x');
   var start_y = block.getFieldValue('start_y');
@@ -57,6 +65,9 @@ Blockly.JavaScript['draw_rectangle'] = function(block) {
 };
 
 
+/**
+ * Draw line.
+ */
 Blockly.JavaScript['draw_line'] = function(block) {
   var start_x = block.getFieldValue('start_x');
   var start_y = block.getFieldValue('start_y');
@@ -70,6 +81,9 @@ Blockly.JavaScript['draw_line'] = function(block) {
 };
 
 
+/**
+ * Draw point.
+ */
 Blockly.JavaScript['draw_point'] = function(block) {
   var x = block.getFieldValue('x');
   var y = block.getFieldValue('y');

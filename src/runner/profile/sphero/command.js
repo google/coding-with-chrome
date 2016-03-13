@@ -28,7 +28,7 @@ goog.provide('cwc.runner.profile.sphero.Command');
  * @final
  */
 cwc.runner.profile.sphero.Command = function(api) {
-  /* @type {cwc.protocol.sphero.Api} */
+  /** @type {cwc.protocol.sphero.Api} */
   this.api = api;
 };
 

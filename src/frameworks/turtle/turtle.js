@@ -234,7 +234,7 @@ cwc.framework.Turtle.prototype.handleHome_ = function() {
 };
 
 
-/*
+/**
  * Sets a pen style, or `none` for no drawing.
  * @param {!string} color
  * @private
@@ -271,7 +271,7 @@ cwc.framework.Turtle.prototype.handlePe_ = function() {
 };
 
 
-/*
+/**
  * Fills a shape previously outlines using pen (`path`).
  * @param {!string} color
  * @private

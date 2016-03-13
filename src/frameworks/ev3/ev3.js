@@ -116,16 +116,16 @@ cwc.framework.Ev3 = function(code) {
 
 
 /**
- * Sets the EV3 roboter type.
+ * Sets the EV3 robot type.
  * @param {!string} type
  * @export
  */
-cwc.framework.Ev3.prototype.setRoboterType = function(type) {
+cwc.framework.Ev3.prototype.setRobotType = function(type) {
   if (type == 'custom') {
     return;
   }
   if (!(type in cwc.protocol.ev3.Robots)) {
-    console.error('Unknown roboter type: ' + type);
+    console.error('Unknown robot type: ' + type);
     return;
   }
   this.setWheelDiameter(cwc.protocol.ev3.Robots[type].wheelDiameter);
@@ -145,7 +145,7 @@ cwc.framework.Ev3.prototype.setWheelDiameter = function(diameter) {
 
 
 /**
- * @param {!number} diameter in millimeter
+ * @param {!number} wheel_width in millimeter
  * @export
  */
 cwc.framework.Ev3.prototype.setWheelWidth = function(wheel_width) {
@@ -178,7 +178,7 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
  * @param {!number} steps
  * @param {!number} opt_speed
  * @param {string=} opt_type
- * @param {!number} Calculated delay + buffer.
+ * @return {!number} Calculated delay + buffer.
  */
 cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed, opt_type) {
   var buffer = 250;
@@ -405,7 +405,7 @@ cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!number} angle
+ * @param {!number} steps
  * @param {number=} opt_speed
  * @param {number=} opt_ratio
  * @param {number=} opt_delay in msec
@@ -424,7 +424,6 @@ cwc.framework.Ev3.prototype.rotateSteps = function(steps,
  * Rotates the motors for the predefined specific steps.
  * @param {!number} angle
  * @param {number=} opt_speed
- * @param {number=} opt_ratio
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
@@ -504,6 +503,17 @@ cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
  */
 cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
   this.runner.send('setIrSensorMode', {'mode': mode}, opt_delay);
+};
+
+
+/**
+ * @param {!number} mode
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode,
+    opt_delay) {
+  this.runner.send('setUltrasonicSensorMode', {'mode': mode}, opt_delay);
 };
 
 

@@ -244,6 +244,17 @@ cwc.protocol.ev3.IrSensorMode = {
 
 
 /**
+ * Ultrasonic sensor modes.
+ * @enum {number}
+ */
+cwc.protocol.ev3.UltrasonicSensorMode = {
+  DIST_CM: 0,
+  DIST_INCH: 1,
+  LISTEN: 2
+};
+
+
+/**
  * Led colors.
  * @enum {number}
  */
@@ -291,17 +302,6 @@ cwc.protocol.ev3.MotorMode = {
   DEGREE: 0,
   ROTATION: 1,
   PERCENT: 2
-};
-
-
-/**
- * Motor modes.
- * @enum {number}
- */
-cwc.protocol.ev3.UltrasonicMode = {
-  DIST_CM: 0,
-  DIST_INCH: 1,
-  LISTEN: 2
 };
 
 

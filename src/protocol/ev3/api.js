@@ -303,6 +303,16 @@ cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
 
 
 /**
+ * @param {cwc.protocol.ev3.UltrasonicSensorMode} mode
+ */
+cwc.protocol.ev3.Api.prototype.setUltrasonicSensorMode = function(mode) {
+  console.log(mode);
+  this.deviceData[this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]]
+    .setMode(mode);
+};
+
+
+/**
  * @param {!boolean} enable
  * @export
  */
@@ -646,15 +656,15 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_CM:
       deviceName = this.deviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_CM;
+      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_CM;
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_IN:
       deviceName = this.deviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_IN;
+      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_IN;
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_LISTEN:
       deviceName = this.deviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.ev3.UltrasonicMode.DIST_LISTEN;
+      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_LISTEN;
       break;
     case cwc.protocol.ev3.DeviceType.GYRO_ANG:
       deviceName = this.deviceName.GYRO_SENSOR;

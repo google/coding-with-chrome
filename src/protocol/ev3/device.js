@@ -40,14 +40,13 @@ cwc.protocol.ev3.DeviceName = {
 
 
 /**
- * @constructor
  * @param {!cwc.protocol.ev3.DeviceName} name
  * @param {number=} opt_mode
  * @param {number=} opt_value
  * @param {string=} opt_css
+ * @constructor
  */
-cwc.protocol.ev3.Device = function(name, opt_mode, opt_value,
-    opt_css) {
+cwc.protocol.ev3.Device = function(name, opt_mode, opt_value, opt_css) {
   this.name = name;
   this.mode = opt_mode || 0;
   this.css = opt_css || 'default';

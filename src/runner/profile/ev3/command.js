@@ -138,6 +138,15 @@ cwc.runner.profile.ev3.Command.prototype.setIrSensorMode = function(data) {
 /**
  * @param {!Object} data
  */
+cwc.runner.profile.ev3.Command.prototype.setUltrasonicSensorMode = function(
+    data) {
+  this.api.setUltrasonicSensorMode(data['mode']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
 cwc.runner.profile.ev3.Command.prototype.setLed = function(data) {
   this.api.setLed(data['color'], data['mode']);
 };

@@ -43,10 +43,10 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   this.nodeCalibration = null;
 
   /** @type {Element} */
-  this.nodeRoboterType = null;
+  this.nodeRobotType = null;
 
   /** @type {Element} */
-  this.nodeRoboterCustom = null;
+  this.nodeRobotCustom = null;
 
   /** @type {Element} */
   this.nodeSet = null;
@@ -61,7 +61,7 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   this.nodeWheelbase = null;
 
   /** @type {goog.ui.Select} */
-  this.selectRoboterType =  new goog.ui.Select();
+  this.selectRobotType =  new goog.ui.Select();
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -117,17 +117,17 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
       cwc.soy.mode.ev3.Calibration.style({'prefix': this.prefix}));
   }
 
-  this.nodeRoboterType = goog.dom.getElement(this.prefix + 'roboter-type');
-  this.nodeRoboterCustom = goog.dom.getElement(this.prefix + 'roboter-custom');
+  this.nodeRobotType = goog.dom.getElement(this.prefix + 'robot-type');
+  this.nodeRobotCustom = goog.dom.getElement(this.prefix + 'robot-custom');
   this.nodeWheelDiameter = goog.dom.getElement(this.prefix + 'wheel-diameter');
   this.nodeWheelWidth = goog.dom.getElement(this.prefix + 'wheel-width');
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
   this.nodeSet = goog.dom.getElement(this.prefix + 'set');
 
-  // Roboter type
-  this.selectRoboterType.decorate(this.nodeRoboterType);
-  this.setRoboterType('TRACK3R');
-  goog.style.showElement(this.nodeRoboterCustom, false);
+  // Robot type
+  this.selectRobotType.decorate(this.nodeRobotType);
+  this.setRobotType('TRACK3R');
+  goog.style.showElement(this.nodeRobotCustom, false);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -152,11 +152,11 @@ cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
   this.addEventListener_(detectSensors, goog.events.EventType.CLICK,
     this.detect.bind(this), false, this);
 
-  // Roboter type
-  this.addEventListener_(this.selectRoboterType,
+  // Robot type
+  this.addEventListener_(this.selectRobotType,
     goog.ui.Component.EventType.ACTION, this.setType, false, this);
 
-  // Roboter set
+  // Robot set
   this.addEventListener_(this.nodeSet, goog.events.EventType.CLICK,
     this.setCalibration, false, this);
 };
@@ -177,19 +177,19 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
 cwc.mode.ev3.Calibration.prototype.setType = function(event) {
   var type = event.target.getValue();
   if (type.toLowerCase() == 'custom') {
-    goog.style.showElement(this.nodeRoboterCustom, true);
+    goog.style.showElement(this.nodeRobotCustom, true);
     return;
   }
-  this.setRoboterType(type);
-  goog.style.showElement(this.nodeRoboterCustom, false);
+  this.setRobotType(type);
+  goog.style.showElement(this.nodeRobotCustom, false);
 };
 
 
 /**
- * Sets the EV3 roboter type.
+ * Sets the EV3 robot type.
  * @param {!string} type
  */
-cwc.mode.ev3.Calibration.prototype.setRoboterType = function(type) {
+cwc.mode.ev3.Calibration.prototype.setRobotType = function(type) {
   this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[type].wheelDiameter;
   this.nodeWheelWidth.value = cwc.protocol.ev3.Robots[type].wheelWidth;
   this.nodeWheelbase.value = cwc.protocol.ev3.Robots[type].wheelbase;

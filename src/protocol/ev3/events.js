@@ -170,6 +170,7 @@ cwc.protocol.ev3.Events.UltrasonicSensorValue = function(data, opt_port) {
  * @param {!cwc.protocol.ev3.Events.Type} type
  * @param {!object} data
  * @param {number=} opt_port
+ * @constructor
  * @final
  * @private
  */

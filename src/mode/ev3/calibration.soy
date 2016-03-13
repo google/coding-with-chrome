@@ -30,15 +30,15 @@
     EV3 Calibration Screen<hr>
     <button type="button" id="{$prefix}detect-sensors">Detect Sensors</button>
     <br>
-    Roboter type <div id="{$prefix}roboter-type" class="goog-select">
+    Robot type <div id="{$prefix}robot-type" class="goog-select">
       <ul class="goog-menu">
-      {foreach $roboter in $robots}
-        <li class="goog-menuitem">{$roboter}</li>
+      {foreach $robot in $robots}
+        <li class="goog-menuitem">{$robot}</li>
       {/foreach}
         <li class="goog-menuitem">Custom</li>
       </ul>
     </div>
-    <div id="{$prefix}roboter-custom">
+    <div id="{$prefix}robot-custom">
       Wheel diameter <input type="text" id="{$prefix}wheel-diameter" size=4> mm<br>
       Wheel width <input type="text" id="{$prefix}wheel-width" size=4> mm<br>
       Wheelbase <input type="text" id="{$prefix}wheelbase" size=4> mm<br>

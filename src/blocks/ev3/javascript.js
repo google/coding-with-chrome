@@ -32,11 +32,11 @@ cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
 
 
 /**
- * Set roboter type.
+ * Set robot type.
  */
-cwc.blocks.addJavaScript('set_roboter_type', function(block) {
-  var dropdown_roboter = block.getFieldValue('roboter');
-  return 'ev3.setRoboterType("' + dropdown_roboter + '");\n';
+cwc.blocks.addJavaScript('set_robot_type', function(block) {
+  var dropdown_robot = block.getFieldValue('robot');
+  return 'ev3.setRobotType("' + dropdown_robot + '");\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -252,7 +252,7 @@ cwc.blocks.addJavaScript('color_sensor_mode', function(block) {
 
 
 /**
- * Sensor mode.
+ * Ir sensor mode.
  */
 cwc.blocks.addJavaScript('ir_sensor_mode', function(block) {
   var dropdown_mode = block.getFieldValue('mode');
@@ -270,6 +270,28 @@ cwc.blocks.addJavaScript('ir_sensor_mode', function(block) {
   }
   return 'ev3.setIrSensorMode(' + mode + ');\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Ultrasonic sensor mode.
+ */
+cwc.blocks.addJavaScript('ultrasonic_sensor_mode', function(block) {
+  var dropdown_mode = block.getFieldValue('mode');
+  var mode = 0;
+  switch (dropdown_mode) {
+    case 'distance cm':
+      mode = 0;
+      break;
+    case 'distance inch':
+      mode = 1;
+      break;
+    case 'listen':
+      mode = 2;
+      break;
+  }
+  return 'ev3.setUltrasonicSensorMode(' + mode + ');\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
 
 
 /**
@@ -300,12 +322,32 @@ cwc.blocks.addJavaScript('ir_sensor_value', function(opt_block) {
 
 
 /**
+ * Ultrasonic sensor value.
+ */
+cwc.blocks.addJavaScript('ultrasonic_sensor_value', function(opt_block) {
+  var code = 'distance === undefined ?' +
+    ' ev3.getUltrasonicSensorValue() : distance';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
  * Color sensor change.
  */
 cwc.blocks.addJavaScript('color_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var colorSensorEvent = function(value) {\n' +
       statements_code + '};\nev3.onColorSensorChange(colorSensorEvent);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Gyro sensor change.
+ */
+cwc.blocks.addJavaScript('gyro_sensor_change', function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var gyroSensorEvent = function(angle) {\n' +
+      statements_code + '};\nev3.onGyroSensorChange(gyroSensorEvent);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -324,7 +366,7 @@ cwc.blocks.addJavaScript('ir_sensor_change', function(block) {
  */
 cwc.blocks.addJavaScript('touch_sensor_change', function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'var touchEvent = function(value) {\n' +
+  return 'var touchEvent = function(pressed) {\n' +
       statements_code +
     '};\nev3.onTouchSensorChange(touchEvent);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);

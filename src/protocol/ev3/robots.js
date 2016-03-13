@@ -1,5 +1,5 @@
 /**
- * @fileoverview Predefined settings for the different EV3 roboters.
+ * @fileoverview Predefined settings for the different EV3 robots.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *

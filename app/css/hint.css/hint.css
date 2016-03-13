@@ -15,20 +15,9 @@
  */
 
 /*
- * Main style definition to include all others style sheets.
+ * Hint.css custom CSS definitions.
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-/* Internal style sheets. */
-@import 'default.css';
-@import 'fonts.css';
-@import 'icons.css';
-@import 'editor.css';
-@import 'preloader.css';
-
-/* External style sheets. */
-@import 'blockly/blockly.css';
-@import 'closure/closure.css';
-@import 'codemirror/codemirror4.css';
-@import 'hint.css/hint.css';
+@import '../../external/hint.css/hint.css';

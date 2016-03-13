@@ -141,6 +141,8 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.addCommand('setColorSensorMode', this.command.setColorSensorMode,
       this);
   this.runner.addCommand('setIrSensorMode', this.command.setIrSensorMode, this);
+  this.runner.addCommand('setUltrasonicSensorMode',
+      this.command.setUltrasonicSensorMode, this);
   this.runner.addCommand('setLed', this.command.setLed, this);
 
   // Events

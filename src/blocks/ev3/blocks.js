@@ -36,21 +36,21 @@ cwc.blocks.ev3.Blocks.prefix_ = 'ev3_';
 
 
 /**
- * Set roboter type.
+ * Set robot type.
  */
-cwc.blocks.addBlock('set_roboter_type', function() {
-  var roboters = [['custom', 'custom']];
-  for (var roboter in cwc.protocol.ev3.Robots) {
-    roboters.push([roboter, roboter]);
+cwc.blocks.addBlock('set_robot_type', function() {
+  var robots = [['custom', 'custom']];
+  for (var robot in cwc.protocol.ev3.Robots) {
+    robots.push([robot, robot]);
   }
   this.setHelpUrl('');
   this.setColour(65);
   this.appendDummyInput()
-    .appendField('set roboter type(')
-    .appendField(new Blockly.FieldDropdown(roboters), 'roboter')
+    .appendField('set robot type(')
+    .appendField(new Blockly.FieldDropdown(robots), 'robot')
     .appendField(')');
   this.setNextStatement(true);
-  this.setTooltip('Sets the EV3 roboter type.');
+  this.setTooltip('Sets the EV3 robot type.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -441,6 +441,25 @@ cwc.blocks.addBlock('ir_sensor_mode', function() {
 
 
 /**
+ * Ultrasonic sensor mode.
+ */
+cwc.blocks.addBlock('ultrasonic_sensor_mode', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('ultrasonic sensor mode('))
+    .appendField(new Blockly.FieldDropdown(
+        [['distance cm', 'distance cm'],
+         ['distance inch', 'distance inch'],
+         ['listen', 'listen']]), 'mode')
+    .appendField(')');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Sets the ultrasonic sensor mode.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
  * Led.
  */
 cwc.blocks.addBlock('led', function() {
@@ -505,6 +524,19 @@ cwc.blocks.addBlock('ir_sensor_value', function() {
 
 
 /**
+ * Ultrasonic sensor value.
+ */
+cwc.blocks.addBlock('ultrasonic_sensor_value', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('Ultrasonic sensor value'));
+  this.setOutput(true, 'Number');
+  this.setTooltip('Get the current value of the Ultrasonic sensor.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
  * Color sensor change.
  */
 cwc.blocks.addBlock('color_sensor_change', function() {
@@ -518,7 +550,24 @@ cwc.blocks.addBlock('color_sensor_change', function() {
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Stores the output from the sensor in a variable named ' +
-      '"value", when the color sensor detects a change in color.');
+      '"value", when the color sensor detects a change.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Gryro sensor change.
+ */
+cwc.blocks.addBlock('gyro_sensor_change', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('Gyro Sensor Change'));
+  this.appendStatementInput('CODE')
+    .setAlign(Blockly.ALIGN_CENTRE);
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Stores the output from the sensor in a variable named ' +
+      '"value", when the gyro sensor detects a change.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -547,8 +596,7 @@ cwc.blocks.addBlock('touch_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Touch Sensor Change'))
-    .appendField(new Blockly.FieldVariable('value'), 'VALUE');
+    .appendField(i18n.get('on touch sensor change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
