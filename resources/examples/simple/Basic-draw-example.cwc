@@ -1,11 +1,15 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "javascript": "// Define x and y points\nvar x = 400;\nvar y = 400;\n\n// Increase x to 400 and decrease y to 0 with +5 steps\nfor (x = 1; x <= 400; x = x + 5) {\n  draw.line(x, 1, 1, y);\n  y = y - 5;\n}\n\n//Draw some random circles\nfor (x = 1; x <= 20; x = x + 5) {\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'red');\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'green');\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'blue');\n}\n"
+    "javascript": "// Draw text\ndraw.text('Hello World!', 300, 400, '#f00');\n\n// Define x and y points\nvar x = 400;\nvar y = 400;\n\n// Increase x to 400 and decrease y to 0 with +5 steps\nfor (x = 1; x <= 400; x = x + 5) {\n  draw.line(x, 1, 1, y);\n  y = y - 5;\n}\n\n//Draw some random circles\nfor (x = 1; x <= 20; x = x + 5) {\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'red');\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'green');\n  draw.circle(Math.random()*600,\n              Math.random()*600,\n              Math.random()*25,\n              'blue');\n}\n"
   },
-  "description": "",
+  "description": "Example for the simple framework.",
   "files": {},
-  "flags": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",

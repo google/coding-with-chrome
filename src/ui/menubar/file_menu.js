@@ -46,11 +46,11 @@ cwc.ui.FileMenu = function(helper) {
 
   /** @type {!goog.ui.MenuItem} */
   this.menuOpen = cwc.ui.Helper.getMenuItem('from local drive',
-      this.openFile, this);
+      this.requestOpenFile, this);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuOpenGDrive = cwc.ui.Helper.getMenuItem(
-      'from google drive …', this.openGDrive, this);
+  this.menuOpenGDrive = cwc.ui.Helper.getMenuItem('from Google Drive …',
+      this.openGDrive, this);
 
   /** @type {!goog.ui.MenuItem} */
   this.menuClose = cwc.ui.Helper.getMenuItem('Close');
@@ -64,7 +64,7 @@ cwc.ui.FileMenu = function(helper) {
       this.saveFileAs, this);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuSaveGDrive = cwc.ui.Helper.getMenuItem('google drive file',
+  this.menuSaveGDrive = cwc.ui.Helper.getMenuItem('Google Drive file',
       this.saveGDrive, this);
 
   /** @type {!goog.ui.MenuItem} */
@@ -230,6 +230,14 @@ cwc.ui.FileMenu.prototype.openFile = function() {
     fileLoaderInstance.loadFile();
     this.menuSave.setEnabled(true);
   }
+};
+
+
+/**
+ * Request to open a existing file from the local drive.
+ */
+cwc.ui.FileMenu.prototype.requestOpenFile = function() {
+  this.helper.handleUnsavedChanges(this.openFile.bind(this));
 };
 
 

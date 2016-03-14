@@ -1,0 +1,21 @@
+{
+  "author": "Unknown",
+  "content": {
+    "javascript": "// Draw a red circle\ndraw.circle(150, 150, 75, '#ff0000');\n\n// Draw a green circle\ndraw.circle(200, 100, 75, '#00ff00');\n\n// Draw a blue circle\ndraw.circle(250, 150, 75, '#0000ff');\n"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic",
+  "mode": "basic",
+  "title": "Untitled Basic file",
+  "ui": "default",
+  "version": "1.0"
+}
