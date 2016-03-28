@@ -80,14 +80,22 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
  * Adds click events.
  */
 cwc.ui.Debug.prototype.addEvents = function() {
-  this.addChangeHandler(goog.dom.getElement('file_types'),
-    this.handleFileType);
+  goog.events.listen(goog.dom.getElement(this.prefix + 'close'),
+    goog.events.EventType.CLICK, this.close, false, this);
 
-  this.addChangeHandler(goog.dom.getElement('mode_types'),
-    this.handleModeType);
-
+  this.addChangeHandler(goog.dom.getElement('file_types'), this.handleFileType);
+  this.addChangeHandler(goog.dom.getElement('mode_types'), this.handleModeType);
   this.addChangeHandler(goog.dom.getElement('message_types'),
     this.handleMessageType);
+};
+
+
+/**
+ * @param {?} opt_event
+ */
+cwc.ui.Debug.prototype.close = function(opt_event) {
+  var layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.showOverlay(false);
 };
 
 
