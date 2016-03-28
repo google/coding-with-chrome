@@ -8,7 +8,7 @@
   "name": "Coding with Chrome",
   "short_name": "Coding with Chrome",
   "description": "An Educational IDE showing off various Google EDU technologies.",
-  "version": "2.3.25",
+  "version": "2.3.28",
   "default_locale": "en",
   "icons": {
     "16":  "icons/16x16.png",
