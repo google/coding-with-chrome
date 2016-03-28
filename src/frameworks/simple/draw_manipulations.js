@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.framework.simple.DrawManipulation');
-goog.provide('cwc.framework.simple.DrawManipulationColor');
+goog.provide('cwc.framework.simple.ColorToHex');
 
 goog.require('goog.color');
 goog.require('goog.color.alpha');
@@ -43,22 +43,22 @@ cwc.framework.simple.DrawManipulation = function(opt_preset,
   /** @private {boolean} */
   this.preset_ = opt_preset || false;
 
-  /** @private {cwc.framework.simple.DrawManipulationColor} */
-  this.backgroundColor_ = new cwc.framework.simple.DrawManipulationColor(
+  /** @private {cwc.framework.simple.ColorToHex} */
+  this.backgroundColor_ = new cwc.framework.simple.ColorToHex(
       opt_backgroundColor);
 
-  /** @private {cwc.framework.simple.DrawManipulationColor} */
-  this.borderColor_ = new cwc.framework.simple.DrawManipulationColor(
+  /** @private {cwc.framework.simple.ColorToHex} */
+  this.borderColor_ = new cwc.framework.simple.ColorToHex(
       opt_borderColor);
 
   /** @private {number} */
   this.borderSize_ = opt_borderSize || 0;
 
-  /** @private {cwc.framework.simple.DrawManipulationColor} */
-  this.fillStyle_ = new cwc.framework.simple.DrawManipulationColor();
+  /** @private {cwc.framework.simple.ColorToHex} */
+  this.fillStyle_ = new cwc.framework.simple.ColorToHex();
 
-  /** @private {cwc.framework.simple.DrawManipulationColor} */
-  this.strokeStyle_ = new cwc.framework.simple.DrawManipulationColor();
+  /** @private {cwc.framework.simple.ColorToHex} */
+  this.strokeStyle_ = new cwc.framework.simple.ColorToHex();
 
   /** @private {number} */
   this.rotation_ = opt_rotation || 0;
@@ -89,7 +89,7 @@ cwc.framework.simple.DrawManipulation.prototype.setPreset = function(preset) {
  */
 cwc.framework.simple.DrawManipulation.prototype.setBgColor = function(
     background_color) {
-  this.backgroundColor_ = new cwc.framework.simple.DrawManipulationColor(
+  this.backgroundColor_ = new cwc.framework.simple.ColorToHex(
       background_color);
   return this;
 };
@@ -120,7 +120,7 @@ cwc.framework.simple.DrawManipulation.prototype.getBgColor = function() {
  */
 cwc.framework.simple.DrawManipulation.prototype.setBorderColor = function(
     border_color) {
-  this.borderColor_ = new cwc.framework.simple.DrawManipulationColor(
+  this.borderColor_ = new cwc.framework.simple.ColorToHex(
       border_color);
   return this;
 };
@@ -179,7 +179,7 @@ cwc.framework.simple.DrawManipulation.prototype.getBorderSize = function() {
  */
 cwc.framework.simple.DrawManipulation.prototype.setFillStyle = function(
     fill_style) {
-  this.fillStyle_ = new cwc.framework.simple.DrawManipulationColor(fill_style);
+  this.fillStyle_ = new cwc.framework.simple.ColorToHex(fill_style);
   return this;
 };
 
@@ -208,7 +208,7 @@ cwc.framework.simple.DrawManipulation.prototype.getFillStyle = function() {
  */
 cwc.framework.simple.DrawManipulation.prototype.setStrokeStyle = function(
     stroke_style) {
-  this.strokeStyle_ = new cwc.framework.simple.DrawManipulationColor(
+  this.strokeStyle_ = new cwc.framework.simple.ColorToHex(
       stroke_style);
   return this;
 };
@@ -264,7 +264,6 @@ cwc.framework.simple.DrawManipulation.prototype.getRotation = function() {
 /**
  * Handles pre manipulations for the Canvas element.
  * @param {!CanvasRenderingContext2D} display
- * @param {!cwc.framework.simple.DrawManipulation} manipulation
  */
 cwc.framework.simple.DrawManipulation.prototype.doPre = function(display) {
   display.beginPath();
@@ -287,7 +286,6 @@ cwc.framework.simple.DrawManipulation.prototype.doPre = function(display) {
 /**
  * Handles post manipulations for the Canvas element.
  * @param {!CanvasRenderingContext2D} display
- * @param {!cwc.framework.simple.DrawManipulation} manipulation
  */
 cwc.framework.simple.DrawManipulation.prototype.doPost = function(display) {
   // Background Color
@@ -332,7 +330,7 @@ cwc.framework.simple.DrawManipulation.prototype.doPost = function(display) {
  * @constructor
  * @struct
  */
-cwc.framework.simple.DrawManipulationColor = function(
+cwc.framework.simple.ColorToHex = function(
     opt_color, opt_hex, opt_type) {
 
   /** @type {string} */

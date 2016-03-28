@@ -25,6 +25,8 @@ goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.require('goog.events.KeyCodes');
+goog.require('goog.events.KeyHandler');
 goog.require('goog.soy');
 goog.require('goog.ui.Prompt');
 
@@ -118,18 +120,13 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
 
   // Add elements interactions.
   var titleNode = goog.dom.getElement(this.prefix + 'title');
-  goog.events.listen(titleNode,
-                     goog.events.EventType.CLICK,
-                     this.renameTitle,
-                     false,
-                     this);
+  goog.events.listen(titleNode, goog.events.EventType.CLICK,
+      this.renameTitle, false, this);
 
   // Add default Events.
-  goog.events.listen(this.viewport_monitor,
-                     goog.events.EventType.RESIZE,
-                     this.adjustSize,
-                     false,
-                     this);
+  goog.events.listen(this.viewport_monitor, goog.events.EventType.RESIZE,
+      this.adjustSize, false, this);
+
   this.adjustSize();
 };
 
