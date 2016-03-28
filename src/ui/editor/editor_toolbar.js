@@ -123,6 +123,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node,
   this.redoUsage = 0;
 
   this.moreButton.addClassName('floaty_right');
+  this.moreButton.setVisible(false);
   this.expandButton.addClassName('floaty_right');
 
   this.undoButton.setEnabled(false);
@@ -165,6 +166,9 @@ cwc.ui.EditorToolbar.prototype.addOption = function(name, func,
     opt_tooltip) {
   var newOption = new goog.ui.MenuItem(name);
   this.moreMenu.addChild(newOption, true);
+  if (!this.moreButton.isVisible()) {
+    this.moreButton.setVisible(true);
+  }
 
   goog.events.listen(newOption, goog.ui.Component.EventType.ACTION,
       func, false, this);
