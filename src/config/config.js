@@ -54,7 +54,7 @@ cwc.config.Settings = {
  * @enum {!Object.<string>|boolean}
  */
 cwc.config.Debug = {
-  ENABLED: true,
+  ENABLED: false,
   EXPORT: false,
   PROPERTIES: false,
   EXAMPLES: false,

@@ -1,4 +1,5 @@
-# Coding with Chrome - Architecture
+Coding with Chrome - Architecture
+=================================
 
 This document covers the technical architecture for the different parts of
 Coding with Chrome.
@@ -98,7 +99,7 @@ to the internal apis over the runner framekwork / runner api.
 ```
 +----------------------+                             +----------------------+
 |                      |      +----------------+     |                      |
-|       Editor         |      |                |     |      Pre^iew         |
+|       Editor         |      |                |     |      Preview         |
 |                      +----> +     Runner     +--+  |  +----------------+  |
 | +----------------+   |      |                |  |  |  |                |  |
 | |                |   |      +----------------+  +------->  Sandbox     |  |

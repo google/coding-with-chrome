@@ -1,21 +1,22 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "2.3.28",
+  "version": "2.4.4",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
-    "closure-builder": "^1.0.34",
-    "codemirror": "^5.10.0",
+    "closure-builder": "^1.0.37",
+    "codemirror": "^5.13.2",
     "csslint": "^0.10.0",
-    "hint.css": "^2.2.0",
+    "hint.css": "^2.2.1",
     "htmlhint": "^0.9.12",
-    "jquery": "^2.2.0",
+    "jquery": "^2.2.2",
     "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master",
     "jsdoc": "^3.4.0",
-    "jshint": "^2.9.1"
+    "jshint": "^2.9.1",
+    "rimraf": "^2.5.2"
   },
   "devDependencies": {
     "closure-templates": "latest",
@@ -50,9 +51,12 @@
 
     "launch-win": "echo Launching app. Please wait ... && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\genfiles --enable-logging --v=1 --no-first-run",
 
+    "clean": "echo Cleaning up. Please wait ... && npm prune && rimraf genfiles/*",
+    "clean-build": "npm run clean && npm run build",
+
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
-    "update": "ncu -u && npm install && npm update && npm test",
+    "update": "ncu -u -a && npm install && npm update -a && npm test",
     "show-updates": "ncu"
   }
 }
