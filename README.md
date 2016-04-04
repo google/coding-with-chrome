@@ -172,4 +172,4 @@ For debug instruction. please check [doc/DEBUG.md](doc/DEBUG.md).
 
 
 ## Credits
-Coding with Chrome is made possible by other open [source software](NOTICE.md).
+Coding with Chrome is made possible by other [open source software](NOTICE.md).
