@@ -26,9 +26,9 @@
 {template .guiTemplate}
   {@param prefix: string}
   {@param? opt_title: string}
-  <div id="{$prefix}chrome">
+  <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
     // Header with title, menubar and icons.
-    <header id="{$prefix}header">
+    <header id="{$prefix}header" class="mdl-layout__header">
       <div id="{$prefix}titlebar">
         <div id="{$prefix}title">{$opt_title ? $opt_title : 'Untitled Project'}</div>
         <div id="{$prefix}status">*</div>
@@ -38,6 +38,16 @@
         <div id="{$prefix}menubar"></div>
       </div>
     </header>
+
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Title</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
+    </div>
 
     // Main with library, preview, editor and console.
     <section id="{$prefix}layout"></section>
@@ -57,16 +67,10 @@
   {@param prefix: string}
   #{$prefix}chrome {lb}
     overflow: hidden;
-    position: relative;
-    font-family: Roboto, Gelvetica, Arial, sans-serif;;
-    font-size: 13px;
   {rb}
 
   #{$prefix}chrome header {lb}
-    position: relative;
-    background: #455A64;
     min-height: 34px;
-    color: #fff;
   {rb}
 
   #{$prefix}chrome footer {lb}

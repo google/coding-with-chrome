@@ -26,6 +26,7 @@ goog.require('goog.events.OnlineHandler');
 goog.require('goog.net.NetworkStatusMonitor');
 
 
+
 /**
  * Helper for automatic feature detection.
  * @param {string=} opt_loglevel
@@ -61,6 +62,7 @@ cwc.utils.Features = function(opt_loglevel) {
  * @export
  */
 cwc.utils.Features.prototype.detect = function() {
+  this.detectBrowserFeatures();
   this.detectChromeFeatures();
   this.detectOnlineStatus();
   this.detectJavaScripts();
@@ -69,7 +71,22 @@ cwc.utils.Features.prototype.detect = function() {
 
 
 /**
- * Detect avalible Chrome features.
+ * Detect available Chrome features.
+ * @param {Event=} opt_event
+ * @export
+ */
+cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
+  var group = 'browser';
+
+  this.set('storage', goog.isObject(Storage), group);
+  this.set('localStorage', goog.isObject(localStorage), group);
+  this.set('sessionStorage', goog.isObject(sessionStorage), group);
+  this.set('bluetooth', goog.isObject(navigator.bluetooth), group);
+};
+
+
+/**
+ * Detect available Chrome features.
  * @param {Event=} opt_event
  * @export
  */
@@ -83,6 +100,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   this.set('system.memory', goog.isObject(chrome.system.memory), group);
   this.set('tts', goog.isObject(chrome.tts), group);
   this.set('usb', goog.isObject(chrome.usb), group);
+  this.set('storage', goog.isObject(chrome.storage.local), group);
 
   // Sockets
   this.set('sockets', goog.isObject(chrome.sockets), group);
@@ -110,7 +128,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
 
 
 /**
- * Detect current online status.
+ * Detect available JavaScript frameworks.
  * @param {Event=} opt_event
  * @export
  */

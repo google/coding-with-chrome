@@ -39,7 +39,7 @@
 {template .classes}
   {@param prefix: string}
   {@param version: string}
-  .beta:before {lb}
+  .{$prefix}version:before {lb}
     background: #00f;
     color: #fff;
     content: "{$version}";
@@ -100,7 +100,10 @@
     background-color: #607D8B;
     padding: 10px;
     padding-left: 100px;
-    font-size: 41px;
+  {rb}
+
+  .{$prefix}header h3 {lb}
+    margin: 0;
   {rb}
 
   .{$prefix}header-content {lb}

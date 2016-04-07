@@ -152,7 +152,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
         cwc.soy.ui.Editor.style({ 'prefix': this.prefix }));
   }
 
-  // Decorate editor toolbar.
+  // Decorate editor tool-bar.
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
   this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView);
@@ -161,7 +161,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.decorateEditor(this.nodeEditor);
 
-  // Decorate editor infobar.
+  // Decorate editor info-bar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   this.nodeInfobarLineCol = goog.dom.getElement(this.prefix + 'info-line-col');
   this.nodeInfobarMode = goog.dom.getElement(this.prefix + 'info-mode');

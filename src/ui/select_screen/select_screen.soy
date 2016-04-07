@@ -400,9 +400,9 @@
   {@param title: string}
   {@param? opt_text: string}
   {@param? opt_class: string}
-  <div class="beta {$prefix}header{if $opt_class} {$prefix}{$opt_class}{/if}">
+  <div class="{$prefix}version {$prefix}header{if $opt_class} {$prefix}{$opt_class}{/if}">
     <div class="{$prefix}header-content">
-      {$title}
+      <h3>{$title}</h3>
       {if $opt_text}<small>{$opt_text}</small>{/if}
     </div>
   </div>

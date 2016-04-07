@@ -103,6 +103,17 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'Material Design',
+  resources: [
+    'node_modules/material-design-lite/material.min.js',
+    'node_modules/material-design-lite/material.min.css',
+    'node_modules/material-design-lite/dist/material.indigo-blue.min.css'
+  ],
+  out: 'genfiles/external/material-design-lite/'
+});
+
+
+closureBuilder.build({
   name: 'JSHint files',
   resources: [
     'node_modules/jshint/dist/jshint.js'

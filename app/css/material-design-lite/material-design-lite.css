@@ -15,32 +15,13 @@
  */
 
 /*
- * General custom CSS definitions.
+ * Material design lite custom CSS definitions.
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-html>body {
-  font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
-  -webkit-font-smoothing: antialiased;
-}
+@import '../../external/material-design-lite/material.indigo-blue.min.css';
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  border-color: gray;
-}
-
-tr {
-  background-color: #fafafa;
-}
-
-tr:nth-of-type(even) {
-  background-color: #fff;
-}
-
-.img.center {
-  display: block;
-  margin: auto;
-  border: 0;
+.mdl-layout__drawer-button {
+  margin: 0;
 }

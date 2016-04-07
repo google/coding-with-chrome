@@ -481,7 +481,11 @@ cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
       connected ? 'connected' : 'disconnected');
     goog.style.setElementShown(this.nodeBluetooth, !connected);
     goog.style.setElementShown(this.nodeBluetoothConnected, connected);
-    goog.style.setElementShown(this.nodeBluetoothDisabled, !connected);
+    goog.style.setElementShown(this.nodeBluetoothDisabled, false);
+  } else {
+    goog.style.setElementShown(this.nodeBluetooth, false);
+    goog.style.setElementShown(this.nodeBluetoothConnected, false);
+    goog.style.setElementShown(this.nodeBluetoothDisabled, true);
   }
   this.bluetoothConnected = connected;
 };
