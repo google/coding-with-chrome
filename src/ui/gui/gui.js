@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Gui');
 
 goog.require('cwc.soy.ui.Gui');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
@@ -108,6 +109,12 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
     messageInstance.decorate(goog.dom.getElement(this.prefix + 'message'),
         this.generalPrefix);
   }
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.decorate(goog.dom.getElement(this.prefix + 'navigation'),
+        this.generalPrefix);
+  }
+
   var statusbarInstance = this.helper.getInstance('statusbar');
   if (statusbarInstance) {
     statusbarInstance.decorate(goog.dom.getElement(this.prefix + 'statusbar'),

@@ -58,9 +58,6 @@ cwc.ui.Menubar = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeMenu = null;
-
-  /** @type {Element} */
   this.nodeHelp = null;
 
   /** @type {Element} */
@@ -110,13 +107,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {boolean} */
   this.bluetoothConnected = false;
-
-  /** @type {goog.ui.Button} */
-  this.menu = cwc.ui.Helper.getIconButton('menu', 'Menu');
-
-  /** @type {goog.ui.Button} */
-  this.menuNew = cwc.ui.Helper.getIconButton('add',
-      'Create a new project', this.requestShowSelectScreen.bind(this));
 
   /** @type {goog.ui.PopupMenu} */
   this.menuPopup = null;
@@ -205,11 +195,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
       cwc.soy.Menubar.menubarStyle({ 'prefix': this.prefix })
   );
 
-  // Menu icon
-  this.nodeMenu = goog.dom.getElement(this.prefix + 'menu');
-  this.menu.render(this.nodeMenu);
-  this.decorateMainMenu_(this.nodeMenu);
-
   // Bluetooth icons
   if (this.helper.checkChromeFeature('bluetooth')) {
     this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
@@ -279,35 +264,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   // Close icon
   this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
   this.closeButton.render(this.nodeCloseButton);
-};
-
-
-/**
- * Decorates the main menu.
- * @param {Element} node
- * @private
- */
-cwc.ui.Menubar.prototype.decorateMainMenu_ = function(node) {
-  if (!node) {
-    console.log('Was not able to decorate main menu!');
-    return;
-  }
-
-  var menu = new goog.ui.PopupMenu();
-  menu.attach(node, goog.positioning.Corner.BOTTOM_START);
-  menu.setToggleMode(true);
-  menu.render();
-
-  this.fileMenu = new cwc.ui.FileMenu(this.helper);
-  this.fileMenu.decorate(menu);
-
-  if (this.helper.debugEnabled('EXAMPLES')) {
-    this.exampleMenu = new cwc.ui.ExampleMenu(this.helper);
-    this.exampleMenu.decorate(menu);
-  }
-
-  menu.addChild(new goog.ui.Separator, true);
-  menu.addChild(this.menuExit, true);
 };
 
 
