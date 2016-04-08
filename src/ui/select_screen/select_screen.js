@@ -82,9 +82,11 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
 
 /**
  * Creates a request to show the select screen.
+ * @param {Function=} opt_callback
  */
-cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function() {
-  this.helper.handleUnsavedChanges(this.showSelectScreen.bind(this));
+cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback) {
+  this.helper.handleUnsavedChanges(this.showSelectScreen.bind(this),
+      opt_callback);
 };
 
 

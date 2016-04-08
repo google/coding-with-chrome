@@ -15,19 +15,25 @@
     See the License for the specific language governing permissions and
     limitations under the License. -->
     <title>Loading Coding with Chrome ...</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/material-design-lite/material-design-lite.css">
+    <link rel="stylesheet" href="../css/preloader.css">
     <script src="../js/loader.js"></script>
   </head>
   <body>
-    <div id="cwc-preloader-logo"></div>
-    <div id="cwc-preloader">
-      <h2>Coding with Chrome</h2>
-      <div id="cwc-preloader-progress-text">Loading ...</div>
-      <div id="cwc-preloader-progress-bar">
-        <div id="cwc-preloader-progress-bar-thumb"></div>
+    <div id="cwc-preloader" class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">Coding with Chrome</h2>
       </div>
-      <div id="cwc-preloader-version">
-        BUILD <span id="cwc-version-text"></span>
+      <div class="mdl-card__supporting-text">
+        <div id="cwc-preloader-progress-bar">
+          <div id="cwc-preloader-progress-bar-thumb"></div>
+        </div>
+        <div id="cwc-preloader-progress-text">Loading ...</div>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <div id="cwc-preloader-version">
+          Build version <span id="cwc-version-text">...</span>
+        </div>
       </div>
     </div>
   </body>

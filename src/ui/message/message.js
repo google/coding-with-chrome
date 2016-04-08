@@ -62,6 +62,9 @@ cwc.ui.Message = function() {
   /** @type {Element} */
   this.nodeText = null;
 
+  /** @type {Element} */
+  this.snackbar = null;
+
   /** @type {cwc.ui.MessageType} */
   this.messageType = null;
 };
@@ -79,16 +82,28 @@ cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Message.messageTemplate,
+      cwc.soy.ui.Message.template,
       {'prefix': this.prefix}
   );
 
   goog.style.installStyles(
-      cwc.soy.ui.Message.messageStyle({ 'prefix': this.prefix })
+      cwc.soy.ui.Message.style({ 'prefix': this.prefix })
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
   this.nodeText = goog.dom.getElement(this.prefix + 'text');
+  this.snackbar = goog.dom.getElement(this.prefix + 'snackbar');
+
+  if (this.snackbar && this.snackbar.MaterialSnackbar) {
+    var data = {
+      message: 'Test 123.',
+      timeout: 2000,
+      actionHandler: null,
+      actionText: 'Undo'
+    };
+    this.snackbar.MaterialSnackbar.showSnackbar(data);
+  }
+
   this.hide();
 };
 

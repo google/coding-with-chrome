@@ -379,8 +379,9 @@ cwc.utils.Helper.prototype.getPrefix = function(
 
 /**
  * @param {Function} func
+ * @param {Function=} opt_callback
  */
-cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
+cwc.utils.Helper.prototype.handleUnsavedChanges = function(func, opt_callback) {
   var dialog = new goog.ui.Dialog();
   var fileName = '';
   var fileModified = false;
@@ -405,11 +406,21 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
         function(event) {
           if (event.key == 'yes') {
             func();
+            if (opt_callback) {
+              opt_callback(true);
+            }
+          } else {
+            if (opt_callback) {
+              opt_callback(false);
+            }
           }
         }, false, this);
     dialog.setVisible(true);
   } else {
     func();
+    if (opt_callback) {
+      opt_callback(true);
+    }
   }
 };
 

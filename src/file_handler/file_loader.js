@@ -55,6 +55,15 @@ cwc.fileHandler.FileLoader.prototype.loadFile = function() {
 
 
 /**
+ * Creates a request to load file.
+ * @param {Function=} opt_callback
+ */
+cwc.fileHandler.FileLoader.requestLoadFile = function(opt_callback) {
+  this.helper.handleUnsavedChanges(this.loadFile.bind(this), opt_callback);
+};
+
+
+/**
  * @param {!Object} file
  * @param {!Object} file_entry
  * @param {!string} content

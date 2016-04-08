@@ -29,25 +29,26 @@
   <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
     // Header with title, menubar and icons.
     <header id="{$prefix}header" class="mdl-layout__header">
-      <div id="{$prefix}titlebar">
-        <div id="{$prefix}title">{$opt_title ? $opt_title : 'Untitled Project'}</div>
-        <div id="{$prefix}status">*</div>
-      </div>
-      <div id="{$prefix}message"></div>
-      <div id="{$prefix}bar">
-        <div id="{$prefix}menubar"></div>
+      <div class="mdl-layout__header-row">
+        // Title
+        <div class="mdl-layout-title">
+          <span id="{$prefix}title">
+            {$opt_title ? $opt_title : 'Untitled Project'}
+          </span>
+          <span id="{$prefix}status">*</span>
+        </div>
+        // Message bar
+        <div id="{$prefix}message"></div>
+        <div class="mdl-layout-spacer"></div>
+        // Navigation
+        <div id="{$prefix}bar">
+          <div id="{$prefix}menubar"></div>
+        </div>
       </div>
     </header>
 
-    <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">Title</span>
-      <nav id="{$prefix}navigation" class="mdl-navigation">
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-        <a class="mdl-navigation__link" href="">Link</a>
-      </nav>
-    </div>
+    // Navigation
+    <div id="{$prefix}navigation" class="mdl-layout__drawer"></div>
 
     // Main with library, preview, editor and console.
     <section id="{$prefix}layout"></section>
@@ -100,22 +101,7 @@
     z-index: 10;
   {rb}
 
-  #{$prefix}titlebar {lb}
-    position: absolute;
-    top: 5px;
-    left: 50px;
-  {rb}
-
-  #{$prefix}title {lb}
-    margin-left: 17px;
-    color: #fff;
-    font-size: 18px;
-    font-style: italic;
-    display: inline;
-  {rb}
-
   #{$prefix}status {lb}
-    float: right;
     margin-left: 5px;
   {rb}
 

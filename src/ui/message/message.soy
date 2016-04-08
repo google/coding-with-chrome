@@ -23,10 +23,14 @@
 /**
  * Main HTML template for the messages.
  */
-{template .messageTemplate}
+{template .template}
   {@param prefix: string}
   <div id="{$prefix}body">
     <div id="{$prefix}text"></div>
+  </div>
+  <div id="{$prefix}snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
   </div>
 {/template}
 
@@ -34,7 +38,7 @@
 /**
  * CSS Style definitions.
  */
-{template .messageStyle}
+{template .style}
   {@param prefix: string}
   #{$prefix}body {lb}
     border-radius: 2px;

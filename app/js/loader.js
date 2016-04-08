@@ -84,7 +84,7 @@ cwcLoader.prototype.messageHandler = function(event) {
       this.setError(data.msg);
       break;
     default:
-      console.log('Command', command, 'is not regonized!');
+      console.log('Command', command, 'is not recognized!');
   }
 };
 

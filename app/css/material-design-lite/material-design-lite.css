@@ -31,3 +31,8 @@
 .mdl-layout__drawer-button:hover {
   opacity: 1;
 }
+
+.mdl-layout__header-row {
+  height: 44px;
+  padding: 0 10px 0 80px;
+}

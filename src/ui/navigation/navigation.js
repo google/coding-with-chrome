@@ -19,6 +19,9 @@
  */
 goog.provide('cwc.ui.Navigation');
 
+goog.require('cwc.soy.ui.Navigation');
+goog.require('cwc.ui.Helper');
+
 goog.require('goog.ui.Button');
 goog.require('goog.ui.LinkButtonRenderer');
 
@@ -43,8 +46,19 @@ cwc.ui.Navigation = function(helper) {
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
+  /** @type {!goog.ui.MenuItem} */
+  this.menuNew = cwc.ui.Helper.getNavigationItem('New project',
+      'Start a new project', this.requestShowSelectScreen, this);
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuOpen = cwc.ui.Helper.getNavigationItem('Open ...',
+      'Open a local file ...', this.requestOpenFile, this);
+
   /** @type {Element} */
   this.node = null;
+
+  /** @type {Element} */
+  this.nodeItems = null;
 };
 
 
@@ -59,8 +73,43 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
   this.prefix = opt_prefix + this.prefix;
 
-  var newProject = new goog.ui.Button('New project',
-    goog.ui.LinkButtonRenderer.getInstance());
-  newProject.addClassName('mdl-navigation__link');
-  newProject.render(node);
+  goog.soy.renderElement(
+      this.node, cwc.soy.ui.Navigation.template, {'prefix': this.prefix});
+
+  this.nodeItems = goog.dom.getElement(this.prefix + 'items');
+  this.menuNew.render(this.nodeItems);
+  this.menuOpen.render(this.nodeItems);
+};
+
+
+/**
+ * Toggle the drawer.
+ */
+cwc.ui.Navigation.prototype.toggle = function() {
+  var mdlLayout = document.querySelector('.mdl-layout');
+  if (mdlLayout) {
+    mdlLayout.MaterialLayout.toggleDrawer();
+  }
+};
+
+
+/**
+ * Shows new file dialog.
+ */
+cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
+  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  if (selectScreenInstance) {
+    selectScreenInstance.requestShowSelectScreen(this.toggle);
+  }
+};
+
+
+/**
+ * Request to open a existing file from the local drive.
+ */
+cwc.ui.Navigation.prototype.requestOpenFile = function() {
+  var fileLoaderInstance = this.helper.getInstance('fileLoader');
+  if (fileLoaderInstance) {
+    fileLoaderInstance.requestLoadFile(this.toggle);
+  }
 };

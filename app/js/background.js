@@ -29,30 +29,29 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   var editorConfig = {
     frame: 'none',
     id: 'editor',
-    outerBounds: {
+    innerBounds: {
       width: editorWidth,
-      height: editorHeight
+      height: editorHeight,
+      minWidth: 800,
+      minHeight: 600
     },
-    minWidth: 800,
-    minHeight: 600,
     hidden: true
   };
-  var loaderWidth = 500;
-  var loaderHeight = 170;
+  var loaderWidth = 512;
+  var loaderHeight = 250;
   var loaderConfig = {
     alwaysOnTop: true,
     frame: 'chrome',
     id: 'loader',
     focused: true,
     resizable: false,
-    outerBounds: {
+    innerBounds: {
       width: loaderWidth,
-      height: loaderHeight
-    },
-    minWidth: loaderWidth,
-    minHeight: loaderHeight
+      height: loaderHeight,
+      maxWidth: loaderWidth,
+      maxHeight: loaderHeight
+    }
   };
-  console.log(loaderConfig);
   chrome.app.window.create('html/loader.html', loaderConfig, function(
       loaderWindow) {
     loaderWindow.outerBounds.setPosition(
