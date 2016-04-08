@@ -129,6 +129,7 @@ cwc.ui.SelectScreen.prototype.showBlocks = function() {
   this.setHomeLink();
   this.setClickEvent('link-ev3', this.newEV3Blockly);
   this.setClickEvent('link-sphero', this.newSpheroBlockly);
+  this.setClickEvent('link-mbot', this.newMBOTBlockly);
   this.setClickEvent('link-cwc-blockly', this.newCwcBlockly);
   this.setClickEvent('link-home', this.showOverview);
 };
@@ -145,6 +146,7 @@ cwc.ui.SelectScreen.prototype.showCode = function() {
   this.setClickEvent('link-cwc-basic', this.newCwcBasic);
   this.setClickEvent('link-cwc-advanced', this.newCwcAdvanced);
   this.setClickEvent('link-ev3', this.newEV3);
+  this.setClickEvent('link-mbot', this.newMBot);
   this.setClickEvent('link-sphero', this.newSphero);
   this.setClickEvent('link-pencil-code', this.newPencilCode);
   this.setClickEvent('link-home', this.showOverview);
@@ -236,10 +238,21 @@ cwc.ui.SelectScreen.prototype.newSphero = function() {
   this.newFile(cwc.file.Type.SPHERO);
 };
 
+/** Loads a new mbot file */
+cwc.ui.SelectScreen.prototype.newMBot = function() {
+  this.newFile(cwc.file.Type.MBOT);
+};
+
+
 
 /** Loads a new Sphero Blockly file */
 cwc.ui.SelectScreen.prototype.newSpheroBlockly = function() {
   this.newFile(cwc.file.Type.SPHERO_BLOCKLY);
+};
+
+/** Loads a new mbot Blockly file */
+cwc.ui.SelectScreen.prototype.newMBOTBlockly = function() {
+  this.newFile(cwc.file.Type.MBOT_BLOCKLY);
 };
 
 

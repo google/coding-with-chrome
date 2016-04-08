@@ -63,6 +63,19 @@ closureBuilder.build({
   out: 'genfiles/frameworks/internal/sphero_framework.js'
 });
 
+closureBuilder.build({
+  name: 'cwc.framework.mbot',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/mbot/*.js'
+  ]),
+  deps: glob([
+    'src/frameworks/runner/runner.js',
+    'src/utils/*.js'
+  ]),
+  out: 'genfiles/frameworks/internal/mbot_framework.js'
+});
+
 
 closureBuilder.build({
   name: 'cwc.framework.Turtle',

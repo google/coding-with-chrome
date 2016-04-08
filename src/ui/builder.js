@@ -35,6 +35,7 @@ goog.require('cwc.protocol.Serial.api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.sphero.Api');
+goog.require('cwc.protocol.mbot.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
@@ -73,6 +74,7 @@ cwc.ui.BuilderFrameworks = {
   'Runner Framework': '../frameworks/internal/runner_framework.js',
   'Simple Framework': '../frameworks/internal/simple_framework.js',
   'Sphero Framework': '../frameworks/internal/sphero_framework.js',
+  'mBot Framework': '../frameworks/internal/mbot_framework.js',
   'Turtle Framework': '../frameworks/internal/turtle_framework.js',
 
   // External frameworks
@@ -112,6 +114,7 @@ cwc.ui.BuilderHelpers = {
   'selectScreen': cwc.ui.SelectScreen,
   'serial': cwc.protocol.Serial.api,
   'sphero': cwc.protocol.sphero.Api,
+  'mbot': cwc.protocol.mbot.Api,
   'statusbar': cwc.ui.Statusbar,
   'turtle': cwc.ui.Turtle,
   'tutorial': cwc.ui.Tutorial

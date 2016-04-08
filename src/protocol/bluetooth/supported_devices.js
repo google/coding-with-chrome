@@ -47,5 +47,11 @@ cwc.protocol.bluetooth.supportedDevices = {
     'indicator': 'Sphero',
     'deviceClass': 2360392,
     'uuid': '00001101-0000-1000-8000-00805f9b34fb'
+  },
+  MBOT: {
+    'name': 'mbot',
+    'indicator': 'mbot',
+    'deviceClass': 2360390,
+    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
   }
 };

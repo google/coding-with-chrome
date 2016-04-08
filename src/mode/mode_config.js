@@ -35,6 +35,7 @@ goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.pencilCode.advanced.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
+goog.require('cwc.mode.mbot.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
 
@@ -222,6 +223,18 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   mod: cwc.mode.sphero.blockly.Mod,
   authors: ['Markus Bordihn']
 });
+
+
+/**
+ * mbot blockly mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
+  name: 'mbot blockly',
+  file_type: cwc.file.Type.MBOT_BLOCKLY,
+  mod: cwc.mode.mbot.blockly.Mod,
+  authors: ['Yu Wang']
+});
+
 
 
 /**
