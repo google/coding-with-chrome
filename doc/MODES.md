@@ -1,4 +1,5 @@
-# Coding with Chrome - Modes
+Coding with Chrome - Modes
+==========================
 
 This document covers the modes of Coding with Chrome and how they are used.
 

@@ -6,14 +6,14 @@ Coding with Chrome
 
 Coding with Chrome is an Educational Development Environment built around two
 core philosophies:
-  Offer a stand-alone, offline app experience which allows people anywhere to
-  learn how to build useful computer programs:
+  1. Offer a stand-alone, offline app experience which allows people anywhere to
+learn how to build useful computer programs:
     * A basic IDE able to support real programming work
     * A tutorial system that poses a challenge, checks the solution and
       provides feedback.
 
-  Allow educators to put together a custom curriculum made up of various
-  components like:
+  2. Allow educators to put together a custom curriculum made up of various
+components like:
     * input languages (blockly, javascript, coffeescript)
     * output modules (turtle graphics, javascript output, connected robots)
     * Flexible UI where elements can be easily added, modified or removed
@@ -167,6 +167,9 @@ Google Drive data, or only use test accounts without critical files or data.
 
 See: https://developer.chrome.com/apps/app_identity
 
+### Debugging
+For debug instruction. please check [doc/DEBUG.md](doc/DEBUG.md).
+
 
 ## Credits
-See [NOTICE.md](NOTICE.md)
+Coding with Chrome is made possible by other [open source software](NOTICE.md).

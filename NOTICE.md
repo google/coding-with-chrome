@@ -7,7 +7,7 @@
 * [CoffeeLint](#coffeelint)
 * [CoffeeScript](#coffeescript)
 * [HTMLHint](#htmlhint)
-* [Hint.css](#hint-css)
+* [Hint.css](#hintcss)
 * [JSHint](#jshint)
 * [Material Design Icons](#material-design-icons)
 * [Open Sans Font](#open-sans-font)

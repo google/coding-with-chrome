@@ -31,6 +31,8 @@
   <div id="{$prefix}body">
     <h2>Debug screen</h2>
 
+    <div class="icon_24px icon_button" id="{$prefix}close">close</div>
+
     <h3>File Types</h3>
     <select id="file_types">
     {foreach $file_type in keys($file_types)}
@@ -53,8 +55,9 @@
     </select>
 
     <div id="{$prefix}footer">
-     Have fun testing … ;)
+      Note: Not all features are implemented yet!
     </div>
+
   </div>
 {/template}
 
@@ -64,11 +67,23 @@
  */
 {template .style}
   {@param prefix: string}
+
   #{$prefix}body {lb}
+    position: relative;
     border: 1px solid red;
     padding: 10px;
     background: #ccc;
     width: 200px;
+  {rb}
+
+  #{$prefix}body h2{lb}
+    margin: 0;
+  {rb}
+
+  #{$prefix}close {lb}
+    position: absolute;
+    right: 5px;
+    top: 5px;
   {rb}
 
   #{$prefix}left {lb}
@@ -83,5 +98,6 @@
 
   #{$prefix}footer {lb}
     clear: both;
+    margin-top: 10px;
   {rb}
 {/template}

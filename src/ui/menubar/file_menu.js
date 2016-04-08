@@ -23,7 +23,9 @@ goog.require('cwc.file.Type');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.events.KeyCodes');
 goog.require('goog.ui.Dialog');
+goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.ui.PopupMenu');
 goog.require('goog.ui.Separator');
 goog.require('goog.ui.SubMenu');
@@ -86,6 +88,9 @@ cwc.ui.FileMenu = function(helper) {
   /** @type {!goog.ui.MenuItem} */
   this.menuProperties = cwc.ui.Helper.getMenuItem('Properties',
       this.showProperties, this);
+
+  /** @type {!goog.ui.KeyboardShortcutHandler} */
+  this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
 };
 
 
@@ -136,6 +141,15 @@ cwc.ui.FileMenu.prototype.decorate = function(menu) {
     menu.addChild(new goog.ui.Separator, true);
     menu.addChild(this.menuProperties, true);
   }
+
+  // Add keyboard shortcuts.
+  this.shortcutHandler.registerShortcut('new_file', 'ctrl+n');
+  this.shortcutHandler.registerShortcut('open_file', 'ctrl+o');
+  this.shortcutHandler.registerShortcut('save_file', 'ctrl+s');
+  this.shortcutHandler.registerShortcut('save_file_as', 'ctrl+shift+s');
+  goog.events.listen(this.shortcutHandler,
+    goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
+    this.handleKeyboardShortcut, false, this);
 };
 
 
@@ -321,4 +335,27 @@ cwc.ui.FileMenu.prototype.exportObjectTag = function() {
  */
 cwc.ui.FileMenu.prototype.showProperties = function() {
   // ToDo
+};
+
+
+/**
+ * Handles keyboard shortcuts.
+ */
+cwc.ui.FileMenu.prototype.handleKeyboardShortcut = function(event) {
+  switch (event.identifier) {
+    case 'new_file':
+      this.requestShowSelectScreen();
+      break;
+    case 'open_file':
+      this.requestOpenFile();
+      break;
+    case 'save_file':
+      this.saveFile();
+      break;
+    case 'save_file_as':
+      this.saveFileAs();
+      break;
+    default:
+      console.info(event.identifier);
+  }
 };

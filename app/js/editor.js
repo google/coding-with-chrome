@@ -29,6 +29,7 @@ var cwcBuildUi = function() {
   var editorNode = document.getElementById('cwc-editor');
   var uiBuilder = new cwc.ui.Builder();
   uiBuilder.decorate(editorNode);
+  return uiBuilder;
 };
 
 
@@ -42,10 +43,19 @@ var cwcLoadScripts = function() {
         'text': message,
         'current': 0, 'total': 100 }, '*');
     }
+    // Adding main ui script.
     var uiScript = document.createElement('script');
     uiScript.type = 'text/javascript';
     uiScript.src = '../js/cwc_ui.js';
+    uiScript.onload = function() {
+      // Adding debugging script.
+      var debugScript = document.createElement('script');
+      debugScript.type = 'text/javascript';
+      debugScript.src = '../js/debug.js';
+      header.appendChild(debugScript);
+    };
     header.appendChild(uiScript);
+
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
         'text': message,
