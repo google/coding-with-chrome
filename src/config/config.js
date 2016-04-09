@@ -63,6 +63,7 @@ cwc.config.Debug = {
   RESOURCES: false,
   GALLERY: false,
   SPHERO: false,
+  MBOT: false,
   TOUR: false
 };
 

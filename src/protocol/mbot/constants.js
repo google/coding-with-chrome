@@ -29,6 +29,6 @@ goog.provide('cwc.protocol.mbot.Command');
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.mbot.Command = {
-    PREFIX_A: 0xff,
-    PREFIX_B: 0x55
+  PREFIX_A: 0xff,
+  PREFIX_B: 0x55
 };

@@ -37,7 +37,7 @@ cwc.runner.profile.mbot.Command = function(api) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(){
+cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data){
   this.api.beepBuzzer();
 };
 

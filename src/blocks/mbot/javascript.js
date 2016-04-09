@@ -32,6 +32,6 @@ cwc.blocks.mbot.JavaScript.prefix_ = 'mbot_';
 /**
  * mbot roll.
  */
-cwc.blocks.addJavaScript('beep_buzzer', function(block) {
+cwc.blocks.addJavaScript('beep_buzzer', function(opt_block) {
   return 'mbot.beepBuzzer();\n';
 }, cwc.blocks.mbot.JavaScript.prefix_);

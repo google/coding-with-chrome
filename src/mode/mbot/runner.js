@@ -97,7 +97,7 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Normal Commands
-  this.runner.addCommand('boost', this.command.beepBuzzer, this);
+  this.runner.addCommand('beepBuzzer', this.command.beepBuzzer, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
@@ -122,7 +122,7 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
  * @private
  */
 cwc.mode.mbot.Runner.prototype.handleStart_ = function() {
-  this.monitor.reset();
+  // this.monitor.reset();
   this.turtle.action('speed', 5);
   this.turtle.reset();
 };

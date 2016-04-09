@@ -124,7 +124,7 @@ cwc.protocol.mbot.Api.prototype.prepare = function() {
 
 
 /**
- * Disconnects the mbot ball.
+ * Disconnects the mbot.
  */
 cwc.protocol.mbot.Api.prototype.disconnect = function() {
   if (this.device) {
@@ -133,9 +133,26 @@ cwc.protocol.mbot.Api.prototype.disconnect = function() {
   this.cleanUp();
 };
 
+/**
+ * Basic cleanup for the mbot.
+ */
+cwc.protocol.mbot.Api.prototype.cleanUp = function() {
+  console.log('Clean up Mbot …');
+  this.reset();
+};
 
 /**
- * Resets the mbot ball connection.
+ * Resets the mbot connection.
+ */
+cwc.protocol.mbot.Api.prototype.reset = function() {
+  if (this.device) {
+    this.device.reset();
+  }
+};
+
+
+/**
+ * Resets the mbot connection.
  */
 cwc.protocol.mbot.Api.prototype.reset = function() {
   if (this.device) {
@@ -164,17 +181,18 @@ cwc.protocol.mbot.Api.prototype.handleAsync_ = function(buffer) {
 };
 
 cwc.protocol.mbot.Api.prototype.beepBuzzer = function() {
-  var beepCommand = [0xff, 0x55, 0x07, 0x00, 0x02, 0x22, 0x06, 0x01, 0xfa, 0x00];
+  var beepCommand = [0xff, 0x55, 0x07, 0x00, 0x02,
+                      0x22, 0x06, 0x01, 0xfa, 0x00];
   this.device.send(this.arrayBufferFromArray(beepCommand));
-}
+};
 
 cwc.protocol.mbot.Api.prototype.arrayBufferFromArray = function(data){
   var result = new Int8Array(data.length);
-  for(var i=0;i<data.length;i++){
-      result[i] = data[i];
+  for (var i=0; i < data.length; i++){
+    result[i] = data[i];
   }
   return result;
-}
+};
 
 /**
  * @param {!number} red 0-255
@@ -182,13 +200,13 @@ cwc.protocol.mbot.Api.prototype.arrayBufferFromArray = function(data){
  * @param {!number} blue 0-255
  * @param {boolean=} opt_persistant
  */
-cwc.protocol.mbot.Api.prototype.setRGB = function(red, green, blue,
-    opt_persistant) {
-  var buffer = new cwc.protocol.mbot.Buffer();
-  buffer.writeCommand(this.command.RGB_LED.SET);
-  buffer.writeByte(red);
-  buffer.writeByte(green);
-  buffer.writeByte(blue);
-  buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
-  this.send_(buffer);
-};
+// cwc.protocol.mbot.Api.prototype.setRGB = function(red, green, blue,
+//     opt_persistant) {
+//   var buffer = new cwc.protocol.mbot.Buffer();
+//   buffer.writeCommand(this.command.RGB_LED.SET);
+//   buffer.writeByte(red);
+//   buffer.writeByte(green);
+//   buffer.writeByte(blue);
+//   buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
+//   this.send_(buffer);
+// };

@@ -8,11 +8,11 @@
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
     "closure-builder": "^1.0.37",
-    "codemirror": "^5.13.2",
+    "codemirror": "^5.13.4",
     "csslint": "^0.10.0",
     "hint.css": "^2.2.1",
     "htmlhint": "^0.9.12",
-    "jquery": "^2.2.2",
+    "jquery": "^2.2.3",
     "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master",
     "jsdoc": "^3.4.0",
     "jshint": "^2.9.1",

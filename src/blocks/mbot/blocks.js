@@ -37,6 +37,8 @@ cwc.blocks.mbot.Blocks.prefix_ = 'mbot_';
 cwc.blocks.addBlock('beep_buzzer', function() {
   this.setHelpUrl('');
   this.setColour(260);
+  this.appendDummyInput()
+      .appendField('Beep Buzzer');
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Beep the Buzzer');

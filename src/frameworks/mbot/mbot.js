@@ -49,4 +49,4 @@
   */
  cwc.framework.mbot.prototype.beepBuzzer = function() {
    this.runner.send('beepBuzzer');
- }
+ };
