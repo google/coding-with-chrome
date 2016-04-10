@@ -38,7 +38,6 @@ goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
-goog.require('cwc.ui.Config');
 goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
@@ -55,6 +54,7 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
+goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
@@ -199,10 +199,9 @@ cwc.ui.Builder.prototype.decorate = function(node,
 
 
 /**
- * Loads all needed helper and the ui.
+ * Loads all needed helper.
  */
 cwc.ui.Builder.prototype.loadApp = function() {
-
   if (!this.error) {
     this.setProgress('Detect features ...', 0, 100);
     this.detectFeatures();
@@ -219,51 +218,65 @@ cwc.ui.Builder.prototype.loadApp = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading config ...', 40, 100);
-    this.loadConfig();
+    this.setProgress('Loading user config ...', 20, 100);
+    this.loadUserConfig(this.loadUI.bind(this));
   }
+};
 
+
+/**
+ * Loads the ui.
+ */
+cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error) {
-    this.setProgress('Prepare helpers ...', 50, 100);
+    this.setProgress('Prepare helpers ...', 30, 100);
     this.prepareHelper();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare OAuth2 Helpers ...', 55, 100);
+    this.setProgress('Prepare OAuth2 Helpers ...', 35, 100);
     this.prepareOauth2Helper();
   }
 
   if (!this.error) {
-    this.setProgress('Loading frameworks ...', 60, 100);
+    this.setProgress('Loading frameworks ...', 40, 100);
     this.loadFrameworks();
   }
 
   if (!this.error) {
-    this.setProgress('Render editor GUI ...', 70, 100);
+    this.setProgress('Render editor GUI ...', 50, 100);
     this.renderGui();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Bluetooth support ...', 80, 100);
+    this.setProgress('Prepare Bluetooth support ...', 60, 100);
     this.prepareBluetooth();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Serial support ...', 90, 100);
+    this.setProgress('Prepare Serial support ...', 70, 100);
     this.prepareSerial();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare account support ...', 95, 100);
+    this.setProgress('Prepare account support ...', 80, 100);
     this.prepareAccount();
   }
 
   if (!this.error) {
+    this.setProgress('Loading select screen ...', 90, 100);
+    this.showSelectScreen();
+  }
+
+  if (!this.error) {
     this.setProgress('Done.', 100, 100);
+    this.closeLoader();
+    if (typeof window.componentHandler !== 'undefined') {
+      window.componentHandler.upgradeDom();
+    }
     if (this.nodeOverlayer) {
       goog.dom.removeNode(this.nodeOverlayer);
     }
-    this.closeLoader();
   }
 };
 
@@ -394,11 +407,12 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
 
 /**
  * Preloads user config.
+ * @param {Function} callback
  */
-cwc.ui.Builder.prototype.loadConfig = function() {
-  var configInstance = new cwc.ui.Config(this.helper);
-  this.helper.setInstance('config', configInstance);
-  configInstance.loadConfig();
+cwc.ui.Builder.prototype.loadUserConfig = function(callback) {
+  var userConfigInstance = new cwc.userConfig(this.helper);
+  this.helper.setInstance('userConfig', userConfigInstance);
+  userConfigInstance.prepare(callback);
 };
 
 
@@ -538,11 +552,15 @@ cwc.ui.Builder.prototype.renderGui = function() {
   } else {
     this.raiseError('The layout instance was not loaded!');
   }
+};
 
-  // Show Select screen
+
+/**
+ * Shows select screen.
+ */
+cwc.ui.Builder.prototype.showSelectScreen = function() {
   var selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
-    this.setProgress('Loading select screen ...', 90, 100);
     selectScreenInstance.showSelectScreen();
   }
 };

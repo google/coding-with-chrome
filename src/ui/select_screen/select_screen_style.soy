@@ -30,6 +30,7 @@
   {call .general data="all" /}
   {call .overview data="all" /}
   {call .tutorialCard data="all" /}
+  {call .welcome data="all" /}
 {/template}
 
 
@@ -377,5 +378,39 @@
 
   .{$prefix}tutorialCard-nav-next, .{$prefix}tutorialCard-nav-finish {lb}
     float: right!important;
+  {rb}
+{/template}
+
+
+/**
+ * Tutorial card definitions.
+ */
+{template .welcome}
+  {@param prefix: string}
+  #{$prefix}welcome {lb}
+    width: 750px;
+    margin: auto;
+    margin-top: 50px;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell {lb}
+    padding: 10px;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card {lb}
+    width: 100%;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > p {lb}
+    margin: auto;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__supporting-text {lb}
+    min-height: 60px;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__actions > a {lb}
+    width: 100%;
+    box-sizing: border-box;
   {rb}
 {/template}

@@ -21,6 +21,16 @@
  */
 
 @import '../../external/material-design-lite/material.indigo-blue.min.css';
+/*@import '../../external/material-design-lite/material.blue_grey-red.min.css';*/
+
+html>body {
+  font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mdl-layout__drawer {
+  padding-bottom: 69px;
+}
 
 .mdl-layout__drawer-button {
   margin: 0;
@@ -32,7 +42,39 @@
   opacity: 1;
 }
 
+.mdl-layout__drawer > .mdl-layout__header {
+  background-image: url('../../icons/64x64.png');
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  padding-left: 80px;
+  font-size: 14px;
+  height: 80px;
+  line-height: 80px;
+}
+
+.mdl-layout__drawer > .mdl-mini-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  height: 60px;
+  line-height: 30px;
+  padding: 16px;
+  width: 100%;
+}
+
+.mdl-layout__drawer {
+  padding-bottom: 69px;
+}
+
 .mdl-layout__header-row {
   height: 44px;
   padding: 0 10px 0 80px;
+}
+
+.mdl-navigation {
+  flex-shrink: 1;
+  overflow: visible;
+  overflow-y: auto;
 }

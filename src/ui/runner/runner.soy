@@ -26,7 +26,7 @@
 {template .template}
   {@param prefix: string}
   <div id="{$prefix}body">
-    <div id="{$prefix}toolbar"></div>
+    <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
     <div id="{$prefix}content">
       <div id="{$prefix}info"></div>
       <div id="{$prefix}status"></div>
@@ -36,7 +36,7 @@
       <div id="{$prefix}terminal"></div>
       <div id="{$prefix}runtime" class="hide"></div>
     </div>
-    <div id="{$prefix}infobar"></div>
+    <footer id="{$prefix}infobar" class="mdl-layout__header"></footer>
     <div id="{$prefix}monitor"></div>
   </div>
 {/template}
@@ -179,6 +179,9 @@
 
   #{$prefix}infobar {lb}
     position: relative;
+    height: 26px;
+    min-height: 26px;
+    z-index: 12;
   {rb}
 
   #{$prefix}monitor {lb}

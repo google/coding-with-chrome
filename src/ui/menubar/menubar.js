@@ -19,11 +19,9 @@
  */
 goog.provide('cwc.ui.Menubar');
 
-goog.require('cwc.HelpMenu');
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.DeviceMenu');
 goog.require('cwc.ui.ExampleMenu');
-goog.require('cwc.ui.FileMenu');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -85,9 +83,6 @@ cwc.ui.Menubar = function(helper) {
   this.nodeExampleMenu = null;
 
   /** @type {Element} */
-  this.nodeFileMenu = null;
-
-  /** @type {Element} */
   this.nodeHelpMenu = null;
 
   /** @type {Element} */
@@ -110,9 +105,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {goog.ui.PopupMenu} */
   this.menuPopup = null;
-
-  /** @type {cwc.ui.FileMenu} */
-  this.fileMenu = null;
 
   /** @type {cwc.ui.DeviceMenu} */
   this.deviceMenu = null;
@@ -163,10 +155,6 @@ cwc.ui.Menubar = function(helper) {
   /** @type {!goog.ui.Button} */
   this.settingsMenu = cwc.ui.Helper.getIconButton(
       'settings', 'Settings');
-
-  /** @type {!goog.ui.Button} */
-  this.helpMenu = cwc.ui.Helper.getIconButton(
-      'help_outline', 'Help');
 
   /** @type {!goog.ui.MenuItem} */
   this.menuExit = cwc.ui.Helper.getMenuItem('Exit',
@@ -240,11 +228,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
     this.settingsMenu.render(this.nodeSettings);
   }
 
-  // Help icon
-  this.nodeHelp = goog.dom.getElement(this.prefix + 'help');
-  this.helpMenu.render(this.nodeHelp);
-  this.decorateHelpMenu_(this.nodeHelp);
-
   // Minimize icon
   this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
   this.minimizeButton.render(this.nodeMinimizeButton);
@@ -264,44 +247,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   // Close icon
   this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
   this.closeButton.render(this.nodeCloseButton);
-};
-
-
-/**
- * Decorates the help menu.
- * @param {Element} node
- * @private
- */
-cwc.ui.Menubar.prototype.decorateHelpMenu_ = function(node) {
-  if (!node) {
-    console.log('Was not able to decorate help menu!');
-    return;
-  }
-
-  var menu = new goog.ui.PopupMenu();
-  var helpMenu = new cwc.HelpMenu(this.helper);
-  var menuFirstSteps = cwc.ui.Helper.getMenuItem('First Steps',
-      helpMenu.showFirstSteps, helpMenu);
-  var menuHelp = cwc.ui.Helper.getMenuItem('Help',
-      helpMenu.showHelp, helpMenu);
-  var menuShortcuts = cwc.ui.Helper.getMenuItem('Keyboard Shortcuts',
-      helpMenu.showKeyboardShortcut, helpMenu);
-  var menuAbout = cwc.ui.Helper.getMenuItem('About Coding with Chrome',
-      helpMenu.showAbout, helpMenu);
-  var menuDebug = cwc.ui.Helper.getMenuItem('Debug',
-        helpMenu.showDebug, helpMenu);
-  menu.attach(node, goog.positioning.Corner.BOTTOM_START);
-  menu.addChild(menuFirstSteps, true);
-  menu.addChild(new goog.ui.Separator, true);
-  menu.addChild(menuHelp, true);
-  menu.addChild(menuShortcuts, true);
-  menu.addChild(new goog.ui.Separator, true);
-  menu.addChild(menuAbout, true);
-  if (this.helper.debugEnabled()) {
-    menu.addChild(menuDebug, true);
-  }
-  menu.setToggleMode(true);
-  menu.render();
 };
 
 

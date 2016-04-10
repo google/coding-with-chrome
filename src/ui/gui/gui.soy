@@ -28,7 +28,7 @@
   {@param? opt_title: string}
   <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
     // Header with title, menubar and icons.
-    <header id="{$prefix}header" class="mdl-layout__header">
+    <header id="{$prefix}header" class="mdl-layout__header bg_30_pct_black">
       <div class="mdl-layout__header-row">
         // Title
         <div class="mdl-layout-title">
@@ -74,7 +74,7 @@
     min-height: 34px;
   {rb}
 
-  #{$prefix}chrome footer {lb}
+  #{$prefix}chrome > footer {lb}
     background: #CFD8DC;
     position: absolute;
     bottom: 0;
@@ -92,6 +92,10 @@
   #{$prefix}message *,
   #{$prefix}titlebar *{lb}
     -webkit-app-region: no-drag;
+  {rb}
+
+  #{$prefix}navigation {lb}
+    overflow: hidden;
   {rb}
 
   #{$prefix}message {lb}

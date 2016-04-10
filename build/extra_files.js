@@ -107,7 +107,8 @@ closureBuilder.build({
   resources: [
     'node_modules/material-design-lite/material.min.js',
     'node_modules/material-design-lite/material.min.css',
-    'node_modules/material-design-lite/dist/material.indigo-blue.min.css'
+    'node_modules/material-design-lite/dist/material.indigo-blue.min.css',
+    'node_modules/material-design-lite/dist/material.blue_grey-red.min.css'
   ],
   out: 'genfiles/external/material-design-lite/'
 });

@@ -20,11 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-html>body {
-  font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
-  -webkit-font-smoothing: antialiased;
-}
-
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -47,4 +42,9 @@ tr:nth-of-type(even) {
 
 .link_button {
   cursor: pointer;
+  opacity: 0.7;
+}
+
+.link_button:hover {
+  opacity: 1;
 }

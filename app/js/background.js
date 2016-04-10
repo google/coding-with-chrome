@@ -48,6 +48,8 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
     innerBounds: {
       width: loaderWidth,
       height: loaderHeight,
+      minWidth: loaderWidth,
+      minHeight: loaderHeight,
       maxWidth: loaderWidth,
       maxHeight: loaderHeight
     }

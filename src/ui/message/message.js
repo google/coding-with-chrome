@@ -57,12 +57,6 @@ cwc.ui.Message = function() {
   this.prefix = 'message-';
 
   /** @type {Element} */
-  this.nodeBody = null;
-
-  /** @type {Element} */
-  this.nodeText = null;
-
-  /** @type {Element} */
   this.snackbar = null;
 
   /** @type {cwc.ui.MessageType} */
@@ -90,21 +84,7 @@ cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
       cwc.soy.ui.Message.style({ 'prefix': this.prefix })
   );
 
-  this.nodeBody = goog.dom.getElement(this.prefix + 'body');
-  this.nodeText = goog.dom.getElement(this.prefix + 'text');
   this.snackbar = goog.dom.getElement(this.prefix + 'snackbar');
-
-  if (this.snackbar && this.snackbar.MaterialSnackbar) {
-    var data = {
-      message: 'Test 123.',
-      timeout: 2000,
-      actionHandler: null,
-      actionText: 'Undo'
-    };
-    this.snackbar.MaterialSnackbar.showSnackbar(data);
-  }
-
-  this.hide();
 };
 
 
@@ -154,7 +134,6 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
     case cwc.ui.MessageType.INFO:
     case cwc.ui.MessageType.SUCCESS:
       console.info(prefix, message);
-      goog.Timer.callOnce(this.autoHide.bind(this),  5000);
       break;
     case cwc.ui.MessageType.WARNING:
       console.warn(prefix, message);
@@ -166,52 +145,12 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
       console.log(prefix, message);
   }
 
-  if (this.nodeBody && this.nodeText) {
-    goog.dom.classes.set(this.nodeBody, this.prefix + 'type-' + type);
-    goog.dom.setTextContent(this.nodeText, message);
-    this.messageType = type;
-    this.show();
+  if (this.snackbar) {
+    var data = {
+      message: message,
+      timeout: 2000
+    };
+    this.snackbar.MaterialSnackbar.showSnackbar(data);
   }
-};
 
-
-/**
- * @param {Event} event
- */
-cwc.ui.Message.prototype.dismiss = function(event) {
-  var eventTarget = event.target;
-  if (goog.dom.classlist.contains(eventTarget, 'fava-style-link')) {
-    this.hide();
-  }
-};
-
-
-/**
- * Shows the message window.
- */
-cwc.ui.Message.prototype.show = function() {
-  goog.style.setElementShown(this.node, true);
-  goog.style.setStyle(this.node, 'width', '100%');
-  goog.style.setStyle(this.nodeBody, 'width', '100%');
-};
-
-
-/**
- * Auto hides the message window.
- */
-cwc.ui.Message.prototype.autoHide = function() {
-  if (this.messageType == cwc.ui.MessageType.INFO ||
-      this.messageType == cwc.ui.MessageType.SUCCESS) {
-    this.hide();
-  }
-};
-
-
-/**
- * Hides the message window.
- */
-cwc.ui.Message.prototype.hide = function() {
-  goog.style.setElementShown(this.node, false);
-  goog.style.setStyle(this.node, 'width', '1px');
-  goog.style.setStyle(this.nodeBody, 'width', '1px');
 };

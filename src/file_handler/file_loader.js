@@ -58,7 +58,7 @@ cwc.fileHandler.FileLoader.prototype.loadFile = function() {
  * Creates a request to load file.
  * @param {Function=} opt_callback
  */
-cwc.fileHandler.FileLoader.requestLoadFile = function(opt_callback) {
+cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(opt_callback) {
   this.helper.handleUnsavedChanges(this.loadFile.bind(this), opt_callback);
 };
 
@@ -124,17 +124,12 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   console.log('Handle file data:', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
-  var messageInstance = this.helper.getInstance('message');
   var fileType = cwc.file.detector.detectType(
       content, opt_file_name);
   console.log('Filetype', fileType);
   var fileConfig = cwc.fileHandler.Config.get(fileType, true);
   console.log('FileConfig:', fileConfig);
   var file = new fileConfig.file(content, fileType, fileConfig.contentType);
-
-  if (messageInstance) {
-    messageInstance.hide();
-  }
 
   // If file was not loaded locally or from Google Drive, load default content.
   if (fileConfig.content && !opt_file_handler && !opt_gdrive_id) {

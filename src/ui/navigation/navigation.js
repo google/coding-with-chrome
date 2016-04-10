@@ -21,9 +21,10 @@ goog.provide('cwc.ui.Navigation');
 
 goog.require('cwc.soy.ui.Navigation');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.ui.HelpMenu');
 
 goog.require('goog.ui.Button');
-goog.require('goog.ui.LinkButtonRenderer');
+goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 
@@ -46,19 +47,50 @@ cwc.ui.Navigation = function(helper) {
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
+  /** @type {!cwc.ui.HelpMenu} */
+  this.helpMenu = new cwc.ui.HelpMenu(this.helper);
+
   /** @type {!goog.ui.MenuItem} */
-  this.menuNew = cwc.ui.Helper.getNavigationItem('New project',
+  this.menuNew = cwc.ui.Helper.getNavigationItem('New file',
       'Start a new project', this.requestShowSelectScreen, this);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuOpen = cwc.ui.Helper.getNavigationItem('Open ...',
+  this.menuOpen = cwc.ui.Helper.getNavigationItem('Open file',
       'Open a local file ...', this.requestOpenFile, this);
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuSaveAs = cwc.ui.Helper.getNavigationItem('Save as new file',
+      'Save as new file ...', this.saveFileAs, this);
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuAbout = cwc.ui.Helper.getLinkButton('About',
+      'Learn more about Coding with Chrome', this.showAbout.bind(this));
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuSettings = cwc.ui.Helper.getIconButton('settings',
+      'Open settings', false);
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuHelp = cwc.ui.Helper.getIconButton('help',
+      'Help', this.showHelp.bind(this));
 
   /** @type {Element} */
   this.node = null;
 
   /** @type {Element} */
   this.nodeItems = null;
+
+  /** @type {Element} */
+  this.nodeFooterLeft = null;
+
+  /** @type {Element} */
+  this.nodeFooterRight = null;
+
+  /** @type {!goog.ui.KeyboardShortcutHandler} */
+  this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+
+  /** @type {Element|StyleSheet} */
+  this.styleSheet = null;
 };
 
 
@@ -73,12 +105,35 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
   this.prefix = opt_prefix + this.prefix;
 
+  if (!this.styleSheet) {
+    this.styleSheet = goog.style.installStyles(
+        cwc.soy.ui.Navigation.style({ 'prefix': this.prefix }));
+  }
+
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Navigation.template, {'prefix': this.prefix});
 
   this.nodeItems = goog.dom.getElement(this.prefix + 'items');
+  this.nodeFooterLeft = goog.dom.getElement(this.prefix + 'footer_left');
+  this.nodeFooterRight = goog.dom.getElement(this.prefix + 'footer_right');
+
   this.menuNew.render(this.nodeItems);
   this.menuOpen.render(this.nodeItems);
+  this.menuSaveAs.render(this.nodeItems);
+
+  this.menuAbout.render(this.nodeFooterLeft);
+
+  this.menuSettings.render(this.nodeFooterRight);
+  this.menuHelp.render(this.nodeFooterRight);
+
+  // Add keyboard shortcuts.
+  this.shortcutHandler.registerShortcut('new_file', 'ctrl+n');
+  this.shortcutHandler.registerShortcut('open_file', 'ctrl+o');
+  this.shortcutHandler.registerShortcut('save_file', 'ctrl+s');
+  this.shortcutHandler.registerShortcut('save_file_as', 'ctrl+shift+s');
+  goog.events.listen(this.shortcutHandler,
+    goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
+    this.handleKeyboardShortcut, false, this);
 };
 
 
@@ -87,8 +142,39 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.Navigation.prototype.toggle = function() {
   var mdlLayout = document.querySelector('.mdl-layout');
-  if (mdlLayout) {
-    mdlLayout.MaterialLayout.toggleDrawer();
+  if (!mdlLayout) {
+    return;
+  }
+  mdlLayout.MaterialLayout.toggleDrawer();
+};
+
+
+/**
+ * Shows the drawer.
+ */
+cwc.ui.Navigation.prototype.show = function() {
+  var mdlLayout = document.querySelector('.mdl-layout');
+  if (!mdlLayout) {
+    return;
+  }
+  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
+  if (mdlLayoutClassName.indexOf('is-visible') === -1) {
+    this.toggle();
+  }
+};
+
+
+/**
+ * Hides the drawer.
+ */
+cwc.ui.Navigation.prototype.hide = function() {
+  var mdlLayout = document.querySelector('.mdl-layout');
+  if (!mdlLayout) {
+    return;
+  }
+  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
+  if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
+    this.toggle();
   }
 };
 
@@ -99,7 +185,7 @@ cwc.ui.Navigation.prototype.toggle = function() {
 cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
   var selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
-    selectScreenInstance.requestShowSelectScreen(this.toggle);
+    selectScreenInstance.requestShowSelectScreen(this.hide.bind(this));
   }
 };
 
@@ -110,6 +196,71 @@ cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
 cwc.ui.Navigation.prototype.requestOpenFile = function() {
   var fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (fileLoaderInstance) {
-    fileLoaderInstance.requestLoadFile(this.toggle);
+    fileLoaderInstance.requestLoadFile(this.hide.bind(this));
+  }
+};
+
+
+/**
+ * Shows about screen.
+ */
+cwc.ui.Navigation.prototype.showAbout = function() {
+  this.helpMenu.showAbout();
+  this.hide();
+};
+
+
+/**
+ * Shows help screen.
+ */
+cwc.ui.Navigation.prototype.showHelp = function() {
+  this.helpMenu.showHelp();
+  this.hide();
+};
+
+
+/**
+ * Saves the currently open file.
+ */
+cwc.ui.Navigation.prototype.saveFile = function() {
+  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  if (fileSaverInstance) {
+    fileSaverInstance.saveFile();
+    this.hide();
+  }
+};
+
+
+/**
+ * Saves the current projects as a new file on the local drive.
+ */
+cwc.ui.Navigation.prototype.saveFileAs = function() {
+  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  if (fileSaverInstance) {
+    fileSaverInstance.saveFileAs();
+    this.hide();
+  }
+};
+
+
+/**
+ * Handles keyboard shortcuts.
+ */
+cwc.ui.Navigation.prototype.handleKeyboardShortcut = function(event) {
+  switch (event.identifier) {
+    case 'new_file':
+      this.requestShowSelectScreen();
+      break;
+    case 'open_file':
+      this.requestOpenFile();
+      break;
+    case 'save_file':
+      this.saveFile();
+      break;
+    case 'save_file_as':
+      this.saveFileAs();
+      break;
+    default:
+      console.info(event.identifier);
   }
 };

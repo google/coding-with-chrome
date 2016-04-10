@@ -227,10 +227,12 @@ cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
  */
 cwc.ui.Helper.getNavigationItem = function(name, opt_description, opt_func,
     opt_scope) {
-  var func = opt_scope ? opt_func.bind(opt_scope) : opt_func;
+  var func = opt_func;
+  if (opt_func && opt_scope) {
+    func = opt_func.bind(opt_scope);
+  }
   var item = cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
     func, null, 'mdl-navigation__link');
-  item.addClassName();
   return item;
 };
 

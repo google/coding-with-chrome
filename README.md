@@ -33,15 +33,15 @@ Coding with Chrome App for e.g. on Windows you could use the generated code
 
 
 ### Windows
-Install Node.js from the offical webpage at https://nodejs.org
+Install Node.js from the official web page at https://nodejs.org
 * Optional
-  * Install git from the offical webpage at https://git-scm.com/
+  * Install git from the official web page at https://git-scm.com/
   * Install Java JRE
 
 ### Mac OS X
-Install Node.js from the offical webpage at https://nodejs.org
+Install Node.js from the official web page at https://nodejs.org
 * Optional
-  * Install git from the offical webpage at https://git-scm.com/
+  * Install git from the official web page at https://git-scm.com/
   * Install Java JRE
 
 ### Linux/BSD
@@ -64,6 +64,15 @@ Enter the "coding-with-chrome" directory and get the required packages by:
 ```bash
 npm install
 ```
+
+### Build and run the actual app
+To compile the Chrome app run the build script:
+```bash
+npm run fastbuild
+```
+This will automatically build and start the application on Mac OS, Linux or
+Windows.
+
 
 ### Build the actual app
 To compile the Chrome app run the build script:
@@ -102,7 +111,7 @@ On the same page click `Launch` next to `Coding with Chrome` or visit
 ### Supported hardware
 Computers and Laptops with Chrome OS or any OS which is able to run the
 Desktop Chrome Browser are supported.
-For additional features bluetooth and/or USB are required.
+For additional features Bluetooth and/or USB are required.
 
 ### Supported systems
 The following operating systems are supported by Coding with Chrome:

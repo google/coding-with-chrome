@@ -246,7 +246,13 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
     return;
   }
   var dom = this.blockly.Xml.textToDom(xml_text);
-  this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+  try {
+    this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+  } catch (e) {
+    this.helper.showError('Was unable to load Blockly file!');
+    console.error(e);
+    console.log(dom);
+  }
 };
 
 

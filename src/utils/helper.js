@@ -238,6 +238,16 @@ cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
  * @return {boolean}
  * @export
  */
+cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
+  return this.checkFeature(name, 'browser');
+};
+
+
+/**
+ * @param {string} name
+ * @return {boolean}
+ * @export
+ */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
   return this.checkFeature(name, 'chrome');
 };
@@ -303,7 +313,7 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
   if (manifest) {
     return manifest['version'];
   }
-  return String(Date().getTime());
+  return String(new Date().getTime());
 };
 
 

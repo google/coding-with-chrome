@@ -338,18 +338,13 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id) {
  * @param {Object} file
  */
 cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
-  var messageInstance = this.helper.getInstance('message');
   var fileInstance = this.helper.getInstance('file');
   if (file) {
-    if (messageInstance) {
-      messageInstance.info('Saved file ' + file.title + ' successful.');
-    }
+    this.helper.showInfo('Saved file ' + file.title + ' successful.');
     fileInstance.setGDriveId(file.id);
     console.info('Saved gDrive file: ' + file.id);
   } else {
-    if (messageInstance) {
-      messageInstance.info('Was not able to save file ' + file.title + ' !');
-    }
+    this.helper.showError('Was not able to save file ' + file.title + ' !');
     console.error('Save failed!');
   }
 };

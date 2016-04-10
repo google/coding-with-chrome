@@ -26,6 +26,7 @@
 @import 'icons.css';
 @import 'editor.css';
 @import 'preloader.css';
+@import 'backgrounds.css';
 
 /* External style sheets. */
 @import 'blockly/blockly.css';

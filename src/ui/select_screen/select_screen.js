@@ -55,6 +55,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
+
+  /** @type {boolean} */
+  this.updateMode = false;
 };
 
 
@@ -94,22 +97,90 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback) {
  * Renders and shows the select screen.
  */
 cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
-  var messageInstance = this.helper.getInstance('message');
-  if (messageInstance) {
-    messageInstance.hide();
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  var skipWelcomeScreen = false;
+  var advancedMode = false;
+  if (userConfigInstance) {
+    skipWelcomeScreen = userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.SKIP_WELCOME);
+    advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.ADVANCED_MODE);
   }
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateSimpleSingleColumnLayout();
     var nodes = layoutInstance.getNodes();
     this.decorate(nodes['content']);
-    this.showOverview();
+    if (!skipWelcomeScreen) {
+      this.showWelcome();
+    } else if (advancedMode) {
+      this.showAdvancedOverview();
+    } else {
+      this.showNormalOverview();
+    }
   }
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle('');
     guiInstance.setStatus('');
   }
+};
+
+
+/**
+ * Shows general welcome screen.
+ */
+cwc.ui.SelectScreen.prototype.showWelcome = function() {
+  this.showTemplate('welcome');
+
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
+    showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.SKIP_WELCOME);
+    goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
+      function(opt_event) {
+        this.updateMode = !showWelcome.checked;
+        userConfigInstance.set(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
+      }, false, this);
+  }
+  this.setClickEvent('link-normal-mode', this.showNormalOverview);
+  this.setClickEvent('link-advanced-mode', this.showAdvancedOverview);
+};
+
+
+/**
+ * Shows normal overview.
+ */
+cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
+  if (this.updateMode) {
+    var userConfigInstance = this.helper.getInstance('userConfig');
+    if (userConfigInstance) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.ADVANCED_MODE, false);
+    }
+    this.updateMode = false;
+  }
+  this.showTemplate('normalOverview');
+  this.setOverviewLinks();
+};
+
+
+/**
+ * Shows advanced overview.
+ */
+cwc.ui.SelectScreen.prototype.showAdvancedOverview = function() {
+  if (this.updateMode) {
+    var userConfigInstance = this.helper.getInstance('userConfig');
+    if (userConfigInstance) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.ADVANCED_MODE, true);
+    }
+    this.updateMode = false;
+  }
+  this.showTemplate('advancedOverview');
+  this.setOverviewLinks();
 };
 
 

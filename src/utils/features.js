@@ -78,10 +78,14 @@ cwc.utils.Features.prototype.detect = function() {
 cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
   var group = 'browser';
 
-  this.set('storage', goog.isObject(Storage), group);
-  this.set('localStorage', goog.isObject(localStorage), group);
-  this.set('sessionStorage', goog.isObject(sessionStorage), group);
-  this.set('bluetooth', goog.isObject(navigator.bluetooth), group);
+  // Storage features.
+  this.set('storage', typeof Storage, group);
+  this.set('globalStorage', typeof globalStorage, group);
+  this.set('localStorage', typeof localStorage, group);
+  this.set('sessionStorage', typeof sessionStorage, group);
+
+  // General features.
+  this.set('bluetooth', typeof navigator.bluetooth, group);
 };
 
 
@@ -93,33 +97,37 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
 cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   var group = 'chrome';
 
-  // General features
-  this.set('bluetooth', goog.isObject(chrome.bluetooth), group);
-  this.set('bluetoothSocket', goog.isObject(chrome.bluetoothSocket), group);
-  this.set('serial', goog.isObject(chrome.serial), group);
-  this.set('system.memory', goog.isObject(chrome.system.memory), group);
-  this.set('tts', goog.isObject(chrome.tts), group);
-  this.set('usb', goog.isObject(chrome.usb), group);
-  this.set('storage', goog.isObject(chrome.storage.local), group);
+  if (typeof chrome == 'undefined') {
+    return;
+  }
 
-  // Sockets
-  this.set('sockets', goog.isObject(chrome.sockets), group);
+  // General features.
+  this.set('bluetooth', typeof chrome.bluetooth, group);
+  this.set('bluetoothSocket', typeof chrome.bluetoothSocket, group);
+  this.set('serial', typeof chrome.serial, group);
+  this.set('system.memory', typeof chrome.system.memory, group);
+  this.set('tts', typeof chrome.tts, group);
+  this.set('usb', typeof chrome.usb, group);
+  this.set('localStorage', typeof chrome.storage.local, group);
+
+  // Sockets features.
+  this.set('sockets', typeof chrome.sockets, group);
   if (this.get('sockets', group)) {
-    this.set('tcp', goog.isObject(chrome.sockets.tcp), group);
-    this.set('udp', goog.isObject(chrome.sockets.udp), group);
-    this.set('tcpServer', goog.isObject(chrome.sockets.tcpServer), group);
+    this.set('tcp', typeof chrome.sockets.tcp, group);
+    this.set('udp', typeof chrome.sockets.udp, group);
+    this.set('tcpServer', typeof chrome.sockets.tcpServer, group);
   } else {
     this.set('tcp', false, group);
     this.set('udp', false, group);
     this.set('tcpServer', false, group);
   }
 
-  // Manifest
-  this.set('manifest', goog.isObject(chrome.runtime.getManifest), group);
+  // Manifest options.
+  this.set('manifest', typeof chrome.runtime.getManifest, group);
   if (this.get('manifest', group)) {
     var manifest = chrome.runtime.getManifest();
-    this.set('oauth2', typeof manifest.oauth2 != 'undefined', group);
-    this.set('key', typeof manifest.key != 'undefined', group);
+    this.set('oauth2', typeof manifest.oauth2, group);
+    this.set('key', typeof manifest.key, group);
   } else {
     this.set('oauth2', false, group);
     this.set('key', false, group);
@@ -134,11 +142,11 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
  */
 cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
   var group = 'js';
-  this.set('codemirror', typeof window['CodeMirror'] != 'undefined', group);
-  this.set('coffeelint', typeof window['coffeelint'] != 'undefined', group);
-  this.set('coffeescript', typeof window['CoffeeScript'] != 'undefined', group);
-  this.set('htmlhint', typeof window['HTMLHint'] != 'undefined', group);
-  this.set('jshint', typeof window['JSHINT'] != 'undefined', group);
+  this.set('codemirror', typeof window['CodeMirror'], group);
+  this.set('coffeelint', typeof window['coffeelint'], group);
+  this.set('coffeescript', typeof window['CoffeeScript'], group);
+  this.set('htmlhint', typeof window['HTMLHint'], group);
+  this.set('jshint', typeof window['JSHINT'], group);
 };
 
 
@@ -182,14 +190,14 @@ cwc.utils.Features.prototype.monitorOnlineStatus = function() {
 cwc.utils.Features.prototype.get = function(name, opt_group) {
   var group = opt_group || this.defaultGroup;
   if (!(group in this.feature_)) {
-    this.log_.warn('Feature group', group, 'is unknown, yet.');
+    this.log_.warn('Feature group', group, 'is unknown!');
     return false;
   }
 
   if (name in this.feature_[group]) {
     return this.feature_[group][name];
   }
-  this.log_.warn('Feature', name, 'is unknown, yet.');
+  this.log_.warn('Feature', name, 'is not undetected!');
   return false;
 };
 
@@ -206,7 +214,13 @@ cwc.utils.Features.prototype.set = function(name, value, opt_group) {
   if (!(group in this.feature_)) {
     this.feature_[group] = {};
   }
-  this.feature_[group][name] = value;
+  var state = value;
+  if (value == 'undefined') {
+    state = false;
+  } else if (value == 'object' || value == 'function') {
+    state = true;
+  }
+  this.feature_[group][name] = state;
 };
 
 
