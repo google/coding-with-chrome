@@ -72,6 +72,11 @@
 
   #{$prefix}chrome header {lb}
     min-height: 34px;
+    display: flex;
+  {rb}
+
+  #{$prefix}chrome footer {lb}
+    display: flex;
   {rb}
 
   #{$prefix}chrome > footer {lb}
@@ -111,6 +116,8 @@
 
   #{$prefix}layout{lb}
     cursor: default;
+    overflow-y: auto;
+    overflow-x: hidden;
   {rb}
 
 {/template}

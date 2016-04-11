@@ -67,8 +67,12 @@ cwc.ui.Navigation = function(helper) {
       'Learn more about Coding with Chrome', this.showAbout.bind(this));
 
   /** @type {!goog.ui.MenuItem} */
+  this.menuDebug = cwc.ui.Helper.getIconButton('build',
+      'Open Debug', this.showDebug.bind(this));
+
+  /** @type {!goog.ui.MenuItem} */
   this.menuSettings = cwc.ui.Helper.getIconButton('settings',
-      'Open settings', false);
+      'Open settings', this.showSettings.bind(this));
 
   /** @type {!goog.ui.MenuItem} */
   this.menuHelp = cwc.ui.Helper.getIconButton('help',
@@ -123,6 +127,9 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
 
   this.menuAbout.render(this.nodeFooterLeft);
 
+  if (this.helper.debugEnabled()) {
+    this.menuDebug.render(this.nodeFooterRight);
+  }
   this.menuSettings.render(this.nodeFooterRight);
   this.menuHelp.render(this.nodeFooterRight);
 
@@ -204,8 +211,31 @@ cwc.ui.Navigation.prototype.requestOpenFile = function() {
 /**
  * Shows about screen.
  */
+cwc.ui.Navigation.prototype.showSettings = function() {
+  var settingScreenInstance = this.helper.getInstance('settingScreen');
+  if (settingScreenInstance) {
+    settingScreenInstance.show();
+    this.hide();
+  }
+  console.log('Show settings screen');
+  this.hide();
+};
+
+
+/**
+ * Shows about screen.
+ */
 cwc.ui.Navigation.prototype.showAbout = function() {
   this.helpMenu.showAbout();
+  this.hide();
+};
+
+
+/**
+ * Shows help screen.
+ */
+cwc.ui.Navigation.prototype.showDebug = function() {
+  this.helpMenu.showDebug();
   this.hide();
 };
 

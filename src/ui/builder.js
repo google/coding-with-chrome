@@ -51,6 +51,7 @@ goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
+goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
@@ -112,6 +113,7 @@ cwc.ui.BuilderHelpers = {
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
+  'settingScreen': cwc.ui.SettingScreen,
   'serial': cwc.protocol.Serial.api,
   'sphero': cwc.protocol.sphero.Api,
   'statusbar': cwc.ui.Statusbar,
@@ -468,29 +470,7 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 
 
 /**
- * @param {!cwc.ui.Account|
- *   cwc.protocol.Arduino.api|
- *   cwc.ui.Blockly|
- *   cwc.protocol.bluetooth.Api|
- *   cwc.ui.Documentation|
- *   cwc.protocol.ev3.Api|
- *   cwc.ui.Editor|
- *   cwc.fileHandler.File|
- *   cwc.fileHandler.FileCreator|
- *   cwc.fileHandler.FileLoader|
- *   cwc.fileHandler.FileSaver|
- *   cwc.ui.GDrive|
- *   cwc.ui.Gui|
- *   cwc.ui.Layout|
- *   cwc.ui.Library|
- *   cwc.ui.Menubar|
- *   cwc.ui.Message|
- *   cwc.mode.Modder|
- *   cwc.ui.Preview|
- *   cwc.renderer.Renderer|
- *   cwc.ui.Runner|
- *   cwc.ui.SelectScreen|
- *   cwc.ui.Statusbar} instance
+ * @param {!cwc.utils.HelperInstance} instance
  * @param {!string} instance_name
  */
 cwc.ui.Builder.prototype.loadHelper = function(instance,

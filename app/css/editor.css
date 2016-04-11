@@ -30,10 +30,3 @@ body {
   min-height: 100%;
   background: #fff;
 }
-
-#cwc-editor {
-  min-height: 400px;
-  background-image: url(../images/cwc_logo.png);
-  background-position: center;
-  background-repeat: no-repeat;
-}

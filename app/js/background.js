@@ -20,7 +20,13 @@
 
 
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
-  console.log('launchData', launchData);
+  if (launchData) {
+    if (launchData.items) {
+      console.log('Found file:', launchData.items[0]);
+    }
+    console.log('launchData', launchData);
+  }
+
   var screenWidth = screen.availWidth;
   var screenHeight = screen.availHeight;
   console.log('Screensize', screenWidth, 'x', screenHeight);

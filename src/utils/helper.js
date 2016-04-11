@@ -62,6 +62,7 @@ goog.require('goog.ui.Dialog');
  *   cwc.ui.Preview|
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
+ *   cwc.ui.SettingScreen|
  *   cwc.ui.Statusbar|
  *   cwc.ui.Turtle|
  *   cwc.ui.Tutorial}
