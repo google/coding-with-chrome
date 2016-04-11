@@ -205,7 +205,7 @@
 <https://github.com/google/closure-builder>
 
 ```
-   Apache License
+                                Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -388,7 +388,7 @@
 <https://developers.google.com/closure/library/>
 
 ```
- Apache License
+                                Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -752,7 +752,7 @@ documentation in your products.
 <https://github.com/google/material-design-lite/>
 
 ```
-                                 Apache License
+                                Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -971,7 +971,7 @@ documentation in your products.
 Steve Matteson
 
 ```
- Apache License
+                                Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -1155,7 +1155,7 @@ Steve Matteson
 Christian Robertson
 
 ```
-Apache License
+                                Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 

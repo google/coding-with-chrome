@@ -163,7 +163,6 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
     this.updateMode = false;
   }
   this.showTemplate('normalOverview');
-  this.setOverviewLinks();
 };
 
 

@@ -60,7 +60,7 @@ cwc.ui.SettingScreen = function(helper) {
  */
 cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
+  this.prefix = (opt_prefix || '') + this.prefix;
 
   goog.soy.renderElement(
       this.node,
@@ -71,6 +71,33 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
   goog.style.installStyles(
       cwc.soy.ui.SettingScreen.style({ 'prefix': this.prefix })
   );
+
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  var closeButton = goog.dom.getElement(this.prefix + 'close');
+  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
+  var advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
+
+  showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.SKIP_WELCOME);
+  advancedMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.ADVANCED_MODE);
+  advancedMode.disabled = showWelcome.checked;
+
+  goog.events.listen(closeButton, goog.events.EventType.CLICK,
+     this.hide, false, this);
+
+  goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
+    function(opt_event) {
+      advancedMode.disabled = showWelcome.checked;
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
+    }, false, this);
+
+  goog.events.listen(advancedMode, goog.events.EventType.CHANGE,
+    function(opt_event) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.ADVANCED_MODE, advancedMode.checked);
+    }, false, this);
 };
 
 
@@ -92,4 +119,3 @@ cwc.ui.SettingScreen.prototype.hide = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.showOverlay(false);
 };
-

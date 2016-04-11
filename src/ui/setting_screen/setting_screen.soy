@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-{namespace cwc.soy.ui.SettingScreen autoescape="deprecated-contextual"}
+{namespace cwc.soy.ui.SettingScreen autoescape="strict"}
 
 /**
  * Main HTML template for the editor.
@@ -32,20 +32,79 @@
           <span class="mdl-layout-title">Settings</span>
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
-          <a href="#scroll-tab-2" class="mdl-layout__tab">Tab 2</a>
+          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">General</a>
+          <a href="#scroll-tab-2" class="mdl-layout__tab">Misc</a>
         </div>
       </header>
       <main class="mdl-layout__content">
         <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-          <div class="page-content">Tab 1</div>
+          <div class="page-content">{call .generalTab}{param prefix: $prefix /}{/call}</div>
         </section>
         <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-          <div class="page-content">Tab 2</div>
+          <div class="page-content">{call .miscTab}{param prefix: $prefix /}{/call}</div>
         </section>
       </main>
     </div>
   </div>
+  <a href="#" id="{$prefix}close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast"> Close Settings
+    <span class="mdl-button__ripple-container">
+      <span class="mdl-ripple is-animating" style="width: 255.952px; height: 255.952px; transform: translate(-50%, -50%) translate(33px, 22px);"></span>
+    </span>
+  </a>
+{/template}
+
+
+/**
+ * General tab.
+ */
+{template .generalTab}
+  {@param prefix: string}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+      <div class="mdl-card__supporting-text">
+        <h4>General Settings</h4>
+        This screen allows you to change the default settings.
+      </div>
+      <ul class="mdl-list">
+        <li class="mdl-list__item mdl-list__item--three-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Show welcome screen</span>
+            <span class="mdl-list__item-text-body">
+              If enabled a welcome screen will show up on every program start with the options
+              to switch between "normal mode" and "advanced mode".
+            </span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}show-welcome">
+              <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input" />
+            </label>
+          </span>
+        </li>
+        <li class="mdl-list__item mdl-list__item--three-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Advanced Mode</span>
+            <span class="mdl-list__item-text-body">
+              The "advanced mode" is for more advanced user and will turn off all block based elements.
+            </span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}advanced-mode">
+              <input type="checkbox" id="{$prefix}advanced-mode" class="mdl-switch__input" />
+            </label>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </section>
+{/template}
+
+
+/**
+ * Misc tab.
+ */
+{template .miscTab}
+  {@param prefix: string}
+  Misc {$prefix}
 {/template}
 
 
@@ -54,8 +113,34 @@
  */
 {template .style}
   {@param prefix: string}
+
   #{$prefix}body {lb}
     background: #fff;
     min-height: 100%;
+  {rb}
+
+  #{$prefix}body section.section--center {lb}
+    max-width: 860px;
+  {rb}
+
+  #{$prefix}body .mdl-layout__content {lb}
+    padding: 8px;
+    padding-top: 48px;
+  {rb}
+
+  #{$prefix}body .mdl-list {lb}
+    width: 90%;
+    margin: auto;
+  {rb}
+
+  #{$prefix}body .mdl-list__item--three-line .mdl-list__item-secondary-content {lb}
+    height: initial;
+  {rb}
+
+  #{$prefix}close {lb}
+    z-index: 10;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
   {rb}
 {/template}
