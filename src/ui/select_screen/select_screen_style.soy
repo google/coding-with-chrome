@@ -23,14 +23,13 @@
 
 
 /**
- * CSS Style definitions.
+ * CSS style definitions.
  */
 {template .style}
   {call .classes data="all" /}
   {call .general data="all" /}
   {call .overview data="all" /}
   {call .tutorialCard data="all" /}
-  {call .welcome data="all" /}
 {/template}
 
 
@@ -40,6 +39,7 @@
 {template .classes}
   {@param prefix: string}
   {@param version: string}
+
   .{$prefix}version:before {lb}
     background: #00f;
     color: #fff;
@@ -273,45 +273,11 @@
  */
 {template .general}
   {@param prefix: string}
+
   #{$prefix}content {lb}
     height: 100%;
     padding: 20px;
     position: relative;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__media {lb}
-    overflow: hidden;
-    background: transparent;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__media img {lb}
-    width: 100%;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__title {lb}
-    background: transparent;
-    height: auto;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__title-text {lb}
-    color: black;
-    height: auto;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__supporting-text {lb}
-    height: auto;
-    color: black;
-    padding-bottom: 56px;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__actions {lb}
-    position: absolute;
-    bottom: 0;
-  {rb}
-
-  #{$prefix}normal-overview .mdl-card__actions a {lb}
-    border-top: none;
-    font-size: 16px;
   {rb}
 
   .{$prefix}content-pane {lb}
@@ -366,6 +332,7 @@
  */
 {template .tutorialCard}
   {@param prefix: string}
+
   .{$prefix}tutorialCard {lb}
     background-color: #fff;
     border-radius: 2px;
@@ -405,38 +372,5 @@
 
   .{$prefix}tutorialCard-nav-next, .{$prefix}tutorialCard-nav-finish {lb}
     float: right!important;
-  {rb}
-{/template}
-
-
-/**
- * Tutorial card definitions.
- */
-{template .welcome}
-  {@param prefix: string}
-  #{$prefix}welcome {lb}
-    width: 750px;
-    margin: auto;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell {lb}
-    padding: 10px;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card {lb}
-    width: 100%;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > p {lb}
-    margin: auto;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__supporting-text {lb}
-    min-height: 60px;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__actions > a {lb}
-    width: 100%;
-    box-sizing: border-box;
   {rb}
 {/template}

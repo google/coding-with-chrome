@@ -1,0 +1,161 @@
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ * @author brunopanara@google.com (Bruno Panara)
+ */
+
+{namespace cwc.soy.SelectScreenNormal autoescape="strict"}
+
+
+/**
+ * Normal overview page.
+ */
+{template .overview}
+  {@param prefix: string}
+  <div id="{$prefix}normal-overview">
+    <div class="mdl-typography--display-1-color-contrast">Basic Coding</div>
+    <div class="mdl-grid">
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Basic' /}
+        {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
+        {param link_text: 'Start Basic' /}
+        {param link_id: 'basic' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Draw' /}
+        {param text: 'Create artworks of color and forms' /}
+        {param link_text: 'Start Drawing' /}
+        {param link_id: 'blocks' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Music' /}
+        {param text: 'Create some music.' /}
+        {param link_text: 'Make some noise' /}
+        {param link_id: '' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-green' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Robotic' /}
+        {param text: 'Control a virtual or a real robot' /}
+        {param link_text: 'Robotic' /}
+        {param link_id: 'blocks' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .basicOverview}
+  {@param prefix: string}
+  Basic normal Overview {$prefix}
+{/template}
+
+
+/**
+ * Select card design.
+ */
+{template .selectCard}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param link_id: string}
+  {@param? opt_image: string}
+  {@param? opt_color_class: string}
+
+  <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="{$opt_image}">{/if}
+    </div>
+    <div class="mdl-card__title">
+       <h4 class="mdl-card__title-text">{$title}</h4>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <span class="mdl-typography--font-light mdl-typography--subhead">{$text}</span>
+    </div>
+    <div class="mdl-card__actions">
+       <a id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="#">
+         {$link_text}
+         <i class="material-icons">chevron_right</i>
+       </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * CSS style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+
+  #{$prefix}normal-overview .mdl-card__media {lb}
+    min-height: 150px;
+    overflow: hidden;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__media img {lb}
+    width: 100%;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__title {lb}
+    background: transparent;
+    height: auto;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__title-text {lb}
+    color: black;
+    height: auto;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__supporting-text {lb}
+    height: auto;
+    color: black;
+    padding-bottom: 56px;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__actions {lb}
+    position: absolute;
+    bottom: 0;
+  {rb}
+
+  #{$prefix}normal-overview .mdl-card__actions a {lb}
+    border-top: none;
+    font-size: 16px;
+    color: #8bc34a;
+  {rb}
+{/template}

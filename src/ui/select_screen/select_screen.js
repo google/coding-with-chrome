@@ -22,6 +22,8 @@ goog.provide('cwc.ui.SelectScreen');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreen');
+goog.require('cwc.soy.SelectScreenAdvanced');
+goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.soy.SelectScreenStyle');
 goog.require('cwc.utils.Helper');
 
@@ -53,8 +55,8 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {Element} */
   this.nodeContent = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
+  /** @type {boolean} */
+  this.styleSheet = false;
 
   /** @type {boolean} */
   this.updateMode = false;
@@ -74,9 +76,14 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
       {'prefix': this.prefix});
 
   if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
+    goog.style.installStyles(
         cwc.soy.SelectScreenStyle.style({ 'prefix': this.prefix,
           'version': this.helper.getAppVersion() }));
+    goog.style.installStyles(
+        cwc.soy.SelectScreen.style({ 'prefix': this.prefix }));
+    goog.style.installStyles(
+        cwc.soy.SelectScreenNormal.style({ 'prefix': this.prefix }));
+    this.styleSheet = true;
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -128,7 +135,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
 
 
 /**
- * Shows general welcome screen.
+ * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
   this.showTemplate('welcome');
@@ -151,7 +158,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
 
 
 /**
- * Shows normal overview.
+ * Shows the basic overview for normal users.
  */
 cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
   if (this.updateMode) {
@@ -162,12 +169,21 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
     }
     this.updateMode = false;
   }
-  this.showTemplate('normalOverview');
+  this.showNormalTemplate('overview');
+  this.setClickEvent('link-basic', this.showNormalBasicOverview);
 };
 
 
 /**
- * Shows advanced overview.
+ * Shows the basic overview for normal users.
+ */
+cwc.ui.SelectScreen.prototype.showNormalBasicOverview = function() {
+  this.showNormalTemplate('basicOverview');
+};
+
+
+/**
+ * Shows the advanced overview for more advanced user.
  */
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function() {
   if (this.updateMode) {
@@ -433,15 +449,36 @@ cwc.ui.SelectScreen.prototype.showTutorial = function() {
 
 /**
  * @param {!string} template_name
+ * @param {Object} opt_template
  */
-cwc.ui.SelectScreen.prototype.showTemplate = function(template_name) {
+cwc.ui.SelectScreen.prototype.showTemplate = function(template_name,
+    opt_template) {
   if (this.nodeContent && template_name) {
     var templateConfig = {'prefix': this.prefix};
-    goog.soy.renderElement(this.nodeContent,
-        cwc.soy.SelectScreen[template_name], templateConfig);
+    var template = opt_template || cwc.soy.SelectScreen;
+    goog.soy.renderElement(this.nodeContent, template[template_name],
+        templateConfig);
   } else {
     console.error('Unable to render template', template_name);
   }
+};
+
+
+/**
+ * @param {!string} template_name
+ * @param {Object} opt_template
+ */
+cwc.ui.SelectScreen.prototype.showNormalTemplate = function(template_name) {
+  this.showTemplate(template_name, cwc.soy.SelectScreenNormal);
+};
+
+
+/**
+ * @param {!string} template_name
+ * @param {Object} opt_template
+ */
+cwc.ui.SelectScreen.prototype.showAdvancedTemplate = function(template_name) {
+  this.showTemplate(template_name, cwc.soy.SelectScreenAdvanced);
 };
 
 

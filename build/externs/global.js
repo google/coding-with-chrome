@@ -31,3 +31,12 @@ var module = {};
 
 /** @type {Object} */
 var require = {};
+
+/** @type {Object} */
+var localStorage = {};
+
+/** @type {Object} */
+var sessionStorage = {};
+
+/** @type {Object} */
+var globalStorage = {};

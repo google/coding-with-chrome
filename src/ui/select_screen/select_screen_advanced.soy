@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select screen for Coding in Chrome editor.
+ * @fileoverview Advanced Select screen for Coding in Chrome editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -19,7 +19,7 @@
  * @author brunopanara@google.com (Bruno Panara)
  */
 
-{namespace cwc.soy.SelectScreen autoescape="strict"}
+{namespace cwc.soy.SelectScreenAdvanced autoescape="strict"}
 
 
 /**
@@ -117,6 +117,69 @@
 
 
 /**
+ * Normal overview page.
+ */
+{template .normalOverview}
+  {@param prefix: string}
+  <div id="{$prefix}normal-overview">
+    <div class="mdl-typography--display-1-color-contrast">Basic Coding</div>
+    <div class="mdl-grid">
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Basic' /}
+        {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
+        {param link_text: 'Start Basic' /}
+        {param link_id: 'basic' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Draw' /}
+        {param text: 'Create artworks of color and forms' /}
+        {param link_text: 'Start Drawing' /}
+        {param link_id: 'blocks' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Music' /}
+        {param text: 'Create some music.' /}
+        {param link_text: 'Make some noise' /}
+        {param link_id: '' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-green' /}
+      {/call}
+
+      {call .selectCard}
+        {param prefix: $prefix /}
+        {param title: 'Robotic' /}
+        {param text: 'Control a virtual or a real robot' /}
+        {param link_text: 'Robotic' /}
+        {param link_id: 'blocks' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .normalBasicOverview}
+  {@param prefix: string}
+  Basic normal Overview {$prefix}
+{/template}
+
+
+/**
  * Select card design.
  */
 {template .selectCard}
@@ -146,6 +209,11 @@
     </div>
   </div>
 {/template}
+
+
+/**
+ *
+ */
 
 
 /**
@@ -578,38 +646,4 @@
     {param opt_class: 'subheader-red' /}
     {param opt_button_class: 'home' /}
   {/call}
-{/template}
-
-
-/**
- * CSS style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  #{$prefix}welcome {lb}
-    width: 750px;
-    margin: auto;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell {lb}
-    padding: 10px;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card {lb}
-    width: 100%;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > p {lb}
-    margin: auto;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__supporting-text {lb}
-    min-height: 60px;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__actions > a {lb}
-    width: 100%;
-    box-sizing: border-box;
-  {rb}
 {/template}
