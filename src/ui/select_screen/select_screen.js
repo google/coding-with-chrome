@@ -25,6 +25,7 @@ goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.soy.SelectScreenStyle');
+goog.require('cwc.ui.SelectScreenAdvanced');
 goog.require('cwc.ui.SelectScreenNormal');
 goog.require('cwc.utils.Helper');
 
@@ -58,6 +59,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @type {cwc.ui.SelectScreenNormal} */
   this.selectScreenNormal = null;
+
+  /** @type {cwc.ui.SelectScreenAdvanced} */
+  this.selectScreenAdvanced = null;
 
   /** @type {boolean} */
   this.styleSheet = false;
@@ -94,6 +98,9 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
   this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.nodeContent,
       this.helper);
   this.selectScreenNormal.decorate();
+  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.nodeContent,
+      this.helper);
+  this.selectScreenAdvanced.decorate();
 };
 
 
@@ -207,20 +214,6 @@ cwc.ui.SelectScreen.prototype.showOverview = function() {
 
 
 /**
- * Shows blocks overview.
- */
-cwc.ui.SelectScreen.prototype.showBlocks = function() {
-  this.showTemplate('blocks');
-  this.setOverviewLinks();
-  this.setHomeLink();
-  this.setClickEvent('link-ev3', this.newEV3Blockly);
-  this.setClickEvent('link-sphero', this.newSpheroBlockly);
-  this.setClickEvent('link-cwc-blockly', this.newCwcBlockly);
-  this.setClickEvent('link-home', this.showOverview);
-};
-
-
-/**
  * Shows code overview.
  */
 cwc.ui.SelectScreen.prototype.showCode = function() {
@@ -287,12 +280,6 @@ cwc.ui.SelectScreen.prototype.setHomeLink = function() {
 };
 
 
-/** Loads a new Coding with Chrome Blockly file */
-cwc.ui.SelectScreen.prototype.newCwcBlockly = function() {
-  this.newFile(cwc.file.Type.BASIC_BLOCKLY);
-};
-
-
 /** Loads a new Coding with Chrome Basic files */
 cwc.ui.SelectScreen.prototype.newCwcBasic = function() {
   this.newFile(cwc.file.Type.BASIC);
@@ -311,21 +298,9 @@ cwc.ui.SelectScreen.prototype.newEV3 = function() {
 };
 
 
-/** Loads a new EV3 Blockly file */
-cwc.ui.SelectScreen.prototype.newEV3Blockly = function() {
-  this.newFile(cwc.file.Type.EV3_BLOCKLY);
-};
-
-
 /** Loads a new Sphero file */
 cwc.ui.SelectScreen.prototype.newSphero = function() {
   this.newFile(cwc.file.Type.SPHERO);
-};
-
-
-/** Loads a new Sphero Blockly file */
-cwc.ui.SelectScreen.prototype.newSpheroBlockly = function() {
-  this.newFile(cwc.file.Type.SPHERO_BLOCKLY);
 };
 
 
@@ -352,17 +327,6 @@ cwc.ui.SelectScreen.prototype.showEV3Example = function() {
   this.loadExample('../../resources/examples/ev3/Line-follow-EV3.cwc');
 };
 
-
-/** Loads a Sphero example */
-cwc.ui.SelectScreen.prototype.showSpheroExample = function() {
-  this.loadExample('../../resources/examples/sphero/Sphero-example.cwc');
-};
-
-
-/** Loads a Drawing example */
-cwc.ui.SelectScreen.prototype.showDrawExample = function() {
-  this.loadExample('../../resources/examples/simple/Basic-draw-example.cwc');
-};
 
 
 /** Loads a HTML example */

@@ -27,7 +27,7 @@
  */
 {template .template}
   {@param prefix: string}
-  <div id="{$prefix}body">
+  <div id="{$prefix}body" class="mdl-color--grey-200">
     <div id="{$prefix}content"></div>
   </div>
 {/template}
@@ -158,16 +158,6 @@
   {@param? opt_colapse: bool}
 
   <div class="{if opt_colapse}{$prefix}content-pane-colapse{else}{$prefix}content-pane{/if}" id="{$prefix}overview-left">
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Blocks' /}
-      {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-      {param link: 'blocks' /}
-      {param opt_active: $opt_active /}
-      {param opt_class: 'subheader-teal' /}
-      {param opt_button_class: 'extension' /}
-      {param opt_colapse: $opt_colapse /}
-    {/call}
 
     {call .subheader}
       {param prefix: $prefix /}
@@ -201,63 +191,6 @@
       {param opt_button_class: 'device_hub' /}
       {param opt_colapse: $opt_colapse /}
     {/call}
-  </div>
-{/template}
-
-
-/**
- * Blocks page.
- */
-{template .blocks}
-  {@param prefix: string}
-
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Blocks' /}
-    {param opt_text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-  {/call}
-
-  <div class="{$prefix}content">
-    {call .leftpane}
-      {param prefix: $prefix /}
-      {param opt_active: 'blocks' /}
-      {param opt_colapse: true /}
-    {/call}
-
-    <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'Drawing' /}
-        {param text: 'Create artworks of colour and sound' /}
-        {param link: 'cwc-blockly' /}
-        {param opt_class: 'subheader-green' /}
-        {param opt_button_class: 'palette' /}
-      {/call}
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'LEGO® MINDSTORMS® EV3 robot' /}
-        {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
-        {param link: 'ev3' /}
-        {param opt_class: 'subheader-orange' /}
-        {param opt_button_class: 'adb' /}
-      {/call}
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'Sphero robot' /}
-        {param text: 'Control a Sphero ball' /}
-        {param link: 'sphero' /}
-        {param opt_class: 'subheader-blue' /}
-        {param opt_button_class: 'adjust' /}
-      {/call}
-
-      {call .homeSubLink}
-        {param prefix: $prefix /}
-      {/call}
-    </div>
-
   </div>
 {/template}
 
@@ -367,15 +300,6 @@
   {/call}
 
     <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Sphero Example' /}
-      {param text: 'An simple example for the Sphero' /}
-      {param link: 'sphero' /}
-      {param opt_class: 'subheader-blue' /}
-      {param opt_button_class: 'adjust' /}
-    {/call}
 
     {call .subheader}
       {param prefix: $prefix /}

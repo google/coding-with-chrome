@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
- * @author brunopanara@google.com (Bruno Panara)
  */
 
 {namespace cwc.soy.SelectScreenNormal autoescape="strict"}
@@ -113,7 +112,7 @@
 {template .drawOverview}
   {@param prefix: string}
 
-  <div class="mdl-layout__container">
+  <div id="{$prefix}draw-overview" class="mdl-layout__container">
 
     {call .overviewHeader_}
       {param prefix: $prefix /}
@@ -126,6 +125,20 @@
       {param text: '... basic ...' /}
       {param opt_color_class: 'bg-blue' /}
     {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Create artworks of colors and forms.' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'empty' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+    </div>
 
   </div>
 
@@ -239,7 +252,7 @@
         {param title: 'Empty project' /}
         {param text: 'Start a empty EV3 project' /}
         {param link_text: 'Empty project' /}
-        {param link_id: 'empty' /}
+        {param link_id: 'blank' /}
         {param opt_image: '' /}
         {param opt_color_class: 'bg-light-blue' /}
       {/call}
@@ -262,7 +275,7 @@
 {template .spheroOverview}
   {@param prefix: string}
 
-  <div class="mdl-layout__container">
+  <div id="{$prefix}sphero-overview" class="mdl-layout__container">
 
     {call .overviewHeader_}
       {param prefix: $prefix /}
@@ -280,6 +293,30 @@
       {param text: '... basic ...' /}
       {param opt_color_class: 'bg-orange' /}
     {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty Sphero project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Rectangle Example' /}
+        {param text: 'Example Sphero is rolling an rectangle.' /}
+        {param link_text: 'Rectangle example.' /}
+        {param link_id: 'rectangle' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+    </div>
 
     {call .footer_}
       {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
@@ -556,7 +593,11 @@
     margin: 20px auto;
   {rb}
 
-  #{$prefix}ev3-overview .max-width {lb}
+  #{$prefix}ev3-overview .max-width,
+  #{$prefix}basic-overview .max-width,
+  #{$prefix}draw-overview .max-width,
+  #{$prefix}music-overview .max-width,
+  #{$prefix}sphero-overview .max-width {lb}
     max-width: 860px;
     margin: 20px auto;
   {rb}

@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
- * @author brunopanara@google.com (Bruno Panara)
  */
 goog.provide('cwc.ui.SelectScreenNormal');
 
@@ -94,6 +93,8 @@ cwc.ui.SelectScreenNormal.prototype.showBasicOverview = function() {
 cwc.ui.SelectScreenNormal.prototype.showDrawOverview = function() {
   this.showTemplate_('drawOverview');
   this.addMenuHandler_();
+  this.setClickEvent_('link-empty', this.newFile_,
+    cwc.file.Type.BASIC_BLOCKLY);
 };
 
 
@@ -125,7 +126,8 @@ cwc.ui.SelectScreenNormal.prototype.showRobotEV3 = function() {
   this.showTemplate_('ev3Overview');
   this.addMenuHandler_();
   this.addRobotMenuHandler_();
-  this.setClickEvent_('link-empty', this.newFile_, cwc.file.Type.EV3_BLOCKLY);
+  this.setClickEvent_('link-blank', this.newFile_,
+      cwc.file.Type.EV3_BLOCKLY);
 };
 
 
@@ -136,6 +138,10 @@ cwc.ui.SelectScreenNormal.prototype.showRobotSphero = function() {
   this.showTemplate_('spheroOverview');
   this.addMenuHandler_();
   this.addRobotMenuHandler_();
+  this.setClickEvent_('link-blank', this.newFile_,
+      cwc.file.Type.SPHERO_BLOCKLY);
+  this.setClickEvent_('link-rectangle', this.loadFile_,
+      'resources/examples/sphero/blocks/Sphero-rectangle.cwc');
 };
 
 
@@ -218,6 +224,23 @@ cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
   var fileCreatorInstance = this.helper.getInstance('fileCreator');
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
+  }
+  var editorWindow = chrome.app.window.get('editor');
+  if (editorWindow) {
+    editorWindow.clearAttention();
+  }
+};
+
+
+/**
+ * Loads file into editor.
+ * @param {string} file_name Example file name to load.
+ * @private
+ */
+cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
+  var loaderInstance = this.helper.getInstance('fileLoader');
+  if (loaderInstance) {
+    loaderInstance.loadExampleFile('../../' + file_name);
   }
   var editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
