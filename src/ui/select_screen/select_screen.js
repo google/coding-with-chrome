@@ -25,6 +25,7 @@ goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.soy.SelectScreenStyle');
+goog.require('cwc.ui.SelectScreenNormal');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
@@ -54,6 +55,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @type {Element} */
   this.nodeContent = null;
+
+  /** @type {cwc.ui.SelectScreenNormal} */
+  this.selectScreenNormal = null;
 
   /** @type {boolean} */
   this.styleSheet = false;
@@ -87,6 +91,9 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
+  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.nodeContent,
+      this.helper);
+  this.selectScreenNormal.decorate();
 };
 
 
@@ -169,16 +176,7 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
     }
     this.updateMode = false;
   }
-  this.showNormalTemplate('overview');
-  this.setClickEvent('link-basic', this.showNormalBasicOverview);
-};
-
-
-/**
- * Shows the basic overview for normal users.
- */
-cwc.ui.SelectScreen.prototype.showNormalBasicOverview = function() {
-  this.showNormalTemplate('basicOverview');
+  this.selectScreenNormal.showOverview();
 };
 
 

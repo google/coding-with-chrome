@@ -38,59 +38,60 @@
  */
 {template .welcome}
   {@param prefix: string}
-
-  <div id="{$prefix}welcome" class="mdl-card mdl-shadow--2dp">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Welcome to Coding with Chrome!</h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      Coding with Chrome is an Educational Development Environment.<br>
-      Before you start coding please select your current coding skill.<br>
-    </div>
-    <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--6-col">
-        <div class="mdl-card mdl-shadow--2dp">
-          <div class="mdl-card__title mdl-card--expand">
-            <h2 class="mdl-card__title-text">Beginner</h2>
+  <div id="{$prefix}welcome">
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">Welcome to Coding with Chrome!</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        Coding with Chrome is an Educational Development Environment.<br>
+        Before you start coding please select your current coding skill.<br>
+      </div>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--6-col">
+          <div class="mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand">
+              <h2 class="mdl-card__title-text">Beginner</h2>
+            </div>
+            <p><img src="../../images/selection/blockly.png"></p>
+            <div class="mdl-card__supporting-text">
+              Use an visual block programming editor to drag and drop coding
+              blocks to write your code.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+              <a id="{$prefix}link-normal-mode" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Use Normal Mode
+              </a>
+            </div>
           </div>
-          <p><img src="../../images/selection/blockly.png"></p>
-          <div class="mdl-card__supporting-text">
-            Use an visual block programming editor to drag and drop coding
-            blocks to write your code.
-          </div>
-          <div class="mdl-card__actions mdl-card--border">
-            <a id="{$prefix}link-normal-mode" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-              Use Normal Mode
-            </a>
+        </div>
+        <div class="mdl-cell mdl-cell--6-col">
+          <div class="mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title mdl-card--expand">
+              <h2 class="mdl-card__title-text">Advanced Coder</h2>
+            </div>
+            <p><img src="../../images/selection/code_editor.png"></p>
+            <div class="mdl-card__supporting-text">
+              Use a high-level programming language like JavaScript or
+              CoffeeScript to write your code.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+              <a id="{$prefix}link-advanced-mode" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                Use Advanced Mode
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="mdl-cell mdl-cell--6-col">
-        <div class="mdl-card mdl-shadow--2dp">
-          <div class="mdl-card__title mdl-card--expand">
-            <h2 class="mdl-card__title-text">Advanced Coder</h2>
-          </div>
-          <p><img src="../../images/selection/code_editor.png"></p>
-          <div class="mdl-card__supporting-text">
-            Use a high-level programming language like JavaScript or
-            CoffeeScript to write your code.
-          </div>
-          <div class="mdl-card__actions mdl-card--border">
-            <a id="{$prefix}link-advanced-mode" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-              Use Advanced Mode
-            </a>
-          </div>
-        </div>
+      <div class="mdl-card__supporting-text">
+        You could adjust the selection in the settings menu.
       </div>
-    </div>
-    <div class="mdl-card__supporting-text">
-      You could adjust the selection in the settings menu.
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-        <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
-        <span class="mdl-checkbox__label">Show screen on Startup</span>
-     </label>
+      <div class="mdl-card__actions mdl-card--border">
+        <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+          <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">Show screen on Startup</span>
+       </label>
+      </div>
     </div>
   </div>
 {/template}
@@ -588,6 +589,10 @@
   {@param prefix: string}
 
   #{$prefix}welcome {lb}
+    padding: 20px;
+  {rb}
+
+  #{$prefix}welcome > .mdl-card {lb}
     width: 750px;
     margin: auto;
   {rb}
