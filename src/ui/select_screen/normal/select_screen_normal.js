@@ -84,6 +84,12 @@ cwc.ui.SelectScreenNormal.prototype.showOverview = function() {
 cwc.ui.SelectScreenNormal.prototype.showBasicOverview = function() {
   this.showTemplate_('basicOverview');
   this.addMenuHandler_();
+  this.setClickEvent_('link-blank', this.newFile_,
+    cwc.file.Type.BASIC_BLOCKLY);
+  this.setClickEvent_('link-hello-world', this.loadFile_,
+      'resources/examples/simple/blocks/Hello-World.cwc');
+  this.setClickEvent_('link-text-loop', this.loadFile_,
+      'resources/examples/simple/blocks/Text-Loop.cwc');
 };
 
 
@@ -93,7 +99,7 @@ cwc.ui.SelectScreenNormal.prototype.showBasicOverview = function() {
 cwc.ui.SelectScreenNormal.prototype.showDrawOverview = function() {
   this.showTemplate_('drawOverview');
   this.addMenuHandler_();
-  this.setClickEvent_('link-empty', this.newFile_,
+  this.setClickEvent_('link-blank', this.newFile_,
     cwc.file.Type.BASIC_BLOCKLY);
 };
 

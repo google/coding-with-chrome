@@ -28,27 +28,26 @@ goog.require('cwc.blocks.simple.JavaScript');
 /**
  * @private {string}
  */
-cwc.blocks.simple.Blocks.drawPrefix_ = 'draw_';
+cwc.blocks.simple.Blocks.drawPrefix_ = 'simple_draw_';
 
 
 /**
  * @private {string}
  */
-cwc.blocks.simple.Blocks.textPrefix_ = 'text_';
+cwc.blocks.simple.Blocks.textPrefix_ = 'simple_text_';
 
 
 /**
  * Write text.
  */
 cwc.blocks.addBlock('write', function() {
-  this.setHelpUrl(Blockly.Msg.Simple.TEXT_WRITE_HELPURL);
+  this.setHelpUrl('');
   this.setColour(160);
-  this.interpolateMsg(Blockly.Msg.Simple.TEXT_WRITE_TITLE,
-                      ['TEXT', null, Blockly.ALIGN_RIGHT],
-                      Blockly.ALIGN_RIGHT);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip(Blockly.Msg.Simple.TEXT_WRITE_TOOLTIP);
+  this.appendValueInput('TEXT').setCheck('String').appendField('write(');
+  this.appendDummyInput().appendField(')');
+  this.setPreviousStatement(true, ['Number', 'String']);
+  this.setNextStatement(true, ['Number', 'String']);
+  this.setTooltip('');
 }, cwc.blocks.simple.Blocks.textPrefix_);
 
 

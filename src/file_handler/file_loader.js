@@ -80,7 +80,7 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(
     file_name) {
-  console.log('Fetching example file:', file_name);
+  console.log('Getting example file:', file_name);
   var fileLoaderHandler = this.loadExampleFileData.bind(this);
   this.getResourceFile('examples/' + file_name, fileLoaderHandler);
 };
@@ -300,8 +300,13 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(event) {
-      xhrEvent(event, filename, opt_callback, opt_callback_scope);
+    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(e) {
+      if (e.target.isSuccess()) {
+        xhrEvent(e, filename, opt_callback, opt_callback_scope);
+      } else {
+        this.helper.error('Unable to open file ' + file + ':' +
+            e.target.getLastError());
+      }
     });
     xhr.send(file);
   }
@@ -314,8 +319,8 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
  * @param {function(?)=} opt_callback
  * @param {Object=} opt_callback_scope
  */
-cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e,
-    filename, opt_callback, opt_callback_scope) {
+cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
+    opt_callback, opt_callback_scope) {
   var xhr = e.target;
   var content = xhr.getResponseText() || '';
   if (goog.isFunction(opt_callback)) {

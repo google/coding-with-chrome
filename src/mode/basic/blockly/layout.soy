@@ -28,6 +28,22 @@
   <div id="{$prefix}editor-chrome"></div>
   <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
     <xml id="{$prefix}blockly-toolbox" style="display: none">
+
+      <category name="Text">
+        <block type="simple_text_write">
+          <value name="TEXT">
+            <block type="text"><field name="TEXT"></field></block>
+          </value>
+        </block>
+      </category>
+
+      <category name="Draw">
+        <block type="simple_draw_circle"></block>
+        <block type="simple_draw_rectangle"></block>
+        <block type="simple_draw_line"></block>
+        <block type="simple_draw_point"></block>
+      </category>
+
       <category name="Logic">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
@@ -58,12 +74,7 @@
         <block type="controls_forEach"></block>
         <block type="controls_flow_statements"></block>
       </category>
-      <category name="Draw">
-        <block type="draw_circle"></block>
-        <block type="draw_rectangle"></block>
-        <block type="draw_line"></block>
-        <block type="draw_point"></block>
-      </category>
+
     </xml>
   </div>
 {/template}

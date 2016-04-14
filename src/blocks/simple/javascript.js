@@ -19,24 +19,36 @@
  */
 goog.provide('cwc.blocks.simple.JavaScript');
 
-goog.require('Blockly');
+goog.require('cwc.blocks');
 goog.require('Blockly.JavaScript');
+
+
+/**
+ * @private {string}
+ */
+cwc.blocks.simple.JavaScript.drawPrefix_ = 'simple_draw_';
+
+
+/**
+ * @private {string}
+ */
+cwc.blocks.simple.JavaScript.textPrefix_ = 'simple_text_';
 
 
 /**
  * Write text.
  */
-Blockly.JavaScript['text_write'] = function(block) {
+cwc.blocks.addJavaScript('write', function(block) {
   var text = Blockly.JavaScript.valueToCode(block, 'TEXT',
-      Blockly.JavaScript.ORDER_NONE) || '\'\'';
-  return 'write(' + text + ');\n';
-};
+      Blockly.JavaScript.ORDER_ATOMIC);
+  return 'command.write(' + text + ');\n';
+}, cwc.blocks.simple.JavaScript.textPrefix_);
 
 
 /**
  * Draw circle.
  */
-Blockly.JavaScript['draw_circle'] = function(block) {
+cwc.blocks.addJavaScript('circle', function(block) {
   var text_x = block.getFieldValue('x');
   var text_y = block.getFieldValue('y');
   var text_radius = block.getFieldValue('radius');
@@ -45,13 +57,13 @@ Blockly.JavaScript['draw_circle'] = function(block) {
   var text_bordersize = block.getFieldValue('borderSize');
   return 'draw.circle(' + text_x + ', ' + text_y + ', ' + text_radius + ', "' +
       fillColor + '", "' + borderColor + '", ' + text_bordersize + ');\n';
-};
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 
 /**
  * Draw rectangle.
  */
-Blockly.JavaScript['draw_rectangle'] = function(block) {
+cwc.blocks.addJavaScript('rectangle', function(block) {
   var start_x = block.getFieldValue('start_x');
   var start_y = block.getFieldValue('start_y');
   var end_x = block.getFieldValue('end_x');
@@ -62,13 +74,13 @@ Blockly.JavaScript['draw_rectangle'] = function(block) {
   return 'draw.rectangle(' + start_x + ', ' + start_y + ', ' +
       end_x + ', ' + end_y + ', "' + fillColor + '", "' + borderColor +
       '", ' + text_bordersize + ');\n';
-};
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 
 /**
  * Draw line.
  */
-Blockly.JavaScript['draw_line'] = function(block) {
+cwc.blocks.addJavaScript('line', function(block) {
   var start_x = block.getFieldValue('start_x');
   var start_y = block.getFieldValue('start_y');
   var end_x = block.getFieldValue('end_x');
@@ -78,17 +90,17 @@ Blockly.JavaScript['draw_line'] = function(block) {
   return 'draw.line(' + start_x + ', ' + start_y + ', ' +
       end_x + ', ' + end_y + ', "' + fillColor + '", ' +
       text_bordersize + ');\n';
-};
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 
 /**
  * Draw point.
  */
-Blockly.JavaScript['draw_point'] = function(block) {
+cwc.blocks.addJavaScript('point', function(block) {
   var x = block.getFieldValue('x');
   var y = block.getFieldValue('y');
   var fillColor = block.getFieldValue('fillColor');
   var text_bordersize = block.getFieldValue('borderSize');
   return 'draw.point(' + x + ', ' + y + ', "' + fillColor + '", ' +
       text_bordersize + ');\n';
-};
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
