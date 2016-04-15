@@ -18,12 +18,26 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.SelectScreenNormal');
+goog.provide('cwc.ui.SelectScreenNormalView');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
+
+/**
+ * @enum {!string}
+ */
+cwc.ui.SelectScreenNormalView = {
+  OVERVIEW: 'overview',
+  BASIC: 'basicOverview',
+  DRAW: 'drawOverview',
+  MUSIC: 'musicOverview',
+  ROBOT: 'robotOverview',
+  EV3: 'ev3Overview',
+  SPHERO: 'spheroOverview'
+};
 
 
 
@@ -32,7 +46,7 @@ goog.require('goog.dom');
  * @constructor
  * @struct
  */
-cwc.ui.SelectScreenNormal = function(node_content, helper) {
+cwc.ui.SelectScreenNormal = function(helper) {
   /** @type {string} */
   this.name = 'SelectScreenNormal';
 
@@ -46,7 +60,13 @@ cwc.ui.SelectScreenNormal = function(node_content, helper) {
   this.generalPrefix = this.helper.getPrefix();
 
   /** @type {Element} */
-  this.nodeContent = node_content;
+  this.node = null;
+
+  /** @type {Element|StyleSheet} */
+  this.styleSheet = null;
+
+  /** @type {cwc.ui.SelectScreenNormalView} */
+  this.currentView = null;
 };
 
 
@@ -54,8 +74,10 @@ cwc.ui.SelectScreenNormal = function(node_content, helper) {
  * Decorates the given node and adds the start screen.
  * @param {Element} node
  * @param {string=} opt_prefix
+ * @export
  */
-cwc.ui.SelectScreenNormal.prototype.decorate = function(opt_prefix) {
+cwc.ui.SelectScreenNormal.prototype.decorate = function(node, opt_prefix) {
+  this.node = node;
   this.prefix = (opt_prefix || '') + this.prefix;
 
   if (!this.styleSheet) {
@@ -66,88 +88,79 @@ cwc.ui.SelectScreenNormal.prototype.decorate = function(opt_prefix) {
 
 
 /**
- * Shows the basic overview for normal users.
+ * Shows the default or the select view.
+ * @param {cwc.ui.SelectScreenNormalView=} opt_name
+ * @export
  */
-cwc.ui.SelectScreenNormal.prototype.showOverview = function() {
-  this.showTemplate_('overview');
+cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
+  var name = opt_name || cwc.ui.SelectScreenNormalView.OVERVIEW;
+  this.showTemplate_(name);
   this.addMenuHandler_();
-  this.setClickEvent_('link-basic', this.showBasicOverview);
-  this.setClickEvent_('link-draw', this.showDrawOverview);
-  this.setClickEvent_('link-music', this.showMusicOverview);
-  this.setClickEvent_('link-robot', this.showRobotOverview);
+  switch (name) {
+    // General overview
+    case cwc.ui.SelectScreenNormalView.OVERVIEW:
+      this.setClickEvent_('link-basic', this.showView,
+          cwc.ui.SelectScreenNormalView.BASIC);
+      this.setClickEvent_('link-draw', this.showView,
+          cwc.ui.SelectScreenNormalView.DRAW);
+      this.setClickEvent_('link-music', this.showView,
+          cwc.ui.SelectScreenNormalView.MUSIC);
+      this.setClickEvent_('link-robot', this.showView,
+          cwc.ui.SelectScreenNormalView.ROBOT);
+      break;
+
+    // Main screens
+    case cwc.ui.SelectScreenNormalView.BASIC:
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.BASIC_BLOCKLY);
+      this.setClickEvent_('link-hello-world', this.loadFile_,
+          'resources/examples/simple/blocks/Hello-World.cwc');
+      this.setClickEvent_('link-text-loop', this.loadFile_,
+          'resources/examples/simple/blocks/Text-Loop.cwc');
+      break;
+    case cwc.ui.SelectScreenNormalView.DRAW:
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.BASIC_BLOCKLY);
+      break;
+    case cwc.ui.SelectScreenNormalView.MUSIC:
+      break;
+
+    // Robot overview
+    case cwc.ui.SelectScreenNormalView.ROBOT:
+      this.addRobotMenuHandler_();
+      this.setClickEvent_('link-ev3', this.showView,
+          cwc.ui.SelectScreenNormalView.EV3);
+      this.setClickEvent_('link-sphero', this.showView,
+          cwc.ui.SelectScreenNormalView.SPHERO);
+      break;
+
+    // Robot screens
+    case cwc.ui.SelectScreenNormalView.EV3:
+      this.addRobotMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.EV3_BLOCKLY);
+      break;
+    case cwc.ui.SelectScreenNormalView.SPHERO:
+      this.addRobotMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.SPHERO_BLOCKLY);
+      this.setClickEvent_('link-rectangle', this.loadFile_,
+          'resources/examples/sphero/blocks/Sphero-rectangle.cwc');
+      break;
+
+    default:
+      return;
+  }
+  this.currentView = name;
 };
 
 
 /**
- * Shows the basic overview for normal users.
+ * @export
  */
-cwc.ui.SelectScreenNormal.prototype.showBasicOverview = function() {
-  this.showTemplate_('basicOverview');
-  this.addMenuHandler_();
-  this.setClickEvent_('link-blank', this.newFile_,
-    cwc.file.Type.BASIC_BLOCKLY);
-  this.setClickEvent_('link-hello-world', this.loadFile_,
-      'resources/examples/simple/blocks/Hello-World.cwc');
-  this.setClickEvent_('link-text-loop', this.loadFile_,
-      'resources/examples/simple/blocks/Text-Loop.cwc');
-};
-
-
-/**
- * Shows the draw overview for normal users.
- */
-cwc.ui.SelectScreenNormal.prototype.showDrawOverview = function() {
-  this.showTemplate_('drawOverview');
-  this.addMenuHandler_();
-  this.setClickEvent_('link-blank', this.newFile_,
-    cwc.file.Type.BASIC_BLOCKLY);
-};
-
-
-/**
- * Shows the music overview for normal users.
- */
-cwc.ui.SelectScreenNormal.prototype.showMusicOverview = function() {
-  this.showTemplate_('musicOverview');
-  this.addMenuHandler_();
-};
-
-
-/**
- * Shows the robot overview for normal users.
- */
-cwc.ui.SelectScreenNormal.prototype.showRobotOverview = function() {
-  this.showTemplate_('robotOverview');
-  this.addMenuHandler_();
-  this.addRobotMenuHandler_();
-  this.setClickEvent_('link-ev3', this.showRobotEV3);
-  this.setClickEvent_('link-sphero', this.showRobotSphero);
-};
-
-
-/**
- * Shows the robot overview for normal users.
- */
-cwc.ui.SelectScreenNormal.prototype.showRobotEV3 = function() {
-  this.showTemplate_('ev3Overview');
-  this.addMenuHandler_();
-  this.addRobotMenuHandler_();
-  this.setClickEvent_('link-blank', this.newFile_,
-      cwc.file.Type.EV3_BLOCKLY);
-};
-
-
-/**
- * Shows the robot overview for normal users.
- */
-cwc.ui.SelectScreenNormal.prototype.showRobotSphero = function() {
-  this.showTemplate_('spheroOverview');
-  this.addMenuHandler_();
-  this.addRobotMenuHandler_();
-  this.setClickEvent_('link-blank', this.newFile_,
-      cwc.file.Type.SPHERO_BLOCKLY);
-  this.setClickEvent_('link-rectangle', this.loadFile_,
-      'resources/examples/sphero/blocks/Sphero-rectangle.cwc');
+cwc.ui.SelectScreenNormal.prototype.showLastView = function() {
+  console.log('showLastView', this.currentView);
+  this.showView(this.currentView);
 };
 
 
@@ -156,11 +169,16 @@ cwc.ui.SelectScreenNormal.prototype.showRobotSphero = function() {
  * @private
  */
 cwc.ui.SelectScreenNormal.prototype.addMenuHandler_ = function() {
-  this.setClickEvent_('menu-home', this.showOverview);
-  this.setClickEvent_('menu-basic', this.showBasicOverview);
-  this.setClickEvent_('menu-draw', this.showDrawOverview);
-  this.setClickEvent_('menu-music', this.showMusicOverview);
-  this.setClickEvent_('menu-robot', this.showRobotOverview);
+  this.setClickEvent_('menu-home', this.showView,
+      cwc.ui.SelectScreenNormalView.OVERVIEW);
+  this.setClickEvent_('menu-basic', this.showView,
+      cwc.ui.SelectScreenNormalView.BASIC);
+  this.setClickEvent_('menu-draw', this.showView,
+      cwc.ui.SelectScreenNormalView.DRAW);
+  this.setClickEvent_('menu-music', this.showView,
+      cwc.ui.SelectScreenNormalView.MUSIC);
+  this.setClickEvent_('menu-robot', this.showView,
+      cwc.ui.SelectScreenNormalView.ROBOT);
 };
 
 
@@ -169,8 +187,10 @@ cwc.ui.SelectScreenNormal.prototype.addMenuHandler_ = function() {
  * @private
  */
 cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
-  this.setClickEvent_('menu-ev3', this.showRobotEV3);
-  this.setClickEvent_('menu-sphero', this.showRobotSphero);
+  this.setClickEvent_('menu-ev3', this.showView,
+      cwc.ui.SelectScreenNormalView.EV3);
+  this.setClickEvent_('menu-sphero', this.showView,
+      cwc.ui.SelectScreenNormalView.SPHERO);
 };
 
 
@@ -181,10 +201,10 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
  */
 cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template_name,
     opt_template) {
-  if (this.nodeContent && template_name) {
+  if (this.node && template_name) {
     var templateConfig = {'prefix': this.prefix};
     var template = opt_template || cwc.soy.SelectScreenNormal;
-    goog.soy.renderElement(this.nodeContent, template[template_name],
+    goog.soy.renderElement(this.node, template[template_name],
         templateConfig);
   } else {
     console.error('Unable to render template', template_name);
@@ -202,10 +222,14 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template_name,
  */
 cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
     opt_param) {
+  if (!func) {
+    console.error('Missing function!');
+    return;
+  }
   var elementName = this.prefix + name;
   var element = goog.dom.getElement(elementName);
   if (!element) {
-    console.error('Was not able to find element ' + elementName + '!');
+    console.error('Missing element ' + elementName + '!');
     return;
   }
 

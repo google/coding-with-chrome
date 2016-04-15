@@ -57,17 +57,23 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {Element} */
   this.nodeContent = null;
 
-  /** @type {cwc.ui.SelectScreenNormal} */
-  this.selectScreenNormal = null;
+  /** @type {!cwc.ui.SelectScreenNormal} */
+  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper);
 
   /** @type {cwc.ui.SelectScreenAdvanced} */
   this.selectScreenAdvanced = null;
 
-  /** @type {boolean} */
-  this.styleSheet = false;
+  /** @type {Element|StyleSheet} */
+  this.styleSheet = null;
 
   /** @type {boolean} */
   this.updateMode = false;
+
+  /** @type {boolean} */
+  this.lockBasicMode = false;
+
+  /** @type {boolean} */
+  this.lockAdvancedMode = false;
 };
 
 
@@ -84,22 +90,20 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
       {'prefix': this.prefix});
 
   if (!this.styleSheet) {
-    goog.style.installStyles(
+    this.styleSheet = goog.style.installStyles(
         cwc.soy.SelectScreenStyle.style({ 'prefix': this.prefix,
           'version': this.helper.getAppVersion() }));
     goog.style.installStyles(
         cwc.soy.SelectScreen.style({ 'prefix': this.prefix }));
-    goog.style.installStyles(
-        cwc.soy.SelectScreenNormal.style({ 'prefix': this.prefix }));
-    this.styleSheet = true;
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
-  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.nodeContent,
-      this.helper);
-  this.selectScreenNormal.decorate();
-  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.nodeContent,
-      this.helper);
+  this.selectScreenNormal.decorate(this.nodeContent);
+
+  if (!this.selectScreenAdvanced) {
+    this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(
+        this.nodeContent, this.helper);
+  }
   this.selectScreenAdvanced.decorate();
 };
 
@@ -118,21 +122,26 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback) {
  * Renders and shows the select screen.
  */
 cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
-  var userConfigInstance = this.helper.getInstance('userConfig');
-  var skipWelcomeScreen = false;
   var advancedMode = false;
-  if (userConfigInstance) {
+  var skipWelcomeScreen = false;
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance && !this.lockBasicMode && !this.lockAdvancedMode) {
     skipWelcomeScreen = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
     advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.ADVANCED_MODE);
   }
+
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateSimpleSingleColumnLayout();
     var nodes = layoutInstance.getNodes();
     this.decorate(nodes['content']);
-    if (!skipWelcomeScreen) {
+    if (this.lockBasicMode) {
+      this.showNormalOverview();
+    } else if (this.lockAdvancedMode) {
+      this.showAdvancedOverview();
+    } else if (!skipWelcomeScreen) {
       this.showWelcome();
     } else if (advancedMode) {
       this.showAdvancedOverview();
@@ -140,6 +149,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function() {
       this.showNormalOverview();
     }
   }
+
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle('');
@@ -175,6 +185,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
  * Shows the basic overview for normal users.
  */
 cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
+  this.lockBasicMode = true;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
@@ -182,8 +193,10 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
           cwc.userConfigName.ADVANCED_MODE, false);
     }
     this.updateMode = false;
+    this.selectScreenNormal.showView();
+  } else {
+    this.selectScreenNormal.showLastView();
   }
-  this.selectScreenNormal.showOverview();
 };
 
 
@@ -191,6 +204,7 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
  * Shows the advanced overview for more advanced user.
  */
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function() {
+  this.lockAdvancedMode = true;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
