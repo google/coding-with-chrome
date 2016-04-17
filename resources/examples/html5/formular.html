@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HTML formular</title>
+    <style>
+    body {
+      padding: 10px;
+      margin: 10px;
+      background: #eee;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      border-bottom: 1px dotted #ccc;
+    }
+
+    #output {
+      color: #f00;
+    }
+    </style>
+    <script>
+    function readValue() {
+      var formName = document.getElementById('name-input').value;
+      var output = document.getElementById('output');
+      var sound = "FLERP.. okay I don't know that animal";
+      switch(formName.toLowerCase()) {
+        case 'pig':
+          sound="oink";
+          break;
+        case 'horse':
+          sound="neigh";
+          break;
+        case 'cow':
+          sound="moo";
+          break;
+        case 'chicken':
+          sound="cluck";
+          break;
+      }
+      output.innerHTML = 'A ' + formName.toLowerCase() + ' goes ' + sound +'!';
+    }
+    </script>
+  </head>
+  <body>
+    <h1>Animals 101</h1>
+    <div>
+      Name an animal: <input type="text" id="name-input"/>
+      <input type="button" value="click" OnClick="readValue()"/>
+    </div>
+    <br/>
+    <p id="output"></p>
+  </body>
+</html>

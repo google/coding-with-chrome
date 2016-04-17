@@ -51,15 +51,19 @@ cwc.ui.Navigation = function(helper) {
   this.helpMenu = new cwc.ui.HelpMenu(this.helper);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuNew = cwc.ui.Helper.getNavigationItem('New file',
-      'Start a new project', this.requestShowSelectScreen, this);
+  this.menuNew = cwc.ui.Helper.getNavigationItem('New project',
+      'Start a new project', this.requestShowSelectScreenOverview, this);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuOpen = cwc.ui.Helper.getNavigationItem('Open file',
+  this.menuNewFile = cwc.ui.Helper.getNavigationItem('New file',
+      'Start a file', this.requestShowSelectScreen, this);
+
+  /** @type {!goog.ui.MenuItem} */
+  this.menuOpenFile = cwc.ui.Helper.getNavigationItem('Open file',
       'Open a local file ...', this.requestOpenFile, this);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuSaveAs = cwc.ui.Helper.getNavigationItem('Save as new file',
+  this.menuSaveAsFile = cwc.ui.Helper.getNavigationItem('Save as new file',
       'Save as new file ...', this.saveFileAs, this);
 
   /** @type {!goog.ui.MenuItem} */
@@ -121,9 +125,12 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.nodeFooterLeft = goog.dom.getElement(this.prefix + 'footer_left');
   this.nodeFooterRight = goog.dom.getElement(this.prefix + 'footer_right');
 
+
   this.menuNew.render(this.nodeItems);
-  this.menuOpen.render(this.nodeItems);
-  this.menuSaveAs.render(this.nodeItems);
+
+  this.menuNewFile.render(this.nodeItems);
+  this.menuOpenFile.render(this.nodeItems);
+  this.menuSaveAsFile.render(this.nodeItems);
 
   this.menuAbout.render(this.nodeFooterLeft);
 
@@ -182,6 +189,17 @@ cwc.ui.Navigation.prototype.hide = function() {
   var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
   if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
     this.toggle();
+  }
+};
+
+
+/**
+ * Shows new file dialog.
+ */
+cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
+  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  if (selectScreenInstance) {
+    selectScreenInstance.requestShowSelectScreen(this.hide.bind(this), true);
   }
 };
 

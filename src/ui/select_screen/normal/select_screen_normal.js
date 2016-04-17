@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select screen for the different coding modes and formats.
+ * @fileoverview Normal select screen for the different coding modes.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -127,7 +127,6 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Robot overview
     case cwc.ui.SelectScreenNormalView.ROBOT:
-      this.addRobotMenuHandler_();
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenNormalView.EV3);
       this.setClickEvent_('link-sphero', this.showView,

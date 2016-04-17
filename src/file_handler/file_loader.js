@@ -94,7 +94,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(
 cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(
     file_name, content) {
   console.log('Loading example file:', file_name);
-  this.handleFileData(content, file_name);
+  this.handleFileData(content, file_name, null, null, true);
 };
 
 
@@ -118,9 +118,10 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  * @param {string=} opt_file_name
  * @param {Object=} opt_file_handler
  * @param {string=} opt_gdrive_id
+ * @param {boolean=} opt_example
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
-    opt_file_name, opt_file_handler, opt_gdrive_id) {
+    opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
   console.log('Handle file data:', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
@@ -132,7 +133,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   var file = new fileConfig.file(content, fileType, fileConfig.contentType);
 
   // If file was not loaded locally or from Google Drive, load default content.
-  if (fileConfig.content && !opt_file_handler && !opt_gdrive_id) {
+  if (fileConfig.content && !opt_file_handler && !opt_gdrive_id &&
+      !opt_example) {
     console.log('Loading default content.');
     file = new fileConfig.file(fileConfig.content, fileType,
         fileConfig.contentType);
@@ -229,7 +231,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       var message = chrome.runtime.lastError.message;
-      if (message != 'User cancelled') {
+      if (message != 'User canceled') {
         this.helper.showWarning(message);
         return;
       }

@@ -27,8 +27,7 @@
   {@param prefix: string}
 
   <header class="mdl-layout__header">Coding with Chrome</header>
-  <nav id="{$prefix}items" class="mdl-navigation">
-  </nav>
+  <nav id="{$prefix}items" class="mdl-navigation"></nav>
   <footer class="mdl-mini-footer">
     <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section"></div>
     <div id="{$prefix}footer_right" class="mdl-mini-footer__right-section"></div>
@@ -41,7 +40,13 @@
  */
 {template .style}
   {@param prefix: string}
+
+  #{$prefix}items {lb}
+    padding: 0;
+  {rb}
+
   #{$prefix}footer_right .icon_24px{lb}
     padding-left: 10px;
   {rb}
+
 {/template}

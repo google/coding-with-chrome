@@ -1,5 +1,5 @@
 /**
- * @fileoverview Advanced Select screen for Coding in Chrome editor.
+ * @fileoverview Advanced select screen for Coding in Chrome editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -22,10 +22,823 @@
 
 
 /**
+ * Advanced overview page.
+ */
+{template .overview}
+  {@param prefix: string}
+  <div id="{$prefix}overview">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'home' /}
+    {/call}
+
+    <div class="mdl-typography--display-1-color-contrast">Advanced Coding</div>
+    <div class="mdl-grid">
+
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: 'Basic' /}
+        {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
+        {param link_text: 'Start Basic' /}
+        {param link_id: 'basic' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: 'Programming Language' /}
+        {param text: 'Create artworks of color and forms' /}
+        {param link_text: 'Start Drawing' /}
+        {param link_id: 'programming-language' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: 'Markup Language' /}
+        {param text: 'Markup Language' /}
+        {param link_text: 'Make some noise' /}
+        {param link_id: 'markup-language' /}
+        {param opt_image: '' /}
+      {/call}
+
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: 'Robotic' /}
+        {param text: 'Control a virtual or a real robot' /}
+        {param link_text: 'Robotic' /}
+        {param link_id: 'robot' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .basicOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'basic' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'Basic' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-light-blue' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Create empty project.' /}
+        {param link_text: 'Create new project' /}
+        {param link_id: 'blank' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'Basic file' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Hello World' /}
+        {param text: 'Hello World example' /}
+        {param link_text: 'Open Example' /}
+        {param link_id: 'hello-world' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Text Loop' /}
+        {param text: 'Text Loop example' /}
+        {param link_text: 'Open Example' /}
+        {param link_id: 'text-loop' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Line Loop' /}
+        {param text: 'Draw lines with loops' /}
+        {param link_text: 'Open Example' /}
+        {param link_id: 'line-loop' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Programming language overview page.
+ */
+{template .programmingLanguageOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}programming-language-overview" class="{$prefix}overview mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    <div class="{$prefix}content">
+
+      {call .header_}
+        {param prefix: $prefix /}
+        {param title: 'Programming Language' /}
+        {param text: '... basic ...' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'JavaScript' /}
+        {param text: 'Use JavaScript to create simple functions' /}
+        {param link_text: 'Use JavaScript' /}
+        {param link_id: 'javascript' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'CoffeeScript' /}
+        {param text: 'Use CoffeeScript to create simplified programs' /}
+        {param link_text: 'Use CoffeeScript' /}
+        {param link_id: 'coffeescript' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'Pencil Code' /}
+        {param text: 'Draw art, play music or create games' /}
+        {param link_text: 'Use Pencil Code' /}
+        {param link_id: 'pencil-code' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * JavaScript overview page.
+ */
+{template .javaScriptOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'javascript' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'JavaScript' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-blue' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty JavaScript project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'JavaScript file' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * CoffeeScript overview page.
+ */
+{template .coffeeScriptOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'coffeescript' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'CoffeeScript' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-blue' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty CoffeeScript project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'CoffeeScript file' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Pencil code overview page.
+ */
+{template .pencilCodeOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'pencil-code' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'Pencil Code' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-blue' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty pencil code project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'Pencil Code file' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Turtle catch' /}
+        {param text: 'Simple game where the goal is to catch a turtle.' /}
+        {param link_text: 'Load turtle catch' /}
+        {param link_id: 'turtle-catch' /}
+        {param opt_image: '../../images/selection/pencil-code-turtle-catch.png' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Markup language overview page.
+ */
+{template .markupLanguageOverview}
+  {@param prefix: string}
+
+  <div class="{$prefix}overview mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'markup-language' /}
+    {/call}
+
+    <div class="{$prefix}content">
+
+      {call .header_}
+        {param prefix: $prefix /}
+        {param title: 'Markup Language' /}
+        {param text: '... basic ...' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'HTML5' /}
+        {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
+        {param link_text: 'Use HTML5' /}
+        {param link_id: 'html5' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * HTML5 overview page.
+ */
+{template .html5Overview}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'markup-language' /}
+    {/call}
+
+    {call .markupLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'html5' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'HTML5' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-blue' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty HTML5 project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'HTML5 file' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Formular' /}
+        {param text: 'Start a empty HTML5 project' /}
+        {param link_text: 'Formular example' /}
+        {param link_id: 'formular' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Robot overview page.
+ */
+{template .robotOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}robot-overview" class="{$prefix}overview mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'Robotic' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-orange' /}
+    {/call}
+
+    {call .selectSection_}
+      {param prefix: $prefix /}
+      {param title: 'EV3' /}
+      {param text: 'Control a virtual or a real robot' /}
+      {param link_text: 'Use EV3 Robot' /}
+      {param link_id: 'ev3' /}
+      {param opt_image: '' /}
+      {param opt_color_class: 'bg-orange' /}
+    {/call}
+
+    {call .selectSection_}
+      {param prefix: $prefix /}
+      {param title: 'Sphero' /}
+      {param text: 'Control a virtual or a real robot' /}
+      {param link_text: 'Use Sphero Robot' /}
+      {param link_id: 'sphero' /}
+      {param opt_image: '' /}
+      {param opt_color_class: 'bg-orange' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * EV3 overview page.
+ */
+{template .ev3Overview}
+  {@param prefix: string}
+
+  <div id="{$prefix}ev3-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call .robotHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'ev3' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'Robotic: EV3' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-orange' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty EV3 project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'EV3 file' /}
+      {/call}
+
+    </div>
+
+    {call .footer_}
+      {param text: 'Coding with Chrome is not affiliated, sponsored, or endorsed by LEGO® Education or the LEGO® Group.' /}
+      {param opt_text: 'LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * Sphero overview page.
+ */
+{template .spheroOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}sphero-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call .robotHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'sphero' /}
+    {/call}
+
+    {call .header_}
+      {param prefix: $prefix /}
+      {param title: 'Robotic: Sphero' /}
+      {param text: '... basic ...' /}
+      {param opt_color_class: 'bg-orange' /}
+    {/call}
+
+    <div class="mdl-grid max-width">
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Empty project' /}
+        {param text: 'Start a empty Sphero project' /}
+        {param link_text: 'Empty project' /}
+        {param link_id: 'blank' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+        {param opt_text: 'Sphero file' /}
+      {/call}
+
+      {call .selectCardBig_}
+        {param prefix: $prefix /}
+        {param title: 'Rectangle Example' /}
+        {param text: 'Example Sphero is rolling an rectangle.' /}
+        {param link_text: 'Rectangle example.' /}
+        {param link_id: 'rectangle' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-blue' /}
+      {/call}
+
+    </div>
+
+    {call .footer_}
+      {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * Header design.
+ */
+{template .header_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param? opt_color_class: string}
+
+  <header class="{$prefix}band{if $opt_color_class} {$opt_color_class}{/if}">
+    <div class="{$prefix}band-text">
+      <div class="mdl-typography--display-2 mdl-typography--font-thin">{$title}</div>
+      <p class="mdl-typography--headline mdl-typography--font-thin">{$text}</p>
+    </div>
+  </header>
+{/template}
+
+
+/**
+ * Overview header.
+ */
+{template .overviewHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-overview" class="{$prefix}navigation mdl-layout__header-row mdl-layout__header bg_10_pct_black">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">
+        home</a>
+      <a id="{$prefix}menu-basic" class="mdl-navigation__link{if $active_link == 'basic'} is-active{/if}" href="#">
+        Basic</a>
+      <a id="{$prefix}menu-programming-language" class="mdl-navigation__link{if $active_link == 'programming-language'} is-active{/if}" href="#">
+        Programming Language</a>
+      <a id="{$prefix}menu-markup-language" class="mdl-navigation__link{if $active_link == 'markup-language'} is-active{/if}" href="#">
+        Markup Language</a>
+      <a id="{$prefix}menu-robot" class="mdl-navigation__link{if $active_link == 'robot'} is-active{/if}" href="#">
+        Robotic</a>
+    </nav>
+  </header>
+{/template}
+
+
+/**
+ * Programming language header.
+ */
+{template .programmingLanguageHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-programming-language" class="{$prefix}navigation mdl-layout__header-row mdl-layout__header">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-javascript" class="mdl-navigation__link{if $active_link == 'javascript'} is-active{/if}" href="#">JavaScript</a>
+      <a id="{$prefix}menu-coffeescript" class="mdl-navigation__link{if $active_link == 'coffeescript'} is-active{/if}" href="#">Coffee Script</a>
+      <a id="{$prefix}menu-pencil-code" class="mdl-navigation__link{if $active_link == 'pencil-code'} is-active{/if}" href="#">Pencil Code</a>
+    </nav>
+  </header>
+{/template}
+
+
+/**
+ * Markup language header.
+ */
+{template .markupLanguageHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-markup-language" class="{$prefix}navigation mdl-layout__header-row mdl-layout__header">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-html5" class="mdl-navigation__link{if $active_link == 'html5'} is-active{/if}" href="#">HTML5</a>
+    </nav>
+  </header>
+{/template}
+
+
+/**
+ * Markdown language header.
+ */
+{template .markdownLanguageHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-markdown-language" class="{$prefix}navigation mdl-layout__header-row mdl-layout__header">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-html5" class="mdl-navigation__link{if $active_link == 'html5'} is-active{/if}" href="#">HTML5</a>
+    </nav>
+  </header>
+{/template}
+
+
+/**
+ * Robot header.
+ */
+{template .robotHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-ev3" class="mdl-navigation__link{if $active_link == 'ev3'} is-active{/if}" href="#">EV3</a>
+      <a id="{$prefix}menu-sphero" class="mdl-navigation__link{if $active_link == 'sphero'} is-active{/if}" href="#">Sphero</a>
+    </nav>
+  </header>
+{/template}
+
+
+/**
+ * Header card design.
+ */
+{template .selectSection_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param link_id: string}
+  {@param? opt_image: string}
+  {@param? opt_color_class: string}
+
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="{$opt_image}">{/if}
+    </header>
+    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-card__supporting-text">
+        <h4>{$title}</h4>
+        {$text}
+      </div>
+      <div class="mdl-card__actions">
+        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">{$link_text}</a>
+      </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
+ * Select card design.
+ */
+{template .selectCard_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param link_id: string}
+  {@param? opt_image: string}
+  {@param? opt_color_class: string}
+  {@param? opt_hidden: bool}
+
+  <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="{$opt_image}">{/if}
+    </div>
+    <div class="mdl-card__title">
+       <h4 class="mdl-card__title-text">{$title}</h4>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <span class="mdl-typography--font-light mdl-typography--subhead">{$text}</span>
+    </div>
+    <div class="mdl-card__actions">
+       <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
+         {$link_text}
+         <i class="material-icons">chevron_right</i>
+       </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Select card design.
+ */
+{template .selectCardBig_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param link_id: string}
+  {@param? opt_image: string}
+  {@param? opt_icon: string}
+  {@param? opt_text: string}
+  {@param? opt_color_class: string}
+
+  <div class="{$prefix}select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+       {if $opt_image}<img src="{$opt_image}">{/if}
+       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+       {if $opt_text}<div>{$opt_text}</div>{/if}
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{$title}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">{$text}</div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+        {$link_text}
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Custom footer.
+ */
+{template .footer_}
+  {@param text: string}
+  {@param? opt_text: string}
+
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__left-section">
+      {$text}{if $opt_text}<br>{$opt_text}{/if}
+    </div>
+  </footer>
+{/template}
+
+
+/**
  * CSS style definitions.
  */
 {template .style}
   {@param prefix: string}
+
+  .{$prefix}content {lb}
+    height: calc(100% - 44px);
+    overflow: auto;
+  {rb}
+
+  .{$prefix}content-large {lb}
+    height: calc(100% - 88px);
+    overflow: auto;
+  {rb}
 
   .{$prefix}band {lb}
     width: 100%;
@@ -41,6 +854,114 @@
 
   .{$prefix}band-text p {lb}
     padding-top: 8px;
+  {rb}
+
+  .{$prefix}navigation {lb}
+    min-height: 44px;
+  {rb}
+
+  .{$prefix}navigation .mdl-navigation__link {lb}
+    line-height: 44px;
+  {rb}
+
+  #{$prefix}navigation-robot .mdl-navigation {lb}
+    margin-left: 71px;
+  {rb}
+
+  .{$prefix}navigation .mdl-layout__header-row {lb}
+    padding: 0;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.08);
+    text-transform: uppercase;
+    height: 45px;
+  {rb}
+
+  .{$prefix}navigation .is-active {lb}
+    position: relative;
+    font-weight: bold;
+  {rb}
+
+  .{$prefix}navigation .is-active:after {lb}
+    content: "";
+    width: 70%;
+    height: 2px;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(255,64,129);
+    left: 15%;
+  {rb}
+
+  .{$prefix}overview section.section--center,
+  .{$prefix}overview .max-width {lb}
+    max-width: 860px;
+    margin: 20px auto;
+  {rb}
+
+  .{$prefix}select-card-big .mdl-card__media {lb}
+    position: relative;
+    height: 200px;
+  {rb}
+
+  .{$prefix}select-card-big .mdl-card__media > i {lb}
+    font-size: 128px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  {rb}
+
+  .{$prefix}select-card-big .mdl-card__media > div {lb}
+    font-size: 32px;
+    line-height: 32px;
+    position: absolute;
+    top: 50%;
+    left: 125px;
+    transform: translateY(-50%);
+  {rb}
+
+  .{$prefix}select-card-big.mdl-cell {lb}
+    margin: 8px;
+    width: 320px;
+  {rb}
+
+  #{$prefix}overview .mdl-card__media {lb}
+    min-height: 150px;
+    overflow: hidden;
+  {rb}
+
+  #{$prefix}overview .mdl-card__media img {lb}
+    width: 100%;
+  {rb}
+
+  #{$prefix}overview .mdl-card__title {lb}
+    background: transparent;
+    height: auto;
+  {rb}
+
+  #{$prefix}overview .mdl-card__title-text {lb}
+    color: black;
+    height: auto;
+  {rb}
+
+  #{$prefix}overview .mdl-card__supporting-text {lb}
+    height: auto;
+    color: black;
+    padding-bottom: 56px;
+  {rb}
+
+  #{$prefix}overview .mdl-card__actions {lb}
+    position: absolute;
+    bottom: 0;
+  {rb}
+
+  #{$prefix}overview .mdl-card__actions a {lb}
+    border-top: none;
+    font-size: 16px;
+    color: #8bc34a;
   {rb}
 
 {/template}
