@@ -205,3 +205,7 @@ html>body {
   display: flex;
   flex: 1;
 }
+
+.cwc-select-card-big .mdl-card__title {
+  border-top: 1px solid #f5f5f5;
+}

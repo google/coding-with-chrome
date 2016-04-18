@@ -130,8 +130,13 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   cwc.ui.Helper.decorateIcon(this.menuNew, 'apps');
 
   this.menuNewFile.render(this.nodeItems);
+  cwc.ui.Helper.decorateIcon(this.menuNewFile, 'add');
+
   this.menuOpenFile.render(this.nodeItems);
+  cwc.ui.Helper.decorateIcon(this.menuOpenFile, 'open_in_browser');
+
   this.menuSaveAsFile.render(this.nodeItems);
+  cwc.ui.Helper.decorateIcon(this.menuSaveAsFile, 'save');
 
   this.menuAbout.render(this.nodeFooterLeft);
 
