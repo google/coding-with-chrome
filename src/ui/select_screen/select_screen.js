@@ -54,10 +54,12 @@ cwc.ui.SelectScreen = function(helper) {
   this.nodeContent = null;
 
   /** @type {!cwc.ui.SelectScreenNormal} */
-  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper);
+  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper,
+    this.prefix);
 
   /** @type {cwc.ui.SelectScreenAdvanced} */
-  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper);
+  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper,
+    this.prefix);
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;

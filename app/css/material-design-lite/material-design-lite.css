@@ -21,7 +21,6 @@
  */
 
 @import '../../external/material-design-lite/material.indigo-blue.min.css';
-/*@import '../../external/material-design-lite/material.blue_grey-red.min.css';*/
 
 html>body {
   font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
@@ -77,4 +76,132 @@ html>body {
   flex-shrink: 1;
   overflow: visible;
   overflow-y: auto;
+}
+
+.mdl-navigation .mdl-navigation__link > i {
+  position: absolute;
+  left: 10px;
+  font-size: 24px;
+}
+
+.cwc-content {
+  height: calc(100% - 44px);
+  overflow: auto;
+}
+
+.cwc-content-large {
+  height: calc(100% - 88px);
+  overflow: auto;
+}
+
+.cwc-band {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.cwc-band-icon {
+  position: absolute;
+  left: calc(25% - 50px);
+  top: 15px;
+  font-size: 64px;
+}
+
+.cwc-band-text {
+  max-width: 800px;
+  margin-left: 25%;
+  padding: 24px;
+  text-align: left;
+}
+
+.cwc-band-text p {
+  padding-top: 8px;
+}
+
+.cwc-navigation {
+  min-height: 44px;
+}
+
+.cwc-navigation .mdl-navigation__link {
+  line-height: 44px;
+}
+
+.cwc-navigation .mdl-layout__header-row {
+  padding: 0;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  height: 45px;
+}
+
+.cwc-navigation .is-active {
+  position: relative;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.cwc-navigation .is-active:after {
+  content: "";
+  width: 70%;
+  height: 2px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(255,64,129);
+  left: 15%;
+}
+
+.cwc-navigation .mdl-navigation__link {
+  opacity: 0.9;
+}
+
+.cwc-navigation .mdl-navigation__link:hover {
+  opacity: 1;
+}
+
+.cwc-overview section.section--center,
+.cwc-overview .max-width {
+  max-width: 860px;
+  margin: 20px auto;
+}
+
+.cwc-select-card-big:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
+              0 1px 10px 0 rgba(0,0,0,.32),
+              0 2px 4px -1px rgba(0,0,0,.22);
+}
+
+.cwc-select-card-big.mdl-cell {
+  margin: 8px;
+  width: 320px;
+}
+
+.cwc-select-card-big .mdl-card__media {
+  position: relative;
+  height: 200px;
+}
+
+.cwc-select-card-big .mdl-card__media > i {
+  font-size: 128px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cwc-select-card-big .mdl-card__media > div {
+  font-size: 32px;
+  line-height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 125px;
+  transform: translateY(-50%);
+}
+
+.cwc-select-card-big .mdl-card__supporting-text {
+  display: flex;
+  flex: 1;
 }

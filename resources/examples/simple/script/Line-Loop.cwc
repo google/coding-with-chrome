@@ -1,5 +1,5 @@
 {
-  "author": "Unknown",
+  "author": "Markus Bordihn",
   "content": {
     "javascript": "// Draw text\ndraw.text('Hello World!', 300, 400, '#f00');\n\n// Define x and y points\nvar x = 800;\nvar y = 800;\n\n// Increase x to 400 and decrease y to 0 with +5 steps\nfor (x = 1; x <= 800; x = x + 10) {\n  draw.line(x, 1, 1, y);\n  y = y - 10;\n}"
   },

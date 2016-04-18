@@ -33,49 +33,58 @@
       {param active_link: 'home' /}
     {/call}
 
-    <div class="mdl-typography--display-1-color-contrast">Basic Coding</div>
-    <div class="mdl-grid">
+    <div class="cwc-content">
 
-      {call .selectCard_}
-        {param prefix: $prefix /}
-        {param title: 'Basic' /}
-        {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-        {param link_text: 'Start Basic' /}
-        {param link_id: 'basic' /}
-        {param opt_image: '' /}
+      {call .header_}
+        {param title: 'Simlified Coding' /}
         {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'extension' /}
       {/call}
 
-      {call .selectCard_}
-        {param prefix: $prefix /}
-        {param title: 'Draw' /}
-        {param text: 'Create artworks of color and forms' /}
-        {param link_text: 'Start Drawing' /}
-        {param link_id: 'draw' /}
-        {param opt_image: '' /}
-        {param opt_color_class: 'bg-blue' /}
-        {param opt_hidden: true /}
-      {/call}
+      <div class="mdl-grid">
 
-      {call .selectCard_}
-        {param prefix: $prefix /}
-        {param title: 'Music' /}
-        {param text: 'Create some music.' /}
-        {param link_text: 'Make some noise' /}
-        {param link_id: 'music' /}
-        {param opt_image: '' /}
-        {param opt_hidden: true /}
-      {/call}
+        {call .selectCard_}
+          {param prefix: $prefix /}
+          {param title: 'Basic' /}
+          {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
+          {param link_text: 'Start Basic' /}
+          {param link_id: 'basic' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+        {/call}
 
-      {call .selectCard_}
-        {param prefix: $prefix /}
-        {param title: 'Robotic' /}
-        {param text: 'Control a virtual or a real robot' /}
-        {param link_text: 'Robotic' /}
-        {param link_id: 'robot' /}
-        {param opt_image: '' /}
-        {param opt_color_class: 'bg-orange' /}
-      {/call}
+        {call .selectCard_}
+          {param prefix: $prefix /}
+          {param title: 'Draw' /}
+          {param text: 'Create artworks of color and forms' /}
+          {param link_text: 'Start Drawing' /}
+          {param link_id: 'draw' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_hidden: true /}
+        {/call}
+
+        {call .selectCard_}
+          {param prefix: $prefix /}
+          {param title: 'Music' /}
+          {param text: 'Create some music.' /}
+          {param link_text: 'Make some noise' /}
+          {param link_id: 'music' /}
+          {param opt_image: '' /}
+          {param opt_hidden: true /}
+        {/call}
+
+        {call .selectCard_}
+          {param prefix: $prefix /}
+          {param title: 'Robotic' /}
+          {param text: 'Control a virtual or a real robot' /}
+          {param link_text: 'Robotic' /}
+          {param link_id: 'robot' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-orange' /}
+        {/call}
+
+      </div>
 
     </div>
   </div>
@@ -95,46 +104,50 @@
       {param active_link: 'basic' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Basic' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-light-blue' /}
-    {/call}
+    <div class="cwc-content">
 
-    <div class="mdl-grid max-width">
-
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Empty project' /}
-        {param text: 'Create empty project.' /}
-        {param link_text: 'Create new project' /}
-        {param link_id: 'blank' /}
-        {param opt_image: '' /}
+      {call .header_}
+        {param title: 'Basic' /}
+        {param opt_text: '... basic ...' /}
         {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'insert_drive_file' /}
-        {param opt_text: 'Basic Block file' /}
+        {param opt_icon: 'school' /}
       {/call}
 
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Hello World' /}
-        {param text: 'Hello World example' /}
-        {param link_text: 'Open Example' /}
-        {param link_id: 'hello-world' /}
-        {param opt_image: '../../images/selection/basic-block-hello-world.png' /}
-        {param opt_color_class: 'bg-blue' /}
-      {/call}
+      <div class="mdl-grid max-width">
 
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Text Loop' /}
-        {param text: 'Text Loop example' /}
-        {param link_text: 'Open Example' /}
-        {param link_id: 'text-loop' /}
-        {param opt_image: '../../images/selection/basic-block-text-loop.png' /}
-        {param opt_color_class: 'bg-blue' /}
-      {/call}
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Basic Block file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Hello World' /}
+          {param text: 'Hello World example' /}
+          {param link_text: 'Open Example' /}
+          {param link_id: 'hello-world' /}
+          {param opt_image: '../../images/selection/basic-block-hello-world.png' /}
+          {param opt_color_class: 'bg-blue' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Text Loop' /}
+          {param text: 'Text Loop example' /}
+          {param link_text: 'Open Example' /}
+          {param link_id: 'text-loop' /}
+          {param opt_image: '../../images/selection/basic-block-text-loop.png' /}
+          {param opt_color_class: 'bg-blue' /}
+        {/call}
+
+      </div>
 
     </div>
 
@@ -156,26 +169,30 @@
       {param active_link: 'draw' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Draw' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-blue' /}
-    {/call}
+    <div class="cwc-content">
 
-    <div class="mdl-grid max-width">
-
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Empty project' /}
-        {param text: 'Create artworks of colors and forms.' /}
-        {param link_text: 'Empty project' /}
-        {param link_id: 'blank' /}
-        {param opt_image: '' /}
-        {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'insert_drive_file' /}
-        {param opt_text: 'Draw block file' /}
+      {call .header_}
+        {param title: 'Draw' /}
+        {param opt_text: '... basic ...' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: 'bubble_chart' /}
       {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create artworks of colors and forms.' /}
+          {param link_text: 'Empty project' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Draw block file' /}
+        {/call}
+
+      </div>
 
     </div>
 
@@ -197,14 +214,16 @@
       {param active_link: 'music' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Music' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-light-blue' /}
-      {param opt_icon: 'insert_drive_file' /}
-      {param opt_text: 'Music block file' /}
-    {/call}
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: 'Music' /}
+        {param opt_text: '... basic ...' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'queue_music' /}
+      {/call}
+
+    </div>
 
   </div>
 
@@ -217,39 +236,43 @@
 {template .robotOverview}
   {@param prefix: string}
 
-  <div id="{$prefix}robot-overview" class="{$prefix}overview mdl-layout__container">
+  <div id="{$prefix}robot-overview" class="cwc-overview mdl-layout__container">
 
     {call .overviewHeader_}
       {param prefix: $prefix /}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Robotic' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-orange' /}
-    {/call}
+    <div class="cwc-content">
 
-    {call .selectSection_}
-      {param prefix: $prefix /}
-      {param title: 'EV3' /}
-      {param text: 'Control a virtual or a real robot' /}
-      {param link_text: 'Use EV3 Robot' /}
-      {param link_id: 'ev3' /}
-      {param opt_image: '' /}
-      {param opt_color_class: 'bg-orange' /}
-    {/call}
+      {call .header_}
+        {param title: 'Robotic' /}
+        {param opt_text: '... basic ...' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'memory' /}
+      {/call}
 
-    {call .selectSection_}
-      {param prefix: $prefix /}
-      {param title: 'Sphero' /}
-      {param text: 'Control a virtual or a real robot' /}
-      {param link_text: 'Use Sphero Robot' /}
-      {param link_id: 'sphero' /}
-      {param opt_image: '' /}
-      {param opt_color_class: 'bg-orange' /}
-    {/call}
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'EV3' /}
+        {param text: 'Control a virtual or a real robot' /}
+        {param link_text: 'Use EV3 Robot' /}
+        {param link_id: 'ev3' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'Sphero' /}
+        {param text: 'Control a virtual or a real robot' /}
+        {param link_text: 'Use Sphero Robot' /}
+        {param link_id: 'sphero' /}
+        {param opt_image: '' /}
+        {param opt_color_class: 'bg-orange' /}
+      {/call}
+
+    </div>
 
   </div>
 
@@ -274,26 +297,30 @@
       {param active_link: 'ev3' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Robotic: EV3' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-orange' /}
-    {/call}
+    <div class="cwc-content-large">
 
-    <div class="mdl-grid max-width">
-
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Empty project' /}
-        {param text: 'Start a empty EV3 project' /}
-        {param link_text: 'Empty project' /}
-        {param link_id: 'blank' /}
-        {param opt_image: '' /}
-        {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'insert_drive_file' /}
-        {param opt_text: 'EV3 block file' /}
+      {call .header_}
+        {param title: 'Robotic: EV3' /}
+        {param opt_text: '... basic ...' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'adb' /}
       {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Start a empty EV3 project' /}
+          {param link_text: 'Empty project' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'EV3 block file' /}
+        {/call}
+
+      </div>
 
     </div>
 
@@ -325,36 +352,40 @@
       {param active_link: 'sphero' /}
     {/call}
 
-    {call .header_}
-      {param prefix: $prefix /}
-      {param title: 'Robotic: Sphero' /}
-      {param text: '... basic ...' /}
-      {param opt_color_class: 'bg-orange' /}
-    {/call}
+    <div class="cwc-content-large">
 
-    <div class="mdl-grid max-width">
-
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Empty project' /}
-        {param text: 'Start a empty Sphero project' /}
-        {param link_text: 'Empty project' /}
-        {param link_id: 'blank' /}
-        {param opt_image: '' /}
-        {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'insert_drive_file' /}
-        {param opt_text: 'Sphero block file' /}
+      {call .header_}
+        {param title: 'Robotic: Sphero' /}
+        {param opt_text: '... basic ...' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'adjust' /}
       {/call}
 
-      {call .selectCardBig_}
-        {param prefix: $prefix /}
-        {param title: 'Rectangle Example' /}
-        {param text: 'Example Sphero is rolling an rectangle.' /}
-        {param link_text: 'Rectangle example.' /}
-        {param link_id: 'rectangle' /}
-        {param opt_image: '../../images/selection/sphero-block-rectangle.png' /}
-        {param opt_color_class: 'bg-blue' /}
-      {/call}
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Start a empty Sphero project' /}
+          {param link_text: 'Empty project' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Sphero block file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Rectangle Example' /}
+          {param text: 'Example Sphero is rolling an rectangle.' /}
+          {param link_text: 'Rectangle example.' /}
+          {param link_id: 'rectangle' /}
+          {param opt_image: '../../images/selection/sphero-block-rectangle.png' /}
+          {param opt_color_class: 'bg-blue' /}
+        {/call}
+
+      </div>
 
     </div>
 
@@ -371,15 +402,16 @@
  * Header design.
  */
 {template .header_}
-  {@param prefix: string}
   {@param title: string}
-  {@param text: string}
+  {@param? opt_icon: string}
+  {@param? opt_text: string}
   {@param? opt_color_class: string}
 
-  <header class="{$prefix}band{if $opt_color_class} {$opt_color_class}{/if}">
-    <div class="{$prefix}band-text">
+  <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
+    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
+    <div class="cwc-band-text">
       <div class="mdl-typography--display-2 mdl-typography--font-thin">{$title}</div>
-      <p class="mdl-typography--headline mdl-typography--font-thin">{$text}</p>
+      {if $opt_text}<p class="mdl-typography--headline mdl-typography--font-thin">{$opt_text}</p>{/if}
     </div>
   </header>
 {/template}
@@ -496,7 +528,7 @@
   {@param? opt_text: string}
   {@param? opt_color_class: string}
 
-  <div class="{$prefix}select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
        {if $opt_image}<img src="{$opt_image}">{/if}
        {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
@@ -536,55 +568,6 @@
  */
 {template .style}
   {@param prefix: string}
-
-  .{$prefix}band {lb}
-    width: 100%;
-    text-align: center;
-  {rb}
-
-  .{$prefix}band-text {lb}
-    max-width: 800px;
-    margin-left: 25%;
-    padding: 24px;
-    text-align: left;
-  {rb}
-
-  .{$prefix}band-text p {lb}
-    padding-top: 8px;
-  {rb}
-
-  .{$prefix}select-card-big .mdl-card__media {lb}
-    position: relative;
-    height: 200px;
-  {rb}
-
-  .{$prefix}select-card-big .mdl-card__media > i {lb}
-    font-size: 128px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-  {rb}
-
-  .{$prefix}select-card-big .mdl-card__media > div {lb}
-    font-size: 32px;
-    line-height: 32px;
-    position: absolute;
-    top: 50%;
-    left: 125px;
-    transform: translateY(-50%);
-  {rb}
-
-  .{$prefix}select-card-big.mdl-cell {lb}
-    margin: 8px;
-    width: 320px;
-  {rb}
-
-  .{$prefix}overview section.section--center,
-  .{$prefix}overview .max-width {lb}
-    max-width: 860px;
-    margin: 20px auto;
-  {rb}
 
   #{$prefix}navigation-overview,
   #{$prefix}navigation-robot {lb}

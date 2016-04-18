@@ -123,6 +123,10 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/simple/script/Text-Loop.cwc');
       this.setClickEvent_('link-line-loop', this.loadFile_,
           'resources/examples/simple/script/Line-Loop.cwc');
+      this.setClickEvent_('link-point-loop', this.loadFile_,
+          'resources/examples/simple/script/Point-Loop.cwc');
+      this.setClickEvent_('link-draw-portal-turret', this.loadFile_,
+          'resources/examples/simple/script/Draw-Portal-Turret.cwc');
       break;
 
     // Programming Language Overview

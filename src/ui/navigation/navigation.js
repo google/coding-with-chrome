@@ -127,6 +127,7 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
 
 
   this.menuNew.render(this.nodeItems);
+  cwc.ui.Helper.decorateIcon(this.menuNew, 'apps');
 
   this.menuNewFile.render(this.nodeItems);
   this.menuOpenFile.render(this.nodeItems);

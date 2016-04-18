@@ -69,18 +69,51 @@
 }
 
 .bg-blue {
-  background-color: #4184f3!important;
+  background-color: rgb(33, 150, 243)!important;
+  color: #fff;
 }
 
 .bg-light-blue {
-  background-color: #03a9f4!important;
+  background-color: rgb(33, 150, 243)!important;
   color: #fff;
 }
 
 .bg-green {
-  background-color: #0F9D58!important;
+  background-color: rgb(76, 175, 80)!important;
+  color: #111;
+}
+
+.bg-light-green {
+  background-color: rgb(139, 195, 74)!important;
+  color: #111;
+}
+
+.bg-lime {
+  background-color: rgb(205, 220, 57)!important;
+  color: #111;
+}
+
+.bg-amber {
+  background-color: rgb(255, 193, 7)!important;
+  color: #111;
 }
 
 .bg-orange {
-  background-color: #FF5722!important;
+  background-color: rgb(255, 152, 0)!important;
+  color: #111;
+}
+
+.bg-indigo {
+  background-color: rgb(63, 81, 181)!important;
+  color: #fff;
+}
+
+.bg-red {
+  background-color: rgb(244, 67, 54)!important;
+  color: #fff;
+}
+
+.bg-grey {
+  background-color: rgb(158, 158, 158)!important;
+  color: #000;
 }

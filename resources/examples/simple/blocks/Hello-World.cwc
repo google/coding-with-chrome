@@ -1,5 +1,5 @@
 {
-  "author": "Unknown",
+  "author": "Markus Bordihn",
   "content": {
     "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"simple_text_write\" id=\"tAL)fHeUVlt(qBFRI[Bd\" x=\"149\" y=\"77\">\n    <value name=\"TEXT\">\n      <block type=\"text\" id=\"l+w{|A3O98YwQ9}c~[Xu\">\n        <field name=\"TEXT\">Hello World!</field>\n      </block>\n    </value>\n  </block>\n</xml>",
     "javascript": "command.write('Hello World!');\n"

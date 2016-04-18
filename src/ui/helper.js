@@ -80,8 +80,8 @@ cwc.ui.Helper.getCustomButton = function(name, opt_description,
  * @param {string=} opt_class_name
  * @return {!goog.ui.Button}
  */
-cwc.ui.Helper.getLinkButton = function(name, opt_description,
-    opt_func, opt_icon_size, opt_class_name) {
+cwc.ui.Helper.getLinkButton = function(name,
+    opt_description, opt_func, opt_icon_size, opt_class_name) {
   var button = new goog.ui.Button(name,
     goog.ui.LinkButtonRenderer.getInstance());
   button.addClassName('link_button');
@@ -203,6 +203,21 @@ cwc.ui.Helper.decorateButton = function(button, opt_description, opt_func,
 
 
 /**
+ * @param {!goog.ui.Button} button
+ * @param {!string} icon_name
+ */
+cwc.ui.Helper.decorateIcon = function(button, icon_name) {
+  if (!button.getContentElement()) {
+    console.log('Cannot decorate unrendered button');
+  }
+  var icon = document.createElement('i');
+  icon.textContent = icon_name;
+  icon.className = 'icon_auto';
+  button.getContentElement().appendChild(icon);
+};
+
+
+/**
  * @param {!string} name
  * @param {function()=} opt_func
  * @param {Object=} opt_scope
@@ -225,15 +240,14 @@ cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
  * @param {Object=} opt_scope
  * @return {!goog.ui.Button}
  */
-cwc.ui.Helper.getNavigationItem = function(name, opt_description, opt_func,
-    opt_scope) {
+cwc.ui.Helper.getNavigationItem = function(name,
+    opt_description, opt_func, opt_scope) {
   var func = opt_func;
   if (opt_func && opt_scope) {
     func = opt_func.bind(opt_scope);
   }
-  var item = cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
+  return cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
     func, null, 'mdl-navigation__link');
-  return item;
 };
 
 
