@@ -168,7 +168,17 @@ html>body {
   margin: 20px auto;
 }
 
-.cwc-select-card-big:hover {
+.cwc-select-card .mdl-card__media > i {
+  padding-top: 10px;
+  font-size: 128px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cwc-select-card:hover,
+.cwc-select-card-big:hover,
+.cwc-select-section:hover {
   box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
               0 1px 10px 0 rgba(0,0,0,.32),
               0 2px 4px -1px rgba(0,0,0,.22);
@@ -208,4 +218,9 @@ html>body {
 
 .cwc-select-card-big .mdl-card__title {
   border-top: 1px solid #f5f5f5;
+}
+
+.cwc-select-section > .mdl-cell > i {
+  font-size: 128px;
+  margin: auto;
 }
