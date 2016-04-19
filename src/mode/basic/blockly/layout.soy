@@ -29,7 +29,7 @@
   <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
     <xml id="{$prefix}blockly-toolbox" style="display: none">
 
-      <category name="Text">
+      <category name="Command">
         <block type="simple_text_write">
           <value name="TEXT">
             <block type="text"><field name="TEXT"></field></block>
@@ -38,11 +38,33 @@
       </category>
 
       <category name="Draw">
-        <block type="simple_draw_circle"></block>
+        <block type="simple_draw_clear"></block>
+        <block type="simple_draw_circle">
+          <value name="x">
+            <shadow type="math_number"><field name="NUM">150</field></shadow>
+          </value>
+          <value name="y">
+            <shadow type="math_number"><field name="NUM">150</field></shadow>
+          </value>
+          <value name="radius">
+            <shadow type="math_number"><field name="NUM">100</field></shadow>
+          </value>
+          <value name="fillColor">
+            <shadow type="colour_picker"><field name="COLOUR">#ff0000</field></shadow>
+          </value>
+          <value name="borderColor">
+            <shadow type="colour_picker"><field name="COLOUR">#000000</field></shadow>
+          </value>
+          <value name="borderSize">
+            <shadow type="math_number"><field name="NUM">1</field></shadow>
+          </value>
+        </block>
         <block type="simple_draw_rectangle"></block>
         <block type="simple_draw_line"></block>
         <block type="simple_draw_point"></block>
       </category>
+
+      <sep></sep>
 
       <category name="Logic">
         <block type="controls_if"></block>
@@ -73,6 +95,223 @@
         </block>
         <block type="controls_forEach"></block>
         <block type="controls_flow_statements"></block>
+      </category>
+
+      <category colour="230" name="Math">
+        <block type="math_number"></block>
+        <block type="math_arithmetic">
+          <value name="A">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="B">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_single">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">9</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_trig">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">45</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constant"></block>
+        <block type="math_number_property">
+          <value name="NUMBER_TO_CHECK">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_change">
+          <value name="DELTA">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_round">
+          <value name="NUM">
+            <shadow type="math_number">
+              <field name="NUM">3.1</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_on_list"></block>
+        <block type="math_modulo">
+          <value name="DIVIDEND">
+            <shadow type="math_number">
+              <field name="NUM">64</field>
+            </shadow>
+          </value>
+          <value name="DIVISOR">
+            <shadow type="math_number">
+              <field name="NUM">10</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_constrain">
+          <value name="VALUE">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="LOW">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="HIGH">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_int">
+          <value name="FROM">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+          </value>
+          <value name="TO">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="math_random_float"></block>
+      </category>
+
+      <category colour="160" name="Text">
+        <block type="text"></block>
+        <block type="text_join"></block>
+        <block type="text_append">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_length">
+          <value name="VALUE">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_isEmpty">
+          <value name="VALUE">
+            <shadow type="text">
+              <field name="TEXT"></field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_indexOf">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+          <value name="FIND">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_charAt">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+        </block>
+        <block type="text_getSubstring">
+          <value name="STRING">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+        </block>
+        <block type="text_changeCase">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_trim">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_prompt_ext">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+      </category>
+
+      <category colour="20" name="Colour">
+        <block type="colour_picker"></block>
+        <block type="colour_random"></block>
+        <block type="colour_rgb">
+          <value name="RED">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+          </value>
+          <value name="GREEN">
+            <shadow type="math_number">
+              <field name="NUM">50</field>
+            </shadow>
+          </value>
+          <value name="BLUE">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="colour_blend">
+          <value name="COLOUR1">
+            <shadow type="colour_picker">
+              <field name="COLOUR">#ff0000</field>
+            </shadow>
+          </value>
+          <value name="COLOUR2">
+            <shadow type="colour_picker">
+              <field name="COLOUR">#3333ff</field>
+            </shadow>
+          </value>
+          <value name="RATIO">
+            <shadow type="math_number">
+              <field name="NUM">0.5</field>
+            </shadow>
+          </value>
+        </block>
+      </category>
+      
+      <sep></sep>
+
+      <category colour="330" custom="VARIABLE" name="Variables">
       </category>
 
     </xml>

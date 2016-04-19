@@ -49,14 +49,28 @@ cwc.blocks.addJavaScript('write', function(block) {
  * Draw circle.
  */
 cwc.blocks.addJavaScript('circle', function(block) {
-  var text_x = block.getFieldValue('x');
-  var text_y = block.getFieldValue('y');
-  var text_radius = block.getFieldValue('radius');
-  var fillColor = block.getFieldValue('fillColor');
-  var borderColor = block.getFieldValue('borderColor');
-  var text_bordersize = block.getFieldValue('borderSize');
-  return 'draw.circle(' + text_x + ', ' + text_y + ', ' + text_radius + ', "' +
-      fillColor + '", "' + borderColor + '", ' + text_bordersize + ');\n';
+  var x = Blockly.JavaScript.valueToCode(block, 'x',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  var y = Blockly.JavaScript.valueToCode(block, 'y',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  var radius = Blockly.JavaScript.valueToCode(block, 'radius',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+    Blockly.JavaScript.ORDER_ATOMIC);
+  return 'draw.circle(' + x + ', ' + y + ', ' + radius + ', ' + fillColor +
+    ', ' + borderColor + ', ' + borderSize + ');\n';
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
+
+
+/**
+ * Clear screen.
+ */
+cwc.blocks.addJavaScript('clear', function(block) {
+  return 'draw.clear();\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 

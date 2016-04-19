@@ -57,21 +57,43 @@ cwc.blocks.addBlock('write', function() {
 cwc.blocks.addBlock('circle', function() {
   this.setHelpUrl('');
   this.setColour(260);
-  this.appendValueInput('circle')
-    .appendField('circle')
-    .appendField('x')
-    .appendField(new Blockly.FieldTextInput('50'), 'x')
-    .appendField('y')
-    .appendField(new Blockly.FieldTextInput('50'), 'y')
-    .appendField('radius')
-    .appendField(new Blockly.FieldTextInput('25'), 'radius')
-    .appendField('fill color')
-    .appendField(new Blockly.FieldColour('#ff0000'), 'fillColor');
-  this.appendValueInput('NAME')
-    .appendField('border color')
-    .appendField(new Blockly.FieldColour('#123456'), 'borderColor')
-    .appendField('border size')
-    .appendField(new Blockly.FieldTextInput('2'), 'borderSize');
+  this.appendValueInput("x")
+    .setCheck("Number")
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("Cirlce (x,");
+  this.appendValueInput("y")
+    .setCheck("Number")
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("y,");
+  this.appendValueInput("radius")
+    .setCheck("Number")
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("radius,");
+  this.appendValueInput("fillColor")
+    .setCheck(null)
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("color,");
+  this.appendValueInput("borderColor")
+    .setCheck(null)
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("border_color,");
+  this.appendValueInput("borderSize")
+    .setCheck("Number")
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField("border_size)");
+  this.setPreviousStatement(true, ['Number', 'String']);
+  this.setNextStatement(true, ['Number', 'String']);
+  this.setTooltip('');
+}, cwc.blocks.simple.Blocks.drawPrefix_);
+
+
+/**
+ * Clear screen.
+ */
+cwc.blocks.addBlock('clear', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput().appendField("clear ()");
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
   this.setTooltip('');
