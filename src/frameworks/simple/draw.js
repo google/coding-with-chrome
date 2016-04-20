@@ -114,7 +114,6 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
   }
   window['draw'] = {
     'circle': this.circle.bind(this),
-    'clear': this.clear.bind(this),
     'ellipse': this.ellipse.bind(this),
     'line': this.line.bind(this),
     'point': this.point.bind(this),
@@ -195,16 +194,6 @@ cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
     display.arc(x, y, (radius || 25), 0, 2 * Math.PI, false);
   };
   return this.execute_(canvasInstructions, display, manipulation);
-};
-
-
-/**
- * Clears the entire canvas.
- * @export
- */
-cwc.framework.simple.Draw.prototype.clear = function() {
-  var display = this.getDisplay_();
-  display.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 
@@ -298,8 +287,8 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
 /**
  * Draws a text on the stage.
  * @param {string} text
- * @param {number=} opt_x The x position of the text.
- * @param {number=} opt_y The y position of the text.
+ * @param {number} x The x position of the text.
+ * @param {number} y The y position of the text.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
  *     opt_colorOrManipulation Either a string of the color of the point or a
  *     hash of options for additional manipulation.
@@ -310,10 +299,8 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
  *     with other draw operations.
  * @export
  */
-cwc.framework.simple.Draw.prototype.text = function(text, opt_x, opt_y,
+cwc.framework.simple.Draw.prototype.text = function(text, x, y,
     opt_colorOrManipulation, opt_font, opt_stroke) {
-  var x = (opt_x == undefined) ? 5 : opt_x;
-  var y = (opt_y == undefined) ? 25 : opt_y;
   var display = this.getDisplay_();
   var manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
@@ -366,7 +353,7 @@ cwc.framework.simple.Draw.prototype.point = function(x, y,
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBgColor(background_color);
+      manipulation.setFillStyle(background_color);
     }
   }
   var canvasInstructions = function() {

@@ -29,7 +29,7 @@
   <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
     <xml id="{$prefix}blockly-toolbox" style="display: none">
 
-      <category name="Command">
+      <category name="Command" colour="290">
         <block type="simple_text_write">
           <value name="TEXT">
             <block type="text"><field name="TEXT"></field></block>
@@ -37,7 +37,7 @@
         </block>
       </category>
 
-      <category name="Draw">
+      <category name="Draw" colour="260">
         <block type="simple_draw_clear"></block>
         <block type="simple_draw_circle">
           <value name="x">
@@ -59,14 +59,91 @@
             <shadow type="math_number"><field name="NUM">1</field></shadow>
           </value>
         </block>
-        <block type="simple_draw_rectangle"></block>
-        <block type="simple_draw_line"></block>
-        <block type="simple_draw_point"></block>
+        <block type="simple_draw_rectangle">
+          <value name="start_x">
+            <shadow type="math_number"><field name="NUM">250</field></shadow>
+          </value>
+          <value name="start_y">
+            <shadow type="math_number"><field name="NUM">200</field></shadow>
+          </value>
+          <value name="end_x">
+            <shadow type="math_number"><field name="NUM">350</field></shadow>
+          </value>
+          <value name="end_y">
+            <shadow type="math_number"><field name="NUM">350</field></shadow>
+          </value>
+          <value name="fillColor">
+            <shadow type="colour_picker"><field name="COLOUR">#00ff00</field></shadow>
+          </value>
+          <value name="borderColor">
+            <shadow type="colour_picker"><field name="COLOUR">#000000</field></shadow>
+          </value>
+          <value name="borderSize">
+            <shadow type="math_number"><field name="NUM">1</field></shadow>
+          </value>
+        </block>
+        <block type="simple_draw_line">
+          <value name="start_x">
+            <shadow type="math_number"><field name="NUM">50</field></shadow>
+          </value>
+          <value name="start_y">
+            <shadow type="math_number"><field name="NUM">50</field></shadow>
+          </value>
+          <value name="end_x">
+            <shadow type="math_number"><field name="NUM">300</field></shadow>
+          </value>
+          <value name="end_y">
+            <shadow type="math_number"><field name="NUM">250</field></shadow>
+          </value>
+          <value name="fillColor">
+            <shadow type="colour_picker"><field name="COLOUR">#0000ff</field></shadow>
+          </value>
+          <value name="borderSize">
+            <shadow type="math_number"><field name="NUM">5</field></shadow>
+          </value>
+        </block>
+        <block type="simple_draw_point">
+          <value name="x">
+            <shadow type="math_number"><field name="NUM">25</field></shadow>
+          </value>
+          <value name="y">
+            <shadow type="math_number"><field name="NUM">25</field></shadow>
+          </value>
+          <value name="fillColor">
+            <shadow type="colour_picker"><field name="COLOUR">#ff00ff</field></shadow>
+          </value>
+          <value name="borderSize">
+            <shadow type="math_number"><field name="NUM">10</field></shadow>
+          </value>
+        </block>
+        <block type="simple_draw_ellipse">
+          <value name="x">
+            <shadow type="math_number"><field name="NUM">150</field></shadow>
+          </value>
+          <value name="y">
+            <shadow type="math_number"><field name="NUM">150</field></shadow>
+          </value>
+          <value name="width">
+            <shadow type="math_number"><field name="NUM">200</field></shadow>
+          </value>
+          <value name="height">
+            <shadow type="math_number"><field name="NUM">100</field></shadow>
+          </value>
+          <value name="fillColor">
+            <shadow type="colour_picker"><field name="COLOUR">#ff0000</field></shadow>
+          </value>
+          <value name="borderColor">
+            <shadow type="colour_picker"><field name="COLOUR">#000000</field></shadow>
+          </value>
+          <value name="borderSize">
+            <shadow type="math_number"><field name="NUM">1</field></shadow>
+          </value>
+        </block>
       </category>
 
       <sep></sep>
 
-      <category name="Logic">
+      <category name="Logic" colour="210">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
         <block type="logic_operation"></block>
@@ -76,7 +153,7 @@
         <block type="logic_ternary"></block>
       </category>
 
-      <category name="Loops">
+      <category name="Loops" colour="120">
         <block type="controls_repeat_ext">
           <value name="TIMES">
             <block type="math_number"><field name="NUM">10</field></block>
@@ -97,7 +174,7 @@
         <block type="controls_flow_statements"></block>
       </category>
 
-      <category colour="230" name="Math">
+      <category name="Math" colour="230">
         <block type="math_number"></block>
         <block type="math_arithmetic">
           <value name="A">
@@ -192,7 +269,7 @@
         <block type="math_random_float"></block>
       </category>
 
-      <category colour="160" name="Text">
+      <category name="Text" colour="160">
         <block type="text"></block>
         <block type="text_join"></block>
         <block type="text_append">
@@ -270,7 +347,7 @@
         </block>
       </category>
 
-      <category colour="20" name="Colour">
+      <category name="Colour" colour="20">
         <block type="colour_picker"></block>
         <block type="colour_random"></block>
         <block type="colour_rgb">
@@ -311,7 +388,7 @@
       
       <sep></sep>
 
-      <category colour="330" custom="VARIABLE" name="Variables">
+      <category custom="VARIABLE" name="Variables" colour="330">
       </category>
 
     </xml>

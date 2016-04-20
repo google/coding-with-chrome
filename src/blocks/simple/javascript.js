@@ -49,18 +49,12 @@ cwc.blocks.addJavaScript('write', function(block) {
  * Draw circle.
  */
 cwc.blocks.addJavaScript('circle', function(block) {
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
-    Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
-    Blockly.JavaScript.ORDER_ATOMIC);
-  var radius = Blockly.JavaScript.valueToCode(block, 'radius',
-    Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
-    Blockly.JavaScript.ORDER_ATOMIC);
-  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
-    Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
-    Blockly.JavaScript.ORDER_ATOMIC);
+  var x = cwc.blocks.valueToCode(block, 'x');
+  var y = cwc.blocks.valueToCode(block, 'y');
+  var radius = cwc.blocks.valueToCode(block, 'radius');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderColor = cwc.blocks.valueToCode(block, 'borderColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
   return 'draw.circle(' + x + ', ' + y + ', ' + radius + ', ' + fillColor +
     ', ' + borderColor + ', ' + borderSize + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
@@ -69,7 +63,7 @@ cwc.blocks.addJavaScript('circle', function(block) {
 /**
  * Clear screen.
  */
-cwc.blocks.addJavaScript('clear', function(block) {
+cwc.blocks.addJavaScript('clear', function(opt_block) {
   return 'draw.clear();\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
 
@@ -78,16 +72,16 @@ cwc.blocks.addJavaScript('clear', function(block) {
  * Draw rectangle.
  */
 cwc.blocks.addJavaScript('rectangle', function(block) {
-  var start_x = block.getFieldValue('start_x');
-  var start_y = block.getFieldValue('start_y');
-  var end_x = block.getFieldValue('end_x');
-  var end_y = block.getFieldValue('end_y');
-  var fillColor = block.getFieldValue('fillColor');
-  var borderColor = block.getFieldValue('borderColor');
-  var text_bordersize = block.getFieldValue('borderSize');
+  var start_x = cwc.blocks.valueToCode(block, 'start_x');
+  var start_y = cwc.blocks.valueToCode(block, 'start_y');
+  var end_x = cwc.blocks.valueToCode(block, 'end_x');
+  var end_y = cwc.blocks.valueToCode(block, 'end_y');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderColor = cwc.blocks.valueToCode(block, 'borderColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
   return 'draw.rectangle(' + start_x + ', ' + start_y + ', ' +
-      end_x + ', ' + end_y + ', "' + fillColor + '", "' + borderColor +
-      '", ' + text_bordersize + ');\n';
+      end_x + ', ' + end_y + ', ' + fillColor + ', ' + borderColor +
+      ', ' + borderSize + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 
@@ -95,15 +89,14 @@ cwc.blocks.addJavaScript('rectangle', function(block) {
  * Draw line.
  */
 cwc.blocks.addJavaScript('line', function(block) {
-  var start_x = block.getFieldValue('start_x');
-  var start_y = block.getFieldValue('start_y');
-  var end_x = block.getFieldValue('end_x');
-  var end_y = block.getFieldValue('end_y');
-  var fillColor = block.getFieldValue('fillColor');
-  var text_bordersize = block.getFieldValue('borderSize');
+  var start_x = cwc.blocks.valueToCode(block, 'start_x');
+  var start_y = cwc.blocks.valueToCode(block, 'start_y');
+  var end_x = cwc.blocks.valueToCode(block, 'end_x');
+  var end_y = cwc.blocks.valueToCode(block, 'end_y');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
   return 'draw.line(' + start_x + ', ' + start_y + ', ' +
-      end_x + ', ' + end_y + ', "' + fillColor + '", ' +
-      text_bordersize + ');\n';
+      end_x + ', ' + end_y + ', ' + fillColor + ', ' +  borderSize + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
 
 
@@ -111,10 +104,26 @@ cwc.blocks.addJavaScript('line', function(block) {
  * Draw point.
  */
 cwc.blocks.addJavaScript('point', function(block) {
-  var x = block.getFieldValue('x');
-  var y = block.getFieldValue('y');
-  var fillColor = block.getFieldValue('fillColor');
-  var text_bordersize = block.getFieldValue('borderSize');
-  return 'draw.point(' + x + ', ' + y + ', "' + fillColor + '", ' +
-      text_bordersize + ');\n';
+  var x = cwc.blocks.valueToCode(block, 'x');
+  var y = cwc.blocks.valueToCode(block, 'y');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
+  return 'draw.point(' + x + ', ' + y + ', ' + fillColor + ', ' +
+      borderSize + ');\n';
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
+
+
+/**
+ * Draw ellipse.
+ */
+cwc.blocks.addJavaScript('ellipse', function(block) {
+  var x = cwc.blocks.valueToCode(block, 'x');
+  var y = cwc.blocks.valueToCode(block, 'y');
+  var width = cwc.blocks.valueToCode(block, 'width');
+  var height = cwc.blocks.valueToCode(block, 'height');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderColor = cwc.blocks.valueToCode(block, 'borderColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
+  return 'draw.ellipse(' + x + ', ' + y + ', ' + width + ', ' + height +
+      ', ' + fillColor + ', ' + borderColor + ', ' + borderSize + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
