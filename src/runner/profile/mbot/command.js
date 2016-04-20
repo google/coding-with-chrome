@@ -41,58 +41,28 @@ cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data){
   this.api.beepBuzzer();
 };
 
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.roll = function(data) {
-//   this.api.roll(data['speed'], data['heading'], data['state']);
-// };
-//
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.boost = function(data) {
-//   this.api.boost(data['enable']);
-// };
-//
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.setBackLed = function(data) {
-//   this.api.setBackLed(data['brightness']);
-// };
-//
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.setMotionTimeout = function(data) {
-//   this.api.setMotionTimeout(data['timeout']);
-// };
-//
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.calibrate = function(data) {
-//   this.api.calibrate(data['heading']);
-// };
-//
-//
-// /**
-//  * @param {!Object} data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.stop = function(data) {
-//   this.api.stop(data['delay']);
-// };
-//
-//
-// /**
-//  * @param {!Object} opt_data
-//  */
-// cwc.runner.profile.mbot.Command.prototype.sleep = function(opt_data) {
-//   this.api.sleep();
-// };
+/**
+ * set motor speed of mbot
+ * @param  {array} data
+ * @return {null}
+ */
+cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
+  if(data['direction'] == 1){
+    this.api.setLeftMotor(data['speed']);
+  }
+  else{
+    this.api.setRightMotor(data['speed']);
+  }
+}
+
+cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data){
+  this.api.setLEDColor(data['index'], data['red'], data['green'], data['blue']);
+}
+
+cwc.runner.profile.mbot.Command.prototype.playNote = function(data){
+  this.api.playNote(data['frequency'], data['duration']);
+}
+
+cwc.runner.profile.mbot.Command.prototype.ultrasonicValue = function(opt_data){
+  return this.api.ultrasonicValue();
+}

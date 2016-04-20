@@ -125,6 +125,7 @@ cwc.mode.mbot.Runner.prototype.handleStart_ = function() {
   // this.monitor.reset();
   this.turtle.action('speed', 5);
   this.turtle.reset();
+  this.api.start();
 };
 
 

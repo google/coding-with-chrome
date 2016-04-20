@@ -67,7 +67,7 @@ cwc.protocol.mbot.Api = function(helper) {
 
 
 /**
- * AutoConnects the mbot ball.
+ * AutoConnects the mbot through bluetooth.
  * @export
  */
 cwc.protocol.mbot.Api.prototype.autoConnect = function() {
@@ -78,7 +78,7 @@ cwc.protocol.mbot.Api.prototype.autoConnect = function() {
 
 
 /**
- * Connects the mbot ball.
+ * Connects the mbot.
  * @param {!string} address
  * @return {boolean} Was able to prepare and connect to the mbot.
  * @export
@@ -134,11 +134,23 @@ cwc.protocol.mbot.Api.prototype.disconnect = function() {
 };
 
 /**
+ * When blockly/js program is about to run.
+ * setup monitor to constantly monitor sensors.
+ * @return {void}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.start = function() {
+  this.monitoring.start();
+}
+
+/**
  * Basic cleanup for the mbot.
+ * apparently this method is called by runner
+ * @export
  */
 cwc.protocol.mbot.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
-  this.reset();
+  // this.reset(); // this line was there but I'm not clear what does it do...
 };
 
 /**
@@ -149,17 +161,6 @@ cwc.protocol.mbot.Api.prototype.reset = function() {
     this.device.reset();
   }
 };
-
-
-/**
- * Resets the mbot connection.
- */
-cwc.protocol.mbot.Api.prototype.reset = function() {
-  if (this.device) {
-    this.device.reset();
-  }
-};
-
 
 /**
  * @return {goog.events.EventTarget}
@@ -180,33 +181,157 @@ cwc.protocol.mbot.Api.prototype.handleAsync_ = function(buffer) {
   console.log('Async:', buffer);
 };
 
-cwc.protocol.mbot.Api.prototype.beepBuzzer = function() {
-  var beepCommand = [0xff, 0x55, 0x07, 0x00, 0x02,
-                      0x22, 0x06, 0x01, 0xfa, 0x00];
-  this.device.send(this.arrayBufferFromArray(beepCommand));
-};
-
+/**
+ * Convert array of int to ArrayBuffer.
+ * @param  {[int]} data array of int
+ * @return {ArrayBuffer}      result array buffer
+ * @private
+ */
 cwc.protocol.mbot.Api.prototype.arrayBufferFromArray = function(data){
-  var result = new Int8Array(data.length);
+  var buffer = new ArrayBuffer(data.length);
+  var result = new Int8Array(buffer);
   for (var i=0; i < data.length; i++){
     result[i] = data[i];
   }
-  return result;
+  return buffer;
 };
 
 /**
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
- * @param {boolean=} opt_persistant
+ * send read or write commands to robot
+ * @param  {boolean} readOrWrite    read (1) or write (2)
+ * @param  {int}     deviceType     device type
+ * @param  {int}     index          id connected to the response
+ * @param  {[int]}   commandBytes   array of bytes
+ * @return {null}
+ * @export
  */
-// cwc.protocol.mbot.Api.prototype.setRGB = function(red, green, blue,
-//     opt_persistant) {
-//   var buffer = new cwc.protocol.mbot.Buffer();
-//   buffer.writeCommand(this.command.RGB_LED.SET);
-//   buffer.writeByte(red);
-//   buffer.writeByte(green);
-//   buffer.writeByte(blue);
-//   buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
-//   this.send_(buffer);
-// };
+cwc.protocol.mbot.Api.prototype.sendCommandToRobot = function(readOrWrite, deviceType, index, commandBytes){
+  var commandBody = [readOrWrite, deviceType].concat(commandBytes);
+  var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B, commandBody.length];
+  var command = commandHeader.concat(commandBody);
+  this.sendBytesToRobot(command);
+}
+
+/**
+ * send read commands to robot
+ * @param  {int}     deviceType     device type
+ * @param  {int}     index          id connected to the response
+ * @param  {[int]}   commandBytes   array of bytes
+ * @return {null}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.sendReadCommandToRobot = function(deviceType, index, commandBytes){
+  this.sendCommandToRobot(this.command.COMMAND_READ, deviceType, index, commandBytes);
+}
+
+/**
+ * send write commands to robot
+ * @param  {int}     deviceType     device type
+ * @param  {int}     index          id connected to the response
+ * @param  {[int]}   commandBytes   array of bytes
+ * @return {null}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.sendWriteCommandToRobot = function(deviceType, index, commandBytes){
+  this.sendCommandToRobot(this.command.COMMAND_WRITE, deviceType, index, commandBytes);
+}
+
+/**
+ * send write commands to robot, not expecting response (id is 1)
+ * @param  {int}     deviceType     device type
+ * @param  {[int]}   commandBytes   array of bytes
+ * @return {null}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.sendNoResponseCommand = function(deviceType, commandBytes){
+  this.sendCommandToRobot(this.command.COMMAND_WRITE, deviceType, this.command.INDEX_WITHOUT_RESPONSE, commandBytes);
+}
+
+/**
+ * Send byte data to mBot robot
+ * @param  {[int]} data bytes to send
+ * @return {void}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.sendBytesToRobot = function(data){
+  this.device.send(this.arrayBufferFromArray(data));
+}
+
+/**
+ * buzz beepBuzzer
+ * @return {void}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.beepBuzzer = function() {
+  var beepCommand = [0x06, 0x01, 0xfa, 0x00];
+  this.sendNoResponseCommand(0x22, beepCommand);
+};
+
+/**
+ * set left motor speed
+ * @param  {int} speed 0-255
+ * @return {null}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.setLeftMotor = function(speed){
+  this.sendNoResponseCommand(this.command.DEVICE_DCMOTOR,
+                            [this.command.PORT_LEFT_MOTOR, speed]);
+}
+
+/**
+ * set right motor speed
+ * @param  {int} speed 0-255
+ * @return {null}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.setRightMotor = function(speed){
+  this.sendNoResponseCommand(this.command.DEVICE_DCMOTOR,
+                            [this.command.PORT_RIGHT_MOTOR, speed & 0xff, speed >> 8]);
+}
+
+/**
+ * set led light on the top of the mbot
+ * @param  {int} lightIndex    0 for all lights; 1 for left, 2 for right
+ * @param  {int} red           red value (0-255)
+ * @param  {int} green         green value (0-255)
+ * @param  {int} blue          blue value (0-255)
+ * @return {void}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.setLEDColor = function(lightIndex, red, green, blue){
+  this.sendNoResponseCommand(this.command.DEVICE_LEDLIGHT,
+        [this.command.PORT_LED_LIGHT, this.command.SLOT_LED_LIGHT,
+          lightIndex, red, green, blue]);
+}
+
+/**
+ * play a note through mbot's buzzer
+ * @param  {float} pitchFrequency frequency of the note to play
+ * @param  {int}   duration       duration of the note, in ms
+ * @return {void}
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.playNote = function(pitchFrequency, duration){
+  var frequencyInInt = Math.floor(pitchFrequency);
+  this.sendNoResponseCommand(this.command.DEVICE_BUZZER,
+                            [frequencyInInt & 0xff, frequencyInInt >> 8,
+                             duration & 0xff, duration >> 8]);
+}
+
+/**
+ * get ultrasonic sensor value
+ * @return {float} sensor value
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.ultrasonicValue = function(){
+  return this.monitoring.ultrasonicValue();
+}
+
+/**
+ * get ligheness sensor value
+ * @return {float} sensor value
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.lightSensorValue = function(){
+  return this.monitoring.lightSensorValue();
+}

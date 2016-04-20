@@ -46,6 +46,7 @@
  /**
   * beep the buzzer on mbot
   * @return {void}
+  * @export
   */
  cwc.framework.mbot.prototype.beepBuzzer = function() {
    this.runner.send('beepBuzzer');
