@@ -1,8 +1,11 @@
+[<img align="right" src="resources/external/chrome_webstore.png">](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
+
 Coding with Chrome
 ==================
-
 [![Code Climate](https://codeclimate.com/github/google/coding-with-chrome/badges/gpa.svg)](https://codeclimate.com/github/google/coding-with-chrome)
 [![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome)
+
+<p align="center"><img src="app/images/cwc_logo.png"></p>
 
 Coding with Chrome is an Educational Development Environment built around two
 core philosophies:
@@ -19,8 +22,18 @@ components like:
     * Flexible UI where elements can be easily added, modified or removed
     * Tutorial engine for self learning
 
+
 ## Licensing
 Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
+
+
+## Installing Coding with Chrome
+If you only want to install Coding with Chrome, you could use the pre-compiled
+version on the Chrome store.
+
+1. Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
+2. Click __Add to Chrome__
+3. Go to [chrome://apps](chrome://apps) and launch __Coding with Chrome__
 
 
 ## What you need to build your own Coding with Chrome App
@@ -33,15 +46,15 @@ Coding with Chrome App for e.g. on Windows you could use the generated code
 
 
 ### Windows
-Install Node.js from the offical webpage at https://nodejs.org
+Install Node.js from the official web page at https://nodejs.org
 * Optional
-  * Install git from the offical webpage at https://git-scm.com/
+  * Install git from the official web page at https://git-scm.com/
   * Install Java JRE
 
 ### Mac OS X
-Install Node.js from the offical webpage at https://nodejs.org
+Install Node.js from the official web page at https://nodejs.org
 * Optional
-  * Install git from the offical webpage at https://git-scm.com/
+  * Install git from the official web page at https://git-scm.com/
   * Install Java JRE
 
 ### Linux/BSD
@@ -65,6 +78,15 @@ Enter the "coding-with-chrome" directory and get the required packages by:
 npm install
 ```
 
+### Build and run the actual app
+To compile and run the Chrome app use the following command:
+```bash
+npm run fast-build
+```
+This will automatically build and start the application on Mac OS, Linux or
+Windows.
+
+
 ### Build the actual app
 To compile the Chrome app run the build script:
 ```bash
@@ -74,7 +96,7 @@ The build version will be put in the `genfiles/` directory, together with all
 required packages and files.
 
 
-## How to load Coding with Chrome App in the Chrome Browser
+## How to load Coding with Chrome App manual in the Chrome Browser
 
 ### Enable developer mode
 Visit `chrome://extensions` in your browser (or open up the Chrome menu by
@@ -102,7 +124,7 @@ On the same page click `Launch` next to `Coding with Chrome` or visit
 ### Supported hardware
 Computers and Laptops with Chrome OS or any OS which is able to run the
 Desktop Chrome Browser are supported.
-For additional features bluetooth and/or USB are required.
+For additional features Bluetooth and/or USB are required.
 
 ### Supported systems
 The following operating systems are supported by Coding with Chrome:
