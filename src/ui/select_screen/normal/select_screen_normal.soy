@@ -36,7 +36,7 @@
     <div class="cwc-content">
 
       {call .header_}
-        {param title: 'Simlified Coding' /}
+        {param title: 'Simplified Coding' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'extension' /}
       {/call}
@@ -45,9 +45,9 @@
 
         {call .selectCard_}
           {param prefix: $prefix /}
-          {param title: 'Basic' /}
-          {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-          {param link_text: 'Start Basic' /}
+          {param title: 'Blocks' /}
+          {param text: 'Use visual programming languages to build code by dragging and dropping code blocks' /}
+          {param link_text: 'Start Blocks' /}
           {param link_id: 'basic' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'school' /}
@@ -74,9 +74,9 @@
 
         {call .selectCard_}
           {param prefix: $prefix /}
-          {param title: 'Robotic' /}
-          {param text: 'Control a virtual or a real robot' /}
-          {param link_text: 'Robotic' /}
+          {param title: 'Robots' /}
+          {param text: 'Control a virtual or real robot' /}
+          {param link_text: 'Robots' /}
           {param link_id: 'robot' /}
           {param opt_color_class: 'bg-orange' /}
           {param opt_icon: 'memory' /}
@@ -105,8 +105,8 @@
     <div class="cwc-content">
 
       {call .header_}
-        {param title: 'Basic' /}
-        {param opt_text: '... basic ...' /}
+        {param title: 'Blocks' /}
+        {param opt_text: 'Drag and drop code blocks to make ' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'school' /}
       {/call}
@@ -122,7 +122,7 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Basic Block file' /}
+          {param opt_text: 'Blocks file' /}
         {/call}
 
         {call .selectCardBig_}
@@ -171,7 +171,7 @@
 
       {call .header_}
         {param title: 'Draw' /}
-        {param opt_text: '... basic ...' /}
+        {param opt_text: 'Use blocks to draw' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'bubble_chart' /}
       {/call}
@@ -216,7 +216,7 @@
 
       {call .header_}
         {param title: 'Music' /}
-        {param opt_text: '... basic ...' /}
+        {param opt_text: 'Play music with code' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'queue_music' /}
       {/call}
@@ -244,8 +244,8 @@
     <div class="cwc-content">
 
       {call .header_}
-        {param title: 'Robotic' /}
-        {param opt_text: '... basic ...' /}
+        {param title: 'Robots' /}
+        {param opt_text: 'Simple robot control' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'memory' /}
       {/call}
@@ -253,7 +253,7 @@
       {call .selectSection_}
         {param prefix: $prefix /}
         {param title: 'EV3' /}
-        {param text: 'Control a virtual or a real robot' /}
+        {param text: 'Control a virtual or real robot' /}
         {param link_text: 'Use EV3 Robot' /}
         {param link_id: 'ev3' /}
         {param opt_color_class: 'bg-orange' /}
@@ -263,7 +263,7 @@
       {call .selectSection_}
         {param prefix: $prefix /}
         {param title: 'Sphero' /}
-        {param text: 'Control a virtual or a real robot' /}
+        {param text: 'Control a virtual or real robot' /}
         {param link_text: 'Use Sphero Robot' /}
         {param link_id: 'sphero' /}
         {param opt_color_class: 'bg-orange' /}
@@ -298,8 +298,8 @@
     <div class="cwc-content-large">
 
       {call .header_}
-        {param title: 'Robotic: EV3' /}
-        {param opt_text: '... basic ...' /}
+        {param title: 'Robots: EV3' /}
+        {param opt_text: 'Control an EV3 with Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
       {/call}
@@ -352,8 +352,8 @@
     <div class="cwc-content-large">
 
       {call .header_}
-        {param title: 'Robotic: Sphero' /}
-        {param opt_text: '... basic ...' /}
+        {param title: 'Robots: Sphero' /}
+        {param opt_text: 'Control a Sphero with blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
       {/call}
@@ -424,10 +424,10 @@
   <header id="{$prefix}navigation-overview" class="mdl-layout__header-row mdl-layout__header bg_10_pct_black">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">home</a>
-      <a id="{$prefix}menu-basic" class="mdl-navigation__link{if $active_link == 'basic'} is-active{/if}" href="#">Basic</a>
+      <a id="{$prefix}menu-basic" class="mdl-navigation__link{if $active_link == 'basic'} is-active{/if}" href="#">Blocks</a>
       <a id="{$prefix}menu-draw" class="hidden mdl-navigation__link{if $active_link == 'draw'} is-active{/if}" href="#">Draw</a>
       <a id="{$prefix}menu-music" class="hidden mdl-navigation__link{if $active_link == 'music'} is-active{/if}" href="#">Music</a>
-      <a id="{$prefix}menu-robot" class="mdl-navigation__link{if $active_link == 'robot'} is-active{/if}" href="#">Robotic</a>
+      <a id="{$prefix}menu-robot" class="mdl-navigation__link{if $active_link == 'robot'} is-active{/if}" href="#">Robots</a>
     </nav>
   </header>
 {/template}
