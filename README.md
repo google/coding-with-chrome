@@ -31,7 +31,7 @@ Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 If you only want to install __Coding with Chrome__, you could use the pre-compiled
 version on the Chrome store.
 
-1. Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
+1. Visit the [Chrome Web Store][1]
 2. Click __Add to Chrome__
 3. Go to [chrome://apps](chrome://apps) and launch __Coding with Chrome__
 
@@ -140,6 +140,10 @@ them using our [issue tracker](https://github.com/google/coding-with-chrome/issu
 
 ## Contributing
 
+Contributing to Coding with Chrome is subject to the guidelines in the
+[CONTRIBUTING.md](CONTRIBUTING.md) file, which, in brief, requires that
+contributors sign the [Individual Contributor License Agreement (CLA)][2].
+
 ### Rebuild the app
 If you change something in the source code, you will need to re-compile it by:
 ```bash
@@ -195,3 +199,6 @@ For debug instruction. please check [doc/DEBUG.md](doc/DEBUG.md).
 
 ## Credits
 Coding with Chrome is made possible by other [open source software](NOTICE.md).
+
+[1]: https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed
+[2]: https://cla.developers.google.com/

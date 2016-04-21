@@ -42,9 +42,12 @@ cwc.blocks.simple.Blocks.textPrefix_ = 'simple_text_';
  */
 cwc.blocks.addBlock('write', function() {
   this.setHelpUrl('');
-  this.setColour(160);
-  this.appendValueInput('TEXT').setCheck('String').appendField('write(');
-  this.appendDummyInput().appendField(')');
+  this.setColour(290);
+  this.appendValueInput('text')
+    .setCheck('String')
+    .appendField('write(');
+  this.appendDummyInput()
+    .appendField(')');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
   this.setTooltip('');
@@ -106,22 +109,22 @@ cwc.blocks.addBlock('clear', function() {
 cwc.blocks.addBlock('rectangle', function() {
   this.setHelpUrl('');
   this.setColour(260);
-  this.appendValueInput('start_x')
+  this.appendValueInput('x')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Rectangle (start x,');
-  this.appendValueInput('start_y')
+    .appendField('Rectangle (x,');
+  this.appendValueInput('y')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('start y,');
-  this.appendValueInput('end_x')
+    .appendField('y,');
+  this.appendValueInput('width')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('end x,');
-  this.appendValueInput('end_y')
+    .appendField('width,');
+  this.appendValueInput('height')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('end y,');
+    .appendField('height,');
   this.appendValueInput('fillColor')
     .setCheck(null)
     .setAlign(Blockly.ALIGN_RIGHT)
@@ -238,6 +241,82 @@ cwc.blocks.addBlock('ellipse', function() {
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
     .appendField('border_size)');
+  this.setPreviousStatement(true, ['Number', 'String']);
+  this.setNextStatement(true, ['Number', 'String']);
+  this.setTooltip('');
+}, cwc.blocks.simple.Blocks.drawPrefix_);
+
+
+/**
+ * Draw triangle.
+ */
+cwc.blocks.addBlock('triangle', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendValueInput('x1')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('Triangle (x1,');
+  this.appendValueInput('y1')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('y1,');
+  this.appendValueInput('x2')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('x2,');
+  this.appendValueInput('y2')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('y2,');
+  this.appendValueInput('x3')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('x3,');
+  this.appendValueInput('y3')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('y3,');
+  this.appendValueInput('fillColor')
+    .setCheck(null)
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('color,');
+  this.appendValueInput('borderColor')
+    .setCheck(null)
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('border_color,');
+  this.appendValueInput('borderSize')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('border_size)');
+  this.setPreviousStatement(true, ['Number', 'String']);
+  this.setNextStatement(true, ['Number', 'String']);
+  this.setTooltip('');
+}, cwc.blocks.simple.Blocks.drawPrefix_);
+
+
+/**
+ * Draw text.
+ */
+cwc.blocks.addBlock('text', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendValueInput('text')
+    .setCheck('String')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('Text (text,');
+  this.appendValueInput('x')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('x,');
+  this.appendValueInput('y')
+    .setCheck('Number')
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('y,');
+  this.appendValueInput('fillColor')
+    .setCheck(null)
+    .setAlign(Blockly.ALIGN_RIGHT)
+    .appendField('color)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
   this.setTooltip('');

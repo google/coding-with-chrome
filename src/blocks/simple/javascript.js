@@ -39,7 +39,7 @@ cwc.blocks.simple.JavaScript.textPrefix_ = 'simple_text_';
  * Write text.
  */
 cwc.blocks.addJavaScript('write', function(block) {
-  var text = Blockly.JavaScript.valueToCode(block, 'TEXT',
+  var text = Blockly.JavaScript.valueToCode(block, 'text',
       Blockly.JavaScript.ORDER_ATOMIC);
   return 'command.write(' + text + ');\n';
 }, cwc.blocks.simple.JavaScript.textPrefix_);
@@ -72,15 +72,15 @@ cwc.blocks.addJavaScript('clear', function(opt_block) {
  * Draw rectangle.
  */
 cwc.blocks.addJavaScript('rectangle', function(block) {
-  var start_x = cwc.blocks.valueToCode(block, 'start_x');
-  var start_y = cwc.blocks.valueToCode(block, 'start_y');
-  var end_x = cwc.blocks.valueToCode(block, 'end_x');
-  var end_y = cwc.blocks.valueToCode(block, 'end_y');
+  var x = cwc.blocks.valueToCode(block, 'x');
+  var y = cwc.blocks.valueToCode(block, 'y');
+  var width = cwc.blocks.valueToCode(block, 'width');
+  var height = cwc.blocks.valueToCode(block, 'height');
   var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
   var borderColor = cwc.blocks.valueToCode(block, 'borderColor');
   var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
-  return 'draw.rectangle(' + start_x + ', ' + start_y + ', ' +
-      end_x + ', ' + end_y + ', ' + fillColor + ', ' + borderColor +
+  return 'draw.rectangle(' + x + ', ' + y + ', ' +
+      width + ', ' + height + ', ' + fillColor + ', ' + borderColor +
       ', ' + borderSize + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);
 
@@ -126,4 +126,36 @@ cwc.blocks.addJavaScript('ellipse', function(block) {
   var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
   return 'draw.ellipse(' + x + ', ' + y + ', ' + width + ', ' + height +
       ', ' + fillColor + ', ' + borderColor + ', ' + borderSize + ');\n';
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
+
+
+/**
+ * Draw triangle.
+ */
+cwc.blocks.addJavaScript('triangle', function(block) {
+  var x1 = cwc.blocks.valueToCode(block, 'x1');
+  var y1 = cwc.blocks.valueToCode(block, 'y1');
+  var x2 = cwc.blocks.valueToCode(block, 'x2');
+  var y2 = cwc.blocks.valueToCode(block, 'y2');
+  var x3 = cwc.blocks.valueToCode(block, 'x3');
+  var y3 = cwc.blocks.valueToCode(block, 'y3');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  var borderColor = cwc.blocks.valueToCode(block, 'borderColor');
+  var borderSize = cwc.blocks.valueToCode(block, 'borderSize');
+  return 'draw.triangle(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 +
+      ', ' + x3 + ', ' + y3 + ', ' + fillColor + ', ' + borderColor + ', ' +
+      borderSize + ');\n';
+}, cwc.blocks.simple.JavaScript.drawPrefix_);
+
+
+/**
+ * Draw text.
+ */
+cwc.blocks.addJavaScript('text', function(block) {
+  var text = Blockly.JavaScript.valueToCode(block, 'text',
+      Blockly.JavaScript.ORDER_ATOMIC);
+  var x = cwc.blocks.valueToCode(block, 'x');
+  var y = cwc.blocks.valueToCode(block, 'y');
+  var fillColor = cwc.blocks.valueToCode(block, 'fillColor');
+  return 'draw.text(' + text + ', ' + x + ', ' + y + ', ' + fillColor + ');\n';
 }, cwc.blocks.simple.JavaScript.drawPrefix_);

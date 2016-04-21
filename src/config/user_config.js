@@ -28,7 +28,8 @@ goog.provide('cwc.userConfigType');
  */
 cwc.userConfigName = {
   SKIP_WELCOME: 'skip_welcome',
-  ADVANCED_MODE: 'advanced_mode'
+  ADVANCED_MODE: 'advanced_mode',
+  FULLSCREEN: 'fullscreen'
 };
 
 

@@ -125,6 +125,10 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
             cwc.userConfigName.SKIP_WELCOME);
     advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.ADVANCED_MODE);
+    if (userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.FULLSCREEN)) {
+      chrome.app.window.current().maximize();
+    }
   }
 
   var layoutInstance = this.helper.getInstance('layout');
