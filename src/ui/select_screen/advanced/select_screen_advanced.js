@@ -184,14 +184,16 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
     case cwc.ui.SelectScreenAdvancedView.EV3:
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.EV3_BLOCKLY);
+          cwc.file.Type.EV3);
+      this.setClickEvent_('link-line-follower', this.loadFile_,
+          'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.SPHERO_BLOCKLY);
+          cwc.file.Type.SPHERO);
       this.setClickEvent_('link-rectangle', this.loadFile_,
-          'resources/examples/sphero/blocks/Sphero-rectangle.cwc');
+          'resources/examples/sphero/script/Sphero-rectangle.cwc');
       break;
 
     default:

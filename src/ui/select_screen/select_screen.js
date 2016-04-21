@@ -120,12 +120,13 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
   var advancedMode = false;
   var skipWelcomeScreen = false;
   var userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance && !this.lockBasicMode && !this.lockAdvancedMode) {
+  if (userConfigInstance) {
     skipWelcomeScreen = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
     advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.ADVANCED_MODE);
-    if (userConfigInstance.get(cwc.userConfigType.GENERAL,
+    if (!this.lockBasicMode && !this.lockAdvancedMode &&
+        userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.FULLSCREEN)) {
       chrome.app.window.current().maximize();
     }
@@ -143,10 +144,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     } else if (!skipWelcomeScreen) {
       this.showWelcome();
     } else if (advancedMode) {
-      this.showAdvancedOverview();
+      this.showAdvancedOverview(opt_force_overview);
     } else {
-      this.showNormalOverview();
+      this.showNormalOverview(opt_force_overview);
     }
+    layoutInstance.refresh();
   }
 
   var guiInstance = this.helper.getInstance('gui');
@@ -182,8 +184,10 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
 
 /**
  * Shows the basic overview for normal users.
+ * @param {boolean=} opt_force_overview
  */
-cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
+cwc.ui.SelectScreen.prototype.showNormalOverview = function(
+    opt_force_overview) {
   this.lockBasicMode = true;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
@@ -193,6 +197,8 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
     }
     this.updateMode = false;
     this.selectScreenNormal.showView();
+  } else if (opt_force_overview) {
+    this.selectScreenNormal.showView(cwc.ui.SelectScreenNormalView.OVERVIEW);
   } else {
     this.selectScreenNormal.showLastView();
   }
@@ -201,8 +207,10 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function() {
 
 /**
  * Shows the advanced overview for more advanced user.
+ * @param {boolean=} opt_force_overview
  */
-cwc.ui.SelectScreen.prototype.showAdvancedOverview = function() {
+cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
+    opt_force_overview) {
   this.lockAdvancedMode = true;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
@@ -212,6 +220,9 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function() {
     }
     this.updateMode = false;
     this.selectScreenAdvanced.showView();
+  } else if (opt_force_overview) {
+    this.selectScreenAdvanced.showView(
+      cwc.ui.SelectScreenAdvancedView.OVERVIEW);
   } else {
     this.selectScreenAdvanced.showLastView();
   }

@@ -1,8 +1,8 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"controls_repeat_ext\" id=\".81~G[=.P+{!a#WE4Qme\" x=\"143\" y=\"95\">\n    <value name=\"TIMES\">\n      <block type=\"math_number\" id=\"]_5*`p0P?V9J{nN5*,,8\">\n        <field name=\"NUM\">10</field>\n      </block>\n    </value>\n    <statement name=\"DO\">\n      <block type=\"simple_text_write\" id=\";1#pj.s8h+JG~!U/3Jo!\">\n        <value name=\"TEXT\">\n          <block type=\"text\" id=\"{*!=|9^OwXAJ%+)m!Gt%\">\n            <field name=\"TEXT\">Na </field>\n          </block>\n        </value>\n      </block>\n    </statement>\n    <next>\n      <block type=\"simple_text_write\" id=\"A)N|Z,_`3S?Pl[=i,-KL\">\n        <value name=\"TEXT\">\n          <block type=\"text\" id=\"0ly:3TUmK:R%V(,c+6L%\">\n            <field name=\"TEXT\">Batman</field>\n          </block>\n        </value>\n      </block>\n    </next>\n  </block>\n</xml>",
-    "javascript": "for (var count = 0; count < 10; count++) {\n  command.write('Na ');\n}\ncommand.write('Batman');\n"
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"controls_repeat_ext\" id=\".81~G[=.P+{!a#WE4Qme\" x=\"143\" y=\"95\">\n    <value name=\"TIMES\">\n      <block type=\"math_number\" id=\"]_5*`p0P?V9J{nN5*,,8\">\n        <field name=\"NUM\">10</field>\n      </block>\n    </value>\n    <statement name=\"DO\">\n      <block type=\"simple_text_write\" id=\";1#pj.s8h+JG~!U/3Jo!\">\n        <value name=\"text\">\n          <block type=\"text\" id=\"{*!=|9^OwXAJ%+)m!Gt%\">\n            <field name=\"TEXT\">Na </field>\n          </block>\n        </value>\n      </block>\n    </statement>\n    <next>\n      <block type=\"simple_text_write\" id=\"A)N|Z,_`3S?Pl[=i,-KL\">\n        <value name=\"text\">\n          <block type=\"text\" id=\"0ly:3TUmK:R%V(,c+6L%\">\n            <field name=\"TEXT\">Batman</field>\n          </block>\n        </value>\n      </block>\n    </next>\n  </block>\n</xml>",
+    "javascript": ""
   },
   "description": "",
   "files": {},

@@ -8,7 +8,7 @@
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
     "closure-builder": "^1.0.39",
-    "codemirror": "^5.13.4",
+    "codemirror": "^5.14.2",
     "csslint": "^0.10.0",
     "hint.css": "^2.2.1",
     "htmlhint": "^0.9.12",
@@ -16,7 +16,7 @@
     "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master",
     "material-design-lite": "^1.1.3",
     "jsdoc": "^3.4.0",
-    "jshint": "^2.9.1",
+    "jshint": "^2.9.2",
     "rimraf": "^2.5.2"
   },
   "devDependencies": {

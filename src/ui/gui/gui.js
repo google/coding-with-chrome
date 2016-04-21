@@ -169,7 +169,11 @@ cwc.ui.Gui.prototype.renameTitle = function() {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     var titleNode = goog.dom.getElement(this.prefix + 'title');
-    var promptEvent = fileInstance.setFileTitle.bind(fileInstance);
+    var promptEvent = function(response) {
+      if (response) {
+        fileInstance.setFileTitle(response);
+      }
+    }.bind(this);
     var prompt = new goog.ui.Prompt(
         'Rename file',
         'Please enter the new name for the file.',
