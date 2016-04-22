@@ -27,6 +27,11 @@ html>body {
   -webkit-font-smoothing: antialiased;
 }
 
+
+.mdl-dialog {
+  z-index: 100;
+}
+
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
   padding: 16px 40px!important;
 }

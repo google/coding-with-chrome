@@ -49,6 +49,7 @@ goog.require('goog.ui.Dialog');
  *   cwc.ui.Config|
  *   cwc.ui.ConnectionManager|
  *   cwc.ui.Debug|
+ *   cwc.ui.Dialog|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.File|
@@ -141,6 +142,43 @@ cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
     return null;
   }
   return this.instances_[name];
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!Element} node
+ * @param {boolean=} opt_required
+ * @param {string=} opt_prefix
+ * @return {cwc.utils.HelperInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.decorateInstance = function(name, node,
+    opt_required, opt_prefix) {
+  var instance = this.getInstance(name, opt_required);
+  if (instance) {
+    instance.decorate(node, opt_prefix || this.getPrefix());
+  }
+  return instance;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} func
+ * @param {string=} opt_param
+ * @param {boolean=} opt_required
+ * @return {cwc.utils.HelperInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.executeInstance = function(name, func,
+    opt_param, opt_required) {
+  var instance = this.getInstance(name, opt_required);
+  console.log(instance, name, func);
+  if (instance) {
+    instance[func]();
+  }
+  return instance;
 };
 
 

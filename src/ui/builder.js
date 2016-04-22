@@ -40,6 +40,7 @@ goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
+goog.require('cwc.ui.Dialog');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
@@ -94,6 +95,7 @@ cwc.ui.BuilderHelpers = {
   'bluetooth': cwc.protocol.bluetooth.Api,
   'connectionManager': cwc.ui.ConnectionManager,
   'debug': cwc.ui.Debug,
+  'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
   'ev3': cwc.protocol.ev3.Api,
@@ -195,8 +197,6 @@ cwc.ui.Builder.prototype.decorate = function(node,
   }, false, this);
 
   this.loadApp();
-
-  this.helper.removeEventListeners(this.listener, this.name);
 };
 
 
@@ -279,6 +279,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     if (this.nodeOverlayer) {
       goog.dom.removeNode(this.nodeOverlayer);
     }
+    this.helper.removeEventListeners(this.listener, this.name);
   }
 };
 
@@ -366,6 +367,7 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
     this.raiseError('Unable to find CoffeeScript !\n' +
         'Please check if you have included the CoffeeScript files.');
   }
+
 };
 
 

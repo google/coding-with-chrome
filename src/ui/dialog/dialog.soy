@@ -1,5 +1,5 @@
 /**
- * @fileoverview Debugging hooks for the Coding with Chrome editor.
+ * @fileoverview Select screen for Coding in Chrome editor.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -18,5 +18,34 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-// Uncomment the following line to enable the debug mode.
-cwc.config.Debug['ENABLED'] = true;
+{namespace cwc.soy.Dialog autoescape="strict"}
+
+
+
+/**
+ * Default content template.
+ */
+{template .contentTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <h3 class="mdl-dialog__title">{$title}</h3>
+  <div class="mdl-dialog__content">
+    {$content}
+  </div>
+  <div class="mdl-dialog__actions">
+    <button type="button" id="{$prefix}close" class="mdl-button">Close</button>
+  </div>
+{/template}
+
+
+/**
+ * CSS style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    min-height: 100%;
+  {rb}
+{/template}

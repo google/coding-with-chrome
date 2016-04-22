@@ -115,6 +115,16 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'Dialog polyfill',
+  resources: [
+    'node_modules/dialog-polyfill/dialog-polyfill.js',
+    'node_modules/dialog-polyfill/dialog-polyfill.css'
+  ],
+  out: 'genfiles/external/dialog-polyfill/'
+});
+
+
+closureBuilder.build({
   name: 'JSHint files',
   resources: [
     'node_modules/jshint/dist/jshint.js'

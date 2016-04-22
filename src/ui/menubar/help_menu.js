@@ -58,13 +58,10 @@ cwc.ui.HelpMenu.prototype.showFirstSteps = function(opt_event) {
  * @param {Event=} opt_event
  */
 cwc.ui.HelpMenu.prototype.showHelp = function(opt_event) {
-  var dialog = new goog.ui.Dialog();
-  dialog.setTitle('Coding with Chrome: Help');
-  dialog.setTextContent('Not implemented yet ...');
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
-  dialog.setVisible(true);
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (dialogInstance) {
+    dialogInstance.showContent('Help', 'Not implemented yet ...');
+  }
 };
 
 

@@ -22,7 +22,6 @@ goog.provide('cwc.ui.MessageType');
 
 goog.require('cwc.soy.ui.Message');
 goog.require('goog.Timer');
-goog.require('goog.dom.classes');
 goog.require('goog.dom.classlist');
 goog.require('goog.soy');
 
@@ -129,7 +128,12 @@ cwc.ui.Message.prototype.warning = function(message) {
 cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
   var type = opt_type || cwc.ui.MessageType.INFO;
   var prefix = '[' + type + ' message]';
+  var snackbarData = {
+    message: message,
+    timeout: null
+  };
 
+  // Console logging
   switch (type) {
     case cwc.ui.MessageType.INFO:
     case cwc.ui.MessageType.SUCCESS:
@@ -145,12 +149,29 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
       console.log(prefix, message);
   }
 
+  // Visual output
   if (this.snackbar) {
-    var data = {
-      message: message,
-      timeout: 2000
-    };
-    this.snackbar.MaterialSnackbar.showSnackbar(data);
+    switch (type) {
+      case cwc.ui.MessageType.INFO:
+      case cwc.ui.MessageType.SUCCESS:
+        snackbarData['timeout'] = 3000;
+        break;
+      case cwc.ui.MessageType.ERROR:
+      case cwc.ui.MessageType.WARNING:
+        snackbarData['actionHandler'] = this.close.bind(this);
+        snackbarData['actionText'] = 'Dismiss';
+        snackbarData['timeout'] = 30000;
+        break;
+    }
+    goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
+    this.snackbar.MaterialSnackbar.showSnackbar(snackbarData);
   }
 
+};
+
+
+cwc.ui.Message.prototype.close = function() {
+  if (this.snackbar) {
+    goog.dom.classlist.remove(this.snackbar, 'mdl-snackbar--active');
+  }
 };
