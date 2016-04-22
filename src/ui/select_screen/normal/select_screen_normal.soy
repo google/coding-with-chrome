@@ -36,7 +36,7 @@
     <div class="cwc-content">
 
       {call .header_}
-        {param title: 'Simplified Coding' /}
+        {param title: 'Block Coding' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'extension' /}
       {/call}
@@ -45,9 +45,9 @@
 
         {call .selectCard_}
           {param prefix: $prefix /}
-          {param title: 'Blocks' /}
-          {param text: 'Use visual programming languages to build code by dragging and dropping code blocks' /}
-          {param link_text: 'Start Blocks' /}
+          {param title: 'Blockly' /}
+          {param text: 'Use Blockly to build code by dragging and dropping code blocks' /}
+          {param link_text: 'Go Blockly' /}
           {param link_id: 'basic' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'school' /}
@@ -75,8 +75,8 @@
         {call .selectCard_}
           {param prefix: $prefix /}
           {param title: 'Robots' /}
-          {param text: 'Control a virtual or real robot' /}
-          {param link_text: 'Robots' /}
+          {param text: 'Control virtual or real robots with Blockly' /}
+          {param link_text: 'Go Robots' /}
           {param link_id: 'robot' /}
           {param opt_color_class: 'bg-orange' /}
           {param opt_icon: 'memory' /}
@@ -122,7 +122,7 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Blocks file' /}
+          {param opt_text: 'Blockly file' /}
         {/call}
 
         {call .selectCardBig_}
@@ -253,7 +253,7 @@
       {call .selectSection_}
         {param prefix: $prefix /}
         {param title: 'EV3' /}
-        {param text: 'Control a virtual or real robot' /}
+        {param text: 'Control an EV3 by assembling Blockly Blocks' /}
         {param link_text: 'Use EV3 Robot' /}
         {param link_id: 'ev3' /}
         {param opt_color_class: 'bg-orange' /}
@@ -263,7 +263,7 @@
       {call .selectSection_}
         {param prefix: $prefix /}
         {param title: 'Sphero' /}
-        {param text: 'Control a virtual or real robot' /}
+        {param text: 'Control a Sphero by assembling Blockly Blocks' /}
         {param link_text: 'Use Sphero Robot' /}
         {param link_id: 'sphero' /}
         {param opt_color_class: 'bg-orange' /}
@@ -309,7 +309,7 @@
         {call .selectCardBig_}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
-          {param text: 'Start a empty EV3 project' /}
+          {param text: 'Start an empty EV3 project' /}
           {param link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -363,7 +363,7 @@
         {call .selectCardBig_}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
-          {param text: 'Start a empty Sphero project' /}
+          {param text: 'Start an empty Sphero project' /}
           {param link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
@@ -375,7 +375,7 @@
         {call .selectCardBig_}
           {param prefix: $prefix /}
           {param title: 'Rectangle Example' /}
-          {param text: 'Example Sphero is rolling an rectangle.' /}
+          {param text: 'Sphero example - rolling an rectangle.' /}
           {param link_text: 'Rectangle example.' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
