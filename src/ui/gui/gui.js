@@ -29,7 +29,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.soy');
-goog.require('goog.ui.Prompt');
 
 
 
@@ -147,7 +146,7 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.helper.decorateInstance('statusbar', this.nodeStatusbar);
 
   // Add elements interactions.
-  goog.events.listen(this.nodeTitle, goog.events.EventType.CLICK,
+  goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
       this.renameTitle, false, this);
 
   // Add default Events.
@@ -164,7 +163,18 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
   if (this.nodeTitle && title !== undefined) {
-    goog.dom.setTextContent(this.nodeTitle, title);
+    this.nodeTitle.value = title;
+  }
+};
+
+
+/**
+ * Enables or disables the title of the gui.
+ * @param {string} title Title to display in the gui.
+ */
+cwc.ui.Gui.prototype.enableTitle = function(enabled) {
+  if (this.nodeTitle) {
+    this.nodeTitle.disabled = !enabled;
   }
 };
 
@@ -182,23 +192,12 @@ cwc.ui.Gui.prototype.setStatus = function(status) {
 
 /**
  * Shows a prompt to rename the title.
+ * @param {Event=} opt_event
  */
-cwc.ui.Gui.prototype.renameTitle = function() {
+cwc.ui.Gui.prototype.renameTitle = function(opt_event) {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
-    var promptEvent = function(response) {
-      if (response) {
-        fileInstance.setFileTitle(response);
-      }
-    }.bind(this);
-    var prompt = new goog.ui.Prompt(
-        'Rename file',
-        'Please enter the new name for the file.',
-        promptEvent);
-    if (this.nodeTitle) {
-      prompt.setDefaultValue(goog.dom.getTextContent(this.nodeTitle));
-    }
-    prompt.setVisible(true);
+    fileInstance.setFileTitle(this.nodeTitle.value);
   }
 };
 

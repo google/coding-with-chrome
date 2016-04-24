@@ -32,9 +32,10 @@
       <div class="mdl-layout__header-row">
         // Title
         <div class="mdl-layout-title">
-          <span id="{$prefix}title">
-            {$opt_title ? $opt_title : 'Untitled Project'}
-          </span>
+          <div class="mdl-textfield mdl-js-textfield">
+            <input id="{$prefix}title" class="mdl-textfield__input" type="text" value="{$opt_title ? $opt_title : 'Untitled Project'}">
+            <label class="mdl-textfield__label" for="sample1">Title...</label>
+          </div>
           <span id="{$prefix}status">*</span>
         </div>
         // Message bar
@@ -112,6 +113,12 @@
     top: 35px;
     width: 100%;
     z-index: 10;
+  {rb}
+
+  #{$prefix}dialog {lb}
+    top: 50%;
+    transform: translateY(-50%);
+    width: -webkit-fit-content;
   {rb}
 
   #{$prefix}status {lb}

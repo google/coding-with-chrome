@@ -29,8 +29,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
-goog.require('goog.html.SafeHtml');
-goog.require('goog.ui.Dialog');
 
 
 /**
@@ -55,6 +53,7 @@ goog.require('goog.ui.Dialog');
  *   cwc.ui.File|
  *   cwc.ui.GDrive|
  *   cwc.ui.Gui|
+ *   cwc.ui.Help|
  *   cwc.ui.Layout|
  *   cwc.ui.Library|
  *   cwc.ui.Menubar|
@@ -428,10 +427,8 @@ cwc.utils.Helper.prototype.getPrefix = function(
 
 /**
  * @param {Function} func
- * @param {Function=} opt_callback
  */
-cwc.utils.Helper.prototype.handleUnsavedChanges = function(func, opt_callback) {
-  var dialog = new goog.ui.Dialog();
+cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
   var fileName = '';
   var fileModified = false;
   var fileInstance = this.getInstance('file');
@@ -440,36 +437,14 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func, opt_callback) {
     fileModified = fileInstance.isModified();
   }
 
-  console.log('File was modified:', fileModified);
+  console.log('File', fileName, 'was modified:', fileModified);
   if (fileModified) {
-    dialog.setTitle('Unsaved Changes for ' + fileName);
-    dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
-      'Changes have not been saved.',
-      goog.html.SafeHtml.BR,
-      goog.html.SafeHtml.create('b', {}, 'Exit?')));
-    dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-    dialog.setDisposeOnHide(true);
-    dialog.render();
-
-    goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT,
-        function(event) {
-          if (event.key == 'yes') {
-            func();
-            if (opt_callback) {
-              opt_callback(true);
-            }
-          } else {
-            if (opt_callback) {
-              opt_callback(false);
-            }
-          }
-        }, false, this);
-    dialog.setVisible(true);
+    var dialogInstance = this.getInstance('dialog');
+    var title = 'Unsaved Changes for ' + fileName;
+    var content = 'Changes have not been saved. Exit?';
+    dialogInstance.showYesNo(title, content, func);
   } else {
     func();
-    if (opt_callback) {
-      opt_callback(true);
-    }
   }
 };
 
@@ -477,5 +452,4 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func, opt_callback) {
 /**
  * @export
  */
-cwc.utils.Helper.prototype.uninstallStyles =
-    cwc.ui.Helper.uninstallStyles;
+cwc.utils.Helper.prototype.uninstallStyles = cwc.ui.Helper.uninstallStyles;

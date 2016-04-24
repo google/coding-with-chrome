@@ -32,6 +32,11 @@ html>body {
   z-index: 100;
 }
 
+.mdl-dialog .large {
+  height: 500px;
+  overflow: auto;
+}
+
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
   padding: 16px 40px!important;
 }

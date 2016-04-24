@@ -21,9 +21,7 @@ goog.provide('cwc.ui.Navigation');
 
 goog.require('cwc.soy.ui.Navigation');
 goog.require('cwc.ui.Helper');
-goog.require('cwc.ui.HelpMenu');
 
-goog.require('goog.ui.Button');
 goog.require('goog.ui.KeyboardShortcutHandler');
 
 
@@ -46,9 +44,6 @@ cwc.ui.Navigation = function(helper) {
 
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
-
-  /** @type {!cwc.ui.HelpMenu} */
-  this.helpMenu = new cwc.ui.HelpMenu(this.helper);
 
   /** @type {!goog.ui.MenuItem} */
   this.menuNew = cwc.ui.Helper.getNavigationItem('New project',
@@ -250,16 +245,16 @@ cwc.ui.Navigation.prototype.showSettings = function() {
  * Shows about screen.
  */
 cwc.ui.Navigation.prototype.showAbout = function() {
-  this.helpMenu.showAbout();
+  this.helper.executeInstance('help', 'showAbout');
   this.hide();
 };
 
 
 /**
- * Shows help screen.
+ * Shows debug screen.
  */
 cwc.ui.Navigation.prototype.showDebug = function() {
-  this.helpMenu.showDebug();
+  this.helper.executeInstance('help', 'showDebug');
   this.hide();
 };
 
@@ -268,7 +263,7 @@ cwc.ui.Navigation.prototype.showDebug = function() {
  * Shows help screen.
  */
 cwc.ui.Navigation.prototype.showHelp = function() {
-  this.helpMenu.showHelp();
+  this.helper.executeInstance('help', 'showHelp');
   this.hide();
 };
 

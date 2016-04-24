@@ -31,11 +31,30 @@
   {@param content: string}
 
   <h3 class="mdl-dialog__title">{$title}</h3>
+  <div id="{$prefix}content" class="mdl-dialog__content">
+    {$content}
+  </div>
+  <div class="mdl-dialog__actions">
+    <button id="{$prefix}close" type="button" class="mdl-button close">Close</button>
+  </div>
+{/template}
+
+
+/**
+ * Yes / no template.
+ */
+{template .yesNoTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <h3 class="mdl-dialog__title">{$title}</h3>
   <div class="mdl-dialog__content">
     {$content}
   </div>
   <div class="mdl-dialog__actions">
-    <button type="button" id="{$prefix}close" class="mdl-button">Close</button>
+    <button id="{$prefix}yes" type="button" class="mdl-button">Yes</button>
+    <button id="{$prefix}no" type="button" class="mdl-button close">No</button>
   </div>
 {/template}
 

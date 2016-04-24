@@ -107,8 +107,11 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback,
     opt_force_overview) {
   var showSelectScreen = function() {
     this.showSelectScreen(opt_force_overview);
+    if (opt_callback) {
+      opt_callback();
+    }
   }.bind(this);
-  this.helper.handleUnsavedChanges(showSelectScreen, opt_callback);
+  this.helper.handleUnsavedChanges(showSelectScreen);
 };
 
 
@@ -154,6 +157,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle('');
+    guiInstance.enableTitle(false);
     guiInstance.setStatus('');
   }
 };

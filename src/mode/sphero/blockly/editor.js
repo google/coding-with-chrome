@@ -25,8 +25,6 @@ goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.ui.Dialog');
-
 
 
 /**
@@ -160,21 +158,20 @@ cwc.mode.sphero.blockly.Editor.prototype.showEditor = function() {
  * Switches from the code editor to the Blockly ui.
  */
 cwc.mode.sphero.blockly.Editor.prototype.showBlockly = function() {
-  var fileInstance = this.helper.getInstance('file');
-  var dialog = new goog.ui.Dialog();
-  dialog.setTitle('Warning');
-  dialog.setContent('Switching to Blockly mode will overwrite any manual ' +
-      'changes!<br><b>Continue?</b>');
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
+    'overwrite any manual changes! Continue?',
+    this.switchToEditor.bind(this));
+};
 
-  goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(event) {
-    if (event.key == 'yes') {
-      this.editor.showEditor(false);
-      this.blockly.showBlockly(true);
-      fileInstance.setUi('blockly');
-    }
-  }, false, this);
-  dialog.setVisible(true);
+
+/**
+ * Switches from the code editor to the Blockly ui.
+ * @param {Event} opt_e
+ */
+cwc.mode.sphero.blockly.Editor.prototype.switchToEditor = function(opt_e) {
+  var fileInstance = this.helper.getInstance('file');
+  this.editor.showEditor(false);
+  this.blockly.showBlockly(true);
+  fileInstance.setUi('blockly');
 };

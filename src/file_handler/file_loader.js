@@ -59,7 +59,13 @@ cwc.fileHandler.FileLoader.prototype.loadFile = function() {
  * @param {Function=} opt_callback
  */
 cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(opt_callback) {
-  this.helper.handleUnsavedChanges(this.loadFile.bind(this), opt_callback);
+  var loadFile = function() {
+    this.loadFile();
+    if (opt_callback) {
+      opt_callback();
+    }
+  }.bind(this);
+  this.helper.handleUnsavedChanges(loadFile);
 };
 
 

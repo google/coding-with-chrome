@@ -21,7 +21,6 @@ goog.provide('cwc.ui.Menubar');
 
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.DeviceMenu');
-goog.require('cwc.ui.ExampleMenu');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -80,12 +79,6 @@ cwc.ui.Menubar = function(helper) {
   this.nodeCloseButton = null;
 
   /** @type {Element} */
-  this.nodeExampleMenu = null;
-
-  /** @type {Element} */
-  this.nodeHelpMenu = null;
-
-  /** @type {Element} */
   this.nodeSettings = null;
 
   /** @type {Element} */
@@ -108,9 +101,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {cwc.ui.DeviceMenu} */
   this.deviceMenu = null;
-
-  /** @type {cwc.ui.ExampleMenu} */
-  this.exampleMenu = null;
 
   /** @type {!goog.ui.Button} */
   this.closeButton = cwc.ui.Helper.getIconButton(

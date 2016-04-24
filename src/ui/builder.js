@@ -45,6 +45,7 @@ goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
+goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
@@ -105,6 +106,7 @@ cwc.ui.BuilderHelpers = {
   'fileLoader': cwc.fileHandler.FileLoader,
   'fileSaver': cwc.fileHandler.FileSaver,
   'gui': cwc.ui.Gui,
+  'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
   'menubar': cwc.ui.Menubar,
@@ -115,8 +117,8 @@ cwc.ui.BuilderHelpers = {
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
-  'settingScreen': cwc.ui.SettingScreen,
   'serial': cwc.protocol.Serial.api,
+  'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
   'statusbar': cwc.ui.Statusbar,
   'turtle': cwc.ui.Turtle,
