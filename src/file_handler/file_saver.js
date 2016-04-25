@@ -229,10 +229,10 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     if (!truncated) {
       this.truncate(this.position);
       truncated = true;
+      fileInstance.setFileHandler(file_entry);
+      this.helper.showSuccess('Saved file ' + name + ' successful.');
       return;
     }
-    fileInstance.setFileHandler(file_entry);
-    this.helper.showSuccess('Saved file ' + name + ' successful.');
   };
   writer.onerror = function(opt_event) {
     this.helper.showError('Unable to save file ' + name + '!');

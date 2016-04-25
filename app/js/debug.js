@@ -19,4 +19,4 @@
  */
 
 // Uncomment the following line to enable the debug mode.
-cwc.config.Debug['ENABLED'] = true;
+//cwc.config.Debug['ENABLED'] = true;
