@@ -26,18 +26,33 @@
 {template .guiTemplate}
   {@param prefix: string}
   {@param? opt_title: string}
-  <div id="{$prefix}chrome">
+  <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
     // Header with title, menubar and icons.
-    <header id="{$prefix}header">
-      <div id="{$prefix}titlebar">
-        <div id="{$prefix}title">{$opt_title ? $opt_title : 'Untitled Project'}</div>
-        <div id="{$prefix}status">*</div>
-      </div>
-      <div id="{$prefix}message"></div>
-      <div id="{$prefix}bar">
-        <div id="{$prefix}menubar"></div>
+    <header id="{$prefix}header" class="mdl-layout__header bg_30_pct_black">
+      <div class="mdl-layout__header-row">
+        // Title
+        <div class="mdl-layout-title">
+          <div class="mdl-textfield mdl-js-textfield">
+            <input id="{$prefix}title" class="mdl-textfield__input" type="text" value="{$opt_title ? $opt_title : 'Untitled Project'}">
+            <label class="mdl-textfield__label" for="sample1">Title...</label>
+          </div>
+          <span id="{$prefix}status">*</span>
+        </div>
+        // Message bar
+        <div id="{$prefix}message"></div>
+        <div class="mdl-layout-spacer"></div>
+        // Navigation
+        <div id="{$prefix}bar">
+          <div id="{$prefix}menubar"></div>
+        </div>
       </div>
     </header>
+
+    // Navigation
+    <div id="{$prefix}navigation" class="mdl-layout__drawer"></div>
+
+    // Dialog
+    <dialog id="{$prefix}dialog" class="mdl-dialog">Hello World</dialog>
 
     // Main with library, preview, editor and console.
     <section id="{$prefix}layout"></section>
@@ -57,19 +72,18 @@
   {@param prefix: string}
   #{$prefix}chrome {lb}
     overflow: hidden;
-    position: relative;
-    font-family: Roboto, Gelvetica, Arial, sans-serif;;
-    font-size: 13px;
   {rb}
 
   #{$prefix}chrome header {lb}
-    position: relative;
-    background: #455A64;
     min-height: 34px;
-    color: #fff;
+    display: flex;
   {rb}
 
   #{$prefix}chrome footer {lb}
+    display: flex;
+  {rb}
+
+  #{$prefix}chrome > footer {lb}
     background: #CFD8DC;
     position: absolute;
     bottom: 0;
@@ -85,8 +99,13 @@
 
   #{$prefix}bar *,
   #{$prefix}message *,
-  #{$prefix}titlebar *{lb}
+  #{$prefix}titlebar *,
+  #{$prefix}header .mdl-layout-title *{lb}
     -webkit-app-region: no-drag;
+  {rb}
+
+  #{$prefix}navigation {lb}
+    overflow: hidden;
   {rb}
 
   #{$prefix}message {lb}
@@ -96,27 +115,20 @@
     z-index: 10;
   {rb}
 
-  #{$prefix}titlebar {lb}
-    position: absolute;
-    top: 5px;
-    left: 50px;
-  {rb}
-
-  #{$prefix}title {lb}
-    margin-left: 17px;
-    color: #fff;
-    font-size: 18px;
-    font-style: italic;
-    display: inline;
+  #{$prefix}dialog {lb}
+    top: 50%;
+    transform: translateY(-50%);
+    width: -webkit-fit-content;
   {rb}
 
   #{$prefix}status {lb}
-    float: right;
     margin-left: 5px;
   {rb}
 
   #{$prefix}layout{lb}
     cursor: default;
+    overflow-y: auto;
+    overflow-x: hidden;
   {rb}
 
 {/template}

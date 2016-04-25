@@ -80,7 +80,7 @@ cwc.ui.Account.prototype.authenticate = function() {
  * Deauthenticates the user.
  */
 cwc.ui.Account.prototype.deauthenticate = function() {
-  console.log('Deauthenticated token: ' + this.accessToken);
+  console.log('De-authenticated token: ' + this.accessToken);
   var unauthenticationEvent = this.setUnauthenticated.bind(this);
   chrome.identity.removeCachedAuthToken({ 'token': this.accessToken },
       unauthenticationEvent);
@@ -103,20 +103,16 @@ cwc.ui.Account.prototype.isAuthenticated = function() {
  */
 cwc.ui.Account.prototype.handleAuthentication = function(
     opt_access_token) {
-  var messageInstance = this.helper.getInstance('message');
   if (opt_access_token) {
     this.accessToken = opt_access_token;
     this.setAuthenticated();
     console.log('Access token: ' + this.accessToken);
     this.requestUserInfo();
-    this.helper.setStatus('Successfull authentificated …');
+    this.helper.showSuccess('Successful authenticated …');
   } else {
     this.setUnauthenticated();
     var errorMsg = chrome.runtime.lastError.message;
-    console.error(errorMsg);
-    if (messageInstance) {
-      messageInstance.error('Authentication failed: ' + errorMsg);
-    }
+    this.helper.showError('Authentication failed: ' + errorMsg);
   }
 };
 
@@ -283,10 +279,7 @@ cwc.ui.Account.prototype.handleXhrResponse = function(e,
  * @param {Event} event
  */
 cwc.ui.Account.prototype.handleXhrError = function(event) {
-  var messageInstance = this.helper.getInstance('message');
-  if (messageInstance) {
-    messageInstance.error('Xhr request error!');
-  }
+  this.helper.showError('Xhr request error!');
   console.error(event);
 };
 
@@ -297,9 +290,6 @@ cwc.ui.Account.prototype.handleXhrError = function(event) {
  */
 cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
   this.helper.setStatus('Request timeout !');
-  var messageInstance = this.helper.getInstance('message');
-  if (messageInstance) {
-    messageInstance.error('Xhr request timeout!');
-  }
+  this.helper.showError('Xhr request timeout!');
   console.error(event);
 };

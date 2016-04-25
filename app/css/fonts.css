@@ -21,17 +21,24 @@
  */
 
 @font-face {
-  font-family: 'Open Sans';
-    src: url(../fonts/OpenSans-Regular.ttf);
-    src: url(../fonts/OpenSans-Regular.ttf) format('truetype');
-  font-weight: 400;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(../fonts/Roboto-Light.woff2) format('woff2');
 }
 
 @font-face {
   font-family: 'Roboto';
-    src: url(../fonts/Roboto-Regular.ttf);
-    src: url(../fonts/Roboto-Regular.ttf) format('truetype');
+  font-style: normal;
   font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(../fonts/Roboto-Regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(../fonts/Roboto-Bold.woff2) format('woff2');
 }
 
 @font-face {

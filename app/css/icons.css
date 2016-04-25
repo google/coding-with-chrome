@@ -35,6 +35,9 @@
 .icon_36px_blue,
 .icon_24px_blue,
 .icon_18px_blue,
+.icon_36px_raw,
+.icon_24px_raw,
+.icon_18px_raw,
 .icon_36px_red,
 .icon_24px_red,
 .icon_18px_red,
@@ -53,6 +56,18 @@
   display: inline-block;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+
+.icon_36px_raw {
+  font-size: 36px !important;
+}
+
+.icon_24px_raw {
+  font-size: 24px !important;
+}
+
+.icon_18px_raw {
+  font-size: 18px !important;
 }
 
 .icon_36px,

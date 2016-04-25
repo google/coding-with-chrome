@@ -55,6 +55,21 @@ cwc.fileHandler.FileLoader.prototype.loadFile = function() {
 
 
 /**
+ * Creates a request to load file.
+ * @param {Function=} opt_callback
+ */
+cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(opt_callback) {
+  var loadFile = function() {
+    this.loadFile();
+    if (opt_callback) {
+      opt_callback();
+    }
+  }.bind(this);
+  this.helper.handleUnsavedChanges(loadFile);
+};
+
+
+/**
  * @param {!Object} file
  * @param {!Object} file_entry
  * @param {!string} content
@@ -71,7 +86,7 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(
     file_name) {
-  console.log('Fetching example file:', file_name);
+  console.log('Getting example file:', file_name);
   var fileLoaderHandler = this.loadExampleFileData.bind(this);
   this.getResourceFile('examples/' + file_name, fileLoaderHandler);
 };
@@ -85,7 +100,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(
 cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(
     file_name, content) {
   console.log('Loading example file:', file_name);
-  this.handleFileData(content, file_name);
+  this.handleFileData(content, file_name, null, null, true);
 };
 
 
@@ -109,13 +124,13 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  * @param {string=} opt_file_name
  * @param {Object=} opt_file_handler
  * @param {string=} opt_gdrive_id
+ * @param {boolean=} opt_example
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
-    opt_file_name, opt_file_handler, opt_gdrive_id) {
+    opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
   console.log('Handle file data:', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
-  var messageInstance = this.helper.getInstance('message');
   var fileType = cwc.file.detector.detectType(
       content, opt_file_name);
   console.log('Filetype', fileType);
@@ -123,12 +138,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   console.log('FileConfig:', fileConfig);
   var file = new fileConfig.file(content, fileType, fileConfig.contentType);
 
-  if (messageInstance) {
-    messageInstance.hide();
-  }
-
   // If file was not loaded locally or from Google Drive, load default content.
-  if (fileConfig.content && !opt_file_handler && !opt_gdrive_id) {
+  if (fileConfig.content && !opt_file_handler && !opt_gdrive_id &&
+      !opt_example) {
     console.log('Loading default content.');
     file = new fileConfig.file(fileConfig.content, fileType,
         fileConfig.contentType);
@@ -225,7 +237,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       var message = chrome.runtime.lastError.message;
-      if (message != 'User cancelled') {
+      if (message != 'User canceled') {
         this.helper.showWarning(message);
         return;
       }
@@ -296,8 +308,13 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(event) {
-      xhrEvent(event, filename, opt_callback, opt_callback_scope);
+    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(e) {
+      if (e.target.isSuccess()) {
+        xhrEvent(e, filename, opt_callback, opt_callback_scope);
+      } else {
+        this.helper.error('Unable to open file ' + file + ':' +
+            e.target.getLastError());
+      }
     });
     xhr.send(file);
   }
@@ -310,8 +327,8 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
  * @param {function(?)=} opt_callback
  * @param {Object=} opt_callback_scope
  */
-cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e,
-    filename, opt_callback, opt_callback_scope) {
+cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
+    opt_callback, opt_callback_scope) {
   var xhr = e.target;
   var content = xhr.getResponseText() || '';
   if (goog.isFunction(opt_callback)) {

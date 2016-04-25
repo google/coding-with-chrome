@@ -21,6 +21,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.utils.Helper');
+goog.provide('cwc.utils.HelperInstances');
 
 goog.require('cwc.config.Debug');
 goog.require('cwc.config.Prefix');
@@ -28,8 +29,45 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
-goog.require('goog.html.SafeHtml');
-goog.require('goog.ui.Dialog');
+
+
+/**
+ * @typedef {cwc.ui.Account|
+ *   cwc.fileHandler.FileCreator|
+ *   cwc.fileHandler.FileExporter|
+ *   cwc.fileHandler.FileLoader|
+ *   cwc.fileHandler.FileSaver|
+ *   cwc.mode.Modder|
+ *   cwc.protocol.Arduino.api|
+ *   cwc.protocol.Serial.api|
+ *   cwc.protocol.bluetooth.Api|
+ *   cwc.protocol.ev3.Api|
+ *   cwc.renderer.Renderer|
+ *   cwc.ui.Blockly|
+ *   cwc.ui.Config|
+ *   cwc.ui.ConnectionManager|
+ *   cwc.ui.Debug|
+ *   cwc.ui.Dialog|
+ *   cwc.ui.Documentation|
+ *   cwc.ui.Editor|
+ *   cwc.ui.File|
+ *   cwc.ui.GDrive|
+ *   cwc.ui.Gui|
+ *   cwc.ui.Help|
+ *   cwc.ui.Layout|
+ *   cwc.ui.Library|
+ *   cwc.ui.Menubar|
+ *   cwc.ui.Message|
+ *   cwc.ui.Navigation|
+ *   cwc.ui.Preview|
+ *   cwc.ui.Runner|
+ *   cwc.ui.SelectScreen|
+ *   cwc.ui.SettingScreen|
+ *   cwc.ui.Statusbar|
+ *   cwc.ui.Turtle|
+ *   cwc.ui.Tutorial}
+ */
+cwc.utils.HelperInstance;
 
 
 
@@ -58,76 +96,14 @@ cwc.utils.Helper = function() {
   /** @private {string} */
   this.cssPrefix_ = cwc.config.Prefix.CSS || '';
 
-  /** @private {Object} */
-  this.instances_ = {
-    'account': null,  /** @type {?cwc.ui.Account} */
-    'arduino': null, /** @type {?cwc.protocol.Arduino.api} */
-    'blockly': null,  /** @type {?cwc.ui.Blockly} */
-    'bluetooth': null,  /** @type {?cwc.protocol.bluetooth.Api} */
-    'config': null,  /** @type {?cwc.ui.Config} */
-    'connectionManager': null,  /** @type {?cwc.ui.ConnectionManager} */
-    'debug': null, /** @type {?cwc.ui.Debug} */
-    'documentation': null,  /** @type {?cwc.ui.Documentation} */
-    'editor': null,  /** @type {?cwc.ui.Editor} */
-    'ev3': null,  /** @type {?cwc.protocol.ev3.Api} */
-    'file': null,  /** @type {?cwc.ui.File} */
-    'fileCreator': null,  /** @type {?cwc.fileHandler.FileCreator} */
-    'fileExporter': null,  /** @type {?cwc.fileHandler.FileExporter} */
-    'fileLoader': null,  /** @type {?cwc.fileHandler.FileLoader} */
-    'fileSaver': null,  /** @type {?cwc.fileHandler.FileSaver} */
-    'gDrive': null,  /** @type {?cwc.ui.GDrive} */
-    'gui': null,  /** @type {?cwc.ui.Gui} */
-    'layout': null,  /** @type {?cwc.ui.Layout} */
-    'library': null,  /** @type {?cwc.ui.Library} */
-    'menubar': null,  /** @type {?cwc.ui.Menubar} */
-    'message': null,  /** @type {?cwc.ui.Message} */
-    'mode': null,  /** @type {?cwc.mode.Modder} */
-    'preview': null,  /** @type {?cwc.ui.Preview} */
-    'renderer': null,  /** @type {?cwc.renderer.Renderer} */
-    'runner': null,  /** @type {?cwc.ui.Runner} */
-    'selectScreen': null,  /** @type {?cwc.ui.SelectScreen} */
-    'serial': null,  /** @type {?cwc.protocol.Serial.api} */
-    'settings': null,  /** @type {?cwc.ui.Setting} */
-    'statusbar': null,  /** @type {?cwc.ui.Statusbar} */
-    'turtle': null, /** @type {?cwc.ui.Turtle} */
-    'tutorial': null /** @type {?cwc.ui.Tutorial} */
-  };
-
+  /** @private {Object<string, cwc.utils.HelperInstance>} */
+  this.instances_ = {};
 };
 
 
 /**
  * @param {!string} name
- * @param {!cwc.ui.Account|
- *   cwc.protocol.Arduino.api|
- *   cwc.ui.Blockly|
- *   cwc.protocol.bluetooth.Api|
- *   cwc.protocol.Serial.api|
- *   cwc.ui.ConnectionManager|
- *   cwc.ui.Config|
- *   cwc.ui.Debug|
- *   cwc.ui.Documentation|
- *   cwc.protocol.ev3.Api|
- *   cwc.ui.Editor|
- *   cwc.ui.File|
- *   cwc.fileHandler.FileCreator|
- *   cwc.fileHandler.FileLoader|
- *   cwc.fileHandler.FileSaver|
- *   cwc.fileHandler.FileExporter|
- *   cwc.ui.GDrive|
- *   cwc.ui.Gui|
- *   cwc.ui.Layout|
- *   cwc.ui.Library|
- *   cwc.ui.Menubar|
- *   cwc.ui.Message|
- *   cwc.mode.Modder|
- *   cwc.ui.Preview|
- *   cwc.renderer.Renderer|
- *   cwc.ui.Runner|
- *   cwc.ui.SelectScreen|
- *   cwc.ui.Statusbar|
- *   cwc.ui.Turtle |
- *   cwc.ui.Tutorial} instance
+ * @param {!cwc.utils.HelperInstance} instance
  * @param {boolean=} opt_overwrite
  * @export
  */
@@ -147,43 +123,16 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
 /**
  * @param {!string} name
  * @param {boolean=} opt_required
- * @return {cwc.ui.Account|
- *   cwc.protocol.Arduino.api|
- *   cwc.ui.Blockly|
- *   cwc.protocol.bluetooth.Api|
- *   cwc.protocol.Serial.api|
- *   cwc.ui.ConnectionManager|
- *   cwc.ui.Config|
- *   cwc.ui.Documentation|
- *   cwc.protocol.ev3.Api|
- *   cwc.ui.Editor|
- *   cwc.ui.File|
- *   cwc.fileHandler.FileCreator|
- *   cwc.fileHandler.FileLoader|
- *   cwc.fileHandler.FileSaver|
- *   cwc.ui.GDrive|
- *   cwc.ui.Gui|
- *   cwc.ui.Layout|
- *   cwc.ui.Library|
- *   cwc.ui.Menubar|
- *   cwc.ui.Message|
- *   cwc.mode.Modder|
- *   cwc.ui.Preview|
- *   cwc.renderer.Renderer|
- *   cwc.ui.Runner|
- *   cwc.ui.SelectScreen|
- *   cwc.ui.Statusbar|
- *   cwc.ui.Turtle |
- *   cwc.ui.Tutorial}
+ * @return {cwc.utils.HelperInstance}
  * @export
  */
 cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
   var error = null;
   if (typeof this.instances_[name] == 'undefined') {
-    error = 'Instance ' + name + ' is not implemented!';
+    error = 'Instance ' + name + ' is not defined!';
     this.log_.error(error);
   } else if (!this.instances_[name]) {
-    error = 'Instance ' + name + ' is not initilized yet.';
+    error = 'Instance ' + name + ' is not initialized yet.';
     this.log_.warn(error);
   }
   if (opt_required && error) {
@@ -192,6 +141,43 @@ cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
     return null;
   }
   return this.instances_[name];
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!Element} node
+ * @param {boolean=} opt_required
+ * @param {string=} opt_prefix
+ * @return {cwc.utils.HelperInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.decorateInstance = function(name, node,
+    opt_required, opt_prefix) {
+  var instance = this.getInstance(name, opt_required);
+  if (instance) {
+    instance.decorate(node, opt_prefix || this.getPrefix());
+  }
+  return instance;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} func
+ * @param {string=} opt_param
+ * @param {boolean=} opt_required
+ * @return {cwc.utils.HelperInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.executeInstance = function(name, func,
+    opt_param, opt_required) {
+  var instance = this.getInstance(name, opt_required);
+  console.log(instance, name, func);
+  if (instance) {
+    instance[func]();
+  }
+  return instance;
 };
 
 
@@ -290,6 +276,16 @@ cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
  * @return {boolean}
  * @export
  */
+cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
+  return this.checkFeature(name, 'browser');
+};
+
+
+/**
+ * @param {string} name
+ * @return {boolean}
+ * @export
+ */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
   return this.checkFeature(name, 'chrome');
 };
@@ -355,7 +351,7 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
   if (manifest) {
     return manifest['version'];
   }
-  return String(Date().getTime());
+  return String(new Date().getTime());
 };
 
 
@@ -433,7 +429,6 @@ cwc.utils.Helper.prototype.getPrefix = function(
  * @param {Function} func
  */
 cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
-  var dialog = new goog.ui.Dialog();
   var fileName = '';
   var fileModified = false;
   var fileInstance = this.getInstance('file');
@@ -442,24 +437,12 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
     fileModified = fileInstance.isModified();
   }
 
-  console.log('File was modified:', fileModified);
+  console.log('File', fileName, 'was modified:', fileModified);
   if (fileModified) {
-    dialog.setTitle('Unsaved Changes for ' + fileName);
-    dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
-      'Changes have not been saved.',
-      goog.html.SafeHtml.BR,
-      goog.html.SafeHtml.create('b', {}, 'Exit?')));
-    dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-    dialog.setDisposeOnHide(true);
-    dialog.render();
-
-    goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT,
-        function(event) {
-          if (event.key == 'yes') {
-            func();
-          }
-        }, false, this);
-    dialog.setVisible(true);
+    var dialogInstance = this.getInstance('dialog');
+    var title = 'Unsaved Changes for ' + fileName;
+    var content = 'Changes have not been saved. Exit?';
+    dialogInstance.showYesNo(title, content, func);
   } else {
     func();
   }
@@ -469,5 +452,4 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 /**
  * @export
  */
-cwc.utils.Helper.prototype.uninstallStyles =
-    cwc.ui.Helper.uninstallStyles;
+cwc.utils.Helper.prototype.uninstallStyles = cwc.ui.Helper.uninstallStyles;

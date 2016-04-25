@@ -1,6 +1,7 @@
 OWNERS
 node_modules
 npm-debug.log
+debug.log
 Thumbs.db
 create_npm_test.sh
 genfiles

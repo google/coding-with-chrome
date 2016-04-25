@@ -1,0 +1,70 @@
+/**
+ * @fileoverview Select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.Dialog autoescape="strict"}
+
+
+
+/**
+ * Default content template.
+ */
+{template .contentTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <h3 class="mdl-dialog__title">{$title}</h3>
+  <div id="{$prefix}content" class="mdl-dialog__content">
+    {$content}
+  </div>
+  <div class="mdl-dialog__actions">
+    <button id="{$prefix}close" type="button" class="mdl-button close">Close</button>
+  </div>
+{/template}
+
+
+/**
+ * Yes / no template.
+ */
+{template .yesNoTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <h3 class="mdl-dialog__title">{$title}</h3>
+  <div class="mdl-dialog__content">
+    {$content}
+  </div>
+  <div class="mdl-dialog__actions">
+    <button id="{$prefix}yes" type="button" class="mdl-button">Yes</button>
+    <button id="{$prefix}no" type="button" class="mdl-button close">No</button>
+  </div>
+{/template}
+
+
+/**
+ * CSS style definitions.
+ */
+{template .style}
+  {@param prefix: string}
+  #{$prefix}body {lb}
+    min-height: 100%;
+  {rb}
+{/template}

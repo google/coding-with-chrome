@@ -52,6 +52,9 @@ cwc.ui.Blockly = function(helper) {
   /** @type {string} */
   this.prefix = 'blockly-';
 
+  /** @type {boolean} */
+  this.enabled = false;
+
   /** @type {Element} */
   this.node = null;
 
@@ -163,7 +166,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
-
+  this.enabled = true;
   this.adjustSize();
 };
 
@@ -246,7 +249,13 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
     return;
   }
   var dom = this.blockly.Xml.textToDom(xml_text);
-  this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+  try {
+    this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+  } catch (e) {
+    this.helper.showError('Was unable to load Blockly file!');
+    console.error(e);
+    console.log(dom);
+  }
 };
 
 
@@ -270,7 +279,7 @@ cwc.ui.Blockly.prototype.isModified = function() {
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Blockly.prototype.adjustSize = function() {
-  if (!this.node) {
+  if (!this.node || !this.enabled) {
     return;
   }
 
@@ -313,6 +322,7 @@ cwc.ui.Blockly.prototype.addEventListener = function(src, type,
  * Cleans up the event listener and any other modification.
  */
 cwc.ui.Blockly.prototype.cleanUp = function() {
+  this.enabled = false;
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   cwc.ui.Helper.hideElements(this.autoHideElements);

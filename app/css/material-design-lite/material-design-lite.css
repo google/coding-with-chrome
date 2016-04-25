@@ -1,0 +1,244 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Material design lite custom CSS definitions.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+@import '../../external/material-design-lite/material.indigo-blue.min.css';
+
+html>body {
+  font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+.mdl-dialog {
+  z-index: 100;
+}
+
+.mdl-dialog .large {
+  height: 500px;
+  overflow: auto;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+  padding: 16px 40px!important;
+}
+
+.mdl-layout__drawer-button {
+  color: rgb(255,255,255)!important;
+}
+
+.mdl-layout__drawer {
+  padding-bottom: 69px;
+}
+
+.mdl-layout__drawer-button {
+  margin: 0;
+  opacity: 0.7;
+  -webkit-app-region: no-drag;
+}
+
+.mdl-layout__drawer-button:hover {
+  opacity: 1;
+}
+
+.mdl-layout__drawer > .mdl-layout__header {
+  background-image: url('../../icons/64x64.png');
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  padding-left: 80px;
+  font-size: 14px;
+  height: 80px;
+  line-height: 80px;
+}
+
+.mdl-layout__drawer > .mdl-mini-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  height: 60px;
+  line-height: 30px;
+  padding: 16px;
+  width: 100%;
+}
+
+.mdl-layout__drawer {
+  padding-bottom: 69px;
+}
+
+.mdl-layout__header-row {
+  height: 44px;
+  padding: 0 10px 0 80px;
+}
+
+.mdl-navigation {
+  flex-shrink: 1;
+  overflow: visible;
+  overflow-y: auto;
+}
+
+.mdl-navigation .mdl-navigation__link > i {
+  position: absolute;
+  left: 10px;
+  font-size: 24px;
+}
+
+.cwc-content {
+  height: calc(100% - 44px);
+  overflow: auto;
+}
+
+.cwc-content-large {
+  height: calc(100% - 88px);
+  overflow: auto;
+}
+
+.cwc-band {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.cwc-band-icon {
+  position: absolute;
+  left: calc(25% - 50px);
+  top: 15px;
+  font-size: 64px;
+}
+
+.cwc-band-text {
+  max-width: 800px;
+  margin-left: 25%;
+  padding: 24px;
+  text-align: left;
+}
+
+.cwc-band-text p {
+  padding-top: 8px;
+}
+
+.cwc-navigation {
+  min-height: 44px;
+}
+
+.cwc-navigation .mdl-navigation__link {
+  line-height: 44px;
+}
+
+.cwc-navigation .mdl-layout__header-row {
+  padding: 0;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  height: 45px;
+}
+
+.cwc-navigation .is-active {
+  position: relative;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.cwc-navigation .is-active:after {
+  content: "";
+  width: 70%;
+  height: 2px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(255,64,129);
+  left: 15%;
+}
+
+.cwc-navigation .mdl-navigation__link {
+  opacity: 0.9;
+}
+
+.cwc-navigation .mdl-navigation__link:hover {
+  opacity: 1;
+}
+
+.cwc-overview section.section--center,
+.cwc-overview .max-width {
+  max-width: 860px;
+  margin: 20px auto;
+}
+
+.cwc-select-card .mdl-card__media > i {
+  padding-top: 10px;
+  font-size: 128px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cwc-select-card:hover,
+.cwc-select-card-big:hover,
+.cwc-select-section:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
+              0 1px 10px 0 rgba(0,0,0,.32),
+              0 2px 4px -1px rgba(0,0,0,.22);
+}
+
+.cwc-select-card-big.mdl-cell {
+  margin: 8px;
+  width: 320px;
+}
+
+.cwc-select-card-big .mdl-card__media {
+  position: relative;
+  height: 200px;
+}
+
+.cwc-select-card-big .mdl-card__media > i {
+  font-size: 128px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cwc-select-card-big .mdl-card__media > div {
+  font-size: 32px;
+  line-height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 125px;
+  transform: translateY(-50%);
+}
+
+.cwc-select-card-big .mdl-card__supporting-text {
+  display: flex;
+  flex: 1;
+}
+
+.cwc-select-card-big .mdl-card__title {
+  border-top: 1px solid #f5f5f5;
+}
+
+.cwc-select-section > .mdl-cell > i {
+  font-size: 128px;
+  margin: auto;
+}

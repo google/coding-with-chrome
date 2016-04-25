@@ -38,22 +38,26 @@ goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
-goog.require('cwc.ui.Config');
 goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
+goog.require('cwc.ui.Dialog');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
+goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Message');
+goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
+goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
+goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
@@ -92,6 +96,7 @@ cwc.ui.BuilderHelpers = {
   'bluetooth': cwc.protocol.bluetooth.Api,
   'connectionManager': cwc.ui.ConnectionManager,
   'debug': cwc.ui.Debug,
+  'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
   'ev3': cwc.protocol.ev3.Api,
@@ -101,16 +106,19 @@ cwc.ui.BuilderHelpers = {
   'fileLoader': cwc.fileHandler.FileLoader,
   'fileSaver': cwc.fileHandler.FileSaver,
   'gui': cwc.ui.Gui,
+  'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
   'menubar': cwc.ui.Menubar,
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
+  'navigation': cwc.ui.Navigation,
   'preview': cwc.ui.Preview,
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
   'serial': cwc.protocol.Serial.api,
+  'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
   'statusbar': cwc.ui.Statusbar,
   'turtle': cwc.ui.Turtle,
@@ -191,16 +199,13 @@ cwc.ui.Builder.prototype.decorate = function(node,
   }, false, this);
 
   this.loadApp();
-
-  this.helper.removeEventListeners(this.listener, this.name);
 };
 
 
 /**
- * Loads all needed helper and the ui.
+ * Loads all needed helper.
  */
 cwc.ui.Builder.prototype.loadApp = function() {
-
   if (!this.error) {
     this.setProgress('Detect features ...', 0, 100);
     this.detectFeatures();
@@ -217,51 +222,66 @@ cwc.ui.Builder.prototype.loadApp = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading config ...', 40, 100);
-    this.loadConfig();
+    this.setProgress('Loading user config ...', 20, 100);
+    this.loadUserConfig(this.loadUI.bind(this));
   }
+};
 
+
+/**
+ * Loads the ui.
+ */
+cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error) {
-    this.setProgress('Prepare helpers ...', 50, 100);
+    this.setProgress('Prepare helpers ...', 30, 100);
     this.prepareHelper();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare OAuth2 Helpers ...', 55, 100);
+    this.setProgress('Prepare OAuth2 Helpers ...', 35, 100);
     this.prepareOauth2Helper();
   }
 
   if (!this.error) {
-    this.setProgress('Loading frameworks ...', 60, 100);
+    this.setProgress('Loading frameworks ...', 40, 100);
     this.loadFrameworks();
   }
 
   if (!this.error) {
-    this.setProgress('Render editor GUI ...', 70, 100);
+    this.setProgress('Render editor GUI ...', 50, 100);
     this.renderGui();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Bluetooth support ...', 80, 100);
+    this.setProgress('Prepare Bluetooth support ...', 60, 100);
     this.prepareBluetooth();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Serial support ...', 90, 100);
+    this.setProgress('Prepare Serial support ...', 70, 100);
     this.prepareSerial();
   }
 
   if (!this.error && this.helper.checkChromeFeature('oauth2')) {
-    this.setProgress('Prepare account support ...', 95, 100);
+    this.setProgress('Prepare account support ...', 80, 100);
     this.prepareAccount();
   }
 
   if (!this.error) {
+    this.setProgress('Loading select screen ...', 90, 100);
+    this.showSelectScreen();
+  }
+
+  if (!this.error) {
     this.setProgress('Done.', 100, 100);
+    this.closeLoader();
+    if (typeof window.componentHandler !== 'undefined') {
+      window.componentHandler.upgradeDom();
+    }
     if (this.nodeOverlayer) {
       goog.dom.removeNode(this.nodeOverlayer);
     }
-    this.closeLoader();
+    this.helper.removeEventListeners(this.listener, this.name);
   }
 };
 
@@ -349,6 +369,7 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
     this.raiseError('Unable to find CoffeeScript !\n' +
         'Please check if you have included the CoffeeScript files.');
   }
+
 };
 
 
@@ -392,11 +413,12 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
 
 /**
  * Preloads user config.
+ * @param {Function} callback
  */
-cwc.ui.Builder.prototype.loadConfig = function() {
-  var configInstance = new cwc.ui.Config(this.helper);
-  this.helper.setInstance('config', configInstance);
-  configInstance.loadConfig();
+cwc.ui.Builder.prototype.loadUserConfig = function(callback) {
+  var userConfigInstance = new cwc.userConfig(this.helper);
+  this.helper.setInstance('userConfig', userConfigInstance);
+  userConfigInstance.prepare(callback);
 };
 
 
@@ -452,29 +474,7 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 
 
 /**
- * @param {!cwc.ui.Account|
- *   cwc.protocol.Arduino.api|
- *   cwc.ui.Blockly|
- *   cwc.protocol.bluetooth.Api|
- *   cwc.ui.Documentation|
- *   cwc.protocol.ev3.Api|
- *   cwc.ui.Editor|
- *   cwc.fileHandler.File|
- *   cwc.fileHandler.FileCreator|
- *   cwc.fileHandler.FileLoader|
- *   cwc.fileHandler.FileSaver|
- *   cwc.ui.GDrive|
- *   cwc.ui.Gui|
- *   cwc.ui.Layout|
- *   cwc.ui.Library|
- *   cwc.ui.Menubar|
- *   cwc.ui.Message|
- *   cwc.mode.Modder|
- *   cwc.ui.Preview|
- *   cwc.renderer.Renderer|
- *   cwc.ui.Runner|
- *   cwc.ui.SelectScreen|
- *   cwc.ui.Statusbar} instance
+ * @param {!cwc.utils.HelperInstance} instance
  * @param {!string} instance_name
  */
 cwc.ui.Builder.prototype.loadHelper = function(instance,
@@ -536,11 +536,15 @@ cwc.ui.Builder.prototype.renderGui = function() {
   } else {
     this.raiseError('The layout instance was not loaded!');
   }
+};
 
-  // Show Select screen
+
+/**
+ * Shows select screen.
+ */
+cwc.ui.Builder.prototype.showSelectScreen = function() {
   var selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
-    this.setProgress('Loading select screen ...', 90, 100);
     selectScreenInstance.showSelectScreen();
   }
 };

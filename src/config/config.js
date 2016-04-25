@@ -32,7 +32,6 @@ goog.provide('cwc.config.sound');
 goog.require('cwc.utils.LogLevel');
 
 
-
 /**
  * Default log level.
  * @type {cwc.utils.LogLevel}

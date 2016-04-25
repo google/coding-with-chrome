@@ -103,6 +103,28 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'Material Design',
+  resources: [
+    'node_modules/material-design-lite/material.min.js',
+    'node_modules/material-design-lite/material.min.css',
+    'node_modules/material-design-lite/dist/material.indigo-blue.min.css',
+    'node_modules/material-design-lite/dist/material.blue_grey-red.min.css'
+  ],
+  out: 'genfiles/external/material-design-lite/'
+});
+
+
+closureBuilder.build({
+  name: 'Dialog polyfill',
+  resources: [
+    'node_modules/dialog-polyfill/dialog-polyfill.js',
+    'node_modules/dialog-polyfill/dialog-polyfill.css'
+  ],
+  out: 'genfiles/external/dialog-polyfill/'
+});
+
+
+closureBuilder.build({
   name: 'JSHint files',
   resources: [
     'node_modules/jshint/dist/jshint.js'

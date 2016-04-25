@@ -20,7 +20,13 @@
 
 
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
-  console.log('launchData', launchData);
+  if (launchData) {
+    if (launchData.items) {
+      console.log('Found file:', launchData.items[0]);
+    }
+    console.log('launchData', launchData);
+  }
+
   var screenWidth = screen.availWidth;
   var screenHeight = screen.availHeight;
   console.log('Screensize', screenWidth, 'x', screenHeight);
@@ -29,30 +35,31 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
   var editorConfig = {
     frame: 'none',
     id: 'editor',
-    outerBounds: {
+    innerBounds: {
       width: editorWidth,
-      height: editorHeight
+      height: editorHeight,
+      minWidth: 800,
+      minHeight: 600
     },
-    minWidth: 800,
-    minHeight: 600,
     hidden: true
   };
-  var loaderWidth = 500;
-  var loaderHeight = 170;
+  var loaderWidth = 512;
+  var loaderHeight = 250;
   var loaderConfig = {
     alwaysOnTop: true,
     frame: 'chrome',
     id: 'loader',
     focused: true,
     resizable: false,
-    outerBounds: {
+    innerBounds: {
       width: loaderWidth,
-      height: loaderHeight
-    },
-    minWidth: loaderWidth,
-    minHeight: loaderHeight
+      height: loaderHeight,
+      minWidth: loaderWidth,
+      minHeight: loaderHeight,
+      maxWidth: loaderWidth,
+      maxHeight: loaderHeight
+    }
   };
-  console.log(loaderConfig);
   chrome.app.window.create('html/loader.html', loaderConfig, function(
       loaderWindow) {
     loaderWindow.outerBounds.setPosition(

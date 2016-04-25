@@ -38,8 +38,7 @@ goog.require('goog.html.SafeHtml');
 goog.require('goog.math');
 goog.require('goog.soy');
 goog.require('goog.style');
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.Dialog.EventType');
+
 
 
 /**
@@ -769,23 +768,10 @@ cwc.ui.Runner.prototype.handleUnresponsive = function(opt_event) {
   this.setStatusText('Unresponsive');
   this.status = cwc.ui.RunnerStatus.UNRESPONSIVE;
 
-  var dialog = new goog.ui.Dialog();
-  dialog.setTitle('Unresponsive Warning');
-  dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
-      'The runner is unresponsive!',
-      goog.html.SafeHtml.BR,
-      goog.html.SafeHtml.create('b', {}, 'Terminate?')));
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
-
-  goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(event) {
-    if (event.key == 'yes') {
-      this.terminate();
-    }
-  }, false, this);
-
-  dialog.setVisible(true);
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Unresponsive Warning',
+    'The preview is unresponsive! Terminate?',
+    this.terminate.bind(this));
 };
 
 

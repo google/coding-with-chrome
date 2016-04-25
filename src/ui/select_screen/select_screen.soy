@@ -16,7 +16,6 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
- * @author brunopanara@google.com (Bruno Panara)
  */
 
 {namespace cwc.soy.SelectScreen autoescape="strict"}
@@ -27,461 +26,163 @@
  */
 {template .template}
   {@param prefix: string}
-  <div id="{$prefix}body">
+  <div id="{$prefix}body" class="mdl-color--grey-200">
     <div id="{$prefix}content"></div>
   </div>
 {/template}
 
 
 /**
- * Overview page.
+ * Welcome screen.
  */
-{template .overview}
+{template .welcome}
   {@param prefix: string}
+  <div id="{$prefix}welcome" class="{$prefix}version">
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">Welcome to Coding with Chrome!</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        Coding with Chrome is an Educational Development Environment.<br>
+        First, please <b>select your current coding skill.</b><br>
+      </div>
+      <div class="mdl-grid">
 
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Welcome to Coding with Chrome!' /}
-    {param opt_text: 'Coding with Chrome' /}
-  {/call}
+        {call .choiceCard_}
+          {param prefix: $prefix /}
+          {param title: 'Beginner' /}
+          {param text: 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.' /}
+          {param action: 'Use Beginner Mode' /}
+          {param link_id: 'normal-mode' /}
+          {param opt_color_class: 'mdl-color--teal-50' /}
+          {param opt_image: '../../images/selection/blockly.png' /}
+        {/call}
 
-  <div class="{$prefix}content" id="{$prefix}overview">
-    {call .leftpane}
-      {param prefix: $prefix /}
-    {/call}
+        {call .choiceCard_}
+          {param prefix: $prefix /}
+          {param title: 'Advanced' /}
+          {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code.' /}
+          {param action: 'Use Advanced Mode' /}
+          {param link_id: 'advanced-mode' /}
+          {param opt_color_class: 'mdl-color--orange-50' /}
+          {param opt_image: '../../images/selection/code_editor.png' /}
+        {/call}
 
-  </div>
-{/template}
-
-
-/**
- * Left pane of the overview page.
- */
-{template .leftpane}
-  {@param prefix: string}
-  {@param? opt_active: string}
-  {@param? opt_colapse: bool}
-
-  <div class="{if opt_colapse}{$prefix}content-pane-colapse{else}{$prefix}content-pane{/if}" id="{$prefix}overview-left">
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Blocks' /}
-      {param text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-      {param link: 'blocks' /}
-      {param opt_active: $opt_active /}
-      {param opt_class: 'subheader-teal' /}
-      {param opt_button_class: 'extension' /}
-      {param opt_colapse: $opt_colapse /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Code' /}
-      {param text: 'Learn how to craft your programs using real programming languages' /}
-      {param link: 'code' /}
-      {param opt_active: $opt_active /}
-      {param opt_class: 'subheader-blue' /}
-      {param opt_button_class: 'subject' /}
-      {param opt_colapse: $opt_colapse /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Gallery' /}
-      {param text: 'Discover examples of what you can code, and use them to explore programming' /}
-      {param link: 'gallery' /}
-      {param opt_active: $opt_active /}
-      {param opt_class: 'subheader-yellow' /}
-      {param opt_button_class: 'photo_library' /}
-      {param opt_colapse: $opt_colapse /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Resources' /}
-      {param text: 'Find out everything about Coding with Chrome' /}
-      {param link: 'resources' /}
-      {param opt_active: $opt_active /}
-      {param opt_class: 'subheader-green' /}
-      {param opt_button_class: 'device_hub' /}
-      {param opt_colapse: $opt_colapse /}
-    {/call}
-  </div>
-{/template}
-
-
-/**
- * Blocks page.
- */
-{template .blocks}
-  {@param prefix: string}
-
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Blocks' /}
-    {param opt_text: 'Use visual programming languages to drag and drop code blocks and create programs' /}
-  {/call}
-
-  <div class="{$prefix}content">
-    {call .leftpane}
-      {param prefix: $prefix /}
-      {param opt_active: 'blocks' /}
-      {param opt_colapse: true /}
-    {/call}
-
-    <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'Drawing' /}
-        {param text: 'Create artworks of colour and sound' /}
-        {param link: 'cwc-blockly' /}
-        {param opt_class: 'subheader-green' /}
-        {param opt_button_class: 'palette' /}
-      {/call}
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'LEGO® MINDSTORMS® EV3 robot' /}
-        {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
-        {param link: 'ev3' /}
-        {param opt_class: 'subheader-orange' /}
-        {param opt_button_class: 'adb' /}
-      {/call}
-
-      {call .subheader}
-        {param prefix: $prefix /}
-        {param title: 'Sphero robot' /}
-        {param text: 'Control a Sphero ball' /}
-        {param link: 'sphero' /}
-        {param opt_class: 'subheader-blue' /}
-        {param opt_button_class: 'adjust' /}
-      {/call}
-
-      {call .homeSubLink}
-        {param prefix: $prefix /}
-      {/call}
-    </div>
-
-  </div>
-{/template}
-
-
-/**
- * Code page.
- */
-{template .code}
-  {@param prefix: string}
-
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Code' /}
-    {param opt_text: 'Learn how to craft your programs using real programming languages' /}
-  {/call}
-
-  <div class="{$prefix}content">
-
-  {call .leftpane}
-    {param prefix: $prefix /}
-    {param opt_active: 'code' /}
-    {param opt_colapse: true /}
-  {/call}
-
-    <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-   {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Simplified Coding' /}
-      {param text: 'Use Coffeescript to create simplified programs' /}
-      {param link: 'coffeescript' /}
-      {param opt_class: 'subheader-light-blue' /}
-      {param opt_button_class: 'local_cafe' /}
-    {/call}
-
-   {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Basic Coding' /}
-      {param text: 'Use Javascript to create simple functions' /}
-      {param link: 'cwc-basic' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'view_stream' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Pencil Code' /}
-      {param text: 'Draw art, play music or create games' /}
-      {param link: 'pencil-code' /}
-      {param opt_class: 'header-dodger-blue' /}
-      {param opt_button_class: 'mode_edit' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'LEGO® MINDSTORMS® EV3 robot' /}
-      {param text: 'Control a virtual or a LEGO® MINDSTORMS® EV3 robot' /}
-      {param link: 'ev3' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'adb' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Sphero robots' /}
-      {param text: 'Control a Sphero ball' /}
-      {param link: 'sphero' /}
-      {param opt_class: 'subheader-blue' /}
-      {param opt_button_class: 'adjust' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Websites' /}
-      {param text: 'Create websites using HTML, CSS and JavaScript' /}
-      {param link: 'cwc-advanced' /}
-      {param opt_class: 'subheader-green' /}
-      {param opt_button_class: 'public' /}
-    {/call}
-
-    {call .homeSubLink}
-      {param prefix: $prefix /}
-    {/call}
-
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+          <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
+          <div class="mdl-checkbox__label">
+            Show screen on Startup
+            <span class="mdl-card__supporting-text">
+              (You can change your choice at any time in the settings menu.)
+            </span>
+          </div>
+       </label>
+      </div>
     </div>
   </div>
 {/template}
 
 
 /**
- * Gallery page.
+ * CSS style definitions.
  */
-{template .gallery}
-  {@param prefix: string}
-
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Gallery' /}
-    {param opt_text: 'Discover examples of what you can code, and use them to explore programming' /}
-  {/call}
-
-  <div class="{$prefix}content" id="{$prefix}overview">
-  {call .leftpane}
-    {param prefix: $prefix /}
-    {param opt_active: 'gallery' /}
-    {param opt_colapse: true /}
-  {/call}
-
-    <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Sphero Example' /}
-      {param text: 'An simple example for the Sphero' /}
-      {param link: 'sphero' /}
-      {param opt_class: 'subheader-blue' /}
-      {param opt_button_class: 'adjust' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'EV3 Example' /}
-      {param text: 'Advanced line following example for the EV3 robot' /}
-      {param link: 'ev3' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'adb' /}
-    {/call}
-
-   {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Basic Coding' /}
-      {param text: 'Use Javascript to create simple functions' /}
-      {param link: 'cwc-basic' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'view_stream' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Pencil Code' /}
-      {param text: 'Draw art, play music or create games' /}
-      {param link: 'pencil-code' /}
-      {param opt_class: 'header-dodger-blue' /}
-      {param opt_button_class: 'mode_edit' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: 'Websites' /}
-      {param text: 'Create websites using HTML, CSS and JavaScript' /}
-      {param link: 'cwc-html' /}
-      {param opt_class: 'subheader-green' /}
-      {param opt_button_class: 'public' /}
-    {/call}
-
-    {call .homeSubLink}
-      {param prefix: $prefix /}
-    {/call}
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Resources page.
- */
-{template .resources}
-  {@param prefix: string}
-
-  {call .header}
-    {param prefix: $prefix /}
-    {param title: 'Resources' /}
-    {param opt_text: 'Find out everything about Coding with Chrome' /}
-  {/call}
-
-  <div class="{$prefix}content" id="{$prefix}overview">
-
-  {call .leftpane}
-    {param prefix: $prefix /}
-    {param opt_active: 'resources' /}
-    {param opt_colapse: true /}
-  {/call}
-
-    <div class="{$prefix}content-pane" id="{$prefix}overview-right">
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: '1: JavaScript Intro' /}
-      {param text: '(Video opens in a separate window)' /}
-      {param link: 'cwc-video-1' /}
-      {param opt_class: 'subheader-ligth-blue' /}
-      {param opt_button_class: 'ondemand_video' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: '2: Dates' /}
-      {param text: '(Video opens in a separate window)' /}
-      {param link: 'cwc-video-2' /}
-      {param opt_class: 'subheader-blue' /}
-      {param opt_button_class: 'ondemand_video' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: '3: Birthdays' /}
-      {param text: '(Video opens in a separate window)' /}
-      {param link: 'cwc-video-3' /}
-      {param opt_class: 'subheader-orange' /}
-      {param opt_button_class: 'ondemand_video' /}
-    {/call}
-
-    {call .subheader}
-      {param prefix: $prefix /}
-      {param title: '4: Birthday Counter' /}
-      {param text: '(Video opens in a separate window)' /}
-      {param link: 'cwc-video-4' /}
-      {param opt_class: 'subheader-green' /}
-      {param opt_button_class: 'ondemand_video' /}
-    {/call}
-
-    {call .homeSubLink}
-      {param prefix: $prefix /}
-    {/call}
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Header template.
- */
-{template .header}
-  {@param prefix: string}
-  {@param title: string}
-  {@param? opt_text: string}
-  {@param? opt_class: string}
-  <div class="beta {$prefix}header{if $opt_class} {$prefix}{$opt_class}{/if}">
-    <div class="{$prefix}header-content">
-      {$title}
-      {if $opt_text}<small>{$opt_text}</small>{/if}
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Subheader template.
- */
-{template .subheader}
+{template .choiceCard_}
   {@param prefix: string}
   {@param title: string}
   {@param text: string}
-  {@param link: string}
-  {@param? opt_active: string}
-  {@param? opt_alt: string}
-  {@param? opt_class: string}
-  {@param? opt_button_class: string}
-  {@param? opt_colapse: bool}
-  <div id="{$prefix}link-{$link}" class="{$prefix}subheader-item{if $opt_active}{if $opt_active != $link} {$prefix}inactive{/if}{/if}">
-    <div class="{$prefix}subheader-button{if $opt_button_class} icon_24px icon_button{/if}{if $opt_class} {$prefix}{$opt_class}{/if}"
-         title="{if $title}{$title}{else}{$opt_alt}{/if}">
-      {if $opt_button_class}{$opt_button_class}{/if}
-    </div>
-    {if not $opt_colapse}
-      <div class="{$prefix}subheader-copy">
-        <h2{if $opt_class} class="{$prefix}{$opt_class}"{/if}>{$title}</h2>
-        <span>{$text}</span>
-      </div>
-    {/if}
-  </div>
-{/template}
-
-
-/**
- * Infocard template.
- */
-{template .infoCard}
-  {@param prefix: string}
-  {@param title: string}
-  {@param link: string}
-  {@param? opt_text: string}
+  {@param action: string}
+  {@param link_id: string}
+  {@param? opt_color_class: string}
   {@param? opt_image: string}
-  {@param? opt_title: string}
-  <div id="{$prefix}link-{$link}" class="{$prefix}card-icon">
-    {if $opt_image}<img src="../../{$opt_image}" alt="" title="{$opt_title}">{/if}
-    <h5>{$title}</h5>
-    {if $opt_text}<small>{$opt_text}</small>{/if}
+
+  <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col">
+    <div class="mdl-card mdl-shadow--2dp{if $opt_color_class} {$opt_color_class}{/if}">
+      <div class="mdl-card__title mdl-card--expand">
+        <h2 class="mdl-card__title-text">{$title}</h2>
+      </div>
+      {if $opt_color_class}<p><img src="{$opt_image}"></p>{/if}
+      <div class="mdl-card__supporting-text">{$text}</div>
+      <div class="mdl-card__actions">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          {$action}
+        </a>
+      </div>
+    </div>
   </div>
 {/template}
 
 
 /**
- * Homelink.
+ * CSS style definitions.
  */
-{template .homeLink}
+{template .style}
   {@param prefix: string}
+  {@param version: string}
 
-  {call .infoCard}
-    {param prefix: $prefix /}
-    {param title: 'Return to overview' /}
-    {param link: 'home' /}
-  {/call}
-{/template}
+  .{$prefix}version:before {lb}
+    background: #00f;
+    color: #fff;
+    content: "{$version}";
+    font-size: 13px;
+    height: 25px;
+    left: -22px;
+    line-height: 25px;
+    position: fixed;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: 8px;
+    transform: rotate(45deg);
+    width: 90px;
+    opacity: 0.5;
+  {rb}
+
+  #{$prefix}body {lb}
+    min-height: 100%;
+  {rb}
+
+  #{$prefix}welcome {lb}
+    padding: 20px;
+  {rb}
+
+  #{$prefix}welcome > .mdl-card {lb}
+    width: 750px;
+    margin: auto;
+  {rb}
+
+  #{$prefix}welcome > .mdl-card > .mdl-card__supporting-text {lb}
+    padding-bottom: 0;
+    padding-top: 0;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell {lb}
+    padding: 10px;
+  {rb}
 
 
-/**
- * Home sublink.
- */
-{template .homeSubLink}
-  {@param prefix: string}
+  #{$prefix}welcome .mdl-cell > .mdl-card {lb}
+    width: 100%;
+  {rb}
 
-  {call .subheader}
-    {param prefix: $prefix /}
-    {param title: '' /}
-    {param text: '' /}
-    {param link: 'home' /}
-    {param opt_alt: 'Return to overview' /}
-    {param opt_class: 'subheader-red' /}
-    {param opt_button_class: 'home' /}
-  {/call}
+  #{$prefix}welcome .mdl-cell > .mdl-card:hover {lb}
+    box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
+                0 1px 10px 0 rgba(0,0,0,.32),
+                0 2px 4px -1px rgba(0,0,0,.22);
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > p {lb}
+    margin: auto;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__supporting-text {lb}
+    min-height: 50px;
+    padding-bottom: 0;
+  {rb}
+
+  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__actions > a {lb}
+    width: 100%;
+    box-sizing: border-box;
+  {rb}
+
 {/template}

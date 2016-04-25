@@ -23,10 +23,11 @@
 /**
  * Main HTML template for the messages.
  */
-{template .messageTemplate}
+{template .template}
   {@param prefix: string}
-  <div id="{$prefix}body">
-    <div id="{$prefix}text"></div>
+  <div id="{$prefix}snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
   </div>
 {/template}
 
@@ -34,25 +35,8 @@
 /**
  * CSS Style definitions.
  */
-{template .messageStyle}
+{template .style}
   {@param prefix: string}
-  #{$prefix}body {lb}
-    border-radius: 2px;
-    margin: auto;
-    max-width: 568px;
-    min-height: 48px;
-    min-width: 288px;
-    text-align: center;
-    box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),
-      0 13px 19px 2px rgba(0,0,0,.14),
-      0 5px 24px 4px rgba(0,0,0,.12);
-  {rb}
-
-  #{$prefix}text {lb}
-    display: inline-block;
-    padding: 15px;
-  {rb}
-
   .{$prefix}type-info {lb}
     background: #323232;
     color: #fff;

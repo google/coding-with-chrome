@@ -82,6 +82,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
   this.nodeBlockly = node_blockly;
 
   this.moreButton.addClassName('floaty_right');
+  this.moreButton.setVisible(false);
   this.expandButton.addClassName('floaty_right');
 
   this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
@@ -93,7 +94,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
   this.moreMenu.attach(this.moreButton.getElement(),
       goog.positioning.Corner.BOTTOM_START);
   this.moreMenu.setToggleMode(true);
-  this.moreButton.setVisible(false);
   this.moreMenu.render();
 };
 

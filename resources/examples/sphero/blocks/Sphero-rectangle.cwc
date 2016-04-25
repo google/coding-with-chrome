@@ -1,0 +1,22 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"controls_repeat_ext\" x=\"-75\" y=\"-78\">\n    <value name=\"TIMES\">\n      <block type=\"math_number\">\n        <field name=\"NUM\">2</field>\n      </block>\n    </value>\n    <statement name=\"DO\">\n      <block type=\"sphero_rgb\">\n        <field name=\"colour\">#cc33cc</field>\n        <next>\n          <block type=\"sphero_roll_time\">\n            <field name=\"heading\">0</field>\n            <value name=\"time\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">2</field>\n              </block>\n            </value>\n            <value name=\"speed\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">40</field>\n              </block>\n            </value>\n            <next>\n              <block type=\"sphero_rgb\">\n                <field name=\"colour\">#ff0000</field>\n                <next>\n                  <block type=\"sphero_roll_time\">\n                    <field name=\"heading\">90</field>\n                    <value name=\"time\">\n                      <block type=\"math_number\">\n                        <field name=\"NUM\">2</field>\n                      </block>\n                    </value>\n                    <value name=\"speed\">\n                      <block type=\"math_number\">\n                        <field name=\"NUM\">40</field>\n                      </block>\n                    </value>\n                    <next>\n                      <block type=\"sphero_rgb\">\n                        <field name=\"colour\">#33ff33</field>\n                        <next>\n                          <block type=\"sphero_roll_time\">\n                            <field name=\"heading\">180</field>\n                            <value name=\"time\">\n                              <block type=\"math_number\">\n                                <field name=\"NUM\">2</field>\n                              </block>\n                            </value>\n                            <value name=\"speed\">\n                              <block type=\"math_number\">\n                                <field name=\"NUM\">40</field>\n                              </block>\n                            </value>\n                            <next>\n                              <block type=\"sphero_rgb\">\n                                <field name=\"colour\">#ffff00</field>\n                                <next>\n                                  <block type=\"sphero_roll_time\">\n                                    <field name=\"heading\">270</field>\n                                    <value name=\"time\">\n                                      <block type=\"math_number\">\n                                        <field name=\"NUM\">2</field>\n                                      </block>\n                                    </value>\n                                    <value name=\"speed\">\n                                      <block type=\"math_number\">\n                                        <field name=\"NUM\">40</field>\n                                      </block>\n                                    </value>\n                                  </block>\n                                </next>\n                              </block>\n                            </next>\n                          </block>\n                        </next>\n                      </block>\n                    </next>\n                  </block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </next>\n      </block>\n    </statement>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "sphero_blockly",
+  "mode": "sphero_blockly",
+  "title": "Simple Sphero ball example",
+  "ui": "default",
+  "version": "1.0"
+}

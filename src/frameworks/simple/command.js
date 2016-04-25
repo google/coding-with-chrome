@@ -63,7 +63,9 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
   if (!window) {
     throw 'Window name space is not available in this instance.';
   }
-  window['write'] = this.write.bind(this);
+  window['command'] = {
+    'write': this.write.bind(this)
+  };
 };
 
 

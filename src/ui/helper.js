@@ -23,11 +23,11 @@ goog.provide('cwc.ui.Helper');
 
 goog.require('goog.style');
 goog.require('goog.ui.Button');
-goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.CustomButton');
+goog.require('goog.ui.LinkButtonRenderer');
+goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.ToolbarButton');
 goog.require('goog.ui.ToolbarToggleButton');
-
 
 
 /**
@@ -66,6 +66,25 @@ cwc.ui.Helper.getButton = function(name, opt_description,
 cwc.ui.Helper.getCustomButton = function(name, opt_description,
     opt_func, opt_icon_size, opt_class_name) {
   var button = new goog.ui.CustomButton(name);
+  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
+      opt_icon_size, opt_class_name);
+  return button;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {string=} opt_description
+ * @param {function(?)=} opt_func
+ * @param {string=} opt_icon_size
+ * @param {string=} opt_class_name
+ * @return {!goog.ui.Button}
+ */
+cwc.ui.Helper.getLinkButton = function(name,
+    opt_description, opt_func, opt_icon_size, opt_class_name) {
+  var button = new goog.ui.Button(name,
+    goog.ui.LinkButtonRenderer.getInstance());
+  button.addClassName('link_button');
   cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
       opt_icon_size, opt_class_name);
   return button;
@@ -184,18 +203,51 @@ cwc.ui.Helper.decorateButton = function(button, opt_description, opt_func,
 
 
 /**
+ * @param {!goog.ui.Button} button
+ * @param {!string} icon_name
+ */
+cwc.ui.Helper.decorateIcon = function(button, icon_name) {
+  if (!button.getContentElement()) {
+    console.log('Cannot decorate unrendered button');
+  }
+  var icon = document.createElement('i');
+  icon.textContent = icon_name;
+  icon.className = 'icon_auto';
+  button.getContentElement().appendChild(icon);
+};
+
+
+/**
  * @param {!string} name
  * @param {function()=} opt_func
  * @param {Object=} opt_scope
  * @return {!goog.ui.MenuItem}
  */
 cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
-  var menuItem = new goog.ui.MenuItem(i18n.get(name));
+  var item = new goog.ui.MenuItem(i18n.get(name));
   if (opt_func) {
-    goog.events.listen(menuItem, goog.ui.Component.EventType.ACTION, opt_func,
+    goog.events.listen(item, goog.ui.Component.EventType.ACTION, opt_func,
         false, opt_scope);
   }
-  return menuItem;
+  return item;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {string=} opt_description
+ * @param {function()=} opt_func
+ * @param {Object=} opt_scope
+ * @return {!goog.ui.Button}
+ */
+cwc.ui.Helper.getNavigationItem = function(name,
+    opt_description, opt_func, opt_scope) {
+  var func = opt_func;
+  if (opt_func && opt_scope) {
+    func = opt_func.bind(opt_scope);
+  }
+  return cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
+    func, null, 'mdl-navigation__link');
 };
 
 

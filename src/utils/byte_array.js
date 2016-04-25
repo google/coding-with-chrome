@@ -21,7 +21,6 @@ goog.provide('cwc.utils.ByteArray');
 goog.provide('cwc.utils.ByteArrayTypes');
 
 
-
 /**
  * @enum {!string}
  */

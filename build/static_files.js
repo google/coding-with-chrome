@@ -56,6 +56,15 @@ closureBuilder.build({
 
 
 closureBuilder.build({
+  name: 'Roboto fonts',
+  resources: glob([
+    'third_party/roboto/*.woff2'
+  ]),
+  out: 'genfiles/fonts/'
+});
+
+
+closureBuilder.build({
   name: 'Markdown files',
   markdown: [
     'LICENSE.md',
