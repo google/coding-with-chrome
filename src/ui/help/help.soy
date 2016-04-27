@@ -27,20 +27,16 @@
   {@param prefix: string}
   {@param manifest: ?}
   <img src="/images/cwc_logo.png" alt="{$manifest['name']}"
-    style="display: block; margin: auto;">
+    style="display: block; margin: auto; height: 200px;">
   <p>
     Version {$manifest['version']}<br/>
+    <a href="http://codingwithchrome.foo" target="_blank" class="goog-link">Coding with Chrome</a><br/>
     Copyright 2015 Google Inc. All Rights Reserved.<br/>
-    Visit <a href="http://codingwithchrome.foo" target="_blank"
-      class="goog-link">http://codingwithchrome.foo</a> for more information.
-    <br/><br/>
-    Source Github and Notice: 
-    <br/><ul>
-    <li>Github repository is at: <a href="https://github.com/google/coding-with-chrome" target="_blank"
-      class="goog-link">https://github.com/google/coding-with-chrome</a>
-    <li> Made possible by other&nbsp;
-    <span id="{$prefix}notice-link" class="goog-link">open source software</span>.
-    </ul>
+  </p>
+  <p>
+    Made possible by the open-source-project&nbsp;
+    <a href="https://github.com/google/coding-with-chrome" target="_blank" class="goog-link">Coding with Chrome</a>&nbsp;
+    and other&nbsp;<span id="{$prefix}notice-link" class="goog-link">open source software</span>.
   </p>
 {/template}
 

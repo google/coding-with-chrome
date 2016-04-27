@@ -94,7 +94,7 @@ cwc.ui.Menubar = function(helper) {
   this.bluetooth = false;
 
   /** @type {boolean} */
-  this.bluetoothConnected = false;
+  this.bluetoothConnected = null;
 
   /** @type {goog.ui.PopupMenu} */
   this.menuPopup = null;
@@ -366,8 +366,7 @@ cwc.ui.Menubar.prototype.setBluetoothEnabled = function(enabled) {
  * @export
  */
 cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
-  if (this.helper.checkChromeFeature('bluetooth') && this.bluetooth &&
-      this.bluetoothConnected != connected) {
+  if (this.helper.checkChromeFeature('bluetooth') && this.bluetooth) {
     console.log('Set Bluetooth status to',
       connected ? 'connected' : 'disconnected');
     goog.style.setElementShown(this.nodeBluetooth, !connected);

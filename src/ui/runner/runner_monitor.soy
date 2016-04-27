@@ -25,12 +25,43 @@
  */
 {template .template}
   {@param prefix: string}
-  <header id="{$prefix}monitor-toolbar" class="mdl-layout__header bg_10_pct_black"></header>
-  <div id="{$prefix}monitor-content">
-    <div id="{$prefix}monitor-intro">Intro</div>
-    <div id="{$prefix}monitor-control">Control</div>
-    <div id="{$prefix}monitor-monitor">Monitor</div>
-    <div id="{$prefix}monitor-calibration">Calibration</div>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+    <header id="{$prefix}monitor-toolbar" class="mdl-layout__header bg_10_pct_black">
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#{$prefix}monitor-main" class="mdl-layout__tab" style="display: none;">
+          <span class="icon_24px icon_button">developer_board</span>
+        </a>
+        <a href="#{$prefix}monitor-intro" class="mdl-layout__tab is-active">
+          <span class="icon_24px icon_button">developer_board</span>
+        </a>
+        <a href="#{$prefix}monitor-control" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">equalizer</span>
+        </a>
+        <a href="#{$prefix}monitor-monitor" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">gamepad</span>
+        </a>
+        <a href="#{$prefix}monitor-calibration" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">tune</span>
+        </a>
+      </div>
+    </header>
+    <div id="{$prefix}monitor-content" class="mdl-layout__content">
+      <section id="{$prefix}monitor-main" class="mdl-layout__tab-panel">
+        Main
+      </section>
+      <section id="{$prefix}monitor-intro" class="mdl-layout__tab-panel is-active">
+        Intro
+      </section>
+      <section id="{$prefix}monitor-control" class="mdl-layout__tab-panel">
+        Control
+      </section>
+      <section id="{$prefix}monitor-monitor" class="mdl-layout__tab-panel">
+        Monitor
+      </section>
+      <section id="{$prefix}monitor-calibration" class="mdl-layout__tab-panel">
+        Calibration
+      </section>
+    </div>
   </div>
   <div id="{$prefix}monitor-statusbar"></div>
 {/template}
@@ -41,6 +72,18 @@
  */
 {template .style}
   {@param prefix: string}
+
+  #{$prefix}monitor-toolbar,
+  #{$prefix}monitor-toolbar .mdl-layout__tab-bar,
+  #{$prefix}monitor-toolbar .mdl-layout__tab,
+  #{$prefix}monitor-toolbar .mdl-layout__tab span {lb}
+    height: 38px;
+  {rb}
+
+  #{$prefix}monitor-toolbar .mdl-layout__tab span {lb}
+    padding-top: 6px;
+  {rb}
+
   #{$prefix}monitor-content {lb}
     position: relative;
   {rb}

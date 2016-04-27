@@ -273,6 +273,7 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
         this.adjustSize, false, this);
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
+    layoutInstance.refresh();
   }
 
   this.adjustSize();
@@ -559,7 +560,6 @@ cwc.ui.Runner.prototype.enableMonitor = function(enable, opt_height) {
     goog.style.setHeight(this.nodeMonitor, height);
   }
   this.adjustSize();
-  this.monitor.showIntro();
 };
 
 

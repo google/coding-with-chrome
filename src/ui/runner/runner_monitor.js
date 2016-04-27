@@ -65,6 +65,9 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   /** @type {Element} */
   this.nodeCalibration = null;
 
+  /** @type {Element} */
+  this.nodeMain = null;
+
   /** @type {!boolean} */
   this.introEnabled = false;
 
@@ -76,25 +79,6 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
 
   /** @type {!boolean} */
   this.calibrationEnabled = false;
-
-  /** @type {goog.ui.Toolbar} */
-  this.toolbar = new goog.ui.Toolbar();
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.introButton = cwc.ui.Helper.getIconToolbarButton('developer_board',
-      'General Information', this.showIntro.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.monitorButton = cwc.ui.Helper.getIconToolbarButton('equalizer',
-      'Device Monitor', this.showMonitor.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.controlButton = cwc.ui.Helper.getIconToolbarButton('gamepad',
-      'Control the unit.', this.showControl.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.calibrationButton = cwc.ui.Helper.getIconToolbarButton('tune',
-      'Calibrate the unit.', this.showCalibration.bind(this));
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
@@ -119,39 +103,23 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
       { 'prefix': this.prefix }
   );
 
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'monitor-toolbar');
+  this.nodeCalibration = goog.dom.getElement(
+    this.prefix + 'monitor-calibration');
   this.nodeContent = goog.dom.getElement(this.prefix + 'monitor-content');
   this.nodeControl = goog.dom.getElement(this.prefix + 'monitor-control');
-  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor-monitor');
   this.nodeIntro = goog.dom.getElement(this.prefix + 'monitor-intro');
+  this.nodeMain = goog.dom.getElement(this.prefix + 'monitor-main');
+  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor-monitor');
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'monitor-statusbar');
-  this.nodeCalibration = goog.dom.getElement(
-      this.prefix + 'monitor-calibration');
-
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.introButton, true);
-  this.toolbar.addChild(this.monitorButton, true);
-  this.toolbar.addChild(this.controlButton, true);
-  this.toolbar.addChild(this.calibrationButton, true);
-  this.toolbar.render(this.nodeToolbar);
-
-  this.updateButtons_();
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'monitor-toolbar');
 };
 
 
 /**
  * @return {element}
  */
-cwc.ui.RunnerMonitor.prototype.getIntroNode = function() {
-  return this.nodeIntro;
-};
-
-
-/**
- * @return {element}
- */
-cwc.ui.RunnerMonitor.prototype.getMonitorNode = function() {
-  return this.nodeMonitor;
+cwc.ui.RunnerMonitor.prototype.getCalibrationNode = function() {
+  return this.nodeCalibration;
 };
 
 
@@ -166,60 +134,24 @@ cwc.ui.RunnerMonitor.prototype.getControlNode = function() {
 /**
  * @return {element}
  */
-cwc.ui.RunnerMonitor.prototype.getCalibrationNode = function() {
-  return this.nodeCalibration;
+cwc.ui.RunnerMonitor.prototype.getIntroNode = function() {
+  return this.nodeIntro;
 };
 
 
 /**
- * @param {Event=} opt_event
+ * @return {element}
  */
-cwc.ui.RunnerMonitor.prototype.showIntro = function(opt_event) {
-  goog.style.setElementShown(this.nodeIntro, true);
-  goog.style.setElementShown(this.nodeMonitor, false);
-  goog.style.setElementShown(this.nodeControl, false);
-  goog.style.setElementShown(this.nodeCalibration, false);
+cwc.ui.RunnerMonitor.prototype.getMainNode = function() {
+  return this.nodeMain;
 };
 
 
 /**
- * @param {Event=} opt_event
+ * @return {element}
  */
-cwc.ui.RunnerMonitor.prototype.showMonitor = function(opt_event) {
-  goog.style.setElementShown(this.nodeIntro, false);
-  goog.style.setElementShown(this.nodeMonitor, true);
-  goog.style.setElementShown(this.nodeControl, false);
-  goog.style.setElementShown(this.nodeCalibration, false);
-};
-
-
-/**
- * @param {Event=} opt_event
- */
-cwc.ui.RunnerMonitor.prototype.showControl = function(opt_event) {
-  goog.style.setElementShown(this.nodeIntro, false);
-  goog.style.setElementShown(this.nodeMonitor, false);
-  goog.style.setElementShown(this.nodeControl, true);
-  goog.style.setElementShown(this.nodeCalibration, false);
-};
-
-
-/**
- * @param {Event=} opt_event
- */
-cwc.ui.RunnerMonitor.prototype.showCalibration = function(opt_event) {
-  goog.style.setElementShown(this.nodeIntro, false);
-  goog.style.setElementShown(this.nodeMonitor, false);
-  goog.style.setElementShown(this.nodeControl, false);
-  goog.style.setElementShown(this.nodeCalibration, true);
-};
-
-
-/**
- * @private
- */
-cwc.ui.RunnerMonitor.prototype.updateButtons_ = function() {
-
+cwc.ui.RunnerMonitor.prototype.getMonitorNode = function() {
+  return this.nodeMonitor;
 };
 
 
