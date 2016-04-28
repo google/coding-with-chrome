@@ -28,10 +28,10 @@
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
     <header id="{$prefix}monitor-toolbar" class="mdl-layout__header bg_10_pct_black">
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#{$prefix}monitor-main" class="mdl-layout__tab" style="display: none;">
-          <span class="icon_24px icon_button">developer_board</span>
+        <a href="#{$prefix}monitor-main" class="mdl-layout__tab is-active">
+          <span class="icon_24px icon_button">send</span>
         </a>
-        <a href="#{$prefix}monitor-intro" class="mdl-layout__tab is-active">
+        <a href="#{$prefix}monitor-intro" class="mdl-layout__tab">
           <span class="icon_24px icon_button">developer_board</span>
         </a>
         <a href="#{$prefix}monitor-control" class="mdl-layout__tab">
@@ -46,10 +46,17 @@
       </div>
     </header>
     <div id="{$prefix}monitor-content" class="mdl-layout__content">
-      <section id="{$prefix}monitor-main" class="mdl-layout__tab-panel">
-        Main
+      <section id="{$prefix}monitor-main" class="mdl-layout__tab-panel is-active">
+        <div id="{$prefix}monitor-main-run" class="icon_auto icon_button is-active">play_arrow</div>
+        <div class="mdl-tooltip mdl-tooltip--large mdl-tooltip--top" for="{$prefix}monitor-main-run">
+          Executes the code and send commands to the connected unit.
+        </div>
+        <div id="{$prefix}monitor-main-stop" class="icon_auto icon_button">stop</div>
+        <div class="mdl-tooltip mdl-tooltip--large mdl-tooltip--top" for="{$prefix}monitor-main-stop">
+          Stops the execution of the code.
+        </div>
       </section>
-      <section id="{$prefix}monitor-intro" class="mdl-layout__tab-panel is-active">
+      <section id="{$prefix}monitor-intro" class="mdl-layout__tab-panel">
         Intro
       </section>
       <section id="{$prefix}monitor-control" class="mdl-layout__tab-panel">
@@ -86,6 +93,27 @@
 
   #{$prefix}monitor-content {lb}
     position: relative;
+  {rb}
+
+  #{$prefix}monitor-main > div {lb}
+    display: none;
+  {rb}
+
+  #{$prefix}monitor-main > div.is-active {lb}
+    display: block;
+  {rb}
+
+  #{$prefix}monitor-main-run,
+  #{$prefix}monitor-main-stop {lb}
+    background: #ddd;
+    border-radius: 90px;
+    border: 6px solid #000;
+    display: block;
+    font-size: 168px;
+    height: 168px;
+    margin: auto;
+    margin-top: 16px;
+    width: 168px;
   {rb}
 
   #{$prefix}monitor-statusbar {lb}

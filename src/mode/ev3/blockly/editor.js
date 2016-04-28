@@ -97,19 +97,12 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
       this.prefix, true);
 
-  // Custom Events
-  var runText = 'Executes the code and send commands to the EV3 unit.';
-  var blocklyRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-  var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-
-  this.blockly.addToolbarButton(blocklyRunButton, true);
-  this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
-      'Switch to the raw code editor view.');
+  // Custom events.
   this.blockly.addChangeListener(this.changeHandler.bind(this));
 
-  this.editor.addToolbarButton(editorRunButton, true);
+  // Switch buttons.
+  this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
+      'Switch to the raw code editor view.');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
 };

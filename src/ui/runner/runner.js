@@ -628,6 +628,9 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setRunStatus(true);
   }
+  if (this.monitor) {
+    this.monitor.setRunStatus(true);
+  }
   this.setContentUrl(contentUrl);
 };
 
@@ -648,6 +651,9 @@ cwc.ui.Runner.prototype.stop = function() {
     }
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
+    }
+    if (this.monitor) {
+      this.monitor.setRunStatus(false);
     }
     this.setStatusText('Stopped');
   }

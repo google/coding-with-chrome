@@ -68,6 +68,12 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   /** @type {Element} */
   this.nodeMain = null;
 
+  /** @type {Element} */
+  this.nodeMainRun = null;
+
+  /** @type {Element} */
+  this.nodeMainStop = null;
+
   /** @type {!boolean} */
   this.introEnabled = false;
 
@@ -109,9 +115,43 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   this.nodeControl = goog.dom.getElement(this.prefix + 'monitor-control');
   this.nodeIntro = goog.dom.getElement(this.prefix + 'monitor-intro');
   this.nodeMain = goog.dom.getElement(this.prefix + 'monitor-main');
+  this.nodeMainRun = goog.dom.getElement(this.prefix + 'monitor-main-run');
+  this.nodeMainStop = goog.dom.getElement(this.prefix + 'monitor-main-stop');
   this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor-monitor');
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'monitor-statusbar');
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'monitor-toolbar');
+
+  goog.events.listen(this.nodeMainRun, goog.events.EventType.CLICK,
+      this.handleRun, false, this);
+
+  goog.events.listen(this.nodeMainStop, goog.events.EventType.CLICK,
+      this.handleStop, false, this);
+};
+
+
+/**
+ * Sets run status.
+ * @param {boolean} running
+ * @export
+ */
+cwc.ui.RunnerMonitor.prototype.setRunStatus = function(running) {
+  goog.dom.classlist.enable(this.nodeMainRun, 'is-active', !running);
+  goog.dom.classlist.enable(this.nodeMainStop, 'is-active', running);
+};
+
+
+cwc.ui.RunnerMonitor.prototype.handleRun = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.run();
+  }
+};
+
+cwc.ui.RunnerMonitor.prototype.handleStop = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.stop();
+  }
 };
 
 
