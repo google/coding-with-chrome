@@ -221,7 +221,6 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
 cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     writer, name, content, file_entry, opt_callback, opt_callback_scope) {
   var fileInstance = this.helper.getInstance('file', true);
-  var messageInstance = this.helper.getInstance('message');
   var blobContent = new Blob([content]);
   var truncated = false;
   console.log('Writing file', name, 'with filesize', blobContent.size, ':',
@@ -230,13 +229,13 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     if (!truncated) {
       this.truncate(this.position);
       truncated = true;
+      fileInstance.setFileHandler(file_entry);
+      this.helper.showSuccess('Saved file ' + name + ' successful.');
       return;
     }
-    fileInstance.setFileHandler(file_entry);
-    messageInstance.success('Saved file ' + name + ' successful.');
   };
   writer.onerror = function(opt_event) {
-    messageInstance.error('Unable to save file ' + name);
+    this.helper.showError('Unable to save file ' + name + '!');
   };
   writer.seek(0);
   writer.write(blobContent, {'type': 'text/plain'});

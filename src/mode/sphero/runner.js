@@ -118,7 +118,6 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
-  this.runner.showRunButton(false);
 
   // Preview output
   var turtleNode = this.runner.getTurtleNode();

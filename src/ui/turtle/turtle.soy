@@ -42,11 +42,11 @@
   {rb}
 
   #{$prefix}content {lb}
-    overflow: auto;
-    position: relative;
     background: #fff;
-    width: 100%;
     height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
   {rb}
 
   #{$prefix}content.hide {lb}
@@ -62,8 +62,9 @@
   {rb}
 
   #{$prefix}content webview {lb}
-    height: calc(100% - 4px);
+    height: 100%;
     width: 100%;
+    overflow: hidden;
   {rb}
 
 {/template}

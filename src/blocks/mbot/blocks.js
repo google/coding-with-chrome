@@ -105,7 +105,7 @@ cwc.blocks.addBlock('move_backward', function() {
 /**
  * Rotate left.
  */
-cwc.blocks.addBlock('rotate_left', function() {
+cwc.blocks.addBlock('turn_left', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
@@ -121,7 +121,7 @@ cwc.blocks.addBlock('rotate_left', function() {
 /**
  * Rotate right.
  */
-cwc.blocks.addBlock('rotate_right', function() {
+cwc.blocks.addBlock('turn_right', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()

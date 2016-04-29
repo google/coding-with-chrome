@@ -33,3 +33,7 @@
 .modal-dialog, .modal-dialog-bg, .goog-menu {
   z-index: 100;
 }
+
+.logmsg {
+  color: #aaa;
+}

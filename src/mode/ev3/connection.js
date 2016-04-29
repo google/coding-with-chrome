@@ -129,7 +129,10 @@ cwc.mode.ev3.Connection.prototype.getApi = function() {
  * Stops the EV3 unit.
  */
 cwc.mode.ev3.Connection.prototype.stop = function() {
-  console.log('Stop the EV3 unit …');
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.terminate();
+  }
   this.api.stop();
 };
 

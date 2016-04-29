@@ -22,6 +22,8 @@ goog.provide('cwc.ui.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
+goog.require('cwc.ui.DialogType');
+goog.require('cwc.ui.MessageType');
 goog.require('cwc.utils.Helper');
 
 
@@ -63,6 +65,7 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
         'prefix': this.prefix,
         'file_types': cwc.file.Type,
         'mode_types': cwc.mode.Type,
+        'dialog_types': cwc.ui.DialogType,
         'message_types': cwc.ui.MessageType
       }
   );
@@ -83,10 +86,24 @@ cwc.ui.Debug.prototype.addEvents = function() {
   goog.events.listen(goog.dom.getElement(this.prefix + 'close'),
     goog.events.EventType.CLICK, this.close, false, this);
 
-  this.addChangeHandler(goog.dom.getElement('file_types'), this.handleFileType);
-  this.addChangeHandler(goog.dom.getElement('mode_types'), this.handleModeType);
-  this.addChangeHandler(goog.dom.getElement('message_types'),
-    this.handleMessageType);
+  this.addChangeHandler(goog.dom.getElement(this.prefix + 'file_types'),
+      this.handleFileType);
+  this.addChangeHandler(goog.dom.getElement(this.prefix + 'mode_types'),
+      this.handleModeType);
+  this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
+      this.handleMessageType);
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_show'),
+      function() {
+        this.helper.executeInstance('dialog', 'show');
+      });
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showModal'),
+      function() {
+        this.helper.executeInstance('dialog', 'showModal');
+      });
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_close'),
+      function() {
+        this.helper.executeInstance('dialog', 'close');
+      });
 };
 
 
@@ -142,7 +159,7 @@ cwc.ui.Debug.prototype.handleMessageType = function(event) {
  * @param {Element} element
  * @param {Function} func
  */
-cwc.ui.Debug.prototype.addLink = function(element, func) {
+cwc.ui.Debug.prototype.addLinkHandler = function(element, func) {
   goog.events.listen(element, goog.events.EventType.CLICK, func, false, this);
 };
 

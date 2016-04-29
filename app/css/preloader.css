@@ -20,10 +20,28 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-#cwc-preloader {
-  float: left;
-  margin-left: 20px;
-  width: 300px;
+#cwc-preloader.mdl-card {
+  height: 250px;
+  width: 512px;
+}
+
+#cwc-preloader > .mdl-card__title {
+  background: rgb(96,125,139) url('../icons/128x128.png') 20px no-repeat;
+  color: #fff;
+  height: 150px;
+  padding-left: 150px;
+}
+
+#cwc-preloader > .mdl-card__title-text:before {
+
+}
+
+#cwc-preloader > .mdl-card__supporting-text {
+  height: 50px;
+}
+
+#cwc-preloader > .mdl-card__actions {
+  font-size: 12px!important;
 }
 
 #cwc-preloader-progress-text {
@@ -53,15 +71,4 @@
   overflow: hidden;
   width: 1%;
   height: 100%;
-}
-
-#cwc-preloader-version {
-  position: relative;
-}
-
-#cwc-preloader-logo {
-  background: url('../icons/128x128.png');
-  float: left;
-  width: 128px;
-  height: 128px;
 }

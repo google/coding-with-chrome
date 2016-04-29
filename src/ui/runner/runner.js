@@ -38,8 +38,7 @@ goog.require('goog.html.SafeHtml');
 goog.require('goog.math');
 goog.require('goog.soy');
 goog.require('goog.style');
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.Dialog.EventType');
+
 
 
 /**
@@ -274,6 +273,7 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
         this.adjustSize, false, this);
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
+    layoutInstance.refresh();
   }
 
   this.adjustSize();
@@ -560,7 +560,6 @@ cwc.ui.Runner.prototype.enableMonitor = function(enable, opt_height) {
     goog.style.setHeight(this.nodeMonitor, height);
   }
   this.adjustSize();
-  this.monitor.showIntro();
 };
 
 
@@ -629,6 +628,9 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setRunStatus(true);
   }
+  if (this.monitor) {
+    this.monitor.setRunStatus(true);
+  }
   this.setContentUrl(contentUrl);
 };
 
@@ -649,6 +651,9 @@ cwc.ui.Runner.prototype.stop = function() {
     }
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
+    }
+    if (this.monitor) {
+      this.monitor.setRunStatus(false);
     }
     this.setStatusText('Stopped');
   }
@@ -769,23 +774,10 @@ cwc.ui.Runner.prototype.handleUnresponsive = function(opt_event) {
   this.setStatusText('Unresponsive');
   this.status = cwc.ui.RunnerStatus.UNRESPONSIVE;
 
-  var dialog = new goog.ui.Dialog();
-  dialog.setTitle('Unresponsive Warning');
-  dialog.setSafeHtmlContent(goog.html.SafeHtml.concat(
-      'The runner is unresponsive!',
-      goog.html.SafeHtml.BR,
-      goog.html.SafeHtml.create('b', {}, 'Terminate?')));
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
-
-  goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(event) {
-    if (event.key == 'yes') {
-      this.terminate();
-    }
-  }, false, this);
-
-  dialog.setVisible(true);
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Unresponsive Warning',
+    'The preview is unresponsive! Terminate?',
+    this.terminate.bind(this));
 };
 
 

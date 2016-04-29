@@ -45,11 +45,11 @@ you could simple use:
 npm run rebuild
 ```
 
-### Fast rebuild
-The following command will rebuild all files and automatically launching Coding
-with Chrome in the Chrome browser.
+### Fast build
+The following command will build all files and automatically launching or reload
+ "Coding with Chrome" in the Chrome browser on Mac OS, Linux and Windows.
 ```bash
-npm run fast-rebuild
+npm run fast-build
 ```
 
 ## Live debugging

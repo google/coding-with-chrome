@@ -46,15 +46,3 @@ closureBuilder.build({
   ],
   out: 'genfiles/fonts/'
 });
-
-
-closureBuilder.build({
-  name: 'Open Fonts',
-  resources: [
-    'https://raw.github.com/google/fonts/master/apache/opensans/' +
-    'OpenSans-Regular.ttf',
-    'https://raw.github.com/google/fonts/master/apache/roboto/' +
-    'Roboto-Regular.ttf'
-  ],
-  out: 'genfiles/fonts/'
-});

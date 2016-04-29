@@ -353,6 +353,9 @@ cwc.ui.Layout.prototype.getOverlay = function() {
 cwc.ui.Layout.prototype.showOverlay = function(visible) {
   this.setOverlayBackground();
   goog.style.setElementShown(this.getOverlay(), visible);
+  if (visible) {
+    this.refresh();
+  }
 };
 
 
@@ -399,6 +402,16 @@ cwc.ui.Layout.prototype.updateSizeInformation = function() {
     this.headerSize = null;
     this.chromeSize = new goog.math.Size(this.viewportSize.width,
         this.viewportSize.height);
+  }
+};
+
+
+/**
+ * Refresh dom structure and trigger external frameworks.
+ */
+cwc.ui.Layout.prototype.refresh = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
   }
 };
 

@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "command.write('Hello World!');"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic",
+  "mode": "basic",
+  "title": "Basic: Hello World",
+  "ui": "default",
+  "version": "1.0"
+}

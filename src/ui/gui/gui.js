@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Gui');
 
 goog.require('cwc.soy.ui.Gui');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
@@ -28,7 +29,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.soy');
-goog.require('goog.ui.Prompt');
 
 
 
@@ -59,13 +59,43 @@ cwc.ui.Gui = function(helper) {
   this.node = null;
 
   /** @type {Element} */
+  this.nodeChrome = null;
+
+  /** @type {Element} */
+  this.nodeDialog = null;
+
+  /** @type {Element} */
+  this.nodeFooter = null;
+
+  /** @type {Element} */
+  this.nodeGDrive = null;
+
+  /** @type {Element} */
   this.nodeHeader = null;
 
   /** @type {Element} */
   this.nodeLayout = null;
 
   /** @type {Element} */
-  this.nodeFooter = null;
+  this.nodeMenubar = null;
+
+  /** @type {Element} */
+  this.nodeMessage = null;
+
+  /** @type {Element} */
+  this.nodeNavigation = null;
+
+  /** @type {Element} */
+  this.nodeStatus = null;
+
+  /** @type {Element} */
+  this.nodeStatusbar = null;
+
+  /** @type {Element} */
+  this.nodeTitle = null;
+
+  /** @type {Element|StyleSheet} */
+  this.styleSheet = null;
 };
 
 
@@ -83,44 +113,40 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
   this.prefix = opt_prefix + this.prefix;
 
-  // Loads and install editor styles.
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.Gui.guiTemplate,
       {'prefix': this.prefix});
 
+  if (!this.styleSheet) {
+    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Gui.guiStyle({
+      'prefix': this.prefix
+    }));
+  }
+
+  // Main nodes
+  this.nodeChrome = goog.dom.getElement(this.prefix + 'chrome');
+  this.nodeDialog = goog.dom.getElement(this.prefix + 'dialog');
+  this.nodeGDrive = goog.dom.getElement(this.prefix + 'gdrive');
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
-  this.nodeFooter = goog.dom.getElement(this.prefix + 'footer');
-
-  goog.style.installStyles(cwc.soy.ui.Gui.guiStyle({
-    'prefix': this.prefix
-  }));
+  this.nodeMenubar = goog.dom.getElement(this.prefix + 'menubar');
+  this.nodeMessage = goog.dom.getElement(this.prefix + 'message');
+  this.nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
+  this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
+  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
+  this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
 
   // Decorates additional modules
-  var menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance) {
-    menubarInstance.decorate(goog.dom.getElement(this.prefix + 'menubar'),
-        this.generalPrefix);
-  }
-  var messageInstance = this.helper.getInstance('message');
-  if (messageInstance) {
-    messageInstance.decorate(goog.dom.getElement(this.prefix + 'message'),
-        this.generalPrefix);
-  }
-  var statusbarInstance = this.helper.getInstance('statusbar');
-  if (statusbarInstance) {
-    statusbarInstance.decorate(goog.dom.getElement(this.prefix + 'statusbar'),
-        this.generalPrefix);
-  }
-  var gDriveInstance = this.helper.getInstance('gDrive');
-  if (gDriveInstance) {
-    gDriveInstance.decorate(null, this.generalPrefix);
-  }
+  this.helper.decorateInstance('dialog', this.nodeDialog);
+  this.helper.decorateInstance('gDrive', this.nodeGDrive);
+  this.helper.decorateInstance('menubar', this.nodeMenubar);
+  this.helper.decorateInstance('message', this.nodeMessage);
+  this.helper.decorateInstance('navigation', this.nodeNavigation);
+  this.helper.decorateInstance('statusbar', this.nodeStatusbar);
 
   // Add elements interactions.
-  var titleNode = goog.dom.getElement(this.prefix + 'title');
-  goog.events.listen(titleNode, goog.events.EventType.CLICK,
+  goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
       this.renameTitle, false, this);
 
   // Add default Events.
@@ -136,9 +162,19 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
  * @param {string} title Title to display in the gui.
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
-  var node = goog.dom.getElement(this.prefix + 'title');
-  if (node && title !== undefined) {
-    goog.dom.setTextContent(node, title);
+  if (this.nodeTitle && title !== undefined) {
+    this.nodeTitle.value = title;
+  }
+};
+
+
+/**
+ * Enables or disables the title of the gui.
+ * @param {string} title Title to display in the gui.
+ */
+cwc.ui.Gui.prototype.enableTitle = function(enabled) {
+  if (this.nodeTitle) {
+    this.nodeTitle.disabled = !enabled;
   }
 };
 
@@ -148,29 +184,20 @@ cwc.ui.Gui.prototype.setTitle = function(title) {
  * @param {string} status Status to display in the gui.
  */
 cwc.ui.Gui.prototype.setStatus = function(status) {
-  var node = goog.dom.getElement(this.prefix + 'status');
-  if (node && status !== undefined) {
-    goog.dom.setTextContent(node, status);
+  if (this.nodeStatus && status !== undefined) {
+    goog.dom.setTextContent(this.nodeStatus, status);
   }
 };
 
 
 /**
  * Shows a prompt to rename the title.
+ * @param {Event=} opt_event
  */
-cwc.ui.Gui.prototype.renameTitle = function() {
+cwc.ui.Gui.prototype.renameTitle = function(opt_event) {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
-    var titleNode = goog.dom.getElement(this.prefix + 'title');
-    var promptEvent = fileInstance.setFileTitle.bind(fileInstance);
-    var prompt = new goog.ui.Prompt(
-        'Rename file',
-        'Please enter the new name for the file.',
-        promptEvent);
-    if (titleNode) {
-      prompt.setDefaultValue(goog.dom.getTextContent(titleNode));
-    }
-    prompt.setVisible(true);
+    fileInstance.setFileTitle(this.nodeTitle.value);
   }
 };
 
@@ -196,6 +223,5 @@ cwc.ui.Gui.prototype.getHeaderSize = function() {
  */
 cwc.ui.Gui.prototype.adjustSize = function() {
   var viewportSize = this.viewport_monitor.getSize();
-  var chrome = goog.dom.getElement(this.prefix + 'chrome');
-  goog.style.setSize(chrome, viewportSize);
+  goog.style.setSize(this.nodeChrome, viewportSize);
 };

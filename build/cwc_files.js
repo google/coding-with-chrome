@@ -24,7 +24,9 @@ var glob = closureBuilder.globSupport();
 closureBuilder.build({
   name: 'cwc.ui.Builder',
   srcs: glob([
-    'src/**/*'
+    'src/**/*.js',
+    'src/**/*.soy',
+    '!src/{frameworks,frameworks/**}'
   ]),
   deps: glob([
     'node_modules/blockly/**/*.js'

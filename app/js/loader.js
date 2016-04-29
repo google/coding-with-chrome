@@ -73,18 +73,20 @@ cwcLoader.prototype.messageHandler = function(event) {
       this.setProgress(data.text, data.current, data.total);
       break;
     case 'close':
-      var editor = chrome.app.window.get('editor');
-      if (editor) {
-        editor.show(true);
-        editor.drawAttention();
-      }
-      chrome.app.window.current().close();
+      setTimeout(function() {
+        var editor = chrome.app.window.get('editor');
+        if (editor) {
+          editor.show(true);
+          editor.drawAttention();
+        }
+        chrome.app.window.current().close();
+      }, 1000);
       break;
     case 'error':
       this.setError(data.msg);
       break;
     default:
-      console.log('Command', command, 'is not regonized!');
+      console.log('Command', command, 'is not recognized!');
   }
 };
 

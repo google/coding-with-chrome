@@ -51,3 +51,28 @@
  cwc.framework.mbot.prototype.beepBuzzer = function() {
    this.runner.send('beepBuzzer');
  };
+
+ cwc.framework.mbot.prototype.move = function(opt_speed, opt_delay){
+   this.runner.send('move', {'speed': opt_speed}, opt_delay);
+ }
+
+ cwc.framework.mbot.prototype.turn = function(opt_speed, opt_delay){
+   this.runner.send('turn', {'speed': opt_speed}, opt_delay);
+ }
+
+ cwc.framework.mbot.prototype.moveSteps = function(time, opt_speed){
+   this.move(opt_speed || 50, time);
+   this.stop(100);
+ }
+
+ /**
+  * turn mbot for certain seconds
+  * @param  {number} time      time/"steps" to turn
+  * @param  {number} opt_speed how fast does it turn
+  * @return {void}
+  * @export
+  */
+ cwc.framework.mbot.prototype.turnSteps = function(time, opt_speed){
+   this.turn(opt_speed || 50, time);
+   this.stop(100);
+ }

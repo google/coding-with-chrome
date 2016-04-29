@@ -67,12 +67,6 @@ cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
   this.editor.decorate(this.nodeEditor, this.prefix);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
-
-  // Custom Events
-  var runText = 'Executes the code and send commands to the EV3 unit.';
-  var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-  this.editor.addToolbarButton(editorRunButton, true);
 };
 
 

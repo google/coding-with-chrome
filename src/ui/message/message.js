@@ -22,7 +22,6 @@ goog.provide('cwc.ui.MessageType');
 
 goog.require('cwc.soy.ui.Message');
 goog.require('goog.Timer');
-goog.require('goog.dom.classes');
 goog.require('goog.dom.classlist');
 goog.require('goog.soy');
 
@@ -57,10 +56,7 @@ cwc.ui.Message = function() {
   this.prefix = 'message-';
 
   /** @type {Element} */
-  this.nodeBody = null;
-
-  /** @type {Element} */
-  this.nodeText = null;
+  this.snackbar = null;
 
   /** @type {cwc.ui.MessageType} */
   this.messageType = null;
@@ -79,17 +75,15 @@ cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Message.messageTemplate,
+      cwc.soy.ui.Message.template,
       {'prefix': this.prefix}
   );
 
   goog.style.installStyles(
-      cwc.soy.ui.Message.messageStyle({ 'prefix': this.prefix })
+      cwc.soy.ui.Message.style({ 'prefix': this.prefix })
   );
 
-  this.nodeBody = goog.dom.getElement(this.prefix + 'body');
-  this.nodeText = goog.dom.getElement(this.prefix + 'text');
-  this.hide();
+  this.snackbar = goog.dom.getElement(this.prefix + 'snackbar');
 };
 
 
@@ -134,12 +128,16 @@ cwc.ui.Message.prototype.warning = function(message) {
 cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
   var type = opt_type || cwc.ui.MessageType.INFO;
   var prefix = '[' + type + ' message]';
+  var snackbarData = {
+    message: message,
+    timeout: null
+  };
 
+  // Console logging
   switch (type) {
     case cwc.ui.MessageType.INFO:
     case cwc.ui.MessageType.SUCCESS:
       console.info(prefix, message);
-      goog.Timer.callOnce(this.autoHide.bind(this),  5000);
       break;
     case cwc.ui.MessageType.WARNING:
       console.warn(prefix, message);
@@ -151,52 +149,29 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
       console.log(prefix, message);
   }
 
-  if (this.nodeBody && this.nodeText) {
-    goog.dom.classes.set(this.nodeBody, this.prefix + 'type-' + type);
-    goog.dom.setTextContent(this.nodeText, message);
-    this.messageType = type;
-    this.show();
+  // Visual output
+  if (this.snackbar) {
+    switch (type) {
+      case cwc.ui.MessageType.INFO:
+      case cwc.ui.MessageType.SUCCESS:
+        snackbarData['timeout'] = 3000;
+        break;
+      case cwc.ui.MessageType.ERROR:
+      case cwc.ui.MessageType.WARNING:
+        snackbarData['actionHandler'] = this.close.bind(this);
+        snackbarData['actionText'] = 'Dismiss';
+        snackbarData['timeout'] = 30000;
+        break;
+    }
+    goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
+    this.snackbar.MaterialSnackbar.showSnackbar(snackbarData);
   }
+
 };
 
 
-/**
- * @param {Event} event
- */
-cwc.ui.Message.prototype.dismiss = function(event) {
-  var eventTarget = event.target;
-  if (goog.dom.classlist.contains(eventTarget, 'fava-style-link')) {
-    this.hide();
+cwc.ui.Message.prototype.close = function() {
+  if (this.snackbar) {
+    goog.dom.classlist.remove(this.snackbar, 'mdl-snackbar--active');
   }
-};
-
-
-/**
- * Shows the message window.
- */
-cwc.ui.Message.prototype.show = function() {
-  goog.style.setElementShown(this.node, true);
-  goog.style.setStyle(this.node, 'width', '100%');
-  goog.style.setStyle(this.nodeBody, 'width', '100%');
-};
-
-
-/**
- * Auto hides the message window.
- */
-cwc.ui.Message.prototype.autoHide = function() {
-  if (this.messageType == cwc.ui.MessageType.INFO ||
-      this.messageType == cwc.ui.MessageType.SUCCESS) {
-    this.hide();
-  }
-};
-
-
-/**
- * Hides the message window.
- */
-cwc.ui.Message.prototype.hide = function() {
-  goog.style.setElementShown(this.node, false);
-  goog.style.setStyle(this.node, 'width', '1px');
-  goog.style.setStyle(this.nodeBody, 'width', '1px');
 };

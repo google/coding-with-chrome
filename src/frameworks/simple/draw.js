@@ -114,6 +114,7 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
   }
   window['draw'] = {
     'circle': this.circle.bind(this),
+    'clear': this.clear.bind(this),
     'ellipse': this.ellipse.bind(this),
     'line': this.line.bind(this),
     'point': this.point.bind(this),
@@ -194,6 +195,16 @@ cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
     display.arc(x, y, (radius || 25), 0, 2 * Math.PI, false);
   };
   return this.execute_(canvasInstructions, display, manipulation);
+};
+
+
+/**
+ * Clears the entire canvas.
+ * @export
+ */
+cwc.framework.simple.Draw.prototype.clear = function() {
+  var display = this.getDisplay_();
+  display.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
 
@@ -353,7 +364,7 @@ cwc.framework.simple.Draw.prototype.point = function(x, y,
     var background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
-      manipulation.setBgColor(background_color);
+      manipulation.setFillStyle(background_color);
     }
   }
   var canvasInstructions = function() {

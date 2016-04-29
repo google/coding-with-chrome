@@ -183,7 +183,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
-  this.runner.showRunButton(false);
+
   if (this.showPreview) {
     this.runner.showTurtle(true);
   }
@@ -265,16 +265,6 @@ cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
 
 
 /**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.ev3.Runner.prototype.cleanUp = function() {
-  this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener, this.name);
-  this.listener = [];
-};
-
-
-/**
  * Adds an event listener for a specific event on a native event
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
@@ -290,4 +280,14 @@ cwc.mode.ev3.Runner.prototype.addEventListener = function(src, type,
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
+};
+
+
+/**
+ * Cleans up the event listener and any other modification.
+ */
+cwc.mode.ev3.Runner.prototype.cleanUp = function() {
+  this.connection.cleanUp();
+  this.helper.removeEventListeners(this.listener, this.name);
+  this.listener = [];
 };

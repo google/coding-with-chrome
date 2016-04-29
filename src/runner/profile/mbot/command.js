@@ -55,14 +55,72 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
   }
 }
 
+/**
+ * move mbot forward or backward
+ * @param  {Object} data data package
+ * @return {void}
+ */
+cwc.runner.profile.mbot.Command.prototype.move = function(data){
+    this.api.setLeftMotor(data['speed']);
+    this.api.setRightMotor(-data['speed']);
+}
+
+/**
+ * turn mbot to a direction
+ * data.direction = 1 : turn left
+ * data.direction = 2 : turn right
+ * @param  {Object} data   data package
+ * @return {void}
+ */
+cwc.runner.profile.mbot.Command.prototype.turn = function(data){
+    this.api.setLeftMotor(-data['speed']);
+    this.api.setRightMotor(-data['speed']);
+}
+
+/**
+ * stop the mbot completely
+ * @param  {void} opt_data   not needed
+ * @return {void}
+ */
+cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data){
+  this.move({speed: 0});
+}
+
+/**
+ * set led color of the mbot
+ * index: which led to light up? 0 - ALL; 1 - Left; 2 - Right
+ * red, green, blue: RGB values
+ * @param  {Object} data Data package
+ * @return {void}
+ */
 cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data){
   this.api.setLEDColor(data['index'], data['red'], data['green'], data['blue']);
 }
 
+/**
+ * play music note on mbot
+ * @param  {Object} data data package
+ * @return {void}
+ */
 cwc.runner.profile.mbot.Command.prototype.playNote = function(data){
   this.api.playNote(data['frequency'], data['duration']);
 }
 
-cwc.runner.profile.mbot.Command.prototype.ultrasonicValue = function(opt_data){
+// SECTION: get values from sensors
+/**
+ * return ultrasonic value from mbot
+ * @return {number} sensor value
+ * @export
+ */
+cwc.runner.profile.mbot.Command.prototype.ultrasonicValue = function(){
   return this.api.ultrasonicValue();
+}
+
+/**
+ * return lightness sensor value from mbot
+ * @return {number} sensor value
+ * @export
+ */
+cwc.runner.profile.mbot.Command.prototype.lightSensorValue = function(){
+  return this.api.lightSensorValue();
 }

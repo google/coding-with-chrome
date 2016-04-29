@@ -53,12 +53,6 @@ cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
-  /** @type {Array} */
-  this.listener = [];
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -79,6 +73,12 @@ cwc.ui.Turtle = function(helper, opt_image) {
 
   /** @type {string} */
   this.image = opt_image;
+
+  /** @type {Element|StyleSheet} */
+  this.styleSheet = null;
+
+  /** @type {Array} */
+  this.listener = [];
 };
 
 
@@ -104,6 +104,14 @@ cwc.ui.Turtle.prototype.decorate = function(node, opt_prefix) {
 
   // Runner
   this.connector.init();
+
+  // Event handler
+  var layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    var eventHandler = layoutInstance.getEventHandler();
+    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+        this.cleanUp, false, this);
+  }
 
   // Content
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -180,4 +188,32 @@ cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
  */
 cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
   console.log('Turtle Runner message:', e);
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function(?)} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ */
+cwc.ui.Turtle.prototype.addEventListener = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
+};
+
+
+/**
+ * Clears all object based events.
+ */
+cwc.ui.Turtle.prototype.cleanUp = function() {
+  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
 };

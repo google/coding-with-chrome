@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "for (var i = 0; i < 10; i++) {\n  command.write('Na ');\n}\ncommand.write('Batman');\n"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic",
+  "mode": "basic",
+  "title": "Basic: Text Loop",
+  "ui": "default",
+  "version": "1.0"
+}

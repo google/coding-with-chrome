@@ -24,11 +24,12 @@
 @import 'default.css';
 @import 'fonts.css';
 @import 'icons.css';
-@import 'editor.css';
 @import 'preloader.css';
+@import 'backgrounds.css';
 
 /* External style sheets. */
 @import 'blockly/blockly.css';
 @import 'closure/closure.css';
 @import 'codemirror/codemirror4.css';
 @import 'hint.css/hint.css';
+@import 'material-design-lite/material-design-lite.css';

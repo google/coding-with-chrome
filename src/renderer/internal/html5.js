@@ -87,7 +87,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
 
   // Additional frameworks.
   var script = javascript || html || '';
-  if (script.indexOf('draw.') != -1 || script.indexOf('write(') != -1) {
+  if (script.indexOf('draw.') != -1 || script.indexOf('command.') != -1) {
     headers.push(this.simpleFramework);
   }
   if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||

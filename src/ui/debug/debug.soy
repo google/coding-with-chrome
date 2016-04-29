@@ -28,31 +28,45 @@
   {@param file_types: ?}
   {@param mode_types: ?}
   {@param message_types: ?}
-  <div id="{$prefix}body">
-    <h2>Debug screen</h2>
+  {@param dialog_types: ?}
 
-    <div class="icon_24px icon_button" id="{$prefix}close">close</div>
+  <div id="{$prefix}body" class="mdl-dialog">
+    <h2 class="mdl-dialog__title">Debug screen</h2>
+
+    <div id="{$prefix}close" class="icon_24px icon_button">close</div>
 
     <h3>File Types</h3>
-    <select id="file_types">
+    <select id="{$prefix}file_types">
     {foreach $file_type in keys($file_types)}
       <option value="{$file_type}">{$file_type}</option>
     {/foreach}
     </select>
 
     <h3>Mode Types</h3>
-    <select id="mode_types">
+    <select id="{$prefix}mode_types">
     {foreach $mode_type in keys($mode_types)}
       <option value="{$mode_type}">{$mode_type}</option>
     {/foreach}
     </select>
 
     <h3>Message Types</h3>
-    <select id="message_types">
+    <select id="{$prefix}message_types">
     {foreach $message_type in keys($message_types)}
       <option value="{$message_type}">{$message_type}</option>
     {/foreach}
     </select>
+
+    <h3>Dialog Types</h3>
+    <select id="{$prefix}dialog_types">
+    {foreach $dialog_type in keys($dialog_types)}
+      <option value="{$dialog_type}">{$dialog_type}</option>
+    {/foreach}
+    </select>
+    <p>
+      <button id="{$prefix}dialog_show">show</button>
+      <button id="{$prefix}dialog_showModal">showModal</button>
+      <button id="{$prefix}dialog_close">close</button>
+    </p>
 
     <div id="{$prefix}footer">
       Note: Not all features are implemented yet!
@@ -73,11 +87,25 @@
     border: 1px solid red;
     padding: 10px;
     background: #ccc;
-    width: 200px;
+    width: 250px;
   {rb}
 
-  #{$prefix}body h2{lb}
-    margin: 0;
+  #{$prefix}body h2,
+  #{$prefix}body h3,
+  #{$prefix}body h4 {lb}
+    margin-bottom: 0;
+  {rb}
+
+  #{$prefix}body h2 {lb}
+    font-size: 24px;
+  {rb}
+
+  #{$prefix}body h3 {lb}
+    font-size: 16px;
+  {rb}
+
+  #{$prefix}body h4 {lb}
+    font-size: 12px;
   {rb}
 
   #{$prefix}close {lb}

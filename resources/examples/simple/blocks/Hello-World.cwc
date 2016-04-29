@@ -1,0 +1,22 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"simple_text_write\" id=\"tAL)fHeUVlt(qBFRI[Bd\" x=\"149\" y=\"77\">\n    <value name=\"text\">\n      <block type=\"text\" id=\"l+w{|A3O98YwQ9}c~[Xu\">\n        <field name=\"TEXT\">Hello World!</field>\n      </block>\n    </value>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic_blockly",
+  "mode": "basic_blockly",
+  "title": "Basic: Hello World",
+  "ui": "blockly",
+  "version": "1.0"
+}
