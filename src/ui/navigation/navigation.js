@@ -148,7 +148,7 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.shortcutHandler.registerShortcut('save_file_as', 'ctrl+shift+s');
   goog.events.listen(this.shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-    this.handleKeyboardShortcut, false, this);
+    this.handleKeyboardShortcut_, false, this);
 };
 
 
@@ -294,8 +294,9 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
 
 /**
  * Handles keyboard shortcuts.
+ * @private
  */
-cwc.ui.Navigation.prototype.handleKeyboardShortcut = function(event) {
+cwc.ui.Navigation.prototype.handleKeyboardShortcut_ = function(event) {
   switch (event.identifier) {
     case 'new_file':
       this.requestShowSelectScreen();

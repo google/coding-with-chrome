@@ -25,10 +25,7 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
-goog.require('goog.positioning.Corner');
 goog.require('goog.soy');
-goog.require('goog.ui.PopupMenu');
-goog.require('goog.ui.Separator');
 
 
 
@@ -95,9 +92,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {boolean} */
   this.bluetoothConnected = null;
-
-  /** @type {goog.ui.PopupMenu} */
-  this.menuPopup = null;
 
   /** @type {cwc.ui.DeviceMenu} */
   this.deviceMenu = null;

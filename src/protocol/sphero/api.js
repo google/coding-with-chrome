@@ -249,7 +249,7 @@ cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
     this.speed_ : opt_speed;
   var heading = this.heading_ = opt_heading === undefined ?
     this.heading_ : opt_heading;
-  var state = !opt_state ? 0x00 : 0x01;
+  var state = opt_state === undefined ? 0x01 : (opt_state ? 0x01 : 0x00);
   buffer.writeCommand(this.command.ROLL);
   buffer.writeByte(speed);
   buffer.writeUInt(heading);
@@ -305,6 +305,7 @@ cwc.protocol.sphero.Api.prototype.stop = function() {
   this.reset();
   this.setRGB(0, 0, 0, 1);
   this.setBackLed(0);
+  this.boost(false);
   this.roll(0, 0, 0);
 };
 

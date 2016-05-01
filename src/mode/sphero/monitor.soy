@@ -41,14 +41,14 @@
  */
 {template .calibration}
   {@param prefix: string}
-  <div id="{$prefix}calibration">
+  <div>
     Sphero Callibration Screen<hr>
-    <div id="{$prefix}calibration-buttons"></div>
   </div>
   <p>
-    Press the -2, -1, +1 and +2 button until the tailing light shows in your
-    direction.<br>
-    To end the calibration and to store the new "0" point, press the 0 button.
+    <input type="range" id="{$prefix}calibration-slide" min="0" max="360" value="180" class="mdl-slider mdl-js-slider">
+  </p>
+  <p>
+    Move the slider to the left / right until the tailing light shows in your direction.<br>
   </p>
 {/template}
 

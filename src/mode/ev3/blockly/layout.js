@@ -45,17 +45,14 @@ cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
 
-  var nodes = layoutInstance.getNodes();
-  console.log('Adding Content');
-
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.ev3.blockly.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.ev3.blockly.runner,
       {'prefix': this.prefix}
   );

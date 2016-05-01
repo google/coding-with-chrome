@@ -42,19 +42,16 @@ cwc.mode.html5.Layout = function(helper) {
  */
 cwc.mode.html5.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
-
-  console.log('Decorate HTML5 layout …');
   layoutInstance.decorateSimpleTwoColumnLayout(630);
-  var nodes = layoutInstance.getNodes();
 
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.HTML5.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.HTML5.preview,
       {'prefix': this.prefix}
   );

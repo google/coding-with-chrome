@@ -38,20 +38,16 @@ cwc.mode.arduino.Layout = function(helper) {
  */
 cwc.mode.arduino.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
-
-  console.log('Decorate Arduino layout …');
   layoutInstance.decorateSimpleTwoColumnLayout(500);
-  var nodes = layoutInstance.getNodes();
 
-  console.log('Adding Content');
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.Arduino.editor,
       {'prefix': this.helper.getPrefix('arduino-editor')}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.Arduino.runner,
       {'prefix': this.helper.getPrefix('arduino-runner')}
   );

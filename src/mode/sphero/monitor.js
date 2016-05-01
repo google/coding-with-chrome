@@ -64,9 +64,6 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {Element} */
   this.nodeSystemButtons = null;
 
-  /** @type {Element} */
-  this.nodeCalibrationButtons = null;
-
   /** @type {!string} */
   this.buttonSize = '36px';
 
@@ -94,34 +91,17 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   this.buttonSleep = cwc.ui.Helper.getIconButton('local_hotel',
       'Send Sphero to sleep', this.sleep_.bind(this), this.buttonSize);
 
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonCalibrate0 = cwc.ui.Helper.getIconButton('exposure_zero',
-      'Set Calibration', this.calibrate0_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonCalibrateP10 = cwc.ui.Helper.getIconButton('exposure_plus_1',
-      'Calibrate plus 10', this.calibrateP10_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonCalibrateN10 = cwc.ui.Helper.getIconButton('exposure_neg_1',
-      'Calibrate negative 10', this.calibrateN10_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonCalibrateP20 = cwc.ui.Helper.getIconButton('exposure_plus_2',
-      'Calibrate plus 20', this.calibrateP20_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonCalibrateN20 = cwc.ui.Helper.getIconButton('exposure_neg_2',
-      'Calibrate negative 20', this.calibrateN20_.bind(this), this.buttonSize);
-
-  /** @type {!number} */
-  this.calibrationPoint = 0;
+  /** @type {goog.ui.KeyboardShortcutHandler} */
+  this.shortcutHandler = null;
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
 
   /** @type {!Array} */
   this.listener = [];
+
+  /** @private {cwc.ui.RunnerMonitor} */
+  this.runnerMonitor_ = null;
 };
 
 
@@ -131,15 +111,15 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
  */
 cwc.mode.sphero.Monitor.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
-  var runnerMonitor = runnerInstance.getMonitor();
-  if (!runnerMonitor) {
+  this.runnerMonitor_ = runnerInstance.getMonitor();
+  if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runner);
     return;
   }
 
-  this.nodeIntro = runnerMonitor.getIntroNode();
-  this.nodeControl = runnerMonitor.getControlNode();
-  this.nodeCalibration = runnerMonitor.getCalibrationNode();
+  this.nodeIntro = this.runnerMonitor_.getIntroNode();
+  this.nodeControl = this.runnerMonitor_.getControlNode();
+  this.nodeCalibration = this.runnerMonitor_.getCalibrationNode();
 
   goog.soy.renderElement(
       this.nodeIntro,
@@ -168,8 +148,6 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       this.prefix + 'control-buttons');
   this.nodeSystemButtons = goog.dom.getElement(
       this.prefix + 'system-buttons');
-  this.nodeCalibrationButtons = goog.dom.getElement(
-      this.prefix + 'calibration-buttons');
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout', true);
@@ -178,8 +156,9 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
     this.cleanUp, false, this);
 
   this.addEventHandler_();
-  //this.addKeyHandler_();
+  this.addKeyHandler_();
   runnerInstance.enableMonitor(true);
+  layoutInstance.refresh();
 };
 
 
@@ -187,19 +166,25 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
-  this.buttonMoveLeft.render(this.nodeControlButtons);
-  this.buttonMoveUp.render(this.nodeControlButtons);
   this.buttonMoveDown.render(this.nodeControlButtons);
+  this.buttonMoveLeft.render(this.nodeControlButtons);
   this.buttonMoveRight.render(this.nodeControlButtons);
+  this.buttonMoveUp.render(this.nodeControlButtons);
 
   this.buttonStop.render(this.nodeSystemButtons);
   this.buttonSleep.render(this.nodeSystemButtons);
 
-  this.buttonCalibrateN20.render(this.nodeCalibrationButtons);
-  this.buttonCalibrateN10.render(this.nodeCalibrationButtons);
-  this.buttonCalibrate0.render(this.nodeCalibrationButtons);
-  this.buttonCalibrateP10.render(this.nodeCalibrationButtons);
-  this.buttonCalibrateP20.render(this.nodeCalibrationButtons);
+  var calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
+  this.addEventListener_(
+    calibrationSlide, goog.events.EventType.INPUT, function(e) {
+      this.api.calibrate(e.target.value, true);
+    }, false, this);
+
+  this.addEventListener_(
+    calibrationSlide, goog.events.EventType.CHANGE, function(opt_e) {
+      this.api.setCalibration();
+    }, false, this);
+
 };
 
 
@@ -207,10 +192,22 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
-  var keyHandler = new goog.events.KeyHandler(this.nodeControl);
-  this.addEventListener_(keyHandler, 'key', function(e) {
-    console.log('keyHandler', e);
-  }, true, this);
+  this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+  this.shortcutHandler.registerShortcut('backward', 'down');
+  this.shortcutHandler.registerShortcut('left', 'left');
+  this.shortcutHandler.registerShortcut('right', 'right');
+  this.shortcutHandler.registerShortcut('forward', 'up');
+
+  this.shortcutHandler.registerShortcut('boost-backward', 'shift+down');
+  this.shortcutHandler.registerShortcut('boost-left', 'shift+left');
+  this.shortcutHandler.registerShortcut('boost-right', 'shift+right');
+  this.shortcutHandler.registerShortcut('boost-forward', 'shift+up');
+
+  this.shortcutHandler.registerShortcut('stop', 'space');
+  this.shortcutHandler.registerShortcut('boost', 'shift');
+  goog.events.listen(this.shortcutHandler,
+    goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
+    this.handleKeyboardShortcut_, false, this);
 };
 
 
@@ -254,6 +251,25 @@ cwc.mode.sphero.Monitor.prototype.moveBackward_ = function(opt_event) {
  * @param {Event=} opt_event
  * @private
  */
+cwc.mode.sphero.Monitor.prototype.moveStop_ = function(opt_event) {
+  this.api.boost(false);
+  this.api.roll(0);
+};
+
+
+/**
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.moveBoost_ = function(opt_event) {
+  this.api.boost(true);
+};
+
+
+/**
+ * @param {Event=} opt_event
+ * @private
+ */
 cwc.mode.sphero.Monitor.prototype.stop_ = function(opt_event) {
   this.connection.stop();
 };
@@ -269,55 +285,6 @@ cwc.mode.sphero.Monitor.prototype.sleep_ = function(opt_event) {
 
 
 /**
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.calibrate0_ = function() {
-  this.calibrationPoint = 0;
-  this.api.setCalibration();
-};
-
-
-/**
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.calibrateN10_ = function() {
-  var header = this.calibrationPoint;
-  this.calibrationPoint = header = header - 10 >= 0 ? header - 10 : 359;
-  this.api.calibrate(header, true);
-};
-
-
-/**
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.calibrateP10_ = function() {
-  var header = this.calibrationPoint;
-  this.calibrationPoint = header = header + 10 <= 359 ? header + 10 : 0;
-  this.api.calibrate(header, true);
-};
-
-
-/**
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.calibrateN20_ = function() {
-  var header = this.calibrationPoint;
-  this.calibrationPoint = header = header - 20 >= 0 ? header - 20 : 359;
-  this.api.calibrate(header, true);
-};
-
-
-/**
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.calibrateP20_ = function() {
-  var header = this.calibrationPoint;
-  this.calibrationPoint = header = header + 20 <= 359 ? header + 20 : 0;
-  this.api.calibrate(header, true);
-};
-
-
-/**
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
@@ -325,6 +292,55 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.helper.removeEventListeners(this.listener, this.name);
+};
+
+
+/**
+ * Handles keyboard shortcuts.
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
+  if (this.runnerMonitor_.isControlActive()) {
+    switch (event.identifier) {
+
+      // Normal speed
+      case 'forward':
+        this.api.roll(50, 0);
+        break;
+      case 'right':
+        this.api.roll(50, 90);
+        break;
+      case 'backward':
+        this.api.roll(50, 180);
+        break;
+      case 'left':
+        this.api.roll(50, 270);
+        break;
+
+      // Boosted speed
+      case 'boost-forward':
+        this.api.roll(255, 0);
+        break;
+      case 'boost-right':
+        this.api.roll(255, 90);
+        break;
+      case 'boost-backward':
+        this.api.roll(255, 180);
+        break;
+      case 'boost-left':
+        this.api.roll(255, 270);
+        break;
+
+      case 'stop':
+        this.moveStop_();
+        break;
+      case 'boost':
+        this.moveBoost_();
+        break;
+      default:
+        console.info(event.identifier);
+    }
+  }
 };
 
 
@@ -346,4 +362,3 @@ cwc.mode.sphero.Monitor.prototype.addEventListener_ = function(src, type,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };
-

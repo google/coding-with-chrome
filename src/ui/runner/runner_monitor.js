@@ -39,7 +39,7 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix;
+  this.prefix = prefix + 'monitor-';
 
   /** @type {Element} */
   this.node = null;
@@ -74,20 +74,17 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   /** @type {Element} */
   this.nodeMainStop = null;
 
-  /** @type {!boolean} */
-  this.introEnabled = false;
+  /** @type {Element} */
+  this.tabControl = null;
 
-  /** @type {!boolean} */
-  this.monitorEnabled = false;
-
-  /** @type {!boolean} */
-  this.controlEnabled = false;
-
-  /** @type {!boolean} */
-  this.calibrationEnabled = false;
+  /** @type {Element} */
+  this.tabMonitor = null;
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
+
+  /** @private {!string} */
+  this.active_ = 'is-active';
 };
 
 
@@ -109,23 +106,31 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
       { 'prefix': this.prefix }
   );
 
-  this.nodeCalibration = goog.dom.getElement(
-    this.prefix + 'monitor-calibration');
-  this.nodeContent = goog.dom.getElement(this.prefix + 'monitor-content');
-  this.nodeControl = goog.dom.getElement(this.prefix + 'monitor-control');
-  this.nodeIntro = goog.dom.getElement(this.prefix + 'monitor-intro');
-  this.nodeMain = goog.dom.getElement(this.prefix + 'monitor-main');
-  this.nodeMainRun = goog.dom.getElement(this.prefix + 'monitor-main-run');
-  this.nodeMainStop = goog.dom.getElement(this.prefix + 'monitor-main-stop');
-  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor-monitor');
-  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'monitor-statusbar');
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'monitor-toolbar');
+  // Tabs
+  this.tabControl = goog.dom.getElement(this.prefix + 'tab-control');
+  this.tabMonitor = goog.dom.getElement(this.prefix + 'tab-monitor');
+
+  // Content
+  this.nodeCalibration = goog.dom.getElement(this.prefix + 'calibration');
+  this.nodeContent = goog.dom.getElement(this.prefix + 'content');
+  this.nodeControl = goog.dom.getElement(this.prefix + 'control');
+  this.nodeIntro = goog.dom.getElement(this.prefix + 'intro');
+  this.nodeMain = goog.dom.getElement(this.prefix + 'main');
+  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
+
+  // Buttons
+  this.nodeMainRun = goog.dom.getElement(this.prefix + 'main-run');
+  this.nodeMainStop = goog.dom.getElement(this.prefix + 'main-stop');
+
+  // Statusbar and Toolbar
+  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
 
   goog.events.listen(this.nodeMainRun, goog.events.EventType.CLICK,
-      this.handleRun, false, this);
+      this.handleRun_, false, this);
 
   goog.events.listen(this.nodeMainStop, goog.events.EventType.CLICK,
-      this.handleStop, false, this);
+      this.handleStop_, false, this);
 };
 
 
@@ -135,23 +140,8 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
  * @export
  */
 cwc.ui.RunnerMonitor.prototype.setRunStatus = function(running) {
-  goog.dom.classlist.enable(this.nodeMainRun, 'is-active', !running);
-  goog.dom.classlist.enable(this.nodeMainStop, 'is-active', running);
-};
-
-
-cwc.ui.RunnerMonitor.prototype.handleRun = function() {
-  var runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.run();
-  }
-};
-
-cwc.ui.RunnerMonitor.prototype.handleStop = function() {
-  var runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.stop();
-  }
+  goog.dom.classlist.enable(this.nodeMainRun, this.active_, !running);
+  goog.dom.classlist.enable(this.nodeMainStop, this.active_, running);
 };
 
 
@@ -196,6 +186,22 @@ cwc.ui.RunnerMonitor.prototype.getMonitorNode = function() {
 
 
 /**
+ * @return {boolean}
+ */
+cwc.ui.RunnerMonitor.prototype.isControlActive = function() {
+  return goog.dom.classlist.contains(this.tabControl, this.active_);
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.ui.RunnerMonitor.prototype.isMonitorActive = function() {
+  return goog.dom.classlist.contains(this.tabMonitor, this.active_);
+};
+
+
+/**
  * Adjusts size after resize or on size change.
  */
 cwc.ui.RunnerMonitor.prototype.adjustSize = function() {
@@ -215,5 +221,29 @@ cwc.ui.RunnerMonitor.prototype.adjustSize = function() {
 
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeContent, contentSize);
+  }
+};
+
+
+/**
+ * Runs the runner instance.
+ * @private
+ */
+cwc.ui.RunnerMonitor.prototype.handleRun_ = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.run();
+  }
+};
+
+
+/**
+ * Stops the runner instance.
+ * @private
+ */
+cwc.ui.RunnerMonitor.prototype.handleStop_ = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.stop();
   }
 };

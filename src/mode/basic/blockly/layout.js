@@ -46,18 +46,15 @@ cwc.mode.basic.blockly.Layout = function(helper) {
 cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
-  var nodes = layoutInstance.getNodes();
 
-  console.log('Decorate editor …');
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.Basic.blockly.editor,
       {'prefix': this.prefix}
   );
 
-  console.log('Decorate preview …');
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.Basic.blockly.preview,
       {'prefix': this.prefix}
   );

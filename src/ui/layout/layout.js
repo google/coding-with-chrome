@@ -338,6 +338,20 @@ cwc.ui.Layout.prototype.getNodes = function() {
 
 
 /**
+ * Returns the named node of the current layout.
+ * @param {!string} name
+ * @return {Object}
+ * @export
+ */
+cwc.ui.Layout.prototype.getNode = function(name) {
+  if (name in this.nodes) {
+    return this.nodes[name];
+  }
+  return null;
+};
+
+
+/**
  * @return {Element}
  * @export
  */
