@@ -24,8 +24,7 @@ goog.require('cwc.ui.Helper');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.events.KeyCodes');
-goog.require('goog.events.KeyHandler');
+goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 
@@ -58,39 +57,6 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {Element} */
   this.nodeCalibration = null;
 
-  /** @type {Element} */
-  this.nodeControlButtons = null;
-
-  /** @type {Element} */
-  this.nodeSystemButtons = null;
-
-  /** @type {!string} */
-  this.buttonSize = '36px';
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonMoveLeft = cwc.ui.Helper.getIconButton('keyboard_arrow_left',
-      'Move left', this.moveLeft_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonMoveUp = cwc.ui.Helper.getIconButton('keyboard_arrow_up',
-      'Move forward', this.moveForward_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonMoveRight = cwc.ui.Helper.getIconButton('keyboard_arrow_right',
-      'Move right', this.moveRight_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonMoveDown = cwc.ui.Helper.getIconButton('keyboard_arrow_down',
-      'Move backward', this.moveBackward_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonStop = cwc.ui.Helper.getIconButton('pan_tool',
-      'Stop Sphero', this.stop_.bind(this), this.buttonSize);
-
-  /** @type {!goog.ui.CustomButton} */
-  this.buttonSleep = cwc.ui.Helper.getIconButton('local_hotel',
-      'Send Sphero to sleep', this.sleep_.bind(this), this.buttonSize);
-
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
@@ -118,18 +84,12 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   }
 
   this.nodeIntro = this.runnerMonitor_.getIntroNode();
-  this.nodeControl = this.runnerMonitor_.getControlNode();
   this.nodeCalibration = this.runnerMonitor_.getCalibrationNode();
+  this.nodeControl = this.runnerMonitor_.getControlNode();
 
   goog.soy.renderElement(
       this.nodeIntro,
       cwc.soy.mode.sphero.Monitor.intro,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      this.nodeControl,
-      cwc.soy.mode.sphero.Monitor.control,
       {'prefix': this.prefix}
   );
 
@@ -139,15 +99,16 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       {'prefix': this.prefix}
   );
 
+  goog.soy.renderElement(
+      this.nodeControl,
+      cwc.soy.mode.sphero.Monitor.control,
+      {'prefix': this.prefix}
+  );
+
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
       cwc.soy.mode.sphero.Monitor.style({'prefix': this.prefix}));
   }
-
-  this.nodeControlButtons = goog.dom.getElement(
-      this.prefix + 'control-buttons');
-  this.nodeSystemButtons = goog.dom.getElement(
-      this.prefix + 'system-buttons');
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout', true);
@@ -166,14 +127,37 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
-  this.buttonMoveDown.render(this.nodeControlButtons);
-  this.buttonMoveLeft.render(this.nodeControlButtons);
-  this.buttonMoveRight.render(this.nodeControlButtons);
-  this.buttonMoveUp.render(this.nodeControlButtons);
 
-  this.buttonStop.render(this.nodeSystemButtons);
-  this.buttonSleep.render(this.nodeSystemButtons);
+  // Movements
+  this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
+    this.api.roll(50, 270);
+  }.bind(this), false, this);
 
+  this.addEventListener_('move-forward', goog.events.EventType.CLICK,
+    function() {
+      this.api.roll(50, 0);
+    }.bind(this), false, this);
+
+  this.addEventListener_('move-backward', goog.events.EventType.CLICK,
+    function() {
+      this.api.roll(50, 180);
+    }.bind(this), false, this);
+
+  this.addEventListener_('move-right', goog.events.EventType.CLICK, function() {
+    this.api.roll(50, 90);
+  }.bind(this), false, this);
+
+  // Stop
+  this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
+    this.connection.stop();
+  }.bind(this), false, this);
+
+  // Sleep
+  this.addEventListener_('sleep', goog.events.EventType.CLICK, function() {
+    this.api.sleep();
+  }.bind(this), false, this);
+
+  // Calibration slide
   var calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
   this.addEventListener_(
     calibrationSlide, goog.events.EventType.INPUT, function(e) {
@@ -204,83 +188,10 @@ cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
   this.shortcutHandler.registerShortcut('boost-forward', 'shift+up');
 
   this.shortcutHandler.registerShortcut('stop', 'space');
-  this.shortcutHandler.registerShortcut('boost', 'shift');
+
   goog.events.listen(this.shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKeyboardShortcut_, false, this);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveLeft_ = function(opt_event) {
-  this.api.roll(50, 270);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveForward_ = function(opt_event) {
-  this.api.roll(50, 0);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveRight_ = function(opt_event) {
-  this.api.roll(50, 90);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveBackward_ = function(opt_event) {
-  this.api.roll(50, 180);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveStop_ = function(opt_event) {
-  this.api.boost(false);
-  this.api.roll(0);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.moveBoost_ = function(opt_event) {
-  this.api.boost(true);
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.stop_ = function(opt_event) {
-  this.connection.stop();
-};
-
-
-/**
- * @param {Event=} opt_event
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.sleep_ = function(opt_event) {
-  this.api.sleep();
 };
 
 
@@ -300,46 +211,46 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
-  if (this.runnerMonitor_.isControlActive()) {
-    switch (event.identifier) {
+  if (!this.runnerMonitor_.isControlActive()) {
+    return;
+  }
 
-      // Normal speed
-      case 'forward':
-        this.api.roll(50, 0);
-        break;
-      case 'right':
-        this.api.roll(50, 90);
-        break;
-      case 'backward':
-        this.api.roll(50, 180);
-        break;
-      case 'left':
-        this.api.roll(50, 270);
-        break;
+  switch (event.identifier) {
 
-      // Boosted speed
-      case 'boost-forward':
-        this.api.roll(255, 0);
-        break;
-      case 'boost-right':
-        this.api.roll(255, 90);
-        break;
-      case 'boost-backward':
-        this.api.roll(255, 180);
-        break;
-      case 'boost-left':
-        this.api.roll(255, 270);
-        break;
+    // Normal speed
+    case 'forward':
+      this.api.roll(50, 0);
+      break;
+    case 'right':
+      this.api.roll(50, 90);
+      break;
+    case 'backward':
+      this.api.roll(50, 180);
+      break;
+    case 'left':
+      this.api.roll(50, 270);
+      break;
 
-      case 'stop':
-        this.moveStop_();
-        break;
-      case 'boost':
-        this.moveBoost_();
-        break;
-      default:
-        console.info(event.identifier);
-    }
+    // Boosted speed
+    case 'boost-forward':
+      this.api.roll(255, 0);
+      break;
+    case 'boost-right':
+      this.api.roll(255, 90);
+      break;
+    case 'boost-backward':
+      this.api.roll(255, 180);
+      break;
+    case 'boost-left':
+      this.api.roll(255, 270);
+      break;
+
+    case 'stop':
+      this.api.boost(false);
+      this.api.roll(0);
+      break;
+    default:
+      console.info(event.identifier);
   }
 };
 
@@ -349,7 +260,7 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
  *
- * @param {EventTarget|goog.events.Listenable} src
+ * @param {EventTarget|goog.events.Listenable|string} src
  * @param {string} type
  * @param {function(?)} listener
  * @param {boolean=} opt_useCapture
@@ -358,7 +269,9 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  */
 cwc.mode.sphero.Monitor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  var target = goog.isString(src) ?
+    goog.dom.getElement(this.prefix + src) : src;
+  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

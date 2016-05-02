@@ -27,11 +27,9 @@
 {template .intro}
   {@param prefix: string}
   <div id="{$prefix}intro">
-    These screens allow you to control, monitor and calibrate the
-    Sphero ball.<br>
+    The following screens allow you to control, monitor and calibrate the Sphero ball.<br>
     <br>
-    Please calibrate your Sphero in the calibration screen before you
-    execute any programm.<br>
+    Please calibrate your Sphero in the calibration screen before you execute any programm.<br>
   </div>
 {/template}
 
@@ -54,14 +52,28 @@
 
 
 /**
- * Calibration template.
+ * Control template.
  */
 {template .control}
   {@param prefix: string}
   <div id="{$prefix}control">
-    Sphero Control Screen<hr>
-    <div id="{$prefix}control-buttons"></div>
-    <div id="{$prefix}system-buttons"></div>
+    Use the buttons belows or the keyboard to control the Sphero manual.<br>
+    <div id="{$prefix}control-buttons">
+      <div id="{$prefix}move-left" class="icon_36px icon_button">keyboard_arrow_left</div>
+      <div id="{$prefix}move-forward" class="icon_36px icon_button">keyboard_arrow_up</div>
+      <div id="{$prefix}move-backward" class="icon_36px icon_button">keyboard_arrow_down</div>
+      <div id="{$prefix}move-right" class="icon_36px icon_button">keyboard_arrow_right</div>
+    </div>
+    <div id="{$prefix}control-commands">
+      <div id="{$prefix}sleep" class="icon_36px icon_button">local_hotel</div>
+      <div class="mdl-tooltip" for="{$prefix}sleep">
+        Puts the connected unit to sleep.
+      </div>
+      <div id="{$prefix}stop" class="icon_36px icon_button">pan_tool</div>
+      <div class="mdl-tooltip" for="{$prefix}stop">
+        Stops the executing of the code and the connected unit. (Space-key)
+      </div>
+    </div>
   </div>
 {/template}
 
