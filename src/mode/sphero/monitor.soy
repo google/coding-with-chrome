@@ -79,6 +79,31 @@
 
 
 /**
+ * Monitor template.
+ */
+{template .monitor}
+  {@param prefix: string}
+  <div id="{$prefix}location">
+    <div class="mdl-spinner mdl-js-spinner is-active"></div>Waiting for data ...
+  </div>
+{/template}
+
+
+/**
+ * Location data template.
+ */
+{template .locationData}
+  {@param prefix: string}
+  {@param data: ?}
+  <h3>Location</h3>
+  <div id="{$prefix}location-data-values">
+    X: {$data.x}<br>
+    Y: {$data.y}<br>
+  </div>
+{/template}
+
+
+/**
  * Style definitions.
  */
 {template .style}

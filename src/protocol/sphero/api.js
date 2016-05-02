@@ -24,7 +24,9 @@ goog.provide('cwc.protocol.sphero.Api');
 
 goog.require('cwc.protocol.sphero.CallbackType');
 goog.require('cwc.protocol.sphero.Commands');
+goog.require('cwc.protocol.sphero.Events');
 goog.require('cwc.protocol.sphero.Monitoring');
+goog.require('cwc.utils.ByteTools');
 
 goog.require('goog.events.EventTarget');
 
@@ -71,8 +73,20 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
 
-  /** @type {?} */
-  this.locationData = {};
+  /** @private {!number} */
+  this.locationPosX_ = 0;
+
+  /** @private {!number} */
+  this.locationPosY_ = 0;
+
+  /** @private {!number} */
+  this.locationVelX_ = 0;
+
+  /** @private {!number} */
+  this.locationVelY_ = 0;
+
+  /** @private {!number} */
+  this.locationSog_ = 0;
 
   /** @private {!number} */
   this.heading_ = 0;
@@ -359,6 +373,39 @@ cwc.protocol.sphero.Api.prototype.send_ = function(buffer) {
 
 
 /**
+ * @param {Object} data
+ * @private
+ */
+cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
+  var xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
+  var ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
+  var xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
+  var yvel = cwc.utils.ByteTools.signedBytesToInt([data[6], data[7]]);
+  var speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
+
+  if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
+    this.locationPosX_ = xpos;
+    this.locationPosY_ = ypos;
+    this.eventHandler.dispatchEvent(
+      cwc.protocol.sphero.Events.LocationData({x: xpos, y: ypos}));
+  }
+
+  if (xvel != this.locationVelX || yvel != this.locationVelY) {
+    this.locationVelX_ = xvel;
+    this.locationVelY_ = yvel;
+    this.eventHandler.dispatchEvent(
+      cwc.protocol.sphero.Events.VelocityData({x: xvel, y: yvel}));
+  }
+
+  if (speed != this.locationSpeed) {
+    this.locationSpeed_ = speed;
+    this.eventHandler.dispatchEvent(
+      cwc.protocol.sphero.Events.SpeedValue(speed));
+  }
+};
+
+
+/**
  * Handles received data and callbacks from the Bluetooth socket.
  * @param {ArrayBuffer} buffer
  * @private
@@ -378,16 +425,7 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
       console.log('RGB:', data[0], data[1], data[2]);
       break;
     case this.callbackType.LOCATION:
-      var xpos = (data[0] << 8) + data[1];
-      var ypos = (data[2] << 8) + data[3];
-      this.locationData = {
-        xpos: xpos > 32768 ? (xpos - 65535) : xpos,
-        ypos: ypos > 32768 ? (ypos - 65535) : ypos,
-        xvel: (data[4] << 8) + data[5],
-        yvel: (data[6] << 8) + data[7],
-        sog: (data[8] << 8) + data[9]
-      };
-      console.log('Location:', this.locationData);
+      this.updateLocationData_(data);
       break;
     default:
       console.log('Received', len, ' bytes of unknown data:', data);

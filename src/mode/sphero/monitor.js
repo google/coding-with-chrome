@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.Monitor');
 
+goog.require('cwc.protocol.sphero.Events');
 goog.require('cwc.soy.mode.sphero.Monitor');
 goog.require('cwc.ui.Helper');
 
@@ -57,6 +58,12 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {Element} */
   this.nodeCalibration = null;
 
+  /** @type {Element} */
+  this.nodeMonitor = null;
+
+  /** @type {Element} */
+  this.nodeMonitorLocation = null;
+
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
@@ -84,6 +91,7 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   }
 
   this.nodeIntro = this.runnerMonitor_.getIntroNode();
+  this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
   this.nodeCalibration = this.runnerMonitor_.getCalibrationNode();
   this.nodeControl = this.runnerMonitor_.getControlNode();
 
@@ -100,6 +108,12 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   );
 
   goog.soy.renderElement(
+      this.nodeMonitor,
+      cwc.soy.mode.sphero.Monitor.monitor,
+      {'prefix': this.prefix}
+  );
+
+  goog.soy.renderElement(
       this.nodeControl,
       cwc.soy.mode.sphero.Monitor.control,
       {'prefix': this.prefix}
@@ -110,10 +124,28 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       cwc.soy.mode.sphero.Monitor.style({'prefix': this.prefix}));
   }
 
+  this.nodeMonitorLocation = goog.dom.getElement(this.prefix + 'location');
+
+  // Update events
+  var eventHandler = this.connection.getEventHandler();
+  this.addEventListener_(eventHandler,
+      cwc.protocol.sphero.Events.Type.CHANGED_LOCATION,
+      this.updateLocationData_, false, this);
+
+  this.addEventListener_(eventHandler,
+      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY, function(e) {
+        console.log('Velocity:', e.data);
+      }, false, this);
+
+  this.addEventListener_(eventHandler,
+      cwc.protocol.sphero.Events.Type.CHANGED_SPEED, function(e) {
+        console.log('Speed:', e.data);
+      }, false, this);
+
   // Unload event
   var layoutInstance = this.helper.getInstance('layout', true);
-  var eventHandler = layoutInstance.getEventHandler();
-  this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+  var layoutEventHandler = layoutInstance.getEventHandler();
+  this.addEventListener_(layoutEventHandler, goog.events.EventType.UNLOAD,
     this.cleanUp, false, this);
 
   this.addEventHandler_();
@@ -192,6 +224,22 @@ cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
   goog.events.listen(this.shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKeyboardShortcut_, false, this);
+};
+
+
+/**
+ * Updates the location data in monitor tab.
+ * @param {Event} e
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.updateLocationData_ = function(e) {
+  if (this.runnerMonitor_.isMonitorActive()) {
+    goog.soy.renderElement(
+        this.nodeMonitorLocation,
+        cwc.soy.mode.sphero.Monitor.locationData,
+        {'prefix': this.prefix, 'data': e.data}
+    );
+  }
 };
 
 

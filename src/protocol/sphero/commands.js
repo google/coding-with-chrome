@@ -163,7 +163,8 @@ cwc.protocol.sphero.Commands.prototype.sleep = function(opt_wakeup, opt_macro,
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.getLocation = function() {
-  var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.LOCATION);
+  var buffer = new cwc.protocol.sphero.Buffer(
+      cwc.protocol.sphero.CallbackType.LOCATION);
   buffer.writeCommand(cwc.protocol.sphero.Command.LOCATION.GET);
   return buffer.readSigned();
 };
@@ -175,7 +176,8 @@ cwc.protocol.sphero.Commands.prototype.getLocation = function() {
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.getVersion = function() {
-  var buffer = new cwc.protocol.sphero.Buffer(this.callbackType.FIRMWARE);
+  var buffer = new cwc.protocol.sphero.Buffer(
+      cwc.protocol.sphero.CallbackType.FIRMWARE);
   buffer.writeCommand(cwc.protocol.sphero.Command.SYSTEM.VERSION);
   return buffer.readSigned();
 };

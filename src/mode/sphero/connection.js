@@ -113,6 +113,14 @@ cwc.mode.sphero.Connection.prototype.isConnected = function() {
 
 
 /**
+ * @return {}
+ */
+cwc.mode.sphero.Connection.prototype.getEventHandler = function() {
+  return this.api.getEventHandler();
+};
+
+
+/**
  * @return {!cwc.protocol.sphero.Api}
  * @export
  */
