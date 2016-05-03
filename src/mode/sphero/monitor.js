@@ -125,6 +125,8 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   }
 
   this.nodeMonitorLocation = goog.dom.getElement(this.prefix + 'location');
+  this.nodeMonitorVelocity = goog.dom.getElement(this.prefix + 'velocity');
+  this.nodeMonitorSpeed = goog.dom.getElement(this.prefix + 'speed');
 
   // Update events
   var eventHandler = this.connection.getEventHandler();
@@ -133,14 +135,12 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       this.updateLocationData_, false, this);
 
   this.addEventListener_(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY, function(e) {
-        console.log('Velocity:', e.data);
-      }, false, this);
+      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY,
+      this.updateVelocityData_, false, this);
 
   this.addEventListener_(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_SPEED, function(e) {
-        console.log('Speed:', e.data);
-      }, false, this);
+      cwc.protocol.sphero.Events.Type.CHANGED_SPEED,
+      this.updateSpeedData_, false, this);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout', true);
@@ -237,6 +237,38 @@ cwc.mode.sphero.Monitor.prototype.updateLocationData_ = function(e) {
     goog.soy.renderElement(
         this.nodeMonitorLocation,
         cwc.soy.mode.sphero.Monitor.locationData,
+        {'prefix': this.prefix, 'data': e.data}
+    );
+  }
+};
+
+
+/**
+ * Updates the velocity data in monitor tab.
+ * @param {Event} e
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.updateVelocityData_ = function(e) {
+  if (this.runnerMonitor_.isMonitorActive()) {
+    goog.soy.renderElement(
+        this.nodeMonitorVelocity,
+        cwc.soy.mode.sphero.Monitor.velocityData,
+        {'prefix': this.prefix, 'data': e.data}
+    );
+  }
+};
+
+
+/**
+ * Updates the speed data in monitor tab.
+ * @param {Event} e
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.updateSpeedData_ = function(e) {
+  if (this.runnerMonitor_.isMonitorActive()) {
+    goog.soy.renderElement(
+        this.nodeMonitorSpeed,
+        cwc.soy.mode.sphero.Monitor.speedData,
         {'prefix': this.prefix, 'data': e.data}
     );
   }

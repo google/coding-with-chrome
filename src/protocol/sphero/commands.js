@@ -37,6 +37,7 @@ cwc.protocol.sphero.Commands = function() {
 
 
 /**
+ * Sets RGB LED color.
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
@@ -57,6 +58,7 @@ cwc.protocol.sphero.Commands.prototype.setRGB = function(red, green, blue,
 
 
 /**
+ * Gets current RGB LED color.
  * @return {!ArrayBuffer}
  * @export
  */
@@ -69,6 +71,7 @@ cwc.protocol.sphero.Commands.prototype.getRGB = function() {
 
 
 /**
+ * Sets back-light LED brightness.
  * @param {!number} brightness 0-255
  * @return {!ArrayBuffer}
  * @export
@@ -82,6 +85,7 @@ cwc.protocol.sphero.Commands.prototype.setBackLed = function(brightness) {
 
 
 /**
+ * Sets heading.
  * @param {!number} heading 0-359
  * @return {!ArrayBuffer}
  * @export
@@ -95,6 +99,7 @@ cwc.protocol.sphero.Commands.prototype.setHeading = function(heading) {
 
 
 /**
+ * Rolls the Sphero.
  * @param {number} opt_speed 0-255
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_state
@@ -105,14 +110,40 @@ cwc.protocol.sphero.Commands.prototype.roll = function(opt_speed, opt_heading,
     opt_state) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.ROLL);
-  buffer.writeByte(opt_speed === undefined ? 50 : opt_speed);
-  buffer.writeUInt(opt_heading || 0);
+  buffer.writeByte(opt_speed, 50);
+  buffer.writeUInt(opt_heading, 0);
   buffer.writeByte(opt_state === undefined ? 0x01 : (opt_state ? 0x01 : 0x00));
   return buffer.readSigned();
 };
 
 
 /**
+ * Sets collision detection.
+ * @param {number=} opt_method
+ * @param {number=} opt_threshold_x
+ * @param {number=} opt_threshold_y
+ * @param {number=} opt_speed_x
+ * @param {number=} opt_speed_y
+ * @param {number=} opt_interval in 10msec
+ * @export
+ */
+cwc.protocol.sphero.Commands.prototype.setColisionDetection = function(
+    opt_method, opt_threshold_x, opt_threshold_y, opt_speed_x, opt_speed_y,
+    opt_interval) {
+  var buffer = new cwc.protocol.sphero.Buffer();
+  buffer.writeCommand(cwc.protocol.sphero.Command.COLLISION_DETECTION);
+  buffer.writeByte(opt_method, 0x01);
+  buffer.writeByte(opt_threshold_x, 0xA0);
+  buffer.writeByte(opt_threshold_y, 0xA0);
+  buffer.writeByte(opt_speed_x, 0x0F);
+  buffer.writeByte(opt_speed_y, 0x0F);
+  buffer.writeByte(opt_interval, 0xA0);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Sets montion timeout.
  * @param {!number} timeout in msec
  * @return {!ArrayBuffer}
  * @export
@@ -150,9 +181,9 @@ cwc.protocol.sphero.Commands.prototype.sleep = function(opt_wakeup, opt_macro,
     opt_orb_basic) {
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.SYSTEM.SLEEP);
-  buffer.writeByte(opt_wakeup || 0);
-  buffer.writeByte(opt_macro || 0);
-  buffer.writeByte(opt_orb_basic || 0);
+  buffer.writeByte(opt_wakeup, 0x00);
+  buffer.writeByte(opt_macro, 0x00);
+  buffer.writeByte(opt_orb_basic, 0x00);
   return buffer.readSigned();
 };
 

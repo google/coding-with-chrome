@@ -63,7 +63,7 @@ cwc.blocks.addBlock('circle', function() {
   this.appendValueInput('x')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Cirlce (x,');
+    .appendField('Circle (x,');
   this.appendValueInput('y')
     .setCheck('Number')
     .setAlign(Blockly.ALIGN_RIGHT)

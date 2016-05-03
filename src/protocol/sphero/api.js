@@ -159,6 +159,7 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.getRGB();
   this.setRGB(0, 0, 255);
   this.getRGB();
+  //this.setColisionDetection();
   this.prepared = true;
 };
 
@@ -197,6 +198,14 @@ cwc.protocol.sphero.Api.prototype.getEventHandler = function() {
  */
 cwc.protocol.sphero.Api.prototype.getLocationData = function() {
   return this.locationData;
+};
+
+
+/**
+ *
+ */
+cwc.protocol.sphero.Api.prototype.setColisionDetection = function() {
+  this.send_(this.commands.setColisionDetection());
 };
 
 
@@ -427,8 +436,12 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
     case this.callbackType.LOCATION:
       this.updateLocationData_(data);
       break;
+    case this.callbackType.COLLISION:
+      console.log('Collision:', data);
+      break;
     default:
-      console.log('Received', len, ' bytes of unknown data:', data);
+      console.log('Received type', type, 'with', len,
+        ' bytes of unknown data:', data);
   }
 };
 

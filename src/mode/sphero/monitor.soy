@@ -86,6 +86,8 @@
   <div id="{$prefix}location">
     <div class="mdl-spinner mdl-js-spinner is-active"></div>Waiting for data ...
   </div>
+  <div id="{$prefix}velocity"></div>
+  <div id="{$prefix}speed"></div>
 {/template}
 
 
@@ -99,6 +101,33 @@
   <div id="{$prefix}location-data-values">
     X: {$data.x}<br>
     Y: {$data.y}<br>
+  </div>
+{/template}
+
+
+/**
+ * Velocity data template.
+ */
+{template .velocityData}
+  {@param prefix: string}
+  {@param data: ?}
+  <h3>Velocity</h3>
+  <div id="{$prefix}velocity-data-values">
+    X: {$data.x}<br>
+    Y: {$data.y}<br>
+  </div>
+{/template}
+
+
+/**
+ * Velocity data template.
+ */
+{template .speedData}
+  {@param prefix: string}
+  {@param data: ?}
+  <h3>Speed</h3>
+  <div id="{$prefix}speed-data-values">
+    {$data}
   </div>
 {/template}
 
