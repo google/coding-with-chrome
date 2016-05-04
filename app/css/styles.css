@@ -31,5 +31,5 @@
 @import 'blockly/blockly.css';
 @import 'closure/closure.css';
 @import 'codemirror/codemirror4.css';
-@import 'hint.css/hint.css';
+@import 'dialog-polyfill/dialog-polyfill.css';
 @import 'material-design-lite/material-design-lite.css';

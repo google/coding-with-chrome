@@ -105,7 +105,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
 
   goog.soy.renderElement(
       this.nodeMonitor,
-      cwc.soy.mode.ev3.Monitor.template, {
+      cwc.soy.mode.ev3.Monitor.monitor, {
         'prefix': this.prefix
       }
   );

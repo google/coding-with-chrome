@@ -10,7 +10,6 @@
     "closure-builder": "^1.0.39",
     "codemirror": "^5.14.2",
     "csslint": "^0.10.0",
-    "hint.css": "^2.2.1",
     "htmlhint": "^0.9.13",
     "jquery": "^2.2.3",
     "jquery-turtle": "https://github.com/MarkusBordihn/jquery-turtle/tarball/master",
