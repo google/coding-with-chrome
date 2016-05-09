@@ -138,6 +138,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.EV3_BLOCKLY);
+      this.setClickEvent_('link-block-grabber', this.loadFile_,
+          'resources/examples/ev3/blocks/EV3-Educator-BlockGrabber.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.SPHERO:
       this.addRobotMenuHandler_();

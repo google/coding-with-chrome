@@ -124,28 +124,34 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
 /**
  * @param {Uint8Array|Array} data
- * @param {number|Array} headers
+ * @param {Array} headers
  * @return {number}
  */
 cwc.utils.ByteTools.getHeaderPosition = function(data, headers) {
   var headerPosition = null;
-  var dataLength = data.length;
-  if (!data || dataLength < headers.length) {
+  if (!data || !headers || data.length <= headers.length) {
     return headerPosition;
   }
+  var dataLength = data.length - 1;
+  var searchPosition = data.indexOf(headers[0]);
 
-  if (headers instanceof Array) {
-    var searchPosition = 0;
+  if (headers.length == 2) {
     while (searchPosition !== -1 && searchPosition < dataLength) {
       searchPosition = data.indexOf(headers[0], searchPosition);
-      if (data[searchPosition + 1] === headers[1]) {
+      if (data[searchPosition + 1] === headers[1] &&
+          searchPosition + 1 !== dataLength) {
         headerPosition = searchPosition;
         break;
+      } else if (searchPosition === -1) {
+        break;
+      } else {
+        searchPosition++;
       }
-      searchPosition++;
     }
-  } else if (data.indexOf(headers) !== -1) {
-    headerPosition = data.indexOf(headers);
+  } else if (headers.length == 1 &&
+             searchPosition !== -1 &&
+             searchPosition !== dataLength) {
+    headerPosition = searchPosition;
   }
   return headerPosition;
 };

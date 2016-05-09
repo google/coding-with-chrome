@@ -50,20 +50,23 @@ cwc.framework.Ev3 = function(code) {
   /** @type {Object} */
   this.deviceInfo = {};
 
-  /** @type {!function(?)} */
-  this.colorSensorEvent = function() {};
+  /** @private {!function(?)} */
+  this.emptyFunction_ = function() {};
 
   /** @type {!function(?)} */
-  this.touchSensorEvent = function() {};
+  this.colorSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
-  this.irSensorEvent = function() {};
+  this.touchSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
-  this.gyroSensorEvent = function() {};
+  this.irSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
-  this.ultrasonicSensorEvent = function() {};
+  this.gyroSensorEvent = this.emptyFunction_;
+
+  /** @type {!function(?)} */
+  this.ultrasonicSensorEvent = this.emptyFunction_;
 
   /** @type {number} */
   this.colorSensorValue = null;
@@ -292,6 +295,14 @@ cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
   if (goog.isFunction(func)) {
     this.ultrasonicSensorEvent = func;
   }
+};
+
+
+/**
+ * @export
+ */
+cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
+  this.ultrasonicSensorEvent = this.emptyFunction_;
 };
 
 

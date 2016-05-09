@@ -62,6 +62,25 @@ describe('ByteTools', function() {
         .toEqual(result);
   });
 
+  it('getHeaderPosition', function() {
+    var data = cwc.utils.ByteTools.toUint8Array(
+        [255, 255, 0, 21, 4, 255, 254, 0, 231]);
+    var header1 = [21];
+    var header2 = [255, 255];
+    var header3 = [255, 254];
+    var header4 = [255, 253];
+    var header5 = [0, 231];
+    var header6 = [231];
+    var header7 = [232];
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header1)).toBe(3);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header2)).toBe(0);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header3)).toBe(5);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header4)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header5)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header6)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header7)).toBe(null);
+  });
+
   it('getUint8Data', function() {
     var packet1 = cwc.utils.ByteTools.toUint8Array(
         [255, 255, 0, 21, 4, 255, 0, 0, 231]);
@@ -80,14 +99,14 @@ describe('ByteTools', function() {
     var packet6 = cwc.utils.ByteTools.toUint8Array(
         [255, 255, 0, 16, 11, 0, 4, 255, 235, 0, 0, 0, 0, 0, 0, 246]);
     var headers1 = [0xff, 0xff];
-    /*var headers2 = [0xff, 0xfe];*/
+    var headers2 = [0xff, 0xfe];
     var size1 = 9;
     var size2 = 16;
     var buffer1 = cwc.utils.ByteTools.toUint8Array([0, 255]);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1))
         .toEqual(packet1);
-    /*expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1))
-        .toEqual(null);*/
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1))
+        .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1))
         .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1,
