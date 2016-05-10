@@ -119,6 +119,14 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
 
+  // Sphero Events
+  var apiEventHandler = this.api.getEventHandler();
+  if (!apiEventHandler) {
+    console.error('Sphero API event handler is not defined!');
+  }
+  this.runner.addEvent(apiEventHandler,
+    cwc.protocol.sphero.Events.Type.COLLISION, 'collision');
+
   // Preview output
   var turtleNode = this.runner.getTurtleNode();
   this.turtle.decorate(turtleNode, this.prefix);

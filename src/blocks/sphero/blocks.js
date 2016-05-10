@@ -147,3 +147,19 @@ cwc.blocks.addBlock('stop', function() {
   this.setTooltip('Stop all motors immediately or after the last command ' +
         'has finished.');
 }, cwc.blocks.sphero.Blocks.prefix_);
+
+
+/**
+ * Collision detected.
+ */
+cwc.blocks.addBlock('collision', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('on collision'));
+  this.appendStatementInput('CODE')
+    .setAlign(Blockly.ALIGN_CENTRE);
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Detect collision.');
+}, cwc.blocks.sphero.Blocks.prefix_);

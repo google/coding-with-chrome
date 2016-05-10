@@ -105,6 +105,12 @@ describe('ByteTools', function() {
     var buffer1 = cwc.utils.ByteTools.toUint8Array([0, 255]);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1))
         .toEqual(packet1);
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 8))
+        .toEqual(packet1);
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 9))
+        .toEqual(packet1);
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 10))
+        .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1))
         .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1))

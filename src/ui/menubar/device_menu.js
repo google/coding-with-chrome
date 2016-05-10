@@ -47,6 +47,9 @@ cwc.ui.DeviceMenu = function(helper) {
 
   /** @type {goog.ui.MenuItem} */
   this.connectedDevice = null;
+
+  /** @type {string} */
+  this.connectedDeviceAddress = '';
 };
 
 
@@ -93,17 +96,19 @@ cwc.ui.DeviceMenu.prototype.updateDeviceList = function(device) {
   var connected = device.isConnected();
   var name = device.getName();
 
-
   if (connected) {
-    this.connectedDevice = new goog.ui.MenuItem(name);
-    this.deviceDisconnectMenu.removeChildren(true);
-    this.deviceDisconnectMenu.addChild(this.connectedDevice, true);
-    goog.events.listen(this.connectedDevice,
-        goog.ui.Component.EventType.ACTION, function() {
-          device.disconnect(true);
-        }, false, this);
-    this.connectedDevice.setContent('Disconnect ' + name + ' (' +
-        address + ')');
+    if (address !== this.connectedDeviceAddress) {
+      this.connectedDevice = new goog.ui.MenuItem(name);
+      this.deviceDisconnectMenu.removeChildren(true);
+      this.deviceDisconnectMenu.addChild(this.connectedDevice, true);
+      goog.events.listen(this.connectedDevice,
+          goog.ui.Component.EventType.ACTION, function() {
+            device.disconnect(true);
+          }, false, this);
+      this.connectedDevice.setContent('Disconnect ' + name + ' (' +
+          address + ')');
+      this.connectedDeviceAddress = address;
+    }
   } else {
     if (!(address in this.deviceMenuDevices)) {
       this.deviceMenuDevices[address] = new goog.ui.MenuItem(name);
@@ -111,6 +116,7 @@ cwc.ui.DeviceMenu.prototype.updateDeviceList = function(device) {
       goog.events.listen(this.deviceMenuDevices[address],
         goog.ui.Component.EventType.ACTION, function() {
           device.connect();
+          this.connectedDeviceAddress = '';
         }, false, this);
       this.deviceMenuDevices[address].setContent('Connect to ' + name + ' (' +
           address + ')');

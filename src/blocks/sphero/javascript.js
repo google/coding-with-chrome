@@ -109,3 +109,13 @@ cwc.blocks.addJavaScript('stop', function(block) {
   }
   return 'sphero.stop();\n';
 }, cwc.blocks.sphero.JavaScript.prefix_);
+
+
+/**
+ * Gyro sensor change.
+ */
+cwc.blocks.addJavaScript('collision', function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var collisionEvent = function(data) {\n' +
+      statements_code + '};\nsphero.onCollision(collisionEvent);\n';
+}, cwc.blocks.sphero.JavaScript.prefix_);

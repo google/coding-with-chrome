@@ -119,9 +119,9 @@ cwc.protocol.sphero.Commands.prototype.roll = function(opt_speed, opt_heading,
 
 /**
  * Sets collision detection.
- * @param {number=} opt_method
- * @param {number=} opt_threshold_x
- * @param {number=} opt_threshold_y
+ * @param {number=} opt_method 0x00 to disable this service.
+ * @param {number=} opt_threshold_x left/right axes
+ * @param {number=} opt_threshold_y front/back axes
  * @param {number=} opt_speed_x
  * @param {number=} opt_speed_y
  * @param {number=} opt_interval in 10msec
@@ -133,11 +133,11 @@ cwc.protocol.sphero.Commands.prototype.setColisionDetection = function(
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.COLLISION_DETECTION);
   buffer.writeByte(opt_method, 0x01);
-  buffer.writeByte(opt_threshold_x, 0xA0);
-  buffer.writeByte(opt_threshold_y, 0xA0);
-  buffer.writeByte(opt_speed_x, 0x0F);
-  buffer.writeByte(opt_speed_y, 0x0F);
-  buffer.writeByte(opt_interval, 0xA0);
+  buffer.writeByte(opt_threshold_x, 0x60);
+  buffer.writeByte(opt_threshold_y, 0x60);
+  buffer.writeByte(opt_speed_x, 0x60);
+  buffer.writeByte(opt_speed_y, 0x60);
+  buffer.writeByte(opt_interval, 0x0A);
   return buffer.readSigned();
 };
 

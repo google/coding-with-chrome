@@ -168,8 +168,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
     case cwc.ui.SelectScreenAdvancedView.HTML5:
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.HTML);
-      this.setClickEvent_('link-formular', this.loadFile_,
-          'resources/examples/html5/formular.html');
+      this.setClickEvent_('link-form', this.loadFile_,
+          'resources/examples/html5/form.html');
       break;
 
     // Robot overview

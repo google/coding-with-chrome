@@ -118,6 +118,11 @@ cwc.utils.ByteTools.getUint8Data = function(data,
     }
   }
 
+  // Double check packet size to ignore chunks.
+  if (opt_size && dataView.length < opt_size) {
+    return null;
+  }
+
   return dataView;
 };
 
