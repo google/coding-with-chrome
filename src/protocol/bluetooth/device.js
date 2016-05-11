@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.bluetooth.Device');
 
 goog.require('cwc.protocol.bluetooth.supportedDevices');
+goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.StackQueue');
 
 
@@ -149,10 +150,10 @@ cwc.protocol.bluetooth.Device.prototype.setDataHandler = function(
   if (opt_packet_header) {
     var id = opt_packet_header.join('_');
     this.dataHandler[id] = {};
+    this.dataHandler[id]['buffer'] = null;
     this.dataHandler[id]['callback'] = callback;
     this.dataHandler[id]['headers'] = opt_packet_header;
     this.dataHandler[id]['size'] = opt_min_packet_size || 4;
-    this.dataHandler[id]['buffer'] = null;
   } else {
     this.dataHandlerAll = callback;
   }
@@ -385,6 +386,7 @@ cwc.protocol.bluetooth.Device.prototype.unpaused = function() {
 
 
 /**
+ * Handles incomming data packets.
  * @param {ArrayBuffer} data
  * @export
  */
@@ -398,41 +400,20 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
   if (!this.dataHandler) {
     return;
   }
-  var dataView = new Uint8Array(data);
-  for (var handler in this.dataHandler) {
-    var buffer = this.dataHandler[handler]['buffer'];
-    var foundHeader = false;
-    var packetHeaders = this.dataHandler[handler]['headers'];
-    var headerPosition = 0;
-    if (packetHeaders instanceof Array) {
-      if (dataView.indexOf(packetHeaders[0]) + 1 ===
-          dataView.indexOf(packetHeaders[1],
-              dataView.indexOf(packetHeaders[0]) + 1)) {
-        foundHeader = true;
-        headerPosition = dataView.indexOf(packetHeaders[0]);
-      }
-    } else if (dataView.indexOf(packetHeaders) !== -1) {
-      foundHeader = true;
-      headerPosition = dataView.indexOf(packetHeaders);
-    }
 
-    if (foundHeader) {
-      if (headerPosition !== 0) {
-        dataView = dataView.slice(headerPosition);
-      }
-      this.dataHandler[handler]['buffer'] = dataView;
-    } else if (buffer) {
-      var dataFragments = new Uint8Array(buffer.length + dataView.length);
-      dataFragments.set(buffer, 0);
-      dataFragments.set(dataView, buffer.length);
-      this.dataHandler[handler]['buffer'] = dataView;
-      dataView = dataFragments;
-    }
-    var packetSize = this.dataHandler[handler]['size'];
-    if (dataView.length >= packetSize) {
+  for (var handler in this.dataHandler) {
+    var dataView = cwc.utils.ByteTools.getUint8Data(data,
+      this.dataHandler[handler]['headers'],
+      this.dataHandler[handler]['size'],
+      this.dataHandler[handler]['buffer']);
+    if (dataView) {
       this.dataHandler[handler]['callback'](dataView);
+      this.dataHandler[handler]['buffer'] = null;
+    } else {
+      this.dataHandler[handler]['buffer'] = data;
     }
   }
+
 };
 
 

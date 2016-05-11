@@ -41,7 +41,15 @@ cwc.framework.Sphero = function(code) {
   this.code = function() {code(this);}.bind(this);
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code);
+  this.runner = new cwc.framework.Runner(this.code, this);
+
+  /** @private {!function(?)} */
+  this.emptyFunction_ = function() {};
+
+  /** @type {!function(?)} */
+  this.collisionEvent = this.emptyFunction_;
+
+  this.runner.addCommand('collision', this.handleCollision_);
 };
 
 
@@ -151,4 +159,24 @@ cwc.framework.Sphero.prototype.calibrate = function(heading) {
  */
 cwc.framework.Sphero.prototype.sleep = function() {
   this.runner.send('sleep');
+};
+
+
+/**
+ * @param {!Function} func
+ * @export
+ */
+cwc.framework.Sphero.prototype.onCollision = function(func) {
+  if (goog.isFunction(func)) {
+    this.collisionEvent = func;
+  }
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
+  this.collisionEvent(data);
 };

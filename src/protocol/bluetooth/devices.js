@@ -206,16 +206,15 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
   if (numConnected) {
     this.log_.debug('Found', numConnected, 'connected device for', name, ':',
       connectedDevice);
-    if (opt_multisearch) {
-      return connectedDevice[Math.floor(Math.random() * numConnected) + 1];
+    if (opt_multisearch && numConnected > 1) {
+      return connectedDevice[Math.floor(Math.random() * numConnected)];
     }
     return connectedDevice[0];
   } else if (numDisconnected) {
     this.log_.debug('Found', numDisconnected, 'disconnected device for', name,
       ':', disconnectedDevice);
-    if (opt_multisearch) {
-      return disconnectedDevice[Math.floor(Math.random() *
-        numDisconnected) + 1];
+    if (opt_multisearch && numDisconnected > 1) {
+      return disconnectedDevice[Math.floor(Math.random() * numDisconnected)];
     }
     return disconnectedDevice[0];
   } else {

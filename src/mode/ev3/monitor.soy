@@ -21,6 +21,17 @@
 
 
 /**
+ * Runner monitor template.
+ */
+{template .monitor}
+  {@param prefix: string}
+  <div id="{$prefix}monitor">
+    <div class="mdl-spinner mdl-js-spinner is-active"></div>Waiting for data ...
+  </div>
+{/template}
+
+
+/**
  * Intro template.
  */
 {template .intro}
@@ -30,15 +41,6 @@
     <br>
     The monitor screen will help you to understand your robots reactions.<br>
   </div>
-{/template}
-
-
-/**
- * Monitor template.
- */
-{template .template}
-  {@param prefix: string}
-  <div id="{$prefix}monitor"></div>
 {/template}
 
 
@@ -143,22 +145,33 @@
 {template .control}
   {@param prefix: string}
   <div id="{$prefix}control">
-    EV3 Control Screen<hr>
-    <button type="button" id="{$prefix}move-left">Left</button>
-    <button type="button" id="{$prefix}move-forward">Forward</button>
-    <button type="button" id="{$prefix}move-backward">Backward</button>
-    <button type="button" id="{$prefix}move-right">Right</button>
-    <br>
-    <button type="button" id="{$prefix}stop">Stop</button>
+    Use the buttons belows or the keyboard to control the EV3 manual.<br>
+    <div id="{$prefix}control-buttons">
+      <div id="{$prefix}move-left" class="icon_36px icon_button">keyboard_arrow_left</div>
+      <div id="{$prefix}move-forward" class="icon_36px icon_button">keyboard_arrow_up</div>
+      <div id="{$prefix}move-backward" class="icon_36px icon_button">keyboard_arrow_down</div>
+      <div id="{$prefix}move-right" class="icon_36px icon_button">keyboard_arrow_right</div>
+    </div>
+    <div id="{$prefix}control-commands">
+      <div id="{$prefix}ping" class="icon_36px icon_button">notifications_active</div>
+      <div class="mdl-tooltip" for="{$prefix}ping">
+        Plays a ton on the connected unit.
+      </div>
+      <div id="{$prefix}stop" class="icon_36px icon_button">pan_tool</div>
+      <div class="mdl-tooltip" for="{$prefix}stop">
+        Stops the executing of the code and the connected unit. (Space-key)
+      </div>
+    </div>
   </div>
 {/template}
 
 
 /**
- * Monitor stylesheets.
+ * Runner monitor stylesheets.
  */
 {template .style}
   {@param prefix: string}
+
   #{$prefix}intro,
   #{$prefix}control,
   #{$prefix}calibration,
@@ -167,8 +180,14 @@
     position: relative;
   {rb}
 
-  {$prefix}test {lb}
-    border: 1px solid #ccc;
+  #{$prefix}control-buttons {lb}
+    text-align: center;
+    padding: 5px;
+  {rb}
+
+  #{$prefix}control-commands {lb}
+    padding: 5px;
+    margin-left: 50px;
   {rb}
 
   .{$prefix}interface-view {lb}

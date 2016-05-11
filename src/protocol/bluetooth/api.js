@@ -130,12 +130,13 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
 /**
  * @param {!string} device_name
  * @param {Function} callback
+ * @param {boolean=} opt_multisearch
  * @export
  */
 cwc.protocol.bluetooth.Api.prototype.autoConnectDevice = function(device_name,
-    callback) {
+    callback, opt_multisearch) {
   if (this.devices) {
-    this.devices.autoConnectDevice(device_name, callback);
+    this.devices.autoConnectDevice(device_name, callback, opt_multisearch);
   }
 };
 

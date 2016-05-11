@@ -607,7 +607,7 @@ cwc.blocks.addBlock('touch_sensor_change', function() {
 
 
 /**
- * Ir sensor change.
+ * Ultrasonic sensor change.
  */
 cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
   this.setHelpUrl('');
@@ -620,6 +620,20 @@ cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
   this.setNextStatement(true);
   this.setTooltip('Stores the output from the sensor in a variable named ' +
       '"value", when the ultrasonic sensor detects a change.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Stops the ultrasonic sensor event.
+ */
+cwc.blocks.addBlock('stop_ultrasonic_sensor_event', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('stop ultrasonic sensor event()'));
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Stops the ultrasonic sensor event.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 

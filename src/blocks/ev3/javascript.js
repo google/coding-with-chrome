@@ -384,6 +384,14 @@ cwc.blocks.addJavaScript('ultrasonic_sensor_change', function(block) {
 
 
 /**
+ * Stops the ultrasonic sensor event.
+ */
+cwc.blocks.addJavaScript('stop_ultrasonic_sensor_event', function(opt_block) {
+  return 'ev3.stopUltrasonicSensorEvent();\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
  * Variable.
  */
 cwc.blocks.addJavaScript('variable_value', function(opt_block) {

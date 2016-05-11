@@ -24,6 +24,10 @@ goog.require('cwc.protocol.ev3.Events');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.events');
+goog.require('goog.events.EventType');
+goog.require('goog.ui.KeyboardShortcutHandler');
+
 
 
 /**
@@ -36,6 +40,9 @@ goog.require('cwc.utils.Helper');
 cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @type {string} */
   this.name = 'EV3 Monitor';
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix('ev3-monitor');
 
   /** @type {Element} */
   this.nodeIntro = null;
@@ -55,14 +62,17 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-monitor');
-
   /** @type {boolean} */
   this.prepared = false;
 
   /** @type {!Array} */
   this.listener = [];
+
+  /** @type {goog.ui.KeyboardShortcutHandler} */
+  this.shortcutHandler = null;
+
+  /** @private {cwc.ui.RunnerMonitor} */
+  this.runnerMonitor_ = null;
 
   if (!this.connection) {
     console.error('Missing connection instance !');
@@ -76,14 +86,15 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
  */
 cwc.mode.ev3.Monitor.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
-  var runnerMonitor = runnerInstance.getMonitor();
-  if (!runnerMonitor) {
+  this.runnerMonitor_ = runnerInstance.getMonitor();
+  if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runner);
     return;
   }
 
-  this.nodeIntro = runnerMonitor.getIntroNode();
-  this.nodeMonitor = runnerMonitor.getMonitorNode();
+  this.nodeIntro = this.runnerMonitor_.getIntroNode();
+  this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
+  this.nodeControl = this.runnerMonitor_.getControlNode();
 
   goog.soy.renderElement(
       this.nodeIntro,
@@ -94,9 +105,15 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
 
   goog.soy.renderElement(
       this.nodeMonitor,
-      cwc.soy.mode.ev3.Monitor.template, {
+      cwc.soy.mode.ev3.Monitor.monitor, {
         'prefix': this.prefix
       }
+  );
+
+  goog.soy.renderElement(
+      this.nodeControl,
+      cwc.soy.mode.ev3.Monitor.control,
+      {'prefix': this.prefix}
   );
 
   if (!this.styleSheet) {
@@ -123,20 +140,25 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
         this.cleanUp, false, this);
   }
 
+  this.addEventHandler_();
+  this.addKeyHandler_();
   runnerInstance.enableMonitor(true);
+  layoutInstance.refresh();
 };
 
 
 /**
- * Updates device Data.
+ * Updates device Data in monitor tab.
  * @param {Event=} opt_event
  */
 cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
-  goog.soy.renderElement(
-      this.nodeMonitorValues,
-      cwc.soy.mode.ev3.Monitor.monitorValues,
-      {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
-  );
+  if (this.runnerMonitor_.isMonitorActive()) {
+    goog.soy.renderElement(
+        this.nodeMonitorValues,
+        cwc.soy.mode.ev3.Monitor.monitorValues,
+        {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
+    );
+  }
 };
 
 
@@ -152,11 +174,119 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
 
 
 /**
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
+
+  // Movements
+  this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
+    this.api.rotateSteps(45, -50);
+  }.bind(this), false, this);
+
+  this.addEventListener_('move-forward', goog.events.EventType.CLICK,
+    function() {
+      this.api.moveSteps(50);
+    }.bind(this), false, this);
+
+  this.addEventListener_('move-backward', goog.events.EventType.CLICK,
+    function() {
+      this.api.moveSteps(50, -50);
+    }.bind(this), false, this);
+
+  this.addEventListener_('move-right', goog.events.EventType.CLICK, function() {
+    this.api.rotateSteps(45);
+  }.bind(this), false, this);
+
+  // Stop
+  this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
+    this.api.stop();
+  }.bind(this), false, this);
+
+  // Ping
+  this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
+    this.api.playTone(3000, 200, 50);
+  }.bind(this), false, this);
+};
+
+
+/**
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.addKeyHandler_ = function() {
+  this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+  this.shortcutHandler.registerShortcut('backward', 'down');
+  this.shortcutHandler.registerShortcut('left', 'left');
+  this.shortcutHandler.registerShortcut('right', 'right');
+  this.shortcutHandler.registerShortcut('forward', 'up');
+
+  this.shortcutHandler.registerShortcut('boost-backward', 'shift+down');
+  this.shortcutHandler.registerShortcut('boost-left', 'shift+left');
+  this.shortcutHandler.registerShortcut('boost-right', 'shift+right');
+  this.shortcutHandler.registerShortcut('boost-forward', 'shift+up');
+
+  this.shortcutHandler.registerShortcut('stop', 'space');
+
+  goog.events.listen(this.shortcutHandler,
+    goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
+    this.handleKeyboardShortcut_, false, this);
+};
+
+
+/**
+ * Handles keyboard shortcuts.
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
+  if (!this.runnerMonitor_.isControlActive()) {
+    return;
+  }
+
+  switch (event.identifier) {
+
+    // Normal speed
+    case 'forward':
+      this.api.moveSteps(50, 50, false);
+      break;
+    case 'right':
+      this.api.rotateSteps(5, 50, false);
+      break;
+    case 'backward':
+      this.api.moveSteps(50, -50, false);
+      break;
+    case 'left':
+      this.api.rotateSteps(5, -50, false);
+      break;
+
+    // Boosted speed
+    case 'boost-forward':
+      this.api.moveSteps(50, 100, false);
+      break;
+    case 'boost-right':
+      this.api.rotateSteps(10, 100, false);
+      break;
+    case 'boost-backward':
+      this.api.moveSteps(50, -100, false);
+      break;
+    case 'boost-left':
+      this.api.rotateSteps(10, -100, false);
+      break;
+
+    case 'stop':
+      this.api.stop();
+      break;
+
+    default:
+      console.info(event.identifier);
+  }
+};
+
+
+/**
  * Adds an event listener for a specific event on a native event
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
  *
- * @param {EventTarget|goog.events.Listenable} src
+ * @param {EventTarget|goog.events.Listenable|string} src
  * @param {string} type
  * @param {function(?)} listener
  * @param {boolean=} opt_useCapture
@@ -165,7 +295,9 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  */
 cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  var target = goog.isString(src) ?
+    goog.dom.getElement(this.prefix + src) : src;
+  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

@@ -276,6 +276,14 @@ cwc.ui.Blockly.prototype.isModified = function() {
 
 
 /**
+ * @param {!boolean} modified
+ */
+cwc.ui.Blockly.prototype.setModified = function(modified) {
+  this.modified = modified;
+};
+
+
+/**
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Blockly.prototype.adjustSize = function() {

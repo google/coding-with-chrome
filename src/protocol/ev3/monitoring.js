@@ -250,6 +250,7 @@ cwc.protocol.ev3.Monitoring.prototype.stop = function() {
     this.monitorLargeMotorOpt.stop();
     this.monitorMediumMotorOpt.stop();
     this.monitorUpdate.stop();
+    this.started = false;
   }
 };
 
