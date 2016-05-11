@@ -274,6 +274,21 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
  */
 cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {
   this.hasUnsavedChange_ = unsaved_change;
+
+  var editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.setModified(unsaved_change);
+  }
+
+  var blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    blocklyInstance.setModified(unsaved_change);
+  }
+
+  var guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.setStatus(unsaved_change ? '*' : '');
+  }
 };
 
 

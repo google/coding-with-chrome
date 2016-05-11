@@ -57,6 +57,7 @@
  */
 {template .style}
   {@param prefix: string}
+
   .{$prefix}num {lb}
     position: absolute;
     right: 0;
@@ -88,6 +89,10 @@
     float: left;
     width: 150px;
     line-height: 26px;
+  {rb}
+
+  #{$prefix}info-status-text {lb}
+    padding-left: 5px;
   {rb}
 
   #{$prefix}info-messages {lb}

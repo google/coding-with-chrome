@@ -65,6 +65,7 @@ describe('ByteTools', function() {
   it('getHeaderPosition', function() {
     var data = cwc.utils.ByteTools.toUint8Array(
         [255, 255, 0, 21, 4, 255, 254, 0, 231]);
+    var data2 = cwc.utils.ByteTools.toUint8Array([255, 255]);
     var header1 = [21];
     var header2 = [255, 255];
     var header3 = [255, 254];
@@ -72,6 +73,10 @@ describe('ByteTools', function() {
     var header5 = [0, 231];
     var header6 = [231];
     var header7 = [232];
+    var header8 = [255, 254, 0];
+    var header9 = [254, 0, 231];
+    var header10 = [255, 255, 0];
+    var header11 = [255, 255, 255];
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header1)).toBe(3);
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header2)).toBe(0);
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header3)).toBe(5);
@@ -79,6 +84,13 @@ describe('ByteTools', function() {
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header5)).toBe(null);
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header6)).toBe(null);
     expect(cwc.utils.ByteTools.getHeaderPosition(data, header7)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header8)).toBe(5);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header9)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header10)).toBe(0);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data, header11)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data2, header1)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data2, header2)).toBe(null);
+    expect(cwc.utils.ByteTools.getHeaderPosition(data2, header11)).toBe(null);
   });
 
   it('getUint8Data', function() {

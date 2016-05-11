@@ -26,8 +26,15 @@
 {template .template}
   {@param prefix: string}
 
-  <header class="mdl-layout__header">Coding with Chrome</header>
+  <div id="{$prefix}header">
+    {call .header}
+      {param prefix: $prefix /}
+      {param title: 'Coding with Chrome' /}
+    {/call}
+  </div>
+
   <nav id="{$prefix}items" class="mdl-navigation"></nav>
+
   <footer class="mdl-mini-footer">
     <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section"></div>
     <div id="{$prefix}footer_right" class="mdl-mini-footer__right-section"></div>
@@ -36,10 +43,42 @@
 
 
 /**
+ * Header template.
+ */
+{template .header}
+  {@param title: string}
+  {@param? opt_icon: string}
+  {@param? opt_color_class: string}
+
+  <header class="mdl-layout__header{if $opt_color_class} {$opt_color_class}{/if}">
+    {$title}
+    {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+  </header>
+
+{/template}
+
+
+/**
  * Preview style definitions.
  */
 {template .style}
   {@param prefix: string}
+
+  #{$prefix}header {lb}
+    height: 60px;
+  {rb}
+
+  #{$prefix}header .mdl-layout__header {lb}
+    padding: 16px 40px;
+    font-size: 16px;
+  {rb}
+
+  #{$prefix}header .mdl-layout__header > i{lb}
+    position: absolute;
+    left: 10px;
+    top: 13px;
+    font-size: 24px;
+  {rb}
 
   #{$prefix}items {lb}
     padding: 0;

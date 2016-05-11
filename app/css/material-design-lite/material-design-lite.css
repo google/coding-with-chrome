@@ -60,9 +60,6 @@ html>body,
 }
 
 .mdl-layout__drawer > .mdl-layout__header {
-  background-image: url('../../icons/64x64.png');
-  background-repeat: no-repeat;
-  background-position: 5px 5px;
   padding-left: 80px;
   font-size: 14px;
   height: 80px;

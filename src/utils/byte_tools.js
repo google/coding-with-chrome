@@ -91,7 +91,7 @@ cwc.utils.ByteTools.getUint8Data = function(data,
   // Additional length checks if needed.
   if (opt_size) {
 
-    // Prepend buffer if needed.
+    // Perpend buffer if needed.
     if (opt_buffer && dataView.length < opt_size) {
       var buffer = opt_buffer;
       if (opt_buffer instanceof ArrayBuffer) {
@@ -128,35 +128,37 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
 
 /**
+ * Returns the header position in the given data stream.
  * @param {Uint8Array|Array} data
  * @param {Array} headers
  * @return {number}
  */
 cwc.utils.ByteTools.getHeaderPosition = function(data, headers) {
-  var headerPosition = null;
+  var headerPos = null;
   if (!data || !headers || data.length <= headers.length) {
-    return headerPosition;
+    return headerPos;
   }
-  var dataLength = data.length - 1;
-  var searchPosition = data.indexOf(headers[0]);
+  var dataLen = data.length - 1;
+  var headerLen = headers.length;
+  var searchPos = data.indexOf(headers[0]);
 
-  if (headers.length == 2) {
-    while (searchPosition !== -1 && searchPosition < dataLength) {
-      searchPosition = data.indexOf(headers[0], searchPosition);
-      if (data[searchPosition + 1] === headers[1] &&
-          searchPosition + 1 !== dataLength) {
-        headerPosition = searchPosition;
-        break;
-      } else if (searchPosition === -1) {
+  if (headerLen >= 2) {
+    for (;searchPos !== -1; searchPos = data.indexOf(headers[0], searchPos)) {
+      var foundHeaders = true;
+      for (var i = 0; i < headerLen; i++) {
+        if (data[searchPos + i] !== headers[i]) {
+          foundHeaders = false;
+        }
+      }
+      if (foundHeaders && searchPos + headerLen <= dataLen) {
+        headerPos = searchPos;
         break;
       } else {
-        searchPosition++;
+        searchPos++;
       }
     }
-  } else if (headers.length == 1 &&
-             searchPosition !== -1 &&
-             searchPosition !== dataLength) {
-    headerPosition = searchPosition;
+  } else if (headerLen == 1 && searchPos !== -1 && searchPos !== dataLen) {
+    headerPos = searchPos;
   }
-  return headerPosition;
+  return headerPos;
 };

@@ -195,6 +195,22 @@ cwc.ui.Navigation.prototype.hide = function() {
 
 
 /**
+ * @param {!string} title
+ * @param {!string} icon
+ * @param {string=} opt_color_class
+ */
+cwc.ui.Navigation.prototype.setHeader = function(title, icon,
+    opt_color_class) {
+  var headerNode = goog.dom.getElement(this.prefix + 'header');
+  if (headerNode) {
+    goog.soy.renderElement(
+      this.headerNode, cwc.soy.ui.Navigation.header,
+      {'title': title, 'icon': icon, 'opt_color_class': opt_color_class });
+  }
+};
+
+
+/**
  * Shows new file dialog.
  */
 cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
