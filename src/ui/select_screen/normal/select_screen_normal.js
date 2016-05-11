@@ -99,6 +99,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenNormalView.OVERVIEW:
+      this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenNormalView.BASIC);
       this.setClickEvent_('link-draw', this.showView,
@@ -111,6 +112,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Main screens
     case cwc.ui.SelectScreenNormalView.BASIC:
+      this.setNavHeader_('Blocks', 'school');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC_BLOCKLY);
       this.setClickEvent_('link-hello-world', this.loadFile_,
@@ -127,6 +129,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Robot overview
     case cwc.ui.SelectScreenNormalView.ROBOT:
+      this.setNavHeader_('Robots', 'memory');
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenNormalView.EV3);
       this.setClickEvent_('link-sphero', this.showView,
@@ -135,6 +138,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Robot screens
     case cwc.ui.SelectScreenNormalView.EV3:
+      this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.EV3_BLOCKLY);
@@ -142,6 +146,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'resources/examples/ev3/blocks/EV3-Educator-BlockGrabber.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.SPHERO:
+      this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.SPHERO_BLOCKLY);
@@ -164,6 +169,21 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 cwc.ui.SelectScreenNormal.prototype.showLastView = function() {
   console.log('showLastView', this.currentView);
   this.showView(this.currentView);
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string=} opt_icon
+ * @param {string=} opt_color_class
+ * @private
+ */
+cwc.ui.SelectScreenNormal.prototype.setNavHeader_ = function(title,
+    opt_icon, opt_color_class) {
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.setHeader(title, opt_icon, opt_color_class);
+  }
 };
 
 

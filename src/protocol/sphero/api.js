@@ -150,7 +150,7 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAsync_.bind(this),
       this.headerAsync_, this.headerMinSize_);
   this.monitoring.init();
-  //this.monitoring.start();
+  this.monitoring.start();
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
