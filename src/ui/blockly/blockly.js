@@ -251,8 +251,9 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   var dom = this.blockly.Xml.textToDom(xml_text);
   try {
     this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+    this.resetZoom();
   } catch (e) {
-    this.helper.showError('Was unable to load Blockly file!');
+    this.helper.showError('Error by loading Blockly file!');
     console.error(e);
     console.log(dom);
   }
@@ -303,6 +304,18 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeEditor, contentSize);
     window.dispatchEvent(new Event('resize'));  // Inform Blockly
+  }
+};
+
+
+/**
+ * Reset zoom and center blocks.
+ */
+cwc.ui.Blockly.prototype.resetZoom = function() {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.setScale(1);
+    workspace.scrollCenter();
   }
 };
 

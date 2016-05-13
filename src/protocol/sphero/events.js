@@ -38,7 +38,7 @@ cwc.protocol.sphero.Events.Type = {
  * @final
  */
 cwc.protocol.sphero.Events.LocationData = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.protocol.sphero.Events.Data_(
       cwc.protocol.sphero.Events.Type.CHANGED_LOCATION, data);
 };
 
@@ -48,7 +48,7 @@ cwc.protocol.sphero.Events.LocationData = function(data) {
  * @final
  */
 cwc.protocol.sphero.Events.VelocityData = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.protocol.sphero.Events.Data_(
       cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY, data);
 };
 
@@ -58,7 +58,7 @@ cwc.protocol.sphero.Events.VelocityData = function(data) {
  * @final
  */
 cwc.protocol.sphero.Events.SpeedValue = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.protocol.sphero.Events.Data_(
       cwc.protocol.sphero.Events.Type.CHANGED_SPEED, data);
 };
 
@@ -68,7 +68,7 @@ cwc.protocol.sphero.Events.SpeedValue = function(data) {
  * @final
  */
 cwc.protocol.sphero.Events.Collision = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.protocol.sphero.Events.Data_(
       cwc.protocol.sphero.Events.Type.COLLISION, data);
 };
 

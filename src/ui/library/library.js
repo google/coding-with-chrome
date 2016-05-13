@@ -229,7 +229,6 @@ cwc.ui.Library.prototype.selectFileToAdd = function() {
 cwc.ui.Library.prototype.chooseEntry = function(file_entry,
     file_entries) {
   if (file_entry && file_entry.isFile && !file_entries) {
-    console.log('Load file: ' + file_entry.name);
     file_entry.file(this.readFile.bind(this));
   } else if (file_entries) {
     console.error('Too many file entries.');

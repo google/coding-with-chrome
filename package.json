@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/google/blockly/tarball/master",
-    "closure-builder": "^1.0.39",
+    "closure-builder": "^1.1.1",
     "codemirror": "^5.14.2",
     "csslint": "^0.10.0",
     "htmlhint": "^0.9.13",

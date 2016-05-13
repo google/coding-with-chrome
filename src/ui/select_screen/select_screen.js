@@ -145,6 +145,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     } else if (this.lockAdvancedMode && !opt_force_overview) {
       this.showAdvancedOverview();
     } else if (!skipWelcomeScreen) {
+      this.setNavHeader_('Coding with Chrome');
       this.showWelcome();
     } else if (advancedMode) {
       this.showAdvancedOverview(opt_force_overview);
@@ -232,6 +233,20 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
   }
 };
 
+
+/**
+ * @param {!string} title
+ * @param {string=} opt_icon
+ * @param {string=} opt_color_class
+ * @private
+ */
+cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
+    opt_icon, opt_color_class) {
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.setHeader(title, opt_icon, opt_color_class);
+  }
+};
 
 /**
  * @param {!string} template_name

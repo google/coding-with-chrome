@@ -266,7 +266,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
  */
 cwc.fileHandler.FileLoader.prototype.readFile = function(file,
     file_entry, callback, opt_callback_scope) {
-  console.log('readFileToLoad');
+  console.log('Reading file', file.name, '…');
   var reader = new FileReader;
   var readerEvent = this.openFile.bind(this);
   reader.onload = function(event) {
@@ -287,8 +287,6 @@ cwc.fileHandler.FileLoader.prototype.readFile = function(file,
 cwc.fileHandler.FileLoader.prototype.openFile = function(file,
     file_entry, content, callback, opt_callback_scope) {
   if (file && content) {
-    console.log('Load file', file.name);
-    console.log(file);
     callback.call(opt_callback_scope, file, file_entry, content);
   } else {
     this.helper.error('Unable to open file ' + file + '!');
