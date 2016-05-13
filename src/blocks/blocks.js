@@ -40,6 +40,7 @@ goog.require('Blockly.JavaScript.procedures');
 goog.require('Blockly.JavaScript.texts');
 goog.require('Blockly.JavaScript.variables');
 
+goog.require('Blockly.Flyout');
 goog.require('Blockly.Msg.en');
 goog.require('Blockly.Xml');
 
