@@ -46,16 +46,6 @@ closureBuilder.build({
 
 
 closureBuilder.build({
-  name: '3rd party Images',
-  enabled: false,
-  resources: glob([
-    'third_party/**/*.png'
-  ]),
-  out: 'genfiles/images/'
-});
-
-
-closureBuilder.build({
   name: 'Roboto fonts',
   resources: glob([
     'third_party/roboto/*.woff2'
