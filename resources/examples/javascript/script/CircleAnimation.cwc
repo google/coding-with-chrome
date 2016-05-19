@@ -1,0 +1,21 @@
+{
+  "author": "Timothy James",
+  "content": {
+    "javascript": "// This function will create the Circle as an object, which will make it\n// simpler to manipulate and animate later.\nfunction createCircle(x, y, radius, fillcolor, strokecolor, stroke) {\n  var circle = new Object();\n  circle.x = x;\n  circle.y = y;\n  circle.radius = radius;\n  circle.fillcolor = fillcolor;\n  circle.strokecolor = strokecolor;\n  circle.stroke = stroke;\n  circle.movingLeft = false;\n\n  // We will use this function to draw the circle on the screen.\n  circle.draw = function() {\n    draw.circle(this.x, this.y, this.radius, this.fillcolor, this.strokecolor,\n                this.stroke);\n  };\n\n  // We will use this function move the circle forward one frame of animation.\n  circle.move = function() {\n    if (this.movingLeft) {\n      this.x -= 3;\n    } else {\n      this.x += 3;\n    }\n\n    if (this.x > 500 || this.x < 50) {\n      this.movingLeft = !this.movingLeft;\n    }\n  };\n  return circle;\n}\n\n// This function will clear the screen by drawing a large white rectangle.\nfunction clearScreen(){\n  draw.rectangle(0, 0, 2000, 2000, 'white', 'white', 0);  \n}\n\n// This function will advance the circle, redraw the screen, and draw the \n// circle in its new position.\nfunction moveCircle() {\n  // First we'll move the circle one frame of animation.\n  circle.move();\n\n  // Then, we'll clear the screen.\n  clearScreen();\n\n  // Next we will draw the circle.\n  circle.draw();\n  \n  // Finally we will call setTimeout so that in 25 milliseconds this\n  // moveCircle function is called again.\n  setTimeout('moveCircle();', 25);\n}\n\n// We create the circle...\nvar circle = createCircle(80, 80, 40, 'green', 'black', 15);\n\n// ... then start it moving.\nmoveCircle();\n"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic",
+  "mode": "basic",
+  "title": "Circle Animation",
+  "ui": "default",
+  "version": "1.0"
+}

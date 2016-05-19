@@ -279,6 +279,123 @@
           {param opt_text: 'JavaScript file' /}
         {/call}
 
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Video Tutorials' /}
+          {param text: 'Start learning with JavaScript video tutorials on YouTube' /}
+          {param link_text: 'Select Tutorials' /}
+          {param link_id: 'js-tutorials' /}
+          {param opt_color_class: 'bg-green' /}
+          {param opt_icon: 'movie_creation' /}
+          {param opt_text: 'Video Tutorials' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Circle Animation' /}
+          {param text: 'Example that animates a Circle.' /}
+          {param link_text: 'Load Circle Animation' /}
+          {param link_id: 'circle-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '../../images/selection/javascript-circle-animation.png' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Triangle Animation' /}
+          {param text: 'Example that animates a Triangle.' /}
+          {param link_text: 'Load Triangle Animation' /}
+          {param link_id: 'triangle-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '../../images/selection/javascript-triangle-animation.png' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * JavaScript Video Tutorial page.
+ */
+{template .javaScriptVideoTutorial}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-videotutorial-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'javascript' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'JavaScript Video Tutorials' /}
+        {param opt_text: 'Learn JavaScript with video tutorials on YouTube ' /}
+        {param opt_color_class: 'bg-green' /}
+        {param opt_icon: 'video_library' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'JavaScript Intro' /}
+          {param text: 'In this video, we introduce Coding with Chrome and how you can use it to learn how to program in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param link_id: 'yt-cwc-1' /}
+		  {param opt_text: 'Video Tutorial' /}
+          {param opt_color_class: 'bg-green' /}
+          {param opt_external_url: 'https://www.youtube.com/watch?v=Cbpug5Atmmo' /}
+          {param opt_icon: 'movie_creation' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Dates' /}
+          {param text: 'In this video, we write JavaScript to work with dates in Coding with Chrome.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param link_id: 'yt-cwc-2' /}
+		  {param opt_text: 'Video Tutorial' /}
+          {param opt_color_class: 'bg-green' /}
+          {param opt_external_url: 'https://www.youtube.com/watch?v=S3DhDiw0pXs' /}
+          {param opt_icon: 'movie_creation' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Birthdays' /}
+          {param text: 'In this video, we use Coding with Chrome to learn about dates in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param link_id: 'yt-cwc-3' /}
+		  {param opt_text: 'Video Tutorial' /}
+          {param opt_color_class: 'bg-green' /}
+          {param opt_external_url: 'https://www.youtube.com/watch?v=R4XE3GW1EUc' /}
+          {param opt_icon: 'movie_creation' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Birthday Counter' /}
+          {param text: 'In this video we use Coding with Chrome to build a birthday counter in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param link_id: 'yt-cwc-4' /}
+		  {param opt_text: 'Video Tutorial' /}
+          {param opt_color_class: 'bg-green' /}
+          {param opt_external_url: 'https://www.youtube.com/watch?v=CkoJWKWIWFU' /}
+          {param opt_icon: 'movie_creation' /}
+        {/call}
+
       </div>
 
     </div>
@@ -854,6 +971,7 @@
   {@param? opt_icon: string}
   {@param? opt_text: string}
   {@param? opt_color_class: string}
+  {@param? opt_external_url: string}
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
@@ -866,7 +984,7 @@
     </div>
     <div class="mdl-card__supporting-text">{$text}</div>
     <div class="mdl-card__actions mdl-card--border">
-      <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+      <a href="{if $opt_external_url}{$opt_external_url}" target="_blank"{else}#"{/if} id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
         {$link_text}
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </a>

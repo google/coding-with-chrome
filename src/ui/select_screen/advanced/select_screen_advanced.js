@@ -40,7 +40,8 @@ cwc.ui.SelectScreenAdvancedView = {
   HTML5: 'html5Overview',
   ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
-  SPHERO: 'spheroOverview'
+  SPHERO: 'spheroOverview',
+  JS_TUTORIAL: 'javaScriptVideoTutorial'
 };
 
 
@@ -148,6 +149,12 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC);
+      this.setClickEvent_('link-js-tutorials', this.showView,
+          cwc.ui.SelectScreenAdvancedView.JS_TUTORIAL);
+      this.setClickEvent_('link-circle-animation', this.loadFile_,
+          'resources/examples/javascript/script/CircleAnimation.cwc');
+      this.setClickEvent_('link-triangle-animation', this.loadFile_,
+          'resources/examples/javascript/script/TriangleAnimation.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
       this.setNavHeader_('CoffeeScript', 'local_cafe');
@@ -162,6 +169,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.file.Type.PENCIL_CODE);
       this.setClickEvent_('link-turtle-catch', this.loadFile_,
           'resources/examples/pencil_code/script/Turtle-catch.cwc');
+      break;
+
+	// Video Tutorial Screens
+    case cwc.ui.SelectScreenAdvancedView.JS_TUTORIAL:
+      this.addProgrammingMenuHandler_();
       break;
 
     // Markup Language Overview
