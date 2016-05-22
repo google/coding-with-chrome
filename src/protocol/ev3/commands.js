@@ -327,16 +327,20 @@ cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!number} angle
- * @param {boolean=} opt_invert Inverts the motor directions.
- * @param {number=} opt_step_speed
- * @param {number=} opt_angle_ratio
+ * @param {!number} port_left
+ * @param {!number} port_right
+ * @param {!number} steps
+ * @param {number=} opt_speed_left
+ * @param {number=} opt_speed_right
+ * @param {number=} opt_ramp_up
+ * @param {number=} opt_ramp_down
+ * @param {boolean=} opt_brake
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
-    port_right, steps,
-    opt_speed_left, opt_speed_right, opt_ramp_up, opt_ramp_down, opt_brake) {
+    port_right, steps, opt_speed_left, opt_speed_right, opt_ramp_up,
+    opt_ramp_down, opt_brake) {
   var buffer = new cwc.protocol.ev3.Buffer();
 
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
@@ -357,6 +361,38 @@ cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
   buffer.writeNullByte();
   buffer.writePort(port_right);
   buffer.writeByte(-opt_speed_right || -50);
+  buffer.writeInt(opt_ramp_up || 0);
+  buffer.writeInt(steps);
+  buffer.writeInt(opt_ramp_down || 0);
+  buffer.writeByte(opt_brake ? 1 : 0);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Rotates the defined motors for the predefined specific steps.
+ * @param {!number} ports
+ * @param {!number} steps
+ * @param {number=} opt_speed
+ * @param {number=} opt_ramp_up
+ * @param {number=} opt_ramp_down
+ * @param {boolean=} opt_brake
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.ev3.Commands.prototype.customRotateSteps = function(ports, steps,
+    opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
+  var buffer = new cwc.protocol.ev3.Buffer();
+
+  buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
+  buffer.writeNullByte();
+  buffer.writePorts(ports);
+  buffer.writeByte(opt_brake ? 1 : 0);
+
+  buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STEP.SPEED);
+  buffer.writeNullByte();
+  buffer.writePort(ports);
+  buffer.writeByte(opt_speed || 50);
   buffer.writeInt(opt_ramp_up || 0);
   buffer.writeInt(steps);
   buffer.writeInt(opt_ramp_down || 0);

@@ -270,6 +270,23 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
 
 
 /**
+ * @param {string} model
+ * @export
+ */
+cwc.fileHandler.File.prototype.setModel = function(model) {
+  this.file_.setModel(model);
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getModel = function() {
+  return this.file_.getModel();
+};
+
+
+/**
  * @param {boolean} unsaved_change
  */
 cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {

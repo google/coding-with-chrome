@@ -36,9 +36,9 @@ cwc.blocks.ev3.Blocks.prefix_ = 'ev3_';
 
 
 /**
- * Set robot type.
+ * Set robot model.
  */
-cwc.blocks.addBlock('set_robot_type', function() {
+cwc.blocks.addBlock('set_robot_model', function() {
   var robots = [['custom', 'custom']];
   for (var robot in cwc.protocol.ev3.Robots) {
     robots.push([robot, robot]);
@@ -46,11 +46,11 @@ cwc.blocks.addBlock('set_robot_type', function() {
   this.setHelpUrl('');
   this.setColour(65);
   this.appendDummyInput()
-    .appendField('set robot type(')
+    .appendField('set robot model(')
     .appendField(new Blockly.FieldDropdown(robots), 'robot')
     .appendField(')');
   this.setNextStatement(true);
-  this.setTooltip('Sets the EV3 robot type.');
+  this.setTooltip('Sets the EV3 robot model.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -219,6 +219,38 @@ cwc.blocks.addBlock('move_backward', function() {
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Move the robot backward for a specified number of steps.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Move up.
+ */
+cwc.blocks.addBlock('move_up', function() {
+  this.setHelpUrl('');
+  this.setColour(120);
+  this.appendDummyInput()
+    .appendField(i18n.get('move up('))
+    .appendField(new Blockly.FieldTextInput('200'), 'steps')
+    .appendField(' steps)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Move the robot up for a specified number of steps. ');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Move down.
+ */
+cwc.blocks.addBlock('move_down', function() {
+  this.setHelpUrl('');
+  this.setColour(120);
+  this.appendDummyInput()
+    .appendField(i18n.get('move down('))
+    .appendField(new Blockly.FieldTextInput('200'), 'steps')
+    .appendField(' steps)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Move the robot down for a specified number of steps.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 

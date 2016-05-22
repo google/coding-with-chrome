@@ -21,6 +21,8 @@ goog.provide('cwc.mode.ev3.Monitor');
 
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.ev3.Events');
+goog.require('cwc.protocol.ev3.RobotType');
+goog.require('cwc.protocol.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Helper');
 
@@ -70,6 +72,9 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
 
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
+
+  /** @private {} */
+  this.robotType_ = cwc.protocol.ev3.RobotType.UNKOWN;
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
@@ -123,11 +128,17 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
 
   this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
 
-  // Update Event
+  // Update event
   var eventHandler = this.connection.getEventHandler();
   this.addEventListener_(eventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData, false,
       this);
+
+  // Custom events
+  var customEventHandler = this.helper.getEventHandler();
+  this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
+    this.updateRobotType(e.data);
+  }, false, this);
 
   // Monitoring
   this.updateDeviceData();
@@ -159,6 +170,15 @@ cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
         {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
     );
   }
+};
+
+
+/**
+ * Updates device Data in monitor tab.
+ * @param {!string} type
+ */
+cwc.mode.ev3.Monitor.prototype.updateRobotType = function(type) {
+  this.robotType_ = type;
 };
 
 
@@ -218,6 +238,8 @@ cwc.mode.ev3.Monitor.prototype.addKeyHandler_ = function() {
   this.shortcutHandler.registerShortcut('left', 'left');
   this.shortcutHandler.registerShortcut('right', 'right');
   this.shortcutHandler.registerShortcut('forward', 'up');
+  this.shortcutHandler.registerShortcut('up', 33);
+  this.shortcutHandler.registerShortcut('down', 34);
 
   this.shortcutHandler.registerShortcut('boost-backward', 'shift+down');
   this.shortcutHandler.registerShortcut('boost-left', 'shift+left');
@@ -241,42 +263,104 @@ cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
     return;
   }
 
-  switch (event.identifier) {
+  // Motor control commands
+  switch (this.robotType_) {
+    case cwc.protocol.ev3.RobotType.ARM:
+      this.handleArmKeyboardShortcut_(event.identifier);
+      break;
+    case cwc.protocol.ev3.RobotType.VEHICLE:
+      this.handleVehicleKeyboardShortcut_(event.identifier);
+      break;
+    default:
+      this.handleVehicleKeyboardShortcut_(event.identifier);
+  }
 
+  // General commands
+  switch (event.identifier) {
+    case 'stop':
+      this.api.stop();
+      break;
+  }
+};
+
+
+/**
+ * Handles arm keyboard shortcuts.
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(keys) {
+  var speed = 40;
+  switch (keys) {
     // Normal speed
     case 'forward':
-      this.api.moveSteps(50, 50, false);
+      this.api.customMoveSteps(5, undefined, -speed);
       break;
     case 'right':
-      this.api.rotateSteps(5, 50, false);
+      this.api.customRotateSteps(5, undefined, speed);
       break;
     case 'backward':
-      this.api.moveSteps(50, -50, false);
+      this.api.customMoveSteps(5, undefined, speed);
       break;
     case 'left':
-      this.api.rotateSteps(5, -50, false);
+      this.api.customRotateSteps(5, undefined, -speed);
+      break;
+    case 'up':
+      this.api.moveServo(5, speed);
+      break;
+    case 'down':
+      this.api.moveServo(5, -speed);
+      break;
+  }
+};
+
+
+/**
+ * Handles vehicle keyboard shortcuts.
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(keys) {
+  var speed = 50;
+  var boostedSpeed = 100;
+  switch (keys) {
+    // Normal speed
+    case 'forward':
+      this.api.moveSteps(50, speed, false);
+      break;
+    case 'right':
+      this.api.rotateSteps(5, speed, false);
+      break;
+    case 'backward':
+      this.api.moveSteps(50, -speed, false);
+      break;
+    case 'left':
+      this.api.rotateSteps(5, -speed, false);
+      break;
+    case 'up':
+      this.api.moveServo(5, speed);
+      break;
+    case 'down':
+      this.api.moveServo(5, -speed);
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.moveSteps(50, 100, false);
+      this.api.moveSteps(50, boostedSpeed, false);
       break;
     case 'boost-right':
-      this.api.rotateSteps(10, 100, false);
+      this.api.rotateSteps(10, boostedSpeed, false);
       break;
     case 'boost-backward':
-      this.api.moveSteps(50, -100, false);
+      this.api.moveSteps(50, -boostedSpeed, false);
       break;
     case 'boost-left':
-      this.api.rotateSteps(10, -100, false);
+      this.api.rotateSteps(10, -boostedSpeed, false);
       break;
-
-    case 'stop':
-      this.api.stop();
+    case 'boost-up':
+      this.api.moveServo(10, boostedSpeed);
       break;
-
-    default:
-      console.info(event.identifier);
+    case 'boost-down':
+      this.api.moveServo(10, -boostedSpeed);
+      break;
   }
 };
 

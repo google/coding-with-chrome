@@ -53,5 +53,4 @@ cwc.mode.coffeescript.Editor.prototype.decorate = function() {
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node, this.prefix);
   this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
 };

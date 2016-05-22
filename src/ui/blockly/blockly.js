@@ -261,6 +261,19 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
 
 
 /**
+ * Updates the toolbox.
+ * @param {Element=} opt_toolbox
+ */
+cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
+  var workspace = this.getWorkspace();
+  if (opt_toolbox) {
+    this.nodeEditorToolbox = opt_toolbox;
+  }
+  workspace.updateToolbox(this.nodeEditorToolbox);
+};
+
+
+/**
  * @return {Blockly.mainWorkspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {

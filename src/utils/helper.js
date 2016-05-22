@@ -29,6 +29,9 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events');
+goog.require('goog.events.EventTarget');
+
 
 
 /**
@@ -96,8 +99,31 @@ cwc.utils.Helper = function() {
   /** @private {string} */
   this.cssPrefix_ = cwc.config.Prefix.CSS || '';
 
+  /** @private {goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ */
+cwc.utils.Helper.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!object} data
+ */
+cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
+  this.eventHandler_.dispatchEvent({
+    type: name,
+    data: data
+  });
 };
 
 

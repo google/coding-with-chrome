@@ -32,11 +32,11 @@ cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
 
 
 /**
- * Set robot type.
+ * Set robot model.
  */
-cwc.blocks.addJavaScript('set_robot_type', function(block) {
+cwc.blocks.addJavaScript('set_robot_model', function(block) {
   var dropdown_robot = block.getFieldValue('robot');
-  return 'ev3.setRobotType("' + dropdown_robot + '");\n';
+  return 'ev3.setRobotModel("' + dropdown_robot + '");\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -118,6 +118,24 @@ cwc.blocks.addJavaScript('move_forward', function(block) {
 cwc.blocks.addJavaScript('move_backward', function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.moveSteps(' + text_steps + ', -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Move up.
+ */
+cwc.blocks.addJavaScript('move_up', function(block) {
+  var text_steps = block.getFieldValue('steps');
+  return 'ev3.customMoveSteps(' + text_steps + ', undefined, -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Move down.
+ */
+cwc.blocks.addJavaScript('move_down', function(block) {
+  var text_steps = block.getFieldValue('steps');
+  return 'ev3.customMoveSteps(' + text_steps + ', undefined, 50, true);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 

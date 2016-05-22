@@ -27,10 +27,9 @@
   {@param prefix: string}
   {@param robots: ?}
   <div id="{$prefix}calibration">
-    EV3 Calibration Screen<hr>
     <button type="button" id="{$prefix}detect-sensors">Detect Sensors</button>
     <br>
-    Robot type <div id="{$prefix}robot-type" class="goog-select">
+    Robot model <div id="{$prefix}robot-model" class="goog-select">
       <ul class="goog-menu">
       {foreach $robot in $robots}
         <li class="goog-menuitem">{$robot}</li>
@@ -42,6 +41,7 @@
       Wheel diameter <input type="text" id="{$prefix}wheel-diameter" size=4> mm<br>
       Wheel width <input type="text" id="{$prefix}wheel-width" size=4> mm<br>
       Wheelbase <input type="text" id="{$prefix}wheelbase" size=4> mm<br>
+      Robot type <input type="text" id="{$prefix}robot-type" size=4><br>
     </div>
     <button type="button" id="{$prefix}set">Calibrate</button>
   </div>
