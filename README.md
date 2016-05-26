@@ -1,4 +1,4 @@
-[<img src="resources/external/chrome_webstore.png" align="right" alt="Available in the Chrome Web Store">](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
+[<img src="resources/external/chrome_webstore.png" align="right" alt="Available in the Chrome Web Store">](https://g.co/codingwithchrome/install)
 
 Coding with Chrome
 ==================
@@ -200,5 +200,5 @@ For debug instruction. please check [doc/DEBUG.md](doc/DEBUG.md).
 ## Credits
 Coding with Chrome is made possible by other [open source software](NOTICE.md).
 
-[1]: https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed
+[1]: https://https://g.co/codingwithchrome/install
 [2]: https://cla.developers.google.com/
