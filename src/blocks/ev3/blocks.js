@@ -575,8 +575,7 @@ cwc.blocks.addBlock('color_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Color Sensor Change'))
-    .appendField(new Blockly.FieldVariable('value'), 'VALUE');
+    .appendField(i18n.get('Color Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -610,8 +609,7 @@ cwc.blocks.addBlock('ir_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Ir Sensor Change'))
-    .appendField(new Blockly.FieldVariable('value'), 'VALUE');
+    .appendField(i18n.get('Ir Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -677,6 +675,22 @@ cwc.blocks.addBlock('variable_value', function() {
   this.setColour(260);
   this.appendDummyInput()
     .appendField('value');
+  this.setOutput(true, 'String');
+  this.setTooltip('');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Colors block.
+ */
+cwc.blocks.addBlock('colors', function() {
+  var colour = new Blockly.FieldColour('#ff0000');
+  colour.setColours(['#000000', '#0000ff', '#00ff00', '#ffff00', '#ff0000',
+      '#ffffff', '#a52a2a']).setColumns(1);
+  this.setHelpUrl('');
+  this.setColour(0);
+  this.appendDummyInput()
+    .appendField(colour, 'color');
   this.setOutput(true, 'String');
   this.setTooltip('');
 }, cwc.blocks.ev3.Blocks.prefix_);

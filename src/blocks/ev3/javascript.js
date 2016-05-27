@@ -447,3 +447,22 @@ cwc.blocks.addJavaScript('led', function(block) {
   }
   return 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Colors block.
+ */
+cwc.blocks.addJavaScript('colors', function(block) {
+  var color = block.getFieldValue('color');
+  var colorMapping = {
+    '#000000': 1,
+    '#0000ff': 2,
+    '#00ff00': 3,
+    '#ffff00': 4,
+    '#ff0000': 5,
+    '#ffffff': 6,
+    '#a52a2a': 7
+  };
+  console.log(color);
+  return [colorMapping[color] || 0, Blockly.JavaScript.ORDER_NONE];
+}, cwc.blocks.ev3.JavaScript.prefix_);

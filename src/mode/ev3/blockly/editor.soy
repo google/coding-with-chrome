@@ -33,29 +33,9 @@
     <block type="ev3_set_wheelbase"></block>
   </category>
 
-  {if $type == 'arm'}
-    <category name="Movements (Arm)" colour="120">
-      <block type="ev3_move_up"></block>
-      <block type="ev3_move_down"></block>
-      <block type="ev3_rotate_left"></block>
-      <block type="ev3_rotate_right"></block>
-    </category>
-  {else}
-    <category name="Movements (Vehicle)" colour="120">
-      <block type="ev3_move_distance"></block>
-      <block type="ev3_move_forward"></block>
-      <block type="ev3_move_backward"></block>
-      <block type="ev3_rotate_left"></block>
-      <block type="ev3_rotate_right"></block>
-    </category>
-  {/if}
-
-  <category name="Movements (Advance)" colour="120">
-    <block type="ev3_move_power"></block>
-    <block type="ev3_rotate_power"></block>
-    <block type="ev3_stop_immediately"></block>
-    <block type="ev3_wait"></block>
-  </category>
+  {call .movements}
+    {param type: $type /}
+  {/call}
 
   <category name="Attachments" colour="120">
     <block type="ev3_move_pen"></block>
@@ -82,73 +62,8 @@
   </category>
 
   <category name="Events" colour="20">
-    <block type="ev3_color_sensor_change"></block>
-    <block type="ev3_gyro_sensor_change">
-      <value name="CODE">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">LTE</field>
-              <value name="A">
-                <block type="variables_get">
-                  <field name="VAR">angle</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="math_number">
-                  <field name="NUM">90</field>
-                </block>
-              </value>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-    <block type="ev3_ir_sensor_change"></block>
-    <block type="ev3_touch_sensor_change">
-      <value name="CODE">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">EQ</field>
-              <value name="A">
-                <block type="variables_get">
-                  <field name="VAR">pressed</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="math_number">
-                  <field name="NUM">100</field>
-                </block>
-              </value>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-    <block type="ev3_ultrasonic_sensor_change">
-      <value name="CODE">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">LTE</field>
-              <value name="A">
-                <block type="variables_get">
-                  <field name="VAR">distance</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="math_number">
-                  <field name="NUM">10</field>
-                </block>
-              </value>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-    <block type="ev3_stop_ultrasonic_sensor_event"></block>
-    <block type="ev3_variable_value"></block>
+    {call .events}
+    {/call}
   </category>
 
   <category name="Loops" colour="210">
@@ -279,5 +194,156 @@
 
   <sep></sep>
 
+  <category name="Colors" colour="210">
+    <block type="ev3_colors"></block>
+  </category>
+
   <category custom="VARIABLE" name="Variables" colour="330"></category>
+{/template}
+
+
+/**
+ * Events blocks.
+ */
+{template .events}
+  <block type="ev3_color_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">value</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_gyro_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">angle</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">90</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_ir_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">value</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_touch_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">pressed</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">100</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_ultrasonic_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">distance</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_stop_ultrasonic_sensor_event"></block>
+  <block type="ev3_variable_value"></block>
+{/template}
+
+
+/**
+ * Movements blocks.
+ */
+{template .movements}
+  {@param type: string}
+
+  {if $type == 'arm'}
+    <category name="Movements (Arm)" colour="120">
+      <block type="ev3_move_up"></block>
+      <block type="ev3_move_down"></block>
+      <block type="ev3_rotate_left"></block>
+      <block type="ev3_rotate_right"></block>
+    </category>
+  {else}
+    <category name="Movements (Vehicle)" colour="120">
+      <block type="ev3_move_distance"></block>
+      <block type="ev3_move_forward"></block>
+      <block type="ev3_move_backward"></block>
+      <block type="ev3_rotate_left"></block>
+      <block type="ev3_rotate_right"></block>
+    </category>
+  {/if}
+
+  <category name="Movements (Advance)" colour="120">
+    <block type="ev3_move_power"></block>
+    <block type="ev3_rotate_power"></block>
+    <block type="ev3_stop_immediately"></block>
+    <block type="ev3_wait"></block>
+  </category>
+
 {/template}
