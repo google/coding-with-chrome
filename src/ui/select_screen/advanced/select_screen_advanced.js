@@ -151,6 +151,10 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.file.Type.BASIC);
       this.setClickEvent_('link-js-tutorials', this.showView,
           cwc.ui.SelectScreenAdvancedView.JS_TUTORIAL);
+      this.setClickEvent_('link-circle-animation', this.loadFile_,
+          'resources/examples/javascript/script/CircleAnimation.cwc');
+      this.setClickEvent_('link-triangle-animation', this.loadFile_,
+          'resources/examples/javascript/script/TriangleAnimation.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
       this.setNavHeader_('CoffeeScript', 'local_cafe');
