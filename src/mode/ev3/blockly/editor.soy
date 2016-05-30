@@ -62,8 +62,7 @@
   </category>
 
   <category name="Events" colour="20">
-    {call .events}
-    {/call}
+    {call .events}{/call}
   </category>
 
   <category name="Loops" colour="210">
@@ -195,10 +194,38 @@
   <sep></sep>
 
   <category name="Colors" colour="210">
-    <block type="ev3_colors"></block>
+    {call .colors}{/call}
   </category>
 
   <category custom="VARIABLE" name="Variables" colour="330"></category>
+{/template}
+
+
+/**
+ * Color blocks.
+ */
+{template .colors}
+  <block type="ev3_colors">
+    <field name="color">#000000</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#0000ff</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#00ff00</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ffff00</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ff0000</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ffffff</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#a52a2a</field>
+  </block>
 {/template}
 
 

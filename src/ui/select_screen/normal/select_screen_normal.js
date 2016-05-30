@@ -144,6 +144,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.file.Type.EV3_BLOCKLY);
       this.setClickEvent_('link-block-grabber', this.loadFile_,
           'resources/examples/ev3/blocks/EV3-Educator-BlockGrabber.cwc');
+      this.setClickEvent_('link-color-sensor', this.loadFile_,
+          'resources/examples/ev3/blocks/EV3-Color-Sensor.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.SPHERO:
       this.setNavHeader_('Sphero', 'adjust');

@@ -146,11 +146,18 @@
   {@param prefix: string}
   <div id="{$prefix}control">
     Use the buttons belows or the keyboard to control the EV3 manual.<br>
-    <div id="{$prefix}control-buttons">
-      <div id="{$prefix}move-left" class="icon_36px icon_button">keyboard_arrow_left</div>
-      <div id="{$prefix}move-forward" class="icon_36px icon_button">keyboard_arrow_up</div>
-      <div id="{$prefix}move-backward" class="icon_36px icon_button">keyboard_arrow_down</div>
-      <div id="{$prefix}move-right" class="icon_36px icon_button">keyboard_arrow_right</div>
+    <div id="{$prefix}control-buttons-body">
+      <div id="{$prefix}control-buttons" class="icon_gamepad" title="Moves the robot.">
+        games
+        <div id="{$prefix}move-left" class="icon_gamepad_button left"></div>
+        <div id="{$prefix}move-forward" class="icon_gamepad_button up"></div>
+        <div id="{$prefix}move-backward" class="icon_gamepad_button down"></div>
+        <div id="{$prefix}move-right" class="icon_gamepad_button right"></div>
+      </div>
+      <div id="{$prefix}control-buttons-servo">
+        <div id="{$prefix}servo-up" class="icon_36px icon_button" title="Moves servo up.">keyboard_arrow_up</div>
+        <div id="{$prefix}servo-down" class="icon_36px icon_button" title="Moves servo down.">keyboard_arrow_down</div>
+      </div>
     </div>
     <div id="{$prefix}control-commands">
       <div id="{$prefix}ping" class="icon_36px icon_button">notifications_active</div>
@@ -180,9 +187,23 @@
     position: relative;
   {rb}
 
+  #{$prefix}control-buttons-body {lb}
+    width: 150px;
+    margin: auto;
+  {rb}
+
   #{$prefix}control-buttons {lb}
+    position: relative;
     text-align: center;
-    padding: 5px;
+  {rb}
+
+  #{$prefix}control-buttons-servo {lb}
+    height: 75px;
+    width: 36px;
+    margin-top: 8px;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   {rb}
 
   #{$prefix}control-commands {lb}

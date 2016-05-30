@@ -217,6 +217,15 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
     this.api.rotateSteps(45);
   }.bind(this), false, this);
 
+  // Servo
+  this.addEventListener_('servo-up', goog.events.EventType.CLICK, function() {
+    this.api.moveServo(5, 50);
+  }.bind(this), false, this);
+
+  this.addEventListener_('servo-down', goog.events.EventType.CLICK, function() {
+    this.api.moveServo(5, -50);
+  }.bind(this), false, this);
+
   // Stop
   this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
     this.api.stop();
@@ -259,7 +268,8 @@ cwc.mode.ev3.Monitor.prototype.addKeyHandler_ = function() {
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
-  if (!this.runnerMonitor_.isControlActive()) {
+  if (!this.runnerMonitor_.isControlActive() &&
+      !this.runnerMonitor_.isMonitorActive()) {
     return;
   }
 

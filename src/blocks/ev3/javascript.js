@@ -463,6 +463,5 @@ cwc.blocks.addJavaScript('colors', function(block) {
     '#ffffff': 6,
     '#a52a2a': 7
   };
-  console.log(color);
   return [colorMapping[color] || 0, Blockly.JavaScript.ORDER_NONE];
 }, cwc.blocks.ev3.JavaScript.prefix_);
