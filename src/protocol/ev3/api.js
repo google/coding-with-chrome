@@ -576,6 +576,26 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
 
 
 /**
+ * Moves the motors for the predefined specific steps and ports.
+ * @param {!number} steps
+ * @param {number=} opt_ports
+ * @param {number=} opt_speed
+ * @param {boolean=} opt_break
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
+    opt_ports, opt_speed, opt_break) {
+  var ports = opt_ports === undefined ?
+    this.actor[this.deviceName.LARGE_MOTOR] : opt_ports;
+  var brake = opt_break === undefined ? true : opt_break;
+  var rampUp = 0;
+  var rampDown = 0;
+  this.send_(this.commands.moveSteps(ports, steps, opt_speed,
+      rampUp, rampDown, brake));
+};
+
+
+/**
  * Rotates the motors for the predefined specific steps.
  * @param {!number} steps
  * @param {number=} opt_step_speed
@@ -583,12 +603,30 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
  * @export
  */
 cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
-    opt_step_speed, opt_break) {
+    opt_step_speed, opt_break, opt_single) {
   var brake = opt_break === undefined ? true : opt_break;
   var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
   var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,
-    opt_step_speed, opt_step_speed, 0, 0, brake));
+      opt_step_speed, opt_step_speed, 0, 0, brake));
+};
+
+
+/**
+ * Rotates the motors for the predefined specific steps and ports.
+ * @param {!number} steps
+ * @param {number=} opt_ports
+ * @param {number=} opt_step_speed
+ * @param {boolean=} opt_break
+ * @export
+ */
+cwc.protocol.ev3.Api.prototype.customRotateSteps = function(steps,
+    opt_ports, opt_step_speed, opt_break) {
+  var ports = opt_ports === undefined ?
+    this.actor[this.deviceName.LARGE_MOTOR_OPT] : opt_ports;
+  var brake = opt_break === undefined ? true : opt_break;
+  this.send_(this.commands.customRotateSteps(ports, steps, opt_step_speed, 0, 0,
+      brake));
 };
 
 

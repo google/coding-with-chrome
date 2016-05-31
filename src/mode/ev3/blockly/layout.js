@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.blockly.Layout');
 
-goog.require('cwc.soy.mode.ev3.blockly');
+goog.require('cwc.soy.mode.ev3.blockly.Layout');
 
 
 
@@ -47,13 +47,13 @@ cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.ev3.blockly.editor,
+      cwc.soy.mode.ev3.blockly.Layout.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.ev3.blockly.runner,
+      cwc.soy.mode.ev3.blockly.Layout.runner,
       {'prefix': this.prefix}
   );
 

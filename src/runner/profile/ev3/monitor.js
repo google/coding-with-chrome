@@ -73,6 +73,20 @@ cwc.runner.profile.ev3.Monitor.prototype.rotateSteps = function(data) {
 /**
  * @param {!Object} data
  */
+cwc.runner.profile.ev3.Monitor.prototype.customRotateSteps = function(data) {
+  if (data['angle']) {
+    if (data['speed'] > 0) {
+      this.turtle.action('rt', data['angle']);
+    } else if (data['speed'] < 0) {
+      this.turtle.action('lt', data['angle']);
+    }
+  }
+};
+
+
+/**
+ * @param {!Object} data
+ */
 cwc.runner.profile.ev3.Monitor.prototype.movePen = function(data) {
   this.turtle.action('pen', data['color'] || !data['invert']);
   if (data['invert']) {

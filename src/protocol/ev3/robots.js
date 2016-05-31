@@ -17,8 +17,18 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.protocol.ev3.RobotType');
 goog.provide('cwc.protocol.ev3.Robots');
 
+
+/**
+ * @enum {!string}
+ */
+cwc.protocol.ev3.RobotType = {
+  ARM: 'arm',
+  VEHICLE: 'vehicle',
+  UNKNOWN: ''
+};
 
 
 /**
@@ -26,6 +36,7 @@ goog.provide('cwc.protocol.ev3.Robots');
  * See EV3 education default instruction.
  */
 cwc.protocol.ev3.Robots['EDUCATOR'] = {
+  type: cwc.protocol.ev3.RobotType.VEHICLE,
   wheelDiameter: 54.5,
   wheelWidth: 28,
   wheelbase: 90
@@ -37,6 +48,7 @@ cwc.protocol.ev3.Robots['EDUCATOR'] = {
  * See http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['TRACK3R'] = {
+  type: cwc.protocol.ev3.RobotType.VEHICLE,
   wheelDiameter: 32,
   wheelWidth: 20,
   wheelbase: 157
@@ -48,7 +60,19 @@ cwc.protocol.ev3.Robots['TRACK3R'] = {
  * See http://www.lego.com/de-de/mindstorms/build-a-robot/track3r
  */
 cwc.protocol.ev3.Robots['GRYO BOY'] = {
+  type: cwc.protocol.ev3.RobotType.VEHICLE,
   wheelDiameter: 54.5,
   wheelWidth: 30,
   wheelbase: 75
+};
+
+
+/**
+ * ROBOT ARM H25
+ */
+cwc.protocol.ev3.Robots['ROBOT ARM H25'] = {
+  type: cwc.protocol.ev3.RobotType.ARM,
+  wheelDiameter: 37.3,
+  wheelWidth: 0,
+  wheelbase: 0
 };

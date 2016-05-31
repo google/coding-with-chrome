@@ -93,6 +93,9 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!boolean} */
   this.showPreview = true;
 
+  /** @type {!cwc.protocol.ev3.RobotType} */
+  this.robotType = cwc.protocol.ev3.Robots['TRACK3R'].type;
+
   /** @type {!number} */
   this.wheelDiameter = cwc.protocol.ev3.Robots['TRACK3R'].wheelDiameter;
 
@@ -116,7 +119,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // Start command
   this.runner.addCommand('__start__', this.handleStart_, this);
 
-  // Delayed Commands
+  // Movement commands
   this.runner.addCommand('moveSteps', this.command.moveSteps, this);
   this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this.monitor);
 
@@ -128,6 +131,14 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.addCommand('rotateSteps', this.command.rotateSteps, this);
   this.runner.addMonitor('rotateSteps', this.monitor.rotateSteps, this.monitor);
 
+  // Custom movement commands
+  this.runner.addCommand('customMoveSteps',
+      this.command.customMoveSteps, this);
+
+  this.runner.addCommand('customRotateSteps',
+      this.command.customRotateSteps, this);
+
+  // EV3 Unit Commands
   this.runner.addCommand('playSound', this.command.playSound, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
   this.runner.addCommand('showImage', this.command.showImage, this);
@@ -215,6 +226,7 @@ cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
   this.setWheelDiameter();
   this.setWheelWidth();
   this.setWheelbase();
+  this.setRobotType();
 
   this.monitor.reset();
   this.turtle.action('speed', 1);
@@ -232,7 +244,18 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
 
 
 /**
- * @param {!number} opt_diameter in diameter
+ * @param {cwc.protocol.ev3.RobotType=} opt_type
+ */
+cwc.mode.ev3.Runner.prototype.setRobotType = function(opt_type) {
+  if (opt_type !== undefined) {
+    this.robotType = opt_type;
+  }
+  this.runner.send('updateRobotType', this.robotType);
+};
+
+
+/**
+ * @param {number=} opt_diameter in diameter
  */
 cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(opt_diameter) {
   if (opt_diameter !== undefined) {

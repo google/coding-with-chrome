@@ -27,7 +27,15 @@ var cwcBuildUi = function() {
       'current': 1, 'total': 100 }, '*');
   }
   var editorNode = document.getElementById('cwc-editor');
-  if (cwc.ui.Builder == undefined) {
+  if (cwc == undefined) {
+    if (loader) {
+      loader.contentWindow.postMessage({'command': 'error',
+        'msg': 'The cwc namespace is undefined!\n' +
+          'Please make sure that the compiler runs without any errors!'},
+        '*');
+    }
+    return null;
+  } else if (cwc.ui.Builder == undefined) {
     if (loader) {
       loader.contentWindow.postMessage({'command': 'error',
         'msg': 'cwc.ui.Builder is undefined!\n' +

@@ -189,7 +189,7 @@ cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
  * @private
  */
 cwc.framework.Runner.prototype.handleStart_ = function() {
-  console.log('Starting program...');
+  console.log('Starting program ...');
   if (this.callback) {
     this.callback();
   }

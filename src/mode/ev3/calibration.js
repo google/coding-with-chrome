@@ -43,6 +43,9 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   this.nodeCalibration = null;
 
   /** @type {Element} */
+  this.nodeRobotModel = null;
+
+  /** @type {Element} */
   this.nodeRobotType = null;
 
   /** @type {Element} */
@@ -61,7 +64,7 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   this.nodeWheelbase = null;
 
   /** @type {goog.ui.Select} */
-  this.selectRobotType =  new goog.ui.Select();
+  this.selectRobotModel =  new goog.ui.Select();
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -118,15 +121,21 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   }
 
   this.nodeRobotType = goog.dom.getElement(this.prefix + 'robot-type');
+  this.nodeRobotModel = goog.dom.getElement(this.prefix + 'robot-model');
   this.nodeRobotCustom = goog.dom.getElement(this.prefix + 'robot-custom');
   this.nodeWheelDiameter = goog.dom.getElement(this.prefix + 'wheel-diameter');
   this.nodeWheelWidth = goog.dom.getElement(this.prefix + 'wheel-width');
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
   this.nodeSet = goog.dom.getElement(this.prefix + 'set');
 
-  // Robot type
-  this.selectRobotType.decorate(this.nodeRobotType);
-  this.setRobotType('TRACK3R');
+  // Robot Model
+  this.selectRobotModel.decorate(this.nodeRobotModel);
+  var fileInstance = this.helper.getInstance('file');
+  if (fileInstance) {
+    this.setRobotModel(fileInstance.getModel() || 'TRACK3R');
+  } else {
+    this.setRobotModel('TRACK3R');
+  }
   goog.style.showElement(this.nodeRobotCustom, false);
 
   // Unload event
@@ -153,7 +162,7 @@ cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
     this.detect.bind(this), false, this);
 
   // Robot type
-  this.addEventListener_(this.selectRobotType,
+  this.addEventListener_(this.selectRobotModel,
     goog.ui.Component.EventType.ACTION, this.setType, false, this);
 
   // Robot set
@@ -175,25 +184,41 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
  * @param {Event} event
  */
 cwc.mode.ev3.Calibration.prototype.setType = function(event) {
-  var type = event.target.getValue();
-  if (type.toLowerCase() == 'custom') {
+  var model = event.target.getValue();
+  if (model.toLowerCase() == 'custom') {
     goog.style.showElement(this.nodeRobotCustom, true);
     return;
   }
-  this.setRobotType(type);
+  this.setRobotModel(model);
   goog.style.showElement(this.nodeRobotCustom, false);
 };
 
 
 /**
- * Sets the EV3 robot type.
- * @param {!string} type
+ * Sets the EV3 robot model.
+ * @param {!string} model
  */
-cwc.mode.ev3.Calibration.prototype.setRobotType = function(type) {
-  this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[type].wheelDiameter;
-  this.nodeWheelWidth.value = cwc.protocol.ev3.Robots[type].wheelWidth;
-  this.nodeWheelbase.value = cwc.protocol.ev3.Robots[type].wheelbase;
-} ;
+cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
+  console.log('Set robot model to', model);
+  console.log('Type:', cwc.protocol.ev3.Robots[model].type);
+
+  var fileInstance = this.helper.getInstance('file');
+  if (fileInstance) {
+    fileInstance.setModel(model);
+  }
+
+  if (this.selectRobotModel && this.selectRobotModel.getValue() !== model) {
+    this.selectRobotModel.setValue(model);
+  }
+
+  this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[model].wheelDiameter;
+  this.nodeWheelWidth.value = cwc.protocol.ev3.Robots[model].wheelWidth;
+  this.nodeWheelbase.value = cwc.protocol.ev3.Robots[model].wheelbase;
+  this.nodeRobotType.value = cwc.protocol.ev3.Robots[model].type;
+
+  this.helper.dispatchEvent('changeRobotType',
+    cwc.protocol.ev3.Robots[model].type);
+};
 
 
 /**
@@ -204,6 +229,7 @@ cwc.mode.ev3.Calibration.prototype.setCalibration = function(opt_event) {
   this.runner.setWheelDiameter(this.nodeWheelDiameter.value);
   this.runner.setWheelWidth(this.nodeWheelWidth.value);
   this.runner.setWheelbase(this.nodeWheelbase.value);
+  this.runner.setRobotType(this.nodeRobotType.value);
 };
 
 

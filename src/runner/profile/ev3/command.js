@@ -84,8 +84,26 @@ cwc.runner.profile.ev3.Command.prototype.moveSteps = function(data) {
 /**
  * @param {!Object} data
  */
+cwc.runner.profile.ev3.Command.prototype.customMoveSteps = function(data) {
+  this.api.customMoveSteps(data['steps'], data['ports'], data['speed']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
 cwc.runner.profile.ev3.Command.prototype.rotateSteps = function(data) {
-  this.api.rotateSteps(data['steps'], data['speed']);
+  this.api.rotateSteps(data['steps'], data['speed'], data['break'],
+    data['single']);
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.runner.profile.ev3.Command.prototype.customRotateSteps = function(data) {
+  this.api.customRotateSteps(data['steps'], data['ports'], data['speed'],
+    data['break']);
 };
 
 
