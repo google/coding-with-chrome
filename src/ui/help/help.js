@@ -61,6 +61,16 @@ cwc.ui.Help.prototype.showAbout = function() {
 /**
  * @export
  */
+cwc.ui.Help.prototype.showIntro = function() {
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showTemplate('Intro', cwc.soy.Help.intro,
+    {'prefix': this.prefix});
+};
+
+
+/**
+ * @export
+ */
 cwc.ui.Help.prototype.showOpenSource = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Coding with Chrome Credits',

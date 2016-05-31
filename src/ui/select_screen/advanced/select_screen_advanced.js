@@ -34,14 +34,14 @@ cwc.ui.SelectScreenAdvancedView = {
   BASIC: 'basicOverview',
   PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
   JAVASCRIPT: 'javaScriptOverview',
+  JAVASCRIPT_TUTORIAL: 'javaScriptVideoTutorial',
   COFFEESCRIPT: 'coffeeScriptOverview',
   PENCIL_CODE: 'pencilCodeOverview',
   MARKUP_LANGUAGE: 'markupLanguageOverview',
   HTML5: 'html5Overview',
   ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
-  SPHERO: 'spheroOverview',
-  JS_TUTORIAL: 'javaScriptVideoTutorial'
+  SPHERO: 'spheroOverview'
 };
 
 
@@ -150,11 +150,14 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC);
       this.setClickEvent_('link-js-tutorials', this.showView,
-          cwc.ui.SelectScreenAdvancedView.JS_TUTORIAL);
+          cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL);
       this.setClickEvent_('link-circle-animation', this.loadFile_,
           'resources/examples/javascript/script/CircleAnimation.cwc');
       this.setClickEvent_('link-triangle-animation', this.loadFile_,
           'resources/examples/javascript/script/TriangleAnimation.cwc');
+      break;
+    case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL:
+      this.addProgrammingMenuHandler_();
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
       this.setNavHeader_('CoffeeScript', 'local_cafe');
@@ -169,11 +172,6 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.file.Type.PENCIL_CODE);
       this.setClickEvent_('link-turtle-catch', this.loadFile_,
           'resources/examples/pencil_code/script/Turtle-catch.cwc');
-      break;
-
-	// Video Tutorial Screens
-    case cwc.ui.SelectScreenAdvancedView.JS_TUTORIAL:
-      this.addProgrammingMenuHandler_();
       break;
 
     // Markup Language Overview
@@ -302,7 +300,10 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
 cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template_name,
     opt_template) {
   if (this.node && template_name) {
-    var templateConfig = {'prefix': this.prefix};
+    var templateConfig = {
+      'prefix': this.prefix,
+      'online': this.helper.checkFeature('online')
+    };
     var template = opt_template || cwc.soy.SelectScreenAdvanced;
     goog.soy.renderElement(this.node, template[template_name],
         templateConfig);

@@ -37,6 +37,8 @@
  */
 {template .welcome}
   {@param prefix: string}
+  {@param online: bool}
+
   <div id="{$prefix}welcome" class="{$prefix}version">
     <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
@@ -44,6 +46,9 @@
       </div>
       <div class="mdl-card__supporting-text">
         Coding with Chrome is an Educational Development Environment.<br>
+        {if $online}
+          <span id="{$prefix}link-intro" class="link_text">Click here</span> to see our short introduction to Coding with Chrome.<br>
+        {/if}
         First, please <b>select your current coding skill.</b><br>
       </div>
       <div class="mdl-grid">
@@ -68,16 +73,6 @@
           {param opt_image: '../../images/selection/code_editor.png' /}
         {/call}
 
-        {call .choiceCard_}
-          {param prefix: $prefix /}
-          {param title: 'What is Coding with Chrome?' /}
-          {param text: 'Click to see our short introduction to Coding with Chrome on YouTube' /}
-          {param action: 'Find Out More' /}
-          {param link_id: 'yt-introduction' /}
-          {param opt_color_class: 'mdl-color--blue-50' /}
-          {param opt_external_url: 'http://g.co/codingwithchrome/intro' /}
-          {param opt_image: '../../images/selection/cwc_intro.png' /}
-        {/call}
       </div>
       <div class="mdl-card__actions mdl-card--border">
         <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
@@ -105,10 +100,9 @@
   {@param action: string}
   {@param link_id: string}
   {@param? opt_color_class: string}
-  {@param? opt_external_url: string}
   {@param? opt_image: string}
 
-  <div {if not $opt_external_url}id="{$prefix}link-{$link_id}" {/if}class="mdl-cell mdl-cell--4-col">
+  <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col">
     <div class="mdl-card mdl-shadow--2dp{if $opt_color_class} {$opt_color_class}{/if}">
       <div class="mdl-card__title mdl-card--expand">
         <h2 class="mdl-card__title-text">{$title}</h2>
@@ -116,7 +110,7 @@
       {if $opt_color_class}<p><img src="{$opt_image}"></p>{/if}
       <div class="mdl-card__supporting-text">{$text}</div>
       <div class="mdl-card__actions">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"{if $opt_external_url} target="_blank" href="{$opt_external_url}"{/if}>
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
           {$action}
         </a>
       </div>
@@ -158,9 +152,7 @@
   {rb}
 
   #{$prefix}welcome > .mdl-card {lb}
-    width: initial;
-	min-width: 750px;
-	max-width: 1200px;
+    width: 750px;
     margin: auto;
   {rb}
 

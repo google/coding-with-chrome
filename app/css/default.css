@@ -51,11 +51,18 @@ tr:nth-of-type(even) {
   border: 0;
 }
 
+.link_text {
+  color: #ff4081;
+  font-weight: 500;
+}
+
+.link_text,
 .link_button {
   cursor: pointer;
   opacity: 0.7;
 }
 
+.link_text:hover,
 .link_button:hover {
   opacity: 1;
 }
