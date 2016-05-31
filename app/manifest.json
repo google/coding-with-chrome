@@ -7,7 +7,7 @@
   },
   "name": "Coding with Chrome",
   "short_name": "Coding with Chrome",
-  "description": "An Educational IDE showing off various Google EDU technologies.",
+  "description": "Learn, improve, or teach coding skills within a Chrome browser.",
   "version": "3.5.30",
   "default_locale": "en",
   "icons": {
