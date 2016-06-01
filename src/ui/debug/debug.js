@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.Debug');
 
+goog.require('cwc.config.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
@@ -37,6 +38,9 @@ cwc.ui.Debug = function(helper) {
   /** @type {string} */
   this.name = 'Debug';
 
+  /** @type {boolean} */
+  this.enabled = false;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -48,6 +52,18 @@ cwc.ui.Debug = function(helper) {
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
+};
+
+
+/**
+ * Prepares the debug screen.
+ */
+cwc.ui.Debug.prototype.prepare = function() {
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.DEBUG_MODE);
+  }
 };
 
 
@@ -92,18 +108,26 @@ cwc.ui.Debug.prototype.addEvents = function() {
       this.handleModeType);
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
       this.handleMessageType);
+
+  var dialogInstance = this.helper.getInstance('dialog');
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_show'),
-      function() {
-        this.helper.executeInstance('dialog', 'show');
-      });
+    function() {
+      this.helper.executeInstance('dialog', 'show');
+    });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showModal'),
-      function() {
-        this.helper.executeInstance('dialog', 'showModal');
-      });
+    function() {
+      this.helper.executeInstance('dialog', 'showModal');
+    });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_close'),
-      function() {
-        this.helper.executeInstance('dialog', 'close');
-      });
+    function() {
+      this.helper.executeInstance('dialog', 'close');
+    });
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showPrompt'),
+    function() {
+      dialogInstance.showPrompt('Prompt', 'Whats your name', function(value) {
+        console.log('Prompt value:', value);
+      }, 'nobody');
+    });
 };
 
 
@@ -206,4 +230,22 @@ cwc.ui.Debug.prototype.newMessage = function(type) {
   if (messageInstance) {
     messageInstance.showMessage('Test message: ' + type, type);
   }
+};
+
+
+/**
+ * @param {string=} opt_name
+ * @return {!boolean}
+ * @export
+ */
+cwc.ui.Debug.prototype.isEnabled = function(opt_name) {
+  if (!opt_name) {
+    return this.enabled;
+  }
+
+  var name = opt_name || 'ENABLED';
+  if (name in cwc.config.Debug) {
+    return cwc.config.Debug[name];
+  }
+  return false;
 };

@@ -27,9 +27,11 @@
   {@param prefix: string}
   {@param? opt_title: string}
   <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
+
     // Header with title, menubar and icons.
     <header id="{$prefix}header" class="mdl-layout__header bg_30_pct_black">
       <div class="mdl-layout__header-row">
+
         // Title
         <div class="mdl-layout-title">
           <div class="mdl-textfield mdl-js-textfield">
@@ -38,9 +40,11 @@
           </div>
           <span id="{$prefix}status">*</span>
         </div>
+
         // Message bar
         <div id="{$prefix}message"></div>
         <div class="mdl-layout-spacer"></div>
+
         // Navigation
         <div id="{$prefix}bar">
           <div id="{$prefix}menubar"></div>
@@ -52,7 +56,7 @@
     <div id="{$prefix}navigation" class="mdl-layout__drawer"></div>
 
     // Dialog
-    <dialog id="{$prefix}dialog" class="mdl-dialog">Hello World</dialog>
+    <dialog id="{$prefix}dialog" class="mdl-dialog"></dialog>
 
     // Main with library, preview, editor and console.
     <section id="{$prefix}layout"></section>

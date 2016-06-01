@@ -66,7 +66,6 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
  *   cwc.ui.SettingScreen|
- *   cwc.ui.Statusbar|
  *   cwc.ui.Turtle|
  *   cwc.ui.Tutorial}
  */
@@ -396,21 +395,9 @@ cwc.utils.Helper.prototype.getFileExtensions = function() {
  * @export
  */
 cwc.utils.Helper.prototype.debugEnabled = function(opt_name) {
-  var name = opt_name || 'ENABLED';
-  if (name in cwc.config.Debug) {
-    return cwc.config.Debug[name];
-  }
-  return false;
-};
-
-
-/**
- * @param {string} status
- * @export
- */
-cwc.utils.Helper.prototype.setStatus = function(status) {
-  if (this.statusbarInstance_) {
-    this.statusbarInstance_.setStatus(status);
+  var debugInstance = this.getInstance('debug');
+  if (debugInstance) {
+    return debugInstance.isEnabled(opt_name);
   }
 };
 

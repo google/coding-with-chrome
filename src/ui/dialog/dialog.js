@@ -72,9 +72,6 @@ cwc.ui.Dialog.prototype.decorate = function(node, opt_prefix) {
   this.dialog = node;
   this.prefix = (opt_prefix || '') + this.prefix;
 
-  //goog.soy.renderElement(this.node, cwc.soy.Dialog.template,
-  //    {'prefix': this.prefix});
-
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(cwc.soy.Dialog.style({
       'prefix': this.prefix }));
@@ -122,13 +119,18 @@ cwc.ui.Dialog.prototype.close = function() {
  * @param {!string} title
  * @param {!string} content
  * @param {Object=} opt_template
+ * @param {string=} opt_values
  * @export
  */
-cwc.ui.Dialog.prototype.render = function(title, content, opt_template) {
+cwc.ui.Dialog.prototype.render = function(title, content,
+    opt_template, opt_values) {
   if (this.dialog) {
     goog.soy.renderElement(this.dialog,
-        opt_template || cwc.soy.Dialog.contentTemplate,
-        {'prefix': this.prefix, 'title': title, 'content': content });
+        opt_template || cwc.soy.Dialog.contentTemplate, {
+          'prefix': this.prefix,
+          'title': title,
+          'content': content,
+          'values': opt_values });
 
     if (typeof window.componentHandler !== 'undefined') {
       window.componentHandler.upgradeDom();
@@ -187,6 +189,32 @@ cwc.ui.Dialog.prototype.showYesNo = function(title, content, func) {
     }.bind(this));
     var noButton = goog.dom.getElement(this.prefix + 'no');
     noButton.addEventListener('click', this.close.bind(this));
+    this.showModal();
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {!Function} func
+ * @param {string=} opt_value
+ * @export
+ */
+cwc.ui.Dialog.prototype.showPrompt = function(title, content, func, opt_value) {
+  if (this.dialog) {
+    this.render(title, content, cwc.soy.Dialog.promptTemplate, opt_value);
+    var inputField = goog.dom.getElement(this.prefix + 'input');
+    var okButton = goog.dom.getElement(this.prefix + 'ok');
+    okButton.addEventListener('click', function() {
+      func(inputField.value);
+    });
+    okButton.addEventListener('click', this.close.bind(this));
+    okButton.addEventListener('click', function() {
+      this.helper.executeInstance('navigation', 'hide');
+    }.bind(this));
+    var cancleButton = goog.dom.getElement(this.prefix + 'cancel');
+    cancleButton.addEventListener('click', this.close.bind(this));
     this.showModal();
   }
 };

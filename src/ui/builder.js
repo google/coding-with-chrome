@@ -54,7 +54,6 @@ goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
-goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.userConfig');
@@ -95,7 +94,6 @@ cwc.ui.BuilderHelpers = {
   'blockly': cwc.ui.Blockly,
   'bluetooth': cwc.protocol.bluetooth.Api,
   'connectionManager': cwc.ui.ConnectionManager,
-  'debug': cwc.ui.Debug,
   'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
@@ -120,7 +118,6 @@ cwc.ui.BuilderHelpers = {
   'serial': cwc.protocol.Serial.api,
   'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
-  'statusbar': cwc.ui.Statusbar,
   'turtle': cwc.ui.Turtle,
   'tutorial': cwc.ui.Tutorial
 };
@@ -232,6 +229,12 @@ cwc.ui.Builder.prototype.loadApp = function() {
  * Loads the ui.
  */
 cwc.ui.Builder.prototype.loadUI = function() {
+
+  if (!this.error) {
+    this.setProgress('Prepare debug ...', 25, 100);
+    this.prepareDebug_();
+  }
+
   if (!this.error) {
     this.setProgress('Prepare helpers ...', 30, 100);
     this.prepareHelper();
@@ -397,6 +400,19 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
   if (this.helper.checkChromeFeature('bluetooth') && bluetoothInstance) {
     bluetoothInstance.prepare();
   }
+};
+
+
+/**
+ * Prepare debug mode if needed.
+ * @private
+ */
+cwc.ui.Builder.prototype.prepareDebug_ = function() {
+  var debugInstance = new cwc.ui.Debug(this.helper);
+  if (debugInstance) {
+    debugInstance.prepare();
+  }
+  this.helper.setInstance('debug', debugInstance);
 };
 
 

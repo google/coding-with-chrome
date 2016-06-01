@@ -66,6 +66,8 @@
         This screen allows you to change the default settings.
       </div>
       <ul class="mdl-list">
+
+        // Welcome screen
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
             <span>Show welcome screen</span>
@@ -80,6 +82,8 @@
             </label>
           </span>
         </li>
+
+        // Advanced Mode
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
             <span>Advanced Mode</span>
@@ -93,6 +97,8 @@
             </label>
           </span>
         </li>
+
+        // Fullscreen
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
             <span>Launch in fullscreen</span>
@@ -106,6 +112,7 @@
             </label>
           </span>
         </li>
+
       </ul>
     </div>
   </section>
@@ -117,7 +124,33 @@
  */
 {template .miscTab}
   {@param prefix: string}
-  Misc {$prefix}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+      <div class="mdl-card__supporting-text">
+        <h4>Misc Settings</h4>
+        This screen allows you to change some random settings.
+      </div>
+      <ul class="mdl-list">
+
+        // Debug Mode
+        <li class="mdl-list__item mdl-list__item--three-line">
+          <span class="mdl-list__item-primary-content">
+            <span>Debug Mode</span>
+            <span class="mdl-list__item-text-body">
+              The "debug mode" will turn on some additional debug options.<br>
+              You need to restart the application after enabling or disabling this options.<br>
+            </span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}debug-mode">
+              <input type="checkbox" id="{$prefix}debug-mode" class="mdl-switch__input" />
+            </label>
+          </span>
+        </li>
+
+      </ul>
+    </div>
+  </section>
 {/template}
 
 

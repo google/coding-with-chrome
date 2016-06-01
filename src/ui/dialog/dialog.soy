@@ -60,11 +60,41 @@
 
 
 /**
+ * Prompt template.
+ */
+{template .promptTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+  {@param values: string}
+
+  <h3 class="mdl-dialog__title">{$title}</h3>
+  <div class="mdl-dialog__content {$prefix}prompt">
+    {$content}
+    <div class="mdl-textfield mdl-js-textfield">
+      <input class="mdl-textfield__input" type="text" id="{$prefix}input" value="{$values}">
+      <label class="mdl-textfield__label" for="{$prefix}input"></label>
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button id="{$prefix}ok" type="button" class="mdl-button">Ok</button>
+    <button id="{$prefix}cancel" type="button" class="mdl-button close">Cancel</button>
+  </div>
+{/template}
+
+
+/**
  * CSS style definitions.
  */
 {template .style}
   {@param prefix: string}
+
   #{$prefix}body {lb}
     min-height: 100%;
   {rb}
+
+  .{$prefix}prompt > .mdl-textfield{lb}
+    margin-left: 5px;
+  {rb}
+
 {/template}

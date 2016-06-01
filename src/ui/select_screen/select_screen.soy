@@ -39,7 +39,7 @@
   {@param prefix: string}
   {@param online: bool}
 
-  <div id="{$prefix}welcome" class="{$prefix}version">
+  <div id="{$prefix}welcome" class="{$prefix}version {$prefix}debug">
     <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">Welcome to Coding with Chrome!</h2>
@@ -125,23 +125,37 @@
 {template .style}
   {@param prefix: string}
   {@param version: string}
+  {@param debug: bool}
 
   .{$prefix}version:before {lb}
     background: #00f;
     color: #fff;
     content: "{$version}";
-    font-size: 13px;
-    height: 25px;
     left: -22px;
     line-height: 25px;
     position: fixed;
     text-align: center;
-    text-transform: uppercase;
     bottom: 8px;
     transform: rotate(45deg);
     width: 90px;
     opacity: 0.5;
   {rb}
+
+  {if $debug}
+    .{$prefix}debug:after {lb}
+      background: #f00;
+      color: #fff;
+      content: "Debug Mode";
+      left: -55px;
+      line-height: 25px;
+      position: fixed;
+      text-align: center;
+      bottom: 25px;
+      transform: rotate(45deg);
+      width: 190px;
+      opacity: 0.5;
+    {rb}
+  {/if}
 
   #{$prefix}body {lb}
     min-height: 100%;

@@ -27,7 +27,7 @@ var cwcBuildUi = function() {
       'current': 1, 'total': 100 }, '*');
   }
   var editorNode = document.getElementById('cwc-editor');
-  if (cwc == undefined) {
+  if (typeof cwc == 'undefined') {
     if (loader) {
       loader.contentWindow.postMessage({'command': 'error',
         'msg': 'The cwc namespace is undefined!\n' +
@@ -35,7 +35,7 @@ var cwcBuildUi = function() {
         '*');
     }
     return null;
-  } else if (cwc.ui.Builder == undefined) {
+  } else if (typeof cwc.ui.Builder == 'undefined') {
     if (loader) {
       loader.contentWindow.postMessage({'command': 'error',
         'msg': 'cwc.ui.Builder is undefined!\n' +

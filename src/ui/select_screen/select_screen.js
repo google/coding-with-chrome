@@ -89,7 +89,10 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(cwc.soy.SelectScreen.style({
-      'prefix': this.prefix, 'version': this.helper.getAppVersion()}));
+      'prefix': this.prefix,
+      'version': this.helper.getAppVersion(),
+      'debug': this.helper.debugEnabled()
+    }));
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');

@@ -70,7 +70,6 @@ cwc.ui.Account.prototype.prepare = function() {
  */
 cwc.ui.Account.prototype.authenticate = function() {
   console.log('Try to authenticated …');
-  this.helper.setStatus('Authentication …');
   var authentificationEvent = this.handleAuthentication.bind(this);
   chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
 };
@@ -215,7 +214,6 @@ cwc.ui.Account.prototype.request = function(args) {
   var method = args.method || 'GET';
   var content = args.content;
   var token = args.token || this.accessToken || '';
-  this.helper.setStatus('Send request …');
 
   var params = args.params || '';
   if (typeof params == 'object') {
@@ -253,7 +251,6 @@ cwc.ui.Account.prototype.request = function(args) {
  */
 cwc.ui.Account.prototype.handleXhrResponse = function(e,
     opt_callback) {
-  this.helper.setStatus('Handle Xhr response …');
 
   /** @type {EventTarget|goog.net.XhrIo} */
   var xhr = e.target;
@@ -289,7 +286,6 @@ cwc.ui.Account.prototype.handleXhrError = function(event) {
  * @param {Event} event
  */
 cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
-  this.helper.setStatus('Request timeout !');
   this.helper.showError('Xhr request timeout!');
   console.error(event);
 };
