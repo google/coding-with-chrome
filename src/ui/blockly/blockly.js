@@ -43,9 +43,6 @@ goog.require('goog.ui.ToolbarButton');
  */
 cwc.ui.Blockly = function(helper) {
 
-  /** @type {boolean} */
-  this.css = false;
-
   /** @type {string} */
   this.name = 'Blockly';
 
@@ -140,7 +137,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
   // Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.blockly.inject(this.nodeEditor, {
-    css: this.css,
     path: this.mediaFiles,
     toolbox: this.nodeEditorToolbox,
     trashcan: opt_trashcan,

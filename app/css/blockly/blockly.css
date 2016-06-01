@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Google Inc. All Rights Reserved.
+ * Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,493 +17,74 @@
 /*
  * Blockly custom CSS definitions.
  *
- * @author fraser@google.com (Neil Fraser)
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
 .blocklySvg {
-  background-color: #ECEFF1;
-  overflow: hidden;
-}
-
-.blocklyWidgetDiv {
-  display: none;
-  position: absolute;
-  z-index: 999;
-}
-
-.blocklyResizeSE {
-  cursor: se-resize;
-  fill: #aaa;
-}
-
-.blocklyResizeSW {
-  cursor: sw-resize;
-  fill: #aaa;
-}
-
-.blocklyResizeLine {
-  stroke: #888;
-  stroke-width: 1;
-}
-
-.blocklyHighlightedConnectionPath {
-  fill: none;
-  stroke: #fc3;
-  stroke-width: 4px;
-}
-
-.blocklyPath {
-  cursor: move;
-}
-
-.blocklyPathLight {
-  fill: none;
-  stroke-linecap: round;
-  stroke-width: 2;
-}
-
-.blocklySelected>.blocklyPath {
-  stroke: #fc3;
-  stroke-width: 3px;
-}
-
-.blocklySelected>.blocklyPathLight {
-  display: none;
-}
-
-.blocklyDragging>.blocklyPath,
-  .blocklyDragging>.blocklyPathLight {
-  fill-opacity: .8;
-  stroke-opacity: .8;
-}
-
-.blocklyDragging>.blocklyPathDark {
-  display: none;
-}
-
-.blocklyDisabled>.blocklyPath {
-  fill-opacity: .5;
-  stroke-opacity: .5;
-}
-
-.blocklyDisabled>.blocklyPathLight,
-  .blocklyDisabled>.blocklyPathDark {
-  display: none;
-}
-
-.blocklyText {
-  cursor: default;
-  fill: #fff;
-  font-size: 11pt;
-}
-
-.blocklyNonEditableText>text {
-  pointer-events: none;
-}
-
-.blocklyNonEditableText>rect,
-  .blocklyEditableText>rect {
-  fill: #fff;
-  fill-opacity: .6;
-}
-
-.blocklyNonEditableText>text,
-  .blocklyEditableText>text {
-  fill: #000;
-}
-
-.blocklyEditableText:hover>rect {
-  stroke: #fff;
-  stroke-width: 2;
-}
-
-.blocklyBubbleText {
-  fill: #000;
-}
-
-.blocklySvg text {
-  -webkit-user-select: none;
-  cursor: inherit;
-}
-
-.blocklyHidden {
-  display: none;
-}
-
-.blocklyFieldDropdown:not(.blocklyHidden) {
-  display: block;
-}
-
-.blocklyTooltipBackground {
-  fill: #ffffc7;
-  stroke: #d8d8d8;
-  stroke-width: 1px;
-}
-
-.blocklyTooltipShadow,
-  .blocklyDropdownMenuShadow {
-  fill: #bbb;
-  filter: url(#blocklyShadowFilter);
-}
-
-.blocklyTooltipText {
-  fill: #000;
-  font-size: 9pt;
-}
-
-.blocklyIconShield {
-  cursor: default;
-  fill: #00c;
-  stroke: #ccc;
-  stroke-width: 1px;
-}
-
-.blocklyIconGroup:hover>.blocklyIconShield {
-  fill: #00f;
-  stroke: #fff;
-}
-
-.blocklyIconGroup:hover>.blocklyIconMark {
-  fill: #fff;
-}
-
-.blocklyIconMark {
-  cursor: default !important;
-  fill: #ccc;
-  font-size: 9pt;
-  font-weight: bold;
-  text-anchor: middle;
-}
-
-.blocklyWarningBody {
-}
-
-.blocklyMinimalBody {
-  margin: 0;
-  padding: 0;
-}
-
-.blocklyCommentTextarea {
-  background-color: #ffc;
-  border: 0;
-  margin: 0;
-  padding: 2px;
-  resize: none;
+  background-color: #ECEFF1 !important;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHElEQVQYV2NkIBIwEqmOYVQh3pAiKnhWrVr1HwARYgMIoVrKlwAAAABJRU5ErkJggg==) repeat;
 }
 
 .blocklyHtmlInput {
-  border: none;
-  font-size: 11pt;
-  outline: none;
-  width: 100%;
-}
-
-.blocklyMutatorBackground {
-  fill: #fff;
-  stroke: #ddd;
-  stroke-width: 1;
+  font-size: 11pt !important;
 }
 
 .blocklyFlyoutBackground {
-  fill: #CFD8DC;
-  fill-opacity: .8;
-}
-
-.blocklyColourBackground {
-  fill: #666;
+  fill: #CFD8DC !important;
 }
 
 .blocklyScrollbarBackground {
-  fill: #eceff1;
+  opacity: 1 !important;
+  fill: #ECEFF1;
   stroke: #CFD8DC;
   stroke-width: 1;
 }
 
 .blocklyScrollbarKnob {
-  fill: #90A4AE;
+  fill: #90A4AE !important;
 }
 
 .blocklyScrollbarBackground:hover+.blocklyScrollbarKnob,
   .blocklyScrollbarKnob:hover {
-  fill: #78909C;
-}
-
-.blocklyInvalidInput {
-  background: #faa;
-}
-
-.blocklyAngleCircle {
-  stroke: #444;
-  stroke-width: 1;
-  fill: #ddd;
-  fill-opacity: .8;
-}
-
-.blocklyAngleMarks {
-  stroke: #444;
-  stroke-width: 1;
-}
-
-.blocklyAngleGauge {
-  fill: #f88;
-  fill-opacity: .8;
-}
-
-.blocklyAngleLine {
-  stroke: #f00;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.blocklyContextMenu {
-}
-
-.blocklyDropdownMenu {
-  padding: 0 !important;
+  fill: #78909C !important;
 }
 
 .blocklyToolboxDiv {
-  background-color: #B0BEC5;
-  overflow-x: visible;
-  overflow-y: auto;
-  position: absolute;
+  background-color: #B0BEC5 !important;
 }
 
-.blocklyTreeRoot {
-  padding: 4px 0;
-}
-
-.blocklyTreeRoot:focus {
-  outline: none;
+.blocklyText {
+  font-family: inherit !important;
+  font-size: 14px !important;
 }
 
 .blocklyTreeRow {
-  padding: 10px 15px 10px 22px;
-}
-
-.blocklyToolboxDiv[dir="RTL"] .blocklyTreeRow {
-  padding-right: 0;
-  padding-left: 1em !important;
+  padding: 5px 10px 5px 0px !important;
 }
 
 .blocklyTreeRow:hover {
-  background-color: #90A4AE;
-}
-
-.blocklyTreeSeparator {
-  border-bottom: solid #e5e5e5 1px;
-  height: 0px;
-  margin: 5px 0;
-}
-
-.blocklyTreeIcon {
-  background-image: url(../../external/blockly/media/sprites.png);
-  height: 16px;
-  vertical-align: middle;
-  width: 16px;
-}
-
-.blocklyTreeIconClosedLtr {
-  background-position: -32px -1px;
-}
-
-.blocklyTreeIconClosedRtl {
-  background-position: 0px -1px;
-}
-
-.blocklyTreeIconOpen {
-  background-position: -16px -1px;
-}
-
-.blocklyTreeSelected>.blocklyTreeIconClosedLtr {
-  background-position: -32px -17px;
-}
-
-.blocklyTreeSelected>.blocklyTreeIconClosedRtl {
-  background-position: 0px -17px;
-}
-
-.blocklyTreeSelected>.blocklyTreeIconOpen {
-  background-position: -16px -17px;
-}
-
-.blocklyTreeIconNone,
-  .blocklyTreeSelected>.blocklyTreeIconNone {
-  background-position: -48px -1px;
+  background-color: #90A4AE !important;
 }
 
 .blocklyTreeLabel {
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  vertical-align: middle;
+  cursor: pointer !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
 }
 
 .blocklyTreeSelected {
   background-color: #455A64 !important;
 }
 
-.blocklyTreeSelected .blocklyTreeLabel {
-  color: #fff;
-}
-
-.blocklyWidgetDiv .goog-palette {
-  outline: none;
-  cursor: default;
-}
-
-.blocklyWidgetDiv .goog-palette-table {
-  border: 1px solid #666;
-  border-collapse: collapse;
-}
-
-.blocklyWidgetDiv .goog-palette-cell {
-  height: 13px;
-  width: 15px;
-  margin: 0;
-  border: 0;
-  text-align: center;
-  vertical-align: middle;
-  border-right: 1px solid #666;
-  font-size: 1px;
-}
-
-.blocklyWidgetDiv .goog-palette-colorswatch {
-  position: relative;
-  height: 13px;
-  width: 15px;
-  border: 1px solid #666;
-}
-
-.blocklyWidgetDiv .goog-palette-cell-hover .goog-palette-colorswatch {
-  border: 1px solid #FFF;
-}
-
-.blocklyWidgetDiv .goog-palette-cell-selected .goog-palette-colorswatch {
-  border: 1px solid #000;
-  color: #fff;
-}
-
-.blocklyWidgetDiv .goog-menu {
-  border: 0;
-  background: #fff;
-  cursor: default;
-  margin: 0;
-  outline: none;
-  position: absolute;
-  z-index: 20000;
-}
-
-.blocklyWidgetDiv .goog-menuitem {
-  color: #000;
-  font-size: 13px;
-  list-style: none;
-  margin: 0;
-  padding: 4px 7em 4px 28px;
-  white-space: nowrap;
-}
-
-.blocklyWidgetDiv .goog-menuitem.goog-menuitem-rtl {
-  padding-left: 7em;
-  padding-right: 28px;
-}
-
-.blocklyWidgetDiv .goog-menu-nocheckbox .goog-menuitem,
-  .blocklyWidgetDiv .goog-menu-noicon .goog-menuitem {
-  padding-left: 12px;
-}
-
-.blocklyWidgetDiv .goog-menu-noaccel .goog-menuitem {
-  padding-right: 20px;
-}
-
-.blocklyWidgetDiv .goog-menuitem-content {
-  color: #000;
-  font-size: 13px;
-}
-
 .blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-accel,
   .blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-content {
-  color: #ccc !important;
+  color: #CCC !important;
 }
 
-.blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-icon {
-  opacity: 0.3;
-  -moz-opacity: 0.3;
-  filter: alpha(opacity=30);
-}
-
-.blocklyWidgetDiv .goog-menuitem-highlight,
-  .blocklyWidgetDiv .goog-menuitem-hover {
-  background-color: #d6e9f8;
-  border-color: #d6e9f8;
-  border-style: dotted;
-  border-width: 1px 0;
-  padding-bottom: 3px;
-  padding-top: 3px;
-}
-
-.blocklyWidgetDiv .goog-menuitem-checkbox,
-  .blocklyWidgetDiv .goog-menuitem-icon {
-  background-repeat: no-repeat;
-  height: 16px;
-  left: 6px;
-  position: absolute;
-  right: auto;
-  vertical-align: middle;
-  width: 16px;
-}
-
-.blocklyWidgetDiv .goog-menuitem-rtl .goog-menuitem-checkbox,
-  .blocklyWidgetDiv .goog-menuitem-rtl .goog-menuitem-icon {
-  left: auto;
-  right: 6px;
-}
-
-.blocklyWidgetDiv .goog-menuitem-accel {
-  color: #999;
-  direction: ltr;
-  left: auto;
-  padding: 0 6px;
-  position: absolute;
-  right: 0;
-  text-align: right;
-}
-
-.blocklyWidgetDiv .goog-menuitem-rtl .goog-menuitem-accel {
-  left: 0;
-  right: auto;
-  text-align: left;
-}
-
-.blocklyWidgetDiv .goog-menuitem-mnemonic-hint {
-  text-decoration: underline;
-}
-
-.blocklyWidgetDiv .goog-menuitem-mnemonic-separator {
-  color: #999;
-  font-size: 12px;
-  padding-left: 4px;
-}
-
-.blocklyWidgetDiv .goog-menuseparator {
-  border-top: 1px solid #ccc;
-  margin: 4px 0;
-  padding: 0;
-}
-
-.blocklyWidgetDiv .goog-option-selected .goog-menuitem-checkbox,
-.blocklyWidgetDiv .goog-option-selected .goog-menuitem-icon {
-  background: url(../../external/blockly/media/sprites.png) no-repeat -48px -16px !important;
-}
-
-.blocklyIconShape {
-  fill: #00f;
-  stroke: #fff;
-  stroke-width: 1px;
-}
-
-.blocklyIconSymbol {
-  fill: #fff;
+.blocklyWidgetDiv .goog-menu,
+.blocklyWidgetDiv .goog-menuitem,
+.blocklyWidgetDiv .goog-menuitem-content {
+  font-family: inherit !important;
+  font-size: 14px !important;
 }

@@ -50,7 +50,7 @@ cwc.blocks.addBlock('write', function() {
     .appendField(')');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Writes the text on the screen.');
 }, cwc.blocks.simple.Blocks.textPrefix_);
 
 
@@ -86,7 +86,7 @@ cwc.blocks.addBlock('circle', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an circle on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -99,7 +99,7 @@ cwc.blocks.addBlock('clear', function() {
   this.appendDummyInput().appendField('clear ()');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Clears the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -139,7 +139,7 @@ cwc.blocks.addBlock('rectangle', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an rectangle on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -175,7 +175,7 @@ cwc.blocks.addBlock('line', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an line on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -203,7 +203,7 @@ cwc.blocks.addBlock('point', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an point on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -243,7 +243,7 @@ cwc.blocks.addBlock('ellipse', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an ellipse on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -291,7 +291,7 @@ cwc.blocks.addBlock('triangle', function() {
     .appendField('border_size)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws and triangle on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
 
 
@@ -319,5 +319,5 @@ cwc.blocks.addBlock('text', function() {
     .appendField('color)');
   this.setPreviousStatement(true, ['Number', 'String']);
   this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
+  this.setTooltip('Draws an text on the screen.');
 }, cwc.blocks.simple.Blocks.drawPrefix_);
