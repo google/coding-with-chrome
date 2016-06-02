@@ -1,12 +1,12 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "3.5.30",
+  "version": "3.6.3",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "blockly": "https://github.com/google/blockly/tarball/master",
+    "blockly": "https://github.com/MarkusBordihn/blockly/tarball/hotfix-variables",
     "closure-builder": "^1.2.3",
     "codemirror": "^5.15.2",
     "csslint": "^0.10.0",

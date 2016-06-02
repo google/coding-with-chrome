@@ -92,6 +92,9 @@ cwc.ui.Blockly = function(helper) {
   this.autoHideElements = ['blocklyToolboxDiv', 'blocklyWidgetDiv',
                            'blocklyTooltipDiv'];
 
+  /** @type {cwc.ui.Dialog} */
+  this.modal = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -134,12 +137,20 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
     this.toolbar.decorate(this.nodeToolbar, this.node);
   }
 
+  // Modal window
+  var dialogInstance = this.helper.getInstance('dialog');
+  this.modal = function(promptText, defaultText, callback) {
+    dialogInstance.showPrompt('Blockly Variable', promptText, callback,
+      defaultText);
+  };
+
   // Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.blockly.inject(this.nodeEditor, {
     path: this.mediaFiles,
     toolbox: this.nodeEditorToolbox,
     trashcan: opt_trashcan,
+    modal: this.modal,
     zoom: {
       controls: true,
       wheel: true,
@@ -147,7 +158,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
       maxScale: 3,
       minScale: 0.3,
       scaleSpeed: 1.2
-    }});
+    }
+  });
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();

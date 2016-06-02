@@ -87,9 +87,6 @@ cwc.ui.Gui = function(helper) {
   this.nodeStatus = null;
 
   /** @type {Element} */
-  this.nodeStatusbar = null;
-
-  /** @type {Element} */
   this.nodeTitle = null;
 
   /** @type {Element|StyleSheet} */
@@ -132,7 +129,6 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.nodeMessage = goog.dom.getElement(this.prefix + 'message');
   this.nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
-  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
 
   // Decorates additional modules
@@ -141,7 +137,6 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.helper.decorateInstance('menubar', this.nodeMenubar);
   this.helper.decorateInstance('message', this.nodeMessage);
   this.helper.decorateInstance('navigation', this.nodeNavigation);
-  this.helper.decorateInstance('statusbar', this.nodeStatusbar);
 
   // Add elements interactions.
   goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
