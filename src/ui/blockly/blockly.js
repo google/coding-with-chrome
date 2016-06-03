@@ -270,7 +270,7 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   } catch (e) {
     this.helper.showError('Error by loading Blockly file!');
     console.error(e);
-    console.log(dom);
+    console.log(xml);
   }
 };
 
