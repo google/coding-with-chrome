@@ -95,6 +95,9 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Function} */
   this.modalPrompt = null;
 
+  /** @type {Object} */
+  this.workspace = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -148,7 +151,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
 
   // Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  this.blockly.inject(this.nodeEditor, {
+  this.workspace = this.blockly.inject(this.nodeEditor, {
     path: this.mediaFiles,
     toolbox: this.nodeEditorToolbox,
     trashcan: opt_trashcan,
@@ -260,9 +263,9 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   if (!xml_text) {
     return;
   }
-  var dom = this.blockly.Xml.textToDom(xml_text);
+  var xml = this.blockly.Xml.textToDom(xml_text);
   try {
-    this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
+    this.blockly.Xml.domToWorkspace(xml, this.getWorkspace());
     this.resetZoom();
   } catch (e) {
     this.helper.showError('Error by loading Blockly file!');
@@ -289,7 +292,7 @@ cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
  * @return {Blockly.mainWorkspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
-  return this.blockly.getMainWorkspace();
+  return this.workspace || this.blockly.getMainWorkspace();
 };
 
 
@@ -328,7 +331,11 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
     }
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeEditor, contentSize);
-    window.dispatchEvent(new Event('resize'));  // Inform Blockly
+  }
+
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    Blockly.svgResize(workspace);
   }
 };
 
