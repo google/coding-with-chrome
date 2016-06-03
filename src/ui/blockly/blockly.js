@@ -92,8 +92,8 @@ cwc.ui.Blockly = function(helper) {
   this.autoHideElements = ['blocklyToolboxDiv', 'blocklyWidgetDiv',
                            'blocklyTooltipDiv'];
 
-  /** @type {cwc.ui.Dialog} */
-  this.modal = null;
+  /** @type {Function} */
+  this.modalPrompt = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -139,10 +139,12 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
 
   // Modal window
   var dialogInstance = this.helper.getInstance('dialog');
-  this.modal = function(promptText, defaultText, callback) {
-    dialogInstance.showPrompt('Blockly Variable', promptText, callback,
-      defaultText);
-  };
+  if (dialogInstance) {
+    this.modalPrompt = function(promptText, defaultText, callback, opt_title) {
+      dialogInstance.showPrompt(opt_title || 'Blockly Variable', promptText,
+        callback, defaultText);
+    };
+  }
 
   // Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
@@ -150,7 +152,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
     path: this.mediaFiles,
     toolbox: this.nodeEditorToolbox,
     trashcan: opt_trashcan,
-    modal: this.modal,
+    modal: {
+      prompt: this.modalPrompt
+    },
     zoom: {
       controls: true,
       wheel: true,
