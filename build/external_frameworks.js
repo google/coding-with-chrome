@@ -42,14 +42,26 @@ closureBuilder.build({
 
 
 /**
- * jQuery
+ * jQuery 3.x
  */
 closureBuilder.build({
-  name: 'jQuery file',
+  name: 'jQuery 3.x',
   resources: [
     'third_party/jquery-dist/dist/jquery.min.js'
   ],
   out: 'genfiles/frameworks/external/'
+});
+
+
+/**
+ * jQuery 2.2.4
+ */
+closureBuilder.build({
+  name: 'jQuery 2.2.4',
+  resources: [
+    'third_party/jquery-dist-2.2.4/dist/jquery.min.js'
+  ],
+  out: 'genfiles/frameworks/external/jquery-2.2.4.min.js'
 });
 
 
@@ -59,7 +71,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'jQuery Turtle file',
   srcs: [
-    'node_modules/jquery-turtle/dist/jquery-turtle.js'
+    'third_party/jquery-turtle/jquery-turtle.js'
   ],
   externs: [
     'build/externs/coffeescript.js',

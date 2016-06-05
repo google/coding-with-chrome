@@ -40,7 +40,7 @@ cwc.renderer.external.PencilCode = function(helper) {
   this.coffeeScriptFramework = 'coffee-script.js';
 
   /** @type {string} */
-  this.jqueryFramework = 'jquery.min.js';
+  this.jqueryFramework = 'jquery-2.2.4.min.js';
 
   /** @type {string} */
   this.jqueryTurtleFramework = 'jquery-turtle.js';

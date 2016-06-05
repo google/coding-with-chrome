@@ -31,3 +31,9 @@
 	path = third_party/coffeelint
 	url = https://github.com/clutchski/coffeelint.git
 	branch = gh-pages
+[submodule "third_party/jquery-turtle"]
+	path = third_party/jquery-turtle
+	url = https://github.com/PencilCode/jquery-turtle.git
+[submodule "third_party/jquery-dist-2.2.4"]
+	path = third_party/jquery-dist-2.2.4
+	url = https://github.com/jquery/jquery-dist.git

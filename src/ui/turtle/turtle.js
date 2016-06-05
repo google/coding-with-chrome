@@ -63,7 +63,7 @@ cwc.ui.Turtle = function(helper, opt_image) {
   this.turtleFramework = 'turtle_framework.js';
 
   /** @type {string} */
-  this.jqueryFramework = 'jquery.min.js';
+  this.jqueryFramework = 'jquery-2.2.4.min.js';
 
   /** @type {string} */
   this.jqueryTurtleFramework = 'jquery-turtle.js';
