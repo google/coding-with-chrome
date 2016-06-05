@@ -1,5 +1,5 @@
-Coding with Chrome Debugging
-============================
+Coding with Chrome - Debugging
+==============================
 
 This document covers debugging informations and technique's for the
 Coding with Chrome editor.

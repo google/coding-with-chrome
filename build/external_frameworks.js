@@ -20,25 +20,42 @@
 var closureBuilder = require('closure-builder');
 
 
+
+/**
+ * Coffeescript
+ */
 closureBuilder.build({
   name: 'Coffeescript',
   resources: [
-    'https://raw.githubusercontent.com/jashkenas/coffeescript/master/extras/' +
-    'coffee-script.js'
+    'third_party/coffeescript/extras/coffee-script.js'
   ],
   out: 'genfiles/frameworks/external/'
 });
 
+closureBuilder.build({
+  name: 'Coffeescript file',
+  resources: [
+    'third_party/coffeescript/extras/coffee-script.js'
+  ],
+  out: 'genfiles/external/coffeescript/'
+});
 
+
+/**
+ * jQuery
+ */
 closureBuilder.build({
   name: 'jQuery file',
   resources: [
-    'node_modules/jquery/dist/jquery.min.js'
+    'third_party/jquery-dist/dist/jquery.min.js'
   ],
   out: 'genfiles/frameworks/external/'
 });
 
 
+/**
+ * jQuery Turtle
+ */
 closureBuilder.build({
   name: 'jQuery Turtle file',
   srcs: [

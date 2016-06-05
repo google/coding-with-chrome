@@ -21,6 +21,10 @@ var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
 
 
+
+/**
+ * Coding with Chrome Editor
+ */
 closureBuilder.build({
   name: 'cwc.ui.Builder',
   srcs: glob([

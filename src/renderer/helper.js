@@ -164,12 +164,15 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
 /**
  * @param {!string} content
  * @param {string=} opt_url
+ * @param {string=} opt_filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScript = function(content, opt_url) {
+cwc.renderer.Helper.prototype.getJavaScript = function(content,
+    opt_url, opt_filename) {
   return cwc.soy.Renderer.javascript({
     'content': content,
-    'url': opt_url
+    'url': opt_url,
+    'filename': opt_filename
   });
 };
 
@@ -186,7 +189,7 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
     console.warn('Was unable to get framework file:', filename);
     return '';
   }
-  return this.getJavaScript('', framework.getContent());
+  return this.getJavaScript('', framework.getContent(), filename);
 };
 
 

@@ -69,7 +69,7 @@ Use your package manager to install Node.js, or build from source.
 ### Get the sources
 Download the source files manual from GitHub or with git by running:
 ```bash
-git clone git://github.com/google/coding-with-chrome.git
+git clone --recursive git://github.com/google/coding-with-chrome.git
 ```
 
 ### Get required packages
@@ -159,16 +159,7 @@ npm run update
 After this you only need to reload the Chrome App to see your change in action.
 
 ### Translation
-If you want to help with the translation perform the following steps:
-* Navigate around in the UI part you want to translate
-* Open the Chrome Developer Tools inside the Coding with Chrome App
-* Type the following command into the console:
-```javascript
-i18n.getToDo()
-```
-This will return a list of all untranslated text for your language.
-Add your translations to the output and place them into the file
- `app/_locales/[language]/message.json`.
+For translation instruction, please check [doc/I18N.md](doc/I18N.md).
 
 ### Google Drive support (experimental)
 To enable the experimental Google Drive support add your application key and
@@ -194,7 +185,7 @@ Google Drive data, or only use test accounts without critical files or data.
 See: https://developer.chrome.com/apps/app_identity
 
 ### Debugging
-For debug instruction. please check [doc/DEBUG.md](doc/DEBUG.md).
+For debug instruction, please check [doc/DEBUG.md](doc/DEBUG.md).
 
 
 ## Credits

@@ -28,8 +28,8 @@
   {@param type: string}
   {@param width: number}
   {@param height: number}
-  <object data="{$data_url|noAutoescape}" type="{$type}" width="{$width}" height="{$height}">
-  </object>
+
+  <object data="{$data_url|noAutoescape}" type="{$type}" width="{$width}" height="{$height}"></object>
 {/template}
 
 
@@ -41,6 +41,7 @@
   {@param? head: string}
   {@param? css: string}
   {@param? js: string}
+
 <!DOCTYPE html>{\n}
 <html>{\n}
   <head>{\n}
@@ -72,6 +73,7 @@
   {@param? head: string}
   {@param? css: string}
   {@param? js: string}
+
 <!DOCTYPE html>{\n}
 <html>{\n}
   <head>{\n}
@@ -105,6 +107,7 @@
 {template .css autoescape="deprecated-contextual"}
   {@param content: string}
   {@param? url: string}
+
   {if $url}
     {\n}<link rel="stylesheet" href="{$url |noAutoescape}">{\n}
   {/if}
@@ -120,10 +123,10 @@
 {template .javascript autoescape="deprecated-contextual"}
   {@param content: string}
   {@param? url: string}
-  {if $url}
-    {\n}<script src="{$url |noAutoescape}"></script>{\n}
-  {/if}
-  {if $content}
-    {\n}<script>{\n}{$content |noAutoescape}{\n}</script>{\n}
-  {/if}
+  {@param? filename: string}
+
+  {\n}
+  <script{if $url} src="{$url |noAutoescape}"{/if}{if $filename} data-filename="{$filename}"{/if}>
+    {if $content}{$content |noAutoescape}{\n}{/if}
+  </script>{\n}
 {/template}

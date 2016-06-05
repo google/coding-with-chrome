@@ -1,0 +1,33 @@
+
+[submodule "third_party/coffeescript"]
+	path = third_party/coffeescript
+	url = https://github.com/jashkenas/coffeescript.git
+
+[submodule "third_party/jquery-dist"]
+	path = third_party/jquery-dist
+	url = https://github.com/jquery/jquery-dist.git
+
+[submodule "third_party/codemirror"]
+	path = third_party/codemirror
+	url = https://github.com/codemirror/CodeMirror.git
+
+[submodule "third_party/material-design-icons"]
+	path = third_party/material-design-icons
+	url = https://github.com/google/material-design-icons.git
+
+[submodule "third_party/jshint"]
+	path = third_party/jshint
+	url = https://github.com/jshint/jshint.git
+
+[submodule "third_party/HTMLHint"]
+	path = third_party/HTMLHint
+	url = https://github.com/yaniswang/HTMLHint.git
+
+[submodule "third_party/dialog-polyfill"]
+	path = third_party/dialog-polyfill
+	url = https://github.com/GoogleChrome/dialog-polyfill.git
+
+[submodule "third_party/coffeelint"]
+	path = third_party/coffeelint
+	url = https://github.com/clutchski/coffeelint.git
+	branch = gh-pages

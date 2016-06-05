@@ -21,6 +21,9 @@ var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
 
 
+/**
+ * Application data
+ */
 closureBuilder.build({
   name: 'Static files',
   resources: [
@@ -36,6 +39,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Resource files
+ */
 closureBuilder.build({
   name: 'Resource files',
   resources: [
@@ -45,6 +51,21 @@ closureBuilder.build({
 });
 
 
+/**
+ * Blockly media files
+ */
+closureBuilder.build({
+  name: 'Blockly files',
+  resources: [
+    'node_modules/blockly/media'
+  ],
+  out: 'genfiles/external/blockly/'
+});
+
+
+/**
+ * Roboto fonts
+ */
 closureBuilder.build({
   name: 'Roboto fonts',
   resources: glob([
@@ -54,6 +75,36 @@ closureBuilder.build({
 });
 
 
+/**
+ * Material design icons
+ */
+closureBuilder.build({
+  name: 'Material design icons',
+  resources: [
+    'third_party/material-design-icons/iconfont/MaterialIcons-Regular.woff2'
+  ],
+  out: 'genfiles/fonts/'
+});
+
+
+/**
+ * Material design lite
+ */
+closureBuilder.build({
+  name: 'Material Design',
+  resources: [
+    'node_modules/material-design-lite/material.min.js',
+    'node_modules/material-design-lite/material.min.css',
+    'node_modules/material-design-lite/dist/material.indigo-blue.min.css',
+    'node_modules/material-design-lite/dist/material.blue_grey-red.min.css'
+  ],
+  out: 'genfiles/external/material-design-lite/'
+});
+
+
+/**
+ * Markdown files
+ */
 closureBuilder.build({
   name: 'Markdown files',
   markdown: [
@@ -61,4 +112,53 @@ closureBuilder.build({
     'NOTICE.md'
   ],
   out: 'genfiles/'
+});
+
+
+/**
+ * Dialog Polyfill
+ */
+closureBuilder.build({
+  name: 'Dialog polyfill',
+  resources: [
+    'third_party/dialog-polyfill/dialog-polyfill.js',
+    'third_party/dialog-polyfill/dialog-polyfill.css'
+  ],
+  out: 'genfiles/external/dialog-polyfill/'
+});
+
+
+/**
+ * Coffeelint
+ */
+closureBuilder.build({
+  name: 'Coffeelint file',
+  resources: [
+    'third_party/coffeelint/js/coffeelint.js'
+  ],
+  out: 'genfiles/external/coffeelint/'
+});
+
+
+/**
+ * JSHint
+ */
+closureBuilder.build({
+  name: 'JSHint files',
+  resources: [
+    'third_party/jshint/dist/jshint.js'
+  ],
+  out: 'genfiles/external/jshint/'
+});
+
+
+/**
+ * HTMLHint
+ */
+closureBuilder.build({
+  name: 'HTMLHint files',
+  resources: [
+    'third_party/htmlhint/lib/htmlhint.js'
+  ],
+  out: 'genfiles/external/htmlhint/'
 });

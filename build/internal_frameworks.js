@@ -21,6 +21,10 @@ var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
 
 
+
+/**
+ * Arduino Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.Arduino',
   compress: true,
@@ -35,6 +39,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * EV3 Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.Ev3',
   compress: true,
@@ -50,6 +57,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Sphero Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.Sphero',
   compress: true,
@@ -64,6 +74,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Turtle Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.Turtle',
   compress: true,
@@ -81,6 +94,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * TTS Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.TTS',
   compress: true,
@@ -95,6 +111,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Runner Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.Runner',
   compress: true,
@@ -108,6 +127,9 @@ closureBuilder.build({
 });
 
 
+/**
+ * Simple Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.simple.Loader',
   compress: true,
