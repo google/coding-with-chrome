@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.ev3.blockly.Editor');
 
 goog.require('cwc.blocks.ev3.Blocks');
+goog.require('cwc.blocks.general.Blocks');
 goog.require('cwc.soy.mode.ev3.blockly.Editor');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');

@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.sphero.blockly.Editor');
 
 goog.require('cwc.blocks.sphero.Blocks');
+goog.require('cwc.blocks.general.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');

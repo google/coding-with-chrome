@@ -76,24 +76,26 @@
       <block type="sphero_collision"></block>
     </category>
 
-    <category name="Control" colour="210">
+    <category name="Loops" colour="210">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <block type="math_number"><field name="NUM">10</field></block>
         </value>
       </block>
+      <block type="general_infinity_loop"></block>
       <block type="controls_for">
         <value name="FROM">
           <block type="math_number"><field name="NUM">1</field></block>
         </value>
         <value name="TO">
           <block type="math_number"><field name="NUM">10</field></block>
-        </value>
-        <value name="BY">
+        </value><value name="BY">
           <block type="math_number"><field name="NUM">1</field></block>
         </value>
       </block>
+      <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
+      <block type="controls_whileUntil"></block>
     </category>
 
     <category name="Operations" colour="210">
