@@ -72,6 +72,13 @@ Download the source files manual from GitHub or with git by running:
 git clone --recursive git://github.com/google/coding-with-chrome.git
 ```
 
+### Init / update submodules
+In some cases you need to init and update the submodules manually by:
+```bash
+git submodule init
+git submodule update
+```
+
 ### Get required packages
 Enter the "coding-with-chrome" directory and get the required packages by:
 ```bash
@@ -85,7 +92,6 @@ npm run fast-build
 ```
 This will automatically build and start the application on Mac OS, Linux or
 Windows.
-
 
 ### Build the actual app
 To compile the Chrome app run the build script:
