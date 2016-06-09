@@ -76,6 +76,10 @@ cwc.ui.PreviewToolbar = function(helper, prefix) {
   this.autoReloadButton = cwc.ui.Helper.getIconToolbarToogleButton(
       'autorenew', 'Automatic reloads the preview after an ' +
       'change on the editor content.', this.autoUpdate.bind(this));
+
+  /** @type {goog.ui.ToolbarButton} */
+  this.expandButton = cwc.ui.Helper.getIconToolbarButton('fullscreen',
+      'Expand Preview window.', this.toggleExpand.bind(this));
 };
 
 
@@ -84,6 +88,8 @@ cwc.ui.PreviewToolbar = function(helper, prefix) {
  */
 cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
   this.node = node;
+
+  this.expandButton.addClassName('floaty_right');
 
   this.reloadButton.setEnabled(false);
   this.autoReloadButton.setEnabled(true);
@@ -95,6 +101,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
   this.toolbar.addChild(this.reloadButton, true);
   this.toolbar.addChild(new goog.ui.ToolbarSeparator(), true);
   this.toolbar.addChild(this.autoReloadButton, true);
+  this.toolbar.addChild(this.expandButton, true);
   this.toolbar.render(this.node);
 };
 
@@ -172,4 +179,35 @@ cwc.ui.PreviewToolbar.prototype.autoUpdate = function() {
  */
 cwc.ui.PreviewToolbar.prototype.setAutoUpdate = function(enabled) {
   this.autoReloadButton.setChecked(enabled);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
+  this.expand = !this.expand;
+  this.setExpand(this.expand);
+};
+
+
+/**
+ * Expands or collapse the current window.
+ * @param {boolean} expand
+ */
+cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
+  var layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.setFullscreen(expand, 0);
+  this.expandButton.setTooltip((expand ? 'Colapse' : 'Expand') +
+      ' Preview window.');
+  this.expandButton.setContent('fullscreen' + (expand ? '_exit' : ''));
+};
+
+
+/**
+ * Shows/Hide the expand button.
+ * @param {boolean} visible
+ */
+cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
+  this.expandButton.setVisible(visible);
 };

@@ -523,6 +523,7 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       console.error('Unknown layout:', this.layout);
       break;
   }
+  this.handleResizeEvent();
 };
 
 
@@ -600,46 +601,39 @@ cwc.ui.Layout.prototype.setFixBottomComponentSize = function(size) {
 /**
  * Adjusts the main UI element to fullscreen.
  * @param {!boolean} fullscreen
+ * @param {boolean=} opt_size
  * @export
  */
-cwc.ui.Layout.prototype.setFullscreen = function(fullscreen) {
-  this.fullscreen = fullscreen;
-  if (fullscreen) {
+cwc.ui.Layout.prototype.setFullscreen = function(fullscreen,
+    opt_size) {
+  if (fullscreen && this.fullscreen !== fullscreen) {
     this.firstSplitpaneCachedSize = (this.firstSplitpane) ?
         this.firstSplitpane.getFirstComponentSize() : 200;
     this.secondSplitpaneCachedSize = (this.secondSplitpane) ?
         this.secondSplitpane.getFirstComponentSize() : 200;
   }
+  var chromeWidth = (opt_size !== undefined) ? opt_size :
+      this.chromeSize.width - this.handleSize;
+  var chromeHeight = this.chromeSize.height - this.handleSize;
   switch (this.layout) {
     case cwc.ui.LayoutType.TWO_COLUMN:
       this.firstSplitpane.setFirstComponentSize((fullscreen) ?
-          this.chromeSize.height - this.handleSize :
-          this.firstSplitpaneCachedSize);
+          chromeHeight : this.firstSplitpaneCachedSize);
       this.secondSplitpane.setFirstComponentSize((fullscreen) ?
-          this.chromeSize.width - this.handleSize :
-          this.secondSplitpaneCachedSize);
+          chromeWidth : this.secondSplitpaneCachedSize);
       break;
     case cwc.ui.LayoutType.SIMPLE_TWO_COLUMN:
       this.firstSplitpane.setFirstComponentSize((fullscreen) ?
-          this.chromeSize.width - this.handleSize :
-          this.firstSplitpaneCachedSize);
+          chromeWidth : this.firstSplitpaneCachedSize);
       break;
   }
 
-  var blocklyInstance = this.helper.getInstance('blockly');
-  if (blocklyInstance) {
-    blocklyInstance.adjustSize();
-  }
-
-  var editorInstance = this.helper.getInstance('editor');
-  if (editorInstance) {
-    editorInstance.adjustSize();
-  }
+  this.handleResizeEvent();
 };
 
 
 /**
- * Adds an event listener to monitor the size of the split spane.
+ * Adds an event listener to monitor the size of the splitpane.
  * @param {!goog.ui.SplitPane} splitpane
  */
 cwc.ui.Layout.prototype.monitorResize = function(splitpane) {

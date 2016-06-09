@@ -37,3 +37,6 @@
 [submodule "third_party/jquery-dist-2.2.4"]
 	path = third_party/jquery-dist-2.2.4
 	url = https://github.com/jquery/jquery-dist.git
+[submodule "third_party/i18next"]
+	path = third_party/i18next
+	url = https://github.com/i18next/i18next.git

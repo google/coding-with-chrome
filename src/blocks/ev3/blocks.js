@@ -137,7 +137,7 @@ cwc.blocks.addBlock('play_tone', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('play tone('))
+    .appendField(i18t('play tone('))
     .appendField(new Blockly.FieldTextInput('400'), 'frequency')
     .appendField('Hz, ')
     .appendField(new Blockly.FieldTextInput('200'), 'duration')
@@ -158,7 +158,7 @@ cwc.blocks.addBlock('move', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('move robot('))
+    .appendField(i18t('move robot('))
     .appendField(new Blockly.FieldDropdown(
         [['forward', 'forward'], ['backward', 'backward']]), 'direction')
     .appendField(', ')
@@ -178,7 +178,7 @@ cwc.blocks.addBlock('move_distance', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('move robot('))
+    .appendField(i18t('move robot('))
     .appendField(new Blockly.FieldDropdown(
         [['forward', 'forward'], ['backward', 'backward']]), 'direction')
     .appendField(', ')
@@ -197,7 +197,7 @@ cwc.blocks.addBlock('move_forward', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('move forward('))
+    .appendField(i18t('move forward('))
     .appendField(new Blockly.FieldTextInput('200'), 'steps')
     .appendField(' steps)');
   this.setPreviousStatement(true);
@@ -213,7 +213,7 @@ cwc.blocks.addBlock('move_backward', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('move backward('))
+    .appendField(i18t('move backward('))
     .appendField(new Blockly.FieldTextInput('200'), 'steps')
     .appendField(' steps)');
   this.setPreviousStatement(true);
@@ -229,7 +229,7 @@ cwc.blocks.addBlock('move_up', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('move up('))
+    .appendField(i18t('move up('))
     .appendField(new Blockly.FieldTextInput('200'), 'steps')
     .appendField(' steps)');
   this.setPreviousStatement(true);
@@ -245,7 +245,7 @@ cwc.blocks.addBlock('move_down', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('move down('))
+    .appendField(i18t('move down('))
     .appendField(new Blockly.FieldTextInput('200'), 'steps')
     .appendField(' steps)');
   this.setPreviousStatement(true);
@@ -261,7 +261,7 @@ cwc.blocks.addBlock('rotate_left', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('turn left('))
+    .appendField(i18t('turn left('))
     .appendField(new Blockly.FieldAngle('90'), 'angle')
     .appendField(')');
   this.setPreviousStatement(true);
@@ -277,7 +277,7 @@ cwc.blocks.addBlock('rotate_right', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('turn right('))
+    .appendField(i18t('turn right('))
     .appendField(new Blockly.FieldAngle('90'), 'angle')
     .appendField(')');
   this.setPreviousStatement(true);
@@ -293,7 +293,7 @@ cwc.blocks.addBlock('move_pen', function() {
   this.setHelpUrl('');
   this.setColour(210);
   this.appendDummyInput()
-    .appendField(i18n.get('move pen('))
+    .appendField(i18t('move pen('))
     .appendField(new Blockly.FieldDropdown(
       [['down', 'down'], ['up', 'up']]), 'direction')
     .appendField(', ')
@@ -313,7 +313,7 @@ cwc.blocks.addBlock('move_servo', function() {
   this.setHelpUrl('');
   this.setColour(210);
   this.appendDummyInput()
-    .appendField(i18n.get('move servo('))
+    .appendField(i18t('move servo('))
     .appendField(new Blockly.FieldDropdown(
       [['normal', 'normal'], ['inverted', 'inverted']]), 'direction')
     .appendField(', ')
@@ -332,7 +332,7 @@ cwc.blocks.addBlock('rotate', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('rotate robot('))
+    .appendField(i18t('rotate robot('))
     .appendField(new Blockly.FieldDropdown(
       [['right', 'right'], ['left', 'left']]), 'direction')
     .appendField(', ')
@@ -352,7 +352,7 @@ cwc.blocks.addBlock('stop', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('stop motors('))
+    .appendField(i18t('stop motors('))
     .appendField(new Blockly.FieldDropdown(
         [['when finished', 'when finished'],
          ['immediately', 'immediately']]), 'immediately')
@@ -371,7 +371,7 @@ cwc.blocks.addBlock('stop_immediately', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('stop moving()'));
+    .appendField(i18t('stop moving()'));
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Stop all motors immediately');
@@ -385,7 +385,7 @@ cwc.blocks.addBlock('wait', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('wait ('))
+    .appendField(i18t('wait ('))
     .appendField(new Blockly.FieldTextInput('2000'), 'time')
     .appendField('msec)');
   this.setPreviousStatement(true);
@@ -401,7 +401,7 @@ cwc.blocks.addBlock('move_power', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('set motor power('))
+    .appendField(i18t('set motor power('))
     .appendField(new Blockly.FieldDropdown(
         [['forward', 'forward'], ['backward', 'backward']]), 'direction')
     .appendField(', ')
@@ -421,7 +421,7 @@ cwc.blocks.addBlock('rotate_power', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('set rotate power('))
+    .appendField(i18t('set rotate power('))
     .appendField(new Blockly.FieldDropdown(
         [['right', 'right'], ['left', 'left']]), 'direction')
     .appendField(', ')
@@ -441,7 +441,7 @@ cwc.blocks.addBlock('color_sensor_mode', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('color sensor mode('))
+    .appendField(i18t('color sensor mode('))
     .appendField(new Blockly.FieldDropdown(
         [['reflected light of red light', 'reflection'],
          ['ambient light intensity', 'ambient light'],
@@ -460,7 +460,7 @@ cwc.blocks.addBlock('ir_sensor_mode', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('ir sensor mode('))
+    .appendField(i18t('ir sensor mode('))
     .appendField(new Blockly.FieldDropdown(
         [['proximity', 'proximity'],
          ['ir beacon', 'ir beacon'],
@@ -479,7 +479,7 @@ cwc.blocks.addBlock('ultrasonic_sensor_mode', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('ultrasonic sensor mode('))
+    .appendField(i18t('ultrasonic sensor mode('))
     .appendField(new Blockly.FieldDropdown(
         [['distance cm', 'distance cm'],
          ['distance inch', 'distance inch'],
@@ -498,7 +498,7 @@ cwc.blocks.addBlock('led', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('set led('))
+    .appendField(i18t('set led('))
     .appendField(new Blockly.FieldDropdown(
         [['off', 'off'],
          ['green', 'green'],
@@ -523,7 +523,7 @@ cwc.blocks.addBlock('color_sensor_value', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Color sensor value'));
+    .appendField(i18t('Color sensor value'));
   this.setOutput(true, 'Number');
   this.setTooltip('Get the current value of the color sensor.');
 }, cwc.blocks.ev3.Blocks.prefix_);
@@ -536,7 +536,7 @@ cwc.blocks.addBlock('touch_sensor_value', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Touch sensor value'));
+    .appendField(i18t('Touch sensor value'));
   this.setOutput(true, 'Number');
   this.setTooltip('Get the current value of the touch sensor.');
 }, cwc.blocks.ev3.Blocks.prefix_);
@@ -549,7 +549,7 @@ cwc.blocks.addBlock('ir_sensor_value', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('IR sensor value'));
+    .appendField(i18t('IR sensor value'));
   this.setOutput(true, 'Number');
   this.setTooltip('Get the current value of the IR sensor.');
 }, cwc.blocks.ev3.Blocks.prefix_);
@@ -562,7 +562,7 @@ cwc.blocks.addBlock('ultrasonic_sensor_value', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Ultrasonic sensor value'));
+    .appendField(i18t('Ultrasonic sensor value'));
   this.setOutput(true, 'Number');
   this.setTooltip('Get the current value of the Ultrasonic sensor.');
 }, cwc.blocks.ev3.Blocks.prefix_);
@@ -575,7 +575,7 @@ cwc.blocks.addBlock('color_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Color Sensor Change'));
+    .appendField(i18t('Color Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -592,7 +592,7 @@ cwc.blocks.addBlock('gyro_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Gyro Sensor Change'));
+    .appendField(i18t('Gyro Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -609,7 +609,7 @@ cwc.blocks.addBlock('ir_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Ir Sensor Change'));
+    .appendField(i18t('Ir Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -626,7 +626,7 @@ cwc.blocks.addBlock('touch_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('on touch sensor change'));
+    .appendField(i18t('on touch sensor change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -643,7 +643,7 @@ cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('on ultrasonic sensor change'));
+    .appendField(i18t('on ultrasonic sensor change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -660,7 +660,7 @@ cwc.blocks.addBlock('stop_ultrasonic_sensor_event', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('stop ultrasonic sensor event()'));
+    .appendField(i18t('stop ultrasonic sensor event()'));
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Stops the ultrasonic sensor event.');

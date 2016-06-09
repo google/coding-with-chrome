@@ -30,7 +30,8 @@ closureBuilder.build({
   srcs: glob([
     'src/**/*.js',
     'src/**/*.soy',
-    '!src/{frameworks,frameworks/**}'
+    '!src/{frameworks,frameworks/**}',
+    'locales/*/*.js'
   ]),
   deps: glob([
     'node_modules/blockly/blocks/**/*.js',

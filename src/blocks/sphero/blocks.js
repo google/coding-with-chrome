@@ -104,7 +104,7 @@ cwc.blocks.addBlock('rgb', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-      .appendField(i18n.get('set color('))
+      .appendField(i18t('set color('))
       .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
       .appendField(')');
   this.setPreviousStatement(true);
@@ -120,9 +120,9 @@ cwc.blocks.addBlock('backlight', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-      .appendField(i18n.get('set backlight ('))
+      .appendField(i18t('set backlight ('))
       .appendField(new Blockly.FieldTextInput('254'), 'brightness')
-      .appendField(i18n.get('(0 - 254)'))
+      .appendField(i18t('(0 - 254)'))
       .appendField(')');
   this.setPreviousStatement(true);
   this.setNextStatement(true);
@@ -137,10 +137,10 @@ cwc.blocks.addBlock('stop', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-      .appendField(i18n.get('stop motors('))
+      .appendField(i18t('stop motors('))
       .appendField(new Blockly.FieldDropdown(
-          [[i18n.get('when finished'), 'when finished'],
-           [i18n.get('immediately'), 'immediately']]), 'immediately')
+          [[i18t('when finished'), 'when finished'],
+           [i18t('immediately'), 'immediately']]), 'immediately')
       .appendField(')');
   this.setPreviousStatement(true);
   this.setNextStatement(true);
@@ -156,7 +156,7 @@ cwc.blocks.addBlock('collision', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('on collision'));
+    .appendField(i18t('on collision'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);

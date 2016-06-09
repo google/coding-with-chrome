@@ -40,7 +40,8 @@ globals:
   describe: true
   expect: true
   goog: true
-  i18n: true
+  i18t: true
+  i18next: true
   it: true
   opt_event: true
   var_args: true

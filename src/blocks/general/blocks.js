@@ -39,7 +39,7 @@ cwc.blocks.addBlock('infinity_loop', function() {
   this.setHelpUrl('');
   this.setColour(120);
   this.appendDummyInput()
-    .appendField(i18n.get('repeat forever'));
+    .appendField(i18t('repeat forever'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);

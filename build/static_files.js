@@ -158,7 +158,18 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'HTMLHint files',
   resources: [
-    'third_party/htmlhint/lib/htmlhint.js'
+    'third_party/HTMLHint/lib/htmlhint.js'
   ],
   out: 'genfiles/external/htmlhint/'
+});
+
+/**
+ * i18next
+ */
+closureBuilder.build({
+  name: 'i18next',
+  resources: [
+    'third_party/i18next/i18next.min.js'
+  ],
+  out: 'genfiles/external/i18next/i18next.min.js'
 });

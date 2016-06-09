@@ -224,7 +224,7 @@ cwc.ui.Helper.decorateIcon = function(button, icon_name) {
  * @return {!goog.ui.MenuItem}
  */
 cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
-  var item = new goog.ui.MenuItem(i18n.get(name));
+  var item = new goog.ui.MenuItem(i18t(name));
   if (opt_func) {
     goog.events.listen(item, goog.ui.Component.EventType.ACTION, opt_func,
         false, opt_scope);
@@ -246,7 +246,7 @@ cwc.ui.Helper.getNavigationItem = function(name,
   if (opt_func && opt_scope) {
     func = opt_func.bind(opt_scope);
   }
-  return cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
+  return cwc.ui.Helper.getLinkButton(i18t(name), opt_description,
     func, null, 'mdl-navigation__link');
 };
 

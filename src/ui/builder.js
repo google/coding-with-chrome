@@ -29,6 +29,8 @@ goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
+goog.require('cwc.locales.de.Translation');
+goog.require('cwc.locales.en.Translation');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
@@ -58,7 +60,6 @@ goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
-goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
@@ -440,13 +441,25 @@ cwc.ui.Builder.prototype.loadUserConfig = function(callback) {
 
 
 /**
- * Preloads i18n helper.
+ * Prepare i18n.
  * @private
  */
 cwc.ui.Builder.prototype.loadI18n_ = function() {
-  var i18nInstance = new cwc.utils.I18n();
-  this.helper.setInstance('i18n', i18nInstance);
-  i18nInstance.mapGlobal();
+  i18next.init({
+    lng: chrome.i18n.getUILanguage(),
+    fallbackLng: 'en',
+    keySeparator: false,
+    nsSeparator: false,
+    resources: {
+      de: {
+        translation: cwc.locales.de.Translation
+      },
+      en: {
+        translation: cwc.locales.en.Translation
+      }
+    }
+  });
+  window['i18t'] = i18next.t.bind(i18next);
 };
 
 

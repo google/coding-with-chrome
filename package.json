@@ -37,12 +37,12 @@
 
     "build": "npm run build-static-files && npm run build-extra-files && npm run rebuild",
     "build-cwc-files": "node build/cwc_files.js",
+    "build-external-frameworks": "node build/external_frameworks.js",
     "build-extra-files": "node build/extra_files.js",
+    "build-framework-files":  "npm run build-external-frameworks && npm run build-internal-frameworks",
+    "build-internal-frameworks": "node build/internal_frameworks.js",
     "build-static-files": "node build/static_files.js",
     "build-test-files": "node build/test_files.js",
-    "build-framework-files":  "npm run build-external-frameworks && npm run build-internal-frameworks",
-    "build-external-frameworks": "node build/external_frameworks.js",
-    "build-internal-frameworks": "node build/internal_frameworks.js",
     "fast-build": "npm run build && npm run launch",
 
     "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",

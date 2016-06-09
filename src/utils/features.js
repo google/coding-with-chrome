@@ -147,6 +147,7 @@ cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
   this.set('coffeescript', typeof window['CoffeeScript'], group);
   this.set('htmlhint', typeof window['HTMLHint'], group);
   this.set('jshint', typeof window['JSHINT'], group);
+  this.set('i18next', typeof window['i18next'], group);
 };
 
 

@@ -1,7 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
+ * @fileoverview Translation file for German.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.locales.en.Translation');
 
 
 
-/** @type {Object} */
-var i18next = function() {};
-var i18t = function() {};
+/**
+ * @final
+ * @export
+ */
+cwc.locales.en.Translation = {
+  'new file': 'new file',
+  'new project': 'new project',
+  'open file': 'open file',
+  'save as new file': 'save as new file'
+};
