@@ -40,3 +40,6 @@
 [submodule "third_party/i18next"]
 	path = third_party/i18next
 	url = https://github.com/i18next/i18next.git
+[submodule "third_party/i18next-sprintf"]
+	path = third_party/i18next-sprintf
+	url = https://github.com/i18next/i18next-sprintf-postProcessor.git
