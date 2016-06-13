@@ -163,6 +163,7 @@ closureBuilder.build({
   out: 'genfiles/external/htmlhint/'
 });
 
+
 /**
  * i18next
  */
@@ -172,4 +173,16 @@ closureBuilder.build({
     'third_party/i18next/i18next.min.js'
   ],
   out: 'genfiles/external/i18next/i18next.min.js'
+});
+
+
+/**
+ * i18next-sprintf
+ */
+closureBuilder.build({
+  name: 'i18next-sprintf',
+  resources: [
+    'third_party/i18next-sprintf/i18nextSprintfPostProcessor.min.js'
+  ],
+  out: 'genfiles/external/i18next/i18next-sprintf.min.js'
 });

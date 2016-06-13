@@ -1,7 +1,7 @@
 /**
- * @fileoverview Builder tests.
+ * @fileoverview Translation file for German.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,19 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.locales.de.Translation');
 
 
-describe('Builder', function() {
-  var builder = new cwc.ui.Builder();
 
-  it('export', function() {
-    expect(typeof builder).toEqual('object');
-  });
-
-});
+/**
+ * @final
+ * @export
+ */
+cwc.locales.de.Translation = {
+  'hello world': 'Hallo Welt',
+  'New file': 'Neue Datei',
+  'New project': 'Neues Projekt',
+  'Open file': 'Öffne Datei',
+  'Save as new file': 'Als neue Datei speichern',
+  'Welcome to Coding with Chrome!': 'Willkommen zu Coding with Chrome!'
+};

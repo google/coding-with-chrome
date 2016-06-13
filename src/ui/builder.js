@@ -29,8 +29,6 @@ goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
-goog.require('cwc.locales.de.Translation');
-goog.require('cwc.locales.en.Translation');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
@@ -60,6 +58,7 @@ goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
@@ -197,40 +196,54 @@ cwc.ui.Builder.prototype.decorate = function(node,
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  this.loadApp();
+  // Detecting features
+  if (!this.error) {
+    this.helper.detectFeatures();
+    this.helper.showFeatures();
+  }
+
+  // Loading user config, if any.
+  if (!this.error) {
+    var userConfigInstance = new cwc.userConfig(this.helper);
+    this.helper.setInstance('userConfig', userConfigInstance);
+    userConfigInstance.prepare(this.loadI18n_.bind(this));
+  }
+
 };
 
 
 /**
- * Loads all needed helper.
+ * Loads the i18n before the rest of the UI.
+ * @private
  */
-cwc.ui.Builder.prototype.loadApp = function() {
-  if (!this.error) {
-    this.setProgress('Detect features ...', 0, 100);
-    this.detectFeatures();
+cwc.ui.Builder.prototype.loadI18n_ = function() {
+  var i18nInstance = new cwc.utils.I18n();
+  if (i18nInstance) {
+    var language = '';
+    var userConfigInstance = this.helper.getInstance('userConfig');
+    if (userConfigInstance) {
+      var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.LANGUAGE);
+      if (userLanguage && userLanguage != language) {
+        console.log('Using user preferred language:', userLanguage);
+        language = userLanguage;
+      }
+    }
+    i18nInstance.prepare(this.loadUI.bind(this), language);
   }
+  this.helper.setInstance('i18n', i18nInstance);
+};
 
-  if (!this.error) {
-    this.setProgress('Loading and prepare i18n ...', 5, 100);
-    this.loadI18n_();
-  }
+
+/**
+ * Loads and construct the main ui screen.
+ */
+cwc.ui.Builder.prototype.loadUI = function() {
 
   if (!this.error) {
     this.setProgress('Checking requirements ...', 10, 100);
     this.checkRequirements();
   }
-
-  if (!this.error) {
-    this.setProgress('Loading user config ...', 20, 100);
-    this.loadUserConfig(this.loadUI.bind(this));
-  }
-};
-
-
-/**
- * Loads the ui.
- */
-cwc.ui.Builder.prototype.loadUI = function() {
 
   if (!this.error) {
     this.setProgress('Prepare debug ...', 25, 100);
@@ -317,14 +330,6 @@ cwc.ui.Builder.prototype.closeLoader = function() {
   }
 };
 
-
-/**
- * Performs feature detection.
- */
-cwc.ui.Builder.prototype.detectFeatures = function() {
-  this.helper.detectFeatures();
-  this.helper.showFeatures();
-};
 
 
 /**
@@ -426,40 +431,6 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
   if (this.helper.checkChromeFeature('serial') && serialInstance) {
     serialInstance.prepare();
   }
-};
-
-
-/**
- * Preloads user config.
- * @param {Function} callback
- */
-cwc.ui.Builder.prototype.loadUserConfig = function(callback) {
-  var userConfigInstance = new cwc.userConfig(this.helper);
-  this.helper.setInstance('userConfig', userConfigInstance);
-  userConfigInstance.prepare(callback);
-};
-
-
-/**
- * Prepare i18n.
- * @private
- */
-cwc.ui.Builder.prototype.loadI18n_ = function() {
-  i18next.init({
-    lng: chrome.i18n.getUILanguage(),
-    fallbackLng: 'en',
-    keySeparator: false,
-    nsSeparator: false,
-    resources: {
-      de: {
-        translation: cwc.locales.de.Translation
-      },
-      en: {
-        translation: cwc.locales.en.Translation
-      }
-    }
-  });
-  window['i18t'] = i18next.t.bind(i18next);
 };
 
 

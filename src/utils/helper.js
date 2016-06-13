@@ -207,6 +207,18 @@ cwc.utils.Helper.prototype.executeInstance = function(name, func,
 
 
 /**
+ * @return {Object}
+ */
+cwc.utils.Helper.prototype.getI18nData = function() {
+  var i18nInstance = this.getInstance('i18n');
+  if (i18nInstance) {
+    return i18nInstance.getLanguageData();
+  }
+  return {};
+};
+
+
+/**
  * Shows an error message over the message instance.
  * @param {!string} error_msg
  * @export

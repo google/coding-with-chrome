@@ -128,6 +128,11 @@ cwc.ui.Debug.prototype.addEvents = function() {
         console.log('Prompt value:', value);
       }, 'nobody');
     });
+
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'i18n_untranslated'),
+    function() {
+      this.helper.executeInstance('i18n', 'getToDo');
+    });
 };
 
 

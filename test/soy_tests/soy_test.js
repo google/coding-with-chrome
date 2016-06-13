@@ -1,7 +1,7 @@
 /**
- * @fileoverview Translation file for German.
+ * @fileoverview Soy tests.
  *
- * @license Copyright 2016 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.locales.en.Translation');
+goog.require('cwc.soy.SelectScreen');
 
 
+describe('Soy templates', function() {
 
-/**
- * @final
- * @export
- */
-cwc.locales.en.Translation = {
-  'new file': 'new file',
-  'new project': 'new project',
-  'open file': 'open file',
-  'save as new file': 'save as new file'
-};
+  it('Select Screen', function() {
+    expect(typeof cwc.soy.SelectScreen).toEqual('object');
+  });
+
+});

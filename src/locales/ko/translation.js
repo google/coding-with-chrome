@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for German.
+ * @fileoverview Translation file for Korean.
  *
  * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.locales.de.Translation');
+goog.provide('cwc.locales.ko.Translation');
 
 
 
@@ -25,9 +25,6 @@ goog.provide('cwc.locales.de.Translation');
  * @final
  * @export
  */
-cwc.locales.de.Translation = {
-  'New file': 'Neue Datei',
-  'New project': 'Neues Projekt',
-  'Open file': 'Öffne Datei',
-  'Save as new file': 'Als neue Datei speichern'
+cwc.locales.ko.Translation = {
+  'hello world': '안녕하세요 세계'
 };

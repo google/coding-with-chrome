@@ -68,52 +68,57 @@
       <ul class="mdl-list">
 
         // Welcome screen
-        <li class="mdl-list__item mdl-list__item--three-line">
-          <span class="mdl-list__item-primary-content">
-            <span>Show welcome screen</span>
-            <span class="mdl-list__item-text-body">
-              If enabled a welcome screen will show every time CwC is started with the choice
-              between "beginner mode" and "advanced mode".
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}show-welcome">
-              <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input" />
-            </label>
-          </span>
-        </li>
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Show welcome screen' /}
+          {param text: 'If enabled a welcome screen will show every time CwC is started with the choice between "beginner mode" and "advanced mode".' /}
+          {param type: 'checkbox' /}
+          {param id: 'show-welcome' /}
+        {/call}
 
         // Advanced Mode
-        <li class="mdl-list__item mdl-list__item--three-line">
-          <span class="mdl-list__item-primary-content">
-            <span>Advanced Mode</span>
-            <span class="mdl-list__item-text-body">
-              The "advanced mode" will turn off all block based options.
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}advanced-mode">
-              <input type="checkbox" id="{$prefix}advanced-mode" class="mdl-switch__input" />
-            </label>
-          </span>
-        </li>
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Advanced Mode' /}
+          {param text: 'The "advanced mode" will turn off all block based options.' /}
+          {param type: 'switch' /}
+          {param id: 'advanced-mode' /}
+        {/call}
 
         // Fullscreen
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Launch in fullscreen' /}
+          {param text: 'If enabled CwC will be automatically launched in fullscreen.' /}
+          {param type: 'checkbox' /}
+          {param id: 'fullscreen' /}
+          {param opt_restart: true /}
+        {/call}
+
+        // Language
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
-            <span>Launch in fullscreen</span>
+            <span>Language</span>
             <span class="mdl-list__item-text-body">
-              If enabled CwC will be automatically launched in fullscreen.
+              Default UI language.
             </span>
           </span>
           <span class="mdl-list__item-secondary-content">
-            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}fullscreen">
-              <input type="checkbox" id="{$prefix}fullscreen" class="mdl-checkbox__input" />
-            </label>
+            <button id="demo-menu-top-right" class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul id="{$prefix}language" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="demo-menu-top-right">
+              <li class="mdl-menu__item">auto</li>
+              <li class="mdl-menu__item">de</li>
+              <li class="mdl-menu__item">en</li>
+            </ul>
           </span>
         </li>
 
       </ul>
+      <div class="mdl-card__supporting-text">
+       * You need to restart the application after enabling or disabling these options.
+      </div>
     </div>
   </section>
 {/template}
@@ -133,24 +138,55 @@
       <ul class="mdl-list">
 
         // Debug Mode
-        <li class="mdl-list__item mdl-list__item--three-line">
-          <span class="mdl-list__item-primary-content">
-            <span>Debug Mode</span>
-            <span class="mdl-list__item-text-body">
-              The "debug mode" will turn on some additional debug options.<br>
-              You need to restart the application after enabling or disabling this options.<br>
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}debug-mode">
-              <input type="checkbox" id="{$prefix}debug-mode" class="mdl-switch__input" />
-            </label>
-          </span>
-        </li>
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Debug Mode' /}
+          {param text: 'The "debug mode" will turn on some additional debug options.' /}
+          {param type: 'switch' /}
+          {param id: 'debug-mode' /}
+          {param opt_restart: true /}
+        {/call}
 
       </ul>
+      <div class="mdl-card__supporting-text">
+       * You need to restart the application after enabling or disabling these options.
+      </div>
     </div>
   </section>
+{/template}
+
+
+/**
+ * Settings entry.
+ */
+{template .setting_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param type: string}
+  {@param id: string}
+  {@param? opt_restart: bool}
+
+  <li class="mdl-list__item mdl-list__item--three-line">
+    <span class="mdl-list__item-primary-content">
+      <span>{$title} {if $opt_restart}*{/if}</span>
+      <span class="mdl-list__item-text-body">{$text}</span>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+
+      {switch $type}
+        {case 'checkbox'}
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}{$id}">
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-checkbox__input" />
+          </label>
+        {case 'switch'}
+          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}{$id}">
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-switch__input" />
+          </label>
+      {/switch}
+
+    </span>
+  </li>
 {/template}
 
 

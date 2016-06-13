@@ -73,11 +73,12 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
   );
 
   var userConfigInstance = this.helper.getInstance('userConfig');
-  var closeButton = goog.dom.getElement(this.prefix + 'close');
-  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
   var advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
+  var closeButton = goog.dom.getElement(this.prefix + 'close');
   var debugMode = goog.dom.getElement(this.prefix + 'debug-mode');
+  var setLanguage = goog.dom.getElement(this.prefix + 'language');
   var showFullscreen = goog.dom.getElement(this.prefix + 'fullscreen');
+  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
 
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
@@ -105,6 +106,13 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
         cwc.userConfigName.ADVANCED_MODE, advancedMode.checked);
     }, false, this);
 
+  goog.events.listen(setLanguage, goog.events.EventType.CLICK,
+    function(event) {
+      var value = event.target.firstChild.data;
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.LANGUAGE, value);
+    }, false, this);
+
   goog.events.listen(debugMode, goog.events.EventType.CHANGE,
     function(opt_event) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
@@ -116,6 +124,8 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
         cwc.userConfigName.FULLSCREEN, showFullscreen.checked);
     }, false, this);
+
+
 };
 
 
