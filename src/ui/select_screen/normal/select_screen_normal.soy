@@ -132,7 +132,7 @@
           {param link_text: 'Try Example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-block-hello-world.png' /}
+          {param opt_image: 'images/selection/basic-block-hello-world.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -142,7 +142,7 @@
           {param link_text: 'Try Example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-block-text-loop.png' /}
+          {param opt_image: 'images/selection/basic-block-text-loop.png' /}
         {/call}
 
       </div>
@@ -397,7 +397,7 @@
           {param link_text: 'try example' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/sphero-block-rectangle.png' /}
+          {param opt_image: 'images/selection/sphero-block-rectangle.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -491,7 +491,7 @@
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
@@ -523,7 +523,7 @@
 
   <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </div>
     <div class="mdl-card__title">
@@ -558,7 +558,7 @@
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-       {if $opt_image}<img src="{$opt_image}">{/if}
+       {if $opt_image}<img src="../../{$opt_image}">{/if}
        {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
        {if $opt_text}<div>{$opt_text}</div>{/if}
     </div>

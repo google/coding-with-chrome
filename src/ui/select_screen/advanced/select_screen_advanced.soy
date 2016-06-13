@@ -128,7 +128,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-hello-world.png' /}
+          {param opt_image: 'images/selection/basic-script-hello-world.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -138,7 +138,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-text-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-text-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -148,7 +148,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'line-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-line-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-line-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -158,7 +158,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'point-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-point-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-point-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -168,7 +168,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'draw-portal-turret' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-draw-portal-turret.png' /}
+          {param opt_image: 'images/selection/basic-draw-portal-turret.png' /}
         {/call}
 
       </div>
@@ -300,7 +300,7 @@
           {param link_text: 'Load Circle Animation' /}
           {param link_id: 'circle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/javascript-circle-animation.png' /}
+          {param opt_image: 'images/selection/javascript-circle-animation.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -310,7 +310,7 @@
           {param link_text: 'Load Triangle Animation' /}
           {param link_id: 'triangle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/javascript-triangle-animation.png' /}
+          {param opt_image: 'images/selection/javascript-triangle-animation.png' /}
         {/call}
 
       </div>
@@ -488,7 +488,7 @@
           {param link_text: 'Load turtle catch' /}
           {param link_id: 'turtle-catch' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/pencil-code-turtle-catch.png' /}
+          {param opt_image: 'images/selection/pencil-code-turtle-catch.png' /}
         {/call}
 
       </div>
@@ -586,7 +586,7 @@
           {param link_text: 'Form example' /}
           {param link_id: 'form' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/html5-form.png' /}
+          {param opt_image: 'images/selection/html5-form.png' /}
         {/call}
 
       </div>
@@ -894,7 +894,7 @@
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
@@ -926,7 +926,7 @@
 
   <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </div>
     <div class="mdl-card__title">
@@ -961,7 +961,7 @@
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-       {if $opt_image}<img src="{$opt_image}">{/if}
+       {if $opt_image}<img src="../../{$opt_image}">{/if}
        {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
        {if $opt_text}<div>{$opt_text}</div>{/if}
     </div>

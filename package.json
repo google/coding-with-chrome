@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/MarkusBordihn/blockly/tarball/hotfix-variables",
-    "closure-builder": "^2.0.2",
+    "closure-builder": "^2.0.3",
     "material-design-lite": "^1.1.3",
     "jsdoc": "^3.4.0",
     "rimraf": "^2.5.2"

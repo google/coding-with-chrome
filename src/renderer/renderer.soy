@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-{namespace cwc.soy.Renderer autoescape="deprecated-contextual"}
+{namespace cwc.soy.Renderer autoescape="strict"}
 
 /**
  * Object template.
@@ -29,14 +29,14 @@
   {@param width: number}
   {@param height: number}
 
-  <object data="{$data_url|noAutoescape}" type="{$type}" width="{$width}" height="{$height}"></object>
+  <object data="{$data_url}" type="{$type}" width="{$width}" height="{$height}"></object>
 {/template}
 
 
 /**
  * HTML base template.
  */
-{template .html autoescape="deprecated-contextual"}
+{template .html}
   {@param body: string}
   {@param? head: string}
   {@param? css: string}
@@ -53,10 +53,10 @@
     {if $css}
       {call .css}{param content: $css /}{/call}
     {/if}
-    {$head |noAutoescape}{\n}
+    {$head}{\n}
   </head>{\n}
   <body>{\n}
-    {$body |noAutoescape}{\n}
+    {$body}{\n}
     {if $js}
       {call .javascript}{param content: $js /}{/call}
     {/if}
@@ -68,7 +68,7 @@
 /**
  * HTML base template.
  */
-{template .htmlGrid autoescape="deprecated-contextual"}
+{template .htmlGrid}
   {@param body: string}
   {@param? head: string}
   {@param? css: string}
@@ -89,10 +89,10 @@
     {if $css}
       {call .css}{param content: $css /}{/call}
     {/if}
-    {$head |noAutoescape}{\n}
+    {$head}{\n}
   </head>{\n}
   <body>{\n}
-    {$body |noAutoescape}{\n}
+    {$body}{\n}
     {if $js}
       {call .javascript}{param content: $js /}{/call}
     {/if}
@@ -104,15 +104,15 @@
 /**
  * CSS tag.
  */
-{template .css autoescape="deprecated-contextual"}
+{template .css}
   {@param content: string}
   {@param? url: string}
 
   {if $url}
-    {\n}<link rel="stylesheet" href="{$url |noAutoescape}">{\n}
+    {\n}<link rel="stylesheet" href="{$url}">{\n}
   {/if}
   {if $content}
-    {\n}<style>{\n}{$content |noAutoescape}{\n}</style>{\n}
+    {\n}<style>{\n}{$content}{\n}</style>{\n}
   {/if}
 {/template}
 
@@ -120,13 +120,18 @@
 /**
  * JavaScript tag.
  */
-{template .javascript autoescape="deprecated-contextual"}
+{template .javascript}
   {@param content: string}
   {@param? url: string}
   {@param? filename: string}
 
   {\n}
-  <script{if $url} src="{$url |noAutoescape}"{/if}{if $filename} data-filename="{$filename}"{/if}>
-    {if $content}{$content |noAutoescape}{\n}{/if}
-  </script>{\n}
+  {if $url}
+    <script src="{$url}" data-filename="{$filename}"></script>
+  {/if}
+
+  {if $content}
+    <script>{$content}{\n}</script>
+  {/if}
+  {\n}
 {/template}
