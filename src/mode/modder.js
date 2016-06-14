@@ -58,6 +58,9 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   if (modeConfig.description) {
     console.log('Description:', modeConfig.description);
   }
+  if (modeConfig.title) {
+    this.setNavHeader_(modeConfig.title, modeConfig.icon);
+  }
   if (modeConfig.verison) {
     console.log('Version:', modeConfig.version);
   }
@@ -86,7 +89,7 @@ cwc.mode.Modder.prototype.addEditorView = function(name, opt_content,
 
 
 /**
- * Shows the editor and hides other possible overlapping elemenets.
+ * Shows the editor and hides other possible overlapping elements.
  */
 cwc.mode.Modder.prototype.showEditor = function() {
   var editor = this.helper.getInstance('editor');
@@ -113,7 +116,7 @@ cwc.mode.Modder.prototype.addBlocklyView = function(content) {
 
 
 /**
- * Shows the blockly editor and hides other overlapping elemenets.
+ * Shows the blockly editor and hides other overlapping elements.
  */
 cwc.mode.Modder.prototype.showBlockly = function() {
   var blockly = this.helper.getInstance('blockly');
@@ -186,5 +189,20 @@ cwc.mode.Modder.prototype.setTitle = function(title) {
   if (guiInstance) {
     guiInstance.enableTitle(true);
     guiInstance.setTitle(title);
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string=} opt_icon
+ * @param {string=} opt_color_class
+ * @private
+ */
+cwc.mode.Modder.prototype.setNavHeader_ = function(title,
+    opt_icon, opt_color_class) {
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.setHeader(title, opt_icon, opt_color_class);
   }
 };

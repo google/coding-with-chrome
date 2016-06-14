@@ -357,13 +357,13 @@ cwc.ui.Editor.prototype.getEditorMode = function() {
  * @param {!(cwc.ui.EditorType|string)} mode Editor code mode.
  */
 cwc.ui.Editor.prototype.setEditorMode = function(mode) {
-  if (mode && mode != this.editorType) {
+  if (mode && mode !== this.editorType) {
     console.log('Set editor mode to: ' + mode);
     this.editor.setOption('mode', mode);
-    this.editorType = mode;
     this.updateInfobar();
     this.updateToolbar();
     this.refreshEditor();
+    this.editorType = mode;
   }
 };
 
@@ -592,6 +592,14 @@ cwc.ui.Editor.prototype.isModified = function() {
 
 
 /**
+ * @param {!boolean} modified
+ */
+cwc.ui.Editor.prototype.setModified = function(modified) {
+  this.modified = modified;
+};
+
+
+/**
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Editor.prototype.adjustSize = function() {
@@ -651,8 +659,8 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
  */
 cwc.ui.Editor.prototype.updateToolbar = function() {
   var editorMode = this.getEditorMode();
-  console.info('Update Toolbar for', editorMode);
-  if (this.toolbar) {
+  if (editorMode !== this.editorType && this.toolbar) {
+    console.info('Update Toolbar for', editorMode);
     this.toolbar.updateToolbar(editorMode);
   }
 };

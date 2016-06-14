@@ -70,9 +70,10 @@ cwc.protocol.sphero.Buffer.prototype.writeSingleByte = function() {
 
 /**
  * @param {number} value
+ * @param {number=} opt_default
  */
-cwc.protocol.sphero.Buffer.prototype.writeByte = function(value) {
-  this.data.writeByte(value);
+cwc.protocol.sphero.Buffer.prototype.writeByte = function(value, opt_default) {
+  this.data.writeByte(value, opt_default);
 };
 
 

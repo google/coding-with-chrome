@@ -42,16 +42,15 @@ cwc.mode.coffeescript.Layout = function(helper) {
 cwc.mode.coffeescript.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(500);
-  var nodes = layoutInstance.getNodes();
 
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.Coffeescript.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.Coffeescript.preview,
       {'prefix': this.prefix}
   );

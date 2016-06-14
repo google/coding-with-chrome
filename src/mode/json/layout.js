@@ -42,11 +42,9 @@ cwc.mode.json.Layout = function(helper) {
 cwc.mode.json.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleSingleColumnLayout();
-  var nodes = layoutInstance.getNodes();
 
-  console.log('Adding Content');
   goog.soy.renderElement(
-      nodes['content'],
+      layoutInstance.getNode('content'),
       cwc.soy.mode.JSON.editor,
       {'prefix': this.prefix}
   );

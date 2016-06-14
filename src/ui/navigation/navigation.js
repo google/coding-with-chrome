@@ -148,7 +148,7 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.shortcutHandler.registerShortcut('save_file_as', 'ctrl+shift+s');
   goog.events.listen(this.shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-    this.handleKeyboardShortcut, false, this);
+    this.handleKeyboardShortcut_, false, this);
 };
 
 
@@ -190,6 +190,24 @@ cwc.ui.Navigation.prototype.hide = function() {
   var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
   if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
     this.toggle();
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string=} opt_icon
+ * @param {string=} opt_color_class
+ */
+cwc.ui.Navigation.prototype.setHeader = function(title,
+    opt_icon, opt_color_class) {
+  var headerNode = goog.dom.getElement(this.prefix + 'header');
+  if (headerNode) {
+    goog.soy.renderElement(
+      headerNode, cwc.soy.ui.Navigation.header, {
+        'title': title,
+        'opt_icon': opt_icon,
+        'opt_color_class': opt_color_class });
   }
 };
 
@@ -294,8 +312,9 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
 
 /**
  * Handles keyboard shortcuts.
+ * @private
  */
-cwc.ui.Navigation.prototype.handleKeyboardShortcut = function(event) {
+cwc.ui.Navigation.prototype.handleKeyboardShortcut_ = function(event) {
   switch (event.identifier) {
     case 'new_file':
       this.requestShowSelectScreen();

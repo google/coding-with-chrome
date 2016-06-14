@@ -43,7 +43,6 @@ cwc.protocol.ev3.Events.Type = {
 
 /**
  * @param {object} data
- * @param {number=} opt_port
  * @final
  */
 cwc.protocol.ev3.Events.ChangedDevices = function(data) {

@@ -1,0 +1,22 @@
+{
+  "author": "Unknown",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"ev3_set_robot_model\" id=\"VyXuiqWevrY2T1*Dii8Z\" x=\"187\" y=\"122\">\n    <field name=\"robot\">ROBOT ARM H25</field>\n    <next>\n      <block type=\"ev3_color_sensor_mode\" id=\"~.zQkRc.Emu7xb*2;|qr\">\n        <field name=\"mode\">reflection</field>\n        <next>\n          <block type=\"ev3_color_sensor_change\" id=\"LoGK]L{yR3T/x,h.A;YH\">\n            <field name=\"VALUE\">value</field>\n            <statement name=\"CODE\">\n              <block type=\"controls_if\" id=\"WSkUrbjomcy+kIIsuOM+\">\n                <value name=\"IF0\">\n                  <block type=\"logic_compare\" id=\"Si/AI.:Y5wq)iL3Io^Wl\">\n                    <field name=\"OP\">GTE</field>\n                    <value name=\"A\">\n                      <block type=\"variables_get\" id=\";,Go)C5:E=kg]`ZD![[u\">\n                        <field name=\"VAR\">value</field>\n                      </block>\n                    </value>\n                    <value name=\"B\">\n                      <block type=\"math_number\" id=\"+9}y^vK`cW~8*PBK:2O[\">\n                        <field name=\"NUM\">40</field>\n                      </block>\n                    </value>\n                  </block>\n                </value>\n                <statement name=\"DO0\">\n                  <block type=\"ev3_move_forward\" id=\":)f(P`gfK!5/LSbY{bh2\">\n                    <field name=\"steps\">50</field>\n                  </block>\n                </statement>\n              </block>\n            </statement>\n            <next>\n              <block type=\"ev3_touch_sensor_change\" id=\"UKu]`v@F,n~nbLFU.o=#\">\n                <statement name=\"CODE\">\n                  <block type=\"controls_if\" id=\"JC5Si`/(Zf}P}:R*`at_\">\n                    <value name=\"IF0\">\n                      <block type=\"logic_compare\" id=\"3?Ah7ou%VDzAKcC*)sJ|\">\n                        <field name=\"OP\">EQ</field>\n                        <value name=\"A\">\n                          <block type=\"variables_get\" id=\"YkVuI#FH|u%PBMGxkcDo\">\n                            <field name=\"VAR\">pressed</field>\n                          </block>\n                        </value>\n                        <value name=\"B\">\n                          <block type=\"math_number\" id=\"XoBM#yk-tsyv~}vuj]Yr\">\n                            <field name=\"NUM\">100</field>\n                          </block>\n                        </value>\n                      </block>\n                    </value>\n                    <statement name=\"DO0\">\n                      <block type=\"ev3_stop_immediately\" id=\"9~]asGf{~QjB?`T0T~5X\">\n                        <next>\n                          <block type=\"ev3_rotate_left\" id=\"|0q;xgV_)Ur;*4uvulil\">\n                            <field name=\"angle\">90</field>\n                          </block>\n                        </next>\n                      </block>\n                    </statement>\n                  </block>\n                </statement>\n              </block>\n            </next>\n          </block>\n        </next>\n      </block>\n    </next>\n  </block>\n</xml>",
+    "javascript": "var value;\nvar pressed;\n\n\nev3.setRobotModel(\"ROBOT ARM H25\");\nev3.setColorSensorMode(0);\nvar colorSensorEvent = function(value) {\n  if (value >= 40) {\n    ev3.moveSteps(50, 50, true);\n  }\n};\nev3.onColorSensorChange(colorSensorEvent);\nvar touchEvent = function(pressed) {\n  if (pressed == 100) {\n    ev3.stop();\n    ev3.rotateAngle(90, -50, true);\n  }\n};\nev3.onTouchSensorChange(touchEvent);\n"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "ev3_blockly",
+  "mode": "ev3_blockly",
+  "title": "Untitled EV3 blockly file",
+  "ui": "default",
+  "version": "1.0"
+}

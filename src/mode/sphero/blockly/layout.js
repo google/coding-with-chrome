@@ -42,17 +42,14 @@ cwc.mode.sphero.blockly.Layout.prototype.decorate = function() {
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
 
-  var nodes = layoutInstance.getNodes();
-  console.log('Adding Content');
-
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.sphero.blockly.editor,
       {'prefix': this.helper.getPrefix('sphero-editor')}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.sphero.blockly.runner,
       {'prefix': this.helper.getPrefix('sphero-runner')}
   );

@@ -43,17 +43,15 @@ cwc.mode.basic.advanced.Layout = function(helper) {
 cwc.mode.basic.advanced.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(630);
-  var nodes = layoutInstance.getNodes();
 
-  console.log('Adding Content');
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.Basic.advanced.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.Basic.advanced.preview,
       {'prefix': this.prefix}
   );

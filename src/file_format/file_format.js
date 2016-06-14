@@ -85,6 +85,9 @@ cwc.fileFormat.File = function(opt_content) {
   this.mode_ = '';
 
   /** @private {string} */
+  this.model_ = '';
+
+  /** @private {string} */
   this.ui_ = '';
 
   /** @private {string} */
@@ -120,6 +123,7 @@ cwc.fileFormat.File.prototype.init = function() {
   this.raw_ = false;
   this.history_ = '';
   this.mode_ = 'advanced';
+  this.model_ = '';
   this.ui_ = 'default';
   this.title_ = 'Untitled file';
   this.type_ = cwc.file.Type.UNKNOWN;
@@ -265,8 +269,7 @@ cwc.fileFormat.File.prototype.getDescription = function() {
  * @param {boolean=} opt_no_overwrite
  * @return {!cwc.fileFormat.File}
  */
-cwc.fileFormat.File.prototype.setMode = function(mode,
-    opt_no_overwrite) {
+cwc.fileFormat.File.prototype.setMode = function(mode, opt_no_overwrite) {
   if (!opt_no_overwrite || (opt_no_overwrite && !this.mode_)) {
     this.mode_ = mode;
     this.log_.debug('setMode:', mode);
@@ -280,6 +283,28 @@ cwc.fileFormat.File.prototype.setMode = function(mode,
  */
 cwc.fileFormat.File.prototype.getMode = function() {
   return this.mode_;
+};
+
+
+/**
+ * @param {!string} model
+ * @param {boolean=} opt_no_overwrite
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.prototype.setModel = function(model, opt_no_overwrite) {
+  if (!opt_no_overwrite || (opt_no_overwrite && !this.model_)) {
+    this.model_ = model;
+    this.log_.debug('setModel:', model);
+  }
+  return this;
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileFormat.File.prototype.getModel = function() {
+  return this.model_;
 };
 
 
@@ -512,6 +537,10 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
     this.setMode(decodeURIComponent(jsonData.mode));
   }
 
+  if (jsonData.model) {
+    this.setModel(decodeURIComponent(jsonData.model));
+  }
+
   if (jsonData.ui) {
     this.setUi(decodeURIComponent(jsonData.ui));
   }
@@ -546,6 +575,7 @@ cwc.fileFormat.File.prototype.toJSON = function() {
     'history': this.history_,
     'type': this.type_,
     'mode': this.mode_,
+    'model': this.model_,
     'title': this.title_,
     'ui': this.ui_,
     'version': this.version_

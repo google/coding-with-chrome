@@ -21,7 +21,6 @@ goog.provide('cwc.mode.ev3.advanced.Mod');
 
 goog.require('cwc.mode.ev3.Calibration');
 goog.require('cwc.mode.ev3.Connection');
-goog.require('cwc.mode.ev3.Control');
 goog.require('cwc.mode.ev3.Monitor');
 goog.require('cwc.mode.ev3.Runner');
 goog.require('cwc.mode.ev3.advanced.Editor');
@@ -50,9 +49,6 @@ cwc.mode.ev3.advanced.Mod = function(helper) {
   /** @type {cwc.mode.ev3.Monitor} */
   this.monitor = new cwc.mode.ev3.Monitor(helper, this.connection);
 
-  /** @type {cwc.mode.ev3.Control} */
-  this.control = new cwc.mode.ev3.Control(helper, this.connection);
-
   /** @type {cwc.mode.ev3.Calibration} */
   this.calibration = new cwc.mode.ev3.Calibration(helper, this.connection,
     this.runner);
@@ -71,7 +67,6 @@ cwc.mode.ev3.advanced.Mod.prototype.decorate = function() {
   this.editor.decorate();
   this.runner.decorate();
   this.monitor.decorate();
-  this.control.decorate();
   this.calibration.decorate();
   this.renderer.init();
 };

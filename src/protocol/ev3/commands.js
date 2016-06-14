@@ -72,6 +72,8 @@ cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, params) {
 
 /**
  * Reads current battery level.
+ * @return {!ArrayBuffer}
+ * @export
  */
 cwc.protocol.ev3.Commands.prototype.getBattery = function() {
   var buffer = new cwc.protocol.ev3.Buffer(0, 0,
@@ -85,7 +87,7 @@ cwc.protocol.ev3.Commands.prototype.getBattery = function() {
 /**
  * Reads the device type.
  * @param {!cwc.protocol.ev3.InputPort} port
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getDeviceType = function(port) {
@@ -102,7 +104,7 @@ cwc.protocol.ev3.Commands.prototype.getDeviceType = function(port) {
 
 /**
  * Reads current EV3 firmware.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
@@ -119,7 +121,7 @@ cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
  * Get the current raw data of the sensor.
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {number?} opt_mode
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
@@ -144,7 +146,7 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
  * Gets the current data of the sensor.
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {number?} opt_mode
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
@@ -169,7 +171,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
  * Get the current data of the sensor in Pct.
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {number?} opt_mode
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
@@ -195,7 +197,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
  * Get the current data of the sensor in Si.
  * @param {!cwc.protocol.ev3.InputPort} port
  * @param {number?} opt_mode
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
@@ -219,7 +221,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
 /**
  * @param {cwc.protocol.ev3.LedColor} color
  * @param {cwc.protocol.ev3.LedMode=} opt_mode
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
@@ -234,7 +236,7 @@ cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
  * @param {!cwc.protocol.ev3.InputPort|number} ports
  * @param {!number} power (-100 - 100)
  * @param {boolean=} opt_brake Stop current movements.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.movePower = function(ports, power,
@@ -263,7 +265,7 @@ cwc.protocol.ev3.Commands.prototype.movePower = function(ports, power,
  * @param {!number} power_left Power value for left motor. (-100 - 100)
  * @param {!number} power_right Power value for right motor. (-100 - 100)
  * @param {boolean=} opt_brake Stop current movements.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
@@ -299,11 +301,13 @@ cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
  * @param {number=} opt_ramp_up (-100 - 100)
  * @param {number=} opt_ramp_down (-100 - 100)
  * @param {boolean=} opt_brake Stop current movements.
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
     opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
   var buffer = new cwc.protocol.ev3.Buffer();
+
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
@@ -323,16 +327,22 @@ cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!number} angle
- * @param {boolean=} opt_invert Inverts the motor directions.
- * @param {number=} opt_step_speed
- * @param {number=} opt_angle_ratio
+ * @param {!number} port_left
+ * @param {!number} port_right
+ * @param {!number} steps
+ * @param {number=} opt_speed_left
+ * @param {number=} opt_speed_right
+ * @param {number=} opt_ramp_up
+ * @param {number=} opt_ramp_down
+ * @param {boolean=} opt_brake
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
-    port_right, steps,
-    opt_speed_left, opt_speed_right, opt_ramp_up, opt_ramp_down, opt_brake) {
+    port_right, steps, opt_speed_left, opt_speed_right, opt_ramp_up,
+    opt_ramp_down, opt_brake) {
   var buffer = new cwc.protocol.ev3.Buffer();
+
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(port_left | port_right);
@@ -360,9 +370,41 @@ cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
 
 
 /**
+ * Rotates the defined motors for the predefined specific steps.
+ * @param {!number} ports
+ * @param {!number} steps
+ * @param {number=} opt_speed
+ * @param {number=} opt_ramp_up
+ * @param {number=} opt_ramp_down
+ * @param {boolean=} opt_brake
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.ev3.Commands.prototype.customRotateSteps = function(ports, steps,
+    opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
+  var buffer = new cwc.protocol.ev3.Buffer();
+
+  buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
+  buffer.writeNullByte();
+  buffer.writePorts(ports);
+  buffer.writeByte(opt_brake ? 1 : 0);
+
+  buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STEP.SPEED);
+  buffer.writeNullByte();
+  buffer.writePort(ports);
+  buffer.writeByte(opt_speed || 50);
+  buffer.writeInt(opt_ramp_up || 0);
+  buffer.writeInt(steps);
+  buffer.writeInt(opt_ramp_down || 0);
+  buffer.writeByte(opt_brake ? 1 : 0);
+  return buffer.readSigned();
+};
+
+
+/**
  * @param {cwc.protocol.ev3.InputPort=} opt_port
  * @param {boolean=} opt_brake Stop current movements.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.stop = function(opt_port, opt_brake) {
@@ -377,7 +419,7 @@ cwc.protocol.ev3.Commands.prototype.stop = function(opt_port, opt_brake) {
 
 /**
  * Clears the EV3 unit.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.clear = function() {
@@ -393,6 +435,7 @@ cwc.protocol.ev3.Commands.prototype.clear = function() {
  * @param {!number} frequency
  * @param {number=} opt_duration
  * @param {number=} opt_volume
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.playTone = function(frequency, opt_duration,
@@ -410,6 +453,7 @@ cwc.protocol.ev3.Commands.prototype.playTone = function(frequency, opt_duration,
  * Plays the selected sound file.
  * @param {!string} file_name
  * @param {number=} opt_volume
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.playSound = function(file_name,
@@ -424,7 +468,7 @@ cwc.protocol.ev3.Commands.prototype.playSound = function(file_name,
 
 /**
  * Clears the EV3 display.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawClean = function() {
@@ -436,7 +480,7 @@ cwc.protocol.ev3.Commands.prototype.drawClean = function() {
 
 /**
  * Updates the EV3 display.
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawUpdate = function() {
@@ -452,7 +496,7 @@ cwc.protocol.ev3.Commands.prototype.drawUpdate = function() {
  * @param {number=} opt_x
  * @param {number=} opt_y
  * @param {number=} opt_color
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawImage = function(file_name,
@@ -475,7 +519,7 @@ cwc.protocol.ev3.Commands.prototype.drawImage = function(file_name,
  * @param {!number} x2 (0-177)
  * @param {!number} y2 (0-127)
  * @param {number=} opt_color (0 = white, 1 = black)
- * @return {!cwc.protocol.ev3.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawLine = function(x1, y1, x2, y2,
@@ -489,5 +533,3 @@ cwc.protocol.ev3.Commands.prototype.drawLine = function(x1, y1, x2, y2,
   buffer.writeInt(Math.min(127, Math.max(0, y2)));
   return buffer.readSigned();
 };
-
-

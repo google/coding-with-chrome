@@ -140,12 +140,3 @@ closureBuilder.build({
   ],
   out: 'genfiles/external/htmlhint/'
 });
-
-
-closureBuilder.build({
-  name: 'Hint.css',
-  srcs: [
-    'node_modules/hint.css/hint.css'
-  ],
-  out: 'genfiles/external/hint.css/hint.css'
-});

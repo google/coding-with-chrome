@@ -42,17 +42,15 @@ cwc.mode.pencilCode.advanced.Layout = function(helper) {
 cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(500);
-  var nodes = layoutInstance.getNodes();
 
-  console.log('Adding Content');
   goog.soy.renderElement(
-      nodes['content-left'],
+      layoutInstance.getNode('content-left'),
       cwc.soy.mode.pencilCode.Advanced.editor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      nodes['content-right'],
+      layoutInstance.getNode('content-right'),
       cwc.soy.mode.pencilCode.Advanced.preview,
       {'prefix': this.prefix}
   );

@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.ev3.blockly.Editor');
 
 goog.require('cwc.blocks.ev3.Blocks');
+goog.require('cwc.soy.mode.ev3.blockly.Editor');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -60,6 +61,9 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
 
   /** @type {string} */
   this.generalPrefix = helper.getPrefix();
+
+  /** @type {!Array} */
+  this.listener = [];
 };
 
 
@@ -72,6 +76,14 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
     return;
   }
+
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
+  if (!this.nodeEditor) {
+    console.error('Was unable to find Editor node:', this.nodeEditor);
+    return;
+  }
+
+  // Blockly toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
@@ -79,28 +91,31 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
         this.nodeBlocklyToolbox);
     return;
   }
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
+  this.updateBlocklyToolbar_();
 
-  // Output editor.
+  // Output editor
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor, this.prefix);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
 
-  // Blockly editor.
+  // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
       this.prefix, true);
 
-  // Custom events.
+  // Custom events
   this.blockly.addChangeListener(this.changeHandler.bind(this));
 
-  // Switch buttons.
+  // Custom events
+  var customEventHandler = this.helper.getEventHandler();
+  this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
+    this.updateBlocklyToolbar_(e.data);
+    this.blockly.updateToolbox(this.nodeBlocklyToolbox);
+  }, false, this);
+
+  // Switch buttons
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
@@ -162,4 +177,39 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
+};
+
+
+/**
+ * Updates Blockly toolbar.
+ * @param {!string} type
+ */
+cwc.mode.ev3.blockly.Editor.prototype.updateBlocklyToolbar_ = function(type) {
+  goog.soy.renderElement(
+      this.nodeBlocklyToolbox,
+      cwc.soy.mode.ev3.blockly.Editor.blocks,
+      {'prefix': this.prefix, 'type': type}
+  );
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable|string} src
+ * @param {string} type
+ * @param {function(?)} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.mode.ev3.blockly.Editor.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var target = goog.isString(src) ?
+    goog.dom.getElement(this.prefix + src) : src;
+  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

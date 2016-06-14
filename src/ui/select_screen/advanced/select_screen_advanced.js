@@ -103,6 +103,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenAdvancedView.OVERVIEW:
+      this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenAdvancedView.BASIC);
       this.setClickEvent_('link-programming-language', this.showView,
@@ -115,6 +116,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Basic screen
     case cwc.ui.SelectScreenAdvancedView.BASIC:
+      this.setNavHeader_('Simple', 'school');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC);
       this.setClickEvent_('link-hello-world', this.loadFile_,
@@ -131,6 +133,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Programming Language Overview
     case cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE:
+      this.setNavHeader_('Programming', 'view_stream');
       this.setClickEvent_('link-javascript', this.showView,
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
       this.setClickEvent_('link-coffeescript', this.showView,
@@ -141,16 +144,19 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Programming Language Screens
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT:
+      this.setNavHeader_('JavaScript', 'beenhere');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC);
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
+      this.setNavHeader_('CoffeeScript', 'local_cafe');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.COFFEESCRIPT);
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
+      this.setNavHeader_('Pencil Code', 'mode_edit');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.PENCIL_CODE);
@@ -160,20 +166,23 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Markup Language Overview
     case cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE:
+      this.setNavHeader_('Markup', 'public');
       this.setClickEvent_('link-html5', this.showView,
           cwc.ui.SelectScreenAdvancedView.HTML5);
       break;
 
     // Markup Language Screens
     case cwc.ui.SelectScreenAdvancedView.HTML5:
+      this.setNavHeader_('HTML5', 'public');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.HTML);
-      this.setClickEvent_('link-formular', this.loadFile_,
-          'resources/examples/html5/formular.html');
+      this.setClickEvent_('link-form', this.loadFile_,
+          'resources/examples/html5/form.html');
       break;
 
     // Robot overview
     case cwc.ui.SelectScreenAdvancedView.ROBOT:
+      this.setNavHeader_('Robots', 'memory');
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenAdvancedView.EV3);
       this.setClickEvent_('link-sphero', this.showView,
@@ -182,6 +191,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Robot screens
     case cwc.ui.SelectScreenAdvancedView.EV3:
+      this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.EV3);
@@ -189,6 +199,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
+      this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.SPHERO);
@@ -209,6 +220,21 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 cwc.ui.SelectScreenAdvanced.prototype.showLastView = function() {
   console.log('showLastView', this.currentView);
   this.showView(this.currentView);
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string=} opt_icon
+ * @param {string=} opt_color_class
+ * @private
+ */
+cwc.ui.SelectScreenAdvanced.prototype.setNavHeader_ = function(title,
+    opt_icon, opt_color_class) {
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.setHeader(title, opt_icon, opt_color_class);
+  }
 };
 
 

@@ -32,11 +32,11 @@ cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
 
 
 /**
- * Set robot type.
+ * Set robot model.
  */
-cwc.blocks.addJavaScript('set_robot_type', function(block) {
+cwc.blocks.addJavaScript('set_robot_model', function(block) {
   var dropdown_robot = block.getFieldValue('robot');
-  return 'ev3.setRobotType("' + dropdown_robot + '");\n';
+  return 'ev3.setRobotModel("' + dropdown_robot + '");\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -118,6 +118,24 @@ cwc.blocks.addJavaScript('move_forward', function(block) {
 cwc.blocks.addJavaScript('move_backward', function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.moveSteps(' + text_steps + ', -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Move up.
+ */
+cwc.blocks.addJavaScript('move_up', function(block) {
+  var text_steps = block.getFieldValue('steps');
+  return 'ev3.customMoveSteps(' + text_steps + ', undefined, -50, true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Move down.
+ */
+cwc.blocks.addJavaScript('move_down', function(block) {
+  var text_steps = block.getFieldValue('steps');
+  return 'ev3.customMoveSteps(' + text_steps + ', undefined, 50, true);\n';
 }, cwc.blocks.ev3.JavaScript.prefix_);
 
 
@@ -384,6 +402,14 @@ cwc.blocks.addJavaScript('ultrasonic_sensor_change', function(block) {
 
 
 /**
+ * Stops the ultrasonic sensor event.
+ */
+cwc.blocks.addJavaScript('stop_ultrasonic_sensor_event', function(opt_block) {
+  return 'ev3.stopUltrasonicSensorEvent();\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
  * Variable.
  */
 cwc.blocks.addJavaScript('variable_value', function(opt_block) {
@@ -420,4 +446,23 @@ cwc.blocks.addJavaScript('led', function(block) {
       break;
   }
   return 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);
+
+
+/**
+ * Colors block.
+ */
+cwc.blocks.addJavaScript('colors', function(block) {
+  var color = block.getFieldValue('color');
+  var colorMapping = {
+    '#000000': 1,
+    '#0000ff': 2,
+    '#00ff00': 3,
+    '#ffff00': 4,
+    '#ff0000': 5,
+    '#ffffff': 6,
+    '#a52a2a': 7
+  };
+  console.log(color);
+  return [colorMapping[color] || 0, Blockly.JavaScript.ORDER_NONE];
 }, cwc.blocks.ev3.JavaScript.prefix_);

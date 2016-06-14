@@ -72,11 +72,12 @@ cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
 /**
  * Writes a byte into the buffer.
  * @param {number} value
+ * @param {number=} opt_default
  * @export
  */
-cwc.utils.ByteArray.prototype.writeByte = function(value) {
+cwc.utils.ByteArray.prototype.writeByte = function(value, opt_default) {
   this.addHeader(cwc.utils.ByteArrayTypes.BYTE);
-  this.write(value);
+  this.write(value === undefined ? opt_default : value);
 };
 
 

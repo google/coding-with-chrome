@@ -74,7 +74,7 @@
 
         {call .selectCard_}
           {param prefix: $prefix /}
-          {param title: 'Blockly Robots' /}
+          {param title: 'Robots' /}
           {param text: 'Control real or on-screen robots with Blockly' /}
           {param link_text: 'Go Robots' /}
           {param link_id: 'robot' /}
@@ -317,6 +317,15 @@
           {param opt_text: 'EV3 block file' /}
         {/call}
 
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Educator - Block Grabber' /}
+          {param text: 'Educator Roboter is grapping a block.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'block-grabber' /}
+          {param opt_color_class: 'bg-blue' /}
+        {/call}
+
       </div>
 
     </div>
@@ -380,6 +389,15 @@
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '../../images/selection/sphero-block-rectangle.png' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Collison Example' /}
+          {param text: 'Try a Sphero example - change color on collision.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'collision' /}
+          {param opt_color_class: 'bg-blue' /}
         {/call}
 
       </div>

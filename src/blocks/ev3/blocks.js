@@ -36,9 +36,9 @@ cwc.blocks.ev3.Blocks.prefix_ = 'ev3_';
 
 
 /**
- * Set robot type.
+ * Set robot model.
  */
-cwc.blocks.addBlock('set_robot_type', function() {
+cwc.blocks.addBlock('set_robot_model', function() {
   var robots = [['custom', 'custom']];
   for (var robot in cwc.protocol.ev3.Robots) {
     robots.push([robot, robot]);
@@ -46,11 +46,11 @@ cwc.blocks.addBlock('set_robot_type', function() {
   this.setHelpUrl('');
   this.setColour(65);
   this.appendDummyInput()
-    .appendField('set robot type(')
+    .appendField('set robot model(')
     .appendField(new Blockly.FieldDropdown(robots), 'robot')
     .appendField(')');
   this.setNextStatement(true);
-  this.setTooltip('Sets the EV3 robot type.');
+  this.setTooltip('Sets the EV3 robot model.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -219,6 +219,38 @@ cwc.blocks.addBlock('move_backward', function() {
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setTooltip('Move the robot backward for a specified number of steps.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Move up.
+ */
+cwc.blocks.addBlock('move_up', function() {
+  this.setHelpUrl('');
+  this.setColour(120);
+  this.appendDummyInput()
+    .appendField(i18n.get('move up('))
+    .appendField(new Blockly.FieldTextInput('200'), 'steps')
+    .appendField(' steps)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Move the robot up for a specified number of steps. ');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Move down.
+ */
+cwc.blocks.addBlock('move_down', function() {
+  this.setHelpUrl('');
+  this.setColour(120);
+  this.appendDummyInput()
+    .appendField(i18n.get('move down('))
+    .appendField(new Blockly.FieldTextInput('200'), 'steps')
+    .appendField(' steps)');
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Move the robot down for a specified number of steps.');
 }, cwc.blocks.ev3.Blocks.prefix_);
 
 
@@ -543,8 +575,7 @@ cwc.blocks.addBlock('color_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Color Sensor Change'))
-    .appendField(new Blockly.FieldVariable('value'), 'VALUE');
+    .appendField(i18n.get('Color Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -578,8 +609,7 @@ cwc.blocks.addBlock('ir_sensor_change', function() {
   this.setHelpUrl('');
   this.setColour(260);
   this.appendDummyInput()
-    .appendField(i18n.get('Ir Sensor Change'))
-    .appendField(new Blockly.FieldVariable('value'), 'VALUE');
+    .appendField(i18n.get('Ir Sensor Change'));
   this.appendStatementInput('CODE')
     .setAlign(Blockly.ALIGN_CENTRE);
   this.setPreviousStatement(true);
@@ -607,7 +637,7 @@ cwc.blocks.addBlock('touch_sensor_change', function() {
 
 
 /**
- * Ir sensor change.
+ * Ultrasonic sensor change.
  */
 cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
   this.setHelpUrl('');
@@ -624,6 +654,20 @@ cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
 
 
 /**
+ * Stops the ultrasonic sensor event.
+ */
+cwc.blocks.addBlock('stop_ultrasonic_sensor_event', function() {
+  this.setHelpUrl('');
+  this.setColour(260);
+  this.appendDummyInput()
+    .appendField(i18n.get('stop ultrasonic sensor event()'));
+  this.setPreviousStatement(true);
+  this.setNextStatement(true);
+  this.setTooltip('Stops the ultrasonic sensor event.');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
  * Variable value.
  */
 cwc.blocks.addBlock('variable_value', function() {
@@ -631,6 +675,22 @@ cwc.blocks.addBlock('variable_value', function() {
   this.setColour(260);
   this.appendDummyInput()
     .appendField('value');
+  this.setOutput(true, 'String');
+  this.setTooltip('');
+}, cwc.blocks.ev3.Blocks.prefix_);
+
+
+/**
+ * Colors block.
+ */
+cwc.blocks.addBlock('colors', function() {
+  var colour = new Blockly.FieldColour('#ff0000');
+  colour.setColours(['#000000', '#0000ff', '#00ff00', '#ffff00', '#ff0000',
+      '#ffffff', '#a52a2a']).setColumns(1);
+  this.setHelpUrl('');
+  this.setColour(0);
+  this.appendDummyInput()
+    .appendField(colour, 'color');
   this.setOutput(true, 'String');
   this.setTooltip('');
 }, cwc.blocks.ev3.Blocks.prefix_);

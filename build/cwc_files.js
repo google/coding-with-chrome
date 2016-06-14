@@ -29,7 +29,10 @@ closureBuilder.build({
     '!src/{frameworks,frameworks/**}'
   ]),
   deps: glob([
-    'node_modules/blockly/**/*.js'
+    'node_modules/blockly/blocks/**/*.js',
+    'node_modules/blockly/core/**/*.js',
+    'node_modules/blockly/generators/**/*.js',
+    'node_modules/blockly/msg/**/*.js'
   ]),
   externs: glob([
     'build/externs/*.js'

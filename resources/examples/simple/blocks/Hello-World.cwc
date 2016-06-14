@@ -16,7 +16,7 @@
   "history": "",
   "type": "basic_blockly",
   "mode": "basic_blockly",
-  "title": "Basic: Hello World",
+  "title": "Basic Hello World",
   "ui": "blockly",
   "version": "1.0"
 }

@@ -270,10 +270,42 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
 
 
 /**
+ * @param {string} model
+ * @export
+ */
+cwc.fileHandler.File.prototype.setModel = function(model) {
+  this.file_.setModel(model);
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getModel = function() {
+  return this.file_.getModel();
+};
+
+
+/**
  * @param {boolean} unsaved_change
  */
 cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {
   this.hasUnsavedChange_ = unsaved_change;
+
+  var editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.setModified(unsaved_change);
+  }
+
+  var blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    blocklyInstance.setModified(unsaved_change);
+  }
+
+  var guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.setStatus(unsaved_change ? '*' : '');
+  }
 };
 
 

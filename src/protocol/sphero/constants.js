@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.sphero.CallbackType');
 goog.provide('cwc.protocol.sphero.Command');
 goog.provide('cwc.protocol.sphero.CommandType');
+goog.provide('cwc.protocol.sphero.MessageType');
 
 
 
@@ -76,4 +77,13 @@ cwc.protocol.sphero.CommandType = {
     REPLY: 0xFF,
     NOREPLY: 0xFE
   }
+};
+
+
+/**
+ * Enum of messages types.
+ * @enum {number}
+ */
+cwc.protocol.sphero.MessageType = {
+  COLLISION_DETECTED: 0x07
 };
