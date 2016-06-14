@@ -52,18 +52,34 @@
    this.runner.send('beepBuzzer');
  };
 
+ /**
+  * move mBot at a speed
+  * @param  {Number} opt_speed speed at which to move
+  * @param  {Number} opt_delay Seconds of delay after a move
+  * @return {void}
+  * @export
+  */
  cwc.framework.mbot.prototype.move = function(opt_speed, opt_delay){
    this.runner.send('move', {'speed': opt_speed}, opt_delay);
  }
 
+/**
+ * Turn mBot at a speed
+ * @param  {Number} opt_speed speed at which to turn
+ * @param  {Number} opt_delay Seconds to delay
+ * @return {void}
+ * @export
+ */
  cwc.framework.mbot.prototype.turn = function(opt_speed, opt_delay){
    this.runner.send('turn', {'speed': opt_speed}, opt_delay);
  }
 
- cwc.framework.mbot.prototype.moveSteps = function(time, opt_speed){
-   this.move(opt_speed || 50, time);
-   this.stop(100);
- }
+ cwc.framework.mbot.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
+   this.runner.send('moveSteps', {
+     'steps': steps,
+     'speed': opt_speed}, opt_delay);
+ };
+
 
  /**
   * turn mbot for certain seconds

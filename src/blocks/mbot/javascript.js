@@ -35,3 +35,11 @@ cwc.blocks.mbot.JavaScript.prefix_ = 'mbot_';
 cwc.blocks.addJavaScript('beep_buzzer', function(opt_block) {
   return 'mbot.beepBuzzer();\n';
 }, cwc.blocks.mbot.JavaScript.prefix_);
+
+cwc.blocks.addJavaScript('move_forward', function(block) {
+  var dropdown_direction = block.getFieldValue('direction');
+  var text_steps = block.getFieldValue('steps');
+  var invert = dropdown_direction == 'backward';
+  return 'mbot.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
+    ', true);\n';
+}, cwc.blocks.ev3.JavaScript.prefix_);

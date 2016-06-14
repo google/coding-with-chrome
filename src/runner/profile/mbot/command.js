@@ -60,7 +60,7 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
  * @param  {Object} data data package
  * @return {void}
  */
-cwc.runner.profile.mbot.Command.prototype.move = function(data){
+cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data){
     this.api.setLeftMotor(data['speed']);
     this.api.setRightMotor(-data['speed']);
 }

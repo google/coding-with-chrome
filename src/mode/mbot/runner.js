@@ -98,6 +98,8 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
 
   // Normal Commands
   this.runner.addCommand('beepBuzzer', this.command.beepBuzzer, this);
+  this.runner.addCommand('move', this.command.beepBuzzer, this);
+  this.runner.addCommand('turn', this.command.beepBuzzer, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);

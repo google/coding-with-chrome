@@ -41,10 +41,29 @@
   {@param prefix: string}
   <xml id="{$prefix}blockly-toolbox" style="display: none">
 
-
-    <category name="Lights" colour="120">
-      <block type="mbot_beep_buzzer"></block>
+    <category name="Movements" colour="120">
+      <block type="mbot_move_forward">
+        <value name="steps">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="mbot_move_backward">
+        <value name="steps">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="mbot_turn_left">
+        <value name="steps">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="mbot_turn_right">
+        <value name="steps">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
     </category>
+
 
     <category name="Control" colour="210">
       <block type="controls_repeat_ext">
