@@ -71,15 +71,11 @@ cwc.renderer.Renderer.prototype.loadFramework = function(file) {
  */
 cwc.renderer.Renderer.prototype.addFramework = function(name, content,
     opt_type) {
-  var frameworkContent = content;
+  var frameworkContent = this.rendererHelper.getDataUrl(content,
+      'text/javascript');
   if (!frameworkContent) {
     console.error('Received empty content for framework', name);
     return;
-  }
-
-  if (!goog.string.startsWith(content, 'data:')) {
-    frameworkContent = this.rendererHelper.getDataUrl(content,
-      'text/javascript');
   }
 
   var frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,

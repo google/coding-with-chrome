@@ -40,10 +40,11 @@ globals:
   describe: true
   expect: true
   goog: true
-  i18t: true
   i18next: true
+  i18t: true
   it: true
   opt_event: true
+  soydata: true
   var_args: true
 
 extends: 'eslint:recommended'

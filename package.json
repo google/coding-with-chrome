@@ -47,7 +47,7 @@
     "build-static-files": "node build/static_files.js",
     "fast-build": "npm run build && npm run launch",
 
-    "rebuild": "npm run build-framework-files && npm run build-static-files && npm run build-cwc-files",
+    "rebuild": "npm run build-cwc-files",
     "fast-rebuild": "npm run rebuild && npm run launch",
 
     "launch": "echo Lauching app. Please wait ... && npm run launch-linux --silent || npm run launch-mac --silent || npm run launch-win --silent",
