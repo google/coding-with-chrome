@@ -48,16 +48,16 @@ cwc.renderer.Helper.prototype.prependText = function(content, text) {
 
 
 /**
- * @param {!string} body
+ * @param {!string} opt_body
  * @param {string=} opt_header
  * @param {string=} opt_css
  * @param {string=} opt_javascript
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getHTML = function(body, opt_header,
+cwc.renderer.Helper.prototype.getHTML = function(opt_body, opt_header,
     opt_css, opt_javascript) {
   return cwc.soy.Renderer.html({
-    'body': body,
+    'body': opt_body,
     'head': opt_header,
     'css': opt_css,
     'js': opt_javascript

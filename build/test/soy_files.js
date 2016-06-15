@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for test specific files.
+ * @fileoverview BUILD configuration for soy test specific files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -22,7 +22,7 @@ var glob = closureBuilder.globSupport();
 
 
 closureBuilder.build({
-  name: 'Soy files',
+  name: 'Soy test - Soy files',
   srcs: glob([
     'src/**/*.soy'
   ]),
