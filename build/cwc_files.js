@@ -23,6 +23,48 @@ var glob = closureBuilder.globSupport();
 
 
 /**
+ * Coding with Chrome Background
+ */
+closureBuilder.build({
+  name: 'CwC Background',
+  srcs: ['app/js/background.js'],
+  out: 'genfiles/js/background.js'
+});
+
+
+/**
+ * Application data
+ */
+closureBuilder.build({
+  name: 'CwC Debug',
+  resources: [
+    'app/js/debug.js'
+  ],
+  out: 'genfiles/js/'
+});
+
+
+/**
+ * Coding with Chrome Editor
+ */
+closureBuilder.build({
+  name: 'CwC Editor',
+  srcs: ['app/js/editor.js'],
+  out: 'genfiles/js/editor.js'
+});
+
+
+/**
+ * Coding with Chrome Loader
+ */
+closureBuilder.build({
+  name: 'CwC Loader',
+  srcs: ['app/js/loader.js'],
+  out: 'genfiles/js/loader.js'
+});
+
+
+/**
  * Coding with Chrome Editor
  */
 closureBuilder.build({

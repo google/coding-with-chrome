@@ -32,7 +32,6 @@ closureBuilder.build({
     'app/html/',
     'app/icons/',
     'app/images/',
-    'app/js/',
     'app/manifest.json'
   ],
   out: 'genfiles/'
@@ -137,18 +136,6 @@ closureBuilder.build({
     'third_party/coffeelint/js/coffeelint.js'
   ],
   out: 'genfiles/external/coffeelint/'
-});
-
-
-/**
- * JSHint
- */
-closureBuilder.build({
-  name: 'JSHint files',
-  resources: [
-    'third_party/jshint/dist/jshint.js'
-  ],
-  out: 'genfiles/external/jshint/'
 });
 
 

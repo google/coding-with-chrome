@@ -1,13 +1,13 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "3.6.6",
+  "version": "3.6.16",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "blockly": "https://github.com/MarkusBordihn/blockly/tarball/hotfix-variables",
-    "closure-builder": "^2.0.4",
+    "closure-builder": "^2.0.5",
     "material-design-lite": "^1.1.3",
     "jsdoc": "^3.4.0",
     "rimraf": "^2.5.2"
@@ -38,7 +38,7 @@
 
     "test-file-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/genfiles/ --enable-logging --v=1 --no-first-run $PWD/resources/examples/html5/Basic-formular.cwc",
 
-    "build": "npm run build-static-files && npm run build-extra-files && npm run rebuild",
+    "build": "npm run build-static-files && npm run build-extra-files && npm run build-framework-files && npm run rebuild",
     "build-cwc-files": "node build/cwc_files.js",
     "build-external-frameworks": "node build/external_frameworks.js",
     "build-extra-files": "node build/extra_files.js",

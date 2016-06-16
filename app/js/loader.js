@@ -51,11 +51,29 @@ var cwcLoader = function() {
  */
 cwcLoader.prototype.prepare = function() {
   console.log('Loading the Coding with Chrome UI ...');
+
   if (this.manifest && this.versionNode) {
     this.versionNode.innerText = this.manifest.version;
   }
 
+  document.addEventListener('keypress', this.keyHandler.bind(this), false);
   window.addEventListener('message', this.messageHandler.bind(this), false);
+};
+
+
+/**
+ * @param {Event} event
+ */
+cwcLoader.prototype.keyHandler = function(event) {
+  switch (event.keyCode) {
+    case 100:
+      var editor = chrome.app.window.get('editor');
+      if (editor) {
+        editor.show(true);
+        editor.drawAttention();
+      }
+      break;
+  }
 };
 
 
@@ -144,6 +162,7 @@ cwcLoader.prototype.setError = function(text) {
     this.progressBarNode.style.display = 'none';
   }
 };
+
 
 
 document.addEventListener('DOMContentLoaded', function() {

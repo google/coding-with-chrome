@@ -95,3 +95,17 @@ closureBuilder.build({
   ],
   out: 'genfiles/external/codemirror/modes.js'
 });
+
+
+/**
+ * JSHint
+ */
+closureBuilder.build({
+  name: 'JSHint files',
+  type: closureBuilder.buildType.JAVASCRIPT,
+  srcs: [
+    'third_party/jshint/dist/jshint.js'
+  ],
+  out: 'genfiles/external/jshint/jshint.js'
+});
+
