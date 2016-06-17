@@ -106,6 +106,12 @@ closureBuilder.build({
   srcs: [
     'third_party/jshint/dist/jshint.js'
   ],
+  options: {
+    closure : {
+      language_out: 'ES5_STRICT'
+    }
+  },
+  warn: false,
   out: 'genfiles/external/jshint/jshint.js'
 });
 
