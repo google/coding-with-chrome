@@ -25,6 +25,7 @@ goog.provide('cwc.locales.ko.Translation');
  * @final
  * @export
  */
+/* eslint-disable max-len */
 cwc.locales.ko.Translation = {
   'hello world': '안녕하세요 세계'
 };

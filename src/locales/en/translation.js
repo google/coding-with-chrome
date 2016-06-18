@@ -25,11 +25,28 @@ goog.provide('cwc.locales.en.Translation');
  * @final
  * @export
  */
+/* eslint-disable max-len */
 cwc.locales.en.Translation = {
   'hello world': 'hello world',
+  'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.':
+    'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.',
+  'Coding with Chrome is an Educational Development Environment.':
+    'Coding with Chrome is an Educational Development Environment.',
+  'Exit': 'Exit',
+  'First, please {$startBold}select your current coding skill.{$endBold}':
+    'First, please {$startBold}select your current coding skill.{$endBold}',
   'New file': 'new file',
   'New project': 'new project',
   'Open file': 'open file',
   'Save as new file': 'save as new file',
-  'Welcome to Coding with Chrome!': 'Welcome to Coding with Chrome!'
+  'Show screen on Startup': 'Show screen on Startup',
+  'Use Advanced Mode': 'Use Advanced Mode',
+  'Use Beginner Mode': 'Use Beginner Mode',
+  'Use a high-level programming language like JavaScript or CoffeeScript to write your code.':
+    'Use a high-level programming language like JavaScript or CoffeeScript to write your code.',
+  'Welcome to Coding with Chrome!': 'Welcome to Coding with Chrome!',
+  'You can change your choice at any time in the settings menu.':
+    'You can change your choice at any time in the settings menu.',
+  '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.':
+    '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.'
 };

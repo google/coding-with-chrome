@@ -25,6 +25,7 @@ goog.provide('cwc.locales.de.Translation');
  * @final
  * @export
  */
+/* eslint-disable max-len */
 cwc.locales.de.Translation = {
   'hello world': 'Hallo Welt',
   'Advanced': 'Fortgeschrittener',
