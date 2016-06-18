@@ -27,9 +27,11 @@ goog.provide('cwc.locales.de.Translation');
  */
 cwc.locales.de.Translation = {
   'hello world': 'Hallo Welt',
+  'Advanced': 'Fortgeschrittener',
+  'Beginner': 'Anfänger',
   'New file': 'Neue Datei',
   'New project': 'Neues Projekt',
   'Open file': 'Öffne Datei',
   'Save as new file': 'Als neue Datei speichern',
-  'Welcome to Coding with Chrome!': 'Willkommen zu Coding with Chrome!'
+  'Welcome to Coding with Chrome!': 'Willkommen zu Programmieren mit Chrome!'
 };

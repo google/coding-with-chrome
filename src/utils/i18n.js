@@ -24,6 +24,7 @@ goog.require('cwc.locales.en.Translation');
 goog.require('cwc.locales.ko.Translation');
 
 
+
 /**
  * Helper for i18n.
  * @param {string=} opt_area
@@ -62,6 +63,7 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
     }
     // Mapping global short-cuts
     window['i18t'] = this.translate.bind(this);
+    window['i18soy'] = this.translateSoy.bind(this);
 
     // Callback
     if (goog.isFunction(opt_callback)) {
@@ -111,6 +113,29 @@ cwc.utils.I18n.prototype.translate = function(text, opt_options) {
     }
   }
   return translatedText;
+};
+
+
+/**
+ * Translate the given soy context to the current language.
+ * @param {!string} text
+ * @param {Object=} opt_values
+ * @return {!string}
+ */
+cwc.utils.I18n.prototype.translateSoy = function(text, opt_values) {
+  if (!opt_values) {
+    return this.translate(text);
+  }
+
+  var indirect = (/^\{\$\w+\}$/.test(text));
+  if (!indirect) {
+    text = this.translate(text);
+  }
+  text = text.replace(/\{\$([^}]+)}/g, function(match, key) {
+    return (opt_values != null && key in opt_values) ? opt_values[key] : match;
+  });
+
+  return indirect ? this.translate(text) : text;
 };
 
 

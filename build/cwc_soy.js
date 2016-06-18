@@ -1,5 +1,5 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
+ * @fileoverview BUILD configuration for Coding with Chrome soy files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,10 +17,19 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+var closureBuilder = require('closure-builder');
+var glob = closureBuilder.globSupport();
 
 
 
-/** @type {Object} */
-var i18next = function() {};
-var i18t = function() {};
-var i18soy = function() {};
+/**
+ * Coding with Chrome soy files
+ */
+closureBuilder.build({
+  name: 'cwc soy template files',
+  i18n: 'i18soy',
+  srcs: glob([
+    'src/**/*.soy'
+  ]),
+  out: 'gensoyfiles/'
+});

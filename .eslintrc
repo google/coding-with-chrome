@@ -41,6 +41,7 @@ globals:
   expect: true
   goog: true
   i18next: true
+  i18soy: true
   i18t: true
   it: true
   opt_event: true

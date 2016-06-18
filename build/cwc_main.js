@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome files.
+ * @fileoverview BUILD configuration for Coding with Chrome main files.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -23,7 +23,7 @@ var glob = closureBuilder.globSupport();
 
 
 /**
- * Coding with Chrome Background
+ * Background
  */
 closureBuilder.build({
   name: 'CwC Background',
@@ -45,7 +45,7 @@ closureBuilder.build({
 
 
 /**
- * Coding with Chrome Editor
+ * Editor
  */
 closureBuilder.build({
   name: 'CwC Editor',
@@ -55,7 +55,7 @@ closureBuilder.build({
 
 
 /**
- * Coding with Chrome Loader
+ * Loader
  */
 closureBuilder.build({
   name: 'CwC Loader',
@@ -65,13 +65,13 @@ closureBuilder.build({
 
 
 /**
- * Coding with Chrome Editor
+ * UI Builder
  */
 closureBuilder.build({
   name: 'cwc.ui.Builder',
   srcs: glob([
     'src/**/*.js',
-    'src/**/*.soy',
+    'gensoyfiles/**/*.js',
     '!src/{frameworks,frameworks/**}'
   ]),
   deps: glob([

@@ -49,11 +49,21 @@
         </h2>
       </div>
       <div class="mdl-card__supporting-text">
-        Coding with Chrome is an Educational Development Environment.<br>
+        {msg desc=""}
+          Coding with Chrome is an Educational Development Environment.
+        {/msg}
+        <br>
         {if $online}
-          <span id="{$prefix}link-intro" class="link_text">Click here</span> to see our short introduction to Coding with Chrome.<br>
+          {msg desc=""}
+            <span id="{$prefix}link-intro" class="link_text">Click here</span>
+            {sp}to see our short introduction to Coding with Chrome.
+          {/msg}
+          <br>
         {/if}
-        First, please <b>select your current coding skill.</b><br>
+        {msg desc=""}
+          First, please <b>select your current coding skill.</b>
+        {/msg}
+        <br>
       </div>
       <div class="mdl-grid">
 
@@ -82,9 +92,13 @@
         <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
           <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
           <div class="mdl-checkbox__label">
-            Show screen on Startup
+            {msg desc=""}
+              Show screen on Startup
+            {/msg}
             <span class="mdl-card__supporting-text">
-              (You can change your choice at any time in the settings menu.)
+              ({msg desc=""}
+                You can change your choice at any time in the settings menu.
+              {/msg})
             </span>
           </div>
        </label>
@@ -109,13 +123,17 @@
   <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col">
     <div class="mdl-card mdl-shadow--2dp{if $opt_color_class} {$opt_color_class}{/if}">
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">{$title}</h2>
+        <h2 class="mdl-card__title-text">
+          {msg desc="title_text"}{$title}{/msg}
+        </h2>
       </div>
       {if $opt_color_class}<p><img src="../../{$opt_image}"></p>{/if}
-      <div class="mdl-card__supporting-text">{$text}</div>
+      <div class="mdl-card__supporting-text">
+        {msg desc="support_text"}{$text}{/msg}
+      </div>
       <div class="mdl-card__actions">
         <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          {$action}
+          {msg desc="action_text"}{$action}{/msg}
         </a>
       </div>
     </div>

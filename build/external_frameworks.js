@@ -79,5 +79,6 @@ closureBuilder.build({
     'build/externs/jquery-turtle.js',
     'build/externs/jquery.js'
   ],
+  warn: false,
   out: 'genfiles/frameworks/external/jquery-turtle.js'
 });
