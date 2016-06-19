@@ -442,6 +442,21 @@
 
 
 /**
+ * Header link entry.
+ */
+{template .headerLink_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param id: string}
+  {@param active_link: string}
+
+  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}" href="#">
+    {msg desc=""}{$title}{/msg}
+  </a>
+{/template}
+
+
+/**
  * Overview header.
  */
 {template .overviewHeader_}
@@ -451,10 +466,21 @@
   <header id="{$prefix}navigation-overview" class="mdl-layout__header-row mdl-layout__header bg_10_pct_black">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">home</a>
-      <a id="{$prefix}menu-basic" class="mdl-navigation__link{if $active_link == 'basic'} is-active{/if}" href="#">Blocks</a>
-      <a id="{$prefix}menu-draw" class="hidden mdl-navigation__link{if $active_link == 'draw'} is-active{/if}" href="#">Draw</a>
-      <a id="{$prefix}menu-music" class="hidden mdl-navigation__link{if $active_link == 'music'} is-active{/if}" href="#">Music</a>
-      <a id="{$prefix}menu-robot" class="mdl-navigation__link{if $active_link == 'robot'} is-active{/if}" href="#">Robots</a>
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Blocks' /}
+        {param id: 'basic' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Robots' /}
+        {param id: 'robot' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -469,8 +495,21 @@
 
   <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a id="{$prefix}menu-ev3" class="mdl-navigation__link{if $active_link == 'ev3'} is-active{/if}" href="#">EV3</a>
-      <a id="{$prefix}menu-sphero" class="mdl-navigation__link{if $active_link == 'sphero'} is-active{/if}" href="#">Sphero</a>
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'EV3' /}
+        {param id: 'ev3' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Sphero' /}
+        {param id: 'sphero' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -496,11 +535,15 @@
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
       <div class="mdl-card__supporting-text">
-        <h4>{$title}</h4>
-        {$text}
+        <h4>
+          {msg desc=""}{$title}{/msg}
+        </h4>
+        {msg desc=""}{$text}{/msg}
       </div>
       <div class="mdl-card__actions">
-        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">{$link_text}</a>
+        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">
+          {msg desc=""}{$link_text}{/msg}
+        </a>
       </div>
     </div>
   </section>
@@ -527,14 +570,18 @@
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </div>
     <div class="mdl-card__title">
-       <h4 class="mdl-card__title-text">{$title}</h4>
+      <h4 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h4>
     </div>
     <div class="mdl-card__supporting-text">
-      <span class="mdl-typography--font-light mdl-typography--subhead">{$text}</span>
+      <span class="mdl-typography--font-light mdl-typography--subhead">
+        {msg desc=""}{$text}{/msg}
+      </span>
     </div>
     <div class="mdl-card__actions">
        <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
-         {$link_text}
+         {msg desc=""}{$link_text}{/msg}
          <i class="material-icons">chevron_right</i>
        </a>
     </div>
@@ -560,15 +607,51 @@
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
        {if $opt_image}<img src="../../{$opt_image}">{/if}
        {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
-       {if $opt_text}<div>{$opt_text}</div>{/if}
+       {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
     </div>
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{$title}</h2>
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
     </div>
-    <div class="mdl-card__supporting-text">{$text}</div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
     <div class="mdl-card__actions mdl-card--border">
       <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {$link_text}
+        {msg desc=""}{$link_text}{/msg}
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Select card video design.
+ */
+{template .selectCardVideo_}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param video_id: string}
+  {@param? opt_color_class: string}
+
+  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      <webview style="width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{$video_id}?rel=0&amp;controls=0" frameborder="0"></webview>
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="https://youtu.be/{$video_id}" target="_blank" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+        {msg desc=""}{$link_text}{/msg}
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </a>
     </div>

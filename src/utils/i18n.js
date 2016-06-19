@@ -104,7 +104,7 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
 cwc.utils.I18n.prototype.translate = function(text, opt_options) {
   var translatedText = this.i18next.t(text, opt_options);
   if (text == translatedText && this.language &&
-    this.language !== this.fallbackLanguage) {
+      !this.isTranslated(text, opt_options)) {
     if (text in this.untranslated) {
       this.untranslated[text]++;
     } else {
@@ -173,6 +173,17 @@ cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
     return this.i18next.store.data[language].translation[opt_text];
   }
   return this.i18next.store.data[language].translation;
+};
+
+
+/**
+ * Checks if the given text is known / translated for the current language.
+ * @param {!string} text
+ * @param {Object=} opt_options
+ * @return {!boolean}
+ */
+cwc.utils.I18n.prototype.isTranslated = function(text, opt_options) {
+  return this.i18next.exists(text, opt_options);
 };
 
 

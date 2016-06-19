@@ -33,6 +33,8 @@ cwc.locales.de.Translation = {
   'New file': 'Neue Datei',
   'New project': 'Neues Projekt',
   'Open file': 'Öffne Datei',
+  'Robots': 'Roboter',
   'Save as new file': 'Als neue Datei speichern',
+  'Settings': 'Einstellungen',
   'Welcome to Coding with Chrome!': 'Willkommen zu Programmieren mit Chrome!'
 };

@@ -198,10 +198,6 @@ cwc.ui.SelectScreenNormal.prototype.addMenuHandler_ = function() {
       cwc.ui.SelectScreenNormalView.OVERVIEW);
   this.setClickEvent_('menu-basic', this.showView,
       cwc.ui.SelectScreenNormalView.BASIC);
-  this.setClickEvent_('menu-draw', this.showView,
-      cwc.ui.SelectScreenNormalView.DRAW);
-  this.setClickEvent_('menu-music', this.showView,
-      cwc.ui.SelectScreenNormalView.MUSIC);
   this.setClickEvent_('menu-robot', this.showView,
       cwc.ui.SelectScreenNormalView.ROBOT);
 };

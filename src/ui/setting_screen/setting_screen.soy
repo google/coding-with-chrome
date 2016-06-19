@@ -29,11 +29,17 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">Settings</span>
+          <span class="mdl-layout-title">
+            {msg desc=""}Settings{/msg}
+          </span>
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">General</a>
-          <a href="#scroll-tab-2" class="mdl-layout__tab">Misc</a>
+          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">
+            {msg desc=""}General{/msg}
+          </a>
+          <a href="#scroll-tab-2" class="mdl-layout__tab">
+            {msg desc=""}Misc{/msg}
+          </a>
         </div>
       </header>
       <main class="mdl-layout__content">
@@ -46,7 +52,8 @@
       </main>
     </div>
   </div>
-  <a href="#" id="{$prefix}close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast"> Close Settings
+  <a href="#" id="{$prefix}close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast"> 
+    {msg desc=""}Close Settings{/msg}
     <span class="mdl-button__ripple-container">
       <span class="mdl-ripple is-animating" style="width: 255.952px; height: 255.952px; transform: translate(-50%, -50%) translate(33px, 22px);"></span>
     </span>
@@ -61,10 +68,12 @@
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
-      <div class="mdl-card__supporting-text">
-        <h4>General Settings</h4>
-        This screen allows you to change the default settings.
-      </div>
+
+      {call .header_}
+        {param title: 'General Settings' /}
+        {param text: 'This screen allows you to change the default settings.' /}
+      {/call}
+
       <ul class="mdl-list">
 
         // Welcome screen
@@ -100,7 +109,7 @@
           <span class="mdl-list__item-primary-content">
             <span>Language</span>
             <span class="mdl-list__item-text-body">
-              Default UI language.
+              {msg desc=""}Default UI language.{/msg}
             </span>
           </span>
           <span class="mdl-list__item-secondary-content">
@@ -117,7 +126,9 @@
 
       </ul>
       <div class="mdl-card__supporting-text">
-       * You need to restart the application after enabling or disabling these options.
+        {msg desc=""}
+          * You need to restart the application after enabling or disabling these options.
+        {/msg}
       </div>
     </div>
   </section>
@@ -131,10 +142,12 @@
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
-      <div class="mdl-card__supporting-text">
-        <h4>Misc Settings</h4>
-        This screen allows you to change some random settings.
-      </div>
+
+      {call .header_}
+        {param title: 'Misc Settings' /}
+        {param text: 'This screen allows you to change some random settings.' /}
+      {/call}
+
       <ul class="mdl-list">
 
         // Debug Mode
@@ -149,7 +162,9 @@
 
       </ul>
       <div class="mdl-card__supporting-text">
-       * You need to restart the application after enabling or disabling these options.
+        {msg desc=""}
+          * You need to restart the application after enabling or disabling these options.
+        {/msg}
       </div>
     </div>
   </section>
@@ -169,8 +184,12 @@
 
   <li class="mdl-list__item mdl-list__item--three-line">
     <span class="mdl-list__item-primary-content">
-      <span>{$title} {if $opt_restart}*{/if}</span>
-      <span class="mdl-list__item-text-body">{$text}</span>
+      <span>
+        {msg desc=""}{$title}{/msg} {if $opt_restart}*{/if}
+      </span>
+      <span class="mdl-list__item-text-body">
+        {msg desc=""}{$text}{/msg}
+      </span>
     </span>
     <span class="mdl-list__item-secondary-content">
 
@@ -187,6 +206,19 @@
 
     </span>
   </li>
+{/template}
+
+
+/**
+ * Page header.
+ */
+{template .header_}
+  {@param title: string}
+  {@param text: string}
+  <div class="mdl-card__supporting-text">
+    <h4>{msg desc="header title"}{$title}{/msg}</h4>
+    {msg desc="header text"}{$text}{/msg}
+  </div>
 {/template}
 
 
