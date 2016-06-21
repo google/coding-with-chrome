@@ -50,6 +50,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Editor',
   srcs: ['app/js/editor.js'],
+  externs: [
+    'build/externs/cwc.js'
+  ],
   out: 'genfiles/js/editor.js'
 });
 
@@ -80,8 +83,13 @@ closureBuilder.build({
     'node_modules/blockly/generators/**/*.js',
     'node_modules/blockly/msg/**/*.js'
   ]),
-  externs: glob([
-    'build/externs/*.js'
-  ]),
+  externs: [
+    'build/externs/codemirror.js',
+    'build/externs/coffeescript.js',
+    'build/externs/global.js',
+    'build/externs/i18n.js',
+    'build/externs/jquery-turtle.js',
+    'build/externs/jquery.js'
+  ],
   out: 'genfiles/js/cwc_ui.js'
 });

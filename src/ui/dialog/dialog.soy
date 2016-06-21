@@ -30,12 +30,16 @@
   {@param title: string}
   {@param content: string}
 
-  <h3 class="mdl-dialog__title">{$title}</h3>
+  <h3 class="mdl-dialog__title">
+    {msg desc=""}{$title}{/msg}
+  </h3>
   <div id="{$prefix}content" class="mdl-dialog__content">
     {$content}
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}close" type="button" class="mdl-button close">Close</button>
+    <button id="{$prefix}close" type="button" class="mdl-button close">
+      {msg desc=""}Close{/msg}
+    </button>
   </div>
 {/template}
 
@@ -48,13 +52,19 @@
   {@param title: string}
   {@param content: string}
 
-  <h3 class="mdl-dialog__title">{$title}</h3>
+  <h3 class="mdl-dialog__title">
+    {msg desc=""}{$title}{/msg}
+  </h3>
   <div class="mdl-dialog__content">
     {$content}
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}yes" type="button" class="mdl-button">Yes</button>
-    <button id="{$prefix}no" type="button" class="mdl-button close">No</button>
+    <button id="{$prefix}yes" type="button" class="mdl-button">
+      {msg desc=""}Yes{/msg}
+    </button>
+    <button id="{$prefix}no" type="button" class="mdl-button close">
+      {msg desc=""}No{/msg}
+    </button>
   </div>
 {/template}
 
@@ -68,7 +78,9 @@
   {@param content: string}
   {@param values: string}
 
-  <h3 class="mdl-dialog__title">{$title}</h3>
+  <h3 class="mdl-dialog__title">
+    {msg desc=""}{$title}{/msg}
+  </h3>
   <div class="mdl-dialog__content {$prefix}prompt">
     {$content}
     <div class="mdl-textfield mdl-js-textfield">
@@ -77,8 +89,12 @@
     </div>
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}ok" type="button" class="mdl-button">Ok</button>
-    <button id="{$prefix}cancel" type="button" class="mdl-button close">Cancel</button>
+    <button id="{$prefix}ok" type="button" class="mdl-button">
+      {msg desc=""}Ok{/msg}
+    </button>
+    <button id="{$prefix}cancel" type="button" class="mdl-button close">
+      {msg desc=""}Cancel{/msg}
+    </button>
   </div>
 {/template}
 
