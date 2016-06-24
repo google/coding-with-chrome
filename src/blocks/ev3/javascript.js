@@ -17,130 +17,121 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.ev3.JavaScript');
 
-goog.require('cwc.blocks');
-goog.require('cwc.config.sound');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.ev3.JavaScript.prefix_ = 'ev3_';
 
 
 /**
  * Set robot model.
  */
-cwc.blocks.addJavaScript('set_robot_model', function(block) {
+Blockly.JavaScript['ev3_set_robot_model'] = function(block) {
   var dropdown_robot = block.getFieldValue('robot');
   return 'ev3.setRobotModel("' + dropdown_robot + '");\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Set wheel diameter.
  */
-cwc.blocks.addJavaScript('set_wheel_diameter', function(block) {
-  var text_diameter = cwc.blocks.getFieldValueNumber(block, 'diameter');
-  return 'ev3.setWheelDiameter(' + text_diameter + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+Blockly.JavaScript['ev3_set_wheel_diameter'] = function(block) {
+  var diameter = Number(block.getFieldValue('diameter') || 0);
+  return 'ev3.setWheelDiameter(' + diameter + ');\n';
+};
 
 
 /**
  * Set wheel width.
  */
-cwc.blocks.addJavaScript('set_wheel_width', function(block) {
-  var text_width = cwc.blocks.getFieldValueNumber(block, 'width');
-  return 'ev3.setWheelWidth(' + text_width + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+Blockly.JavaScript['ev3_set_wheel_width'] = function(block) {
+  var width = Number(block.getFieldValue('width') || 0);
+  return 'ev3.setWheelWidth(' + width + ');\n';
+};
 
 
 /**
  * Set wheelbase.
  */
-cwc.blocks.addJavaScript('set_wheelbase', function(block) {
-  var text_wheelbase = cwc.blocks.getFieldValueNumber(block, 'wheelbase');
-  return 'ev3.setWheelbase(' + text_wheelbase + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+Blockly.JavaScript['ev3_set_wheelbase'] = function(block) {
+  var wheelbase = Number(block.getFieldValue('wheelbase') || 0);
+  return 'ev3.setWheelbase(' + wheelbase + ');\n';
+};
 
 
 /**
  * Play tone.
  */
-cwc.blocks.addJavaScript('play_tone', function(block) {
-  var text_frequency = block.getFieldValue('frequency');
-  var text_duration = block.getFieldValue('duration');
-  var text_volume = block.getFieldValue('volume');
-  return 'ev3.playTone(' + text_frequency + ', ' + text_duration + ', ' +
-      text_volume + ', ' + (Number(text_duration)) + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+Blockly.JavaScript['ev3_play_tone'] = function(block) {
+  var frequency = block.getFieldValue('frequency');
+  var duration = block.getFieldValue('duration');
+  var volume = block.getFieldValue('volume');
+  return 'ev3.playTone(' + frequency + ', ' + duration + ', ' +
+      volume + ', ' + (Number(duration)) + ');\n';
+};
 
 
 /**
  * Move.
  */
-cwc.blocks.addJavaScript('move', function(block) {
+Blockly.JavaScript['ev3_move'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'backward';
   return 'ev3.moveSteps(' + text_steps + ', ' + (invert ? -50 : 50) +
     ', true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move distance.
  */
-cwc.blocks.addJavaScript('move_distance', function(block) {
+Blockly.JavaScript['ev3_move_distance'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_distance = block.getFieldValue('distance');
   var invert = dropdown_direction == 'backward';
   return 'ev3.moveDistance(' + text_distance + ', ' + (invert ? -50 : 50) +
     ', true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move forward.
  */
-cwc.blocks.addJavaScript('move_forward', function(block) {
+Blockly.JavaScript['ev3_move_forward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.moveSteps(' + text_steps + ', 50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move backward.
  */
-cwc.blocks.addJavaScript('move_backward', function(block) {
+Blockly.JavaScript['ev3_move_backward'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.moveSteps(' + text_steps + ', -50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move up.
  */
-cwc.blocks.addJavaScript('move_up', function(block) {
+Blockly.JavaScript['ev3_move_up'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.customMoveSteps(' + text_steps + ', undefined, -50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move down.
  */
-cwc.blocks.addJavaScript('move_down', function(block) {
+Blockly.JavaScript['ev3_move_down'] = function(block) {
   var text_steps = block.getFieldValue('steps');
   return 'ev3.customMoveSteps(' + text_steps + ', undefined, 50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move pen.
  */
-cwc.blocks.addJavaScript('move_pen', function(block) {
+Blockly.JavaScript['ev3_move_pen'] = function(block) {
   var colour = block.getFieldValue('colour');
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
@@ -148,108 +139,108 @@ cwc.blocks.addJavaScript('move_pen', function(block) {
   var delay = Number(text_steps) * 5;
   return 'ev3.movePen(' + text_steps + ', ' + (invert ? -50 : 50) +
     ', \'' + colour + '\', ' + delay + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move servo.
  */
-cwc.blocks.addJavaScript('move_servo', function(block) {
+Blockly.JavaScript['ev3_move_servo'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var text_steps = block.getFieldValue('steps');
   var invert = dropdown_direction == 'inverted';
   var delay = Number(text_steps) * 5;
   return 'ev3.moveServo(' + text_steps + ', ' + (invert ? -50 : 50) +
     ', ' + delay + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Rotate.
  */
-cwc.blocks.addJavaScript('rotate', function(block) {
+Blockly.JavaScript['ev3_rotate'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   var dropdown_direction = block.getFieldValue('direction');
   var invert = dropdown_direction == 'left';
   var speed = invert ? -50 : 50;
   return 'ev3.rotateAngle(' + angle_value + ', ' + speed + ', true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Rotate left.
  */
-cwc.blocks.addJavaScript('rotate_left', function(block) {
+Blockly.JavaScript['ev3_rotate_left'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   return 'ev3.rotateAngle(' + angle_value + ', -50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Rotate right.
  */
-cwc.blocks.addJavaScript('rotate_right', function(block) {
+Blockly.JavaScript['ev3_rotate_right'] = function(block) {
   var angle_value = block.getFieldValue('angle');
   return 'ev3.rotateAngle(' + angle_value + ', 50, true);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Stop.
  */
-cwc.blocks.addJavaScript('stop', function(block) {
+Blockly.JavaScript['ev3_stop'] = function(block) {
   var dropdown_immediately = block.getFieldValue('immediately');
   if (dropdown_immediately == 'when finished') {
     return 'ev3.stop(500);\n';
   }
   return 'ev3.stop();\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Stop immediately.
  */
-cwc.blocks.addJavaScript('stop_immediately', function(opt_block) {
+Blockly.JavaScript['ev3_stop_immediately'] = function(opt_block) {
   return 'ev3.stop();\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Wait.
  */
-cwc.blocks.addJavaScript('wait', function(block) {
+Blockly.JavaScript['ev3_wait'] = function(block) {
   var time = block.getFieldValue('time');
   return 'ev3.wait(' + time + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Move power.
  */
-cwc.blocks.addJavaScript('move_power', function(block) {
+Blockly.JavaScript['ev3_move_power'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
   var invert = dropdown_direction == 'backward';
   return 'ev3.movePower(' + (invert ? -value_power : value_power) + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Rotate power.
  */
-cwc.blocks.addJavaScript('rotate_power', function(block) {
+Blockly.JavaScript['ev3_rotate_power'] = function(block) {
   var dropdown_direction = block.getFieldValue('direction');
   var value_power = block.getFieldValue('power');
   var invert = dropdown_direction == 'left';
   var power = (invert ? -value_power : value_power);
   return 'ev3.rotatePower(' + power + ', ' + power + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Color sensor mode.
  */
-cwc.blocks.addJavaScript('color_sensor_mode', function(block) {
+Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
   var dropdown_mode = block.getFieldValue('mode');
   var mode = 0;
   switch (dropdown_mode) {
@@ -264,13 +255,13 @@ cwc.blocks.addJavaScript('color_sensor_mode', function(block) {
       break;
   }
   return 'ev3.setColorSensorMode(' + mode + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ir sensor mode.
  */
-cwc.blocks.addJavaScript('ir_sensor_mode', function(block) {
+Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
   var dropdown_mode = block.getFieldValue('mode');
   var mode = 0;
   switch (dropdown_mode) {
@@ -285,13 +276,13 @@ cwc.blocks.addJavaScript('ir_sensor_mode', function(block) {
       break;
   }
   return 'ev3.setIrSensorMode(' + mode + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ultrasonic sensor mode.
  */
-cwc.blocks.addJavaScript('ultrasonic_sensor_mode', function(block) {
+Blockly.JavaScript['ev3_ultrasonic_sensor_mode'] = function(block) {
   var dropdown_mode = block.getFieldValue('mode');
   var mode = 0;
   switch (dropdown_mode) {
@@ -306,120 +297,120 @@ cwc.blocks.addJavaScript('ultrasonic_sensor_mode', function(block) {
       break;
   }
   return 'ev3.setUltrasonicSensorMode(' + mode + ');\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 
 /**
  * Color sensor value.
  */
-cwc.blocks.addJavaScript('color_sensor_value', function(opt_block) {
+Blockly.JavaScript['ev3_color_sensor_value'] = function(opt_block) {
   var code = 'ev3.getColorSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Touch sensor value.
  */
-cwc.blocks.addJavaScript('touch_sensor_value', function(opt_block) {
+Blockly.JavaScript['ev3_touch_sensor_value'] = function(opt_block) {
   var code = 'ev3.getTouchSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ir sensor value.
  */
-cwc.blocks.addJavaScript('ir_sensor_value', function(opt_block) {
+Blockly.JavaScript['ev3_ir_sensor_value'] = function(opt_block) {
   var code = 'ev3.getIrSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ultrasonic sensor value.
  */
-cwc.blocks.addJavaScript('ultrasonic_sensor_value', function(opt_block) {
+Blockly.JavaScript['ev3_ultrasonic_sensor_value'] = function(opt_block) {
   var code = 'distance === undefined ?' +
     ' ev3.getUltrasonicSensorValue() : distance';
   return [code, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Color sensor change.
  */
-cwc.blocks.addJavaScript('color_sensor_change', function(block) {
+Blockly.JavaScript['ev3_color_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var colorSensorEvent = function(value) {\n' +
       statements_code + '};\nev3.onColorSensorChange(colorSensorEvent);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Gyro sensor change.
  */
-cwc.blocks.addJavaScript('gyro_sensor_change', function(block) {
+Blockly.JavaScript['ev3_gyro_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var gyroSensorEvent = function(angle) {\n' +
       statements_code + '};\nev3.onGyroSensorChange(gyroSensorEvent);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ir sensor change.
  */
-cwc.blocks.addJavaScript('ir_sensor_change', function(block) {
+Blockly.JavaScript['ev3_ir_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var irSensorEvent = function(value) {\n' +
       statements_code + '};\nev3.onIrSensorChange(irSensorEvent);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Touch sensor change.
  */
-cwc.blocks.addJavaScript('touch_sensor_change', function(block) {
+Blockly.JavaScript['ev3_touch_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var touchEvent = function(pressed) {\n' +
       statements_code +
     '};\nev3.onTouchSensorChange(touchEvent);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Ultrasonic sensor change.
  */
-cwc.blocks.addJavaScript('ultrasonic_sensor_change', function(block) {
+Blockly.JavaScript['ev3_ultrasonic_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var ultrasonicSensorEvent = function(distance) {\n' +
       statements_code +
     '};\nev3.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Stops the ultrasonic sensor event.
  */
-cwc.blocks.addJavaScript('stop_ultrasonic_sensor_event', function(opt_block) {
+Blockly.JavaScript['ev3_stop_ultrasonic_sensor_event'] = function(opt_block) {
   return 'ev3.stopUltrasonicSensorEvent();\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Variable.
  */
-cwc.blocks.addJavaScript('variable_value', function(opt_block) {
+Blockly.JavaScript['ev3_variable_value'] = function(opt_block) {
   var code = 'value';
   return [code, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Led.
  */
-cwc.blocks.addJavaScript('led', function(block) {
+Blockly.JavaScript['ev3_led'] = function(block) {
   var dropdown_color = block.getFieldValue('color');
   var dropdown_mode = block.getFieldValue('mode');
   var color = 0;
@@ -444,13 +435,13 @@ cwc.blocks.addJavaScript('led', function(block) {
       break;
   }
   return 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};
 
 
 /**
  * Colors block.
  */
-cwc.blocks.addJavaScript('colors', function(block) {
+Blockly.JavaScript['ev3_colors'] = function(block) {
   var color = block.getFieldValue('color');
   var colorMapping = {
     '#000000': 1,
@@ -462,4 +453,4 @@ cwc.blocks.addJavaScript('colors', function(block) {
     '#a52a2a': 7
   };
   return [colorMapping[color] || 0, Blockly.JavaScript.ORDER_NONE];
-}, cwc.blocks.ev3.JavaScript.prefix_);
+};

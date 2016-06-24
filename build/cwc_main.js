@@ -68,6 +68,21 @@ closureBuilder.build({
 
 
 /**
+ * Custom Blocks
+ */
+closureBuilder.build({
+  name: 'Custom Blocks',
+  srcs: glob([
+    'src/blocks/ev3/*.js'
+  ]),
+  externs: [
+    'build/externs/blockly.js'
+  ],
+  out: 'genfiles/js/cwc_blocks.js'
+});
+
+
+/**
  * UI Builder
  */
 closureBuilder.build({
@@ -75,7 +90,8 @@ closureBuilder.build({
   srcs: glob([
     'src/**/*.js',
     'gensoyfiles/**/*.js',
-    '!src/{frameworks,frameworks/**}'
+    '!src/{blocks,blocks/**.js}',
+    '!src/{frameworks,frameworks/**.js}'
   ]),
   externs: [
     'build/externs/blockly.js',
