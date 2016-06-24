@@ -27,7 +27,6 @@ goog.require('cwc.locales.ko.Translation');
 
 /**
  * Helper for i18n.
- * @param {string=} opt_area
  * @constructor
  * @final
  * @export

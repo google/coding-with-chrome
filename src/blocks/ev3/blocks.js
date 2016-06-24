@@ -19,9 +19,6 @@
  */
 goog.provide('cwc.blocks.ev3.Blocks');
 
-goog.require('Blockly');
-goog.require('Blockly.Blocks');
-
 goog.require('cwc.blocks');
 goog.require('cwc.blocks.ev3.JavaScript');
 goog.require('cwc.config.sound');

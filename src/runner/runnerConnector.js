@@ -98,7 +98,7 @@ cwc.runner.Connector.prototype.initListener = function() {
 
 /**
  * Inits the runner instance.
- * @param {Object} content
+ * @param {Object} target
  */
 cwc.runner.Connector.prototype.setTarget = function(target) {
   if (!target) {

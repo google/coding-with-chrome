@@ -22,5 +22,12 @@
 
 /** @type {Object} */
 var i18next = function() {};
+i18next.changeLanguage = function() {};
+i18next.exists = function() {};
+i18next.init = function() {};
+i18next.store = function() {};
+i18next.t  = function() {};
+
 var i18t = function() {};
+
 var i18soy = function() {};

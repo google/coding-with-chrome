@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the general blocks.
+ * @fileoverview Chrome externs.
  *
  * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
@@ -17,24 +17,12 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.general.JavaScript');
-
-goog.require('cwc.blocks');
 
 
-/**
- * @private {string}
- */
-cwc.blocks.general.JavaScript.prefix_ = 'general_';
+var chrome = {};
 
+chrome.system.memory = function() {};
 
-/**
- * Infinity loop
- */
-cwc.blocks.addJavaScript('infinity_loop', function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'var infinity_loop = function() {\n' +
-    '  try {\n' + statements_code + '  } catch (err) {\n    return;\n  }\n' +
-    '  window.setTimeout(infinity_loop, 50);\n' +
-  '}\ninfinity_loop();\n';
-}, cwc.blocks.general.JavaScript.prefix_);
+chrome.storage.local = function() {};
+
+chrome.storage.local.get = function() {};

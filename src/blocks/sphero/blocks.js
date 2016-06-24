@@ -19,8 +19,6 @@
  */
 goog.provide('cwc.blocks.sphero.Blocks');
 
-goog.require('Blockly');
-
 goog.require('cwc.blocks');
 goog.require('cwc.blocks.sphero.JavaScript');
 

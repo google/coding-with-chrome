@@ -68,6 +68,7 @@ cwc.protocol.Serial.Devices.prototype.getDevice = function(device_id) {
     return this.devices[device_id];
   }
   console.error('The following device id is unknown:', device_id);
+  return null;
 };
 
 

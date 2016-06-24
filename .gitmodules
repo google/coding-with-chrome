@@ -43,3 +43,6 @@
 [submodule "third_party/i18next-sprintf"]
 	path = third_party/i18next-sprintf
 	url = https://github.com/i18next/i18next-sprintf-postProcessor.git
+[submodule "third_party/blockly"]
+	path = third_party/blockly
+	url = https://github.com/google/blockly.git

@@ -142,12 +142,13 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
  */
 cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
   var group = 'js';
+  this.set('blockly', typeof window['Blockly'], group);
   this.set('codemirror', typeof window['CodeMirror'], group);
   this.set('coffeelint', typeof window['coffeelint'], group);
   this.set('coffeescript', typeof window['CoffeeScript'], group);
   this.set('htmlhint', typeof window['HTMLHint'], group);
-  this.set('jshint', typeof window['JSHINT'], group);
   this.set('i18next', typeof window['i18next'], group);
+  this.set('jshint', typeof window['JSHINT'], group);
 };
 
 

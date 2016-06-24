@@ -19,9 +19,6 @@
  */
 goog.provide('cwc.ui.Blockly');
 
-goog.require('Blockly');
-goog.require('Blockly.Blocks');
-
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');

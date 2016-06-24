@@ -163,7 +163,7 @@ cwc.ui.Gui.prototype.setTitle = function(title) {
 
 /**
  * Enables or disables the title of the gui.
- * @param {string} title Title to display in the gui.
+ * @param {boolean} enabled
  */
 cwc.ui.Gui.prototype.enableTitle = function(enabled) {
   if (this.nodeTitle) {

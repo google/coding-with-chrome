@@ -69,7 +69,7 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
  * @param {ArrayBuffer|Uint8Array} data
  * @param {Array=} opt_headers
  * @param {number=} opt_size
- * @param {ArrayBuffer|Uint8Array} opt_buffer
+ * @param {ArrayBuffer|Uint8Array=} opt_buffer
  * @return {Uint8Array} result
  */
 cwc.utils.ByteTools.getUint8Data = function(data,

@@ -139,6 +139,7 @@ cwc.ui.oauth2Helpers = {
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.ui.Builder = function() {
   /** @type {string} */
@@ -378,6 +379,11 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
   if (!this.helper.checkJavaScriptFeature('coffeescript')) {
     this.raiseError('Unable to find CoffeeScript !\n' +
         'Please check if you have included the CoffeeScript files.');
+  }
+
+  if (!this.helper.checkJavaScriptFeature('blockly')) {
+    this.raiseError('Unable to find Blockly !\n' +
+        'Please check if you have included the Blockly files.');
   }
 
 };

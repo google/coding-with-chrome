@@ -180,7 +180,7 @@ cwc.ui.Helper.getIconToolbarToogleButton = function(icon_name,
  * Decorates the button element with some default values.
  * @param {goog.ui.Button|
  *         goog.ui.ToolbarButton|goog.ui.ToolbarToogleButton} button
- * @param {string=} description
+ * @param {string=} opt_description
  * @param {function(?)=} opt_func
  * @param {string=} opt_icon_size
  * @param {string=} opt_class_name

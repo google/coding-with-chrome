@@ -71,6 +71,7 @@ cwc.protocol.Arduino.api.prototype.connect = function(device) {
   this.device.setDataHandler(this.handleOnReceive.bind(this));
   this.device.connect();
   this.connected = true;
+  return true;
 };
 
 

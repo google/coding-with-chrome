@@ -171,7 +171,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
  * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
-  this.showTemplate_('welcome');
+  this.showTemplate_(cwc.soy.SelectScreen.welcome);
 
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
@@ -260,23 +260,19 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
   }
 };
 
+
 /**
- * @param {!string} template_name
- * @param {Object} opt_template
+ * @param {!cwc.soy.SelectScreen} template
  * @private
  */
-cwc.ui.SelectScreen.prototype.showTemplate_ = function(template_name,
-    opt_template) {
-  if (this.nodeContent && template_name) {
-    var templateConfig = {
-      'prefix': this.prefix,
-      'online': this.helper.checkFeature('online')
-    };
-    var template = opt_template || cwc.soy.SelectScreen;
-    goog.soy.renderElement(this.nodeContent, template[template_name],
-        templateConfig);
+cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
+  if (this.nodeContent && template) {
+    goog.soy.renderElement(this.nodeContent, template, {
+      prefix: this.prefix,
+      online: this.helper.checkFeature('online')
+    });
   } else {
-    console.error('Unable to render template', template_name);
+    console.error('Unable to render template', template);
   }
 };
 

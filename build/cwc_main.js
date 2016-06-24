@@ -77,19 +77,16 @@ closureBuilder.build({
     'gensoyfiles/**/*.js',
     '!src/{frameworks,frameworks/**}'
   ]),
-  deps: glob([
-    'node_modules/blockly/blocks/**/*.js',
-    'node_modules/blockly/core/**/*.js',
-    'node_modules/blockly/generators/**/*.js',
-    'node_modules/blockly/msg/**/*.js'
-  ]),
   externs: [
+    'build/externs/blockly.js',
     'build/externs/codemirror.js',
     'build/externs/coffeescript.js',
+    'build/externs/chrome.js',
     'build/externs/global.js',
     'build/externs/i18n.js',
     'build/externs/jquery-turtle.js',
     'build/externs/jquery.js'
   ],
+  compress: true,
   out: 'genfiles/js/cwc_ui.js'
 });

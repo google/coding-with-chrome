@@ -196,14 +196,6 @@ cwc.protocol.ev3.Api.prototype.reset = function(opt_delay) {
 
 
 /**
- * @return {boolean}
- */
-cwc.protocol.ev3.Api.prototype.isConnected = function() {
-  return this.device && this.device.isConnected();
-};
-
-
-/**
  * Basic cleanup for the EV3 unit.
  */
 cwc.protocol.ev3.Api.prototype.cleanUp = function() {
@@ -544,7 +536,7 @@ cwc.protocol.ev3.Api.prototype.playSound = function(file_name, opt_volume) {
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {number=} opt_step_speed
+ * @param {number=} opt_speed
  * @export
  */
 cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
@@ -603,7 +595,7 @@ cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
  * @export
  */
 cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
-    opt_step_speed, opt_break, opt_single) {
+    opt_step_speed, opt_break) {
   var brake = opt_break === undefined ? true : opt_break;
   var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
   var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];

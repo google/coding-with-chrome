@@ -38,7 +38,7 @@ cwc.protocol.ev3.Commands = function() {
 
 /**
  * @param {!string} name
- * @param {!Object} params
+ * @param {!Object} param
  */
 cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
   var key = this.getCacheName(name, param);
@@ -51,7 +51,7 @@ cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
 
 /**
  * @param {!string} name
- * @param {!Object} params
+ * @param {!Object} param
  * @param {!Object} result
  */
 cwc.protocol.ev3.Commands.prototype.setCache = function(name, param, result) {

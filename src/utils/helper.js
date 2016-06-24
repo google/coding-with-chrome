@@ -306,7 +306,7 @@ cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
@@ -316,7 +316,7 @@ cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
@@ -326,7 +326,7 @@ cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
@@ -337,11 +337,11 @@ cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
 /**
  * @param {string} name
  * @param {string=} opt_group
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
-  return this.features_.get(name, opt_group);
+  return this.features_.get(name, opt_group) || false;
 };
 
 
@@ -411,6 +411,7 @@ cwc.utils.Helper.prototype.debugEnabled = function(opt_name) {
   if (debugInstance) {
     return debugInstance.isEnabled(opt_name);
   }
+  return false;
 };
 
 

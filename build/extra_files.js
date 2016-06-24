@@ -115,3 +115,27 @@ closureBuilder.build({
   out: 'genfiles/external/jshint/jshint.js'
 });
 
+
+/**
+ * Blockly
+ */
+var BlocklyPath = 'third_party/blockly/';
+
+closureBuilder.build({
+  name: 'Blockly core files',
+  resources: [
+    BlocklyPath + 'blockly_compressed.js',
+    BlocklyPath + 'blocks_compressed.js',
+    BlocklyPath + 'javascript_compressed.js'
+  ],
+  out: 'genfiles/external/blockly/'
+});
+
+closureBuilder.build({
+  name: 'Blockly language files',
+  resources: [
+    BlocklyPath + 'msg/js/de.js',
+    BlocklyPath + 'msg/js/en.js'
+  ],
+  out: 'genfiles/external/blockly/msg/'
+});

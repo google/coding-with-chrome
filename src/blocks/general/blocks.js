@@ -19,9 +19,6 @@
  */
 goog.provide('cwc.blocks.general.Blocks');
 
-goog.require('Blockly');
-goog.require('Blockly.Blocks');
-
 goog.require('cwc.blocks');
 goog.require('cwc.blocks.general.JavaScript');
 

@@ -203,7 +203,8 @@ cwc.ui.Layout.prototype.prepare = function() {
   goog.events.listen(this.viewport_monitor,
                      goog.events.EventType.RESIZE,
                      this.adjustSize, false, this);
-  this.renderTemplate_(cwc.ui.LayoutType.DEFAULT);
+  this.renderTemplate_(cwc.ui.LayoutTypeTemplate.DEFAULT,
+    cwc.ui.LayoutType.DEFAULT);
 };
 
 
@@ -212,7 +213,8 @@ cwc.ui.Layout.prototype.prepare = function() {
  * @export
  */
 cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
-  this.renderTemplate_(cwc.ui.LayoutType.SINGLE_COLUMN);
+  this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SINGLE_COLUMN,
+    cwc.ui.LayoutType.SINGLE_COLUMN);
   var chromeMain = this.getNode_('chrome-main');
   var topComponent = new goog.ui.Component();
   var bottomComponent = new goog.ui.Component();
@@ -266,7 +268,8 @@ cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
  * @export
  */
 cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
-  this.renderTemplate_(cwc.ui.LayoutType.SIMPLE_SINGLE_COLUMN);
+  this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SIMPLE_SINGLE_COLUMN,
+    cwc.ui.LayoutType.SIMPLE_SINGLE_COLUMN);
   this.closePreloader_();
   this.adjustSize();
 };
@@ -279,7 +282,8 @@ cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
  */
 cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
     opt_first_splitpane_size) {
-  this.renderTemplate_(cwc.ui.LayoutType.SIMPLE_TWO_COLUMN);
+  this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SIMPLE_TWO_COLUMN,
+    cwc.ui.LayoutType.SIMPLE_TWO_COLUMN);
   var chromeMain = this.getNode_('chrome-main');
   var leftComponent = new goog.ui.Component();
   var rightComponent = new goog.ui.Component();
@@ -301,7 +305,8 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
  * @export
  */
 cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
-  this.renderTemplate_(cwc.ui.LayoutType.LEFT_SIDEBAR);
+  this.renderTemplate_(cwc.ui.LayoutTypeTemplate.LEFT_SIDEBAR,
+    cwc.ui.LayoutType.LEFT_SIDEBAR);
   var chromeMain = this.getNode_('chrome-main');
   var leftComponent = new goog.ui.Component();
   var rightComponent = new goog.ui.Component();
@@ -656,16 +661,11 @@ cwc.ui.Layout.prototype.handleResizeEvent = function() {
 
 
 /**
- * @param {!cwc.ui.LayoutType} type
+ * @param {!cwc.ui.LayoutTypeTemplate} template
+ * @param {cwc.ui.LayoutType=} opt_type
  * @private
  */
-cwc.ui.Layout.prototype.renderTemplate_ = function(type) {
-  var template = cwc.ui.LayoutTypeTemplate[type];
-  if (!template) {
-    console.error('Template', type, 'is not implemented!');
-    return;
-  }
-
+cwc.ui.Layout.prototype.renderTemplate_ = function(template, opt_type) {
   this.resetLayout();
   goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
   this.nodes = {
@@ -677,7 +677,9 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(type) {
     'overlay': this.getNode_('content-overlay')
   };
   this.showPreloader_();
-  this.layout = type;
+  if (opt_type) {
+    this.layout = opt_type;
+  }
 };
 
 

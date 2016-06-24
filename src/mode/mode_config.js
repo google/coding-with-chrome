@@ -46,6 +46,7 @@ cwc.mode.Config.get = function(type, opt_required) {
     }
     console.warn(error);
   }
+  return null;
 };
 
 
@@ -62,4 +63,5 @@ cwc.mode.Config.getModForFileType = function(file_type) {
       }
     }
   }
+  return null;
 };

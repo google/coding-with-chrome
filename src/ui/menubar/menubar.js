@@ -91,10 +91,13 @@ cwc.ui.Menubar = function(helper) {
   this.bluetooth = null;
 
   /** @type {boolean} */
-  this.bluetoothConnected = null;
+  this.bluetoothConnectStatus = null;
 
   /** @type {cwc.ui.DeviceMenu} */
   this.deviceMenu = null;
+
+  /** @type {!chrome.app.window.AppWindow} */
+  this.currentWindow =  chrome.app.window.current();
 
   /** @type {!goog.ui.Button} */
   this.closeButton = cwc.ui.Helper.getIconButton(
@@ -224,9 +227,9 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
   this.restoreButton.render(this.nodeRestoreButton);
   goog.style.setElementShown(this.nodeMaximizeButton,
-    !chrome.app.window.current().isMaximized());
+    !this.currentWindow['isMaximized']());
   goog.style.setElementShown(this.nodeRestoreButton,
-    chrome.app.window.current().isMaximized());
+    this.currentWindow['isMaximized']());
 
   // Close icon
   this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
@@ -293,7 +296,7 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
   if (bluetoothInstance) {
     bluetoothInstance.closeSockets();
   }
-  chrome.app.window.current().close();
+  this.currentWindow['close']();
 };
 
 
@@ -301,7 +304,7 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
  * Minimize editor window.
  */
 cwc.ui.Menubar.prototype.minimizeWindow = function() {
-  chrome.app.window.current().minimize();
+  this.currentWindow['minimize']();
   var editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow.drawAttention();
@@ -313,7 +316,7 @@ cwc.ui.Menubar.prototype.minimizeWindow = function() {
  * Maximize editor window.
  */
 cwc.ui.Menubar.prototype.maximizeWindow = function() {
-  chrome.app.window.current().maximize();
+  this.currentWindow['maximize']();
   goog.style.setElementShown(this.nodeMaximizeButton, false);
   goog.style.setElementShown(this.nodeRestoreButton, true);
 };
@@ -323,7 +326,7 @@ cwc.ui.Menubar.prototype.maximizeWindow = function() {
  * Restore editor window.
  */
 cwc.ui.Menubar.prototype.restoreWindow = function() {
-  chrome.app.window.current().restore();
+  this.currentWindow['restore']();
   goog.style.setElementShown(this.nodeMaximizeButton, true);
   goog.style.setElementShown(this.nodeRestoreButton, false);
 };
@@ -363,7 +366,7 @@ cwc.ui.Menubar.prototype.setBluetoothEnabled = function(enabled) {
  */
 cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
   if (this.helper.checkChromeFeature('bluetooth') && this.bluetooth) {
-    if (this.bluetoothConnected != connected) {
+    if (this.bluetoothConnectStatus != connected) {
       console.log('Set Bluetooth status to',
         connected ? 'connected' : 'disconnected');
     }
@@ -375,7 +378,7 @@ cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
     goog.style.setElementShown(this.nodeBluetoothConnected, false);
     goog.style.setElementShown(this.nodeBluetoothDisabled, true);
   }
-  this.bluetoothConnected = connected;
+  this.bluetoothConnectStatus = connected;
 };
 
 
