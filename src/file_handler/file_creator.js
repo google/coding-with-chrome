@@ -38,9 +38,6 @@ cwc.fileHandler.FileCreator = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {!cwc.fileHandler.Config} */
-  this.config = cwc.fileHandler.Config;
 };
 
 
@@ -49,7 +46,7 @@ cwc.fileHandler.FileCreator = function(helper) {
  * @export
  */
 cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
-  var fileConfig = this.config.get(file_type);
+  var fileConfig = cwc.fileHandler.Config.get(file_type);
   if (!fileConfig) {
     throw 'Filetype ' + file_type + ' is not supported!';
   }

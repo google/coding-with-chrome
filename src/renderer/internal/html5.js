@@ -63,7 +63,7 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.internal.HTML5.prototype.render = function(
@@ -85,14 +85,16 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     }
   }
 
-  // Additional frameworks.
+  // Detect additional frameworks.
   var script = javascript || html || '';
-  if (script.indexOf('draw.') != -1 || script.indexOf('command.') != -1) {
-    headers.push(this.simpleFramework);
-  }
-  if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||
-      script.indexOf('$(document).ready') != -1) {
-    headers.push(this.jQueryFramework);
+  if (script) {
+    if (script.indexOf('draw.') != -1 || script.indexOf('command.') != -1) {
+      headers.push(this.simpleFramework);
+    }
+    if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||
+        script.indexOf('$(document).ready') != -1) {
+      headers.push(this.jQueryFramework);
+    }
   }
 
   var header = renderer_helper.getFrameworkHeaders(headers, frameworks);

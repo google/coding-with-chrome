@@ -164,7 +164,7 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
         break;
     }
     goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
-    this.snackbar.MaterialSnackbar.showSnackbar(snackbarData);
+    this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
   }
 
 };

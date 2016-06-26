@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blocky externs.
+ * @fileoverview Material Design externs.
  *
  * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
@@ -18,4 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-var Blockly={Blocks:{}};
+
+
+/** @type {Function} */
+window.componentHandler.upgradeDom = function() {};

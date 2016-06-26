@@ -674,7 +674,7 @@ cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
   if (this.nodeInfobarLineCol) {
     var position = cm.getCursor();
     goog.dom.setTextContent(this.nodeInfobarLineCol,
-        (position.line + 1) + ' : ' + (position.ch + 1));
+        (position['line'] + 1) + ' : ' + (position['ch'] + 1));
   }
 };
 

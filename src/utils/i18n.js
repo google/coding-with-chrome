@@ -33,7 +33,7 @@ goog.require('cwc.locales.ko.Translation');
  */
 cwc.utils.I18n = function() {
 
-  /** @type {!Object} */
+  /** @type {!i18next} */
   this.i18next = i18next;
 
   /** @type {!string} */

@@ -19,10 +19,21 @@
  */
 
 
-var chrome = {};
 
+/** @type {Function} */
 chrome.system.memory = function() {};
 
+/** @type {Function} */
 chrome.storage.local = function() {};
 
+/** @type {Function} */
 chrome.storage.local.get = function() {};
+
+/** @type {Function} */
+chrome.runtime.getManifest = function() {};
+
+/** @type {Function} */
+chrome.app.window.get = function() {};
+
+/** @type {Function} */
+chrome.fileSystem.chooseEntry = function() {};

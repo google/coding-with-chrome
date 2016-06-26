@@ -160,7 +160,7 @@ cwc.ui.Navigation.prototype.toggle = function() {
   if (!mdlLayout) {
     return;
   }
-  mdlLayout.MaterialLayout.toggleDrawer();
+  mdlLayout['MaterialLayout']['toggleDrawer']();
 };
 
 
@@ -172,7 +172,7 @@ cwc.ui.Navigation.prototype.show = function() {
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
+  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
   if (mdlLayoutClassName.indexOf('is-visible') === -1) {
     this.toggle();
   }
@@ -187,7 +187,7 @@ cwc.ui.Navigation.prototype.hide = function() {
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
+  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
   if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
     this.toggle();
   }

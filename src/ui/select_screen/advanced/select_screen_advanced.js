@@ -99,11 +99,10 @@ cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
   var name = opt_name || cwc.ui.SelectScreenAdvancedView.OVERVIEW;
-  this.showTemplate_(name);
-  this.addMenuHandler_();
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenAdvancedView.OVERVIEW:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.overview);
       this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenAdvancedView.BASIC);
@@ -117,6 +116,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Basic screen
     case cwc.ui.SelectScreenAdvancedView.BASIC:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.basicOverview);
       this.setNavHeader_('Simple', 'school');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC);
@@ -134,6 +134,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Programming Language Overview
     case cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE:
+      this.showTemplate_(
+        cwc.soy.SelectScreenAdvanced.programmingLanguageOverview);
       this.setNavHeader_('Programming', 'view_stream');
       this.setClickEvent_('link-javascript', this.showView,
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
@@ -145,6 +147,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Programming Language Screens
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptOverview);
       this.setNavHeader_('JavaScript', 'beenhere');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -157,15 +160,18 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/javascript/script/TriangleAnimation.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptVideoTutorial);
       this.addProgrammingMenuHandler_();
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.coffeeScriptOverview);
       this.setNavHeader_('CoffeeScript', 'local_cafe');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.COFFEESCRIPT);
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
       this.setNavHeader_('Pencil Code', 'mode_edit');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -176,6 +182,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Markup Language Overview
     case cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.markupLanguageOverview);
       this.setNavHeader_('Markup', 'public');
       this.setClickEvent_('link-html5', this.showView,
           cwc.ui.SelectScreenAdvancedView.HTML5);
@@ -183,6 +190,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Markup Language Screens
     case cwc.ui.SelectScreenAdvancedView.HTML5:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
       this.setNavHeader_('HTML5', 'public');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.HTML);
@@ -192,6 +200,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Robot overview
     case cwc.ui.SelectScreenAdvancedView.ROBOT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.robotOverview);
       this.setNavHeader_('Robots', 'memory');
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenAdvancedView.EV3);
@@ -201,6 +210,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Robot screens
     case cwc.ui.SelectScreenAdvancedView.EV3:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -209,6 +219,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -220,6 +231,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
     default:
       return;
   }
+  this.addMenuHandler_();
   this.currentView = name;
 };
 
@@ -293,22 +305,17 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
 
 
 /**
- * @param {!string} template_name
- * @param {Object} opt_template
+ * @param {!cwc.soy.SelectScreenAdvanced} template
  * @private
  */
-cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template_name,
-    opt_template) {
-  if (this.node && template_name) {
-    var templateConfig = {
-      'prefix': this.prefix,
-      'online': this.helper.checkFeature('online')
-    };
-    var template = opt_template || cwc.soy.SelectScreenAdvanced;
-    goog.soy.renderElement(this.node, template[template_name],
-        templateConfig);
+cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
+  if (this.node && template) {
+    goog.soy.renderElement(this.node, template, {
+      prefix: this.prefix,
+      online: this.helper.checkFeature('online')
+    });
   } else {
-    console.error('Unable to render template', template_name);
+    console.error('Unable to render template', template);
   }
 };
 
@@ -358,7 +365,7 @@ cwc.ui.SelectScreenAdvanced.prototype.newFile_ = function(type) {
   }
   var editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };
 
@@ -375,6 +382,6 @@ cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
   }
   var editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };

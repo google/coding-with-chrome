@@ -24,6 +24,82 @@
 var CodeMirror = function() {};
 
 /** @type {Object} */
+CodeMirror.mimeModes = {};
+
+/** @type {Function} */
+CodeMirror.Doc = function() {};
+
+/** @type {Function} */
+CodeMirror.Doc.prototype.isClean = function() {};
+
+/** @type {Function} */
+CodeMirror.Doc.prototype.setValue = function(value) {};
+
+/** @type {Function} */
+CodeMirror.Doc.prototype.getValue = function() {};
+
+/** @type {Function} */
+CodeMirror.fold = function() {};
+
+/** @type {Function} */
+CodeMirror.fold.prototype.combine = function() {};
+
+/** @type {Function} */
+CodeMirror.fold.prototype.brace = function() {};
+
+/** @type {Function} */
+CodeMirror.fold.prototype.comment = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.setOption = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.getOption = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.on = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.refresh = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.undo = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.redo = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.execCommand = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.getCursor = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.setCursor = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.replaceSelection = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.swapDoc = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.setSize = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.foldCode = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.setGutterMarker = function() {};
+
+/** @type {Object} */
+CodeMirror.lineInfo = function() {};
+
+/** @type {Object} */
+CodeMirror.lineInfo.prototype.gutterMarkers = null;
+
+
+/** @type {Object} */
 var coffeelint = function() {};
 
 /** @type {Object} */

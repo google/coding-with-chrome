@@ -22,12 +22,24 @@
 
 /** @type {Object} */
 var i18next = function() {};
+
+/** @type {Function} */
 i18next.changeLanguage = function() {};
+
+/** @type {Function} */
 i18next.exists = function() {};
+
+/** @type {Function} */
 i18next.init = function() {};
+
+/** @type {Function} */
 i18next.store = function() {};
+
+/** @type {Function} */
 i18next.t  = function() {};
 
+/** @type {Function} */
 var i18t = function() {};
 
+/** @type {Function} */
 var i18soy = function() {};

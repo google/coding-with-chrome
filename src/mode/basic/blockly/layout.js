@@ -49,14 +49,14 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.editor,
-      {'prefix': this.prefix}
+      cwc.soy.mode.Basic.blockly.editor, {
+        prefix: this.prefix}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.preview,
-      {'prefix': this.prefix}
+      cwc.soy.mode.Basic.blockly.preview, {
+        prefix: this.prefix}
   );
 
 };

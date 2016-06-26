@@ -61,12 +61,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditorToolbox = null;
 
-  /** @type {!Blockly} */
-  this.blockly = Blockly;
-
-  /** @type {!Blockly} */
-  this.blocks_ = Blockly.Blocks;
-
   /** @type {string} */
   this.mediaFiles = '../../external/blockly/';
 
@@ -92,7 +86,7 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Function} */
   this.modalPrompt = null;
 
-  /** @type {Object} */
+  /** @type {Blockly.Workspace} */
   this.workspace = null;
 
   /** @type {!cwc.utils.Helper} */
@@ -116,15 +110,13 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
   this.nodeEditorToolbox = toolbox;
   this.prefix = (opt_prefix || '') + this.prefix;
   this.log.info('Decorate', this.name, 'into node', this.node);
-  goog.soy.renderElement(
-      this.node,
-      cwc.soy.ui.Blockly.template,
-      {'prefix': this.prefix}
-  );
+  goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
+    prefix: this.prefix
+  });
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-        cwc.soy.ui.Blockly.style({ 'prefix': this.prefix }));
+        cwc.soy.ui.Blockly.style({ prefix: this.prefix }));
   }
 
   // Show previously hidden Elements
@@ -146,24 +138,28 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
     };
   }
 
-  // Editor
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  this.workspace = this.blockly.inject(this.nodeEditor, {
-    path: this.mediaFiles,
-    toolbox: this.nodeEditorToolbox,
-    trashcan: opt_trashcan,
-    modal: {
+  // Blockly options
+  var options = {
+    'path': this.mediaFiles,
+    'toolbox': this.nodeEditorToolbox,
+    'trashcan': opt_trashcan,
+    'modal': {
       prompt: this.modalPrompt
     },
-    zoom: {
-      controls: true,
-      wheel: true,
-      startScale: 1.0,
-      maxScale: 3,
-      minScale: 0.3,
-      scaleSpeed: 1.2
+    'zoom': {
+      'controls': true,
+      'wheel': true,
+      'startScale': 1.0,
+      'maxScale': 3,
+      'minScale': 0.3,
+      'scaleSpeed': 1.2
     }
-  });
+  };
+
+  // Editor
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
+  console.log('Decorating Blockly with', options);
+  this.workspace = Blockly.inject(this.nodeEditor, options);
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -203,8 +199,7 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */
-cwc.ui.Blockly.prototype.addOption = function(name, func,
-    opt_tooltip) {
+cwc.ui.Blockly.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.toolbar) {
     this.toolbar.addOption(name, func, opt_tooltip);
   }
@@ -240,7 +235,11 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
  * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
-  return this.blockly.JavaScript.workspaceToCode(this.getWorkspace());
+  try {
+    return Blockly.JavaScript.workspaceToCode(this.getWorkspace());
+  } catch (e) {
+    this.helper.showError('Error getting Blockly workspace code!');
+  }
 };
 
 
@@ -248,8 +247,14 @@ cwc.ui.Blockly.prototype.getJavaScript = function() {
  * @return {Object}
  */
 cwc.ui.Blockly.prototype.getXML = function() {
-  var xml = this.blockly.Xml.workspaceToDom(this.getWorkspace());
-  return this.blockly.Xml.domToPrettyText(xml);
+  try {
+    var xml = Blockly.Xml.workspaceToDom(this.getWorkspace());
+    return Blockly.Xml.domToPrettyText(xml);
+  } catch (e) {
+    this.helper.showError('Error getting Blockly XML!');
+    console.error(e);
+    console.log(xml);
+  }
 };
 
 
@@ -260,9 +265,9 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   if (!xml_text) {
     return;
   }
-  var xml = this.blockly.Xml.textToDom(xml_text);
   try {
-    this.blockly.Xml.domToWorkspace(xml, this.getWorkspace());
+    var xml = Blockly.Xml.textToDom(xml_text);
+    Blockly.Xml.domToWorkspace(xml, this.getWorkspace());
     this.resetZoom();
   } catch (e) {
     this.helper.showError('Error by loading Blockly file!');
@@ -277,19 +282,15 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
  * @param {Element=} opt_toolbox
  */
 cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
-  var workspace = this.getWorkspace();
-  if (opt_toolbox) {
-    this.nodeEditorToolbox = opt_toolbox;
-  }
-  workspace.updateToolbox(this.nodeEditorToolbox);
+  this.getWorkspace().updateToolbox(opt_toolbox || this.nodeEditorToolbox);
 };
 
 
 /**
- * @return {Blockly.mainWorkspace}
+ * @return {!Blockly.Workspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
-  return this.workspace || this.blockly.getMainWorkspace();
+  return this.workspace || Blockly.getMainWorkspace();
 };
 
 

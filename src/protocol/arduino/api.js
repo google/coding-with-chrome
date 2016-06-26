@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)-dev/eng/arduino
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.Arduino.api');
 

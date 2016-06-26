@@ -22,14 +22,16 @@
 
 /**
  * Set robot model.
- * @this {Blockly.Blocks}
  */
 Blockly.Blocks['ev3_set_robot_model'] = {
   init: function() {
-    var robots = [['custom', 'custom']];
-    for (var robot in cwc.protocol.ev3.Robots) {
-      robots.push([robot, robot]);
-    }
+    var robots = [
+      ['custom', 'custom'],
+      ['EDUCATOR', 'EDUCATOR'],
+      ['TRACK3R', 'TRACK3R'],
+      ['GRYO BOY', 'GRYO BOY'],
+      ['ROBOT ARM H25', 'ROBOT ARM H25']
+    ];
     this.setHelpUrl('');
     this.setColour(65);
     this.appendDummyInput()
@@ -44,7 +46,6 @@ Blockly.Blocks['ev3_set_robot_model'] = {
 
 /**
  * Set wheel diameter.
- * @this {Blockly.Blocks}
  */
 Blockly.Blocks['ev3_set_wheel_diameter'] = {
   init: function() {

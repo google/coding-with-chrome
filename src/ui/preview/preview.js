@@ -45,7 +45,8 @@ cwc.ui.PreviewStatus = {
   STOPPED: 2,
   TERMINATED: 3,
   UNRESPONSIVE: 4,
-  LOADED: 5
+  LOADED: 5,
+  INIT: 6
 };
 
 
@@ -100,7 +101,7 @@ cwc.ui.Preview = function(helper) {
   this.startTime = new Date().getTime();
 
   /** @type {string} */
-  this.status = cwc.ui.PreviewStatus.UNKNOWN;
+  this.status = cwc.ui.PreviewStatus.INIT;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -346,8 +347,10 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  * @param {!string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
-  if (this.content) {
+  if (url && this.content) {
     this.content.src = url;
+  } else {
+    console.error('Was unable to set content url!');
   }
 };
 

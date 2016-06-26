@@ -307,7 +307,7 @@ cwc.ui.Menubar.prototype.minimizeWindow = function() {
   this.currentWindow['minimize']();
   var editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.drawAttention();
+    editorWindow['drawAttention']();
   }
 };
 

@@ -132,9 +132,13 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
   if (fileInstance) {
     this.libraryFiles = fileInstance.getFiles();
   }
+  var content = editorInstance.getEditorContent();
+  if (!content) {
+    console.warn('Empty render content!');
+  }
 
   return this.renderer(
-      editorInstance.getEditorContent(),
+      content,
       editorInstance.getEditorFlags(),
       this.libraryFiles,
       this.frameworkFiles,

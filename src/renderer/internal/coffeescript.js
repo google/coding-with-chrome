@@ -57,7 +57,7 @@ cwc.renderer.internal.Coffeescript.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.internal.Coffeescript.prototype.render = function(
@@ -71,6 +71,5 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
   var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
     coffeescript + '\n</script>\n';
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };

@@ -59,10 +59,10 @@ cwc.renderer.Helper.prototype.prependText = function(content, text) {
 cwc.renderer.Helper.prototype.getHTML = function(opt_body, opt_header,
     opt_css, opt_javascript) {
   return cwc.soy.Renderer.html({
-    'body': this.sanitizedHtml_(opt_body),
-    'head': this.sanitizedHtml_(opt_header),
-    'css': this.sanitizedCss_(opt_css),
-    'js': this.sanitizedJs_(opt_javascript)
+    body: this.sanitizedHtml_(opt_body),
+    head: this.sanitizedHtml_(opt_header),
+    css: this.sanitizedCss_(opt_css),
+    js: this.sanitizedJs_(opt_javascript)
   });
 };
 
@@ -77,10 +77,10 @@ cwc.renderer.Helper.prototype.getHTML = function(opt_body, opt_header,
 cwc.renderer.Helper.prototype.getHTMLGrid = function(opt_body, opt_header,
     opt_css, opt_javascript) {
   return cwc.soy.Renderer.htmlGrid({
-    'body': this.sanitizedHtml_(opt_body),
-    'head': this.sanitizedHtml_(opt_header),
-    'css': this.sanitizedCss_(opt_css),
-    'js': this.sanitizedJs_(opt_javascript)
+    body: this.sanitizedHtml_(opt_body),
+    head: this.sanitizedHtml_(opt_header),
+    css: this.sanitizedCss_(opt_css),
+    js: this.sanitizedJs_(opt_javascript)
   });
 };
 
@@ -121,10 +121,10 @@ cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
 cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
     opt_width, opt_height) {
   return cwc.soy.Renderer.objectTemplate({
-    'data_url': this.sanitizedUri_(data_url),
-    'type': 'text/html',
-    'width': opt_width || 400,
-    'height': opt_height || 400
+    data_url: this.sanitizedUri_(data_url),
+    type: 'text/html',
+    width: opt_width || 400,
+    height: opt_height || 400
   });
 };
 
@@ -162,7 +162,7 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
  */
 cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
   return cwc.soy.Renderer.javaScriptContent({
-    'content': this.sanitizedJs_(content)
+    content: this.sanitizedJs_(content)
   });
 };
 
@@ -174,8 +174,8 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
  */
 cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url, opt_filename) {
   return cwc.soy.Renderer.javaScriptUrl({
-    'url': url,
-    'filename': opt_filename
+    url: url,
+    filename: opt_filename
   });
 };
 
@@ -201,9 +201,9 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
   }
 
   return cwc.soy.Renderer.javaScriptDataUrl({
-    'data': data,
-    'encoding': encoding,
-    'filename': filename
+    data: data,
+    encoding: encoding,
+    filename: filename
   });
 };
 

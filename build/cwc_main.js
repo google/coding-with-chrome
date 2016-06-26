@@ -73,7 +73,8 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Custom Blocks',
   srcs: glob([
-    'src/blocks/ev3/*.js'
+    'src/blocks/ev3/*.js',
+    'src/blocks/simple/*.js'
   ]),
   externs: [
     'build/externs/blockly.js'
@@ -95,13 +96,14 @@ closureBuilder.build({
   ]),
   externs: [
     'build/externs/blockly.js',
+    'build/externs/chrome.js',
     'build/externs/codemirror.js',
     'build/externs/coffeescript.js',
-    'build/externs/chrome.js',
     'build/externs/global.js',
     'build/externs/i18n.js',
     'build/externs/jquery-turtle.js',
-    'build/externs/jquery.js'
+    'build/externs/jquery.js',
+    'build/externs/material-design.js'
   ],
   compress: true,
   out: 'genfiles/js/cwc_ui.js'

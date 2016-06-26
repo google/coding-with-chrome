@@ -63,7 +63,7 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.external.PencilCode.prototype.render = function(
@@ -78,6 +78,5 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     this.jqueryFramework, this.jqueryTurtleFramework], frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
     '$.turtle();\n' + coffeescript + '\n</script>\n';
-  var html = renderer_helper.getHTMLGrid(body, header);
-  return html;
+  return renderer_helper.getHTMLGrid(body, header);
 };
