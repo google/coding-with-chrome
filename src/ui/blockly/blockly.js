@@ -100,16 +100,14 @@ cwc.ui.Blockly = function(helper) {
 /**
  * Decorates the Blockly editor into the given node.
  * @param {!Element} node
- * @param {!Element} toolbox
+ * @param {Element=} opt_toolbox
  * @param {string=} opt_prefix
  * @param {boolean=} opt_trashcan
  */
-cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
-    opt_prefix, opt_trashcan) {
+cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
+    opt_trashcan) {
   this.node = node;
-  this.nodeEditorToolbox = toolbox;
   this.prefix = (opt_prefix || '') + this.prefix;
-  this.log.info('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
     prefix: this.prefix
   });
@@ -121,6 +119,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
 
   // Show previously hidden Elements
   cwc.ui.Helper.showElements(this.autoHideElements);
+
+  // Blockly Toolbox
+  this.nodeEditorToolbox = opt_toolbox;
 
   // Toolbar
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
@@ -156,9 +157,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
     }
   };
 
-  // Editor
+  // Blockly Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  console.log('Decorating Blockly with', options);
+  this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
   this.workspace = Blockly.inject(this.nodeEditor, options);
 
   // Monitor changes
@@ -235,11 +236,15 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
  * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
-  try {
-    return Blockly.JavaScript.workspaceToCode(this.getWorkspace());
-  } catch (e) {
-    this.helper.showError('Error getting Blockly workspace code!');
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    try {
+      return Blockly.JavaScript.workspaceToCode(workspace);
+    } catch (e) {
+      this.helper.showError('Error getting Blockly workspace code!');
+    }
   }
+  return '';
 };
 
 
@@ -247,14 +252,17 @@ cwc.ui.Blockly.prototype.getJavaScript = function() {
  * @return {Object}
  */
 cwc.ui.Blockly.prototype.getXML = function() {
-  try {
-    var xml = Blockly.Xml.workspaceToDom(this.getWorkspace());
-    return Blockly.Xml.domToPrettyText(xml);
-  } catch (e) {
-    this.helper.showError('Error getting Blockly XML!');
-    console.error(e);
-    console.log(xml);
+  if (this.getWorkspace()) {
+    try {
+      var xml = Blockly.Xml.workspaceToDom();
+      return Blockly.Xml.domToPrettyText(xml);
+    } catch (e) {
+      this.helper.showError('Error getting Blockly XML!');
+      console.error(e);
+      console.log(xml);
+    }
   }
+  return {};
 };
 
 
@@ -265,9 +273,13 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   if (!xml_text) {
     return;
   }
+  var workspace = this.getWorkspace();
+  if (!workspace) {
+    return;
+  }
   try {
     var xml = Blockly.Xml.textToDom(xml_text);
-    Blockly.Xml.domToWorkspace(xml, this.getWorkspace());
+    Blockly.Xml.domToWorkspace(xml, workspace);
     this.resetZoom();
   } catch (e) {
     this.helper.showError('Error by loading Blockly file!');
@@ -282,15 +294,18 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
  * @param {Element=} opt_toolbox
  */
 cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
-  this.getWorkspace().updateToolbox(opt_toolbox || this.nodeEditorToolbox);
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.updateToolbox(opt_toolbox || this.nodeEditorToolbox);
+  }
 };
 
 
 /**
- * @return {!Blockly.Workspace}
+ * @return {Blockly.Workspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
-  return this.workspace || Blockly.getMainWorkspace();
+  return this.workspace;
 };
 
 
@@ -319,10 +334,10 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
   }
 
   var parentElement = goog.dom.getParentElement(this.node);
-  var toolbarElement = goog.dom.getElement(this.prefix + 'toolbar');
   if (parentElement) {
     var parentSize = goog.style.getSize(parentElement);
     var newHeight = parentSize.height;
+    var toolbarElement = goog.dom.getElement(this.prefix + 'toolbar');
     if (toolbarElement) {
       var toolbarSize = goog.style.getSize(toolbarElement);
       newHeight = newHeight - toolbarSize.height;

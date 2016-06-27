@@ -17,29 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.general.Blocks');
 
-goog.require('cwc.blocks');
-goog.require('cwc.blocks.general.JavaScript');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.general.Blocks.prefix_ = 'general_';
 
 
 /**
  * Infinity loop
  */
-cwc.blocks.addBlock('infinity_loop', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendDummyInput()
-    .appendField(i18t('repeat forever'));
-  this.appendStatementInput('CODE')
-    .setAlign(Blockly.ALIGN_CENTRE);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('');
-}, cwc.blocks.general.Blocks.prefix_);
+Blockly.Blocks['general_infinity_loop'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendDummyInput()
+      .appendField('repeat forever');
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};

@@ -25,6 +25,7 @@
  */
 {template .editor}
   {@param prefix: string}
+
   <div id="{$prefix}editor-chrome"></div>
   <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
     {call .blocks}
@@ -39,6 +40,7 @@
  */
 {template .blocks}
   {@param prefix: string}
+
   <xml id="{$prefix}blockly-toolbox" style="display: none">
 
     <category name="Command" colour="290">

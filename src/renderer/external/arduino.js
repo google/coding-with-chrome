@@ -91,6 +91,5 @@ cwc.renderer.external.Arduino.prototype.render = function(
       '  customFramework.listen(customCode);\n' +
       '</script>\n';
 
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };

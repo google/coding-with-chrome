@@ -200,13 +200,11 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-        cwc.soy.Runner.style({ 'prefix': this.prefix }));
+        cwc.soy.Runner.style({ prefix: this.prefix }));
   }
 
-  goog.soy.renderElement(
-      this.node,
-      cwc.soy.Runner.template,
-      { 'prefix': this.prefix }
+  goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
+    prefix: this.prefix }
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');

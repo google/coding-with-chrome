@@ -76,6 +76,5 @@ cwc.renderer.external.Sphero.prototype.render = function(
       '  new cwc.framework.Sphero(code);\n' +
       '</script>\n';
 
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };

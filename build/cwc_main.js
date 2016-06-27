@@ -74,6 +74,7 @@ closureBuilder.build({
   name: 'Custom Blocks',
   srcs: glob([
     'src/blocks/ev3/*.js',
+    'src/blocks/general/*.js',
     'src/blocks/simple/*.js'
   ]),
   externs: [

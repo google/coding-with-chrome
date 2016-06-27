@@ -33,9 +33,6 @@ goog.require('cwc.locales.ko.Translation');
  */
 cwc.utils.I18n = function() {
 
-  /** @type {!i18next} */
-  this.i18next = i18next;
-
   /** @type {!string} */
   this.language = '';
 
@@ -72,25 +69,27 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
 
   // Sets default language
   this.language = opt_language || this.getLanguage();
-
-  // Init i18next
-  this.i18next.init({
-    lng: opt_language,
-    fallbackLng: this.fallbackLanguage,
-    keySeparator: false,
-    nsSeparator: false,
-    resources: {
-      de: {
-        translation: cwc.locales.de.Translation
+  var options = {
+    'lng': opt_language,
+    'fallbackLng': this.fallbackLanguage,
+    'keySeparator': false,
+    'nsSeparator': false,
+    'resources': {
+      'de': {
+        'translation': cwc.locales.de.Translation
       },
-      en: {
-        translation: cwc.locales.en.Translation
+      'en': {
+        'translation': cwc.locales.en.Translation
       },
-      ko: {
-        translation: cwc.locales.ko.Translation
+      'ko': {
+        'translation': cwc.locales.ko.Translation
       }
     }
-  }, callback);
+  };
+
+  // Init i18next
+  console.log('Init i18n with', options);
+  i18next.init(options, callback);
 };
 
 
@@ -101,7 +100,7 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(text, opt_options) {
-  var translatedText = this.i18next.t(text, opt_options);
+  var translatedText = i18next.t(text, opt_options);
   if (text == translatedText && this.language &&
       !this.isTranslated(text, opt_options)) {
     if (text in this.untranslated) {
@@ -158,7 +157,7 @@ cwc.utils.I18n.prototype.getLanguage = function() {
  */
 cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
   this.language = opt_language || this.getLanguage();
-  this.i18next.changeLanguage(this.language);
+  i18next.changeLanguage(this.language);
 };
 
 
@@ -169,9 +168,9 @@ cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
 cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
   var language = opt_language || this.getLanguage();
   if (opt_text) {
-    return this.i18next.store.data[language].translation[opt_text];
+    return i18next.store.data[language].translation[opt_text];
   }
-  return this.i18next.store.data[language].translation;
+  return i18next.store.data[language].translation;
 };
 
 
@@ -182,7 +181,7 @@ cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
  * @return {!boolean}
  */
 cwc.utils.I18n.prototype.isTranslated = function(text, opt_options) {
-  return this.i18next.exists(text, opt_options);
+  return i18next.exists(text, opt_options);
 };
 
 

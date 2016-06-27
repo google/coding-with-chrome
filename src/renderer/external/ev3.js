@@ -76,6 +76,5 @@ cwc.renderer.external.EV3.prototype.render = function(
       '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';
 
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };
