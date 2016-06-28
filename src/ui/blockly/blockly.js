@@ -145,7 +145,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
     'toolbox': this.nodeEditorToolbox,
     'trashcan': opt_trashcan,
     'modal': {
-      prompt: this.modalPrompt
+      'prompt': this.modalPrompt
     },
     'zoom': {
       'controls': true,
@@ -164,8 +164,10 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
+  if (viewportMonitor) {
+    this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
+  }
 
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
@@ -228,7 +230,10 @@ cwc.ui.Blockly.prototype.addToolbarButton = function(button,
  * @param {!function(?)} func
  */
 cwc.ui.Blockly.prototype.addChangeListener = function(func) {
-  this.getWorkspace().addChangeListener(func);
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.addChangeListener(func);
+  }
 };
 
 
@@ -305,6 +310,9 @@ cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
  * @return {Blockly.Workspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
+  if (!this.workspace) {
+    this.log.warn('Blockly workspace is not ready yet!');
+  }
   return this.workspace;
 };
 

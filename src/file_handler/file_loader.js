@@ -120,7 +120,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 
 /**
  * Handles the file data and sets the file instance accordingly.
- * @param {!string} content
+ * @param {!string|Object} content
  * @param {string=} opt_file_name
  * @param {Object=} opt_file_handler
  * @param {string=} opt_gdrive_id
@@ -128,7 +128,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
-  console.log('Handle file data:', content);
+  console.log('Handle file data', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
   var fileType = cwc.file.detector.detectType(

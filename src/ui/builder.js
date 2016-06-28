@@ -267,11 +267,6 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading custom blocks ...', 45, 100);
-    this.loadCustomBlocks();
-  }
-
-  if (!this.error) {
     this.setProgress('Render editor GUI ...', 50, 100);
     this.renderGui();
   }
@@ -520,24 +515,6 @@ cwc.ui.Builder.prototype.loadFrameworks = function() {
       counter++;
     }
   }
-};
-
-
-/**
- * Loads additional frameworks for the renderer.
- */
-cwc.ui.Builder.prototype.loadCustomBlocks = function() {
-  var header = document.getElementsByTagName('head')[0];
-  if (!header) {
-    this.raiseError('Was not able to load custom blocks!');
-  }
-  var customBlocks = document.createElement('script');
-  customBlocks.type = 'text/javascript';
-  customBlocks.src = '../js/cwc_blocks.js';
-  customBlocks.onload = function() {
-    console.log('Loaded custom Blocks ...', Blockly.Blocks, Blockly.JavaScript);
-  };
-  header.appendChild(customBlocks);
 };
 
 

@@ -44,6 +44,8 @@ globals:
   i18soy: true
   i18t: true
   it: true
+  afterEach: true
+  beforeEach: true
   opt_event: true
   soydata: true
   var_args: true

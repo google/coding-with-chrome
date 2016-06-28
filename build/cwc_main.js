@@ -80,6 +80,7 @@ closureBuilder.build({
   externs: [
     'build/externs/blockly.js'
   ],
+  jscomp_off: ['checkVars'],
   out: 'genfiles/js/cwc_blocks.js'
 });
 
