@@ -105,7 +105,8 @@ closureBuilder.build({
     'build/externs/i18n.js',
     'build/externs/jquery-turtle.js',
     'build/externs/jquery.js',
-    'build/externs/material-design.js'
+    'build/externs/material-design.js',
+    'build/externs/mocha.js'
   ],
   compress: true,
   out: 'genfiles/js/cwc_ui.js'

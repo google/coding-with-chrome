@@ -1,7 +1,7 @@
 /**
- * @fileoverview Blockly tests.
+ * @fileoverview Mocha externs.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,21 +19,11 @@
  */
 
 
-describe('Blockly', function() {
 
-  beforeEach(function() {
-    var fixture = '<div id="fixture"></div>';
-    document.body.insertAdjacentHTML(
-      'afterbegin',
-      fixture);
-  });
+function afterEach() {};
 
-  afterEach(function() {
-    document.body.removeChild(document.getElementById('fixture'));
-  });
+function beforeEach() {};
 
-  it('object', function() {
-    expect(typeof Blockly).toEqual('object');
-  });
+function describe() {};
 
-});
+function it() {};

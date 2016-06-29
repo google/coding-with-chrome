@@ -79,6 +79,11 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
     return;
   }
 
+  // Blockly editor.
+  this.helper.setInstance('blockly', this.blockly, true);
+  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
+      this.prefix, true);
+
   // Output editor.
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor, this.prefix);
@@ -86,11 +91,6 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
   this.editor.enableMediaButton(true);
-
-  // Blockly editor.
-  this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
-      this.prefix, true);
 
   // Custom Events
   var runText = 'Executes the code.';

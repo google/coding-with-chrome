@@ -666,7 +666,7 @@ cwc.ui.Layout.prototype.handleResizeEvent = function() {
  * @private
  */
 cwc.ui.Layout.prototype.renderTemplate_ = function(template, opt_type) {
-  this.resetLayout();
+  this.resetLayout_();
   goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
   this.nodes = {
     'content': this.getNode_('content-chrome'),
@@ -710,8 +710,9 @@ cwc.ui.Layout.prototype.closePreloader_ = function() {
 
 /**
  * Resets event handler and cached values.
+ * @private
  */
-cwc.ui.Layout.prototype.resetLayout = function() {
+cwc.ui.Layout.prototype.resetLayout_ = function() {
   this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
   this.setFullscreen(false);
   this.setHandleSize(this.defaultHandleSize);
@@ -769,7 +770,7 @@ cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
 cwc.ui.Layout.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  this.resetLayout();
+  this.resetLayout_();
 };
 
 

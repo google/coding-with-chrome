@@ -144,12 +144,12 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
 
   console.log('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
-      this.node, cwc.soy.ui.Editor.template, {'prefix': this.prefix}
+      this.node, cwc.soy.ui.Editor.template, {prefix: this.prefix}
   );
 
   if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.ui.Editor.style({ 'prefix': this.prefix }));
+    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Editor.style({
+      prefix: this.prefix }));
   }
 
   // Decorate editor tool-bar.
@@ -186,7 +186,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
     this.addEventListener(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
+        this.cleanUp_, false, this);
   }
   this.adjustSize();
 };
@@ -267,7 +267,9 @@ cwc.ui.Editor.prototype.showEditor = function(visible) {
  * @param {boolean} visible
  */
 cwc.ui.Editor.prototype.showEditorViews = function(visible) {
-  goog.style.setElementShown(this.nodeSelectView, visible);
+  if (this.nodeSelectView) {
+    goog.style.setElementShown(this.nodeSelectView, visible);
+  }
 };
 
 
@@ -276,7 +278,9 @@ cwc.ui.Editor.prototype.showEditorViews = function(visible) {
  * @param {boolean} visible
  */
 cwc.ui.Editor.prototype.showExpandButton = function(visible) {
-  this.toolbar.showExpandButton(visible);
+  if (this.toolbar) {
+    this.toolbar.showExpandButton(visible);
+  }
 };
 
 
@@ -285,7 +289,9 @@ cwc.ui.Editor.prototype.showExpandButton = function(visible) {
  * @param {boolean} visible
  */
 cwc.ui.Editor.prototype.showEditorTypeInfo = function(visible) {
-  goog.style.setElementShown(this.nodeInfobarMode, visible);
+  if (this.nodeInfobarMode) {
+    goog.style.setElementShown(this.nodeInfobarMode, visible);
+  }
 };
 
 
@@ -294,7 +300,9 @@ cwc.ui.Editor.prototype.showEditorTypeInfo = function(visible) {
  * @param {boolean} enable
  */
 cwc.ui.Editor.prototype.enableModeSelect = function(enable) {
-  this.infobarModeSelect.setEnabled(enable);
+  if (this.infobarModeSelect) {
+    this.infobarModeSelect.setEnabled(enable);
+  }
 };
 
 
@@ -339,7 +347,9 @@ cwc.ui.Editor.prototype.addOption = function(name, func,
  */
 cwc.ui.Editor.prototype.addToolbarButton = function(button,
     opt_seperator) {
-  this.toolbar.addToolbarButton(button, opt_seperator);
+  if (this.toolbar) {
+    this.toolbar.addToolbarButton(button, opt_seperator);
+  }
 };
 
 
@@ -514,6 +524,10 @@ cwc.ui.Editor.prototype.changeView = function(name) {
     return;
   }
 
+  if (!this.editor) {
+    return;
+  }
+
   var editorView = this.editorView[name];
   this.editor.swapDoc(editorView.getDoc());
   this.currentEditorView = name;
@@ -603,7 +617,7 @@ cwc.ui.Editor.prototype.setModified = function(modified) {
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Editor.prototype.adjustSize = function() {
-  if (!this.node) {
+  if (!this.node || !this.editor) {
     return;
   }
 
@@ -700,8 +714,9 @@ cwc.ui.Editor.prototype.addEventListener = function(src, type,
 
 /**
  * Cleans up the event listener and any other modification.
+ * @private
  */
-cwc.ui.Editor.prototype.cleanUp = function() {
+cwc.ui.Editor.prototype.cleanUp_ = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   this.modified = false;

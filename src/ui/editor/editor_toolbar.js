@@ -54,7 +54,7 @@ cwc.ui.EditorToolbar = function(helper) {
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
-  /** @type {goog.ui.Toolbar} */
+  /** @type {!goog.ui.Toolbar} */
   this.toolbar = new goog.ui.Toolbar();
 
   /** @type {goog.ui.ToolbarButton} */
@@ -89,10 +89,10 @@ cwc.ui.EditorToolbar = function(helper) {
   this.moreButton = cwc.ui.Helper.getIconToolbarButton('more_vert',
       'More options …');
 
-  /** @type {goog.ui.PopupMenu} */
+  /** @type {!goog.ui.PopupMenu} */
   this.moreMenu = new goog.ui.PopupMenu();
 
-  /** @type {goog.ui.Select} */
+  /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
 
   /** @type {number} */
@@ -114,8 +114,8 @@ cwc.ui.EditorToolbar = function(helper) {
  * @param {Element} node_editor
  * @param {Element} node_select_view
  */
-cwc.ui.EditorToolbar.prototype.decorate = function(node,
-    node_editor, node_select_view) {
+cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
+    node_select_view) {
   this.node = node;
   this.nodeEditor = node_editor;
   this.nodeSelectView = node_select_view;
@@ -255,8 +255,7 @@ cwc.ui.EditorToolbar.prototype.editorSetAutocomplete = function() {
  * Change editor view.
  * @param {Event} event
  */
-cwc.ui.EditorToolbar.prototype.editorChangeViewEvent = function(
-    event) {
+cwc.ui.EditorToolbar.prototype.editorChangeViewEvent = function(event) {
   this.editorChangeView(event.target.getValue());
 };
 
@@ -309,8 +308,7 @@ cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
 /**
  * @param {boolean} has_files
  */
-cwc.ui.EditorToolbar.prototype.updateMediaButton = function(
-    has_files) {
+cwc.ui.EditorToolbar.prototype.updateMediaButton = function(has_files) {
   if (this.mediaButton) {
     this.mediaButton.enableClassName('icon_24px', has_files);
     this.mediaButton.enableClassName('icon_24px_grey', !has_files);
