@@ -58,8 +58,8 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditor = null;
 
-  /** @type {Element} */
-  this.nodeEditorToolbox = null;
+  /** @private {Element} */
+  this.nodeBlocklyToolbox_ = null;
 
   /** @type {string} */
   this.mediaFiles = '../../external/blockly/';
@@ -121,7 +121,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   cwc.ui.Helper.showElements(this.autoHideElements);
 
   // Blockly Toolbox
-  this.nodeEditorToolbox = opt_toolbox;
+  this.nodeBlocklyToolbox_ = opt_toolbox;
 
   // Modal window
   var dialogInstance = this.helper.getInstance('dialog');
@@ -135,7 +135,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   // Blockly options
   var options = {
     'path': this.mediaFiles,
-    'toolbox': this.nodeEditorToolbox,
+    'toolbox': this.nodeBlocklyToolbox_,
     'trashcan': opt_trashcan,
     'modal': {
       'prompt': this.modalPrompt
@@ -301,8 +301,9 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
 cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
   var workspace = this.getWorkspace();
   if (workspace) {
-    workspace.updateToolbox(opt_toolbox || this.nodeEditorToolbox);
+    workspace.updateToolbox(opt_toolbox || this.nodeBlocklyToolbox_);
   }
+  this.resize();
 };
 
 
@@ -353,7 +354,14 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeEditor, contentSize);
   }
+  this.resize();
+};
 
+
+/**
+ * Resizes the workspace.
+ */
+cwc.ui.Blockly.prototype.resize = function() {
   var workspace = this.getWorkspace();
   if (workspace) {
     Blockly.svgResize(workspace);

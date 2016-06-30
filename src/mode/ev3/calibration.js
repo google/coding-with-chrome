@@ -110,14 +110,14 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   goog.soy.renderElement(
       this.nodeCalibration,
       cwc.soy.mode.ev3.Calibration.template, {
-        'prefix': this.prefix,
-        'robots': Object.keys(cwc.protocol.ev3.Robots)
+        prefix: this.prefix,
+        robots: Object.keys(cwc.protocol.ev3.Robots)
       }
   );
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.ev3.Calibration.style({'prefix': this.prefix}));
+      cwc.soy.mode.ev3.Calibration.style({prefix: this.prefix}));
   }
 
   this.nodeRobotType = goog.dom.getElement(this.prefix + 'robot-type');

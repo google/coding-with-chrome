@@ -104,21 +104,22 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   goog.soy.renderElement(
       this.nodeIntro,
       cwc.soy.mode.ev3.Monitor.intro, {
-        'prefix': this.prefix
+        prefix: this.prefix
       }
   );
 
   goog.soy.renderElement(
       this.nodeMonitor,
       cwc.soy.mode.ev3.Monitor.monitor, {
-        'prefix': this.prefix
+        prefix: this.prefix
       }
   );
 
   goog.soy.renderElement(
       this.nodeControl,
-      cwc.soy.mode.ev3.Monitor.control,
-      {'prefix': this.prefix}
+      cwc.soy.mode.ev3.Monitor.control, {
+        prefix: this.prefix
+      }
   );
 
   if (!this.styleSheet) {
@@ -166,8 +167,10 @@ cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
   if (this.runnerMonitor_.isMonitorActive()) {
     goog.soy.renderElement(
         this.nodeMonitorValues,
-        cwc.soy.mode.ev3.Monitor.monitorValues,
-        {'prefix': this.prefix, 'devices': this.connection.getDeviceData()}
+        cwc.soy.mode.ev3.Monitor.monitorValues, {
+          prefix: this.prefix,
+          devices: this.connection.getDeviceData()
+        }
     );
   }
 };

@@ -84,7 +84,7 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
       this.prefix, true);
 
-  // Output editor.
+  // Text editor.
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor, this.prefix);
   this.editor.showEditor(false);

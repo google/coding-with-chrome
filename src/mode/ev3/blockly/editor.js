@@ -87,32 +87,30 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
     console.error('Was unable to find Blockly Toolbox:',
-        this.nodeBlocklyToolbox);
+      this.nodeBlocklyToolbox);
     return;
   }
-  this.updateBlocklyToolbar_();
-
-  // Output editor
-  this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor, this.prefix);
-  this.editor.showEditor(false);
-  this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
+  this.updateBlocklyToolbox_();
 
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
       this.prefix, true);
 
-  // Custom events
-  this.blockly.addChangeListener(this.changeHandler.bind(this));
+  // Text editor
+  this.helper.setInstance('editor', this.editor, true);
+  this.editor.decorate(this.nodeEditor, this.prefix);
+  this.editor.showEditor(false);
+  this.editor.showEditorViews(false);
+  this.editor.showEditorTypeInfo(false);
 
   // Custom events
   var customEventHandler = this.helper.getEventHandler();
   this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
-    this.updateBlocklyToolbar_(e.data);
+    this.updateBlocklyToolbox_(e.data);
     this.blockly.updateToolbox(this.nodeBlocklyToolbox);
   }, false, this);
+  this.blockly.addChangeListener(this.changeHandler.bind(this));
 
   // Switch buttons
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
@@ -183,11 +181,13 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
  * Updates Blockly toolbar.
  * @param {!string} type
  */
-cwc.mode.ev3.blockly.Editor.prototype.updateBlocklyToolbar_ = function(type) {
+cwc.mode.ev3.blockly.Editor.prototype.updateBlocklyToolbox_ = function(type) {
   goog.soy.renderElement(
       this.nodeBlocklyToolbox,
-      cwc.soy.mode.ev3.blockly.Editor.blocks,
-      {'prefix': this.prefix, 'type': type}
+      cwc.soy.mode.ev3.blockly.Editor.blocks, {
+        prefix: this.prefix,
+        type: type
+      }
   );
 };
 

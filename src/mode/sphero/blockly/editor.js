@@ -84,17 +84,17 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
     return;
   }
 
-  // Output editor.
+  // Blockly editor.
+  this.helper.setInstance('blockly', this.blockly, true);
+  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
+      this.prefix, true);
+
+  // Text editor.
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor, this.prefix);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
-
-  // Blockly editor.
-  this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
-      this.prefix, true);
 
   // Custom event.
   this.blockly.addChangeListener(this.changeHandler.bind(this));
