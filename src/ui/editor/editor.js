@@ -101,11 +101,11 @@ cwc.ui.Editor = function(helper) {
   /** @type {Element} */
   this.nodeSelectView = null;
 
-  /** @type {!goog.ui.Select} */
-  this.infobarModeSelect = new goog.ui.Select('Change the editor mode.');
+  /** @type {goog.ui.Select} */
+  this.infobarModeSelect = null;
 
-  /** @type {!cwc.ui.EditorToolbar} */
-  this.toolbar = new cwc.ui.EditorToolbar(helper);
+  /** @type {cwc.ui.EditorToolbar} */
+  this.toolbar = null;
 
   /** @type {!Array} */
   this.gutters = ['CodeMirror-linenumbers', 'CodeMirror-breakpoints',
@@ -154,8 +154,11 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
 
   // Decorate editor tool-bar.
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
-  this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView);
+  if (this.nodeToolbar) {
+    this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
+    this.toolbar = new cwc.ui.EditorToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView);
+  }
 
   // Decorate code editor.
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
@@ -165,6 +168,9 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   this.nodeInfobarLineCol = goog.dom.getElement(this.prefix + 'info-line-col');
   this.nodeInfobarMode = goog.dom.getElement(this.prefix + 'info-mode');
+
+  // Decorate editor mode select.
+  this.infobarModeSelect = new goog.ui.Select('Change the editor mode.');
   for (var editorType in CodeMirror.mimeModes) {
     this.infobarModeSelect.addItem(new goog.ui.MenuItem(editorType));
   }

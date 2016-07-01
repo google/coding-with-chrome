@@ -60,13 +60,6 @@ cwc.ui.BlocklyToolbar = function(helper) {
   this.expandButton = cwc.ui.Helper.getIconToolbarButton('fullscreen',
       'Expand Code editor.', this.toggleExpand.bind(this));
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.moreButton = cwc.ui.Helper.getIconToolbarButton('more_vert',
-      'More options …');
-
-  /** @type {goog.ui.PopupMenu} */
-  this.moreMenu = new goog.ui.PopupMenu();
-
   /** @type {boolean} */
   this.expand = false;
 };
@@ -80,21 +73,12 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
     node_blockly) {
   this.node = node;
   this.nodeBlockly = node_blockly;
-
-  this.moreButton.addClassName('floaty_right');
-  this.moreButton.setVisible(false);
   this.expandButton.addClassName('floaty_right');
 
   this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
   this.toolbar.addChild(this.saveButton, true);
-  this.toolbar.addChild(this.moreButton, true);
   this.toolbar.addChild(this.expandButton, true);
   this.toolbar.render(this.node);
-
-  this.moreMenu.attach(this.moreButton.getElement(),
-      goog.positioning.Corner.BOTTOM_START);
-  this.moreMenu.setToggleMode(true);
-  this.moreMenu.render();
 };
 
 
@@ -103,16 +87,17 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */
-cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func,
-    opt_tooltip) {
-  var newOption = new goog.ui.MenuItem(name);
-  this.moreMenu.addChild(newOption, true);
-  if (!this.moreButton.isVisible()) {
-    this.moreButton.setVisible(true);
+cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
+  var list = goog.dom.getElement('cwc-blockly-menu-more-list');
+  if (list) {
+    var text = document.createTextNode(name);
+    var item = document.createElement('li');
+    item.className = 'mdl-menu__item';
+    item.appendChild(text);
+    list.appendChild(item);
+    goog.events.listen(item, goog.events.EventType.CLICK, func, false, this);
+    window.componentHandler.upgradeDom();
   }
-
-  goog.events.listen(newOption, goog.ui.Component.EventType.ACTION,
-      func, false, this);
 };
 
 

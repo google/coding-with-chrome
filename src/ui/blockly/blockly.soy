@@ -27,7 +27,20 @@
 {template .template}
   {@param prefix: string}
 
-  <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
+  <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
+    <div class="mdl-layout__header-row">
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+        <span class="mdl-navigation__link">
+          <button id="{$prefix}menu-more" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+        </span>
+      </nav>
+    </div>
+  </header>
+  <ul id="{$prefix}menu-more-list" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}menu-more">
+  </ul>
   <div id="{$prefix}code"></div>
 {/template}
 

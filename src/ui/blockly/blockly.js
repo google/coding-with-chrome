@@ -46,6 +46,9 @@ cwc.ui.Blockly = function(helper) {
   /** @type {string} */
   this.prefix = 'blockly-';
 
+  /** @type {string} */
+  this.toolboxClass = 'blocklyToolboxDiv';
+
   /** @type {boolean} */
   this.enabled = false;
 
@@ -116,9 +119,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
     this.styleSheet = goog.style.installStyles(cwc.soy.ui.Blockly.style({
       prefix: this.prefix }));
   }
-
-  // Show previously hidden Elements
-  cwc.ui.Helper.showElements(this.autoHideElements);
 
   // Blockly Toolbox
   this.nodeBlocklyToolbox_ = opt_toolbox;
@@ -407,6 +407,6 @@ cwc.ui.Blockly.prototype.cleanUp = function() {
   this.enabled = false;
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  cwc.ui.Helper.hideElements(this.autoHideElements);
+  cwc.ui.Helper.removeElements(this.toolboxClass);
   this.modified = false;
 };
