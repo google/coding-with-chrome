@@ -157,7 +157,8 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
   if (this.nodeToolbar) {
     this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
     this.toolbar = new cwc.ui.EditorToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView);
+    this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView,
+      this.prefix);
   }
 
   // Decorate code editor.

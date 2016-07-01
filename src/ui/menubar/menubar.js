@@ -142,10 +142,6 @@ cwc.ui.Menubar = function(helper) {
   /** @type {!goog.ui.Button} */
   this.settingsMenu = cwc.ui.Helper.getIconButton(
       'settings', 'Settings');
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuExit = cwc.ui.Helper.getMenuItem('Exit',
-      this.requestCloseWindow, this);
 };
 
 

@@ -27,21 +27,83 @@
 {template .template}
   {@param prefix: string}
 
-  <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
+  {call .toolbar_ data="all" /}
+  <div id="{$prefix}code"></div>
+{/template}
+
+
+/**
+ * Toolbar template.
+ */
+{template .toolbar_}
+  {@param prefix: string}
+
+  {let $toolbarPrefix: $prefix + 'toolbar-' /}
+  <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
     <div class="mdl-layout__header-row">
+      <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'save' /}
+          {param icon: 'save' /}
+          {param opt_title: 'Save the project' /}
+        {/call}
+
+      </nav>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
-        <span class="mdl-navigation__link">
-          <button id="{$prefix}menu-more" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">more_vert</i>
-          </button>
-        </span>
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand' /}
+          {param icon: 'fullscreen' /}
+          {param opt_title: 'Expand Blockly editor.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand-exit' /}
+          {param icon: 'fullscreen_exit' /}
+          {param opt_title: 'Collapse Blockly editor.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'menu-more' /}
+          {param icon: 'more_vert' /}
+          {param opt_title: 'More options …' /}
+        {/call}
+
       </nav>
     </div>
   </header>
-  <ul id="{$prefix}menu-more-list" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}menu-more">
+
+  // More menu list
+  <ul id="{$toolbarPrefix}menu-more-list"
+      class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+      data-mdl-for="{$toolbarPrefix}menu-more">
   </ul>
-  <div id="{$prefix}code"></div>
+{/template}
+
+
+/**
+ * Navigation link button.
+ */
+{template .navigationIcon_}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param? opt_title: string}
+
+  <span class="mdl-navigation__link">
+    <button id="{$prefix}{$id}"
+            class="mdl-button mdl-js-button mdl-button--icon"
+            {if $opt_title}title="{msg desc=""}{$opt_title}{/msg}"{/if}>
+      <i class="material-icons">{$icon}</i>
+    </button>
+  </span>
+
 {/template}
 
 
@@ -55,8 +117,8 @@
     position: relative;
   {rb}
 
-  #{$prefix}toolbar > .goog-toolbar {lb}
-    padding-left: 55px!important;
+  #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
+    padding: 0;
   {rb}
 
 {/template}

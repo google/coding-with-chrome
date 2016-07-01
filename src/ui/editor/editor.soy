@@ -26,10 +26,113 @@
  */
 {template .template}
   {@param prefix: string}
+
+  {call .toolbar_ data="all" /}
   <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
   <div id="{$prefix}code">
     <div id="{$prefix}view"></div>
   </div>
+  {call .infobar_ data="all" /}
+{/template}
+
+
+/**
+ * Toolbar template.
+ */
+{template .toolbar_}
+  {@param prefix: string}
+
+  {let $toolbarPrefix: $prefix + 'toolbar-' /}
+  <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
+    <div class="mdl-layout__header-row">
+      <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'save' /}
+          {param icon: 'save' /}
+          {param opt_title: 'Save the project' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'undo' /}
+          {param icon: 'undo' /}
+          {param opt_title: 'Undo last change.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'redo' /}
+          {param icon: 'redo' /}
+          {param opt_title: 'Redo last change.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'media' /}
+          {param icon: 'perm_media' /}
+          {param opt_title: 'Insert Image …' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'debug' /}
+          {param icon: 'bug_report' /}
+          {param opt_title: 'Check Syntax …' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'autocomplete' /}
+          {param icon: 'edit' /}
+          {param opt_title: 'Enable Autocomplete' /}
+        {/call}
+
+      </nav>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand' /}
+          {param icon: 'fullscreen' /}
+          {param opt_title: 'Expand Blockly editor.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand-exit' /}
+          {param icon: 'fullscreen_exit' /}
+          {param opt_title: 'Collapse Blockly editor.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'menu-more' /}
+          {param icon: 'more_vert' /}
+          {param opt_title: 'More options …' /}
+        {/call}
+
+      </nav>
+    </div>
+  </header>
+
+  // More menu list
+  <ul id="{$toolbarPrefix}menu-more-list"
+      class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+      data-mdl-for="{$toolbarPrefix}menu-more">
+  </ul>
+
+{/template}
+
+
+/**
+ * Infobar template.
+ */
+{template .infobar_}
+  {@param prefix: string}
+
   <div id="{$prefix}infobar">
     <div id="{$prefix}info-line-col" class="{$prefix}info"></div>
     <div id="{$prefix}info-mode" class="{$prefix}info"></div>
@@ -38,10 +141,35 @@
 
 
 /**
+ * Navigation link button.
+ */
+{template .navigationIcon_}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param? opt_title: string}
+
+  <span class="mdl-navigation__link">
+    <button id="{$prefix}{$id}"
+            class="mdl-button mdl-js-button mdl-button--icon"
+            {if $opt_title}title="{msg desc=""}{$opt_title}{/msg}"{/if}>
+      <i class="material-icons">{$icon}</i>
+    </button>
+  </span>
+
+{/template}
+
+
+/**
  * Editor style definitions.
  */
 {template .style}
   {@param prefix: string}
+
+  #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
+    padding: 0;
+  {rb}
+
   #{$prefix}toolbar > .goog-toolbar {lb}
     padding-left: 55px!important;
   {rb}

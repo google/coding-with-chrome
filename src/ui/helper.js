@@ -219,15 +219,20 @@ cwc.ui.Helper.decorateIcon = function(button, icon_name) {
 
 /**
  * @param {!string} name
+ * @param {string=} opt_title
  * @param {function()=} opt_func
- * @param {Object=} opt_scope
- * @return {!goog.ui.MenuItem}
+ * @return {!Element}
  */
-cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
-  var item = new goog.ui.MenuItem(i18t(name));
+cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
+  var text = document.createTextNode(i18t(name));
+  var item = document.createElement('li');
+  item.className = 'mdl-menu__item';
+  item.appendChild(text);
+  if (opt_title) {
+    item.title = i18t(opt_title);
+  }
   if (opt_func) {
-    goog.events.listen(item, goog.ui.Component.EventType.ACTION, opt_func,
-        false, opt_scope);
+    goog.events.listen(item, goog.events.EventType.CLICK, opt_func);
   }
   return item;
 };
@@ -235,19 +240,29 @@ cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
 
 /**
  * @param {!string} name
- * @param {string=} opt_description
+ * @param {string=} opt_title
  * @param {function()=} opt_func
  * @param {Object=} opt_scope
  * @return {!goog.ui.Button}
  */
 cwc.ui.Helper.getNavigationItem = function(name,
-    opt_description, opt_func, opt_scope) {
+    opt_title, opt_func, opt_scope) {
   var func = opt_func;
   if (opt_func && opt_scope) {
     func = opt_func.bind(opt_scope);
   }
-  return cwc.ui.Helper.getLinkButton(i18t(name), opt_description,
+  return cwc.ui.Helper.getLinkButton(i18t(name), opt_title,
     func, null, 'mdl-navigation__link');
+};
+
+
+/**
+ * Refreshs dom structure for mdl framework.
+ */
+cwc.ui.Helper.mdlRefresh = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
 };
 
 
