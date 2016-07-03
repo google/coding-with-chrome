@@ -17,18 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.ui.SettingScreen');
 
 goog.require('cwc.soy.ui.SettingScreen');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.soy');
-goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.Option');
-goog.require('goog.ui.Select');
-goog.require('goog.ui.Zippy');
 
 
 

@@ -17,104 +17,102 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.sphero.JavaScript');
 
-goog.require('cwc.blocks');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.sphero.JavaScript.prefix_ = 'sphero_';
 
 
 /**
  * Sphero roll.
  */
-cwc.blocks.addJavaScript('roll', function(block) {
-  var value_speed = cwc.blocks.valueToInt(block, 'speed');
-  var duration = 500 + (value_speed * 20);
-  return 'sphero.roll(' + value_speed + ', undefined, undefined, ' +
+Blockly.JavaScript['sphero_roll'] = function(block) {
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  var duration = 500 + (speed * 20);
+  return 'sphero.roll(' + speed + ', undefined, undefined, ' +
     duration + ');\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};
 
 
 /**
  * Sphero roll step.
  */
-cwc.blocks.addJavaScript('roll_step', function(block) {
-  var value_speed = cwc.blocks.valueToInt(block, 'speed');
-  var value_heading = cwc.blocks.getFieldValueInt(block, 'heading');
-  var duration = 500 + (value_speed * 20);
-  return 'sphero.roll(' + value_speed + ', ' + value_heading + ', 0x01, ' +
+Blockly.JavaScript['sphero_roll_step'] = function(block) {
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  var heading = parseInt(block.getFieldValue(block, 'heading'));
+  var duration = 500 + (speed * 20);
+  return 'sphero.roll(' + speed + ', ' +heading + ', 0x01, ' +
     duration + ');\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};
 
 
 /**
  * Sphero roll time.
  */
-cwc.blocks.addJavaScript('roll_time', function(block) {
-  var value_time = cwc.blocks.valueToInt(block, 'time');
-  var value_speed = cwc.blocks.valueToInt(block, 'speed');
-  var value_heading = cwc.blocks.getFieldValueInt(block, 'heading');
-  return 'sphero.rollTime(' + value_time + ', ' + value_speed + ', ' +
-    value_heading + ', true);\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+Blockly.JavaScript['sphero_roll_time'] = function(block) {
+  var time = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  var heading = parseInt(block.getFieldValue(block, 'heading') || 0);
+  return 'sphero.rollTime(' + time + ', ' + speed + ', ' + heading +
+    ',true);\n';
+};
 
 
 /**
  * Sphero heading.
  */
-cwc.blocks.addJavaScript('heading', function(block) {
-  var angle_heading = cwc.blocks.getFieldValueInt(block, 'heading');
-  var value_heading = cwc.blocks.valueToInt(block, 'heading');
+Blockly.JavaScript['sphero_heading'] = function(block) {
+  var angle_heading = parseInt(block.getFieldValue(block, 'heading'));
+  var value_heading = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
   var duration = 500;
   return 'sphero.roll(0, ' + (angle_heading || value_heading || 0) +
     ', 0x01, ' + duration + ');\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};
 
 
 /**
  * Sphero RGB.
  */
-cwc.blocks.addJavaScript('rgb', function(block) {
-  var colour_colour = cwc.blocks.getFieldValueColor(block, 'colour');
-  var red = colour_colour >> 16;
-  var green = colour_colour >> 8 & 0xFF;
-  var blue = colour_colour & 0xFF;
+Blockly.JavaScript['sphero_rgb'] = function(block) {
+  var colour = parseInt(
+    block.getFieldValue(block, 'colour').replace('#', ''), 16);
+  var red = colour >> 16;
+  var green = colour >> 8 & 0xFF;
+  var blue = colour & 0xFF;
   return 'sphero.setRGB(' + red + ', ' + green+ ', ' + blue + ', 1, 100' +
     ');\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};
 
 
 /**
  * Sphero backlight.
  */
-cwc.blocks.addJavaScript('backlight', function(block) {
-  var text_brightness = cwc.blocks.getFieldValueMinMax(
-    block, 'brightness', 0, 254);
-  return 'sphero.setBackLed(' + text_brightness + ', 100);\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+Blockly.JavaScript['sphero_backlight'] = function(block) {
+  var brightness = Math.min(Math.max(
+      parseInt(block.getFieldValue('brightness')), 0), 254);
+  return 'sphero.setBackLed(' + brightness + ', 100);\n';
+};
 
 
 /**
  * Sphero stop.
  */
-cwc.blocks.addJavaScript('stop', function(block) {
-  var dropdown_immediately = cwc.blocks.getFieldValue(block, 'immediately');
+Blockly.JavaScript['sphero_stop'] = function(block) {
+  var dropdown_immediately = block.getFieldValue(block, 'immediately');
   if (dropdown_immediately == 'when finished') {
     return 'sphero.stop(100);\n';
   }
   return 'sphero.stop();\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};
 
 
 /**
  * Gyro sensor change.
  */
-cwc.blocks.addJavaScript('collision', function(block) {
+Blockly.JavaScript['sphero_collision'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var collisionEvent = function(data) {\n' +
       statements_code + '};\nsphero.onCollision(collisionEvent);\n';
-}, cwc.blocks.sphero.JavaScript.prefix_);
+};

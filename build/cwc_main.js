@@ -75,7 +75,8 @@ closureBuilder.build({
   srcs: glob([
     'src/blocks/ev3/*.js',
     'src/blocks/general/*.js',
-    'src/blocks/simple/*.js'
+    'src/blocks/simple/*.js',
+    'src/blocks/sphero/*.js'
   ]),
   externs: [
     'build/externs/blockly.js'

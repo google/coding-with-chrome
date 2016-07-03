@@ -17,16 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.sphero.Blocks');
 
-goog.require('cwc.blocks');
-goog.require('cwc.blocks.sphero.JavaScript');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.sphero.Blocks.prefix_ = 'sphero_';
 
 
 /**
