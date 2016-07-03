@@ -346,9 +346,8 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
   if (parentElement) {
     var parentSize = goog.style.getSize(parentElement);
     var newHeight = parentSize.height;
-    var toolbarElement = goog.dom.getElement(this.prefix + 'toolbar');
-    if (toolbarElement) {
-      var toolbarSize = goog.style.getSize(toolbarElement);
+    if (this.nodeToolbar) {
+      var toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
     var contentSize = new goog.math.Size(parentSize.width, newHeight);

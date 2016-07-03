@@ -21,14 +21,8 @@ goog.provide('cwc.ui.EditorToolbar');
 
 goog.require('cwc.ui.Helper');
 
-goog.require('goog.ui.Container');
 goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.PopupMenu');
 goog.require('goog.ui.Select');
-goog.require('goog.ui.Toolbar');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarSeparator');
-goog.require('goog.ui.ToolbarToggleButton');
 
 
 
@@ -48,6 +42,18 @@ cwc.ui.EditorToolbar = function(helper) {
   /** @type {Element} */
   this.nodeSelectView = null;
 
+  /** @type {Element} */
+  this.nodeExpand = null;
+
+  /** @type {Element} */
+  this.nodeExpandExit = null;
+
+  /** @type {Element} */
+  this.nodeMoreList = null;
+
+  /** @type {Element} */
+  this.nodeSave = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -57,45 +63,8 @@ cwc.ui.EditorToolbar = function(helper) {
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
-  /** @type {!goog.ui.Toolbar} */
-  this.toolbar = new goog.ui.Toolbar();
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.saveButton = cwc.ui.Helper.getIconToolbarButton('save',
-      'Save the project', this.save.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.undoButton = cwc.ui.Helper.getIconToolbarButton('undo',
-      'Undo last change.', this.editorUndo.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.redoButton = cwc.ui.Helper.getIconToolbarButton('redo',
-      'Redo last change.', this.editorRedo.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.mediaButton = cwc.ui.Helper.getIconToolbarButton('perm_media',
-      'Insert Image …', this.insertMedia.bind(this));
-
-  /** @type {goog.ui.ToolbarToggleButton} */
-  this.debugButton = cwc.ui.Helper.getIconToolbarToogleButton(
-      'bug_report', 'Check Syntax', this.editorSetSyntaxCheck.bind(this));
-
-  /** @type {goog.ui.ToolbarToggleButton} */
-  this.autocompleteButton = cwc.ui.Helper.getIconToolbarToogleButton(
-      'edit', 'Autocomplete', this.editorSetAutocomplete.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.expandButton = cwc.ui.Helper.getIconToolbarButton('fullscreen',
-      'Expand Code editor.', this.toggleExpand.bind(this));
-
   /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
-
-  /** @type {number} */
-  this.undoUsage = 0;
-
-  /** @type {number} */
-  this.redoUsage = 0;
 
   /** @type {string} */
   this.currentView = '';
@@ -116,47 +85,44 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.node = node;
   this.nodeEditor = node_editor;
   this.nodeSelectView = node_select_view;
-  this.undoUsage = 0;
-  this.redoUsage = 0;
-
   this.prefix = (opt_prefix || '') + this.prefix;
-
-  this.expandButton.addClassName('floaty_right');
-
-  this.undoButton.setEnabled(false);
-  this.redoButton.setEnabled(false);
-  this.mediaButton.setEnabled(false);
-  this.debugButton.setChecked(false);
-  this.autocompleteButton.setChecked(false);
 
   this.selectView.setTooltip('Change view');
   this.selectView.render(this.nodeSelectView);
 
+  // Nodes
+  this.nodeAutocomplete = goog.dom.getElement(this.prefix + 'autocomplete');
+  this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
+  this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
+  this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
+
+  cwc.ui.Helper.enableElement(this.nodeUndo, false);
+  cwc.ui.Helper.enableElement(this.nodeRedo, false);
 
   goog.style.showElement(this.nodeExpandExit, false);
 
   // Events
+  goog.events.listen(this.nodeAutocomplete, goog.events.EventType.CLICK,
+    this.setAutocomplete.bind(this));
+  goog.events.listen(this.nodeDebug, goog.events.EventType.CLICK,
+    this.setSyntaxCheck.bind(this));
   goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
+  goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
+    this.insertMedia.bind(this));
+  goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
+    this.redo.bind(this));
   goog.events.listen(this.nodeSave, goog.events.EventType.CLICK,
     this.save.bind(this));
-
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.saveButton, true);
-  this.toolbar.addChild(this.undoButton, true);
-  this.toolbar.addChild(this.redoButton, true);
-  this.toolbar.addChild(this.mediaButton, true);
-  this.toolbar.addChild(new goog.ui.ToolbarSeparator(), true);
-  this.toolbar.addChild(this.debugButton, true);
-  this.toolbar.addChild(this.autocompleteButton, true);
-  this.toolbar.addChild(this.expandButton, true);
-  this.toolbar.render(this.node);
+  goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
+    this.undo.bind(this));
 
   goog.events.listen(this.selectView, goog.ui.Component.EventType.ACTION,
       this.editorChangeViewEvent, false, this);
@@ -183,8 +149,7 @@ cwc.ui.EditorToolbar.prototype.addOption = function(name, func, opt_tooltip) {
  */
 cwc.ui.EditorToolbar.prototype.addToolbarButton = function(button,
     opt_seperator) {
-  this.toolbar.addChild(new goog.ui.ToolbarSeparator(), opt_seperator);
-  this.toolbar.addChild(button, true);
+  console.log('ToolbarButton', button, opt_seperator);
 };
 
 
@@ -202,12 +167,12 @@ cwc.ui.EditorToolbar.prototype.save = function() {
 /**
  * Undo change to the editor.
  */
-cwc.ui.EditorToolbar.prototype.editorUndo = function() {
+cwc.ui.EditorToolbar.prototype.undo = function() {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.undoChange();
-    this.undoUsage++;
-    this.redoButton.setEnabled(this.undoUsage > this.redoUsage);
+    var history = editorInstance.undoChange();
+    this.enableUndoButton(history['undo'] > 0);
+    this.enableRedoButton(history['redo'] > 0);
   }
 };
 
@@ -215,12 +180,12 @@ cwc.ui.EditorToolbar.prototype.editorUndo = function() {
 /**
  * Redo change to the editor.
  */
-cwc.ui.EditorToolbar.prototype.editorRedo = function() {
+cwc.ui.EditorToolbar.prototype.redo = function() {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.redoChange();
-    this.redoUsage++;
-    this.redoButton.setEnabled(this.undoUsage > this.redoUsage);
+    var history = editorInstance.redoChange();
+    this.enableUndoButton(history['undo'] > 0);
+    this.enableRedoButton(history['redo'] > 0);
   }
 };
 
@@ -228,27 +193,27 @@ cwc.ui.EditorToolbar.prototype.editorRedo = function() {
 /**
  * Enable or disable debug.
  */
-cwc.ui.EditorToolbar.prototype.editorSetSyntaxCheck = function() {
+cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var enable = this.debugButton.isChecked();
-    editorInstance.setSyntaxCheck(enable);
-    this.debugButton.enableClassName('icon_24px', !enable);
-    this.debugButton.enableClassName('icon_24px_red', enable);
+    var active = goog.dom.classes.has(this.nodeDebug, 'active');
+    goog.dom.classes.enable(this.nodeDebug, 'active', !active);
+    goog.dom.classes.enable(this.nodeDebug, 'icon_24px_red', !active);
+    editorInstance.setSyntaxCheck(!active);
   }
 };
 
 
 /**
- * Enable or disable autocomplete.
+ * Enable or disable auto-complete.
  */
-cwc.ui.EditorToolbar.prototype.editorSetAutocomplete = function() {
+cwc.ui.EditorToolbar.prototype.setAutocomplete = function() {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var enable = this.autocompleteButton.isChecked();
-    editorInstance.setAutocomplete(enable);
-    this.autocompleteButton.enableClassName('icon_24px', !enable);
-    this.autocompleteButton.enableClassName('icon_24px_red', enable);
+    var active = goog.dom.classes.has(this.nodeAutocomplete, 'active');
+    goog.dom.classes.enable(this.nodeAutocomplete, 'active', !active);
+    goog.dom.classes.enable(this.nodeAutocomplete, 'icon_24px_red', !active);
+    editorInstance.setAutocomplete(!active);
   }
 };
 
@@ -290,10 +255,24 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
 /**
  * @param {boolean} enable
  */
+cwc.ui.EditorToolbar.prototype.enableDebugButton = function(enable) {
+  cwc.ui.Helper.enableElement(this.nodeDebug, enable);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
 cwc.ui.EditorToolbar.prototype.enableUndoButton = function(enable) {
-  if (this.undoButton) {
-    this.undoButton.setEnabled(enable);
-  }
+  cwc.ui.Helper.enableElement(this.nodeUndo, enable);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
+  cwc.ui.Helper.enableElement(this.nodeRedo, enable);
 };
 
 
@@ -326,13 +305,13 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
   if (editor_mode == 'text/html' ||
       editor_mode == 'text/javascript' ||
       editor_mode == 'text/coffeescript') {
-    this.debugButton.setEnabled(true);
+    this.enableDebugButton(true);
   } else {
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       editorInstance.setSyntaxCheck(false);
     }
-    this.debugButton.setEnabled(false);
+    this.enableDebugButton(false);
   }
 };
 

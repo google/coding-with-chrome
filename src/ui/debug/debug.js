@@ -78,11 +78,11 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.Debug.template, {
-        'prefix': this.prefix,
-        'file_types': cwc.file.Type,
-        'mode_types': cwc.mode.Type,
-        'dialog_types': cwc.ui.DialogType,
-        'message_types': cwc.ui.MessageType
+        prefix: this.prefix,
+        file_types: cwc.file.Type,
+        mode_types: cwc.mode.Type,
+        dialog_types: cwc.ui.DialogType,
+        message_types: cwc.ui.MessageType
       }
   );
 

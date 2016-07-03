@@ -141,10 +141,12 @@ cwc.mode.ev3.Connection.prototype.stop = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.ev3.Connection.prototype.cleanUp = function() {
+  console.log('Clean up EV3 connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
   this.api.monitor(false);
+  this.stop();
   this.helper.removeEventListeners(this.listener, this.name);
 };
 

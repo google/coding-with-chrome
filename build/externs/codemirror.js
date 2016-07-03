@@ -39,6 +39,9 @@ CodeMirror.Doc.prototype.setValue = function(value) {};
 CodeMirror.Doc.prototype.getValue = function() {};
 
 /** @type {Function} */
+CodeMirror.Doc.prototype.historySize = function() {};
+
+/** @type {Function} */
 CodeMirror.fold = function() {};
 
 /** @type {Function} */

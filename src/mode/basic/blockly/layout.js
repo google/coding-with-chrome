@@ -19,7 +19,8 @@
  */
 goog.provide('cwc.mode.basic.blockly.Layout');
 
-goog.require('cwc.soy.mode.Basic.blockly');
+goog.require('cwc.soy.mode.Basic.blockly.Blocks');
+goog.require('cwc.soy.mode.Basic.blockly.Layout');
 goog.require('cwc.utils.Helper');
 
 
@@ -49,14 +50,18 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.editor, {
+      cwc.soy.mode.Basic.blockly.Layout.editor, {
         prefix: this.prefix}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.preview, {
+      cwc.soy.mode.Basic.blockly.Layout.preview, {
         prefix: this.prefix}
   );
+
+  var nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
+  goog.soy.renderElement(nodeBlocklyToolbox,
+    cwc.soy.mode.Basic.blockly.Blocks.toolbox);
 
 };

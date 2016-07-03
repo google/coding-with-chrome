@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.sphero.blockly autoescape="strict"}
+{namespace cwc.soy.mode.sphero.blockly.Layout autoescape="strict"}
 
 
 /**
@@ -25,126 +25,11 @@
  */
 {template .editor}
   {@param prefix: string}
+
   <div id="{$prefix}editor-chrome">Editor</div>
   <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;">
-    {call .blocks}
-      {param prefix: $prefix /}
-    {/call}
+    <xml id="{$prefix}blockly-toolbox" style="display: none"></xml>
   </div>
-{/template}
-
-
-/**
- * Blockly blocks.
- */
-{template .blocks}
-  {@param prefix: string}
-  <xml id="{$prefix}blockly-toolbox" style="display: none">
-
-    <category name="Movements" colour="120">
-      <block type="sphero_roll">
-        <value name="speed">
-          <block type="math_number"><field name="NUM">40</field></block>
-        </value>
-      </block>
-      <block type="sphero_heading"></block>
-      <block type="sphero_stop"></block>
-    </category>
-
-    <category name="Movements (Advance)" colour="120">
-      <block type="sphero_roll_step">
-        <value name="speed">
-          <block type="math_number"><field name="NUM">40</field></block>
-        </value>
-      </block>
-      <block type="sphero_roll_time">
-        <value name="time">
-          <block type="math_number"><field name="NUM">2</field></block>
-        </value>
-        <value name="speed">
-          <block type="math_number"><field name="NUM">40</field></block>
-        </value>
-      </block>
-    </category>
-
-    <category name="Lights" colour="120">
-      <block type="sphero_rgb"></block>
-      <block type="sphero_backlight"></block>
-    </category>
-
-    <category name="Events" colour="120">
-      <block type="sphero_collision"></block>
-    </category>
-
-    <category name="Loops" colour="210">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number"><field name="NUM">10</field></block>
-        </value>
-      </block>
-      <block type="general_infinity_loop"></block>
-      <block type="controls_for">
-        <value name="FROM">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-        <value name="TO">
-          <block type="math_number"><field name="NUM">10</field></block>
-        </value><value name="BY">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
-      <block type="controls_whileUntil"></block>
-    </category>
-
-    <category name="Operations" colour="210">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="logic_null"></block>
-      <block type="logic_ternary"></block>
-    </category>
-
-    <category name="Math" colour="210">
-      <block type="math_number"></block>
-      <block type="math_arithmetic"></block>
-      <block type="math_single"></block>
-      <block type="math_trig"></block>
-      <block type="math_constant"></block>
-      <block type="math_number_property"></block>
-      <block type="math_change"><value name="DELTA">
-      <block type="math_number">
-        <field name="NUM">1</field></block></value></block>
-      <block type="math_round"></block><block type="math_on_list"></block>
-      <block type="math_modulo"></block>
-      <block type="math_constrain">
-        <value name="LOW">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-        <value name="HIGH">
-          <block type="math_number"><field name="NUM">100</field></block>
-        </value>
-      </block>
-      <block type="math_random_int">
-        <value name="FROM">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-        <value name="TO">
-          <block type="math_number"><field name="NUM">100</field></block>
-        </value>
-      </block>
-      <block type="math_random_float"></block>
-    </category>
-
-    <sep></sep>
-
-    <category custom="VARIABLE" name="Variables" colour="330"></category>
-    <category custom="PROCEDURE" name="Procedure" colour="330"></category>
-
-  </xml>
 {/template}
 
 
@@ -153,5 +38,6 @@
  */
 {template .runner}
   {@param prefix: string}
+
   <div id="{$prefix}runner-chrome">Runner</div>
 {/template}

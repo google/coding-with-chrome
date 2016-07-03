@@ -66,6 +66,8 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
     return;
   }
+
+  // Blocks toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
@@ -73,6 +75,7 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
         this.nodeBlocklyToolbox);
     return;
   }
+
   this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
   if (!this.nodeEditor) {
     console.error('Was unable to find Editor node:', this.nodeEditor);
@@ -107,6 +110,9 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.editor.addToolbarButton(editorRunButton, true);
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
+
+  // Reset size
+  this.blockly.adjustSize();
 };
 
 

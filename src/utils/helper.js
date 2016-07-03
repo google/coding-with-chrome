@@ -67,6 +67,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.SelectScreen|
  *   cwc.ui.SettingScreen|
  *   cwc.ui.Turtle|
+ *   cwc.ui.connectScreen.Screens|
  *   cwc.ui.Tutorial}
  */
 cwc.utils.HelperInstance;
@@ -198,9 +199,12 @@ cwc.utils.Helper.prototype.decorateInstance = function(name, node,
 cwc.utils.Helper.prototype.executeInstance = function(name, func,
     opt_param, opt_required) {
   var instance = this.getInstance(name, opt_required);
-  console.log(instance, name, func);
   if (instance) {
-    instance[func]();
+    if (func in instance) {
+      instance[func]();
+    } else {
+      console.warn('Unable to execute', func, 'for', name);
+    }
   }
   return instance;
 };

@@ -280,6 +280,21 @@ cwc.ui.Helper.uninstallStyles = function(style_sheet) {
 
 
 /**
+ * Enables or disables an element.
+ * @param {Element} element
+ */
+cwc.ui.Helper.enableElement = function(element, enabled) {
+  if (enabled) {
+    if (element.hasAttribute('disabled')) {
+      element.removeAttribute('disabled');
+    }
+  } else {
+    element.setAttribute('disabled', true);
+  }
+};
+
+
+/**
  * Removes all elements with the provided class names.
  * @param {array|string} class_names
  * @param {string=} opt_type

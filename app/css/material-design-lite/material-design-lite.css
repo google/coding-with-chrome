@@ -99,6 +99,18 @@ html>body,
   font-size: 24px;
 }
 
+.mdl-textfield-75 {
+  width: 75px;
+}
+
+.mdl-textfield-100 {
+  width: 100px;
+}
+
+.mdl-textfield-150 {
+  width: 150px;
+}
+
 .cwc-content {
   height: calc(100% - 44px);
   overflow: auto;

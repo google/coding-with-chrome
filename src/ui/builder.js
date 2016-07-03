@@ -56,6 +56,7 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.Tutorial');
+goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
@@ -94,6 +95,7 @@ cwc.ui.BuilderHelpers = {
   'arduino': cwc.protocol.Arduino.api,
   'blockly': cwc.ui.Blockly,
   'bluetooth': cwc.protocol.bluetooth.Api,
+  'connectScreen': cwc.ui.connectScreen.Screens,
   'connectionManager': cwc.ui.ConnectionManager,
   'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,

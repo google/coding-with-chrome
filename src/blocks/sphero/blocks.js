@@ -32,132 +32,150 @@ cwc.blocks.sphero.Blocks.prefix_ = 'sphero_';
 /**
  * Sphero roll.
  */
-cwc.blocks.addBlock('roll', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('speed').setCheck('Number').appendField('roll speed(');
-  this.appendDummyInput().appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the Sphero in a direction');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_roll'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('speed')
+      .setCheck('Number')
+      .appendField('roll speed(');
+    this.appendDummyInput().appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the Sphero in a direction');
+  }
+};
 
 
 /**
  * Sphero roll step.
  */
-cwc.blocks.addBlock('roll_step', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('speed').setCheck('Number').appendField('roll with');
-  this.appendDummyInput('heading')
-    .appendField('speed and')
-    .appendField(new Blockly.FieldAngle(0), 'heading')
-    .appendField('heading');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the Sphero in a direction');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_roll_step'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('speed').setCheck('Number').appendField('roll with');
+    this.appendDummyInput('heading')
+      .appendField('speed and')
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField('heading');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the Sphero in a direction');
+  }
+};
 
 
 /**
  * Sphero roll time.
  */
-cwc.blocks.addBlock('roll_time', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('time').setCheck('Number').appendField('roll for');
-  this.appendValueInput('speed').setCheck('Number').appendField('sec with');
-  this.appendDummyInput('heading')
-    .appendField('speed and')
-    .appendField(new Blockly.FieldAngle(0), 'heading')
-    .appendField('heading');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the Sphero in a direction for the given seconds');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_roll_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number').appendField('roll for');
+    this.appendValueInput('speed').setCheck('Number').appendField('sec with');
+    this.appendDummyInput('heading')
+      .appendField('speed and')
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField('heading');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the Sphero in a direction for the given seconds');
+  }
+};
 
 
 /**
  * Sphero heading.
  */
-cwc.blocks.addBlock('heading', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('heading')
-    .setCheck('Number')
-    .appendField('set heading(')
-    .appendField(new Blockly.FieldAngle(0), 'heading')
-    .appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the Sphero in a direction');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_heading'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('heading')
+      .setCheck('Number')
+      .appendField('set heading(')
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the Sphero in a direction');
+  }
+};
 
 
 /**
  * Sphero rgb.
  */
-cwc.blocks.addBlock('rgb', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-      .appendField(i18t('set color('))
-      .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
-      .appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Sets the leds on the Sphero ball.');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_rgb'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(i18t('set color('))
+        .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
+        .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Sets the leds on the Sphero ball.');
+  }
+};
 
 
 /**
  * Sphero backlight.
  */
-cwc.blocks.addBlock('backlight', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-      .appendField(i18t('set backlight ('))
-      .appendField(new Blockly.FieldTextInput('254'), 'brightness')
-      .appendField(i18t('(0 - 254)'))
-      .appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Sets the back-light on the Sphero ball.');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_backlight'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(i18t('set backlight ('))
+        .appendField(new Blockly.FieldTextInput('254'), 'brightness')
+        .appendField(i18t('(0 - 254)'))
+        .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Sets the back-light on the Sphero ball.');
+  }
+};
 
 
 /**
  * Sphero stop.
  */
-cwc.blocks.addBlock('stop', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-      .appendField(i18t('stop motors('))
-      .appendField(new Blockly.FieldDropdown(
-          [[i18t('when finished'), 'when finished'],
-           [i18t('immediately'), 'immediately']]), 'immediately')
-      .appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Stop all motors immediately or after the last command ' +
-        'has finished.');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_stop'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+        .appendField(i18t('stop motors('))
+        .appendField(new Blockly.FieldDropdown(
+            [[i18t('when finished'), 'when finished'],
+             [i18t('immediately'), 'immediately']]), 'immediately')
+        .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stop all motors immediately or after the last command ' +
+          'has finished.');
+  }
+};
 
 
 /**
  * Collision detected.
  */
-cwc.blocks.addBlock('collision', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-    .appendField(i18t('on collision'));
-  this.appendStatementInput('CODE')
-    .setAlign(Blockly.ALIGN_CENTRE);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Detect collision.');
-}, cwc.blocks.sphero.Blocks.prefix_);
+Blockly.Blocks['sphero_collision'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on collision'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Detect collision.');
+  }
+};

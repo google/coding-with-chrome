@@ -28,7 +28,6 @@
   {@param prefix: string}
 
   {call .toolbar_ data="all" /}
-  <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
   <div id="{$prefix}code">
     <div id="{$prefix}view"></div>
   </div>
@@ -168,15 +167,6 @@
 
   #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
     padding: 0;
-  {rb}
-
-  #{$prefix}toolbar > .goog-toolbar {lb}
-    padding-left: 55px!important;
-  {rb}
-
-  #{$prefix}toolbar {lb}
-    position: relative;
-    z-index: 10;
   {rb}
 
   #{$prefix}view {lb}

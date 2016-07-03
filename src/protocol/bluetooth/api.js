@@ -128,6 +128,18 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
 
 
 /**
+ * @return {Object}
+ * @export
+ */
+cwc.protocol.bluetooth.Api.prototype.getDevices = function() {
+  if (this.devices) {
+    return this.devices.getDevices();
+  }
+  return null;
+};
+
+
+/**
  * @param {!string} device_name
  * @param {Function} callback
  * @param {boolean=} opt_multisearch

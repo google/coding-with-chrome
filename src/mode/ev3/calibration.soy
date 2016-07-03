@@ -25,25 +25,40 @@
  */
 {template .template}
   {@param prefix: string}
-  {@param robots: ?}
+
   <div id="{$prefix}calibration">
     <button type="button" id="{$prefix}detect-sensors">Detect Sensors</button>
     <br>
-    Robot model <div id="{$prefix}robot-model" class="goog-select">
-      <ul class="goog-menu">
-      {foreach $robot in $robots}
-        <li class="goog-menuitem">{$robot}</li>
-      {/foreach}
-        <li class="goog-menuitem">Custom</li>
-      </ul>
+
+    // Robot Model
+    Robot
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield-150">
+      <input class="mdl-textfield__input" type="text" id="{$prefix}robot-model">
     </div>
+    <button id="{$prefix}menu-robot"
+            class="mdl-button mdl-js-button mdl-button--icon"
+            title="">
+      <i class="material-icons">more_vert</i>
+    </button>
+
+    // Custom Robot Settings
     <div id="{$prefix}robot-custom">
-      Wheel diameter <input type="text" id="{$prefix}wheel-diameter" size=4> mm<br>
+      Wheel diameter 
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield-100">
+        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="{$prefix}wheel-diameter">
+        <span class="mdl-textfield__error">Input is not a number!</span>
+      </div> mm<br>
       Wheel width <input type="text" id="{$prefix}wheel-width" size=4> mm<br>
       Wheelbase <input type="text" id="{$prefix}wheelbase" size=4> mm<br>
       Robot type <input type="text" id="{$prefix}robot-type" size=4><br>
     </div>
     <button type="button" id="{$prefix}set">Calibrate</button>
+
+    // More menu list
+    <ul id="{$prefix}robot-list"
+      class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+      data-mdl-for="{$prefix}menu-robot">
+    </ul>
   </div>
 {/template}
 
@@ -52,5 +67,15 @@
  * Calibration stylesheets.
  */
 {template .style}
+  {@param prefix: string}
+
+  #{$prefix}robot-list {lb}
+    height: 140px;
+    overflow-y: scroll;
+  {rb}
+
+  #{$prefix}calibration .mdl-textfield {lb}
+    padding: 5px;
+  {rb}
 
 {/template}

@@ -32,6 +32,12 @@ cwc.protocol.ev3.RobotType = {
 
 
 /**
+ * EV3 CUSTOM
+ */
+cwc.protocol.ev3.Robots['CUSTOM'] = null;
+
+
+/**
  * EV3 EDU EDUCATOR
  * See EV3 education default instruction.
  */

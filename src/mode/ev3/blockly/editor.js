@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.blockly.Editor');
 
-goog.require('cwc.soy.mode.ev3.blockly.Editor');
+goog.require('cwc.soy.mode.ev3.blockly.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -105,11 +105,11 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditorTypeInfo(false);
 
   // Custom events
-  var customEventHandler = this.helper.getEventHandler();
+  /*var customEventHandler = this.helper.getEventHandler();
   this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
     this.updateBlocklyToolbox_(e.data);
     this.blockly.updateToolbox(this.nodeBlocklyToolbox);
-  }, false, this);
+  }, false, this);*/
   this.blockly.addChangeListener(this.changeHandler.bind(this));
 
   // Switch buttons
@@ -117,6 +117,9 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
       'Switch to the raw code editor view.');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
+
+  // Reset size
+  this.blockly.adjustSize();
 };
 
 
@@ -184,7 +187,7 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
 cwc.mode.ev3.blockly.Editor.prototype.updateBlocklyToolbox_ = function(type) {
   goog.soy.renderElement(
       this.nodeBlocklyToolbox,
-      cwc.soy.mode.ev3.blockly.Editor.blocks, {
+      cwc.soy.mode.ev3.blockly.Blocks.toolbox, {
         prefix: this.prefix,
         type: type
       }

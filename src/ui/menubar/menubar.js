@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.Menubar');
 
 goog.require('cwc.soy.Menubar');
-goog.require('cwc.ui.DeviceMenu');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -92,9 +91,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {boolean} */
   this.bluetoothConnectStatus = null;
-
-  /** @type {cwc.ui.DeviceMenu} */
-  this.deviceMenu = null;
 
   /** @type {!chrome.app.window.AppWindow} */
   this.currentWindow =  chrome.app.window.current();
@@ -168,18 +164,25 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
 
   // Bluetooth icons
   if (this.helper.checkChromeFeature('bluetooth')) {
-    this.deviceMenu = new cwc.ui.DeviceMenu(this.helper);
 
     // Bluetooth enabled
     this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
     this.bluetoothMenu.render(this.nodeBluetooth);
-    this.deviceMenu.decorateConnect(this.nodeBluetooth);
+    goog.events.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
+      function() {
+        var connectScreenInstance = this.helper.getInstance('connectScreen');
+        connectScreenInstance.showBluetoothDevices();
+      }.bind(this));
 
     // Bluetooth connected
     this.nodeBluetoothConnected = goog.dom.getElement(
         this.prefix + 'bluetooth-connected');
     this.bluetoothConnected.render(this.nodeBluetoothConnected);
-    this.deviceMenu.decorateDisconnect(this.nodeBluetoothConnected);
+    goog.events.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
+      function() {
+        var connectScreenInstance = this.helper.getInstance('connectScreen');
+        connectScreenInstance.showBluetoothDevices();
+      }.bind(this));
 
     // Bluetooth disabled
     this.nodeBluetoothDisabled = goog.dom.getElement(
@@ -325,17 +328,6 @@ cwc.ui.Menubar.prototype.restoreWindow = function() {
   this.currentWindow['restore']();
   goog.style.setElementShown(this.nodeMaximizeButton, true);
   goog.style.setElementShown(this.nodeRestoreButton, false);
-};
-
-
-/**
-* @param {cwc.protocol.bluetooth.Device} device
-* @export
-*/
-cwc.ui.Menubar.prototype.updateDeviceList = function(device) {
-  if (this.deviceMenu) {
-    this.deviceMenu.updateDeviceList(device);
-  }
 };
 
 

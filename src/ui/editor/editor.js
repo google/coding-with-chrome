@@ -153,7 +153,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
   }
 
   // Decorate editor tool-bar.
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
   if (this.nodeToolbar) {
     this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
     this.toolbar = new cwc.ui.EditorToolbar(this.helper);
@@ -479,17 +479,21 @@ cwc.ui.Editor.prototype.refreshEditor = function() {
 
 /**
  * Undo the last change in the editor.
+ * @return {Object}
  */
 cwc.ui.Editor.prototype.undoChange = function() {
   this.editor.undo();
+  return this.editor.historySize();
 };
 
 
 /**
  * Redo the last change in the editor.
+ * @return {Object}
  */
 cwc.ui.Editor.prototype.redoChange = function() {
   this.editor.redo();
+  return this.editor.historySize();
 };
 
 
@@ -629,17 +633,15 @@ cwc.ui.Editor.prototype.adjustSize = function() {
   }
 
   var parentElement = goog.dom.getParentElement(this.node);
-  var toolbarElement = goog.dom.getElement(this.prefix + 'toolbar');
-  var infobarElement = goog.dom.getElement(this.prefix + 'infobar');
   if (parentElement) {
     var parentSize = goog.style.getSize(parentElement);
     var newHeight = parentSize.height;
-    if (toolbarElement) {
-      var toolbarSize = goog.style.getSize(toolbarElement);
+    if (this.nodeToolbar) {
+      var toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
-    if (infobarElement) {
-      var infobarSize = goog.style.getSize(infobarElement);
+    if (this.nodeInfobar) {
+      var infobarSize = goog.style.getSize(this.nodeInfobar);
       newHeight = newHeight - infobarSize.height;
     }
     this.editor.setSize(parentSize.width, newHeight);

@@ -21,9 +21,8 @@ goog.provide('cwc.mode.ev3.Calibration');
 
 goog.require('cwc.protocol.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Calibration');
+goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
-
-goog.require('goog.ui.Select');
 
 
 
@@ -63,8 +62,8 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {Element} */
   this.nodeWheelbase = null;
 
-  /** @type {goog.ui.Select} */
-  this.selectRobotModel =  new goog.ui.Select();
+  /** @type {Element} */
+  this.nodeRobotList = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -109,10 +108,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
 
   goog.soy.renderElement(
       this.nodeCalibration,
-      cwc.soy.mode.ev3.Calibration.template, {
-        prefix: this.prefix,
-        robots: Object.keys(cwc.protocol.ev3.Robots)
-      }
+      cwc.soy.mode.ev3.Calibration.template, {prefix: this.prefix}
   );
 
   if (!this.styleSheet) {
@@ -120,16 +116,27 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
       cwc.soy.mode.ev3.Calibration.style({prefix: this.prefix}));
   }
 
-  this.nodeRobotType = goog.dom.getElement(this.prefix + 'robot-type');
-  this.nodeRobotModel = goog.dom.getElement(this.prefix + 'robot-model');
+  // Nodes
   this.nodeRobotCustom = goog.dom.getElement(this.prefix + 'robot-custom');
+  this.nodeRobotList = goog.dom.getElement(this.prefix + 'robot-list');
+  this.nodeRobotModel = goog.dom.getElement(this.prefix + 'robot-model');
+  this.nodeRobotType = goog.dom.getElement(this.prefix + 'robot-type');
+  this.nodeSet = goog.dom.getElement(this.prefix + 'set');
   this.nodeWheelDiameter = goog.dom.getElement(this.prefix + 'wheel-diameter');
   this.nodeWheelWidth = goog.dom.getElement(this.prefix + 'wheel-width');
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
-  this.nodeSet = goog.dom.getElement(this.prefix + 'set');
+
+  // Robot Models
+  for (var robot in cwc.protocol.ev3.Robots) {
+    if (cwc.protocol.ev3.Robots.hasOwnProperty(robot)) {
+      var item = cwc.ui.Helper.getMenuItem(robot, '',
+        this.setType.bind(this));
+      this.nodeRobotList.appendChild(item);
+    }
+  }
+  cwc.ui.Helper.mdlRefresh();
 
   // Robot Model
-  this.selectRobotModel.decorate(this.nodeRobotModel);
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     this.setRobotModel(fileInstance.getModel() || 'TRACK3R');
@@ -161,10 +168,6 @@ cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
   this.addEventListener_(detectSensors, goog.events.EventType.CLICK,
     this.detect.bind(this), false, this);
 
-  // Robot type
-  this.addEventListener_(this.selectRobotModel,
-    goog.ui.Component.EventType.ACTION, this.setType, false, this);
-
   // Robot set
   this.addEventListener_(this.nodeSet, goog.events.EventType.CLICK,
     this.setCalibration, false, this);
@@ -184,7 +187,7 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
  * @param {Event} event
  */
 cwc.mode.ev3.Calibration.prototype.setType = function(event) {
-  var model = event.target.getValue();
+  var model = event.target.textContent;
   if (model.toLowerCase() == 'custom') {
     goog.style.showElement(this.nodeRobotCustom, true);
     return;
@@ -202,19 +205,20 @@ cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
   console.log('Set robot model to', model);
   console.log('Type:', cwc.protocol.ev3.Robots[model].type);
 
+  var robotConfig = cwc.protocol.ev3.Robots[model];
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     fileInstance.setModel(model);
   }
 
-  if (this.selectRobotModel && this.selectRobotModel.getValue() !== model) {
-    this.selectRobotModel.setValue(model);
+  if (this.nodeRobotModel) {
+    this.nodeRobotModel.value = model;
   }
 
-  this.nodeWheelDiameter.value = cwc.protocol.ev3.Robots[model].wheelDiameter;
-  this.nodeWheelWidth.value = cwc.protocol.ev3.Robots[model].wheelWidth;
-  this.nodeWheelbase.value = cwc.protocol.ev3.Robots[model].wheelbase;
-  this.nodeRobotType.value = cwc.protocol.ev3.Robots[model].type;
+  this.nodeWheelDiameter.value = robotConfig.wheelDiameter;
+  this.nodeWheelWidth.value = robotConfig.wheelWidth;
+  this.nodeWheelbase.value = robotConfig.wheelbase;
+  this.nodeRobotType.value = robotConfig.type;
 
   this.helper.dispatchEvent('changeRobotType',
     cwc.protocol.ev3.Robots[model].type);

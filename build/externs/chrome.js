@@ -36,4 +36,91 @@ chrome.runtime.getManifest = function() {};
 chrome.app.window.get = function() {};
 
 /** @type {Function} */
+chrome.bluetooth = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.getDevices = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.onAdapterStateChanged.addListener = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.getAdapterState = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.onDeviceAdded.addListener = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.onDeviceChanged.addListener = function() {};
+
+/** @type {Function} */
+chrome.bluetooth.onDeviceRemoved.addListener = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.close = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.connect = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.create = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.disconnect = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.getInfo = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.getSockets = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.onReceive.addListener = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.onReceiveError.addListener = function() {};
+
+/** @type {Function} */
+chrome.serial = function() {};
+
+/** @type {Function} */
+chrome.getDevices = function() {};
+
+/** @type {Function} */
+chrome.serial.onReceive.addListener= function() {};
+
+/** @type {Function} */
+chrome.serial.onReceiveError.addListener= function() {};
+
+/** @type {Function} */
+chrome.tts = function() {};
+
+/** @type {Function} */
+chrome.usb = function() {};
+
+/** @type {Function} */
+chrome.sockets = function() {};
+
+/** @type {Function} */
+chrome.tcp = function() {};
+
+/** @type {Function} */
+chrome.udp = function() {};
+
+/** @type {Function} */
+chrome.tcpServer = function() {};
+
+/** @type {Function} */
+chrome.manifest = function() {};
+
+/** @type {Function} */
+chrome.oauth2 = function() {};
+
+/** @type {Function} */
+chrome.key = function() {};
+
+/** @type {Function} */
 chrome.fileSystem.chooseEntry = function() {};

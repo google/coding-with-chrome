@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.mode.sphero.blockly.Editor');
 
+goog.require('cwc.soy.mode.sphero.blockly.Blocks');
+
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -71,6 +73,8 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
     return;
   }
+
+  // Blockly toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
@@ -78,6 +82,9 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
         this.nodeBlocklyToolbox);
     return;
   }
+  goog.soy.renderElement(this.nodeBlocklyToolbox,
+    cwc.soy.mode.sphero.blockly.Blocks.toolbox);
+
   this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
   if (!this.nodeEditor) {
     console.error('Was unable to find Editor node:', this.nodeEditor);
@@ -104,6 +111,9 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
       'Switch to the raw code editor view.');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
+
+  // Reset size
+  this.blockly.adjustSize();
 };
 
 
