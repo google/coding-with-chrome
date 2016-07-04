@@ -50,22 +50,16 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var dialogInstance = this.helper.getInstance('dialog', true);
   var bluetoothDevices = bluetoothInstance.getDevices();
   var devices = {};
   for (var bluetoothDevice in bluetoothDevices) {
     if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
       var device = bluetoothDevices[bluetoothDevice];
-      devices[device.getName()] = {
-        'address': device.getAddress(),
-        'connected': device.isConnected(),
-        'type': device.getType(),
-        'icon': device.getIcon()
-      };
+      devices[device.getName()] = this.parseDeviceData_(device);
     }
   }
 
-  dialogInstance.showTemplate('Connect Bluetooth device',
+  this.showTemplate_('Connect Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.devices, {
       prefix: this.prefix,
       devices: devices
@@ -95,13 +89,76 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
   }
   switch (action) {
     case 'connect':
-      device.connect();
+      this.connectDevice_(device);
       break;
     case 'disconnect':
-      device.disconnect(true);
+      this.disconnectDevice_(device);
       break;
     default:
       console.log(target.dataset);
   }
 
+};
+
+
+cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
+  var dialogInstance = this.helper.getInstance('dialog', true);
+  dialogInstance.close();
+};
+
+
+/**
+ * @param {!cwc.protocol.bluetooth.Device} device
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
+  this.close_();
+  this.showTemplate_('Connecting Bluetooth device',
+    cwc.soy.connectScreen.Bluetooth.connect, {
+      device: this.parseDeviceData_(device)
+    });
+  device.connect(this.close_.bind(this));
+};
+
+
+/**
+ * @param {!cwc.protocol.bluetooth.Device} device
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
+  this.close_();
+  this.showTemplate_('Disconnecting Bluetooth device',
+    cwc.soy.connectScreen.Bluetooth.disconnect, {
+      device: this.parseDeviceData_(device)
+    });
+  device.disconnect(true, this.close_.bind(this));
+};
+
+
+/**
+ * @param {!string} title
+ * @param {Object} template
+ * @param {Object} opt_context
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
+    template, opt_context) {
+  var dialogInstance = this.helper.getInstance('dialog', true);
+  dialogInstance.showTemplate(title, template, opt_context);
+};
+
+
+/**
+ * @param {!cwc.protocol.bluetooth.Device} device
+ * @return {Object}
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.parseDeviceData_ = function(device) {
+  return {
+    'name': device.getName(),
+    'address': device.getAddress(),
+    'connected': device.isConnected(),
+    'type': device.getType(),
+    'icon': device.getIcon()
+  };
 };

@@ -45,6 +45,28 @@
 
 
 /**
+ * Connect devices template..
+ */
+{template .connect}
+  {@param device: ?}
+
+  {msg desc=""}Connecting device {$device['name']} ...{/msg}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
+ * Disconnect devices template..
+ */
+{template .disconnect}
+  {@param device: ?}
+
+  {msg desc=""}Disconnecting device {$device['name']} ...{/msg}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
  * Devices template..
  */
 {template .deviceList_}

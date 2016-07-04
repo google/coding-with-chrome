@@ -97,6 +97,9 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!Function} */
   this.disconnectEvent = null;
 
+  /** @type {!Function} */
+  this.disconnectCallback = null;
+
   /** @type {!Object} */
   this.dataHandler = {};
 
@@ -299,14 +302,22 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
 
 /**
  * @param {boolean=} opt_force
+ * @param {Function=} opt_callback
  * @export
  */
-cwc.protocol.bluetooth.Device.prototype.disconnect = function(opt_force) {
+cwc.protocol.bluetooth.Device.prototype.disconnect = function(opt_force,
+    opt_callback) {
   if (this.socketId == null) {
     if (opt_force) {
       this.connecting = false;
     }
+    if (opt_callback) {
+      opt_callback();
+    }
     return;
+  }
+  if (opt_callback) {
+    this.disconnectCallback = opt_callback;
   }
   this.bluetoothSocket.disconnect(this.socketId,
       this.handleDisconnect_.bind(this));
@@ -573,11 +584,14 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
 cwc.protocol.bluetooth.Device.prototype.handleDisconnect_ = function() {
   console.warn('Disconnected from socket', this.socketId);
   this.connected = false;
-  this.connecting = false;
-  this.connectCallback = null;
   this.updateInfo();
   this.reset();
   if (goog.isFunction(this.disconnectEvent)) {
     this.disconnectEvent(this.socketId, this.address);
   }
+  if (goog.isFunction(this.disconnectCallback)) {
+    this.disconnectCallback(this.socketId, this.address);
+    this.disconnectCallback = null;
+  }
+  this.connecting = false;
 };

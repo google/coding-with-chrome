@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Dialog');
 goog.provide('cwc.ui.DialogType');
 
 goog.require('cwc.soy.Dialog');
+goog.require('cwc.ui.Helper');
 
 
 /**
@@ -88,6 +89,7 @@ cwc.ui.Dialog.prototype.show = function() {
   if (this.dialog) {
     this.dialog.show();
   }
+  cwc.ui.Helper.mdlRefresh();
 };
 
 
@@ -102,6 +104,7 @@ cwc.ui.Dialog.prototype.showModal = function() {
       this.dialog.showModal();
     }
   }
+  cwc.ui.Helper.mdlRefresh();
 };
 
 
