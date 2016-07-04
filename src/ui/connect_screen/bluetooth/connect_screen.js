@@ -59,6 +59,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
       devices[device.getName()] = {
         'address': device.getAddress(),
         'connected': device.isConnected(),
+        'type': device.getType(),
         'icon': device.getIcon()
       };
     }

@@ -183,23 +183,23 @@ cwc.protocol.ev3.CommandType = {
  * @enum {string}
  */
 cwc.protocol.ev3.DeviceType = {
-  COL_AMBIENT: 'col-ambient',
-  COL_COLOR: 'col-color',
-  COL_REFLECT: 'col-reflect',
-  GYRO_ANG: 'gyro-ang',
-  GYRO_RATE: 'gyro-rate',
-  IR_PROX: 'ir-prox',
-  IR_REMOTE: 'ir-remote',
-  IR_SEEK: 'ir-seek',
-  L_MOTOR_DEG: 'l-motor-deg',
-  L_MOTOR_ROT: 'l-motor-rot',
-  M_MOTOR_DEG: 'm-motor-deg',
-  M_MOTOR_ROT: 'm-motor-rot',
-  NONE: 'none',
-  TOUCH: 'touch',
-  US_DIST_CM: 'us-dist-cm',
-  US_DIST_IN: 'us-dist-in',
-  US_LISTEN: 'us-listen'
+  'COL_AMBIENT': 'col-ambient',
+  'COL_COLOR': 'col-color',
+  'COL_REFLECT': 'col-reflect',
+  'GYRO_ANG': 'gyro-ang',
+  'GYRO_RATE': 'gyro-rate',
+  'IR_PROX': 'ir-prox',
+  'IR_REMOTE': 'ir-remote',
+  'IR_SEEK': 'ir-seek',
+  'L_MOTOR_DEG': 'l-motor-deg',
+  'L_MOTOR_ROT': 'l-motor-rot',
+  'M_MOTOR_DEG': 'm-motor-deg',
+  'M_MOTOR_ROT': 'm-motor-rot',
+  'NONE': 'none',
+  'TOUCH': 'touch',
+  'US_DIST_CM': 'us-dist-cm',
+  'US_DIST_IN': 'us-dist-in',
+  'US_LISTEN': 'us-listen'
 };
 
 

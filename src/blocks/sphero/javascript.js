@@ -38,7 +38,7 @@ Blockly.JavaScript['sphero_roll'] = function(block) {
 Blockly.JavaScript['sphero_roll_step'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  var heading = parseInt(block.getFieldValue(block, 'heading'));
+  var heading = parseInt(block.getFieldValue('heading'));
   var duration = 500 + (speed * 20);
   return 'sphero.roll(' + speed + ', ' +heading + ', 0x01, ' +
     duration + ');\n';
@@ -53,7 +53,7 @@ Blockly.JavaScript['sphero_roll_time'] = function(block) {
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  var heading = parseInt(block.getFieldValue(block, 'heading') || 0);
+  var heading = parseInt(block.getFieldValue('heading') || 0);
   return 'sphero.rollTime(' + time + ', ' + speed + ', ' + heading +
     ',true);\n';
 };
@@ -63,7 +63,7 @@ Blockly.JavaScript['sphero_roll_time'] = function(block) {
  * Sphero heading.
  */
 Blockly.JavaScript['sphero_heading'] = function(block) {
-  var angle_heading = parseInt(block.getFieldValue(block, 'heading'));
+  var angle_heading = parseInt(block.getFieldValue('heading'));
   var value_heading = parseInt(Blockly.JavaScript.valueToCode(
     block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
   var duration = 500;
@@ -77,7 +77,7 @@ Blockly.JavaScript['sphero_heading'] = function(block) {
  */
 Blockly.JavaScript['sphero_rgb'] = function(block) {
   var colour = parseInt(
-    block.getFieldValue(block, 'colour').replace('#', ''), 16);
+    block.getFieldValue('colour').replace('#', ''), 16);
   var red = colour >> 16;
   var green = colour >> 8 & 0xFF;
   var blue = colour & 0xFF;
@@ -100,7 +100,7 @@ Blockly.JavaScript['sphero_backlight'] = function(block) {
  * Sphero stop.
  */
 Blockly.JavaScript['sphero_stop'] = function(block) {
-  var dropdown_immediately = block.getFieldValue(block, 'immediately');
+  var dropdown_immediately = block.getFieldValue('immediately');
   if (dropdown_immediately == 'when finished') {
     return 'sphero.stop(100);\n';
   }

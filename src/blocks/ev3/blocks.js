@@ -99,36 +99,6 @@ Blockly.Blocks['ev3_set_wheelbase'] = {
 
 
 /**
- * Play music note.
- */
-Blockly.Blocks['ev3_play_music_note'] = {
-  init: function() {
-    var map = cwc.config.sound;
-    var note_list = [];
-    for (var note in map.NOTE) {
-      note_list.push([note, map.NOTE[note]['f'].toString()]);
-    }
-    var duration_list = [];
-    for (var duration in map.DURATION) {
-      duration_list.push([duration,
-                          map.DURATION[duration]['d'].toString()]);
-    }
-    this.setHelpUrl('');
-    this.setColour(65);
-    this.appendDummyInput()
-      .appendField('play music note')
-      .appendField(new Blockly.FieldDropdown(note_list), 'note')
-      .appendField('duration:')
-      .appendField(new Blockly.FieldDropdown(duration_list), 'duration')
-      .appendField('beats');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('Play a music note with duration in beats');
-  }
-};
-
-
-/**
  * Play tone.
  */
 Blockly.Blocks['ev3_play_tone'] = {

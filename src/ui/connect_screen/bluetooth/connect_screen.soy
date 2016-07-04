@@ -35,6 +35,7 @@
         {param address: $devices[$device]['address'] /}
         {param connected: $devices[$device]['connected'] /}
         {param icon: $devices[$device]['icon'] /}
+        {param type: $devices[$device]['type'] /}
         {param name: $device /}
       {/call}
 
@@ -51,6 +52,7 @@
   {@param connected: bool}
   {@param icon: string}
   {@param name: string}
+  {@param type: string}
 
   <li class="mdl-list__item mdl-list__item--three-line">
     <span class="mdl-list__item-primary-content">
@@ -63,7 +65,8 @@
       </i>
       <span>{$name}</span>
       <span class="mdl-list__item-text-body">
-        Address: {$address}
+        {msg desc=""}Address: {$address}{/msg}<br>
+        {msg desc=""}{$type}{/msg}
       </span>
     </span>
     <span class="">
@@ -71,14 +74,14 @@
         <i class="link_button material-icons"
            data-action="disconnect"
            data-address="{$address}"
-           title="Disonnect device ...">
+           title="{msg desc=""}Disonnect {$type} device{/msg}">
           bluetooth_connected
         </i>
       {else}
         <i class="link_button material-icons"
            data-action="connect"
            data-address="{$address}"
-           title="Connect device ...">
+           title="{msg desc=""}Connect {$type} device{/msg}">
           bluetooth
         </i>
       {/if}

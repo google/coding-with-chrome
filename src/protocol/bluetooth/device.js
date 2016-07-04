@@ -234,6 +234,20 @@ cwc.protocol.bluetooth.Device.prototype.getIcon = function() {
 
 
 /**
+ * @return {!string}
+ * @export
+ */
+cwc.protocol.bluetooth.Device.prototype.getType = function() {
+  if (this.profile) {
+    if (typeof this.profile.name !== 'undefined') {
+      return this.profile.name|| '';
+    }
+  }
+  return '';
+};
+
+
+/**
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.getSocket = function() {
