@@ -112,7 +112,7 @@ cwc.ui.Dialog.prototype.showModal = function() {
  * @export
  */
 cwc.ui.Dialog.prototype.close = function() {
-  if (this.dialog) {
+  if (this.dialog && this.dialog.hasAttribute('open')) {
     this.dialog.close();
   }
 };
@@ -188,7 +188,7 @@ cwc.ui.Dialog.prototype.showYesNo = function(title, content, func) {
     yesButton.addEventListener('click', func);
     yesButton.addEventListener('click', this.close.bind(this));
     yesButton.addEventListener('click', function() {
-      this.helper.executeInstance('navigation', 'hide');
+      this.helper.getInstance('navigation').hide();
     }.bind(this));
     var noButton = goog.dom.getElement(this.prefix + 'no');
     noButton.addEventListener('click', this.close.bind(this));
@@ -214,7 +214,7 @@ cwc.ui.Dialog.prototype.showPrompt = function(title, content, func, opt_value) {
     });
     okButton.addEventListener('click', this.close.bind(this));
     okButton.addEventListener('click', function() {
-      this.helper.executeInstance('navigation', 'hide');
+      this.helper.getInstance('navigation').hide();
     }.bind(this));
     var cancleButton = goog.dom.getElement(this.prefix + 'cancel');
     cancleButton.addEventListener('click', this.close.bind(this));

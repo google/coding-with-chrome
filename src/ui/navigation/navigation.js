@@ -263,7 +263,7 @@ cwc.ui.Navigation.prototype.showSettings = function() {
  * Shows about screen.
  */
 cwc.ui.Navigation.prototype.showAbout = function() {
-  this.helper.executeInstance('help', 'showAbout');
+  this.helper.getInstance('help').showAbout();
   this.hide();
 };
 
@@ -272,7 +272,7 @@ cwc.ui.Navigation.prototype.showAbout = function() {
  * Shows debug screen.
  */
 cwc.ui.Navigation.prototype.showDebug = function() {
-  this.helper.executeInstance('help', 'showDebug');
+  this.helper.getInstance('help').showDebug();
   this.hide();
 };
 
@@ -281,7 +281,7 @@ cwc.ui.Navigation.prototype.showDebug = function() {
  * Shows help screen.
  */
 cwc.ui.Navigation.prototype.showHelp = function() {
-  this.helper.executeInstance('help', 'showHelp');
+  this.helper.getInstance('help').showHelp();
   this.hide();
 };
 
@@ -290,11 +290,8 @@ cwc.ui.Navigation.prototype.showHelp = function() {
  * Saves the currently open file.
  */
 cwc.ui.Navigation.prototype.saveFile = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
-  if (fileSaverInstance) {
-    fileSaverInstance.saveFile();
-    this.hide();
-  }
+  this.helper.getInstance('fileSaver').saveFile();
+  this.hide();
 };
 
 

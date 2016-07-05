@@ -112,15 +112,15 @@ cwc.ui.Debug.prototype.addEvents = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_show'),
     function() {
-      this.helper.executeInstance('dialog', 'show');
+      this.helper.getInstance('dialog').show();
     });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showModal'),
     function() {
-      this.helper.executeInstance('dialog', 'showModal');
+      this.helper.getInstance('dialog').showModal();
     });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_close'),
     function() {
-      this.helper.executeInstance('dialog', 'close');
+      this.helper.getInstance('dialog').close();
     });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showPrompt'),
     function() {
@@ -131,7 +131,7 @@ cwc.ui.Debug.prototype.addEvents = function() {
 
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'i18n_untranslated'),
     function() {
-      this.helper.executeInstance('i18n', 'getToDo');
+      this.helper.getInstance('i18n').getToDo();
     });
 };
 

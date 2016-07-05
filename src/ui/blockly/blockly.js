@@ -257,9 +257,10 @@ cwc.ui.Blockly.prototype.getJavaScript = function() {
  * @return {Object}
  */
 cwc.ui.Blockly.prototype.getXML = function() {
-  if (this.getWorkspace()) {
+  var workspace = this.getWorkspace();
+  if (workspace) {
     try {
-      var xml = Blockly.Xml.workspaceToDom();
+      var xml = Blockly.Xml.workspaceToDom(workspace);
       return Blockly.Xml.domToPrettyText(xml);
     } catch (e) {
       this.helper.showError('Error getting Blockly XML!');
@@ -279,17 +280,16 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
     return;
   }
   var workspace = this.getWorkspace();
-  if (!workspace) {
-    return;
-  }
-  try {
-    var xml = Blockly.Xml.textToDom(xml_text);
-    Blockly.Xml.domToWorkspace(xml, workspace);
-    this.resetZoom();
-  } catch (e) {
-    this.helper.showError('Error by loading Blockly file!');
-    console.error(e);
-    console.log(xml);
+  if (workspace) {
+    try {
+      var xml = Blockly.Xml.textToDom(xml_text);
+      Blockly.Xml.domToWorkspace(xml, workspace);
+      this.resetZoom();
+    } catch (e) {
+      this.helper.showError('Error by loading Blockly file!');
+      console.error(e);
+      console.log(xml);
+    }
   }
 };
 

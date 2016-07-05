@@ -189,28 +189,6 @@ cwc.utils.Helper.prototype.decorateInstance = function(name, node,
 
 
 /**
- * @param {!string} name
- * @param {!string} func
- * @param {string=} opt_param
- * @param {boolean=} opt_required
- * @return {cwc.utils.HelperInstance}
- * @export
- */
-cwc.utils.Helper.prototype.executeInstance = function(name, func,
-    opt_param, opt_required) {
-  var instance = this.getInstance(name, opt_required);
-  if (instance) {
-    if (func in instance) {
-      instance[func]();
-    } else {
-      console.warn('Unable to execute', func, 'for', name);
-    }
-  }
-  return instance;
-};
-
-
-/**
  * @return {Object}
  */
 cwc.utils.Helper.prototype.getI18nData = function() {

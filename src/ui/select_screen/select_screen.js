@@ -242,7 +242,7 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
  * Shows the intro.
  */
 cwc.ui.SelectScreen.prototype.showIntro = function() {
-  this.helper.executeInstance('help', 'showIntro');
+  this.helper.getInstance('help').showIntro();
 };
 
 
