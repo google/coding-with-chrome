@@ -85,6 +85,9 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
   this.set('sessionStorage', typeof sessionStorage, group);
 
   // General features.
+  this.set('Promise', typeof Promise, group);
+
+  // Communication features
   this.set('bluetooth', typeof navigator.bluetooth, group);
 };
 

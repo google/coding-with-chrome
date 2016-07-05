@@ -144,9 +144,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
     'path': this.mediaFiles,
     'toolbox': this.nodeBlocklyToolbox_,
     'trashcan': opt_trashcan,
-    'modal': {
-      'prompt': this.modalPrompt
-    },
     'zoom': {
       'controls': true,
       'wheel': true,
@@ -161,6 +158,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
   this.workspace = Blockly.inject(this.nodeEditor, options);
+
+  // Adding Modal support
+  this.setWorkspaceOption('modalOptions', {'prompt': this.modalPrompt });
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -315,6 +315,18 @@ cwc.ui.Blockly.prototype.getWorkspace = function() {
     this.log.warn('Blockly workspace is not ready yet!');
   }
   return this.workspace;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string|object} value
+ */
+cwc.ui.Blockly.prototype.setWorkspaceOption = function(name, value) {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.options[name] = value;
+  }
 };
 
 

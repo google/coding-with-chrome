@@ -2,6 +2,7 @@ build/externs
 doc
 genfiles
 gensoyfiles
+patches
 node_modules
 test/genfiles
 third_party

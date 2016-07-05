@@ -51,18 +51,6 @@ closureBuilder.build({
 
 
 /**
- * Blockly media files
- */
-closureBuilder.build({
-  name: 'Blockly files',
-  resources: [
-    'node_modules/blockly/media'
-  ],
-  out: 'genfiles/external/blockly/'
-});
-
-
-/**
  * Roboto fonts
  */
 closureBuilder.build({

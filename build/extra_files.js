@@ -124,12 +124,16 @@ var BlocklyPath = 'third_party/blockly/';
 closureBuilder.build({
   name: 'Blockly core files',
   resources: [
+    BlocklyPath + 'media/',
     BlocklyPath + 'blockly_compressed.js',
     BlocklyPath + 'blocks_compressed.js',
-    BlocklyPath + 'javascript_compressed.js'
+    BlocklyPath + 'javascript_compressed.js',
+    'patches/blockly/audio_preload_patch.js',
+    'patches/blockly/modal_support_patch.js'
   ],
   out: 'genfiles/external/blockly/'
 });
+
 
 closureBuilder.build({
   name: 'Blockly language files',

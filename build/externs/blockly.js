@@ -157,6 +157,9 @@ Blockly.Xml = {};
 /** @constructor */
 Blockly.Workspace = {};
 
+/** @type {Object} */
+Blockly.Workspace.options = {};
+
 /**
  * Set the workspace's zoom factor.
  * @param {number} newScale Zoom factor.
@@ -181,3 +184,8 @@ Blockly.Workspace.prototype.updateToolbox = function(tree) {};
  *     removeChangeListener.
  */
 Blockly.Workspace.prototype.addChangeListener = function(func) {};
+
+
+/** @constructor */
+Blockly.Options = {}
+
