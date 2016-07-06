@@ -132,23 +132,23 @@ cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
   this.prefix = opt_prefix + this.prefix;
 
   if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Preview.previewStyle({ 'prefix': this.prefix }));
+    this.styleSheet = goog.style.installStyles(cwc.soy.Preview.style({
+      prefix: this.prefix }));
   }
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.Preview.previewTemplate,
-      { 'prefix': this.prefix }
+    this.node,  cwc.soy.Preview.template, { prefix: this.prefix }
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.toolbar = new cwc.ui.PreviewToolbar(this.helper, this.prefix);
-  this.toolbar.decorate(this.nodeToolbar);
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  if (this.nodeToolbar) {
+    this.toolbar = new cwc.ui.PreviewToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar, this.prefix);
+  }
 
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
@@ -490,7 +490,7 @@ cwc.ui.Preview.prototype.delayAutoUpdate = function() {
 
 
 /**
- * Perform the auto uodate.
+ * Perform the auto update.
  */
 cwc.ui.Preview.prototype.doAutoUpdate = function() {
   if (!this.autoUpdate) {

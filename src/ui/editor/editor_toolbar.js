@@ -21,6 +21,7 @@ goog.provide('cwc.ui.EditorToolbar');
 
 goog.require('cwc.ui.Helper');
 
+goog.require('goog.dom.classes');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
 
@@ -280,8 +281,8 @@ cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
  * @param {boolean} enable
  */
 cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
-  if (this.mediaButton) {
-    this.mediaButton.setEnabled(enable);
+  if (this.nodeMedia) {
+    cwc.ui.Helper.enableElement(this.nodeMedia, enable);
   }
 };
 

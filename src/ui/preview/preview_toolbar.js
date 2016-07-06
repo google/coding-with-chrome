@@ -23,22 +23,17 @@ goog.provide('cwc.ui.PreviewToolbar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.ui.Container');
-goog.require('goog.ui.Toolbar');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarSeparator');
-goog.require('goog.ui.ToolbarToggleButton');
+goog.require('goog.dom.classes');
 
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {string} prefix
  * @struct
  * @final
  */
-cwc.ui.PreviewToolbar = function(helper, prefix) {
+cwc.ui.PreviewToolbar = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -46,7 +41,7 @@ cwc.ui.PreviewToolbar = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix;
+  this.prefix = 'toolbar-';
 
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
@@ -57,52 +52,62 @@ cwc.ui.PreviewToolbar = function(helper, prefix) {
   /** @type {boolean} */
   this.loadStatus = false;
 
-  /** @type {goog.ui.Toolbar} */
-  this.toolbar = new goog.ui.Toolbar();
+  /** @type {Element} */
+  this.nodeAutoReload = null;
 
-  /** @type {!goog.ui.ToolbarButton} */
-  this.runButton = cwc.ui.Helper.getIconToolbarButton('play_arrow',
-      'Runs the code and update preview.', this.runPreview.bind(this));
+  /** @type {Element} */
+  this.nodeExpand = null;
 
-  /** @type {!goog.ui.ToolbarButton} */
-  this.stopButton = cwc.ui.Helper.getIconToolbarButton('stop',
-      'Stops or terminate the preview.', this.stopPreview.bind(this));
+  /** @type {Element} */
+  this.nodeExpandExit = null;
 
-  /** @type {!goog.ui.ToolbarButton} */
-  this.reloadButton = cwc.ui.Helper.getIconToolbarButton('refresh',
-      'Reloads preview.', this.reloadPreview.bind(this));
+  /** @type {Element} */
+  this.nodeReload = null;
 
-  /** @type {!goog.ui.ToolbarToggleButton} */
-  this.autoReloadButton = cwc.ui.Helper.getIconToolbarToogleButton(
-      'autorenew', 'Automatic reloads the preview after an ' +
-      'change on the editor content.', this.autoUpdate.bind(this));
+  /** @type {Element} */
+  this.nodeRun = null;
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.expandButton = cwc.ui.Helper.getIconToolbarButton('fullscreen',
-      'Expand Preview window.', this.toggleExpand.bind(this));
+  /** @type {Element} */
+  this.nodeStop = null;
+
+  /** @type {boolean} */
+  this.autoUpdateState = false;
+
+  /** @type {boolean} */
+  this.expandState = false;
 };
 
 
 /**
  * @param {Element} node
  */
-cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
+cwc.ui.PreviewToolbar.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
+  this.prefix = (opt_prefix || '') + this.prefix;
 
-  this.expandButton.addClassName('floaty_right');
+  this.nodeAutoReload = goog.dom.getElement(this.prefix + 'auto-reload');
+  this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
+  this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
+  this.nodeRun = goog.dom.getElement(this.prefix + 'run');
+  this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
 
-  this.reloadButton.setEnabled(false);
-  this.autoReloadButton.setEnabled(true);
-  this.autoReloadButton.setChecked(false);
+  cwc.ui.Helper.enableElement(this.nodeReload, false);
 
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.runButton, true);
-  this.toolbar.addChild(this.stopButton, true);
-  this.toolbar.addChild(this.reloadButton, true);
-  this.toolbar.addChild(new goog.ui.ToolbarSeparator(), true);
-  this.toolbar.addChild(this.autoReloadButton, true);
-  this.toolbar.addChild(this.expandButton, true);
-  this.toolbar.render(this.node);
+  goog.style.showElement(this.nodeExpandExit, false);
+
+  goog.events.listen(this.nodeAutoReload, goog.events.EventType.CLICK,
+    this.autoUpdate.bind(this));
+  goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
+    this.expand.bind(this));
+  goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
+    this.collapse.bind(this));
+  goog.events.listen(this.nodeReload, goog.events.EventType.CLICK,
+    this.reloadPreview.bind(this));
+  goog.events.listen(this.nodeRun, goog.events.EventType.CLICK,
+    this.runPreview.bind(this));
+  goog.events.listen(this.nodeStop, goog.events.EventType.CLICK,
+    this.stopPreview.bind(this));
 };
 
 
@@ -134,7 +139,7 @@ cwc.ui.PreviewToolbar.prototype.stopPreview = function() {
  * @export
  */
 cwc.ui.PreviewToolbar.prototype.setRunStatus = function(running) {
-  this.stopButton.setEnabled(running);
+  cwc.ui.Helper.enableElement(this.nodeStop, running);
   this.runStatus = running;
 };
 
@@ -145,8 +150,8 @@ cwc.ui.PreviewToolbar.prototype.setRunStatus = function(running) {
  * @export
  */
 cwc.ui.PreviewToolbar.prototype.setLoadStatus = function(loaded) {
-  this.runButton.setEnabled(!loaded);
-  this.reloadButton.setEnabled(!loaded);
+  cwc.ui.Helper.enableElement(this.nodeRun, !loaded);
+  cwc.ui.Helper.enableElement(this.nodeReload, !loaded);
   this.loadStatus = loaded;
 };
 
@@ -168,17 +173,18 @@ cwc.ui.PreviewToolbar.prototype.reloadPreview = function() {
 cwc.ui.PreviewToolbar.prototype.autoUpdate = function() {
   var previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
-    previewInstance.setAutoUpdate(this.autoReloadButton.isChecked());
+    previewInstance.setAutoUpdate(!this.autoUpdateState);
   }
 };
 
 
 /**
  * Sets auto update status.
- * @param {boolean} enabled
+ * @param {boolean} enable
  */
-cwc.ui.PreviewToolbar.prototype.setAutoUpdate = function(enabled) {
-  this.autoReloadButton.setChecked(enabled);
+cwc.ui.PreviewToolbar.prototype.setAutoUpdate = function(enable) {
+  this.autoUpdateState = enable;
+  goog.dom.classes.enable(this.nodeAutoReload, 'spin', enable);
 };
 
 
@@ -192,15 +198,33 @@ cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
 
 
 /**
+ * Toggles the current expand state.
+ */
+cwc.ui.PreviewToolbar.prototype.expand = function() {
+  this.setExpand(true);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.PreviewToolbar.prototype.collapse = function() {
+  this.setExpand(false);
+};
+
+
+/**
  * Expands or collapse the current window.
  * @param {boolean} expand
  */
 cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
+  this.expandState = expand;
   var layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.setFullscreen(expand, 0);
-  this.expandButton.setTooltip((expand ? 'Colapse' : 'Expand') +
-      ' Preview window.');
-  this.expandButton.setContent('fullscreen' + (expand ? '_exit' : ''));
+  if (layoutInstance) {
+    layoutInstance.setFullscreen(expand, 0);
+    goog.style.showElement(this.nodeExpand, !expand);
+    goog.style.showElement(this.nodeExpandExit, expand);
+  }
 };
 
 
@@ -209,5 +233,5 @@ cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
  * @param {boolean} visible
  */
 cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
-  this.expandButton.setVisible(visible);
+  goog.style.showElement(this.nodeExpand, visible);
 };

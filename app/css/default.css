@@ -66,3 +66,11 @@ tr:nth-of-type(even) {
 .link_button:hover {
   opacity: 1;
 }
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(1turn); }
+}

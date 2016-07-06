@@ -89,8 +89,7 @@ html>body,
 
 .mdl-navigation {
   flex-shrink: 1;
-  overflow: visible;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .mdl-navigation .mdl-navigation__link > i {
