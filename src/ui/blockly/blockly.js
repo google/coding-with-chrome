@@ -238,6 +238,46 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
 
 
 /**
+ * Undo the last change in the editor.
+ * @return {Object}
+ */
+cwc.ui.Blockly.prototype.undoChange = function() {
+  var workspace = this.getWorkspace();
+  var undo = 0;
+  var redo = 0;
+  if (workspace) {
+    workspace.undo();
+    undo = workspace.undoStack_.length;
+    redo = workspace.redoStack_.length;
+  }
+  return {
+    'undo': undo,
+    'redo': redo
+  };
+};
+
+
+/**
+ * Redo the last change in the editor.
+ * @return {Object}
+ */
+cwc.ui.Blockly.prototype.redoChange = function() {
+  var workspace = this.getWorkspace();
+  var undo = 0;
+  var redo = 0;
+  if (workspace) {
+    workspace.undo(true);
+    undo = workspace.undoStack_.length;
+    redo =  workspace.redoStack_.length;
+  }
+  return {
+    'undo': undo,
+    'redo': redo
+  };
+};
+
+
+/**
  * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
@@ -285,6 +325,8 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
       var xml = Blockly.Xml.textToDom(xml_text);
       Blockly.Xml.domToWorkspace(xml, workspace);
       this.resetZoom();
+      workspace.undoStack_ = [];
+      workspace.redoStack_ = [];
     } catch (e) {
       this.helper.showError('Error by loading Blockly file!');
       console.error(e);

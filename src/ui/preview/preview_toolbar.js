@@ -80,6 +80,7 @@ cwc.ui.PreviewToolbar = function(helper) {
 
 /**
  * @param {Element} node
+ * @param {string=} opt_prefix
  */
 cwc.ui.PreviewToolbar.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
@@ -93,7 +94,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node, opt_prefix) {
   this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
 
   cwc.ui.Helper.enableElement(this.nodeReload, false);
-
+  cwc.ui.Helper.enableElement(this.nodeStop, false);
   goog.style.showElement(this.nodeExpandExit, false);
 
   goog.events.listen(this.nodeAutoReload, goog.events.EventType.CLICK,
@@ -234,4 +235,12 @@ cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
  */
 cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
   goog.style.showElement(this.nodeExpand, visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.PreviewToolbar.prototype.showRunButton = function(visible) {
+  goog.style.showElement(this.nodeRun, visible);
 };

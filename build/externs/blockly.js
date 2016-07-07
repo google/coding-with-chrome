@@ -160,6 +160,12 @@ Blockly.Workspace = {};
 /** @type {Object} */
 Blockly.Workspace.options = {};
 
+/** @type {Array} */
+Blockly.Workspace.undoStack_ = [];
+
+/** @type {Array} */
+Blockly.Workspace.redoStack_ = [];
+
 /**
  * Set the workspace's zoom factor.
  * @param {number} newScale Zoom factor.
@@ -185,7 +191,12 @@ Blockly.Workspace.prototype.updateToolbox = function(tree) {};
  */
 Blockly.Workspace.prototype.addChangeListener = function(func) {};
 
+/**
+ * Undo or redo the previous action.
+ * @param {boolean} redo False if undo, true if redo.
+ */
+Blockly.Workspace.prototype.undo = function(redo) {};
+
 
 /** @constructor */
 Blockly.Options = {}
-

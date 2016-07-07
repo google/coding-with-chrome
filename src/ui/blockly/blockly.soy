@@ -50,6 +50,20 @@
           {param opt_title: 'Save the project' /}
         {/call}
 
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'undo' /}
+          {param icon: 'undo' /}
+          {param opt_title: 'Undo last change.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'redo' /}
+          {param icon: 'redo' /}
+          {param opt_title: 'Redo last change.' /}
+        {/call}
+
       </nav>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">

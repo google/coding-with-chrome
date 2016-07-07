@@ -195,6 +195,10 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
 
+  if (templates.info) {
+    this.runner.showInfoButton(true);
+  }
+
   if (this.showPreview) {
     this.runner.showTurtle(true);
   }

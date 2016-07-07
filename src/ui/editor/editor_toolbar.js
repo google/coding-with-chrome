@@ -50,10 +50,19 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeExpandExit = null;
 
   /** @type {Element} */
+  this.nodeMore= null;
+
+  /** @type {Element} */
   this.nodeMoreList = null;
 
   /** @type {Element} */
   this.nodeSave = null;
+
+  /** @type {Element} */
+  this.nodeUndo = null;
+
+  /** @type {Element} */
+  this.nodeRedo = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -97,6 +106,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
   this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
+  this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
@@ -106,6 +116,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
 
   goog.style.showElement(this.nodeExpandExit, false);
+  goog.style.showElement(this.nodeMore, false);
 
   // Events
   goog.events.listen(this.nodeAutocomplete, goog.events.EventType.CLICK,
@@ -139,6 +150,7 @@ cwc.ui.EditorToolbar.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.nodeMoreList) {
     var item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
     this.nodeMoreList.appendChild(item);
+    goog.style.showElement(this.nodeMore, true);
     cwc.ui.Helper.mdlRefresh();
   }
 };

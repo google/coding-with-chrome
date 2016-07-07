@@ -22,20 +22,15 @@ goog.provide('cwc.ui.RunnerToolbar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
-goog.require('goog.ui.Container');
-goog.require('goog.ui.Toolbar');
-goog.require('goog.ui.ToolbarButton');
-
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {string} prefix
  * @struct
  * @final
  */
-cwc.ui.RunnerToolbar = function(helper, prefix) {
+cwc.ui.RunnerToolbar = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -43,7 +38,7 @@ cwc.ui.RunnerToolbar = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix;
+  this.prefix = 'toolbar-';
 
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
@@ -54,44 +49,62 @@ cwc.ui.RunnerToolbar = function(helper, prefix) {
   /** @type {boolean} */
   this.loadStatus = false;
 
-  /** @type {goog.ui.Toolbar} */
-  this.toolbar = new goog.ui.Toolbar();
+  /** @type {Element} */
+  this.nodeExpand = null;
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.runButton = cwc.ui.Helper.getIconToolbarButton('play_arrow',
-      'Runs the code …', this.run.bind(this));
+  /** @type {Element} */
+  this.nodeExpandExit = null;
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.stopButton = cwc.ui.Helper.getIconToolbarButton('stop',
-      'Stops the code …', this.terminate.bind(this));
+  /** @type {Element} */
+  this.nodeReload = null;
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.reloadButton = cwc.ui.Helper.getIconToolbarButton('refresh',
-      'Reloads preview …', this.reload.bind(this));
+  /** @type {Element} */
+  this.nodeRun = null;
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.infoButton = cwc.ui.Helper.getIconToolbarButton('info_outline',
-      'Shows general information …', this.toggleInfo.bind(this));
+  /** @type {Element} */
+  this.nodeStop = null;
+
+  /** @type {Element} */
+  this.nodeInfo = null;
+
+  /** @type {boolean} */
+  this.expandState = false;
+
 };
 
 
 /**
  * @param {!Element} node
+ * @param {string=} opt_prefix
  */
-cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
+cwc.ui.RunnerToolbar.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
+  this.prefix = (opt_prefix || '') + this.prefix;
 
-  this.stopButton.setEnabled(false);
-  this.reloadButton.setEnabled(false);
-  this.infoButton.setEnabled(false);
-  this.infoButton.addClassName('floaty_right');
+  this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
+  this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
+  this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
+  this.nodeRun = goog.dom.getElement(this.prefix + 'run');
+  this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
 
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.runButton, true);
-  this.toolbar.addChild(this.stopButton, true);
-  this.toolbar.addChild(this.reloadButton, true);
-  this.toolbar.addChild(this.infoButton, true);
-  this.toolbar.render(this.node);
+  cwc.ui.Helper.enableElement(this.nodeReload, false);
+  cwc.ui.Helper.enableElement(this.nodeStop, false);
+  goog.style.showElement(this.nodeExpandExit, false);
+  goog.style.showElement(this.nodeInfo, false);
+
+  goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
+    this.expand.bind(this));
+  goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
+    this.collapse.bind(this));
+  goog.events.listen(this.nodeInfo, goog.events.EventType.CLICK,
+    this.toggleInfo.bind(this));
+  goog.events.listen(this.nodeReload, goog.events.EventType.CLICK,
+    this.reload.bind(this));
+  goog.events.listen(this.nodeRun, goog.events.EventType.CLICK,
+    this.run.bind(this));
+  goog.events.listen(this.nodeStop, goog.events.EventType.CLICK,
+    this.stop.bind(this));
 };
 
 
@@ -156,7 +169,7 @@ cwc.ui.RunnerToolbar.prototype.toggleInfo = function() {
  * @export
  */
 cwc.ui.RunnerToolbar.prototype.setRunStatus = function(running) {
-  this.stopButton.setEnabled(running);
+  cwc.ui.Helper.enableElement(this.nodeStop, running);
   this.runStatus = running;
 };
 
@@ -167,8 +180,8 @@ cwc.ui.RunnerToolbar.prototype.setRunStatus = function(running) {
  * @export
  */
 cwc.ui.RunnerToolbar.prototype.setLoadStatus = function(loaded) {
-  this.runButton.setEnabled(!loaded);
-  this.reloadButton.setEnabled(!loaded);
+  cwc.ui.Helper.enableElement(this.nodeRun, !loaded);
+  cwc.ui.Helper.enableElement(this.nodeReload, !loaded);
   this.loadStatus = loaded;
 };
 
@@ -178,8 +191,57 @@ cwc.ui.RunnerToolbar.prototype.setLoadStatus = function(loaded) {
  */
 cwc.ui.RunnerToolbar.prototype.enableInfoButton = function(enable) {
   if (this.infoButton) {
-    this.infoButton.setEnabled(enable);
+    cwc.ui.Helper.enableElement(this.nodeInfo, enable);
   }
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.RunnerToolbar.prototype.toggleExpand = function() {
+  this.expand = !this.expand;
+  this.setExpand(this.expand);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.RunnerToolbar.prototype.expand = function() {
+  this.setExpand(true);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.RunnerToolbar.prototype.collapse = function() {
+  this.setExpand(false);
+};
+
+
+/**
+ * Expands or collapse the current window.
+ * @param {boolean} expand
+ */
+cwc.ui.RunnerToolbar.prototype.setExpand = function(expand) {
+  this.expandState = expand;
+  var layoutInstance = this.helper.getInstance('layout', true);
+  if (layoutInstance) {
+    layoutInstance.setFullscreen(expand, 0);
+    goog.style.showElement(this.nodeExpand, !expand);
+    goog.style.showElement(this.nodeExpandExit, expand);
+  }
+};
+
+
+/**
+ * Shows/Hide the expand button.
+ * @param {boolean} visible
+ */
+cwc.ui.RunnerToolbar.prototype.showExpandButton = function(visible) {
+  goog.style.showElement(this.nodeExpand, visible);
 };
 
 
@@ -187,5 +249,13 @@ cwc.ui.RunnerToolbar.prototype.enableInfoButton = function(enable) {
  * @param {boolean} visible
  */
 cwc.ui.RunnerToolbar.prototype.showRunButton = function(visible) {
-  this.runButton.setVisible(visible);
+  goog.style.showElement(this.nodeRun, visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.RunnerToolbar.prototype.showInfoButton = function(visible) {
+  goog.style.showElement(this.nodeInfo, visible);
 };
