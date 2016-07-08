@@ -50,7 +50,7 @@
 {template .connect}
   {@param device: ?}
 
-  {msg desc=""}Connecting device {$device['name']} ...{/msg}
+  {msg desc=""}Connecting device {$device['name']} ({$device['type']}) at {$device['address']} ...{/msg}
   <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 {/template}
 
@@ -61,7 +61,7 @@
 {template .disconnect}
   {@param device: ?}
 
-  {msg desc=""}Disconnecting device {$device['name']} ...{/msg}
+  {msg desc=""}Disconnecting device {$device['name']} ({$device['type']}) at {$device['address']} ...{/msg}
   <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 {/template}
 
@@ -85,7 +85,16 @@
           devices_other
         {/if}
       </i>
-      <span>{$name}</span>
+      {if $connected}
+        <span>{$name}</span>
+      {else}
+        <span class="link_text"
+              data-action="connect"
+              data-address="{$address}"
+              title="{msg desc=""}Connect {$type} device{/msg}">
+          {$name}
+        </span>
+      {/if}
       <span class="mdl-list__item-text-body">
         {msg desc=""}Address: {$address}{/msg}<br>
         {msg desc=""}{$type}{/msg}

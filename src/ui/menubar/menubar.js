@@ -198,7 +198,7 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
   }
 
   // Account icons
-  if (this.helper.checkChromeFeature('oauth2')) {
+  if (this.helper.checkChromeFeature('manifest.oauth2')) {
     this.nodeAccountLogin = goog.dom.getElement(
         this.prefix + 'account');
     this.accountLogin.render(this.nodeAccountLogin);

@@ -38,7 +38,7 @@ cwc.ui.Debug = function(helper) {
   /** @type {string} */
   this.name = 'Debug';
 
-  /** @type {boolean} */
+  /** @type {!boolean} */
   this.enabled = false;
 
   /** @type {!cwc.utils.Helper} */
@@ -62,7 +62,7 @@ cwc.ui.Debug.prototype.prepare = function() {
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.DEBUG_MODE);
+        cwc.userConfigName.DEBUG_MODE) || false;
   }
 };
 

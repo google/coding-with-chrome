@@ -61,6 +61,7 @@ goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
 
@@ -199,19 +200,44 @@ cwc.ui.Builder.prototype.decorate = function(node,
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  // Detecting features
+  // Show features
   if (!this.error) {
-    this.helper.detectFeatures();
     this.helper.showFeatures();
   }
 
-  // Loading user config, if any.
+  // Prepare and load Storage
   if (!this.error) {
-    var userConfigInstance = new cwc.userConfig(this.helper);
-    this.helper.setInstance('userConfig', userConfigInstance);
-    userConfigInstance.prepare(this.loadI18n_.bind(this));
+    this.loadStorage_();
   }
 
+};
+
+
+/**
+ * Loads the storage instance.
+ * @private
+ */
+cwc.ui.Builder.prototype.loadStorage_ = function() {
+  var storageInstance = new cwc.utils.Storage();
+  if (!storageInstance) {
+    this.loadI18n_();
+    return;
+  }
+  this.helper.setInstance('storage', storageInstance);
+  storageInstance.prepare(this.loadUserConfig_.bind(this));
+};
+
+
+/**
+ * Loads the user config instance.
+ * @private
+ */
+cwc.ui.Builder.prototype.loadUserConfig_ = function() {
+  var userConfigInstance = new cwc.userConfig(this.helper);
+  if (userConfigInstance) {
+    this.helper.setInstance('userConfig', userConfigInstance);
+  }
+  this.loadI18n_();
 };
 
 
@@ -221,20 +247,23 @@ cwc.ui.Builder.prototype.decorate = function(node,
  */
 cwc.ui.Builder.prototype.loadI18n_ = function() {
   var i18nInstance = new cwc.utils.I18n();
-  if (i18nInstance) {
-    var language = '';
-    var userConfigInstance = this.helper.getInstance('userConfig');
-    if (userConfigInstance) {
-      var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.LANGUAGE);
-      if (userLanguage && userLanguage != language) {
-        console.log('Using user preferred language:', userLanguage);
-        language = userLanguage;
-      }
+  if (!i18nInstance) {
+    this.loadUI();
+    return;
+  }
+
+  var language = '';
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.LANGUAGE);
+    if (userLanguage && userLanguage != language) {
+      console.log('Using user preferred language:', userLanguage);
+      language = userLanguage;
     }
-    i18nInstance.prepare(this.loadUI.bind(this), language);
   }
   this.helper.setInstance('i18n', i18nInstance);
+  i18nInstance.prepare(this.loadUI.bind(this), language);
 };
 
 
@@ -258,7 +287,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.prepareHelper();
   }
 
-  if (!this.error && this.helper.checkChromeFeature('oauth2')) {
+  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare OAuth2 Helpers ...', 35, 100);
     this.prepareOauth2Helper();
   }
@@ -283,7 +312,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.prepareSerial();
   }
 
-  if (!this.error && this.helper.checkChromeFeature('oauth2')) {
+  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare account support ...', 80, 100);
     this.prepareAccount();
   }

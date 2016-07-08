@@ -23,6 +23,8 @@ goog.require('cwc.locales.de.Translation');
 goog.require('cwc.locales.en.Translation');
 goog.require('cwc.locales.ko.Translation');
 
+goog.require('cwc.utils.Logger');
+
 
 
 /**
@@ -32,6 +34,15 @@ goog.require('cwc.locales.ko.Translation');
  * @export
  */
 cwc.utils.I18n = function() {
+
+  /** @type {!string} */
+  this.name = 'i18n';
+
+  /** @private {!cwc.utils.LogLevel} */
+  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
   /** @type {!string} */
   this.language = '';
@@ -88,7 +99,7 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
   };
 
   // Init i18next
-  console.log('Init i18n with', options);
+  this.log_.info('Init i18n with', options);
   i18next.init(options, callback);
 };
 
@@ -106,7 +117,7 @@ cwc.utils.I18n.prototype.translate = function(text, opt_options) {
     if (text in this.untranslated) {
       this.untranslated[text]++;
     } else {
-      console.warn('[i18n] Untranslated:', text);
+      this.log_.warn('[i18n] Untranslated:', text);
       this.untranslated[text] = 1;
     }
   }

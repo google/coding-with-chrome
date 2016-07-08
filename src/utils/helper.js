@@ -296,7 +296,7 @@ cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
  * @export
  */
 cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
-  return this.checkFeature(name, 'browser');
+  return this.features_.getBrowserFeature(name);
 };
 
 
@@ -306,7 +306,7 @@ cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
  * @export
  */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
-  return this.checkFeature(name, 'chrome');
+  return this.features_.getChromeFeature(name);
 };
 
 
@@ -316,7 +316,7 @@ cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
  * @export
  */
 cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
-  return this.checkFeature(name, 'js');
+  return this.features_.getJavaScriptFeature(name);
 };
 
 
@@ -335,7 +335,7 @@ cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
  * @export
  */
 cwc.utils.Helper.prototype.detectFeatures = function() {
-  return this.features_.detect();
+  return this.features_.detectFeatures();
 };
 
 

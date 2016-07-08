@@ -45,6 +45,7 @@ cwc.utils.ByteArrayTypes = {
  */
 cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
     opt_integer_header, opt_string_header) {
+
   /** @private {!Array} */
   this.data_ = [];
 

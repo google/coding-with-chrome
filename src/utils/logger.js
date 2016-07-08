@@ -57,7 +57,7 @@ cwc.utils.LogLevel = {
  */
 cwc.utils.Logger = function(opt_loglevel, opt_name) {
   /** @type {!number} */
-  this.loglevel = opt_loglevel || 5;
+  this.loglevel = opt_loglevel || cwc.utils.LogLevel.NOTICE;
 
   /** @type {!string} */
   this.name = opt_name || '';
