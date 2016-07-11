@@ -35,7 +35,6 @@ goog.require('goog.style');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
-goog.require('goog.ui.ToolbarButton');
 
 
 
@@ -344,18 +343,6 @@ cwc.ui.Editor.prototype.addOption = function(name, func,
     opt_tooltip) {
   if (this.toolbar) {
     this.toolbar.addOption(name, func, opt_tooltip);
-  }
-};
-
-
-/**
- * @param {!goog.ui.ToolbarButton} button
- * @param {boolean=} opt_seperator
- */
-cwc.ui.Editor.prototype.addToolbarButton = function(button,
-    opt_seperator) {
-  if (this.toolbar) {
-    this.toolbar.addToolbarButton(button, opt_seperator);
   }
 };
 

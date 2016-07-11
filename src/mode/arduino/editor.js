@@ -52,17 +52,12 @@ cwc.mode.arduino.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.arduino.Editor.prototype.decorate = function() {
-  var runButton = cwc.ui.Helper.getIconToolbarButton('play_arrow',
-      'Executes the code and send commands to the Arduino.',
-      this.runCode.bind(this));
-
   this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node, this.prefix);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
   this.editor.enableMediaButton(false);
-  this.editor.addToolbarButton(runButton, true);
 };
 
 

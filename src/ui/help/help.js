@@ -77,7 +77,7 @@ cwc.ui.Help.prototype.showOpenSource = function() {
     cwc.soy.Help.notice, {'prefix': this.prefix});
   var noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
   noticeWebview.addEventListener('contentload', function() {
-    noticeWebview.insertCSS({ code: 'html {overflow-y: scroll;}'});
+    noticeWebview['insertCSS']({ 'code': 'html {overflow-y: scroll;}'});
   }.bind(this));
 };
 

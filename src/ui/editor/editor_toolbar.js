@@ -157,16 +157,6 @@ cwc.ui.EditorToolbar.prototype.addOption = function(name, func, opt_tooltip) {
 
 
 /**
- * @param {!goog.ui.ToolbarButton} button
- * @param {boolean=} opt_seperator
- */
-cwc.ui.EditorToolbar.prototype.addToolbarButton = function(button,
-    opt_seperator) {
-  console.log('ToolbarButton', button, opt_seperator);
-};
-
-
-/**
  * Saves the currently open file.
  */
 cwc.ui.EditorToolbar.prototype.save = function() {

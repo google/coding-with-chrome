@@ -26,33 +26,7 @@ goog.require('goog.ui.Button');
 goog.require('goog.ui.CustomButton');
 goog.require('goog.ui.LinkButtonRenderer');
 goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarToggleButton');
 
-
-/**
- * Helper for all the different ui parts and elements.
- * @final
- * @export
- */
-cwc.ui.Helper = function() {};
-
-
-/**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.Button}
- */
-cwc.ui.Helper.getButton = function(name, opt_description,
-    opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.Button(name);
-  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
 
 
 /**
@@ -66,25 +40,6 @@ cwc.ui.Helper.getButton = function(name, opt_description,
 cwc.ui.Helper.getCustomButton = function(name, opt_description,
     opt_func, opt_icon_size, opt_class_name) {
   var button = new goog.ui.CustomButton(name);
-  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
-
-
-/**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.Button}
- */
-cwc.ui.Helper.getLinkButton = function(name,
-    opt_description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.Button(name,
-    goog.ui.LinkButtonRenderer.getInstance());
-  button.addClassName('link_button');
   cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
       opt_icon_size, opt_class_name);
   return button;
@@ -114,11 +69,13 @@ cwc.ui.Helper.getIconButton = function(icon_name, opt_description,
  * @param {function(?)=} opt_func
  * @param {string=} opt_icon_size
  * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarButton}
+ * @return {!goog.ui.Button}
  */
-cwc.ui.Helper.getToolbarButton = function(name,
+cwc.ui.Helper.getLinkButton = function(name,
     opt_description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.ToolbarButton(name);
+  var button = new goog.ui.Button(name,
+    goog.ui.LinkButtonRenderer.getInstance());
+  button.addClassName('link_button');
   cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
       opt_icon_size, opt_class_name);
   return button;
@@ -126,60 +83,8 @@ cwc.ui.Helper.getToolbarButton = function(name,
 
 
 /**
- * @param {!string} icon_name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarButton}
- */
-cwc.ui.Helper.getIconToolbarButton = function(icon_name, opt_description,
-    opt_func, opt_icon_size, opt_class_name) {
-  var button = cwc.ui.Helper.getToolbarButton(icon_name, opt_description,
-      opt_func, opt_icon_size || '24px', opt_class_name);
-  button.addClassName('icon_button');
-  return button;
-};
-
-
-/**
- * @param {!string} name
- * @param {!string} description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarToggleButton}
- */
-cwc.ui.Helper.getToolbarToggleButton = function(name,
-    description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.ToolbarToggleButton(name);
-  cwc.ui.Helper.decorateButton(button, description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
-
-
-/**
- * @param {!string} icon_name
- * @param {!string} description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarToogleButton}
- */
-cwc.ui.Helper.getIconToolbarToogleButton = function(icon_name,
-    description, opt_func, opt_icon_size, opt_class_name) {
-  var button = cwc.ui.Helper.getToolbarToggleButton(icon_name,
-      description, opt_func, opt_icon_size || '24px', opt_class_name);
-  button.addClassName('icon_button');
-  return button;
-};
-
-
-/**
  * Decorates the button element with some default values.
- * @param {goog.ui.Button|
- *         goog.ui.ToolbarButton|goog.ui.ToolbarToogleButton} button
+ * @param {goog.ui.Button} button
  * @param {string=} opt_description
  * @param {function(?)=} opt_func
  * @param {string=} opt_icon_size

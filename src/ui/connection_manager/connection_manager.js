@@ -65,10 +65,6 @@ cwc.ui.ConnectionManager = function(helper) {
   /** @type {goog.ui.Toolbar} */
   this.toolbar = new goog.ui.Toolbar();
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.closeButton = cwc.ui.Helper.getIconToolbarButton('close',
-      'Close Connection Manager', this.closeWindow_.bind(this));
-
   /** @type {cwc.protocol.bluetooth.Devices} */
   this.bluetoothDevices = null;
 
@@ -109,10 +105,8 @@ cwc.ui.ConnectionManager.prototype.decorate = function(node,
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.closeButton.addClassName('floaty_right');
 
   this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.closeButton, true);
   this.toolbar.render(this.nodeToolbar);
 };
 

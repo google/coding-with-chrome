@@ -28,7 +28,6 @@ goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.math.Size');
 goog.require('goog.style');
-goog.require('goog.ui.ToolbarButton');
 
 
 
@@ -78,9 +77,6 @@ cwc.ui.Blockly = function(helper) {
 
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarExpandButton = null;
 
   /** @type {!array} */
   this.autoHideElements = ['blocklyToolboxDiv', 'blocklyWidgetDiv',
@@ -205,23 +201,6 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
 cwc.ui.Blockly.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.toolbar) {
     this.toolbar.addOption(name, func, opt_tooltip);
-  }
-};
-
-
-/**
- * @param {!goog.ui.ToolbarButton} button
- * @param {boolean=} opt_seperator
- * @param {string=} opt_hint
- */
-cwc.ui.Blockly.prototype.addToolbarButton = function(button,
-    opt_seperator, opt_hint) {
-  this.toolbar.addToolbarButton(button, opt_seperator);
-  if (opt_hint) {
-    var elem = button.getContentElement().parentNode.parentNode;
-    goog.dom.setProperties(elem, {'data-hint': opt_hint});
-    goog.dom.classes.add(elem, 'hint--right');
-    console.log(elem);
   }
 };
 

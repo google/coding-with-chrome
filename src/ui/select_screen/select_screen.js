@@ -134,7 +134,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     if (!this.lockBasicMode && !this.lockAdvancedMode &&
         userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.FULLSCREEN)) {
-      chrome.app.window.current().maximize();
+      chrome.app.window.current()['maximize']();
     }
   }
 
@@ -198,6 +198,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
 cwc.ui.SelectScreen.prototype.showNormalOverview = function(
     opt_force_overview) {
   this.lockBasicMode = true;
+  this.lockAdvancedMode = false;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
@@ -221,6 +222,7 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function(
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
     opt_force_overview) {
   this.lockAdvancedMode = true;
+  this.lockBasicMode = false;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {

@@ -96,18 +96,10 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.editor.enableMediaButton(true);
 
   // Custom Events
-  var runText = 'Executes the code.';
-  var blocklyRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-  var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-
-  this.blockly.addToolbarButton(blocklyRunButton, true);
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
   this.blockly.addChangeListener(this.changeHandler.bind(this));
 
-  this.editor.addToolbarButton(editorRunButton, true);
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
 
