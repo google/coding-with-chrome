@@ -26,7 +26,7 @@
 {template .about}
   {@param prefix: string}
   {@param manifest: ?}
-  <img src="/images/cwc_logo.png" alt="{$manifest['name']}"
+  <img src="../images/cwc_logo.png" alt="{$manifest['name']}"
     style="display: block; margin: auto; height: 200px;">
   <p>
     Version {$manifest['version']}<br/>
@@ -54,8 +54,15 @@
  */
 {template .notice}
   {@param prefix: string}
-  <webview id="{$prefix}webview-notice" partition="static"
-    src="/NOTICE.html" style="width: 550px; height: 500px;"></webview>
+  {@param is_chrome_app: bool}
+
+  {if $is_chrome_app}
+    <webview id="{$prefix}webview-notice" partition="static"
+      src="../NOTICE.html" style="width: 550px; height: 500px;"></webview>
+  {else}
+    <iframe id="{$prefix}webview-notice"
+      src="../NOTICE.html" style="width: 600px; height: 500px;"></iframe>
+  {/if}
 {/template}
 
 

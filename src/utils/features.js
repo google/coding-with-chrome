@@ -113,7 +113,14 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
  */
 cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   if (typeof chrome == 'undefined') {
+    this.feature_['chrome'] = {};
     return;
+  }
+
+  // App features
+  this.setChromeFeature('app', typeof chrome.app);
+  if (this.getChromeFeature('app')) {
+    this.setChromeFeature('app.window', typeof chrome.app.window);
   }
 
   // General features.
@@ -129,6 +136,8 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   }
 
   // Misc features.
+  this.setChromeFeature('i18n', typeof chrome.i18n);
+  this.setChromeFeature('runtime', typeof chrome.runtime);
   this.setChromeFeature('tts', typeof chrome.tts);
   this.setChromeFeature('usb', typeof chrome.usb);
 
@@ -221,7 +230,6 @@ cwc.utils.Features.prototype.get = function(name, opt_group) {
     this.log_.warn('Feature group', group, 'is unknown!');
     return false;
   }
-
   if (name in this.feature_[group]) {
     return this.feature_[group][name];
   }

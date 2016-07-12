@@ -168,7 +168,7 @@ cwc.utils.I18n.prototype.translateSoy = function(text, opt_values) {
  */
 cwc.utils.I18n.prototype.getLanguage = function() {
   if (!this.language) {
-    if (typeof chrome.i18n !== 'undefined') {
+    if (typeof chrome !== 'undefined' && typeof chrome.i18n !== 'undefined') {
       return chrome.i18n.getUILanguage();
     } else if (this.fallbackLanguage) {
       return this.fallbackLanguage;

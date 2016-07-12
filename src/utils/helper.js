@@ -352,12 +352,11 @@ cwc.utils.Helper.prototype.showFeatures = function(name, opt_group) {
 
 /**
  * @export
+ * @return {boolean}
  */
 cwc.utils.Helper.prototype.getManifest = function() {
-  if (this.checkChromeFeature('manifest')) {
-    return chrome.runtime.getManifest();
-  }
-  return null;
+  return this.checkChromeFeature('manifest') &&
+      chrome.runtime.getManifest();
 };
 
 

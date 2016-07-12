@@ -152,9 +152,6 @@ cwc.ui.Builder = function() {
   /** @private {!number} */
   this.loglevel_ = 0;
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
-
   /** @type {boolean} */
   this.error = false;
 
@@ -175,6 +172,12 @@ cwc.ui.Builder = function() {
 
   /** @type {Array} */
   this.listener = [];
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -350,7 +353,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
   this.log_.info('[' + current + '%] ' + text);
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'progress', 'text': text, 'current': current, 'total': total
@@ -363,7 +366,7 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
  * Closes the Loader window.
  */
 cwc.ui.Builder.prototype.closeLoader = function() {
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({'command': 'close'}, '*');
   }
@@ -378,7 +381,7 @@ cwc.ui.Builder.prototype.closeLoader = function() {
  */
 cwc.ui.Builder.prototype.raiseError = function(error_msg, opt_skip_throw) {
   this.error = true;
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'error', 'msg': error_msg}, '*');

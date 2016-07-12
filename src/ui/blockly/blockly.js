@@ -64,7 +64,7 @@ cwc.ui.Blockly = function(helper) {
   this.nodeBlocklyToolbox_ = null;
 
   /** @type {string} */
-  this.mediaFiles = '../../external/blockly/';
+  this.mediaFiles = '../external/blockly/';
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;

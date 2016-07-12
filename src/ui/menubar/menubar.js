@@ -92,8 +92,8 @@ cwc.ui.Menubar = function(helper) {
   /** @type {boolean} */
   this.bluetoothConnectStatus = null;
 
-  /** @type {!chrome.app.window.AppWindow} */
-  this.currentWindow =  chrome.app.window.current();
+  /** @type {chrome.app.window.AppWindow} */
+  this.currentWindow =  null;
 
   /** @type {!goog.ui.Button} */
   this.closeButton = cwc.ui.Helper.getIconButton(
@@ -135,9 +135,8 @@ cwc.ui.Menubar = function(helper) {
   /** @type {!goog.ui.Button} */
   this.usbMenu = cwc.ui.Helper.getIconButton('usb', 'Connect USB device …');
 
-  /** @type {!goog.ui.Button} */
-  this.settingsMenu = cwc.ui.Helper.getIconButton(
-      'settings', 'Settings');
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -208,31 +207,29 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
     this.accountLogout.render(this.nodeAccountLogout);
   }
 
-  // Settings icon
-  if (this.helper.debugEnabled('SETTINGS')) {
-    this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
-    this.settingsMenu.render(this.nodeSettings);
+  if (this.isChromeApp_) {
+    this.currentWindow =  chrome.app.window.current();
+
+    // Minimize icon
+    this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
+    this.minimizeButton.render(this.nodeMinimizeButton);
+
+    // Maximize icon
+    this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
+    this.maximizeButton.render(this.nodeMaximizeButton);
+
+    // Restore icon
+    this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
+    this.restoreButton.render(this.nodeRestoreButton);
+    goog.style.setElementShown(this.nodeMaximizeButton,
+      !this.currentWindow['isMaximized']());
+    goog.style.setElementShown(this.nodeRestoreButton,
+      this.currentWindow['isMaximized']());
+
+    // Close icon
+    this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
+    this.closeButton.render(this.nodeCloseButton);
   }
-
-  // Minimize icon
-  this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
-  this.minimizeButton.render(this.nodeMinimizeButton);
-
-  // Maximize icon
-  this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
-  this.maximizeButton.render(this.nodeMaximizeButton);
-
-  // Restore icon
-  this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
-  this.restoreButton.render(this.nodeRestoreButton);
-  goog.style.setElementShown(this.nodeMaximizeButton,
-    !this.currentWindow['isMaximized']());
-  goog.style.setElementShown(this.nodeRestoreButton,
-    this.currentWindow['isMaximized']());
-
-  // Close icon
-  this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
-  this.closeButton.render(this.nodeCloseButton);
 };
 
 

@@ -390,6 +390,6 @@ cwc.ui.GDrive.prototype.loadFileContent = function(file, content,
     console.log(content);
     fileLoaderInstance.handleFileData(content, file.title, null, file.id);
   } else {
-    this.helper.warn('Unable to open file ' + file.title + ' !');
+    this.helper.showWarn('Unable to open file ' + file.title + ' !');
   }
 };

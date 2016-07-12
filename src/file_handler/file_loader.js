@@ -289,7 +289,7 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
   if (file && content) {
     callback.call(opt_callback_scope, file, file_entry, content);
   } else {
-    this.helper.error('Unable to open file ' + file + '!');
+    this.helper.showError('Unable to open file ' + file + '!');
   }
 };
 
@@ -310,7 +310,7 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
       if (e.target.isSuccess()) {
         xhrEvent(e, filename, opt_callback, opt_callback_scope);
       } else {
-        this.helper.error('Unable to open file ' + file + ':' +
+        this.helper.showError('Unable to open file ' + file + ':' +
             e.target.getLastError());
       }
     });
