@@ -76,12 +76,13 @@ Blockly.JavaScript['sphero_heading'] = function(block) {
  * Sphero RGB.
  */
 Blockly.JavaScript['sphero_rgb'] = function(block) {
-  var colour = parseInt(
-    block.getFieldValue('colour').replace('#', ''), 16);
+  var colour = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
+      .replace('#', '').replace('\'', '').replace('"', ''), 16);
   var red = colour >> 16;
   var green = colour >> 8 & 0xFF;
   var blue = colour & 0xFF;
-  return 'sphero.setRGB(' + red + ', ' + green+ ', ' + blue + ', 1, 100' +
+  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100' +
     ');\n';
 };
 

@@ -496,65 +496,65 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
     }
   }
   if (!jsonData ||
-      jsonData.format != cwc.fileFormat.FILE_HEADER) {
-    throw 'File format: ' + jsonData.format + ' is not support!';
+      jsonData['format'] != cwc.fileFormat.FILE_HEADER) {
+    throw 'File format: ' + jsonData['format'] + ' is not support!';
   }
   this.init();
 
-  if (jsonData.content) {
-    for (var content in jsonData.content) {
-      this.setContent(content, jsonData.content[content]);
+  if (jsonData['content']) {
+    for (var content in jsonData['content']) {
+      this.setContent(content, jsonData['content'][content]);
     }
   }
 
-  if (jsonData.flags) {
-    for (var flag in jsonData.flags) {
-      this.setFlag(flag, jsonData.flags[flag]);
+  if (jsonData['flags']) {
+    for (var flag in jsonData['flags']) {
+      this.setFlag(flag, jsonData['flags'][flag]);
     }
   }
 
-  if (jsonData.title) {
-    this.setTitle(decodeURIComponent(jsonData.title));
+  if (jsonData['title']) {
+    this.setTitle(decodeURIComponent(jsonData['title']));
   }
 
-  if (jsonData.author) {
-    this.setAuthor(decodeURIComponent(jsonData.author));
+  if (jsonData['author']) {
+    this.setAuthor(decodeURIComponent(jsonData['author']));
   }
 
-  if (jsonData.version) {
-    this.setVersion(decodeURIComponent(jsonData.version));
+  if (jsonData['version']) {
+    this.setVersion(decodeURIComponent(jsonData['version']));
   }
 
-  if (jsonData.description) {
-    this.setDescription(decodeURIComponent(jsonData.description));
+  if (jsonData['description']) {
+    this.setDescription(decodeURIComponent(jsonData['description']));
   }
 
-  if (jsonData.type) {
-    this.setType(decodeURIComponent(jsonData.type));
+  if (jsonData['type']) {
+    this.setType(decodeURIComponent(jsonData['type']));
   }
 
-  if (jsonData.mode) {
-    this.setMode(decodeURIComponent(jsonData.mode));
+  if (jsonData['mode']) {
+    this.setMode(decodeURIComponent(jsonData['mode']));
   }
 
-  if (jsonData.model) {
-    this.setModel(decodeURIComponent(jsonData.model));
+  if (jsonData['model']) {
+    this.setModel(decodeURIComponent(jsonData['model']));
   }
 
-  if (jsonData.ui) {
-    this.setUi(decodeURIComponent(jsonData.ui));
+  if (jsonData['ui']) {
+    this.setUi(decodeURIComponent(jsonData['ui']));
   }
 
-  if (jsonData.frameworks) {
-    this.setFrameworks(jsonData.frameworks);
+  if (jsonData['frameworks']) {
+    this.setFrameworks(jsonData['frameworks']);
   }
 
-  if (jsonData.files) {
-    this.setFilesData(jsonData.files);
+  if (jsonData['files']) {
+    this.setFilesData(jsonData['files']);
   }
 
-  if (jsonData.history) {
-    this.setHistory(jsonData.history);
+  if (jsonData['history']) {
+    this.setHistory(jsonData['history']);
   }
 
 };

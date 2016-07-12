@@ -53,7 +53,13 @@
   </category>
 
   <category name="Lights" colour="120">
-    <block type="sphero_rgb"></block>
+    <block type="sphero_rgb">
+      <value name="colour">
+        <block type="colour_picker">
+          <field name="COLOUR">#ff0000</field>
+       </block>
+      </value>
+    </block>
     <block type="sphero_backlight"></block>
   </category>
 
@@ -125,6 +131,12 @@
   </category>
 
   <sep></sep>
+
+  <category name="Colors" colour="210">
+    <block type="colour_picker">
+      <field name="COLOUR">#ff0000</field>
+    </block>
+  </category>
 
   <category custom="VARIABLE" name="Variables" colour="330"></category>
   <category custom="PROCEDURE" name="Procedure" colour="330"></category>

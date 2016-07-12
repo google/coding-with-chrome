@@ -103,10 +103,9 @@ Blockly.Blocks['sphero_rgb'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
-    this.appendDummyInput()
-        .appendField(i18t('set color('))
-        .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
-        .appendField(')');
+    this.appendValueInput('colour')
+        .appendField(i18t('set color ('));
+    this.appendDummyInput().appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the leds on the Sphero ball.');

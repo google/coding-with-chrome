@@ -8,7 +8,7 @@
   "name": "Coding with Chrome",
   "short_name": "Coding with Chrome",
   "description": "Learn, improve, or teach coding skills within a Chrome browser.",
-  "version": "3.6.19",
+  "version": "3.7.12",
   "default_locale": "en",
   "icons": {
     "16":  "icons/16x16.png",
