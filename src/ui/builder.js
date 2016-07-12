@@ -46,6 +46,7 @@ goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
 goog.require('cwc.ui.Help');
+goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
@@ -260,6 +261,12 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
     if (userLanguage && userLanguage != language) {
       console.log('Using user preferred language:', userLanguage);
       language = userLanguage;
+
+      if (language != cwc.config.Default.LANGUAGE) {
+        // Blockly language file.
+        cwc.ui.Helper.insertScript('../external/blockly/msg/' + language +
+          '.js', 'blockly-language');
+      }
     }
   }
   this.helper.setInstance('i18n', i18nInstance);

@@ -43,6 +43,7 @@ globals:
   i18next: true
   i18soy: true
   i18t: true
+  i18nextSprintfPostProcessor: true
   it: true
   afterEach: true
   beforeEach: true

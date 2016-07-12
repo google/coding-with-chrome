@@ -33,13 +33,24 @@ i18next.exists = function() {};
 i18next.init = function() {};
 
 /** @type {Function} */
+i18next.on = function() {};
+
+/** @type {Function} */
 i18next.store = function() {};
 
 /** @type {Function} */
 i18next.t  = function() {};
+
+
+/** @type {Function} */
+var i18d = function() {};
 
 /** @type {Function} */
 var i18t = function() {};
 
 /** @type {Function} */
 var i18soy = function() {};
+
+
+/** @type {Object} */
+var i18nextSprintfPostProcessor = function() {};

@@ -27,5 +27,6 @@ goog.provide('cwc.locales.ko.Translation');
  */
 /* eslint-disable max-len */
 cwc.locales.ko.Translation = {
-  'hello world': '안녕하세요 세계'
+  'Hello, World': '안녕하세요, 세계',
+  'Hello %s': '안녕하세요 %s'
 };

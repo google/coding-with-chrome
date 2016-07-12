@@ -41,13 +41,31 @@ describe('i18n', function() {
   });
 
   it ('translate', function() {
-    var testString = 'hello world';
+    var testString = 'Hello, World';
     expect(i18nUtils.translate(testString, {lng: 'de'}))
-      .toEqual('Hallo Welt');
+      .toEqual('Hallo, Welt');
     expect(i18nUtils.translate(testString, {lng: 'en'}))
-      .toEqual('hello world');
+      .toEqual('Hello, World');
     expect(i18nUtils.translate(testString, {lng: 'ko'}))
-      .toEqual('안녕하세요 세계');
+      .toEqual('안녕하세요, 세계');
+  });
+
+  it ('translate - data', function() {
+    var testString = 'Hello %s';
+    var data = Math.random().toString(36);
+    var dataArray = [Math.random().toString(36)];
+    expect(i18nUtils.translateData(testString, data, {lng: 'de'}))
+      .toEqual('Hallo ' + data);
+    expect(i18nUtils.translateData(testString, data, {lng: 'en'}))
+      .toEqual('Hello ' + data);
+    expect(i18nUtils.translateData(testString, data, {lng: 'ko'}))
+      .toEqual('안녕하세요 ' + data);
+    expect(i18nUtils.translateData(testString, dataArray, {lng: 'de'}))
+      .toEqual('Hallo ' + dataArray[0]);
+    expect(i18nUtils.translateData(testString, dataArray, {lng: 'en'}))
+      .toEqual('Hello ' + dataArray[0]);
+    expect(i18nUtils.translateData(testString, dataArray, {lng: 'ko'}))
+      .toEqual('안녕하세요 ' + dataArray[0]);
   });
 
 });

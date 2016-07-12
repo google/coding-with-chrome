@@ -30,7 +30,8 @@ cwc.userConfigName = {
   ADVANCED_MODE: 'advanced_mode',
   DEBUG_MODE: 'debug_mode',
   FULLSCREEN: 'fullscreen',
-  LANGUAGE: 'language'
+  LANGUAGE: 'language',
+  ZOOM: 'zoom'
 };
 
 
@@ -38,7 +39,8 @@ cwc.userConfigName = {
  * @enum {string}
  */
 cwc.userConfigType = {
-  GENERAL: 'general'
+  GENERAL: 'general',
+  BLOCKLY: 'blockly'
 };
 
 

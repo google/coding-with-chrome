@@ -70,6 +70,7 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
     }
     // Mapping global short-cuts
     window['i18t'] = this.translate.bind(this);
+    window['i18d'] = this.translateData.bind(this);
     window['i18soy'] = this.translateSoy.bind(this);
 
     // Callback
@@ -85,6 +86,8 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
     'fallbackLng': this.fallbackLanguage,
     'keySeparator': false,
     'nsSeparator': false,
+    'saveMissing': true,
+    'missingKeyHandler': this.handleMissingKey_.bind(this),
     'resources': {
       'de': {
         'translation': cwc.locales.de.Translation
@@ -100,7 +103,9 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
 
   // Init i18next
   this.log_.info('Init i18n with', options);
-  i18next.init(options, callback);
+  i18next
+    .use(i18nextSprintfPostProcessor)
+    .init(options, callback);
 };
 
 
@@ -111,17 +116,27 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(text, opt_options) {
-  var translatedText = i18next.t(text, opt_options);
-  if (text == translatedText && this.language &&
-      !this.isTranslated(text, opt_options)) {
-    if (text in this.untranslated) {
-      this.untranslated[text]++;
-    } else {
-      this.log_.warn('[i18n] Untranslated:', text);
-      this.untranslated[text] = 1;
+  return i18next.t(text, opt_options);
+};
+
+
+/**
+ * Translate the given text and data to the current language.
+ * @param {!string} text
+ * @param {!string|Array|Object} data
+ * @return {!string}
+ */
+cwc.utils.I18n.prototype.translateData = function(text, data, opt_options) {
+  var options = {
+    'postProcess': 'sprintf',
+    'sprintf': (goog.isString(data)) ? [data] : data
+  };
+  if (opt_options) {
+    for (var option in opt_options) {
+      options[option] = opt_options[option];
     }
   }
-  return translatedText;
+  return i18next.t(text, options);
 };
 
 
@@ -214,4 +229,23 @@ cwc.utils.I18n.prototype.getToDo = function() {
     console.log(result);
   }
   return result;
+};
+
+
+/**
+ * @param {Object} opt_lngs
+ * @param {string} opt_namespace
+ * @param {string} opt_key
+ * @param {Object} opt_resources
+ * @private
+ */
+cwc.utils.I18n.prototype.handleMissingKey_ = function(opt_lngs, opt_namespace,
+    opt_key, opt_resources) {
+  var key = opt_key;
+  if (key in this.untranslated) {
+    this.untranslated[key]++;
+  } else {
+    this.log_.warn('[i18n] Untranslated:', key);
+    this.untranslated[key] = 1;
+  }
 };

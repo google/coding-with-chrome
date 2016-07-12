@@ -27,7 +27,8 @@ goog.provide('cwc.locales.de.Translation');
  */
 /* eslint-disable max-len */
 cwc.locales.de.Translation = {
-  'hello world': 'Hallo Welt',
+  'Hello, World': 'Hallo, Welt',
+  'Hello %s': 'Hallo %s',
   'Advanced': 'Fortgeschrittener',
   'Beginner': 'Anfänger',
   'New file': 'Neue Datei',

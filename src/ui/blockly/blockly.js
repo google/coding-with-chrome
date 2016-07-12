@@ -75,6 +75,9 @@ cwc.ui.Blockly = function(helper) {
   /** @type {boolean} */
   this.modified = false;
 
+  /** @type {!boolean} */
+  this.zoomControl = true;
+
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
 
@@ -133,6 +136,13 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
       dialogInstance.showPrompt(opt_title || 'Blockly', promptText,
         callback, defaultText);
     };
+  }
+
+  // Loading user defined settings.
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.zoomControl = userConfigInstance.get(cwc.userConfigType.BLOCKLY,
+      cwc.userConfigName.ZOOM);
   }
 
   // Blockly options
