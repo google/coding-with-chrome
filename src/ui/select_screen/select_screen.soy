@@ -38,13 +38,23 @@
  */
 {template .welcome}
   {@param prefix: string}
+  {@param online: bool}
 
   {call .header_}
     {param prefix: $prefix /}
     {param title: 'Welcome to Coding with Chrome!' /}
     {param text: 'Coding with Chrome is an Educational Development Environment.' /}
+    {param opt_text kind="html"}
+      {if $online}
+        {msg desc=""}
+          <span id="{$prefix}link-intro" class="link_text">Click here</span> to see our short introduction to Coding with Chrome.
+        {/msg}
+      {/if}
+    {/param}
     {param opt_action kind="html"}
-      First, please <b>select your current coding skill.</b>
+      {msg desc=""}
+        First, please <b>select your current coding skill.</b>
+      {/msg}
     {/param}
   {/call}
 
@@ -101,6 +111,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param text: string}
+  {@param? opt_text: html}
   {@param? opt_action: html}
 
   <div id="{$prefix}band">
@@ -111,9 +122,14 @@
       <p class="mdl-typography--headline mdl-typography--font-thin">
         {msg desc=""}{$text}{/msg}
       </p>
+      {if $opt_text}
+        <p id="{$prefix}band-sub-text">
+          {$opt_text}
+        </p>
+      {/if}
       {if $opt_action}
         <p id="{$prefix}band-action" class="mdl-typography--font-regular mdl-typography--text-uppercase">
-          {msg desc=""}{$opt_action}{/msg}<i class="material-icons">chevron_right</i>
+          {$opt_action}<i class="material-icons">chevron_right</i>
         </p>
       {/if}
     </div>
@@ -211,6 +227,10 @@
     padding: 20px;
     text-align: left;
     color: white;
+  {rb}
+
+  #{$prefix}band-sub-text {lb}
+    margin: 0;
   {rb}
 
   #{$prefix}band-action {lb}

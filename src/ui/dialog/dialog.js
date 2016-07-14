@@ -112,7 +112,13 @@ cwc.ui.Dialog.prototype.showModal = function() {
  * @export
  */
 cwc.ui.Dialog.prototype.close = function() {
-  if (this.dialog && this.dialog.hasAttribute('open')) {
+  if (!this.dialog) {
+    return;
+  }
+  if (this.dialog.hasAttribute('open')) {
+    while (this.dialog.firstChild) {
+      this.dialog.removeChild(this.dialog.firstChild);
+    }
     this.dialog.close();
   }
 };
