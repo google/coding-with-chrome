@@ -33,12 +33,79 @@
     {/call}
   </div>
 
-  <nav id="{$prefix}items" class="mdl-navigation"></nav>
+  <nav id="{$prefix}items" class="mdl-navigation">
+
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'New project' /}
+      {param title: 'Start a new project' /}
+      {param id: 'new-project' /}
+      {param opt_icon: 'apps' /}
+    {/call}
+
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'New file' /}
+      {param title: 'Start a file' /}
+      {param id: 'new-file' /}
+      {param opt_icon: 'add' /}
+    {/call}
+
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'Open file' /}
+      {param title: 'Open a local file ...' /}
+      {param id: 'open-file' /}
+      {param opt_icon: 'open_in_browser' /}
+    {/call}
+
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'Save as new file' /}
+      {param title: 'Save as new file ...' /}
+      {param id: 'save-file' /}
+      {param opt_icon: 'save' /}
+    {/call}
+
+  </nav>
 
   <footer class="mdl-mini-footer">
-    <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section"></div>
-    <div id="{$prefix}footer_right" class="mdl-mini-footer__right-section"></div>
+    <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section">
+
+      {call .linkButton_}
+        {param prefix: $prefix /}
+        {param text: 'About' /}
+        {param title: 'Learn more about Coding with Chrome' /}
+        {param id: 'about' /}
+      {/call}
+
+    </div>
+    <div id="{$prefix}footer_right" class="mdl-mini-footer__right-section">
+
+      {call .iconButton_}
+        {param prefix: $prefix /}
+        {param icon: 'build' /}
+        {param title: 'Open Debug' /}
+        {param id: 'debug' /}
+      {/call}
+
+      {call .iconButton_}
+        {param prefix: $prefix /}
+        {param icon: 'settings' /}
+        {param title: 'Open settings' /}
+        {param id: 'settings' /}
+      {/call}
+
+      {call .iconButton_}
+        {param prefix: $prefix /}
+        {param icon: 'help' /}
+        {param title: 'Help' /}
+        {param id: 'help' /}
+      {/call}
+
+    </div>
   </footer>
+
 {/template}
 
 
@@ -55,6 +122,53 @@
     {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
   </header>
 
+{/template}
+
+
+/**
+ * Navigation link item.
+ */
+{template .navigationLink_}
+  {@param prefix: string}
+  {@param text: string}
+  {@param title: string}
+  {@param id: string}
+  {@param? opt_icon: string}
+
+  <div id="{$prefix}{$id}" class="link_button mdl-navigation__link" title="{msg desc=""}{$title}{/msg}" role="button" tabindex="0">
+    {msg desc=""}{$text}{/msg}
+    {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+  </div>
+{/template}
+
+
+/**
+ * Navigation text button.
+ */
+{template .linkButton_}
+  {@param prefix: string}
+  {@param text: string}
+  {@param title: string}
+  {@param id: string}
+
+  <div id="{$prefix}{$id}" class="link_button" title="{msg desc=""}{$title}{/msg}" role="button" tabindex="0">
+    {msg desc=""}{$text}{/msg}
+  </div>
+{/template}
+
+
+/**
+ * Navigation icon button.
+ */
+{template .iconButton_}
+  {@param prefix: string}
+  {@param icon: string}
+  {@param title: string}
+  {@param id: string}
+
+  <div id="{$prefix}{$id}" class="icon_24px icon_button" title="{msg desc=""}{$title}{/msg}" role="button" tabindex="0">
+    {$icon}
+  </div>
 {/template}
 
 
