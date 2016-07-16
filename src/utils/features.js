@@ -324,9 +324,9 @@ cwc.utils.Features.prototype.setJavaScriptFeature = function(name, value) {
  * @export
  */
 cwc.utils.Features.prototype.log = function() {
-  for (var group in this.feature_) {
+  for (let group in this.feature_) {
     if (this.feature_.hasOwnProperty(group)) {
-      for (var feature in this.feature_[group]) {
+      for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
           console.log('[', group, ']', feature, '=',
               this.feature_[group][feature]);

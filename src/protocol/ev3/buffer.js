@@ -167,7 +167,7 @@ cwc.protocol.ev3.Buffer.prototype.readSigned = function() {
   data[1] = (dataLength >> 8) & 0xFF;
   data[2] = this.callbackType;
   data[3] = this.callbackTarget;
-  for (var i = 0; i < dataLength; i++) {
+  for (let i = 0; i < dataLength; i++) {
     data[4 + i] = buffer[i] & 0xFF;
   }
   return dataBuffer;

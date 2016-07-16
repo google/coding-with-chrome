@@ -385,7 +385,7 @@ cwc.ui.Layout.prototype.showOverlay = function(visible) {
 cwc.ui.Layout.prototype.setOverlayBackground = function(background) {
   var overlayNode = this.getOverlay();
   if (overlayNode) {
-    for (var type in cwc.ui.LayoutOverlayBackground) {
+    for (let type in cwc.ui.LayoutOverlayBackground) {
       goog.dom.classes.enable(overlayNode,
           this.prefix + cwc.ui.LayoutOverlayBackground[type],
           background == cwc.ui.LayoutOverlayBackground[type]);

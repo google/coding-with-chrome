@@ -217,7 +217,7 @@ cwc.ui.Account.prototype.request = function(args) {
 
   var params = args.params || '';
   if (typeof params == 'object') {
-    for (var i in params) {
+    for (let i in params) {
       url.setParameterValue(i, params[i]);
     }
   }

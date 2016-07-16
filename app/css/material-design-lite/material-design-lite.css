@@ -61,7 +61,7 @@ html>body,
 
 .mdl-layout__drawer > .mdl-layout__header {
   padding-left: 80px;
-  font-size: 14px;
+  font-size: 14rem;
   height: 80px;
   line-height: 80px;
 }

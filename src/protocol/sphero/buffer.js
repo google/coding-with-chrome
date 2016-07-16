@@ -133,7 +133,7 @@ cwc.protocol.sphero.Buffer.prototype.readSigned = function() {
   data[4] = this.callbackType;
   data[5] = dataLength;
   checkSum += data[2] + data[3] + data[4] + data[5];
-  for (var i = 0; i < dataLength; i++) {
+  for (let i = 0; i < dataLength; i++) {
     data[6 + i] = buffer[i] & 0xFF;
     checkSum += data[6 + i];
   }

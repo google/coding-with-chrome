@@ -61,8 +61,8 @@ cwc.protocol.USB.Devices = function() {
  */
 cwc.protocol.USB.Devices.prototype.updateDevices = function() {
   var devices = cwc.protocol.USB.supportedDevices;
-  for (var i = 0; i < devices.length; i++) {
-    for (var i2 = 0; i2 < devices[i].length; i2++) {
+  for (let i = 0; i < devices.length; i++) {
+    for (let i2 = 0; i2 < devices[i].length; i2++) {
       var vendorId = i;
       var productId = i2;
       var device = devices[vendorId][i2];

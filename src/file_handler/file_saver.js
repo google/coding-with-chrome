@@ -159,7 +159,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
     file_name, opt_extension) {
   var extension = opt_extension || cwc.file.Extensions.CWC;
-  if (file_name.indexOf(extension) != -1) {
+  if (file_name.includes(extension)) {
     return file_name;
   }
   return file_name + extension;

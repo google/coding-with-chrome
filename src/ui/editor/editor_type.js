@@ -39,15 +39,15 @@ cwc.ui.EditorType = {
  * @return {cwc.ui.EditorType}
  */
 cwc.ui.guessEditorType = function(content) {
-  if (content.indexOf('<html') != -1) {
+  if (content.includes('<html')) {
     return cwc.ui.EditorType.HTML;
   }
 
-  if (content.indexOf('var ') != -1 || content.indexOf('// ') != -1) {
+  if (content.includes('var ') || content.includes('// ')) {
     return cwc.ui.EditorType.JAVASCRIPT;
   }
 
-  if (content.indexOf('display:') != -1 || content.indexOf('color:') != -1) {
+  if (content.includes('display:') != -1 || content.includes('color:')) {
     return cwc.ui.EditorType.CSS;
   }
 

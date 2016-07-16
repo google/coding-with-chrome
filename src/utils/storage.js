@@ -203,13 +203,13 @@ cwc.utils.Storage.prototype.loadChromeStorage = function(opt_type,
  */
 cwc.utils.Storage.prototype.handleLoadChromeStorage_ = function(data,
     opt_storage_key, opt_callback) {
-  for (var storageKey in data) {
+  for (let storageKey in data) {
     if ((opt_storage_key && storageKey == opt_storage_key) ||
         (!opt_storage_key && storageKey.startsWith(this.prefix_))) {
       if (goog.isObject(data[storageKey])) {
         this.log_.info('Syncing', data[storageKey].length,
           'items to session storage.');
-        for (var item in data[storageKey]) {
+        for (let item in data[storageKey]) {
           this.storage_.setItem(storageKey + item, data[storageKey][item]);
         }
       } else {
@@ -233,9 +233,9 @@ cwc.utils.Storage.prototype.saveChromeStorage = function(type) {
   var storageLength = this.storage_.length;
   var storageKeyName = this.getKeyname('', type);
   this.log_.info('Syncing', type, 'elements to Chrome storage.');
-  for (var i = 0; i < storageLength; i++) {
+  for (let i = 0; i < storageLength; i++) {
     var sessionKey = this.storage_.key(i);
-    if (sessionKey.indexOf(storageKeyName) !== -1) {
+    if (sessionKey.includes(storageKeyName)) {
       var storageKey = sessionKey.replace(storageKeyName, '');
       data[storageKey] = this.storage_.getItem(sessionKey);
     }

@@ -55,7 +55,7 @@ cwc.mode.Config.get = function(type, opt_required) {
  * @return {cwc.mode.ConfigData}
  */
 cwc.mode.Config.getModForFileType = function(file_type) {
-  for (var mod in cwc.mode.ConfigData) {
+  for (let mod in cwc.mode.ConfigData) {
     if (cwc.mode.ConfigData.hasOwnProperty(mod)) {
       var modConfig = cwc.mode.ConfigData[mod];
       if (file_type == modConfig.fileType) {

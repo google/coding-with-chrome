@@ -127,7 +127,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
 
   // Robot Models
-  for (var robot in cwc.protocol.ev3.Robots) {
+  for (let robot in cwc.protocol.ev3.Robots) {
     if (cwc.protocol.ev3.Robots.hasOwnProperty(robot)) {
       var item = cwc.ui.Helper.getMenuItem(robot, '',
         this.setType.bind(this));

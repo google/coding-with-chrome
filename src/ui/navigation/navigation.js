@@ -166,7 +166,7 @@ cwc.ui.Navigation.prototype.show = function() {
     return;
   }
   var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
-  if (mdlLayoutClassName.indexOf('is-visible') === -1) {
+  if (!mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
 };
@@ -181,7 +181,7 @@ cwc.ui.Navigation.prototype.hide = function() {
     return;
   }
   var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
-  if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
+  if (mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
 };

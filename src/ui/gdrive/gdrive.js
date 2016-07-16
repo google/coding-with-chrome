@@ -188,7 +188,7 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
   );
 
   var elements = goog.dom.getElementsByClass('gdrive-loader');
-  for (var i2 = 0; i2 < elements.length; ++i2) {
+  for (let i2 = 0; i2 < elements.length; ++i2) {
     var element = elements[i2];
     var loaderEvent = function(event) {
       this.dialog.setVisible(false);
@@ -254,7 +254,7 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
   this.data = {};
   if ('items' in data) {
     var files = data['items'];
-    for (var i = 0; i < files.length; ++i) {
+    for (let i = 0; i < files.length; ++i) {
       this.data[files[i]['id']] = files[i];
     }
     console.log('Google Drive files: ', files);

@@ -78,9 +78,9 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
   var headers = [];
 
-  // Coffeescript framework.
   if (html) {
-    if (html.indexOf('text/coffeescript') != -1) {
+    // Coffeescript framework.
+    if (html.includes('text/coffeescript')) {
       headers.push(this.coffeeScriptFramework);
     }
   }
@@ -88,11 +88,14 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   // Detect additional frameworks.
   var script = javascript || html || '';
   if (script) {
-    if (script.indexOf('draw.') != -1 || script.indexOf('command.') != -1) {
+    // Simple framework.
+    if (script.includes('draw.') || script.includes('command.')) {
       headers.push(this.simpleFramework);
     }
-    if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||
-        script.indexOf('$(document).ready') != -1) {
+    // jQuery framework.
+    if (script.includes('jQuery.') ||
+        script.includes('jQuery(') ||
+        script.includes('$(document).ready')) {
       headers.push(this.jQueryFramework);
     }
   }

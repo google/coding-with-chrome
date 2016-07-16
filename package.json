@@ -56,10 +56,10 @@
 
     "clean": "echo Cleaning up. Please wait ... && npm prune && rimraf genfiles/* && rimraf test/genfiles/* && rimraf gensoyfiles/*",
     "clean-build": "npm run clean && npm run build",
-
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
-    "update": "npm run clean && ncu -u -a && npm install && npm update -a && npm test",
-    "show-updates": "ncu"
+    "show-updates": "ncu",
+    "sync": "git pull && git submodule init && git submodule update && npm run update",
+    "update": "npm run clean && ncu -u -a && npm install && npm update -a && npm test"
   }
 }

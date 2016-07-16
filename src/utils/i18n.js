@@ -132,7 +132,7 @@ cwc.utils.I18n.prototype.translateData = function(text, data, opt_options) {
     'sprintf': (goog.isString(data)) ? [data] : data
   };
   if (opt_options) {
-    for (var option in opt_options) {
+    for (let option in opt_options) {
       options[option] = opt_options[option];
     }
   }
@@ -217,7 +217,7 @@ cwc.utils.I18n.prototype.isTranslated = function(text, opt_options) {
 cwc.utils.I18n.prototype.getToDo = function() {
   var counter = 0;
   var result = '';
-  for (var textId in this.untranslated) {
+  for (let textId in this.untranslated) {
     if (this.untranslated.hasOwnProperty(textId)) {
       result += '  \'' + textId + '\': \'' + textId + '\',\n';
     }

@@ -52,7 +52,7 @@ cwc.file.File = function(name, content, opt_type, opt_size, opt_group) {
   this.version_ = 1;
 
   if (!opt_type) {
-    if (this.content_.indexOf('data:') != -1) {
+    if (this.content_.includes('data:')) {
       var contentFileType = this.content_.split(';')[0].split(':')[1];
       if (contentFileType) {
         this.type_ = contentFileType;

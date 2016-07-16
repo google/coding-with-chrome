@@ -45,7 +45,7 @@ cwc.utils.ByteTools.signedBytesToInt = function(data) {
 cwc.utils.ByteTools.toUint8Array = function(data) {
   var dataLength = data.length;
   var dataBuffer = new Uint8Array(dataLength);
-  for (var i=0; i < dataLength; i++) {
+  for (let i=0; i < dataLength; i++) {
     dataBuffer[i] = data[i];
   }
   return dataBuffer;
@@ -145,7 +145,7 @@ cwc.utils.ByteTools.getHeaderPosition = function(data, headers) {
   if (headerLen >= 2) {
     for (;searchPos !== -1; searchPos = data.indexOf(headers[0], searchPos)) {
       var foundHeaders = true;
-      for (var i = 0; i < headerLen; i++) {
+      for (let i = 0; i < headerLen; i++) {
         if (data[searchPos + i] !== headers[i]) {
           foundHeaders = false;
         }

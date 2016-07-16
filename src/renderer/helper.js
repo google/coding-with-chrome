@@ -41,7 +41,7 @@ cwc.renderer.Helper = function() {};
  */
 cwc.renderer.Helper.prototype.prependText = function(content, text) {
   if (content && text) {
-    if (content.indexOf(text) == -1) {
+    if (!content.includes(text)) {
       return text + '\n' + content;
     }
   }
@@ -95,15 +95,15 @@ cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
     return '';
   }
   if (opt_header) {
-    if (html.indexOf('</head>') !== -1) {
+    if (html.includes('</head>')) {
       return html.replace('</head>', opt_header + '\n</head>');
-    } else if (html.indexOf('<body') !== -1) {
+    } else if (html.includes('<body')) {
       return html.replace('<body',
         '<head>\n' + opt_header + '\n</head>\n<body');
-    } else if (html.indexOf('<html>') !== -1) {
+    } else if (html.includes('<html>')) {
       return html.replace('<html>',
         '<html>\n<head>\n' + opt_header + '\n</head>\n');
-    } else if (html.indexOf('<html') === -1) {
+    } else if (!html.includes('<html')) {
       return '<head>\n' + opt_header + '\n</head>\n' + html;
     }
   }
@@ -193,7 +193,7 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
 
   if (goog.string.startsWith(data, 'data:text/javascript;')) {
     data = data.split(';')[1];
-    if (data.indexOf(',') !== -1) {
+    if (data.includes(',')) {
       var dataFragments = data.split(',');
       encoding = dataFragments[0];
       data = dataFragments[1];
@@ -232,7 +232,7 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
 cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
     renderer_frameworks) {
   var headers = '';
-  for (var filename in filenames) {
+  for (let filename in filenames) {
     headers += this.getFrameworkHeader(filenames[filename],
       renderer_frameworks);
   }

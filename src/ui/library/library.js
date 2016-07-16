@@ -183,7 +183,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
     var files = fileInstance.getFiles().getFiles();
     if (files && goog.isObject(files)) {
       this.clearData();
-      for (var file in files) {
+      for (let file in files) {
         if (files.hasOwnProperty(file)) {
           var fileData = files[file];
           this.addLibraryEntry(fileData.getName(), fileData.getType(),

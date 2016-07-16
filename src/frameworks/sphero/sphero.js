@@ -117,7 +117,7 @@ cwc.framework.Sphero.prototype.rollTime = function(time, opt_speed, opt_heading,
     opt_stop) {
   var rollTime = Math.floor(time*2) || 0;
   var speed = opt_speed || 20;
-  for (var num = 0; num < rollTime; num++) {
+  for (let num = 0; num < rollTime; num++) {
     this.roll(speed, opt_heading, true, 500);
   }
   if (opt_stop) {

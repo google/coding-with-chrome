@@ -489,7 +489,7 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
   var helpers = cwc.ui.BuilderHelpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
-  for (var helper in helpers) {
+  for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading helper: ' + helper, counter,
           numOfHelpers);
@@ -509,7 +509,7 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
   var helpers = cwc.ui.oauth2Helpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
-  for (var helper in helpers) {
+  for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading OAuth2 helper: ' + helper, counter,
           numOfHelpers);
@@ -548,7 +548,7 @@ cwc.ui.Builder.prototype.loadFrameworks = function() {
     this.raiseError('Was not able to load renderer instance!');
   }
 
-  for (var framework in frameworks) {
+  for (let framework in frameworks) {
     if (frameworks.hasOwnProperty(framework)) {
       var message = 'Loading ' + framework + ' framework ...';
       this.setProgress(message, counter, numOfFrameworks);

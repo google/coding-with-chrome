@@ -128,7 +128,7 @@ cwc.utils.ByteArray.prototype.writeUInt16 = function(value) {
 cwc.utils.ByteArray.prototype.writeString = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.STR);
   var valueLength = value.length;
-  for (var i = 0; i < valueLength; i++) {
+  for (let i = 0; i < valueLength; i++) {
     this.write(value.charCodeAt(i));
   }
   this.write(0x00);

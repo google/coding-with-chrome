@@ -109,7 +109,7 @@ cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
 cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
   this.log_.debug('Closing all existing sockets ...');
   var handleSockets = function(sockets) {
-    for (var i = 0; i < sockets.length; i++) {
+    for (let i = 0; i < sockets.length; i++) {
       this.bluetoothSocket.close(sockets[i].socketId,
           this.handleCloseSocket_.bind(this));
     }
@@ -150,12 +150,12 @@ cwc.protocol.bluetooth.Devices.prototype.receiveError = function(
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
   var supportedDevices = cwc.protocol.bluetooth.supportedDevices;
-  for (var entry in supportedDevices) {
+  for (let entry in supportedDevices) {
     if (supportedDevices.hasOwnProperty(entry)) {
       var profile = supportedDevices[entry];
       if (device['deviceClass'] == profile.deviceClass &&
-          device['uuids'].indexOf(profile.uuid) != -1 &&
-          device['name'].indexOf(profile.indicator) != -1) {
+          device['uuids'].includes(profile.uuid) &&
+          device['name'].includes(profile.indicator)) {
         this.log_.debug('Found device profile', profile.name, 'for', device);
         return profile;
       }
@@ -189,10 +189,10 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
     opt_multisearch) {
   var connectedDevice = [];
   var disconnectedDevice = [];
-  for (var entry in this.devices) {
+  for (let entry in this.devices) {
     if (this.devices.hasOwnProperty(entry)) {
       var device = this.devices[entry];
-      if (device.getIndicator().indexOf(name) !== -1) {
+      if (device.getIndicator().includes(name)) {
         if (device.isConnected()) {
           connectedDevice.push(device);
         } else {
@@ -309,7 +309,7 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
   var connectionManagerInstance = this.helper.getInstance('connectionManager');
   var menubarInstance = this.helper.getInstance('menubar');
   var deviceConnected = false;
-  for (var i = 0; i < devices.length; i++) {
+  for (let i = 0; i < devices.length; i++) {
     var deviceEntry = devices[i];
     var profile = this.getDeviceProfile(deviceEntry);
     if (profile) {

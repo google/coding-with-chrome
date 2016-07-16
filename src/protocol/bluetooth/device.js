@@ -440,7 +440,7 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
     return;
   }
 
-  for (var handler in this.dataHandler) {
+  for (let handler in this.dataHandler) {
     var dataView = cwc.utils.ByteTools.getUint8Data(data,
       this.dataHandler[handler]['headers'],
       this.dataHandler[handler]['size'],
@@ -462,7 +462,7 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
  */
 cwc.protocol.bluetooth.Device.prototype.handleError = function(error) {
   console.log('handleError', error);
-  if (error.indexOf('disconnected') != -1) {
+  if (error.includes('disconnected')) {
     this.close();
   }
   this.connecting = false;
@@ -491,11 +491,11 @@ cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
     opt_bytes_sent) {
   if (chrome.runtime.lastError) {
     var errorMessage = chrome.runtime.lastError.message;
-    if ((errorMessage.toLowerCase().indexOf('socket') !== -1 &&
-         errorMessage.toLowerCase().indexOf('not') !== -1 &&
-         errorMessage.toLowerCase().indexOf('connected') !== -1) ||
-        (errorMessage.toLowerCase().indexOf('connection') !== -1 &&
-         errorMessage.toLowerCase().indexOf('aborted') !== -1)) {
+    if ((errorMessage.toLowerCase().includes('socket') &&
+         errorMessage.toLowerCase().includes('not') &&
+         errorMessage.toLowerCase().includes('connected')) ||
+        (errorMessage.toLowerCase().includes('connection') &&
+         errorMessage.toLowerCase().includes('aborted'))) {
       this.connected = false;
     } else {
       console.error('Socket error:', errorMessage);
@@ -530,7 +530,7 @@ cwc.protocol.bluetooth.Device.prototype.handleSockets_ = function(socket_info) {
     this.connected = false;
     return;
   }
-  for (var i in socket_info) {
+  for (let i in socket_info) {
     var socket = socket_info[i];
     if (socket.connected && socket.address == this.address &&
         this.socketId != socket.socketId) {
@@ -553,9 +553,9 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
   if (chrome.runtime.lastError) {
     var errorMessage = chrome.runtime.lastError;
     console.warn('Socket connection failed:', errorMessage);
-    if (errorMessage['message'].toLowerCase().indexOf('connection') !== -1 &&
-        errorMessage['message'].toLowerCase().indexOf('failed') !== -1 ||
-        errorMessage['message'].toLowerCase().indexOf('0x2743')) {
+    if (errorMessage['message'].toLowerCase().includes('connection') &&
+        errorMessage['message'].toLowerCase().includes('failed') ||
+        errorMessage['message'].toLowerCase().includes('0x2743')) {
       this.connectErrors++;
       this.close();
     }

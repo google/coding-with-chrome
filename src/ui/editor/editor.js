@@ -171,7 +171,7 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
 
   // Decorate editor mode select.
   this.infobarModeSelect = new goog.ui.Select('Change the editor mode.');
-  for (var editorType in CodeMirror.mimeModes) {
+  for (let editorType in CodeMirror.mimeModes) {
     this.infobarModeSelect.addItem(new goog.ui.MenuItem(editorType));
   }
   this.infobarModeSelect.render(this.nodeInfobarMode);
@@ -386,7 +386,7 @@ cwc.ui.Editor.prototype.getEditorContent = function(opt_name) {
       console.error('Editor content', opt_name, 'is not defined!');
     }
   } else {
-    for (var view in this.editorView) {
+    for (let view in this.editorView) {
       if (this.editorView.hasOwnProperty(view)) {
         editorContent[view] = this.editorView[view].getContent();
       }

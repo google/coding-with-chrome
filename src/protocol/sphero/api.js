@@ -499,7 +499,7 @@ cwc.protocol.sphero.Api.prototype.verifiyChecksum_ = function(buffer,
   var bufferChecksum = 0;
   var bufferLength = buffer.length -1;
   var checksum = opt_checksum || buffer[bufferLength];
-  for (var i = 2; i < bufferLength; i++) {
+  for (let i = 2; i < bufferLength; i++) {
     bufferChecksum += buffer[i];
   }
 

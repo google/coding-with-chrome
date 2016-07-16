@@ -502,13 +502,13 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
   this.init();
 
   if (jsonData['content']) {
-    for (var content in jsonData['content']) {
+    for (let content in jsonData['content']) {
       this.setContent(content, jsonData['content'][content]);
     }
   }
 
   if (jsonData['flags']) {
-    for (var flag in jsonData['flags']) {
+    for (let flag in jsonData['flags']) {
       this.setFlag(flag, jsonData['flags'][flag]);
     }
   }

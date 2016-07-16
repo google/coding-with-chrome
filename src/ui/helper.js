@@ -175,7 +175,7 @@ cwc.ui.Helper.enableElement = function(element, enabled) {
  */
 cwc.ui.Helper.removeElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.dom.removeNode(elements[i]);
   }
 };
@@ -188,7 +188,7 @@ cwc.ui.Helper.removeElements = function(class_names, opt_type) {
  */
 cwc.ui.Helper.hideElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.style.showElement(elements[i], false);
   }
 };
@@ -201,7 +201,7 @@ cwc.ui.Helper.hideElements = function(class_names, opt_type) {
  */
 cwc.ui.Helper.showElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.style.showElement(elements[i], true);
   }
 };
@@ -216,11 +216,11 @@ cwc.ui.Helper.showElements = function(class_names, opt_type) {
 cwc.ui.Helper.getElements = function(class_names, opt_type) {
   var classes = (typeof class_names === 'string') ? [class_names] : class_names;
   var result = [];
-  for (var i = 0; i < classes.length; i++) {
+  for (let i = 0; i < classes.length; i++) {
     var elements = goog.dom.getElementsByTagNameAndClass(opt_type || 'div',
         classes[i]);
     if (elements) {
-      for (var i2 = 0; i2 < elements.length; i2++) {
+      for (let i2 = 0; i2 < elements.length; i2++) {
         result.push(elements[i2]);
       }
     }
