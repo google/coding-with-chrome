@@ -17,6 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+'use strict';
 
 
 describe('EV3 Blocks', function() {

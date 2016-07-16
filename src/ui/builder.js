@@ -56,7 +56,6 @@ goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Turtle');
-goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.userConfig');
 goog.require('cwc.utils.Helper');
@@ -124,7 +123,6 @@ cwc.ui.BuilderHelpers = {
   'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
   'turtle': cwc.ui.Turtle,
-  'tutorial': cwc.ui.Tutorial
 };
 
 
