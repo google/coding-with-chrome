@@ -1,6 +1,6 @@
 {
   "name": "karma-es6-preprocessor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple ES6 preprocessor for Karma",
   "main": "karma-es6-preprocessor.js",
   "scripts": {

@@ -20,7 +20,7 @@
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-jasmine": "latest",
-    "karam-es6-preprocessor": "file:test/plugins/es6",
+    "karma-es6-preprocessor": "latest",
     "npm-check-updates": "latest"
   },
   "scripts": {

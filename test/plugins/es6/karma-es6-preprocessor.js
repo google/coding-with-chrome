@@ -19,18 +19,18 @@
  */
 
 
-var createES6Preprocessor = function (logger) {
-  var log = logger.create('preprocessor.es6')
-  return function (content, file, done) {
-    log.debug('Processing "%s".', file.originalPath)
-    
+var createES6Preprocessor = function(logger) {
+  var log = logger.create('preprocessor.es6');
+  return function(content, file, done) {
+    log.debug('Processing "%s".', file.originalPath);
+
     if (!content.includes('"use strict";')) {
       content = '"use strict";\n' + content;
     }
 
-    done(content); 
-  }
-}
+    done(content);
+  };
+};
 
 
 createES6Preprocessor.$inject = ['logger'];
