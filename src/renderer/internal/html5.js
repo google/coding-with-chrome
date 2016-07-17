@@ -43,6 +43,9 @@ cwc.renderer.internal.HTML5 = function(helper) {
   this.coffeeScriptFramework = 'coffee-script.js';
 
   /** @type {string} */
+  this.threeJsFramework = 'three.min.js';
+
+  /** @type {string} */
   this.jQueryFramework = 'jquery.min.js';
 };
 
@@ -92,11 +95,17 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     if (script.includes('draw.') || script.includes('command.')) {
       headers.push(this.simpleFramework);
     }
+
     // jQuery framework.
     if (script.includes('jQuery.') ||
         script.includes('jQuery(') ||
         script.includes('$(document).ready')) {
       headers.push(this.jQueryFramework);
+    }
+
+    // three.js
+    if (script.includes('new THREE')) {
+      headers.push(this.threeJsFramework);
     }
   }
 

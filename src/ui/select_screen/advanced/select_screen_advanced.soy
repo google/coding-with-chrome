@@ -291,7 +291,18 @@
             {param opt_icon: 'movie_creation' /}
             {param opt_text: 'Video Tutorials' /}
           {/call}
-          {/if}
+        {/if}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'JavaScirpt Frameworks' /}
+          {param text: 'Different kind of JavaScript framework examples' /}
+          {param link_text: 'Select Framework' /}
+          {param link_id: 'js-frameworks' /}
+          {param opt_color_class: 'bg-orange' /}
+          {param opt_icon: 'pages' /}
+          {param opt_text: 'JavaScript Frameworks' /}
+        {/call}
 
         {call .selectCardBig_}
           {param prefix: $prefix /}
@@ -344,7 +355,7 @@
 
       {call .header_}
         {param title: 'JavaScript Video Tutorials' /}
-        {param opt_text: 'Learn JavaScript with video tutorials on YouTube ' /}
+        {param opt_text: 'Learn JavaScript with video tutorials on YouTube.' /}
         {param opt_color_class: 'bg-green' /}
         {param opt_icon: 'video_library' /}
       {/call}
@@ -381,6 +392,54 @@
           {param link_text: 'Open video in Browser' /}
           {param video_id: 'CkoJWKWIWFU' /}
           {param opt_color_class: 'bg-green' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * JavaScript Frameworks page.
+ */
+{template .javaScriptFrameworks}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-frameworks-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'javascript' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'JavaScript Frameworks' /}
+        {param opt_text: 'Learn the different kind of JavaScript frameworks.' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'pages' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Three.js - Cube Example' /}
+          {param text: 'Animated 3d cube.' /}
+          {param link_text: 'Load 3d cube Animation' /}
+          {param link_id: 'cube-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '' /}
         {/call}
 
       </div>

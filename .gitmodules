@@ -64,3 +64,6 @@
 	path = third_party/blockly
 	url = https://github.com/google/blockly.git
 	ignore = dirty
+[submodule "third_party/three.js"]
+	path = third_party/three.js
+	url = https://github.com/mrdoob/three.js.git

@@ -306,13 +306,12 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(e) {
-      if (e.target.isSuccess()) {
-        xhrEvent(e, filename, opt_callback, opt_callback_scope);
-      } else {
-        this.helper.showError('Unable to open file ' + file + ':' +
-            e.target.getLastError());
-      }
+    goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
+      xhrEvent(e, filename, opt_callback, opt_callback_scope);
+    });
+    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
+      this.helper.showError('Unable to open file ' + file + ':' +
+          e.target.getLastError());
     });
     xhr.send(file);
   }

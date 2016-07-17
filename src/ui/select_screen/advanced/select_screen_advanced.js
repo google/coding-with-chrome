@@ -34,6 +34,7 @@ cwc.ui.SelectScreenAdvancedView = {
   BASIC: 'basicOverview',
   PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
   JAVASCRIPT: 'javaScriptOverview',
+  JAVASCRIPT_FRAMEWORKS: 'javaScriptFrameworks',
   JAVASCRIPT_TUTORIAL: 'javaScriptVideoTutorial',
   COFFEESCRIPT: 'coffeeScriptOverview',
   PENCIL_CODE: 'pencilCodeOverview',
@@ -154,6 +155,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.file.Type.BASIC);
       this.setClickEvent_('link-js-tutorials', this.showView,
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL);
+      this.setClickEvent_('link-js-frameworks', this.showView,
+          cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_FRAMEWORKS);
       this.setClickEvent_('link-circle-animation', this.loadFile_,
           'resources/examples/javascript/script/CircleAnimation.cwc');
       this.setClickEvent_('link-triangle-animation', this.loadFile_,
@@ -162,6 +165,12 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptVideoTutorial);
       this.addProgrammingMenuHandler_();
+      break;
+    case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_FRAMEWORKS:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptFrameworks);
+      this.addProgrammingMenuHandler_();
+      this.setClickEvent_('link-cube-animation', this.loadFile_,
+          'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.coffeeScriptOverview);
@@ -188,7 +197,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.HTML5);
       break;
 
-    // Markup Language Screens
+    // HTML5 screen
     case cwc.ui.SelectScreenAdvancedView.HTML5:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
       this.setNavHeader_('HTML5', 'public');
@@ -208,7 +217,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.SPHERO);
       break;
 
-    // Robot screens
+    // EV3 screen
     case cwc.ui.SelectScreenAdvancedView.EV3:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
@@ -218,6 +227,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-line-follower', this.loadFile_,
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
+    // Sphero screen
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');

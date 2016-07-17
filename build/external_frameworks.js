@@ -42,6 +42,18 @@ closureBuilder.build({
 
 
 /**
+ * three.js
+ */
+closureBuilder.build({
+  name: 'three.js',
+  resources: [
+    'third_party/three.js/build/three.min.js'
+  ],
+  out: 'genfiles/frameworks/external/three.min.js'
+});
+
+
+/**
  * jQuery 3.x
  */
 closureBuilder.build({

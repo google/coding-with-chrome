@@ -143,7 +143,6 @@ describe('Storage - Chrome Mode', function() {
   });
 
   it('loadChromeStorage', function() {
-    console.log('loadChromeStorage');
     customStorage.clear();
     customStorage.set({
       cwc__storage____default______cwc__test__213809: testValue},

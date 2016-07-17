@@ -82,6 +82,7 @@ cwc.ui.BuilderFrameworks = {
 
   // External frameworks
   'Coffeescript Framework': '../frameworks/external/coffee-script.js',
+  'three.js': '../frameworks/external/three.min.js',
   'jQuery 3.x Framework': '../frameworks/external/jquery.min.js',
   'jQuery 2.2.4 Framework': '../frameworks/external/jquery-2.2.4.min.js',
   'jQuery Turtle Framework': '../frameworks/external/jquery-turtle.js'
