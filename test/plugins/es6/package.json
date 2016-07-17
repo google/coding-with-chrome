@@ -1,0 +1,16 @@
+{
+  "name": "karma-es6-preprocessor",
+  "version": "1.0.0",
+  "description": "Simple ES6 preprocessor for Karma",
+  "main": "karma-es6-preprocessor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "karma-plugin",
+    "karma-preprocessor",
+    "es6"
+  ],
+  "author": "Markus Bordihn <mbordihn@google.com>",
+  "license": "MIT"
+}

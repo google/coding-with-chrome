@@ -1,7 +1,7 @@
 /**
- * @fileoverview Blockly tests.
+ * @fileoverview Karma ES6 pre-processor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,21 +19,22 @@
  */
 
 
-describe('Blockly', function() {
+var createES6Preprocessor = function (logger) {
+  var log = logger.create('preprocessor.es6')
+  return function (content, file, done) {
+    log.debug('Processing "%s".', file.originalPath)
+    
+    if (!content.includes('"use strict";')) {
+      content = '"use strict";\n' + content;
+    }
 
-  beforeEach(function() {
-    var fixture = '<div id="fixture"></div>';
-    document.body.insertAdjacentHTML(
-      'afterbegin',
-      fixture);
-  });
+    done(content); 
+  }
+}
 
-  afterEach(function() {
-    document.body.removeChild(document.getElementById('fixture'));
-  });
 
-  it('object', function() {
-    expect(typeof Blockly).toEqual('object');
-  });
+createES6Preprocessor.$inject = ['logger'];
 
-});
+module.exports = {
+  'preprocessor:es6': ['factory', createES6Preprocessor]
+};

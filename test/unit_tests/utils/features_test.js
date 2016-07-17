@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-'use strict';
 goog.require('cwc.utils.Features');
 
 
