@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.external.PencilCode');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,15 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.PencilCode = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.coffeeScriptFramework = 'coffee-script.js';
-
-  /** @type {string} */
-  this.jqueryFramework = 'jquery-2.2.4.min.js';
-
-  /** @type {string} */
-  this.jqueryTurtleFramework = 'jquery-turtle.js';
 };
 
 
@@ -74,8 +66,11 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     renderer_helper) {
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeaders([this.coffeeScriptFramework,
-    this.jqueryFramework, this.jqueryTurtleFramework], frameworks);
+  var header = renderer_helper.getFrameworkHeaders([
+    cwc.framework.External.COFFEESCRIPT.MAIN,
+    cwc.framework.External.JQUERY.V2_2_4,
+    cwc.framework.External.JQUERY_TURTLE.MAIN
+  ], frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
     '$.turtle();\n' + coffeescript + '\n</script>\n';
   return renderer_helper.getHTMLGrid(body, header);

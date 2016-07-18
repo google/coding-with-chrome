@@ -29,12 +29,13 @@ closureBuilder.build({
   name: 'cwc.framework.Arduino',
   compress: true,
   srcs: glob([
-    'src/frameworks/arduino/*.js'
+    'src/frameworks/internal/arduino/*.js'
   ]),
-  deps: glob([
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
-  ]),
+  deps: [
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/logger.js',
+    'src/utils/stack_queue.js'
+  ],
   out: 'genfiles/frameworks/internal/arduino_framework.js'
 });
 
@@ -46,68 +47,14 @@ closureBuilder.build({
   name: 'cwc.framework.Ev3',
   compress: true,
   srcs: glob([
-    'src/frameworks/ev3/*.js'
+    'src/frameworks/internal/ev3/*.js'
   ]),
   deps: glob([
-    'src/frameworks/runner/runner.js',
+    'src/frameworks/internal/runner/runner.js',
     'src/protocol/ev3/*.js',
-    'src/utils/*.js'
+    'src/utils/stack_queue.js'
   ]),
   out: 'genfiles/frameworks/internal/ev3_framework.js'
-});
-
-
-/**
- * Sphero Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.Sphero',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/sphero/*.js'
-  ]),
-  deps: glob([
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
-  ]),
-  out: 'genfiles/frameworks/internal/sphero_framework.js'
-});
-
-
-/**
- * Turtle Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.Turtle',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/turtle/*.js'
-  ]),
-  deps: glob([
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
-  ]),
-  externs: [
-    'build/externs/jquery.js'
-  ],
-  out: 'genfiles/frameworks/internal/turtle_framework.js'
-});
-
-
-/**
- * TTS Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.TTS',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/tts/*.js'
-  ]),
-  deps: glob([
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
-  ]),
-  out: 'genfiles/frameworks/internal/tts_framework.js'
 });
 
 
@@ -118,11 +65,11 @@ closureBuilder.build({
   name: 'cwc.framework.Runner',
   compress: true,
   srcs: glob([
-    'src/frameworks/runner/*.js'
+    'src/frameworks/internal/runner/*.js'
   ]),
-  deps: glob([
-    'src/utils/*.js'
-  ]),
+  deps: [
+    'src/utils/stack_queue.js'
+  ],
   out: 'genfiles/frameworks/internal/runner_framework.js'
 });
 
@@ -134,12 +81,66 @@ closureBuilder.build({
   name: 'cwc.framework.simple.Loader',
   compress: true,
   srcs: glob([
-    'src/frameworks/simple/*.js'
+    'src/frameworks/internal/simple/*.js'
+  ]),
+  deps: [
+    'src/config/config.js',
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/logger.js',
+    'src/utils/stack_queue.js'
+  ],
+  out: 'genfiles/frameworks/internal/simple_framework.js'
+});
+
+/**
+ * Sphero Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.Sphero',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/sphero/*.js'
+  ]),
+  deps: [
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
+  ],
+  out: 'genfiles/frameworks/internal/sphero_framework.js'
+});
+
+
+/**
+ * TTS Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.TTS',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/tts/*.js'
+  ]),
+  deps: [
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
+  ],
+  out: 'genfiles/frameworks/internal/tts_framework.js'
+});
+
+
+/**
+ * jQuery Turtle Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.Turtle',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/turtle/*.js'
   ]),
   deps: glob([
-    'src/config/config.js',
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
   ]),
-  out: 'genfiles/frameworks/internal/simple_framework.js'
+  externs: [
+    'build/externs/jquery.js'
+  ],
+  out: 'genfiles/frameworks/internal/turtle_framework.js'
 });

@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.external.Arduino');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,12 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.Arduino = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.customFramework = 'arduino_framework.js';
-
-  /** @type {string} */
-  this.runnerFramework = 'runner_framework.js';
 };
 
 
@@ -71,18 +66,9 @@ cwc.renderer.external.Arduino.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  var header = '';
-  var runnerFramework = frameworks.getFile(this.runnerFramework);
-  if (runnerFramework) {
-    var runner = runnerFramework.getContent();
-    header += '<script src="' + runner + '"></script>';
-  }
-
-  var customFramework = frameworks.getFile(this.customFramework);
-  if (customFramework) {
-    header += '<script src="' + customFramework.getContent() + '"></script>';
-  }
-
+  var header = renderer_helper.getFrameworkHeader(
+    cwc.framework.Internal.ARDUINO,
+    frameworks);
   var body = '\n<script>' +
       '  var customCode = function(arduino) {\n' +
       editor_content[cwc.file.ContentType.CUSTOM] +

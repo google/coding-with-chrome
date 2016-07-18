@@ -21,6 +21,8 @@ goog.provide('cwc.renderer.internal.HTML5');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,18 +37,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.HTML5 = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.simpleFramework = 'simple_framework.js';
-
-  /** @type {string} */
-  this.coffeeScriptFramework = 'coffee-script.js';
-
-  /** @type {string} */
-  this.threeJsFramework = 'three.min.js';
-
-  /** @type {string} */
-  this.jQueryFramework = 'jquery.min.js';
 };
 
 
@@ -84,7 +74,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (html) {
     // Coffeescript framework.
     if (html.includes('text/coffeescript')) {
-      headers.push(this.coffeeScriptFramework);
+      headers.push(cwc.framework.External.COFFEESCRIPT.MAIN);
     }
   }
 
@@ -93,19 +83,19 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (script) {
     // Simple framework.
     if (script.includes('draw.') || script.includes('command.')) {
-      headers.push(this.simpleFramework);
+      headers.push(cwc.framework.Internal.SIMPLE);
     }
 
     // jQuery framework.
     if (script.includes('jQuery.') ||
         script.includes('jQuery(') ||
         script.includes('$(document).ready')) {
-      headers.push(this.jQueryFramework);
+      headers.push(cwc.framework.External.JQUERY.V3_X);
     }
 
     // three.js
-    if (script.includes('new THREE')) {
-      headers.push(this.threeJsFramework);
+    if (script.includes('new THREE.')) {
+      headers.push(cwc.framework.External.THREE_JS.MAIN);
     }
   }
 

@@ -20,7 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Builder');
-goog.provide('cwc.ui.BuilderFrameworks');
 goog.provide('cwc.ui.BuilderHelpers');
 
 goog.require('cwc.config');
@@ -29,6 +28,8 @@ goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
+goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
@@ -65,28 +66,6 @@ goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
 
-
-
-/**
- * Additional frameworks for the preview window or runner framework.
- * @type {!Object.<string>}
- */
-cwc.ui.BuilderFrameworks = {
-  // Internal frameworks
-  'Arduino Framework': '../frameworks/internal/arduino_framework.js',
-  'EV3 Framework': '../frameworks/internal/ev3_framework.js',
-  'Runner Framework': '../frameworks/internal/runner_framework.js',
-  'Simple Framework': '../frameworks/internal/simple_framework.js',
-  'Sphero Framework': '../frameworks/internal/sphero_framework.js',
-  'Turtle Framework': '../frameworks/internal/turtle_framework.js',
-
-  // External frameworks
-  'Coffeescript Framework': '../frameworks/external/coffee-script.js',
-  'three.js': '../frameworks/external/three.min.js',
-  'jQuery 3.x Framework': '../frameworks/external/jquery.min.js',
-  'jQuery 2.2.4 Framework': '../frameworks/external/jquery-2.2.4.min.js',
-  'jQuery Turtle Framework': '../frameworks/external/jquery-turtle.js'
-};
 
 
 /**
@@ -538,22 +517,24 @@ cwc.ui.Builder.prototype.loadHelper = function(instance,
  * Loads additional frameworks for the renderer.
  */
 cwc.ui.Builder.prototype.loadFrameworks = function() {
-  var rendererInstance = this.helper.getInstance('renderer');
-  var frameworks = cwc.ui.BuilderFrameworks;
-  var numOfFrameworks = Object.keys(frameworks).length;
-  var counter = 1;
+  var rendererInstance = this.helper.getInstance('renderer', true);
 
-  if (!rendererInstance) {
-    this.raiseError('Was not able to load renderer instance!');
+  // External frameworks
+  this.setProgress('Pre-loading external frameworks ...', 50, 100);
+  for (let framework of Object.keys(cwc.framework.External)) {
+    console.log(framework);
+    for (let file of Object.keys(cwc.framework.External[framework])) {
+      console.log(file);
+      rendererInstance.loadFramework('../frameworks/external/' +
+        cwc.framework.External[framework][file]);
+    }
   }
 
-  for (let framework in frameworks) {
-    if (frameworks.hasOwnProperty(framework)) {
-      var message = 'Loading ' + framework + ' framework ...';
-      this.setProgress(message, counter, numOfFrameworks);
-      rendererInstance.loadFramework(frameworks[framework]);
-      counter++;
-    }
+  // Internal frameworks
+  this.setProgress('Pre-loading internal frameworks ...', 50, 100);
+  for (let framework of Object.keys(cwc.framework.Internal)) {
+    rendererInstance.loadFramework('../frameworks/internal/' +
+      cwc.framework.Internal[framework]);
   }
 };
 

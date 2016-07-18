@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.internal.Coffeescript');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,9 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.Coffeescript = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.framework = 'coffee-script.js';
 };
 
 
@@ -68,7 +66,9 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
     renderer_helper) {
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
+  var header = renderer_helper.getFrameworkHeader(
+    cwc.framework.External.COFFEESCRIPT.MAIN, frameworks
+  );
   var body = '\n<script type="text\/coffeescript">\n' +
     coffeescript + '\n</script>\n';
   return renderer_helper.getHTML(body, header);

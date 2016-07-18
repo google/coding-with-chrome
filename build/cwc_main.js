@@ -95,7 +95,7 @@ closureBuilder.build({
     'src/**/*.js',
     'gensoyfiles/**/*.js',
     '!src/{blocks,blocks/**.js}',
-    '!src/{frameworks,frameworks/**.js}'
+    '!src/frameworks/{internal,internal/**.js}'
   ]),
   externs: [
     'build/externs/blockly.js',
