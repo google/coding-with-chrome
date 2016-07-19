@@ -61,24 +61,24 @@ cwc.ui.GDrive = function(helper) {
   this.mimeType = 'application/cwc';
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuMyFiles = cwc.ui.Helper.getMenuItem('My files',
-      this.getMyFiles, this);
+  this.menuMyFiles = cwc.ui.Helper.getMenuItem('My files', '',
+      this.getMyFiles);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuSharedFiles = cwc.ui.Helper.getMenuItem('Shared with me',
-      this.getSharedFiles, this);
+  this.menuSharedFiles = cwc.ui.Helper.getMenuItem('Shared with me', '',
+      this.getSharedFiles);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuStarredFiles = cwc.ui.Helper.getMenuItem('Starred',
-      this.getStarredFiles, this);
+  this.menuStarredFiles = cwc.ui.Helper.getMenuItem('Starred', '',
+      this.getStarredFiles);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuLastOpenedFiles = cwc.ui.Helper.getMenuItem('Last opened',
-      this.getLastOpenedFiles, this);
+  this.menuLastOpenedFiles = cwc.ui.Helper.getMenuItem('Last opened', '',
+      this.getLastOpenedFiles);
 
   /** @type {!goog.ui.MenuItem} */
-  this.menuTrashFiles = cwc.ui.Helper.getMenuItem('Trash',
-      this.getTrashFiles, this);
+  this.menuTrashFiles = cwc.ui.Helper.getMenuItem('Trash', '',
+      this.getTrashFiles);
 };
 
 
