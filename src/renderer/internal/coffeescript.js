@@ -67,7 +67,7 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   var header = renderer_helper.getFrameworkHeader(
-    cwc.framework.External.COFFEESCRIPT.MAIN, frameworks
+    cwc.framework.External.COFFEESCRIPT, frameworks
   );
   var body = '\n<script type="text\/coffeescript">\n' +
     coffeescript + '\n</script>\n';

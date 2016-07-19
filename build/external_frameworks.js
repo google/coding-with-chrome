@@ -54,6 +54,30 @@ closureBuilder.build({
 
 
 /**
+ * Skulpt Core
+ */
+closureBuilder.build({
+  name: 'Skulpt Core',
+  resources: [
+    'third_party/skulpt-dist/skulpt.min.js'
+  ],
+  out: 'genfiles/frameworks/external/skulpt.min.js'
+});
+
+
+/**
+ * Skulpt Std lib
+ */
+closureBuilder.build({
+  name: 'Skulpt Std lib',
+  resources: [
+    'third_party/skulpt-dist/skulpt-stdlib.js'
+  ],
+  out: 'genfiles/frameworks/external/skulpt-stdlib.js'
+});
+
+
+/**
  * jQuery 3.x
  */
 closureBuilder.build({

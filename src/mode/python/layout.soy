@@ -1,5 +1,5 @@
 /**
- * @fileoverview Support content types for Coding with Chrome.
+ * @fileoverview Layout template for the Python modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,20 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.file.ContentType');
+{namespace cwc.soy.mode.Python autoescape="strict"}
 
 
 /**
- * @enum {string}
+ * Editor template.
  */
-cwc.file.ContentType = {
-  BLOCKLY: 'blockly',
-  COFFEESCRIPT: 'coffeescript',
-  CSS: 'css',
-  CUSTOM: 'custom',
-  HTML: 'html',
-  JAVASCRIPT: 'javascript',
-  PENCIL_CODE: 'pencil_code',
-  PYTHON: 'python',
-  RAW: 'raw'
-};
+{template .editor}
+  {@param prefix: string}
+  <div id="{$prefix}editor-chrome"></div>
+{/template}
+
+
+/**
+ * Preview template.
+ */
+{template .preview}
+  {@param prefix: string}
+  <div id="{$prefix}preview-chrome"></div>
+{/template}

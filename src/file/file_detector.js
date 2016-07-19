@@ -64,6 +64,10 @@ cwc.file.detector.detectType = function(content, opt_filename) {
     if (filename.endsWith('.coffee')) {
       return cwc.file.Type.COFFEESCRIPT;
 
+    // Python file
+    } else if (filename.endsWith('.py')) {
+      return cwc.file.Type.PYTHON;
+
     // HMTL file
     } else if (data.includes('<html') ||
                filename.endsWith('.htm') ||

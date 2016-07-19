@@ -1,5 +1,5 @@
 /**
- * @fileoverview Editor for the Basic modification.
+ * @fileoverview Layout for the Python modification.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,25 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Editor');
+goog.provide('cwc.mode.python.Layout');
 
-goog.require('cwc.ui.Editor');
+goog.require('cwc.soy.mode.Python');
 
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @struct
- * @final
  */
-cwc.mode.basic.simple.Editor = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
+cwc.mode.python.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -45,12 +37,22 @@ cwc.mode.basic.simple.Editor = function(helper) {
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the text layout.
  */
-cwc.mode.basic.simple.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
-  this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node, this.prefix);
-  this.editor.showEditorViews(false);
-  this.editor.enableMediaButton(true);
+cwc.mode.python.Layout.prototype.decorate = function() {
+  var layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.decorateSimpleTwoColumnLayout(630);
+
+  goog.soy.renderElement(
+      layoutInstance.getNode('content-left'),
+      cwc.soy.mode.Python.editor,
+      {'prefix': this.prefix}
+  );
+
+  goog.soy.renderElement(
+      layoutInstance.getNode('content-right'),
+      cwc.soy.mode.Python.preview,
+      {'prefix': this.prefix}
+  );
+
 };

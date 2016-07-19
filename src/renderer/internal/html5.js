@@ -74,7 +74,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (html) {
     // Coffeescript framework.
     if (html.includes('text/coffeescript')) {
-      headers.push(cwc.framework.External.COFFEESCRIPT.MAIN);
+      headers.push(cwc.framework.External.COFFEESCRIPT);
     }
   }
 
@@ -95,7 +95,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
 
     // three.js
     if (script.includes('new THREE.')) {
-      headers.push(cwc.framework.External.THREE_JS.MAIN);
+      headers.push(cwc.framework.External.THREE_JS.CORE);
     }
   }
 

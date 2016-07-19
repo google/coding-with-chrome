@@ -519,23 +519,13 @@ cwc.ui.Builder.prototype.loadHelper = function(instance,
 cwc.ui.Builder.prototype.loadFrameworks = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
 
-  // External frameworks
   this.setProgress('Pre-loading external frameworks ...', 50, 100);
-  for (let framework of Object.keys(cwc.framework.External)) {
-    console.log(framework);
-    for (let file of Object.keys(cwc.framework.External[framework])) {
-      console.log(file);
-      rendererInstance.loadFramework('../frameworks/external/' +
-        cwc.framework.External[framework][file]);
-    }
-  }
+  rendererInstance.loadFrameworks(cwc.framework.External,
+    '../frameworks/external/');
 
-  // Internal frameworks
   this.setProgress('Pre-loading internal frameworks ...', 50, 100);
-  for (let framework of Object.keys(cwc.framework.Internal)) {
-    rendererInstance.loadFramework('../frameworks/internal/' +
-      cwc.framework.Internal[framework]);
-  }
+  rendererInstance.loadFrameworks(cwc.framework.Internal,
+    '../frameworks/internal/');
 };
 
 

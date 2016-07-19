@@ -1,5 +1,5 @@
 /**
- * @fileoverview Renderer for Pencil Code modification.
+ * @fileoverview Renderer for Python.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.external.PencilCode');
+goog.provide('cwc.renderer.external.Python');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -33,7 +33,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.PencilCode = function(helper) {
+cwc.renderer.external.Python = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -42,7 +42,7 @@ cwc.renderer.external.PencilCode = function(helper) {
 /**
  * Initializes and defines the simple renderer.
  */
-cwc.renderer.external.PencilCode.prototype.init = function() {
+cwc.renderer.external.Python.prototype.init = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
@@ -58,20 +58,24 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
  * @return {!string}
  * @export
  */
-cwc.renderer.external.PencilCode.prototype.render = function(
+cwc.renderer.external.Python.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
     frameworks,
     renderer_helper) {
 
-  var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
+  console.log('Python', editor_content);
+  var python = editor_content[cwc.file.ContentType.PYTHON];
   var header = renderer_helper.getFrameworkHeaders([
-    cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.JQUERY_TURTLE
+    cwc.framework.External.SKULPT.CORE,
+    cwc.framework.External.SKULPT.STDLIB,
+    cwc.framework.Internal.PYTHON
   ], frameworks);
-  var body = '\n<script type="text\/coffeescript">\n' +
-    '$.turtle();\n' + coffeescript + '\n</script>\n';
-  return renderer_helper.getHTMLGrid(body, header);
+  var body = '<pre id="output"></pre><canvas id="my-canvas"></canvas>' +
+  '<script id="code" type="text/python">\n' + python + '\n</script>' +
+  '<script>new cwc.framework.Python().run();</script>';
+
+  return renderer_helper.getHTML(body, header);
 };

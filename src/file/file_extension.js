@@ -24,12 +24,13 @@ goog.provide('cwc.file.Extensions');
  * @enum {string}
  */
 cwc.file.Extensions = {
-  HTML: '.html',
-  JAVASCRIPT: '.js',
   COFFEESCRIPT: '.coffee',
   CSS: '.css',
   CWC: '.cwc',
-  TEXT: '.txt',
+  HTML: '.html',
+  JAVASCRIPT: '.js',
   JSON: '.json',
+  PYTHON: '.py',
+  TEXT: '.txt',
   XML: '.xml'
 };

@@ -235,6 +235,17 @@ cwc.fileHandler.Config.add('JSON file',
 
 
 /**
+ * Python file config.
+ */
+cwc.fileHandler.Config.add('Python file',
+    cwc.fileFormat.File.getRawFile,
+    cwc.file.Type.PYTHON,
+    cwc.mode.Type.PYTHON,
+    cwc.file.Extensions.PYTHON,
+    cwc.file.ContentType.PYTHON);
+
+
+/**
  * Text file config.
  */
 cwc.fileHandler.Config.add('Text file',

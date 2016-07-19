@@ -30,18 +30,18 @@ goog.provide('cwc.framework.Internal');
  * @enum {!Object.<string>}
  */
 cwc.framework.External = {
-  COFFEESCRIPT: {
-    MAIN: 'coffee-script.js'
-  },
+  COFFEESCRIPT: 'coffee-script.js',
   THREE_JS: {
-    MAIN: 'three.min.js'
+    CORE: 'three.min.js'
   },
   JQUERY: {
     V3_X: 'jquery.min.js',
     V2_2_4: 'jquery-2.2.4.min.js'
   },
-  JQUERY_TURTLE: {
-    MAIN: 'jquery-turtle.js'
+  JQUERY_TURTLE: 'jquery-turtle.js',
+  SKULPT: {
+    CORE: 'skulpt.min.js',
+    STDLIB: 'skulpt-stdlib.js'
   }
 };
 
@@ -55,6 +55,7 @@ cwc.framework.Internal = {
   EV3: 'ev3_framework.js',
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',
+  PYTHON: 'python_framework.js',
   SPHERO: 'sphero_framework.js',
   TURTLE: 'turtle_framework.js'
 };
