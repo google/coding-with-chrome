@@ -29,26 +29,28 @@ goog.provide('cwc.framework.Python');
 cwc.framework.Python = function() {
   /** @type {string} */
   this.name = 'Python Framework';
-
 };
 
 
+/**
+ * @export
+ */
 cwc.framework.Python.prototype.run = function() {
   var pythonCode = document.getElementById('code').textContent;
-  var mypre = document.getElementById('output');
-  mypre.innerHTML = '';
-
-  Sk.canvas = 'my-canvas';
+  Sk.canvas = 'canvas-chrome';
   Sk.configure({
     output: this.outf,
+    inputfun: function(text) {
+      console.log('blabla...', text);
+    },
     read: this.builtinRead
   });
 
-  (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
-  var myPromise = Sk.misceval.asyncToPromise(function() {
+  (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'content';
+  var pythonPromise = Sk.misceval.asyncToPromise(function() {
     return Sk.importMainWithBody('<stdin>', false, pythonCode, true);
   });
-  myPromise.then(
+  pythonPromise.then(
     function(opt_mod) {
       console.log('Done.');
     },
@@ -59,6 +61,9 @@ cwc.framework.Python.prototype.run = function() {
 };
 
 
+/**
+ * @param {!string} text
+ */
 cwc.framework.Python.prototype.outf = function(text) {
   if (text) {
     console.log(text);
@@ -66,10 +71,13 @@ cwc.framework.Python.prototype.outf = function(text) {
 };
 
 
-cwc.framework.Python.prototype.builtinRead = function(file) {
+/**
+ * @param {!string} file_name
+ */
+cwc.framework.Python.prototype.builtinRead = function(file_name) {
   if (Sk.builtinFiles === undefined ||
-      Sk.builtinFiles['files'][file] === undefined) {
-    throw 'File not found: \'' + file + '\'';
+      Sk.builtinFiles['files'][file_name] === undefined) {
+    throw 'File not found: \'' + file_name + '\'';
   }
-  return Sk.builtinFiles['files'][file];
+  return Sk.builtinFiles['files'][file_name];
 };

@@ -65,7 +65,6 @@ cwc.renderer.external.Python.prototype.render = function(
     frameworks,
     renderer_helper) {
 
-  console.log('Python', editor_content);
   var python = editor_content[cwc.file.ContentType.PYTHON];
   var header = renderer_helper.getFrameworkHeaders([
     cwc.framework.External.JQUERY.V2_2_4,
@@ -73,9 +72,9 @@ cwc.renderer.external.Python.prototype.render = function(
     cwc.framework.External.SKULPT.STDLIB,
     cwc.framework.Internal.PYTHON
   ], frameworks);
-  var body = '<pre id="output"></pre><canvas id="my-canvas"></canvas>' +
+  var body = '<div id="content"></div>' +
   '<script id="code" type="text/python">\n' + python + '\n</script>' +
   '<script>new cwc.framework.Python().run();</script>';
 
-  return renderer_helper.getHTML(body, header);
+  return renderer_helper.getHTMLCanvas(body, header);
 };
