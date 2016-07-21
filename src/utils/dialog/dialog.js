@@ -17,17 +17,18 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Dialog');
-goog.provide('cwc.ui.DialogType');
+goog.provide('cwc.utils.Dialog');
+goog.provide('cwc.utils.DialogType');
 
 goog.require('cwc.soy.Dialog');
-goog.require('cwc.ui.Helper');
+
+goog.require('goog.style');
 
 
 /**
  * @enum {string}
  */
-cwc.ui.DialogType = {
+cwc.utils.DialogType = {
   CONFIRM: 'confirm',
   ERROR: 'error',
   PROMPT: 'info'
@@ -36,82 +37,108 @@ cwc.ui.DialogType = {
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
+ * @final
+ * @export
  */
-cwc.ui.Dialog = function(helper) {
-  /** @type {string} */
+cwc.utils.Dialog = function() {
+  /** @type {!string} */
   this.name = 'Dialog';
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = 'dialog-';
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  /** @type {!string} */
+  this.prefix = 'cwc-dialog-';
 
   /** @type {Element} */
   this.dialog = null;
+
+  /** @type {Element} */
+  this.node = document.body || document.getElementsByTagName('body')[0];
 
   /** @type {Element} */
   this.nodeContent = null;
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
+
+  /** @private {Function} */
+  this.defaultCloseHandler_ = null;
+
+  /** @private {!string} */
+  this.prefixDialog_ = this.prefix + 'chrome';
+
+  if (this.node) {
+    this.prepare_();
+  } else {
+    document.addEventListener('DOMContentLoaded', this.prepare_.bind(this),
+      false);
+  }
 };
 
 
 /**
- * Decorates the given node and adds the start screen.
- * @param {Element} node
- * @param {string=} opt_prefix
+ * Decorates the given node and adds the dialog.
+ * @private
  */
-cwc.ui.Dialog.prototype.decorate = function(node, opt_prefix) {
-  this.dialog = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
+cwc.utils.Dialog.prototype.prepare_ = function() {
+  this.node = document.body || document.getElementsByTagName('body')[0];
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(cwc.soy.Dialog.style({
-      'prefix': this.prefix }));
+      prefix: this.prefix }));
   }
 
-  this.nodeContent = goog.dom.getElement(this.prefix + 'content');
-};
-
-
-/**
- * @export
- */
-cwc.ui.Dialog.prototype.show = function() {
-  if (this.dialog) {
-    this.dialog.show();
-  }
-  cwc.ui.Helper.mdlRefresh();
-};
-
-
-/**
- * @export
- */
-cwc.ui.Dialog.prototype.showModal = function() {
-  if (this.dialog) {
-    if (this.dialog.hasAttribute('open')) {
-      this.dialog.show();
+  if (!goog.dom.getElement(this.prefixDialog_)) {
+    var dialog = goog.soy.renderAsFragment(cwc.soy.Dialog.template, {
+      prefix: this.prefix });
+    if (this.node && dialog) {
+      this.node.appendChild(dialog);
     } else {
-      this.dialog.showModal();
+      console.error('Unable to add dialog', dialog, 'to node', this.node, '!');
+    }
+    this.dialog = goog.dom.getElement(this.prefixDialog_);
+  }
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Dialog.prototype.show = function() {
+  if (this.dialog) {
+    if (!this.dialog.hasAttribute('open')) {
+      if (this.dialog.show) {
+        this.dialog.show();
+      } else {
+        this.dialog.setAttribute('open', '');
+      }
     }
   }
-  cwc.ui.Helper.mdlRefresh();
+  this.refresh_();
 };
 
 
 /**
  * @export
  */
-cwc.ui.Dialog.prototype.close = function() {
+cwc.utils.Dialog.prototype.showModal = function() {
+  if (this.dialog) {
+    if (!this.dialog.hasAttribute('open')) {
+      if (this.dialog.showModal) {
+        this.dialog.showModal();
+      } else {
+        this.dialog.setAttribute('open', '');
+      }
+    }
+  }
+  this.refresh_();
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Dialog.prototype.close = function() {
   if (!this.dialog) {
     return;
   }
@@ -119,7 +146,11 @@ cwc.ui.Dialog.prototype.close = function() {
     while (this.dialog.firstChild) {
       this.dialog.removeChild(this.dialog.firstChild);
     }
-    this.dialog.close();
+    if (this.dialog.close) {
+      this.dialog.close();
+    } else {
+      this.dialog.removeAttribute('open');
+    }
   }
 };
 
@@ -131,19 +162,16 @@ cwc.ui.Dialog.prototype.close = function() {
  * @param {string=} opt_values
  * @export
  */
-cwc.ui.Dialog.prototype.render = function(title, content,
+cwc.utils.Dialog.prototype.render = function(title, content,
     opt_template, opt_values) {
   if (this.dialog) {
     goog.soy.renderElement(this.dialog,
         opt_template || cwc.soy.Dialog.contentTemplate, {
-          'prefix': this.prefix,
-          'title': title,
-          'content': content,
-          'values': opt_values });
-
-    if (typeof window.componentHandler !== 'undefined') {
-      window.componentHandler.upgradeDom();
-    }
+          prefix: this.prefix,
+          title: title,
+          content: content,
+          values: opt_values });
+    this.refresh_();
   }
 };
 
@@ -153,7 +181,7 @@ cwc.ui.Dialog.prototype.render = function(title, content,
  * @param {!string} content
  * @export
  */
-cwc.ui.Dialog.prototype.showContent = function(title, content) {
+cwc.utils.Dialog.prototype.showContent = function(title, content) {
   if (this.dialog) {
     this.render(title, content, cwc.soy.Dialog.contentTemplate);
     var closeButton = goog.dom.getElement(this.prefix + 'close');
@@ -169,7 +197,7 @@ cwc.ui.Dialog.prototype.showContent = function(title, content) {
  * @param {!Object} values
  * @export
  */
-cwc.ui.Dialog.prototype.showTemplate = function(title, template, values) {
+cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
   if (this.dialog) {
     this.render(title, '', cwc.soy.Dialog.contentTemplate);
     goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
@@ -187,15 +215,15 @@ cwc.ui.Dialog.prototype.showTemplate = function(title, template, values) {
  * @param {!Function} func
  * @export
  */
-cwc.ui.Dialog.prototype.showYesNo = function(title, content, func) {
+cwc.utils.Dialog.prototype.showYesNo = function(title, content, func) {
   if (this.dialog) {
     this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
     var yesButton = goog.dom.getElement(this.prefix + 'yes');
     yesButton.addEventListener('click', func);
     yesButton.addEventListener('click', this.close.bind(this));
-    yesButton.addEventListener('click', function() {
-      this.helper.getInstance('navigation').hide();
-    }.bind(this));
+    if (this.defaultCloseHandler_) {
+      yesButton.addEventListener('click', this.defaultCloseHandler_);
+    }
     var noButton = goog.dom.getElement(this.prefix + 'no');
     noButton.addEventListener('click', this.close.bind(this));
     this.showModal();
@@ -210,7 +238,8 @@ cwc.ui.Dialog.prototype.showYesNo = function(title, content, func) {
  * @param {string=} opt_value
  * @export
  */
-cwc.ui.Dialog.prototype.showPrompt = function(title, content, func, opt_value) {
+cwc.utils.Dialog.prototype.showPrompt = function(title, content, func,
+    opt_value) {
   if (this.dialog) {
     this.render(title, content, cwc.soy.Dialog.promptTemplate, opt_value);
     var inputField = goog.dom.getElement(this.prefix + 'input');
@@ -219,11 +248,30 @@ cwc.ui.Dialog.prototype.showPrompt = function(title, content, func, opt_value) {
       func(inputField.value);
     });
     okButton.addEventListener('click', this.close.bind(this));
-    okButton.addEventListener('click', function() {
-      this.helper.getInstance('navigation').hide();
-    }.bind(this));
+    if (this.defaultCloseHandler_) {
+      okButton.addEventListener('click', this.defaultCloseHandler_);
+    }
     var cancleButton = goog.dom.getElement(this.prefix + 'cancel');
     cancleButton.addEventListener('click', this.close.bind(this));
     this.showModal();
+  }
+};
+
+
+/**
+ * @param {Function!} func
+ * @export
+ */
+cwc.utils.Dialog.prototype.setDefaultCloseHandler = function(func) {
+  this.defaultCloseHandler_ = func;
+};
+
+
+/**
+ * @private
+ */
+cwc.utils.Dialog.prototype.refresh_ = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
   }
 };

@@ -100,12 +100,13 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/simple/*.js'
   ]),
-  deps: [
+  deps: glob([
     'src/config/config.js',
     'src/frameworks/internal/runner/runner.js',
     'src/utils/logger.js',
-    'src/utils/stack_queue.js'
-  ],
+    'src/utils/stack_queue.js',
+    'src/utils/dialog/*'
+  ]),
   out: 'genfiles/frameworks/internal/simple_framework.js'
 });
 

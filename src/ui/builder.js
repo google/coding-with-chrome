@@ -41,7 +41,6 @@ goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
-goog.require('cwc.ui.Dialog');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
@@ -59,6 +58,7 @@ goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.userConfig');
+goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
@@ -78,7 +78,6 @@ cwc.ui.BuilderHelpers = {
   'bluetooth': cwc.protocol.bluetooth.Api,
   'connectScreen': cwc.ui.connectScreen.Screens,
   'connectionManager': cwc.ui.ConnectionManager,
-  'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
   'ev3': cwc.protocol.ev3.Api,
@@ -271,6 +270,11 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
+    this.setProgress('Prepare dialog ...', 25, 100);
+    this.prepareDialog();
+  }
+
+  if (!this.error) {
     this.setProgress('Prepare helpers ...', 30, 100);
     this.prepareHelper();
   }
@@ -456,6 +460,22 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
   if (this.helper.checkChromeFeature('serial') && serialInstance) {
     serialInstance.prepare();
   }
+};
+
+
+/**
+ * Prepare dialog.
+ */
+cwc.ui.Builder.prototype.prepareDialog = function() {
+  var dialogInstance = new cwc.utils.Dialog();
+  if (dialogInstance) {
+    dialogInstance.setDefaultCloseHandler(
+      function() {
+        this.helper.getInstance('navigation').hide();
+      }.bind(this)
+    );
+  }
+  this.helper.setInstance('dialog', dialogInstance);
 };
 
 

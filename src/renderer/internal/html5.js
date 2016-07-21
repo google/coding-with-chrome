@@ -86,6 +86,10 @@ cwc.renderer.internal.HTML5.prototype.render = function(
       headers.push(cwc.framework.Internal.SIMPLE);
     }
 
+    if (script.includes('command.showAlert')) {
+      //headers.push(cwc.framework.Internal.DIALOG_POLYFILL);
+    }
+
     // jQuery framework.
     if (script.includes('jQuery.') ||
         script.includes('jQuery(') ||

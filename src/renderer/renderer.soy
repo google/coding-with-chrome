@@ -42,6 +42,7 @@
   {@param? css: string}
   {@param? js: string}
   {@param? style: string}
+  {@param? canvas: string}
 
 <!DOCTYPE html>{\n}
 <html>{\n}
@@ -58,6 +59,9 @@
     {if $head}{$head}{\n}{/if}
   </head>{\n}
   <body>{\n}
+    {if $canvas}
+      <canvas id="{$canvas}"></canvas>{\n}
+    {/if}
     {if $body}{$body}{\n}{/if}
     {if $js}
       {call .javaScriptContent}

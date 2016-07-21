@@ -86,6 +86,26 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(opt_body, opt_header,
 
 
 /**
+ * @param {!string} opt_body
+ * @param {string=} opt_header
+ * @param {string=} opt_css
+ * @param {string=} opt_javascript
+ * @param {string=} opt_canvas
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getHTMLCanvas = function(opt_body, opt_header,
+    opt_css, opt_javascript, opt_canvas) {
+  return cwc.soy.Renderer.html({
+    body: this.sanitizedHtml_(opt_body),
+    head: this.sanitizedHtml_(opt_header),
+    css: this.sanitizedCss_(opt_css),
+    js: this.sanitizedJs_(opt_javascript),
+    canvas: opt_canvas || 'canvas-chrome'
+  });
+};
+
+
+/**
  * @param {!string} html
  * @param {string=} opt_header
  * @return {!string}

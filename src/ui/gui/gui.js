@@ -60,9 +60,6 @@ cwc.ui.Gui = function(helper) {
   this.nodeChrome = null;
 
   /** @type {Element} */
-  this.nodeDialog = null;
-
-  /** @type {Element} */
   this.nodeFooter = null;
 
   /** @type {Element} */
@@ -121,7 +118,6 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
 
   // Main nodes
   this.nodeChrome = goog.dom.getElement(this.prefix + 'chrome');
-  this.nodeDialog = goog.dom.getElement(this.prefix + 'dialog');
   this.nodeGDrive = goog.dom.getElement(this.prefix + 'gdrive');
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
@@ -132,7 +128,6 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
 
   // Decorates additional modules
-  this.helper.decorateInstance('dialog', this.nodeDialog);
   this.helper.decorateInstance('gDrive', this.nodeGDrive);
   this.helper.decorateInstance('menubar', this.nodeMenubar);
   this.helper.decorateInstance('message', this.nodeMessage);

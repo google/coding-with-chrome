@@ -116,6 +116,22 @@ describe('Renderer Helper', function() {
       'var 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
   });
 
+  it('getHTMLCanvas', function() {
+    var htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n' +
+      '<style>* { margin:0; padding:0; }html, body { ' +
+      'width:100%; height:100%; }canvas { display:block; }</style>\n' +
+      '<style>\nbody { background: #f00;}\n</style>\n' +
+      '<script src="http://example.org"></script>\n</head>\n<body>\n' +
+      '<canvas id="canvas-chrome"></canvas>\n' +
+      '<h1>test</h1>\n<script>\nvar 123;\nfunction test(a) {return a+1;};\n' +
+      '</script>\n</body>\n</html>\n';
+    expect(helper.getHTMLCanvas(
+      '<h1>test</h1>',
+      '<script src="http://example.org"></script>',
+      'body { background: #f00;}',
+      'var 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
+  });
+
   it('getDataUrl ', function() {
     var js1 = helper.getDataUrl('Hello World');
     var js2 = helper.getDataUrl('Hello World', 'text/javascript');
