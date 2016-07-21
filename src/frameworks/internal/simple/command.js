@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.framework.simple.Command');
 
+goog.require('cwc.utils.Dialog');
+
 goog.require('goog.dom');
 
 
@@ -34,6 +36,9 @@ goog.require('goog.dom');
 cwc.framework.simple.Command = function(opt_target) {
   /** @type {Element|undefined} */
   this.target = opt_target;
+
+  /** @private {cwc.utils.Dialog} */
+  this.dialog_ = new cwc.utils.Dialog();
 };
 
 
@@ -56,6 +61,14 @@ cwc.framework.simple.Command.prototype.write = function(text) {
 
 
 /**
+ * @param {string} text
+ */
+cwc.framework.simple.Command.prototype.showAlert = function(text) {
+  this.dialog_.showContent('Alert', text);
+};
+
+
+/**
  * Maps function to the global window name space.
  * @export
  */
@@ -64,7 +77,8 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
     throw 'Window name space is not available in this instance.';
   }
   window['command'] = {
-    'write': this.write.bind(this)
+    'write': this.write.bind(this),
+    'showAlert': this.showAlert.bind(this)
   };
 };
 

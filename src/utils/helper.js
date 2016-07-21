@@ -50,7 +50,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Config|
  *   cwc.ui.ConnectionManager|
  *   cwc.ui.Debug|
- *   cwc.ui.Dialog|
+ *   cwc.tools.Dialog|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.File|
@@ -140,9 +140,6 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
   }
   this.log_.debug('Set', name, 'instance to', instance);
   this.instances_[name] = instance;
-  if (typeof instance.setHelper == 'function') {
-    instance.setHelper(this);
-  }
 };
 
 

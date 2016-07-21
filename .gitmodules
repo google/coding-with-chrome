@@ -19,6 +19,12 @@
 	url = https://github.com/google/material-design-icons.git
 	ignore = dirty
 
+[submodule "third_party/material-design-lite"]
+	path = third_party/material-design-lite
+	url = https://github.com/google/material-design-lite.git
+	branch = release
+	ignore = dirty
+
 [submodule "third_party/jshint"]
 	path = third_party/jshint
 	url = https://github.com/jshint/jshint.git
@@ -64,6 +70,7 @@
 	path = third_party/blockly
 	url = https://github.com/google/blockly.git
 	ignore = dirty
+
 [submodule "third_party/three.js"]
 	path = third_party/three.js
 	url = https://github.com/mrdoob/three.js.git

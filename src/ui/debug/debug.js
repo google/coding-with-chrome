@@ -23,7 +23,7 @@ goog.require('cwc.config.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
-goog.require('cwc.ui.DialogType');
+goog.require('cwc.utils.DialogType');
 goog.require('cwc.ui.MessageType');
 goog.require('cwc.utils.Helper');
 
@@ -81,7 +81,7 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
         prefix: this.prefix,
         file_types: cwc.file.Type,
         mode_types: cwc.mode.Type,
-        dialog_types: cwc.ui.DialogType,
+        dialog_types: cwc.utils.DialogType,
         message_types: cwc.ui.MessageType
       }
   );

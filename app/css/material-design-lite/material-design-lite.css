@@ -20,7 +20,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-@import '../../external/material-design-lite/material.indigo-blue.min.css';
+@import 'material.indigo-blue.min.css';
 
 html>body,
 .mdl-textfield__input {

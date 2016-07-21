@@ -17,9 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.Dialog autoescape="strict"}
 
+
+/**
+ * Dialog template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <dialog id="{$prefix}chrome" class="mdl-dialog"></dialog>
+{/template}
 
 
 /**
@@ -105,8 +113,8 @@
 {template .style}
   {@param prefix: string}
 
-  #{$prefix}body {lb}
-    min-height: 100%;
+  #{$prefix}chrome {lb}
+    width: -webkit-fit-content;
   {rb}
 
   .{$prefix}prompt > .mdl-textfield{lb}
