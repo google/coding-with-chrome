@@ -48,8 +48,11 @@ cwc.protocol.Serial.api = function(helper) {
   /** @type {Object} */
   this.connectionIds = {};
 
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
+
   /** @type {chrome.serial} */
-  this.serial = chrome.serial;
+  this.serial_ = this.isChromeApp_ && chrome.serial;
 
   this.prepare();
 };
@@ -60,10 +63,9 @@ cwc.protocol.Serial.api = function(helper) {
  * @export
  */
 cwc.protocol.Serial.api.prototype.prepare = function() {
-  if (this.serial && !this.prepared) {
+  if (this.serial_ && !this.prepared) {
     console.log('Prepare serial support …');
-    this.devices = new cwc.protocol.Serial.Devices(this.helper,
-        this.serial);
+    this.devices = new cwc.protocol.Serial.Devices(this.helper, this.serial_);
     this.updateDevices();
     this.addEventListener_();
     this.prepared = true;

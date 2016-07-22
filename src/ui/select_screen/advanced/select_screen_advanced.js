@@ -73,6 +73,9 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
 
   /** @type {cwc.ui.SelectScreenAdvancedView} */
   this.currentView = null;
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -373,7 +376,7 @@ cwc.ui.SelectScreenAdvanced.prototype.newFile_ = function(type) {
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }
@@ -390,7 +393,7 @@ cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + file_name);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }

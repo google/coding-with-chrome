@@ -1,14 +1,14 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "3.7.15",
+  "version": "3.7.23",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.0.13",
+    "closure-builder": "^2.0.15",
     "jsdoc": "^3.4.0",
-    "rimraf": "^2.5.3"
+    "rimraf": "^2.5.4"
   },
   "devDependencies": {
     "closure-templates": "latest",
@@ -37,16 +37,32 @@
 
     "test-file-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/genfiles/ --enable-logging --v=1 --no-first-run $PWD/resources/examples/html5/Basic-formular.cwc",
 
-    "build": "npm run build-static-files && npm run build-extra-files && npm run build-framework-files && npm run rebuild",
-    "build-cwc-files": "node build/cwc_soy.js && node build/cwc_main.js",
-    "build-external-frameworks": "node build/external_frameworks.js",
-    "build-extra-files": "node build/extra_files.js",
-    "build-framework-files":  "npm run build-external-frameworks && npm run build-internal-frameworks",
-    "build-internal-frameworks": "node build/internal_frameworks.js",
-    "build-static-files": "node build/static_files.js",
+    "build": "npm run build-external && npm run build-cwc",
+    "build-debug": "npm run lint && npm run build-external && npm run build-cwc-debug",
+
+    "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
+    "build-cwc-debug": "npm run build-cwc-deps && npm run build-cwc-main-debug",
+    "build-cwc-deps": "npm run build-cwc-app && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-soy",
+    "build-cwc-app": "node build/cwc/app.js",
+    "build-cwc-blocks": "node build/cwc/blocks.js",
+    "build-cwc-frameworks": "node build/cwc/frameworks.js",
+    "build-cwc-main": "node build/cwc/main.js",
+    "build-cwc-main-debug": "node build/cwc/main-debug.js",
+    "build-cwc-soy": "node build/cwc/soy.js",
+
+    "build-external": "npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
+    "build-external-frameworks": "node build/external/frameworks.js",
+    "build-external-extra": "node build/external/extra_files.js",
+    "build-external-static": "node build/external/static_files.js",
+
+    "build-framework-files":  "npm run build-external-frameworks && npm run build-cwc-frameworks",
+
+    "app": "npm run clean-genfiles && npm run build && npm run launch",
+    "debug": "npm run clean-genfiles && npm run build-debug && npm run launch",
+
     "fast-build": "npm run build && npm run launch",
 
-    "rebuild": "npm run build-cwc-files",
+    "rebuild": "npm run build-cwc-main",
     "fast-rebuild": "npm run rebuild && npm run launch",
 
     "launch": "echo Lauching app. Please wait ... && npm run launch-linux --silent || npm run launch-mac --silent || npm run launch-win --silent",
@@ -54,8 +70,11 @@
     "launch-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/genfiles/ --enable-logging --v=1 --no-first-run",
     "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\genfiles --enable-logging --v=1 --no-first-run",
 
-    "clean": "echo Cleaning up. Please wait ... && npm prune && rimraf genfiles/* && rimraf test/genfiles/* && rimraf gensoyfiles/*",
+    "clean": "npm run clean-npm && npm run clean-genfiles",
+    "clean-npm": "echo Cleaning up npm files. Please wait ... && npm prune",
+    "clean-genfiles": "echo Cleaning up genfiles. Please wait ... && rimraf genfiles/* && rimraf test/genfiles/* && rimraf gensoyfiles/*",
     "clean-build": "npm run clean && npm run build",
+
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
     "show-updates": "ncu",

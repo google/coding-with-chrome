@@ -67,6 +67,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
 
   /** @type {cwc.ui.SelectScreenNormalView} */
   this.currentView = null;
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -279,7 +282,7 @@ cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }
@@ -296,7 +299,7 @@ cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + file_name);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }
