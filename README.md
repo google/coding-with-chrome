@@ -41,8 +41,8 @@ In order to build the Coding with Chrome App, you only need to have Node.js/npm.
 If you want to clone/copy the Coding with Chrome App repo, you need git as well.
 
 Each build is cross platform compatible. Which mean if you build the
-Coding with Chrome App for e.g. on Windows you could use the generated code
-`genfiles/` folder on the other platforms as well.
+Coding with Chrome App on Windows you could use the generated code
+`genfiles/` folder on the other platforms like Mac OS X as well.
 
 
 ### Windows
@@ -88,7 +88,7 @@ npm install
 ### Build and run the actual app
 To compile and run the Chrome app use the following command:
 ```bash
-npm run fast-build
+npm run app
 ```
 This will automatically build and start the application on Mac OS, Linux or
 Windows.
@@ -150,48 +150,11 @@ Contributing to Coding with Chrome is subject to the guidelines in the
 [CONTRIBUTING.md](CONTRIBUTING.md) file, which, in brief, requires that
 contributors sign the [Individual Contributor License Agreement (CLA)][2].
 
-### Rebuild the app
-If you change something in the source code, you will need to re-compile it by:
-```bash
-npm run rebuild
-```
-After this you only need to reload the Chrome App to see your change in action.
-
-### Update dependencies
-Run the following command to update the dependencies to the latest version:
-```bash
-npm run update
-```
-After this you only need to reload the Chrome App to see your change in action.
+For more information about develop for Coding with Chrome, please check
+[doc/DEVELOPMENT.md](doc/DEVELOPMENT.md)
 
 ### Translation
 For translation instruction, please check [doc/I18N.md](doc/I18N.md).
-
-### Google Drive support (experimental)
-To enable the experimental Google Drive support add your application key and
-your api key to the `app/manifest.json` file:
-```json
-…
-  "description": "Coding with Chrome.",
-  "key": "MIIBIjANBgkqhki…",
-…
-  "oauth2": {
-    "client_id": "958…",
-    "scopes": [
-      "https://www.googleapis.com/auth/drive",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
-…
-```
-Since this feature is experimental, although problems are unlikely we can not
-guarantee this code is error free. Please make sure that you back up your
-Google Drive data, or only use test accounts without critical files or data.
-
-See: https://developer.chrome.com/apps/app_identity
-
-### Debugging
-For debug instruction, please check [doc/DEBUG.md](doc/DEBUG.md).
 
 
 ## Credits
