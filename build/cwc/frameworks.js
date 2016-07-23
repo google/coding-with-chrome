@@ -65,9 +65,11 @@ closureBuilder.build({
   name: 'cwc.framework.Python',
   //compress: true,
   srcs: glob([
-    'src/frameworks/internal/python/*.js'
+    'src/frameworks/internal/python/*.js',
   ]),
-  deps: [],
+  deps: glob([
+    'src/utils/dialog/*'
+  ]),
   externs: [
     'build/externs/skulpt.js'
   ],

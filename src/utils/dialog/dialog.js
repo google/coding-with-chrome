@@ -66,13 +66,222 @@ cwc.utils.Dialog = function() {
 
   /** @private {!string} */
   this.prefixDialog_ = this.prefix + 'chrome';
+};
 
-  if (this.node) {
-    this.prepare_();
-  } else {
-    document.addEventListener('DOMContentLoaded', this.prepare_.bind(this),
-      false);
+
+/**
+ * @export
+ */
+cwc.utils.Dialog.prototype.show = function() {
+  var dialog = this.getDialog_();
+  if (dialog) {
+    if (!dialog.hasAttribute('open')) {
+      if (dialog.show) {
+        dialog.show();
+      } else {
+        dialog.setAttribute('open', '');
+      }
+    }
   }
+  this.refresh_();
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Dialog.prototype.showModal = function() {
+  var dialog = this.getDialog_();
+  if (dialog) {
+    if (!dialog.hasAttribute('open')) {
+      if (dialog.showModal) {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute('open', '');
+      }
+    }
+  }
+  this.refresh_();
+};
+
+
+/**
+ * @export
+ */
+cwc.utils.Dialog.prototype.close = function() {
+  var dialog = this.getDialog_();
+  if (!dialog) {
+    return;
+  }
+  if (dialog.hasAttribute('open')) {
+    while (dialog.firstChild) {
+      dialog.removeChild(this.dialog.firstChild);
+    }
+    if (dialog.close) {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+    }
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {Object=} opt_template
+ * @param {string=} opt_values
+ * @export
+ */
+cwc.utils.Dialog.prototype.render = function(title, content,
+    opt_template, opt_values) {
+  var dialog = this.getDialog_();
+  if (dialog) {
+    goog.soy.renderElement(dialog,
+        opt_template || cwc.soy.Dialog.contentTemplate, {
+          prefix: this.prefix,
+          title: title,
+          content: content,
+          opt_values: opt_values
+        });
+    this.refresh_();
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @export
+ */
+cwc.utils.Dialog.prototype.showContent = function(title, content) {
+  if (this.getDialog_()) {
+    this.render(title, content, cwc.soy.Dialog.contentTemplate);
+    var closeButton = goog.dom.getElement(this.prefix + 'close');
+    closeButton.addEventListener('click', this.close.bind(this));
+    this.showModal();
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!Object} template
+ * @param {!Object} values
+ * @export
+ */
+cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
+  if (this.getDialog_()) {
+    this.render(title, '', cwc.soy.Dialog.contentTemplate);
+    goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
+        template, values);
+    var closeButton = goog.dom.getElement(this.prefix + 'close');
+    closeButton.addEventListener('click', this.close.bind(this));
+    this.showModal();
+  }
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {string=} opt_value
+ * @export
+ */
+cwc.utils.Dialog.prototype.showPrompt = function(title, content, opt_value) {
+  return new Promise((resolve, reject) => {
+    if (this.getDialog_()) {
+      this.render(title, content, cwc.soy.Dialog.promptTemplate, opt_value);
+      var inputField = goog.dom.getElement(this.prefix + 'input');
+
+      var okButton = goog.dom.getElement(this.prefix + 'ok');
+      okButton.addEventListener('click', this.close.bind(this));
+      if (this.defaultCloseHandler_) {
+        okButton.addEventListener('click', this.defaultCloseHandler_);
+      }
+      okButton.addEventListener('click', function() {
+        resolve(inputField.value);
+      });
+      inputField.addEventListener('keyup', function(event) {
+        if (event.keyCode == 13) {
+          okButton.click();
+        }
+      });
+
+      var cancelButton = goog.dom.getElement(this.prefix + 'cancel');
+      cancelButton.addEventListener('click', this.close.bind(this));
+      cancelButton.addEventListener('click', reject);
+      this.showModal();
+    } else {
+      reject();
+    }
+  });
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @export
+ */
+cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
+  return new Promise((resolve, reject) => {
+    if (this.getDialog_()) {
+      this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
+
+      var yesButton = goog.dom.getElement(this.prefix + 'yes');
+      yesButton.addEventListener('click', this.close.bind(this));
+      if (this.defaultCloseHandler_) {
+        yesButton.addEventListener('click', this.defaultCloseHandler_);
+      }
+      yesButton.addEventListener('click', function() {
+        resolve(true);
+      });
+
+      var noButton = goog.dom.getElement(this.prefix + 'no');
+      noButton.addEventListener('click', this.close.bind(this));
+      noButton.addEventListener('click', function() {
+        resolve(false);
+      });
+      this.showModal();
+    } else {
+      reject();
+    }
+  });
+};
+
+
+/**
+ * @param {Function!} func
+ * @export
+ */
+cwc.utils.Dialog.prototype.setDefaultCloseHandler = function(func) {
+  this.defaultCloseHandler_ = func;
+};
+
+
+/**
+ * @private
+ */
+cwc.utils.Dialog.prototype.refresh_ = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
+};
+
+
+/**
+ * @private
+ */
+cwc.utils.Dialog.prototype.getDialog_ = function() {
+  if (this.dialog) {
+    return this.dialog;
+  } else if (goog.dom.getElement(this.prefixDialog_)) {
+    this.dialog = goog.dom.getElement(this.prefixDialog_);
+  } else {
+    this.prepare_();
+  }
+  return this.dialog;
 };
 
 
@@ -98,180 +307,5 @@ cwc.utils.Dialog.prototype.prepare_ = function() {
     }
     this.dialog = goog.dom.getElement(this.prefixDialog_);
   }
-};
 
-
-/**
- * @export
- */
-cwc.utils.Dialog.prototype.show = function() {
-  if (this.dialog) {
-    if (!this.dialog.hasAttribute('open')) {
-      if (this.dialog.show) {
-        this.dialog.show();
-      } else {
-        this.dialog.setAttribute('open', '');
-      }
-    }
-  }
-  this.refresh_();
-};
-
-
-/**
- * @export
- */
-cwc.utils.Dialog.prototype.showModal = function() {
-  if (this.dialog) {
-    if (!this.dialog.hasAttribute('open')) {
-      if (this.dialog.showModal) {
-        this.dialog.showModal();
-      } else {
-        this.dialog.setAttribute('open', '');
-      }
-    }
-  }
-  this.refresh_();
-};
-
-
-/**
- * @export
- */
-cwc.utils.Dialog.prototype.close = function() {
-  if (!this.dialog) {
-    return;
-  }
-  if (this.dialog.hasAttribute('open')) {
-    while (this.dialog.firstChild) {
-      this.dialog.removeChild(this.dialog.firstChild);
-    }
-    if (this.dialog.close) {
-      this.dialog.close();
-    } else {
-      this.dialog.removeAttribute('open');
-    }
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {!string} content
- * @param {Object=} opt_template
- * @param {string=} opt_values
- * @export
- */
-cwc.utils.Dialog.prototype.render = function(title, content,
-    opt_template, opt_values) {
-  if (this.dialog) {
-    goog.soy.renderElement(this.dialog,
-        opt_template || cwc.soy.Dialog.contentTemplate, {
-          prefix: this.prefix,
-          title: title,
-          content: content,
-          values: opt_values });
-    this.refresh_();
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {!string} content
- * @export
- */
-cwc.utils.Dialog.prototype.showContent = function(title, content) {
-  if (this.dialog) {
-    this.render(title, content, cwc.soy.Dialog.contentTemplate);
-    var closeButton = goog.dom.getElement(this.prefix + 'close');
-    closeButton.addEventListener('click', this.close.bind(this));
-    this.showModal();
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {!Object} template
- * @param {!Object} values
- * @export
- */
-cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
-  if (this.dialog) {
-    this.render(title, '', cwc.soy.Dialog.contentTemplate);
-    goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
-        template, values);
-    var closeButton = goog.dom.getElement(this.prefix + 'close');
-    closeButton.addEventListener('click', this.close.bind(this));
-    this.showModal();
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {!string} content
- * @param {!Function} func
- * @export
- */
-cwc.utils.Dialog.prototype.showYesNo = function(title, content, func) {
-  if (this.dialog) {
-    this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
-    var yesButton = goog.dom.getElement(this.prefix + 'yes');
-    yesButton.addEventListener('click', func);
-    yesButton.addEventListener('click', this.close.bind(this));
-    if (this.defaultCloseHandler_) {
-      yesButton.addEventListener('click', this.defaultCloseHandler_);
-    }
-    var noButton = goog.dom.getElement(this.prefix + 'no');
-    noButton.addEventListener('click', this.close.bind(this));
-    this.showModal();
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {!string} content
- * @param {!Function} func
- * @param {string=} opt_value
- * @export
- */
-cwc.utils.Dialog.prototype.showPrompt = function(title, content, func,
-    opt_value) {
-  if (this.dialog) {
-    this.render(title, content, cwc.soy.Dialog.promptTemplate, opt_value);
-    var inputField = goog.dom.getElement(this.prefix + 'input');
-    var okButton = goog.dom.getElement(this.prefix + 'ok');
-    okButton.addEventListener('click', function() {
-      func(inputField.value);
-    });
-    okButton.addEventListener('click', this.close.bind(this));
-    if (this.defaultCloseHandler_) {
-      okButton.addEventListener('click', this.defaultCloseHandler_);
-    }
-    var cancleButton = goog.dom.getElement(this.prefix + 'cancel');
-    cancleButton.addEventListener('click', this.close.bind(this));
-    this.showModal();
-  }
-};
-
-
-/**
- * @param {Function!} func
- * @export
- */
-cwc.utils.Dialog.prototype.setDefaultCloseHandler = function(func) {
-  this.defaultCloseHandler_ = func;
-};
-
-
-/**
- * @private
- */
-cwc.utils.Dialog.prototype.refresh_ = function() {
-  if (typeof window.componentHandler !== 'undefined') {
-    window.componentHandler.upgradeDom();
-  }
 };

@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.framework.Python');
 
+goog.require('cwc.utils.Dialog');
+
 
 
 /**
@@ -29,6 +31,12 @@ goog.provide('cwc.framework.Python');
 cwc.framework.Python = function() {
   /** @type {string} */
   this.name = 'Python Framework';
+
+  /** @type {!cwc.utils.Dialog} */
+  this.dialog = new cwc.utils.Dialog();
+
+  /** @type {!string} */
+  this.lastMsg = '';
 };
 
 
@@ -37,13 +45,12 @@ cwc.framework.Python = function() {
  */
 cwc.framework.Python.prototype.run = function() {
   var pythonCode = document.getElementById('code').textContent;
-  Sk.canvas = 'canvas-chrome';
+  Sk['canvas'] = 'canvas-chrome';
+  //Sk.outputfun = this.dialog.showContent;
   Sk.configure({
-    output: this.outf,
-    inputfun: function(text) {
-      console.log('blabla...', text);
-    },
-    read: this.builtinRead
+    'output': this.showOutput.bind(this),
+    'read': this.builtinRead,
+    'inputfun': this.showInput.bind(this)
   });
 
   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'content';
@@ -64,10 +71,21 @@ cwc.framework.Python.prototype.run = function() {
 /**
  * @param {!string} text
  */
-cwc.framework.Python.prototype.outf = function(text) {
-  if (text) {
+cwc.framework.Python.prototype.showOutput = function(text) {
+  if (text && ! /^\s+$/g.test(text)) {
+    this.lastMsg = text;
     console.log(text);
   }
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.framework.Python.prototype.showInput = function() {
+  var msg = this.lastMsg || '';
+  this.lastMsg = '';
+  return this.dialog.showPrompt('Input', msg);
 };
 
 

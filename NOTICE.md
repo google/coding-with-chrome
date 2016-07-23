@@ -16,7 +16,7 @@
 * [i18next](#i18next)
 * [jQuery-turtle](#jquery-turtle)
 * [jQuery](#jquery)
-* [three.js](#three-js)
+* [three.js](#threejs)
 
 
 ## Blockly

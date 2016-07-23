@@ -419,8 +419,11 @@ cwc.ui.Preview.prototype.handleUnresponsive = function(opt_event) {
 
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Unresponsive Warning',
-    'The preview is unresponsive! Terminate?',
-    this.terminate.bind(this));
+    'The preview is unresponsive! Terminate?').then((answer) => {
+      if (answer) {
+        this.terminate();
+      }
+    });
 };
 
 

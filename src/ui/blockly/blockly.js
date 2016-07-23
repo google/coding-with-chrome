@@ -133,8 +133,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   var dialogInstance = this.helper.getInstance('dialog');
   if (dialogInstance) {
     this.modalPrompt = function(promptText, defaultText, callback, opt_title) {
-      dialogInstance.showPrompt(opt_title || 'Blockly', promptText,
-        callback, defaultText);
+      dialogInstance.showPrompt(
+        opt_title || 'Blockly', promptText, defaultText).then(callback);
     };
   }
 

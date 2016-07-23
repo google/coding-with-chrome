@@ -124,9 +124,11 @@ cwc.ui.Debug.prototype.addEvents = function() {
     });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showPrompt'),
     function() {
-      dialogInstance.showPrompt('Prompt', 'Whats your name', function(value) {
-        console.log('Prompt value:', value);
-      }, 'nobody');
+      dialogInstance.showPrompt('Prompt', 'Whats your name', 'nobody').then(
+        function(result) {
+          console.log('Test result', result);
+        }
+      );
     });
 
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'i18n_untranslated'),

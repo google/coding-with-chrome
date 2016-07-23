@@ -163,8 +163,11 @@ cwc.mode.ev3.blockly.Editor.prototype.showEditor = function() {
 cwc.mode.ev3.blockly.Editor.prototype.showBlockly = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
-    'overwrite any manual changes! Continue?',
-    this.switchToEditor.bind(this));
+    'overwrite any manual changes! Continue?').then((answer) => {
+      if (answer) {
+        this.switchToEditor();
+      }
+    });
 };
 
 
