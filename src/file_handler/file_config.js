@@ -242,7 +242,8 @@ cwc.fileHandler.Config.add('Python file',
     cwc.file.Type.PYTHON,
     cwc.mode.Type.PYTHON,
     cwc.file.Extensions.PYTHON,
-    cwc.file.ContentType.PYTHON);
+    cwc.file.ContentType.PYTHON,
+    '#!/usr/bin/python2.7\n');
 
 
 /**

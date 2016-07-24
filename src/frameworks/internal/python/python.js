@@ -44,13 +44,24 @@ cwc.framework.Python = function() {
  * @export
  */
 cwc.framework.Python.prototype.run = function() {
-  var pythonCode = document.getElementById('code').textContent;
+  var pythonCode = document.getElementById('code').textContent.trim();
+  var pythonVersion3 = false;
+
+  if (pythonCode.startsWith('#!/usr/bin/python3')) {
+    pythonVersion3 = true;
+  } else if (pythonCode.startsWith('#!/usr/bin/python2')) {
+    pythonVersion3 = false;
+  }
+
   Sk['canvas'] = 'canvas-chrome';
   //Sk.outputfun = this.dialog.showContent;
   Sk.configure({
+    'debugout': this.showDebug.bind(this),
+    'inputfun': this.showInput.bind(this),
     'output': this.showOutput.bind(this),
-    'read': this.builtinRead,
-    'inputfun': this.showInput.bind(this)
+    'uncaughtException': this.showError.bind(this),
+    'python3': pythonVersion3,
+    'read': this.builtinRead
   });
 
   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'content';
@@ -65,6 +76,28 @@ cwc.framework.Python.prototype.run = function() {
       console.error(err.toString());
     }
   );
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.framework.Python.prototype.showDebug = function(text) {
+  if (text && ! /^\s+$/g.test(text)) {
+    this.lastMsg = text;
+    console.debug(text);
+  }
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.framework.Python.prototype.showError = function(text) {
+  if (text && ! /^\s+$/g.test(text)) {
+    this.lastMsg = text;
+    console.error(text);
+  }
 };
 
 

@@ -81,6 +81,16 @@
         {param opt_icon: 'memory' /}
       {/call}
 
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: '3D' /}
+        {param text: 'Create create and display animated 3D computer graphics' /}
+        {param link_text: 'Start Drawing' /}
+        {param link_id: '3d' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: '3d_rotation' /}
+      {/call}
+
     </div>
   </div>
 {/template}
@@ -220,6 +230,16 @@
         {param link_id: 'coffeescript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'local_cafe' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'Python' /}
+        {param text: 'Use the Python language to create programs' /}
+        {param link_text: 'Use Python' /}
+        {param link_id: 'python' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'gesture' /}
       {/call}
 
       {call .selectSection_}
@@ -494,6 +514,69 @@
       </div>
 
     </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Python overview page.
+ */
+{template .pythonOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'python' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'python' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: 'Python' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'gesture' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Simple python file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Guess number' /}
+          {param text: 'Simple guess number game.' /}
+          {param link_text: 'Load guess number' /}
+          {param link_id: 'guess-number' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+    {call .footer_}
+      {param text: '"Python" is a registered trademark of the PSF. The Python logos (in several variants) are use trademarks of the PSF as well.' /}
+    {/call}
 
   </div>
 
@@ -835,6 +918,60 @@
 
 
 /**
+ * 3D overview page.
+ */
+{template .graphic3DOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: '3d' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: '3D' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: '3d_rotation' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Simple 3D file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Cube Example' /}
+          {param text: 'Animated 3d cube.' /}
+          {param link_text: 'Load 3d cube Animation' /}
+          {param link_id: 'cube-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
  * Header design.
  */
 {template .header_}
@@ -914,6 +1051,13 @@
         {param active_link: $active_link /}
       {/call}
 
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: '3D' /}
+        {param id: '3d' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -940,6 +1084,13 @@
         {param prefix: $prefix /}
         {param title: 'CoffeeScript' /}
         {param id: 'coffeescript' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Python' /}
+        {param id: 'python' /}
         {param active_link: $active_link /}
       {/call}
 

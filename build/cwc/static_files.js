@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('../../../closure-builder');
+var closureBuilder = require('closure-builder');
 
 
 /**

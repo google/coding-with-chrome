@@ -90,7 +90,7 @@
     {msg desc=""}{$title}{/msg}
   </h3>
   <div class="mdl-dialog__content {$prefix}prompt">
-    {if $content}{$content}{/if}
+    {if $content}<span class="{$prefix}prompt-content">{$content}</span>{/if}
     <div class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" id="{$prefix}input" value="{if $opt_values}{$opt_values}{/if}">
       <label class="mdl-textfield__label" for="{$prefix}input"></label>
@@ -117,6 +117,10 @@
     {param prefix: $prefix /}
   {/call}
 
+  body {lb}
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  {rb}
+
   #{$prefix}chrome {lb}
     top: 50%;
     transform: translateY(-50%);
@@ -125,8 +129,12 @@
     margin: auto;
   {rb}
 
+  .{$prefix}prompt-content {lb}
+    white-space: pre-line;
+  {rb}
+
   .{$prefix}prompt > .mdl-textfield{lb}
-    margin-left: 5px;
+    margin-left: 5px !important;
   {rb}
 
 {/template}
@@ -149,7 +157,6 @@
     min-width: 64px;
     padding: 0 16px;
     display: inline-block;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     font-weight: 500;
     text-transform: uppercase;
@@ -271,9 +278,8 @@
     border-bottom: 1px solid rgba(0,0,0, 0.12);
     display: block;
     font-size: 16px;
-    font-family: "Helvetica", "Arial", sans-serif;
     margin: 0;
-    padding: 4px 0;
+    padding: 4px;
     width: 100%;
     background: none;
     text-align: left;

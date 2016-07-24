@@ -38,11 +38,13 @@ cwc.ui.SelectScreenAdvancedView = {
   JAVASCRIPT_TUTORIAL: 'javaScriptVideoTutorial',
   COFFEESCRIPT: 'coffeeScriptOverview',
   PENCIL_CODE: 'pencilCodeOverview',
+  PYTHON: 'pythonOverview',
   MARKUP_LANGUAGE: 'markupLanguageOverview',
   HTML5: 'html5Overview',
   ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
-  SPHERO: 'spheroOverview'
+  SPHERO: 'spheroOverview',
+  GRAPHIC_3D: 'graphic3DOverview'
 };
 
 
@@ -116,14 +118,15 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE);
       this.setClickEvent_('link-robot', this.showView,
           cwc.ui.SelectScreenAdvancedView.ROBOT);
+      this.setClickEvent_('link-3d', this.showView,
+          cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D);
       break;
 
     // Basic screen
     case cwc.ui.SelectScreenAdvancedView.BASIC:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.basicOverview);
       this.setNavHeader_('Simple', 'school');
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.BASIC);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
       this.setClickEvent_('link-hello-world', this.loadFile_,
           'resources/examples/simple/script/Hello-World.cwc');
       this.setClickEvent_('link-text-loop', this.loadFile_,
@@ -145,6 +148,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
       this.setClickEvent_('link-coffeescript', this.showView,
           cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
+      this.setClickEvent_('link-python', this.showView,
+          cwc.ui.SelectScreenAdvancedView.PYTHON);
       this.setClickEvent_('link-pencil-code', this.showView,
           cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
       break;
@@ -154,8 +159,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptOverview);
       this.setNavHeader_('JavaScript', 'beenhere');
       this.addProgrammingMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.BASIC);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
       this.setClickEvent_('link-js-tutorials', this.showView,
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL);
       this.setClickEvent_('link-js-frameworks', this.showView,
@@ -182,6 +186,14 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.COFFEESCRIPT);
       break;
+    case cwc.ui.SelectScreenAdvancedView.PYTHON:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.pythonOverview);
+      this.setNavHeader_('Python', 'gesture');
+      this.addProgrammingMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.PYTHON);
+      this.setClickEvent_('link-guess-number', this.loadFile_,
+          'resources/examples/python/guess-number.py');
+      break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
       this.setNavHeader_('Pencil Code', 'mode_edit');
@@ -204,8 +216,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
     case cwc.ui.SelectScreenAdvancedView.HTML5:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
       this.setNavHeader_('HTML5', 'public');
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.HTML);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.HTML);
       this.setClickEvent_('link-form', this.loadFile_,
           'resources/examples/html5/form.html');
       break;
@@ -225,8 +236,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.EV3);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.EV3);
       this.setClickEvent_('link-line-follower', this.loadFile_,
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
@@ -235,10 +245,18 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.SPHERO);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.SPHERO);
       this.setClickEvent_('link-rectangle', this.loadFile_,
           'resources/examples/sphero/script/Sphero-rectangle.cwc');
+      break;
+
+    // 3D overview
+    case cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.graphic3DOverview);
+      this.setNavHeader_('3D', '3d_rotation');
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
+      this.setClickEvent_('link-cube-animation', this.loadFile_,
+          'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
 
     default:
@@ -288,6 +306,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE);
   this.setClickEvent_('menu-robot', this.showView,
       cwc.ui.SelectScreenAdvancedView.ROBOT);
+  this.setClickEvent_('menu-3d', this.showView,
+      cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D);
 };
 
 
@@ -300,6 +320,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addProgrammingMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
   this.setClickEvent_('menu-coffeescript', this.showView,
       cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
+  this.setClickEvent_('menu-python', this.showView,
+      cwc.ui.SelectScreenAdvancedView.PYTHON);
   this.setClickEvent_('menu-pencil-code', this.showView,
       cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
 };
