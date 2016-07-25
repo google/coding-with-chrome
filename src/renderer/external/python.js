@@ -1,7 +1,7 @@
 /**
- * @fileoverview Renderer for Coffeescript modification.
+ * @fileoverview Renderer for Python.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.internal.Coffeescript');
+goog.provide('cwc.renderer.external.Python');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -33,16 +33,16 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.internal.Coffeescript = function(helper) {
+cwc.renderer.external.Python = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
 
 
 /**
- * Initializes and defines the Coffeescript renderer.
+ * Initializes and defines the simple renderer.
  */
-cwc.renderer.internal.Coffeescript.prototype.init = function() {
+cwc.renderer.external.Python.prototype.init = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
@@ -58,18 +58,23 @@ cwc.renderer.internal.Coffeescript.prototype.init = function() {
  * @return {!string}
  * @export
  */
-cwc.renderer.internal.Coffeescript.prototype.render = function(
+cwc.renderer.external.Python.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
     frameworks,
     renderer_helper) {
 
-  var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeader(
-    cwc.framework.External.COFFEESCRIPT, frameworks
-  );
-  var body = '\n<script type="text\/coffeescript">\n' +
-    coffeescript + '\n</script>\n';
-  return renderer_helper.getHTML(body, header);
+  var python = editor_content[cwc.file.ContentType.PYTHON];
+  var header = renderer_helper.getFrameworkHeaders([
+    cwc.framework.External.JQUERY.V2_2_4,
+    cwc.framework.External.SKULPT.CORE,
+    cwc.framework.External.SKULPT.STDLIB,
+    cwc.framework.Internal.PYTHON
+  ], frameworks);
+  var body = '<div id="content"></div>' +
+  '<script id="code" type="text/python">\n' + python + '\n</script>' +
+  '<script>new cwc.framework.Python().run();</script>';
+
+  return renderer_helper.getHTMLCanvas(body, header);
 };

@@ -67,9 +67,9 @@ cwc.renderer.external.PencilCode.prototype.render = function(
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   var header = renderer_helper.getFrameworkHeaders([
-    cwc.framework.External.COFFEESCRIPT.MAIN,
+    cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.JQUERY_TURTLE.MAIN
+    cwc.framework.External.JQUERY_TURTLE
   ], frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
     '$.turtle();\n' + coffeescript + '\n</script>\n';

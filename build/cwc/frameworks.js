@@ -59,6 +59,25 @@ closureBuilder.build({
 
 
 /**
+ * EV3 Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.Python',
+  //compress: true,
+  srcs: glob([
+    'src/frameworks/internal/python/*.js',
+  ]),
+  deps: glob([
+    'src/utils/dialog/*'
+  ]),
+  externs: [
+    'build/externs/skulpt.js'
+  ],
+  out: 'genfiles/frameworks/internal/python_framework.js'
+});
+
+
+/**
  * Runner Framework
  */
 closureBuilder.build({

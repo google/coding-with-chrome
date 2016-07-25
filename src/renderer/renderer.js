@@ -55,12 +55,27 @@ cwc.renderer.Renderer = function(helper) {
 
 
 /**
- * Loads framework into memory.
- * @param {!string} file Filename of the framework file.
+ * Preloads frameworks into memory.
+ * @param {!Object} frameworks Framework files.
+ * @param {string=} opt_prefix_path
  */
-cwc.renderer.Renderer.prototype.loadFramework = function(file) {
+cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
+    opt_prefix_path = '') {
   var fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-  fileLoaderInstance.getResourceFile(file, this.addFramework, this);
+
+  for (let framework of Object.keys(frameworks)) {
+    if (goog.isString(frameworks[framework])) {
+      fileLoaderInstance.getResourceFile(
+        opt_prefix_path + frameworks[framework],
+        this.addFramework.bind(this));
+    } else {
+      for (let file of Object.keys(frameworks[framework])) {
+        fileLoaderInstance.getResourceFile(
+          opt_prefix_path + frameworks[framework][file],
+          this.addFramework.bind(this));
+      }
+    }
+  }
 };
 
 

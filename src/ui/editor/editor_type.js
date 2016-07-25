@@ -24,10 +24,11 @@ goog.provide('cwc.ui.EditorType');
  * @enum {!Object.<string>|string}
  */
 cwc.ui.EditorType = {
+  COFFEESCRIPT: 'text/coffeescript',
   CSS: 'text/css',
   HTML: 'text/html',
   JAVASCRIPT: 'text/javascript',
-  COFFEESCRIPT: 'text/coffeescript',
+  PYTHON: 'text/x-python',
   TEXT: 'text/plain',
   UNKNOWN: 'unknown'
 };

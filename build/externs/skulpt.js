@@ -1,7 +1,7 @@
 /**
- * @fileoverview Support file extensions for Coding with Chrome.
+ * @fileoverview Skulpt externs.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.file.Extensions');
 
 
-/**
- * @enum {string}
- */
-cwc.file.Extensions = {
-  COFFEESCRIPT: '.coffee',
-  CSS: '.css',
-  CWC: '.cwc',
-  HTML: '.html',
-  JAVASCRIPT: '.js',
-  JSON: '.json',
-  PYTHON: '.py',
-  TEXT: '.txt',
-  XML: '.xml'
-};
+
+/** @constructor */
+var Sk = function() {};

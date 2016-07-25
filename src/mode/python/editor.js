@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor for the Basic modification.
+ * @fileoverview Editor for the Python modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2016 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Editor');
+goog.provide('cwc.mode.python.Editor');
 
 goog.require('cwc.ui.Editor');
 
@@ -29,7 +29,7 @@ goog.require('cwc.ui.Editor');
  * @struct
  * @final
  */
-cwc.mode.basic.simple.Editor = function(helper) {
+cwc.mode.python.Editor = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -45,12 +45,11 @@ cwc.mode.basic.simple.Editor = function(helper) {
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the text Editor.
  */
-cwc.mode.basic.simple.Editor.prototype.decorate = function() {
+cwc.mode.python.Editor.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node, this.prefix);
   this.editor.showEditorViews(false);
-  this.editor.enableMediaButton(true);
 };

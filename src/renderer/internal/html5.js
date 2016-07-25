@@ -74,7 +74,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (html) {
     // Coffeescript framework.
     if (html.includes('text/coffeescript')) {
-      headers.push(cwc.framework.External.COFFEESCRIPT.MAIN);
+      headers.push(cwc.framework.External.COFFEESCRIPT);
     }
   }
 
@@ -86,10 +86,6 @@ cwc.renderer.internal.HTML5.prototype.render = function(
       headers.push(cwc.framework.Internal.SIMPLE);
     }
 
-    if (script.includes('command.showAlert')) {
-      //headers.push(cwc.framework.Internal.DIALOG_POLYFILL);
-    }
-
     // jQuery framework.
     if (script.includes('jQuery.') ||
         script.includes('jQuery(') ||
@@ -99,7 +95,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
 
     // three.js
     if (script.includes('new THREE.')) {
-      headers.push(cwc.framework.External.THREE_JS.MAIN);
+      headers.push(cwc.framework.External.THREE_JS.CORE);
     }
   }
 

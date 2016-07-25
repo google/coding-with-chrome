@@ -1,7 +1,7 @@
 /**
- * @fileoverview Support file extensions for Coding with Chrome.
+ * @fileoverview Layout template for the Python modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.file.Extensions');
+{namespace cwc.soy.mode.Python autoescape="strict"}
 
 
 /**
- * @enum {string}
+ * Editor template.
  */
-cwc.file.Extensions = {
-  COFFEESCRIPT: '.coffee',
-  CSS: '.css',
-  CWC: '.cwc',
-  HTML: '.html',
-  JAVASCRIPT: '.js',
-  JSON: '.json',
-  PYTHON: '.py',
-  TEXT: '.txt',
-  XML: '.xml'
-};
+{template .editor}
+  {@param prefix: string}
+  <div id="{$prefix}editor-chrome"></div>
+{/template}
+
+
+/**
+ * Preview template.
+ */
+{template .preview}
+  {@param prefix: string}
+  <div id="{$prefix}preview-chrome"></div>
+{/template}

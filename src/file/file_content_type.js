@@ -24,13 +24,13 @@ goog.provide('cwc.file.ContentType');
  * @enum {string}
  */
 cwc.file.ContentType = {
+  BLOCKLY: 'blockly',
+  COFFEESCRIPT: 'coffeescript',
+  CSS: 'css',
+  CUSTOM: 'custom',
   HTML: 'html',
   JAVASCRIPT: 'javascript',
-  CSS: 'css',
-  COFFEESCRIPT: 'coffeescript',
-  BLOCKLY: 'blockly',
   PENCIL_CODE: 'pencil_code',
   PYTHON: 'python',
-  CUSTOM: 'custom',
   RAW: 'raw'
 };

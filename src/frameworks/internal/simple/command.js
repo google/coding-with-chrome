@@ -52,7 +52,7 @@ cwc.framework.simple.Command.prototype.getTarget = function() {
 
 /**
  * Writes a text on screen.
- * @param {string} text
+ * @param {!string} text
  * @export
  */
 cwc.framework.simple.Command.prototype.write = function(text) {
@@ -61,10 +61,35 @@ cwc.framework.simple.Command.prototype.write = function(text) {
 
 
 /**
- * @param {string} text
+ * @param {!string} title
+ * @param {!string} content
+ * @export
  */
-cwc.framework.simple.Command.prototype.showAlert = function(text) {
-  this.dialog_.showContent('Alert', text);
+cwc.framework.simple.Command.prototype.showAlert = function(title, content) {
+  this.dialog_.showContent(title, content);
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {string=} opt_value
+ * @export
+ */
+cwc.framework.simple.Command.prototype.showPrompt = function(title, content,
+    opt_value) {
+  return this.dialog_.showPrompt(title, content, opt_value);
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {!Function}
+ * @export
+ */
+cwc.framework.simple.Command.prototype.showYesNo = function(title, content) {
+  return this.dialog_.showYesNo(title, content);
 };
 
 
@@ -78,7 +103,9 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
   }
   window['command'] = {
     'write': this.write.bind(this),
-    'showAlert': this.showAlert.bind(this)
+    'showAlert': this.showAlert.bind(this),
+    'showPrompt': this.showPrompt.bind(this),
+    'showYesNo': this.showYesNo.bind(this)
   };
 };
 

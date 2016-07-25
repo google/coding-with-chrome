@@ -42,13 +42,14 @@
 
     "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
     "build-cwc-debug": "npm run build-cwc-deps && npm run build-cwc-main-debug",
-    "build-cwc-deps": "npm run build-cwc-app && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-soy",
+    "build-cwc-deps": "npm run build-cwc-app && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-soy && npm run build-cwc-static",
     "build-cwc-app": "node build/cwc/app.js",
     "build-cwc-blocks": "node build/cwc/blocks.js",
     "build-cwc-frameworks": "node build/cwc/frameworks.js",
     "build-cwc-main": "node build/cwc/main.js",
     "build-cwc-main-debug": "node build/cwc/main-debug.js",
     "build-cwc-soy": "node build/cwc/soy.js",
+    "build-cwc-static": "node build/cwc/static_files.js",
 
     "build-external": "npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
     "build-external-frameworks": "node build/external/frameworks.js",

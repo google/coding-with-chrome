@@ -195,6 +195,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
         case cwc.file.ContentType.COFFEESCRIPT:
           editorType = cwc.ui.EditorType.COFFEESCRIPT;
           break;
+        case cwc.file.ContentType.PYTHON:
+          editorType = cwc.ui.EditorType.PYTHON;
+          break;
       }
       modeInstance.addEditorView(editorView, editorContent, editorType);
     }
@@ -297,17 +300,16 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 /**
  * @param {string} file
  * @param {Function=} opt_callback
- * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
-    opt_callback, opt_callback_scope) {
+    opt_callback) {
   if (file) {
     console.log('Loading file', file, '...');
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
-      xhrEvent(e, filename, opt_callback, opt_callback_scope);
+      xhrEvent(e, filename, opt_callback);
     });
     goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
       this.helper.showError('Unable to open file ' + file + ':' +

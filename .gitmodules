@@ -74,3 +74,9 @@
 [submodule "third_party/three.js"]
 	path = third_party/three.js
 	url = https://github.com/mrdoob/three.js.git
+	ignore = dirty
+
+[submodule "third_party/skulpt-dist"]
+	path = third_party/skulpt-dist
+	url = https://github.com/skulpt/skulpt-dist.git
+	ignore = dirty

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Text modifications.
+ * @fileoverview Json modifications.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
