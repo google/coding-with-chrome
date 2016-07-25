@@ -3,7 +3,7 @@
  *
  * This helper class provides shortcuts to get the different of UI elements.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@
  */
 goog.provide('cwc.ui.Helper');
 
+goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.style');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.CustomButton');
@@ -95,8 +97,7 @@ cwc.ui.Helper.decorateButton = function(button, opt_description, opt_func,
  */
 cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
   var text = document.createTextNode(i18t(name));
-  var item = document.createElement('li');
-  item.className = 'mdl-menu__item';
+  var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-menu__item');
   item.appendChild(text);
   if (opt_title) {
     item.title = i18t(opt_title);
@@ -143,7 +144,7 @@ cwc.ui.Helper.insertScript = function(script_url, opt_id) {
       oldScriptNode.parentNode.removeChild(oldScriptNode);
     }
   }
-  var scriptNode = document.createElement('script');
+  var scriptNode = goog.dom.createDom(goog.dom.TagName.SCRIPT);
   if (opt_id) {
     scriptNode.id = opt_id;
   }
@@ -217,8 +218,8 @@ cwc.ui.Helper.getElements = function(class_names, opt_type) {
   var classes = (typeof class_names === 'string') ? [class_names] : class_names;
   var result = [];
   for (let i = 0; i < classes.length; i++) {
-    var elements = goog.dom.getElementsByTagNameAndClass(opt_type || 'div',
-        classes[i]);
+    var elements = goog.dom.getElementsByTagNameAndClass(
+      opt_type || goog.dom.TagName.DIV, classes[i]);
     if (elements) {
       for (let i2 = 0; i2 < elements.length; i2++) {
         result.push(elements[i2]);

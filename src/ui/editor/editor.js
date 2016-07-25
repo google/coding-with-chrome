@@ -1,7 +1,7 @@
 /**
  * @fileoverview Code Editor for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.array');
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.soy');
@@ -641,9 +642,7 @@ cwc.ui.Editor.prototype.adjustSize = function() {
  * @return {Element}
  */
 cwc.ui.Editor.createMarker = function() {
-  var marker = document.createElement('div');
-  marker.className = 'CodeMirror-breakpoint';
-  return marker;
+  return goog.dom.createDom(goog.dom.TagName.SPAN, 'CodeMirror-breakpoint');
 };
 
 

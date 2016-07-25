@@ -1,7 +1,7 @@
 /**
  * @fileoverview Drawing library for the simple Framework.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ goog.require('cwc.config.Number');
 goog.require('cwc.framework.simple.DrawManipulation');
 
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.string');
 goog.require('goog.style');
 
@@ -63,14 +64,14 @@ cwc.framework.simple.Draw.prototype.prepare_ = function() {
   }
 
   if (!this.stage) {
-    this.stage = goog.dom.createDom('div');
+    this.stage = goog.dom.createDom(goog.dom.TagName.DIV);
     goog.style.setStyle(this.stage, 'position', 'relative');
     goog.dom.append(target, this.stage);
     this.handleResize_();
   }
 
   if (!this.canvas) {
-    this.canvas = goog.dom.createDom('canvas');
+    this.canvas = goog.dom.createDom(goog.dom.TagName.CANVAS);
     goog.style.setStyle(this.canvas, 'position', 'absolute');
     goog.style.setStyle(this.canvas, 'top', 0);
     goog.style.setStyle(this.canvas, 'left', 0);

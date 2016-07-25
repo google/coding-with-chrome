@@ -2,7 +2,7 @@
  * @fileoverview Runner framework for safe cross communication.
  * Allows communication between the Coding with Chrome Editor <> Webview Object.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -3,7 +3,7 @@
  * This TTS framework will be used by the runner instance, inside the webview
  * sandbox, to access the TTS interface.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
