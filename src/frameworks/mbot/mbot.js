@@ -143,7 +143,7 @@ cwc.framework.mbot.prototype.getLightnessSensorValue = function() {
 */
 cwc.framework.mbot.prototype.turn = function(speed, steps){
    var delay = steps * 100 * 255 / Math.abs(speed);
-   this.runner.send('turn', {'speed': speed}, delay);
+   this.runner.send('turn', {'speed': speed, 'steps':steps}, delay);
    this.runner.send('stop', {}, 1);
 }
 
@@ -155,7 +155,7 @@ cwc.framework.mbot.prototype.turn = function(speed, steps){
   */
 cwc.framework.mbot.prototype.moveSteps = function(speed, steps) {
   var delay = steps * 100 * 255 / Math.abs(speed);
-  this.runner.send('moveSteps', {'speed': speed}, delay);
+  this.runner.send('moveSteps', {'speed': speed, 'steps':steps}, delay);
   this.runner.send('stop', {}, 1);
 };
 

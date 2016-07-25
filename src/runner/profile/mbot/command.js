@@ -28,9 +28,10 @@ goog.provide('cwc.runner.profile.mbot.Command');
  * @struct
  * @final
  */
-cwc.runner.profile.mbot.Command = function(api) {
+cwc.runner.profile.mbot.Command = function(api, turtle) {
   /** @type {cwc.protocol.mbot.Api} */
   this.api = api;
+  this.turtle = turtle;
 };
 
 
@@ -64,6 +65,12 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
 cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data){
     this.api.setLeftMotor(-data['speed']);
     this.api.setRightMotor(data['speed']);
+    if(data['speed'] > 0){
+      this.turtle.action('fd', data['steps']*5);
+    }
+    else{
+      this.turtle.action('bk', data['steps']*5);
+    }
 }
 
 /**
@@ -74,6 +81,12 @@ cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data){
 cwc.runner.profile.mbot.Command.prototype.turn = function(data){
     this.api.setLeftMotor(data['speed']);
     this.api.setRightMotor(data['speed']);
+    if(data['speed'] > 0){
+      this.turtle.action('rt', data['steps']*2);
+    }
+    else{
+      this.turtle.action('lt', data['steps']*2);
+    }
 }
 
 /**
