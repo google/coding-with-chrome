@@ -151,6 +151,9 @@ cwc.protocol.mbot.Api.prototype.start = function() {
 cwc.protocol.mbot.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
   // this.reset(); // this line was there but I'm not clear what does it do...
+  this.monitoring.stop();
+  this.setLeftMotor(0);
+  this.setRightMotor(0);
 };
 
 /**
@@ -178,8 +181,14 @@ cwc.protocol.mbot.Api.prototype.handleAsync_ = function(buffer) {
   if (!buffer || buffer.length < 7) {
     return;
   }
-  console.log('Async:', buffer);
+  var dataBytes = this.arrayFromArrayBuffer(buffer);
+  var index = dataBytes[this.command.BYTE_INDEX];
+  var dataType = dataBytes[this.command.BYTE_DATATYPE];
+  if(dataType == this.command.DATATYPE_FLOAT) {
+    this.monitoring.onSensorReply(index, dataBytes.slice(this.command.BYTE_PAYLOAD, this.command.BYTE_PAYLOAD+4));
+  }
 };
+
 
 /**
  * Convert array of int to ArrayBuffer.
@@ -197,6 +206,22 @@ cwc.protocol.mbot.Api.prototype.arrayBufferFromArray = function(data){
 };
 
 /**
+ * Convert ArrayBuffer from array of int
+ * @param  {ArrayBuffer} buffer the source arraybuffer
+ * @return {[int]}        int array as the result;
+ * @private
+ */
+cwc.protocol.mbot.Api.prototype.arrayFromArrayBuffer = function(buffer){
+    var dataView = new Uint8Array(buffer);
+    var result = [];
+    for(var i=0;i<dataView.length;i++){
+        result.push(dataView[i]);
+    }
+    return result;
+}
+
+
+/**
  * send read or write commands to robot
  * @param  {boolean} readOrWrite    read (1) or write (2)
  * @param  {int}     deviceType     device type
@@ -206,7 +231,7 @@ cwc.protocol.mbot.Api.prototype.arrayBufferFromArray = function(data){
  * @export
  */
 cwc.protocol.mbot.Api.prototype.sendCommandToRobot = function(readOrWrite, deviceType, index, commandBytes){
-  var commandBody = [readOrWrite, deviceType].concat(commandBytes);
+  var commandBody = [index, readOrWrite, deviceType].concat(commandBytes);
   var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B, commandBody.length];
   var command = commandHeader.concat(commandBody);
   this.sendBytesToRobot(command);
@@ -254,7 +279,12 @@ cwc.protocol.mbot.Api.prototype.sendNoResponseCommand = function(deviceType, com
  * @export
  */
 cwc.protocol.mbot.Api.prototype.sendBytesToRobot = function(data){
-  this.device.send(this.arrayBufferFromArray(data));
+  if(this.device){
+    this.device.send(this.arrayBufferFromArray(data));
+  }
+  else{
+    // console.log("no device available");
+  }
 }
 
 /**
@@ -275,7 +305,7 @@ cwc.protocol.mbot.Api.prototype.beepBuzzer = function() {
  */
 cwc.protocol.mbot.Api.prototype.setLeftMotor = function(speed){
   this.sendNoResponseCommand(this.command.DEVICE_DCMOTOR,
-                            [this.command.PORT_LEFT_MOTOR, speed]);
+                            [this.command.PORT_LEFT_MOTOR, speed & 0xff, speed >> 8]);
 }
 
 /**
@@ -319,19 +349,34 @@ cwc.protocol.mbot.Api.prototype.playNote = function(pitchFrequency, duration){
 }
 
 /**
- * get ultrasonic sensor value
- * @return {float} sensor value
+ * ultrasonic sensor value changed, called from monitoring
+ * @param {float} value the value to update
+ * @return {void} 
  * @export
  */
-cwc.protocol.mbot.Api.prototype.ultrasonicValue = function(){
-  return this.monitoring.ultrasonicValue();
+cwc.protocol.mbot.Api.prototype.ultrasonicValueChanged = function(value){
+  this.eventHandler.dispatchEvent(
+            cwc.protocol.mbot.Events.UltrasonicSensorValue(value));
 }
 
 /**
- * get ligheness sensor value
- * @return {float} sensor value
+ * lightness sensor value changed, called from monitoring
+ * @param {float} value the value to update
+ * @return {void} 
  * @export
  */
-cwc.protocol.mbot.Api.prototype.lightSensorValue = function(){
-  return this.monitoring.lightSensorValue();
+cwc.protocol.mbot.Api.prototype.lightnessValueChanged = function(value){
+  this.eventHandler.dispatchEvent(
+            cwc.protocol.mbot.Events.LightnessSensorValue(value));
+}
+
+/**
+ * linefollower sensor value changed, called from monitoring
+ * @param {float} value the value to update
+ * @return {void} 
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.linefollowerValueChanged = function(value){
+  this.eventHandler.dispatchEvent(
+            cwc.protocol.mbot.Events.LinefollowerSensorValue(value));
 }

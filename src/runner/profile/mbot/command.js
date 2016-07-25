@@ -45,6 +45,7 @@ cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data){
  * set motor speed of mbot
  * @param  {array} data
  * @return {null}
+ * @export
  */
 cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
   if(data['direction'] == 1){
@@ -61,29 +62,35 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
  * @return {void}
  */
 cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data){
-    this.api.setLeftMotor(data['speed']);
-    this.api.setRightMotor(-data['speed']);
+    this.api.setLeftMotor(-data['speed']);
+    this.api.setRightMotor(data['speed']);
 }
 
 /**
  * turn mbot to a direction
- * data.direction = 1 : turn left
- * data.direction = 2 : turn right
  * @param  {Object} data   data package
  * @return {void}
  */
 cwc.runner.profile.mbot.Command.prototype.turn = function(data){
-    this.api.setLeftMotor(-data['speed']);
-    this.api.setRightMotor(-data['speed']);
+    this.api.setLeftMotor(data['speed']);
+    this.api.setRightMotor(data['speed']);
 }
+
+/**
+ * wait for a certain second
+ * @param {!Object} opt_data
+ */
+cwc.runner.profile.mbot.Command.prototype.wait = function(opt_data) {};
 
 /**
  * stop the mbot completely
  * @param  {void} opt_data   not needed
  * @return {void}
+ * @export
  */
 cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data){
-  this.move({speed: 0});
+    this.api.setLeftMotor(0);
+    this.api.setRightMotor(0);
 }
 
 /**
@@ -92,15 +99,17 @@ cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data){
  * red, green, blue: RGB values
  * @param  {Object} data Data package
  * @return {void}
+ * @export
  */
 cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data){
-  this.api.setLEDColor(data['index'], data['red'], data['green'], data['blue']);
+  this.api.setLEDColor(data['position'], data['red'], data['green'], data['blue']);
 }
 
 /**
  * play music note on mbot
  * @param  {Object} data data package
  * @return {void}
+ * @export
  */
 cwc.runner.profile.mbot.Command.prototype.playNote = function(data){
   this.api.playNote(data['frequency'], data['duration']);

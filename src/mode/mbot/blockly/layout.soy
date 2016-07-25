@@ -44,26 +44,77 @@
     <category name="Movements" colour="120">
       <block type="mbot_move_forward">
         <value name="steps">
-          <block type="math_number"><field name="NUM">40</field></block>
+          <block type="math_number"><field name="NUM">10</field></block>
         </value>
       </block>
       <block type="mbot_move_backward">
         <value name="steps">
-          <block type="math_number"><field name="NUM">40</field></block>
+          <block type="math_number"><field name="NUM">10</field></block>
         </value>
       </block>
       <block type="mbot_turn_left">
         <value name="steps">
-          <block type="math_number"><field name="NUM">40</field></block>
+          <block type="math_number"><field name="NUM">10</field></block>
         </value>
       </block>
       <block type="mbot_turn_right">
         <value name="steps">
-          <block type="math_number"><field name="NUM">40</field></block>
+          <block type="math_number"><field name="NUM">10</field></block>
+        </value>
+      </block>
+      <block type="mbot_stop_moving"></block>
+
+    </category>
+
+    <category name="Lights and Sounds" colour="120">
+      <block type="mbot_play_tone"></block>
+      <block type="mbot_rgb"></block>
+    </category>
+
+    <category name="Sensors" colour="120">
+      <block type="mbot_ultrasonic_sensor_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">distance</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">30</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+      <block type="mbot_lightness_sensor_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LTE</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">lightness</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">20</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
         </value>
       </block>
     </category>
-
 
     <category name="Control" colour="210">
       <block type="controls_repeat_ext">
@@ -83,6 +134,7 @@
         </value>
       </block>
       <block type="controls_flow_statements"></block>
+      <block type="mbot_wait"></block>
     </category>
 
     <category name="Operations" colour="210">
@@ -126,14 +178,9 @@
       <block type="math_random_float"></block>
     </category>
 
-    <category name="Variables" colour="210">
+    <category custom="VARIABLE" name="Variables" colour="210">
     </category>
 
-    <category name="Sensors" colour="120">
-    </category>
-
-    <category name="Events" colour="120">
-    </category>
   </xml>
 {/template}
 

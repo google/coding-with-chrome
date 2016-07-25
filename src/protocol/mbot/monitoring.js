@@ -43,62 +43,16 @@ cwc.protocol.mbot.Monitoring = function(api) {
   this.monitorTimer = null;
 
   /** @type {int} */
-  this.readInterval = 50;
+  this.readInterval = 100;
 
   /** @type {[int]} */
-  this.availableSensors = this.command.AVAILABLE_SENSORS;
+  this.availableSensors = [this.command.DEVICE_ULTRASONIC, 
+                           this.command.DEVICE_LIGHTSENSOR, 
+                           this.command.DEVICE_LINEFOLLOWER];
 
   /** @type {int} */
   this.readIndex = 0;
-
-  /** @type {float} */
-  this.ultrasonicSensorValue_ = 0;
-
-  /** @type {float} */
-  this.lightSensorValue_ = 0;
-
-  /** @type {boolean} */
-  this.isLineFollowerLeftBlack_ = false;
-
-  /** @type {boolean} */
-  this.isLineFollowerRightBlack_ = false;
 };
-
-/**
- * get left line follower value
- * @return {boolean} left line follower value
- * @export
- */
-cwc.protocol.mbot.Monitoring.prototype.isLineFollowerLeftBlack = function(){
-  return this.isLineFollowerLeftBlack_;
-}
-
-/**
- * get right line follower value
- * @return {boolean} right line follower value
- * @export
- */
-cwc.protocol.mbot.Monitoring.prototype.isLineFollowerRightBlack = function(){
-  return this.isLineFollowerRightBlack_;
-}
-
-/**
- * get ultrasonic sensor value
- * @return {float} ultrasonic sensor value
- * @export
- */
-cwc.protocol.mbot.Monitoring.prototype.ultrasonicValue = function(){
-  return this.ultrasonicValue_;
-}
-
-/**
- * get lightness sensor value
- * @return {float} lightness sensor value
- * @export
- */
-cwc.protocol.mbot.Monitoring.prototype.lightSensorValue = function(){
-  return this.lightSensorValue_;
-}
 
 /**
  * start sending reading sensor signals.
@@ -106,7 +60,7 @@ cwc.protocol.mbot.Monitoring.prototype.lightSensorValue = function(){
  * @export
  */
 cwc.protocol.mbot.Monitoring.prototype.start = function(){
-  this.monitorTimer = setInterval(this.onReadSensorTimer, this.readInterval);
+  this.monitorTimer = setInterval(this.onReadSensorTimer.bind(this), this.readInterval);
 }
 
 /**
@@ -131,13 +85,13 @@ cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function(){
   var readIndex = this.readIndex % this.availableSensors.length;
   switch (this.availableSensors[readIndex]) {
     case this.command.DEVICE_ULTRASONIC:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_ULTRASONIC, readIndex, this.command.PORT_ULTRASONIC);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_ULTRASONIC, readIndex, [this.command.PORT_ULTRASONIC]);
       break;
     case this.command.DEVICE_LIGHTSENSOR:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_LIGHTSENSOR, readIndex, this.command.PORT_LIGHTSENSOR);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_LIGHTSENSOR, readIndex, [this.command.PORT_LIGHTSENSOR]);
       break;
     case this.command.DEVICE_LINEFOLLOWER:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_LINEFOLLOWER, readIndex, this.command.PORT_LINEFOLLOWER);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_LINEFOLLOWER, readIndex, [this.command.PORT_LINEFOLLOWER]);
       break;
   }
   this.readIndex++;
@@ -153,29 +107,13 @@ cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function(){
 cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index, contentBytes){
   switch(this.availableSensors[index]){
     case this.command.DEVICE_ULTRASONIC:
-      this.ultrasonicSensorValue_ = this.parseFloatBytes(contentBytes);
+      this.api.ultrasonicValueChanged(this.parseFloatBytes(contentBytes));
       break;
     case this.command.DEVICE_LIGHTSENSOR:
-      this.lightSensorValue_ = this.parseFloatBytes(contentBytes);
+      this.api.lightnessValueChanged(this.parseFloatBytes(contentBytes));
       break;
     case this.command.DEVICE_LINEFOLLOWER:
-      var linefollerSum = contentBytes[2] + contentBytes[3];
-      if (linefollerSum == this.command.LINEFOLLOWER_SUM_WHITE_WHITE) {
-        this.isLineFollowerLeftBlack_ = 0;
-        this.isLineFollowerRightBlack_ = 0;
-      }
-      else if (linefollerSum == this.command.LINEFOLLOWER_SUM_WHITE_BLACK) {
-        this.isLineFollowerLeftBlack_ = 0;
-        this.isLineFollowerRightBlack_ = 1;
-      }
-      else if (linefollerSum == this.command.LINEFOLLOWER_SUM_BLACK_WHITE) {
-        this.isLineFollowerLeftBlack_ = 1;
-        this.isLineFollowerRightBlack_ = 0;
-      }
-      else if (linefollerSum == this.command.LINEFOLLOWER_SUM_BLACK_BLACK) {
-        this.isLineFollowerLeftBlack_ = 1;
-        this.isLineFollowerRightBlack_ = 1;
-      }
+      this.api.linefollowerValueChanged(this.parseFloatBytes(contentBytes));
       break;
   }
 }
@@ -214,9 +152,9 @@ cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1,b2,b3,b4 ) {
  */
 cwc.protocol.mbot.Monitoring.prototype.intBitsToFloat = function(num) {
     /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-    s = ( num >> 31 ) == 0 ? 1 : -1,
-    e = ( num >> 23 ) & 0xff,
-    m = ( e == 0 ) ?
+    var s = ( num >> 31 ) == 0 ? 1 : -1,
+        e = ( num >> 23 ) & 0xff,
+        m = ( e == 0 ) ?
     ( num & 0x7fffff ) << 1 :
     ( num & 0x7fffff ) | 0x800000;
     return s * m * Math.pow( 2, e - 150 );

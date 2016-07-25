@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.mbot.Runner');
 
+goog.require('cwc.protocol.mbot.Events');
 goog.require('cwc.runner.profile.mbot.Command');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
@@ -98,8 +99,26 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
 
   // Normal Commands
   this.runner.addCommand('beepBuzzer', this.command.beepBuzzer, this);
-  this.runner.addCommand('move', this.command.beepBuzzer, this);
-  this.runner.addCommand('turn', this.command.beepBuzzer, this);
+  this.runner.addCommand('setMotor', this.command.setMotor, this);
+  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
+  this.runner.addCommand('turn', this.command.turn, this);
+  this.runner.addCommand('wait', this.command.wait, this);
+  this.runner.addCommand('stop', this.command.stop, this);
+  this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
+  this.runner.addCommand('playNote', this.command.playNote, this);
+
+  // Events
+  var apiEventHandler = this.api.getEventHandler();
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      'updateUltrasonicSensor');
+  this.runner.addEvent(apiEventHandler,
+    cwc.protocol.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
+    'updateLightnessSensor');
+  this.runner.addEvent(apiEventHandler,
+    cwc.protocol.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
+    'updateLinefollowerSensor');
+        
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);

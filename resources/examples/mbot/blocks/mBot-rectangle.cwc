@@ -1,0 +1,22 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "mbot_blockly",
+  "mode": "mbot_blockly",
+  "title": "mBot Example",
+  "ui": "default",
+  "version": "1.0"
+}
