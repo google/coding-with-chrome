@@ -518,7 +518,7 @@ Blockly.Blocks['ev3_led'] = {
           [['normal', 'normal'],
            ['flash', 'flash'],
            ['pulse', 'pulse']]), 'mode')
-          .appendField(')');
+      .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the leds on the EV3 unit.');

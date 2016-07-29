@@ -78,7 +78,9 @@ Blockly.JavaScript['sphero_heading'] = function(block) {
 Blockly.JavaScript['sphero_rgb'] = function(block) {
   var colour = parseInt(Blockly.JavaScript.valueToCode(
     block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
-      .replace('#', '').replace('\'', '').replace('"', ''), 16);
+    .replace('#', '')
+    .replace('\'', '')
+    .replace('"', ''), 16);
   var red = colour >> 16;
   var green = colour >> 8 & 0xFF;
   var blue = colour & 0xFF;

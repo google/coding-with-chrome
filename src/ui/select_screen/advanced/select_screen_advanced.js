@@ -30,21 +30,21 @@ goog.require('goog.dom');
  * @enum {!string}
  */
 cwc.ui.SelectScreenAdvancedView = {
-  OVERVIEW: 'overview',
   BASIC: 'basicOverview',
-  PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
+  COFFEESCRIPT: 'coffeeScriptOverview',
+  EV3: 'ev3Overview',
+  GRAPHIC_3D: 'graphic3DOverview',
+  HTML5: 'html5Overview',
   JAVASCRIPT: 'javaScriptOverview',
   JAVASCRIPT_FRAMEWORKS: 'javaScriptFrameworks',
   JAVASCRIPT_TUTORIAL: 'javaScriptVideoTutorial',
-  COFFEESCRIPT: 'coffeeScriptOverview',
-  PENCIL_CODE: 'pencilCodeOverview',
-  PYTHON: 'pythonOverview',
   MARKUP_LANGUAGE: 'markupLanguageOverview',
-  HTML5: 'html5Overview',
+  OVERVIEW: 'overview',
+  PENCIL_CODE: 'pencilCodeOverview',
+  PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
+  PYTHON: 'pythonOverview',
   ROBOT: 'robotOverview',
-  EV3: 'ev3Overview',
   SPHERO: 'spheroOverview',
-  GRAPHIC_3D: 'graphic3DOverview'
 };
 
 

@@ -23,6 +23,8 @@
 goog.provide('cwc.protocol.mbot.Monitoring');
 goog.require('cwc.protocol.mbot.Command');
 
+
+
 /**
  * @constructor
  * @param {!cwc.protocol.mbot.Api} api
@@ -46,34 +48,38 @@ cwc.protocol.mbot.Monitoring = function(api) {
   this.readInterval = 100;
 
   /** @type {[int]} */
-  this.availableSensors = [this.command.DEVICE_ULTRASONIC, 
-                           this.command.DEVICE_LIGHTSENSOR, 
+  this.availableSensors = [this.command.DEVICE_ULTRASONIC,
+                           this.command.DEVICE_LIGHTSENSOR,
                            this.command.DEVICE_LINEFOLLOWER];
 
   /** @type {int} */
   this.readIndex = 0;
 };
 
+
 /**
  * start sending reading sensor signals.
  * @return {void}
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.start = function(){
-  this.monitorTimer = setInterval(this.onReadSensorTimer.bind(this), this.readInterval);
-}
+cwc.protocol.mbot.Monitoring.prototype.start = function() {
+  this.monitorTimer = setInterval(this.onReadSensorTimer.bind(this),
+    this.readInterval);
+};
+
 
 /**
  * stop sending reading sensor signals.
  * @return {void}
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.stop = function(){
+cwc.protocol.mbot.Monitoring.prototype.stop = function() {
   if (this.monitorTimer) {
     clearInterval(this.monitorTimer);
     this.monitorTimer = null;
   }
-}
+};
+
 
 /**
  * every 50ms, ask robot about sensor status;
@@ -81,31 +87,35 @@ cwc.protocol.mbot.Monitoring.prototype.stop = function(){
  * @return {void}
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function(){
+cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function() {
   var readIndex = this.readIndex % this.availableSensors.length;
   switch (this.availableSensors[readIndex]) {
     case this.command.DEVICE_ULTRASONIC:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_ULTRASONIC, readIndex, [this.command.PORT_ULTRASONIC]);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_ULTRASONIC,
+        readIndex, [this.command.PORT_ULTRASONIC]);
       break;
     case this.command.DEVICE_LIGHTSENSOR:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_LIGHTSENSOR, readIndex, [this.command.PORT_LIGHTSENSOR]);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_LIGHTSENSOR,
+        readIndex, [this.command.PORT_LIGHTSENSOR]);
       break;
     case this.command.DEVICE_LINEFOLLOWER:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_LINEFOLLOWER, readIndex, [this.command.PORT_LINEFOLLOWER]);
+      this.api.sendReadCommandToRobot(this.command.DEVICE_LINEFOLLOWER,
+        readIndex, [this.command.PORT_LINEFOLLOWER]);
       break;
   }
   this.readIndex++;
-}
+};
+
 
 /**
- * called by api, update realtime sensor value
+ * called by api, update real-time sensor value
  * @param  {int}   index        index field of reply message
  * @param  {[int]} contentBytes content bytes
- * @return {null}
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index, contentBytes){
-  switch(this.availableSensors[index]){
+cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index,
+    contentBytes) {
+  switch (this.availableSensors[index]) {
     case this.command.DEVICE_ULTRASONIC:
       this.api.ultrasonicValueChanged(this.parseFloatBytes(contentBytes));
       break;
@@ -116,7 +126,8 @@ cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index, contentBy
       this.api.linefollowerValueChanged(this.parseFloatBytes(contentBytes));
       break;
   }
-}
+};
+
 
 /**
  * convert float bytes to float value in robot response;
@@ -125,11 +136,12 @@ cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index, contentBy
  * @private
  */
 cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
-    var intValue = this.fourBytesToInt(dataBytes[3],dataBytes[2],dataBytes[1],dataBytes[0]);
-    var result = parseFloat(this.intBitsToFloat(intValue).toFixed(2));
-
-    return result;
+  var intValue = this.fourBytesToInt(
+    dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
+  var result = parseFloat(this.intBitsToFloat(intValue).toFixed(2));
+  return result;
 };
+
 
 /**
  * convert four bytes (b4b3b2b1) to a single int.
@@ -140,9 +152,11 @@ cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
  * @return {int}    the result int
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1,b2,b3,b4 ) {
-    return ( b1 << 24 ) + ( b2 << 16 ) + ( b3 << 8 ) + b4;
+cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1, b2, b3,
+    b4) {
+  return ( b1 << 24 ) + ( b2 << 16 ) + ( b3 << 8 ) + b4;
 };
+
 
 /**
  * convert from int (in byte form) to float
@@ -151,11 +165,11 @@ cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1,b2,b3,b4 ) {
  * @private
  */
 cwc.protocol.mbot.Monitoring.prototype.intBitsToFloat = function(num) {
-    /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-    var s = ( num >> 31 ) == 0 ? 1 : -1,
-        e = ( num >> 23 ) & 0xff,
-        m = ( e == 0 ) ?
-    ( num & 0x7fffff ) << 1 :
-    ( num & 0x7fffff ) | 0x800000;
-    return s * m * Math.pow( 2, e - 150 );
+  /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+  var s = ( num >> 31 ) == 0 ? 1 : -1,
+      e = ( num >> 23 ) & 0xff,
+      m = ( e == 0 ) ?
+  ( num & 0x7fffff ) << 1 :
+  ( num & 0x7fffff ) | 0x800000;
+  return s * m * Math.pow( 2, e - 150 );
 };

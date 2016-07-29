@@ -24,6 +24,8 @@ goog.provide('cwc.protocol.mbot.RobotConnection');
 
 goog.require('goog.events.EventTarget');
 
+
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -53,17 +55,20 @@ cwc.protocol.mbot.RobotConnection = function(helper) {
   this.eventHandler = new goog.events.EventTarget();
 };
 
+
 /**
  * Handles async packets from the Bluetooth socket.
  * @param {ArrayBuffer} buffer
  * @private
  */
-cwc.protocol.mbot.RobotConnection.prototype.handleAsyncBluetooth_ = function(buffer) {
+cwc.protocol.mbot.RobotConnection.prototype.handleAsyncBluetooth_ = function(
+    buffer) {
   if (!buffer || buffer.length < 7) {
     return;
   }
   console.log('Async:', buffer);
 };
+
 
 /**
  * @return {goog.events.EventTarget}
@@ -140,6 +145,7 @@ cwc.protocol.mbot.RobotConnection.prototype.disconnect = function() {
   this.cleanUp();
 };
 
+
 /**
  * Basic cleanup for the mbot.
  */
@@ -147,6 +153,7 @@ cwc.protocol.mbot.RobotConnection.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
   this.reset();
 };
+
 
 /**
  * Resets the mbot connection.

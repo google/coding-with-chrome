@@ -36,75 +36,74 @@ cwc.runner.profile.mbot.Command = function(api, turtle) {
 
 
 /**
- * @param {!Object} data
+ * @param {Object=} opt_data
  */
-cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data){
+cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data) {
   this.api.beepBuzzer();
 };
 
+
 /**
  * set motor speed of mbot
- * @param  {array} data
- * @return {null}
+ * @param  {Object} data
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.setMotor = function(data){
-  if(data['direction'] == 1){
+cwc.runner.profile.mbot.Command.prototype.setMotor = function(data) {
+  if (data['direction'] == 1) {
     this.api.setLeftMotor(data['speed']);
-  }
-  else{
+  } else {
     this.api.setRightMotor(data['speed']);
   }
-}
+};
+
 
 /**
  * move mbot forward or backward
  * @param  {Object} data data package
- * @return {void}
  */
-cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data){
-    this.api.setLeftMotor(-data['speed']);
-    this.api.setRightMotor(data['speed']);
-    if(data['speed'] > 0){
-      this.turtle.action('fd', data['steps']*5);
-    }
-    else{
-      this.turtle.action('bk', data['steps']*5);
-    }
-}
+cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data) {
+  this.api.setLeftMotor(-data['speed']);
+  this.api.setRightMotor(data['speed']);
+  if (data['speed'] > 0) {
+    this.turtle.action('fd', data['steps'] * 5);
+  } else {
+    this.turtle.action('bk', data['steps'] * 5);
+  }
+};
+
 
 /**
  * turn mbot to a direction
  * @param  {Object} data   data package
- * @return {void}
  */
-cwc.runner.profile.mbot.Command.prototype.turn = function(data){
-    this.api.setLeftMotor(data['speed']);
-    this.api.setRightMotor(data['speed']);
-    if(data['speed'] > 0){
-      this.turtle.action('rt', data['steps']*2);
-    }
-    else{
-      this.turtle.action('lt', data['steps']*2);
-    }
-}
+cwc.runner.profile.mbot.Command.prototype.turn = function(data) {
+  this.api.setLeftMotor(data['speed']);
+  this.api.setRightMotor(data['speed']);
+  if (data['speed'] > 0) {
+    this.turtle.action('rt', data['steps'] * 2);
+  } else {
+    this.turtle.action('lt', data['steps'] * 2);
+  }
+};
+
 
 /**
  * wait for a certain second
- * @param {!Object} opt_data
+ * @param {Object=} opt_data
  */
 cwc.runner.profile.mbot.Command.prototype.wait = function(opt_data) {};
 
+
 /**
  * stop the mbot completely
- * @param  {void} opt_data   not needed
- * @return {void}
+ * @param {Object=} opt_data
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data){
-    this.api.setLeftMotor(0);
-    this.api.setRightMotor(0);
-}
+cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data) {
+  this.api.setLeftMotor(0);
+  this.api.setRightMotor(0);
+};
+
 
 /**
  * set led color of the mbot
@@ -114,9 +113,11 @@ cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data){
  * @return {void}
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data){
-  this.api.setLEDColor(data['position'], data['red'], data['green'], data['blue']);
-}
+cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data) {
+  this.api.setLEDColor(
+    data['position'], data['red'], data['green'], data['blue']);
+};
+
 
 /**
  * play music note on mbot
@@ -124,9 +125,10 @@ cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data){
  * @return {void}
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.playNote = function(data){
+cwc.runner.profile.mbot.Command.prototype.playNote = function(data) {
   this.api.playNote(data['frequency'], data['duration']);
-}
+};
+
 
 // SECTION: get values from sensors
 /**
@@ -134,15 +136,16 @@ cwc.runner.profile.mbot.Command.prototype.playNote = function(data){
  * @return {number} sensor value
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.ultrasonicValue = function(){
+cwc.runner.profile.mbot.Command.prototype.ultrasonicValue = function() {
   return this.api.ultrasonicValue();
-}
+};
+
 
 /**
  * return lightness sensor value from mbot
  * @return {number} sensor value
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.lightSensorValue = function(){
+cwc.runner.profile.mbot.Command.prototype.lightSensorValue = function() {
   return this.api.lightSensorValue();
-}
+};

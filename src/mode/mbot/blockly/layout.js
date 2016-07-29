@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.mbot.blockly.Layout');
 
-goog.require('cwc.soy.mode.mbot.blockly');
+goog.require('cwc.soy.mode.mbot.blockly.Layout');
 
 
 
@@ -47,13 +47,13 @@ cwc.mode.mbot.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       nodes['content-left'],
-      cwc.soy.mode.mbot.blockly.editor,
+      cwc.soy.mode.mbot.blockly.Layout.editor,
       {'prefix': this.helper.getPrefix('mbot-editor')}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
-      cwc.soy.mode.mbot.blockly.runner,
+      cwc.soy.mode.mbot.blockly.Layout.runner,
       {'prefix': this.helper.getPrefix('mbot-runner')}
   );
 

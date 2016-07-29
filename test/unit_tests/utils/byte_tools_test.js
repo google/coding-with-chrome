@@ -37,21 +37,21 @@ describe('ByteTools', function() {
 
   it('signedBytesToInt', function() {
     expect(cwc.utils.ByteTools.signedBytesToInt([0xF0F0F0F0, 0xF0F0F0F0]))
-        .toBe(-3856);
+      .toBe(-3856);
     expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0x00000000]))
-        .toBe(-256);
+      .toBe(-256);
     expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0xFFFFFFFF]))
-        .toBe(-1);
+      .toBe(-1);
     expect(cwc.utils.ByteTools.signedBytesToInt([0x00000000, 0x00000001]))
-        .toBe(1);
+      .toBe(1);
     expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000000]))
-        .toBe(256);
+      .toBe(256);
     expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000001]))
-        .toBe(257);
+      .toBe(257);
     expect(cwc.utils.ByteTools.signedBytesToInt([0x00000011, 0x00000001]))
-        .toBe(4353);
+      .toBe(4353);
     expect(cwc.utils.ByteTools.signedBytesToInt([0x10101010, 0x10101010]))
-        .toBe(4112);
+      .toBe(4112);
   });
 
   it('joinUint8Array', function() {
@@ -59,7 +59,7 @@ describe('ByteTools', function() {
     var data2 = cwc.utils.ByteTools.toUint8Array([0x10101010]);
     var result = cwc.utils.ByteTools.toUint8Array([0x10101010, 0x10101010]);
     expect(cwc.utils.ByteTools.joinUint8Array(data1, data2))
-        .toEqual(result);
+      .toEqual(result);
   });
 
   it('getHeaderPosition', function() {
@@ -116,35 +116,35 @@ describe('ByteTools', function() {
     var size2 = 16;
     var buffer1 = cwc.utils.ByteTools.toUint8Array([0, 255]);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 8))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 9))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 10))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1,
         buffer1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_broken, headers1, size1))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_broken, headers1, size1,
         buffer1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet2, headers1, size1))
-        .toEqual(packet2);
+      .toEqual(packet2);
     expect(cwc.utils.ByteTools.getUint8Data(packet3, headers1, size1))
-        .toEqual(packet3);
+      .toEqual(packet3);
     expect(cwc.utils.ByteTools.getUint8Data(packet4, headers1, size2))
-        .toEqual(packet4);
+      .toEqual(packet4);
     expect(cwc.utils.ByteTools.getUint8Data(packet5, headers1, size2))
-        .toEqual(packet5);
+      .toEqual(packet5);
     expect(cwc.utils.ByteTools.getUint8Data(packet6, headers1, size2))
-        .toEqual(packet6);
+      .toEqual(packet6);
   });
 
 

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.mbot.blockly.Editor');
 
-goog.require('cwc.blocks.mbot.Blocks');
+goog.require('cwc.soy.mode.mbot.blockly.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -36,9 +36,6 @@ goog.require('goog.ui.Dialog');
  * @final
  */
 cwc.mode.mbot.blockly.Editor = function(helper) {
-
-  /** @type {!cwc.blocks.mbot.Blocks} */
-  this.blocks = cwc.blocks.mbot.Blocks;
 
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
@@ -78,6 +75,14 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
     return;
   }
+
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
+  if (!this.nodeEditor) {
+    console.error('Was unable to find Editor node:', this.nodeEditor);
+    return;
+  }
+
+  // Blockly toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
@@ -85,40 +90,29 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
         this.nodeBlocklyToolbox);
     return;
   }
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
-
-  // Output editor.
-  this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor, this.prefix);
-  this.editor.showEditor(false);
-  this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
+  goog.soy.renderElement(this.nodeBlocklyToolbox,
+    cwc.soy.mode.mbot.blockly.Blocks.toolbox);
 
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
       this.prefix, true);
 
-  // Custom Events
-  var runText = 'Executes the code and send commands to the mBot unit.';
-  var blocklyRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-  var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
+  // Text editor.
+  this.helper.setInstance('editor', this.editor, true);
+  this.editor.decorate(this.nodeEditor, this.prefix);
+  this.editor.showEditor(false);
+  this.editor.showEditorViews(false);
+  this.editor.showEditorTypeInfo(false);
 
-  this.blockly.addToolbarButton(blocklyRunButton, true,
-      'Click here to execute your code!');
+  // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
-  this.blockly.addChangeListener(this.changeHandler.bind(this));
-
-  this.editor.addToolbarButton(editorRunButton, true);
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
+
+  // Reset size
+  this.blockly.adjustSize();
 };
 
 
@@ -160,21 +154,23 @@ cwc.mode.mbot.blockly.Editor.prototype.showEditor = function() {
  * Switches from the code editor to the Blockly ui.
  */
 cwc.mode.mbot.blockly.Editor.prototype.showBlockly = function() {
-  var fileInstance = this.helper.getInstance('file');
-  var dialog = new goog.ui.Dialog();
-  dialog.setTitle('Warning');
-  dialog.setContent('Switching to Blockly mode will overwrite any manual ' +
-      'changes!<br><b>Continue?</b>');
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createYesNo());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
+    'overwrite any manual changes! Continue?').then((answer) => {
+      if (answer) {
+        this.switchToEditor();
+      }
+    });
+};
 
-  goog.events.listen(dialog, goog.ui.Dialog.EventType.SELECT, function(event) {
-    if (event.key == 'yes') {
-      this.editor.showEditor(false);
-      this.blockly.showBlockly(true);
-      fileInstance.setUi('blockly');
-    }
-  }, false, this);
-  dialog.setVisible(true);
+
+/**
+ * Switches from the code editor to the Blockly ui.
+ * @param {Event} opt_e
+ */
+cwc.mode.mbot.blockly.Editor.prototype.switchToEditor = function(opt_e) {
+  var fileInstance = this.helper.getInstance('file');
+  this.editor.showEditor(false);
+  this.blockly.showBlockly(true);
+  fileInstance.setUi('blockly');
 };

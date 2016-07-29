@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.external.mbot');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,9 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.mbot = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.mbotFramework = 'mbot_framework.js';
 };
 
 
@@ -68,12 +66,12 @@ cwc.renderer.external.mbot.prototype.render = function(
     renderer_helper) {
 
   var header = renderer_helper.getFrameworkHeader(
-    this.mbotFramework, frameworks);
+    cwc.framework.Internal.MBOT, frameworks);
   var body = '\n<script>' +
       '  var code = function(mbot) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
       '\n};\n'+
-      '  new cwc.framework.mbot(code);\n' +
+      '  new cwc.framework.mBot(code);\n' +
       '</script>\n';
 
   var html = renderer_helper.getHTML(body, header);

@@ -30,14 +30,14 @@ goog.require('goog.dom');
  * @enum {!string}
  */
 cwc.ui.SelectScreenNormalView = {
-  OVERVIEW: 'overview',
   BASIC: 'basicOverview',
   DRAW: 'drawOverview',
-  MUSIC: 'musicOverview',
-  ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
+  MBOT: 'mbotOverview',
+  MUSIC: 'musicOverview',
+  OVERVIEW: 'overview',
+  ROBOT: 'robotOverview',
   SPHERO: 'spheroOverview',
-  MBOT: 'mbotOverview'
 };
 
 
@@ -168,12 +168,13 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-collision', this.loadFile_,
           'resources/examples/sphero/blocks/Sphero-collision.cwc');
       break;
-
     case cwc.ui.SelectScreenNormalView.MBOT:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
       this.setNavHeader_('mBot', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.MBOT_BLOCKLY);
+      break;
 
     default:
       return;

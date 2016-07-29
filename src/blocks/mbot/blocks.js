@@ -1,231 +1,296 @@
 /**
- * @fileoverview mBot blocks for blockly.
+ * @fileoverview mBot blocks for Blockly.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
  * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.mbot.Blocks');
 
-goog.require('Blockly');
-
-goog.require('cwc.blocks');
-goog.require('cwc.blocks.mbot.JavaScript');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.mbot.Blocks.prefix_ = 'mbot_';
 
 
 /**
  * Move forward.
  */
-cwc.blocks.addBlock('move_forward', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendValueInput("steps").setCheck('Number').appendField('move forward');
-  this.appendDummyInput().appendField(i18n.get('steps'))
-      .appendField(new Blockly.FieldDropdown([['slowly','100'], ['quickly','180'], ['very quickly','255']]), 'speed');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the robot forward for a specified number of steps. ');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_move_forward'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendValueInput('steps')
+      .setCheck('Number')
+      .appendField('move forward');
+    this.appendDummyInput()
+      .appendField(i18t('steps'))
+      .appendField(new Blockly.FieldDropdown([
+        ['slowly', '100'],
+        ['quickly', '180'],
+        ['very quickly', '255']
+      ]), 'speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the robot forward for a specified number of steps. ');
+  }
+};
 
 
 /**
  * Move backward.
  */
-cwc.blocks.addBlock('move_backward', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendValueInput("steps").setCheck('Number').appendField('move backward');
-  this.appendDummyInput().appendField(i18n.get('steps'))
-      .appendField(new Blockly.FieldDropdown([['slowly','100'], ['quickly','180'], ['very quickly','255']]), 'speed');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Move the robot backward for a specified number of steps.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_move_backward'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendValueInput('steps')
+      .setCheck('Number')
+      .appendField('move backward');
+    this.appendDummyInput().appendField(i18t('steps'))
+      .appendField(new Blockly.FieldDropdown([
+        ['slowly', '100'],
+        ['quickly', '180'],
+        ['very quickly', '255']
+      ]), 'speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the robot backward for a specified number of steps.');
+  }
+};
+
 
 /**
  * Rotate left.
  */
-cwc.blocks.addBlock('turn_left', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendValueInput("steps").setCheck('Number').appendField('move left');
-  this.appendDummyInput().appendField(i18n.get('steps'))
-      .appendField(new Blockly.FieldDropdown([['slowly','100'], ['quickly','180'], ['very quickly','255']]), 'speed');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Turn the robot left by specific steps.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_turn_left'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendValueInput('steps')
+      .setCheck('Number')
+      .appendField('move left');
+    this.appendDummyInput().appendField(i18t('steps'))
+      .appendField(new Blockly.FieldDropdown([
+        ['slowly', '100'],
+        ['quickly', '180'],
+        ['very quickly', '255']
+      ]), 'speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Turn the robot left by specific steps.');
+  }
+};
 
 
 /**
  * Rotate right.
  */
-cwc.blocks.addBlock('turn_right', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendValueInput("steps").setCheck('Number').appendField('turn right');
-  this.appendDummyInput().appendField(i18n.get('steps'))
-      .appendField(new Blockly.FieldDropdown([['slowly','100'], ['quickly','180'], ['very quickly','255']]), 'speed');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Turn the robot right by specific steps.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_turn_right'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendValueInput('steps')
+      .setCheck('Number')
+      .appendField('turn right');
+    this.appendDummyInput().appendField(i18t('steps'))
+      .appendField(new Blockly.FieldDropdown([
+        ['slowly', '100'],
+        ['quickly', '180'],
+        ['very quickly', '255']
+      ]), 'speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Turn the robot right by specific steps.');
+  }
+};
+
 
 /**
  * Stop Moving.
  */
-cwc.blocks.addBlock('stop_moving', function() {
-  this.setHelpUrl('');
-  this.setColour(120);
-  this.appendDummyInput()
-    .appendField(i18n.get('Stop moving'));
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Stop moving.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_stop_moving'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(120);
+    this.appendDummyInput()
+      .appendField(i18t('Stop moving'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stop moving.');
+  }
+};
 
 
 /**
  * Play music note.
  */
-cwc.blocks.addBlock('play_tone', function() {
-  var map = cwc.config.sound;
-  var note_list = [];
-  for (var note in map.NOTE) {
-    note_list.push([note, map.NOTE[note]['f'].toString()]);
+Blockly.Blocks['mbot_play_tone'] = {
+  init: function() {
+    var note_list = [
+      ['C3', '130.81'], ['C#3/Db3', '138.59'], ['D3', '146.83'],
+      ['D#3/Eb3', '155.56'], ['E3', '164.81'], ['F3', '174.61'],
+      ['F#3/Gb3', '185'], ['G3', '196'], ['G#3/Ab3', '207.65'], ['A3', '220'],
+      ['A#3/Bb3', '233.08'], ['B3', '246.94'], ['C4', '261.63'],
+      ['C#4/Db4', '277.18'], ['D4', '293.66'], ['D#4/Eb4', '311.13'],
+      ['E4', '329.63'], ['F4', '349.23'], ['F#4/Gb4', '369.99'], ['G4', '392'],
+      ['G#4/Ab4', '415.3'], ['A4', '440'], ['A#4/Bb4', '466.16'],
+      ['B4', '493.88'], ['C5', '523.25'], ['C#5/Db5', '554.37'],
+      ['D5', '587.33'], ['D#5/Eb5', '622.25'], ['E5', '659.25'],
+      ['F5', '698.46'], ['F#5/Gb5', '739.99'], ['G5', '783.99'],
+      ['G#5/Ab5', '830.61'], ['A5', '880'], ['A#5/Bb5', '932.33'],
+      ['B5', '987.77'], ['C6', '1046.5'], ['C#6/Db6', '1108.73'],
+      ['D6', '1174.66'], ['D#6/Eb6', '1244.51'], ['E6', '1318.51'],
+      ['F6', '1396.91'], ['F#6/Gb6', '1479.98'], ['G6', '1567.98'],
+      ['G#6/Ab6', '1661.22'], ['A6', '1760'], ['A#6/Bb6', '1864.66'],
+      ['B6', '1975.53'], ['C7', '2093']];
+    var duration_list = [
+      ['1/1', '240'], ['1/2', '120'], ['1/4', '60'], ['1/8', '30'],
+      ['1/16', '15'], ['1/1 dotted', '360'], ['1/2 dotted', '180'],
+      ['1/4 dotted', '90'], ['1/8 dotted', '45'], ['1/16 dotted', '22.5'],
+      ['1/4 triplet', '40'], ['1/8 triplet', '20'], ['1/16 triplet', '10']];
+    this.setHelpUrl('');
+    this.setColour(65);
+    this.appendDummyInput()
+      .appendField('play music note')
+      .appendField(new Blockly.FieldDropdown(note_list), 'frequency')
+      .appendField('duration:')
+      .appendField(new Blockly.FieldDropdown(duration_list), 'duration')
+      .appendField('beats');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Play a music note with duration in beats');
   }
-  note_list = note_list.slice(36,85);
-  var duration_list = [];
-  for (var duration in map.DURATION) {
-    duration_list.push([duration,
-                        map.DURATION[duration]['d'].toString()]);
-  }
-  this.setHelpUrl('');
-  this.setColour(65);
-  this.appendDummyInput()
-    .appendField('play music note')
-    .appendField(new Blockly.FieldDropdown(note_list), 'frequency')
-    .appendField('duration:')
-    .appendField(new Blockly.FieldDropdown(duration_list), 'duration')
-    .appendField('beats');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Play a music note with duration in beats');
-}, cwc.blocks.mbot.Blocks.prefix_);
+};
+
 
 /**
  * mbot rgb.
  */
-cwc.blocks.addBlock('rgb', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-      .appendField(i18n.get('set on board led '))
-      .appendField(new Blockly.FieldDropdown([['both','both'], ['left','left'], ['right','right']]), 'position')
-      .appendField(i18n.get('to color ('))
+Blockly.Blocks['mbot_rgb'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('set on board led '))
+      .appendField(new Blockly.FieldDropdown([
+        ['both', 'both'],
+        ['left', 'left'],
+        ['right', 'right']
+      ]), 'position')
+      .appendField(i18t('to color ('))
       .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
       .appendField(')');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Sets the leds on the Sphero ball.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Sets the leds on the Sphero ball.');
+  }
+};
+
 
 /**
  * mbot test command.
  */
-cwc.blocks.addBlock('beep_buzzer', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
+Blockly.Blocks['mbot_beep_buzzer'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
       .appendField('Beep Buzzer');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Beep the Buzzer');
-}, cwc.blocks.mbot.Blocks.prefix_);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Beep the Buzzer');
+  }
+};
+
 
 /**
  * Ultrasonic sensor change.
  */
-cwc.blocks.addBlock('ultrasonic_sensor_change', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-    .appendField(i18n.get('on ultrasonic sensor change'));
-  this.appendStatementInput('CODE')
-    .setAlign(Blockly.ALIGN_CENTRE);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Stores the output from the sensor in a variable named ' +
-      '"value", when the ultrasonic sensor detects a change.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_ultrasonic_sensor_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on ultrasonic sensor change'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stores the output from the sensor in a variable named ' +
+        '\'value\', when the ultrasonic sensor detects a change.');
+  }
+};
+
 
 /**
  * Lightness sensor change.
  */
-cwc.blocks.addBlock('lightness_sensor_change', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-    .appendField(i18n.get('on lightness sensor change'));
-  this.appendStatementInput('CODE')
-    .setAlign(Blockly.ALIGN_CENTRE);
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Stores the output from the sensor in a variable named ' +
-      '"value", when the lightness sensor detects a change.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_lightness_sensor_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on lightness sensor change'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stores the output from the sensor in a variable named ' +
+        '\'value\', when the lightness sensor detects a change.');
+  }
+};
+
 
 /**
  * Ultrasonic sensor value.
  */
-cwc.blocks.addBlock('ultrasonic_sensor_value', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput().appendField('ultrasonic sensor value');
-  this.setOutput(true, 'Number');
-  this.setTooltip('Get the current value of the ultrasonic sensor.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_ultrasonic_sensor_value'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput().appendField('ultrasonic sensor value');
+    this.setOutput(true, 'Number');
+    this.setTooltip('Get the current value of the ultrasonic sensor.');
+  }
+};
+
 
 /**
  * Lightness sensor value.
  */
-cwc.blocks.addBlock('lightness_sensor_value', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput().appendField('lightness sensor value');
-  this.setOutput(true, 'Number');
-  this.setTooltip('Get the current value of the lightness sensor.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_lightness_sensor_value'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput().appendField('lightness sensor value');
+    this.setOutput(true, 'Number');
+    this.setTooltip('Get the current value of the lightness sensor.');
+  }
+};
+
 
 /**
  * Wait.
  */
-cwc.blocks.addBlock('wait', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput()
-    .appendField(i18n.get('wait ('))
-    .appendField(new Blockly.FieldTextInput('2000'), 'time')
-    .appendField('msec)');
-  this.setPreviousStatement(true);
-  this.setNextStatement(true);
-  this.setTooltip('Wait for the given milliseconds.');
-}, cwc.blocks.mbot.Blocks.prefix_);
+Blockly.Blocks['mbot_wait'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('wait ('))
+      .appendField(new Blockly.FieldTextInput('2000'), 'time')
+      .appendField('msec)');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Wait for the given milliseconds.');
+  }
+};

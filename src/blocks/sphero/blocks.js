@@ -104,7 +104,7 @@ Blockly.Blocks['sphero_rgb'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('colour')
-        .appendField(i18t('set color ('));
+      .appendField(i18t('set color ('));
     this.appendDummyInput().appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -121,10 +121,10 @@ Blockly.Blocks['sphero_backlight'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18t('set backlight ('))
-        .appendField(new Blockly.FieldTextInput('254'), 'brightness')
-        .appendField(i18t('(0 - 254)'))
-        .appendField(')');
+      .appendField(i18t('set backlight ('))
+      .appendField(new Blockly.FieldTextInput('254'), 'brightness')
+      .appendField(i18t('(0 - 254)'))
+      .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the back-light on the Sphero ball.');
@@ -140,11 +140,12 @@ Blockly.Blocks['sphero_stop'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-        .appendField(i18t('stop motors('))
-        .appendField(new Blockly.FieldDropdown(
-            [[i18t('when finished'), 'when finished'],
-             [i18t('immediately'), 'immediately']]), 'immediately')
-        .appendField(')');
+      .appendField(i18t('stop motors('))
+      .appendField(new Blockly.FieldDropdown([
+        [i18t('when finished'), 'when finished'],
+        [i18t('immediately'), 'immediately']
+      ]), 'immediately')
+      .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stop all motors immediately or after the last command ' +

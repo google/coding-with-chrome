@@ -63,7 +63,7 @@ closureBuilder.build({
  */
 closureBuilder.build({
   name: 'cwc.framework.Python',
-  //compress: true,
+  compress: true,
   srcs: glob([
     'src/frameworks/internal/python/*.js',
   ]),
@@ -77,14 +77,14 @@ closureBuilder.build({
 });
 
 closureBuilder.build({
-  name: 'cwc.framework.mbot',
+  name: 'cwc.framework.mBot',
   compress: true,
   srcs: glob([
-    'src/frameworks/mbot/*.js'
+    'src/frameworks/internal/mbot/*.js'
   ]),
   deps: glob([
-    'src/frameworks/runner/runner.js',
-    'src/utils/*.js'
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
   ]),
   out: 'genfiles/frameworks/internal/mbot_framework.js'
 });
