@@ -36,7 +36,8 @@ cwc.ui.SelectScreenNormalView = {
   MUSIC: 'musicOverview',
   ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
-  SPHERO: 'spheroOverview'
+  SPHERO: 'spheroOverview',
+  MBOT: 'mbotOverview'
 };
 
 
@@ -134,6 +135,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.EV3);
       this.setClickEvent_('link-sphero', this.showView,
           cwc.ui.SelectScreenNormalView.SPHERO);
+      this.setClickEvent_('link-mbot', this.showView,
+          cwc.ui.SelectScreenNormalView.MBOT);
       break;
 
     // Robot screens
@@ -155,6 +158,12 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-collision', this.loadFile_,
           'resources/examples/sphero/blocks/Sphero-collision.cwc');
       break;
+
+    case cwc.ui.SelectScreenNormalView.MBOT:
+      this.setNavHeader_('mBot', 'adjust');
+      this.addRobotMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.MBOT_BLOCKLY);
 
     default:
       return;
@@ -214,6 +223,8 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
       cwc.ui.SelectScreenNormalView.EV3);
   this.setClickEvent_('menu-sphero', this.showView,
       cwc.ui.SelectScreenNormalView.SPHERO);
+  this.setClickEvent_('menu-mbot', this.showView,
+      cwc.ui.SelectScreenNormalView.MBOT);
 };
 
 

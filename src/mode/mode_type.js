@@ -34,6 +34,7 @@ cwc.mode.Type = {
   EV3_BLOCKLY: 'ev3_blockly',
   SPHERO: 'sphero',
   SPHERO_BLOCKLY: 'sphero_blockly',
+  MBOT_BLOCKLY: 'mbot_blockly',
   PENCIL_CODE: 'pencil_code',
   HTML5: 'html5',
   JSON: 'json',

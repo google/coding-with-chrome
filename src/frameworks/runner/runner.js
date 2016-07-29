@@ -124,12 +124,15 @@ cwc.framework.Runner.prototype.send = function(name, opt_value, opt_delay) {
     var stackCall = function() {
       this.appWindow.postMessage({'command': name, 'value': value},
         this.appOrigin);
+      console.log('post message '+name+' in delayed event');
     }.bind(this);
+    console.log('adding command '+name+" with delay:"+opt_delay);
     this.senderStack_.addCommand(stackCall);
     this.senderStack_.addDelay(opt_delay);
   } else {
     this.appWindow.postMessage({'command': name, 'value': value},
       this.appOrigin);
+    console.log('adding command '+name+' without delay');
   }
 };
 
