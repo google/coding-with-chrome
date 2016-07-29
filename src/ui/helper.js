@@ -3,7 +3,7 @@
  *
  * This helper class provides shortcuts to get the different of UI elements.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,38 +21,13 @@
  */
 goog.provide('cwc.ui.Helper');
 
+goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 goog.require('goog.style');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.CustomButton');
 goog.require('goog.ui.LinkButtonRenderer');
-goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarToggleButton');
 
-
-/**
- * Helper for all the different ui parts and elements.
- * @final
- * @export
- */
-cwc.ui.Helper = function() {};
-
-
-/**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.Button}
- */
-cwc.ui.Helper.getButton = function(name, opt_description,
-    opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.Button(name);
-  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
 
 
 /**
@@ -66,25 +41,6 @@ cwc.ui.Helper.getButton = function(name, opt_description,
 cwc.ui.Helper.getCustomButton = function(name, opt_description,
     opt_func, opt_icon_size, opt_class_name) {
   var button = new goog.ui.CustomButton(name);
-  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
-
-
-/**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.Button}
- */
-cwc.ui.Helper.getLinkButton = function(name,
-    opt_description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.Button(name,
-    goog.ui.LinkButtonRenderer.getInstance());
-  button.addClassName('link_button');
   cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
       opt_icon_size, opt_class_name);
   return button;
@@ -109,78 +65,9 @@ cwc.ui.Helper.getIconButton = function(icon_name, opt_description,
 
 
 /**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarButton}
- */
-cwc.ui.Helper.getToolbarButton = function(name,
-    opt_description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.ToolbarButton(name);
-  cwc.ui.Helper.decorateButton(button, opt_description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
-
-
-/**
- * @param {!string} icon_name
- * @param {string=} opt_description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarButton}
- */
-cwc.ui.Helper.getIconToolbarButton = function(icon_name, opt_description,
-    opt_func, opt_icon_size, opt_class_name) {
-  var button = cwc.ui.Helper.getToolbarButton(icon_name, opt_description,
-      opt_func, opt_icon_size || '24px', opt_class_name);
-  button.addClassName('icon_button');
-  return button;
-};
-
-
-/**
- * @param {!string} name
- * @param {!string} description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarToggleButton}
- */
-cwc.ui.Helper.getToolbarToggleButton = function(name,
-    description, opt_func, opt_icon_size, opt_class_name) {
-  var button = new goog.ui.ToolbarToggleButton(name);
-  cwc.ui.Helper.decorateButton(button, description, opt_func,
-      opt_icon_size, opt_class_name);
-  return button;
-};
-
-
-/**
- * @param {!string} icon_name
- * @param {!string} description
- * @param {function(?)=} opt_func
- * @param {string=} opt_icon_size
- * @param {string=} opt_class_name
- * @return {!goog.ui.ToolbarToogleButton}
- */
-cwc.ui.Helper.getIconToolbarToogleButton = function(icon_name,
-    description, opt_func, opt_icon_size, opt_class_name) {
-  var button = cwc.ui.Helper.getToolbarToggleButton(icon_name,
-      description, opt_func, opt_icon_size || '24px', opt_class_name);
-  button.addClassName('icon_button');
-  return button;
-};
-
-
-/**
  * Decorates the button element with some default values.
- * @param {goog.ui.Button|
- *         goog.ui.ToolbarButton|goog.ui.ToolbarToogleButton} button
- * @param {string=} description
+ * @param {goog.ui.Button} button
+ * @param {string=} opt_description
  * @param {function(?)=} opt_func
  * @param {string=} opt_icon_size
  * @param {string=} opt_class_name
@@ -203,51 +90,32 @@ cwc.ui.Helper.decorateButton = function(button, opt_description, opt_func,
 
 
 /**
- * @param {!goog.ui.Button} button
- * @param {!string} icon_name
- */
-cwc.ui.Helper.decorateIcon = function(button, icon_name) {
-  if (!button.getContentElement()) {
-    console.log('Cannot decorate unrendered button');
-  }
-  var icon = document.createElement('i');
-  icon.textContent = icon_name;
-  icon.className = 'icon_auto';
-  button.getContentElement().appendChild(icon);
-};
-
-
-/**
  * @param {!string} name
+ * @param {string=} opt_title
  * @param {function()=} opt_func
- * @param {Object=} opt_scope
- * @return {!goog.ui.MenuItem}
+ * @return {!Element}
  */
-cwc.ui.Helper.getMenuItem = function(name, opt_func, opt_scope) {
-  var item = new goog.ui.MenuItem(i18n.get(name));
+cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
+  var text = document.createTextNode(i18t(name));
+  var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-menu__item');
+  item.appendChild(text);
+  if (opt_title) {
+    item.title = i18t(opt_title);
+  }
   if (opt_func) {
-    goog.events.listen(item, goog.ui.Component.EventType.ACTION, opt_func,
-        false, opt_scope);
+    goog.events.listen(item, goog.events.EventType.CLICK, opt_func);
   }
   return item;
 };
 
 
 /**
- * @param {!string} name
- * @param {string=} opt_description
- * @param {function()=} opt_func
- * @param {Object=} opt_scope
- * @return {!goog.ui.Button}
+ * Refreshs dom structure for mdl framework.
  */
-cwc.ui.Helper.getNavigationItem = function(name,
-    opt_description, opt_func, opt_scope) {
-  var func = opt_func;
-  if (opt_func && opt_scope) {
-    func = opt_func.bind(opt_scope);
+cwc.ui.Helper.mdlRefresh = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
   }
-  return cwc.ui.Helper.getLinkButton(i18n.get(name), opt_description,
-    func, null, 'mdl-navigation__link');
 };
 
 
@@ -265,13 +133,50 @@ cwc.ui.Helper.uninstallStyles = function(style_sheet) {
 
 
 /**
+ * Adding script element to head.
+ * @param {!string} script_url
+ * @param {string=} opt_id
+ */
+cwc.ui.Helper.insertScript = function(script_url, opt_id) {
+  if (opt_id) {
+    var oldScriptNode = document.getElementById(opt_id);
+    if (oldScriptNode) {
+      oldScriptNode.parentNode.removeChild(oldScriptNode);
+    }
+  }
+  var scriptNode = goog.dom.createDom(goog.dom.TagName.SCRIPT);
+  if (opt_id) {
+    scriptNode.id = opt_id;
+  }
+  scriptNode.src = script_url;
+  document.getElementsByTagName('head')[0].appendChild(scriptNode);
+};
+
+
+/**
+ * Enables or disables an element.
+ * @param {!Element} element
+ * @param {!boolean} enabled
+ */
+cwc.ui.Helper.enableElement = function(element, enabled) {
+  if (enabled) {
+    if (element.hasAttribute('disabled')) {
+      element.removeAttribute('disabled');
+    }
+  } else {
+    element.setAttribute('disabled', true);
+  }
+};
+
+
+/**
  * Removes all elements with the provided class names.
  * @param {array|string} class_names
  * @param {string=} opt_type
  */
 cwc.ui.Helper.removeElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.dom.removeNode(elements[i]);
   }
 };
@@ -284,7 +189,7 @@ cwc.ui.Helper.removeElements = function(class_names, opt_type) {
  */
 cwc.ui.Helper.hideElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.style.showElement(elements[i], false);
   }
 };
@@ -297,7 +202,7 @@ cwc.ui.Helper.hideElements = function(class_names, opt_type) {
  */
 cwc.ui.Helper.showElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     goog.style.showElement(elements[i], true);
   }
 };
@@ -312,11 +217,11 @@ cwc.ui.Helper.showElements = function(class_names, opt_type) {
 cwc.ui.Helper.getElements = function(class_names, opt_type) {
   var classes = (typeof class_names === 'string') ? [class_names] : class_names;
   var result = [];
-  for (var i = 0; i < classes.length; i++) {
-    var elements = goog.dom.getElementsByTagNameAndClass(opt_type || 'div',
-        classes[i]);
+  for (let i = 0; i < classes.length; i++) {
+    var elements = goog.dom.getElementsByTagNameAndClass(
+      opt_type || goog.dom.TagName.DIV, classes[i]);
     if (elements) {
-      for (var i2 = 0; i2 < elements.length; i2++) {
+      for (let i2 = 0; i2 < elements.length; i2++) {
         result.push(elements[i2]);
       }
     }

@@ -1,7 +1,7 @@
 /**
  * @fileoverview General-purpose ByteArray.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ cwc.utils.ByteArrayTypes = {
  */
 cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
     opt_integer_header, opt_string_header) {
+
   /** @private {!Array} */
   this.data_ = [];
 
@@ -127,7 +128,7 @@ cwc.utils.ByteArray.prototype.writeUInt16 = function(value) {
 cwc.utils.ByteArray.prototype.writeString = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.STR);
   var valueLength = value.length;
-  for (var i = 0; i < valueLength; i++) {
+  for (let i = 0; i < valueLength; i++) {
     this.write(value.charCodeAt(i));
   }
   this.write(0x00);

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Simple Blocks for Blockly.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,307 +17,309 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.blocks.simple.Blocks');
 
-goog.require('Blockly');
-
-goog.require('cwc.blocks');
-goog.require('cwc.blocks.simple.JavaScript');
-
-
-/**
- * @private {string}
- */
-cwc.blocks.simple.Blocks.drawPrefix_ = 'simple_draw_';
-
-
-/**
- * @private {string}
- */
-cwc.blocks.simple.Blocks.textPrefix_ = 'simple_text_';
 
 
 /**
  * Write text.
  */
-cwc.blocks.addBlock('write', function() {
-  this.setHelpUrl('');
-  this.setColour(290);
-  this.appendValueInput('text')
-    .setCheck('String')
-    .appendField('write(');
-  this.appendDummyInput()
-    .appendField(')');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.textPrefix_);
+Blockly.Blocks['simple_text_write'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(290);
+    this.appendValueInput('text')
+      .setCheck('String')
+      .appendField('write(');
+    this.appendDummyInput()
+      .appendField(')');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Writes the text on the screen.');
+  }
+};
+
 
 
 /**
  * Draw circle.
  */
-cwc.blocks.addBlock('circle', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Circle (x,');
-  this.appendValueInput('y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y,');
-  this.appendValueInput('radius')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('radius,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_circle'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Circle (x,');
+    this.appendValueInput('y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y,');
+    this.appendValueInput('radius')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('radius,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an circle on the screen.');
+  }
+};
 
 
 /**
  * Clear screen.
  */
-cwc.blocks.addBlock('clear', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendDummyInput().appendField('clear ()');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_clear'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput().appendField('clear ()');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Clears the screen.');
+  }
+};
 
 
 /**
  * Draw rectangle.
  */
-cwc.blocks.addBlock('rectangle', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Rectangle (x,');
-  this.appendValueInput('y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y,');
-  this.appendValueInput('width')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('width,');
-  this.appendValueInput('height')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('height,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_rectangle'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Rectangle (x,');
+    this.appendValueInput('y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y,');
+    this.appendValueInput('width')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('width,');
+    this.appendValueInput('height')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('height,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an rectangle on the screen.');
+  }
+};
 
 
 /**
  * Draw line.
  */
-cwc.blocks.addBlock('line', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('start_x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Line (start x,');
-  this.appendValueInput('start_y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('start y,');
-  this.appendValueInput('end_x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('end x,');
-  this.appendValueInput('end_y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('end y,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_line'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('start_x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Line (start x,');
+    this.appendValueInput('start_y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('start y,');
+    this.appendValueInput('end_x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('end x,');
+    this.appendValueInput('end_y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('end y,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an line on the screen.');
+  }
+};
 
 
 /**
  * Draw point.
  */
-cwc.blocks.addBlock('point', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Point (x,');
-  this.appendValueInput('y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_point'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Point (x,');
+    this.appendValueInput('y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an point on the screen.');
+  }
+};
 
 
 /**
  * Draw an ellipse.
  */
-cwc.blocks.addBlock('ellipse', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Ellipse (x,');
-  this.appendValueInput('y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y,');
-  this.appendValueInput('width')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('width,');
-  this.appendValueInput('height')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('height,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_ellipse'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Ellipse (x,');
+    this.appendValueInput('y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y,');
+    this.appendValueInput('width')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('width,');
+    this.appendValueInput('height')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('height,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an ellipse on the screen.');
+  }
+};
 
 
 /**
  * Draw triangle.
  */
-cwc.blocks.addBlock('triangle', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('x1')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Triangle (x1,');
-  this.appendValueInput('y1')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y1,');
-  this.appendValueInput('x2')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('x2,');
-  this.appendValueInput('y2')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y2,');
-  this.appendValueInput('x3')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('x3,');
-  this.appendValueInput('y3')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y3,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color,');
-  this.appendValueInput('borderColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_color,');
-  this.appendValueInput('borderSize')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('border_size)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_triangle'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('x1')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Triangle (x1,');
+    this.appendValueInput('y1')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y1,');
+    this.appendValueInput('x2')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('x2,');
+    this.appendValueInput('y2')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y2,');
+    this.appendValueInput('x3')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('x3,');
+    this.appendValueInput('y3')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y3,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color,');
+    this.appendValueInput('borderColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_color,');
+    this.appendValueInput('borderSize')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('border_size)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws and triangle on the screen.');
+  }
+};
 
 
 /**
  * Draw text.
  */
-cwc.blocks.addBlock('text', function() {
-  this.setHelpUrl('');
-  this.setColour(260);
-  this.appendValueInput('text')
-    .setCheck('String')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('Text (text,');
-  this.appendValueInput('x')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('x,');
-  this.appendValueInput('y')
-    .setCheck('Number')
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('y,');
-  this.appendValueInput('fillColor')
-    .setCheck(null)
-    .setAlign(Blockly.ALIGN_RIGHT)
-    .appendField('color)');
-  this.setPreviousStatement(true, ['Number', 'String']);
-  this.setNextStatement(true, ['Number', 'String']);
-  this.setTooltip('');
-}, cwc.blocks.simple.Blocks.drawPrefix_);
+Blockly.Blocks['simple_draw_text'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('text')
+      .setCheck('String')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('Text (text,');
+    this.appendValueInput('x')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('x,');
+    this.appendValueInput('y')
+      .setCheck('Number')
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('y,');
+    this.appendValueInput('fillColor')
+      .setCheck(null)
+      .setAlign(Blockly.ALIGN_RIGHT)
+      .appendField('color)');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip('Draws an text on the screen.');
+  }
+};

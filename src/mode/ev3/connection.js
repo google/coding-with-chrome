@@ -1,7 +1,7 @@
 /**
  * @fileoverview Layout for the EV3 modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -141,10 +141,12 @@ cwc.mode.ev3.Connection.prototype.stop = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.ev3.Connection.prototype.cleanUp = function() {
+  console.log('Clean up EV3 connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
   this.api.monitor(false);
+  this.stop();
   this.helper.removeEventListeners(this.listener, this.name);
 };
 

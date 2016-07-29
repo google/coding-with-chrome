@@ -1,0 +1,379 @@
+/**
+ * @fileoverview Blocks for EV3 modification.
+ *
+ * @license Copyright 2016 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.ev3.blockly.Blocks autoescape="strict"}
+
+
+/**
+ * Blockly blocks.
+ */
+{template .toolbox}
+  {@param type: string}
+
+  <category name="Robot Settings" colour="120">
+    <block type="ev3_set_robot_model"></block>
+    <block type="ev3_set_wheel_diameter"></block>
+    <block type="ev3_set_wheel_width"></block>
+    <block type="ev3_set_wheelbase"></block>
+  </category>
+
+  {call .movements}
+    {param type: $type /}
+  {/call}
+
+  <category name="Attachments" colour="120">
+    <block type="ev3_move_pen"></block>
+    <block type="ev3_move_servo"></block>
+  </category>
+
+  <category name="Lights" colour="120">
+    <block type="ev3_led"></block>
+  </category>
+
+  <category name="Sounds" colour="120">
+    <block type="ev3_play_tone"></block>
+  </category>
+
+  <category name="Sensors" colour="120">
+    <block type="ev3_color_sensor_mode"></block>
+    <block type="ev3_ir_sensor_mode"></block>
+    <block type="ev3_ultrasonic_sensor_mode"></block>
+
+    <block type="ev3_color_sensor_value"></block>
+    <block type="ev3_ir_sensor_value"></block>
+    <block type="ev3_touch_sensor_value"></block>
+    <block type="ev3_ultrasonic_sensor_value"></block>
+  </category>
+
+  <category name="Events" colour="20">
+    {call .events}{/call}
+  </category>
+
+  <category name="Loops" colour="210">
+    <block type="controls_repeat_ext">
+      <value name="TIMES">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+    <block type="general_infinity_loop"></block>
+    <block type="controls_for">
+      <value name="FROM">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="TO">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value><value name="BY">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+    </block>
+    <block type="controls_forEach"></block>
+    <block type="controls_flow_statements"></block>
+    <block type="controls_whileUntil"></block>
+  </category>
+
+  <category name="Logic" colour="210">
+    <block type="controls_if"></block>
+    <block type="logic_compare"></block>
+    <block type="logic_operation"></block>
+    <block type="logic_negate"></block>
+    <block type="logic_boolean"></block>
+    <block type="logic_null"></block>
+    <block type="logic_ternary"></block>
+  </category>
+
+  <category name="Math" colour="230">
+    <block type="math_number"></block>
+    <block type="math_arithmetic">
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_single">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_trig">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">45</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constant"></block>
+    <block type="math_number_property">
+      <value name="NUMBER_TO_CHECK">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_change">
+      <value name="DELTA">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_round">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">3.1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_on_list"></block>
+    <block type="math_modulo">
+      <value name="DIVIDEND">
+        <shadow type="math_number">
+          <field name="NUM">64</field>
+        </shadow>
+      </value>
+      <value name="DIVISOR">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constrain">
+      <value name="VALUE">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <value name="LOW">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="HIGH">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_int">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_float"></block>
+  </category>
+
+  <sep></sep>
+
+  <category name="Colors" colour="210">
+    {call .colors}{/call}
+  </category>
+
+  <category custom="VARIABLE" name="Variables" colour="330"></category>
+  <category custom="PROCEDURE" name="Procedure" colour="330"></category>
+
+{/template}
+
+
+/**
+ * Color blocks.
+ */
+{template .colors}
+  <block type="ev3_colors">
+    <field name="color">#000000</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#0000ff</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#00ff00</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ffff00</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ff0000</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#ffffff</field>
+  </block>
+  <block type="ev3_colors">
+    <field name="color">#a52a2a</field>
+  </block>
+{/template}
+
+
+/**
+ * Events blocks.
+ */
+{template .events}
+  <block type="ev3_color_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">value</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_gyro_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">angle</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">90</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_ir_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">value</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_touch_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">pressed</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">100</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_ultrasonic_sensor_change">
+    <value name="CODE">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get">
+                <field name="VAR">distance</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">10</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+  <block type="ev3_stop_ultrasonic_sensor_event"></block>
+  <block type="ev3_variable_value"></block>
+{/template}
+
+
+/**
+ * Movements blocks.
+ */
+{template .movements}
+  {@param type: string}
+
+  {if $type == 'arm'}
+    <category name="Movements (Arm)" colour="120">
+      <block type="ev3_move_up"></block>
+      <block type="ev3_move_down"></block>
+      <block type="ev3_rotate_left"></block>
+      <block type="ev3_rotate_right"></block>
+    </category>
+  {else}
+    <category name="Movements (Vehicle)" colour="120">
+      <block type="ev3_move_distance"></block>
+      <block type="ev3_move_forward"></block>
+      <block type="ev3_move_backward"></block>
+      <block type="ev3_rotate_left"></block>
+      <block type="ev3_rotate_right"></block>
+    </category>
+  {/if}
+
+  <category name="Movements (Advance)" colour="120">
+    <block type="ev3_move_power"></block>
+    <block type="ev3_rotate_power"></block>
+    <block type="ev3_stop_immediately"></block>
+    <block type="ev3_wait"></block>
+  </category>
+
+{/template}

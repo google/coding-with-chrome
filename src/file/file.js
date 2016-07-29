@@ -1,7 +1,7 @@
 /**
  * @fileoverview Custom file definition to handle file data.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ cwc.file.File = function(name, content, opt_type, opt_size, opt_group) {
   this.version_ = 1;
 
   if (!opt_type) {
-    if (this.content_.indexOf('data:') != -1) {
+    if (this.content_.includes('data:')) {
       var contentFileType = this.content_.split(';')[0].split(':')[1];
       if (contentFileType) {
         this.type_ = contentFileType;

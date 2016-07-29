@@ -1,7 +1,7 @@
 /**
  * @fileoverview Renderer for Pencil Code modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.external.PencilCode');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,15 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.PencilCode = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.coffeeScriptFramework = 'coffee-script.js';
-
-  /** @type {string} */
-  this.jqueryFramework = 'jquery.min.js';
-
-  /** @type {string} */
-  this.jqueryTurtleFramework = 'jquery-turtle.js';
 };
 
 
@@ -63,7 +55,7 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.external.PencilCode.prototype.render = function(
@@ -74,10 +66,12 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     renderer_helper) {
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeaders([this.coffeeScriptFramework,
-    this.jqueryFramework, this.jqueryTurtleFramework], frameworks);
+  var header = renderer_helper.getFrameworkHeaders([
+    cwc.framework.External.COFFEESCRIPT,
+    cwc.framework.External.JQUERY.V2_2_4,
+    cwc.framework.External.JQUERY_TURTLE
+  ], frameworks);
   var body = '\n<script type="text\/coffeescript">\n' +
     '$.turtle();\n' + coffeescript + '\n</script>\n';
-  var html = renderer_helper.getHTMLGrid(body, header);
-  return html;
+  return renderer_helper.getHTMLGrid(body, header);
 };

@@ -13,8 +13,11 @@
 * [Material Design Lite](#material-design-lite)
 * [Open Sans Font](#open-sans-font)
 * [Roboto Font](#roboto-font)
-* [jQuery](#jquery)
+* [Skulpt](#skulpt)
+* [i18next](#i18next)
 * [jQuery-turtle](#jquery-turtle)
+* [jQuery](#jquery)
+* [three.js](#threejs)
 
 
 ## Blockly
@@ -202,7 +205,7 @@
 
 
 ## Closure Builder
-<https://github.com/google/closure-builder>
+<https://github.com/google/closure-builder/>
 
 ```
                                 Apache License
@@ -621,7 +624,7 @@ THE SOFTWARE.
 
 
 ## CoffeeScript
-<https://github.com/jashkenas/coffeescript>
+<https://github.com/jashkenas/coffeescript/>
 
 ```
 Copyright (c) 2009-2015 Jeremy Ashkenas
@@ -650,7 +653,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 ## Dialog-Polyfill
-<https://github.com/GoogleChrome/dialog-polyfill>
+<https://github.com/GoogleChrome/dialog-polyfill/>
 
 ```
 Copyright (c) 2013 The Chromium Authors. All rights reserved.
@@ -684,7 +687,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 ## HTMLHint
-<https://github.com/yaniswang/HTMLHint>
+<https://github.com/yaniswang/HTMLHint/>
 
 ```
 The MIT License
@@ -1337,6 +1340,76 @@ Christian Robertson
 ```
 
 
+## Skulpt
+<https://github.com/skulpt/skulpt/>
+
+```
+Copyright (c) 2009-2010 Scott Graham
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+
+
+Portions of the code were written with the benefit of viewing code that's in
+the official "CPython" and "pypy" distribution and/or translated from code
+that's in the official "CPython" and "pypy" distribution. As such, they are:
+
+    Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Python Software
+    Foundation; All Rights Reserved"
+
+per:
+
+    http://www.python.org/psf/license/
+    http://www.python.org/download/releases/2.6.2/license/
+    https://bitbucket.org/pypy/pypy/src/default/LICENSE
+```
+
+
+## i18next
+<http://i18next.com/>
+
+```
+The MIT License (MIT)
+
+Copyright (c) 2015 i18next
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+
 ## jQuery
 <http://jquery.com/>
 
@@ -1389,6 +1462,34 @@ jQuery-turtle version 2.0
 LICENSE (MIT):
 
 Copyright (c) 2013 Pencil Code Foundation, Google Inc., and other contributors.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
+
+
+## three.js
+<http://threejs.org/>
+
+```
+The MIT License
+
+Copyright © 2010-2016 three.js authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

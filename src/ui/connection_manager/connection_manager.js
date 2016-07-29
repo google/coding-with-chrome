@@ -1,7 +1,7 @@
 /**
  * @fileoverview Connection Manager for different types of connections.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,10 +65,6 @@ cwc.ui.ConnectionManager = function(helper) {
   /** @type {goog.ui.Toolbar} */
   this.toolbar = new goog.ui.Toolbar();
 
-  /** @type {goog.ui.ToolbarButton} */
-  this.closeButton = cwc.ui.Helper.getIconToolbarButton('close',
-      'Close Connection Manager', this.closeWindow_.bind(this));
-
   /** @type {cwc.protocol.bluetooth.Devices} */
   this.bluetoothDevices = null;
 
@@ -109,10 +105,8 @@ cwc.ui.ConnectionManager.prototype.decorate = function(node,
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.closeButton.addClassName('floaty_right');
 
   this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.closeButton, true);
   this.toolbar.render(this.nodeToolbar);
 };
 
@@ -212,7 +206,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
         {'prefix': this.prefix});
     var nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
     var deviceList = new goog.ui.Select('Select device …');
-    for (var deviceEntry in devices) {
+    for (let deviceEntry in devices) {
       var device = devices[deviceEntry];
       var menuItem = new goog.ui.MenuItem(
           (device.isSupported()) ? device.getDisplayName() : device.getPath());

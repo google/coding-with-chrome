@@ -1,7 +1,7 @@
 /**
  * @fileoverview EV3 renderer.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.external.EV3');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,9 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.EV3 = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.ev3Framework = 'ev3_framework.js';
 };
 
 
@@ -68,7 +66,8 @@ cwc.renderer.external.EV3.prototype.render = function(
     renderer_helper) {
 
   var header = renderer_helper.getFrameworkHeader(
-    this.ev3Framework, frameworks);
+    cwc.framework.Internal.EV3,
+    frameworks);
   var body = '\n<script>' +
       '  var code = function(ev3) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
@@ -76,6 +75,5 @@ cwc.renderer.external.EV3.prototype.render = function(
       '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';
 
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };

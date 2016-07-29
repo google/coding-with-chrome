@@ -1,7 +1,7 @@
 /**
  * @fileoverview Support file extensions for Coding with Chrome.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,13 @@ goog.provide('cwc.file.Extensions');
  * @enum {string}
  */
 cwc.file.Extensions = {
-  HTML: '.html',
-  JAVASCRIPT: '.js',
   COFFEESCRIPT: '.coffee',
   CSS: '.css',
   CWC: '.cwc',
-  TEXT: '.txt',
+  HTML: '.html',
+  JAVASCRIPT: '.js',
   JSON: '.json',
+  PYTHON: '.py',
+  TEXT: '.txt',
   XML: '.xml'
 };

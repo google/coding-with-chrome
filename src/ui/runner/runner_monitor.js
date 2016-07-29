@@ -1,7 +1,7 @@
 /**
  * @fileoverview Monitor for the runner.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@
 goog.provide('cwc.ui.RunnerMonitor');
 
 goog.require('cwc.soy.RunnerMonitor');
-goog.require('goog.ui.Toolbar');
-goog.require('goog.ui.ToolbarButton');
 goog.require('goog.math');
 goog.require('goog.style');
+
 
 
 /**

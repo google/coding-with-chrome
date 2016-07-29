@@ -1,7 +1,7 @@
 /**
  * @fileoverview Settings panel for Coding in Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,17 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">Settings</span>
+          <span class="mdl-layout-title">
+            {msg desc=""}Settings{/msg}
+          </span>
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">General</a>
-          <a href="#scroll-tab-2" class="mdl-layout__tab">Misc</a>
+          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">
+            {msg desc=""}General{/msg}
+          </a>
+          <a href="#scroll-tab-2" class="mdl-layout__tab">
+            {msg desc=""}Misc{/msg}
+          </a>
         </div>
       </header>
       <main class="mdl-layout__content">
@@ -46,7 +52,8 @@
       </main>
     </div>
   </div>
-  <a href="#" id="{$prefix}close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast"> Close Settings
+  <a href="#" id="{$prefix}close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">
+    {msg desc=""}Close Settings{/msg}
     <span class="mdl-button__ripple-container">
       <span class="mdl-ripple is-animating" style="width: 255.952px; height: 255.952px; transform: translate(-50%, -50%) translate(33px, 22px);"></span>
     </span>
@@ -61,52 +68,68 @@
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
-      <div class="mdl-card__supporting-text">
-        <h4>General Settings</h4>
-        This screen allows you to change the default settings.
-      </div>
+
+      {call .header_}
+        {param title: 'General Settings' /}
+        {param text: 'This screen allows you to change the default settings.' /}
+      {/call}
+
       <ul class="mdl-list">
+
+        // Welcome screen
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Show welcome screen' /}
+          {param text: 'If enabled a welcome screen will show every time CwC is started with the choice between "beginner mode" and "advanced mode".' /}
+          {param type: 'checkbox' /}
+          {param id: 'show-welcome' /}
+        {/call}
+
+        // Advanced Mode
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Advanced Mode' /}
+          {param text: 'The "advanced mode" will turn off all block based options.' /}
+          {param type: 'switch' /}
+          {param id: 'advanced-mode' /}
+        {/call}
+
+        // Fullscreen
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Launch in fullscreen' /}
+          {param text: 'If enabled CwC will be automatically launched in fullscreen.' /}
+          {param type: 'checkbox' /}
+          {param id: 'fullscreen' /}
+          {param opt_restart: true /}
+        {/call}
+
+        // Language
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
-            <span>Show welcome screen</span>
+            <span>Language</span>
             <span class="mdl-list__item-text-body">
-              If enabled a welcome screen will show every time CwC is started with the choice
-              between "beginner mode" and "advanced mode".
+              {msg desc=""}Default UI language.{/msg}
             </span>
           </span>
           <span class="mdl-list__item-secondary-content">
-            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}show-welcome">
-              <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input" />
-            </label>
+            <button id="menu-ui-language" class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul id="{$prefix}language" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="menu-ui-language">
+              <li class="mdl-menu__item">auto</li>
+              <li class="mdl-menu__item">de</li>
+              <li class="mdl-menu__item">en</li>
+            </ul>
           </span>
         </li>
-        <li class="mdl-list__item mdl-list__item--three-line">
-          <span class="mdl-list__item-primary-content">
-            <span>Advanced Mode</span>
-            <span class="mdl-list__item-text-body">
-              The "advanced mode" will turn off all block based options.
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}advanced-mode">
-              <input type="checkbox" id="{$prefix}advanced-mode" class="mdl-switch__input" />
-            </label>
-          </span>
-        </li>
-        <li class="mdl-list__item mdl-list__item--three-line">
-          <span class="mdl-list__item-primary-content">
-            <span>Launch in fullscreen</span>
-            <span class="mdl-list__item-text-body">
-              If enabled CwC will be automatically launched in fullscreen.
-            </span>
-          </span>
-          <span class="mdl-list__item-secondary-content">
-            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}fullscreen">
-              <input type="checkbox" id="{$prefix}fullscreen" class="mdl-checkbox__input" />
-            </label>
-          </span>
-        </li>
+
       </ul>
+      <div class="mdl-card__supporting-text">
+        {msg desc=""}
+          * You need to restart the application after enabling or disabling these options.
+        {/msg}
+      </div>
     </div>
   </section>
 {/template}
@@ -117,7 +140,85 @@
  */
 {template .miscTab}
   {@param prefix: string}
-  Misc {$prefix}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+
+      {call .header_}
+        {param title: 'Misc Settings' /}
+        {param text: 'This screen allows you to change some random settings.' /}
+      {/call}
+
+      <ul class="mdl-list">
+
+        // Debug Mode
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Debug Mode' /}
+          {param text: 'The "debug mode" will turn on some additional debug options.' /}
+          {param type: 'switch' /}
+          {param id: 'debug-mode' /}
+          {param opt_restart: true /}
+        {/call}
+
+      </ul>
+      <div class="mdl-card__supporting-text">
+        {msg desc=""}
+          * You need to restart the application after enabling or disabling these options.
+        {/msg}
+      </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
+ * Settings entry.
+ */
+{template .setting_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param type: string}
+  {@param id: string}
+  {@param? opt_restart: bool}
+
+  <li class="mdl-list__item mdl-list__item--three-line">
+    <span class="mdl-list__item-primary-content">
+      <span>
+        {msg desc=""}{$title}{/msg} {if $opt_restart}*{/if}
+      </span>
+      <span class="mdl-list__item-text-body">
+        {msg desc=""}{$text}{/msg}
+      </span>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+
+      {switch $type}
+        {case 'checkbox'}
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}{$id}">
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-checkbox__input" />
+          </label>
+        {case 'switch'}
+          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}{$id}">
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-switch__input" />
+          </label>
+      {/switch}
+
+    </span>
+  </li>
+{/template}
+
+
+/**
+ * Page header.
+ */
+{template .header_}
+  {@param title: string}
+  {@param text: string}
+  <div class="mdl-card__supporting-text">
+    <h4>{msg desc="header title"}{$title}{/msg}</h4>
+    {msg desc="header text"}{$text}{/msg}
+  </div>
 {/template}
 
 

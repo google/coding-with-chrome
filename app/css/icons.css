@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Google Inc. All Rights Reserved.
+ * Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
+.icon_gamepad,
 .icon_auto,
 .icon_auto_black,
 .icon_auto_blue,
@@ -135,7 +136,8 @@
   color: #fff !important;
 }
 
-.icon_button {
+.icon_button,
+.icon_gamepad {
   border: 0;
   background: transparent;
   opacity: .55;
@@ -145,7 +147,8 @@
   margin: 0;
 }
 
-.icon_button:hover {
+.icon_button:hover,
+.icon_gamepad:hover {
   opacity: .9;
 }
 
@@ -163,4 +166,44 @@
 
 .icon_button.floaty_left {
   float: left;
+}
+
+
+/* Game pad */
+.icon_gamepad {
+  font-size: 90px;
+}
+
+.icon_gamepad_button {
+  position: absolute;
+}
+
+.icon_gamepad_button.up,
+.icon_gamepad_button.down {
+  width: 30%;
+  height: 40%;
+  left: 35%;
+}
+
+.icon_gamepad_button.up {
+  top: 0;
+}
+
+.icon_gamepad_button.down {
+  bottom: 0;
+}
+
+.icon_gamepad_button.left,
+.icon_gamepad_button.right {
+  width: 40%;
+  height: 30%;
+  top: 35%;
+}
+
+.icon_gamepad_button.left {
+  left: 0;
+}
+
+.icon_gamepad_button.right {
+  right: 0;
 }

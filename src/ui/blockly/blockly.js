@@ -1,7 +1,7 @@
 /**
  * @fileoverview Blocky Editor for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,6 @@
  */
 goog.provide('cwc.ui.Blockly');
 
-goog.require('Blockly');
-goog.require('Blockly.Blocks');
-
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');
@@ -31,7 +28,6 @@ goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.math.Size');
 goog.require('goog.style');
-goog.require('goog.ui.ToolbarButton');
 
 
 
@@ -43,14 +39,14 @@ goog.require('goog.ui.ToolbarButton');
  */
 cwc.ui.Blockly = function(helper) {
 
-  /** @type {boolean} */
-  this.css = false;
-
   /** @type {string} */
   this.name = 'Blockly';
 
   /** @type {string} */
   this.prefix = 'blockly-';
+
+  /** @type {string} */
+  this.toolboxClass = 'blocklyToolboxDiv';
 
   /** @type {boolean} */
   this.enabled = false;
@@ -64,17 +60,11 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditor = null;
 
-  /** @type {Element} */
-  this.nodeEditorToolbox = null;
-
-  /** @type {!Blockly} */
-  this.blockly = Blockly;
-
-  /** @type {!Blockly} */
-  this.blocks_ = Blockly.Blocks;
+  /** @private {Element} */
+  this.nodeBlocklyToolbox_ = null;
 
   /** @type {string} */
-  this.mediaFiles = '../../external/blockly/';
+  this.mediaFiles = '../external/blockly/';
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
@@ -85,15 +75,21 @@ cwc.ui.Blockly = function(helper) {
   /** @type {boolean} */
   this.modified = false;
 
+  /** @type {!boolean} */
+  this.zoomControl = true;
+
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.toolbarExpandButton = null;
 
   /** @type {!array} */
   this.autoHideElements = ['blocklyToolboxDiv', 'blocklyWidgetDiv',
                            'blocklyTooltipDiv'];
+
+  /** @type {Function} */
+  this.modalPrompt = null;
+
+  /** @type {Blockly.Workspace} */
+  this.workspace = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -106,57 +102,78 @@ cwc.ui.Blockly = function(helper) {
 /**
  * Decorates the Blockly editor into the given node.
  * @param {!Element} node
- * @param {!Element} toolbox
+ * @param {Element=} opt_toolbox
  * @param {string=} opt_prefix
  * @param {boolean=} opt_trashcan
  */
-cwc.ui.Blockly.prototype.decorate = function(node, toolbox,
-    opt_prefix, opt_trashcan) {
+cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
+    opt_trashcan) {
   this.node = node;
-  this.nodeEditorToolbox = toolbox;
   this.prefix = (opt_prefix || '') + this.prefix;
-  this.log.info('Decorate', this.name, 'into node', this.node);
-  goog.soy.renderElement(
-      this.node,
-      cwc.soy.ui.Blockly.template,
-      {'prefix': this.prefix}
-  );
+  goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
+    prefix: this.prefix
+  });
 
   if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.ui.Blockly.style({ 'prefix': this.prefix }));
+    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Blockly.style({
+      prefix: this.prefix }));
   }
-
-  // Show previously hidden Elements
-  cwc.ui.Helper.showElements(this.autoHideElements);
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
   if (this.nodeToolbar) {
     this.toolbar = new cwc.ui.BlocklyToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.node);
+    this.toolbar.decorate(this.nodeToolbar, this.node, this.prefix);
   }
 
-  // Editor
+  // Blockly Toolbox
+  this.nodeBlocklyToolbox_ = opt_toolbox;
+
+  // Modal window
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (dialogInstance) {
+    this.modalPrompt = function(promptText, defaultText, callback, opt_title) {
+      dialogInstance.showPrompt(
+        opt_title || 'Blockly', promptText, defaultText).then(callback);
+    };
+  }
+
+  // Loading user defined settings.
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.zoomControl = userConfigInstance.get(cwc.userConfigType.BLOCKLY,
+      cwc.userConfigName.ZOOM);
+  }
+
+  // Blockly options
+  var options = {
+    'path': this.mediaFiles,
+    'toolbox': this.nodeBlocklyToolbox_,
+    'trashcan': opt_trashcan,
+    'zoom': {
+      'controls': true,
+      'wheel': true,
+      'startScale': 1.0,
+      'maxScale': 3,
+      'minScale': 0.3,
+      'scaleSpeed': 1.2
+    }
+  };
+
+  // Blockly Editor
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  this.blockly.inject(this.nodeEditor, {
-    css: this.css,
-    path: this.mediaFiles,
-    toolbox: this.nodeEditorToolbox,
-    trashcan: opt_trashcan,
-    zoom: {
-      controls: true,
-      wheel: true,
-      startScale: 1.0,
-      maxScale: 3,
-      minScale: 0.3,
-      scaleSpeed: 1.2
-    }});
+  this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
+  this.workspace = Blockly.inject(this.nodeEditor, options);
+
+  // Adding Modal support
+  this.setWorkspaceOption('modalOptions', {'prompt': this.modalPrompt });
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
+  if (viewportMonitor) {
+    this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
+  }
 
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
@@ -179,10 +196,11 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
   goog.style.setElementShown(this.node, visible);
   if (visible) {
     cwc.ui.Helper.showElements(this.autoHideElements);
+    window.dispatchEvent(new Event('resize'));
+    this.resetZoom();
   } else {
     cwc.ui.Helper.hideElements(this.autoHideElements);
   }
-  window.dispatchEvent(new Event('resize'));
 };
 
 
@@ -191,27 +209,9 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */
-cwc.ui.Blockly.prototype.addOption = function(name, func,
-    opt_tooltip) {
+cwc.ui.Blockly.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.toolbar) {
     this.toolbar.addOption(name, func, opt_tooltip);
-  }
-};
-
-
-/**
- * @param {!goog.ui.ToolbarButton} button
- * @param {boolean=} opt_seperator
- * @param {string=} opt_hint
- */
-cwc.ui.Blockly.prototype.addToolbarButton = function(button,
-    opt_seperator, opt_hint) {
-  this.toolbar.addToolbarButton(button, opt_seperator);
-  if (opt_hint) {
-    var elem = button.getContentElement().parentNode.parentNode;
-    goog.dom.setProperties(elem, {'data-hint': opt_hint});
-    goog.dom.classes.add(elem, 'hint--right');
-    console.log(elem);
   }
 };
 
@@ -220,7 +220,50 @@ cwc.ui.Blockly.prototype.addToolbarButton = function(button,
  * @param {!function(?)} func
  */
 cwc.ui.Blockly.prototype.addChangeListener = function(func) {
-  this.getWorkspace().addChangeListener(func);
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.addChangeListener(func);
+  }
+};
+
+
+/**
+ * Undo the last change in the editor.
+ * @return {Object}
+ */
+cwc.ui.Blockly.prototype.undoChange = function() {
+  var workspace = this.getWorkspace();
+  var undo = 0;
+  var redo = 0;
+  if (workspace) {
+    workspace.undo();
+    undo = workspace.undoStack_.length;
+    redo = workspace.redoStack_.length;
+  }
+  return {
+    'undo': undo,
+    'redo': redo
+  };
+};
+
+
+/**
+ * Redo the last change in the editor.
+ * @return {Object}
+ */
+cwc.ui.Blockly.prototype.redoChange = function() {
+  var workspace = this.getWorkspace();
+  var undo = 0;
+  var redo = 0;
+  if (workspace) {
+    workspace.undo(true);
+    undo = workspace.undoStack_.length;
+    redo =  workspace.redoStack_.length;
+  }
+  return {
+    'undo': undo,
+    'redo': redo
+  };
 };
 
 
@@ -228,7 +271,15 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
  * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
-  return this.blockly.JavaScript.workspaceToCode(this.getWorkspace());
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    try {
+      return Blockly.JavaScript.workspaceToCode(workspace);
+    } catch (e) {
+      this.helper.showError('Error getting Blockly workspace code!');
+    }
+  }
+  return '';
 };
 
 
@@ -236,8 +287,18 @@ cwc.ui.Blockly.prototype.getJavaScript = function() {
  * @return {Object}
  */
 cwc.ui.Blockly.prototype.getXML = function() {
-  var xml = this.blockly.Xml.workspaceToDom(this.getWorkspace());
-  return this.blockly.Xml.domToPrettyText(xml);
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    try {
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      return Blockly.Xml.domToPrettyText(xml);
+    } catch (e) {
+      this.helper.showError('Error getting Blockly XML!');
+      console.error(e);
+      console.log(xml);
+    }
+  }
+  return {};
 };
 
 
@@ -248,14 +309,19 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
   if (!xml_text) {
     return;
   }
-  var dom = this.blockly.Xml.textToDom(xml_text);
-  try {
-    this.blockly.Xml.domToWorkspace(this.getWorkspace(), dom);
-    this.resetZoom();
-  } catch (e) {
-    this.helper.showError('Error by loading Blockly file!');
-    console.error(e);
-    console.log(dom);
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    try {
+      var xml = Blockly.Xml.textToDom(xml_text);
+      Blockly.Xml.domToWorkspace(xml, workspace);
+      this.resetZoom();
+      workspace.undoStack_ = [];
+      workspace.redoStack_ = [];
+    } catch (e) {
+      this.helper.showError('Error by loading Blockly file!');
+      console.error(e);
+      console.log(xml);
+    }
   }
 };
 
@@ -266,18 +332,33 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
  */
 cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
   var workspace = this.getWorkspace();
-  if (opt_toolbox) {
-    this.nodeEditorToolbox = opt_toolbox;
+  if (workspace) {
+    workspace.updateToolbox(opt_toolbox || this.nodeBlocklyToolbox_);
   }
-  workspace.updateToolbox(this.nodeEditorToolbox);
+  this.resize();
 };
 
 
 /**
- * @return {Blockly.mainWorkspace}
+ * @return {Blockly.Workspace}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
-  return this.blockly.getMainWorkspace();
+  if (!this.workspace) {
+    this.log.warn('Blockly workspace is not ready yet!');
+  }
+  return this.workspace;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string|object} value
+ */
+cwc.ui.Blockly.prototype.setWorkspaceOption = function(name, value) {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.options[name] = value;
+  }
 };
 
 
@@ -306,17 +387,27 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
   }
 
   var parentElement = goog.dom.getParentElement(this.node);
-  var toolbarElement = goog.dom.getElement(this.prefix + 'toolbar');
   if (parentElement) {
     var parentSize = goog.style.getSize(parentElement);
     var newHeight = parentSize.height;
-    if (toolbarElement) {
-      var toolbarSize = goog.style.getSize(toolbarElement);
+    if (this.nodeToolbar) {
+      var toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
     var contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeEditor, contentSize);
-    window.dispatchEvent(new Event('resize'));  // Inform Blockly
+  }
+  this.resize();
+};
+
+
+/**
+ * Resizes the workspace.
+ */
+cwc.ui.Blockly.prototype.resize = function() {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    Blockly.svgResize(workspace);
   }
 };
 
@@ -359,6 +450,6 @@ cwc.ui.Blockly.prototype.cleanUp = function() {
   this.enabled = false;
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  cwc.ui.Helper.hideElements(this.autoHideElements);
+  cwc.ui.Helper.removeElements(this.toolboxClass);
   this.modified = false;
 };

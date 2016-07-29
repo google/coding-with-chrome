@@ -1,7 +1,7 @@
 /**
  * @fileoverview Support content types for Coding with Chrome.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ goog.provide('cwc.file.ContentType');
  * @enum {string}
  */
 cwc.file.ContentType = {
+  BLOCKLY: 'blockly',
+  COFFEESCRIPT: 'coffeescript',
+  CSS: 'css',
+  CUSTOM: 'custom',
   HTML: 'html',
   JAVASCRIPT: 'javascript',
-  CSS: 'css',
-  COFFEESCRIPT: 'coffeescript',
-  BLOCKLY: 'blockly',
   PENCIL_CODE: 'pencil_code',
   PYTHON: 'python',
-  CUSTOM: 'custom',
   RAW: 'raw'
 };

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Runner for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,7 +98,7 @@ cwc.runner.Connector.prototype.initListener = function() {
 
 /**
  * Inits the runner instance.
- * @param {Object} content
+ * @param {Object} target
  */
 cwc.runner.Connector.prototype.setTarget = function(target) {
   if (!target) {

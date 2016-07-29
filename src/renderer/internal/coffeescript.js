@@ -1,7 +1,7 @@
 /**
  * @fileoverview Renderer for Coffeescript modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.internal.Coffeescript');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,9 +36,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.Coffeescript = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.framework = 'coffee-script.js';
 };
 
 
@@ -57,7 +55,7 @@ cwc.renderer.internal.Coffeescript.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.internal.Coffeescript.prototype.render = function(
@@ -68,9 +66,10 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
     renderer_helper) {
 
   var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeader(this.framework, frameworks);
+  var header = renderer_helper.getFrameworkHeader(
+    cwc.framework.External.COFFEESCRIPT, frameworks
+  );
   var body = '\n<script type="text\/coffeescript">\n' +
     coffeescript + '\n</script>\n';
-  var html = renderer_helper.getHTML(body, header);
-  return html;
+  return renderer_helper.getHTML(body, header);
 };

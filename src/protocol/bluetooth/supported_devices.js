@@ -1,7 +1,7 @@
 /**
  * @fileoverview List of known and supported Bluetooth devices.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,10 +37,11 @@ goog.provide('cwc.protocol.bluetooth.supportedDevices');
  */
 cwc.protocol.bluetooth.supportedDevices = {
   EV3: {
-    'name': 'Lego Mindstorms EV3',
-    'indicator': 'EV3',
-    'deviceClass': 2052,
-    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
+    name: 'Lego Mindstorms EV3',
+    indicator: 'EV3',
+    deviceClass: 2052,
+    uuid: '00001101-0000-1000-8000-00805f9b34fb',
+    icon: 'adb'
   },
   SPHERO: {
     'name': 'Sphero 2.0',

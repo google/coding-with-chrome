@@ -1,7 +1,7 @@
 /**
  * @fileoverview Preview for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,8 @@ cwc.ui.PreviewStatus = {
   STOPPED: 2,
   TERMINATED: 3,
   UNRESPONSIVE: 4,
-  LOADED: 5
+  LOADED: 5,
+  INIT: 6
 };
 
 
@@ -100,7 +101,7 @@ cwc.ui.Preview = function(helper) {
   this.startTime = new Date().getTime();
 
   /** @type {string} */
-  this.status = cwc.ui.PreviewStatus.UNKNOWN;
+  this.status = cwc.ui.PreviewStatus.INIT;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -116,6 +117,12 @@ cwc.ui.Preview = function(helper) {
 
   /** @type {Array} */
   this.listener = [];
+
+  /** @private {boolean} */
+  this.ran_ = false;
+
+  /** @private {boolean} */
+  this.skipAutoUpdate_ = true;
 };
 
 
@@ -131,23 +138,23 @@ cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
   this.prefix = opt_prefix + this.prefix;
 
   if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Preview.previewStyle({ 'prefix': this.prefix }));
+    this.styleSheet = goog.style.installStyles(cwc.soy.Preview.style({
+      prefix: this.prefix }));
   }
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.Preview.previewTemplate,
-      { 'prefix': this.prefix }
+    this.node,  cwc.soy.Preview.template, { prefix: this.prefix }
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.toolbar = new cwc.ui.PreviewToolbar(this.helper, this.prefix);
-  this.toolbar.decorate(this.nodeToolbar);
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  if (this.nodeToolbar) {
+    this.toolbar = new cwc.ui.PreviewToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar, this.prefix);
+  }
 
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
@@ -156,15 +163,15 @@ cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
 
   // Monitor Changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
+  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     var eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.RESIZE,
+    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
@@ -174,10 +181,10 @@ cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
   shortcutHandler.registerShortcut('CTRL_ENTER',
       goog.events.KeyCodes.ENTER, CTRL);
 
-  this.addEventListener(
+  this.addEventListener_(
       shortcutHandler,
       goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-      this.handleShortcut, false, this);
+      this.handleShortcut_, false, this);
 
   this.adjustSize();
 };
@@ -220,7 +227,19 @@ cwc.ui.Preview.prototype.run = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setRunStatus(true);
   }
+  this.ran_ = true;
   this.render();
+};
+
+
+/**
+ * Runs the preview only one time.
+ * @param {Event=} opt_event
+ */
+cwc.ui.Preview.prototype.runOnce = function(opt_event) {
+  if (!this.ran_) {
+    this.run();
+  }
 };
 
 
@@ -291,17 +310,17 @@ cwc.ui.Preview.prototype.render = function() {
   this.content.addEventListener('consolemessage',
       this.handleConsoleMessage_.bind(this), false);
   this.content.addEventListener('dialog',
-      this.handleDialog.bind(this), false);
+      this.handleDialog_.bind(this), false);
   this.content.addEventListener('loadstart',
-      this.handleLoadStart.bind(this), false);
+      this.handleLoadStart_.bind(this), false);
   this.content.addEventListener('loadstop',
-      this.handleLoadStop.bind(this), false);
+      this.handleLoadStop_.bind(this), false);
   this.content.addEventListener(cwc.ui.PreviewStatus.UNRESPONSIVE,
-      this.handleUnresponsive.bind(this), false);
+      this.handleUnresponsive_.bind(this), false);
   this.content.addEventListener('newwindow',
-      this.handleNewWindow.bind(this), false);
+      this.handleNewWindow_.bind(this), false);
   this.content.addEventListener('permissionrequest',
-      this.handlePermissionRequest.bind(this), false);
+      this.handlePermissionRequest_.bind(this), false);
 
   goog.dom.appendChild(this.nodeContent, this.content);
   if (this.toolbar) {
@@ -346,102 +365,11 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  * @param {!string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
-  if (this.content) {
+  if (url && this.content) {
     this.content.src = url;
+  } else {
+    console.error('Was unable to set content url!');
   }
-};
-
-
-/**
- * Handles preview specific keyboard short cuts.
- * @param {Event} event
- */
-cwc.ui.Preview.prototype.handleShortcut = function(event) {
-  var shortcut = event.identifier;
-  console.log('Shortcut: ' + shortcut);
-
-  if (shortcut == 'CTRL_ENTER') {
-    this.run();
-  }
-};
-
-
-/**
- * Collects all messages from the preview window for the console.
- * @param {Event} event
- * @private
- */
-cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
-  if (this.infobar) {
-    this.infobar.addMessage(event);
-  }
-};
-
-
-/**
- * Displays the start of load event.
- * @param {Event=} opt_event
- */
-cwc.ui.Preview.prototype.handleLoadStart = function(opt_event) {
-  this.startTime = new Date().getTime();
-  this.status = cwc.ui.PreviewStatus.LOADING;
-  if (this.toolbar) {
-    this.toolbar.setLoadStatus(true);
-  }
-  this.setStatusText('Loading …');
-};
-
-
-/**
- * Displays the end of the load event.
- * @param {Event=} opt_event
- */
-cwc.ui.Preview.prototype.handleLoadStop = function(opt_event) {
-  var duration = (new Date().getTime() - this.startTime) / 1000;
-  this.status = cwc.ui.PreviewStatus.LOADED;
-  if (this.toolbar) {
-    this.toolbar.setLoadStatus(false);
-  }
-  this.setStatusText('Finished after ' + duration + ' seconds.');
-};
-
-
-/**
- * Shows a unresponsive warning with the options to terminate the preview.
- * @param {Event=} opt_event
- */
-cwc.ui.Preview.prototype.handleUnresponsive = function(opt_event) {
-  this.setStatusText('Unresponsive …');
-  this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
-
-  var dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showYesNo('Unresponsive Warning',
-    'The preview is unresponsive! Terminate?',
-    this.terminate.bind(this));
-};
-
-
-/**
- * @param {Event} event
- */
-cwc.ui.Preview.prototype.handleDialog = function(event) {
-  console.log('handleDialog', event);
-};
-
-
-/**
- * @param {Event} event
- */
-cwc.ui.Preview.prototype.handleNewWindow = function(event) {
-  console.log('handleNewWindow', event);
-};
-
-
-/**
- * @param {Event} event
- */
-cwc.ui.Preview.prototype.handlePermissionRequest = function(event) {
-  console.log('handlePermissionRequest', event);
 };
 
 
@@ -487,10 +415,15 @@ cwc.ui.Preview.prototype.delayAutoUpdate = function() {
 
 
 /**
- * Perform the auto uodate.
+ * Perform the auto update.
  */
 cwc.ui.Preview.prototype.doAutoUpdate = function() {
   if (!this.autoUpdate) {
+    return;
+  }
+
+  if (this.skipAutoUpdate_ && this.ran_) {
+    this.skipAutoUpdate_ = false;
     return;
   }
 
@@ -510,6 +443,109 @@ cwc.ui.Preview.prototype.setStatusText = function(status) {
 
 
 /**
+ * Handles preview specific keyboard short cuts.
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
+  var shortcut = event.identifier;
+  console.log('Shortcut: ' + shortcut);
+
+  if (shortcut == 'CTRL_ENTER') {
+    this.run();
+  }
+};
+
+
+/**
+ * Collects all messages from the preview window for the console.
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
+  if (this.infobar) {
+    this.infobar.addMessage(event);
+  }
+};
+
+
+/**
+ * Displays the start of load event.
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleLoadStart_ = function(opt_event) {
+  this.startTime = new Date().getTime();
+  this.status = cwc.ui.PreviewStatus.LOADING;
+  if (this.toolbar) {
+    this.toolbar.setLoadStatus(true);
+  }
+  this.setStatusText('Loading …');
+};
+
+
+/**
+ * Displays the end of the load event.
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleLoadStop_ = function(opt_event) {
+  var duration = (new Date().getTime() - this.startTime) / 1000;
+  this.status = cwc.ui.PreviewStatus.LOADED;
+  if (this.toolbar) {
+    this.toolbar.setLoadStatus(false);
+  }
+  this.setStatusText('Finished after ' + duration + ' seconds.');
+};
+
+
+/**
+ * Shows a unresponsive warning with the options to terminate the preview.
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
+  this.setStatusText('Unresponsive …');
+  this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
+
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Unresponsive Warning',
+    'The preview is unresponsive! Terminate?').then((answer) => {
+      if (answer) {
+        this.terminate();
+      }
+    });
+};
+
+
+/**
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleDialog_ = function(event) {
+  console.log('handleDialog', event);
+};
+
+
+/**
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Preview.prototype.handleNewWindow_ = function(event) {
+  console.log('handleNewWindow', event);
+};
+
+
+/**
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Preview.prototype.handlePermissionRequest_ = function(event) {
+  console.log('handlePermissionRequest', event);
+};
+
+
+/**
  * Adds an event listener for a specific event on a native event
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
@@ -519,8 +555,9 @@ cwc.ui.Preview.prototype.setStatusText = function(status) {
  * @param {function(?)} listener
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
+ * @private
  */
-cwc.ui.Preview.prototype.addEventListener = function(src, type,
+cwc.ui.Preview.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

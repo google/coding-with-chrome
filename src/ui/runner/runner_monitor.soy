@@ -1,7 +1,7 @@
 /**
  * @fileoverview Monitor for the Runner instance.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,11 +50,15 @@
       <section id="{$prefix}main" class="mdl-layout__tab-panel is-active">
         <div id="{$prefix}main-run" class="icon_auto icon_button is-active">play_arrow</div>
         <div class="mdl-tooltip mdl-tooltip--top" for="{$prefix}main-run">
-          Executes the code and send commands to the connected unit.
+          {msg desc=""}
+            Executes the code and send commands to the connected unit.
+          {/msg}
         </div>
         <div id="{$prefix}main-stop" class="icon_auto icon_button">stop</div>
         <div class="mdl-tooltip mdl-tooltip--top" for="{$prefix}main-stop">
-          Stops the execution of the code.
+          {msg desc=""}
+            Stops the execution of the code.
+          {/msg}
         </div>
       </section>
       <section id="{$prefix}intro" class="mdl-layout__tab-panel">

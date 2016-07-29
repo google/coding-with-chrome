@@ -1,5 +1,5 @@
-Coding with Chrome Debugging
-============================
+Coding with Chrome - Debugging
+==============================
 
 This document covers debugging informations and technique's for the
 Coding with Chrome editor.
@@ -18,11 +18,18 @@ You could adjust the visible log level in the src/config/config.js file:
 cwc.config.LogLevel = cwc.utils.LogLevel.INFO;
 ```
 
-### Update dependencies
+### Source map
+If you need to take a look at the original source code instead of the
+compiled source code, please run:
+```bash
+npm run debug
+```
+
+### Sync latest files and dependencies
 In some cases you need to update the dependencies to the latest version to
 get everything working. This can be done with the following command:
 ```bash
-npm run update
+npm run sync
 ```
 
 ### Clean up generated files and remove "extraneous" packages

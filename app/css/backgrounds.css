@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Google Inc. All Rights Reserved.
+ * Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,51 +21,51 @@
  */
 
 .bg_10_pct_black {
-  background-image: url('../../images/backgrounds/10_pct_black.png')!important;
+  background-image: url('../images/backgrounds/10_pct_black.png')!important;
 }
 
 .bg_20_pct_black {
-  background-image: url('../../images/backgrounds/20_pct_black.png')!important;
+  background-image: url('../images/backgrounds/20_pct_black.png')!important;
 }
 
 .bg_30_pct_black {
-  background-image: url('../../images/backgrounds/30_pct_black.png')!important;
+  background-image: url('../images/backgrounds/30_pct_black.png')!important;
 }
 
 .bg_40_pct_black {
-  background-image: url('../../images/backgrounds/40_pct_black.png')!important;
+  background-image: url('../images/backgrounds/40_pct_black.png')!important;
 }
 
 .bg_50_pct_black {
-  background-image: url('../../images/backgrounds/50_pct_black.png')!important;
+  background-image: url('../images/backgrounds/50_pct_black.png')!important;
 }
 
 .bg_60_pct_black {
-  background-image: url('../../images/backgrounds/60_pct_black.png')!important;
+  background-image: url('../images/backgrounds/60_pct_black.png')!important;
 }
 
 .bg_10_pct_white {
-  background-image: url('../../images/backgrounds/10_pct_white.png')!important;
+  background-image: url('../images/backgrounds/10_pct_white.png')!important;
 }
 
 .bg_20_pct_white {
-  background-image: url('../../images/backgrounds/20_pct_white.png')!important;
+  background-image: url('../images/backgrounds/20_pct_white.png')!important;
 }
 
 .bg_30_pct_white {
-  background-image: url('../../images/backgrounds/30_pct_white.png')!important;
+  background-image: url('../images/backgrounds/30_pct_white.png')!important;
 }
 
 .bg_40_pct_white {
-  background-image: url('../../images/backgrounds/40_pct_white.png')!important;
+  background-image: url('../images/backgrounds/40_pct_white.png')!important;
 }
 
 .bg_50_pct_white {
-  background-image: url('../../images/backgrounds/50_pct_white.png')!important;
+  background-image: url('../images/backgrounds/50_pct_white.png')!important;
 }
 
 .bg_60_pct_white {
-  background-image: url('../../images/backgrounds/60_pct_white.png')!important;
+  background-image: url('../images/backgrounds/60_pct_white.png')!important;
 }
 
 .bg-blue {
@@ -80,12 +80,12 @@
 
 .bg-green {
   background-color: rgb(76, 175, 80)!important;
-  color: #111;
+  color: #fff;
 }
 
 .bg-light-green {
   background-color: rgb(139, 195, 74)!important;
-  color: #111;
+  color: #fff;
 }
 
 .bg-lime {

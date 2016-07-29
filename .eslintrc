@@ -35,14 +35,21 @@ globals:
   $: true
   Blockly: true
   CodeMirror: true
+  Sk: true
+  afterEach: true
+  beforeEach: true
   chrome: true
   cwc: true
   describe: true
   expect: true
   goog: true
-  i18n: true
+  i18next: true
+  i18nextSprintfPostProcessor: true
+  i18soy: true
+  i18t: true
   it: true
   opt_event: true
+  soydata: true
   var_args: true
 
 extends: 'eslint:recommended'

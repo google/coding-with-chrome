@@ -1,7 +1,7 @@
 /**
  * @fileoverview Byte commands for the EV3 communication.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ cwc.protocol.ev3.Commands = function() {
 
 /**
  * @param {!string} name
- * @param {!Object} params
+ * @param {!Object} param
  */
 cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
   var key = this.getCacheName(name, param);
@@ -51,7 +51,7 @@ cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
 
 /**
  * @param {!string} name
- * @param {!Object} params
+ * @param {!Object} param
  * @param {!Object} result
  */
 cwc.protocol.ev3.Commands.prototype.setCache = function(name, param, result) {

@@ -4,7 +4,7 @@
  * This api allows to read and control the Lego Mindstorm Sphero sensors and
  * actors over an Bluetooth connection.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -499,7 +499,7 @@ cwc.protocol.sphero.Api.prototype.verifiyChecksum_ = function(buffer,
   var bufferChecksum = 0;
   var bufferLength = buffer.length -1;
   var checksum = opt_checksum || buffer[bufferLength];
-  for (var i = 2; i < bufferLength; i++) {
+  for (let i = 2; i < bufferLength; i++) {
     bufferChecksum += buffer[i];
   }
 

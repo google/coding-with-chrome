@@ -1,7 +1,7 @@
 /**
  * @fileoverview Preview template for Coding in Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,120 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+{namespace cwc.soy.Preview autoescape="strict"}
 
-{namespace cwc.soy.Preview autoescape="deprecated-contextual"}
+
 
 /**
  * HTML template for the preview.
  */
-{template .previewTemplate}
+{template .template}
   {@param prefix: string}
   <div id="{$prefix}body">
-    <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
+    {call .toolbar_ data="all" /}
     <div id="{$prefix}content"></div>
     <footer id="{$prefix}infobar" class="mdl-layout__header"></footer>
   </div>
 {/template}
 
+
+/**
+ * Toolbar template.
+ */
+{template .toolbar_}
+  {@param prefix: string}
+
+  {let $toolbarPrefix: $prefix + 'toolbar-' /}
+  <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
+    <div class="mdl-layout__header-row">
+      <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'run' /}
+          {param icon: 'play_arrow' /}
+          {param opt_title: 'Runs the code and update preview.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'stop' /}
+          {param icon: 'stop' /}
+          {param opt_title: 'Stops or terminate the preview.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'reload' /}
+          {param icon: 'refresh' /}
+          {param opt_title: 'Reloads preview.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'auto-reload' /}
+          {param icon: 'autorenew' /}
+          {param opt_title: 'Automatic reloads the preview after an change on the editor content.' /}
+        {/call}
+
+      </nav>
+      <div class="mdl-layout-spacer"></div>
+      <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand' /}
+          {param icon: 'fullscreen' /}
+          {param opt_title: 'Expand Blockly editor.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'expand-exit' /}
+          {param icon: 'fullscreen_exit' /}
+          {param opt_title: 'Collapse Blockly editor.' /}
+        {/call}
+
+      </nav>
+    </div>
+  </header>
+
+{/template}
+
+
+/**
+ * Navigation link button.
+ */
+{template .navigationIcon_}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param? opt_title: string}
+
+  <span class="mdl-navigation__link">
+    <button id="{$prefix}{$id}"
+            class="mdl-button mdl-js-button mdl-button--icon"
+            {if $opt_title}title="{msg desc=""}{$opt_title}{/msg}"{/if}>
+      <i class="material-icons">{$icon}</i>
+    </button>
+  </span>
+
+{/template}
+
+
 /**
  * Preview style definitions.
  */
-{template .previewStyle}
+{template .style}
   {@param prefix: string}
-  #{$prefix}toolbar > .goog-toolbar {lb}
-    padding-left: 10px;
+
+  #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
+    padding: 0 5px;
+  {rb}
+
+  #{$prefix}body .mdl-layout__header-row {lb}
+    height: 44px;
+    padding: 0 10px 0 20px;
   {rb}
 
   #{$prefix}content {lb}

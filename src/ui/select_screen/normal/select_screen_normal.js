@@ -1,7 +1,7 @@
 /**
  * @fileoverview Normal select screen for the different coding modes.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
 
   /** @type {cwc.ui.SelectScreenNormalView} */
   this.currentView = null;
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -95,11 +98,11 @@ cwc.ui.SelectScreenNormal.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
   var name = opt_name || cwc.ui.SelectScreenNormalView.OVERVIEW;
-  this.showTemplate_(name);
-  this.addMenuHandler_();
+
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenNormalView.OVERVIEW:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.overview);
       this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenNormalView.BASIC);
@@ -113,6 +116,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Main screens
     case cwc.ui.SelectScreenNormalView.BASIC:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.basicOverview);
       this.setNavHeader_('Blocks', 'school');
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC_BLOCKLY);
@@ -122,6 +126,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'resources/examples/simple/blocks/Text-Loop.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.DRAW:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.drawOverview);
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC_BLOCKLY);
       break;
@@ -130,6 +135,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Robot overview
     case cwc.ui.SelectScreenNormalView.ROBOT:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.robotOverview);
       this.setNavHeader_('Robots', 'memory');
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenNormalView.EV3);
@@ -141,14 +147,18 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // Robot screens
     case cwc.ui.SelectScreenNormalView.EV3:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.EV3_BLOCKLY);
       this.setClickEvent_('link-block-grabber', this.loadFile_,
           'resources/examples/ev3/blocks/EV3-Educator-BlockGrabber.cwc');
+      this.setClickEvent_('link-color-sensor', this.loadFile_,
+          'resources/examples/ev3/blocks/EV3-Color-Sensor.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.SPHERO:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -168,6 +178,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
     default:
       return;
   }
+  this.addMenuHandler_();
   this.currentView = name;
 };
 
@@ -205,10 +216,6 @@ cwc.ui.SelectScreenNormal.prototype.addMenuHandler_ = function() {
       cwc.ui.SelectScreenNormalView.OVERVIEW);
   this.setClickEvent_('menu-basic', this.showView,
       cwc.ui.SelectScreenNormalView.BASIC);
-  this.setClickEvent_('menu-draw', this.showView,
-      cwc.ui.SelectScreenNormalView.DRAW);
-  this.setClickEvent_('menu-music', this.showView,
-      cwc.ui.SelectScreenNormalView.MUSIC);
   this.setClickEvent_('menu-robot', this.showView,
       cwc.ui.SelectScreenNormalView.ROBOT);
 };
@@ -229,19 +236,16 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
 
 
 /**
- * @param {!string} template_name
- * @param {Object} opt_template
- * @private
+ * @param {!cwc.soy.SelectScreenNormal} template
  */
-cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template_name,
-    opt_template) {
-  if (this.node && template_name) {
-    var templateConfig = {'prefix': this.prefix};
-    var template = opt_template || cwc.soy.SelectScreenNormal;
-    goog.soy.renderElement(this.node, template[template_name],
-        templateConfig);
+cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
+  if (this.node && template) {
+    goog.soy.renderElement(this.node, template, {
+      prefix: this.prefix,
+      online: this.helper.checkFeature('online')
+    });
   } else {
-    console.error('Unable to render template', template_name);
+    console.error('Unable to render template', template);
   }
 };
 
@@ -274,8 +278,8 @@ cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
     };
   }
 
-  return goog.events.listen(element, goog.events.EventType.CLICK,
-      click_func, false, this);
+  return goog.events.listen(element, goog.events.EventType.CLICK, click_func,
+    false, this);
 };
 
 
@@ -289,9 +293,9 @@ cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };
 
@@ -306,8 +310,8 @@ cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + file_name);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };

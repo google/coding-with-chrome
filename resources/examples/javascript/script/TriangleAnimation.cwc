@@ -1,0 +1,21 @@
+{
+  "author": "Timothy James",
+  "content": {
+    "javascript": "// We use this function to create a Triangle object so that we can manipulate it\n// for our animation.\nfunction createTriangle(x1, y1, x2, y2, x3, y3, fillcolor, strokecolor, stroke) {\n  var triangle = new Object();\n  triangle.x1 = x1;\n  triangle.x2 = x2;\n  triangle.x3 = x3;\n  triangle.y1 = y1;\n  triangle.y2 = y2;\n  triangle.y3 = y3;\n  triangle.down = true;\n  triangle.right = true;\n  triangle.fillolor = fillcolor;\n  triangle.strokecolor = strokecolor;\n  triangle.stroke = stroke;\n  // This function will draw the triangle we create on the screen.\n  triangle.draw = function() {\n    draw.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3,\n                  this.fillcolor, this.strokecolor, this.stroke);\n  };\n\n  // This function will move the triangle for one frame of animation.\n  triangle.move = function() {\n    if (this.down) {\n      this.y1++;\n      this.y2++;\n      this.y3++;\n    } else {\n      this.y1--;\n      this.y2--;\n      this.y3--;\n    }\n    if (this.right) {\n      this.x3 += 3;\n      this.y2 += 2;\n      this.x1 += 1;\n    } else {\n      this.x3 -= 3;\n      this.y2 -= 2;\n      this.x1 -= 1;\n    }\n    if (this.x3 >= 300) {\n      this.right = false;\n    } else if (this.x3 <=100) {\n      this.right = true;\n    }\n    if (this.y1 >= 400) {\n      this.down = false;\n    } else if (this.y1 < 10) {\n      this.down = true;\n    }\n  };\n  return triangle;\n}\n\n// This function will move the triangle and redraw the screen.\nfunction moveTriangle() {\n  // First we'll advance the triangle's position one frame.\n  triangle.move();\n  // Next we'll clear the screen so the triangle doesn't leave a trail.\n  draw.clear();\n  // Then we'll draw the triangle.\n  triangle.draw();\n  // We'll set a timeout so that in 25 milliseconds, we'll call this\n  // moveTriangle function again.\n  setTimeout('moveTriangle();', 25);\n}\n\n// Now that we have all of our functions, we'll create a triangle...\nvar triangle = createTriangle(100, 100, 300, 100, 100, 300, 'blue', 'black', 6);\n// ... and move it around the screen.\nmoveTriangle();"
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "flags_": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic",
+  "mode": "basic",
+  "title": "Triangle Animation",
+  "ui": "default",
+  "version": "1.0"
+}

@@ -3,7 +3,7 @@
  *
  * Preloads all needed modules and shows a loading screen with the progress.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Builder');
-goog.provide('cwc.ui.BuilderFrameworks');
 goog.provide('cwc.ui.BuilderHelpers');
 
 goog.require('cwc.config');
@@ -29,6 +28,8 @@ goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
+goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
@@ -41,12 +42,12 @@ goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
-goog.require('cwc.ui.Dialog');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
 goog.require('cwc.ui.Help');
+goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
@@ -55,19 +56,21 @@ goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
-goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.Turtle');
-goog.require('cwc.ui.Tutorial');
+goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.userConfig');
+goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
 
 
 
 /**
+<<<<<<< HEAD
  * Additional frameworks for the preview window or runner framework.
  * @type {!Object.<string>}
  */
@@ -89,6 +92,8 @@ cwc.ui.BuilderFrameworks = {
 
 
 /**
+=======
+>>>>>>> master
  * General helpers.
  * @type {!Object.<Function>|Function}
  */
@@ -96,9 +101,8 @@ cwc.ui.BuilderHelpers = {
   'arduino': cwc.protocol.Arduino.api,
   'blockly': cwc.ui.Blockly,
   'bluetooth': cwc.protocol.bluetooth.Api,
+  'connectScreen': cwc.ui.connectScreen.Screens,
   'connectionManager': cwc.ui.ConnectionManager,
-  'debug': cwc.ui.Debug,
-  'dialog': cwc.ui.Dialog,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
   'ev3': cwc.protocol.ev3.Api,
@@ -111,6 +115,7 @@ cwc.ui.BuilderHelpers = {
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
+  'mbot': cwc.protocol.mbot.Api,
   'menubar': cwc.ui.Menubar,
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
@@ -122,10 +127,7 @@ cwc.ui.BuilderHelpers = {
   'serial': cwc.protocol.Serial.api,
   'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
-  'mbot': cwc.protocol.mbot.Api,
-  'statusbar': cwc.ui.Statusbar,
-  'turtle': cwc.ui.Turtle,
-  'tutorial': cwc.ui.Tutorial
+  'turtle': cwc.ui.Turtle
 };
 
 
@@ -144,6 +146,7 @@ cwc.ui.oauth2Helpers = {
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.ui.Builder = function() {
   /** @type {string} */
@@ -151,9 +154,6 @@ cwc.ui.Builder = function() {
 
   /** @private {!number} */
   this.loglevel_ = 0;
-
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
   /** @type {boolean} */
   this.error = false;
@@ -175,6 +175,12 @@ cwc.ui.Builder = function() {
 
   /** @type {Array} */
   this.listener = [];
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -201,23 +207,83 @@ cwc.ui.Builder.prototype.decorate = function(node,
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  this.loadApp();
+  // Show features
+  if (!this.error) {
+    this.helper.showFeatures();
+  }
+
+  // Prepare and load Storage
+  if (!this.error) {
+    this.loadStorage_();
+  }
+
 };
 
 
 /**
- * Loads all needed helper.
+ * Loads the storage instance.
+ * @private
  */
-cwc.ui.Builder.prototype.loadApp = function() {
-  if (!this.error) {
-    this.setProgress('Detect features ...', 0, 100);
-    this.detectFeatures();
+cwc.ui.Builder.prototype.loadStorage_ = function() {
+  var storageInstance = new cwc.utils.Storage();
+  if (!storageInstance) {
+    this.loadI18n_();
+    return;
+  }
+  this.helper.setInstance('storage', storageInstance);
+  storageInstance.prepare(this.loadUserConfig_.bind(this));
+};
+
+
+/**
+ * Loads the user config instance.
+ * @private
+ */
+cwc.ui.Builder.prototype.loadUserConfig_ = function() {
+  var userConfigInstance = new cwc.userConfig(this.helper);
+  if (userConfigInstance) {
+    this.helper.setInstance('userConfig', userConfigInstance);
+  }
+  this.loadI18n_();
+};
+
+
+/**
+ * Loads the i18n before the rest of the UI.
+ * @private
+ */
+cwc.ui.Builder.prototype.loadI18n_ = function() {
+  var i18nInstance = new cwc.utils.I18n();
+  if (!i18nInstance) {
+    this.loadUI();
+    return;
   }
 
-  if (!this.error) {
-    this.setProgress('Loading and prepare i18n ...', 5, 100);
-    this.loadI18n_();
+  var language = '';
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.LANGUAGE);
+    if (userLanguage && userLanguage != language) {
+      console.log('Using user preferred language:', userLanguage);
+      language = userLanguage;
+
+      if (language != cwc.config.Default.LANGUAGE) {
+        // Blockly language file.
+        cwc.ui.Helper.insertScript('../external/blockly/msg/' + language +
+          '.js', 'blockly-language');
+      }
+    }
   }
+  this.helper.setInstance('i18n', i18nInstance);
+  i18nInstance.prepare(this.loadUI.bind(this), language);
+};
+
+
+/**
+ * Loads and construct the main ui screen.
+ */
+cwc.ui.Builder.prototype.loadUI = function() {
 
   if (!this.error) {
     this.setProgress('Checking requirements ...', 10, 100);
@@ -225,22 +291,21 @@ cwc.ui.Builder.prototype.loadApp = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Loading user config ...', 20, 100);
-    this.loadUserConfig(this.loadUI.bind(this));
+    this.setProgress('Prepare debug ...', 20, 100);
+    this.prepareDebug_();
   }
-};
 
+  if (!this.error) {
+    this.setProgress('Prepare dialog ...', 25, 100);
+    this.prepareDialog();
+  }
 
-/**
- * Loads the ui.
- */
-cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error) {
     this.setProgress('Prepare helpers ...', 30, 100);
     this.prepareHelper();
   }
 
-  if (!this.error && this.helper.checkChromeFeature('oauth2')) {
+  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare OAuth2 Helpers ...', 35, 100);
     this.prepareOauth2Helper();
   }
@@ -265,7 +330,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.prepareSerial();
   }
 
-  if (!this.error && this.helper.checkChromeFeature('oauth2')) {
+  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare account support ...', 80, 100);
     this.prepareAccount();
   }
@@ -296,7 +361,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
   this.log_.info('[' + current + '%] ' + text);
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'progress', 'text': text, 'current': current, 'total': total
@@ -309,20 +374,12 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
  * Closes the Loader window.
  */
 cwc.ui.Builder.prototype.closeLoader = function() {
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({'command': 'close'}, '*');
   }
 };
 
-
-/**
- * Performs feature detection.
- */
-cwc.ui.Builder.prototype.detectFeatures = function() {
-  this.helper.detectFeatures();
-  this.helper.showFeatures();
-};
 
 
 /**
@@ -332,7 +389,7 @@ cwc.ui.Builder.prototype.detectFeatures = function() {
  */
 cwc.ui.Builder.prototype.raiseError = function(error_msg, opt_skip_throw) {
   this.error = true;
-  var loader = chrome.app.window.get('loader');
+  var loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'error', 'msg': error_msg}, '*');
@@ -373,6 +430,11 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
         'Please check if you have included the CoffeeScript files.');
   }
 
+  if (!this.helper.checkJavaScriptFeature('blockly')) {
+    this.raiseError('Unable to find Blockly !\n' +
+        'Please check if you have included the Blockly files.');
+  }
+
 };
 
 
@@ -404,6 +466,19 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
 
 
 /**
+ * Prepare debug mode if needed.
+ * @private
+ */
+cwc.ui.Builder.prototype.prepareDebug_ = function() {
+  var debugInstance = new cwc.ui.Debug(this.helper);
+  if (debugInstance) {
+    debugInstance.prepare();
+  }
+  this.helper.setInstance('debug', debugInstance);
+};
+
+
+/**
  * Prepare serial interface if needed.
  */
 cwc.ui.Builder.prototype.prepareSerial = function() {
@@ -415,24 +490,18 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
 
 
 /**
- * Preloads user config.
- * @param {Function} callback
+ * Prepare dialog.
  */
-cwc.ui.Builder.prototype.loadUserConfig = function(callback) {
-  var userConfigInstance = new cwc.userConfig(this.helper);
-  this.helper.setInstance('userConfig', userConfigInstance);
-  userConfigInstance.prepare(callback);
-};
-
-
-/**
- * Preloads i18n helper.
- * @private
- */
-cwc.ui.Builder.prototype.loadI18n_ = function() {
-  var i18nInstance = new cwc.utils.I18n();
-  this.helper.setInstance('i18n', i18nInstance);
-  i18nInstance.mapGlobal();
+cwc.ui.Builder.prototype.prepareDialog = function() {
+  var dialogInstance = new cwc.utils.Dialog();
+  if (dialogInstance) {
+    dialogInstance.setDefaultCloseHandler(
+      function() {
+        this.helper.getInstance('navigation').hide();
+      }.bind(this)
+    );
+  }
+  this.helper.setInstance('dialog', dialogInstance);
 };
 
 
@@ -444,7 +513,7 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
   var helpers = cwc.ui.BuilderHelpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
-  for (var helper in helpers) {
+  for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading helper: ' + helper, counter,
           numOfHelpers);
@@ -464,7 +533,7 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
   var helpers = cwc.ui.oauth2Helpers;
   var numOfHelpers = Object.keys(helpers).length;
   var counter = 1;
-  for (var helper in helpers) {
+  for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading OAuth2 helper: ' + helper, counter,
           numOfHelpers);
@@ -494,23 +563,15 @@ cwc.ui.Builder.prototype.loadHelper = function(instance,
  * Loads additional frameworks for the renderer.
  */
 cwc.ui.Builder.prototype.loadFrameworks = function() {
-  var rendererInstance = this.helper.getInstance('renderer');
-  var frameworks = cwc.ui.BuilderFrameworks;
-  var numOfFrameworks = Object.keys(frameworks).length;
-  var counter = 1;
+  var rendererInstance = this.helper.getInstance('renderer', true);
 
-  if (!rendererInstance) {
-    this.raiseError('Was not able to load renderer instance!');
-  }
+  this.setProgress('Pre-loading external frameworks ...', 50, 100);
+  rendererInstance.loadFrameworks(cwc.framework.External,
+    '../frameworks/external/');
 
-  for (var framework in frameworks) {
-    if (frameworks.hasOwnProperty(framework)) {
-      var message = 'Loading ' + framework + ' framework ...';
-      this.setProgress(message, counter, numOfFrameworks);
-      rendererInstance.loadFramework(frameworks[framework]);
-      counter++;
-    }
-  }
+  this.setProgress('Pre-loading internal frameworks ...', 50, 100);
+  rendererInstance.loadFrameworks(cwc.framework.Internal,
+    '../frameworks/internal/');
 };
 
 

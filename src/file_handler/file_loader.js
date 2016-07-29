@@ -1,7 +1,7 @@
 /**
  * @fileoverview File loader for the file handler.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 
 /**
  * Handles the file data and sets the file instance accordingly.
- * @param {!string} content
+ * @param {!string|Object} content
  * @param {string=} opt_file_name
  * @param {Object=} opt_file_handler
  * @param {string=} opt_gdrive_id
@@ -128,7 +128,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
-  console.log('Handle file data:', content);
+  console.log('Handle file data', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
   var fileType = cwc.file.detector.detectType(
@@ -194,6 +194,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
           break;
         case cwc.file.ContentType.COFFEESCRIPT:
           editorType = cwc.ui.EditorType.COFFEESCRIPT;
+          break;
+        case cwc.file.ContentType.PYTHON:
+          editorType = cwc.ui.EditorType.PYTHON;
           break;
       }
       modeInstance.addEditorView(editorView, editorContent, editorType);
@@ -289,7 +292,7 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
   if (file && content) {
     callback.call(opt_callback_scope, file, file_entry, content);
   } else {
-    this.helper.error('Unable to open file ' + file + '!');
+    this.helper.showError('Unable to open file ' + file + '!');
   }
 };
 
@@ -297,22 +300,20 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 /**
  * @param {string} file
  * @param {Function=} opt_callback
- * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
-    opt_callback, opt_callback_scope) {
+    opt_callback) {
   if (file) {
     console.log('Loading file', file, '...');
     var xhr = new goog.net.XhrIo();
     var xhrEvent = this.resourceFileHandler.bind(this);
     var filename = file.replace(/^.*(\\|\/|\:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.COMPLETE, function(e) {
-      if (e.target.isSuccess()) {
-        xhrEvent(e, filename, opt_callback, opt_callback_scope);
-      } else {
-        this.helper.error('Unable to open file ' + file + ':' +
-            e.target.getLastError());
-      }
+    goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
+      xhrEvent(e, filename, opt_callback);
+    });
+    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
+      this.helper.showError('Unable to open file ' + file + ':' +
+          e.target.getLastError());
     });
     xhr.send(file);
   }

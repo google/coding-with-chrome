@@ -1,7 +1,7 @@
 /**
  * @fileoverview Select screen for the different coding modes and formats.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,10 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(cwc.soy.SelectScreen.style({
-      'prefix': this.prefix, 'version': this.helper.getAppVersion()}));
+      'prefix': this.prefix,
+      'version': this.helper.getAppVersion(),
+      'debug': this.helper.debugEnabled()
+    }));
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -131,7 +134,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     if (!this.lockBasicMode && !this.lockAdvancedMode &&
         userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.FULLSCREEN)) {
-      chrome.app.window.current().maximize();
+      chrome.app.window.current()['maximize']();
     }
   }
 
@@ -168,7 +171,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
  * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
-  this.showTemplate_('welcome');
+  this.showTemplate_(cwc.soy.SelectScreen.welcome);
 
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
@@ -184,6 +187,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   }
   this.setClickEvent_('link-normal-mode', this.showNormalOverview);
   this.setClickEvent_('link-advanced-mode', this.showAdvancedOverview);
+  this.setClickEvent_('link-intro', this.showIntro);
 };
 
 
@@ -194,6 +198,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
 cwc.ui.SelectScreen.prototype.showNormalOverview = function(
     opt_force_overview) {
   this.lockBasicMode = true;
+  this.lockAdvancedMode = false;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
@@ -217,6 +222,7 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function(
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
     opt_force_overview) {
   this.lockAdvancedMode = true;
+  this.lockBasicMode = false;
   if (this.updateMode) {
     var userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
@@ -235,6 +241,14 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
 
 
 /**
+ * Shows the intro.
+ */
+cwc.ui.SelectScreen.prototype.showIntro = function() {
+  this.helper.getInstance('help').showIntro();
+};
+
+
+/**
  * @param {!string} title
  * @param {string=} opt_icon
  * @param {string=} opt_color_class
@@ -248,20 +262,19 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
   }
 };
 
+
 /**
- * @param {!string} template_name
- * @param {Object} opt_template
+ * @param {!cwc.soy.SelectScreen} template
  * @private
  */
-cwc.ui.SelectScreen.prototype.showTemplate_ = function(template_name,
-    opt_template) {
-  if (this.nodeContent && template_name) {
-    var templateConfig = {'prefix': this.prefix};
-    var template = opt_template || cwc.soy.SelectScreen;
-    goog.soy.renderElement(this.nodeContent, template[template_name],
-        templateConfig);
+cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
+  if (this.nodeContent && template) {
+    goog.soy.renderElement(this.nodeContent, template, {
+      prefix: this.prefix,
+      online: this.helper.checkFeature('online')
+    });
   } else {
-    console.error('Unable to render template', template_name);
+    console.error('Unable to render template', template);
   }
 };
 

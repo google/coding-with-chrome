@@ -1,7 +1,7 @@
 /**
  * @fileoverview Runner for the EV3 modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.ev3.Command} */
+  /** @type {!cwc.runner.profile.ev3.Monitor} */
   this.monitor = new cwc.runner.profile.ev3.Monitor(this.turtle);
 
   /** @type {Element} */
@@ -194,6 +194,10 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
+
+  if (templates.info) {
+    this.runner.showInfoButton(true);
+  }
 
   if (this.showPreview) {
     this.runner.showTurtle(true);

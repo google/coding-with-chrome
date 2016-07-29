@@ -1,7 +1,7 @@
 /**
  * @fileoverview Runner for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -200,13 +200,11 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-        cwc.soy.Runner.style({ 'prefix': this.prefix }));
+        cwc.soy.Runner.style({ prefix: this.prefix }));
   }
 
-  goog.soy.renderElement(
-      this.node,
-      cwc.soy.Runner.template,
-      { 'prefix': this.prefix }
+  goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
+    prefix: this.prefix }
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
@@ -224,9 +222,11 @@ cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
   this.infobar.decorate(this.nodeInfobar);
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  this.toolbar = new cwc.ui.RunnerToolbar(this.helper, this.prefix);
-  this.toolbar.decorate(this.nodeToolbar);
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  if (this.nodeToolbar) {
+    this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar, this.prefix);
+  }
 
   // Statusbar
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
@@ -459,6 +459,16 @@ cwc.ui.Runner.prototype.showConnect = function() {
  */
 cwc.ui.Runner.prototype.showDisconnect = function() {
   this.renderStatusTemplate(this.templateDisconnect);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Runner.prototype.showInfoButton = function(visible) {
+  if (this.toolbar) {
+    this.toolbar.showInfoButton(visible);
+  }
 };
 
 
@@ -776,8 +786,11 @@ cwc.ui.Runner.prototype.handleUnresponsive = function(opt_event) {
 
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Unresponsive Warning',
-    'The preview is unresponsive! Terminate?',
-    this.terminate.bind(this));
+    'The preview is unresponsive! Terminate?').then((answer) => {
+      if (answer) {
+        this.terminate();
+      }
+    });
 };
 
 

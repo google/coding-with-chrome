@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor mode config data for the Coding with Chrome editor.
  *
- * @license Copyright 2016 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.pencilCode.advanced.Mod');
+goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
 goog.require('cwc.mode.mbot.blockly.Mod');
@@ -163,7 +164,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
 
 
 /**
- * Basic mode.
+ * Pencilcode mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
   name: 'Pencil Code',
@@ -171,6 +172,19 @@ cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
   icon: 'mode_edit',
   file_type: cwc.file.Type.PENCIL_CODE,
   mod: cwc.mode.pencilCode.advanced.Mod,
+  authors: ['Markus Bordihn']
+});
+
+
+/**
+ * Python mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
+  name: 'Python',
+  title: 'Python',
+  icon: 'mode_edit',
+  file_type: cwc.file.Type.PYTHON,
+  mod: cwc.mode.python.Mod,
   authors: ['Markus Bordihn']
 });
 

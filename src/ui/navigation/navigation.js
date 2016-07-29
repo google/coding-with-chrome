@@ -1,7 +1,7 @@
 /**
  * @fileoverview Navigation for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ goog.require('cwc.soy.ui.Navigation');
 goog.require('cwc.ui.Helper');
 
 goog.require('goog.ui.KeyboardShortcutHandler');
+goog.require('goog.dom');
 
 
 
@@ -45,49 +46,32 @@ cwc.ui.Navigation = function(helper) {
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
-  /** @type {!goog.ui.MenuItem} */
-  this.menuNew = cwc.ui.Helper.getNavigationItem('New project',
-      'Start a new project', this.requestShowSelectScreenOverview, this);
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuNewFile = cwc.ui.Helper.getNavigationItem('New file',
-      'Start a file', this.requestShowSelectScreen, this);
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuOpenFile = cwc.ui.Helper.getNavigationItem('Open file',
-      'Open a local file ...', this.requestOpenFile, this);
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuSaveAsFile = cwc.ui.Helper.getNavigationItem('Save as new file',
-      'Save as new file ...', this.saveFileAs, this);
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuAbout = cwc.ui.Helper.getLinkButton('About',
-      'Learn more about Coding with Chrome', this.showAbout.bind(this));
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuDebug = cwc.ui.Helper.getIconButton('build',
-      'Open Debug', this.showDebug.bind(this));
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuSettings = cwc.ui.Helper.getIconButton('settings',
-      'Open settings', this.showSettings.bind(this));
-
-  /** @type {!goog.ui.MenuItem} */
-  this.menuHelp = cwc.ui.Helper.getIconButton('help',
-      'Help', this.showHelp.bind(this));
-
   /** @type {Element} */
   this.node = null;
 
   /** @type {Element} */
-  this.nodeItems = null;
+  this.nodeNewProject = null;
 
   /** @type {Element} */
-  this.nodeFooterLeft = null;
+  this.nodeNewFile = null;
 
   /** @type {Element} */
-  this.nodeFooterRight = null;
+  this.nodeOpenFile = null;
+
+  /** @type {Element} */
+  this.nodeSaveFile = null;
+
+  /** @type {Element} */
+  this.nodeAbout = null;
+
+  /** @type {Element} */
+  this.nodeDebug = null;
+
+  /** @type {Element} */
+  this.nodeSettings = null;
+
+  /** @type {Element} */
+  this.nodeHelp = null;
 
   /** @type {!goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
@@ -113,35 +97,44 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
         cwc.soy.ui.Navigation.style({ 'prefix': this.prefix }));
   }
 
-  goog.soy.renderElement(
-      this.node, cwc.soy.ui.Navigation.template, {'prefix': this.prefix});
+  goog.soy.renderElement(this.node, cwc.soy.ui.Navigation.template, {
+    'prefix': this.prefix
+  });
 
-  this.nodeItems = goog.dom.getElement(this.prefix + 'items');
-  this.nodeFooterLeft = goog.dom.getElement(this.prefix + 'footer_left');
-  this.nodeFooterRight = goog.dom.getElement(this.prefix + 'footer_right');
+  // Navigation Items
+  this.nodeNewProject = goog.dom.getElement(this.prefix + 'new-project');
+  this.nodeNewFile = goog.dom.getElement(this.prefix + 'new-file');
+  this.nodeOpenFile = goog.dom.getElement(this.prefix + 'open-file');
+  this.nodeSaveFile = goog.dom.getElement(this.prefix + 'save-file');
 
+  // Footer Items
+  this.nodeAbout = goog.dom.getElement(this.prefix + 'about');
+  this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
+  this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
+  this.nodeHelp = goog.dom.getElement(this.prefix + 'help');
 
-  this.menuNew.render(this.nodeItems);
-  cwc.ui.Helper.decorateIcon(this.menuNew, 'apps');
+  goog.style.showElement(this.nodeDebug, this.helper.debugEnabled());
 
-  this.menuNewFile.render(this.nodeItems);
-  cwc.ui.Helper.decorateIcon(this.menuNewFile, 'add');
+  // Events
+  goog.events.listen(this.nodeNewProject, goog.events.EventType.CLICK,
+    this.requestShowSelectScreenOverview.bind(this));
+  goog.events.listen(this.nodeNewFile, goog.events.EventType.CLICK,
+    this.requestShowSelectScreen.bind(this));
+  goog.events.listen(this.nodeOpenFile, goog.events.EventType.CLICK,
+    this.requestOpenFile.bind(this));
+  goog.events.listen(this.nodeSaveFile, goog.events.EventType.CLICK,
+    this.saveFileAs.bind(this));
 
-  this.menuOpenFile.render(this.nodeItems);
-  cwc.ui.Helper.decorateIcon(this.menuOpenFile, 'open_in_browser');
+  goog.events.listen(this.nodeAbout, goog.events.EventType.CLICK,
+    this.showAbout.bind(this));
+  goog.events.listen(this.nodeDebug, goog.events.EventType.CLICK,
+    this.showDebug.bind(this));
+  goog.events.listen(this.nodeSettings, goog.events.EventType.CLICK,
+    this.showSettings.bind(this));
+  goog.events.listen(this.nodeHelp, goog.events.EventType.CLICK,
+    this.showHelp.bind(this));
 
-  this.menuSaveAsFile.render(this.nodeItems);
-  cwc.ui.Helper.decorateIcon(this.menuSaveAsFile, 'save');
-
-  this.menuAbout.render(this.nodeFooterLeft);
-
-  if (this.helper.debugEnabled()) {
-    this.menuDebug.render(this.nodeFooterRight);
-  }
-  this.menuSettings.render(this.nodeFooterRight);
-  this.menuHelp.render(this.nodeFooterRight);
-
-  // Add keyboard shortcuts.
+  // Keyboard shortcuts events.
   this.shortcutHandler.registerShortcut('new_file', 'ctrl+n');
   this.shortcutHandler.registerShortcut('open_file', 'ctrl+o');
   this.shortcutHandler.registerShortcut('save_file', 'ctrl+s');
@@ -160,7 +153,7 @@ cwc.ui.Navigation.prototype.toggle = function() {
   if (!mdlLayout) {
     return;
   }
-  mdlLayout.MaterialLayout.toggleDrawer();
+  mdlLayout['MaterialLayout']['toggleDrawer']();
 };
 
 
@@ -172,8 +165,8 @@ cwc.ui.Navigation.prototype.show = function() {
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
-  if (mdlLayoutClassName.indexOf('is-visible') === -1) {
+  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
+  if (!mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
 };
@@ -187,8 +180,8 @@ cwc.ui.Navigation.prototype.hide = function() {
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout.MaterialLayout.obfuscator_.className;
-  if (mdlLayoutClassName.indexOf('is-visible') !== -1) {
+  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
+  if (mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
 };
@@ -254,7 +247,6 @@ cwc.ui.Navigation.prototype.showSettings = function() {
     settingScreenInstance.show();
     this.hide();
   }
-  console.log('Show settings screen');
   this.hide();
 };
 
@@ -263,7 +255,7 @@ cwc.ui.Navigation.prototype.showSettings = function() {
  * Shows about screen.
  */
 cwc.ui.Navigation.prototype.showAbout = function() {
-  this.helper.executeInstance('help', 'showAbout');
+  this.helper.getInstance('help').showAbout();
   this.hide();
 };
 
@@ -272,7 +264,7 @@ cwc.ui.Navigation.prototype.showAbout = function() {
  * Shows debug screen.
  */
 cwc.ui.Navigation.prototype.showDebug = function() {
-  this.helper.executeInstance('help', 'showDebug');
+  this.helper.getInstance('help').showDebug();
   this.hide();
 };
 
@@ -281,7 +273,7 @@ cwc.ui.Navigation.prototype.showDebug = function() {
  * Shows help screen.
  */
 cwc.ui.Navigation.prototype.showHelp = function() {
-  this.helper.executeInstance('help', 'showHelp');
+  this.helper.getInstance('help').showHelp();
   this.hide();
 };
 
@@ -290,11 +282,8 @@ cwc.ui.Navigation.prototype.showHelp = function() {
  * Saves the currently open file.
  */
 cwc.ui.Navigation.prototype.saveFile = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
-  if (fileSaverInstance) {
-    fileSaverInstance.saveFile();
-    this.hide();
-  }
+  this.helper.getInstance('fileSaver').saveFile();
+  this.hide();
 };
 
 

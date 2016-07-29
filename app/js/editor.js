@@ -1,7 +1,7 @@
 /**
  * @fileoverview Coding with Chrome editor screen.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,31 +19,38 @@
  */
 
 
+var cwcChromeSupport = (
+  typeof chrome !== 'undefined' &&
+  typeof chrome.app !== 'undefined' &&
+  typeof chrome.app.window !== 'undefined');
+
 var cwcBuildUi = function() {
-  var loader = chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({'command': 'progress',
-      'text': 'Build the Coding with Chrome UI ...',
-      'current': 1, 'total': 100 }, '*');
+  if (cwcChromeSupport) {
+    var loader = chrome.app.window.get('loader');
+    if (loader) {
+      loader.contentWindow.postMessage({'command': 'progress',
+        'text': 'Build the Coding with Chrome UI ...',
+        'current': 1, 'total': 100 }, '*');
+    }
+    if (typeof cwc == 'undefined') {
+      if (loader) {
+        loader.contentWindow.postMessage({'command': 'error',
+          'msg': 'The cwc namespace is undefined!\n' +
+            'Please make sure that the compiler runs without any errors!'},
+          '*');
+      }
+      return null;
+    } else if (typeof cwc.ui.Builder == 'undefined') {
+      if (loader) {
+        loader.contentWindow.postMessage({'command': 'error',
+          'msg': 'cwc.ui.Builder is undefined!\n' +
+            'Maybe an uncaught TypeError, SyntaxError, ...'},
+          '*');
+      }
+      return null;
+    }
   }
   var editorNode = document.getElementById('cwc-editor');
-  if (cwc == undefined) {
-    if (loader) {
-      loader.contentWindow.postMessage({'command': 'error',
-        'msg': 'The cwc namespace is undefined!\n' +
-          'Please make sure that the compiler runs without any errors!'},
-        '*');
-    }
-    return null;
-  } else if (cwc.ui.Builder == undefined) {
-    if (loader) {
-      loader.contentWindow.postMessage({'command': 'error',
-        'msg': 'cwc.ui.Builder is undefined!\n' +
-          'Maybe an uncaught TypeError, SyntaxError, ...'},
-        '*');
-    }
-    return null;
-  }
   var uiBuilder = new cwc.ui.Builder();
   uiBuilder.decorate(editorNode);
   return uiBuilder;
@@ -53,7 +60,7 @@ var cwcBuildUi = function() {
 var cwcLoadScripts = function() {
   var header = document.getElementsByTagName('head')[0];
   if (header) {
-    var loader = chrome.app.window.get('loader');
+    var loader = cwcChromeSupport && chrome.app.window.get('loader');
     var message = 'Loading additional JavaScripts ...';
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
@@ -82,6 +89,7 @@ var cwcLoadScripts = function() {
     console.error('Seems DOM content is not ready!');
   }
 };
+
 
 
 window.addEventListener('load', cwcBuildUi, false);

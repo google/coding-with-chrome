@@ -1,7 +1,7 @@
 /**
  * @fileoverview Help for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,9 @@ cwc.ui.Help = function(helper) {
 
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
+
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -51,10 +54,22 @@ cwc.ui.Help = function(helper) {
  */
 cwc.ui.Help.prototype.showAbout = function() {
   var dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('About Coding with Chrome', cwc.soy.Help.about,
-    {'prefix': this.prefix, 'manifest': chrome.runtime.getManifest()});
+  dialogInstance.showTemplate('About Coding with Chrome', cwc.soy.Help.about, {
+    prefix: this.prefix,
+    manifest: this.helper.getManifest()
+  });
   var noticeLink = goog.dom.getElement(this.prefix + 'notice-link');
   noticeLink.addEventListener('click', this.showOpenSource.bind(this));
+};
+
+
+/**
+ * @export
+ */
+cwc.ui.Help.prototype.showIntro = function() {
+  var dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showTemplate('Intro', cwc.soy.Help.intro, {
+    prefix: this.prefix});
 };
 
 
@@ -64,10 +79,13 @@ cwc.ui.Help.prototype.showAbout = function() {
 cwc.ui.Help.prototype.showOpenSource = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Coding with Chrome Credits',
-    cwc.soy.Help.notice, {'prefix': this.prefix});
+    cwc.soy.Help.notice, {
+      prefix: this.prefix,
+      is_chrome_app: this.chromeApp_
+    });
   var noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
   noticeWebview.addEventListener('contentload', function() {
-    noticeWebview.insertCSS({ code: 'html {overflow-y: scroll;}'});
+    noticeWebview['insertCSS']({ 'code': 'html {overflow-y: scroll;}'});
   }.bind(this));
 };
 

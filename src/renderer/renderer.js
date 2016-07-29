@@ -1,7 +1,7 @@
 /**
  * @fileoverview Renderer for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ goog.provide('cwc.renderer.Renderer');
 goog.require('cwc.file.Files');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.string');
 
 
@@ -54,12 +55,27 @@ cwc.renderer.Renderer = function(helper) {
 
 
 /**
- * Loads framework into memory.
- * @param {!string} file Filename of the framework file.
+ * Preloads frameworks into memory.
+ * @param {!Object} frameworks Framework files.
+ * @param {string=} opt_prefix_path
  */
-cwc.renderer.Renderer.prototype.loadFramework = function(file) {
+cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
+    opt_prefix_path = '') {
   var fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-  fileLoaderInstance.getResourceFile(file, this.addFramework, this);
+
+  for (let framework of Object.keys(frameworks)) {
+    if (goog.isString(frameworks[framework])) {
+      fileLoaderInstance.getResourceFile(
+        opt_prefix_path + frameworks[framework],
+        this.addFramework.bind(this));
+    } else {
+      for (let file of Object.keys(frameworks[framework])) {
+        fileLoaderInstance.getResourceFile(
+          opt_prefix_path + frameworks[framework][file],
+          this.addFramework.bind(this));
+      }
+    }
+  }
 };
 
 
@@ -70,15 +86,11 @@ cwc.renderer.Renderer.prototype.loadFramework = function(file) {
  */
 cwc.renderer.Renderer.prototype.addFramework = function(name, content,
     opt_type) {
-  var frameworkContent = content;
+  var frameworkContent = this.rendererHelper.getDataUrl(content,
+      'text/javascript');
   if (!frameworkContent) {
     console.error('Received empty content for framework', name);
     return;
-  }
-
-  if (!goog.string.startsWith(content, 'data:')) {
-    frameworkContent = this.rendererHelper.getDataUrl(content,
-      'text/javascript');
   }
 
   var frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,
@@ -135,9 +147,13 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
   if (fileInstance) {
     this.libraryFiles = fileInstance.getFiles();
   }
+  var content = editorInstance.getEditorContent();
+  if (!content) {
+    console.warn('Empty render content!');
+  }
 
   return this.renderer(
-      editorInstance.getEditorContent(),
+      content,
       editorInstance.getEditorFlags(),
       this.libraryFiles,
       this.frameworkFiles,

@@ -1,6 +1,8 @@
 build/externs
-test/genfiles
 doc
-node_modules
-third_party
 genfiles
+gensoyfiles
+patches
+node_modules
+test/genfiles
+third_party

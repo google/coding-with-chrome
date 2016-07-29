@@ -1,7 +1,7 @@
 /**
  * @fileoverview Show an debug screen for simple testing.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,11 @@
  */
 goog.provide('cwc.ui.Debug');
 
+goog.require('cwc.config.Debug');
 goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
-goog.require('cwc.ui.DialogType');
+goog.require('cwc.utils.DialogType');
 goog.require('cwc.ui.MessageType');
 goog.require('cwc.utils.Helper');
 
@@ -36,6 +37,9 @@ goog.require('cwc.utils.Helper');
 cwc.ui.Debug = function(helper) {
   /** @type {string} */
   this.name = 'Debug';
+
+  /** @type {!boolean} */
+  this.enabled = false;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -52,6 +56,18 @@ cwc.ui.Debug = function(helper) {
 
 
 /**
+ * Prepares the debug screen.
+ */
+cwc.ui.Debug.prototype.prepare = function() {
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.DEBUG_MODE) || false;
+  }
+};
+
+
+/**
  * Decorates the given node and adds the debug screen.
  * @param {Element} node
  * @param {string=} opt_prefix
@@ -62,11 +78,11 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.Debug.template, {
-        'prefix': this.prefix,
-        'file_types': cwc.file.Type,
-        'mode_types': cwc.mode.Type,
-        'dialog_types': cwc.ui.DialogType,
-        'message_types': cwc.ui.MessageType
+        prefix: this.prefix,
+        file_types: cwc.file.Type,
+        mode_types: cwc.mode.Type,
+        dialog_types: cwc.utils.DialogType,
+        message_types: cwc.ui.MessageType
       }
   );
 
@@ -92,18 +108,33 @@ cwc.ui.Debug.prototype.addEvents = function() {
       this.handleModeType);
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
       this.handleMessageType);
+
+  var dialogInstance = this.helper.getInstance('dialog');
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_show'),
-      function() {
-        this.helper.executeInstance('dialog', 'show');
-      });
+    function() {
+      this.helper.getInstance('dialog').show();
+    });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showModal'),
-      function() {
-        this.helper.executeInstance('dialog', 'showModal');
-      });
+    function() {
+      this.helper.getInstance('dialog').showModal();
+    });
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_close'),
-      function() {
-        this.helper.executeInstance('dialog', 'close');
-      });
+    function() {
+      this.helper.getInstance('dialog').close();
+    });
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_showPrompt'),
+    function() {
+      dialogInstance.showPrompt('Prompt', 'Whats your name', 'nobody').then(
+        function(result) {
+          console.log('Test result', result);
+        }
+      );
+    });
+
+  this.addLinkHandler(goog.dom.getElement(this.prefix + 'i18n_untranslated'),
+    function() {
+      this.helper.getInstance('i18n').getToDo();
+    });
 };
 
 
@@ -206,4 +237,22 @@ cwc.ui.Debug.prototype.newMessage = function(type) {
   if (messageInstance) {
     messageInstance.showMessage('Test message: ' + type, type);
   }
+};
+
+
+/**
+ * @param {string=} opt_name
+ * @return {!boolean}
+ * @export
+ */
+cwc.ui.Debug.prototype.isEnabled = function(opt_name) {
+  if (!opt_name) {
+    return this.enabled;
+  }
+
+  var name = opt_name || 'ENABLED';
+  if (name in cwc.config.Debug) {
+    return cwc.config.Debug[name];
+  }
+  return false;
 };

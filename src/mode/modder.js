@@ -2,7 +2,7 @@
  * @fileoverview Modder for the Coding with Chrome editor.
  * The modder allows user to define custom editor views and custom features.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

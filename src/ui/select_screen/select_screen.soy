@@ -1,7 +1,7 @@
 /**
  * @fileoverview Select screen for Coding in Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.SelectScreen autoescape="strict"}
 
 
@@ -26,6 +25,7 @@
  */
 {template .template}
   {@param prefix: string}
+
   <div id="{$prefix}body" class="mdl-color--grey-200">
     <div id="{$prefix}content"></div>
   </div>
@@ -37,15 +37,28 @@
  */
 {template .welcome}
   {@param prefix: string}
-  <div id="{$prefix}welcome" class="{$prefix}version">
-    <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Welcome to Coding with Chrome!</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        Coding with Chrome is an Educational Development Environment.<br>
-        First, please <b>select your current coding skill.</b><br>
-      </div>
+  {@param online: bool}
+
+  {call .header_}
+    {param prefix: $prefix /}
+    {param title: 'Welcome to Coding with Chrome!' /}
+    {param text: 'Coding with Chrome is an Educational Development Environment.' /}
+    {param opt_text kind="html"}
+      {if $online}
+        {msg desc=""}
+          <span id="{$prefix}link-intro" class="link_text">Click here</span> to see our short introduction to Coding with Chrome.
+        {/msg}
+      {/if}
+    {/param}
+    {param opt_action kind="html"}
+      {msg desc=""}
+        First, please <b>select your current coding skill.</b>
+      {/msg}
+    {/param}
+  {/call}
+
+  <div id="{$prefix}welcome" class="{$prefix}version {$prefix}debug">
+
       <div class="mdl-grid">
 
         {call .choiceCard_}
@@ -54,8 +67,8 @@
           {param text: 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.' /}
           {param action: 'Use Beginner Mode' /}
           {param link_id: 'normal-mode' /}
-          {param opt_color_class: 'mdl-color--teal-50' /}
-          {param opt_image: '../../images/selection/blockly.png' /}
+          {param color_class: 'mdl-color--teal-50' /}
+          {param image: 'images/selection/blockly.png' /}
         {/call}
 
         {call .choiceCard_}
@@ -64,29 +77,67 @@
           {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code.' /}
           {param action: 'Use Advanced Mode' /}
           {param link_id: 'advanced-mode' /}
-          {param opt_color_class: 'mdl-color--orange-50' /}
-          {param opt_image: '../../images/selection/code_editor.png' /}
+          {param color_class: 'mdl-color--orange-50' /}
+          {param image: 'images/selection/code_editor.png' /}
         {/call}
 
       </div>
-      <div class="mdl-card__actions mdl-card--border">
+
+      <div id="{$prefix}sub-note">
         <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
           <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
           <div class="mdl-checkbox__label">
-            Show screen on Startup
+            {msg desc=""}
+              Show screen on Startup
+            {/msg}
             <span class="mdl-card__supporting-text">
-              (You can change your choice at any time in the settings menu.)
+              ({msg desc=""}
+                  You can change your choice at any time in the settings menu.
+              {/msg})
             </span>
           </div>
-       </label>
+        </label>
       </div>
+
+  </div>
+{/template}
+
+
+/**
+ * Header template.
+ */
+{template .header_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param text: string}
+  {@param? opt_text: html}
+  {@param? opt_action: html}
+
+  <div id="{$prefix}band">
+    <div id="{$prefix}band-text">
+      <div class="mdl-typography--display-1 mdl-typography--font-thin">
+        {msg desc=""}{$title}{/msg}
+      </div>
+      <p class="mdl-typography--headline mdl-typography--font-thin">
+        {msg desc=""}{$text}{/msg}
+      </p>
+      {if $opt_text}
+        <p id="{$prefix}band-sub-text">
+          {$opt_text}
+        </p>
+      {/if}
+      {if $opt_action}
+        <p id="{$prefix}band-action" class="mdl-typography--font-regular mdl-typography--text-uppercase">
+          {$opt_action}<i class="material-icons">chevron_right</i>
+        </p>
+      {/if}
     </div>
   </div>
 {/template}
 
 
 /**
- * CSS style definitions.
+ * Choice Card.
  */
 {template .choiceCard_}
   {@param prefix: string}
@@ -94,21 +145,28 @@
   {@param text: string}
   {@param action: string}
   {@param link_id: string}
-  {@param? opt_color_class: string}
-  {@param? opt_image: string}
+  {@param color_class: string}
+  {@param image: string}
 
-  <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col">
-    <div class="mdl-card mdl-shadow--2dp{if $opt_color_class} {$opt_color_class}{/if}">
-      <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">{$title}</h2>
-      </div>
-      {if $opt_color_class}<p><img src="{$opt_image}"></p>{/if}
-      <div class="mdl-card__supporting-text">{$text}</div>
-      <div class="mdl-card__actions">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          {$action}
-        </a>
-      </div>
+  <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp{if $color_class} {$color_class}{/if}">
+    <div class="mdl-card__media">
+      <img src="../{$image}">
+    </div>
+    <div class="mdl-card__title">
+       <h4 class="mdl-card__title-text">
+         {msg desc="title_text"}{$title}{/msg}
+      </h4>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <span class="mdl-typography--font-light mdl-typography--subhead">
+        {msg desc="support_text"}{$text}{/msg}
+      </span>
+    </div>
+    <div class="mdl-card__actions">
+       <a class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase" href="#{$link_id}">
+         {msg desc="action_text"}{$action}{/msg}
+         <i class="material-icons">chevron_right</i>
+       </a>
     </div>
   </div>
 {/template}
@@ -120,69 +178,108 @@
 {template .style}
   {@param prefix: string}
   {@param version: string}
+  {@param debug: bool}
 
   .{$prefix}version:before {lb}
     background: #00f;
     color: #fff;
     content: "{$version}";
-    font-size: 13px;
-    height: 25px;
     left: -22px;
     line-height: 25px;
     position: fixed;
     text-align: center;
-    text-transform: uppercase;
     bottom: 8px;
     transform: rotate(45deg);
     width: 90px;
     opacity: 0.5;
   {rb}
 
+  {if $debug}
+    .{$prefix}debug:after {lb}
+      background: #f00;
+      color: #fff;
+      content: "Debug Mode";
+      left: -55px;
+      line-height: 25px;
+      position: fixed;
+      text-align: center;
+      bottom: 25px;
+      transform: rotate(45deg);
+      width: 190px;
+      opacity: 0.5;
+    {rb}
+  {/if}
+
   #{$prefix}body {lb}
     min-height: 100%;
+  {rb}
+
+  #{$prefix}band {lb}
+    width: 100%;
+    text-align: center;
+    background-color: rgb(63, 81, 181);
+  {rb}
+
+  #{$prefix}band-text {lb}
+    max-width: 800px;
+    margin-left: 20%;
+    padding: 20px;
+    text-align: left;
+    color: white;
+  {rb}
+
+  #{$prefix}band-text .mdl-typography--headline {lb}
+    margin: 0 0 10px;
+  {rb}
+
+  #{$prefix}band-sub-text {lb}
+    margin: 0;
+  {rb}
+
+  #{$prefix}band-action {lb}
+    text-decoration: none;
+    margin: 0;
+  {rb}
+
+  #{$prefix}band-action > .material-icons {lb}
+    vertical-align: top;
   {rb}
 
   #{$prefix}welcome {lb}
     padding: 20px;
   {rb}
 
-  #{$prefix}welcome > .mdl-card {lb}
-    width: 750px;
-    margin: auto;
+  #{$prefix}welcome > .mdl-grid {lb}
+    max-width: 800px;
   {rb}
 
-  #{$prefix}welcome > .mdl-card > .mdl-card__supporting-text {lb}
-    padding-bottom: 0;
-    padding-top: 0;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell {lb}
-    padding: 10px;
-  {rb}
-
-
-  #{$prefix}welcome .mdl-cell > .mdl-card {lb}
-    width: 100%;
-  {rb}
-
-  #{$prefix}welcome .mdl-cell > .mdl-card:hover {lb}
+  #{$prefix}welcome .mdl-grid > .mdl-card:hover {lb}
     box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
                 0 1px 10px 0 rgba(0,0,0,.32),
                 0 2px 4px -1px rgba(0,0,0,.22);
   {rb}
 
-  #{$prefix}welcome .mdl-cell > .mdl-card > p {lb}
+  #{$prefix}welcome .mdl-grid > .mdl-card > p {lb}
     margin: auto;
   {rb}
 
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__supporting-text {lb}
-    min-height: 55px;
+  #{$prefix}welcome .mdl-grid > .mdl-card > .mdl-card__supporting-text {lb}
+    min-height: 100px;
     padding-bottom: 0;
   {rb}
 
-  #{$prefix}welcome .mdl-cell > .mdl-card > .mdl-card__actions > a {lb}
+  #{$prefix}welcome .mdl-grid > .mdl-card > .mdl-card__actions > a {lb}
     width: 100%;
     box-sizing: border-box;
+  {rb}
+
+  #{$prefix}welcome .mdl-grid > .mdl-card > .mdl-card__media {lb}
+    background-color: #fff;
+  {rb}
+
+  #{$prefix}sub-note {lb}
+    margin: auto;
+    width: 600px;
   {rb}
 
 {/template}

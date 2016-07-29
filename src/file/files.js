@@ -1,7 +1,7 @@
 /**
  * @fileoverview File library to collect and access all files.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ cwc.file.Files.prototype.getFile = function(name,
  */
 cwc.file.Files.prototype.toJSON = function() {
   var data = {};
-  for (var entry in this.data_) {
+  for (let entry in this.data_) {
     if (this.data_.hasOwnProperty(entry)) {
       var file = this.data_[entry];
       data[entry] = file.toJSON();
@@ -107,7 +107,7 @@ cwc.file.Files.prototype.toJSON = function() {
  * @export
  */
 cwc.file.Files.prototype.setData = function(data) {
-  for (var entry in data) {
+  for (let entry in data) {
     if (data.hasOwnProperty(entry)) {
       var file = data[entry];
       this.addFile(
@@ -163,7 +163,7 @@ cwc.file.Files.prototype.clear = function() {
  */
 cwc.file.Files.prototype.updateSize_ = function() {
   var newSize = 0;
-  for (var key in this.data_) {
+  for (let key in this.data_) {
     if (this.data_.hasOwnProperty(key)) {
       newSize++;
     }

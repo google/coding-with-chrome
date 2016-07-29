@@ -4,7 +4,7 @@
  * This api allows to read and control the Lego Mindstorm EV3 sensors and
  * actors over an Bluetooth connection.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -192,14 +192,6 @@ cwc.protocol.ev3.Api.prototype.reset = function(opt_delay) {
   if (this.device) {
     this.device.reset(opt_delay);
   }
-};
-
-
-/**
- * @return {boolean}
- */
-cwc.protocol.ev3.Api.prototype.isConnected = function() {
-  return this.device && this.device.isConnected();
 };
 
 
@@ -544,7 +536,7 @@ cwc.protocol.ev3.Api.prototype.playSound = function(file_name, opt_volume) {
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {number=} opt_step_speed
+ * @param {number=} opt_speed
  * @export
  */
 cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
@@ -603,7 +595,7 @@ cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
  * @export
  */
 cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
-    opt_step_speed, opt_break, opt_single) {
+    opt_step_speed, opt_break) {
   var brake = opt_break === undefined ? true : opt_break;
   var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
   var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];

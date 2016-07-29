@@ -1,7 +1,7 @@
 /**
  * @fileoverview Layout for the Sphero Blockly modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.blockly.Layout');
 
-goog.require('cwc.soy.mode.sphero.blockly');
+goog.require('cwc.soy.mode.sphero.blockly.Layout');
 
 
 
@@ -44,13 +44,13 @@ cwc.mode.sphero.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.sphero.blockly.editor,
+      cwc.soy.mode.sphero.blockly.Layout.editor,
       {'prefix': this.helper.getPrefix('sphero-editor')}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.sphero.blockly.runner,
+      cwc.soy.mode.sphero.blockly.Layout.runner,
       {'prefix': this.helper.getPrefix('sphero-runner')}
   );
 

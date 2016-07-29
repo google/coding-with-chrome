@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handels the pairing and communication with Bluetooth devices.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,11 +57,14 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @type {Object} */
   this.connectionIds = {};
 
-  /** @type {chrome.bluetooth} */
-  this.bluetooth = chrome.bluetooth;
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 
-  /** @type {!chrome.bluetoothSocket} */
-  this.bluetoothSocket = chrome.bluetoothSocket;
+  /** @private {chrome.bluetooth} */
+  this.bluetooth_ = this.isChromeApp_ && chrome.bluetooth;
+
+  /** @private {!chrome.bluetoothSocket} */
+  this.bluetoothSocket_ = this.isChromeApp_ && chrome.bluetoothSocket;
 };
 
 
@@ -69,7 +72,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
  * Prepares the bluetooth api and monitors Bluetooth adapter.
  */
 cwc.protocol.bluetooth.Api.prototype.prepare = function() {
-  if (!this.bluetooth || this.prepared) {
+  if (!this.bluetooth_ || this.prepared) {
     return;
   }
 
@@ -77,12 +80,12 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
 
   // Monitor Bluetooth adapter
   this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,
-      this.bluetooth);
+      this.bluetooth_);
   this.adapter.prepare();
 
   // Monitor Bluetooth devices
   this.devices = new cwc.protocol.bluetooth.Devices(this.helper,
-      this.bluetooth);
+      this.bluetooth_);
   this.devices.prepare();
 
   // Monitor Bluetooth sockets
@@ -128,6 +131,18 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
 
 
 /**
+ * @return {Object}
+ * @export
+ */
+cwc.protocol.bluetooth.Api.prototype.getDevices = function() {
+  if (this.devices) {
+    return this.devices.getDevices();
+  }
+  return null;
+};
+
+
+/**
  * @param {!string} device_name
  * @param {Function} callback
  * @param {boolean=} opt_multisearch
@@ -166,9 +181,9 @@ cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
  * @private
  */
 cwc.protocol.bluetooth.Api.prototype.addEventListener_ = function() {
-  this.bluetoothSocket.onReceive.addListener(
+  this.bluetoothSocket_.onReceive.addListener(
       this.handleOnReceive_.bind(this));
-  this.bluetoothSocket.onReceiveError.addListener(
+  this.bluetoothSocket_.onReceiveError.addListener(
       this.handleOnReceiveError_.bind(this));
 };
 

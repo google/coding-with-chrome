@@ -1,7 +1,7 @@
 /**
  * @fileoverview Layout for the Blockly modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@
  */
 goog.provide('cwc.mode.basic.blockly.Layout');
 
-goog.require('cwc.soy.mode.Basic.blockly');
+goog.require('cwc.soy.mode.Basic.blockly.Blocks');
+goog.require('cwc.soy.mode.Basic.blockly.Layout');
 goog.require('cwc.utils.Helper');
 
 
@@ -49,14 +50,18 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.editor,
-      {'prefix': this.prefix}
+      cwc.soy.mode.Basic.blockly.Layout.editor, {
+        prefix: this.prefix}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.preview,
-      {'prefix': this.prefix}
+      cwc.soy.mode.Basic.blockly.Layout.preview, {
+        prefix: this.prefix}
   );
+
+  var nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
+  goog.soy.renderElement(nodeBlocklyToolbox,
+    cwc.soy.mode.Basic.blockly.Blocks.toolbox);
 
 };

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Advanced select screen for Coding in Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,16 @@
         {param opt_icon: 'memory' /}
       {/call}
 
+      {call .selectCard_}
+        {param prefix: $prefix /}
+        {param title: '3D' /}
+        {param text: 'Create create and display animated 3D computer graphics' /}
+        {param link_text: 'Start Drawing' /}
+        {param link_id: '3d' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: '3d_rotation' /}
+      {/call}
+
     </div>
   </div>
 {/template}
@@ -128,7 +138,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-hello-world.png' /}
+          {param opt_image: 'images/selection/basic-script-hello-world.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -138,7 +148,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-text-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-text-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -148,7 +158,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'line-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-line-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-line-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -158,7 +168,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'point-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-script-point-loop.png' /}
+          {param opt_image: 'images/selection/basic-script-point-loop.png' /}
         {/call}
 
         {call .selectCardBig_}
@@ -168,7 +178,7 @@
           {param link_text: 'Open Example' /}
           {param link_id: 'draw-portal-turret' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '../../images/selection/basic-draw-portal-turret.png' /}
+          {param opt_image: 'images/selection/basic-draw-portal-turret.png' /}
         {/call}
 
       </div>
@@ -224,6 +234,16 @@
 
       {call .selectSection_}
         {param prefix: $prefix /}
+        {param title: 'Python' /}
+        {param text: 'Use the Python language to create programs' /}
+        {param link_text: 'Use Python' /}
+        {param link_id: 'python' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'gesture' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
         {param title: 'Pencil Code' /}
         {param text: 'Draw art, play music or create games' /}
         {param link_text: 'Use Pencil Code' /}
@@ -244,6 +264,7 @@
  */
 {template .javaScriptOverview}
   {@param prefix: string}
+  {@param online: bool}
 
   <div id="{$prefix}javascript-overview" class="mdl-layout__container">
 
@@ -277,6 +298,168 @@
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
           {param opt_text: 'JavaScript file' /}
+        {/call}
+
+        {if $online}
+          {call .selectCardBig_}
+            {param prefix: $prefix /}
+            {param title: 'Video Tutorials' /}
+            {param text: 'Start learning with JavaScript video tutorials on YouTube' /}
+            {param link_text: 'Select Tutorials' /}
+            {param link_id: 'js-tutorials' /}
+            {param opt_color_class: 'bg-green' /}
+            {param opt_icon: 'movie_creation' /}
+            {param opt_text: 'Video Tutorials' /}
+          {/call}
+        {/if}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'JavaScirpt Frameworks' /}
+          {param text: 'Different kind of JavaScript framework examples' /}
+          {param link_text: 'Select Framework' /}
+          {param link_id: 'js-frameworks' /}
+          {param opt_color_class: 'bg-orange' /}
+          {param opt_icon: 'pages' /}
+          {param opt_text: 'JavaScript Frameworks' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Circle Animation' /}
+          {param text: 'Example that animates a Circle.' /}
+          {param link_text: 'Load Circle Animation' /}
+          {param link_id: 'circle-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: 'images/selection/javascript-circle-animation.png' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Triangle Animation' /}
+          {param text: 'Example that animates a Triangle.' /}
+          {param link_text: 'Load Triangle Animation' /}
+          {param link_id: 'triangle-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: 'images/selection/javascript-triangle-animation.png' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * JavaScript Video Tutorial page.
+ */
+{template .javaScriptVideoTutorial}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-videotutorial-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'javascript' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'JavaScript Video Tutorials' /}
+        {param opt_text: 'Learn JavaScript with video tutorials on YouTube.' /}
+        {param opt_color_class: 'bg-green' /}
+        {param opt_icon: 'video_library' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardVideo_}
+          {param title: 'JavaScript Intro' /}
+          {param text: 'In this video, we introduce Coding with Chrome and how you can use it to learn how to program in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'Cbpug5Atmmo' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call .selectCardVideo_}
+          {param title: 'Dates' /}
+          {param text: 'In this video, we write JavaScript to work with dates in Coding with Chrome.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'S3DhDiw0pXs' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call .selectCardVideo_}
+          {param title: 'Birthdays' /}
+          {param text: 'In this video, we use Coding with Chrome to learn about dates in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'R4XE3GW1EUc' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call .selectCardVideo_}
+          {param title: 'Birthday Counter' /}
+          {param text: 'In this video we use Coding with Chrome to build a birthday counter in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'CkoJWKWIWFU' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * JavaScript Frameworks page.
+ */
+{template .javaScriptFrameworks}
+  {@param prefix: string}
+
+  <div id="{$prefix}javascript-frameworks-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'javascript' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'JavaScript Frameworks' /}
+        {param opt_text: 'Learn the different kind of JavaScript frameworks.' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'pages' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Three.js - Cube Example' /}
+          {param text: 'Animated 3d cube.' /}
+          {param link_text: 'Load 3d cube Animation' /}
+          {param link_id: 'cube-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '' /}
         {/call}
 
       </div>
@@ -338,6 +521,69 @@
 
 
 /**
+ * Python overview page.
+ */
+{template .pythonOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'python' /}
+    {/call}
+
+    {call .programmingLanguageHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'python' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: 'Python' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'gesture' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Simple python file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Guess number' /}
+          {param text: 'Simple guess number game.' /}
+          {param link_text: 'Load guess number' /}
+          {param link_id: 'guess-number' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: '' /} {param opt_image: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+    {call .footer_}
+      {param text: '"Python" is a registered trademark of the PSF. The Python logos (in several variants) are use trademarks of the PSF as well.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
  * Pencil code overview page.
  */
 {template .pencilCodeOverview}
@@ -384,7 +630,7 @@
           {param link_text: 'Load turtle catch' /}
           {param link_id: 'turtle-catch' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/pencil-code-turtle-catch.png' /}
+          {param opt_image: 'images/selection/pencil-code-turtle-catch.png' /}
         {/call}
 
       </div>
@@ -482,7 +728,7 @@
           {param link_text: 'Form example' /}
           {param link_id: 'form' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '../../images/selection/html5-form.png' /}
+          {param opt_image: 'images/selection/html5-form.png' /}
         {/call}
 
       </div>
@@ -590,6 +836,7 @@
           {param link_text: 'Line follower example' /}
           {param link_id: 'line-follower' /}
           {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: 'images/selection/ev3-script-line-follow.png' /}
         {/call}
 
       </div>
@@ -650,10 +897,11 @@
           {param prefix: $prefix /}
           {param title: 'Rectangle Example' /}
           {param text: 'Example Sphero is rolling a rectangle.' /}
-          {param link_text: 'Rectangle example.' /}
+          {param link_text: 'Rectangle Example.' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
+          {param opt_image: 'images/selection/sphero-script-rectangle.png' /}
         {/call}
 
       </div>
@@ -663,6 +911,60 @@
     {call .footer_}
       {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
     {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * 3D overview page.
+ */
+{template .graphic3DOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: '3d' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: '3D' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: '3d_rotation' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Simple 3D file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Cube Example' /}
+          {param text: 'Animated 3d cube.' /}
+          {param link_text: 'Load 3d cube Animation' /}
+          {param link_id: 'cube-animation' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_image: 'images/selection/javascript-cube-animation.png' /}
+        {/call}
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -681,10 +983,31 @@
   <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
     {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
     <div class="cwc-band-text">
-      <div class="mdl-typography--display-2 mdl-typography--font-thin">{$title}</div>
-      {if $opt_text}<p class="mdl-typography--headline mdl-typography--font-thin">{$opt_text}</p>{/if}
+      <div class="mdl-typography--display-2 mdl-typography--font-thin">
+        {msg desc=""}{$title}{/msg}
+      </div>
+      {if $opt_text}
+        <p class="mdl-typography--headline mdl-typography--font-thin">
+          {msg desc=""}{$opt_text}{/msg}
+        </p>
+      {/if}
     </div>
   </header>
+{/template}
+
+
+/**
+ * Header link entry.
+ */
+{template .headerLink_}
+  {@param prefix: string}
+  {@param title: string}
+  {@param id: string}
+  {@param active_link: string}
+
+  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}" href="#">
+    {msg desc=""}{$title}{/msg}
+  </a>
 {/template}
 
 
@@ -699,14 +1022,42 @@
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">
         home</a>
-      <a id="{$prefix}menu-basic" class="mdl-navigation__link{if $active_link == 'basic'} is-active{/if}" href="#">
-        Simple</a>
-      <a id="{$prefix}menu-programming-language" class="mdl-navigation__link{if $active_link == 'programming-language'} is-active{/if}" href="#">
-        Programming Language</a>
-      <a id="{$prefix}menu-markup-language" class="mdl-navigation__link{if $active_link == 'markup-language'} is-active{/if}" href="#">
-        Markup Language</a>
-      <a id="{$prefix}menu-robot" class="mdl-navigation__link{if $active_link == 'robot'} is-active{/if}" href="#">
-        Robots</a>
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Simple' /}
+        {param id: 'basic' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Programming Language' /}
+        {param id: 'programming-language' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Markup Language' /}
+        {param id: 'markup-language' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Robots' /}
+        {param id: 'robot' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: '3D' /}
+        {param id: '3d' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -721,9 +1072,35 @@
 
   <header id="{$prefix}navigation-programming-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a id="{$prefix}menu-javascript" class="mdl-navigation__link{if $active_link == 'javascript'} is-active{/if}" href="#">JavaScript</a>
-      <a id="{$prefix}menu-coffeescript" class="mdl-navigation__link{if $active_link == 'coffeescript'} is-active{/if}" href="#">Coffee Script</a>
-      <a id="{$prefix}menu-pencil-code" class="mdl-navigation__link{if $active_link == 'pencil-code'} is-active{/if}" href="#">Pencil Code</a>
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'JavaScript' /}
+        {param id: 'javascript' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'CoffeeScript' /}
+        {param id: 'coffeescript' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Python' /}
+        {param id: 'python' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Pencil Code' /}
+        {param id: 'pencil-code' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -738,22 +1115,14 @@
 
   <header id="{$prefix}navigation-markup-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a id="{$prefix}menu-html5" class="mdl-navigation__link{if $active_link == 'html5'} is-active{/if}" href="#">HTML5</a>
-    </nav>
-  </header>
-{/template}
 
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'HTML5' /}
+        {param id: 'html5' /}
+        {param active_link: $active_link /}
+      {/call}
 
-/**
- * Markdown language header.
- */
-{template .markdownLanguageHeader_}
-  {@param prefix: string}
-  {@param active_link: string}
-
-  <header id="{$prefix}navigation-markdown-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
-    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a id="{$prefix}menu-html5" class="mdl-navigation__link{if $active_link == 'html5'} is-active{/if}" href="#">HTML5</a>
     </nav>
   </header>
 {/template}
@@ -768,8 +1137,21 @@
 
   <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-      <a id="{$prefix}menu-ev3" class="mdl-navigation__link{if $active_link == 'ev3'} is-active{/if}" href="#">EV3</a>
-      <a id="{$prefix}menu-sphero" class="mdl-navigation__link{if $active_link == 'sphero'} is-active{/if}" href="#">Sphero</a>
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'EV3' /}
+        {param id: 'ev3' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Sphero' /}
+        {param id: 'sphero' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -790,16 +1172,20 @@
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
       <div class="mdl-card__supporting-text">
-        <h4>{$title}</h4>
-        {$text}
+        <h4>
+          {msg desc=""}{$title}{/msg}
+        </h4>
+        {msg desc=""}{$text}{/msg}
       </div>
       <div class="mdl-card__actions">
-        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">{$link_text}</a>
+        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">
+          {msg desc=""}{$link_text}{/msg}
+        </a>
       </div>
     </div>
   </section>
@@ -822,18 +1208,22 @@
 
   <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="{$opt_image}">{/if}
+      {if $opt_image}<img src="../{$opt_image}">{/if}
       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
     </div>
     <div class="mdl-card__title">
-       <h4 class="mdl-card__title-text">{$title}</h4>
+      <h4 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h4>
     </div>
     <div class="mdl-card__supporting-text">
-      <span class="mdl-typography--font-light mdl-typography--subhead">{$text}</span>
+      <span class="mdl-typography--font-light mdl-typography--subhead">
+        {msg desc=""}{$text}{/msg}
+      </span>
     </div>
     <div class="mdl-card__actions">
        <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
-         {$link_text}
+         {msg desc=""}{$link_text}{/msg}
          <i class="material-icons">chevron_right</i>
        </a>
     </div>
@@ -857,17 +1247,53 @@
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-       {if $opt_image}<img src="{$opt_image}">{/if}
+       {if $opt_image}<img src="../{$opt_image}">{/if}
        {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
-       {if $opt_text}<div>{$opt_text}</div>{/if}
+       {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
     </div>
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{$title}</h2>
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
     </div>
-    <div class="mdl-card__supporting-text">{$text}</div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
     <div class="mdl-card__actions mdl-card--border">
       <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {$link_text}
+        {msg desc=""}{$link_text}{/msg}
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Select card video design.
+ */
+{template .selectCardVideo_}
+  {@param title: string}
+  {@param text: string}
+  {@param link_text: string}
+  {@param video_id: string}
+  {@param? opt_color_class: string}
+
+  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      <webview style="width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{$video_id}?rel=0&amp;controls=0" frameborder="0"></webview>
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="https://youtu.be/{$video_id}" target="_blank" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+        {msg desc=""}{$link_text}{/msg}
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </a>
     </div>

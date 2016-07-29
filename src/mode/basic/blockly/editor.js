@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor for the Blockly modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.basic.blockly.Editor');
 
-goog.require('cwc.blocks.simple.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -34,10 +33,6 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.mode.basic.blockly.Editor = function(helper) {
-
-  /** @type {!cwc.blocks.simple.Blocks} */
-  this.blocks = cwc.blocks.simple.Blocks;
-
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
 
@@ -71,6 +66,8 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
     return;
   }
+
+  // Blocks toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
@@ -78,13 +75,19 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
         this.nodeBlocklyToolbox);
     return;
   }
+
   this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
   if (!this.nodeEditor) {
     console.error('Was unable to find Editor node:', this.nodeEditor);
     return;
   }
 
-  // Output editor.
+  // Blockly editor.
+  this.helper.setInstance('blockly', this.blockly, true);
+  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
+      this.prefix, true);
+
+  // Text editor.
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor, this.prefix);
   this.editor.showEditor(false);
@@ -92,26 +95,16 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditorTypeInfo(false);
   this.editor.enableMediaButton(true);
 
-  // Blockly editor.
-  this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox,
-      this.prefix, true);
-
   // Custom Events
-  var runText = 'Executes the code.';
-  var blocklyRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-  var editorRunButton = cwc.ui.Helper.getIconToolbarButton(
-      'play_arrow', runText, this.runCode.bind(this));
-
-  this.blockly.addToolbarButton(blocklyRunButton, true);
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
   this.blockly.addChangeListener(this.changeHandler.bind(this));
 
-  this.editor.addToolbarButton(editorRunButton, true);
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
+
+  // Reset size
+  this.blockly.adjustSize();
 };
 
 
@@ -155,8 +148,11 @@ cwc.mode.basic.blockly.Editor.prototype.showEditor = function() {
 cwc.mode.basic.blockly.Editor.prototype.showBlockly = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
-    'overwrite any manual changes! Continue?',
-    this.switchToEditor.bind(this));
+    'overwrite any manual changes! Continue?').then((answer) => {
+      if (answer) {
+        this.switchToEditor();
+      }
+    });
 };
 
 

@@ -1,0 +1,82 @@
+
+[submodule "third_party/coffeescript"]
+	path = third_party/coffeescript
+	url = https://github.com/jashkenas/coffeescript.git
+	ignore = dirty
+
+[submodule "third_party/jquery-dist"]
+	path = third_party/jquery-dist
+	url = https://github.com/jquery/jquery-dist.git
+	ignore = dirty
+
+[submodule "third_party/codemirror"]
+	path = third_party/codemirror
+	url = https://github.com/codemirror/CodeMirror.git
+	ignore = dirty
+
+[submodule "third_party/material-design-icons"]
+	path = third_party/material-design-icons
+	url = https://github.com/google/material-design-icons.git
+	ignore = dirty
+
+[submodule "third_party/material-design-lite"]
+	path = third_party/material-design-lite
+	url = https://github.com/google/material-design-lite.git
+	branch = release
+	ignore = dirty
+
+[submodule "third_party/jshint"]
+	path = third_party/jshint
+	url = https://github.com/jshint/jshint.git
+	ignore = dirty
+
+[submodule "third_party/HTMLHint"]
+	path = third_party/HTMLHint
+	url = https://github.com/yaniswang/HTMLHint.git
+	ignore = dirty
+
+[submodule "third_party/dialog-polyfill"]
+	path = third_party/dialog-polyfill
+	url = https://github.com/GoogleChrome/dialog-polyfill.git
+	ignore = dirty
+
+[submodule "third_party/coffeelint"]
+	path = third_party/coffeelint
+	url = https://github.com/clutchski/coffeelint.git
+	branch = gh-pages
+	ignore = dirty
+
+[submodule "third_party/jquery-turtle"]
+	path = third_party/jquery-turtle
+	url = https://github.com/PencilCode/jquery-turtle.git
+	ignore = dirty
+
+[submodule "third_party/jquery-dist-2.2.4"]
+	path = third_party/jquery-dist-2.2.4
+	url = https://github.com/jquery/jquery-dist.git
+	ignore = dirty
+
+[submodule "third_party/i18next"]
+	path = third_party/i18next
+	url = https://github.com/i18next/i18next.git
+	ignore = dirty
+
+[submodule "third_party/i18next-sprintf"]
+	path = third_party/i18next-sprintf
+	url = https://github.com/i18next/i18next-sprintf-postProcessor.git
+	ignore = dirty
+
+[submodule "third_party/blockly"]
+	path = third_party/blockly
+	url = https://github.com/google/blockly.git
+	ignore = dirty
+
+[submodule "third_party/three.js"]
+	path = third_party/three.js
+	url = https://github.com/mrdoob/three.js.git
+	ignore = dirty
+
+[submodule "third_party/skulpt-dist"]
+	path = third_party/skulpt-dist
+	url = https://github.com/skulpt/skulpt-dist.git
+	ignore = dirty

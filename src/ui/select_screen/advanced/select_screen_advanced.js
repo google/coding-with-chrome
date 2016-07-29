@@ -1,7 +1,7 @@
 /**
  * @fileoverview Advanced select screen for the different coding modes.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,13 +34,17 @@ cwc.ui.SelectScreenAdvancedView = {
   BASIC: 'basicOverview',
   PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
   JAVASCRIPT: 'javaScriptOverview',
+  JAVASCRIPT_FRAMEWORKS: 'javaScriptFrameworks',
+  JAVASCRIPT_TUTORIAL: 'javaScriptVideoTutorial',
   COFFEESCRIPT: 'coffeeScriptOverview',
   PENCIL_CODE: 'pencilCodeOverview',
+  PYTHON: 'pythonOverview',
   MARKUP_LANGUAGE: 'markupLanguageOverview',
   HTML5: 'html5Overview',
   ROBOT: 'robotOverview',
   EV3: 'ev3Overview',
-  SPHERO: 'spheroOverview'
+  SPHERO: 'spheroOverview',
+  GRAPHIC_3D: 'graphic3DOverview'
 };
 
 
@@ -71,6 +75,9 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
 
   /** @type {cwc.ui.SelectScreenAdvancedView} */
   this.currentView = null;
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
 
 
@@ -98,11 +105,10 @@ cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node, opt_prefix) {
  */
 cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
   var name = opt_name || cwc.ui.SelectScreenAdvancedView.OVERVIEW;
-  this.showTemplate_(name);
-  this.addMenuHandler_();
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenAdvancedView.OVERVIEW:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.overview);
       this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenAdvancedView.BASIC);
@@ -112,13 +118,15 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE);
       this.setClickEvent_('link-robot', this.showView,
           cwc.ui.SelectScreenAdvancedView.ROBOT);
+      this.setClickEvent_('link-3d', this.showView,
+          cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D);
       break;
 
     // Basic screen
     case cwc.ui.SelectScreenAdvancedView.BASIC:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.basicOverview);
       this.setNavHeader_('Simple', 'school');
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.BASIC);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
       this.setClickEvent_('link-hello-world', this.loadFile_,
           'resources/examples/simple/script/Hello-World.cwc');
       this.setClickEvent_('link-text-loop', this.loadFile_,
@@ -133,29 +141,61 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Programming Language Overview
     case cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE:
+      this.showTemplate_(
+        cwc.soy.SelectScreenAdvanced.programmingLanguageOverview);
       this.setNavHeader_('Programming', 'view_stream');
       this.setClickEvent_('link-javascript', this.showView,
           cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
       this.setClickEvent_('link-coffeescript', this.showView,
           cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
+      this.setClickEvent_('link-python', this.showView,
+          cwc.ui.SelectScreenAdvancedView.PYTHON);
       this.setClickEvent_('link-pencil-code', this.showView,
           cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
       break;
 
     // Programming Language Screens
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptOverview);
       this.setNavHeader_('JavaScript', 'beenhere');
       this.addProgrammingMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.BASIC);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
+      this.setClickEvent_('link-js-tutorials', this.showView,
+          cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL);
+      this.setClickEvent_('link-js-frameworks', this.showView,
+          cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_FRAMEWORKS);
+      this.setClickEvent_('link-circle-animation', this.loadFile_,
+          'resources/examples/javascript/script/CircleAnimation.cwc');
+      this.setClickEvent_('link-triangle-animation', this.loadFile_,
+          'resources/examples/javascript/script/TriangleAnimation.cwc');
+      break;
+    case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptVideoTutorial);
+      this.addProgrammingMenuHandler_();
+      break;
+    case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_FRAMEWORKS:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptFrameworks);
+      this.addProgrammingMenuHandler_();
+      this.setClickEvent_('link-cube-animation', this.loadFile_,
+          'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.coffeeScriptOverview);
       this.setNavHeader_('CoffeeScript', 'local_cafe');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.COFFEESCRIPT);
       break;
+    case cwc.ui.SelectScreenAdvancedView.PYTHON:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.pythonOverview);
+      this.setNavHeader_('Python', 'gesture');
+      this.addProgrammingMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.PYTHON);
+      this.setClickEvent_('link-guess-number', this.loadFile_,
+          'resources/examples/python/guess-number.py');
+      break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
       this.setNavHeader_('Pencil Code', 'mode_edit');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
@@ -166,22 +206,24 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
 
     // Markup Language Overview
     case cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.markupLanguageOverview);
       this.setNavHeader_('Markup', 'public');
       this.setClickEvent_('link-html5', this.showView,
           cwc.ui.SelectScreenAdvancedView.HTML5);
       break;
 
-    // Markup Language Screens
+    // HTML5 screen
     case cwc.ui.SelectScreenAdvancedView.HTML5:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
       this.setNavHeader_('HTML5', 'public');
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.HTML);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.HTML);
       this.setClickEvent_('link-form', this.loadFile_,
           'resources/examples/html5/form.html');
       break;
 
     // Robot overview
     case cwc.ui.SelectScreenAdvancedView.ROBOT:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.robotOverview);
       this.setNavHeader_('Robots', 'memory');
       this.setClickEvent_('link-ev3', this.showView,
           cwc.ui.SelectScreenAdvancedView.EV3);
@@ -189,27 +231,38 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.SPHERO);
       break;
 
-    // Robot screens
+    // EV3 screen
     case cwc.ui.SelectScreenAdvancedView.EV3:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.EV3);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.EV3);
       this.setClickEvent_('link-line-follower', this.loadFile_,
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
+    // Sphero screen
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.SPHERO);
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.SPHERO);
       this.setClickEvent_('link-rectangle', this.loadFile_,
           'resources/examples/sphero/script/Sphero-rectangle.cwc');
+      break;
+
+    // 3D overview
+    case cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.graphic3DOverview);
+      this.setNavHeader_('3D', '3d_rotation');
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.BASIC);
+      this.setClickEvent_('link-cube-animation', this.loadFile_,
+          'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
 
     default:
       return;
   }
+  this.addMenuHandler_();
   this.currentView = name;
 };
 
@@ -253,6 +306,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE);
   this.setClickEvent_('menu-robot', this.showView,
       cwc.ui.SelectScreenAdvancedView.ROBOT);
+  this.setClickEvent_('menu-3d', this.showView,
+      cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D);
 };
 
 
@@ -265,6 +320,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addProgrammingMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.JAVASCRIPT);
   this.setClickEvent_('menu-coffeescript', this.showView,
       cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
+  this.setClickEvent_('menu-python', this.showView,
+      cwc.ui.SelectScreenAdvancedView.PYTHON);
   this.setClickEvent_('menu-pencil-code', this.showView,
       cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
 };
@@ -283,19 +340,17 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
 
 
 /**
- * @param {!string} template_name
- * @param {Object} opt_template
+ * @param {!cwc.soy.SelectScreenAdvanced} template
  * @private
  */
-cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template_name,
-    opt_template) {
-  if (this.node && template_name) {
-    var templateConfig = {'prefix': this.prefix};
-    var template = opt_template || cwc.soy.SelectScreenAdvanced;
-    goog.soy.renderElement(this.node, template[template_name],
-        templateConfig);
+cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
+  if (this.node && template) {
+    goog.soy.renderElement(this.node, template, {
+      prefix: this.prefix,
+      online: this.helper.checkFeature('online')
+    });
   } else {
-    console.error('Unable to render template', template_name);
+    console.error('Unable to render template', template);
   }
 };
 
@@ -343,9 +398,9 @@ cwc.ui.SelectScreenAdvanced.prototype.newFile_ = function(type) {
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };
 
@@ -360,8 +415,8 @@ cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + file_name);
   }
-  var editorWindow = chrome.app.window.get('editor');
+  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
-    editorWindow.clearAttention();
+    editorWindow['clearAttention']();
   }
 };

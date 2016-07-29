@@ -3,7 +3,7 @@
  *
  * This helper class provides shortcuts to get the different of UI elements.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,23 +29,32 @@ goog.require('goog.net.NetworkStatusMonitor');
 
 /**
  * Helper for automatic feature detection.
- * @param {string=} opt_loglevel
+ * @return {!cwc.utils.Features}
  * @constructor
  * @final
  * @export
  */
-cwc.utils.Features = function(opt_loglevel) {
+cwc.utils.Features = function() {
   /** @type {!string} */
   this.name = 'Features';
 
   /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = opt_loglevel || 5;
+  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
   /** @type {!string} */
   this.defaultGroup = 'general';
+
+  /** @type {!string} */
+  this.browserGroup = 'browser';
+
+  /** @type {!string} */
+  this.chromeGroup = 'chrome';
+
+  /** @type {!string} */
+  this.javaScriptGroup = 'javascript';
 
   /** @private {Object} */
   this.feature_ = {};
@@ -55,15 +64,18 @@ cwc.utils.Features = function(opt_loglevel) {
 
   /** @private {Object} */
   this.offlineMonitor_ = null;
+
+  this.detectFeatures();
 };
 
 
 /**
  * @export
  */
-cwc.utils.Features.prototype.detect = function() {
-  this.detectBrowserFeatures();
+cwc.utils.Features.prototype.detectFeatures = function() {
+  console.log('Detecting features ...');
   this.detectChromeFeatures();
+  this.detectBrowserFeatures();
   this.detectOnlineStatus();
   this.detectJavaScripts();
   this.monitorOnlineStatus();
@@ -76,16 +88,21 @@ cwc.utils.Features.prototype.detect = function() {
  * @export
  */
 cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
-  var group = 'browser';
 
   // Storage features.
-  this.set('storage', typeof Storage, group);
-  this.set('globalStorage', typeof globalStorage, group);
-  this.set('localStorage', typeof localStorage, group);
-  this.set('sessionStorage', typeof sessionStorage, group);
+  this.setBrowserFeature('storage', typeof Storage);
+  this.setBrowserFeature('globalStorage', typeof globalStorage);
+  this.setBrowserFeature('localStorage', false);
+  if (!this.getChromeFeature('storage.localStorage')) {
+    this.setBrowserFeature('localStorage', typeof localStorage);
+  }
+  this.setBrowserFeature('sessionStorage', typeof sessionStorage);
 
   // General features.
-  this.set('bluetooth', typeof navigator.bluetooth, group);
+  this.setBrowserFeature('Promise', typeof Promise);
+
+  // Communication features
+  this.setBrowserFeature('bluetooth', typeof navigator.bluetooth);
 };
 
 
@@ -95,42 +112,61 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
  * @export
  */
 cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
-  var group = 'chrome';
-
   if (typeof chrome == 'undefined') {
+    this.feature_['chrome'] = {};
     return;
   }
 
+  // App features
+  this.setChromeFeature('app', typeof chrome.app);
+  if (this.getChromeFeature('app')) {
+    this.setChromeFeature('app.window', typeof chrome.app.window);
+  }
+
   // General features.
-  this.set('bluetooth', typeof chrome.bluetooth, group);
-  this.set('bluetoothSocket', typeof chrome.bluetoothSocket, group);
-  this.set('serial', typeof chrome.serial, group);
-  this.set('system.memory', typeof chrome.system.memory, group);
-  this.set('tts', typeof chrome.tts, group);
-  this.set('usb', typeof chrome.usb, group);
-  this.set('localStorage', typeof chrome.storage.local, group);
+  this.setChromeFeature('bluetooth', typeof chrome.bluetooth);
+  this.setChromeFeature('bluetoothSocket', typeof chrome.bluetoothSocket);
+  this.setChromeFeature('serial', typeof chrome.serial);
+
+  // System features.
+  this.setChromeFeature('system', typeof chrome.system);
+  this.setChromeFeature('system.memory', false);
+  if (this.getChromeFeature('system')) {
+    this.setChromeFeature('system.memory', typeof chrome.system.memory);
+  }
+
+  // Misc features.
+  this.setChromeFeature('i18n', typeof chrome.i18n);
+  this.setChromeFeature('runtime', typeof chrome.runtime);
+  this.setChromeFeature('tts', typeof chrome.tts);
+  this.setChromeFeature('usb', typeof chrome.usb);
+
+  // Storage features.
+  this.setChromeFeature('storage', typeof chrome.storage);
+  this.setChromeFeature('storage.localStorage', false);
+  if (this.getChromeFeature('storage')) {
+    this.setChromeFeature('storage.localStorage', typeof chrome.storage.local);
+  }
 
   // Sockets features.
-  this.set('sockets', typeof chrome.sockets, group);
-  if (this.get('sockets', group)) {
-    this.set('tcp', typeof chrome.sockets.tcp, group);
-    this.set('udp', typeof chrome.sockets.udp, group);
-    this.set('tcpServer', typeof chrome.sockets.tcpServer, group);
-  } else {
-    this.set('tcp', false, group);
-    this.set('udp', false, group);
-    this.set('tcpServer', false, group);
+  this.setChromeFeature('sockets', typeof chrome.sockets);
+  this.setChromeFeature('sockets.tcp', false);
+  this.setChromeFeature('sockets.udp', false);
+  this.setChromeFeature('sockets.tcpServer', false);
+  if (this.getChromeFeature('sockets')) {
+    this.setChromeFeature('sockets.tcp', typeof chrome.sockets.tcp);
+    this.setChromeFeature('sockets.udp', typeof chrome.sockets.udp);
+    this.setChromeFeature('sockets.tcpServer', typeof chrome.sockets.tcpServer);
   }
 
   // Manifest options.
-  this.set('manifest', typeof chrome.runtime.getManifest, group);
-  if (this.get('manifest', group)) {
+  this.setChromeFeature('manifest', typeof chrome.runtime.getManifest);
+  this.setChromeFeature('manifest.oauth2', false);
+  this.setChromeFeature('manifest.key', false);
+  if (this.getChromeFeature('manifest')) {
     var manifest = chrome.runtime.getManifest();
-    this.set('oauth2', typeof manifest.oauth2, group);
-    this.set('key', typeof manifest.key, group);
-  } else {
-    this.set('oauth2', false, group);
-    this.set('key', false, group);
+    this.setChromeFeature('manifest.oauth2', typeof manifest.oauth2);
+    this.setChromeFeature('manifest.key', typeof manifest.key);
   }
 };
 
@@ -141,12 +177,13 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
  * @export
  */
 cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
-  var group = 'js';
-  this.set('codemirror', typeof window['CodeMirror'], group);
-  this.set('coffeelint', typeof window['coffeelint'], group);
-  this.set('coffeescript', typeof window['CoffeeScript'], group);
-  this.set('htmlhint', typeof window['HTMLHint'], group);
-  this.set('jshint', typeof window['JSHINT'], group);
+  this.setJavaScriptFeature('blockly', typeof window['Blockly']);
+  this.setJavaScriptFeature('codemirror', typeof window['CodeMirror']);
+  this.setJavaScriptFeature('coffeelint', typeof window['coffeelint']);
+  this.setJavaScriptFeature('coffeescript', typeof window['CoffeeScript']);
+  this.setJavaScriptFeature('htmlhint', typeof window['HTMLHint']);
+  this.setJavaScriptFeature('i18next', typeof window['i18next']);
+  this.setJavaScriptFeature('jshint', typeof window['JSHINT']);
 };
 
 
@@ -193,11 +230,10 @@ cwc.utils.Features.prototype.get = function(name, opt_group) {
     this.log_.warn('Feature group', group, 'is unknown!');
     return false;
   }
-
   if (name in this.feature_[group]) {
     return this.feature_[group][name];
   }
-  this.log_.warn('Feature', name, 'is not undetected!');
+  this.log_.warn('Feature', name, 'is undetected!');
   return false;
 };
 
@@ -225,12 +261,72 @@ cwc.utils.Features.prototype.set = function(name, value, opt_group) {
 
 
 /**
+ * @param {string} name
+ * @return {!boolean}
+ * @export
+ */
+cwc.utils.Features.prototype.getBrowserFeature = function(name) {
+  return this.get(name, this.BrowserGroup);
+};
+
+
+/**
+ * @param {string} name
+ * @return {!boolean}
+ * @export
+ */
+cwc.utils.Features.prototype.getChromeFeature = function(name) {
+  return this.get(name, this.chromeGroup);
+};
+
+
+/**
+ * @param {string} name
+ * @return {!boolean}
+ * @export
+ */
+cwc.utils.Features.prototype.getJavaScriptFeature = function(name) {
+  return this.get(name, this.javaScriptGroup);
+};
+
+
+/**
+ * @param {string} name
+ * @param {string|boolean} value
+ * @export
+ */
+cwc.utils.Features.prototype.setBrowserFeature = function(name, value) {
+  return this.set(name, value, this.BrowserGroup);
+};
+
+
+/**
+ * @param {string} name
+ * @param {string|boolean} value
+ * @export
+ */
+cwc.utils.Features.prototype.setChromeFeature = function(name, value) {
+  return this.set(name, value, this.chromeGroup);
+};
+
+
+/**
+ * @param {string} name
+ * @param {string|boolean} value
+ * @export
+ */
+cwc.utils.Features.prototype.setJavaScriptFeature = function(name, value) {
+  return this.set(name, value, this.javaScriptGroup);
+};
+
+
+/**
  * @export
  */
 cwc.utils.Features.prototype.log = function() {
-  for (var group in this.feature_) {
+  for (let group in this.feature_) {
     if (this.feature_.hasOwnProperty(group)) {
-      for (var feature in this.feature_[group]) {
+      for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
           console.log('[', group, ']', feature, '=',
               this.feature_[group][feature]);

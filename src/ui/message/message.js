@@ -1,7 +1,7 @@
 /**
  * @fileoverview UI Messenger for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -164,7 +164,7 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
         break;
     }
     goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
-    this.snackbar.MaterialSnackbar.showSnackbar(snackbarData);
+    this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
   }
 
 };

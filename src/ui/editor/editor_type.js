@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor Types of Code Editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,11 @@ goog.provide('cwc.ui.EditorType');
  * @enum {!Object.<string>|string}
  */
 cwc.ui.EditorType = {
+  COFFEESCRIPT: 'text/coffeescript',
   CSS: 'text/css',
   HTML: 'text/html',
   JAVASCRIPT: 'text/javascript',
-  COFFEESCRIPT: 'text/coffeescript',
+  PYTHON: 'text/x-python',
   TEXT: 'text/plain',
   UNKNOWN: 'unknown'
 };
@@ -39,15 +40,15 @@ cwc.ui.EditorType = {
  * @return {cwc.ui.EditorType}
  */
 cwc.ui.guessEditorType = function(content) {
-  if (content.indexOf('<html') != -1) {
+  if (content.includes('<html')) {
     return cwc.ui.EditorType.HTML;
   }
 
-  if (content.indexOf('var ') != -1 || content.indexOf('// ') != -1) {
+  if (content.includes('var ') || content.includes('// ')) {
     return cwc.ui.EditorType.JAVASCRIPT;
   }
 
-  if (content.indexOf('display:') != -1 || content.indexOf('color:') != -1) {
+  if (content.includes('display:') != -1 || content.includes('color:')) {
     return cwc.ui.EditorType.CSS;
   }
 

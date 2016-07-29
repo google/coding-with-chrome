@@ -1,7 +1,7 @@
 /**
  * @fileoverview Settings screen for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.ui.SettingScreen');
 
 goog.require('cwc.soy.ui.SettingScreen');
 goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.soy');
-goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.Option');
-goog.require('goog.ui.Select');
-goog.require('goog.ui.Zippy');
 
 
 
@@ -73,16 +69,20 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
   );
 
   var userConfigInstance = this.helper.getInstance('userConfig');
-  var closeButton = goog.dom.getElement(this.prefix + 'close');
-  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
   var advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
+  var closeButton = goog.dom.getElement(this.prefix + 'close');
+  var debugMode = goog.dom.getElement(this.prefix + 'debug-mode');
+  var setLanguage = goog.dom.getElement(this.prefix + 'language');
   var showFullscreen = goog.dom.getElement(this.prefix + 'fullscreen');
+  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
 
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
   advancedMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.ADVANCED_MODE);
   advancedMode.disabled = showWelcome.checked;
+  debugMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
+            cwc.userConfigName.DEBUG_MODE);
   showFullscreen.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.FULLSCREEN);
 
@@ -102,11 +102,26 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
         cwc.userConfigName.ADVANCED_MODE, advancedMode.checked);
     }, false, this);
 
+  goog.events.listen(setLanguage, goog.events.EventType.CLICK,
+    function(event) {
+      var value = event.target.firstChild.data;
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.LANGUAGE, value);
+    }, false, this);
+
+  goog.events.listen(debugMode, goog.events.EventType.CHANGE,
+    function(opt_event) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.DEBUG_MODE, debugMode.checked);
+    }, false, this);
+
   goog.events.listen(showFullscreen, goog.events.EventType.CHANGE,
     function(opt_event) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
         cwc.userConfigName.FULLSCREEN, showFullscreen.checked);
     }, false, this);
+
+
 };
 
 

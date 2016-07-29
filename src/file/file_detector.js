@@ -1,7 +1,7 @@
 /**
  * @fileoverview File detector for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ cwc.file.detector.detectType = function(content, opt_filename) {
   var data = content;
   var jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
+    // JSON file
     var jsonFormat = jsonData['format'] || '';
     if (jsonFormat == cwc.fileFormat.FILE_HEADER) {
       return jsonData['type'] || cwc.file.Type.UNKNOWN;
@@ -58,14 +59,29 @@ cwc.file.detector.detectType = function(content, opt_filename) {
       return cwc.file.Type.JSON;
     }
   } else if (cwc.file.detector.isValidString(data)) {
-    if (filename.indexOf('.coffee') != -1) {
+
+    // CoffeeScript file
+    if (filename.endsWith('.coffee')) {
       return cwc.file.Type.COFFEESCRIPT;
-    } else if (data.indexOf('<html') != -1 || filename.indexOf('.htm') != -1) {
+
+    // Python file
+    } else if (filename.endsWith('.py')) {
+      return cwc.file.Type.PYTHON;
+
+    // HMTL file
+    } else if (data.includes('<html') ||
+               filename.endsWith('.htm') ||
+               filename.endsWith('.html')) {
       return cwc.file.Type.HTML;
-    } else if (data.indexOf('document.body') != -1 ||
-               filename.indexOf('.js') != -1) {
+
+    // JavaScript file
+    } else if (data.includes('document.body') ||
+               data.includes('document.getElementById') ||
+               filename.endsWith('.js')) {
       return cwc.file.Type.JAVASCRIPT;
     }
+
+    // Text as default
     return cwc.file.Type.TEXT;
   }
 

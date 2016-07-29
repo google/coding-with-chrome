@@ -1,7 +1,7 @@
 /**
  * @fileoverview Toolbar of the Blockly Editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,6 @@ goog.provide('cwc.ui.BlocklyToolbar');
 
 goog.require('cwc.ui.Helper');
 
-goog.require('goog.ui.Container');
-goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.PopupMenu');
-goog.require('goog.ui.Toolbar');
-goog.require('goog.ui.ToolbarButton');
-goog.require('goog.ui.ToolbarSeparator');
-
 
 
 /**
@@ -43,58 +36,77 @@ cwc.ui.BlocklyToolbar = function(helper) {
   /** @type {Element} */
   this.nodeBlockly = null;
 
+  /** @type {Element} */
+  this.nodeExpand = null;
+
+  /** @type {Element} */
+  this.nodeExpandExit = null;
+
+  /** @type {Element} */
+  this.nodeMore= null;
+
+  /** @type {Element} */
+  this.nodeMoreList = null;
+
+  /** @type {Element} */
+  this.nodeSave = null;
+
+  /** @type {Element} */
+  this.nodeUndo = null;
+
+  /** @type {Element} */
+  this.nodeRedo = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
+  this.prefix = 'toolbar-';
+
+  /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
 
-  /** @type {goog.ui.Toolbar} */
-  this.toolbar = new goog.ui.Toolbar();
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.saveButton = cwc.ui.Helper.getIconToolbarButton('save',
-      'Save the project', this.blocklySave.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.expandButton = cwc.ui.Helper.getIconToolbarButton('fullscreen',
-      'Expand Code editor.', this.toggleExpand.bind(this));
-
-  /** @type {goog.ui.ToolbarButton} */
-  this.moreButton = cwc.ui.Helper.getIconToolbarButton('more_vert',
-      'More options …');
-
-  /** @type {goog.ui.PopupMenu} */
-  this.moreMenu = new goog.ui.PopupMenu();
-
   /** @type {boolean} */
-  this.expand = false;
+  this.expandState = false;
 };
 
 
 /**
  * @param {!Element} node
  * @param {!Element} node_blockly
+ * @param {string=} opt_prefix
  */
 cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
-    node_blockly) {
+    node_blockly, opt_prefix) {
   this.node = node;
   this.nodeBlockly = node_blockly;
+  this.prefix = (opt_prefix || '') + this.prefix;
 
-  this.moreButton.addClassName('floaty_right');
-  this.moreButton.setVisible(false);
-  this.expandButton.addClassName('floaty_right');
+  this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
+  this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
+  this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
+  this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
+  this.nodeSave = goog.dom.getElement(this.prefix + 'save');
+  this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
 
-  this.toolbar.setOrientation(goog.ui.Container.Orientation.HORIZONTAL);
-  this.toolbar.addChild(this.saveButton, true);
-  this.toolbar.addChild(this.moreButton, true);
-  this.toolbar.addChild(this.expandButton, true);
-  this.toolbar.render(this.node);
+  goog.style.showElement(this.nodeExpandExit, false);
+  goog.style.showElement(this.nodeMore, false);
 
-  this.moreMenu.attach(this.moreButton.getElement(),
-      goog.positioning.Corner.BOTTOM_START);
-  this.moreMenu.setToggleMode(true);
-  this.moreMenu.render();
+  //cwc.ui.Helper.enableElement(this.nodeUndo, false);
+  cwc.ui.Helper.enableElement(this.nodeRedo, false);
+
+  // Events
+  goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
+    this.expand.bind(this));
+  goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
+    this.collapse.bind(this));
+  goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
+    this.redo.bind(this));
+  goog.events.listen(this.nodeSave, goog.events.EventType.CLICK,
+    this.save.bind(this));
+  goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
+    this.undo.bind(this));
 };
 
 
@@ -103,34 +115,20 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */
-cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func,
-    opt_tooltip) {
-  var newOption = new goog.ui.MenuItem(name);
-  this.moreMenu.addChild(newOption, true);
-  if (!this.moreButton.isVisible()) {
-    this.moreButton.setVisible(true);
+cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
+  if (this.nodeMoreList) {
+    var item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
+    this.nodeMoreList.appendChild(item);
+    goog.style.showElement(this.nodeMore, true);
+    cwc.ui.Helper.mdlRefresh();
   }
-
-  goog.events.listen(newOption, goog.ui.Component.EventType.ACTION,
-      func, false, this);
-};
-
-
-/**
- * @param {!goog.ui.ToolbarButton} button
- * @param {boolean=} opt_seperator
- */
-cwc.ui.BlocklyToolbar.prototype.addToolbarButton = function(button,
-    opt_seperator) {
-  this.toolbar.addChild(new goog.ui.ToolbarSeparator(), opt_seperator);
-  this.toolbar.addChild(button, true);
 };
 
 
 /**
  * Saves the currently open file.
  */
-cwc.ui.BlocklyToolbar.prototype.blocklySave = function() {
+cwc.ui.BlocklyToolbar.prototype.save = function() {
   var fileSaverInstance = this.helper.getInstance('fileSaver');
   if (fileSaverInstance) {
     fileSaverInstance.saveFile(true);
@@ -139,11 +137,68 @@ cwc.ui.BlocklyToolbar.prototype.blocklySave = function() {
 
 
 /**
+ * Undo change to the editor.
+ */
+cwc.ui.BlocklyToolbar.prototype.undo = function() {
+  var blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    var history = blocklyInstance.undoChange();
+    this.enableUndoButton(history['undo'] > 0);
+    this.enableRedoButton(history['redo'] > 0);
+  }
+};
+
+
+/**
+ * Redo change to the editor.
+ */
+cwc.ui.BlocklyToolbar.prototype.redo = function() {
+  var blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    var history = blocklyInstance.redoChange();
+    this.enableUndoButton(history['undo'] > 0);
+    this.enableRedoButton(history['redo'] > 0);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.BlocklyToolbar.prototype.enableUndoButton = function(enable) {
+  cwc.ui.Helper.enableElement(this.nodeUndo, enable);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.BlocklyToolbar.prototype.enableRedoButton = function(enable) {
+  cwc.ui.Helper.enableElement(this.nodeRedo, enable);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.BlocklyToolbar.prototype.expand = function() {
+  this.setExpand(true);
+};
+
+
+/**
+ * Toggles the current expand state.
+ */
+cwc.ui.BlocklyToolbar.prototype.collapse = function() {
+  this.setExpand(false);
+};
+
+
+/**
  * Toggles the current expand state.
  */
 cwc.ui.BlocklyToolbar.prototype.toggleExpand = function() {
-  this.expand = !this.expand;
-  this.setExpand(this.expand);
+  this.setExpand(!this.expandState);
 };
 
 
@@ -152,9 +207,11 @@ cwc.ui.BlocklyToolbar.prototype.toggleExpand = function() {
  * @param {boolean} expand
  */
 cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand) {
+  this.expandState = expand;
   var layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.setFullscreen(expand);
-  this.expandButton.setTooltip((expand ? 'Collapse' : 'Expand') +
-      ' Blockly editor.');
-  this.expandButton.setContent('fullscreen' + (expand ? '_exit' : ''));
+  if (layoutInstance) {
+    layoutInstance.setFullscreen(expand);
+    goog.style.showElement(this.nodeExpand, !expand);
+    goog.style.showElement(this.nodeExpandExit, expand);
+  }
 };

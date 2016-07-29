@@ -1,7 +1,7 @@
 /**
  * @fileoverview Templates for Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,11 @@
   {@param prefix: string}
   {@param? opt_title: string}
   <div id="{$prefix}chrome" class="mdl-layout mdl-js-layout">
+
     // Header with title, menubar and icons.
     <header id="{$prefix}header" class="mdl-layout__header bg_30_pct_black">
       <div class="mdl-layout__header-row">
+
         // Title
         <div class="mdl-layout-title">
           <div class="mdl-textfield mdl-js-textfield">
@@ -38,9 +40,11 @@
           </div>
           <span id="{$prefix}status">*</span>
         </div>
+
         // Message bar
         <div id="{$prefix}message"></div>
         <div class="mdl-layout-spacer"></div>
+
         // Navigation
         <div id="{$prefix}bar">
           <div id="{$prefix}menubar"></div>
@@ -51,16 +55,11 @@
     // Navigation
     <div id="{$prefix}navigation" class="mdl-layout__drawer"></div>
 
-    // Dialog
-    <dialog id="{$prefix}dialog" class="mdl-dialog">Hello World</dialog>
-
     // Main with library, preview, editor and console.
     <section id="{$prefix}layout"></section>
 
-    // Footer with statusbar.
-    <footer id="{$prefix}footer">
-      <div id="{$prefix}statusbar"></div>
-    </footer>
+    // Footer
+    <footer id="{$prefix}footer"></footer>
   </div>
 {/template}
 
@@ -113,12 +112,6 @@
     top: 35px;
     width: 100%;
     z-index: 10;
-  {rb}
-
-  #{$prefix}dialog {lb}
-    top: 50%;
-    transform: translateY(-50%);
-    width: -webkit-fit-content;
   {rb}
 
   #{$prefix}status {lb}

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Bluetooth adapter constructor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,11 +97,11 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
     console.log('Error receiving Bluetooth adapter state.');
     return;
   }
-  this.address = adapter_info.address;
-  this.name = adapter_info.name;
-  this.powered = adapter_info.powered;
-  this.available = adapter_info.available;
-  this.discovering = adapter_info.discovering;
+  this.address = adapter_info['address'];
+  this.name = adapter_info['name'];
+  this.powered = adapter_info['powered'];
+  this.available = adapter_info['available'];
+  this.discovering = adapter_info['discovering'];
 
   if (adapter_info && this.available && this.powered && !this.enabled) {
     console.log('Enable Bluetooth adapter:', adapter_info);
@@ -115,6 +115,7 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
     this.enabled = false;
   } else if (!this.address) {
     console.log('Found no compatible Bluetooth adapter!');
+    console.log(adapter_info);
     this.enabled = false;
   }
   var menubarInstance = this.helper.getInstance('menubar');

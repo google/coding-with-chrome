@@ -1,7 +1,7 @@
 /**
  * @fileoverview EV3 Communication buffer
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ cwc.protocol.ev3.Buffer.prototype.readSigned = function() {
   data[1] = (dataLength >> 8) & 0xFF;
   data[2] = this.callbackType;
   data[3] = this.callbackTarget;
-  for (var i = 0; i < dataLength; i++) {
+  for (let i = 0; i < dataLength; i++) {
     data[4 + i] = buffer[i] & 0xFF;
   }
   return dataBuffer;

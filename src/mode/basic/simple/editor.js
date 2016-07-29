@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor for the Basic modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,6 @@ goog.require('cwc.ui.Editor');
 cwc.mode.basic.simple.Editor = function(helper) {
   /** @type {Element} */
   this.node = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
 
   /** @type {cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);

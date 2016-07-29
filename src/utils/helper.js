@@ -4,7 +4,7 @@
  * This helper class provides shortcuts to get the implemented instances and
  * make sure that they have the correct type.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Config|
  *   cwc.ui.ConnectionManager|
  *   cwc.ui.Debug|
- *   cwc.ui.Dialog|
+ *   cwc.tools.Dialog|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.File|
@@ -66,8 +66,8 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
  *   cwc.ui.SettingScreen|
- *   cwc.ui.Statusbar|
  *   cwc.ui.Turtle|
+ *   cwc.ui.connectScreen.Screens|
  *   cwc.ui.Tutorial}
  */
 cwc.utils.HelperInstance;
@@ -140,9 +140,6 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
   }
   this.log_.debug('Set', name, 'instance to', instance);
   this.instances_[name] = instance;
-  if (typeof instance.setHelper == 'function') {
-    instance.setHelper(this);
-  }
 };
 
 
@@ -189,21 +186,14 @@ cwc.utils.Helper.prototype.decorateInstance = function(name, node,
 
 
 /**
- * @param {!string} name
- * @param {!string} func
- * @param {string=} opt_param
- * @param {boolean=} opt_required
- * @return {cwc.utils.HelperInstance}
- * @export
+ * @return {Object}
  */
-cwc.utils.Helper.prototype.executeInstance = function(name, func,
-    opt_param, opt_required) {
-  var instance = this.getInstance(name, opt_required);
-  console.log(instance, name, func);
-  if (instance) {
-    instance[func]();
+cwc.utils.Helper.prototype.getI18nData = function() {
+  var i18nInstance = this.getInstance('i18n');
+  if (i18nInstance) {
+    return i18nInstance.getLanguageData();
   }
-  return instance;
+  return {};
 };
 
 
@@ -216,8 +206,9 @@ cwc.utils.Helper.prototype.showError = function(error_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.error(error_msg);
+  } else {
+    this.log_.error(error_msg);
   }
-  this.log_.error(error_msg);
 };
 
 
@@ -230,8 +221,9 @@ cwc.utils.Helper.prototype.showWarning = function(warn_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.warning(warn_msg);
+  } else {
+    this.log_.warn(warn_msg);
   }
-  this.log_.warn(warn_msg);
 };
 
 
@@ -244,8 +236,9 @@ cwc.utils.Helper.prototype.showInfo = function(info_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.info(info_msg);
+  } else {
+    this.log_.info(info_msg);
   }
-  this.log_.info(info_msg);
 };
 
 
@@ -258,8 +251,9 @@ cwc.utils.Helper.prototype.showSuccess = function(success_msg) {
   var messageInstance = this.getInstance('message');
   if (messageInstance) {
     messageInstance.success(success_msg);
+  } else {
+    this.log_.info(success_msg);
   }
-  this.log_.info(success_msg);
 };
 
 
@@ -295,42 +289,42 @@ cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
-  return this.checkFeature(name, 'browser');
+  return this.features_.getBrowserFeature(name);
 };
 
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
-  return this.checkFeature(name, 'chrome');
+  return this.features_.getChromeFeature(name);
 };
 
 
 /**
  * @param {string} name
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
-  return this.checkFeature(name, 'js');
+  return this.features_.getJavaScriptFeature(name);
 };
 
 
 /**
  * @param {string} name
  * @param {string=} opt_group
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
-  return this.features_.get(name, opt_group);
+  return this.features_.get(name, opt_group) || false;
 };
 
 
@@ -338,7 +332,7 @@ cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
  * @export
  */
 cwc.utils.Helper.prototype.detectFeatures = function() {
-  return this.features_.detect();
+  return this.features_.detectFeatures();
 };
 
 
@@ -355,12 +349,11 @@ cwc.utils.Helper.prototype.showFeatures = function(name, opt_group) {
 
 /**
  * @export
+ * @return {boolean}
  */
 cwc.utils.Helper.prototype.getManifest = function() {
-  if (this.checkChromeFeature('manifest')) {
-    return chrome.runtime.getManifest();
-  }
-  return null;
+  return this.checkChromeFeature('manifest') &&
+      chrome.runtime.getManifest();
 };
 
 
@@ -396,22 +389,11 @@ cwc.utils.Helper.prototype.getFileExtensions = function() {
  * @export
  */
 cwc.utils.Helper.prototype.debugEnabled = function(opt_name) {
-  var name = opt_name || 'ENABLED';
-  if (name in cwc.config.Debug) {
-    return cwc.config.Debug[name];
+  var debugInstance = this.getInstance('debug');
+  if (debugInstance) {
+    return debugInstance.isEnabled(opt_name);
   }
   return false;
-};
-
-
-/**
- * @param {string} status
- * @export
- */
-cwc.utils.Helper.prototype.setStatus = function(status) {
-  if (this.statusbarInstance_) {
-    this.statusbarInstance_.setStatus(status);
-  }
 };
 
 
@@ -464,7 +446,11 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
     var dialogInstance = this.getInstance('dialog');
     var title = 'Unsaved Changes for ' + fileName;
     var content = 'Changes have not been saved. Exit?';
-    dialogInstance.showYesNo(title, content, func);
+    dialogInstance.showYesNo(title, content).then((answer) => {
+      if (answer) {
+        func();
+      }
+    });
   } else {
     func();
   }

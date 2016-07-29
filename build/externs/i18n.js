@@ -1,7 +1,7 @@
 /**
  * @fileoverview I18n externs for Coding with Chrome.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,4 +21,36 @@
 
 
 /** @type {Object} */
-var i18n = function() {};
+var i18next = function() {};
+
+/** @type {Function} */
+i18next.changeLanguage = function() {};
+
+/** @type {Function} */
+i18next.exists = function() {};
+
+/** @type {Function} */
+i18next.init = function() {};
+
+/** @type {Function} */
+i18next.on = function() {};
+
+/** @type {Function} */
+i18next.store = function() {};
+
+/** @type {Function} */
+i18next.t  = function() {};
+
+
+/** @type {Function} */
+var i18d = function() {};
+
+/** @type {Function} */
+var i18t = function() {};
+
+/** @type {Function} */
+var i18soy = function() {};
+
+
+/** @type {Object} */
+var i18nextSprintfPostProcessor = function() {};

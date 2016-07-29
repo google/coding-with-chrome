@@ -1,7 +1,7 @@
 /**
  * @fileoverview File creator, loader and saver configurations.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -239,6 +239,18 @@ cwc.fileHandler.Config.add('JSON file',
     cwc.file.Type.JSON,
     cwc.mode.Type.JSON,
     cwc.file.Extensions.JSON);
+
+
+/**
+ * Python file config.
+ */
+cwc.fileHandler.Config.add('Python file',
+    cwc.fileFormat.File.getRawFile,
+    cwc.file.Type.PYTHON,
+    cwc.mode.Type.PYTHON,
+    cwc.file.Extensions.PYTHON,
+    cwc.file.ContentType.PYTHON,
+    '#!/usr/bin/python2.7\n');
 
 
 /**

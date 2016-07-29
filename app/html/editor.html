@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <!-- Copyright 2015 Google Inc. All Rights Reserved.
+  <!-- Copyright 2015 The Coding with Chrome Authors.
        Author: mbordihn@google.com (Markus Bordihn)
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License. -->
   <head>
+    <meta charset="utf-8">
     <title>Coding with Chrome</title>
     <link rel="stylesheet" href="../css/styles.css">
 
@@ -41,8 +42,22 @@
     <!-- Dialog polyfill -->
     <script src="../external/dialog-polyfill/dialog-polyfill.js"></script>
 
+    <!-- i18next -->
+    <script src="../external/i18next/i18next.min.js"></script>
+    <script src="../external/i18next/i18next-sprintf.min.js"></script>
+
+    <!-- Blockly -->
+    <script src="../external/blockly/blockly_compressed.js"></script>
+    <script src="../external/blockly/blocks_compressed.js"></script>
+    <script src="../external/blockly/javascript_compressed.js"></script>
+    <script src="../external/blockly/audio_preload_patch.js"></script>
+    <script src="../external/blockly/modal_support_patch.js"></script>
+    <script src="../external/blockly/msg/en.js" id="blockly-language"></script>
+    <script src="../js/cwc_blocks.js"></script>
+
     <!-- Main editor -->
     <script src="../js/editor.js"></script>
+
   </head>
   <body>
     <div id="cwc-editor"></div>

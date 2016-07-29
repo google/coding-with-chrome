@@ -1,7 +1,7 @@
 /**
  * @fileoverview Renderer for HTML5 modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ goog.provide('cwc.renderer.internal.HTML5');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -35,15 +37,6 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.HTML5 = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.simpleFramework = 'simple_framework.js';
-
-  /** @type {string} */
-  this.coffeeScriptFramework = 'coffee-script.js';
-
-  /** @type {string} */
-  this.jQueryFramework = 'jquery.min.js';
 };
 
 
@@ -63,7 +56,7 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
  * @param {!cwc.file.Files} library_files
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} renderer_helper
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.internal.HTML5.prototype.render = function(
@@ -78,21 +71,32 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
   var headers = [];
 
-  // Coffeescript framework.
   if (html) {
-    if (html.indexOf('text/coffeescript') != -1) {
-      headers.push(this.coffeeScriptFramework);
+    // Coffeescript framework.
+    if (html.includes('text/coffeescript')) {
+      headers.push(cwc.framework.External.COFFEESCRIPT);
     }
   }
 
-  // Additional frameworks.
+  // Detect additional frameworks.
   var script = javascript || html || '';
-  if (script.indexOf('draw.') != -1 || script.indexOf('command.') != -1) {
-    headers.push(this.simpleFramework);
-  }
-  if (script.indexOf('jQuery.') != -1 || script.indexOf('jQuery(') != -1 ||
-      script.indexOf('$(document).ready') != -1) {
-    headers.push(this.jQueryFramework);
+  if (script) {
+    // Simple framework.
+    if (script.includes('draw.') || script.includes('command.')) {
+      headers.push(cwc.framework.Internal.SIMPLE);
+    }
+
+    // jQuery framework.
+    if (script.includes('jQuery.') ||
+        script.includes('jQuery(') ||
+        script.includes('$(document).ready')) {
+      headers.push(cwc.framework.External.JQUERY.V3_X);
+    }
+
+    // three.js
+    if (script.includes('new THREE.')) {
+      headers.push(cwc.framework.External.THREE_JS.CORE);
+    }
   }
 
   var header = renderer_helper.getFrameworkHeaders(headers, frameworks);

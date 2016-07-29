@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handles the pairing and communication with USB devices.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ cwc.protocol.Serial.Devices.prototype.getDevice = function(device_id) {
     return this.devices[device_id];
   }
   console.error('The following device id is unknown:', device_id);
+  return null;
 };
 
 
@@ -133,7 +134,7 @@ cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
     console.warn('Did not find any serial devices!');
   } else {
     var unsupportedPaths = cwc.protocol.Serial.unsupportedDevicePaths;
-    for (var i = 0; i < devices.length; i++) {
+    for (let i = 0; i < devices.length; i++) {
       if (devices[i].path in unsupportedPaths) {
         console.log('Ignored serial device:', devices[i]);
       } else {
@@ -149,7 +150,7 @@ cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
     var supportedDevices = cwc.protocol.Serial.supportedDevices;
     var supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
     console.info('Found', filteredDevices.length, 'serial devices …');
-    for (var i2 = 0; i2 < filteredDevices.length; i2++) {
+    for (let i2 = 0; i2 < filteredDevices.length; i2++) {
       var deviceEntry = filteredDevices[i2];
       var devicePath = deviceEntry.path;
       var vendorId = deviceEntry.vendorId;

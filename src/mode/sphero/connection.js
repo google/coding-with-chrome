@@ -1,7 +1,7 @@
 /**
  * @fileoverview Layout for the Sphero modification.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,9 +133,11 @@ cwc.mode.sphero.Connection.prototype.getApi = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.sphero.Connection.prototype.cleanUp = function() {
+  console.log('Clean up Sphero connection ...', this);
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
+  this.stop();
   this.helper.removeEventListeners(this.listener, this.name);
 };
 

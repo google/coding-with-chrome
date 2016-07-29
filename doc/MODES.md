@@ -37,4 +37,4 @@ src/file_handler/file_config.js
 
 ### Add your mode to the mode_type.js
 
-### Add your mode to the mode_config.js
+### Add your mode to the mode_config_data.js

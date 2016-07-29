@@ -1,7 +1,7 @@
 /**
  * @fileoverview Handles the pairing and communication with USB devices.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,7 +109,7 @@ cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
 cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
   this.log_.debug('Closing all existing sockets ...');
   var handleSockets = function(sockets) {
-    for (var i = 0; i < sockets.length; i++) {
+    for (let i = 0; i < sockets.length; i++) {
       this.bluetoothSocket.close(sockets[i].socketId,
           this.handleCloseSocket_.bind(this));
     }
@@ -150,12 +150,12 @@ cwc.protocol.bluetooth.Devices.prototype.receiveError = function(
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
   var supportedDevices = cwc.protocol.bluetooth.supportedDevices;
-  for (var entry in supportedDevices) {
+  for (let entry in supportedDevices) {
     if (supportedDevices.hasOwnProperty(entry)) {
       var profile = supportedDevices[entry];
-      if (device.deviceClass == profile.deviceClass &&
-          device.uuids.indexOf(profile.uuid) != -1 &&
-          device.name.indexOf(profile.indicator) != -1) {
+      if (device['deviceClass'] == profile.deviceClass &&
+          device['uuids'].includes(profile.uuid) &&
+          device['name'].includes(profile.indicator)) {
         this.log_.debug('Found device profile', profile.name, 'for', device);
         return profile;
       }
@@ -189,10 +189,10 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
     opt_multisearch) {
   var connectedDevice = [];
   var disconnectedDevice = [];
-  for (var entry in this.devices) {
+  for (let entry in this.devices) {
     if (this.devices.hasOwnProperty(entry)) {
       var device = this.devices[entry];
-      if (device.getIndicator().indexOf(name) !== -1) {
+      if (device.getIndicator().includes(name)) {
         if (device.isConnected()) {
           connectedDevice.push(device);
         } else {
@@ -221,6 +221,15 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
     this.log_.error('Bluetooth device with name', name, 'is unknown!');
     return null;
   }
+};
+
+
+/**
+ * @return {Object}
+ * @export
+ */
+cwc.protocol.bluetooth.Devices.prototype.getDevices = function() {
+  return this.devices;
 };
 
 
@@ -293,29 +302,27 @@ cwc.protocol.bluetooth.Devices.prototype.handleCloseSocket_ = function(
  * @param {?} devices
  * @private
  */
-cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(
-    devices) {
-
+cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
   if (!devices || devices.length == 0) {
     this.log_.warn('Did not find any Bluetooth devices!');
   }
   var connectionManagerInstance = this.helper.getInstance('connectionManager');
   var menubarInstance = this.helper.getInstance('menubar');
   var deviceConnected = false;
-  for (var i = 0; i < devices.length; i++) {
+  for (let i = 0; i < devices.length; i++) {
     var deviceEntry = devices[i];
     var profile = this.getDeviceProfile(deviceEntry);
     if (profile) {
-      var address = deviceEntry.address;
-      var connected = deviceEntry.connected;
+      var address = deviceEntry['address'];
+      var connected = deviceEntry['connected'];
       if (address in this.devices) {
         this.devices[address].updateInfo();
       } else {
-        var deviceClass = deviceEntry.deviceClass;
-        var name = deviceEntry.name;
-        var paired = deviceEntry.paired;
+        var deviceClass = deviceEntry['deviceClass'];
+        var name = deviceEntry['name'];
+        var paired = deviceEntry['paired'];
         var type = profile.name;
-        var uuids = deviceEntry.uuids;
+        var uuids = deviceEntry['uuids'];
         var device = new cwc.protocol.bluetooth.Device(
             address, connected, deviceClass, name, paired, uuids, profile,
             type, this.bluetooth);
@@ -326,9 +333,6 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(
       if (connected) {
         this.devices[address].getSocket();
         deviceConnected = true;
-      }
-      if (menubarInstance) {
-        menubarInstance.updateDeviceList(this.devices[address]);
       }
     } else {
       this.log_.debug('Found no device profile for:', deviceEntry);
@@ -361,7 +365,6 @@ cwc.protocol.bluetooth.Devices.prototype.handleConnect_ = function(socket_id,
   this.socketIds[socket_id] = this.devices[address];
   var menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance && device) {
-    menubarInstance.updateDeviceList(device);
     menubarInstance.setBluetoothConnected(true);
   }
 };
@@ -379,7 +382,6 @@ cwc.protocol.bluetooth.Devices.prototype.handleDisconnect_ = function(socket_id,
   var device = this.devices[address];
   var menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance && device) {
-    menubarInstance.updateDeviceList(device);
     menubarInstance.setBluetoothConnected(false);
   }
 };

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor mode config for the Coding with Chrome editor.
  *
- * @license Copyright 2015 Google Inc. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ cwc.mode.Config.get = function(type, opt_required) {
     }
     console.warn(error);
   }
+  return null;
 };
 
 
@@ -54,7 +55,7 @@ cwc.mode.Config.get = function(type, opt_required) {
  * @return {cwc.mode.ConfigData}
  */
 cwc.mode.Config.getModForFileType = function(file_type) {
-  for (var mod in cwc.mode.ConfigData) {
+  for (let mod in cwc.mode.ConfigData) {
     if (cwc.mode.ConfigData.hasOwnProperty(mod)) {
       var modConfig = cwc.mode.ConfigData[mod];
       if (file_type == modConfig.fileType) {
@@ -62,4 +63,5 @@ cwc.mode.Config.getModForFileType = function(file_type) {
       }
     }
   }
+  return null;
 };
