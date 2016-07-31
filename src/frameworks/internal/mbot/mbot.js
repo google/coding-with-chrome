@@ -16,8 +16,8 @@
  * limitations under the License.
  *
  * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.framework.mBot');
 
 goog.require('cwc.framework.Runner');
@@ -25,12 +25,12 @@ goog.require('cwc.framework.Runner');
 
 
 /**
-  * @constructor
-  * @param {!Function} code
-  * @struct
-  * @final
-  * @export
-  */
+ * @constructor
+ * @param {!Function} code
+ * @struct
+ * @final
+ * @export
+ */
 cwc.framework.mBot = function(code) {
   /** @type {string} */
   this.name = 'mbot Framework';
@@ -56,6 +56,10 @@ cwc.framework.mBot = function(code) {
   /** @type {float} [description] */
   this.lightnessSensorValue = 99999;
 
+  /** @type {!number} */
+  this.motorSpeed = 60 / 60;
+
+  // External commands
   this.runner.addCommand('updateUltrasonicSensor',
     this.handleUpdateUltrasonicSensorValue_);
   this.runner.addCommand('updateLightnessSensor',
@@ -64,33 +68,22 @@ cwc.framework.mBot = function(code) {
 
 
 /**
-  * beep the buzzer on mbot
-  * @export
-  */
+ * beep the buzzer on mbot
+ * @export
+ */
 cwc.framework.mBot.prototype.beepBuzzer = function() {
   this.runner.send('beepBuzzer');
 };
 
 
 /**
-  * move mBot at a speed
-  * @param {!Number} speed speed at which to move
-  * @param {Number} opt_delay Seconds of delay after a move
-  * @export
-  */
-cwc.framework.mBot.prototype.move = function(speed, opt_delay) {
-  this.runner.send('move', {'speed': speed}, opt_delay);
-};
-
-
-/**
-  * Set the on-board LED color of the mBOt
-  * @param {string} position
-  *   position of the on-board LED: 0-both, 1-left, 2-right
-  * @param {string} color css color of the color (#rrggbb)
-  * @param {void} opt_delay
-  * @export
-  */
+ * Set the on-board LED color of the mBOt
+ * @param {string} position
+ *   position of the on-board LED: 0-both, 1-left, 2-right
+ * @param {string} color css color of the color (#rrggbb)
+ * @param {void} opt_delay
+ * @export
+ */
 cwc.framework.mBot.prototype.setLEDColor = function(position, color,
     opt_delay) {
   console.log('pos: ' + position + ' color: ' + color);
@@ -113,13 +106,12 @@ cwc.framework.mBot.prototype.setLEDColor = function(position, color,
 
 
 /**
-  * play a music note through the buzzer
-  * @param  {int} frequency frequency of the note
-  * @param  {int} duration  duration in milliseconds
-  * @param  {null} opt_delay
-  * @return {void}
-  * @export
-  */
+ * play a music note through the buzzer
+ * @param  {int} frequency frequency of the note
+ * @param  {int} duration  duration in milliseconds
+ * @param  {null} opt_delay
+ * @export
+ */
 cwc.framework.mBot.prototype.playNote = function(frequency, duration,
     opt_delay) {
   this.runner.send('playNote', {
@@ -128,10 +120,10 @@ cwc.framework.mBot.prototype.playNote = function(frequency, duration,
 
 
 /**
-  * get values from ultrasonic sensors
-  * @return {void}
-  * @export
-  */
+ * get values from ultrasonic sensors
+ * @return {void}
+ * @export
+ */
 cwc.framework.mBot.prototype.getUltrasonicSensorValue = function() {
   console.log('read ultrasonic sensor and get ' + this.ultrasonicSensorValue);
   return this.ultrasonicSensorValue;
@@ -139,38 +131,60 @@ cwc.framework.mBot.prototype.getUltrasonicSensorValue = function() {
 
 
 /**
-  * get values from lightness sensors
-  * @return {void}
-  * @export
-  */
+ * get values from lightness sensors
+ * @return {void}
+ * @export
+ */
 cwc.framework.mBot.prototype.getLightnessSensorValue = function() {
   return this.lightnessSensorValue;
 };
 
 
 /**
-* Turn mBot at a speed
-* @param  {int} steps how long should the mBot walk
-* @return {void}
-* @export
-*/
-cwc.framework.mBot.prototype.turn = function(speed, steps){
-  var delay = steps * 100 * 255 / Math.abs(speed);
-  this.runner.send('turn', {'speed': speed, 'steps':steps}, delay);
-  this.runner.send('stop', {}, 1);
+ * @param {!number} steps
+ * @param {!number} opt_speed
+ * @return {!number} Calculated delay + buffer.
+ * @export
+ */
+cwc.framework.mBot.prototype.getDelay = function(steps, opt_speed) {
+  var buffer = 250;
+  var motorSpeed = this.motorSpeed;
+  var speed = opt_speed || 50;
+  var delay = Math.floor(
+    (((steps / 360) * Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
+  return delay;
 };
 
 
 /**
-  * Move mBot for certain speeds
-  * @param  {int} steps how long should the mBot walk
-  * @return {void}
-  * @export
-  */
-cwc.framework.mBot.prototype.moveSteps = function(speed, steps) {
-  var delay = steps * 100 * 255 / Math.abs(speed);
-  this.runner.send('moveSteps', {'speed': speed, 'steps':steps}, delay);
-  this.runner.send('stop', {}, 1);
+ * Turn mBot at a speed
+ * @param  {int} steps how long should the mBot rotate
+ * @param {number=} opt_speed 0 - 255
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.mBot.prototype.turn = function(steps, opt_speed, opt_delay) {
+  var speed = opt_speed || 50;
+  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  this.runner.send('turn', {
+    'steps': steps,
+    'speed': speed}, delay);
+};
+
+
+/**
+ * Move mBot for certain speeds
+ * @param {number} steps how long should the mBot walk
+ * @param {number=} opt_speed 0 - 255
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.mBot.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
+  var speed = opt_speed || 50;
+  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  this.runner.send('moveSteps', {
+    'steps': steps,
+    'speed': speed}, delay);
 };
 
 
@@ -185,12 +199,12 @@ cwc.framework.mBot.prototype.wait = function(time) {
 
 
 /**
-* Stop the mBot
-* @return {void}
-* @export
-*/
-cwc.framework.mBot.prototype.stop = function() {
-  this.runner.send('stop', {}, 1);
+ * Stop the mBot
+ * @param {number=} opt_delay in msec
+ * @export
+ */
+cwc.framework.mBot.prototype.stop = function(opt_delay) {
+  this.runner.send('stop', null, opt_delay);
 };
 
 
@@ -217,9 +231,9 @@ cwc.framework.mBot.prototype.onLightnessSensorChange = function(func) {
 
 
 /**
-* @param {!number} data
-* @private
-*/
+ * @param {!number} data
+ * @private
+ */
 cwc.framework.mBot.prototype.handleUpdateUltrasonicSensorValue_ = function(
     data) {
   this.ultrasonicSensorValue = data;
@@ -228,9 +242,9 @@ cwc.framework.mBot.prototype.handleUpdateUltrasonicSensorValue_ = function(
 
 
 /**
-* @param {!number} data
-* @private
-*/
+ * @param {!number} data
+ * @private
+ */
 cwc.framework.mBot.prototype.handleUpdateLightnessSensorValue_ = function(
     data) {
   this.lightnessSensorValue = data;

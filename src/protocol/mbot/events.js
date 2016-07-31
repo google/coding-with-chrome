@@ -22,6 +22,8 @@
  */
 goog.provide('cwc.protocol.mbot.Events');
 
+
+
 /**
  * Custom events.
  * @enum {Event}
@@ -31,6 +33,7 @@ cwc.protocol.mbot.Events.Type = {
   LIGHTNESS_SENSOR_VALUE_CHANGED: 'lightness_sensor_value_changed',
   LINEFOLLOWER_SENSOR_VALUE_CHANGED: 'linefollower_sensor_value_changed'
 };
+
 
 /**
  * @param {object} data
@@ -43,12 +46,24 @@ cwc.protocol.mbot.Events.UltrasonicSensorValue = function(data, opt_port) {
         opt_port);
 };
 
+
+/**
+ * @param {object} data
+ * @param {number=} opt_port
+ * @final
+ */
 cwc.protocol.mbot.Events.LightnessSensorValue = function(data, opt_port) {
   return new cwc.protocol.mbot.Events.Data_(
       cwc.protocol.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED, data,
         opt_port);
 };
 
+
+/**
+ * @param {object} data
+ * @param {number=} opt_port
+ * @final
+ */
 cwc.protocol.mbot.Events.LinefollowerSensorValue = function(data, opt_port) {
   return new cwc.protocol.mbot.Events.Data_(
       cwc.protocol.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED, data,

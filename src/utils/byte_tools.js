@@ -39,6 +39,22 @@ cwc.utils.ByteTools.signedBytesToInt = function(data) {
 
 
 /**
+ * @param {Object} data
+ * @return {number}
+ */
+cwc.utils.ByteTools.bytesToInt32 = function(data) {
+  return (data[0] << 24) + (data[1] << 16) + (data[2] << 8) + data[3];
+};
+
+
+cwc.utils.ByteTools.Int32ToBytes = function(data) {
+  var view = new DataView(data);
+  view.setUint32(0);
+  return data;
+};
+
+
+/**
  * @param {!Array} data
  * @return {!Uint8Array}
  */

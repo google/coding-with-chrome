@@ -123,8 +123,7 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
 cwc.mode.sphero.blockly.Editor.prototype.changeHandler = function() {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance.getUi() != 'custom') {
-    var content = this.blockly.getJavaScript();
-    this.editor.setEditorJavaScriptContent(content);
+    this.editor.setEditorJavaScriptContent(this.blockly.getJavaScript());
   }
 };
 

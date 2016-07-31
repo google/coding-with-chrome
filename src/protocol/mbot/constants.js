@@ -58,7 +58,7 @@ cwc.protocol.mbot.Command = {
   DATATYPE_SHORT: 3,
   DATATYPE_STRING: 4,
 
-  // in future developements, this should be replaced by a state machine.
+  // In future developments, this should be replaced by a state machine.
   BYTE_INDEX: 2,
   BYTE_DATATYPE: 3,
   BYTE_PAYLOAD: 4,

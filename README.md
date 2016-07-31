@@ -139,6 +139,13 @@ The following operating systems are supported by Coding with Chrome:
 * Windows OS
 * Linux (without Bluetooth support / USB supported)
 
+### Supported robots
+The following robots are supported, out of the box by Coding with Chrome:
+* EV3
+* Sphero 2.0
+* mBot
+
+
 ## Report Issues
 For any issues or feature requests, we would really appreciate it if you report
 them using our [issue tracker](https://github.com/google/coding-with-chrome/issues).

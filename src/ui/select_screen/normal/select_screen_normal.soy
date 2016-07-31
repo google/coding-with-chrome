@@ -277,7 +277,8 @@
         {param link_text: 'Use mBot Robot' /}
         {param link_id: 'mbot' /}
         {param opt_color_class: 'bg-orange' /}
-        {param opt_icon: 'adb' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
       {/call}
 
     </div>
@@ -458,7 +459,8 @@
         {param title: 'Robots: mBot' /}
         {param opt_text: 'Control a mBot with blocks' /}
         {param opt_color_class: 'bg-orange' /}
-        {param opt_icon: 'adjust' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
       {/call}
 
       <div class="mdl-grid max-width">
@@ -494,11 +496,14 @@
 {template .header_}
   {@param title: string}
   {@param? opt_icon: string}
+  {@param? opt_icon_rotate: string}
   {@param? opt_text: string}
   {@param? opt_color_class: string}
 
   <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
-    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
+    {if $opt_icon}
+      <div class="cwc-band-icon icon_auto {if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</div>
+    {/if}
     <div class="cwc-band-text">
       <div class="mdl-typography--display-2 mdl-typography--font-thin">{$title}</div>
       {if $opt_text}<p class="mdl-typography--headline mdl-typography--font-thin">{$opt_text}</p>{/if}
@@ -599,12 +604,15 @@
   {@param link_id: string}
   {@param? opt_image: string}
   {@param? opt_icon: string}
+  {@param? opt_icon_rotate: string}
   {@param? opt_color_class: string}
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+      {if $opt_icon}
+        <i class="icon_auto{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
+      {/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
       <div class="mdl-card__supporting-text">
@@ -640,7 +648,11 @@
   <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
     </div>
     <div class="mdl-card__title">
       <h4 class="mdl-card__title-text">
@@ -678,9 +690,13 @@
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-       {if $opt_image}<img src="../{$opt_image}">{/if}
-       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
-       {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
+      {if $opt_image}<img src="../{$opt_image}">{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
+      {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
     </div>
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">

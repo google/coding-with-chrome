@@ -105,6 +105,9 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
 
+  // Custom event.
+  this.blockly.addChangeListener(this.changeHandler.bind(this));
+
   // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
@@ -122,8 +125,7 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
 cwc.mode.mbot.blockly.Editor.prototype.changeHandler = function() {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance.getUi() != 'custom') {
-    var content = this.blockly.getJavaScript();
-    this.editor.setEditorJavaScriptContent(content);
+    this.editor.setEditorJavaScriptContent(this.blockly.getJavaScript());
   }
 };
 

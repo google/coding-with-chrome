@@ -70,30 +70,6 @@ goog.require('goog.dom');
 
 
 /**
-<<<<<<< HEAD
- * Additional frameworks for the preview window or runner framework.
- * @type {!Object.<string>}
- */
-cwc.ui.BuilderFrameworks = {
-  // Internal frameworks
-  'Arduino Framework': '../frameworks/internal/arduino_framework.js',
-  'EV3 Framework': '../frameworks/internal/ev3_framework.js',
-  'Runner Framework': '../frameworks/internal/runner_framework.js',
-  'Simple Framework': '../frameworks/internal/simple_framework.js',
-  'Sphero Framework': '../frameworks/internal/sphero_framework.js',
-  'mBot Framework': '../frameworks/internal/mbot_framework.js',
-  'Turtle Framework': '../frameworks/internal/turtle_framework.js',
-
-  // External frameworks
-  'Coffeescript Framework': '../frameworks/external/coffee-script.js',
-  'jQuery Framework': '../frameworks/external/jquery.min.js',
-  'jQuery Turtle Framework': '../frameworks/external/jquery-turtle.js'
-};
-
-
-/**
-=======
->>>>>>> master
  * General helpers.
  * @type {!Object.<Function>|Function}
  */

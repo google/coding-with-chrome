@@ -136,6 +136,18 @@
   color: #fff !important;
 }
 
+.icon_rotate_45deg {
+  transform: rotate(45deg);
+}
+
+.icon_rotate_90deg {
+  transform: rotate(90deg);
+}
+
+.icon_rotate_180deg {
+  transform: rotate(180deg);
+}
+
 .icon_button,
 .icon_gamepad {
   border: 0;

@@ -58,7 +58,7 @@ cwc.protocol.mbot.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {cwc.protocol.mbot.Monitoring} */
+  /** @type {!cwc.protocol.mbot.Monitoring} */
   this.monitoring = new cwc.protocol.mbot.Monitoring(this);
 
   /** @type {goog.events.EventTarget} */
@@ -170,6 +170,19 @@ cwc.protocol.mbot.Api.prototype.reset = function() {
 
 
 /**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.monitor = function(enable) {
+  if (enable && this.isConnected()) {
+    this.monitoring.start();
+  } else if (!enable) {
+    this.monitoring.stop();
+  }
+};
+
+
+/**
  * @return {goog.events.EventTarget}
  */
 cwc.protocol.mbot.Api.prototype.getEventHandler = function() {
@@ -191,7 +204,7 @@ cwc.protocol.mbot.Api.prototype.handleAsync_ = function(buffer) {
   var dataType = dataBytes[this.command.BYTE_DATATYPE];
   if (dataType == this.command.DATATYPE_FLOAT) {
     this.monitoring.onSensorReply(index, dataBytes.slice(
-      this.command.BYTE_PAYLOAD, this.command.BYTE_PAYLOAD+4));
+      this.command.BYTE_PAYLOAD, this.command.BYTE_PAYLOAD + 4));
   }
 };
 
@@ -361,6 +374,14 @@ cwc.protocol.mbot.Api.prototype.playNote = function(pitchFrequency, duration) {
   this.sendNoResponseCommand(this.command.DEVICE_BUZZER, [
     frequencyInInt & 0xff, frequencyInInt >> 8, duration & 0xff, duration >> 8
   ]);
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.stop = function(opt_port) {
+  this.reset();
 };
 
 

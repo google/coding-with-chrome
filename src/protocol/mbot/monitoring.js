@@ -32,6 +32,7 @@ goog.require('cwc.protocol.mbot.Command');
  * @final
  */
 cwc.protocol.mbot.Monitoring = function(api) {
+
   /** @type {!cwc.protocol.mbot.Api} */
   this.api = api;
 
@@ -63,6 +64,7 @@ cwc.protocol.mbot.Monitoring = function(api) {
  * @export
  */
 cwc.protocol.mbot.Monitoring.prototype.start = function() {
+  console.log('Preparing mBot Monitoring ...');
   this.monitorTimer = setInterval(this.onReadSensorTimer.bind(this),
     this.readInterval);
 };
@@ -75,6 +77,7 @@ cwc.protocol.mbot.Monitoring.prototype.start = function() {
  */
 cwc.protocol.mbot.Monitoring.prototype.stop = function() {
   if (this.monitorTimer) {
+    console.log('Stopping mBot Monitoring ...');
     clearInterval(this.monitorTimer);
     this.monitorTimer = null;
   }
@@ -132,7 +135,7 @@ cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index,
 /**
  * convert float bytes to float value in robot response;
  * @param  {[int]} dataBytes bytes from the robot
- * @return {float}           float value
+ * @return {float} float value
  * @private
  */
 cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
@@ -149,7 +152,7 @@ cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
  * @param  {int} b2
  * @param  {int} b3
  * @param  {int} b4
- * @return {int}    the result int
+ * @return {int} the result int
  * @private
  */
 cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1, b2, b3,

@@ -108,6 +108,7 @@ cwc.framework.Ev3 = function(code) {
   /** @type {!number} */
   this.mediumMotorSpeed = 250 / 60;
 
+  // External commands
   this.runner.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
   this.runner.addCommand('updateGyroSensor', this.handleUpdateGyroSensor_);
@@ -200,10 +201,10 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
 /**
  * @param {!number} steps
  * @param {!number} opt_speed
- * @param {string=} opt_type
  * @return {!number} Calculated delay + buffer.
+ * @export
  */
-cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed, opt_type) {
+cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed) {
   var buffer = 250;
   var motorSpeed = this.largeMotorSpeed;
   var speed = opt_speed || 50;

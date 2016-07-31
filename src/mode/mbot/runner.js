@@ -21,6 +21,7 @@ goog.provide('cwc.mode.mbot.Runner');
 
 goog.require('cwc.protocol.mbot.Events');
 goog.require('cwc.runner.profile.mbot.Command');
+goog.require('cwc.runner.profile.mbot.Monitor');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
@@ -51,7 +52,10 @@ cwc.mode.mbot.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.mbot.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {string} */
+  /** @type {!cwc.runner.profile.mbot.Command} */
+  this.command = new cwc.runner.profile.mbot.Command(this.api);
+
+  /** @type {!string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAA' +
     'BXAvmHAAABG2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu7' +
     '8iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PS' +
@@ -107,8 +111,8 @@ cwc.mode.mbot.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.mbot.Command} */
-  this.command = new cwc.runner.profile.mbot.Command(this.api, this.turtle);
+  /** @type {!cwc.runner.profile.ev3.Command} */
+  this.monitor = new cwc.runner.profile.mbot.Monitor(this.turtle);
 
   /** @type {Element} */
   this.node = null;
@@ -135,8 +139,13 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
   // Normal Commands
   this.runner.addCommand('beepBuzzer', this.command.beepBuzzer, this);
   this.runner.addCommand('setMotor', this.command.setMotor, this);
+
   this.runner.addCommand('moveSteps', this.command.moveSteps, this);
+  this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this);
+
   this.runner.addCommand('turn', this.command.turn, this);
+  this.runner.addMonitor('turn', this.monitor.turn, this);
+
   this.runner.addCommand('wait', this.command.wait, this);
   this.runner.addCommand('stop', this.command.stop, this);
   this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
@@ -148,11 +157,11 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
       cwc.protocol.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
       'updateUltrasonicSensor');
   this.runner.addEvent(apiEventHandler,
-    cwc.protocol.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
-    'updateLightnessSensor');
+      cwc.protocol.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
+      'updateLightnessSensor');
   this.runner.addEvent(apiEventHandler,
-    cwc.protocol.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
-    'updateLinefollowerSensor');
+      cwc.protocol.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
+      'updateLinefollowerSensor');
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);
@@ -176,10 +185,9 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
  * @private
  */
 cwc.mode.mbot.Runner.prototype.handleStart_ = function() {
-  // this.monitor.reset();
-  this.turtle.action('speed', 5);
+  this.monitor.reset();
+  this.turtle.action('speed', 3);
   this.turtle.reset();
-  this.turtle.action('pd');
   this.api.start();
 };
 

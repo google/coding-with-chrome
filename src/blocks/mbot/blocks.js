@@ -34,7 +34,7 @@ Blockly.Blocks['mbot_move_forward'] = {
     this.appendDummyInput()
       .appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '100'],
+        ['slowly', '50'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -57,7 +57,7 @@ Blockly.Blocks['mbot_move_backward'] = {
       .appendField('move backward');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '100'],
+        ['slowly', '50'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -80,7 +80,7 @@ Blockly.Blocks['mbot_turn_left'] = {
       .appendField('move left');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '100'],
+        ['slowly', '50'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -103,7 +103,7 @@ Blockly.Blocks['mbot_turn_right'] = {
       .appendField('turn right');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '100'],
+        ['slowly', '50'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -197,7 +197,7 @@ Blockly.Blocks['mbot_rgb'] = {
 
 
 /**
- * mbot test command.
+ * Beep.
  */
 Blockly.Blocks['mbot_beep_buzzer'] = {
   init: function() {

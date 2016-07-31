@@ -23,35 +23,54 @@ goog.require('cwc.utils.ByteTools');
 describe('ByteTools', function() {
 
   it('bytesToInt', function() {
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000000, 0x00000001]))
-      .toEqual(1);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000001, 0x00000000]))
-      .toEqual(256);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000001, 0x00000001]))
-      .toEqual(257);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000011, 0x00000001]))
-      .toEqual(4353);
-    expect(cwc.utils.ByteTools.bytesToInt([0x10101010, 0x10101010]))
-      .toEqual(269488144);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000000, 0x00000001])).toEqual(1);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000001, 0x00000000])).toEqual(256);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000001, 0x00000001])).toEqual(257);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000011, 0x00000001])).toEqual(4353);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x10101010, 0x10101010])).toEqual(269488144);
   });
 
   it('signedBytesToInt', function() {
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xF0F0F0F0, 0xF0F0F0F0]))
-      .toBe(-3856);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0x00000000]))
-      .toBe(-256);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0xFFFFFFFF]))
-      .toBe(-1);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000000, 0x00000001]))
-      .toBe(1);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000000]))
-      .toBe(256);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000001]))
-      .toBe(257);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000011, 0x00000001]))
-      .toBe(4353);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x10101010, 0x10101010]))
-      .toBe(4112);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xF0F0F0F0, 0xF0F0F0F0])).toBe(-3856);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xFFFFFFFF, 0x00000000])).toBe(-256);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xFFFFFFFF, 0xFFFFFFFF])).toBe(-1);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000000, 0x00000001])).toBe(1);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000001, 0x00000000])).toBe(256);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000001, 0x00000001])).toBe(257);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000011, 0x00000001])).toBe(4353);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x10101010, 0x10101010])).toBe(4112);
+  });
+
+  it('bytesToInt32', function() {
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000000, 0x00000001])).toEqual(1);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000001, 0x00000000])).toEqual(256);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000001, 0x00000001])).toEqual(257);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000011, 0x00000001])).toEqual(4353);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x10101010, 0x10101010])).toEqual(538976272);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x10101010, 0x0, 0x10101010])).toEqual(538972176);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x10101010, 0x0, 0x0, 0x10101010])).toEqual(537923600);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF])).toEqual(4278124287);
   });
 
   it('joinUint8Array', function() {

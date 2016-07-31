@@ -76,6 +76,7 @@ cwc.mode.mbot.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
+  this.api.monitor(true);
 };
 
 
@@ -128,6 +129,8 @@ cwc.mode.mbot.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
+  this.api.monitor(false);
+  this.stop();
   this.helper.removeEventListeners(this.listener, this.name);
 };
 

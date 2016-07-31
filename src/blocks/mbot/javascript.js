@@ -16,46 +16,66 @@
  * limitations under the License.
  *
  * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 
 
 
 /**
- * mbot move.
+ * mBot move forward.
  */
 Blockly.JavaScript['mbot_move_forward'] = function(block) {
-  var steps = Number(block.getFieldValue('steps') || 0);
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = block.getFieldValue('speed');
-  return 'mbot.moveSteps(' + speed + ',' + steps + ');\n';
+  return 'mbot.moveSteps(' + steps + ', ' + speed + ', true);\n';
 };
 
 
+/**
+ * mBot move backwards.
+ */
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
-  var steps = Number(block.getFieldValue('steps') || 0);
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = -block.getFieldValue('speed');
-  return 'mbot.moveSteps(' + speed + ',' + steps + ');\n';
+  return 'mbot.moveSteps(' + steps + ', ' + speed + ', true);\n';
 };
 
 
+/**
+ * Rotate left.
+ */
 Blockly.JavaScript['mbot_turn_left'] = function(block) {
-  var steps = Number(block.getFieldValue('steps') || 0);
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = block.getFieldValue('speed');
-  return 'mbot.turn(' + speed + ',' + steps + ');\n';
+  return 'mbot.turn(' + steps + ', ' + speed + ', true);\n';
 };
 
 
+/**
+ * Rotate right.
+ */
 Blockly.JavaScript['mbot_turn_right'] = function(block) {
-  var steps = Number(block.getFieldValue('steps') || 0);
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = -block.getFieldValue('speed');
-  return 'mbot.turn(' + speed + ',' + steps + ');\n';
+  return 'mbot.turn(' + steps + ', ' + speed + ', true);\n';
 };
 
 
+/**
+ * Beep.
+ */
 Blockly.JavaScript['mbot_beep_buzzer'] = function(opt_block) {
   return 'mbot.beepBuzzer();\n';
 };
 
 
+/**
+ * Stop Moving.
+ */
 Blockly.JavaScript['mbot_stop_moving'] = function(opt_block) {
   return 'mbot.stop(true);\n';
 };
