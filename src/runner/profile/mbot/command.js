@@ -99,19 +99,17 @@ cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data) {
  * index: which led to light up? 0 - ALL; 1 - Left; 2 - Right
  * red, green, blue: RGB values
  * @param  {Object} data Data package
- * @return {void}
  * @export
  */
 cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data) {
   this.api.setLEDColor(
-    data['position'], data['red'], data['green'], data['blue']);
+    data['red'], data['green'], data['blue'], data['position']);
 };
 
 
 /**
  * play music note on mbot
  * @param  {Object} data data package
- * @return {void}
  * @export
  */
 cwc.runner.profile.mbot.Command.prototype.playNote = function(data) {

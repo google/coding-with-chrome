@@ -19,9 +19,10 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-
 goog.provide('cwc.protocol.mbot.Monitoring');
 goog.require('cwc.protocol.mbot.Command');
+
+goog.require('goog.Timer');
 
 
 
@@ -39,22 +40,29 @@ cwc.protocol.mbot.Monitoring = function(api) {
   /** @type {!cwc.protocol.mbot.Command} */
   this.command = cwc.protocol.mbot.Command;
 
-  /** @type {boolean} */
-  this.monitor = false;
+  /** @type {!number} */
+  this.monitorInterval = 1000;  // Duration in ms.
 
-  /** @type {timer} */
-  this.monitorTimer = null;
+  /** @type {!goog.Timer} */
+  this.monitor = new goog.Timer(this.monitorInterval);
 
-  /** @type {int} */
-  this.readInterval = 100;
-
-  /** @type {[int]} */
+  /** @type {!Array} */
   this.availableSensors = [this.command.DEVICE_ULTRASONIC,
                            this.command.DEVICE_LIGHTSENSOR,
                            this.command.DEVICE_LINEFOLLOWER];
 
-  /** @type {int} */
+  /** @type {!number} */
   this.readIndex = 0;
+
+  /** @type {!boolean} */
+  this.started = false;
+
+  /** @type {!Array} */
+  this.listener = [];
+
+  // Monitor Events
+  this.addEventListener_(this.monitor, goog.Timer.TICK,
+      this.onReadSensorTimer, false, this);
 };
 
 
@@ -64,9 +72,12 @@ cwc.protocol.mbot.Monitoring = function(api) {
  * @export
  */
 cwc.protocol.mbot.Monitoring.prototype.start = function() {
-  console.log('Preparing mBot Monitoring ...');
-  this.monitorTimer = setInterval(this.onReadSensorTimer.bind(this),
-    this.readInterval);
+  if (this.started) {
+    return;
+  }
+  console.log('Starting mBot Monitoring ...');
+  this.monitor.start();
+  this.started = true;
 };
 
 
@@ -76,10 +87,9 @@ cwc.protocol.mbot.Monitoring.prototype.start = function() {
  * @export
  */
 cwc.protocol.mbot.Monitoring.prototype.stop = function() {
-  if (this.monitorTimer) {
+  if (this.started) {
     console.log('Stopping mBot Monitoring ...');
-    clearInterval(this.monitorTimer);
-    this.monitorTimer = null;
+    this.monitor.stop();
   }
 };
 
@@ -175,4 +185,24 @@ cwc.protocol.mbot.Monitoring.prototype.intBitsToFloat = function(num) {
   ( num & 0x7fffff ) << 1 :
   ( num & 0x7fffff ) | 0x800000;
   return s * m * Math.pow( 2, e - 150 );
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function()} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.protocol.mbot.Monitoring.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

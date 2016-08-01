@@ -152,7 +152,7 @@ cwc.protocol.mbot.Api.prototype.start = function() {
  */
 cwc.protocol.mbot.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
-  // this.reset(); // this line was there but I'm not clear what does it do...
+  this.reset();
   this.monitoring.stop();
   this.setLeftMotor(0);
   this.setRightMotor(0);
@@ -255,7 +255,8 @@ cwc.protocol.mbot.Api.prototype.sendCommandToRobot = function(readOrWrite,
   var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B,
     commandBody.length];
   var command = commandHeader.concat(commandBody);
-  this.sendBytesToRobot(command);
+  var data = this.arrayBufferFromArray(command);
+  this.send_(data);
 };
 
 
@@ -301,20 +302,6 @@ cwc.protocol.mbot.Api.prototype.sendNoResponseCommand = function(deviceType,
 
 
 /**
- * Send byte data to mBot robot
- * @param  {[int]} data bytes to send
- * @export
- */
-cwc.protocol.mbot.Api.prototype.sendBytesToRobot = function(data) {
-  if (this.device) {
-    this.device.send(this.arrayBufferFromArray(data));
-  } else {
-    // console.log("no device available");
-  }
-};
-
-
-/**
  * buzz beepBuzzer
  * @export
  */
@@ -348,16 +335,18 @@ cwc.protocol.mbot.Api.prototype.setRightMotor = function(speed) {
 
 /**
  * set led light on the top of the mbot
- * @param  {int} lightIndex    0 for all lights; 1 for left, 2 for right
- * @param  {int} red           red value (0-255)
- * @param  {int} green         green value (0-255)
- * @param  {int} blue          blue value (0-255)
+ * @param {int} red           red value (0-255)
+ * @param {int} green         green value (0-255)
+ * @param {int} blue          blue value (0-255)
+ * @param {int} opt_lightIndex    0 for all lights; 1 for left, 2 for right
  * @export
  */
-cwc.protocol.mbot.Api.prototype.setLEDColor = function(lightIndex, red, green,
-    blue) {
+cwc.protocol.mbot.Api.prototype.setLEDColor = function(red, green,
+    blue, opt_lightIndex) {
   this.sendNoResponseCommand(this.command.DEVICE_LEDLIGHT, [
-    this.command.PORT_LED_LIGHT, this.command.SLOT_LED_LIGHT, lightIndex,
+    this.command.PORT_LED_LIGHT,
+    this.command.SLOT_LED_LIGHT,
+    opt_lightIndex || 0,
     red, green, blue
   ]);
 };
@@ -391,6 +380,7 @@ cwc.protocol.mbot.Api.prototype.stop = function(opt_port) {
  * @export
  */
 cwc.protocol.mbot.Api.prototype.ultrasonicValueChanged = function(value) {
+  console.log('ultrasonicValueChanged', value);
   this.eventHandler.dispatchEvent(
     cwc.protocol.mbot.Events.UltrasonicSensorValue(value));
 };
@@ -402,6 +392,7 @@ cwc.protocol.mbot.Api.prototype.ultrasonicValueChanged = function(value) {
  * @export
  */
 cwc.protocol.mbot.Api.prototype.lightnessValueChanged = function(value) {
+  console.log('lightnessValueChanged', value);
   this.eventHandler.dispatchEvent(
     cwc.protocol.mbot.Events.LightnessSensorValue(value));
 };
@@ -413,6 +404,19 @@ cwc.protocol.mbot.Api.prototype.lightnessValueChanged = function(value) {
  * @export
  */
 cwc.protocol.mbot.Api.prototype.linefollowerValueChanged = function(value) {
+  console.log('linefollowerValueChanged', value);
   this.eventHandler.dispatchEvent(
     cwc.protocol.mbot.Events.LinefollowerSensorValue(value));
+};
+
+
+/**
+ * @param {!ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.mbot.Api.prototype.send_ = function(buffer) {
+  if (!this.device) {
+    return;
+  }
+  this.device.send(buffer);
 };

@@ -34,7 +34,7 @@ Blockly.Blocks['mbot_move_forward'] = {
     this.appendDummyInput()
       .appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '50'],
+        ['slowly', '85'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -57,7 +57,7 @@ Blockly.Blocks['mbot_move_backward'] = {
       .appendField('move backward');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '50'],
+        ['slowly', '85'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -80,7 +80,7 @@ Blockly.Blocks['mbot_turn_left'] = {
       .appendField('move left');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '50'],
+        ['slowly', '85'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -103,7 +103,7 @@ Blockly.Blocks['mbot_turn_right'] = {
       .appendField('turn right');
     this.appendDummyInput().appendField(i18t('steps'))
       .appendField(new Blockly.FieldDropdown([
-        ['slowly', '50'],
+        ['slowly', '85'],
         ['quickly', '180'],
         ['very quickly', '255']
       ]), 'speed');
@@ -182,16 +182,16 @@ Blockly.Blocks['mbot_rgb'] = {
     this.appendDummyInput()
       .appendField(i18t('set on board led '))
       .appendField(new Blockly.FieldDropdown([
-        ['both', 'both'],
-        ['left', 'left'],
-        ['right', 'right']
-      ]), 'position')
-      .appendField(i18t('to color ('))
-      .appendField(new Blockly.FieldColour('#ff0000'), 'colour')
-      .appendField(')');
+        ['both', '0'],
+        ['left', '1'],
+        ['right', '2']
+      ]), 'position');
+    this.appendValueInput('colour')
+      .appendField(i18t('to color ('));
+    this.appendDummyInput().appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Sets the leds on the Sphero ball.');
+    this.setTooltip('Sets the leds on the mBot.');
   }
 };
 

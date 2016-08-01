@@ -112,9 +112,17 @@ Blockly.JavaScript['mbot_play_tone'] = function(block) {
 
 
 Blockly.JavaScript['mbot_rgb'] = function(block) {
-  var position = block.getFieldValue('position');
-  var color = block.getFieldValue('colour');
-  return 'mbot.setLEDColor("' + position +'", "' + color + '",1);\n';
+  var position = parseInt(block.getFieldValue('position') || 0);
+  var colour = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
+    .replace('#', '')
+    .replace('\'', '')
+    .replace('"', ''), 16);
+  var red = colour >> 16;
+  var green = colour >> 8 & 0xFF;
+  var blue = colour & 0xFF;
+  return 'mbot.setLEDColor(' + red + ', ' + green + ', ' + blue + ', ' +
+    position + ', 100);\n';
 };
 
 

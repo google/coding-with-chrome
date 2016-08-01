@@ -44,15 +44,16 @@ cwc.protocol.bluetooth.supportedDevices = {
     icon: 'adb'
   },
   SPHERO: {
-    'name': 'Sphero 2.0',
-    'indicator': 'Sphero',
-    'deviceClass': 2360392,
-    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
+    name: 'Sphero 2.0',
+    indicator: 'Sphero',
+    deviceClass: 2360392,
+    uuid: '00001101-0000-1000-8000-00805f9b34fb',
+    icon: 'adjust'
   },
   MBOT: {
-    'name': 'mBot',
-    'indicator': 'Makeblock',
-    'deviceClass': 5898756,
-    'uuid': '00001101-0000-1000-8000-00805f9b34fb'
+    name: 'mBot',
+    indicator: 'Makeblock',
+    deviceClass: 5898756,
+    uuid: '00001101-0000-1000-8000-00805f9b34fb'
   }
 };

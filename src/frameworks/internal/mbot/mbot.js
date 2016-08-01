@@ -78,30 +78,21 @@ cwc.framework.mBot.prototype.beepBuzzer = function() {
 
 /**
  * Set the on-board LED color of the mBOt
- * @param {string} position
+ * @param {!number} red 0-255
+ * @param {!number} green 0-255
+ * @param {!number} blue 0-255
+ * @param {string=} opt_position
  *   position of the on-board LED: 0-both, 1-left, 2-right
- * @param {string} color css color of the color (#rrggbb)
- * @param {void} opt_delay
+ * @param {void=} opt_delay
  * @export
  */
-cwc.framework.mBot.prototype.setLEDColor = function(position, color,
-    opt_delay) {
-  console.log('pos: ' + position + ' color: ' + color);
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  var red = parseInt(result[1], 16);
-  var green = parseInt(result[2], 16);
-  var blue = parseInt(result[3], 16);
-
-  var positionId = 0;
-  if (position == 'left') {
-    positionId = 1;
-  } else if (position == 'right') {
-    positionId = 2;
-  }
-
+cwc.framework.mBot.prototype.setLEDColor = function(red, green, blue,
+    opt_position, opt_delay) {
   this.runner.send('setLEDColor', {
-    'position': positionId, 'red': red, 'green': green, 'blue': blue
-  }, opt_delay);
+    'red': red,
+    'green': green,
+    'blue': blue,
+    'position': opt_position || 0}, opt_delay);
 };
 
 
@@ -160,7 +151,7 @@ cwc.framework.mBot.prototype.getDelay = function(steps, opt_speed) {
  * Turn mBot at a speed
  * @param  {int} steps how long should the mBot rotate
  * @param {number=} opt_speed 0 - 255
- * @param {number=} opt_delay in msec
+ * @param {number=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.mBot.prototype.turn = function(steps, opt_speed, opt_delay) {
@@ -176,7 +167,7 @@ cwc.framework.mBot.prototype.turn = function(steps, opt_speed, opt_delay) {
  * Move mBot for certain speeds
  * @param {number} steps how long should the mBot walk
  * @param {number=} opt_speed 0 - 255
- * @param {number=} opt_delay in msec
+ * @param {number=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.mBot.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
