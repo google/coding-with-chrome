@@ -28,19 +28,12 @@ Blockly.Blocks['mbot_move_forward'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
-    this.appendValueInput('steps')
+    this.appendValueInput('speed')
       .setCheck('Number')
       .appendField('move forward');
-    this.appendDummyInput()
-      .appendField(i18t('steps'))
-      .appendField(new Blockly.FieldDropdown([
-        ['slowly', '85'],
-        ['quickly', '180'],
-        ['very quickly', '255']
-      ]), 'speed');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Move the robot forward for a specified number of steps. ');
+    this.setTooltip('Move the robot forward with the specific speed.');
   }
 };
 
@@ -52,18 +45,12 @@ Blockly.Blocks['mbot_move_backward'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
-    this.appendValueInput('steps')
+    this.appendValueInput('speed')
       .setCheck('Number')
       .appendField('move backward');
-    this.appendDummyInput().appendField(i18t('steps'))
-      .appendField(new Blockly.FieldDropdown([
-        ['slowly', '85'],
-        ['quickly', '180'],
-        ['very quickly', '255']
-      ]), 'speed');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Move the robot backward for a specified number of steps.');
+    this.setTooltip('Move the robot backward with the specific speed.');
   }
 };
 
@@ -75,18 +62,12 @@ Blockly.Blocks['mbot_turn_left'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
-    this.appendValueInput('steps')
+    this.appendValueInput('speed')
       .setCheck('Number')
-      .appendField('move left');
-    this.appendDummyInput().appendField(i18t('steps'))
-      .appendField(new Blockly.FieldDropdown([
-        ['slowly', '85'],
-        ['quickly', '180'],
-        ['very quickly', '255']
-      ]), 'speed');
+      .appendField('turn left');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Turn the robot left by specific steps.');
+    this.setTooltip('Turn the robot left with the specific speed.');
   }
 };
 
@@ -98,18 +79,12 @@ Blockly.Blocks['mbot_turn_right'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
-    this.appendValueInput('steps')
+    this.appendValueInput('speed')
       .setCheck('Number')
       .appendField('turn right');
-    this.appendDummyInput().appendField(i18t('steps'))
-      .appendField(new Blockly.FieldDropdown([
-        ['slowly', '85'],
-        ['quickly', '180'],
-        ['very quickly', '255']
-      ]), 'speed');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Turn the robot right by specific steps.');
+    this.setTooltip('Turn the robot right with the specific speed.');
   }
 };
 

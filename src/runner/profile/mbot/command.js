@@ -35,14 +35,6 @@ cwc.runner.profile.mbot.Command = function(api) {
 
 
 /**
- * @param {Object=} opt_data
- */
-cwc.runner.profile.mbot.Command.prototype.beepBuzzer = function(opt_data) {
-  this.api.beepBuzzer();
-};
-
-
-/**
  * set motor speed of mbot
  * @param  {Object} data
  * @export
@@ -60,7 +52,7 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data) {
  * move mbot forward or backward
  * @param  {Object} data data package
  */
-cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data) {
+cwc.runner.profile.mbot.Command.prototype.movePower = function(data) {
   this.api.setLeftMotor(-data['speed']);
   this.api.setRightMotor(data['speed']);
 };
@@ -70,7 +62,7 @@ cwc.runner.profile.mbot.Command.prototype.moveSteps = function(data) {
  * turn mbot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.mbot.Command.prototype.turn = function(data) {
+cwc.runner.profile.mbot.Command.prototype.turnPower = function(data) {
   this.api.setLeftMotor(data['speed']);
   this.api.setRightMotor(data['speed']);
 };
@@ -95,10 +87,7 @@ cwc.runner.profile.mbot.Command.prototype.stop = function(opt_data) {
 
 
 /**
- * set led color of the mbot
- * index: which led to light up? 0 - ALL; 1 - Left; 2 - Right
- * red, green, blue: RGB values
- * @param  {Object} data Data package
+ * @param {!Object} data
  * @export
  */
 cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data) {
@@ -108,16 +97,14 @@ cwc.runner.profile.mbot.Command.prototype.setLEDColor = function(data) {
 
 
 /**
- * play music note on mbot
- * @param  {Object} data data package
+ * @param {!Object} data
  * @export
  */
-cwc.runner.profile.mbot.Command.prototype.playNote = function(data) {
-  this.api.playNote(data['frequency'], data['duration']);
+cwc.runner.profile.mbot.Command.prototype.playTone = function(data) {
+  this.api.playTone(data['frequency'], data['duration']);
 };
 
 
-// SECTION: get values from sensors
 /**
  * return ultrasonic value from mbot
  * @return {number} sensor value

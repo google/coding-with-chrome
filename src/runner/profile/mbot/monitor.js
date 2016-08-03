@@ -48,11 +48,11 @@ cwc.runner.profile.mbot.Monitor.prototype.reset = function() {
  * move mbot forward or backward
  * @param  {Object} data data package
  */
-cwc.runner.profile.mbot.Monitor.prototype.moveSteps = function(data) {
+cwc.runner.profile.mbot.Monitor.prototype.movePower = function(data) {
   if (data['speed'] > 0) {
-    this.turtle.action('fd', data['steps']);
+    this.turtle.action('fd', data['speed']);
   } else {
-    this.turtle.action('bk', data['steps']);
+    this.turtle.action('bk', data['speed']);
   }
 };
 
@@ -61,10 +61,10 @@ cwc.runner.profile.mbot.Monitor.prototype.moveSteps = function(data) {
  * turn mbot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.mbot.Monitor.prototype.turn = function(data) {
+cwc.runner.profile.mbot.Monitor.prototype.turnPower = function(data) {
   if (data['speed'] > 0) {
-    this.turtle.action('rt', data['steps']);
+    this.turtle.action('rt', data['speed']);
   } else {
-    this.turtle.action('lt', data['steps']);
+    this.turtle.action('lt', data['speed']);
   }
 };

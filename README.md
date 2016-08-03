@@ -143,7 +143,7 @@ The following operating systems are supported by Coding with Chrome:
 The following robots are supported, out of the box by Coding with Chrome:
 * EV3
 * Sphero 2.0
-* mBot
+* mBot (firmware >= 06.01.104)
 
 
 ## Report Issues

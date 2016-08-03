@@ -23,6 +23,8 @@
 goog.provide('cwc.protocol.mbot.Api');
 
 goog.require('cwc.protocol.mbot.Command');
+goog.require('cwc.protocol.mbot.Port');
+goog.require('cwc.protocol.mbot.Commands');
 goog.require('cwc.protocol.mbot.Monitoring');
 
 goog.require('goog.events.EventTarget');
@@ -39,6 +41,9 @@ cwc.protocol.mbot.Api = function(helper) {
 
   /** @type {!cwc.protocol.mbot.Command} */
   this.command = cwc.protocol.mbot.Command;
+
+  /** @type {!cwc.protocol.mbot.Commands} */
+  this.commands = new cwc.protocol.mbot.Commands();
 
   /** @type {string} */
   this.name = 'mBot';
@@ -118,7 +123,8 @@ cwc.protocol.mbot.Api.prototype.prepare = function() {
       this.headerAsync_, this.headerMinSize_);
   // this.monitoring.init();
   // this.monitoring.start();
-
+  this.playTone(524, 240, 240);
+  this.playTone(584, 240, 240);
   this.prepared = true;
 };
 
@@ -255,6 +261,7 @@ cwc.protocol.mbot.Api.prototype.sendCommandToRobot = function(readOrWrite,
   var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B,
     commandBody.length];
   var command = commandHeader.concat(commandBody);
+  console.log('OLD Data', command);
   var data = this.arrayBufferFromArray(command);
   this.send_(data);
 };
@@ -302,67 +309,49 @@ cwc.protocol.mbot.Api.prototype.sendNoResponseCommand = function(deviceType,
 
 
 /**
- * buzz beepBuzzer
- * @export
- */
-cwc.protocol.mbot.Api.prototype.beepBuzzer = function() {
-  var beepCommand = [0x06, 0x01, 0xfa, 0x00];
-  this.sendNoResponseCommand(0x22, beepCommand);
-};
-
-
-/**
- * set left motor speed
- * @param  {int} speed 0-255
+ * Sets left motor speed
+ * @param  {!number} speed 0-255
  * @export
  */
 cwc.protocol.mbot.Api.prototype.setLeftMotor = function(speed) {
-  this.sendNoResponseCommand(this.command.DEVICE_DCMOTOR, [
-    this.command.PORT_LEFT_MOTOR, speed & 0xff, speed >> 8]);
+  this.send_(this.commands.setMotorPower(
+    speed, cwc.protocol.mbot.Port.LEFT_MOTOR));
 };
 
 
 /**
- * set right motor speed
- * @param  {int} speed 0-255
+ * Sets right motor speed
+ * @param  {!number} speed 0-255
  * @export
  */
 cwc.protocol.mbot.Api.prototype.setRightMotor = function(speed) {
-  this.sendNoResponseCommand(this.command.DEVICE_DCMOTOR, [
-    this.command.PORT_RIGHT_MOTOR, speed & 0xff, speed >> 8]);
+  this.send_(this.commands.setMotorPower(
+    speed, cwc.protocol.mbot.Port.RIGHT_MOTOR));
 };
 
 
 /**
- * set led light on the top of the mbot
- * @param {int} red           red value (0-255)
- * @param {int} green         green value (0-255)
- * @param {int} blue          blue value (0-255)
- * @param {int} opt_lightIndex    0 for all lights; 1 for left, 2 for right
+ * Sets led light on the top of the mbot
+ * @param {!number} red           red value (0-255)
+ * @param {!number} green         green value (0-255)
+ * @param {!number} blue          blue value (0-255)
+ * @param {number=} opt_index   0 for all lights; 1 for left, 2 for right
  * @export
  */
 cwc.protocol.mbot.Api.prototype.setLEDColor = function(red, green,
-    blue, opt_lightIndex) {
-  this.sendNoResponseCommand(this.command.DEVICE_LEDLIGHT, [
-    this.command.PORT_LED_LIGHT,
-    this.command.SLOT_LED_LIGHT,
-    opt_lightIndex || 0,
-    red, green, blue
-  ]);
+    blue, opt_index) {
+  this.send_(this.commands.setRGBLED(red, green, blue, opt_index));
 };
 
 
 /**
- * play a note through mbot's buzzer
- * @param {float} pitchFrequency frequency of the note to play
- * @param {int} duration duration of the note, in ms
+ * Plays a tone through mbot's buzzer
+ * @param {!number} frequency frequency of the tone to play
+ * @param {!number} duration duration of the tone, in ms
  * @export
  */
-cwc.protocol.mbot.Api.prototype.playNote = function(pitchFrequency, duration) {
-  var frequencyInInt = Math.floor(pitchFrequency);
-  this.sendNoResponseCommand(this.command.DEVICE_BUZZER, [
-    frequencyInInt & 0xff, frequencyInInt >> 8, duration & 0xff, duration >> 8
-  ]);
+cwc.protocol.mbot.Api.prototype.playTone = function(frequency, duration) {
+  this.send_(this.commands.playTone(frequency, duration));
 };
 
 

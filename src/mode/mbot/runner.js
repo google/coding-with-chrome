@@ -140,16 +140,16 @@ cwc.mode.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommand('beepBuzzer', this.command.beepBuzzer, this);
   this.runner.addCommand('setMotor', this.command.setMotor, this);
 
-  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
-  this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this);
+  this.runner.addCommand('movePower', this.command.movePower, this);
+  this.runner.addMonitor('movePower', this.monitor.movePower, this);
 
-  this.runner.addCommand('turn', this.command.turn, this);
-  this.runner.addMonitor('turn', this.monitor.turn, this);
+  this.runner.addCommand('turnPower', this.command.turnPower, this);
+  this.runner.addMonitor('turnPower', this.monitor.turnPower, this);
 
   this.runner.addCommand('wait', this.command.wait, this);
   this.runner.addCommand('stop', this.command.stop, this);
   this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
-  this.runner.addCommand('playNote', this.command.playNote, this);
+  this.runner.addCommand('playTone', this.command.playTone, this);
 
   // Events
   var apiEventHandler = this.api.getEventHandler();

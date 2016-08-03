@@ -68,15 +68,6 @@ cwc.framework.mBot = function(code) {
 
 
 /**
- * beep the buzzer on mbot
- * @export
- */
-cwc.framework.mBot.prototype.beepBuzzer = function() {
-  this.runner.send('beepBuzzer');
-};
-
-
-/**
  * Set the on-board LED color of the mBOt
  * @param {!number} red 0-255
  * @param {!number} green 0-255
@@ -97,15 +88,15 @@ cwc.framework.mBot.prototype.setLEDColor = function(red, green, blue,
 
 
 /**
- * play a music note through the buzzer
+ * Plays a tone through the buzzer.
  * @param  {int} frequency frequency of the note
  * @param  {int} duration  duration in milliseconds
  * @param  {null} opt_delay
  * @export
  */
-cwc.framework.mBot.prototype.playNote = function(frequency, duration,
+cwc.framework.mBot.prototype.playTone = function(frequency, duration,
     opt_delay) {
-  this.runner.send('playNote', {
+  this.runner.send('playTone', {
     'frequency': frequency, 'duration': duration}, opt_delay);
 };
 
@@ -132,49 +123,41 @@ cwc.framework.mBot.prototype.getLightnessSensorValue = function() {
 
 
 /**
- * @param {!number} steps
- * @param {!number} opt_speed
+ * @param {!number} speed
  * @return {!number} Calculated delay + buffer.
  * @export
  */
-cwc.framework.mBot.prototype.getDelay = function(steps, opt_speed) {
+cwc.framework.mBot.prototype.getDelay = function(speed) {
   var buffer = 250;
   var motorSpeed = this.motorSpeed;
-  var speed = opt_speed || 50;
   var delay = Math.floor(
-    (((steps / 360) * Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
+    ((Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
   return delay;
 };
 
 
 /**
  * Turn mBot at a speed
- * @param  {int} steps how long should the mBot rotate
- * @param {number=} opt_speed 0 - 255
+ * @param {!number} speed 0 - 255
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.mBot.prototype.turn = function(steps, opt_speed, opt_delay) {
-  var speed = opt_speed || 50;
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
-  this.runner.send('turn', {
-    'steps': steps,
+cwc.framework.mBot.prototype.turnPower = function(speed, opt_delay) {
+  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
+  this.runner.send('turnPower', {
     'speed': speed}, delay);
 };
 
 
 /**
  * Move mBot for certain speeds
- * @param {number} steps how long should the mBot walk
- * @param {number=} opt_speed 0 - 255
+ * @param {!number} speed 0 - 255
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.mBot.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
-  var speed = opt_speed || 50;
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
-  this.runner.send('moveSteps', {
-    'steps': steps,
+cwc.framework.mBot.prototype.movePower = function(speed, opt_delay) {
+  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
+  this.runner.send('movePower', {
     'speed': speed}, delay);
 };
 

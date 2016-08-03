@@ -18,10 +18,13 @@
  * limitations under the License.
  *
  * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-
-
 goog.provide('cwc.protocol.mbot.Command');
+goog.provide('cwc.protocol.mbot.CommandType');
+goog.provide('cwc.protocol.mbot.Header');
+goog.provide('cwc.protocol.mbot.Port');
+goog.provide('cwc.protocol.mbot.Slot');
 
 
 /**
@@ -44,15 +47,6 @@ cwc.protocol.mbot.Command = {
   DEVICE_LINEFOLLOWER: 11,
   DEVICE_BUZZER: 34,
 
-  PORT_ULTRASONIC: 3,
-  PORT_LIGHTSENSOR: 6,
-  PORT_LINEFOLLOWER: 2,
-  PORT_LED_LIGHT: 7,
-  PORT_LEFT_MOTOR: 9,
-  PORT_RIGHT_MOTOR: 10,
-
-  SLOT_LED_LIGHT: 2,
-
   DATATYPE_BYTE: 1,
   DATATYPE_FLOAT: 2,
   DATATYPE_SHORT: 3,
@@ -67,4 +61,44 @@ cwc.protocol.mbot.Command = {
   LINEFOLLOWER_SUM_BLACK_WHITE: 64,
   LINEFOLLOWER_SUM_WHITE_BLACK: 191,
   LINEFOLLOWER_SUM_WHITE_WHITE: 0,
+};
+
+
+/**
+ * Enum of commands for the communication protocol.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.mbot.CommandType = {
+  READ: 0x01,
+  WRITE: 0x02
+};
+
+
+/**
+ * Header for the communication protocol.
+ * @type {!array}
+ */
+cwc.protocol.mbot.Header = [0xff, 0x55];
+
+
+/**
+ * Enum of commands for the communication protocol.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.mbot.Slot = {
+  LED_LIGHT: 0x02
+};
+
+
+/**
+ * Enum of ports for the communication protocol.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.mbot.Port = {
+  ULTRASONIC: 0x03,
+  LINEFOLLOWER: 0x02,
+  LIGHTSENSOR: 0x06,
+  LED_LIGHT: 0x07,
+  LEFT_MOTOR: 0x09,
+  RIGHT_MOTOR: 0x0A
 };
