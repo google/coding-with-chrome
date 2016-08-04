@@ -1,5 +1,5 @@
 /**
- * @fileoverview Monitor layout for the Sphero modification.
+ * @fileoverview Monitor layout for the mbot modification.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,11 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Monitor');
+goog.provide('cwc.mode.mbot.Monitor');
 
-goog.require('cwc.protocol.sphero.Events');
-goog.require('cwc.soy.mode.sphero.Monitor');
-goog.require('cwc.ui.Helper');
+goog.require('cwc.soy.mode.mbot.Monitor');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');
@@ -33,20 +31,20 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.Monitor = function(helper, connection) {
+cwc.mode.mbot.Monitor = function(helper, connection) {
   /** @type {string} */
-  this.name = 'Sphero Monitor';
+  this.name = 'mBot Monitor';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {!string} */
-  this.prefix = this.helper.getPrefix('sphero-monitor');
+  this.prefix = this.helper.getPrefix('mbot-monitor');
 
-  /** @type {!cwc.mode.sphero.Connection} */
+  /** @type {!cwc.mode.mbot.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.sphero.Api} */
+  /** @type {!cwc.protocol.mbot.Api} */
   this.api = this.connection.getApi();
 
   /** @type {Element} */
@@ -56,13 +54,10 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   this.nodeControl = null;
 
   /** @type {Element} */
-  this.nodeCalibration = null;
-
-  /** @type {Element} */
   this.nodeMonitor = null;
 
   /** @type {Element} */
-  this.nodeMonitorLocation = null;
+  this.nodeMonitorUltrasonic = null;
 
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
@@ -82,7 +77,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
  * Connects the Sphero unit.
  * @export
  */
-cwc.mode.sphero.Monitor.prototype.decorate = function() {
+cwc.mode.mbot.Monitor.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
@@ -92,55 +87,36 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
 
   this.nodeIntro = this.runnerMonitor_.getIntroNode();
   this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
-  this.nodeCalibration = this.runnerMonitor_.getCalibrationNode();
   this.nodeControl = this.runnerMonitor_.getControlNode();
+  this.runnerMonitor_.showCalibrationTab(false);
 
   goog.soy.renderElement(
       this.nodeIntro,
-      cwc.soy.mode.sphero.Monitor.intro,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      this.nodeCalibration,
-      cwc.soy.mode.sphero.Monitor.calibration,
+      cwc.soy.mode.mbot.Monitor.intro,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       this.nodeMonitor,
-      cwc.soy.mode.sphero.Monitor.monitor,
+      cwc.soy.mode.mbot.Monitor.monitor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       this.nodeControl,
-      cwc.soy.mode.sphero.Monitor.control,
+      cwc.soy.mode.mbot.Monitor.control,
       {'prefix': this.prefix}
   );
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.sphero.Monitor.style({'prefix': this.prefix}));
+      cwc.soy.mode.mbot.Monitor.style({'prefix': this.prefix}));
   }
 
-  this.nodeMonitorLocation = goog.dom.getElement(this.prefix + 'location');
-  this.nodeMonitorVelocity = goog.dom.getElement(this.prefix + 'velocity');
-  this.nodeMonitorSpeed = goog.dom.getElement(this.prefix + 'speed');
+  this.nodeMonitorUltrasonic = goog.dom.getElement(this.prefix + 'ultrasonic');
 
   // Update events
-  var eventHandler = this.connection.getEventHandler();
-  this.addEventListener_(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_LOCATION,
-      this.updateLocationData_, false, this);
-
-  this.addEventListener_(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY,
-      this.updateVelocityData_, false, this);
-
-  this.addEventListener_(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_SPEED,
-      this.updateSpeedData_, false, this);
+  //var eventHandler = this.connection.getEventHandler();
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout', true);
@@ -158,7 +134,7 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
+cwc.mode.mbot.Monitor.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -169,25 +145,34 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
 /**
  * @private
  */
-cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
+cwc.mode.mbot.Monitor.prototype.addEventHandler_ = function() {
 
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
-    this.api.roll(50, 270);
+    this.api.setLeftMotorPower(85);
+    this.api.setRightMotorPower(85);
   }.bind(this), false, this);
 
   this.addEventListener_('move-forward', goog.events.EventType.CLICK,
     function() {
-      this.api.roll(50, 0);
+      this.api.setLeftMotorPower(-85);
+      this.api.setRightMotorPower(85);
     }.bind(this), false, this);
 
   this.addEventListener_('move-backward', goog.events.EventType.CLICK,
     function() {
-      this.api.roll(50, 180);
+      this.api.setLeftMotorPower(85);
+      this.api.setRightMotorPower(-85);
     }.bind(this), false, this);
 
   this.addEventListener_('move-right', goog.events.EventType.CLICK, function() {
-    this.api.roll(50, 90);
+    this.api.setLeftMotorPower(-85);
+    this.api.setRightMotorPower(-85);
+  }.bind(this), false, this);
+
+  // Ping
+  this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
+    this.api.playTone(588, 240, 240);
   }.bind(this), false, this);
 
   // Stop
@@ -195,30 +180,13 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
     this.connection.stop();
   }.bind(this), false, this);
 
-  // Sleep
-  this.addEventListener_('sleep', goog.events.EventType.CLICK, function() {
-    this.api.sleep();
-  }.bind(this), false, this);
-
-  // Calibration slide
-  var calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
-  this.addEventListener_(
-    calibrationSlide, goog.events.EventType.INPUT, function(e) {
-      this.api.calibrate(e.target.value, true);
-    }, false, this);
-
-  this.addEventListener_(
-    calibrationSlide, goog.events.EventType.CHANGE, function(opt_e) {
-      this.api.setCalibration();
-    }, false, this);
-
 };
 
 
 /**
  * @private
  */
-cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
+cwc.mode.mbot.Monitor.prototype.addKeyHandler_ = function() {
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   this.shortcutHandler.registerShortcut('backward', 'down');
   this.shortcutHandler.registerShortcut('left', 'left');
@@ -239,98 +207,57 @@ cwc.mode.sphero.Monitor.prototype.addKeyHandler_ = function() {
 
 
 /**
- * Updates the location data in monitor tab.
- * @param {Event} e
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.updateLocationData_ = function(e) {
-  if (this.runnerMonitor_.isMonitorActive()) {
-    goog.soy.renderElement(
-        this.nodeMonitorLocation,
-        cwc.soy.mode.sphero.Monitor.locationData,
-        {'prefix': this.prefix, 'data': e.data}
-    );
-  }
-};
-
-
-/**
- * Updates the velocity data in monitor tab.
- * @param {Event} e
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.updateVelocityData_ = function(e) {
-  if (this.runnerMonitor_.isMonitorActive()) {
-    goog.soy.renderElement(
-        this.nodeMonitorVelocity,
-        cwc.soy.mode.sphero.Monitor.velocityData,
-        {'prefix': this.prefix, 'data': e.data}
-    );
-  }
-};
-
-
-/**
- * Updates the speed data in monitor tab.
- * @param {Event} e
- * @private
- */
-cwc.mode.sphero.Monitor.prototype.updateSpeedData_ = function(e) {
-  if (this.runnerMonitor_.isMonitorActive()) {
-    goog.soy.renderElement(
-        this.nodeMonitorSpeed,
-        cwc.soy.mode.sphero.Monitor.speedData,
-        {'prefix': this.prefix, 'data': e.data}
-    );
-  }
-};
-
-
-/**
  * Handles keyboard shortcuts.
  * @private
  */
-cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
+cwc.mode.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
   if (!this.runnerMonitor_.isControlActive()) {
     return;
   }
 
-  var normalSpeed = 50;
+  var normalSpeed = 85;
   var boostedSpeed = 255;
 
   switch (event.identifier) {
 
     // Normal speed
     case 'forward':
-      this.api.roll(normalSpeed, 0);
+      this.api.setLeftMotorPower(-normalSpeed);
+      this.api.setRightMotorPower(normalSpeed);
       break;
     case 'right':
-      this.api.roll(normalSpeed, 90);
+      this.api.setLeftMotorPower(-normalSpeed);
+      this.api.setRightMotorPower(-normalSpeed);
       break;
     case 'backward':
-      this.api.roll(normalSpeed, 180);
+      this.api.setLeftMotorPower(normalSpeed);
+      this.api.setRightMotorPower(-normalSpeed);
       break;
     case 'left':
-      this.api.roll(normalSpeed, 270);
+      this.api.setLeftMotorPower(normalSpeed);
+      this.api.setRightMotorPower(normalSpeed);
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.roll(boostedSpeed, 0);
+      this.api.setLeftMotorPower(-boostedSpeed);
+      this.api.setRightMotorPower(boostedSpeed);
       break;
     case 'boost-right':
-      this.api.roll(boostedSpeed, 90);
+      this.api.setLeftMotorPower(-boostedSpeed);
+      this.api.setRightMotorPower(-boostedSpeed);
       break;
     case 'boost-backward':
-      this.api.roll(boostedSpeed, 180);
+      this.api.setLeftMotorPower(boostedSpeed);
+      this.api.setRightMotorPower(-boostedSpeed);
       break;
     case 'boost-left':
-      this.api.roll(boostedSpeed, 270);
+      this.api.setLeftMotorPower(boostedSpeed);
+      this.api.setRightMotorPower(boostedSpeed);
       break;
 
     case 'stop':
-      this.api.boost(false);
-      this.api.roll(0);
+      this.connection.stop();
       break;
     default:
       console.info(event.identifier);
@@ -350,7 +277,7 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.mode.sphero.Monitor.prototype.addEventListener_ = function(src, type,
+cwc.mode.mbot.Monitor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;

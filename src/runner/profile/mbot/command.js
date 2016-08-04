@@ -50,21 +50,21 @@ cwc.runner.profile.mbot.Command.prototype.setMotor = function(data) {
 
 /**
  * move mbot forward or backward
- * @param  {Object} data data package
+ * @param {Object} data data package
  */
 cwc.runner.profile.mbot.Command.prototype.movePower = function(data) {
-  this.api.setLeftMotor(-data['speed']);
-  this.api.setRightMotor(data['speed']);
+  this.api.setLeftMotorPower(-data['speed']);
+  this.api.setRightMotorPower(data['speed']);
 };
 
 
 /**
  * turn mbot to a direction
- * @param  {Object} data   data package
+ * @param {Object} data data package
  */
-cwc.runner.profile.mbot.Command.prototype.turnPower = function(data) {
-  this.api.setLeftMotor(data['speed']);
-  this.api.setRightMotor(data['speed']);
+cwc.runner.profile.mbot.Command.prototype.rotatePower = function(data) {
+  this.api.setLeftMotorPower(data['speed']);
+  this.api.setRightMotorPower(data['speed']);
 };
 
 

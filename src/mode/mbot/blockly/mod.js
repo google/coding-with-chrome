@@ -23,6 +23,7 @@ goog.require('cwc.mode.mbot.Connection');
 goog.require('cwc.mode.mbot.Runner');
 goog.require('cwc.mode.mbot.blockly.Editor');
 goog.require('cwc.mode.mbot.blockly.Layout');
+goog.require('cwc.mode.mbot.Monitor');
 goog.require('cwc.renderer.external.mbot');
 
 
@@ -46,6 +47,9 @@ cwc.mode.mbot.blockly.Mod = function(helper) {
 
   /** @type {cwc.mode.mbot.Runner} */
   this.runner = new cwc.mode.mbot.Runner(helper, this.connection);
+
+  /** @type {cwc.mode.mbot.Monitor} */
+  this.monitor = new cwc.mode.mbot.Monitor(helper, this.connection);
 };
 
 
@@ -57,5 +61,6 @@ cwc.mode.mbot.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
   this.runner.decorate();
+  this.monitor.decorate();
   this.renderer.init();
 };

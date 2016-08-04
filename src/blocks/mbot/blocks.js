@@ -39,6 +39,24 @@ Blockly.Blocks['mbot_move_forward'] = {
 
 
 /**
+ * Move forward time.
+ */
+Blockly.Blocks['mbot_move_forward_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number')
+      .appendField('move forward for');
+    this.appendValueInput('speed').setCheck('Number').appendField('sec with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the mBot forward for the given seconds.');
+  }
+};
+
+
+/**
  * Move backward.
  */
 Blockly.Blocks['mbot_move_backward'] = {
@@ -56,18 +74,54 @@ Blockly.Blocks['mbot_move_backward'] = {
 
 
 /**
+ * Move forward time.
+ */
+Blockly.Blocks['mbot_move_backward_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number')
+      .appendField('move backward for');
+    this.appendValueInput('speed').setCheck('Number').appendField('sec with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the mBot backward for the given seconds.');
+  }
+};
+
+
+/**
  * Rotate left.
  */
-Blockly.Blocks['mbot_turn_left'] = {
+Blockly.Blocks['mbot_rotate_left'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
-      .appendField('turn left');
+      .appendField('rotate left');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Turn the robot left with the specific speed.');
+    this.setTooltip('rotate the robot left with the specific speed.');
+  }
+};
+
+
+/**
+ * Rotate left time.
+ */
+Blockly.Blocks['mbot_rotate_left_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number')
+      .appendField('rotate left for');
+    this.appendValueInput('speed').setCheck('Number').appendField('sec with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Rotate the mBot left for the given seconds.');
   }
 };
 
@@ -75,16 +129,34 @@ Blockly.Blocks['mbot_turn_left'] = {
 /**
  * Rotate right.
  */
-Blockly.Blocks['mbot_turn_right'] = {
+Blockly.Blocks['mbot_rotate_right'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
-      .appendField('turn right');
+      .appendField('rotate right');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Turn the robot right with the specific speed.');
+    this.setTooltip('rotate the robot right with the specific speed.');
+  }
+};
+
+
+/**
+ * Rotate right time.
+ */
+Blockly.Blocks['mbot_rotate_right_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number')
+      .appendField('rotate right for');
+    this.appendValueInput('speed').setCheck('Number').appendField('sec with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Rotate the mBot right for the given seconds.');
   }
 };
 

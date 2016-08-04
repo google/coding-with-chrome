@@ -142,10 +142,24 @@ cwc.framework.mBot.prototype.getDelay = function(speed) {
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.mBot.prototype.turnPower = function(speed, opt_delay) {
+cwc.framework.mBot.prototype.rotatePower = function(speed, opt_delay) {
   var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
-  this.runner.send('turnPower', {
+  this.runner.send('rotatePower', {
     'speed': speed}, delay);
+};
+
+
+/**
+ * Rotates mBot for certain time and speeds
+ * @param {!number} time in msec
+ * @param {!number} speed 0 - 255
+ * @export
+ */
+cwc.framework.mBot.prototype.rotatePowerTime = function(time, speed) {
+  this.runner.send('rotatePower', {
+    'speed': speed}, time);
+  this.runner.send('rotatePower', {
+    'speed': 0}, 100);
 };
 
 
@@ -159,6 +173,20 @@ cwc.framework.mBot.prototype.movePower = function(speed, opt_delay) {
   var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('movePower', {
     'speed': speed}, delay);
+};
+
+
+/**
+ * Move mBot for certain time and speeds
+ * @param {!number} time in msec
+ * @param {!number} speed 0 - 255
+ * @export
+ */
+cwc.framework.mBot.prototype.movePowerTime = function(time, speed) {
+  this.runner.send('movePower', {
+    'speed': speed}, time);
+  this.runner.send('movePower', {
+    'speed': 0}, 100);
 };
 
 

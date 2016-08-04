@@ -61,7 +61,7 @@ cwc.runner.profile.mbot.Monitor.prototype.movePower = function(data) {
  * turn mbot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.mbot.Monitor.prototype.turnPower = function(data) {
+cwc.runner.profile.mbot.Monitor.prototype.rotatePower = function(data) {
   if (data['speed'] > 0) {
     this.turtle.action('rt', data['speed']);
   } else {

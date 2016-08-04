@@ -32,6 +32,19 @@ Blockly.JavaScript['mbot_move_forward'] = function(block) {
 
 
 /**
+ * mBot move forward time.
+ */
+Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
+  var time = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+
+  return 'mbot.movePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
+};
+
+
+/**
  * mBot move backwards.
  */
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
@@ -42,22 +55,62 @@ Blockly.JavaScript['mbot_move_backward'] = function(block) {
 
 
 /**
- * Rotate left.
+ * mBot move forward time.
  */
-Blockly.JavaScript['mbot_turn_left'] = function(block) {
+Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
+  var time = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.turnPower(' + speed + ', true);\n';
+
+  return 'mbot.movePowerTime(' + (time * 1000) + ', ' + (-speed) + ', true);\n';
+};
+
+
+/**
+ * Rotate left.
+ */
+Blockly.JavaScript['mbot_rotate_left'] = function(block) {
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  return 'mbot.rotatePower(' + speed + ', true);\n';
+};
+
+
+/**
+ * Rotate left time.
+ */
+Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
+  var time = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+
+  return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
 };
 
 
 /**
  * Rotate right.
  */
-Blockly.JavaScript['mbot_turn_right'] = function(block) {
+Blockly.JavaScript['mbot_rotate_right'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.turnPower(' + (-speed) + ', true);\n';
+  return 'mbot.rotatePower(' + (-speed) + ', true);\n';
+};
+
+
+/**
+ * Rotate right time.
+ */
+Blockly.JavaScript['mbot_rotate_right_time'] = function(block) {
+  var time = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+
+  return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
+    ', true);\n';
 };
 
 

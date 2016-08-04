@@ -160,8 +160,8 @@ cwc.protocol.mbot.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
   this.reset();
   this.monitoring.stop();
-  this.setLeftMotor(0);
-  this.setRightMotor(0);
+  this.setLeftMotorPower(0);
+  this.setRightMotorPower(0);
 };
 
 
@@ -309,24 +309,24 @@ cwc.protocol.mbot.Api.prototype.sendNoResponseCommand = function(deviceType,
 
 
 /**
- * Sets left motor speed
- * @param  {!number} speed 0-255
+ * Sets left motor power
+ * @param  {!number} power 0-255
  * @export
  */
-cwc.protocol.mbot.Api.prototype.setLeftMotor = function(speed) {
+cwc.protocol.mbot.Api.prototype.setLeftMotorPower = function(power) {
   this.send_(this.commands.setMotorPower(
-    speed, cwc.protocol.mbot.Port.LEFT_MOTOR));
+    power, cwc.protocol.mbot.Port.LEFT_MOTOR));
 };
 
 
 /**
- * Sets right motor speed
- * @param  {!number} speed 0-255
+ * Sets right motor power
+ * @param  {!number} power 0-255
  * @export
  */
-cwc.protocol.mbot.Api.prototype.setRightMotor = function(speed) {
+cwc.protocol.mbot.Api.prototype.setRightMotorPower = function(power) {
   this.send_(this.commands.setMotorPower(
-    speed, cwc.protocol.mbot.Port.RIGHT_MOTOR));
+    power, cwc.protocol.mbot.Port.RIGHT_MOTOR));
 };
 
 
@@ -359,6 +359,8 @@ cwc.protocol.mbot.Api.prototype.playTone = function(frequency, duration) {
  * @export
  */
 cwc.protocol.mbot.Api.prototype.stop = function(opt_port) {
+  this.setLeftMotorPower(0);
+  this.setRightMotorPower(0);
   this.reset();
 };
 

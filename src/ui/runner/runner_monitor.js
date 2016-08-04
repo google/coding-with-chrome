@@ -74,6 +74,9 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   this.nodeMainStop = null;
 
   /** @type {Element} */
+  this.tabCalibration = null;
+
+  /** @type {Element} */
   this.tabControl = null;
 
   /** @type {Element} */
@@ -106,6 +109,7 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   );
 
   // Tabs
+  this.tabCalibration = goog.dom.getElement(this.prefix + 'tab-calibration');
   this.tabControl = goog.dom.getElement(this.prefix + 'tab-control');
   this.tabMonitor = goog.dom.getElement(this.prefix + 'tab-monitor');
 
@@ -141,6 +145,14 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
 cwc.ui.RunnerMonitor.prototype.setRunStatus = function(running) {
   goog.dom.classlist.enable(this.nodeMainRun, this.active_, !running);
   goog.dom.classlist.enable(this.nodeMainStop, this.active_, running);
+};
+
+
+/**
+ * @param {!boolean} show
+ */
+cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
+  goog.style.showElement(this.tabCalibration, show);
 };
 
 

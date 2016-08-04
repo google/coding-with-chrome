@@ -82,6 +82,7 @@ cwc.mode.mbot.Connection.prototype.connect = function(opt_event) {
 
 /**
  * Stops the current executions.
+ * @export
  */
 cwc.mode.mbot.Connection.prototype.stop = function() {
   var runnerInstance = this.helper.getInstance('runner');

@@ -230,15 +230,16 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
     this.api.moveServo(5, -50);
   }.bind(this), false, this);
 
+  // Ping
+  this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
+    this.api.playTone(3000, 200, 50);
+  }.bind(this), false, this);
+
   // Stop
   this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
     this.api.stop();
   }.bind(this), false, this);
 
-  // Ping
-  this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
-    this.api.playTone(3000, 200, 50);
-  }.bind(this), false, this);
 };
 
 
@@ -304,25 +305,27 @@ cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  */
 cwc.mode.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(keys) {
   var speed = 40;
+  var steps = 5;
+
   switch (keys) {
     // Normal speed
     case 'forward':
-      this.api.customMoveSteps(5, undefined, -speed);
+      this.api.customMoveSteps(steps, undefined, -speed);
       break;
     case 'right':
-      this.api.customRotateSteps(5, undefined, speed);
+      this.api.customRotateSteps(steps, undefined, speed);
       break;
     case 'backward':
-      this.api.customMoveSteps(5, undefined, speed);
+      this.api.customMoveSteps(steps, undefined, speed);
       break;
     case 'left':
-      this.api.customRotateSteps(5, undefined, -speed);
+      this.api.customRotateSteps(steps, undefined, -speed);
       break;
     case 'up':
-      this.api.moveServo(5, speed);
+      this.api.moveServo(steps, speed);
       break;
     case 'down':
-      this.api.moveServo(5, -speed);
+      this.api.moveServo(steps, -speed);
       break;
   }
 };
@@ -333,27 +336,29 @@ cwc.mode.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(keys) {
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(keys) {
+  var steps = 5;
   var speed = 50;
   var boostedSpeed = 100;
+
   switch (keys) {
     // Normal speed
     case 'forward':
       this.api.moveSteps(50, speed, false);
       break;
     case 'right':
-      this.api.rotateSteps(5, speed, false);
+      this.api.rotateSteps(steps, speed, false);
       break;
     case 'backward':
       this.api.moveSteps(50, -speed, false);
       break;
     case 'left':
-      this.api.rotateSteps(5, -speed, false);
+      this.api.rotateSteps(steps, -speed, false);
       break;
     case 'up':
-      this.api.moveServo(5, speed);
+      this.api.moveServo(steps, speed);
       break;
     case 'down':
-      this.api.moveServo(5, -speed);
+      this.api.moveServo(steps, -speed);
       break;
 
     // Boosted speed
