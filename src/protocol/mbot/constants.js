@@ -22,6 +22,7 @@
  */
 goog.provide('cwc.protocol.mbot.Command');
 goog.provide('cwc.protocol.mbot.CommandType');
+goog.provide('cwc.protocol.mbot.Device');
 goog.provide('cwc.protocol.mbot.Header');
 goog.provide('cwc.protocol.mbot.Port');
 goog.provide('cwc.protocol.mbot.Slot');
@@ -65,12 +66,26 @@ cwc.protocol.mbot.Command = {
 
 
 /**
- * Enum of commands for the communication protocol.
+ * Enum of command types for the communication protocol.
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.mbot.CommandType = {
   READ: 0x01,
   WRITE: 0x02
+};
+
+
+/**
+ * Enum of devices for the communication protocol.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.mbot.Device = {
+  ULTRASONIC: 1,
+  LIGHTSENSOR: 3,
+  LEDLIGHT: 8,
+  DCMOTOR: 10,
+  LINEFOLLOWER: 11,
+  BUZZER: 34,
 };
 
 

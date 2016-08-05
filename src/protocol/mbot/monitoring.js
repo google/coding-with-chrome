@@ -104,8 +104,7 @@ cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function() {
   var readIndex = this.readIndex % this.availableSensors.length;
   switch (this.availableSensors[readIndex]) {
     case this.command.DEVICE_ULTRASONIC:
-      this.api.sendReadCommandToRobot(this.command.DEVICE_ULTRASONIC,
-        readIndex, [this.command.PORT_ULTRASONIC]);
+      this.api.readUltrasonicSensor(readIndex);
       break;
     case this.command.DEVICE_LIGHTSENSOR:
       this.api.sendReadCommandToRobot(this.command.DEVICE_LIGHTSENSOR,

@@ -22,6 +22,7 @@ goog.provide('cwc.protocol.mbot.Commands');
 goog.require('cwc.protocol.mbot.Buffer');
 goog.require('cwc.protocol.mbot.Command');
 goog.require('cwc.protocol.mbot.CommandType');
+goog.require('cwc.protocol.mbot.Device');
 goog.require('cwc.protocol.mbot.Header');
 goog.require('cwc.protocol.mbot.Port');
 goog.require('cwc.protocol.mbot.Slot');
@@ -53,7 +54,7 @@ cwc.protocol.mbot.Commands.prototype.setRGBLED = function(red, green, blue,
   var buffer = new cwc.protocol.mbot.Buffer();
   buffer.writeIndex(cwc.protocol.mbot.Command.INDEX_WITHOUT_RESPONSE);
   buffer.writeType(cwc.protocol.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.mbot.Command.DEVICE_LEDLIGHT);
+  buffer.writeCommand(cwc.protocol.mbot.Device.LEDLIGHT);
   buffer.writePort(cwc.protocol.mbot.Port.LED_LIGHT);
   buffer.writeByte(cwc.protocol.mbot.Slot.LED_LIGHT);
   buffer.writeByte(opt_index || 0x00);
@@ -75,7 +76,7 @@ cwc.protocol.mbot.Commands.prototype.playTone = function(frequency, duration) {
   var buffer = new cwc.protocol.mbot.Buffer();
   buffer.writeIndex(cwc.protocol.mbot.Command.INDEX_WITHOUT_RESPONSE);
   buffer.writeType(cwc.protocol.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.mbot.Command.DEVICE_BUZZER);
+  buffer.writeCommand(cwc.protocol.mbot.Device.BUZZER);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
   return buffer.readSigned();
@@ -93,8 +94,24 @@ cwc.protocol.mbot.Commands.prototype.setMotorPower = function(power, opt_port) {
   var buffer = new cwc.protocol.mbot.Buffer();
   buffer.writeIndex(cwc.protocol.mbot.Command.INDEX_WITHOUT_RESPONSE);
   buffer.writeType(cwc.protocol.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.mbot.Command.DEVICE_DCMOTOR);
+  buffer.writeCommand(cwc.protocol.mbot.Device.DCMOTOR);
   buffer.writePort(opt_port, cwc.protocol.mbot.Port.RIGHT_MOTOR);
   buffer.writeShort(power);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Reads out the current ultrasonic sensor value.
+ * @param {!number} index
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.mbot.Commands.prototype.readUltrasonicSensor = function(index) {
+  var buffer = new cwc.protocol.mbot.Buffer();
+  buffer.writeIndex(index, 33);
+  buffer.writeType(cwc.protocol.mbot.CommandType.READ);
+  buffer.writeCommand(cwc.protocol.mbot.Device.ULTRASONIC);
+  buffer.writePort(cwc.protocol.mbot.Port.ULTRASONIC);
   return buffer.readSigned();
 };

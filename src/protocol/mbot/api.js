@@ -331,6 +331,15 @@ cwc.protocol.mbot.Api.prototype.setRightMotorPower = function(power) {
 
 
 /**
+ * @param  {!number} index
+ * @export
+ */
+cwc.protocol.mbot.Api.prototype.readUltrasonicSensor = function(index) {
+  this.send_(this.commands.readUltrasonicSensor(index));
+};
+
+
+/**
  * Sets led light on the top of the mbot
  * @param {!number} red           red value (0-255)
  * @param {!number} green         green value (0-255)
