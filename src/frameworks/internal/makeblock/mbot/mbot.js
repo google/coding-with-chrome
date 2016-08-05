@@ -1,5 +1,5 @@
 /**
- * @fileoverview mbot framework for runner instances.
+ * @fileoverview mBot framework for runner instances.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
@@ -18,7 +18,7 @@
  * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.mBot');
+goog.provide('cwc.framework.makeblock.mBot');
 
 goog.require('cwc.framework.Runner');
 
@@ -31,7 +31,7 @@ goog.require('cwc.framework.Runner');
  * @final
  * @export
  */
-cwc.framework.mBot = function(code) {
+cwc.framework.makeblock.mBot = function(code) {
   /** @type {string} */
   this.name = 'mbot Framework';
 
@@ -77,7 +77,7 @@ cwc.framework.mBot = function(code) {
  * @param {void=} opt_delay
  * @export
  */
-cwc.framework.mBot.prototype.setLEDColor = function(red, green, blue,
+cwc.framework.makeblock.mBot.prototype.setLEDColor = function(red, green, blue,
     opt_position, opt_delay) {
   this.runner.send('setLEDColor', {
     'red': red,
@@ -94,7 +94,7 @@ cwc.framework.mBot.prototype.setLEDColor = function(red, green, blue,
  * @param  {null} opt_delay
  * @export
  */
-cwc.framework.mBot.prototype.playTone = function(frequency, duration,
+cwc.framework.makeblock.mBot.prototype.playTone = function(frequency, duration,
     opt_delay) {
   this.runner.send('playTone', {
     'frequency': frequency, 'duration': duration}, opt_delay);
@@ -106,7 +106,7 @@ cwc.framework.mBot.prototype.playTone = function(frequency, duration,
  * @return {void}
  * @export
  */
-cwc.framework.mBot.prototype.getUltrasonicSensorValue = function() {
+cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
   console.log('read ultrasonic sensor and get ' + this.ultrasonicSensorValue);
   return this.ultrasonicSensorValue;
 };
@@ -117,7 +117,7 @@ cwc.framework.mBot.prototype.getUltrasonicSensorValue = function() {
  * @return {void}
  * @export
  */
-cwc.framework.mBot.prototype.getLightnessSensorValue = function() {
+cwc.framework.makeblock.mBot.prototype.getLightnessSensorValue = function() {
   return this.lightnessSensorValue;
 };
 
@@ -127,7 +127,7 @@ cwc.framework.mBot.prototype.getLightnessSensorValue = function() {
  * @return {!number} Calculated delay + buffer.
  * @export
  */
-cwc.framework.mBot.prototype.getDelay = function(speed) {
+cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
   var buffer = 250;
   var motorSpeed = this.motorSpeed;
   var delay = Math.floor(
@@ -142,7 +142,8 @@ cwc.framework.mBot.prototype.getDelay = function(speed) {
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.mBot.prototype.rotatePower = function(speed, opt_delay) {
+cwc.framework.makeblock.mBot.prototype.rotatePower = function(speed,
+    opt_delay) {
   var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('rotatePower', {
     'speed': speed}, delay);
@@ -155,7 +156,7 @@ cwc.framework.mBot.prototype.rotatePower = function(speed, opt_delay) {
  * @param {!number} speed 0 - 255
  * @export
  */
-cwc.framework.mBot.prototype.rotatePowerTime = function(time, speed) {
+cwc.framework.makeblock.mBot.prototype.rotatePowerTime = function(time, speed) {
   this.runner.send('rotatePower', {
     'speed': speed}, time);
   this.runner.send('rotatePower', {
@@ -169,7 +170,7 @@ cwc.framework.mBot.prototype.rotatePowerTime = function(time, speed) {
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.mBot.prototype.movePower = function(speed, opt_delay) {
+cwc.framework.makeblock.mBot.prototype.movePower = function(speed, opt_delay) {
   var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('movePower', {
     'speed': speed}, delay);
@@ -182,7 +183,7 @@ cwc.framework.mBot.prototype.movePower = function(speed, opt_delay) {
  * @param {!number} speed 0 - 255
  * @export
  */
-cwc.framework.mBot.prototype.movePowerTime = function(time, speed) {
+cwc.framework.makeblock.mBot.prototype.movePowerTime = function(time, speed) {
   this.runner.send('movePower', {
     'speed': speed}, time);
   this.runner.send('movePower', {
@@ -195,7 +196,7 @@ cwc.framework.mBot.prototype.movePowerTime = function(time, speed) {
  * @param {!number} time in msec
  * @export
  */
-cwc.framework.mBot.prototype.wait = function(time) {
+cwc.framework.makeblock.mBot.prototype.wait = function(time) {
   this.runner.send('wait', null, time);
 };
 
@@ -205,7 +206,7 @@ cwc.framework.mBot.prototype.wait = function(time) {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.mBot.prototype.stop = function(opt_delay) {
+cwc.framework.makeblock.mBot.prototype.stop = function(opt_delay) {
   this.runner.send('stop', null, opt_delay);
 };
 
@@ -214,7 +215,8 @@ cwc.framework.mBot.prototype.stop = function(opt_delay) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.mBot.prototype.onUltrasonicSensorChange = function(func) {
+cwc.framework.makeblock.mBot.prototype.onUltrasonicSensorChange = function(
+    func) {
   if (goog.isFunction(func)) {
     this.ultrasonicSensorEvent = func;
   }
@@ -225,7 +227,8 @@ cwc.framework.mBot.prototype.onUltrasonicSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.mBot.prototype.onLightnessSensorChange = function(func) {
+cwc.framework.makeblock.mBot.prototype.onLightnessSensorChange = function(
+    func) {
   if (goog.isFunction(func)) {
     this.lightnessSensorEvent = func;
   }
@@ -236,7 +239,8 @@ cwc.framework.mBot.prototype.onLightnessSensorChange = function(func) {
  * @param {!number} data
  * @private
  */
-cwc.framework.mBot.prototype.handleUpdateUltrasonicSensorValue_ = function(
+cwc.framework.makeblock.mBot.prototype.handleUpdateUltrasonicSensorValue_ =
+function(
     data) {
   this.ultrasonicSensorValue = data;
   this.ultrasonicSensorEvent(data);
@@ -247,7 +251,8 @@ cwc.framework.mBot.prototype.handleUpdateUltrasonicSensorValue_ = function(
  * @param {!number} data
  * @private
  */
-cwc.framework.mBot.prototype.handleUpdateLightnessSensorValue_ = function(
+cwc.framework.makeblock.mBot.prototype.handleUpdateLightnessSensorValue_ =
+function(
     data) {
   this.lightnessSensorValue = data;
   this.lightnessSensorEvent(data);

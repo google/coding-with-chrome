@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.renderer.external.mbot');
+goog.provide('cwc.renderer.external.makeblock.mbot');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -33,7 +33,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.mbot = function(helper) {
+cwc.renderer.external.makeblock.mbot = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -42,7 +42,7 @@ cwc.renderer.external.mbot = function(helper) {
 /**
  * Initializes and defines the mbot renderer.
  */
-cwc.renderer.external.mbot.prototype.init = function() {
+cwc.renderer.external.makeblock.mbot.prototype.init = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
@@ -58,7 +58,7 @@ cwc.renderer.external.mbot.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.mbot.prototype.render = function(
+cwc.renderer.external.makeblock.mbot.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
@@ -71,7 +71,7 @@ cwc.renderer.external.mbot.prototype.render = function(
       '  var code = function(mbot) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
       '\n};\n'+
-      '  new cwc.framework.mBot(code);\n' +
+      '  new cwc.framework.makeblock.mBot(code);\n' +
       '</script>\n';
 
   var html = renderer_helper.getHTML(body, header);

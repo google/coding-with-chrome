@@ -20,19 +20,19 @@
  * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.mbot.Command');
-goog.provide('cwc.protocol.mbot.CommandType');
-goog.provide('cwc.protocol.mbot.Device');
-goog.provide('cwc.protocol.mbot.Header');
-goog.provide('cwc.protocol.mbot.Port');
-goog.provide('cwc.protocol.mbot.Slot');
+goog.provide('cwc.protocol.makeblock.mbot.Command');
+goog.provide('cwc.protocol.makeblock.mbot.CommandType');
+goog.provide('cwc.protocol.makeblock.mbot.Device');
+goog.provide('cwc.protocol.makeblock.mbot.Header');
+goog.provide('cwc.protocol.makeblock.mbot.Port');
+goog.provide('cwc.protocol.makeblock.mbot.Slot');
 
 
 /**
  * Enum of commands for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.mbot.Command = {
+cwc.protocol.makeblock.mbot.Command = {
   PREFIX_A: 0xff,
   PREFIX_B: 0x55,
 
@@ -69,7 +69,7 @@ cwc.protocol.mbot.Command = {
  * Enum of command types for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.mbot.CommandType = {
+cwc.protocol.makeblock.mbot.CommandType = {
   READ: 0x01,
   WRITE: 0x02
 };
@@ -79,7 +79,7 @@ cwc.protocol.mbot.CommandType = {
  * Enum of devices for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.mbot.Device = {
+cwc.protocol.makeblock.mbot.Device = {
   ULTRASONIC: 1,
   LIGHTSENSOR: 3,
   LEDLIGHT: 8,
@@ -93,14 +93,14 @@ cwc.protocol.mbot.Device = {
  * Header for the communication protocol.
  * @type {!array}
  */
-cwc.protocol.mbot.Header = [0xff, 0x55];
+cwc.protocol.makeblock.mbot.Header = [0xff, 0x55];
 
 
 /**
  * Enum of commands for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.mbot.Slot = {
+cwc.protocol.makeblock.mbot.Slot = {
   LED_LIGHT: 0x02
 };
 
@@ -109,7 +109,7 @@ cwc.protocol.mbot.Slot = {
  * Enum of ports for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.mbot.Port = {
+cwc.protocol.makeblock.mbot.Port = {
   ULTRASONIC: 0x03,
   LINEFOLLOWER: 0x02,
   LIGHTSENSOR: 0x06,

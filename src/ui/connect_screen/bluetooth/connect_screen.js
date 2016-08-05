@@ -55,7 +55,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
   for (let bluetoothDevice in bluetoothDevices) {
     if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
       var device = bluetoothDevices[bluetoothDevice];
-      devices[device.getName()] = this.parseDeviceData_(device);
+      devices[device.getAddress()] = this.parseDeviceData_(device);
     }
   }
 

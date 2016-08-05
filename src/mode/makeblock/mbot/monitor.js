@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.mbot.Monitor');
+goog.provide('cwc.mode.makeblock.mbot.Monitor');
 
-goog.require('cwc.soy.mode.mbot.Monitor');
+goog.require('cwc.soy.mode.makeblock.mbot.Monitor');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');
@@ -31,7 +31,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.mbot.Monitor = function(helper, connection) {
+cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Monitor';
 
@@ -41,10 +41,10 @@ cwc.mode.mbot.Monitor = function(helper, connection) {
   /** @type {!string} */
   this.prefix = this.helper.getPrefix('mbot-monitor');
 
-  /** @type {!cwc.mode.mbot.Connection} */
+  /** @type {!cwc.mode.makeblock.mbot.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.mbot.Api} */
+  /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = this.connection.getApi();
 
   /** @type {Element} */
@@ -77,7 +77,7 @@ cwc.mode.mbot.Monitor = function(helper, connection) {
  * Connects the Sphero unit.
  * @export
  */
-cwc.mode.mbot.Monitor.prototype.decorate = function() {
+cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
@@ -92,25 +92,25 @@ cwc.mode.mbot.Monitor.prototype.decorate = function() {
 
   goog.soy.renderElement(
       this.nodeIntro,
-      cwc.soy.mode.mbot.Monitor.intro,
+      cwc.soy.mode.makeblock.mbot.Monitor.intro,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       this.nodeMonitor,
-      cwc.soy.mode.mbot.Monitor.monitor,
+      cwc.soy.mode.makeblock.mbot.Monitor.monitor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
       this.nodeControl,
-      cwc.soy.mode.mbot.Monitor.control,
+      cwc.soy.mode.makeblock.mbot.Monitor.control,
       {'prefix': this.prefix}
   );
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.mbot.Monitor.style({'prefix': this.prefix}));
+      cwc.soy.mode.makeblock.mbot.Monitor.style({'prefix': this.prefix}));
   }
 
   this.nodeMonitorUltrasonic = goog.dom.getElement(this.prefix + 'ultrasonic');
@@ -134,7 +134,7 @@ cwc.mode.mbot.Monitor.prototype.decorate = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.mbot.Monitor.prototype.cleanUp = function() {
+cwc.mode.makeblock.mbot.Monitor.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -145,7 +145,7 @@ cwc.mode.mbot.Monitor.prototype.cleanUp = function() {
 /**
  * @private
  */
-cwc.mode.mbot.Monitor.prototype.addEventHandler_ = function() {
+cwc.mode.makeblock.mbot.Monitor.prototype.addEventHandler_ = function() {
 
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
@@ -186,7 +186,7 @@ cwc.mode.mbot.Monitor.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.mbot.Monitor.prototype.addKeyHandler_ = function() {
+cwc.mode.makeblock.mbot.Monitor.prototype.addKeyHandler_ = function() {
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   this.shortcutHandler.registerShortcut('backward', 'down');
   this.shortcutHandler.registerShortcut('left', 'left');
@@ -210,7 +210,8 @@ cwc.mode.mbot.Monitor.prototype.addKeyHandler_ = function() {
  * Handles keyboard shortcuts.
  * @private
  */
-cwc.mode.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
+cwc.mode.makeblock.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(
+    event) {
   if (!this.runnerMonitor_.isControlActive()) {
     return;
   }
@@ -277,8 +278,8 @@ cwc.mode.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.mode.mbot.Monitor.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
+cwc.mode.makeblock.mbot.Monitor.prototype.addEventListener_ = function(src,
+    type, listener, opt_useCapture, opt_listenerScope) {
   var target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;
   var eventListener = goog.events.listen(target, type, listener, opt_useCapture,

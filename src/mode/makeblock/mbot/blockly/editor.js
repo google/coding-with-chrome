@@ -17,9 +17,9 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.mbot.blockly.Editor');
+goog.provide('cwc.mode.makeblock.mbot.blockly.Editor');
 
-goog.require('cwc.soy.mode.mbot.blockly.Blocks');
+goog.require('cwc.soy.mode.makeblock.mbot.blockly.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -35,7 +35,7 @@ goog.require('goog.ui.Dialog');
  * @struct
  * @final
  */
-cwc.mode.mbot.blockly.Editor = function(helper) {
+cwc.mode.makeblock.mbot.blockly.Editor = function(helper) {
 
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
@@ -69,7 +69,7 @@ cwc.mode.mbot.blockly.Editor = function(helper) {
 /**
  * Decorates the simple editor.
  */
-cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.decorate = function() {
   this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
   if (!this.nodeBlockly) {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
@@ -91,7 +91,7 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
     return;
   }
   goog.soy.renderElement(this.nodeBlocklyToolbox,
-    cwc.soy.mode.mbot.blockly.Blocks.toolbox);
+    cwc.soy.mode.makeblock.mbot.blockly.Blocks.toolbox);
 
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
@@ -122,7 +122,7 @@ cwc.mode.mbot.blockly.Editor.prototype.decorate = function() {
 /**
  * Code change handler.
  */
-cwc.mode.mbot.blockly.Editor.prototype.changeHandler = function() {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.changeHandler = function() {
   var fileInstance = this.helper.getInstance('file');
   if (fileInstance.getUi() != 'custom') {
     this.editor.setEditorJavaScriptContent(this.blockly.getJavaScript());
@@ -133,7 +133,7 @@ cwc.mode.mbot.blockly.Editor.prototype.changeHandler = function() {
 /**
  * Runs / Executes the code.
  */
-cwc.mode.mbot.blockly.Editor.prototype.runCode = function() {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.runCode = function() {
   var runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
@@ -144,7 +144,7 @@ cwc.mode.mbot.blockly.Editor.prototype.runCode = function() {
 /**
  * Switches from the Blockly ui to the code editor.
  */
-cwc.mode.mbot.blockly.Editor.prototype.showEditor = function() {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.showEditor = function() {
   var fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
@@ -155,7 +155,7 @@ cwc.mode.mbot.blockly.Editor.prototype.showEditor = function() {
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.mbot.blockly.Editor.prototype.showBlockly = function() {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.showBlockly = function() {
   var dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
@@ -170,7 +170,8 @@ cwc.mode.mbot.blockly.Editor.prototype.showBlockly = function() {
  * Switches from the code editor to the Blockly ui.
  * @param {Event} opt_e
  */
-cwc.mode.mbot.blockly.Editor.prototype.switchToEditor = function(opt_e) {
+cwc.mode.makeblock.mbot.blockly.Editor.prototype.switchToEditor = function(
+    opt_e) {
   var fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);

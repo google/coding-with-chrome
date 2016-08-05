@@ -19,8 +19,8 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.protocol.mbot.Monitoring');
-goog.require('cwc.protocol.mbot.Command');
+goog.provide('cwc.protocol.makeblock.mbot.Monitoring');
+goog.require('cwc.protocol.makeblock.mbot.Command');
 
 goog.require('goog.Timer');
 
@@ -28,17 +28,17 @@ goog.require('goog.Timer');
 
 /**
  * @constructor
- * @param {!cwc.protocol.mbot.Api} api
+ * @param {!cwc.protocol.makeblock.mbot.Api} api
  * @struct
  * @final
  */
-cwc.protocol.mbot.Monitoring = function(api) {
+cwc.protocol.makeblock.mbot.Monitoring = function(api) {
 
-  /** @type {!cwc.protocol.mbot.Api} */
+  /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = api;
 
-  /** @type {!cwc.protocol.mbot.Command} */
-  this.command = cwc.protocol.mbot.Command;
+  /** @type {!cwc.protocol.makeblock.mbot.Command} */
+  this.command = cwc.protocol.makeblock.mbot.Command;
 
   /** @type {!number} */
   this.monitorInterval = 1000;  // Duration in ms.
@@ -71,7 +71,7 @@ cwc.protocol.mbot.Monitoring = function(api) {
  * @return {void}
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.start = function() {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
@@ -86,7 +86,7 @@ cwc.protocol.mbot.Monitoring.prototype.start = function() {
  * @return {void}
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.stop = function() {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.stop = function() {
   if (this.started) {
     console.log('Stopping mBot Monitoring ...');
     this.monitor.stop();
@@ -100,7 +100,8 @@ cwc.protocol.mbot.Monitoring.prototype.stop = function() {
  * @return {void}
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function() {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.onReadSensorTimer = function(
+) {
   var readIndex = this.readIndex % this.availableSensors.length;
   switch (this.availableSensors[readIndex]) {
     case this.command.DEVICE_ULTRASONIC:
@@ -125,7 +126,7 @@ cwc.protocol.mbot.Monitoring.prototype.onReadSensorTimer = function() {
  * @param  {[int]} contentBytes content bytes
  * @export
  */
-cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index,
+cwc.protocol.makeblock.mbot.Monitoring.prototype.onSensorReply = function(index,
     contentBytes) {
   switch (this.availableSensors[index]) {
     case this.command.DEVICE_ULTRASONIC:
@@ -147,7 +148,8 @@ cwc.protocol.mbot.Monitoring.prototype.onSensorReply = function(index,
  * @return {float} float value
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.parseFloatBytes = function(
+    dataBytes) {
   var intValue = this.fourBytesToInt(
     dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
   var result = parseFloat(this.intBitsToFloat(intValue).toFixed(2));
@@ -164,8 +166,8 @@ cwc.protocol.mbot.Monitoring.prototype.parseFloatBytes = function(dataBytes) {
  * @return {int} the result int
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1, b2, b3,
-    b4) {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.fourBytesToInt = function(b1,
+    b2, b3, b4) {
   return ( b1 << 24 ) + ( b2 << 16 ) + ( b3 << 8 ) + b4;
 };
 
@@ -176,7 +178,8 @@ cwc.protocol.mbot.Monitoring.prototype.fourBytesToInt = function(b1, b2, b3,
  * @return {float}     the result as float
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.intBitsToFloat = function(num) {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.intBitsToFloat = function(
+    num) {
   /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
   var s = ( num >> 31 ) == 0 ? 1 : -1,
       e = ( num >> 23 ) & 0xff,
@@ -199,8 +202,8 @@ cwc.protocol.mbot.Monitoring.prototype.intBitsToFloat = function(num) {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.protocol.mbot.Monitoring.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
+cwc.protocol.makeblock.mbot.Monitoring.prototype.addEventListener_ = function(
+    src, type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);

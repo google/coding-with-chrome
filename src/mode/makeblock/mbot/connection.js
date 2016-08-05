@@ -17,9 +17,9 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.mbot.Connection');
+goog.provide('cwc.mode.makeblock.mbot.Connection');
 
-goog.require('cwc.protocol.mbot.Api');
+goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('goog.Timer');
 
 
@@ -28,7 +28,7 @@ goog.require('goog.Timer');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.mbot.Connection = function(helper) {
+cwc.mode.makeblock.mbot.Connection = function(helper) {
   /** @type {string} */
   this.name = 'mbot Connection';
 
@@ -38,7 +38,7 @@ cwc.mode.mbot.Connection = function(helper) {
   /** @type {cwc.ui.ConnectionManager} */
   this.connectionManager = helper.getInstance('connectionManager');
 
-  /** @type {!cwc.protocol.mbot.Api} */
+  /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = helper.getInstance('mbot', true);
 
   /** @type {goog.Timer} */
@@ -56,7 +56,7 @@ cwc.mode.mbot.Connection = function(helper) {
  * Connects the mbot unit.
  * @export
  */
-cwc.mode.mbot.Connection.prototype.init = function() {
+cwc.mode.makeblock.mbot.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
@@ -72,7 +72,7 @@ cwc.mode.mbot.Connection.prototype.init = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.mbot.Connection.prototype.connect = function(opt_event) {
+cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
@@ -84,7 +84,7 @@ cwc.mode.mbot.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  * @export
  */
-cwc.mode.mbot.Connection.prototype.stop = function() {
+cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
   var runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
@@ -98,7 +98,7 @@ cwc.mode.mbot.Connection.prototype.stop = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.mbot.Connection.prototype.reset = function(opt_event) {
+cwc.mode.makeblock.mbot.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api.reset();
   }
@@ -109,16 +109,16 @@ cwc.mode.mbot.Connection.prototype.reset = function(opt_event) {
  * @return {!boolean}
  * @export
  */
-cwc.mode.mbot.Connection.prototype.isConnected = function() {
+cwc.mode.makeblock.mbot.Connection.prototype.isConnected = function() {
   return this.api.isConnected();
 };
 
 
 /**
- * @return {!cwc.protocol.mbot.Api}
+ * @return {!cwc.protocol.makeblock.mbot.Api}
  * @export
  */
-cwc.mode.mbot.Connection.prototype.getApi = function() {
+cwc.mode.makeblock.mbot.Connection.prototype.getApi = function() {
   return this.api;
 };
 
@@ -126,7 +126,7 @@ cwc.mode.mbot.Connection.prototype.getApi = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.mbot.Connection.prototype.cleanUp = function() {
+cwc.mode.makeblock.mbot.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -148,8 +148,8 @@ cwc.mode.mbot.Connection.prototype.cleanUp = function() {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.mode.mbot.Connection.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
+cwc.mode.makeblock.mbot.Connection.prototype.addEventListener_ = function(src,
+    type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);

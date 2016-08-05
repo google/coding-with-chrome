@@ -77,10 +77,10 @@ closureBuilder.build({
 });
 
 closureBuilder.build({
-  name: 'cwc.framework.mBot',
+  name: 'cwc.framework.makeblock.mBot',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/mbot/*.js'
+    'src/frameworks/internal/makeblock/mbot/*.js'
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',

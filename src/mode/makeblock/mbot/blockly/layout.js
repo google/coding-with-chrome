@@ -17,9 +17,9 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.mbot.blockly.Layout');
+goog.provide('cwc.mode.makeblock.mbot.blockly.Layout');
 
-goog.require('cwc.soy.mode.mbot.blockly.Layout');
+goog.require('cwc.soy.mode.makeblock.mbot.blockly.Layout');
 
 
 
@@ -27,7 +27,7 @@ goog.require('cwc.soy.mode.mbot.blockly.Layout');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.mbot.blockly.Layout = function(helper) {
+cwc.mode.makeblock.mbot.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -36,7 +36,7 @@ cwc.mode.mbot.blockly.Layout = function(helper) {
 /**
  * Decorates the mbot layout.
  */
-cwc.mode.mbot.blockly.Layout.prototype.decorate = function() {
+cwc.mode.makeblock.mbot.blockly.Layout.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
@@ -47,13 +47,13 @@ cwc.mode.mbot.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       nodes['content-left'],
-      cwc.soy.mode.mbot.blockly.Layout.editor,
+      cwc.soy.mode.makeblock.mbot.blockly.Layout.editor,
       {'prefix': this.helper.getPrefix('mbot-editor')}
   );
 
   goog.soy.renderElement(
       nodes['content-right'],
-      cwc.soy.mode.mbot.blockly.Layout.runner,
+      cwc.soy.mode.makeblock.mbot.blockly.Layout.runner,
       {'prefix': this.helper.getPrefix('mbot-runner')}
   );
 

@@ -17,11 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.mbot.Buffer');
+goog.provide('cwc.protocol.makeblock.mbot.Buffer');
 
-goog.require('cwc.protocol.mbot.Command');
-goog.require('cwc.protocol.mbot.CommandType');
-goog.require('cwc.protocol.mbot.Header');
+goog.require('cwc.protocol.makeblock.mbot.Command');
+goog.require('cwc.protocol.makeblock.mbot.CommandType');
+goog.require('cwc.protocol.makeblock.mbot.Header');
 
 goog.require('cwc.utils.ByteArray');
 
@@ -30,19 +30,19 @@ goog.require('cwc.utils.ByteArray');
 /**
  * @constructor
  */
-cwc.protocol.mbot.Buffer = function() {
+cwc.protocol.makeblock.mbot.Buffer = function() {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
-  /** @type {!cwc.protocol.mbot.Header} */
-  this.header = cwc.protocol.mbot.Header;
+  /** @type {!cwc.protocol.makeblock.mbot.Header} */
+  this.header = cwc.protocol.makeblock.mbot.Header;
 };
 
 
 /**
  * Writes null byte with 0x00.
  */
-cwc.protocol.mbot.Buffer.prototype.writeNullByte = function() {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeNullByte = function() {
   this.data.writeByte(0x00);
 };
 
@@ -50,7 +50,7 @@ cwc.protocol.mbot.Buffer.prototype.writeNullByte = function() {
 /**
  * Writes single byte with 0x01.
  */
-cwc.protocol.mbot.Buffer.prototype.writeSingleByte = function() {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeSingleByte = function() {
   this.data.writeByte(0x01);
 };
 
@@ -59,7 +59,8 @@ cwc.protocol.mbot.Buffer.prototype.writeSingleByte = function() {
  * @param {number} value
  * @param {number=} opt_default
  */
-cwc.protocol.mbot.Buffer.prototype.writeByte = function(value, opt_default) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeByte = function(value,
+    opt_default) {
   this.data.writeByte(value, opt_default);
 };
 
@@ -67,7 +68,7 @@ cwc.protocol.mbot.Buffer.prototype.writeByte = function(value, opt_default) {
 /**
  * @param {number} value
  */
-cwc.protocol.mbot.Buffer.prototype.writeInt = function(value) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeInt = function(value) {
   this.data.writeInt(value);
 };
 
@@ -75,7 +76,7 @@ cwc.protocol.mbot.Buffer.prototype.writeInt = function(value) {
 /**
  * @param {number} value
  */
-cwc.protocol.mbot.Buffer.prototype.writeShort = function(value) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeShort = function(value) {
   this.data.writeShort(value);
 };
 
@@ -83,39 +84,39 @@ cwc.protocol.mbot.Buffer.prototype.writeShort = function(value) {
 /**
  * @param {string} value
  */
-cwc.protocol.mbot.Buffer.prototype.writeString = function(value) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeString = function(value) {
   this.data.writeString(value);
 };
 
 
 /**
- * @param {!cwc.protocol.mbot.Command} command
+ * @param {!cwc.protocol.makeblock.mbot.Command} command
  */
-cwc.protocol.mbot.Buffer.prototype.writeCommand = function(command) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeCommand = function(command) {
   this.writeByte(command);
 };
 
 
 /**
- * @param {!cwc.protocol.mbot.CommandType} type
+ * @param {!cwc.protocol.makeblock.mbot.CommandType} type
  */
-cwc.protocol.mbot.Buffer.prototype.writeType = function(type) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeType = function(type) {
   this.writeByte(type);
 };
 
 
 /**
- * @param {!cwc.protocol.mbot.Port} port
+ * @param {!cwc.protocol.makeblock.mbot.Port} port
  */
-cwc.protocol.mbot.Buffer.prototype.writePort = function(port) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writePort = function(port) {
   this.writeByte(port);
 };
 
 
 /**
- * @param {!cwc.protocol.mbot.Command} index
+ * @param {!cwc.protocol.makeblock.mbot.Command} index
  */
-cwc.protocol.mbot.Buffer.prototype.writeIndex = function(index) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeIndex = function(index) {
   this.writeByte(index);
 };
 
@@ -123,7 +124,7 @@ cwc.protocol.mbot.Buffer.prototype.writeIndex = function(index) {
 /**
  * @return {!ArrayBuffer}
  */
-cwc.protocol.mbot.Buffer.prototype.readSigned = function() {
+cwc.protocol.makeblock.mbot.Buffer.prototype.readSigned = function() {
   var buffer = this.data.getData();
   var checkSum = buffer.length;
   var dataLength = buffer.length;
