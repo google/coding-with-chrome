@@ -20,48 +20,25 @@
  * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.makeblock.mbot.Command');
+goog.provide('cwc.protocol.makeblock.mbot.ByteType');
 goog.provide('cwc.protocol.makeblock.mbot.CommandType');
+goog.provide('cwc.protocol.makeblock.mbot.DataType');
 goog.provide('cwc.protocol.makeblock.mbot.Device');
 goog.provide('cwc.protocol.makeblock.mbot.Header');
+goog.provide('cwc.protocol.makeblock.mbot.IndexType');
 goog.provide('cwc.protocol.makeblock.mbot.Port');
 goog.provide('cwc.protocol.makeblock.mbot.Slot');
 
 
+
 /**
- * Enum of commands for the communication protocol.
+ * In future developments, this should be replaced by a state machine.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.makeblock.mbot.Command = {
-  PREFIX_A: 0xff,
-  PREFIX_B: 0x55,
-
-  COMMAND_READ: 1,
-  COMMAND_WRITE: 2,
-
-  INDEX_WITHOUT_RESPONSE: 99,
-
-  DEVICE_ULTRASONIC: 1,
-  DEVICE_LIGHTSENSOR: 3,
-  DEVICE_LEDLIGHT: 8,
-  DEVICE_DCMOTOR: 10,
-  DEVICE_LINEFOLLOWER: 11,
-  DEVICE_BUZZER: 34,
-
-  DATATYPE_BYTE: 1,
-  DATATYPE_FLOAT: 2,
-  DATATYPE_SHORT: 3,
-  DATATYPE_STRING: 4,
-
-  // In future developments, this should be replaced by a state machine.
-  BYTE_INDEX: 2,
-  BYTE_DATATYPE: 3,
-  BYTE_PAYLOAD: 4,
-
-  LINEFOLLOWER_SUM_BLACK_BLACK: 128,
-  LINEFOLLOWER_SUM_BLACK_WHITE: 64,
-  LINEFOLLOWER_SUM_WHITE_BLACK: 191,
-  LINEFOLLOWER_SUM_WHITE_WHITE: 0,
+cwc.protocol.makeblock.mbot.ByteType = {
+  INDEX: 2,
+  DATATYPE: 3,
+  PAYLOAD: 4
 };
 
 
@@ -70,8 +47,22 @@ cwc.protocol.makeblock.mbot.Command = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbot.CommandType = {
-  READ: 0x01,
-  WRITE: 0x02
+  GET: 0x01,
+  RUN: 0x02,
+  RESET: 0x04,
+  START: 0x05
+};
+
+
+/**
+ * Enum of data types.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.makeblock.mbot.DataType = {
+  BYTE: 1,
+  FLOAT: 2,
+  SHORT: 3,
+  STRING: 4
 };
 
 
@@ -80,12 +71,16 @@ cwc.protocol.makeblock.mbot.CommandType = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbot.Device = {
+  VERSION: 0,
   ULTRASONIC: 1,
   LIGHTSENSOR: 3,
   LEDLIGHT: 8,
   DCMOTOR: 10,
-  LINEFOLLOWER: 11,
-  BUZZER: 34,
+  IR: 13,
+  IRREMOTE: 14,
+  LINEFOLLOWER: 17,
+  BUTTON: 22,
+  BUZZER: 34
 };
 
 
@@ -97,11 +92,16 @@ cwc.protocol.makeblock.mbot.Header = [0xff, 0x55];
 
 
 /**
- * Enum of commands for the communication protocol.
- * @enum {!Object.<string>|number}
+ * Enum of implemented callback types.
+ * @enum {number}
  */
-cwc.protocol.makeblock.mbot.Slot = {
-  LED_LIGHT: 0x02
+cwc.protocol.makeblock.mbot.IndexType = {
+  NONE: 0x00,
+  ULTRASONIC: 0x10,
+  LINEFOLLOWER: 0x11,
+  LIGHTSENSOR: 0x12,
+  VERSION: 0x20,
+  INNER_BUTTON: 0x80
 };
 
 
@@ -116,4 +116,13 @@ cwc.protocol.makeblock.mbot.Port = {
   LED_LIGHT: 0x07,
   LEFT_MOTOR: 0x09,
   RIGHT_MOTOR: 0x0A
+};
+
+
+/**
+ * Enum of commands for the communication protocol.
+ * @enum {!Object.<string>|number}
+ */
+cwc.protocol.makeblock.mbot.Slot = {
+  LED_LIGHT: 0x02
 };

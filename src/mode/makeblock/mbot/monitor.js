@@ -89,6 +89,7 @@ cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function() {
   this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
   this.nodeControl = this.runnerMonitor_.getControlNode();
   this.runnerMonitor_.showCalibrationTab(false);
+  this.runnerMonitor_.showMonitorTab(false);
 
   goog.soy.renderElement(
       this.nodeIntro,

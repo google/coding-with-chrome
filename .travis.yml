@@ -15,8 +15,3 @@ before_install:
 language: node_js
 node_js:
   - stable
-  - '5'
-  - '5.1'
-  - '4'
-  - '4.2'
-  - '4.1'

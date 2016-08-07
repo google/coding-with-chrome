@@ -27,7 +27,7 @@
 Blockly.JavaScript['mbot_move_forward'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.movePower(' + speed + ', true);\n';
+  return 'mbot.movePower(' + speed + ');\n';
 };
 
 
@@ -50,7 +50,7 @@ Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.movePower(' + (-speed) + ', true);\n';
+  return 'mbot.movePower(' + (-speed) + ');\n';
 };
 
 
@@ -73,7 +73,7 @@ Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
 Blockly.JavaScript['mbot_rotate_left'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.rotatePower(' + speed + ', true);\n';
+  return 'mbot.rotatePower(' + speed + ');\n';
 };
 
 
@@ -96,7 +96,7 @@ Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
 Blockly.JavaScript['mbot_rotate_right'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.rotatePower(' + (-speed) + ', true);\n';
+  return 'mbot.rotatePower(' + (-speed) + ');\n';
 };
 
 
@@ -123,13 +123,13 @@ Blockly.JavaScript['mbot_stop_moving'] = function(opt_block) {
 
 
 /**
- * Ultrasonic sensor change.
+ * Button change.
  */
-Blockly.JavaScript['mbot_ultrasonic_sensor_change'] = function(block) {
+Blockly.JavaScript['mbot_button_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'var ultrasonicSensorEvent = function(distance) {\n' +
+  return 'var buttonEvent = function(pressed) {\n' +
       statements_code +
-    '};\nmbot.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
+    '};\nmbot.onButtonChange(buttonEvent);\n';
 };
 
 
@@ -141,6 +141,28 @@ Blockly.JavaScript['mbot_lightness_sensor_change'] = function(block) {
   return 'var lightnessSensorEvent = function(lightness) {\n' +
       statements_code +
     '};\nmbot.onLightnessSensorChange(lightnessSensorEvent);\n';
+};
+
+
+/**
+ * Linefollower sensor change.
+ */
+Blockly.JavaScript['mbot_linefollower_sensor_change'] = function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var linefollowerSensorEvent = function(left, right, raw) {\n' +
+      statements_code +
+    '};\nmbot.onLinefollowerSensorChange(linefollowerSensorEvent);\n';
+};
+
+
+/**
+ * Ultrasonic sensor change.
+ */
+Blockly.JavaScript['mbot_ultrasonic_sensor_change'] = function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var ultrasonicSensorEvent = function(distance) {\n' +
+      statements_code +
+    '};\nmbot.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
 };
 
 

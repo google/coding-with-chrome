@@ -260,20 +260,20 @@ Blockly.Blocks['mbot_beep_buzzer'] = {
 
 
 /**
- * Ultrasonic sensor change.
+ * Button change.
  */
-Blockly.Blocks['mbot_ultrasonic_sensor_change'] = {
+Blockly.Blocks['mbot_button_change'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-      .appendField(i18t('on ultrasonic sensor change'));
+      .appendField(i18t('on button change'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
-        '\'value\', when the ultrasonic sensor detects a change.');
+        '\'value\', when the lightness sensor detects a change.');
   }
 };
 
@@ -293,6 +293,44 @@ Blockly.Blocks['mbot_lightness_sensor_change'] = {
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
         '\'value\', when the lightness sensor detects a change.');
+  }
+};
+
+
+/**
+ * Linefollower sensor change.
+ */
+Blockly.Blocks['mbot_linefollower_sensor_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on linefollower sensor change'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stores the output from the sensor in a variable named ' +
+        '\'value\', when the lightness sensor detects a change.');
+  }
+};
+
+
+/**
+ * Ultrasonic sensor change.
+ */
+Blockly.Blocks['mbot_ultrasonic_sensor_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on ultrasonic sensor change'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stores the output from the sensor in a variable named ' +
+        '\'value\', when the ultrasonic sensor detects a change.');
   }
 };
 

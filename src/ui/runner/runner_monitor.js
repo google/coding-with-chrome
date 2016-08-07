@@ -157,6 +157,22 @@ cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
 
 
 /**
+ * @param {!boolean} show
+ */
+cwc.ui.RunnerMonitor.prototype.showControlTab = function(show) {
+  goog.style.showElement(this.tabCalibration, show);
+};
+
+
+/**
+ * @param {!boolean} show
+ */
+cwc.ui.RunnerMonitor.prototype.showMonitorTab = function(show) {
+  goog.style.showElement(this.tabMonitor, show);
+};
+
+
+/**
  * @return {element}
  */
 cwc.ui.RunnerMonitor.prototype.getCalibrationNode = function() {

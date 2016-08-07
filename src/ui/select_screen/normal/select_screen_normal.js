@@ -158,22 +158,32 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'resources/examples/ev3/blocks/EV3-Color-Sensor.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.SPHERO:
+      var spheroPath = 'resources/examples/sphero/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.SPHERO_BLOCKLY);
-      this.setClickEvent_('link-rectangle', this.loadFile_,
-          'resources/examples/sphero/blocks/Sphero-rectangle.cwc');
-      this.setClickEvent_('link-collision', this.loadFile_,
-          'resources/examples/sphero/blocks/Sphero-collision.cwc');
+      this.setClickEvent_('link-rectangle', this.loadFile_, spheroPath +
+        'Sphero-rectangle.cwc');
+      this.setClickEvent_('link-collision', this.loadFile_, spheroPath +
+        'Sphero-collision.cwc');
       break;
     case cwc.ui.SelectScreenNormalView.MBOT:
+      var mBotPath = 'resources/examples/makeblock/mbot/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
       this.setNavHeader_('mBot', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.MBOT_BLOCKLY);
+      this.setClickEvent_('link-button_light', this.loadFile_, mBotPath +
+        'mBot-button_light.cwc');
+      this.setClickEvent_('link-collision_avoidance', this.loadFile_, mBotPath +
+        'mBot-collision_avoidance.cwc');
+      this.setClickEvent_('link-lightness_sound', this.loadFile_, mBotPath +
+        'mBot-lightness_sound.cwc');
+      this.setClickEvent_('link-line_follower', this.loadFile_, mBotPath +
+        'mBot-line_follower.cwc');
       break;
 
     default:

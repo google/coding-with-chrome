@@ -153,14 +153,17 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   // Events
   var apiEventHandler = this.api.getEventHandler();
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
-      'updateUltrasonicSensor');
+      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
+      'updateButton');
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
       'updateLightnessSensor');
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
       'updateLinefollowerSensor');
+  this.runner.addEvent(apiEventHandler,
+      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      'updateUltrasonicSensor');
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node, this.prefix);

@@ -47,10 +47,32 @@ cwc.utils.ByteTools.bytesToInt32 = function(data) {
 };
 
 
+/**
+ * @param {Object} data
+ * @return {number}
+ */
 cwc.utils.ByteTools.Int32ToBytes = function(data) {
   var view = new DataView(data);
   view.setUint32(0);
   return data;
+};
+
+
+/**
+  * @param {!ArrayBuffer|Array} data1
+  * @param {!ArrayBuffer|Array} data2
+  * @return {!boolean}
+  */
+cwc.utils.ByteTools.isArrayBufferEqual = function(data1, data2) {
+  if (data1.length != data2.length) {
+    return false;
+  }
+  for (let i = 0; i != data1.length; i++) {
+    if (data1[i] != data2[i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 

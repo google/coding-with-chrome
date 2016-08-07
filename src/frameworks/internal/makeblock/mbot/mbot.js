@@ -42,28 +42,43 @@ cwc.framework.makeblock.mBot = function(code) {
   this.emptyFunction_ = function() {};
 
   /** @type {!function(?)} */
-  this.ultrasonicSensorEvent = this.emptyFunction_;
+  this.buttonEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
   this.lightnessSensorEvent = this.emptyFunction_;
 
+  /** @type {!function(?)} */
+  this.linefollowerSensorEvent = this.emptyFunction_;
+
+  /** @type {!function(?)} */
+  this.ultrasonicSensorEvent = this.emptyFunction_;
+
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(this.code, this);
 
-  /** @type {float} [description] */
-  this.ultrasonicSensorValue = 99999;
+  /** @type {!number} */
+  this.buttonValue = 0;
 
-  /** @type {float} [description] */
-  this.lightnessSensorValue = 99999;
+  /** @type {!number} */
+  this.lightnessSensorValue = 0;
+
+  /** @type {!number} */
+  this.linefollowerSensorValue = 0;
+
+  /** @type {!number} */
+  this.ultrasonicSensorValue = 0;
 
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
 
   // External commands
-  this.runner.addCommand('updateUltrasonicSensor',
-    this.handleUpdateUltrasonicSensorValue_);
+  this.runner.addCommand('updateButton', this.handleUpdateButton_);
   this.runner.addCommand('updateLightnessSensor',
     this.handleUpdateLightnessSensorValue_);
+  this.runner.addCommand('updateLinefollowerSensor',
+    this.handleUpdateLinefollowerSensorValue_);
+  this.runner.addCommand('updateUltrasonicSensor',
+      this.handleUpdateUltrasonicSensorValue_);
 };
 
 
@@ -102,13 +117,12 @@ cwc.framework.makeblock.mBot.prototype.playTone = function(frequency, duration,
 
 
 /**
- * get values from ultrasonic sensors
+ * get values from lightness sensors
  * @return {void}
  * @export
  */
-cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
-  console.log('read ultrasonic sensor and get ' + this.ultrasonicSensorValue);
-  return this.ultrasonicSensorValue;
+cwc.framework.makeblock.mBot.prototype.getButtonValue = function() {
+  return this.buttonValue;
 };
 
 
@@ -120,6 +134,27 @@ cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
 cwc.framework.makeblock.mBot.prototype.getLightnessSensorValue = function() {
   return this.lightnessSensorValue;
 };
+
+
+/**
+ * get values from lightness sensors
+ * @return {void}
+ * @export
+ */
+cwc.framework.makeblock.mBot.prototype.getLinefollowerSensorValue = function() {
+  return this.linefollowerSensorValue;
+};
+
+
+/**
+ * get values from ultrasonic sensors
+ * @return {void}
+ * @export
+ */
+cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
+  return this.ultrasonicSensorValue;
+};
+
 
 
 /**
@@ -215,10 +250,9 @@ cwc.framework.makeblock.mBot.prototype.stop = function(opt_delay) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBot.prototype.onUltrasonicSensorChange = function(
-    func) {
+cwc.framework.makeblock.mBot.prototype.onButtonChange = function(func) {
   if (goog.isFunction(func)) {
-    this.ultrasonicSensorEvent = func;
+    this.buttonEvent = func;
   }
 };
 
@@ -236,14 +270,36 @@ cwc.framework.makeblock.mBot.prototype.onLightnessSensorChange = function(
 
 
 /**
+ * @param {!Function} func
+ * @export
+ */
+cwc.framework.makeblock.mBot.prototype.onLinefollowerSensorChange = function(
+    func) {
+  if (goog.isFunction(func)) {
+    this.linefollowerSensorEvent = func;
+  }
+};
+
+
+/**
+ * @param {!Function} func
+ * @export
+ */
+cwc.framework.makeblock.mBot.prototype.onUltrasonicSensorChange = function(
+    func) {
+  if (goog.isFunction(func)) {
+    this.ultrasonicSensorEvent = func;
+  }
+};
+
+
+/**
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBot.prototype.handleUpdateUltrasonicSensorValue_ =
-function(
-    data) {
-  this.ultrasonicSensorValue = data;
-  this.ultrasonicSensorEvent(data);
+cwc.framework.makeblock.mBot.prototype.handleUpdateButton_ = function(data) {
+  this.buttonValue = data;
+  this.buttonEvent(data);
 };
 
 
@@ -252,8 +308,29 @@ function(
  * @private
  */
 cwc.framework.makeblock.mBot.prototype.handleUpdateLightnessSensorValue_ =
-function(
-    data) {
+function(data) {
   this.lightnessSensorValue = data;
   this.lightnessSensorEvent(data);
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.makeblock.mBot.prototype.handleUpdateLinefollowerSensorValue_ =
+function(data) {
+  this.linefollowerSensorValue = data;
+  this.linefollowerSensorEvent(data['left'], data['right'], data['raw']);
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.makeblock.mBot.prototype.handleUpdateUltrasonicSensorValue_ =
+function(data) {
+  this.ultrasonicSensorValue = data;
+  this.ultrasonicSensorEvent(data);
 };

@@ -22,10 +22,11 @@
  */
 goog.provide('cwc.protocol.makeblock.mbot.Api');
 
-goog.require('cwc.protocol.makeblock.mbot.Command');
-goog.require('cwc.protocol.makeblock.mbot.Port');
 goog.require('cwc.protocol.makeblock.mbot.Commands');
+goog.require('cwc.protocol.makeblock.mbot.IndexType');
 goog.require('cwc.protocol.makeblock.mbot.Monitoring');
+goog.require('cwc.protocol.makeblock.mbot.Port');
+goog.require('cwc.utils.ByteTools');
 
 goog.require('goog.events.EventTarget');
 
@@ -39,9 +40,6 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.makeblock.mbot.Api = function(helper) {
 
-  /** @type {!cwc.protocol.makeblock.mbot.Command} */
-  this.command = cwc.protocol.makeblock.mbot.Command;
-
   /** @type {!cwc.protocol.makeblock.mbot.Commands} */
   this.commands = new cwc.protocol.makeblock.mbot.Commands();
 
@@ -54,11 +52,8 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
   /** @type {string} */
   this.autoConnectName = 'Makeblock';
 
-  /** @private {!array} */
-  this.headerAsync_ = [0xff, 0x55];
-
-  /** @private {!number} */
-  this.headerMinSize_ = 5;
+  /** @type {Object} */
+  this.sensorData = {};
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -68,6 +63,15 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
 
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
+
+  /** @private {Object} */
+  this.sensorDataCache_ = {};
+
+  /** @private {!array} */
+  this.headerAsync_ = [0xff, 0x55];
+
+  /** @private {!number} */
+  this.headerMinSize_ = 7;
 };
 
 
@@ -109,6 +113,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.connect = function(address) {
 
 /**
  * @return {boolean}
+ * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected());
@@ -125,12 +130,14 @@ cwc.protocol.makeblock.mbot.Api.prototype.prepare = function() {
   // this.monitoring.start();
   this.playTone(524, 240, 240);
   this.playTone(584, 240, 240);
+  this.getVersion();
   this.prepared = true;
 };
 
 
 /**
  * Disconnects the mbot.
+ * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.disconnect = function() {
   if (this.device) {
@@ -166,10 +173,17 @@ cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
 
 
 /**
- * Resets the mbot connection.
+ * Resets the mbot connection and cache.
+ * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.reset = function() {
+  this.sensorData = {};
+  this.sensorDataCache_ = {};
   if (this.device) {
+    this.setLeftMotorPower(0);
+    this.setRightMotorPower(0);
+    this.setLEDColor(0, 0, 0, 0);
+    this.send_(this.commands.reset());
     this.device.reset();
   }
 };
@@ -190,123 +204,10 @@ cwc.protocol.makeblock.mbot.Api.prototype.monitor = function(enable) {
 
 /**
  * @return {goog.events.EventTarget}
+ * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.getEventHandler = function() {
   return this.eventHandler;
-};
-
-
-/**
- * Handles async packets from the Bluetooth socket.
- * @param {ArrayBuffer} buffer
- * @private
- */
-cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
-  if (!buffer || buffer.length < 7) {
-    return;
-  }
-  var dataBytes = this.arrayFromArrayBuffer(buffer);
-  var index = dataBytes[this.command.BYTE_INDEX];
-  var dataType = dataBytes[this.command.BYTE_DATATYPE];
-  if (dataType == this.command.DATATYPE_FLOAT) {
-    this.monitoring.onSensorReply(index, dataBytes.slice(
-      this.command.BYTE_PAYLOAD, this.command.BYTE_PAYLOAD + 4));
-  }
-};
-
-
-/**
- * Convert array of int to ArrayBuffer.
- * @param  {[int]} data array of int
- * @return {ArrayBuffer}      result array buffer
- * @private
- */
-cwc.protocol.makeblock.mbot.Api.prototype.arrayBufferFromArray = function(
-    data) {
-  var buffer = new ArrayBuffer(data.length);
-  var result = new Int8Array(buffer);
-  for (var i=0; i < data.length; i++){
-    result[i] = data[i];
-  }
-  return buffer;
-};
-
-
-/**
- * Convert ArrayBuffer from array of int
- * @param  {ArrayBuffer} buffer the source arraybuffer
- * @return {[int]}        int array as the result;
- * @private
- */
-cwc.protocol.makeblock.mbot.Api.prototype.arrayFromArrayBuffer = function(
-    buffer) {
-  var dataView = new Uint8Array(buffer);
-  var result = [];
-  for (let i=0; i < dataView.length; i++) {
-    result.push(dataView[i]);
-  }
-  return result;
-};
-
-
-/**
- * send read or write commands to robot
- * @param  {boolean} readOrWrite    read (1) or write (2)
- * @param  {int}     deviceType     device type
- * @param  {int}     index          id connected to the response
- * @param  {[int]}   commandBytes   array of bytes
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.sendCommandToRobot = function(
-    readOrWrite, deviceType, index, commandBytes) {
-  var commandBody = [index, readOrWrite, deviceType].concat(commandBytes);
-  var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B,
-    commandBody.length];
-  var command = commandHeader.concat(commandBody);
-  console.log('OLD Data', command);
-  var data = this.arrayBufferFromArray(command);
-  this.send_(data);
-};
-
-
-/**
- * send read commands to robot
- * @param  {int}     deviceType     device type
- * @param  {int}     index          id connected to the response
- * @param  {[int]}   commandBytes   array of bytes
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.sendReadCommandToRobot = function(
-    deviceType, index, commandBytes) {
-  this.sendCommandToRobot(
-    this.command.COMMAND_READ, deviceType, index, commandBytes);
-};
-
-
-/**
- * send write commands to robot
- * @param  {int}     deviceType     device type
- * @param  {int}     index          id connected to the response
- * @param  {[int]}   commandBytes   array of bytes
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.sendWriteCommandToRobot = function(
-    deviceType, index, commandBytes) {
-  this.sendCommandToRobot(
-    this.command.COMMAND_WRITE, deviceType, index, commandBytes);
-};
-
-
-/**
- * send write commands to robot, not expecting response (id is 1)
- * @param  {int}     deviceType     device type
- * @param  {[int]}   commandBytes   array of bytes
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.sendNoResponseCommand = function(
-    deviceType, commandBytes) {
-  this.sendCommandToRobot(this.command.COMMAND_WRITE, deviceType,
-    this.command.INDEX_WITHOUT_RESPONSE, commandBytes);
 };
 
 
@@ -333,12 +234,26 @@ cwc.protocol.makeblock.mbot.Api.prototype.setRightMotorPower = function(power) {
 
 
 /**
- * @param  {!number} index
  * @export
  */
-cwc.protocol.makeblock.mbot.Api.prototype.readUltrasonicSensor = function(
-    index) {
-  this.send_(this.commands.readUltrasonicSensor(index));
+cwc.protocol.makeblock.mbot.Api.prototype.readUltrasonicSensor = function() {
+  this.send_(this.commands.readUltrasonicSensor());
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.readLineFollowerSensor = function() {
+  this.send_(this.commands.readLineFollowerSensor());
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.readLightSensor = function() {
+  this.send_(this.commands.readLightSensor());
 };
 
 
@@ -379,41 +294,146 @@ cwc.protocol.makeblock.mbot.Api.prototype.stop = function(opt_port) {
 
 
 /**
- * ultrasonic sensor value changed, called from monitoring
- * @param {float} value the value to update
+ * Device version
  * @export
  */
-cwc.protocol.makeblock.mbot.Api.prototype.ultrasonicValueChanged = function(
-    value) {
-  console.log('ultrasonicValueChanged', value);
-  this.eventHandler.dispatchEvent(
-    cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue(value));
+cwc.protocol.makeblock.mbot.Api.prototype.getVersion = function() {
+  this.send_(this.commands.getVersion());
 };
 
 
 /**
- * lightness sensor value changed, called from monitoring
- * @param {float} value the value to update
- * @export
+ * convert float bytes to float value in robot response;
+ * @param  {[int]} dataBytes bytes from the robot
+ * @return {float} float value
+ * @private
  */
-cwc.protocol.makeblock.mbot.Api.prototype.lightnessValueChanged = function(
-    value) {
-  console.log('lightnessValueChanged', value);
-  this.eventHandler.dispatchEvent(
-    cwc.protocol.makeblock.mbot.Events.LightnessSensorValue(value));
+cwc.protocol.makeblock.mbot.Api.prototype.parseFloatBytes_ = function(
+    dataBytes) {
+  var intValue = this.fourBytesToInt_(
+    dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
+  var result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
+  return result;
 };
 
 
 /**
- * linefollower sensor value changed, called from monitoring
- * @param {float} value the value to update
- * @export
+ * convert four bytes (b4b3b2b1) to a single int.
+ * @param  {int} b1
+ * @param  {int} b2
+ * @param  {int} b3
+ * @param  {int} b4
+ * @return {int} the result int
+ * @private
  */
-cwc.protocol.makeblock.mbot.Api.prototype.linefollowerValueChanged = function(
-    value) {
-  console.log('linefollowerValueChanged', value);
-  this.eventHandler.dispatchEvent(
-    cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue(value));
+cwc.protocol.makeblock.mbot.Api.prototype.fourBytesToInt_ = function(b1, b2, b3,
+    b4) {
+  return ( b1 << 24 ) + ( b2 << 16 ) + ( b3 << 8 ) + b4;
+};
+
+
+/**
+ * convert from int (in byte form) to float
+ * @param  {int} num   the input int value
+ * @return {float}     the result as float
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.intBitsToFloat_ = function(num) {
+  /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
+  var sign = ( num >> 31 ) == 0 ? 1 : -1;
+  var exponent = ( num >> 23 ) & 0xff;
+  var mantissa = ( exponent == 0 ) ?
+    ( num & 0x7fffff ) << 1 : ( num & 0x7fffff ) | 0x800000;
+  return sign * mantissa * Math.pow( 2, exponent - 150 );
+};
+
+
+/**
+ * Handles async packets from the Bluetooth socket.
+ * @param {ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
+  var indexType = buffer[2];
+  var dataType = buffer[3];
+  var data = buffer.slice(4, buffer.length -1);
+  switch (indexType) {
+    case cwc.protocol.makeblock.mbot.IndexType.VERSION:
+      console.log('VERSION', data);
+      break;
+    case cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC:
+    case cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER:
+    case cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR:
+      this.handleSensorData_(indexType, data, 4);
+      break;
+    case cwc.protocol.makeblock.mbot.IndexType.INNER_BUTTON:
+      this.handleSensorData_(indexType, data);
+      break;
+    default:
+      console.log('UNKNOWN', indexType, dataType, buffer);
+  }
+};
+
+
+/**
+ * Handles the different type of sensor data.
+ * @param {!cwc.protocol.makeblock.mbot.IndexType} index_type
+ * @param {ArrayBuffer} data
+ * @param {number=} opt_data_size
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
+    index_type, data, opt_data_size) {
+
+  if (opt_data_size && data.length < opt_data_size) {
+    return;
+  }
+
+  if (this.sensorDataCache_[index_type] !== undefined &&
+      cwc.utils.ByteTools.isArrayBufferEqual(
+        this.sensorDataCache_[index_type], data)) {
+    return;
+  }
+  this.sensorDataCache_[index_type] = data;
+
+  switch (index_type) {
+    case cwc.protocol.makeblock.mbot.IndexType.INNER_BUTTON:
+      this.dispatchSensorEvent_(index_type,
+        cwc.protocol.makeblock.mbot.Events.ButtonPressed, data[0]);
+      break;
+    case cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR:
+      this.dispatchSensorEvent_(index_type,
+        cwc.protocol.makeblock.mbot.Events.LightnessSensorValue,
+        this.parseFloatBytes_(data));
+      break;
+    case cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER:
+      this.dispatchSensorEvent_(index_type,
+        cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue, {
+          'left': data[3] >= 64,
+          'right': data[2] >= 64,
+          'raw': data
+        });
+      break;
+    case cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC:
+      this.dispatchSensorEvent_(index_type,
+        cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue,
+        this.parseFloatBytes_(data));
+      break;
+  }
+};
+
+
+/**
+ * Dispatch event for sensor data change.
+ * @param {!cwc.protocol.makeblock.mbot.IndexType} index_type
+ * @param {!cwc.protocol.makeblock.mbot.Events.Type} event_type
+ * @param {ArrayBuffer} data
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.dispatchSensorEvent_ = function(
+    index_type, event_type, data) {
+  this.sensorData[index_type] = data;
+  this.eventHandler.dispatchEvent(event_type(data));
 };
 
 

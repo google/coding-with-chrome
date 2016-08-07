@@ -29,9 +29,23 @@ goog.provide('cwc.protocol.makeblock.mbot.Events');
  * @enum {Event}
  */
 cwc.protocol.makeblock.mbot.Events.Type = {
-  ULTRASONIC_SENSOR_VALUE_CHANGED: 'ultrasonic_sensor_value_changed',
+  BUTTON_PRESSED: 'button_pressed',
   LIGHTNESS_SENSOR_VALUE_CHANGED: 'lightness_sensor_value_changed',
-  LINEFOLLOWER_SENSOR_VALUE_CHANGED: 'linefollower_sensor_value_changed'
+  LINEFOLLOWER_SENSOR_VALUE_CHANGED: 'linefollower_sensor_value_changed',
+  ULTRASONIC_SENSOR_VALUE_CHANGED: 'ultrasonic_sensor_value_changed'
+};
+
+
+/**
+ * @param {object} data
+ * @param {number=} opt_port
+ * @final
+ */
+cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
+    opt_port) {
+  return new cwc.protocol.makeblock.mbot.Events.Data_(
+      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
+      data, opt_port);
 };
 
 

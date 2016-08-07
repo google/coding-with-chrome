@@ -19,10 +19,9 @@
  */
 goog.provide('cwc.protocol.makeblock.mbot.Buffer');
 
-goog.require('cwc.protocol.makeblock.mbot.Command');
 goog.require('cwc.protocol.makeblock.mbot.CommandType');
 goog.require('cwc.protocol.makeblock.mbot.Header');
-
+goog.require('cwc.protocol.makeblock.mbot.IndexType');
 goog.require('cwc.utils.ByteArray');
 
 
@@ -90,10 +89,10 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writeString = function(value) {
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbot.Command} command
+ * @param {!cwc.protocol.makeblock.mbot.Device} command
  */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeCommand = function(command) {
-  this.writeByte(command);
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeDevice = function(command) {
+  this.data.writeByte(command);
 };
 
 
@@ -101,7 +100,7 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writeCommand = function(command) {
  * @param {!cwc.protocol.makeblock.mbot.CommandType} type
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writeType = function(type) {
-  this.writeByte(type);
+  this.data.writeByte(type);
 };
 
 
@@ -109,15 +108,15 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writeType = function(type) {
  * @param {!cwc.protocol.makeblock.mbot.Port} port
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writePort = function(port) {
-  this.writeByte(port);
+  this.data.writeByte(port);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbot.Command} index
+ * @param {!cwc.protocol.makeblock.mbot.IndexType} index
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writeIndex = function(index) {
-  this.writeByte(index);
+  this.data.writeUInt(index);
 };
 
 
@@ -128,14 +127,6 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.readSigned = function() {
   var buffer = this.data.getData();
   var checkSum = buffer.length;
   var dataLength = buffer.length;
-
-/*
-  var commandBody = [index, readOrWrite, deviceType].concat(commandBytes);
-  var commandHeader = [this.command.PREFIX_A, this.command.PREFIX_B,
-    commandBody.length];
-  var command = commandHeader.concat(commandBody);
-*/
-
   var dataBuffer = new ArrayBuffer(dataLength + 3);
   var data = new Uint8Array(dataBuffer);
   data[0] = this.header[0];
@@ -145,6 +136,5 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.readSigned = function() {
     data[3 + i] = buffer[i];
   }
 
-  console.log('NEW Data', data);
   return dataBuffer;
 };

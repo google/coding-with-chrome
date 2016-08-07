@@ -73,6 +73,45 @@ describe('ByteTools', function() {
       [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF])).toEqual(4278124287);
   });
 
+  it('isArrayBufferEqual', function() {
+    var data1 = [255, 25, 0, 5, 6];
+    var data2 = [255, 25, 1, 5, 6];
+    var data3 = [255, 25, 1, 5, 6];
+    var data4 = [255, 25, 1, 5];
+    var data5 = [0, 0, 64, 64];
+    var data6 = [0, 0, 0, 0];
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data1))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data2))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data3))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data5))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data6))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data1))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data2))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data3))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data5))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data6))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data5, data5))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data6, data6))
+      .toEqual(true);
+  });
+
   it('joinUint8Array', function() {
     var data1 = cwc.utils.ByteTools.toUint8Array([0x10101010]);
     var data2 = cwc.utils.ByteTools.toUint8Array([0x10101010]);

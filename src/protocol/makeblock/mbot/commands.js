@@ -20,10 +20,10 @@
 goog.provide('cwc.protocol.makeblock.mbot.Commands');
 
 goog.require('cwc.protocol.makeblock.mbot.Buffer');
-goog.require('cwc.protocol.makeblock.mbot.Command');
 goog.require('cwc.protocol.makeblock.mbot.CommandType');
 goog.require('cwc.protocol.makeblock.mbot.Device');
 goog.require('cwc.protocol.makeblock.mbot.Header');
+goog.require('cwc.protocol.makeblock.mbot.IndexType');
 goog.require('cwc.protocol.makeblock.mbot.Port');
 goog.require('cwc.protocol.makeblock.mbot.Slot');
 
@@ -52,9 +52,9 @@ cwc.protocol.makeblock.mbot.Commands = function() {
 cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
     blue, opt_index) {
   var buffer = new cwc.protocol.makeblock.mbot.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbot.Command.INDEX_WITHOUT_RESPONSE);
-  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.makeblock.mbot.Device.LEDLIGHT);
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.LEDLIGHT);
   buffer.writePort(cwc.protocol.makeblock.mbot.Port.LED_LIGHT);
   buffer.writeByte(cwc.protocol.makeblock.mbot.Slot.LED_LIGHT);
   buffer.writeByte(opt_index || 0x00);
@@ -75,9 +75,9 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
 cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
     duration) {
   var buffer = new cwc.protocol.makeblock.mbot.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbot.Command.INDEX_WITHOUT_RESPONSE);
-  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.makeblock.mbot.Device.BUZZER);
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.BUZZER);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
   return buffer.readSigned();
@@ -94,9 +94,9 @@ cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
 cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
     opt_port) {
   var buffer = new cwc.protocol.makeblock.mbot.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbot.Command.INDEX_WITHOUT_RESPONSE);
-  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.WRITE);
-  buffer.writeCommand(cwc.protocol.makeblock.mbot.Device.DCMOTOR);
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.DCMOTOR);
   buffer.writePort(opt_port, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR);
   buffer.writeShort(power);
   return buffer.readSigned();
@@ -105,16 +105,86 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
 
 /**
  * Reads out the current ultrasonic sensor value.
- * @param {!number} index
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.readUltrasonicSensor = function(
-    index) {
+) {
   var buffer = new cwc.protocol.makeblock.mbot.Buffer();
-  buffer.writeIndex(index, 33);
-  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.READ);
-  buffer.writeCommand(cwc.protocol.makeblock.mbot.Device.ULTRASONIC);
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.ULTRASONIC);
   buffer.writePort(cwc.protocol.makeblock.mbot.Port.ULTRASONIC);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Reads out the current light sensor value.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Commands.prototype.readLightSensor = function() {
+  var buffer = new cwc.protocol.makeblock.mbot.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.LIGHTSENSOR);
+  buffer.writePort(cwc.protocol.makeblock.mbot.Port.LIGHTSENSOR);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Reads out the current line follower sensor value.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Commands.prototype.readLineFollowerSensor =
+function() {
+  var buffer = new cwc.protocol.makeblock.mbot.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.LINEFOLLOWER);
+  buffer.writePort(cwc.protocol.makeblock.mbot.Port.LINEFOLLOWER);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Gets current firmware version.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Commands.prototype.getVersion = function() {
+  var buffer = new cwc.protocol.makeblock.mbot.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.VERSION);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.VERSION);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Resets the mBot.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Commands.prototype.reset = function() {
+  var buffer = new cwc.protocol.makeblock.mbot.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RESET);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Starts the mBot.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Commands.prototype.start = function() {
+  var buffer = new cwc.protocol.makeblock.mbot.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
+  buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.START);
   return buffer.readSigned();
 };
