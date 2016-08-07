@@ -113,7 +113,7 @@ cwc.framework.Python.prototype.showOutput = function(text) {
 
 
 /**
- * @param {!string} text
+ * Prompt user for input.
  */
 cwc.framework.Python.prototype.showInput = function() {
   var msg = this.lastMsg || '';

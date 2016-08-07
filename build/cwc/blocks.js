@@ -30,6 +30,7 @@ closureBuilder.build({
   srcs: glob([
     'src/blocks/ev3/*.js',
     'src/blocks/general/*.js',
+    'src/blocks/makeblock/mbot/*.js',
     'src/blocks/simple/*.js',
     'src/blocks/sphero/*.js'
   ]),

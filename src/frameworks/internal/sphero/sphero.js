@@ -49,6 +49,7 @@ cwc.framework.Sphero = function(code) {
   /** @type {!function(?)} */
   this.collisionEvent = this.emptyFunction_;
 
+  // External commands
   this.runner.addCommand('collision', this.handleCollision_);
 };
 

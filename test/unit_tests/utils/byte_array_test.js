@@ -31,13 +31,13 @@ describe('ByteArray', function() {
 
   it('opt_header', function() {
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.BYTE))
-        .toBe(byteHeader);
+      .toBe(byteHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.SHORT))
-        .toBe(shortHeader);
+      .toBe(shortHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.INT))
-        .toBe(integerHeader);
+      .toBe(integerHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.STR))
-        .toBe(stringHeader);
+      .toBe(stringHeader);
   });
 
   it('clearData', function() {

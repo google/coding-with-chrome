@@ -251,8 +251,6 @@ cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(
       };
       device.connect(connectEvent.bind(this));
     }
-  } else {
-    this.log_.error('Was unable to start auto connect for', device_name);
   }
 };
 

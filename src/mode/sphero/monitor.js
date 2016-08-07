@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout for the Sphero modification.
+ * @fileoverview Monitor layout for the Sphero modification.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -156,6 +156,17 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
 
 
 /**
+ * Cleans up the event listener and any other modification.
+ */
+cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
+  if (this.connectMonitor) {
+    this.connectMonitor.stop();
+  }
+  this.helper.removeEventListeners(this.listener, this.name);
+};
+
+
+/**
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
@@ -276,17 +287,6 @@ cwc.mode.sphero.Monitor.prototype.updateSpeedData_ = function(e) {
 
 
 /**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
-  if (this.connectMonitor) {
-    this.connectMonitor.stop();
-  }
-  this.helper.removeEventListeners(this.listener, this.name);
-};
-
-
-/**
  * Handles keyboard shortcuts.
  * @private
  */
@@ -295,34 +295,37 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
     return;
   }
 
+  var normalSpeed = 50;
+  var boostedSpeed = 255;
+
   switch (event.identifier) {
 
     // Normal speed
     case 'forward':
-      this.api.roll(50, 0);
+      this.api.roll(normalSpeed, 0);
       break;
     case 'right':
-      this.api.roll(50, 90);
+      this.api.roll(normalSpeed, 90);
       break;
     case 'backward':
-      this.api.roll(50, 180);
+      this.api.roll(normalSpeed, 180);
       break;
     case 'left':
-      this.api.roll(50, 270);
+      this.api.roll(normalSpeed, 270);
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.roll(255, 0);
+      this.api.roll(boostedSpeed, 0);
       break;
     case 'boost-right':
-      this.api.roll(255, 90);
+      this.api.roll(boostedSpeed, 90);
       break;
     case 'boost-backward':
-      this.api.roll(255, 180);
+      this.api.roll(boostedSpeed, 180);
       break;
     case 'boost-left':
-      this.api.roll(255, 270);
+      this.api.roll(boostedSpeed, 270);
       break;
 
     case 'stop':

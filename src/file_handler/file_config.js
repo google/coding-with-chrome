@@ -198,6 +198,15 @@ cwc.fileHandler.Config.add('Sphero blockly file',
 
 
 /**
+ * mBot blockly file config.
+ */
+cwc.fileHandler.Config.add('mBot blockly file',
+    cwc.fileFormat.File.getBlocklyFile,
+    cwc.file.Type.MBOT_BLOCKLY,
+    cwc.mode.Type.MBOT_BLOCKLY);
+
+
+/**
  * Coffeescript file config.
  */
 cwc.fileHandler.Config.add('Coffeescript file',

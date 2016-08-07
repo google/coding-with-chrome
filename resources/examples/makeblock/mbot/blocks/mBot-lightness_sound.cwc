@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"mbot_lightness_sensor_change\" id=\"[Q@tH[*/ncMU`X4t)+4W\" x=\"107\" y=\"9\">\n    <statement name=\"CODE\">\n      <block type=\"controls_if\" id=\"M]C/5gCL(#ucg:e`s%Wc\">\n        <value name=\"IF0\">\n          <block type=\"logic_compare\" id=\"T=kYz,m507D#!5WnE9:d\">\n            <field name=\"OP\">LTE</field>\n            <value name=\"A\">\n              <block type=\"variables_get\" id=\"rlVBq6ZXI6^=B%^vlIAz\">\n                <field name=\"VAR\">lightness</field>\n              </block>\n            </value>\n            <value name=\"B\">\n              <block type=\"math_number\" id=\"-fiHp!?O0|[*XK]UrAoD\">\n                <field name=\"NUM\">250</field>\n              </block>\n            </value>\n          </block>\n        </value>\n        <statement name=\"DO0\">\n          <block type=\"mbot_play_tone\" id=\"p8U,^j@F-:o/F8]/G|1/\">\n            <field name=\"frequency\">220</field>\n            <field name=\"duration\">240</field>\n          </block>\n        </statement>\n      </block>\n    </statement>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "mBot tries to detect present with the help of the ligthness sensor.",
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "mbot_blockly",
+  "mode": "mbot_blockly",
+  "model": "",
+  "title": "mBot - Play sound on low lightness",
+  "ui": "blockly",
+  "version": "1.0"
+}

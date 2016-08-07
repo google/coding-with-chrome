@@ -36,6 +36,7 @@ goog.require('cwc.protocol.Serial.api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.sphero.Api');
+goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
@@ -90,6 +91,7 @@ cwc.ui.BuilderHelpers = {
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
+  'mbot': cwc.protocol.makeblock.mbot.Api,
   'menubar': cwc.ui.Menubar,
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
@@ -101,7 +103,7 @@ cwc.ui.BuilderHelpers = {
   'serial': cwc.protocol.Serial.api,
   'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
-  'turtle': cwc.ui.Turtle,
+  'turtle': cwc.ui.Turtle
 };
 
 

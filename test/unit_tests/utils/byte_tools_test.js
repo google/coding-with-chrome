@@ -23,35 +23,93 @@ goog.require('cwc.utils.ByteTools');
 describe('ByteTools', function() {
 
   it('bytesToInt', function() {
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000000, 0x00000001]))
-      .toEqual(1);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000001, 0x00000000]))
-      .toEqual(256);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000001, 0x00000001]))
-      .toEqual(257);
-    expect(cwc.utils.ByteTools.bytesToInt([0x00000011, 0x00000001]))
-      .toEqual(4353);
-    expect(cwc.utils.ByteTools.bytesToInt([0x10101010, 0x10101010]))
-      .toEqual(269488144);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000000, 0x00000001])).toEqual(1);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000001, 0x00000000])).toEqual(256);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000001, 0x00000001])).toEqual(257);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x00000011, 0x00000001])).toEqual(4353);
+    expect(cwc.utils.ByteTools.bytesToInt(
+      [0x10101010, 0x10101010])).toEqual(269488144);
   });
 
   it('signedBytesToInt', function() {
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xF0F0F0F0, 0xF0F0F0F0]))
-        .toBe(-3856);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0x00000000]))
-        .toBe(-256);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0xFFFFFFFF, 0xFFFFFFFF]))
-        .toBe(-1);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000000, 0x00000001]))
-        .toBe(1);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000000]))
-        .toBe(256);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000001, 0x00000001]))
-        .toBe(257);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x00000011, 0x00000001]))
-        .toBe(4353);
-    expect(cwc.utils.ByteTools.signedBytesToInt([0x10101010, 0x10101010]))
-        .toBe(4112);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xF0F0F0F0, 0xF0F0F0F0])).toBe(-3856);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xFFFFFFFF, 0x00000000])).toBe(-256);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0xFFFFFFFF, 0xFFFFFFFF])).toBe(-1);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000000, 0x00000001])).toBe(1);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000001, 0x00000000])).toBe(256);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000001, 0x00000001])).toBe(257);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x00000011, 0x00000001])).toBe(4353);
+    expect(cwc.utils.ByteTools.signedBytesToInt(
+      [0x10101010, 0x10101010])).toBe(4112);
+  });
+
+  it('bytesToInt32', function() {
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000000, 0x00000001])).toEqual(1);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000001, 0x00000000])).toEqual(256);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000001, 0x00000001])).toEqual(257);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x00000011, 0x00000001])).toEqual(4353);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x0, 0x10101010, 0x10101010])).toEqual(538976272);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x0, 0x10101010, 0x0, 0x10101010])).toEqual(538972176);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0x10101010, 0x0, 0x0, 0x10101010])).toEqual(537923600);
+    expect(cwc.utils.ByteTools.bytesToInt32(
+      [0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF])).toEqual(4278124287);
+  });
+
+  it('isArrayBufferEqual', function() {
+    var data1 = [255, 25, 0, 5, 6];
+    var data2 = [255, 25, 1, 5, 6];
+    var data3 = [255, 25, 1, 5, 6];
+    var data4 = [255, 25, 1, 5];
+    var data5 = [0, 0, 64, 64];
+    var data6 = [0, 0, 0, 0];
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data1))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data2))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data3))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data5))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data1, data6))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data1))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data2))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data3))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data4))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data5))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data2, data6))
+      .toEqual(false);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data5, data5))
+      .toEqual(true);
+    expect(cwc.utils.ByteTools.isArrayBufferEqual(data6, data6))
+      .toEqual(true);
   });
 
   it('joinUint8Array', function() {
@@ -59,7 +117,7 @@ describe('ByteTools', function() {
     var data2 = cwc.utils.ByteTools.toUint8Array([0x10101010]);
     var result = cwc.utils.ByteTools.toUint8Array([0x10101010, 0x10101010]);
     expect(cwc.utils.ByteTools.joinUint8Array(data1, data2))
-        .toEqual(result);
+      .toEqual(result);
   });
 
   it('getHeaderPosition', function() {
@@ -116,35 +174,35 @@ describe('ByteTools', function() {
     var size2 = 16;
     var buffer1 = cwc.utils.ByteTools.toUint8Array([0, 255]);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 8))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 9))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 10))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_shifted, headers1, size1,
         buffer1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_broken, headers1, size1))
-        .toEqual(null);
+      .toEqual(null);
     expect(cwc.utils.ByteTools.getUint8Data(packet1_broken, headers1, size1,
         buffer1))
-        .toEqual(packet1);
+      .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet2, headers1, size1))
-        .toEqual(packet2);
+      .toEqual(packet2);
     expect(cwc.utils.ByteTools.getUint8Data(packet3, headers1, size1))
-        .toEqual(packet3);
+      .toEqual(packet3);
     expect(cwc.utils.ByteTools.getUint8Data(packet4, headers1, size2))
-        .toEqual(packet4);
+      .toEqual(packet4);
     expect(cwc.utils.ByteTools.getUint8Data(packet5, headers1, size2))
-        .toEqual(packet5);
+      .toEqual(packet5);
     expect(cwc.utils.ByteTools.getUint8Data(packet6, headers1, size2))
-        .toEqual(packet6);
+      .toEqual(packet6);
   });
 
 

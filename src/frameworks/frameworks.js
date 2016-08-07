@@ -53,9 +53,10 @@ cwc.framework.External = {
 cwc.framework.Internal = {
   ARDUINO: 'arduino_framework.js',
   EV3: 'ev3_framework.js',
+  MBOT: 'mbot_framework.js',
+  PYTHON: 'python_framework.js',
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',
-  PYTHON: 'python_framework.js',
   SPHERO: 'sphero_framework.js',
   TURTLE: 'turtle_framework.js'
 };

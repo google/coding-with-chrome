@@ -194,12 +194,18 @@ html>body,
   margin: 20px auto;
 }
 
-.cwc-select-card .mdl-card__media > i {
-  padding-top: 10px;
+.cwc-select-card .mdl-card__media,
+.cwc-select-card-big .mdl-card__media {
+  position: relative;
+}
+
+
+.cwc-select-card .mdl-card__media .cwc-select-card-icon {
   font-size: 128px;
   position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .cwc-select-card:hover,
@@ -220,7 +226,7 @@ html>body,
   height: 200px;
 }
 
-.cwc-select-card-big .mdl-card__media > i {
+.cwc-select-card-big .mdl-card__media .cwc-select-card-icon {
   font-size: 128px;
   position: absolute;
   top: 50%;

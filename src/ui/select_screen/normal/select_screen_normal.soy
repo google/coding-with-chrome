@@ -270,6 +270,17 @@
         {param opt_icon: 'adjust' /}
       {/call}
 
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'mBot' /}
+        {param text: 'Control a real or virtual mBot by assembling Blockly Blocks' /}
+        {param link_text: 'Use mBot Robot' /}
+        {param link_id: 'mbot' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
+      {/call}
+
     </div>
 
   </div>
@@ -424,6 +435,100 @@
 
 {/template}
 
+/**
+ * mBot overview page.
+ */
+{template .mbotOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}mbot-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call .robotHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'mbot' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'Robots: mBot' /}
+        {param opt_text: 'Control a mBot with blocks' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'New program' /}
+          {param text: 'Begin a new program to drive a mBot or an on-screen robot with Blockly' /}
+          {param link_text: 'new mbot blocks program' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'mBot block file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Button turn on light' /}
+          {param text: 'Pressing the onboard button will turn on the light.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'button_light' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Sound on present' /}
+          {param text: 'Put the hand over the mBot to play a sound.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'lightness_sound' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Collison avoidance' /}
+          {param text: 'Try a mBot example - Collision avoidance.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'collision_avoidance' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Line follower' /}
+          {param text: 'mBot will follow a black line.' /}
+          {param link_text: 'try example' /}
+          {param link_id: 'line_follower' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+    {call .footer_}
+      {param text: 'Trademarks are the property of their respective owners. mBot® is the trademarks of MakerWorks, Inc. All rights reserved.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
 
 /**
  * Header design.
@@ -431,11 +536,14 @@
 {template .header_}
   {@param title: string}
   {@param? opt_icon: string}
+  {@param? opt_icon_rotate: string}
   {@param? opt_text: string}
   {@param? opt_color_class: string}
 
   <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
-    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
+    {if $opt_icon}
+      <div class="cwc-band-icon icon_auto {if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</div>
+    {/if}
     <div class="cwc-band-text">
       <div class="mdl-typography--display-2 mdl-typography--font-thin">{$title}</div>
       {if $opt_text}<p class="mdl-typography--headline mdl-typography--font-thin">{$opt_text}</p>{/if}
@@ -513,6 +621,13 @@
         {param active_link: $active_link /}
       {/call}
 
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'mBot' /}
+        {param id: 'mbot' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -529,12 +644,15 @@
   {@param link_id: string}
   {@param? opt_image: string}
   {@param? opt_icon: string}
+  {@param? opt_icon_rotate: string}
   {@param? opt_color_class: string}
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+      {if $opt_icon}
+        <i class="icon_auto{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
+      {/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
       <div class="mdl-card__supporting-text">
@@ -570,7 +688,11 @@
   <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
     </div>
     <div class="mdl-card__title">
       <h4 class="mdl-card__title-text">
@@ -608,9 +730,13 @@
 
   <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-       {if $opt_image}<img src="../{$opt_image}">{/if}
-       {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
-       {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
+      {if $opt_image}<img src="../{$opt_image}">{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
+      {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
     </div>
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">

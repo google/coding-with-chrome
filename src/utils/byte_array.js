@@ -28,6 +28,7 @@ cwc.utils.ByteArrayTypes = {
   BYTE: 'byte',
   SHORT: 'short',
   INT: 'int',
+  UINT: 'uint',
   UINT16: 'uint16',
   STR: 'str'
 };
@@ -78,7 +79,7 @@ cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
  */
 cwc.utils.ByteArray.prototype.writeByte = function(value, opt_default) {
   this.addHeader(cwc.utils.ByteArrayTypes.BYTE);
-  this.write(value === undefined ? opt_default : value);
+  this.write(value === undefined ? opt_default || 0x00 : value);
 };
 
 
@@ -110,6 +111,17 @@ cwc.utils.ByteArray.prototype.writeInt = function(value) {
 
 /**
  * Writes an unsigned integer into the buffer.
+ * @param {number} value
+ * @export
+ */
+cwc.utils.ByteArray.prototype.writeUInt = function(value) {
+  this.addHeader(cwc.utils.ByteArrayTypes.UINT);
+  this.write(value & 0xFF);
+};
+
+
+/**
+ * Writes an unsigned 16bit integer into the buffer.
  * @param {number} value
  * @export
  */

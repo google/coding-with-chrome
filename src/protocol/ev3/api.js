@@ -92,7 +92,7 @@ cwc.protocol.ev3.Api = function(helper) {
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
-  /** @type {cwc.protocol.ev3.Monitoring} */
+  /** @type {!cwc.protocol.ev3.Monitoring} */
   this.monitoring = new cwc.protocol.ev3.Monitoring(this);
 
   /** @type {!cwc.protocol.ev3.CallbackType} */

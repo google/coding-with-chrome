@@ -1,0 +1,21 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"mbot_button_change\" id=\"anw41!s9Xb^[[X]JudUh\" x=\"235\" y=\"100\">\n    <statement name=\"CODE\">\n      <block type=\"controls_if\" id=\"zrgkV1pXT7w7=2z*`cIU\">\n        <mutation else=\"1\"></mutation>\n        <value name=\"IF0\">\n          <block type=\"logic_compare\" id=\"jlgk}hGLkfuCtx-}-nSU\">\n            <field name=\"OP\">EQ</field>\n            <value name=\"A\">\n              <block type=\"variables_get\" id=\"CQBUPRjcT*}=,2`69uqg\">\n                <field name=\"VAR\">pressed</field>\n              </block>\n            </value>\n            <value name=\"B\">\n              <block type=\"logic_boolean\" id=\"p|RILh2/b+GK8OIpYfA)\">\n                <field name=\"BOOL\">TRUE</field>\n              </block>\n            </value>\n          </block>\n        </value>\n        <statement name=\"DO0\">\n          <block type=\"mbot_rgb\" id=\"Pk}6b[{}[`gYyx;b_@RC\">\n            <field name=\"position\">0</field>\n            <value name=\"colour\">\n              <block type=\"colour_picker\" id=\"R!(=k(w=dmYT6)2b@)r*\">\n                <field name=\"COLOUR\">#ff0000</field>\n              </block>\n            </value>\n          </block>\n        </statement>\n        <statement name=\"ELSE\">\n          <block type=\"mbot_rgb\" id=\"s.KG~r1jP*;kE:#`*)VX\">\n            <field name=\"position\">0</field>\n            <value name=\"colour\">\n              <block type=\"colour_picker\" id=\"!uH2:PwRM{9U8t7kYsDr\">\n                <field name=\"COLOUR\">#33ff33</field>\n              </block>\n            </value>\n          </block>\n        </statement>\n      </block>\n    </statement>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "mBot turn on light if the onboard button is pressed.",
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "mbot_blockly",
+  "mode": "mbot_blockly",
+  "model": "",
+  "title": "mBot - Turn on light on button action",
+  "ui": "blockly",
+  "version": "1.0"
+}

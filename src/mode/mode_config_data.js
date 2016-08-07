@@ -34,6 +34,7 @@ goog.require('cwc.mode.pencilCode.advanced.Mod');
 goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
+goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
 
@@ -213,6 +214,17 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn']
 });
 
+/**
+ * Sphero advanced mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
+  name: 'mBot blockly',
+  title: 'mBot',
+  icon: 'adjust',
+  file_type: cwc.file.Type.MBOT_BLOCKLY,
+  mod: cwc.mode.makeblock.mbot.blockly.Mod,
+  authors: ['Yu Wang']
+});
 
 /**
  * HTML5 mode.
