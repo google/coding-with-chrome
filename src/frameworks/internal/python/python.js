@@ -1,7 +1,7 @@
 /**
  * @fileoverview Python framework for the runner instance.
  *
- * @license Copyright 2016 Google Inc. All Rights Reserved.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ goog.require('cwc.utils.Dialog');
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.framework.Python = function() {
   /** @type {string} */

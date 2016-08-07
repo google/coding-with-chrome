@@ -59,7 +59,7 @@ closureBuilder.build({
 
 
 /**
- * EV3 Framework
+ * Python Framework
  */
 closureBuilder.build({
   name: 'cwc.framework.Python',
@@ -76,6 +76,10 @@ closureBuilder.build({
   out: 'genfiles/frameworks/internal/python_framework.js'
 });
 
+
+/**
+ * mBot Framework
+ */
 closureBuilder.build({
   name: 'cwc.framework.makeblock.mBot',
   compress: true,

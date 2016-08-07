@@ -22,3 +22,18 @@
 
 /** @constructor */
 var Sk = function() {};
+
+/** @type {Function} */
+Sk.configure = function() {};
+
+/** @type {array} */
+Sk.builtinFiles = [];
+
+/** @type {Object} */
+Sk.TurtleGraphics = {};
+
+/** @type {Function} */
+Sk.misceval.asyncToPromise = function() {};
+
+/** @type {Function} */
+Sk.importMainWithBody = function() {};
