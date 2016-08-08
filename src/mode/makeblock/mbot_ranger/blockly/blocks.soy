@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-{namespace cwc.soy.mode.makeblock.mbot.blockly.Blocks autoescape="strict"}
+{namespace cwc.soy.mode.makeblock.mbotRanger.blockly.Blocks autoescape="strict"}
 
 
 /**
@@ -26,7 +26,7 @@
 {template .toolbox}
 
   <category name="Movements" colour="120">
-    <block type="mbot_move_forward_time">
+    <block type="mbot_ranger_move_forward_time">
       <value name="time">
         <block type="math_number"><field name="NUM">2</field></block>
       </value>
@@ -34,7 +34,7 @@
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_move_backward_time">
+    <block type="mbot_ranger_move_backward_time">
       <value name="time">
         <block type="math_number"><field name="NUM">2</field></block>
       </value>
@@ -42,7 +42,7 @@
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_rotate_left_time">
+    <block type="mbot_ranger_rotate_left_time">
       <value name="time">
         <block type="math_number"><field name="NUM">1</field></block>
       </value>
@@ -50,7 +50,7 @@
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_rotate_right_time">
+    <block type="mbot_ranger_rotate_right_time">
       <value name="time">
         <block type="math_number"><field name="NUM">1</field></block>
       </value>
@@ -61,31 +61,31 @@
   </category>
 
   <category name="Movements (Advance)" colour="120">
-    <block type="mbot_move_forward">
+    <block type="mbot_ranger_move_forward">
       <value name="speed">
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_move_backward">
+    <block type="mbot_ranger_move_backward">
       <value name="speed">
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_rotate_left">
+    <block type="mbot_ranger_rotate_left">
       <value name="speed">
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_rotate_right">
+    <block type="mbot_ranger_rotate_right">
       <value name="speed">
         <block type="math_number"><field name="NUM">85</field></block>
       </value>
     </block>
-    <block type="mbot_stop_moving"></block>
+    <block type="mbot_ranger_stop_moving"></block>
   </category>
 
   <category name="Lights" colour="120">
-    <block type="mbot_rgb">
+    <block type="mbot_ranger_rgb">
       <value name="colour">
         <block type="colour_picker">
           <field name="COLOUR">#ff0000</field>
@@ -94,11 +94,11 @@
   </category>
 
   <category name="Sounds" colour="120">
-    <block type="mbot_play_tone"></block>
+    <block type="mbot_ranger_play_tone"></block>
   </category>
 
   <category name="Events" colour="20">
-    <block type="mbot_button_change">
+    <block type="mbot_ranger_button_change">
       <value name="CODE">
         <block type="controls_if">
           <value name="IF0">
@@ -119,7 +119,7 @@
         </block>
       </value>
     </block>
-    <block type="mbot_lightness_sensor_change">
+    <block type="mbot_ranger_lightness_sensor_change">
       <value name="CODE">
         <block type="controls_if">
           <value name="IF0">
@@ -140,7 +140,7 @@
         </block>
       </value>
     </block>
-    <block type="mbot_linefollower_sensor_change">
+    <block type="mbot_ranger_linefollower_sensor_change">
       <value name="CODE">
         <block type="controls_if">
           <value name="IF0">
@@ -180,7 +180,7 @@
         </block>
       </value>
     </block>
-    <block type="mbot_ultrasonic_sensor_change">
+    <block type="mbot_ranger_ultrasonic_sensor_change">
       <value name="CODE">
         <block type="controls_if">
           <value name="IF0">

@@ -18,18 +18,18 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.runner.profile.makeblock.mbot.Command');
+goog.provide('cwc.runner.profile.makeblock.mbotRanger.Command');
 
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbot.Api} api
+ * @param {!cwc.protocol.makeblock.mbotRanger.Api} api
  * @constructor
  * @struct
  * @final
  */
-cwc.runner.profile.makeblock.mbot.Command = function(api) {
-  /** @type {cwc.protocol.makeblock.mbot.Api} */
+cwc.runner.profile.makeblock.mbotRanger.Command = function(api) {
+  /** @type {cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = api;
 };
 
@@ -39,7 +39,8 @@ cwc.runner.profile.makeblock.mbot.Command = function(api) {
  * @param  {Object} data
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.setMotor = function(data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setMotor = function(
+    data) {
   if (data['direction'] == 1) {
     this.api.setLeftMotor(data['speed']);
   } else {
@@ -52,7 +53,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.setMotor = function(data) {
  * move mbot forward or backward
  * @param {Object} data data package
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.movePower = function(data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.movePower = function(
+    data) {
   this.api.setLeftMotorPower(-data['speed']);
   this.api.setRightMotorPower(data['speed']);
 };
@@ -62,8 +64,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.movePower = function(data) {
  * turn mbot to a direction
  * @param {Object} data data package
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.rotatePower = function(
-    data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.rotatePower =
+function(data) {
   this.api.setLeftMotorPower(data['speed']);
   this.api.setRightMotorPower(data['speed']);
 };
@@ -73,7 +75,7 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.rotatePower = function(
  * wait for a certain second
  * @param {Object=} opt_data
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.wait = function(
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.wait = function(
     opt_data) {};
 
 
@@ -82,7 +84,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.wait = function(
  * @param {Object=} opt_data
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.stop = function(opt_data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.stop = function(
+    opt_data) {
   this.api.setLeftMotor(0);
   this.api.setRightMotor(0);
 };
@@ -92,8 +95,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.stop = function(opt_data) {
  * @param {!Object} data
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.setLEDColor = function(
-    data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setLEDColor =
+function(data) {
   this.api.setLEDColor(
     data['red'], data['green'], data['blue'], data['position']);
 };
@@ -103,7 +106,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.setLEDColor = function(
  * @param {!Object} data
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.playTone = function(data) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.playTone = function(
+    data) {
   this.api.playTone(data['frequency'], data['duration']);
 };
 
@@ -113,8 +117,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.playTone = function(data) {
  * @return {number} sensor value
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.ultrasonicValue = function(
-) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.ultrasonicValue =
+function() {
   return this.api.ultrasonicValue();
 };
 
@@ -124,7 +128,7 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.ultrasonicValue = function(
  * @return {number} sensor value
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.lightSensorValue = function(
-) {
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.lightSensorValue =
+function() {
   return this.api.lightSensorValue();
 };

@@ -28,16 +28,16 @@ goog.provide('cwc.protocol.ev3.Events');
 cwc.protocol.ev3.Events.Type = {
   CHANGED_DEVICES: 'changed_devices',
   CHANGED_VALUES: 'changed_values',
-  COLOR_SENSOR_VALUE_CHANGED: 'color_sensor_value_changed',
-  GYRO_SENSOR_VALUE_CHANGED: 'gyro_sensor_value_changed',
-  IR_SENSOR_VALUE_CHANGED: 'ir_sensor_value_changed',
-  LARGE_MOTOR_OPT_VALUE_CHANGED: 'large_motor_opt_value_changed',
-  LARGE_MOTOR_VALUE_CHANGED: 'large_motor_value_changed',
-  MEDIUM_MOTOR_OPT_VALUE_CHANGED: 'medium_motor_opt_value_changed',
-  MEDIUM_MOTOR_VALUE_CHANGED: 'medium_motor_value_changed',
-  TOUCH_SENSOR_OPT_VALUE_CHANGED: 'touch_sensor_opt_value_changed',
-  TOUCH_SENSOR_VALUE_CHANGED: 'touch_sensor_value_changed',
-  ULTRASONIC_SENSOR_VALUE_CHANGED: 'ultra_sonic_sensor_value_changed'
+  COLOR_SENSOR: 'color_sensor_value_changed',
+  GYRO_SENSOR: 'gyro_sensor_value_changed',
+  IR_SENSOR: 'ir_sensor_value_changed',
+  LARGE_MOTOR_OPT: 'large_motor_opt_value_changed',
+  LARGE_MOTOR: 'large_motor_value_changed',
+  MEDIUM_MOTOR_OPT: 'medium_motor_opt_value_changed',
+  MEDIUM_MOTOR: 'medium_motor_value_changed',
+  TOUCH_SENSOR_OPT: 'touch_sensor_opt_value_changed',
+  TOUCH_SENSOR: 'touch_sensor_value_changed',
+  ULTRASONIC_SENSOR: 'ultra_sonic_sensor_value_changed'
 };
 
 
@@ -58,7 +58,7 @@ cwc.protocol.ev3.Events.ChangedDevices = function(data) {
  */
 cwc.protocol.ev3.Events.ColorSensorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.COLOR_SENSOR, data, opt_port);
 };
 
 
@@ -69,7 +69,7 @@ cwc.protocol.ev3.Events.ColorSensorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.GyroSensorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.GYRO_SENSOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.GYRO_SENSOR, data, opt_port);
 };
 
 
@@ -80,7 +80,7 @@ cwc.protocol.ev3.Events.GyroSensorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.IrSensorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.IR_SENSOR, data, opt_port);
 };
 
 
@@ -91,7 +91,7 @@ cwc.protocol.ev3.Events.IrSensorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.LargeMotorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.LARGE_MOTOR, data, opt_port);
 };
 
 
@@ -102,7 +102,7 @@ cwc.protocol.ev3.Events.LargeMotorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.LargeMotorOptValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_OPT_VALUE_CHANGED, data,
+      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_OPT, data,
       opt_port);
 };
 
@@ -114,7 +114,7 @@ cwc.protocol.ev3.Events.LargeMotorOptValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.MediumMotorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR, data, opt_port);
 };
 
 
@@ -125,7 +125,7 @@ cwc.protocol.ev3.Events.MediumMotorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.MediumMotorOptValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_OPT_VALUE_CHANGED, data,
+      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_OPT, data,
       opt_port);
 };
 
@@ -137,7 +137,7 @@ cwc.protocol.ev3.Events.MediumMotorOptValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.TouchSensorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED, data, opt_port);
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR, data, opt_port);
 };
 
 
@@ -148,7 +148,7 @@ cwc.protocol.ev3.Events.TouchSensorValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.TouchSensorOptValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_OPT_VALUE_CHANGED, data,
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_OPT, data,
         opt_port);
 };
 
@@ -160,7 +160,7 @@ cwc.protocol.ev3.Events.TouchSensorOptValue = function(data, opt_port) {
  */
 cwc.protocol.ev3.Events.UltrasonicSensorValue = function(data, opt_port) {
   return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED, data,
+      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR, data,
         opt_port);
 };
 

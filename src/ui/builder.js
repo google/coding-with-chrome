@@ -37,6 +37,7 @@ goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
+goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
@@ -92,6 +93,7 @@ cwc.ui.BuilderHelpers = {
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
   'mbot': cwc.protocol.makeblock.mbot.Api,
+  'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
   'menubar': cwc.ui.Menubar,
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,

@@ -207,6 +207,15 @@ cwc.fileHandler.Config.add('mBot blockly file',
 
 
 /**
+ * mBot ranger blockly file config.
+ */
+cwc.fileHandler.Config.add('mBot Ranger blockly file',
+    cwc.fileFormat.File.getBlocklyFile,
+    cwc.file.Type.MBOT_RANGER_BLOCKLY,
+    cwc.mode.Type.MBOT_RANGER_BLOCKLY);
+
+
+/**
  * Coffeescript file config.
  */
 cwc.fileHandler.Config.add('Coffeescript file',

@@ -34,6 +34,7 @@ cwc.ui.SelectScreenNormalView = {
   DRAW: 'drawOverview',
   EV3: 'ev3Overview',
   MBOT: 'mbotOverview',
+  MBOT_RANGER: 'mbotRangerOverview',
   MUSIC: 'musicOverview',
   OVERVIEW: 'overview',
   ROBOT: 'robotOverview',
@@ -143,6 +144,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.SPHERO);
       this.setClickEvent_('link-mbot', this.showView,
           cwc.ui.SelectScreenNormalView.MBOT);
+      this.setClickEvent_('link-mbot-ranger', this.showView,
+          cwc.ui.SelectScreenNormalView.MBOT_RANGER);
       break;
 
     // Robot screens
@@ -184,6 +187,14 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
         'mBot-lightness_sound.cwc');
       this.setClickEvent_('link-line_follower', this.loadFile_, mBotPath +
         'mBot-line_follower.cwc');
+      break;
+    case cwc.ui.SelectScreenNormalView.MBOT_RANGER:
+      //var mBotRangerPath = 'resources/examples/makeblock/mbot_ranger/blocks/';
+      this.showTemplate_(cwc.soy.SelectScreenNormal.mbotRangerOverview);
+      this.setNavHeader_('mBot Ranger', 'adjust');
+      this.addRobotMenuHandler_();
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.MBOT_RANGER_BLOCKLY);
       break;
 
     default:

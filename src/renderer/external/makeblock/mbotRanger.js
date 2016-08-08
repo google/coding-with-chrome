@@ -1,5 +1,5 @@
 /**
- * @fileoverview mBot renderer.
+ * @fileoverview mBot Ranger renderer.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.renderer.external.makeblock.mbot');
+goog.provide('cwc.renderer.external.makeblock.mbotRanger');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -33,7 +33,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.makeblock.mbot = function(helper) {
+cwc.renderer.external.makeblock.mbotRanger = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -42,7 +42,7 @@ cwc.renderer.external.makeblock.mbot = function(helper) {
 /**
  * Initializes and defines the mbot renderer.
  */
-cwc.renderer.external.makeblock.mbot.prototype.init = function() {
+cwc.renderer.external.makeblock.mbotRanger.prototype.init = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
@@ -58,7 +58,7 @@ cwc.renderer.external.makeblock.mbot.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.makeblock.mbot.prototype.render = function(
+cwc.renderer.external.makeblock.mbotRanger.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
@@ -66,12 +66,12 @@ cwc.renderer.external.makeblock.mbot.prototype.render = function(
     renderer_helper) {
 
   var header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.MBOT, frameworks);
+    cwc.framework.Internal.MBOT_RANGER, frameworks);
   var body = '\n<script>' +
-      '  var code = function(mbot) {\n' +
+      '  var code = function(mbotRanger) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
       '\n};\n'+
-      '  new cwc.framework.makeblock.mBot(code);\n' +
+      '  new cwc.framework.makeblock.mBotRanger(code);\n' +
       '</script>\n';
 
   var html = renderer_helper.getHTML(body, header);

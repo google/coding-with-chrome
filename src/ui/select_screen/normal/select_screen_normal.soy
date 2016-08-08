@@ -273,9 +273,20 @@
       {call .selectSection_}
         {param prefix: $prefix /}
         {param title: 'mBot' /}
-        {param text: 'Control a real or virtual mBot by assembling Blockly Blocks' /}
+        {param text: 'Control a mBot by assembling Blockly Blocks' /}
         {param link_text: 'Use mBot Robot' /}
         {param link_id: 'mbot' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
+      {/call}
+
+      {call .selectSection_}
+        {param prefix: $prefix /}
+        {param title: 'mBot Ranger' /}
+        {param text: 'Control a mBot Ranger by assembling Blockly Blocks' /}
+        {param link_text: 'Use mBot Ranger Robot' /}
+        {param link_id: 'mbot-ranger' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'functions' /}
         {param opt_icon_rotate: '90' /}
@@ -515,6 +526,61 @@
           {param link_id: 'line_follower' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+    {call .footer_}
+      {param text: 'Trademarks are the property of their respective owners. mBot® is the trademarks of MakerWorks, Inc. All rights reserved.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * mBot Ranger overview page.
+ */
+{template .mbotRangerOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}mbot-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call .robotHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'mbot' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call .header_}
+        {param title: 'Robots: mBot Ranger' /}
+        {param opt_text: 'Control a mBot Ranger with blocks' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'functions' /}
+        {param opt_icon_rotate: '90' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'New program' /}
+          {param text: 'Begin a new program to drive a mBot with Blockly' /}
+          {param link_text: 'new mBot Ranger blocks program' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'mBot Ranger block file' /}
         {/call}
 
       </div>

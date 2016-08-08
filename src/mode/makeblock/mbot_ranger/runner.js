@@ -17,11 +17,11 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.makeblock.mbot.Runner');
+goog.provide('cwc.mode.makeblock.mbotRanger.Runner');
 
-goog.require('cwc.protocol.makeblock.mbot.Events');
-goog.require('cwc.runner.profile.makeblock.mbot.Command');
-goog.require('cwc.runner.profile.makeblock.mbot.Monitor');
+goog.require('cwc.protocol.makeblock.mbotRanger.Events');
+goog.require('cwc.runner.profile.makeblock.mbotRanger.Command');
+goog.require('cwc.runner.profile.makeblock.mbotRanger.Monitor');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Helper');
@@ -36,24 +36,24 @@ goog.require('goog.dom');
  * @struct
  * @final
  */
-cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
+cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {string} */
-  this.name = 'mBot Runner';
+  this.name = 'mBot Ranger Runner';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('mbot-runner');
+  this.prefix = helper.getPrefix('mbot-ranger-runner');
 
-  /** @type {!cwc.mode.makeblock.mbot.Connection} */
+  /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.makeblock.mbot.Api} */
+  /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.makeblock.mbot.Command} */
-  this.command = new cwc.runner.profile.makeblock.mbot.Command(this.api);
+  /** @type {!cwc.runner.profile.makeblock.mbotRanger.Command} */
+  this.command = new cwc.runner.profile.makeblock.mbotRanger.Command(this.api);
 
   /** @type {!string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAA' +
@@ -112,7 +112,8 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
   /** @type {!cwc.runner.profile.ev3.Command} */
-  this.monitor = new cwc.runner.profile.makeblock.mbot.Monitor(this.turtle);
+  this.monitor = new cwc.runner.profile.makeblock.mbotRanger.Monitor(
+    this.turtle);
 
   /** @type {Element} */
   this.node = null;
@@ -129,7 +130,7 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
  * Decorates the runner object for the mbot modification.
  * @export
  */
-cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
+cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
@@ -153,16 +154,16 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   // Events
   var apiEventHandler = this.api.getEventHandler();
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
+      cwc.protocol.makeblock.mbotRanger.Events.Type.BUTTON_PRESSED,
       'updateButton');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR,
+      cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
       'updateLightnessSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR,
+      cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
       'updateLinefollowerSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR,
+      cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
@@ -186,7 +187,7 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
 /**
  * @private
  */
-cwc.mode.makeblock.mbot.Runner.prototype.handleStart_ = function() {
+cwc.mode.makeblock.mbotRanger.Runner.prototype.handleStart_ = function() {
   this.monitor.reset();
   this.turtle.action('speed', 3);
   this.turtle.reset();
@@ -197,7 +198,7 @@ cwc.mode.makeblock.mbot.Runner.prototype.handleStart_ = function() {
 /**
  * Handles the cleanup and make sure that the mbot stops.
  */
-cwc.mode.makeblock.mbot.Runner.prototype.handleCleanUp = function() {
+cwc.mode.makeblock.mbotRanger.Runner.prototype.handleCleanUp = function() {
   this.api.cleanUp();
 };
 
@@ -205,7 +206,7 @@ cwc.mode.makeblock.mbot.Runner.prototype.handleCleanUp = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbot.Runner.prototype.cleanUp = function() {
+cwc.mode.makeblock.mbotRanger.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
   this.helper.removeEventListeners(this.listener, this.name);
   this.listener = [];
@@ -223,8 +224,8 @@ cwc.mode.makeblock.mbot.Runner.prototype.cleanUp = function() {
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
  */
-cwc.mode.makeblock.mbot.Runner.prototype.addEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
+cwc.mode.makeblock.mbotRanger.Runner.prototype.addEventListener = function(src,
+    type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);

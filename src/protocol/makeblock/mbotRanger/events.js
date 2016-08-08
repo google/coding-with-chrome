@@ -20,7 +20,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.protocol.makeblock.mbot.Events');
+goog.provide('cwc.protocol.makeblock.mbotRanger.Events');
 
 
 
@@ -28,7 +28,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Events');
  * Custom events.
  * @enum {Event}
  */
-cwc.protocol.makeblock.mbot.Events.Type = {
+cwc.protocol.makeblock.mbotRanger.Events.Type = {
   BUTTON_PRESSED: 'button_pressed',
   LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
   LINEFOLLOWER_SENSOR: 'linefollower_sensor_value_changed',
@@ -41,10 +41,10 @@ cwc.protocol.makeblock.mbot.Events.Type = {
  * @param {number=} opt_port
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
+cwc.protocol.makeblock.mbotRanger.Events.ButtonPressed = function(data,
     opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
+  return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
+      cwc.protocol.makeblock.mbotRanger.Events.Type.BUTTON_PRESSED,
       data, opt_port);
 };
 
@@ -54,10 +54,10 @@ cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
  * @param {number=} opt_port
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
+cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
     opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR,
+  return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
+      cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
       data, opt_port);
 };
 
@@ -67,10 +67,10 @@ cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
  * @param {number=} opt_port
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
+cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
     opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR,
+  return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
+      cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
       data, opt_port);
 };
 
@@ -80,24 +80,25 @@ cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
  * @param {number=} opt_port
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
-    opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR,
+cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
+    data, opt_port) {
+  return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
+      cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
       data, opt_port);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbot.Events.Type} type
+ * @param {!cwc.protocol.makeblock.mbotRanger.Events.Type} type
  * @param {!object} data
  * @param {number=} opt_port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.makeblock.mbot.Events.Data_ = function(type, data, opt_port) {
-  /** @type {!cwc.protocol.makeblock.mbot.Events.Type} */
+cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, data,
+    opt_port) {
+  /** @type {!cwc.protocol.makeblock.mbotRanger.Events.Type} */
   this.type = type;
 
   /** @type {!object} */
