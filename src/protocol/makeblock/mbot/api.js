@@ -167,8 +167,6 @@ cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
   this.reset();
   this.monitoring.stop();
-  this.setLeftMotorPower(0);
-  this.setRightMotorPower(0);
 };
 
 

@@ -26,6 +26,7 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Commands');
 goog.require('cwc.protocol.makeblock.mbotRanger.IndexType');
 goog.require('cwc.protocol.makeblock.mbotRanger.Monitoring');
 goog.require('cwc.protocol.makeblock.mbotRanger.Port');
+goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 goog.require('cwc.utils.ByteTools');
 
 goog.require('goog.events.EventTarget');
@@ -167,8 +168,6 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
   console.log('Clean up Mbot …');
   this.reset();
   this.monitoring.stop();
-  this.setLeftMotorPower(0);
-  this.setRightMotorPower(0);
 };
 
 
@@ -180,9 +179,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
   this.sensorData = {};
   this.sensorDataCache_ = {};
   if (this.device) {
-    this.setLeftMotorPower(0);
-    this.setRightMotorPower(0);
-    this.setLEDColor(0, 0, 0, 0);
+    this.setRGBLED(0, 0, 0, 0);
     this.send_(this.commands.reset());
     this.device.reset();
   }
@@ -213,13 +210,25 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventHandler = function() {
 
 /**
  * Sets left motor power
+ * @param {!number} power 0-255
+ * @param {number=} opt_slot
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.setMotorPower = function(
+    power, opt_slot) {
+  this.send_(this.commands.setMotorPower(power, opt_slot));
+};
+
+
+/**
+ * Sets left motor power
  * @param  {!number} power 0-255
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.setLeftMotorPower = function(
     power) {
   this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbotRanger.Port.LEFT_MOTOR));
+    power, cwc.protocol.makeblock.mbotRanger.Slot.ONE));
 };
 
 
@@ -231,7 +240,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.setLeftMotorPower = function(
 cwc.protocol.makeblock.mbotRanger.Api.prototype.setRightMotorPower = function(
     power) {
   this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbotRanger.Port.RIGHT_MOTOR));
+    power, cwc.protocol.makeblock.mbotRanger.Slot.TWO));
 };
 
 
@@ -269,7 +278,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.readLightSensor = function() {
  * @param {number=} opt_index   0 for all lights; 1 for left, 2 for right
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setLEDColor = function(red,
+cwc.protocol.makeblock.mbotRanger.Api.prototype.setRGBLED = function(red,
     green, blue, opt_index) {
   this.send_(this.commands.setRGBLED(red, green, blue, opt_index));
 };

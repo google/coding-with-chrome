@@ -148,7 +148,7 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
 
   this.runner.addCommand('wait', this.command.wait, this);
   this.runner.addCommand('stop', this.command.stop, this);
-  this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
+  this.runner.addCommand('setRGBLED', this.command.setRGBLED, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
 
   // Events

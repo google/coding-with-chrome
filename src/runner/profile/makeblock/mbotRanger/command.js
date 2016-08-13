@@ -55,8 +55,7 @@ cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setMotor = function(
  */
 cwc.runner.profile.makeblock.mbotRanger.Command.prototype.movePower = function(
     data) {
-  this.api.setLeftMotorPower(-data['speed']);
-  this.api.setRightMotorPower(data['speed']);
+  this.api.setMotorPower(data['speed'], data['slot']);
 };
 
 
@@ -95,10 +94,10 @@ cwc.runner.profile.makeblock.mbotRanger.Command.prototype.stop = function(
  * @param {!Object} data
  * @export
  */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setLEDColor =
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setRGBLED =
 function(data) {
-  this.api.setLEDColor(
-    data['red'], data['green'], data['blue'], data['position']);
+  this.api.setRGBLED(
+    data['red'], data['green'], data['blue'], data['index']);
 };
 
 

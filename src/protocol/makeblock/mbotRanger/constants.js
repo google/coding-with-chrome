@@ -78,7 +78,8 @@ cwc.protocol.makeblock.mbotRanger.Device = {
   GYRO: 6,
   SOUND_SENSOR: 7,
   RGBLED: 8,
-  DCMOTOR: 10,
+  MOTOR: 10,
+  ENCODER: 12,
   IR: 13,
   IRREMOTE: 14,
   LINEFOLLOWER: 17,
@@ -113,6 +114,7 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbotRanger.Port = {
+  AUTO: 0,
   ULTRASONIC: 10,
   LINEFOLLOWER: 11,
   LIGHTSENSOR: 0x06,
@@ -128,5 +130,7 @@ cwc.protocol.makeblock.mbotRanger.Port = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbotRanger.Slot = {
-  RGBLED: 0x02
+  AUTO: 0,
+  ONE: 1,
+  TWO: 2
 };

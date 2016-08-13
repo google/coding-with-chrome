@@ -186,7 +186,7 @@ Blockly.JavaScript['mbot_ranger_beep_buzzer'] = function(opt_block) {
 
 
 Blockly.JavaScript['mbot_ranger_rgb'] = function(block) {
-  var position = parseInt(block.getFieldValue('position') || 0);
+  var index = parseInt(block.getFieldValue('position') || 0);
   var colour = parseInt(Blockly.JavaScript.valueToCode(
     block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
     .replace('#', '')
@@ -195,8 +195,8 @@ Blockly.JavaScript['mbot_ranger_rgb'] = function(block) {
   var red = colour >> 16;
   var green = colour >> 8 & 0xFF;
   var blue = colour & 0xFF;
-  return 'mbotRanger.setLEDColor(' + red + ', ' + green + ', ' + blue + ', ' +
-    position + ', 100);\n';
+  return 'mbotRanger.setRGBLED(' + red + ', ' + green + ', ' + blue + ', ' +
+    index + ', 100);\n';
 };
 
 

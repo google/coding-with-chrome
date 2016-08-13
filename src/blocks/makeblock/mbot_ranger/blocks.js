@@ -229,9 +229,19 @@ Blockly.Blocks['mbot_ranger_rgb'] = {
     this.appendDummyInput()
       .appendField(i18t('set on board led '))
       .appendField(new Blockly.FieldDropdown([
-        ['both', '0'],
-        ['left', '1'],
-        ['right', '2']
+        ['all', '0'],
+        ['port 1', '1'],
+        ['port 2', '2'],
+        ['port 3', '3'],
+        ['port 4', '4'],
+        ['port 5', '5'],
+        ['port 6', '6'],
+        ['port 7', '7'],
+        ['port 8', '8'],
+        ['port 9', '9'],
+        ['port 10', '10'],
+        ['port 11', '11'],
+        ['port 12', '12'],
       ]), 'position');
     this.appendValueInput('colour')
       .appendField(i18t('to color ('));

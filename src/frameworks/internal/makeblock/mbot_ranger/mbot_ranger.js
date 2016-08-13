@@ -87,18 +87,17 @@ cwc.framework.makeblock.mBotRanger = function(code) {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {string=} opt_position
- *   position of the on-board LED: 0-both, 1-left, 2-right
+ * @param {string=} opt_index 1-14
  * @param {void=} opt_delay
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.setLEDColor = function(red, green,
-    blue, opt_position, opt_delay) {
-  this.runner.send('setLEDColor', {
+cwc.framework.makeblock.mBotRanger.prototype.setRGBLED = function(red, green,
+    blue, opt_index, opt_delay) {
+  this.runner.send('setRGBLED', {
     'red': red,
     'green': green,
     'blue': blue,
-    'position': opt_position || 0}, opt_delay);
+    'index': opt_index || 0}, opt_delay);
 };
 
 
@@ -206,14 +205,16 @@ cwc.framework.makeblock.mBotRanger.prototype.rotatePowerTime = function(time,
 /**
  * Move mBot for certain speeds
  * @param {!number} speed 0 - 255
+ * @param {number=} opt_slot
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.movePower = function(speed,
-    opt_delay) {
+    opt_slot, opt_delay) {
   var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('movePower', {
-    'speed': speed}, delay);
+    'speed': speed,
+    'slot': opt_slot}, delay);
 };
 
 

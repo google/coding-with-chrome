@@ -125,7 +125,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writePort = function(port) {
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.CommandSlot} slot
+ * @param {!cwc.protocol.makeblock.mbotRanger.Slot} slot
  */
 cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSlot = function(slot) {
   this.data.writeByte(slot);
