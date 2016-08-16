@@ -28,6 +28,7 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Monitoring');
 goog.require('cwc.protocol.makeblock.mbotRanger.Port');
 goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 goog.require('cwc.utils.ByteTools');
+goog.require('cwc.utils.NumberTools');
 
 goog.require('goog.events.EventTarget');
 
@@ -72,7 +73,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function(helper) {
   this.headerAsync_ = [0xff, 0x55];
 
   /** @private {!number} */
-  this.headerMinSize_ = 7;
+  this.headerMinSize_ = 4;
 };
 
 
@@ -179,8 +180,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
   this.sensorData = {};
   this.sensorDataCache_ = {};
   if (this.device) {
-    this.setRGBLED(0, 0, 0, 0);
-    this.send_(this.commands.reset());
+    this.stop();
     this.device.reset();
   }
 };
@@ -209,38 +209,55 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventHandler = function() {
 
 
 /**
- * Sets left motor power
- * @param {!number} power 0-255
+ * Powers the motor.
+ * @param {!number} power (-255 - 255)
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.movePower = function(power,
+    opt_slot) {
+  if (opt_slot === undefined) {
+    var motorPower = cwc.utils.NumberTools.MinMax(power, -130, 130);
+    this.send_(this.commands.movePower(-motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
+    this.send_(this.commands.movePower(motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
+  } else {
+    this.send_(this.commands.movePower(power, opt_slot));
+  }
+};
+
+
+/**
+ * Powers the motor.
+ * @param {!number} power (-255 - 255)
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
+    opt_slot) {
+  if (opt_slot === undefined) {
+    var motorPower = cwc.utils.NumberTools.MinMax(power, -130, 130);
+    this.send_(this.commands.movePower(motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
+    this.send_(this.commands.movePower(motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
+  } else {
+    this.send_(this.commands.movePower(power, opt_slot));
+  }
+};
+
+
+/**
+ * Rotates the motor for the given steps.
+ * @param {!number} steps (−32768 - 32.767)
+ * @param {number=} opt_power (0-180)
  * @param {number=} opt_slot
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setMotorPower = function(
-    power, opt_slot) {
-  this.send_(this.commands.setMotorPower(power, opt_slot));
-};
-
-
-/**
- * Sets left motor power
- * @param  {!number} power 0-255
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setLeftMotorPower = function(
-    power) {
-  this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbotRanger.Slot.ONE));
-};
-
-
-/**
- * Sets right motor power
- * @param  {!number} power 0-255
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setRightMotorPower = function(
-    power) {
-  this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbotRanger.Slot.TWO));
+cwc.protocol.makeblock.mbotRanger.Api.prototype.moveSteps = function(steps,
+    opt_power, opt_slot) {
+  this.send_(this.commands.moveSteps(steps, opt_power, opt_slot));
 };
 
 
@@ -285,7 +302,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.setRGBLED = function(red,
 
 
 /**
- * Plays a tone through mbot's buzzer
+ * Plays a tone through mBot's buzzer
  * @param {!number} frequency frequency of the tone to play
  * @param {!number} duration duration of the tone, in ms
  * @export
@@ -297,12 +314,13 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.playTone = function(frequency,
 
 
 /**
+ * Stops the mBot.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.stop = function(opt_port) {
-  this.setLeftMotorPower(0);
-  this.setRightMotorPower(0);
-  this.reset();
+cwc.protocol.makeblock.mbotRanger.Api.prototype.stop = function() {
+  this.setRGBLED(0, 0, 0, 0);
+  this.movePower(0);
+  this.rotatePower(0);
 };
 
 

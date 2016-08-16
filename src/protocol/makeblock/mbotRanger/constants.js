@@ -84,7 +84,8 @@ cwc.protocol.makeblock.mbotRanger.Device = {
   IRREMOTE: 14,
   LINEFOLLOWER: 17,
   BUTTON: 22,
-  TONE: 34
+  TONE: 34,
+  ENCODER_BOARD: 62
 };
 
 
@@ -115,6 +116,8 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
  */
 cwc.protocol.makeblock.mbotRanger.Port = {
   AUTO: 0,
+  ENCODER_BOARD_POS: 1,
+  ENCODER_BOARD_SPEED: 2,
   ULTRASONIC: 10,
   LINEFOLLOWER: 11,
   LIGHTSENSOR: 0x06,

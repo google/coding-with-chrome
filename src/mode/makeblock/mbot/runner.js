@@ -145,7 +145,6 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommand('rotatePower', this.command.rotatePower, this);
   this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
 
-  this.runner.addCommand('wait', this.command.wait, this);
   this.runner.addCommand('stop', this.command.stop, this);
   this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
   this.runner.addCommand('playTone', this.command.playTone, this);

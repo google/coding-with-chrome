@@ -23,9 +23,6 @@ goog.provide('cwc.framework.Runner');
 
 goog.require('cwc.utils.StackQueue');
 
-goog.require('goog.events');
-goog.require('goog.events.BrowserEvent');
-
 
 
 /**
@@ -49,38 +46,22 @@ cwc.framework.Runner = function(opt_callback, opt_scope) {
   /** @type {Object} */
   this.commands = {};
 
-  /** @type {?Function} */
-  this.callback = opt_callback || null;
-
   /** @type {Object} */
   this.scope = opt_scope || null;
 
-  /** @private {!boolean} */
-  this.init_ = false;
-
-  /** @private {number} */
-  this.senderStackInterval_ = 50;
+  /** @private {?Function} */
+  this.callback_ = opt_callback || null;
 
   /** @private {!cwc.utils.StackQueue} */
-  this.senderStack_ = new cwc.utils.StackQueue(this.senderStackInterval_);
+  this.senderStack_ = new cwc.utils.StackQueue();
 
-  this.init();
-};
+  // Message handler
+  window.addEventListener('message', this.handleMessage_.bind(this), false);
 
-
-/**
- * Adds the command to the listener.
- * @private
- */
-cwc.framework.Runner.prototype.init = function() {
-  if (!this.init_) {
-    goog.events.listen(window, 'message', this.handleMessage_, false, this);
-    this.addCommand('__handshake__', this.handleHandshake_.bind(this));
-    this.addCommand('__start__', this.handleStart_.bind(this));
-    this.addCommand('__ping__', this.handlePing_.bind(this));
-    this.senderStack_.startTimer();
-    this.init_ = true;
-  }
+  // External commands
+  this.addCommand('__handshake__', this.handleHandshake_.bind(this));
+  this.addCommand('__start__', this.handleStart_.bind(this));
+  this.addCommand('__ping__', this.handlePing_.bind(this));
 };
 
 
@@ -136,34 +117,33 @@ cwc.framework.Runner.prototype.send = function(name, opt_value, opt_delay) {
 
 /**
  * Sets the callback function event.
- * @param {Function=} opt_callback
+ * @param {!Function} callback
  * @export
  */
-cwc.framework.Runner.prototype.setCallback = function(opt_callback) {
-  if (goog.isFunction(opt_callback)) {
-    this.callback = opt_callback;
+cwc.framework.Runner.prototype.setCallback = function(callback) {
+  if (callback && typeof callback === 'function') {
+    this.callback_ = callback;
   }
 };
 
 
 /**
  * Handles the received messages and executes the predefined actions.
- * @param {goog.events.BrowserEvent} event
+ * @param {event} event
  * @private
  */
 cwc.framework.Runner.prototype.handleMessage_ = function(event) {
-  var browserEvent = event.getBrowserEvent();
-  if (!browserEvent) {
+  if (!event) {
     throw 'Was not able to get browser event!';
   }
-  if (!this.appWindow) {
-    this.appWindow = browserEvent['source'];
+  if (!this.appWindow && 'source' in event) {
+    this.appWindow = event['source'];
   }
-  if (!this.appOrigin) {
-    this.appOrigin = browserEvent['origin'];
+  if (!this.appOrigin && 'origin' in event) {
+    this.appOrigin = event['origin'];
   }
-  var command = browserEvent['data']['command'];
-  var value = browserEvent['data']['value'];
+  var command = event['data']['command'];
+  var value = event['data']['value'];
   if (command in this.commands) {
     this.commands[command](value);
   } else {
@@ -190,8 +170,8 @@ cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
  */
 cwc.framework.Runner.prototype.handleStart_ = function() {
   console.log('Starting program ...');
-  if (this.callback) {
-    this.callback();
+  if (this.callback_) {
+    this.callback_();
   }
 };
 

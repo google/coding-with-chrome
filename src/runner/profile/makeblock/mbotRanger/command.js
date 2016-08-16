@@ -35,47 +35,32 @@ cwc.runner.profile.makeblock.mbotRanger.Command = function(api) {
 
 
 /**
- * set motor speed of mbot
- * @param  {Object} data
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setMotor = function(
-    data) {
-  if (data['direction'] == 1) {
-    this.api.setLeftMotor(data['speed']);
-  } else {
-    this.api.setRightMotor(data['speed']);
-  }
-};
-
-
-/**
- * move mbot forward or backward
+ * Move mBot forward or backward.
  * @param {Object} data data package
  */
 cwc.runner.profile.makeblock.mbotRanger.Command.prototype.movePower = function(
     data) {
-  this.api.setMotorPower(data['speed'], data['slot']);
+  this.api.movePower(data['power'], data['slot']);
 };
 
 
 /**
- * turn mbot to a direction
+ * Rotates mBot left or right.
  * @param {Object} data data package
  */
 cwc.runner.profile.makeblock.mbotRanger.Command.prototype.rotatePower =
 function(data) {
-  this.api.setLeftMotorPower(data['speed']);
-  this.api.setRightMotorPower(data['speed']);
+  this.api.rotatePower(data['power'], data['slot']);
 };
 
 
 /**
- * wait for a certain second
- * @param {Object=} opt_data
+ * @param {Object} data data package
  */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.wait = function(
-    opt_data) {};
+cwc.runner.profile.makeblock.mbotRanger.Command.prototype.moveSteps = function(
+    data) {
+  this.api.moveSteps(data['steps'], data['rpm'], data['slot']);
+};
 
 
 /**
@@ -85,8 +70,8 @@ cwc.runner.profile.makeblock.mbotRanger.Command.prototype.wait = function(
  */
 cwc.runner.profile.makeblock.mbotRanger.Command.prototype.stop = function(
     opt_data) {
-  this.api.setLeftMotor(0);
-  this.api.setRightMotor(0);
+  this.api.setLeftMotorPower(0);
+  this.api.setRightMotorPower(0);
 };
 
 

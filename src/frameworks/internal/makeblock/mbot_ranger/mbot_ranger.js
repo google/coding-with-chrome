@@ -175,61 +175,74 @@ cwc.framework.makeblock.mBotRanger.prototype.getDelay = function(speed) {
 
 /**
  * Turn mBot at a speed
- * @param {!number} speed 0 - 255
+ * @param {!number} power -255 - 255
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.rotatePower = function(speed,
+cwc.framework.makeblock.mBotRanger.prototype.rotatePower = function(power,
     opt_delay) {
-  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('rotatePower', {
-    'speed': speed}, delay);
+    'power': power});
 };
 
 
 /**
  * Rotates mBot for certain time and speeds
  * @param {!number} time in msec
- * @param {!number} speed 0 - 255
+ * @param {!number} power -255 - 255
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.rotatePowerTime = function(time,
-    speed) {
+    power) {
   this.runner.send('rotatePower', {
-    'speed': speed}, time);
+    'power': power}, time);
   this.runner.send('rotatePower', {
-    'speed': 0}, 100);
+    'power': 0}, 100);
 };
 
 
 /**
  * Move mBot for certain speeds
- * @param {!number} speed 0 - 255
+ * @param {!number} power -255 - 255
  * @param {number=} opt_slot
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.movePower = function(speed,
+cwc.framework.makeblock.mBotRanger.prototype.movePower = function(power,
     opt_slot, opt_delay) {
-  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
   this.runner.send('movePower', {
-    'speed': speed,
-    'slot': opt_slot}, delay);
+    'power': power,
+    'slot': opt_slot});
 };
 
 
 /**
  * Move mBot for certain time and speeds
  * @param {!number} time in msec
- * @param {!number} speed 0 - 255
+ * @param {!number} power -255 - 255
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.movePowerTime = function(time,
-    speed) {
+    power) {
   this.runner.send('movePower', {
-    'speed': speed}, time);
+    'power': power}, time);
   this.runner.send('movePower', {
-    'speed': 0}, 100);
+    'power': 0}, 100);
+};
+
+
+/**
+ * Move mBot for certain speeds
+ * @param {!number} steps 0 - 255
+ * @param {number=} opt_speed 0 - 255
+ * @param {number=} opt_delay in msec or true for auto
+ * @export
+ */
+cwc.framework.makeblock.mBotRanger.prototype.moveSteps = function(steps,
+    opt_speed, opt_delay) {
+  this.runner.send('moveSteps', {
+    'steps': steps,
+    'power': opt_speed}, 200);
 };
 
 

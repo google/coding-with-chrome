@@ -70,6 +70,12 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
+
+  /** @private {!number} */
+  this.normalSpeed_ = 85;
+
+  /** @private {!number} */
+  this.boostedSpeed_ = 130;
 };
 
 
@@ -150,25 +156,21 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.addEventHandler_ = function() {
 
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
-    this.api.setLeftMotorPower(85);
-    this.api.setRightMotorPower(85);
+    this.api.rotatePower(-this.normalSpeed_);
   }.bind(this), false, this);
 
   this.addEventListener_('move-forward', goog.events.EventType.CLICK,
     function() {
-      this.api.setLeftMotorPower(-85);
-      this.api.setRightMotorPower(85);
+      this.api.movePower(this.normalSpeed_);
     }.bind(this), false, this);
 
   this.addEventListener_('move-backward', goog.events.EventType.CLICK,
     function() {
-      this.api.setLeftMotorPower(85);
-      this.api.setRightMotorPower(-85);
+      this.api.movePower(-this.normalSpeed_);
     }.bind(this), false, this);
 
   this.addEventListener_('move-right', goog.events.EventType.CLICK, function() {
-    this.api.setLeftMotorPower(-85);
-    this.api.setRightMotorPower(-85);
+    this.api.rotatePower(this.normalSpeed_);
   }.bind(this), false, this);
 
   // Ping
@@ -217,45 +219,34 @@ function(event) {
     return;
   }
 
-  var normalSpeed = 85;
-  var boostedSpeed = 255;
-
   switch (event.identifier) {
 
     // Normal speed
     case 'forward':
-      this.api.setLeftMotorPower(-normalSpeed);
-      this.api.setRightMotorPower(normalSpeed);
+      this.api.movePower(this.normalSpeed_);
       break;
     case 'right':
-      this.api.setLeftMotorPower(-normalSpeed);
-      this.api.setRightMotorPower(-normalSpeed);
+      this.api.rotatePower(this.normalSpeed_);
       break;
     case 'backward':
-      this.api.setLeftMotorPower(normalSpeed);
-      this.api.setRightMotorPower(-normalSpeed);
+      this.api.movePower(-this.normalSpeed_);
       break;
     case 'left':
-      this.api.setLeftMotorPower(normalSpeed);
-      this.api.setRightMotorPower(normalSpeed);
+      this.api.rotatePower(-this.normalSpeed_);
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.setLeftMotorPower(-boostedSpeed);
-      this.api.setRightMotorPower(boostedSpeed);
+      this.api.movePower(this.boostedSpeed_);
       break;
     case 'boost-right':
-      this.api.setLeftMotorPower(-boostedSpeed);
-      this.api.setRightMotorPower(-boostedSpeed);
+      this.api.rotatePower(this.boostedSpeed_);
       break;
     case 'boost-backward':
-      this.api.setLeftMotorPower(boostedSpeed);
-      this.api.setRightMotorPower(-boostedSpeed);
+      this.api.movePower(-this.boostedSpeed_);
       break;
     case 'boost-left':
-      this.api.setLeftMotorPower(boostedSpeed);
-      this.api.setRightMotorPower(boostedSpeed);
+      this.api.rotatePower(-this.boostedSpeed_);
       break;
 
     case 'stop':

@@ -138,15 +138,14 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Normal Commands
-  this.runner.addCommand('setMotor', this.command.setMotor, this);
-
   this.runner.addCommand('movePower', this.command.movePower, this);
   this.runner.addMonitor('movePower', this.monitor.movePower, this);
 
   this.runner.addCommand('rotatePower', this.command.rotatePower, this);
   this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
 
-  this.runner.addCommand('wait', this.command.wait, this);
+  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
+
   this.runner.addCommand('stop', this.command.stop, this);
   this.runner.addCommand('setRGBLED', this.command.setRGBLED, this);
   this.runner.addCommand('playTone', this.command.playTone, this);

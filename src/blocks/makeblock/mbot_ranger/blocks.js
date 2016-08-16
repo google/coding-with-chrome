@@ -57,6 +57,24 @@ Blockly.Blocks['mbot_ranger_move_forward_time'] = {
 
 
 /**
+ * Move forward steps.
+ */
+Blockly.Blocks['mbot_ranger_move_forward_steps'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('steps').setCheck('Number')
+      .appendField('move forward for');
+    this.appendValueInput('speed').setCheck('Number').appendField('steps with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the robot forward for the specific steps.');
+  }
+};
+
+
+/**
  * Move backward.
  */
 Blockly.Blocks['mbot_ranger_move_backward'] = {

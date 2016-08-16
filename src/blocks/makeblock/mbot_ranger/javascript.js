@@ -46,6 +46,19 @@ Blockly.JavaScript['mbot_ranger_move_forward_time'] = function(block) {
 
 
 /**
+ * mBot move forward time.
+ */
+Blockly.JavaScript['mbot_ranger_move_forward_steps'] = function(block) {
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'step', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+
+  return 'mbotRanger.moveSteps(' + steps + ', ' + speed + ', true);\n';
+};
+
+
+/**
  * mBot move backwards.
  */
 Blockly.JavaScript['mbot_ranger_move_backward'] = function(block) {
@@ -75,7 +88,7 @@ Blockly.JavaScript['mbot_ranger_move_backward_time'] = function(block) {
 Blockly.JavaScript['mbot_ranger_rotate_left'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbotRanger.rotatePower(' + speed + ');\n';
+  return 'mbotRanger.rotatePower(' + (-speed) + ');\n';
 };
 
 
@@ -88,7 +101,7 @@ Blockly.JavaScript['mbot_ranger_rotate_left_time'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbotRanger.rotatePowerTime(' + (time * 1000) + ', ' + speed +
+  return 'mbotRanger.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
     ', true);\n';
 };
 
@@ -99,7 +112,7 @@ Blockly.JavaScript['mbot_ranger_rotate_left_time'] = function(block) {
 Blockly.JavaScript['mbot_ranger_rotate_right'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbotRanger.rotatePower(' + (-speed) + ');\n';
+  return 'mbotRanger.rotatePower(' + speed + ');\n';
 };
 
 
@@ -112,7 +125,7 @@ Blockly.JavaScript['mbot_ranger_rotate_right_time'] = function(block) {
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbotRanger.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
+  return 'mbotRanger.rotatePowerTime(' + (time * 1000) + ', ' + speed +
     ', true);\n';
 };
 

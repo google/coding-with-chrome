@@ -149,6 +149,5 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.readSigned = function() {
   for (let i = 0; i < dataLength; i++) {
     data[3 + i] = buffer[i];
   }
-
   return dataBuffer;
 };

@@ -88,19 +88,41 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
 /**
  * Sets motor power
  * @param {!number} power (0-255)
- * @param {number=} opt_slot
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.setMotorPower = function(
+cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
     power, opt_slot) {
   var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.AUTO);
-  buffer.writeSlot(opt_slot, cwc.protocol.makeblock.mbotRanger.Slot.ONE);
+  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_SPEED);
+  buffer.writeSlot(opt_slot || cwc.protocol.makeblock.mbotRanger.Slot.ONE);
   buffer.writeShort(power);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Rotates the motor for the given steps.
+ * @param {!number} steps (−32768 - 32.767)
+ * @param {number=} opt_power (0-255)
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
+    opt_power, opt_slot) {
+  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_POS);
+  buffer.writeSlot(opt_slot || cwc.protocol.makeblock.mbotRanger.Slot.ONE);
+  buffer.writeInt(steps);
+  buffer.writeShort(opt_power || 130);
   return buffer.readSigned();
 };
 
