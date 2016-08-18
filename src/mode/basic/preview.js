@@ -47,12 +47,13 @@ cwc.mode.basic.Preview = function(helper) {
 
 /**
  * Decorates the preview window.
+ * @param {boolean=} opt_blockly_mode
  */
-cwc.mode.basic.Preview.prototype.decorate = function() {
+cwc.mode.basic.Preview.prototype.decorate = function(opt_blockly_mode) {
   this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
   this.helper.setInstance('preview', this.preview, true);
   this.preview.decorate(this.node, this.prefix);
-  this.preview.setAutoUpdate(true);
+  this.preview.setAutoUpdate(true, opt_blockly_mode);
 };
 
 

@@ -16,6 +16,6 @@
   "mode": "sphero_blockly",
   "model": "",
   "title": "Collision example",
-  "ui": "default",
+  "ui": "blockly",
   "version": "1.1"
 }

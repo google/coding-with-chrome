@@ -137,14 +137,11 @@ describe('StackQueue (autostart)', function() {
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
     stackQueue.stop();
-    expect(counter).toEqual(4);
-    window.setTimeout(function() {
-      expect(counter).toEqual(5);
-    }, 75);
+    expect(counter).toEqual(5);
     window.setTimeout(function() {
       expect(counter).toEqual(5);
       done();
-    }, 125);
+    }, 75);
   });
 
 });
@@ -226,14 +223,11 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.addCommand(counterFunc);
     stackQueue.start();
     stackQueue.stop();
-    expect(counter).toEqual(4);
-    window.setTimeout(function() {
-      expect(counter).toEqual(5);
-    }, 75);
+    expect(counter).toEqual(5);
     window.setTimeout(function() {
       expect(counter).toEqual(5);
       done();
-    }, 125);
+    }, 75);
   });
 
 });

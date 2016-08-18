@@ -52,6 +52,6 @@ cwc.mode.basic.blockly.Mod = function(helper) {
 cwc.mode.basic.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
-  this.preview.decorate();
+  this.preview.decorate(true);
   this.renderer.init();
 };

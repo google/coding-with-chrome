@@ -158,16 +158,19 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     fileInstance.setGDriveId(opt_gdrive_id);
   }
 
+  // Settings file title.
   var fileTitle = fileInstance.getFileTitle();
   if (!fileTitle && fileInstance.getFileName()) {
     fileTitle = fileInstance.getFileName();
   }
-
   if (fileTitle) {
     modeInstance.setTitle(fileTitle);
   }
 
+  // Loading mode and preparing UI parts.
   modeInstance.setMode(fileConfig.mode);
+
+  // Adding Blocky content.
   if (fileConfig.blockly_views) {
     for (let i = 0; i < fileConfig.blockly_views.length; i++) {
       var blocklyView = fileConfig.blockly_views[i];
@@ -176,6 +179,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     }
   }
 
+  // Adding editor content.
   if (fileConfig.editor_views) {
     for (let i = 0; i < fileConfig.editor_views.length; i++) {
       var editorView = fileConfig.editor_views[i];

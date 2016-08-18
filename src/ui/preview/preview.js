@@ -374,10 +374,15 @@ cwc.ui.Preview.prototype.setContentUrl = function(url) {
 
 
 /**
+ * Enables or disables the automatic update of the preview.
  * @param {boolean} active
+ * @param {boolean} opt_no_skip
  */
-cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
+cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
   if (active && !this.autoUpdateEvent) {
+    if (opt_no_skip) {
+      this.skipAutoUpdate_ = false;
+    }
     console.log('Activate AutoUpdate …');
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
@@ -423,11 +428,12 @@ cwc.ui.Preview.prototype.doAutoUpdate = function() {
   }
 
   if (this.skipAutoUpdate_ && this.ran_) {
+    console.log('Skipping auto update ...');
     this.skipAutoUpdate_ = false;
     return;
   }
 
-  console.log('Auto Update');
+  console.log('Perform auto update ...');
   this.run();
 };
 

@@ -132,6 +132,17 @@ cwc.mode.Modder.prototype.showBlockly = function() {
 
 
 /**
+ * Syncs the editor JavaScript view.
+ */
+cwc.mode.Modder.prototype.syncJavaScript = function() {
+  var editor = this.helper.getInstance('editor');
+  if (editor) {
+    editor.syncJavaScript();
+  }
+};
+
+
+/**
  * Syncs the library with the existing files.
  */
 cwc.mode.Modder.prototype.syncLibrary = function() {
