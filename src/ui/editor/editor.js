@@ -108,8 +108,10 @@ cwc.ui.Editor = function(helper) {
   this.toolbar = null;
 
   /** @type {!Array} */
-  this.gutters = ['CodeMirror-linenumbers', 'CodeMirror-breakpoints',
-                  'CodeMirror-foldgutter', 'CodeMirror-lint-markers'];
+  this.gutters = ['CodeMirror-linenumbers',
+                  'CodeMirror-breakpoints',
+                  'CodeMirror-foldgutter',
+                  'CodeMirror-lint-markers'];
 
   /** @type {!Array} */
   this.rulers = [{color: '#ccc', column: 80, lineStyle: 'dashed'}];
@@ -424,8 +426,12 @@ cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(
 
 /**
  * Sync JavaScript content from other modules.
+ * @param {event=} opt_event
  */
-cwc.ui.Editor.prototype.syncJavaScript = function() {
+cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
+  if (opt_event && opt_event['recordUndo'] === false) {
+    return;
+  }
   var fileUi = this.helper.getInstance('file').getUi();
   switch (fileUi) {
     case 'blockly':

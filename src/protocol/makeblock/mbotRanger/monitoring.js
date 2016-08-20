@@ -40,7 +40,13 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   this.monitorSensorLineFollowerInterval = 100;  // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorLightInterval = 1000;  // Duration in ms.
+  this.monitorSensorLight1Interval = 1500;  // Duration in ms.
+
+  /** @type {!number} */
+  this.monitorSensorLight2Interval = 1500;  // Duration in ms.
+
+  /** @type {!number} */
+  this.monitorSensorTemperatureInterval = 1500;  // Duration in ms.
 
   /** @type {!number} */
   this.monitorSensorUltrasonicInterval = 200;  // Duration in ms.
@@ -50,8 +56,14 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
     this.monitorSensorLineFollowerInterval);
 
   /** @type {goog.Timer} */
-  this.monitorSensorLight = new goog.Timer(
-    this.monitorSensorLightInterval);
+  this.monitorSensorLight1 = new goog.Timer(this.monitorSensorLight1Interval);
+
+  /** @type {goog.Timer} */
+  this.monitorSensorLight2 = new goog.Timer(this.monitorSensorLight2Interval);
+
+  /** @type {goog.Timer} */
+  this.monitorSensorTemperature = new goog.Timer(
+    this.monitorSensorTemperatureInterval);
 
   /** @type {goog.Timer} */
   this.monitorSensorUltrasonic = new goog.Timer(
@@ -67,8 +79,14 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   this.addEventListener_(this.monitorSensorLineFollower, goog.Timer.TICK,
       this.api.readLineFollowerSensor, false, this.api);
 
-  this.addEventListener_(this.monitorSensorLight, goog.Timer.TICK,
-      this.api.readLightSensor, false, this.api);
+  this.addEventListener_(this.monitorSensorLight1, goog.Timer.TICK,
+      this.api.readLightSensor1, false, this.api);
+
+  this.addEventListener_(this.monitorSensorLight2, goog.Timer.TICK,
+      this.api.readLightSensor2, false, this.api);
+
+  this.addEventListener_(this.monitorSensorTemperature, goog.Timer.TICK,
+      this.api.readTemperatureSensor, false, this.api);
 
   this.addEventListener_(this.monitorSensorUltrasonic, goog.Timer.TICK,
       this.api.readUltrasonicSensor, false, this.api);
@@ -85,8 +103,10 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
   }
   console.log('Starting mBot Ranger Monitoring ...');
   //this.monitorSensorLineFollower.start();
-  //this.monitorSensorLight.start();
-  //this.monitorSensorUltrasonic.start();
+  this.monitorSensorLight1.start();
+  this.monitorSensorLight2.start();
+  this.monitorSensorTemperature.start();
+  this.monitorSensorUltrasonic.start();
   this.started = true;
 };
 
@@ -101,7 +121,9 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop = function() {
   }
   console.log('Stopping mBot Ranger Monitoring ...');
   this.monitorSensorLineFollower.stop();
-  this.monitorSensorLight.stop();
+  this.monitorSensorLight1.stop();
+  this.monitorSensorLight2.stop();
+  this.monitorSensorTemperature.stop();
   this.monitorSensorUltrasonic.stop();
   this.started = false;
 };

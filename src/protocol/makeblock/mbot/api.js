@@ -126,8 +126,6 @@ cwc.protocol.makeblock.mbot.Api.prototype.isConnected = function() {
 cwc.protocol.makeblock.mbot.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAsync_.bind(this),
       this.headerAsync_, this.headerMinSize_);
-  // this.monitoring.init();
-  // this.monitoring.start();
   this.playTone(524, 240, 240);
   this.playTone(584, 240, 240);
   this.getVersion();
@@ -164,7 +162,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.start = function() {
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
-  console.log('Clean up Mbot …');
+  console.log('Clean up mBot …');
   this.reset();
   this.monitoring.stop();
 };

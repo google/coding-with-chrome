@@ -144,19 +144,36 @@ function() {
 
 
 /**
- * Reads out the current light sensor value.
+ * Reads out the current light sensor 1 value.
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor = function(
-) {
+cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor1 =
+function() {
   var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR);
+  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_1);
   return buffer.readSigned();
 };
+
+
+/**
+ * Reads out the current light sensor 2 value.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor2 =
+function() {
+  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2);
+  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_2);
+  return buffer.readSigned();
+};
+
 
 
 /**
@@ -171,6 +188,22 @@ function() {
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LINEFOLLOWER);
   buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LINEFOLLOWER);
+  return buffer.readSigned();
+};
+
+
+/**
+ * Reads out the current temperature sensor value.
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Commands.prototype.readTemperatureSensor =
+function() {
+  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATUR);
+  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TEMPERATUR);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.TEMPERATUR);
   return buffer.readSigned();
 };
 

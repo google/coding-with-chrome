@@ -71,21 +71,20 @@ cwc.protocol.makeblock.mbotRanger.DataType = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbotRanger.Device = {
-  VERSION: 0,
-  ULTRASONIC: 1,
-  TEMPERATURE_SENSOR: 2,
-  LIGHTSENSOR: 3,
-  GYRO: 6,
-  SOUND_SENSOR: 7,
-  RGBLED: 8,
-  MOTOR: 10,
   ENCODER: 12,
+  ENCODER_BOARD: 62,
+  GYRO: 6,
   IR: 13,
   IRREMOTE: 14,
+  LIGHTSENSOR: 0x03,
   LINEFOLLOWER: 17,
-  BUTTON: 22,
+  MOTOR: 10,
+  RGBLED: 8,
+  SOUND_SENSOR: 7,
+  TEMPERATUR: 0x1b,
   TONE: 34,
-  ENCODER_BOARD: 62
+  ULTRASONIC: 0x01,
+  VERSION: 0
 };
 
 
@@ -102,11 +101,13 @@ cwc.protocol.makeblock.mbotRanger.Header = [0xff, 0x55];
  */
 cwc.protocol.makeblock.mbotRanger.IndexType = {
   NONE: 0x00,
+  ACK: 0x0d,
   ULTRASONIC: 0x10,
   LINEFOLLOWER: 0x11,
-  LIGHTSENSOR: 0x12,
-  VERSION: 0x20,
-  INNER_BUTTON: 0x80
+  LIGHTSENSOR_1: 0x2a,
+  LIGHTSENSOR_2: 0x2b,
+  TEMPERATUR: 0x21,
+  VERSION: 0x20
 };
 
 
@@ -118,10 +119,12 @@ cwc.protocol.makeblock.mbotRanger.Port = {
   AUTO: 0,
   ENCODER_BOARD_POS: 1,
   ENCODER_BOARD_SPEED: 2,
-  ULTRASONIC: 10,
-  LINEFOLLOWER: 11,
-  LIGHTSENSOR: 0x06,
+  ULTRASONIC: 0x0a,
+  LINEFOLLOWER: 0x09,
+  LIGHTSENSOR_1: 0x0c,
+  LIGHTSENSOR_2: 0x0d,
   RGBLED: 44,
+  TEMPERATUR: 0x0d,
   LEFT_MOTOR: 0x22,
   RIGHT_MOTOR: 0x11,
   TONE: 45

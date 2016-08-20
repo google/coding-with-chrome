@@ -408,12 +408,8 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
       this.dataHandler[handler]['headers'],
       this.dataHandler[handler]['size'],
       this.dataHandler[handler]['buffer']);
-    if (dataView) {
-      this.dataHandler[handler]['callback'](dataView);
-      this.dataHandler[handler]['buffer'] = null;
-    } else {
-      this.dataHandler[handler]['buffer'] = data;
-    }
+    dataView['data'].map(this.dataHandler[handler]['callback']);
+    this.dataHandler[handler]['buffer'] = dataView['buffer'] || null;
   }
 
 };
