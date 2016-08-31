@@ -77,7 +77,6 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
-  this.api.monitor(true);
 };
 
 
@@ -131,7 +130,6 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.api.monitor(false);
   this.stop();
   this.helper.removeEventListeners(this.listener, this.name);
 };

@@ -81,7 +81,7 @@ cwc.protocol.makeblock.mbotRanger.Device = {
   MOTOR: 10,
   RGBLED: 8,
   SOUND_SENSOR: 7,
-  TEMPERATUR: 0x1b,
+  TEMPERATURE: 0x1b,
   TONE: 34,
   ULTRASONIC: 0x01,
   VERSION: 0
@@ -106,7 +106,7 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
   LINEFOLLOWER: 0x11,
   LIGHTSENSOR_1: 0x2a,
   LIGHTSENSOR_2: 0x2b,
-  TEMPERATUR: 0x21,
+  TEMPERATURE: 0x21,
   VERSION: 0x20
 };
 
@@ -124,7 +124,7 @@ cwc.protocol.makeblock.mbotRanger.Port = {
   LIGHTSENSOR_1: 0x0c,
   LIGHTSENSOR_2: 0x0d,
   RGBLED: 44,
-  TEMPERATUR: 0x0d,
+  TEMPERATURE: 0x0d,
   LEFT_MOTOR: 0x22,
   RIGHT_MOTOR: 0x11,
   TONE: 45

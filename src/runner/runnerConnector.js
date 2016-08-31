@@ -155,15 +155,51 @@ cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
  * @export
  */
 cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
-  if (!func) {
-    console.error('Runner function is undefined for', name);
+  if (!func || typeof func !== 'function') {
+    console.error('Invalid Runner function for', name);
     return;
   }
+  console.log('Adding Runner command', name, func);
   if (opt_scope) {
     this.commands[name] = func.bind(opt_scope);
   } else {
     this.commands[name] = func;
   }
+};
+
+
+/**
+ * @param {!function(?)} command_profile
+ * @param {!function(?)} api
+ * @param {?} opt_scope
+ * @export
+ */
+cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
+    api, opt_scope) {
+  var commandProfile = new command_profile(api);
+  if (!commandProfile) {
+    console.error('Invalid command profile', command_profile);
+    return;
+  }
+  var commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
+  console.log(commandProfile, commandList);
+  var commandScope = opt_scope || commandProfile;
+  for (let i = 0; i < commandList.length; i++) {
+    let command = commandList[i];
+    if (!command.endsWith('_') && command !== 'constructor') {
+      this.addCommand(command, commandProfile[command], commandScope);
+    }
+  }
+};
+
+
+/**
+ * @param {!function(?)} func
+ * @param {?} opt_scope
+ * @export
+ */
+cwc.runner.Connector.prototype.setStartEvent = function(func, opt_scope) {
+  this.addCommand('__start__', func, opt_scope);
 };
 
 

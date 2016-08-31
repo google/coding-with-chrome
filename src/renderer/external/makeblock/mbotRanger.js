@@ -67,13 +67,11 @@ cwc.renderer.external.makeblock.mbotRanger.prototype.render = function(
 
   var header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.MBOT_RANGER, frameworks);
+  var content = editor_content[cwc.file.ContentType.JAVASCRIPT];
   var body = '\n<script>' +
-      '  var code = function(mbotRanger) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n'+
+      '  var code = function(mBotRanger) {\n' + content + '\n};\n'+
       '  new cwc.framework.makeblock.mBotRanger(code);\n' +
       '</script>\n';
-
   var html = renderer_helper.getHTML(body, header);
   return html;
 };

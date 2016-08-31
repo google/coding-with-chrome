@@ -106,27 +106,6 @@
   </category>
 
   <category name="Events" colour="20">
-    <block type="mbot_ranger_button_change">
-      <value name="CODE">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">EQ</field>
-              <value name="A">
-                <block type="variables_get">
-                  <field name="VAR">pressed</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="logic_boolean" id="p|RILh2/b+GK8OIpYfA)">
-                  <field name="BOOL">TRUE</field>
-                </block>
-              </value>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
     <block type="mbot_ranger_lightness_sensor_change">
       <value name="CODE">
         <block type="controls_if">
@@ -185,6 +164,27 @@
               </value>
             </block>
           </next>
+        </block>
+      </value>
+    </block>
+    <block type="mbot_ranger_temperature_sensor_change">
+      <value name="CODE">
+        <block type="controls_if">
+          <value name="IF0">
+            <block type="logic_compare">
+              <field name="OP">LTE</field>
+              <value name="A">
+                <block type="variables_get">
+                  <field name="VAR">temperature</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number">
+                  <field name="NUM">30</field>
+                </block>
+              </value>
+            </block>
+          </value>
         </block>
       </value>
     </block>

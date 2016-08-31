@@ -52,9 +52,6 @@ cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.makeblock.mbotRanger.Command} */
-  this.command = new cwc.runner.profile.makeblock.mbotRanger.Command(this.api);
-
   /** @type {!string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAA' +
     'BXAvmHAAABG2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu7' +
@@ -135,32 +132,25 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
-  this.runner.addCommand('__start__', this.handleStart_, this);
+  this.runner.setStartEvent(this.handleStart_, this);
+  this.runner.addCommandProfile(
+    cwc.runner.profile.makeblock.mbotRanger.Command, this.api);
 
-  // Normal Commands
-  this.runner.addCommand('movePower', this.command.movePower, this);
+  // Monitoring
   this.runner.addMonitor('movePower', this.monitor.movePower, this);
-
-  this.runner.addCommand('rotatePower', this.command.rotatePower, this);
   this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
-
-  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
-
-  this.runner.addCommand('stop', this.command.stop, this);
-  this.runner.addCommand('setRGBLED', this.command.setRGBLED, this);
-  this.runner.addCommand('playTone', this.command.playTone, this);
 
   // Events
   var apiEventHandler = this.api.getEventHandler();
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbotRanger.Events.Type.BUTTON_PRESSED,
-      'updateButton');
+      cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR,
+      'updateTemperatureSensor');
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
       'updateLightnessSensor');
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
-      'updateLinefollowerSensor');
+      'updateLineFollowerSensor');
   this.runner.addEvent(apiEventHandler,
       cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
@@ -190,7 +180,6 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.handleStart_ = function() {
   this.monitor.reset();
   this.turtle.action('speed', 3);
   this.turtle.reset();
-  this.api.start();
 };
 
 

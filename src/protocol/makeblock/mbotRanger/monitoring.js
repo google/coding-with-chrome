@@ -43,7 +43,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   this.monitorSensorLight1Interval = 1500;  // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorLight2Interval = 1500;  // Duration in ms.
+  this.monitorSensorLight2Interval = 1750;  // Duration in ms.
 
   /** @type {!number} */
   this.monitorSensorTemperatureInterval = 1500;  // Duration in ms.
@@ -68,9 +68,6 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   /** @type {goog.Timer} */
   this.monitorSensorUltrasonic = new goog.Timer(
     this.monitorSensorUltrasonicInterval);
-
-  /** @type {!boolean} */
-  this.started = false;
 
   /** @type {!Array} */
   this.listener = [];
@@ -98,16 +95,12 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
-  if (this.started) {
-    return;
-  }
   console.log('Starting mBot Ranger Monitoring ...');
-  //this.monitorSensorLineFollower.start();
-  this.monitorSensorLight1.start();
-  this.monitorSensorLight2.start();
-  this.monitorSensorTemperature.start();
-  this.monitorSensorUltrasonic.start();
-  this.started = true;
+  this.start_(this.monitorSensorLineFollower);
+  this.start_(this.monitorSensorLight1);
+  this.start_(this.monitorSensorLight2);
+  this.start_(this.monitorSensorTemperature);
+  this.start_(this.monitorSensorUltrasonic);
 };
 
 
@@ -116,16 +109,97 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop = function() {
-  if (!this.started) {
-    return;
-  }
   console.log('Stopping mBot Ranger Monitoring ...');
-  this.monitorSensorLineFollower.stop();
-  this.monitorSensorLight1.stop();
-  this.monitorSensorLight2.stop();
-  this.monitorSensorTemperature.stop();
-  this.monitorSensorUltrasonic.stop();
-  this.started = false;
+  this.stop_(this.monitorSensorLineFollower);
+  this.stop_(this.monitorSensorLight1);
+  this.stop_(this.monitorSensorLight2);
+  this.stop_(this.monitorSensorTemperature);
+  this.stop_(this.monitorSensorUltrasonic);
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.setLineFollowerMonitor =
+function(enable) {
+  this.enable_(enable, this.monitorSensorLineFollower, 'line follower');
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.setLightnessMonitor =
+function(enable) {
+  this.enable_(enable, this.monitorSensorLight1, 'lightness 1');
+  this.enable_(enable, this.monitorSensorLight2, 'lightness 2');
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.setTemperatureMonitor =
+function(enable) {
+  this.enable_(enable, this.monitorSensorTemperature, 'temperature');
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.setUltrasonicMonitor =
+function(enable) {
+  this.enable_(enable, this.monitorSensorUltrasonic, 'ultrasonic');
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @param {!goog.Timer} monitor
+ * @param {string=} opt_name
+ * @private
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enable_ = function(
+  enable, monitor, opt_name) {
+  if (enable) {
+    this.start_(monitor, opt_name);
+  } else {
+    this.stop_(monitor, opt_name);
+  }
+};
+
+
+/**
+ * @param {!goog.Timer} monitor
+ * @param {string=} opt_name
+ * @private
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
+  monitor, opt_name) {
+  if (opt_name) {
+    console.log('Starting mBot Ranger', opt_name, 'sensor monitoring ...');
+  }
+  monitor.start();
+};
+
+
+/**
+ * @param {!goog.Timer} monitor
+ * @param {string=} opt_name
+ * @private
+ */
+cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
+  monitor, opt_name) {
+  if (opt_name) {
+    console.log('Stopping mBot Ranger', opt_name, 'sensor monitoring ...');
+  }
+  monitor.stop();
 };
 
 

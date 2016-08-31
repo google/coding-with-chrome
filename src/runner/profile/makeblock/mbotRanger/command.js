@@ -1,8 +1,7 @@
 /**
  * @fileoverview runner profile for Makeblock mBots.
  *
- *
- * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.runner.profile.makeblock.mbotRanger.Command');
 
@@ -31,88 +30,98 @@ goog.provide('cwc.runner.profile.makeblock.mbotRanger.Command');
 cwc.runner.profile.makeblock.mbotRanger.Command = function(api) {
   /** @type {cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = api;
+
+  /** @type {cwc.protocol.makeblock.mbotRanger.Monitoring} */
+  this.monitoring = this.api.getMonitoring();
 };
 
 
-/**
- * Move mBot forward or backward.
- * @param {Object} data data package
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.movePower = function(
-    data) {
-  this.api.movePower(data['power'], data['slot']);
-};
+goog.scope(function() {
+  var Command = cwc.runner.profile.makeblock.mbotRanger.Command.prototype;
+
+  /**
+   * Move mBot forward or backward.
+   * @param {Object} data data package
+   */
+  Command['movePower'] = function(data) {
+    this.api.movePower(data['power'], data['slot']);
+  };
 
 
-/**
- * Rotates mBot left or right.
- * @param {Object} data data package
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.rotatePower =
-function(data) {
-  this.api.rotatePower(data['power'], data['slot']);
-};
+  /**
+   * Rotates mBot left or right.
+   * @param {Object} data data package
+   */
+  Command['rotatePower'] = function(data) {
+    this.api.rotatePower(data['power'], data['slot']);
+  };
 
 
-/**
- * @param {Object} data data package
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.moveSteps = function(
-    data) {
-  this.api.moveSteps(data['steps'], data['rpm'], data['slot']);
-};
+  /**
+   * @param {Object} data data package
+   */
+  Command['moveSteps'] = function(data) {
+    this.api.moveSteps(data['steps'], data['rpm'], data['slot']);
+  };
 
 
-/**
- * stop the mbot completely
- * @param {Object=} opt_data
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.stop = function(
-    opt_data) {
-  this.api.setLeftMotorPower(0);
-  this.api.setRightMotorPower(0);
-};
+  /**
+   * stop the mbot completely
+   * @param {Object=} opt_data
+   */
+  Command['stop'] = function(opt_data) {
+    this.api.setLeftMotorPower(0);
+    this.api.setRightMotorPower(0);
+  };
 
 
-/**
- * @param {!Object} data
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.setRGBLED =
-function(data) {
-  this.api.setRGBLED(
-    data['red'], data['green'], data['blue'], data['index']);
-};
+  /**
+   * @param {!Object} data
+   */
+  Command['setRGBLED'] = function(data) {
+    this.api.setRGBLED(
+      data['red'], data['green'], data['blue'], data['index']);
+  };
 
 
-/**
- * @param {!Object} data
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.playTone = function(
-    data) {
-  this.api.playTone(data['frequency'], data['duration']);
-};
+  /**
+   * @param {!Object} data
+   */
+  Command['playTone'] = function(data) {
+    this.api.playTone(data['frequency'], data['duration']);
+  };
 
 
-/**
- * return ultrasonic value from mbot
- * @return {number} sensor value
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.ultrasonicValue =
-function() {
-  return this.api.ultrasonicValue();
-};
+  /**
+   * @param {!Object} data
+   */
+  Command['setLineFollowerMonitor'] = function(data) {
+    this.monitoring.setLineFollowerMonitor(data['enable']);
+  };
 
 
-/**
- * return lightness sensor value from mbot
- * @return {number} sensor value
- * @export
- */
-cwc.runner.profile.makeblock.mbotRanger.Command.prototype.lightSensorValue =
-function() {
-  return this.api.lightSensorValue();
-};
+  /**
+   * @param {!Object} data
+   */
+  Command['setLightnessMonitor'] = function(data) {
+    this.monitoring.setLightnessMonitor(data['enable']);
+  };
+
+
+  /**
+   * @param {!Object} data
+   */
+  Command['setTemperatureMonitor'] = function(data) {
+    this.monitoring.setTemperatureMonitor(data['enable']);
+  };
+
+
+  /**
+   * @param {!Object} data
+   */
+  Command['setUltrasonicMonitor'] = function(data) {
+    this.monitoring.setUltrasonicMonitor(data['enable']);
+  };
+
+
+}); // goog.scope

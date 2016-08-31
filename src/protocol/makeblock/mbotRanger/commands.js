@@ -200,10 +200,10 @@ function() {
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readTemperatureSensor =
 function() {
   var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATUR);
+  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TEMPERATUR);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.TEMPERATUR);
+  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TEMPERATURE);
+  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.TEMPERATURE);
   return buffer.readSigned();
 };
 

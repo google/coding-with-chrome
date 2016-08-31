@@ -28,12 +28,13 @@ goog.require('cwc.utils.StackQueue');
 /**
  * @param {Function=} opt_callback
  * @param {Object=} opt_scope
+ * @param {Function=} opt_monitor
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function(opt_callback, opt_scope) {
+cwc.framework.Runner = function(opt_callback, opt_scope, opt_monitor) {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -51,6 +52,9 @@ cwc.framework.Runner = function(opt_callback, opt_scope) {
 
   /** @private {?Function} */
   this.callback_ = opt_callback || null;
+
+  /** @private {?Function} */
+  this.monitor_ = opt_monitor || null;
 
   /** @private {!cwc.utils.StackQueue} */
   this.senderStack_ = new cwc.utils.StackQueue();
@@ -85,6 +89,20 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
   } else {
     this.commands[name] = func;
   }
+};
+
+
+/**
+ * @param {!string} code
+ * @param {!string} command
+ * @param {!string} monitor_command
+ * @export
+ */
+cwc.framework.Runner.prototype.enableMonitor = function(code, command,
+  monitor_command) {
+  var status = code.includes(command);
+  console.log((status ? 'Enable ' : 'Disable ') + monitor_command + ' ...');
+  this.send(monitor_command, {'enable': status});
 };
 
 
@@ -124,6 +142,29 @@ cwc.framework.Runner.prototype.setCallback = function(callback) {
   if (callback && typeof callback === 'function') {
     this.callback_ = callback;
   }
+};
+
+
+/**
+ * Sets the monitor function event.
+ * @param {!Function} monitor
+ * @export
+ */
+cwc.framework.Runner.prototype.setMonitor = function(monitor) {
+  if (monitor && typeof monitor === 'function') {
+    this.monitor_ = monitor;
+  }
+};
+
+
+/**
+ * Sends the direct update confirmation to the runner..
+ * @param {string=} opt_data
+ * @export
+ */
+cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
+  console.log('Enable direct update.');
+  this.send('__direct_update__', opt_data);
 };
 
 
@@ -169,8 +210,12 @@ cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
  * @private
  */
 cwc.framework.Runner.prototype.handleStart_ = function() {
-  console.log('Starting program ...');
+  if (this.monitor_) {
+    console.log('Initialize monitor ...');
+    this.monitor_();
+  }
   if (this.callback_) {
+    console.log('Starting program ...');
     this.callback_();
   }
 };
@@ -182,15 +227,4 @@ cwc.framework.Runner.prototype.handleStart_ = function() {
  */
 cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
   this.send('__pong__', {id: ping_id, time: new Date().getTime()});
-};
-
-
-/**
- * Sends the direct update confirmation to the runner..
- * @param {string=} opt_data
- * @export
- */
-cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
-  console.log('Enable direct update.');
-  this.send('__direct_update__', opt_data);
 };

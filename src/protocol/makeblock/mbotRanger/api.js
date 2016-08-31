@@ -130,13 +130,14 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
       this.headerAsync_, this.headerMinSize_);
   this.playTone(524, 240, 240);
   this.playTone(584, 240, 240);
+  this.setRGBLED(0, 0, 0, 0);
   this.getVersion();
   this.prepared = true;
 };
 
 
 /**
- * Disconnects the mbot.
+ * Disconnects the mBot.
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
@@ -148,18 +149,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
 
 
 /**
- * When blockly/js program is about to run.
- * setup monitor to constantly monitor sensors.
- * @return {void}
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.start = function() {
-  this.monitoring.start();
-};
-
-
-/**
- * Basic cleanup for the mbot.
+ * Basic cleanup for the mBot.
  * apparently this method is called by runner
  * @export
  */
@@ -171,7 +161,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
 
 
 /**
- * Resets the mbot connection and cache.
+ * Resets the mBot connection and cache.
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
@@ -185,24 +175,20 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
 
 
 /**
- * @param {!boolean} enable
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.monitor = function(enable) {
-  if (enable && this.isConnected()) {
-    this.monitoring.start();
-  } else if (!enable) {
-    this.monitoring.stop();
-  }
-};
-
-
-/**
  * @return {goog.events.EventTarget}
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventHandler = function() {
   return this.eventHandler;
+};
+
+
+/**
+ * @return {!cwc.protocol.makeblock.mbotRanger.Monitoring}
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.getMonitoring = function() {
+  return this.monitoring;
 };
 
 
@@ -357,6 +343,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getVersion = function() {
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.parseFloatBytes_ = function(
     dataBytes) {
+  if (!dataBytes) {
+    return null;
+  }
   var intValue = this.fourBytesToInt_(
     dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
   var result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
@@ -414,7 +403,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
     case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1:
     case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATUR:
+    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE:
       this.handleSensorData_(indexType, data, 4);
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.ACK:
@@ -448,14 +437,16 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
 
   switch (index_type) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1:
-      this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.LightnessSensor1Value,
-        this.parseFloatBytes_(data));
-      break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.LightnessSensor2Value,
-        this.parseFloatBytes_(data));
+        cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue, {
+          'sensor_1': this.parseFloatBytes_(
+            this.sensorDataCache_[
+              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1]),
+          'sensor_2': this.parseFloatBytes_(
+            this.sensorDataCache_[
+              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2])
+        });
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
       this.dispatchSensorEvent_(index_type,
@@ -465,9 +456,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
           'raw': data
         });
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATUR:
+    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.TemperaturSensorValue,
+        cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue,
         this.parseFloatBytes_(data));
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:

@@ -272,41 +272,6 @@ Blockly.Blocks['mbot_ranger_rgb'] = {
 
 
 /**
- * Beep.
- */
-Blockly.Blocks['mbot_ranger_beep_buzzer'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(260);
-    this.appendDummyInput()
-      .appendField('Beep Buzzer');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('Beep the Buzzer');
-  }
-};
-
-
-/**
- * Button change.
- */
-Blockly.Blocks['mbot_ranger_button_change'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(260);
-    this.appendDummyInput()
-      .appendField(i18t('on button change'));
-    this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('Stores the output from the sensor in a variable named ' +
-        '\'value\', when the lightness sensor detects a change.');
-  }
-};
-
-
-/**
  * Lightness sensor change.
  */
 Blockly.Blocks['mbot_ranger_lightness_sensor_change'] = {
@@ -326,7 +291,7 @@ Blockly.Blocks['mbot_ranger_lightness_sensor_change'] = {
 
 
 /**
- * Linefollower sensor change.
+ * LineFollower sensor change.
  */
 Blockly.Blocks['mbot_ranger_linefollower_sensor_change'] = {
   init: function() {
@@ -345,6 +310,25 @@ Blockly.Blocks['mbot_ranger_linefollower_sensor_change'] = {
 
 
 /**
+ * Temperature sensor change.
+ */
+Blockly.Blocks['mbot_ranger_temperature_sensor_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(i18t('on temperature sensor change'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Stores the output from the sensor in a variable named ' +
+        '\'temperature\', when the temperature sensor detects a change.');
+  }
+};
+
+
+/**
  * Ultrasonic sensor change.
  */
 Blockly.Blocks['mbot_ranger_ultrasonic_sensor_change'] = {
@@ -358,7 +342,7 @@ Blockly.Blocks['mbot_ranger_ultrasonic_sensor_change'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
-        '\'value\', when the ultrasonic sensor detects a change.');
+        '\'distance\', when the ultrasonic sensor detects a change.');
   }
 };
 

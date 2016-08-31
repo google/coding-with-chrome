@@ -114,6 +114,7 @@ cwc.utils.ByteTools.getUint8Data = function(data,
     opt_headers, opt_size, opt_buffer) {
   var buffer = null;
   var parsedData = [];
+  var validData = true;
 
   if (data) {
     // Prepare data buffer
@@ -136,32 +137,35 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
       if (dataView.length < opt_size) {
         buffer = dataView;
+        validData = false;
       }
     }
 
     // Data processing for data with headers.
-    if (opt_headers) {
-      var headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
-        opt_headers);
-      if (headers) {
-        let headersLength = headers.length;
-        for (let headerPos = 0; headerPos < headersLength; headerPos++) {
-          let dataFragment = dataView.slice(
-            headers[headerPos], headers[headerPos+1]);
-          if (dataFragment.length) {
-            if (!opt_size || (opt_size && dataFragment.length >= opt_size)) {
-              parsedData.push(dataFragment);
-            } else {
-              buffer = dataFragment;
+    if (validData) {
+      if (opt_headers) {
+        var headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
+          opt_headers);
+        if (headers) {
+          let headersLength = headers.length;
+          for (let headerPos = 0; headerPos < headersLength; headerPos++) {
+            let dataFragment = dataView.slice(
+              headers[headerPos], headers[headerPos+1]);
+            if (dataFragment.length) {
+              if (!opt_size || (opt_size && dataFragment.length >= opt_size)) {
+                parsedData.push(dataFragment);
+              } else {
+                buffer = dataFragment;
+              }
             }
           }
+        } else {
+          buffer = dataView;
         }
       } else {
-        buffer = dataView;
+        // Data processing for data without headers.
+        parsedData.push(dataView);
       }
-    } else {
-      // Data processing for data without headers.
-      parsedData.push(dataView);
     }
   }
 

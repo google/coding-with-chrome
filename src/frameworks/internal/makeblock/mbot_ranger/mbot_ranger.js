@@ -33,37 +33,41 @@ goog.require('cwc.framework.Runner');
  */
 cwc.framework.makeblock.mBotRanger = function(code) {
   /** @type {string} */
-  this.name = 'mbot Ranger Framework';
-
-  /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.name = 'mBot Ranger Framework';
 
   /** @private {!function(?)} */
   this.emptyFunction_ = function() {};
 
   /** @type {!function(?)} */
-  this.buttonEvent = this.emptyFunction_;
+  this.temperatureSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
   this.lightnessSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
-  this.linefollowerSensorEvent = this.emptyFunction_;
+  this.lineFollowerSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
+  /** @type {Function} */
+  this.code = function() {code(this);}.bind(this);
+
+  /** @private {!string} */
+  this.code_ = code.toString();
+
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code, this);
+  this.runner = new cwc.framework.Runner(
+    this.code, this, this.monitor_.bind(this));
 
   /** @type {!number} */
-  this.buttonValue = 0;
+  this.temperatureSensorValue = 0;
 
   /** @type {!number} */
   this.lightnessSensorValue = 0;
 
   /** @type {!number} */
-  this.linefollowerSensorValue = 0;
+  this.lineFollowerSensorValue = 0;
 
   /** @type {!number} */
   this.ultrasonicSensorValue = 0;
@@ -71,14 +75,16 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
 
+
   // External commands
-  this.runner.addCommand('updateButton', this.updateButton_);
+  this.runner.addCommand('updateTemperatureSensor',
+    this.updateTemperatureSensor_);
   this.runner.addCommand('updateLightnessSensor',
     this.updateLightnessSensor_);
-  this.runner.addCommand('updateLinefollowerSensor',
-    this.updateLinefollowerSensor_);
+  this.runner.addCommand('updateLineFollowerSensor',
+    this.updateLineFollowerSensor_);
   this.runner.addCommand('updateUltrasonicSensor',
-      this.updateUltrasonicSensor_);
+    this.updateUltrasonicSensor_);
 };
 
 
@@ -126,6 +132,17 @@ cwc.framework.makeblock.mBotRanger.prototype.getButtonValue = function() {
 
 
 /**
+ * get values from temperature sensors
+ * @return {void}
+ * @export
+ */
+cwc.framework.makeblock.mBotRanger.prototype.getTemperatureSensorValue =
+function() {
+  return this.temperatureSensorValue;
+};
+
+
+/**
  * get values from lightness sensors
  * @return {void}
  * @export
@@ -137,13 +154,13 @@ function() {
 
 
 /**
- * get values from lightness sensors
+ * get values from line follower sensors
  * @return {void}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getLinefollowerSensorValue =
+cwc.framework.makeblock.mBotRanger.prototype.getLineFollowerSensorValue =
 function() {
-  return this.linefollowerSensorValue;
+  return this.lineFollowerSensorValue;
 };
 
 
@@ -281,6 +298,18 @@ cwc.framework.makeblock.mBotRanger.prototype.onButtonChange = function(func) {
  * @param {!Function} func
  * @export
  */
+cwc.framework.makeblock.mBotRanger.prototype.onTemperatureSensorChange =
+function(func) {
+  if (goog.isFunction(func)) {
+    this.temperatureSensorEvent = func;
+  }
+};
+
+
+/**
+ * @param {!Function} func
+ * @export
+ */
 cwc.framework.makeblock.mBotRanger.prototype.onLightnessSensorChange = function(
     func) {
   if (goog.isFunction(func)) {
@@ -293,10 +322,10 @@ cwc.framework.makeblock.mBotRanger.prototype.onLightnessSensorChange = function(
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onLinefollowerSensorChange =
+cwc.framework.makeblock.mBotRanger.prototype.onLineFollowerSensorChange =
 function(func) {
   if (goog.isFunction(func)) {
-    this.linefollowerSensorEvent = func;
+    this.lineFollowerSensorEvent = func;
   }
 };
 
@@ -317,10 +346,10 @@ function(func) {
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateButton_ = function(
-    data) {
-  this.buttonValue = data;
-  this.buttonEvent(data);
+cwc.framework.makeblock.mBotRanger.prototype.updateTemperatureSensor_ =
+function(data) {
+  this.temperatureSensorValue = data;
+  this.temperatureSensorEvent(data);
 };
 
 
@@ -331,7 +360,7 @@ cwc.framework.makeblock.mBotRanger.prototype.updateButton_ = function(
 cwc.framework.makeblock.mBotRanger.prototype.updateLightnessSensor_ =
 function(data) {
   this.lightnessSensorValue = data;
-  this.lightnessSensorEvent(data);
+  this.lightnessSensorEvent(data['sensor_1'], data['sensor_2']);
 };
 
 
@@ -339,10 +368,10 @@ function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateLinefollowerSensor_ =
+cwc.framework.makeblock.mBotRanger.prototype.updateLineFollowerSensor_ =
 function(data) {
-  this.linefollowerSensorValue = data;
-  this.linefollowerSensorEvent(data['left'], data['right'], data['raw']);
+  this.lineFollowerSensorValue = data;
+  this.lineFollowerSensorEvent(data['left'], data['right'], data['raw']);
 };
 
 
@@ -354,4 +383,20 @@ cwc.framework.makeblock.mBotRanger.prototype.updateUltrasonicSensor_ =
 function(data) {
   this.ultrasonicSensorValue = data;
   this.ultrasonicSensorEvent(data);
+};
+
+
+/**
+ * @private
+ */
+cwc.framework.makeblock.mBotRanger.prototype.monitor_ = function() {
+  var prefix = 'mBotRanger.';
+  this.runner.enableMonitor(this.code_,
+    prefix + 'onLineFollowerSensorChange', 'setLineFollowerMonitor');
+  this.runner.enableMonitor(this.code_,
+    prefix + 'onLightnessSensorChange', 'setLightnessMonitor');
+  this.runner.enableMonitor(this.code_,
+    prefix + 'onTemperatureSensorChange', 'setTemperatureMonitor');
+  this.runner.enableMonitor(this.code_,
+    prefix + 'onUltrasonicSensorChange', 'setUltrasonicMonitor');
 };
