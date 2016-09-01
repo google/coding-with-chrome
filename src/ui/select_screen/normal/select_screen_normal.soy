@@ -272,21 +272,12 @@
 
       {call .selectSection_}
         {param prefix: $prefix /}
-        {param title: 'mBot' /}
+        {param title: 'MakeBlock mBot' /}
         {param text: 'Control a mBot by assembling Blockly Blocks' /}
-        {param link_text: 'Use mBot Robot' /}
+        {param link_text: 'Use mBot - Blue Robot' /}
         {param link_id: 'mbot' /}
-        {param opt_color_class: 'bg-orange' /}
-        {param opt_icon: 'functions' /}
-        {param opt_icon_rotate: '90' /}
-      {/call}
-
-      {call .selectSection_}
-        {param prefix: $prefix /}
-        {param title: 'mBot Ranger' /}
-        {param text: 'Control a mBot Ranger by assembling Blockly Blocks' /}
-        {param link_text: 'Use mBot Ranger Robot' /}
-        {param link_id: 'mbot-ranger' /}
+        {param opt_link_text: 'Use mBot Ranger Robot' /}
+        {param opt_link_id: 'mbot-ranger' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'functions' /}
         {param opt_icon_rotate: '90' /}
@@ -556,7 +547,7 @@
 
     {call .robotHeader_}
       {param prefix: $prefix /}
-      {param active_link: 'mbot' /}
+      {param active_link: 'mbot-ranger' /}
     {/call}
 
     <div class="cwc-content-large">
@@ -694,6 +685,13 @@
         {param active_link: $active_link /}
       {/call}
 
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'mBot Ranger' /}
+        {param id: 'mbot-ranger' /}
+        {param active_link: $active_link /}
+      {/call}
+
     </nav>
   </header>
 {/template}
@@ -708,6 +706,8 @@
   {@param text: string}
   {@param link_text: string}
   {@param link_id: string}
+  {@param? opt_link_text: string}
+  {@param? opt_link_id: string}
   {@param? opt_image: string}
   {@param? opt_icon: string}
   {@param? opt_icon_rotate: string}
@@ -730,7 +730,14 @@
       <div class="mdl-card__actions">
         <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">
           {msg desc=""}{$link_text}{/msg}
+          <i class="material-icons">chevron_right</i>
         </a>
+        {if $opt_link_text and $opt_link_id}
+          <a href="#" id="{$prefix}link-{$opt_link_id}" class="mdl-button">
+            {msg desc=""}{$opt_link_text}{/msg}
+            <i class="material-icons">chevron_right</i>
+          </a>
+        {/if}
       </div>
     </div>
   </section>
@@ -815,6 +822,7 @@
     <div class="mdl-card__actions mdl-card--border">
       <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
         {msg desc=""}{$link_text}{/msg}
+        <i class="material-icons">chevron_right</i>
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </a>
     </div>

@@ -253,6 +253,8 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
       cwc.ui.SelectScreenNormalView.SPHERO);
   this.setClickEvent_('menu-mbot', this.showView,
       cwc.ui.SelectScreenNormalView.MBOT);
+  this.setClickEvent_('menu-mbot-ranger', this.showView,
+      cwc.ui.SelectScreenNormalView.MBOT_RANGER);
 };
 
 
