@@ -59,6 +59,7 @@ cwc.framework.Python.prototype.run = function() {
   Sk.configure({
     'debugout': this.showDebug.bind(this),
     'inputfun': this.showInput.bind(this),
+    'inputfunTakesPrompt': true,
     'output': this.showOutput.bind(this),
     'uncaughtException': this.showError.bind(this),
     'python3': pythonVersion3,
@@ -115,9 +116,10 @@ cwc.framework.Python.prototype.showOutput = function(text) {
 
 /**
  * Prompt user for input.
+ * @param {string=} opt_msg
  */
-cwc.framework.Python.prototype.showInput = function() {
-  var msg = this.lastMsg || '';
+cwc.framework.Python.prototype.showInput = function(opt_msg) {
+  var msg = opt_msg || this.lastMsg || '';
   this.lastMsg = '';
   return this.dialog.showPrompt('Input', msg);
 };
