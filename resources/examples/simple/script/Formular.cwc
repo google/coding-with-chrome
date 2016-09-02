@@ -7,11 +7,7 @@
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {
-      "flags_": {}
-    }
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",

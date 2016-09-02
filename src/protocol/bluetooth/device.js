@@ -60,7 +60,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!array} */
   this.uuids = uuids;
 
-  /** @type {!cwc.protocol.bluetooth.supportedDevices2} */
+  /** @type {!cwc.protocol.bluetooth.supportedDevices} */
   this.profile = profile;
 
   /** @type {!string} */
@@ -108,8 +108,8 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {object} */
   this.socketProperties = {
     'persistent': false,
-    'name': 'CwC bluetooth device',
-    'bufferSize': 8192
+    'name': 'CwC Bluetooth Device',
+    'bufferSize': 4096
   };
 };
 
