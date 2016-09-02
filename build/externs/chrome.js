@@ -124,3 +124,9 @@ chrome.key = function() {};
 
 /** @type {Function} */
 chrome.fileSystem.chooseEntry = function() {};
+
+/** @type {Function} */
+chrome.identity.getAuthToken = function() {};
+
+/** @type {Function} */
+chrome.identity.removeCachedAuthToken = function() {};
