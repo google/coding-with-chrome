@@ -1,7 +1,7 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "javascript": "// Set color sensor mode to \"color\"\nev3.setColorSensorMode(2);\n// Plays start tone.\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\n\n// Move forward with 20% power.\nev3.movePower(20);\n\n// Main programm part.\nvar tracer = function(value) {\n if (value == 3) { // Green color\n   // Drive left\n   ev3.rotatePower(20, 15, 1);\n   ev3.playTone(200, 100, 100);\n\n } else if (value == 1) { // Black color\n   // Drive forward\n   ev3.movePower(20);\n   ev3.playTone(400, 100, 100);\n\n } else if (value == 5) { // Red color\n   // Drive right\n   ev3.rotatePower(20, 15);\n   ev3.playTone(600, 100, 100);\n }\n\n}\nev3.onColorSensorChange(tracer);\n\n// Stops EV3 if distance is to short\nvar stop = function(value) {\n if (value < 20) {\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.movePower(0);\n   ev3.stop();\n }\n};\nev3.onIrSensorChange(stop);\n"
+    "javascript": "// Set color sensor mode to \"color\"\nev3.setColorSensorMode(2);\n// Plays start tone.\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\nev3.playTone(100, 100, 100);\n\n// Move forward with 20% power.\nev3.movePower(20);\n\n// Main programm part.\nvar tracer = function(value) {\n if (value == 3) { // Green color\n   // Drive left\n   ev3.rotatePower(-20, -15);\n   ev3.playTone(200, 100, 100);\n\n } else if (value == 1) { // Black color\n   // Drive forward\n   ev3.movePower(20);\n   ev3.playTone(400, 100, 100);\n\n } else if (value == 5) { // Red color\n   // Drive right\n   ev3.rotatePower(20, 15);\n   ev3.playTone(600, 100, 100);\n }\n\n}\nev3.onColorSensorChange(tracer);\n\n// Stops EV3 if distance is to short\nvar stop = function(value) {\n if (value < 20) {\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.playTone(300, 100, 100);\n   ev3.movePower(0);\n   ev3.stop();\n }\n};\nev3.onIrSensorChange(stop);\n"
   },
   "description": "",
   "files": {},
@@ -11,6 +11,7 @@
   "history": "",
   "type": "ev3",
   "mode": "ev3",
+  "model": "TRACK3R",
   "title": "EV3 line follow Example",
   "ui": "default",
   "version": "1.0"

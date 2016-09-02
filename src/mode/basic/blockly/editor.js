@@ -67,18 +67,18 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
     return;
   }
 
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
+  if (!this.nodeEditor) {
+    console.error('Was unable to find Editor node:', this.nodeEditor);
+    return;
+  }
+
   // Blocks toolbox
   this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
       'blockly-toolbox');
   if (!this.nodeBlocklyToolbox) {
     console.error('Was unable to find Blockly Toolbox:',
         this.nodeBlocklyToolbox);
-    return;
-  }
-
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
     return;
   }
 
@@ -95,39 +95,17 @@ cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditorTypeInfo(false);
   this.editor.enableMediaButton(true);
 
-  // Custom Events
+  // Additional buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
-  this.blockly.addChangeListener(this.changeHandler.bind(this));
-
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
 
+  // Custom Events
+  this.blockly.addChangeListener(this.editor.syncJavaScript.bind(this.editor));
+
   // Reset size
   this.blockly.adjustSize();
-};
-
-
-/**
- * Code change handler.
- */
-cwc.mode.basic.blockly.Editor.prototype.changeHandler = function() {
-  var fileInstance = this.helper.getInstance('file');
-  if (fileInstance.getUi() != 'custom') {
-    var content = this.blockly.getJavaScript();
-    this.editor.setEditorJavaScriptContent(content);
-  }
-};
-
-
-/**
- * Runs / Executes the code.
- */
-cwc.mode.basic.blockly.Editor.prototype.runCode = function() {
-  var previewInstance = this.helper.getInstance('preview');
-  if (previewInstance) {
-    previewInstance.run();
-  }
 };
 
 

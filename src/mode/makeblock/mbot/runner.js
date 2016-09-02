@@ -38,7 +38,7 @@ goog.require('goog.dom');
  */
 cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   /** @type {string} */
-  this.name = 'mbot Runner';
+  this.name = 'mBot Runner';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -111,7 +111,7 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.ev3.Command} */
+  /** @type {!cwc.runner.profile.makeblock.mbot.Monitor} */
   this.monitor = new cwc.runner.profile.makeblock.mbot.Monitor(this.turtle);
 
   /** @type {Element} */
@@ -145,7 +145,6 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommand('rotatePower', this.command.rotatePower, this);
   this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
 
-  this.runner.addCommand('wait', this.command.wait, this);
   this.runner.addCommand('stop', this.command.stop, this);
   this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
@@ -156,13 +155,13 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
       cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
       'updateButton');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR,
       'updateLightnessSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR,
       'updateLinefollowerSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));

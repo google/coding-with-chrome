@@ -271,7 +271,6 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
  * @export
  */
 cwc.ui.SelectScreenAdvanced.prototype.showLastView = function() {
-  console.log('showLastView', this.currentView);
   this.showView(this.currentView);
 };
 

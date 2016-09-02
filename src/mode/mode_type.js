@@ -35,6 +35,7 @@ cwc.mode.Type = {
   HTML5: 'html5',
   JSON: 'json',
   MBOT_BLOCKLY: 'mbot_blockly',
+  MBOT_RANGER_BLOCKLY: 'mbot_ranger_blockly',
   NONE: 'none',
   PENCIL_CODE: 'pencil_code',
   PYTHON: 'python',

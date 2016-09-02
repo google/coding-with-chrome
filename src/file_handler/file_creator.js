@@ -48,7 +48,8 @@ cwc.fileHandler.FileCreator = function(helper) {
 cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
   var fileConfig = cwc.fileHandler.Config.get(file_type);
   if (!fileConfig) {
-    throw 'Filetype ' + file_type + ' is not supported!';
+    console.error('Filetype', file_type, 'is not supported!');
+    return;
   }
   console.log('Create file for', file_type, ':', fileConfig);
 

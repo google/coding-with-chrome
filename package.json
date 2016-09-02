@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.0.16",
+    "closure-builder": "^2.0.17",
     "jsdoc": "^3.4.0",
     "rimraf": "^2.5.4"
   },

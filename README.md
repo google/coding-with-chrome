@@ -144,6 +144,7 @@ The following robots are supported, out of the box by Coding with Chrome:
 * EV3
 * Sphero 2.0
 * mBot (firmware >= 06.01.104)
+* mBot Ranger (firmware >= 09.01.001)
 
 
 ## Report Issues

@@ -630,7 +630,8 @@ cwc.fileFormat.File.getBlocklyFile = function(opt_content, opt_type) {
     .setTitle('Untitled Blockly file', true)
     .setContent(cwc.file.ContentType.BLOCKLY, '', true)
     .setContent(cwc.file.ContentType.JAVASCRIPT, '', true)
-    .setMode('blockly', true);
+    .setMode('blockly', true)
+    .setUi('blockly');
 };
 
 

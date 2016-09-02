@@ -72,13 +72,13 @@ cwc.framework.makeblock.mBot = function(code) {
   this.motorSpeed = 60 / 60;
 
   // External commands
-  this.runner.addCommand('updateButton', this.handleUpdateButton_);
+  this.runner.addCommand('updateButton', this.updateButton_);
   this.runner.addCommand('updateLightnessSensor',
-    this.handleUpdateLightnessSensorValue_);
+    this.updateLightnessSensor_);
   this.runner.addCommand('updateLinefollowerSensor',
-    this.handleUpdateLinefollowerSensorValue_);
+    this.updateLinefollowerSensor_);
   this.runner.addCommand('updateUltrasonicSensor',
-      this.handleUpdateUltrasonicSensorValue_);
+      this.updateUltrasonicSensor_);
 };
 
 
@@ -297,7 +297,7 @@ cwc.framework.makeblock.mBot.prototype.onUltrasonicSensorChange = function(
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBot.prototype.handleUpdateButton_ = function(data) {
+cwc.framework.makeblock.mBot.prototype.updateButton_ = function(data) {
   this.buttonValue = data;
   this.buttonEvent(data);
 };
@@ -307,8 +307,7 @@ cwc.framework.makeblock.mBot.prototype.handleUpdateButton_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBot.prototype.handleUpdateLightnessSensorValue_ =
-function(data) {
+cwc.framework.makeblock.mBot.prototype.updateLightnessSensor_ = function(data) {
   this.lightnessSensorValue = data;
   this.lightnessSensorEvent(data);
 };
@@ -318,8 +317,8 @@ function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBot.prototype.handleUpdateLinefollowerSensorValue_ =
-function(data) {
+cwc.framework.makeblock.mBot.prototype.updateLinefollowerSensor_ = function(
+    data) {
   this.linefollowerSensorValue = data;
   this.linefollowerSensorEvent(data['left'], data['right'], data['raw']);
 };
@@ -329,8 +328,8 @@ function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.makeblock.mBot.prototype.handleUpdateUltrasonicSensorValue_ =
-function(data) {
+cwc.framework.makeblock.mBot.prototype.updateUltrasonicSensor_ = function(
+    data) {
   this.ultrasonicSensorValue = data;
   this.ultrasonicSensorEvent(data);
 };

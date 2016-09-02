@@ -76,6 +76,7 @@ cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
+  this.api.monitor(true);
 };
 
 

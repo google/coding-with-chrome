@@ -95,6 +95,23 @@ closureBuilder.build({
 
 
 /**
+ * mBot Ranger Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.makeblock.mBotRanger',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/makeblock/mbot_ranger/*.js'
+  ]),
+  deps: glob([
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
+  ]),
+  out: 'genfiles/frameworks/internal/mbot_ranger_framework.js'
+});
+
+
+/**
  * Runner Framework
  */
 closureBuilder.build({
@@ -123,11 +140,11 @@ closureBuilder.build({
     'src/config/config.js',
     'src/frameworks/internal/runner/runner.js',
     'src/utils/logger.js',
-    'src/utils/stack_queue.js',
     'src/utils/dialog/*'
   ]),
   out: 'genfiles/frameworks/internal/simple_framework.js'
 });
+
 
 /**
  * Sphero Framework

@@ -1,0 +1,283 @@
+/**
+ * @fileoverview Blocks for mBot modification.
+ *
+ * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author wangyu@makeblock.cc (Yu Wang)
+ */
+{namespace cwc.soy.mode.makeblock.mbotRanger.blockly.Blocks autoescape="strict"}
+
+
+/**
+ * Blockly blocks.
+ */
+{template .toolbox}
+
+  <category name="Movements" colour="120">
+    <block type="mbot_ranger_move_forward_steps">
+      <value name="steps">
+        <block type="math_number"><field name="NUM">2</field></block>
+      </value>
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_move_forward_time">
+      <value name="time">
+        <block type="math_number"><field name="NUM">2</field></block>
+      </value>
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_move_backward_time">
+      <value name="time">
+        <block type="math_number"><field name="NUM">2</field></block>
+      </value>
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_rotate_left_time">
+      <value name="time">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_rotate_right_time">
+      <value name="time">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+  </category>
+
+  <category name="Movements (Advance)" colour="120">
+    <block type="mbot_ranger_move_forward">
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_move_backward">
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_rotate_left">
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_rotate_right">
+      <value name="speed">
+        <block type="math_number"><field name="NUM">85</field></block>
+      </value>
+    </block>
+    <block type="mbot_ranger_stop_moving"></block>
+  </category>
+
+  <category name="Lights" colour="120">
+    <block type="mbot_ranger_rgb">
+      <value name="colour">
+        <block type="colour_picker">
+          <field name="COLOUR">#ff0000</field>
+       </block>
+    </block>
+  </category>
+
+  <category name="Sounds" colour="120">
+    <block type="mbot_ranger_play_tone"></block>
+  </category>
+
+  <category name="Events" colour="20">
+    <block type="mbot_ranger_lightness_sensor_change">
+      <value name="CODE">
+        <block type="controls_if">
+          <value name="IF0">
+            <block type="logic_compare">
+              <field name="OP">LTE</field>
+              <value name="A">
+                <block type="variables_get">
+                  <field name="VAR">lightness</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number">
+                  <field name="NUM">20</field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="mbot_ranger_linefollower_sensor_change">
+      <value name="CODE">
+        <block type="controls_if">
+          <value name="IF0">
+            <block type="logic_compare">
+              <field name="OP">EQ</field>
+              <value name="A">
+                <block type="variables_get">
+                  <field name="VAR">left</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="logic_boolean">
+                  <field name="BOOL">TRUE</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <next>
+            <block type="controls_if">
+              <value name="IF0">
+                <block type="logic_compare">
+                  <field name="OP">EQ</field>
+                  <value name="A">
+                    <block type="variables_get">
+                      <field name="VAR">right</field>
+                    </block>
+                  </value>
+                  <value name="B">
+                    <block type="logic_boolean">
+                      <field name="BOOL">TRUE</field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            </block>
+          </next>
+        </block>
+      </value>
+    </block>
+    <block type="mbot_ranger_temperature_sensor_change">
+      <value name="CODE">
+        <block type="controls_if">
+          <value name="IF0">
+            <block type="logic_compare">
+              <field name="OP">LTE</field>
+              <value name="A">
+                <block type="variables_get">
+                  <field name="VAR">temperature</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number">
+                  <field name="NUM">30</field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+    <block type="mbot_ranger_ultrasonic_sensor_change">
+      <value name="CODE">
+        <block type="controls_if">
+          <value name="IF0">
+            <block type="logic_compare">
+              <field name="OP">LTE</field>
+              <value name="A">
+                <block type="variables_get">
+                  <field name="VAR">distance</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number">
+                  <field name="NUM">30</field>
+                </block>
+              </value>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+  </category>
+
+  <category name="Loops" colour="210">
+    <block type="controls_repeat_ext">
+      <value name="TIMES">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+    <block type="general_infinity_loop"></block>
+    <block type="controls_for">
+      <value name="FROM">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="TO">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value><value name="BY">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+    </block>
+    <block type="controls_forEach"></block>
+    <block type="controls_flow_statements"></block>
+    <block type="controls_whileUntil"></block>
+  </category>
+
+  <category name="Operations" colour="210">
+    <block type="controls_if"></block>
+    <block type="logic_compare"></block>
+    <block type="logic_operation"></block>
+    <block type="logic_negate"></block>
+    <block type="logic_boolean"></block>
+    <block type="logic_null"></block>
+    <block type="logic_ternary"></block>
+  </category>
+
+  <category name="Math" colour="210">
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="math_single"></block>
+    <block type="math_trig"></block>
+    <block type="math_constant"></block>
+    <block type="math_number_property"></block>
+    <block type="math_change"><value name="DELTA">
+    <block type="math_number">
+      <field name="NUM">1</field></block></value></block>
+    <block type="math_round"></block><block type="math_on_list"></block>
+    <block type="math_modulo"></block>
+    <block type="math_constrain">
+      <value name="LOW">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="HIGH">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+    </block>
+    <block type="math_random_int">
+      <value name="FROM">
+        <block type="math_number"><field name="NUM">1</field></block>
+      </value>
+      <value name="TO">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+    </block>
+    <block type="math_random_float"></block>
+  </category>
+
+  <sep></sep>
+
+  <category custom="VARIABLE" name="Variables" colour="330"></category>
+
+  <category custom="PROCEDURE" name="Procedure" colour="330"></category>
+
+{/template}

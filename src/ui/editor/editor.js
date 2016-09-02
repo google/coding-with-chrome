@@ -108,8 +108,10 @@ cwc.ui.Editor = function(helper) {
   this.toolbar = null;
 
   /** @type {!Array} */
-  this.gutters = ['CodeMirror-linenumbers', 'CodeMirror-breakpoints',
-                  'CodeMirror-foldgutter', 'CodeMirror-lint-markers'];
+  this.gutters = ['CodeMirror-linenumbers',
+                  'CodeMirror-breakpoints',
+                  'CodeMirror-foldgutter',
+                  'CodeMirror-lint-markers'];
 
   /** @type {!Array} */
   this.rulers = [{color: '#ccc', column: 80, lineStyle: 'dashed'}];
@@ -418,8 +420,29 @@ cwc.ui.Editor.prototype.setEditorContent = function(content,
  */
 cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(
     content) {
-  this.setEditorContent(content,
-      cwc.file.ContentType.JAVASCRIPT);
+  this.setEditorContent(content, cwc.file.ContentType.JAVASCRIPT);
+};
+
+
+/**
+ * Sync JavaScript content from other modules.
+ * @param {event=} opt_event
+ */
+cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
+  if (opt_event && opt_event['recordUndo'] === false) {
+    return;
+  }
+  var fileUi = this.helper.getInstance('file').getUi();
+  switch (fileUi) {
+    case 'blockly':
+      var blocklyInstance = this.helper.getInstance('blockly');
+      if (blocklyInstance) {
+        this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
+      }
+      break;
+    default:
+      console.log('Unsynced UI mode', fileUi);
+  }
 };
 
 
@@ -548,8 +571,9 @@ cwc.ui.Editor.prototype.addView = function(name, opt_content,
     return;
   }
 
-  console.log('Create Editor View', name, 'with type', opt_type, 'and content',
-    opt_content);
+  console.log('Create Editor View', name, 'with type', opt_type,
+    (opt_content ? 'and content' : ''), opt_content);
+
   this.editorView[name] = new cwc.ui.EditorView(opt_content,
       opt_type, opt_flags);
 

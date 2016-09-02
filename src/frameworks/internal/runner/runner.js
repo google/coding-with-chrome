@@ -23,20 +23,18 @@ goog.provide('cwc.framework.Runner');
 
 goog.require('cwc.utils.StackQueue');
 
-goog.require('goog.events');
-goog.require('goog.events.BrowserEvent');
-
 
 
 /**
  * @param {Function=} opt_callback
  * @param {Object=} opt_scope
+ * @param {Function=} opt_monitor
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function(opt_callback, opt_scope) {
+cwc.framework.Runner = function(opt_callback, opt_scope, opt_monitor) {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -49,38 +47,25 @@ cwc.framework.Runner = function(opt_callback, opt_scope) {
   /** @type {Object} */
   this.commands = {};
 
-  /** @type {?Function} */
-  this.callback = opt_callback || null;
-
   /** @type {Object} */
   this.scope = opt_scope || null;
 
-  /** @private {!boolean} */
-  this.init_ = false;
+  /** @private {?Function} */
+  this.callback_ = opt_callback || null;
 
-  /** @private {number} */
-  this.senderStackInterval_ = 50;
+  /** @private {?Function} */
+  this.monitor_ = opt_monitor || null;
 
   /** @private {!cwc.utils.StackQueue} */
-  this.senderStack_ = new cwc.utils.StackQueue(this.senderStackInterval_);
+  this.senderStack_ = new cwc.utils.StackQueue();
 
-  this.init();
-};
+  // Message handler
+  window.addEventListener('message', this.handleMessage_.bind(this), false);
 
-
-/**
- * Adds the command to the listener.
- * @private
- */
-cwc.framework.Runner.prototype.init = function() {
-  if (!this.init_) {
-    goog.events.listen(window, 'message', this.handleMessage_, false, this);
-    this.addCommand('__handshake__', this.handleHandshake_.bind(this));
-    this.addCommand('__start__', this.handleStart_.bind(this));
-    this.addCommand('__ping__', this.handlePing_.bind(this));
-    this.senderStack_.startTimer();
-    this.init_ = true;
-  }
+  // External commands
+  this.addCommand('__handshake__', this.handleHandshake_.bind(this));
+  this.addCommand('__start__', this.handleStart_.bind(this));
+  this.addCommand('__ping__', this.handlePing_.bind(this));
 };
 
 
@@ -104,6 +89,20 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
   } else {
     this.commands[name] = func;
   }
+};
+
+
+/**
+ * @param {!string} code
+ * @param {!string} command
+ * @param {!string} monitor_command
+ * @export
+ */
+cwc.framework.Runner.prototype.enableMonitor = function(code, command,
+  monitor_command) {
+  var status = code.includes(command);
+  console.log((status ? 'Enable ' : 'Disable ') + monitor_command + ' ...');
+  this.send(monitor_command, {'enable': status});
 };
 
 
@@ -136,34 +135,56 @@ cwc.framework.Runner.prototype.send = function(name, opt_value, opt_delay) {
 
 /**
  * Sets the callback function event.
- * @param {Function=} opt_callback
+ * @param {!Function} callback
  * @export
  */
-cwc.framework.Runner.prototype.setCallback = function(opt_callback) {
-  if (goog.isFunction(opt_callback)) {
-    this.callback = opt_callback;
+cwc.framework.Runner.prototype.setCallback = function(callback) {
+  if (callback && typeof callback === 'function') {
+    this.callback_ = callback;
   }
 };
 
 
 /**
+ * Sets the monitor function event.
+ * @param {!Function} monitor
+ * @export
+ */
+cwc.framework.Runner.prototype.setMonitor = function(monitor) {
+  if (monitor && typeof monitor === 'function') {
+    this.monitor_ = monitor;
+  }
+};
+
+
+/**
+ * Sends the direct update confirmation to the runner..
+ * @param {string=} opt_data
+ * @export
+ */
+cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
+  console.log('Enable direct update.');
+  this.send('__direct_update__', opt_data);
+};
+
+
+/**
  * Handles the received messages and executes the predefined actions.
- * @param {goog.events.BrowserEvent} event
+ * @param {event} event
  * @private
  */
 cwc.framework.Runner.prototype.handleMessage_ = function(event) {
-  var browserEvent = event.getBrowserEvent();
-  if (!browserEvent) {
+  if (!event) {
     throw 'Was not able to get browser event!';
   }
-  if (!this.appWindow) {
-    this.appWindow = browserEvent['source'];
+  if (!this.appWindow && 'source' in event) {
+    this.appWindow = event['source'];
   }
-  if (!this.appOrigin) {
-    this.appOrigin = browserEvent['origin'];
+  if (!this.appOrigin && 'origin' in event) {
+    this.appOrigin = event['origin'];
   }
-  var command = browserEvent['data']['command'];
-  var value = browserEvent['data']['value'];
+  var command = event['data']['command'];
+  var value = event['data']['value'];
   if (command in this.commands) {
     this.commands[command](value);
   } else {
@@ -189,9 +210,13 @@ cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
  * @private
  */
 cwc.framework.Runner.prototype.handleStart_ = function() {
-  console.log('Starting program ...');
-  if (this.callback) {
-    this.callback();
+  if (this.monitor_) {
+    console.log('Initialize monitor ...');
+    this.monitor_();
+  }
+  if (this.callback_) {
+    console.log('Starting program ...');
+    this.callback_();
   }
 };
 
@@ -202,15 +227,4 @@ cwc.framework.Runner.prototype.handleStart_ = function() {
  */
 cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
   this.send('__pong__', {id: ping_id, time: new Date().getTime()});
-};
-
-
-/**
- * Sends the direct update confirmation to the runner..
- * @param {string=} opt_data
- * @export
- */
-cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
-  console.log('Enable direct update.');
-  this.send('__direct_update__', opt_data);
 };

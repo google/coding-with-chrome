@@ -1,7 +1,6 @@
 /**
  * @fileoverview runner profile for Makeblock mBots.
  *
- *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

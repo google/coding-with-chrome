@@ -17,11 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.uitls.StackType');
 goog.provide('cwc.utils.StackEntry');
 goog.provide('cwc.utils.StackQueue');
-
-goog.require('goog.Timer');
+goog.provide('cwc.utils.StackType');
 
 
 /**
@@ -96,48 +94,33 @@ cwc.utils.StackEntry.prototype.getName = function() {
 
 /**
  * @constructor
- * @param {number=} opt_update_time
+ * @param {number=} opt_no_autostart
  */
-cwc.utils.StackQueue = function(opt_update_time) {
+cwc.utils.StackQueue = function(opt_no_autostart) {
+
   /** @private {boolean} */
   this.autopause_ = false;
 
   /** @private {Object} */
   this.stack_ = {};
 
-  /** @private {goog.Timer} */
-  this.timer_ = null;
-
-  /** @private {number} */
-  this.timerInterval_ = opt_update_time || 50;
-
   /** @type {number|string} */
   this.default_group = 'default';
 
   /** @type {boolean} */
+  this.autoStart = opt_no_autostart == true ? false : true;
+
+  /** @type {boolean} */
+  this.active = false;
+
+  /** @type {boolean} */
   this.run = false;
+
 };
 
 
 /**
- * @param {cwc.utils.StackEntry} stack_entry
- * @param {number|string=} opt_group
- * @private
- */
-cwc.utils.StackQueue.prototype.addStack_ = function(stack_entry, opt_group) {
-  var group = opt_group || this.default_group;
-  if (!(group in this.stack_)) {
-    this.stack_[group] = [];
-  }
-  this.stack_[group].push(stack_entry);
-  if (this.timer_ && this.autopause_ && !opt_group) {
-    this.startTimer();
-    this.autopause_=false;
-  }
-};
-
-
-/**
+ * Add command to the stack queue.
  * @param {!Function} command
  * @param {number|string=} opt_group
  * @export
@@ -149,6 +132,7 @@ cwc.utils.StackQueue.prototype.addCommand = function(command, opt_group) {
 
 
 /**
+ * Pause the stack queue for the given delay.
  * @param {number} delay in ms
  * @param {number|string=} opt_group
  * @export
@@ -161,6 +145,7 @@ cwc.utils.StackQueue.prototype.addDelay = function(delay, opt_group) {
 
 /**
  * Clears the default Stack with queued commands.
+ * @export
  */
 cwc.utils.StackQueue.prototype.clear = function() {
   this.stack_[this.default_group] = [];
@@ -169,13 +154,11 @@ cwc.utils.StackQueue.prototype.clear = function() {
 
 /**
  * Sets and initializes the stack queue timer.
- * @param {number=} opt_interval
+ * @param {number=} interval
  * @export
  */
-cwc.utils.StackQueue.prototype.setTimer = function(opt_interval) {
-  this.timer_ = new goog.Timer(opt_interval || this.timerInterval_);
-  goog.events.listen(this.timer_, goog.Timer.TICK,
-      this.handleQueueEvent.bind(this));
+cwc.utils.StackQueue.prototype.setTimerInterval = function(interval) {
+  this.timerInterval_ = interval;
 };
 
 
@@ -183,12 +166,12 @@ cwc.utils.StackQueue.prototype.setTimer = function(opt_interval) {
  * Starts the stack queue timer.
  * @export
  */
-cwc.utils.StackQueue.prototype.startTimer = function() {
-  if (!this.timer_) {
-    this.setTimer();
+cwc.utils.StackQueue.prototype.start = function() {
+  if (!this.active) {
+    this.run = false;
+    this.active = true;
+    this.handleQueue_();
   }
-  this.timer_.start();
-  this.run = false;
 };
 
 
@@ -196,58 +179,19 @@ cwc.utils.StackQueue.prototype.startTimer = function() {
  * Stops the stack queue timer.
  * @export
  */
-cwc.utils.StackQueue.prototype.stopTimer = function() {
-  if (this.timer_) {
-    this.timer_.stop();
+cwc.utils.StackQueue.prototype.stop = function() {
+  if (this.active) {
     this.run = false;
+    this.active = false;
   }
 };
 
 
 /**
- * @param {Event=} opt_event
- */
-cwc.utils.StackQueue.prototype.handleQueueEvent = function(opt_event) {
-  if (!(this.default_group in this.stack_)) {
-    return;
-  }
-
-  if (this.run) {
-    return;
-  }
-
-  if (this.stack_[this.default_group].length <= 0) {
-    this.stopTimer();
-    this.autopause_ = true;
-    return;
-  }
-
-  var task = this.stack_[this.default_group].shift();
-  var type = task.getType();
-  var value = task.getValue();
-  switch (type) {
-    case cwc.utils.StackType.CMD:
-      var func = task.getFunc();
-      this.run = true;
-      if (goog.isFunction(func)) {
-        func(value);
-      }
-      this.run = false;
-      break;
-    case cwc.utils.StackType.DELAY:
-      this.stopTimer();
-      var delayEvent = this.startTimer.bind(this);
-      this.delayTimer = goog.Timer.callOnce(delayEvent, value);
-      break;
-    default:
-      console.error('Unknow Stack Type', type);
-  }
-};
-
-
-/**
+ * Gets the next entry of the stack queue.
  * @param {number|string=} opt_group
  * @return {?cwc.utils.StackEntry}
+ * @export
  */
 cwc.utils.StackQueue.prototype.getNext = function(opt_group) {
   var group = opt_group || this.default_group;
@@ -272,4 +216,64 @@ cwc.utils.StackQueue.prototype.getNextCommand = function(opt_group) {
     }
   }
   return null;
+};
+
+
+/**
+ * Adds the entry to the stack queue.
+ * @param {cwc.utils.StackEntry} stack_entry
+ * @param {number|string=} opt_group
+ * @private
+ */
+cwc.utils.StackQueue.prototype.addStack_ = function(stack_entry, opt_group) {
+  var group = opt_group || this.default_group;
+  if (!(group in this.stack_)) {
+    this.stack_[group] = [];
+  }
+  this.stack_[group].push(stack_entry);
+  if (this.autoStart) {
+    this.start();
+  }
+};
+
+
+/**
+ * Handles the stack queue ticks.
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.utils.StackQueue.prototype.handleQueue_ = function(opt_event) {
+  if (!this.active || this.run) {
+    return;
+  }
+
+  if (!(this.default_group in this.stack_) ||
+      this.stack_[this.default_group].length <= 0) {
+    this.active = false;
+    return;
+  }
+
+  var task = this.stack_[this.default_group].shift();
+  var type = task.getType();
+  var value = task.getValue();
+  switch (type) {
+    case cwc.utils.StackType.CMD:
+      var func = task.getFunc();
+      if (func && typeof func === 'function') {
+        this.run = true;
+        func(value);
+        this.run = false;
+        this.handleQueue_();
+      }
+      break;
+    case cwc.utils.StackType.DELAY:
+      this.run = true;
+      window.setTimeout(function() {
+        this.run = false;
+        this.handleQueue_();
+      }.bind(this), value);
+      break;
+    default:
+      console.error('Unknown Stack Type', type);
+  }
 };

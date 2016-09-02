@@ -110,28 +110,18 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
     this.updateBlocklyToolbox_(e.data);
     this.blockly.updateToolbox(this.nodeBlocklyToolbox);
   }, false, this);*/
-  this.blockly.addChangeListener(this.changeHandler.bind(this));
 
-  // Switch buttons
+  // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view.');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
       'Switch to the Blocky editor mode.');
 
+  // Custom Events
+  this.blockly.addChangeListener(this.editor.syncJavaScript.bind(this.editor));
+
   // Reset size
   this.blockly.adjustSize();
-};
-
-
-/**
- * Code change handler.
- */
-cwc.mode.ev3.blockly.Editor.prototype.changeHandler = function() {
-  var fileInstance = this.helper.getInstance('file');
-  if (fileInstance.getUi() != 'custom') {
-    var content = this.blockly.getJavaScript();
-    this.editor.setEditorJavaScriptContent(content);
-  }
 };
 
 

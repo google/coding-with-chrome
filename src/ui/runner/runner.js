@@ -815,6 +815,24 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
+ * @param {function(?)} profile
+ * @param {?} opt_scope
+ */
+cwc.ui.Runner.prototype.addCommandProfile = function(profile, opt_scope) {
+  this.connector.addCommandProfile(profile, opt_scope);
+};
+
+
+/**
+ * @param {function(?)} func
+ * @param {?} opt_scope
+ */
+cwc.ui.Runner.prototype.setStartEvent = function(func, opt_scope) {
+  this.connector.setStartEvent(func, opt_scope);
+};
+
+
+/**
  * @param {string} name
  * @param {function(?)} func
  * @param {?} opt_scope

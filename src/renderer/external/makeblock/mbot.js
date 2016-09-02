@@ -1,5 +1,5 @@
 /**
- * @fileoverview mbot renderer.
+ * @fileoverview mBot renderer.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *

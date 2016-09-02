@@ -162,19 +162,19 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     console.error('EV3 API event handler is not defined!');
   }
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR_VALUE_CHANGED,
+      cwc.protocol.ev3.Events.Type.COLOR_SENSOR,
       'updateColorSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.GYRO_SENSOR_VALUE_CHANGED,
+      cwc.protocol.ev3.Events.Type.GYRO_SENSOR,
       'updateGyroSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.IR_SENSOR_VALUE_CHANGED,
+      cwc.protocol.ev3.Events.Type.IR_SENSOR,
       'updateIrSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_VALUE_CHANGED,
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR,
       'updateTouchSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
 
   // Overlay and templates.

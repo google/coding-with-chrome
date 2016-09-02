@@ -38,6 +38,7 @@ cwc.file.Type = {
   EV3: 'ev3',
   EV3_BLOCKLY: 'ev3_blockly',
   MBOT_BLOCKLY: 'mbot_blockly',
+  MBOT_RANGER_BLOCKLY: 'mbot_ranger_blockly',
   HTML: 'html',
   JSON: 'json',
   NONE: 'none',

@@ -1,15 +1,11 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "javascript": "/**\n * Example of drawing a portal turret.\n */\n\n// Text\ndraw.text('Portal Turret');\n\n// Antenna\ndraw.line(180, 85, 180, 60);\ndraw.line(180, 200, 180, 90);\ndraw.line(175, 200, 175, 90);\ndraw.line(175, 90, 180, 85);\n\n// Body\ndraw.ellipse(200, 200, 100, 200, '#ddd', '#000');\ndraw.line(235, 130, 225, 150);\ndraw.line(165, 130, 175, 150);\ndraw.ellipse(200, 200, 61, 164, '#ddd', '#000');\ndraw.ellipse(200, 141, 52, 48, '#ddd');\ndraw.line(200, 100, 200, 300);\ndraw.triangle(200, 275, 155, 325, 245, 325, '#fff', '#000');\ndraw.triangle(300, 268, 200, 300, 205, 374, '#fff');\ndraw.triangle(100, 268, 200, 300, 195, 372, '#fff');\ndraw.rectangle(240, 197, 20, 8, '#fff', '#000');\ndraw.rectangle(140, 197, 20, 8, '#fff', '#000');\ndraw.rectangle(251, 195, 20, 15, '#fff');\ndraw.rectangle(129, 195, 20, 15, '#fff');\n\n// Eye\ndraw.ellipse(200, 200, 35, 35, '#aaa', '#000');\ndraw.ellipse(200, 200, 25, 25, '#f00', '#000');\ndraw.ellipse(200, 200, 5, 5, '#000');\n\n// Middle Leg\ndraw.rectangle(196, 279, 8, 50, '#000');\ndraw.triangle(200, 275, 196, 279, 204, 279, '#000');\ndraw.triangle(196, 329, 204, 329, 200, 340, '#000');\n\n// Left Leg\ndraw.triangle(179, 290, 165, 295, 150, 340, '#000');\n\n// Right Leg\ndraw.triangle(221, 290, 235, 295, 250, 340, '#000');\n"
+    "javascript": "/**\n * Example of drawing a portal turret.\n */\n\n// Text\ndraw.text('Portal Turret', 10, 25);\n\n// Antenna\ndraw.line(180, 85, 180, 60);\ndraw.line(180, 200, 180, 90);\ndraw.line(175, 200, 175, 90);\ndraw.line(175, 90, 180, 85);\n\n// Body\ndraw.ellipse(200, 200, 100, 200, '#ddd', '#000');\ndraw.line(235, 130, 225, 150);\ndraw.line(165, 130, 175, 150);\ndraw.ellipse(200, 200, 61, 164, '#ddd', '#000');\ndraw.ellipse(200, 141, 52, 48, '#ddd');\ndraw.line(200, 100, 200, 300);\ndraw.triangle(200, 275, 155, 325, 245, 325, '#fff', '#000');\ndraw.triangle(300, 268, 200, 300, 205, 374, '#fff');\ndraw.triangle(100, 268, 200, 300, 195, 372, '#fff');\ndraw.rectangle(240, 197, 20, 8, '#fff', '#000');\ndraw.rectangle(140, 197, 20, 8, '#fff', '#000');\ndraw.rectangle(251, 195, 20, 15, '#fff');\ndraw.rectangle(129, 195, 20, 15, '#fff');\n\n// Eye\ndraw.ellipse(200, 200, 35, 35, '#aaa', '#000');\ndraw.ellipse(200, 200, 25, 25, '#f00', '#000');\ndraw.ellipse(200, 200, 5, 5, '#000');\n\n// Middle Leg\ndraw.rectangle(196, 279, 8, 50, '#000');\ndraw.triangle(200, 275, 196, 279, 204, 279, '#000');\ndraw.triangle(196, 329, 204, 329, 200, 340, '#000');\n\n// Left Leg\ndraw.triangle(179, 290, 165, 295, 150, 340, '#000');\n\n// Right Leg\ndraw.triangle(221, 290, 235, 295, 250, 340, '#000');\n"
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {
-      "flags_": {}
-    }
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",

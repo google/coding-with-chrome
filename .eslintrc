@@ -19,7 +19,7 @@ rules:
   keyword-spacing: 2
   space-before-function-paren: [2, "never"]
   no-mixed-spaces-and-tabs: 2
-  no-unused-vars: [2, {"args": "after-used", "argsIgnorePattern": "^opt_"}]
+  no-unused-vars: [2, {"args": "after-used", "argsIgnorePattern": "^opt_", "varsIgnorePattern": "_unused$"}]
   no-console: 0
   no-duplicate-case: 2
   no-fallthrough: 2

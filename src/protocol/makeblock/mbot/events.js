@@ -30,9 +30,9 @@ goog.provide('cwc.protocol.makeblock.mbot.Events');
  */
 cwc.protocol.makeblock.mbot.Events.Type = {
   BUTTON_PRESSED: 'button_pressed',
-  LIGHTNESS_SENSOR_VALUE_CHANGED: 'lightness_sensor_value_changed',
-  LINEFOLLOWER_SENSOR_VALUE_CHANGED: 'linefollower_sensor_value_changed',
-  ULTRASONIC_SENSOR_VALUE_CHANGED: 'ultrasonic_sensor_value_changed'
+  LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
+  LINEFOLLOWER_SENSOR: 'linefollower_sensor_value_changed',
+  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed'
 };
 
 
@@ -57,7 +57,7 @@ cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
 cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
     opt_port) {
   return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR,
       data, opt_port);
 };
 
@@ -70,7 +70,7 @@ cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
 cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
     opt_port) {
   return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR,
       data, opt_port);
 };
 
@@ -83,7 +83,7 @@ cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
 cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
     opt_port) {
   return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR_VALUE_CHANGED,
+      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR,
       data, opt_port);
 };
 

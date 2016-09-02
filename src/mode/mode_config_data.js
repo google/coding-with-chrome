@@ -35,6 +35,7 @@ goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
 goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
+goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
 
@@ -114,7 +115,7 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
 
 
 /**
- * Basic Blockly mode.
+ * Basic blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   name: 'Basic Blockly',
@@ -203,7 +204,7 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
 
 
 /**
- * Sphero advanced mode.
+ * Sphero blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   name: 'Sphero blockly',
@@ -214,8 +215,9 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn']
 });
 
+
 /**
- * Sphero advanced mode.
+ * mBot blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
   name: 'mBot blockly',
@@ -223,8 +225,22 @@ cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
   icon: 'adjust',
   file_type: cwc.file.Type.MBOT_BLOCKLY,
   mod: cwc.mode.makeblock.mbot.blockly.Mod,
-  authors: ['Yu Wang']
+  authors: ['Yu Wang', 'Markus Bordihn']
 });
+
+
+/**
+ * mBot Ranger blockly mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.MBOT_RANGER_BLOCKLY] = new cwc.mode.Mod({
+  name: 'mBot Ranger blockly',
+  title: 'mBot Ranger',
+  icon: 'adjust',
+  file_type: cwc.file.Type.MBOT_RANGER_BLOCKLY,
+  mod: cwc.mode.makeblock.mbotRanger.blockly.Mod,
+  authors: ['Yu Wang', 'Markus Bordihn']
+});
+
 
 /**
  * HTML5 mode.

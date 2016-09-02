@@ -112,56 +112,68 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
  */
 cwc.utils.ByteTools.getUint8Data = function(data,
     opt_headers, opt_size, opt_buffer) {
-  if (!data) {
-    return null;
-  }
+  var buffer = null;
+  var parsedData = [];
+  var validData = true;
 
-  var dataView = data;
-  if (dataView instanceof ArrayBuffer) {
-    dataView = new Uint8Array(data);
-  }
+  if (data) {
+    // Prepare data buffer
+    var dataView = data;
+    if (dataView instanceof ArrayBuffer) {
+      dataView = new Uint8Array(data);
+    }
 
-  // Data processing for data without headers.
-  if (!opt_headers && !opt_size) {
-    return dataView;
-  }
+    // Additional length checks if needed.
+    if (opt_size) {
 
-  // Additional length checks if needed.
-  if (opt_size) {
-
-    // Perpend buffer if needed.
-    if (opt_buffer && dataView.length < opt_size) {
-      var buffer = opt_buffer;
-      if (opt_buffer instanceof ArrayBuffer) {
-        buffer =  new Uint8Array(opt_buffer);
+      // Perpend buffer if needed.
+      if (opt_buffer && dataView.length < opt_size) {
+        buffer = opt_buffer;
+        if (opt_buffer instanceof ArrayBuffer) {
+          buffer =  new Uint8Array(opt_buffer);
+        }
+        dataView = cwc.utils.ByteTools.joinUint8Array(buffer, dataView);
       }
-      dataView = cwc.utils.ByteTools.joinUint8Array(buffer, dataView);
+
+      if (dataView.length < opt_size) {
+        buffer = dataView;
+        validData = false;
+      }
     }
 
-    if (dataView.length < opt_size) {
-      return null;
+    // Data processing for data with headers.
+    if (validData) {
+      if (opt_headers) {
+        var headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
+          opt_headers);
+        if (headers) {
+          let headersLength = headers.length;
+          for (let headerPos = 0; headerPos < headersLength; headerPos++) {
+            let dataFragment = dataView.slice(
+              headers[headerPos], headers[headerPos+1]);
+            if (dataFragment.length) {
+              if (!opt_size || (opt_size && dataFragment.length >= opt_size)) {
+                parsedData.push(dataFragment);
+              } else {
+                buffer = dataFragment;
+              }
+            }
+          }
+        } else {
+          buffer = dataView;
+        }
+      } else {
+        // Data processing for data without headers.
+        parsedData.push(dataView);
+      }
     }
   }
 
-  // Data processing for data with headers.
-  if (opt_headers) {
-    var headerPosition = cwc.utils.ByteTools.getHeaderPosition(dataView,
-        opt_headers);
-    if (headerPosition === null) {
-      return null;
-    }
+  return {
+    'data': parsedData,
+    'buffer': buffer
+  };
 
-    if (headerPosition !== 0) {
-      dataView = dataView.slice(headerPosition);
-    }
-  }
-
-  // Double check packet size to ignore chunks.
-  if (opt_size && dataView.length < opt_size) {
-    return null;
-  }
-
-  return dataView;
 };
 
 
@@ -171,32 +183,27 @@ cwc.utils.ByteTools.getUint8Data = function(data,
  * @param {Array} headers
  * @return {number}
  */
-cwc.utils.ByteTools.getHeaderPosition = function(data, headers) {
-  var headerPos = null;
-  if (!data || !headers || data.length <= headers.length) {
-    return headerPos;
-  }
-  var dataLen = data.length - 1;
-  var headerLen = headers.length;
-  var searchPos = data.indexOf(headers[0]);
+cwc.utils.ByteTools.getHeaderPositions = function(data, headers) {
+  var dataLength = data.length;
+  var headerLength = headers.length;
+  var result = [];
 
-  if (headerLen >= 2) {
-    for (;searchPos !== -1; searchPos = data.indexOf(headers[0], searchPos)) {
-      var foundHeaders = true;
-      for (let i = 0; i < headerLen; i++) {
-        if (data[searchPos + i] !== headers[i]) {
+  if (dataLength < headerLength) {
+    return null;
+  }
+
+  for (let dataPos = 0; dataPos < dataLength; dataPos++) {
+    if (data[dataPos] === headers[0]) {
+      let foundHeaders = true;
+      for (let headerPos = 0; headerPos < headerLength; headerPos++) {
+        if (data[dataPos + headerPos] !== headers[headerPos]) {
           foundHeaders = false;
         }
       }
-      if (foundHeaders && searchPos + headerLen <= dataLen) {
-        headerPos = searchPos;
-        break;
-      } else {
-        searchPos++;
+      if (foundHeaders && dataPos + headerLength <= dataLength) {
+        result.push(dataPos);
       }
     }
-  } else if (headerLen == 1 && searchPos !== -1 && searchPos !== dataLen) {
-    headerPos = searchPos;
   }
-  return headerPos;
+  return result.length ? result : null;
 };

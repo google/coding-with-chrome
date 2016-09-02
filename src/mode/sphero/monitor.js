@@ -204,7 +204,7 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
   var calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
   this.addEventListener_(
     calibrationSlide, goog.events.EventType.INPUT, function(e) {
-      this.api.calibrate(e.target.value, true);
+      this.api.calibrate(e.target.value);
     }, false, this);
 
   this.addEventListener_(

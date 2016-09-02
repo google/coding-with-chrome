@@ -71,6 +71,9 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
 
+  /** @private {!boolean} */
+  this.calibrate_ = false;
+
   /** @private {!number} */
   this.locationPosX_ = 0;
 
@@ -149,8 +152,6 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
       this.headerAck_, this.headerMinSize_);
   this.device.setDataHandler(this.handleAsync_.bind(this),
       this.headerAsync_, this.headerMinSize_);
-  this.monitoring.init();
-  this.monitoring.start();
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
@@ -179,6 +180,19 @@ cwc.protocol.sphero.Api.prototype.disconnect = function() {
 cwc.protocol.sphero.Api.prototype.reset = function() {
   if (this.device) {
     this.device.reset();
+  }
+};
+
+
+/**
+ * @param {!boolean} enable
+ * @export
+ */
+cwc.protocol.sphero.Api.prototype.monitor = function(enable) {
+  if (enable && this.isConnected()) {
+    this.monitoring.start();
+  } else if (!enable) {
+    this.monitoring.stop();
   }
 };
 
@@ -301,12 +315,15 @@ cwc.protocol.sphero.Api.prototype.stop = function() {
 
 
 /**
- * Calibrate the Sphero.
+ * Starts the calibration to calibrate the Sphero.
  * @param {!number} heading
  */
 cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
-  this.setRGB(0, 0, 0);
-  this.setBackLed(255);
+  if (!this.calibrate_) {
+    this.setRGB(0, 0, 0);
+    this.setBackLed(255);
+    this.calibrate_ = true;
+  }
   this.roll(0, heading);
 };
 
@@ -315,6 +332,7 @@ cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
  * Ends the calibrate of the Sphero and store the new 0 point.
  */
 cwc.protocol.sphero.Api.prototype.setCalibration = function() {
+  this.calibrate_ = false;
   this.setBackLed(0);
   this.setHeading(0);
 };

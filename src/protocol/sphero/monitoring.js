@@ -43,31 +43,15 @@ cwc.protocol.sphero.Monitoring = function(api) {
   /** @type {goog.Timer} */
   this.monitorLocation = new goog.Timer(this.monitorLocationInterval);
 
-  /** @type {goog.events.EventTarget} */
-  this.eventHandler = api.getEventHandler();
-
   /** @type {boolean} */
   this.started = false;
 
   /** @type {!Array} */
   this.listener = [];
-};
 
-
-/**
- * Prepares events for port monitoring.
- */
-cwc.protocol.sphero.Monitoring.prototype.init = function() {
-  if (this.monitor) {
-    return;
-  }
-
-  console.log('Init Sphero sensor monitoring …');
-
+  // Monitor Events
   this.addEventListener_(this.monitorLocation, goog.Timer.TICK,
-      this.updateLocation, false, this);
-
-  this.monitor = true;
+    this.api.getLocation, false, this.api);
 };
 
 
@@ -75,6 +59,10 @@ cwc.protocol.sphero.Monitoring.prototype.init = function() {
  * Starts the monitoring.
  */
 cwc.protocol.sphero.Monitoring.prototype.start = function() {
+  if (this.started) {
+    return;
+  }
+  console.log('Starting Sphero Monitoring ...');
   this.monitorLocation.start();
   this.started = true;
 };
@@ -84,17 +72,12 @@ cwc.protocol.sphero.Monitoring.prototype.start = function() {
  * Stops the port monitoring.
  */
 cwc.protocol.sphero.Monitoring.prototype.stop = function() {
-  if (this.started) {
-    this.monitorLocation.stop();
+  if (!this.started) {
+    return;
   }
-};
-
-
-/**
- * Request updated location data.
- */
-cwc.protocol.sphero.Monitoring.prototype.updateLocation = function() {
-  this.api.getLocation();
+  console.log('Stopping Sphero Monitoring ...');
+  this.monitorLocation.stop();
+  this.started = false;
 };
 
 
