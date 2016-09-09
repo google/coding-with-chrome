@@ -46,7 +46,7 @@ cwc.ui.Blockly = function(helper) {
   this.prefix = 'blockly-';
 
   /** @type {string} */
-  this.toolboxClass = 'blocklyToolboxDiv';
+  this.widgetClass = 'blocklyWidgetDiv';
 
   /** @type {boolean} */
   this.enabled = false;
@@ -81,9 +81,11 @@ cwc.ui.Blockly = function(helper) {
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
 
-  /** @type {!array} */
-  this.autoHideElements = ['blocklyToolboxDiv', 'blocklyWidgetDiv',
-                           'blocklyTooltipDiv'];
+  /** @type {Function} */
+  this.modalAlert = null;
+
+  /** @type {Function} */
+  this.modalConfirm = null;
 
   /** @type {Function} */
   this.modalPrompt = null;
@@ -132,6 +134,13 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   // Modal window
   var dialogInstance = this.helper.getInstance('dialog');
   if (dialogInstance) {
+    this.modalAlert = function(promptText, opt_title) {
+      dialogInstance.showContent(opt_title || 'Blockly', promptText);
+    };
+    this.modalConfirm = function(promptText, callback, opt_title) {
+      dialogInstance.showYesNo(
+        opt_title || 'Blockly', promptText).then(callback);
+    };
     this.modalPrompt = function(promptText, defaultText, callback, opt_title) {
       dialogInstance.showPrompt(
         opt_title || 'Blockly', promptText, defaultText).then(callback);
@@ -166,7 +175,11 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   this.workspace = Blockly.inject(this.nodeEditor, options);
 
   // Adding Modal support
-  this.setWorkspaceOption('modalOptions', {'prompt': this.modalPrompt });
+  this.setWorkspaceOption('modalOptions', {
+    'alert': this.modalAlert,
+    'confirm': this.modalConfirm,
+    'prompt': this.modalPrompt
+  });
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -195,11 +208,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
 cwc.ui.Blockly.prototype.showBlockly = function(visible) {
   goog.style.setElementShown(this.node, visible);
   if (visible) {
-    cwc.ui.Helper.showElements(this.autoHideElements);
     window.dispatchEvent(new Event('resize'));
     this.resetZoom();
-  } else {
-    cwc.ui.Helper.hideElements(this.autoHideElements);
   }
 };
 
@@ -450,6 +460,6 @@ cwc.ui.Blockly.prototype.cleanUp = function() {
   this.enabled = false;
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  cwc.ui.Helper.removeElements(this.toolboxClass);
+  cwc.ui.Helper.hideElements(this.widgetClass);
   this.modified = false;
 };

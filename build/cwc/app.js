@@ -27,7 +27,6 @@ var closureBuilder = require('closure-builder');
 closureBuilder.build({
   name: 'CwC static files',
   resources: [
-    'app/_locales/',
     'app/css/',
     'app/html/',
     'app/icons/',

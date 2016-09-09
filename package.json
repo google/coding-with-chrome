@@ -1,13 +1,13 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "3.9.2",
+  "version": "3.9.10",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "closure-builder": "^2.0.17",
-    "jsdoc": "^3.4.0",
+    "jsdoc": "^3.4.1",
     "rimraf": "^2.5.4"
   },
   "devDependencies": {
