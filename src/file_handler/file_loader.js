@@ -113,7 +113,6 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(
  */
 cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
     file_name, content) {
-  console.log('Loading GDrive file', id, ':', file_name);
   console.log(content);
   this.handleFileData(content, file_name, null, id);
 };

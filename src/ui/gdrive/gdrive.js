@@ -101,7 +101,7 @@ cwc.ui.GDrive.prototype.decorate = function(node, opt_prefix) {
 
 
 /**
- * Fetches all releated files from Google drive.
+ * Fetches all related files from Google drive.
  */
 cwc.ui.GDrive.prototype.getFile = function() {
   var fileEvent = this.handleFileList.bind(this);
@@ -257,7 +257,7 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
     for (let i = 0; i < files.length; ++i) {
       this.data[files[i]['id']] = files[i];
     }
-    console.log('Google Drive files: ', files);
+    console.log('Google Drive files: ', JSON.stringify(files));
     this.renderDialog(files);
   }
 };
@@ -271,11 +271,11 @@ cwc.ui.GDrive.prototype.getFiles = function(params, callback) {
   var accountInstance = this.helper.getInstance('account');
   console.log('Requesting Google Drive files: ' + params['q']);
   if (accountInstance) {
-    accountInstance.request({
+    var opts = {
       'path': '/drive/v2/files',
-      'params': params,
-      'callback': callback
-    });
+      'params': params
+    };
+    accountInstance.request(opts, callback);
   }
 };
 
@@ -317,17 +317,16 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id) {
     multipart.push(close_delim);
 
     accountInstance.request({
-      'path': path,
-      'method': method,
-      'params': {
+      path: path,
+      method: method,
+      params: {
         'uploadType': 'multipart'
       },
-      'header': {
+      header: {
         'Content-Type': 'multipart/mixed; boundary=' + boundary
       },
-      'content': multipart.join('\r\n'),
-      'callback': saveEvent
-    });
+      content: multipart.join('\r\n'),
+    }, saveEvent);
   } else {
     console.error('Save failed !!!');
   }

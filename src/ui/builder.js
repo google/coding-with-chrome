@@ -88,6 +88,7 @@ cwc.ui.BuilderHelpers = {
   'fileExporter': cwc.fileHandler.FileExporter,
   'fileLoader': cwc.fileHandler.FileLoader,
   'fileSaver': cwc.fileHandler.FileSaver,
+  'gdrive': cwc.ui.GDrive,
   'gui': cwc.ui.Gui,
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,

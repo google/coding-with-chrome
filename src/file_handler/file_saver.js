@@ -86,7 +86,7 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
  */
 cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function() {
   console.log('Save file in Google Drive', this.gDriveId);
-  var gDriveInstance = this.helper.getInstance('gDrive', true);
+  var gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
   gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
 };
