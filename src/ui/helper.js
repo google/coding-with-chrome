@@ -109,6 +109,20 @@ cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
 };
 
 
+cwc.ui.Helper.getListItem = function(name, opt_func) {
+  var text = document.createTextNode(i18t(name));
+  var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
+  var primaryContent = goog.dom.createDom(
+    goog.dom.TagName.SPAN, 'mdl-list__item-primary-content');
+  primaryContent.appendChild(text);
+  item.appendChild(primaryContent);
+  if (opt_func) {
+    goog.events.listen(item, goog.events.EventType.CLICK, opt_func);
+  }
+  return item;
+};
+
+
 /**
  * Refreshs dom structure for mdl framework.
  */

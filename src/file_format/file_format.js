@@ -689,13 +689,15 @@ cwc.fileFormat.File.getCustomFile = function(opt_content, opt_type) {
  * @param {string=} opt_content
  * @param {cwc.file.Type=} opt_type
  * @param {cwc.file.ContentType=} opt_content_type
+ * @param {string=} opt_file_name
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.getRawFile = function(opt_content, opt_type,
-    opt_content_type) {
+    opt_content_type, opt_file_name) {
+  var title = opt_file_name || 'Untitled raw file';
   return new cwc.fileFormat.File()
     .setType(opt_type || cwc.file.Type.RAW, !opt_type)
-    .setTitle('Untitled raw file')
+    .setTitle(title)
     .setContent(opt_content_type || cwc.file.ContentType.RAW,
         opt_content || '', true)
     .setRaw(true);

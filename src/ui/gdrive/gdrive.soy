@@ -27,8 +27,8 @@
 {template .gDriveTemplate}
   {@param prefix: string}
   <div id="{$prefix}body">
-    <div id="{$prefix}menu">
-    </div>
+    <ul id="{$prefix}menu">
+    </ul>
     <div id="{$prefix}content">
       <div id="{$prefix}filelist">
       </div>
@@ -42,34 +42,30 @@
  */
 {template .gDriveFileList}
   {@param files: ?}
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 20px;"></th>
-        <th style="width: 380px;">Title</th>
-        <th style="width: 100px;">Owner</th>
-        <th style="width: 150px;">Last Change</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="4">&nbsp;</td>
-      </tr>
+  <div>
+    <table class="mdl-data-table mdl-js-data-table">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric"></th>
+          <th class="mdl-data-table__cell--non-numeric">Title</th>
+          <th class="mdl-data-table__cell--non-numeric">Owner</th>
+          <th class="mdl-data-table__cell--non-numeric">Last Change</th>
+        </tr>
+      </thead>
+      <tbody>
       {foreach $file in $files}
-      <tr>
-        <td style="width: 20px;"></td>
-        <td style="width: 380px;">
-          <webview src="{$file['iconLink']}"></webview>
-          <span data-id="{$file['id']}" data-name="{$file['title']}" class="gdrive-loader">
-            {$file['title']}
-          </span>
-        </td>
-        <td style="width: 100px;">{$file['ownerNames'][0]}</td>
-        <td style="width: 150px;">{$file['modifiedDate']}</td>
-      </tr>
+        <tr data-id="{$file['id']}" data-name="{$file['name']}" class="gdrive-loader">
+          <td class="mdl-data-table__cell--non-numeric">
+            <webview src="{$file['iconLink']}"></webview>
+          </td>
+          <td class="mdl-data-table__cell--non-numeric">{$file['name']}</td>
+          <td class="mdl-data-table__cell--non-numeric">{$file['owners'][0]['displayName']}</td>
+          <td class="mdl-data-table__cell--non-numeric">{$file['modifiedTime']}</td>
+        </tr>
       {/foreach}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 {/template}
 
 
@@ -78,6 +74,7 @@
  */
 {template .gDriveStyle}
   {@param prefix: string}
+
   #{$prefix}body {lb}
     min-width: 700px;
   {rb}
@@ -87,12 +84,17 @@
     height: 205px;
     border-right: 1px solid #ccc;
     float: left;
+    padding-left: 20px;
   {rb}
 
   #{$prefix}menu>div {lb}
     border: 0;
     width: 150px;
     box-shadow: none;
+  {rb}
+
+  #{$prefix}menu li span {lb}
+    font-size: 14px;
   {rb}
 
   #{$prefix}content {lb}
@@ -102,7 +104,7 @@
   #{$prefix}filelist {lb}
     position: relative;
     min-width: 750px;
-    height: 200px;
+    height: 350px;
   {rb}
 
   #{$prefix}filelist td {lb}
@@ -110,15 +112,7 @@
   {rb}
 
   #{$prefix}filelist thead {lb}
-    width: 750px;
-    position: absolute;
-    top: 0;
-    z-index: 1;
     background: #fff;
-  {rb}
-
-  #{$prefix}filelist tbody {lb}
-    width: 750px;
   {rb}
 
   #{$prefix}filelist tr {lb}
@@ -133,5 +127,4 @@
     width: 16px;
     height: 16px;
   {rb}
-
 {/template}

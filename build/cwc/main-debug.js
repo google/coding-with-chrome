@@ -48,7 +48,13 @@ closureBuilder.build({
   compress: true,
   out: 'genfiles/js/cwc_ui.js',
   out_source_map: 'genfiles/js/cwc_ui.js.map',
-  append: '//# sourceMappingURL=cwc_ui.js.map'
+  append: '//# sourceMappingURL=cwc_ui.js.map',
+  options: {
+    closure: {
+      debug: true,
+      formatting: 'PRETTY_PRINT'
+    }
+  }
 });
 
 

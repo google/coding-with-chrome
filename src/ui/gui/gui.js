@@ -128,7 +128,7 @@ cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
 
   // Decorates additional modules
-  this.helper.decorateInstance('gDrive', this.nodeGDrive);
+  this.helper.decorateInstance('gdrive', this.nodeGDrive);
   this.helper.decorateInstance('menubar', this.nodeMenubar);
   this.helper.decorateInstance('message', this.nodeMessage);
   this.helper.decorateInstance('navigation', this.nodeNavigation);

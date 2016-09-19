@@ -116,7 +116,7 @@ cwc.ui.BuilderHelpers = {
  */
 cwc.ui.oauth2Helpers = {
   'account': cwc.ui.Account,
-  'gDrive': cwc.ui.GDrive
+  'gdrive': cwc.ui.GDrive
 };
 
 

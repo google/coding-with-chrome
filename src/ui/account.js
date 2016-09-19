@@ -195,10 +195,7 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  * @param {function(?)=} callback
  */
 cwc.ui.Account.prototype.request = function(opts, callback) {
-  console.log('Account.request opts: ' + JSON.stringify(opts));
-  console.log('Account.request opts.params: ' + JSON.stringify(opts.params));
   var params = opts.params || {};
-  console.log('Account.request params: ' + JSON.stringify(params));
 
   if (!this.authenticated) {
     this.authenticate();
