@@ -139,6 +139,7 @@ cwc.ui.GDrive.prototype.getFile = function() {
  * Returns all files which are created by the user.
  */
 cwc.ui.GDrive.prototype.getMyFiles = function() {
+  this.switchMenu(this.menuMyFiles);
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -164,10 +165,19 @@ cwc.ui.GDrive.prototype.getSubFolder = function(parentId, trashed) {
   }, fileEvent);
 };
 
+cwc.ui.GDrive.prototype.switchMenu = function(node) {
+  if (this.menuCurrent) {
+    this.menuCurrent.classList.remove(this.prefix + 'menu-selected');
+  }
+  node.classList.add(this.prefix + 'menu-selected');
+  this.menuCurrent = node;
+};
+
 /**
  * Returns all files which are shared with the user.
  */
 cwc.ui.GDrive.prototype.getSharedFiles = function() {
+  this.switchMenu(this.menuSharedFiles);
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -183,6 +193,7 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
  * Returns als marked files from the user.
  */
 cwc.ui.GDrive.prototype.getStarredFiles = function() {
+  this.switchMenu(this.menuStarredFiles);
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -198,6 +209,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
  * Returns all last opened files by the user.
  */
 cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
+  this.switchMenu(this.menuLastOpenedFiles);
   var fileEvent = this.handleFileList.bind(this);
   var lastDays = new Date().setDate(new Date().getDate() - 7);
   this.getFiles({
@@ -214,6 +226,7 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
  * Returns all trasthed files by the user.
  */
 cwc.ui.GDrive.prototype.getTrashFiles = function() {
+  this.switchMenu(this.menuTrashFiles);
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -280,6 +293,8 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
   dialog.setVisible(true);
 
   var menuNode = goog.dom.getElement(this.prefix + 'menu');
+  //this.menuMyFiles.classList.add(this.prefix + 'menu-selected');
+  this.menuCurrent = this.menuMyFiles;
   menuNode.appendChild(this.menuMyFiles);
   menuNode.appendChild(this.menuSharedFiles);
   menuNode.appendChild(this.menuStarredFiles);
