@@ -101,7 +101,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.selectView.render(this.nodeSelectView);
 
   // Nodes
-  this.nodeAutocomplete = goog.dom.getElement(this.prefix + 'autocomplete');
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
@@ -119,8 +118,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   goog.style.showElement(this.nodeMore, false);
 
   // Events
-  goog.events.listen(this.nodeAutocomplete, goog.events.EventType.CLICK,
-    this.setAutocomplete.bind(this));
   goog.events.listen(this.nodeDebug, goog.events.EventType.CLICK,
     this.setSyntaxCheck.bind(this));
   goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
@@ -203,20 +200,6 @@ cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
     goog.dom.classes.enable(this.nodeDebug, 'active', !active);
     goog.dom.classes.enable(this.nodeDebug, 'icon_24px_red', !active);
     editorInstance.setSyntaxCheck(!active);
-  }
-};
-
-
-/**
- * Enable or disable auto-complete.
- */
-cwc.ui.EditorToolbar.prototype.setAutocomplete = function() {
-  var editorInstance = this.helper.getInstance('editor');
-  if (editorInstance) {
-    var active = goog.dom.classes.has(this.nodeAutocomplete, 'active');
-    goog.dom.classes.enable(this.nodeAutocomplete, 'active', !active);
-    goog.dom.classes.enable(this.nodeAutocomplete, 'icon_24px_red', !active);
-    editorInstance.setAutocomplete(!active);
   }
 };
 

@@ -185,11 +185,6 @@ cwc.ui.Builder.prototype.decorate = function(node,
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  // Show features
-  if (!this.error) {
-    this.helper.showFeatures();
-  }
-
   // Prepare and load Storage
   if (!this.error) {
     this.loadStorage_();

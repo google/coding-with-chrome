@@ -51,18 +51,19 @@ cwc.mode.Modder = function(helper) {
  * @param {cwc.mode.Type} mode
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
-  console.log('Loading Mode', mode);
   var modeConfig = cwc.mode.Config.get(mode, true);
-  console.log('Name', modeConfig.name);
-  console.log('Author:', modeConfig.authors);
-  if (modeConfig.description) {
-    console.log('Description:', modeConfig.description);
+  if (!modeConfig) {
+    return;
   }
+  console.log('Loading Mode', mode,
+    (modeConfig.version ? 'version ' + modeConfig.version : ''),
+    (modeConfig.name ? '(' + modeConfig.name + ')' : ''),
+    (modeConfig.authors ? 'from ' + modeConfig.authors : ''),
+    (modeConfig.description ? ':' + modeConfig.description : '')
+  );
+
   if (modeConfig.title) {
     this.setNavHeader_(modeConfig.title, modeConfig.icon);
-  }
-  if (modeConfig.verison) {
-    console.log('Version:', modeConfig.version);
   }
 
   this.mode = mode;
@@ -77,13 +78,14 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
  * @param {!string} name
  * @param {string=} opt_content
  * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  */
-cwc.mode.Modder.prototype.addEditorView = function(name, opt_content,
-    opt_type, opt_flags) {
+cwc.mode.Modder.prototype.addEditorView = function(name, opt_content, opt_type,
+    opt_hints, opt_flags) {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.addView(name, opt_content, opt_type, opt_flags);
+    editorInstance.addView(name, opt_content, opt_type, opt_hints, opt_flags);
   }
 };
 

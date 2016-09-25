@@ -22,7 +22,9 @@ goog.provide('cwc.ui.Editor');
 goog.require('cwc.file.ContentType');
 goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorFlags');
+goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorToolbar');
+goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
 goog.require('cwc.utils.Helper');
 
@@ -58,6 +60,9 @@ cwc.ui.Editor = function(helper) {
 
   /** @type {cwc.ui.EditorType|string} */
   this.editorType = cwc.ui.EditorType.UNKNOWN;
+
+  /** @type {cwc.ui.EditorHint|string} */
+  this.editorHints = cwc.ui.EditorHint.UNKNOWN;
 
   /** @type {Object} */
   this.editorView = {};
@@ -215,8 +220,10 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
   var extraKeys = {
     'Ctrl-Q': function(cm) { cm.foldCode(cm.getCursor()); },
     'Ctrl-J': 'toMatchingTag',
-    'Shift-Space': 'autocomplete'
+    'Cmd-Space': 'autocomplete',
+    'Ctrl-Space': 'autocomplete'
   };
+
   var foldGutterEvent = {
     'rangeFinder': new CodeMirror.fold.combine(CodeMirror.fold.brace,
                                                CodeMirror.fold.comment)};
@@ -241,6 +248,7 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
   this.editor.setOption('showTrailingSpace', true);
   this.editor.setOption('styleActiveLine', true);
   this.editor.setOption('styleActiveLine', true);
+  this.editor.setOption('hintOptions', this.editorHints);
   this.editor.setOption('theme', this.theme);
   this.editor.on('cursorActivity', cursorEvent);
   this.editor.on('gutterClick', gutterClickEvent);
@@ -376,6 +384,20 @@ cwc.ui.Editor.prototype.setEditorMode = function(mode) {
 
 
 /**
+ * Sets and enabled specific editor hints.
+ * @param {!cwc.ui.EditorHint} hints
+ */
+cwc.ui.Editor.prototype.setEditorHints = function(hints) {
+  if (hints && hints !== this.editorHints) {
+    console.log('Set editor hints to: ' + hints);
+    this.editor.setOption('hintOptions', hints);
+    this.refreshEditor();
+    this.editorHints = hints;
+  }
+};
+
+
+/**
  * @param {string=} opt_name
  * @return {Object}
  */
@@ -472,15 +494,6 @@ cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
 
 
 /**
- * Autocomplete for supported formats.
- * @param {!boolean} active
- */
-cwc.ui.Editor.prototype.setAutocomplete = function(active) {
-  this.editor.setOption('autocomplete', active);
-};
-
-
-/**
  * Refreshes the Editor to avoid CSS issues.
  */
 cwc.ui.Editor.prototype.refreshEditor = function() {
@@ -554,6 +567,7 @@ cwc.ui.Editor.prototype.changeView = function(name) {
   this.editor.swapDoc(editorView.getDoc());
   this.currentEditorView = name;
   this.setEditorMode(editorView.getType());
+  this.setEditorHints(editorView.getHints());
 };
 
 
@@ -562,20 +576,23 @@ cwc.ui.Editor.prototype.changeView = function(name) {
  * @param {!string} name
  * @param {string=} opt_content
  * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  */
-cwc.ui.Editor.prototype.addView = function(name, opt_content,
-    opt_type, opt_flags) {
+cwc.ui.Editor.prototype.addView = function(name, opt_content, opt_type,
+    opt_hints, opt_flags) {
   if (name in this.editorView) {
     console.error('Editor View', name, 'already exists!');
     return;
   }
 
-  console.log('Create Editor View', name, 'with type', opt_type,
-    (opt_content ? 'and content' : ''), opt_content);
+  console.log('Create Editor View', name,
+    (opt_type ? 'with type' : ''), opt_type,
+    (opt_hints ? 'and hints' : ''),
+    (opt_content ? 'for content:' : ''), '\n...\n' + opt_content + '\n...');
 
-  this.editorView[name] = new cwc.ui.EditorView(opt_content,
-      opt_type, opt_flags);
+  this.editorView[name] = new cwc.ui.EditorView(opt_content, opt_type,
+    opt_hints, opt_flags);
 
   if (this.toolbar) {
     this.toolbar.addView(name);

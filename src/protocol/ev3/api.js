@@ -837,7 +837,7 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
     console.error('Received no data!');
     return;
   }
-  var data = data = new Uint8Array(raw_data);
+  var data = new Uint8Array(raw_data);
   if (data.length < 5) {
     console.error('Received data are to small!');
     return;

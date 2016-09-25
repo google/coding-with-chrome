@@ -79,6 +79,7 @@ cwc.utils.Features.prototype.detectFeatures = function() {
   this.detectOnlineStatus();
   this.detectJavaScripts();
   this.monitorOnlineStatus();
+  this.log();
 };
 
 

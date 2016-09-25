@@ -337,17 +337,6 @@ cwc.utils.Helper.prototype.detectFeatures = function() {
 
 
 /**
- * @param {string} name
- * @param {string=} opt_group
- * @return {boolean}
- * @export
- */
-cwc.utils.Helper.prototype.showFeatures = function(name, opt_group) {
-  return this.features_.log();
-};
-
-
-/**
  * @export
  * @return {boolean}
  */

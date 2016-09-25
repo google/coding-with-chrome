@@ -22,6 +22,7 @@ goog.provide('cwc.fileHandler.FileLoader');
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.detector');
 goog.require('cwc.fileHandler.Config');
+goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.utils.Helper');
 goog.require('goog.net.XhrIo');
@@ -185,25 +186,31 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
       var editorView = fileConfig.editor_views[i];
       var editorContent = file.getContent(editorView);
       var editorFlags = file.getEditorFlags();
+      var editorHint = '';
       var editorType = '';
       switch (editorView) {
         case cwc.file.ContentType.CSS:
           editorType = cwc.ui.EditorType.CSS;
+          editorHint = cwc.ui.EditorHint.CSS;
           break;
         case cwc.file.ContentType.HTML:
           editorType = cwc.ui.EditorType.HTML;
+          editorHint = cwc.ui.EditorHint.HTML;
           break;
         case cwc.file.ContentType.JAVASCRIPT:
           editorType = cwc.ui.EditorType.JAVASCRIPT;
+          editorHint = cwc.ui.EditorHint.JAVASCRIPT;
           break;
         case cwc.file.ContentType.COFFEESCRIPT:
           editorType = cwc.ui.EditorType.COFFEESCRIPT;
+          editorHint = cwc.ui.EditorHint.COFFEESCRIPT;
           break;
         case cwc.file.ContentType.PYTHON:
           editorType = cwc.ui.EditorType.PYTHON;
           break;
       }
-      modeInstance.addEditorView(editorView, editorContent, editorType);
+      modeInstance.addEditorView(editorView, editorContent, editorType,
+        editorHint);
     }
   }
 

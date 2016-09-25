@@ -90,6 +90,9 @@ CodeMirror.prototype.swapDoc = function() {};
 CodeMirror.prototype.setSize = function() {};
 
 /** @type {Function} */
+CodeMirror.prototype.showHint = function() {};
+
+/** @type {Function} */
 CodeMirror.prototype.foldCode = function() {};
 
 /** @type {Function} */
@@ -100,6 +103,15 @@ CodeMirror.lineInfo = function() {};
 
 /** @type {Object} */
 CodeMirror.lineInfo.prototype.gutterMarkers = null;
+
+/** @type {Object} */
+CodeMirror.hint = {};
+
+/** @type {Function} */
+CodeMirror.hint.html = function() {};
+
+/** @type {Function} */
+CodeMirror.hint.javascript = function() {};
 
 
 /** @type {Object} */

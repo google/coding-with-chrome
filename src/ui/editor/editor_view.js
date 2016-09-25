@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.EditorView');
 
 goog.require('cwc.ui.EditorFlags');
+goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorType');
 
 
@@ -29,19 +30,24 @@ goog.require('cwc.ui.EditorType');
  * @struct
  * @param {string=} opt_content
  * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  * @final
  */
-cwc.ui.EditorView = function(opt_content, opt_type, opt_flags) {
+cwc.ui.EditorView = function(opt_content, opt_type, opt_hints, opt_flags) {
   /** @type {!CodeMirror.Doc} */
   this.doc = new CodeMirror.Doc(opt_content || '');
 
   /** @type {!cwc.ui.EditorType} */
   this.type = opt_type || cwc.ui.EditorType.UNKNOWN;
 
+  /** @type {!cwc.ui.EditorHint} */
+  this.hints = opt_hints || cwc.ui.EditorHint.UNKNOWN;
+
   /** @type {!cwc.ui.EditorFlags} */
   this.flags = opt_flags || new cwc.ui.EditorFlags();
 
+  /** @type {number} */
   this.cursorPosition = null;
 };
 
@@ -87,6 +93,24 @@ cwc.ui.EditorView.prototype.setContent = function(content) {
  */
 cwc.ui.EditorView.prototype.getContent = function() {
   return this.doc.getValue();
+};
+
+
+/**
+ * Sets the current editor content hints.
+ * @param {!cwc.ui.EditorHint} hints
+ */
+cwc.ui.EditorView.prototype.setHints = function(hints) {
+  this.hints = hints;
+};
+
+
+/**
+ * Gets the current editor content hints.
+ * @return {cwc.ui.EditorHint}
+ */
+cwc.ui.EditorView.prototype.getHints = function() {
+  return this.hints;
 };
 
 
