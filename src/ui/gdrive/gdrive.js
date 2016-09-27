@@ -77,7 +77,7 @@ cwc.ui.GDrive = function(helper) {
   this.data = null;
 
   /** @type {goog.ui.Dialog} */
-  this.dialog = null;
+  this.openDialog = null;
 
   /** @type {!string} */
   this.mimeType = 'application/cwc';
@@ -241,7 +241,7 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
  * Updates the GDrive filelist with the new files.
  * @param {Object} files Filelist with the result of the search.
  */
-cwc.ui.GDrive.prototype.updateFileList = function(files) {
+cwc.ui.GDrive.prototype.updateOpenFileList = function(files) {
 
   var fileList = goog.dom.getElement(this.prefix + 'filelist');
   goog.soy.renderElement(
@@ -255,15 +255,12 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
     (function() {
       var element = elements[i2];
       var loaderEvent = function() {
-        this.dialog.setVisible(false);
+        this.openDialog.setVisible(false);
         var fileId = goog.dom.dataset.get(element, 'id');
         var file = this.data[fileId];
-        console.log('Clicked file: ' + JSON.stringify(file));
-        console.log('MIME_TYPES: ' + JSON.stringify(MIME_TYPES));
         if (MIME_TYPES.indexOf(file['mimeType']) > -1) {
           this.downloadFile(file);
         } else if (file['mimeType'] === FOLDER_MIME_TYPE) {
-          console.log('Open folder: ' + file['id']);
           this.getSubFolder(file['id'], false);
         }
       };
@@ -276,13 +273,10 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
 
 /**
  * Prepares and renders the GDrive result dialog.
+ * @param {Array} menus List of menus to render on the sidebar.
  */
-cwc.ui.GDrive.prototype.prepareDialog = function() {
-  if (this.dialog) {
-    return;
-  }
+cwc.ui.GDrive.prototype.prepareDialog = function(menus) {
 
-  console.log('Prepare dialog with prefix', this.prefix);
   var dialog = new goog.ui.Dialog();
   dialog.setTitle('Google Drive');
   dialog.setSafeHtmlContent(cwc.soy.GDrive.gDriveTemplate({
@@ -293,16 +287,13 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
   dialog.setVisible(true);
 
   var menuNode = goog.dom.getElement(this.prefix + 'menu');
-  //this.menuMyFiles.classList.add(this.prefix + 'menu-selected');
-  this.menuCurrent = this.menuMyFiles;
-  menuNode.appendChild(this.menuMyFiles);
-  menuNode.appendChild(this.menuSharedFiles);
-  menuNode.appendChild(this.menuStarredFiles);
-  menuNode.appendChild(this.menuLastOpenedFiles);
-  menuNode.appendChild(this.menuTrashFiles);
+  this.menuCurrent = menus[0];
+  for (var i = 0; i < menus.length; i++) {
+    menuNode.appendChild(menus[i]);
+  }
   cwc.ui.Helper.mdlRefresh();
 
-  this.dialog = dialog;
+  return dialog;
 };
 
 
@@ -310,13 +301,14 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
  * Renders the GDrive result dialog.
  * @param {Object} files Filelist with the result of the search.
  */
-cwc.ui.GDrive.prototype.renderDialog = function(files) {
+cwc.ui.GDrive.prototype.renderOpenDialog = function(files) {
   var fileList = goog.dom.getElement(this.prefix + 'filelist');
   if (!fileList) {
-    this.dialog = null;
-    this.prepareDialog();
+    this.openDialog = this.prepareDialog([
+      this.menuMyFiles, this.menuSharedFiles, this.menuStarredFiles,
+      this.menuLastOpenedFiles, this.menuTrashFiles]);
   }
-  this.updateFileList(files);
+  this.updateOpenFileList(files);
 };
 
 
@@ -330,7 +322,7 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
     for (let i = 0; i < files.length; ++i) {
       this.data[files[i]['id']] = files[i];
     }
-    this.renderDialog(files);
+    this.renderOpenDialog(files);
   }
 };
 
