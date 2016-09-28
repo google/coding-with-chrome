@@ -61,7 +61,7 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(
   console.log('saveFile …');
   this.prepareContent();
   if (opt_autodetect && this.gDriveId) {
-    this.saveGDriveFile();
+    this.saveGDriveFile(true);
   } else if (this.fileHandler) {
     this.prepareSaveFile(this.fileHandler, this.fileName, this.fileData);
   } else {
@@ -84,11 +84,15 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
 /**
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function() {
+cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(saveFile) {
   console.log('Save file in Google Drive', this.gDriveId);
   var gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
-  gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
+  if (saveFile) {
+    gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
+  } else {
+    gDriveInstance.saveDialog(this.fileName, this.fileData, this.gDriveId);
+  }
 };
 
 

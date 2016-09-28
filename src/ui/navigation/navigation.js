@@ -251,7 +251,7 @@ cwc.ui.Navigation.prototype.requestOpenFile = function() {
 cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
   var gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
-    gdriveInstance.getMyFiles();
+    gdriveInstance.openDialog();
   }
 };
 

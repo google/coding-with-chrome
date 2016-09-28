@@ -32,8 +32,24 @@
     <div id="{$prefix}content">
       <div id="{$prefix}filelist">
       </div>
+      <div id="{$prefix}filename">
+      </div>
     </div>
   </div>
+{/template}
+
+
+/**
+ * Google Drive file name textbox.
+ */
+{template .gDriveFileName}
+  {@param filename: string}
+  <form action="#">
+    <div class="mdl-textfield mdl-js-textfield">
+      <input class="mdl-textfield__input" type="text" value="{$filename}" disabled>
+      <label class="mdl-textfield__label" for="sample1">Filename</label>
+    </div>
+  </form>
 {/template}
 
 
@@ -109,13 +125,15 @@
   {rb}
 
   #{$prefix}content {lb}
-    overflow: auto;
+    overflow: hidden;
+    height: 400px;
   {rb}
 
   #{$prefix}filelist {lb}
     position: relative;
     min-width: 750px;
     height: 350px;
+    overflow: scroll;
   {rb}
 
   #{$prefix}filelist td {lb}
