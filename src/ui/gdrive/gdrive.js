@@ -111,6 +111,9 @@ cwc.ui.GDrive = function(helper) {
     'save': [this.menuMyFiles]
   };
 
+  /** @type {Array} */
+  this.parents = [];
+
   /** @type {string} */
   this.saveFileName = null;
 
@@ -169,6 +172,7 @@ cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
  */
 cwc.ui.GDrive.prototype.getMyFiles = function() {
   this.switchMenu(this.menuMyFiles);
+  this.parents = [{name: 'My files', id: 'root'}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -180,10 +184,12 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
 };
 
 
-cwc.ui.GDrive.prototype.getSubFolder = function(parentId, trashed) {
-  this.saveFileParentId = parentId;
+cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
+  this.saveFileParentId = file['id'];
+  this.parents.push({name: file['name'], id: file['id']});
   var fileEvent = this.handleFileList.bind(this);
-  var query = ACCEPTED_MIME_TYPE_QUERY + ' and \'' + parentId + '\' in parents';
+  var query = ACCEPTED_MIME_TYPE_QUERY + ' and \'' + file['id'] + (
+    '\' in parents');
   if (typeof trashed === 'boolean') {
     query += ' and trashed = ' + trashed;
   }
@@ -276,9 +282,17 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
 
   var fileList = goog.dom.getElement(this.prefix + 'filelist');
   goog.soy.renderElement(
-      fileList,
-      cwc.soy.GDrive.gDriveFileList,
-      {'prefix': this.prefix, 'files': files}
+    fileList,
+    cwc.soy.GDrive.gDriveFileList,
+    {prefix: this.prefix, files: files}
+  );
+
+  var fileParents = goog.dom.getElement(this.prefix + 'fileparents');
+  console.log('this.parents: ' + JSON.stringify(this.parents));
+  goog.soy.renderElement(
+    fileParents,
+    cwc.soy.GDrive.gDriveParentFolders,
+    {prefix: this.prefix, parents: this.parents}
   );
 
   var elements = goog.dom.getElementsByClass('gdrive-loader');
@@ -286,14 +300,25 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
     (function() {
       var element = elements[i2];
       var loaderEvent = function() {
-        dialog.setVisible(false);
         var fileId = goog.dom.dataset.get(element, 'id');
         var file = this.data[fileId];
         if (MIME_TYPES.indexOf(file['mimeType']) > -1) {
+          dialog.setVisible(false);
           this.downloadFile(file);
         } else if (file['mimeType'] === FOLDER_MIME_TYPE) {
-          this.getSubFolder(file['id'], false);
+          this.getSubFolder(file, false);
         }
+      };
+      goog.events.listen(element, goog.events.EventType.CLICK,
+        loaderEvent, false, this);
+    }).bind(this)();
+  }
+
+  elements = goog.dom.getElementsByClass('gdrive-parentfolder');
+  for (let i2 = 0; i2 < elements.length; ++i2) {
+    (function() {
+      var element = elements[i2];
+      var loaderEvent = function() {
       };
       goog.events.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
@@ -324,9 +349,9 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
   if (this.dialogType === 'save') {
     var fileName = goog.dom.getElement(this.prefix + 'filename');
     goog.soy.renderElement(
-        fileName,
-        cwc.soy.GDrive.gDriveFileName,
-        {'filename': this.saveFileName}
+      fileName,
+      cwc.soy.GDrive.gDriveFileName,
+      {filename: this.saveFileName}
     );
     dialog.listen(goog.ui.Dialog.EventType.SELECT, function(event) {
       if (event.key === 'ok') {

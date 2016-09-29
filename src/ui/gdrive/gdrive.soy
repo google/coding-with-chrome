@@ -30,6 +30,8 @@
     <ul id="{$prefix}menu">
     </ul>
     <div id="{$prefix}content">
+      <div id="{$prefix}fileparents">
+      </div>
       <div id="{$prefix}filelist">
       </div>
       <div id="{$prefix}filename">
@@ -50,6 +52,19 @@
       <label class="mdl-textfield__label" for="sample1">Filename</label>
     </div>
   </form>
+{/template}
+
+
+/**
+ * Google Drive folder navigation.
+ */
+{template .gDriveParentFolders}
+  {@param prefix: string}
+  {@param parents: list<?>}
+  {foreach $parent in $parents}
+    <button class="mdl-button mdl-js-button {$prefix}parentfolder" data-gdrive-id="{$parent.id}" {if isLast($parent)}disabled{/if}>{$parent.name}</button>
+    {if not isLast($parent)}&gt;{/if}
+  {/foreach}
 {/template}
 
 
