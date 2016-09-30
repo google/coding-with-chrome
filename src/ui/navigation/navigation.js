@@ -252,6 +252,7 @@ cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
   var gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     gdriveInstance.openDialog();
+    this.hide();
   }
 };
 
