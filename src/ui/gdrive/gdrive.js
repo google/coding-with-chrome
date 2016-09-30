@@ -99,7 +99,7 @@ cwc.ui.GDrive = function(helper) {
 
   /** @type {!goog.ui.MenuItem} */
   this.menuLastOpenedFiles = cwc.ui.Helper.getListItem(
-    'Last opened', this.getLastOpenedFiles.bind(this));
+    'Recent', this.getLastOpenedFiles.bind(this));
 
   /** @type {!goog.ui.MenuItem} */
   this.menuTrashFiles = cwc.ui.Helper.getListItem(
@@ -214,6 +214,8 @@ cwc.ui.GDrive.prototype.switchMenu = function(node) {
  */
 cwc.ui.GDrive.prototype.getSharedFiles = function() {
   this.switchMenu(this.menuSharedFiles);
+  this.parents = [{
+    name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -230,6 +232,8 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
  */
 cwc.ui.GDrive.prototype.getStarredFiles = function() {
   this.switchMenu(this.menuStarredFiles);
+  this.parents = [{
+    name: 'Starred', callback: this.getStarredFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -246,6 +250,8 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
  */
 cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   this.switchMenu(this.menuLastOpenedFiles);
+  this.parents = [{
+    name: 'Recent', callback: this.getLastOpenedFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   var lastDays = new Date();
   lastDays.setDate(new Date().getDate() - 7);
@@ -264,6 +270,8 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
  */
 cwc.ui.GDrive.prototype.getTrashFiles = function() {
   this.switchMenu(this.menuTrashFiles);
+  this.parents = [{
+    name: 'Trash', callback: this.getTrashFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': PAGE_SIZE,
@@ -314,11 +322,29 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
     }).bind(this)();
   }
 
-  elements = goog.dom.getElementsByClass('gdrive-parentfolder');
+  elements = goog.dom.getElementsByClass('cwc-gdrive-parentfolder');
   for (let i2 = 0; i2 < elements.length; ++i2) {
     (function() {
       var element = elements[i2];
-      var loaderEvent = function() {
+      var loaderEvent = function(e) {
+        var folderId = e.target.getAttribute('data-gdrive-id');
+        var currentParent = null;
+        console.log('click file:', JSON.stringify(folderId),
+            'parents:', JSON.stringify(this.parents));
+        for (var i = this.parents.length - 1; i >= 0; i--) {
+          currentParent = this.parents[i];
+          this.parents.splice(i, 1);
+          if (currentParent.id === folderId || i === 0) {
+            break;
+          }
+        }
+        if (currentParent.callback) {
+          currentParent.callback();
+        } else {
+          this.getSubFolder(
+              {'id': currentParent.id, 'name': currentParent.name},
+              false);
+        }
       };
       goog.events.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
