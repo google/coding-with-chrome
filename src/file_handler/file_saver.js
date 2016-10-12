@@ -82,13 +82,15 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
 
 
 /**
+ * @param {boolean} save_file If true save file, otherwise open 'save as'
+ *   file dialog.
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(saveFile) {
+cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   console.log('Save file in Google Drive', this.gDriveId);
   var gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
-  if (saveFile) {
+  if (save_file) {
     gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
   } else {
     gDriveInstance.saveDialog(this.fileName, this.fileData, this.gDriveId);

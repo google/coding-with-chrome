@@ -20,6 +20,7 @@
 
 goog.provide('cwc.ui.GDrive');
 
+goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GDrive');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
@@ -30,29 +31,6 @@ goog.require('goog.ui.Dialog');
 goog.require('goog.ui.Dialog.EventType');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuItem');
-
-var PAGE_SIZE = 1000;
-var ORDER_BY = 'folder,modifiedTime desc,name';
-var FILE_FIELDS = (
-    'files(id,mimeType,parents,iconLink,modifiedTime,name,owners)');
-var FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
-var EXT_TO_MIME_TYPE = {
-  'py':   'text/python',
-  'html': 'text/html',
-  'cwc':  'application/cwc',
-};
-
-var MIME_TYPES = [];
-var ACCEPTED_MIME_TYPE_QUERY = '(';
-for (var ext in EXT_TO_MIME_TYPE) {
-  var mimeType = EXT_TO_MIME_TYPE[ext];
-  ACCEPTED_MIME_TYPE_QUERY += (
-    'mimeType = \'' + mimeType + '\' or ');
-  MIME_TYPES.push(mimeType);
-}
-ACCEPTED_MIME_TYPE_QUERY += (
-  'mimeType = \'application/vnd.google-apps.folder\')');
-
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -149,17 +127,22 @@ cwc.ui.GDrive.prototype.decorate = function(node, opt_prefix) {
 cwc.ui.GDrive.prototype.getFile = function() {
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'q': 'mimeType = \'' + this.mimeType + '\''
   }, fileEvent);
 };
 
-
+/**
+ * Displays a Google Drive open dialog.
+ */
 cwc.ui.GDrive.prototype.openDialog = function() {
   this.dialogType = 'open';
   this.getMyFiles();
 };
 
+/*
+ * Displays a Google Drive save dialog.
+ */
 cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
   this.dialogType = 'save';
   this.saveFileName = name;
@@ -175,32 +158,38 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
   this.parents = [{name: 'My files', id: 'root'}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
-    'q': (ACCEPTED_MIME_TYPE_QUERY + ' and \'me\' in owners and \'root\' ' +
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
+       ' and \'me\' in owners and \'root\' ' +
        'in parents and trashed = false')
   }, fileEvent);
 };
 
-
+/*
+ * Navigate down a sub-folder in the Google Drive file browser.
+ */
 cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
   this.saveFileParentId = file['id'];
   this.parents.push({name: file['name'], id: file['id']});
   var fileEvent = this.handleFileList.bind(this);
-  var query = ACCEPTED_MIME_TYPE_QUERY + ' and \'' + file['id'] + (
-    '\' in parents');
+  var query = cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY + ' and \'' + (
+    file['id'] + '\' in parents');
   if (typeof trashed === 'boolean') {
     query += ' and trashed = ' + trashed;
   }
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': query
   }, fileEvent);
 };
 
+/*
+ * Switch to the clicked on sidebar menu.
+ */
 cwc.ui.GDrive.prototype.switchMenu = function(node) {
   if (this.menuCurrent) {
     this.menuCurrent.classList.remove(this.prefix + 'menu-selected');
@@ -218,10 +207,11 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
-    'q': (ACCEPTED_MIME_TYPE_QUERY + ' and sharedWithMe = true and ' +
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
+       ' and sharedWithMe = true and ' +
        'trashed = false')
   }, fileEvent);
 };
@@ -236,10 +226,11 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
-    'q': (ACCEPTED_MIME_TYPE_QUERY + ' and starred = true and ' +
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
+      ' and starred = true and ' +
       'trashed = false')
   }, fileEvent);
 };
@@ -256,11 +247,12 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   var lastDays = new Date();
   lastDays.setDate(new Date().getDate() - 7);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
-    'q': (ACCEPTED_MIME_TYPE_QUERY + ' and viewedByMeTime >= ' +
-        '\'' + lastDays.toISOString() + '\' and trashed = false')
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
+      ' and viewedByMeTime >= ' +
+      '\'' + lastDays.toISOString() + '\' and trashed = false')
   }, fileEvent);
 };
 
@@ -274,10 +266,11 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
   var fileEvent = this.handleFileList.bind(this);
   this.getFiles({
-    'pageSize': PAGE_SIZE,
-    'orderBy': ORDER_BY,
-    'fields': FILE_FIELDS,
-    'q': ACCEPTED_MIME_TYPE_QUERY + ' and trashed = true'
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'orderBy': cwc.config.GDrive.ORDER_BY,
+    'fields': cwc.config.GDrive.FILE_FIELDS,
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
+      ' and trashed = true')
   }, fileEvent);
 };
 
@@ -285,6 +278,7 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
 /**
  * Updates the GDrive filelist with the new files.
  * @param {Object} files Filelist with the result of the search.
+ * @param {goog.ui.Dialog} dialog Contains file browser to update file list on.
  */
 cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
 
@@ -310,10 +304,10 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
       var loaderEvent = function() {
         var fileId = goog.dom.dataset.get(element, 'id');
         var file = this.data[fileId];
-        if (MIME_TYPES.indexOf(file['mimeType']) > -1) {
+        if (cwc.config.GDrive.MIME_TYPES.indexOf(file['mimeType']) > -1) {
           dialog.setVisible(false);
           this.downloadFile(file);
-        } else if (file['mimeType'] === FOLDER_MIME_TYPE) {
+        } else if (file['mimeType'] === cwc.config.GDrive.FOLDER_MIME_TYPE) {
           this.getSubFolder(file, false);
         }
       };
@@ -449,9 +443,9 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
   if (name && content && accountInstance) {
     var path = '/upload/drive/v3/files';
     var contentType = null;
-    for (var ext in EXT_TO_MIME_TYPE) {
+    for (var ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
       if (name.endsWith(ext)) {
-        contentType = EXT_TO_MIME_TYPE[ext];
+        contentType = cwc.config.GDrive.EXT_TO_MIME_TYPE[ext];
       }
     }
     if (!contentType) {

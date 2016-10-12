@@ -191,8 +191,15 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
 };
 
 /**
- * @param {?} opts
- * @param {function(?)=} callback
+ * @param {Object} opts Contains options for http request, listed below:
+ *   - content: data to send with request.
+ *   - header: Object of optional headers.
+ *   - method: http method type (GET, POST, PUT, etc.)
+ *   - param: GET or POST parameters.
+ *   - path: endpoint to hit on googleapis.com (default domain).
+ *   - token: Authorization bearer token.
+ *   - raw: if true opts.path becomes the entire URI.
+ * @param {function(?)=} callback Called when http request completes.
  */
 cwc.ui.Account.prototype.request = function(opts, callback) {
   var params = opts.params || {};

@@ -108,7 +108,11 @@ cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
   return item;
 };
 
-
+/**
+ * @param {!string} name
+ * @param {function()=} opt_func
+ * @returns {!Element}
+ */
 cwc.ui.Helper.getListItem = function(name, opt_func) {
   var text = document.createTextNode(i18t(name));
   var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
