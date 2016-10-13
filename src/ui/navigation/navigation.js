@@ -105,7 +105,11 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.nodeNewProject = goog.dom.getElement(this.prefix + 'new-project');
   this.nodeNewFile = goog.dom.getElement(this.prefix + 'new-file');
   this.nodeOpenFile = goog.dom.getElement(this.prefix + 'open-file');
+  this.nodeOpenGoogleDrive = goog.dom.getElement(
+      this.prefix + 'open-google-drive');
   this.nodeSaveFile = goog.dom.getElement(this.prefix + 'save-file');
+  this.nodeSaveGDriveFile = goog.dom.getElement(
+      this.prefix + 'save-google-drive');
 
   // Footer Items
   this.nodeAbout = goog.dom.getElement(this.prefix + 'about');
@@ -122,8 +126,12 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
     this.requestShowSelectScreen.bind(this));
   goog.events.listen(this.nodeOpenFile, goog.events.EventType.CLICK,
     this.requestOpenFile.bind(this));
+  goog.events.listen(this.nodeOpenGoogleDrive, goog.events.EventType.CLICK,
+    this.requestOpenGoogleDrive.bind(this));
   goog.events.listen(this.nodeSaveFile, goog.events.EventType.CLICK,
     this.saveFileAs.bind(this));
+  goog.events.listen(this.nodeSaveGDriveFile, goog.events.EventType.CLICK,
+    this.saveGDriveFile.bind(this));
 
   goog.events.listen(this.nodeAbout, goog.events.EventType.CLICK,
     this.showAbout.bind(this));
@@ -237,6 +245,17 @@ cwc.ui.Navigation.prototype.requestOpenFile = function() {
   }
 };
 
+/**
+ * Request to open an existing file from Google Drive.
+ */
+cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
+  var gdriveInstance = this.helper.getInstance('gdrive');
+  if (gdriveInstance) {
+    gdriveInstance.openDialog();
+    this.hide();
+  }
+};
+
 
 /**
  * Shows about screen.
@@ -284,6 +303,15 @@ cwc.ui.Navigation.prototype.showHelp = function() {
 cwc.ui.Navigation.prototype.saveFile = function() {
   this.helper.getInstance('fileSaver').saveFile();
   this.hide();
+};
+
+
+cwc.ui.Navigation.prototype.saveGDriveFile = function() {
+  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  if (fileSaverInstance) {
+    fileSaverInstance.saveGDriveFile();
+    this.hide();
+  }
 };
 
 

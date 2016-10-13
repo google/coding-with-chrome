@@ -190,39 +190,36 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   this.authenticated = authenticated;
 };
 
-
 /**
- * @param {Object} args The args object supports the following properties:
- *   - callback
- *   - content
- *   - header
- *   - method
- *   - param
- *   - path
- *   - token
+ * @param {Object} opts Contains options for http request, listed below:
+ *   - content: data to send with request.
+ *   - header: Object of optional headers.
+ *   - method: http method type (GET, POST, PUT, etc.)
+ *   - param: GET or POST parameters.
+ *   - path: endpoint to hit on googleapis.com (default domain).
+ *   - token: Authorization bearer token.
+ *   - raw: if true opts.path becomes the entire URI.
+ * @param {function(?)=} callback Called when http request completes.
  */
-cwc.ui.Account.prototype.request = function(args) {
+cwc.ui.Account.prototype.request = function(opts, callback) {
+  var params = opts.params || {};
+
   if (!this.authenticated) {
     this.authenticate();
   }
-
-  var url = new goog.Uri('https://www.googleapis.com' + args.path);
-  if (args.raw) {
-    url = new goog.Uri(args.path);
+  var url = new goog.Uri('https://www.googleapis.com' + opts.path);
+  if (opts.raw) {
+    url = new goog.Uri(opts.path);
   }
-  var callback = args.callback;
-  var method = args.method || 'GET';
-  var content = args.content;
-  var token = args.token || this.accessToken || '';
+  var method = opts.method || 'GET';
+  var content = opts.content;
+  var token = opts.token || this.accessToken || '';
 
-  var params = args.params || '';
-  if (typeof params == 'object') {
-    for (let i in params) {
-      url.setParameterValue(i, params[i]);
-    }
+  for (let i in params) {
+    url.setParameterValue(i, params[i]);
   }
 
-  var headers = new goog.structs.Map(args.header);
+  var headers = new goog.structs.Map(opts.header);
   headers.set('Authorization', 'Bearer ' + token);
   headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 

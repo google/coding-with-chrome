@@ -67,6 +67,22 @@
       {param opt_icon: 'save' /}
     {/call}
 
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'Open Google Drive file' /}
+      {param title: 'Open a Google Drive file ...' /}
+      {param id: 'open-google-drive' /}
+      {param opt_icon: 'open_in_browser' /}
+    {/call}
+
+    {call .navigationLink_}
+      {param prefix: $prefix /}
+      {param text: 'Save as Google Drive file' /}
+      {param title: 'Save as Google Drive file ...' /}
+      {param id: 'save-google-drive' /}
+      {param opt_icon: 'save' /}
+    {/call}
+
   </nav>
 
   <footer class="mdl-mini-footer">

@@ -113,7 +113,6 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(
  */
 cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
     file_name, content) {
-  console.log('Loading GDrive file', id, ':', file_name);
   console.log(content);
   this.handleFileData(content, file_name, null, id);
 };
@@ -137,7 +136,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   console.log('Filetype', fileType);
   var fileConfig = cwc.fileHandler.Config.get(fileType, true);
   console.log('FileConfig:', fileConfig);
-  var file = new fileConfig.file(content, fileType, fileConfig.contentType);
+  var file = new fileConfig.file(
+    content, fileType, fileConfig.contentType, opt_file_name);
 
   // If file was not loaded locally or from Google Drive, load default content.
   if (fileConfig.content && !opt_file_handler && !opt_gdrive_id &&
