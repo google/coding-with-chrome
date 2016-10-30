@@ -106,15 +106,8 @@ closureBuilder.build({
  */
 closureBuilder.build({
   name: 'jQuery Turtle file',
-  srcs: [
-    'third_party/jquery-turtle/jquery-turtle.js'
+  resources: [
+    'third_party/jquery-turtle/jquery-turtle.min.js'
   ],
-  externs: [
-    'build/externs/coffeescript.js',
-    'build/externs/global.js',
-    'build/externs/jquery-turtle.js',
-    'build/externs/jquery.js'
-  ],
-  warn: false,
   out: 'genfiles/frameworks/external/jquery-turtle.js'
 });

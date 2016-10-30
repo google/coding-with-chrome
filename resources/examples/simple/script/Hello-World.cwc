@@ -1,7 +1,7 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "javascript": "command.write('Hello World!');"
+    "javascript": "command.write('Hello World!');\n"
   },
   "description": "",
   "files": {},
@@ -11,6 +11,7 @@
   "history": "",
   "type": "basic",
   "mode": "basic",
+  "model": "",
   "title": "Basic: Hello World",
   "ui": "default",
   "version": "1.0"

@@ -113,10 +113,12 @@ cwc.ui.Editor = function(helper) {
   this.toolbar = null;
 
   /** @type {!Array} */
-  this.gutters = ['CodeMirror-linenumbers',
-                  'CodeMirror-breakpoints',
-                  'CodeMirror-foldgutter',
-                  'CodeMirror-lint-markers'];
+  this.gutters = [
+    'CodeMirror-linenumbers',
+    'CodeMirror-breakpoints',
+    'CodeMirror-foldgutter',
+    'CodeMirror-lint-markers'
+  ];
 
   /** @type {!Array} */
   this.rulers = [{color: '#ccc', column: 80, lineStyle: 'dashed'}];

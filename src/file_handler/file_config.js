@@ -68,9 +68,11 @@ cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
         file == cwc.fileFormat.File.getSimpleFile) {
       config.editor_views = [cwc.file.ContentType.JAVASCRIPT];
     } else if (file == cwc.fileFormat.File.getAdvancedFile) {
-      config.editor_views = [cwc.file.ContentType.JAVASCRIPT,
-                             cwc.file.ContentType.HTML,
-                             cwc.file.ContentType.CSS];
+      config.editor_views = [
+        cwc.file.ContentType.JAVASCRIPT,
+        cwc.file.ContentType.HTML,
+        cwc.file.ContentType.CSS
+      ];
     } else if (file == cwc.fileFormat.File.getPencilCodeFile) {
       config.editor_views = [cwc.file.ContentType.COFFEESCRIPT];
     } else if (file == cwc.fileFormat.File.getRawFile && opt_content_type) {

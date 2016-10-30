@@ -80,3 +80,6 @@
 	path = third_party/skulpt-dist
 	url = https://github.com/skulpt/skulpt-dist.git
 	ignore = dirty
+[submodule "third_party/closure-library"]
+	path = third_party/closure-library
+	url = https://github.com/google/closure-library.git

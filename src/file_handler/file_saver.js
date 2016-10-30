@@ -56,8 +56,7 @@ cwc.fileHandler.FileSaver = function(helper) {
  * @param {boolean=} opt_autodetect Auto detect where to save the file.
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveFile = function(
-    opt_autodetect) {
+cwc.fileHandler.FileSaver.prototype.saveFile = function(opt_autodetect) {
   console.log('saveFile …');
   this.prepareContent();
   if (opt_autodetect && this.gDriveId) {
@@ -175,19 +174,22 @@ cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {function(?)=} opt_callback
- * @param {Object=} opt_callback_scope
  */
-cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name,
-    content, opt_callback, opt_callback_scope) {
-  var prepareSaveFile = function(file_entry) {
-    this.prepareSaveFile(file_entry, name, content, opt_callback,
-        opt_callback_scope);
+cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
+  var prepareSaveFile = function(file_entry, opt_file_entries) {
+    if (chrome.runtime.lastError) {
+      console.error('Choose Entry error for', name, ':',
+        chrome.runtime.lastError);
+    } else if (file_entry) {
+      this.prepareSaveFile(file_entry, name, content);
+    } else {
+      console.error('Was unable to choose file entry to save.');
+    }
   }.bind(this);
   console.log('Select file to save content for', name);
   chrome.fileSystem.chooseEntry({
     'type': 'saveFile',
-    'suggestedName': name
+    'suggestedName': this.getSafeFilename_(name)
   }, prepareSaveFile);
 };
 
@@ -196,21 +198,18 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name,
  * @param {Object} file_entry
  * @param {!string} name
  * @param {!string} content
- * @param {function()=} opt_callback
- * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
-    file_entry, name, content, opt_callback, opt_callback_scope) {
+    file_entry, name, content) {
   if (!file_entry) {
-    console.log('No file was selected for', name);
+    console.log('No file was selected for', name, file_entry);
     return;
   }
 
   console.log('Prepare fileWriter for', name);
   var fileWriter = this.fileWriterHandler.bind(this);
   file_entry.createWriter(function(writer) {
-    fileWriter(writer, name, content, file_entry, opt_callback,
-      opt_callback_scope);
+    fileWriter(writer, name, content, file_entry);
   });
 };
 
@@ -221,17 +220,16 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
  * @param {!string} name
  * @param {!string} content
  * @param {Object} file_entry
- * @param {function()=} opt_callback
- * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
-    writer, name, content, file_entry, opt_callback, opt_callback_scope) {
+    writer, name, content, file_entry) {
   var fileInstance = this.helper.getInstance('file', true);
+  var fileName = file_entry['name'] || name;
   var blobContent = new Blob([content]);
   var truncated = false;
   var helperInstance = this.helper;
-  console.log('Writing file', name, 'with filesize', blobContent.size, ':',
-      content);
+  console.log('Writing file', fileName, 'with file-size', blobContent['size'],
+      ':', content);
   writer.onwriteend = function(opt_event) {
     if (!truncated) {
       this.truncate(this.position);
@@ -240,11 +238,30 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     }
     fileInstance.setFileHandler(file_entry);
     fileInstance.setUnsavedChange(false);
-    helperInstance.showSuccess('Saved file ' + name + ' successful.');
+    helperInstance.showSuccess('Saved file ' + fileName + ' successful.');
   };
   writer.onerror = function(opt_event) {
-    this.helper.showError('Unable to save file ' + name + '!');
+    this.helper.showError('Unable to save file ' + fileName + '!');
   };
   writer.seek(0);
   writer.write(blobContent, {'type': 'text/plain'});
+};
+
+
+/**
+ * Returns and OS safe filename.
+ * @param {!string} name
+ * @return {!string}
+ * @private
+ */
+cwc.fileHandler.FileSaver.prototype.getSafeFilename_ = function(name) {
+  return name
+    .replace(':', '-')
+    .replace('/', '_')
+    .replace('>', '[')
+    .replace('<', ']')
+    .replace('*', 'x')
+    .replace('|', ',')
+    .replace('\\0', '')
+    .replace('\\', '');
 };

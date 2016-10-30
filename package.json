@@ -1,19 +1,18 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "3.9.25",
+  "version": "3.10.30",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.0.18",
-    "jsdoc": "^3.4.1",
+    "closure-builder": "^2.1.2",
+    "jsdoc": "^3.4.2",
     "rimraf": "^2.5.4"
   },
   "devDependencies": {
     "closure-templates": "latest",
     "eslint": "latest",
-    "google-closure-library": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",

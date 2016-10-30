@@ -347,8 +347,8 @@ Blockly.Blocks['ev3_stop'] = {
     this.appendDummyInput()
       .appendField(i18t('stop motors('))
       .appendField(new Blockly.FieldDropdown(
-          [['when finished', 'when finished'],
-           ['immediately', 'immediately']]), 'immediately')
+        [['when finished', 'when finished'],
+         ['immediately', 'immediately']]), 'immediately')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -402,7 +402,7 @@ Blockly.Blocks['ev3_move_power'] = {
     this.appendDummyInput()
       .appendField(i18t('set motor power('))
       .appendField(new Blockly.FieldDropdown(
-          [['forward', 'forward'], ['backward', 'backward']]), 'direction')
+        [['forward', 'forward'], ['backward', 'backward']]), 'direction')
       .appendField(', ')
       .appendField(new Blockly.FieldTextInput('10'), 'power')
       .appendField(')');
@@ -424,7 +424,7 @@ Blockly.Blocks['ev3_rotate_power'] = {
     this.appendDummyInput()
       .appendField(i18t('set rotate power('))
       .appendField(new Blockly.FieldDropdown(
-          [['right', 'right'], ['left', 'left']]), 'direction')
+        [['right', 'right'], ['left', 'left']]), 'direction')
       .appendField(', ')
       .appendField(new Blockly.FieldTextInput('10'), 'power')
       .appendField(')');
@@ -446,9 +446,9 @@ Blockly.Blocks['ev3_color_sensor_mode'] = {
     this.appendDummyInput()
       .appendField(i18t('color sensor mode('))
       .appendField(new Blockly.FieldDropdown(
-          [['reflected light of red light', 'reflection'],
-           ['ambient light intensity', 'ambient light'],
-           ['color', 'color']]), 'mode')
+        [['reflected light of red light', 'reflection'],
+         ['ambient light intensity', 'ambient light'],
+         ['color', 'color']]), 'mode')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -467,9 +467,9 @@ Blockly.Blocks['ev3_ir_sensor_mode'] = {
     this.appendDummyInput()
       .appendField(i18t('ir sensor mode('))
       .appendField(new Blockly.FieldDropdown(
-          [['proximity', 'proximity'],
-           ['ir beacon', 'ir beacon'],
-           ['ir remote', 'ir remote']]), 'mode')
+        [['proximity', 'proximity'],
+         ['ir beacon', 'ir beacon'],
+         ['ir remote', 'ir remote']]), 'mode')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -488,9 +488,9 @@ Blockly.Blocks['ev3_ultrasonic_sensor_mode'] = {
     this.appendDummyInput()
       .appendField(i18t('ultrasonic sensor mode('))
       .appendField(new Blockly.FieldDropdown(
-          [['distance cm', 'distance cm'],
-           ['distance inch', 'distance inch'],
-           ['listen', 'listen']]), 'mode')
+        [['distance cm', 'distance cm'],
+         ['distance inch', 'distance inch'],
+         ['listen', 'listen']]), 'mode')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -509,15 +509,15 @@ Blockly.Blocks['ev3_led'] = {
     this.appendDummyInput()
       .appendField(i18t('set led('))
       .appendField(new Blockly.FieldDropdown(
-          [['off', 'off'],
-           ['green', 'green'],
-           ['red', 'red'],
-           ['orange', 'orange']]), 'color')
+        [['off', 'off'],
+         ['green', 'green'],
+         ['red', 'red'],
+         ['orange', 'orange']]), 'color')
       .appendField(', ')
       .appendField(new Blockly.FieldDropdown(
-          [['normal', 'normal'],
-           ['flash', 'flash'],
-           ['pulse', 'pulse']]), 'mode')
+        [['normal', 'normal'],
+         ['flash', 'flash'],
+         ['pulse', 'pulse']]), 'mode')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -719,7 +719,7 @@ Blockly.Blocks['ev3_colors'] = {
   init: function() {
     var colour = new Blockly.FieldColour('#ff0000');
     colour.setColours(['#000000', '#0000ff', '#00ff00', '#ffff00', '#ff0000',
-        '#ffffff', '#a52a2a']).setColumns(1);
+      '#ffffff', '#a52a2a']).setColumns(1);
     this.setHelpUrl('');
     this.setColour(0);
     this.appendDummyInput()
