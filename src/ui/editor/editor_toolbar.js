@@ -244,11 +244,11 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
  * Publish file.
  */
 cwc.ui.EditorToolbar.prototype.publish = function() {
-  var filePublisherInstance = this.helper.getInstance('filePublisher');
-  if (filePublisherInstance) {
-    filePublisherInstance.publishFile();
+  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  if (fileSaverInstance) {
+    fileSaverInstance.saveGCloudFile();
   }
-}
+};
 
 
 /**

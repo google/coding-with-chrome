@@ -197,6 +197,7 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  *   - method: http method type (GET, POST, PUT, etc.)
  *   - param: GET or POST parameters.
  *   - path: endpoint to hit on googleapis.com (default domain).
+ *   - subdomain: specifies googleapis.com subdomain.
  *   - token: Authorization bearer token.
  *   - raw: if true opts.path becomes the entire URI.
  * @param {function(?)=} callback Called when http request completes.
@@ -207,7 +208,14 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
   if (!this.authenticated) {
     this.authenticate();
   }
-  var url = new goog.Uri('https://www.googleapis.com' + opts.path);
+
+  var subdomain = 'www';
+  if (opts.subdomain) {
+    subdomain = opts.subdomain;
+  }
+
+  var url = new goog.Uri('https://' + subdomain + '.googleapis.com' +
+      opts.path);
   if (opts.raw) {
     url = new goog.Uri(opts.path);
   }

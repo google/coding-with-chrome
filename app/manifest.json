@@ -14,7 +14,9 @@
     "client_id": "418162477970-2qmsb2sp3m522hf292154favsjgpsj9n.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/drive",
-      "https://www.googleapis.com/auth/userinfo.profile"
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/cloud-platform.read-only"
     ]
   },
   "icons": {

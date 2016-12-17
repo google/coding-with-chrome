@@ -96,6 +96,17 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   }
 };
 
+/**
+ * @param {boolean} save_file If true save file, otherwise open 'save as'
+ *   file dialog.
+ * @export
+ */
+cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
+  console.log('Save file in Google Cloud');
+  var gCloudInstance = this.helper.getInstance('gcloud', true);
+  this.prepareContent();
+  gCloudInstance.publishDialog(this.fileName, this.fileData);
+};
 
 /**
  * Prepares file and ensures we have the latest editor content.
