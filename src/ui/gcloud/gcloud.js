@@ -20,6 +20,7 @@
 
 goog.provide('cwc.ui.GCloud');
 
+goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');
 
 
@@ -45,13 +46,19 @@ cwc.ui.GCloud = function(helper) {
  */
 cwc.ui.GDrive.prototype.publishDialog = function(name, content) {
   var accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (accountInstance && dialogInstance) {
     console.log('Publish name: ' + name + ' content:' + content);
     accountInstance.request({
       subdomain: 'cloudresourcemanager',
       path: '/v1/projects'
     }, function(response) {
-      console.log('response: ' + JSON.stringify(response));
+      console.log('response: ' + JSON.stringify(response['projects']));
+      dialogInstance.showTemplate(
+        'Publish to Google Cloud', cwc.soy.GCloud.projects, {
+          prefix: 'gcloud-',
+          projects: response['projects']
+        });
     });
   } else {
     alert('You must log in before publishing.');

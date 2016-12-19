@@ -19,3 +19,16 @@
  */
 
 {namespace cwc.soy.GCloud autoescape="strict"}
+
+/**
+ * Google Cloud template.
+ */
+{template .projects}
+  {@param prefix: string}
+  {@param projects: ?}
+  <select id="{$prefix}-projects">
+    {foreach $project in $projects}
+    <option>{$project['projectId']}</option>
+    {/foreach}
+  </select>
+{/template}
