@@ -20,6 +20,9 @@
 
 goog.provide('cwc.ui.GCloud');
 
+goog.require('goog.events');
+goog.require('goog.events.EventType');
+
 goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');
 
@@ -44,22 +47,39 @@ cwc.ui.GCloud = function(helper) {
 /**
  * Displays a Google Cloud publish dialog.
  */
-cwc.ui.GDrive.prototype.publishDialog = function(name, content) {
+cwc.ui.GCloud.prototype.publishDialog = function(name, content) {
   var accountInstance = this.helper.getInstance('account');
   var dialogInstance = this.helper.getInstance('dialog');
   if (accountInstance && dialogInstance) {
     console.log('Publish name: ' + name + ' content:' + content);
     accountInstance.request({
       subdomain: 'cloudresourcemanager',
-      path: '/v1/projects'
-    }, function(response) {
-      console.log('response: ' + JSON.stringify(response['projects']));
+      path: '/v1/projects',
+      params: {
+        'pageSize': 1000
+      }
+    }, (function(response) {
       dialogInstance.showTemplate(
         'Publish to Google Cloud', cwc.soy.GCloud.projects, {
-          prefix: 'gcloud-',
+          prefix: this.prefix,
           projects: response['projects']
         });
-    });
+      var projectsNode = goog.dom.getElement(this.prefix + 'projects');
+      var projectChangeListener = function(event) {
+        var projectId = event.target.value;
+        console.log('Project id chosen: ' + projectId);
+        accountInstance.request({
+          path: '/storage/v1/b',
+          params: {
+            'project': projectId
+          }
+        }, (function(response) {
+          console.log('items: ' + JSON.stringify(response['items']));
+        }).bind(this));
+      };
+      goog.events.listen(projectsNode, goog.events.EventType.CHANGE,
+        projectChangeListener, false, this);
+    }).bind(this));
   } else {
     alert('You must log in before publishing.');
   }
