@@ -20,6 +20,7 @@
 
 goog.provide('cwc.ui.GCloud');
 
+goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 
@@ -74,7 +75,24 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content) {
             'project': projectId
           }
         }, (function(response) {
-          console.log('items: ' + JSON.stringify(response['items']));
+          var items = response['items'];
+          var bucketSelect = goog.dom.createDom('select', {
+            'id': this.prefix + 'buckets'
+          });
+
+          for (let i = 0; i < items.length; i++) {
+            var item = items[i];
+            bucketSelect.appendChild(goog.dom.createDom(
+                'option', {'value': item['id']}, item['id']));
+          }
+          var bucketsContainer = goog.dom.getElement(
+            this.prefix + 'buckets-container');
+          goog.dom.removeChildren(bucketsContainer);
+          goog.dom.append(bucketsContainer,
+            goog.dom.createDom(
+              'label', {'for': this.prefix + 'buckets'}, 'Bucket Id: '
+          ));
+          goog.dom.append(bucketsContainer, bucketSelect);
         }).bind(this));
       };
       goog.events.listen(projectsNode, goog.events.EventType.CHANGE,

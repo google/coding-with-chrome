@@ -26,10 +26,15 @@
 {template .projects}
   {@param prefix: string}
   {@param projects: ?}
-  <select id="{$prefix}projects">
-    <option selected disabled>Choose a project</option>
-    {foreach $project in $projects}
-    <option value="{$project['projectId']}">{$project['projectId']}</option>
-    {/foreach}
-  </select>
+  <div id="{$prefix}projects-container">
+    <label for="{$prefix}projects">Project Id: </label>
+    <select id="{$prefix}projects">
+      <option selected disabled>Choose a project</option>
+      {foreach $project in $projects}
+      <option value="{$project['projectId']}">{$project['projectId']}</option>
+      {/foreach}
+    </select>
+  </div>
+  <div id="{$prefix}buckets-container">
+  </div>
 {/template}
