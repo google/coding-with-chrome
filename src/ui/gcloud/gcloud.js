@@ -50,55 +50,75 @@ cwc.ui.GCloud = function(helper) {
  */
 cwc.ui.GCloud.prototype.publishDialog = function(name, content) {
   var accountInstance = this.helper.getInstance('account');
-  var dialogInstance = this.helper.getInstance('dialog');
-  if (accountInstance && dialogInstance) {
-    console.log('Publish name: ' + name + ' content:' + content);
-    accountInstance.request({
-      subdomain: 'cloudresourcemanager',
-      path: '/v1/projects',
-      params: {
-        'pageSize': 1000
-      }
-    }, (function(response) {
-      dialogInstance.showTemplate(
-        'Publish to Google Cloud', cwc.soy.GCloud.projects, {
-          prefix: this.prefix,
-          projects: response['projects']
-        });
-      var projectsNode = goog.dom.getElement(this.prefix + 'projects');
-      var projectChangeListener = function(event) {
-        var projectId = event.target.value;
-        console.log('Project id chosen: ' + projectId);
-        accountInstance.request({
-          path: '/storage/v1/b',
-          params: {
-            'project': projectId
-          }
-        }, (function(response) {
-          var items = response['items'];
-          var bucketSelect = goog.dom.createDom('select', {
-            'id': this.prefix + 'buckets'
-          });
+  if (!accountInstance) return;
 
-          for (let i = 0; i < items.length; i++) {
-            var item = items[i];
-            bucketSelect.appendChild(goog.dom.createDom(
-                'option', {'value': item['id']}, item['id']));
-          }
-          var bucketsContainer = goog.dom.getElement(
-            this.prefix + 'buckets-container');
-          goog.dom.removeChildren(bucketsContainer);
-          goog.dom.append(bucketsContainer,
-            goog.dom.createDom(
-              'label', {'for': this.prefix + 'buckets'}, 'Bucket Id: '
-          ));
-          goog.dom.append(bucketsContainer, bucketSelect);
-        }).bind(this));
-      };
-      goog.events.listen(projectsNode, goog.events.EventType.CHANGE,
-        projectChangeListener, false, this);
-    }).bind(this));
-  } else {
-    alert('You must log in before publishing.');
+  console.log('Publish name: ' + name + ' content:' + content);
+  var callback = (function(response) {
+    this.selectProjectDialog(response['projects']);
+  }).bind(this);
+  accountInstance.request({
+    subdomain: 'cloudresourcemanager',
+    path: '/v1/projects',
+    params: {
+      'pageSize': 1000
+    }
+  }, callback);
+};
+
+cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
+  var accountInstance = this.helper.getInstance('account');
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (!accountInstance) return;
+  if (!dialogInstance) return;
+
+  dialogInstance.showTemplate(
+    'Publish to Google Cloud', cwc.soy.GCloud.projects, {
+      prefix: this.prefix,
+      projects: projects
+    });
+  var projectsNode = goog.dom.getElement(this.prefix + 'projects');
+  var projectChangeListener = function(event) {
+    var projectId = event.target.value;
+    console.log('Project id chosen: ' + projectId);
+    var callback = (function(response) {
+      this.selectBucketDialog(response['items']);
+    }).bind(this);
+    accountInstance.request({
+      path: '/storage/v1/b',
+      params: {
+        'project': projectId
+      }
+    }, callback);
+  };
+  goog.events.listen(projectsNode, goog.events.EventType.CHANGE,
+    projectChangeListener, false, this);
+};
+
+cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
+  var bucketSelect = goog.dom.createDom('select', {
+    'id': this.prefix + 'buckets'
+  });
+
+  for (let i = 0; i < items.length; i++) {
+    var item = items[i];
+    bucketSelect.appendChild(goog.dom.createDom(
+       'option', {'value': item['id']}, item['id']));
   }
+  var bucketsContainer = goog.dom.getElement(
+    this.prefix + 'buckets-container');
+  goog.dom.removeChildren(bucketsContainer);
+  goog.dom.append(bucketsContainer,
+    goog.dom.createDom(
+      'label', {'for': this.prefix + 'buckets'}, 'Bucket Id: '
+  ));
+  goog.dom.append(bucketsContainer, bucketSelect);
+
+  var publishButton = goog.dom.createDom(
+      'button', {
+        'id': this.prefix + 'publish-btn',
+        'type': 'button',
+        'class': 'mdl-button'
+      }, 'Publish'
+  )
+
 };
