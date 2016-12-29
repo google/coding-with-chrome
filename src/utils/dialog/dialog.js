@@ -22,6 +22,9 @@ goog.provide('cwc.utils.DialogType');
 
 goog.require('cwc.soy.Dialog');
 
+goog.require('goog.dom');
+goog.require('goog.style');
+
 
 /**
  * @enum {string}
@@ -182,6 +185,33 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
   }
+};
+
+
+/**
+ * @param {!string} id
+ * @param {!string} text
+ * @export
+ */
+cwc.utils.Dialog.prototype.addButton = function(id, text, callback) {
+  var button = goog.dom.createDom(
+    'button', {
+      'id': this.prefix + id,
+      'type': 'button',
+      'class': 'mdl-button'
+    }, text
+  );
+  if (callback) {
+    goog.events.listen(button, goog.events.EventType.CLICK, callback);
+  }
+  var buttonsDiv = goog.dom.getElement(this.prefix + 'buttons');
+  goog.dom.appendChild(buttonsDiv, button);
+};
+
+
+cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
+  var button = goog.dom.getElement(this.prefix + id);
+  goog.dom.setTextContent(button, text);
 };
 
 

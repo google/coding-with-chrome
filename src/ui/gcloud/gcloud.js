@@ -21,6 +21,7 @@
 goog.provide('cwc.ui.GCloud');
 
 goog.require('goog.dom');
+goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 
@@ -43,16 +44,36 @@ cwc.ui.GCloud = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.fileName = '';
+
+  /** @type {string} */
+  this.fileContent = '';
+
+  /** @type {string} */
+  this.fileType = '';
+
+  /** @type {string} */
+  this.projectId = '';
+
+  /** @type {string} */
+  this.bucketName = '';
+
+  /** @type {string} */
+  this.publicUrlPath = '';
 };
 
 /**
  * Displays a Google Cloud publish dialog.
  */
-cwc.ui.GCloud.prototype.publishDialog = function(name, content) {
+cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   var accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
 
-  console.log('Publish name: ' + name + ' content:' + content);
+  this.fileName = name;
+  this.fileContent = content;
+  this.fileType = type;
   var callback = (function(response) {
     this.selectProjectDialog(response['projects']);
   }).bind(this);
@@ -66,9 +87,7 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content) {
 };
 
 cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
-  var accountInstance = this.helper.getInstance('account');
   var dialogInstance = this.helper.getInstance('dialog');
-  if (!accountInstance) return;
   if (!dialogInstance) return;
 
   dialogInstance.showTemplate(
@@ -77,21 +96,34 @@ cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
       projects: projects
     });
   var projectsNode = goog.dom.getElement(this.prefix + 'projects');
-  var projectChangeListener = function(event) {
+  var projectChangeListener = (function(event) {
     var projectId = event.target.value;
-    console.log('Project id chosen: ' + projectId);
-    var callback = (function(response) {
-      this.selectBucketDialog(response['items']);
-    }).bind(this);
-    accountInstance.request({
-      path: '/storage/v1/b',
-      params: {
-        'project': projectId
-      }
-    }, callback);
-  };
+    this.selectProject(projectId);
+  }).bind(this);
   goog.events.listen(projectsNode, goog.events.EventType.CHANGE,
     projectChangeListener, false, this);
+
+  //Use last set project id if previously selected.
+  if (this.projectId) {
+    goog.dom.forms.setValue(projectsNode, this.projectId);
+    this.selectProject(this.projectId);
+  }
+};
+
+cwc.ui.GCloud.prototype.selectProject = function(projectId) {
+  var accountInstance = this.helper.getInstance('account');
+  if (!accountInstance) return;
+  console.log('Project id chosen: ' + projectId);
+  this.projectId = projectId;
+  var callback = (function(response) {
+    this.selectBucketDialog(response['items']);
+  }).bind(this);
+  accountInstance.request({
+    path: '/storage/v1/b',
+    params: {
+      'project': projectId
+    }
+  }, callback);
 };
 
 cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
@@ -113,12 +145,82 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   ));
   goog.dom.append(bucketsContainer, bucketSelect);
 
-  var publishButton = goog.dom.createDom(
-      'button', {
-        'id': this.prefix + 'publish-btn',
-        'type': 'button',
-        'class': 'mdl-button'
-      }, 'Publish'
-  )
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (!dialogInstance) return;
+  if (this.bucketName) {
+    goog.dom.forms.setValue(bucketSelect, this.bucketName);
+  }
+  if (this.publicUrlPath) {
+    this.setDialogPublicUrl(this.publicUrlPath);
+    dialogInstance.addButton('publish', 'Republish', this.publish.bind(this));
+  } else {
+    dialogInstance.addButton('publish', 'Publish', this.publish.bind(this));
+  }
+};
 
+
+cwc.ui.GCloud.prototype.publish = function() {
+  console.log('Publish name: ' + this.fileName + ' content:' +
+    this.fileContent + ' type: ' + this.fileType);
+
+  var accountInstance = this.helper.getInstance('account');
+  if (!accountInstance) return;
+
+  var bucketsSelect = goog.dom.getElement(this.prefix + 'buckets');
+  this.bucketName = goog.dom.forms.getValue(bucketsSelect);
+  accountInstance.request({
+    path: '/upload/storage/v1/b/' + this.bucketName + '/o',
+    method: 'POST',
+    params: {
+      'uploadType': 'media',
+      'name': this.fileName
+    },
+    content: this.fileContent,
+    header: {
+      'Content-Type': 'text/html'
+    }
+  }, this.makePublic.bind(this));
+};
+
+
+cwc.ui.GCloud.prototype.makePublic = function() {
+  var accountInstance = this.helper.getInstance('account');
+  var dialogInstance = this.helper.getInstance('dialog');
+  if (!accountInstance) return;
+  if (!dialogInstance) return;
+
+  var callback = (function(response) {
+    console.log('public: ' + JSON.stringify(response));
+    this.publicUrlPath = response['bucket'] + '/' + response['name'];
+    this.setDialogPublicUrl(this.publicUrlPath);
+    dialogInstance.setButtonText('publish', 'Republish');
+  }).bind(this);
+  accountInstance.request({
+    path: '/storage/v1/b/' + this.bucketName + '/o/' + this.fileName,
+    method: 'PUT',
+    params: {
+      'predefinedAcl': 'publicRead'
+    },
+    header: {
+      'Content-Type': 'application/json'
+    },
+    content: JSON.stringify({
+      'contentType': 'text/html'
+    })
+  }, callback);
+};
+
+cwc.ui.GCloud.prototype.setDialogPublicUrl = function(publicUrlPath) {
+  var urlLink = goog.dom.createDom('a', {
+    'id': this.prefix + 'public-url-link',
+    'target': '_newtab',
+    'href': 'https://storage.googleapis.com/' + encodeURIComponent(
+      publicUrlPath)
+  }, 'https://storage.googleapis.com/' + publicUrlPath);
+  var urlContainer = goog.dom.getElement(this.prefix + 'public-url');
+  goog.dom.append(urlContainer,
+    goog.dom.createDom(
+      'label', {'for': this.prefix + 'public-url-link'}, 'Public URL: '
+  ));
+  goog.dom.append(urlContainer, urlLink);
 };
