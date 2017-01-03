@@ -22,6 +22,7 @@ goog.provide('cwc.utils.I18n');
 goog.require('cwc.locales.de.Translation');
 goog.require('cwc.locales.en.Translation');
 goog.require('cwc.locales.ko.Translation');
+goog.require('cwc.locales.ja.Translation');
 
 goog.require('cwc.utils.Logger');
 
@@ -97,6 +98,9 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
       },
       'ko': {
         'translation': cwc.locales.ko.Translation
+      },
+      'ja': {
+        'translation': cwc.locales.ja.Translation
       }
     }
   };
