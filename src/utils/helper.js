@@ -36,6 +36,7 @@ goog.require('goog.events.EventTarget');
 
 /**
  * @typedef {cwc.ui.Account|
+ *   cwc.file.File|
  *   cwc.fileHandler.FileCreator|
  *   cwc.fileHandler.FileExporter|
  *   cwc.fileHandler.FileLoader|
@@ -47,13 +48,10 @@ goog.require('goog.events.EventTarget');
  *   cwc.protocol.ev3.Api|
  *   cwc.renderer.Renderer|
  *   cwc.ui.Blockly|
- *   cwc.ui.Config|
  *   cwc.ui.ConnectionManager|
  *   cwc.ui.Debug|
- *   cwc.tools.Dialog|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
- *   cwc.ui.File|
  *   cwc.ui.GDrive|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|
@@ -68,7 +66,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.SettingScreen|
  *   cwc.ui.Turtle|
  *   cwc.ui.connectScreen.Screens|
- *   cwc.ui.Tutorial}
+ *   cwc.utils.Dialog.Dialog}
  */
 cwc.utils.HelperInstance;
 
@@ -90,7 +88,7 @@ cwc.utils.Helper = function() {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
-  /** @private {!cwc.utils.features} */
+  /** @private {!cwc.utils.Features} */
   this.features_ = new cwc.utils.Features(this.loglevel_);
 
   /** @private {string} */
@@ -117,7 +115,7 @@ cwc.utils.Helper.prototype.getEventHandler = function() {
 
 /**
  * @param {!string} name
- * @param {!object} data
+ * @param {!Object} data
  */
 cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
   this.eventHandler_.dispatchEvent({

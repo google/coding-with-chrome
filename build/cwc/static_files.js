@@ -26,7 +26,6 @@ var closureBuilder = require('closure-builder');
 closureBuilder.build({
   name: 'Static files',
   resources: [
-    'app/_locales/',
     'app/css/',
     'app/html/',
     'app/icons/',

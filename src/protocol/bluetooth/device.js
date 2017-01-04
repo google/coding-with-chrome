@@ -30,7 +30,7 @@ goog.require('cwc.utils.ByteTools');
  * @param {!number} device_class
  * @param {!string} name
  * @param {!boolean} paired
- * @param {!array} uuids
+ * @param {!Array.} uuids
  * @param {!cwc.protocol.bluetooth.supportedDevices} profile
  * @param {string=} opt_type
  * @param {chrome_bluetooth=} opt_bluetooth
@@ -57,7 +57,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!boolean} */
   this.paired = paired;
 
-  /** @type {!array} */
+  /** @type {!Array.} */
   this.uuids = uuids;
 
   /** @type {!cwc.protocol.bluetooth.supportedDevices} */
@@ -105,7 +105,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   /** @type {!Function} */
   this.dataHandlerAll = null;
 
-  /** @type {object} */
+  /** @type {Object} */
   this.socketProperties = {
     'persistent': false,
     'name': 'CwC Bluetooth Device',
@@ -465,7 +465,7 @@ cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
 
 
 /**
- * @param {object} socket_info
+ * @param {Object} socket_info
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
@@ -480,7 +480,7 @@ cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
 
 
 /**
- * @param {object} socket_info
+ * @param {Object} socket_info
  * @private
  */
 cwc.protocol.bluetooth.Device.prototype.handleSockets_ = function(socket_info) {

@@ -69,7 +69,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function(helper) {
   /** @private {Object} */
   this.sensorDataCache_ = {};
 
-  /** @private {!array} */
+  /** @private {!Array.} */
   this.headerAsync_ = [0xff, 0x55];
 
   /** @private {!number} */

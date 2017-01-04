@@ -90,7 +90,7 @@ cwc.protocol.makeblock.mbotRanger.Device = {
 
 /**
  * Header for the communication protocol.
- * @type {!array}
+ * @type {!Array.}
  */
 cwc.protocol.makeblock.mbotRanger.Header = [0xff, 0x55];
 

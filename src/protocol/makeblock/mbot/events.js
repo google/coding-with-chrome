@@ -37,7 +37,7 @@ cwc.protocol.makeblock.mbot.Events.Type = {
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @param {number=} opt_port
  * @final
  */
@@ -50,7 +50,7 @@ cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @param {number=} opt_port
  * @final
  */
@@ -63,7 +63,7 @@ cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @param {number=} opt_port
  * @final
  */
@@ -76,7 +76,7 @@ cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @param {number=} opt_port
  * @final
  */
@@ -90,7 +90,7 @@ cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.Events.Type} type
- * @param {!object} data
+ * @param {!Object} data
  * @param {number=} opt_port
  * @constructor
  * @final
@@ -100,7 +100,7 @@ cwc.protocol.makeblock.mbot.Events.Data_ = function(type, data, opt_port) {
   /** @type {!cwc.protocol.makeblock.mbot.Events.Type} */
   this.type = type;
 
-  /** @type {!object} */
+  /** @type {!Object} */
   this.data = data;
 
   /** @type {number=} */

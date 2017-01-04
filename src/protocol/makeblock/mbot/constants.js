@@ -86,7 +86,7 @@ cwc.protocol.makeblock.mbot.Device = {
 
 /**
  * Header for the communication protocol.
- * @type {!array}
+ * @type {!Array.}
  */
 cwc.protocol.makeblock.mbot.Header = [0xff, 0x55];
 

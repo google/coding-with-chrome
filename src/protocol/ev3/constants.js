@@ -164,7 +164,7 @@ cwc.protocol.ev3.Command = {
 
 /**
  * Type of command.
- * @enum {number}
+ * @enum {!Object.<string>|number}
  */
 cwc.protocol.ev3.CommandType = {
   DIRECT: {

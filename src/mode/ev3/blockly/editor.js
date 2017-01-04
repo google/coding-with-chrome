@@ -90,7 +90,7 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
       this.nodeBlocklyToolbox);
     return;
   }
-  this.updateBlocklyToolbox_();
+  this.updateBlocklyToolbox_('');
 
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);

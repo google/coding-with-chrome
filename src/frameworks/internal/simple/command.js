@@ -85,7 +85,6 @@ cwc.framework.simple.Command.prototype.showPrompt = function(title, content,
 /**
  * @param {!string} title
  * @param {!string} content
- * @param {!Function}
  * @export
  */
 cwc.framework.simple.Command.prototype.showYesNo = function(title, content) {

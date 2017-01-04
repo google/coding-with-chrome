@@ -170,7 +170,7 @@ cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
 
 /**
  * Handles the received messages and executes the predefined actions.
- * @param {event} event
+ * @param {Event} event
  * @private
  */
 cwc.framework.Runner.prototype.handleMessage_ = function(event) {

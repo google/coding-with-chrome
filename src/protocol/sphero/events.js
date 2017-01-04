@@ -34,7 +34,7 @@ cwc.protocol.sphero.Events.Type = {
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @final
  */
 cwc.protocol.sphero.Events.LocationData = function(data) {
@@ -44,7 +44,7 @@ cwc.protocol.sphero.Events.LocationData = function(data) {
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @final
  */
 cwc.protocol.sphero.Events.VelocityData = function(data) {
@@ -54,7 +54,7 @@ cwc.protocol.sphero.Events.VelocityData = function(data) {
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @final
  */
 cwc.protocol.sphero.Events.SpeedValue = function(data) {
@@ -64,7 +64,7 @@ cwc.protocol.sphero.Events.SpeedValue = function(data) {
 
 
 /**
- * @param {object} data
+ * @param {Object} data
  * @final
  */
 cwc.protocol.sphero.Events.Collision = function(data) {
@@ -75,7 +75,7 @@ cwc.protocol.sphero.Events.Collision = function(data) {
 
 /**
  * @param {!cwc.protocol.sphero.Events.Type} type
- * @param {!object} data
+ * @param {!Object} data
  * @constructor
  * @final
  * @private
@@ -84,6 +84,6 @@ cwc.protocol.sphero.Events.Data_ = function(type, data, opt_port) {
   /** @type {!cwc.protocol.sphero.Events.Type} */
   this.type = type;
 
-  /** @type {!object} */
+  /** @type {!Object} */
   this.data = data;
 };

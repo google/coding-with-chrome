@@ -140,6 +140,7 @@ closureBuilder.build({
   resources: [
     BlocklyPath + 'msg/js/de.js',
     BlocklyPath + 'msg/js/en.js',
+    BlocklyPath + 'msg/js/ja.js',
     BlocklyPath + 'msg/js/ko.js'
   ],
   out: 'genfiles/external/blockly/msg/'

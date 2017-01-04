@@ -59,10 +59,10 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {cwc.protocol.sphero.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.Monitoring(this);
 
-  /** @private {!array} */
+  /** @private {!Array.} */
   this.headerAck_ = [0xff, 0xff];
 
-  /** @private {!array} */
+  /** @private {!Array.} */
   this.headerAsync_ = [0xff, 0xfe];
 
   /** @private {!number} */

@@ -245,7 +245,7 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
 
 
 /**
- * @param {!array} filenames
+ * @param {!Array.} filenames
  * @param {!cwc.file.Files} renderer_frameworks
  * @return {!string}
  */

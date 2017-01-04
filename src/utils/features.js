@@ -267,7 +267,7 @@ cwc.utils.Features.prototype.set = function(name, value, opt_group) {
  * @export
  */
 cwc.utils.Features.prototype.getBrowserFeature = function(name) {
-  return this.get(name, this.BrowserGroup);
+  return this.get(name, this.browserGroup);
 };
 
 
@@ -297,7 +297,7 @@ cwc.utils.Features.prototype.getJavaScriptFeature = function(name) {
  * @export
  */
 cwc.utils.Features.prototype.setBrowserFeature = function(name, value) {
-  return this.set(name, value, this.BrowserGroup);
+  return this.set(name, value, this.browserGroup);
 };
 
 

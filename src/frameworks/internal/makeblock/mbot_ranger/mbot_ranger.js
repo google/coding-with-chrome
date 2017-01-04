@@ -39,12 +39,15 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   this.emptyFunction_ = function() {};
 
   /** @type {!function(?)} */
+  this.buttonEvent = this.emptyFunction_;
+
+  /** @type {!function(?)} */
   this.temperatureSensorEvent = this.emptyFunction_;
 
-  /** @type {!function(?)} */
+  /** @type {!function(?, ?)} */
   this.lightnessSensorEvent = this.emptyFunction_;
 
-  /** @type {!function(?)} */
+  /** @type {!function(?, ?, ?)} */
   this.lineFollowerSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
@@ -61,6 +64,9 @@ cwc.framework.makeblock.mBotRanger = function(code) {
     this.code, this, this.monitor_.bind(this));
 
   /** @type {!number} */
+  this.buttonValue = 0;
+
+  /** @type {!number} */
   this.temperatureSensorValue = 0;
 
   /** @type {!number} */
@@ -74,7 +80,6 @@ cwc.framework.makeblock.mBotRanger = function(code) {
 
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
-
 
   // External commands
   this.runner.addCommand('updateTemperatureSensor',
@@ -94,7 +99,7 @@ cwc.framework.makeblock.mBotRanger = function(code) {
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
  * @param {string=} opt_index 1-14
- * @param {void=} opt_delay
+ * @param {number=} opt_delay
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.setRGBLED = function(red, green,
@@ -109,9 +114,9 @@ cwc.framework.makeblock.mBotRanger.prototype.setRGBLED = function(red, green,
 
 /**
  * Plays a tone through the buzzer.
- * @param  {int} frequency frequency of the note
- * @param  {int} duration  duration in milliseconds
- * @param  {null} opt_delay
+ * @param  {!number} frequency frequency of the note
+ * @param  {!number} duration  duration in milliseconds
+ * @param  {number=} opt_delay
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.playTone = function(frequency,
@@ -123,7 +128,7 @@ cwc.framework.makeblock.mBotRanger.prototype.playTone = function(frequency,
 
 /**
  * get values from lightness sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getButtonValue = function() {
@@ -133,7 +138,7 @@ cwc.framework.makeblock.mBotRanger.prototype.getButtonValue = function() {
 
 /**
  * get values from temperature sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getTemperatureSensorValue =
@@ -144,7 +149,7 @@ function() {
 
 /**
  * get values from lightness sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getLightnessSensorValue =
@@ -155,7 +160,7 @@ function() {
 
 /**
  * get values from line follower sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getLineFollowerSensorValue =
@@ -166,7 +171,7 @@ function() {
 
 /**
  * get values from ultrasonic sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getUltrasonicSensorValue =

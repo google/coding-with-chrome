@@ -88,7 +88,6 @@ cwc.ui.BuilderHelpers = {
   'fileExporter': cwc.fileHandler.FileExporter,
   'fileLoader': cwc.fileHandler.FileLoader,
   'fileSaver': cwc.fileHandler.FileSaver,
-  'gdrive': cwc.ui.GDrive,
   'gui': cwc.ui.Gui,
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
@@ -242,7 +241,8 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
       console.log('Using user preferred language:', userLanguage);
       language = userLanguage;
 
-      if (language != cwc.config.Default.LANGUAGE) {
+      if (language != cwc.config.Default.LANGUAGE &&
+          language != 'auto') {
         // Blockly language file.
         cwc.ui.Helper.insertScript('../external/blockly/msg/' + language +
           '.js', 'blockly-language');

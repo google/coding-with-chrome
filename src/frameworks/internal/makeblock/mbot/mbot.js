@@ -47,7 +47,7 @@ cwc.framework.makeblock.mBot = function(code) {
   /** @type {!function(?)} */
   this.lightnessSensorEvent = this.emptyFunction_;
 
-  /** @type {!function(?)} */
+  /** @type {!function(?, ?, ?)} */
   this.linefollowerSensorEvent = this.emptyFunction_;
 
   /** @type {!function(?)} */
@@ -104,9 +104,9 @@ cwc.framework.makeblock.mBot.prototype.setLEDColor = function(red, green, blue,
 
 /**
  * Plays a tone through the buzzer.
- * @param  {int} frequency frequency of the note
- * @param  {int} duration  duration in milliseconds
- * @param  {null} opt_delay
+ * @param  {!number} frequency frequency of the note
+ * @param  {!number} duration  duration in milliseconds
+ * @param  {number=} opt_delay
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.playTone = function(frequency, duration,
@@ -118,7 +118,7 @@ cwc.framework.makeblock.mBot.prototype.playTone = function(frequency, duration,
 
 /**
  * get values from lightness sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.getButtonValue = function() {
@@ -128,7 +128,7 @@ cwc.framework.makeblock.mBot.prototype.getButtonValue = function() {
 
 /**
  * get values from lightness sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.getLightnessSensorValue = function() {
@@ -138,7 +138,7 @@ cwc.framework.makeblock.mBot.prototype.getLightnessSensorValue = function() {
 
 /**
  * get values from lightness sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.getLinefollowerSensorValue = function() {
@@ -148,7 +148,7 @@ cwc.framework.makeblock.mBot.prototype.getLinefollowerSensorValue = function() {
 
 /**
  * get values from ultrasonic sensors
- * @return {void}
+ * @return {number}
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
@@ -174,7 +174,7 @@ cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
 /**
  * Turn mBot at a speed
  * @param {!number} speed 0 - 255
- * @param {number=} opt_delay in msec or true for auto
+ * @param {(number|boolean=)} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.rotatePower = function(speed,
@@ -202,7 +202,7 @@ cwc.framework.makeblock.mBot.prototype.rotatePowerTime = function(time, speed) {
 /**
  * Move mBot for certain speeds
  * @param {!number} speed 0 - 255
- * @param {number=} opt_delay in msec or true for auto
+ * @param {(number|boolean=)} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.movePower = function(speed, opt_delay) {

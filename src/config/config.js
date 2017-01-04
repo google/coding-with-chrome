@@ -56,7 +56,7 @@ cwc.config.Debug = {
 
 /**
  * Default values.
- * @enum {!Object.<string>|boolean}
+ * @enum {!Object.<string>|string}
  */
 cwc.config.Default = {
   LANGUAGE: 'en'

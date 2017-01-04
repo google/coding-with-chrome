@@ -60,10 +60,5 @@ cwc.framework.Arduino.prototype.init = function() {
  * @export
  */
 cwc.framework.Arduino.prototype.listen = function(callback) {
-  if (this.runner) {
-    var warper = function() {
-      callback(this);
-    };
-    this.runner.listen(warper.bind(this));
-  }
+  console.log(callback);
 };

@@ -65,7 +65,7 @@ cwc.protocol.ev3.Api = function(helper) {
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
 
-  /** @private {!array} */
+  /** @private {!Array.} */
   this.header_ = [0xff, 0xff];
 
   /** @private {!number} */

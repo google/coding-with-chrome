@@ -59,10 +59,7 @@ cwc.framework.TTS.prototype.init = function() {};
  */
 cwc.framework.TTS.prototype.listen = function(callback) {
   if (this.runner) {
-    var warper = function() {
-      callback(this);
-    };
-    this.runner.listen(warper.bind(this));
+    console.log(callback);
   }
 };
 

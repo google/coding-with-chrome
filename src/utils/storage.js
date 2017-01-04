@@ -45,15 +45,15 @@ cwc.utils.StorageType = {
  * @constructor
  */
 cwc.utils.StorageCustom = function() {
-  /** @type {object} */
+  /** @type {Object} */
   this.storage_ = {};
 };
 
 
 /**
  * @param {string} keys
- * @param {function(object)=} opt_callback
- * @return {object}
+ * @param {Function=} opt_callback
+ * @return {Object}
  * @export
  */
 cwc.utils.StorageCustom.prototype.get = function(keys, opt_callback) {
@@ -71,8 +71,8 @@ cwc.utils.StorageCustom.prototype.get = function(keys, opt_callback) {
 
 
 /**
- * @param {object} items
- * @param {function(object)=} opt_callback
+ * @param {Object} items
+ * @param {Function=} opt_callback
  * @export
  */
 cwc.utils.StorageCustom.prototype.set = function(items, opt_callback) {
@@ -146,7 +146,7 @@ cwc.utils.Storage.prototype.prepare = function(opt_callback) {
     case cwc.utils.StorageType.CHROME_STORAGE:
       this.storage_ = sessionStorage;
       this.syncChrome = true;
-      this.loadChromeStorage(null, opt_callback);
+      this.loadChromeStorage(undefined, opt_callback);
       break;
     default:
       this.log_.warn('Local storage is unsupported !');
@@ -261,15 +261,16 @@ cwc.utils.Storage.prototype.getKeyname = function(opt_name, opt_type) {
  * Gets the value for the named storage value.
  * @param {!string} name Name of the storage entry.
  * @param {string=} opt_type Type of the storage entry.
- * @return {!string} Value of the storage entry.
+ * @return {string|boolean|null} Value of the storage entry.
  */
 cwc.utils.Storage.prototype.get = function(name, opt_type) {
   var type = opt_type || this.defaultType_;
   if (!type || !name) {
     this.log_.warn('Can\'t get value without a type and name!');
-    return;
+    return null;
   }
   if (!this.storage_) {
+    this.log_.error('Storage is not available!');
     return null;
   }
   var keyName = this.getKeyname(name, type);

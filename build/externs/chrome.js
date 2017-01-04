@@ -24,10 +24,16 @@
 chrome.system.memory = function() {};
 
 /** @type {Function} */
+chrome.storage = function() {};
+
+/** @type {Function} */
 chrome.storage.local = function() {};
 
 /** @type {Function} */
 chrome.storage.local.get = function() {};
+
+/** @type {Function} */
+chrome.storage.local.set = function() {};
 
 /** @type {Function} */
 chrome.runtime.getManifest = function() {};
