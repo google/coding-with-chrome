@@ -28,7 +28,7 @@ goog.provide('cwc.locales.ja.Translation');
 /* eslint-disable max-len */
 cwc.locales.ja.Translation = {
   '(0 - 254)': '(0 - 254)',
-  '* You need to restart the application after enabling or disabling these options.': '* このオプションを変更した後アプリの再起動が必要です。',
+  '* You need to restart the application after enabling or disabling these options.': '* このオプションを変更した後、アプリの再起動が必要です。',
   'About Coding with Chrome': 'コーディング ウィズ クロームについて',
   'Address: {$address}': 'アドレス: {$address}',
   'Advanced Coding': 'アドバンスド コーディング',
@@ -102,8 +102,8 @@ cwc.locales.ja.Translation = {
   'Form example': 'フォームのサンプル',
   'Form': 'フォーム',
   'GRYO BOY': 'GRYO BOY',
-  'General Settings': '通常の設定',
-  'General': '通常の',
+  'General Settings': '一般設定',
+  'General': '一般',
   'Go Blockly': 'ブロックリーモードへ',
   'Go Coding ': 'コーディングモードへ',
   'Go Robots': 'ロボットモードへ',
