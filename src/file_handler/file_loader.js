@@ -42,6 +42,22 @@ cwc.fileHandler.FileLoader = function(helper) {
   /** @type {!Array} */
   this.extensions = helper.getFileExtensions() || [];
 
+  /** @type {!Array} */
+  this.acceptedFiles = [{
+    'description': 'All supported files',
+    'extensions': ['cwc', 'txt', 'html', 'htm', 'js', 'coffee', 'py']
+  }, {
+    'description': 'Coding with Chrome file (.cwc)',
+    'extensions': ['cwc']
+  },
+    {'extensions': ['txt']},
+    {'extensions': ['html']},
+    {'extensions': ['htm']},
+    {'extensions': ['js']},
+    {'extensions': ['coffee']},
+    {'extensions': ['py']}
+  ];
+
   /** @type {!cwc.utils.Helper} **/
   this.helper = helper;
 };
@@ -245,9 +261,10 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
  */
 cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     callback, opt_callback_scope) {
-  console.log('Select file to load content …');
+  console.log('Select file to load content for the following types:',
+    this.acceptedFiles);
   chrome.fileSystem.chooseEntry({
-    'accepts': [{ 'extensions': this.extensions }]
+    'accepts': this.acceptedFiles
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       var message = chrome.runtime.lastError.message;
