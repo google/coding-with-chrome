@@ -104,11 +104,18 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
 
 
 /**
+ * @typedef {Object} Uint8Data
+ * @property {Array} data
+ * @property {ArrayBuffer|Uint8Array|null} buffer
+ */
+
+
+/**
  * @param {ArrayBuffer|Uint8Array} data
  * @param {Array=} opt_headers
  * @param {number=} opt_size
  * @param {ArrayBuffer|Uint8Array=} opt_buffer
- * @return {Uint8Array} result
+ * @return {Uint8Data} result
  */
 cwc.utils.ByteTools.getUint8Data = function(data,
     opt_headers, opt_size, opt_buffer) {
@@ -181,7 +188,7 @@ cwc.utils.ByteTools.getUint8Data = function(data,
  * Returns the header position in the given data stream.
  * @param {Uint8Array|Array} data
  * @param {Array} headers
- * @return {number}
+ * @return {Array|null}
  */
 cwc.utils.ByteTools.getHeaderPositions = function(data, headers) {
   var dataLength = data.length;

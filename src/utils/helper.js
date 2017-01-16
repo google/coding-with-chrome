@@ -66,7 +66,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.SettingScreen|
  *   cwc.ui.Turtle|
  *   cwc.ui.connectScreen.Screens|
- *   cwc.utils.Dialog.Dialog}
+ *   cwc.utils.Dialog}
  */
 cwc.utils.HelperInstance;
 

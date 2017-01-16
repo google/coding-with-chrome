@@ -222,7 +222,7 @@ cwc.utils.Features.prototype.monitorOnlineStatus = function() {
 /**
  * @param {string} name
  * @param {string=} opt_group
- * @return {string|boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Features.prototype.get = function(name, opt_group) {
@@ -232,7 +232,7 @@ cwc.utils.Features.prototype.get = function(name, opt_group) {
     return false;
   }
   if (name in this.feature_[group]) {
-    return this.feature_[group][name];
+    return this.feature_[group][name] || false;
   }
   this.log_.warn('Feature', name, 'is undetected!');
   return false;

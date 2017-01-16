@@ -26,7 +26,7 @@ var Sk = function() {};
 /** @type {Function} */
 Sk.configure = function() {};
 
-/** @type {array} */
+/** @type {Array} */
 Sk.builtinFiles = [];
 
 /** @type {Object} */

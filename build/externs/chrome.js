@@ -102,6 +102,12 @@ chrome.serial.onReceive.addListener= function() {};
 chrome.serial.onReceiveError.addListener= function() {};
 
 /** @type {Function} */
+chrome.system = function() {};
+
+/** @type {Function} */
+chrome.system.memory = function() {};
+
+/** @type {Function} */
 chrome.tts = function() {};
 
 /** @type {Function} */

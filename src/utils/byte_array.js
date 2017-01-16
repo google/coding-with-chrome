@@ -50,7 +50,7 @@ cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
   /** @private {!Array} */
   this.data_ = [];
 
-  /** @private {Object.<cwc.utils.ByteArrayTypes>} */
+  /** @private {Object.<cwc.utils.ByteArrayTypes|string>} */
   this.headers_ = {};
 
   if (opt_byte_header) {

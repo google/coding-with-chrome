@@ -37,7 +37,7 @@ cwc.config.LogLevel = cwc.utils.LogLevel.INFO;
 
 /**
  * Debug modes.
- * @enum {!Object.<string>|boolean}
+ * @enum {boolean}
  */
 cwc.config.Debug = {
   ENABLED: false,
@@ -56,7 +56,7 @@ cwc.config.Debug = {
 
 /**
  * Default values.
- * @enum {!Object.<string>|string}
+ * @enum {string}
  */
 cwc.config.Default = {
   LANGUAGE: 'en'
@@ -78,7 +78,7 @@ cwc.config.Number = {
 
 /**
  * General prefix.
- * @enum {!Object.<string>|string}
+ * @enum {string}
  */
 cwc.config.Prefix = {
   CANVAS: 'canvas-',

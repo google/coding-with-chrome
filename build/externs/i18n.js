@@ -38,6 +38,9 @@ i18next.on = function() {};
 /** @type {Function} */
 i18next.store = function() {};
 
+/** @type {Object} */
+i18next.store.data = function() {};
+
 /** @type {Function} */
 i18next.t  = function() {};
 
