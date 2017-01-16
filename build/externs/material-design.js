@@ -20,5 +20,8 @@
 
 
 
+/** @type {Object} */
+window.componentHandler = {};
+
 /** @type {Function} */
 window.componentHandler.upgradeDom = function() {};

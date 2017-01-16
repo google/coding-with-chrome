@@ -32,6 +32,9 @@ Sk.builtinFiles = [];
 /** @type {Object} */
 Sk.TurtleGraphics = {};
 
+/** @type {Object} */
+Sk.misceval = {};
+
 /** @type {Function} */
 Sk.misceval.asyncToPromise = function() {};
 

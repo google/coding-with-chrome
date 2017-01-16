@@ -310,7 +310,7 @@ cwc.fileFormat.File.prototype.getModel = function() {
 
 /**
  * @param {!string} ui
- * @param {booblean=} opt_no_overwrite
+ * @param {boolean=} opt_no_overwrite
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setUi = function(ui, opt_no_overwrite) {
@@ -405,7 +405,7 @@ cwc.fileFormat.File.prototype.hasFiles = function() {
 
 
 /**
- * @return {!Object.<string>}
+ * @return {!Object.<string>|string}
  */
 cwc.fileFormat.File.prototype.getFlags = function() {
   return this.flags_;
@@ -660,7 +660,7 @@ cwc.fileFormat.File.getPencilCodeFile = function(opt_content, opt_type) {
  */
 cwc.fileFormat.File.getAdvancedFile = function(opt_content, opt_type) {
   return new cwc.fileFormat.File(opt_content)
-    .setType(opt_type || cwc.file.Type.ADVACNED, !opt_type)
+    .setType(opt_type || cwc.file.Type.ADVANCED, !opt_type)
     .setTitle('Untitled advanced file', true)
     .setContent(cwc.file.ContentType.JAVASCRIPT,
        '// Put your JavaScript code here\n', true)

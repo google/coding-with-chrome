@@ -52,6 +52,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Debug|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
+ *   cwc.ui.Experimental|
  *   cwc.ui.GDrive|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|
@@ -379,6 +380,20 @@ cwc.utils.Helper.prototype.debugEnabled = function(opt_name) {
   var debugInstance = this.getInstance('debug');
   if (debugInstance) {
     return debugInstance.isEnabled(opt_name);
+  }
+  return false;
+};
+
+
+/**
+ * @param {string=} opt_name
+ * @return {!boolean}
+ * @export
+ */
+cwc.utils.Helper.prototype.experimentalEnabled = function(opt_name) {
+  var experimentalInstance = this.getInstance('experimental');
+  if (experimentalInstance) {
+    return experimentalInstance.isEnabled(opt_name);
   }
   return false;
 };

@@ -173,7 +173,7 @@ cwc.ui.RunnerMonitor.prototype.showMonitorTab = function(show) {
 
 
 /**
- * @return {element}
+ * @return {Element}
  */
 cwc.ui.RunnerMonitor.prototype.getCalibrationNode = function() {
   return this.nodeCalibration;
@@ -181,7 +181,7 @@ cwc.ui.RunnerMonitor.prototype.getCalibrationNode = function() {
 
 
 /**
- * @return {element}
+ * @return {Element}
  */
 cwc.ui.RunnerMonitor.prototype.getControlNode = function() {
   return this.nodeControl;
@@ -189,7 +189,7 @@ cwc.ui.RunnerMonitor.prototype.getControlNode = function() {
 
 
 /**
- * @return {element}
+ * @return {Element}
  */
 cwc.ui.RunnerMonitor.prototype.getIntroNode = function() {
   return this.nodeIntro;
@@ -197,7 +197,7 @@ cwc.ui.RunnerMonitor.prototype.getIntroNode = function() {
 
 
 /**
- * @return {element}
+ * @return {Element}
  */
 cwc.ui.RunnerMonitor.prototype.getMainNode = function() {
   return this.nodeMain;
@@ -205,7 +205,7 @@ cwc.ui.RunnerMonitor.prototype.getMainNode = function() {
 
 
 /**
- * @return {element}
+ * @return {Element}
  */
 cwc.ui.RunnerMonitor.prototype.getMonitorNode = function() {
   return this.nodeMonitor;

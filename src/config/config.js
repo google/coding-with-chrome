@@ -20,6 +20,7 @@
 goog.provide('cwc.config');
 goog.provide('cwc.config.Debug');
 goog.provide('cwc.config.Default');
+goog.provide('cwc.config.Experimental');
 goog.provide('cwc.config.Number');
 goog.provide('cwc.config.Prefix');
 goog.provide('cwc.config.Sample');
@@ -51,6 +52,15 @@ cwc.config.Debug = {
   SPHERO: false,
   MBOT: false,
   TOUR: false
+};
+
+
+/**
+ * Debug modes.
+ * @enum {boolean}
+ */
+cwc.config.Experimental = {
+  ENABLED: false
 };
 
 

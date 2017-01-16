@@ -508,7 +508,7 @@ cwc.framework.simple.Draw.prototype.execute_ = function(drawFn, display,
 
 /**
  * Returns the manipulation objects with or without defined presets.
- * @param {cwc.framework.simple.DrawManipulationContent=}
+ * @param {cwc.framework.simple.Draw.ManipulationContent|Object=}
  *     opt_manipulation If used, a hash of options for additional manipulations.
  * @return {!cwc.framework.simple.DrawManipulation}
  * @private

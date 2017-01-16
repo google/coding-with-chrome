@@ -21,9 +21,6 @@
 
 
 /** @type {Function} */
-chrome.system.memory = function() {};
-
-/** @type {Function} */
 chrome.storage = function() {};
 
 /** @type {Function} */
@@ -38,6 +35,9 @@ chrome.storage.local.set = function() {};
 /** @type {Function} */
 chrome.runtime.getManifest = function() {};
 
+/** @type {Object} */
+chrome.app.window = {};
+
 /** @type {Function} */
 chrome.app.window.get = function() {};
 
@@ -47,17 +47,29 @@ chrome.bluetooth = function() {};
 /** @type {Function} */
 chrome.bluetooth.getDevices = function() {};
 
+/** @type {Object} */
+chrome.bluetooth.onAdapterStateChanged = {};
+
 /** @type {Function} */
 chrome.bluetooth.onAdapterStateChanged.addListener = function() {};
 
 /** @type {Function} */
 chrome.bluetooth.getAdapterState = function() {};
 
-/** @type {Function} */
+/** @type {Object} */
+chrome.bluetooth.onDeviceAdded = {};
+
+/** @type {Object} */
 chrome.bluetooth.onDeviceAdded.addListener = function() {};
 
-/** @type {Function} */
+/** @type {Object} */
+chrome.bluetooth.onDeviceChanged = {};
+
+/** @type {Object} */
 chrome.bluetooth.onDeviceChanged.addListener = function() {};
+
+/** @type {Object} */
+chrome.bluetooth.onDeviceRemoved = {};
 
 /** @type {Function} */
 chrome.bluetooth.onDeviceRemoved.addListener = function() {};
@@ -134,8 +146,14 @@ chrome.oauth2 = function() {};
 /** @type {Function} */
 chrome.key = function() {};
 
+/** @type {Object} */
+chrome.fileSystem = {};
+
 /** @type {Function} */
 chrome.fileSystem.chooseEntry = function() {};
+
+/** @type {Object} */
+chrome.identity = {};
 
 /** @type {Function} */
 chrome.identity.getAuthToken = function() {};

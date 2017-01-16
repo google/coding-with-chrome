@@ -355,10 +355,10 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.parseFloatBytes_ = function(
 
 /**
  * convert four bytes (b4b3b2b1) to a single int.
- * @param  {int} b1
- * @param  {int} b2
- * @param  {int} b3
- * @param  {int} b4
+ * @param {number} b1
+ * @param {number} b2
+ * @param {number} b3
+ * @param {number} b4
  * @return {int} the result int
  * @private
  */
@@ -370,7 +370,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.fourBytesToInt_ = function(b1,
 
 /**
  * convert from int (in byte form) to float
- * @param  {int} num   the input int value
+ * @param {number} num   the input int value
  * @return {float}     the result as float
  * @private
  */

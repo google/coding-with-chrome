@@ -84,14 +84,15 @@ cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
   this.node = node;
   this.prefix = (opt_prefix || '') + this.prefix;
 
-  goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template,
-      {'prefix': this.prefix});
+  goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
+    'prefix': this.prefix
+  });
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(cwc.soy.SelectScreen.style({
+      'debug': this.helper.debugEnabled(),
       'prefix': this.prefix,
-      'version': this.helper.getAppVersion(),
-      'debug': this.helper.debugEnabled()
+      'version': this.helper.getAppVersion()
     }));
   }
 
@@ -270,8 +271,11 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
+      debug: this.helper.debugEnabled(),
+      experimental: this.helper.experimentalEnabled(),
+      online: this.helper.checkFeature('online'),
       prefix: this.prefix,
-      online: this.helper.checkFeature('online')
+      version: this.helper.getAppVersion()
     });
   } else {
     console.error('Unable to render template', template);

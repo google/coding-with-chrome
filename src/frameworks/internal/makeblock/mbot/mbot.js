@@ -174,7 +174,7 @@ cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
 /**
  * Turn mBot at a speed
  * @param {!number} speed 0 - 255
- * @param {(number|boolean=)} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.rotatePower = function(speed,
@@ -202,7 +202,7 @@ cwc.framework.makeblock.mBot.prototype.rotatePowerTime = function(time, speed) {
 /**
  * Move mBot for certain speeds
  * @param {!number} speed 0 - 255
- * @param {(number|boolean=)} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.movePower = function(speed, opt_delay) {

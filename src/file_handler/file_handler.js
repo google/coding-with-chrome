@@ -37,6 +37,9 @@ cwc.fileHandler.File = function(helper) {
   /** @private {!cwc.fileFormat.File} */
   this.file_ = new cwc.fileFormat.File();
 
+  /** @private {!string} */
+  this.fileContent_ = '';
+
   /** @private {Object} */
   this.fileHandler_ = null;
 
@@ -64,7 +67,7 @@ cwc.fileHandler.File.prototype.clear = function() {
 
 
 /**
- * @param {!cwc.fileHandler.File} file
+ * @param {!cwc.fileFormat.File} file
  */
 cwc.fileHandler.File.prototype.setFile = function(file) {
   this.clear();
@@ -74,7 +77,7 @@ cwc.fileHandler.File.prototype.setFile = function(file) {
 
 
 /**
- * @return {!cwc.fileHandler.File}
+ * @return {!cwc.fileFormat.File}
  */
 cwc.fileHandler.File.prototype.getFile = function() {
   return this.file_;
@@ -92,7 +95,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 /**
  * @param {!string} name
  * @param {string=} opt_group
- * @return {cwc.fileHandler.File}
+ * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.getLibraryFile = function(name, opt_group) {
   return this.file_.getFiles().getFile(name, opt_group);
@@ -105,7 +108,7 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name, opt_group) {
  * @param {string=} opt_type
  * @param {number=} opt_size
  * @param {string=} opt_group
- * @return {cwc.fileHandler.File}
+ * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.addLibraryFile = function(name, content,
     opt_type, opt_size, opt_group) {
@@ -140,7 +143,7 @@ cwc.fileHandler.File.prototype.setFileType = function(file_type) {
 
 
 /**
- * @return {cwc.file.Type}
+ * @return {string}
  */
 cwc.fileHandler.File.prototype.getFileType = function() {
   return this.file_.getType();

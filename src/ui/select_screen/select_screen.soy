@@ -36,8 +36,11 @@
  * Welcome screen.
  */
 {template .welcome}
-  {@param prefix: string}
+  {@param debug: bool}
+  {@param experimental: bool}
   {@param online: bool}
+  {@param prefix: string}
+  {@param version: string}
 
   {call .header_}
     {param prefix: $prefix /}
@@ -57,47 +60,54 @@
     {/param}
   {/call}
 
-  <div id="{$prefix}welcome" class="{$prefix}version {$prefix}debug">
+  <div id="{$prefix}welcome">
 
-      <div class="mdl-grid">
+    {call .banner_}
+      {param debug: $debug /}
+      {param experimental: $experimental /}
+      {param prefix: $prefix /}
+      {param version: $version /}
+    {/call}
 
-        {call .choiceCard_}
-          {param prefix: $prefix /}
-          {param title: 'Beginner' /}
-          {param text: 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.' /}
-          {param action: 'Use Beginner Mode' /}
-          {param link_id: 'normal-mode' /}
-          {param color_class: 'mdl-color--teal-50' /}
-          {param image: 'images/selection/blockly.png' /}
-        {/call}
+    <div class="mdl-grid">
 
-        {call .choiceCard_}
-          {param prefix: $prefix /}
-          {param title: 'Advanced' /}
-          {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code.' /}
-          {param action: 'Use Advanced Mode' /}
-          {param link_id: 'advanced-mode' /}
-          {param color_class: 'mdl-color--orange-50' /}
-          {param image: 'images/selection/code_editor.png' /}
-        {/call}
+      {call .choiceCard_}
+        {param prefix: $prefix /}
+        {param title: 'Beginner' /}
+        {param text: 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.' /}
+        {param action: 'Use Beginner Mode' /}
+        {param link_id: 'normal-mode' /}
+        {param color_class: 'mdl-color--teal-50' /}
+        {param image: 'images/selection/blockly.png' /}
+      {/call}
 
-      </div>
+      {call .choiceCard_}
+        {param prefix: $prefix /}
+        {param title: 'Advanced' /}
+        {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code.' /}
+        {param action: 'Use Advanced Mode' /}
+        {param link_id: 'advanced-mode' /}
+        {param color_class: 'mdl-color--orange-50' /}
+        {param image: 'images/selection/code_editor.png' /}
+      {/call}
 
-      <div id="{$prefix}sub-note">
-        <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-          <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
-          <div class="mdl-checkbox__label">
-            {msg desc=""}
-              Show screen on Startup
-            {/msg}
-            <span class="mdl-card__supporting-text">
-              ({msg desc=""}
-                  You can change your choice at any time in the settings menu.
-              {/msg})
-            </span>
-          </div>
-        </label>
-      </div>
+    </div>
+
+    <div id="{$prefix}sub-note">
+      <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
+        <div class="mdl-checkbox__label">
+          {msg desc=""}
+            Show screen on Startup
+          {/msg}
+          <span class="mdl-card__supporting-text">
+            ({msg desc=""}
+                You can change your choice at any time in the settings menu.
+            {/msg})
+          </span>
+        </div>
+      </label>
+    </div>
 
   </div>
 {/template}
@@ -133,6 +143,21 @@
       {/if}
     </div>
   </div>
+{/template}
+
+
+/**
+ * Banner template.
+ */
+{template .banner_}
+  {@param debug: bool}
+  {@param experimental: bool}
+  {@param prefix: string}
+  {@param version: string}
+
+  {if $debug}<div id="{$prefix}debug">Debug Mode</div>{/if}
+  {if $experimental}<div id="{$prefix}experimental">Experimental Mode</div>{/if}
+  {if $version}<div id="{$prefix}version">{$version}</div>{/if}
 {/template}
 
 
@@ -177,13 +202,10 @@
  */
 {template .style}
   {@param prefix: string}
-  {@param version: string}
-  {@param debug: bool}
 
-  .{$prefix}version:before {lb}
+  #{$prefix}version {lb}
     background: #00f;
     color: #fff;
-    content: "{$version}";
     left: -22px;
     line-height: 25px;
     position: fixed;
@@ -194,21 +216,33 @@
     opacity: 0.5;
   {rb}
 
-  {if $debug}
-    .{$prefix}debug:after {lb}
-      background: #f00;
-      color: #fff;
-      content: "Debug Mode";
-      left: -55px;
-      line-height: 25px;
-      position: fixed;
-      text-align: center;
-      bottom: 25px;
-      transform: rotate(45deg);
-      width: 190px;
-      opacity: 0.5;
-    {rb}
-  {/if}
+
+  #{$prefix}debug {lb}
+    background: #f00;
+    color: #fff;
+    left: -55px;
+    line-height: 25px;
+    position: fixed;
+    text-align: center;
+    bottom: 25px;
+    transform: rotate(45deg);
+    width: 190px;
+    opacity: 0.5;
+  {rb}
+
+
+  #{$prefix}experimental {lb}
+    background: #f00;
+    color: #fff;
+    left: -50px;
+    line-height: 25px;
+    position: fixed;
+    text-align: center;
+    top: 90px;
+    transform: rotate(-45deg);
+    width: 220px;
+    opacity: 0.8;
+  {rb}
 
   #{$prefix}body {lb}
     min-height: 100%;

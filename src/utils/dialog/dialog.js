@@ -295,7 +295,7 @@ cwc.utils.Dialog.prototype.getDialog_ = function() {
 cwc.utils.Dialog.prototype.prepare_ = function() {
 
   if (!this.styleSheet) {
-    var content = cwc.soy.Dialog.style({ prefix: this.prefix });
+    var content = cwc.soy.Dialog.style({ prefix: this.prefix }).getContent();
     var head = document.head || document.getElementsByTagName('head')[0];
     this.styleSheet = document.createElement('style');
     if (this.styleSheet.styleSheet){

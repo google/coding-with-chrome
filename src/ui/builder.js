@@ -45,6 +45,7 @@ goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
+goog.require('cwc.ui.Experimental');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
 goog.require('cwc.ui.Help');
@@ -270,6 +271,11 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
+    this.setProgress('Prepare experimental ...', 23, 100);
+    this.prepareExperimental_();
+  }
+
+  if (!this.error) {
     this.setProgress('Prepare dialog ...', 25, 100);
     this.prepareDialog();
   }
@@ -449,6 +455,19 @@ cwc.ui.Builder.prototype.prepareDebug_ = function() {
     debugInstance.prepare();
   }
   this.helper.setInstance('debug', debugInstance);
+};
+
+
+/**
+ * Prepare experimental mode if needed.
+ * @private
+ */
+cwc.ui.Builder.prototype.prepareExperimental_ = function() {
+  var experimentalInstance = new cwc.ui.Experimental(this.helper);
+  if (experimentalInstance) {
+    experimentalInstance.prepare();
+  }
+  this.helper.setInstance('experimental', experimentalInstance);
 };
 
 

@@ -107,7 +107,7 @@
         // Language
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
-            <span>Language</span>
+            <span>Language *</span>
             <span class="mdl-list__item-text-body">
               {msg desc=""}Default UI language.{/msg}
             </span>
@@ -146,7 +146,7 @@
 
       {call .header_}
         {param title: 'Misc Settings' /}
-        {param text: 'This screen allows you to change some random settings.' /}
+        {param text: 'This screen allows you to change some advanced settings.' /}
       {/call}
 
       <ul class="mdl-list">
@@ -158,6 +158,16 @@
           {param text: 'The "debug mode" will turn on some additional debug options.' /}
           {param type: 'switch' /}
           {param id: 'debug-mode' /}
+          {param opt_restart: true /}
+        {/call}
+
+        // Debug Mode
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Experimental Mode' /}
+          {param text: 'The "experimental mode" will turn on some experimental options. Enabled this at your own risk, no support or guarantee is provided.' /}
+          {param type: 'switch' /}
+          {param id: 'experimental-mode' /}
           {param opt_restart: true /}
         {/call}
 

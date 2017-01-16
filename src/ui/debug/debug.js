@@ -64,6 +64,7 @@ cwc.ui.Debug.prototype.prepare = function() {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
         cwc.userConfigName.DEBUG_MODE) || false;
   }
+  console.log('Debug mode:', this.enabled);
 };
 
 

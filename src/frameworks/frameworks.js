@@ -27,7 +27,7 @@ goog.provide('cwc.framework.Internal');
 
 /**
  * External frameworks for the preview window or runner framework.
- * @enum {!Object.<string>}
+ * @enum {!Object.<string>|string}
  */
 cwc.framework.External = {
   COFFEESCRIPT: 'coffee-script.js',
@@ -48,7 +48,7 @@ cwc.framework.External = {
 
 /**
  * Internal frameworks for the preview window or runner framework.
- * @enum {!Object.<string>}
+ * @enum {!Object.<string>|string}
  */
 cwc.framework.Internal = {
   ARDUINO: 'arduino_framework.js',

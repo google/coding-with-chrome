@@ -26,11 +26,12 @@ goog.provide('cwc.userConfigType');
  * @enum {string}
  */
 cwc.userConfigName = {
-  SKIP_WELCOME: 'skip_welcome',
   ADVANCED_MODE: 'advanced_mode',
   DEBUG_MODE: 'debug_mode',
+  EXPERIMENTAL_MODE: 'experimental_mode',
   FULLSCREEN: 'fullscreen',
   LANGUAGE: 'language',
+  SKIP_WELCOME: 'skip_welcome',
   ZOOM: 'zoom'
 };
 

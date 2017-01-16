@@ -128,8 +128,17 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {};
 Blockly.Xml.domToPrettyText = function(dom) {};
 
 
-/** @type {Object} */
-Blockly.Blocks = {};
+/**
+ * Class for one block.
+ * Not normally called directly, workspace.newBlock() is preferred.
+ * @param {!Blockly.Workspace} workspace The block's workspace.
+ * @param {?string} prototypeName Name of the language object containing
+ *     type-specific functions for this block.
+ * @param {string=} opt_id Optional ID.  Use this ID if provided, otherwise
+ *     create a new id.
+ * @constructor
+ */
+Blockly.Blocks = function(workspace, prototypeName, opt_id) {};
 
 
 /** @type {Object} */
@@ -197,6 +206,18 @@ Blockly.Workspace.prototype.addChangeListener = function(func) {};
  */
 Blockly.Workspace.prototype.undo = function(redo) {};
 
+/**
+ * Class for a workspace.  This is an onscreen area with optional trashcan,
+ * scrollbars, bubbles, and dragging.
+ * @param {!Blockly.Options} options Dictionary of options.
+ * @param {Blockly.BlockDragSurfaceSvg=} opt_blockDragSurface Drag surface for
+ *     blocks.
+ * @param {Blockly.workspaceDragSurfaceSvg=} opt_wsDragSurface Drag surface for
+ *     the workspace.
+ */
+Blockly.WorkspaceSvg = function(options,
+    opt_blockDragSurface, opt_wsDragSurface) {
+};
 
 /** @constructor */
 Blockly.Options = {}
