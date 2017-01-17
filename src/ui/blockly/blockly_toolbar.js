@@ -89,6 +89,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
+  this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
 
   goog.style.showElement(this.nodeExpandExit, false);
   goog.style.showElement(this.nodeMore, false);
@@ -107,6 +108,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
+  goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
+    this.publish.bind(this));
 };
 
 
@@ -159,6 +162,15 @@ cwc.ui.BlocklyToolbar.prototype.redo = function() {
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
+};
+
+
+/**
+ * Publish file.
+ */
+cwc.ui.BlocklyToolbar.prototype.publish = function() {
+  var fileExporterInstance = this.helper.getInstance('fileExporter');
+  fileExporterInstance.exportHtmlToGoogleCloud();
 };
 
 

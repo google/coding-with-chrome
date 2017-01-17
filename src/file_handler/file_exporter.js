@@ -50,3 +50,14 @@ cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
       fileInstance.getFileTitle() + '.html',
       rendererInstance.getRenderedContent());
 };
+
+cwc.fileHandler.FileExporter.prototype.exportHtmlToGoogleCloud = function() {
+  var fileInstance = this.helper.getInstance('file', true);
+  var gCloudInstance = this.helper.getInstance('gcloud', true);
+  var rendererInstance = this.helper.getInstance('renderer', true);
+  console.info('Prepare export as HTML file to Google Cloud');
+  gCloudInstance.publishDialog(
+    fileInstance.getFileTitle() + '.html',
+    rendererInstance.getRenderedContent(),
+    'text/html');
+};

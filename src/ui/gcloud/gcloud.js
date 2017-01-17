@@ -86,6 +86,15 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   }, callback);
 };
 
+cwc.ui.GCloud.prototype.clear = function() {
+  this.fileName = '';
+  this.fileContent = '';
+  this.fileType = '';
+  this.projectId = '';
+  this.bucketName = '';
+  this.publicUrlPath = '';
+};
+
 cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
   var dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;

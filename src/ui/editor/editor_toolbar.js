@@ -244,10 +244,8 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
  * Publish file.
  */
 cwc.ui.EditorToolbar.prototype.publish = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
-  if (fileSaverInstance) {
-    fileSaverInstance.saveGCloudFile();
-  }
+  var fileExporterInstance = this.helper.getInstance('fileExporter');
+  fileExporterInstance.exportHtmlToGoogleCloud();
 };
 
 
