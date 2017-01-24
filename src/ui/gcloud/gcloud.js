@@ -75,6 +75,17 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   this.fileContent = content;
   this.fileType = type;
   var callback = (function(response) {
+    response['projects'].sort(function(a, b) {
+      var aId = a['projectId'];
+      var bId = b['projectId'];
+      if (aId < bId) {
+        return -1;
+      }
+      if (aId > bId) {
+        return 1;
+      }
+      return 0;
+    });
     this.selectProjectDialog(response['projects']);
   }).bind(this);
   accountInstance.request({
@@ -125,6 +136,17 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
   console.log('Project id chosen: ' + projectId);
   this.projectId = projectId;
   var callback = (function(response) {
+    response['items'].sort(function(a, b) {
+      var aId = a['id'];
+      var bId = b['id'];
+      if (aId < bId) {
+        return -1;
+      }
+      if (aId > bId) {
+        return 1;
+      }
+      return 0;
+    });
     this.selectBucketDialog(response['items']);
   }).bind(this);
   accountInstance.request({
