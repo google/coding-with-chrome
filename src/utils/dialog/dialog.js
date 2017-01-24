@@ -209,6 +209,11 @@ cwc.utils.Dialog.prototype.addButton = function(id, text, callback) {
 };
 
 
+cwc.utils.Dialog.prototype.getButton = function(id) {
+  return goog.dom.getElement(this.prefix + id);
+};
+
+
 cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
   var button = goog.dom.getElement(this.prefix + id);
   goog.dom.setTextContent(button, text);

@@ -161,9 +161,13 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   }
   if (this.publicUrlPath) {
     this.setDialogPublicUrl(this.publicUrlPath);
-    dialogInstance.addButton('publish', 'Republish', this.publish.bind(this));
+    if (!dialogInstance.getButton('publish')) {
+      dialogInstance.addButton('publish', 'Republish', this.publish.bind(this));
+    }
   } else {
-    dialogInstance.addButton('publish', 'Publish', this.publish.bind(this));
+    if (!dialogInstance.getButton('publish')) {
+      dialogInstance.addButton('publish', 'Publish', this.publish.bind(this));
+    }
   }
 };
 
@@ -227,6 +231,7 @@ cwc.ui.GCloud.prototype.setDialogPublicUrl = function(publicUrlPath) {
       publicUrlPath)
   }, 'https://storage.googleapis.com/' + publicUrlPath);
   var urlContainer = goog.dom.getElement(this.prefix + 'public-url');
+  goog.dom.removeChildren(urlContainer);
   goog.dom.append(urlContainer,
     goog.dom.createDom(
       'label', {'for': this.prefix + 'public-url-link'}, 'Public URL: '
