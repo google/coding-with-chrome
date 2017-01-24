@@ -311,7 +311,11 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editor_mode == 'text/javascript' ||
       editor_mode == 'text/coffeescript') {
     this.enableDebugButton(true);
-    this.enablePublishButton(true);
+    if (this.helper.experimentalEnabled()) {
+      this.enablePublishButton(true);
+    } else {
+      this.enablePublishButton(false);
+    }
   } else {
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {

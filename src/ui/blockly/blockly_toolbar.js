@@ -96,6 +96,9 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
 
   //cwc.ui.Helper.enableElement(this.nodeUndo, false);
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
+  if (!this.helper.experimentalEnabled()) {
+    cwc.ui.Helper.enableElement(this.nodePublish, false);
+  }
 
   // Events
   goog.events.listen(this.nodeExpand, goog.events.EventType.CLICK,
