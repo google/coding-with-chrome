@@ -210,12 +210,13 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
   }
 
   var subdomain = 'www';
-  if (opts.subdomain && typeof(opts.subdomain) === 'string') {
+  if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
+      opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
     subdomain = opts.subdomain;
   }
 
-  var url = new goog.Uri('https://' + subdomain + '.googleapis.com' +
-      opts.path);
+  var uri =  subdomain + '.googleapis.com';
+  var url = new goog.Uri.create('https', null, uri, null, opts.path);
   if (opts.raw) {
     url = new goog.Uri(opts.path);
   }

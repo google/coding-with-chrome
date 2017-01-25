@@ -66,13 +66,13 @@ cwc.mode.Mod = function(config_data) {
   /** @type {!Object} */
   this.mod = config_data.mod || {};
 
-  /** @type {array} */
+  /** @type {Array} */
   this.authors = config_data.authors || [];
 
   /** @type {cwc.file.Type} Primary file type*/
   this.fileType = config_data.file_type || cwc.file.Type.UNKNOWN;
 
-  /** @type {array} Additional supported file types */
+  /** @type {Array} Additional supported file types */
   this.fileTypes = config_data.file_types || [];
 
   /** @type {!Object} */

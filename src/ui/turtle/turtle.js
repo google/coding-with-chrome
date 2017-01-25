@@ -71,7 +71,7 @@ cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {boolean} */
   this.ready = false;
 
-  /** @type {string} */
+  /** @type {string|undefined} */
   this.image = opt_image;
 
   /** @type {Element|StyleSheet} */

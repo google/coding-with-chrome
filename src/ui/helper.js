@@ -189,7 +189,7 @@ cwc.ui.Helper.enableElement = function(element, enabled) {
 
 /**
  * Removes all elements with the provided class names.
- * @param {array|string} class_names
+ * @param {Array|string} class_names
  * @param {string=} opt_type
  */
 cwc.ui.Helper.removeElements = function(class_names, opt_type) {
@@ -202,35 +202,35 @@ cwc.ui.Helper.removeElements = function(class_names, opt_type) {
 
 /**
  * Hides all elements with the provided class names.
- * @param {array|string} class_names
+ * @param {Array|string} class_names
  * @param {string=} opt_type
  */
 cwc.ui.Helper.hideElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
   for (let i = 0; i < elements.length; i++) {
-    goog.style.showElement(elements[i], false);
+    goog.style.setElementShown(elements[i], false);
   }
 };
 
 
 /**
  * Shows all elements with the provided class names.
- * @param {array|string} class_names
+ * @param {Array|string} class_names
  * @param {string=} opt_type
  */
 cwc.ui.Helper.showElements = function(class_names, opt_type) {
   var elements = cwc.ui.Helper.getElements(class_names, opt_type);
   for (let i = 0; i < elements.length; i++) {
-    goog.style.showElement(elements[i], true);
+    goog.style.setElementShown(elements[i], true);
   }
 };
 
 
 /**
  * Returns all elements with the provided class names.
- * @param {array|string} class_names
+ * @param {Array|string} class_names
  * @param {string=} opt_type
- * @return {array} List of elements
+ * @return {Array} List of elements
  */
 cwc.ui.Helper.getElements = function(class_names, opt_type) {
   var classes = (typeof class_names === 'string') ? [class_names] : class_names;

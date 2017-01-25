@@ -152,7 +152,7 @@ cwc.ui.RunnerMonitor.prototype.setRunStatus = function(running) {
  * @param {!boolean} show
  */
 cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
-  goog.style.showElement(this.tabCalibration, show);
+  goog.style.setElementShown(this.tabCalibration, show);
 };
 
 
@@ -160,7 +160,7 @@ cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
  * @param {!boolean} show
  */
 cwc.ui.RunnerMonitor.prototype.showControlTab = function(show) {
-  goog.style.showElement(this.tabCalibration, show);
+  goog.style.setElementShown(this.tabCalibration, show);
 };
 
 
@@ -168,7 +168,7 @@ cwc.ui.RunnerMonitor.prototype.showControlTab = function(show) {
  * @param {!boolean} show
  */
 cwc.ui.RunnerMonitor.prototype.showMonitorTab = function(show) {
-  goog.style.showElement(this.tabMonitor, show);
+  goog.style.setElementShown(this.tabMonitor, show);
 };
 
 

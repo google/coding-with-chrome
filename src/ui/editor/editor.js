@@ -153,7 +153,10 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
 
   console.log('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
-      this.node, cwc.soy.ui.Editor.template, {prefix: this.prefix}
+      this.node, cwc.soy.ui.Editor.template, {
+        experimental: this.helper.experimentalEnabled(),
+        prefix: this.prefix
+      }
   );
 
   if (!this.styleSheet) {

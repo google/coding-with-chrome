@@ -117,7 +117,7 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
   this.nodeHelp = goog.dom.getElement(this.prefix + 'help');
 
-  goog.style.showElement(this.nodeDebug, this.helper.debugEnabled());
+  goog.style.setElementShown(this.nodeDebug, this.helper.debugEnabled());
 
   // Events
   goog.events.listen(this.nodeNewProject, goog.events.EventType.CLICK,

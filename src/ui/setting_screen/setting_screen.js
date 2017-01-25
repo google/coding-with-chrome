@@ -40,32 +40,25 @@ cwc.ui.SettingScreen = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {string} */
-  this.prefix = 'setting-screen-';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('setting-screen');
 };
 
 
 /**
  * Decorates the given node and adds the settings.
  * @param {Element} node The target node to add the settings.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
 
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.SettingScreen.template,
       {'prefix': this.prefix}
-  );
-
-  goog.style.installStyles(
-      cwc.soy.ui.SettingScreen.style({ 'prefix': this.prefix })
   );
 
   var userConfigInstance = this.helper.getInstance('userConfig');
@@ -129,7 +122,6 @@ cwc.ui.SettingScreen.prototype.decorate = function(node, opt_prefix) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
         cwc.userConfigName.FULLSCREEN, showFullscreen.checked);
     }, false, this);
-
 
 };
 

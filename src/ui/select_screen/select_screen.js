@@ -42,10 +42,7 @@ cwc.ui.SelectScreen = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'select-screen-';
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  this.prefix = this.helper.getPrefix('select-screen');
 
   /** @type {Element} */
   this.node = null;
@@ -61,9 +58,6 @@ cwc.ui.SelectScreen = function(helper) {
   this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper,
     this.prefix);
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {boolean} */
   this.updateMode = false;
 
@@ -78,23 +72,13 @@ cwc.ui.SelectScreen = function(helper) {
 /**
  * Decorates the given node and adds the start screen.
  * @param {Element} node
- * @param {string=} opt_prefix
  */
-cwc.ui.SelectScreen.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.SelectScreen.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
 
   goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
     'prefix': this.prefix
   });
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(cwc.soy.SelectScreen.style({
-      'debug': this.helper.debugEnabled(),
-      'prefix': this.prefix,
-      'version': this.helper.getAppVersion()
-    }));
-  }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.selectScreenNormal.decorate(this.nodeContent);

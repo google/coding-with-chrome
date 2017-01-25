@@ -95,7 +95,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node, opt_prefix) {
 
   cwc.ui.Helper.enableElement(this.nodeReload, false);
   cwc.ui.Helper.enableElement(this.nodeStop, false);
-  goog.style.showElement(this.nodeExpandExit, false);
+  goog.style.setElementShown(this.nodeExpandExit, false);
 
   goog.events.listen(this.nodeAutoReload, goog.events.EventType.CLICK,
     this.autoUpdate.bind(this));
@@ -223,8 +223,8 @@ cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
   var layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     layoutInstance.setFullscreen(expand, 0);
-    goog.style.showElement(this.nodeExpand, !expand);
-    goog.style.showElement(this.nodeExpandExit, expand);
+    goog.style.setElementShown(this.nodeExpand, !expand);
+    goog.style.setElementShown(this.nodeExpandExit, expand);
   }
 };
 
@@ -234,7 +234,7 @@ cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
  * @param {boolean} visible
  */
 cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
-  goog.style.showElement(this.nodeExpand, visible);
+  goog.style.setElementShown(this.nodeExpand, visible);
 };
 
 
@@ -242,5 +242,5 @@ cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
  * @param {boolean} visible
  */
 cwc.ui.PreviewToolbar.prototype.showRunButton = function(visible) {
-  goog.style.showElement(this.nodeRun, visible);
+  goog.style.setElementShown(this.nodeRun, visible);
 };

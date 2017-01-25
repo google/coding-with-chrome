@@ -76,8 +76,8 @@ cwc.ui.BlocklyToolbar = function(helper) {
  * @param {!Element} node_blockly
  * @param {string=} opt_prefix
  */
-cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
-    node_blockly, opt_prefix) {
+cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
+    opt_prefix) {
   this.node = node;
   this.nodeBlockly = node_blockly;
   this.prefix = (opt_prefix || '') + this.prefix;
@@ -89,15 +89,15 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
-  this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
 
-  goog.style.showElement(this.nodeExpandExit, false);
-  goog.style.showElement(this.nodeMore, false);
+  goog.style.setElementShown(this.nodeExpandExit, false);
+  goog.style.setElementShown(this.nodeMore, false);
 
-  //cwc.ui.Helper.enableElement(this.nodeUndo, false);
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
-  if (!this.helper.experimentalEnabled()) {
-    cwc.ui.Helper.enableElement(this.nodePublish, false);
+  if (this.helper.experimentalEnabled()) {
+    this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
+    goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
+      this.publish.bind(this));
   }
 
   // Events
@@ -111,8 +111,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node,
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
-  goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
-    this.publish.bind(this));
+
 };
 
 
@@ -125,7 +124,7 @@ cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.nodeMoreList) {
     var item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
     this.nodeMoreList.appendChild(item);
-    goog.style.showElement(this.nodeMore, true);
+    goog.style.setElementShown(this.nodeMore, true);
     cwc.ui.Helper.mdlRefresh();
   }
 };
@@ -226,7 +225,7 @@ cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand) {
   var layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     layoutInstance.setFullscreen(expand);
-    goog.style.showElement(this.nodeExpand, !expand);
-    goog.style.showElement(this.nodeExpandExit, expand);
+    goog.style.setElementShown(this.nodeExpand, !expand);
+    goog.style.setElementShown(this.nodeExpandExit, expand);
   }
 };

@@ -56,16 +56,10 @@ cwc.ui.SelectScreenNormal = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'select-screen-normal-';
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  this.prefix = this.helper.getPrefix('select-screen-normal');
 
   /** @type {Element} */
   this.node = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 
   /** @type {cwc.ui.SelectScreenNormalView} */
   this.currentView = null;
@@ -78,17 +72,10 @@ cwc.ui.SelectScreenNormal = function(helper) {
 /**
  * Decorates the given node and adds the start screen.
  * @param {Element} node
- * @param {string=} opt_prefix
  * @export
  */
-cwc.ui.SelectScreenNormal.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.SelectScreenNormal.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.SelectScreenNormal.style({ 'prefix': this.prefix }));
-  }
 };
 
 

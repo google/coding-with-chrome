@@ -143,7 +143,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   } else {
     this.setRobotModel('TRACK3R');
   }
-  goog.style.showElement(this.nodeRobotCustom, false);
+  goog.style.setElementShown(this.nodeRobotCustom, false);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
@@ -189,11 +189,11 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
 cwc.mode.ev3.Calibration.prototype.setType = function(event) {
   var model = event.target.textContent;
   if (model.toLowerCase() == 'custom') {
-    goog.style.showElement(this.nodeRobotCustom, true);
+    goog.style.setElementShown(this.nodeRobotCustom, true);
     return;
   }
   this.setRobotModel(model);
-  goog.style.showElement(this.nodeRobotCustom, false);
+  goog.style.setElementShown(this.nodeRobotCustom, false);
 };
 
 

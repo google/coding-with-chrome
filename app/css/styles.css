@@ -33,3 +33,6 @@
 @import 'codemirror/codemirror4.css';
 @import 'dialog-polyfill/dialog-polyfill.css';
 @import 'material-design-lite/material-design-lite.css';
+
+/* Editor style sheet. */
+@import 'editor.css';

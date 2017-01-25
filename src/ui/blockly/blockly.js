@@ -113,6 +113,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   this.node = node;
   this.prefix = (opt_prefix || '') + this.prefix;
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
+    experimental: this.helper.experimentalEnabled(),
     prefix: this.prefix
   });
 

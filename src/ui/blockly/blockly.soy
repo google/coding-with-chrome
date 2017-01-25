@@ -25,6 +25,7 @@
  * Main HTML template for the editor.
  */
 {template .template}
+  {@param experimental: bool}
   {@param prefix: string}
 
   {call .toolbar_ data="all" /}
@@ -36,6 +37,7 @@
  * Toolbar template.
  */
 {template .toolbar_}
+  {@param experimental: bool}
   {@param prefix: string}
 
   {let $toolbarPrefix: $prefix + 'toolbar-' /}
@@ -64,12 +66,14 @@
           {param opt_title: 'Redo last change.' /}
         {/call}
 
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'publish' /}
-          {param icon: 'cloud_upload' /}
-          {param opt_title: 'Publish to Google Cloud …' /}
-        {/call}
+        {if $experimental}
+          {call .navigationIcon_}
+            {param prefix: $toolbarPrefix /}
+            {param id: 'publish' /}
+            {param icon: 'cloud_upload' /}
+            {param opt_title: 'Publish to Google Cloud …' /}
+          {/call}
+        {/if}
 
       </nav>
       <div class="mdl-layout-spacer"></div>

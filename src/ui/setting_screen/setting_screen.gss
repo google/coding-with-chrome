@@ -1,0 +1,46 @@
+/**
+ * Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+#{$prefix}setting-screen-body {
+  background: #fff;
+  min-height: 100%;
+}
+
+#{$prefix}setting-screen-body section.section--center {
+  max-width: 860px;
+}
+
+#{$prefix}setting-screen-body .mdl-layout__content {
+  padding: 8px;
+  padding-top: 48px;
+}
+
+#{$prefix}setting-screen-body .mdl-list {
+  width: 90%;
+  margin: auto;
+}
+
+#{$prefix}setting-screen-body .mdl-list__item--three-line .mdl-list__item-secondary-content {
+  height: initial;
+}
+
+#{$prefix}setting-screen-close {
+  z-index: 10;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+}
