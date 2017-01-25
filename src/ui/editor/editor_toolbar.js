@@ -110,6 +110,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
+  this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
 
   cwc.ui.Helper.enableElement(this.nodeUndo, false);
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
@@ -132,6 +133,8 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
+  goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
+    this.publish.bind(this));
 
   goog.events.listen(this.selectView, goog.ui.Component.EventType.ACTION,
       this.editorChangeViewEvent, false, this);
@@ -237,6 +240,22 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
   }
 };
 
+/**
+ * Publish file.
+ */
+cwc.ui.EditorToolbar.prototype.publish = function() {
+  var fileExporterInstance = this.helper.getInstance('fileExporter');
+  fileExporterInstance.exportHtmlToGoogleCloud();
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.enablePublishButton = function(enable) {
+  cwc.ui.Helper.enableElement(this.nodePublish, enable);
+};
+
 
 /**
  * @param {boolean} enable
@@ -292,12 +311,18 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editor_mode == 'text/javascript' ||
       editor_mode == 'text/coffeescript') {
     this.enableDebugButton(true);
+    if (this.helper.experimentalEnabled()) {
+      this.enablePublishButton(true);
+    } else {
+      this.enablePublishButton(false);
+    }
   } else {
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       editorInstance.setSyntaxCheck(false);
     }
     this.enableDebugButton(false);
+    this.enablePublishButton(false);
   }
 };
 

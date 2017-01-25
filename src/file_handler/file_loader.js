@@ -147,6 +147,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   console.log('Handle file data', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
+  var gCloudInstance = this.helper.getInstance('gcloud', true);
   var fileType = cwc.file.detector.detectType(
       content, opt_file_name);
   console.log('Filetype', fileType);
@@ -174,6 +175,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   } else if (opt_gdrive_id) {
     fileInstance.setGDriveId(opt_gdrive_id);
   }
+
+  // Clear Google Cloud publish settings.
+  gCloudInstance.clear();
 
   // Settings file title.
   var fileTitle = fileInstance.getFileTitle();

@@ -41,6 +41,9 @@ cwc.fileHandler.FileSaver = function(helper) {
   /** @type {string} */
   this.fileName = '';
 
+  /** @type {string} */
+  this.fileType = '';
+
   /** @type {Object} */
   this.fileHandler = null;
 
@@ -96,6 +99,17 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   }
 };
 
+/**
+ * @param {boolean} save_file If true save file, otherwise open 'save as'
+ *   file dialog.
+ * @export
+ */
+cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
+  console.log('Save file in Google Cloud');
+  var gCloudInstance = this.helper.getInstance('gcloud', true);
+  this.prepareContent();
+  gCloudInstance.publishDialog(this.fileName, this.fileData, this.fileType);
+};
 
 /**
  * Prepares file and ensures we have the latest editor content.
@@ -149,6 +163,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     }
     this.fileData = file.getJson();
     this.fileName = this.addFileExtension(fileName || fileTitle || 'untitled');
+    this.fileType = fileType;
   }
 
   this.fileHandler = fileHandler;
