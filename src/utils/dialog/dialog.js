@@ -23,7 +23,6 @@ goog.provide('cwc.utils.DialogType');
 goog.require('cwc.soy.Dialog');
 
 goog.require('goog.dom');
-goog.require('goog.style');
 
 
 /**

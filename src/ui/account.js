@@ -210,7 +210,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
   }
 
   var subdomain = 'www';
-  if (opts.subdomain) {
+  if (opts.subdomain && typeof(opts.subdomain) === 'string') {
     subdomain = opts.subdomain;
   }
 
