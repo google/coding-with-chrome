@@ -77,13 +77,27 @@ cwc.file.Files.prototype.addFile = function(name, content,
  * @return {cwc.file.File}
  * @export
  */
-cwc.file.Files.prototype.getFile = function(name,
-    opt_group) {
+cwc.file.Files.prototype.getFile = function(name, opt_group) {
   var fileName = ((opt_group) ? opt_group + '/' : '') + name;
   if (this.existFileName(fileName)) {
     return this.data_[fileName];
   }
   return null;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {string=} opt_group
+ * @return {string}
+ * @export
+ */
+cwc.file.Files.prototype.getFileContent = function(name, opt_group) {
+  var file = this.getFile(name, opt_group);
+  if (file) {
+    return file.getContent();
+  }
+  return '';
 };
 
 

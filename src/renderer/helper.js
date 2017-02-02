@@ -34,7 +34,22 @@ cwc.renderer.Helper = function() {};
 
 
 /**
- * @param {string} content Content to mofify.
+ * @param {!string} content Content to modify.
+ * @param {!cwc.file.Files} files
+ * @return {!string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.injectFiles = function(content, files) {
+  var fileReplace = function(unused_result, file_id) {
+    var fileContent = files.getFileContent(file_id);
+    return fileContent;
+  }.bind(this);
+  return content.replace(/{{ file:(.+) }}/gi, fileReplace);
+};
+
+
+/**
+ * @param {string} content Content to modify.
  * @param {string} text Text to prepend if not already in content.
  * @return {string}
  * @export

@@ -117,6 +117,7 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
     'circle': this.circle.bind(this),
     'clear': this.clear.bind(this),
     'ellipse': this.ellipse.bind(this),
+    'image': this.image.bind(this),
     'line': this.line.bind(this),
     'point': this.point.bind(this),
     'rectangle': this.rectangle.bind(this),
@@ -342,6 +343,37 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
 
 
 /**
+ * Draws a image on the stage.
+ * @param {Object|string} image Image object or image data url.
+ * @param {number} x The x position of the image.
+ * @param {number} y The y position of the image.
+ * @param {number=} opt_width The width of the image.
+ * @param {number=} opt_height The height of the image.
+ * @return {!cwc.framework.simple.Draw} This draw object, for chaining
+ *     with other draw operations.
+ * @export
+ */
+cwc.framework.simple.Draw.prototype.image = function(image, x, y,
+    opt_width, opt_height) {
+  var display = this.getDisplay_();
+  if ((typeof image == 'string' || image instanceof String) &&
+      image.includes('data:')) {
+    var imageLoader = new Image();
+    imageLoader.src = image;
+    image = imageLoader;
+  }
+  var canvasInstructions = function() {
+    if (opt_width && opt_height) {
+      display.drawImage(image, x, y, opt_width, opt_height);
+    } else {
+      display.drawImage(image, x, y);
+    }
+  };
+  return this.execute_(canvasInstructions, display);
+};
+
+
+/**
  * Draws a point on the stage.
  * @param {number} x The x position of the point.
  * @param {number} y The y position of the point.
@@ -489,19 +521,23 @@ cwc.framework.simple.Draw.prototype.triangle = function(x1, y1, x2, y2, x3, y3,
  * manipulations which are defined in the manipulation object.
  * @param {!Function} drawFn Execute the canvas instructions.
  * @param {CanvasRenderingContext2D} display
- * @param {!cwc.framework.simple.DrawManipulation} manipulations
+ * @param {!cwc.framework.simple.DrawManipulation=} opt_manipulations
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @private
  */
 cwc.framework.simple.Draw.prototype.execute_ = function(drawFn, display,
-    manipulations) {
+    opt_manipulations) {
   if (!display) {
     return this;
   }
-  manipulations.doPre(display);
+  if (opt_manipulations) {
+    opt_manipulations.doPre(display);
+  }
   drawFn.call(this);
-  manipulations.doPost(display);
+  if (opt_manipulations) {
+    opt_manipulations.doPost(display);
+  }
   return this;
 };
 

@@ -72,15 +72,28 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   var headers = [];
 
   if (html) {
+    // Library files.
+    if (html.includes('{{ file:')) {
+      html = renderer_helper.injectFiles(html, library_files);
+    }
+
     // Coffeescript framework.
     if (html.includes('text/coffeescript')) {
       headers.push(cwc.framework.External.COFFEESCRIPT);
     }
   }
 
+  if (javascript) {
+    // Library files.
+    if (javascript.includes('{{ file:')) {
+      javascript = renderer_helper.injectFiles(javascript, library_files);
+    }
+  }
+
   // Detect additional frameworks.
   var script = javascript || html || '';
   if (script) {
+
     // Simple framework.
     if (script.includes('draw.') || script.includes('command.')) {
       headers.push(cwc.framework.Internal.SIMPLE);
