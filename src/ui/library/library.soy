@@ -25,6 +25,7 @@
  */
 {template .template}
   {@param prefix: string}
+
   <div id="{$prefix}overview">
     File: <span id="{$prefix}file">No file selected</span>
     <div id="{$prefix}preview-body">
@@ -45,84 +46,9 @@
         <tbody id="{$prefix}entries"></tbody>
       </table>
     </div>
-    <div id="{$prefix}actions">
-      <span id="{$prefix}add-file"></span>
+    <div id="{$prefix}add-file">
+      <i class="material-icons">file_upload</i>
+      {msg desc=""}Drop files here or click to select.{/msg}
     </div>
   </div>
-{/template}
-
-/**
- * Library style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  #{$prefix}overview {lb}
-   padding: 2px;
-   background: #fff;
-  {rb}
-
-  #{$prefix}chrome {lb}
-    background: #fff;
-  {rb}
-
-  #{$prefix}preview-body {lb}
-    height: 120px;
-    border: 1px solid #aaa;
-  {rb}
-
-  #{$prefix}preview-body webview, #{$prefix}preview {lb}
-    display: block;
-    height: 100px;
-    width: 100%;
-  {rb}
-
-  #{$prefix}content {lb}
-    overflow: auto;
-    height: 250px;
-    border: 1px solid #aaa;
-    margin: auto;
-  {rb}
-
-  #{$prefix}content > table {lb}
-    width: 100%;
-    min-width: 400px;
-    border: 0;
-    margin: 0;
-    padding: 0;
-  {rb}
-
-  #{$prefix}content tr {lb}
-    text-align: left;
-    padding: 1px;
-    background: #dedede;
-    opacity: .8;
-  {rb}
-
-  #{$prefix}content tr:nth-child(even):hover,
-  #{$prefix}content tr:nth-child(odd):hover {lb}
-    opacity: 1;
-  {rb}
-
-  #{$prefix}content tr:nth-child(even) {lb}
-    background: #ddd;
-  {rb}
-
-  #{$prefix}content tr:nth-child(odd) {lb}
-    background: #eee;
-  {rb}
-
-  #{$prefix}content th {lb}
-    text-align: left;
-    padding: 2px;
-    border-bottom: 1px solid #666;
-  {rb}
-
-  #{$prefix}content td {lb}
-    text-align: left;
-  {rb}
-
-  #{$prefix}action {lb}
-    padding: 3px;
-  {rb}
-
 {/template}

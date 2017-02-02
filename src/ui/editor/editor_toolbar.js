@@ -320,7 +320,9 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editorInstance.setSyntaxCheck(false);
     }
     this.enableDebugButton(false);
-    this.enablePublishButton(false);
+    if (this.helper.experimentalEnabled()) {
+      this.enablePublishButton(false);
+    }
   }
 };
 

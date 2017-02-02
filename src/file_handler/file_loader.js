@@ -144,13 +144,12 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
-  console.log('Handle file data', content);
+  console.log('Handle file data:', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
   var gCloudInstance = this.helper.getInstance('gcloud', true);
-  var fileType = cwc.file.detector.detectType(
-      content, opt_file_name);
-  console.log('Filetype', fileType);
+  var fileType = cwc.file.detector.detectType(content, opt_file_name);
+  console.log('Filetype:', fileType);
   var fileConfig = cwc.fileHandler.Config.get(fileType, true);
   console.log('FileConfig:', fileConfig);
   var file = new fileConfig.file(
@@ -272,7 +271,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       var message = chrome.runtime.lastError.message;
-      if (message != 'User cancelled') {
+      if (message != 'User canceled') {
         this.helper.showWarning(message);
         return;
       }

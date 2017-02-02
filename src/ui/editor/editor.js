@@ -34,7 +34,6 @@ goog.require('goog.dom.TagName');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.soy');
-goog.require('goog.style');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
@@ -55,6 +54,9 @@ cwc.ui.Editor = function(helper) {
   /** @type {string} */
   this.name = 'Editor';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {cwc.ui.EditorFlags} */
   this.editorFlags = new cwc.ui.EditorFlags();
 
@@ -71,10 +73,7 @@ cwc.ui.Editor = function(helper) {
   this.currentEditorView = '';
 
   /** @type {!string} */
-  this.prefix = 'editor-';
-
-  /** @type {!string} */
-  this.generalPrefix = '';
+  this.prefix = this.helper.getPrefix('editor');
 
   /** @type {!CodeMirror.CursorPosition|string} */
   this.cursorPosition = '';
@@ -126,12 +125,6 @@ cwc.ui.Editor = function(helper) {
   /** @type {!string} */
   this.theme = 'default';
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {Array} */
   this.listener = [];
 };
@@ -140,15 +133,11 @@ cwc.ui.Editor = function(helper) {
 /**
  * Decorates the given node and adds the code editor.
  * @param {Element} node The target node to add the code editor.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Editor.prototype.decorate = function(node) {
   this.editorFlags = new cwc.ui.EditorFlags();
   this.editorView = {};
-  this.generalPrefix = opt_prefix || '';
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
   this.modified = false;
 
   console.log('Decorate', this.name, 'into node', this.node);
@@ -158,11 +147,6 @@ cwc.ui.Editor.prototype.decorate = function(node, opt_prefix) {
         prefix: this.prefix
       }
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Editor.style({
-      prefix: this.prefix }));
-  }
 
   // Decorate editor tool-bar.
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
@@ -759,6 +743,5 @@ cwc.ui.Editor.prototype.addEventListener = function(src, type,
  */
 cwc.ui.Editor.prototype.cleanUp_ = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   this.modified = false;
 };

@@ -71,7 +71,7 @@ cwc.ui.SelectScreenNormal = function(helper) {
 
 /**
  * Decorates the given node and adds the start screen.
- * @param {Element} node
+ * @param {!Element} node
  * @export
  */
 cwc.ui.SelectScreenNormal.prototype.decorate = function(node) {

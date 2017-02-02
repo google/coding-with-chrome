@@ -77,7 +77,7 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
 
 /**
  * Decorates the given node and adds the start screen.
- * @param {Element} node
+ * @param {!Element} node
  * @export
  */
 cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node) {

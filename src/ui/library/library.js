@@ -21,15 +21,10 @@ goog.provide('cwc.ui.Library');
 
 goog.require('cwc.file.File');
 goog.require('cwc.soy.Library');
-goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.soy');
-goog.require('goog.style');
-goog.require('goog.ui.Button');
-goog.require('goog.ui.Component');
-goog.require('goog.ui.Dialog');
 goog.require('goog.ui.TableSorter');
 
 
@@ -51,17 +46,11 @@ cwc.ui.Library = function(helper) {
   /** @type {Element} */
   this.nodeCounter = null;
 
-  /** @type {string} */
-  this.prefix = 'library-';
-
-  /** @type {string} */
-  this.generalPrefix = '';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {goog.ui.Button} */
-  this.buttonAddFile = null;
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('library');
 
   /** @type {Element} */
   this.nodeAddFile = null;
@@ -78,12 +67,6 @@ cwc.ui.Library = function(helper) {
   /** @type {Element} */
   this.nodeContentTable = null;
 
-  /** @type {goog.ui.Dialog} */
-  this.dialog = new goog.ui.Dialog();
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {Array} */
   this.listener = [];
 };
@@ -91,29 +74,10 @@ cwc.ui.Library = function(helper) {
 
 /**
  * Decorates the given node and adds the file library.
- * @param {Element=} opt_node The target node to add the file library.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
+ * @param {!Element} opt_node The target node to add the file library.
  */
-cwc.ui.Library.prototype.decorate = function(opt_node, opt_prefix) {
-  this.node = opt_node || null;
-  this.generalPrefix = opt_prefix || '';
-  this.prefix = (opt_prefix || '') + this.prefix;
-
-  if (opt_node) {
-    console.log('Decorate', this.name, 'into node', this.node);
-    goog.soy.renderElement(
-        this.node, cwc.soy.Library.template, { 'prefix': this.prefix }
-    );
-    this.decorateLibrary();
-  } else {
-    console.log('Decorate', this.name);
-  }
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Library.style({ 'prefix': this.prefix }));
-  }
+cwc.ui.Library.prototype.decorate = function(node) {
+  this.node = node;
 
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
@@ -128,7 +92,6 @@ cwc.ui.Library.prototype.decorate = function(opt_node, opt_prefix) {
  * Decorates the library content.
  */
 cwc.ui.Library.prototype.decorateLibrary = function() {
-  this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
   this.nodeContentTable = goog.dom.getElement(this.prefix +
       'content-table');
   this.nodeEntries = goog.dom.getElement(this.prefix + 'entries');
@@ -136,14 +99,13 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
   this.nodePreview = goog.dom.getElement(this.prefix + 'preview');
   this.syncFiles();
 
-  if (this.nodeAddFile) {
-    this.buttonAddFile = new goog.ui.Button('Add local file');
-    this.buttonAddFile.render(this.nodeAddFile);
-    this.addEventListener(
-        this.buttonAddFile,
-        goog.ui.Component.EventType.ACTION,
-        this.selectFileToAdd, false, this);
-  }
+  this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
+    this.selectFileToAdd, false, this);
+  this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGOVER,
+    this.handleDragOver_, false, this);
+  this.addEventListener(this.nodeAddFile, goog.events.EventType.DROP,
+    this.handleDrop_, false, this);
 
   if (this.nodeContentTable) {
     var tableSorter = new goog.ui.TableSorter();
@@ -157,18 +119,35 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
 
 
 /**
+ * @private
+ */
+cwc.ui.Library.prototype.handleDragOver_ = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleDrop_ = function(e) {
+  var file = e.getBrowserEvent().dataTransfer.files[0];
+  if (file) {
+    this.readFile(file);
+  }
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+
+/**
  * Shows the library.
  */
 cwc.ui.Library.prototype.showLibrary = function() {
-  this.dialog.setTitle('File Library');
-  this.dialog.setSafeHtmlContent(cwc.soy.Library.template({
-    'prefix': this.prefix}).toSafeHtml());
-  this.dialog.setButtonSet(null);
-  this.dialog.setDisposeOnHide(true);
-  if (!this.dialog.isInDocument()) {
-    this.dialog.render();
-  }
-  this.dialog.setVisible(true);
+  var dialogInstance = this.helper.getInstance('dialog', true);
+  dialogInstance.showTemplate('File Library', cwc.soy.Library.template, {
+    'prefix': this.prefix
+  });
   this.decorateLibrary();
 };
 
@@ -280,9 +259,6 @@ cwc.ui.Library.prototype.insertFileMacro = function(event) {
     var fileMacro = '{{ file:' + file.getName() + ' }}';
     editorInstance.insertText(fileMacro);
   }
-  if (this.dialog) {
-    this.dialog.setVisible(false);
-  }
 };
 
 
@@ -383,6 +359,4 @@ cwc.ui.Library.prototype.addEventListener = function(src, type,
 cwc.ui.Library.prototype.cleanUp = function() {
   this.clearData();
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
-  this.dialog = new goog.ui.Dialog();
 };
