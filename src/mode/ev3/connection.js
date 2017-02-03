@@ -93,7 +93,7 @@ cwc.mode.ev3.Connection.prototype.isConnected = function() {
 
 
 /**
- * @return {}
+ * @return {Function}
  */
 cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
   return this.api.getEventHandler();
@@ -101,7 +101,7 @@ cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
 
 
 /**
- * @return {}
+ * @return {Function}
  */
 cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
   return this.api.getDeviceData();
@@ -109,7 +109,7 @@ cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
 
 
 /**
- * @return {}
+ * @return {Function}
  */
 cwc.mode.ev3.Connection.prototype.getDevices = function() {
   return this.api.getDevices();

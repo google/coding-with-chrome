@@ -51,6 +51,21 @@ cwc.ui.Account = function(helper) {
   /** @type {boolean} */
   this.authenticated = false;
 
+  /** @type {string} */
+  this.userName = '';
+
+  /** @type {string} */
+  this.userFamilyName = '';
+
+  /** @type {string} */
+  this.userGivenName = '';
+
+  /** @type {string} */
+  this.userPicture = '';
+
+  /** @type {string} */
+  this.userLink = '';
+
 };
 
 
@@ -68,14 +83,9 @@ cwc.ui.Account.prototype.prepare = function() {
 /**
  * Handles the oAuth 2.0 authentication.
  */
-cwc.ui.Account.prototype.authenticate = function(callback) {
+cwc.ui.Account.prototype.authenticate = function() {
   console.log('Try to authenticated …');
-  var authentificationEvent = (function(opt_access_token) {
-    this.handleAuthentication(opt_access_token);
-    if (callback) {
-      callback(opt_access_token);
-    }
-  }).bind(this);
+  var authentificationEvent = this.handleAuthentication.bind(this);
   chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
 };
 
@@ -105,8 +115,7 @@ cwc.ui.Account.prototype.isAuthenticated = function() {
  * Handles authentication and store access.
  * @param {string=} opt_access_token
  */
-cwc.ui.Account.prototype.handleAuthentication = function(
-    opt_access_token) {
+cwc.ui.Account.prototype.handleAuthentication = function(opt_access_token) {
   if (opt_access_token) {
     this.accessToken = opt_access_token;
     this.setAuthenticated();
@@ -195,21 +204,6 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   this.authenticated = authenticated;
 };
 
-function wrapAuthenticate(callback) {
-  return function() {
-    var outerArgs = arguments;
-    var authCallback = (function() {
-      callback.apply(this, outerArgs);
-    }).bind(this);
-
-    if (!this.authenticated) {
-      this.authenticate(authCallback);
-    } else {
-      callback.apply(this, arguments);
-    }
-  };
-}
-
 /**
  * @param {Object} opts Contains options for http request, listed below:
  *   - content: data to send with request.
@@ -222,15 +216,20 @@ function wrapAuthenticate(callback) {
  *   - raw: if true opts.path becomes the entire URI.
  * @param {function(?)=} callback Called when http request completes.
  */
-cwc.ui.Account.prototype.request = wrapAuthenticate(function(opts, callback) {
-  var params = opts.params |{};
+cwc.ui.Account.prototype.request = function(opts, callback) {
+  var params = opts.params || {};
+
+  if (!this.authenticated) {
+    this.authenticate();
+  }
+
   var subdomain = 'www';
   if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
-    opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
+      opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
     subdomain = opts.subdomain;
   }
 
-  var uri = subdomain + '.googleapis.com';
+  var uri =  subdomain + '.googleapis.com';
   var url = new goog.Uri.create('https', null, uri, null, opts.path);
   if (opts.raw) {
     url = new goog.Uri(opts.path);
@@ -254,15 +253,15 @@ cwc.ui.Account.prototype.request = wrapAuthenticate(function(opts, callback) {
   /** @type {goog.net.XhrIo} */
   var xhr = new goog.net.XhrIo();
   goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
-    false, this);
+      false, this);
   goog.events.listen(xhr, goog.net.EventType.ERROR, this.handleXhrError,
-    false, this);
+      false, this);
   goog.events.listen(xhr, goog.net.EventType.TIMEOUT, this.handleXhrTimeout,
-    false, this);
+      false, this);
 
   console.log('Request: ' + method + ' ' + url);
   xhr.send(url, method, content, headers);
-});
+};
 
 
 /**

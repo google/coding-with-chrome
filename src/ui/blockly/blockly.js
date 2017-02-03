@@ -338,6 +338,28 @@ cwc.ui.Blockly.prototype.addView = function(xml_text) {
 
 
 /**
+ * Enable/Disable the media button.
+ * @param {boolean} enable
+ */
+cwc.ui.Blockly.prototype.enableMediaButton = function(enable) {
+  if (this.toolbar) {
+    this.toolbar.enableMediaButton(enable);
+  }
+};
+
+
+/**
+ * Updates the media button appearance.
+ * @param {boolean} has_files
+ */
+cwc.ui.Blockly.prototype.updateMediaButton = function(has_files) {
+  if (this.toolbar) {
+    this.toolbar.updateMediaButton(has_files);
+  }
+};
+
+
+/**
  * Updates the toolbox.
  * @param {Element=} opt_toolbox
  */

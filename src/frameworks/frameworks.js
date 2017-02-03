@@ -31,17 +31,18 @@ goog.provide('cwc.framework.Internal');
  */
 cwc.framework.External = {
   COFFEESCRIPT: 'coffee-script.js',
-  THREE_JS: {
-    CORE: 'three.min.js'
-  },
   JQUERY: {
     V3_X: 'jquery.min.js',
     V2_2_4: 'jquery-2.2.4.min.js'
   },
   JQUERY_TURTLE: 'jquery-turtle.js',
+  PHASER: 'phaser.min.js',
   SKULPT: {
     CORE: 'skulpt.min.js',
     STDLIB: 'skulpt-stdlib.js'
+  },
+  THREE_JS: {
+    CORE: 'three.min.js'
   }
 };
 

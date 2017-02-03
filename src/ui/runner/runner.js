@@ -110,6 +110,9 @@ cwc.ui.Runner = function(helper) {
   /** @type {Element} */
   this.nodeInfobar = null;
 
+  /** @type {Element} */
+  this.nodeMonitor = null;
+
   /** @type {Object} */
   this.content = null;
 
@@ -815,11 +818,12 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
- * @param {function(?)} profile
+ * @param {!function(?)} profile
+ * @param {!function(?)} api
  * @param {?} opt_scope
  */
-cwc.ui.Runner.prototype.addCommandProfile = function(profile, opt_scope) {
-  this.connector.addCommandProfile(profile, opt_scope);
+cwc.ui.Runner.prototype.addCommandProfile = function(profile, api, opt_scope) {
+  this.connector.addCommandProfile(profile, api, opt_scope);
 };
 
 
@@ -854,7 +858,7 @@ cwc.ui.Runner.prototype.addEvent = function(event_handler, event, command) {
 
 /**
  * @param {string!} command
- * @param {object|number|string|array=} opt_value
+ * @param {Object|number|string|Array=} opt_value
  */
 cwc.ui.Runner.prototype.send = function(command, opt_value) {
   this.connector.send(command, opt_value);

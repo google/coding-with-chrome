@@ -23,14 +23,14 @@ goog.provide('cwc.ui.GDrive');
 goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GDrive');
 goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
+
 goog.require('goog.dom.dataset');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.ui.Dialog');
 goog.require('goog.ui.Dialog.EventType');
-goog.require('goog.ui.Menu');
-goog.require('goog.ui.MenuItem');
+
+
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -42,14 +42,14 @@ cwc.ui.GDrive = function(helper) {
   /** @type {string} */
   this.name = 'GDrive';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {string} */
-  this.prefix = 'gdrive-';
+  this.prefix = this.helper.getPrefix('gdrive');
 
   /** @type {Element} */
   this.node = null;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {Object} */
   this.data = null;
@@ -63,23 +63,26 @@ cwc.ui.GDrive = function(helper) {
   /** @type {!string} */
   this.mimeType = 'application/cwc';
 
-  /** @type {!goog.ui.MenuItem} */
+  /** @type {Element} */
+  this.menuCurrent = null;
+
+  /** @type {!Element} */
   this.menuMyFiles = cwc.ui.Helper.getListItem(
     'My files', this.getMyFiles.bind(this));
 
-  /** @type {!goog.ui.MenuItem} */
+  /** @type {!Element} */
   this.menuSharedFiles = cwc.ui.Helper.getListItem(
     'Shared with me', this.getSharedFiles.bind(this));
 
-  /** @type {!goog.ui.MenuItem} */
+  /** @type {!Element} */
   this.menuStarredFiles = cwc.ui.Helper.getListItem(
     'Starred', this.getStarredFiles.bind(this));
 
-  /** @type {!goog.ui.MenuItem} */
+  /** @type {!Element} */
   this.menuLastOpenedFiles = cwc.ui.Helper.getListItem(
     'Recent', this.getLastOpenedFiles.bind(this));
 
-  /** @type {!goog.ui.MenuItem} */
+  /** @type {!Element} */
   this.menuTrashFiles = cwc.ui.Helper.getListItem(
     'Trash', this.getTrashFiles.bind(this));
 
@@ -93,31 +96,22 @@ cwc.ui.GDrive = function(helper) {
   this.parents = [];
 
   /** @type {string} */
-  this.saveFileName = null;
+  this.saveFileName = '';
 
   /** @type {string} */
-  this.saveFileContent = null;
+  this.saveFileContent = '';
 
   /** @type {string} */
-  this.saveFileParentId = null;
+  this.saveFileParentId = '';
 };
 
 
 /**
  * Decorates the given node and adds the code editor.
  * @param {Element} node The target node.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.GDrive.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.GDrive.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
-
-  console.log(
-    'Decorate', this.name, 'into node', this.node, 'with prefix', this.prefix);
-  var gdriveStyles = cwc.soy.GDrive.gDriveStyle({ 'prefix': this.prefix });
-  console.log('gdriveStyles: ' + gdriveStyles);
-  goog.style.installStyles(gdriveStyles);
 };
 
 

@@ -1,0 +1,33 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"phaser_game\" id=\"7hswu?JXk)ulHqB4,y!V\" x=\"-153\" y=\"-614\">\n    <field name=\"name\">Unnamed Game</field>\n    <field name=\"width\">800</field>\n    <field name=\"height\">600</field>\n    <next>\n      <block type=\"phaser_preload\" id=\"[]R4Lf#O@tYqsgr^`8/;\">\n        <statement name=\"CODE\">\n          <block type=\"phaser_load_image\" id=\"CbXA(oJ@KH5]#K;Mim~(\">\n            <field name=\"name\">test</field>\n            <field name=\"image\">{{ file:sphero.png }}</field>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {
+    "sphero.png": {
+      "name": "sphero.png",
+      "type": "image/png",
+      "size": 1114,
+      "content": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAxAAAAMQBz4pYTAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAKwSURBVEiJtdY9b9NAGAfw/9m5OG9qm6atSBNRXhbUJVXldAgqDG2XdELqUGBCiA/AJ2CDhR0GxMJSJFbKgCrEYlTFUlSpHUBVWgWaRDImSWUnjs/2sVBU0ryoov6PZ+v53fl0vodgQBRFCUej0ZVYLJYXRXGOc54khIxxzhuEkKrrukXDMD6Ypvkxl8u1+9UhvQZVVaXRaPR+JBJ5Qim9MmgiAOA4zlGr1XpeKpVe5PP5zlCkUChcSyQSb0OhkDyseHcsyyrour6ezWZLfZFisZibmJh4J4pisleRWq2GcrkMXdfR6XTAOYckSRgdHUUqlcLMzAw8z6tomrY2Pz//5Qyiqur1ycnJz5TSVC9AURTs7u4OXMn09DTy+Txc162Vy+Xbi4uL3wBAAIC9vb3g+Pj4Rj8AAAzDGAgAgGma4JyDUnopnU6/UVWVAkAAAAghj4btwfLyMvb39//5XJ7nIRQKYWxsDMlkErOzsxBFEQAgSdJCOBx+COAlUVU1MjU19TUQCKSHTvWcsW27XKlUbgjBYHDFDwAAgsHg5Xg8viTEYrG8H8BJKKWrAiFkzk9EFMU5AUDPM3GBSQqEkLifAiEkIXDOf/mJcM5/CgCqfiIAqoLneUU/BcdxikK73d70E2GMvRcsy9pyHOe7H4Bt2+VGo/FJkGW51Wq1nvmBmKb5NJfLtQUAMAzjlWVZhYsEbNvebrfbr4E/v3pZlpmu6+uMsaOLABzHqWmadk+WZfYXAYBsNltqNBprrutW/gdwXfdI07Q7p6/gM3f8zs7O1ZGRkQ1JkhbOC9i2vd1sNu9mMpmD0+NC94uZTObg8PDwZrPZfMAYO+h+3iuMsR/Hx8ePTdO81Q0AfVqikyiKEo7H40uU0tVAIHDSd8U553VCSJUxVnQcZ7Ner28N6rt+A5fqLKDwdn52AAAAAElFTkSuQmCC",
+      "group": "",
+      "version": 1,
+      "filename": "sphero.png"
+    }
+  },
+  "flags": {
+    "__editor__": {
+      "$flags_$": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "phaser_blockly",
+  "mode": "phaser_blockly",
+  "model": "",
+  "title": "Phaser blockly file",
+  "ui": "blockly",
+  "version": "1.0"
+}

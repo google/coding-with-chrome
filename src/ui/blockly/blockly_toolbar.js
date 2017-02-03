@@ -84,6 +84,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
 
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
@@ -105,6 +106,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
+  goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
+    this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
     this.redo.bind(this));
   goog.events.listen(this.nodeSave, goog.events.EventType.CLICK,
@@ -168,6 +171,18 @@ cwc.ui.BlocklyToolbar.prototype.redo = function() {
 
 
 /**
+ * Insert a media.
+ */
+cwc.ui.BlocklyToolbar.prototype.insertMedia = function() {
+  var blocklyInstance = this.helper.getInstance('blockly');
+  var libraryInstance = this.helper.getInstance('library');
+  if (blocklyInstance && libraryInstance) {
+    libraryInstance.showLibrary();
+  }
+};
+
+
+/**
  * Publish file.
  */
 cwc.ui.BlocklyToolbar.prototype.publish = function() {
@@ -189,6 +204,27 @@ cwc.ui.BlocklyToolbar.prototype.enableUndoButton = function(enable) {
  */
 cwc.ui.BlocklyToolbar.prototype.enableRedoButton = function(enable) {
   cwc.ui.Helper.enableElement(this.nodeRedo, enable);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.BlocklyToolbar.prototype.enableMediaButton = function(enable) {
+  if (this.nodeMedia) {
+    cwc.ui.Helper.enableElement(this.nodeMedia, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} has_files
+ */
+cwc.ui.BlocklyToolbar.prototype.updateMediaButton = function(has_files) {
+  if (this.mediaButton) {
+    this.mediaButton.enableClassName('icon_24px', has_files);
+    this.mediaButton.enableClassName('icon_24px_grey', !has_files);
+  }
 };
 
 

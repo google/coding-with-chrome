@@ -114,7 +114,7 @@ cwc.runner.Connector.prototype.setTarget = function(target) {
 
 /**
  * @param {string!} command
- * @param {object|number|string|array=} opt_value
+ * @param {Object|number|string|Array=} opt_value
  */
 cwc.runner.Connector.prototype.send = function(command, opt_value) {
   if (!this.target || !this.target.contentWindow || !this.targetLoaded) {

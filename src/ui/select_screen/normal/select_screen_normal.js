@@ -32,6 +32,7 @@ goog.require('goog.dom');
 cwc.ui.SelectScreenNormalView = {
   BASIC: 'basicOverview',
   DRAW: 'drawOverview',
+  GAMES: 'gamesOverview',
   EV3: 'ev3Overview',
   MBOT: 'mbotOverview',
   MBOT_RANGER: 'mbotRangerOverview',
@@ -96,6 +97,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.BASIC);
       this.setClickEvent_('link-draw', this.showView,
           cwc.ui.SelectScreenNormalView.DRAW);
+      this.setClickEvent_('link-games', this.showView,
+          cwc.ui.SelectScreenNormalView.GAMES);
       this.setClickEvent_('link-music', this.showView,
           cwc.ui.SelectScreenNormalView.MUSIC);
       this.setClickEvent_('link-robot', this.showView,
@@ -117,6 +120,11 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.showTemplate_(cwc.soy.SelectScreenNormal.drawOverview);
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC_BLOCKLY);
+      break;
+    case cwc.ui.SelectScreenNormalView.GAMES:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.gamesOverview);
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.PHASER_BLOCKLY);
       break;
     case cwc.ui.SelectScreenNormalView.MUSIC:
       break;
@@ -251,6 +259,8 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
 cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
   if (this.node && template) {
     goog.soy.renderElement(this.node, template, {
+      debug: this.helper.debugEnabled(),
+      experimental: this.helper.experimentalEnabled(),
       prefix: this.prefix,
       online: this.helper.checkFeature('online')
     });
@@ -263,7 +273,7 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
 /**
  * Adds the click event for the given name and the given function.
  * @param {!string} name
- * @param {!function()} func
+ * @param {!function(?)} func
  * @param {string=} opt_param
  * @return {function()}
  * @private
@@ -272,13 +282,13 @@ cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
     opt_param) {
   if (!func) {
     console.error('Missing function!');
-    return;
+    return null;
   }
   var elementName = this.prefix + name;
   var element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Missing element ' + elementName + '!');
-    return;
+    return null;
   }
 
   var click_func = func;

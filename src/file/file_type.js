@@ -44,6 +44,7 @@ cwc.file.Type = {
   MBOT_RANGER_BLOCKLY: 'mbot_ranger_blockly',
   NONE: 'none',
   PENCIL_CODE: 'pencil_code',
+  PHASER_BLOCKLY: 'phaser_blockly',
   PYTHON: 'python',
   RAW: 'raw',
   SIMPLE: 'simple',

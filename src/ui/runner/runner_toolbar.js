@@ -187,21 +187,11 @@ cwc.ui.RunnerToolbar.prototype.setLoadStatus = function(loaded) {
 
 
 /**
- * @param {boolean} enable
- */
-cwc.ui.RunnerToolbar.prototype.enableInfoButton = function(enable) {
-  if (this.infoButton) {
-    cwc.ui.Helper.enableElement(this.nodeInfo, enable);
-  }
-};
-
-
-/**
  * Toggles the current expand state.
  */
 cwc.ui.RunnerToolbar.prototype.toggleExpand = function() {
-  this.expand = !this.expand;
-  this.setExpand(this.expand);
+  this.expandState = !this.expandState;
+  this.setExpand(this.expandState);
 };
 
 

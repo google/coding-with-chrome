@@ -54,6 +54,18 @@ closureBuilder.build({
 
 
 /**
+ * phaser.js
+ */
+closureBuilder.build({
+  name: 'phaser.js',
+  resources: [
+    'third_party/phaser/build/phaser.min.js'
+  ],
+  out: 'genfiles/frameworks/external/phaser.min.js'
+});
+
+
+/**
  * Skulpt Core
  */
 closureBuilder.build({

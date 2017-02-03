@@ -31,6 +31,7 @@ goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.pencilCode.advanced.Mod');
+goog.require('cwc.mode.phaser.blockly.Mod');
 goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
@@ -173,6 +174,19 @@ cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
   icon: 'mode_edit',
   file_type: cwc.file.Type.PENCIL_CODE,
   mod: cwc.mode.pencilCode.advanced.Mod,
+  authors: ['Markus Bordihn']
+});
+
+
+/**
+ * Phaser blockly mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.PHASER_BLOCKLY] = new cwc.mode.Mod({
+  name: 'Phaser blockly',
+  title: 'Phaser',
+  icon: 'mode_edit',
+  file_type: cwc.file.Type.PHASER_BLOCKLY,
+  mod: cwc.mode.phaser.blockly.Mod,
   authors: ['Markus Bordihn']
 });
 

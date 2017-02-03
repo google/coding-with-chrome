@@ -243,6 +243,7 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
   }
 };
 
+
 /**
  * Publish file.
  */

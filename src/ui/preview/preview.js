@@ -100,7 +100,7 @@ cwc.ui.Preview = function(helper) {
   /** @type {number} */
   this.startTime = new Date().getTime();
 
-  /** @type {string} */
+  /** @type {cwc.ui.PreviewStatus<number>} */
   this.status = cwc.ui.PreviewStatus.INIT;
 
   /** @type {!cwc.utils.Helper} */
@@ -347,17 +347,15 @@ cwc.ui.Preview.prototype.showConsole = function(visible) {
 
 /**
  * Gets the content url from the renderer.
- * @return {string}
+ * @return {!string}
  */
 cwc.ui.Preview.prototype.getContentUrl = function() {
   var rendererInstance = this.helper.getInstance('renderer', true);
   var contentUrl = rendererInstance.getContentUrl();
   if (!contentUrl) {
     console.error('Was not able to get content url!');
-    return;
   }
-
-  return contentUrl;
+  return contentUrl || '';
 };
 
 

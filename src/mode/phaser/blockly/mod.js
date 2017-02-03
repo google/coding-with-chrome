@@ -1,7 +1,7 @@
 /**
- * @fileoverview Simple Blockly modifications.
+ * @fileoverview Phaser Blockly modifications.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.blockly.Mod');
+goog.provide('cwc.mode.phaser.blockly.Mod');
 
-goog.require('cwc.mode.basic.Preview');
-goog.require('cwc.mode.basic.blockly.Editor');
-goog.require('cwc.mode.basic.blockly.Layout');
+goog.require('cwc.mode.phaser.Preview');
+goog.require('cwc.mode.phaser.blockly.Editor');
+goog.require('cwc.mode.phaser.blockly.Layout');
 goog.require('cwc.renderer.internal.HTML5');
 goog.require('cwc.utils.Helper');
 
@@ -31,15 +31,15 @@ goog.require('cwc.utils.Helper');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.basic.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.basic.blockly.Layout} */
-  this.layout = new cwc.mode.basic.blockly.Layout(helper);
+cwc.mode.phaser.blockly.Mod = function(helper) {
+  /** @type {!cwc.mode.phaser.blockly.Layout} */
+  this.layout = new cwc.mode.phaser.blockly.Layout(helper);
 
-  /** @type {!cwc.mode.basic.blockly.Editor} */
-  this.editor = new cwc.mode.basic.blockly.Editor(helper);
+  /** @type {!cwc.mode.phaser.blockly.Editor} */
+  this.editor = new cwc.mode.phaser.blockly.Editor(helper);
 
-  /** @type {!cwc.mode.basic.Preview} */
-  this.preview = new cwc.mode.basic.Preview(helper);
+  /** @type {!cwc.mode.phaser.Preview} */
+  this.preview = new cwc.mode.phaser.Preview(helper);
 
   /** @type {cwc.renderer.internal.HTML5} */
   this.renderer = new cwc.renderer.internal.HTML5(helper);
@@ -49,7 +49,7 @@ cwc.mode.basic.blockly.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.basic.blockly.Mod.prototype.decorate = function() {
+cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
   this.preview.decorate(true);

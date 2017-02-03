@@ -44,7 +44,7 @@ cwc.fileHandler.Config = function() {};
 
 /**
  * @param {!string} name
- * @param {!cwc.fileFormat.File|function} file
+ * @param {!cwc.fileFormat.File} file
  * @param {!cwc.file.Type} type
  * @param {!cwc.mode.Type} mode
  * @param {cwc.file.Extensions=} opt_extension
@@ -242,6 +242,20 @@ cwc.fileHandler.Config.add('Pencil Code file',
       library: true,
       preview: true,
       auto_update: true });
+
+
+/**
+ * Phaser blockly file config.
+ */
+cwc.fileHandler.Config.add('Phaser blockly file',
+    cwc.fileFormat.File.getBlocklyFile,
+    cwc.file.Type.PHASER_BLOCKLY,
+    cwc.mode.Type.PHASER_BLOCKLY,
+    cwc.file.Extensions.CWC,
+    null,
+    null, {
+      library: true,
+      preview: true });
 
 
 /**

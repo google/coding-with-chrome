@@ -332,6 +332,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
 cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
   if (this.node && template) {
     goog.soy.renderElement(this.node, template, {
+      debug: this.helper.debugEnabled(),
+      experimental: this.helper.experimentalEnabled(),
       prefix: this.prefix,
       online: this.helper.checkFeature('online')
     });
@@ -344,7 +346,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
 /**
  * Adds the click event for the given name and the given function.
  * @param {!string} name
- * @param {!function()} func
+ * @param {!function(?)} func
  * @param {string=} opt_param
  * @return {function()}
  * @private

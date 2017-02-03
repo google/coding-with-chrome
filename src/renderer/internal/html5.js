@@ -106,10 +106,16 @@ cwc.renderer.internal.HTML5.prototype.render = function(
       headers.push(cwc.framework.External.JQUERY.V3_X);
     }
 
+    // phaser.js
+    if (script.includes('new Phaser.Game(')) {
+      headers.push(cwc.framework.External.PHASER);
+    }
+
     // three.js
     if (script.includes('new THREE.')) {
       headers.push(cwc.framework.External.THREE_JS.CORE);
     }
+
   }
 
   var header = renderer_helper.getFrameworkHeaders(headers, frameworks);

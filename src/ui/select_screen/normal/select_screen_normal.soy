@@ -25,7 +25,9 @@
  * Normal overview page.
  */
 {template .overview}
+  {@param experimental: bool}
   {@param prefix: string}
+
   <div id="{$prefix}overview">
 
     {call .overviewHeader_}
@@ -62,6 +64,18 @@
           {param opt_color_class: 'bg-blue' /}
           {param opt_hidden: true /}
         {/call}
+
+        {if $experimental}
+          {call .selectCard_}
+            {param prefix: $prefix /}
+            {param title: 'Games' /}
+            {param text: 'Create simple games by dragging and dropping code blocks' /}
+            {param link_text: 'Start creating Games' /}
+            {param link_id: 'games' /}
+            {param opt_color_class: 'bg-red' /}
+            {param opt_icon: 'videogame_asset' /}
+          {/call}
+        {/if}
 
         {call .selectCard_}
           {param prefix: $prefix /}
@@ -188,6 +202,51 @@
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
           {param opt_text: 'Draw block file' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Games overview page.
+ */
+{template .gamesOverview}
+  {@param prefix: string}
+
+  <div id="{$prefix}games-overview" class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'games' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call .header_}
+        {param title: 'Games' /}
+        {param opt_text: 'Create your own games ...' /}
+        {param opt_color_class: 'bg-red' /}
+        {param opt_icon: 'videogame_asset' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create artworks of colors and forms.' /}
+          {param link_text: 'Empty project' /}
+          {param link_id: 'blank' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: 'Game file' /}
         {/call}
 
       </div>
@@ -639,6 +698,13 @@
         {param prefix: $prefix /}
         {param title: 'Blocks' /}
         {param id: 'basic' /}
+        {param active_link: $active_link /}
+      {/call}
+
+      {call .headerLink_}
+        {param prefix: $prefix /}
+        {param title: 'Games' /}
+        {param id: 'games' /}
         {param active_link: $active_link /}
       {/call}
 

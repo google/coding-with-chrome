@@ -73,7 +73,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
-  /** @private {} */
+  /** @private {cwc.protocol.ev3.RobotType} */
   this.robotType_ = cwc.protocol.ev3.RobotType.UNKOWN;
 
   /** @private {cwc.ui.RunnerMonitor} */

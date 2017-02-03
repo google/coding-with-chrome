@@ -400,6 +400,19 @@ cwc.utils.Helper.prototype.experimentalEnabled = function(opt_name) {
 
 
 /**
+ * @return {!boolean}
+ * @export
+ */
+cwc.utils.Helper.prototype.isGoogleAccountEnabled = function() {
+  var accountInstance = this.getInstance('account');
+  if (accountInstance) {
+    return accountInstance.isAuthenticated();
+  }
+  return false;
+};
+
+
+/**
  * @param {string} prefix General Prefix
  * @export
  */

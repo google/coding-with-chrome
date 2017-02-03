@@ -1,7 +1,7 @@
 /**
  * @fileoverview File library.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.Library');
+goog.provide('cwc.mode.phaser.Library');
 
 goog.require('cwc.ui.Library');
 
@@ -29,7 +29,7 @@ goog.require('cwc.ui.Library');
  * @struct
  * @final
  */
-cwc.mode.basic.Library = function(helper) {
+cwc.mode.phaser.Library = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -47,7 +47,7 @@ cwc.mode.basic.Library = function(helper) {
 /**
  * Decorates the simple editor.
  */
-cwc.mode.basic.Library.prototype.decorate = function() {
+cwc.mode.phaser.Library.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'library-chrome');
   this.helper.setInstance('library', this.library, true);
   this.library.decorate(this.node, this.prefix);

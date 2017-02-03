@@ -300,7 +300,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.getVersion = function() {
 
 /**
  * convert float bytes to float value in robot response;
- * @param  {[int]} dataBytes bytes from the robot
+ * @param  {Array} dataBytes bytes from the robot
  * @return {float} float value
  * @private
  */
@@ -319,7 +319,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.parseFloatBytes_ = function(
  * @param {number} b2
  * @param {number} b3
  * @param {number} b4
- * @return {int} the result int
+ * @return {number} the result int
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.fourBytesToInt_ = function(b1, b2, b3,

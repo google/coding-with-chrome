@@ -1,0 +1,82 @@
+/**
+ * Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+#{$prefix}gdrive-body {
+  min-width: 700px;
+}
+
+#{$prefix}gdrive-menu {
+  width: 150px;
+  height: 205px;
+  border-right: 1px solid #ccc;
+  float: left;
+  padding-left: 20px;
+}
+
+#{$prefix}gdrive-menu>div {
+  border: 0;
+  width: 150px;
+  box-shadow: none;
+}
+
+#{$prefix}gdrive-menu li span {
+  font-size: 14px;
+}
+
+#{$prefix}gdrive-menu li:hover {
+  background: lightgrey;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.{$prefix}gdrive-menu-selected {
+  color: blue;
+  font-weight: bold;
+}
+
+#{$prefix}gdrive-content {
+  overflow: hidden;
+  height: 450px;
+}
+
+#{$prefix}gdrive-filelist {
+  position: relative;
+  min-width: 750px;
+  height: 350px;
+  overflow: scroll;
+}
+
+#{$prefix}gdrive-filelist td {
+  border-bottom: 1px solid #EBEBEB;
+}
+
+#{$prefix}gdrive-filelist thead {
+  background: #fff;
+}
+
+#{$prefix}gdrive-filelist tr {
+  padding-top: 20px;
+}
+
+#{$prefix}gdrive-filelist tr:hover td {
+  background: #ffffcc;
+}
+
+#{$prefix}gdrive-filelist tr td webview {
+  width: 16px;
+  height: 16px;
+}
