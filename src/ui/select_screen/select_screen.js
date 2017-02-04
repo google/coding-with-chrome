@@ -51,12 +51,10 @@ cwc.ui.SelectScreen = function(helper) {
   this.nodeContent = null;
 
   /** @type {!cwc.ui.SelectScreenNormal} */
-  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper,
-    this.prefix);
+  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper);
 
   /** @type {cwc.ui.SelectScreenAdvanced} */
-  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper,
-    this.prefix);
+  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper);
 
   /** @type {boolean} */
   this.updateMode = false;
@@ -249,7 +247,7 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
 
 
 /**
- * @param {!cwc.soy.SelectScreen} template
+ * @param {!Function} template
  * @private
  */
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
@@ -272,7 +270,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
  * @param {!string} name
  * @param {!function()} event
  * @param {string=} opt_prefix
- * @return {function()}
+ * @return {goog.events.ListenableKey|null|number}
  */
 cwc.ui.SelectScreen.prototype.setClickEvent_ = function(name, event,
     opt_prefix) {

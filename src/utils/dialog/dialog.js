@@ -190,9 +190,10 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
 /**
  * @param {!string} id
  * @param {!string} text
+ * @param {Function} opt_callback
  * @export
  */
-cwc.utils.Dialog.prototype.addButton = function(id, text, callback) {
+cwc.utils.Dialog.prototype.addButton = function(id, text, opt_callback) {
   var button = goog.dom.createDom(
     'button', {
       'id': this.prefix + id,
@@ -200,8 +201,8 @@ cwc.utils.Dialog.prototype.addButton = function(id, text, callback) {
       'class': 'mdl-button'
     }, text
   );
-  if (callback) {
-    goog.events.listen(button, goog.events.EventType.CLICK, callback);
+  if (opt_callback) {
+    button.addEventListener('click', opt_callback);
   }
   var buttonsDiv = goog.dom.getElement(this.prefix + 'buttons');
   goog.dom.appendChild(buttonsDiv, button);

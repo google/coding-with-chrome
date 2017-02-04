@@ -30,9 +30,9 @@ Blockly.Blocks['phaser_game'] = {
         .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name');
     this.appendDummyInput()
         .appendField('Size:')
-        .appendField(new Blockly.FieldTextInput('800'), 'width')
+        .appendField(new Blockly.FieldNumber(800), 'width')
         .appendField('x')
-        .appendField(new Blockly.FieldTextInput('600'), 'height');
+        .appendField(new Blockly.FieldNumber(600), 'height');
     this.setNextStatement(true, null);
     this.setColour(330);
     this.setTooltip('');
@@ -68,6 +68,135 @@ Blockly.Blocks['phaser_load_image'] = {
         .appendField('Load Image')
         .appendField(new Blockly.FieldTextInput('name'), 'name')
         .appendField(new Blockly.FieldTextInput('image'), 'image');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Phaser create section.
+ */
+Blockly.Blocks['phaser_create'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(280);
+    this.appendDummyInput()
+      .appendField(i18t('Create'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+
+/**
+ * Stage background color.
+ */
+Blockly.Blocks['phaser_stage_background_color'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('stage.backgroundColor (')
+        .appendField(new Blockly.FieldColour('#000000'), 'color')
+        .appendField(')');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Add sprite.
+ */
+Blockly.Blocks['phaser_add_sprite'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('add.sprite(')
+        .appendField(new Blockly.FieldNumber(50), 'x')
+        .appendField(new Blockly.FieldNumber(50), 'y')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(')');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Add text.
+ */
+Blockly.Blocks['phaser_add_text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('add.text(')
+        .appendField(new Blockly.FieldNumber(10), 'x')
+        .appendField(new Blockly.FieldNumber(10), 'y')
+        .appendField(new Blockly.FieldTextInput('text'), 'text')
+        .appendField(')');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Phaser create section.
+ */
+Blockly.Blocks['phaser_update'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(280);
+    this.appendDummyInput()
+      .appendField(i18t('Update'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+
+/**
+ * Phaser render section.
+ */
+Blockly.Blocks['phaser_render'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(280);
+    this.appendDummyInput()
+      .appendField(i18t('Render'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
+};
+
+
+/**
+ * Physics arcade enable.
+ */
+Blockly.Blocks['phaser_physics_arcade_enable'] = {
+  init: function() {
+    this.appendValueInput('object')
+        .setCheck(null)
+        .appendField('physics.arcade.enable (');
+    this.appendDummyInput()
+        .appendField(')');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);

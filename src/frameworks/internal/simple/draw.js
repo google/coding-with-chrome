@@ -344,7 +344,7 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
 
 /**
  * Draws a image on the stage.
- * @param {Object|string} image Image object or image data url.
+ * @param {HTMLCanvasElement|HTMLImageElement|HTMLVideoElement|string} image
  * @param {number} x The x position of the image.
  * @param {number} y The y position of the image.
  * @param {number=} opt_width The width of the image.
@@ -356,17 +356,19 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
 cwc.framework.simple.Draw.prototype.image = function(image, x, y,
     opt_width, opt_height) {
   var display = this.getDisplay_();
+  var imageElement = null;
   if ((typeof image == 'string' || image instanceof String) &&
       image.includes('data:')) {
-    var imageLoader = new Image();
-    imageLoader.src = image;
-    image = imageLoader;
+    imageElement = new Image();
+    imageElement.src = image;
+  } else {
+    imageElement = image;
   }
   var canvasInstructions = function() {
     if (opt_width && opt_height) {
-      display.drawImage(image, x, y, opt_width, opt_height);
+      display.drawImage(imageElement, x, y, opt_width, opt_height);
     } else {
-      display.drawImage(image, x, y);
+      display.drawImage(imageElement, x, y);
     }
   };
   return this.execute_(canvasInstructions, display);

@@ -25,10 +25,10 @@
  */
 Blockly.JavaScript['phaser_game'] = function(block) {
   var text_name = block.getFieldValue('name');
-  var text_width = block.getFieldValue('width');
-  var text_height = block.getFieldValue('height');
+  var number_width = block.getFieldValue('width');
+  var number_height = block.getFieldValue('height');
   return 'var game = new Phaser.Game(' +
-    '  ' + text_width + ', ' + text_height + ', Phaser.CANVAS, \'' +
+    '  ' + number_width + ', ' + number_height + ', Phaser.CANVAS, \'' +
     text_name + '\' , {\n' +
     '  preload: typeof preload !== \'undefined\' ? preload : function() {},\n' +
     '  create: typeof create !== \'undefined\' ? create : null,\n' +
@@ -43,15 +43,87 @@ Blockly.JavaScript['phaser_game'] = function(block) {
  */
 Blockly.JavaScript['phaser_preload'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'function preload() {\n' + statements_code + '\n};';
+  return 'function preload() {\n' + statements_code + '\n};\n';
 };
 
 
 /**
- * Load Image
+ * Load Image.
  */
 Blockly.JavaScript['phaser_load_image'] = function(block) {
   var text_name = block.getFieldValue('name');
   var text_image = block.getFieldValue('image');
-  return 'game.load.image(\'' + text_name + '\', \'' + text_image + '\');';
+  return 'game.load.image(\'' + text_name + '\', \'' + text_image + '\');\n';
+};
+
+
+/**
+ * Phaser create section.
+ */
+Blockly.JavaScript['phaser_create'] = function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'function create() {\n' + statements_code + '\n};\n';
+};
+
+
+/**
+ * Stage background color.
+ */
+Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
+  var colour_color = block.getFieldValue('color');
+  return 'game.stage.backgroundColor = \'' + colour_color + '\';\n';
+};
+
+
+/**
+ * Add sprite.
+ */
+Blockly.JavaScript['phaser_add_sprite'] = function(block) {
+  var number_x = block.getFieldValue('x');
+  var number_y = block.getFieldValue('y');
+  var text_sprite = block.getFieldValue('sprite');
+  var code = 'game.add.sprite(' + number_x + ', ' + number_y + ', \'' +
+    text_sprite + '\')';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Add text.
+ */
+Blockly.JavaScript['phaser_add_text'] = function(block) {
+  var number_x = block.getFieldValue('x');
+  var number_y = block.getFieldValue('y');
+  var text_text = block.getFieldValue('text');
+  var code = 'game.add.text(' + number_x + ', ' + number_y + ', \'' +
+    text_text + '\')';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Phaser update section.
+ */
+Blockly.JavaScript['phaser_update'] = function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'function update() {\n' + statements_code + '\n};\n';
+};
+
+
+/**
+ * Phaser render section.
+ */
+Blockly.JavaScript['phaser_render'] = function(block) {
+  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'function render() {\n' + statements_code + '\n};\n';
+};
+
+
+/**
+ * Physics arcade enable.
+ */
+Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
+  var value_object = Blockly.JavaScript.valueToCode(
+    block, 'object', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.enable(' + value_object + ');\n';
 };

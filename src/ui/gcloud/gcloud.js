@@ -29,6 +29,7 @@ goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');
 
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -64,6 +65,7 @@ cwc.ui.GCloud = function(helper) {
   this.publicUrlPath = '';
 };
 
+
 /**
  * Displays a Google Cloud publish dialog.
  */
@@ -97,6 +99,7 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   }, callback);
 };
 
+
 cwc.ui.GCloud.prototype.clear = function() {
   this.fileName = '';
   this.fileContent = '';
@@ -105,6 +108,7 @@ cwc.ui.GCloud.prototype.clear = function() {
   this.bucketName = '';
   this.publicUrlPath = '';
 };
+
 
 cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
   var dialogInstance = this.helper.getInstance('dialog');
@@ -129,6 +133,7 @@ cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
     this.selectProject(this.projectId);
   }
 };
+
 
 cwc.ui.GCloud.prototype.selectProject = function(projectId) {
   var accountInstance = this.helper.getInstance('account');
@@ -156,6 +161,7 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
     }
   }, callback);
 };
+
 
 cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   var bucketSelect = goog.dom.createDom('select', {
@@ -244,6 +250,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
     })
   }, callback);
 };
+
 
 cwc.ui.GCloud.prototype.setDialogPublicUrl = function(publicUrlPath) {
   var urlLink = goog.dom.createDom('a', {
