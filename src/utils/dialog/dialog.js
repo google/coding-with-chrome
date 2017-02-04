@@ -223,6 +223,31 @@ cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
 /**
  * @param {!string} title
  * @param {!string} content
+ * @export
+ */
+cwc.utils.Dialog.prototype.showAlert = function(title, content) {
+  return new Promise((resolve, reject) => {
+    if (this.getDialog_()) {
+      this.render(title, content, cwc.soy.Dialog.alertTemplate);
+      var okButton = goog.dom.getElement(this.prefix + 'ok');
+      okButton.addEventListener('click', this.close.bind(this));
+      if (this.defaultCloseHandler_) {
+        okButton.addEventListener('click', this.defaultCloseHandler_);
+      }
+      okButton.addEventListener('click', function() {
+        resolve(true);
+      });
+      this.showModal();
+    } else {
+      reject();
+    }
+  });
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} content
  * @param {string=} opt_value
  * @export
  */

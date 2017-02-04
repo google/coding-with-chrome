@@ -129,7 +129,6 @@ closureBuilder.build({
     BlocklyPath + 'blocks_compressed.js',
     BlocklyPath + 'javascript_compressed.js',
     'patches/blockly/audio_preload_patch.js',
-    'patches/blockly/modal_support_patch.js'
   ],
   out: 'genfiles/external/blockly/'
 });

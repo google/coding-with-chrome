@@ -81,15 +81,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
 
-  /** @type {Function} */
-  this.modalAlert = null;
-
-  /** @type {Function} */
-  this.modalConfirm = null;
-
-  /** @type {Function} */
-  this.modalPrompt = null;
-
   /** @type {Blockly.Workspace} */
   this.workspace = null;
 
@@ -135,16 +126,15 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   // Modal window
   var dialogInstance = this.helper.getInstance('dialog');
   if (dialogInstance) {
-    this.modalAlert = function(promptText, opt_title) {
-      dialogInstance.showContent(opt_title || 'Blockly', promptText);
+    Blockly['alert'] = function(message, callback) {
+      dialogInstance.showAlert('Blockly alert', message).then(callback);
     };
-    this.modalConfirm = function(promptText, callback, opt_title) {
-      dialogInstance.showYesNo(
-        opt_title || 'Blockly', promptText).then(callback);
+    Blockly['confirm'] = function(message, callback) {
+      dialogInstance.showYesNo('Blockly confirm', message).then(callback);
     };
-    this.modalPrompt = function(promptText, defaultText, callback, opt_title) {
+    Blockly['prompt'] = function(message, default_value, callback) {
       dialogInstance.showPrompt(
-        opt_title || 'Blockly', promptText, defaultText).then(callback);
+        'Blockly prompt', message, default_value).then(callback);
     };
   }
 
@@ -174,13 +164,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
   this.workspace = Blockly.inject(this.nodeEditor, options);
-
-  // Adding Modal support
-  this.setWorkspaceOption('modalOptions', {
-    'alert': this.modalAlert,
-    'confirm': this.modalConfirm,
-    'prompt': this.modalPrompt
-  });
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();

@@ -51,6 +51,29 @@
   </div>
 {/template}
 
+
+/**
+ * Alert template.
+ */
+{template .alertTemplate}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <h3 class="mdl-dialog__title">
+    {msg desc=""}{$title}{/msg}
+  </h3>
+  <div class="mdl-dialog__content">
+    {$content}
+  </div>
+  <div class="mdl-dialog__actions">
+    <button id="{$prefix}ok" type="button" class="mdl-button">
+      {msg desc=""}OK{/msg}
+    </button>
+  </div>
+{/template}
+
+
 /**
  * Yes / no template.
  */
