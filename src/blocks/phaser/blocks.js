@@ -204,3 +204,43 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
     this.setHelpUrl('');
   }
 };
+
+
+/**
+ * Input keyboard create cursor keys.
+ */
+Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('input.keyboard.createCursorKeys()');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+Blockly.Blocks['phaser_sprite_x'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('input.keyboard.createCursorKeys()');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+Blockly.Blocks['phaser_sprite_y'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('input.keyboard.createCursorKeys()');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+

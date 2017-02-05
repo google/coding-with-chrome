@@ -127,3 +127,12 @@ Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
     block, 'object', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.physics.arcade.enable(' + value_object + ');\n';
 };
+
+
+/**
+ * Input keyboard create cursor keys.
+ */
+Blockly.JavaScript['phaser_input_keyboard_create_cursor_keys'] = function() {
+  var code = 'this.input.keyboard.createCursorKeys()';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};

@@ -22,7 +22,6 @@ goog.provide('cwc.ui.Blockly');
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
@@ -42,8 +41,11 @@ cwc.ui.Blockly = function(helper) {
   /** @type {string} */
   this.name = 'Blockly';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {string} */
-  this.prefix = 'blockly-';
+  this.prefix = this.helper.getPrefix('blockly');
 
   /** @type {string} */
   this.widgetClass = 'blocklyWidgetDiv';
@@ -66,9 +68,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {string} */
   this.mediaFiles = '../external/blockly/';
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {Array} */
   this.listener = [];
 
@@ -84,9 +83,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Blockly.Workspace} */
   this.workspace = null;
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
   /** @type {!cwc.utils.Logger} */
   this.log = this.helper.getLogger();
 };
@@ -96,22 +92,14 @@ cwc.ui.Blockly = function(helper) {
  * Decorates the Blockly editor into the given node.
  * @param {!Element} node
  * @param {Element=} opt_toolbox
- * @param {string=} opt_prefix
  * @param {boolean=} opt_trashcan
  */
-cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox, opt_prefix,
-    opt_trashcan) {
+cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox,  opt_trashcan) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
     experimental: this.helper.experimentalEnabled(),
     prefix: this.prefix
   });
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Blockly.style({
-      prefix: this.prefix }));
-  }
 
   // Toolbar
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
@@ -465,7 +453,6 @@ cwc.ui.Blockly.prototype.addEventListener = function(src, type,
 cwc.ui.Blockly.prototype.cleanUp = function() {
   this.enabled = false;
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   cwc.ui.Helper.hideElements(this.widgetClass);
   this.modified = false;
 };

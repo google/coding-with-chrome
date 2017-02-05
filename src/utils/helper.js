@@ -90,7 +90,7 @@ cwc.utils.Helper = function() {
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
   /** @private {!cwc.utils.Features} */
-  this.features_ = new cwc.utils.Features(this.loglevel_);
+  this.features_ = new cwc.utils.Features();
 
   /** @private {string} */
   this.prefix_ = cwc.config.Prefix.GENERAL || '';

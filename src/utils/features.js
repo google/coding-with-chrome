@@ -59,10 +59,10 @@ cwc.utils.Features = function() {
   /** @private {Object} */
   this.feature_ = {};
 
-  /** @private {Object} */
+  /** @private {Object|goog.events.ListenableKey} */
   this.onlineMonitor_ = null;
 
-  /** @private {Object} */
+  /** @private {Object|goog.events.ListenableKey} */
   this.offlineMonitor_ = null;
 
   this.detectFeatures();

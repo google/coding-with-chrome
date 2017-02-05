@@ -93,6 +93,9 @@ cwc.ui.Runner = function(helper) {
   this.nodeToolbar = null;
 
   /** @type {Element} */
+  this.nodeTerminal = null;
+
+  /** @type {Element} */
   this.nodeInfo = null;
 
   /** @type {Element} */
@@ -159,7 +162,7 @@ cwc.ui.Runner = function(helper) {
   this.statusbar = null;
 
   /** @type {cwc.ui.RunnerTerminal} */
-  this.termnial = null;
+  this.terminal = null;
 
   /** @type {cwc.ui.RunnerToolbar} */
   this.toolbar = null;
