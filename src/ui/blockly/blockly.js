@@ -96,6 +96,8 @@ cwc.ui.Blockly = function(helper) {
  */
 cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox,  opt_trashcan) {
   this.node = node;
+
+  // Template
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
     experimental: this.helper.experimentalEnabled(),
     prefix: this.prefix

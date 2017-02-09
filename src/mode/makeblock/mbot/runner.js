@@ -165,7 +165,7 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
       'updateUltrasonicSensor');
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
-  this.runner.decorate(this.node, this.prefix);
+  this.runner.decorate(this.node);
 
   // Preview output
   var turtleNode = this.runner.getTurtleNode();

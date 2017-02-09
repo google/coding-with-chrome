@@ -117,7 +117,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.addCommand('sleep', this.command.sleep, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
-  this.runner.decorate(this.node, this.prefix);
+  this.runner.decorate(this.node);
 
   // Sphero Events
   var apiEventHandler = this.api.getEventHandler();

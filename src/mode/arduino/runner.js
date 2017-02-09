@@ -70,7 +70,7 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
-  this.runner.decorate(this.node, this.prefix);
+  this.runner.decorate(this.node);
   this.runner.showRunButton(false);
   this.runner.enableTerminal(true);
 

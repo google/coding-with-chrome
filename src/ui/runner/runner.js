@@ -65,17 +65,14 @@ cwc.ui.Runner = function(helper) {
   /** @type {string} */
   this.name = 'Runner';
 
-  /** @type {string} */
-  this.prefix = 'runner-';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('runner');
+
   /** @type {!cwc.runner.Connector} */
   this.connector = new cwc.runner.Connector(helper);
-
-  /** @type {string} */
-  this.generalPrefix = '';
 
   /** @type {Element} */
   this.node = null;
@@ -199,10 +196,8 @@ cwc.ui.Runner = function(helper) {
  * @param {string=} opt_prefix Additional prefix for the ids of the
  *    inserted elements and style definitions.
  */
-cwc.ui.Runner.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Runner.prototype.decorate = function(node) {
   this.node = node;
-  this.generalPrefix = opt_prefix || '';
-  this.prefix = opt_prefix + this.prefix;
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
