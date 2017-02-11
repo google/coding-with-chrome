@@ -170,7 +170,10 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   }
   this.setClickEvent_('link-normal-mode', this.showNormalOverview);
   this.setClickEvent_('link-advanced-mode', this.showAdvancedOverview);
-  this.setClickEvent_('link-intro', this.showIntro);
+
+  if (this.helper.checkFeature('online')) {
+    this.setClickEvent_('link-intro', this.showIntro);
+  }
 };
 
 

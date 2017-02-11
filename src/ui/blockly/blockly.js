@@ -83,6 +83,9 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Blockly.Workspace} */
   this.workspace = null;
 
+  /** @type {Object} */
+  this.toolboxTemplate = null;
+
   /** @type {!cwc.utils.Logger} */
   this.log = this.helper.getLogger();
 };
@@ -138,7 +141,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_toolbox,  opt_trashcan) {
   // Blockly options
   var options = {
     'path': this.mediaFiles,
-    'toolbox': this.nodeBlocklyToolbox_,
+    'toolbox': this.nodeBlocklyToolbox_ || '<xml><category><\/category><\/xml>',
     'trashcan': opt_trashcan,
     'zoom': {
       'controls': true,
@@ -340,6 +343,33 @@ cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
   var workspace = this.getWorkspace();
   if (workspace) {
     workspace.updateToolbox(opt_toolbox || this.nodeBlocklyToolbox_);
+  }
+  this.resize();
+};
+
+
+/**
+ * Sets the toolbox with the template
+ * @param {!Object} template
+ */
+cwc.ui.Blockly.prototype.setToolboxTemplate = function(template) {
+  this.toolboxTemplate = template;
+};
+
+
+/**
+ * Update the toolbox with the template
+ * @param {Object=} opt_template
+ * @param {Object=} opt_data
+ */
+cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
+    opt_template, opt_data) {
+  var template = opt_template || this.toolboxTemplate;
+  var workspace = this.getWorkspace();
+  if (template && workspace) {
+    var toolbox = template(opt_data).content;
+    console.log('Updating toolbox with:', toolbox);
+    workspace.updateToolbox(toolbox);
   }
   this.resize();
 };

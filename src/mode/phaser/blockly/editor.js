@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.phaser.blockly.Editor');
 
+goog.require('cwc.soy.mode.phaser.blockly.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -38,9 +39,6 @@ cwc.mode.phaser.blockly.Editor = function(helper) {
 
   /** @type {Element} */
   this.nodeBlockly = null;
-
-  /** @type {Element} */
-  this.nodeBlocklyToolbox = null;
 
   /** @type {Element} */
   this.nodeEditor = null;
@@ -73,18 +71,13 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
     return;
   }
 
-  // Blocks toolbox
-  this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
-      'blockly-toolbox');
-  if (!this.nodeBlocklyToolbox) {
-    console.error('Was unable to find Blockly Toolbox:',
-        this.nodeBlocklyToolbox);
-    return;
-  }
-
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox, true);
+
+  // Blocks toolbox
+  this.blockly.updateToolboxTemplate(
+    cwc.soy.mode.phaser.blockly.Blocks.toolbox);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
