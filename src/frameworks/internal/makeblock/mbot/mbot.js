@@ -179,7 +179,8 @@ cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
  */
 cwc.framework.makeblock.mBot.prototype.rotatePower = function(speed,
     opt_delay) {
-  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(speed) : opt_delay);
   this.runner.send('rotatePower', {
     'speed': speed}, delay);
 };
@@ -206,7 +207,8 @@ cwc.framework.makeblock.mBot.prototype.rotatePowerTime = function(time, speed) {
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.movePower = function(speed, opt_delay) {
-  var delay = opt_delay === true ? this.getDelay(speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(speed) : opt_delay);
   this.runner.send('movePower', {
     'speed': speed}, delay);
 };

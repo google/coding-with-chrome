@@ -188,6 +188,19 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
 
 
 /**
+ * @param {!function (Object, null=, (Object<string,*>|null)=)} template
+ * @param {!Object} values
+ * @export
+ */
+cwc.utils.Dialog.prototype.updateTemplate = function(template, values) {
+  if (this.getDialog_()) {
+    goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
+        template, values);
+  }
+};
+
+
+/**
  * @param {!string} id
  * @param {!string} text
  * @param {Function} opt_callback

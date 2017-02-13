@@ -95,9 +95,6 @@ cwc.protocol.ev3.Api = function(helper) {
   /** @type {!cwc.protocol.ev3.Monitoring} */
   this.monitoring = new cwc.protocol.ev3.Monitoring(this);
 
-  /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = cwc.protocol.ev3.CallbackType;
-
   /** @type {!cwc.protocol.ev3.Commands} */
   this.commands = new cwc.protocol.ev3.Commands();
 
@@ -694,11 +691,11 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_IN:
       deviceName = this.deviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_IN;
+      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_INCH;
       break;
-    case cwc.protocol.ev3.DeviceType.US_DIST_LISTEN:
+    case cwc.protocol.ev3.DeviceType.US_LISTEN:
       deviceName = this.deviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_LISTEN;
+      deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.LISTEN;
       break;
     case cwc.protocol.ev3.DeviceType.GYRO_ANG:
       deviceName = this.deviceName.GYRO_SENSOR;
@@ -747,7 +744,7 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
       deviceMode, 0, deviceCss);
   this.eventHandler.dispatchEvent(
-      new cwc.protocol.ev3.Events.ChangedDevices(this.deviceData));
+      cwc.protocol.ev3.Events.ChangedDevices(this.deviceData));
   this.deviceInfo[deviceName] = port;
 
   switch (port) {
@@ -849,32 +846,32 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
 
   // Handles the different callback types.
   switch (callback) {
-    case this.callbackType.FIRMWARE:
+    case cwc.protocol.ev3.CallbackType.FIRMWARE:
       value = data.subarray(5, 5 + 16);
       this.firmware = (String.fromCharCode.apply(null, value)).trim();
       console.log('EV3 Firmware Version', this.firmware);
       break;
-    case this.callbackType.BATTERY:
+    case cwc.protocol.ev3.CallbackType.BATTERY:
       value = data.subarray(5, 5 + 16);
       this.battery = value;
       console.log('EV3 Battery level', this.battery);
       break;
-    case this.callbackType.DEVICE_NAME:
+    case cwc.protocol.ev3.CallbackType.DEVICE_NAME:
       value = data.subarray(5, 5 + 0x7E);
       var type = (String.fromCharCode.apply(null, value)).trim();
       this.updateDeviceType_(port, type);
       break;
-    case this.callbackType.DEVICE_PCT_VALUE:
-    case this.callbackType.DEVICE_RAW_VALUE:
+    case cwc.protocol.ev3.CallbackType.DEVICE_PCT_VALUE:
+    case cwc.protocol.ev3.CallbackType.DEVICE_RAW_VALUE:
       value = data[5];
       this.updateDeviceData_(port, value, this.deviceData[port].getName());
       break;
-    case this.callbackType.DEVICE_SI_VALUE:
+    case cwc.protocol.ev3.CallbackType.DEVICE_SI_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);
       result = (new Float32Array(value.buffer)[0]).toFixed(1);
       this.updateDeviceData_(port, result, this.deviceData[port].getName());
       break;
-    case this.callbackType.ACTOR_VALUE:
+    case cwc.protocol.ev3.CallbackType.ACTOR_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);
       result = new Int32Array(value.buffer)[0];
       this.updateDeviceData_(port, result, this.deviceData[port].getName());

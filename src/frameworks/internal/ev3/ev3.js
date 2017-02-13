@@ -70,37 +70,37 @@ cwc.framework.Ev3 = function(code) {
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
   /** @type {number} */
-  this.colorSensorValue = null;
+  this.colorSensorValue = 0;
 
   /** @type {number} */
-  this.touchSensorValue = null;
+  this.touchSensorValue = 0;
 
   /** @type {number} */
-  this.irSensorValue = null;
+  this.irSensorValue = 0;
 
   /** @type {number} */
-  this.gyroSensorValue = null;
+  this.gyroSensorValue = 0;
 
   /** @type {number} */
-  this.ultrasonicSensorValue = null;
+  this.ultrasonicSensorValue = 0;
 
   /** @type {cwc.protocol.ev3.RobotType} */
-  this.robotType = null;
+  this.robotType = cwc.protocol.ev3.RobotType.UNKNOWN;
 
   /** @type {number} */
-  this.wheelDiameter = null;
+  this.wheelDiameter = 0;
 
   /** @type {number} */
-  this.wheelCircumference = null;
+  this.wheelCircumference = 0;
 
   /** @type {!number} */
   this.wheelWidth = 0;
 
   /** @type {number} */
-  this.wheelbase = null;
+  this.wheelbase = 0;
 
   /** @type {number} */
-  this.rotateCircumference = null;
+  this.rotateCircumference = 0;
 
   /** @type {!number} */
   this.largeMotorSpeed = 170 / 60;
@@ -147,7 +147,7 @@ cwc.framework.Ev3.prototype.setRobotModel = function(model) {
 
 /**
  * Sets the EV3 robot type.
- * @param {!string} type
+ * @param {!cwc.protocol.ev3.RobotType<string>} type
  * @export
  */
 cwc.framework.Ev3.prototype.setRobotType = function(type) {
@@ -200,7 +200,7 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
 
 /**
  * @param {!number} steps
- * @param {!number} opt_speed
+ * @param {number=} opt_speed
  * @return {!number} Calculated delay + buffer.
  * @export
  */
@@ -405,14 +405,15 @@ cwc.framework.Ev3.prototype.movePen = function(steps,
  * Moves the motors for the specific steps.
  * @param {!number} steps
  * @param {number=} opt_speed
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
   if (this.robotType == cwc.protocol.ev3.RobotType.ARM) {
     return this.customMoveSteps(steps, undefined, opt_speed, opt_delay);
   }
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   var distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
   this.runner.send('moveSteps', {
     'distance': distance,
@@ -426,12 +427,13 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
  * @param {!number} steps
  * @param {number=} opt_ports
  * @param {number=} opt_speed
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
     opt_speed, opt_delay) {
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('customMoveSteps', {
     'steps': steps,
     'ports': opt_ports,
@@ -449,7 +451,8 @@ cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
 cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
     opt_delay) {
   var steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('moveSteps', {
     'distance': distance,
     'steps': steps,
@@ -478,7 +481,7 @@ cwc.framework.Ev3.prototype.rotateSteps = function(steps,
  * Rotates the motors for the predefined angle steps.
  * @param {!number} angle
  * @param {number=} opt_speed
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.Ev3.prototype.rotateAngle = function(angle,
@@ -489,7 +492,8 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle,
   var rotateDistance = this.rotateCircumference / 360;
   var steps = Math.round(
     (rotateDistance * angle / this.wheelCircumference) * 360);
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('rotateSteps', {
     'angle': angle,
     'steps': steps,
@@ -502,7 +506,7 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle,
  * @param {!number} angle
  * @param {number=} opt_ports
  * @param {number=} opt_speed
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
 cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
@@ -510,7 +514,8 @@ cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
   var rotateDistance = this.rotateCircumference / 360;
   var steps = Math.round(
     (rotateDistance * angle / this.wheelCircumference) * 360);
-  var delay = opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay;
+  var delay = /** @type {number|undefined} */ (
+    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('customRotateSteps', {
     'angle': angle,
     'steps': steps,
@@ -681,7 +686,7 @@ cwc.framework.Ev3.prototype.handleUpdateUltrasonicSensor_ = function(data) {
 
 /**
  * Sets the robot type.
- * @param {!number} data
+ * @param {!cwc.protocol.ev3.RobotType<string>} data
  * @private
  */
 cwc.framework.Ev3.prototype.handleUpdateRobotType_ = function(data) {

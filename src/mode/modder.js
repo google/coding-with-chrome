@@ -134,17 +134,6 @@ cwc.mode.Modder.prototype.showBlockly = function() {
 
 
 /**
- * Syncs the editor JavaScript view.
- */
-cwc.mode.Modder.prototype.syncJavaScript = function() {
-  var editor = this.helper.getInstance('editor');
-  if (editor) {
-    editor.syncJavaScript();
-  }
-};
-
-
-/**
  * Syncs the library with the existing files.
  */
 cwc.mode.Modder.prototype.syncLibrary = function() {
@@ -152,10 +141,6 @@ cwc.mode.Modder.prototype.syncLibrary = function() {
   var libraryInstance = this.helper.getInstance('library');
   if (fileInstance && libraryInstance) {
     libraryInstance.syncFiles();
-    var editorInstance = this.helper.getInstance('editor');
-    if (editorInstance) {
-      editorInstance.updateMediaButton(fileInstance.getFiles().hasFiles());
-    }
   }
 };
 

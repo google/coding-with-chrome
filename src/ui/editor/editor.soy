@@ -27,6 +27,7 @@
 {template .template}
   {@param experimental: bool}
   {@param prefix: string}
+  {@param modes: ?}
 
   {call .toolbar_ data="all" /}
   <div id="{$prefix}code">
@@ -135,10 +136,21 @@
  */
 {template .infobar_}
   {@param prefix: string}
+  {@param modes: ?}
 
   <div id="{$prefix}infobar">
     <div id="{$prefix}info-line-col" class="{$prefix}info"></div>
-    <div id="{$prefix}info-mode" class="{$prefix}info"></div>
+    <div id="{$prefix}info-mode" class="{$prefix}info">
+      <span id="{$prefix}info-current-mode-text">{msg desc=""}unknown{/msg}</span>
+      <button id="{$prefix}info-mode-select" class="mdl-button mdl-js-button mdl-button--icon" disabled>
+        <i class="material-icons">more_vert</i>
+      </button>
+      <ul id="{$prefix}info-modes" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}info-mode-select">
+        {foreach $mode in keys($modes)}
+          <li class="mdl-menu__item">{$mode}</li>
+        {/foreach}
+      </ul>
+    </div>
   </div>
 {/template}
 

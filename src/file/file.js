@@ -82,8 +82,38 @@ cwc.file.File.prototype.getName = function() {
 /**
  * @return {string}
  */
+cwc.file.File.prototype.getMacroName = function() {
+  return '{{ file:' + this.getName() + ' }}';
+};
+
+
+/**
+ * @return {string}
+ */
 cwc.file.File.prototype.getType = function() {
   return this.type_;
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.file.File.prototype.getMediaType = function() {
+  var type = this.type_.split('/')[0];
+  switch (type) {
+    case 'application':
+    case 'audio':
+    case 'example':
+    case 'image':
+    case 'message':
+    case 'model':
+    case 'multipart':
+    case 'text':
+    case 'video':
+      return type;
+    default:
+      return '';
+  }
 };
 
 
@@ -108,6 +138,14 @@ cwc.file.File.prototype.getGroup = function() {
  */
 cwc.file.File.prototype.getFilename = function() {
   return ((this.group_) ? this.group_ + '/' : '') + this.name_;
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.file.File.prototype.getSafeFilename = function() {
+  return this.getFilename().replace(/[.\w]/gi, '_');
 };
 
 

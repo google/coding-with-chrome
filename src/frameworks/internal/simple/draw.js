@@ -362,7 +362,8 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
     imageElement = new Image();
     imageElement.src = image;
   } else {
-    imageElement = image;
+    imageElement = /** @type {HTMLCanvasElement|HTMLImageElement|
+      HTMLVideoElement} */ (image);
   }
   var canvasInstructions = function() {
     if (opt_width && opt_height) {

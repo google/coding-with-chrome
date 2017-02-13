@@ -36,3 +36,67 @@ Blockly.Blocks['general_infinity_loop'] = {
     this.setTooltip('');
   }
 };
+
+
+/**
+ * Library file
+ */
+Blockly.Blocks['general_file_library'] = {
+  init: function() {
+    this.appendValueInput('FILENAME')
+        .setCheck('String')
+        .appendField('File:');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Library file image
+ */
+Blockly.Blocks['general_file_library_image'] = {
+  init: function() {
+    this.appendValueInput('FILENAME')
+        .setCheck('String')
+        .appendField('Image:');
+    this.setOutput(true, 'Image');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Library file audio
+ */
+Blockly.Blocks['general_file_library_audio'] = {
+  init: function() {
+    this.appendValueInput('FILENAME')
+        .setCheck('String')
+        .appendField('Audio:');
+    this.setOutput(true, 'Audio');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Library file text
+ */
+Blockly.Blocks['general_file_library_text'] = {
+  init: function() {
+    this.appendValueInput('FILENAME')
+        .setCheck('String')
+        .appendField('Text:');
+    this.setOutput(true, 'Text');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

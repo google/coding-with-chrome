@@ -279,7 +279,7 @@ cwc.protocol.ev3.LedMode = {
 
 /**
  * Led Types.
- * @enum {number}
+ * @enum {Object.<string>|number}
  */
 cwc.protocol.ev3.LedType = {
   ALL: 0,

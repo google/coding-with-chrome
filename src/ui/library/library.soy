@@ -25,6 +25,7 @@
  */
 {template .template}
   {@param prefix: string}
+  {@param files: ?}
 
   <div id="{$prefix}overview">
     File: <span id="{$prefix}file">No file selected</span>
@@ -35,20 +36,36 @@
       <span id="{$prefix}counter"></span>
     </div>
     <div id="{$prefix}content">
-      <table id="{$prefix}content-table" border="0">
-        <thead class="goog-tablesorter-header">
-          <tr>
-            <th>Name</th>
-            <th style="min-width: 150px;">Type</th>
-            <th style="min-width: 50px;">Size</th>
-         </tr>
-        </thead>
-        <tbody id="{$prefix}entries"></tbody>
-      </table>
+      <ul class="mdl-list" id="{$prefix}file-list">
+        {call .files}
+          {param files: $files /}
+        {/call}
+      </ul>
     </div>
     <div id="{$prefix}add-file">
       <i class="material-icons">file_upload</i>
       {msg desc=""}Drop files here or click to select.{/msg}
     </div>
   </div>
+{/template}
+
+
+/**
+ * List of library files
+ */
+{template .files}
+  {@param files: ?}
+
+  {foreach $file in keys($files)}
+    <li class="mdl-list__item mdl-list__item--three-line">
+      <span class="mdl-list__item-primary-content">
+        <i class="mdl-list__item-avatar">
+          {$files[$file]['media_type']}
+        </i>
+        {$file}
+      </span>
+      <span class="mdl-list__item-secondary-content">{$files[$file]['size']}</span>
+    </li>
+  {/foreach}
+
 {/template}

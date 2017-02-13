@@ -52,7 +52,7 @@ cwc.protocol.ev3.Events.ChangedDevices = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -63,7 +63,7 @@ cwc.protocol.ev3.Events.ColorSensorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -74,7 +74,7 @@ cwc.protocol.ev3.Events.GyroSensorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -85,7 +85,7 @@ cwc.protocol.ev3.Events.IrSensorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -96,7 +96,7 @@ cwc.protocol.ev3.Events.LargeMotorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -108,7 +108,7 @@ cwc.protocol.ev3.Events.LargeMotorOptValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -119,7 +119,7 @@ cwc.protocol.ev3.Events.MediumMotorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -131,7 +131,7 @@ cwc.protocol.ev3.Events.MediumMotorOptValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -142,7 +142,7 @@ cwc.protocol.ev3.Events.TouchSensorValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -154,7 +154,7 @@ cwc.protocol.ev3.Events.TouchSensorOptValue = function(data, opt_port) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} opt_port
  * @final
  */
@@ -167,7 +167,7 @@ cwc.protocol.ev3.Events.UltrasonicSensorValue = function(data, opt_port) {
 
 /**
  * @param {!cwc.protocol.ev3.Events.Type} type
- * @param {!Object} data
+ * @param {!Object|number} data
  * @param {number=} opt_port
  * @constructor
  * @final
@@ -177,7 +177,7 @@ cwc.protocol.ev3.Events.Data_ = function(type, data, opt_port) {
   /** @type {!cwc.protocol.ev3.Events.Type} */
   this.type = type;
 
-  /** @type {!Object} */
+  /** @type {!Object|number} */
   this.data = data;
 
   /** @type {number} */

@@ -30,3 +30,43 @@ Blockly.JavaScript['general_infinity_loop'] = function(block) {
     '  window.setTimeout(infinity_loop, 50);\n' +
   '}\ninfinity_loop();\n';
 };
+
+
+/**
+ * Library file
+ */
+Blockly.JavaScript['general_file_library'] = function(block) {
+  var value_filename = Blockly.JavaScript.valueToCode(
+    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
+  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+};
+
+
+/**
+ * Library file image
+ */
+Blockly.JavaScript['general_file_library_image'] = function(block) {
+  var value_filename = Blockly.JavaScript.valueToCode(
+    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
+  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+};
+
+
+/**
+ * Library file audio
+ */
+Blockly.JavaScript['general_file_library_audio'] = function(block) {
+  var value_filename = Blockly.JavaScript.valueToCode(
+    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
+  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+};
+
+
+/**
+ * Library file text
+ */
+Blockly.JavaScript['general_file_library_text'] = function(block) {
+  var value_filename = Blockly.JavaScript.valueToCode(
+    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
+  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+};

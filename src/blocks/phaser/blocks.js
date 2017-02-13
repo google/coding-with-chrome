@@ -66,8 +66,11 @@ Blockly.Blocks['phaser_load_image'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('Load Image')
-        .appendField(new Blockly.FieldTextInput('name'), 'name')
-        .appendField(new Blockly.FieldTextInput('image'), 'image');
+        .appendField(new Blockly.FieldTextInput('name'), 'name');
+    this.appendValueInput('image')
+        .setCheck('Image')
+        .appendField('from file');
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
@@ -221,10 +224,22 @@ Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
 };
 
 
-Blockly.Blocks['phaser_sprite_x'] = {
+/**
+ * Input keyboard is pressed.
+ */
+Blockly.Blocks['phaser_input_keyboard_is_pressed'] = {
   init: function() {
+    this.appendValueInput('cursors')
+        .setCheck(null);
     this.appendDummyInput()
-        .appendField('input.keyboard.createCursorKeys()');
+        .appendField(i18t('is pressed'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('up'), 'up.isDown'],
+          [i18t('down'), 'down.isDown'],
+          [i18t('left'), 'left.isDown'],
+          [i18t('right'), 'right.isDown']
+        ]), 'DIRECTION');
+    this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
@@ -233,14 +248,31 @@ Blockly.Blocks['phaser_sprite_x'] = {
 };
 
 
-Blockly.Blocks['phaser_sprite_y'] = {
+/**
+ * Adjust sprite.
+ */
+Blockly.Blocks['phaser_sprite_adjust'] = {
   init: function() {
+    this.appendValueInput('sprite')
+        .setCheck(null)
+        .appendField(i18t('Set sprite'));
     this.appendDummyInput()
-        .appendField('input.keyboard.createCursorKeys()');
-    this.setOutput(true, null);
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'body.acceleration.set'],
+          [i18t('angle'), 'angle'],
+          [i18t('angularVelocity'), 'body.angularVelocity'],
+          [i18t('archor'), 'anchor.set'],
+          [i18t('velocity'), 'body.velocity'],
+          ['x', 'x'],
+          ['y', 'y']
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('to'));
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
   }
 };
-

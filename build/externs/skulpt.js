@@ -26,8 +26,8 @@ var Sk = function() {};
 /** @type {Function} */
 Sk.configure = function() {};
 
-/** @type {Array} */
-Sk.builtinFiles = [];
+/** @type {Object} */
+Sk.builtinFiles = {};
 
 /** @type {Object} */
 Sk.TurtleGraphics = {};

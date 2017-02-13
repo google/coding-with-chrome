@@ -26,6 +26,7 @@ goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorToolbar');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
+goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.array');
@@ -35,8 +36,6 @@ goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.Select');
 
 
 
@@ -94,19 +93,25 @@ cwc.ui.Editor = function(helper) {
   this.nodeInfobar = null;
 
   /** @type {Element} */
+  this.nodeInfobarCurrentMode = null;
+
+  /** @type {Element} */
   this.nodeInfobarLineCol = null;
 
   /** @type {Element} */
   this.nodeInfobarMode = null;
 
   /** @type {Element} */
+  this.nodeInfobarModes = null;
+
+  /** @type {Element} */
+  this.nodeInfobarModeSelect = null;
+
+  /** @type {Element} */
   this.nodeToolbar = null;
 
   /** @type {Element} */
   this.nodeSelectView = null;
-
-  /** @type {goog.ui.Select} */
-  this.infobarModeSelect = null;
 
   /** @type {cwc.ui.EditorToolbar} */
   this.toolbar = null;
@@ -127,6 +132,9 @@ cwc.ui.Editor = function(helper) {
 
   /** @type {Array} */
   this.listener = [];
+
+  /** @private {!boolean} */
+  this.isVisible_ = true;
 };
 
 
@@ -144,6 +152,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
         experimental: this.helper.experimentalEnabled(),
+        modes: CodeMirror.mimeModes || {},
         prefix: this.prefix
       }
   );
@@ -163,20 +172,20 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 
   // Decorate editor info-bar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
+  this.nodeInfobarCurrentMode = goog.dom.getElement(this.prefix +
+    'info-current-mode-text');
   this.nodeInfobarLineCol = goog.dom.getElement(this.prefix + 'info-line-col');
   this.nodeInfobarMode = goog.dom.getElement(this.prefix + 'info-mode');
+  this.nodeInfobarModes = goog.dom.getElement(this.prefix + 'info-modes');
+  this.nodeInfobarModeSelect = goog.dom.getElement(
+    this.prefix + 'info-mode-select');
 
   // Decorate editor mode select.
-  this.infobarModeSelect = new goog.ui.Select('Change the editor mode.');
-  for (let editorType in CodeMirror.mimeModes) {
-    this.infobarModeSelect.addItem(new goog.ui.MenuItem(editorType));
-  }
-  this.infobarModeSelect.render(this.nodeInfobarMode);
-  this.infobarModeSelect.setEnabled(false);
-  goog.style.setStyle(this.infobarModeSelect.getElement(), 'border', '0');
-  this.addEventListener(this.infobarModeSelect,
-      goog.ui.Component.EventType.ACTION,
-      this.changeEditorType, false, this);
+  goog.events.listen(this.nodeInfobarModes, goog.events.EventType.CLICK,
+    function(event) {
+      var value = event.target.firstChild.data;
+      this.setEditorMode(value);
+    }, false, this);
 
   // Add event listener to monitor changes like resize and unload.
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -246,21 +255,11 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
 
 
 /**
- * Changes the Editor code mode.
- * @param {Event} event
- */
-cwc.ui.Editor.prototype.changeEditorType = function(event) {
-  var selectTarget = event.target;
-  var selectedValue = selectTarget.getValue();
-  this.setEditorMode(selectedValue);
-};
-
-
-/**
  * Shows/Hides the editor.
  * @param {boolean} visible
  */
 cwc.ui.Editor.prototype.showEditor = function(visible) {
+  this.isVisible_ = visible;
   goog.style.setElementShown(this.node, visible);
   if (visible && this.editor) {
     this.editor.refresh();
@@ -306,8 +305,8 @@ cwc.ui.Editor.prototype.showEditorTypeInfo = function(visible) {
  * @param {boolean} enable
  */
 cwc.ui.Editor.prototype.enableModeSelect = function(enable) {
-  if (this.infobarModeSelect) {
-    this.infobarModeSelect.setEnabled(enable);
+  if (this.nodeInfobarModeSelect) {
+    cwc.ui.Helper.enableElement(this.nodeInfobarModeSelect, enable);
   }
 };
 
@@ -487,6 +486,10 @@ cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
  */
 cwc.ui.Editor.prototype.refreshEditor = function() {
   this.editor.refresh();
+  var layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    layoutInstance.refresh();
+  }
 };
 
 
@@ -635,6 +638,14 @@ cwc.ui.Editor.prototype.isModified = function() {
 
 
 /**
+ * @return {boolean}
+ */
+cwc.ui.Editor.prototype.isVisible = function() {
+  return this.isVisible_;
+};
+
+
+/**
  * @param {!boolean} modified
  */
 cwc.ui.Editor.prototype.setModified = function(modified) {
@@ -681,12 +692,9 @@ cwc.ui.Editor.createMarker = function() {
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
   console.info('Update Infobar …');
-  if (this.nodeInfobarMode) {
-    if (this.infobarModeSelect) {
-      this.infobarModeSelect.setValue(this.getEditorMode());
-    }
+  if (this.nodeInfobarCurrentMode) {
+    this.nodeInfobarCurrentMode.textContent = this.getEditorMode();
   }
-
   if (this.nodeInfobarLineCol) {
     goog.dom.setTextContent(this.nodeInfobarLineCol, '1 : 0');
   }

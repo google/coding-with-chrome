@@ -25,7 +25,6 @@ goog.require('cwc.soy.Library');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.ui.TableSorter');
 
 
 
@@ -61,12 +60,6 @@ cwc.ui.Library = function(helper) {
   /** @type {Element} */
   this.nodePreview = null;
 
-  /** @type {Element} */
-  this.nodeEntries = null;
-
-  /** @type {Element} */
-  this.nodeContentTable = null;
-
   /** @type {Array} */
   this.listener = [];
 };
@@ -92,14 +85,11 @@ cwc.ui.Library.prototype.decorate = function(node) {
  * Decorates the library content.
  */
 cwc.ui.Library.prototype.decorateLibrary = function() {
-  this.nodeContentTable = goog.dom.getElement(this.prefix +
-      'content-table');
-  this.nodeEntries = goog.dom.getElement(this.prefix + 'entries');
-  this.nodeFile = goog.dom.getElement(this.prefix + 'file');
-  this.nodePreview = goog.dom.getElement(this.prefix + 'preview');
-  this.syncFiles();
-
   this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  this.nodeFile = goog.dom.getElement(this.prefix + 'file');
+  this.nodeFileList = goog.dom.getElement(this.prefix + 'file-list');
+  this.nodePreview = goog.dom.getElement(this.prefix + 'preview');
+
   this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
   this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGOVER,
@@ -107,14 +97,7 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
   this.addEventListener(this.nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
 
-  if (this.nodeContentTable) {
-    var tableSorter = new goog.ui.TableSorter();
-    tableSorter.decorate(this.nodeContentTable);
-    tableSorter.setSortFunction(0, goog.ui.TableSorter.alphaSort);
-    tableSorter.setSortFunction(1, goog.ui.TableSorter.alphaSort);
-    tableSorter.setSortFunction(2,
-        goog.ui.TableSorter.createReverseSort(goog.ui.TableSorter.numericSort));
-  }
+  this.syncFiles();
 };
 
 
@@ -146,9 +129,24 @@ cwc.ui.Library.prototype.handleDrop_ = function(e) {
 cwc.ui.Library.prototype.showLibrary = function() {
   var dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.showTemplate('File Library', cwc.soy.Library.template, {
-    'prefix': this.prefix
+    prefix: this.prefix,
+    files: this.getFiles()
   });
   this.decorateLibrary();
+};
+
+
+/**
+ * Update the visible library file list.
+ * @param {Object=} opt_files
+ */
+cwc.ui.Library.prototype.updateLibraryFileList = function(opt_files) {
+  if (this.nodeFileList) {
+    goog.soy.renderElement(this.nodeFileList, cwc.soy.Library.files, {
+      prefix: this.prefix,
+      files: opt_files || this.getFiles()
+    });
+  }
 };
 
 
@@ -156,18 +154,16 @@ cwc.ui.Library.prototype.showLibrary = function() {
  * Syncs the files with the library.
  */
 cwc.ui.Library.prototype.syncFiles = function() {
+  var blocklyInstance = this.helper.getInstance('blockly');
   var editorInstance = this.helper.getInstance('editor');
   var fileInstance = this.helper.getInstance('file');
-  if (fileInstance && this.nodeEntries) {
-    var files = fileInstance.getFiles().getFiles();
-    if (files && goog.isObject(files)) {
-      this.clearData();
-      for (let file in files) {
-        if (files.hasOwnProperty(file)) {
-          var fileData = files[file];
-          this.addLibraryEntry(fileData.getName(), fileData.getType(),
-              fileData.getSize());
-        }
+  if (fileInstance) {
+    var files = this.getFiles();
+    if (files) {
+      console.log('Syncing library ', fileInstance.getFiles().getSize(),
+        ' files …');
+      if (blocklyInstance) {
+        blocklyInstance.updateFiles(files);
       }
       if (editorInstance) {
         editorInstance.updateMediaButton(fileInstance.getFiles().hasFiles());
@@ -176,17 +172,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
       console.error('Library data are in the wrong format!');
     }
   }
-};
-
-
-/**
- * Clears library data.
- */
-cwc.ui.Library.prototype.clearData = function() {
-  console.info('Clearing library …');
-  if (this.nodeEntries) {
-    goog.dom.removeChildren(this.nodeEntries);
-  }
+  this.updateLibraryFileList();
 };
 
 
@@ -255,9 +241,8 @@ cwc.ui.Library.prototype.previewFile = function(event) {
 cwc.ui.Library.prototype.insertFileMacro = function(event) {
   var file = this.getFile(event.target.innerText);
   var editorInstance = this.helper.getInstance('editor');
-  if (file && editorInstance) {
-    var fileMacro = '{{ file:' + file.getName() + ' }}';
-    editorInstance.insertText(fileMacro);
+  if (file && editorInstance && editorInstance.isVisible()) {
+    editorInstance.insertText(file.getMacroName());
   }
 };
 
@@ -272,6 +257,33 @@ cwc.ui.Library.prototype.getFile = function(name) {
     return fileInstance.getLibraryFile(name);
   }
   return null;
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.ui.Library.prototype.getFiles = function() {
+  var fileInstance = this.helper.getInstance('file');
+  if (!fileInstance) {
+    return {};
+  }
+  var files = fileInstance.getFiles().getFiles();
+  var fileList = {};
+  if (files && goog.isObject(files)) {
+    for (let file in files) {
+      if (files.hasOwnProperty(file)) {
+        var fileData = files[file];
+        var fileName = fileData.getName();
+        fileList[fileName] = {};
+        fileList[fileName]['content'] = fileData.getContent();
+        fileList[fileName]['media_type'] = fileData.getMediaType();
+        fileList[fileName]['size'] = fileData.getSize();
+        fileList[fileName]['type'] = fileData.getType();
+      }
+    }
+  }
+  return fileList;
 };
 
 
@@ -291,32 +303,6 @@ cwc.ui.Library.prototype.addFile = function(name, content, opt_type) {
       this.syncFiles();
     }
   }
-};
-
-
-/**
- * Adds file to library overview.
- * @param {string} file_name
- * @param {string} file_type
- * @param {number} file_size
- */
-cwc.ui.Library.prototype.addLibraryEntry = function(file_name,
-    file_type, file_size) {
-  var fileEntry = document.createElement('tr');
-  var fileName = document.createElement('td');
-  var fileType = document.createElement('td');
-  var fileSize = document.createElement('td');
-  fileName.innerText = file_name;
-  fileType.innerText = file_type;
-  fileSize.innerText = file_size;
-  fileEntry.appendChild(fileName);
-  fileEntry.appendChild(fileType);
-  fileEntry.appendChild(fileSize);
-  goog.events.listen(fileEntry, goog.events.EventType.CLICK,
-      this.previewFile, false, this);
-  goog.events.listen(fileEntry, goog.events.EventType.DBLCLICK,
-      this.insertFileMacro, false, this);
-  this.nodeEntries.appendChild(fileEntry);
 };
 
 
@@ -357,6 +343,5 @@ cwc.ui.Library.prototype.addEventListener = function(src, type,
  * Clean up the event listener and any other modification.
  */
 cwc.ui.Library.prototype.cleanUp = function() {
-  this.clearData();
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
 };

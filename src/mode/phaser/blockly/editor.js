@@ -73,11 +73,8 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
 
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox, true);
-
-  // Blocks toolbox
-  this.blockly.updateToolboxTemplate(
-    cwc.soy.mode.phaser.blockly.Blocks.toolbox);
+  this.blockly.setToolboxTemplate(cwc.soy.mode.phaser.blockly.Blocks.toolbox);
+  this.blockly.decorate(this.nodeBlockly);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);

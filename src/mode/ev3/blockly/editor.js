@@ -50,16 +50,10 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
   this.nodeBlockly = null;
 
   /** @type {Element} */
-  this.nodeBlocklyToolbox = null;
-
-  /** @type {Element} */
   this.nodeEditor = null;
 
   /** @type {string} */
   this.prefix = helper.getPrefix('ev3');
-
-  /** @type {string} */
-  this.generalPrefix = helper.getPrefix();
 
   /** @type {!Array} */
   this.listener = [];
@@ -70,6 +64,7 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
+
   this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
   if (!this.nodeBlockly) {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
@@ -82,19 +77,10 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
     return;
   }
 
-  // Blockly toolbox
-  this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
-      'blockly-toolbox');
-  if (!this.nodeBlocklyToolbox) {
-    console.error('Was unable to find Blockly Toolbox:',
-      this.nodeBlocklyToolbox);
-    return;
-  }
-  this.updateBlocklyToolbox_('');
-
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.decorate(this.nodeBlockly, this.nodeBlocklyToolbox, true);
+  this.blockly.setToolboxTemplate(cwc.soy.mode.ev3.blockly.Blocks.toolbox);
+  this.blockly.decorate(this.nodeBlockly);
 
   // Text editor
   this.helper.setInstance('editor', this.editor, true);
@@ -102,13 +88,6 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
-
-  // Custom events
-  /*var customEventHandler = this.helper.getEventHandler();
-  this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
-    this.updateBlocklyToolbox_(e.data);
-    this.blockly.updateToolbox(this.nodeBlocklyToolbox);
-  }, false, this);*/
 
   // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
@@ -169,21 +148,6 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
-};
-
-
-/**
- * Updates Blockly toolbar.
- * @param {!string} type
- */
-cwc.mode.ev3.blockly.Editor.prototype.updateBlocklyToolbox_ = function(type) {
-  goog.soy.renderElement(
-      this.nodeBlocklyToolbox,
-      cwc.soy.mode.ev3.blockly.Blocks.toolbox, {
-        prefix: this.prefix,
-        type: type
-      }
-  );
 };
 
 
