@@ -39,7 +39,26 @@
     </category>
 
     <category name="Create" colour="260">
-      <block type="phaser_create"></block>
+      <block type="phaser_create">
+        <statement name="CODE">
+          <block type="variables_set">
+            <field name="VAR">cursors</field>
+            <value name="VALUE">
+             <block type="phaser_input_keyboard_create_cursor_keys"></block>
+            </value>
+            <next>
+              <block type="variables_set">
+                <field name="VAR">spaceKey</field>
+                <value name="VALUE">
+                  <block type="phaser_input_keyboard_add_key">
+                    <field name="keycode">Phaser.KeyCode.SPACEBAR</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
       <block type="phaser_stage_background_color"></block>
       <block type="phaser_add_sprite"></block>
       <block type="phaser_add_text"></block>
@@ -61,13 +80,14 @@
 
     <category name="Input" colour="200">
       <block type="phaser_input_keyboard_create_cursor_keys"></block>
+      <block type="phaser_input_keyboard_add_key"></block>
       <block type="phaser_input_keyboard_is_pressed"></block>
 
       <block type="controls_if">
         <mutation elseif="3"></mutation>
         <value name="IF0">
           <block type="phaser_input_keyboard_is_pressed">
-            <field name="DIRECTION">up.isDown</field>
+            <field name="direction">up.isDown</field>
             <value name="cursors">
               <block type="variables_get">
                 <field name="VAR">cursors</field>
@@ -77,7 +97,7 @@
         </value>
         <value name="IF1">
           <block type="phaser_input_keyboard_is_pressed">
-            <field name="DIRECTION">down.isDown</field>
+            <field name="direction">down.isDown</field>
             <value name="cursors">
               <block type="variables_get">
                 <field name="VAR">cursors</field>
@@ -87,7 +107,7 @@
         </value>
         <value name="IF2">
           <block type="phaser_input_keyboard_is_pressed">
-            <field name="DIRECTION">left.isDown</field>
+            <field name="direction">left.isDown</field>
             <value name="cursors">
               <block type="variables_get">
                 <field name="VAR">cursors</field>
@@ -97,7 +117,7 @@
         </value>
         <value name="IF3">
           <block type="phaser_input_keyboard_is_pressed">
-            <field name="DIRECTION">right.isDown</field>
+            <field name="direction">right.isDown</field>
             <value name="cursors">
               <block type="variables_get">
                 <field name="VAR">cursors</field>
@@ -112,6 +132,21 @@
     <category name="Sprite" colour="150">
 
       <block type="phaser_sprite_adjust">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+        <value name="value">
+          <block type="math_number"></block>
+        </value>
+      </block>
+
+    </category>
+
+    <category name="World" colour="100">
+
+      <block type="phaser_world_wrap">
         <value name="sprite">
           <block type="variables_get">
             <field name="VAR">sprite</field>

@@ -225,6 +225,26 @@ Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
 
 
 /**
+ * Input keyboard add key.
+ */
+Blockly.Blocks['phaser_input_keyboard_add_key'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('input.keyboard.addKey');
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('spacebar'), 'Phaser.KeyCode.SPACEBAR']
+        ]), 'keycode');
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Input keyboard is pressed.
  */
 Blockly.Blocks['phaser_input_keyboard_is_pressed'] = {
@@ -237,8 +257,9 @@ Blockly.Blocks['phaser_input_keyboard_is_pressed'] = {
           [i18t('up'), 'up.isDown'],
           [i18t('down'), 'down.isDown'],
           [i18t('left'), 'left.isDown'],
-          [i18t('right'), 'right.isDown']
-        ]), 'DIRECTION');
+          [i18t('right'), 'right.isDown'],
+          [i18t('key pressed'), 'isDown']
+        ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(230);
@@ -263,12 +284,39 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
           [i18t('angularVelocity'), 'body.angularVelocity'],
           [i18t('archor'), 'anchor.set'],
           [i18t('velocity'), 'body.velocity'],
+          [i18t('velocity x'), 'body.velocity.x'],
+          [i18t('velocity y'), 'body.velocity.y'],
+          [i18t('move up'), 'moveUp'],
+          [i18t('move down'), 'moveDown'],
+          [i18t('move left'), 'moveLeft'],
+          [i18t('move right'), 'moveRight'],
           ['x', 'x'],
           ['y', 'y']
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
         .appendField(i18t('to'));
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * World wrap.
+ */
+Blockly.Blocks['phaser_world_wrap'] = {
+  init: function() {
+    this.appendValueInput('sprite')
+        .setCheck(null)
+        .appendField(i18t('World wrap sprite'));
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('padding'));
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
