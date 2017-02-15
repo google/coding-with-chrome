@@ -75,3 +75,13 @@ Blockly.JavaScript['phaser_add_text'] = function(block) {
     text_text + '\')';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+
+/**
+ * Add group.
+ */
+Blockly.JavaScript['phaser_add_group'] = function(block) {
+  var text_name = block.getFieldValue('name');
+  var code = 'game.add.group(null, \'' + text_name + '\')';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};

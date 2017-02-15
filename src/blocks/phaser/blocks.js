@@ -41,6 +41,22 @@ Blockly.Blocks['phaser_game'] = {
 
 
 /**
+ * Restart Phaser Game.
+ */
+Blockly.Blocks['phaser_game_restart'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('Restart game');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Phaser preload section.
  */
 Blockly.Blocks['phaser_preload'] = {
@@ -206,7 +222,6 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
         .appendField(i18t('Set sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'body.acceleration.set'],
           [i18t('angle'), 'angle'],
           [i18t('archor'), 'anchor.set'],
           [i18t('move up'), 'moveUp'],
@@ -221,6 +236,28 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
         .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Adjust sprite.
+ */
+Blockly.Blocks['phaser_sprite_get'] = {
+  init: function() {
+    this.appendValueInput('sprite')
+        .setCheck(null)
+        .appendField(i18t('Get sprite'));
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('angle'), 'angle'],
+          ['x', 'x'],
+          ['y', 'y']
+        ]), 'property');
+    this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');

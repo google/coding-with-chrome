@@ -29,8 +29,9 @@
 
   <xml>
 
-    <category name="Setup" colour="290">
+    <category name="Game" colour="290">
       <block type="phaser_game"></block>
+      <block type="phaser_game_restart"></block>
     </category>
 
     <category name="Preload" colour="260">
@@ -64,6 +65,7 @@
       <block type="phaser_add_audio"></block>
       <block type="phaser_add_sprite"></block>
       <block type="phaser_add_text"></block>
+      <block type="phaser_add_group"></block>
     </category>
 
     <category name="Update" colour="290">
@@ -78,7 +80,16 @@
 
     <category name="Physics" colour="290">
       <block type="phaser_physics_arcade_enable"></block>
-      <block type="phaser_pyhsics_sprite"></block>
+      <block type="phaser_pyhsics_sprite">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+        <value name="value">
+          <block type="math_number"></block>
+        </value>
+      </block>
     </category>
 
     <category name="Input" colour="200">
@@ -142,6 +153,14 @@
         </value>
         <value name="value">
           <block type="math_number"></block>
+        </value>
+      </block>
+
+      <block type="phaser_sprite_get">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
         </value>
       </block>
 

@@ -46,21 +46,20 @@ Blockly.Blocks['phaser_pyhsics_sprite'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
-        .appendField(i18t('Set sprite'));
+        .appendField(i18t('Set physics sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
           [i18t('acceleration'), 'body.acceleration.set'],
           [i18t('angle'), 'angle'],
-          [i18t('angularVelocity'), 'body.angularVelocity'],
-          [i18t('velocity'), 'body.velocity'],
+          [i18t('angular velocity'), 'body.angularVelocity'],
+          [i18t('bounce x'), 'body.bounce.x'],
+          [i18t('bounce y'), 'body.bounce.y'],
+          [i18t('collide world bounds'), 'body.collideWorldBounds'],
+          [i18t('gravity x'), 'body.gravity.x'],
+          [i18t('gravity y'), 'body.gravity.y'],
           [i18t('velocity x'), 'body.velocity.x'],
           [i18t('velocity y'), 'body.velocity.y'],
-          [i18t('move up'), 'moveUp'],
-          [i18t('move down'), 'moveDown'],
-          [i18t('move left'), 'moveLeft'],
-          [i18t('move right'), 'moveRight'],
-          ['x', 'x'],
-          ['y', 'y']
+          [i18t('velocity'), 'body.velocity'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')

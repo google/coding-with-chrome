@@ -115,3 +115,19 @@ Blockly.Blocks['phaser_add_text'] = {
     this.setHelpUrl('');
   }
 };
+
+
+/**
+ * Add group.
+ */
+Blockly.Blocks['phaser_add_group'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('Add group')
+        .appendField(new Blockly.FieldTextInput('text'), 'name');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

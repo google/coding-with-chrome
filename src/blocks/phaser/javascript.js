@@ -27,14 +27,25 @@ Blockly.JavaScript['phaser_game'] = function(block) {
   var text_name = block.getFieldValue('name');
   var number_width = block.getFieldValue('width');
   var number_height = block.getFieldValue('height');
+
   return 'var game = new Phaser.Game(' +
-    '  ' + number_width + ', ' + number_height + ', Phaser.CANVAS, \'' +
-    text_name + '\' , {\n' +
+    '  ' + number_width + ', ' + number_height + ', Phaser.AUTO, \'' +
+    text_name + '\');\n' +
+    'game.state.add(\'main\', {\n' +
     '  preload: typeof preload !== \'undefined\' ? preload : function() {},\n' +
     '  create: typeof create !== \'undefined\' ? create : null,\n' +
     '  update: typeof update !== \'undefined\' ? update : null,\n' +
     '  render: typeof render !== \'undefined\' ? render : null\n' +
-    '});\n';
+    '});\n' +
+    'game.state.start(\'main\');\n';
+};
+
+
+/**
+ * Phaser Game block.
+ */
+Blockly.JavaScript['phaser_game_restart'] = function() {
+  return 'game.state.start(\'main\');\n';
 };
 
 
@@ -99,8 +110,7 @@ Blockly.JavaScript['phaser_input_keyboard_create_cursor_keys'] = function() {
 /**
  * Input keyboard add key.
  */
-Blockly.JavaScript['phaser_input_keyboard_add_key'] = function(
-    block) {
+Blockly.JavaScript['phaser_input_keyboard_add_key'] = function(block) {
   var dropdown_keycode = block.getFieldValue('keycode');
   var code = 'this.input.keyboard.addKey(' + dropdown_keycode + ')';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -144,6 +154,18 @@ Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {
       return value_sprite + '.' + dropdown_property +
       ' = ' + value_value + ';\n';
   }
+};
+
+
+/**
+ * Get sprite.
+ */
+Blockly.JavaScript['phaser_sprite_get'] = function(block) {
+  var value_sprite = Blockly.JavaScript.valueToCode(block,
+    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_property = block.getFieldValue('property');
+  var code = value_sprite + '.' + dropdown_property;
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
