@@ -25,7 +25,6 @@
  * Normal overview page.
  */
 {template .overview}
-  {@param experimental: bool}
   {@param prefix: string}
 
   <div id="{$prefix}overview">
@@ -65,17 +64,15 @@
           {param opt_hidden: true /}
         {/call}
 
-        {if $experimental}
-          {call .selectCard_}
-            {param prefix: $prefix /}
-            {param title: 'Games' /}
-            {param text: 'Create simple games by dragging and dropping code blocks' /}
-            {param link_text: 'Start creating Games' /}
-            {param link_id: 'games' /}
-            {param opt_color_class: 'bg-red' /}
-            {param opt_icon: 'videogame_asset' /}
-          {/call}
-        {/if}
+        {call .selectCard_}
+          {param prefix: $prefix /}
+          {param title: 'Games' /}
+          {param text: 'Create simple games by dragging and dropping code blocks' /}
+          {param link_text: 'Start creating Games' /}
+          {param link_id: 'games' /}
+          {param opt_color_class: 'bg-red' /}
+          {param opt_icon: 'videogame_asset' /}
+        {/call}
 
         {call .selectCard_}
           {param prefix: $prefix /}
@@ -247,6 +244,18 @@
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
           {param opt_text: 'Game file' /}
+        {/call}
+
+        {call .selectCardBig_}
+          {param prefix: $prefix /}
+          {param title: 'Move a sprite' /}
+          {param text: 'Move a sprite with your cursor keys.' /}
+          {param link_text: 'Load move a sprite' /}
+          {param link_id: 'move-a-sprite' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'keyboard' /}
+          {param opt_text: 'Example' /}
         {/call}
 
       </div>

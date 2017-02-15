@@ -32,7 +32,7 @@ closureBuilder.build({
     'src/blocks/general/*.js',
     'src/blocks/makeblock/mbot/*.js',
     'src/blocks/makeblock/mbot_ranger/*.js',
-    'src/blocks/phaser/*.js',
+    'src/blocks/phaser/**/*.js',
     'src/blocks/simple/*.js',
     'src/blocks/sphero/*.js'
   ]),

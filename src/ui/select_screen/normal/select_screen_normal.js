@@ -105,7 +105,16 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.ROBOT);
       break;
 
-    // Main screens
+    // Currently not in use.
+    case cwc.ui.SelectScreenNormalView.DRAW:
+      this.showTemplate_(cwc.soy.SelectScreenNormal.drawOverview);
+      this.setClickEvent_('link-blank', this.newFile_,
+          cwc.file.Type.BASIC_BLOCKLY);
+      break;
+    case cwc.ui.SelectScreenNormalView.MUSIC:
+      break;
+
+    // Basic example screen
     case cwc.ui.SelectScreenNormalView.BASIC:
       this.showTemplate_(cwc.soy.SelectScreenNormal.basicOverview);
       this.setNavHeader_('Blocks', 'school');
@@ -116,17 +125,14 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-text-loop', this.loadFile_,
           'resources/examples/simple/blocks/Text-Loop.cwc');
       break;
-    case cwc.ui.SelectScreenNormalView.DRAW:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.drawOverview);
-      this.setClickEvent_('link-blank', this.newFile_,
-          cwc.file.Type.BASIC_BLOCKLY);
-      break;
+
+    // Game example screen
     case cwc.ui.SelectScreenNormalView.GAMES:
       this.showTemplate_(cwc.soy.SelectScreenNormal.gamesOverview);
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.PHASER_BLOCKLY);
-      break;
-    case cwc.ui.SelectScreenNormalView.MUSIC:
+      this.setClickEvent_('link-move-a-sprite', this.loadFile_,
+          'resources/examples/phaser/blocks/Move-a-sprite.cwc');
       break;
 
     // Robot overview
@@ -143,7 +149,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.MBOT_RANGER);
       break;
 
-    // Robot screens
+    // EV3 example screen
     case cwc.ui.SelectScreenNormalView.EV3:
       this.showTemplate_(cwc.soy.SelectScreenNormal.ev3Overview);
       this.setNavHeader_('EV3', 'adb');
@@ -155,6 +161,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-color-sensor', this.loadFile_,
           'resources/examples/ev3/blocks/EV3-Color-Sensor.cwc');
       break;
+
+    // Sphero example screen
     case cwc.ui.SelectScreenNormalView.SPHERO:
       var spheroPath = 'resources/examples/sphero/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
@@ -167,6 +175,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-collision', this.loadFile_, spheroPath +
         'Sphero-collision.cwc');
       break;
+
+    // MBot example screen
     case cwc.ui.SelectScreenNormalView.MBOT:
       var mBotPath = 'resources/examples/makeblock/mbot/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
@@ -183,6 +193,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-line_follower', this.loadFile_, mBotPath +
         'mBot-line_follower.cwc');
       break;
+
+    // MBot ranger example screen
     case cwc.ui.SelectScreenNormalView.MBOT_RANGER:
       //var mBotRangerPath = 'resources/examples/makeblock/mbot_ranger/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotRangerOverview);

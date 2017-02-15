@@ -36,6 +36,7 @@
     <category name="Preload" colour="260">
       <block type="phaser_preload"></block>
       <block type="phaser_load_image"></block>
+      <block type="phaser_load_audio"></block>
     </category>
 
     <category name="Create" colour="260">
@@ -60,6 +61,7 @@
         </statement>
       </block>
       <block type="phaser_stage_background_color"></block>
+      <block type="phaser_add_audio"></block>
       <block type="phaser_add_sprite"></block>
       <block type="phaser_add_text"></block>
     </category>
@@ -76,6 +78,7 @@
 
     <category name="Physics" colour="290">
       <block type="phaser_physics_arcade_enable"></block>
+      <block type="phaser_pyhsics_sprite"></block>
     </category>
 
     <category name="Input" colour="200">
@@ -420,7 +423,7 @@
       {switch $files[$file]['media_type']}
         {case 'audio'}
           <block type="general_file_library_audio">
-            <value name="FILENAME">
+            <value name="filename">
               <shadow type="text">
                 <field name="TEXT">{$file}</field>
               </shadow>
@@ -428,7 +431,7 @@
           </block>
         {case 'image'}
           <block type="general_file_library_image">
-            <value name="FILENAME">
+            <value name="filename">
               <shadow type="text">
                 <field name="TEXT">{$file}</field>
               </shadow>
@@ -436,7 +439,7 @@
           </block>
         {case 'text'}
           <block type="general_file_library_text">
-            <value name="FILENAME">
+            <value name="filename">
               <shadow type="text">
                 <field name="TEXT">{$file}</field>
               </shadow>
@@ -444,7 +447,7 @@
           </block>
         {default}
           <block type="general_file_library">
-            <value name="FILENAME">
+            <value name="filename">
               <shadow type="text">
                 <field name="TEXT">{$file}</field>
               </shadow>

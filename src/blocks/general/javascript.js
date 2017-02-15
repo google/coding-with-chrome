@@ -37,8 +37,9 @@ Blockly.JavaScript['general_infinity_loop'] = function(block) {
  */
 Blockly.JavaScript['general_file_library'] = function(block) {
   var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
-  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var code = '{{ file:' + value_filename + ' }}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
@@ -47,8 +48,9 @@ Blockly.JavaScript['general_file_library'] = function(block) {
  */
 Blockly.JavaScript['general_file_library_image'] = function(block) {
   var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
-  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var code = '{{ file:' + value_filename + ' }}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
@@ -57,8 +59,9 @@ Blockly.JavaScript['general_file_library_image'] = function(block) {
  */
 Blockly.JavaScript['general_file_library_audio'] = function(block) {
   var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
-  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var code = '{{ file:' + value_filename + ' }}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
@@ -67,6 +70,7 @@ Blockly.JavaScript['general_file_library_audio'] = function(block) {
  */
 Blockly.JavaScript['general_file_library_text'] = function(block) {
   var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'FILENAME', Blockly.JavaScript.ORDER_ATOMIC);
-  return  '{{ file:' + value_filename.replace(/\'/g, '') + ' }}';
+    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var code = '{{ file:' + value_filename + ' }}';
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };

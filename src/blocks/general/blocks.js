@@ -43,7 +43,7 @@ Blockly.Blocks['general_infinity_loop'] = {
  */
 Blockly.Blocks['general_file_library'] = {
   init: function() {
-    this.appendValueInput('FILENAME')
+    this.appendValueInput('filename')
         .setCheck('String')
         .appendField('File:');
     this.setOutput(true, null);
@@ -59,7 +59,7 @@ Blockly.Blocks['general_file_library'] = {
  */
 Blockly.Blocks['general_file_library_image'] = {
   init: function() {
-    this.appendValueInput('FILENAME')
+    this.appendValueInput('filename')
         .setCheck('String')
         .appendField('Image:');
     this.setOutput(true, 'Image');
@@ -75,7 +75,7 @@ Blockly.Blocks['general_file_library_image'] = {
  */
 Blockly.Blocks['general_file_library_audio'] = {
   init: function() {
-    this.appendValueInput('FILENAME')
+    this.appendValueInput('filename')
         .setCheck('String')
         .appendField('Audio:');
     this.setOutput(true, 'Audio');
@@ -91,7 +91,7 @@ Blockly.Blocks['general_file_library_audio'] = {
  */
 Blockly.Blocks['general_file_library_text'] = {
   init: function() {
-    this.appendValueInput('FILENAME')
+    this.appendValueInput('filename')
         .setCheck('String')
         .appendField('Text:');
     this.setOutput(true, 'Text');

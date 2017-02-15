@@ -26,10 +26,9 @@
 Blockly.Blocks['phaser_game'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('Game Name:')
-        .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name');
-    this.appendDummyInput()
-        .appendField('Size:')
+        .appendField('Create Game with name')
+        .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name')
+        .appendField('and size')
         .appendField(new Blockly.FieldNumber(800), 'width')
         .appendField('x')
         .appendField(new Blockly.FieldNumber(600), 'height');
@@ -81,72 +80,19 @@ Blockly.Blocks['phaser_load_image'] = {
 
 
 /**
- * Phaser create section.
+ * Load Audio
  */
-Blockly.Blocks['phaser_create'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(280);
-    this.appendDummyInput()
-      .appendField(i18t('Create'));
-    this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-
-/**
- * Stage background color.
- */
-Blockly.Blocks['phaser_stage_background_color'] = {
+Blockly.Blocks['phaser_load_audio'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('stage.backgroundColor (')
-        .appendField(new Blockly.FieldColour('#000000'), 'color')
-        .appendField(')');
+        .appendField('Load Audio')
+        .appendField(new Blockly.FieldTextInput('name'), 'name');
+    this.appendValueInput('audio')
+        .setCheck('Audio')
+        .appendField('from file');
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add sprite.
- */
-Blockly.Blocks['phaser_add_sprite'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('add.sprite(')
-        .appendField(new Blockly.FieldNumber(50), 'x')
-        .appendField(new Blockly.FieldNumber(50), 'y')
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField(')');
-    this.setOutput(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add text.
- */
-Blockly.Blocks['phaser_add_text'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('add.text(')
-        .appendField(new Blockly.FieldNumber(10), 'x')
-        .appendField(new Blockly.FieldNumber(10), 'y')
-        .appendField(new Blockly.FieldTextInput('text'), 'text')
-        .appendField(')');
-    this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -191,31 +137,12 @@ Blockly.Blocks['phaser_render'] = {
 
 
 /**
- * Physics arcade enable.
- */
-Blockly.Blocks['phaser_physics_arcade_enable'] = {
-  init: function() {
-    this.appendValueInput('object')
-        .setCheck(null)
-        .appendField('physics.arcade.enable (');
-    this.appendDummyInput()
-        .appendField(')');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
  * Input keyboard create cursor keys.
  */
 Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('input.keyboard.createCursorKeys()');
+        .appendField('Capture keyboard cursors keys');
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
@@ -281,11 +208,7 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
         .appendField(new Blockly.FieldDropdown([
           [i18t('acceleration'), 'body.acceleration.set'],
           [i18t('angle'), 'angle'],
-          [i18t('angularVelocity'), 'body.angularVelocity'],
           [i18t('archor'), 'anchor.set'],
-          [i18t('velocity'), 'body.velocity'],
-          [i18t('velocity x'), 'body.velocity.x'],
-          [i18t('velocity y'), 'body.velocity.y'],
           [i18t('move up'), 'moveUp'],
           [i18t('move down'), 'moveDown'],
           [i18t('move left'), 'moveLeft'],
