@@ -117,14 +117,14 @@ describe('StackQueue (autostart)', function() {
     }, 50);
     window.setTimeout(function() {
       expect(counter).toEqual(2);
-    }, 125);
+    }, 150);
     window.setTimeout(function() {
       expect(counter).toEqual(3);
-    }, 225);
+    }, 250);
     window.setTimeout(function() {
       expect(counter).toEqual(4);
       done();
-    }, 325);
+    }, 350);
   });
 
   it('stop', function(done) {
