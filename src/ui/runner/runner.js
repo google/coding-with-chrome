@@ -182,9 +182,6 @@ cwc.ui.Runner = function(helper) {
   /** @type {?function()} */
   this.externalCleanUp = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {!Array} */
   this.listener = [];
 };
@@ -198,11 +195,6 @@ cwc.ui.Runner = function(helper) {
  */
 cwc.ui.Runner.prototype.decorate = function(node) {
   this.node = node;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Runner.style({ prefix: this.prefix }));
-  }
 
   goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
     prefix: this.prefix }
@@ -672,12 +664,12 @@ cwc.ui.Runner.prototype.stop = function() {
 
 
 /**
- * Reloads the runner window.
+ * Refreshes the runner window.
  * @export
  */
-cwc.ui.Runner.prototype.reload = function() {
+cwc.ui.Runner.prototype.refresh = function() {
   if (this.content) {
-    console.info('Reload Runner …');
+    console.info('Refresh Runner …');
     this.renderStatusTemplate(this.templateReload);
     if (this.externalCleanUp) {
       this.externalCleanUp();
@@ -685,7 +677,21 @@ cwc.ui.Runner.prototype.reload = function() {
     if (this.toolbar) {
       this.toolbar.setRunStatus(true);
     }
+    this.content.stop();
     this.content.reload();
+  }
+};
+
+
+/**
+ * Reloads the runner window.
+ * @export
+ */
+cwc.ui.Runner.prototype.reload = function() {
+  if (this.content) {
+    console.info('Reload Runner …');
+    this.stop();
+    this.run();
   }
 };
 
@@ -897,7 +903,6 @@ cwc.ui.Runner.prototype.addEventListener = function(src, type,
  */
 cwc.ui.Runner.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   this.connector.cleanUp();
   this.remove();
 };

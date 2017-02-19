@@ -45,10 +45,16 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeSelectView = null;
 
   /** @type {Element} */
+  this.nodeDebug = null;
+
+  /** @type {Element} */
   this.nodeExpand = null;
 
   /** @type {Element} */
   this.nodeExpandExit = null;
+
+  /** @type {Element} */
+  this.nodeMedia = null;
 
   /** @type {Element} */
   this.nodeMore= null;
@@ -101,7 +107,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.selectView.setTooltip('Change view');
   this.selectView.render(this.nodeSelectView);
 
-  // Nodes
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
@@ -300,9 +305,9 @@ cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
  * @param {boolean} has_files
  */
 cwc.ui.EditorToolbar.prototype.updateMediaButton = function(has_files) {
-  if (this.mediaButton) {
-    this.mediaButton.enableClassName('icon_24px', has_files);
-    this.mediaButton.enableClassName('icon_24px_grey', !has_files);
+  if (this.nodeMedia) {
+    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
+    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
   }
 };
 

@@ -44,7 +44,7 @@
     </div>
     <div id="{$prefix}add-file">
       <i class="material-icons">file_upload</i>
-      {msg desc=""}Drop files here or click to select.{/msg}
+      {msg desc=""}Drop file here or click to select.{/msg}
     </div>
   </div>
 {/template}
@@ -58,8 +58,12 @@
 
   {foreach $file in keys($files)}
     <li class="mdl-list__item mdl-list__item--three-line">
-      <span class="mdl-list__item-primary-content">
-        <i class="mdl-list__item-avatar">
+      <span class="mdl-list__item-primary-content"
+        data-file-name="{$file}"
+        data-file-action="insertMacro">
+        <i class="mdl-list__item-avatar"
+          data-file-name="{$file}"
+          data-file-action="previewFile">
           {$files[$file]['media_type']}
         </i>
         {$file}

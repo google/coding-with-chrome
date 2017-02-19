@@ -127,6 +127,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   // General features.
   this.setChromeFeature('bluetooth', typeof chrome.bluetooth);
   this.setChromeFeature('bluetoothSocket', typeof chrome.bluetoothSocket);
+  this.setChromeFeature('browser', typeof chrome.browser);
   this.setChromeFeature('serial', typeof chrome.serial);
 
   // System features.

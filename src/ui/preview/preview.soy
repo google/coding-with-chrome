@@ -68,6 +68,13 @@
 
         {call .navigationIcon_}
           {param prefix: $toolbarPrefix /}
+          {param id: 'refresh' /}
+          {param icon: 'refresh' /}
+          {param opt_title: 'Refresh preview.' /}
+        {/call}
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
           {param id: 'auto-reload' /}
           {param icon: 'autorenew' /}
           {param opt_title: 'Automatic reloads the preview after an change on the editor content.' /}
@@ -76,6 +83,13 @@
       </nav>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
+
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'open-in-browser' /}
+          {param icon: 'open_in_browser' /}
+          {param opt_title: 'Open preview in new browser window.' /}
+        {/call}
 
         {call .navigationIcon_}
           {param prefix: $toolbarPrefix /}
@@ -114,54 +128,5 @@
       <i class="material-icons">{$icon}</i>
     </button>
   </span>
-
-{/template}
-
-
-/**
- * Preview style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
-    padding: 0 5px;
-  {rb}
-
-  #{$prefix}body .mdl-layout__header-row {lb}
-    height: 44px;
-    padding: 0 10px 0 20px;
-  {rb}
-
-  #{$prefix}content {lb}
-    position: relative;
-    background: #fff;
-    width: 100%;
-    height: 100%;
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-  {rb}
-
-  #{$prefix}content.hide {lb}
-    display: none;
-    width: 1px;
-    height: 1px;
-  {rb}
-
-  #{$prefix}content.show {lb}
-    display: block;
-    width: 100%;
-    height: 100%;
-  {rb}
-
-  #{$prefix}content webview {lb}
-    width: 100%;
-    height: 100%;
-  {rb}
-
-  #{$prefix}infobar {lb}
-    height: 26px;
-    min-height: 26px;
-  {rb}
 
 {/template}

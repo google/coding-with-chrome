@@ -61,11 +61,11 @@ cwc.ui.Preview = function(helper) {
   /** @type {string} */
   this.name = 'Preview';
 
-  /** @type {string} */
-  this.prefix = 'preview-';
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
   /** @type {string} */
-  this.generalPrefix = '';
+  this.prefix = this.helper.getPrefix('preview');
 
   /** @type {Element} */
   this.node = null;
@@ -88,10 +88,10 @@ cwc.ui.Preview = function(helper) {
   /** @type {number} */
   this.autoUpdateDelay = 750;
 
-  /** @type {Object} */
+  /** @type {number} */
   this.autoUpdateDelayer = null;
 
-  /** @type {Object} */
+  /** @type {goog.events.ListenableKey|number} */
   this.autoUpdateEvent = null;
 
   /** @type {Object} */
@@ -103,17 +103,11 @@ cwc.ui.Preview = function(helper) {
   /** @type {cwc.ui.PreviewStatus<number>} */
   this.status = cwc.ui.PreviewStatus.INIT;
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
   /** @type {cwc.ui.PreviewInfobar} */
   this.infobar = null;
 
   /** @type {cwc.ui.PreviewToolbar} */
   this.toolbar = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 
   /** @type {Array} */
   this.listener = [];
@@ -129,18 +123,9 @@ cwc.ui.Preview = function(helper) {
 /**
  * Decorates the given node and adds the preview window.
  * @param {Element} node The target node to add the preview window.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Preview.prototype.decorate = function(node) {
   this.node = node;
-  this.generalPrefix = opt_prefix || '';
-  this.prefix = opt_prefix + this.prefix;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(cwc.soy.Preview.style({
-      prefix: this.prefix }));
-  }
 
   goog.soy.renderElement(
     this.node,  cwc.soy.Preview.template, { prefix: this.prefix }
@@ -153,12 +138,12 @@ cwc.ui.Preview.prototype.decorate = function(node, opt_prefix) {
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
   if (this.nodeToolbar) {
     this.toolbar = new cwc.ui.PreviewToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.prefix);
+    this.toolbar.decorate(this.nodeToolbar);
   }
 
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  this.infobar = new cwc.ui.PreviewInfobar(this.helper, this.prefix);
+  this.infobar = new cwc.ui.PreviewInfobar(this.helper);
   this.infobar.decorate(this.nodeInfobar);
 
   // Monitor Changes
@@ -261,15 +246,28 @@ cwc.ui.Preview.prototype.stop = function() {
 
 
 /**
+ * Refreshes the preview.
+ */
+cwc.ui.Preview.prototype.refresh = function() {
+  if (this.content) {
+    console.info('Refresh Preview');
+    if (this.toolbar) {
+      this.toolbar.setRunStatus(true);
+    }
+    this.content.stop();
+    this.content.reload();
+  }
+};
+
+
+/**
  * Reloads the preview.
  */
 cwc.ui.Preview.prototype.reload = function() {
   if (this.content) {
     console.info('Reload Preview');
-    if (this.toolbar) {
-      this.toolbar.setRunStatus(true);
-    }
-    this.content.reload();
+    this.stop();
+    this.run();
   }
 };
 
@@ -315,7 +313,7 @@ cwc.ui.Preview.prototype.render = function() {
       this.handleLoadStart_.bind(this), false);
   this.content.addEventListener('loadstop',
       this.handleLoadStop_.bind(this), false);
-  this.content.addEventListener(cwc.ui.PreviewStatus.UNRESPONSIVE,
+  this.content.addEventListener('unresponsive',
       this.handleUnresponsive_.bind(this), false);
   this.content.addEventListener('newwindow',
       this.handleNewWindow_.bind(this), false);
@@ -327,6 +325,17 @@ cwc.ui.Preview.prototype.render = function() {
     this.toolbar.setRunStatus(true);
   }
   this.setContentUrl(this.getContentUrl());
+};
+
+
+/**
+ * Switch between refresh and reload for the loaded content.
+ * @param {boolean} enable
+ */
+cwc.ui.Preview.prototype.enableSoftRefresh = function(enable) {
+  if (this.toolbar) {
+    this.toolbar.enableSoftRefresh(enable);
+  }
 };
 
 
@@ -372,9 +381,24 @@ cwc.ui.Preview.prototype.setContentUrl = function(url) {
 
 
 /**
+ * Opens preview in new browser window.
+ */
+cwc.ui.Preview.prototype.openInBrowser = function() {
+  var contentUrl = this.getContentUrl();
+  if (this.helper.checkChromeFeature('browser')) {
+    chrome.browser.openTab({
+      url: contentUrl
+    });
+  } else {
+    window.open(contentUrl);
+  }
+};
+
+
+/**
  * Enables or disables the automatic update of the preview.
  * @param {boolean} active
- * @param {boolean} opt_no_skip
+ * @param {boolean=} opt_no_skip
  */
 cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
   if (active && !this.autoUpdateEvent) {
@@ -574,5 +598,4 @@ cwc.ui.Preview.prototype.addEventListener_ = function(src, type,
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
 };

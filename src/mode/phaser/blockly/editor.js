@@ -1,5 +1,5 @@
 /**
- * @fileoverview Editor for the Blockly modification.
+ * @fileoverview Editor for the Phaser Blockly modification.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -78,7 +78,7 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor, this.prefix);
+  this.editor.decorate(this.nodeEditor);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);

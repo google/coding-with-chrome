@@ -23,6 +23,7 @@ goog.require('cwc.file.File');
 goog.require('cwc.soy.Library');
 
 goog.require('goog.dom');
+goog.require('goog.dom.classlist');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 
@@ -40,9 +41,6 @@ cwc.ui.Library = function(helper) {
   this.name = 'Library';
 
   /** @type {Element} */
-  this.node = null;
-
-  /** @type {Element} */
   this.nodeCounter = null;
 
   /** @type {!cwc.utils.Helper} */
@@ -58,6 +56,9 @@ cwc.ui.Library = function(helper) {
   this.nodeFile = null;
 
   /** @type {Element} */
+  this.nodeFileList = null;
+
+  /** @type {Element} */
   this.nodePreview = null;
 
   /** @type {Array} */
@@ -67,11 +68,8 @@ cwc.ui.Library = function(helper) {
 
 /**
  * Decorates the given node and adds the file library.
- * @param {!Element} opt_node The target node to add the file library.
  */
-cwc.ui.Library.prototype.decorate = function(node) {
-  this.node = node;
-
+cwc.ui.Library.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     var eventHandler = layoutInstance.getEventHandler();
@@ -92,34 +90,16 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
 
   this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
+  this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGLEAVE,
+    this.handleDragLeave_, false, this);
   this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGOVER,
     this.handleDragOver_, false, this);
   this.addEventListener(this.nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
+  this.addEventListener(this.nodeFileList, goog.events.EventType.CLICK,
+    this.handleFileClick_, false, this);
 
   this.syncFiles();
-};
-
-
-/**
- * @private
- */
-cwc.ui.Library.prototype.handleDragOver_ = function(e) {
-  e.stopPropagation();
-  e.preventDefault();
-};
-
-
-/**
- * @private
- */
-cwc.ui.Library.prototype.handleDrop_ = function(e) {
-  var file = e.getBrowserEvent().dataTransfer.files[0];
-  if (file) {
-    this.readFile(file);
-  }
-  e.stopPropagation();
-  e.preventDefault();
 };
 
 
@@ -222,11 +202,10 @@ cwc.ui.Library.prototype.readFile = function(file) {
 
 /**
  * Displays file content for the selected file.
- * @param {Event} event
+ * @param {!string} name
  */
-cwc.ui.Library.prototype.previewFile = function(event) {
-  var fileName = event.target.innerText;
-  var file = this.getFile(fileName);
+cwc.ui.Library.prototype.previewFile = function(name) {
+  var file = this.getFile(name);
   if (file) {
     this.setFileName(file.getName());
     this.nodePreview.src = file.getContent();
@@ -236,10 +215,10 @@ cwc.ui.Library.prototype.previewFile = function(event) {
 
 /**
  * Inserts file macro at the current cursor position into the editor.
- * @param {Event} event
+ * @param {!string} name
  */
-cwc.ui.Library.prototype.insertFileMacro = function(event) {
-  var file = this.getFile(event.target.innerText);
+cwc.ui.Library.prototype.insertFileMacro = function(name) {
+  var file = this.getFile(name);
   var editorInstance = this.helper.getInstance('editor');
   if (file && editorInstance && editorInstance.isVisible()) {
     editorInstance.insertText(file.getMacroName());
@@ -316,6 +295,61 @@ cwc.ui.Library.prototype.setFileName = function(file_name) {
     goog.dom.setTextContent(this.nodeFile, fileName);
   } else {
     console.log('Set filename to:', file_name);
+  }
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleDragLeave_ = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  goog.dom.classlist.enable(e.target, 'active', false);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleDragOver_ = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  goog.dom.classlist.enable(e.target, 'active', true);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleDrop_ = function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  var file = e.getBrowserEvent().dataTransfer.files[0];
+  if (file) {
+    this.readFile(file);
+  }
+  goog.dom.classlist.enable(e.target, 'active', false);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleFileClick_ = function(e) {
+  console.log(e);
+  var fileName = e.target.dataset['fileName'];
+  var fileAction = e.target.dataset['fileAction'];
+  console.log(fileAction, ':', fileName);
+  if (fileName && fileAction) {
+    switch (fileAction) {
+      case 'insertMacro':
+        this.insertFileMacro(fileName);
+        break;
+      case 'previewFile':
+        this.previewFile(fileName);
+        break;
+    }
   }
 };
 

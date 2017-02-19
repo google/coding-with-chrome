@@ -50,6 +50,9 @@ cwc.runner.Connector = function(helper, opt_name) {
   /** @type {Object} */
   this.target = null;
 
+  /** @type {boolean} */
+  this.targetLoaded = false;
+
   /** @type {!string} */
   this.targetOrigin = '*';
 
@@ -71,7 +74,7 @@ cwc.runner.Connector = function(helper, opt_name) {
   /** @type {!number} */
   this.pingCounter = 0;
 
-  /** @type {Object} */
+  /** @type {number} */
   this.pingTestWorker = null;
 };
 

@@ -48,10 +48,9 @@ cwc.ui.PreviewInfobarLevel = {
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!string} prefix
  * @struct
  */
-cwc.ui.PreviewInfobar = function(helper, prefix) {
+cwc.ui.PreviewInfobar = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -59,7 +58,7 @@ cwc.ui.PreviewInfobar = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix;
+  this.prefix = this.helper.getPrefix('preview-infobar');
 
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
@@ -84,9 +83,6 @@ cwc.ui.PreviewInfobar = function(helper, prefix) {
 
   /** @type {Element} */
   this.nodeInfoMsg = null;
-
-  /** @type {Element} */
-  this.nodeMessages = null;
 
   /** @type {Element} */
   this.nodeWarnNum = null;
@@ -114,25 +110,20 @@ cwc.ui.PreviewInfobar = function(helper, prefix) {
 cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   this.node = node;
 
-  goog.style.installStyles(
-      cwc.soy.PreviewInfobar.style({ 'prefix': this.prefix })
-  );
-
   goog.soy.renderElement(
       this.node,
       cwc.soy.PreviewInfobar.template,
       { 'prefix': this.prefix }
   );
 
-  this.nodeMessages = goog.dom.getElement(this.prefix + 'infobar-message');
-  this.nodeStatusText = goog.dom.getElement(this.prefix + 'info-status');
-  this.nodeConsole = goog.dom.getElement(this.prefix + 'info-console');
-  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'info-messages');
-  this.nodeDebugNum = goog.dom.getElement(this.prefix + 'info-debug-num');
-  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-info-num');
-  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'info-warn-num');
-  this.nodeErrorNum = goog.dom.getElement(this.prefix + 'info-error-num');
-  this.nodeStatusText = goog.dom.getElement(this.prefix + 'info-status-text');
+  this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
+  this.nodeDebugNum = goog.dom.getElement(this.prefix + 'debug-num');
+  this.nodeErrorNum = goog.dom.getElement(this.prefix + 'error-num');
+  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'messages');
+  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-num');
+  this.nodeStatusText = goog.dom.getElement(this.prefix + 'status');
+  this.nodeStatusText = goog.dom.getElement(this.prefix + 'status-text');
+  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'warn-num');
 
   this.logConsole = new goog.debug.DivConsole(this.nodeConsole);
   this.logConsole.setFormatter(this.logFormatter);
@@ -238,11 +229,11 @@ cwc.ui.PreviewInfobar.prototype.updateOverview = function() {
 
 
 /**
- * @param {Event} e
+ * @param {Object} event
  */
-cwc.ui.PreviewInfobar.prototype.addMessage = function(e) {
-  var level = e.level;
-  var message = e.message || '';
+cwc.ui.PreviewInfobar.prototype.addMessage = function(event) {
+  var level = event.level;
+  var message = event.message || '';
   var logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
   var logLevelName = 'Unknown';
 
@@ -250,7 +241,7 @@ cwc.ui.PreviewInfobar.prototype.addMessage = function(e) {
     this.debugNum = (this.debugNum || 0) + 1;
     logLevel = goog.debug.Logger.Level.getPredefinedLevel('FINE');
     logLevelName = 'Debug';
-    message = goog.debug.expose(e);
+    message = goog.debug.expose(event);
   } else if (level == cwc.ui.PreviewInfobarLevel.INFO) {
     this.infoNum = (this.infoNum || 0) + 1;
     logLevel = goog.debug.Logger.Level.getPredefinedLevel('INFO');

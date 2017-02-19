@@ -1,7 +1,7 @@
 /**
- * @fileoverview Library for the Pencil Code editor.
+ * @fileoverview Editor for the Phaser advanced modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.pencilCode.Library');
+goog.provide('cwc.mode.phaser.advanced.Editor');
 
-goog.require('cwc.ui.Library');
+goog.require('cwc.ui.Editor');
+goog.require('cwc.utils.Helper');
 
 
 
@@ -29,15 +30,15 @@ goog.require('cwc.ui.Library');
  * @struct
  * @final
  */
-cwc.mode.pencilCode.Library = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {!cwc.ui.Library} */
-  this.library = new cwc.ui.Library(helper);
+cwc.mode.phaser.advanced.Editor = function(helper) {
+  /** @type {!cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {Element} */
+  this.node = null;
 
   /** @type {string} */
   this.prefix = helper.getPrefix();
@@ -45,10 +46,13 @@ cwc.mode.pencilCode.Library = function(helper) {
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the editor.
  */
-cwc.mode.pencilCode.Library.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'library-chrome');
-  this.helper.setInstance('library', this.library, true);
-  this.library.decorate(this.node, this.prefix);
+cwc.mode.phaser.advanced.Editor.prototype.decorate = function() {
+  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
+  this.helper.setInstance('editor', this.editor, true);
+  this.editor.decorate(this.node);
+  this.editor.showEditorViews(false);
+  this.editor.showEditorTypeInfo(false);
+  this.editor.enableMediaButton(true);
 };

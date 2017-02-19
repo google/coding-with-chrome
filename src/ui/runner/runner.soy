@@ -75,6 +75,13 @@
           {param opt_title: 'Reloads preview.' /}
         {/call}
 
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'refresh' /}
+          {param icon: 'refresh' /}
+          {param opt_title: 'Refresh preview.' /}
+        {/call}
+
       </nav>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation">
@@ -134,12 +141,14 @@
   <h2>Connected …</h2>
 {/template}
 
+
 /**
  * Disconnect template.
  */
 {template .disconnect}
   <h2>Disconnected …</h2>
 {/template}
+
 
 /**
  * Prepare template.
@@ -148,12 +157,14 @@
   <h2>Preparing Code …</h2>
 {/template}
 
+
 /**
  * Run template.
  */
 {template .run}
   <h2>Running Code …</h2>
 {/template}
+
 
 /**
  * Reload template.
@@ -162,6 +173,7 @@
   <h2>Reloading Code …</h2>
 {/template}
 
+
 /**
  * Stop template.
  */
@@ -169,123 +181,10 @@
   <h2>Stopping the running Code</h2>
 {/template}
 
+
 /**
  * Terminate template.
  */
 {template .terminate}
   <h2>Terminating the running Code</h2>
-{/template}
-
-/**
- * Runner style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  #{$prefix}body {lb}
-    background: #fff;
-  {rb}
-
-  #{$prefix}toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {lb}
-    padding: 0 5px;
-  {rb}
-
-  #{$prefix}body .mdl-layout__header-row {lb}
-    height: 44px;
-    padding: 0 10px 0 20px;
-  {rb}
-
-  #{$prefix}content-body {lb}
-    position: relative;
-    background: #fff;
-    width: 100%;
-    height: 100%;
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-  {rb}
-
-  #{$prefix}runtime webview {lb}
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    top: 5px;
-    right: 0px;
-  {rb}
-
-  #{$prefix}runtime.hide webview{lb}
-    position: absolute;
-    width: 45px;
-    height: 45px;
-  {rb}
-
-  #{$prefix}runtime.show webview{lb}
-    position: relative;
-    width: 100%;
-    height: 100%;
-  {rb}
-
-  #{$prefix}content {lb}
-    overflow: auto;
-    position: relative;
-  {rb}
-
-  #{$prefix}status {lb}
-    position: relative;
-  {rb}
-
-  #{$prefix}status h2 {lb}
-    font-size: 16px;
-    margin: 12px 0;
-  {rb}
-
-  #{$prefix}overlay {lb}
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 9;
-    background: #fff;
-  {rb}
-
-  #{$prefix}turtle {lb}
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 9;
-    background: #fff;
-  {rb}
-
-  #{$prefix}info {lb}
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    background: #fff;
-  {rb}
-
-  #{$prefix}terminal {lb}
-    position: absolute;
-    height: 200px;
-    width: 100%;
-    z-index: 11;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-  {rb}
-
-  #{$prefix}infobar {lb}
-    position: relative;
-    height: 26px;
-    min-height: 26px;
-    z-index: 12;
-  {rb}
-
-  #{$prefix}monitor {lb}
-    position: relative;
-  {rb}
-
-  #{$prefix}status {lb}
-    z-index: 12;
-  {rb}
-
 {/template}

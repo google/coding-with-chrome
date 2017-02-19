@@ -20,102 +20,36 @@
 
 {namespace cwc.soy.PreviewInfobar autoescape="strict"}
 
+
 /**
  * HTML template for the preview infobar.
  */
 {template .template}
   {@param prefix: string}
-  <div id="{$prefix}info-console"></div>
-  <div id="{$prefix}infobar-body">
-    <div id="{$prefix}info-status">
-      <div id="{$prefix}info-status-icon" class="{$prefix}info"></div>
-      <div id="{$prefix}info-status-text" class="{$prefix}info"></div>
+
+  <div id="{$prefix}console"></div>
+  <div>
+    <div id="{$prefix}status">
+      <div id="{$prefix}status-icon" class="{$prefix}info"></div>
+      <div id="{$prefix}status-text" class="{$prefix}info"></div>
     </div>
-    <div id="{$prefix}info-messages">
-      <div id="{$prefix}info-debug">
+    <div id="{$prefix}messages">
+      <div id="{$prefix}debug">
         Debug
-        <div id="{$prefix}info-debug-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}debug-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-info">
+      <div id="{$prefix}info">
         Info
-        <div id="{$prefix}info-info-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}info-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-warn">
+      <div id="{$prefix}warn">
         Warn
-        <div id="{$prefix}info-warn-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}warn-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-error">
+      <div id="{$prefix}error">
         Error
-        <div id="{$prefix}info-error-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}error-num" class="{$prefix}num">-</div>
       </div>
     </div>
   </div>
-{/template}
-
-/**
- * Preview infobar style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  .{$prefix}num {lb}
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-clip: padding-box;
-    background-color: rgba(0,0,0,.3);
-    border: 5px solid transparent;
-    border-radius: 10px;
-    font-size: 6px;
-    line-height: 15px;
-    font-size: 10px;
-    text-align: center;
-    padding-left: 4px;
-    padding-right: 4px;
-    line-height: 15px;
-  {rb}
-
-  #{$prefix}info-console {lb}
-    overflow: scroll;
-    height: 200px;
-    width: 100%;
-    position: absolute;
-    bottom: 27px;
-    left: 0;
-    opacity: 0.9;
-  {rb}
-
-  #{$prefix}info-status {lb}
-    float: left;
-    width: 150px;
-    line-height: 26px;
-  {rb}
-
-  #{$prefix}info-status-text {lb}
-    padding-left: 5px;
-  {rb}
-
-  #{$prefix}info-messages {lb}
-    float: right;
-    line-height: 26px;
-  {rb}
-
-  #{$prefix}info-debug,
-  #{$prefix}info-info,
-  #{$prefix}info-warn,
-  #{$prefix}info-error {lb}
-    padding-left: 5px;
-    padding-right: 26px;
-    position: relative;
-    float: left;
-    cursor: pointer;
-  {rb}
-
-  #{$prefix}info-debug:hover,
-  #{$prefix}info-info:hover,
-  #{$prefix}info-warn:hover,
-  #{$prefix}info-error:hover {lb}
-    color: #FF9800;
-  {rb}
-
 {/template}

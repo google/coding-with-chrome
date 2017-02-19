@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout for the Blockly modification.
+ * @fileoverview Layout for the Phaser Blockly modification.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -36,7 +36,7 @@ cwc.mode.phaser.blockly.Layout = function(helper) {
   this.prefix = helper.getPrefix();
 
   /** @type {!number} */
-  this.layoutWidth = 500;
+  this.layoutWidth = 600;
 };
 
 

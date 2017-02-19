@@ -100,7 +100,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor, this.prefix);
+  this.editor.decorate(this.nodeEditor);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);

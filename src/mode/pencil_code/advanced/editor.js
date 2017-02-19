@@ -53,7 +53,7 @@ cwc.mode.pencilCode.advanced.Editor = function(helper) {
 cwc.mode.pencilCode.advanced.Editor.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node, this.prefix);
+  this.editor.decorate(this.node);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
   this.editor.enableMediaButton(true);

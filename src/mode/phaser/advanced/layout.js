@@ -1,5 +1,5 @@
 /**
- * @fileoverview File library.
+ * @fileoverview Layout for the Phaser advanced modification.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -17,38 +17,46 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.phaser.Library');
+goog.provide('cwc.mode.phaser.advanced.Layout');
 
-goog.require('cwc.ui.Library');
+goog.require('cwc.soy.mode.phaser.advanced.Layout');
+goog.require('cwc.utils.Helper');
 
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @struct
- * @final
  */
-cwc.mode.phaser.Library = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {!cwc.ui.Library} */
-  this.library = new cwc.ui.Library(helper);
-
+cwc.mode.phaser.advanced.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
   this.prefix = helper.getPrefix();
+
+  /** @type {!number} */
+  this.layoutWidth = 600;
 };
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the Blockly layout.
  */
-cwc.mode.phaser.Library.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'library-chrome');
-  this.helper.setInstance('library', this.library, true);
-  this.library.decorate(this.node, this.prefix);
+cwc.mode.phaser.advanced.Layout.prototype.decorate = function() {
+  var layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
+
+  goog.soy.renderElement(
+      layoutInstance.getNode('content-left'),
+      cwc.soy.mode.phaser.advanced.Layout.editor, {
+        prefix: this.prefix}
+  );
+
+  goog.soy.renderElement(
+      layoutInstance.getNode('content-right'),
+      cwc.soy.mode.phaser.advanced.Layout.preview, {
+        prefix: this.prefix}
+  );
+
 };

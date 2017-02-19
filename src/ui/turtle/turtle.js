@@ -129,7 +129,7 @@ cwc.ui.Turtle.prototype.decorate = function(node, opt_prefix) {
 
 /**
  * @param {!string} action
- * @param {Object=} opt_value
+ * @param {Object|number=} opt_value
  * @export
  */
 cwc.ui.Turtle.prototype.action = function(action, opt_value) {

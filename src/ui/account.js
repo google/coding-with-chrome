@@ -230,7 +230,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
   }
 
   var uri =  subdomain + '.googleapis.com';
-  var url = new goog.Uri.create('https', null, uri, null, opts.path);
+  var url = goog.Uri.create('https', null, uri, null, opts.path);
   if (opts.raw) {
     url = new goog.Uri(opts.path);
   }

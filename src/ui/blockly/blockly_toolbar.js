@@ -43,7 +43,10 @@ cwc.ui.BlocklyToolbar = function(helper) {
   this.nodeExpandExit = null;
 
   /** @type {Element} */
-  this.nodeMore= null;
+  this.nodeMedia = null;
+
+  /** @type {Element} */
+  this.nodeMore = null;
 
   /** @type {Element} */
   this.nodeMoreList = null;
@@ -221,9 +224,9 @@ cwc.ui.BlocklyToolbar.prototype.enableMediaButton = function(enable) {
  * @param {boolean} has_files
  */
 cwc.ui.BlocklyToolbar.prototype.updateMediaButton = function(has_files) {
-  if (this.mediaButton) {
-    this.mediaButton.enableClassName('icon_24px', has_files);
-    this.mediaButton.enableClassName('icon_24px_grey', !has_files);
+  if (this.nodeMedia) {
+    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
+    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
   }
 };
 

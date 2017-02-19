@@ -75,7 +75,7 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.ev3.Command} */
+  /** @type {!cwc.runner.profile.sphero.Monitor} */
   this.monitor = new cwc.runner.profile.sphero.Monitor(this.turtle);
 
   /** @type {Element} */

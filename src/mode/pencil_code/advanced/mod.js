@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.pencilCode.advanced.Mod');
 
-goog.require('cwc.mode.pencilCode.Library');
 goog.require('cwc.mode.pencilCode.Preview');
 goog.require('cwc.mode.pencilCode.advanced.Editor');
 goog.require('cwc.mode.pencilCode.advanced.Layout');
@@ -34,9 +33,6 @@ goog.require('cwc.renderer.external.PencilCode');
 cwc.mode.pencilCode.advanced.Mod = function(helper) {
   /** @type {cwc.mode.pencilCode.advanced.Layout} */
   this.layout = new cwc.mode.pencilCode.advanced.Layout(helper);
-
-  /** @type {cwc.mode.pencilCode.Library} */
-  this.library = new cwc.mode.pencilCode.Library(helper);
 
   /** @type {cwc.mode.pencilCode.advanced.Editor} */
   this.editor = new cwc.mode.pencilCode.advanced.Editor(helper);
@@ -54,7 +50,6 @@ cwc.mode.pencilCode.advanced.Mod = function(helper) {
  */
 cwc.mode.pencilCode.advanced.Mod.prototype.decorate = function() {
   this.layout.decorate();
-  this.library.decorate();
   this.editor.decorate();
   this.preview.decorate();
   this.preview.showConsole(true);

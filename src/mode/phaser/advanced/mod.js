@@ -1,7 +1,7 @@
 /**
- * @fileoverview Basic modifications.
+ * @fileoverview Phaser modifications.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Mod');
+goog.provide('cwc.mode.phaser.advanced.Mod');
 
-goog.require('cwc.mode.basic.Preview');
-goog.require('cwc.mode.basic.simple.Editor');
-goog.require('cwc.mode.basic.simple.Layout');
+goog.require('cwc.mode.phaser.Preview');
+goog.require('cwc.mode.phaser.advanced.Editor');
+goog.require('cwc.mode.phaser.advanced.Layout');
 goog.require('cwc.renderer.internal.HTML5');
+goog.require('cwc.utils.Helper');
 
 
 
@@ -30,17 +31,17 @@ goog.require('cwc.renderer.internal.HTML5');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.basic.simple.Mod = function(helper) {
-  /** @type {cwc.mode.basic.simple.Layout} */
-  this.layout = new cwc.mode.basic.simple.Layout(helper);
+cwc.mode.phaser.advanced.Mod = function(helper) {
+  /** @type {!cwc.mode.phaser.advanced.Layout} */
+  this.layout = new cwc.mode.phaser.advanced.Layout(helper);
 
-  /** @type {cwc.mode.basic.simple.Editor} */
-  this.editor = new cwc.mode.basic.simple.Editor(helper);
+  /** @type {!cwc.mode.phaser.advanced.Editor} */
+  this.editor = new cwc.mode.phaser.advanced.Editor(helper);
 
-  /** @type {cwc.mode.basic.Preview} */
-  this.preview = new cwc.mode.basic.Preview(helper);
+  /** @type {!cwc.mode.phaser.Preview} */
+  this.preview = new cwc.mode.phaser.Preview(helper);
 
-  /** @type {cwc.renderer.external.Simple} */
+  /** @type {cwc.renderer.internal.HTML5} */
   this.renderer = new cwc.renderer.internal.HTML5(helper);
 };
 
@@ -48,10 +49,9 @@ cwc.mode.basic.simple.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.basic.simple.Mod.prototype.decorate = function() {
+cwc.mode.phaser.advanced.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
-  this.preview.decorate();
-  this.preview.showConsole(true);
+  this.preview.decorate(true);
   this.renderer.init();
 };

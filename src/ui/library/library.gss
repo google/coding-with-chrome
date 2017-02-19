@@ -30,7 +30,7 @@
 
 #{$prefix}library-preview-body webview, #{$prefix}library-preview {
   display: block;
-  height: 100px;
+  height: 100%;
   width: 100%;
 }
 
@@ -101,3 +101,21 @@
 #{$prefix}library-add-file .material-icons {
   vertical-align: middle;
 }
+
+#{$prefix}library-add-file.active {
+  border: 2px dashed #f00;
+}
+
+#{$prefix}library-file-list.mdl-list {
+  padding: 0;
+  margin: 0;
+}
+
+#{$prefix}library-file-list .mdl-list__item-avatar {
+  font-size: 10px;
+  text-align: center;
+  padding-top: 10px;
+  height: 40px;
+}
+
+

@@ -64,7 +64,7 @@ cwc.mode.sphero.advanced.Editor.prototype.decorate = function() {
 
   // Output editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor, this.prefix);
+  this.editor.decorate(this.nodeEditor);
   this.editor.showEditorViews(false);
   this.editor.showEditorTypeInfo(false);
 };

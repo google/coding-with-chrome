@@ -42,10 +42,7 @@ cwc.ui.Menubar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'menubar-';
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  this.prefix = this.helper.getPrefix('menubar');
 
   /** @type {Element} */
   this.node = null;
@@ -69,7 +66,7 @@ cwc.ui.Menubar = function(helper) {
   this.nodeBluetoothDisabled = null;
 
   /** @type {Element} */
-  this.nodeUsb = null;
+  this.nodeUsbEnabled = null;
 
   /** @type {Element} */
   this.nodeCloseButton = null;
@@ -147,18 +144,14 @@ cwc.ui.Menubar = function(helper) {
  *    inserted elements and style definitions.
  * @export
  */
-cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Menubar.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.Menubar.menubarTemplate,
-      {'prefix': this.prefix}
-  );
-
-  goog.style.installStyles(
-      cwc.soy.Menubar.menubarStyle({ 'prefix': this.prefix })
+      cwc.soy.Menubar.menubarTemplate, {
+        'prefix': this.prefix
+      }
   );
 
   // Bluetooth icons
@@ -238,9 +231,6 @@ cwc.ui.Menubar.prototype.decorate = function(node, opt_prefix) {
  * @param {boolean} auth Determinate if user is authenticated.
  */
 cwc.ui.Menubar.prototype.setAuthenticated = function(auth) {
-  if (this.fileMenu) {
-    this.fileMenu.setAuthenticated(auth);
-  }
   goog.style.setElementShown(this.nodeAccountLogin, !auth);
   goog.style.setElementShown(this.nodeAccountLogout, auth);
 };

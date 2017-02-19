@@ -50,35 +50,3 @@
     <div id="{$prefix}usb-disabled"></div>
   </div>
 {/template}
-
-
-/**
- * Menubar style definitions.
- */
-{template .menubarStyle}
-  {@param prefix: string}
-  #{$prefix}menu {lb}
-    margin: 5px;
-    float: left;
-  {rb}
-
-  #{$prefix}account-body,
-  #{$prefix}bluetooth-body,
-  #{$prefix}close,
-  #{$prefix}help,
-  #{$prefix}maximize-body,
-  #{$prefix}minimize,
-  #{$prefix}settings,
-  #{$prefix}usb-body {lb}
-    float: right;
-    margin: 5px;
-    z-index: 1;
-  {rb}
-
-  #{$prefix}window-body {lb}
-    float: right;
-    padding-left: 5px;
-  {rb}
-
-{/template}
-

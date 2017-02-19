@@ -277,9 +277,12 @@ cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
  * @param {cwc.protocol.ev3.ColorSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
-  this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setMode(mode);
-  this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]].setCss(
+  var sensor = this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
+  if (sensor) {
+    sensor.setMode(mode);
+    sensor.setCss(
       (mode == cwc.protocol.ev3.ColorSensorMode.COLOR) ? 'color' : 'default');
+  }
 };
 
 
@@ -287,7 +290,10 @@ cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.IrSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
-  this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]].setMode(mode);
+  var sensor = this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
+  if (sensor) {
+    sensor.setMode(mode);
+  }
 };
 
 
@@ -295,9 +301,11 @@ cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.UltrasonicSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setUltrasonicSensorMode = function(mode) {
-  console.log(mode);
-  this.deviceData[this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]]
-    .setMode(mode);
+  var sensor = this.deviceData[
+    this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]];
+  if (sensor) {
+    sensor.setMode(mode);
+  }
 };
 
 

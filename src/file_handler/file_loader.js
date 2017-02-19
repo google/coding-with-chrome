@@ -224,6 +224,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
           editorType = cwc.ui.EditorType.COFFEESCRIPT;
           editorHint = cwc.ui.EditorHint.COFFEESCRIPT;
           break;
+        case cwc.file.ContentType.TEXT:
+          editorType = cwc.ui.EditorType.TEXT;
+          break;
         case cwc.file.ContentType.PYTHON:
           editorType = cwc.ui.EditorType.PYTHON;
           break;

@@ -245,6 +245,20 @@ cwc.fileHandler.Config.add('Pencil Code file',
 
 
 /**
+ * Phaser file config.
+ */
+cwc.fileHandler.Config.add('Phaser file',
+    cwc.fileFormat.File.getSimpleFile,
+    cwc.file.Type.PHASER,
+    cwc.mode.Type.PHASER,
+    cwc.file.Extensions.CWC,
+    null,
+    null, {
+      library: true,
+      preview: true });
+
+
+/**
  * Phaser blockly file config.
  */
 cwc.fileHandler.Config.add('Phaser blockly file',
@@ -287,7 +301,9 @@ cwc.fileHandler.Config.add('Text file',
     cwc.fileFormat.File.getRawFile,
     cwc.file.Type.TEXT,
     cwc.mode.Type.TEXT,
-    cwc.file.Extensions.TEXT);
+    cwc.file.Extensions.TEXT,
+    cwc.file.ContentType.TEXT,
+    '');
 
 
 /**

@@ -87,6 +87,9 @@ cwc.ui.RunnerInfobar = function(helper, prefix) {
   this.nodeInfoMsg = null;
 
   /** @type {Element} */
+  this.nodeTerminal = null;
+
+  /** @type {Element} */
   this.nodeWarnNum = null;
 
   /** @type {boolean} */
@@ -129,13 +132,13 @@ cwc.ui.RunnerInfobar.prototype.decorate = function(node) {
       { 'prefix': this.prefix }
   );
 
-  this.nodeTerminal = goog.dom.getElement(this.prefix + 'info-terminal');
   this.nodeConsole = goog.dom.getElement(this.prefix + 'info-console');
-  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'info-messages');
   this.nodeDebugNum = goog.dom.getElement(this.prefix + 'info-debug-num');
-  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-info-num');
-  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'info-warn-num');
   this.nodeErrorNum = goog.dom.getElement(this.prefix + 'info-error-num');
+  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'info-messages');
+  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-info-num');
+  this.nodeTerminal = goog.dom.getElement(this.prefix + 'info-terminal');
+  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'info-warn-num');
 
   this.logConsole = new goog.debug.DivConsole(this.nodeConsole);
   this.logConsole.setFormatter(this.logFormatter);
@@ -232,7 +235,7 @@ cwc.ui.RunnerInfobar.prototype.updateOverview = function() {
 
 
 /**
- * @param {Event} e
+ * @param {Object} e
  */
 cwc.ui.RunnerInfobar.prototype.addMessage = function(e) {
   var level = e.level;
