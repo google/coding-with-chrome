@@ -72,6 +72,7 @@
           {param link_id: 'games' /}
           {param opt_color_class: 'bg-red' /}
           {param opt_icon: 'videogame_asset' /}
+          {param opt_hidden: true /}
         {/call}
 
         {call .selectCard_}
@@ -685,8 +686,9 @@
   {@param title: string}
   {@param id: string}
   {@param active_link: string}
+  {@param? opt_hidden: bool}
 
-  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}" href="#">
+  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}{if $opt_hidden} hidden{/if}" href="#">
     {msg desc=""}{$title}{/msg}
   </a>
 {/template}
@@ -715,6 +717,7 @@
         {param title: 'Games' /}
         {param id: 'games' /}
         {param active_link: $active_link /}
+        {param opt_hidden: true /}
       {/call}
 
       {call .headerLink_}
