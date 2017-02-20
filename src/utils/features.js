@@ -129,6 +129,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   this.setChromeFeature('bluetoothSocket', typeof chrome.bluetoothSocket);
   this.setChromeFeature('browser', typeof chrome.browser);
   this.setChromeFeature('serial', typeof chrome.serial);
+  this.setChromeFeature('webview', 'src' in document.createElement('webview'));
 
   // System features.
   this.setChromeFeature('system', typeof chrome.system);
@@ -162,13 +163,20 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
   }
 
   // Manifest options.
-  this.setChromeFeature('manifest', typeof chrome.runtime.getManifest);
+  this.setChromeFeature('manifest', false);
   this.setChromeFeature('manifest.oauth2', false);
   this.setChromeFeature('manifest.key', false);
-  if (this.getChromeFeature('manifest')) {
-    var manifest = chrome.runtime.getManifest();
-    this.setChromeFeature('manifest.oauth2', typeof manifest.oauth2);
-    this.setChromeFeature('manifest.key', typeof manifest.key);
+  this.setChromeFeature('manifest.oauth2', false);
+  this.setChromeFeature('manifest.key', false);
+  if (this.getChromeFeature('runtime')) {
+    this.setChromeFeature('manifest', typeof chrome.runtime.getManifest);
+    this.setChromeFeature('manifest.oauth2', false);
+    this.setChromeFeature('manifest.key', false);
+    if (this.getChromeFeature('manifest')) {
+      var manifest = chrome.runtime.getManifest();
+      this.setChromeFeature('manifest.oauth2', typeof manifest.oauth2);
+      this.setChromeFeature('manifest.key', typeof manifest.key);
+    }
   }
 };
 

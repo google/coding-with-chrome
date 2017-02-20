@@ -13,12 +13,13 @@
   "devDependencies": {
     "closure-templates": "latest",
     "eslint": "latest",
+    "http-server": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
-    "karma-jasmine": "latest",
     "karma-es6-preprocessor": "latest",
+    "karma-jasmine": "latest",
     "npm-check-updates": "latest"
   },
   "scripts": {
@@ -38,6 +39,7 @@
 
     "build": "npm run build-external && npm run build-cwc",
     "build-debug": "npm run lint && npm run build-external && npm run build-cwc-debug",
+    "build-web": "npm run build && npm run launch-web",
 
     "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
     "build-cwc-app": "node build/cwc/app.js",
@@ -70,6 +72,7 @@
     "launch-linux": "google-chrome --load-and-launch-app=$PWD/genfiles/ --enable-logging --v=1 --no-first-run",
     "launch-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/genfiles/ --enable-logging --v=1 --no-first-run",
     "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\genfiles --enable-logging --v=1 --no-first-run",
+    "launch-web": "http-server genfiles/",
 
     "clean": "npm run clean-npm && npm run clean-genfiles",
     "clean-npm": "echo Cleaning up npm files. Please wait ... && npm prune",

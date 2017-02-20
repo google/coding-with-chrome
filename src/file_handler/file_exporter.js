@@ -51,6 +51,10 @@ cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
       rendererInstance.getRenderedContent());
 };
 
+
+/**
+ * Exports rendered content into GoogleCloud.
+ */
 cwc.fileHandler.FileExporter.prototype.exportHtmlToGoogleCloud = function() {
   var fileInstance = this.helper.getInstance('file', true);
   var gCloudInstance = this.helper.getInstance('gcloud', true);

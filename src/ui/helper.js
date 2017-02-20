@@ -108,6 +108,7 @@ cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
   return item;
 };
 
+
 /**
  * @param {!string} name
  * @param {function()=} opt_func

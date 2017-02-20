@@ -40,11 +40,11 @@ cwc.ui.GCloud = function(helper) {
   /** @type {string} */
   this.name = 'GCloud';
 
-  /** @type {string} */
-  this.prefix = 'gcloud-';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = 'gcloud-';
 
   /** @type {string} */
   this.fileName = '';

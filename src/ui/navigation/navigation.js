@@ -41,10 +41,7 @@ cwc.ui.Navigation = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'navigation-';
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  this.prefix = this.helper.getPrefix('navigation');
 
   /** @type {Element} */
   this.node = null;
@@ -73,29 +70,24 @@ cwc.ui.Navigation = function(helper) {
   /** @type {Element} */
   this.nodeHelp = null;
 
+  /** @type {Element} */
+  this.nodeOpenGoogleDriveFile = null;
+
+  /** @type {Element} */
+  this.nodeSaveGoogleDriveFile = null;
+
   /** @type {!goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
 /**
  * Decorates the given node and adds the navigation.
  * @param {Element} node The target node to add the navigation.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  * @export
  */
-cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Navigation.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.ui.Navigation.style({ 'prefix': this.prefix }));
-  }
 
   goog.soy.renderElement(this.node, cwc.soy.ui.Navigation.template, {
     'prefix': this.prefix
@@ -105,10 +97,10 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.nodeNewProject = goog.dom.getElement(this.prefix + 'new-project');
   this.nodeNewFile = goog.dom.getElement(this.prefix + 'new-file');
   this.nodeOpenFile = goog.dom.getElement(this.prefix + 'open-file');
-  this.nodeOpenGoogleDrive = goog.dom.getElement(
+  this.nodeOpenGoogleDriveFile = goog.dom.getElement(
       this.prefix + 'open-google-drive');
   this.nodeSaveFile = goog.dom.getElement(this.prefix + 'save-file');
-  this.nodeSaveGDriveFile = goog.dom.getElement(
+  this.nodeSaveGoogleDriveFile = goog.dom.getElement(
       this.prefix + 'save-google-drive');
 
   // Footer Items
@@ -117,7 +109,10 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
   this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
   this.nodeHelp = goog.dom.getElement(this.prefix + 'help');
 
+  // Default stats
   goog.style.setElementShown(this.nodeDebug, this.helper.debugEnabled());
+  this.enableOpenGoogleDriveFile(false);
+  this.enableSaveGoogleDriveFile(false);
 
   // Events
   goog.events.listen(this.nodeNewProject, goog.events.EventType.CLICK,
@@ -126,11 +121,11 @@ cwc.ui.Navigation.prototype.decorate = function(node, opt_prefix) {
     this.requestShowSelectScreen.bind(this));
   goog.events.listen(this.nodeOpenFile, goog.events.EventType.CLICK,
     this.requestOpenFile.bind(this));
-  goog.events.listen(this.nodeOpenGoogleDrive, goog.events.EventType.CLICK,
+  goog.events.listen(this.nodeOpenGoogleDriveFile, goog.events.EventType.CLICK,
     this.requestOpenGoogleDrive.bind(this));
   goog.events.listen(this.nodeSaveFile, goog.events.EventType.CLICK,
     this.saveFileAs.bind(this));
-  goog.events.listen(this.nodeSaveGDriveFile, goog.events.EventType.CLICK,
+  goog.events.listen(this.nodeSaveGoogleDriveFile, goog.events.EventType.CLICK,
     this.saveGDriveFile.bind(this));
 
   goog.events.listen(this.nodeAbout, goog.events.EventType.CLICK,
@@ -323,6 +318,26 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
   if (fileSaverInstance) {
     fileSaverInstance.saveFileAs();
     this.hide();
+  }
+};
+
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableOpenGoogleDriveFile = function(enable) {
+  if (this.nodeOpenGoogleDriveFile) {
+    goog.style.setElementShown(this.nodeOpenGoogleDriveFile, enable);
+  }
+};
+
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
+  if (this.nodeSaveGoogleDriveFile) {
+    goog.style.setElementShown(this.nodeSaveGoogleDriveFile, enable);
   }
 };
 

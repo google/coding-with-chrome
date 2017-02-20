@@ -147,7 +147,6 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   console.log('Handle file data:', content);
   var fileInstance = this.helper.getInstance('file', true);
   var modeInstance = this.helper.getInstance('mode', true);
-  var gCloudInstance = this.helper.getInstance('gcloud', true);
   var fileType = cwc.file.detector.detectType(content, opt_file_name);
   console.log('Filetype:', fileType);
   var fileConfig = cwc.fileHandler.Config.get(fileType, true);
@@ -176,7 +175,10 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
   }
 
   // Clear Google Cloud publish settings.
-  gCloudInstance.clear();
+  var gCloudInstance = this.helper.getInstance('gcloud');
+  if (gCloudInstance) {
+    gCloudInstance.clear();
+  }
 
   // Settings file title.
   var fileTitle = fileInstance.getFileTitle();

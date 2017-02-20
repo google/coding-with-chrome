@@ -35,9 +35,9 @@ goog.require('cwc.protocol.Arduino.api');
 goog.require('cwc.protocol.Serial.api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
-goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
+goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
@@ -361,7 +361,6 @@ cwc.ui.Builder.prototype.closeLoader = function() {
     loader.contentWindow.postMessage({'command': 'close'}, '*');
   }
 };
-
 
 
 /**

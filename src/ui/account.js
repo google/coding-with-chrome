@@ -73,8 +73,8 @@ cwc.ui.Account = function(helper) {
  * Prepares the account status.
  */
 cwc.ui.Account.prototype.prepare = function() {
-  goog.events.listen(window, 'offline', this.handleOnlineStatus, false, this);
-  goog.events.listen(window, 'online', this.handleOnlineStatus, false, this);
+  goog.events.listen(window, 'offline', this.handleOnlineStatus_, false, this);
+  goog.events.listen(window, 'online', this.handleOnlineStatus_, false, this);
   this.setOnlineStatus(window.navigator.onLine);
   this.setUnauthenticated();
 };
@@ -85,7 +85,7 @@ cwc.ui.Account.prototype.prepare = function() {
  */
 cwc.ui.Account.prototype.authenticate = function() {
   console.log('Try to authenticated …');
-  var authentificationEvent = this.handleAuthentication.bind(this);
+  var authentificationEvent = this.handleAuthentication_.bind(this);
   chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
 };
 
@@ -105,28 +105,9 @@ cwc.ui.Account.prototype.deauthenticate = function() {
  * @return {boolean} Whether the user is authenticated.
  */
 cwc.ui.Account.prototype.isAuthenticated = function() {
-  var authentificationEvent = this.handleAuthentication.bind(this);
+  var authentificationEvent = this.handleAuthentication_.bind(this);
   chrome.identity.getAuthToken({ 'interactive': false }, authentificationEvent);
   return this.authenticated;
-};
-
-
-/**
- * Handles authentication and store access.
- * @param {string=} opt_access_token
- */
-cwc.ui.Account.prototype.handleAuthentication = function(opt_access_token) {
-  if (opt_access_token) {
-    this.accessToken = opt_access_token;
-    this.setAuthenticated();
-    console.log('Access token: ' + this.accessToken);
-    this.requestUserInfo();
-    this.helper.showSuccess('Successful authenticated …');
-  } else {
-    this.setUnauthenticated();
-    var errorMsg = chrome.runtime.lastError.message;
-    this.helper.showError('Authentication failed: ' + errorMsg);
-  }
 };
 
 
@@ -166,14 +147,6 @@ cwc.ui.Account.prototype.setOnlineStatus = function(online) {
 
 
 /**
- * @param {Event=} opt_event
- */
-cwc.ui.Account.prototype.handleOnlineStatus = function(opt_event) {
-  this.setOnlineStatus(window.navigator.onLine);
-};
-
-
-/**
  * Sets authentication to true.
  */
 cwc.ui.Account.prototype.setAuthenticated = function() {
@@ -191,18 +164,26 @@ cwc.ui.Account.prototype.setUnauthenticated = function() {
 
 /**
  * Sets the authentication.
- * @param {boolean} authenticated
+ * @param {!boolean} authenticated
  */
 cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   var menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setAuthenticated(authenticated);
   }
+
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.enableOpenGoogleDriveFile(authenticated);
+    navigationInstance.enableSaveGoogleDriveFile(authenticated);
+  }
+
   if (!authenticated) {
     this.accessToken = '';
   }
   this.authenticated = authenticated;
 };
+
 
 /**
  * @param {Object} opts Contains options for http request, listed below:
@@ -308,4 +289,33 @@ cwc.ui.Account.prototype.handleXhrError = function(event) {
 cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
   this.helper.showError('Xhr request timeout!');
   console.error(event);
+};
+
+
+/**
+ * Handles authentication and store access.
+ * @param {string=} opt_access_token
+ * @private
+ */
+cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
+  if (opt_access_token) {
+    this.accessToken = opt_access_token;
+    this.setAuthenticated();
+    console.log('Access token: ' + this.accessToken);
+    this.requestUserInfo();
+    this.helper.showSuccess('Successful authenticated …');
+  } else {
+    this.setUnauthenticated();
+    var errorMsg = chrome.runtime.lastError.message;
+    this.helper.showError('Authentication failed: ' + errorMsg);
+  }
+};
+
+
+/**
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Account.prototype.handleOnlineStatus_ = function(opt_event) {
+  this.setOnlineStatus(window.navigator.onLine);
 };

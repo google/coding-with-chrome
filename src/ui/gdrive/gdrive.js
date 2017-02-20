@@ -48,9 +48,6 @@ cwc.ui.GDrive = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('gdrive');
 
-  /** @type {Element} */
-  this.node = null;
-
   /** @type {Object} */
   this.data = null;
 
@@ -103,15 +100,6 @@ cwc.ui.GDrive = function(helper) {
 
   /** @type {string} */
   this.saveFileParentId = '';
-};
-
-
-/**
- * Decorates the given node and adds the code editor.
- * @param {Element} node The target node.
- */
-cwc.ui.GDrive.prototype.decorate = function(node) {
-  this.node = node;
 };
 
 

@@ -112,11 +112,14 @@ cwc.ui.Preview = function(helper) {
   /** @type {Array} */
   this.listener = [];
 
-  /** @private {boolean} */
+  /** @private {!boolean} */
   this.ran_ = false;
 
-  /** @private {boolean} */
+  /** @private {!boolean} */
   this.skipAutoUpdate_ = true;
+
+  /** @private {!boolean} */
+  this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 };
 
 
@@ -234,7 +237,9 @@ cwc.ui.Preview.prototype.runOnce = function(opt_event) {
 cwc.ui.Preview.prototype.stop = function() {
   if (this.content) {
     console.info('Stop Preview');
-    this.content.stop();
+    if (this.webviewSupport_) {
+      this.content.stop();
+    }
     this.setContentUrl('about:blank');
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
@@ -254,8 +259,12 @@ cwc.ui.Preview.prototype.refresh = function() {
     if (this.toolbar) {
       this.toolbar.setRunStatus(true);
     }
-    this.content.stop();
-    this.content.reload();
+    if (this.webviewSupport_) {
+      this.content.stop();
+      this.content.reload();
+    } else {
+      this.content.contentWindow.location.reload(true);
+    }
   }
 };
 
@@ -295,30 +304,36 @@ cwc.ui.Preview.prototype.render = function() {
     this.infobar.clear();
   }
   if (this.content) {
-    if (this.status == cwc.ui.PreviewStatus.LOADING ||
-        this.status == cwc.ui.PreviewStatus.UNRESPONSIVE) {
-      this.terminate();
+    if (this.webviewSupport_) {
+      if (this.status == cwc.ui.PreviewStatus.LOADING ||
+          this.status == cwc.ui.PreviewStatus.UNRESPONSIVE) {
+        this.terminate();
+      }
+      this.stop();
     }
-    this.stop();
     goog.dom.removeChildren(this.nodeContent);
   }
 
-  this.content = document.createElement('webview');
-  this.content.setAttribute('partition', 'preview');
-  this.content.addEventListener('consolemessage',
-      this.handleConsoleMessage_.bind(this), false);
-  this.content.addEventListener('dialog',
-      this.handleDialog_.bind(this), false);
-  this.content.addEventListener('loadstart',
-      this.handleLoadStart_.bind(this), false);
-  this.content.addEventListener('loadstop',
-      this.handleLoadStop_.bind(this), false);
-  this.content.addEventListener('unresponsive',
-      this.handleUnresponsive_.bind(this), false);
-  this.content.addEventListener('newwindow',
-      this.handleNewWindow_.bind(this), false);
-  this.content.addEventListener('permissionrequest',
-      this.handlePermissionRequest_.bind(this), false);
+  if (this.webviewSupport_) {
+    this.content = document.createElement('webview');
+    this.content.setAttribute('partition', 'preview');
+    this.content.addEventListener('consolemessage',
+        this.handleConsoleMessage_.bind(this), false);
+    this.content.addEventListener('dialog',
+        this.handleDialog_.bind(this), false);
+    this.content.addEventListener('loadstart',
+        this.handleLoadStart_.bind(this), false);
+    this.content.addEventListener('loadstop',
+        this.handleLoadStop_.bind(this), false);
+    this.content.addEventListener('unresponsive',
+        this.handleUnresponsive_.bind(this), false);
+    this.content.addEventListener('newwindow',
+        this.handleNewWindow_.bind(this), false);
+    this.content.addEventListener('permissionrequest',
+        this.handlePermissionRequest_.bind(this), false);
+  } else {
+    this.content = document.createElement('iframe');
+  }
 
   goog.dom.appendChild(this.nodeContent, this.content);
   if (this.toolbar) {
