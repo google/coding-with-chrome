@@ -19,43 +19,6 @@
  */
 
 
-
-/**
- * Phaser Game block.
- */
-Blockly.Blocks['phaser_game'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('Create Game with name')
-        .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name')
-        .appendField('and size')
-        .appendField(new Blockly.FieldNumber(800), 'width')
-        .appendField('x')
-        .appendField(new Blockly.FieldNumber(600), 'height');
-    this.setNextStatement(true, null);
-    this.setColour(330);
-    this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
-  }
-};
-
-
-/**
- * Restart Phaser Game.
- */
-Blockly.Blocks['phaser_game_restart'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('Restart game');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
 /**
  * Phaser preload section.
  */

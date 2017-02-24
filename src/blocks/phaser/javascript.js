@@ -19,36 +19,6 @@
  */
 
 
-
-/**
- * Phaser Game block.
- */
-Blockly.JavaScript['phaser_game'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var number_width = block.getFieldValue('width');
-  var number_height = block.getFieldValue('height');
-
-  return 'var game = new Phaser.Game(' +
-    '  ' + number_width + ', ' + number_height + ', Phaser.AUTO, \'' +
-    text_name + '\');\n' +
-    'game.state.add(\'main\', {\n' +
-    '  preload: typeof preload !== \'undefined\' ? preload : function() {},\n' +
-    '  create: typeof create !== \'undefined\' ? create : null,\n' +
-    '  update: typeof update !== \'undefined\' ? update : null,\n' +
-    '  render: typeof render !== \'undefined\' ? render : null\n' +
-    '});\n' +
-    'game.state.start(\'main\');\n';
-};
-
-
-/**
- * Phaser Game block.
- */
-Blockly.JavaScript['phaser_game_restart'] = function() {
-  return 'game.state.start(\'main\');\n';
-};
-
-
 /**
  * Phaser preload section.
  */

@@ -72,13 +72,13 @@
       <block type="phaser_update"></block>
     </category>
 
-    <category name="Render" colour="290">
+    <category name="Render" colour="300">
       <block type="phaser_render"></block>
     </category>
 
     <sep></sep>
 
-    <category name="Physics" colour="290">
+    <category name="Physics" colour="320">
       <block type="phaser_physics_arcade_enable"></block>
       <block type="phaser_pyhsics_sprite">
         <value name="sprite">
@@ -88,6 +88,23 @@
         </value>
         <value name="value">
           <block type="math_number"></block>
+        </value>
+      </block>
+    </category>
+
+    <category name="Generators" colour="340">
+      <block type="phaser_generator_obstacle_vertical">>
+        <value name="sprite">
+          <block type="text"></block>
+        </value>
+        <value name="sprite_top">
+          <block type="text"></block>
+        </value>
+        <value name="sprite_bottom">
+          <block type="text"></block>
+        </value>
+        <value name="group">
+          <block type="text"></block>
         </value>
       </block>
     </category>

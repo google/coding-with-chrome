@@ -109,6 +109,9 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     // phaser.js
     if (script.includes('new Phaser.Game(')) {
       headers.push(cwc.framework.External.PHASER);
+      if (script.includes('cwc.framework.Phaser.')) {
+        headers.push(cwc.framework.Internal.PHASER);
+      }
     }
 
     // three.js

@@ -112,6 +112,22 @@ closureBuilder.build({
 
 
 /**
+ * Phaser Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.Phaser',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/phaser/*.js',
+  ]),
+  externs: [
+    'build/externs/phaser.js'
+  ],
+  out: 'genfiles/frameworks/internal/phaser_framework.js'
+});
+
+
+/**
  * Runner Framework
  */
 closureBuilder.build({

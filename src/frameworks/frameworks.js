@@ -56,6 +56,7 @@ cwc.framework.Internal = {
   EV3: 'ev3_framework.js',
   MBOT: 'mbot_framework.js',
   MBOT_RANGER: 'mbot_ranger_framework.js',
+  PHASER: 'phaser_framework.js',
   PYTHON: 'python_framework.js',
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',

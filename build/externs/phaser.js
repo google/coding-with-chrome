@@ -1,7 +1,7 @@
 /**
- * @fileoverview Mocha externs.
+ * @fileoverview Phaser externs.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,24 @@
  */
 
 
+/** @constructor */
+var Phaser = function() {};
+
+/** @constructor */
+Phaser.Game = function() {};
+
+
+/** @type {Object} */
+var game = function() {};
 
 /** @type {Function} */
-function afterEach() {};
+game.add.sprite = function(x, y, sprite_name) {};
 
 /** @type {Function} */
-function beforeEach() {};
+game.cache.getImage = function() {};
 
 /** @type {Function} */
-function describe() {};
+game.rnd.integerInRange = function() {};
 
 /** @type {Function} */
-function it() {};
+game.physics.arcade.enable = function() {};

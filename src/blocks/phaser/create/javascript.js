@@ -25,7 +25,9 @@
  */
 Blockly.JavaScript['phaser_create'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'function create() {\n' + statements_code + '};\n';
+  return 'function create() {\n' +
+    '  if (navigator.userAgent == \'CwC sandbox\') {' +
+    'game.time.desiredFps = 30;}\n' + statements_code + '};\n';
 };
 
 

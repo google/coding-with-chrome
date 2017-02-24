@@ -42,6 +42,7 @@ globals:
   cwc: true
   describe: true
   expect: true
+  game: true
   goog: true
   i18next: true
   i18nextSprintfPostProcessor: true

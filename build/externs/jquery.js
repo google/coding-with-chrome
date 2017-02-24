@@ -23,6 +23,5 @@
 /** @type {Object} */
 var jQuery = function() {};
 
-
 /** @type {Object} */
 var $ = function() {};
