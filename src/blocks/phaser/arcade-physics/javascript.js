@@ -24,17 +24,31 @@
  * Physics arcade enable.
  */
 Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
-  var value_object = Blockly.JavaScript.valueToCode(
-    block, 'object', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'game.physics.arcade.enable(' + value_object + ');\n';
+  var value_sprite = Blockly.JavaScript.valueToCode(
+    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.enable(' + value_sprite + ');\n';
 };
 
+
+/**
+ * Physics arcade overlap.
+ */
+Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
+  var value_object1 = Blockly.JavaScript.valueToCode(
+    block, 'object1', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_object2 = Blockly.JavaScript.valueToCode(
+    block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  return 'game.physics.arcade.overlap(' + value_object1 + ', ' +
+    value_object2 + ', function() {\n' + statements_func +
+    '}, null, this);\n';
+};
 
 
 /**
  * Adjust arcade sprite.
  */
-Blockly.JavaScript['phaser_pyhsics_sprite'] = function(block) {
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
   var value_sprite = Blockly.JavaScript.valueToCode(block,
     'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   var dropdown_property = block.getFieldValue('property');

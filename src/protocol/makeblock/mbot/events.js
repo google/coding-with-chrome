@@ -26,7 +26,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Events');
 
 /**
  * Custom events.
- * @enum {Event}
+ * @enum {string}
  */
 cwc.protocol.makeblock.mbot.Events.Type = {
   BUTTON_PRESSED: 'button_pressed',
@@ -90,18 +90,18 @@ cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.Events.Type} type
- * @param {!Object} data
+ * @param {Object=} opt_data
  * @param {number=} opt_port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.makeblock.mbot.Events.Data_ = function(type, data, opt_port) {
+cwc.protocol.makeblock.mbot.Events.Data_ = function(type, opt_data, opt_port) {
   /** @type {!cwc.protocol.makeblock.mbot.Events.Type} */
   this.type = type;
 
   /** @type {!Object} */
-  this.data = data;
+  this.data = opt_data || {};
 
   /** @type {number=} */
   this.port = opt_port;

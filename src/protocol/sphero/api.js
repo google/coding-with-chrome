@@ -90,6 +90,9 @@ cwc.protocol.sphero.Api = function(helper) {
   this.locationSog_ = 0;
 
   /** @private {!number} */
+  this.locationSpeed_ = 0;
+
+  /** @private {!number} */
   this.heading_ = 0;
 
   /** @private {!number} */

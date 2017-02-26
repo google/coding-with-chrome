@@ -32,7 +32,7 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
-goog.require('goog.dom.classes');
+goog.require('goog.dom.classlist');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
@@ -386,7 +386,7 @@ cwc.ui.Layout.prototype.setOverlayBackground = function(background) {
   var overlayNode = this.getOverlay();
   if (overlayNode) {
     for (let type in cwc.ui.LayoutOverlayBackground) {
-      goog.dom.classes.enable(overlayNode,
+      goog.dom.classlist.enable(overlayNode,
           this.prefix + cwc.ui.LayoutOverlayBackground[type],
           background == cwc.ui.LayoutOverlayBackground[type]);
     }

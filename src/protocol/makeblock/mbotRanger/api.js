@@ -48,6 +48,9 @@ cwc.protocol.makeblock.mbotRanger.Api = function(helper) {
   /** @type {string} */
   this.name = 'mBot Ranger';
 
+  /** @type {Object} */
+  this.device = null;
+
   /** @type {boolean} */
   this.prepared = false;
 

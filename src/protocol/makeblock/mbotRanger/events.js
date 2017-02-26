@@ -26,7 +26,7 @@ goog.provide('cwc.protocol.makeblock.mbotRanger.Events');
 
 /**
  * Custom events.
- * @enum {Event}
+ * @enum {string}
  */
 cwc.protocol.makeblock.mbotRanger.Events.Type = {
   LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
@@ -90,19 +90,19 @@ cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
 
 /**
  * @param {!cwc.protocol.makeblock.mbotRanger.Events.Type} type
- * @param {!Object} data
+ * @param {Object=} opt_data
  * @param {number=} opt_port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, data,
+cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, opt_data,
     opt_port) {
   /** @type {!cwc.protocol.makeblock.mbotRanger.Events.Type} */
   this.type = type;
 
   /** @type {!Object} */
-  this.data = data;
+  this.data = opt_data || {};
 
   /** @type {number=} */
   this.port = opt_port;

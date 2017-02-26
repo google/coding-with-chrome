@@ -46,6 +46,9 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
   /** @type {string} */
   this.name = 'mBot';
 
+  /** @type {Object} */
+  this.device = null;
+
   /** @type {boolean} */
   this.prepared = false;
 

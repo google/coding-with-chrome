@@ -26,6 +26,7 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 
+
 /**
  * @enum {!string}
  */
@@ -348,20 +349,20 @@ cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
  * @param {!string} name
  * @param {!function(?)} func
  * @param {string=} opt_param
- * @return {function()}
+ * @return {goog.events.ListenableKey|null|number}
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.setClickEvent_ = function(name, func,
     opt_param) {
   if (!func) {
     console.error('Missing function!');
-    return;
+    return null;
   }
   var elementName = this.prefix + name;
   var element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Missing element ' + elementName + '!');
-    return;
+    return null;
   }
 
   var click_func = func;

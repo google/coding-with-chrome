@@ -47,6 +47,9 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   this.prefix = helper.getPrefix('ev3-monitor');
 
   /** @type {Element} */
+  this.nodeControl = null;
+
+  /** @type {Element} */
   this.nodeIntro = null;
 
   /** @type {Element} */

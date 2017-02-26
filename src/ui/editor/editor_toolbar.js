@@ -21,7 +21,6 @@ goog.provide('cwc.ui.EditorToolbar');
 
 goog.require('cwc.ui.Helper');
 
-goog.require('goog.dom.classes');
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
@@ -208,7 +207,7 @@ cwc.ui.EditorToolbar.prototype.redo = function() {
 cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
   var editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var active = goog.dom.classes.has(this.nodeDebug, 'active');
+    var active = goog.dom.classlist.contains(this.nodeDebug, 'active');
     goog.dom.classlist.enable(this.nodeDebug, 'active', !active);
     goog.dom.classlist.enable(this.nodeDebug, 'icon_24px_red', !active);
     editorInstance.setSyntaxCheck(!active);

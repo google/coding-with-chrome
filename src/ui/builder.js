@@ -581,7 +581,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   var guiInstance = this.helper.getInstance('gui');
   if (guiInstance && !this.error) {
     this.setProgress('Decorate gui ...', 30, 100);
-    guiInstance.decorate(this.node, this.prefix);
+    guiInstance.decorate(this.node);
   } else {
     this.raiseError('The gui instance was not loaded!');
   }

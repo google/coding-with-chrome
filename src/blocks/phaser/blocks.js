@@ -20,66 +20,6 @@
 
 
 /**
- * Phaser preload section.
- */
-Blockly.Blocks['phaser_preload'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(260);
-    this.appendDummyInput()
-      .appendField(i18t('Preload'));
-    this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-
-/**
- * Load Image
- */
-Blockly.Blocks['phaser_load_image'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('Load Image')
-        .appendField(new Blockly.FieldTextInput('name'), 'name');
-    this.appendValueInput('image')
-        .setCheck('Image')
-        .appendField('from file');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Load Audio
- */
-Blockly.Blocks['phaser_load_audio'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('Load Audio')
-        .appendField(new Blockly.FieldTextInput('name'), 'name');
-    this.appendValueInput('audio')
-        .setCheck('Audio')
-        .appendField('from file');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
  * Phaser create section.
  */
 Blockly.Blocks['phaser_update'] = {
@@ -87,9 +27,10 @@ Blockly.Blocks['phaser_update'] = {
     this.setHelpUrl('');
     this.setColour(280);
     this.appendDummyInput()
-      .appendField(i18t('Update'));
+      .appendField(i18t('on update'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .appendField('do');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -167,59 +108,6 @@ Blockly.Blocks['phaser_input_keyboard_is_pressed'] = {
           [i18t('key pressed'), 'isDown']
         ]), 'direction');
     this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Adjust sprite.
- */
-Blockly.Blocks['phaser_sprite_adjust'] = {
-  init: function() {
-    this.appendValueInput('sprite')
-        .setCheck(null)
-        .appendField(i18t('Set sprite'));
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('angle'), 'angle'],
-          [i18t('archor'), 'anchor.set'],
-          [i18t('move up'), 'moveUp'],
-          [i18t('move down'), 'moveDown'],
-          [i18t('move left'), 'moveLeft'],
-          [i18t('move right'), 'moveRight'],
-          ['x', 'x'],
-          ['y', 'y']
-        ]), 'property');
-    this.appendValueInput('value')
-        .setCheck('Number')
-        .appendField(i18t('to'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Adjust sprite.
- */
-Blockly.Blocks['phaser_sprite_get'] = {
-  init: function() {
-    this.appendValueInput('sprite')
-        .setCheck(null)
-        .appendField(i18t('Get sprite'));
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('angle'), 'angle'],
-          ['x', 'x'],
-          ['y', 'y']
-        ]), 'property');
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');

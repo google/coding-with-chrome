@@ -66,6 +66,11 @@
       <block type="phaser_add_sprite"></block>
       <block type="phaser_add_text"></block>
       <block type="phaser_add_group"></block>
+      <block type="phaser_time_loop_event">
+        <value name="time">
+          <block type="math_number"><field name="NUM">1500</field></block>
+        </value>
+      </block>
     </category>
 
     <category name="Update" colour="290">
@@ -79,8 +84,14 @@
     <sep></sep>
 
     <category name="Physics" colour="320">
-      <block type="phaser_physics_arcade_enable"></block>
-      <block type="phaser_pyhsics_sprite">
+      <block type="phaser_physics_arcade_enable">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_pyhsics_arcade_sprite">
         <value name="sprite">
           <block type="variables_get">
             <field name="VAR">sprite</field>
@@ -88,6 +99,18 @@
         </value>
         <value name="value">
           <block type="math_number"></block>
+        </value>
+      </block>
+      <block type="phaser_physics_arcade_overlap">
+        <value name="object1">
+          <block type="variables_get">
+            <field name="VAR">player</field>
+          </block>
+        </value>
+        <value name="object2">
+          <block type="variables_get">
+            <field name="VAR">obstacle</field>
+          </block>
         </value>
       </block>
     </category>
@@ -104,7 +127,9 @@
           <block type="text"></block>
         </value>
         <value name="group">
-          <block type="text"></block>
+          <block type="variables_get">
+            <field name="VAR">obstacle</field>
+          </block>
         </value>
       </block>
     </category>
@@ -112,7 +137,27 @@
     <category name="Input" colour="200">
       <block type="phaser_input_keyboard_create_cursor_keys"></block>
       <block type="phaser_input_keyboard_add_key"></block>
-      <block type="phaser_input_keyboard_is_pressed"></block>
+      <block type="phaser_input_keyboard_is_pressed">
+        <value name="cursors">
+          <block type="variables_get">
+            <field name="VAR">spacebar</field>
+          </block>
+        </value>
+      </block>
+
+      <block type="controls_if">
+        <mutation elseif="0"></mutation>
+        <value name="IF0">
+          <block type="phaser_input_keyboard_is_pressed">
+            <field name="direction">isDown</field>
+            <value name="cursors">
+              <block type="variables_get">
+                <field name="VAR">spacebar</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
 
       <block type="controls_if">
         <mutation elseif="3"></mutation>
@@ -172,8 +217,14 @@
           <block type="math_number"></block>
         </value>
       </block>
-
       <block type="phaser_sprite_get">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_sprite_destroy">
         <value name="sprite">
           <block type="variables_get">
             <field name="VAR">sprite</field>

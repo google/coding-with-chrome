@@ -25,7 +25,7 @@
  */
 Blockly.JavaScript['phaser_create'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'function create() {\n' +
+  return '\nfunction create() {\n' +
     '  if (navigator.userAgent == \'CwC sandbox\') {' +
     'game.time.desiredFps = 30;}\n' + statements_code + '};\n';
 };
@@ -84,6 +84,18 @@ Blockly.JavaScript['phaser_add_text'] = function(block) {
  */
 Blockly.JavaScript['phaser_add_group'] = function(block) {
   var text_name = block.getFieldValue('name');
-  var code = 'game.add.group(null, \'' + text_name + '\')';
+  var code = 'game.add.group(undefined, \'' + text_name + '\')';
   return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Timer Loop Event
+ */
+Blockly.JavaScript['phaser_time_loop_event'] = function(block) {
+  var value_time = Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  return 'game.time.events.loop(' + value_time + ', ' +
+    'function() {\n' + statements_func + '}, this);\n';
 };

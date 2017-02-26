@@ -26,6 +26,7 @@ goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
 
+
 /**
  * @enum {!string}
  */
@@ -289,7 +290,7 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
  * @param {!string} name
  * @param {!function(?)} func
  * @param {string=} opt_param
- * @return {function()}
+ * @return {goog.events.ListenableKey|null|number}
  * @private
  */
 cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,

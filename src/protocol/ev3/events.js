@@ -23,7 +23,7 @@ goog.provide('cwc.protocol.ev3.Events');
 
 /**
  * Custom events.
- * @enum {Event}
+ * @enum {string}
  */
 cwc.protocol.ev3.Events.Type = {
   CHANGED_DEVICES: 'changed_devices',
@@ -167,18 +167,18 @@ cwc.protocol.ev3.Events.UltrasonicSensorValue = function(data, opt_port) {
 
 /**
  * @param {!cwc.protocol.ev3.Events.Type} type
- * @param {!Object|number} data
+ * @param {Object|number=} opt_data
  * @param {number=} opt_port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.ev3.Events.Data_ = function(type, data, opt_port) {
+cwc.protocol.ev3.Events.Data_ = function(type, opt_data, opt_port) {
   /** @type {!cwc.protocol.ev3.Events.Type} */
   this.type = type;
 
   /** @type {!Object|number} */
-  this.data = data;
+  this.data = opt_data || {};
 
   /** @type {number} */
   this.port = opt_port;

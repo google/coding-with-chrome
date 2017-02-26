@@ -45,7 +45,7 @@ cwc.ui.Gui = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'gui-';
+  this.prefix = this.helper.getPrefix('gui');
 
   /** @type {string} */
   this.generalPrefix = this.helper.getPrefix();
@@ -82,36 +82,24 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {Element} */
   this.nodeTitle = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
 /**
  * Decorates the given node and adds the editors gui.
  * @param {!Element} node The main node which should be used for the editor gui.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.Gui.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Gui.prototype.decorate = function(node) {
   if (!node) {
     console.error('Not able to render GUI with node:', node);
     return;
   }
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
 
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.Gui.guiTemplate,
       {'prefix': this.prefix});
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(cwc.soy.ui.Gui.guiStyle({
-      'prefix': this.prefix
-    }));
-  }
 
   // Main nodes
   this.nodeChrome = goog.dom.getElement(this.prefix + 'chrome');

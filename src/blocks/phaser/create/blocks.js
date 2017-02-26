@@ -28,9 +28,10 @@ Blockly.Blocks['phaser_create'] = {
     this.setHelpUrl('');
     this.setColour(280);
     this.appendDummyInput()
-      .appendField(i18t('Create'));
+      .appendField(i18t('on create'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .appendField('do');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -62,7 +63,7 @@ Blockly.Blocks['phaser_stage_background_color'] = {
 Blockly.Blocks['phaser_add_audio'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('Add audio')
+        .appendField('add audio')
         .appendField(new Blockly.FieldTextInput('name'), 'audio')
         .appendField('with volume')
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
@@ -85,9 +86,9 @@ Blockly.Blocks['phaser_add_audio'] = {
 Blockly.Blocks['phaser_add_sprite'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('Add sprite')
+        .appendField('add sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on')
+        .appendField('on position')
         .appendField(new Blockly.FieldNumber(50), 'x')
         .appendField(new Blockly.FieldNumber(50), 'y');
     this.setOutput(true, null);
@@ -126,6 +127,28 @@ Blockly.Blocks['phaser_add_group'] = {
         .appendField('Add group')
         .appendField(new Blockly.FieldTextInput('text'), 'name');
     this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Timer Loop Event
+ */
+Blockly.Blocks['phaser_time_loop_event'] = {
+  init: function() {
+    this.appendValueInput('time')
+        .setCheck('Number')
+        .appendField('repeat every');
+    this.appendDummyInput()
+        .appendField('milliseconds');
+    this.appendStatementInput('func')
+        .setCheck(null)
+        .appendField('do');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');

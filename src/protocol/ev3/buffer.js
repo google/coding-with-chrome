@@ -138,8 +138,7 @@ cwc.protocol.ev3.Buffer.prototype.writeIndex = function(opt_index) {
 
 
 /**
- * @param {!cwc.protocol.ev3.InputPort|
- * 			cwc.protocol.ev3.OutputPort} port
+ * @param {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} port
  */
 cwc.protocol.ev3.Buffer.prototype.writePort = function(port) {
   this.data.writeByte(port);

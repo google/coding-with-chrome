@@ -23,7 +23,7 @@ goog.provide('cwc.protocol.sphero.Events');
 
 /**
  * Custom events.
- * @enum {Event}
+ * @enum {string}
  */
 cwc.protocol.sphero.Events.Type = {
   CHANGED_LOCATION: 'changed_devices',
@@ -75,15 +75,15 @@ cwc.protocol.sphero.Events.Collision = function(data) {
 
 /**
  * @param {!cwc.protocol.sphero.Events.Type} type
- * @param {!Object} data
+ * @param {Object=} opt_data
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.sphero.Events.Data_ = function(type, data, opt_port) {
+cwc.protocol.sphero.Events.Data_ = function(type, opt_data) {
   /** @type {!cwc.protocol.sphero.Events.Type} */
   this.type = type;
 
   /** @type {!Object} */
-  this.data = data;
+  this.data = opt_data || {};
 };

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Phaser Physics Blocks for Blockly.
+ * @fileoverview Phaser Blocks for Blockly.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -19,17 +19,28 @@
  */
 
 
-
 /**
- * Physics arcade enable.
+ * Adjust sprite.
  */
-Blockly.Blocks['phaser_physics_arcade_enable'] = {
+Blockly.Blocks['phaser_sprite_adjust'] = {
   init: function() {
-    this.appendValueInput('object')
+    this.appendValueInput('sprite')
         .setCheck(null)
-        .appendField('physics.arcade.enable (');
+        .appendField(i18t('set sprite'));
     this.appendDummyInput()
-        .appendField(')');
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('angle'), 'angle'],
+          [i18t('archor'), 'anchor.set'],
+          [i18t('move up'), 'moveUp'],
+          [i18t('move down'), 'moveDown'],
+          [i18t('move left'), 'moveLeft'],
+          [i18t('move right'), 'moveRight'],
+          ['x', 'x'],
+          ['y', 'y']
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
@@ -40,30 +51,37 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
 
 
 /**
- * Adjust arcade sprite.
+ * Adjust sprite.
  */
-Blockly.Blocks['phaser_pyhsics_sprite'] = {
+Blockly.Blocks['phaser_sprite_get'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
-        .appendField(i18t('Set physics sprite'));
+        .appendField(i18t('get sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'body.acceleration.set'],
           [i18t('angle'), 'angle'],
-          [i18t('angular velocity'), 'body.angularVelocity'],
-          [i18t('bounce x'), 'body.bounce.x'],
-          [i18t('bounce y'), 'body.bounce.y'],
-          [i18t('collide world bounds'), 'body.collideWorldBounds'],
-          [i18t('gravity x'), 'body.gravity.x'],
-          [i18t('gravity y'), 'body.gravity.y'],
-          [i18t('velocity x'), 'body.velocity.x'],
-          [i18t('velocity y'), 'body.velocity.y'],
-          [i18t('velocity'), 'body.velocity'],
+          ['x', 'x'],
+          ['y', 'y']
         ]), 'property');
-    this.appendValueInput('value')
-        .setCheck('Number')
-        .appendField(i18t('to'));
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Destroy sprite.
+ */
+Blockly.Blocks['phaser_sprite_destroy'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('destroy sprite');
+    this.appendValueInput('sprite')
+        .setCheck(null);
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
