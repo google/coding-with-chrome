@@ -24,6 +24,7 @@ goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.require('goog.style');
 
 goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');
@@ -63,6 +64,9 @@ cwc.ui.GCloud = function(helper) {
 
   /** @type {string} */
   this.publicUrlPath = '';
+
+  /** @type {string} */
+  this.storagePrefix = '';
 };
 
 
@@ -115,7 +119,7 @@ cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
   if (!dialogInstance) return;
 
   dialogInstance.showTemplate(
-    'Publish to Google Cloud', cwc.soy.GCloud.projects, {
+    'Publish to Google Cloud', cwc.soy.GCloud.gCloudTemplate, {
       prefix: this.prefix,
       projects: projects
     });
@@ -180,13 +184,24 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
     goog.dom.createDom(
       'label', {'for': this.prefix + 'buckets'}, 'Bucket Id: '
   ));
+  var bucketChangeListener = (function(event) {
+    var bucketId = event.target.value;
+    this.selectBucket(bucketId);
+  }).bind(this);
+  goog.events.listen(bucketSelect, goog.events.EventType.CHANGE,
+    bucketChangeListener, false, this);
   goog.dom.append(bucketsContainer, bucketSelect);
+
+
+  if (this.bucketName) {
+    goog.dom.forms.setValue(bucketSelect, this.bucketName);
+  } else {
+    var bucketId = goog.dom.forms.getValue(bucketSelect);
+    this.selectBucket(bucketId);
+  }
 
   var dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;
-  if (this.bucketName) {
-    goog.dom.forms.setValue(bucketSelect, this.bucketName);
-  }
   if (this.publicUrlPath) {
     this.setDialogPublicUrl(this.publicUrlPath);
     if (!dialogInstance.getButton('publish')) {
@@ -199,22 +214,97 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   }
 };
 
+cwc.ui.GCloud.prototype.selectBucket = function(bucketId) {
+  this.bucketName = bucketId;
+  var foldersContainer = goog.dom.getElement(this.prefix + 'folders-container');
+  var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
+  var folderNav = goog.dom.getElement(this.prefix + 'folders-nav');
+  var storageButtonEvent = (function(event) {
+    var sibling = goog.dom.getNextElementSibling(event.target);
+    if (sibling != null) {
+      this.storagePrefix = event.target['gcloud-folders-prefix'];
+      var nextSibling = goog.dom.getNextElementSibling(sibling);
+      while (nextSibling != null) {
+        goog.dom.removeNode(sibling);
+        sibling = goog.dom.getNextElementSibling(nextSibling);
+        goog.dom.removeNode(nextSibling);
+        nextSibling = null;
+        if (sibling != null) {
+          nextSibling = goog.dom.getNextElementSibling(sibling);
+        }
+      }
+      this.currentDirectory();
+    }
+  }).bind(this);
+  var rootButton = goog.dom.createDom(
+      'button', {'gcloud-folders-prefix': ''}, '/');
+  folderNav.append(rootButton);
+  goog.events.listen(
+      rootButton, goog.events.EventType.CLICK, storageButtonEvent, false, this);
+  var selectFolderEvent = (function(event) {
+    var selectedFolder = event.target.value;
+    this.storagePrefix += selectedFolder + '/';
+    var storageButton = goog.dom.createDom(
+        'button', {'gcloud-folders-prefix': this.storagePrefix},
+        selectedFolder);
 
-cwc.ui.GCloud.prototype.publish = function() {
-  console.log('Publish name: ' + this.fileName + ' content:' +
-    this.fileContent + ' type: ' + this.fileType);
+    goog.events.listen(storageButton, goog.events.EventType.CLICK,
+        storageButtonEvent, false, this);
+    folderNav.append(storageButton);
+    folderNav.append(goog.dom.createDom('span', {}, '/'));
+    this.currentDirectory();
+  }).bind(this);
+  goog.events.listen(folderPicker, goog.events.EventType.CHANGE,
+      selectFolderEvent, false, this);
+  goog.style.setStyle(foldersContainer, 'visibility', 'visible');
 
+  this.currentDirectory();
+};
+
+cwc.ui.GCloud.prototype.currentDirectory = function() {
   var accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
+  var callback = (function(response) {
+    var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
+    var prefixes;
+    if (!('prefixes' in response)) {
+      goog.style.setStyle(folderPicker, 'visibility', 'hidden');
+      return;
+    } else {
+      goog.style.setStyle(folderPicker, 'visibility', 'visible');
+      prefixes = response['prefixes'];
+    }
+    goog.dom.removeChildren(folderPicker);
+    folderPicker.append(goog.dom.createDom(
+        'option', {'selected': true, 'disabled': true}, 'Choose folder:'));
+    for (var i in prefixes) {
+      var folderList = prefixes[i].split('/');
+      var folder = folderList[folderList.length - 2];
+      folderPicker.append(goog.dom.createDom(
+          'option', {'value': folder}, folder));
+    }
+  }).bind(this);
+  var params = {
+    'delimiter': '/'
+  };
+  if (this.storagePrefix) {
+    params['prefix'] = this.storagePrefix;
+  }
+  accountInstance.request({
+    path: '/storage/v1/b/' + this.bucketName + '/o',
+    params: params
+  }, callback);
+};
 
-  var bucketsSelect = goog.dom.getElement(this.prefix + 'buckets');
-  this.bucketName = goog.dom.forms.getValue(bucketsSelect);
+cwc.ui.GCloud.prototype.publish = function() {
+  var accountInstance = this.helper.getInstance('account');
+  if (!accountInstance) return;
   accountInstance.request({
     path: '/upload/storage/v1/b/' + this.bucketName + '/o',
     method: 'POST',
     params: {
       'uploadType': 'media',
-      'name': this.fileName
+      'name': this.storagePrefix + this.fileName
     },
     content: this.fileContent,
     header: {
@@ -231,13 +321,13 @@ cwc.ui.GCloud.prototype.makePublic = function() {
   if (!dialogInstance) return;
 
   var callback = (function(response) {
-    console.log('public: ' + JSON.stringify(response));
     this.publicUrlPath = response['bucket'] + '/' + response['name'];
     this.setDialogPublicUrl(this.publicUrlPath);
     dialogInstance.setButtonText('publish', 'Republish');
   }).bind(this);
   accountInstance.request({
-    path: '/storage/v1/b/' + this.bucketName + '/o/' + this.fileName,
+    path: '/storage/v1/b/' + this.bucketName + '/o/' + encodeURIComponent(
+        this.storagePrefix + this.fileName),
     method: 'PUT',
     params: {
       'predefinedAcl': 'publicRead'

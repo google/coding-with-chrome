@@ -23,7 +23,7 @@
 /**
  * Google Cloud template.
  */
-{template .projects}
+{template .gCloudTemplate}
   {@param prefix: string}
   {@param projects: ?}
   <div id="{$prefix}projects-container">
@@ -36,6 +36,15 @@
     </select>
   </div>
   <div id="{$prefix}buckets-container">
+  </div>
+  <div id="{$prefix}folders-container" style="visibility: hidden;">
+    <label>
+      Folder:
+      <span id="{$prefix}folders-nav"></span>
+      <select id="{$prefix}folders-picker"/>
+        <option selected disabled>Choose folder</option>
+      </select>
+    </label>
   </div>
   <div id="{$prefix}public-url">
   </div>
