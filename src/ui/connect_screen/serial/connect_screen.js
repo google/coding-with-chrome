@@ -46,7 +46,6 @@ cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
   var serialInstance = this.helper.getInstance('serial', true);
   var serialDevices = serialInstance.getDevices();
   var devices = {};
-  console.log(serialDevices);
   for (let serialDevice in serialDevices) {
     if (serialDevices.hasOwnProperty(serialDevice)) {
       var device = serialDevices[serialDevice];

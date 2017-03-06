@@ -82,9 +82,6 @@ cwc.protocol.serial.Devices.prototype.prepare = function() {
  * @export
  */
 cwc.protocol.serial.Devices.prototype.updateDevices = function() {
-  if (this.devices) {
-    this.devices = {};
-  }
   this.serial.getDevices(this.handleGetDevices_.bind(this));
 };
 
@@ -193,24 +190,26 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     for (let i = 0; i < filteredDevices.length; i++) {
       var deviceEntry = filteredDevices[i];
       var devicePath = deviceEntry['path'];
-      var displayName = deviceEntry['displayName'] || '';
-      var productId = deviceEntry['productId'];
-      var vendorId = deviceEntry['vendorId'];
-      var device = new cwc.protocol.serial.Device(
-        devicePath, vendorId, productId, displayName, this.serial);
+      if (!(devicePath in this.devices)) {
+        var displayName = deviceEntry['displayName'] || '';
+        var productId = deviceEntry['productId'];
+        var vendorId = deviceEntry['vendorId'];
+        var device = new cwc.protocol.serial.Device(
+          devicePath, vendorId, productId, displayName, this.serial);
 
-      if (vendorId in supportedDevices &&
-          productId in supportedDevices[vendorId]) {
-        device.setDisplayName(supportedDevices[vendorId][productId]['name']);
-        device.setSupported(true);
-      } else if (devicePath in supportedPaths) {
-        device.setDisplayName(supportedPaths[devicePath]['name']);
-        device.setSupported(true);
+        if (vendorId in supportedDevices &&
+            productId in supportedDevices[vendorId]) {
+          device.setDisplayName(supportedDevices[vendorId][productId]['name']);
+          device.setSupported(true);
+        } else if (devicePath in supportedPaths) {
+          device.setDisplayName(supportedPaths[devicePath]['name']);
+          device.setSupported(true);
+        }
+
+        device.setConnectEvent(this.handleConnect_.bind(this));
+        device.setDisconnectEvent(this.handleDisconnect_.bind(this));
+        this.devices[devicePath] = device;
       }
-
-      device.setConnectEvent(this.handleConnect_.bind(this));
-      device.setDisconnectEvent(this.handleDisconnect_.bind(this));
-      this.devices[devicePath] = device;
     }
   }
 
