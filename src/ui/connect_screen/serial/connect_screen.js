@@ -1,7 +1,7 @@
 /**
- * @fileoverview Connect Screen for bluetooth devices.
+ * @fileoverview Connect Screen for serial devices.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.connectScreen.Bluetooth');
+goog.provide('cwc.ui.connectScreen.Serial');
 
-goog.require('cwc.soy.connectScreen.Bluetooth');
+goog.require('cwc.soy.connectScreen.Serial');
 
 
 
@@ -27,34 +27,35 @@ goog.require('cwc.soy.connectScreen.Bluetooth');
  * @param {!cwc.utils.Helper} helper
  * @constructor
  */
-cwc.ui.connectScreen.Bluetooth = function(helper) {
+cwc.ui.connectScreen.Serial = function(helper) {
   /** @type {string} */
-  this.name = 'ConnectScreenBluetooth';
+  this.name = 'ConnectScreenSerial';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('connectScreenBluetooth');
+  this.prefix = this.helper.getPrefix('connectScreenSerial');
 };
 
 
 /**
- * Shows bluetooth connect screen.
+ * Shows serial connect screen.
  */
-cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var bluetoothDevices = bluetoothInstance.getDevices();
+cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
+  var serialInstance = this.helper.getInstance('serial', true);
+  var serialDevices = serialInstance.getDevices();
   var devices = {};
-  for (let bluetoothDevice in bluetoothDevices) {
-    if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
-      var device = bluetoothDevices[bluetoothDevice];
-      devices[device.getAddress()] = this.parseDeviceData_(device);
+  console.log(serialDevices);
+  for (let serialDevice in serialDevices) {
+    if (serialDevices.hasOwnProperty(serialDevice)) {
+      var device = serialDevices[serialDevice];
+      devices[device.getPath()] = this.parseDeviceData_(device);
     }
   }
 
-  this.showTemplate_('Connect Bluetooth device',
-    cwc.soy.connectScreen.Bluetooth.devices, {
+  this.showTemplate_('Connect Serial device',
+    cwc.soy.connectScreen.Serial.devices, {
       prefix: this.prefix,
       devices: devices
     });
@@ -69,15 +70,15 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
  * @param {Event} e
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
+cwc.ui.connectScreen.Serial.prototype.handleAction_ = function(e) {
   var target = e.target;
   if (!target || !target.dataset || !target.hasAttribute('data-action')) {
     return;
   }
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  var serialInstance = this.helper.getInstance('serial');
   var action = target.dataset['action'];
-  var address = target.dataset['address'];
-  var device = bluetoothInstance.getDevice(address);
+  var path = target.dataset['path'];
+  var device = serialInstance.getDevice(path);
   if (!device) {
     return;
   }
@@ -95,23 +96,24 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
 };
 
 
+
 /**
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
+cwc.ui.connectScreen.Serial.prototype.close_ = function() {
   var dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.close();
 };
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.serial.Device} device
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
+cwc.ui.connectScreen.Serial.prototype.connectDevice_ = function(device) {
   this.close_();
-  this.showTemplate_('Connecting Bluetooth device',
-    cwc.soy.connectScreen.Bluetooth.connect, {
+  this.showTemplate_('Connecting serial device',
+    cwc.soy.connectScreen.Serial.connect, {
       device: this.parseDeviceData_(device)
     });
   device.connect(this.close_.bind(this));
@@ -119,13 +121,13 @@ cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.serial.Device} device
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
+cwc.ui.connectScreen.Serial.prototype.disconnectDevice_ = function(device) {
   this.close_();
-  this.showTemplate_('Disconnecting Bluetooth device',
-    cwc.soy.connectScreen.Bluetooth.disconnect, {
+  this.showTemplate_('Disconnecting serial device',
+    cwc.soy.connectScreen.Serial.disconnect, {
       device: this.parseDeviceData_(device)
     });
   device.disconnect(true, this.close_.bind(this));
@@ -138,7 +140,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
  * @param {Object} opt_context
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
+cwc.ui.connectScreen.Serial.prototype.showTemplate_ = function(title,
     template, opt_context) {
   var dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.showTemplate(title, template, opt_context);
@@ -146,16 +148,16 @@ cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.serial.Device} device
  * @return {Object}
  * @private
  */
-cwc.ui.connectScreen.Bluetooth.prototype.parseDeviceData_ = function(device) {
+cwc.ui.connectScreen.Serial.prototype.parseDeviceData_ = function(device) {
   return {
     'name': device.getName(),
-    'address': device.getAddress(),
+    'path': device.getPath(),
     'connected': device.isConnected(),
-    'type': device.getType(),
-    'icon': device.getIcon()
+    'type': '',
+    'icon': ''
   };
 };

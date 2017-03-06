@@ -44,9 +44,20 @@
     <div id="{$prefix}bluetooth-connected"></div>
     <div id="{$prefix}bluetooth-disabled"></div>
   </div>
-  <div id="{$prefix}usb-body">
-    <div id="{$prefix}usb"></div>
-    <div id="{$prefix}usb-connected"></div>
-    <div id="{$prefix}usb-disabled"></div>
+  <div id="{$prefix}serial-body">
+    <button id="{$prefix}serial" 
+            class="mdl-button mdl-js-button mdl-button--icon"
+            title="Connect serial device ...">
+      <i class="material-icons">usb</i>
+    </button>
+    <button id="{$prefix}serial-connected" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+      <i class="material-icons">usb</i>
+    </button>
+    <button id="{$prefix}serial-disabled"
+            class="mdl-button mdl-js-button mdl-button--icon" 
+            title="Serial is disabled!"
+            disabled>
+      <i class="material-icons">usb</i>
+    </button>
   </div>
 {/template}

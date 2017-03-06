@@ -137,8 +137,6 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommand('__start__', this.handleStart_, this);
 
   // Normal Commands
-  this.runner.addCommand('setMotor', this.command.setMotor, this);
-
   this.runner.addCommand('movePower', this.command.movePower, this);
   this.runner.addMonitor('movePower', this.monitor.movePower, this);
 

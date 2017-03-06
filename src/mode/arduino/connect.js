@@ -48,7 +48,7 @@ cwc.mode.arduino.Connect.prototype.init = function() {
 
 
 /**
- * @param {cwc.protocol.Serial.Device} device
+ * @param {cwc.protocol.serial.Device} device
  * @private
  */
 cwc.mode.arduino.Connect.prototype.handleConnect_ = function(device) {

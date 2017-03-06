@@ -22,7 +22,7 @@ goog.provide('cwc.runner.profile.ev3.Command');
 
 
 /**
- * @param {!cwc.protocol.sphero.Api} api
+ * @param {!cwc.protocol.ev3.Api} api
  * @constructor
  * @struct
  * @final

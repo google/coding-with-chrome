@@ -1,0 +1,121 @@
+/**
+ * @fileoverview Connect Screen for serial devices.
+ *
+ * @license Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.connectScreen.Serial autoescape="strict"}
+
+
+/**
+ * Devices template..
+ */
+{template .devices}
+  {@param prefix: string}
+  {@param devices: ?}
+
+  <ul id="{$prefix}device-list" class="mdl-list">
+    {foreach $device in keys($devices)}
+
+      {call .deviceList_}
+        {param path: $devices[$device]['path'] /}
+        {param connected: $devices[$device]['connected'] /}
+        {param icon: $devices[$device]['icon'] /}
+        {param type: $devices[$device]['type'] /}
+        {param name: $devices[$device]['name'] /}
+      {/call}
+
+    {/foreach}
+  </ul>
+{/template}
+
+
+/**
+ * Connect devices template..
+ */
+{template .connect}
+  {@param device: ?}
+
+  {msg desc=""}Connecting device {$device['name']} ({$device['type']}) at {$device['path']} ...{/msg}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
+ * Disconnect devices template..
+ */
+{template .disconnect}
+  {@param device: ?}
+
+  {msg desc=""}Disconnecting device {$device['name']} ({$device['type']}) at {$device['path']} ...{/msg}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
+ * Devices template..
+ */
+{template .deviceList_}
+  {@param path: string}
+  {@param connected: bool}
+  {@param icon: string}
+  {@param name: string}
+  {@param type: string}
+
+  <li class="mdl-list__item mdl-list__item--three-line">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons mdl-list__item-avatar">
+        {if $icon}
+          {$icon}
+        {else}
+          devices_other
+        {/if}
+      </i>
+      {if $connected}
+        <span>{$name}</span>
+      {else}
+        <span class="link_text"
+              data-action="connect"
+              data-path="{$path}"
+              title="{msg desc=""}Connect {$type} device{/msg}">
+          {$name}
+        </span>
+      {/if}
+      <span class="mdl-list__item-text-body">
+        {msg desc=""}Path: {$path}{/msg}<br>
+        {msg desc=""}{$type}{/msg}
+      </span>
+    </span>
+    <span class="">
+      {if $connected}
+        <i class="link_button material-icons mdl-button--accent"
+           data-action="disconnect"
+           data-path="{$path}"
+           title="{msg desc=""}Disonnect {$type} device{/msg}">
+          usb
+        </i>
+      {else}
+        <i class="link_button material-icons"
+           data-action="connect"
+           data-path="{$path}"
+           title="{msg desc=""}Connect {$type} device{/msg}">
+          usb
+        </i>
+      {/if}
+    </span>
+  </li>
+{/template}

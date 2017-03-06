@@ -216,6 +216,30 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.movePower = function(power,
 
 
 /**
+ * Sets left motor power
+ * @param  {!number} power 0-255
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.setLeftMotorPower = function(
+    power) {
+  this.send_(this.commands.movePower(power,
+    cwc.protocol.makeblock.mbotRanger.Slot.ONE));
+};
+
+
+/**
+ * Sets right motor power
+ * @param  {!number} power 0-255
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.setRightMotorPower = function(
+    power) {
+  this.send_(this.commands.movePower(power,
+    cwc.protocol.makeblock.mbotRanger.Slot.TWO));
+};
+
+
+/**
  * Powers the motor.
  * @param {!number} power (-255 - 255)
  * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
@@ -244,7 +268,15 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.moveSteps = function(steps,
     opt_power, opt_slot) {
-  this.send_(this.commands.moveSteps(steps, opt_power, opt_slot));
+  if (opt_slot === undefined) {
+    var motorPower = cwc.utils.NumberTools.MinMax(opt_power, -130, 130) || 130;
+    this.send_(this.commands.moveSteps(-steps, motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
+    this.send_(this.commands.moveSteps(steps, motorPower,
+      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
+  } else {
+    this.send_(this.commands.moveSteps(steps, opt_power, opt_slot));
+  }
 };
 
 

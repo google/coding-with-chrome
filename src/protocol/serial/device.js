@@ -17,12 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.Serial.Device');
+goog.provide('cwc.protocol.serial.Device');
 
 
 
 /**
- * @param {!string} device_id
  * @param {!string} path
  * @param {!number} vendor_id
  * @param {!number} product_id
@@ -30,11 +29,8 @@ goog.provide('cwc.protocol.Serial.Device');
  * @param {chrome_serial=} opt_serial
  * @constructor
  */
-cwc.protocol.Serial.Device = function(device_id, path, vendor_id,
-    product_id, opt_name, opt_serial) {
-
-  /** @type {!string} */
-  this.deviceId = device_id || '';
+cwc.protocol.serial.Device = function(path, vendor_id, product_id,
+    opt_name, opt_serial) {
 
   /** @type {!chrome.serial} */
   this.serial = opt_serial || chrome.serial;
@@ -52,7 +48,7 @@ cwc.protocol.Serial.Device = function(device_id, path, vendor_id,
   this.productId = product_id || 0;
 
   /** @type {!string} */
-  this.displayName = opt_name || '';
+  this.name = opt_name || '';
 
   /** @type {!boolean} */
   this.supportedDevice = false;
@@ -67,6 +63,9 @@ cwc.protocol.Serial.Device = function(device_id, path, vendor_id,
   this.connectionId = 0;
 
   /** @type {!Function} */
+  this.connectCallback = null;
+
+  /** @type {!Function} */
   this.connectEvent = null;
 
   /** @type {!Function} */
@@ -78,10 +77,19 @@ cwc.protocol.Serial.Device = function(device_id, path, vendor_id,
 
 
 /**
+ * @return {!boolean}
+ * @export
+ */
+cwc.protocol.serial.Device.prototype.isConnected = function() {
+  return this.connected;
+};
+
+
+/**
  * @param {!boolean} supported
  * @export
  */
-cwc.protocol.Serial.Device.prototype.setSupported = function(
+cwc.protocol.serial.Device.prototype.setSupported = function(
     supported) {
   this.supportedDevice = supported;
 };
@@ -91,7 +99,7 @@ cwc.protocol.Serial.Device.prototype.setSupported = function(
  * @return {!boolean}
  * @export
  */
-cwc.protocol.Serial.Device.prototype.isSupported = function() {
+cwc.protocol.serial.Device.prototype.isSupported = function() {
   return this.supportedDevice;
 };
 
@@ -100,8 +108,8 @@ cwc.protocol.Serial.Device.prototype.isSupported = function() {
  * @return {!string}
  * @export
  */
-cwc.protocol.Serial.Device.prototype.getDisplayName = function() {
-  return this.displayName;
+cwc.protocol.serial.Device.prototype.getName = function() {
+  return this.name;
 };
 
 
@@ -109,8 +117,8 @@ cwc.protocol.Serial.Device.prototype.getDisplayName = function() {
  * @param {!string} name
  * @export
  */
-cwc.protocol.Serial.Device.prototype.setDisplayName = function(name) {
-  this.displayName = name;
+cwc.protocol.serial.Device.prototype.setName = function(name) {
+  this.name = name;
 };
 
 
@@ -118,7 +126,7 @@ cwc.protocol.Serial.Device.prototype.setDisplayName = function(name) {
  * @return {!string}
  * @export
  */
-cwc.protocol.Serial.Device.prototype.getPath = function() {
+cwc.protocol.serial.Device.prototype.getPath = function() {
   return this.path;
 };
 
@@ -127,7 +135,7 @@ cwc.protocol.Serial.Device.prototype.getPath = function() {
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.Serial.Device.prototype.setConnectEvent = function(
+cwc.protocol.serial.Device.prototype.setConnectEvent = function(
     callback) {
   this.connectEvent = callback;
 };
@@ -137,7 +145,7 @@ cwc.protocol.Serial.Device.prototype.setConnectEvent = function(
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.Serial.Device.prototype.setDisconnectEvent = function(
+cwc.protocol.serial.Device.prototype.setDisconnectEvent = function(
     callback) {
   this.disconnectEvent = callback;
 };
@@ -147,17 +155,19 @@ cwc.protocol.Serial.Device.prototype.setDisconnectEvent = function(
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.Serial.Device.prototype.setDataHandler = function(
+cwc.protocol.serial.Device.prototype.setDataHandler = function(
     callback) {
   this.dataHandler = callback;
 };
 
 
 /**
+ * @param {Function} opt_callback Will be only called  after an connection.
  * @export
  */
-cwc.protocol.Serial.Device.prototype.connect = function() {
+cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
   console.log('Connect serial device', this.path, '…');
+  this.connectCallback = opt_callback;
   this.serial.connect(this.path, this.connectionOptions,
       this.handleConnect_.bind(this));
 };
@@ -167,13 +177,17 @@ cwc.protocol.Serial.Device.prototype.connect = function() {
  * @param {Object} connection_info
  * @private
  */
-cwc.protocol.Serial.Device.prototype.handleConnect_ = function(
+cwc.protocol.serial.Device.prototype.handleConnect_ = function(
     connection_info) {
   this.connectionInfos = connection_info;
   this.connectionId = connection_info['connectionId'];
   this.connected = true;
   if (goog.isFunction(this.connectEvent)) {
-    this.connectEvent(this.deviceId, this.connectionId);
+    this.connectEvent(this.path, this.connectionId);
+  }
+  if (goog.isFunction(this.connectCallback)) {
+    this.connectCallback(this.path, this.connectionId);
+    this.connectCallback = null;
   }
   console.log(connection_info);
 };
@@ -182,7 +196,7 @@ cwc.protocol.Serial.Device.prototype.handleConnect_ = function(
 /**
  * @export
  */
-cwc.protocol.Serial.Device.prototype.disconnect = function() {
+cwc.protocol.serial.Device.prototype.disconnect = function() {
   if (this.connected && this.connectionId) {
     console.log('Disconnect serial device', this.path, '…');
     this.serial.disconnect(this.connectionId,
@@ -197,11 +211,11 @@ cwc.protocol.Serial.Device.prototype.disconnect = function() {
  * @param {Object} result
  * @private
  */
-cwc.protocol.Serial.Device.prototype.handleDisconnect_ = function(
+cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(
     result) {
   if (result) {
     if (goog.isFunction(this.disconnectEvent)) {
-      this.disconnectEvent(this.deviceId, this.connectionId);
+      this.disconnectEvent(this.path, this.connectionId);
     }
     this.connected = false;
     this.connectionId = 0;
@@ -216,7 +230,7 @@ cwc.protocol.Serial.Device.prototype.handleDisconnect_ = function(
  * @param {ByteArray} data
  * @export
  */
-cwc.protocol.Serial.Device.prototype.send = function(data) {
+cwc.protocol.serial.Device.prototype.send = function(data) {
   if (this.connectionId && data) {
     this.serial.send(this.connectionId, data, this.handleSend_.bind(this));
   }
@@ -227,7 +241,7 @@ cwc.protocol.Serial.Device.prototype.send = function(data) {
  * @param {Object} send_info
  * @private
  */
-cwc.protocol.Serial.Device.prototype.handleSend_ = function(
+cwc.protocol.serial.Device.prototype.handleSend_ = function(
     send_info) {
   console.log(send_info);
 };
@@ -237,7 +251,7 @@ cwc.protocol.Serial.Device.prototype.handleSend_ = function(
  * @param {ArrayBuffer} data
  * @export
  */
-cwc.protocol.Serial.Device.prototype.handleData = function(data) {
+cwc.protocol.serial.Device.prototype.handleData = function(data) {
   if (data && this.dataHandler) {
     this.dataHandler(data);
   }
@@ -248,7 +262,7 @@ cwc.protocol.Serial.Device.prototype.handleData = function(data) {
  * @param {string} error
  * @export
  */
-cwc.protocol.Serial.Device.prototype.handleError = function(error) {
+cwc.protocol.serial.Device.prototype.handleError = function(error) {
   console.log('handleError', error);
   if (error == 'device_lost') {
     this.disconnect();

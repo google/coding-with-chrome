@@ -17,12 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.Serial.Devices');
+goog.provide('cwc.protocol.serial.Devices');
 
-goog.require('cwc.protocol.Serial.Device');
+goog.require('cwc.protocol.serial.Device');
 goog.require('cwc.protocol.Serial.supportedDevicePaths');
 goog.require('cwc.protocol.Serial.supportedDevices');
 goog.require('cwc.protocol.Serial.unsupportedDevicePaths');
+
+goog.require('goog.Timer');
 
 
 
@@ -31,10 +33,13 @@ goog.require('cwc.protocol.Serial.unsupportedDevicePaths');
  * @param {!chrome.serial} serial
  * @constructor
  */
-cwc.protocol.Serial.Devices = function(helper, serial) {
+cwc.protocol.serial.Devices = function(helper, serial) {
 
   /** @type {cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = helper.getLogger();
 
   /** @type {!chrome.serial} */
   this.serial = serial;
@@ -44,13 +49,39 @@ cwc.protocol.Serial.Devices = function(helper, serial) {
 
   /** @type {Object} */
   this.connectionIds = {};
+
+  /** @type {!number} */
+  this.updateDevicesInterval = 5000;
+
+  /** @type {!goog.Timer} */
+  this.deviceMonitor = new goog.Timer(this.updateDevicesInterval);
+
+  /** @type {!Array} */
+  this.listener = [];
 };
 
 
 /**
  * @export
  */
-cwc.protocol.Serial.Devices.prototype.updateDevices = function() {
+cwc.protocol.serial.Devices.prototype.prepare = function() {
+  if (this.prepared) {
+    return;
+  }
+
+  this.log_.debug('Preparing serial devices ...');
+  this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
+      this.updateDevices.bind(this));
+  this.deviceMonitor.start();
+  this.updateDevices();
+  this.preapred = true;
+};
+
+
+/**
+ * @export
+ */
+cwc.protocol.serial.Devices.prototype.updateDevices = function() {
   if (this.devices) {
     this.devices = {};
   }
@@ -59,16 +90,25 @@ cwc.protocol.Serial.Devices.prototype.updateDevices = function() {
 
 
 /**
- * @param {!string} device_id
- * @return {cwc.protocol.Serial.Device}
+ * @param {!string} device_path
+ * @return {cwc.protocol.serial.Device}
  * @export
  */
-cwc.protocol.Serial.Devices.prototype.getDevice = function(device_id) {
-  if (device_id in this.devices) {
-    return this.devices[device_id];
+cwc.protocol.serial.Devices.prototype.getDevice = function(device_path) {
+  if (device_path in this.devices) {
+    return this.devices[device_path];
   }
-  console.error('The following device id is unknown:', device_id);
+  this.log_.error('The following device id is unknown:', device_path);
   return null;
+};
+
+
+/**
+ * @return {Object}
+ * @export
+ */
+cwc.protocol.serial.Devices.prototype.getDevices = function() {
+  return this.devices;
 };
 
 
@@ -77,7 +117,7 @@ cwc.protocol.Serial.Devices.prototype.getDevice = function(device_id) {
  * @param {ByteArray} data
  * @export
  */
-cwc.protocol.Serial.Devices.prototype.receiveData = function(
+cwc.protocol.serial.Devices.prototype.receiveData = function(
     connection_id, data) {
   if (connection_id in this.connectionIds) {
     this.connectionIds[connection_id].handleData(data);
@@ -90,7 +130,7 @@ cwc.protocol.Serial.Devices.prototype.receiveData = function(
  * @param {!string} error
  * @export
  */
-cwc.protocol.Serial.Devices.prototype.receiveError = function(
+cwc.protocol.serial.Devices.prototype.receiveError = function(
     connection_id, error) {
   if (connection_id in this.connectionIds) {
     this.connectionIds[connection_id].handleError(error);
@@ -99,25 +139,25 @@ cwc.protocol.Serial.Devices.prototype.receiveError = function(
 
 
 /**
- * @param {!string} device_id
+ * @param {!string} device_path
  * @param {!number} connection_id
  * @private
  */
-cwc.protocol.Serial.Devices.prototype.handleConnect_ = function(
-    device_id, connection_id) {
-  console.log('Connect', device_id, connection_id);
-  this.connectionIds[connection_id] = this.devices[device_id];
+cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
+    device_path, connection_id) {
+  this.log_.debug('Connect', device_path, connection_id);
+  this.connectionIds[connection_id] = this.devices[device_path];
 };
 
 
 /**
- * @param {!string} device_id
+ * @param {!string} device_path
  * @param {!number} connection_id
  * @private
  */
-cwc.protocol.Serial.Devices.prototype.handleDisconnect_ = function(
-    device_id, connection_id) {
-  console.log('Disconnect', device_id, connection_id);
+cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
+    device_path, connection_id) {
+  this.log_.debug('Disconnect', device_path, connection_id);
   this.connectionIds[connection_id] = null;
 };
 
@@ -126,39 +166,38 @@ cwc.protocol.Serial.Devices.prototype.handleDisconnect_ = function(
  * @param {?} devices
  * @private
  */
-cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
+cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     devices) {
   var filteredDevices = [];
 
   if (!devices || devices.length == 0) {
-    console.warn('Did not find any serial devices!');
+    this.log_.warn('Did not find any serial devices!');
   } else {
     var unsupportedPaths = cwc.protocol.Serial.unsupportedDevicePaths;
     for (let i = 0; i < devices.length; i++) {
       if (devices[i].path in unsupportedPaths) {
-        console.log('Ignored serial device:', devices[i]);
+        this.log_.debug('Ignored serial device:', devices[i]);
       } else {
-        console.log('Found serial device:', devices[i]);
+        this.log_.debug('Found serial device:', devices[i]);
         filteredDevices.push(devices[i]);
       }
     }
   }
 
   if (!filteredDevices) {
-    console.warn('Did not find any supported serial device!');
+    this.log_.warn('Did not find any supported serial device!');
   } else {
     var supportedDevices = cwc.protocol.Serial.supportedDevices;
     var supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
-    console.info('Found', filteredDevices.length, 'serial devices …');
-    for (let i2 = 0; i2 < filteredDevices.length; i2++) {
-      var deviceEntry = filteredDevices[i2];
-      var devicePath = deviceEntry.path;
-      var vendorId = deviceEntry.vendorId;
-      var productId = deviceEntry.productId;
-      var deviceId = btoa(devicePath);
-      var displayName = '';
-      var device = new cwc.protocol.Serial.Device(
-          deviceId, devicePath, vendorId, productId, displayName, this.serial);
+    this.log_.debug('Found', filteredDevices.length, 'serial devices …');
+    for (let i = 0; i < filteredDevices.length; i++) {
+      var deviceEntry = filteredDevices[i];
+      var devicePath = deviceEntry['path'];
+      var displayName = deviceEntry['displayName'] || '';
+      var productId = deviceEntry['productId'];
+      var vendorId = deviceEntry['vendorId'];
+      var device = new cwc.protocol.serial.Device(
+        devicePath, vendorId, productId, displayName, this.serial);
 
       if (vendorId in supportedDevices &&
           productId in supportedDevices[vendorId]) {
@@ -171,7 +210,7 @@ cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
 
       device.setConnectEvent(this.handleConnect_.bind(this));
       device.setDisconnectEvent(this.handleDisconnect_.bind(this));
-      this.devices[deviceId] = device;
+      this.devices[devicePath] = device;
     }
   }
 
@@ -179,4 +218,24 @@ cwc.protocol.Serial.Devices.prototype.handleGetDevices_ = function(
   if (connectionManagerInstance) {
     connectionManagerInstance.setSerialDevices(this.devices);
   }
+};
+
+
+/**
+ * Adds an event listener for a specific event on a native event
+ * target (such as a DOM element) or an object that has implemented
+ * {@link goog.events.Listenable}.
+ *
+ * @param {EventTarget|goog.events.Listenable} src
+ * @param {string} type
+ * @param {function(?)} listener
+ * @param {boolean=} opt_useCapture
+ * @param {Object=} opt_listenerScope
+ * @private
+ */
+cwc.protocol.serial.Devices.prototype.addEventListener_ = function(src, type,
+    listener, opt_useCapture, opt_listenerScope) {
+  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+      opt_listenerScope);
+  goog.array.insert(this.listener, eventListener);
 };

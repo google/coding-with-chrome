@@ -61,7 +61,7 @@ goog.scope(function() {
    * @param {Object} data data package
    */
   Command['moveSteps'] = function(data) {
-    this.api.moveSteps(data['steps'], data['rpm'], data['slot']);
+    this.api.moveSteps(data['steps'], data['power'], data['slot']);
   };
 
 

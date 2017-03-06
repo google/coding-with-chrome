@@ -27,7 +27,7 @@
 #{$prefix}menubar-maximize-body,
 #{$prefix}menubar-minimize,
 #{$prefix}menubar-settings,
-#{$prefix}menubar-usb-body {
+#{$prefix}menubar-serial-body {
   float: right;
   margin: 5px;
   z-index: 1;

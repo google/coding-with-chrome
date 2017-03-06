@@ -34,20 +34,6 @@ cwc.runner.profile.makeblock.mbot.Command = function(api) {
 
 
 /**
- * set motor speed of mbot
- * @param  {Object} data
- * @export
- */
-cwc.runner.profile.makeblock.mbot.Command.prototype.setMotor = function(data) {
-  if (data['direction'] == 1) {
-    this.api.setLeftMotor(data['speed']);
-  } else {
-    this.api.setRightMotor(data['speed']);
-  }
-};
-
-
-/**
  * move mbot forward or backward
  * @param {Object} data data package
  */

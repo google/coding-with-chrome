@@ -71,7 +71,7 @@ cwc.ui.ConnectionManager = function(helper) {
   /** @type {cwc.protocol.bluetooth.Device} */
   this.bluetoothDevice = null;
 
-  /** @type {cwc.protocol.Serial.Device} */
+  /** @type {cwc.protocol.serial.Device} */
   this.serialDevice = null;
 
   /** @type {function(?)} */
@@ -179,7 +179,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDeviceOffline_ = function() {
 
 
 /**
- * @param {!cwc.protocol.Serial.Devices.devices} devices
+ * @param {!cwc.protocol.serial.Devices.devices} devices
  * @export
  */
 cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
@@ -247,7 +247,7 @@ cwc.ui.ConnectionManager.prototype.connectSerialDevice_ = function(
 
 
 /**
- * @return {cwc.protocol.Serial.Device}
+ * @return {cwc.protocol.serial.Device}
  */
 cwc.ui.ConnectionManager.prototype.getSerialDevice = function() {
   return this.serialDevice;
@@ -255,7 +255,7 @@ cwc.ui.ConnectionManager.prototype.getSerialDevice = function() {
 
 
 /**
- * @param {!cwc.protocol.Serial.Devices.devices} devices
+ * @param {!cwc.protocol.serial.Devices.devices} devices
  * @export
  */
 cwc.ui.ConnectionManager.prototype.setBluetoothDevices = function(

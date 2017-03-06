@@ -202,14 +202,14 @@ describe('StackQueue (no autostart)', function() {
     }, 100);
     window.setTimeout(function() {
       expect(counter).toEqual(2);
-    }, 225);
+    }, 250);
     window.setTimeout(function() {
       expect(counter).toEqual(3);
-    }, 325);
+    }, 350);
     window.setTimeout(function() {
       expect(counter).toEqual(4);
       done();
-    }, 425);
+    }, 450);
   });
 
   it('stop', function(done) {

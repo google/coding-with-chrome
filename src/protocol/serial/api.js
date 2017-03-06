@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.Serial.api');
+goog.provide('cwc.protocol.serial.Api');
 
-goog.require('cwc.protocol.Serial.Devices');
+goog.require('cwc.protocol.serial.Devices');
 
 
 
@@ -29,7 +29,7 @@ goog.require('cwc.protocol.Serial.Devices');
  * @struct
  * @final
  */
-cwc.protocol.Serial.api = function(helper) {
+cwc.protocol.serial.Api = function(helper) {
   /** @type {string} */
   this.name = 'Serial';
 
@@ -42,7 +42,7 @@ cwc.protocol.Serial.api = function(helper) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {cwc.protocol.Serial.Devices} */
+  /** @type {cwc.protocol.serial.Devices} */
   this.devices = null;
 
   /** @type {Object} */
@@ -62,11 +62,14 @@ cwc.protocol.Serial.api = function(helper) {
  * Prepares the serial communication.
  * @export
  */
-cwc.protocol.Serial.api.prototype.prepare = function() {
+cwc.protocol.serial.Api.prototype.prepare = function() {
   if (this.serial_ && !this.prepared) {
     console.log('Prepare serial support …');
-    this.devices = new cwc.protocol.Serial.Devices(this.helper, this.serial_);
-    this.updateDevices();
+
+    // Monitor serial devices
+    this.devices = new cwc.protocol.serial.Devices(this.helper, this.serial_);
+    this.devices.prepare();
+
     this.addEventListener_();
     this.prepared = true;
   }
@@ -76,7 +79,7 @@ cwc.protocol.Serial.api.prototype.prepare = function() {
 /**
  * @export
  */
-cwc.protocol.Serial.api.prototype.updateDevices = function() {
+cwc.protocol.serial.Api.prototype.updateDevices = function() {
   if (this.devices) {
     this.devices.updateDevices();
   }
@@ -85,11 +88,23 @@ cwc.protocol.Serial.api.prototype.updateDevices = function() {
 
 /**
  * @param {!string} device_id
- * @return {cwc.protocol.Serial.Device}
+ * @return {cwc.protocol.serial.Device}
  * @export
  */
-cwc.protocol.Serial.api.prototype.getDevice = function(device_id) {
+cwc.protocol.serial.Api.prototype.getDevice = function(device_id) {
   return this.devices.getDevice(device_id);
+};
+
+
+/**
+ * @return {Object}
+ * @export
+ */
+cwc.protocol.serial.Api.prototype.getDevices = function() {
+  if (this.devices) {
+    return this.devices.getDevices();
+  }
+  return null;
 };
 
 
@@ -97,7 +112,7 @@ cwc.protocol.Serial.api.prototype.getDevice = function(device_id) {
  * Adds the different types of event listener to device.
  * @private
  */
-cwc.protocol.Serial.api.prototype.addEventListener_ = function() {
+cwc.protocol.serial.Api.prototype.addEventListener_ = function() {
   chrome.serial.onReceive.addListener(
       this.handleOnReceive_.bind(this));
   chrome.serial.onReceiveError.addListener(
@@ -109,7 +124,7 @@ cwc.protocol.Serial.api.prototype.addEventListener_ = function() {
  * @param {Object} info
  * @private
  */
-cwc.protocol.Serial.api.prototype.handleOnReceive_ = function(info) {
+cwc.protocol.serial.Api.prototype.handleOnReceive_ = function(info) {
   this.devices.receiveData(info['connectionId'], info['data']);
 };
 
@@ -118,7 +133,7 @@ cwc.protocol.Serial.api.prototype.handleOnReceive_ = function(info) {
  * @param {Object} info
  * @private
  */
-cwc.protocol.Serial.api.prototype.handleOnReceiveError_ = function(
+cwc.protocol.serial.Api.prototype.handleOnReceiveError_ = function(
     info) {
   this.devices.receiveError(info['connectionId'], info['error']);
 };

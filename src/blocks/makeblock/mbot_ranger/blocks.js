@@ -110,6 +110,24 @@ Blockly.Blocks['mbot_ranger_move_backward_time'] = {
 
 
 /**
+ * Move backward steps.
+ */
+Blockly.Blocks['mbot_ranger_move_backward_steps'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('steps').setCheck('Number')
+      .appendField('move backward for');
+    this.appendValueInput('speed').setCheck('Number').appendField('steps with');
+    this.appendDummyInput().appendField('speed');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Move the robot backward for the specific steps.');
+  }
+};
+
+
+/**
  * Rotate left.
  */
 Blockly.Blocks['mbot_ranger_rotate_left'] = {

@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.connectScreen.Screens');
 
 goog.require('cwc.ui.connectScreen.Bluetooth');
-
+goog.require('cwc.ui.connectScreen.Serial');
 
 
 /**
@@ -45,6 +45,9 @@ cwc.ui.connectScreen.Screens = function(helper) {
 
   /** @type {cwc.ui.connectScreen.Bluetooth} */
   this.bluetoothScreen = new cwc.ui.connectScreen.Bluetooth(this.helper);
+
+  /** @type {cwc.ui.connectScreen.Serial} */
+  this.serialScreen = new cwc.ui.connectScreen.Serial(this.helper);
 };
 
 
@@ -53,4 +56,12 @@ cwc.ui.connectScreen.Screens = function(helper) {
  */
 cwc.ui.connectScreen.Screens.prototype.showBluetoothDevices = function() {
   this.bluetoothScreen.showDevices();
+};
+
+
+/**
+ * Shows serial connect screen.
+ */
+cwc.ui.connectScreen.Screens.prototype.showSerialDevices = function() {
+  this.serialScreen.showDevices();
 };

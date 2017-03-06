@@ -41,7 +41,7 @@ cwc.protocol.Arduino.api = function(helper) {
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
-  /** @type {cwc.protocol.Serial.Device} */
+  /** @type {cwc.protocol.serial.Device} */
   this.device = null;
 
   /** @type {boolean} */
@@ -54,7 +54,7 @@ cwc.protocol.Arduino.api = function(helper) {
 
 /**
  * Connects the Arduino.
- * @param {!cwc.protocol.Serial.Device} device
+ * @param {!cwc.protocol.serial.Device} device
  * @return {boolean} Was able to prepare and connect to the Arduino.
  * @export
  */

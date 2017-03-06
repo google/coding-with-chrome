@@ -43,7 +43,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.fileHandler.FileSaver|
  *   cwc.mode.Modder|
  *   cwc.protocol.Arduino.api|
- *   cwc.protocol.Serial.api|
+ *   cwc.protocol.serial.Api|
  *   cwc.protocol.bluetooth.Api|
  *   cwc.protocol.ev3.Api|
  *   cwc.renderer.Renderer|

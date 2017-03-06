@@ -46,15 +46,15 @@ Blockly.JavaScript['mbot_ranger_move_forward_time'] = function(block) {
 
 
 /**
- * mBot move forward time.
+ * mBot move forward steps.
  */
 Blockly.JavaScript['mbot_ranger_move_forward_steps'] = function(block) {
   var steps = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'step', Blockly.JavaScript.ORDER_ATOMIC));
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
   var speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mBotRanger.moveSteps(' + steps + ', ' + speed + ', true);\n';
+  return 'mBotRanger.moveSteps(' + steps + ', ' + speed + ');\n';
 };
 
 
@@ -79,6 +79,19 @@ Blockly.JavaScript['mbot_ranger_move_backward_time'] = function(block) {
 
   return 'mBotRanger.movePowerTime(' + (time * 1000) + ', ' + (-speed) +
     ', true);\n';
+};
+
+
+/**
+ * mBot move backward steps.
+ */
+Blockly.JavaScript['mbot_ranger_move_backward_steps'] = function(block) {
+  var steps = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'steps', Blockly.JavaScript.ORDER_ATOMIC));
+  var speed = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+
+  return 'mBotRanger.moveSteps(' + (-steps) + ', ' + speed + ');\n';
 };
 
 
@@ -144,7 +157,7 @@ Blockly.JavaScript['mbot_ranger_stop_moving'] = function(opt_block) {
 Blockly.JavaScript['mbot_ranger_lightness_sensor_change'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var lightnessSensorEvent = function(sensor_1, sensor_2) {\n' +
-      statements_code +
+    '  var lightness = sensor_1;\n' + statements_code +
     '};\nmBotRanger.onLightnessSensorChange(lightnessSensorEvent);\n';
 };
 

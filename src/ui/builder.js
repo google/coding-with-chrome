@@ -32,7 +32,7 @@ goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.Arduino.api');
-goog.require('cwc.protocol.Serial.api');
+goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
@@ -104,7 +104,7 @@ cwc.ui.BuilderHelpers = {
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
-  'serial': cwc.protocol.Serial.api,
+  'serial': cwc.protocol.serial.Api,
   'settingScreen': cwc.ui.SettingScreen,
   'sphero': cwc.protocol.sphero.Api,
   'turtle': cwc.ui.Turtle
@@ -447,6 +447,17 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
 
 
 /**
+ * Prepare serial interface if needed.
+ */
+cwc.ui.Builder.prototype.prepareSerial = function() {
+  var serialInstance = this.helper.getInstance('serial');
+  if (this.helper.checkChromeFeature('serial') && serialInstance) {
+    serialInstance.prepare();
+  }
+};
+
+
+/**
  * Prepare debug mode if needed.
  * @private
  */
@@ -469,17 +480,6 @@ cwc.ui.Builder.prototype.prepareExperimental_ = function() {
     experimentalInstance.prepare();
   }
   this.helper.setInstance('experimental', experimentalInstance);
-};
-
-
-/**
- * Prepare serial interface if needed.
- */
-cwc.ui.Builder.prototype.prepareSerial = function() {
-  var serialInstance = this.helper.getInstance('serial');
-  if (this.helper.checkChromeFeature('serial') && serialInstance) {
-    serialInstance.prepare();
-  }
 };
 
 
