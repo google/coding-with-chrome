@@ -51,7 +51,7 @@ closureBuilder.build({
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
-    'src/protocol/ev3/*.js',
+    'src/protocol/robots/ev3/*.js',
     'src/utils/stack_queue.js'
   ]),
   out: 'genfiles/frameworks/internal/ev3_framework.js'
@@ -124,6 +124,23 @@ closureBuilder.build({
     'build/externs/phaser.js'
   ],
   out: 'genfiles/frameworks/internal/phaser_framework.js'
+});
+
+
+/**
+ * Raspberry Pi Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.RaspberryPi',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/raspberry_pi/*.js'
+  ]),
+  deps: [
+    'src/frameworks/internal/runner/runner.js',
+    'src/utils/stack_queue.js'
+  ],
+  out: 'genfiles/frameworks/internal/raspberry_pi_framework.js'
 });
 
 

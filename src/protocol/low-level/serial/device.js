@@ -41,6 +41,9 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id,
   /** @type {!boolean} */
   this.connected = false;
 
+  /** @type {!boolean} */
+  this.connecting = false;
+
   /** @type {!number} */
   this.vendorId = vendor_id || 0;
 
@@ -72,6 +75,9 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id,
   this.connectEvent = null;
 
   /** @type {!Function} */
+  this.disconnectCallback = null;
+
+  /** @type {!Function} */
   this.disconnectEvent = null;
 
   /** @type {!Function} */
@@ -92,8 +98,7 @@ cwc.protocol.serial.Device.prototype.isConnected = function() {
  * @param {!boolean} supported
  * @export
  */
-cwc.protocol.serial.Device.prototype.setSupported = function(
-    supported) {
+cwc.protocol.serial.Device.prototype.setSupported = function(supported) {
   this.supportedDevice = supported;
 };
 
@@ -138,8 +143,7 @@ cwc.protocol.serial.Device.prototype.getPath = function() {
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.serial.Device.prototype.setConnectEvent = function(
-    callback) {
+cwc.protocol.serial.Device.prototype.setConnectEvent = function(callback) {
   this.connectEvent = callback;
 };
 
@@ -148,8 +152,7 @@ cwc.protocol.serial.Device.prototype.setConnectEvent = function(
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.serial.Device.prototype.setDisconnectEvent = function(
-    callback) {
+cwc.protocol.serial.Device.prototype.setDisconnectEvent = function(callback) {
   this.disconnectEvent = callback;
 };
 
@@ -158,18 +161,16 @@ cwc.protocol.serial.Device.prototype.setDisconnectEvent = function(
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.serial.Device.prototype.setDataHandler = function(
-    callback) {
+cwc.protocol.serial.Device.prototype.setDataHandler = function(callback) {
   this.dataHandler = callback;
 };
 
 
 /**
- * @param {Function} opt_callback Will be only called  after an connection.
+ * @param {Function=} opt_callback
  * @export
  */
 cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
-
   if (this.connected && this.connectionId) {
     console.warn('Serial device at', this.path, 'is already connected',
       'with connection id', this.connectionId, '!');
@@ -184,16 +185,25 @@ cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
 
 
 /**
+ * @param {boolean=} opt_force
+ * @param {Function=} opt_callback
  * @export
  */
-cwc.protocol.serial.Device.prototype.disconnect = function() {
-  if (this.connectionId) {
-    console.log('Disconnect serial device', this.path, '…');
-    this.serial.disconnect(this.connectionId,
-        this.handleDisconnect_.bind(this));
-  } else {
-    console.warn('Device was not connected …');
+cwc.protocol.serial.Device.prototype.disconnect = function(opt_force,
+    opt_callback) {
+  if (this.connectionId == null) {
+    if (opt_force) {
+      this.connecting = false;
+    }
+    if (opt_callback) {
+      opt_callback();
+    }
+    return;
   }
+  if (opt_callback) {
+    this.disconnectCallback = opt_callback;
+  }
+  this.serial.disconnect(this.connectionId, this.handleDisconnect_.bind(this));
 };
 
 
@@ -252,7 +262,6 @@ cwc.protocol.serial.Device.prototype.handleConnect_ = function(
     this.connectCallback = null;
   }
   console.log(connection_info);
-  this.sendText('000ßßß#');
 };
 
 
@@ -260,11 +269,14 @@ cwc.protocol.serial.Device.prototype.handleConnect_ = function(
  * @param {Object} result
  * @private
  */
-cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(
-    result) {
+cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(result) {
   if (result) {
     if (goog.isFunction(this.disconnectEvent)) {
       this.disconnectEvent(this.path, this.connectionId);
+    }
+    if (goog.isFunction(this.disconnectCallback)) {
+      this.disconnectCallback(this.path, this.disconnectionId);
+      this.disconnectCallback = null;
     }
     console.log('Disconnected from serial connection id', this.connectionId);
     this.connected = false;
@@ -280,8 +292,7 @@ cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(
  * @param {Object} send_info
  * @private
  */
-cwc.protocol.serial.Device.prototype.handleSend_ = function(
-    send_info) {
+cwc.protocol.serial.Device.prototype.handleSend_ = function(send_info) {
   if (chrome.runtime.lastError) {
     var errorMessage = chrome.runtime.lastError.message;
     if ((errorMessage.toLowerCase().includes('socket') &&
@@ -293,8 +304,13 @@ cwc.protocol.serial.Device.prototype.handleSend_ = function(
     } else {
       console.error('Serial error:', errorMessage);
     }
+  } else if (send_info && send_info['error']) {
+    if (send_info['error'] == 'pending') {
+      console.warn('Serial connection pending data ...');
+    } else {
+      console.error('Serial error:', send_info['error']);
+    }
   }
-  console.log(send_info);
 };
 
 
@@ -303,9 +319,14 @@ cwc.protocol.serial.Device.prototype.handleSend_ = function(
  * @export
  */
 cwc.protocol.serial.Device.prototype.handleData = function(data) {
-  if (data && this.dataHandler) {
-    this.dataHandler(data);
+  if (!data) {
+    return;
   }
+  if (!this.dataHandler) {
+    return;
+  }
+
+  this.dataHandler(data);
 };
 
 
@@ -319,4 +340,3 @@ cwc.protocol.serial.Device.prototype.handleError = function(error) {
     this.disconnect();
   }
 };
-

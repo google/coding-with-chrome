@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.arduino.Runner');
 
-goog.require('cwc.protocol.Arduino.api');
+goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.utils.Helper');
 goog.require('goog.Timer');
@@ -43,7 +43,7 @@ cwc.mode.arduino.Runner = function(helper) {
   /** @type {string} */
   this.prefix = helper.getPrefix('arduino-runner');
 
-  /** @type {cwc.protocol.Arduino.api} */
+  /** @type {cwc.protocol.arduino.Api} */
   this.arduino = null;
 
   /** @type {Element} */

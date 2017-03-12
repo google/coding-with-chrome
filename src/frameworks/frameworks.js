@@ -58,6 +58,7 @@ cwc.framework.Internal = {
   MBOT_RANGER: 'mbot_ranger_framework.js',
   PHASER: 'phaser_framework.js',
   PYTHON: 'python_framework.js',
+  RASPBERRY_PI: 'raspberry_pi_framework.js',
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',
   SPHERO: 'sphero_framework.js',

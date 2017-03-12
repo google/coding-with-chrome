@@ -31,12 +31,13 @@ goog.require('cwc.fileHandler.FileSaver');
 goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
-goog.require('cwc.protocol.Arduino.api');
-goog.require('cwc.protocol.serial.Api');
+goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.bluetooth.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
+goog.require('cwc.protocol.raspberryPi.Api');
+goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
@@ -77,14 +78,11 @@ goog.require('goog.dom');
  * @type {!Object.<Function>|Function}
  */
 cwc.ui.BuilderHelpers = {
-  'arduino': cwc.protocol.Arduino.api,
   'blockly': cwc.ui.Blockly,
-  'bluetooth': cwc.protocol.bluetooth.Api,
   'connectScreen': cwc.ui.connectScreen.Screens,
   'connectionManager': cwc.ui.ConnectionManager,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
-  'ev3': cwc.protocol.ev3.Api,
   'file': cwc.fileHandler.File,
   'fileCreator': cwc.fileHandler.FileCreator,
   'fileExporter': cwc.fileHandler.FileExporter,
@@ -94,8 +92,6 @@ cwc.ui.BuilderHelpers = {
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
-  'mbot': cwc.protocol.makeblock.mbot.Api,
-  'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
   'menubar': cwc.ui.Menubar,
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
@@ -104,10 +100,29 @@ cwc.ui.BuilderHelpers = {
   'renderer': cwc.renderer.Renderer,
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
-  'serial': cwc.protocol.serial.Api,
   'settingScreen': cwc.ui.SettingScreen,
-  'sphero': cwc.protocol.sphero.Api,
   'turtle': cwc.ui.Turtle
+};
+
+
+/**
+ * General helpers.
+ * @type {!Object.<Function>|Function}
+ */
+cwc.ui.supportedProtocols = {
+  // Low-level
+  'bluetooth': cwc.protocol.bluetooth.Api,
+  'serial': cwc.protocol.serial.Api,
+
+  // Boards
+  'arduino': cwc.protocol.arduino.Api,
+  'raspberryPi': cwc.protocol.raspberryPi.Api,
+
+  // Robots
+  'ev3': cwc.protocol.ev3.Api,
+  'mbot': cwc.protocol.makeblock.mbot.Api,
+  'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
+  'sphero': cwc.protocol.sphero.Api
 };
 
 
@@ -183,7 +198,7 @@ cwc.ui.Builder.prototype.decorate = function(node,
   }
   this.nodeOverlayer = opt_overlayer || null;
 
-  this.addEventListener(window, goog.events.EventType.ERROR, function(event) {
+  this.addEventListener_(window, goog.events.EventType.ERROR, function(event) {
     var browserEvent = event.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
@@ -280,6 +295,11 @@ cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error) {
     this.setProgress('Prepare dialog ...', 25, 100);
     this.prepareDialog();
+  }
+
+  if (!this.error) {
+    this.setProgress('Prepare protocols ...', 28, 100);
+    this.prepareProtocols();
   }
 
   if (!this.error) {
@@ -500,6 +520,26 @@ cwc.ui.Builder.prototype.prepareDialog = function() {
 
 
 /**
+ * Prepare and load the supported protocols.
+ */
+cwc.ui.Builder.prototype.prepareProtocols = function() {
+  this.log_.debug('Prepare Protocols instances ...');
+  var protocols = cwc.ui.supportedProtocols;
+  var numOfProtocols = Object.keys(protocols).length;
+  var counter = 1;
+  for (let protocol in protocols) {
+    if (protocols.hasOwnProperty(protocol)) {
+      this.setProgress('Loading protocol: ' + protocol, counter,
+        numOfProtocols);
+      this.loadHelper(protocols[protocol], protocol);
+      counter++;
+    }
+  }
+  this.prepared = true;
+};
+
+
+/**
  * Prepare the UI and load the needed additional extensions.
  */
 cwc.ui.Builder.prototype.prepareHelper = function() {
@@ -618,8 +658,9 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
  * @param {function()} listener
  * @param {boolean=} opt_useCapture
  * @param {Object=} opt_listenerScope
+ * @private
  */
-cwc.ui.Builder.prototype.addEventListener = function(src, type,
+cwc.ui.Builder.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);

@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor for the EV3 modification.
+ * @fileoverview Editor for the Raspberry Pi modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.advanced.Editor');
+goog.provide('cwc.mode.raspberryPi.advanced.Editor');
 
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -31,7 +31,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.mode.ev3.advanced.Editor = function(helper) {
+cwc.mode.raspberryPi.advanced.Editor = function(helper) {
   /** @type {!cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
 
@@ -45,14 +45,14 @@ cwc.mode.ev3.advanced.Editor = function(helper) {
   this.nodeEditor = null;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3');
+  this.prefix = helper.getPrefix('raspberry_pi');
 };
 
 
 /**
  * Decorates the simple editor.
  */
-cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
+cwc.mode.raspberryPi.advanced.Editor.prototype.decorate = function() {
   this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
   if (!this.nodeEditor) {
     console.error('Was unable to find Editor node:', this.nodeEditor);
@@ -70,7 +70,7 @@ cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
 /**
  * Runs / Executes the code.
  */
-cwc.mode.ev3.advanced.Editor.prototype.runCode = function() {
+cwc.mode.raspberryPi.advanced.Editor.prototype.runCode = function() {
   var runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();

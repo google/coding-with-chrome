@@ -304,8 +304,6 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
   if (!devices || devices.length == 0) {
     this.log_.warn('Did not find any Bluetooth devices!');
   }
-  var connectionManagerInstance = this.helper.getInstance('connectionManager');
-  var menubarInstance = this.helper.getInstance('menubar');
   var deviceConnected = false;
   for (let i = 0; i < devices.length; i++) {
     var deviceEntry = devices[i];
@@ -337,10 +335,12 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
     }
   }
 
+  var menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setBluetoothConnected(deviceConnected);
   }
 
+  var connectionManagerInstance = this.helper.getInstance('connectionManager');
   if (connectionManagerInstance) {
     connectionManagerInstance.setBluetoothDevices(this.devices);
   }

@@ -41,6 +41,7 @@ cwc.mode.Type = {
   PHASER: 'phaser',
   PHASER_BLOCKLY: 'phaser_blockly',
   PYTHON: 'python',
+  RASPBERRY_PI: 'raspberry_pi',
   SPHERO: 'sphero',
   SPHERO_BLOCKLY: 'sphero_blockly',
   TEXT: 'text',

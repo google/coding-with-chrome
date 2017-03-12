@@ -56,8 +56,11 @@ cwc.protocol.serial.Devices = function(helper, serial) {
   /** @type {!goog.Timer} */
   this.deviceMonitor = new goog.Timer(this.updateDevicesInterval);
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {cwc.protocol.serial.Device} */
+  this.connectedDevice_ = null;
+
+  /** @private {!Array} */
+  this.listener_ = [];
 };
 
 
@@ -96,6 +99,19 @@ cwc.protocol.serial.Devices.prototype.getDevice = function(device_path) {
     return this.devices[device_path];
   }
   this.log_.error('The following device id is unknown:', device_path);
+  return null;
+};
+
+
+/**
+ * @return {cwc.protocol.serial.Device}
+ * @export
+ */
+cwc.protocol.serial.Devices.prototype.getConnectedDevice = function() {
+  if (this.connectedDevice_ && this.connectedDevice_.isConnected()) {
+    return this.connectedDevice_;
+  }
+  this.log_.error('Unable to find any connected serial device!');
   return null;
 };
 
@@ -144,6 +160,12 @@ cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
     device_path, connection_id) {
   this.log_.debug('Connect', device_path, connection_id);
   this.connectionIds[connection_id] = this.devices[device_path];
+  this.connectedDevice_ = this.devices[device_path];
+
+  var menubarInstance = this.helper.getInstance('menubar');
+  if (menubarInstance) {
+    menubarInstance.setSerialConnected(true);
+  }
 };
 
 
@@ -156,6 +178,12 @@ cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
     device_path, connection_id) {
   this.log_.debug('Disconnect', device_path, connection_id);
   this.connectionIds[connection_id] = null;
+  this.connectedDevice_ = null;
+
+  var menubarInstance = this.helper.getInstance('menubar');
+  if (menubarInstance) {
+    menubarInstance.setSerialConnected(false);
+  }
 };
 
 
@@ -236,5 +264,5 @@ cwc.protocol.serial.Devices.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+  goog.array.insert(this.listener_, eventListener);
 };

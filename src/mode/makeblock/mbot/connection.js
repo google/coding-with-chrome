@@ -1,5 +1,5 @@
 /**
- * @fileoverview handle mbot connection.
+ * @fileoverview Handles mBot connection.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
@@ -34,9 +34,6 @@ cwc.mode.makeblock.mbot.Connection = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {cwc.ui.ConnectionManager} */
-  this.connectionManager = helper.getInstance('connectionManager');
 
   /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = helper.getInstance('mbot', true);

@@ -32,6 +32,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {!cwc.mode.sphero.Connection} connection
  */
 cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {string} */
