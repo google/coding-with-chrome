@@ -67,6 +67,9 @@ cwc.ui.GCloud = function(helper) {
 
   /** @type {string} */
   this.storagePrefix = '';
+
+  /** @type {list} */
+  this.currentFolders = [];
 };
 
 
@@ -168,42 +171,37 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
 
 
 cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
-  var bucketSelect = goog.dom.createDom('select', {
-    'id': this.prefix + 'buckets'
-  });
-
-  for (let i = 0; i < items.length; i++) {
-    var item = items[i];
-    bucketSelect.appendChild(goog.dom.createDom(
-       'option', {'value': item['id']}, item['id']));
-  }
   var bucketsContainer = goog.dom.getElement(
     this.prefix + 'buckets-container');
-  goog.dom.removeChildren(bucketsContainer);
-  goog.dom.append(bucketsContainer,
-    goog.dom.createDom(
-      'label', {'for': this.prefix + 'buckets'}, 'Bucket Id: '
-  ));
+  goog.soy.renderElement(
+      bucketsContainer,
+      cwc.soy.GCloud.gCloudBuckets,
+      {prefix: this.prefix, items: items}
+  );
+  var bucketSelect = goog.dom.getElement(this.prefix + 'buckets');
   var bucketChangeListener = (function(event) {
-    var bucketId = event.target.value;
-    this.selectBucket(bucketId);
+    this.currentFolders = [];
+    this.storagePrefix = '';
+    this.bucketName = event.target.value;
+    this.currentDirectory();
   }).bind(this);
   goog.events.listen(bucketSelect, goog.events.EventType.CHANGE,
     bucketChangeListener, false, this);
   goog.dom.append(bucketsContainer, bucketSelect);
 
-
   if (this.bucketName) {
     goog.dom.forms.setValue(bucketSelect, this.bucketName);
   } else {
-    var bucketId = goog.dom.forms.getValue(bucketSelect);
-    this.selectBucket(bucketId);
+    this.currentFolders = [];
+    this.storagePrefix = '';
+    this.bucketName = goog.dom.forms.getValue(bucketSelect);
   }
+  this.currentDirectory();
 
   var dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;
   if (this.publicUrlPath) {
-    this.setDialogPublicUrl(this.publicUrlPath);
+    this.setDialogPublicUrl();
     if (!dialogInstance.getButton('publish')) {
       dialogInstance.addButton('publish', 'Republish', this.publish.bind(this));
     }
@@ -214,74 +212,65 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   }
 };
 
-cwc.ui.GCloud.prototype.selectBucket = function(bucketId) {
-  this.bucketName = bucketId;
-  var foldersContainer = goog.dom.getElement(this.prefix + 'folders-container');
-  var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
-  var folderNav = goog.dom.getElement(this.prefix + 'folders-nav');
-  var storageButtonEvent = (function(event) {
-    var sibling = goog.dom.getNextElementSibling(event.target);
-    if (sibling != null) {
-      this.storagePrefix = event.target['gcloud-folders-prefix'];
-      var nextSibling = goog.dom.getNextElementSibling(sibling);
-      while (nextSibling != null) {
-        goog.dom.removeNode(sibling);
-        sibling = goog.dom.getNextElementSibling(nextSibling);
-        goog.dom.removeNode(nextSibling);
-        nextSibling = null;
-        if (sibling != null) {
-          nextSibling = goog.dom.getNextElementSibling(sibling);
-        }
-      }
-      this.currentDirectory();
-    }
-  }).bind(this);
-  var rootButton = goog.dom.createDom(
-      'button', {'gcloud-folders-prefix': ''}, '/');
-  folderNav.append(rootButton);
-  goog.events.listen(
-      rootButton, goog.events.EventType.CLICK, storageButtonEvent, false, this);
-  var selectFolderEvent = (function(event) {
-    var selectedFolder = event.target.value;
-    this.storagePrefix += selectedFolder + '/';
-    var storageButton = goog.dom.createDom(
-        'button', {'gcloud-folders-prefix': this.storagePrefix},
-        selectedFolder);
-
-    goog.events.listen(storageButton, goog.events.EventType.CLICK,
-        storageButtonEvent, false, this);
-    folderNav.append(storageButton);
-    folderNav.append(goog.dom.createDom('span', {}, '/'));
-    this.currentDirectory();
-  }).bind(this);
-  goog.events.listen(folderPicker, goog.events.EventType.CHANGE,
-      selectFolderEvent, false, this);
-  goog.style.setStyle(foldersContainer, 'visibility', 'visible');
-
-  this.currentDirectory();
-};
-
 cwc.ui.GCloud.prototype.currentDirectory = function() {
   var accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
   var callback = (function(response) {
-    var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
-    var prefixes;
-    if (!('prefixes' in response)) {
-      goog.style.setStyle(folderPicker, 'visibility', 'hidden');
-      return;
+    var foldersContainer = goog.dom.getElement(
+        this.prefix + 'folders-container');
+    if ('prefixes' in response) {
+      var prefixes = response['prefixes'];
+      var nextFolders = [];
+      for (var i in prefixes) {
+        var folderList = prefixes[i].split('/');
+        var folder = folderList[folderList.length - 2];
+        nextFolders.push(folder);
+      }
+      goog.soy.renderElement(
+        foldersContainer, cwc.soy.GCloud.gCloudFolders,
+        {prefix: this.prefix, currentFolders: this.currentFolders,
+          nextFolders: nextFolders}
+      );
+      var selectFolderEvent = (function(event) {
+        var selectedFolder = event.target.value;
+        this.storagePrefix += selectedFolder + '/';
+        this.currentFolders.push(selectedFolder);
+        this.currentDirectory();
+      }).bind(this);
+      var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
+      goog.events.listenOnce(folderPicker, goog.events.EventType.CHANGE,
+        selectFolderEvent, false, this);
     } else {
-      goog.style.setStyle(folderPicker, 'visibility', 'visible');
-      prefixes = response['prefixes'];
+      goog.soy.renderElement(
+        foldersContainer, cwc.soy.GCloud.gCloudFolders,
+        {prefix: this.prefix, currentFolders: this.currentFolders,
+          nextFolders: []}
+      );
     }
-    goog.dom.removeChildren(folderPicker);
-    folderPicker.append(goog.dom.createDom(
-        'option', {'selected': true, 'disabled': true}, 'Choose folder:'));
-    for (var i in prefixes) {
-      var folderList = prefixes[i].split('/');
-      var folder = folderList[folderList.length - 2];
-      folderPicker.append(goog.dom.createDom(
-          'option', {'value': folder}, folder));
+
+    var folderNavButtonClickEvent = (function(event) {
+      var folderNavButtonId = event.target.id;
+      var rootOrIndex = folderNavButtonId.split(
+        this.prefix + 'folders-path-')[1];
+      if (rootOrIndex === 'root') {
+        this.storagePrefix = '';
+        this.currentFolders = [];
+      } else {
+        var clickedIndex = parseInt(rootOrIndex);
+        this.storagePrefix = '';
+        for (var index = 0; index < clickedIndex + 1; index++) {
+          this.storagePrefix += this.currentFolders[index] + '/';
+        }
+        this.currentFolders = this.currentFolders.splice(0, clickedIndex + 1);
+      }
+      this.currentDirectory();
+    }).bind(this);
+    var folderNavElement = goog.dom.getElement(this.prefix + 'folders-nav');
+    var folderNavButtons = folderNavElement.getElementsByTagName('button');
+    for (var index= 0; index < folderNavButtons.length; index++) {
+      var folderNavButton = folderNavButtons[index];
+      goog.events.listen(folderNavButton, goog.events.EventType.CLICK,
+        folderNavButtonClickEvent, false, this);
     }
   }).bind(this);
   var params = {
@@ -313,7 +302,6 @@ cwc.ui.GCloud.prototype.publish = function() {
   }, this.makePublic.bind(this));
 };
 
-
 cwc.ui.GCloud.prototype.makePublic = function() {
   var accountInstance = this.helper.getInstance('account');
   var dialogInstance = this.helper.getInstance('dialog');
@@ -322,7 +310,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
 
   var callback = (function(response) {
     this.publicUrlPath = response['bucket'] + '/' + response['name'];
-    this.setDialogPublicUrl(this.publicUrlPath);
+    this.setDialogPublicUrl();
     dialogInstance.setButtonText('publish', 'Republish');
   }).bind(this);
   accountInstance.request({
@@ -341,19 +329,11 @@ cwc.ui.GCloud.prototype.makePublic = function() {
   }, callback);
 };
 
-
-cwc.ui.GCloud.prototype.setDialogPublicUrl = function(publicUrlPath) {
-  var urlLink = goog.dom.createDom('a', {
-    'id': this.prefix + 'public-url-link',
-    'target': '_newtab',
-    'href': 'https://storage.googleapis.com/' + encodeURIComponent(
-      publicUrlPath)
-  }, 'https://storage.googleapis.com/' + publicUrlPath);
-  var urlContainer = goog.dom.getElement(this.prefix + 'public-url');
-  goog.dom.removeChildren(urlContainer);
-  goog.dom.append(urlContainer,
-    goog.dom.createDom(
-      'label', {'for': this.prefix + 'public-url-link'}, 'Public URL: '
-  ));
-  goog.dom.append(urlContainer, urlLink);
+cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
+  var publicUrlContainer = goog.dom.getElement(this.prefix + 'public-url');
+  goog.soy.renderElement(
+    publicUrlContainer, cwc.soy.GCloud.gCloudPublicURL,
+    {prefix: this.prefix, path: this.publicUrlPath,
+      encodedPath: encodeURIComponent(this.publicUrlPath)}
+  );
 };

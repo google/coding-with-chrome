@@ -37,15 +37,64 @@
   </div>
   <div id="{$prefix}buckets-container">
   </div>
-  <div id="{$prefix}folders-container" style="visibility: hidden;">
-    <label>
-      Folder:
-      <span id="{$prefix}folders-nav"></span>
-      <select id="{$prefix}folders-picker"/>
-        <option selected disabled>Choose folder</option>
-      </select>
-    </label>
+  <div id="{$prefix}folders-container">
   </div>
   <div id="{$prefix}public-url">
   </div>
+{/template}
+
+/**
+ * Google Cloud Folder list template.
+ */
+{template .gCloudFolders}
+  {@param prefix: string}
+  {@param currentFolders: list<?>}
+  {@param nextFolders: list<?>}
+  <label>
+    Folder:
+    <span id="{$prefix}folders-nav">
+      <button id="{$prefix}folders-path-root">/</button>
+      {foreach $folder in $currentFolders}
+      <button id="{$prefix}folders-path-{index($folder)}">{$folder}</button>
+      <span>/</span>
+      {/foreach}
+    </span>
+    {if length($nextFolders) > 0}
+    <select id="{$prefix}folders-picker"/>
+      <option selected disabled>Choose folder</option>
+      {foreach $folder in $nextFolders}
+      <option value="{$folder}">{$folder}</option>
+      {/foreach}
+    </select>
+    {/if}
+  </label>
+{/template}
+
+/**
+ * Google Cloud Bucket list template.
+ */
+{template .gCloudBuckets}
+  {@param prefix: string}
+  {@param items: list<?>}
+  <label>Bucket Id:
+    <select id="{$prefix}buckets">
+      {foreach $item in $items}
+      <option value="{$item['id']}">{$item['id']}</option>
+      {/foreach}
+    </select>
+  </label>
+{/template}
+
+/**
+ * Google Cloud Public URL link template.
+ */
+{template .gCloudPublicURL}
+  {@param prefix: string}
+  {@param path: string}
+  {@param encodedPath: string}
+  <label>Public URL:
+    <a id="{$prefix}public-url-link" target="_newtab" href="https://storage.googleapis.com/{$encodedPath}">
+    https://storage.googleapis.com/{$path}
+    </a>
+  </labe>
 {/template}
