@@ -103,8 +103,25 @@ describe('StackQueue (autostart)', function() {
   });
 
   it('addDelay', function(done) {
+    var timeTests = function() {
+      window.setTimeout(function() {
+        expect(counter).toEqual(1);
+      }, 50);
+      window.setTimeout(function() {
+        expect(counter).toEqual(2);
+      }, 150);
+      window.setTimeout(function() {
+        expect(counter).toEqual(3);
+      }, 250);
+      window.setTimeout(function() {
+        expect(counter).toEqual(4);
+        done();
+      }, 350);
+    }.bind(this);
+
     counter = 0;
     expect(counter).toEqual(0);
+    stackQueue.addCommand(timeTests);
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
@@ -112,19 +129,7 @@ describe('StackQueue (autostart)', function() {
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
-    window.setTimeout(function() {
-      expect(counter).toEqual(1);
-    }, 50);
-    window.setTimeout(function() {
-      expect(counter).toEqual(2);
-    }, 150);
-    window.setTimeout(function() {
-      expect(counter).toEqual(3);
-    }, 250);
-    window.setTimeout(function() {
-      expect(counter).toEqual(4);
-      done();
-    }, 350);
+    expect(counter).toEqual(1);
   });
 
   it('stop', function(done) {
@@ -149,7 +154,6 @@ describe('StackQueue (autostart)', function() {
 
 
 describe('StackQueue (no autostart)', function() {
-
   var stackQueue = new cwc.utils.StackQueue(true);
   var counter = 0;
   var counterFunc = function() {
@@ -183,8 +187,33 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('addDelay', function(done) {
+    var timeTests = function() {
+      window.setTimeout(function() {
+        expect(counter).toEqual(1);
+      }, 50);
+      window.setTimeout(function() {
+        expect(counter).toEqual(1);
+        stackQueue.start();
+      }, 100);
+      window.setTimeout(function() {
+        expect(counter).toEqual(2);
+        stackQueue.start();
+      }, 150);
+      window.setTimeout(function() {
+        expect(counter).toEqual(3);
+      }, 250);
+      window.setTimeout(function() {
+        expect(counter).toEqual(4);
+      }, 350);
+      window.setTimeout(function() {
+        expect(counter).toEqual(4);
+        done();
+      }, 450);
+    }.bind(this);
+
     counter = 0;
     expect(counter).toEqual(0);
+    stackQueue.addCommand(timeTests);
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
@@ -192,24 +221,7 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
-
-    window.setTimeout(function() {
-      expect(counter).toEqual(0);
-    }, 50);
-    window.setTimeout(function() {
-      expect(counter).toEqual(0);
-      stackQueue.start();
-    }, 100);
-    window.setTimeout(function() {
-      expect(counter).toEqual(2);
-    }, 250);
-    window.setTimeout(function() {
-      expect(counter).toEqual(3);
-    }, 350);
-    window.setTimeout(function() {
-      expect(counter).toEqual(4);
-      done();
-    }, 450);
+    stackQueue.start();
   });
 
   it('stop', function(done) {
