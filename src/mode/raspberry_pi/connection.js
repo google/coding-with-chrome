@@ -1,7 +1,7 @@
 /**
- * @fileoverview Connection for the Sphero modification.
+ * @fileoverview Connection for the Raspberry Pi modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Connection');
-
-goog.require('goog.Timer');
+goog.provide('cwc.mode.raspberryPi.Connection');
 
 
 
@@ -27,21 +25,21 @@ goog.require('goog.Timer');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.Connection = function(helper) {
+cwc.mode.raspberryPi.Connection = function(helper) {
   /** @type {string} */
-  this.name = 'Sphero Connection';
+  this.name = 'Raspberry Pi Connection';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.sphero.Api} */
-  this.api = helper.getInstance('sphero', true);
-
-  /** @type {goog.Timer} */
-  this.connectMonitor = null;
+  /** @type {!cwc.protocol.raspberry_pi.Api} */
+  this.api = helper.getInstance('raspberryPi', true);
 
   /** @type {!number} */
   this.connectMonitorInterval = 5000;
+
+  /** @type {goog.Timer} */
+  this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
 
   /** @type {!Array} */
   this.listener = [];
@@ -49,37 +47,33 @@ cwc.mode.sphero.Connection = function(helper) {
 
 
 /**
- * Connects the Sphero unit.
+ * Connects the Raspberry Pi unit.
  * @export
  */
-cwc.mode.sphero.Connection.prototype.init = function() {
-  if (!this.connectMonitor) {
-    this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
-    this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
-      this.connect.bind(this));
-  }
+cwc.mode.raspberryPi.Connection.prototype.init = function() {
+  this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
+    this.connect.bind(this));
   this.connectMonitor.start();
   this.connect();
 };
 
 
 /**
- * Connects the Sphero ball.
+ * Connects the Raspberry Pi.
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
+cwc.mode.raspberryPi.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     this.api.autoConnect();
   }
-  this.api.monitor(true);
 };
 
 
 /**
  * Stops the current executions.
  */
-cwc.mode.sphero.Connection.prototype.stop = function() {
+cwc.mode.raspberryPi.Connection.prototype.stop = function() {
   var runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
@@ -93,7 +87,7 @@ cwc.mode.sphero.Connection.prototype.stop = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.Connection.prototype.reset = function(opt_event) {
+cwc.mode.raspberryPi.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api.reset();
   }
@@ -104,33 +98,45 @@ cwc.mode.sphero.Connection.prototype.reset = function(opt_event) {
  * @return {!boolean}
  * @export
  */
-cwc.mode.sphero.Connection.prototype.isConnected = function() {
+cwc.mode.raspberryPi.Connection.prototype.isConnected = function() {
   return this.api.isConnected();
+};
+
+
+/**
+ * @return {!cwc.protocol.raspberryPi.Api}
+ * @export
+ */
+cwc.mode.raspberryPi.Connection.prototype.getApi = function() {
+  return this.api;
+};
+
+
+/**
+ * Stops the EV3 unit.
+ */
+cwc.mode.raspberryPi.Connection.prototype.stop = function() {
+  var runnerInstance = this.helper.getInstance('runner');
+  if (runnerInstance) {
+    runnerInstance.terminate();
+  }
+  this.api.stop();
 };
 
 
 /**
  * @return {}
  */
-cwc.mode.sphero.Connection.prototype.getEventHandler = function() {
+cwc.mode.raspberryPi.Connection.prototype.getEventHandler = function() {
   return this.api.getEventHandler();
-};
-
-
-/**
- * @return {!cwc.protocol.sphero.Api}
- * @export
- */
-cwc.mode.sphero.Connection.prototype.getApi = function() {
-  return this.api;
 };
 
 
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.Connection.prototype.cleanUp = function() {
-  console.log('Clean up Sphero connection ...', this);
+cwc.mode.raspberryPi.Connection.prototype.cleanUp = function() {
+  console.log('Clean up Raspberry Pi connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -151,8 +157,8 @@ cwc.mode.sphero.Connection.prototype.cleanUp = function() {
  * @param {Object=} opt_listenerScope
  * @private
  */
-cwc.mode.sphero.Connection.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
+cwc.mode.raspberryPi.Connection.prototype.addEventListener_ = function(src,
+    type, listener, opt_useCapture, opt_listenerScope) {
   var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);

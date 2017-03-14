@@ -193,7 +193,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   this.nodeSerial = goog.dom.getElement(this.prefix + 'serial');
   this.nodeSerialConnected = goog.dom.getElement(
     this.prefix + 'serial-connected');
-  this.nodeSerialDisasbled = goog.dom.getElement(
+  this.nodeSerialDisabled = goog.dom.getElement(
     this.prefix + 'serial-disabled');
   if (this.helper.checkChromeFeature('serial')) {
     goog.style.setElementShown(this.nodeSerialBody, true);
@@ -202,8 +202,12 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
         var connectScreenInstance = this.helper.getInstance('connectScreen');
         connectScreenInstance.showSerialDevices();
       }.bind(this));
-    goog.style.setElementShown(this.nodeSerial, false);
-    goog.style.setElementShown(this.nodeSerialConnected, false);
+    goog.events.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
+      function() {
+        var connectScreenInstance = this.helper.getInstance('connectScreen');
+        connectScreenInstance.showSerialDevices();
+      }.bind(this));
+    this.setSerialEnabled(true);
   } else {
     goog.style.setElementShown(this.nodeSerialBody, false);
   }
@@ -368,9 +372,7 @@ cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
     goog.style.setElementShown(this.nodeBluetoothConnected, connected);
     goog.style.setElementShown(this.nodeBluetoothDisabled, false);
   } else {
-    goog.style.setElementShown(this.nodeBluetooth, false);
-    goog.style.setElementShown(this.nodeBluetoothConnected, false);
-    goog.style.setElementShown(this.nodeBluetoothDisabled, true);
+    this.setBluetoothEnabled(false);
   }
   this.bluetoothConnectStatus = connected;
 };
@@ -395,12 +397,32 @@ cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
  */
 cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
   if (this.helper.checkChromeFeature('serial')) {
-    if (this.bluetooth != enabled) {
+    if (this.serial != enabled) {
       console.log('Set Serial to', enabled ? 'enabled' : 'disabled');
     }
     goog.style.setElementShown(this.nodeSerial, enabled);
     goog.style.setElementShown(this.nodeSerialConnected, false);
     goog.style.setElementShown(this.nodeSerialDisabled, !enabled);
   }
-  this.bluetooth = enabled;
+  this.serial = enabled;
+};
+
+
+/**
+ * @param {boolean} connected
+ * @export
+ */
+cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
+  if (this.helper.checkChromeFeature('serial') && this.serial) {
+    if (this.serialConnectStatus != connected) {
+      console.log('Set Serial status to',
+        connected ? 'connected' : 'disconnected');
+    }
+    goog.style.setElementShown(this.nodeSerial, !connected);
+    goog.style.setElementShown(this.nodeSerialConnected, connected);
+    goog.style.setElementShown(this.nodeSerialDisabled, false);
+  } else {
+    this.setSerialEnabled(false);
+  }
+  this.serialConnectStatus = connected;
 };

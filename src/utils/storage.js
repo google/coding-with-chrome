@@ -21,7 +21,6 @@ goog.provide('cwc.utils.Storage');
 goog.provide('cwc.utils.StorageCustom');
 goog.provide('cwc.utils.StorageType');
 
-goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.object');
@@ -108,9 +107,6 @@ cwc.utils.Storage = function(opt_storage_type) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
-  /** @private {!cwc.utils.Features} */
-  this.features_ = new cwc.utils.Features();
-
   /** @private {localStorage|sessionStorage} */
   this.storage_ = null;
 
@@ -166,10 +162,15 @@ cwc.utils.Storage.prototype.prepare = function(opt_callback) {
  * @export
  */
 cwc.utils.Storage.prototype.getStorageType = function() {
-  if (this.features_.getBrowserFeature('localStorage')) {
+  if ((typeof chrome === 'undefined' || (
+       typeof chrome !== 'undefined' &&
+       typeof chrome.storage === 'undefined')) &&
+      typeof localStorage !== 'undefined') {
     return cwc.utils.StorageType.LOCAL_STORAGE;
-  } else if (this.features_.getBrowserFeature('sessionStorage')) {
-    if (this.features_.getChromeFeature('storage.localStorage')) {
+  } else if (typeof sessionStorage !== 'undefined') {
+    if (typeof chrome !== 'undefined' &&
+        typeof chrome.storage !== 'undefined' &&
+        typeof chrome.storage.local !== 'undefined') {
       return cwc.utils.StorageType.CHROME_STORAGE;
     } else {
       return cwc.utils.StorageType.SESSION_STORAGE;

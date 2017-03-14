@@ -32,7 +32,7 @@ cwc.mode.arduino.Connect = function(helper) {
   /** @type {cwc.ui.ConnectionManager} */
   this.connectionManager = helper.getInstance('connectionManager');
 
-  /** @type {cwc.protocol.Arduino.api} */
+  /** @type {cwc.protocol.arduino.Api} */
   this.api = helper.getInstance('arduino');
 };
 

@@ -33,6 +33,7 @@ goog.require('goog.dom');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {!cwc.mode.makeblock.mbot.Connection} connection
  * @struct
  * @final
  */

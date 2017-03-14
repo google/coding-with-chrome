@@ -30,14 +30,15 @@ goog.require('cwc.mode.ev3.advanced.Mod');
 goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.json.Mod');
+goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
+goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 goog.require('cwc.mode.pencilCode.advanced.Mod');
 goog.require('cwc.mode.phaser.advanced.Mod');
 goog.require('cwc.mode.phaser.blockly.Mod');
 goog.require('cwc.mode.python.Mod');
+goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
-goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
-goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
 
@@ -214,6 +215,19 @@ cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
   icon: 'mode_edit',
   file_type: cwc.file.Type.PYTHON,
   mod: cwc.mode.python.Mod,
+  authors: ['Markus Bordihn']
+});
+
+
+/**
+ * Raspberry Pi mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
+  name: 'Raspberry Pi',
+  title: 'Raspberry Pi',
+  icon: 'mode_edit',
+  file_type: cwc.file.Type.RASPBERRY_PI,
+  mod: cwc.mode.raspberryPi.advanced.Mod,
   authors: ['Markus Bordihn']
 });
 

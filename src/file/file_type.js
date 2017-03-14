@@ -47,6 +47,7 @@ cwc.file.Type = {
   PHASER: 'phaser',
   PHASER_BLOCKLY: 'phaser_blockly',
   PYTHON: 'python',
+  RASPBERRY_PI: 'rapsberry_pi',
   RAW: 'raw',
   SIMPLE: 'simple',
   SPHERO: 'sphero',

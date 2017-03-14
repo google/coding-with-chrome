@@ -18,7 +18,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.Arduino.api');
+goog.provide('cwc.protocol.arduino.Api');
 
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
@@ -31,7 +31,7 @@ goog.require('goog.events.EventTarget');
  * @struct
  * @final
  */
-cwc.protocol.Arduino.api = function(helper) {
+cwc.protocol.arduino.Api = function(helper) {
   /** @type {string} */
   this.name = 'Arduino';
 
@@ -58,7 +58,7 @@ cwc.protocol.Arduino.api = function(helper) {
  * @return {boolean} Was able to prepare and connect to the Arduino.
  * @export
  */
-cwc.protocol.Arduino.api.prototype.connect = function(device) {
+cwc.protocol.arduino.Api.prototype.connect = function(device) {
   if (!device) {
     console.error('Arduino is not ready yet …');
     return false;
@@ -78,7 +78,7 @@ cwc.protocol.Arduino.api.prototype.connect = function(device) {
 /**
  * Disconnects the Arduino.
  */
-cwc.protocol.Arduino.api.prototype.disconnect = function() {
+cwc.protocol.arduino.Api.prototype.disconnect = function() {
   if (!this.connected) {
     console.warn('Arduino is not connected, no need to disconnect!');
     return;
@@ -93,7 +93,7 @@ cwc.protocol.Arduino.api.prototype.disconnect = function() {
 /**
  * @return {boolean}
  */
-cwc.protocol.Arduino.api.prototype.isConnected = function() {
+cwc.protocol.arduino.Api.prototype.isConnected = function() {
   return this.connected;
 };
 
@@ -102,7 +102,7 @@ cwc.protocol.Arduino.api.prototype.isConnected = function() {
  * Handles received data and callbacks from the serial device.
  * @param {Array<number>|ArrayBuffer|ArrayBufferView|null|number} raw_data
  */
-cwc.protocol.Arduino.api.prototype.handleOnReceive = function(
+cwc.protocol.arduino.Api.prototype.handleOnReceive = function(
     raw_data) {
   if (!raw_data) {
     return;
@@ -128,7 +128,7 @@ cwc.protocol.Arduino.api.prototype.handleOnReceive = function(
  * @return {goog.events.EventTarget}
  * @export
  */
-cwc.protocol.Arduino.api.prototype.getEventHandler = function() {
+cwc.protocol.arduino.Api.prototype.getEventHandler = function() {
   return this.eventHandler;
 };
 
@@ -137,7 +137,7 @@ cwc.protocol.Arduino.api.prototype.getEventHandler = function() {
  * @param {!Function} handler
  * @export
  */
-cwc.protocol.Arduino.api.prototype.setTerminalHandler = function(
+cwc.protocol.arduino.Api.prototype.setTerminalHandler = function(
     handler) {
   this.terminalHandler = handler;
 };
@@ -147,6 +147,6 @@ cwc.protocol.Arduino.api.prototype.setTerminalHandler = function(
  * Basic cleanup for the Arduino unit.
  * @export
  */
-cwc.protocol.Arduino.api.prototype.cleanUp = function() {
+cwc.protocol.arduino.Api.prototype.cleanUp = function() {
   this.connected = false;
 };

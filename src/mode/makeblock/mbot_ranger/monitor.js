@@ -30,6 +30,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {!cwc.mode.makeblock.mbotRanger.Connection} connection
  */
 cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
   /** @type {string} */

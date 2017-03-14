@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout for the EV3 modification.
+ * @fileoverview Connection for the EV3 modification.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -32,9 +32,6 @@ goog.require('goog.Timer');
 cwc.mode.ev3.Connection = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {!cwc.ui.ConnectionManager} */
-  this.connectionManager = helper.getInstance('connectionManager');
 
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = helper.getInstance('ev3', true);

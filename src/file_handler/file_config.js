@@ -273,6 +273,15 @@ cwc.fileHandler.Config.add('Phaser blockly file',
 
 
 /**
+ * Raspberry Pi file config.
+ */
+cwc.fileHandler.Config.add('Raspberry Pi',
+    cwc.fileFormat.File.getSimpleFile,
+    cwc.file.Type.RASPBERRY_PI,
+    cwc.mode.Type.RASPBERRY_PI);
+
+
+/**
  * JSON file config.
  */
 cwc.fileHandler.Config.add('JSON file',

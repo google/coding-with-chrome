@@ -80,6 +80,9 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   this.tabControl = null;
 
   /** @type {Element} */
+  this.tabIntro = null;
+
+  /** @type {Element} */
   this.tabMonitor = null;
 
   /** @type {Element|StyleSheet} */
@@ -111,6 +114,7 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   // Tabs
   this.tabCalibration = goog.dom.getElement(this.prefix + 'tab-calibration');
   this.tabControl = goog.dom.getElement(this.prefix + 'tab-control');
+  this.tabIntro = goog.dom.getElement(this.prefix + 'tab-intro');
   this.tabMonitor = goog.dom.getElement(this.prefix + 'tab-monitor');
 
   // Content
@@ -160,7 +164,15 @@ cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
  * @param {!boolean} show
  */
 cwc.ui.RunnerMonitor.prototype.showControlTab = function(show) {
-  goog.style.setElementShown(this.tabCalibration, show);
+  goog.style.setElementShown(this.tabControl, show);
+};
+
+
+/**
+ * @param {!boolean} show
+ */
+cwc.ui.RunnerMonitor.prototype.showIntroTab = function(show) {
+  goog.style.setElementShown(this.tabIntro, show);
 };
 
 

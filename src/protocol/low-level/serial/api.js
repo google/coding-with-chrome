@@ -109,6 +109,18 @@ cwc.protocol.serial.Api.prototype.getDevices = function() {
 
 
 /**
+ * @return {cwc.protocol.serial.Device}
+ * @export
+ */
+cwc.protocol.serial.Api.prototype.getConnectedDevice = function() {
+  if (this.devices) {
+    return this.devices.getConnectedDevice();
+  }
+  return null;
+};
+
+
+/**
  * Adds the different types of event listener to device.
  * @private
  */

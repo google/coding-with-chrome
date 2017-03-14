@@ -41,46 +41,40 @@ cwc.ui.MessageType = {
 
 
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.Message = function() {
+cwc.ui.Message = function(helper) {
   /** @type {string} */
   this.name = 'Message';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('message');
 
   /** @type {Element} */
   this.node = null;
 
-  /** @type {string} */
-  this.prefix = 'message-';
-
   /** @type {Element} */
   this.snackbar = null;
-
-  /** @type {cwc.ui.MessageType} */
-  this.messageType = null;
 };
 
 
 /**
  * Decorates the given node and adds a ui messenger.
  * @param {Element} node The target node to add the ui messenger.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.Message.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Message.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = opt_prefix + this.prefix;
 
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.Message.template,
       {'prefix': this.prefix}
-  );
-
-  goog.style.installStyles(
-      cwc.soy.ui.Message.style({ 'prefix': this.prefix })
   );
 
   this.snackbar = goog.dom.getElement(this.prefix + 'snackbar');
