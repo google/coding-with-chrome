@@ -268,7 +268,7 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function(opt_event) {
       break;
     case cwc.utils.StackType.DELAY:
       this.run = true;
-      window.setTimeout(function() {
+      setTimeout(function() {
         this.run = false;
         this.handleQueue_();
       }.bind(this), value);

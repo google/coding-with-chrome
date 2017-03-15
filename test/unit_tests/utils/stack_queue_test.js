@@ -114,9 +114,16 @@ describe('StackQueue (autostart)', function() {
         expect(counter).toEqual(3);
       }, 250);
       window.setTimeout(function() {
-        expect(counter).toEqual(4);
-        done();
-      }, 350);
+        if (counter == 4) {
+          expect(counter).toEqual(4);
+          done();
+        } else {
+          window.setTimeout(function() {
+            expect(counter).toEqual(4);
+            done();
+          }, 375);
+        }
+      }, 325);
     }.bind(this);
 
     counter = 0;
