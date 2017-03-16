@@ -48,7 +48,7 @@ cwc.utils.ByteTools.bytesToInt32 = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {ArrayBuffer} data
  * @return {number}
  */
 cwc.utils.ByteTools.Int32ToBytes = function(data) {
@@ -104,10 +104,11 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
 
 
 /**
- * @typedef {Object} Uint8Data
+ * @typedef {Object}
  * @property {Array} data
  * @property {ArrayBuffer|Uint8Array|null} buffer
  */
+cwc.utils.ByteTools.uint8Data;
 
 
 /**
@@ -115,19 +116,21 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
  * @param {Array=} opt_headers
  * @param {number=} opt_size
  * @param {ArrayBuffer|Uint8Array=} opt_buffer
- * @return {Uint8Data} result
+ * @return {cwc.utils.ByteTools.uint8Data} result
  */
 cwc.utils.ByteTools.getUint8Data = function(data,
     opt_headers, opt_size, opt_buffer) {
   var buffer = null;
+  var dataView = null;
   var parsedData = [];
   var validData = true;
 
   if (data) {
     // Prepare data buffer
-    var dataView = data;
-    if (dataView instanceof ArrayBuffer) {
+    if (data instanceof ArrayBuffer) {
       dataView = new Uint8Array(data);
+    } else {
+      dataView = data;
     }
 
     // Additional length checks if needed.
@@ -135,9 +138,10 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
       // Perpend buffer if needed.
       if (opt_buffer && dataView.length < opt_size) {
-        buffer = opt_buffer;
         if (opt_buffer instanceof ArrayBuffer) {
           buffer =  new Uint8Array(opt_buffer);
+        } else {
+          buffer = opt_buffer;
         }
         dataView = cwc.utils.ByteTools.joinUint8Array(buffer, dataView);
       }

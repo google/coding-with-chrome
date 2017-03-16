@@ -81,7 +81,7 @@ cwc.runner.Connector = function(helper, opt_name) {
 
 /**
  * Inits the runner instance.
- * @param {boolean} opt_listen
+ * @param {boolean=} opt_listen
  */
 cwc.runner.Connector.prototype.init = function(opt_listen) {
   if (opt_listen) {

@@ -72,11 +72,15 @@ cwc.protocol.bluetooth.Api = function(helper) {
  * Prepares the bluetooth api and monitors Bluetooth adapter.
  */
 cwc.protocol.bluetooth.Api.prototype.prepare = function() {
-  if (!this.bluetooth_ || this.prepared) {
+  if (!this.bluetooth_) {
+    console.warn('Bluetooth 2.0 support is not available!');
+    return;
+  }
+  if (this.prepared) {
     return;
   }
 
-  this.log_.debug('Preparing Bluetooth support …');
+  this.log_.debug('Preparing Bluetooth 2.0 support …');
 
   // Monitor Bluetooth adapter
   this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,

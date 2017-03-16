@@ -38,6 +38,12 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {string} */
   this.name = 'EV3 Calibration';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix('ev3-calibrate');
+
   /** @type {Element} */
   this.nodeCalibration = null;
 
@@ -65,9 +71,6 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {Element} */
   this.nodeRobotList = null;
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
   /** @type {!cwc.mode.ev3.Connection} */
   this.connection = connection;
 
@@ -76,9 +79,6 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
 
   /** @type {!cwc.mode.ev3.Runner} */
   this.runner = runner;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-calibrate');
 
   /** @type {boolean} */
   this.prepared = false;
@@ -110,11 +110,6 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
       this.nodeCalibration,
       cwc.soy.mode.ev3.Calibration.template, {prefix: this.prefix}
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.ev3.Calibration.style({prefix: this.prefix}));
-  }
 
   // Nodes
   this.nodeRobotCustom = goog.dom.getElement(this.prefix + 'robot-custom');

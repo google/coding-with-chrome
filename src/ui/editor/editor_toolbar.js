@@ -65,6 +65,9 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeSave = null;
 
   /** @type {Element} */
+  this.nodePublish = null;
+
+  /** @type {Element} */
   this.nodeUndo = null;
 
   /** @type {Element} */

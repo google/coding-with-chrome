@@ -125,11 +125,6 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
       }
   );
 
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.ev3.Monitor.style({'prefix': this.prefix}));
-  }
-
   this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
 
   // Update event

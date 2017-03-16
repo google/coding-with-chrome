@@ -107,7 +107,7 @@ cwc.utils.Storage = function(opt_storage_type) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
-  /** @private {localStorage|sessionStorage} */
+  /** @private {Object} */
   this.storage_ = null;
 
   /** @private {!cwc.utils.StorageType} */

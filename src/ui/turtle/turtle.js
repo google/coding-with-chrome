@@ -35,11 +35,11 @@ cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {string} */
   this.name = 'Turtle';
 
-  /** @type {string} */
-  this.prefix = 'turtle-';
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
   /** @type {string} */
-  this.generalPrefix = '';
+  this.prefix = this.helper.getPrefix('turtle');
 
   /** @type {!cwc.runner.Connector} */
   this.connector = new cwc.runner.Connector(helper, 'Turtle Runner Connector');
@@ -52,9 +52,6 @@ cwc.ui.Turtle = function(helper, opt_image) {
 
   /** @type {Object} */
   this.content = null;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {!cwc.utils.Logger} */
   this.log = this.helper.getLogger();
@@ -74,9 +71,6 @@ cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {string|undefined} */
   this.image = opt_image;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {Array} */
   this.listener = [];
 };
@@ -85,19 +79,10 @@ cwc.ui.Turtle = function(helper, opt_image) {
 /**
  * Decorates the given node and adds the turtle window.
  * @param {Element} node The target node to add the turtle window.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.Turtle.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.Turtle.prototype.decorate = function(node) {
   this.ready = false;
   this.node = node;
-  this.generalPrefix = opt_prefix || '';
-  this.prefix = opt_prefix + this.prefix;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Turtle.style({ 'prefix': this.prefix }));
-  }
 
   goog.soy.renderElement(
       this.node, cwc.soy.Turtle.template, { 'prefix': this.prefix });
@@ -149,6 +134,7 @@ cwc.ui.Turtle.prototype.reset = function() {
 
 
 /**
+ * @param {Object=} opt_event
  * @private
  */
 cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
@@ -215,5 +201,4 @@ cwc.ui.Turtle.prototype.addEventListener = function(src, type,
  */
 cwc.ui.Turtle.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
 };

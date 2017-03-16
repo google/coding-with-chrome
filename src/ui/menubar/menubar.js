@@ -75,7 +75,7 @@ cwc.ui.Menubar = function(helper) {
   this.nodeSerialConnected = null;
 
   /** @type {Element} */
-  this.nodeSerialDisasbled = null;
+  this.nodeSerialDisabled = null;
 
   /** @type {Element} */
   this.nodeCloseButton = null;
@@ -97,6 +97,12 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {boolean} */
   this.bluetoothConnectStatus = null;
+
+  /** @type {boolean} */
+  this.serial = null;
+
+  /** @type {boolean} */
+  this.serialConnectStatus = null;
 
   /** @type {chrome.app.window.AppWindow} */
   this.currentWindow =  null;

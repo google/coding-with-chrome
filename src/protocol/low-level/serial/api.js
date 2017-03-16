@@ -63,16 +63,21 @@ cwc.protocol.serial.Api = function(helper) {
  * @export
  */
 cwc.protocol.serial.Api.prototype.prepare = function() {
-  if (this.serial_ && !this.prepared) {
-    console.log('Prepare serial support …');
-
-    // Monitor serial devices
-    this.devices = new cwc.protocol.serial.Devices(this.helper, this.serial_);
-    this.devices.prepare();
-
-    this.addEventListener_();
-    this.prepared = true;
+  if (!this.serial_) {
+    console.warn('Serial support is not available!');
+    return;
   }
+  if (this.prepared) {
+    return;
+  }
+  console.log('Prepare serial support …');
+
+  // Monitor serial devices
+  this.devices = new cwc.protocol.serial.Devices(this.helper, this.serial_);
+  this.devices.prepare();
+
+  this.addEventListener_();
+  this.prepared = true;
 };
 
 

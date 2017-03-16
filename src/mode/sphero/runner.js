@@ -130,7 +130,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
 
   // Preview output
   var turtleNode = this.runner.getTurtleNode();
-  this.turtle.decorate(turtleNode, this.prefix);
+  this.turtle.decorate(turtleNode);
 
   // Unload event
   var layoutInstance = this.helper.getInstance('layout');
