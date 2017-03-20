@@ -210,7 +210,13 @@ describe('StackQueue (no autostart)', function() {
         expect(counter).toEqual(3);
       }, 250);
       window.setTimeout(function() {
-        expect(counter).toEqual(4);
+        if (counter == 4) {
+          expect(counter).toEqual(4);
+        } else {
+          window.setTimeout(function() {
+            expect(counter).toEqual(4);
+          }, 375);
+        }
       }, 350);
       window.setTimeout(function() {
         expect(counter).toEqual(4);

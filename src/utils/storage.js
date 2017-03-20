@@ -102,7 +102,7 @@ cwc.utils.Storage = function(opt_storage_type) {
   this.name = 'Storage';
 
   /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.utils.LogLevel.DEBUG;
+  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
