@@ -64,23 +64,13 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   var userConfigInstance = this.helper.getInstance('userConfig');
   var advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
   var closeButton = goog.dom.getElement(this.prefix + 'close');
-  var debugMode = goog.dom.getElement(this.prefix + 'debug-mode');
-  var experimentalMode = goog.dom.getElement(this.prefix + 'experimental-mode');
   var setLanguage = goog.dom.getElement(this.prefix + 'language');
-  var showFullscreen = goog.dom.getElement(this.prefix + 'fullscreen');
   var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
 
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
-  advancedMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.ADVANCED_MODE);
   advancedMode.disabled = showWelcome.checked;
-  debugMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.DEBUG_MODE);
-  experimentalMode.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.EXPERIMENTAL_MODE);
-  showFullscreen.checked = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.FULLSCREEN);
+
 
   goog.events.listen(closeButton, goog.events.EventType.CLICK,
      this.hide, false, this);
@@ -92,12 +82,6 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
         cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
     }, false, this);
 
-  goog.events.listen(advancedMode, goog.events.EventType.CHANGE,
-    function(opt_event) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.ADVANCED_MODE, advancedMode.checked);
-    }, false, this);
-
   goog.events.listen(setLanguage, goog.events.EventType.CLICK,
     function(event) {
       var value = event.target.firstChild.data;
@@ -105,23 +89,17 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
         cwc.userConfigName.LANGUAGE, value);
     }, false, this);
 
-  goog.events.listen(debugMode, goog.events.EventType.CHANGE,
-    function(opt_event) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.DEBUG_MODE, debugMode.checked);
-    }, false, this);
+  // General settings
+  this.setConfig_('advanced-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.ADVANCED_MODE);
+  this.setConfig_('fullscreen', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.FULLSCREEN);
 
-  goog.events.listen(experimentalMode, goog.events.EventType.CHANGE,
-    function(opt_event) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.EXPERIMENTAL_MODE, experimentalMode.checked);
-    }, false, this);
-
-  goog.events.listen(showFullscreen, goog.events.EventType.CHANGE,
-    function(opt_event) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.FULLSCREEN, showFullscreen.checked);
-    }, false, this);
+  // Misc Settings
+  this.setConfig_('experimental-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.EXPERIMENTAL_MODE);
+  this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.DEBUG_MODE);
 
   // Robots modules
   this.setConfig_('mode-ev3', cwc.userConfigType.MODULE,
@@ -132,6 +110,20 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
     cwc.userConfigName.MBOT_BLUE);
   this.setConfig_('mode-mbot-ranger', cwc.userConfigType.MODULE,
     cwc.userConfigName.MBOT_RANGER);
+
+  // Programming language modules
+  this.setConfig_('mode-javascript', cwc.userConfigType.MODULE,
+    cwc.userConfigName.JAVASCRIPT);
+  this.setConfig_('mode-coffeescript', cwc.userConfigType.MODULE,
+    cwc.userConfigName.COFFEESCRIPT);
+  this.setConfig_('mode-python', cwc.userConfigType.MODULE,
+    cwc.userConfigName.PYTHON);
+  this.setConfig_('mode-pencil_code', cwc.userConfigType.MODULE,
+    cwc.userConfigName.PENCIL_CODE);
+
+  // Markup Language
+  this.setConfig_('mode-html5', cwc.userConfigType.MODULE,
+    cwc.userConfigName.HTML5);
 };
 
 

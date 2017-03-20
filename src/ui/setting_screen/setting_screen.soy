@@ -91,9 +91,7 @@
         {param title: 'General Settings' /}
         {param text: 'This screen allows you to change the default settings.' /}
       {/call}
-
       <ul class="mdl-list">
-
         // Welcome screen
         {call .setting_}
           {param prefix: $prefix /}
@@ -142,8 +140,8 @@
             </ul>
           </span>
         </li>
-
       </ul>
+
       <div class="mdl-card__supporting-text">
         {msg desc=""}
           * You need to restart the application after enabling or disabling these options.
@@ -171,9 +169,7 @@
         {param title: 'Robots' /}
         {param text: 'Specific robot modules' /}
       {/call}
-
       <ul class="mdl-list">
-
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'EV3 module' /}
@@ -209,8 +205,65 @@
           {param id: 'mode-mbot-ranger' /}
           {param opt_checked: true /}
         {/call}
-
       </ul>
+
+      {call .subHeader_}
+        {param title: 'Programming Language' /}
+        {param text: 'Text based programming languages' /}
+      {/call}
+      <ul class="mdl-list">
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'JavaScript module' /}
+          {param text: 'Use JavaScript to create programs' /}
+          {param type: 'switch' /}
+          {param id: 'mode-javascript' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'CoffeeScript module' /}
+          {param text: 'Use the simple CoffeeScript language to create programs' /}
+          {param type: 'switch' /}
+          {param id: 'mode-coffeescript' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Python module' /}
+          {param text: 'Use the advanced Python language to create programs' /}
+          {param type: 'switch' /}
+          {param id: 'mode-python' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Pencil Code module' /}
+          {param text: 'Draw art, play music or create games' /}
+          {param type: 'switch' /}
+          {param id: 'mode-pencil_code' /}
+          {param opt_checked: true /}
+        {/call}
+      </ul>
+
+      {call .subHeader_}
+        {param title: 'Markup Language' /}
+        {param text: 'Website modules' /}
+      {/call}
+      <ul class="mdl-list">
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'HTML5 module' /}
+          {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
+          {param type: 'switch' /}
+          {param id: 'mode-html5' /}
+          {param opt_checked: true /}
+        {/call}
+      </ul>
+
       <div class="mdl-card__supporting-text">
         {msg desc=""}
           You need to restart the application after enabling or disabling any module.
@@ -233,9 +286,7 @@
         {param title: 'Misc Settings' /}
         {param text: 'This screen allows you to change some advanced settings.' /}
       {/call}
-
       <ul class="mdl-list">
-
         // Debug Mode
         {call .setting_}
           {param prefix: $prefix /}
@@ -255,8 +306,8 @@
           {param id: 'experimental-mode' /}
           {param opt_restart: true /}
         {/call}
-
       </ul>
+
       <div class="mdl-card__supporting-text">
         {msg desc=""}
           * You need to restart the application after enabling or disabling these options.

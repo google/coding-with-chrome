@@ -27,13 +27,18 @@ goog.provide('cwc.userConfigType');
  */
 cwc.userConfigName = {
   ADVANCED_MODE: 'advanced_mode',
+  COFFEESCRIPT: 'coffeescript',
   DEBUG_MODE: 'debug_mode',
   EV3: 'ev3',
   EXPERIMENTAL_MODE: 'experimental_mode',
   FULLSCREEN: 'fullscreen',
+  HTML5: 'html5',
+  JAVASCRIPT: 'javascript',
   LANGUAGE: 'language',
   MBOT_BLUE: 'mbot_blue',
   MBOT_RANGER: 'mbot_ranger',
+  PENCIL_CODE: 'pencil_code',
+  PYTHON: 'python',
   SKIP_WELCOME: 'skip_welcome',
   SPHERO: 'sphero',
   ZOOM: 'zoom'
