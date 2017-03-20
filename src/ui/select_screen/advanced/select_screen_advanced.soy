@@ -33,7 +33,7 @@
       {param active_link: 'home' /}
     {/call}
 
-    {call .header_}
+    {call cwc.soy.SelectScreenTemplate.header}
       {param title: 'Advanced Coding' /}
       {param opt_color_class: 'bg-light-blue' /}
       {param opt_icon: 'subject' /}
@@ -41,7 +41,7 @@
 
     <div class="mdl-grid">
 
-      {call .selectCard_}
+      {call cwc.soy.SelectScreenTemplate.selectCard}
         {param prefix: $prefix /}
         {param title: 'Simple' /}
         {param text: 'JavaScript made easy through easy starter functions' /}
@@ -51,7 +51,7 @@
         {param opt_icon: 'school' /}
       {/call}
 
-      {call .selectCard_}
+      {call cwc.soy.SelectScreenTemplate.selectCard}
         {param prefix: $prefix /}
         {param title: 'Programming' /}
         {param text: 'Build software with text based programming languages' /}
@@ -61,7 +61,7 @@
         {param opt_icon: 'view_stream' /}
       {/call}
 
-      {call .selectCard_}
+      {call cwc.soy.SelectScreenTemplate.selectCard}
         {param prefix: $prefix /}
         {param title: 'Markup' /}
         {param text: 'Put together the components of a website- HTML, CSS and JavaScript' /}
@@ -71,7 +71,7 @@
         {param opt_icon: 'public' /}
       {/call}
 
-      {call .selectCard_}
+      {call cwc.soy.SelectScreenTemplate.selectCard}
         {param prefix: $prefix /}
         {param title: 'Robots' /}
         {param text: 'Control virtual or real robots' /}
@@ -81,7 +81,7 @@
         {param opt_icon: 'memory' /}
       {/call}
 
-      {call .selectCard_}
+      {call cwc.soy.SelectScreenTemplate.selectCard}
         {param prefix: $prefix /}
         {param title: '3D' /}
         {param text: 'Create create and display animated 3D computer graphics' /}
@@ -111,7 +111,7 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Simple' /}
         {param opt_text: 'JavaScript made easy - JavaScript plus a variety of functions that make your life easier.' /}
         {param opt_color_class: 'bg-light-blue' /}
@@ -120,7 +120,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Create empty project.' /}
@@ -131,7 +131,7 @@
           {param opt_text: 'Simple JS file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Hello World' /}
           {param text: 'Hello World example' /}
@@ -141,7 +141,7 @@
           {param opt_image: 'images/selection/basic-script-hello-world.png' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Text Loop' /}
           {param text: 'Text Loop example' /}
@@ -151,7 +151,7 @@
           {param opt_image: 'images/selection/basic-script-text-loop.png' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Line Loop' /}
           {param text: 'Draw lines with loops' /}
@@ -161,7 +161,7 @@
           {param opt_image: 'images/selection/basic-script-line-loop.png' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Point Loop' /}
           {param text: 'Draw points with random colors and loops' /}
@@ -171,7 +171,7 @@
           {param opt_image: 'images/selection/basic-script-point-loop.png' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Draw Portal Turret' /}
           {param text: 'Draw a Portal Turret' /}
@@ -205,49 +205,45 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Programming Language' /}
         {param opt_text: 'Text based programming languages' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'view_stream' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'JavaScript' /}
         {param text: 'Use JavaScript to create programs' /}
         {param link_text: 'Use JavaScript' /}
-        {param link_id: 'javascript' /}
+        {param id: 'javascript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'beenhere' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'CoffeeScript' /}
         {param text: 'Use the simple CoffeeScript language to create programs' /}
         {param link_text: 'Use CoffeeScript' /}
-        {param link_id: 'coffeescript' /}
+        {param id: 'coffeescript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'local_cafe' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Python' /}
         {param text: 'Use the Python language to create programs' /}
         {param link_text: 'Use Python' /}
-        {param link_id: 'python' /}
+        {param id: 'python' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'gesture' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Pencil Code' /}
         {param text: 'Draw art, play music or create games' /}
         {param link_text: 'Use Pencil Code' /}
-        {param link_id: 'pencil-code' /}
+        {param id: 'pencil-code' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'mode_edit' /}
       {/call}
@@ -280,7 +276,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'JavaScript' /}
         {param opt_text: 'Write code in JavaScript' /}
         {param opt_color_class: 'bg-blue' /}
@@ -289,7 +285,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty JavaScript project' /}
@@ -301,7 +297,7 @@
         {/call}
 
         {if $online}
-          {call .selectCardBig_}
+          {call cwc.soy.SelectScreenTemplate.selectCardBig}
             {param prefix: $prefix /}
             {param title: 'Video Tutorials' /}
             {param text: 'Start learning with JavaScript video tutorials on YouTube' /}
@@ -313,7 +309,7 @@
           {/call}
         {/if}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'JavaScript Frameworks' /}
           {param text: 'Different kind of JavaScript framework examples' /}
@@ -324,7 +320,7 @@
           {param opt_text: 'JavaScript Frameworks' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Circle Animation' /}
           {param text: 'Example that animates a Circle.' /}
@@ -334,7 +330,7 @@
           {param opt_image: 'images/selection/javascript-circle-animation.png' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Triangle Animation' /}
           {param text: 'Example that animates a Triangle.' /}
@@ -373,7 +369,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'JavaScript Video Tutorials' /}
         {param opt_text: 'Learn JavaScript with video tutorials on YouTube.' /}
         {param opt_color_class: 'bg-green' /}
@@ -382,7 +378,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardVideo_}
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
           {param title: 'JavaScript Intro' /}
           {param text: 'In this video, we introduce Coding with Chrome and how you can use it to learn how to program in JavaScript.' /}
           {param link_text: 'Open video in Browser' /}
@@ -390,7 +386,7 @@
           {param opt_color_class: 'bg-green' /}
         {/call}
 
-        {call .selectCardVideo_}
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
           {param title: 'Dates' /}
           {param text: 'In this video, we write JavaScript to work with dates in Coding with Chrome.' /}
           {param link_text: 'Open video in Browser' /}
@@ -398,7 +394,7 @@
           {param opt_color_class: 'bg-green' /}
         {/call}
 
-        {call .selectCardVideo_}
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
           {param title: 'Birthdays' /}
           {param text: 'In this video, we use Coding with Chrome to learn about dates in JavaScript.' /}
           {param link_text: 'Open video in Browser' /}
@@ -406,7 +402,7 @@
           {param opt_color_class: 'bg-green' /}
         {/call}
 
-        {call .selectCardVideo_}
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
           {param title: 'Birthday Counter' /}
           {param text: 'In this video we use Coding with Chrome to build a birthday counter in JavaScript.' /}
           {param link_text: 'Open video in Browser' /}
@@ -443,7 +439,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'JavaScript Frameworks' /}
         {param opt_text: 'Learn the different kind of JavaScript frameworks.' /}
         {param opt_color_class: 'bg-orange' /}
@@ -452,7 +448,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Three.js - Cube Example' /}
           {param text: 'Animated 3d cube.' /}
@@ -491,7 +487,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'CoffeeScript' /}
         {param opt_text: 'Write code in the simplified CoffeeScript language' /}
         {param opt_color_class: 'bg-blue' /}
@@ -500,7 +496,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty CoffeeScript project' /}
@@ -540,7 +536,7 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Python' /}
         {param opt_text: '' /}
         {param opt_color_class: 'bg-light-blue' /}
@@ -549,7 +545,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Create empty project.' /}
@@ -560,7 +556,7 @@
           {param opt_text: 'Simple python file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Guess number' /}
           {param text: 'Simple guess number game.' /}
@@ -574,7 +570,7 @@
 
     </div>
 
-    {call .footer_}
+    {call cwc.soy.SelectScreenTemplate.footer}
       {param text: '"Python" is a registered trademark of the PSF. The Python logos (in several variants) are use trademarks of the PSF as well.' /}
     {/call}
 
@@ -603,7 +599,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Pencil Code' /}
         {param opt_text: 'Write code with Pencil Code' /}
         {param opt_color_class: 'bg-blue' /}
@@ -612,7 +608,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty pencil code project' /}
@@ -623,7 +619,7 @@
           {param opt_text: 'Pencil Code file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Turtle catch' /}
           {param text: 'Simple game where the goal is to catch a turtle' /}
@@ -657,19 +653,18 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Markup Language' /}
         {param opt_text: 'Build website code' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'public' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'HTML5' /}
         {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
         {param link_text: 'Use HTML5' /}
-        {param link_id: 'html5' /}
+        {param id: 'html5' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'public' /}
       {/call}
@@ -701,7 +696,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'HTML5' /}
         {param opt_text: 'Create website code' /}
         {param opt_color_class: 'bg-blue' /}
@@ -710,7 +705,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty HTML5 project' /}
@@ -721,7 +716,7 @@
           {param opt_text: 'HTML5 file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Form' /}
           {param text: 'HTML5 form example' /}
@@ -755,29 +750,27 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots' /}
         {param opt_text: 'Program Robots with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'memory' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'EV3' /}
         {param text: 'Control the EV3 or a virtual robot with JavaScript' /}
         {param link_text: 'Use EV3 Robot' /}
-        {param link_id: 'ev3' /}
+        {param id: 'ev3' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
       {/call}
 
-      {call .selectSection_}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Sphero' /}
         {param text: 'Control the Sphero or a virtual robot with JavaScript' /}
         {param link_text: 'Use Sphero Robot' /}
-        {param link_id: 'sphero' /}
+        {param id: 'sphero' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
       {/call}
@@ -809,7 +802,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robot: EV3' /}
         {param opt_text: 'Control an EV3 with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
@@ -818,7 +811,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty EV3 project' /}
@@ -829,7 +822,7 @@
           {param opt_text: 'EV3 file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Line follower' /}
           {param text: 'Simple line follower example.' /}
@@ -843,7 +836,7 @@
 
     </div>
 
-    {call .footer_}
+    {call cwc.soy.SelectScreenTemplate.footer}
       {param text: 'Coding with Chrome is not affiliated, sponsored, or endorsed by LEGO® Education or the LEGO® Group.' /}
       {param opt_text: 'LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.' /}
     {/call}
@@ -873,7 +866,7 @@
 
     <div class="cwc-content-large">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robot: Sphero' /}
         {param opt_text: 'Control a Sphero with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
@@ -882,7 +875,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Start an empty Sphero project' /}
@@ -893,7 +886,7 @@
           {param opt_text: 'Sphero file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Rectangle Example' /}
           {param text: 'Example Sphero is rolling a rectangle.' /}
@@ -907,7 +900,7 @@
 
     </div>
 
-    {call .footer_}
+    {call cwc.soy.SelectScreenTemplate.footer}
       {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
     {/call}
 
@@ -931,7 +924,7 @@
 
     <div class="cwc-content">
 
-      {call .header_}
+      {call cwc.soy.SelectScreenTemplate.header}
         {param title: '3D' /}
         {param opt_text: '' /}
         {param opt_color_class: 'bg-light-blue' /}
@@ -940,7 +933,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
           {param text: 'Create empty project.' /}
@@ -951,7 +944,7 @@
           {param opt_text: 'Simple 3D file' /}
         {/call}
 
-        {call .selectCardBig_}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Cube Example' /}
           {param text: 'Animated 3d cube.' /}
@@ -971,46 +964,6 @@
 
 
 /**
- * Header design.
- */
-{template .header_}
-  {@param title: string}
-  {@param? opt_icon: string}
-  {@param? opt_text: string}
-  {@param? opt_color_class: string}
-
-  <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
-    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
-    <div class="cwc-band-text">
-      <div class="mdl-typography--display-2 mdl-typography--font-thin">
-        {msg desc=""}{$title}{/msg}
-      </div>
-      {if $opt_text}
-        <p class="mdl-typography--headline mdl-typography--font-thin">
-          {msg desc=""}{$opt_text}{/msg}
-        </p>
-      {/if}
-    </div>
-  </header>
-{/template}
-
-
-/**
- * Header link entry.
- */
-{template .headerLink_}
-  {@param prefix: string}
-  {@param title: string}
-  {@param id: string}
-  {@param active_link: string}
-
-  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}" href="#">
-    {msg desc=""}{$title}{/msg}
-  </a>
-{/template}
-
-
-/**
  * Overview header.
  */
 {template .overviewHeader_}
@@ -1022,35 +975,35 @@
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">
         home</a>
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Simple' /}
         {param id: 'basic' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Programming Language' /}
         {param id: 'programming-language' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Markup Language' /}
         {param id: 'markup-language' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Robots' /}
         {param id: 'robot' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: '3D' /}
         {param id: '3d' /}
@@ -1072,28 +1025,28 @@
   <header id="{$prefix}navigation-programming-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'JavaScript' /}
         {param id: 'javascript' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'CoffeeScript' /}
         {param id: 'coffeescript' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Python' /}
         {param id: 'python' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Pencil Code' /}
         {param id: 'pencil-code' /}
@@ -1115,7 +1068,7 @@
   <header id="{$prefix}navigation-markup-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'HTML5' /}
         {param id: 'html5' /}
@@ -1137,14 +1090,14 @@
   <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'EV3' /}
         {param id: 'ev3' /}
         {param active_link: $active_link /}
       {/call}
 
-      {call .headerLink_}
+      {call cwc.soy.SelectScreenTemplate.headerLink}
         {param prefix: $prefix /}
         {param title: 'Sphero' /}
         {param id: 'sphero' /}
@@ -1153,173 +1106,4 @@
 
     </nav>
   </header>
-{/template}
-
-
-/**
- * Header card design.
- */
-{template .selectSection_}
-  {@param prefix: string}
-  {@param title: string}
-  {@param text: string}
-  {@param link_text: string}
-  {@param link_id: string}
-  {@param? opt_image: string}
-  {@param? opt_icon: string}
-  {@param? opt_color_class: string}
-
-  <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-    <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
-    </header>
-    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-      <div class="mdl-card__supporting-text">
-        <h4>
-          {msg desc=""}{$title}{/msg}
-        </h4>
-        {msg desc=""}{$text}{/msg}
-      </div>
-      <div class="mdl-card__actions">
-        <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button">
-          {msg desc=""}{$link_text}{/msg}
-          <i class="material-icons">chevron_right</i>
-        </a>
-      </div>
-    </div>
-  </section>
-{/template}
-
-
-/**
- * Select card design.
- */
-{template .selectCard_}
-  {@param prefix: string}
-  {@param title: string}
-  {@param text: string}
-  {@param link_text: string}
-  {@param link_id: string}
-  {@param? opt_image: string}
-  {@param? opt_icon: string}
-  {@param? opt_color_class: string}
-  {@param? opt_hidden: bool}
-
-  <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
-    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}
-        <div class="cwc-select-card-icon">
-          <i class="icon_auto">{$opt_icon}</i>
-        </div>
-      {/if}
-    </div>
-    <div class="mdl-card__title">
-      <h4 class="mdl-card__title-text">
-        {msg desc=""}{$title}{/msg}
-      </h4>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <span class="mdl-typography--font-light mdl-typography--subhead">
-        {msg desc=""}{$text}{/msg}
-      </span>
-    </div>
-    <div class="mdl-card__actions">
-       <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
-         {msg desc=""}{$link_text}{/msg}
-         <i class="material-icons">chevron_right</i>
-       </a>
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Select card design.
- */
-{template .selectCardBig_}
-  {@param prefix: string}
-  {@param title: string}
-  {@param text: string}
-  {@param link_text: string}
-  {@param link_id: string}
-  {@param? opt_image: string}
-  {@param? opt_icon: string}
-  {@param? opt_text: string}
-  {@param? opt_color_class: string}
-
-  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}
-        <div class="cwc-select-card-icon">
-          <i class="icon_auto">{$opt_icon}</i>
-        </div>
-      {/if}
-      {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
-    </div>
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">
-        {msg desc=""}{$title}{/msg}
-      </h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      {msg desc=""}{$text}{/msg}
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {msg desc=""}{$link_text}{/msg}
-        <i class="material-icons">chevron_right</i>
-        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-      </a>
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Select card video design.
- */
-{template .selectCardVideo_}
-  {@param title: string}
-  {@param text: string}
-  {@param link_text: string}
-  {@param video_id: string}
-  {@param? opt_color_class: string}
-
-  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      <webview style="width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{$video_id}?rel=0&amp;controls=0" frameborder="0"></webview>
-    </div>
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">
-        {msg desc=""}{$title}{/msg}
-      </h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      {msg desc=""}{$text}{/msg}
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a href="https://youtu.be/{$video_id}" target="_blank" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {msg desc=""}{$link_text}{/msg}
-        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-      </a>
-    </div>
-  </div>
-{/template}
-
-
-/**
- * Custom footer.
- */
-{template .footer_}
-  {@param text: string}
-  {@param? opt_text: string}
-
-  <footer class="mdl-mini-footer">
-    <div class="mdl-mini-footer__left-section">
-      {$text}{if $opt_text}<br>{$opt_text}{/if}
-    </div>
-  </footer>
 {/template}

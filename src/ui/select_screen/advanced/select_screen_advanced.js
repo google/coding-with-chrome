@@ -331,12 +331,19 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
+  var modules = {};
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
+  }
+
   if (this.node && template) {
     goog.soy.renderElement(this.node, template, {
       debug: this.helper.debugEnabled(),
       experimental: this.helper.experimentalEnabled(),
-      prefix: this.prefix,
-      online: this.helper.checkFeature('online')
+      modules: modules,
+      online: this.helper.checkFeature('online'),
+      prefix: this.prefix
     });
   } else {
     console.error('Unable to render template', template);

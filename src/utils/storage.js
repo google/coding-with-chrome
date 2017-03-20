@@ -102,13 +102,13 @@ cwc.utils.Storage = function(opt_storage_type) {
   this.name = 'Storage';
 
   /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
+  this.loglevel_ = cwc.utils.LogLevel.DEBUG;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
-  /** @private {Object} */
-  this.storage_ = null;
+  /** @private {!Object} */
+  this.storage_ = {};
 
   /** @private {!cwc.utils.StorageType} */
   this.storageType_ = opt_storage_type || this.getStorageType();
@@ -254,7 +254,16 @@ cwc.utils.Storage.prototype.saveChromeStorage = function(type) {
  */
 cwc.utils.Storage.prototype.getKeyname = function(opt_name, opt_type) {
   var type = opt_type || this.defaultType_;
-  return this.prefix_ + type + '__' + opt_name;
+  return this.getTypename(type) + '__' + opt_name;
+};
+
+
+/**
+ * @param {string=} type
+ * @return {!string} The type name
+ */
+cwc.utils.Storage.prototype.getTypename = function(type) {
+  return this.prefix_ + type;
 };
 
 
@@ -284,6 +293,24 @@ cwc.utils.Storage.prototype.get = function(name, opt_type) {
       return false;
   }
   return keyValue;
+};
+
+
+/**
+ * Gets all entries for the named storage type.
+ * @param {!string} type Type of the storage entry.
+ * @return {Object} Value of the storage entry.
+ */
+cwc.utils.Storage.prototype.getAll = function(type) {
+  var result = {};
+  var keys = Object.keys(this.storage_);
+  keys.forEach((key) => {
+    if (key.includes(type)) {
+      var keyName = key.replace(this.getTypename(type) + '__', '');
+      result[keyName] = this.get(keyName, type);
+    }
+  });
+  return result;
 };
 
 

@@ -1,0 +1,245 @@
+/**
+ * @fileoverview Select screen Template for Coding in Chrome editor.
+ *
+ * @license Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenTemplate autoescape="strict"}
+
+
+/**
+ * Select card design.
+ */
+{template .selectCard}
+  {@param link_id: string}
+  {@param link_text: string}
+  {@param prefix: string}
+  {@param text: string}
+  {@param title: string}
+  {@param? opt_color_class: string}
+  {@param? opt_hidden: bool}
+  {@param? opt_icon: string}
+  {@param? opt_image: string}
+
+  <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="../{$opt_image}">{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
+    </div>
+    <div class="mdl-card__title">
+      <h4 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h4>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <span class="mdl-typography--font-light mdl-typography--subhead">
+        {msg desc=""}{$text}{/msg}
+      </span>
+    </div>
+    <div class="mdl-card__actions">
+       <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
+         {msg desc=""}{$link_text}{/msg}
+         <i class="material-icons">chevron_right</i>
+       </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Select card design.
+ */
+{template .selectCardBig}
+  {@param link_id: string}
+  {@param link_text: string}
+  {@param prefix: string}
+  {@param text: string}
+  {@param title: string}
+  {@param? opt_color_class: string}
+  {@param? opt_icon: string}
+  {@param? opt_image: string}
+  {@param? opt_text: string}
+
+  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="../{$opt_image}">{/if}
+      {if $opt_icon}
+        <div class="cwc-select-card-icon">
+          <i class="icon_auto">{$opt_icon}</i>
+        </div>
+      {/if}
+      {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+        {msg desc=""}{$link_text}{/msg}
+        <i class="material-icons">chevron_right</i>
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Select card video design.
+ */
+{template .selectCardVideo}
+  {@param link_text: string}
+  {@param text: string}
+  {@param title: string}
+  {@param video_id: string}
+  {@param? opt_color_class: string}
+
+  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      <webview style="width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{$video_id}?rel=0&amp;controls=0" frameborder="0"></webview>
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="https://youtu.be/{$video_id}" target="_blank" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
+        {msg desc=""}{$link_text}{/msg}
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </a>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Header card design.
+ */
+{template .selectSection}
+  {@param id: string}
+  {@param link_text: string}
+  {@param modules: ?}
+  {@param prefix: string}
+  {@param text: string}
+  {@param title: string}
+  {@param? opt_color_class: string}
+  {@param? opt_icon: string}
+  {@param? opt_icon_rotate: string}
+  {@param? opt_id: string}
+  {@param? opt_image: string}
+  {@param? opt_link_text: string}
+
+  {let $isEnabled: isNonnull($modules[$id]) and $modules[$id] == true or not isNonnull($modules[$id]) /}
+  {let $opt_isEnabled: isNonnull($modules[$opt_id]) and $modules[$opt_id] == true or not isNonnull($modules[opt_id]) /}
+
+  <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp{if not $isEnabled} hidden{/if}">
+    <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
+      {if $opt_image}<img src="../{$opt_image}">{/if}
+      {if $opt_icon}
+        <i class="icon_auto{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
+      {/if}
+    </header>
+    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+      <div class="mdl-card__supporting-text">
+        <h4>
+          {msg desc=""}{$title}{/msg}
+        </h4>
+        {msg desc=""}{$text}{/msg}
+      </div>
+      <div class="mdl-card__actions">
+        <a href="#" id="{$prefix}link-{$id}" class="mdl-button">
+          {msg desc=""}{$link_text}{/msg}
+          <i class="material-icons">chevron_right</i>
+        </a>
+        {if $opt_link_text and $opt_id}
+          <a href="#" id="{$prefix}link-{$opt_id}" class="mdl-button{if not $opt_isEnabled} hidden{/if}">
+            {msg desc=""}{$opt_link_text}{/msg}
+            <i class="material-icons">chevron_right</i>
+          </a>
+        {/if}
+      </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
+ * Header link entry.
+ */
+{template .headerLink}
+  {@param active_link: string}
+  {@param id: string}
+  {@param prefix: string}
+  {@param title: string}
+  {@param? opt_hidden: bool}
+
+  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}{if $opt_hidden} hidden{/if}" href="#">
+    {msg desc=""}{$title}{/msg}
+  </a>
+{/template}
+
+
+/**
+ * Header design.
+ */
+{template .header}
+  {@param title: string}
+  {@param? opt_color_class: string}
+  {@param? opt_icon: string}
+  {@param? opt_text: string}
+
+  <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
+    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
+    <div class="cwc-band-text">
+      <div class="mdl-typography--display-2 mdl-typography--font-thin">
+        {msg desc=""}{$title}{/msg}
+      </div>
+      {if $opt_text}
+        <p class="mdl-typography--headline mdl-typography--font-thin">
+          {msg desc=""}{$opt_text}{/msg}
+        </p>
+      {/if}
+    </div>
+  </header>
+{/template}
+
+
+/**
+ * Custom footer.
+ */
+{template .footer}
+  {@param text: string}
+  {@param? opt_text: string}
+
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__left-section">
+      {$text}{if $opt_text}<br>{$opt_text}{/if}
+    </div>
+  </footer>
+{/template}

@@ -144,9 +144,9 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenNormalView.EV3);
       this.setClickEvent_('link-sphero', this.showView,
           cwc.ui.SelectScreenNormalView.SPHERO);
-      this.setClickEvent_('link-mbot', this.showView,
+      this.setClickEvent_('link-mbot_blue', this.showView,
           cwc.ui.SelectScreenNormalView.MBOT);
-      this.setClickEvent_('link-mbot-ranger', this.showView,
+      this.setClickEvent_('link-mbot_ranger', this.showView,
           cwc.ui.SelectScreenNormalView.MBOT_RANGER);
       break;
 
@@ -272,12 +272,19 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
  * @param {!cwc.soy.SelectScreenNormal} template
  */
 cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
+  var modules = {};
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
+  }
+
   if (this.node && template) {
     goog.soy.renderElement(this.node, template, {
       debug: this.helper.debugEnabled(),
       experimental: this.helper.experimentalEnabled(),
-      prefix: this.prefix,
-      online: this.helper.checkFeature('online')
+      modules: modules,
+      online: this.helper.checkFeature('online'),
+      prefix: this.prefix
     });
   } else {
     console.error('Unable to render template', template);

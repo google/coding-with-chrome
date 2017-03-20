@@ -123,6 +123,15 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
         cwc.userConfigName.FULLSCREEN, showFullscreen.checked);
     }, false, this);
 
+  // Robots modules
+  this.setConfig_('mode-ev3', cwc.userConfigType.MODULE,
+    cwc.userConfigName.EV3);
+  this.setConfig_('mode-sphero', cwc.userConfigType.MODULE,
+    cwc.userConfigName.SPHERO);
+  this.setConfig_('mode-mbot-blue', cwc.userConfigType.MODULE,
+    cwc.userConfigName.MBOT_BLUE);
+  this.setConfig_('mode-mbot-ranger', cwc.userConfigType.MODULE,
+    cwc.userConfigName.MBOT_RANGER);
 };
 
 
@@ -143,4 +152,40 @@ cwc.ui.SettingScreen.prototype.show = function() {
 cwc.ui.SettingScreen.prototype.hide = function() {
   var layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.showOverlay(false);
+};
+
+
+/**
+ * @param {!string} id
+ * @param {!cwc.userConfigType|string} type
+ * @param {!cwc.userConfigName|string} name
+ * @param {string=} opt_type
+ * @param {Function=} opt_func
+ */
+cwc.ui.SettingScreen.prototype.setConfig_ = function(id, type, name,
+    opt_type, opt_func) {
+  var userConfigInstance = this.helper.getInstance('userConfig');
+  var settingNode = goog.dom.getElement(this.prefix + id);
+  var status = userConfigInstance.get(type, name);
+  if (status !== null) {
+    settingNode.checked = status;
+  }
+  if (opt_func) {
+    goog.events.listen(settingNode, goog.events.EventType.CHANGE, opt_func,
+      false, this);
+  } else {
+    switch (opt_type) {
+      case 'select':
+        goog.events.listen(settingNode, goog.events.EventType.CLICK,
+          function(event) {
+            userConfigInstance.set(type, name, event.target.firstChild.data);
+          }, false, this);
+        break;
+      default:
+        goog.events.listen(settingNode, goog.events.EventType.CHANGE,
+          function(opt_event) {
+            userConfigInstance.set(type, name, settingNode.checked);
+          }, false, this);
+    }
+  }
 };

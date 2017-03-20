@@ -38,16 +38,34 @@
             {msg desc=""}General{/msg}
           </a>
           <a href="#scroll-tab-2" class="mdl-layout__tab">
+            {msg desc=""}Modules{/msg}
+          </a>
+          <a href="#scroll-tab-3" class="mdl-layout__tab">
             {msg desc=""}Misc{/msg}
           </a>
         </div>
       </header>
       <main class="mdl-layout__content">
         <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-          <div class="page-content">{call .generalTab}{param prefix: $prefix /}{/call}</div>
+          <div class="page-content">
+            {call .generalTab}
+              {param prefix: $prefix /}
+            {/call}
+          </div>
         </section>
         <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-          <div class="page-content">{call .miscTab}{param prefix: $prefix /}{/call}</div>
+          <div class="page-content">
+            {call .modulesTab}
+              {param prefix: $prefix /}
+            {/call}
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-3">
+          <div class="page-content">
+            {call .miscTab}
+              {param prefix: $prefix /}
+            {/call}
+          </div>
         </section>
       </main>
     </div>
@@ -137,6 +155,73 @@
 
 
 /**
+ * Modules tab.
+ */
+{template .modulesTab}
+  {@param prefix: string}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+
+      {call .header_}
+        {param title: 'Modules' /}
+        {param text: 'This screen allows you to enable/disable the different kind of modules.' /}
+      {/call}
+
+      {call .subHeader_}
+        {param title: 'Robots' /}
+        {param text: 'Specific robot modules' /}
+      {/call}
+
+      <ul class="mdl-list">
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'EV3 module' /}
+          {param text: 'Control a real or virtual EV3.' /}
+          {param type: 'switch' /}
+          {param id: 'mode-ev3' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Sphero module' /}
+          {param text: 'Control a real or virtual Sphero.' /}
+          {param type: 'switch' /}
+          {param id: 'mode-sphero' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'MakeBlock - mBot Blue' /}
+          {param text: 'Control a MakeBlock mBot Blue' /}
+          {param type: 'switch' /}
+          {param id: 'mode-mbot-blue' /}
+          {param opt_checked: true /}
+        {/call}
+
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'MakeBlock - mBot Ranger' /}
+          {param text: 'Control a MakeBlock mBot Ranger' /}
+          {param type: 'switch' /}
+          {param id: 'mode-mbot-ranger' /}
+          {param opt_checked: true /}
+        {/call}
+
+      </ul>
+      <div class="mdl-card__supporting-text">
+        {msg desc=""}
+          You need to restart the application after enabling or disabling any module.
+        {/msg}
+      </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
  * Misc tab.
  */
 {template .miscTab}
@@ -161,7 +246,7 @@
           {param opt_restart: true /}
         {/call}
 
-        // Debug Mode
+        // Experimental Mode
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Experimental Mode' /}
@@ -192,6 +277,7 @@
   {@param type: string}
   {@param id: string}
   {@param? opt_restart: bool}
+  {@param? opt_checked: bool}
 
   <li class="mdl-list__item mdl-list__item--three-line">
     <span class="mdl-list__item-primary-content">
@@ -207,11 +293,11 @@
       {switch $type}
         {case 'checkbox'}
           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{$prefix}{$id}">
-            <input type="checkbox" id="{$prefix}{$id}" class="mdl-checkbox__input" />
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-checkbox__input"{if $opt_checked} checked{/if} />
           </label>
         {case 'switch'}
           <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{$prefix}{$id}">
-            <input type="checkbox" id="{$prefix}{$id}" class="mdl-switch__input" />
+            <input type="checkbox" id="{$prefix}{$id}" class="mdl-switch__input"{if $opt_checked} checked{/if} />
           </label>
       {/switch}
 
@@ -228,6 +314,19 @@
   {@param text: string}
   <div class="mdl-card__supporting-text">
     <h4>{msg desc="header title"}{$title}{/msg}</h4>
+    {msg desc="header text"}{$text}{/msg}
+  </div>
+{/template}
+
+
+/**
+ * Page sub header.
+ */
+{template .subHeader_}
+  {@param title: string}
+  {@param text: string}
+  <div class="mdl-card__supporting-text">
+    <h5>{msg desc="header title"}{$title}{/msg}</h5>
     {msg desc="header text"}{$text}{/msg}
   </div>
 {/template}
