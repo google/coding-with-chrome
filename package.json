@@ -48,6 +48,7 @@
     "build-cwc-deps": "npm run build-cwc-app && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-gss && npm run build-cwc-soy && npm run build-cwc-static",
     "build-cwc-frameworks": "node build/cwc/frameworks.js",
     "build-cwc-gss": "node build/cwc/gss.js",
+    "build-cwc-locales": "node build/cwc/locales.js",
     "build-cwc-main": "node build/cwc/main.js",
     "build-cwc-main-debug": "node build/cwc/main-debug.js",
     "build-cwc-soy": "node build/cwc/soy.js",
