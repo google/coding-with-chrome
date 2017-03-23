@@ -28,7 +28,7 @@ Blockly.Blocks['general_infinity_loop'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-      .appendField('repeat forever');
+      .appendField(i18t('repeat forever'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);
@@ -45,7 +45,7 @@ Blockly.Blocks['general_file_library'] = {
   init: function() {
     this.appendValueInput('filename')
         .setCheck('String')
-        .appendField('File:');
+        .appendField(i18t('File:'));
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
@@ -61,7 +61,7 @@ Blockly.Blocks['general_file_library_image'] = {
   init: function() {
     this.appendValueInput('filename')
         .setCheck('String')
-        .appendField('Image:');
+        .appendField(i18t('Image:'));
     this.setOutput(true, 'Image');
     this.setColour(230);
     this.setTooltip('');
@@ -77,7 +77,7 @@ Blockly.Blocks['general_file_library_audio'] = {
   init: function() {
     this.appendValueInput('filename')
         .setCheck('String')
-        .appendField('Audio:');
+        .appendField(i18t('Audio:'));
     this.setOutput(true, 'Audio');
     this.setColour(230);
     this.setTooltip('');
@@ -93,7 +93,7 @@ Blockly.Blocks['general_file_library_text'] = {
   init: function() {
     this.appendValueInput('filename')
         .setCheck('String')
-        .appendField('Text:');
+        .appendField(i18t('Text:'));
     this.setOutput(true, 'Text');
     this.setColour(230);
     this.setTooltip('');

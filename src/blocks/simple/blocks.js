@@ -29,12 +29,12 @@ Blockly.Blocks['simple_text_write'] = {
     this.setColour(290);
     this.appendValueInput('text')
       .setCheck('String')
-      .appendField('write(');
+      .appendField(i18t('write('));
     this.appendDummyInput()
       .appendField(')');
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Writes the text on the screen.');
+    this.setTooltip(i18t('Writes the text on the screen.'));
   }
 };
 
@@ -50,7 +50,7 @@ Blockly.Blocks['simple_draw_circle'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Circle (x,');
+      .appendField(i18t('Circle (x,'));
     this.appendValueInput('y')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -58,22 +58,22 @@ Blockly.Blocks['simple_draw_circle'] = {
     this.appendValueInput('radius')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('radius,');
+      .appendField(i18t('radius,'));
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color,');
+      .appendField(i18t('color,'));
     this.appendValueInput('borderColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_color,');
+      .appendField(i18t('border_color,'));
     this.appendValueInput('borderSize')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_size)');
+      .appendField(i18t('border_size)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an circle on the screen.');
+    this.setTooltip(i18t('Draws an circle on the screen.'));
   }
 };
 
@@ -85,10 +85,10 @@ Blockly.Blocks['simple_draw_clear'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
-    this.appendDummyInput().appendField('clear ()');
+    this.appendDummyInput().appendField(i18t('clear ()'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Clears the screen.');
+    this.setTooltip(i18t('Clears the screen.'));
   }
 };
 
@@ -103,7 +103,7 @@ Blockly.Blocks['simple_draw_rectangle'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Rectangle (x,');
+      .appendField(i18t('Rectangle (x,'));
     this.appendValueInput('y')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -111,26 +111,26 @@ Blockly.Blocks['simple_draw_rectangle'] = {
     this.appendValueInput('width')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('width,');
+      .appendField(i18t('width,'));
     this.appendValueInput('height')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('height,');
+      .appendField(i18t('height,'));
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color,');
+      .appendField(i18t('color,'));
     this.appendValueInput('borderColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_color,');
+      .appendField(i18t('border_color,'));
     this.appendValueInput('borderSize')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_size)');
+      .appendField(i18t('border_size)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an rectangle on the screen.');
+    this.setTooltip(i18t('Draws an rectangle on the screen.'));
   }
 };
 
@@ -145,30 +145,30 @@ Blockly.Blocks['simple_draw_line'] = {
     this.appendValueInput('start_x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Line (start x,');
+      .appendField(i18t('Line (start x,'));
     this.appendValueInput('start_y')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('start y,');
+      .appendField(i18t('start y,'));
     this.appendValueInput('end_x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('end x,');
+      .appendField(i18t('end x,'));
     this.appendValueInput('end_y')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('end y,');
+      .appendField(i18t('end y,'));
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color,');
+      .appendField(i18t('color,'));
     this.appendValueInput('borderSize')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_size)');
+      .appendField(i18t('border_size)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an line on the screen.');
+    this.setTooltip(i18t('Draws an line on the screen.'));
   }
 };
 
@@ -183,7 +183,7 @@ Blockly.Blocks['simple_draw_point'] = {
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Point (x,');
+      .appendField(i18t('Point (x,'));
     this.appendValueInput('y')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -191,14 +191,14 @@ Blockly.Blocks['simple_draw_point'] = {
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color,');
+      .appendField(i18t('color,'));
     this.appendValueInput('borderSize')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_size)');
+      .appendField(i18t('border_size)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an point on the screen.');
+    this.setTooltip(i18t('Draws an point on the screen.'));
   }
 };
 
@@ -240,7 +240,7 @@ Blockly.Blocks['simple_draw_ellipse'] = {
       .appendField('border_size)');
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an ellipse on the screen.');
+    this.setTooltip(i18t('Draws an ellipse on the screen.'));
   }
 };
 
@@ -255,7 +255,7 @@ Blockly.Blocks['simple_draw_triangle'] = {
     this.appendValueInput('x1')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Triangle (x1,');
+      .appendField(i18t('Triangle (x1,'));
     this.appendValueInput('y1')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -279,18 +279,18 @@ Blockly.Blocks['simple_draw_triangle'] = {
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color,');
+      .appendField(i18t('color,'));
     this.appendValueInput('borderColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_color,');
+      .appendField(i18t('border_color,'));
     this.appendValueInput('borderSize')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('border_size)');
+      .appendField(i18t('border_size)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws and triangle on the screen.');
+    this.setTooltip(i18t('Draws and triangle on the screen.'));
   }
 };
 
@@ -305,7 +305,7 @@ Blockly.Blocks['simple_draw_text'] = {
     this.appendValueInput('text')
       .setCheck('String')
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('Text (text,');
+      .appendField(i18t('Text (text,'));
     this.appendValueInput('x')
       .setCheck('Number')
       .setAlign(Blockly.ALIGN_RIGHT)
@@ -317,9 +317,9 @@ Blockly.Blocks['simple_draw_text'] = {
     this.appendValueInput('fillColor')
       .setCheck(null)
       .setAlign(Blockly.ALIGN_RIGHT)
-      .appendField('color)');
+      .appendField(i18t('color)'));
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
-    this.setTooltip('Draws an text on the screen.');
+    this.setTooltip(i18t('Draws an text on the screen.'));
   }
 };

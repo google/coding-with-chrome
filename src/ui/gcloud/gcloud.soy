@@ -20,28 +20,28 @@
 
 {namespace cwc.soy.GCloud autoescape="strict"}
 
+
 /**
  * Google Cloud template.
  */
 {template .gCloudTemplate}
   {@param prefix: string}
   {@param projects: ?}
+
   <div id="{$prefix}projects-container">
-    <label for="{$prefix}projects">Project Id: </label>
+    <label for="{$prefix}projects">{msg desc=""}Project Id:{/msg}</label>
     <select id="{$prefix}projects">
-      <option selected disabled>Choose a project</option>
+      <option selected disabled>{msg desc=""}Choose a project{/msg}</option>
       {foreach $project in $projects}
-      <option value="{$project['projectId']}">{$project['projectId']}</option>
+        <option value="{$project['projectId']}">{$project['projectId']}</option>
       {/foreach}
     </select>
   </div>
-  <div id="{$prefix}buckets-container">
-  </div>
-  <div id="{$prefix}folders-container">
-  </div>
-  <div id="{$prefix}public-url">
-  </div>
+  <div id="{$prefix}buckets-container"></div>
+  <div id="{$prefix}folders-container"></div>
+  <div id="{$prefix}public-url"></div>
 {/template}
+
 
 /**
  * Google Cloud Folder list template.
@@ -50,13 +50,14 @@
   {@param prefix: string}
   {@param currentFolders: list<?>}
   {@param nextFolders: list<?>}
+
   <label>
     Folder:
     <span id="{$prefix}folders-nav">
       <button id="{$prefix}folders-path-root">/</button>
       {foreach $folder in $currentFolders}
-      <button id="{$prefix}folders-path-{index($folder)}">{$folder}</button>
-      <span>/</span>
+        <button id="{$prefix}folders-path-{index($folder)}">{$folder}</button>
+        <span>/</span>
       {/foreach}
     </span>
     {if length($nextFolders) > 0}
@@ -70,20 +71,23 @@
   </label>
 {/template}
 
+
 /**
  * Google Cloud Bucket list template.
  */
 {template .gCloudBuckets}
   {@param prefix: string}
   {@param items: list<?>}
+
   <label>Bucket Id:
     <select id="{$prefix}buckets">
       {foreach $item in $items}
-      <option value="{$item['id']}">{$item['id']}</option>
+        <option value="{$item['id']}">{$item['id']}</option>
       {/foreach}
     </select>
   </label>
 {/template}
+
 
 /**
  * Google Cloud Public URL link template.
@@ -92,6 +96,7 @@
   {@param prefix: string}
   {@param path: string}
   {@param encodedPath: string}
+
   <label>Public URL:
     <a id="{$prefix}public-url-link" target="_newtab" href="https://storage.googleapis.com/{$encodedPath}">
     https://storage.googleapis.com/{$path}

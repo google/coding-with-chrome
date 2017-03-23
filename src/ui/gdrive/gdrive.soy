@@ -49,7 +49,9 @@
   <form action="#">
     <div class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" value="{$filename}" disabled>
-      <label class="mdl-textfield__label" for="sample1">Filename</label>
+      <label class="mdl-textfield__label" for="sample1">
+        {msg desc=""}Filename{/msg}
+      </label>
     </div>
   </form>
 {/template}
@@ -62,7 +64,9 @@
   {@param prefix: string}
   {@param parents: list<?>}
   {foreach $parent in $parents}
-    <button class="mdl-button mdl-js-button {$prefix}parentfolder" data-gdrive-id="{$parent.id}" {if isLast($parent)}disabled{/if}>{$parent.name}</button>
+    <button class="mdl-button mdl-js-button {$prefix}parentfolder"
+            data-gdrive-id="{$parent.id}" {if isLast($parent)}disabled{/if}>
+      {$parent.name}</button>
     {if not isLast($parent)}&gt;{/if}
   {/foreach}
 {/template}
@@ -78,9 +82,9 @@
       <thead>
         <tr>
           <th class="mdl-data-table__cell--non-numeric"></th>
-          <th class="mdl-data-table__cell--non-numeric">Title</th>
-          <th class="mdl-data-table__cell--non-numeric">Owner</th>
-          <th class="mdl-data-table__cell--non-numeric">Last Change</th>
+          <th class="mdl-data-table__cell--non-numeric">{msg desc=""}Title{/msg}</th>
+          <th class="mdl-data-table__cell--non-numeric">{msg desc=""}Owner{/msg}</th>
+          <th class="mdl-data-table__cell--non-numeric">{msg desc=""}Last Change{/msg}</th>
         </tr>
       </thead>
       <tbody>
