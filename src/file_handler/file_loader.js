@@ -320,7 +320,7 @@ cwc.fileHandler.FileLoader.prototype.readFile = function(file,
  * @param {!Blob} file
  * @param {Object} file_entry
  * @param {string} content
- * @param {!function(?)} callback
+ * @param {!function(?, ?, ?)} callback
  * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileLoader.prototype.openFile = function(file,
@@ -359,7 +359,7 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
 /**
  * @param {Event} e
  * @param {string} filename
- * @param {function(?)=} opt_callback
+ * @param {function(string, string)=} opt_callback
  * @param {Object=} opt_callback_scope
  */
 cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,

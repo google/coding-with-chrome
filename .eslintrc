@@ -35,6 +35,7 @@ globals:
   $: true
   Blockly: true
   CodeMirror: true
+  Locales: true
   Sk: true
   afterEach: true
   beforeEach: true
@@ -44,8 +45,6 @@ globals:
   expect: true
   game: true
   goog: true
-  i18next: true
-  i18nextSprintfPostProcessor: true
   i18soy: true
   i18t: true
   it: true

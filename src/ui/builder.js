@@ -249,8 +249,11 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
     this.loadUI();
     return;
   }
+  this.helper.setInstance('i18n', i18nInstance);
 
-  var language = '';
+  var language = 'en';
+  var languageFile = '../js/locales/en.js';
+  var blocklyLanguageFile = '';
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
@@ -259,16 +262,19 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
       console.log('Using user preferred language:', userLanguage);
       language = userLanguage;
 
-      if (language != cwc.config.Default.LANGUAGE &&
-          language != 'auto') {
+      if (language != cwc.config.Default.LANGUAGE) {
+        // Coding with Chrome language file.
+        languageFile = '../js/locales/' + language + '.js';
+
         // Blockly language file.
-        cwc.ui.Helper.insertScript('../external/blockly/msg/' + language +
-          '.js', 'blockly-language');
+        blocklyLanguageFile = '../external/blockly/msg/' + language + '.js';
       }
     }
   }
-  this.helper.setInstance('i18n', i18nInstance);
-  i18nInstance.prepare(this.loadUI.bind(this), language);
+  if (blocklyLanguageFile) {
+    cwc.ui.Helper.insertScript(blocklyLanguageFile, 'blockly-language');
+  }
+  i18nInstance.prepare(this.loadUI.bind(this), language, languageFile);
 };
 
 

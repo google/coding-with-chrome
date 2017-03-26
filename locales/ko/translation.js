@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.locales.ko.Translation');
 
 
 
@@ -26,7 +25,7 @@ goog.provide('cwc.locales.ko.Translation');
  * @export
  */
 /* eslint-disable max-len */
-cwc.locales.ko.Translation = {
+Locales['ko'] = {
   'Hello, World': '안녕하세요, 세계',
   'Hello %s': '안녕하세요 %s'
 };

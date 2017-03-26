@@ -97,7 +97,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
   buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
   buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.DCMOTOR);
-  buffer.writePort(opt_port, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR);
+  buffer.writePort(opt_port || cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR);
   buffer.writeShort(power);
   return buffer.readSigned();
 };

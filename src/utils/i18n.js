@@ -1,7 +1,7 @@
 /**
  * @fileoverview Internationalization and localization (i18n).
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.utils.I18n');
-
-goog.require('cwc.locales.de.Translation');
-goog.require('cwc.locales.en.Translation');
-goog.require('cwc.locales.ja.Translation');
-goog.require('cwc.locales.ko.Translation');
 
 goog.require('cwc.utils.Logger');
 
@@ -54,62 +49,45 @@ cwc.utils.I18n = function() {
   /** @type {!Object} */
   this.untranslated = {};
 
+  /** @type {!string} */
+  this.scriptNodeId = 'cwc-i18n-language';
+
   /** @type {!Object} */
   this.usage = {};
+
+  /** @private {!string} */
+  this.scriptNodeUrl_ = '';
 };
 
 
 /**
  * @param {Function=} opt_callback
  * @param {string=} opt_language
+ * @param {string=} opt_language_file
  */
-cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
-  var callback = function(error) {
-    if (error) {
-      console.error('I18n error:', error);
-      return;
-    }
-    // Mapping global short-cuts
-    window['i18t'] = this.translate.bind(this);
-    window['i18d'] = this.translateData.bind(this);
-    window['i18soy'] = this.translateSoy.bind(this);
+cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
+    opt_language_file) {
+  // Register global Locales variable
+  window['Locales'] = {};
 
-    // Callback
+  // Register global handler
+  window['i18t'] = this.translate.bind(this);
+  window['i18soy'] = this.translateSoy.bind(this);
+
+  // Callback handling
+  var callbackHandling = function() {
+    this.setLanguage(opt_language);
     if (goog.isFunction(opt_callback)) {
       opt_callback();
     }
   }.bind(this);
 
-  // Sets default language
-  this.language = opt_language || this.getLanguage();
-  var options = {
-    'lng': opt_language,
-    'fallbackLng': this.fallbackLanguage,
-    'keySeparator': false,
-    'nsSeparator': false,
-    'saveMissing': true,
-    'missingKeyHandler': this.handleMissingKey_.bind(this),
-    'resources': {
-      'de': {
-        'translation': cwc.locales.de.Translation
-      },
-      'en': {
-        'translation': cwc.locales.en.Translation
-      },
-      'ja': {
-        'translation': cwc.locales.ja.Translation
-      },
-      'ko': {
-        'translation': cwc.locales.ko.Translation
-      }
-    }
-  };
-
-  // Init i18next
-  this.log_.info('Init i18n with', options);
-  i18next
-    .use(i18nextSprintfPostProcessor)
-    .init(options, callback);
+  // Load optional language file
+  if (opt_language_file) {
+    this.loadLanguageFile_(opt_language_file, callbackHandling);
+  } else {
+    callbackHandling();
+  }
 };
 
 
@@ -120,27 +98,16 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language) {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(text, opt_options) {
-  return i18next.t(text, opt_options);
-};
-
-
-/**
- * Translate the given text and data to the current language.
- * @param {!string} text
- * @param {!string|Array|Object} data
- * @return {!string}
- */
-cwc.utils.I18n.prototype.translateData = function(text, data, opt_options) {
-  var options = {
-    'postProcess': 'sprintf',
-    'sprintf': (goog.isString(data)) ? [data] : data
-  };
-  if (opt_options) {
-    for (let option in opt_options) {
-      options[option] = opt_options[option];
-    }
+  if (!Locales || !Locales[this.language]) {
+    return text;
   }
-  return i18next.t(text, options);
+
+  if (!Locales[this.language][text]) {
+    this.handleMissingKey_(text);
+    return text;
+  }
+
+  return Locales[this.language][text];
 };
 
 
@@ -187,7 +154,12 @@ cwc.utils.I18n.prototype.getLanguage = function() {
  */
 cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
   this.language = opt_language || this.getLanguage();
-  i18next.changeLanguage(this.language);
+
+  if (!Locales) {
+    this.log_.error('Unable to find language file.');
+  } else if (!Locales[this.language]) {
+    this.log_.error('Language', this.language, ' is untranslated.');
+  }
 };
 
 
@@ -198,20 +170,9 @@ cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
 cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
   var language = opt_language || this.getLanguage();
   if (opt_text) {
-    return i18next.store.data[language].translation[opt_text];
+    return Locales[language][opt_text];
   }
-  return i18next.store.data[language].translation;
-};
-
-
-/**
- * Checks if the given text is known / translated for the current language.
- * @param {!string} text
- * @param {Object=} opt_options
- * @return {!boolean}
- */
-cwc.utils.I18n.prototype.isTranslated = function(text, opt_options) {
-  return i18next.exists(text, opt_options);
+  return Locales[language];
 };
 
 
@@ -237,15 +198,37 @@ cwc.utils.I18n.prototype.getToDo = function() {
 
 
 /**
- * @param {Object} opt_lngs
- * @param {string} opt_namespace
- * @param {string} opt_key
- * @param {Object} opt_resources
+ * Adding script element to head.
+ * @param {!string} file_url
+ * @param {Function=} opt_callback
  * @private
  */
-cwc.utils.I18n.prototype.handleMissingKey_ = function(opt_lngs, opt_namespace,
-    opt_key, opt_resources) {
-  var key = opt_key;
+cwc.utils.I18n.prototype.loadLanguageFile_ = function(file_url, opt_callback) {
+  if (this.scriptNodeUrl_ === file_url) {
+    return;
+  }
+  console.log('Loading language file:', file_url);
+  var headNode = document.head || document.getElementsByTagName('head')[0];
+  var oldScriptNode = document.getElementById(this.scriptNodeId);
+  if (oldScriptNode) {
+    oldScriptNode.parentNode.removeChild(oldScriptNode);
+  }
+  var scriptNode = document.createElement('script');
+  scriptNode.id = this.scriptNodeId;
+  if (goog.isFunction(opt_callback)) {
+    scriptNode.onload = opt_callback;
+  }
+  headNode.appendChild(scriptNode);
+  scriptNode.src = file_url;
+  this.scriptNodeUrl_ = file_url;
+};
+
+
+/**
+ * @param {!string} key
+ * @private
+ */
+cwc.utils.I18n.prototype.handleMissingKey_ = function(key) {
   if (key in this.untranslated) {
     this.untranslated[key]++;
   } else {

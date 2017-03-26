@@ -1,7 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
+ * @fileoverview Locales externs for Coding with Chrome.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,5 @@
  */
 
 
-/** @type {Function} */
-var i18t = function() {};
-
-/** @type {Function} */
-var i18soy = function() {};
-
 /** @type {Object} */
 var Locales = function() {};
-
-/** @type {Object} */
-Locales.de = {};
-
-/** @type {Object} */
-Locales.en = {};
-
-/** @type {Object} */
-Locales.ja = {};
-
-/** @type {Object} */
-Locales.ko = {};

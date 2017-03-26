@@ -67,7 +67,7 @@ cwc.mode.arduino.Runner = function(helper) {
 cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
-  this.runner.addCommand('__handshake__', this.handleHandshake.bind(this));
+  this.runner.addCommand('__handshake__', this.handleHandshake, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node);

@@ -155,20 +155,26 @@ cwc.ui.Helper.uninstallStyles = function(style_sheet) {
  * Adding script element to head.
  * @param {!string} script_url
  * @param {string=} opt_id
+ * @param {Function=} opt_callback
  */
-cwc.ui.Helper.insertScript = function(script_url, opt_id) {
+cwc.ui.Helper.insertScript = function(script_url, opt_id, opt_callback) {
+  console.log('Insert Script', opt_id, 'with src:', script_url);
   if (opt_id) {
     var oldScriptNode = document.getElementById(opt_id);
     if (oldScriptNode) {
       oldScriptNode.parentNode.removeChild(oldScriptNode);
     }
   }
-  var scriptNode = goog.dom.createDom(goog.dom.TagName.SCRIPT);
+  var scriptNode = document.createElement('script');
   if (opt_id) {
     scriptNode.id = opt_id;
   }
+  if (goog.isFunction(opt_callback)) {
+    scriptNode.onload = opt_callback;
+  }
+  var headNode = document.head || document.getElementsByTagName('head')[0];
+  headNode.appendChild(scriptNode);
   scriptNode.src = script_url;
-  document.getElementsByTagName('head')[0].appendChild(scriptNode);
 };
 
 

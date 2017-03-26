@@ -96,6 +96,12 @@ chrome.bluetoothSocket.getInfo = function() {};
 chrome.bluetoothSocket.getSockets = function() {};
 
 /** @type {Function} */
+chrome.bluetoothSocket.onReceive = function() {};
+
+/** @type {Function} */
+chrome.bluetoothSocket.onReceiveError = function() {};
+
+/** @type {Function} */
 chrome.bluetoothSocket.onReceive.addListener = function() {};
 
 /** @type {Function} */
@@ -106,6 +112,12 @@ chrome.serial = function() {};
 
 /** @type {Function} */
 chrome.getDevices = function() {};
+
+/** @type {Function} */
+chrome.serial.onReceive = function() {};
+
+/** @type {Function} */
+chrome.serial.onReceiveError = function() {};
 
 /** @type {Function} */
 chrome.serial.onReceive.addListener= function() {};

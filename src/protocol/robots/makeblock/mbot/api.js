@@ -129,8 +129,8 @@ cwc.protocol.makeblock.mbot.Api.prototype.isConnected = function() {
 cwc.protocol.makeblock.mbot.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAsync_.bind(this),
       this.headerAsync_, this.headerMinSize_);
-  this.playTone(524, 240, 240);
-  this.playTone(584, 240, 240);
+  this.playTone(524, 240);
+  this.playTone(584, 240);
   this.getVersion();
   this.prepared = true;
 };
@@ -285,7 +285,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.playTone = function(frequency,
 /**
  * @export
  */
-cwc.protocol.makeblock.mbot.Api.prototype.stop = function(opt_port) {
+cwc.protocol.makeblock.mbot.Api.prototype.stop = function() {
   this.setLeftMotorPower(0);
   this.setRightMotorPower(0);
   this.reset();

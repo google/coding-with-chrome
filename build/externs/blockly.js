@@ -92,9 +92,10 @@ Blockly.JavaScript.prototype.statementToCode = function(block, name) {};
 /**
  * Encode a block tree as XML.
  * @param {!Blockly.Workspace} workspace The workspace containing blocks.
+ * @param {boolean}
  * @return {!Element} XML document.
  */
-Blockly.Xml.workspaceToDom = function(workspace) {};
+Blockly.Xml.workspaceToDom = function(workspace, pretty_print) {};
 
 /**
  * Converts plain text into a DOM structure.

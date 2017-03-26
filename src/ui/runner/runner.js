@@ -814,7 +814,7 @@ cwc.ui.Runner.prototype.setStatusText = function(status) {
 /**
  * @param {string} name
  * @param {function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  */
 cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
   this.connector.addCommand(name, func, opt_scope);
@@ -824,7 +824,7 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, opt_scope) {
 /**
  * @param {!function(?)} profile
  * @param {!function(?)} api
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  */
 cwc.ui.Runner.prototype.addCommandProfile = function(profile, api, opt_scope) {
   this.connector.addCommandProfile(profile, api, opt_scope);
@@ -833,7 +833,7 @@ cwc.ui.Runner.prototype.addCommandProfile = function(profile, api, opt_scope) {
 
 /**
  * @param {function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  */
 cwc.ui.Runner.prototype.setStartEvent = function(func, opt_scope) {
   this.connector.setStartEvent(func, opt_scope);
@@ -843,7 +843,7 @@ cwc.ui.Runner.prototype.setStartEvent = function(func, opt_scope) {
 /**
  * @param {string} name
  * @param {function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  */
 cwc.ui.Runner.prototype.addMonitor = function(name, func, opt_scope) {
   this.connector.addMonitor(name, func, opt_scope);

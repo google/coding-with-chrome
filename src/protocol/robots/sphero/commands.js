@@ -111,7 +111,7 @@ cwc.protocol.sphero.Commands.prototype.roll = function(opt_speed, opt_heading,
   var buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.ROLL);
   buffer.writeByte(opt_speed, 50);
-  buffer.writeUInt(opt_heading, 0);
+  buffer.writeUInt(opt_heading || 0);
   buffer.writeByte(opt_state === undefined ? 0x01 : (opt_state ? 0x01 : 0x00));
   return buffer.readSigned();
 };

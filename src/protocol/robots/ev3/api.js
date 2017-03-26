@@ -507,6 +507,11 @@ cwc.protocol.ev3.Api.prototype.drawImage = function(file_name) {
 
 /**
  * Draws a line.
+ * @param {!number} x1
+ * @param {!number} y1
+ * @param {!number} x2
+ * @param {!number} y2
+ * @param {string=} opt_color
  * @export
  */
 cwc.protocol.ev3.Api.prototype.drawLine = function(x1, y1, x2, y2, opt_color) {

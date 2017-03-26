@@ -17,7 +17,6 @@
  *
  * @author junji.hashimoto@gmail.com (Junji Hashimoto)
  */
-goog.provide('cwc.locales.ja.Translation');
 
 
 
@@ -26,7 +25,7 @@ goog.provide('cwc.locales.ja.Translation');
  * @export
  */
 /* eslint-disable max-len */
-cwc.locales.ja.Translation = {
+Locales['ja'] = {
   '(0 - 254)': '(0 - 254)',
   '* You need to restart the application after enabling or disabling these options.': '* このオプションを変更した後、アプリの再起動が必要です。',
   'About Coding with Chrome': 'コーディング ウィズ クロームについて',

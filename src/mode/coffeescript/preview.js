@@ -52,7 +52,7 @@ cwc.mode.coffeescript.Preview = function(helper) {
 cwc.mode.coffeescript.Preview.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
   this.helper.setInstance('preview', this.preview, true);
-  this.preview.decorate(this.node, this.prefix);
+  this.preview.decorate(this.node);
   this.preview.showConsole(true);
   this.preview.setAutoUpdate(true);
 };

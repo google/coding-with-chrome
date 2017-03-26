@@ -23,13 +23,64 @@ var glob = closureBuilder.globSupport();
 
 
 /**
- * UI Builder
+ * DE Translation.
  */
 closureBuilder.build({
-  name: 'cwc.locales.de.Translation',
+  name: 'Locales.de',
   srcs: glob([
-    'src/locales/de/translation.js',
+    'locales/de/translation.js',
   ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
   compress: true,
   out: 'genfiles/js/locales/de.js'
+});
+
+
+/**
+ * EN Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.en',
+  srcs: glob([
+    'locales/en/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/js/locales/en.js'
+});
+
+
+/**
+ * JA Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.ja',
+  srcs: glob([
+    'locales/ja/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/js/locales/ja.js'
+});
+
+
+/**
+ * KO Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.ko',
+  srcs: glob([
+    'locales/ko/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/js/locales/ko.js'
 });

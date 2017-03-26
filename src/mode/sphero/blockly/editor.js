@@ -155,9 +155,8 @@ cwc.mode.sphero.blockly.Editor.prototype.showBlockly = function() {
 
 /**
  * Switches from the code editor to the Blockly ui.
- * @param {Event} opt_e
  */
-cwc.mode.sphero.blockly.Editor.prototype.switchToEditor = function(opt_e) {
+cwc.mode.sphero.blockly.Editor.prototype.switchToEditor = function() {
   var fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);

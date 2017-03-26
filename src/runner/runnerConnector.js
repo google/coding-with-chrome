@@ -85,22 +85,16 @@ cwc.runner.Connector = function(helper, opt_name) {
  */
 cwc.runner.Connector.prototype.init = function(opt_listen) {
   if (opt_listen) {
-    this.initListener();
+    this.addEventListener_(window, 'message', this.handleMessage_, false, this);
+    this.listen = true;
   }
-  this.addCommand('__direct_update__', this.enableDirectUpdate_.bind(this));
-  this.addCommand('__handshake__', this.handleHandshake_.bind(this));
-  this.addCommand('__pong__', this.handlePong_.bind(this));
-};
-
-
-cwc.runner.Connector.prototype.initListener = function() {
-  this.addEventListener_(window, 'message', this.handleMessage_, false, this);
-  this.listen = true;
+  this.addCommand('__direct_update__', this.enableDirectUpdate_, this);
+  this.addCommand('__handshake__', this.handleHandshake_, this);
+  this.addCommand('__pong__', this.handlePong_, this);
 };
 
 
 /**
- * Inits the runner instance.
  * @param {Object} target
  */
 cwc.runner.Connector.prototype.setTarget = function(target) {
@@ -154,7 +148,7 @@ cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
 /**
  * @param {!string} name
  * @param {!function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  * @export
  */
 cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
@@ -174,7 +168,7 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 /**
  * @param {!function(?)} command_profile
  * @param {!function(?)} api
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  * @export
  */
 cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
@@ -198,7 +192,7 @@ cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
 
 /**
  * @param {!function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  * @export
  */
 cwc.runner.Connector.prototype.setStartEvent = function(func, opt_scope) {
@@ -209,7 +203,7 @@ cwc.runner.Connector.prototype.setStartEvent = function(func, opt_scope) {
 /**
  * @param {!string} name
  * @param {!function(?)} func
- * @param {?} opt_scope
+ * @param {?=} opt_scope
  * @export
  */
 cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {

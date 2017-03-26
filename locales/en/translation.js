@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.locales.en.Translation');
 
 
 
@@ -26,7 +25,7 @@ goog.provide('cwc.locales.en.Translation');
  * @export
  */
 /* eslint-disable max-len */
-cwc.locales.en.Translation = {
+Locales['en'] = {
   ' steps)': ' steps)',
   '(0 - 254)': '(0 - 254)',
   '* You need to restart the application after enabling or disabling these options.': '* You need to restart the application after enabling or disabling these options.',

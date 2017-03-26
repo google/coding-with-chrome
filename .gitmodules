@@ -56,16 +56,6 @@
 	url = https://github.com/jquery/jquery-dist.git
 	ignore = dirty
 
-[submodule "third_party/i18next"]
-	path = third_party/i18next
-	url = https://github.com/i18next/i18next.git
-	ignore = dirty
-
-[submodule "third_party/i18next-sprintf"]
-	path = third_party/i18next-sprintf
-	url = https://github.com/i18next/i18next-sprintf-postProcessor.git
-	ignore = dirty
-
 [submodule "third_party/blockly"]
 	path = third_party/blockly
 	url = https://github.com/google/blockly.git

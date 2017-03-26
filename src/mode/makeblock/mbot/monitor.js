@@ -174,7 +174,7 @@ cwc.mode.makeblock.mbot.Monitor.prototype.addEventHandler_ = function() {
 
   // Ping
   this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
-    this.api.playTone(588, 240, 240);
+    this.api.playTone(588, 240);
   }.bind(this), false, this);
 
   // Stop

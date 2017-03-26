@@ -131,8 +131,8 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.isConnected = function() {
 cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAsync_.bind(this),
       this.headerAsync_, this.headerMinSize_);
-  this.playTone(524, 240, 240);
-  this.playTone(584, 240, 240);
+  this.playTone(524, 240);
+  this.playTone(584, 240);
   this.setRGBLED(0, 0, 0, 0);
   this.getVersion();
   this.prepared = true;

@@ -53,7 +53,7 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.ev3.Commands} */
+  /** @type {!cwc.protocol.sphero.Commands} */
   this.commands = new cwc.protocol.sphero.Commands();
 
   /** @type {cwc.protocol.sphero.Monitoring} */
@@ -362,16 +362,16 @@ cwc.protocol.sphero.Api.prototype.getVersion = function() {
  */
 cwc.protocol.sphero.Api.prototype.runTest = function() {
   console.log('Prepare self test…');
-  this.setRGB(255, 0, 0, 1, 500);
-  this.setRGB(0, 255, 0, 1, 500);
-  this.setRGB(0, 0, 255, 1, 500);
-  this.setRGB(0, 0, 0, 1, 500);
+  this.setRGB(255, 0, 0, 1);
+  this.setRGB(0, 255, 0, 1);
+  this.setRGB(0, 0, 255, 1);
+  this.setRGB(0, 0, 0, 1);
 
-  this.setBackLed(100, 100);
-  this.setBackLed(75, 100);
-  this.setBackLed(50, 100);
-  this.setBackLed(25, 100);
-  this.setBackLed(0, 100);
+  this.setBackLed(100);
+  this.setBackLed(75);
+  this.setBackLed(50);
+  this.setBackLed(25);
+  this.setBackLed(0);
 
   this.setRGB(255, 0, 0);
   this.roll(0, 180);

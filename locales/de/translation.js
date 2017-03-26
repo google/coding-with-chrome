@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.locales.de.Translation');
 
 
 
@@ -26,7 +25,7 @@ goog.provide('cwc.locales.de.Translation');
  * @export
  */
 /* eslint-disable max-len */
-cwc.locales.de.Translation = {
+Locales['de'] = {
   'Hello, World': 'Hallo, Welt',
   'Hello %s': 'Hallo %s',
   'Advanced': 'Fortgeschrittener',
