@@ -68,13 +68,18 @@
   background-image: url('../images/backgrounds/60_pct_white.png')!important;
 }
 
+.bg-amber {
+  background-color: rgb(255, 193, 7)!important;
+  color: #111;
+}
+
 .bg-blue {
   background-color: rgb(33, 150, 243)!important;
   color: #fff;
 }
 
 .bg-light-blue {
-  background-color: rgb(33, 150, 243)!important;
+  background-color: rgb(3, 169, 244)!important;
   color: #fff;
 }
 
@@ -90,11 +95,6 @@
 
 .bg-lime {
   background-color: rgb(205, 220, 57)!important;
-  color: #111;
-}
-
-.bg-amber {
-  background-color: rgb(255, 193, 7)!important;
   color: #111;
 }
 

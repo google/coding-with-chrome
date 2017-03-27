@@ -44,8 +44,7 @@
 
       <div class="mdl-grid">
 
-        {call cwc.soy.SelectScreenTemplate.selectCard}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Blockly' /}
           {param text: 'Use Blockly to build code by dragging and dropping code blocks' /}
           {param link_text: 'Go Blockly' /}
@@ -54,8 +53,7 @@
           {param opt_icon: 'school' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCard}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Draw' /}
           {param text: 'Create artworks of color and forms' /}
           {param link_text: 'Start Drawing' /}
@@ -64,19 +62,17 @@
           {param opt_hidden: true /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCard}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Games' /}
           {param text: 'Create simple games by dragging and dropping code blocks' /}
           {param link_text: 'Start creating Games' /}
           {param link_id: 'games' /}
-          {param opt_color_class: 'bg-red' /}
+          {param opt_color_class: 'bg-lime' /}
           {param opt_icon: 'videogame_asset' /}
           {param opt_hidden: true /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCard}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Music' /}
           {param text: 'Create some music.' /}
           {param link_text: 'Make some noise' /}
@@ -84,8 +80,7 @@
           {param opt_hidden: true /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCard}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Robots' /}
           {param text: 'Control real or on-screen robots with Blockly' /}
           {param link_text: 'Go Robots' /}
@@ -125,8 +120,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New Program' /}
           {param text: 'Start building new code.' /}
           {param link_text: 'create new program' /}
@@ -137,8 +131,7 @@
           {param opt_text: 'Blockly file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Hello World' /}
           {param text: 'Try a Hello World example' /}
           {param link_text: 'Try Example' /}
@@ -147,8 +140,7 @@
           {param opt_image: 'images/selection/basic-block-hello-world.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Text Loop' /}
           {param text: 'Write many things on the screen with a repeating (loop) program.' /}
           {param link_text: 'Try Example' /}
@@ -190,8 +182,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create artworks of colors and forms.' /}
           {param link_text: 'Empty project' /}
@@ -235,8 +226,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create artworks of colors and forms.' /}
           {param link_text: 'Empty project' /}
@@ -247,8 +237,7 @@
           {param opt_text: 'Game file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Move a sprite' /}
           {param text: 'Move a sprite with your cursor keys.' /}
           {param link_text: 'Load move a sprite' /}
@@ -385,8 +374,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive an EV3 or an on-screen robot with Blockly' /}
           {param link_text: 'new EV3 blocks program' /}
@@ -396,8 +384,7 @@
           {param opt_text: 'EV3 block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Educator - Block Grabber' /}
           {param text: 'Educator Roboter is grapping a block.' /}
           {param link_text: 'try example' /}
@@ -406,8 +393,7 @@
           {param opt_image: 'images/selection/ev3-block-block-grabber.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Color Sensor - Sound' /}
           {param text: 'Plays different tones depending on the detected color.' /}
           {param link_text: 'try example' /}
@@ -459,8 +445,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a Sphero or an on-screen robot with Blockly' /}
           {param link_text: 'new sphero blocks program' /}
@@ -471,8 +456,7 @@
           {param opt_text: 'Sphero block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Rectangle Example' /}
           {param text: 'Try a Sphero example - rolling a rectangle.' /}
           {param link_text: 'try example' /}
@@ -481,8 +465,7 @@
           {param opt_image: 'images/selection/sphero-block-rectangle.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Collison Example' /}
           {param text: 'Try a Sphero example - change color on collision.' /}
           {param link_text: 'try example' /}
@@ -534,8 +517,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot or an on-screen robot with Blockly' /}
           {param link_text: 'new mbot blocks program' /}
@@ -546,8 +528,7 @@
           {param opt_text: 'mBot block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Button turn on light' /}
           {param text: 'Pressing the onboard button will turn on the light.' /}
           {param link_text: 'try example' /}
@@ -556,8 +537,7 @@
           {param opt_image: '' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Sound on present' /}
           {param text: 'Put the hand over the mBot to play a sound.' /}
           {param link_text: 'try example' /}
@@ -566,8 +546,7 @@
           {param opt_image: '' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Collison avoidance' /}
           {param text: 'Try a mBot example - Collision avoidance.' /}
           {param link_text: 'try example' /}
@@ -576,8 +555,7 @@
           {param opt_image: '' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Line follower' /}
           {param text: 'mBot will follow a black line.' /}
           {param link_text: 'try example' /}
@@ -665,26 +643,20 @@
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">home</a>
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Blocks' /}
         {param id: 'basic' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Games' /}
         {param id: 'games' /}
-        {param active_link: $active_link /}
         {param opt_hidden: true /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Robots' /}
         {param id: 'robot' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>
@@ -702,32 +674,24 @@
   <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'EV3' /}
         {param id: 'ev3' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Sphero' /}
         {param id: 'sphero' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'mBot' /}
         {param id: 'mbot' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'mBot Ranger' /}
         {param id: 'mbot-ranger' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>

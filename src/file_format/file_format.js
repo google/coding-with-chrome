@@ -152,15 +152,12 @@ cwc.fileFormat.File.prototype.getFileName = function() {
 
 
 /**
- * @param {!string} title
- * @param {boolean=} opt_no_overwrite
+ * @param {!string} author
  * @return {!cwc.fileFormat.File}
  */
-cwc.fileFormat.File.prototype.setTitle = function(title, opt_no_overwrite) {
-  if (!opt_no_overwrite || (opt_no_overwrite && !this.title_)) {
-    this.log_.debug('setTitle:', title);
-    this.title_ = title;
-  }
+cwc.fileFormat.File.prototype.setAuthor = function(author) {
+  this.log_.debug('setAuthor:', author);
+  this.author_ = author;
   return this;
 };
 
@@ -168,8 +165,8 @@ cwc.fileFormat.File.prototype.setTitle = function(title, opt_no_overwrite) {
 /**
  * @return {string}
  */
-cwc.fileFormat.File.prototype.getTitle = function() {
-  return this.title_;
+cwc.fileFormat.File.prototype.getAuthor = function() {
+  return this.author_;
 };
 
 
@@ -208,44 +205,6 @@ cwc.fileFormat.File.prototype.setContent = function(name, content,
 
 
 /**
- * @param {!string} author
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.prototype.setAuthor = function(author) {
-  this.log_.debug('setAuthor:', author);
-  this.author_ = author;
-  return this;
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileFormat.File.prototype.getAuthor = function() {
-  return this.author_;
-};
-
-
-/**
- * @param {!string} version
- * @return {cwc.fileFormat.File}
- */
-cwc.fileFormat.File.prototype.setVersion = function(version) {
-  this.log_.debug('setVersion:', version);
-  this.version_ = version;
-  return this;
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileFormat.File.prototype.getVersion = function() {
-  return this.version_;
-};
-
-
-/**
  * @param {!string} description
  * @return {cwc.fileFormat.File}
  */
@@ -261,6 +220,125 @@ cwc.fileFormat.File.prototype.setDescription = function(description) {
  */
 cwc.fileFormat.File.prototype.getDescription = function() {
   return this.description_;
+};
+
+
+/**
+ * @return {cwc.ui.EditorFlags}
+ */
+cwc.fileFormat.File.prototype.getEditorFlags = function() {
+  return this.getFlag('__editor__');
+};
+
+
+/**
+ * @param {cwc.ui.EditorFlags} flags
+ */
+cwc.fileFormat.File.prototype.setEditorFlags = function(flags) {
+  this.setFlag('__editor__', flags);
+};
+
+
+/**
+ * @param {!cwc.file.Files} files
+ */
+cwc.fileFormat.File.prototype.setFiles = function(files) {
+  this.files_ = files;
+  this.log_.debug('setFiles:', files);
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.fileFormat.File.prototype.setFilesData = function(data) {
+  this.files_.setData(data);
+  this.log_.debug('setFilesData:', data);
+};
+
+
+/**
+ * @return {!cwc.file.Files}
+ */
+cwc.fileFormat.File.prototype.getFiles = function() {
+  return this.files_;
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.fileFormat.File.prototype.hasFiles = function() {
+  return this.files_.hasFiles();
+};
+
+
+/**
+ * @return {!Object.<string>|string}
+ */
+cwc.fileFormat.File.prototype.getFlags = function() {
+  return this.flags_;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {Object.<string>|string|cwc.ui.EditorFlags} value
+ */
+cwc.fileFormat.File.prototype.setFlag = function(name, value) {
+  this.flags_[name] = value;
+};
+
+
+/**
+ * @param {!string} name
+ * @return {Object.<string>|string|cwc.ui.EditorFlags}
+ */
+cwc.fileFormat.File.prototype.getFlag = function(name) {
+  return this.flags_[name] || '';
+};
+
+
+/**
+ * @return {!Object.<string>|string}
+ */
+cwc.fileFormat.File.prototype.getFlags = function() {
+  return this.flags_;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {Object.<string>|string|cwc.ui.EditorFlags} value
+ */
+cwc.fileFormat.File.prototype.setFlag = function(name, value) {
+  this.flags_[name] = value;
+};
+
+
+/**
+ * @param {!string} name
+ * @return {Object.<string>|string|cwc.ui.EditorFlags}
+ */
+cwc.fileFormat.File.prototype.getFlag = function(name) {
+  return this.flags_[name] || '';
+};
+
+
+/**
+ * @param {!cwc.file.Files} frameworks
+ */
+cwc.fileFormat.File.prototype.setFrameworks = function(frameworks) {
+  this.frameworks_ = frameworks;
+  this.log_.debug('setFrameworks:', frameworks);
+};
+
+
+/**
+ * @return {cwc.file.Files}
+ */
+cwc.fileFormat.File.prototype.getFrameworks = function() {
+  return this.frameworks_;
 };
 
 
@@ -331,6 +409,28 @@ cwc.fileFormat.File.prototype.getUi = function() {
 
 
 /**
+ * @param {!string} title
+ * @param {boolean=} opt_no_overwrite
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.prototype.setTitle = function(title, opt_no_overwrite) {
+  if (!opt_no_overwrite || (opt_no_overwrite && !this.title_)) {
+    this.log_.debug('setTitle:', title);
+    this.title_ = title;
+  }
+  return this;
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileFormat.File.prototype.getTitle = function() {
+  return this.title_;
+};
+
+
+/**
  * @param {!string} type
  * @param {boolean=} opt_no_overwrite
  * @return {!cwc.fileFormat.File}
@@ -354,95 +454,21 @@ cwc.fileFormat.File.prototype.getType = function() {
 
 
 /**
- * @param {!cwc.file.Files} frameworks
+ * @param {!string} version
+ * @return {cwc.fileFormat.File}
  */
-cwc.fileFormat.File.prototype.setFrameworks = function(frameworks) {
-  this.frameworks_ = frameworks;
-  this.log_.debug('setFrameworks:', frameworks);
+cwc.fileFormat.File.prototype.setVersion = function(version) {
+  this.log_.debug('setVersion:', version);
+  this.version_ = version;
+  return this;
 };
 
 
 /**
- * @return {cwc.file.Files}
+ * @return {string}
  */
-cwc.fileFormat.File.prototype.getFrameworks = function() {
-  return this.frameworks_;
-};
-
-
-/**
- * @param {!cwc.file.Files} files
- */
-cwc.fileFormat.File.prototype.setFiles = function(files) {
-  this.files_ = files;
-  this.log_.debug('setFiles:', files);
-};
-
-
-/**
- * @param {!Object} data
- */
-cwc.fileFormat.File.prototype.setFilesData = function(data) {
-  this.files_.setData(data);
-  this.log_.debug('setFilesData:', data);
-};
-
-
-/**
- * @return {!cwc.file.Files}
- */
-cwc.fileFormat.File.prototype.getFiles = function() {
-  return this.files_;
-};
-
-
-/**
- * @return {boolean}
- */
-cwc.fileFormat.File.prototype.hasFiles = function() {
-  return this.files_.hasFiles();
-};
-
-
-/**
- * @return {!Object.<string>|string}
- */
-cwc.fileFormat.File.prototype.getFlags = function() {
-  return this.flags_;
-};
-
-
-/**
- * @param {!string} name
- * @param {Object.<string>|string|cwc.ui.EditorFlags} value
- */
-cwc.fileFormat.File.prototype.setFlag = function(name, value) {
-  this.flags_[name] = value;
-};
-
-
-/**
- * @param {!string} name
- * @return {Object.<string>|string|cwc.ui.EditorFlags}
- */
-cwc.fileFormat.File.prototype.getFlag = function(name) {
-  return this.flags_[name] || '';
-};
-
-
-/**
- * @return {cwc.ui.EditorFlags}
- */
-cwc.fileFormat.File.prototype.getEditorFlags = function() {
-  return this.getFlag('__editor__');
-};
-
-
-/**
- * @param {cwc.ui.EditorFlags} flags
- */
-cwc.fileFormat.File.prototype.setEditorFlags = function(flags) {
-  this.setFlag('__editor__', flags);
+cwc.fileFormat.File.prototype.getVersion = function() {
+  return this.version_;
 };
 
 
@@ -632,6 +658,30 @@ cwc.fileFormat.File.getBlocklyFile = function(opt_content, opt_type) {
     .setContent(cwc.file.ContentType.JAVASCRIPT, '', true)
     .setMode('blockly', true)
     .setUi('blockly');
+};
+
+
+/**
+ * @param {string=} opt_content
+ * @param {cwc.file.Type=} opt_type
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.getPhaserFile = function(opt_content, opt_type) {
+  return new cwc.fileFormat.File(opt_content)
+    .setType(opt_type || cwc.file.Type.PHASER, !opt_type)
+    .setTitle('Untitled Phaser file', true)
+    .setContent(cwc.file.ContentType.JAVASCRIPT,
+        'var game = new Phaser.Game(800, 600, Phaser.AUTO, ' +
+        '\'phaser-game\', {\n' +
+        '  preload: preload,\n' +
+        '  create: create,\n' +
+        '  update: update,\n' +
+        '  render: render\n' +
+        '});\n\n' +
+        'function preload() {\n\n}\n\n' +
+        'function create() {\n\n}\n\n' +
+        'function update() {\n\n}\n\n' +
+        'function render() {\n\n}\n', true);
 };
 
 

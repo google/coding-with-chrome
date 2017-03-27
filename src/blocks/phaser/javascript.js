@@ -20,15 +20,6 @@
 
 
 /**
- * Phaser update section.
- */
-Blockly.JavaScript['phaser_update'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return '\nfunction update() {\n' + statements_code + '};\n';
-};
-
-
-/**
  * Phaser render section.
  */
 Blockly.JavaScript['phaser_render'] = function(block) {

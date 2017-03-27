@@ -139,9 +139,6 @@ cwc.ui.Account.prototype.setUserInfo = function(user_info) {
  * @param {boolean} online
  */
 cwc.ui.Account.prototype.setOnlineStatus = function(online) {
-  if (this.buttonLogin) {
-    this.buttonLogin.setEnabled(online);
-  }
   this.online = online;
 };
 

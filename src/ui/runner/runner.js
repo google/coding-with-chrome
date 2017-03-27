@@ -190,8 +190,6 @@ cwc.ui.Runner = function(helper) {
 /**
  * Decorates the given node and adds the Runner window.
  * @param {Element} node The target node to add the Runner window.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
 cwc.ui.Runner.prototype.decorate = function(node) {
   this.node = node;

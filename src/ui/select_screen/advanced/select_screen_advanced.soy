@@ -41,8 +41,7 @@
 
     <div class="mdl-grid">
 
-      {call cwc.soy.SelectScreenTemplate.selectCard}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Simple' /}
         {param text: 'JavaScript made easy through easy starter functions' /}
         {param link_text: 'Go Simple' /}
@@ -51,8 +50,16 @@
         {param opt_icon: 'school' /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.selectCard}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Games' /}
+        {param text: 'Create games with the Phaser framework' /}
+        {param link_text: 'Start creating Games' /}
+        {param link_id: 'games' /}
+        {param opt_color_class: 'bg-lime' /}
+        {param opt_icon: 'videogame_asset' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Programming' /}
         {param text: 'Build software with text based programming languages' /}
         {param link_text: 'Go Coding ' /}
@@ -61,8 +68,7 @@
         {param opt_icon: 'view_stream' /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.selectCard}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Markup' /}
         {param text: 'Put together the components of a website- HTML, CSS and JavaScript' /}
         {param link_text: 'Go Web' /}
@@ -71,8 +77,7 @@
         {param opt_icon: 'public' /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.selectCard}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Robots' /}
         {param text: 'Control virtual or real robots' /}
         {param link_text: 'Go Robots' /}
@@ -81,8 +86,7 @@
         {param opt_icon: 'memory' /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.selectCard}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: '3D' /}
         {param text: 'Create create and display animated 3D computer graphics' /}
         {param link_text: 'Start Drawing' /}
@@ -120,8 +124,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project.' /}
           {param link_text: 'Create new project' /}
@@ -131,8 +134,7 @@
           {param opt_text: 'Simple JS file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Hello World' /}
           {param text: 'Hello World example' /}
           {param link_text: 'Open Example' /}
@@ -141,8 +143,7 @@
           {param opt_image: 'images/selection/basic-script-hello-world.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Text Loop' /}
           {param text: 'Text Loop example' /}
           {param link_text: 'Open Example' /}
@@ -151,8 +152,7 @@
           {param opt_image: 'images/selection/basic-script-text-loop.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Line Loop' /}
           {param text: 'Draw lines with loops' /}
           {param link_text: 'Open Example' /}
@@ -161,8 +161,7 @@
           {param opt_image: 'images/selection/basic-script-line-loop.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Point Loop' /}
           {param text: 'Draw points with random colors and loops' /}
           {param link_text: 'Open Example' /}
@@ -171,8 +170,7 @@
           {param opt_image: 'images/selection/basic-script-point-loop.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Draw Portal Turret' /}
           {param text: 'Draw a Portal Turret' /}
           {param link_text: 'Open Example' /}
@@ -910,6 +908,50 @@
 
 
 /**
+ * Games overview page.
+ */
+{template .gamesOverview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_}
+      {param prefix: $prefix /}
+      {param active_link: 'games' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Games' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-lime' /}
+        {param opt_icon: 'videogame_asset' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call cwc.soy.SelectScreenTemplate.selectCardBig}
+          {param prefix: $prefix /}
+          {param title: 'Empty project' /}
+          {param text: 'Create empty project.' /}
+          {param link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+          {param opt_text: '' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
  * 3D overview page.
  */
 {template .graphic3DOverview}
@@ -975,39 +1017,34 @@
       <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">
         home</a>
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Simple' /}
         {param id: 'basic' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Games' /}
+        {param id: 'games' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Programming Language' /}
         {param id: 'programming-language' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Markup Language' /}
         {param id: 'markup-language' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Robots' /}
         {param id: 'robot' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: '3D' /}
         {param id: '3d' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>
@@ -1025,32 +1062,24 @@
   <header id="{$prefix}navigation-programming-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'JavaScript' /}
         {param id: 'javascript' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'CoffeeScript' /}
         {param id: 'coffeescript' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Python' /}
         {param id: 'python' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Pencil Code' /}
         {param id: 'pencil-code' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>
@@ -1068,11 +1097,9 @@
   <header id="{$prefix}navigation-markup-language" class="cwc-navigation mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'HTML5' /}
         {param id: 'html5' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>
@@ -1090,18 +1117,14 @@
   <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'EV3' /}
         {param id: 'ev3' /}
-        {param active_link: $active_link /}
       {/call}
 
-      {call cwc.soy.SelectScreenTemplate.headerLink}
-        {param prefix: $prefix /}
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Sphero' /}
         {param id: 'sphero' /}
-        {param active_link: $active_link /}
       {/call}
 
     </nav>

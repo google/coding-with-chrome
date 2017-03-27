@@ -65,7 +65,8 @@ cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
   config.title = 'Untitled ' + name;
   if (!('editor_views' in config)) {
     if (file == cwc.fileFormat.File.getBlocklyFile ||
-        file == cwc.fileFormat.File.getSimpleFile) {
+        file == cwc.fileFormat.File.getSimpleFile ||
+        file == cwc.fileFormat.File.getPhaserFile) {
       config.editor_views = [cwc.file.ContentType.JAVASCRIPT];
     } else if (file == cwc.fileFormat.File.getAdvancedFile) {
       config.editor_views = [
@@ -248,7 +249,7 @@ cwc.fileHandler.Config.add('Pencil Code file',
  * Phaser file config.
  */
 cwc.fileHandler.Config.add('Phaser file',
-    cwc.fileFormat.File.getSimpleFile,
+    cwc.fileFormat.File.getPhaserFile,
     cwc.file.Type.PHASER,
     cwc.mode.Type.PHASER,
     cwc.file.Extensions.CWC,

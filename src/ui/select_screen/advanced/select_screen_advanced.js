@@ -34,6 +34,7 @@ cwc.ui.SelectScreenAdvancedView = {
   BASIC: 'basicOverview',
   COFFEESCRIPT: 'coffeeScriptOverview',
   EV3: 'ev3Overview',
+  GAMES: 'gamesOverview',
   GRAPHIC_3D: 'graphic3DOverview',
   HTML5: 'html5Overview',
   JAVASCRIPT: 'javaScriptOverview',
@@ -100,6 +101,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setNavHeader_('Coding with Chrome');
       this.setClickEvent_('link-basic', this.showView,
           cwc.ui.SelectScreenAdvancedView.BASIC);
+      this.setClickEvent_('link-games', this.showView,
+          cwc.ui.SelectScreenAdvancedView.GAMES);
       this.setClickEvent_('link-programming-language', this.showView,
           cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE);
       this.setClickEvent_('link-markup-language', this.showView,
@@ -228,6 +231,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-line-follower', this.loadFile_,
           'resources/examples/ev3/script/EV3-line-follower.cwc');
       break;
+
     // Sphero screen
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
@@ -236,6 +240,13 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.SPHERO);
       this.setClickEvent_('link-rectangle', this.loadFile_,
           'resources/examples/sphero/script/Sphero-rectangle.cwc');
+      break;
+
+    // Games overview
+    case cwc.ui.SelectScreenAdvancedView.GAMES:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.gamesOverview);
+      this.setNavHeader_('Games', 'videogame_asset');
+      this.setClickEvent_('link-blank', this.newFile_, cwc.file.Type.PHASER);
       break;
 
     // 3D overview
@@ -287,6 +298,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.OVERVIEW);
   this.setClickEvent_('menu-basic', this.showView,
       cwc.ui.SelectScreenAdvancedView.BASIC);
+  this.setClickEvent_('menu-games', this.showView,
+      cwc.ui.SelectScreenAdvancedView.GAMES);
   this.setClickEvent_('menu-programming-language', this.showView,
       cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE);
   this.setClickEvent_('menu-markup-language', this.showView,

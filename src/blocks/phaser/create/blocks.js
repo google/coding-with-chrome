@@ -28,10 +28,9 @@ Blockly.Blocks['phaser_create'] = {
     this.setHelpUrl('');
     this.setColour(280);
     this.appendDummyInput()
-      .appendField(i18t('on create'));
+      .appendField(i18t('on create do'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE)
-      .appendField('do');
+      .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');

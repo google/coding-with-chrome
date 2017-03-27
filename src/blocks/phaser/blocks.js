@@ -20,25 +20,6 @@
 
 
 /**
- * Phaser create section.
- */
-Blockly.Blocks['phaser_update'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(280);
-    this.appendDummyInput()
-      .appendField(i18t('on update'));
-    this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE)
-      .appendField('do');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-
-/**
  * Phaser render section.
  */
 Blockly.Blocks['phaser_render'] = {

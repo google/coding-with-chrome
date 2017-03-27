@@ -42,6 +42,12 @@ chrome.app.window = {};
 chrome.app.window.get = function() {};
 
 /** @type {Function} */
+chrome.browser = function() {};
+
+/** @type {Function} */
+chrome.browser.openTab = function() {};
+
+/** @type {Function} */
 chrome.bluetooth = function() {};
 
 /** @type {Function} */

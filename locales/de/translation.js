@@ -26,15 +26,16 @@
  */
 /* eslint-disable max-len */
 Locales['de'] = {
-  'Hello, World': 'Hallo, Welt',
-  'Hello %s': 'Hallo %s',
   'Advanced': 'Fortgeschrittener',
   'Beginner': 'Anfänger',
+  'Hello %s': 'Hallo %s',
+  'Hello, World': 'Hallo, Welt',
   'New file': 'Neue Datei',
   'New project': 'Neues Projekt',
   'Open file': 'Öffne Datei',
   'Robots': 'Roboter',
   'Save as new file': 'Als neue Datei speichern',
   'Settings': 'Einstellungen',
-  'Welcome to Coding with Chrome!': 'Willkommen zu Programmieren mit Chrome!'
+  'Welcome to Coding with Chrome!': 'Willkommen zu Programmieren mit Chrome!',
+  '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': '{$startSpan}Hier klicken{$endSpan} für eine kurze Einleitung zu "Coding with Chrome".'
 };
