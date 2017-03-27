@@ -37,13 +37,13 @@ cwc.mode.ev3.blockly.Mod = function(helper) {
   /** @type {cwc.mode.ev3.Connection} */
   this.connection = new cwc.mode.ev3.Connection(helper);
 
-  /** @type {cwc.mode.ev3.advanced.Editor} */
+  /** @type {cwc.mode.ev3.blockly.Editor} */
   this.editor = new cwc.mode.ev3.blockly.Editor(helper);
 
   /** @type {cwc.mode.ev3.Runner} */
   this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
 
-  /** @type {cwc.mode.ev3.Layout} */
+  /** @type {cwc.mode.ev3.blockly.Layout} */
   this.layout = new cwc.mode.ev3.blockly.Layout(helper);
 
   /** @type {cwc.mode.ev3.Monitor} */

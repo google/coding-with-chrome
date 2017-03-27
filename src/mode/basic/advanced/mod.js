@@ -41,7 +41,7 @@ cwc.mode.basic.advanced.Mod = function(helper) {
   /** @type {cwc.mode.basic.Preview} */
   this.preview = new cwc.mode.basic.Preview(helper);
 
-  /** @type {cwc.renderer.external.Simple} */
+  /** @type {cwc.renderer.internal.HTML5} */
   this.renderer = new cwc.renderer.internal.HTML5(helper);
 };
 

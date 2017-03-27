@@ -34,10 +34,10 @@ goog.require('cwc.renderer.external.RaspberryPi');
  */
 cwc.mode.raspberryPi.advanced.Mod = function(helper) {
 
-  /** @type {cwc.mode.sphero.Connection} */
+  /** @type {cwc.mode.raspberryPi.Connection} */
   this.connection = new cwc.mode.raspberryPi.Connection(helper);
 
-  /** @type {cwc.mode.sphero.Monitor} */
+  /** @type {cwc.mode.raspberryPi.Monitor} */
   this.monitor = new cwc.mode.raspberryPi.Monitor(helper);
 
   /** @type {cwc.mode.raspberryPi.advanced.Editor} */
@@ -46,10 +46,10 @@ cwc.mode.raspberryPi.advanced.Mod = function(helper) {
   /** @type {cwc.mode.raspberryPi.Runner} */
   this.runner = new cwc.mode.raspberryPi.Runner(helper, this.connection);
 
-  /** @type {cwc.mode.raspberryPi.Layout} */
+  /** @type {cwc.mode.raspberryPi.advanced.Layout} */
   this.layout = new cwc.mode.raspberryPi.advanced.Layout(helper);
 
-  /** @type {cwc.renderer.external.raspherryPi} */
+  /** @type {cwc.renderer.external.RaspberryPi} */
   this.renderer = new cwc.renderer.external.RaspberryPi(helper);
 };
 

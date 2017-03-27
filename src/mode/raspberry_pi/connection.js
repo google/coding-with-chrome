@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.mode.raspberryPi.Connection');
 
+goog.require('goog.Timer');
+
 
 
 /**
@@ -32,7 +34,7 @@ cwc.mode.raspberryPi.Connection = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.raspberry_pi.Api} */
+  /** @type {!cwc.protocol.raspberryPi.Api} */
   this.api = helper.getInstance('raspberryPi', true);
 
   /** @type {!number} */
@@ -113,19 +115,7 @@ cwc.mode.raspberryPi.Connection.prototype.getApi = function() {
 
 
 /**
- * Stops the EV3 unit.
- */
-cwc.mode.raspberryPi.Connection.prototype.stop = function() {
-  var runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
-  this.api.stop();
-};
-
-
-/**
- * @return {}
+ * @return {goog.events.EventTarget}
  */
 cwc.mode.raspberryPi.Connection.prototype.getEventHandler = function() {
   return this.api.getEventHandler();

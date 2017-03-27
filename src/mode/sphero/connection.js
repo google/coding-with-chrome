@@ -110,7 +110,7 @@ cwc.mode.sphero.Connection.prototype.isConnected = function() {
 
 
 /**
- * @return {}
+ * @return {goog.events.EventTarget}
  */
 cwc.mode.sphero.Connection.prototype.getEventHandler = function() {
   return this.api.getEventHandler();

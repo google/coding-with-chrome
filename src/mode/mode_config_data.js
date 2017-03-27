@@ -291,7 +291,7 @@ cwc.mode.ConfigData[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
   name: 'HTML 5',
   title: 'HTML5',
   icon: 'public',
-  file_type: cwc.file.Type.HTML5,
+  file_type: cwc.file.Type.HTML,
   mod: cwc.mode.html5.Mod,
   authors: ['Markus Bordihn']
 });

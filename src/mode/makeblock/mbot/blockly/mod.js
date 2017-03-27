@@ -36,10 +36,10 @@ cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
   /** @type {cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
 
-  /** @type {cwc.mode.makeblock.mbot.advanced.Editor} */
+  /** @type {cwc.mode.makeblock.mbot.blockly.Editor} */
   this.editor = new cwc.mode.makeblock.mbot.blockly.Editor(helper);
 
-  /** @type {cwc.mode.makeblock.mbot.Layout} */
+  /** @type {cwc.mode.makeblock.mbot.blockly.Layout} */
   this.layout = new cwc.mode.makeblock.mbot.blockly.Layout(helper);
 
   /** @type {cwc.renderer.external.makeblock.mbot} */

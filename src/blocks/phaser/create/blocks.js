@@ -44,7 +44,7 @@ Blockly.Blocks['phaser_create'] = {
 Blockly.Blocks['phaser_stage_background_color'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('stage.backgroundColor (')
+        .appendField('Set backgroundColor (')
         .appendField(new Blockly.FieldColour('#000000'), 'color')
         .appendField(')');
     this.setPreviousStatement(true, null);
@@ -62,7 +62,7 @@ Blockly.Blocks['phaser_stage_background_color'] = {
 Blockly.Blocks['phaser_add_audio'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('add audio')
+        .appendField('audio')
         .appendField(new Blockly.FieldTextInput('name'), 'audio')
         .appendField('with volume')
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
@@ -80,12 +80,29 @@ Blockly.Blocks['phaser_add_audio'] = {
 
 
 /**
+ * Add background.
+ */
+Blockly.Blocks['phaser_add_background'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('Add background')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Add sprite.
  */
 Blockly.Blocks['phaser_add_sprite'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('add sprite')
+        .appendField('sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
         .appendField('on position')
         .appendField(new Blockly.FieldNumber(50), 'x')
@@ -103,12 +120,33 @@ Blockly.Blocks['phaser_add_sprite'] = {
  */
 Blockly.Blocks['phaser_add_text'] = {
   init: function() {
+    this.appendValueInput('text')
+        .appendField('text')
+        .setCheck('String');
     this.appendDummyInput()
-        .appendField('Add text')
-        .appendField(new Blockly.FieldTextInput('text'), 'text')
+        .appendField(new Blockly.FieldColour('#000000'), 'color')
         .appendField('on')
         .appendField(new Blockly.FieldNumber(10), 'x')
-        .appendField(new Blockly.FieldNumber(10), 'y');
+        .appendField(new Blockly.FieldNumber(10), 'y')
+        .appendField('with style')
+        .appendField(new Blockly.FieldTextInput('16px'), 'size')
+        .appendField(new Blockly.FieldDropdown([
+          ['Arial Black', 'Arial Black'],
+          ['Arial Narrow', 'Arial Narrow'],
+          ['Arial', 'Arial'],
+          ['Comic Sans MS', 'Comic Sans MS'],
+          ['Courier New', 'Courier New'],
+          ['Georgia', 'Georgia'],
+          ['Helvetica', 'Helvetica'],
+          ['Impact', 'Impact'],
+          ['Lucida Console', 'Lucida Console'],
+          ['Tahoma', 'Tahoma'],
+          ['Times New Roman', 'Times New Roman'],
+          ['Verdana', 'Verdana'],
+          ['Webdings', 'Webdings'],
+          ['Wingdings', 'Wingdings'],
+          ['sans-serif', 'sans-serif'],
+        ]), 'font');
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
@@ -123,7 +161,7 @@ Blockly.Blocks['phaser_add_text'] = {
 Blockly.Blocks['phaser_add_group'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('Add group')
+        .appendField('group')
         .appendField(new Blockly.FieldTextInput('text'), 'name');
     this.setOutput(true, null);
     this.setColour(230);

@@ -39,7 +39,7 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
   /** @type {cwc.mode.sphero.advanced.Editor} */
   this.editor = new cwc.mode.sphero.advanced.Editor(helper);
 
-  /** @type {cwc.mode.sphero.Layout} */
+  /** @type {cwc.mode.sphero.advanced.Layout} */
   this.layout = new cwc.mode.sphero.advanced.Layout(helper);
 
   /** @type {cwc.renderer.external.Sphero} */

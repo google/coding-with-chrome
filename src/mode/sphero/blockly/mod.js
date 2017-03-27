@@ -39,7 +39,7 @@ cwc.mode.sphero.blockly.Mod = function(helper) {
   /** @type {cwc.mode.sphero.advanced.Editor} */
   this.editor = new cwc.mode.sphero.blockly.Editor(helper);
 
-  /** @type {cwc.mode.sphero.Layout} */
+  /** @type {cwc.mode.sphero.blockly.Layout} */
   this.layout = new cwc.mode.sphero.blockly.Layout(helper);
 
   /** @type {cwc.renderer.external.Sphero} */

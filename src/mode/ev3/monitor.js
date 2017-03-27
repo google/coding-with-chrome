@@ -96,7 +96,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   var runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
-    console.error('Runner Monitor is not there!', this.runner);
+    console.error('Runner Monitor is not there!', this.runnerMonitor_);
     return;
   }
 

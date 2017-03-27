@@ -54,6 +54,16 @@ Blockly.JavaScript['phaser_add_audio'] = function(block) {
 
 
 /**
+ * Add background.
+ */
+Blockly.JavaScript['phaser_add_background'] = function(block) {
+  var text_sprite = block.getFieldValue('sprite');
+  var code = 'game.add.sprite(0, 0, \'' + text_sprite + '\')';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
  * Add sprite.
  */
 Blockly.JavaScript['phaser_add_sprite'] = function(block) {
@@ -72,9 +82,14 @@ Blockly.JavaScript['phaser_add_sprite'] = function(block) {
 Blockly.JavaScript['phaser_add_text'] = function(block) {
   var number_x = block.getFieldValue('x');
   var number_y = block.getFieldValue('y');
-  var text_text = block.getFieldValue('text');
-  var code = 'game.add.text(' + number_x + ', ' + number_y + ', \'' +
-    text_text + '\')';
+  var text_color = block.getFieldValue('color');
+  var text_font = block.getFieldValue('font');
+  var text_size = block.getFieldValue('size');
+  var value_text = Blockly.JavaScript.valueToCode(
+    block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = 'game.add.text(' + number_x + ', ' + number_y + ', ' +
+    value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
+    'fill: \'' + text_color + '\'})';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

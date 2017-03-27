@@ -30,7 +30,24 @@
   <xml>
 
     <category name="Game" colour="290">
-      <block type="phaser_game"></block>
+      <block type="phaser_game">
+        <next>
+          <block type="phaser_preload">
+            <next>
+              <block type="phaser_create">
+                <next>
+                  <block type="phaser_update">
+                    <next>
+                      <block type="phaser_render" collapsed="true"></block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+
       <block type="phaser_game_restart"></block>
     </category>
 
@@ -62,10 +79,38 @@
         </statement>
       </block>
       <block type="phaser_stage_background_color"></block>
-      <block type="phaser_add_audio"></block>
-      <block type="phaser_add_sprite"></block>
-      <block type="phaser_add_text"></block>
-      <block type="phaser_add_group"></block>
+      <block type="phaser_add_background"></block>
+      <block type="variables_set">
+        <field name="VAR">audio</field>
+        <value name="VALUE">
+          <block type="phaser_add_audio"></block>
+        </value>
+      </block>
+      <block type="variables_set">
+        <field name="VAR">sprite</field>
+        <value name="VALUE">
+          <block type="phaser_add_sprite"></block>
+        </value>
+      </block>
+      <block type="variables_set">
+        <field name="VAR">text</field>
+        <value name="VALUE">
+          <block type="phaser_add_text">
+            <value name="text">
+              <block type="text">
+                <field name="TEXT">Hello World</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+      <block type="variables_set">
+        <field name="VAR">group</field>
+        <value name="VALUE">
+          <block type="phaser_add_group"></block>
+        </value>
+      </block>
+
       <block type="phaser_time_loop_event">
         <value name="time">
           <block type="math_number"><field name="NUM">1500</field></block>

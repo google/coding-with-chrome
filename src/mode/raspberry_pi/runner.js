@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.raspberryPi.Runner');
 
 goog.require('cwc.runner.profile.raspberryPi.Command');
+goog.require('cwc.ui.Runner');
 
 
 

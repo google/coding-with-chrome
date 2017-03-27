@@ -43,7 +43,7 @@ cwc.mode.ev3.advanced.Mod = function(helper) {
   /** @type {cwc.mode.ev3.Runner} */
   this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
 
-  /** @type {cwc.mode.ev3.Layout} */
+  /** @type {cwc.mode.ev3.advanced.Layout} */
   this.layout = new cwc.mode.ev3.advanced.Layout(helper);
 
   /** @type {cwc.mode.ev3.Monitor} */
