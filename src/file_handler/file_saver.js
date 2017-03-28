@@ -60,7 +60,7 @@ cwc.fileHandler.FileSaver = function(helper) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFile = function(opt_autodetect) {
-  console.log('saveFile …');
+  console.log('saveFile...');
   this.prepareContent();
   if (opt_autodetect && this.gDriveId) {
     this.saveGDriveFile(true);
@@ -77,7 +77,7 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(opt_autodetect) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
-  console.log('saveFileAs …');
+  console.log('saveFileAs...');
   this.prepareContent();
   this.selectFileToSave(this.fileName, this.fileData);
 };

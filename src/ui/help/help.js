@@ -75,7 +75,7 @@ cwc.ui.Help.prototype.showIntro = function() {
  */
 cwc.ui.Help.prototype.showOpenSource = function() {
   var dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showTemplate('Coding with Chrome Credits',
+  dialogInstance.showTemplate('Coding with Chrome credits',
     cwc.soy.Help.notice, {
       prefix: this.prefix,
       is_chrome_app: this.chromeApp_

@@ -533,7 +533,7 @@ cwc.ui.GDrive.prototype.loadFileContent = function(file, content,
     opt_callback, opt_callback_scope) {
   var fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (content) {
-    console.log('Load file content …');
+    console.log('Load file content...');
     console.log(content);
     fileLoaderInstance.handleFileData(content, file['name'], null, file['id']);
   } else {

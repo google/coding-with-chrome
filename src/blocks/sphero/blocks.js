@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Sphero roll.
  */
@@ -75,7 +74,7 @@ Blockly.Blocks['sphero_roll_time'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(
-      i18t('Move the Sphero in a direction for the given seconds'));
+      i18t('Move the Sphero in a direction for the given number of seconds'));
   }
 };
 

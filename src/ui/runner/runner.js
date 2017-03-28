@@ -641,7 +641,7 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
  */
 cwc.ui.Runner.prototype.stop = function() {
   if (this.content) {
-    console.info('Stop Runner …');
+    console.info('Stop Runner...');
     this.status = cwc.ui.RunnerStatus.STOPPED;
     this.renderStatusTemplate(this.templateStop);
     this.content.stop();
@@ -666,7 +666,7 @@ cwc.ui.Runner.prototype.stop = function() {
  */
 cwc.ui.Runner.prototype.refresh = function() {
   if (this.content) {
-    console.info('Refresh Runner …');
+    console.info('Refresh Runner...');
     this.renderStatusTemplate(this.templateReload);
     if (this.externalCleanUp) {
       this.externalCleanUp();
@@ -686,7 +686,7 @@ cwc.ui.Runner.prototype.refresh = function() {
  */
 cwc.ui.Runner.prototype.reload = function() {
   if (this.content) {
-    console.info('Reload Runner …');
+    console.info('Reload Runner...');
     this.stop();
     this.run();
   }
@@ -699,7 +699,7 @@ cwc.ui.Runner.prototype.reload = function() {
  */
 cwc.ui.Runner.prototype.terminate = function() {
   if (this.content) {
-    console.info('Terminate Runner …');
+    console.info('Terminate Runner...');
     this.status = cwc.ui.RunnerStatus.TERMINATED;
     this.renderStatusTemplate(this.templateTerminate);
 
@@ -720,7 +720,7 @@ cwc.ui.Runner.prototype.terminate = function() {
  */
 cwc.ui.Runner.prototype.remove = function() {
   if (this.content) {
-    console.info('Remove Runner …');
+    console.info('Remove Runner...');
     this.terminate();
     this.nodeRuntime.removeChild(this.content);
     this.content = null;
@@ -760,7 +760,7 @@ cwc.ui.Runner.prototype.handleLoadStart = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setLoadStatus(true);
   }
-  this.setStatusText('Loading …');
+  this.setStatusText('Loading...');
 };
 
 

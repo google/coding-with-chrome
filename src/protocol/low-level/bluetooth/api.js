@@ -80,7 +80,7 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
     return;
   }
 
-  this.log_.debug('Preparing Bluetooth 2.0 support …');
+  this.log_.debug('Preparing Bluetooth 2.0 support...');
 
   // Monitor Bluetooth adapter
   this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,

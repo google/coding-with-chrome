@@ -60,7 +60,7 @@ cwc.protocol.arduino.Api = function(helper) {
  */
 cwc.protocol.arduino.Api.prototype.connect = function(device) {
   if (!device) {
-    console.error('Arduino is not ready yet …');
+    console.error('Arduino is not ready yet...');
     return false;
   }
   if (this.device && this.connected && this.device != device) {

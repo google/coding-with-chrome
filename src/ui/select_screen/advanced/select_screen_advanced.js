@@ -130,7 +130,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/simple/script/Draw-Portal-Turret.cwc');
       break;
 
-    // Programming Language Overview
+    // programming language Overview
     case cwc.ui.SelectScreenAdvancedView.PROGRAMMING_LANGUAGE:
       this.showTemplate_(
         cwc.soy.SelectScreenAdvanced.programmingLanguageOverview);
@@ -145,7 +145,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
       break;
 
-    // Programming Language Screens
+    // programming language Screens
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptOverview);
       this.setNavHeader_('JavaScript', 'beenhere');
@@ -195,7 +195,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
           'resources/examples/pencil_code/script/Turtle-catch.cwc');
       break;
 
-    // Markup Language Overview
+    // Markup language Overview
     case cwc.ui.SelectScreenAdvancedView.MARKUP_LANGUAGE:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.markupLanguageOverview);
       this.setNavHeader_('Markup', 'public');

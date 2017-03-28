@@ -127,7 +127,7 @@ cwc.protocol.ev3.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('EV3 unit is not ready yet …');
+    console.error('EV3 unit is not ready yet...');
     return false;
   }
 

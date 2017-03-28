@@ -99,7 +99,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('mBot is not ready yet …');
+    console.error('mBot is not ready yet...');
     return false;
   }
 
@@ -165,7 +165,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.start = function() {
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
-  console.log('Clean up mBot …');
+  console.log('Clean up mBot...');
   this.reset();
   this.monitoring.stop();
 };

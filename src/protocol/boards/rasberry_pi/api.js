@@ -78,7 +78,7 @@ cwc.protocol.raspberryPi.Api.prototype.autoConnect = function() {
  */
 cwc.protocol.raspberryPi.Api.prototype.connect = function(device) {
   if (!device) {
-    console.error('Raspberry Pi is not ready yet …');
+    console.error('Raspberry Pi is not ready yet...');
     return false;
   }
   if (this.device && this.connected && this.device != device) {

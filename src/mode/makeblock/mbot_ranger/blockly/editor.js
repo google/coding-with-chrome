@@ -104,9 +104,9 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
 
   // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
-      'Switch to the raw code editor view.');
+      'Switch to the raw code editor view');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
-      'Switch to the Blocky editor mode.');
+      'Switch to the Blocky editor mode');
 
   // Custom Events
   this.blockly.addChangeListener(this.editor.syncJavaScript.bind(this.editor));

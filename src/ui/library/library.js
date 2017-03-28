@@ -141,7 +141,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
     var files = this.getFiles();
     if (files) {
       console.log('Syncing library ', fileInstance.getFiles().getSize(),
-        ' files …');
+        ' files...');
       if (blocklyInstance) {
         blocklyInstance.updateFiles(files);
       }
@@ -160,7 +160,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
  * Asks the user to select a file entry to add to the library.
  */
 cwc.ui.Library.prototype.selectFileToAdd = function() {
-  console.log('Select File to add …');
+  console.log('Select File to add...');
   var selectEventHandler = this.chooseEntry.bind(this);
   chrome.fileSystem.chooseEntry({}, selectEventHandler);
 };

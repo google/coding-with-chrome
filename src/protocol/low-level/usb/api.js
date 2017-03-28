@@ -52,7 +52,7 @@ cwc.protocol.USB.api = function(helper) {
  */
 cwc.protocol.USB.api.prototype.prepare = function() {
   if (this.usb && !this.prepared) {
-    console.log('Prepare USB support …');
+    console.log('Prepare USB support...');
     this.prepared = true;
   }
 };

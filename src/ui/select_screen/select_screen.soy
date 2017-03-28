@@ -45,7 +45,7 @@
   {call .header_}
     {param prefix: $prefix /}
     {param title: 'Welcome to Coding with Chrome!' /}
-    {param text: 'Coding with Chrome is an Educational Development Environment.' /}
+    {param text: 'Coding with Chrome is an educational development environment' /}
     {param opt_text kind="html"}
       {if $online}
         {msg desc=""}
@@ -55,7 +55,7 @@
     {/param}
     {param opt_action kind="html"}
       {msg desc=""}
-        First, please <b>select your current coding skill.</b>
+        First, please <b>select your current coding skill</b>
       {/msg}
     {/param}
   {/call}
@@ -84,7 +84,7 @@
       {call .choiceCard_}
         {param prefix: $prefix /}
         {param title: 'Advanced' /}
-        {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code.' /}
+        {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code' /}
         {param action: 'Use Advanced Mode' /}
         {param link_id: 'advanced-mode' /}
         {param color_class: 'mdl-color--orange-50' /}
@@ -98,11 +98,11 @@
         <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
         <div class="mdl-checkbox__label">
           {msg desc=""}
-            Show screen on Startup
+            Show screen on startup
           {/msg}
           <span class="mdl-card__supporting-text">
             ({msg desc=""}
-                You can change your choice at any time in the settings menu.
+                You can change your choice at any time in the settings menu
             {/msg})
           </span>
         </div>
@@ -155,8 +155,8 @@
   {@param prefix: string}
   {@param version: string}
 
-  {if $debug}<div id="{$prefix}debug">Debug Mode</div>{/if}
-  {if $experimental}<div id="{$prefix}experimental">Experimental Mode</div>{/if}
+  {if $debug}<div id="{$prefix}debug">Debug mode</div>{/if}
+  {if $experimental}<div id="{$prefix}experimental">Experimental mode</div>{/if}
   {if $version}<div id="{$prefix}version">{$version}</div>{/if}
 {/template}
 

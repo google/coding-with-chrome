@@ -209,7 +209,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
  * @param {Element} node
  */
 cwc.ui.Editor.prototype.decorateEditor = function(node) {
-  console.log('Decorate code editor …');
+  console.log('Decorate code editor...');
   if (!node) {
     console.error('Was unable to create editor at node ' + node);
     return;
@@ -691,7 +691,7 @@ cwc.ui.Editor.createMarker = function() {
  * Updates the editor Infobar.
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
-  console.info('Update Infobar …');
+  console.info('Update Infobar...');
   if (this.nodeInfobarCurrentMode) {
     this.nodeInfobarCurrentMode.textContent = this.getEditorMode();
   }

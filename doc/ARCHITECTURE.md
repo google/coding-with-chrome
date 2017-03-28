@@ -63,14 +63,14 @@ Coding with Chrome.
     * **layout** - Definition of the different UI layouts
     * **library** - Handling of additional library files
     * **menubar** - Definition of the menubar
-    * **message** - Message handler for info, error, warn …
+    * **message** - Message handler for info, error, warn...
     * **preview** - Definition of the preview
     * **runner** - Definition of the runner
     * **select_screen** - Main screen to select the different mods or examples
     * **setttings** - UI element for handling user settings
     * **statusbar** - Definition of the statusbar
   * **utils** - Collection of additional helper
-* **third_party** - Third party files like images, logos, …
+* **third_party** - Third party files like images, logos,...
 
 
 ##Basic Workflow

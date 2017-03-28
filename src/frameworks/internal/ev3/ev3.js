@@ -125,7 +125,7 @@ cwc.framework.Ev3 = function(code) {
 
 
 /**
- * Sets the EV3 robot model.
+ * Sets the EV3 robot model
  * @param {!string} model
  * @export
  */
@@ -695,7 +695,7 @@ cwc.framework.Ev3.prototype.handleUpdateRobotType_ = function(data) {
 
 
 /**
- * Sets the wheel diameter.
+ * Sets the wheel diameter
  * @param {!number} data
  * @private
  */
@@ -705,7 +705,7 @@ cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
 
 
 /**
- * Sets the wheel diameter.
+ * Sets the wheel diameter
  * @param {!number} data
  * @private
  */

@@ -62,7 +62,7 @@ cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
  */
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
-    console.log('Prepare Bluetooth adapter …');
+    console.log('Prepare Bluetooth adapter...');
     this.bluetooth.onAdapterStateChanged.addListener(
         this.handleAdapterState_.bind(this));
     this.updateAdapterState();

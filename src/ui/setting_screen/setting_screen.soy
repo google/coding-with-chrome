@@ -17,8 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.ui.SettingScreen autoescape="strict"}
+
 
 /**
  * Main HTML template for the editor.
@@ -89,14 +89,14 @@
 
       {call .header_}
         {param title: 'General Settings' /}
-        {param text: 'This screen allows you to change the default settings.' /}
+        {param text: 'This screen allows you to change the default settings' /}
       {/call}
       <ul class="mdl-list">
         // Welcome screen
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Show welcome screen' /}
-          {param text: 'If enabled a welcome screen will show every time CwC is started with the choice between "beginner mode" and "advanced mode".' /}
+          {param text: 'If enabled, a welcome screen will show every time CwC is started with the choice between "beginner mode" and "advanced mode".' /}
           {param type: 'checkbox' /}
           {param id: 'show-welcome' /}
         {/call}
@@ -105,7 +105,7 @@
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Advanced Mode' /}
-          {param text: 'The "advanced mode" will turn off all block based options.' /}
+          {param text: 'The "advanced mode" will turn off all block-based options' /}
           {param type: 'switch' /}
           {param id: 'advanced-mode' /}
         {/call}
@@ -114,7 +114,7 @@
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Launch in fullscreen' /}
-          {param text: 'If enabled CwC will be automatically launched in fullscreen.' /}
+          {param text: 'If enabled, CwC will be launched in fullscreen' /}
           {param type: 'checkbox' /}
           {param id: 'fullscreen' /}
           {param opt_restart: true /}
@@ -143,7 +143,7 @@
 
       <div class="mdl-card__supporting-text">
         {msg desc=""}
-          * You need to restart the application after enabling or disabling these options.
+          * You need to restart the application after enabling or disabling these options
         {/msg}
       </div>
     </div>
@@ -161,7 +161,7 @@
 
       {call .header_}
         {param title: 'Modules' /}
-        {param text: 'This screen allows you to enable/disable the different kind of modules.' /}
+        {param text: 'This screen allows you to enable/disable the different kinds of modules' /}
       {/call}
 
       {call .subHeader_}
@@ -172,7 +172,7 @@
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'EV3 module' /}
-          {param text: 'Control a real or virtual EV3.' /}
+          {param text: 'Control a real or virtual EV3' /}
           {param type: 'switch' /}
           {param id: 'mode-ev3' /}
           {param opt_checked: true /}
@@ -181,7 +181,7 @@
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Sphero module' /}
-          {param text: 'Control a real or virtual Sphero.' /}
+          {param text: 'Control a real or virtual Sphero' /}
           {param type: 'switch' /}
           {param id: 'mode-sphero' /}
           {param opt_checked: true /}
@@ -207,8 +207,8 @@
       </ul>
 
       {call .subHeader_}
-        {param title: 'Programming Language' /}
-        {param text: 'Text based programming languages' /}
+        {param title: 'Programming language' /}
+        {param text: 'Text-based programming languages' /}
       {/call}
       <ul class="mdl-list">
         {call .setting_}
@@ -249,7 +249,7 @@
       </ul>
 
       {call .subHeader_}
-        {param title: 'Markup Language' /}
+        {param title: 'Markup language' /}
         {param text: 'Website modules' /}
       {/call}
       <ul class="mdl-list">
@@ -265,7 +265,7 @@
 
       <div class="mdl-card__supporting-text">
         {msg desc=""}
-          You need to restart the application after enabling or disabling any module.
+          You need to restart the application after enabling or disabling any module
         {/msg}
       </div>
     </div>
@@ -282,25 +282,25 @@
     <div class="mdl-card mdl-cell mdl-cell--12-col">
 
       {call .header_}
-        {param title: 'Misc Settings' /}
-        {param text: 'This screen allows you to change some advanced settings.' /}
+        {param title: 'Misc settings' /}
+        {param text: 'This screen allows you to change some advanced settings' /}
       {/call}
       <ul class="mdl-list">
-        // Debug Mode
+        // Debug mode
         {call .setting_}
           {param prefix: $prefix /}
-          {param title: 'Debug Mode' /}
-          {param text: 'The "debug mode" will turn on some additional debug options.' /}
+          {param title: 'Debug mode' /}
+          {param text: 'The "debug mode" will turn on some additional debug options' /}
           {param type: 'switch' /}
           {param id: 'debug-mode' /}
           {param opt_restart: true /}
         {/call}
 
-        // Experimental Mode
+        // Experimental mode
         {call .setting_}
           {param prefix: $prefix /}
-          {param title: 'Experimental Mode' /}
-          {param text: 'The "experimental mode" will turn on some experimental options. Enabled this at your own risk, no support or guarantee is provided.' /}
+          {param title: 'Experimental mode' /}
+          {param text: 'The "experimental mode" will turn on some experimental options. Enable this at your own risk, no support or guarantee is provided.' /}
           {param type: 'switch' /}
           {param id: 'experimental-mode' /}
           {param opt_restart: true /}
@@ -309,7 +309,7 @@
 
       <div class="mdl-card__supporting-text">
         {msg desc=""}
-          * You need to restart the application after enabling or disabling these options.
+          * You need to restart the application after enabling or disabling these options
         {/msg}
       </div>
     </div>

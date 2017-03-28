@@ -95,7 +95,7 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.setConfig_('fullscreen', cwc.userConfigType.GENERAL,
     cwc.userConfigName.FULLSCREEN);
 
-  // Misc Settings
+  // Misc settings
   this.setConfig_('experimental-mode', cwc.userConfigType.GENERAL,
     cwc.userConfigName.EXPERIMENTAL_MODE);
   this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
@@ -111,7 +111,7 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.setConfig_('mode-mbot-ranger', cwc.userConfigType.MODULE,
     cwc.userConfigName.MBOT_RANGER);
 
-  // Programming language modules
+  // programming language modules
   this.setConfig_('mode-javascript', cwc.userConfigType.MODULE,
     cwc.userConfigName.JAVASCRIPT);
   this.setConfig_('mode-coffeescript', cwc.userConfigType.MODULE,
@@ -121,7 +121,7 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.setConfig_('mode-pencil_code', cwc.userConfigType.MODULE,
     cwc.userConfigName.PENCIL_CODE);
 
-  // Markup Language
+  // Markup language
   this.setConfig_('mode-html5', cwc.userConfigType.MODULE,
     cwc.userConfigName.HTML5);
 };

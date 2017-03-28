@@ -360,7 +360,7 @@ Blockly.Blocks['mbot_ranger_ultrasonic_sensor_change'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
-        '\'distance\', when the ultrasonic sensor detects a change.');
+        '\'distance\', when the ultrasonic sensor detects a change');
   }
 };
 
@@ -374,7 +374,7 @@ Blockly.Blocks['mbot_ranger_ultrasonic_sensor_value'] = {
     this.setColour(260);
     this.appendDummyInput().appendField('ultrasonic sensor value');
     this.setOutput(true, 'Number');
-    this.setTooltip('Get the current value of the ultrasonic sensor.');
+    this.setTooltip('Get the current value of the Ultrasonic sensor');
   }
 };
 
@@ -406,6 +406,6 @@ Blockly.Blocks['mbot_ranger_wait'] = {
       .appendField('msec)');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Wait for the given milliseconds.');
+    this.setTooltip('Wait for the given milliseconds');
   }
 };

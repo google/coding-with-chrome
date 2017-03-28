@@ -76,7 +76,7 @@ cwc.mode.ev3.Connection.prototype.connect = function() {
  * Connects the EV3 unit.
  */
 cwc.mode.ev3.Connection.prototype.disconnect = function() {
-  console.log('Disconnect the EV3 unit …');
+  console.log('Disconnect the EV3 unit...');
   this.api.disconnect();
 };
 

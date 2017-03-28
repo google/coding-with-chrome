@@ -133,11 +133,11 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {!goog.ui.Button} */
   this.bluetoothMenu = cwc.ui.Helper.getIconButton('bluetooth',
-      'Connect Bluetooth device …');
+      'Connect Bluetooth device...');
 
   /** @type {!goog.ui.Button} */
   this.bluetoothConnected = cwc.ui.Helper.getIconButton(
-      'bluetooth_connected', 'Disconnect Bluetooth device …');
+      'bluetooth_connected', 'Disconnect Bluetooth device...');
 
   /** @type {!goog.ui.Button} */
   this.bluetoothDisabled = cwc.ui.Helper.getIconButton(

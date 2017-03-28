@@ -70,7 +70,7 @@ cwc.protocol.serial.Api.prototype.prepare = function() {
   if (this.prepared) {
     return;
   }
-  console.log('Prepare serial support …');
+  console.log('Prepare serial support...');
 
   // Monitor serial devices
   this.devices = new cwc.protocol.serial.Devices(this.helper, this.serial_);

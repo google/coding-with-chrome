@@ -58,7 +58,7 @@ cwc.fileHandler.File = function(helper) {
  * Clears the file instance.
  */
 cwc.fileHandler.File.prototype.clear = function() {
-  console.log('Clear File instance …');
+  console.log('Clear File instance...');
   this.file_ = new cwc.fileFormat.File();
   this.fileHandler_ = null;
   this.gDriveId_ = '';

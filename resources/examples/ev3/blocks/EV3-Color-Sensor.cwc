@@ -17,7 +17,7 @@
   "type": "ev3_blockly",
   "mode": "ev3_blockly",
   "model": "TRACK3R",
-  "title": "Color Sensor - Sound",
+  "title": "Color sensor - sound",
   "ui": "blockly",
   "version": "1.0"
 }

@@ -268,10 +268,10 @@ Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
     case 'proximity':
       mode = 0;
       break;
-    case 'ir beacon':
+    case 'IR beacon':
       mode = 1;
       break;
-    case 'ir remote':
+    case 'IR remote':
       mode = 2;
       break;
   }
@@ -391,7 +391,7 @@ Blockly.JavaScript['ev3_ultrasonic_sensor_change'] = function(block) {
 
 
 /**
- * Stops the ultrasonic sensor event.
+ * Stops the ultrasonic sensor event
  */
 Blockly.JavaScript['ev3_stop_ultrasonic_sensor_event'] = function(opt_block) {
   return 'ev3.stopUltrasonicSensorEvent();\n';

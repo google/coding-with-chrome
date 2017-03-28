@@ -60,7 +60,7 @@ cwc.ui.RunnerTerminal.prototype.decorate = function(node) {
   );
 
   this.nodeOutput = goog.dom.getElement(this.prefix + 'output');
-  this.write('Runner Terminal loaded …\n\n');
+  this.write('Runner Terminal loaded...\n\n');
 };
 
 

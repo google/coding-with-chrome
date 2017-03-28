@@ -84,7 +84,7 @@ cwc.ui.Account.prototype.prepare = function() {
  * Handles the oAuth 2.0 authentication.
  */
 cwc.ui.Account.prototype.authenticate = function() {
-  console.log('Try to authenticated …');
+  console.log('Try to authenticated...');
   var authentificationEvent = this.handleAuthentication_.bind(this);
   chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
 };
@@ -300,7 +300,7 @@ cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
     this.setAuthenticated();
     console.log('Access token: ' + this.accessToken);
     this.requestUserInfo();
-    this.helper.showSuccess('Successful authenticated …');
+    this.helper.showSuccess('Successful authenticated...');
   } else {
     this.setUnauthenticated();
     var errorMsg = chrome.runtime.lastError.message;

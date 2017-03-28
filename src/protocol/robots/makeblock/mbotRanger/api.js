@@ -101,7 +101,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('mBot Ranger is not ready yet …');
+    console.error('mBot Ranger is not ready yet...');
     return false;
   }
 
@@ -157,7 +157,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
-  console.log('Clean up mBot Ranger …');
+  console.log('Clean up mBot Ranger...');
   this.reset();
   this.monitoring.stop();
 };

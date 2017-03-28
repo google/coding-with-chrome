@@ -53,7 +53,7 @@ cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
     }
   }
 
-  this.showTemplate_('Connect Serial device',
+  this.showTemplate_('Connect serial device',
     cwc.soy.connectScreen.Serial.devices, {
       prefix: this.prefix,
       devices: devices

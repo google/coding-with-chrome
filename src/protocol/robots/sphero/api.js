@@ -124,7 +124,7 @@ cwc.protocol.sphero.Api.prototype.connect = function(address) {
   var bluetoothInstance = this.helper.getInstance('bluetooth', true);
   var device = bluetoothInstance.getDevice(address);
   if (!device) {
-    console.error('Sphero ball is not ready yet …');
+    console.error('Sphero ball is not ready yet...');
     return false;
   }
 

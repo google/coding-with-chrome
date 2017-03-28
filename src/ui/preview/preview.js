@@ -415,7 +415,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
     if (opt_no_skip) {
       this.skipAutoUpdate_ = false;
     }
-    console.log('Activate AutoUpdate …');
+    console.log('Activate AutoUpdate...');
     var editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       var editorEventHandler = editorInstance.getEventHandler();
@@ -427,7 +427,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
       }
     }
   } else if (!active && this.autoUpdateEvent) {
-    console.log('Deactivate AutoUpdate …');
+    console.log('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
     this.autoUpdateEvent = null;
     if (this.toolbar) {
@@ -518,7 +518,7 @@ cwc.ui.Preview.prototype.handleLoadStart_ = function(opt_event) {
   if (this.toolbar) {
     this.toolbar.setLoadStatus(true);
   }
-  this.setStatusText('Loading …');
+  this.setStatusText('Loading...');
 };
 
 
@@ -543,7 +543,7 @@ cwc.ui.Preview.prototype.handleLoadStop_ = function(opt_event) {
  * @private
  */
 cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
-  this.setStatusText('Unresponsive …');
+  this.setStatusText('Unresponsive...');
   this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
 
   var dialogInstance = this.helper.getInstance('dialog');

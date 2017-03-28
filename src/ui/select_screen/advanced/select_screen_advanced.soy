@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.SelectScreenAdvanced autoescape="strict"}
 
 
@@ -53,7 +52,7 @@
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Games' /}
         {param text: 'Create games with the Phaser framework' /}
-        {param link_text: 'Start creating Games' /}
+        {param link_text: 'Start creating games' /}
         {param link_id: 'games' /}
         {param opt_color_class: 'bg-lime' /}
         {param opt_icon: 'videogame_asset' /}
@@ -61,7 +60,7 @@
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Programming' /}
-        {param text: 'Build software with text based programming languages' /}
+        {param text: 'Build software with text-based programming languages' /}
         {param link_text: 'Go Coding ' /}
         {param link_id: 'programming-language' /}
         {param opt_color_class: 'bg-blue' /}
@@ -79,7 +78,7 @@
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Robots' /}
-        {param text: 'Control virtual or real robots' /}
+        {param text: 'Control real or virtual robots' /}
         {param link_text: 'Go Robots' /}
         {param link_id: 'robot' /}
         {param opt_color_class: 'bg-orange' /}
@@ -88,8 +87,8 @@
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: '3D' /}
-        {param text: 'Create create and display animated 3D computer graphics' /}
-        {param link_text: 'Start Drawing' /}
+        {param text: 'Create and display animated 3D computer graphics' /}
+        {param link_text: 'Start drawing' /}
         {param link_id: '3d' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: '3d_rotation' /}
@@ -117,7 +116,7 @@
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Simple' /}
-        {param opt_text: 'JavaScript made easy - JavaScript plus a variety of functions that make your life easier.' /}
+        {param opt_text: 'JavaScript made easy - JavaScript plus a variety of functions that make your life easier' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'school' /}
       {/call}
@@ -126,7 +125,7 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
-          {param text: 'Create empty project.' /}
+          {param text: 'Create empty project' /}
           {param link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -144,8 +143,8 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Text Loop' /}
-          {param text: 'Text Loop example' /}
+          {param title: 'Text loop' /}
+          {param text: 'Text loop example' /}
           {param link_text: 'Open Example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
@@ -153,7 +152,7 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Line Loop' /}
+          {param title: 'Line loop' /}
           {param text: 'Draw lines with loops' /}
           {param link_text: 'Open Example' /}
           {param link_id: 'line-loop' /}
@@ -162,7 +161,7 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Point Loop' /}
+          {param title: 'Point loop' /}
           {param text: 'Draw points with random colors and loops' /}
           {param link_text: 'Open Example' /}
           {param link_id: 'point-loop' /}
@@ -189,7 +188,7 @@
 
 
 /**
- * Programming language overview page.
+ * programming language overview page.
  */
 {template .programmingLanguageOverview}
   {@param prefix: string}
@@ -204,8 +203,8 @@
     <div class="cwc-content">
 
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Programming Language' /}
-        {param opt_text: 'Text based programming languages' /}
+        {param title: 'Programming language' /}
+        {param opt_text: 'Text-based programming languages' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'view_stream' /}
       {/call}
@@ -297,13 +296,13 @@
         {if $online}
           {call cwc.soy.SelectScreenTemplate.selectCardBig}
             {param prefix: $prefix /}
-            {param title: 'Video Tutorials' /}
-            {param text: 'Start learning with JavaScript video tutorials on YouTube' /}
+            {param title: 'Video tutorials' /}
+            {param text: 'Start learning JavaScript with video tutorials on YouTube' /}
             {param link_text: 'Select Tutorials' /}
             {param link_id: 'js-tutorials' /}
             {param opt_color_class: 'bg-green' /}
             {param opt_icon: 'movie_creation' /}
-            {param opt_text: 'Video Tutorials' /}
+            {param opt_text: 'Video tutorials' /}
           {/call}
         {/if}
 
@@ -321,8 +320,8 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Circle Animation' /}
-          {param text: 'Example that animates a Circle.' /}
-          {param link_text: 'Load Circle Animation' /}
+          {param text: 'Example that animates a circle' /}
+          {param link_text: 'Load circle animation' /}
           {param link_id: 'circle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_image: 'images/selection/javascript-circle-animation.png' /}
@@ -330,9 +329,9 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
-          {param title: 'Triangle Animation' /}
-          {param text: 'Example that animates a Triangle.' /}
-          {param link_text: 'Load Triangle Animation' /}
+          {param title: 'Triangle animation' /}
+          {param text: 'Example that animates a triangle' /}
+          {param link_text: 'Load triangle animation' /}
           {param link_id: 'triangle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_image: 'images/selection/javascript-triangle-animation.png' /}
@@ -368,7 +367,7 @@
     <div class="cwc-content-large">
 
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'JavaScript Video Tutorials' /}
+        {param title: 'JavaScript video tutorials' /}
         {param opt_text: 'Learn JavaScript with video tutorials on YouTube.' /}
         {param opt_color_class: 'bg-green' /}
         {param opt_icon: 'video_library' /}
@@ -448,9 +447,9 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
-          {param title: 'Three.js - Cube Example' /}
-          {param text: 'Animated 3d cube.' /}
-          {param link_text: 'Load 3d cube Animation' /}
+          {param title: 'Three.js - Cube example' /}
+          {param text: 'Animated 3D cube' /}
+          {param link_text: 'Load 3D cube animation' /}
           {param link_id: 'cube-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_image: '' /}
@@ -546,7 +545,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
-          {param text: 'Create empty project.' /}
+          {param text: 'Create empty project' /}
           {param link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -652,7 +651,7 @@
     <div class="cwc-content">
 
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Markup Language' /}
+        {param title: 'Markup language' /}
         {param opt_text: 'Build website code' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: 'public' /}
@@ -750,7 +749,7 @@
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots' /}
-        {param opt_text: 'Program Robots with JavaScript' /}
+        {param opt_text: 'Program robots with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'memory' /}
       {/call}
@@ -767,7 +766,7 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Sphero' /}
         {param text: 'Control the Sphero or a virtual robot with JavaScript' /}
-        {param link_text: 'Use Sphero Robot' /}
+        {param link_text: 'Use Sphero robot' /}
         {param id: 'sphero' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
@@ -823,7 +822,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Line follower' /}
-          {param text: 'Simple line follower example.' /}
+          {param text: 'Simple line follower example' /}
           {param link_text: 'Line follower example' /}
           {param link_id: 'line-follower' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -886,9 +885,9 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
-          {param title: 'Rectangle Example' /}
-          {param text: 'Example Sphero is rolling a rectangle.' /}
-          {param link_text: 'Rectangle Example.' /}
+          {param title: 'Rectangle example' /}
+          {param text: 'Example Sphero is rolling a rectangle' /}
+          {param link_text: 'Rectangle example.' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/sphero-script-rectangle.png' /}
@@ -934,7 +933,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
-          {param text: 'Create empty project.' /}
+          {param text: 'Create empty project' /}
           {param link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -978,7 +977,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
           {param title: 'Empty project' /}
-          {param text: 'Create empty project.' /}
+          {param text: 'Create empty project' /}
           {param link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -988,9 +987,9 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig}
           {param prefix: $prefix /}
-          {param title: 'Cube Example' /}
-          {param text: 'Animated 3d cube.' /}
-          {param link_text: 'Load 3d cube Animation' /}
+          {param title: 'Cube example' /}
+          {param text: 'Animated 3D cube' /}
+          {param link_text: 'Load 3D cube animation' /}
           {param link_id: 'cube-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_image: 'images/selection/javascript-cube-animation.png' /}
@@ -1028,12 +1027,12 @@
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'Programming Language' /}
+        {param title: 'Programming language' /}
         {param id: 'programming-language' /}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'Markup Language' /}
+        {param title: 'Markup language' /}
         {param id: 'markup-language' /}
       {/call}
 
@@ -1053,7 +1052,7 @@
 
 
 /**
- * Programming language header.
+ * programming language header.
  */
 {template .programmingLanguageHeader_}
   {@param prefix: string}

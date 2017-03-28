@@ -193,7 +193,7 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
 
 
 /**
- * Sets the EV3 robot model.
+ * Sets the EV3 robot model
  * @param {!string} model
  */
 cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {

@@ -112,7 +112,7 @@ cwc.fileFormat.File = function(opt_content) {
  * Initializes the file data with default values.
  */
 cwc.fileFormat.File.prototype.init = function() {
-  this.log_.info('Clearing existing file information …');
+  this.log_.info('Clearing existing file information...');
   this.author_ = 'Unknown';
   this.content_ = {};
   this.description_ = '';
