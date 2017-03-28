@@ -28,17 +28,16 @@ goog.require('goog.style');
 /**
  * Class represents the monitor inside the ui.
  * @param {!cwc.utils.Helper} helper
- * @param {!string} prefix
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.RunnerMonitor = function(helper, prefix) {
+cwc.ui.RunnerMonitor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix + 'monitor-';
+  this.prefix = this.helper.getPrefix('runner-monitor');
 
   /** @type {Element} */
   this.node = null;
@@ -85,9 +84,6 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
   /** @type {Element} */
   this.tabMonitor = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @private {!string} */
   this.active_ = 'is-active';
 };
@@ -99,11 +95,6 @@ cwc.ui.RunnerMonitor = function(helper, prefix) {
  */
 cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   this.node = node;
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.RunnerMonitor.style({ 'prefix': this.prefix }));
-  }
 
   goog.soy.renderElement(
       this.node,

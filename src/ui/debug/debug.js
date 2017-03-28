@@ -49,9 +49,6 @@ cwc.ui.Debug = function(helper) {
 
   /** @type {Element} */
   this.node = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
@@ -86,11 +83,6 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
         message_types: cwc.ui.MessageType
       }
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.Debug.style({ 'prefix': this.prefix }));
-  }
 
   this.addEvents();
 };

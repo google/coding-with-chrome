@@ -28,6 +28,6 @@
   {@param prefix: string}
   <div id="{$prefix}chrome-main">
     <div id="{$prefix}content-chrome"></div>
-    <div id="{$prefix}content-overlay"></div>
+    {call cwc.soy.ui.Layout.contentOverlay data="all" /}
   </div>
 {/template}

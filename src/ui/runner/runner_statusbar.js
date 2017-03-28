@@ -30,12 +30,11 @@ goog.require('goog.style');
 /**
  * Class represents the statusbar inside the ui.
  * @param {!cwc.utils.Helper} helper
- * @param {!string} prefix
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.RunnerStatusbar = function(helper, prefix) {
+cwc.ui.RunnerStatusbar = function(helper) {
   /** @type {string} */
   this.name = 'RunnerStatusbar';
 
@@ -43,7 +42,7 @@ cwc.ui.RunnerStatusbar = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.generalPrefix = '';
+  this.prefix = this.helper.getPrefix('runner-statusbar');
 
   /** @type {Element} */
   this.node = null;
@@ -52,37 +51,22 @@ cwc.ui.RunnerStatusbar = function(helper, prefix) {
   this.nodeStatus = null;
 
   /** @type {string} */
-  this.prefix = prefix;
-
-  /** @type {string} */
   this.status = '';
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
 /**
  * Decorates the given node and adds the editor status to the ui.
  * @param {Element} node The target node to add the status bar.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  */
-cwc.ui.RunnerStatusbar.prototype.decorate = function(node,
-    opt_prefix) {
+cwc.ui.RunnerStatusbar.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
 
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerStatusbar.template,
       {'prefix': this.prefix}
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.RunnerStatusbar.style({ 'prefix': this.prefix }));
-  }
 
   this.nodeStatus = goog.dom.getElement(this.prefix + 'statusbar');
   this.setStatus('…');

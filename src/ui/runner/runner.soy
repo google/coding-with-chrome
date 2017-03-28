@@ -20,7 +20,6 @@
 {namespace cwc.soy.Runner autoescape="strict"}
 
 
-
 /**
  * Main HTML template for the file library.
  */
@@ -47,9 +46,7 @@
  * Toolbar template.
  */
 {template .toolbar_}
-  {@param prefix: string}
-
-  {let $toolbarPrefix: $prefix + 'toolbar-' /}
+  {@param toolbarPrefix: string}
   <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
     <div class="mdl-layout__header-row">
       <nav class="mdl-navigation">

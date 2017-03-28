@@ -37,9 +37,6 @@ cwc.ui.connectScreen.Screens = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('connectScreen');
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
 

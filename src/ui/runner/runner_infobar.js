@@ -46,10 +46,9 @@ cwc.ui.RunnerInfobarLevel = {
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!string} prefix
  * @struct
  */
-cwc.ui.RunnerInfobar = function(helper, prefix) {
+cwc.ui.RunnerInfobar = function(helper) {
   /** @type {Element} */
   this.node = null;
 
@@ -57,10 +56,7 @@ cwc.ui.RunnerInfobar = function(helper, prefix) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = prefix;
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
+  this.prefix = this.helper.getPrefix('runner-infobar');
 
   /** @type {goog.debug.Logger.Level} */
   this.logLevel = new goog.debug.Logger.Level('ALL', 99);
@@ -109,9 +105,6 @@ cwc.ui.RunnerInfobar = function(helper, prefix) {
 
   /** @type {number} */
   this.errorNum = 0;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
@@ -121,24 +114,19 @@ cwc.ui.RunnerInfobar = function(helper, prefix) {
 cwc.ui.RunnerInfobar.prototype.decorate = function(node) {
   this.node = node;
 
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.RunnerInfobar.style({ 'prefix': this.prefix }));
-  }
-
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerInfobar.template,
       { 'prefix': this.prefix }
   );
 
-  this.nodeConsole = goog.dom.getElement(this.prefix + 'info-console');
-  this.nodeDebugNum = goog.dom.getElement(this.prefix + 'info-debug-num');
-  this.nodeErrorNum = goog.dom.getElement(this.prefix + 'info-error-num');
-  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'info-messages');
-  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-info-num');
-  this.nodeTerminal = goog.dom.getElement(this.prefix + 'info-terminal');
-  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'info-warn-num');
+  this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
+  this.nodeDebugNum = goog.dom.getElement(this.prefix + 'debug-num');
+  this.nodeErrorNum = goog.dom.getElement(this.prefix + 'error-num');
+  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'messages');
+  this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-num');
+  this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
+  this.nodeWarnNum = goog.dom.getElement(this.prefix + 'warn-num');
 
   this.logConsole = new goog.debug.DivConsole(this.nodeConsole);
   this.logConsole.setFormatter(this.logFormatter);

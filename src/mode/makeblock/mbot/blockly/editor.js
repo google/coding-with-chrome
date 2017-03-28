@@ -60,9 +60,6 @@ cwc.mode.makeblock.mbot.blockly.Editor = function(helper) {
 
   /** @type {string} */
   this.prefix = helper.getPrefix('mbot-editor');
-
-  /** @type {string} */
-  this.generalPrefix = helper.getPrefix();
 };
 
 

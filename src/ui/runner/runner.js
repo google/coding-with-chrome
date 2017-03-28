@@ -195,8 +195,9 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
-    prefix: this.prefix }
-  );
+    prefix: this.prefix,
+    toolbarPrefix: this.helper.getPrefix('runner-toolbar')
+  });
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -209,32 +210,30 @@ cwc.ui.Runner.prototype.decorate = function(node) {
 
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  this.infobar = new cwc.ui.RunnerInfobar(this.helper, this.prefix);
+  this.infobar = new cwc.ui.RunnerInfobar(this.helper);
   this.infobar.decorate(this.nodeInfobar);
 
-  // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
-  if (this.nodeToolbar) {
-    this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.prefix);
-  }
+  // Monitor
+  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
+  this.monitor = new cwc.ui.RunnerMonitor(this.helper);
+  this.monitor.decorate(this.nodeMonitor);
+  this.enableMonitor(false);
 
   // Statusbar
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  this.statusbar = new cwc.ui.RunnerStatusbar(this.helper, this.prefix);
+  this.statusbar = new cwc.ui.RunnerStatusbar(this.helper);
   this.statusbar.decorate(this.nodeStatusbar);
 
   // Terminal
   this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
-  this.terminal = new cwc.ui.RunnerTerminal(this.helper, this.prefix);
+  this.terminal = new cwc.ui.RunnerTerminal(this.helper);
   this.terminal.decorate(this.nodeTerminal);
   this.enableTerminal(false);
 
-  // Monitor
-  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
-  this.monitor = new cwc.ui.RunnerMonitor(this.helper, this.prefix);
-  this.monitor.decorate(this.nodeMonitor);
-  this.enableMonitor(false);
+  // Toolbar
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
+  this.toolbar.decorate(this.nodeToolbar);
 
   // Overlay
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');

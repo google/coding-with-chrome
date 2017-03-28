@@ -20,6 +20,7 @@
 
 {namespace cwc.soy.RunnerMonitor autoescape="strict"}
 
+
 /**
  * Monitor template.
  */
@@ -76,55 +77,4 @@
     </div>
   </div>
   <div id="{$prefix}statusbar"></div>
-{/template}
-
-
-/**
- * Style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  #{$prefix}toolbar,
-  #{$prefix}toolbar .mdl-layout__tab-bar,
-  #{$prefix}toolbar .mdl-layout__tab,
-  #{$prefix}toolbar .mdl-layout__tab span {lb}
-    height: 38px;
-  {rb}
-
-  #{$prefix}toolbar .mdl-layout__tab span {lb}
-    padding-top: 6px;
-  {rb}
-
-  #{$prefix}content {lb}
-    position: relative;
-  {rb}
-
-  #{$prefix}main > div {lb}
-    display: none;
-  {rb}
-
-  #{$prefix}main > div.is-active {lb}
-    display: block;
-  {rb}
-
-  #{$prefix}main-run,
-  #{$prefix}main-stop {lb}
-    background: #ddd;
-    border-radius: 90px;
-    border: 6px solid #000;
-    display: block;
-    font-size: 168px;
-    height: 168px;
-    margin: auto;
-    margin-top: 16px;
-    width: 168px;
-  {rb}
-
-  #{$prefix}statusbar {lb}
-    height: 26px;
-    background: #f5f5f5;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #ebebeb;
-  {rb}
 {/template}

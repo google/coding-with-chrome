@@ -46,9 +46,6 @@ cwc.mode.sphero.advanced.Editor = function(helper) {
 
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-editor');
-
-  /** @type {string} */
-  this.generalPrefix = helper.getPrefix();
 };
 
 

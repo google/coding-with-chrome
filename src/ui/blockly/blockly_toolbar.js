@@ -69,9 +69,6 @@ cwc.ui.BlocklyToolbar = function(helper) {
   /** @type {string} */
   this.prefix = 'toolbar-';
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {boolean} */
   this.expandState = false;
 };

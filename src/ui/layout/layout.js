@@ -18,7 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Layout');
-goog.provide('cwc.ui.LayoutOverlayBackground');
 goog.provide('cwc.ui.LayoutTemplate');
 goog.provide('cwc.ui.LayoutType');
 
@@ -42,20 +41,6 @@ goog.require('goog.ui.Component');
 goog.require('goog.ui.SplitPane');
 goog.require('goog.ui.SplitPane.Orientation');
 
-
-/**
- * Supported overlay backgrounds.
- * @enum {!Object.<string>|string}
- */
-cwc.ui.LayoutOverlayBackground = {
-  TRANSPARENT: 'bg_transparent',
-  TRANSPARENT_25: 'bg_transparent_25',
-  TRANSPARENT_50: 'bg_transparent_50',
-  TRANSPARENT_75: 'bg_transparent_75',
-  GREY: 'bg_grey',
-  WHITE: 'bg_white',
-  NONE: 'none'
-};
 
 
 /**
@@ -106,19 +91,13 @@ cwc.ui.Layout = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
-  /** @type {string} */
-  this.prefix = this.generalPrefix + 'layout-';
+  this.prefix = this.helper.getPrefix('layout');
 
   /** @type {Element} */
   this.node = null;
 
   /** @type {!Object.<Element>} */
   this.nodes = {};
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 
   /** @type {!number} */
   this.defaultHandleSize = 12;
@@ -194,11 +173,6 @@ cwc.ui.Layout.prototype.prepare = function() {
   var guiInstance = this.helper.getInstance('gui', true);
   this.node = guiInstance.getLayoutNode();
 
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.ui.Layout.style({'prefix': this.prefix}));
-  }
-
   this.viewport_monitor = new goog.dom.ViewportSizeMonitor();
   goog.events.listen(this.viewport_monitor,
                      goog.events.EventType.RESIZE,
@@ -224,7 +198,6 @@ cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
   this.firstSplitpane.setHandleSize(this.handleSize);
   this.firstSplitpane.decorate(chromeMain);
   this.monitorResize(this.firstSplitpane);
-  this.closePreloader_();
   this.adjustSize();
 };
 
@@ -256,7 +229,6 @@ cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
   this.secondSplitpane.setHandleSize(this.handleSize);
   this.secondSplitpane.decorate(contentTop);
   this.monitorResize(this.secondSplitpane);
-  this.closePreloader_();
   this.adjustSize();
   this.firstSplitpane.setFirstComponentSize(opt_first_splitpane_size || 400);
   this.secondSplitpane.setFirstComponentSize(opt_second_splitpane_size || 600);
@@ -270,7 +242,6 @@ cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
 cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
   this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SIMPLE_SINGLE_COLUMN,
     cwc.ui.LayoutType.SIMPLE_SINGLE_COLUMN);
-  this.closePreloader_();
   this.adjustSize();
 };
 
@@ -294,7 +265,6 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
   this.firstSplitpane.decorate(chromeMain);
   this.monitorResize(this.firstSplitpane);
   this.adjustSizeOnChange(this.firstSplitpane);
-  this.closePreloader_();
   this.adjustSize();
   this.firstSplitpane.setFirstComponentSize(opt_first_splitpane_size || 400);
 };
@@ -327,7 +297,6 @@ cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
   this.secondSplitpane.setHandleSize(this.handleSize);
   this.secondSplitpane.decorate(contentRight);
   this.monitorResize(this.secondSplitpane);
-  this.closePreloader_();
   this.adjustSize();
 };
 
@@ -370,25 +339,11 @@ cwc.ui.Layout.prototype.getOverlay = function() {
  * @export
  */
 cwc.ui.Layout.prototype.showOverlay = function(visible) {
-  this.setOverlayBackground();
-  goog.style.setElementShown(this.getOverlay(), visible);
-  if (visible) {
-    this.refresh();
-  }
-};
-
-
-/**
- * @param {!cwc.ui.LayoutOverlayBackground} background
- * @export
- */
-cwc.ui.Layout.prototype.setOverlayBackground = function(background) {
-  var overlayNode = this.getOverlay();
-  if (overlayNode) {
-    for (let type in cwc.ui.LayoutOverlayBackground) {
-      goog.dom.classlist.enable(overlayNode,
-          this.prefix + cwc.ui.LayoutOverlayBackground[type],
-          background == cwc.ui.LayoutOverlayBackground[type]);
+  var overlay = this.getOverlay();
+  if (overlay) {
+    goog.style.setElementShown(overlay, visible);
+    if (visible) {
+      this.refresh();
     }
   }
 };
@@ -676,35 +631,9 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, opt_type) {
     'content-bottom': this.getNode_('content-bottom-chrome'),
     'overlay': this.getNode_('content-overlay')
   };
-  this.showPreloader_();
   if (opt_type) {
     this.layout = opt_type;
   }
-};
-
-
-/**
- * Shows preloader screen.
- * @private
- */
-cwc.ui.Layout.prototype.showPreloader_ = function() {
-  this.showOverlay(true);
-  this.setOverlayBackground(
-      cwc.ui.LayoutOverlayBackground.TRANSPARENT_25);
-  goog.soy.renderElement(
-      this.getOverlay(),
-      cwc.soy.ui.Layout.preloader,
-      {'prefix': this.prefix});
-};
-
-
-/**
- * Hides preloader screen.
- * @private
- */
-cwc.ui.Layout.prototype.closePreloader_ = function() {
-  this.showOverlay(false);
-  this.setOverlayBackground(cwc.ui.LayoutOverlayBackground.NONE);
 };
 
 
@@ -769,7 +698,6 @@ cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
  */
 cwc.ui.Layout.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
-  this.styleSheet = this.helper.uninstallStyles(this.styleSheet);
   this.resetLayout_();
 };
 

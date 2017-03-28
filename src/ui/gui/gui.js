@@ -47,9 +47,6 @@ cwc.ui.Gui = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('gui');
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {goog.dom.ViewportSizeMonitor} */
   this.viewport_monitor = new goog.dom.ViewportSizeMonitor();
 

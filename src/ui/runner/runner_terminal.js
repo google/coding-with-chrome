@@ -26,10 +26,15 @@ goog.require('cwc.soy.RunnerTerminal');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!string} prefix
  * @struct
  */
-cwc.ui.RunnerTerminal = function(helper, prefix) {
+cwc.ui.RunnerTerminal = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('runner-terminal');
+
   /** @type {Element} */
   this.node = null;
 
@@ -38,15 +43,6 @@ cwc.ui.RunnerTerminal = function(helper, prefix) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = prefix;
-
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 };
 
 
@@ -57,18 +53,13 @@ cwc.ui.RunnerTerminal = function(helper, prefix) {
 cwc.ui.RunnerTerminal.prototype.decorate = function(node) {
   this.node = node;
 
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-        cwc.soy.RunnerTerminal.style({ 'prefix': this.prefix }));
-  }
-
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerTerminal.template,
       { 'prefix': this.prefix }
   );
 
-  this.nodeOutput = goog.dom.getElement(this.prefix + 'terminal-output');
+  this.nodeOutput = goog.dom.getElement(this.prefix + 'output');
   this.write('Runner Terminal loaded …\n\n');
 };
 

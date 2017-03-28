@@ -79,9 +79,6 @@ cwc.ui.EditorToolbar = function(helper) {
   /** @type {string} */
   this.prefix = 'toolbar-';
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
 

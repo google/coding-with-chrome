@@ -59,9 +59,4 @@ cwc.ui.Documentation.prototype.decorate = function(node, opt_prefix) {
       }
   );
 
-  goog.style.installStyles(
-      cwc.soy.Documentation.documentationStyle({
-        'prefix': this.prefix
-      })
-  );
 };

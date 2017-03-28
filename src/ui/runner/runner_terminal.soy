@@ -19,46 +19,14 @@
  */
 {namespace cwc.soy.RunnerTerminal autoescape="strict"}
 
+
 /**
  * Main HTML template for the Runner terminal.
  */
 {template .template}
   {@param prefix: string}
-  <div id="{$prefix}terminal-body">
+  <div id="{$prefix}body">
     <h3>Terminal</h3>
-    <div id="{$prefix}terminal-output"></div>
+    <div id="{$prefix}output"></div>
   </div>
-{/template}
-
-
-/**
- * Runner terminal style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  #{$prefix}terminal-body {lb}
-    height: 200px;
-    width: 100%;
-    z-index: 11;
-    border: 1px solid #E0E0E0;
-  {rb}
-
-  #{$prefix}terminal-body > h3 {lb}
-    height: 25px;
-    margin: 0;
-    padding: 5px;
-    color: #fff;
-    background: #607d8b;
-  {rb}
-
-  #{$prefix}terminal-output {lb}
-    height: 175px;
-    background: #000;
-    opacity: 0.9;
-    overflow: scroll;
-    white-space: pre;
-    padding: 5px;
-    color: #fff;
-  {rb}
-
 {/template}

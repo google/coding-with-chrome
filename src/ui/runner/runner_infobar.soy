@@ -19,93 +19,33 @@
  */
 {namespace cwc.soy.RunnerInfobar autoescape="strict"}
 
+
 /**
  * HTML template for the Runner infobar.
  */
 {template .template}
   {@param prefix: string}
-  <div id="{$prefix}info-console"></div>
-  <div id="{$prefix}info-termnial"></div>
-  <div id="{$prefix}infobar-body">
-    <div id="{$prefix}info-terminal">Terminal</div>
-    <div id="{$prefix}info-messages">
-      <div id="{$prefix}info-debug">
+  <div id="{$prefix}console"></div>
+  <div id="{$prefix}termnial"></div>
+  <div id="{$prefix}body">
+    <div id="{$prefix}terminal">Terminal</div>
+    <div id="{$prefix}messages">
+      <div id="{$prefix}debug">
         Debug
-        <div id="{$prefix}info-debug-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}debug-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-info">
+      <div id="{$prefix}info">
         Info
-        <div id="{$prefix}info-info-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}info-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-warn">
+      <div id="{$prefix}warn">
         Warn
-        <div id="{$prefix}info-warn-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}warn-num" class="{$prefix}num">-</div>
       </div>
-      <div id="{$prefix}info-error">
+      <div id="{$prefix}error">
         Error
-        <div id="{$prefix}info-error-num" class="{$prefix}num">-</div>
+        <div id="{$prefix}error-num" class="{$prefix}num">-</div>
       </div>
     </div>
   </div>
-{/template}
-
-
-/**
- * Runner infobar style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  .{$prefix}num {lb}
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-clip: padding-box;
-    background-color: rgba(0,0,0,.3);
-    border: 5px solid transparent;
-    border-radius: 10px;
-    font-size: 6px;
-    line-height: 15px;
-    font-size: 10px;
-    text-align: left;
-    padding-left: 4px;
-    padding-right: 4px;
-    line-height: 15px;
-    min-width: 25px;
-  {rb}
-
-  #{$prefix}info-console {lb}
-    overflow: scroll;
-    height: 200px;
-    width: 100%;
-    position: absolute;
-    bottom: 27px;
-    left: 0;
-    opacity: 0.9;
-    z-index: 11;
-  {rb}
-
-  #{$prefix}info-messages {lb}
-    float: right;
-  {rb}
-
-  #{$prefix}info-terminal,
-  #{$prefix}info-debug,
-  #{$prefix}info-info,
-  #{$prefix}info-warn,
-  #{$prefix}info-error {lb}
-    line-height: 26px;
-    padding-left: 5px;
-    padding-right: 40px;
-    position: relative;
-    float: left;
-    cursor: pointer;
-  {rb}
-
-  #{$prefix}info-debug:hover,
-  #{$prefix}info-info:hover,
-  #{$prefix}info-warn:hover,
-  #{$prefix}info-error:hover {lb}
-    color: #FF9800;
-  {rb}
-
 {/template}

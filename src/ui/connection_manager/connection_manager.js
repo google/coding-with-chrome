@@ -47,9 +47,6 @@ cwc.ui.ConnectionManager = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('connection-manager');
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {Element} */
   this.node = null;
 
@@ -295,8 +292,6 @@ cwc.ui.ConnectionManager.prototype.showTemplate_ = function(
     var layoutInstance = this.helper.getInstance('layout');
     if (layoutInstance) {
       layoutInstance.showOverlay(true);
-      layoutInstance.setOverlayBackground(
-          cwc.ui.LayoutOverlayBackground.TRANSPARENT_50);
     }
   } else {
     console.error('Unable to render template', template_type, template_name);

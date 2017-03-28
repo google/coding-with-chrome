@@ -60,9 +60,6 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor = function(helper) {
 
   /** @type {string} */
   this.prefix = helper.getPrefix('mbot-ranger-editor');
-
-  /** @type {string} */
-  this.generalPrefix = helper.getPrefix();
 };
 
 

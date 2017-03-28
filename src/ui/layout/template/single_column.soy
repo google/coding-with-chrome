@@ -30,6 +30,6 @@
     <div id="{$prefix}content-top-chrome" class="goog-splitpane-first-container"></div>
     <div id="{$prefix}content-bottom-chrome" class="goog-splitpane-second-container"></div>
     <div id="{$prefix}content-splitter" class="goog-splitpane-handle"></div>
-    <div id="{$prefix}content-overlay"></div>
+    {call cwc.soy.ui.Layout.contentOverlay data="all" /}
   </div>
 {/template}

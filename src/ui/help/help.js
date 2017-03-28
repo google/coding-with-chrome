@@ -38,9 +38,6 @@ cwc.ui.Help = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('help');
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {Element|StyleSheet} */
   this.styleSheet = null;
 

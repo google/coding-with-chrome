@@ -25,78 +25,17 @@
  */
 {template .template}
   {@param prefix: string}
+
+  {call .contentOverlay data="all" /}
   <div id="{$prefix}content-overlay"></div>
 {/template}
 
 
 /**
- * Preloader template.
+ * Layout template.
  */
-{template .preloader}
+{template .contentOverlay}
   {@param prefix: string}
-  <div id="{$prefix}preloader">
-    <div class="{$prefix}loader">
-      <div class="icon_24px">info_outline</div>
-      <span>{msg desc=""}Working, please wait …{/msg}</span>
-    </div>
-  </div>
-{/template}
 
-
-/**
- * Layout style definitions.
- */
-{template .style}
-  {@param prefix: string}
-  #{$prefix}chrome-main {lb}
-    z-index: 0;
-    position: relative;
-  {rb}
-
-  #{$prefix}content-overlay {lb}
-    top: 0;
-    left: 0;
-    position: absolute;
-    z-index: 1000;
-    overflow: auto;
-  {rb}
-
-  .{$prefix}bg_transparent {lb}
-    background: transparent;
-  {rb}
-
-  .{$prefix}bg_transparent_25 {lb}
-    background: rgba(0, 0, 0, 0.75);
-  {rb}
-
-  .{$prefix}bg_transparent_50 {lb}
-    background: rgba(0, 0, 0, 0.50);
-  {rb}
-
-  .{$prefix}bg_transparent_75 {lb}
-    background: rgba(0, 0, 0, 0.25);
-  {rb}
-
-  .{$prefix}bg_transparent_grey {lb}
-    background: grey;
-  {rb}
-
-  .{$prefix}bg_transparent_white {lb}
-    background: white;
-  {rb}
-
-  .{$prefix}loader {lb}
-    width: 200px;
-    height: 40px;
-    position: relative;
-    margin: 200px auto;
-  {rb}
-
-  .{$prefix}loader span {lb}
-    color: #fff;
-    position: absolute;
-    top: 3px;
-    left: 27px;
-  {rb}
-
+  <div id="{$prefix}content-overlay" style="display: none;"></div>
 {/template}

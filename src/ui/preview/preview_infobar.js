@@ -60,9 +60,6 @@ cwc.ui.PreviewInfobar = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('preview-infobar');
 
-  /** @type {string} */
-  this.generalPrefix = this.helper.getPrefix();
-
   /** @type {goog.debug.DivConsole} */
   this.logConsole = null;
 

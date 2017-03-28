@@ -38,7 +38,7 @@ cwc.ui.RunnerToolbar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'toolbar-';
+  this.prefix =  this.helper.getPrefix('runner-toolbar');
 
   /** @type {boolean} */
   this.runStatus = false;
@@ -76,10 +76,8 @@ cwc.ui.RunnerToolbar = function(helper) {
  * @param {!Element} node
  * @param {string=} opt_prefix
  */
-cwc.ui.RunnerToolbar.prototype.decorate = function(node, opt_prefix) {
+cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
   this.node = node;
-  this.prefix = (opt_prefix || '') + this.prefix;
-
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
   this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
