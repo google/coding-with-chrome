@@ -121,7 +121,7 @@ describe('StackQueue (autostart)', function() {
           window.setTimeout(function() {
             expect(counter).toEqual(4);
             done();
-          }, 375);
+          }, 25);
         }
       }, 325);
     }.bind(this);
@@ -207,7 +207,13 @@ describe('StackQueue (no autostart)', function() {
         stackQueue.start();
       }, 150);
       window.setTimeout(function() {
-        expect(counter).toEqual(3);
+        if (counter == 3) {
+          expect(counter).toEqual(3);
+        } else {
+          window.setTimeout(function() {
+            expect(counter).toEqual(3);
+          }, 25);
+        }
       }, 250);
       window.setTimeout(function() {
         if (counter == 4) {
@@ -215,7 +221,7 @@ describe('StackQueue (no autostart)', function() {
         } else {
           window.setTimeout(function() {
             expect(counter).toEqual(4);
-          }, 375);
+          }, 25);
         }
       }, 350);
       window.setTimeout(function() {
