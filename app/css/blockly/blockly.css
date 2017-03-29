@@ -22,7 +22,6 @@
 
 .blocklySvg {
   background-color: #ECEFF1 !important;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHElEQVQYV2NkIBIwEqmOYVQh3pAiKnhWrVr1HwARYgMIoVrKlwAAAABJRU5ErkJggg==) repeat;
 }
 
 .blocklyHtmlInput {
@@ -49,17 +48,24 @@
   fill: #78909C !important;
 }
 
-.blocklyToolboxDiv {
-  background-color: #B0BEC5 !important;
-}
-
 .blocklyText {
   font-family: inherit !important;
   font-size: 14px !important;
 }
 
+.blocklyToolboxDiv {
+  background: rgba(200,200,200,0.5);
+}
+
+.blocklyTreeRoot {
+  padding: 4px !important;
+}
+
 .blocklyTreeRow {
-  padding: 5px 10px 5px 0px !important;
+  padding: 4px 10px 4px 0px !important;
+  border-radius: 3px;
+  background-color: #FAFAFA;
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
 }
 
 .blocklyTreeRow:hover {
@@ -69,12 +75,7 @@
 .blocklyTreeLabel {
   cursor: pointer !important;
   font-family: inherit !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
-}
-
-.blocklyTreeSelected {
-  background-color: #455A64 !important;
+  font-size: 15px !important;
 }
 
 .blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-accel,

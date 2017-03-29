@@ -68,9 +68,6 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {!Array} */
   this.listener = [];
 
@@ -119,11 +116,6 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       cwc.soy.mode.sphero.Monitor.control,
       {'prefix': this.prefix}
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.sphero.Monitor.style({'prefix': this.prefix}));
-  }
 
   this.nodeMonitorLocation = goog.dom.getElement(this.prefix + 'location');
   this.nodeMonitorVelocity = goog.dom.getElement(this.prefix + 'velocity');

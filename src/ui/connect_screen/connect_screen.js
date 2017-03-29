@@ -37,9 +37,6 @@ cwc.ui.connectScreen.Screens = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('connectScreen');
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {cwc.ui.connectScreen.Bluetooth} */
   this.bluetoothScreen = new cwc.ui.connectScreen.Bluetooth(this.helper);
 

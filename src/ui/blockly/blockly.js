@@ -138,6 +138,12 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
     'path': this.mediaFiles,
     'toolbox': this.nodeBlocklyToolbox_ || '<xml><category><\/category><\/xml>',
     'trashcan': true,
+    'grid': {
+      'spacing': 20,
+      'length': 3,
+      'colour': '#ccc',
+      'snap': true
+    },
     'zoom': {
       'controls': true,
       'startScale': 1.0,

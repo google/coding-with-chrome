@@ -38,9 +38,6 @@ cwc.ui.Help = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('help');
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app.window');
 };

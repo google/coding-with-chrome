@@ -40,7 +40,7 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
   this.helper = helper;
 
   /** @type {!string} */
-  this.prefix = this.helper.getPrefix('mbot-monitor');
+  this.prefix = this.helper.getPrefix('mbot-ranger-monitor');
 
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = connection;
@@ -62,9 +62,6 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
 
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 
   /** @type {!Array} */
   this.listener = [];
@@ -115,11 +112,6 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function() {
       cwc.soy.mode.makeblock.mbotRanger.Monitor.control,
       {'prefix': this.prefix}
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.makeblock.mbotRanger.Monitor.style({'prefix': this.prefix}));
-  }
 
   this.nodeMonitorUltrasonic = goog.dom.getElement(this.prefix + 'ultrasonic');
 

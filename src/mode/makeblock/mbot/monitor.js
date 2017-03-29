@@ -63,9 +63,6 @@ cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
-
   /** @type {!Array} */
   this.listener = [];
 
@@ -109,11 +106,6 @@ cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function() {
       cwc.soy.mode.makeblock.mbot.Monitor.control,
       {'prefix': this.prefix}
   );
-
-  if (!this.styleSheet) {
-    this.styleSheet = goog.style.installStyles(
-      cwc.soy.mode.makeblock.mbot.Monitor.style({'prefix': this.prefix}));
-  }
 
   this.nodeMonitorUltrasonic = goog.dom.getElement(this.prefix + 'ultrasonic');
 

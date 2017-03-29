@@ -72,7 +72,6 @@ Blockly.addChangeListener = function(func) {};
 Blockly.JavaScript.prototype.workspaceToCode = function(workspace) {};
 
 /**
- * Generate code for the specified block (and attached blocks).
  * @param {Blockly.Block} block The block to generate code for.
  * @return {string|!Array} For statement blocks, the generated code.
  *     For value blocks, an array containing the generated code and an
@@ -81,7 +80,6 @@ Blockly.JavaScript.prototype.workspaceToCode = function(workspace) {};
 Blockly.JavaScript.prototype.blockToCode = function(block) {};
 
 /**
- * Generate code representing the statement.  Indent the code.
  * @param {!Blockly.Block} block The block containing the input.
  * @param {string} name The name of the input.
  * @return {string} Generated code or '' if no blocks are connected.
@@ -90,9 +88,8 @@ Blockly.JavaScript.prototype.statementToCode = function(block, name) {};
 
 
 /**
- * Encode a block tree as XML.
  * @param {!Blockly.Workspace} workspace The workspace containing blocks.
- * @param {boolean}
+ * @param {boolean} pretty_print
  * @return {!Element} XML document.
  */
 Blockly.Xml.workspaceToDom = function(workspace, pretty_print) {};
@@ -130,8 +127,11 @@ Blockly.Xml.domToPrettyText = function(dom) {};
 
 
 /**
- * Class for one block.
- * Not normally called directly, workspace.newBlock() is preferred.
+ * @constructor
+ */
+Blockly.Block = function() {};
+
+/**
  * @param {!Blockly.Workspace} workspace The block's workspace.
  * @param {?string} prototypeName Name of the language object containing
  *     type-specific functions for this block.
@@ -140,6 +140,8 @@ Blockly.Xml.domToPrettyText = function(dom) {};
  * @constructor
  */
 Blockly.Blocks = function(workspace, prototypeName, opt_id) {};
+
+
 
 
 /** @type {Object} */
@@ -163,9 +165,8 @@ Blockly.JavaScript.prototype.valueToCode = function(block, name, order) {};
 /** @type {Object} */
 Blockly.Xml = {};
 
-
 /** @constructor */
-Blockly.Workspace = {};
+Blockly.Workspace = function() {};
 
 /** @type {Object} */
 Blockly.Workspace.options = {};
@@ -208,17 +209,28 @@ Blockly.Workspace.prototype.addChangeListener = function(func) {};
 Blockly.Workspace.prototype.undo = function(redo) {};
 
 /**
- * Class for a workspace.  This is an onscreen area with optional trashcan,
- * scrollbars, bubbles, and dragging.
  * @param {!Blockly.Options} options Dictionary of options.
  * @param {Blockly.BlockDragSurfaceSvg=} opt_blockDragSurface Drag surface for
  *     blocks.
  * @param {Blockly.workspaceDragSurfaceSvg=} opt_wsDragSurface Drag surface for
  *     the workspace.
+ * @constructor
  */
 Blockly.WorkspaceSvg = function(options,
     opt_blockDragSurface, opt_wsDragSurface) {
 };
 
 /** @constructor */
-Blockly.Options = {}
+Blockly.Options = function() {};
+
+/**
+ * @param {!Element} container Containing element.
+ * @constructor
+ */
+Blockly.BlockDragSurfaceSvg = function(container) {};
+
+/**
+ * @param {!Element} container Containing element.
+ * @constructor
+ */
+Blockly.workspaceDragSurfaceSvg = function(container) {};

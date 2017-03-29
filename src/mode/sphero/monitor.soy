@@ -130,39 +130,3 @@
     {$data}
   </div>
 {/template}
-
-
-/**
- * Style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  #{$prefix}intro,
-  #{$prefix}control,
-  #{$prefix}calibration {lb}
-    padding: 5px;
-    position: relative;
-  {rb}
-
-  #{$prefix}control-buttons {lb}
-    width: 150px;
-    margin: auto;
-    padding-bottom: 10px;
-  {rb}
-
-  #{$prefix}calibration-buttons {lb}
-    width: 200px;
-    margin: auto;
-    padding-bottom: 10px;
-  {rb}
-
-  #{$prefix}control-buttons:first-child {lb}
-    padding-left: 3px;
-  {rb}
-
-  #{$prefix}system-buttons > div {lb}
-    padding: 10px;
-  {rb}
-
-{/template}

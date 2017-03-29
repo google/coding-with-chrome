@@ -133,14 +133,26 @@ cwc.utils.Storage.prototype.prepare = function(opt_callback) {
   this.log_.info('Preparing', this.storageType_, 'storage ...');
   switch (this.storageType_) {
     case cwc.utils.StorageType.LOCAL_STORAGE:
-      this.storage_ = localStorage;
+      if (localStorage) {
+        this.storage_ = localStorage;
+      } else {
+        this.log_.error('Local storage is undefined!');
+      }
       break;
     case cwc.utils.StorageType.SESSION_STORAGE:
-      this.storage_ = sessionStorage;
+      if (sessionStorage) {
+        this.storage_ = sessionStorage;
+      } else {
+        this.log_.error('Session storage is undefined!');
+      }
       this.log_.warn('Only un-synced sessionStorage is supported!');
       break;
     case cwc.utils.StorageType.CHROME_STORAGE:
-      this.storage_ = sessionStorage;
+      if (sessionStorage) {
+        this.storage_ = sessionStorage;
+      } else {
+        this.log_.error('Sessions storage is undefined!');
+      }
       this.syncChrome = true;
       this.loadChromeStorage(undefined, opt_callback);
       break;
