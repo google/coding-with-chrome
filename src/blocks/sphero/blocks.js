@@ -27,6 +27,7 @@ Blockly.Blocks['sphero_roll'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('speed').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('roll speed('));
     this.appendDummyInput().appendField(')');
     this.setPreviousStatement(true);
@@ -44,6 +45,7 @@ Blockly.Blocks['sphero_roll_step'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('speed').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('roll with'));
     this.appendDummyInput('heading')
       .appendField(i18t('speed and'))
@@ -64,6 +66,7 @@ Blockly.Blocks['sphero_roll_time'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('roll for'));
     this.appendValueInput('speed').setCheck('Number')
       .appendField(i18t('sec with'));
@@ -88,6 +91,7 @@ Blockly.Blocks['sphero_heading'] = {
     this.setColour(260);
     this.appendValueInput('heading')
       .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('set heading('))
       .appendField(new Blockly.FieldAngle(0), 'heading')
       .appendField(')');
@@ -106,6 +110,7 @@ Blockly.Blocks['sphero_rgb'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('colour')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('set color ('));
     this.appendDummyInput().appendField(')');
     this.setPreviousStatement(true);
@@ -123,6 +128,7 @@ Blockly.Blocks['sphero_backlight'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('set backlight ('))
       .appendField(new Blockly.FieldTextInput('254'), 'brightness')
       .appendField('(0 - 254)')
@@ -142,6 +148,7 @@ Blockly.Blocks['sphero_stop'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('stop motors('))
       .appendField(new Blockly.FieldDropdown([
         [i18t('when finished'), 'when finished'],
@@ -164,7 +171,8 @@ Blockly.Blocks['sphero_collision'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
-      .appendField(i18t('on collision'));
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('on collision do'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);

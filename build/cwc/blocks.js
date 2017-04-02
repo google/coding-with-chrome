@@ -28,13 +28,7 @@ var glob = closureBuilder.globSupport();
 closureBuilder.build({
   name: 'Custom Blocks',
   srcs: glob([
-    'src/blocks/ev3/*.js',
-    'src/blocks/general/*.js',
-    'src/blocks/makeblock/mbot/*.js',
-    'src/blocks/makeblock/mbot_ranger/*.js',
-    'src/blocks/phaser/**/*.js',
-    'src/blocks/simple/*.js',
-    'src/blocks/sphero/*.js'
+    'src/blocks/**/*.js',
   ]),
   externs: [
     'build/externs/blockly.js'

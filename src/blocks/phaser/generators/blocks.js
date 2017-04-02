@@ -22,6 +22,7 @@
 Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField('Position:')
         .appendField('x')
         .appendField(new Blockly.FieldNumber(0, 0), 'x')

@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the Phaser Blocks.
+ * @fileoverview General template definition.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -17,12 +17,18 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+Blockly.BlocksTemplate = {};
 
 
-/**
- * Phaser update section.
- */
-Blockly.JavaScript['phaser_update'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'update: function() {\n' + statements_code + '},\n';
+/** Drag and drop point */
+Blockly.BlocksTemplate.point = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/circle_20pt.png', 15, 17, '▼');
+};
+
+
+/** Top Drag and drop point */
+Blockly.BlocksTemplate.pointTop = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/circle_20pt_top.png', 15, 17, '▼');
 };

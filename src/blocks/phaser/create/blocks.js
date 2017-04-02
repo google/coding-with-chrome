@@ -28,11 +28,12 @@ Blockly.Blocks['phaser_create'] = {
     this.setHelpUrl('');
     this.setColour(280);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on create do'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Update');
     this.setTooltip('');
   }
 };
@@ -44,6 +45,7 @@ Blockly.Blocks['phaser_create'] = {
 Blockly.Blocks['phaser_stage_background_color'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField('Set backgroundColor (')
         .appendField(new Blockly.FieldColour('#000000'), 'color')
         .appendField(')');
@@ -85,6 +87,7 @@ Blockly.Blocks['phaser_add_audio'] = {
 Blockly.Blocks['phaser_add_background'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField('Add background')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
     this.setPreviousStatement(true, null);
@@ -156,6 +159,30 @@ Blockly.Blocks['phaser_add_text'] = {
 
 
 /**
+ * Add tile sprite.
+ */
+Blockly.Blocks['phaser_add_tile_sprite'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('tile sprite')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField('on position')
+        .appendField(new Blockly.FieldNumber(50), 'x')
+        .appendField(new Blockly.FieldNumber(50), 'y')
+        .appendField('with size')
+        .appendField(new Blockly.FieldNumber(50), 'width')
+        .appendField(new Blockly.FieldNumber(50), 'height')
+        .appendField('and group')
+        .appendField(new Blockly.FieldTextInput('group'), 'group');
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Add group.
  */
 Blockly.Blocks['phaser_add_group'] = {
@@ -178,6 +205,7 @@ Blockly.Blocks['phaser_time_loop_event'] = {
   init: function() {
     this.appendValueInput('time')
         .setCheck('Number')
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField('repeat every');
     this.appendDummyInput()
         .appendField('milliseconds');

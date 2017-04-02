@@ -30,6 +30,7 @@ Blockly.Blocks['mbot_move_forward'] = {
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('move forward');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -46,6 +47,7 @@ Blockly.Blocks['mbot_move_forward_time'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('move forward for');
     this.appendValueInput('speed').setCheck('Number').appendField('sec with');
     this.appendDummyInput().appendField('speed');
@@ -65,6 +67,7 @@ Blockly.Blocks['mbot_move_backward'] = {
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('move backward');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -81,6 +84,7 @@ Blockly.Blocks['mbot_move_backward_time'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('move backward for');
     this.appendValueInput('speed').setCheck('Number').appendField('sec with');
     this.appendDummyInput().appendField('speed');
@@ -100,6 +104,7 @@ Blockly.Blocks['mbot_rotate_left'] = {
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('rotate left');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -116,6 +121,7 @@ Blockly.Blocks['mbot_rotate_left_time'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('rotate left for');
     this.appendValueInput('speed').setCheck('Number').appendField('sec with');
     this.appendDummyInput().appendField('speed');
@@ -135,6 +141,7 @@ Blockly.Blocks['mbot_rotate_right'] = {
     this.setColour(120);
     this.appendValueInput('speed')
       .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('rotate right');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -151,6 +158,7 @@ Blockly.Blocks['mbot_rotate_right_time'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('rotate right for');
     this.appendValueInput('speed').setCheck('Number').appendField('sec with');
     this.appendDummyInput().appendField('speed');
@@ -169,6 +177,7 @@ Blockly.Blocks['mbot_stop_moving'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('Stop moving'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -207,6 +216,7 @@ Blockly.Blocks['mbot_play_tone'] = {
     this.setHelpUrl('');
     this.setColour(65);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField('play music note')
       .appendField(new Blockly.FieldDropdown(note_list), 'frequency')
       .appendField('duration:')
@@ -227,6 +237,7 @@ Blockly.Blocks['mbot_rgb'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('set on board led '))
       .appendField(new Blockly.FieldDropdown([
         ['both', '0'],
@@ -267,6 +278,7 @@ Blockly.Blocks['mbot_button_change'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on button change'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -286,6 +298,7 @@ Blockly.Blocks['mbot_lightness_sensor_change'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on lightness sensor change'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -305,6 +318,7 @@ Blockly.Blocks['mbot_linefollower_sensor_change'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on linefollower sensor change'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -324,6 +338,7 @@ Blockly.Blocks['mbot_ultrasonic_sensor_change'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on ultrasonic sensor change'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -371,6 +386,7 @@ Blockly.Blocks['mbot_wait'] = {
     this.setHelpUrl('');
     this.setColour(260);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('wait ('))
       .appendField(new Blockly.FieldTextInput('2000'), 'time')
       .appendField('msec)');

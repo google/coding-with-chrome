@@ -20,25 +20,22 @@
 
 
 /**
- * Adjust sprite.
+ * Adjust tile sprite.
  */
-Blockly.Blocks['phaser_sprite_adjust'] = {
+Blockly.Blocks['phaser_tile_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('set sprite'));
+        .appendField(i18t('set title sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
           [i18t('alpha'), 'alpha'],
           [i18t('angle'), 'angle'],
           [i18t('anchor'), 'anchor.set'],
           [i18t('buttonMode'), 'buttonMode'],
+          [i18t('frame'), 'frame'],
           [i18t('height'), 'height'],
-          [i18t('move down'), 'moveDown'],
-          [i18t('move left'), 'moveLeft'],
-          [i18t('move right'), 'moveRight'],
-          [i18t('move up'), 'moveUp'],
           [i18t('rotation'), 'rotation'],
           [i18t('visible'), 'visible'],
           [i18t('width'), 'width'],
@@ -59,20 +56,18 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
 
 
 /**
- * Adjust sprite.
+ * Destroy title sprite.
  */
-Blockly.Blocks['phaser_sprite_get'] = {
+Blockly.Blocks['phaser_tile_sprite_destroy'] = {
   init: function() {
-    this.appendValueInput('sprite')
-        .setCheck(null)
-        .appendField(i18t('get sprite'));
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('angle'), 'angle'],
-          ['x', 'x'],
-          ['y', 'y']
-        ]), 'property');
-    this.setOutput(true, null);
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('destroy tile sprite');
+    this.appendValueInput('sprite')
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -81,16 +76,22 @@ Blockly.Blocks['phaser_sprite_get'] = {
 
 
 /**
- * Destroy sprite.
+ * Auto scroll tile sprite.
  */
-Blockly.Blocks['phaser_sprite_destroy'] = {
+Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
   init: function() {
-    this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('destroy sprite');
     this.appendValueInput('sprite')
-        .setCheck(null);
-    this.setInputsInline(true);
+        .setCheck(null)
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('set tile sprite'));
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField(i18t('autoscroll to'));
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .appendField(i18t('x'));
+    this.appendDummyInput()
+        .appendField(i18t('y'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);

@@ -36,7 +36,7 @@ cwc.mode.phaser.blockly.Layout = function(helper) {
   this.prefix = helper.getPrefix();
 
   /** @type {!number} */
-  this.layoutWidth = 600;
+  this.layoutWidth = 400;
 };
 
 
@@ -49,13 +49,13 @@ cwc.mode.phaser.blockly.Layout.prototype.decorate = function() {
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.Layout.editor, {
+      cwc.soy.mode.Basic.blockly.Layout.preview, {
         prefix: this.prefix}
   );
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.Layout.preview, {
+      cwc.soy.mode.Basic.blockly.Layout.editor, {
         prefix: this.prefix}
   );
 

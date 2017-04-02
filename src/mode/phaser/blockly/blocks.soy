@@ -17,6 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
 {namespace cwc.soy.mode.phaser.blockly.Blocks autoescape="strict"}
 
 
@@ -32,23 +33,27 @@
     <category name="Game" colour="290">
       <block type="phaser_game">
         <next>
-          <block type="phaser_preload">
-            <next>
-              <block type="phaser_create">
+          <block type="phaser_game_state">
+            <statement name="state">
+              <block type="phaser_preload">
                 <next>
-                  <block type="phaser_update">
+                  <block type="phaser_create">
                     <next>
-                      <block type="phaser_render" collapsed="true"></block>
+                      <block type="phaser_update">
+                        <next>
+                          <block type="phaser_render" collapsed="true"></block>
+                        </next>
+                      </block>
                     </next>
                   </block>
                 </next>
               </block>
-            </next>
+            </statement>
           </block>
         </next>
       </block>
-
-      <block type="phaser_game_restart"></block>
+      <block type="phaser_game_state"></block>
+      <block type="phaser_game_start"></block>
     </category>
 
     <category name="Preload" colour="260">
@@ -105,12 +110,17 @@
         </value>
       </block>
       <block type="variables_set">
+        <field name="VAR">tileSprite</field>
+        <value name="VALUE">
+          <block type="phaser_add_tile_sprite"></block>
+        </value>
+      </block>
+      <block type="variables_set">
         <field name="VAR">group</field>
         <value name="VALUE">
           <block type="phaser_add_group"></block>
         </value>
       </block>
-
       <block type="phaser_time_loop_event">
         <value name="time">
           <block type="math_number"><field name="NUM">1500</field></block>
@@ -247,11 +257,9 @@
           </block>
         </value>
       </block>
-
     </category>
 
     <category name="Sprite" colour="150">
-
       <block type="phaser_sprite_adjust">
         <value name="sprite">
           <block type="variables_get">
@@ -276,11 +284,42 @@
           </block>
         </value>
       </block>
+    </category>
 
+    <category name="Tile Sprite" colour="260">
+      <block type="phaser_tile_sprite_adjust">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+        <value name="value">
+          <block type="math_number"></block>
+        </value>
+      </block>
+      <block type="phaser_tile_sprite_destroy">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_tile_sprite_autoScroll">
+        <value name="sprite">
+          <block type="variables_get">
+            <field name="VAR">sprite</field>
+          </block>
+        </value>
+        <value name="x">
+          <block type="math_number">-100</block>
+        </value>
+        <value name="y">
+          <block type="math_number"></block>
+        </value>
+      </block>
     </category>
 
     <category name="World" colour="100">
-
       <block type="phaser_world_wrap">
         <value name="sprite">
           <block type="variables_get">
@@ -291,302 +330,23 @@
           <block type="math_number"></block>
         </value>
       </block>
-
     </category>
 
     {if $files}
       <sep></sep>
 
-      {call .files_}
+      {call cwc.soy.mode.Blocks.files}
         {param files: $files /}
       {/call}
-
     {/if}
 
     <sep></sep>
 
-    <category name="Logic" colour="210">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="logic_null"></block>
-      <block type="logic_ternary"></block>
-    </category>
-
-    <category name="Loops" colour="120">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number"><field name="NUM">10</field></block>
-        </value>
-      </block>
-      <block type="general_infinity_loop"></block>
-      <block type="controls_for">
-        <value name="FROM">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-        <value name="TO">
-          <block type="math_number"><field name="NUM">10</field></block>
-        </value><value name="BY">
-          <block type="math_number"><field name="NUM">1</field></block>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
-      <block type="controls_whileUntil"></block>
-    </category>
-
-    <category name="Math" colour="230">
-      <block type="math_number"></block>
-      <block type="math_arithmetic">
-        <value name="A">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="B">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_single">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">9</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_trig">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">45</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constant"></block>
-      <block type="math_number_property">
-        <value name="NUMBER_TO_CHECK">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_change">
-        <value name="DELTA">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_round">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">3.1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_on_list"></block>
-      <block type="math_modulo">
-        <value name="DIVIDEND">
-          <shadow type="math_number">
-            <field name="NUM">64</field>
-          </shadow>
-        </value>
-        <value name="DIVISOR">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constrain">
-        <value name="VALUE">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="LOW">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="HIGH">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_int">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_float"></block>
-    </category>
-
-    <category name="Text" colour="160">
-      <block type="text"></block>
-      <block type="text_join"></block>
-      <block type="text_append">
-        <value name="TEXT">
-          <shadow type="text"></shadow>
-        </value>
-      </block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_isEmpty">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_indexOf">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-        <value name="FIND">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <block type="variables_get">
-            <field name="VAR">text</field>
-          </block>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_trim">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-
-    <category name="Colour" colour="20">
-      <block type="colour_picker"></block>
-      <block type="colour_random"></block>
-      <block type="colour_rgb">
-        <value name="RED">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-        <value name="GREEN">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="BLUE">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="colour_blend">
-        <value name="COLOUR1">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#ff0000</field>
-          </shadow>
-        </value>
-        <value name="COLOUR2">
-          <shadow type="colour_picker">
-            <field name="COLOUR">#3333ff</field>
-          </shadow>
-        </value>
-        <value name="RATIO">
-          <shadow type="math_number">
-            <field name="NUM">0.5</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
+    {call cwc.soy.mode.Blocks.defaultBlocks /}
 
     <sep></sep>
 
-    <category custom="VARIABLE" name="Variables" colour="330"></category>
-    <category custom="PROCEDURE" name="Procedure" colour="330"></category>
+    {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
 
   </xml>
-{/template}
-
-
-/**
- * Blockly file blocks.
- */
-{template .files_}
-  {@param files: ?}
-
-  <category name="Files" colour="150">
-    {foreach $file in keys($files)}
-      {switch $files[$file]['media_type']}
-        {case 'audio'}
-          <block type="general_file_library_audio">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
-          </block>
-        {case 'image'}
-          <block type="general_file_library_image">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
-          </block>
-        {case 'text'}
-          <block type="general_file_library_text">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
-          </block>
-        {default}
-          <block type="general_file_library">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
-          </block>
-      {/switch}
-    {/foreach}
-  </category>
-
 {/template}

@@ -20,9 +20,9 @@
 
 
 /**
- * Phaser update section.
+ * Phaser render section.
  */
-Blockly.JavaScript['phaser_update'] = function(block) {
+Blockly.JavaScript['phaser_render'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'update: function() {\n' + statements_code + '},\n';
+  return 'render: function() {\n' + statements_code + '},\n';
 };

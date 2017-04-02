@@ -20,24 +20,6 @@
 
 
 /**
- * Phaser render section.
- */
-Blockly.Blocks['phaser_render'] = {
-  init: function() {
-    this.setHelpUrl('');
-    this.setColour(280);
-    this.appendDummyInput()
-      .appendField(i18t('Render'));
-    this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('');
-  }
-};
-
-
-/**
  * Input keyboard create cursor keys.
  */
 Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
@@ -104,6 +86,7 @@ Blockly.Blocks['phaser_world_wrap'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('World wrap sprite'));
     this.appendValueInput('value')
         .setCheck('Number')

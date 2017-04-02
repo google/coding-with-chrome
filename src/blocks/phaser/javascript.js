@@ -24,7 +24,7 @@
  */
 Blockly.JavaScript['phaser_render'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'function render() {\n' + statements_code + '};\n';
+  return 'render: function() {\n' + statements_code + '},\n';
 };
 
 

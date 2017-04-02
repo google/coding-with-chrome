@@ -60,7 +60,7 @@
 #{$prefix}preview-infobar-warn,
 #{$prefix}preview-infobar-error {
   padding-left: 5px;
-  padding-right: 26px;
+  padding-right: 25px;
   position: relative;
   float: left;
   cursor: pointer;

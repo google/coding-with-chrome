@@ -25,9 +25,9 @@
  */
 Blockly.JavaScript['phaser_create'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return '\nfunction create() {\n' +
+  return 'create: function () {\n' +
     '  if (navigator.userAgent == \'CwC sandbox\') {' +
-    'game.time.desiredFps = 30;}\n' + statements_code + '};\n';
+    'game.time.desiredFps = 30;}\n' + statements_code + '},\n';
 };
 
 
@@ -90,6 +90,21 @@ Blockly.JavaScript['phaser_add_text'] = function(block) {
   var code = 'game.add.text(' + number_x + ', ' + number_y + ', ' +
     value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
     'fill: \'' + text_color + '\'})';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Add tile sprite.
+ */
+Blockly.JavaScript['phaser_add_tile_sprite'] = function(block) {
+  var number_x = block.getFieldValue('x');
+  var number_y = block.getFieldValue('y');
+  var number_width = block.getFieldValue('width');
+  var number_height = block.getFieldValue('height');
+  var text_sprite = block.getFieldValue('sprite');
+  var code = 'game.add.tileSprite(' + number_x + ', ' + number_y + ', ' +
+    number_width + ', ' + number_height + ', \'' + text_sprite + '\')';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

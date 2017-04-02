@@ -442,9 +442,15 @@ cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
   if (opt_event && opt_event['recordUndo'] === false) {
     return;
   }
+
   var fileUi = this.helper.getInstance('file').getUi();
   switch (fileUi) {
     case 'blockly':
+      if (opt_event['type'] === Blockly.Events.MOVE &&
+          opt_event['newInputName'] === opt_event['oldInputName'] &&
+          opt_event['newParentId'] === opt_event['oldParentId']) {
+        return;
+      }
       var blocklyInstance = this.helper.getInstance('blockly');
       if (blocklyInstance) {
         this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
@@ -453,6 +459,7 @@ cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
     default:
       console.log('Unsynced UI mode', fileUi);
   }
+  console.log('syncJavaScript:', opt_event);
 };
 
 

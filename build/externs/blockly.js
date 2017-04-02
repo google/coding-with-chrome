@@ -24,7 +24,6 @@
 var Blockly = function() {};
 
 /**
- * Inject a Blockly editor into the specified container element (usually a div).
  * @param {!Element|string} container Containing element, or its ID,
  *     or a CSS selector.
  * @param {Object=} opt_options Optional dictionary of options.
@@ -33,30 +32,21 @@ var Blockly = function() {};
 Blockly.inject = function(container, opt_options) {};
 
 /**
- * Returns the main workspace.  Returns the last used main workspace (based on
- * focus).
  * @return {!Blockly.Workspace} The main workspace.
  */
 Blockly.getMainWorkspace = function() {};
 
 /**
- * Size the SVG image to completely fill its container. Call this when the view
- * actually changes sizes (e.g. on a window resize/device orientation change).
- * See Blockly.resizeSvgContents to resize the workspace when the contents
- * change (e.g. when a block is added or removed).
- * Record the height/width of the SVG image.
  * @param {!Blockly.WorkspaceSvg} workspace Any workspace in the SVG.
  */
 Blockly.svgResize = function(workspace) {};
 
 /**
- * Modify the block tree on the existing toolbox.
  * @param {Node|string} tree DOM tree of blocks, or text representation of same.
  */
 Blockly.updateToolbox = function(tree) {};
 
 /**
- * When something in Blockly's workspace changes, call a function.
  * @param {!Function} func Function to call.
  * @return {!Array.<!Array>} Opaque data that can be passed to
  *     removeChangeListener.
@@ -64,8 +54,24 @@ Blockly.updateToolbox = function(tree) {};
  */
 Blockly.addChangeListener = function(func) {};
 
+
 /**
- * Generate code for all blocks in the workspace to the specified language.
+ * @type {Function}
+ */
+Blockly.Events = function() {};
+
+/**
+ * @type {!string}
+ */
+Blockly.Events.CHANGE;
+
+/**
+ * @type {!string}
+ */
+Blockly.Events.MOVE;
+
+
+/**
  * @param {Blockly.Workspace} workspace Workspace to generate code from.
  * @return {string} Generated code.
  */
@@ -95,23 +101,18 @@ Blockly.JavaScript.prototype.statementToCode = function(block, name) {};
 Blockly.Xml.workspaceToDom = function(workspace, pretty_print) {};
 
 /**
- * Converts plain text into a DOM structure.
- * Throws an error if XML doesn't parse.
  * @param {string} text Text representation.
  * @return {!Element} A tree of XML elements.
  */
 Blockly.Xml.textToDom = function(text) {};
 
 /**
- * Decode an XML DOM and create blocks on the workspace.
  * @param {!Element} xml XML DOM.
  * @param {!Blockly.Workspace} workspace The workspace.
  */
 Blockly.Xml.domToWorkspace = function(xml, workspace) {};
 
 /**
- * Decode an XML block tag and create a block (and possibly sub blocks) on the
- * workspace.
  * @param {!Element} xmlBlock XML block element.
  * @param {!Blockly.Workspace} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
@@ -119,7 +120,6 @@ Blockly.Xml.domToWorkspace = function(xml, workspace) {};
 Blockly.Xml.domToBlock = function(xmlBlock, workspace) {};
 
 /**
- * Converts a DOM structure into properly indented text.
  * @param {!Element} dom A tree of XML elements.
  * @return {string} Text representation.
  */
@@ -142,6 +142,11 @@ Blockly.Block = function() {};
 Blockly.Blocks = function(workspace, prototypeName, opt_id) {};
 
 
+/** @type {Object} */
+Blockly.BlockSvg = {};
+
+/** @type {boolean} */
+Blockly.BlockSvg.START_HAT;
 
 
 /** @type {Object} */
@@ -151,7 +156,6 @@ Blockly.JavaScript = {};
 Blockly.JavaScript.ORDER_ATOMIC = '';
 
 /**
- * Generate code representing the specified value input.
  * @param {!Blockly.Block} block The block containing the input.
  * @param {string} name The name of the input.
  * @param {number} order The maximum binding strength (minimum order value)
@@ -177,10 +181,7 @@ Blockly.Workspace.undoStack_ = [];
 /** @type {Array} */
 Blockly.Workspace.redoStack_ = [];
 
-/**
- * Set the workspace's zoom factor.
- * @param {number} newScale Zoom factor.
- */
+/** @param {number} newScale Zoom factor. */
 Blockly.Workspace.prototype.setScale = function(newScale) {};
 
 /**

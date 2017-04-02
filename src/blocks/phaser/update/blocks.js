@@ -27,11 +27,12 @@ Blockly.Blocks['phaser_update'] = {
     this.setHelpUrl('');
     this.setColour(280);
     this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on update do'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+    this.setPreviousStatement(true, 'Update');
+    this.setNextStatement(true, 'Render');
     this.setTooltip('');
   }
 };

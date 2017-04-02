@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the Phaser Blocks.
+ * @fileoverview Phaser Blocks for Blockly.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -20,9 +20,19 @@
 
 
 /**
- * Phaser update section.
+ * Phaser render section.
  */
-Blockly.JavaScript['phaser_update'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'update: function() {\n' + statements_code + '},\n';
+Blockly.Blocks['phaser_render'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(280);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('on render do'));
+    this.appendStatementInput('CODE')
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true, 'Render');
+    this.setNextStatement(true);
+    this.setTooltip('');
+  }
 };

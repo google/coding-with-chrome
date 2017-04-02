@@ -30,14 +30,29 @@ Blockly.JavaScript['phaser_game'] = function(block) {
 
   return 'var game = new Phaser.Game(' +
     '  ' + number_width + ', ' + number_height + ', Phaser.AUTO, \'' +
-    text_name + '\');\n' +
-    'game.state.add(\'main\', {\n' +
-    '  preload: typeof preload !== \'undefined\' ? preload : function() {},\n' +
-    '  create: typeof create !== \'undefined\' ? create : null,\n' +
-    '  update: typeof update !== \'undefined\' ? update : null,\n' +
-    '  render: typeof render !== \'undefined\' ? render : null\n' +
-    '});\n' +
-    'game.state.start(\'main\');\n';
+    text_name + '\');\n';
+};
+
+
+/**
+ * Phaser Game state.
+ */
+Blockly.JavaScript['phaser_game_state'] = function(block) {
+  var text_name = block.getFieldValue('name');
+  var dropdown_autostart = block.getFieldValue('autostart');
+  var statements_state = Blockly.JavaScript.statementToCode(block, 'state');
+  return 'game.state.add(\'' + text_name + '\', {\n' +
+    statements_state +
+    '}, ' + (dropdown_autostart == 'true' ? true : false) + ');\n';
+};
+
+
+/**
+ * Phaser Game start.
+ */
+Blockly.JavaScript['phaser_game_start'] = function(block) {
+  var text_name = block.getFieldValue('name');
+  return 'game.state.start(\'' + text_name + '\');\n';
 };
 
 

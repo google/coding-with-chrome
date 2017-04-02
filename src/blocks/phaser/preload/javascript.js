@@ -24,7 +24,7 @@
  */
 Blockly.JavaScript['phaser_preload'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return '\nfunction preload() {\n' + statements_code + '};\n';
+  return 'preload: function() {\n' + statements_code + '},\n';
 };
 
 

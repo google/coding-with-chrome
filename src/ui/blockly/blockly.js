@@ -153,6 +153,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
     }
   };
 
+  // Adding start hat
+  Blockly.BlockSvg.START_HAT = true;
+
   // Loading user defined settings.
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
