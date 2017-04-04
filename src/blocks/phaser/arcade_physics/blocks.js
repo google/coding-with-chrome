@@ -65,6 +65,15 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
 
 
 /**
+ * Physics arcade collide.
+ */
+Blockly.Blocks['phaser_physics_arcade_collide'] = {
+  init: function() {
+  }
+};
+
+
+/**
  * Adjust arcade sprite.
  */
 Blockly.Blocks['phaser_pyhsics_arcade_sprite'] = {
@@ -80,9 +89,14 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite'] = {
           [i18t('angular velocity'), 'body.angularVelocity'],
           [i18t('bounce x'), 'body.bounce.x'],
           [i18t('bounce y'), 'body.bounce.y'],
+          [i18t('bounce'), 'body.bounce.set'],
+          [i18t('allow gravity'), 'body.allowGravity'],
+          [i18t('checkCollision down'), 'body.checkCollision.down'],
+          [i18t('checkCollision up'), 'body.checkCollision.up'],
           [i18t('collide world bounds'), 'body.collideWorldBounds'],
           [i18t('gravity x'), 'body.gravity.x'],
           [i18t('gravity y'), 'body.gravity.y'],
+          [i18t('immovable'), 'body.immovable'],
           [i18t('velocity x'), 'body.velocity.x'],
           [i18t('velocity y'), 'body.velocity.y'],
           [i18t('velocity'), 'body.velocity'],

@@ -30,7 +30,8 @@ Blockly.Blocks['phaser_update'] = {
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on update do'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .setCheck(['Update']);
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Render');
     this.setTooltip('');

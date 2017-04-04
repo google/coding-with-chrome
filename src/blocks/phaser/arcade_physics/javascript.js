@@ -46,6 +46,14 @@ Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
 
 
 /**
+ * Physics arcade collide.
+ */
+Blockly.JavaScript['phaser_physics_arcade_collide'] = function() {
+  return 'game.physics.arcade.collide(var_block, var_player);';
+};
+
+
+/**
  * Adjust arcade sprite.
  */
 Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
@@ -56,8 +64,16 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'body.acceleration.set':
+    case 'body.bounce.set':
       return value_sprite + '.' + dropdown_property +
         '(' + value_value + ');\n';
+    case 'body.allowGravity':
+    case 'body.checkCollision.down':
+    case 'body.checkCollision.up':
+    case 'body.collideWorldBounds':
+    case 'body.immovable':
+      return value_sprite + '.' + dropdown_property + ' = ' +
+        ((value_value) ? true : false) + ';\n';
     case 'moveUp':
       return value_sprite + '.y -= ' + value_value + ';\n';
     case 'moveDown':

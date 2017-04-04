@@ -30,9 +30,10 @@ Blockly.Blocks['phaser_render'] = {
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on render do'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .setCheck(['Render']);
     this.setPreviousStatement(true, 'Render');
-    this.setNextStatement(true);
+    this.setNextStatement(false);
     this.setTooltip('');
   }
 };

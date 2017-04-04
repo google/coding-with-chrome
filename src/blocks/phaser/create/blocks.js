@@ -31,7 +31,8 @@ Blockly.Blocks['phaser_create'] = {
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on create do'));
     this.appendStatementInput('CODE')
-      .setAlign(Blockly.ALIGN_CENTRE);
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .setCheck(['Create']);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Update');
     this.setTooltip('');
@@ -46,11 +47,11 @@ Blockly.Blocks['phaser_stage_background_color'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('Set backgroundColor (')
+        .appendField('set background color (')
         .appendField(new Blockly.FieldColour('#000000'), 'color')
         .appendField(')');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -64,7 +65,10 @@ Blockly.Blocks['phaser_stage_background_color'] = {
 Blockly.Blocks['phaser_add_audio'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('audio')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('set')
+        .appendField(new Blockly.FieldVariable('sound'), 'variable')
+        .appendField('as audio')
         .appendField(new Blockly.FieldTextInput('name'), 'audio')
         .appendField('with volume')
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
@@ -73,7 +77,8 @@ Blockly.Blocks['phaser_add_audio'] = {
           ['no loop', 'false'],
           ['loop', 'true'],
         ]), 'loop');
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -88,10 +93,10 @@ Blockly.Blocks['phaser_add_background'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('Add background')
+        .appendField('add background')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -105,12 +110,16 @@ Blockly.Blocks['phaser_add_background'] = {
 Blockly.Blocks['phaser_add_sprite'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('sprite')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('set')
+        .appendField(new Blockly.FieldVariable('player'), 'variable')
+        .appendField('as sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
         .appendField('on position')
         .appendField(new Blockly.FieldNumber(50), 'x')
         .appendField(new Blockly.FieldNumber(50), 'y');
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -123,15 +132,19 @@ Blockly.Blocks['phaser_add_sprite'] = {
  */
 Blockly.Blocks['phaser_add_text'] = {
   init: function() {
+    this.appendDummyInput()
+         .appendField(Blockly.BlocksTemplate.point())
+         .appendField('set')
+         .appendField(new Blockly.FieldVariable('title'), 'variable')
+         .appendField('as text');
     this.appendValueInput('text')
-        .appendField('text')
         .setCheck('String');
     this.appendDummyInput()
-        .appendField(new Blockly.FieldColour('#000000'), 'color')
         .appendField('on')
         .appendField(new Blockly.FieldNumber(10), 'x')
         .appendField(new Blockly.FieldNumber(10), 'y')
         .appendField('with style')
+        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
         .appendField(new Blockly.FieldDropdown([
           ['Arial Black', 'Arial Black'],
@@ -150,7 +163,8 @@ Blockly.Blocks['phaser_add_text'] = {
           ['Wingdings', 'Wingdings'],
           ['sans-serif', 'sans-serif'],
         ]), 'font');
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -164,7 +178,10 @@ Blockly.Blocks['phaser_add_text'] = {
 Blockly.Blocks['phaser_add_tile_sprite'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('tile sprite')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('set')
+        .appendField(new Blockly.FieldVariable('blocks'), 'variable')
+        .appendField('as tile sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
         .appendField('on position')
         .appendField(new Blockly.FieldNumber(50), 'x')
@@ -174,7 +191,8 @@ Blockly.Blocks['phaser_add_tile_sprite'] = {
         .appendField(new Blockly.FieldNumber(50), 'height')
         .appendField('and group')
         .appendField(new Blockly.FieldTextInput('group'), 'group');
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -188,9 +206,13 @@ Blockly.Blocks['phaser_add_tile_sprite'] = {
 Blockly.Blocks['phaser_add_group'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('group')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('set')
+        .appendField(new Blockly.FieldVariable('objects'), 'variable')
+        .appendField('as group')
         .appendField(new Blockly.FieldTextInput('text'), 'name');
-    this.setOutput(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -212,8 +234,8 @@ Blockly.Blocks['phaser_time_loop_event'] = {
     this.appendStatementInput('func')
         .setCheck(null)
         .appendField('do');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
