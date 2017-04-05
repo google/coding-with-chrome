@@ -17,3 +17,24 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
+
+/**
+ * Adjust text.
+ */
+Blockly.Blocks['phaser_text_change'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('change');
+    this.appendValueInput('text')
+        .setCheck(null)
+        .appendField('text to');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

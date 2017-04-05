@@ -48,8 +48,13 @@ Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
 /**
  * Physics arcade collide.
  */
-Blockly.JavaScript['phaser_physics_arcade_collide'] = function() {
-  return 'game.physics.arcade.collide(var_block, var_player);';
+Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
+  var value_object1 = Blockly.JavaScript.valueToCode(
+    block, 'object1', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_object2 = Blockly.JavaScript.valueToCode(
+    block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.collide(' + value_object1 + ', ' +
+    value_object2 + ');\n';
 };
 
 

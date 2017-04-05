@@ -85,17 +85,46 @@
       </block>
       <block type="phaser_stage_background_color"></block>
       <block type="phaser_add_background"></block>
-      <block type="phaser_add_audio"></block>
-      <block type="phaser_add_sprite"></block>
+      <block type="phaser_add_audio">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">sound</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_add_sprite">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">player</field>
+          </block>
+        </value>
+      </block>
       <block type="phaser_add_text">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">title</field>
+          </block>
+        </value>
         <value name="text">
           <block type="text">
             <field name="TEXT">Hello World</field>
           </block>
         </value>
       </block>
-      <block type="phaser_add_tile_sprite"></block>
-      <block type="phaser_add_group"></block>
+      <block type="phaser_add_tile_sprite">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">blocks</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_add_group">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">objects</field>
+          </block>
+        </value>
+      </block>
       <block type="phaser_time_loop_event">
         <value name="time">
           <block type="math_number"><field name="NUM">1500</field></block>
@@ -132,6 +161,18 @@
         </value>
       </block>
       <block type="phaser_physics_arcade_overlap">
+        <value name="object1">
+          <block type="variables_get">
+            <field name="VAR">player</field>
+          </block>
+        </value>
+        <value name="object2">
+          <block type="variables_get">
+            <field name="VAR">obstacle</field>
+          </block>
+        </value>
+      </block>
+      <block type="phaser_physics_arcade_collide">
         <value name="object1">
           <block type="variables_get">
             <field name="VAR">player</field>
@@ -290,6 +331,21 @@
         </value>
         <value name="y">
           <block type="math_number"></block>
+        </value>
+      </block>
+    </category>
+
+    <category name="Text Object" colour="300">
+      <block type="phaser_text_change">
+        <value name="variable">
+          <block type="variables_get">
+            <field name="VAR">title</field>
+          </block>
+        </value>
+        <value name="text">
+          <block type="text">
+            <field name="TEXT">Hello World</field>
+          </block>
         </value>
       </block>
     </category>

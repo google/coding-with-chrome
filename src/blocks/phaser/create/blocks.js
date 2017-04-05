@@ -64,10 +64,10 @@ Blockly.Blocks['phaser_stage_background_color'] = {
  */
 Blockly.Blocks['phaser_add_audio'] = {
   init: function() {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('set')
-        .appendField(new Blockly.FieldVariable('sound'), 'variable')
+        .appendField('set');
+    this.appendDummyInput()
         .appendField('as audio')
         .appendField(new Blockly.FieldTextInput('name'), 'audio')
         .appendField('with volume')
@@ -109,10 +109,10 @@ Blockly.Blocks['phaser_add_background'] = {
  */
 Blockly.Blocks['phaser_add_sprite'] = {
   init: function() {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('set')
-        .appendField(new Blockly.FieldVariable('player'), 'variable')
+        .appendField('set');
+    this.appendDummyInput()
         .appendField('as sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
         .appendField('on position')
@@ -132,10 +132,10 @@ Blockly.Blocks['phaser_add_sprite'] = {
  */
 Blockly.Blocks['phaser_add_text'] = {
   init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('set');
     this.appendDummyInput()
-         .appendField(Blockly.BlocksTemplate.point())
-         .appendField('set')
-         .appendField(new Blockly.FieldVariable('title'), 'variable')
          .appendField('as text');
     this.appendValueInput('text')
         .setCheck('String');
@@ -177,10 +177,10 @@ Blockly.Blocks['phaser_add_text'] = {
  */
 Blockly.Blocks['phaser_add_tile_sprite'] = {
   init: function() {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('set')
-        .appendField(new Blockly.FieldVariable('blocks'), 'variable')
+        .appendField('set');
+    this.appendDummyInput()
         .appendField('as tile sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
         .appendField('on position')
@@ -205,10 +205,10 @@ Blockly.Blocks['phaser_add_tile_sprite'] = {
  */
 Blockly.Blocks['phaser_add_group'] = {
   init: function() {
-    this.appendDummyInput()
+    this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('set')
-        .appendField(new Blockly.FieldVariable('objects'), 'variable')
+        .appendField('set');
+    this.appendDummyInput()
         .appendField('as group')
         .appendField(new Blockly.FieldTextInput('text'), 'name');
     this.setPreviousStatement(true, 'Create');
@@ -230,10 +230,9 @@ Blockly.Blocks['phaser_time_loop_event'] = {
         .appendField(Blockly.BlocksTemplate.point())
         .appendField('repeat every');
     this.appendDummyInput()
-        .appendField('milliseconds');
+        .appendField('milliseconds do');
     this.appendStatementInput('func')
-        .setCheck(null)
-        .appendField('do');
+        .setCheck(null);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(230);

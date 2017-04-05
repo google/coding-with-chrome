@@ -156,7 +156,9 @@ cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
   this.language = opt_language || this.getLanguage();
 
   if (!Locales) {
-    this.log_.error('Unable to find language file.');
+    this.log_.error('Global variable "Locales" is undefined.');
+  } else if (Locales && Object.keys(Locales).length == 0) {
+    this.log_.error('Unable to find any language file.');
   } else if (!Locales[this.language]) {
     this.log_.error('Language', this.language, ' is untranslated.');
   }

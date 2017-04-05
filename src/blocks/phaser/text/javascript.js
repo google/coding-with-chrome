@@ -17,3 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
+
+/**
+ * Adjust text.
+ */
+Blockly.JavaScript['phaser_text_change'] = function(block) {
+  var value_text = Blockly.JavaScript.valueToCode(
+    block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + '.text = ' + value_text + ';\n';
+};

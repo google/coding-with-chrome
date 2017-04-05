@@ -47,8 +47,8 @@ Blockly.JavaScript['phaser_add_audio'] = function(block) {
   var text_audio = block.getFieldValue('audio');
   var number_volume = block.getFieldValue('volume');
   var dropdown_loop = block.getFieldValue('loop');
-  var variable = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.audio(' + text_audio + ', ' +
     number_volume / 100 + ', \'' + dropdown_loop + '\');\n';
 };
@@ -70,8 +70,8 @@ Blockly.JavaScript['phaser_add_sprite'] = function(block) {
   var number_x = block.getFieldValue('x');
   var number_y = block.getFieldValue('y');
   var text_sprite = block.getFieldValue('sprite');
-  var variable = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.sprite(' + number_x + ', ' + number_y +
     ', \'' + text_sprite + '\');\n';
 };
@@ -86,8 +86,8 @@ Blockly.JavaScript['phaser_add_text'] = function(block) {
   var text_color = block.getFieldValue('color');
   var text_font = block.getFieldValue('font');
   var text_size = block.getFieldValue('size');
-  var variable = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.text(' + number_x + ', ' + number_y + ', ' +
@@ -105,8 +105,8 @@ Blockly.JavaScript['phaser_add_tile_sprite'] = function(block) {
   var number_width = block.getFieldValue('width');
   var number_height = block.getFieldValue('height');
   var text_sprite = block.getFieldValue('sprite');
-  var variable = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.tileSprite(' + number_x + ', ' + number_y +
     ', ' + number_width + ', ' + number_height + ', \'' + text_sprite +
     '\');\n';
@@ -118,8 +118,8 @@ Blockly.JavaScript['phaser_add_tile_sprite'] = function(block) {
  */
 Blockly.JavaScript['phaser_add_group'] = function(block) {
   var text_name = block.getFieldValue('name');
-  var variable = Blockly.JavaScript.variableDB_.getName(
-    block.getFieldValue('variable'), Blockly.Variables.NAME_TYPE);
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.group(undefined, \'' + text_name + '\')\n;';
 };
 
