@@ -39,10 +39,14 @@
                 <next>
                   <block type="phaser_create">
                     <next>
-                      <block type="phaser_update">
-                        <next>
-                          <block type="phaser_render" collapsed="true"></block>
-                        </next>
+                       <block type="phaser_input">
+                          <next>
+                            <block type="phaser_update">
+                              <next>
+                                <block type="phaser_render" collapsed="true"></block>
+                              </next>
+                            </block>
+                          </next>
                       </block>
                     </next>
                   </block>
@@ -63,77 +67,15 @@
     </category>
 
     <category name="Create" colour="260">
-      <block type="phaser_create">
-        <statement name="CODE">
-          <block type="variables_set">
-            <field name="VAR">cursors</field>
-            <value name="VALUE">
-             <block type="phaser_input_keyboard_create_cursor_keys"></block>
-            </value>
-            <next>
-              <block type="variables_set">
-                <field name="VAR">spaceKey</field>
-                <value name="VALUE">
-                  <block type="phaser_input_keyboard_add_key">
-                    <field name="keycode">Phaser.KeyCode.SPACEBAR</field>
-                  </block>
-                </value>
-              </block>
-            </next>
-          </block>
-        </statement>
-      </block>
-      <block type="phaser_stage_background_color"></block>
-      <block type="phaser_add_background"></block>
-      <block type="phaser_add_audio">
-        <value name="variable">
-          <block type="variables_get">
-            <field name="VAR">sound</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_add_sprite">
-        <value name="variable">
-          <block type="variables_get">
-            <field name="VAR">player</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_add_text">
-        <value name="variable">
-          <block type="variables_get">
-            <field name="VAR">title</field>
-          </block>
-        </value>
-        <value name="text">
-          <block type="text">
-            <field name="TEXT">Hello World</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_add_tile_sprite">
-        <value name="variable">
-          <block type="variables_get">
-            <field name="VAR">blocks</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_add_group">
-        <value name="variable">
-          <block type="variables_get">
-            <field name="VAR">objects</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_time_loop_event">
-        <value name="time">
-          <block type="math_number"><field name="NUM">1500</field></block>
-        </value>
-      </block>
+      {call .createBlocks /}
     </category>
 
     <category name="Update" colour="290">
       <block type="phaser_update"></block>
+    </category>
+
+    <category name="Input" colour="260">
+      {call .inputBlocks /}
     </category>
 
     <category name="Render" colour="300">
@@ -200,76 +142,6 @@
         <value name="group">
           <block type="variables_get">
             <field name="VAR">obstacle</field>
-          </block>
-        </value>
-      </block>
-    </category>
-
-    <category name="Input" colour="200">
-      <block type="phaser_input_keyboard_create_cursor_keys"></block>
-      <block type="phaser_input_keyboard_add_key"></block>
-      <block type="phaser_input_keyboard_is_pressed">
-        <value name="cursors">
-          <block type="variables_get">
-            <field name="VAR">spacebar</field>
-          </block>
-        </value>
-      </block>
-
-      <block type="controls_if">
-        <mutation elseif="0"></mutation>
-        <value name="IF0">
-          <block type="phaser_input_keyboard_is_pressed">
-            <field name="direction">isDown</field>
-            <value name="cursors">
-              <block type="variables_get">
-                <field name="VAR">spacebar</field>
-              </block>
-            </value>
-          </block>
-        </value>
-      </block>
-
-      <block type="controls_if">
-        <mutation elseif="3"></mutation>
-        <value name="IF0">
-          <block type="phaser_input_keyboard_is_pressed">
-            <field name="direction">up.isDown</field>
-            <value name="cursors">
-              <block type="variables_get">
-                <field name="VAR">cursors</field>
-              </block>
-            </value>
-          </block>
-        </value>
-        <value name="IF1">
-          <block type="phaser_input_keyboard_is_pressed">
-            <field name="direction">down.isDown</field>
-            <value name="cursors">
-              <block type="variables_get">
-                <field name="VAR">cursors</field>
-              </block>
-            </value>
-          </block>
-        </value>
-        <value name="IF2">
-          <block type="phaser_input_keyboard_is_pressed">
-            <field name="direction">left.isDown</field>
-            <value name="cursors">
-              <block type="variables_get">
-                <field name="VAR">cursors</field>
-              </block>
-            </value>
-          </block>
-        </value>
-        <value name="IF3">
-          <block type="phaser_input_keyboard_is_pressed">
-            <field name="direction">right.isDown</field>
-            <value name="cursors">
-              <block type="variables_get">
-                <field name="VAR">cursors</field>
-              </block>
-            </value>
           </block>
         </value>
       </block>
@@ -380,4 +252,231 @@
     {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
 
   </xml>
+{/template}
+
+
+/**
+ * Create blocks.
+ */
+{template .createBlocks}
+
+  <block type="phaser_create"></block>
+
+  <block type="phaser_stage_background_color"></block>
+
+  <block type="phaser_add_background"></block>
+
+  <block type="phaser_add_audio">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sound</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_sprite">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">object</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_add_arcade_sprite">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_add_tile_sprite">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">blocks</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_text">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">title</field>
+      </block>
+    </value>
+    <value name="text">
+      <block type="text">
+        <field name="TEXT">Hello World</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_input_keyboard_cursor_keys">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">cursor_keys</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_input_keyboard_spacebar">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">spacebar</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_input_keyboard_key">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">keyboard_key</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_input_mouse_keys">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">mouse_keys</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_add_group">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">objects</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="variables_set">
+    <field name="VAR">cursors</field>
+    <value name="VALUE">
+     <block type="phaser_input_keyboard_create_cursor_keys"></block>
+    </value>
+  </block>
+
+  <block type="variables_set">
+    <field name="VAR">spaceKey</field>
+    <value name="VALUE">
+      <block type="phaser_input_keyboard_add_key">
+        <field name="keycode">Phaser.KeyCode.SPACEBAR</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_time_loop_event">
+    <value name="time">
+      <block type="math_number"><field name="NUM">1500</field></block>
+    </value>
+  </block>
+{/template}
+
+
+/**
+ * Input blocks.
+ */
+{template .inputBlocks}
+
+  <block type="phaser_input"></block>
+
+  <block type="phaser_input_keyboard_key_is_pressed">
+    <value name="key">
+      <block type="variables_get">
+        <field name="VAR">spacebar</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_input_keyboard_cursor_is_pressed">
+    <field name="direction">up.isDown</field>
+    <value name="cursors">
+      <block type="variables_get">
+        <field name="VAR">cursors</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_input_mouse_key_is_pressed">
+    <field name="direction">leftButton.isDown</field>
+    <value name="mouse">
+      <block type="variables_get">
+        <field name="VAR">mouse_keys</field>
+      </block>
+    </value>
+  </block>
+
+  <label text="Predefined Blocks" web-class="myLabelStyle"></label>
+
+  <block type="controls_if">
+    <mutation elseif="0"></mutation>
+    <value name="IF0">
+      <block type="phaser_input_keyboard_key_is_pressed">
+        <value name="key">
+          <block type="variables_get">
+            <field name="VAR">spacebar</field>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+
+  <block type="controls_if">
+    <mutation elseif="3"></mutation>
+    <value name="IF0">
+      <block type="phaser_input_keyboard_cursor_is_pressed">
+        <field name="direction">up.isDown</field>
+        <value name="cursors">
+          <block type="variables_get">
+            <field name="VAR">cursors</field>
+          </block>
+        </value>
+      </block>
+    </value>
+    <value name="IF1">
+      <block type="phaser_input_keyboard_cursor_is_pressed">
+        <field name="direction">down.isDown</field>
+        <value name="cursors">
+          <block type="variables_get">
+            <field name="VAR">cursors</field>
+          </block>
+        </value>
+      </block>
+    </value>
+    <value name="IF2">
+      <block type="phaser_input_keyboard_cursor_is_pressed">
+        <field name="direction">left.isDown</field>
+        <value name="cursors">
+          <block type="variables_get">
+            <field name="VAR">cursors</field>
+          </block>
+        </value>
+      </block>
+    </value>
+    <value name="IF3">
+      <block type="phaser_input_keyboard_cursor_is_pressed">
+        <field name="direction">right.isDown</field>
+        <value name="cursors">
+          <block type="variables_get">
+            <field name="VAR">cursors</field>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+
+  <block type="controls_if">
+    <mutation elseif="0"></mutation>
+    <value name="IF0">
+      <block type="phaser_input_mouse_key_is_pressed">
+        <field name="direction">leftButton.isDown</field>
+        <value name="mouse">
+          <block type="variables_get">
+            <field name="VAR">mouse_keys</field>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+
 {/template}

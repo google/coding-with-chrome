@@ -33,35 +33,20 @@
       {switch $files[$file]['media_type']}
         {case 'audio'}
           <block type="general_file_library_audio">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
+            <field name="filename">"{$file}"</field>
           </block>
         {case 'image'}
           <block type="general_file_library_image">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
+            <field name="filename">"{$file}"</field>
+            <field name="preview">{$files[$file]['content']}</field>
           </block>
         {case 'text'}
           <block type="general_file_library_text">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
+            <field name="filename">"{$file}"</field>
           </block>
         {default}
           <block type="general_file_library">
-            <value name="filename">
-              <shadow type="text">
-                <field name="TEXT">{$file}</field>
-              </shadow>
-            </value>
+            <field name="filename">"{$file}"</field>
           </block>
       {/switch}
     {/foreach}

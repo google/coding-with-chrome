@@ -20,46 +20,6 @@
 
 
 /**
- * Phaser render section.
- */
-Blockly.JavaScript['phaser_render'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'render: function() {\n' + statements_code + '},\n';
-};
-
-
-/**
- * Input keyboard create cursor keys.
- */
-Blockly.JavaScript['phaser_input_keyboard_create_cursor_keys'] = function() {
-  var code = 'this.input.keyboard.createCursorKeys()';
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-
-/**
- * Input keyboard add key.
- */
-Blockly.JavaScript['phaser_input_keyboard_add_key'] = function(block) {
-  var dropdown_keycode = block.getFieldValue('keycode');
-  var code = 'this.input.keyboard.addKey(' + dropdown_keycode + ')';
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-
-/**
- * Input keyboard is pressed.
- */
-Blockly.JavaScript['phaser_input_keyboard_is_pressed'] = function(block) {
-  var value_cursors = Blockly.JavaScript.valueToCode(
-    block, 'cursors', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var code = value_cursors + '.' + dropdown_direction;
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-
-/**
  * World wrap.
  */
 Blockly.JavaScript['phaser_world_wrap'] = function(block) {

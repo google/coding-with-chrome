@@ -36,8 +36,7 @@ Blockly.JavaScript['general_infinity_loop'] = function(block) {
  * Library file
  */
 Blockly.JavaScript['general_file_library'] = function(block) {
-  var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
   var code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -47,8 +46,7 @@ Blockly.JavaScript['general_file_library'] = function(block) {
  * Library file image
  */
 Blockly.JavaScript['general_file_library_image'] = function(block) {
-  var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
   var code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -58,8 +56,7 @@ Blockly.JavaScript['general_file_library_image'] = function(block) {
  * Library file audio
  */
 Blockly.JavaScript['general_file_library_audio'] = function(block) {
-  var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
   var code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -69,8 +66,7 @@ Blockly.JavaScript['general_file_library_audio'] = function(block) {
  * Library file text
  */
 Blockly.JavaScript['general_file_library_text'] = function(block) {
-  var value_filename = Blockly.JavaScript.valueToCode(
-    block, 'filename', Blockly.JavaScript.ORDER_ATOMIC).replace(/\'/g, '');
+  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
   var code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

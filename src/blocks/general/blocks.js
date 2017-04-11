@@ -43,9 +43,9 @@ Blockly.Blocks['general_infinity_loop'] = {
  */
 Blockly.Blocks['general_file_library'] = {
   init: function() {
-    this.appendValueInput('filename')
-        .setCheck('String')
-        .appendField(i18t('File:'));
+    this.appendDummyInput()
+        .appendField(i18t('file'))
+        .appendField('...', 'filename');
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
@@ -59,9 +59,14 @@ Blockly.Blocks['general_file_library'] = {
  */
 Blockly.Blocks['general_file_library_image'] = {
   init: function() {
-    this.appendValueInput('filename')
-        .setCheck('String')
-        .appendField(i18t('Image:'));
+    this.appendDummyInput()
+        .appendField(i18t('image file'))
+        .appendField('...', 'filename');
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('', 150, 50, ''), 'preview');
+    this.getField('filename').EDITABLE = true;
+    this.getField('preview').EDITABLE = true;
+    this.setInputsInline(false);
     this.setOutput(true, 'Image');
     this.setColour(230);
     this.setTooltip('');
@@ -75,9 +80,9 @@ Blockly.Blocks['general_file_library_image'] = {
  */
 Blockly.Blocks['general_file_library_audio'] = {
   init: function() {
-    this.appendValueInput('filename')
-        .setCheck('String')
-        .appendField(i18t('Audio:'));
+    this.appendDummyInput()
+        .appendField(i18t('audio file'))
+        .appendField('...', 'filename');
     this.setOutput(true, 'Audio');
     this.setColour(230);
     this.setTooltip('');
@@ -91,9 +96,9 @@ Blockly.Blocks['general_file_library_audio'] = {
  */
 Blockly.Blocks['general_file_library_text'] = {
   init: function() {
-    this.appendValueInput('filename')
-        .setCheck('String')
-        .appendField(i18t('Text:'));
+    this.appendDummyInput()
+        .appendField(i18t('text file'))
+        .appendField('...', 'filename');
     this.setOutput(true, 'Text');
     this.setColour(230);
     this.setTooltip('');

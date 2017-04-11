@@ -19,64 +19,7 @@
  */
 
 
-/**
- * Input keyboard create cursor keys.
- */
-Blockly.Blocks['phaser_input_keyboard_create_cursor_keys'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('Capture keyboard cursors keys');
-    this.setOutput(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
 
-
-/**
- * Input keyboard add key.
- */
-Blockly.Blocks['phaser_input_keyboard_add_key'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField('input.keyboard.addKey');
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('spacebar'), 'Phaser.KeyCode.SPACEBAR']
-        ]), 'keycode');
-    this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Input keyboard is pressed.
- */
-Blockly.Blocks['phaser_input_keyboard_is_pressed'] = {
-  init: function() {
-    this.appendValueInput('cursors')
-        .setCheck(null);
-    this.appendDummyInput()
-        .appendField(i18t('is pressed'))
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('up'), 'up.isDown'],
-          [i18t('down'), 'down.isDown'],
-          [i18t('left'), 'left.isDown'],
-          [i18t('right'), 'right.isDown'],
-          [i18t('key pressed'), 'isDown']
-        ]), 'direction');
-    this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour(230);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
 
 
 /**
