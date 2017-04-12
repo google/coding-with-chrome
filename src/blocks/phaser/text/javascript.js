@@ -29,3 +29,15 @@ Blockly.JavaScript['phaser_text_change'] = function(block) {
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.text = ' + value_text + ';\n';
 };
+
+
+/**
+ * Get text.
+ */
+Blockly.JavaScript['phaser_text_get'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
+    variable + '.text)';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};

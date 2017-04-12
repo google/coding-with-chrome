@@ -38,3 +38,19 @@ Blockly.Blocks['phaser_text_change'] = {
     this.setHelpUrl('');
   }
 };
+
+
+/**
+ * Get text.
+ */
+Blockly.Blocks['phaser_text_get'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .setCheck(null)
+        .appendField(i18t('get text'));
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
