@@ -24,8 +24,6 @@
  */
 Blockly.Blocks['phaser_preload'] = {
   init: function() {
-    this.setHelpUrl('');
-    this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on preload do'));
@@ -34,7 +32,9 @@ Blockly.Blocks['phaser_preload'] = {
       .setCheck(['Preload']);
     this.setPreviousStatement(true, 'Preload');
     this.setNextStatement(true, 'Create');
+    this.setColour(165);
     this.setTooltip('');
+    this.setHelpUrl('');
   }
 };
 
@@ -54,7 +54,7 @@ Blockly.Blocks['phaser_load_image'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Preload');
     this.setNextStatement(true, 'Preload');
-    this.setColour(230);
+    this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -76,7 +76,7 @@ Blockly.Blocks['phaser_load_audio'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Preload');
     this.setNextStatement(true, 'Preload');
-    this.setColour(230);
+    this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');
   }

@@ -17,6 +17,8 @@
 #{$prefix}library-overview {
  padding: 2px;
  background: #fff;
+ min-width: 600px;
+ min-height: 400px;
 }
 
 #{$prefix}library-chrome {
@@ -93,8 +95,11 @@
   border-radius: 5px;
   border: 2px dashed #ccc;
   cursor: pointer;
+  min-height: 300px;
   margin-top: 25px;
+  padding-top: 70px;
   padding: 10px;
+  position: relative;
   text-align: center;
 }
 
@@ -104,6 +109,24 @@
 
 #{$prefix}library-add-file.active {
   border: 2px dashed #f00;
+}
+
+#{$prefix}library-add-file-text {
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 250px;
+}
+
+.{$prefix}library-image-entry {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #4d90fe;
+  float: left;
 }
 
 #{$prefix}library-file-list.mdl-list {

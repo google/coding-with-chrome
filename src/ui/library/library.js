@@ -27,6 +27,8 @@ goog.require('goog.dom.classlist');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 
+goog.require('soydata');
+
 
 
 /**
@@ -255,7 +257,8 @@ cwc.ui.Library.prototype.getFiles = function() {
         var fileData = files[file];
         var fileName = fileData.getName();
         fileList[fileName] = {};
-        fileList[fileName]['content'] = fileData.getContent();
+        fileList[fileName]['content'] = soydata.VERY_UNSAFE.ordainSanitizedUri(
+          fileData.getContent());
         fileList[fileName]['media_type'] = fileData.getMediaType();
         fileList[fileName]['size'] = fileData.getSize();
         fileList[fileName]['type'] = fileData.getType();

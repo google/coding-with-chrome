@@ -20,10 +20,10 @@
 
 
 Blockly.JavaScript['phaser_generator_obstacle_vertical'] = function(block) {
-  var number_x = block.getFieldValue('x');
-  var number_y = block.getFieldValue('y');
-  var number_num_blocks = block.getFieldValue('num_obstacle');
-  var number_num_space = block.getFieldValue('num_space');
+  var value_obstacles = Blockly.JavaScript.valueToCode(
+    block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_spaces = Blockly.JavaScript.valueToCode(
+    block, 'spaces', Blockly.JavaScript.ORDER_ATOMIC);
   var value_sprite = Blockly.JavaScript.valueToCode(
     block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   var value_sprite_top = Blockly.JavaScript.valueToCode(
@@ -32,10 +32,13 @@ Blockly.JavaScript['phaser_generator_obstacle_vertical'] = function(block) {
     block, 'sprite_bottom', Blockly.JavaScript.ORDER_ATOMIC);
   var value_group = Blockly.JavaScript.valueToCode(
     block, 'group', Blockly.JavaScript.ORDER_ATOMIC);
-  //var number_velocity = block.getFieldValue('velocity');
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
 
   return 'cwc.framework.Phaser.VerticalObstacleGenerator(' +
-    number_x + ', ' + number_y + ', ' + number_num_blocks + ', ' +
-    number_num_space + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
+    value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
+    value_spaces + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
     value_sprite_bottom + ', ' + value_group + ');\n';
 };

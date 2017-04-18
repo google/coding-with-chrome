@@ -24,8 +24,6 @@
  */
 Blockly.Blocks['phaser_render'] = {
   init: function() {
-    this.setHelpUrl('');
-    this.setColour(280);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on render do'));
@@ -34,6 +32,8 @@ Blockly.Blocks['phaser_render'] = {
       .setCheck(['Render']);
     this.setPreviousStatement(true, 'Render');
     this.setNextStatement(false);
+    this.setColour(195);
     this.setTooltip('');
+    this.setHelpUrl('');
   }
 };

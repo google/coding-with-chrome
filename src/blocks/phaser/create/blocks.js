@@ -25,8 +25,6 @@
  */
 Blockly.Blocks['phaser_create'] = {
   init: function() {
-    this.setHelpUrl('');
-    this.setColour(280);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on create do'));
@@ -35,7 +33,9 @@ Blockly.Blocks['phaser_create'] = {
       .setCheck(['Create']);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Update');
+    this.setColour(30);
     this.setTooltip('');
+    this.setHelpUrl('');
   }
 };
 
@@ -52,7 +52,7 @@ Blockly.Blocks['phaser_stage_background_color'] = {
         .appendField(')');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -79,7 +79,7 @@ Blockly.Blocks['phaser_add_audio'] = {
         ]), 'loop');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -97,7 +97,7 @@ Blockly.Blocks['phaser_add_background'] = {
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -120,7 +120,7 @@ Blockly.Blocks['phaser_add_sprite'] = {
         .appendField(new Blockly.FieldNumber(50), 'y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -143,7 +143,7 @@ Blockly.Blocks['phaser_add_arcade_sprite'] = {
         .appendField(new Blockly.FieldNumber(50), 'y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -188,7 +188,7 @@ Blockly.Blocks['phaser_add_text'] = {
         ]), 'font');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -216,7 +216,7 @@ Blockly.Blocks['phaser_add_tile_sprite'] = {
         .appendField(new Blockly.FieldTextInput('group'), 'group');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -235,7 +235,7 @@ Blockly.Blocks['phaser_add_input_keyboard_cursor_keys'] = {
         .appendField('as capture keyboard cursors keys');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -254,7 +254,7 @@ Blockly.Blocks['phaser_add_input_keyboard_spacebar'] = {
         .appendField('as capture keyboard spacebar');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -282,7 +282,7 @@ Blockly.Blocks['phaser_add_input_keyboard_key'] = {
         ]), 'keycode');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -301,7 +301,7 @@ Blockly.Blocks['phaser_add_input_mouse_keys'] = {
         .appendField('as capture mouse keys');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -321,7 +321,7 @@ Blockly.Blocks['phaser_add_group'] = {
         .appendField(new Blockly.FieldTextInput('text'), 'name');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -343,7 +343,7 @@ Blockly.Blocks['phaser_time_loop_event'] = {
         .setCheck(null);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
-    this.setColour(230);
+    this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
   }

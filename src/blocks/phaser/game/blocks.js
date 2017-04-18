@@ -34,7 +34,7 @@ Blockly.Blocks['phaser_game'] = {
         .appendField('x')
         .appendField(new Blockly.FieldNumber(600), 'height');
     this.setNextStatement(true, null);
-    this.setColour(330);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
@@ -58,7 +58,7 @@ Blockly.Blocks['phaser_game_state'] = {
         .setCheck(['Preload', 'Create', 'Update', 'Render']);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -76,7 +76,7 @@ Blockly.Blocks['phaser_game_start'] = {
         .appendField(new Blockly.FieldTextInput('main'), 'name');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -92,7 +92,7 @@ Blockly.Blocks['phaser_game_restart'] = {
         .appendField('Restart game');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }

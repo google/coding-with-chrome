@@ -23,42 +23,42 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('Position:')
-        .appendField('x')
-        .appendField(new Blockly.FieldNumber(0, 0), 'x')
-        .appendField('y')
-        .appendField(new Blockly.FieldNumber(0, 0), 'y');
-    this.appendDummyInput()
-        .appendField('number of obstacle')
-        .appendField(new Blockly.FieldNumber(8, 0), 'num_obstacle')
-        .appendField('with space')
-        .appendField(new Blockly.FieldNumber(2, 0), 'num_space');
+        .appendField(i18t('generate vertical obstacles'));
+    this.appendValueInput('obstacles')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('number of obstacles');
+    this.appendValueInput('spaces')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('number of spaces');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('x');
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('y');
     this.appendValueInput('sprite')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('Sprite');
+        .appendField('sprite');
     this.appendValueInput('sprite_top')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('Optional:')
-        .appendField('Top sprite');
+        .appendField('top sprite');
     this.appendValueInput('sprite_bottom')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('Optional:')
-        .appendField('Bottom sprite');
+        .appendField('bottom sprite');
     this.appendValueInput('group')
         .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField('group');
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('Optional:')
-        .appendField('velocity')
-        .appendField(new Blockly.FieldNumber(-200), 'velocity');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');
   }

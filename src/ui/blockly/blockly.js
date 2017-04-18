@@ -156,6 +156,10 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
   // Adding start hat
   Blockly.BlockSvg.START_HAT = true;
 
+  // Change color-space
+  Blockly.HSV_SATURATION = 0.5;
+  Blockly.HSV_VALUE = 0.7;
+
   // Loading user defined settings.
   var userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {

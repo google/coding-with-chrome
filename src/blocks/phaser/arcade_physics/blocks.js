@@ -31,7 +31,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
         .appendField('enable arcade physics for');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -58,7 +58,7 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -80,7 +80,7 @@ Blockly.Blocks['phaser_physics_arcade_collide'] = {
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -120,7 +120,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite'] = {
         .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
   }

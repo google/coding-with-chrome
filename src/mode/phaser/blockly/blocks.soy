@@ -30,7 +30,7 @@
 
   <xml>
 
-    <category name="Game" colour="290">
+    <category name="Game" colour="75">
       <block type="phaser_game">
         <next>
           <block type="phaser_game_state">
@@ -60,31 +60,31 @@
       <block type="phaser_game_start"></block>
     </category>
 
-    <category name="Preload" colour="260">
+    <category name="Preload" colour="165">
       <block type="phaser_preload"></block>
       <block type="phaser_load_image"></block>
       <block type="phaser_load_audio"></block>
     </category>
 
-    <category name="Create" colour="260">
+    <category name="Create" colour="30">
       {call .createBlocks /}
     </category>
 
-    <category name="Update" colour="290">
+    <category name="Update" colour="315">
       <block type="phaser_update"></block>
     </category>
 
-    <category name="Input" colour="260">
+    <category name="Input" colour="135">
       {call .inputBlocks /}
     </category>
 
-    <category name="Render" colour="300">
+    <category name="Render" colour="195">
       <block type="phaser_render"></block>
     </category>
 
     <sep></sep>
 
-    <category name="Physics" colour="320">
+    <category name="Physics" colour="0">
       <block type="phaser_physics_arcade_enable">
         <value name="sprite">
           <block type="variables_get">
@@ -128,10 +128,32 @@
       </block>
     </category>
 
-    <category name="Generators" colour="340">
-      <block type="phaser_generator_obstacle_vertical">>
+    <category name="Generators" colour="105">
+      <block type="phaser_generator_obstacle_vertical">
+        <value name="obstacles">
+          <block type="math_number">
+            <field name="NUM">12</field>
+          </block>
+        </value>
+        <value name="spaces">
+          <block type="math_number">
+            <field name="NUM">3</field>
+          </block>
+        </value>
+        <value name="x">
+          <block type="phaser_world_attributes">
+            <field name="attribute">width</field>
+          </block>
+        </value>
+        <value name="y">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
         <value name="sprite">
-          <block type="text"></block>
+          <block type="text">
+            <field name="TEXT">obstacles</field>
+          </block>
         </value>
         <value name="sprite_top">
           <block type="text"></block>
@@ -141,13 +163,13 @@
         </value>
         <value name="group">
           <block type="variables_get">
-            <field name="VAR">obstacle</field>
+            <field name="VAR">obstacle_group</field>
           </block>
         </value>
       </block>
     </category>
 
-    <category name="Sprite" colour="150">
+    <category name="Sprite" colour="225">
       <block type="phaser_sprite_adjust">
         <value name="sprite">
           <block type="variables_get">
@@ -174,7 +196,7 @@
       </block>
     </category>
 
-    <category name="Tile Sprite" colour="260">
+    <category name="Tile Sprite" colour="285">
       <block type="phaser_tile_sprite_adjust">
         <value name="sprite">
           <block type="variables_get">
@@ -207,7 +229,7 @@
       </block>
     </category>
 
-    <category name="Text Object" colour="300">
+    <category name="Text Object" colour="255">
       <block type="phaser_text_change">
         <value name="variable">
           <block type="variables_get">
@@ -229,7 +251,7 @@
       </block>
     </category>
 
-    <category name="World" colour="100">
+    <category name="World" colour="345">
       <block type="phaser_world_wrap">
         <value name="sprite">
           <block type="variables_get">
@@ -240,6 +262,7 @@
           <block type="math_number"></block>
         </value>
       </block>
+      <block type="phaser_world_attributes"></block>
     </category>
 
     {if $files}
@@ -351,7 +374,7 @@
   <block type="phaser_add_group">
     <value name="variable">
       <block type="variables_get">
-        <field name="VAR">objects</field>
+        <field name="VAR">obstacle_group</field>
       </block>
     </value>
   </block>

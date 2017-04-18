@@ -23,6 +23,12 @@
 /** @constructor */
 var Blockly = function() {};
 
+/** @const */
+Blockly.HSV_SATURATION;
+
+/** @const */
+Blockly.HSV_VALUE;
+
 /**
  * @param {!Element|string} container Containing element, or its ID,
  *     or a CSS selector.
@@ -55,19 +61,13 @@ Blockly.updateToolbox = function(tree) {};
 Blockly.addChangeListener = function(func) {};
 
 
-/**
- * @type {Function}
- */
+/** @type {Function} */
 Blockly.Events = function() {};
 
-/**
- * @type {!string}
- */
+/** @type {!string} */
 Blockly.Events.CHANGE;
 
-/**
- * @type {!string}
- */
+/** @type {!string} */
 Blockly.Events.MOVE;
 
 
@@ -126,9 +126,7 @@ Blockly.Xml.domToBlock = function(xmlBlock, workspace) {};
 Blockly.Xml.domToPrettyText = function(dom) {};
 
 
-/**
- * @constructor
- */
+/** @constructor */
 Blockly.Block = function() {};
 
 /**

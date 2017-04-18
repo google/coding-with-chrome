@@ -27,25 +27,48 @@
   {@param prefix: string}
   {@param files: ?}
 
-  <div id="{$prefix}overview">
-    {msg desc=""}File:{/msg} <span id="{$prefix}file">No file selected</span>
-    <div id="{$prefix}preview-body">
-      <webview id="{$prefix}preview"></webview>
+  <div id="{$prefix}overview" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+    <div class="mdl-tabs__tab-bar">
+      <a href="#upload" class="mdl-tabs__tab is-active">Upload</a>
+      <a href="#images" class="mdl-tabs__tab">Images</a>
+      <a href="#sounds" class="mdl-tabs__tab">Sounds</a>
+      <a href="#misc" class="mdl-tabs__tab">Misc</a>
     </div>
-    <div id="{$prefix}stats">
-      <span id="{$prefix}counter"></span>
+
+    <div class="mdl-tabs__panel is-active" id="upload">
+      <div id="{$prefix}add-file">
+        <div id="{$prefix}add-file-text">
+          <i class="material-icons">file_upload</i>
+          {msg desc=""}Drop file here or click to select{/msg}
+        </div>
+      </div>
     </div>
-    <div id="{$prefix}content">
-      <ul class="mdl-list" id="{$prefix}file-list">
-        {call .files}
-          {param files: $files /}
-        {/call}
-      </ul>
+
+    <div class="mdl-tabs__panel" id="images">
+      {call .imageFiles data="all" /}
     </div>
-    <div id="{$prefix}add-file">
-      <i class="material-icons">file_upload</i>
-      {msg desc=""}Drop file here or click to select{/msg}
+
+    <div class="mdl-tabs__panel" id="sounds">
     </div>
+
+    <div class="mdl-tabs__panel" id="misc">
+      {msg desc=""}File:{/msg} <span id="{$prefix}file">No file selected</span>
+      <div id="{$prefix}preview-body">
+        <webview id="{$prefix}preview"></webview>
+      </div>
+      <div id="{$prefix}stats">
+        <span id="{$prefix}counter"></span>
+      </div>
+      <div id="{$prefix}content">
+        <ul class="mdl-list" id="{$prefix}file-list">
+          {call .files}
+            {param files: $files /}
+          {/call}
+        </ul>
+      </div>
+    </div>
+
   </div>
 {/template}
 
@@ -70,6 +93,26 @@
       </span>
       <span class="mdl-list__item-secondary-content">{$files[$file]['size']}</span>
     </li>
+  {/foreach}
+
+{/template}
+
+
+/**
+ * List of library files
+ */
+{template .imageFiles}
+  {@param prefix: string}
+  {@param files: ?}
+
+  {foreach $file in keys($files)}
+    {if $files[$file]['media_type'] == 'image'}
+      <div class="{$prefix}image-entry"
+        data-file-name="{$file}"
+        data-file-action="insertMacro">
+        <img src="{$files[$file]['content']}" width="100" height="100">
+      </div>
+    {/if}
   {/foreach}
 
 {/template}

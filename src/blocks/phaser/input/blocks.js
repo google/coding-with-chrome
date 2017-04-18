@@ -24,8 +24,6 @@
  */
 Blockly.Blocks['phaser_input'] = {
   init: function() {
-    this.setHelpUrl('');
-    this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on input do'));
@@ -34,7 +32,9 @@ Blockly.Blocks['phaser_input'] = {
       .setCheck(['Input']);
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Update');
+    this.setColour(135);
     this.setTooltip('');
+    this.setHelpUrl('');
   }
 };
 
@@ -57,7 +57,7 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -75,7 +75,7 @@ Blockly.Blocks['phaser_input_keyboard_key_is_pressed'] = {
         .appendField(i18t('is pressed'));
     this.setInputsInline(true);
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -98,7 +98,7 @@ Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
   }

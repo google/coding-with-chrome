@@ -48,7 +48,7 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
         .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -68,7 +68,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -94,7 +94,7 @@ Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
         .appendField(i18t('y'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
   }

@@ -29,3 +29,13 @@ Blockly.JavaScript['phaser_world_wrap'] = function(block) {
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.world.wrap(' + value_sprite + ', ' + (value_value || 0) + ');\n';
 };
+
+
+/**
+ * World attributes.
+ */
+Blockly.JavaScript['phaser_world_attributes'] = function(block) {
+  var dropdown_attribute = block.getFieldValue('attribute');
+  var code = 'game.world.' + dropdown_attribute;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};

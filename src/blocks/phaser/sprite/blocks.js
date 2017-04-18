@@ -51,7 +51,7 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
         .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(225);
     this.setTooltip('');
     this.setHelpUrl('');
   }

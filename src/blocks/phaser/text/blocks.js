@@ -33,7 +33,7 @@ Blockly.Blocks['phaser_text_change'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -49,7 +49,7 @@ Blockly.Blocks['phaser_text_get'] = {
         .setCheck(null)
         .appendField(i18t('get text'));
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
   }

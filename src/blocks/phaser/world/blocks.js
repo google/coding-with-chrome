@@ -19,9 +19,6 @@
  */
 
 
-
-
-
 /**
  * World wrap.
  */
@@ -37,7 +34,26 @@ Blockly.Blocks['phaser_world_wrap'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(345);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * World attributes.
+ */
+Blockly.Blocks['phaser_world_attributes'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('get world')
+        .appendField(new Blockly.FieldDropdown([
+          ['width', 'width'],
+          ['height', 'height'],
+        ]), 'attribute');
+    this.setOutput(true, null);
+    this.setColour(345);
     this.setTooltip('');
     this.setHelpUrl('');
   }
