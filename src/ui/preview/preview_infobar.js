@@ -70,16 +70,25 @@ cwc.ui.PreviewInfobar = function(helper) {
   this.nodeConsole = null;
 
   /** @type {Element} */
+  this.nodeDebug = null;
+
+  /** @type {Element} */
   this.nodeDebugNum = null;
+
+  /** @type {Element} */
+  this.nodeError= null;
 
   /** @type {Element} */
   this.nodeErrorNum = null;
 
   /** @type {Element} */
+  this.nodeInfo = null;
+
+  /** @type {Element} */
   this.nodeInfoNum = null;
 
   /** @type {Element} */
-  this.nodeInfoMsg = null;
+  this.nodeWarn = null;
 
   /** @type {Element} */
   this.nodeWarnNum = null;
@@ -114,12 +123,14 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   );
 
   this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
+  this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeDebugNum = goog.dom.getElement(this.prefix + 'debug-num');
+  this.nodeError = goog.dom.getElement(this.prefix + 'error');
   this.nodeErrorNum = goog.dom.getElement(this.prefix + 'error-num');
-  this.nodeInfoMsg = goog.dom.getElement(this.prefix + 'messages');
+  this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
   this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-num');
-  this.nodeStatusText = goog.dom.getElement(this.prefix + 'status');
   this.nodeStatusText = goog.dom.getElement(this.prefix + 'status-text');
+  this.nodeWarn = goog.dom.getElement(this.prefix + 'warn');
   this.nodeWarnNum = goog.dom.getElement(this.prefix + 'warn-num');
 
   this.logConsole = new goog.debug.DivConsole(this.nodeConsole);
@@ -127,8 +138,29 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   this.logConsole.setCapturing(false);
   this.logFormatter.showAbsoluteTime = false;
 
-  goog.events.listen(this.nodeInfoMsg, goog.events.EventType.CLICK,
-      this.toggleConsole, false, this);
+  goog.events.listen(this.nodeDebug, goog.events.EventType.CLICK, function() {
+    if (this.debugNum > 0) {
+      this.toggleConsole();
+    }
+  }, false, this);
+
+  goog.events.listen(this.nodeError, goog.events.EventType.CLICK, function() {
+    if (this.errorNum > 0) {
+      this.toggleConsole();
+    }
+  }, false, this);
+
+  goog.events.listen(this.nodeInfo, goog.events.EventType.CLICK, function() {
+    if (this.infoNum > 0) {
+      this.toggleConsole();
+    }
+  }, false, this);
+
+  goog.events.listen(this.nodeWarn, goog.events.EventType.CLICK, function() {
+    if (this.warmNum > 0) {
+      this.toggleConsole();
+    }
+  }, false, this);
 
   this.updateOverview();
 };
@@ -216,10 +248,9 @@ cwc.ui.PreviewInfobar.prototype.updateOverview = function() {
     goog.dom.setTextContent(this.nodeErrorNum, this.errorNum || '');
   }
 
-  if ((this.warnNum || this.errorNum || this.infoNum)) {
+  if (this.warnNum || this.errorNum || this.infoNum > 1) {
     this.showConsole();
-  } else if ((this.debugNum + this.infoNum + this.warnNum +
-      this.errorNum) == 0) {
+  } else {
     this.hideConsole();
   }
 };

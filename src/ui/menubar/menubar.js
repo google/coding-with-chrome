@@ -48,7 +48,7 @@ cwc.ui.Menubar = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeHelp = null;
+  this.nodeAccountBody = null;
 
   /** @type {Element} */
   this.nodeAccountLogin = null;
@@ -58,6 +58,9 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {Element} */
   this.nodeBluetooth = null;
+
+  /** @type {Element} */
+  this.nodeBluetoothBody = null;
 
   /** @type {Element} */
   this.nodeBluetoothConnected = null;
@@ -79,9 +82,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {Element} */
   this.nodeCloseButton = null;
-
-  /** @type {Element} */
-  this.nodeSettings = null;
 
   /** @type {Element} */
   this.nodeMinimizeButton = null;
@@ -107,43 +107,6 @@ cwc.ui.Menubar = function(helper) {
   /** @type {chrome.app.window.AppWindow} */
   this.currentWindow =  null;
 
-  /** @type {!goog.ui.Button} */
-  this.closeButton = cwc.ui.Helper.getIconButton(
-      'close', 'Close', this.requestCloseWindow.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.minimizeButton = cwc.ui.Helper.getIconButton(
-      'photo_size_select_small', 'minimize', this.minimizeWindow.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.maximizeButton = cwc.ui.Helper.getIconButton(
-      'fullscreen', 'maximize', this.maximizeWindow.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.restoreButton = cwc.ui.Helper.getIconButton(
-      'fullscreen_exit', 'restore', this.restoreWindow.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.accountLogin = cwc.ui.Helper.getIconButton(
-      'perm_identity', 'Login', this.loginAccount.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.accountLogout = cwc.ui.Helper.getIconButton(
-      'person', 'Logout', this.logoutAccount.bind(this));
-
-  /** @type {!goog.ui.Button} */
-  this.bluetoothMenu = cwc.ui.Helper.getIconButton('bluetooth',
-      'Connect Bluetooth device...');
-
-  /** @type {!goog.ui.Button} */
-  this.bluetoothConnected = cwc.ui.Helper.getIconButton(
-      'bluetooth_connected', 'Disconnect Bluetooth device...');
-
-  /** @type {!goog.ui.Button} */
-  this.bluetoothDisabled = cwc.ui.Helper.getIconButton(
-      'bluetooth_disabled', 'Bluetooth is disabled!',
-      this.checkBluetoothState_.bind(this));
-
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
 };
@@ -166,91 +129,108 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
       }
   );
 
-  // Bluetooth icons
-  if (this.helper.checkChromeFeature('bluetooth')) {
+  // Account body
+  this.nodeAccountBody = goog.dom.getElement(this.prefix + 'account-body');
+  goog.style.setElementShown(this.nodeAccountBody,
+    this.helper.checkChromeFeature('manifest.oauth2'));
 
-    // Bluetooth enabled
-    this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
-    this.bluetoothMenu.render(this.nodeBluetooth);
-    goog.events.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
-      function() {
-        var connectScreenInstance = this.helper.getInstance('connectScreen');
-        connectScreenInstance.showBluetoothDevices();
-      }.bind(this));
+  // Account login
+  this.nodeAccountLogin = goog.dom.getElement(this.prefix + 'account');
+  goog.events.listen(this.nodeAccountLogin, goog.events.EventType.CLICK,
+    this.loginAccount, false, this);
 
-    // Bluetooth connected
-    this.nodeBluetoothConnected = goog.dom.getElement(
-        this.prefix + 'bluetooth-connected');
-    this.bluetoothConnected.render(this.nodeBluetoothConnected);
-    goog.events.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
-      function() {
-        var connectScreenInstance = this.helper.getInstance('connectScreen');
-        connectScreenInstance.showBluetoothDevices();
-      }.bind(this));
+  // Account logout
+  this.nodeAccountLogout = goog.dom.getElement(this.prefix + 'account-logout');
+  goog.events.listen(this.nodeAccountLogout, goog.events.EventType.CLICK,
+    this.logoutAccount, false, this);
 
-    // Bluetooth disabled
-    this.nodeBluetoothDisabled = goog.dom.getElement(
-        this.prefix + 'bluetooth-disabled');
-    this.bluetoothDisabled.render(this.nodeBluetoothDisabled);
-  }
+  // Bluetooth body
+  this.nodeBluetoothBody = goog.dom.getElement(this.prefix + 'bluetooth-body');
+  goog.style.setElementShown(this.nodeBluetoothBody,
+    this.helper.checkChromeFeature('bluetooth'));
 
-  // Serial icons
+  // Bluetooth enabled
+  this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
+  goog.events.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
+    function() {
+      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      connectScreenInstance.showBluetoothDevices();
+    }, false, this);
+
+  // Bluetooth connected
+  this.nodeBluetoothConnected = goog.dom.getElement(
+    this.prefix + 'bluetooth-connected');
+  goog.events.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
+    function() {
+      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      connectScreenInstance.showBluetoothDevices();
+    }, false, this);
+
+  // Bluetooth disabled
+  this.nodeBluetoothDisabled = goog.dom.getElement(
+    this.prefix + 'bluetooth-disabled');
+  goog.events.listen(this.nodeBluetoothDisabled, goog.events.EventType.CLICK,
+    this.checkBluetoothState_, false, this);
+
+  // Close button
+  this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
+  goog.events.listen(this.nodeCloseButton, goog.events.EventType.CLICK,
+    this.requestCloseWindow, false, this);
+
+  // Serial body
   this.nodeSerialBody = goog.dom.getElement(this.prefix + 'serial-body');
+  goog.style.setElementShown(this.nodeSerialBody,
+    this.helper.checkChromeFeature('serial'));
+
+  // Serial enabled
   this.nodeSerial = goog.dom.getElement(this.prefix + 'serial');
+  goog.events.listen(this.nodeSerial, goog.events.EventType.CLICK, function() {
+    var connectScreenInstance = this.helper.getInstance('connectScreen');
+    connectScreenInstance.showSerialDevices();
+  }, false, this);
+
+  // Serial connected
   this.nodeSerialConnected = goog.dom.getElement(
     this.prefix + 'serial-connected');
+  goog.events.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
+    function() {
+      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      connectScreenInstance.showSerialDevices();
+    }, false, this);
+
+  // Serial disabled
   this.nodeSerialDisabled = goog.dom.getElement(
     this.prefix + 'serial-disabled');
+
   if (this.helper.checkChromeFeature('serial')) {
-    goog.style.setElementShown(this.nodeSerialBody, true);
-    goog.events.listen(this.nodeSerial, goog.events.EventType.CLICK,
-      function() {
-        var connectScreenInstance = this.helper.getInstance('connectScreen');
-        connectScreenInstance.showSerialDevices();
-      }.bind(this));
-    goog.events.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
-      function() {
-        var connectScreenInstance = this.helper.getInstance('connectScreen');
-        connectScreenInstance.showSerialDevices();
-      }.bind(this));
     this.setSerialEnabled(true);
-  } else {
-    goog.style.setElementShown(this.nodeSerialBody, false);
   }
 
-  // Account icons
-  if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.nodeAccountLogin = goog.dom.getElement(
-        this.prefix + 'account');
-    this.accountLogin.render(this.nodeAccountLogin);
+  // Minimize icon
+  this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
+  goog.events.listen(this.nodeMinimizeButton, goog.events.EventType.CLICK,
+    this.minimizeWindow, false, this);
 
-    this.nodeAccountLogout = goog.dom.getElement(
-        this.prefix + 'account-logout');
-    this.accountLogout.render(this.nodeAccountLogout);
-  }
+  // Maximize icon
+  this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
+  goog.events.listen(this.nodeMaximizeButton, goog.events.EventType.CLICK,
+    this.maximizeWindow, false, this);
+
+  // Restore icon
+  this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
+  goog.events.listen(this.nodeRestoreButton, goog.events.EventType.CLICK,
+    this.restoreWindow, false, this);
 
   if (this.isChromeApp_) {
     this.currentWindow =  chrome.app.window.current();
-
-    // Minimize icon
-    this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
-    this.minimizeButton.render(this.nodeMinimizeButton);
-
-    // Maximize icon
-    this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
-    this.maximizeButton.render(this.nodeMaximizeButton);
-
-    // Restore icon
-    this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
-    this.restoreButton.render(this.nodeRestoreButton);
     goog.style.setElementShown(this.nodeMaximizeButton,
       !this.currentWindow['isMaximized']());
     goog.style.setElementShown(this.nodeRestoreButton,
       this.currentWindow['isMaximized']());
-
-    // Close icon
-    this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
-    this.closeButton.render(this.nodeCloseButton);
+  } else {
+    goog.style.setElementShown(this.nodeCloseButton, false);
+    goog.style.setElementShown(this.nodeMaximizeButton, false);
+    goog.style.setElementShown(this.nodeRestoreButton, false);
   }
 };
 

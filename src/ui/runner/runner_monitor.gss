@@ -19,7 +19,7 @@
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab-bar,
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab,
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab span {
-  height: 38px;
+  height: 34px;
 }
 
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab span {

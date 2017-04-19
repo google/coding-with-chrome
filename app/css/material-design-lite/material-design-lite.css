@@ -110,6 +110,10 @@ html>body,
   width: 150px;
 }
 
+.mdl-layout__drawer-button {
+  line-height: 42px;
+}
+
 .cwc-content {
   height: calc(100% - 44px);
   overflow: auto;

@@ -16,11 +16,11 @@
 
 
 #{$prefix}navigation-header {
-  height: 60px;
+  height: 34px;
 }
 
 #{$prefix}navigation-header .mdl-layout__header {
-  padding: 16px 40px;
+  padding: 7px 40px;
   font-size: 16px;
 }
 

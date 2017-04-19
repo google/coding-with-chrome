@@ -18,12 +18,15 @@
   background: #fff;
 }
 
+#{$prefix}runner-toolbar-chrome > .mdl-layout__header-row {
+  height: 34px;
+}
+
 #{$prefix}runner-toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {
   padding: 0 5px;
 }
 
 #{$prefix}runner-body .mdl-layout__header-row {
-  height: 44px;
   padding: 0 10px 0 20px;
 }
 

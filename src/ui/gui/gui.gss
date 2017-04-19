@@ -24,6 +24,15 @@
   display: flex;
 }
 
+#{$prefix}gui-chrome > header,
+#{$prefix}gui-chrome > header .mdl-layout__header-row {
+  height: 34px;
+}
+
+#{$prefix}gui-chrome > header .icon_24px {
+  line-height: 32px;
+}
+
 #{$prefix}gui-chrome footer {
   display: flex;
 }

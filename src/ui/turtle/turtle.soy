@@ -20,6 +20,7 @@
 
 {namespace cwc.soy.Turtle autoescape="strict"}
 
+
 /**
  * HTML template for the preview.
  */
@@ -28,43 +29,4 @@
   <div id="{$prefix}body">
     <div id="{$prefix}content"></div>
   </div>
-{/template}
-
-
-/**
- * Preview style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  #{$prefix}body {lb}
-    height: 100%;
-  {rb}
-
-  #{$prefix}content {lb}
-    background: #fff;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-  {rb}
-
-  #{$prefix}content.hide {lb}
-    display: none;
-    width: 1px;
-    height: 1px;
-  {rb}
-
-  #{$prefix}content.show {lb}
-    display: block;
-    width: 100%;
-    height: 100%;
-  {rb}
-
-  #{$prefix}content webview {lb}
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  {rb}
-
 {/template}
