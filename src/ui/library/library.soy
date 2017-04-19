@@ -27,16 +27,16 @@
   {@param prefix: string}
   {@param files: ?}
 
-  <div id="{$prefix}overview" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div id="{$prefix}chrome" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
 
     <div class="mdl-tabs__tab-bar">
-      <a href="#upload" class="mdl-tabs__tab is-active">Upload</a>
-      <a href="#images" class="mdl-tabs__tab">Images</a>
-      <a href="#sounds" class="mdl-tabs__tab">Sounds</a>
-      <a href="#misc" class="mdl-tabs__tab">Misc</a>
+      <a href="#{$prefix}upload" class="mdl-tabs__tab is-active">Upload</a>
+      <a href="#{$prefix}images" class="mdl-tabs__tab">Images</a>
+      <a href="#{$prefix}audio" class="mdl-tabs__tab">Audio</a>
+      <a href="#{$prefix}all" class="mdl-tabs__tab">All</a>
     </div>
 
-    <div class="mdl-tabs__panel is-active" id="upload">
+    <div class="mdl-tabs__panel is-active" id="{$prefix}upload">
       <div id="{$prefix}add-file">
         <div id="{$prefix}add-file-text">
           <i class="material-icons">file_upload</i>
@@ -45,28 +45,16 @@
       </div>
     </div>
 
-    <div class="mdl-tabs__panel" id="images">
+    <div class="mdl-tabs__panel" id="{$prefix}images">
       {call .imageFiles data="all" /}
     </div>
 
-    <div class="mdl-tabs__panel" id="sounds">
+    <div class="mdl-tabs__panel" id="{$prefix}audio">
+      {call .audioFiles data="all" /}
     </div>
 
-    <div class="mdl-tabs__panel" id="misc">
-      {msg desc=""}File:{/msg} <span id="{$prefix}file">No file selected</span>
-      <div id="{$prefix}preview-body">
-        <webview id="{$prefix}preview"></webview>
-      </div>
-      <div id="{$prefix}stats">
-        <span id="{$prefix}counter"></span>
-      </div>
-      <div id="{$prefix}content">
-        <ul class="mdl-list" id="{$prefix}file-list">
-          {call .files}
-            {param files: $files /}
-          {/call}
-        </ul>
-      </div>
+    <div class="mdl-tabs__panel" id="{$prefix}all">
+      {call .allFiles data="all" /}
     </div>
 
   </div>
@@ -74,32 +62,7 @@
 
 
 /**
- * List of library files
- */
-{template .files}
-  {@param files: ?}
-
-  {foreach $file in keys($files)}
-    <li class="mdl-list__item mdl-list__item--three-line">
-      <span class="mdl-list__item-primary-content"
-        data-file-name="{$file}"
-        data-file-action="insertMacro">
-        <i class="mdl-list__item-avatar"
-          data-file-name="{$file}"
-          data-file-action="previewFile">
-          {$files[$file]['media_type']}
-        </i>
-        {$file}
-      </span>
-      <span class="mdl-list__item-secondary-content">{$files[$file]['size']}</span>
-    </li>
-  {/foreach}
-
-{/template}
-
-
-/**
- * List of library files
+ * Image library files
  */
 {template .imageFiles}
   {@param prefix: string}
@@ -110,9 +73,55 @@
       <div class="{$prefix}image-entry"
         data-file-name="{$file}"
         data-file-action="insertMacro">
-        <img src="{$files[$file]['content']}" width="100" height="100">
+        <img src="{$files[$file]['content']}" width="100" height="100"
+          data-file-name="{$file}" data-file-action="insertMacro">
       </div>
     {/if}
+  {/foreach}
+
+{/template}
+
+
+/**
+ * Audio library files
+ */
+{template .audioFiles}
+  {@param prefix: string}
+  {@param files: ?}
+
+  {foreach $file in keys($files)}
+    {if $files[$file]['media_type'] == 'audio'}
+      <div class="{$prefix}audio-entry"
+        data-file-name="{$file}"
+        data-file-action="insertMacro">
+        <i class="material-icons"
+          data-file-name="{$file}" data-file-action="insertMacro">
+          audiotrack
+        </i>{$file}
+        <audio controls src="{$files[$file]['content']}"></audio>
+      </div>
+    {/if}
+  {/foreach}
+
+{/template}
+
+
+/**
+ * All library files
+ */
+{template .allFiles}
+  {@param prefix: string}
+  {@param files: ?}
+
+  {foreach $file in keys($files)}
+    <div class="{$prefix}all-entry"
+      data-file-name="{$file}"
+      data-file-action="insertMacro">
+      <i class="material-icons"
+        data-file-name="{$file}" data-file-action="insertMacro">
+        insert_drive_file
+      </i>{$file}
+    </div>
   {/foreach}
 
 {/template}

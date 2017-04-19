@@ -55,10 +55,13 @@ cwc.ui.Library = function(helper) {
   this.nodeAddFile = null;
 
   /** @type {Element} */
-  this.nodeFile = null;
+  this.nodeAll = null;
 
   /** @type {Element} */
-  this.nodeFileList = null;
+  this.nodeImages = null;
+
+  /** @type {Element} */
+  this.nodeAudio = null;
 
   /** @type {Element} */
   this.nodePreview = null;
@@ -86,9 +89,9 @@ cwc.ui.Library.prototype.decorate = function() {
  */
 cwc.ui.Library.prototype.decorateLibrary = function() {
   this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
-  this.nodeFile = goog.dom.getElement(this.prefix + 'file');
-  this.nodeFileList = goog.dom.getElement(this.prefix + 'file-list');
-  this.nodePreview = goog.dom.getElement(this.prefix + 'preview');
+  this.nodeAll = goog.dom.getElement(this.prefix + 'all');
+  this.nodeAudio = goog.dom.getElement(this.prefix + 'audio');
+  this.nodeImages = goog.dom.getElement(this.prefix + 'images');
 
   this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
@@ -98,10 +101,12 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
     this.handleDragOver_, false, this);
   this.addEventListener(this.nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
-  this.addEventListener(this.nodeFileList, goog.events.EventType.CLICK,
+  this.addEventListener(this.nodeAll, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-
-  this.syncFiles();
+  this.addEventListener(this.nodeAudio, goog.events.EventType.CLICK,
+    this.handleFileClick_, false, this);
+  this.addEventListener(this.nodeImages, goog.events.EventType.CLICK,
+    this.handleFileClick_, false, this);
 };
 
 
@@ -115,6 +120,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
     files: this.getFiles()
   });
   this.decorateLibrary();
+  this.syncFiles();
 };
 
 
@@ -123,12 +129,13 @@ cwc.ui.Library.prototype.showLibrary = function() {
  * @param {Object=} opt_files
  */
 cwc.ui.Library.prototype.updateLibraryFileList = function(opt_files) {
-  if (this.nodeFileList) {
-    goog.soy.renderElement(this.nodeFileList, cwc.soy.Library.files, {
-      prefix: this.prefix,
-      files: opt_files || this.getFiles()
-    });
-  }
+  console.log('Updating library file list ...');
+  var dialogInstance = this.helper.getInstance('dialog', true);
+  dialogInstance.updateTemplate(cwc.soy.Library.template, {
+    prefix: this.prefix,
+    files: opt_files || this.getFiles()
+  });
+  this.decorateLibrary();
 };
 
 
@@ -154,7 +161,6 @@ cwc.ui.Library.prototype.syncFiles = function() {
       console.error('Library data are in the wrong format!');
     }
   }
-  this.updateLibraryFileList();
 };
 
 
@@ -199,19 +205,6 @@ cwc.ui.Library.prototype.readFile = function(file) {
     console.log(event.target);
   };
   reader.readAsDataURL(file);
-};
-
-
-/**
- * Displays file content for the selected file.
- * @param {!string} name
- */
-cwc.ui.Library.prototype.previewFile = function(name) {
-  var file = this.getFile(name);
-  if (file) {
-    this.setFileName(file.getName());
-    this.nodePreview.src = file.getContent();
-  }
 };
 
 
@@ -283,21 +276,8 @@ cwc.ui.Library.prototype.addFile = function(name, content, opt_type) {
       console.error('Was not able to add File: ' + newFile);
     } else {
       this.syncFiles();
+      this.updateLibraryFileList();
     }
-  }
-};
-
-
-/**
- * @param {string} file_name
- */
-cwc.ui.Library.prototype.setFileName = function(file_name) {
-  var fileName = file_name || 'No file selected.';
-
-  if (this.nodeFile) {
-    goog.dom.setTextContent(this.nodeFile, fileName);
-  } else {
-    console.log('Set filename to:', file_name);
   }
 };
 
@@ -348,9 +328,6 @@ cwc.ui.Library.prototype.handleFileClick_ = function(e) {
     switch (fileAction) {
       case 'insertMacro':
         this.insertFileMacro(fileName);
-        break;
-      case 'previewFile':
-        this.previewFile(fileName);
         break;
     }
   }

@@ -162,7 +162,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
 cwc.utils.Dialog.prototype.showContent = function(title, content) {
   if (this.getDialog_()) {
     this.render(title, content, cwc.soy.Dialog.contentTemplate);
-    var closeButton = goog.dom.getElement(this.prefix + 'close');
+    let closeButton = goog.dom.getElement(this.prefix + 'close');
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
   }
@@ -173,16 +173,18 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
  * @param {!string} title
  * @param {!function (Object, null=, (Object<string,*>|null)=)} template
  * @param {!Object} values
+ * @return {Element}
  * @export
  */
 cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
   if (this.getDialog_()) {
     this.render(title, '', cwc.soy.Dialog.contentTemplate);
-    goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
-        template, values);
-    var closeButton = goog.dom.getElement(this.prefix + 'close');
+    let closeButton = goog.dom.getElement(this.prefix + 'close');
+    let contentNode = goog.dom.getElement(this.prefix + 'content');
+    goog.soy.renderElement(contentNode, template, values);
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
+    return contentNode;
   }
 };
 
@@ -196,6 +198,7 @@ cwc.utils.Dialog.prototype.updateTemplate = function(template, values) {
   if (this.getDialog_()) {
     goog.soy.renderElement(goog.dom.getElement(this.prefix + 'content'),
         template, values);
+    this.refresh_();
   }
 };
 

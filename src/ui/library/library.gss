@@ -14,77 +14,11 @@
  * limitations under the License.
  */
 
-#{$prefix}library-overview {
- padding: 2px;
- background: #fff;
- min-width: 600px;
- min-height: 400px;
-}
-
 #{$prefix}library-chrome {
-  background: #fff;
-}
-
-#{$prefix}library-preview-body {
-  height: 120px;
-  border: 1px solid #aaa;
-}
-
-#{$prefix}library-preview-body webview, #{$prefix}library-preview {
-  display: block;
-  height: 100%;
-  width: 100%;
-}
-
-#{$prefix}library-file-list webview {
-  display: block;
-  height: 20px;
-  width: 20px;
-}
-
-#{$prefix}library-content {
-  overflow: auto;
-  height: 250px;
-  border: 1px solid #aaa;
-  margin: auto;
-}
-
-#{$prefix}library-content > table {
-  width: 100%;
-  min-width: 400px;
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-#{$prefix}library-content tr {
-  text-align: left;
-  padding: 1px;
-  background: #dedede;
-  opacity: .8;
-}
-
-#{$prefix}library-content tr:nth-child(even):hover,
-#{$prefix}library-content tr:nth-child(odd):hover {
-  opacity: 1;
-}
-
-#{$prefix}library-content tr:nth-child(even) {
-  background: #ddd;
-}
-
-#{$prefix}library-content tr:nth-child(odd) {
-  background: #eee;
-}
-
-#{$prefix}library-content th {
-  text-align: left;
   padding: 2px;
-  border-bottom: 1px solid #666;
-}
-
-#{$prefix}library-content td {
-  text-align: left;
+  background: #fff;
+  min-width: 600px;
+  min-height: 400px;
 }
 
 #{$prefix}library-action {
@@ -122,10 +56,46 @@
   width: 250px;
 }
 
+.{$prefix}library-all-entry {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 200px;
+  height: 25px;
+  position: relative;
+}
+
+.{$prefix}library-all-entry i {
+  vertical-align: middle;
+}
+
+.{$prefix}library-audio-entry {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.{$prefix}library-audio-entry audio {
+  width: 100px;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.{$prefix}library-audio-entry i {
+  vertical-align: middle;
+}
+
 .{$prefix}library-image-entry {
   padding: 10px;
   margin: 10px;
-  border: 1px solid #4d90fe;
+  border: 1px solid #ccc;
   float: left;
 }
 
@@ -140,5 +110,3 @@
   padding-top: 10px;
   height: 40px;
 }
-
-

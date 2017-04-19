@@ -49,8 +49,8 @@ Blockly.JavaScript['phaser_add_audio'] = function(block) {
   var dropdown_loop = block.getFieldValue('loop');
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = game.add.audio(' + text_audio + ', ' +
-    number_volume / 100 + ', \'' + dropdown_loop + '\');\n';
+  return variable + ' = game.add.audio(\'' + text_audio + '\', ' +
+    number_volume / 100 + ', ' + dropdown_loop + ');\n';
 };
 
 

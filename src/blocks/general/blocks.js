@@ -46,6 +46,7 @@ Blockly.Blocks['general_file_library'] = {
     this.appendDummyInput()
         .appendField(i18t('file'))
         .appendField('...', 'filename');
+    this.getField('filename').EDITABLE = true;
     this.setOutput(true, null);
     this.setColour(150);
     this.setTooltip('');
@@ -83,6 +84,7 @@ Blockly.Blocks['general_file_library_audio'] = {
     this.appendDummyInput()
         .appendField(i18t('audio file'))
         .appendField('...', 'filename');
+    this.getField('filename').EDITABLE = true;
     this.setOutput(true, 'Audio');
     this.setColour(150);
     this.setTooltip('');
@@ -99,6 +101,7 @@ Blockly.Blocks['general_file_library_text'] = {
     this.appendDummyInput()
         .appendField(i18t('text file'))
         .appendField('...', 'filename');
+    this.getField('filename').EDITABLE = true;
     this.setOutput(true, 'Text');
     this.setColour(150);
     this.setTooltip('');
