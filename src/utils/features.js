@@ -118,11 +118,16 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
     return;
   }
 
-  // App features
-  this.setChromeFeature('app', typeof chrome.app);
-  if (this.getChromeFeature('app')) {
-    this.setChromeFeature('app.window', typeof chrome.app.window);
+  // Running as Chrome App.
+  if (typeof chrome.app !== 'undefined' &&
+      typeof chrome.app.window !== 'undefined') {
+    this.setChromeFeature('app', true);
+  } else {
+    this.setChromeFeature('app', false);
   }
+
+  // Running on Chrome OS.
+  this.setChromeFeature('os', /\bCrOS\b/.test(navigator.userAgent));
 
   // General features.
   this.setChromeFeature('bluetooth', typeof chrome.bluetooth);

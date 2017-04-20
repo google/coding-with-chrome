@@ -63,12 +63,20 @@
   background-color: rgb(63, 81, 181);
 }
 
+#{$prefix}select-screen-band-logo {
+  color: #fff;
+  font-size: 64px;
+  left: 60px;
+  position: absolute;
+  top: 40px;
+}
+
 #{$prefix}select-screen-band-text {
-  max-width: 800px;
-  margin-left: 20%;
-  padding: 20px;
-  text-align: left;
   color: white;
+  margin-left: 20%;
+  max-width: 800px;
+  padding: 15px;
+  text-align: left;
 }
 
 #{$prefix}select-screen-band-text .mdl-typography--headline {
@@ -86,10 +94,6 @@
 
 #{$prefix}select-screen-band-action > .material-icons {
   vertical-align: top;
-}
-
-#{$prefix}select-screen-welcome {
-  padding: 20px;
 }
 
 #{$prefix}select-screen-welcome > .mdl-grid {

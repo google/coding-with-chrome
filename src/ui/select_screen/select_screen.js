@@ -147,6 +147,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     guiInstance.enableTitle(false);
     guiInstance.setStatus('');
   }
+
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.enableSaveFile(false);
+  }
 };
 
 

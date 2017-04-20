@@ -73,7 +73,7 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
   this.currentView = null;
 
   /** @private {!boolean} */
-  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
 };
 
 

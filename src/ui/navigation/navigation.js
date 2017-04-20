@@ -343,6 +343,15 @@ cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
 
 
 /**
+ * @param {boolean} enable
+ * @export
+ */
+cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
+  goog.style.setElementShown(this.nodeSaveFile, enable);
+};
+
+
+/**
  * Handles keyboard shortcuts.
  * @private
  */

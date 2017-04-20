@@ -123,7 +123,7 @@ describe('StackQueue (autostart)', function() {
             done();
           }, 25);
         }
-      }, 325);
+      }, 350);
     }.bind(this);
 
     counter = 0;

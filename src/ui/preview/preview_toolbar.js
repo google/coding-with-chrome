@@ -232,17 +232,19 @@ cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
 
 /**
  * Toggles the current expand state.
+ * @param {event} e
  */
-cwc.ui.PreviewToolbar.prototype.expand = function() {
-  this.setExpand(true);
+cwc.ui.PreviewToolbar.prototype.expand = function(e) {
+  this.setExpand(true, e.target.closest('.goog-splitpane-first-container'));
 };
 
 
 /**
  * Toggles the current expand state.
+ * @param {event} e
  */
-cwc.ui.PreviewToolbar.prototype.collapse = function() {
-  this.setExpand(false);
+cwc.ui.PreviewToolbar.prototype.collapse = function(e) {
+  this.setExpand(false, e.target.closest('.goog-splitpane-first-container'));
 };
 
 
@@ -260,12 +262,17 @@ cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
 /**
  * Expands or collapse the current window.
  * @param {boolean} expand
+ * @param {boolean} invert
  */
-cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
+cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert) {
   this.expandState = expand;
   var layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    layoutInstance.setFullscreen(expand, 0);
+    if (invert) {
+      layoutInstance.setFullscreen(expand);
+    } else {
+      layoutInstance.setFullscreen(expand, 0);
+    }
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }

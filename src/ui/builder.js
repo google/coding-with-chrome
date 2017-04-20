@@ -176,7 +176,7 @@ cwc.ui.Builder = function() {
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
 
   /** @private {!boolean} */
-  this.chromeApp_ = this.helper.checkChromeFeature('app.window');
+  this.chromeApp_ = this.helper.checkChromeFeature('app');
 };
 
 

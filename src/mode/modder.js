@@ -62,8 +62,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     (modeConfig.description ? ':' + modeConfig.description : '')
   );
 
-  if (modeConfig.title) {
-    this.setNavHeader_(modeConfig.title, modeConfig.icon);
+  var navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    if (modeConfig.title) {
+      navigationInstance.setHeader(modeConfig.title, modeConfig.icon);
+    }
+    navigationInstance.enableSaveFile(true);
   }
 
   this.mode = mode;
@@ -187,20 +191,5 @@ cwc.mode.Modder.prototype.setTitle = function(title) {
   if (guiInstance) {
     guiInstance.enableTitle(true);
     guiInstance.setTitle(title);
-  }
-};
-
-
-/**
- * @param {!string} title
- * @param {string=} opt_icon
- * @param {string=} opt_color_class
- * @private
- */
-cwc.mode.Modder.prototype.setNavHeader_ = function(title,
-    opt_icon, opt_color_class) {
-  var navigationInstance = this.helper.getInstance('navigation');
-  if (navigationInstance) {
-    navigationInstance.setHeader(title, opt_icon, opt_color_class);
   }
 };

@@ -58,7 +58,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
   this.connectionIds = {};
 
   /** @private {!boolean} */
-  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {chrome.bluetooth} */
   this.bluetooth_ = this.isChromeApp_ && chrome.bluetooth;

@@ -108,7 +108,10 @@ cwc.ui.Menubar = function(helper) {
   this.currentWindow =  null;
 
   /** @private {!boolean} */
-  this.isChromeApp_ = this.helper.checkChromeFeature('app.window');
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!boolean} */
+  this.isChromeOS_ = this.helper.checkChromeFeature('os');
 };
 
 
@@ -132,7 +135,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   // Account body
   this.nodeAccountBody = goog.dom.getElement(this.prefix + 'account-body');
   goog.style.setElementShown(this.nodeAccountBody,
-    this.helper.checkChromeFeature('manifest.oauth2'));
+    !this.isChromeOS_ && this.helper.checkChromeFeature('manifest.oauth2'));
 
   // Account login
   this.nodeAccountLogin = goog.dom.getElement(this.prefix + 'account');

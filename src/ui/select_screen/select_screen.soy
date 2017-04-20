@@ -124,11 +124,12 @@
   {@param? opt_action: html}
 
   <div id="{$prefix}band">
+    <div id="{$prefix}band-logo" class="material-icons">school</div>
     <div id="{$prefix}band-text">
-      <div class="mdl-typography--display-1 mdl-typography--font-thin">
+      <div class="mdl-typography--headline mdl-typography--font-thin">
         {msg desc=""}{$title}{/msg}
       </div>
-      <p class="mdl-typography--headline mdl-typography--font-thin">
+      <p class="mdl-typography--title mdl-typography--font-thin">
         {msg desc=""}{$text}{/msg}
       </p>
       {if $opt_text}

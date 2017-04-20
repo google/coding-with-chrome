@@ -54,6 +54,7 @@ tr:nth-of-type(even) {
 .link_text {
   color: #ff4081;
   font-weight: 500;
+  vertical-align: middle;
 }
 
 .link_text,
