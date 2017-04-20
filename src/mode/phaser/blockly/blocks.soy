@@ -84,50 +84,6 @@
 
     <sep></sep>
 
-    <category name="Physics" colour="0">
-      <block type="phaser_physics_arcade_enable">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_pyhsics_arcade_sprite">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-        <value name="value">
-          <block type="math_number"></block>
-        </value>
-      </block>
-      <block type="phaser_physics_arcade_overlap">
-        <value name="object1">
-          <block type="variables_get">
-            <field name="VAR">player</field>
-          </block>
-        </value>
-        <value name="object2">
-          <block type="variables_get">
-            <field name="VAR">obstacle</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_physics_arcade_collide">
-        <value name="object1">
-          <block type="variables_get">
-            <field name="VAR">player</field>
-          </block>
-        </value>
-        <value name="object2">
-          <block type="variables_get">
-            <field name="VAR">obstacle</field>
-          </block>
-        </value>
-      </block>
-    </category>
-
     <category name="Generators" colour="105">
       <block type="phaser_generator_obstacle_vertical">
         <value name="obstacles">
@@ -169,64 +125,19 @@
       </block>
     </category>
 
-    <category name="Sprite" colour="225">
-      <block type="phaser_sprite_adjust">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-        <value name="value">
-          <block type="math_number"></block>
-        </value>
-      </block>
-      <block type="phaser_sprite_get">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_sprite_destroy">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-      </block>
-    </category>
+    <category name="Sprites">
+      <category name="Sprite" colour="225">
+        {call .spriteBlocks /}
+      </category>
 
-    <category name="Tile Sprite" colour="285">
-      <block type="phaser_tile_sprite_adjust">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-        <value name="value">
-          <block type="math_number"></block>
-        </value>
-      </block>
-      <block type="phaser_tile_sprite_destroy">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-      </block>
-      <block type="phaser_tile_sprite_autoScroll">
-        <value name="sprite">
-          <block type="variables_get">
-            <field name="VAR">sprite</field>
-          </block>
-        </value>
-        <value name="x">
-          <block type="math_number">-100</block>
-        </value>
-        <value name="y">
-          <block type="math_number"></block>
-        </value>
-      </block>
+      <category name="Tile Sprite" colour="285">
+        {call .tileSpriteBlocks /}
+      </category>
+
+      <category name="Physics Sprite" colour="0">
+        {call .physicsSpriteBlocks /}
+      </category>
+
     </category>
 
     <category name="Text Object" colour="255">
@@ -509,4 +420,120 @@
     </value>
   </block>
 
+{/template}
+
+
+/**
+ * Arcade sprite blocks.
+ */
+{template .physicsSpriteBlocks}
+  <block type="phaser_physics_arcade_enable">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_pyhsics_arcade_sprite">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
+  <block type="phaser_physics_arcade_overlap">
+    <value name="object1">
+      <block type="variables_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+    <value name="object2">
+      <block type="variables_get">
+        <field name="VAR">obstacle</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_physics_arcade_collide">
+    <value name="object1">
+      <block type="variables_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+    <value name="object2">
+      <block type="variables_get">
+        <field name="VAR">obstacle</field>
+      </block>
+    </value>
+  </block>
+{/template}
+
+
+/**
+ * Sprite blocks.
+ */
+{template .spriteBlocks}
+  <block type="phaser_sprite_adjust">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
+  <block type="phaser_sprite_get">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_sprite_destroy">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+{/template}
+
+
+/**
+ * Tile Sprite blocks.
+ */
+{template .tileSpriteBlocks}
+  <block type="phaser_tile_sprite_adjust">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
+  <block type="phaser_tile_sprite_destroy">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+  <block type="phaser_tile_sprite_autoScroll">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+    <value name="x">
+      <block type="math_number">-100</block>
+    </value>
+    <value name="y">
+      <block type="math_number"></block>
+    </value>
+  </block>
 {/template}

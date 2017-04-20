@@ -57,6 +57,10 @@
   background: rgba(200,200,200,0.5);
 }
 
+.blocklyToolboxDiv [role=treeitem] [role=group] {
+  padding-left: 20px;
+}
+
 .blocklyTreeRoot {
   padding: 4px !important;
 }
@@ -68,8 +72,9 @@
   box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
 }
 
-.blocklyTreeRow:hover {
-  background-color: #90A4AE !important;
+.blocklyTreeRowItem_sprites > .blocklyTreeRow {
+  border-left: 0 !important;
+  padding-left: 8px !important;
 }
 
 .blocklyTreeLabel {
@@ -89,3 +94,5 @@
   font-family: inherit !important;
   font-size: 14px !important;
 }
+
+

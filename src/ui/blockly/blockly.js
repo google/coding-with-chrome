@@ -25,6 +25,7 @@ goog.require('cwc.ui.Helper');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
+goog.require('goog.dom.classlist');
 goog.require('goog.math.Size');
 goog.require('goog.style');
 
@@ -178,6 +179,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
   } else {
     this.adjustSize();
   }
+  this.decorateToolbox_();
 
   // Monitor changes
   var viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -195,6 +197,31 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
         this.cleanUp, false, this);
   }
   this.enabled = true;
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Blockly.prototype.decorateToolbox_ = function() {
+  var treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
+  if (!treeRoot) {
+    return;
+  }
+
+  var treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
+  for (let name in treeLabels) {
+    var treeLabel = treeLabels[name];
+    if (!treeLabel.textContent) {
+      continue;
+    }
+    var label = treeLabel.textContent.replace(/([^a-z0-9 ]+)/gi, '')
+      .replace(/( )+/g, '_').toLowerCase();
+    var blocklyTreeRowItem = treeLabel.parentNode.parentNode;
+    if (blocklyTreeRowItem) {
+      goog.dom.classlist.add(blocklyTreeRowItem, 'blocklyTreeRowItem_' + label);
+    }
+  }
 };
 
 
@@ -372,6 +399,7 @@ cwc.ui.Blockly.prototype.updateToolbox = function(opt_toolbox) {
   var workspace = this.getWorkspace();
   if (workspace) {
     workspace.updateToolbox(opt_toolbox || this.nodeBlocklyToolbox_);
+    this.decorateToolbox_();
   }
   this.resize();
 };
@@ -397,11 +425,9 @@ cwc.ui.Blockly.prototype.setToolboxTemplate = function(template, opt_data) {
 cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
     opt_template, opt_data) {
   var template = opt_template || this.toolboxTemplate;
-  var workspace = this.getWorkspace();
-  if (template && workspace) {
+  if (template) {
     var toolbox = template(opt_data || this.toolboxTemplateData).content;
-    workspace.updateToolbox(toolbox);
-    this.resize();
+    this.updateToolbox(toolbox);
   } else {
     console.warn('Was unable to update Blockly toolbox.');
   }

@@ -173,7 +173,6 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
  * @param {!string} title
  * @param {!function (Object, null=, (Object<string,*>|null)=)} template
  * @param {!Object} values
- * @return {Element}
  * @export
  */
 cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
@@ -184,7 +183,6 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
     goog.soy.renderElement(contentNode, template, values);
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
-    return contentNode;
   }
 };
 
