@@ -115,9 +115,11 @@ Blockly.Blocks['phaser_add_sprite'] = {
     this.appendDummyInput()
         .appendField('as sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position')
-        .appendField(new Blockly.FieldNumber(50), 'x')
-        .appendField(new Blockly.FieldNumber(50), 'y');
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -138,9 +140,11 @@ Blockly.Blocks['phaser_add_arcade_sprite'] = {
     this.appendDummyInput()
         .appendField('as arcade sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position')
-        .appendField(new Blockly.FieldNumber(50), 'x')
-        .appendField(new Blockly.FieldNumber(50), 'y');
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -162,10 +166,59 @@ Blockly.Blocks['phaser_add_text'] = {
          .appendField('as text');
     this.appendValueInput('text')
         .setCheck('String');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField('on');
+    this.appendValueInput('y')
+        .setCheck('Number');
     this.appendDummyInput()
-        .appendField('on')
-        .appendField(new Blockly.FieldNumber(10), 'x')
-        .appendField(new Blockly.FieldNumber(10), 'y')
+        .appendField('with style')
+        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
+        .appendField(new Blockly.FieldTextInput('16px'), 'size')
+        .appendField(new Blockly.FieldDropdown([
+          ['Arial Black', 'Arial Black'],
+          ['Arial Narrow', 'Arial Narrow'],
+          ['Arial', 'Arial'],
+          ['Comic Sans MS', 'Comic Sans MS'],
+          ['Courier New', 'Courier New'],
+          ['Georgia', 'Georgia'],
+          ['Helvetica', 'Helvetica'],
+          ['Impact', 'Impact'],
+          ['Lucida Console', 'Lucida Console'],
+          ['Tahoma', 'Tahoma'],
+          ['Times New Roman', 'Times New Roman'],
+          ['Verdana', 'Verdana'],
+          ['Webdings', 'Webdings'],
+          ['Wingdings', 'Wingdings'],
+          ['sans-serif', 'sans-serif'],
+        ]), 'font');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(30);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Add action text.
+ */
+Blockly.Blocks['phaser_add_action_text'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField('define');
+    this.appendDummyInput()
+         .appendField('as action text');
+    this.appendValueInput('text')
+        .setCheck('String');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField('on');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.appendDummyInput()
         .appendField('with style')
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
@@ -206,9 +259,12 @@ Blockly.Blocks['phaser_add_tile_sprite'] = {
     this.appendDummyInput()
         .appendField('as tile sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position')
-        .appendField(new Blockly.FieldNumber(0), 'x')
-        .appendField(new Blockly.FieldNumber(400), 'y')
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.appendDummyInput()
         .appendField('with size')
         .appendField(new Blockly.FieldNumber(400), 'width')
         .appendField(new Blockly.FieldNumber(50), 'height')

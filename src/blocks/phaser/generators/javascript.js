@@ -36,9 +36,13 @@ Blockly.JavaScript['phaser_generator_obstacle_vertical'] = function(block) {
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_value = Blockly.JavaScript.valueToCode(
+    block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_property = block.getFieldValue('property');
 
-  return 'cwc.framework.Phaser.VerticalObstacleGenerator(' +
+  return 'cwc.framework.Phaser.VerticalObstacleGenerator(\n  ' +
     value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
     value_spaces + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
-    value_sprite_bottom + ', ' + value_group + ');\n';
+    value_sprite_bottom + ', ' + value_group + ', \'' + dropdown_property +
+    '\', ' +  value_value + ');\n';
 };

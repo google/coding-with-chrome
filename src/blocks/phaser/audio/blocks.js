@@ -1,5 +1,5 @@
 /**
- * @fileoverview Phaser Blocks for Blockly.
+ * @fileoverview Phaser Audio Blocks for Blockly.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -19,21 +19,18 @@
  */
 
 
+
 /**
- * Adjust text.
+ * Play audio.
  */
-Blockly.Blocks['phaser_text_change'] = {
+Blockly.Blocks['phaser_audio_play'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('change');
-    this.appendValueInput('text')
-        .setCheck(null)
-        .appendField('text to');
-    this.setInputsInline(true);
+        .appendField(i18t('play audio'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(255);
+    this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -41,15 +38,16 @@ Blockly.Blocks['phaser_text_change'] = {
 
 
 /**
- * Get text.
+ * Pause audio.
  */
-Blockly.Blocks['phaser_text_get'] = {
+Blockly.Blocks['phaser_audio_pause'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
-        .appendField(i18t('get text'));
-    this.setOutput(true, null);
-    this.setColour(255);
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('pause audio'));
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -57,20 +55,33 @@ Blockly.Blocks['phaser_text_get'] = {
 
 
 /**
- * Text clicked.
+ * Resume audio.
  */
-Blockly.Blocks['phaser_text_clicked'] = {
+Blockly.Blocks['phaser_audio_resume'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('on click on action text'));
-    this.appendStatementInput('func')
-        .setCheck(null)
-        .appendField('do');
-    this.setInputsInline(true);
+        .appendField(i18t('resume audio'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(255);
+    this.setColour(245);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Stop audio.
+ */
+Blockly.Blocks['phaser_audio_stop'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('stop audio'));
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
   }

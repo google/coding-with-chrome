@@ -68,7 +68,6 @@
           {param link_id: 'games' /}
           {param opt_color_class: 'bg-lime' /}
           {param opt_icon: 'videogame_asset' /}
-          {param opt_hidden: true /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
@@ -122,7 +121,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Start building new code' /}
-          {param link_text: 'create new program' /}
+          {param opt_link_text: 'create new program' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -133,7 +132,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Hello World' /}
           {param text: 'Try a Hello World example' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/basic-block-hello-world.png' /}
@@ -142,7 +140,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Text loop' /}
           {param text: 'Write many things on the screen with a repeating program (a loop)' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/basic-block-text-loop.png' /}
@@ -219,7 +216,7 @@
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Games' /}
         {param opt_text: 'Create your own games...' /}
-        {param opt_color_class: 'bg-red' /}
+        {param opt_color_class: 'bg-lime' /}
         {param opt_icon: 'videogame_asset' /}
       {/call}
 
@@ -227,8 +224,8 @@
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
-          {param text: 'Create artworks of colors and forms' /}
-          {param link_text: 'Empty project' /}
+          {param text: 'Create your own game' /}
+          {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -237,9 +234,18 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {param title: 'Swtich game state' /}
+          {param text: 'Switch from one game state to another game state' /}
+          {param link_id: 'switch-game-state' /}
+          {param opt_image: '' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'keyboard' /}
+          {param opt_text: 'Example' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Move a sprite' /}
           {param text: 'Move a sprite with your cursor keys' /}
-          {param link_text: 'Load move a sprite' /}
           {param link_id: 'move-a-sprite' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -376,7 +382,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive an EV3 or an on-screen robot with Blockly' /}
-          {param link_text: 'new EV3 blocks program' /}
+          {param opt_link_text: 'New EV3 blocks program' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
@@ -386,7 +392,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Educator - Block Grabber' /}
           {param text: 'Educator Robot is grabbing a block' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'block-grabber' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/ev3-block-block-grabber.png' /}
@@ -395,7 +400,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Color sensor - sound' /}
           {param text: 'Plays different tones depending on the detected color.' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'color-sensor' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/ev3-block-color-sensor-sound.png' /}
@@ -447,7 +451,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a Sphero or an on-screen robot with Blockly' /}
-          {param link_text: 'new Sphero blocks program' /}
+          {param opt_link_text: 'new Sphero blocks program' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -458,7 +462,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Rectangle example' /}
           {param text: 'Try a Sphero example - rolling a rectangle' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/sphero-block-rectangle.png' /}
@@ -467,7 +470,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Collison Example' /}
           {param text: 'Try a Sphero example - change color on collision' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'collision' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: 'images/selection/sphero-block-collison.png' /}
@@ -519,7 +521,7 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot or an on-screen robot with Blockly' /}
-          {param link_text: 'new mbot blocks program' /}
+          {param opt_link_text: 'new mbot blocks program' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -530,7 +532,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Button turn on light' /}
           {param text: 'Pressing the on-board button will turn on the light' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'button_light' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
@@ -539,7 +540,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Sound on present' /}
           {param text: 'Place the hand over the mBot to play a sound' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'lightness_sound' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
@@ -548,7 +548,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Collison avoidance' /}
           {param text: 'Try a mBot example - Collision avoidance' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'collision_avoidance' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
@@ -557,7 +556,6 @@
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Line follower' /}
           {param text: 'mBot will follow a black line' /}
-          {param link_text: 'Try example' /}
           {param link_id: 'line_follower' /}
           {param opt_color_class: 'bg-blue' /}
           {param opt_image: '' /}
@@ -610,7 +608,7 @@
           {param prefix: $prefix /}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot with Blockly' /}
-          {param link_text: 'New mBot Ranger blocks program' /}
+          {param link_text: 'new mBot Ranger blocks program' /}
           {param link_id: 'blank' /}
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -650,7 +648,6 @@
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Games' /}
         {param id: 'games' /}
-        {param opt_hidden: true /}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}

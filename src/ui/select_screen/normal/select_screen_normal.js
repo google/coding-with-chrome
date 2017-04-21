@@ -132,6 +132,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.showTemplate_(cwc.soy.SelectScreenNormal.gamesOverview);
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.PHASER_BLOCKLY);
+      this.setClickEvent_('link-switch-game-state', this.loadFile_,
+          'resources/examples/phaser/blocks/switch-game-state.cwc');
       this.setClickEvent_('link-move-a-sprite', this.loadFile_,
           'resources/examples/phaser/blocks/Move-a-sprite.cwc');
       break;

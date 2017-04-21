@@ -49,6 +49,8 @@ Blockly.Blocks['phaser_world_attributes'] = {
     this.appendDummyInput()
         .appendField('get world')
         .appendField(new Blockly.FieldDropdown([
+          ['center x', 'centerX'],
+          ['center y', 'centerY'],
           ['width', 'width'],
           ['height', 'height'],
         ]), 'attribute');

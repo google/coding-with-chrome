@@ -68,10 +68,10 @@
  */
 {template .selectCardBig}
   {@param link_id: string}
-  {@param link_text: string}
   {@param prefix: string}
   {@param text: string}
   {@param title: string}
+  {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
@@ -97,7 +97,11 @@
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {msg desc=""}{$link_text}{/msg}
+        {if $opt_link_text}
+          {msg desc=""}{$opt_link_text}{/msg}
+        {else}
+          {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
+        {/if}
         <i class="material-icons">chevron_right</i>
         <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </a>

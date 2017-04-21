@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the Phaser Blocks.
+ * @fileoverview JavaScript for the Phaser Audio Blocks.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -19,37 +19,42 @@
  */
 
 
+
 /**
- * Adjust text.
+ * Play audio.
  */
-Blockly.JavaScript['phaser_text_change'] = function(block) {
-  var value_text = Blockly.JavaScript.valueToCode(
-    block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
+Blockly.JavaScript['phaser_audio_play'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + '.text = ' + value_text + ';\n';
+  return variable + '.play();\n';
 };
 
 
 /**
- * Get text.
+ * Pause audio.
  */
-Blockly.JavaScript['phaser_text_get'] = function(block) {
+Blockly.JavaScript['phaser_audio_pause'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
-    variable + '.text)';
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return variable + '.pause();\n';
 };
 
 
 /**
- * Text clicked.
+ * Resume audio.
  */
-Blockly.JavaScript['phaser_text_clicked'] = function(block) {
+Blockly.JavaScript['phaser_audio_resume'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
-  return variable + '.events.onInputDown.add(function() {\n' +
-    statements_func + '}, this);\n';
+  return variable + '.resume();\n';
+};
+
+
+/**
+ * Stop audio.
+ */
+Blockly.JavaScript['phaser_audio_stop'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + '.stop();\n';
 };

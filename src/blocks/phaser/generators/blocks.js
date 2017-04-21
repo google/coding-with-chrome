@@ -56,6 +56,26 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
         .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField('group');
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('property')
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'acceleration.set'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('value');
+    this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(105);

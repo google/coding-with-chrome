@@ -28,19 +28,27 @@ goog.provide('cwc.framework.Phaser');
  * @param {!number} y
  * @param {!string} sprite_name
  * @param {Object=} opt_group
- * @param {Object=} opt_manipulations
+ * @param {string=} opt_manipulation
+ * @param {string=} opt_manipulation_value
  * @export
  */
 cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
-    opt_group, opt_manipulations) {
+    opt_group, opt_manipulation, opt_manipulation_value) {
   var sprite = game.add.sprite(x, y, sprite_name);
   if (opt_group) {
     opt_group.add(sprite);
   }
   game.physics.arcade.enable(sprite);
-  sprite['body']['velocity']['x'] = -200;
   sprite['checkWorldBounds'] = true;
   sprite['outOfBoundsKill'] = true;
+  if (opt_manipulation && opt_manipulation_value) {
+    if (opt_manipulation.includes('.')) {
+      var attributes = opt_manipulation.split('.');
+      sprite['body'][attributes[0]][attributes[1]] = opt_manipulation_value;
+    } else {
+      sprite['body'][opt_manipulation] = opt_manipulation_value;
+    }
+  }
 };
 
 
@@ -53,26 +61,29 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
  * @param {string=} opt_sprite_top
  * @param {string=} opt_sprite_bottom
  * @param {Object=} opt_group
- * @param {Object=} opt_manipulations
+ * @param {string=} opt_manipulation
+ * @param {string=} opt_manipulation_value
  * @export
  */
 cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
     space, sprite, opt_sprite_top, opt_sprite_bottom, opt_group,
-    opt_manipulations) {
+    opt_manipulation = '', opt_manipulation_value = '') {
   var spriteSpace = game.rnd.integerInRange(1, num_blocks - space - 1);
   var height = game.cache.getImage(sprite).height;
-  //var width = game.cache.getImage(sprite).width;
   for (let i = 0; i < num_blocks; i++) {
     if (i < spriteSpace || i >= spriteSpace + space) {
       if (i == spriteSpace + space && opt_sprite_bottom) {
         cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, opt_sprite_bottom, opt_group, opt_manipulations);
+          x, y + i * height, opt_sprite_bottom, opt_group, opt_manipulation,
+          opt_manipulation_value);
       } else if (i == spriteSpace - 1 && opt_sprite_top) {
         cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, opt_sprite_top, opt_group, opt_manipulations);
+          x, y + i * height, opt_sprite_top, opt_group, opt_manipulation,
+          opt_manipulation_value);
       } else {
         cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, sprite, opt_group, opt_manipulations);
+          x, y + i * height, sprite, opt_group, opt_manipulation,
+          opt_manipulation_value);
       }
     }
   }

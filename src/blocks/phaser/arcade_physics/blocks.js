@@ -98,22 +98,22 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite'] = {
         .appendField(i18t('set physics sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'body.acceleration.set'],
+          [i18t('acceleration'), 'acceleration.set'],
           [i18t('angle'), 'angle'],
-          [i18t('angular velocity'), 'body.angularVelocity'],
-          [i18t('bounce x'), 'body.bounce.x'],
-          [i18t('bounce y'), 'body.bounce.y'],
-          [i18t('bounce'), 'body.bounce.set'],
-          [i18t('allow gravity'), 'body.allowGravity'],
-          [i18t('checkCollision down'), 'body.checkCollision.down'],
-          [i18t('checkCollision up'), 'body.checkCollision.up'],
-          [i18t('collide world bounds'), 'body.collideWorldBounds'],
-          [i18t('gravity x'), 'body.gravity.x'],
-          [i18t('gravity y'), 'body.gravity.y'],
-          [i18t('immovable'), 'body.immovable'],
-          [i18t('velocity x'), 'body.velocity.x'],
-          [i18t('velocity y'), 'body.velocity.y'],
-          [i18t('velocity'), 'body.velocity'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('allow gravity'), 'allowGravity'],
+          [i18t('checkCollision down'), 'checkCollision.down'],
+          [i18t('checkCollision up'), 'checkCollision.up'],
+          [i18t('collide world bounds'), 'collideWorldBounds'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('immovable'), 'immovable'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')

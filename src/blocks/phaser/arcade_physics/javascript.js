@@ -68,16 +68,19 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
   var value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
-    case 'body.acceleration.set':
-    case 'body.bounce.set':
+    case 'angle':
       return value_sprite + '.' + dropdown_property +
+        ' = ' + value_value + ';\n';
+    case 'acceleration.set':
+    case 'bounce.set':
+      return value_sprite + '.body.' + dropdown_property +
         '(' + value_value + ');\n';
-    case 'body.allowGravity':
-    case 'body.checkCollision.down':
-    case 'body.checkCollision.up':
-    case 'body.collideWorldBounds':
-    case 'body.immovable':
-      return value_sprite + '.' + dropdown_property + ' = ' +
+    case 'allowGravity':
+    case 'checkCollision.down':
+    case 'checkCollision.up':
+    case 'collideWorldBounds':
+    case 'immovable':
+      return value_sprite + '.body.' + dropdown_property + ' = ' +
         ((value_value) ? true : false) + ';\n';
     case 'moveUp':
       return value_sprite + '.y -= ' + value_value + ';\n';
@@ -88,7 +91,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
     case 'moveRight':
       return value_sprite + '.x += ' + value_value + ';\n';
     default:
-      return value_sprite + '.' + dropdown_property +
+      return value_sprite + '.body.' + dropdown_property +
       ' = ' + value_value + ';\n';
   }
 };

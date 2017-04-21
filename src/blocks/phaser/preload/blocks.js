@@ -69,7 +69,7 @@ Blockly.Blocks['phaser_load_audio'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField('load audio')
-        .appendField(new Blockly.FieldTextInput('audio'), 'name');
+        .appendField(new Blockly.FieldTextInput('sound'), 'name');
     this.appendValueInput('audio')
         .setCheck('Audio')
         .appendField('from file');
