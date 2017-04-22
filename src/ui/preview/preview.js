@@ -394,14 +394,7 @@ cwc.ui.Preview.prototype.setContentUrl = function(url) {
  * Opens preview in new browser window.
  */
 cwc.ui.Preview.prototype.openInBrowser = function() {
-  var contentUrl = this.getContentUrl();
-  if (this.helper.checkChromeFeature('browser')) {
-    chrome.browser.openTab({
-      url: contentUrl
-    });
-  } else {
-    window.open(contentUrl);
-  }
+  this.helper.openUrl(this.getContentUrl());
 };
 
 

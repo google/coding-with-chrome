@@ -30,9 +30,9 @@ Blockly.Blocks['phaser_game'] = {
         .appendField('Create Game with name')
         .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name')
         .appendField('and size')
-        .appendField(new Blockly.FieldNumber(400), 'width')
+        .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
         .appendField('x')
-        .appendField(new Blockly.FieldNumber(600), 'height');
+        .appendField(new Blockly.FieldNumber(600, 0, 2160), 'height');
     this.setNextStatement(true, null);
     this.setColour(75);
     this.setTooltip('');
