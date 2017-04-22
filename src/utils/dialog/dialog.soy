@@ -144,11 +144,12 @@
   {rb}
 
   #{$prefix}chrome {lb}
-    top: 50%;
-    transform: translateY(-50%);
-    width: -webkit-fit-content;
-    min-width: 300px;
     margin: auto;
+    min-width: 300px;
+    position: fixed;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: -webkit-fit-content;
   {rb}
 
   .{$prefix}prompt-content {lb}
@@ -169,10 +170,8 @@
   {@param prefix: string}
 
   #{$prefix}chrome .mdl-button {lb}
-    background: transparent;
     border: none;
     border-radius: 2px;
-    color: rgb(0,0,0);
     position: relative;
     height: 36px;
     margin: 0;

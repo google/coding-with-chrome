@@ -103,6 +103,9 @@ cwc.utils.Helper = function() {
 
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
+
+  /** @private {Object} */
+  this.hadFirstRun_ = {};
 };
 
 
@@ -490,6 +493,55 @@ cwc.utils.Helper.prototype.endTour = function() {
     if (Shepherd['activeTour']) {
       Shepherd['activeTour']['complete']();
     }
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @return {!boolean}
+ */
+cwc.utils.Helper.prototype.isFirstRun = function(name) {
+  var firstRun = !this.hadFirstRun_[name];
+  if (firstRun) {
+    console.log('First run for', name);
+  }
+  return false;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!boolean} first_run
+ */
+cwc.utils.Helper.prototype.setFirstRun = function(name, first_run) {
+  this.hadFirstRun_[name] = !first_run;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {boolean=} opt_first_run
+ * @return {!boolean}
+ */
+cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
+    opt_first_run=false) {
+  var firstRun = this.isFirstRun(name);
+  this.setFirstRun(name, opt_first_run);
+  return firstRun;
+};
+
+
+/**
+ * @param {!string} url
+ */
+cwc.utils.Helper.prototype.openUrl = function(url) {
+  if (this.checkChromeFeature('browser')) {
+    chrome.browser.openTab({
+      url: url
+    });
+  } else {
+    window.open(url);
   }
 };
 

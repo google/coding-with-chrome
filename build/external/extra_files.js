@@ -153,7 +153,7 @@ closureBuilder.build({
   resources: [
     'third_party/shepherd/dist/css/shepherd-theme-arrows.css',
     'third_party/shepherd/dist/js/shepherd.min.js',
-    'third_party/shepherd/dist/js/tether.js'
+    'third_party/tether/dist/js/tether.min.js'
   ],
   out: 'genfiles/external/shepherd'
 });

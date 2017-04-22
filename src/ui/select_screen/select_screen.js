@@ -64,6 +64,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @type {boolean} */
   this.lockAdvancedMode = false;
+
+  /** @private {Object} */
+  this.tour_ = null;
 };
 
 
@@ -81,6 +84,7 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.selectScreenNormal.decorate(this.nodeContent);
   this.selectScreenAdvanced.decorate(this.nodeContent);
+  this.prepareTour_();
 };
 
 
@@ -156,54 +160,6 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
 
 
 /**
- * Starts an basic tour.
- */
-cwc.ui.SelectScreen.prototype.tour = function() {
-  let tour = new Shepherd['Tour']({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true
-    }
-  });
-
-  tour['addStep']('welcome', {
-    'title': i18t('Welcome to Coding With Chrome!'),
-    'text': i18t('This tour will explain some UI parts.')
-  });
-  tour['addStep']('menubar', {
-    'title': i18t('Menubar'),
-    'text': i18t('...'),
-    'attachTo': '#cwc-gui-bar bottom'
-  });
-  tour['addStep']('navigation', {
-    'title': i18t('Navigation'),
-    'text': i18t('...'),
-    'when': {
-      'before-show': function() {
-        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      }
-    }
-  });
-  tour['addStep']('skip_welcome', {
-    'title': i18t('Show screen on startup'),
-    'text': i18t('...'),
-    'attachTo': '#cwc-select-screen-show-welcome top',
-    'when': {
-      'before-show': function() {
-        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      }
-    }
-  });
-  tour['addStep']('welcome', {
-    'text': i18t('Please select your current coding skill to start.'),
-    'attachTo': '.mdl-grid top'
-  });
-
-  tour['start']();
-};
-
-
-/**
  * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
@@ -228,8 +184,18 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
     this.setClickEvent_('link-intro', this.showIntro);
   }
 
-  if (this.helper.checkJavaScriptFeature('shepherd')) {
-    //this.tour();
+  if (this.helper.getAndSetFirstRun(this.name)) {
+    this.startTour();
+  }
+};
+
+
+/**
+ * Starts an basic tour.
+ */
+cwc.ui.SelectScreen.prototype.startTour = function() {
+  if (this.tour_) {
+    this.tour_['start']();
   }
 };
 
@@ -292,6 +258,55 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
  */
 cwc.ui.SelectScreen.prototype.showIntro = function() {
   this.helper.getInstance('help').showIntro();
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
+  if (!this.helper.checkJavaScriptFeature('shepherd') || this.tour_) {
+    return;
+  }
+
+  this.tour_ = new Shepherd['Tour']({
+    'defaults': {
+      'classes': 'shepherd-theme-arrows',
+      'showCancelLink': true
+    }
+  });
+  this.tour_['addStep']('welcome', {
+    'title': i18t('Welcome to Coding With Chrome!'),
+    'text': i18t('This tour will explain some UI parts.')
+  });
+  this.tour_['addStep']('menubar', {
+    'title': i18t('Menubar'),
+    'text': i18t('...'),
+    'attachTo': '#cwc-gui-bar bottom'
+  });
+  this.tour_['addStep']('navigation', {
+    'title': i18t('Navigation'),
+    'text': i18t('...'),
+    'when': {
+      'before-show': function() {
+        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
+      }
+    }
+  });
+  this.tour_['addStep']('skip_welcome', {
+    'title': i18t('Show screen on startup'),
+    'text': i18t('...'),
+    'attachTo': '#cwc-select-screen-show-welcome top',
+    'when': {
+      'before-show': function() {
+        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
+      }
+    }
+  });
+  this.tour_['addStep']('welcome', {
+    'text': i18t('Please select your current coding skill to start.'),
+    'attachTo': '.mdl-grid top'
+  });
 };
 
 
