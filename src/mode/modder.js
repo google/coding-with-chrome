@@ -55,6 +55,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   if (!modeConfig) {
     return;
   }
+
   console.log('Loading Mode', mode,
     (modeConfig.version ? 'version ' + modeConfig.version : ''),
     (modeConfig.name ? '(' + modeConfig.name + ')' : ''),
@@ -69,6 +70,8 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     }
     navigationInstance.enableSaveFile(true);
   }
+
+  this.helper.endTour();
 
   this.mode = mode;
   console.log('Initialize mode', mode, '…');

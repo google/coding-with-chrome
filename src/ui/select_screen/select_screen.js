@@ -156,6 +156,54 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
 
 
 /**
+ * Starts an basic tour.
+ */
+cwc.ui.SelectScreen.prototype.tour = function() {
+  let tour = new Shepherd['Tour']({
+    'defaults': {
+      'classes': 'shepherd-theme-arrows',
+      'showCancelLink': true
+    }
+  });
+
+  tour['addStep']('welcome', {
+    'title': i18t('Welcome to Coding With Chrome!'),
+    'text': i18t('This tour will explain some UI parts.')
+  });
+  tour['addStep']('menubar', {
+    'title': i18t('Menubar'),
+    'text': i18t('...'),
+    'attachTo': '#cwc-gui-bar bottom'
+  });
+  tour['addStep']('navigation', {
+    'title': i18t('Navigation'),
+    'text': i18t('...'),
+    'when': {
+      'before-show': function() {
+        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
+      }
+    }
+  });
+  tour['addStep']('skip_welcome', {
+    'title': i18t('Show screen on startup'),
+    'text': i18t('...'),
+    'attachTo': '#cwc-select-screen-show-welcome top',
+    'when': {
+      'before-show': function() {
+        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
+      }
+    }
+  });
+  tour['addStep']('welcome', {
+    'text': i18t('Please select your current coding skill to start.'),
+    'attachTo': '.mdl-grid top'
+  });
+
+  tour['start']();
+};
+
+
+/**
  * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
@@ -179,6 +227,10 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   if (this.helper.checkFeature('online')) {
     this.setClickEvent_('link-intro', this.showIntro);
   }
+
+  if (this.helper.checkJavaScriptFeature('shepherd')) {
+    //this.tour();
+  }
 };
 
 
@@ -188,6 +240,8 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
  */
 cwc.ui.SelectScreen.prototype.showNormalOverview = function(
     opt_force_overview) {
+
+  this.helper.endTour();
   this.lockBasicMode = true;
   this.lockAdvancedMode = false;
   if (this.updateMode) {
@@ -212,6 +266,8 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function(
  */
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
     opt_force_overview) {
+
+  this.helper.endTour();
   this.lockAdvancedMode = true;
   this.lockBasicMode = false;
   if (this.updateMode) {

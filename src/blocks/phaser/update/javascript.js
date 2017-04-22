@@ -24,5 +24,5 @@
  */
 Blockly.JavaScript['phaser_update'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'update: function() {\n' + statements_code + '},\n';
+  return 'update: function(e) {\n' + statements_code + '},\n';
 };

@@ -21,6 +21,20 @@
 
 
 /**
+ * Add audio.
+ */
+Blockly.JavaScript['phaser_audio_add'] = function(block) {
+  var text_audio = block.getFieldValue('audio');
+  var number_volume = block.getFieldValue('volume');
+  var dropdown_loop = block.getFieldValue('loop');
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = game.add.audio(\'' + text_audio + '\', ' +
+    number_volume / 100 + ', ' + (dropdown_loop || 'false') + ');\n';
+};
+
+
+/**
  * Play audio.
  */
 Blockly.JavaScript['phaser_audio_play'] = function(block) {

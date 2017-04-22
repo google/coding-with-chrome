@@ -20,13 +20,38 @@
 
 
 /**
+ * Add sprite.
+ */
+Blockly.Blocks['phaser_sprite_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField('define');
+    this.appendDummyInput()
+        .appendField('as sprite')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Adjust sprite.
  */
 Blockly.Blocks['phaser_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([

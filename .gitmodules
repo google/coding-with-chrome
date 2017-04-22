@@ -78,3 +78,7 @@
 [submodule "third_party/phaser"]
 	path = third_party/phaser
 	url = https://github.com/photonstorm/phaser.git
+
+[submodule "third_party/shepherd"]
+	path = third_party/shepherd
+	url = https://github.com/HubSpot/shepherd.git

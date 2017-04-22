@@ -20,6 +20,22 @@
 
 
 /**
+ * Add sprite.
+ */
+Blockly.JavaScript['phaser_sprite_add'] = function(block) {
+  var text_sprite = block.getFieldValue('sprite');
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
+    ', \'' + text_sprite + '\');\n';
+};
+
+
+/**
  * Adjust sprite.
  */
 Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {

@@ -28,7 +28,6 @@
 @import 'menuitem.css';
 @import 'splitpane.css';
 @import 'tablesorter.css';
-@import 'toolbar.css';
 
 .modal-dialog, .modal-dialog-bg, .goog-menu {
   z-index: 100;

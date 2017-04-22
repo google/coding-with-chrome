@@ -24,7 +24,7 @@
  */
 Blockly.JavaScript['phaser_input'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'input_: function() {\n' + statements_code + '},\n';
+  return 'input_: function(e) {\n' + statements_code + '},\n';
 };
 
 

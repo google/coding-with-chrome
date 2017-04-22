@@ -45,7 +45,9 @@
       </category>
 
       <category name="Audio" colour="245">
-        {call .audioBlocks /}
+        {call .audioBlocks}
+          {param opt_show_create_blocks: true /}
+        {/call}
       </category>
 
       <category name="Sprite" colour="225">
@@ -55,15 +57,21 @@
       </category>
 
       <category name="Tile Sprite" colour="285">
-        {call .tileSpriteBlocks /}
+        {call .tileSpriteBlocks}
+          {param opt_show_create_blocks: true /}
+        {/call}
       </category>
 
       <category name="Physics Sprite" colour="0">
-        {call .physicsSpriteBlocks /}
+        {call .physicsSpriteBlocks}
+          {param opt_show_create_blocks: true /}
+        {/call}
       </category>
 
       <category name="Text" colour="255">
-        {call .textBlocks /}
+        {call .textBlocks}
+          {param opt_show_create_blocks: true /}
+        {/call}
       </category>
 
       <category name="Generators" colour="105">
@@ -198,6 +206,18 @@
  * Audio blocks.
  */
 {template .audioBlocks}
+  {@param? opt_show_create_blocks: bool}
+
+  {if $opt_show_create_blocks}
+    <block type="phaser_audio_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">sound</field>
+        </block>
+      </value>
+    </block>
+  {/if}
+
   <block type="phaser_audio_play">
     <value name="variable">
       <block type="variables_get">
@@ -241,6 +261,48 @@
  * Text blocks.
  */
 {template .textBlocks}
+  {@param? opt_show_create_blocks: bool}
+
+  {if $opt_show_create_blocks}
+    <block type="phaser_text_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">title</field>
+        </block>
+      </value>
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Hello World</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_action_text_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">start_text</field>
+        </block>
+      </value>
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Start the Game!</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+  {/if}
+
   <block type="phaser_text_change">
     <value name="variable">
       <block type="variables_get">
@@ -334,100 +396,6 @@
 
   <block type="phaser_add_background"></block>
 
-  <block type="phaser_add_audio">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">sound</field>
-      </block>
-    </value>
-  </block>
-
-  <label text="Sprites" web-class="blocklyCustomLabel"></label>
-
-  <block type="phaser_add_sprite">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">object</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">50</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">50</field></block>
-    </value>
-  </block>
-
-  <block type="phaser_add_arcade_sprite">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">player</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">100</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">100</field></block>
-    </value>
-  </block>
-
-  <block type="phaser_add_tile_sprite">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">blocks</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">0</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">550</field></block>
-    </value>
-  </block>
-
-  <label text="Text" web-class="blocklyCustomLabel"></label>
-
-  <block type="phaser_add_text">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">title</field>
-      </block>
-    </value>
-    <value name="text">
-      <block type="text">
-        <field name="TEXT">Hello World</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">10</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">10</field></block>
-    </value>
-  </block>
-
-  <block type="phaser_add_action_text">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">start_text</field>
-      </block>
-    </value>
-    <value name="text">
-      <block type="text">
-        <field name="TEXT">Start the Game!</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="math_number"><field name="NUM">10</field></block>
-    </value>
-    <value name="y">
-      <block type="math_number"><field name="NUM">10</field></block>
-    </value>
-  </block>
-
-  <label text="Input" web-class="blocklyCustomLabel"></label>
-
   <block type="phaser_add_input_keyboard_cursor_keys">
     <value name="variable">
       <block type="variables_get">
@@ -517,6 +485,12 @@
  * Input blocks.
  */
 {template .inputBlocks}
+  {@param? opt_show_create_blocks: bool}
+
+  {if $opt_show_create_blocks}
+
+  {/if}
+
   <block type="phaser_input"></block>
 
   <block type="phaser_input_keyboard_key_is_pressed">
@@ -624,15 +598,25 @@
  * Arcade sprite blocks.
  */
 {template .physicsSpriteBlocks}
-  <block type="phaser_physics_arcade_enable">
-    <value name="sprite">
-      <block type="variables_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-  </block>
+  {@param? opt_show_create_blocks: bool}
 
-  <block type="phaser_pyhsics_arcade_sprite">
+  {if $opt_show_create_blocks}
+    <block type="phaser_pyhsics_arcade_sprite_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+    </block>
+  {/if}
+
+  <block type="phaser_pyhsics_arcade_sprite_adjust">
     <value name="sprite">
       <block type="variables_get">
         <field name="VAR">sprite</field>
@@ -640,6 +624,14 @@
     </value>
     <value name="value">
       <block type="math_number"></block>
+    </value>
+  </block>
+
+  <block type="phaser_physics_arcade_enable">
+    <value name="sprite">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
     </value>
   </block>
 
@@ -678,7 +670,7 @@
   {@param? opt_show_create_blocks: bool}
 
   {if $opt_show_create_blocks}
-    <block type="phaser_add_sprite">
+    <block type="phaser_sprite_add">
       <value name="variable">
         <block type="variables_get">
           <field name="VAR">object</field>
@@ -726,6 +718,24 @@
  * Tile Sprite blocks.
  */
 {template .tileSpriteBlocks}
+  {@param? opt_show_create_blocks: bool}
+
+  {if $opt_show_create_blocks}
+    <block type="phaser_tile_sprite_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">blocks</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">550</field></block>
+      </value>
+    </block>
+  {/if}
+
   <block type="phaser_tile_sprite_adjust">
     <value name="sprite">
       <block type="variables_get">

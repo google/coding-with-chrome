@@ -172,6 +172,7 @@ cwc.ui.Navigation.prototype.show = function() {
   if (!mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
+  this.helper.tourEvent('navigation-show');
 };
 
 
@@ -187,6 +188,7 @@ cwc.ui.Navigation.prototype.hide = function() {
   if (mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
+  this.helper.tourEvent('navigation-hide');
 };
 
 

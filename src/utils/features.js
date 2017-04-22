@@ -199,6 +199,7 @@ cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
   this.setJavaScriptFeature('htmlhint', typeof window['HTMLHint']);
   this.setJavaScriptFeature('i18next', typeof window['i18next']);
   this.setJavaScriptFeature('jshint', typeof window['JSHINT']);
+  this.setJavaScriptFeature('shepherd', typeof window['Shepherd']);
 };
 
 

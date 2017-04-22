@@ -26,7 +26,7 @@
 Blockly.Blocks['phaser_create'] = {
   init: function() {
     this.appendDummyInput()
-      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(Blockly.BlocksTemplate.addCircle())
       .appendField(i18t('on create do'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE)
@@ -60,33 +60,6 @@ Blockly.Blocks['phaser_stage_background_color'] = {
 
 
 /**
- * Add sprite.
- */
-Blockly.Blocks['phaser_add_audio'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-        .appendField('as audio')
-        .appendField(new Blockly.FieldTextInput('name'), 'audio')
-        .appendField('with volume')
-        .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
-        .appendField('%')
-        .appendField(new Blockly.FieldDropdown([
-          ['no loop', false],
-          ['loop', true],
-        ]), 'loop');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
  * Add background.
  */
 Blockly.Blocks['phaser_add_background'] = {
@@ -105,187 +78,12 @@ Blockly.Blocks['phaser_add_background'] = {
 
 
 /**
- * Add sprite.
- */
-Blockly.Blocks['phaser_add_sprite'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-        .appendField('as sprite')
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
-    this.appendValueInput('x')
-        .setCheck('Number');
-    this.appendValueInput('y')
-        .setCheck('Number');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add arcade sprite.
- */
-Blockly.Blocks['phaser_add_arcade_sprite'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-        .appendField('as arcade sprite')
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
-    this.appendValueInput('x')
-        .setCheck('Number');
-    this.appendValueInput('y')
-        .setCheck('Number');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add text.
- */
-Blockly.Blocks['phaser_add_text'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-         .appendField('as text');
-    this.appendValueInput('text')
-        .setCheck('String');
-    this.appendValueInput('x')
-        .setCheck('Number')
-        .appendField('on');
-    this.appendValueInput('y')
-        .setCheck('Number');
-    this.appendDummyInput()
-        .appendField('with style')
-        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
-        .appendField(new Blockly.FieldTextInput('16px'), 'size')
-        .appendField(new Blockly.FieldDropdown([
-          ['Arial Black', 'Arial Black'],
-          ['Arial Narrow', 'Arial Narrow'],
-          ['Arial', 'Arial'],
-          ['Comic Sans MS', 'Comic Sans MS'],
-          ['Courier New', 'Courier New'],
-          ['Georgia', 'Georgia'],
-          ['Helvetica', 'Helvetica'],
-          ['Impact', 'Impact'],
-          ['Lucida Console', 'Lucida Console'],
-          ['Tahoma', 'Tahoma'],
-          ['Times New Roman', 'Times New Roman'],
-          ['Verdana', 'Verdana'],
-          ['Webdings', 'Webdings'],
-          ['Wingdings', 'Wingdings'],
-          ['sans-serif', 'sans-serif'],
-        ]), 'font');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add action text.
- */
-Blockly.Blocks['phaser_add_action_text'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-         .appendField('as action text');
-    this.appendValueInput('text')
-        .setCheck('String');
-    this.appendValueInput('x')
-        .setCheck('Number')
-        .appendField('on');
-    this.appendValueInput('y')
-        .setCheck('Number');
-    this.appendDummyInput()
-        .appendField('with style')
-        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
-        .appendField(new Blockly.FieldTextInput('16px'), 'size')
-        .appendField(new Blockly.FieldDropdown([
-          ['Arial Black', 'Arial Black'],
-          ['Arial Narrow', 'Arial Narrow'],
-          ['Arial', 'Arial'],
-          ['Comic Sans MS', 'Comic Sans MS'],
-          ['Courier New', 'Courier New'],
-          ['Georgia', 'Georgia'],
-          ['Helvetica', 'Helvetica'],
-          ['Impact', 'Impact'],
-          ['Lucida Console', 'Lucida Console'],
-          ['Tahoma', 'Tahoma'],
-          ['Times New Roman', 'Times New Roman'],
-          ['Verdana', 'Verdana'],
-          ['Webdings', 'Webdings'],
-          ['Wingdings', 'Wingdings'],
-          ['sans-serif', 'sans-serif'],
-        ]), 'font');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add tile sprite.
- */
-Blockly.Blocks['phaser_add_tile_sprite'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField('define');
-    this.appendDummyInput()
-        .appendField('as tile sprite')
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
-    this.appendValueInput('x')
-        .setCheck('Number');
-    this.appendValueInput('y')
-        .setCheck('Number');
-    this.appendDummyInput()
-        .appendField('with size')
-        .appendField(new Blockly.FieldNumber(400), 'width')
-        .appendField(new Blockly.FieldNumber(50), 'height')
-        .appendField('and group')
-        .appendField(new Blockly.FieldTextInput('group'), 'group');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
  * Add keyboard cursor keys.
  */
 Blockly.Blocks['phaser_add_input_keyboard_cursor_keys'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField('define');
     this.appendDummyInput()
         .appendField('as capture keyboard cursors keys');
@@ -304,7 +102,7 @@ Blockly.Blocks['phaser_add_input_keyboard_cursor_keys'] = {
 Blockly.Blocks['phaser_add_input_keyboard_spacebar'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField('define');
     this.appendDummyInput()
         .appendField('as capture keyboard spacebar');
@@ -323,7 +121,7 @@ Blockly.Blocks['phaser_add_input_keyboard_spacebar'] = {
 Blockly.Blocks['phaser_add_input_keyboard_key'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField('define');
     this.appendDummyInput()
         .appendField('as capture keyboard key')
@@ -351,7 +149,7 @@ Blockly.Blocks['phaser_add_input_keyboard_key'] = {
 Blockly.Blocks['phaser_add_input_mouse_keys'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField('define');
     this.appendDummyInput()
         .appendField('as capture mouse keys');
@@ -370,7 +168,7 @@ Blockly.Blocks['phaser_add_input_mouse_keys'] = {
 Blockly.Blocks['phaser_add_group'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField('define');
     this.appendDummyInput()
         .appendField('as group')

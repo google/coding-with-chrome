@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the Phaser Blocks.
+ * @fileoverview Shepherd externs.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -19,10 +19,8 @@
  */
 
 
-/**
- * Phaser render section.
- */
-Blockly.JavaScript['phaser_render'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'render: function(e) {\n' + statements_code + '},\n';
-};
+/** @constructor */
+var Shepherd = function() {};
+
+/** @type {Function} */
+Shepherd.prototype.Tour = function() {};

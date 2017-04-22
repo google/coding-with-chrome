@@ -21,6 +21,71 @@
 
 
 /**
+ * Add arcade sprite.
+ */
+Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField('define');
+    this.appendDummyInput()
+        .appendField('as arcade sprite')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(5);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Adjust arcade sprite.
+ */
+Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
+  init: function() {
+    this.appendValueInput('sprite')
+        .setCheck(null)
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('set physics sprite'));
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'acceleration.set'],
+          [i18t('angle'), 'angle'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('allow gravity'), 'allowGravity'],
+          [i18t('checkCollision down'), 'checkCollision.down'],
+          [i18t('checkCollision up'), 'checkCollision.up'],
+          [i18t('collide world bounds'), 'collideWorldBounds'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('immovable'), 'immovable'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('to'));
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Physics arcade enable.
  */
 Blockly.Blocks['phaser_physics_arcade_enable'] = {
@@ -44,7 +109,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
 Blockly.Blocks['phaser_physics_arcade_overlap'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('on collision between'));
     this.appendValueInput('object1')
         .setCheck(null);
@@ -78,46 +143,6 @@ Blockly.Blocks['phaser_physics_arcade_collide'] = {
         .appendField('and');
     this.appendValueInput('object2')
         .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(0);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Adjust arcade sprite.
- */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite'] = {
-  init: function() {
-    this.appendValueInput('sprite')
-        .setCheck(null)
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('set physics sprite'));
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'acceleration.set'],
-          [i18t('angle'), 'angle'],
-          [i18t('angular velocity'), 'angularVelocity'],
-          [i18t('bounce x'), 'bounce.x'],
-          [i18t('bounce y'), 'bounce.y'],
-          [i18t('bounce'), 'bounce.set'],
-          [i18t('allow gravity'), 'allowGravity'],
-          [i18t('checkCollision down'), 'checkCollision.down'],
-          [i18t('checkCollision up'), 'checkCollision.up'],
-          [i18t('collide world bounds'), 'collideWorldBounds'],
-          [i18t('gravity x'), 'gravity.x'],
-          [i18t('gravity y'), 'gravity.y'],
-          [i18t('immovable'), 'immovable'],
-          [i18t('velocity x'), 'velocity.x'],
-          [i18t('velocity y'), 'velocity.y'],
-          [i18t('velocity'), 'velocity'],
-        ]), 'property');
-    this.appendValueInput('value')
-        .setCheck('Number')
-        .appendField(i18t('to'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);

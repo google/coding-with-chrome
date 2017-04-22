@@ -32,3 +32,31 @@ Blockly.BlocksTemplate.pointTop = function() {
   return new Blockly.FieldImage(
     '../images/icons/circle_20pt_top.png', 15, 17, '▼');
 };
+
+
+/** Drag and drop point for variable setter */
+Blockly.BlocksTemplate.addCircle = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/add_circle_20pt.png', 18, 18, '▼');
+};
+
+
+/** Drag and drop point for variable setter */
+Blockly.BlocksTemplate.event = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/event_20pt.png', 18, 18, '▼');
+};
+
+
+/** Drag and drop point for variable setter */
+Blockly.BlocksTemplate.runningMan = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/running_man_20pt.png', 18, 18, '▼');
+};
+
+
+/** Drag and drop point for variable setter */
+Blockly.BlocksTemplate.adjust = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/adjust_20pt.png', 18, 18, '▼');
+};

@@ -36,6 +36,7 @@ globals:
   Blockly: true
   CodeMirror: true
   Locales: true
+  Shepherd: true
   Sk: true
   afterEach: true
   beforeEach: true

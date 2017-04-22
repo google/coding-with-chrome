@@ -20,6 +20,25 @@
 
 
 /**
+ * Add tile sprite.
+ */
+Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
+  var number_width = block.getFieldValue('width');
+  var number_height = block.getFieldValue('height');
+  var text_sprite = block.getFieldValue('sprite');
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  return variable + ' = game.add.tileSprite(' + value_x + ', ' + value_y +
+    ', ' + number_width + ', ' + number_height + ', \'' + text_sprite +
+    '\');\n';
+};
+
+
+/**
  * Adjust sprite.
  */
 Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {

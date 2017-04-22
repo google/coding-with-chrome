@@ -21,6 +21,62 @@
 
 
 /**
+ * Add arcade sprite.
+ */
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
+  var text_sprite = block.getFieldValue('sprite');
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
+    ', \'' + text_sprite + '\');\n' +
+    'game.physics.arcade.enable(' + variable + ');\n';
+};
+
+
+/**
+ * Adjust arcade sprite.
+ */
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
+  var value_sprite = Blockly.JavaScript.valueToCode(block,
+    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_property = block.getFieldValue('property');
+  var value_value = Blockly.JavaScript.valueToCode(block,
+    'value', Blockly.JavaScript.ORDER_ATOMIC);
+  switch (dropdown_property) {
+    case 'angle':
+      return value_sprite + '.' + dropdown_property +
+        ' = ' + value_value + ';\n';
+    case 'acceleration.set':
+    case 'bounce.set':
+      return value_sprite + '.body.' + dropdown_property +
+        '(' + value_value + ');\n';
+    case 'allowGravity':
+    case 'checkCollision.down':
+    case 'checkCollision.up':
+    case 'collideWorldBounds':
+    case 'immovable':
+      return value_sprite + '.body.' + dropdown_property + ' = ' +
+        ((value_value) ? true : false) + ';\n';
+    case 'moveUp':
+      return value_sprite + '.y -= ' + value_value + ';\n';
+    case 'moveDown':
+      return value_sprite + '.y += ' + value_value + ';\n';
+    case 'moveLeft':
+      return value_sprite + '.x -= ' + value_value + ';\n';
+    case 'moveRight':
+      return value_sprite + '.x += ' + value_value + ';\n';
+    default:
+      return value_sprite + '.body.' + dropdown_property +
+      ' = ' + value_value + ';\n';
+  }
+};
+
+
+/**
  * Physics arcade enable.
  */
 Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
@@ -55,43 +111,4 @@ Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
     block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.physics.arcade.collide(' + value_object1 + ', ' +
     value_object2 + ');\n';
-};
-
-
-/**
- * Adjust arcade sprite.
- */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(block,
-    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_property = block.getFieldValue('property');
-  var value_value = Blockly.JavaScript.valueToCode(block,
-    'value', Blockly.JavaScript.ORDER_ATOMIC);
-  switch (dropdown_property) {
-    case 'angle':
-      return value_sprite + '.' + dropdown_property +
-        ' = ' + value_value + ';\n';
-    case 'acceleration.set':
-    case 'bounce.set':
-      return value_sprite + '.body.' + dropdown_property +
-        '(' + value_value + ');\n';
-    case 'allowGravity':
-    case 'checkCollision.down':
-    case 'checkCollision.up':
-    case 'collideWorldBounds':
-    case 'immovable':
-      return value_sprite + '.body.' + dropdown_property + ' = ' +
-        ((value_value) ? true : false) + ';\n';
-    case 'moveUp':
-      return value_sprite + '.y -= ' + value_value + ';\n';
-    case 'moveDown':
-      return value_sprite + '.y += ' + value_value + ';\n';
-    case 'moveLeft':
-      return value_sprite + '.x -= ' + value_value + ';\n';
-    case 'moveRight':
-      return value_sprite + '.x += ' + value_value + ';\n';
-    default:
-      return value_sprite + '.body.' + dropdown_property +
-      ' = ' + value_value + ';\n';
-  }
 };

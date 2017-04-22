@@ -473,6 +473,28 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 
 
 /**
+ * @param {!string} name
+ */
+cwc.utils.Helper.prototype.tourEvent = function(name) {
+  if (this.checkJavaScriptFeature('shepherd')) {
+    new Shepherd['Evented']()['trigger'](name);
+  }
+};
+
+
+/**
+ * End currently active tour.
+ */
+cwc.utils.Helper.prototype.endTour = function() {
+  if (this.checkJavaScriptFeature('shepherd')) {
+    if (Shepherd['activeTour']) {
+      Shepherd['activeTour']['complete']();
+    }
+  }
+};
+
+
+/**
  * @export
  */
 cwc.utils.Helper.prototype.uninstallStyles = cwc.ui.Helper.uninstallStyles;

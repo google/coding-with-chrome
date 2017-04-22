@@ -20,12 +20,106 @@
 
 
 /**
+ * Add text.
+ */
+Blockly.Blocks['phaser_text_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField('define');
+    this.appendDummyInput()
+         .appendField('as text');
+    this.appendValueInput('text')
+        .setCheck('String');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField('on');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('with style')
+        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
+        .appendField(new Blockly.FieldTextInput('16px'), 'size')
+        .appendField(new Blockly.FieldDropdown([
+          ['Arial Black', 'Arial Black'],
+          ['Arial Narrow', 'Arial Narrow'],
+          ['Arial', 'Arial'],
+          ['Comic Sans MS', 'Comic Sans MS'],
+          ['Courier New', 'Courier New'],
+          ['Georgia', 'Georgia'],
+          ['Helvetica', 'Helvetica'],
+          ['Impact', 'Impact'],
+          ['Lucida Console', 'Lucida Console'],
+          ['Tahoma', 'Tahoma'],
+          ['Times New Roman', 'Times New Roman'],
+          ['Verdana', 'Verdana'],
+          ['Webdings', 'Webdings'],
+          ['Wingdings', 'Wingdings'],
+          ['sans-serif', 'sans-serif'],
+        ]), 'font');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(260);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Add action text.
+ */
+Blockly.Blocks['phaser_action_text_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField('define');
+    this.appendDummyInput()
+         .appendField('as action text');
+    this.appendValueInput('text')
+        .setCheck('String');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField('on');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('with style')
+        .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
+        .appendField(new Blockly.FieldTextInput('16px'), 'size')
+        .appendField(new Blockly.FieldDropdown([
+          ['Arial Black', 'Arial Black'],
+          ['Arial Narrow', 'Arial Narrow'],
+          ['Arial', 'Arial'],
+          ['Comic Sans MS', 'Comic Sans MS'],
+          ['Courier New', 'Courier New'],
+          ['Georgia', 'Georgia'],
+          ['Helvetica', 'Helvetica'],
+          ['Impact', 'Impact'],
+          ['Lucida Console', 'Lucida Console'],
+          ['Tahoma', 'Tahoma'],
+          ['Times New Roman', 'Times New Roman'],
+          ['Verdana', 'Verdana'],
+          ['Webdings', 'Webdings'],
+          ['Wingdings', 'Wingdings'],
+          ['sans-serif', 'sans-serif'],
+        ]), 'font');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(260);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Adjust text.
  */
 Blockly.Blocks['phaser_text_change'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.adjust())
         .appendField('change');
     this.appendValueInput('text')
         .setCheck(null)
@@ -62,7 +156,7 @@ Blockly.Blocks['phaser_text_get'] = {
 Blockly.Blocks['phaser_text_clicked'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('on click on action text'));
     this.appendStatementInput('func')
         .setCheck(null)

@@ -21,6 +21,35 @@ var closureBuilder = require('closure-builder');
 var glob = closureBuilder.globSupport();
 
 
+/**
+ * Blockly
+ */
+var BlocklyPath = 'third_party/blockly/';
+
+closureBuilder.build({
+  name: 'Blockly core files',
+  resources: [
+    BlocklyPath + 'media/',
+    BlocklyPath + 'blockly_compressed.js',
+    BlocklyPath + 'blocks_compressed.js',
+    BlocklyPath + 'javascript_compressed.js',
+    'patches/blockly/audio_preload_patch.js',
+  ],
+  out: 'genfiles/external/blockly/'
+});
+
+
+closureBuilder.build({
+  name: 'Blockly language files',
+  resources: [
+    BlocklyPath + 'msg/js/de.js',
+    BlocklyPath + 'msg/js/en.js',
+    BlocklyPath + 'msg/js/ja.js',
+    BlocklyPath + 'msg/js/ko.js'
+  ],
+  out: 'genfiles/external/blockly/msg/'
+});
+
 
 /**
  * Code Mirror
@@ -117,30 +146,14 @@ closureBuilder.build({
 
 
 /**
- * Blockly
+ * Shepherd
  */
-var BlocklyPath = 'third_party/blockly/';
-
 closureBuilder.build({
-  name: 'Blockly core files',
+  name: 'Shepherd',
   resources: [
-    BlocklyPath + 'media/',
-    BlocklyPath + 'blockly_compressed.js',
-    BlocklyPath + 'blocks_compressed.js',
-    BlocklyPath + 'javascript_compressed.js',
-    'patches/blockly/audio_preload_patch.js',
+    'third_party/shepherd/dist/css/shepherd-theme-arrows.css',
+    'third_party/shepherd/dist/js/shepherd.min.js',
+    'third_party/shepherd/dist/js/tether.js'
   ],
-  out: 'genfiles/external/blockly/'
-});
-
-
-closureBuilder.build({
-  name: 'Blockly language files',
-  resources: [
-    BlocklyPath + 'msg/js/de.js',
-    BlocklyPath + 'msg/js/en.js',
-    BlocklyPath + 'msg/js/ja.js',
-    BlocklyPath + 'msg/js/ko.js'
-  ],
-  out: 'genfiles/external/blockly/msg/'
+  out: 'genfiles/external/shepherd'
 });

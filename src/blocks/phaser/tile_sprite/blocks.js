@@ -20,13 +20,45 @@
 
 
 /**
+ * Add tile sprite.
+ */
+Blockly.Blocks['phaser_tile_sprite_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField('define');
+    this.appendDummyInput()
+        .appendField('as tile sprite')
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField('on position');
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('with size')
+        .appendField(new Blockly.FieldNumber(400), 'width')
+        .appendField(new Blockly.FieldNumber(50), 'height')
+        .appendField('and group')
+        .appendField(new Blockly.FieldTextInput('group'), 'group');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(290);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+
+/**
  * Adjust tile sprite.
  */
 Blockly.Blocks['phaser_tile_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('sprite')
         .setCheck(null)
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set title sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
