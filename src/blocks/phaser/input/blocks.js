@@ -26,8 +26,9 @@ Blockly.Blocks['phaser_input'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('on input do'));
+      .appendField(i18t('on input'));
     this.appendStatementInput('CODE')
+      .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Input']);
     this.setPreviousStatement(true, 'Update');

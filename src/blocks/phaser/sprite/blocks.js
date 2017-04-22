@@ -26,11 +26,11 @@ Blockly.Blocks['phaser_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as sprite')
+        .appendField(i18t('as sprite'))
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
+        .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
@@ -112,7 +112,7 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('destroy sprite');
+        .appendField(i18t('destroy sprite'));
     this.appendValueInput('sprite')
         .setCheck(null);
     this.setInputsInline(true);

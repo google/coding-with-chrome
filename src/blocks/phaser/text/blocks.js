@@ -26,18 +26,18 @@ Blockly.Blocks['phaser_text_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-         .appendField('as text');
+         .appendField(i18t('as text'));
     this.appendValueInput('text')
         .setCheck('String');
     this.appendValueInput('x')
         .setCheck('Number')
-        .appendField('on');
+        .appendField(i18t('on'));
     this.appendValueInput('y')
         .setCheck('Number');
     this.appendDummyInput()
-        .appendField('with style')
+        .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
         .appendField(new Blockly.FieldDropdown([
@@ -73,18 +73,18 @@ Blockly.Blocks['phaser_action_text_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-         .appendField('as action text');
+         .appendField(i18t('as action text'));
     this.appendValueInput('text')
         .setCheck('String');
     this.appendValueInput('x')
         .setCheck('Number')
-        .appendField('on');
+        .appendField(i18t('on'));
     this.appendValueInput('y')
         .setCheck('Number');
     this.appendDummyInput()
-        .appendField('with style')
+        .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
         .appendField(new Blockly.FieldDropdown([
@@ -120,10 +120,10 @@ Blockly.Blocks['phaser_text_change'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
-        .appendField('change');
+        .appendField(i18t('change'));
     this.appendValueInput('text')
         .setCheck(null)
-        .appendField('text to');
+        .appendField(i18t('text to'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -160,7 +160,7 @@ Blockly.Blocks['phaser_text_clicked'] = {
         .appendField(i18t('on click on action text'));
     this.appendStatementInput('func')
         .setCheck(null)
-        .appendField('do');
+        .appendField(i18t('do'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

@@ -26,8 +26,9 @@ Blockly.Blocks['phaser_render'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('on render do'));
+      .appendField(i18t('on render'));
     this.appendStatementInput('CODE')
+      .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Render']);
     this.setPreviousStatement(true, 'Render');

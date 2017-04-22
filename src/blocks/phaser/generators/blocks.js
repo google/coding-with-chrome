@@ -27,11 +27,11 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('number of obstacles');
+        .appendField(i18t('number of obstacles'));
     this.appendValueInput('spaces')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('number of spaces');
+        .appendField(i18t('number of spaces'));
     this.appendValueInput('x')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -43,22 +43,22 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
     this.appendValueInput('sprite')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('sprite');
+        .appendField(i18t('sprite'));
     this.appendValueInput('sprite_top')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('top sprite');
+        .appendField(i18t('top sprite'));
     this.appendValueInput('sprite_bottom')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('bottom sprite');
+        .appendField(i18t('bottom sprite'));
     this.appendValueInput('group')
         .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('group');
+        .appendField(i18t('group'));
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('property')
+        .appendField(i18t('property'))
         .appendField(new Blockly.FieldDropdown([
           [i18t('acceleration'), 'acceleration.set'],
           [i18t('angular velocity'), 'angularVelocity'],
@@ -74,7 +74,7 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
     this.appendValueInput('value')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('value');
+        .appendField(i18t('value'));
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

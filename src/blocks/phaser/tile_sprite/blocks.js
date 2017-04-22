@@ -26,20 +26,20 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as tile sprite')
+        .appendField(i18t('as tile sprite'))
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
+        .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
         .setCheck('Number');
     this.appendDummyInput()
-        .appendField('with size')
+        .appendField(i18t('with size'))
         .appendField(new Blockly.FieldNumber(400), 'width')
         .appendField(new Blockly.FieldNumber(50), 'height')
-        .appendField('and group')
+        .appendField(i18t('and group'))
         .appendField(new Blockly.FieldTextInput('group'), 'group');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -94,7 +94,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('destroy tile sprite');
+        .appendField(i18t('destroy tile sprite'));
     this.appendValueInput('sprite')
         .setCheck(null);
     this.setInputsInline(true);

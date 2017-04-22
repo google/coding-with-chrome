@@ -27,9 +27,9 @@ Blockly.Blocks['phaser_game'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.pointTop())
-        .appendField('Create Game with name')
+        .appendField(i18t('Create Game with name'))
         .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name')
-        .appendField('and size')
+        .appendField(i18t('and size'))
         .appendField(new Blockly.FieldNumber(400), 'width')
         .appendField('x')
         .appendField(new Blockly.FieldNumber(600), 'height');
@@ -48,11 +48,11 @@ Blockly.Blocks['phaser_game_state'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('game state')
+        .appendField(i18t('game state'))
         .appendField(new Blockly.FieldTextInput('main'), 'name')
         .appendField(new Blockly.FieldDropdown([
-            ['no autostart', 'false'],
-            ['autostart', 'true']
+            [i18t('no autostart'), 'false'],
+            [i18t('autostart'), 'true']
         ]), 'autostart');
     this.appendStatementInput('state')
         .setCheck(['Preload', 'Create', 'Update', 'Render']);
@@ -72,7 +72,7 @@ Blockly.Blocks['phaser_game_start'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('start game state')
+        .appendField(i18t('start game state'))
         .appendField(new Blockly.FieldTextInput('main'), 'name');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -89,7 +89,7 @@ Blockly.Blocks['phaser_game_start'] = {
 Blockly.Blocks['phaser_game_restart'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('Restart game');
+        .appendField(i18t('Restart game'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(75);
