@@ -26,8 +26,9 @@ Blockly.Blocks['phaser_preload'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('on preload do'));
+      .appendField(i18t('on preload'));
     this.appendStatementInput('CODE')
+      .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Preload']);
     this.setPreviousStatement(true, 'Preload');
@@ -46,11 +47,11 @@ Blockly.Blocks['phaser_load_image'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('load image')
+        .appendField(i18t('load image'))
         .appendField(new Blockly.FieldTextInput('image'), 'name');
     this.appendValueInput('image')
         .setCheck('Image')
-        .appendField('from file');
+        .appendField(i18t('from file'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Preload');
     this.setNextStatement(true, 'Preload');
@@ -68,11 +69,11 @@ Blockly.Blocks['phaser_load_audio'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('load audio')
+        .appendField(i18t('load audio'))
         .appendField(new Blockly.FieldTextInput('sound'), 'name');
     this.appendValueInput('audio')
         .setCheck('Audio')
-        .appendField('from file');
+        .appendField(i18t('from file'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Preload');
     this.setNextStatement(true, 'Preload');

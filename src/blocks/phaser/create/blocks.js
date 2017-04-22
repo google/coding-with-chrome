@@ -27,8 +27,9 @@ Blockly.Blocks['phaser_create'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.addCircle())
-      .appendField(i18t('on create do'));
+      .appendField(i18t('on create'));
     this.appendStatementInput('CODE')
+      .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Create']);
     this.setPreviousStatement(true, 'Create');
@@ -66,7 +67,7 @@ Blockly.Blocks['phaser_add_background'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('add background')
+        .appendField(i18t('add background'))
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -84,9 +85,9 @@ Blockly.Blocks['phaser_add_input_keyboard_cursor_keys'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as capture keyboard cursors keys');
+        .appendField(i18t('as capture keyboard cursors keys'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -103,9 +104,9 @@ Blockly.Blocks['phaser_add_input_keyboard_spacebar'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as capture keyboard spacebar');
+        .appendField(i18t('as capture keyboard spacebar'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -122,12 +123,12 @@ Blockly.Blocks['phaser_add_input_keyboard_key'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as capture keyboard key')
+        .appendField(i18t('as capture keyboard key'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('shift'), 'Phaser.KeyCode.SHIFT'],
-          [i18t('control'), 'Phaser.KeyCode.CONTROL'],
+          [i18t('shift key'), 'Phaser.KeyCode.SHIFT'],
+          [i18t('control key'), 'Phaser.KeyCode.CONTROL'],
           [i18t('spacebar'), 'Phaser.KeyCode.SPACEBAR'],
           ['w', 'Phaser.KeyCode.W'],
           ['a', 'Phaser.KeyCode.A'],
@@ -150,9 +151,9 @@ Blockly.Blocks['phaser_add_input_mouse_keys'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as capture mouse keys');
+        .appendField(i18t('as capture mouse keys'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -169,9 +170,9 @@ Blockly.Blocks['phaser_add_group'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as group')
+        .appendField(i18t('as group'))
         .appendField(new Blockly.FieldTextInput('text'), 'name');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -190,10 +191,11 @@ Blockly.Blocks['phaser_time_loop_event'] = {
     this.appendValueInput('time')
         .setCheck('Number')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('repeat every');
+        .appendField(i18t('repeat every'));
     this.appendDummyInput()
-        .appendField('milliseconds do');
+        .appendField(i18t('milliseconds'));
     this.appendStatementInput('func')
+        .appendField(i18t('do'))
         .setCheck(null);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

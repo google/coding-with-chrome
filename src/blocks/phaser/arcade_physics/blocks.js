@@ -27,11 +27,11 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField('define');
+        .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField('as arcade sprite')
         .appendField(new Blockly.FieldTextInput('name'), 'sprite')
-        .appendField('on position');
+        .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
@@ -93,7 +93,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
     this.appendValueInput('sprite')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('enable arcade physics for');
+        .appendField(i18t('enable arcade physics for'));
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
@@ -114,12 +114,12 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
     this.appendValueInput('object1')
         .setCheck(null);
     this.appendDummyInput()
-        .appendField('and');
+        .appendField(i18t('and'));
     this.appendValueInput('object2')
         .setCheck(null);
     this.appendStatementInput('func')
         .setCheck(null)
-        .appendField('do');
+        .appendField(i18t('do'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -136,11 +136,11 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
 Blockly.Blocks['phaser_physics_arcade_collide'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('collide between');
+        .appendField(i18t('collide between'));
     this.appendValueInput('object1')
         .setCheck(null);
     this.appendDummyInput()
-        .appendField('and');
+        .appendField(i18t('and'));
     this.appendValueInput('object2')
         .setCheck(null);
     this.setPreviousStatement(true, null);
