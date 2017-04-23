@@ -462,7 +462,11 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
   console.log('File', fileName, 'was modified:', fileModified);
   if (fileModified) {
     var dialogInstance = this.getInstance('dialog');
-    var title = i18t('Unsaved Changes for') + ' ' + fileName;
+    var title = {
+      icon: 'warning',
+      title: 'Unsaved Changes for',
+      untranslated: ' ' + fileName
+    };
     var content = 'Changes have not been saved. Exit?';
     dialogInstance.showYesNo(title, content).then((answer) => {
       if (answer) {
@@ -480,7 +484,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
  */
 cwc.utils.Helper.prototype.tourEvent = function(name) {
   if (this.checkJavaScriptFeature('shepherd')) {
-    new Shepherd['Evented']()['trigger'](name);
+    new Shepherd.Evented().trigger(name);
   }
 };
 
@@ -490,8 +494,8 @@ cwc.utils.Helper.prototype.tourEvent = function(name) {
  */
 cwc.utils.Helper.prototype.endTour = function() {
   if (this.checkJavaScriptFeature('shepherd')) {
-    if (Shepherd['activeTour']) {
-      Shepherd['activeTour']['complete']();
+    if (Shepherd.activeTour) {
+      Shepherd.activeTour.complete();
     }
   }
 };
@@ -506,7 +510,7 @@ cwc.utils.Helper.prototype.isFirstRun = function(name) {
   if (firstRun) {
     console.log('First run for', name);
   }
-  return false;
+  return firstRun;
 };
 
 

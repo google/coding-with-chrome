@@ -65,7 +65,7 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {boolean} */
   this.lockAdvancedMode = false;
 
-  /** @private {Object} */
+  /** @private {Shepherd.Tour} */
   this.tour_ = null;
 };
 
@@ -185,7 +185,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   }
 
   if (this.helper.getAndSetFirstRun(this.name)) {
-    this.startTour();
+    //this.startTour();
   }
 };
 
@@ -269,22 +269,31 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
     return;
   }
 
-  this.tour_ = new Shepherd['Tour']({
+  this.tour_ = new Shepherd.Tour({
     'defaults': {
       'classes': 'shepherd-theme-arrows',
       'showCancelLink': true
     }
   });
-  this.tour_['addStep']('welcome', {
+  this.tour_.addStep('welcome', {
     'title': i18t('Welcome to Coding With Chrome!'),
-    'text': i18t('This tour will explain some UI parts.')
+    'text': i18t('This tour will explain some UI parts.'),
+    'buttons': [{
+      'text': 'Exit',
+      'action': this.tour_.cancel,
+      'classes': 'shepherd-button-secondary',
+    }, {
+      'text': 'Next',
+      'action': this.tour_.next,
+      'classes': 'shepherd-button-example-primary'
+    }]
   });
-  this.tour_['addStep']('menubar', {
+  this.tour_.addStep('menubar', {
     'title': i18t('Menubar'),
     'text': i18t('...'),
     'attachTo': '#cwc-gui-bar bottom'
   });
-  this.tour_['addStep']('navigation', {
+  this.tour_.addStep('navigation', {
     'title': i18t('Navigation'),
     'text': i18t('...'),
     'when': {
@@ -293,7 +302,7 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
       }
     }
   });
-  this.tour_['addStep']('skip_welcome', {
+  this.tour_.addStep('skip_welcome', {
     'title': i18t('Show screen on startup'),
     'text': i18t('...'),
     'attachTo': '#cwc-select-screen-show-welcome top',
@@ -303,7 +312,7 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
       }
     }
   });
-  this.tour_['addStep']('welcome', {
+  this.tour_.addStep('welcome', {
     'text': i18t('Please select your current coding skill to start.'),
     'attachTo': '.mdl-grid top'
   });

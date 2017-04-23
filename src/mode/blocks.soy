@@ -28,7 +28,7 @@
 {template .files}
   {@param files: ?}
 
-  <category name="Files" colour="150">
+  <category name="{msg desc="File Blocks"}Files{/msg}" colour="150">
     {foreach $file in keys($files)}
       {switch $files[$file]['media_type']}
         {case 'audio'}
@@ -80,8 +80,8 @@
  * Blockly advanced blocks.
  */
 {template .defaultAdvancedBlocks}
-  <category custom="VARIABLE" name="Variables" colour="330"></category>
-  <category custom="PROCEDURE" name="Procedure" colour="330"></category>
+  <category name="{msg desc="Logic Blocks"}Variables{/msg}" custom="VARIABLE" colour="330"></category>
+  <category name="{msg desc="Logic Blocks"}Procedure{/msg}" custom="PROCEDURE" colour="330"></category>
 {/template}
 
 
@@ -90,7 +90,7 @@
  */
 {template .defaultBlocks_}
 
-  <category name="Logic" colour="210">
+  <category name="{msg desc="Logic Blocks"}Logic{/msg}" colour="210">
     <block type="controls_if"></block>
     <block type="logic_compare"></block>
     <block type="logic_operation"></block>
@@ -100,7 +100,7 @@
     <block type="logic_ternary"></block>
   </category>
 
-  <category name="Loops" colour="120">
+  <category name="{msg desc="Loops Blocks"}Loops{/msg}" colour="120">
     <block type="controls_repeat_ext">
       <value name="TIMES">
         <block type="math_number"><field name="NUM">10</field></block>
@@ -122,7 +122,7 @@
     <block type="controls_whileUntil"></block>
   </category>
 
-  <category name="Math" colour="230">
+  <category name="{msg desc="Math Blocks"}Math{/msg}" colour="230">
     <block type="math_number"></block>
     <block type="math_arithmetic">
       <value name="A">
@@ -217,7 +217,7 @@
     <block type="math_random_float"></block>
   </category>
 
-  <category name="Text" colour="160">
+  <category name="{msg desc="Text Blocks"}Text{/msg}" colour="160">
     <block type="text"></block>
     <block type="text_join"></block>
     <block type="text_append">
@@ -289,7 +289,7 @@
  */
 {template .defaultColorBlocks_}
 
-  <category name="Colour" colour="20">
+  <category name="{msg desc="Colour Blocks"}Colour{/msg}" colour="20">
     <block type="colour_picker"></block>
     <block type="colour_random"></block>
     <block type="colour_rgb">

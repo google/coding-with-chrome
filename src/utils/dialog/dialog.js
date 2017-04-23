@@ -127,13 +127,16 @@ cwc.utils.Dialog.prototype.close = function() {
 
 
 /**
- * @param {!string} title
+ * Render the dialog template with the passed options.
+ * @param {!string|Object} title
  * @param {!string} content
  * @param {function ({
  *   content: string,
- *   opt_values: (string|undefined),
  *   prefix: string,
- *   title: string
+ *   title: string,
+ *   opt_title_icon: (string|undefined),
+ *   opt_title_untranslated: (string|undefined),
+ *   opt_values: (string|undefined)
  * })=} opt_template
  * @param {string=} opt_values
  * @export
@@ -141,12 +144,24 @@ cwc.utils.Dialog.prototype.close = function() {
 cwc.utils.Dialog.prototype.render = function(title, content,
     opt_template, opt_values) {
   var dialog = this.getDialog_();
+  var dialogTitle = title;
+  var dialogTitleIcon = '';
+  var dialogTitleUntranslated = '';
+
+  if (typeof title !== 'string') {
+    dialogTitle = title.title;
+    dialogTitleIcon = title.icon || '';
+    dialogTitleUntranslated = title.untranslated || '';
+  }
+
   if (dialog) {
     goog.soy.renderElement(dialog,
         opt_template || cwc.soy.Dialog.contentTemplate, {
-          prefix: this.prefix,
-          title: title,
           content: content,
+          prefix: this.prefix,
+          title: dialogTitle,
+          opt_title_icon: dialogTitleIcon,
+          opt_title_untranslated: dialogTitleUntranslated,
           opt_values: opt_values
         });
     this.refresh_();
@@ -155,7 +170,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
 
 
 /**
- * @param {!string} title
+ * @param {!string|Object} title
  * @param {!string} content
  * @export
  */
@@ -170,7 +185,7 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
 
 
 /**
- * @param {!string} title
+ * @param {!string|Object} title
  * @param {!function (Object, null=, (Object<string,*>|null)=)} template
  * @param {!Object} values
  * @export
@@ -235,7 +250,7 @@ cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
 
 
 /**
- * @param {!string} title
+ * @param {!string|Object} title
  * @param {!string} content
  * @export
  */
@@ -260,7 +275,7 @@ cwc.utils.Dialog.prototype.showAlert = function(title, content) {
 
 
 /**
- * @param {!string} title
+ * @param {!string|Object} title
  * @param {!string} content
  * @param {string=} opt_value
  * @export
@@ -297,7 +312,7 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, opt_value) {
 
 
 /**
- * @param {!string} title
+ * @param {!string|Object} title
  * @param {!string} content
  * @export
  */

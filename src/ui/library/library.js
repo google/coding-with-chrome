@@ -406,18 +406,61 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
     return;
   }
 
-  this.tour_ = new Shepherd['Tour']({
+  this.tour_ = new Shepherd.Tour({
     'defaults': {
       'classes': 'shepherd-theme-arrows',
       'showCancelLink': true
     }
   });
-  this.tour_['addStep']('upload', {
-    'text': i18t('This tour will explain some UI parts.'),
-    'attachTo': '#cwc-library-upload_tab bottom'
+  this.tour_.addStep('intro', {
+    'title': i18t('File library'),
+    'text': i18t('The file library is used to managed all of your files for ' +
+      'your project.'),
+    'attachTo': '#' + this.prefix + 'chrome center',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': this.tour_.cancel,
+      'classes': 'shepherd-button-secondary',
+    }, {
+      'text': i18t('Next'),
+      'action': this.tour_.next,
+      'classes': 'shepherd-button-example-primary'
+    }]
   });
-  this.tour_['addStep']('upload', {
-    'text': i18t('This tour will explain some UI parts.'),
-    'attachTo': '#cwc-library-images_tab bottom'
+  this.tour_.addStep('upload', {
+    'title': i18t('File library'),
+    'text': i18t('Click here to upload a file to your library.'),
+    'attachTo': '#' + this.prefix + 'upload-button left',
+    'advanceOn': '#' + this.prefix + 'upload-button click',
+  });
+  this.tour_.addStep('images', {
+    'text': i18t('You will find all image files here.'),
+    'attachTo': '#' + this.prefix + 'images_tab bottom',
+    'advanceOn': '#' + this.prefix + 'images_tab click'
+  });
+  this.tour_.addStep('audio', {
+    'text': i18t('All audio files will be here.'),
+    'attachTo': '#' + this.prefix + 'audio_tab bottom',
+    'advanceOn': '#' + this.prefix + 'audio_tab click'
+  });
+  this.tour_.addStep('all', {
+    'text': i18t('All of your files will be here.'),
+    'attachTo': '#' + this.prefix + 'all_tab bottom',
+    'advanceOn': '#' + this.prefix + 'all_tab click'
+  });
+  this.tour_.addStep('search', {
+    'text': i18t('This search will help you to find additional images for ' +
+      'your project.'),
+    'attachTo': '#' + this.prefix + 'search_tab bottom',
+    'advanceOn': '#' + this.prefix + 'search_tab click'
+  });
+  this.tour_.addStep('close', {
+    'text': i18t('To close this window, click the close button.'),
+    'attachTo': '#cwc-dialog-close left',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': this.tour_.cancel,
+      'classes': 'shepherd-button-example-primary',
+    }]
   });
 };

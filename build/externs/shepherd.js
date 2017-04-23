@@ -19,8 +19,32 @@
  */
 
 
-/** @constructor */
+/** @type {Function} */
 var Shepherd = function() {};
 
+
+/** @type {Object} */
+Shepherd.activeTour = {};
+
+/** @type {Function}  */
+Shepherd.activeTour.complete = function() {};
+
+
+/** @constructor */
+Shepherd.Tour = function() {};
+
 /** @type {Function} */
-Shepherd.prototype.Tour = function() {};
+Shepherd.Tour.prototype.addStep = function() {};
+
+/** @type {Function} */
+Shepherd.Tour.prototype.cancel = function() {};
+
+/** @type {Function} */
+Shepherd.Tour.prototype.next = function() {};
+
+
+/** @constructor */
+Shepherd.Evented = function() {};
+
+/** @type {Function} */
+Shepherd.Evented.prototype.trigger = function() {};
