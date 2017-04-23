@@ -34,6 +34,9 @@ Blockly.JavaScript['phaser_text_add'] = function(block) {
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  if (/^\d+$/.test(text_size)) {
+    text_size = text_size + 'px';
+  }
   return variable + ' = game.add.text(' + value_x + ', ' + value_y + ', ' +
     value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
     'fill: \'' + text_color + '\'});\n';
@@ -55,6 +58,9 @@ Blockly.JavaScript['phaser_action_text_add'] = function(block) {
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  if (/^\d+$/.test(text_size)) {
+    text_size = text_size + 'px';
+  }
   return variable + ' = game.add.text(' + value_x + ', ' + value_y + ', ' +
     value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
     'fill: \'' + text_color + '\'});\n' +

@@ -40,43 +40,32 @@
 
     <category name="{msg desc="Phaser Create Blocks"}Create{/msg}" colour="30">
 
-      <category name="{msg desc="Phaser General Create Blocks"}General Create{/msg}" colour="30">
-        {call .createBlocks /}
-      </category>
+      {call .createBlocks /}
 
-      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
-        {call .audioBlocks}
-          {param opt_show_create_blocks: true /}
-        {/call}
-      </category>
-
-      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
-        {call .spriteBlocks}
-          {param opt_show_create_blocks: true /}
-        {/call}
-      </category>
-
-      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
-        {call .tileSpriteBlocks}
-          {param opt_show_create_blocks: true /}
-        {/call}
-      </category>
-
-      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
-        {call .physicsSpriteBlocks}
-          {param opt_show_create_blocks: true /}
-        {/call}
-      </category>
-
-      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
-        {call .textBlocks}
-          {param opt_show_create_blocks: true /}
-        {/call}
-      </category>
+      {call .defaultPhaserBlocks}
+        {param opt_show_create_blocks: true /}
+        {param opt_hide_event_blocks: true /}
+      {/call}
 
       <category name="{msg desc="Phaser Generators Blocks"}Generators{/msg}" colour="105">
         {call .generatorBlocks /}
       </category>
+
+      <category name="{msg desc="Phaser World Blocks"}World{/msg}" colour="345">
+        {call .worldBlocks}
+          {param opt_show_create_blocks: true /}
+        {/call}
+      </category>
+
+    </category>
+
+    <category name="{msg desc="Phaser Update Blocks"}Update{/msg}" colour="315">
+
+      {call .updateBlocks /}
+
+      {call .defaultPhaserBlocks}
+        {param opt_hide_event_blocks: true /}
+      {/call}
 
       <category name="{msg desc="Phaser World Blocks"}World{/msg}" colour="345">
         {call .worldBlocks /}
@@ -84,59 +73,13 @@
 
     </category>
 
-    <category name="{msg desc="Phaser Update Blocks"}Update{/msg}" colour="315">
-
-      <category name="{msg desc="Phaser General Update Blocks"}General Update{/msg}" colour="315">
-        {call .updateBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
-        {call .audioBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
-        {call .spriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
-        {call .tileSpriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
-        {call .physicsSpriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
-        {call .textBlocks /}
-      </category>
-
-    </category>
-
     <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="135">
 
-      <category name="{msg desc="Phaser General Input Blocks"}General Input{/msg}" colour="135">
-        {call .inputBlocks /}
-      </category>
+      {call .inputBlocks /}
 
-      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
-        {call .audioBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
-        {call .spriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
-        {call .tileSpriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
-        {call .physicsSpriteBlocks /}
-      </category>
-
-      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
-        {call .textBlocks /}
-      </category>
+      {call .defaultPhaserBlocks}
+        {param opt_hide_input_blocks: true /}
+      {/call}
 
     </category>
 
@@ -149,9 +92,7 @@
     {if $files}
       <sep></sep>
 
-      {call cwc.soy.mode.Blocks.files}
-        {param files: $files /}
-      {/call}
+      {call cwc.soy.mode.Blocks.files data="all" /}
     {/if}
 
     <sep></sep>
@@ -163,6 +104,42 @@
     {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
 
   </xml>
+{/template}
+
+
+/**
+ * Default Phaser blocks.
+ */
+{template .defaultPhaserBlocks}
+  {@param? opt_show_create_blocks: bool}
+  {@param? opt_hide_input_blocks: bool}
+
+  <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
+    {call .audioBlocks data="all" /}
+  </category>
+
+  <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
+    {call .spriteBlocks data="all" /}
+  </category>
+
+  <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
+    {call .tileSpriteBlocks data="all" /}
+  </category>
+
+  <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
+    {call .physicsSpriteBlocks data="all" /}
+  </category>
+
+  <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
+    {call .textBlocks data="all" /}
+  </category>
+
+  {if not $opt_hide_input_blocks}
+    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="255">
+      {call .inputBlocks data="all" /}
+    </category>
+  {/if}
+
 {/template}
 
 
@@ -188,17 +165,23 @@
  * World blocks.
  */
 {template .worldBlocks}
-  <block type="phaser_world_wrap">
-    <value name="sprite">
-      <block type="variables_get">
-        <field name="VAR">sprite</field>
-      </block>
-    </value>
-    <value name="value">
-      <block type="math_number"></block>
-    </value>
-  </block>
+  {@param? opt_show_create_blocks: bool}
+
+  {if not $opt_show_create_blocks}
+    <block type="phaser_world_wrap">
+      <value name="sprite">
+        <block type="variables_get">
+          <field name="VAR">sprite</field>
+        </block>
+      </value>
+      <value name="value">
+        <block type="math_number"></block>
+      </value>
+    </block>
+  {/if}
+
   <block type="phaser_world_attributes"></block>
+
 {/template}
 
 
@@ -262,6 +245,7 @@
  */
 {template .textBlocks}
   {@param? opt_show_create_blocks: bool}
+  {@param? opt_hide_event_blocks: bool}
 
   {if $opt_show_create_blocks}
     <block type="phaser_text_add">
@@ -301,7 +285,20 @@
         <block type="math_number"><field name="NUM">10</field></block>
       </value>
     </block>
+
   {/if}
+
+
+  {if not $opt_hide_event_blocks or $opt_show_create_blocks}
+    <block type="phaser_text_clicked">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">start_text</field>
+        </block>
+      </value>
+    </block>
+  {/if}
+
 
   <block type="phaser_text_change">
     <value name="variable">
@@ -324,13 +321,6 @@
     </value>
   </block>
 
-  <block type="phaser_text_clicked">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">start_text</field>
-      </block>
-    </value>
-  </block>
 {/template}
 
 
@@ -396,38 +386,6 @@
 
   <block type="phaser_add_background"></block>
 
-  <block type="phaser_add_input_keyboard_cursor_keys">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">cursor_keys</field>
-      </block>
-    </value>
-  </block>
-
-  <block type="phaser_add_input_keyboard_spacebar">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">spacebar</field>
-      </block>
-    </value>
-  </block>
-
-  <block type="phaser_add_input_keyboard_key">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">keyboard_key</field>
-      </block>
-    </value>
-  </block>
-
-  <block type="phaser_add_input_mouse_keys">
-    <value name="variable">
-      <block type="variables_get">
-        <field name="VAR">mouse_keys</field>
-      </block>
-    </value>
-  </block>
-
   <block type="phaser_add_group">
     <value name="variable">
       <block type="variables_get">
@@ -486,111 +444,147 @@
  */
 {template .inputBlocks}
   {@param? opt_show_create_blocks: bool}
+  {@param? opt_hide_event_blocks: bool}
 
   {if $opt_show_create_blocks}
+    <block type="phaser_input_keyboard_cursor_keys_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
 
+    <block type="phaser_input_keyboard_spacebar_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">spacebar</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_key_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">keyboard_key</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_mouse_keys_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">mouse_keys</field>
+        </block>
+      </value>
+    </block>
   {/if}
 
-  <block type="phaser_input"></block>
+  {if not $opt_hide_event_blocks and not $opt_show_create_blocks}
+    <block type="phaser_input"></block>
+  {/if}
 
-  <block type="phaser_input_keyboard_key_is_pressed">
-    <value name="key">
-      <block type="variables_get">
-        <field name="VAR">spacebar</field>
-      </block>
-    </value>
-  </block>
+  {if not $opt_show_create_blocks}
 
-  <block type="phaser_input_keyboard_cursor_is_pressed">
-    <field name="direction">up.isDown</field>
-    <value name="cursors">
-      <block type="variables_get">
-        <field name="VAR">cursor_keys</field>
-      </block>
-    </value>
-  </block>
+    <block type="phaser_input_keyboard_key_is_pressed">
+      <value name="key">
+        <block type="variables_get">
+          <field name="VAR">spacebar</field>
+        </block>
+      </value>
+    </block>
 
-  <block type="phaser_input_mouse_key_is_pressed">
-    <field name="direction">leftButton.isDown</field>
-    <value name="mouse">
-      <block type="variables_get">
-        <field name="VAR">mouse_keys</field>
-      </block>
-    </value>
-  </block>
+    <block type="phaser_input_keyboard_cursor_is_pressed">
+      <field name="direction">up.isDown</field>
+      <value name="cursors">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
 
-  <label text="Predefined Blocks" web-class="blocklyCustomLabel"></label>
+    <block type="phaser_input_mouse_key_is_pressed">
+      <field name="direction">leftButton.isDown</field>
+      <value name="mouse">
+        <block type="variables_get">
+          <field name="VAR">mouse_keys</field>
+        </block>
+      </value>
+    </block>
 
-  <block type="controls_if">
-    <mutation elseif="0"></mutation>
-    <value name="IF0">
-      <block type="phaser_input_keyboard_key_is_pressed">
-        <value name="key">
-          <block type="variables_get">
-            <field name="VAR">spacebar</field>
-          </block>
-        </value>
-      </block>
-    </value>
-  </block>
+    <label text="Predefined Blocks" web-class="blocklyCustomLabel"></label>
 
-  <block type="controls_if">
-    <mutation elseif="3"></mutation>
-    <value name="IF0">
-      <block type="phaser_input_keyboard_cursor_is_pressed">
-        <field name="direction">up.isDown</field>
-        <value name="cursors">
-          <block type="variables_get">
-            <field name="VAR">cursor_keys</field>
-          </block>
-        </value>
-      </block>
-    </value>
-    <value name="IF1">
-      <block type="phaser_input_keyboard_cursor_is_pressed">
-        <field name="direction">down.isDown</field>
-        <value name="cursors">
-          <block type="variables_get">
-            <field name="VAR">cursor_keys</field>
-          </block>
-        </value>
-      </block>
-    </value>
-    <value name="IF2">
-      <block type="phaser_input_keyboard_cursor_is_pressed">
-        <field name="direction">left.isDown</field>
-        <value name="cursors">
-          <block type="variables_get">
-            <field name="VAR">cursor_keys</field>
-          </block>
-        </value>
-      </block>
-    </value>
-    <value name="IF3">
-      <block type="phaser_input_keyboard_cursor_is_pressed">
-        <field name="direction">right.isDown</field>
-        <value name="cursors">
-          <block type="variables_get">
-            <field name="VAR">cursor_keys</field>
-          </block>
-        </value>
-      </block>
-    </value>
-  </block>
+    <block type="controls_if">
+      <mutation elseif="0"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_keyboard_key_is_pressed">
+          <value name="key">
+            <block type="variables_get">
+              <field name="VAR">spacebar</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
 
-  <block type="controls_if">
-    <mutation elseif="0"></mutation>
-    <value name="IF0">
-      <block type="phaser_input_mouse_key_is_pressed">
-        <field name="direction">leftButton.isDown</field>
-        <value name="mouse">
-          <block type="variables_get">
-            <field name="VAR">mouse_keys</field>
-          </block>
-        </value>
-      </block>
-    </value>
-  </block>
+    <block type="controls_if">
+      <mutation elseif="3"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_keyboard_cursor_is_pressed">
+          <field name="direction">up.isDown</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF1">
+        <block type="phaser_input_keyboard_cursor_is_pressed">
+          <field name="direction">down.isDown</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF2">
+        <block type="phaser_input_keyboard_cursor_is_pressed">
+          <field name="direction">left.isDown</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF3">
+        <block type="phaser_input_keyboard_cursor_is_pressed">
+          <field name="direction">right.isDown</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+
+    <block type="controls_if">
+      <mutation elseif="0"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_mouse_key_is_pressed">
+          <field name="direction">leftButton.isDown</field>
+          <value name="mouse">
+            <block type="variables_get">
+              <field name="VAR">mouse_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+  {/if}
 {/template}
 
 

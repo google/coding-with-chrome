@@ -55,7 +55,7 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
         .appendField(i18t('set sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-          [i18t('alpha'), 'alpha'],
+          [i18t('alpha transparent'), 'alpha'],
           [i18t('angle'), 'angle'],
           [i18t('anchor'), 'anchor.set'],
           [i18t('buttonMode'), 'buttonMode'],

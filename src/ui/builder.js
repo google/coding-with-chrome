@@ -251,6 +251,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   }
   this.helper.setInstance('i18n', i18nInstance);
 
+  var blacklistFile = '../js/locales/blacklist.js';
   var language = 'en';
   var languageFile = '../js/locales/en.js';
   var blocklyLanguageFile = '';
@@ -274,7 +275,8 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   if (blocklyLanguageFile) {
     cwc.ui.Helper.insertScript(blocklyLanguageFile, 'blockly-language');
   }
-  i18nInstance.prepare(this.loadUI.bind(this), language, languageFile);
+  i18nInstance.prepare(
+    this.loadUI.bind(this), language, languageFile, blacklistFile);
 };
 
 

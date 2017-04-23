@@ -50,55 +50,6 @@ Blockly.JavaScript['phaser_add_background'] = function(block) {
 
 
 /**
- * Add keyboard cursor keys.
- */
-Blockly.JavaScript['phaser_add_input_keyboard_cursor_keys'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = this.input.keyboard.createCursorKeys();\n' +
-    variable + '.down.onDown.add(this.input_, this);\n' +
-    variable + '.left.onDown.add(this.input_, this);\n' +
-    variable + '.right.onDown.add(this.input_, this);\n' +
-    variable + '.up.onDown.add(this.input_, this);\n';
-};
-
-
-/**
- * Add keyboard spacebar.
- */
-Blockly.JavaScript['phaser_add_input_keyboard_spacebar'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n' +
-    variable + '.onDown.add(this.input_, this);\n';
-};
-
-
-/**
- * Add keyboard key.
- */
-Blockly.JavaScript['phaser_add_input_keyboard_key'] = function(block) {
-  var dropdown_keycode = block.getFieldValue('keycode');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = this.input.keyboard.addKey(' + dropdown_keycode +
-    ');\n' + variable + '.onDown.add(this.input_, this);\n';
-};
-
-
-/**
- * Add mouse keys.
- */
-Blockly.JavaScript['phaser_add_input_mouse_keys'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = this.input.mouse.input;\n' +
-    variable + '.onDown.add(this.input_, this);\n';
-};
-
-
-/**
  * Add group.
  */
 Blockly.JavaScript['phaser_add_group'] = function(block) {

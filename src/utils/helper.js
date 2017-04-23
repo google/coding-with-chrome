@@ -503,12 +503,14 @@ cwc.utils.Helper.prototype.endTour = function() {
 
 /**
  * @param {!string} name
+ * @param {string=} opt_feature
  * @return {!boolean}
  */
-cwc.utils.Helper.prototype.isFirstRun = function(name) {
-  var firstRun = !this.hadFirstRun_[name];
+cwc.utils.Helper.prototype.isFirstRun = function(name, opt_feature='general') {
+  var firstRun = !this.hadFirstRun_[name + '__' + opt_feature];
   if (firstRun) {
-    console.log('First run for', name);
+    console.log('First run for', name,
+      (opt_feature !== 'general') ? 'and feature ' + opt_feature : '');
   }
   return firstRun;
 };
@@ -517,21 +519,24 @@ cwc.utils.Helper.prototype.isFirstRun = function(name) {
 /**
  * @param {!string} name
  * @param {!boolean} first_run
+ * @param {string=} opt_feature
  */
-cwc.utils.Helper.prototype.setFirstRun = function(name, first_run) {
-  this.hadFirstRun_[name] = !first_run;
+cwc.utils.Helper.prototype.setFirstRun = function(name, first_run,
+    opt_feature='general') {
+  this.hadFirstRun_[name + '__' + opt_feature] = !first_run;
 };
 
 
 /**
  * @param {!string} name
+ * @param {string=} opt_feature
  * @param {boolean=} opt_first_run
  * @return {!boolean}
  */
 cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
-    opt_first_run=false) {
-  var firstRun = this.isFirstRun(name);
-  this.setFirstRun(name, opt_first_run);
+    opt_feature='general', opt_first_run=false) {
+  var firstRun = this.isFirstRun(name, opt_feature);
+  this.setFirstRun(name, opt_first_run, opt_feature);
   return firstRun;
 };
 

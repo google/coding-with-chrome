@@ -75,7 +75,7 @@ cwc.ui.Library = function(helper) {
   /** @type {Array} */
   this.listener = [];
 
-  /** @private {Object} */
+  /** @private {Shepherd.Tour} */
   this.tour_ = null;
 };
 
@@ -124,7 +124,11 @@ cwc.ui.Library.prototype.decorate = function() {
  */
 cwc.ui.Library.prototype.showLibrary = function() {
   var dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate('File Library', cwc.soy.Library.template, {
+  var title = {
+    title: 'File library',
+    icon: 'perm_media'
+  };
+  dialogInstance.showTemplate(title, cwc.soy.Library.template, {
     prefix: this.prefix,
     files: this.getFiles()
   });

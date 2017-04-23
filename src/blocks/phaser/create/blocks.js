@@ -48,9 +48,8 @@ Blockly.Blocks['phaser_stage_background_color'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField('set background color (')
-        .appendField(new Blockly.FieldColour('#000000'), 'color')
-        .appendField(')');
+        .appendField(i18t('set background color'))
+        .appendField(new Blockly.FieldColour('#000000'), 'color');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -69,91 +68,6 @@ Blockly.Blocks['phaser_add_background'] = {
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('add background'))
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add keyboard cursor keys.
- */
-Blockly.Blocks['phaser_add_input_keyboard_cursor_keys'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
-    this.appendDummyInput()
-        .appendField(i18t('as capture keyboard cursors keys'));
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add keyboard spacebar.
- */
-Blockly.Blocks['phaser_add_input_keyboard_spacebar'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
-    this.appendDummyInput()
-        .appendField(i18t('as capture keyboard spacebar'));
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add keyboard key.
- */
-Blockly.Blocks['phaser_add_input_keyboard_key'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
-    this.appendDummyInput()
-        .appendField(i18t('as capture keyboard key'))
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('shift key'), 'Phaser.KeyCode.SHIFT'],
-          [i18t('control key'), 'Phaser.KeyCode.CONTROL'],
-          [i18t('spacebar'), 'Phaser.KeyCode.SPACEBAR'],
-          ['w', 'Phaser.KeyCode.W'],
-          ['a', 'Phaser.KeyCode.A'],
-          ['s', 'Phaser.KeyCode.S'],
-          ['d', 'Phaser.KeyCode.D']
-        ]), 'keycode');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
-
-
-/**
- * Add mouse keys.
- */
-Blockly.Blocks['phaser_add_input_mouse_keys'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
-    this.appendDummyInput()
-        .appendField(i18t('as capture mouse keys'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

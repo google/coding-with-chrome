@@ -1,7 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
+ * @fileoverview Blacklist for translations.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  */
 
 
-/** @type {Function} */
-var i18t = function() {};
 
-/** @type {Function} */
-var i18soy = function() {};
-
-/** @type {Object} */
-var Locales = function() {};
-
-/** @type {Object} */
-Locales.blacklist = {};
-
-/** @type {Object} */
-Locales.de = {};
-
-/** @type {Object} */
-Locales.en = {};
-
-/** @type {Object} */
-Locales.ja = {};
-
-/** @type {Object} */
-Locales.ko = {};
+/**
+ * @final
+ * @export
+ */
+/* eslint-disable max-len */
+Locales['blacklist'] = {
+  '...': null,
+  '3D': null,
+  'Blockly': null,
+  'Coding with Chrome': null,
+  'CoffeeScript': null,
+  'EV3': null,
+  'HTML5': null,
+  'JavaScript': null,
+  'Makeblock': null,
+  'Sphero': null,
+  'Phaser': null,
+};

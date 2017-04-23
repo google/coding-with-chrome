@@ -29,6 +29,49 @@ Blockly.JavaScript['phaser_input'] = function(block) {
 
 
 /**
+ * Add keyboard cursor keys.
+ */
+Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = this.input.keyboard.createCursorKeys();\n';
+};
+
+
+/**
+ * Add keyboard spacebar.
+ */
+Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable +
+    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n';
+};
+
+
+/**
+ * Add keyboard key.
+ */
+Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
+  var dropdown_keycode = block.getFieldValue('keycode');
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = this.input.keyboard.addKey(' + dropdown_keycode +
+    ');\n';
+};
+
+
+/**
+ * Add mouse keys.
+ */
+Blockly.JavaScript['phaser_input_mouse_keys_add'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = this.input.mouse.input;\n';
+};
+
+
+/**
  * Keyboard cursor is pressed.
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(

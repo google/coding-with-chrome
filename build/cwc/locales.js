@@ -23,6 +23,22 @@ var glob = closureBuilder.globSupport();
 
 
 /**
+ * Blacklist.
+ */
+closureBuilder.build({
+  name: 'Locales.blacklist',
+  srcs: glob([
+    'locales/blacklist.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/js/locales/blacklist.js'
+});
+
+
+/**
  * DE Translation.
  */
 closureBuilder.build({

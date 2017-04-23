@@ -50,10 +50,16 @@ cwc.utils.I18n = function() {
   this.untranslated = {};
 
   /** @type {!string} */
+  this.blacklistNodeId = 'cwc-i18n-blacklist';
+
+  /** @type {!string} */
   this.scriptNodeId = 'cwc-i18n-language';
 
   /** @type {!Object} */
   this.usage = {};
+
+  /** @private {!string} */
+  this.blacklistNodeUrl_ = '';
 
   /** @private {!string} */
   this.scriptNodeUrl_ = '';
@@ -64,11 +70,13 @@ cwc.utils.I18n = function() {
  * @param {Function=} opt_callback
  * @param {string=} opt_language
  * @param {string=} opt_language_file
+ * @param {string=} opt_blacklist_file
  */
 cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
-    opt_language_file) {
+    opt_language_file, opt_blacklist_file) {
   // Register global Locales variable
   window['Locales'] = {};
+  window['Locales']['blacklist'] = [];
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
@@ -82,8 +90,14 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
     }
   }.bind(this);
 
-  // Load optional language file
-  if (opt_language_file) {
+  // Load optional files like blacklist and language
+  if (opt_blacklist_file && !opt_language) {
+    this.loadBlacklistFile_(opt_blacklist_file, callbackHandling);
+  } else if (opt_blacklist_file && opt_language) {
+    this.loadBlacklistFile_(opt_blacklist_file, function() {
+      this.loadLanguageFile_(opt_language_file, callbackHandling);
+    }.bind(this));
+  } else if (opt_language_file) {
     this.loadLanguageFile_(opt_language_file, callbackHandling);
   } else {
     callbackHandling();
@@ -98,11 +112,12 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(text, opt_options) {
-  if (!Locales || !Locales[this.language]) {
+  if (!Locales || !Locales[this.language] ||
+      typeof Locales['blacklist'][text] !== 'undefined') {
     return text;
   }
 
-  if (!Locales[this.language][text]) {
+  if (typeof Locales[this.language][text] === 'undefined') {
     this.handleMissingKey_(text);
     return text;
   }
@@ -200,7 +215,34 @@ cwc.utils.I18n.prototype.getToDo = function() {
 
 
 /**
- * Adding script element to head.
+ * Adding blacklist file.
+ * @param {!string} file_url
+ * @param {Function=} opt_callback
+ * @private
+ */
+cwc.utils.I18n.prototype.loadBlacklistFile_ = function(file_url, opt_callback) {
+  if (this.blacklistNodeUrl_ === file_url) {
+    return;
+  }
+  this.log_.info('Loading blacklist file:', file_url);
+  var headNode = document.head || document.getElementsByTagName('head')[0];
+  var oldScriptNode = document.getElementById(this.blacklistNodeId);
+  if (oldScriptNode) {
+    oldScriptNode.parentNode.removeChild(oldScriptNode);
+  }
+  var scriptNode = document.createElement('script');
+  scriptNode.id = this.blacklistNodeId;
+  if (goog.isFunction(opt_callback)) {
+    scriptNode.onload = opt_callback;
+  }
+  headNode.appendChild(scriptNode);
+  scriptNode.src = file_url;
+  this.blacklistNodeUrl_ = file_url;
+};
+
+
+/**
+ * Adding language file.
  * @param {!string} file_url
  * @param {Function=} opt_callback
  * @private
@@ -209,7 +251,7 @@ cwc.utils.I18n.prototype.loadLanguageFile_ = function(file_url, opt_callback) {
   if (this.scriptNodeUrl_ === file_url) {
     return;
   }
-  console.log('Loading language file:', file_url);
+  this.log_.info('Loading language file:', file_url);
   var headNode = document.head || document.getElementsByTagName('head')[0];
   var oldScriptNode = document.getElementById(this.scriptNodeId);
   if (oldScriptNode) {
@@ -231,10 +273,14 @@ cwc.utils.I18n.prototype.loadLanguageFile_ = function(file_url, opt_callback) {
  * @private
  */
 cwc.utils.I18n.prototype.handleMissingKey_ = function(key) {
-  if (key in this.untranslated) {
-    this.untranslated[key]++;
-  } else {
+  if (!/[a-zA-Z]{2,}/.test(key)) {
+    return;
+  }
+
+  if (typeof this.untranslated[key] === 'undefined') {
     this.log_.warn('[i18n] Untranslated:', key);
     this.untranslated[key] = 1;
+  } else {
+    this.untranslated[key]++;
   }
 };
