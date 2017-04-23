@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome main files.
+ * @fileoverview DEBUG BUILD configuration for Coding with Chrome main files.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -43,7 +43,8 @@ closureBuilder.build({
     'build/externs/jquery-turtle.js',
     'build/externs/jquery.js',
     'build/externs/material-design.js',
-    'build/externs/mocha.js'
+    'build/externs/mocha.js',
+    'build/externs/shepherd.js'
   ],
   compress: true,
   out: 'genfiles/js/cwc_ui.js',

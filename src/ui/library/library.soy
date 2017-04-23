@@ -26,38 +26,68 @@
 {template .template}
   {@param prefix: string}
   {@param files: ?}
+  {@param? opt_media_type: string}
 
   <div id="{$prefix}chrome" class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
 
     <div class="mdl-tabs__tab-bar">
-      <a href="#{$prefix}upload" class="mdl-tabs__tab is-active">Upload</a>
-      <a href="#{$prefix}images" class="mdl-tabs__tab">Images</a>
-      <a href="#{$prefix}audio" class="mdl-tabs__tab">Audio</a>
-      <a href="#{$prefix}all" class="mdl-tabs__tab">All</a>
+      <a href="#{$prefix}upload" id="{$prefix}upload_tab" class="mdl-tabs__tab{if not $opt_media_type} is-active{/if}">
+        {msg desc=""}Upload{/msg}
+      </a>
+      <a href="#{$prefix}images" id="{$prefix}images_tab" class="mdl-tabs__tab{if $opt_media_type == 'image'} is-active{/if}">
+        {msg desc=""}Images{/msg}
+      </a>
+      <a href="#{$prefix}audio" id="{$prefix}audio_tab" class="mdl-tabs__tab{if $opt_media_type == 'audio'} is-active{/if}">
+        {msg desc=""}Audio{/msg}
+      </a>
+      <a href="#{$prefix}all" id="{$prefix}all_tab" class="mdl-tabs__tab"{if not $opt_media_type == 'image' and not $opt_media_type == 'audio'} is-active{/if}>
+        {msg desc=""}All{/msg}
+      </a>
+      <a href="#{$prefix}search" id="{$prefix}search_tab" class="mdl-tabs__tab">
+        {msg desc=""}Search{/msg}
+      </a>
     </div>
 
-    <div class="mdl-tabs__panel is-active" id="{$prefix}upload">
-      <div id="{$prefix}add-file">
-        <div id="{$prefix}add-file-text">
-          <i class="material-icons">file_upload</i>
-          {msg desc=""}Drop file here or click to select{/msg}
-        </div>
-      </div>
+    <div class="mdl-tabs__panel{if not $opt_media_type} is-active{/if}" id="{$prefix}upload">
+      {call .uploadFile data="all" /}
     </div>
 
-    <div class="mdl-tabs__panel" id="{$prefix}images">
+    <div class="mdl-tabs__panel{if $opt_media_type == 'image'} is-active{/if}" id="{$prefix}images">
       {call .imageFiles data="all" /}
     </div>
 
-    <div class="mdl-tabs__panel" id="{$prefix}audio">
+    <div class="mdl-tabs__panel{if $opt_media_type == 'audio'} is-active{/if}" id="{$prefix}audio">
       {call .audioFiles data="all" /}
     </div>
 
-    <div class="mdl-tabs__panel" id="{$prefix}all">
+    <div class="mdl-tabs__panel{if not $opt_media_type == 'image' and not $opt_media_type == 'audio'} is-active{/if}" id="{$prefix}all">
       {call .allFiles data="all" /}
     </div>
 
+    <div class="mdl-tabs__panel" id="{$prefix}search">
+      {call .searchFiles data="all" /}
+    </div>
+
   </div>
+{/template}
+
+
+/**
+ * Upload file
+ */
+{template .uploadFile}
+  {@param prefix: string}
+
+  <div id="{$prefix}add-file">
+    <div id="{$prefix}add-file-text">
+      <button id="{$prefix}upload-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+        {msg desc=""}Upload file{/msg}
+      </button>
+      <i class="material-icons">file_upload</i>
+      {msg desc=""}Drop file here or click to select{/msg}
+    </div>
+  </div>
+
 {/template}
 
 
@@ -124,4 +154,35 @@
     </div>
   {/foreach}
 
+{/template}
+
+
+/**
+ * Search for image files
+ */
+{template .searchFiles}
+  {@param prefix: string}
+
+  <div id="{$prefix}search-file">
+    
+    <h5>Search for Images on Google</h5>
+    <div>
+      <img src="../images/logos/googlelogo_color_52x20dp.png">
+      <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="{$prefix}search-term">
+        <label class="mdl-textfield__label" for="{$prefix}search-term">
+          {msg desc=""}Search ...{/msg}
+        </label>
+      </div>
+      <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+        <i class="material-icons">search</i> {msg desc=""}Search{/msg}
+      </button>
+    </div>
+    <p>
+      {msg desc=""}Results shown are labeled for commercial reuse with modification.{/msg}
+      <a href="https://support.google.com/drive/?p=docs_image_search" target="_blank">
+        {msg desc=""}Learn more{/msg}
+      </a>
+    </p>
+  </div>
 {/template}

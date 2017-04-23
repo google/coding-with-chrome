@@ -30,117 +30,117 @@
 
   <xml>
 
-    <category name="Game" colour="75">
+    <category name="{msg desc="Phaser Game Blocks"}Game{/msg}" colour="75">
       {call .gameBlocks /}
     </category>
 
-    <category name="Preload" colour="165">
+    <category name="{msg desc="Phaser Preload Blocks"}Preload{/msg}" colour="165">
       {call .preloadBlocks /}
     </category>
 
-    <category name="Create" colour="30">
+    <category name="{msg desc="Phaser Create Blocks"}Create{/msg}" colour="30">
 
-      <category name="General" colour="30">
+      <category name="{msg desc="Phaser General Create Blocks"}General Create{/msg}" colour="30">
         {call .createBlocks /}
       </category>
 
-      <category name="Audio" colour="245">
+      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
         {call .audioBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
       </category>
 
-      <category name="Sprite" colour="225">
+      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
         {call .spriteBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
       </category>
 
-      <category name="Tile Sprite" colour="285">
+      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
         {call .tileSpriteBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
       </category>
 
-      <category name="Physics Sprite" colour="0">
+      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
         {call .physicsSpriteBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
       </category>
 
-      <category name="Text" colour="255">
+      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
         {call .textBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
       </category>
 
-      <category name="Generators" colour="105">
+      <category name="{msg desc="Phaser Generators Blocks"}Generators{/msg}" colour="105">
         {call .generatorBlocks /}
       </category>
 
-      <category name="World" colour="345">
+      <category name="{msg desc="Phaser World Blocks"}World{/msg}" colour="345">
         {call .worldBlocks /}
       </category>
 
     </category>
 
-    <category name="Update" colour="315">
+    <category name="{msg desc="Phaser Update Blocks"}Update{/msg}" colour="315">
 
-      <category name="General" colour="315">
+      <category name="{msg desc="Phaser General Update Blocks"}General Update{/msg}" colour="315">
         {call .updateBlocks /}
       </category>
 
-      <category name="Audio" colour="245">
+      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
         {call .audioBlocks /}
       </category>
 
-      <category name="Sprite" colour="225">
+      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
         {call .spriteBlocks /}
       </category>
 
-      <category name="Tile Sprite" colour="285">
+      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
         {call .tileSpriteBlocks /}
       </category>
 
-      <category name="Physics Sprite" colour="0">
+      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
         {call .physicsSpriteBlocks /}
       </category>
 
-      <category name="Text" colour="255">
+      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
         {call .textBlocks /}
       </category>
 
     </category>
 
-    <category name="Input" colour="135">
+    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="135">
 
-      <category name="General" colour="135">
+      <category name="{msg desc="Phaser General Input Blocks"}General Input{/msg}" colour="135">
         {call .inputBlocks /}
       </category>
 
-      <category name="Audio" colour="245">
+      <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
         {call .audioBlocks /}
       </category>
 
-      <category name="Sprite" colour="225">
+      <category name="{msg desc="Phaser Sprite Blocks"}Sprite{/msg}" colour="225">
         {call .spriteBlocks /}
       </category>
 
-      <category name="Tile Sprite" colour="285">
+      <category name="{msg desc="Phaser Tile Sprite Blocks"}Tile Sprite{/msg}" colour="285">
         {call .tileSpriteBlocks /}
       </category>
 
-      <category name="Physics Sprite" colour="0">
+      <category name="{msg desc="Phaser Physics Sprite Blocks"}Physics Sprite{/msg}" colour="0">
         {call .physicsSpriteBlocks /}
       </category>
 
-      <category name="Text" colour="255">
+      <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
         {call .textBlocks /}
       </category>
 
     </category>
 
-    <category name="Render" colour="195">
+    <category name="{msg desc="Phaser Render Blocks"}Render{/msg}" colour="195">
       {call .renderBlocks /}
     </category>
 
@@ -505,7 +505,7 @@
     <field name="direction">up.isDown</field>
     <value name="cursors">
       <block type="variables_get">
-        <field name="VAR">cursors</field>
+        <field name="VAR">cursor_keys</field>
       </block>
     </value>
   </block>
@@ -541,7 +541,7 @@
         <field name="direction">up.isDown</field>
         <value name="cursors">
           <block type="variables_get">
-            <field name="VAR">cursors</field>
+            <field name="VAR">cursor_keys</field>
           </block>
         </value>
       </block>
@@ -551,7 +551,7 @@
         <field name="direction">down.isDown</field>
         <value name="cursors">
           <block type="variables_get">
-            <field name="VAR">cursors</field>
+            <field name="VAR">cursor_keys</field>
           </block>
         </value>
       </block>
@@ -561,7 +561,7 @@
         <field name="direction">left.isDown</field>
         <value name="cursors">
           <block type="variables_get">
-            <field name="VAR">cursors</field>
+            <field name="VAR">cursor_keys</field>
           </block>
         </value>
       </block>
@@ -571,7 +571,7 @@
         <field name="direction">right.isDown</field>
         <value name="cursors">
           <block type="variables_get">
-            <field name="VAR">cursors</field>
+            <field name="VAR">cursor_keys</field>
           </block>
         </value>
       </block>

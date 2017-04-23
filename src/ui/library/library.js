@@ -58,21 +58,30 @@ cwc.ui.Library = function(helper) {
   this.nodeAll = null;
 
   /** @type {Element} */
+  this.nodeAudio = null;
+
+  /** @type {Element} */
   this.nodeImages = null;
 
   /** @type {Element} */
-  this.nodeAudio = null;
+  this.nodeSearchButton = null;
+
+  /** @type {Element} */
+  this.nodeSearchTerm = null;
 
   /** @type {Element} */
   this.nodePreview = null;
 
   /** @type {Array} */
   this.listener = [];
+
+  /** @private {Object} */
+  this.tour_ = null;
 };
 
 
 /**
- * Decorates the given node and adds the file library.
+ * Decorates the file library.
  */
 cwc.ui.Library.prototype.decorate = function() {
   var layoutInstance = this.helper.getInstance('layout');
@@ -81,17 +90,13 @@ cwc.ui.Library.prototype.decorate = function() {
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
-};
 
-
-/**
- * Decorates the library content.
- */
-cwc.ui.Library.prototype.decorateLibrary = function() {
   this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
   this.nodeAll = goog.dom.getElement(this.prefix + 'all');
   this.nodeAudio = goog.dom.getElement(this.prefix + 'audio');
   this.nodeImages = goog.dom.getElement(this.prefix + 'images');
+  this.nodeSearchButton = goog.dom.getElement(this.prefix + 'search-button');
+  this.nodeSearchTerm = goog.dom.getElement(this.prefix + 'search-term');
 
   this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
@@ -107,6 +112,10 @@ cwc.ui.Library.prototype.decorateLibrary = function() {
     this.handleFileClick_, false, this);
   this.addEventListener(this.nodeImages, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
+  this.addEventListener(this.nodeSearchButton, goog.events.EventType.CLICK,
+    this.handleSearch_, false, this);
+
+  this.prepareTour_();
 };
 
 
@@ -119,23 +128,40 @@ cwc.ui.Library.prototype.showLibrary = function() {
     prefix: this.prefix,
     files: this.getFiles()
   });
-  this.decorateLibrary();
+  this.decorate();
   this.syncFiles();
+
+  if (this.helper.getAndSetFirstRun(this.name)) {
+    this.startTour();
+  }
+};
+
+
+/**
+ * Starts an basic tour.
+ */
+cwc.ui.Library.prototype.startTour = function() {
+  if (this.tour_) {
+    this.tour_['start']();
+  }
 };
 
 
 /**
  * Update the visible library file list.
  * @param {Object=} opt_files
+ * @param {string=} opt_media_type
  */
-cwc.ui.Library.prototype.updateLibraryFileList = function(opt_files) {
-  console.log('Updating library file list ...');
+cwc.ui.Library.prototype.updateLibraryFileList = function(opt_files,
+    opt_media_type) {
+  console.log('Updating library file list ...', opt_media_type);
   var dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.updateTemplate(cwc.soy.Library.template, {
     prefix: this.prefix,
-    files: opt_files || this.getFiles()
+    files: opt_files || this.getFiles(),
+    opt_media_type: opt_media_type
   });
-  this.decorateLibrary();
+  this.decorate();
 };
 
 
@@ -276,7 +302,7 @@ cwc.ui.Library.prototype.addFile = function(name, content, opt_type) {
       console.error('Was not able to add File: ' + newFile);
     } else {
       this.syncFiles();
-      this.updateLibraryFileList();
+      this.updateLibraryFileList(null, newFile.getMediaType());
     }
   }
 };
@@ -313,6 +339,17 @@ cwc.ui.Library.prototype.handleDrop_ = function(e) {
     this.readFile(file);
   }
   goog.dom.classlist.enable(e.target, 'active', false);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.handleSearch_ = function() {
+  var searchTerm = this.nodeSearchTerm.value || '';
+  var searchUrl = 'https://www.google.de/search?as_st=y&tbm=isch&as_q=' +
+    searchTerm + '&safe=active&tbs=itp:clipart,sur:fmc';
+  this.helper.openUrl(searchUrl);
 };
 
 
@@ -358,4 +395,72 @@ cwc.ui.Library.prototype.addEventListener = function(src, type,
  */
 cwc.ui.Library.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Library.prototype.prepareTour_ = function() {
+  if (!this.helper.checkJavaScriptFeature('shepherd') || this.tour_) {
+    return;
+  }
+
+  this.tour_ = new Shepherd.Tour({
+    'defaults': {
+      'classes': 'shepherd-theme-arrows',
+      'showCancelLink': true
+    }
+  });
+  this.tour_.addStep('intro', {
+    'title': i18t('File library'),
+    'text': i18t('The file library is used to managed all of your files for ' +
+      'your project.'),
+    'attachTo': '#' + this.prefix + 'chrome center',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': this.tour_.cancel,
+      'classes': 'shepherd-button-secondary',
+    }, {
+      'text': i18t('Next'),
+      'action': this.tour_.next,
+      'classes': 'shepherd-button-example-primary'
+    }]
+  });
+  this.tour_.addStep('upload', {
+    'title': i18t('File library'),
+    'text': i18t('Click here to upload a file to your library.'),
+    'attachTo': '#' + this.prefix + 'upload-button left',
+    'advanceOn': '#' + this.prefix + 'upload-button click',
+  });
+  this.tour_.addStep('images', {
+    'text': i18t('You will find all image files here.'),
+    'attachTo': '#' + this.prefix + 'images_tab bottom',
+    'advanceOn': '#' + this.prefix + 'images_tab click'
+  });
+  this.tour_.addStep('audio', {
+    'text': i18t('All audio files will be here.'),
+    'attachTo': '#' + this.prefix + 'audio_tab bottom',
+    'advanceOn': '#' + this.prefix + 'audio_tab click'
+  });
+  this.tour_.addStep('all', {
+    'text': i18t('All of your files will be here.'),
+    'attachTo': '#' + this.prefix + 'all_tab bottom',
+    'advanceOn': '#' + this.prefix + 'all_tab click'
+  });
+  this.tour_.addStep('search', {
+    'text': i18t('This search will help you to find additional images for ' +
+      'your project.'),
+    'attachTo': '#' + this.prefix + 'search_tab bottom',
+    'advanceOn': '#' + this.prefix + 'search_tab click'
+  });
+  this.tour_.addStep('close', {
+    'text': i18t('To close this window, click the close button.'),
+    'attachTo': '#cwc-dialog-close left',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': this.tour_.cancel,
+      'classes': 'shepherd-button-example-primary',
+    }]
+  });
 };

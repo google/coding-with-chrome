@@ -103,6 +103,9 @@ cwc.utils.Helper = function() {
 
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
+
+  /** @private {Object} */
+  this.hadFirstRun_ = {};
 };
 
 
@@ -459,7 +462,11 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
   console.log('File', fileName, 'was modified:', fileModified);
   if (fileModified) {
     var dialogInstance = this.getInstance('dialog');
-    var title = i18t('Unsaved Changes for') + ' ' + fileName;
+    var title = {
+      icon: 'warning',
+      title: 'Unsaved Changes for',
+      untranslated: ' ' + fileName
+    };
     var content = 'Changes have not been saved. Exit?';
     dialogInstance.showYesNo(title, content).then((answer) => {
       if (answer) {
@@ -477,7 +484,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
  */
 cwc.utils.Helper.prototype.tourEvent = function(name) {
   if (this.checkJavaScriptFeature('shepherd')) {
-    new Shepherd['Evented']()['trigger'](name);
+    new Shepherd.Evented().trigger(name);
   }
 };
 
@@ -487,9 +494,58 @@ cwc.utils.Helper.prototype.tourEvent = function(name) {
  */
 cwc.utils.Helper.prototype.endTour = function() {
   if (this.checkJavaScriptFeature('shepherd')) {
-    if (Shepherd['activeTour']) {
-      Shepherd['activeTour']['complete']();
+    if (Shepherd.activeTour) {
+      Shepherd.activeTour.complete();
     }
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @return {!boolean}
+ */
+cwc.utils.Helper.prototype.isFirstRun = function(name) {
+  var firstRun = !this.hadFirstRun_[name];
+  if (firstRun) {
+    console.log('First run for', name);
+  }
+  return firstRun;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!boolean} first_run
+ */
+cwc.utils.Helper.prototype.setFirstRun = function(name, first_run) {
+  this.hadFirstRun_[name] = !first_run;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {boolean=} opt_first_run
+ * @return {!boolean}
+ */
+cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
+    opt_first_run=false) {
+  var firstRun = this.isFirstRun(name);
+  this.setFirstRun(name, opt_first_run);
+  return firstRun;
+};
+
+
+/**
+ * @param {!string} url
+ */
+cwc.utils.Helper.prototype.openUrl = function(url) {
+  if (this.checkChromeFeature('browser')) {
+    chrome.browser.openTab({
+      url: url
+    });
+  } else {
+    window.open(url);
   }
 };
 

@@ -37,15 +37,15 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param? opt_title_icon: string}
+  {@param? opt_title_untranslated: string}
 
-  <h3 class="mdl-dialog__title">
-    {msg desc=""}{$title}{/msg}
-  </h3>
+  {call .dialogTitle_ data="all" /}
   <div id="{$prefix}content" class="mdl-dialog__content">
     {$content}
   </div>
   <div id="{$prefix}buttons" class="mdl-dialog__actions">
-    <button id="{$prefix}close" type="button" class="mdl-button close">
+    <button id="{$prefix}close" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
       {msg desc=""}Close{/msg}
     </button>
   </div>
@@ -59,15 +59,15 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param? opt_title_icon: string}
+  {@param? opt_title_untranslated: string}
 
-  <h3 class="mdl-dialog__title">
-    {msg desc=""}{$title}{/msg}
-  </h3>
+  {call .dialogTitle_ data="all" /}
   <div class="mdl-dialog__content">
     {$content}
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}ok" type="button" class="mdl-button">
+    <button id="{$prefix}ok" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
       {msg desc=""}OK{/msg}
     </button>
   </div>
@@ -81,18 +81,18 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param? opt_title_icon: string}
+  {@param? opt_title_untranslated: string}
 
-  <h3 class="mdl-dialog__title">
-    {msg desc=""}{$title}{/msg}
-  </h3>
+  {call .dialogTitle_ data="all" /}
   <div class="mdl-dialog__content">
     {$content}
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}yes" type="button" class="mdl-button">
+    <button id="{$prefix}yes" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
       {msg desc=""}Yes{/msg}
     </button>
-    <button id="{$prefix}no" type="button" class="mdl-button close">
+    <button id="{$prefix}no" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
       {msg desc=""}No{/msg}
     </button>
   </div>
@@ -106,11 +106,11 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param? opt_title_icon: string}
+  {@param? opt_title_untranslated: string}
   {@param? opt_values: string}
 
-  <h3 class="mdl-dialog__title">
-    {msg desc=""}{$title}{/msg}
-  </h3>
+  {call .dialogTitle_ data="all" /}
   <div class="mdl-dialog__content {$prefix}prompt">
     {if $content}<span class="{$prefix}prompt-content">{$content}</span>{/if}
     <div class="mdl-textfield mdl-js-textfield">
@@ -119,13 +119,29 @@
     </div>
   </div>
   <div class="mdl-dialog__actions">
-    <button id="{$prefix}ok" type="button" class="mdl-button">
+    <button id="{$prefix}ok" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
       {msg desc=""}Ok{/msg}
     </button>
-    <button id="{$prefix}cancel" type="button" class="mdl-button close">
+    <button id="{$prefix}cancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
       {msg desc=""}Cancel{/msg}
     </button>
   </div>
+{/template}
+
+
+/**
+ * Dialog title
+ */
+{template .dialogTitle_}
+  {@param title: string}
+  {@param? opt_title_icon: string}
+  {@param? opt_title_untranslated: string}
+
+  <h3 class="mdl-dialog__title">
+    {if $opt_title_icon}<i class="material-icons">{$opt_title_icon}</i>{/if}
+    {msg desc=""}{$title}{/msg}
+    {$opt_title_untranslated}
+  </h3>
 {/template}
 
 
@@ -144,11 +160,12 @@
   {rb}
 
   #{$prefix}chrome {lb}
-    top: 50%;
-    transform: translateY(-50%);
-    width: -webkit-fit-content;
-    min-width: 300px;
     margin: auto;
+    min-width: 300px;
+    position: fixed;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: -webkit-fit-content;
   {rb}
 
   .{$prefix}prompt-content {lb}
@@ -169,10 +186,8 @@
   {@param prefix: string}
 
   #{$prefix}chrome .mdl-button {lb}
-    background: transparent;
     border: none;
     border-radius: 2px;
-    color: rgb(0,0,0);
     position: relative;
     height: 36px;
     margin: 0;
@@ -222,6 +237,12 @@
     padding: 24px 24px 0;
     margin: 0;
     font-size: 2rem;
+  {rb}
+
+  #{$prefix}chrome .mdl-dialog__title .material-icons {lb}
+    vertical-align: middle;
+    padding-right: 5px;
+    margin-bottom: 2px;
   {rb}
 
   #{$prefix}chrome .mdl-dialog__actions {lb}
