@@ -135,11 +135,36 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
     this.appendDummyInput()
         .appendField(i18t('is pressed'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('up'), 'up.isDown'],
-          [i18t('down'), 'down.isDown'],
-          [i18t('left'), 'left.isDown'],
-          [i18t('right'), 'right.isDown'],
-          [i18t('key pressed'), 'isDown']
+          [i18t('up'), '.up'],
+          [i18t('down'), '.down'],
+          [i18t('left'), '.left'],
+          [i18t('right'), '.right'],
+          [i18t('key pressed'), '']
+        ]), 'direction');
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Keyboard cursor is hold pressed.
+ */
+Blockly.Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
+  init: function() {
+    this.appendValueInput('cursors')
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(i18t('is hold pressed'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('up'), '.up'],
+          [i18t('down'), '.down'],
+          [i18t('left'), '.left'],
+          [i18t('right'), '.right'],
+          [i18t('key pressed'), '']
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
@@ -159,6 +184,24 @@ Blockly.Blocks['phaser_input_keyboard_key_is_pressed'] = {
         .setCheck(null);
     this.appendDummyInput()
         .appendField(i18t('is pressed'));
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Keyboard key hold is pressed.
+ */
+Blockly.Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
+  init: function() {
+    this.appendValueInput('key')
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(i18t('is hold pressed'));
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);

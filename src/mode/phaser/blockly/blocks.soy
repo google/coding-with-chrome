@@ -111,8 +111,9 @@
  * Default Phaser blocks.
  */
 {template .defaultPhaserBlocks}
-  {@param? opt_show_create_blocks: bool}
+  {@param? opt_hide_event_blocks: bool}
   {@param? opt_hide_input_blocks: bool}
+  {@param? opt_show_create_blocks: bool}
 
   <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
     {call .audioBlocks data="all" /}
@@ -328,7 +329,7 @@
  * Generator blocks.
  */
 {template .generatorBlocks}
-  <block type="phaser_generator_obstacle_vertical">
+  <block type="phaser_generator_vertical_obstacle">
     <value name="obstacles">
       <block type="math_number">
         <field name="NUM">12</field>
@@ -360,6 +361,46 @@
     <value name="sprite_bottom">
       <block type="text"></block>
     </value>
+    <value name="group">
+      <block type="variables_get">
+        <field name="VAR">obstacle_group</field>
+      </block>
+    </value>
+    <field name="property">velocity.x</field>
+    <value name="value">
+      <block type="math_number">
+        <field name="NUM">-200</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_generator_random_vertical_obstacle">
+    <value name="obstacles">
+      <block type="math_number">
+        <field name="NUM">3</field>
+      </block>
+    </value>
+    <value name="x">
+      <block type="phaser_world_attributes">
+        <field name="attribute">width</field>
+      </block>
+    </value>
+    <value name="y">
+      <block type="phaser_world_attributes">
+        <field name="attribute">height</field>
+      </block>
+    </value>
+    <value name="sprite">
+      <block type="text">
+        <field name="TEXT">obstacles</field>
+      </block>
+    </value>
+    <value name="sprite_optional">
+      <block type="text">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <field name="direction">bottom</field>
     <value name="group">
       <block type="variables_get">
         <field name="VAR">obstacle_group</field>
@@ -407,9 +448,12 @@
  * Game blocks.
  */
 {template .gameBlocks}
+
   <block type="phaser_game">
     <next>
       <block type="phaser_game_state">
+        <field name="name">main</field>
+        <field name="autostart">true</field>
         <statement name="state">
           <block type="phaser_preload">
             <next>
@@ -433,7 +477,29 @@
     </next>
   </block>
 
-  <block type="phaser_game_state"></block>
+  <block type="phaser_game_state">
+    <field name="name">game_over</field>
+    <field name="autostart">false</field>
+    <statement name="state">
+      <block type="phaser_preload">
+        <next>
+          <block type="phaser_create">
+            <next>
+               <block type="phaser_input">
+                  <next>
+                    <block type="phaser_update">
+                      <next>
+                        <block type="phaser_render" collapsed="true"></block>
+                      </next>
+                    </block>
+                  </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
 
   <block type="phaser_game_start"></block>
 {/template}
@@ -486,6 +552,24 @@
 
   {if not $opt_show_create_blocks}
 
+    <block type="phaser_input_keyboard_cursor_is_pressed">
+      <field name="direction">up.isDown</field>
+      <value name="cursors">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+      <field name="direction">up.isDown</field>
+      <value name="cursors">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
+
     <block type="phaser_input_keyboard_key_is_pressed">
       <value name="key">
         <block type="variables_get">
@@ -494,11 +578,10 @@
       </value>
     </block>
 
-    <block type="phaser_input_keyboard_cursor_is_pressed">
-      <field name="direction">up.isDown</field>
-      <value name="cursors">
+    <block type="phaser_input_keyboard_key_is_hold_pressed">
+      <value name="key">
         <block type="variables_get">
-          <field name="VAR">cursor_keys</field>
+          <field name="VAR">spacebar</field>
         </block>
       </value>
     </block>
@@ -530,8 +613,8 @@
     <block type="controls_if">
       <mutation elseif="3"></mutation>
       <value name="IF0">
-        <block type="phaser_input_keyboard_cursor_is_pressed">
-          <field name="direction">up.isDown</field>
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.up</field>
           <value name="cursors">
             <block type="variables_get">
               <field name="VAR">cursor_keys</field>
@@ -540,8 +623,8 @@
         </block>
       </value>
       <value name="IF1">
-        <block type="phaser_input_keyboard_cursor_is_pressed">
-          <field name="direction">down.isDown</field>
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.down</field>
           <value name="cursors">
             <block type="variables_get">
               <field name="VAR">cursor_keys</field>
@@ -550,8 +633,8 @@
         </block>
       </value>
       <value name="IF2">
-        <block type="phaser_input_keyboard_cursor_is_pressed">
-          <field name="direction">left.isDown</field>
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.left</field>
           <value name="cursors">
             <block type="variables_get">
               <field name="VAR">cursor_keys</field>
@@ -560,8 +643,8 @@
         </block>
       </value>
       <value name="IF3">
-        <block type="phaser_input_keyboard_cursor_is_pressed">
-          <field name="direction">right.isDown</field>
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.right</field>
           <value name="cursors">
             <block type="variables_get">
               <field name="VAR">cursor_keys</field>
@@ -629,31 +712,33 @@
     </value>
   </block>
 
-  <block type="phaser_physics_arcade_overlap">
-    <value name="object1">
-      <block type="variables_get">
-        <field name="VAR">player</field>
-      </block>
-    </value>
-    <value name="object2">
-      <block type="variables_get">
-        <field name="VAR">obstacle</field>
-      </block>
-    </value>
-  </block>
+  {if not $opt_show_create_blocks}
+    <block type="phaser_physics_arcade_overlap">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">obstacle</field>
+        </block>
+      </value>
+    </block>
 
-  <block type="phaser_physics_arcade_collide">
-    <value name="object1">
-      <block type="variables_get">
-        <field name="VAR">player</field>
-      </block>
-    </value>
-    <value name="object2">
-      <block type="variables_get">
-        <field name="VAR">obstacle</field>
-      </block>
-    </value>
-  </block>
+    <block type="phaser_physics_arcade_collide">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">obstacle</field>
+        </block>
+      </value>
+    </block>
+  {/if}
 {/template}
 
 
@@ -756,10 +841,10 @@
       </block>
     </value>
     <value name="x">
-      <block type="math_number">-100</block>
+      <block type="math_number"><field name="NUM">-50</field></block>
     </value>
     <value name="y">
-      <block type="math_number"></block>
+      <block type="math_number"><field name="NUM">0</field></block>
     </value>
   </block>
 {/template}

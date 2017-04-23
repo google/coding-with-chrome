@@ -34,7 +34,11 @@ Blockly.JavaScript['phaser_input'] = function(block) {
 Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = this.input.keyboard.createCursorKeys();\n';
+  return variable + ' = this.input.keyboard.createCursorKeys();\n' +
+    variable + '.down.onDown.add(this.input_, this);\n' +
+    variable + '.left.onDown.add(this.input_, this);\n' +
+    variable + '.right.onDown.add(this.input_, this);\n' +
+    variable + '.up.onDown.add(this.input_, this);\n';
 };
 
 
@@ -45,7 +49,8 @@ Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable +
-    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n';
+    ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n' +
+    variable + '.onDown.add(this.input_, this);\n';
 };
 
 
@@ -57,7 +62,8 @@ Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = this.input.keyboard.addKey(' + dropdown_keycode +
-    ');\n';
+    ');\n' +
+    variable + '.onDown.add(this.input_, this);\n';
 };
 
 
@@ -79,7 +85,22 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
   var value_cursors = Blockly.JavaScript.valueToCode(
     block, 'cursors', Blockly.JavaScript.ORDER_ATOMIC);
   var dropdown_direction = block.getFieldValue('direction');
-  var code = value_cursors + '.' + dropdown_direction;
+  var code = value_cursors + dropdown_direction + '.isDown && e === ' +
+    value_cursors + dropdown_direction;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Keyboard cursor is hold pressed.
+ */
+Blockly.JavaScript['phaser_input_keyboard_cursor_is_hold_pressed'] = function(
+    block) {
+  var value_cursors = Blockly.JavaScript.valueToCode(
+    block, 'cursors', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_direction = block.getFieldValue('direction');
+  var code = value_cursors + dropdown_direction + '.isDown && e !== ' +
+    value_cursors + dropdown_direction;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -90,7 +111,19 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
 Blockly.JavaScript['phaser_input_keyboard_key_is_pressed'] = function(block) {
   var value_key = Blockly.JavaScript.valueToCode(
     block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = value_key + '.isDown';
+  var code = value_key + '.isDown && e === ' + value_key;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
+ * Keyboard key is hold pressed.
+ */
+Blockly.JavaScript['phaser_input_keyboard_key_is_hold_pressed'] = function(
+    block) {
+  var value_key = Blockly.JavaScript.valueToCode(
+    block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = value_key + '.isDown && e !== ' + value_key;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

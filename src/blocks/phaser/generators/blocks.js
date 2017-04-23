@@ -19,7 +19,11 @@
  */
 
 
-Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
+
+/**
+ * Vertical obstacle generator.
+ */
+Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
@@ -56,6 +60,74 @@ Blockly.Blocks['phaser_generator_obstacle_vertical'] = {
         .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('group'));
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('property'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'acceleration.set'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('value'));
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(105);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Random vertical obstacle generator.
+ */
+Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('generate random vertical obstacles'));
+    this.appendValueInput('obstacles')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('number of obstacles'));
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('x');
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField('y');
+    this.appendValueInput('sprite')
+        .setCheck('String')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('sprite'));
+    this.appendValueInput('sprite_optional')
+        .setCheck('String')
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('optional sprite'));
+    this.appendValueInput('group')
+        .setCheck(null)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('group'));
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(i18t('direction'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('start from top'), 'top'],
+          [i18t('start from bottom'), 'bottom'],
+        ]), 'direction');
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('property'))

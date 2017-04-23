@@ -40,11 +40,12 @@ var cwcBuildUi = function() {
           '*');
       }
       return null;
-    } else if (typeof cwc.ui.Builder == 'undefined') {
+    } else if (typeof cwc.ui == 'undefined' ||
+               typeof cwc.ui.Builder == 'undefined') {
       if (loader) {
         loader.contentWindow.postMessage({'command': 'error',
           'msg': 'cwc.ui.Builder is undefined!\n' +
-            'Maybe an uncaught TypeError, SyntaxError, ...'},
+            'Maybe an uncaught TypeError, SyntaxError, ... or missing files.'},
           '*');
       }
       return null;

@@ -29,7 +29,7 @@ Blockly.Blocks['phaser_audio_add'] = {
         .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField(i18t('as audio'))
-        .appendField(new Blockly.FieldTextInput('name'), 'audio')
+        .appendField(new Blockly.FieldTextInput('audio'), 'audio')
         .appendField(i18t('with volume'))
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
         .appendField(i18t('%'))

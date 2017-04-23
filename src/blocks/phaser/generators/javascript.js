@@ -19,7 +19,11 @@
  */
 
 
-Blockly.JavaScript['phaser_generator_obstacle_vertical'] = function(block) {
+
+/**
+ * Vertical obstacle generator.
+ */
+Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
   var value_obstacles = Blockly.JavaScript.valueToCode(
     block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
   var value_spaces = Blockly.JavaScript.valueToCode(
@@ -44,5 +48,35 @@ Blockly.JavaScript['phaser_generator_obstacle_vertical'] = function(block) {
     value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
     value_spaces + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
     value_sprite_bottom + ', ' + value_group + ', \'' + dropdown_property +
+    '\', ' +  value_value + ');\n';
+};
+
+
+/**
+ * Random vertical obstacle generator.
+ */
+Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
+    block) {
+  var value_obstacles = Blockly.JavaScript.valueToCode(
+    block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_sprite = Blockly.JavaScript.valueToCode(
+    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_sprite_optional = Blockly.JavaScript.valueToCode(
+    block, 'sprite_optional', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_group = Blockly.JavaScript.valueToCode(
+    block, 'group', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_value = Blockly.JavaScript.valueToCode(
+    block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_direction = block.getFieldValue('direction');
+  var dropdown_property = block.getFieldValue('property');
+
+  return 'cwc.framework.Phaser.RandomVerticalObstacleGenerator(\n  ' +
+    value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
+    value_sprite + ', ' + value_sprite_optional + ', ' +
+    value_group + ', \'' + dropdown_direction + '\', \'' + dropdown_property +
     '\', ' +  value_value + ');\n';
 };

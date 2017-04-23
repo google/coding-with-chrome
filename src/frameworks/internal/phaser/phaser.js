@@ -68,23 +68,57 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
 cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
     space, sprite, opt_sprite_top, opt_sprite_bottom, opt_group,
     opt_manipulation = '', opt_manipulation_value = '') {
-  var spriteSpace = game.rnd.integerInRange(1, num_blocks - space - 1);
+  var spriteSpace = game.rnd.integerInRange(0, num_blocks - space - 1);
   var height = game.cache.getImage(sprite).height;
   for (let i = 0; i < num_blocks; i++) {
     if (i < spriteSpace || i >= spriteSpace + space) {
+      var groupSprite = sprite;
       if (i == spriteSpace + space && opt_sprite_bottom) {
-        cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, opt_sprite_bottom, opt_group, opt_manipulation,
-          opt_manipulation_value);
+        groupSprite = opt_sprite_bottom;
       } else if (i == spriteSpace - 1 && opt_sprite_top) {
-        cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, opt_sprite_top, opt_group, opt_manipulation,
-          opt_manipulation_value);
-      } else {
-        cwc.framework.Phaser.addGroupSprite(
-          x, y + i * height, sprite, opt_group, opt_manipulation,
-          opt_manipulation_value);
+        groupSprite = opt_sprite_top;
       }
+      cwc.framework.Phaser.addGroupSprite(
+        x, y + i * height, groupSprite, opt_group, opt_manipulation,
+        opt_manipulation_value);
+    }
+  }
+};
+
+
+/**
+ * @param {!number} x
+ * @param {!number} y
+ * @param {!number} num_blocks
+ * @param {!number} space
+ * @param {!string} sprite
+ * @param {string=} opt_sprite_top
+ * @param {string=} opt_sprite_bottom
+ * @param {Object=} opt_group
+ * @param {string=} opt_manipulation
+ * @param {string=} opt_manipulation_value
+ * @export
+ */
+cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
+    num_blocks, sprite, opt_sprite, opt_group, opt_direction,
+    opt_manipulation = '', opt_manipulation_value = '') {
+  var height = game.cache.getImage(sprite).height;
+  var numBlocks = game.rnd.integerInRange(0, num_blocks);
+  if (opt_direction === 'top') {
+    y = y - height;
+  }
+
+  for (let i = 1; i <= numBlocks; i++) {
+    if (opt_direction === 'top') {
+      cwc.framework.Phaser.addGroupSprite(x, y + i * height,
+        (opt_sprite && i === numBlocks) ? opt_sprite : sprite,
+        opt_group, opt_manipulation,
+        opt_manipulation_value);
+    } else {
+      cwc.framework.Phaser.addGroupSprite(x, y - i * height,
+        (opt_sprite && i === numBlocks) ? opt_sprite : sprite,
+        opt_group, opt_manipulation,
+        opt_manipulation_value);
     }
   }
 };
