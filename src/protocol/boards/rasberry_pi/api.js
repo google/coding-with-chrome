@@ -40,9 +40,6 @@ cwc.protocol.raspberryPi.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
-
   /** @type {cwc.protocol.serial.Device} */
   this.device = null;
 

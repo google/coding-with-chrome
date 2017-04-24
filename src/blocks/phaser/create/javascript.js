@@ -54,8 +54,8 @@ Blockly.JavaScript['phaser_add_background'] = function(block) {
  */
 Blockly.JavaScript['phaser_add_group'] = function(block) {
   var text_name = block.getFieldValue('name');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.group(undefined, \'' + text_name + '\');\n';
 };
 

@@ -73,6 +73,13 @@
           {param opt_title: 'Insert Image...' /}
         {/call}
 
+        {call .navigationIcon_}
+          {param prefix: $toolbarPrefix /}
+          {param id: 'variable' /}
+          {param icon: 'attach_money' /}
+          {param opt_title: 'Create new variable...' /}
+        {/call}
+
         {if $experimental}
           {call .navigationIcon_}
             {param prefix: $toolbarPrefix /}

@@ -274,23 +274,6 @@ cwc.fileFormat.File.prototype.hasFiles = function() {
 
 
 /**
- * @return {!Object.<string>|string}
- */
-cwc.fileFormat.File.prototype.getFlags = function() {
-  return this.flags_;
-};
-
-
-/**
- * @param {!string} name
- * @param {Object.<string>|string|cwc.ui.EditorFlags} value
- */
-cwc.fileFormat.File.prototype.setFlag = function(name, value) {
-  this.flags_[name] = value;
-};
-
-
-/**
  * @param {!string} name
  * @return {Object.<string>|string|cwc.ui.EditorFlags}
  */
@@ -313,15 +296,6 @@ cwc.fileFormat.File.prototype.getFlags = function() {
  */
 cwc.fileFormat.File.prototype.setFlag = function(name, value) {
   this.flags_[name] = value;
-};
-
-
-/**
- * @param {!string} name
- * @return {Object.<string>|string|cwc.ui.EditorFlags}
- */
-cwc.fileFormat.File.prototype.getFlag = function(name) {
-  return this.flags_[name] || '';
 };
 
 

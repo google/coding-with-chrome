@@ -27,8 +27,8 @@ Blockly.JavaScript['phaser_audio_add'] = function(block) {
   var text_audio = block.getFieldValue('audio');
   var number_volume = block.getFieldValue('volume');
   var dropdown_loop = block.getFieldValue('loop');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.audio(\'' + text_audio + '\', ' +
     number_volume / 100 + ', ' + (dropdown_loop || 'false') + ');\n';
 };
@@ -38,8 +38,8 @@ Blockly.JavaScript['phaser_audio_add'] = function(block) {
  * Play audio.
  */
 Blockly.JavaScript['phaser_audio_play'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.play();\n';
 };
 
@@ -48,8 +48,8 @@ Blockly.JavaScript['phaser_audio_play'] = function(block) {
  * Pause audio.
  */
 Blockly.JavaScript['phaser_audio_pause'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.pause();\n';
 };
 
@@ -58,8 +58,8 @@ Blockly.JavaScript['phaser_audio_pause'] = function(block) {
  * Resume audio.
  */
 Blockly.JavaScript['phaser_audio_resume'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.resume();\n';
 };
 
@@ -68,7 +68,7 @@ Blockly.JavaScript['phaser_audio_resume'] = function(block) {
  * Stop audio.
  */
 Blockly.JavaScript['phaser_audio_stop'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.stop();\n';
 };

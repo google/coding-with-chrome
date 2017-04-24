@@ -20,14 +20,25 @@
 
 
 /**
+ * World resize.
+ */
+Blockly.JavaScript['phaser_world_resize'] = function(block) {
+  var number_width = block.getFieldValue('width');
+  var number_height = block.getFieldValue('height');
+  return 'game.world.resize(' + number_width + ', ' + number_height + ');\n';
+};
+
+
+/**
  * World wrap.
  */
 Blockly.JavaScript['phaser_world_wrap'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(block,
-    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'game.world.wrap(' + value_sprite + ', ' + (value_value || 0) + ');\n';
+  return 'game.world.wrap(' + variable + ', ' + (value_value || 0) +
+    ');\n';
 };
 
 

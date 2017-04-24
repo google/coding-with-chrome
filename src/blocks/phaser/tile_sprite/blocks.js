@@ -29,7 +29,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
         .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField(i18t('as tile sprite'))
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(new Blockly.FieldTextInput('blocks'), 'sprite')
         .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
@@ -56,7 +56,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
  */
 Blockly.Blocks['phaser_tile_sprite_adjust'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set title sprite'));
@@ -95,7 +95,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('destroy tile sprite'));
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -112,7 +112,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
  */
 Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('set tile sprite'));
@@ -124,8 +124,28 @@ Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
         .appendField(i18t('x'));
     this.appendDummyInput()
         .appendField(i18t('y'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(285);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Immovable tile sprite.
+ */
+Blockly.Blocks['phaser_tile_sprite_immovable'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .setCheck(null)
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('set tile sprite'));
+    this.appendDummyInput()
+        .appendField(i18t('as immovable by other objects'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');

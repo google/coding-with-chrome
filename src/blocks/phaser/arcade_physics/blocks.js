@@ -30,7 +30,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
         .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField('as arcade sprite')
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(new Blockly.FieldTextInput('player'), 'sprite')
         .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
@@ -50,7 +50,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
  */
 Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set physics sprite'));
@@ -86,11 +86,34 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
 
 
 /**
+ * Adjust arcade sprite dimension.
+ */
+Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('set physics sprite'));
+    this.appendDummyInput()
+        .appendField(i18t('dimension to'));
+    this.appendValueInput('width')
+        .setCheck('Number');
+    this.appendValueInput('height')
+        .setCheck('Number');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Physics arcade enable.
  */
 Blockly.Blocks['phaser_physics_arcade_enable'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('enable arcade physics for'));

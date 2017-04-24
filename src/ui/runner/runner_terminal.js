@@ -40,9 +40,6 @@ cwc.ui.RunnerTerminal = function(helper) {
 
   /** @type {Element} */
   this.nodeOutput = null;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 };
 
 

@@ -232,3 +232,26 @@ Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
     this.setHelpUrl('');
   }
 };
+
+
+/**
+ * Mouse key is pressed.
+ */
+Blockly.Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
+  init: function() {
+    this.appendValueInput('mouse')
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(i18t('is hold pressed'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('left'), 'leftButton.isDown'],
+          [i18t('right'), 'rightButton.isDown'],
+          [i18t('all'), 'isDown']
+        ]), 'direction');
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

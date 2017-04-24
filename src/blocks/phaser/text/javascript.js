@@ -26,8 +26,8 @@ Blockly.JavaScript['phaser_text_add'] = function(block) {
   var text_color = block.getFieldValue('color');
   var text_font = block.getFieldValue('font');
   var text_size = block.getFieldValue('size');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
   var value_x = Blockly.JavaScript.valueToCode(
@@ -50,8 +50,8 @@ Blockly.JavaScript['phaser_action_text_add'] = function(block) {
   var text_color = block.getFieldValue('color');
   var text_font = block.getFieldValue('font');
   var text_size = block.getFieldValue('size');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
   var value_x = Blockly.JavaScript.valueToCode(
@@ -75,8 +75,8 @@ Blockly.JavaScript['phaser_action_text_add'] = function(block) {
 Blockly.JavaScript['phaser_text_change'] = function(block) {
   var value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.text = ' + value_text + ';\n';
 };
 
@@ -85,8 +85,8 @@ Blockly.JavaScript['phaser_text_change'] = function(block) {
  * Get text.
  */
 Blockly.JavaScript['phaser_text_get'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
     variable + '.text)';
   return [code, Blockly.JavaScript.ORDER_NONE];
@@ -97,8 +97,8 @@ Blockly.JavaScript['phaser_text_get'] = function(block) {
  * Text clicked.
  */
 Blockly.JavaScript['phaser_text_clicked'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
   return variable + '.events.onInputDown.add(function() {\n' +
     statements_func + '}, this);\n';

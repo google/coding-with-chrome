@@ -135,7 +135,7 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-switch-game-state', this.loadFile_,
           'resources/examples/phaser/blocks/switch-game-state.cwc');
       this.setClickEvent_('link-move-a-sprite', this.loadFile_,
-          'resources/examples/phaser/blocks/Move-a-sprite.cwc');
+          'resources/examples/phaser/blocks/move-a-sprite.cwc');
       break;
 
     // Robot overview

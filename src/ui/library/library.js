@@ -75,6 +75,9 @@ cwc.ui.Library = function(helper) {
   /** @type {Array} */
   this.listener = [];
 
+  /** @type {number} */
+  this.numOfFiles_ = 0;
+
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
 };
@@ -114,6 +117,8 @@ cwc.ui.Library.prototype.decorate = function() {
     this.handleFileClick_, false, this);
   this.addEventListener(this.nodeSearchButton, goog.events.EventType.CLICK,
     this.handleSearch_, false, this);
+  this.addEventListener(this.nodeSearchTerm, goog.events.EventType.KEYUP,
+    this.handleSearchKey_, false, this);
 
   this.prepareTour_();
 };
@@ -135,7 +140,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
   this.decorate();
   this.syncFiles();
 
-  if (this.helper.getAndSetFirstRun(this.name)) {
+  if (this.helper.getAndSetFirstRun(this.name) && this.numOfFiles_ === 0) {
     this.startTour();
   }
 };
@@ -176,6 +181,8 @@ cwc.ui.Library.prototype.syncFiles = function() {
   var blocklyInstance = this.helper.getInstance('blockly');
   var editorInstance = this.helper.getInstance('editor');
   var fileInstance = this.helper.getInstance('file');
+  this.numOfFiles_ = 0;
+
   if (fileInstance) {
     var files = this.getFiles();
     if (files) {
@@ -187,6 +194,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
       if (editorInstance) {
         editorInstance.updateMediaButton(fileInstance.getFiles().hasFiles());
       }
+      this.numOfFiles_ = fileInstance.getFiles().getSize();
     } else if (!goog.isObject(files)) {
       console.error('Library data are in the wrong format!');
     }
@@ -347,6 +355,17 @@ cwc.ui.Library.prototype.handleDrop_ = function(e) {
 
 
 /**
+ * @param {!goog.events.BrowserEvent} e
+ * @private
+ */
+cwc.ui.Library.prototype.handleSearchKey_ = function(e) {
+  if (e.key === 'Enter') {
+    this.handleSearch_();
+  }
+};
+
+
+/**
  * @private
  */
 cwc.ui.Library.prototype.handleSearch_ = function() {
@@ -418,8 +437,8 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
   });
   this.tour_.addStep('intro', {
     'title': i18t('File library'),
-    'text': i18t('The file library is used to managed all of your files for ' +
-      'your project.'),
+    'text': this.i18t_('intro', 'The file library is used to managed all of ' +
+      'your files for your project.'),
     'attachTo': '#' + this.prefix + 'chrome center',
     'buttons': [{
       'text': i18t('Exit'),
@@ -433,33 +452,35 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
   });
   this.tour_.addStep('upload', {
     'title': i18t('File library'),
-    'text': i18t('Click here to upload a file to your library.'),
+    'text': this.i18t_('upload_button',
+      'Click here to upload a file to your library.'),
     'attachTo': '#' + this.prefix + 'upload-button left',
     'advanceOn': '#' + this.prefix + 'upload-button click',
   });
   this.tour_.addStep('images', {
-    'text': i18t('You will find all image files here.'),
+    'text': this.i18t_('image_tab', 'You will find all image files here.'),
     'attachTo': '#' + this.prefix + 'images_tab bottom',
     'advanceOn': '#' + this.prefix + 'images_tab click'
   });
   this.tour_.addStep('audio', {
-    'text': i18t('All audio files will be here.'),
+    'text': this.i18t_('audio_tab', 'All audio files will be here.'),
     'attachTo': '#' + this.prefix + 'audio_tab bottom',
     'advanceOn': '#' + this.prefix + 'audio_tab click'
   });
   this.tour_.addStep('all', {
-    'text': i18t('All of your files will be here.'),
+    'text': this.i18t_('all_tab', 'All of your files will be here.'),
     'attachTo': '#' + this.prefix + 'all_tab bottom',
     'advanceOn': '#' + this.prefix + 'all_tab click'
   });
   this.tour_.addStep('search', {
-    'text': i18t('This search will help you to find additional images for ' +
-      'your project.'),
+    'text': this.i18t_('search_tab',
+      'This search will help you to find additional images for your project.'),
     'attachTo': '#' + this.prefix + 'search_tab bottom',
     'advanceOn': '#' + this.prefix + 'search_tab click'
   });
   this.tour_.addStep('close', {
-    'text': i18t('To close this window, click the close button.'),
+    'text': this.i18t_('close_dialog',
+      'To close this window, click the close button.'),
     'attachTo': '#cwc-dialog-close left',
     'buttons': [{
       'text': i18t('Exit'),
@@ -467,4 +488,16 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
       'classes': 'shepherd-button-example-primary',
     }]
   });
+};
+
+
+/**
+ * @param {!string} key
+ * @param {string=} opt_text
+ */
+cwc.ui.Library.prototype.i18t_ = function(key, opt_text) {
+  if (opt_text) {
+    return i18t(this.name + '__' + key, opt_text);
+  }
+  return i18t(key);
 };

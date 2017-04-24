@@ -130,11 +130,9 @@ Blockly.Xml.domToPrettyText = function(dom) {};
 Blockly.Block = function() {};
 
 /**
- * @param {!Blockly.Workspace} workspace The block's workspace.
- * @param {?string} prototypeName Name of the language object containing
- *     type-specific functions for this block.
- * @param {string=} opt_id Optional ID.  Use this ID if provided, otherwise
- *     create a new id.
+ * @param {!Blockly.Workspace} workspace
+ * @param {?string} prototypeName
+ * @param {string=} opt_id
  * @constructor
  */
 Blockly.Blocks = function(workspace, prototypeName, opt_id) {};
@@ -154,18 +152,27 @@ Blockly.JavaScript = {};
 Blockly.JavaScript.ORDER_ATOMIC = '';
 
 /**
- * @param {!Blockly.Block} block The block containing the input.
- * @param {string} name The name of the input.
- * @param {number} order The maximum binding strength (minimum order value)
- *     of any operators adjacent to "block".
- * @return {string} Generated code or '' if no blocks are connected or the
- *     specified input does not exist.
+ * @param {!Blockly.Block} block
+ * @param {string} name
+ * @param {number} order
+ * @return {string}
  */
 Blockly.JavaScript.prototype.valueToCode = function(block, name, order) {};
 
 
 /** @type {Object} */
 Blockly.Xml = {};
+
+
+/** @type {Object} */
+Blockly.Variables = {};
+
+/**
+ * @param {!Blockly.Workspace} workspace
+ * @param {function(?string=)=} opt_callback
+ */
+Blockly.Variables.createVariable = function(workspace, opt_callback) {};
+
 
 /** @constructor */
 Blockly.Workspace = function() {};
@@ -188,16 +195,13 @@ Blockly.Workspace.prototype.setScale = function(newScale) {};
 Blockly.Workspace.prototype.scrollCenter = function() {};
 
 /**
- * Modify the block tree on the existing toolbox.
- * @param {Node|string} tree DOM tree of blocks, or text representation of same.
+ * @param {Node|string} tree
  */
 Blockly.Workspace.prototype.updateToolbox = function(tree) {};
 
 /**
- * When something in this workspace changes, call a function.
- * @param {!Function} func Function to call.
- * @return {!Function} Function that can be passed to
- *     removeChangeListener.
+ * @param {!Function} func
+ * @return {!Function}
  */
 Blockly.Workspace.prototype.addChangeListener = function(func) {};
 

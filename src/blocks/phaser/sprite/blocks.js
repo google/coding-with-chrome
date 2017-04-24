@@ -29,7 +29,7 @@ Blockly.Blocks['phaser_sprite_add'] = {
         .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField(i18t('as sprite'))
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(new Blockly.FieldTextInput('sprite'), 'sprite')
         .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
@@ -49,8 +49,7 @@ Blockly.Blocks['phaser_sprite_add'] = {
  */
 Blockly.Blocks['phaser_sprite_adjust'] = {
   init: function() {
-    this.appendValueInput('sprite')
-        .setCheck(null)
+    this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set sprite'));
     this.appendDummyInput()
@@ -84,11 +83,34 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
 
 
 /**
- * Adjust sprite.
+ * Adjust sprite dimension.
+ */
+Blockly.Blocks['phaser_sprite_adjust_dimension'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('set sprite'));
+    this.appendDummyInput()
+        .appendField(i18t('dimension to'));
+    this.appendValueInput('width')
+        .setCheck('Number');
+    this.appendValueInput('height')
+        .setCheck('Number');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Get sprite.
  */
 Blockly.Blocks['phaser_sprite_get'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(i18t('get sprite'));
     this.appendDummyInput()
@@ -113,11 +135,31 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('destroy sprite'));
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null);
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
     this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Immovable sprite.
+ */
+Blockly.Blocks['phaser_sprite_immovable'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .setCheck(null)
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('set sprite'));
+    this.appendDummyInput()
+        .appendField(i18t('as immovable by other objects'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');

@@ -435,6 +435,17 @@ cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
 
 
 /**
+ * Request to create new variable.
+ */
+cwc.ui.Blockly.prototype.createVariable = function() {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    Blockly.Variables.createVariable(workspace);
+  }
+};
+
+
+/**
  * @param {!Array} files
  */
 cwc.ui.Blockly.prototype.updateFiles = function(files) {

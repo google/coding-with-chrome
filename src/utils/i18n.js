@@ -91,9 +91,9 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
   }.bind(this);
 
   // Load optional files like blacklist and language
-  if (opt_blacklist_file && !opt_language) {
+  if (opt_blacklist_file && !opt_language_file) {
     this.loadBlacklistFile_(opt_blacklist_file, callbackHandling);
-  } else if (opt_blacklist_file && opt_language) {
+  } else if (opt_blacklist_file && opt_language_file) {
     this.loadBlacklistFile_(opt_blacklist_file, function() {
       this.loadLanguageFile_(opt_language_file, callbackHandling);
     }.bind(this));
@@ -107,22 +107,24 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
 
 /**
  * Translate the given text to the current language.
- * @param {!string} text
+ * @param {!string} key
+ * @param {string=} opt_text
  * @param {Object=} opt_options
  * @return {!string}
  */
-cwc.utils.I18n.prototype.translate = function(text, opt_options) {
+cwc.utils.I18n.prototype.translate = function(key, opt_text, opt_options) {
+
   if (!Locales || !Locales[this.language] ||
-      typeof Locales['blacklist'][text] !== 'undefined') {
-    return text;
+      typeof Locales['blacklist'][key] !== 'undefined') {
+    return opt_text || key;
   }
 
-  if (typeof Locales[this.language][text] === 'undefined') {
-    this.handleMissingKey_(text);
-    return text;
+  if (typeof Locales[this.language][key] === 'undefined') {
+    this.handleMissingKey_(key, opt_text);
+    return opt_text || key;
   }
 
-  return Locales[this.language][text];
+  return Locales[this.language][key];
 };
 
 
@@ -270,15 +272,20 @@ cwc.utils.I18n.prototype.loadLanguageFile_ = function(file_url, opt_callback) {
 
 /**
  * @param {!string} key
+ * @param {string=} opt_text
  * @private
  */
-cwc.utils.I18n.prototype.handleMissingKey_ = function(key) {
+cwc.utils.I18n.prototype.handleMissingKey_ = function(key, opt_text) {
   if (!/[a-zA-Z]{2,}/.test(key)) {
     return;
   }
 
   if (typeof this.untranslated[key] === 'undefined') {
-    this.log_.warn('[i18n] Untranslated:', key);
+    if (opt_text) {
+      this.log_.warn('[i18n] Untranslated Key', key, 'with text:', opt_text);
+    } else {
+      this.log_.warn('[i18n] Untranslated Key', key);
+    }
     this.untranslated[key] = 1;
   } else {
     this.untranslated[key]++;

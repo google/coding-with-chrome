@@ -20,11 +20,31 @@
 
 
 /**
+ * World resize.
+ */
+Blockly.Blocks['phaser_world_resize'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('set world size'))
+        .appendField(new Blockly.FieldNumber(400, 0, 10000), 'width')
+        .appendField('x')
+        .appendField(new Blockly.FieldNumber(600, 0, 10000), 'height');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(345);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * World wrap.
  */
 Blockly.Blocks['phaser_world_wrap'] = {
   init: function() {
-    this.appendValueInput('sprite')
+    this.appendValueInput('variable')
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('World wrap sprite'));

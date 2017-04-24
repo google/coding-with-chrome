@@ -63,6 +63,9 @@ cwc.ui.BlocklyToolbar = function(helper) {
   /** @type {Element} */
   this.nodeRedo = null;
 
+  /** @type {Element} */
+  this.nodeVariable = null;
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -93,6 +96,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
+  this.nodeVariable = goog.dom.getElement(this.prefix + 'variable');
 
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
@@ -117,6 +121,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
+  goog.events.listen(this.nodeVariable, goog.events.EventType.CLICK,
+    this.createVariable.bind(this));
 
 };
 
@@ -132,6 +138,17 @@ cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
     this.nodeMoreList.appendChild(item);
     goog.style.setElementShown(this.nodeMore, true);
     cwc.ui.Helper.mdlRefresh();
+  }
+};
+
+
+/**
+ * Create a new variable.
+ */
+cwc.ui.BlocklyToolbar.prototype.createVariable = function() {
+  var blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    blocklyInstance.createVariable();
   }
 };
 

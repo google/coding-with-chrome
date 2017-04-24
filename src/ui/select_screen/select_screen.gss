@@ -96,6 +96,11 @@
   vertical-align: top;
 }
 
+#{$prefix}select-screen-sub-note {
+  margin: auto;
+  width: 650px;
+}
+
 #{$prefix}select-screen-welcome > .mdl-grid {
   max-width: 800px;
 }
@@ -122,9 +127,4 @@
 
 #{$prefix}select-screen-welcome .mdl-grid > .mdl-card > .mdl-card__media {
   background-color: #fff;
-}
-
-#{$prefix}select-screen-sub-note {
-  margin: auto;
-  width: 600px;
 }

@@ -24,8 +24,8 @@
  */
 Blockly.JavaScript['phaser_sprite_add'] = function(block) {
   var text_sprite = block.getFieldValue('sprite');
-  var variable = Blockly.JavaScript.valueToCode(
-    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var value_y = Blockly.JavaScript.valueToCode(
@@ -39,27 +39,40 @@ Blockly.JavaScript['phaser_sprite_add'] = function(block) {
  * Adjust sprite.
  */
 Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(block,
-    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var dropdown_property = block.getFieldValue('property');
   var value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'anchor.set':
-      return value_sprite + '.' + dropdown_property +
-        '(' + value_value + ');\n';
+      return variable + '.' + dropdown_property + '(' + value_value + ');\n';
     case 'moveUp':
-      return value_sprite + '.y -= ' + value_value + ';\n';
+      return variable + '.y -= ' + value_value + ';\n';
     case 'moveDown':
-      return value_sprite + '.y += ' + value_value + ';\n';
+      return variable + '.y += ' + value_value + ';\n';
     case 'moveLeft':
-      return value_sprite + '.x -= ' + value_value + ';\n';
+      return variable + '.x -= ' + value_value + ';\n';
     case 'moveRight':
-      return value_sprite + '.x += ' + value_value + ';\n';
+      return variable + '.x += ' + value_value + ';\n';
     default:
-      return value_sprite + '.' + dropdown_property +
-      ' = ' + value_value + ';\n';
+      return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
   }
+};
+
+
+/**
+ * Adjust sprite dimension.
+ */
+Blockly.JavaScript['phaser_sprite_adjust_dimension'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_width = Blockly.JavaScript.valueToCode(
+    block, 'width', Blockly.JavaScript.ORDER_ATOMIC) || 50;
+  var value_height = Blockly.JavaScript.valueToCode(
+    block, 'height', Blockly.JavaScript.ORDER_ATOMIC) || 50;
+  return variable + '.width = ' + value_width + ';\n' +
+    variable + '.height = ' + value_height + ';\n';
 };
 
 
@@ -67,10 +80,10 @@ Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {
  * Get sprite.
  */
 Blockly.JavaScript['phaser_sprite_get'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(block,
-    'sprite', Blockly.JavaScript.ORDER_ATOMIC);
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
   var dropdown_property = block.getFieldValue('property');
-  var code = value_sprite + '.' + dropdown_property;
+  var code = variable + '.' + dropdown_property;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -79,7 +92,19 @@ Blockly.JavaScript['phaser_sprite_get'] = function(block) {
  * Destroy sprite.
  */
 Blockly.JavaScript['phaser_sprite_destroy'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(
-    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
-  return  value_sprite + '.destroy();\n';
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return  variable + '.destroy();\n';
 };
+
+
+/**
+ * Immovable sprite.
+ */
+Blockly.JavaScript['phaser_sprite_immovable'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.enable(' + variable + ');\n' +
+    variable + '.body.immovable = true;\n';
+};
+
