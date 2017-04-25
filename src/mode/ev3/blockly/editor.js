@@ -96,7 +96,8 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
       'Switch to the Blocky editor mode');
 
   // Custom Events
-  this.blockly.addChangeListener(this.editor.syncJavaScript.bind(this.editor));
+  this.blockly.addEditorChangeHandler(
+    this.editor.handleSyncEvent.bind(this.editor));
 
   // Reset size
   this.blockly.adjustSize();

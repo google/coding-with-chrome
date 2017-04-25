@@ -276,7 +276,7 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
     }
   });
   this.tour_.addStep('welcome', {
-    'title': i18t('Welcome to Coding With Chrome!'),
+    'title': i18t('Welcome to Coding with Chrome!'),
     'text': i18t('This tour will explain some UI parts.'),
     'buttons': [{
       'text': 'Exit',

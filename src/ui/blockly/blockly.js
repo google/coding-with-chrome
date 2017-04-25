@@ -99,6 +99,12 @@ cwc.ui.Blockly = function(helper) {
   /** @private {!boolean} */
   this.isVisible_ = true;
 
+  /** @private {!boolean} */
+  this.disableOrphansBlocks_ = false;
+
+  /** @private {Function} */
+  this.editorChangeHandler_ = null;
+
   /** @private {!string} */
   this.rowItemClass_ = 'blocklyTreeRowItem';
 };
@@ -244,6 +250,14 @@ cwc.ui.Blockly.prototype.addChangeListener = function(func) {
   if (workspace) {
     workspace.addChangeListener(func);
   }
+};
+
+
+/**
+ * @param {!function(?)} func
+ */
+cwc.ui.Blockly.prototype.addEditorChangeHandler = function(func) {
+  this.editorChangeHandler_ = func;
 };
 
 
@@ -435,6 +449,15 @@ cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
  */
 cwc.ui.Blockly.prototype.enableToolboxAutocollapse = function() {
   this.toolboxAutocollapse = true;
+};
+
+
+/**
+ * Disabled blocks not attached to base block.
+ * @param {!boolean} enabled
+ */
+cwc.ui.Blockly.prototype.disableOrphansBlocks = function(enabled) {
+  this.disableOrphansBlocks_ = enabled;
 };
 
 
@@ -663,6 +686,18 @@ cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
     case Blockly.Events.UI:
       if (this.toolboxAutocollapse && e.newValue) {
         this.collapseToolbox(e.newValue);
+      }
+      break;
+
+    case Blockly.Events.CHANGE:
+    case Blockly.Events.CREATE:
+    case Blockly.Events.DELETE:
+    case Blockly.Events.MOVE:
+      if (this.disableOrphansBlocks_) {
+        Blockly.Events.disableOrphans(e);
+      }
+      if (this.editorChangeHandler_) {
+        this.editorChangeHandler_(e);
       }
       break;
   }

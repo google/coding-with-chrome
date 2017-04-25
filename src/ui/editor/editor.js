@@ -29,6 +29,7 @@ goog.require('cwc.ui.EditorView');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.async.Throttle');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
@@ -135,6 +136,13 @@ cwc.ui.Editor = function(helper) {
 
   /** @private {!boolean} */
   this.isVisible_ = true;
+
+  /** @private {!number} */
+  this.syncThrottleTime_ = 2000;
+
+  /** @private {goog.async.Throttle} */
+  this.syncThrottle_ = new goog.async.Throttle(
+    this.syncJavaScript.bind(this), this.syncThrottleTime_);
 };
 
 
@@ -439,27 +447,19 @@ cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(
  * @param {event=} opt_event
  */
 cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
-  if (opt_event && opt_event['recordUndo'] === false) {
-    return;
-  }
 
   var fileUi = this.helper.getInstance('file').getUi();
   switch (fileUi) {
     case 'blockly':
-      if (opt_event['type'] === Blockly.Events.MOVE &&
-          opt_event['newInputName'] === opt_event['oldInputName'] &&
-          opt_event['newParentId'] === opt_event['oldParentId']) {
-        return;
-      }
       var blocklyInstance = this.helper.getInstance('blockly');
       if (blocklyInstance) {
+        console.log('Syncing JavaScript from Blockly...');
         this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
       }
       break;
     default:
       console.log('Unsynced UI mode', fileUi);
   }
-  console.log('syncJavaScript:', opt_event);
 };
 
 
@@ -625,6 +625,25 @@ cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
     guiInstance.setStatus(this.modified ? '*' : '');
   }
   this.eventHandler.dispatchEvent(goog.ui.Component.EventType.CHANGE);
+};
+
+
+/**
+ * @param {event=} opt_event
+ */
+cwc.ui.Editor.prototype.handleSyncEvent = function(opt_event) {
+  if (opt_event && opt_event['recordUndo'] === false) {
+    return;
+  }
+
+  if (opt_event['type'] === Blockly.Events.MOVE &&
+      opt_event['newInputName'] && opt_event['newParentId'] &&
+      opt_event['newInputName'] === opt_event['oldInputName'] &&
+      opt_event['newParentId'] === opt_event['oldParentId']) {
+    return;
+  }
+
+  this.syncThrottle_.fire();
 };
 
 

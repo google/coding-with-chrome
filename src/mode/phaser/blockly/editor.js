@@ -76,6 +76,7 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
   this.blockly.setToolboxTemplate(cwc.soy.mode.phaser.blockly.Blocks.toolbox);
   this.blockly.decorate(this.nodeBlockly);
   this.blockly.enableToolboxAutocollapse();
+  this.blockly.disableOrphansBlocks(true);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
@@ -92,7 +93,8 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
       'Switch to the Blocky editor mode');
 
   // Custom Events
-  this.blockly.addChangeListener(this.editor.syncJavaScript.bind(this.editor));
+  this.blockly.addEditorChangeHandler(
+    this.editor.handleSyncEvent.bind(this.editor));
 
   // Reset size
   this.blockly.adjustSize();

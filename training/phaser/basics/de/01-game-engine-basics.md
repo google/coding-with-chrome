@@ -68,13 +68,19 @@ Diese Art der Grafik findet verwendung bei allen beweglichen Grafiken wie z.B. d
 Bei den Texten werden im Grunde auch die folgenden drei Arten unterschieden.
 
 ## Einfache Texte
+![][text_block]
+
 Die einfachste Art eines Text, wird auf dem Bildschirm angezeigt z.B. der Spiele Titel oder sonstige Beschriftungen.
 
 ## Dynamische Texte
+![][dynamic_text_block]
+
 Dynamische Texte werden verwendet wenn der Inhalt sich ändert.
 So werden dynamische Texte verwendet um eine Highscore oder das aktuelle Level anzuzeigen.
 
 ## Aktion Texte
+![][action_text_block]
+
 Bei Aktion Texte kann festgelegt werden was bei einem Klick auf den Text passieren soll.
 Der häufigste Anwendungsfall ist der “Starte Game” text beim Anfang eines Spieles.
 
@@ -108,3 +114,7 @@ Dies ist hilfreich wenn man den Spieler in verschiedene Richtungen bewegen will 
 [sprite]: images/sprite.png
 [tile_sprite]: images/tile_sprite.png
 [physic_sprite]: images/physic_sprite.png
+
+[text_block]: images/text_block
+[dynamic_text_block]: images/dynamic_text_block
+[action_text_block]: images/action_text_block

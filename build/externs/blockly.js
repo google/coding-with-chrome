@@ -79,6 +79,9 @@ Blockly.Events.MOVE;
 /** @type {!string} */
 Blockly.Events.UI;
 
+/** @type {Function} */
+Blockly.Events.disableOrphans = function() {};
+
 /**
  * @param {Blockly.Workspace} workspace Workspace to generate code from.
  * @return {string} Generated code.

@@ -29,7 +29,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField('as arcade sprite')
+        .appendField(i18t('as physics sprite'))
         .appendField(new Blockly.FieldTextInput('player'), 'sprite')
         .appendField(i18t('position'));
     this.appendValueInput('x')
@@ -144,8 +144,8 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
         .setCheck(null)
         .appendField(i18t('do'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Update');
+    this.setNextStatement(true, 'Update');
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -166,8 +166,8 @@ Blockly.Blocks['phaser_physics_arcade_collide'] = {
         .appendField(i18t('and'));
     this.appendValueInput('object2')
         .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Update');
+    this.setNextStatement(true, 'Update');
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');

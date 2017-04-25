@@ -87,7 +87,7 @@ Blockly.Blocks['phaser_add_group'] = {
         .appendField(i18t('define'));
     this.appendDummyInput()
         .appendField(i18t('as group'))
-        .appendField(new Blockly.FieldTextInput('text'), 'name');
+        .appendField(new Blockly.FieldTextInput('group_name'), 'name');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

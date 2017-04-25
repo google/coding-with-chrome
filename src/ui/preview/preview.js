@@ -25,6 +25,7 @@ goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewToolbar');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.async.Throttle');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
@@ -114,6 +115,13 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!boolean} */
   this.ran_ = false;
+
+  /** @private {!number} */
+  this.runThrottleTime_ = 2000;
+
+  /** @private {goog.async.Throttle} */
+  this.runThrottle_ = new goog.async.Throttle(
+    this.run_.bind(this), this.syncThrottleTime_);
 
   /** @private {!boolean} */
   this.skipAutoUpdate_ = true;
@@ -206,17 +214,9 @@ cwc.ui.Preview.prototype.adjustSize = function() {
 
 /**
  * Runs the preview.
- * @param {Event=} opt_event
  */
-cwc.ui.Preview.prototype.run = function(opt_event) {
-  if (this.status == cwc.ui.PreviewStatus.LOADING) {
-    this.terminate();
-  }
-  if (this.toolbar) {
-    this.toolbar.setRunStatus(true);
-  }
-  this.ran_ = true;
-  this.render();
+cwc.ui.Preview.prototype.run = function() {
+  this.runThrottle_.fire();
 };
 
 
@@ -470,6 +470,22 @@ cwc.ui.Preview.prototype.setStatusText = function(status) {
   if (this.infobar) {
     this.infobar.setStatusText(status);
   }
+};
+
+
+/**
+ * @param {Event=} opt_event
+ * @private
+ */
+cwc.ui.Preview.prototype.run_ = function(opt_event) {
+  if (this.status == cwc.ui.PreviewStatus.LOADING) {
+    this.terminate();
+  }
+  if (this.toolbar) {
+    this.toolbar.setRunStatus(true);
+  }
+  this.ran_ = true;
+  this.render();
 };
 
 
