@@ -116,7 +116,7 @@ describe('StackQueue (autostart)', function() {
         } else {
           window.setTimeout(function() {
             expect(counter).toEqual(3);
-          }, 25);
+          }, 50);
         }
       }, 250);
       window.setTimeout(function() {
@@ -127,7 +127,7 @@ describe('StackQueue (autostart)', function() {
           window.setTimeout(function() {
             expect(counter).toEqual(4);
             done();
-          }, 25);
+          }, 50);
         }
       }, 350);
     }.bind(this);
