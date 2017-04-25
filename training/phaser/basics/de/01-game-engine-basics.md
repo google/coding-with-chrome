@@ -115,6 +115,6 @@ Dies ist hilfreich wenn man den Spieler in verschiedene Richtungen bewegen will 
 [tile_sprite]: images/tile_sprite.png
 [physic_sprite]: images/physic_sprite.png
 
-[text_block]: images/text_block
-[dynamic_text_block]: images/dynamic_text_block
-[action_text_block]: images/action_text_block
+[text_block]: images/text_block.png
+[dynamic_text_block]: images/dynamic_text_block.png
+[action_text_block]: images/action_text_block.png
