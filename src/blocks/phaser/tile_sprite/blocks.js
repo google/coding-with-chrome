@@ -40,7 +40,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
         .appendField(new Blockly.FieldNumber(400), 'width')
         .appendField(new Blockly.FieldNumber(50), 'height')
         .appendField(i18t('and group'))
-        .appendField(new Blockly.FieldTextInput('group'), 'group');
+        .appendField(new Blockly.FieldTextInput(''), 'group');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(290);
@@ -71,6 +71,8 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
           [i18t('rotation'), 'rotation'],
           [i18t('visible'), 'visible'],
           [i18t('width'), 'width'],
+          [i18t('tile position x'), 'tilePosition.y'],
+          [i18t('tile position y'), 'tilePosition.y'],
           [i18t('x'), 'x'],
           [i18t('y'), 'y'],
           [i18t('z'), 'y']
@@ -88,7 +90,40 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
 
 
 /**
- * Destroy title sprite.
+ * Crop tile sprite.
+ */
+Blockly.Blocks['phaser_tile_sprite_crop'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('crop sprite with'));
+    this.appendDummyInput()
+        .appendField(i18t('top'))
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldNumber(0, 0), 'top');
+    this.appendDummyInput()
+        .appendField(i18t('right'))
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldNumber(0, 0), 'right');
+    this.appendDummyInput()
+        .appendField(i18t('bottom'))
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldNumber(0, 0), 'bottom');
+    this.appendDummyInput()
+        .appendField(i18t('left'))
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(new Blockly.FieldNumber(0, 0), 'left');
+    this.setPreviousStatement(true, ['Create']);
+    this.setNextStatement(true, ['Create']);
+    this.setColour(285);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Destroy tile sprite.
  */
 Blockly.Blocks['phaser_tile_sprite_destroy'] = {
   init: function() {

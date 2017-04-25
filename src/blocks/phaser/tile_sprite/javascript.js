@@ -39,7 +39,7 @@ Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
 
 
 /**
- * Adjust sprite.
+ * Adjust tile sprite.
  */
 Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
   var variable = Blockly.JavaScript.valueToCode(block,
@@ -56,6 +56,26 @@ Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
     default:
       return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
   }
+};
+
+
+/**
+ * Crop tile sprite.
+ */
+Blockly.JavaScript['phaser_tile_sprite_crop'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var number_top = block.getFieldValue('top');
+  var number_right = block.getFieldValue('right');
+  var number_bottom = block.getFieldValue('bottom');
+  var number_left = block.getFieldValue('left');
+  var crop_width = Number(number_right) + Number(number_left);
+  var crop_height = Number(number_bottom)  + Number(number_top);
+
+  return variable + '.tilePosition.y = -' + number_top + ';\n' +
+    variable + '.width -= ' + crop_width + ';\n' +
+    variable + '.height -= ' + crop_height + ';\n' +
+    variable + '.tilePosition.x = -' + number_left + ';\n';
 };
 
 

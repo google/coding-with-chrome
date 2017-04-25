@@ -19,17 +19,15 @@
  */
 
 
+
 /**
  * Add text.
  */
 Blockly.Blocks['phaser_text_add'] = {
   init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
-    this.appendDummyInput()
-         .appendField(i18t('as text'));
     this.appendValueInput('text')
+         .appendField(Blockly.BlocksTemplate.addCircle())
+         .appendField(i18t('add text'))
         .setCheck('String');
     this.appendValueInput('x')
         .setCheck('Number')
@@ -67,13 +65,16 @@ Blockly.Blocks['phaser_text_add'] = {
 
 
 /**
- * Add text.
+ * Add dynamic text.
  */
-Blockly.Blocks['phaser_text_raw_add'] = {
+Blockly.Blocks['phaser_dynamic_text_add'] = {
   init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('define'));
+    this.appendDummyInput()
+         .appendField(i18t('as dynamic text'));
     this.appendValueInput('text')
-         .appendField(Blockly.BlocksTemplate.addCircle())
-         .appendField(i18t('add text'))
         .setCheck('String');
     this.appendValueInput('x')
         .setCheck('Number')

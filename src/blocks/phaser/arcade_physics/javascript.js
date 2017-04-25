@@ -95,9 +95,9 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
  * Physics arcade enable.
  */
 Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
-  var value_sprite = Blockly.JavaScript.valueToCode(
-    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'game.physics.arcade.enable(' + value_sprite + ');\n';
+  var value_variable = Blockly.JavaScript.valueToCode(
+    block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.enable(' + value_variable + ');\n';
 };
 
 

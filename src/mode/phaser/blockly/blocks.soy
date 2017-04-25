@@ -367,7 +367,21 @@
   {@param? opt_hide_event_blocks: bool}
 
   {if $opt_show_create_blocks}
-    <block type="phaser_text_raw_add">
+    <block type="phaser_text_add">
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Title</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_text_add">
       <value name="text">
         <block type="text">
           <field name="TEXT">Hello World</field>
@@ -381,15 +395,15 @@
       </value>
     </block>
 
-    <block type="phaser_text_add">
+    <block type="phaser_dynamic_text_add">
       <value name="variable">
         <block type="variables_get">
-          <field name="VAR">title</field>
+          <field name="VAR">highscore</field>
         </block>
       </value>
       <value name="text">
         <block type="text">
-          <field name="TEXT">Hello World</field>
+          <field name="TEXT">0</field>
         </block>
       </value>
       <value name="x">
@@ -435,12 +449,12 @@
   <block type="phaser_text_change">
     <value name="variable">
       <block type="variables_get">
-        <field name="VAR">title</field>
+        <field name="VAR">highscore</field>
       </block>
     </value>
     <value name="text">
       <block type="text">
-        <field name="TEXT">Hello World</field>
+        <field name="TEXT">100</field>
       </block>
     </value>
   </block>
@@ -448,7 +462,7 @@
   <block type="phaser_text_get">
     <value name="variable">
       <block type="variables_get">
-        <field name="VAR">score</field>
+        <field name="VAR">highscore</field>
       </block>
     </value>
   </block>
@@ -957,6 +971,14 @@
       </value>
       <value name="y">
         <block type="math_number"><field name="NUM">550</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_crop">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">blocks</field>
+        </block>
       </value>
     </block>
   {/if}
