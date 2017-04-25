@@ -103,5 +103,5 @@ Dies ist hilfreich wenn man den Spieler in verschiedene Richtungen bewegen will 
 [render_area]: images/render_area.png
 
 [sprite]: images/sprite.png
-[tile_sprite]: images/title_sprite.png
+[tile_sprite]: images/tile_sprite.png
 [physic_sprite]: images/physic_sprite.png
