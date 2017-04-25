@@ -48,16 +48,19 @@ Dies kann ein einfaches Logo, Hintergrundbild oder auch einfach nur eine Grafik 
 
 ### Sprite
 ![][sprite]
+
 Ein Sprite ist eine erweiterte Art der Grafik und erlaubt weitere Eigenschaften wie einfache Veränderungen, reagieren auf Eingabe / Ereignisse, Animationen und mehr.
 Diese Art der Grafik wird meist am häufigsten beim Spielen verwenden.
 
 ### Tile Sprite
 ![][tile_sprite]
+
 Ein Tile Sprite ist ein Sprite das sich wiederholt und meist auch animiert ist.
 Diese Art der Grafik wird meist für den Boden / Decke oder sich bewegende Hintergründe verwendet.
 
 ### Physik Sprite
 ![][physic_sprite]
+
 Ein Physik Sprite ist im Grunde eine erweiterte Art des Sprite mit dem Unterschied dass man physikalische Eigenschaften festlegen kann wie z.B. Anziehungskraft, Schwerkraft, Beschleunigung.
 Diese Art der Grafik findet verwendung bei allen beweglichen Grafiken wie z.B. der Spielfigure oder aber Hindernissen.
 
