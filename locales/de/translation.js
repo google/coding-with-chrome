@@ -139,6 +139,7 @@ Locales['de'] = {
   'Swtich game state': 'Wechsel denn Spiel Zustand',
   'Text loop': 'Text Schleife',
   'Text': 'Text',
+  'Text Object': 'Text Objekt',
   'Trash': 'Papierkorb',
   'Try a Hello World example': 'Versuche ein Hello World Beispiel',
   'Undo last change': 'Mache die letzte Änderung rückgängig',

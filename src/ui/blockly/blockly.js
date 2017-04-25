@@ -78,11 +78,14 @@ cwc.ui.Blockly = function(helper) {
   /** @type {!boolean} */
   this.zoomControl = true;
 
+  /** @type {Blockly.Workspace} */
+  this.workspace = null;
+
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
 
-  /** @type {Blockly.Workspace} */
-  this.workspace = null;
+  /** @type {boolean} */
+  this.toolboxAutocollapse = false;
 
   /** @type {Object} */
   this.toolboxTemplate = null;
@@ -95,6 +98,9 @@ cwc.ui.Blockly = function(helper) {
 
   /** @private {!boolean} */
   this.isVisible_ = true;
+
+  /** @private {!string} */
+  this.rowItemClass_ = 'blocklyTreeRowItem';
 };
 
 
@@ -196,32 +202,11 @@ cwc.ui.Blockly.prototype.decorate = function(node, opt_options) {
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
+
+  // Event Handling
+  this.addChangeListener(this.handleChangeEvent_.bind(this));
+
   this.enabled = true;
-};
-
-
-/**
- * @private
- */
-cwc.ui.Blockly.prototype.decorateToolbox_ = function() {
-  var treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
-  if (!treeRoot) {
-    return;
-  }
-
-  var treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
-  for (let name in treeLabels) {
-    var treeLabel = treeLabels[name];
-    if (!treeLabel.textContent) {
-      continue;
-    }
-    var label = treeLabel.textContent.replace(/([^a-z0-9 ]+)/gi, '')
-      .replace(/( )+/g, '_').toLowerCase();
-    var blocklyTreeRowItem = treeLabel.parentNode.parentNode;
-    if (blocklyTreeRowItem) {
-      goog.dom.classlist.add(blocklyTreeRowItem, 'blocklyTreeRowItem_' + label);
-    }
-  }
 };
 
 
@@ -416,6 +401,17 @@ cwc.ui.Blockly.prototype.setToolboxTemplate = function(template, opt_data) {
   }
 };
 
+/**
+ * @return {Object}
+ */
+cwc.ui.Blockly.prototype.getToolboxTree = function() {
+  var workspace = this.getWorkspace();
+  if (workspace) {
+    return workspace.toolbox_.tree_;
+  }
+  return null;
+};
+
 
 /**
  * Update the toolbox with the template
@@ -430,6 +426,54 @@ cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
     this.updateToolbox(toolbox);
   } else {
     console.warn('Was unable to update Blockly toolbox.');
+  }
+};
+
+
+/**
+ * Update the toolbox with the template
+ */
+cwc.ui.Blockly.prototype.enableToolboxAutocollapse = function() {
+  this.toolboxAutocollapse = true;
+};
+
+
+/**
+ * Collapse Toolbox without the optional label.
+ * @param {string=} opt_skip_label
+ */
+cwc.ui.Blockly.prototype.collapseToolbox = function(opt_skip_label = '') {
+  var treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
+  if (!treeRoot) {
+    return;
+  }
+  var itemClassName = this.rowItemClass_ + '_' + opt_skip_label.replace(
+    /([^a-z0-9 ]+)/gi, '').replace(/( )+/g, '_').toLowerCase();
+  var skipItem = treeRoot.getElementsByClassName(itemClassName)[0];
+  if (opt_skip_label && !skipItem) {
+    return;
+  }
+
+  var items = treeRoot.getElementsByClassName(this.rowItemClass_);
+  for (let name in items) {
+    var item = items[name];
+    if (item !== skipItem) {
+      if (item.getAttribute && item.getAttribute('aria-expanded') == 'true') {
+        if (item.id && this.getToolboxTree()) {
+          this.getToolboxTree().childIndex_[item.id].collapse();
+        } else {
+          item.setAttribute('aria-expanded', 'false');
+          if (item.querySelector('[role=group]')) {
+            item.querySelector('[role=group]').style.display = 'none';
+          }
+          if (item.getElementsByClassName('blocklyTreeIconOpen')[0]) {
+            goog.dom.classlist.swap(
+              item.getElementsByClassName('blocklyTreeIconOpen')[0],
+              'blocklyTreeIconOpen', 'blocklyTreeIconClosedLtr');
+          }
+        }
+      }
+    }
   }
 };
 
@@ -580,4 +624,46 @@ cwc.ui.Blockly.prototype.cleanUp = function() {
   this.listener = this.helper.removeEventListeners(this.listener, this.name);
   cwc.ui.Helper.hideElements(this.widgetClass);
   this.modified = false;
+};
+
+
+/**
+ * Enables additional DOM manipulations.
+ * @private
+ */
+cwc.ui.Blockly.prototype.decorateToolbox_ = function() {
+  var treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
+  if (!treeRoot) {
+    return;
+  }
+
+  var treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
+  for (let name in treeLabels) {
+    var treeLabel = treeLabels[name];
+    if (!treeLabel.textContent) {
+      continue;
+    }
+    var label = treeLabel.textContent.replace(/([^a-z0-9 ]+)/gi, '')
+      .replace(/( )+/g, '_').toLowerCase();
+    var blocklyTreeRowItem = treeLabel.parentNode.parentNode;
+    if (blocklyTreeRowItem) {
+      goog.dom.classlist.add(blocklyTreeRowItem, this.rowItemClass_);
+      goog.dom.classlist.add(blocklyTreeRowItem,
+        this.rowItemClass_ + '_' + label);
+    }
+  }
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
+  switch (e.type) {
+    case Blockly.Events.UI:
+      if (this.toolboxAutocollapse && e.newValue) {
+        this.collapseToolbox(e.newValue);
+      }
+      break;
+  }
 };

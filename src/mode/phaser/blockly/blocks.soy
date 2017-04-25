@@ -92,10 +92,15 @@
     <sep></sep>
 
     {if $files}
-      <sep></sep>
-
-      {call cwc.soy.mode.Blocks.files data="all" /}
+      <category name="{msg desc="File Blocks"}Files{/msg}" colour="150">
+        {call .files data="all" /}
+      </category>
     {/if}
+      <category name="{msg desc="File Blocks"}Sample Files{/msg}" colour="150">
+        {call .sampleFiles data="all" /}
+      </category>
+
+    <sep></sep>
 
     {call cwc.soy.mode.Blocks.defaultBlocks /}
 
@@ -104,6 +109,75 @@
     {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
 
   </xml>
+{/template}
+
+
+/**
+ * Phaser files
+ */
+{template .files}
+  {@param files: ?}
+
+  {foreach $file in keys($files)}
+    {switch $files[$file]['media_type']}
+      {case 'audio'}
+        <block type="phaser_load_audio">
+          <field name="name">{$file}</field>
+          <value name="audio">
+            <block type="general_file_library_audio">
+              <field name="filename">"{$file}"</field>
+            </block>
+          </value>
+        </block>
+      {case 'image'}
+        <block type="phaser_load_image">
+          <field name="name">{$file}</field>
+          <value name="image">
+            <block type="general_file_library_image">
+              <field name="filename">"{$file}"</field>
+              <field name="preview">{$files[$file]['content']}</field>
+            </block>
+          </value>
+        </block>
+      {case 'text'}
+        <block type="general_file_library_text">
+          <field name="filename">"{$file}"</field>
+        </block>
+      {default}
+        <block type="general_file_library">
+          <field name="filename">"{$file}"</field>
+        </block>
+    {/switch}
+  {/foreach}
+{/template}
+
+
+/**
+ * Phaser sample files
+ */
+{template .sampleFiles}
+
+  <block type="phaser_load_image">
+    <field name="name">50px_red</field>
+      <value name="image">
+        <block type="general_sample_image_50px_red"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
+    <field name="name">50px_green</field>
+      <value name="image">
+        <block type="general_sample_image_50px_green"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
+    <field name="name">50px_blue</field>
+      <value name="image">
+        <block type="general_sample_image_50px_blue"></block>
+    </value>
+  </block>
+
 {/template}
 
 
@@ -131,12 +205,12 @@
     {call .physicsSpriteBlocks data="all" /}
   </category>
 
-  <category name="{msg desc="Phaser Text Blocks"}Text{/msg}" colour="255">
+  <category name="{msg desc="Phaser Text Blocks"}Text Object{/msg}" colour="255">
     {call .textBlocks data="all" /}
   </category>
 
   {if not $opt_hide_input_blocks}
-    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="255">
+    <category name="{msg desc="Phaser Input Blocks"}Inputs{/msg}" colour="255">
       {call .inputBlocks data="all" /}
     </category>
   {/if}
@@ -293,6 +367,20 @@
   {@param? opt_hide_event_blocks: bool}
 
   {if $opt_show_create_blocks}
+    <block type="phaser_text_raw_add">
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Hello World</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">10</field></block>
+      </value>
+    </block>
+
     <block type="phaser_text_add">
       <value name="variable">
         <block type="variables_get">
@@ -330,7 +418,6 @@
         <block type="math_number"><field name="NUM">10</field></block>
       </value>
     </block>
-
   {/if}
 
 

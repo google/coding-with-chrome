@@ -65,11 +65,19 @@ Blockly.addChangeListener = function(func) {};
 Blockly.Events = function() {};
 
 /** @type {!string} */
+Blockly.Events.CREATE;
+
+/** @type {!string} */
 Blockly.Events.CHANGE;
+
+/** @type {!string} */
+Blockly.Events.DELETE;
 
 /** @type {!string} */
 Blockly.Events.MOVE;
 
+/** @type {!string} */
+Blockly.Events.UI;
 
 /**
  * @param {Blockly.Workspace} workspace Workspace to generate code from.
@@ -186,7 +194,16 @@ Blockly.Workspace.undoStack_ = [];
 /** @type {Array} */
 Blockly.Workspace.redoStack_ = [];
 
-/** @param {number} newScale Zoom factor. */
+/** @type {Object} */
+Blockly.Workspace.toolbox_ = {};
+
+/** @type {Object} */
+Blockly.Workspace.toolbox_.tree_ = {};
+
+/** @type {Object} */
+Blockly.Workspace.toolbox_.tree_.childIndex_ = {};
+
+/** @param {number} newScale */
 Blockly.Workspace.prototype.setScale = function(newScale) {};
 
 /**
@@ -206,17 +223,14 @@ Blockly.Workspace.prototype.updateToolbox = function(tree) {};
 Blockly.Workspace.prototype.addChangeListener = function(func) {};
 
 /**
- * Undo or redo the previous action.
  * @param {boolean} redo False if undo, true if redo.
  */
 Blockly.Workspace.prototype.undo = function(redo) {};
 
 /**
- * @param {!Blockly.Options} options Dictionary of options.
- * @param {Blockly.BlockDragSurfaceSvg=} opt_blockDragSurface Drag surface for
- *     blocks.
- * @param {Blockly.workspaceDragSurfaceSvg=} opt_wsDragSurface Drag surface for
- *     the workspace.
+ * @param {!Blockly.Options} options
+ * @param {Blockly.BlockDragSurfaceSvg=} opt_blockDragSurface
+ * @param {Blockly.workspaceDragSurfaceSvg=} opt_wsDragSurface
  * @constructor
  */
 Blockly.WorkspaceSvg = function(options,

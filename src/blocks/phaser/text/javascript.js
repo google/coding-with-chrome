@@ -44,6 +44,28 @@ Blockly.JavaScript['phaser_text_add'] = function(block) {
 
 
 /**
+ * Add raw text.
+ */
+Blockly.JavaScript['phaser_text_raw_add'] = function(block) {
+  var text_color = block.getFieldValue('color');
+  var text_font = block.getFieldValue('font');
+  var text_size = block.getFieldValue('size');
+  var value_text = Blockly.JavaScript.valueToCode(
+    block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
+  var value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  if (/^\d+$/.test(text_size)) {
+    text_size = text_size + 'px';
+  }
+  return 'game.add.text(' + value_x + ', ' + value_y + ', ' + value_text +
+    ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
+    'fill: \'' + text_color + '\'});\n';
+};
+
+
+/**
  * Add action text.
  */
 Blockly.JavaScript['phaser_action_text_add'] = function(block) {

@@ -73,8 +73,8 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
     this.appendValueInput('value')
         .setCheck('Number')
         .appendField(i18t('to'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
+    this.setNextStatement(true, ['Create', 'Input', 'Update']);
     this.setColour(225);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -96,8 +96,8 @@ Blockly.Blocks['phaser_sprite_adjust_dimension'] = {
         .setCheck('Number');
     this.appendValueInput('height')
         .setCheck('Number');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
+    this.setNextStatement(true, ['Create', 'Input', 'Update']);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');

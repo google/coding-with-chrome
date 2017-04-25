@@ -68,6 +68,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!string} */
+  this.resourcesPath_ = 'resources/examples/';
 };
 
 
@@ -122,9 +125,9 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.BASIC_BLOCKLY);
       this.setClickEvent_('link-hello-world', this.loadFile_,
-          'resources/examples/simple/blocks/Hello-World.cwc');
+          'simple/blocks/Hello-World.cwc');
       this.setClickEvent_('link-text-loop', this.loadFile_,
-          'resources/examples/simple/blocks/Text-Loop.cwc');
+          'simple/blocks/Text-Loop.cwc');
       break;
 
     // Game example screen
@@ -133,9 +136,11 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.PHASER_BLOCKLY);
       this.setClickEvent_('link-switch-game-state', this.loadFile_,
-          'resources/examples/phaser/blocks/switch-game-state.cwc');
+          'phaser/blocks/switch-game-state.cwc');
       this.setClickEvent_('link-move-a-sprite', this.loadFile_,
-          'resources/examples/phaser/blocks/move-a-sprite.cwc');
+          'phaser/blocks/move-a-sprite.cwc');
+      this.setClickEvent_('link-bouncing-cubes', this.loadFile_,
+          'phaser/blocks/bouncing-cubes.cwc');
       break;
 
     // Robot overview
@@ -160,41 +165,39 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.EV3_BLOCKLY);
       this.setClickEvent_('link-block-grabber', this.loadFile_,
-          'resources/examples/ev3/blocks/EV3-Educator-BlockGrabber.cwc');
+          'ev3/blocks/EV3-Educator-BlockGrabber.cwc');
       this.setClickEvent_('link-color-sensor', this.loadFile_,
-          'resources/examples/ev3/blocks/EV3-Color-Sensor.cwc');
+          'ev3/blocks/EV3-Color-Sensor.cwc');
       break;
 
     // Sphero example screen
     case cwc.ui.SelectScreenNormalView.SPHERO:
-      var spheroPath = 'resources/examples/sphero/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.SPHERO_BLOCKLY);
-      this.setClickEvent_('link-rectangle', this.loadFile_, spheroPath +
-        'Sphero-rectangle.cwc');
-      this.setClickEvent_('link-collision', this.loadFile_, spheroPath +
-        'Sphero-collision.cwc');
+      this.setClickEvent_('link-rectangle', this.loadFile_,
+          'sphero/blocks/Sphero-rectangle.cwc');
+      this.setClickEvent_('link-collision', this.loadFile_,
+          'sphero/blocks/Sphero-collision.cwc');
       break;
 
     // MBot example screen
     case cwc.ui.SelectScreenNormalView.MBOT:
-      var mBotPath = 'resources/examples/makeblock/mbot/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
       this.setNavHeader_('mBot', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.MBOT_BLOCKLY);
-      this.setClickEvent_('link-button_light', this.loadFile_, mBotPath +
-        'mBot-button_light.cwc');
-      this.setClickEvent_('link-collision_avoidance', this.loadFile_, mBotPath +
-        'mBot-collision_avoidance.cwc');
-      this.setClickEvent_('link-lightness_sound', this.loadFile_, mBotPath +
-        'mBot-lightness_sound.cwc');
-      this.setClickEvent_('link-line_follower', this.loadFile_, mBotPath +
-        'mBot-line_follower.cwc');
+      this.setClickEvent_('link-button_light', this.loadFile_,
+        'makeblock/mbot/blocks/mBot-button_light.cwc');
+      this.setClickEvent_('link-collision_avoidance', this.loadFile_,
+        'makeblock/mbot/blocks/mBot-collision_avoidance.cwc');
+      this.setClickEvent_('link-lightness_sound', this.loadFile_,
+        'makeblock/mbot/blocks/mBot-lightness_sound.cwc');
+      this.setClickEvent_('link-line_follower', this.loadFile_,
+        'makeblock/mbot/blocks/mBot-line_follower.cwc');
       break;
 
     // MBot ranger example screen
@@ -352,7 +355,7 @@ cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
 cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
   var loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
-    loaderInstance.loadExampleFile('../../' + file_name);
+    loaderInstance.loadExampleFile('../../' + this.resourcesPath_ + file_name);
   }
   var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
