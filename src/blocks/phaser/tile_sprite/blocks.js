@@ -80,8 +80,8 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
     this.appendValueInput('value')
         .setCheck('Number')
         .appendField(i18t('to'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -113,8 +113,8 @@ Blockly.Blocks['phaser_tile_sprite_crop'] = {
         .appendField(i18t('left'))
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(new Blockly.FieldNumber(0, 0), 'left');
-    this.setPreviousStatement(true, ['Create']);
-    this.setNextStatement(true, ['Create']);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -133,8 +133,8 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
     this.appendValueInput('variable')
         .setCheck(null);
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');

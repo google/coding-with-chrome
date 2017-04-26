@@ -59,6 +59,16 @@
 
     </category>
 
+    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="135">
+
+      {call .inputBlocks /}
+
+      {call .defaultPhaserBlocks}
+        {param opt_hide_input_blocks: true /}
+      {/call}
+
+    </category>
+
     <category name="{msg desc="Phaser Update Blocks"}Update{/msg}" colour="315">
 
       {call .updateBlocks /}
@@ -70,16 +80,6 @@
       <category name="{msg desc="Phaser World Blocks"}World{/msg}" colour="345">
         {call .worldBlocks /}
       </category>
-
-    </category>
-
-    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="135">
-
-      {call .inputBlocks /}
-
-      {call .defaultPhaserBlocks}
-        {param opt_hide_input_blocks: true /}
-      {/call}
 
     </category>
 
@@ -300,7 +300,6 @@
   {/if}
 
   <block type="phaser_world_attributes"></block>
-
 {/template}
 
 
@@ -455,6 +454,33 @@
     <value name="text">
       <block type="text">
         <field name="TEXT">100</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_text_change">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">highscore</field>
+      </block>
+    </value>
+    <value name="text">
+      <block type="math_arithmetic">
+        <field name="OP">ADD</field>
+        <value name="A">
+          <block type="phaser_text_get">
+            <value name="variable">
+              <block type="variables_get">
+                <field name="VAR">highscore</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <value name="B">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
       </block>
     </value>
   </block>
@@ -619,6 +645,8 @@
   </block>
 
   <block type="phaser_game_start"></block>
+
+  <block type="phaser_game_restart"></block>
 {/template}
 
 

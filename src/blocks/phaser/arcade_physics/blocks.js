@@ -76,8 +76,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
     this.appendValueInput('value')
         .setCheck('Number')
         .appendField(i18t('to'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -99,8 +99,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
         .setCheck('Number');
     this.appendValueInput('height')
         .setCheck('Number');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -117,8 +117,8 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
         .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('enable arcade physics for'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');

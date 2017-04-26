@@ -54,8 +54,8 @@ Blockly.Blocks['phaser_audio_play'] = {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('play audio'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -71,8 +71,8 @@ Blockly.Blocks['phaser_audio_pause'] = {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('pause audio'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -88,8 +88,8 @@ Blockly.Blocks['phaser_audio_resume'] = {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('resume audio'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -105,8 +105,8 @@ Blockly.Blocks['phaser_audio_stop'] = {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('stop audio'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');

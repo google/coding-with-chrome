@@ -93,6 +93,7 @@ cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
  * @param {!string} sprite
  * @param {string=} opt_sprite
  * @param {Object=} opt_group
+ * @param {string=} opt_direction
  * @param {string=} opt_manipulation
  * @param {string=} opt_manipulation_value
  * @export

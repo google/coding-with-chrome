@@ -80,8 +80,8 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('value'));
     this.setInputsInline(false);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create']);
+    this.setNextStatement(true, ['Create']);
     this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -148,8 +148,8 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('value'));
     this.setInputsInline(false);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create']);
+    this.setNextStatement(true, ['Create']);
     this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');

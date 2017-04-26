@@ -59,5 +59,5 @@ Blockly.JavaScript['phaser_game_start'] = function(block) {
  * Phaser Game block.
  */
 Blockly.JavaScript['phaser_game_restart'] = function() {
-  return 'game.state.start(\'main\');\n';
+  return 'game.state.start(game.state.current);\n';
 };

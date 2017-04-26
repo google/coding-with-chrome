@@ -170,8 +170,8 @@ Blockly.Blocks['phaser_text_change'] = {
         .setCheck(null)
         .appendField(i18t('text to'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -207,8 +207,8 @@ Blockly.Blocks['phaser_text_clicked'] = {
         .setCheck(null)
         .appendField(i18t('do'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
     this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');

@@ -52,8 +52,8 @@ Blockly.Blocks['phaser_world_wrap'] = {
         .setCheck('Number')
         .appendField(i18t('padding'));
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, 'Update');
+    this.setNextStatement(true, 'Update');
     this.setColour(345);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -67,7 +67,7 @@ Blockly.Blocks['phaser_world_wrap'] = {
 Blockly.Blocks['phaser_world_attributes'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField('get world')
+        .appendField(i18t('get world'))
         .appendField(new Blockly.FieldDropdown([
           ['center x', 'centerX'],
           ['center y', 'centerY'],

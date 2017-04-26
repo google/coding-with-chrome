@@ -74,8 +74,8 @@ Blockly.Blocks['phaser_game_start'] = {
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('start game state'))
         .appendField(new Blockly.FieldTextInput('main'), 'name');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -89,9 +89,10 @@ Blockly.Blocks['phaser_game_start'] = {
 Blockly.Blocks['phaser_game_restart'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('Restart game'));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');

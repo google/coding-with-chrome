@@ -228,6 +228,7 @@ Locales['de'] = {
   'generate vertical obstacles': 'Erzeuge vertikale Hindernisse',
   'get sprite': 'hole Sprite',
   'get text': 'erhalte Text',
+  'get world': 'erhalte Welt',
   'gravity x': 'Anziehungskraft x',
   'gravity y': 'Anziehungskraft y',
   'group': 'Gruppe',

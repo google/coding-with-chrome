@@ -139,7 +139,7 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
         .setCheck(null);
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
-    this.setNextStatement(true, null);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
