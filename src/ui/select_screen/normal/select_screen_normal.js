@@ -139,6 +139,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'phaser/blocks/switch-game-state.cwc');
       this.setClickEvent_('link-move-a-sprite', this.loadFile_,
           'phaser/blocks/move-a-sprite.cwc');
+      this.setClickEvent_('link-bouncing-ball', this.loadFile_,
+          'phaser/blocks/bouncing-ball.cwc');
       this.setClickEvent_('link-bouncing-cubes', this.loadFile_,
           'phaser/blocks/bouncing-cubes.cwc');
       break;

@@ -60,3 +60,52 @@ Blockly.BlocksTemplate.adjust = function() {
   return new Blockly.FieldImage(
     '../images/icons/adjust_20pt.png', 18, 18, '▼');
 };
+
+
+/** Image icon */
+Blockly.BlocksTemplate.image = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/image_20pt.png', 18, 18, '▼');
+};
+
+
+/** Mouse icon */
+Blockly.BlocksTemplate.mouse = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/mouse_20pt.png', 18, 18, '▼');
+};
+
+
+/** Keyboard icon */
+Blockly.BlocksTemplate.keyboard = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/keyboard_20pt.png', 18, 18, '▼');
+};
+
+
+/** Repeat icon */
+Blockly.BlocksTemplate.repeat = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/repeat_20pt.png', 18, 18, '▼');
+};
+
+
+/** File download icon */
+Blockly.BlocksTemplate.fileDownload = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/file_download_20pt.png', 18, 18, '▼');
+};
+
+
+/** Storage icon */
+Blockly.BlocksTemplate.storage = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/storage_20pt.png', 18, 18, '▼');
+};
+
+
+/** Audio icon */
+Blockly.BlocksTemplate.audio = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/audio_20pt.png', 18, 18, '▼');
+};

@@ -72,6 +72,23 @@ Blockly.Blocks['general_sample_image_50px_blue'] = {
 
 
 /**
+ * Sample image: ball_red.png
+ */
+Blockly.Blocks['general_sample_image_ball_red'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/ball_red.png',
+          50, 50, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
  * Sample image: bg/bg_01.png
  */
 Blockly.Blocks['general_sample_image_bg_01'] = {

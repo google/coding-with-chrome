@@ -45,7 +45,6 @@ Blockly.Blocks['phaser_world_resize'] = {
 Blockly.Blocks['phaser_world_wrap'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('World wrap sprite'));
     this.appendValueInput('value')

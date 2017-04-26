@@ -57,7 +57,6 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('bottom sprite'));
     this.appendValueInput('group')
-        .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('group'));
     this.appendDummyInput()
@@ -118,7 +117,6 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('optional sprite'));
     this.appendValueInput('group')
-        .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('group'));
     this.appendDummyInput()

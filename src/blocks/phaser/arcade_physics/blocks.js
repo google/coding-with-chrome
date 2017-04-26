@@ -31,6 +31,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as physics sprite'))
         .appendField(new Blockly.FieldTextInput('player'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
@@ -54,7 +55,6 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
 Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set physics sprite'));
     this.appendDummyInput()
@@ -118,7 +118,6 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
 Blockly.Blocks['phaser_physics_arcade_enable'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('enable arcade physics for'));
     this.setPreviousStatement(true, 'Create');
@@ -138,14 +137,11 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('on collision between'));
-    this.appendValueInput('object1')
-        .setCheck(null);
+    this.appendValueInput('object1');
     this.appendDummyInput()
         .appendField(i18t('and'));
-    this.appendValueInput('object2')
-        .setCheck(null);
+    this.appendValueInput('object2');
     this.appendStatementInput('func')
-        .setCheck(null)
         .appendField(i18t('do'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Update');
@@ -163,13 +159,12 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
 Blockly.Blocks['phaser_physics_arcade_collide'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('collide between'));
-    this.appendValueInput('object1')
-        .setCheck(null);
+    this.appendValueInput('object1');
     this.appendDummyInput()
         .appendField(i18t('and'));
-    this.appendValueInput('object2')
-        .setCheck(null);
+    this.appendValueInput('object2');
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Update');
     this.setColour(0);

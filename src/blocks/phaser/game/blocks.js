@@ -26,7 +26,7 @@
 Blockly.Blocks['phaser_game'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.pointTop())
+        .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('Create Game with name'))
         .appendField(new Blockly.FieldTextInput(i18t('Unnamed Game')), 'name')
         .appendField(i18t('and size'))
@@ -47,7 +47,7 @@ Blockly.Blocks['phaser_game'] = {
 Blockly.Blocks['phaser_game_state'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.storage())
         .appendField(i18t('game state'))
         .appendField(new Blockly.FieldTextInput('main'), 'name')
         .appendField(new Blockly.FieldDropdown([

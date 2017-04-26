@@ -21,14 +21,15 @@
 
 
 /**
- * Auto scroll tile sprite background.
+ * Add background tile sprite.
  */
 Blockly.Blocks['phaser_tile_sprite_background'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('add background image'))
-        .appendField(new Blockly.FieldTextInput('bg_01'), 'sprite');
+        .appendField(new Blockly.FieldTextInput('bg_01'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image());
     this.appendValueInput('x')
         .setCheck('Number')
         .appendField(i18t('with'))
@@ -48,16 +49,17 @@ Blockly.Blocks['phaser_tile_sprite_background'] = {
 
 
 /**
- * Auto scroll tile sprite background.
+ * Add floor tile sprite.
  */
-Blockly.Blocks['phaser_tile_sprite_ground_add'] = {
+Blockly.Blocks['phaser_tile_sprite_floor_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField(i18t('as ground'))
-        .appendField(new Blockly.FieldTextInput('ground.png'), 'sprite');
+        .appendField(i18t('as floor'))
+        .appendField(new Blockly.FieldTextInput('floor'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image());
     this.appendValueInput('x')
         .setCheck('Number')
         .appendField(i18t('with'))
@@ -75,6 +77,35 @@ Blockly.Blocks['phaser_tile_sprite_ground_add'] = {
   }
 };
 
+
+/**
+ * Add ceiling tile sprite.
+ */
+Blockly.Blocks['phaser_tile_sprite_ceiling_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('define'));
+    this.appendDummyInput()
+        .appendField(i18t('as ceiling'))
+        .appendField(new Blockly.FieldTextInput('ceiling'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image());
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField(i18t('with'))
+        .appendField(i18t('autoscroll to'));
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .appendField(i18t('x'));
+    this.appendDummyInput()
+        .appendField(i18t('y'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(285);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
 
 
 /**
@@ -88,6 +119,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as tile sprite'))
         .appendField(new Blockly.FieldTextInput('blocks'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('on position'));
     this.appendValueInput('x')
         .setCheck('Number');
@@ -98,6 +130,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
         .appendField('y')
         .appendField(i18t('with size'))
         .appendField(new Blockly.FieldNumber(400), 'width')
+        .appendField('x')
         .appendField(new Blockly.FieldNumber(50), 'height')
         .appendField(i18t('and group'))
         .appendField(new Blockly.FieldTextInput(''), 'group');
@@ -117,7 +150,6 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
 Blockly.Blocks['phaser_tile_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('set title sprite'));
     this.appendDummyInput()
@@ -190,8 +222,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('destroy tile sprite'));
-    this.appendValueInput('variable')
-        .setCheck(null);
+    this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -208,7 +239,6 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
 Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('set tile sprite'));
     this.appendValueInput('x')
@@ -234,7 +264,6 @@ Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
 Blockly.Blocks['phaser_tile_sprite_immovable'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('set tile sprite'));
     this.appendDummyInput()

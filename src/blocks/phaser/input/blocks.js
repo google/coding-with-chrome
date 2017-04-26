@@ -25,7 +25,8 @@
 Blockly.Blocks['phaser_input'] = {
   init: function() {
     this.appendDummyInput()
-      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(Blockly.BlocksTemplate.keyboard())
+      .appendField(Blockly.BlocksTemplate.mouse())
       .appendField(i18t('on input'));
     this.appendStatementInput('CODE')
       .appendField(i18t('do'))
@@ -49,7 +50,8 @@ Blockly.Blocks['phaser_input_keyboard_cursor_keys_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField(i18t('as capture keyboard cursors keys'));
+        .appendField(i18t('as capture keyboard cursors keys'))
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(135);
@@ -68,7 +70,8 @@ Blockly.Blocks['phaser_input_keyboard_spacebar_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField(i18t('as capture keyboard spacebar'));
+        .appendField(i18t('as capture keyboard spacebar'))
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(135);
@@ -96,7 +99,8 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
           ['a', 'Phaser.KeyCode.A'],
           ['s', 'Phaser.KeyCode.S'],
           ['d', 'Phaser.KeyCode.D']
-        ]), 'keycode');
+        ]), 'keycode')
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(135);
@@ -115,7 +119,8 @@ Blockly.Blocks['phaser_input_mouse_keys_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('define'));
     this.appendDummyInput()
-        .appendField(i18t('as capture mouse keys'));
+        .appendField(i18t('as capture mouse keys'))
+        .appendField(Blockly.BlocksTemplate.mouse());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(135);
@@ -131,7 +136,7 @@ Blockly.Blocks['phaser_input_mouse_keys_add'] = {
 Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
   init: function() {
     this.appendValueInput('cursors')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.appendDummyInput()
         .appendField(i18t('is pressed'))
         .appendField(new Blockly.FieldDropdown([
@@ -156,7 +161,7 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
 Blockly.Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
   init: function() {
     this.appendValueInput('cursors')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'))
         .appendField(new Blockly.FieldDropdown([
@@ -181,7 +186,7 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
 Blockly.Blocks['phaser_input_keyboard_key_is_pressed'] = {
   init: function() {
     this.appendValueInput('key')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.appendDummyInput()
         .appendField(i18t('is pressed'));
     this.setInputsInline(true);
@@ -199,7 +204,7 @@ Blockly.Blocks['phaser_input_keyboard_key_is_pressed'] = {
 Blockly.Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
   init: function() {
     this.appendValueInput('key')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.keyboard());
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'));
     this.setInputsInline(true);
@@ -217,7 +222,7 @@ Blockly.Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
 Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
   init: function() {
     this.appendValueInput('mouse')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.mouse());
     this.appendDummyInput()
         .appendField(i18t('is pressed'))
         .appendField(new Blockly.FieldDropdown([
@@ -240,7 +245,7 @@ Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
 Blockly.Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
   init: function() {
     this.appendValueInput('mouse')
-        .setCheck(null);
+        .appendField(Blockly.BlocksTemplate.mouse());
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'))
         .appendField(new Blockly.FieldDropdown([

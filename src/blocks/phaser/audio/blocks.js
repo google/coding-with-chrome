@@ -30,6 +30,7 @@ Blockly.Blocks['phaser_audio_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as audio'))
         .appendField(new Blockly.FieldTextInput('audio'), 'audio')
+        .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('with volume'))
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
         .appendField(i18t('%'))
@@ -52,7 +53,7 @@ Blockly.Blocks['phaser_audio_add'] = {
 Blockly.Blocks['phaser_audio_play'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('play audio'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -69,7 +70,7 @@ Blockly.Blocks['phaser_audio_play'] = {
 Blockly.Blocks['phaser_audio_pause'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('pause audio'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -86,7 +87,7 @@ Blockly.Blocks['phaser_audio_pause'] = {
 Blockly.Blocks['phaser_audio_resume'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('resume audio'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -103,7 +104,7 @@ Blockly.Blocks['phaser_audio_resume'] = {
 Blockly.Blocks['phaser_audio_stop'] = {
   init: function() {
     this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('stop audio'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);

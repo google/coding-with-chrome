@@ -82,8 +82,10 @@ Blockly.Blocks['phaser_dynamic_text_add'] = {
         .setCheck('Number')
         .appendField(i18t('on'));
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
+        .appendField('y')
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
@@ -129,8 +131,10 @@ Blockly.Blocks['phaser_action_text_add'] = {
         .setCheck('Number')
         .appendField(i18t('on'));
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
+        .appendField('y')
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')
@@ -169,7 +173,6 @@ Blockly.Blocks['phaser_text_change'] = {
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('change'));
     this.appendValueInput('text')
-        .setCheck(null)
         .appendField(i18t('text to'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
@@ -187,7 +190,6 @@ Blockly.Blocks['phaser_text_change'] = {
 Blockly.Blocks['phaser_text_get'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(i18t('get text'));
     this.setOutput(true, null);
     this.setColour(255);
@@ -206,7 +208,6 @@ Blockly.Blocks['phaser_text_clicked'] = {
         .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('on click on action text'));
     this.appendStatementInput('func')
-        .setCheck(null)
         .appendField(i18t('do'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');

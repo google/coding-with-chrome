@@ -27,7 +27,7 @@ Blockly.Blocks['phaser_update'] = {
     this.setHelpUrl('');
     this.setColour(315);
     this.appendDummyInput()
-      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(Blockly.BlocksTemplate.repeat())
       .appendField(i18t('on update'));
     this.appendStatementInput('CODE')
       .appendField(i18t('do'))

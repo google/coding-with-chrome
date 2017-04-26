@@ -67,7 +67,8 @@ Blockly.Blocks['phaser_add_background'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('add background image'))
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite');
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);
@@ -104,13 +105,12 @@ Blockly.Blocks['phaser_time_loop_event'] = {
   init: function() {
     this.appendValueInput('time')
         .setCheck('Number')
-        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(Blockly.BlocksTemplate.repeat())
         .appendField(i18t('repeat every'));
     this.appendDummyInput()
         .appendField(i18t('milliseconds'));
     this.appendStatementInput('func')
-        .appendField(i18t('do'))
-        .setCheck(null);
+        .appendField(i18t('do'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

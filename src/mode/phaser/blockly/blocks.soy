@@ -179,6 +179,13 @@
   </block>
 
   <block type="phaser_load_image">
+    <field name="name">ball_red</field>
+      <value name="image">
+        <block type="general_sample_image_ball_red"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
     <field name="name">bg_01</field>
       <value name="image">
         <block type="general_sample_image_bg_01"></block>
@@ -387,7 +394,7 @@
         </block>
       </value>
       <value name="x">
-        <block type="math_number"><field name="NUM">10</field></block>
+        <block type="math_number"><field name="NUM">100</field></block>
       </value>
       <value name="y">
         <block type="math_number"><field name="NUM">10</field></block>
@@ -851,7 +858,7 @@
         </block>
       </value>
       <value name="x">
-        <block type="math_number"><field name="NUM">100</field></block>
+        <block type="math_number"><field name="NUM">50</field></block>
       </value>
       <value name="y">
         <block type="math_number"><field name="NUM">100</field></block>
@@ -1012,10 +1019,24 @@
       </value>
     </block>
 
-    <block type="phaser_tile_sprite_ground_add">
+    <block type="phaser_tile_sprite_floor_add">
       <value name="variable">
         <block type="variables_get">
-          <field name="VAR">ground</field>
+          <field name="VAR">floor</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_ceiling_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">ceiling</field>
         </block>
       </value>
       <value name="x">

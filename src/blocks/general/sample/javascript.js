@@ -70,6 +70,30 @@ Blockly.JavaScript['general_sample_image_50px_blue'] = function() {
 
 
 /**
+ * Sample image: ball_red.png
+ */
+Blockly.JavaScript['general_sample_image_ball_red'] = function() {
+  var image = 'data:image/png;base64,' +
+    'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAB3RJTUUH4QQaFQkFYK1d4QAA' +
+    'AAlwSFlzAAAewQAAHsEBw2lUUwAAAARnQU1BAACxjwv8YQUAAAECUExURf///9AQEM8PD9ER' +
+    'EdESEtQVFeIjI/IzM/g5Of9AQPc4OPEyMuAgINITE8oKCs4PD+YmJvo7O84ODu8wMOoqKswN' +
+    'DegoKP4/P+MkJMwMDNUWFvw9PcgICOIiItscHO4vL+gpKckKCvAxMeQkJNwcHNYXF/0+Ps0N' +
+    'DewsLNMTE+ssLOEiItkZGdYWFucoKOAhIdUVFc8QENcYGNgYGP1QUP1cXPtmZv1bW/5NTf5G' +
+    'Rvtra/HOzu7u7u7s7PLIyPxhYf9BQfeSkvl8fPtsbPxiYvDe3vLGxv5HR/xcXPxZWftpaftn' +
+    'Z/xbW/xaWv1OTvxgYP1XV/1WVv5MTPM0NPk6OtISEs6NaZQAAAABdFJOUwBA5thmAAABjElE' +
+    'QVRIx62WZ1fCMBRAAy1tHwhaBHHvhYig4k7dEwfO//9XbEKBlrQvTfV+6WlP78l4IyEkjBTR' +
+    'f3TNfcSjmDG+voFjmSN5uTA6ZkMAyyjiI4xDCKVypFCegHAqk1PhxvQMRGJrIcLsHGBU5kVl' +
+    'ASQsDo+xDKDorEAMVv3GGvZn673z8cnXo/vCsR4tnLTPKHXOO5ds3zb6yiZiXFGOc80co2do' +
+    'yKxuqIdzy6bWSx4z2ni76yn0/oHlTteoIoO89A3qvLIP3XrYQpT2QKHP7EONlxOyXfDoG+WJ' +
+    '1wJTttGYDK0FoO4qO2jEgzvm0nAVG1WCcXHJ4UHhzimP/oVnQNYdRZqNrYPDo+PBKyF7oEiV' +
+    '7KsqTXUlwcTypKmq7Eo3eZisNJQCOWnCCDRkaSlSlyW/gCUtMYGatJAFuoVcMOMbpRhNKUi/' +
+    'KWGtL4gRq8H68TVYvI0PpqX/7bAgRP1IIgX5wbf0D8drgkM80VUhyYWE7YLytYeRzhim5dV5' +
+    'Ls7lyrvCpTVdS6VJ6KJ/AakqaG5vO0YIAAAAAElFTkSuQmCC';
+  return [image, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
  * Sample image: bg/bg_01.png
  */
 Blockly.JavaScript['general_sample_image_bg_01'] = function() {

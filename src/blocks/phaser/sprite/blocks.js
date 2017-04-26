@@ -30,11 +30,16 @@ Blockly.Blocks['phaser_sprite_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as sprite'))
         .appendField(new Blockly.FieldTextInput('sprite'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image())
+        .appendField(i18t('with'))
         .appendField(i18t('position'));
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(230);
@@ -95,6 +100,7 @@ Blockly.Blocks['phaser_sprite_adjust_dimension'] = {
     this.appendValueInput('width')
         .setCheck('Number');
     this.appendValueInput('height')
+        .appendField('x')
         .setCheck('Number');
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
     this.setNextStatement(true, ['Create', 'Input', 'Update']);
@@ -111,7 +117,6 @@ Blockly.Blocks['phaser_sprite_adjust_dimension'] = {
 Blockly.Blocks['phaser_sprite_get'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(i18t('get sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
@@ -135,8 +140,7 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('destroy sprite'));
-    this.appendValueInput('variable')
-        .setCheck(null);
+    this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
@@ -153,7 +157,6 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
 Blockly.Blocks['phaser_sprite_immovable'] = {
   init: function() {
     this.appendValueInput('variable')
-        .setCheck(null)
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('set sprite'));
     this.appendDummyInput()
