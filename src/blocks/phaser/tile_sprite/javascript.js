@@ -20,6 +20,40 @@
 
 
 /**
+ * Auto scroll tile sprite background.
+ */
+Blockly.JavaScript['phaser_tile_sprite_background'] = function(block) {
+  var text_sprite = block.getFieldValue('sprite');
+  var value_x = Blockly.JavaScript.valueToCode(block,
+    'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(block,
+    'y', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.add.tileSprite(0, 0, game.world.width, game.world.height,' +
+    '\'' + text_sprite + '\').autoScroll(' + value_x + ', ' + value_y + ');\n';
+};
+
+
+/**
+ * Auto scroll tile sprite background.
+ */
+Blockly.JavaScript['phaser_tile_sprite_ground_add'] = function(block) {
+  var variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  var text_sprite = block.getFieldValue('sprite');
+  var value_x = Blockly.JavaScript.valueToCode(block,
+    'x', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_y = Blockly.JavaScript.valueToCode(block,
+    'y', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = game.add.tileSprite(0, (game.world.height - 50), ' +
+    'game.world.width, 50, \'' + text_sprite + '\');\n' +
+    variable + '.autoScroll(' + value_x + ', ' + value_y + ');\n' +
+    'game.physics.arcade.enable(' + variable + ');\n' +
+    variable + '.body.immovable = true;\n';
+};
+
+
+
+/**
  * Add tile sprite.
  */
 Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {

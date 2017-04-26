@@ -41,6 +41,7 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
   game.physics.arcade.enable(sprite);
   sprite['checkWorldBounds'] = true;
   sprite['outOfBoundsKill'] = true;
+  sprite['z'] = 100;
   if (opt_manipulation && opt_manipulation_value) {
     if (opt_manipulation.includes('.')) {
       var attributes = opt_manipulation.split('.');

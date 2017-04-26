@@ -69,3 +69,37 @@ Blockly.Blocks['general_sample_image_50px_blue'] = {
     this.setHelpUrl('');
   }
 };
+
+
+/**
+ * Sample image: bg/bg_01.png
+ */
+Blockly.Blocks['general_sample_image_bg_01'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/bg/bg_01.png',
+          50, 50, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Sample image: bg/bg_02.png
+ */
+Blockly.Blocks['general_sample_image_bg_02'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/bg/bg_02.png',
+          50, 50, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

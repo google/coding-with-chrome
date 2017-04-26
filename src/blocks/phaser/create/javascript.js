@@ -27,7 +27,8 @@ Blockly.JavaScript['phaser_create'] = function(block) {
   var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'create: function () {\n' +
     '  if (navigator.userAgent == \'CwC sandbox\') {' +
-    'game.time.desiredFps = 30;}\n' + statements_code + '},\n';
+    'game.time.desiredFps = 30;}\n' + statements_code + '\n' +
+    '  obstacle_group = game.add.group(undefined, \'obstacle_group\');\n},\n';
 };
 
 
@@ -45,7 +46,7 @@ Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
  */
 Blockly.JavaScript['phaser_add_background'] = function(block) {
   var text_sprite = block.getFieldValue('sprite');
-  return 'game.add.sprite(0, 0, \'' + text_sprite + '\')\n';
+  return 'game.add.image(0, 0, \'' + text_sprite + '\')\n';
 };
 
 

@@ -178,6 +178,20 @@
     </value>
   </block>
 
+  <block type="phaser_load_image">
+    <field name="name">bg_01</field>
+      <value name="image">
+        <block type="general_sample_image_bg_01"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
+    <field name="name">bg_02</field>
+      <value name="image">
+        <block type="general_sample_image_bg_02"></block>
+    </value>
+  </block>
+
 {/template}
 
 
@@ -508,7 +522,7 @@
     </value>
     <value name="spaces">
       <block type="math_number">
-        <field name="NUM">3</field>
+        <field name="NUM">5</field>
       </block>
     </value>
     <value name="x">
@@ -887,7 +901,7 @@
       </value>
       <value name="object2">
         <block type="variables_get">
-          <field name="VAR">obstacle</field>
+          <field name="VAR">obstacle_group</field>
         </block>
       </value>
     </block>
@@ -900,7 +914,7 @@
       </value>
       <value name="object2">
         <block type="variables_get">
-          <field name="VAR">obstacle</field>
+          <field name="VAR">ground</field>
         </block>
       </value>
     </block>
@@ -988,6 +1002,30 @@
   {@param? opt_show_create_blocks: bool}
 
   {if $opt_show_create_blocks}
+
+    <block type="phaser_tile_sprite_background">
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_tile_sprite_ground_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">ground</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">-50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
     <block type="phaser_tile_sprite_add">
       <value name="variable">
         <block type="variables_get">

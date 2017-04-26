@@ -26,15 +26,17 @@
 Blockly.Blocks['phaser_text_add'] = {
   init: function() {
     this.appendValueInput('text')
-         .appendField(Blockly.BlocksTemplate.addCircle())
-         .appendField(i18t('add text'))
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('add text'))
         .setCheck('String');
     this.appendValueInput('x')
         .setCheck('Number')
         .appendField(i18t('on'));
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
+        .appendField('y')
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput('16px'), 'size')

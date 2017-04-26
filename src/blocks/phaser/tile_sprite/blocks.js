@@ -19,6 +19,64 @@
  */
 
 
+
+/**
+ * Auto scroll tile sprite background.
+ */
+Blockly.Blocks['phaser_tile_sprite_background'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('add background image'))
+        .appendField(new Blockly.FieldTextInput('bg_01'), 'sprite');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField(i18t('with'))
+        .appendField(i18t('autoscroll to'));
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .appendField(i18t('x'));
+    this.appendDummyInput()
+        .appendField(i18t('y'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(285);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+/**
+ * Auto scroll tile sprite background.
+ */
+Blockly.Blocks['phaser_tile_sprite_ground_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('define'));
+    this.appendDummyInput()
+        .appendField(i18t('as ground'))
+        .appendField(new Blockly.FieldTextInput('ground.png'), 'sprite');
+    this.appendValueInput('x')
+        .setCheck('Number')
+        .appendField(i18t('with'))
+        .appendField(i18t('autoscroll to'));
+    this.appendValueInput('y')
+        .setCheck('Number')
+        .appendField(i18t('x'));
+    this.appendDummyInput()
+        .appendField(i18t('y'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(285);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+
+
 /**
  * Add tile sprite.
  */
@@ -30,12 +88,14 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as tile sprite'))
         .appendField(new Blockly.FieldTextInput('blocks'), 'sprite')
-        .appendField(i18t('position'));
+        .appendField(i18t('on position'));
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
+        .appendField('y')
         .appendField(i18t('with size'))
         .appendField(new Blockly.FieldNumber(400), 'width')
         .appendField(new Blockly.FieldNumber(50), 'height')

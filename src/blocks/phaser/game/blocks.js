@@ -28,7 +28,7 @@ Blockly.Blocks['phaser_game'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.pointTop())
         .appendField(i18t('Create Game with name'))
-        .appendField(new Blockly.FieldTextInput('Unnamed Game'), 'name')
+        .appendField(new Blockly.FieldTextInput(i18t('Unnamed Game')), 'name')
         .appendField(i18t('and size'))
         .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
         .appendField('x')

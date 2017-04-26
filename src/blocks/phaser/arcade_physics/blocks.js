@@ -35,7 +35,10 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
     this.appendValueInput('x')
         .setCheck('Number');
     this.appendValueInput('y')
+        .appendField('x')
         .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('y');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(5);
@@ -98,6 +101,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
     this.appendValueInput('width')
         .setCheck('Number');
     this.appendValueInput('height')
+        .appendField('x')
         .setCheck('Number');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

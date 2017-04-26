@@ -66,7 +66,7 @@ Blockly.Blocks['phaser_add_background'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('add background'))
+        .appendField(i18t('add background image'))
         .appendField(new Blockly.FieldTextInput('name'), 'sprite');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

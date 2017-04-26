@@ -27,8 +27,8 @@ Blockly.JavaScript['phaser_game'] = function(block) {
   var text_name = block.getFieldValue('name');
   var number_width = block.getFieldValue('width');
   var number_height = block.getFieldValue('height');
-
-  return 'var game = new Phaser.Game(' + number_width + ', ' + number_height +
+  return 'var obstacle_group;\n' +
+    'var game = new Phaser.Game(' + number_width + ', ' + number_height +
     ', Phaser.AUTO, \'' + text_name + '\');\n';
 };
 
