@@ -65,7 +65,7 @@ Ein Physik Sprite ist im Grunde eine erweiterte Art des Sprite mit dem Unterschi
 Diese Art der Grafik findet verwendung bei allen beweglichen Grafiken wie z.B. der Spielfigure oder aber Hindernissen.
 
 ## Die verschiedenen Arten von Texten
-Bei den Texten werden im Grunde auch die folgenden drei Arten unterschieden.
+Texte können im **Anlegen** Bereich erstellt werden, wobei man die folgenden drei Arten unterscheidet.
 
 ## Einfache Texte
 ![][text_block]
@@ -88,10 +88,31 @@ Der häufigste Anwendungsfall ist der “Starte Game” text beim Anfang eines S
 Die meisten Spiele lassen sich wahlweise entweder per Maus, Tastatur oder Bildschirm steuern.
 
 ## Festlegen der Eingabe Überwachung
-Zuerst muss im Anlegen Bereich festgelegt werden welche Art von Eingabe erfasst werden soll. Dies kann eine einzelne Taste, die Pfeiltasten oder die Maustaste sein.
+Zuerst muss im **Anlegen** Bereich festgelegt werden welche Art von Eingabe erfasst werden soll. Dies kann eine einzelne Taste, die Pfeiltasten oder die Maustaste sein.
+
+### Vordefinierte Tastertur Tasten
+![][capture_spacebar]
+
+Bei Spielen wo nur eine Eingabe benötigt wird, ist die Leertaste die einfachste Wahl.
+Diese wird auch meist verwendet um eine Figure springen zu lassen.
+
+### Speziele Tastertur Taste
+![][capture_keyboard_key]
+
+Falls gewünscht können natürlich auch andere Tasten verwendet werden, wie ASDW welche häufig als Alternative für die Pfeiltasten verwendet werden.
+
+### Pfeiltasten
+![][capture_cursor_keys]
+
+Die Pfeiltasten werden für die Steuerung der Figure nach oben, unten, rechts und links verwendet.
+
+### Maustasten / Touch Bildschirm
+![][capture_mouse_keys]
+
+Für alle Geräte die keine Tastertur haben, eigenet sich die Maustaste oder der Touch Bildschirm als Eingabegerät.
 
 ## Festlegen der Aktionen
-Danach muss im “Eingabe” Bereich festgelegt werden was bei einem Tastendruck passieren soll.
+Anschließend muss im **Eingabe** Bereich festgelegt werden was bei einem Tastendruck passieren soll.
 Hierbei unterscheidet man zwei Arten “beim betätigen” und “beim gedrückt lassen”.
 
 ### Beim betätigen
@@ -118,3 +139,8 @@ Dies ist hilfreich wenn man den Spieler in verschiedene Richtungen bewegen will 
 [text_block]: images/text_block.png
 [dynamic_text_block]: images/dynamic_text_block.png
 [action_text_block]: images/action_text_block.png
+
+[capture_spacebar]: images/capture_spacebar.png
+[capture_keyboard_key]: images/capture_keyboard_key.png
+[capture_cursor_keys]: images/capture_cursor_keys.png
+[capture_mouse_keys]: images/capture_mouse_keys.png
