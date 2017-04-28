@@ -33,8 +33,8 @@ Blockly.Blocks['phaser_update'] = {
       .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Update']);
-    this.setPreviousStatement(true, 'Update');
-    this.setNextStatement(true, 'Render');
+    this.setPreviousStatement(true, 'Update_');
+    this.setNextStatement(true, 'Render_');
     this.setTooltip('');
   }
 };

@@ -637,7 +637,7 @@ cwc.ui.Editor.prototype.handleSyncEvent = function(opt_event) {
   }
 
   if (opt_event['type'] === Blockly.Events.MOVE &&
-      opt_event['newInputName'] && opt_event['newParentId'] &&
+      !opt_event['newInputName'] && !opt_event['newParentId'] &&
       opt_event['newInputName'] === opt_event['oldInputName'] &&
       opt_event['newParentId'] === opt_event['oldParentId']) {
     return;

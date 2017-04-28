@@ -195,7 +195,7 @@ Locales['de'] = {
   'as text': 'als Text',
   'as tile sprite': 'als Tile Sprite',
   'as floor': 'als Boden',
-  'as ceiling': 'als Boden',
+  'as ceiling': 'als Decke',
   'autoscroll to': 'automatisches Scrollen nach',
   'autostart': 'automatisch starten',
   'bottom sprite': 'Sprite unten',

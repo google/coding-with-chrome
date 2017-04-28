@@ -32,8 +32,8 @@ Blockly.Blocks['phaser_input'] = {
       .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Input']);
-    this.setPreviousStatement(true, 'Update');
-    this.setNextStatement(true, 'Update');
+    this.setPreviousStatement(true, 'Input_');
+    this.setNextStatement(true, 'Update_');
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');

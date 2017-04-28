@@ -31,7 +31,7 @@ Blockly.Blocks['phaser_render'] = {
       .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Render']);
-    this.setPreviousStatement(true, 'Render');
+    this.setPreviousStatement(true, 'Render_');
     this.setNextStatement(false);
     this.setColour(195);
     this.setTooltip('');

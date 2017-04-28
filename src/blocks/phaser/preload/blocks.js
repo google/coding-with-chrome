@@ -31,8 +31,8 @@ Blockly.Blocks['phaser_preload'] = {
       .appendField(i18t('do'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Preload']);
-    this.setPreviousStatement(true, 'Preload');
-    this.setNextStatement(true, 'Create');
+    this.setPreviousStatement(true, 'Preload_');
+    this.setNextStatement(true, 'Create_');
     this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');

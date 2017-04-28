@@ -99,7 +99,7 @@ describe('StackQueue (autostart)', function() {
     window.setTimeout(function() {
       expect(counter).toEqual(5);
       done();
-    }, 100);
+    }, 50);
   });
 
   it('addDelay', function(done) {
@@ -127,7 +127,7 @@ describe('StackQueue (autostart)', function() {
           window.setTimeout(function() {
             expect(counter).toEqual(4);
             done();
-          }, 50);
+          }, 75);
         }
       }, 350);
     }.bind(this);
