@@ -183,10 +183,11 @@ cwc.ui.Library.prototype.syncFiles = function() {
 
   if (fileInstance) {
     let files = this.getFiles();
-    if (files) {
+    if (files && fileInstance.getFiles().getSize() > 0) {
       console.log('Syncing library ', fileInstance.getFiles().getSize(),
         ' files...');
       if (blocklyInstance) {
+        blocklyInstance.clearSelection();
         blocklyInstance.updateFiles(files);
       }
       if (editorInstance) {

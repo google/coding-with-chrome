@@ -93,7 +93,9 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
     this.loadBlacklistFile_(blacklistFile, callbackHandling);
   } else if (blacklistFile && languageFile) {
     this.loadBlacklistFile_(blacklistFile, function() {
-      this.loadLanguageFile_(languageFile, callbackHandling);
+      if (languageFile) {
+        this.loadLanguageFile_(languageFile, callbackHandling);
+      }
     }.bind(this));
   } else if (languageFile) {
     this.loadLanguageFile_(languageFile, callbackHandling);

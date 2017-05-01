@@ -83,10 +83,9 @@ cwc.utils.Features.prototype.detectFeatures = function() {
 
 /**
  * Detect available Chrome features.
- * @param {Event=} opt_event
  * @export
  */
-cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
+cwc.utils.Features.prototype.detectBrowserFeatures = function() {
   // Storage features.
   this.setBrowserFeature('storage', typeof Storage);
   this.setBrowserFeature('globalStorage', typeof globalStorage);
@@ -106,10 +105,9 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
 
 /**
  * Detect available Chrome features.
- * @param {Event=} opt_event
  * @export
  */
-cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
+cwc.utils.Features.prototype.detectChromeFeatures = function() {
   if (typeof chrome == 'undefined') {
     this.feature_['chrome'] = {};
     return;
@@ -185,16 +183,14 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
 
 /**
  * Detect available JavaScript frameworks.
- * @param {Event=} opt_event
  * @export
  */
-cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
+cwc.utils.Features.prototype.detectJavaScripts = function() {
   this.setJavaScriptFeature('blockly', typeof window['Blockly']);
   this.setJavaScriptFeature('codemirror', typeof window['CodeMirror']);
   this.setJavaScriptFeature('coffeelint', typeof window['coffeelint']);
   this.setJavaScriptFeature('coffeescript', typeof window['CoffeeScript']);
   this.setJavaScriptFeature('htmlhint', typeof window['HTMLHint']);
-  this.setJavaScriptFeature('i18next', typeof window['i18next']);
   this.setJavaScriptFeature('jshint', typeof window['JSHINT']);
   this.setJavaScriptFeature('shepherd', typeof window['Shepherd']);
 };
@@ -202,10 +198,9 @@ cwc.utils.Features.prototype.detectJavaScripts = function(opt_event) {
 
 /**
  * Detect current online status.
- * @param {Event=} opt_event
  * @export
  */
-cwc.utils.Features.prototype.detectOnlineStatus = function(opt_event) {
+cwc.utils.Features.prototype.detectOnlineStatus = function() {
   this.set('online', window.navigator.onLine);
   this.log_.debug('Online Status:', this.get('online'));
 };
@@ -233,12 +228,11 @@ cwc.utils.Features.prototype.monitorOnlineStatus = function() {
 
 /**
  * @param {string} name
- * @param {string=} opt_group
+ * @param {string=} group
  * @return {boolean}
  * @export
  */
-cwc.utils.Features.prototype.get = function(name, opt_group) {
-  let group = opt_group || this.defaultGroup;
+cwc.utils.Features.prototype.get = function(name, group = this.defaultGroup) {
   if (!(group in this.feature_)) {
     this.log_.warn('Feature group', group, 'is unknown!');
     return false;
@@ -254,12 +248,12 @@ cwc.utils.Features.prototype.get = function(name, opt_group) {
 /**
  * @param {string} name
  * @param {string|boolean} value
- * @param {string=} opt_group
+ * @param {string=} group
  * @return {boolean|string}
  * @export
  */
-cwc.utils.Features.prototype.set = function(name, value, opt_group) {
-  let group = opt_group || this.defaultGroup;
+cwc.utils.Features.prototype.set = function(name, value,
+    group = this.defaultGroup) {
   this.log_.debug('Set', group, 'feature', name, 'to', value);
   if (!(group in this.feature_)) {
     this.feature_[group] = {};

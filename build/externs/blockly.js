@@ -20,7 +20,7 @@
 
 
 /** @constructor */
-var Blockly = function() {};
+let Blockly = function() {};
 
 /** @const */
 Blockly.HSV_SATURATION;
@@ -52,7 +52,7 @@ Blockly.svgResize = function(workspace) {};
 Blockly.updateToolbox = function(tree) {};
 
 /**
- * @param {!Function} func Function to call.
+ * @param {!Function} func
  * @return {!Array.<!Array>} Opaque data that can be passed to
  *     removeChangeListener.
  * @deprecated April 2015
@@ -187,6 +187,12 @@ Blockly.Variables.createVariable = function(workspace, opt_callback) {};
 /** @constructor */
 Blockly.Workspace = function() {};
 
+/**
+ * @param {!string} name
+ * @param {!Function} callback
+ */
+Blockly.Workspace.registerButtonCallback = function(name, callback) {};
+
 /** @type {Object} */
 Blockly.Workspace.options = {};
 
@@ -198,6 +204,9 @@ Blockly.Workspace.redoStack_ = [];
 
 /** @type {Object} */
 Blockly.Workspace.toolbox_ = {};
+
+/** @type {Function} */
+Blockly.Workspace.toolbox_.clearSelection = function() {};
 
 /** @type {Object} */
 Blockly.Workspace.toolbox_.tree_ = {};

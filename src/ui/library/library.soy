@@ -107,6 +107,10 @@
           data-file-name="{$file}" data-file-action="insertMacro">
       </div>
     {/if}
+  {ifempty}
+    <p>
+      {msg desc=""}Please click on the upload tab to upload an image file.{/msg}
+    </p>
   {/foreach}
 
 {/template}
@@ -131,6 +135,10 @@
         <audio controls src="{$files[$file]['content']}"></audio>
       </div>
     {/if}
+  {ifempty}
+    <p>
+      {msg desc=""}Please click on the upload tab to upload an audio file.{/msg}
+    </p>
   {/foreach}
 
 {/template}
@@ -152,6 +160,10 @@
         insert_drive_file
       </i>{$file}
     </div>
+  {ifempty}
+    <p>
+      {msg desc=""}Please click on the upload tab to upload a file.{/msg}
+    </p>
   {/foreach}
 
 {/template}

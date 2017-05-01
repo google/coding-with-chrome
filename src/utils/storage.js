@@ -95,7 +95,7 @@ cwc.utils.StorageCustom.prototype.clear = function() {
  * @final
  * @export
  */
-cwc.utils.Storage = function(storageType = this.getStorageType()) {
+cwc.utils.Storage = function(storageType = cwc.utils.StorageType.NONE) {
   /** @type {!string} */
   this.name = 'Storage';
 
@@ -109,7 +109,7 @@ cwc.utils.Storage = function(storageType = this.getStorageType()) {
   this.storage_ = {};
 
   /** @private {!cwc.utils.StorageType} */
-  this.storageType_ =storageType;
+  this.storageType_ = storageType || this.getStorageType();
 
   /** @private {string} */
   this.prefix_ = 'cwc__storage__';
@@ -196,7 +196,8 @@ cwc.utils.Storage.prototype.getStorageType = function() {
  */
 cwc.utils.Storage.prototype.loadChromeStorage = function(optType,
     optCallback) {
-  let storageKey = optType ? this.getKeyname('', optType) : '';
+  this.log_.info('Loading Chrome storage ...');
+  let storageKey = optType ? this.getKeyname('', optType) : null;
   let callback = function(data) {
     this.handleLoadChromeStorage_(data, storageKey, optCallback);
   };
@@ -214,19 +215,21 @@ cwc.utils.Storage.prototype.loadChromeStorage = function(optType,
 cwc.utils.Storage.prototype.handleLoadChromeStorage_ = function(data,
     storageKey = '', optCallback) {
   for (let key in data) {
-    if ((storageKey && key == storageKey) ||
-        (!storageKey && key.startsWith(this.prefix_))) {
-      if (goog.isObject(data[key])) {
-        this.log_.info('Syncing', data[key].length,
-          'items to session storage.');
-        for (let item in data[key]) {
-          if (Object.prototype.hasOwnProperty.call(data[key], item)) {
-            this.storage_.setItem(key + item, data[key][item]);
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      if ((storageKey && key == storageKey) ||
+          (!storageKey && key.startsWith(this.prefix_))) {
+        if (goog.isObject(data[key])) {
+          this.log_.info('Syncing', data[key].length, key,
+            'items to session storage.');
+          for (let item in data[key]) {
+            if (Object.prototype.hasOwnProperty.call(data[key], item)) {
+              this.storage_.setItem(key + item, data[key][item]);
+            }
           }
+        } else {
+          this.log_.info('Syncing', key, 'to session storage.');
+          this.storage_.setItem(key, data[key]);
         }
-      } else {
-        this.log_.info('Syncing', key, 'to session storage.');
-        this.storage_.setItem(key, data[key]);
       }
     }
   }
@@ -244,7 +247,7 @@ cwc.utils.Storage.prototype.saveChromeStorage = function(type) {
   let data = {};
   let storageLength = this.storage_.length;
   let storageKeyName = this.getKeyname('', type);
-  this.log_.info('Syncing', type, 'elements to Chrome storage.');
+  this.log_.info('Syncing', storageLength, type, 'elements to Chrome storage.');
   for (let i = 0; i < storageLength; i++) {
     let sessionKey = this.storage_.key(i);
     if (sessionKey.includes(storageKeyName)) {
@@ -263,9 +266,8 @@ cwc.utils.Storage.prototype.saveChromeStorage = function(type) {
  * @param {string=} type
  * @return {!string} The key name
  */
-cwc.utils.Storage.prototype.getKeyname = function(name = '',
-    type = this.defaultType_) {
-  return this.getTypename(type) + '__' + name;
+cwc.utils.Storage.prototype.getKeyname = function(name = '', type = '') {
+  return this.getTypename(type || this.defaultType_) + '__' + name;
 };
 
 
@@ -284,7 +286,7 @@ cwc.utils.Storage.prototype.getTypename = function(type) {
  * @param {string=} type Type of the storage entry.
  * @return {string|boolean|null} Value of the storage entry.
  */
-cwc.utils.Storage.prototype.get = function(name, type = this.defaultType_) {
+cwc.utils.Storage.prototype.get = function(name, type = '') {
   if (!type || !name) {
     this.log_.warn('Can\'t get value without a type and name!');
     return null;
@@ -293,9 +295,9 @@ cwc.utils.Storage.prototype.get = function(name, type = this.defaultType_) {
     this.log_.error('Storage is not available!');
     return null;
   }
-  let keyName = this.getKeyname(name, type);
+  let keyName = this.getKeyname(name, type || this.defaultType_);
   let keyValue = this.storage_.getItem(keyName);
-  this.log_.info('Gets item', keyName, ':', keyValue);
+  this.log_.info('Get item', keyName, ':', keyValue);
   switch (keyValue) {
     case 'true':
       return true;
@@ -330,8 +332,7 @@ cwc.utils.Storage.prototype.getAll = function(type) {
  * @param {string} value Value of the config entry.
  * @param {string=} type Type of the storage entry.
  */
-cwc.utils.Storage.prototype.set = function(name, value,
-    type = this.defaultType_) {
+cwc.utils.Storage.prototype.set = function(name, value, type = '') {
   if (!type || !name) {
     this.log_.warn('Can\'t store value without a type and name!');
     return;
@@ -340,14 +341,14 @@ cwc.utils.Storage.prototype.set = function(name, value,
     this.log_.warn('No storage available!');
     return;
   }
-  let keyName = this.getKeyname(name, type);
+  let keyName = this.getKeyname(name, type || this.defaultType_);
   if (value == this.storage_.getItem(keyName)) {
     return;
   }
   this.storage_.setItem(keyName, value);
   this.log_.info('Sets item', keyName, ':', value);
   if (this.syncChrome) {
-    this.saveChromeStorage(type);
+    this.saveChromeStorage(type || this.defaultType_);
   }
 };
 
@@ -357,7 +358,7 @@ cwc.utils.Storage.prototype.set = function(name, value,
  * @param {!string} name Name of the storage entry.
  * @param {string=} type Type of the storage entry.
  */
-cwc.utils.Storage.prototype.remove = function(name, type = this.defaultType_) {
+cwc.utils.Storage.prototype.remove = function(name, type = '') {
   if (!type || !name) {
     this.log_.warn('Can\'t remove entry without a type and name!');
     return;
@@ -366,10 +367,10 @@ cwc.utils.Storage.prototype.remove = function(name, type = this.defaultType_) {
     this.log_.warn('No storage available!');
     return;
   }
-  let keyName = this.getKeyname(name, type);
+  let keyName = this.getKeyname(name, type || this.defaultType_);
   this.storage_.removeItem(keyName);
   this.log_.info('Remove item', keyName);
   if (this.syncChrome) {
-    this.saveChromeStorage(type);
+    this.saveChromeStorage(type || this.defaultType_);
   }
 };

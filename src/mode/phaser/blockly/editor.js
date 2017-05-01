@@ -126,9 +126,8 @@ cwc.mode.phaser.blockly.Editor.prototype.showBlockly = function() {
 
 /**
  * Switches from the code editor to the Blockly ui.
- * @param {Event=} opt_e
  */
-cwc.mode.phaser.blockly.Editor.prototype.switchToEditor = function(opt_e) {
+cwc.mode.phaser.blockly.Editor.prototype.switchToEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);

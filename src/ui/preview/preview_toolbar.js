@@ -261,9 +261,9 @@ cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
 /**
  * Expands or collapse the current window.
  * @param {boolean} expand
- * @param {boolean} invert
+ * @param {boolean=} invert
  */
-cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert) {
+cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert = false) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {

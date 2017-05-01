@@ -30,8 +30,11 @@ Shepherd.activeTour = {};
 Shepherd.activeTour.complete = function() {};
 
 
-/** @constructor */
-Shepherd.Tour = function() {};
+/**
+ * @param {Object} config
+ * @constructor
+ */
+Shepherd.Tour = function(config) {};
 
 /** @type {Function} */
 Shepherd.Tour.prototype.addStep = function() {};

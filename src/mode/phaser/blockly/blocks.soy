@@ -93,9 +93,11 @@
 
     {if $files}
       <category name="{msg desc="File Blocks"}Files{/msg}" colour="150">
+        <button text="{msg desc=""}Open file library{/msg}" callbackKey="FILE_LIBRARY_MANAGMENT" />
         {call .files data="all" /}
       </category>
     {/if}
+
       <category name="{msg desc="File Blocks"}Sample Files{/msg}" colour="150">
         {call .sampleFiles data="all" /}
       </category>

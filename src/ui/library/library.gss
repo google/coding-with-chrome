@@ -61,6 +61,12 @@
   top: 0;
 }
 
+#{$prefix}library-all,
+#{$prefix}library-audio,
+#{$prefix}library-images {
+  padding: 5px;
+}
+
 .{$prefix}library-all-entry {
   padding: 10px;
   margin: 10px;

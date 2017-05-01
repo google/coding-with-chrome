@@ -81,8 +81,10 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
   });
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
-  this.selectScreenNormal.decorate(this.nodeContent);
-  this.selectScreenAdvanced.decorate(this.nodeContent);
+  if (this.nodeContent) {
+    this.selectScreenNormal.decorate(this.nodeContent);
+    this.selectScreenAdvanced.decorate(this.nodeContent);
+  }
   this.prepareTour_();
 };
 
@@ -90,12 +92,12 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
 /**
  * Creates a request to show the select screen.
  * @param {Function=} optCallback
- * @param {boolean=} opt_force_overview
+ * @param {boolean=} forceOverview
  */
 cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(optCallback,
-    opt_force_overview) {
+    forceOverview = false) {
   let showSelectScreen = function() {
-    this.showSelectScreen(opt_force_overview);
+    this.showSelectScreen(forceOverview);
     if (optCallback) {
       optCallback();
     }
