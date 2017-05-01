@@ -72,6 +72,7 @@ return data['a'] + data['b'];
 describe('StackQueue (autostart)', function() {
   let stackQueue = new cwc.utils.StackQueue();
   let counter = 0;
+  let timestamp;
   let counterFunc = function() {
     counter = counter + 1;
   };
@@ -93,21 +94,16 @@ describe('StackQueue (autostart)', function() {
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
-    window.setTimeout(function() {
+    stackQueue.addCommand(function() {
       expect(counter).toEqual(5);
       done();
-    }, 100);
+    });
   });
 
   it('addDelay', function(done) {
     counter = 0;
+    timestamp = Date.now();
     expect(counter).toEqual(0);
-    stackQueue.addCommand(function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(4);
-        done();
-      }, 250);
-    });
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(function() {
       expect(counter).toEqual(1);
@@ -127,17 +123,17 @@ describe('StackQueue (autostart)', function() {
     stackQueue.addCommand(function() {
       expect(counter).toEqual(4);
     });
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(4);
+      expect(Date.now() - timestamp >= 150).toBe(true);
+      done();
+    });
     expect(counter).toEqual(1);
   });
 
   it('stop', function(done) {
+    timestamp = Date.now();
     expect(counter).toEqual(4);
-    stackQueue.addCommand(function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(5);
-        done();
-      }, 150);
-    });
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(function() {
       expect(counter).toEqual(5);
@@ -157,7 +153,10 @@ describe('StackQueue (autostart)', function() {
     stackQueue.addCommand(function() {
       expect(false);
     });
-    stackQueue.stop();
+    stackQueue.stop(function() {
+      expect(counter).toEqual(5);
+      done();
+    });
   });
 });
 
@@ -165,6 +164,7 @@ describe('StackQueue (autostart)', function() {
 describe('StackQueue (no autostart)', function() {
   let stackQueue = new cwc.utils.StackQueue(false);
   let counter = 0;
+  let timestamp = 0;
   let counterFunc = function() {
     counter = counter + 1;
   };
@@ -180,30 +180,23 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
-    window.setTimeout(function() {
-      expect(counter).toEqual(0);
-      done();
-    }, 50);
+    expect(counter).toEqual(0);
+    done();
   });
 
   it('start', function(done) {
     expect(counter).toEqual(0);
     stackQueue.start();
-    window.setTimeout(function() {
+    stackQueue.addCommand(function() {
       expect(counter).toEqual(5);
       done();
-    }, 100);
+    });
   });
 
   it('addDelay', function(done) {
     counter = 0;
+    timestamp = Date.now();
     expect(counter).toEqual(0);
-    stackQueue.addCommand(function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(4);
-        done();
-      }, 400);
-    });
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(function() {
       expect(counter).toEqual(1);
@@ -223,17 +216,16 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.addCommand(function() {
       expect(counter).toEqual(4);
     });
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(4);
+      expect(Date.now() - timestamp >= 200).toBe(true);
+      done();
+    });
     stackQueue.start();
   });
 
   it('stop', function(done) {
     expect(counter).toEqual(4);
-    stackQueue.addCommand(function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(5);
-        done();
-      }, 75);
-    });
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
@@ -242,7 +234,10 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
     stackQueue.start();
-    stackQueue.stop();
+    stackQueue.stop(function() {
+      expect(counter).toEqual(5);
+      done();
+    });
     expect(counter).toEqual(5);
   });
 });

@@ -164,8 +164,9 @@ cwc.utils.StackQueue.prototype.setTimerInterval = function(interval) {
  */
 cwc.utils.StackQueue.prototype.start = function() {
   if (!this.active) {
-    this.run = false;
     this.active = true;
+    this.autoStart = true;
+    this.run = false;
     this.handleQueue_();
   }
 };
@@ -173,12 +174,17 @@ cwc.utils.StackQueue.prototype.start = function() {
 
 /**
  * Stops the stack queue timer.
+ * @param {Function=} callback
  * @export
  */
-cwc.utils.StackQueue.prototype.stop = function() {
+cwc.utils.StackQueue.prototype.stop = function(callback) {
   if (this.active) {
-    this.run = false;
     this.active = false;
+    this.autoStart = false;
+    this.run = false;
+    if (callback && typeof callback === 'function') {
+      callback();
+    }
   }
 };
 
