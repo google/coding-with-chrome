@@ -36,5 +36,5 @@ Blockly.Blocks['phaser_render'] = {
     this.setColour(195);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.mode.basic.simple.Editor');
 goog.require('cwc.ui.Editor');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

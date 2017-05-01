@@ -24,7 +24,6 @@ goog.require('cwc.soy.mode.Basic.blockly.Layout');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -45,7 +44,7 @@ cwc.mode.basic.blockly.Layout = function(helper) {
  * Decorates the Blockly layout.
  */
 cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
 
   goog.soy.renderElement(
@@ -60,8 +59,7 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
         prefix: this.prefix}
   );
 
-  var nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
+  let nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
   goog.soy.renderElement(nodeBlocklyToolbox,
     cwc.soy.mode.Basic.blockly.Blocks.toolbox);
-
 };

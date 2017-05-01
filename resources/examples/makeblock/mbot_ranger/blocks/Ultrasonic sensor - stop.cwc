@@ -1,0 +1,23 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"mbot_ranger_ultrasonic_sensor_change\" x=\"-210\" y=\"-150\">\n    <statement name=\"CODE\">\n      <block type=\"controls_if\">\n        <mutation else=\"1\"></mutation>\n        <value name=\"IF0\">\n          <block type=\"logic_compare\">\n            <field name=\"OP\">LTE</field>\n            <value name=\"A\">\n              <block type=\"variables_get\">\n                <field name=\"VAR\">distance</field>\n              </block>\n            </value>\n            <value name=\"B\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">30</field>\n              </block>\n            </value>\n          </block>\n        </value>\n        <statement name=\"DO0\">\n          <block type=\"mbot_ranger_play_tone\">\n            <field name=\"frequency\">130.81</field>\n            <field name=\"duration\">240</field>\n            <next>\n              <block type=\"mbot_ranger_move_forward\">\n                <value name=\"speed\">\n                  <block type=\"math_number\">\n                    <field name=\"NUM\">0</field>\n                  </block>\n                </value>\n                <next>\n                  <block type=\"mbot_ranger_stop_moving\"></block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </statement>\n        <statement name=\"ELSE\">\n          <block type=\"mbot_ranger_move_forward\">\n            <value name=\"speed\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">85</field>\n              </block>\n            </value>\n          </block>\n        </statement>\n      </block>\n    </statement>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "$flags_$": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "mbot_ranger_blockly",
+  "mode": "mbot_ranger_blockly",
+  "model": "",
+  "title": "Ultrasonic sensor - Stop",
+  "ui": "blockly",
+  "version": "1.0"
+}

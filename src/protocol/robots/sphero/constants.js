@@ -23,7 +23,6 @@ goog.provide('cwc.protocol.sphero.CommandType');
 goog.provide('cwc.protocol.sphero.MessageType');
 
 
-
 /**
  * Enum of implemented callback types.
  * @enum {number}
@@ -33,7 +32,7 @@ cwc.protocol.sphero.CallbackType = {
   LOCATION: 0x10,
   RGB: 0x15,
   VESRION: 0x20,
-  UNKNOWN: 0xF0
+  UNKNOWN: 0xF0,
 };
 
 
@@ -46,25 +45,25 @@ cwc.protocol.sphero.Command = {
     PING: [0x00, 0x01],
     VERSION: [0x00, 0x02],
     POWER_STATE: [0x00, 0x20],
-    SLEEP: [0x00, 0x22]
+    SLEEP: [0x00, 0x22],
   },
   HEADING: [0x02, 0x01],
   DATA_STREAMING: [0x02, 0x11],
   COLLISION_DETECTION: [0x02, 0x12],
   LOCATION: {
     SET: [0x02, 0x13],
-    GET: [0x02, 0x15]
+    GET: [0x02, 0x15],
   },
   RGB_LED: {
     SET: [0x02, 0x20],
-    GET: [0x02, 0x22]
+    GET: [0x02, 0x22],
   },
   BACK_LED: [0x02, 0x21],
   ROLL: [0x02, 0x30],
   BOOST: [0x02, 0x31],
   MOVE: [0x02, 0x32],
   POWER: [0x02, 0x33],
-  MOTION_TIMEOUT: [0x02, 0x34]
+  MOTION_TIMEOUT: [0x02, 0x34],
 };
 
 
@@ -75,8 +74,8 @@ cwc.protocol.sphero.Command = {
 cwc.protocol.sphero.CommandType = {
   DIRECT: {
     REPLY: 0xFF,
-    NOREPLY: 0xFE
-  }
+    NOREPLY: 0xFE,
+  },
 };
 
 
@@ -85,5 +84,5 @@ cwc.protocol.sphero.CommandType = {
  * @enum {number}
  */
 cwc.protocol.sphero.MessageType = {
-  COLLISION_DETECTED: 0x07
+  COLLISION_DETECTED: 0x07,
 };

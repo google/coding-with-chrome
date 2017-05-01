@@ -31,7 +31,6 @@ goog.require('goog.ui.Dialog');
 goog.require('goog.ui.Dialog.EventType');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -86,7 +85,7 @@ cwc.ui.GDrive = function(helper) {
   this.dialogMenus = {
     'open': [this.menuMyFiles, this.menuSharedFiles, this.menuStarredFiles,
       this.menuLastOpenedFiles, this.menuTrashFiles],
-    'save': [this.menuMyFiles]
+    'save': [this.menuMyFiles],
   };
 
   /** @type {Array} */
@@ -107,10 +106,10 @@ cwc.ui.GDrive = function(helper) {
  * Fetches all related files from Google drive.
  */
 cwc.ui.GDrive.prototype.getFile = function() {
-  var fileEvent = this.handleFileList.bind(this);
+  let fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
-    'q': 'mimeType = \'' + this.mimeType + '\''
+    'q': 'mimeType = \'' + this.mimeType + '\'',
   }, fileEvent);
 };
 
@@ -138,14 +137,14 @@ cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
 cwc.ui.GDrive.prototype.getMyFiles = function() {
   this.switchMenu(this.menuMyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
-  var fileEvent = this.handleFileList.bind(this);
+  let fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
        ' and \'me\' in owners and \'root\' ' +
-       'in parents and trashed = false')
+       'in parents and trashed = false'),
   }, fileEvent);
 };
 
@@ -155,8 +154,8 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
 cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
   this.saveFileParentId = file['id'];
   this.parents.push({name: file['name'], id: file['id']});
-  var fileEvent = this.handleFileList.bind(this);
-  var query = cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY + ' and \'' + (
+  let fileEvent = this.handleFileList.bind(this);
+  let query = cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY + ' and \'' + (
     file['id'] + '\' in parents');
   if (typeof trashed === 'boolean') {
     query += ' and trashed = ' + trashed;
@@ -165,7 +164,7 @@ cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
-    'q': query
+    'q': query,
   }, fileEvent);
 };
 
@@ -187,14 +186,14 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
   this.switchMenu(this.menuSharedFiles);
   this.parents = [{
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
-  var fileEvent = this.handleFileList.bind(this);
+  let fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
        ' and sharedWithMe = true and ' +
-       'trashed = false')
+       'trashed = false'),
   }, fileEvent);
 };
 
@@ -206,14 +205,14 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
   this.switchMenu(this.menuStarredFiles);
   this.parents = [{
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
-  var fileEvent = this.handleFileList.bind(this);
+  let fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
       ' and starred = true and ' +
-      'trashed = false')
+      'trashed = false'),
   }, fileEvent);
 };
 
@@ -225,8 +224,8 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   this.switchMenu(this.menuLastOpenedFiles);
   this.parents = [{
     name: 'Recent', callback: this.getLastOpenedFiles.bind(this)}];
-  var fileEvent = this.handleFileList.bind(this);
-  var lastDays = new Date();
+  let fileEvent = this.handleFileList.bind(this);
+  let lastDays = new Date();
   lastDays.setDate(new Date().getDate() - 7);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
@@ -234,7 +233,7 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
       ' and viewedByMeTime >= ' +
-      '\'' + lastDays.toISOString() + '\' and trashed = false')
+      '\'' + lastDays.toISOString() + '\' and trashed = false'),
   }, fileEvent);
 };
 
@@ -246,13 +245,13 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
   this.switchMenu(this.menuTrashFiles);
   this.parents = [{
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
-  var fileEvent = this.handleFileList.bind(this);
+  let fileEvent = this.handleFileList.bind(this);
   this.getFiles({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
-      ' and trashed = true')
+      ' and trashed = true'),
   }, fileEvent);
 };
 
@@ -263,15 +262,14 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
  * @param {goog.ui.Dialog} dialog Contains file browser to update file list on.
  */
 cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
-
-  var fileList = goog.dom.getElement(this.prefix + 'filelist');
+  let fileList = goog.dom.getElement(this.prefix + 'filelist');
   goog.soy.renderElement(
     fileList,
     cwc.soy.GDrive.gDriveFileList,
     {prefix: this.prefix, files: files}
   );
 
-  var fileParents = goog.dom.getElement(this.prefix + 'fileparents');
+  let fileParents = goog.dom.getElement(this.prefix + 'fileparents');
   console.log('this.parents: ' + JSON.stringify(this.parents));
   goog.soy.renderElement(
     fileParents,
@@ -279,13 +277,13 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
     {prefix: this.prefix, parents: this.parents}
   );
 
-  var elements = goog.dom.getElementsByClass('gdrive-loader');
+  let elements = goog.dom.getElementsByClass('gdrive-loader');
   for (let i2 = 0; i2 < elements.length; ++i2) {
     (function() {
-      var element = elements[i2];
-      var loaderEvent = function() {
-        var fileId = goog.dom.dataset.get(element, 'id');
-        var file = this.data[fileId];
+      let element = elements[i2];
+      let loaderEvent = function() {
+        let fileId = goog.dom.dataset.get(element, 'id');
+        let file = this.data[fileId];
         if (cwc.config.GDrive.MIME_TYPES.indexOf(file['mimeType']) > -1) {
           dialog.setVisible(false);
           this.downloadFile(file);
@@ -301,13 +299,13 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
   elements = goog.dom.getElementsByClass('cwc-gdrive-parentfolder');
   for (let i2 = 0; i2 < elements.length; ++i2) {
     (function() {
-      var element = elements[i2];
-      var loaderEvent = function(e) {
-        var folderId = e.target.getAttribute('data-gdrive-id');
-        var currentParent = null;
+      let element = elements[i2];
+      let loaderEvent = function(e) {
+        let folderId = e.target.getAttribute('data-gdrive-id');
+        let currentParent = null;
         console.log('click file:', JSON.stringify(folderId),
             'parents:', JSON.stringify(this.parents));
-        for (var i = this.parents.length - 1; i >= 0; i--) {
+        for (let i = this.parents.length - 1; i >= 0; i--) {
           currentParent = this.parents[i];
           this.parents.splice(i, 1);
           if (currentParent.id === folderId || i === 0) {
@@ -331,9 +329,10 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
 
 /**
  * Prepares and renders the GDrive result dialog.
+ * @return {goog.ui.Dialog}
  */
 cwc.ui.GDrive.prototype.prepareDialog = function() {
-  var dialog = new goog.ui.Dialog();
+  let dialog = new goog.ui.Dialog();
   dialog.setTitle('Google Drive');
   dialog.setSafeHtmlContent(cwc.soy.GDrive.gDriveTemplate({
     'prefix': this.prefix}).toSafeHtml());
@@ -342,14 +341,14 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
   dialog.render();
   dialog.setVisible(true);
 
-  var menuNode = goog.dom.getElement(this.prefix + 'menu');
-  var menus = this.dialogMenus[this.dialogType];
+  let menuNode = goog.dom.getElement(this.prefix + 'menu');
+  let menus = this.dialogMenus[this.dialogType];
   this.menuCurrent = menus[0];
-  for (var i = 0; i < menus.length; i++) {
+  for (let i = 0; i < menus.length; i++) {
     menuNode.appendChild(menus[i]);
   }
   if (this.dialogType === 'save') {
-    var fileName = goog.dom.getElement(this.prefix + 'filename');
+    let fileName = goog.dom.getElement(this.prefix + 'filename');
     goog.soy.renderElement(
       fileName,
       cwc.soy.GDrive.gDriveFileName,
@@ -374,7 +373,7 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
  * @param {Object} files Filelist with the result of the search.
  */
 cwc.ui.GDrive.prototype.renderDialog = function(files) {
-  var fileList = goog.dom.getElement(this.prefix + 'filelist');
+  let fileList = goog.dom.getElement(this.prefix + 'filelist');
   if (!fileList) {
     this.currentDialog = this.prepareDialog();
   }
@@ -388,7 +387,7 @@ cwc.ui.GDrive.prototype.renderDialog = function(files) {
 cwc.ui.GDrive.prototype.handleFileList = function(data) {
   this.data = {};
   if ('files' in data) {
-    var files = data['files'];
+    let files = data['files'];
     for (let i = 0; i < files.length; ++i) {
       this.data[files[i]['id']] = files[i];
     }
@@ -402,12 +401,12 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
  * @param {function(?)} callback
  */
 cwc.ui.GDrive.prototype.getFiles = function(params, callback) {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   console.log('Requesting Google Drive files: ' + params['q']);
   if (accountInstance) {
-    var opts = {
+    let opts = {
       path: '/drive/v3/files',
-      params: params
+      params: params,
     };
     accountInstance.request(opts, callback);
   }
@@ -421,11 +420,11 @@ cwc.ui.GDrive.prototype.getFiles = function(params, callback) {
  * @param {string=} parent_id
  */
 cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   if (name && content && accountInstance) {
-    var path = '/upload/drive/v3/files';
-    var contentType = null;
-    for (var ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
+    let path = '/upload/drive/v3/files';
+    let contentType = null;
+    for (let ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
       if (name.endsWith(ext)) {
         contentType = cwc.config.GDrive.EXT_TO_MIME_TYPE[ext];
       }
@@ -434,9 +433,9 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
       console.error('Unknown filetype: ' + name);
       return;
     }
-    var saveEvent = this.handleSaveFile.bind(this);
-    var method = 'POST';
-    var metaData = {};
+    let saveEvent = this.handleSaveFile.bind(this);
+    let method = 'POST';
+    let metaData = {};
     metaData['name'] = name;
     metaData['mimeType'] = contentType;
     if (parent_id) {
@@ -448,10 +447,10 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
       method = 'PATCH';
     }
 
-    var multipart = [];
-    var boundary = '314159265358979323846';
-    var delimiter = '--' + boundary;
-    var close_delim = '--' + boundary + '--';
+    let multipart = [];
+    let boundary = '314159265358979323846';
+    let delimiter = '--' + boundary;
+    let close_delim = '--' + boundary + '--';
     multipart.push(delimiter);
     multipart.push('Content-Type: application/json');
     multipart.push('');
@@ -467,10 +466,10 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
       path: path,
       method: method,
       params: {
-        'uploadType': 'multipart'
+        'uploadType': 'multipart',
       },
       header: {
-        'Content-Type': 'multipart/mixed; boundary=' + boundary
+        'Content-Type': 'multipart/mixed; boundary=' + boundary,
       },
       content: multipart.join('\r\n'),
     }, saveEvent);
@@ -484,7 +483,7 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
  * @param {Object} file
  */
 cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   if (file) {
     this.helper.showInfo('Saved file ' + file['name'] + ' successful.');
     fileInstance.setGDriveId(file['id']);
@@ -501,14 +500,14 @@ cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
  * @param {Object} file File instance.
  */
 cwc.ui.GDrive.prototype.downloadFile = function(file) {
-  var accountInstance = this.helper.getInstance('account');
-  var fileLoaderInstance = this.helper.getInstance('fileLoader');
+  let accountInstance = this.helper.getInstance('account');
+  let fileLoaderInstance = this.helper.getInstance('fileLoader');
 
   if (file && accountInstance && fileLoaderInstance) {
-    var id = file['id'];
-    var name = file['name'];
+    let id = file['id'];
+    let name = file['name'];
     console.log('Downloading file: ' + name);
-    var loadEvent = function(content) {
+    let loadEvent = function(content) {
       fileLoaderInstance.loadGDriveFileData(id, name, content);
     };
 
@@ -516,8 +515,8 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
       path: '/drive/v3/files/' + id,
       method: 'GET',
       params: {
-        'alt': 'media'
-      }
+        'alt': 'media',
+      },
     }, loadEvent.bind(this));
   }
 };
@@ -526,12 +525,9 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
 /**
  * @param {Object} file The file instance.
  * @param {string} content The file content.
- * @param {function(?)=} opt_callback
- * @param {Object=} opt_callback_scope
  */
-cwc.ui.GDrive.prototype.loadFileContent = function(file, content,
-    opt_callback, opt_callback_scope) {
-  var fileLoaderInstance = this.helper.getInstance('fileLoader');
+cwc.ui.GDrive.prototype.loadFileContent = function(file, content) {
+  let fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (content) {
     console.log('Load file content...');
     console.log(content);

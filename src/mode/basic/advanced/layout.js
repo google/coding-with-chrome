@@ -23,7 +23,6 @@ goog.require('cwc.soy.mode.Basic.advanced');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -41,7 +40,7 @@ cwc.mode.basic.advanced.Layout = function(helper) {
  * Decorates the basic advanced layout.
  */
 cwc.mode.basic.advanced.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(630);
 
   goog.soy.renderElement(
@@ -55,5 +54,4 @@ cwc.mode.basic.advanced.Layout.prototype.decorate = function() {
       cwc.soy.mode.Basic.advanced.preview,
       {'prefix': this.prefix}
   );
-
 };

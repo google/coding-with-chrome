@@ -23,7 +23,6 @@
 goog.provide('cwc.protocol.makeblock.mbot.Events');
 
 
-
 /**
  * Custom events.
  * @enum {string}
@@ -32,13 +31,14 @@ cwc.protocol.makeblock.mbot.Events.Type = {
   BUTTON_PRESSED: 'button_pressed',
   LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
   LINEFOLLOWER_SENSOR: 'linefollower_sensor_value_changed',
-  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed'
+  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed',
 };
 
 
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
@@ -52,6 +52,7 @@ cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
@@ -65,6 +66,7 @@ cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
@@ -78,6 +80,7 @@ cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
@@ -103,6 +106,6 @@ cwc.protocol.makeblock.mbot.Events.Data_ = function(type, opt_data, opt_port) {
   /** @type {!Object} */
   this.data = opt_data || {};
 
-  /** @type {number=} */
+  /** @type {number} */
   this.port = opt_port;
 };

@@ -26,7 +26,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -34,7 +33,6 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.mode.makeblock.mbotRanger.blockly.Editor = function(helper) {
-
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
 
@@ -119,7 +117,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
  * Runs / Executes the code.
  */
 cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.runCode = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }
@@ -130,7 +128,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.runCode = function() {
  * Switches from the Blockly ui to the code editor.
  */
 cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showEditor = function() {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
   fileInstance.setUi('custom');
@@ -142,7 +140,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showEditor = function() {
  */
 cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showBlockly = function(
 ) {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
       if (answer) {
@@ -157,7 +155,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showBlockly = function(
  */
 cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.switchToEditor =
 function() {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');

@@ -23,15 +23,14 @@ goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.Turtle');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
- * @param {string=} opt_image
+ * @param {string=} image
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.Turtle = function(helper, opt_image) {
+cwc.ui.Turtle = function(helper, image = '') {
   /** @type {string} */
   this.name = 'Turtle';
 
@@ -68,8 +67,8 @@ cwc.ui.Turtle = function(helper, opt_image) {
   /** @type {boolean} */
   this.ready = false;
 
-  /** @type {string|undefined} */
-  this.image = opt_image;
+  /** @type {string} */
+  this.image = image;
 
   /** @type {Array} */
   this.listener = [];
@@ -85,15 +84,15 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
-      this.node, cwc.soy.Turtle.template, { 'prefix': this.prefix });
+      this.node, cwc.soy.Turtle.template, {'prefix': this.prefix});
 
   // Runner
   this.connector.init();
 
   // Event handler
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
@@ -114,14 +113,14 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
 
 /**
  * @param {!string} action
- * @param {Object|number=} opt_value
+ * @param {Object|number=} optValue
  * @export
  */
-cwc.ui.Turtle.prototype.action = function(action, opt_value) {
+cwc.ui.Turtle.prototype.action = function(action, optValue) {
   if (!this.ready) {
     return;
   }
-  this.connector.send(action, opt_value);
+  this.connector.send(action, optValue);
 };
 
 
@@ -135,23 +134,24 @@ cwc.ui.Turtle.prototype.reset = function() {
 
 /**
  * @param {Object=} opt_event
+ * @return {string}
  * @private
  */
 cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
-  var renderer = this.helper.getInstance('renderer', true);
-  var frameworks = renderer.getFrameworks();
-  var helper = renderer.getRendererHelper();
+  let renderer = this.helper.getInstance('renderer', true);
+  let frameworks = renderer.getFrameworks();
+  let helper = renderer.getRendererHelper();
 
-  var css = '';
-  var header = helper.getFrameworkHeaders([this.jqueryFramework,
+  let css = '';
+  let header = helper.getFrameworkHeaders([this.jqueryFramework,
     this.jqueryTurtleFramework, this.turtleFramework], frameworks);
-  var body = '';
+  let body = '';
   if (this.image) {
     body += '<img id="turtle" src="' + this.image + '" ' +
       'style="display: none;">\n';
   }
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
-  var html = helper.getHTMLGrid(body, header, css);
+  let html = helper.getHTMLGrid(body, header, css);
   return helper.getDataUrl(html);
 };
 
@@ -190,7 +190,7 @@ cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
  */
 cwc.ui.Turtle.prototype.addEventListener = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

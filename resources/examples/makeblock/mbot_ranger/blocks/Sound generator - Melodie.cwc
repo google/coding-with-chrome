@@ -1,0 +1,23 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"mbot_ranger_rgb\" x=\"-410\" y=\"-430\">\n    <field name=\"position\">0</field>\n    <value name=\"colour\">\n      <block type=\"colour_picker\">\n        <field name=\"COLOUR\">#339999</field>\n      </block>\n    </value>\n    <next>\n      <block type=\"mbot_ranger_play_tone\">\n        <field name=\"frequency\">392</field>\n        <field name=\"duration\">500</field>\n        <next>\n          <block type=\"mbot_ranger_play_tone\">\n            <field name=\"frequency\">392</field>\n            <field name=\"duration\">500</field>\n            <next>\n              <block type=\"mbot_ranger_play_tone\">\n                <field name=\"frequency\">311.13</field>\n                <field name=\"duration\">500</field>\n                <next>\n                  <block type=\"mbot_ranger_play_tone\">\n                    <field name=\"frequency\">311.13</field>\n                    <field name=\"duration\">500</field>\n                    <next>\n                      <block type=\"mbot_ranger_play_tone\">\n                        <field name=\"frequency\">329.63</field>\n                        <field name=\"duration\">500</field>\n                        <next>\n                          <block type=\"mbot_ranger_play_tone\">\n                            <field name=\"frequency\">329.63</field>\n                            <field name=\"duration\">500</field>\n                            <next>\n                              <block type=\"mbot_ranger_play_tone\">\n                                <field name=\"frequency\">293.66</field>\n                                <field name=\"duration\">500</field>\n                                <next>\n                                  <block type=\"mbot_ranger_rgb\">\n                                    <field name=\"position\">0</field>\n                                    <value name=\"colour\">\n                                      <block type=\"colour_picker\">\n                                        <field name=\"COLOUR\">#000000</field>\n                                      </block>\n                                    </value>\n                                  </block>\n                                </next>\n                              </block>\n                            </next>\n                          </block>\n                        </next>\n                      </block>\n                    </next>\n                  </block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </next>\n      </block>\n    </next>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "$flags_$": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "mbot_ranger_blockly",
+  "mode": "mbot_ranger_blockly",
+  "model": "",
+  "title": "Sound generator - Melodie",
+  "ui": "blockly",
+  "version": "1.0"
+}

@@ -20,91 +20,117 @@
 Blockly.BlocksTemplate = {};
 
 
-/** Drag and drop point */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.point = function() {
   return new Blockly.FieldImage(
     '../images/icons/circle_20pt.png', 15, 17, '▼');
 };
 
 
-/** Top Drag and drop point */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.pointTop = function() {
   return new Blockly.FieldImage(
     '../images/icons/circle_20pt_top.png', 15, 17, '▼');
 };
 
 
-/** Drag and drop point for variable setter */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.addCircle = function() {
   return new Blockly.FieldImage(
     '../images/icons/add_circle_20pt.png', 18, 18, '▼');
 };
 
 
-/** Drag and drop point for variable setter */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.event = function() {
   return new Blockly.FieldImage(
     '../images/icons/event_20pt.png', 18, 18, '▼');
 };
 
 
-/** Drag and drop point for variable setter */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.runningMan = function() {
   return new Blockly.FieldImage(
     '../images/icons/running_man_20pt.png', 18, 18, '▼');
 };
 
 
-/** Drag and drop point for variable setter */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.adjust = function() {
   return new Blockly.FieldImage(
     '../images/icons/adjust_20pt.png', 18, 18, '▼');
 };
 
 
-/** Image icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.image = function() {
   return new Blockly.FieldImage(
     '../images/icons/image_20pt.png', 18, 18, '▼');
 };
 
 
-/** Mouse icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.mouse = function() {
   return new Blockly.FieldImage(
     '../images/icons/mouse_20pt.png', 18, 18, '▼');
 };
 
 
-/** Keyboard icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.keyboard = function() {
   return new Blockly.FieldImage(
     '../images/icons/keyboard_20pt.png', 18, 18, '▼');
 };
 
 
-/** Repeat icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.repeat = function() {
   return new Blockly.FieldImage(
     '../images/icons/repeat_20pt.png', 18, 18, '▼');
 };
 
 
-/** File download icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.fileDownload = function() {
   return new Blockly.FieldImage(
     '../images/icons/file_download_20pt.png', 18, 18, '▼');
 };
 
 
-/** Storage icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.storage = function() {
   return new Blockly.FieldImage(
     '../images/icons/storage_20pt.png', 18, 18, '▼');
 };
 
 
-/** Audio icon */
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.audio = function() {
   return new Blockly.FieldImage(
     '../images/icons/audio_20pt.png', 18, 18, '▼');

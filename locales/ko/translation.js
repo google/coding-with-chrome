@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * @final
  * @export
@@ -27,5 +26,5 @@
 /* eslint-disable max-len */
 Locales['ko'] = {
   'Hello, World': '안녕하세요, 세계',
-  'Hello %s': '안녕하세요 %s'
+  'Hello %s': '안녕하세요 %s',
 };

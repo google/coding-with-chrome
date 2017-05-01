@@ -30,5 +30,5 @@ cwc.ui.EditorHint = {
   JAVASCRIPT: CodeMirror['hint']['javascript'],
   SQL: CodeMirror['hint']['sql'],
   XML: CodeMirror['hint']['xml'],
-  UNKNOWN: CodeMirror['hint']['anyword']
+  UNKNOWN: CodeMirror['hint']['anyword'],
 };

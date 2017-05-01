@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Phaser Game block.
  */
@@ -37,7 +36,7 @@ Blockly.Blocks['phaser_game'] = {
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -52,7 +51,7 @@ Blockly.Blocks['phaser_game_state'] = {
         .appendField(new Blockly.FieldTextInput('main'), 'name')
         .appendField(new Blockly.FieldDropdown([
             [i18t('no autostart'), 'false'],
-            [i18t('autostart'), 'true']
+            [i18t('autostart'), 'true'],
         ]), 'autostart');
     this.appendStatementInput('state')
         .setCheck(['Preload_']);
@@ -61,7 +60,7 @@ Blockly.Blocks['phaser_game_state'] = {
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -79,7 +78,7 @@ Blockly.Blocks['phaser_game_start'] = {
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -96,5 +95,5 @@ Blockly.Blocks['phaser_game_restart'] = {
     this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

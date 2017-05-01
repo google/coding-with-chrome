@@ -20,33 +20,34 @@
 
 
 describe('mBot Blocks', function() {
-
   document.body.insertAdjacentHTML('afterbegin',
     '<div id="test-workspace"></div>');
-  window['i18t'] = function(msg) {return msg;};
+  window['i18t'] = function(msg) {
+return msg;
+};
 
-  var blockPrefix = 'mbot_';
-  var blocks = [];
-  for (var block in Blockly.Blocks) {
+  let blockPrefix = 'mbot_';
+  let blocks = [];
+  for (let block in Blockly.Blocks) {
     if (block.startsWith(blockPrefix)) {
       blocks.push(block);
     }
   }
 
-  var blockScripts = [];
-  for (var blockScript in Blockly.JavaScript) {
+  let blockScripts = [];
+  for (let blockScript in Blockly.JavaScript) {
     if (blockScript.startsWith(blockPrefix)) {
       blockScripts.push(blockScript);
     }
   }
 
-  it ('Block definition', function() {
+  it('Block definition', function() {
     expect(typeof Blockly.Blocks).toEqual('object');
     expect(typeof blocks).toEqual('object');
     expect(blocks.length > 0).toBe(true);
   });
 
-  it ('JavaScript definition', function() {
+  it('JavaScript definition', function() {
     expect(typeof Blockly.JavaScript).toEqual('object');
     expect(typeof blockScripts).toEqual('object');
     expect(blockScripts.length > 0).toBe(true);
@@ -55,20 +56,9 @@ describe('mBot Blocks', function() {
 
   blocks.forEach(function(block) {
     it('Block ' + block + ' to workspace', function() {
-      var code = getBlockCode(block);
+      let code = getTestBlockCode(block);
       expect(code && code.length > 1).toBe(true);
     });
   });
-
 });
 
-var getBlockCode = function(block) {
-  var blocklyDiv = document.getElementById('test-workspace');
-  var workspace = Blockly.inject(blocklyDiv);
-  var xmlCode = '<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n' +
-    '<block type=\"' + block + '\"></block>\n</xml>';
-  var xmlDom = Blockly.Xml.textToDom(xmlCode);
-  Blockly.Xml.domToWorkspace(xmlDom, workspace);
-  var code = Blockly.JavaScript.workspaceToCode(workspace);
-  return code;
-};

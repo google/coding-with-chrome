@@ -40,9 +40,8 @@ cwc.ui.PreviewInfobarLevel = {
   DEBUG: -1,
   INFO: 0,
   WARN: 1,
-  ERROR: 2
+  ERROR: 2,
 };
-
 
 
 /**
@@ -119,7 +118,7 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.PreviewInfobar.template,
-      { 'prefix': this.prefix }
+      {'prefix': this.prefix}
   );
 
   this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
@@ -171,7 +170,7 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
  */
 cwc.ui.PreviewInfobar.prototype.toggleConsole = function() {
   if (this.nodeConsole) {
-    var consoleStatus = goog.style.isElementShown(this.nodeConsole);
+    let consoleStatus = goog.style.isElementShown(this.nodeConsole);
     goog.style.setElementShown(this.nodeConsole, !consoleStatus);
   }
 };
@@ -260,10 +259,10 @@ cwc.ui.PreviewInfobar.prototype.updateOverview = function() {
  * @param {Object} event
  */
 cwc.ui.PreviewInfobar.prototype.addMessage = function(event) {
-  var level = event.level;
-  var message = event.message || '';
-  var logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
-  var logLevelName = 'Unknown';
+  let level = event.level;
+  let message = event.message || '';
+  let logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
+  let logLevelName = 'Unknown';
 
   if (level == cwc.ui.PreviewInfobarLevel.DEBUG) {
     this.debugNum = (this.debugNum || 0) + 1;
@@ -303,7 +302,7 @@ cwc.ui.PreviewInfobar.prototype.addLogRecord = function(level, msg,
     return;
   }
 
-  var logEntry = new goog.debug.LogRecord(level, msg, logger_name,
+  let logEntry = new goog.debug.LogRecord(level, msg, logger_name,
       opt_time, opt_sequence_number);
   this.logConsole.addLogRecord(logEntry);
 };

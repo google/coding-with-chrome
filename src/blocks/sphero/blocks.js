@@ -33,7 +33,7 @@ Blockly.Blocks['sphero_roll'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Move the Sphero in a direction'));
-  }
+  },
 };
 
 
@@ -54,7 +54,7 @@ Blockly.Blocks['sphero_roll_step'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Move the Sphero in a direction'));
-  }
+  },
 };
 
 
@@ -78,7 +78,7 @@ Blockly.Blocks['sphero_roll_time'] = {
     this.setNextStatement(true);
     this.setTooltip(
       i18t('Move the Sphero in a direction for the given number of seconds'));
-  }
+  },
 };
 
 
@@ -98,7 +98,7 @@ Blockly.Blocks['sphero_heading'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Move the Sphero in a direction'));
-  }
+  },
 };
 
 
@@ -116,7 +116,7 @@ Blockly.Blocks['sphero_rgb'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets the leds on the Sphero ball.'));
-  }
+  },
 };
 
 
@@ -136,7 +136,7 @@ Blockly.Blocks['sphero_backlight'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets the back-light on the Sphero ball.'));
-  }
+  },
 };
 
 
@@ -152,14 +152,14 @@ Blockly.Blocks['sphero_stop'] = {
       .appendField(i18t('stop motors('))
       .appendField(new Blockly.FieldDropdown([
         [i18t('when finished'), 'when finished'],
-        [i18t('immediately'), 'immediately']
+        [i18t('immediately'), 'immediately'],
       ]), 'immediately')
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Stop all motors immediately or after the last ' +
       'command has finished.'));
-  }
+  },
 };
 
 
@@ -179,5 +179,5 @@ Blockly.Blocks['sphero_collision'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Detect collision.'));
-  }
+  },
 };

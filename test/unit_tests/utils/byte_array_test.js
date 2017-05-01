@@ -22,11 +22,11 @@ goog.require('cwc.utils.ByteArrayTypes');
 
 
 describe('ByteArray', function() {
-  var byteHeader = Math.random();
-  var shortHeader = Math.random();
-  var integerHeader = Math.random();
-  var stringHeader = Math.random();
-  var byteArray = new cwc.utils.ByteArray(byteHeader, shortHeader,
+  let byteHeader = Math.random();
+  let shortHeader = Math.random();
+  let integerHeader = Math.random();
+  let stringHeader = Math.random();
+  let byteArray = new cwc.utils.ByteArray(byteHeader, shortHeader,
       integerHeader, stringHeader);
 
   it('opt_header', function() {
@@ -44,5 +44,4 @@ describe('ByteArray', function() {
     byteArray.clearData();
     expect(byteArray.getData()).toEqual([]);
   });
-
 });

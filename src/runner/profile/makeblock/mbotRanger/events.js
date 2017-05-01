@@ -20,7 +20,6 @@
 goog.provide('cwc.runner.profile.makeblock.mbotRanger.Events');
 
 
-
 /**
  * @param {!cwc.protocol.makeblock.mbotRanger.Api} api
  * @constructor

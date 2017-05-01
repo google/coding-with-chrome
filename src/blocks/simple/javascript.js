@@ -19,12 +19,13 @@
  */
 
 
-
 /**
  * Write text.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_text_write'] = function(block) {
-  var text = Blockly.JavaScript.valueToCode(block, 'text',
+  let text = Blockly.JavaScript.valueToCode(block, 'text',
       Blockly.JavaScript.ORDER_ATOMIC);
   return 'command.write(' + text + ');\n';
 };
@@ -32,19 +33,21 @@ Blockly.JavaScript['simple_text_write'] = function(block) {
 
 /**
  * Draw circle.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_circle'] = function(block) {
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
+  let x = Blockly.JavaScript.valueToCode(block, 'x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
+  let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var radius = Blockly.JavaScript.valueToCode(block, 'radius',
+  let radius = Blockly.JavaScript.valueToCode(block, 'radius',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
+  let borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.circle(' + x + ', ' + y + ', ' + radius + ', ' + fillColor +
     ', ' + borderColor + ', ' + borderSize + ');\n';
@@ -53,29 +56,32 @@ Blockly.JavaScript['simple_draw_circle'] = function(block) {
 
 /**
  * Clear screen.
+ * @return {!string}
  */
-Blockly.JavaScript['simple_draw_clear'] = function(opt_block) {
+Blockly.JavaScript['simple_draw_clear'] = function() {
   return 'draw.clear();\n';
 };
 
 
 /**
  * Draw rectangle.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_rectangle'] = function(block) {
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
+  let x = Blockly.JavaScript.valueToCode(block, 'x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
+  let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var width = Blockly.JavaScript.valueToCode(block, 'width',
+  let width = Blockly.JavaScript.valueToCode(block, 'width',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var height = Blockly.JavaScript.valueToCode(block, 'height',
+  let height = Blockly.JavaScript.valueToCode(block, 'height',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
+  let borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.rectangle(' + x + ', ' + y + ', ' +
       width + ', ' + height + ', ' + fillColor + ', ' + borderColor +
@@ -85,36 +91,40 @@ Blockly.JavaScript['simple_draw_rectangle'] = function(block) {
 
 /**
  * Draw line.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_line'] = function(block) {
-  var start_x = Blockly.JavaScript.valueToCode(block, 'start_x',
+  let startX = Blockly.JavaScript.valueToCode(block, 'start_x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var start_y = Blockly.JavaScript.valueToCode(block, 'start_y',
+  let startY = Blockly.JavaScript.valueToCode(block, 'start_y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var end_x = Blockly.JavaScript.valueToCode(block, 'end_x',
+  let endX = Blockly.JavaScript.valueToCode(block, 'end_x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var end_y = Blockly.JavaScript.valueToCode(block, 'end_y',
+  let endY = Blockly.JavaScript.valueToCode(block, 'end_y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
-  return 'draw.line(' + start_x + ', ' + start_y + ', ' +
-      end_x + ', ' + end_y + ', ' + fillColor + ', ' +  borderSize + ');\n';
+  return 'draw.line(' + startX + ', ' + startY + ', ' +
+      endX + ', ' + endY + ', ' + fillColor + ', ' + borderSize + ');\n';
 };
 
 
 /**
  * Draw point.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_point'] = function(block) {
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
+  let x = Blockly.JavaScript.valueToCode(block, 'x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
+  let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.point(' + x + ', ' + y + ', ' + fillColor + ', ' +
       borderSize + ');\n';
@@ -123,21 +133,23 @@ Blockly.JavaScript['simple_draw_point'] = function(block) {
 
 /**
  * Draw ellipse.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_ellipse'] = function(block) {
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
+  let x = Blockly.JavaScript.valueToCode(block, 'x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
+  let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var width = Blockly.JavaScript.valueToCode(block, 'width',
+  let width = Blockly.JavaScript.valueToCode(block, 'width',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var height = Blockly.JavaScript.valueToCode(block, 'height',
+  let height = Blockly.JavaScript.valueToCode(block, 'height',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
+  let borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.ellipse(' + x + ', ' + y + ', ' + width + ', ' + height +
       ', ' + fillColor + ', ' + borderColor + ', ' + borderSize + ');\n';
@@ -146,25 +158,27 @@ Blockly.JavaScript['simple_draw_ellipse'] = function(block) {
 
 /**
  * Draw triangle.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_triangle'] = function(block) {
-  var x1 = Blockly.JavaScript.valueToCode(block, 'x1',
+  let x1 = Blockly.JavaScript.valueToCode(block, 'x1',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y1 = Blockly.JavaScript.valueToCode(block, 'y1',
+  let y1 = Blockly.JavaScript.valueToCode(block, 'y1',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var x2 = Blockly.JavaScript.valueToCode(block, 'x2',
+  let x2 = Blockly.JavaScript.valueToCode(block, 'x2',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y2 = Blockly.JavaScript.valueToCode(block, 'y2',
+  let y2 = Blockly.JavaScript.valueToCode(block, 'y2',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var x3 = Blockly.JavaScript.valueToCode(block, 'x3',
+  let x3 = Blockly.JavaScript.valueToCode(block, 'x3',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y3 = Blockly.JavaScript.valueToCode(block, 'y3',
+  let y3 = Blockly.JavaScript.valueToCode(block, 'y3',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
+  let borderColor = Blockly.JavaScript.valueToCode(block, 'borderColor',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
+  let borderSize = Blockly.JavaScript.valueToCode(block, 'borderSize',
     Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.triangle(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 +
       ', ' + x3 + ', ' + y3 + ', ' + fillColor + ', ' + borderColor + ', ' +
@@ -174,14 +188,16 @@ Blockly.JavaScript['simple_draw_triangle'] = function(block) {
 
 /**
  * Draw text.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['simple_draw_text'] = function(block) {
-  var text = Blockly.JavaScript.valueToCode(block, 'text',
+  let text = Blockly.JavaScript.valueToCode(block, 'text',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var x = Blockly.JavaScript.valueToCode(block, 'x',
+  let x = Blockly.JavaScript.valueToCode(block, 'x',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var y = Blockly.JavaScript.valueToCode(block, 'y',
+  let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  var fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor');
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor');
   return 'draw.text(' + text + ', ' + x + ', ' + y + ', ' + fillColor + ');\n';
 };

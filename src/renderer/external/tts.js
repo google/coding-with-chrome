@@ -25,7 +25,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -42,8 +41,8 @@ cwc.renderer.external.TTS = function(helper) {
  * Initializes and defines the TTS renderer.
  */
 cwc.renderer.external.TTS.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -63,25 +62,24 @@ cwc.renderer.external.TTS.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var header = '';
-  var runnerFramework = frameworks.getFile(this.runnerFramework);
+  let header = '';
+  let runnerFramework = frameworks.getFile(this.runnerFramework);
   if (runnerFramework) {
-    var runner = runnerFramework.getContent();
+    let runner = runnerFramework.getContent();
     header += '<script src="' + runner + '"></script>';
   }
 
-  var ttsFramework = frameworks.getFile(this.customFramework);
+  let ttsFramework = frameworks.getFile(this.customFramework);
   if (ttsFramework) {
-    var tts = ttsFramework.getContent();
+    let tts = ttsFramework.getContent();
     header += '<script src="' + tts + '"></script>';
   }
 
-  var body = '\n<script>' +
-      '  var ttsCode = function(tts) {\n' +
+  let body = '\n<script>' +
+      '  let ttsCode = function(tts) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
-      '\n};\n' + '  var runner = new cwc.framework.Runner();\n' +
-      '  var ttsFramework = new cwc.framework.TTS(runner);\n' +
+      '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
+      '  let ttsFramework = new cwc.framework.TTS(runner);\n' +
       '  ttsFramework.listen(ttsCode);\n' +
       '</script>\n';
 

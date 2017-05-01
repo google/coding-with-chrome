@@ -35,7 +35,7 @@ Blockly.Blocks['phaser_world_resize'] = {
     this.setColour(345);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -56,7 +56,7 @@ Blockly.Blocks['phaser_world_wrap'] = {
     this.setColour(345);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -77,5 +77,5 @@ Blockly.Blocks['phaser_world_attributes'] = {
     this.setColour(345);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

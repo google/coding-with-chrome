@@ -26,7 +26,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -43,8 +42,8 @@ cwc.renderer.external.Sphero = function(helper) {
  * Initializes and defines the Sphero renderer.
  */
 cwc.renderer.external.Sphero.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -64,11 +63,10 @@ cwc.renderer.external.Sphero.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var header = renderer_helper.getFrameworkHeader(
+  let header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.SPHERO, frameworks);
-  var body = '\n<script>' +
-      '  var code = function(sphero) {\n' +
+  let body = '\n<script>' +
+      '  let code = function(sphero) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.Sphero(code);\n' +

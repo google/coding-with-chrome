@@ -33,7 +33,6 @@ goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @typedef {cwc.ui.Account|
  *   cwc.file.File|
@@ -70,7 +69,6 @@ goog.require('goog.events.EventTarget');
  *   cwc.utils.Dialog}
  */
 cwc.utils.HelperInstance;
-
 
 
 /**
@@ -124,7 +122,7 @@ cwc.utils.Helper.prototype.getEventHandler = function() {
 cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
   this.eventHandler_.dispatchEvent({
     type: name,
-    data: data
+    data: data,
   });
 };
 
@@ -132,12 +130,12 @@ cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
 /**
  * @param {!string} name
  * @param {!cwc.utils.HelperInstance} instance
- * @param {boolean=} opt_overwrite
+ * @param {boolean=} overwrite
  * @export
  */
 cwc.utils.Helper.prototype.setInstance = function(name, instance,
-    opt_overwrite) {
-  if (this.instances_[name] && !opt_overwrite) {
+    overwrite = false) {
+  if (this.instances_[name] && !overwrite) {
     this.log_.error('Instance', name, ' already exists!');
   }
   this.log_.debug('Set', name, 'instance to', instance);
@@ -147,12 +145,12 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
 
 /**
  * @param {!string} name
- * @param {boolean=} opt_required
+ * @param {boolean=} required
  * @return {cwc.utils.HelperInstance}
  * @export
  */
-cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
-  var error = null;
+cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
+  let error = null;
   if (typeof this.instances_[name] == 'undefined') {
     error = 'Instance ' + name + ' is not defined!';
     this.log_.error(error);
@@ -160,8 +158,8 @@ cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
     error = 'Instance ' + name + ' is not initialized yet.';
     this.log_.warn(error);
   }
-  if (opt_required && error) {
-    throw 'Required ' + error;
+  if (required && error) {
+    throw new Error('Required ' + error);
   } else if (error) {
     return null;
   }
@@ -172,16 +170,16 @@ cwc.utils.Helper.prototype.getInstance = function(name, opt_required) {
 /**
  * @param {!string} name
  * @param {!Element} node
- * @param {boolean=} opt_required
- * @param {string=} opt_prefix
+ * @param {boolean=} required
+ * @param {string=} prefix
  * @return {cwc.utils.HelperInstance}
  * @export
  */
 cwc.utils.Helper.prototype.decorateInstance = function(name, node,
-    opt_required, opt_prefix) {
-  var instance = this.getInstance(name, opt_required);
+    required = false, prefix = this.getPrefix()) {
+  let instance = this.getInstance(name, required);
   if (instance) {
-    instance.decorate(node, opt_prefix || this.getPrefix());
+    instance.decorate(node, prefix);
   }
   return instance;
 };
@@ -191,7 +189,7 @@ cwc.utils.Helper.prototype.decorateInstance = function(name, node,
  * @return {Object}
  */
 cwc.utils.Helper.prototype.getI18nData = function() {
-  var i18nInstance = this.getInstance('i18n');
+  let i18nInstance = this.getInstance('i18n');
   if (i18nInstance) {
     return i18nInstance.getLanguageData();
   }
@@ -201,60 +199,60 @@ cwc.utils.Helper.prototype.getI18nData = function() {
 
 /**
  * Shows an error message over the message instance.
- * @param {!string} error_msg
+ * @param {!string} msg
  * @export
  */
-cwc.utils.Helper.prototype.showError = function(error_msg) {
-  var messageInstance = this.getInstance('message');
+cwc.utils.Helper.prototype.showError = function(msg) {
+  let messageInstance = this.getInstance('message');
   if (messageInstance) {
-    messageInstance.error(error_msg);
+    messageInstance.error(msg);
   } else {
-    this.log_.error(error_msg);
+    this.log_.error(msg);
   }
 };
 
 
 /**
  * Shows a warning message over the message instance.
- * @param {!string} warn_msg
+ * @param {!string} msg
  * @export
  */
-cwc.utils.Helper.prototype.showWarning = function(warn_msg) {
-  var messageInstance = this.getInstance('message');
+cwc.utils.Helper.prototype.showWarning = function(msg) {
+  let messageInstance = this.getInstance('message');
   if (messageInstance) {
-    messageInstance.warning(warn_msg);
+    messageInstance.warning(msg);
   } else {
-    this.log_.warn(warn_msg);
+    this.log_.warn(msg);
   }
 };
 
 
 /**
  * Shows an info message over the message instance.
- * @param {!string} info_msg
+ * @param {!string} msg
  * @export
  */
-cwc.utils.Helper.prototype.showInfo = function(info_msg) {
-  var messageInstance = this.getInstance('message');
+cwc.utils.Helper.prototype.showInfo = function(msg) {
+  let messageInstance = this.getInstance('message');
   if (messageInstance) {
-    messageInstance.info(info_msg);
+    messageInstance.info(msg);
   } else {
-    this.log_.info(info_msg);
+    this.log_.info(msg);
   }
 };
 
 
 /**
  * Shows an success message over the message instance.
- * @param {!string} success_msg
+ * @param {!string} msg
  * @export
  */
-cwc.utils.Helper.prototype.showSuccess = function(success_msg) {
-  var messageInstance = this.getInstance('message');
+cwc.utils.Helper.prototype.showSuccess = function(msg) {
+  let messageInstance = this.getInstance('message');
   if (messageInstance) {
-    messageInstance.success(success_msg);
+    messageInstance.success(msg);
   } else {
-    this.log_.info(success_msg);
+    this.log_.info(msg);
   }
 };
 
@@ -262,14 +260,14 @@ cwc.utils.Helper.prototype.showSuccess = function(success_msg) {
 /**
  * Removes all defined event listeners in the provided list.
  * @param {Array} events_list
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {!Array} empty array
  */
 cwc.utils.Helper.prototype.removeEventListeners = function(events_list,
-    opt_name) {
+    optName) {
   if (events_list) {
     this.log_.debug('Clearing', events_list.length, 'events listener',
-        (opt_name) ? ' for ' + opt_name : '');
+        (optName) ? ' for ' + optName : '');
     goog.array.forEach(events_list, function(listener) {
       goog.events.unlistenByKey(listener);
     });
@@ -331,6 +329,7 @@ cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
 
 
 /**
+ * @return {*}
  * @export
  */
 cwc.utils.Helper.prototype.detectFeatures = function() {
@@ -339,8 +338,8 @@ cwc.utils.Helper.prototype.detectFeatures = function() {
 
 
 /**
- * @export
  * @return {boolean}
+ * @export
  */
 cwc.utils.Helper.prototype.getManifest = function() {
   return this.checkChromeFeature('manifest') &&
@@ -349,11 +348,11 @@ cwc.utils.Helper.prototype.getManifest = function() {
 
 
 /**
- * @export
  * @return {!string}
+ * @export
  */
 cwc.utils.Helper.prototype.getAppVersion = function() {
-  var manifest = this.getManifest();
+  let manifest = this.getManifest();
   if (manifest) {
     return manifest['version'];
   }
@@ -362,12 +361,13 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
 
 
 /**
+ * @return {string|null}
  * @export
  */
 cwc.utils.Helper.prototype.getFileExtensions = function() {
-  var manifest = this.getManifest();
+  let manifest = this.getManifest();
   if (manifest) {
-    var fileExtensions = manifest['file_handlers']['supported']['extensions'];
+    let fileExtensions = manifest['file_handlers']['supported']['extensions'];
     return fileExtensions;
   }
   return null;
@@ -375,28 +375,28 @@ cwc.utils.Helper.prototype.getFileExtensions = function() {
 
 
 /**
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {!boolean}
  * @export
  */
-cwc.utils.Helper.prototype.debugEnabled = function(opt_name) {
-  var debugInstance = this.getInstance('debug');
+cwc.utils.Helper.prototype.debugEnabled = function(optName) {
+  let debugInstance = this.getInstance('debug');
   if (debugInstance) {
-    return debugInstance.isEnabled(opt_name);
+    return debugInstance.isEnabled(optName);
   }
   return false;
 };
 
 
 /**
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {!boolean}
  * @export
  */
-cwc.utils.Helper.prototype.experimentalEnabled = function(opt_name) {
-  var experimentalInstance = this.getInstance('experimental');
+cwc.utils.Helper.prototype.experimentalEnabled = function(optName) {
+  let experimentalInstance = this.getInstance('experimental');
   if (experimentalInstance) {
-    return experimentalInstance.isEnabled(opt_name);
+    return experimentalInstance.isEnabled(optName);
   }
   return false;
 };
@@ -407,7 +407,7 @@ cwc.utils.Helper.prototype.experimentalEnabled = function(opt_name) {
  * @export
  */
 cwc.utils.Helper.prototype.isGoogleAccountEnabled = function() {
-  var accountInstance = this.getInstance('account');
+  let accountInstance = this.getInstance('account');
   if (accountInstance) {
     return accountInstance.isAuthenticated();
   }
@@ -434,14 +434,13 @@ cwc.utils.Helper.prototype.getLogger = function() {
 
 
 /**
- * @param {string=} opt_additional_prefix
+ * @param {string=} additionalPrefix
  * @return {string}
  * @export
  */
-cwc.utils.Helper.prototype.getPrefix = function(
-    opt_additional_prefix) {
-  if (opt_additional_prefix) {
-    return this.prefix_ + opt_additional_prefix + '-';
+cwc.utils.Helper.prototype.getPrefix = function(additionalPrefix = '') {
+  if (additionalPrefix) {
+    return this.prefix_ + additionalPrefix + '-';
   }
   return this.prefix_;
 };
@@ -451,9 +450,9 @@ cwc.utils.Helper.prototype.getPrefix = function(
  * @param {Function} func
  */
 cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
-  var fileName = '';
-  var fileModified = false;
-  var fileInstance = this.getInstance('file');
+  let fileName = '';
+  let fileModified = false;
+  let fileInstance = this.getInstance('file');
   if (fileInstance) {
     fileName = fileInstance.getFileTitle();
     fileModified = fileInstance.isModified();
@@ -461,13 +460,13 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 
   console.log('File', fileName, 'was modified:', fileModified);
   if (fileModified) {
-    var dialogInstance = this.getInstance('dialog');
-    var title = {
+    let dialogInstance = this.getInstance('dialog');
+    let title = {
       icon: 'warning',
       title: 'Unsaved Changes for',
-      untranslated: ' ' + fileName
+      untranslated: ' ' + fileName,
     };
-    var content = 'Changes have not been saved. Exit?';
+    let content = 'Changes have not been saved. Exit?';
     dialogInstance.showYesNo(title, content).then((answer) => {
       if (answer) {
         func();
@@ -503,14 +502,14 @@ cwc.utils.Helper.prototype.endTour = function() {
 
 /**
  * @param {!string} name
- * @param {string=} opt_feature
+ * @param {string=} feature
  * @return {!boolean}
  */
-cwc.utils.Helper.prototype.isFirstRun = function(name, opt_feature='general') {
-  var firstRun = !this.hadFirstRun_[name + '__' + opt_feature];
+cwc.utils.Helper.prototype.isFirstRun = function(name, feature = 'general') {
+  let firstRun = !this.hadFirstRun_[name + '__' + feature];
   if (firstRun) {
     console.log('First run for', name,
-      (opt_feature !== 'general') ? 'and feature ' + opt_feature : '');
+      (feature !== 'general') ? 'and feature ' + feature : '');
   }
   return firstRun;
 };
@@ -518,25 +517,25 @@ cwc.utils.Helper.prototype.isFirstRun = function(name, opt_feature='general') {
 
 /**
  * @param {!string} name
- * @param {!boolean} first_run
- * @param {string=} opt_feature
+ * @param {!boolean} firstRun
+ * @param {string=} feature
  */
-cwc.utils.Helper.prototype.setFirstRun = function(name, first_run,
-    opt_feature='general') {
-  this.hadFirstRun_[name + '__' + opt_feature] = !first_run;
+cwc.utils.Helper.prototype.setFirstRun = function(name, firstRun,
+    feature = 'general') {
+  this.hadFirstRun_[name + '__' + feature] = !firstRun;
 };
 
 
 /**
  * @param {!string} name
- * @param {string=} opt_feature
- * @param {boolean=} opt_first_run
+ * @param {string=} feature
+ * @param {boolean=} optFirstRun
  * @return {!boolean}
  */
 cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
-    opt_feature='general', opt_first_run=false) {
-  var firstRun = this.isFirstRun(name, opt_feature);
-  this.setFirstRun(name, opt_first_run, opt_feature);
+    feature = 'general', optFirstRun = false) {
+  let firstRun = this.isFirstRun(name, feature);
+  this.setFirstRun(name, optFirstRun, feature);
   return firstRun;
 };
 
@@ -547,7 +546,7 @@ cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
 cwc.utils.Helper.prototype.openUrl = function(url) {
   if (this.checkChromeFeature('browser')) {
     chrome.browser.openTab({
-      url: url
+      url: url,
     });
   } else {
     window.open(url);

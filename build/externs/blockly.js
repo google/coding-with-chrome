@@ -19,7 +19,6 @@
  */
 
 
-
 /** @constructor */
 var Blockly = function() {};
 

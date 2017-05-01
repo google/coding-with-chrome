@@ -25,17 +25,16 @@ goog.require('cwc.protocol.sphero.CommandType');
 goog.require('cwc.utils.ByteArray');
 
 
-
 /**
  * @constructor
- * @param {cwc.protocol.sphero.CallbackType=} opt_callback
+ * @param {cwc.protocol.sphero.CallbackType=} optCallback
  */
-cwc.protocol.sphero.Buffer = function(opt_callback) {
+cwc.protocol.sphero.Buffer = function(optCallback) {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
   /** @type {cwc.protocol.sphero.CallbackType} */
-  this.callbackType = opt_callback ||
+  this.callbackType = optCallback ||
       cwc.protocol.sphero.CallbackType.NONE;
 
   /** @type {!cwc.protocol.sphero.Command} */
@@ -45,10 +44,9 @@ cwc.protocol.sphero.Buffer = function(opt_callback) {
   this.header = 0xFF;
 
   /** @type {!cwc.protocol.sphero.CommandType} */
-  this.type = (opt_callback) ?
+  this.type = (optCallback) ?
       cwc.protocol.sphero.CommandType.DIRECT.REPLY :
       cwc.protocol.sphero.CommandType.DIRECT.NOREPLY;
-
 };
 
 
@@ -121,11 +119,11 @@ cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.sphero.Buffer.prototype.readSigned = function() {
-  var buffer = this.data.getData();
-  var checkSum = 0;
-  var dataLength = buffer.length + 1;
-  var dataBuffer = new ArrayBuffer(dataLength + 6);
-  var data = new Uint8Array(dataBuffer);
+  let buffer = this.data.getData();
+  let checkSum = 0;
+  let dataLength = buffer.length + 1;
+  let dataBuffer = new ArrayBuffer(dataLength + 6);
+  let data = new Uint8Array(dataBuffer);
   data[0] = this.header;
   data[1] = this.type;
   data[2] = this.command[0];

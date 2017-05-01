@@ -22,7 +22,6 @@ goog.provide('cwc.ui.RunnerTerminal');
 goog.require('cwc.soy.RunnerTerminal');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -53,7 +52,7 @@ cwc.ui.RunnerTerminal.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerTerminal.template,
-      { 'prefix': this.prefix }
+      {'prefix': this.prefix}
   );
 
   this.nodeOutput = goog.dom.getElement(this.prefix + 'output');

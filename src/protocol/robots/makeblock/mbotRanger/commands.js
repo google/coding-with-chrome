@@ -28,7 +28,6 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Port');
 goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 
 
-
 /**
  * @constructor
  * @struct
@@ -51,7 +50,7 @@ cwc.protocol.makeblock.mbotRanger.Commands = function() {
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.setRGBLED = function(red,
     green, blue, opt_index) {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.RGBLED);
@@ -74,7 +73,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.setRGBLED = function(red,
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
     frequency, duration) {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TONE);
@@ -94,7 +93,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
     power, opt_slot) {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
@@ -115,7 +114,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
     opt_power, opt_slot) {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
@@ -134,7 +133,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readUltrasonicSensor =
 function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ULTRASONIC);
@@ -150,7 +149,7 @@ function() {
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor1 =
 function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
@@ -166,14 +165,13 @@ function() {
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor2 =
 function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
   buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_2);
   return buffer.readSigned();
 };
-
 
 
 /**
@@ -183,7 +181,7 @@ function() {
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLineFollowerSensor =
 function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LINEFOLLOWER);
@@ -199,7 +197,7 @@ function() {
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.readTemperatureSensor =
 function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TEMPERATURE);
@@ -214,7 +212,7 @@ function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.getVersion = function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.VERSION);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.VERSION);
@@ -228,7 +226,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.getVersion = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.reset = function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RESET);
   return buffer.readSigned();
@@ -241,7 +239,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.reset = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.start = function() {
-  var buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.START);
   return buffer.readSigned();

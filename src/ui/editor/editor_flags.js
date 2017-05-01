@@ -22,7 +22,6 @@ goog.provide('cwc.ui.EditorFlags');
 goog.require('cwc.config.interpreter');
 
 
-
 /**
  * @constructor
  * @struct

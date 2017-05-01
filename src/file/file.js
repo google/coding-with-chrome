@@ -20,19 +20,17 @@
 goog.provide('cwc.file.File');
 
 
-
 /**
  * @param {string} name
  * @param {string} content
- * @param {string=} opt_type
+ * @param {string=} optType
  * @param {number=} opt_size
  * @param {string=} opt_group
  * @constructor
  * @struct
  * @final
  */
-cwc.file.File = function(name, content, opt_type, opt_size, opt_group) {
-
+cwc.file.File = function(name, content, optType, opt_size, opt_group) {
   /** @private {string} */
   this.name_ = name;
 
@@ -40,7 +38,7 @@ cwc.file.File = function(name, content, opt_type, opt_size, opt_group) {
   this.content_ = content || '';
 
   /** @private {string} */
-  this.type_ = opt_type || 'unknown';
+  this.type_ = optType || 'unknown';
 
   /** @private {number} */
   this.size_ = opt_size || this.content_.length || 0;
@@ -51,15 +49,14 @@ cwc.file.File = function(name, content, opt_type, opt_size, opt_group) {
   /** @private {number} */
   this.version_ = 1;
 
-  if (!opt_type) {
+  if (!optType) {
     if (this.content_.includes('data:')) {
-      var contentFileType = this.content_.split(';')[0].split(':')[1];
+      let contentFileType = this.content_.split(';')[0].split(':')[1];
       if (contentFileType) {
         this.type_ = contentFileType;
       }
     }
   }
-
 };
 
 
@@ -99,7 +96,7 @@ cwc.file.File.prototype.getType = function() {
  * @return {!string}
  */
 cwc.file.File.prototype.getMediaType = function() {
-  var type = this.type_.split('/')[0];
+  let type = this.type_.split('/')[0];
   switch (type) {
     case 'application':
     case 'audio':
@@ -160,7 +157,7 @@ cwc.file.File.prototype.toJSON = function() {
     'content': this.content_,
     'group': this.group_,
     'version': this.version_,
-    'filename': this.getFilename()
+    'filename': this.getFilename(),
   };
 };
 

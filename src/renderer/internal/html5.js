@@ -27,7 +27,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -44,8 +43,8 @@ cwc.renderer.internal.HTML5 = function(helper) {
  * Initializes and defines the HTML5 renderer.
  */
 cwc.renderer.internal.HTML5.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -65,11 +64,10 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var css = editor_content[cwc.file.ContentType.CSS] || '';
-  var html = editor_content[cwc.file.ContentType.HTML] || '';
-  var javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
-  var headers = [];
+  let css = editor_content[cwc.file.ContentType.CSS] || '';
+  let html = editor_content[cwc.file.ContentType.HTML] || '';
+  let javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
+  let headers = [];
 
   if (html) {
     // Library files.
@@ -91,9 +89,8 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   }
 
   // Detect additional frameworks.
-  var script = javascript || html || '';
+  let script = javascript || html || '';
   if (script) {
-
     // Simple framework.
     if (script.includes('draw.') || script.includes('command.')) {
       headers.push(cwc.framework.Internal.SIMPLE);
@@ -118,10 +115,9 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     if (script.includes('new THREE.')) {
       headers.push(cwc.framework.External.THREE_JS.CORE);
     }
-
   }
 
-  var header = renderer_helper.getFrameworkHeaders(headers, frameworks);
+  let header = renderer_helper.getFrameworkHeaders(headers, frameworks);
   if (((css || javascript) && html) || (javascript && !html && !css)) {
     return renderer_helper.getHTML(html, header, css, javascript);
   }

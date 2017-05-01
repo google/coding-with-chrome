@@ -26,7 +26,6 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 goog.require('goog.dom');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -90,7 +89,7 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(this.node, cwc.soy.ui.Navigation.template, {
-    'prefix': this.prefix
+    'prefix': this.prefix,
   });
 
   // Navigation Items
@@ -152,7 +151,7 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
  * Toggle the drawer.
  */
 cwc.ui.Navigation.prototype.toggle = function() {
-  var mdlLayout = document.querySelector('.mdl-layout');
+  let mdlLayout = document.querySelector('.mdl-layout');
   if (!mdlLayout) {
     return;
   }
@@ -164,11 +163,11 @@ cwc.ui.Navigation.prototype.toggle = function() {
  * Shows the drawer.
  */
 cwc.ui.Navigation.prototype.show = function() {
-  var mdlLayout = document.querySelector('.mdl-layout');
+  let mdlLayout = document.querySelector('.mdl-layout');
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
+  let mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
   if (!mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
@@ -180,11 +179,11 @@ cwc.ui.Navigation.prototype.show = function() {
  * Hides the drawer.
  */
 cwc.ui.Navigation.prototype.hide = function() {
-  var mdlLayout = document.querySelector('.mdl-layout');
+  let mdlLayout = document.querySelector('.mdl-layout');
   if (!mdlLayout) {
     return;
   }
-  var mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
+  let mdlLayoutClassName = mdlLayout['MaterialLayout']['obfuscator_'].className;
   if (mdlLayoutClassName.includes('is-visible')) {
     this.toggle();
   }
@@ -199,13 +198,13 @@ cwc.ui.Navigation.prototype.hide = function() {
  */
 cwc.ui.Navigation.prototype.setHeader = function(title,
     opt_icon, opt_color_class) {
-  var headerNode = goog.dom.getElement(this.prefix + 'header');
+  let headerNode = goog.dom.getElement(this.prefix + 'header');
   if (headerNode) {
     goog.soy.renderElement(
       headerNode, cwc.soy.ui.Navigation.header, {
         'title': title,
         'opt_icon': opt_icon,
-        'opt_color_class': opt_color_class });
+        'opt_color_class': opt_color_class});
   }
 };
 
@@ -214,7 +213,7 @@ cwc.ui.Navigation.prototype.setHeader = function(title,
  * Shows new file dialog.
  */
 cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
-  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.requestShowSelectScreen(this.hide.bind(this), true);
   }
@@ -225,7 +224,7 @@ cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
  * Shows new file dialog.
  */
 cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
-  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.requestShowSelectScreen(this.hide.bind(this));
   }
@@ -236,7 +235,7 @@ cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
  * Request to open a existing file from the local drive.
  */
 cwc.ui.Navigation.prototype.requestOpenFile = function() {
-  var fileLoaderInstance = this.helper.getInstance('fileLoader');
+  let fileLoaderInstance = this.helper.getInstance('fileLoader');
   if (fileLoaderInstance) {
     fileLoaderInstance.requestLoadFile(this.hide.bind(this));
   }
@@ -246,7 +245,7 @@ cwc.ui.Navigation.prototype.requestOpenFile = function() {
  * Request to open an existing file from Google Drive.
  */
 cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
-  var gdriveInstance = this.helper.getInstance('gdrive');
+  let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     gdriveInstance.openDialog();
     this.hide();
@@ -258,7 +257,7 @@ cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
  * Shows about screen.
  */
 cwc.ui.Navigation.prototype.showSettings = function() {
-  var settingScreenInstance = this.helper.getInstance('settingScreen');
+  let settingScreenInstance = this.helper.getInstance('settingScreen');
   if (settingScreenInstance) {
     settingScreenInstance.show();
     this.hide();
@@ -304,7 +303,7 @@ cwc.ui.Navigation.prototype.saveFile = function() {
 
 
 cwc.ui.Navigation.prototype.saveGDriveFile = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  let fileSaverInstance = this.helper.getInstance('fileSaver');
   if (fileSaverInstance) {
     fileSaverInstance.saveGDriveFile();
     this.hide();
@@ -316,7 +315,7 @@ cwc.ui.Navigation.prototype.saveGDriveFile = function() {
  * Saves the current projects as a new file on the local drive.
  */
 cwc.ui.Navigation.prototype.saveFileAs = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  let fileSaverInstance = this.helper.getInstance('fileSaver');
   if (fileSaverInstance) {
     fileSaverInstance.saveFileAs();
     this.hide();
@@ -355,6 +354,7 @@ cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
 
 /**
  * Handles keyboard shortcuts.
+ * @param {event} event
  * @private
  */
 cwc.ui.Navigation.prototype.handleKeyboardShortcut_ = function(event) {

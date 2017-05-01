@@ -34,7 +34,6 @@ goog.provide('cwc.protocol.ev3.ParameterSize');
 goog.provide('cwc.protocol.ev3.Polarity');
 
 
-
 /**
  * Enum of implemented callback types.
  * @enum {number}
@@ -48,7 +47,7 @@ cwc.protocol.ev3.CallbackType = {
   DEVICE_SI_VALUE: 0x12,
   FIRMWARE: 0x20,
   BATTERY: 0x21,
-  UNKNOWN: 0xF0
+  UNKNOWN: 0xF0,
 };
 
 
@@ -59,7 +58,7 @@ cwc.protocol.ev3.CallbackType = {
 cwc.protocol.ev3.ColorSensorMode = {
   REFLECTIVE: 0,
   AMBIENT: 1,
-  COLOR: 2
+  COLOR: 2,
 };
 
 
@@ -75,7 +74,7 @@ cwc.protocol.ev3.ColorSensorValues = {
   4: 'yellow',
   5: 'red',
   6: 'white',
-  7: 'brown'
+  7: 'brown',
 };
 
 
@@ -89,13 +88,13 @@ cwc.protocol.ev3.Command = {
     },
     READ: {
       BATTERY: [0x81, 0x12],
-      FIRMWARE: [0x81, 0x0A]
+      FIRMWARE: [0x81, 0x0A],
     },
     WRITE: {
-      LED: [0x82, 0x1B]
+      LED: [0x82, 0x1B],
     },
     BUTTON: {
-      PRESSED: [0x83, 0x09]
+      PRESSED: [0x83, 0x09],
     },
     DRAW: {
       UPDATE: [0x84, 0x00],
@@ -112,15 +111,15 @@ cwc.protocol.ev3.Command = {
       FILLWINDOW: [0x84, 0x13],
       DOTLINE: [0x84, 0x15],
       FILLCIRCLE: [0x84, 0x18],
-      BMPFILE: [0x84, 0x1C]
-    }
+      BMPFILE: [0x84, 0x1C],
+    },
   },
   SOUND: {
     BREAK: [0x94, 0x00],
     TONE: [0x94, 0x01],
     PLAY: [0x94, 0x02],
     REPEAT: [0x94, 0x03],
-    SERVICE: [0x94, 0x04]
+    SERVICE: [0x94, 0x04],
   },
   INPUT: {
     DEVICE_LIST: 0x98,
@@ -132,13 +131,13 @@ cwc.protocol.ev3.Command = {
       READRAW: [0x99, 0x1C],
       READSI: [0x99, 0x1D],
       CLEARALL: [0x99, 0x0A],
-      CLEARCHANGES: [0x99, 0x1A]
+      CLEARCHANGES: [0x99, 0x1A],
     },
     READ: 0x9A,
     TEST: 0x9B,
     READY: 0x9C,
     READSI: 0x9D,
-    READEXT: 0x9E
+    READEXT: 0x9E,
   },
   OUTPUT: {
     RESET: 0xA2,
@@ -151,14 +150,14 @@ cwc.protocol.ev3.Command = {
     STEP: {
       POWER: 0xAC,
       SPEED: 0XAE,
-      SYNC: 0xB0
+      SYNC: 0xB0,
     },
     TIME: {
       POWER: 0xAD,
       SPEED: 0xAF,
-      SYNC: 0xB1
-    }
-  }
+      SYNC: 0xB1,
+    },
+  },
 };
 
 
@@ -169,12 +168,12 @@ cwc.protocol.ev3.Command = {
 cwc.protocol.ev3.CommandType = {
   DIRECT: {
     REPLY: 0x00,
-    NOREPLY: 0x80
+    NOREPLY: 0x80,
   },
   SYSTEM: {
     REPLY: 0x01,
-    NOREPLY: 0x81
-  }
+    NOREPLY: 0x81,
+  },
 };
 
 
@@ -199,7 +198,7 @@ cwc.protocol.ev3.DeviceType = {
   'TOUCH': 'touch',
   'US_DIST_CM': 'us-dist-cm',
   'US_DIST_IN': 'us-dist-in',
-  'US_LISTEN': 'us-listen'
+  'US_LISTEN': 'us-listen',
 };
 
 
@@ -215,7 +214,7 @@ cwc.protocol.ev3.InputPort = {
   A: 0x10,
   B: 0x11,
   C: 0x12,
-  D: 0x13
+  D: 0x13,
 };
 
 
@@ -228,7 +227,7 @@ cwc.protocol.ev3.OutputPort = {
   B: 0x02,
   C: 0x04,
   D: 0x08,
-  ALL: 0x0F
+  ALL: 0x0F,
 };
 
 
@@ -239,7 +238,7 @@ cwc.protocol.ev3.OutputPort = {
 cwc.protocol.ev3.IrSensorMode = {
   PROXIMITY: 0,
   SEEK: 1,
-  REMOTECONTROL: 2
+  REMOTECONTROL: 2,
 };
 
 
@@ -250,7 +249,7 @@ cwc.protocol.ev3.IrSensorMode = {
 cwc.protocol.ev3.UltrasonicSensorMode = {
   DIST_CM: 0,
   DIST_INCH: 1,
-  LISTEN: 2
+  LISTEN: 2,
 };
 
 
@@ -262,7 +261,7 @@ cwc.protocol.ev3.LedColor = {
   OFF: 0,
   GREEN: 1,
   RED: 2,
-  ORANGE: 3
+  ORANGE: 3,
 };
 
 
@@ -273,7 +272,7 @@ cwc.protocol.ev3.LedColor = {
 cwc.protocol.ev3.LedMode = {
   NORMAL: 0,
   FLASH: 3,
-  PULSE: 6
+  PULSE: 6,
 };
 
 
@@ -285,12 +284,12 @@ cwc.protocol.ev3.LedType = {
   ALL: 0,
   RIGHT: {
     RED: 1,
-    GREEN: 2
+    GREEN: 2,
   },
   LEFT: {
     RED: 3,
-    GREEN: 4
-  }
+    GREEN: 4,
+  },
 };
 
 
@@ -301,7 +300,7 @@ cwc.protocol.ev3.LedType = {
 cwc.protocol.ev3.MotorMode = {
   DEGREE: 0,
   ROTATION: 1,
-  PERCENT: 2
+  PERCENT: 2,
 };
 
 
@@ -313,7 +312,7 @@ cwc.protocol.ev3.GyroMode = {
   ANGLE: 0,
   RATE: 1,
   FAS: 2,
-  CALIBRATION: 4
+  CALIBRATION: 4,
 };
 
 
@@ -325,7 +324,7 @@ cwc.protocol.ev3.ParameterSize = {
   BYTE: 0x81,   // 1 byte
   SHORT: 0x82,  // 2 bytes
   INT: 0x83,    // 4 bytes
-  STRING: 0x84  // null-terminated string
+  STRING: 0x84,  // null-terminated string
 };
 
 
@@ -336,5 +335,5 @@ cwc.protocol.ev3.ParameterSize = {
 cwc.protocol.ev3.Polarity = {
   BACKWARD: -1,
   OPPOSITE: 0,
-  FORWARD: 1
+  FORWARD: 1,
 };

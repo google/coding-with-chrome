@@ -21,9 +21,7 @@ goog.require('cwc.soy.SelectScreen');
 
 
 describe('Soy templates', function() {
-
   it('Select Screen', function() {
     expect(typeof cwc.soy.SelectScreen).toEqual('object');
   });
-
 });

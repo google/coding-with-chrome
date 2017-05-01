@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Add background tile sprite.
  */
@@ -44,7 +43,7 @@ Blockly.Blocks['phaser_tile_sprite_background'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -74,7 +73,7 @@ Blockly.Blocks['phaser_tile_sprite_floor_add'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -104,7 +103,7 @@ Blockly.Blocks['phaser_tile_sprite_ceiling_add'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -139,9 +138,8 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
     this.setColour(290);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
-
 
 
 /**
@@ -167,7 +165,7 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
           [i18t('tile position y'), 'tilePosition.y'],
           [i18t('x'), 'x'],
           [i18t('y'), 'y'],
-          [i18t('z'), 'y']
+          [i18t('z'), 'y'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
@@ -177,7 +175,7 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -210,7 +208,7 @@ Blockly.Blocks['phaser_tile_sprite_crop'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -229,7 +227,7 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -254,7 +252,7 @@ Blockly.Blocks['phaser_tile_sprite_autoScroll'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -273,5 +271,5 @@ Blockly.Blocks['phaser_tile_sprite_immovable'] = {
     this.setColour(285);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

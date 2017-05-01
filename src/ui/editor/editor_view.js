@@ -24,22 +24,21 @@ goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorType');
 
 
-
 /**
  * @constructor
  * @struct
  * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorType=} optType
  * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  * @final
  */
-cwc.ui.EditorView = function(opt_content, opt_type, opt_hints, opt_flags) {
+cwc.ui.EditorView = function(opt_content, optType, opt_hints, opt_flags) {
   /** @type {!CodeMirror.Doc} */
   this.doc = new CodeMirror.Doc(opt_content || '');
 
   /** @type {!cwc.ui.EditorType} */
-  this.type = opt_type || cwc.ui.EditorType.UNKNOWN;
+  this.type = optType || cwc.ui.EditorType.UNKNOWN;
 
   /** @type {!cwc.ui.EditorHint} */
   this.hints = opt_hints || cwc.ui.EditorHint.UNKNOWN;

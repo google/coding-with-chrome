@@ -26,7 +26,6 @@ goog.require('goog.soy');
 goog.require('goog.style');
 
 
-
 /**
  * Class represents the statusbar inside the ui.
  * @param {!cwc.utils.Helper} helper

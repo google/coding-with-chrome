@@ -28,7 +28,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.ui.KeyboardShortcutHandler');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -81,7 +80,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
  * @export
  */
 cwc.mode.sphero.Monitor.prototype.decorate = function() {
-  var runnerInstance = this.helper.getInstance('runner', true);
+  let runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runnerMonitor_);
@@ -122,7 +121,7 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   this.nodeMonitorSpeed = goog.dom.getElement(this.prefix + 'speed');
 
   // Update events
-  var eventHandler = this.connection.getEventHandler();
+  let eventHandler = this.connection.getEventHandler();
   this.addEventListener_(eventHandler,
       cwc.protocol.sphero.Events.Type.CHANGED_LOCATION,
       this.updateLocationData_, false, this);
@@ -136,8 +135,8 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
       this.updateSpeedData_, false, this);
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var layoutEventHandler = layoutInstance.getEventHandler();
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let layoutEventHandler = layoutInstance.getEventHandler();
   this.addEventListener_(layoutEventHandler, goog.events.EventType.UNLOAD,
     this.cleanUp, false, this);
 
@@ -163,7 +162,6 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
-
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
     this.api.roll(50, 270);
@@ -194,17 +192,16 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
   }.bind(this), false, this);
 
   // Calibration slide
-  var calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
+  let calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
   this.addEventListener_(
     calibrationSlide, goog.events.EventType.INPUT, function(e) {
       this.api.calibrate(e.target.value);
     }, false, this);
 
   this.addEventListener_(
-    calibrationSlide, goog.events.EventType.CHANGE, function(opt_e) {
+    calibrationSlide, goog.events.EventType.MOUSEUP, function() {
       this.api.setCalibration();
     }, false, this);
-
 };
 
 
@@ -281,6 +278,7 @@ cwc.mode.sphero.Monitor.prototype.updateSpeedData_ = function(e) {
 
 /**
  * Handles keyboard shortcuts.
+ * @param {event} event
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
@@ -288,8 +286,8 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
     return;
   }
 
-  var normalSpeed = 50;
-  var boostedSpeed = 255;
+  let normalSpeed = 50;
+  let boostedSpeed = 255;
 
   switch (event.identifier) {
 
@@ -339,15 +337,15 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  * @param {EventTarget|goog.events.Listenable|string} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} useCapture
+ * @param {Object=} listenerScope
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  var target = goog.isString(src) ?
+    listener, useCapture = false, listenerScope = undefined) {
+  let target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;
-  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
-      opt_listenerScope);
+  let eventListener = goog.events.listen(target, type, listener, useCapture,
+      listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

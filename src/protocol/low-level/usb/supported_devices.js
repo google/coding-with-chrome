@@ -38,12 +38,12 @@ cwc.protocol.USB.supportedDevices = {
   '9025': {
     '32822': {
       'id': 'arduino_leonardo',
-      'name': 'Arduino Leonardo'
-    }
+      'name': 'Arduino Leonardo',
+    },
   },
   '2341': {
     '0043': {
-      'name': 'Ardunio Uno'
-    }
-  }
+      'name': 'Ardunio Uno',
+    },
+  },
 };

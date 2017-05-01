@@ -19,18 +19,18 @@
  */
 
 
-var cwcChromeSupport = (
+let cwcChromeSupport = (
   typeof chrome !== 'undefined' &&
   typeof chrome.app !== 'undefined' &&
   typeof chrome.app.window !== 'undefined');
 
-var cwcBuildUi = function() {
+let cwcBuildUi = function() {
   if (cwcChromeSupport) {
-    var loader = chrome.app.window.get('loader');
+    let loader = chrome.app.window.get('loader');
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
         'text': 'Build the Coding with Chrome UI ...',
-        'current': 1, 'total': 100 }, '*');
+        'current': 1, 'total': 100}, '*');
     }
     if (typeof cwc == 'undefined') {
       if (loader) {
@@ -51,30 +51,30 @@ var cwcBuildUi = function() {
       return null;
     }
   }
-  var editorNode = document.getElementById('cwc-editor');
-  var uiBuilder = new cwc.ui.Builder();
+  let editorNode = document.getElementById('cwc-editor');
+  let uiBuilder = new cwc.ui.Builder();
   uiBuilder.decorate(editorNode);
   return uiBuilder;
 };
 
 
-var cwcLoadScripts = function() {
-  var header = document.getElementsByTagName('head')[0];
+let cwcLoadScripts = function() {
+  let header = document.getElementsByTagName('head')[0];
   if (header) {
-    var loader = cwcChromeSupport && chrome.app.window.get('loader');
-    var message = 'Loading additional JavaScripts ...';
+    let loader = cwcChromeSupport && chrome.app.window.get('loader');
+    let message = 'Loading additional JavaScripts ...';
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
         'text': message,
-        'current': 0, 'total': 100 }, '*');
+        'current': 0, 'total': 100}, '*');
     }
     // Adding main ui script.
-    var uiScript = document.createElement('script');
+    let uiScript = document.createElement('script');
     uiScript.type = 'text/javascript';
     uiScript.src = '../js/cwc_ui.js';
     uiScript.onload = function() {
       // Adding debugging script.
-      var debugScript = document.createElement('script');
+      let debugScript = document.createElement('script');
       debugScript.type = 'text/javascript';
       debugScript.src = '../js/debug.js';
       header.appendChild(debugScript);
@@ -84,13 +84,12 @@ var cwcLoadScripts = function() {
     if (loader) {
       loader.contentWindow.postMessage({'command': 'progress',
         'text': message,
-        'current': 100, 'total': 100 }, '*');
+        'current': 100, 'total': 100}, '*');
     }
   } else {
     console.error('Seems DOM content is not ready!');
   }
 };
-
 
 
 window.addEventListener('load', cwcBuildUi, false);

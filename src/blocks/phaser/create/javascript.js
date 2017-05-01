@@ -19,12 +19,13 @@
  */
 
 
-
 /**
  * Phaser create section.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_create'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'create: function () {\n' +
     '  if (navigator.userAgent == \'CwC sandbox\') {' +
     'game.time.desiredFps = 30;}\n' + statements_code +
@@ -34,28 +35,34 @@ Blockly.JavaScript['phaser_create'] = function(block) {
 
 /**
  * Stage background color.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
-  var colour_color = block.getFieldValue('color');
+  let colour_color = block.getFieldValue('color');
   return 'game.stage.backgroundColor = \'' + colour_color + '\';\n';
 };
 
 
 /**
  * Add background.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_add_background'] = function(block) {
-  var text_sprite = block.getFieldValue('sprite');
+  let text_sprite = block.getFieldValue('sprite');
   return 'game.add.image(0, 0, \'' + text_sprite + '\')\n';
 };
 
 
 /**
  * Add group.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_add_group'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let text_name = block.getFieldValue('name');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.group(undefined, \'' + text_name + '\');\n';
 };
@@ -63,11 +70,13 @@ Blockly.JavaScript['phaser_add_group'] = function(block) {
 
 /**
  * Timer Loop Event
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_time_loop_event'] = function(block) {
-  var value_time = Blockly.JavaScript.valueToCode(
+  let value_time = Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  let statements_func = Blockly.JavaScript.statementToCode(block, 'func');
   return 'game.time.events.loop(' + value_time + ', ' +
     'function() {\n' + statements_func + '}, this);\n';
 };

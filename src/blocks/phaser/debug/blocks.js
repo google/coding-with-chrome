@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Debug camera.
  */
@@ -33,7 +32,7 @@ Blockly.Blocks['phaser_debug_camera'] = {
     this.setColour(195);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -50,7 +49,7 @@ Blockly.Blocks['phaser_debug_pointer'] = {
     this.setColour(195);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -67,5 +66,5 @@ Blockly.Blocks['phaser_debug_sprite'] = {
     this.setColour(195);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

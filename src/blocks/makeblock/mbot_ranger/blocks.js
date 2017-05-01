@@ -20,7 +20,6 @@
  */
 
 
-
 /**
  * Move forward.
  */
@@ -35,7 +34,7 @@ Blockly.Blocks['mbot_ranger_move_forward'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot forward with the specific speed.');
-  }
+  },
 };
 
 
@@ -54,7 +53,7 @@ Blockly.Blocks['mbot_ranger_move_forward_time'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the mBot forward for the given seconds.');
-  }
+  },
 };
 
 
@@ -73,7 +72,7 @@ Blockly.Blocks['mbot_ranger_move_forward_steps'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot forward for the specific steps.');
-  }
+  },
 };
 
 
@@ -91,7 +90,7 @@ Blockly.Blocks['mbot_ranger_move_backward'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot backward with the specific speed.');
-  }
+  },
 };
 
 
@@ -110,7 +109,7 @@ Blockly.Blocks['mbot_ranger_move_backward_time'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the mBot backward for the given seconds.');
-  }
+  },
 };
 
 
@@ -129,7 +128,7 @@ Blockly.Blocks['mbot_ranger_move_backward_steps'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Move the robot backward for the specific steps.');
-  }
+  },
 };
 
 
@@ -147,7 +146,7 @@ Blockly.Blocks['mbot_ranger_rotate_left'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('rotate the robot left with the specific speed.');
-  }
+  },
 };
 
 
@@ -166,7 +165,7 @@ Blockly.Blocks['mbot_ranger_rotate_left_time'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Rotate the mBot left for the given seconds.');
-  }
+  },
 };
 
 
@@ -184,7 +183,7 @@ Blockly.Blocks['mbot_ranger_rotate_right'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('rotate the robot right with the specific speed.');
-  }
+  },
 };
 
 
@@ -203,7 +202,7 @@ Blockly.Blocks['mbot_ranger_rotate_right_time'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Rotate the mBot right for the given seconds.');
-  }
+  },
 };
 
 
@@ -220,7 +219,7 @@ Blockly.Blocks['mbot_ranger_stop_moving'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Stop moving.');
-  }
+  },
 };
 
 
@@ -229,7 +228,7 @@ Blockly.Blocks['mbot_ranger_stop_moving'] = {
  */
 Blockly.Blocks['mbot_ranger_play_tone'] = {
   init: function() {
-    var note_list = [
+    let note_list = [
       ['C3', '130.81'], ['C#3/Db3', '138.59'], ['D3', '146.83'],
       ['D#3/Eb3', '155.56'], ['E3', '164.81'], ['F3', '174.61'],
       ['F#3/Gb3', '185'], ['G3', '196'], ['G#3/Ab3', '207.65'], ['A3', '220'],
@@ -246,11 +245,25 @@ Blockly.Blocks['mbot_ranger_play_tone'] = {
       ['F6', '1396.91'], ['F#6/Gb6', '1479.98'], ['G6', '1567.98'],
       ['G#6/Ab6', '1661.22'], ['A6', '1760'], ['A#6/Bb6', '1864.66'],
       ['B6', '1975.53'], ['C7', '2093']];
-    var duration_list = [
-      ['1/1', '240'], ['1/2', '120'], ['1/4', '60'], ['1/8', '30'],
-      ['1/16', '15'], ['1/1 dotted', '360'], ['1/2 dotted', '180'],
-      ['1/4 dotted', '90'], ['1/8 dotted', '45'], ['1/16 dotted', '22.5'],
-      ['1/4 triplet', '40'], ['1/8 triplet', '20'], ['1/16 triplet', '10']];
+    let duration_list = [
+      ['1/1', '2000'],
+      ['1/2', '1000'],
+      ['1/4', '500'],
+      ['1/8', '250'],
+      ['1/16', '125'],
+      ['1/32', '62'],
+      ['1/64', '31'],
+      ['1/1 dotted', '3000'],
+      ['1/2 dotted', '1500'],
+      ['1/4 dotted', '750'],
+      ['1/8 dotted', '375'],
+      ['1/16 dotted', '187'],
+      ['1/32 dotted', '93'],
+      ['1/64 dotted', '46'],
+      ['1/4 triplet', '333'],
+      ['1/8 triplet', '166'],
+      ['1/16 triplet', '83'],
+    ];
     this.setHelpUrl('');
     this.setColour(65);
     this.appendDummyInput()
@@ -263,7 +276,7 @@ Blockly.Blocks['mbot_ranger_play_tone'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Play a music note with duration in beats');
-  }
+  },
 };
 
 
@@ -298,7 +311,7 @@ Blockly.Blocks['mbot_ranger_rgb'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Sets the leds on the mbotRanger.');
-  }
+  },
 };
 
 
@@ -318,7 +331,7 @@ Blockly.Blocks['mbot_ranger_lightness_sensor_change'] = {
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
         '\'value\', when the lightness sensor detects a change.');
-  }
+  },
 };
 
 
@@ -338,7 +351,7 @@ Blockly.Blocks['mbot_ranger_linefollower_sensor_change'] = {
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
         '\'value\', when the lightness sensor detects a change.');
-  }
+  },
 };
 
 
@@ -358,7 +371,7 @@ Blockly.Blocks['mbot_ranger_temperature_sensor_change'] = {
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
         '\'temperature\', when the temperature sensor detects a change.');
-  }
+  },
 };
 
 
@@ -378,7 +391,7 @@ Blockly.Blocks['mbot_ranger_ultrasonic_sensor_change'] = {
     this.setNextStatement(true);
     this.setTooltip('Stores the output from the sensor in a variable named ' +
         '\'distance\', when the ultrasonic sensor detects a change');
-  }
+  },
 };
 
 
@@ -392,7 +405,7 @@ Blockly.Blocks['mbot_ranger_ultrasonic_sensor_value'] = {
     this.appendDummyInput().appendField('ultrasonic sensor value');
     this.setOutput(true, 'Number');
     this.setTooltip('Get the current value of the Ultrasonic sensor');
-  }
+  },
 };
 
 
@@ -406,7 +419,7 @@ Blockly.Blocks['mbot_ranger_lightness_sensor_value'] = {
     this.appendDummyInput().appendField('lightness sensor value');
     this.setOutput(true, 'Number');
     this.setTooltip('Get the current value of the lightness sensor.');
-  }
+  },
 };
 
 
@@ -425,5 +438,5 @@ Blockly.Blocks['mbot_ranger_wait'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('Wait for the given milliseconds');
-  }
+  },
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.serial.Devices');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor

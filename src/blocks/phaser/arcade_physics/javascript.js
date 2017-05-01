@@ -19,17 +19,18 @@
  */
 
 
-
 /**
  * Add arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
-  var text_sprite = block.getFieldValue('sprite');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let text_sprite = block.getFieldValue('sprite');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
     ', \'' + text_sprite + '\');\n' +
@@ -39,12 +40,14 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
 
 /**
  * Adjust arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_property = block.getFieldValue('property');
-  var value_value = Blockly.JavaScript.valueToCode(block,
+  let dropdown_property = block.getFieldValue('property');
+  let value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'angle':
@@ -77,14 +80,16 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
 
 /**
  * Adjust arcade sprite dimension.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
     block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_width = Blockly.JavaScript.valueToCode(
+  let value_width = Blockly.JavaScript.valueToCode(
     block, 'width', Blockly.JavaScript.ORDER_ATOMIC) || 50;
-  var value_height = Blockly.JavaScript.valueToCode(
+  let value_height = Blockly.JavaScript.valueToCode(
     block, 'height', Blockly.JavaScript.ORDER_ATOMIC) || 50;
   return variable + '.width = ' + value_width + ';\n' +
     variable + '.height = ' + value_height + ';\n';
@@ -93,9 +98,11 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
 
 /**
  * Physics arcade enable.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
-  var value_variable = Blockly.JavaScript.valueToCode(
+  let value_variable = Blockly.JavaScript.valueToCode(
     block, 'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.physics.arcade.enable(' + value_variable + ');\n';
 };
@@ -103,13 +110,15 @@ Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
 
 /**
  * Physics arcade overlap.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
-  var value_object1 = Blockly.JavaScript.valueToCode(
+  let value_object1 = Blockly.JavaScript.valueToCode(
     block, 'object1', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_object2 = Blockly.JavaScript.valueToCode(
+  let value_object2 = Blockly.JavaScript.valueToCode(
     block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  let statements_func = Blockly.JavaScript.statementToCode(block, 'func');
   return 'game.physics.arcade.overlap(' + value_object1 + ', ' +
     value_object2 + ', function() {\n' + statements_func +
     '}, null, this);\n';
@@ -118,11 +127,13 @@ Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
 
 /**
  * Physics arcade collide.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
-  var value_object1 = Blockly.JavaScript.valueToCode(
+  let value_object1 = Blockly.JavaScript.valueToCode(
     block, 'object1', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_object2 = Blockly.JavaScript.valueToCode(
+  let value_object2 = Blockly.JavaScript.valueToCode(
     block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.physics.arcade.collide(' + value_object1 + ', ' +
     value_object2 + ');\n';

@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Add arcade sprite.
  */
@@ -45,7 +44,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
     this.setColour(5);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -84,7 +83,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -108,7 +107,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -125,7 +124,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -149,7 +148,7 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -170,5 +169,5 @@ Blockly.Blocks['phaser_physics_arcade_collide'] = {
     this.setColour(0);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

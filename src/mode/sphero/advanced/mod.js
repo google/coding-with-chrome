@@ -27,7 +27,6 @@ goog.require('cwc.mode.sphero.Monitor');
 goog.require('cwc.renderer.external.Sphero');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

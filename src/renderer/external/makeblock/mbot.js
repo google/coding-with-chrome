@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.renderer.external.makeblock.mbot');
+goog.provide('cwc.renderer.external.makeblock.MBot');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -26,14 +26,13 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  * @struct
  * @final
  */
-cwc.renderer.external.makeblock.mbot = function(helper) {
+cwc.renderer.external.makeblock.MBot = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -42,9 +41,9 @@ cwc.renderer.external.makeblock.mbot = function(helper) {
 /**
  * Initializes and defines the mbot renderer.
  */
-cwc.renderer.external.makeblock.mbot.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+cwc.renderer.external.makeblock.MBot.prototype.init = function() {
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -58,22 +57,21 @@ cwc.renderer.external.makeblock.mbot.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.makeblock.mbot.prototype.render = function(
+cwc.renderer.external.makeblock.MBot.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
     frameworks,
     renderer_helper) {
-
-  var header = renderer_helper.getFrameworkHeader(
+  let header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.MBOT, frameworks);
-  var body = '\n<script>' +
-      '  var code = function(mbot) {\n' +
+  let body = '\n<script>' +
+      '  let code = function(mbot) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.makeblock.mBot(code);\n' +
       '</script>\n';
 
-  var html = renderer_helper.getHTML(body, header);
+  let html = renderer_helper.getHTML(body, header);
   return html;
 };

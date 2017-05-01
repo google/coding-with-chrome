@@ -32,7 +32,6 @@ goog.require('goog.ui.ToolbarButton');
 goog.require('goog.ui.Select');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -73,7 +72,6 @@ cwc.ui.ConnectionManager = function(helper) {
 
   /** @type {function(?)} */
   this.serialDeviceCallback = null;
-
 };
 
 
@@ -97,7 +95,7 @@ cwc.ui.ConnectionManager.prototype.decorate = function(node,
 
   if (!this.styleSheet) {
     this.styleSheet = goog.style.installStyles(
-        cwc.soy.ConnectionManager.style({ 'prefix': this.prefix }));
+        cwc.soy.ConnectionManager.style({'prefix': this.prefix}));
   }
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -109,28 +107,28 @@ cwc.ui.ConnectionManager.prototype.decorate = function(node,
 
 
 /**
- * @param {function(?)=} opt_callback
+ * @param {function(?)=} optCallback
  * @export
  */
 cwc.ui.ConnectionManager.prototype.getMindstorms = function(
-    opt_callback) {
+    optCallback) {
   this.prepare_();
   this.showTemplate_('Mindstorms', 'template');
   this.setClickEvent('link-next', this.showMindstormsSelect_);
-  this.serialDeviceCallback = opt_callback;
+  this.serialDeviceCallback = optCallback;
 };
 
 
 /**
- * @param {function(?)=} opt_callback
+ * @param {function(?)=} optCallback
  * @export
  */
 cwc.ui.ConnectionManager.prototype.getArduino = function(
-    opt_callback) {
+    optCallback) {
   this.prepare_();
   this.showTemplate_('Arduino', 'template');
   this.setClickEvent('link-next', this.showArduinoPortSelect_);
-  this.serialDeviceCallback = opt_callback;
+  this.serialDeviceCallback = optCallback;
 };
 
 
@@ -147,9 +145,9 @@ cwc.ui.ConnectionManager.prototype.showArduinoPortSelect_ = function() {
  * @private
  */
 cwc.ui.ConnectionManager.prototype.updateSerialDevices_ = function() {
-  var serialInstance = this.helper.getInstance('serial');
+  let serialInstance = this.helper.getInstance('serial');
   if (serialInstance) {
-    var serialDeviceNode = goog.dom.getElement(this.prefix +
+    let serialDeviceNode = goog.dom.getElement(this.prefix +
         'select-serial-device');
     if (serialDeviceNode) {
       goog.soy.renderElement(
@@ -181,7 +179,7 @@ cwc.ui.ConnectionManager.prototype.setSerialDeviceOffline_ = function() {
  */
 cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
     devices) {
-  var nodeSelectSerialDevice = goog.dom.getElement(this.prefix +
+  let nodeSelectSerialDevice = goog.dom.getElement(this.prefix +
       'select-serial-device');
 
   if (!nodeSelectSerialDevice) {
@@ -201,15 +199,17 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
         nodeSelectSerialDevice,
         cwc.soy.ConnectionManager.serialDevice,
         {'prefix': this.prefix});
-    var nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
-    var deviceList = new goog.ui.Select('Select device...');
+    let nodeSerialDevices = goog.dom.getElement(this.prefix + 'serial-devices');
+    let deviceList = new goog.ui.Select('Select device...');
     for (let deviceEntry in devices) {
-      var device = devices[deviceEntry];
-      var menuItem = new goog.ui.MenuItem(
+      if (Object.prototype.hasOwnProperty.call(devices, deviceEntry)) {
+        let device = devices[deviceEntry];
+        let menuItem = new goog.ui.MenuItem(
           (device.isSupported()) ? device.getDisplayName() : device.getPath());
-      menuItem.setValue(deviceEntry);
-      deviceList.addItem(menuItem);
-      console.log(device);
+        menuItem.setValue(deviceEntry);
+        deviceList.addItem(menuItem);
+        console.log(device);
+      }
     }
     deviceList.render(nodeSerialDevices);
 
@@ -225,9 +225,9 @@ cwc.ui.ConnectionManager.prototype.setSerialDevices = function(
  */
 cwc.ui.ConnectionManager.prototype.connectSerialDevice_ = function(
     event) {
-  var select = event.target;
-  var connection = select.getValue();
-  var serialInstance = this.helper.getInstance('serial');
+  let select = event.target;
+  let connection = select.getValue();
+  let serialInstance = this.helper.getInstance('serial');
   if (connection && serialInstance) {
     if (this.serialDevice) {
       this.serialDevice.disconnect();
@@ -265,7 +265,7 @@ cwc.ui.ConnectionManager.prototype.setBluetoothDevices = function(
  * @private
  */
 cwc.ui.ConnectionManager.prototype.prepare_ = function() {
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.decorate(layoutInstance.getOverlay());
   } else {
@@ -283,13 +283,13 @@ cwc.ui.ConnectionManager.prototype.showTemplate_ = function(
     template_type, template_name) {
   if (this.nodeContent && template_type && template_name) {
     /** @type {cwc.soy.ConnectionManager.Arduino} */
-    var template = cwc.soy.ConnectionManager[template_type][template_name];
+    let template = cwc.soy.ConnectionManager[template_type][template_name];
 
     goog.soy.renderElement(
         this.nodeContent,
         template,
         {'prefix': this.prefix});
-    var layoutInstance = this.helper.getInstance('layout');
+    let layoutInstance = this.helper.getInstance('layout');
     if (layoutInstance) {
       layoutInstance.showOverlay(true);
     }
@@ -303,7 +303,7 @@ cwc.ui.ConnectionManager.prototype.showTemplate_ = function(
  * @private
  */
 cwc.ui.ConnectionManager.prototype.closeWindow_ = function() {
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.showOverlay(false);
   }
@@ -319,9 +319,9 @@ cwc.ui.ConnectionManager.prototype.closeWindow_ = function() {
  */
 cwc.ui.ConnectionManager.prototype.setClickEvent = function(name,
     event, opt_prefix) {
-  var prefix = opt_prefix || this.prefix;
-  var elementName = prefix + name;
-  var element = goog.dom.getElement(elementName);
+  let prefix = opt_prefix || this.prefix;
+  let elementName = prefix + name;
+  let element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Was not able to find element ' + elementName + '!');
   }

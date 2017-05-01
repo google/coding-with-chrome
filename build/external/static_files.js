@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
@@ -28,9 +27,9 @@ var glob = closureBuilder.globSupport();
 closureBuilder.build({
   name: 'Roboto fonts',
   resources: glob([
-    'third_party/roboto/*.woff2'
+    'third_party/roboto/*.woff2',
   ]),
-  out: 'genfiles/fonts/'
+  out: 'genfiles/fonts/',
 });
 
 
@@ -40,9 +39,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Material design icons',
   resources: [
-    'third_party/material-design-icons/iconfont/MaterialIcons-Regular.woff2'
+    'third_party/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
   ],
-  out: 'genfiles/fonts/'
+  out: 'genfiles/fonts/',
 });
 
 
@@ -55,7 +54,7 @@ closureBuilder.build({
     'third_party/material-design-lite/material.min.js',
     'third_party/material-design-lite/material.min.css',
   ],
-  out: 'genfiles/external/material-design-lite/'
+  out: 'genfiles/external/material-design-lite/',
 });
 
 
@@ -66,9 +65,9 @@ closureBuilder.build({
   name: 'Dialog polyfill',
   resources: [
     'third_party/dialog-polyfill/dialog-polyfill.js',
-    'third_party/dialog-polyfill/dialog-polyfill.css'
+    'third_party/dialog-polyfill/dialog-polyfill.css',
   ],
-  out: 'genfiles/external/dialog-polyfill/'
+  out: 'genfiles/external/dialog-polyfill/',
 });
 
 
@@ -78,9 +77,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Coffeelint file',
   resources: [
-    'third_party/coffeelint/js/coffeelint.js'
+    'third_party/coffeelint/js/coffeelint.js',
   ],
-  out: 'genfiles/external/coffeelint/'
+  out: 'genfiles/external/coffeelint/',
 });
 
 
@@ -90,7 +89,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'HTMLHint files',
   resources: [
-    'third_party/HTMLHint/lib/htmlhint.js'
+    'third_party/HTMLHint/lib/htmlhint.js',
   ],
-  out: 'genfiles/external/htmlhint/'
+  out: 'genfiles/external/htmlhint/',
 });

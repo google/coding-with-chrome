@@ -22,7 +22,6 @@ goog.provide('cwc.framework.RaspberryPi');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!Function} code
@@ -35,7 +34,9 @@ cwc.framework.RaspberryPi = function(code) {
   this.name = 'Raspberry Pi Framework';
 
   /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.code = function() {
+code(this);
+}.bind(this);
 
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(this.code, this);

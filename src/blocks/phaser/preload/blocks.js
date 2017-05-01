@@ -36,7 +36,7 @@ Blockly.Blocks['phaser_preload'] = {
     this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -58,7 +58,7 @@ Blockly.Blocks['phaser_load_image'] = {
     this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -80,5 +80,5 @@ Blockly.Blocks['phaser_load_audio'] = {
     this.setColour(165);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.file.Files');
 goog.require('cwc.file.File');
 
 
-
 /**
  * @constructor
  * @struct
@@ -49,18 +48,18 @@ cwc.file.Files.prototype.existFileName = function(filename) {
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {string=} opt_type
+ * @param {string=} optType
  * @param {number=} opt_size
  * @param {string=} opt_group
  * @return {cwc.file.File}
  * @export
  */
 cwc.file.Files.prototype.addFile = function(name, content,
-    opt_type, opt_size, opt_group) {
-  var new_file = new cwc.file.File(name, content, opt_type,
+    optType, opt_size, opt_group) {
+  let new_file = new cwc.file.File(name, content, optType,
       opt_size, opt_group);
-  var fileName = new_file.getFilename();
-  var fileType = new_file.getType();
+  let fileName = new_file.getFilename();
+  let fileType = new_file.getType();
   if (this.getFile(fileName)) {
     console.warn('Overwrite existing file', fileName);
   }
@@ -78,7 +77,7 @@ cwc.file.Files.prototype.addFile = function(name, content,
  * @export
  */
 cwc.file.Files.prototype.getFile = function(name, opt_group) {
-  var fileName = ((opt_group) ? opt_group + '/' : '') + name;
+  let fileName = ((opt_group) ? opt_group + '/' : '') + name;
   if (this.existFileName(fileName)) {
     return this.data_[fileName];
   }
@@ -93,7 +92,7 @@ cwc.file.Files.prototype.getFile = function(name, opt_group) {
  * @export
  */
 cwc.file.Files.prototype.getFileContent = function(name, opt_group) {
-  var file = this.getFile(name, opt_group);
+  let file = this.getFile(name, opt_group);
   if (file) {
     return file.getContent();
   }
@@ -105,10 +104,10 @@ cwc.file.Files.prototype.getFileContent = function(name, opt_group) {
  * @return {Object}
  */
 cwc.file.Files.prototype.toJSON = function() {
-  var data = {};
+  let data = {};
   for (let entry in this.data_) {
     if (this.data_.hasOwnProperty(entry)) {
-      var file = this.data_[entry];
+      let file = this.data_[entry];
       data[entry] = file.toJSON();
     }
   }
@@ -123,7 +122,7 @@ cwc.file.Files.prototype.toJSON = function() {
 cwc.file.Files.prototype.setData = function(data) {
   for (let entry in data) {
     if (data.hasOwnProperty(entry)) {
-      var file = data[entry];
+      let file = data[entry];
       this.addFile(
           file.name,
           file.content,
@@ -176,7 +175,7 @@ cwc.file.Files.prototype.clear = function() {
  * @private
  */
 cwc.file.Files.prototype.updateSize_ = function() {
-  var newSize = 0;
+  let newSize = 0;
   for (let key in this.data_) {
     if (this.data_.hasOwnProperty(key)) {
       newSize++;

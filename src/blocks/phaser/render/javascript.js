@@ -21,8 +21,10 @@
 
 /**
  * Phaser render section.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_render'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'render: function(e) {\n' + statements_code + '},\n';
 };

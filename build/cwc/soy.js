@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
@@ -29,7 +28,7 @@ closureBuilder.build({
   name: 'cwc soy template files',
   i18n: 'i18soy',
   srcs: glob([
-    'src/**/*.soy'
+    'src/**/*.soy',
   ]),
-  out: 'gensoyfiles/'
+  out: 'gensoyfiles/',
 });

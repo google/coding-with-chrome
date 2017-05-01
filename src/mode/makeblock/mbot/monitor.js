@@ -26,7 +26,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.ui.KeyboardShortcutHandler');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -76,7 +75,7 @@ cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
  * @export
  */
 cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function() {
-  var runnerInstance = this.helper.getInstance('runner', true);
+  let runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runnerMonitor_);
@@ -110,11 +109,11 @@ cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function() {
   this.nodeMonitorUltrasonic = goog.dom.getElement(this.prefix + 'ultrasonic');
 
   // Update events
-  //var eventHandler = this.connection.getEventHandler();
+  // var eventHandler = this.connection.getEventHandler();
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var layoutEventHandler = layoutInstance.getEventHandler();
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let layoutEventHandler = layoutInstance.getEventHandler();
   this.addEventListener_(layoutEventHandler, goog.events.EventType.UNLOAD,
     this.cleanUp, false, this);
 
@@ -140,7 +139,6 @@ cwc.mode.makeblock.mbot.Monitor.prototype.cleanUp = function() {
  * @private
  */
 cwc.mode.makeblock.mbot.Monitor.prototype.addEventHandler_ = function() {
-
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
     this.api.setLeftMotorPower(85);
@@ -173,7 +171,6 @@ cwc.mode.makeblock.mbot.Monitor.prototype.addEventHandler_ = function() {
   this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
     this.connection.stop();
   }.bind(this), false, this);
-
 };
 
 
@@ -202,6 +199,7 @@ cwc.mode.makeblock.mbot.Monitor.prototype.addKeyHandler_ = function() {
 
 /**
  * Handles keyboard shortcuts.
+ * @param {event} event
  * @private
  */
 cwc.mode.makeblock.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(
@@ -210,8 +208,8 @@ cwc.mode.makeblock.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(
     return;
   }
 
-  var normalSpeed = 85;
-  var boostedSpeed = 255;
+  let normalSpeed = 85;
+  let boostedSpeed = 255;
 
   switch (event.identifier) {
 
@@ -274,9 +272,9 @@ cwc.mode.makeblock.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(
  */
 cwc.mode.makeblock.mbot.Monitor.prototype.addEventListener_ = function(src,
     type, listener, opt_useCapture, opt_listenerScope) {
-  var target = goog.isString(src) ?
+  let target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;
-  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(target, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

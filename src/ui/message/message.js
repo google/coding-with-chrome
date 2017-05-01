@@ -35,9 +35,8 @@ cwc.ui.MessageType = {
   ERROR: 'error',
   INFO: 'info',
   SUCCESS: 'success',
-  WARNING: 'warning'
+  WARNING: 'warning',
 };
-
 
 
 /**
@@ -116,15 +115,15 @@ cwc.ui.Message.prototype.warning = function(message) {
 /**
  * Renders content and shows defined message window.
  * @param {string} message
- * @param {cwc.ui.MessageType=} opt_type
+ * @param {cwc.ui.MessageType=} optType
  * @export
  */
-cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
-  var type = opt_type || cwc.ui.MessageType.INFO;
-  var prefix = '[' + type + ' message]';
-  var snackbarData = {
+cwc.ui.Message.prototype.showMessage = function(message, optType) {
+  let type = optType || cwc.ui.MessageType.INFO;
+  let prefix = '[' + type + ' message]';
+  let snackbarData = {
     message: message,
-    timeout: null
+    timeout: null,
   };
 
   // Console logging
@@ -160,7 +159,6 @@ cwc.ui.Message.prototype.showMessage = function(message, opt_type) {
     goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
     this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
   }
-
 };
 
 

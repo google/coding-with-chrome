@@ -26,7 +26,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -43,8 +42,8 @@ cwc.renderer.external.Python = function(helper) {
  * Initializes and defines the simple renderer.
  */
 cwc.renderer.external.Python.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -64,15 +63,14 @@ cwc.renderer.external.Python.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var python = editor_content[cwc.file.ContentType.PYTHON];
-  var header = renderer_helper.getFrameworkHeaders([
+  let python = editor_content[cwc.file.ContentType.PYTHON];
+  let header = renderer_helper.getFrameworkHeaders([
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.SKULPT.CORE,
     cwc.framework.External.SKULPT.STDLIB,
-    cwc.framework.Internal.PYTHON
+    cwc.framework.Internal.PYTHON,
   ], frameworks);
-  var body = '<div id="content"></div>' +
+  let body = '<div id="content"></div>' +
   '<script id="code" type="text/python">\n' + python + '\n</script>' +
   '<script>new cwc.framework.Python().run();</script>';
 

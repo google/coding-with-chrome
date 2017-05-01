@@ -21,17 +21,17 @@ goog.require('cwc.utils.I18n');
 
 
 describe('i18n', function() {
-  var i18nUtils = new cwc.utils.I18n();
+  let i18nUtils = new cwc.utils.I18n();
 
-  it ('prepare', function(done) {
+  it('prepare', function(done) {
     i18nUtils.prepare(function() {
       expect(true);
       done();
     });
   });
 
-  it ('translate - fallback', function() {
-    var randomString = Math.random().toString(36);
+  it('translate - fallback', function() {
+    let randomString = Math.random().toString(36);
     expect(i18nUtils.translate(randomString)).toEqual(randomString);
     expect(i18nUtils.translate(randomString + '!')).toEqual(randomString + '!');
     expect(i18nUtils.translate(randomString.toLowerCase()))
@@ -40,9 +40,8 @@ describe('i18n', function() {
       .toEqual(randomString.toUpperCase());
   });
 
-  it ('translate', function() {
-    var testString = 'Hello, World';
+  it('translate', function() {
+    let testString = 'Hello, World';
     expect(i18nUtils.translate(testString)).toEqual('Hello, World');
   });
-
 });

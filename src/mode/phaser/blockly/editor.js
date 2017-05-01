@@ -26,7 +26,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -58,7 +57,6 @@ cwc.mode.phaser.blockly.Editor = function(helper) {
  * Decorates the Blockly editor.
  */
 cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
-
   this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
   if (!this.nodeBlockly) {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
@@ -105,7 +103,7 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
  * Switches from the Blockly ui to the code editor.
  */
 cwc.mode.phaser.blockly.Editor.prototype.showEditor = function() {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
   fileInstance.setUi('javascript');
@@ -116,7 +114,7 @@ cwc.mode.phaser.blockly.Editor.prototype.showEditor = function() {
  * Switches from the code editor to the Blockly ui.
  */
 cwc.mode.phaser.blockly.Editor.prototype.showBlockly = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
       if (answer) {
@@ -131,7 +129,7 @@ cwc.mode.phaser.blockly.Editor.prototype.showBlockly = function() {
  * @param {Event=} opt_e
  */
 cwc.mode.phaser.blockly.Editor.prototype.switchToEditor = function(opt_e) {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');

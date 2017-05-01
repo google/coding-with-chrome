@@ -38,9 +38,8 @@ cwc.ui.RunnerInfobarLevel = {
   DEBUG: -1,
   INFO: 0,
   WARN: 1,
-  ERROR: 2
+  ERROR: 2,
 };
-
 
 
 /**
@@ -117,7 +116,7 @@ cwc.ui.RunnerInfobar.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerInfobar.template,
-      { 'prefix': this.prefix }
+      {'prefix': this.prefix}
   );
 
   this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
@@ -157,7 +156,7 @@ cwc.ui.RunnerInfobar.prototype.enableTerminal = function(enable) {
  * Shows / hides the console.
  */
 cwc.ui.RunnerInfobar.prototype.toggleTerminal = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     this.infoTerminalVisible = !this.infoTerminalVisible;
     runnerInstance.showTerminal(this.infoTerminalVisible);
@@ -218,7 +217,6 @@ cwc.ui.RunnerInfobar.prototype.updateOverview = function() {
   if (this.errorNum && !this.infoMsgVisible) {
     this.toggleInfobar();
   }
-
 };
 
 
@@ -226,10 +224,10 @@ cwc.ui.RunnerInfobar.prototype.updateOverview = function() {
  * @param {Object} e
  */
 cwc.ui.RunnerInfobar.prototype.addMessage = function(e) {
-  var level = e.level;
-  var message = e.message || '';
-  var logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
-  var logLevelName = 'Unknown';
+  let level = e.level;
+  let message = e.message || '';
+  let logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
+  let logLevelName = 'Unknown';
 
   if (level == cwc.ui.RunnerInfobarLevel.DEBUG) {
     this.debugNum = (this.debugNum || 0) + 1;
@@ -269,7 +267,7 @@ cwc.ui.RunnerInfobar.prototype.addLogRecord = function(level, msg,
     return;
   }
 
-  var logEntry = new goog.debug.LogRecord(level, msg, logger_name,
+  let logEntry = new goog.debug.LogRecord(level, msg, logger_name,
       opt_time, opt_sequence_number);
   this.logConsole.addLogRecord(logEntry);
 };

@@ -51,7 +51,7 @@ cwc.config.Debug = {
   GALLERY: false,
   SPHERO: false,
   MBOT: false,
-  TOUR: false
+  TOUR: false,
 };
 
 
@@ -60,7 +60,7 @@ cwc.config.Debug = {
  * @enum {boolean}
  */
 cwc.config.Experimental = {
-  ENABLED: false
+  ENABLED: false,
 };
 
 
@@ -69,7 +69,7 @@ cwc.config.Experimental = {
  * @enum {string}
  */
 cwc.config.Default = {
-  LANGUAGE: 'en'
+  LANGUAGE: 'en',
 };
 
 
@@ -82,7 +82,7 @@ cwc.config.Number = {
   * Magic Number for approximating a Circular Arc With a Cubic Bezier Path.
   * (see http://en.wikipedia.org/wiki/B%C3%A9zier_spline)
   */
-  CIRCULAR_ARCS: .5522847498
+  CIRCULAR_ARCS: .5522847498,
 };
 
 
@@ -96,7 +96,7 @@ cwc.config.Prefix = {
   EDITOR: 'editor-',
   PLAYGROUND: 'env-',
   FRAMEWORK: 'cwc.fn',
-  GENERAL: 'cwc-'
+  GENERAL: 'cwc-',
 };
 
 
@@ -107,7 +107,7 @@ cwc.config.Prefix = {
 cwc.config.Sample = {
   TEXT_PLACEHOLDER: 'Lorem ipsum non in vita reverti. Et facti sunt dies ut ' +
       'expertus. Experientiarum fecisti. Quod est tibi. In ' +
-      'casu, cursus ut,'
+      'casu, cursus ut,',
 };
 
 
@@ -120,6 +120,6 @@ cwc.config.interpreter.Flag = {
     ONLOAD: 'onLoad',  // Load on "window.onload"
     ONDOMREADY: 'onDomReady',  // Load on "document.DOMContentLoaded"
     INHEAD: 'inHead',  // Place script inside <head>…</head>
-    INBODY: 'inBody'  // Place script inside <body>…</body>
-  }
+    INBODY: 'inBody',  // Place script inside <body>…</body>
+  },
 };

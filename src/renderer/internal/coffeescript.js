@@ -26,7 +26,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -43,8 +42,8 @@ cwc.renderer.internal.Coffeescript = function(helper) {
  * Initializes and defines the Coffeescript renderer.
  */
 cwc.renderer.internal.Coffeescript.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -64,12 +63,11 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeader(
+  let coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
+  let header = renderer_helper.getFrameworkHeader(
     cwc.framework.External.COFFEESCRIPT, frameworks
   );
-  var body = '\n<script type="text\/coffeescript">\n' +
+  let body = '\n<script type="text\/coffeescript">\n' +
     coffeescript + '\n</script>\n';
   return renderer_helper.getHTML(body, header);
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.mode.makeblock.mbot.blockly.Layout');
 goog.require('cwc.soy.mode.makeblock.mbot.blockly.Layout');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -37,12 +36,12 @@ cwc.mode.makeblock.mbot.blockly.Layout = function(helper) {
  * Decorates the mbot layout.
  */
 cwc.mode.makeblock.mbot.blockly.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
 
-  var nodes = layoutInstance.getNodes();
+  let nodes = layoutInstance.getNodes();
   console.log('Adding Content');
 
   goog.soy.renderElement(
@@ -56,5 +55,4 @@ cwc.mode.makeblock.mbot.blockly.Layout.prototype.decorate = function() {
       cwc.soy.mode.makeblock.mbot.blockly.Layout.runner,
       {'prefix': this.helper.getPrefix('mbot-runner')}
   );
-
 };

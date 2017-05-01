@@ -23,7 +23,6 @@ goog.require('cwc.file.Type');
 goog.require('cwc.mode.ConfigData');
 
 
-
 /**
  * @constructor
  * @final
@@ -33,16 +32,16 @@ cwc.mode.Config = function() {};
 
 /**
  * @param {!cwc.mode.type} type
- * @param {boolean=} opt_required
+ * @param {boolean=} required
  * @return {Object}
  */
-cwc.mode.Config.get = function(type, opt_required) {
+cwc.mode.Config.get = function(type, required = false) {
   if (type in cwc.mode.ConfigData) {
     return cwc.mode.ConfigData[type];
   } else {
-    var error = 'Mode config for ' + type + ' is not defined !';
-    if (opt_required) {
-      throw 'Required ' + error;
+    let error = 'Mode config for ' + type + ' is not defined !';
+    if (required) {
+      throw new Error('Required ' + error);
     }
     console.warn(error);
   }
@@ -51,14 +50,14 @@ cwc.mode.Config.get = function(type, opt_required) {
 
 
 /**
- * @param {cwc.file.Type} file_type
+ * @param {cwc.file.Type} fileType
  * @return {cwc.mode.ConfigData}
  */
-cwc.mode.Config.getModForFileType = function(file_type) {
+cwc.mode.Config.getModForFileType = function(fileType) {
   for (let mod in cwc.mode.ConfigData) {
-    if (cwc.mode.ConfigData.hasOwnProperty(mod)) {
-      var modConfig = cwc.mode.ConfigData[mod];
-      if (file_type == modConfig.fileType) {
+    if (Object.prototype.hasOwnProperty.call(cwc.mode.ConfigData, mod)) {
+      let modConfig = cwc.mode.ConfigData[mod];
+      if (fileType == modConfig.fileType) {
         return modConfig;
       }
     }

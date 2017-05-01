@@ -19,73 +19,78 @@
  */
 
 
-
 /**
  * Add text.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_text_add'] = function(block) {
-  var text_color = block.getFieldValue('color');
-  var text_font = block.getFieldValue('font');
-  var text_size = block.getFieldValue('size');
-  var value_text = Blockly.JavaScript.valueToCode(
+  let text_color = block.getFieldValue('color');
+  let text_font = block.getFieldValue('font');
+  let text_size = block.getFieldValue('size');
+  let value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
   }
   return 'game.add.text(' + value_x + ', ' + value_y + ', ' + value_text +
-    ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
+    ', { font: \'' + text_size + ' ' + text_font + '\', ' +
     'fill: \'' + text_color + '\'});\n';
 };
 
 
 /**
  * Add dynamic text.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_dynamic_text_add'] = function(block) {
-  var text_color = block.getFieldValue('color');
-  var text_font = block.getFieldValue('font');
-  var text_size = block.getFieldValue('size');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let text_color = block.getFieldValue('color');
+  let text_font = block.getFieldValue('font');
+  let text_size = block.getFieldValue('size');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_text = Blockly.JavaScript.valueToCode(
+  let value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
   }
   return variable + ' = game.add.text(' + value_x + ', ' + value_y + ', ' +
-    value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
+    value_text + ', { font: \'' + text_size + ' ' + text_font + '\', ' +
     'fill: \'' + text_color + '\'});\n';
 };
 
 
 /**
  * Add action text.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_action_text_add'] = function(block) {
-  var text_color = block.getFieldValue('color');
-  var text_font = block.getFieldValue('font');
-  var text_size = block.getFieldValue('size');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let text_color = block.getFieldValue('color');
+  let text_font = block.getFieldValue('font');
+  let text_size = block.getFieldValue('size');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_text = Blockly.JavaScript.valueToCode(
+  let value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   if (/^\d+$/.test(text_size)) {
     text_size = text_size + 'px';
   }
   return variable + ' = game.add.text(' + value_x + ', ' + value_y + ', ' +
-    value_text + ', { font: \'' + text_size + ' ' +  text_font + '\', ' +
+    value_text + ', { font: \'' + text_size + ' ' + text_font + '\', ' +
     'fill: \'' + text_color + '\'});\n' +
     variable + '.inputEnabled = true;\n' +
     variable + '.input.useHandCursor = true;\n';
@@ -94,11 +99,13 @@ Blockly.JavaScript['phaser_action_text_add'] = function(block) {
 
 /**
  * Adjust text.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_text_change'] = function(block) {
-  var value_text = Blockly.JavaScript.valueToCode(
+  let value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC);
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.text = ' + value_text + ';\n';
 };
@@ -106,11 +113,13 @@ Blockly.JavaScript['phaser_text_change'] = function(block) {
 
 /**
  * Get text.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_text_get'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
+  let code = 'isNaN(' + variable + '.text) ? ' + variable + '.text : Number(' +
     variable + '.text)';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -118,11 +127,13 @@ Blockly.JavaScript['phaser_text_get'] = function(block) {
 
 /**
  * Text clicked.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_text_clicked'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  let statements_func = Blockly.JavaScript.statementToCode(block, 'func');
   return variable + '.events.onInputDown.add(function() {\n' +
     statements_func + '}, this);\n';
 };

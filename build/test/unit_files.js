@@ -17,14 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 closureBuilder.build({
   name: 'Unit test - Soy files',
   srcs: glob([
-    'src/renderer/renderer.soy'
+    'src/renderer/renderer.soy',
   ]),
-  out: 'test/genfiles/soy'
+  out: 'test/genfiles/soy',
 });

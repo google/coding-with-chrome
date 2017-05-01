@@ -17,24 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
  * Code Mirror
  */
-var codeMirrorPath = 'third_party/codemirror/';
+let codeMirrorPath = 'third_party/codemirror/';
 
 closureBuilder.build({
   name: 'CodeMirror main',
   resources: [
     codeMirrorPath + 'lib/codemirror.js',
     codeMirrorPath + 'keymap',
-    codeMirrorPath + 'theme'
+    codeMirrorPath + 'theme',
   ],
-  out: 'genfiles/external/codemirror/'
+  out: 'genfiles/external/codemirror/',
 });
 
 closureBuilder.build({
@@ -45,9 +44,9 @@ closureBuilder.build({
     codeMirrorPath + 'addon/fold/foldgutter.css',
     codeMirrorPath + 'addon/search/matchesonscrollbar.css',
     codeMirrorPath + 'addon/hint/show-hint.css',
-    codeMirrorPath + 'addon/lint/lint.css'
+    codeMirrorPath + 'addon/lint/lint.css',
   ],
-  out: 'genfiles/external/codemirror/codemirror.css'
+  out: 'genfiles/external/codemirror/codemirror.css',
 });
 
 closureBuilder.build({
@@ -63,16 +62,16 @@ closureBuilder.build({
     codeMirrorPath + 'addon/scroll/*.js',
     codeMirrorPath + 'addon/search/*.js',
     codeMirrorPath + 'addon/selection/active-line.js',
-    '!' + codeMirrorPath + 'addone/**/test.js'
+    '!' + codeMirrorPath + 'addone/**/test.js',
   ]),
   externs: [
     'build/externs/codemirror.js',
-    'build/externs/global.js'
+    'build/externs/global.js',
   ],
   out: 'genfiles/external/codemirror/addons.js',
   options: {
-    exclude_test: true
-  }
+    exclude_test: true,
+  },
 });
 
 closureBuilder.build({
@@ -87,13 +86,13 @@ closureBuilder.build({
     codeMirrorPath + 'mode/htmlmixed/!(*test).js',
     codeMirrorPath + 'mode/javascript/!(*test).js',
     codeMirrorPath + 'mode/python/!(*test).js',
-    codeMirrorPath + 'mode/schemen/!(*test).js'
+    codeMirrorPath + 'mode/schemen/!(*test).js',
   ]),
   externs: [
     'build/externs/codemirror.js',
-    'build/externs/global.js'
+    'build/externs/global.js',
   ],
-  out: 'genfiles/external/codemirror/modes.js'
+  out: 'genfiles/external/codemirror/modes.js',
 });
 
 
@@ -104,22 +103,22 @@ closureBuilder.build({
   name: 'JSHint files',
   type: closureBuilder.buildType.JAVASCRIPT,
   srcs: [
-    'third_party/jshint/dist/jshint.js'
+    'third_party/jshint/dist/jshint.js',
   ],
   options: {
-    closure : {
-      language_out: 'ES5_STRICT'
-    }
+    closure: {
+      language_out: 'ES5_STRICT',
+    },
   },
   warn: false,
-  out: 'genfiles/external/jshint/jshint.js'
+  out: 'genfiles/external/jshint/jshint.js',
 });
 
 
 /**
  * Blockly
  */
-var BlocklyPath = 'third_party/blockly/';
+let BlocklyPath = 'third_party/blockly/';
 
 closureBuilder.build({
   name: 'Blockly core files',
@@ -129,9 +128,9 @@ closureBuilder.build({
     BlocklyPath + 'blocks_compressed.js',
     BlocklyPath + 'javascript_compressed.js',
     'patches/blockly/audio_preload_patch.js',
-    'patches/blockly/modal_support_patch.js'
+    'patches/blockly/modal_support_patch.js',
   ],
-  out: 'genfiles/external/blockly/'
+  out: 'genfiles/external/blockly/',
 });
 
 
@@ -140,7 +139,7 @@ closureBuilder.build({
   resources: [
     BlocklyPath + 'msg/js/de.js',
     BlocklyPath + 'msg/js/en.js',
-    BlocklyPath + 'msg/js/ko.js'
+    BlocklyPath + 'msg/js/ko.js',
   ],
-  out: 'genfiles/external/blockly/msg/'
+  out: 'genfiles/external/blockly/msg/',
 });

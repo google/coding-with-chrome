@@ -22,7 +22,6 @@ goog.provide('cwc.mode.pencilCode.advanced.Editor');
 goog.require('cwc.ui.Editor');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

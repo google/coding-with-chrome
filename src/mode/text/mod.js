@@ -23,7 +23,6 @@ goog.require('cwc.mode.text.Editor');
 goog.require('cwc.mode.text.Layout');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

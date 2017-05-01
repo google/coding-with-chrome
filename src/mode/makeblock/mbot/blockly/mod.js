@@ -24,8 +24,7 @@ goog.require('cwc.mode.makeblock.mbot.Runner');
 goog.require('cwc.mode.makeblock.mbot.blockly.Editor');
 goog.require('cwc.mode.makeblock.mbot.blockly.Layout');
 goog.require('cwc.mode.makeblock.mbot.Monitor');
-goog.require('cwc.renderer.external.makeblock.mbot');
-
+goog.require('cwc.renderer.external.makeblock.MBot');
 
 
 /**
@@ -42,8 +41,8 @@ cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
   /** @type {cwc.mode.makeblock.mbot.blockly.Layout} */
   this.layout = new cwc.mode.makeblock.mbot.blockly.Layout(helper);
 
-  /** @type {cwc.renderer.external.makeblock.mbot} */
-  this.renderer = new cwc.renderer.external.makeblock.mbot(helper);
+  /** @type {cwc.renderer.external.makeblock.MBot} */
+  this.renderer = new cwc.renderer.external.makeblock.MBot(helper);
 
   /** @type {cwc.mode.makeblock.mbot.Runner} */
   this.runner = new cwc.mode.makeblock.mbot.Runner(helper, this.connection);

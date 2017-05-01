@@ -24,17 +24,16 @@ goog.provide('cwc.framework.Runner');
 goog.require('cwc.utils.StackQueue');
 
 
-
 /**
- * @param {Function=} opt_callback
- * @param {Object=} opt_scope
- * @param {Function=} opt_monitor
+ * @param {Function=} callback
+ * @param {Object=} scope
+ * @param {Function=} monitor
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function(opt_callback, opt_scope, opt_monitor) {
+cwc.framework.Runner = function(callback = null, scope = null, monitor = null) {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -48,13 +47,13 @@ cwc.framework.Runner = function(opt_callback, opt_scope, opt_monitor) {
   this.commands = {};
 
   /** @type {Object} */
-  this.scope = opt_scope || null;
+  this.scope = scope;
 
   /** @private {?Function} */
-  this.callback_ = opt_callback || null;
+  this.callback_ = callback;
 
   /** @private {?Function} */
-  this.monitor_ = opt_monitor || null;
+  this.monitor_ = monitor;
 
   /** @private {!cwc.utils.StackQueue} */
   this.senderStack_ = new cwc.utils.StackQueue();
@@ -100,7 +99,7 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
  */
 cwc.framework.Runner.prototype.enableMonitor = function(code, command,
   monitor_command) {
-  var status = code.includes(command);
+  let status = code.includes(command);
   console.log((status ? 'Enable ' : 'Disable ') + monitor_command + ' ...');
   this.send(monitor_command, {'enable': status});
 };
@@ -109,18 +108,17 @@ cwc.framework.Runner.prototype.enableMonitor = function(code, command,
 /**
  * Sends the defined data to the runner.
  * @param {!string} name
- * @param {Object|string=} opt_value
+ * @param {Object|string=} value
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Runner.prototype.send = function(name, opt_value, opt_delay) {
+cwc.framework.Runner.prototype.send = function(name, value = {}, opt_delay) {
   if (!this.appWindow || !this.appOrigin) {
     console.error('Communication channel has not yet been opened');
     return;
   }
-  var value = opt_value || {};
   if (opt_delay) {
-    var stackCall = function() {
+    let stackCall = function() {
       this.appWindow.postMessage({'command': name, 'value': value},
         this.appOrigin);
     }.bind(this);
@@ -175,7 +173,7 @@ cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
  */
 cwc.framework.Runner.prototype.handleMessage_ = function(event) {
   if (!event) {
-    throw 'Was not able to get browser event!';
+    throw new Error('Was not able to get browser event!');
   }
   if (!this.appWindow && 'source' in event) {
     this.appWindow = event['source'];
@@ -183,8 +181,8 @@ cwc.framework.Runner.prototype.handleMessage_ = function(event) {
   if (!this.appOrigin && 'origin' in event) {
     this.appOrigin = event['origin'];
   }
-  var command = event['data']['command'];
-  var value = event['data']['value'];
+  let command = event['data']['command'];
+  let value = event['data']['value'];
   if (command in this.commands) {
     this.commands[command](value);
   } else {

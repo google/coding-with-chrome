@@ -19,8 +19,8 @@
  */
 
 
-var createES6Preprocessor = function(logger) {
-  var log = logger.create('preprocessor.es6');
+let createES6Preprocessor = function(logger) {
+  let log = logger.create('preprocessor.es6');
   return function(content, file, done) {
     log.debug('Processing "%s".', file.originalPath);
 
@@ -36,5 +36,5 @@ var createES6Preprocessor = function(logger) {
 createES6Preprocessor.$inject = ['logger'];
 
 module.exports = {
-  'preprocessor:es6': ['factory', createES6Preprocessor]
+  'preprocessor:es6': ['factory', createES6Preprocessor],
 };

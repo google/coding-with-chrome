@@ -28,8 +28,7 @@
 
   <div id="{$prefix}overview">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'home' /}
     {/call}
 
@@ -108,8 +107,7 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'basic' /}
     {/call}
 
@@ -191,8 +189,7 @@
 
   <div id="{$prefix}programming-language-overview" class="{$prefix}overview mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
@@ -257,13 +254,11 @@
 
   <div id="{$prefix}javascript-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'javascript' /}
     {/call}
 
@@ -278,8 +273,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty JavaScript project' /}
           {param opt_link_text: 'Empty project' /}
@@ -290,8 +284,7 @@
         {/call}
 
         {if $online}
-          {call cwc.soy.SelectScreenTemplate.selectCardBig}
-            {param prefix: $prefix /}
+          {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
             {param title: 'Video tutorials' /}
             {param text: 'Start learning JavaScript with video tutorials on YouTube' /}
             {param opt_link_text: 'Select Tutorials' /}
@@ -302,8 +295,7 @@
           {/call}
         {/if}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'JavaScript Frameworks' /}
           {param text: 'Different kind of JavaScript framework examples' /}
           {param opt_link_text: 'Select Framework' /}
@@ -313,8 +305,7 @@
           {param opt_text: 'JavaScript Frameworks' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Circle Animation' /}
           {param text: 'Example that animates a circle' /}
           {param link_id: 'circle-animation' /}
@@ -322,8 +313,7 @@
           {param opt_image: 'images/selection/javascript-circle-animation.png' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Triangle animation' /}
           {param text: 'Example that animates a triangle' /}
           {param link_id: 'triangle-animation' /}
@@ -348,13 +338,11 @@
 
   <div id="{$prefix}javascript-videotutorial-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'javascript' /}
     {/call}
 
@@ -418,13 +406,11 @@
 
   <div id="{$prefix}javascript-frameworks-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'javascript' /}
     {/call}
 
@@ -439,8 +425,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Three.js - Cube example' /}
           {param text: 'Animated 3D cube' /}
           {param link_id: 'cube-animation' /}
@@ -465,13 +450,11 @@
 
   <div id="{$prefix}coffeescript-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'coffeescript' /}
     {/call}
 
@@ -486,8 +469,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty CoffeeScript project' /}
           {param opt_link_text: 'Empty project' /}
@@ -514,13 +496,11 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
-      {param active_link: 'python' /}
+    {call .overviewHeader_ data="all"}
+      {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'python' /}
     {/call}
 
@@ -535,8 +515,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
@@ -546,8 +525,7 @@
           {param opt_text: 'Simple python file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Guess number' /}
           {param text: 'Simple guess number game.' /}
           {param link_id: 'guess-number' /}
@@ -576,13 +554,11 @@
 
   <div id="{$prefix}jpencil-code-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'programming-language' /}
     {/call}
 
-    {call .programmingLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .programmingLanguageHeader_ data="all"}
       {param active_link: 'pencil-code' /}
     {/call}
 
@@ -597,8 +573,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty pencil code project' /}
           {param opt_link_text: 'Empty project' /}
@@ -608,8 +583,7 @@
           {param opt_text: 'Pencil Code file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Turtle catch' /}
           {param text: 'Simple game where the goal is to catch a turtle' /}
           {param link_id: 'turtle-catch' /}
@@ -634,8 +608,7 @@
 
   <div class="{$prefix}overview mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'markup-language' /}
     {/call}
 
@@ -651,7 +624,7 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'HTML5' /}
         {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
-        {param opt_link_text: 'Use HTML5' /}
+        {param link_text: 'Use HTML5' /}
         {param id: 'html5' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'public' /}
@@ -672,13 +645,11 @@
 
   <div id="{$prefix}html5-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'markup-language' /}
     {/call}
 
-    {call .markupLanguageHeader_}
-      {param prefix: $prefix /}
+    {call .markupLanguageHeader_ data="all"}
       {param active_link: 'html5' /}
     {/call}
 
@@ -693,8 +664,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty HTML5 project' /}
           {param opt_link_text: 'Empty project' /}
@@ -704,8 +674,7 @@
           {param opt_text: 'HTML5 file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Form example' /}
           {param text: 'HTML5 form example' /}
           {param link_id: 'form' /}
@@ -730,8 +699,7 @@
 
   <div id="{$prefix}robot-overview" class="{$prefix}overview mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
@@ -777,13 +745,11 @@
 
   <div id="{$prefix}ev3-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'ev3' /}
     {/call}
 
@@ -840,13 +806,11 @@
 
   <div id="{$prefix}sphero-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'sphero' /}
     {/call}
 
@@ -861,8 +825,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty Sphero project' /}
           {param opt_link_text: 'Empty project' /}
@@ -872,8 +835,7 @@
           {param opt_text: 'Sphero file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Rectangle example' /}
           {param text: 'Example Sphero is rolling a rectangle' /}
           {param link_id: 'rectangle' /}
@@ -902,8 +864,7 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'games' /}
     {/call}
 
@@ -918,8 +879,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
@@ -946,8 +906,7 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: '3d' /}
     {/call}
 
@@ -962,8 +921,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
@@ -973,8 +931,7 @@
           {param opt_text: 'Simple 3D file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: '3D cube animation' /}
           {param text: 'Animated 3D cube' /}
           {param link_id: 'cube-animation' /}

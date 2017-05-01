@@ -37,7 +37,7 @@ Blockly.Blocks['phaser_input'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -57,7 +57,7 @@ Blockly.Blocks['phaser_input_keyboard_cursor_keys_add'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -77,7 +77,7 @@ Blockly.Blocks['phaser_input_keyboard_spacebar_add'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -98,7 +98,7 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
           ['w', 'Phaser.KeyCode.W'],
           ['a', 'Phaser.KeyCode.A'],
           ['s', 'Phaser.KeyCode.S'],
-          ['d', 'Phaser.KeyCode.D']
+          ['d', 'Phaser.KeyCode.D'],
         ]), 'keycode')
         .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
@@ -106,7 +106,7 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -126,7 +126,7 @@ Blockly.Blocks['phaser_input_mouse_keys_add'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -144,14 +144,14 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
           [i18t('down'), '.down'],
           [i18t('left'), '.left'],
           [i18t('right'), '.right'],
-          [i18t('key pressed'), '']
+          [i18t('key pressed'), ''],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -169,14 +169,14 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
           [i18t('down'), '.down'],
           [i18t('left'), '.left'],
           [i18t('right'), '.right'],
-          [i18t('key pressed'), '']
+          [i18t('key pressed'), ''],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -194,7 +194,7 @@ Blockly.Blocks['phaser_input_keyboard_key_is_pressed'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -212,7 +212,7 @@ Blockly.Blocks['phaser_input_keyboard_key_is_hold_pressed'] = {
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -228,14 +228,14 @@ Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
         .appendField(new Blockly.FieldDropdown([
           [i18t('left'), 'leftButton.isDown'],
           [i18t('right'), 'rightButton.isDown'],
-          [i18t('all'), 'isDown']
+          [i18t('all'), 'isDown'],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -251,12 +251,12 @@ Blockly.Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
         .appendField(new Blockly.FieldDropdown([
           [i18t('left'), 'leftButton.isDown'],
           [i18t('right'), 'rightButton.isDown'],
-          [i18t('all'), 'isDown']
+          [i18t('all'), 'isDown'],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(135);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -24,7 +24,6 @@ goog.provide('cwc.protocol.makeblock.mbot.Monitoring');
 goog.require('goog.Timer');
 
 
-
 /**
  * @constructor
  * @param {!cwc.protocol.makeblock.mbot.Api} api
@@ -32,7 +31,6 @@ goog.require('goog.Timer');
  * @final
  */
 cwc.protocol.makeblock.mbot.Monitoring = function(api) {
-
   /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = api;
 
@@ -121,7 +119,7 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.stop = function() {
  */
 cwc.protocol.makeblock.mbot.Monitoring.prototype.addEventListener_ = function(
     src, type, listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

@@ -21,12 +21,14 @@
 
 /**
  * Add background tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_background'] = function(block) {
-  var text_sprite = block.getFieldValue('sprite');
-  var value_x = Blockly.JavaScript.valueToCode(block,
+  let text_sprite = block.getFieldValue('sprite');
+  let value_x = Blockly.JavaScript.valueToCode(block,
     'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(block,
+  let value_y = Blockly.JavaScript.valueToCode(block,
     'y', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.add.tileSprite(0, 0, game.world.width, game.world.height,' +
     '\'' + text_sprite + '\').autoScroll(' + value_x + ', ' + value_y + ');\n';
@@ -35,14 +37,16 @@ Blockly.JavaScript['phaser_tile_sprite_background'] = function(block) {
 
 /**
  * Add floor tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_floor_add'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var text_sprite = block.getFieldValue('sprite');
-  var value_x = Blockly.JavaScript.valueToCode(block,
+  let text_sprite = block.getFieldValue('sprite');
+  let value_x = Blockly.JavaScript.valueToCode(block,
     'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(block,
+  let value_y = Blockly.JavaScript.valueToCode(block,
     'y', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.tileSprite(0, (game.world.height - 50), ' +
     'game.world.width, 50, \'' + text_sprite + '\');\n' +
@@ -54,14 +58,16 @@ Blockly.JavaScript['phaser_tile_sprite_floor_add'] = function(block) {
 
 /**
  * Add ceiling tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_ceiling_add'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var text_sprite = block.getFieldValue('sprite');
-  var value_x = Blockly.JavaScript.valueToCode(block,
+  let text_sprite = block.getFieldValue('sprite');
+  let value_x = Blockly.JavaScript.valueToCode(block,
     'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(block,
+  let value_y = Blockly.JavaScript.valueToCode(block,
     'y', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.tileSprite(0, 0, ' +
     'game.world.width, 50, \'' + text_sprite + '\');\n' +
@@ -73,16 +79,18 @@ Blockly.JavaScript['phaser_tile_sprite_ceiling_add'] = function(block) {
 
 /**
  * Add tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
-  var number_width = block.getFieldValue('width');
-  var number_height = block.getFieldValue('height');
-  var text_sprite = block.getFieldValue('sprite');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let number_width = block.getFieldValue('width');
+  let number_height = block.getFieldValue('height');
+  let text_sprite = block.getFieldValue('sprite');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   return variable + ' = game.add.tileSprite(' + value_x + ', ' + value_y +
     ', ' + number_width + ', ' + number_height + ', \'' + text_sprite +
@@ -92,12 +100,14 @@ Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
 
 /**
  * Adjust tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_property = block.getFieldValue('property');
-  var value_value = Blockly.JavaScript.valueToCode(block,
+  let dropdown_property = block.getFieldValue('property');
+  let value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'anchor.set':
@@ -113,16 +123,18 @@ Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
 
 /**
  * Crop tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_crop'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var number_top = block.getFieldValue('top');
-  var number_right = block.getFieldValue('right');
-  var number_bottom = block.getFieldValue('bottom');
-  var number_left = block.getFieldValue('left');
-  var crop_width = Number(number_right) + Number(number_left);
-  var crop_height = Number(number_bottom)  + Number(number_top);
+  let number_top = block.getFieldValue('top');
+  let number_right = block.getFieldValue('right');
+  let number_bottom = block.getFieldValue('bottom');
+  let number_left = block.getFieldValue('left');
+  let crop_width = Number(number_right) + Number(number_left);
+  let crop_height = Number(number_bottom) + Number(number_top);
 
   return variable + '.tilePosition.y = -' + number_top + ';\n' +
     variable + '.width -= ' + crop_width + ';\n' +
@@ -133,23 +145,27 @@ Blockly.JavaScript['phaser_tile_sprite_crop'] = function(block) {
 
 /**
  * Destroy tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_destroy'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return  variable + '.destroy();\n';
+  return variable + '.destroy();\n';
 };
 
 
 /**
  * Auto scroll tile sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_autoScroll'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_x = Blockly.JavaScript.valueToCode(block,
+  let value_x = Blockly.JavaScript.valueToCode(block,
     'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(block,
+  let value_y = Blockly.JavaScript.valueToCode(block,
     'y', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.autoScroll(' + value_x + ', ' + value_y + ');\n';
 };
@@ -157,9 +173,11 @@ Blockly.JavaScript['phaser_tile_sprite_autoScroll'] = function(block) {
 
 /**
  * Immovable title sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_tile_sprite_immovable'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.physics.arcade.enable(' + variable + ');\n' +
     variable + '.body.immovable = true;\n';

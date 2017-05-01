@@ -22,7 +22,6 @@ goog.provide('cwc.mode.arduino.Layout');
 goog.require('cwc.soy.mode.Arduino');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -37,7 +36,7 @@ cwc.mode.arduino.Layout = function(helper) {
  * Decorates the Arduino layout.
  */
 cwc.mode.arduino.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(500);
 
   goog.soy.renderElement(
@@ -51,5 +50,4 @@ cwc.mode.arduino.Layout.prototype.decorate = function() {
       cwc.soy.mode.Arduino.runner,
       {'prefix': this.helper.getPrefix('arduino-runner')}
   );
-
 };

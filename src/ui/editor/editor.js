@@ -39,7 +39,6 @@ goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
 
 
-
 /**
  * Customizable Code Editor.
  * @param {!cwc.utils.Helper} helper
@@ -122,7 +121,7 @@ cwc.ui.Editor = function(helper) {
     'CodeMirror-linenumbers',
     'CodeMirror-breakpoints',
     'CodeMirror-foldgutter',
-    'CodeMirror-lint-markers'
+    'CodeMirror-lint-markers',
   ];
 
   /** @type {!Array} */
@@ -161,7 +160,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
       this.node, cwc.soy.ui.Editor.template, {
         experimental: this.helper.experimentalEnabled(),
         modes: CodeMirror.mimeModes || {},
-        prefix: this.prefix
+        prefix: this.prefix,
       }
   );
 
@@ -191,18 +190,18 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   // Decorate editor mode select.
   goog.events.listen(this.nodeInfobarModes, goog.events.EventType.CLICK,
     function(event) {
-      var value = event.target.firstChild.data;
+      let value = event.target.firstChild.data;
       this.setEditorMode(value);
     }, false, this);
 
   // Add event listener to monitor changes like resize and unload.
-  var viewportMonitor = new goog.dom.ViewportSizeMonitor();
+  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
   this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
@@ -223,33 +222,35 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
     return;
   }
 
-  var extraKeys = {
-    'Ctrl-Q': function(cm) { cm.foldCode(cm.getCursor()); },
+  let extraKeys = {
+    'Ctrl-Q': function(cm) {
+ cm.foldCode(cm.getCursor());
+},
     'Ctrl-J': 'toMatchingTag',
     'Cmd-Space': 'autocomplete',
-    'Ctrl-Space': 'autocomplete'
+    'Ctrl-Space': 'autocomplete',
   };
 
-  var foldGutterEvent = {
+  let foldGutterEvent = {
     'rangeFinder': new CodeMirror.fold.combine(CodeMirror.fold.brace,
                                                CodeMirror.fold.comment)};
-  var gutterClickEvent = function(cm, n) {
-    var info = cm.lineInfo(n);
+  let gutterClickEvent = function(cm, n) {
+    let info = cm.lineInfo(n);
     cm.setGutterMarker(n,
         'CodeMirror-breakpoints',
         info.gutterMarkers ? null : cwc.ui.Editor.createMarker());
   };
-  var cursorEvent = this.updateCursorPosition.bind(this);
-  var changeEvent = this.handleChangeEvent.bind(this);
+  let cursorEvent = this.updateCursorPosition.bind(this);
+  let changeEvent = this.handleChangeEvent.bind(this);
   this.editor = new CodeMirror(node);
   this.editor.setOption('autoCloseBrackets', true);
   this.editor.setOption('autoCloseTags', true);
   this.editor.setOption('extraKeys', extraKeys);
   this.editor.setOption('foldGutter', foldGutterEvent);
   this.editor.setOption('gutters', this.gutters);
-  this.editor.setOption('highlightSelectionMatches', { showToken: /\w/});
+  this.editor.setOption('highlightSelectionMatches', {showToken: /\w/});
   this.editor.setOption('lineNumbers', true);
-  this.editor.setOption('matchTags', { bothTags: true });
+  this.editor.setOption('matchTags', {bothTags: true});
   this.editor.setOption('rulers', this.rulers);
   this.editor.setOption('showTrailingSpace', true);
   this.editor.setOption('styleActiveLine', true);
@@ -394,17 +395,17 @@ cwc.ui.Editor.prototype.setEditorHints = function(hints) {
 
 
 /**
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {Object}
  */
-cwc.ui.Editor.prototype.getEditorContent = function(opt_name) {
-  var editorContent = {};
+cwc.ui.Editor.prototype.getEditorContent = function(optName) {
+  let editorContent = {};
 
-  if (opt_name) {
-    if (opt_name in this.editorView) {
-      return this.editorView[opt_name].getContent();
+  if (optName) {
+    if (optName in this.editorView) {
+      return this.editorView[optName].getContent();
     } else {
-      console.error('Editor content', opt_name, 'is not defined!');
+      console.error('Editor content', optName, 'is not defined!');
     }
   } else {
     for (let view in this.editorView) {
@@ -424,7 +425,7 @@ cwc.ui.Editor.prototype.getEditorContent = function(opt_name) {
  */
 cwc.ui.Editor.prototype.setEditorContent = function(content,
     opt_view) {
-  var view = opt_view || cwc.file.ContentType.CUSTOM;
+  let view = opt_view || cwc.file.ContentType.CUSTOM;
   if (view in this.editorView) {
     this.editorView[view].setContent(content);
   } else {
@@ -447,11 +448,10 @@ cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(
  * @param {event=} opt_event
  */
 cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
-
-  var fileUi = this.helper.getInstance('file').getUi();
+  let fileUi = this.helper.getInstance('file').getUi();
+  let blocklyInstance = this.helper.getInstance('blockly');
   switch (fileUi) {
     case 'blockly':
-      var blocklyInstance = this.helper.getInstance('blockly');
       if (blocklyInstance) {
         console.log('Syncing JavaScript from Blockly...');
         this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
@@ -493,7 +493,7 @@ cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
  */
 cwc.ui.Editor.prototype.refreshEditor = function() {
   this.editor.refresh();
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.refresh();
   }
@@ -533,7 +533,7 @@ cwc.ui.Editor.prototype.selectAll = function() {
  * Clears selection in the editor.
  */
 cwc.ui.Editor.prototype.selectNone = function() {
-  var position = this.cursorPosition || this.editor.getCursor('start');
+  let position = this.cursorPosition || this.editor.getCursor('start');
   this.editor.setCursor(position);
 };
 
@@ -562,7 +562,7 @@ cwc.ui.Editor.prototype.changeView = function(name) {
     return;
   }
 
-  var editorView = this.editorView[name];
+  let editorView = this.editorView[name];
   this.editor.swapDoc(editorView.getDoc());
   this.currentEditorView = name;
   this.setEditorMode(editorView.getType());
@@ -574,11 +574,11 @@ cwc.ui.Editor.prototype.changeView = function(name) {
  * Adds a new editor view with the given name.
  * @param {!string} name
  * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorType=} optType
  * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  */
-cwc.ui.Editor.prototype.addView = function(name, opt_content, opt_type,
+cwc.ui.Editor.prototype.addView = function(name, opt_content, optType,
     opt_hints, opt_flags) {
   if (name in this.editorView) {
     console.error('Editor View', name, 'already exists!');
@@ -586,11 +586,11 @@ cwc.ui.Editor.prototype.addView = function(name, opt_content, opt_type,
   }
 
   console.log('Create Editor View', name,
-    (opt_type ? 'with type' : ''), opt_type,
+    (optType ? 'with type' : ''), optType,
     (opt_hints ? 'and hints' : ''),
     (opt_content ? 'for content:' : ''), '\n...\n' + opt_content + '\n...');
 
-  this.editorView[name] = new cwc.ui.EditorView(opt_content, opt_type,
+  this.editorView[name] = new cwc.ui.EditorView(opt_content, optType,
     opt_hints, opt_flags);
 
   if (this.toolbar) {
@@ -620,7 +620,7 @@ cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
       this.toolbar.enableUndoButton(this.modified);
     }
   }
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setStatus(this.modified ? '*' : '');
   }
@@ -687,16 +687,16 @@ cwc.ui.Editor.prototype.adjustSize = function() {
     return;
   }
 
-  var parentElement = goog.dom.getParentElement(this.node);
+  let parentElement = goog.dom.getParentElement(this.node);
   if (parentElement) {
-    var parentSize = goog.style.getSize(parentElement);
-    var newHeight = parentSize.height;
+    let parentSize = goog.style.getSize(parentElement);
+    let newHeight = parentSize.height;
     if (this.nodeToolbar) {
-      var toolbarSize = goog.style.getSize(this.nodeToolbar);
+      let toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
     if (this.nodeInfobar) {
-      var infobarSize = goog.style.getSize(this.nodeInfobar);
+      let infobarSize = goog.style.getSize(this.nodeInfobar);
       newHeight = newHeight - infobarSize.height;
     }
     this.editor.setSize(parentSize.width, newHeight);
@@ -731,7 +731,7 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
  * Updates the editor Toolbar.
  */
 cwc.ui.Editor.prototype.updateToolbar = function() {
-  var editorMode = this.getEditorMode();
+  let editorMode = this.getEditorMode();
   if (editorMode !== this.editorType && this.toolbar) {
     console.info('Update Toolbar for', editorMode);
     this.toolbar.updateToolbar(editorMode);
@@ -745,7 +745,7 @@ cwc.ui.Editor.prototype.updateToolbar = function() {
  */
 cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
   if (this.nodeInfobarLineCol) {
-    var position = cm.getCursor();
+    let position = cm.getCursor();
     goog.dom.setTextContent(this.nodeInfobarLineCol,
         (position['line'] + 1) + ' : ' + (position['ch'] + 1));
   }
@@ -765,7 +765,7 @@ cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
  */
 cwc.ui.Editor.prototype.addEventListener = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

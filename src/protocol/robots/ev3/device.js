@@ -34,23 +34,22 @@ cwc.protocol.ev3.DeviceName = {
   MEDIUM_MOTOR_OPT: 'Opt Medium Servo Motor',
   TOUCH_SENSOR: 'Touch Sensor',
   TOUCH_SENSOR_OPT: 'Opt Touch Sensor',
-  ULTRASONIC_SENSOR: 'Ultrasonic Sensor'
+  ULTRASONIC_SENSOR: 'Ultrasonic Sensor',
 };
-
 
 
 /**
  * @param {!cwc.protocol.ev3.DeviceName} name
  * @param {number=} opt_mode
- * @param {number=} opt_value
+ * @param {number=} optValue
  * @param {string=} opt_css
  * @constructor
  */
-cwc.protocol.ev3.Device = function(name, opt_mode, opt_value, opt_css) {
+cwc.protocol.ev3.Device = function(name, opt_mode, optValue, opt_css) {
   this.name = name;
   this.mode = opt_mode || 0;
   this.css = opt_css || 'default';
-  this.value = opt_value || 0;
+  this.value = optValue || 0;
 };
 
 

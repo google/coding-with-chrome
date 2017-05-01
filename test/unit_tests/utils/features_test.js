@@ -20,12 +20,9 @@
 goog.require('cwc.utils.Features');
 
 
-
 describe('Features', function() {
-
   it('constructor', function() {
-    var features = new cwc.utils.Features();
+    let features = new cwc.utils.Features();
     expect(typeof features).toEqual('object');
   });
-
 });

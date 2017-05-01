@@ -20,10 +20,9 @@
 
 
 describe('Builder', function() {
-  var builder = new cwc.ui.Builder();
+  let builder = new cwc.ui.Builder();
 
   it('export', function() {
     expect(typeof builder).toEqual('object');
   });
-
 });

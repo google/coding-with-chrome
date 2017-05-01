@@ -20,7 +20,6 @@
 goog.provide('cwc.protocol.raspberryPi.Events');
 
 
-
 /**
  * Custom events.
  * @enum {string}
@@ -32,23 +31,24 @@ cwc.protocol.raspberryPi.Events.Type = {
 
 /**
  * @param {Object|number} data
+ * @return {!cwc.protocol.raspberryPi.Events.Data_}
  * @final
  */
 cwc.protocol.raspberryPi.Events.recievedData = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.protocol.raspberryPi.Events.Data_(
       cwc.protocol.raspberryPi.Events.Type.RECIEVED_DATA, data);
 };
 
 
 /**
- * @param {!cwc.protocol.ev3.Events.Type} type
+ * @param {!cwc.protocol.raspberryPi.Events.Type} type
  * @param {Object|number=} opt_data
  * @constructor
  * @final
  * @private
  */
 cwc.protocol.raspberryPi.Events.Data_ = function(type, opt_data) {
-  /** @type {!cwc.protocol.ev3.Events.Type} */
+  /** @type {!cwc.protocol.raspberryPi.Events.Type} */
   this.type = type;
 
   /** @type {!Object|number} */

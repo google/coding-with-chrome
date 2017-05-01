@@ -53,5 +53,5 @@ cwc.file.Type = {
   SPHERO: 'sphero',
   SPHERO_BLOCKLY: 'sphero_blockly',
   TEXT: 'text',
-  UNKNOWN: 'unknown'
+  UNKNOWN: 'unknown',
 };

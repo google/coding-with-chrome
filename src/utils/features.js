@@ -26,10 +26,8 @@ goog.require('goog.events.OnlineHandler');
 goog.require('goog.net.NetworkStatusMonitor');
 
 
-
 /**
  * Helper for automatic feature detection.
- * @return {!cwc.utils.Features}
  * @constructor
  * @final
  * @export
@@ -89,7 +87,6 @@ cwc.utils.Features.prototype.detectFeatures = function() {
  * @export
  */
 cwc.utils.Features.prototype.detectBrowserFeatures = function(opt_event) {
-
   // Storage features.
   this.setBrowserFeature('storage', typeof Storage);
   this.setBrowserFeature('globalStorage', typeof globalStorage);
@@ -178,7 +175,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function(opt_event) {
     this.setChromeFeature('manifest.oauth2', false);
     this.setChromeFeature('manifest.key', false);
     if (this.getChromeFeature('manifest')) {
-      var manifest = chrome.runtime.getManifest();
+      let manifest = chrome.runtime.getManifest();
       this.setChromeFeature('manifest.oauth2', typeof manifest.oauth2);
       this.setChromeFeature('manifest.key', typeof manifest.key);
     }
@@ -219,7 +216,7 @@ cwc.utils.Features.prototype.detectOnlineStatus = function(opt_event) {
  * @export
  */
 cwc.utils.Features.prototype.monitorOnlineStatus = function() {
-  var onlineHandler = new goog.events.OnlineHandler();
+  let onlineHandler = new goog.events.OnlineHandler();
   if (!this.offlineMonitor_) {
     this.offlineMonitor_ = goog.events.listen(onlineHandler,
         goog.net.NetworkStatusMonitor.EventType.OFFLINE,
@@ -241,7 +238,7 @@ cwc.utils.Features.prototype.monitorOnlineStatus = function() {
  * @export
  */
 cwc.utils.Features.prototype.get = function(name, opt_group) {
-  var group = opt_group || this.defaultGroup;
+  let group = opt_group || this.defaultGroup;
   if (!(group in this.feature_)) {
     this.log_.warn('Feature group', group, 'is unknown!');
     return false;
@@ -258,21 +255,23 @@ cwc.utils.Features.prototype.get = function(name, opt_group) {
  * @param {string} name
  * @param {string|boolean} value
  * @param {string=} opt_group
+ * @return {boolean|string}
  * @export
  */
 cwc.utils.Features.prototype.set = function(name, value, opt_group) {
-  var group = opt_group || this.defaultGroup;
+  let group = opt_group || this.defaultGroup;
   this.log_.debug('Set', group, 'feature', name, 'to', value);
   if (!(group in this.feature_)) {
     this.feature_[group] = {};
   }
-  var state = value;
+  let state = value;
   if (value == 'undefined') {
     state = false;
   } else if (value == 'object' || value == 'function') {
     state = true;
   }
   this.feature_[group][name] = state;
+  return state;
 };
 
 
@@ -309,6 +308,7 @@ cwc.utils.Features.prototype.getJavaScriptFeature = function(name) {
 /**
  * @param {string} name
  * @param {string|boolean} value
+ * @return {string|boolean}
  * @export
  */
 cwc.utils.Features.prototype.setBrowserFeature = function(name, value) {
@@ -319,6 +319,7 @@ cwc.utils.Features.prototype.setBrowserFeature = function(name, value) {
 /**
  * @param {string} name
  * @param {string|boolean} value
+ * @return {string|boolean}
  * @export
  */
 cwc.utils.Features.prototype.setChromeFeature = function(name, value) {
@@ -329,6 +330,7 @@ cwc.utils.Features.prototype.setChromeFeature = function(name, value) {
 /**
  * @param {string} name
  * @param {string|boolean} value
+ * @return {string|boolean}
  * @export
  */
 cwc.utils.Features.prototype.setJavaScriptFeature = function(name, value) {

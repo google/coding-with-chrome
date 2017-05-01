@@ -25,7 +25,6 @@ goog.provide('cwc.framework.Sphero');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!Function} code
@@ -38,7 +37,9 @@ cwc.framework.Sphero = function(code) {
   this.name = 'Sphero Framework';
 
   /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.code = function() {
+    code(this);
+  }.bind(this);
 
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(this.code, this);
@@ -84,6 +85,7 @@ cwc.framework.Sphero.prototype.setBackLed = function(brightness, opt_delay) {
 
 /**
  * @param {!number} timeout in msec
+ * @param {number=} opt_delay
  * @export
  */
 cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, opt_delay) {
@@ -109,15 +111,14 @@ cwc.framework.Sphero.prototype.roll = function(opt_speed, opt_heading,
 
 /**
  * @param {!number} time in sec
- * @param {number=} opt_speed 0-255
+ * @param {number=} speed 0-255
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_stop
  * @export
  */
-cwc.framework.Sphero.prototype.rollTime = function(time, opt_speed, opt_heading,
-    opt_stop) {
-  var rollTime = Math.floor(time*2) || 0;
-  var speed = opt_speed || 20;
+cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20,
+    opt_heading, opt_stop) {
+  let rollTime = Math.floor(time*2) || 0;
   for (let num = 0; num < rollTime; num++) {
     this.roll(speed, opt_heading, true, 500);
   }
@@ -151,7 +152,7 @@ cwc.framework.Sphero.prototype.stop = function(opt_delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.calibrate = function(heading) {
-  this.runner.send('calibrate', {'heading': heading });
+  this.runner.send('calibrate', {'heading': heading});
 };
 
 

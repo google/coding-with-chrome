@@ -23,7 +23,6 @@ goog.require('cwc.soy.mode.HTML5');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -41,7 +40,7 @@ cwc.mode.html5.Layout = function(helper) {
  * Decorates the HTML5 layout.
  */
 cwc.mode.html5.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(630);
 
   goog.soy.renderElement(
@@ -55,5 +54,4 @@ cwc.mode.html5.Layout.prototype.decorate = function() {
       cwc.soy.mode.HTML5.preview,
       {'prefix': this.prefix}
   );
-
 };

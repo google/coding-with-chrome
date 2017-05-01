@@ -33,7 +33,6 @@ goog.require('cwc.mode.Type');
 cwc.fileHandler.ConfigData = {};
 
 
-
 /**
  * @constructor
  * @struct
@@ -54,7 +53,7 @@ cwc.fileHandler.Config = function() {};
  */
 cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
     opt_content_type, opt_content, opt_config) {
-  var config = opt_config || {};
+  let config = opt_config || {};
   config.name = name;
   config.file = file;
   config.type = type;
@@ -72,7 +71,7 @@ cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
       config.editor_views = [
         cwc.file.ContentType.JAVASCRIPT,
         cwc.file.ContentType.HTML,
-        cwc.file.ContentType.CSS
+        cwc.file.ContentType.CSS,
       ];
     } else if (file == cwc.fileFormat.File.getPencilCodeFile) {
       config.editor_views = [cwc.file.ContentType.COFFEESCRIPT];
@@ -100,9 +99,9 @@ cwc.fileHandler.Config.get = function(type, opt_required) {
   if (type in cwc.fileHandler.ConfigData) {
     return cwc.fileHandler.ConfigData[type];
   } else {
-    var error = 'File config for ' + type + ' is not defined!';
+    let error = 'File config for ' + type + ' is not defined!';
     if (opt_required) {
-      throw 'Required ' + error;
+      throw new Error('Required ' + error);
     }
     console.warn(error);
     console.info('Supported file types:', cwc.fileHandler.ConfigData);
@@ -132,7 +131,7 @@ cwc.fileHandler.Config.add('Basic file',
     null, {
       library: true,
       preview: true,
-      auto_update: true });
+      auto_update: true});
 
 
 /**
@@ -146,7 +145,7 @@ cwc.fileHandler.Config.add('Basic blockly file',
     null,
     null, {
       library: true,
-      preview: true });
+      preview: true});
 
 
 /**
@@ -161,7 +160,7 @@ cwc.fileHandler.Config.add('Basic advanced file',
     null, {
       library: true,
       preview: true,
-      auto_update: true });
+      auto_update: true});
 
 
 /**
@@ -242,7 +241,7 @@ cwc.fileHandler.Config.add('Pencil Code file',
     null, {
       library: true,
       preview: true,
-      auto_update: true });
+      auto_update: true});
 
 
 /**
@@ -256,7 +255,7 @@ cwc.fileHandler.Config.add('Phaser file',
     null,
     null, {
       library: true,
-      preview: true });
+      preview: true});
 
 
 /**
@@ -270,7 +269,7 @@ cwc.fileHandler.Config.add('Phaser blockly file',
     null,
     null, {
       library: true,
-      preview: true });
+      preview: true});
 
 
 /**

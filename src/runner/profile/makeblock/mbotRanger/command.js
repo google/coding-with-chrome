@@ -20,7 +20,6 @@
 goog.provide('cwc.runner.profile.makeblock.mbotRanger.Command');
 
 
-
 /**
  * @param {!cwc.protocol.makeblock.mbotRanger.Api} api
  * @constructor
@@ -37,7 +36,7 @@ cwc.runner.profile.makeblock.mbotRanger.Command = function(api) {
 
 
 goog.scope(function() {
-  var Command = cwc.runner.profile.makeblock.mbotRanger.Command.prototype;
+  let Command = cwc.runner.profile.makeblock.mbotRanger.Command.prototype;
 
   /**
    * Move mBot forward or backward.
@@ -122,6 +121,4 @@ goog.scope(function() {
   Command['setUltrasonicMonitor'] = function(data) {
     this.monitoring.setUltrasonicMonitor(data['enable']);
   };
-
-
 }); // goog.scope

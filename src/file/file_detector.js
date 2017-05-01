@@ -23,7 +23,6 @@ goog.require('cwc.file.Type');
 goog.require('cwc.fileFormat.FILE_HEADER');
 
 
-
 /**
  * @param {string|Object=} opt_content
  * @param {string=} opt_filename
@@ -47,19 +46,18 @@ cwc.file.detector = function(opt_content, opt_filename) {
  * @return {!cwc.file.Type}
  */
 cwc.file.detector.detectType = function(content, opt_filename) {
-  var filename = opt_filename || 'unknown';
-  var data = content;
-  var jsonData = cwc.file.detector.getJsonData(content);
+  let filename = opt_filename || 'unknown';
+  let data = content;
+  let jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
     // JSON file
-    var jsonFormat = jsonData['format'] || '';
+    let jsonFormat = jsonData['format'] || '';
     if (jsonFormat == cwc.fileFormat.FILE_HEADER) {
       return jsonData['type'] || cwc.file.Type.UNKNOWN;
     } else {
       return cwc.file.Type.JSON;
     }
   } else if (cwc.file.detector.isValidString(data)) {
-
     // CoffeeScript file
     if (filename.endsWith('.coffee')) {
       return cwc.file.Type.COFFEESCRIPT;
@@ -97,7 +95,7 @@ cwc.file.detector.detectType = function(content, opt_filename) {
  * @return {*}
  */
 cwc.file.detector.getJsonData = function(content) {
-  var jsonData = null;
+  let jsonData = null;
   if (typeof content == 'object') {
     return content;
   } else {
@@ -116,9 +114,9 @@ cwc.file.detector.getJsonData = function(content) {
  * @return {boolean}
  */
 cwc.file.detector.isChrogFile = function(content) {
-  var jsonData = cwc.file.detector.getJsonData(content);
+  let jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
-    var jsonFormat = jsonData['format'] || '';
+    let jsonFormat = jsonData['format'] || '';
     if (jsonFormat == cwc.fileFormat.FILE_HEADER) {
       return true;
     }

@@ -30,7 +30,6 @@ goog.provide('cwc.protocol.makeblock.mbot.Port');
 goog.provide('cwc.protocol.makeblock.mbot.Slot');
 
 
-
 /**
  * In future developments, this should be replaced by a state machine.
  * @enum {!Object.<string>|number}
@@ -38,7 +37,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Slot');
 cwc.protocol.makeblock.mbot.ByteType = {
   INDEX: 2,
   DATATYPE: 3,
-  PAYLOAD: 4
+  PAYLOAD: 4,
 };
 
 
@@ -50,7 +49,7 @@ cwc.protocol.makeblock.mbot.CommandType = {
   GET: 0x01,
   RUN: 0x02,
   RESET: 0x04,
-  START: 0x05
+  START: 0x05,
 };
 
 
@@ -62,7 +61,7 @@ cwc.protocol.makeblock.mbot.DataType = {
   BYTE: 1,
   FLOAT: 2,
   SHORT: 3,
-  STRING: 4
+  STRING: 4,
 };
 
 
@@ -80,7 +79,7 @@ cwc.protocol.makeblock.mbot.Device = {
   IRREMOTE: 14,
   LINEFOLLOWER: 17,
   BUTTON: 22,
-  BUZZER: 34
+  BUZZER: 34,
 };
 
 
@@ -101,7 +100,7 @@ cwc.protocol.makeblock.mbot.IndexType = {
   LINEFOLLOWER: 0x11,
   LIGHTSENSOR: 0x12,
   VERSION: 0x20,
-  INNER_BUTTON: 0x80
+  INNER_BUTTON: 0x80,
 };
 
 
@@ -115,7 +114,7 @@ cwc.protocol.makeblock.mbot.Port = {
   LIGHTSENSOR: 0x06,
   LED_LIGHT: 0x07,
   LEFT_MOTOR: 0x09,
-  RIGHT_MOTOR: 0x0A
+  RIGHT_MOTOR: 0x0A,
 };
 
 
@@ -124,5 +123,5 @@ cwc.protocol.makeblock.mbot.Port = {
  * @enum {!Object.<string>|number}
  */
 cwc.protocol.makeblock.mbot.Slot = {
-  LED_LIGHT: 0x02
+  LED_LIGHT: 0x02,
 };

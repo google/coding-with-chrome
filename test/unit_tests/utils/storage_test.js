@@ -22,20 +22,19 @@ goog.require('cwc.utils.StorageCustom');
 
 
 describe('Storage', function() {
-
-  var storage = new cwc.utils.Storage();
-  var testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
-  var testValue = Math.floor(Math.random()*1000000);
-  var testGroup = 'group_12345';
+  let storage = new cwc.utils.Storage();
+  let testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
+  let testValue = Math.floor(Math.random()*1000000);
+  let testGroup = 'group_12345';
 
   it('constructor', function() {
     expect(typeof storage).toEqual('object');
   });
 
   it('prepare', function() {
-    var callback = function(storage_object) {
-      expect(typeof storage_object).toEqual('object');
-    }.bind(this);
+    let callback = function(storageObject) {
+      expect(typeof storageObject).toEqual('object');
+    };
     storage.prepare(callback);
   });
 
@@ -60,14 +59,12 @@ describe('Storage', function() {
     storage.remove(testItem, testGroup);
     expect(storage.get(testItem, testGroup)).toEqual(null);
   });
-
 });
 
 
 describe('Storage - Custom', function() {
-
-  var testValue = Math.floor(Math.random()*1000000);
-  var customStorage = new cwc.utils.StorageCustom();
+  let testValue = Math.floor(Math.random()*1000000);
+  let customStorage = new cwc.utils.StorageCustom();
 
   it('constructor', function() {
     expect(typeof customStorage).toEqual('object');
@@ -89,14 +86,12 @@ describe('Storage - Custom', function() {
     customStorage.clear();
     expect(customStorage.get('123')['123']).toBe(undefined);
   });
-
 });
 
 
 describe('Storage - Chrome Mode', function() {
-
   // Emulate Chrome storage
-  var customStorage = new cwc.utils.StorageCustom();
+  let customStorage = new cwc.utils.StorageCustom();
   chrome = chrome || {};
   chrome.storage = {};
   chrome.storage.local = {};
@@ -104,19 +99,19 @@ describe('Storage - Chrome Mode', function() {
   chrome.storage.local.set = customStorage.set.bind(customStorage);
 
   // Storage
-  var storage = new cwc.utils.Storage();
-  var testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
-  var testValue = Math.floor(Math.random()*1000000);
-  var testGroup = 'group_12345';
+  let storage = new cwc.utils.Storage();
+  let testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
+  let testValue = Math.floor(Math.random()*1000000);
+  let testGroup = 'group_12345';
 
   it('constructor', function() {
     expect(typeof storage).toEqual('object');
   });
 
   it('prepare', function() {
-    var callback = function(storage_object) {
-      expect(typeof storage_object).toEqual('object');
-    }.bind(this);
+    let callback = function(storageObject) {
+      expect(typeof storageObject).toEqual('object');
+    };
     storage.prepare(callback);
   });
 
@@ -152,5 +147,4 @@ describe('Storage - Chrome Mode', function() {
         });
       });
   });
-
 });

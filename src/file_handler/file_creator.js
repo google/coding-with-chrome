@@ -25,7 +25,6 @@ goog.require('cwc.fileHandler.Config');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -46,7 +45,7 @@ cwc.fileHandler.FileCreator = function(helper) {
  * @export
  */
 cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
-  var fileConfig = cwc.fileHandler.Config.get(file_type);
+  let fileConfig = cwc.fileHandler.Config.get(file_type);
   if (!fileConfig) {
     console.error('Filetype', file_type, 'is not supported!');
     return;
@@ -54,7 +53,7 @@ cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
   console.log('Create file for', file_type, ':', fileConfig);
 
   // Creates empty .cwc file with the given file_type.
-  var file = fileConfig.file(fileConfig.content || '', file_type,
+  let file = fileConfig.file(fileConfig.content || '', file_type,
       fileConfig.contentType);
 
   if (fileConfig.contentType && fileConfig.content) {
@@ -92,8 +91,8 @@ cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
  */
 cwc.fileHandler.FileCreator.prototype.loadFile = function(file,
     name) {
-  var fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-  var fileContent = file.getJson();
+  let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
+  let fileContent = file.getJson();
   if (!fileContent) {
     console.error('No valid file content:', fileContent, 'for', file);
   }

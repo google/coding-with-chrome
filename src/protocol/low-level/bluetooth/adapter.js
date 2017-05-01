@@ -20,14 +20,12 @@
 goog.provide('cwc.protocol.bluetooth.Adapter');
 
 
-
 /**
  * @param {!cwc.ui.helper} helper
  * @param {!chrome.bluetooth} bluetooth
  * @constructor
  */
 cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
-
   /** @type {cwc.utils.Helper} */
   this.helper = helper;
 
@@ -106,7 +104,7 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
   if (adapter_info && this.available && this.powered && !this.enabled) {
     console.log('Enable Bluetooth adapter:', adapter_info);
     this.enabled = true;
-    var bluetoothInstance = this.helper.getInstance('bluetooth');
+    let bluetoothInstance = this.helper.getInstance('bluetooth');
     if (bluetoothInstance) {
       bluetoothInstance.updateDevices();
     }
@@ -118,7 +116,7 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
     console.log(adapter_info);
     this.enabled = false;
   }
-  var menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setBluetoothEnabled(this.enabled);
   }

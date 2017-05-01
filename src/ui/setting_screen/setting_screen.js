@@ -27,7 +27,6 @@ goog.require('goog.events');
 goog.require('goog.soy');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -61,11 +60,11 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
       {'prefix': this.prefix}
   );
 
-  var userConfigInstance = this.helper.getInstance('userConfig');
-  var advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
-  var closeButton = goog.dom.getElement(this.prefix + 'close');
-  var setLanguage = goog.dom.getElement(this.prefix + 'language');
-  var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  let advancedMode = goog.dom.getElement(this.prefix + 'advanced-mode');
+  let closeButton = goog.dom.getElement(this.prefix + 'close');
+  let setLanguage = goog.dom.getElement(this.prefix + 'language');
+  let showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
 
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
@@ -84,7 +83,7 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
 
   goog.events.listen(setLanguage, goog.events.EventType.CLICK,
     function(event) {
-      var value = event.target.firstChild.data;
+      let value = event.target.firstChild.data;
       userConfigInstance.set(cwc.userConfigType.GENERAL,
         cwc.userConfigName.LANGUAGE, value);
     }, false, this);
@@ -131,8 +130,8 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
  * Shows settings screen.
  */
 cwc.ui.SettingScreen.prototype.show = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var overlayNode = layoutInstance.getOverlay();
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let overlayNode = layoutInstance.getOverlay();
   this.decorate(overlayNode);
   layoutInstance.showOverlay(true);
 };
@@ -142,7 +141,7 @@ cwc.ui.SettingScreen.prototype.show = function() {
  * Hides settings screen.
  */
 cwc.ui.SettingScreen.prototype.hide = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.showOverlay(false);
 };
 
@@ -151,22 +150,22 @@ cwc.ui.SettingScreen.prototype.hide = function() {
  * @param {!string} id
  * @param {!cwc.userConfigType|string} type
  * @param {!cwc.userConfigName|string} name
- * @param {string=} opt_type
- * @param {Function=} opt_func
+ * @param {string=} optType
+ * @param {Function=} optFunc
  */
 cwc.ui.SettingScreen.prototype.setConfig_ = function(id, type, name,
-    opt_type, opt_func) {
-  var userConfigInstance = this.helper.getInstance('userConfig');
-  var settingNode = goog.dom.getElement(this.prefix + id);
-  var status = userConfigInstance.get(type, name);
+    optType, optFunc) {
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  let settingNode = goog.dom.getElement(this.prefix + id);
+  let status = userConfigInstance.get(type, name);
   if (status !== null) {
     settingNode.checked = status;
   }
-  if (opt_func) {
-    goog.events.listen(settingNode, goog.events.EventType.CHANGE, opt_func,
+  if (optFunc) {
+    goog.events.listen(settingNode, goog.events.EventType.CHANGE, optFunc,
       false, this);
   } else {
-    switch (opt_type) {
+    switch (optType) {
       case 'select':
         goog.events.listen(settingNode, goog.events.EventType.CLICK,
           function(event) {

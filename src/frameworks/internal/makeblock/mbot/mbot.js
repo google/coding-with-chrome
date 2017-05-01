@@ -23,7 +23,6 @@ goog.provide('cwc.framework.makeblock.mBot');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!Function} code
@@ -36,7 +35,9 @@ cwc.framework.makeblock.mBot = function(code) {
   this.name = 'mbot Framework';
 
   /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.code = function() {
+code(this);
+}.bind(this);
 
   /** @private {!function(?)} */
   this.emptyFunction_ = function() {};
@@ -156,16 +157,15 @@ cwc.framework.makeblock.mBot.prototype.getUltrasonicSensorValue = function() {
 };
 
 
-
 /**
  * @param {!number} speed
  * @return {!number} Calculated delay + buffer.
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
-  var buffer = 250;
-  var motorSpeed = this.motorSpeed;
-  var delay = Math.floor(
+  let buffer = 250;
+  let motorSpeed = this.motorSpeed;
+  let delay = Math.floor(
     ((Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
   return delay;
 };
@@ -179,7 +179,7 @@ cwc.framework.makeblock.mBot.prototype.getDelay = function(speed) {
  */
 cwc.framework.makeblock.mBot.prototype.rotatePower = function(speed,
     opt_delay) {
-  var delay = /** @type {number|undefined} */ (
+  let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(speed) : opt_delay);
   this.runner.send('rotatePower', {
     'speed': speed}, delay);
@@ -207,7 +207,7 @@ cwc.framework.makeblock.mBot.prototype.rotatePowerTime = function(time, speed) {
  * @export
  */
 cwc.framework.makeblock.mBot.prototype.movePower = function(speed, opt_delay) {
-  var delay = /** @type {number|undefined} */ (
+  let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(speed) : opt_delay);
   this.runner.send('movePower', {
     'speed': speed}, delay);

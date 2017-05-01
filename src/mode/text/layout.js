@@ -22,7 +22,6 @@ goog.provide('cwc.mode.text.Layout');
 goog.require('cwc.soy.mode.Text');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -40,7 +39,7 @@ cwc.mode.text.Layout = function(helper) {
  * Decorates the text layout.
  */
 cwc.mode.text.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleSingleColumnLayout();
 
   goog.soy.renderElement(
@@ -48,5 +47,4 @@ cwc.mode.text.Layout.prototype.decorate = function() {
       cwc.soy.mode.Text.editor,
       {'prefix': this.prefix}
   );
-
 };

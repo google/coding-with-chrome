@@ -21,25 +21,33 @@
 
 goog.provide('cwc.config.GDrive');
 
+
+/**
+ * Google Drive config
+ */
 cwc.config.GDrive = {
   PAGE_SIZE: 1000,
   ORDER_BY: 'folder,modifiedTime desc,name',
   FILE_FIELDS: 'files(id,mimeType,parents,iconLink,modifiedTime,name,owners)',
   FOLDER_MIME_TYPE: 'application/vnd.google-apps.folder',
   EXT_TO_MIME_TYPE: {
-    'py':   'text/python',
+    'py': 'text/python',
     'html': 'text/html',
-    'cwc':  'application/cwc',
+    'cwc': 'application/cwc',
   },
   MIME_TYPES: [],
   ACCEPTED_MIME_TYPE_QUERY: '(',
 };
 
-for (var ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
-  var mimeType = cwc.config.GDrive.EXT_TO_MIME_TYPE[ext];
-  cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY += (
-    'mimeType = \'' + mimeType + '\' or ');
-  cwc.config.GDrive.MIME_TYPES.push(mimeType);
+for (let ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
+  if (Object.prototype.hasOwnProperty.call(
+      cwc.config.GDrive.EXT_TO_MIME_TYPE, ext)) {
+    let mimeType = cwc.config.GDrive.EXT_TO_MIME_TYPE[ext];
+    cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY += (
+      'mimeType = \'' + mimeType + '\' or ');
+    cwc.config.GDrive.MIME_TYPES.push(mimeType);
+  }
 }
+
 cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY += (
   'mimeType = \'application/vnd.google-apps.folder\')');

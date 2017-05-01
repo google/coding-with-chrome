@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
@@ -31,8 +30,8 @@ closureBuilder.build({
     'src/blocks/**/*.js',
   ]),
   externs: [
-    'build/externs/blockly.js'
+    'build/externs/blockly.js',
   ],
   jscomp_off: ['checkVars'],
-  out: 'genfiles/js/cwc_blocks.js'
+  out: 'genfiles/js/cwc_blocks.js',
 });

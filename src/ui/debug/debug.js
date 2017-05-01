@@ -28,7 +28,6 @@ goog.require('cwc.ui.MessageType');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -56,7 +55,7 @@ cwc.ui.Debug = function(helper) {
  * Prepares the debug screen.
  */
 cwc.ui.Debug.prototype.prepare = function() {
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
         cwc.userConfigName.DEBUG_MODE) || false;
@@ -80,7 +79,7 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
         file_types: cwc.file.Type,
         mode_types: cwc.mode.Type,
         dialog_types: cwc.utils.DialogType,
-        message_types: cwc.ui.MessageType
+        message_types: cwc.ui.MessageType,
       }
   );
 
@@ -102,7 +101,7 @@ cwc.ui.Debug.prototype.addEvents = function() {
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
       this.handleMessageType);
 
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   this.addLinkHandler(goog.dom.getElement(this.prefix + 'dialog_show'),
     function() {
       this.helper.getInstance('dialog').show();
@@ -135,7 +134,7 @@ cwc.ui.Debug.prototype.addEvents = function() {
  * @param {?} opt_event
  */
 cwc.ui.Debug.prototype.close = function(opt_event) {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.showOverlay(false);
 };
 
@@ -144,8 +143,8 @@ cwc.ui.Debug.prototype.close = function(opt_event) {
  * @param {?} event
  */
 cwc.ui.Debug.prototype.handleFileType = function(event) {
-  var target = event.target;
-  var fileType = target.options[target.selectedIndex].value;
+  let target = event.target;
+  let fileType = target.options[target.selectedIndex].value;
   console.log('FileType:', fileType);
   if (fileType) {
     this.newFile(cwc.file.Type[fileType]);
@@ -157,8 +156,8 @@ cwc.ui.Debug.prototype.handleFileType = function(event) {
  * @param {?} event
  */
 cwc.ui.Debug.prototype.handleModeType = function(event) {
-  var target = event.target;
-  var editorMode = target.options[target.selectedIndex].value;
+  let target = event.target;
+  let editorMode = target.options[target.selectedIndex].value;
   console.log('ModeType:', editorMode);
   if (editorMode) {
     this.newMode(cwc.mode.Type[editorMode]);
@@ -170,8 +169,8 @@ cwc.ui.Debug.prototype.handleModeType = function(event) {
  * @param {?} event
  */
 cwc.ui.Debug.prototype.handleMessageType = function(event) {
-  var target = event.target;
-  var messageType = target.options[target.selectedIndex].value;
+  let target = event.target;
+  let messageType = target.options[target.selectedIndex].value;
   console.log('MessageType:', messageType);
   if (messageType) {
     this.newMessage(cwc.ui.MessageType[messageType]);
@@ -202,7 +201,7 @@ cwc.ui.Debug.prototype.addChangeHandler = function(element, func) {
  * @param {cwc.file.Type} type
  */
 cwc.ui.Debug.prototype.newFile = function(type) {
-  var fileCreatorInstance = this.helper.getInstance('fileCreator');
+  let fileCreatorInstance = this.helper.getInstance('fileCreator');
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
@@ -214,7 +213,7 @@ cwc.ui.Debug.prototype.newFile = function(type) {
  * @param {cwc.file.Type} type
  */
 cwc.ui.Debug.prototype.newMode = function(type) {
-  var modeInstance = this.helper.getInstance('mode');
+  let modeInstance = this.helper.getInstance('mode');
   if (modeInstance) {
     modeInstance.setMode(type);
   }
@@ -226,7 +225,7 @@ cwc.ui.Debug.prototype.newMode = function(type) {
  * @param {cwc.file.Type} type
  */
 cwc.ui.Debug.prototype.newMessage = function(type) {
-  var messageInstance = this.helper.getInstance('message');
+  let messageInstance = this.helper.getInstance('message');
   if (messageInstance) {
     messageInstance.showMessage('Test message: ' + type, type);
   }
@@ -234,16 +233,16 @@ cwc.ui.Debug.prototype.newMessage = function(type) {
 
 
 /**
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {!boolean}
  * @export
  */
-cwc.ui.Debug.prototype.isEnabled = function(opt_name) {
-  if (!opt_name) {
+cwc.ui.Debug.prototype.isEnabled = function(optName) {
+  if (!optName) {
     return this.enabled;
   }
 
-  var name = opt_name || 'ENABLED';
+  let name = optName || 'ENABLED';
   if (name in cwc.config.Debug) {
     return cwc.config.Debug[name];
   }

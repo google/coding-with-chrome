@@ -22,6 +22,7 @@
 goog.provide('cwc.ui.Builder');
 goog.provide('cwc.ui.BuilderHelpers');
 
+goog.require('cwc.UserConfig');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileCreator');
@@ -62,7 +63,6 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.connectScreen.Screens');
-goog.require('cwc.userConfig');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
@@ -70,7 +70,6 @@ goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
-
 
 
 /**
@@ -101,7 +100,7 @@ cwc.ui.BuilderHelpers = {
   'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
-  'turtle': cwc.ui.Turtle
+  'turtle': cwc.ui.Turtle,
 };
 
 
@@ -122,7 +121,7 @@ cwc.ui.supportedProtocols = {
   'ev3': cwc.protocol.ev3.Api,
   'mbot': cwc.protocol.makeblock.mbot.Api,
   'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
-  'sphero': cwc.protocol.sphero.Api
+  'sphero': cwc.protocol.sphero.Api,
 };
 
 
@@ -133,7 +132,7 @@ cwc.ui.supportedProtocols = {
 cwc.ui.oauth2Helpers = {
   'account': cwc.ui.Account,
   'gcloud': cwc.ui.GCloud,
-  'gdrive': cwc.ui.GDrive
+  'gdrive': cwc.ui.GDrive,
 };
 
 
@@ -183,11 +182,10 @@ cwc.ui.Builder = function() {
 /**
  * Decorates the given node and adds the code editor.
  * @param {!Element|string} node
- * @param {Element=} opt_overlayer
+ * @param {Element=} overlayer
  * @export
  */
-cwc.ui.Builder.prototype.decorate = function(node,
-    opt_overlayer) {
+cwc.ui.Builder.prototype.decorate = function(node, overlayer = null) {
   this.setProgress('Loading Coding with Chrome editor ...', 1, 1);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
@@ -196,10 +194,10 @@ cwc.ui.Builder.prototype.decorate = function(node,
   } else {
     this.raiseError('Required node is neither a string or an object!');
   }
-  this.nodeOverlayer = opt_overlayer || null;
+  this.nodeOverlayer = overlayer;
 
   this.addEventListener_(window, goog.events.EventType.ERROR, function(event) {
-    var browserEvent = event.getBrowserEvent();
+    let browserEvent = event.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
@@ -207,7 +205,6 @@ cwc.ui.Builder.prototype.decorate = function(node,
   if (!this.error) {
     this.loadStorage_();
   }
-
 };
 
 
@@ -216,7 +213,7 @@ cwc.ui.Builder.prototype.decorate = function(node,
  * @private
  */
 cwc.ui.Builder.prototype.loadStorage_ = function() {
-  var storageInstance = new cwc.utils.Storage();
+  let storageInstance = new cwc.utils.Storage();
   if (!storageInstance) {
     this.loadI18n_();
     return;
@@ -231,7 +228,7 @@ cwc.ui.Builder.prototype.loadStorage_ = function() {
  * @private
  */
 cwc.ui.Builder.prototype.loadUserConfig_ = function() {
-  var userConfigInstance = new cwc.userConfig(this.helper);
+  let userConfigInstance = new cwc.UserConfig(this.helper);
   if (userConfigInstance) {
     this.helper.setInstance('userConfig', userConfigInstance);
   }
@@ -244,20 +241,20 @@ cwc.ui.Builder.prototype.loadUserConfig_ = function() {
  * @private
  */
 cwc.ui.Builder.prototype.loadI18n_ = function() {
-  var i18nInstance = new cwc.utils.I18n();
+  let i18nInstance = new cwc.utils.I18n();
   if (!i18nInstance) {
     this.loadUI();
     return;
   }
   this.helper.setInstance('i18n', i18nInstance);
 
-  var blacklistFile = '../js/locales/blacklist.js';
-  var language = 'en';
-  var languageFile = '../js/locales/en.js';
-  var blocklyLanguageFile = '';
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let blacklistFile = '../js/locales/blacklist.js';
+  let language = 'en';
+  let languageFile = '../js/locales/en.js';
+  let blocklyLanguageFile = '';
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
-    var userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
+    let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE);
     if (userLanguage && userLanguage != language) {
       console.log('Using user preferred language:', userLanguage);
@@ -284,7 +281,6 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
  * Loads and construct the main ui screen.
  */
 cwc.ui.Builder.prototype.loadUI = function() {
-
   if (!this.error) {
     this.setProgress('Checking requirements ...', 10, 100);
     this.checkRequirements();
@@ -371,10 +367,10 @@ cwc.ui.Builder.prototype.loadUI = function() {
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
   this.log_.info('[' + current + '%] ' + text);
-  var loader = this.chromeApp_ && chrome.app.window.get('loader');
+  let loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
-      'command': 'progress', 'text': text, 'current': current, 'total': total
+      'command': 'progress', 'text': text, 'current': current, 'total': total,
     }, '*');
   }
 };
@@ -384,7 +380,7 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
  * Closes the Loader window.
  */
 cwc.ui.Builder.prototype.closeLoader = function() {
-  var loader = this.chromeApp_ && chrome.app.window.get('loader');
+  let loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({'command': 'close'}, '*');
   }
@@ -392,19 +388,18 @@ cwc.ui.Builder.prototype.closeLoader = function() {
 
 
 /**
- * @param {!string} error_msg
- * @param {boolean=} opt_skip_throw
- * @return {throw}
+ * @param {!string} error
+ * @param {boolean=} skipThrow
  */
-cwc.ui.Builder.prototype.raiseError = function(error_msg, opt_skip_throw) {
+cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
   this.error = true;
-  var loader = this.chromeApp_ && chrome.app.window.get('loader');
+  let loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
-      'command': 'error', 'msg': error_msg}, '*');
+      'command': 'error', 'msg': error}, '*');
   }
-  if (!opt_skip_throw) {
-    throw error_msg;
+  if (!skipThrow) {
+    throw error;
   }
 };
 
@@ -413,7 +408,6 @@ cwc.ui.Builder.prototype.raiseError = function(error_msg, opt_skip_throw) {
  * Checks additional requirements.
  */
 cwc.ui.Builder.prototype.checkRequirements = function() {
-
   if (!this.helper.checkJavaScriptFeature('codemirror')) {
     this.raiseError('Unable to find CodeMirror !\n' +
         'Please check if you have included the CodeMirror files.');
@@ -443,7 +437,6 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
     this.raiseError('Unable to find Blockly !\n' +
         'Please check if you have included the Blockly files.');
   }
-
 };
 
 
@@ -451,11 +444,11 @@ cwc.ui.Builder.prototype.checkRequirements = function() {
  * Prepares account if needed.
  */
 cwc.ui.Builder.prototype.prepareAccount = function() {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   if (accountInstance) {
     accountInstance.prepare();
   } else {
-    var menubarInstance = this.helper.getInstance('menubar');
+    let menubarInstance = this.helper.getInstance('menubar');
     if (menubarInstance) {
       menubarInstance.setAuthenticated(false);
     }
@@ -467,7 +460,7 @@ cwc.ui.Builder.prototype.prepareAccount = function() {
  * Prepare Bluetooth interface if needed.
  */
 cwc.ui.Builder.prototype.prepareBluetooth = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (this.helper.checkChromeFeature('bluetooth') && bluetoothInstance) {
     bluetoothInstance.prepare();
   }
@@ -478,7 +471,7 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
  * Prepare serial interface if needed.
  */
 cwc.ui.Builder.prototype.prepareSerial = function() {
-  var serialInstance = this.helper.getInstance('serial');
+  let serialInstance = this.helper.getInstance('serial');
   if (this.helper.checkChromeFeature('serial') && serialInstance) {
     serialInstance.prepare();
   }
@@ -490,7 +483,7 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
  * @private
  */
 cwc.ui.Builder.prototype.prepareDebug_ = function() {
-  var debugInstance = new cwc.ui.Debug(this.helper);
+  let debugInstance = new cwc.ui.Debug(this.helper);
   if (debugInstance) {
     debugInstance.prepare();
   }
@@ -503,7 +496,7 @@ cwc.ui.Builder.prototype.prepareDebug_ = function() {
  * @private
  */
 cwc.ui.Builder.prototype.prepareExperimental_ = function() {
-  var experimentalInstance = new cwc.ui.Experimental(this.helper);
+  let experimentalInstance = new cwc.ui.Experimental(this.helper);
   if (experimentalInstance) {
     experimentalInstance.prepare();
   }
@@ -515,7 +508,7 @@ cwc.ui.Builder.prototype.prepareExperimental_ = function() {
  * Prepare dialog.
  */
 cwc.ui.Builder.prototype.prepareDialog = function() {
-  var dialogInstance = new cwc.utils.Dialog();
+  let dialogInstance = new cwc.utils.Dialog();
   if (dialogInstance) {
     dialogInstance.setDefaultCloseHandler(
       function() {
@@ -532,9 +525,9 @@ cwc.ui.Builder.prototype.prepareDialog = function() {
  */
 cwc.ui.Builder.prototype.prepareProtocols = function() {
   this.log_.debug('Prepare Protocols instances ...');
-  var protocols = cwc.ui.supportedProtocols;
-  var numOfProtocols = Object.keys(protocols).length;
-  var counter = 1;
+  let protocols = cwc.ui.supportedProtocols;
+  let numOfProtocols = Object.keys(protocols).length;
+  let counter = 1;
   for (let protocol in protocols) {
     if (protocols.hasOwnProperty(protocol)) {
       this.setProgress('Loading protocol: ' + protocol, counter,
@@ -552,9 +545,9 @@ cwc.ui.Builder.prototype.prepareProtocols = function() {
  */
 cwc.ui.Builder.prototype.prepareHelper = function() {
   this.log_.debug('Prepare Helper instances ...');
-  var helpers = cwc.ui.BuilderHelpers;
-  var numOfHelpers = Object.keys(helpers).length;
-  var counter = 1;
+  let helpers = cwc.ui.BuilderHelpers;
+  let numOfHelpers = Object.keys(helpers).length;
+  let counter = 1;
   for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading helper: ' + helper, counter,
@@ -572,9 +565,9 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
  */
 cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
   this.log_.debug('Prepare OAuth2 Helper instances ...');
-  var helpers = cwc.ui.oauth2Helpers;
-  var numOfHelpers = Object.keys(helpers).length;
-  var counter = 1;
+  let helpers = cwc.ui.oauth2Helpers;
+  let numOfHelpers = Object.keys(helpers).length;
+  let counter = 1;
   for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
       this.setProgress('Loading OAuth2 helper: ' + helper, counter,
@@ -589,15 +582,14 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 
 /**
  * @param {!cwc.utils.HelperInstance} instance
- * @param {!string} instance_name
+ * @param {!string} instanceName
  */
-cwc.ui.Builder.prototype.loadHelper = function(instance,
-    instance_name) {
+cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
   if (!goog.isFunction(instance)) {
-    this.raiseError('Helper ' + instance_name + ' is not defined!');
+    this.raiseError('Helper ' + instanceName + ' is not defined!');
   }
-  var helperInstance = new instance(this.helper);
-  this.helper.setInstance(instance_name, helperInstance);
+  let helperInstance = new instance(this.helper);
+  this.helper.setInstance(instanceName, helperInstance);
 };
 
 
@@ -605,7 +597,7 @@ cwc.ui.Builder.prototype.loadHelper = function(instance,
  * Loads additional frameworks for the renderer.
  */
 cwc.ui.Builder.prototype.loadFrameworks = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
+  let rendererInstance = this.helper.getInstance('renderer', true);
 
   this.setProgress('Pre-loading external frameworks ...', 50, 100);
   rendererInstance.loadFrameworks(cwc.framework.External,
@@ -626,7 +618,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   }
 
   // Decorate GUI with all other components.
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance && !this.error) {
     this.setProgress('Decorate gui ...', 30, 100);
     guiInstance.decorate(this.node);
@@ -635,7 +627,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
   }
 
   // Prepare Layout
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.setProgress('Prepare layout ...', 60, 100);
     layoutInstance.prepare();
@@ -649,7 +641,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
  * Shows select screen.
  */
 cwc.ui.Builder.prototype.showSelectScreen = function() {
-  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.showSelectScreen();
   }
@@ -664,13 +656,13 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function()} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} useCapture
+ * @param {Object=} listenerScope
  * @private
  */
-cwc.ui.Builder.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
+cwc.ui.Builder.prototype.addEventListener_ = function(src, type, listener,
+    useCapture = false, listenerScope = null) {
+  let eventListener = goog.events.listen(src, type, listener, useCapture,
+      listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

@@ -26,7 +26,6 @@ goog.require('goog.net.XhrIo');
 goog.require('goog.structs.Map');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -65,7 +64,6 @@ cwc.ui.Account = function(helper) {
 
   /** @type {string} */
   this.userLink = '';
-
 };
 
 
@@ -85,8 +83,8 @@ cwc.ui.Account.prototype.prepare = function() {
  */
 cwc.ui.Account.prototype.authenticate = function() {
   console.log('Try to authenticated...');
-  var authentificationEvent = this.handleAuthentication_.bind(this);
-  chrome.identity.getAuthToken({ 'interactive': true }, authentificationEvent);
+  let authentificationEvent = this.handleAuthentication_.bind(this);
+  chrome.identity.getAuthToken({'interactive': true}, authentificationEvent);
 };
 
 
@@ -95,8 +93,8 @@ cwc.ui.Account.prototype.authenticate = function() {
  */
 cwc.ui.Account.prototype.deauthenticate = function() {
   console.log('De-authenticated token: ' + this.accessToken);
-  var unauthenticationEvent = this.setUnauthenticated.bind(this);
-  chrome.identity.removeCachedAuthToken({ 'token': this.accessToken },
+  let unauthenticationEvent = this.setUnauthenticated.bind(this);
+  chrome.identity.removeCachedAuthToken({'token': this.accessToken},
       unauthenticationEvent);
 };
 
@@ -105,8 +103,8 @@ cwc.ui.Account.prototype.deauthenticate = function() {
  * @return {boolean} Whether the user is authenticated.
  */
 cwc.ui.Account.prototype.isAuthenticated = function() {
-  var authentificationEvent = this.handleAuthentication_.bind(this);
-  chrome.identity.getAuthToken({ 'interactive': false }, authentificationEvent);
+  let authentificationEvent = this.handleAuthentication_.bind(this);
+  chrome.identity.getAuthToken({'interactive': false}, authentificationEvent);
   return this.authenticated;
 };
 
@@ -117,7 +115,7 @@ cwc.ui.Account.prototype.isAuthenticated = function() {
 cwc.ui.Account.prototype.requestUserInfo = function() {
   this.request({
     'path': '/oauth2/v1/userinfo',
-    'callback':  this.setUserInfo.bind(this)
+    'callback': this.setUserInfo.bind(this),
   });
 };
 
@@ -164,12 +162,12 @@ cwc.ui.Account.prototype.setUnauthenticated = function() {
  * @param {!boolean} authenticated
  */
 cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
-  var menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setAuthenticated(authenticated);
   }
 
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.enableOpenGoogleDriveFile(authenticated);
     navigationInstance.enableSaveGoogleDriveFile(authenticated);
@@ -195,41 +193,43 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  * @param {function(?)=} callback Called when http request completes.
  */
 cwc.ui.Account.prototype.request = function(opts, callback) {
-  var params = opts.params || {};
+  let params = opts.params || {};
 
   if (!this.authenticated) {
     this.authenticate();
   }
 
-  var subdomain = 'www';
+  let subdomain = 'www';
   if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
       opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
     subdomain = opts.subdomain;
   }
 
-  var uri =  subdomain + '.googleapis.com';
-  var url = goog.Uri.create('https', null, uri, null, opts.path);
+  let uri = subdomain + '.googleapis.com';
+  let url = goog.Uri.create('https', null, uri, null, opts.path);
   if (opts.raw) {
     url = new goog.Uri(opts.path);
   }
-  var method = opts.method || 'GET';
-  var content = opts.content;
-  var token = opts.token || this.accessToken || '';
+  let method = opts.method || 'GET';
+  let content = opts.content;
+  let token = opts.token || this.accessToken || '';
 
   for (let i in params) {
-    url.setParameterValue(i, params[i]);
+    if (Object.prototype.hasOwnProperty.call(params, i)) {
+      url.setParameterValue(i, params[i]);
+    }
   }
 
-  var headers = new goog.structs.Map(opts.header);
+  let headers = new goog.structs.Map(opts.header);
   headers.set('Authorization', 'Bearer ' + token);
   headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 
-  var xhrRepsonseEvent = function(event) {
+  let xhrRepsonseEvent = function(event) {
     this.handleXhrResponse(event, callback);
   };
 
   /** @type {goog.net.XhrIo} */
-  var xhr = new goog.net.XhrIo();
+  let xhr = new goog.net.XhrIo();
   goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
       false, this);
   goog.events.listen(xhr, goog.net.EventType.ERROR, this.handleXhrError,
@@ -245,25 +245,23 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
 /**
  * Handles the Xhr repsonse.
  * @param {Event} e
- * @param {function(?)=} opt_callback
+ * @param {function(?)=} optCallback
  */
-cwc.ui.Account.prototype.handleXhrResponse = function(e,
-    opt_callback) {
-
+cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
   /** @type {EventTarget|goog.net.XhrIo} */
-  var xhr = e.target;
-  var response = '';
+  let xhr = e.target;
+  let response = '';
   console.log('Handle Xhr response:', xhr);
 
   if (xhr.isSuccess()) {
-    var rawResponse = xhr.getResponseText();
+    let rawResponse = xhr.getResponseText();
     try {
       response = JSON.parse(rawResponse);
     } catch (error) {
       response = rawResponse;
     }
-    if (goog.isFunction(opt_callback)) {
-      opt_callback(response);
+    if (goog.isFunction(optCallback)) {
+      optCallback(response);
     }
   }
 };
@@ -303,7 +301,7 @@ cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
     this.helper.showSuccess('Successful authenticated...');
   } else {
     this.setUnauthenticated();
-    var errorMsg = chrome.runtime.lastError.message;
+    let errorMsg = chrome.runtime.lastError.message;
     this.helper.showError('Authentication failed: ' + errorMsg);
   }
 };

@@ -24,7 +24,6 @@ goog.require('cwc.protocol.ev3.CallbackType');
 goog.require('cwc.protocol.ev3.Command');
 
 
-
 /**
  * @constructor
  * @struct
@@ -38,10 +37,11 @@ cwc.protocol.ev3.Commands = function() {
 
 /**
  * @param {!string} name
- * @param {!Object} param
+ * @param {Object} args
+ * @return {Object}
  */
-cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
-  var key = this.getCacheName(name, param);
+cwc.protocol.ev3.Commands.prototype.getCache = function(name, ...args) {
+  let key = this.getCacheName(name, args);
   if (key in this.cache_) {
     return this.cache_[key];
   }
@@ -51,22 +51,24 @@ cwc.protocol.ev3.Commands.prototype.getCache = function(name, param) {
 
 /**
  * @param {!string} name
- * @param {!Object} param
- * @param {!Object} result
+ * @param {!Object} data
+ * @param {Object} args
+ * @return {Object}
  */
-cwc.protocol.ev3.Commands.prototype.setCache = function(name, param, result) {
-  var key = this.getCacheName(name, param);
-  this.cache_[key] = result;
-  return result;
+cwc.protocol.ev3.Commands.prototype.setCache = function(name, data, ...args) {
+  let key = this.getCacheName(name, args);
+  this.cache_[key] = data;
+  return data;
 };
 
 
 /**
  * @param {!string} name
- * @param {!Object} params
+ * @param {!Object} args
+ * @return {!string}
  */
-cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, params) {
-  return name + ':' + JSON.stringify(Array.prototype.slice.call(params));
+cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, args) {
+  return name + ':' + JSON.stringify(Array.prototype.slice.call(args));
 };
 
 
@@ -76,7 +78,7 @@ cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, params) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getBattery = function() {
-  var buffer = new cwc.protocol.ev3.Buffer(0, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0, 0,
       cwc.protocol.ev3.CallbackType.BATTERY);
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.READ.BATTERY);
   buffer.writeIndex();
@@ -91,7 +93,7 @@ cwc.protocol.ev3.Commands.prototype.getBattery = function() {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getDeviceType = function(port) {
-  var buffer = new cwc.protocol.ev3.Buffer(0x7F, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x7F, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_NAME);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.GETDEVICENAME);
   buffer.writeNullByte();
@@ -108,7 +110,7 @@ cwc.protocol.ev3.Commands.prototype.getDeviceType = function(port) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
-  var buffer = new cwc.protocol.ev3.Buffer(0x10, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x10, 0,
       cwc.protocol.ev3.CallbackType.FIRMWARE);
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.READ.FIRMWARE);
   buffer.writeByte(0x10);
@@ -125,11 +127,11 @@ cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
-  var cache = this.getCache('getActorData', arguments);
+  let cache = this.getCache('getActorData', port, opt_mode);
   if (cache) {
     return cache;
   }
-  var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.ACTOR_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READRAW);
   buffer.writeNullByte();
@@ -138,7 +140,7 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getActorData', arguments, buffer.readSigned());
+  return this.setCache('getActorData', buffer.readSigned(), port, opt_mode);
 };
 
 
@@ -150,11 +152,11 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
-  var cache = this.getCache('getSensorData', arguments);
+  let cache = this.getCache('getSensorData', port, opt_mode);
   if (cache) {
     return cache;
   }
-  var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
      cwc.protocol.ev3.CallbackType.DEVICE_RAW_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READRAW);
   buffer.writeNullByte();
@@ -163,7 +165,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorData', arguments, buffer.readSigned());
+  return this.setCache('getSensorData', buffer.readSigned(), port, opt_mode);
 };
 
 
@@ -176,11 +178,11 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
     opt_mode) {
-  var cache = this.getCache('getSensorDataPct', arguments);
+  let cache = this.getCache('getSensorDataPct', port, opt_mode);
   if (cache) {
     return cache;
   }
-  var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_PCT_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READPCT);
   buffer.writeNullByte();
@@ -189,7 +191,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorDataPct', arguments, buffer.readSigned());
+  return this.setCache('getSensorDataPct', buffer.readSigned(), port, opt_mode);
 };
 
 
@@ -201,11 +203,11 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
-  var cache = this.getCache('getSensorDataSi', arguments);
+  let cache = this.getCache('getSensorDataSi', port, opt_mode);
   if (cache) {
     return cache;
   }
-  var buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
+  let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_SI_VALUE);
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.READSI);
   buffer.writeNullByte();
@@ -214,7 +216,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
   buffer.writeByte(opt_mode || 0);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorDataSi', arguments, buffer.readSigned());
+  return this.setCache('getSensorDataSi', buffer.readSigned(), port, opt_mode);
 };
 
 
@@ -225,7 +227,7 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.WRITE.LED);
   buffer.writeByte(color + (color ? opt_mode || 0 : 0));
   return buffer.readSigned();
@@ -241,7 +243,7 @@ cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
  */
 cwc.protocol.ev3.Commands.prototype.movePower = function(ports, power,
     opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(ports);
@@ -270,7 +272,7 @@ cwc.protocol.ev3.Commands.prototype.movePower = function(ports, power,
  */
 cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
     port_right, power_left, power_right, opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(port_left | port_right);
@@ -306,7 +308,7 @@ cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
  */
 cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
     opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
 
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -341,7 +343,7 @@ cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
 cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
     port_right, steps, opt_speed_left, opt_speed_right, opt_ramp_up,
     opt_ramp_down, opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
 
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -382,7 +384,7 @@ cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
  */
 cwc.protocol.ev3.Commands.prototype.customRotateSteps = function(ports, steps,
     opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
 
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
@@ -408,7 +410,7 @@ cwc.protocol.ev3.Commands.prototype.customRotateSteps = function(ports, steps,
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.stop = function(opt_port, opt_brake) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
   buffer.writePorts(opt_port || cwc.protocol.ev3.OutputPort.ALL);
@@ -423,7 +425,7 @@ cwc.protocol.ev3.Commands.prototype.stop = function(opt_port, opt_brake) {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.clear = function() {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.INPUT.DEVICE.CLEARALL);
   buffer.writeNullByte();
   return buffer.readSigned();
@@ -440,7 +442,7 @@ cwc.protocol.ev3.Commands.prototype.clear = function() {
  */
 cwc.protocol.ev3.Commands.prototype.playTone = function(frequency, opt_duration,
     opt_volume) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.SOUND.TONE);
   buffer.writeByte(Math.min(100, Math.max(0, opt_volume || 100)));
   buffer.writeShort(frequency);
@@ -458,7 +460,7 @@ cwc.protocol.ev3.Commands.prototype.playTone = function(frequency, opt_duration,
  */
 cwc.protocol.ev3.Commands.prototype.playSound = function(file_name,
     opt_volume) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.SOUND.PLAY);
   buffer.writeByte(Math.min(100, Math.max(0, opt_volume || 100)));
   buffer.writeString(file_name);
@@ -472,7 +474,7 @@ cwc.protocol.ev3.Commands.prototype.playSound = function(file_name,
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawClean = function() {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.CLEAN);
   return buffer.readSigned();
 };
@@ -484,7 +486,7 @@ cwc.protocol.ev3.Commands.prototype.drawClean = function() {
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.drawUpdate = function() {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.UPDATE);
   return buffer.readSigned();
 };
@@ -501,8 +503,8 @@ cwc.protocol.ev3.Commands.prototype.drawUpdate = function() {
  */
 cwc.protocol.ev3.Commands.prototype.drawImage = function(file_name,
     opt_x, opt_y, opt_color) {
-  var buffer = new cwc.protocol.ev3.Buffer();
-  var filename = '/home/root/lms2012/prjs/' + file_name.replace('.rgf', '');
+  let buffer = new cwc.protocol.ev3.Buffer();
+  let filename = '/home/root/lms2012/prjs/' + file_name.replace('.rgf', '');
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.BMPFILE);
   buffer.writeByte(opt_color == undefined ? 0x01 : opt_color);
   buffer.writeInt(Math.min(177, Math.max(0, opt_x || 0)));
@@ -524,7 +526,7 @@ cwc.protocol.ev3.Commands.prototype.drawImage = function(file_name,
  */
 cwc.protocol.ev3.Commands.prototype.drawLine = function(x1, y1, x2, y2,
     opt_color) {
-  var buffer = new cwc.protocol.ev3.Buffer();
+  let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.DRAW.LINE);
   buffer.writeByte(opt_color == undefined ? 0x01 : opt_color);
   buffer.writeInt(Math.min(177, Math.max(0, x1)));

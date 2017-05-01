@@ -24,7 +24,6 @@ goog.require('cwc.protocol.sphero.CallbackType');
 goog.require('cwc.protocol.sphero.Command');
 
 
-
 /**
  * @constructor
  * @struct
@@ -47,7 +46,7 @@ cwc.protocol.sphero.Commands = function() {
  */
 cwc.protocol.sphero.Commands.prototype.setRGB = function(red, green, blue,
     opt_persistant) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.RGB_LED.SET);
   buffer.writeByte(red);
   buffer.writeByte(green);
@@ -63,7 +62,7 @@ cwc.protocol.sphero.Commands.prototype.setRGB = function(red, green, blue,
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.getRGB = function() {
-  var buffer = new cwc.protocol.sphero.Buffer(
+  let buffer = new cwc.protocol.sphero.Buffer(
     cwc.protocol.sphero.CallbackType.RGB);
   buffer.writeCommand(cwc.protocol.sphero.Command.RGB_LED.GET);
   return buffer.readSigned();
@@ -77,7 +76,7 @@ cwc.protocol.sphero.Commands.prototype.getRGB = function() {
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setBackLed = function(brightness) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.BACK_LED);
   buffer.writeByte(brightness);
   return buffer.readSigned();
@@ -91,7 +90,7 @@ cwc.protocol.sphero.Commands.prototype.setBackLed = function(brightness) {
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setHeading = function(heading) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.HEADING);
   buffer.writeUInt(heading);
   return buffer.readSigned();
@@ -108,7 +107,7 @@ cwc.protocol.sphero.Commands.prototype.setHeading = function(heading) {
  */
 cwc.protocol.sphero.Commands.prototype.roll = function(opt_speed, opt_heading,
     opt_state) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.ROLL);
   buffer.writeByte(opt_speed, 50);
   buffer.writeUInt(opt_heading || 0);
@@ -125,12 +124,13 @@ cwc.protocol.sphero.Commands.prototype.roll = function(opt_speed, opt_heading,
  * @param {number=} opt_speed_x
  * @param {number=} opt_speed_y
  * @param {number=} opt_interval in 10msec
+ * @return {!cwc.protocol.sphero.Buffer}
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setColisionDetection = function(
     opt_method, opt_threshold_x, opt_threshold_y, opt_speed_x, opt_speed_y,
     opt_interval) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.COLLISION_DETECTION);
   buffer.writeByte(opt_method, 0x01);
   buffer.writeByte(opt_threshold_x, 0x60);
@@ -149,7 +149,7 @@ cwc.protocol.sphero.Commands.prototype.setColisionDetection = function(
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setMotionTimeout = function(timeout) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.MOTION_TIMEOUT);
   buffer.writeByte(timeout);
   return buffer.readSigned();
@@ -162,7 +162,7 @@ cwc.protocol.sphero.Commands.prototype.setMotionTimeout = function(timeout) {
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.boost = function(enabled) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.BOOST);
   buffer.writeByte(enabled ? 0x01 : 0x00);
   return buffer.readSigned();
@@ -179,7 +179,7 @@ cwc.protocol.sphero.Commands.prototype.boost = function(enabled) {
  */
 cwc.protocol.sphero.Commands.prototype.sleep = function(opt_wakeup, opt_macro,
     opt_orb_basic) {
-  var buffer = new cwc.protocol.sphero.Buffer();
+  let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.SYSTEM.SLEEP);
   buffer.writeByte(opt_wakeup, 0x00);
   buffer.writeByte(opt_macro, 0x00);
@@ -194,7 +194,7 @@ cwc.protocol.sphero.Commands.prototype.sleep = function(opt_wakeup, opt_macro,
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.getLocation = function() {
-  var buffer = new cwc.protocol.sphero.Buffer(
+  let buffer = new cwc.protocol.sphero.Buffer(
       cwc.protocol.sphero.CallbackType.LOCATION);
   buffer.writeCommand(cwc.protocol.sphero.Command.LOCATION.GET);
   return buffer.readSigned();
@@ -207,7 +207,7 @@ cwc.protocol.sphero.Commands.prototype.getLocation = function() {
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.getVersion = function() {
-  var buffer = new cwc.protocol.sphero.Buffer(
+  let buffer = new cwc.protocol.sphero.Buffer(
       cwc.protocol.sphero.CallbackType.FIRMWARE);
   buffer.writeCommand(cwc.protocol.sphero.Command.SYSTEM.VERSION);
   return buffer.readSigned();

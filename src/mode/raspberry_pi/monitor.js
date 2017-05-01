@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.raspberryPi.Monitor');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -44,7 +43,7 @@ cwc.mode.raspberryPi.Monitor = function(helper) {
  * @export
  */
 cwc.mode.raspberryPi.Monitor.prototype.decorate = function() {
-  var runnerInstance = this.helper.getInstance('runner', true);
+  let runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runnerMonitor_);
@@ -56,6 +55,6 @@ cwc.mode.raspberryPi.Monitor.prototype.decorate = function() {
   this.runnerMonitor_.showMonitorTab(false);
   runnerInstance.enableMonitor(true);
 
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.refresh();
 };

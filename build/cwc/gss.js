@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
@@ -31,5 +30,5 @@ closureBuilder.build({
   srcs: glob([
     'src/**/*.gss',
   ]),
-  out: 'genfiles/css/editor.css'
+  out: 'genfiles/css/editor.css',
 });

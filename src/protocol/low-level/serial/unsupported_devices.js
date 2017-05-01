@@ -36,5 +36,5 @@ cwc.protocol.Serial.unsupportedDevicePaths = {
   '/dev/cu.Bluetooth-Modem': 'Unsupported',
   '/dev/tty.Bluetooth-Modem': 'Unsupported',
   '/dev/cu.EV3-SerialPort': 'Not tested yet.',
-  '/dev/tty.EV3-SerialPort': 'Not tested yet.'
+  '/dev/tty.EV3-SerialPort': 'Not tested yet.',
 };

@@ -25,7 +25,6 @@ goog.provide('cwc.framework.Arduino');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!cwc.framework.Runner} runner

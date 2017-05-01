@@ -27,13 +27,11 @@ goog.require('cwc.mode.raspberryPi.advanced.Layout');
 goog.require('cwc.renderer.external.RaspberryPi');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.raspberryPi.advanced.Mod = function(helper) {
-
   /** @type {cwc.mode.raspberryPi.Connection} */
   this.connection = new cwc.mode.raspberryPi.Connection(helper);
 

@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-var glob = closureBuilder.globSupport();
-
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
@@ -29,14 +28,14 @@ closureBuilder.build({
   name: 'cwc.framework.Arduino',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/arduino/*.js'
+    'src/frameworks/internal/arduino/*.js',
   ]),
   deps: [
     'src/frameworks/internal/runner/runner.js',
     'src/utils/logger.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/arduino_framework.js'
+  out: 'genfiles/frameworks/internal/arduino_framework.js',
 });
 
 
@@ -47,14 +46,14 @@ closureBuilder.build({
   name: 'cwc.framework.Ev3',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/ev3/*.js'
+    'src/frameworks/internal/ev3/*.js',
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
     'src/protocol/robots/ev3/*.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/ev3_framework.js'
+  out: 'genfiles/frameworks/internal/ev3_framework.js',
 });
 
 
@@ -68,12 +67,12 @@ closureBuilder.build({
     'src/frameworks/internal/python/*.js',
   ]),
   deps: glob([
-    'src/utils/dialog/*'
+    'src/utils/dialog/*',
   ]),
   externs: [
-    'build/externs/skulpt.js'
+    'build/externs/skulpt.js',
   ],
-  out: 'genfiles/frameworks/internal/python_framework.js'
+  out: 'genfiles/frameworks/internal/python_framework.js',
 });
 
 
@@ -84,13 +83,13 @@ closureBuilder.build({
   name: 'cwc.framework.makeblock.mBot',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/makeblock/mbot/*.js'
+    'src/frameworks/internal/makeblock/mbot/*.js',
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/mbot_framework.js'
+  out: 'genfiles/frameworks/internal/mbot_framework.js',
 });
 
 
@@ -101,13 +100,13 @@ closureBuilder.build({
   name: 'cwc.framework.makeblock.mBotRanger',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/makeblock/mbot_ranger/*.js'
+    'src/frameworks/internal/makeblock/mbot_ranger/*.js',
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/mbot_ranger_framework.js'
+  out: 'genfiles/frameworks/internal/mbot_ranger_framework.js',
 });
 
 
@@ -121,9 +120,9 @@ closureBuilder.build({
     'src/frameworks/internal/phaser/*.js',
   ]),
   externs: [
-    'build/externs/phaser.js'
+    'build/externs/phaser.js',
   ],
-  out: 'genfiles/frameworks/internal/phaser_framework.js'
+  out: 'genfiles/frameworks/internal/phaser_framework.js',
 });
 
 
@@ -134,13 +133,13 @@ closureBuilder.build({
   name: 'cwc.framework.RaspberryPi',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/raspberry_pi/*.js'
+    'src/frameworks/internal/raspberry_pi/*.js',
   ]),
   deps: [
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/raspberry_pi_framework.js'
+  out: 'genfiles/frameworks/internal/raspberry_pi_framework.js',
 });
 
 
@@ -151,12 +150,12 @@ closureBuilder.build({
   name: 'cwc.framework.Runner',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/runner/*.js'
+    'src/frameworks/internal/runner/*.js',
   ]),
   deps: [
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/runner_framework.js'
+  out: 'genfiles/frameworks/internal/runner_framework.js',
 });
 
 
@@ -167,15 +166,15 @@ closureBuilder.build({
   name: 'cwc.framework.simple.Loader',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/simple/*.js'
+    'src/frameworks/internal/simple/*.js',
   ]),
   deps: glob([
     'src/config/config.js',
     'src/frameworks/internal/runner/runner.js',
     'src/utils/logger.js',
-    'src/utils/dialog/*'
+    'src/utils/dialog/*',
   ]),
-  out: 'genfiles/frameworks/internal/simple_framework.js'
+  out: 'genfiles/frameworks/internal/simple_framework.js',
 });
 
 
@@ -186,13 +185,13 @@ closureBuilder.build({
   name: 'cwc.framework.Sphero',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/sphero/*.js'
+    'src/frameworks/internal/sphero/*.js',
   ]),
   deps: [
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/sphero_framework.js'
+  out: 'genfiles/frameworks/internal/sphero_framework.js',
 });
 
 
@@ -203,13 +202,13 @@ closureBuilder.build({
   name: 'cwc.framework.TTS',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/tts/*.js'
+    'src/frameworks/internal/tts/*.js',
   ]),
   deps: [
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/tts_framework.js'
+  out: 'genfiles/frameworks/internal/tts_framework.js',
 });
 
 
@@ -220,14 +219,14 @@ closureBuilder.build({
   name: 'cwc.framework.Turtle',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/turtle/*.js'
+    'src/frameworks/internal/turtle/*.js',
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js'
+    'src/utils/stack_queue.js',
   ]),
   externs: [
-    'build/externs/jquery.js'
+    'build/externs/jquery.js',
   ],
-  out: 'genfiles/frameworks/internal/turtle_framework.js'
+  out: 'genfiles/frameworks/internal/turtle_framework.js',
 });

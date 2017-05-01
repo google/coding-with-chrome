@@ -30,7 +30,6 @@ goog.require('cwc.protocol.ev3.RobotType');
 goog.require('cwc.protocol.ev3.Robots');
 
 
-
 /**
  * @constructor
  * @param {!Function} code
@@ -43,7 +42,9 @@ cwc.framework.Ev3 = function(code) {
   this.name = 'EV3 Framework';
 
   /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.code = function() {
+    code(this);
+  }.bind(this);
 
   /** @type {!cwc.framework.Runner} */
   this.runner = new cwc.framework.Runner(this.code, this);
@@ -200,15 +201,14 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
 
 /**
  * @param {!number} steps
- * @param {number=} opt_speed
+ * @param {number=} speed
  * @return {!number} Calculated delay + buffer.
  * @export
  */
-cwc.framework.Ev3.prototype.getDelay = function(steps, opt_speed) {
-  var buffer = 250;
-  var motorSpeed = this.largeMotorSpeed;
-  var speed = opt_speed || 50;
-  var delay = Math.floor(
+cwc.framework.Ev3.prototype.getDelay = function(steps, speed = 50) {
+  let buffer = 250;
+  let motorSpeed = this.largeMotorSpeed;
+  let delay = Math.floor(
     (((steps / 360) * Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
   return delay;
 };
@@ -410,15 +410,16 @@ cwc.framework.Ev3.prototype.movePen = function(steps,
  */
 cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
   if (this.robotType == cwc.protocol.ev3.RobotType.ARM) {
-    return this.customMoveSteps(steps, undefined, opt_speed, opt_delay);
+    this.customMoveSteps(steps, undefined, opt_speed, opt_delay);
+  } else {
+    let delay = /** @type {number|undefined} */ (
+      opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
+    let distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
+    this.runner.send('moveSteps', {
+      'distance': distance,
+      'steps': steps,
+      'speed': opt_speed}, delay);
   }
-  var delay = /** @type {number|undefined} */ (
-    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-  var distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
-  this.runner.send('moveSteps', {
-    'distance': distance,
-    'steps': steps,
-    'speed': opt_speed}, delay);
 };
 
 
@@ -432,7 +433,7 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
  */
 cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
     opt_speed, opt_delay) {
-  var delay = /** @type {number|undefined} */ (
+  let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('customMoveSteps', {
     'steps': steps,
@@ -450,8 +451,8 @@ cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
  */
 cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
     opt_delay) {
-  var steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
-  var delay = /** @type {number|undefined} */ (
+  let steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
+  let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('moveSteps', {
     'distance': distance,
@@ -487,17 +488,18 @@ cwc.framework.Ev3.prototype.rotateSteps = function(steps,
 cwc.framework.Ev3.prototype.rotateAngle = function(angle,
     opt_speed, opt_delay) {
   if (this.robotType == cwc.protocol.ev3.RobotType.ARM) {
-    return this.customRotateAngle(angle, undefined, opt_speed, opt_delay);
+    this.customRotateAngle(angle, undefined, opt_speed, opt_delay);
+  } else {
+    let rotateDistance = this.rotateCircumference / 360;
+    let steps = Math.round(
+      (rotateDistance * angle / this.wheelCircumference) * 360);
+    let delay = /** @type {number|undefined} */ (
+     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
+    this.runner.send('rotateSteps', {
+      'angle': angle,
+      'steps': steps,
+      'speed': opt_speed}, delay);
   }
-  var rotateDistance = this.rotateCircumference / 360;
-  var steps = Math.round(
-    (rotateDistance * angle / this.wheelCircumference) * 360);
-  var delay = /** @type {number|undefined} */ (
-    opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-  this.runner.send('rotateSteps', {
-    'angle': angle,
-    'steps': steps,
-    'speed': opt_speed}, delay);
 };
 
 
@@ -511,10 +513,10 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle,
  */
 cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
     opt_ports, opt_speed, opt_delay) {
-  var rotateDistance = this.rotateCircumference / 360;
-  var steps = Math.round(
+  let rotateDistance = this.rotateCircumference / 360;
+  let steps = Math.round(
     (rotateDistance * angle / this.wheelCircumference) * 360);
-  var delay = /** @type {number|undefined} */ (
+  let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
   this.runner.send('customRotateSteps', {
     'angle': angle,

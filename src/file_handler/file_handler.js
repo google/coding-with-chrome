@@ -25,7 +25,6 @@ goog.require('cwc.fileHandler.File');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -33,7 +32,6 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.fileHandler.File = function(helper) {
-
   /** @private {!cwc.fileFormat.File} */
   this.file_ = new cwc.fileFormat.File();
 
@@ -105,14 +103,14 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name, opt_group) {
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {string=} opt_type
+ * @param {string=} optType
  * @param {number=} opt_size
  * @param {string=} opt_group
  * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.addLibraryFile = function(name, content,
-    opt_type, opt_size, opt_group) {
-  return this.file_.getFiles().addFile(name, content, opt_type, opt_size,
+    optType, opt_size, opt_group) {
+  return this.file_.getFiles().addFile(name, content, optType, opt_size,
       opt_group);
 };
 
@@ -220,7 +218,7 @@ cwc.fileHandler.File.prototype.setEditorFlags = function(flags) {
  * @export
  */
 cwc.fileHandler.File.prototype.setFileTitle = function(file_title) {
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle(file_title);
   }
@@ -295,17 +293,17 @@ cwc.fileHandler.File.prototype.getModel = function() {
 cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {
   this.hasUnsavedChange_ = unsaved_change;
 
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.setModified(unsaved_change);
   }
 
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
     blocklyInstance.setModified(unsaved_change);
   }
 
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setStatus(unsaved_change ? '*' : '');
   }
@@ -324,14 +322,14 @@ cwc.fileHandler.File.prototype.getUnsavedChange = function() {
  * @return {boolean}
  */
 cwc.fileHandler.File.prototype.isModified = function() {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     if (editorInstance.isModified()) {
       return true;
     }
   }
 
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
     if (blocklyInstance.isModified()) {
       return true;

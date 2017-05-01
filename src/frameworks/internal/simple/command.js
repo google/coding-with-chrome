@@ -24,7 +24,6 @@ goog.require('cwc.utils.Dialog');
 goog.require('goog.dom');
 
 
-
 /**
  * Simple command framework.
  * @param {Element=} opt_target
@@ -44,6 +43,7 @@ cwc.framework.simple.Command = function(opt_target) {
 
 /**
  * @export
+ * @return {Element}
  */
 cwc.framework.simple.Command.prototype.getTarget = function() {
   return this.target || document.body;
@@ -73,18 +73,20 @@ cwc.framework.simple.Command.prototype.showAlert = function(title, content) {
 /**
  * @param {!string} title
  * @param {!string} content
- * @param {string=} opt_value
+ * @param {string=} optValue
+ * @return {!Promise}
  * @export
  */
 cwc.framework.simple.Command.prototype.showPrompt = function(title, content,
-    opt_value) {
-  return this.dialog_.showPrompt(title, content, opt_value);
+    optValue) {
+  return this.dialog_.showPrompt(title, content, optValue);
 };
 
 
 /**
  * @param {!string} title
  * @param {!string} content
+ * @return {!Promise}
  * @export
  */
 cwc.framework.simple.Command.prototype.showYesNo = function(title, content) {
@@ -98,13 +100,13 @@ cwc.framework.simple.Command.prototype.showYesNo = function(title, content) {
  */
 cwc.framework.simple.Command.prototype.mapGlobal = function() {
   if (!window) {
-    throw 'Window name space is not available in this instance.';
+    throw new Error('Window name space is not available in this instance.');
   }
   window['command'] = {
     'write': this.write.bind(this),
     'showAlert': this.showAlert.bind(this),
     'showPrompt': this.showPrompt.bind(this),
-    'showYesNo': this.showYesNo.bind(this)
+    'showYesNo': this.showYesNo.bind(this),
   };
 };
 
@@ -115,7 +117,7 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
  * @private
  */
 cwc.framework.simple.Command.prototype.addNode_ = function(node) {
-  var target = this.getTarget();
+  let target = this.getTarget();
   if (node && target) {
     goog.dom.appendChild(target, node);
   }

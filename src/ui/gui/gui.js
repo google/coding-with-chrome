@@ -29,7 +29,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.soy');
 
 
-
 /**
  * Default constructor for the Coding with Chrome editor.
  * @param {!cwc.utils.Helper} helper
@@ -163,7 +162,7 @@ cwc.ui.Gui.prototype.setStatus = function(status) {
  * @param {Event=} opt_event
  */
 cwc.ui.Gui.prototype.renameTitle = function(opt_event) {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     fileInstance.setFileTitle(this.nodeTitle.value);
   }
@@ -190,6 +189,6 @@ cwc.ui.Gui.prototype.getHeaderSize = function() {
  * Adjusts the UI to the correct size after resize.
  */
 cwc.ui.Gui.prototype.adjustSize = function() {
-  var viewportSize = this.viewport_monitor.getSize();
+  let viewportSize = this.viewport_monitor.getSize();
   goog.style.setSize(this.nodeChrome, viewportSize);
 };

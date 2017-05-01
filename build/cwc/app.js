@@ -17,8 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-
+let closureBuilder = require('closure-builder');
 
 
 /**
@@ -31,9 +30,9 @@ closureBuilder.build({
     'app/html/',
     'app/icons/',
     'app/images/',
-    'app/manifest.json'
+    'app/manifest.json',
   ],
-  out: 'genfiles/'
+  out: 'genfiles/',
 });
 
 
@@ -43,9 +42,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC resource files',
   resources: [
-    'resources/'
+    'resources/',
   ],
-  out: 'genfiles/'
+  out: 'genfiles/',
 });
 
 
@@ -56,9 +55,9 @@ closureBuilder.build({
   name: 'CwC Markdown files',
   markdown: [
     'LICENSE.md',
-    'NOTICE.md'
+    'NOTICE.md',
   ],
-  out: 'genfiles/'
+  out: 'genfiles/',
 });
 
 
@@ -68,9 +67,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Background',
   srcs: [
-    'app/js/background.js'
+    'app/js/background.js',
   ],
-  out: 'genfiles/js/background.js'
+  out: 'genfiles/js/background.js',
 });
 
 
@@ -80,9 +79,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Debug',
   resources: [
-    'app/js/debug.js'
+    'app/js/debug.js',
   ],
-  out: 'genfiles/js/'
+  out: 'genfiles/js/',
 });
 
 
@@ -92,12 +91,12 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Editor',
   srcs: [
-    'app/js/editor.js'
+    'app/js/editor.js',
   ],
   externs: [
-    'build/externs/cwc.js'
+    'build/externs/cwc.js',
   ],
-  out: 'genfiles/js/editor.js'
+  out: 'genfiles/js/editor.js',
 });
 
 
@@ -107,7 +106,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Loader',
   srcs: [
-    'app/js/loader.js'
+    'app/js/loader.js',
   ],
-  out: 'genfiles/js/loader.js'
+  out: 'genfiles/js/loader.js',
 });

@@ -31,7 +31,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -157,7 +156,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.runner.addCommand('setLed', this.command.setLed, this);
 
   // Events
-  var apiEventHandler = this.api.getEventHandler();
+  let apiEventHandler = this.api.getEventHandler();
   if (!apiEventHandler) {
     console.error('EV3 API event handler is not defined!');
   }
@@ -178,7 +177,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
       'updateUltrasonicSensor');
 
   // Overlay and templates.
-  var templates = cwc.soy.mode.ev3.Runner;
+  let templates = cwc.soy.mode.ev3.Runner;
   this.runner.setInfoTemplate(templates.info);
   if (this.showOverlay && !this.showPreview) {
     this.runner.setOverlayTemplate(templates.overlay);
@@ -204,13 +203,13 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   }
 
   // Preview output
-  var turtleNode = this.runner.getTurtleNode();
+  let turtleNode = this.runner.getTurtleNode();
   this.turtle.decorate(turtleNode);
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
@@ -248,11 +247,11 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
 
 
 /**
- * @param {cwc.protocol.ev3.RobotType=} opt_type
+ * @param {cwc.protocol.ev3.RobotType=} optType
  */
-cwc.mode.ev3.Runner.prototype.setRobotType = function(opt_type) {
-  if (opt_type !== undefined) {
-    this.robotType = opt_type;
+cwc.mode.ev3.Runner.prototype.setRobotType = function(optType) {
+  if (optType !== undefined) {
+    this.robotType = optType;
   }
   this.runner.send('updateRobotType', this.robotType);
 };
@@ -304,7 +303,7 @@ cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
  */
 cwc.mode.ev3.Runner.prototype.addEventListener = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

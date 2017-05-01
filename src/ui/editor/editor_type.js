@@ -30,7 +30,7 @@ cwc.ui.EditorType = {
   JAVASCRIPT: 'text/javascript',
   PYTHON: 'text/x-python',
   TEXT: 'text/plain',
-  UNKNOWN: 'unknown'
+  UNKNOWN: 'unknown',
 };
 
 

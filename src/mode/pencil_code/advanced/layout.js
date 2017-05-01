@@ -22,7 +22,6 @@ goog.provide('cwc.mode.pencilCode.advanced.Layout');
 goog.require('cwc.soy.mode.pencilCode.Advanced');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -40,7 +39,7 @@ cwc.mode.pencilCode.advanced.Layout = function(helper) {
  * Decorates the basic simple layout.
  */
 cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(500);
 
   goog.soy.renderElement(
@@ -54,5 +53,4 @@ cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
       cwc.soy.mode.pencilCode.Advanced.preview,
       {'prefix': this.prefix}
   );
-
 };

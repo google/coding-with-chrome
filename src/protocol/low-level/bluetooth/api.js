@@ -25,7 +25,6 @@ goog.require('cwc.protocol.bluetooth.Devices');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor

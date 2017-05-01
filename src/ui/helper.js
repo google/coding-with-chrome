@@ -26,22 +26,21 @@ goog.require('goog.dom.TagName');
 goog.require('goog.style');
 
 
-
 /**
  * @param {!string} name
  * @param {string=} opt_title
- * @param {function()=} opt_func
+ * @param {function()=} optFunc
  * @return {!Element}
  */
-cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
-  var text = document.createTextNode(i18t(name));
-  var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-menu__item');
+cwc.ui.Helper.getMenuItem = function(name, opt_title, optFunc) {
+  let text = document.createTextNode(i18t(name));
+  let item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-menu__item');
   item.appendChild(text);
   if (opt_title) {
     item.title = i18t(opt_title);
   }
-  if (opt_func) {
-    goog.events.listen(item, goog.events.EventType.CLICK, opt_func);
+  if (optFunc) {
+    goog.events.listen(item, goog.events.EventType.CLICK, optFunc);
   }
   return item;
 };
@@ -49,18 +48,18 @@ cwc.ui.Helper.getMenuItem = function(name, opt_title, opt_func) {
 
 /**
  * @param {!string} name
- * @param {function()=} opt_func
- * @returns {!Element}
+ * @param {function()=} optFunc
+ * @return {!Element}
  */
-cwc.ui.Helper.getListItem = function(name, opt_func) {
-  var text = document.createTextNode(i18t(name));
-  var item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
-  var primaryContent = goog.dom.createDom(
+cwc.ui.Helper.getListItem = function(name, optFunc) {
+  let text = document.createTextNode(i18t(name));
+  let item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-list__item');
+  let primaryContent = goog.dom.createDom(
     goog.dom.TagName.SPAN, 'mdl-list__item-primary-content');
   primaryContent.appendChild(text);
   item.appendChild(primaryContent);
-  if (opt_func) {
-    goog.events.listen(item, goog.events.EventType.CLICK, opt_func);
+  if (optFunc) {
+    goog.events.listen(item, goog.events.EventType.CLICK, optFunc);
   }
   return item;
 };
@@ -93,24 +92,24 @@ cwc.ui.Helper.uninstallStyles = function(style_sheet) {
  * Adding script element to head.
  * @param {!string} script_url
  * @param {string=} opt_id
- * @param {Function=} opt_callback
+ * @param {Function=} optCallback
  */
-cwc.ui.Helper.insertScript = function(script_url, opt_id, opt_callback) {
+cwc.ui.Helper.insertScript = function(script_url, opt_id, optCallback) {
   console.log('Insert Script', opt_id, 'with src:', script_url);
   if (opt_id) {
-    var oldScriptNode = document.getElementById(opt_id);
+    let oldScriptNode = document.getElementById(opt_id);
     if (oldScriptNode) {
       oldScriptNode.parentNode.removeChild(oldScriptNode);
     }
   }
-  var scriptNode = document.createElement('script');
+  let scriptNode = document.createElement('script');
   if (opt_id) {
     scriptNode.id = opt_id;
   }
-  if (goog.isFunction(opt_callback)) {
-    scriptNode.onload = opt_callback;
+  if (goog.isFunction(optCallback)) {
+    scriptNode.onload = optCallback;
   }
-  var headNode = document.head || document.getElementsByTagName('head')[0];
+  let headNode = document.head || document.getElementsByTagName('head')[0];
   headNode.appendChild(scriptNode);
   scriptNode.src = script_url;
 };
@@ -135,10 +134,10 @@ cwc.ui.Helper.enableElement = function(element, enabled) {
 /**
  * Removes all elements with the provided class names.
  * @param {Array|string} class_names
- * @param {string=} opt_type
+ * @param {string=} optType
  */
-cwc.ui.Helper.removeElements = function(class_names, opt_type) {
-  var elements = cwc.ui.Helper.getElements(class_names, opt_type);
+cwc.ui.Helper.removeElements = function(class_names, optType) {
+  let elements = cwc.ui.Helper.getElements(class_names, optType);
   for (let i = 0; i < elements.length; i++) {
     goog.dom.removeNode(elements[i]);
   }
@@ -148,10 +147,10 @@ cwc.ui.Helper.removeElements = function(class_names, opt_type) {
 /**
  * Hides all elements with the provided class names.
  * @param {Array|string} class_names
- * @param {string=} opt_type
+ * @param {string=} optType
  */
-cwc.ui.Helper.hideElements = function(class_names, opt_type) {
-  var elements = cwc.ui.Helper.getElements(class_names, opt_type);
+cwc.ui.Helper.hideElements = function(class_names, optType) {
+  let elements = cwc.ui.Helper.getElements(class_names, optType);
   for (let i = 0; i < elements.length; i++) {
     goog.style.setElementShown(elements[i], false);
   }
@@ -161,10 +160,10 @@ cwc.ui.Helper.hideElements = function(class_names, opt_type) {
 /**
  * Shows all elements with the provided class names.
  * @param {Array|string} class_names
- * @param {string=} opt_type
+ * @param {string=} optType
  */
-cwc.ui.Helper.showElements = function(class_names, opt_type) {
-  var elements = cwc.ui.Helper.getElements(class_names, opt_type);
+cwc.ui.Helper.showElements = function(class_names, optType) {
+  let elements = cwc.ui.Helper.getElements(class_names, optType);
   for (let i = 0; i < elements.length; i++) {
     goog.style.setElementShown(elements[i], true);
   }
@@ -174,15 +173,15 @@ cwc.ui.Helper.showElements = function(class_names, opt_type) {
 /**
  * Returns all elements with the provided class names.
  * @param {Array|string} class_names
- * @param {string=} opt_type
+ * @param {string=} optType
  * @return {Array} List of elements
  */
-cwc.ui.Helper.getElements = function(class_names, opt_type) {
-  var classes = (typeof class_names === 'string') ? [class_names] : class_names;
-  var result = [];
+cwc.ui.Helper.getElements = function(class_names, optType) {
+  let classes = (typeof class_names === 'string') ? [class_names] : class_names;
+  let result = [];
   for (let i = 0; i < classes.length; i++) {
-    var elements = goog.dom.getElementsByTagNameAndClass(
-      opt_type || goog.dom.TagName.DIV, classes[i]);
+    let elements = goog.dom.getElementsByTagNameAndClass(
+      optType || goog.dom.TagName.DIV, classes[i]);
     if (elements) {
       for (let i2 = 0; i2 < elements.length; i2++) {
         result.push(elements[i2]);

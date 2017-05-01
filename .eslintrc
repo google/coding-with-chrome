@@ -1,56 +1,44 @@
-root: true
-
-rules:
-  curly:
-    - 2
-    - "multi-line"
-  indent: [2, 2, {
-        "VariableDeclarator": 2,
-        "SwitchCase": 1
-    }]
-  quotes:
-    - 2
-    - single
-  linebreak-style: [2, "unix"]
-  semi:
-    - 2
-    - always
-  comma-spacing: 2
-  keyword-spacing: 2
-  space-before-function-paren: [2, "never"]
-  no-mixed-spaces-and-tabs: 2
-  no-unused-vars: [2, {"args": "after-used", "argsIgnorePattern": "^opt_", "varsIgnorePattern": "_unused$"}]
-  no-console: 0
-  no-duplicate-case: 2
-  no-fallthrough: 2
-  no-trailing-spaces: 2
-  max-len: [2, 80, 2]
-
-env:
-  browser: true
-  node: true
-  es6: true
-
-globals:
-  $: true
-  Blockly: true
-  CodeMirror: true
-  Locales: true
-  Shepherd: true
-  Sk: true
-  afterEach: true
-  beforeEach: true
-  chrome: true
-  cwc: true
-  describe: true
-  expect: true
-  game: true
-  goog: true
-  i18soy: true
-  i18t: true
-  it: true
-  opt_event: true
-  soydata: true
-  var_args: true
-
-extends: 'eslint:recommended'
+{
+  'root': true,
+  'extends': ['eslint:recommended', 'google'],
+  'rules': {
+    'no-unused-vars': [2, {
+      'args': 'after-used',
+      'argsIgnorePattern': '^opt_',
+      'varsIgnorePattern':'_unused$'
+    }],
+    'no-console': 0,
+    'camelcase': [1, {properties: 'never'}],
+    'new-cap': [2, {
+      'newIsCapExceptions': ['instance', 'command_profile', 'fileConfig.file',
+        'CodeMirror.fold.combine']
+    }],
+  },
+  'env': {
+    browser: true,
+    node: true,
+    es6: true
+  },
+  'globals': {
+    '$': true,
+    'Blockly': true,
+    'CodeMirror': true,
+    'Locales': true,
+    'Shepherd': true,
+    'Sk': true,
+    'afterEach': true,
+    'beforeEach': true,
+    'chrome': true,
+    'cwc': true,
+    'describe': true,
+    'expect': true,
+    'game': true,
+    'getTestBlockCode': true,
+    'goog': true,
+    'i18soy': true,
+    'i18t': true,
+    'it': true,
+    'soydata': true,
+    'var_args': true
+  }
+}

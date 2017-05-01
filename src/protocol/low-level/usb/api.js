@@ -22,7 +22,6 @@ goog.provide('cwc.protocol.USB.api');
 goog.require('cwc.protocol.USB.Devices');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor

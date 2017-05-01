@@ -28,8 +28,7 @@
 
   <div id="{$prefix}overview">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'home' /}
     {/call}
 
@@ -102,8 +101,7 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'basic' /}
     {/call}
 
@@ -145,6 +143,14 @@
           {param opt_image: 'images/selection/basic-block-text-loop.png' /}
         {/call}
 
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {param title: 'Sunlights' /}
+          {param text: 'Write many things on the screen with a repeating program (a loop)' /}
+          {param link_id: 'sunlights' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
       </div>
 
     </div>
@@ -162,8 +168,7 @@
 
   <div id="{$prefix}draw-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'draw' /}
     {/call}
 
@@ -206,8 +211,7 @@
 
   <div id="{$prefix}games-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'games' /}
     {/call}
 
@@ -286,8 +290,7 @@
 
   <div class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'music' /}
     {/call}
 
@@ -374,13 +377,11 @@
 
   <div id="{$prefix}ev3-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'ev3' /}
     {/call}
 
@@ -414,6 +415,14 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {param title: 'IR sensor - collision avoidance' /}
+          {param text: 'Navigates freely in the environment and avoid collisions.' /}
+          {param link_id: 'ir-sensor' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'Color sensor - sound' /}
           {param text: 'Plays different tones depending on the detected color.' /}
           {param link_id: 'color-sensor' /}
@@ -443,13 +452,11 @@
 
   <div id="{$prefix}sphero-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'sphero' /}
     {/call}
 
@@ -512,13 +519,11 @@
 
   <div id="{$prefix}mbot-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'mbot' /}
     {/call}
 
@@ -598,13 +603,11 @@
 
   <div id="{$prefix}mbot-overview" class="mdl-layout__container">
 
-    {call .overviewHeader_}
-      {param prefix: $prefix /}
+    {call .overviewHeader_ data="all"}
       {param active_link: 'robot' /}
     {/call}
 
-    {call .robotHeader_}
-      {param prefix: $prefix /}
+    {call .robotHeader_ data="all"}
       {param active_link: 'mbot-ranger' /}
     {/call}
 
@@ -620,8 +623,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
-          {param prefix: $prefix /}
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot with Blockly' /}
           {param link_text: 'new mBot Ranger blocks program' /}
@@ -630,6 +632,22 @@
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
           {param opt_text: 'mBot Ranger block file' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {param title: 'Ultrasonic sensor - Stop' /}
+          {param text: 'MBot Ranger stops before obstacle' /}
+          {param link_id: 'ultrasonic_stop' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {param title: 'Sound generator' /}
+          {param text: 'MBot Ranger plays an Melodie' /}
+          {param link_id: 'sound_generator' /}
+          {param opt_color_class: 'bg-blue' /}
+          {param opt_image: '' /}
         {/call}
 
       </div>

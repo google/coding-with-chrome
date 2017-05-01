@@ -21,21 +21,25 @@
 
 /**
  * World resize.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_world_resize'] = function(block) {
-  var number_width = block.getFieldValue('width');
-  var number_height = block.getFieldValue('height');
+  let number_width = block.getFieldValue('width');
+  let number_height = block.getFieldValue('height');
   return 'game.world.resize(' + number_width + ', ' + number_height + ');\n';
 };
 
 
 /**
  * World wrap.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_world_wrap'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_value = Blockly.JavaScript.valueToCode(block,
+  let value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   return 'game.world.wrap(' + variable + ', ' + (value_value || 0) +
     ');\n';
@@ -44,9 +48,11 @@ Blockly.JavaScript['phaser_world_wrap'] = function(block) {
 
 /**
  * World attributes.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_world_attributes'] = function(block) {
-  var dropdown_attribute = block.getFieldValue('attribute');
-  var code = 'game.world.' + dropdown_attribute;
+  let dropdown_attribute = block.getFieldValue('attribute');
+  let code = 'game.world.' + dropdown_attribute;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

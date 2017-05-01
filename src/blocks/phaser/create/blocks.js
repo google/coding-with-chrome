@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Phaser create section.
  */
@@ -37,7 +36,7 @@ Blockly.Blocks['phaser_create'] = {
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -55,7 +54,7 @@ Blockly.Blocks['phaser_stage_background_color'] = {
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -74,7 +73,7 @@ Blockly.Blocks['phaser_add_background'] = {
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -94,7 +93,7 @@ Blockly.Blocks['phaser_add_group'] = {
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -116,5 +115,5 @@ Blockly.Blocks['phaser_time_loop_event'] = {
     this.setColour(30);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

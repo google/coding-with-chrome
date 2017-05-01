@@ -23,7 +23,6 @@ goog.require('cwc.soy.Documentation');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -55,8 +54,7 @@ cwc.ui.Documentation.prototype.decorate = function(node, opt_prefix) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.Documentation.documentationTemplate, {
-        'prefix': this.prefix
+        'prefix': this.prefix,
       }
   );
-
 };

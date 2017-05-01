@@ -28,26 +28,26 @@ goog.provide('cwc.protocol.Serial.supportedDevices');
 cwc.protocol.Serial.supportedDevice = {
   ARDUINO: {
     'name': 'Arduino',
-    'bps': 9600
+    'bps': 9600,
   },
   ARDUINO_NANO: {
     'name': 'Arduino Nano',
-    'bps': 9600
+    'bps': 9600,
   },
   ARDUINO_UNO: {
     'name': 'Arduino UNO',
-    'bps': 9600
+    'bps': 9600,
   },
   ARDUINO_MEGA: {
     'name': 'Arduino MEGA',
-    'bps': 9600
+    'bps': 9600,
   },
   EV3_TTY: {
-    'name': 'EV3 serial tty'
+    'name': 'EV3 serial tty',
   },
   EV3_CU: {
-    'name': 'EV3 serial cu'  // calling unit
-  }
+    'name': 'EV3 serial cu',  // calling unit
+  },
 };
 
 
@@ -65,13 +65,13 @@ cwc.protocol.Serial.supportedDevice = {
  */
 cwc.protocol.Serial.supportedDevices = {
   0x403: {
-    0x6001: cwc.protocol.Serial.supportedDevice.ARDUINO_NANO
+    0x6001: cwc.protocol.Serial.supportedDevice.ARDUINO_NANO,
   },
   0x2341: {
     0x6001: cwc.protocol.Serial.supportedDevice.ARDUINO_UNO,
     0x0042: cwc.protocol.Serial.supportedDevice.ARDUINO_MEGA,
-    0x0043: cwc.protocol.Serial.supportedDevice.ARDUINO_UNO
-  }
+    0x0043: cwc.protocol.Serial.supportedDevice.ARDUINO_UNO,
+  },
 };
 
 
@@ -91,5 +91,5 @@ cwc.protocol.Serial.supportedDevicePaths = {
   '/dev/cu.EV3-SerialPort':
       cwc.protocol.Serial.supportedDevice.EV3_CU,
   '/dev/tty.EV3-SerialPort':
-      cwc.protocol.Serial.supportedDevice.EV3_TTY
+      cwc.protocol.Serial.supportedDevice.EV3_TTY,
 };

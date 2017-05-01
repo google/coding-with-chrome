@@ -22,7 +22,6 @@ goog.provide('cwc.framework.Turtle');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @param {string=} opt_target
  * @param {Object=} opt_options
@@ -40,7 +39,7 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
 
   /** @type {Object} */
   this.options = opt_options || {
-    'panel': false
+    'panel': false,
   };
 
   /** @type {!cwc.framework.Runner} */
@@ -190,7 +189,7 @@ cwc.framework.Turtle.prototype.handleJump_ = function(x, y) {
  * @private
  */
 cwc.framework.Turtle.prototype.handleMoveto_ = function(x, y) {
-  this.turtleTarget['moveto']({pageX:x, pageY:y});
+  this.turtleTarget['moveto']({pageX: x, pageY: y});
 };
 
 
@@ -201,7 +200,7 @@ cwc.framework.Turtle.prototype.handleMoveto_ = function(x, y) {
  * @private
  */
 cwc.framework.Turtle.prototype.handleJumpto_ = function(x, y) {
-  this.turtleTarget['jumpto']({pageX:x, pageY:y});
+  this.turtleTarget['jumpto']({pageX: x, pageY: y});
 };
 
 
@@ -430,6 +429,7 @@ cwc.framework.Turtle.prototype.handleBearing_ = function(distance) {
 /**
  * Distance to p in page coordinates.
  * @param {?} target
+ * @return {number}
  * @private
  */
 cwc.framework.Turtle.prototype.handleDistance_ = function(target) {
@@ -478,6 +478,7 @@ cwc.framework.Turtle.prototype.handleInside_ = function(y) {
 /**
  * Filters to item (or items if tied) nearest pos.
  * @param {!number} distance
+ * @return {number}
  * @private
  */
 cwc.framework.Turtle.prototype.handleNearest_ = function(distance) {

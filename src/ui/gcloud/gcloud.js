@@ -30,7 +30,6 @@ goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -75,18 +74,19 @@ cwc.ui.GCloud = function(helper) {
 
 /**
  * Displays a Google Cloud publish dialog.
+ * @param {!string} name
+ * @param {!string} content
+ * @param {!string} type
  */
 cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
-  var accountInstance = this.helper.getInstance('account');
-  if (!accountInstance) return;
-
+  let accountInstance = this.helper.getInstance('account', true);
   this.fileName = name;
   this.fileContent = content;
   this.fileType = type;
-  var callback = (response) => {
+  let callback = (response) => {
     response['projects'].sort((a, b) => {
-      var aId = a['projectId'];
-      var bId = b['projectId'];
+      let aId = a['projectId'];
+      let bId = b['projectId'];
       if (aId < bId) {
         return -1;
       }
@@ -101,8 +101,8 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
     subdomain: 'cloudresourcemanager',
     path: '/v1/projects',
     params: {
-      'pageSize': 1000
-    }
+      'pageSize': 1000,
+    },
   }, callback);
 };
 
@@ -125,23 +125,23 @@ cwc.ui.GCloud.prototype.clear = function() {
  * @param {list<string>} projects Google Cloud Storage project ids.
  */
 cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;
 
   dialogInstance.showTemplate(
     'Publish to Google Cloud', cwc.soy.GCloud.gCloudTemplate, {
       prefix: this.prefix,
-      projects: projects
+      projects: projects,
     });
-  var projectsNode = goog.dom.getElement(this.prefix + 'projects');
-  var projectChangeListener = (event) => {
-    var projectId = event.target.value;
+  let projectsNode = goog.dom.getElement(this.prefix + 'projects');
+  let projectChangeListener = (event) => {
+    let projectId = event.target.value;
     this.selectProject(projectId);
   };
   goog.events.listen(projectsNode, goog.events.EventType.CHANGE,
     projectChangeListener, false, this);
 
-  //Use last set project id if previously selected.
+  // Use last set project id if previously selected.
   if (this.projectId) {
     goog.dom.forms.setValue(projectsNode, this.projectId);
     this.selectProject(this.projectId);
@@ -153,14 +153,14 @@ cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
  * @param {string} projectId The project id selected.
  */
 cwc.ui.GCloud.prototype.selectProject = function(projectId) {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
   console.log('Project id chosen: ' + projectId);
   this.projectId = projectId;
-  var callback = (response) => {
+  let callback = (response) => {
     response['items'].sort((a, b) => {
-      var aId = a['id'];
-      var bId = b['id'];
+      let aId = a['id'];
+      let bId = b['id'];
       if (aId < bId) {
         return -1;
       }
@@ -174,8 +174,8 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
   accountInstance.request({
     path: '/storage/v1/b',
     params: {
-      'project': projectId
-    }
+      'project': projectId,
+    },
   }, callback);
 };
 
@@ -184,15 +184,15 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
  * @param {list<?>} items List of bucket objects for selected project id.
  */
 cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
-  var bucketsContainer = goog.dom.getElement(
+  let bucketsContainer = goog.dom.getElement(
     this.prefix + 'buckets-container');
   goog.soy.renderElement(
       bucketsContainer,
       cwc.soy.GCloud.gCloudBuckets,
       {prefix: this.prefix, items: items}
   );
-  var bucketSelect = goog.dom.getElement(this.prefix + 'buckets');
-  var bucketChangeListener = (event) => {
+  let bucketSelect = goog.dom.getElement(this.prefix + 'buckets');
+  let bucketChangeListener = (event) => {
     this.currentFolders = [];
     this.storagePrefix = '';
     this.bucketName = event.target.value;
@@ -211,7 +211,7 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   }
   this.currentDirectory();
 
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;
   if (this.publicUrlPath) {
     this.setDialogPublicUrl();
@@ -229,31 +229,33 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
  * Gets folders present with the current storage prefix.
  */
 cwc.ui.GCloud.prototype.currentDirectory = function() {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
-  var callback = (response) => {
-    var foldersContainer = goog.dom.getElement(
+  let callback = (response) => {
+    let foldersContainer = goog.dom.getElement(
         this.prefix + 'folders-container');
     if ('prefixes' in response) {
-      var prefixes = response['prefixes'];
-      var nextFolders = [];
-      for (var i in prefixes) {
-        var folderList = prefixes[i].split('/');
-        var folder = folderList[folderList.length - 2];
-        nextFolders.push(folder);
+      let prefixes = response['prefixes'];
+      let nextFolders = [];
+      for (let i in prefixes) {
+        if (Object.prototype.hasOwnProperty.call(prefixes, i)) {
+          let folderList = prefixes[i].split('/');
+          let folder = folderList[folderList.length - 2];
+          nextFolders.push(folder);
+        }
       }
       goog.soy.renderElement(
         foldersContainer, cwc.soy.GCloud.gCloudFolders,
         {prefix: this.prefix, currentFolders: this.currentFolders,
           nextFolders: nextFolders}
       );
-      var selectFolderEvent = (event) => {
-        var selectedFolder = event.target.value;
+      let selectFolderEvent = (event) => {
+        let selectedFolder = event.target.value;
         this.storagePrefix += selectedFolder + '/';
         this.currentFolders.push(selectedFolder);
         this.currentDirectory();
       };
-      var folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
+      let folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
       goog.events.listenOnce(folderPicker, goog.events.EventType.CHANGE,
         selectFolderEvent, false, this);
     } else {
@@ -264,40 +266,40 @@ cwc.ui.GCloud.prototype.currentDirectory = function() {
       );
     }
 
-    var folderNavButtonClickEvent = (event) => {
-      var folderNavButtonId = event.target.id;
-      var rootOrIndex = folderNavButtonId.split(
+    let folderNavButtonClickEvent = (event) => {
+      let folderNavButtonId = event.target.id;
+      let rootOrIndex = folderNavButtonId.split(
         this.prefix + 'folders-path-')[1];
       if (rootOrIndex === 'root') {
         this.storagePrefix = '';
         this.currentFolders = [];
       } else {
-        var clickedIndex = parseInt(rootOrIndex);
+        let clickedIndex = parseInt(rootOrIndex);
         this.storagePrefix = '';
-        for (var index = 0; index < clickedIndex + 1; index++) {
+        for (let index = 0; index < clickedIndex + 1; index++) {
           this.storagePrefix += this.currentFolders[index] + '/';
         }
         this.currentFolders = this.currentFolders.splice(0, clickedIndex + 1);
       }
       this.currentDirectory();
     };
-    var folderNavElement = goog.dom.getElement(this.prefix + 'folders-nav');
-    var folderNavButtons = folderNavElement.getElementsByTagName('button');
-    for (var index= 0; index < folderNavButtons.length; index++) {
-      var folderNavButton = folderNavButtons[index];
+    let folderNavElement = goog.dom.getElement(this.prefix + 'folders-nav');
+    let folderNavButtons = folderNavElement.getElementsByTagName('button');
+    for (let index= 0; index < folderNavButtons.length; index++) {
+      let folderNavButton = folderNavButtons[index];
       goog.events.listen(folderNavButton, goog.events.EventType.CLICK,
         folderNavButtonClickEvent, false, this);
     }
   };
-  var params = {
-    'delimiter': '/'
+  let params = {
+    'delimiter': '/',
   };
   if (this.storagePrefix) {
     params['prefix'] = this.storagePrefix;
   }
   accountInstance.request({
     path: '/storage/v1/b/' + this.bucketName + '/o',
-    params: params
+    params: params,
   }, callback);
 };
 
@@ -305,19 +307,19 @@ cwc.ui.GCloud.prototype.currentDirectory = function() {
  * Publish file in currently selected project, bucket, and folder.
  */
 cwc.ui.GCloud.prototype.publish = function() {
-  var accountInstance = this.helper.getInstance('account');
+  let accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
   accountInstance.request({
     path: '/upload/storage/v1/b/' + this.bucketName + '/o',
     method: 'POST',
     params: {
       'uploadType': 'media',
-      'name': this.storagePrefix + this.fileName
+      'name': this.storagePrefix + this.fileName,
     },
     content: this.fileContent,
     header: {
-      'Content-Type': 'text/html'
-    }
+      'Content-Type': 'text/html',
+    },
   }, this.makePublic.bind(this));
 };
 
@@ -325,12 +327,12 @@ cwc.ui.GCloud.prototype.publish = function() {
  * Makes the published file public.
  */
 cwc.ui.GCloud.prototype.makePublic = function() {
-  var accountInstance = this.helper.getInstance('account');
-  var dialogInstance = this.helper.getInstance('dialog');
+  let accountInstance = this.helper.getInstance('account');
+  let dialogInstance = this.helper.getInstance('dialog');
   if (!accountInstance) return;
   if (!dialogInstance) return;
 
-  var callback = (response) => {
+  let callback = (response) => {
     this.publicUrlPath = response['bucket'] + '/' + response['name'];
     this.setDialogPublicUrl();
     dialogInstance.setButtonText('publish', 'Republish');
@@ -340,14 +342,14 @@ cwc.ui.GCloud.prototype.makePublic = function() {
         this.storagePrefix + this.fileName),
     method: 'PUT',
     params: {
-      'predefinedAcl': 'publicRead'
+      'predefinedAcl': 'publicRead',
     },
     header: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     content: JSON.stringify({
-      'contentType': 'text/html'
-    })
+      'contentType': 'text/html',
+    }),
   }, callback);
 };
 
@@ -355,7 +357,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
  * Display the public url of the published file.
  */
 cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
-  var publicUrlContainer = goog.dom.getElement(this.prefix + 'public-url');
+  let publicUrlContainer = goog.dom.getElement(this.prefix + 'public-url');
   goog.soy.renderElement(
     publicUrlContainer, cwc.soy.GCloud.gCloudPublicURL,
     {prefix: this.prefix, path: this.publicUrlPath,

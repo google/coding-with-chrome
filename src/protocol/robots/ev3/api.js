@@ -42,7 +42,6 @@ goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -111,7 +110,7 @@ cwc.protocol.ev3.Api = function(helper) {
  * @export
  */
 cwc.protocol.ev3.Api.prototype.autoConnect = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
   bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.connect.bind(this), true);
 };
@@ -124,8 +123,8 @@ cwc.protocol.ev3.Api.prototype.autoConnect = function() {
  * @export
  */
 cwc.protocol.ev3.Api.prototype.connect = function(address) {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var device = bluetoothInstance.getDevice(address);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let device = bluetoothInstance.getDevice(address);
   if (!device) {
     console.error('EV3 unit is not ready yet...');
     return false;
@@ -154,7 +153,7 @@ cwc.protocol.ev3.Api.prototype.isConnected = function() {
  */
 cwc.protocol.ev3.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleOnReceive_.bind(this));
-  //this.device.setDataHandler(this.handleOnReceive_.bind(this),
+  // this.device.setDataHandler(this.handleOnReceive_.bind(this),
   //    this.header_, this.headerMinSize_);
   this.monitoring.init();
   this.playTone(2000, 200, 25);
@@ -277,7 +276,7 @@ cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
  * @param {cwc.protocol.ev3.ColorSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
-  var sensor = this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
+  let sensor = this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
     sensor.setCss(
@@ -290,7 +289,7 @@ cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.IrSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
-  var sensor = this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
+  let sensor = this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
   }
@@ -301,7 +300,7 @@ cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.UltrasonicSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setUltrasonicSensorMode = function(mode) {
-  var sensor = this.deviceData[
+  let sensor = this.deviceData[
     this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
@@ -436,10 +435,10 @@ cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode) {
  * @param {!number} power
  */
 cwc.protocol.ev3.Api.prototype.movePower = function(power) {
-  var brake = true;
-  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
-  var ports = motor_left | motor_right;
+  let brake = true;
+  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let ports = motor_left | motor_right;
   this.send_(this.commands.movePower(ports, power, brake));
 };
 
@@ -450,9 +449,9 @@ cwc.protocol.ev3.Api.prototype.movePower = function(power) {
  */
 cwc.protocol.ev3.Api.prototype.rotatePower = function(power_left,
     opt_power_right) {
-  var brake = true;
-  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let brake = true;
+  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotatePower(motor_left, motor_right, power_left,
       opt_power_right || power_left, brake));
 };
@@ -462,7 +461,7 @@ cwc.protocol.ev3.Api.prototype.rotatePower = function(power_left,
  * @param {cwc.protocol.ev3.InputPort=} opt_port
  */
 cwc.protocol.ev3.Api.prototype.stop = function(opt_port) {
-  var brake = 1;
+  let brake = 1;
   this.send_(this.commands.stop(opt_port, brake));
   this.reset();
 };
@@ -550,9 +549,9 @@ cwc.protocol.ev3.Api.prototype.playSound = function(file_name, opt_volume) {
  * @export
  */
 cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
-  var brake = true;
-  var rampUp = 0;
-  var rampDown = 0;
+  let brake = true;
+  let rampUp = 0;
+  let rampDown = 0;
   this.send_(this.commands.moveSteps(this.actor[this.deviceName.MEDIUM_MOTOR],
       steps, opt_speed, rampUp, rampDown, brake));
 };
@@ -567,11 +566,11 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
  */
 cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
     opt_speed, opt_break) {
-  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
-  var brake = opt_break === undefined ? true : opt_break;
-  var rampUp = 0;
-  var rampDown = 0;
+  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let brake = opt_break === undefined ? true : opt_break;
+  let rampUp = 0;
+  let rampDown = 0;
   this.send_(this.commands.moveSteps(motor_left | motor_right, steps, opt_speed,
       rampUp, rampDown, brake));
 };
@@ -587,11 +586,11 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
  */
 cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
     opt_ports, opt_speed, opt_break) {
-  var ports = opt_ports === undefined ?
+  let ports = opt_ports === undefined ?
     this.actor[this.deviceName.LARGE_MOTOR] : opt_ports;
-  var brake = opt_break === undefined ? true : opt_break;
-  var rampUp = 0;
-  var rampDown = 0;
+  let brake = opt_break === undefined ? true : opt_break;
+  let rampUp = 0;
+  let rampDown = 0;
   this.send_(this.commands.moveSteps(ports, steps, opt_speed,
       rampUp, rampDown, brake));
 };
@@ -606,9 +605,9 @@ cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
  */
 cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
     opt_step_speed, opt_break) {
-  var brake = opt_break === undefined ? true : opt_break;
-  var motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  var motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let brake = opt_break === undefined ? true : opt_break;
+  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
+  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,
       opt_step_speed, opt_step_speed, 0, 0, brake));
 };
@@ -624,9 +623,9 @@ cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
  */
 cwc.protocol.ev3.Api.prototype.customRotateSteps = function(steps,
     opt_ports, opt_step_speed, opt_break) {
-  var ports = opt_ports === undefined ?
+  let ports = opt_ports === undefined ?
     this.actor[this.deviceName.LARGE_MOTOR_OPT] : opt_ports;
-  var brake = opt_break === undefined ? true : opt_break;
+  let brake = opt_break === undefined ? true : opt_break;
   this.send_(this.commands.customRotateSteps(ports, steps, opt_step_speed, 0, 0,
       brake));
 };
@@ -653,7 +652,7 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   if (type == cwc.protocol.ev3.DeviceType.NONE) {
     return;
   }
-  var typeNormalized = type.replace(/-/g, '_').replace(/ /g, '');
+  let typeNormalized = type.replace(/-/g, '_').replace(/ /g, '');
   if (!(typeNormalized in cwc.protocol.ev3.DeviceType)) {
     if (type == 'PORT ERROR') {
       console.error('Received Port Error on port', port, '!');
@@ -665,10 +664,10 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
     }
     return;
   }
-  var deviceTypeName = cwc.protocol.ev3.DeviceType[typeNormalized];
-  var deviceName = deviceTypeName;
-  var deviceMode = 0;
-  var deviceCss = '';
+  let deviceTypeName = cwc.protocol.ev3.DeviceType[typeNormalized];
+  let deviceName = deviceTypeName;
+  let deviceMode = 0;
+  let deviceCss = '';
   switch (deviceTypeName) {
     case cwc.protocol.ev3.DeviceType.IR_PROX:
       deviceName = this.deviceName.IR_SENSOR;
@@ -757,7 +756,7 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   this.deviceData[port] = new cwc.protocol.ev3.Device(deviceName,
       deviceMode, 0, deviceCss);
   this.eventHandler.dispatchEvent(
-      cwc.protocol.ev3.Events.ChangedDevices(this.deviceData));
+      cwc.protocol.ev3.Events.changedDevices(this.deviceData));
   this.deviceInfo[deviceName] = port;
 
   switch (port) {
@@ -794,43 +793,43 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
     switch (opt_device_name) {
       case this.deviceName.COLOR_SENSOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.ColorSensorValue(value, port));
+            cwc.protocol.ev3.Events.colorSensorValue(value, port));
         break;
       case this.deviceName.GYRO_SENSOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.GyroSensorValue(value, port));
+            cwc.protocol.ev3.Events.gyroSensorValue(value, port));
         break;
       case this.deviceName.IR_SENSOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.IrSensorValue(value, port));
+            cwc.protocol.ev3.Events.irSensorValue(value, port));
         break;
       case this.deviceName.ULTRASONIC_SENSOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.UltrasonicSensorValue(value, port));
+            cwc.protocol.ev3.Events.ultrasonicSensorValue(value, port));
         break;
       case this.deviceName.TOUCH_SENSOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.TouchSensorValue(value, port));
+            cwc.protocol.ev3.Events.touchSensorValue(value, port));
         break;
       case this.deviceName.TOUCH_SENSOR_OPT:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.TouchSensorOptValue(value, port));
+            cwc.protocol.ev3.Events.touchSensorOptValue(value, port));
         break;
       case this.deviceName.LARGE_MOTOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.TouchSensorValue(value, port));
+            cwc.protocol.ev3.Events.touchSensorValue(value, port));
         break;
       case this.deviceName.MEDIUM_MOTOR:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.MediumMotorValue(value, port));
+            cwc.protocol.ev3.Events.mediumMotorValue(value, port));
         break;
       case this.deviceName.LARGE_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.LargeMotorOptValue(value, port));
+            cwc.protocol.ev3.Events.largeMotorOptValue(value, port));
         break;
       case this.deviceName.MEDIUM_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
-            cwc.protocol.ev3.Events.MediumMotorOptValue(value, port));
+            cwc.protocol.ev3.Events.mediumMotorOptValue(value, port));
         break;
     }
   }
@@ -847,15 +846,15 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
     console.error('Received no data!');
     return;
   }
-  var data = new Uint8Array(raw_data);
+  let data = new Uint8Array(raw_data);
   if (data.length < 5) {
     console.error('Received data are to small!');
     return;
   }
-  var value = 0;
-  var result = 0;
-  var callback = data[2];
-  var port = data[3];
+  let value = 0;
+  let result = 0;
+  let callback = data[2];
+  let port = data[3];
 
   // Handles the different callback types.
   switch (callback) {
@@ -871,8 +870,8 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
       break;
     case cwc.protocol.ev3.CallbackType.DEVICE_NAME:
       value = data.subarray(5, 5 + 0x7E);
-      var type = (String.fromCharCode.apply(null, value)).trim();
-      this.updateDeviceType_(port, type);
+      this.updateDeviceType_(port,
+        (String.fromCharCode.apply(null, value)).trim());
       break;
     case cwc.protocol.ev3.CallbackType.DEVICE_PCT_VALUE:
     case cwc.protocol.ev3.CallbackType.DEVICE_RAW_VALUE:

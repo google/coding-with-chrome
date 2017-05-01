@@ -33,7 +33,6 @@ goog.require('cwc.utils.NumberTools');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -41,7 +40,6 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Api = function(helper) {
-
   /** @type {!cwc.protocol.makeblock.mbotRanger.Commands} */
   this.commands = new cwc.protocol.makeblock.mbotRanger.Commands();
 
@@ -85,7 +83,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function(helper) {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.autoConnect = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
   bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.connect.bind(this), true);
 };
@@ -98,8 +96,8 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.autoConnect = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(address) {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var device = bluetoothInstance.getDevice(address);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let device = bluetoothInstance.getDevice(address);
   if (!device) {
     console.error('mBot Ranger is not ready yet...');
     return false;
@@ -204,7 +202,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getMonitoring = function() {
 cwc.protocol.makeblock.mbotRanger.Api.prototype.movePower = function(power,
     opt_slot) {
   if (opt_slot === undefined) {
-    var motorPower = cwc.utils.NumberTools.MinMax(power, -130, 130);
+    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
     this.send_(this.commands.movePower(-motorPower,
       cwc.protocol.makeblock.mbotRanger.Slot.ONE));
     this.send_(this.commands.movePower(motorPower,
@@ -248,7 +246,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.setRightMotorPower = function(
 cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
     opt_slot) {
   if (opt_slot === undefined) {
-    var motorPower = cwc.utils.NumberTools.MinMax(power, -130, 130);
+    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
     this.send_(this.commands.movePower(motorPower,
       cwc.protocol.makeblock.mbotRanger.Slot.ONE));
     this.send_(this.commands.movePower(motorPower,
@@ -269,7 +267,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
 cwc.protocol.makeblock.mbotRanger.Api.prototype.moveSteps = function(steps,
     opt_power, opt_slot) {
   if (opt_slot === undefined) {
-    var motorPower = cwc.utils.NumberTools.MinMax(opt_power, -130, 130) || 130;
+    let motorPower = cwc.utils.NumberTools.minMax(opt_power, -130, 130) || 130;
     this.send_(this.commands.moveSteps(-steps, motorPower,
       cwc.protocol.makeblock.mbotRanger.Slot.ONE));
     this.send_(this.commands.moveSteps(steps, motorPower,
@@ -312,7 +310,6 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.readLightSensor1 = function() {
 cwc.protocol.makeblock.mbotRanger.Api.prototype.readLightSensor2 = function() {
   this.send_(this.commands.readLightSensor2());
 };
-
 
 
 /**
@@ -381,9 +378,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.parseFloatBytes_ = function(
   if (!dataBytes) {
     return null;
   }
-  var intValue = this.fourBytesToInt_(
+  let intValue = this.fourBytesToInt_(
     dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
-  var result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
+  let result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
   return result;
 };
 
@@ -412,9 +409,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.fourBytesToInt_ = function(b1,
 cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
     num) {
   /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-  var sign = ( num >> 31 ) == 0 ? 1 : -1;
-  var exponent = ( num >> 23 ) & 0xff;
-  var mantissa = ( exponent == 0 ) ?
+  let sign = ( num >> 31 ) == 0 ? 1 : -1;
+  let exponent = ( num >> 23 ) & 0xff;
+  let mantissa = ( exponent == 0 ) ?
     ( num & 0x7fffff ) << 1 : ( num & 0x7fffff ) | 0x800000;
   return sign * mantissa * Math.pow( 2, exponent - 150 );
 };
@@ -427,9 +424,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
     buffer) {
-  var indexType = buffer[2];
-  var dataType = buffer[3];
-  var data = buffer.slice(4, buffer.length -1);
+  let indexType = buffer[2];
+  let dataType = buffer[3];
+  let data = buffer.slice(4, buffer.length -1);
   switch (indexType) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.VERSION:
       console.log('VERSION', data);
@@ -458,7 +455,6 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
     index_type, data, opt_data_size) {
-
   if (opt_data_size && data.length < opt_data_size) {
     return;
   }
@@ -480,7 +476,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
               cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1]),
           'sensor_2': this.parseFloatBytes_(
             this.sensorDataCache_[
-              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2])
+              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2]),
         });
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
@@ -488,7 +484,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
         cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue, {
           'left': data[3] >= 64,
           'right': data[2] >= 64,
-          'raw': data
+          'raw': data,
         });
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE:

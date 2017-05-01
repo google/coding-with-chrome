@@ -20,7 +20,7 @@
 
 
 /** @type {Function} */
-var Shepherd = function() {};
+let Shepherd = function() {};
 
 
 /** @type {Object} */

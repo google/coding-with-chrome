@@ -45,7 +45,7 @@ Blockly.Blocks['phaser_sprite_add'] = {
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -73,7 +73,7 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
           [i18t('width'), 'width'],
           [i18t('x'), 'x'],
           [i18t('y'), 'y'],
-          [i18t('z'), 'y']
+          [i18t('z'), 'y'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
@@ -83,7 +83,7 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
     this.setColour(225);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -107,7 +107,7 @@ Blockly.Blocks['phaser_sprite_adjust_dimension'] = {
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -122,13 +122,13 @@ Blockly.Blocks['phaser_sprite_get'] = {
         .appendField(new Blockly.FieldDropdown([
           [i18t('angle'), 'angle'],
           ['x', 'x'],
-          ['y', 'y']
+          ['y', 'y'],
         ]), 'property');
     this.setOutput(true, null);
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -147,7 +147,7 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -166,5 +166,5 @@ Blockly.Blocks['phaser_sprite_immovable'] = {
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -31,7 +31,6 @@ goog.require('cwc.utils.ByteTools');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -39,7 +38,6 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.makeblock.mbot.Api = function(helper) {
-
   /** @type {!cwc.protocol.makeblock.mbot.Commands} */
   this.commands = new cwc.protocol.makeblock.mbot.Commands();
 
@@ -83,7 +81,7 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.autoConnect = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
   bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.connect.bind(this), true);
 };
@@ -96,8 +94,8 @@ cwc.protocol.makeblock.mbot.Api.prototype.autoConnect = function() {
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.connect = function(address) {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var device = bluetoothInstance.getDevice(address);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let device = bluetoothInstance.getDevice(address);
   if (!device) {
     console.error('mBot is not ready yet...');
     return false;
@@ -309,9 +307,9 @@ cwc.protocol.makeblock.mbot.Api.prototype.getVersion = function() {
  */
 cwc.protocol.makeblock.mbot.Api.prototype.parseFloatBytes_ = function(
     dataBytes) {
-  var intValue = this.fourBytesToInt_(
+  let intValue = this.fourBytesToInt_(
     dataBytes[3], dataBytes[2], dataBytes[1], dataBytes[0]);
-  var result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
+  let result = parseFloat(this.intBitsToFloat_(intValue).toFixed(2));
   return result;
 };
 
@@ -339,9 +337,9 @@ cwc.protocol.makeblock.mbot.Api.prototype.fourBytesToInt_ = function(b1, b2, b3,
  */
 cwc.protocol.makeblock.mbot.Api.prototype.intBitsToFloat_ = function(num) {
   /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
-  var sign = ( num >> 31 ) == 0 ? 1 : -1;
-  var exponent = ( num >> 23 ) & 0xff;
-  var mantissa = ( exponent == 0 ) ?
+  let sign = ( num >> 31 ) == 0 ? 1 : -1;
+  let exponent = ( num >> 23 ) & 0xff;
+  let mantissa = ( exponent == 0 ) ?
     ( num & 0x7fffff ) << 1 : ( num & 0x7fffff ) | 0x800000;
   return sign * mantissa * Math.pow( 2, exponent - 150 );
 };
@@ -353,9 +351,9 @@ cwc.protocol.makeblock.mbot.Api.prototype.intBitsToFloat_ = function(num) {
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
-  var indexType = buffer[2];
-  var dataType = buffer[3];
-  var data = buffer.slice(4, buffer.length -1);
+  let indexType = buffer[2];
+  let dataType = buffer[3];
+  let data = buffer.slice(4, buffer.length -1);
   switch (indexType) {
     case cwc.protocol.makeblock.mbot.IndexType.VERSION:
       console.log('VERSION', data);
@@ -383,7 +381,6 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
  */
 cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
     index_type, data, opt_data_size) {
-
   if (opt_data_size && data.length < opt_data_size) {
     return;
   }
@@ -410,7 +407,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
         cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue, {
           'left': data[3] >= 64,
           'right': data[2] >= 64,
-          'raw': data
+          'raw': data,
         });
       break;
     case cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC:

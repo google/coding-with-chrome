@@ -47,9 +47,8 @@ cwc.ui.PreviewStatus = {
   TERMINATED: 3,
   UNRESPONSIVE: 4,
   LOADED: 5,
-  INIT: 6
+  INIT: 6,
 };
-
 
 
 /**
@@ -139,7 +138,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
-    this.node,  cwc.soy.Preview.template, { prefix: this.prefix }
+    this.node, cwc.soy.Preview.template, {prefix: this.prefix}
   );
 
   this.nodeBody = goog.dom.getElement(this.prefix + 'body');
@@ -158,13 +157,13 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.infobar.decorate(this.nodeInfobar);
 
   // Monitor Changes
-  var viewportMonitor = new goog.dom.ViewportSizeMonitor();
+  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
   this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
@@ -172,8 +171,8 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   }
 
   // HotKeys
-  var shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
-  var CTRL = goog.ui.KeyboardShortcutHandler.Modifiers.CTRL;
+  let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+  let CTRL = goog.ui.KeyboardShortcutHandler.Modifiers.CTRL;
   shortcutHandler.registerShortcut('CTRL_ENTER',
       goog.events.KeyCodes.ENTER, CTRL);
 
@@ -190,22 +189,22 @@ cwc.ui.Preview.prototype.decorate = function(node) {
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Preview.prototype.adjustSize = function() {
-  var parentElement = goog.dom.getParentElement(this.node);
+  let parentElement = goog.dom.getParentElement(this.node);
   if (parentElement) {
-    var parentSize = goog.style.getSize(parentElement);
-    var newHeight = parentSize.height;
+    let parentSize = goog.style.getSize(parentElement);
+    let newHeight = parentSize.height;
 
     if (this.nodeToolbar) {
-      var toolbarSize = goog.style.getSize(this.nodeToolbar);
+      let toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
 
     if (this.nodeInfobar) {
-      var infobarSize = goog.style.getSize(this.nodeInfobar);
+      let infobarSize = goog.style.getSize(this.nodeInfobar);
       newHeight = newHeight - infobarSize.height;
     }
 
-    var contentSize = new goog.math.Size(parentSize.width, newHeight);
+    let contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeContent, contentSize);
   }
   this.delayAutoUpdate();
@@ -369,8 +368,8 @@ cwc.ui.Preview.prototype.showConsole = function(visible) {
  * @return {!string}
  */
 cwc.ui.Preview.prototype.getContentUrl = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var contentUrl = rendererInstance.getContentUrl();
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let contentUrl = rendererInstance.getContentUrl();
   if (!contentUrl) {
     console.error('Was not able to get content url!');
   }
@@ -409,9 +408,9 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
       this.skipAutoUpdate_ = false;
     }
     console.log('Activate AutoUpdate...');
-    var editorInstance = this.helper.getInstance('editor');
+    let editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
-      var editorEventHandler = editorInstance.getEventHandler();
+      let editorEventHandler = editorInstance.getEventHandler();
       this.autoUpdateEvent = goog.events.listen(editorEventHandler,
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
@@ -438,7 +437,7 @@ cwc.ui.Preview.prototype.delayAutoUpdate = function() {
   if (this.autoUpdateDelayer) {
     window.clearTimeout(this.autoUpdateDelayer);
   }
-  var autoUpdater = this.doAutoUpdate.bind(this);
+  let autoUpdater = this.doAutoUpdate.bind(this);
   this.autoUpdateDelayer = window.setTimeout(autoUpdater,
       this.autoUpdateDelay);
 };
@@ -495,7 +494,7 @@ cwc.ui.Preview.prototype.run_ = function(opt_event) {
  * @private
  */
 cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
-  var shortcut = event.identifier;
+  let shortcut = event.identifier;
   console.log('Shortcut: ' + shortcut);
 
   if (shortcut == 'CTRL_ENTER') {
@@ -537,7 +536,7 @@ cwc.ui.Preview.prototype.handleLoadStart_ = function(opt_event) {
  * @private
  */
 cwc.ui.Preview.prototype.handleLoadStop_ = function(opt_event) {
-  var duration = (new Date().getTime() - this.startTime) / 1000;
+  let duration = (new Date().getTime() - this.startTime) / 1000;
   this.status = cwc.ui.PreviewStatus.LOADED;
   if (this.toolbar) {
     this.toolbar.setLoadStatus(false);
@@ -555,7 +554,7 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
   this.setStatusText('Unresponsive...');
   this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
 
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Unresponsive Warning',
     'The preview is unresponsive! Terminate?').then((answer) => {
       if (answer) {
@@ -579,7 +578,7 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
  */
 cwc.ui.Preview.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

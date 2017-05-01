@@ -24,10 +24,10 @@ goog.provide('cwc.utils.NumberTools');
  * @param {!number|undefined} data
  * @param {!number} min
  * @param {!number} max
- * @param {number=} opt_default
+ * @param {number=} defaultValue
  * @return {number}
  */
-cwc.utils.NumberTools.MinMax = function(data, min, max, opt_default) {
+cwc.utils.NumberTools.minMax = function(data, min, max, defaultValue = 0) {
   return Math.min(
-    Math.max((data === undefined ? opt_default || 0 : data), min), max);
+    Math.max((data === undefined ? defaultValue : data), min), max);
 };

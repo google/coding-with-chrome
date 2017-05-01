@@ -20,7 +20,6 @@
 goog.provide('cwc.runner.profile.makeblock.mbot.Monitor');
 
 
-
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor

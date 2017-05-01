@@ -22,7 +22,6 @@ goog.provide('cwc.fileHandler.FileExporter');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -42,9 +41,9 @@ cwc.fileHandler.FileExporter = function(helper) {
  * Exports rendered content as html file.
  */
 cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
-  var fileInstance = this.helper.getInstance('file', true);
-  var fileSaverInstance = this.helper.getInstance('fileSaver', true);
-  var rendererInstance = this.helper.getInstance('renderer', true);
+  let fileInstance = this.helper.getInstance('file', true);
+  let fileSaverInstance = this.helper.getInstance('fileSaver', true);
+  let rendererInstance = this.helper.getInstance('renderer', true);
   console.info('Prepare export as HTML file');
   fileSaverInstance.selectFileToSave(
       fileInstance.getFileTitle() + '.html',
@@ -56,9 +55,9 @@ cwc.fileHandler.FileExporter.prototype.exportHtmlFile = function() {
  * Exports rendered content into GoogleCloud.
  */
 cwc.fileHandler.FileExporter.prototype.exportHtmlToGoogleCloud = function() {
-  var fileInstance = this.helper.getInstance('file', true);
-  var gCloudInstance = this.helper.getInstance('gcloud', true);
-  var rendererInstance = this.helper.getInstance('renderer', true);
+  let fileInstance = this.helper.getInstance('file', true);
+  let gCloudInstance = this.helper.getInstance('gcloud', true);
+  let rendererInstance = this.helper.getInstance('renderer', true);
   console.info('Prepare export as HTML file to Google Cloud');
   gCloudInstance.publishDialog(
     fileInstance.getFileTitle() + '.html',

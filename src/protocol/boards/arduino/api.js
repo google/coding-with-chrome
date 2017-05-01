@@ -24,7 +24,6 @@ goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -84,7 +83,7 @@ cwc.protocol.arduino.Api.prototype.disconnect = function() {
     return;
   }
   console.log('Disconnect Arduino device', this.device);
-  //this.cleanUp();
+  // this.cleanUp();
   this.device.disconnect();
   this.connected = false;
 };
@@ -108,16 +107,16 @@ cwc.protocol.arduino.Api.prototype.handleOnReceive = function(
     return;
   }
 
-  var sortedData = new Uint8Array(raw_data);
+  let sortedData = new Uint8Array(raw_data);
   console.log('handleData', sortedData);
-  var str = String.fromCharCode.apply(null, sortedData);
+  let str = String.fromCharCode.apply(null, sortedData);
   if (this.terminalHandler) {
     this.terminalHandler(str);
   }
 
   // Example api call returns 128 if 'C' is recieved.
   if (str == 'C') {
-    var buffer = new ArrayBuffer(1);
+    let buffer = new ArrayBuffer(1);
     buffer[0] = 128;
     this.device.send(buffer);
   }

@@ -22,7 +22,6 @@ goog.provide('cwc.mode.raspberryPi.Connection');
 goog.require('goog.Timer');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -76,7 +75,7 @@ cwc.mode.raspberryPi.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.raspberryPi.Connection.prototype.stop = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
   }
@@ -149,7 +148,7 @@ cwc.mode.raspberryPi.Connection.prototype.cleanUp = function() {
  */
 cwc.mode.raspberryPi.Connection.prototype.addEventListener_ = function(src,
     type, listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

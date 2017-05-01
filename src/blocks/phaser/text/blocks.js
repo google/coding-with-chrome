@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Add text.
  */
@@ -62,7 +61,7 @@ Blockly.Blocks['phaser_text_add'] = {
     this.setColour(260);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -111,7 +110,7 @@ Blockly.Blocks['phaser_dynamic_text_add'] = {
     this.setColour(260);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -160,7 +159,7 @@ Blockly.Blocks['phaser_action_text_add'] = {
     this.setColour(260);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -180,7 +179,7 @@ Blockly.Blocks['phaser_text_change'] = {
     this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -195,7 +194,7 @@ Blockly.Blocks['phaser_text_get'] = {
     this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -215,5 +214,5 @@ Blockly.Blocks['phaser_text_clicked'] = {
     this.setColour(255);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

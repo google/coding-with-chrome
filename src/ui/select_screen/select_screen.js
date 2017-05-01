@@ -28,7 +28,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -78,7 +77,7 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
-    'prefix': this.prefix
+    'prefix': this.prefix,
   });
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -90,15 +89,15 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
 
 /**
  * Creates a request to show the select screen.
- * @param {Function=} opt_callback
+ * @param {Function=} optCallback
  * @param {boolean=} opt_force_overview
  */
-cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback,
+cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(optCallback,
     opt_force_overview) {
-  var showSelectScreen = function() {
+  let showSelectScreen = function() {
     this.showSelectScreen(opt_force_overview);
-    if (opt_callback) {
-      opt_callback();
+    if (optCallback) {
+      optCallback();
     }
   }.bind(this);
   this.helper.handleUnsavedChanges(showSelectScreen);
@@ -110,9 +109,9 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(opt_callback,
  * @param {boolean=} opt_force_overview
  */
 cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
-  var advancedMode = false;
-  var skipWelcomeScreen = false;
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let advancedMode = false;
+  let skipWelcomeScreen = false;
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     skipWelcomeScreen = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
@@ -125,10 +124,10 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     }
   }
 
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateSimpleSingleColumnLayout();
-    var nodes = layoutInstance.getNodes();
+    let nodes = layoutInstance.getNodes();
     this.decorate(nodes['content']);
     if (this.lockBasicMode && !opt_force_overview) {
       this.showNormalOverview();
@@ -145,14 +144,14 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     layoutInstance.refresh();
   }
 
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.setTitle('');
     guiInstance.enableTitle(false);
     guiInstance.setStatus('');
   }
 
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.enableSaveFile(false);
   }
@@ -165,9 +164,9 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
   this.showTemplate_(cwc.soy.SelectScreen.welcome);
 
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
-    var showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
+    let showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
     showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
     goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
@@ -185,7 +184,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   }
 
   if (this.helper.getAndSetFirstRun(this.name)) {
-    //this.startTour();
+    // this.startTour();
   }
 };
 
@@ -206,12 +205,11 @@ cwc.ui.SelectScreen.prototype.startTour = function() {
  */
 cwc.ui.SelectScreen.prototype.showNormalOverview = function(
     opt_force_overview) {
-
   this.helper.endTour();
   this.lockBasicMode = true;
   this.lockAdvancedMode = false;
   if (this.updateMode) {
-    var userConfigInstance = this.helper.getInstance('userConfig');
+    let userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.ADVANCED_MODE, false);
@@ -232,12 +230,11 @@ cwc.ui.SelectScreen.prototype.showNormalOverview = function(
  */
 cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
     opt_force_overview) {
-
   this.helper.endTour();
   this.lockAdvancedMode = true;
   this.lockBasicMode = false;
   if (this.updateMode) {
-    var userConfigInstance = this.helper.getInstance('userConfig');
+    let userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.ADVANCED_MODE, true);
@@ -272,8 +269,8 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
   this.tour_ = new Shepherd.Tour({
     'defaults': {
       'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true
-    }
+      'showCancelLink': true,
+    },
   });
   this.tour_.addStep('welcome', {
     'title': i18t('Welcome to Coding with Chrome!'),
@@ -285,13 +282,13 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
     }, {
       'text': 'Next',
       'action': this.tour_.next,
-      'classes': 'shepherd-button-example-primary'
-    }]
+      'classes': 'shepherd-button-example-primary',
+    }],
   });
   this.tour_.addStep('menubar', {
     'title': i18t('Menubar'),
     'text': i18t('...'),
-    'attachTo': '#cwc-gui-bar bottom'
+    'attachTo': '#cwc-gui-bar bottom',
   });
   this.tour_.addStep('navigation', {
     'title': i18t('Navigation'),
@@ -299,8 +296,8 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
     'when': {
       'before-show': function() {
         document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      }
-    }
+      },
+    },
   });
   this.tour_.addStep('skip_welcome', {
     'title': i18t('Show screen on startup'),
@@ -309,12 +306,12 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
     'when': {
       'before-show': function() {
         document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      }
-    }
+      },
+    },
   });
   this.tour_.addStep('welcome', {
     'text': i18t('Please select your current coding skill to start.'),
-    'attachTo': '.mdl-grid top'
+    'attachTo': '.mdl-grid top',
   });
 };
 
@@ -327,7 +324,7 @@ cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
  */
 cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
     opt_icon, opt_color_class) {
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.setHeader(title, opt_icon, opt_color_class);
   }
@@ -345,7 +342,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
       experimental: this.helper.experimentalEnabled(),
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
-      version: this.helper.getAppVersion()
+      version: this.helper.getAppVersion(),
     });
   } else {
     console.error('Unable to render template', template);
@@ -362,9 +359,9 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
  */
 cwc.ui.SelectScreen.prototype.setClickEvent_ = function(name, event,
     opt_prefix) {
-  var prefix = opt_prefix || this.prefix;
-  var elementName = prefix + name;
-  var element = goog.dom.getElement(elementName);
+  let prefix = opt_prefix || this.prefix;
+  let elementName = prefix + name;
+  let element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Was not able to find element ' + elementName + '!');
     return;

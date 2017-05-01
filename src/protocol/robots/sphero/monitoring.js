@@ -22,8 +22,6 @@ goog.provide('cwc.protocol.sphero.Monitoring');
 goog.require('goog.Timer');
 
 
-
-
 /**
  * @constructor
  * @param {!cwc.protocol.sphero.Api} api
@@ -95,7 +93,7 @@ cwc.protocol.sphero.Monitoring.prototype.stop = function() {
  */
 cwc.protocol.sphero.Monitoring.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

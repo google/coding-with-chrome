@@ -22,7 +22,6 @@ goog.provide('cwc.mode.coffeescript.Layout');
 goog.require('cwc.soy.mode.Coffeescript');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -40,7 +39,7 @@ cwc.mode.coffeescript.Layout = function(helper) {
  * Decorates the text layout.
  */
 cwc.mode.coffeescript.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout(500);
 
   goog.soy.renderElement(
@@ -54,5 +53,4 @@ cwc.mode.coffeescript.Layout.prototype.decorate = function() {
       cwc.soy.mode.Coffeescript.preview,
       {'prefix': this.prefix}
   );
-
 };

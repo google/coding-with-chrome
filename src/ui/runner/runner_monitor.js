@@ -24,7 +24,6 @@ goog.require('goog.math');
 goog.require('goog.style');
 
 
-
 /**
  * Class represents the monitor inside the ui.
  * @param {!cwc.utils.Helper} helper
@@ -99,7 +98,7 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.RunnerMonitor.template,
-      { 'prefix': this.prefix }
+      {'prefix': this.prefix}
   );
 
   // Tabs
@@ -236,20 +235,20 @@ cwc.ui.RunnerMonitor.prototype.isMonitorActive = function() {
  */
 cwc.ui.RunnerMonitor.prototype.adjustSize = function() {
   if (this.node) {
-    var parentSize = goog.style.getSize(this.node);
-    var newHeight = parentSize.height;
+    let parentSize = goog.style.getSize(this.node);
+    let newHeight = parentSize.height;
 
     if (this.nodeToolbar) {
-      var toolbarSize = goog.style.getSize(this.nodeToolbar);
+      let toolbarSize = goog.style.getSize(this.nodeToolbar);
       newHeight = newHeight - toolbarSize.height;
     }
 
     if (this.nodeStatusbar) {
-      var infobarSize = goog.style.getSize(this.nodeStatusbar);
+      let infobarSize = goog.style.getSize(this.nodeStatusbar);
       newHeight = newHeight - infobarSize.height;
     }
 
-    var contentSize = new goog.math.Size(parentSize.width, newHeight);
+    let contentSize = new goog.math.Size(parentSize.width, newHeight);
     goog.style.setSize(this.nodeContent, contentSize);
   }
 };
@@ -260,7 +259,7 @@ cwc.ui.RunnerMonitor.prototype.adjustSize = function() {
  * @private
  */
 cwc.ui.RunnerMonitor.prototype.handleRun_ = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }
@@ -272,7 +271,7 @@ cwc.ui.RunnerMonitor.prototype.handleRun_ = function() {
  * @private
  */
 cwc.ui.RunnerMonitor.prototype.handleStop_ = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.stop();
   }

@@ -23,7 +23,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -38,7 +37,7 @@ cwc.ui.RunnerToolbar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix =  this.helper.getPrefix('runner-toolbar');
+  this.prefix = this.helper.getPrefix('runner-toolbar');
 
   /** @type {boolean} */
   this.runStatus = false;
@@ -114,7 +113,7 @@ cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
  * Runs the code.
  */
 cwc.ui.RunnerToolbar.prototype.run = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }
@@ -125,7 +124,7 @@ cwc.ui.RunnerToolbar.prototype.run = function() {
  * Stops runner instance.
  */
 cwc.ui.RunnerToolbar.prototype.stop = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.stop();
   }
@@ -136,7 +135,7 @@ cwc.ui.RunnerToolbar.prototype.stop = function() {
  * Terminates runner instance.
  */
 cwc.ui.RunnerToolbar.prototype.terminate = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
   }
@@ -147,7 +146,7 @@ cwc.ui.RunnerToolbar.prototype.terminate = function() {
  * Refreshes runner instance.
  */
 cwc.ui.RunnerToolbar.prototype.refresh = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.refresh();
   }
@@ -158,7 +157,7 @@ cwc.ui.RunnerToolbar.prototype.refresh = function() {
  * Reloads runner instance.
  */
 cwc.ui.RunnerToolbar.prototype.reload = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.reload();
   }
@@ -169,7 +168,7 @@ cwc.ui.RunnerToolbar.prototype.reload = function() {
  * Shows / hides info window.
  */
 cwc.ui.RunnerToolbar.prototype.toggleInfo = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.toggleInfo();
   }
@@ -241,7 +240,7 @@ cwc.ui.RunnerToolbar.prototype.collapse = function() {
  */
 cwc.ui.RunnerToolbar.prototype.setExpand = function(expand) {
   this.expandState = expand;
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     layoutInstance.setFullscreen(expand, 0);
     goog.style.setElementShown(this.nodeExpand, !expand);

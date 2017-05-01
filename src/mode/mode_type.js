@@ -45,5 +45,5 @@ cwc.mode.Type = {
   SPHERO: 'sphero',
   SPHERO_BLOCKLY: 'sphero_blockly',
   TEXT: 'text',
-  TTS: 'tts'
+  TTS: 'tts',
 };

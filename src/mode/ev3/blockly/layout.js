@@ -22,7 +22,6 @@ goog.provide('cwc.mode.ev3.blockly.Layout');
 goog.require('cwc.soy.mode.ev3.blockly.Layout');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -40,7 +39,7 @@ cwc.mode.ev3.blockly.Layout = function(helper) {
  * Decorates the EV3 layout.
  */
 cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
@@ -56,5 +55,4 @@ cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
       cwc.soy.mode.ev3.blockly.Layout.runner,
       {'prefix': this.prefix}
   );
-
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -123,7 +122,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
     this.undo.bind(this));
   goog.events.listen(this.nodeVariable, goog.events.EventType.CLICK,
     this.createVariable.bind(this));
-
 };
 
 
@@ -134,7 +132,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
  */
 cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.nodeMoreList) {
-    var item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
+    let item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
     this.nodeMoreList.appendChild(item);
     goog.style.setElementShown(this.nodeMore, true);
     cwc.ui.Helper.mdlRefresh();
@@ -146,7 +144,7 @@ cwc.ui.BlocklyToolbar.prototype.addOption = function(name, func, opt_tooltip) {
  * Create a new variable.
  */
 cwc.ui.BlocklyToolbar.prototype.createVariable = function() {
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
     blocklyInstance.createVariable();
   }
@@ -157,7 +155,7 @@ cwc.ui.BlocklyToolbar.prototype.createVariable = function() {
  * Saves the currently open file.
  */
 cwc.ui.BlocklyToolbar.prototype.save = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  let fileSaverInstance = this.helper.getInstance('fileSaver');
   if (fileSaverInstance) {
     fileSaverInstance.saveFile(true);
   }
@@ -168,9 +166,9 @@ cwc.ui.BlocklyToolbar.prototype.save = function() {
  * Undo change to the editor.
  */
 cwc.ui.BlocklyToolbar.prototype.undo = function() {
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
-    var history = blocklyInstance.undoChange();
+    let history = blocklyInstance.undoChange();
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
@@ -181,9 +179,9 @@ cwc.ui.BlocklyToolbar.prototype.undo = function() {
  * Redo change to the editor.
  */
 cwc.ui.BlocklyToolbar.prototype.redo = function() {
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
-    var history = blocklyInstance.redoChange();
+    let history = blocklyInstance.redoChange();
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
@@ -194,8 +192,8 @@ cwc.ui.BlocklyToolbar.prototype.redo = function() {
  * Insert a media.
  */
 cwc.ui.BlocklyToolbar.prototype.insertMedia = function() {
-  var blocklyInstance = this.helper.getInstance('blockly');
-  var libraryInstance = this.helper.getInstance('library');
+  let blocklyInstance = this.helper.getInstance('blockly');
+  let libraryInstance = this.helper.getInstance('library');
   if (blocklyInstance && libraryInstance) {
     libraryInstance.showLibrary();
   }
@@ -206,7 +204,7 @@ cwc.ui.BlocklyToolbar.prototype.insertMedia = function() {
  * Publish file.
  */
 cwc.ui.BlocklyToolbar.prototype.publish = function() {
-  var fileExporterInstance = this.helper.getInstance('fileExporter');
+  let fileExporterInstance = this.helper.getInstance('fileExporter');
   fileExporterInstance.exportHtmlToGoogleCloud();
 };
 
@@ -281,7 +279,7 @@ cwc.ui.BlocklyToolbar.prototype.toggleExpand = function() {
  */
 cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand, invert) {
   this.expandState = expand;
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     if (invert) {
       layoutInstance.setFullscreen(expand, 0);

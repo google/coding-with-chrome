@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.userConfig');
+goog.provide('cwc.UserConfig');
 goog.provide('cwc.userConfigName');
 goog.provide('cwc.userConfigType');
 
@@ -41,7 +41,7 @@ cwc.userConfigName = {
   PYTHON: 'python',
   SKIP_WELCOME: 'skip_welcome',
   SPHERO: 'sphero',
-  ZOOM: 'zoom'
+  ZOOM: 'zoom',
 };
 
 
@@ -51,9 +51,8 @@ cwc.userConfigName = {
 cwc.userConfigType = {
   BLOCKLY: 'blockly',
   GENERAL: 'general',
-  MODULE: 'module'
+  MODULE: 'module',
 };
-
 
 
 /**
@@ -62,7 +61,7 @@ cwc.userConfigType = {
  * @struct
  * @final
  */
-cwc.userConfig = function(helper) {
+cwc.UserConfig = function(helper) {
   /** @type {string} */
   this.name = 'User Config';
 
@@ -89,7 +88,7 @@ cwc.userConfig = function(helper) {
  * @param {!cwc.userConfigName|string} name Name of the config entry.
  * @return {!string} Value of the config entry.
  */
-cwc.userConfig.prototype.get = function(type, name) {
+cwc.UserConfig.prototype.get = function(type, name) {
   return this.storage_.get(name, this.prefix + type);
 };
 
@@ -99,7 +98,7 @@ cwc.userConfig.prototype.get = function(type, name) {
  * @param {!cwc.userConfigType|string} type Type of the config entry.
  * @return {!Object} Values of the config entry.
  */
-cwc.userConfig.prototype.getAll = function(type) {
+cwc.UserConfig.prototype.getAll = function(type) {
   return this.storage_.getAll(this.prefix + type);
 };
 
@@ -110,6 +109,6 @@ cwc.userConfig.prototype.getAll = function(type) {
  * @param {!cwc.userConfigName|string} name Unique name of for the config entry.
  * @param {string} value Value of the config entry.
  */
-cwc.userConfig.prototype.set = function(type, name, value) {
+cwc.UserConfig.prototype.set = function(type, name, value) {
   this.storage_.set(name, value, this.prefix + type);
 };

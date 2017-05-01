@@ -24,7 +24,6 @@ goog.require('cwc.fileHandler.Config');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -56,20 +55,19 @@ cwc.fileHandler.FileSaver = function(helper) {
 
 
 /**
- * @param {boolean=} opt_autodetect Auto detect where to save the file.
+ * @param {boolean=} autoDetect Auto detect where to save the file.
  * @export
  */
-cwc.fileHandler.FileSaver.prototype.saveFile = function(opt_autodetect) {
+cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
   console.log('saveFile...');
   this.prepareContent();
-  if (opt_autodetect && this.gDriveId) {
+  if (autoDetect && this.gDriveId) {
     this.saveGDriveFile(true);
   } else if (this.fileHandler) {
     this.prepareSaveFile(this.fileHandler, this.fileName, this.fileData);
   } else {
     this.selectFileToSave(this.fileName, this.fileData);
   }
-  console.log(this.fileData);
 };
 
 
@@ -84,13 +82,13 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
 
 
 /**
- * @param {boolean} save_file If true save file, otherwise open 'save as'
+ * @param {boolean=} save_file If true save file, otherwise open 'save as'
  *   file dialog.
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   console.log('Save file in Google Drive', this.gDriveId);
-  var gDriveInstance = this.helper.getInstance('gdrive', true);
+  let gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
   if (save_file) {
     gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
@@ -106,7 +104,7 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
  */
 cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
   console.log('Save file in Google Cloud');
-  var gCloudInstance = this.helper.getInstance('gcloud', true);
+  let gCloudInstance = this.helper.getInstance('gcloud', true);
   this.prepareContent();
   gCloudInstance.publishDialog(this.fileName, this.fileData, this.fileType);
 };
@@ -115,21 +113,21 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
  * Prepares file and ensures we have the latest editor content.
  */
 cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
-  var fileInstance = this.helper.getInstance('file', true);
-  var editorInstance = this.helper.getInstance('editor', true);
-  var blocklyInstance = this.helper.getInstance('blockly', true);
-  var editorFlags = editorInstance.getEditorFlags();
-  var gDriveId = fileInstance.getGDriveId();
+  let fileInstance = this.helper.getInstance('file', true);
+  let editorInstance = this.helper.getInstance('editor', true);
+  let blocklyInstance = this.helper.getInstance('blockly', true);
+  let editorFlags = editorInstance.getEditorFlags();
+  let gDriveId = fileInstance.getGDriveId();
 
-  var file = fileInstance.getFile();
-  var fileType = fileInstance.getFileType();
-  var fileName = fileInstance.getFileName();
-  var fileTitle = fileInstance.getFileTitle();
-  var fileHandler = fileInstance.getFileHandler();
-  var fileUi = fileInstance.getUi();
-  var fileConfig = cwc.fileHandler.Config.get(fileType);
+  let file = fileInstance.getFile();
+  let fileType = fileInstance.getFileType();
+  let fileName = fileInstance.getFileName();
+  let fileTitle = fileInstance.getFileTitle();
+  let fileHandler = fileInstance.getFileHandler();
+  let fileUi = fileInstance.getUi();
+  let fileConfig = cwc.fileHandler.Config.get(fileType);
   if (!fileConfig) {
-    throw 'Filetype ' + fileType + ' is not supported!';
+    throw new Error('Filetype ' + fileType + ' is not supported!');
   }
 
   if (file.isRaw()) {
@@ -140,15 +138,15 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   } else {
     if (fileConfig.blockly_views) {
       for (let i = 0; i < fileConfig.blockly_views.length; i++) {
-        var blocklyView = fileConfig.blockly_views[i];
-        var blocklyContent = blocklyInstance.getXML();
+        let blocklyView = fileConfig.blockly_views[i];
+        let blocklyContent = blocklyInstance.getXML();
         file.setContent(blocklyView, blocklyContent);
       }
     }
     if (fileConfig.editor_views) {
       for (let i = 0; i < fileConfig.editor_views.length; i++) {
         let editorView = fileConfig.editor_views[i];
-        var editorContent = editorInstance.getEditorContent(editorView);
+        let editorContent = editorInstance.getEditorContent(editorView);
         file.setContent(editorView, editorContent);
       }
     }
@@ -172,17 +170,16 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 
 
 /**
- * @param {!string} file_name
- * @param {cwc.file.Extensions=} opt_extension
+ * @param {!string} filename
+ * @param {cwc.file.Extensions=} extension
  * @return {!string}
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
-    file_name, opt_extension) {
-  var extension = opt_extension || cwc.file.Extensions.CWC;
-  if (file_name.includes(extension)) {
-    return file_name;
+    filename, extension = cwc.file.Extensions.CWC) {
+  if (filename.includes(extension)) {
+    return filename;
   }
-  return file_name + extension;
+  return filename + extension;
 };
 
 
@@ -191,7 +188,7 @@ cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
  * @param {!string} content
  */
 cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
-  var prepareSaveFile = function(file_entry, opt_file_entries) {
+  let prepareSaveFile = function(file_entry, opt_file_entries) {
     if (chrome.runtime.lastError) {
       console.error('Choose Entry error for', name, ':',
         chrome.runtime.lastError);
@@ -204,7 +201,7 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
   console.log('Select file to save content for', name);
   chrome.fileSystem.chooseEntry({
     'type': 'saveFile',
-    'suggestedName': this.getSafeFilename_(name)
+    'suggestedName': this.getSafeFilename_(name),
   }, prepareSaveFile);
 };
 
@@ -222,7 +219,7 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
   }
 
   console.log('Prepare fileWriter for', name);
-  var fileWriter = this.fileWriterHandler.bind(this);
+  let fileWriter = this.fileWriterHandler.bind(this);
   file_entry.createWriter(function(writer) {
     fileWriter(writer, name, content, file_entry);
   });
@@ -238,11 +235,11 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
  */
 cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     writer, name, content, file_entry) {
-  var fileInstance = this.helper.getInstance('file', true);
-  var fileName = file_entry['name'] || name;
-  var blobContent = new Blob([content]);
-  var truncated = false;
-  var helperInstance = this.helper;
+  let fileInstance = this.helper.getInstance('file', true);
+  let fileName = file_entry['name'] || name;
+  let blobContent = new Blob([content]);
+  let truncated = false;
+  let helperInstance = this.helper;
   console.log('Writing file', fileName, 'with file-size', blobContent['size'],
       ':', content);
   writer.onwriteend = function(opt_event) {

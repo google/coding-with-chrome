@@ -21,19 +21,23 @@
 
 /**
  * Phaser preload section.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_preload'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'preload: function(e) {\n' + statements_code + '},\n';
 };
 
 
 /**
  * Load Audio.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_load_audio'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var value_audio =  Blockly.JavaScript.valueToCode(block, 'audio',
+  let text_name = block.getFieldValue('name');
+  let value_audio = Blockly.JavaScript.valueToCode(block, 'audio',
     Blockly.JavaScript.ORDER_NONE);
   return 'game.load.audio(\'' + text_name + '\', \'' + value_audio + '\');\n';
 };
@@ -41,10 +45,12 @@ Blockly.JavaScript['phaser_load_audio'] = function(block) {
 
 /**
  * Load Image.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_load_image'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var value_image =  Blockly.JavaScript.valueToCode(block, 'image',
+  let text_name = block.getFieldValue('name');
+  let value_image = Blockly.JavaScript.valueToCode(block, 'image',
     Blockly.JavaScript.ORDER_NONE);
   return 'game.load.image(\'' + text_name + '\', \'' + value_image + '\');\n';
 };

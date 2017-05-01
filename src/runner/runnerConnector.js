@@ -23,17 +23,16 @@ goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
- * @param {string=} opt_name
+ * @param {string=} optName
  * @constructor
  * @struct
  * @final
  */
-cwc.runner.Connector = function(helper, opt_name) {
+cwc.runner.Connector = function(helper, optName) {
   /** @type {!string} */
-  this.name = 'Runner Connector' || opt_name;
+  this.name = 'Runner Connector' || optName;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -111,15 +110,15 @@ cwc.runner.Connector.prototype.setTarget = function(target) {
 
 /**
  * @param {string!} command
- * @param {Object|number|string|Array=} opt_value
+ * @param {Object|number|string|Array=} optValue
  */
-cwc.runner.Connector.prototype.send = function(command, opt_value) {
+cwc.runner.Connector.prototype.send = function(command, optValue) {
   if (!this.target || !this.target.contentWindow || !this.targetLoaded) {
     return;
   }
 
   this.target.contentWindow.postMessage({
-    'command': command, 'value': opt_value },
+    'command': command, 'value': optValue},
     this.targetOrigin);
 };
 
@@ -173,14 +172,14 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
  */
 cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
     api, opt_scope) {
-  var commandProfile = new command_profile(api);
+  let commandProfile = new command_profile(api);
   if (!commandProfile) {
     console.error('Invalid command profile', command_profile);
     return;
   }
-  var commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
+  let commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
   console.log(commandProfile, commandList);
-  var commandScope = opt_scope || commandProfile;
+  let commandScope = opt_scope || commandProfile;
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && command !== 'constructor') {
@@ -227,7 +226,7 @@ cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {
  */
 cwc.runner.Connector.prototype.addEvent = function(event_handler, event,
     command) {
-  var customEvent = function(e) {
+  let customEvent = function(e) {
     this.send(command, e.data);
   };
   this.addEventListener_(event_handler, event, customEvent, false, this);
@@ -262,7 +261,7 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
  * @export
  */
 cwc.runner.Connector.prototype.ping = function() {
-  var pingId = this.pingCounter++;
+  let pingId = this.pingCounter++;
   this.pingTime[pingId] = new Date().getTime();
   this.send('__ping__', pingId);
 };
@@ -295,7 +294,7 @@ cwc.runner.Connector.prototype.handleContentLoad_ = function(opt_event) {
  * @private
  */
 cwc.runner.Connector.prototype.handleMessage_ = function(event) {
-  var browserEvent = event.getBrowserEvent();
+  let browserEvent = event.getBrowserEvent();
   if (!browserEvent) {
     console.error('Was not able to get browser event!');
     return;
@@ -327,10 +326,10 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
  * @private
  */
 cwc.runner.Connector.prototype.handlePong_ = function(data) {
-  var currentTime = new Date().getTime();
-  var sendTime =  data['time'] - this.pingTime[data['id']];
-  var responseTime = currentTime - data['time'];
-  var delay = currentTime - this.pingTime[data['id']];
+  let currentTime = new Date().getTime();
+  let sendTime = data['time'] - this.pingTime[data['id']];
+  let responseTime = currentTime - data['time'];
+  let delay = currentTime - this.pingTime[data['id']];
   console.log('PONG from', data['id'], ':', 'send=', sendTime + 'ms',
       'response=', responseTime + 'ms', 'delay=', delay + 'ms');
 };
@@ -350,7 +349,7 @@ cwc.runner.Connector.prototype.handlePong_ = function(data) {
  */
 cwc.runner.Connector.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

@@ -22,7 +22,6 @@ goog.provide('cwc.mode.raspberryPi.advanced.Layout');
 goog.require('cwc.soy.mode.raspberryPi.advanced');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -40,7 +39,7 @@ cwc.mode.raspberryPi.advanced.Layout = function(helper) {
  * Decorates the Raspberry Pi layout.
  */
 cwc.mode.raspberryPi.advanced.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
@@ -56,5 +55,4 @@ cwc.mode.raspberryPi.advanced.Layout.prototype.decorate = function() {
       cwc.soy.mode.raspberryPi.advanced.runner,
       {'prefix': this.prefix}
   );
-
 };

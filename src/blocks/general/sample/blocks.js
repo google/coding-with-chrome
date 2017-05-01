@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Sample image: 50px_red.png
  */
@@ -33,7 +32,7 @@ Blockly.Blocks['general_sample_image_50px_red'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -50,7 +49,7 @@ Blockly.Blocks['general_sample_image_50px_green'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -67,7 +66,7 @@ Blockly.Blocks['general_sample_image_50px_blue'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -84,7 +83,7 @@ Blockly.Blocks['general_sample_image_ball_red'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -101,7 +100,7 @@ Blockly.Blocks['general_sample_image_bg_01'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -118,5 +117,5 @@ Blockly.Blocks['general_sample_image_bg_02'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

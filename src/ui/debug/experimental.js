@@ -23,7 +23,6 @@ goog.require('cwc.config.Experimental');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -45,7 +44,7 @@ cwc.ui.Experimental = function(helper) {
  * Prepares the debug screen.
  */
 cwc.ui.Experimental.prototype.prepare = function() {
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
         cwc.userConfigName.EXPERIMENTAL_MODE) || false;
@@ -55,16 +54,16 @@ cwc.ui.Experimental.prototype.prepare = function() {
 
 
 /**
- * @param {string=} opt_name
+ * @param {string=} optName
  * @return {!boolean}
  * @export
  */
-cwc.ui.Experimental.prototype.isEnabled = function(opt_name) {
-  if (!opt_name) {
+cwc.ui.Experimental.prototype.isEnabled = function(optName) {
+  if (!optName) {
     return this.enabled;
   }
 
-  var name = opt_name || 'ENABLED';
+  let name = optName || 'ENABLED';
   if (name in cwc.config.Experimental) {
     return cwc.config.Experimental[name];
   }

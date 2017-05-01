@@ -20,18 +20,16 @@
 goog.provide('cwc.protocol.serial.Device');
 
 
-
 /**
  * @param {!string} path
  * @param {!number} vendor_id
  * @param {!number} product_id
- * @param {string=} opt_name
+ * @param {string=} optName
  * @param {chrome_serial=} opt_serial
  * @constructor
  */
 cwc.protocol.serial.Device = function(path, vendor_id, product_id,
-    opt_name, opt_serial) {
-
+    optName, opt_serial) {
   /** @type {!chrome.serial} */
   this.serial = opt_serial || chrome.serial;
 
@@ -51,7 +49,7 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id,
   this.productId = product_id || 0;
 
   /** @type {!string} */
-  this.name = opt_name || '';
+  this.name = optName || '';
 
   /** @type {!boolean} */
   this.supportedDevice = false;
@@ -167,10 +165,10 @@ cwc.protocol.serial.Device.prototype.setDataHandler = function(callback) {
 
 
 /**
- * @param {Function=} opt_callback
+ * @param {Function=} optCallback
  * @export
  */
-cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
+cwc.protocol.serial.Device.prototype.connect = function(optCallback) {
   if (this.connected && this.connectionId) {
     console.warn('Serial device at', this.path, 'is already connected',
       'with connection id', this.connectionId, '!');
@@ -178,7 +176,7 @@ cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
   }
 
   console.log('Connect serial device', this.path, '…');
-  this.connectCallback = opt_callback;
+  this.connectCallback = optCallback;
   this.serial.connect(this.path, this.connectionOptions,
       this.handleConnect_.bind(this));
 };
@@ -186,22 +184,22 @@ cwc.protocol.serial.Device.prototype.connect = function(opt_callback) {
 
 /**
  * @param {boolean=} opt_force
- * @param {Function=} opt_callback
+ * @param {Function=} optCallback
  * @export
  */
 cwc.protocol.serial.Device.prototype.disconnect = function(opt_force,
-    opt_callback) {
+    optCallback) {
   if (this.connectionId == null) {
     if (opt_force) {
       this.connecting = false;
     }
-    if (opt_callback) {
-      opt_callback();
+    if (optCallback) {
+      optCallback();
     }
     return;
   }
-  if (opt_callback) {
-    this.disconnectCallback = opt_callback;
+  if (optCallback) {
+    this.disconnectCallback = optCallback;
   }
   this.serial.disconnect(this.connectionId, this.handleDisconnect_.bind(this));
 };
@@ -223,8 +221,8 @@ cwc.protocol.serial.Device.prototype.send = function(data) {
  * @export
  */
 cwc.protocol.serial.Device.prototype.sendText = function(text) {
-  var buffer = new ArrayBuffer(text.length);
-  var bufferView = new Uint8Array(buffer);
+  let buffer = new ArrayBuffer(text.length);
+  let bufferView = new Uint8Array(buffer);
   for (let i = 0; i < text.length; i++) {
     bufferView[i] = text.charCodeAt(i);
   }
@@ -240,7 +238,7 @@ cwc.protocol.serial.Device.prototype.sendText = function(text) {
 cwc.protocol.serial.Device.prototype.handleConnect_ = function(
     connection_info) {
   if (chrome.runtime.lastError) {
-    var errorMessage = chrome.runtime.lastError;
+    let errorMessage = chrome.runtime.lastError;
     console.warn('Serial connection failed:', errorMessage);
     if (errorMessage['message'].toLowerCase().includes('failed')) {
       this.connectErrors++;
@@ -294,7 +292,7 @@ cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(result) {
  */
 cwc.protocol.serial.Device.prototype.handleSend_ = function(send_info) {
   if (chrome.runtime.lastError) {
-    var errorMessage = chrome.runtime.lastError.message;
+    let errorMessage = chrome.runtime.lastError.message;
     if ((errorMessage.toLowerCase().includes('socket') &&
          errorMessage.toLowerCase().includes('not') &&
          errorMessage.toLowerCase().includes('connected')) ||

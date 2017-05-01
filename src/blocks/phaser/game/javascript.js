@@ -19,14 +19,15 @@
  */
 
 
-
 /**
  * Phaser Game block.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_game'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var number_width = block.getFieldValue('width');
-  var number_height = block.getFieldValue('height');
+  let text_name = block.getFieldValue('name');
+  let number_width = block.getFieldValue('width');
+  let number_height = block.getFieldValue('height');
   return 'var obstacle_group;\n' +
     'var game = new Phaser.Game(' + number_width + ', ' + number_height +
     ', Phaser.AUTO, \'' + text_name + '\');\n';
@@ -35,11 +36,13 @@ Blockly.JavaScript['phaser_game'] = function(block) {
 
 /**
  * Phaser Game state.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_game_state'] = function(block) {
-  var text_name = block.getFieldValue('name');
-  var dropdown_autostart = block.getFieldValue('autostart');
-  var statements_state = Blockly.JavaScript.statementToCode(block, 'state');
+  let text_name = block.getFieldValue('name');
+  let dropdown_autostart = block.getFieldValue('autostart');
+  let statements_state = Blockly.JavaScript.statementToCode(block, 'state');
   return 'game.state.add(\'' + text_name + '\', {\n' +
     statements_state +
     '}, ' + (dropdown_autostart == 'true' ? true : false) + ');\n';
@@ -48,15 +51,18 @@ Blockly.JavaScript['phaser_game_state'] = function(block) {
 
 /**
  * Phaser Game start.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_game_start'] = function(block) {
-  var text_name = block.getFieldValue('name');
+  let text_name = block.getFieldValue('name');
   return 'game.state.start(\'' + text_name + '\');\n';
 };
 
 
 /**
  * Phaser Game block.
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_game_restart'] = function() {
   return 'game.state.start(game.state.current);\n';

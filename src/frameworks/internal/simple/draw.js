@@ -28,7 +28,6 @@ goog.require('goog.string');
 goog.require('goog.style');
 
 
-
 /**
  * Simple drawing framework.
  * @param {Element=} opt_target
@@ -37,7 +36,6 @@ goog.require('goog.style');
  * @final
  */
 cwc.framework.simple.Draw = function(opt_target) {
-
   /** @type {Element|undefined} */
   this.target = opt_target;
 
@@ -58,7 +56,7 @@ cwc.framework.simple.Draw = function(opt_target) {
  * @private
  */
 cwc.framework.simple.Draw.prototype.prepare_ = function() {
-  var target = this.getTarget();
+  let target = this.getTarget();
   if (!target) {
     return;
   }
@@ -99,6 +97,7 @@ cwc.framework.simple.Draw.prototype.getDisplay_ = function() {
 
 /**
  * @export
+ * @return {Element}
  */
 cwc.framework.simple.Draw.prototype.getTarget = function() {
   return this.target || document.body;
@@ -111,7 +110,7 @@ cwc.framework.simple.Draw.prototype.getTarget = function() {
  */
 cwc.framework.simple.Draw.prototype.mapGlobal = function() {
   if (!window) {
-    throw 'Window name space is not available!';
+    throw new Error('Window name space is not available!');
   }
   window['draw'] = {
     'circle': this.circle.bind(this),
@@ -122,7 +121,7 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
     'point': this.point.bind(this),
     'rectangle': this.rectangle.bind(this),
     'text': this.text.bind(this),
-    'triangle': this.triangle.bind(this)
+    'triangle': this.triangle.bind(this),
   };
 };
 
@@ -174,11 +173,11 @@ cwc.framework.simple.Draw.ManipulationContent;
  */
 cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
-    var background_color = cwc.framework.simple.Draw.convertString_(
+    let background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
@@ -193,7 +192,7 @@ cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
     }
   }
 
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.arc(x, y, (radius || 25), 0, 2 * Math.PI, false);
   };
   return this.execute_(canvasInstructions, display, manipulation);
@@ -205,7 +204,7 @@ cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
  * @export
  */
 cwc.framework.simple.Draw.prototype.clear = function() {
-  var display = this.getDisplay_();
+  let display = this.getDisplay_();
   display.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
@@ -226,11 +225,11 @@ cwc.framework.simple.Draw.prototype.clear = function() {
  */
 cwc.framework.simple.Draw.prototype.line = function(from_x, from_y,
     to_x, to_y, opt_colorOrManipulation, opt_width) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
-    var border_color = cwc.framework.simple.Draw.convertString_(
+    let border_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (border_color) {
       manipulation.setBorderColor(border_color);
@@ -245,7 +244,7 @@ cwc.framework.simple.Draw.prototype.line = function(from_x, from_y,
     }
   }
 
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.moveTo(from_x, from_y);
     display.lineTo(to_x, to_y);
   };
@@ -270,12 +269,12 @@ cwc.framework.simple.Draw.prototype.line = function(from_x, from_y,
  */
 cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
 
   if (!manipulation.hasPreset()) {
-    var background_color = cwc.framework.simple.Draw.convertString_(
+    let background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
@@ -290,7 +289,7 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
     }
   }
 
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.rect(x, y, width, height);
   };
   return this.execute_(canvasInstructions, display, manipulation);
@@ -314,13 +313,13 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
  */
 cwc.framework.simple.Draw.prototype.text = function(text, x, y,
     opt_colorOrManipulation, opt_font, opt_stroke) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
-  var font = opt_font || '24px serif';
+  let font = opt_font || '24px serif';
 
   if (!manipulation.hasPreset()) {
-    var textColor = cwc.framework.simple.Draw.convertString_(
+    let textColor = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (textColor) {
       if (opt_stroke) {
@@ -330,7 +329,7 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
       }
     }
   }
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.font = font;
     if (opt_stroke) {
       display.strokeText(text, x, y);
@@ -355,8 +354,8 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
  */
 cwc.framework.simple.Draw.prototype.image = function(image, x, y,
     opt_width, opt_height) {
-  var display = this.getDisplay_();
-  var imageElement = null;
+  let display = this.getDisplay_();
+  let imageElement = null;
   if ((typeof image == 'string' || image instanceof String) &&
       image.includes('data:')) {
     imageElement = new Image();
@@ -365,7 +364,7 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
     imageElement = /** @type {HTMLCanvasElement|HTMLImageElement|
       HTMLVideoElement} */ (image);
   }
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     if (opt_width && opt_height) {
       display.drawImage(imageElement, x, y, opt_width, opt_height);
     } else {
@@ -391,19 +390,19 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
  */
 cwc.framework.simple.Draw.prototype.point = function(x, y,
     opt_colorOrManipulation, opt_size) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
-  var size = opt_size || 1;
+  let size = opt_size || 1;
 
   if (!manipulation.hasPreset()) {
-    var background_color = cwc.framework.simple.Draw.convertString_(
+    let background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
       manipulation.setFillStyle(background_color);
     }
   }
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.fillRect(x, y, size, size);
   };
   return this.execute_(canvasInstructions, display, manipulation);
@@ -427,11 +426,11 @@ cwc.framework.simple.Draw.prototype.point = function(x, y,
  */
 cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
-    var background_color = cwc.framework.simple.Draw.convertString_(
+    let background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
@@ -445,17 +444,17 @@ cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
       manipulation.setBorderSize(opt_borderSize);
     }
   }
-  var halfWidth = width / 2;
-  var halfHeight = height / 2;
-  var centerX = x - halfWidth;
-  var centerY = y - halfHeight;
-  var middleX = centerX + halfWidth;
-  var middleY = centerY + halfHeight;
-  var endX = centerX + width;
-  var endY = centerY + height;
-  var controlX = halfWidth * cwc.config.Number.CIRCULAR_ARCS;
-  var controlY = halfHeight * cwc.config.Number.CIRCULAR_ARCS;
-  var canvasInstructions = function() {
+  let halfWidth = width / 2;
+  let halfHeight = height / 2;
+  let centerX = x - halfWidth;
+  let centerY = y - halfHeight;
+  let middleX = centerX + halfWidth;
+  let middleY = centerY + halfHeight;
+  let endX = centerX + width;
+  let endY = centerY + height;
+  let controlX = halfWidth * cwc.config.Number.CIRCULAR_ARCS;
+  let controlY = halfHeight * cwc.config.Number.CIRCULAR_ARCS;
+  let canvasInstructions = function() {
     display.moveTo(centerX, centerY + halfHeight);
     display.bezierCurveTo(  // Top-Left part
         centerX, middleY - controlY, middleX - controlX,
@@ -491,11 +490,11 @@ cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
  */
 cwc.framework.simple.Draw.prototype.triangle = function(x1, y1, x2, y2, x3, y3,
     opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
-  var display = this.getDisplay_();
-  var manipulation = cwc.framework.simple.Draw.getManipulations_(
+  let display = this.getDisplay_();
+  let manipulation = cwc.framework.simple.Draw.getManipulations_(
       opt_colorOrManipulation);
   if (!manipulation.hasPreset()) {
-    var background_color = cwc.framework.simple.Draw.convertString_(
+    let background_color = cwc.framework.simple.Draw.convertString_(
         opt_colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
@@ -509,7 +508,7 @@ cwc.framework.simple.Draw.prototype.triangle = function(x1, y1, x2, y2, x3, y3,
       manipulation.setBorderSize(opt_borderSize);
     }
   }
-  var canvasInstructions = function() {
+  let canvasInstructions = function() {
     display.moveTo(x1, y1);
     display.lineTo(x2, y2);
     display.lineTo(x3, y3);
@@ -553,7 +552,7 @@ cwc.framework.simple.Draw.prototype.execute_ = function(drawFn, display,
  * @private
  */
 cwc.framework.simple.Draw.getManipulations_ = function(opt_manipulation) {
-  var manipulations = new cwc.framework.simple.DrawManipulation();
+  let manipulations = new cwc.framework.simple.DrawManipulation();
   if (goog.isObject(opt_manipulation)) {
     manipulations.setPreset(true);
     manipulations.setBgColor(opt_manipulation['backgroundColor']);

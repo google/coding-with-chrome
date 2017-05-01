@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
+let closureBuilder = require('closure-builder');
 
 
 /**
@@ -30,9 +30,9 @@ closureBuilder.build({
     'app/html/',
     'app/icons/',
     'app/images/',
-    'app/manifest.json'
+    'app/manifest.json',
   ],
-  out: 'genfiles/'
+  out: 'genfiles/',
 });
 
 
@@ -42,9 +42,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Resource files',
   resources: [
-    'resources/'
+    'resources/',
   ],
-  out: 'genfiles/'
+  out: 'genfiles/',
 });
 
 
@@ -55,8 +55,8 @@ closureBuilder.build({
   name: 'Markdown files',
   markdown: [
     'LICENSE.md',
-    'NOTICE.md'
+    'NOTICE.md',
   ],
   out: 'genfiles/',
-  replace: ['id="three-js"', 'id="threejs"']
+  replace: ['id="three-js"', 'id="threejs"'],
 });

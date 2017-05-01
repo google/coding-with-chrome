@@ -19,13 +19,12 @@
  */
 
 
-
 /**
  * @constructor
  * @struct
  * @final
  */
-var cwcLoader = function() {
+let CwcLoader = function() {
   /** @type {element} */
   this.versionNode = document.getElementById('cwc-version-text');
 
@@ -49,7 +48,7 @@ var cwcLoader = function() {
 /**
  *
  */
-cwcLoader.prototype.prepare = function() {
+CwcLoader.prototype.prepare = function() {
   console.log('Loading the Coding with Chrome UI ...');
 
   if (this.manifest && this.versionNode) {
@@ -64,15 +63,13 @@ cwcLoader.prototype.prepare = function() {
 /**
  * @param {Event} event
  */
-cwcLoader.prototype.keyHandler = function(event) {
-  switch (event.keyCode) {
-    case 100:
-      var editor = chrome.app.window.get('editor');
-      if (editor) {
-        editor.show(true);
-        editor.drawAttention();
-      }
-      break;
+CwcLoader.prototype.keyHandler = function(event) {
+  if (event.keyCode == 100) {
+    let editor = chrome.app.window.get('editor');
+    if (editor) {
+      editor.show(true);
+      editor.drawAttention();
+    }
   }
 };
 
@@ -80,19 +77,19 @@ cwcLoader.prototype.keyHandler = function(event) {
 /**
  * @param {Event} event
  */
-cwcLoader.prototype.messageHandler = function(event) {
+CwcLoader.prototype.messageHandler = function(event) {
   if (!event.data) {
     return;
   }
-  var data = event.data;
-  var command = data.command;
+  let data = event.data;
+  let command = data.command;
   switch (command) {
     case 'progress':
       this.setProgress(data.text, data.current, data.total);
       break;
     case 'close':
       setTimeout(function() {
-        var editor = chrome.app.window.get('editor');
+        let editor = chrome.app.window.get('editor');
         if (editor) {
           editor.show(true);
           editor.drawAttention();
@@ -114,8 +111,8 @@ cwcLoader.prototype.messageHandler = function(event) {
  * @param {!number} current
  * @param {!number} total
  */
-cwcLoader.prototype.setProgress = function(text, current, total) {
-  var percent = Math.round((100 / total) * current);
+CwcLoader.prototype.setProgress = function(text, current, total) {
+  let percent = Math.round((100 / total) * current);
   console.log('[', percent, '\%]', text);
   this.setProgressText(text);
   this.setProgressThumb(percent);
@@ -125,7 +122,7 @@ cwcLoader.prototype.setProgress = function(text, current, total) {
 /**
  * @param {!number} progress
  */
-cwcLoader.prototype.setProgressThumb = function(progress) {
+CwcLoader.prototype.setProgressThumb = function(progress) {
   if (this.progressThumbNode) {
     this.progressThumbNode.style.width = progress + '\%';
   }
@@ -135,7 +132,7 @@ cwcLoader.prototype.setProgressThumb = function(progress) {
 /**
  * @param {!string} text
  */
-cwcLoader.prototype.setProgressText = function(text) {
+CwcLoader.prototype.setProgressText = function(text) {
   if (this.progressTextNode) {
     this.progressTextNode.innerText = text;
   }
@@ -143,11 +140,11 @@ cwcLoader.prototype.setProgressText = function(text) {
 
 
 /**
- * @param {!string} class_name
+ * @param {!string} className
  */
-cwcLoader.prototype.setProgressTextClass = function(class_name) {
+CwcLoader.prototype.setProgressTextClass = function(className) {
   if (this.progressTextNode) {
-    this.progressTextNode.className = class_name;
+    this.progressTextNode.className = className;
   }
 };
 
@@ -155,7 +152,7 @@ cwcLoader.prototype.setProgressTextClass = function(class_name) {
 /**
  * @param {!string} text
  */
-cwcLoader.prototype.setError = function(text) {
+CwcLoader.prototype.setError = function(text) {
   this.setProgressText(text);
   this.setProgressTextClass('error');
   if (this.progressBarNode) {
@@ -164,7 +161,6 @@ cwcLoader.prototype.setError = function(text) {
 };
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
-  new cwcLoader().prepare();
+  new CwcLoader().prepare();
 }, false);

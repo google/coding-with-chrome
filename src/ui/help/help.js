@@ -22,7 +22,6 @@ goog.provide('cwc.ui.Help');
 goog.require('cwc.soy.Help');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -47,12 +46,12 @@ cwc.ui.Help = function(helper) {
  * @export
  */
 cwc.ui.Help.prototype.showAbout = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('About Coding with Chrome', cwc.soy.Help.about, {
     prefix: this.prefix,
-    manifest: this.helper.getManifest()
+    manifest: this.helper.getManifest(),
   });
-  var noticeLink = goog.dom.getElement(this.prefix + 'notice-link');
+  let noticeLink = goog.dom.getElement(this.prefix + 'notice-link');
   noticeLink.addEventListener('click', this.showOpenSource.bind(this));
 };
 
@@ -61,7 +60,7 @@ cwc.ui.Help.prototype.showAbout = function() {
  * @export
  */
 cwc.ui.Help.prototype.showIntro = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Intro', cwc.soy.Help.intro, {
     prefix: this.prefix});
 };
@@ -71,16 +70,16 @@ cwc.ui.Help.prototype.showIntro = function() {
  * @export
  */
 cwc.ui.Help.prototype.showOpenSource = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Coding with Chrome credits',
     cwc.soy.Help.notice, {
       prefix: this.prefix,
-      is_chrome_app: this.chromeApp_
+      is_chrome_app: this.chromeApp_,
     });
-  var noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
+  let noticeWebview = goog.dom.getElement(this.prefix + 'webview-notice');
   noticeWebview.addEventListener('contentload', function() {
-    noticeWebview['insertCSS']({ 'code': 'html {overflow-y: scroll;}'});
-  }.bind(this));
+    noticeWebview['insertCSS']({'code': 'html {overflow-y: scroll;}'});
+  });
 };
 
 
@@ -88,7 +87,7 @@ cwc.ui.Help.prototype.showOpenSource = function() {
  * @export
  */
 cwc.ui.Help.prototype.showHelp = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Help', cwc.soy.Help.help,
     {'prefix': this.prefix});
 };
@@ -100,9 +99,9 @@ cwc.ui.Help.prototype.showHelp = function() {
  * @export
  */
 cwc.ui.Help.prototype.showDebug = function(opt_event) {
-  var layoutInstance = this.helper.getInstance('layout', true);
-  var debugInstance = this.helper.getInstance('debug', true);
-  var overlayNode = layoutInstance.getOverlay();
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let debugInstance = this.helper.getInstance('debug', true);
+  let overlayNode = layoutInstance.getOverlay();
   debugInstance.decorate(overlayNode);
   layoutInstance.showOverlay(true);
 };

@@ -26,15 +26,14 @@ goog.require('cwc.protocol.ev3.OutputPort');
 goog.require('cwc.utils.ByteArray');
 
 
-
 /**
  * @constructor
  * @param {number=} opt_global_size
  * @param {number=} opt_local_size
- * @param {cwc.protocol.ev3.CallbackType=} opt_callback
+ * @param {cwc.protocol.ev3.CallbackType=} optCallback
  */
 cwc.protocol.ev3.Buffer = function(opt_global_size,
-    opt_local_size, opt_callback) {
+    opt_local_size, optCallback) {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray(
       cwc.protocol.ev3.ParameterSize.BYTE,
@@ -49,14 +48,14 @@ cwc.protocol.ev3.Buffer = function(opt_global_size,
   this.localSize = opt_local_size || 0x00;
 
   /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = opt_callback ||
+  this.callbackType = optCallback ||
       cwc.protocol.ev3.CallbackType.NONE;
 
   /** @type {!cwc.protocol.ev3.InputPort} */
   this.callbackTarget = 0x00;
 
   /** @type {!cwc.protocol.ev3.CommandType} */
-  this.type = (opt_callback) ?
+  this.type = (optCallback) ?
       cwc.protocol.ev3.CommandType.DIRECT.REPLY :
       cwc.protocol.ev3.CommandType.DIRECT.NOREPLY;
 
@@ -158,10 +157,10 @@ cwc.protocol.ev3.Buffer.prototype.writePorts = function(ports) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.ev3.Buffer.prototype.readSigned = function() {
-  var buffer = this.data.getData();
-  var dataLength = buffer.length + 2;
-  var dataBuffer = new ArrayBuffer(dataLength + 2);
-  var data = new Uint8Array(dataBuffer);
+  let buffer = this.data.getData();
+  let dataLength = buffer.length + 2;
+  let dataBuffer = new ArrayBuffer(dataLength + 2);
+  let data = new Uint8Array(dataBuffer);
   data[0] = dataLength & 0xFF;
   data[1] = (dataLength >> 8) & 0xFF;
   data[2] = this.callbackType;

@@ -30,43 +30,41 @@ cwc.utils.ByteArrayTypes = {
   INT: 'int',
   UINT: 'uint',
   UINT16: 'uint16',
-  STR: 'str'
+  STR: 'str',
 };
-
 
 
 /**
  * @constructor
- * @param {string|number=} opt_byte_header
- * @param {string|number=} opt_short_header
- * @param {string|number=} opt_integer_header
- * @param {string|number=} opt_string_header
+ * @param {string|number=} byteHeader
+ * @param {string|number=} shortHeader
+ * @param {string|number=} integerHeader
+ * @param {string|number=} stringHeader
  * @final
  * @export
  */
-cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
-    opt_integer_header, opt_string_header) {
-
+cwc.utils.ByteArray = function(byteHeader = '', shortHeader = '',
+    integerHeader = '', stringHeader = '') {
   /** @private {!Array} */
   this.data_ = [];
 
-  /** @private {Object.<cwc.utils.ByteArrayTypes|string>} */
+  /** @private {Object.<cwc.utils.ByteArrayTypes|string|number>} */
   this.headers_ = {};
 
-  if (opt_byte_header) {
-    this.setHeader(cwc.utils.ByteArrayTypes.BYTE, opt_byte_header);
+  if (byteHeader) {
+    this.setHeader(cwc.utils.ByteArrayTypes.BYTE, byteHeader);
   }
 
-  if (opt_short_header) {
-    this.setHeader(cwc.utils.ByteArrayTypes.SHORT, opt_short_header);
+  if (shortHeader) {
+    this.setHeader(cwc.utils.ByteArrayTypes.SHORT, shortHeader);
   }
 
-  if (opt_integer_header) {
-    this.setHeader(cwc.utils.ByteArrayTypes.INT, opt_integer_header);
+  if (integerHeader) {
+    this.setHeader(cwc.utils.ByteArrayTypes.INT, integerHeader);
   }
 
-  if (opt_string_header) {
-    this.setHeader(cwc.utils.ByteArrayTypes.STR, opt_string_header);
+  if (stringHeader) {
+    this.setHeader(cwc.utils.ByteArrayTypes.STR, stringHeader);
   }
 };
 
@@ -74,12 +72,12 @@ cwc.utils.ByteArray = function(opt_byte_header, opt_short_header,
 /**
  * Writes a byte into the buffer.
  * @param {number} value
- * @param {number=} opt_default
+ * @param {number=} defaultValue
  * @export
  */
-cwc.utils.ByteArray.prototype.writeByte = function(value, opt_default) {
+cwc.utils.ByteArray.prototype.writeByte = function(value, defaultValue = 0x00) {
   this.addHeader(cwc.utils.ByteArrayTypes.BYTE);
-  this.write(value === undefined ? opt_default || 0x00 : value);
+  this.write(value === undefined ? defaultValue : value);
 };
 
 
@@ -139,7 +137,7 @@ cwc.utils.ByteArray.prototype.writeUInt16 = function(value) {
  */
 cwc.utils.ByteArray.prototype.writeString = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.STR);
-  var valueLength = value.length;
+  let valueLength = value.length;
   for (let i = 0; i < valueLength; i++) {
     this.write(value.charCodeAt(i));
   }

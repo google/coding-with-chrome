@@ -25,7 +25,6 @@ goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -51,7 +50,7 @@ cwc.mode.Modder = function(helper) {
  * @param {cwc.mode.Type} mode
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
-  var modeConfig = cwc.mode.Config.get(mode, true);
+  let modeConfig = cwc.mode.Config.get(mode, true);
   if (!modeConfig) {
     return;
   }
@@ -63,7 +62,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     (modeConfig.description ? ':' + modeConfig.description : '')
   );
 
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     if (modeConfig.title) {
       navigationInstance.setHeader(modeConfig.title, modeConfig.icon);
@@ -75,7 +74,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
 
   this.mode = mode;
   console.log('Initialize mode', mode, '…');
-  this.modder = new modeConfig.mod(this.helper);
+  this.modder = new modeConfig.Mod(this.helper);
   console.log('Decorate UI for mode', mode);
   this.modder.decorate();
 };
@@ -84,15 +83,15 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
 /**
  * @param {!string} name
  * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} opt_type
+ * @param {cwc.ui.EditorType=} optType
  * @param {cwc.ui.EditorHint=} opt_hints
  * @param {cwc.ui.EditorFlags=} opt_flags
  */
-cwc.mode.Modder.prototype.addEditorView = function(name, opt_content, opt_type,
+cwc.mode.Modder.prototype.addEditorView = function(name, opt_content, optType,
     opt_hints, opt_flags) {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.addView(name, opt_content, opt_type, opt_hints, opt_flags);
+    editorInstance.addView(name, opt_content, optType, opt_hints, opt_flags);
   }
 };
 
@@ -101,12 +100,12 @@ cwc.mode.Modder.prototype.addEditorView = function(name, opt_content, opt_type,
  * Shows the editor and hides other possible overlapping elements.
  */
 cwc.mode.Modder.prototype.showEditor = function() {
-  var editor = this.helper.getInstance('editor');
+  let editor = this.helper.getInstance('editor');
   if (editor) {
     editor.showEditor(true);
   }
 
-  var blockly = this.helper.getInstance('blockly');
+  let blockly = this.helper.getInstance('blockly');
   if (blockly) {
     blockly.showBlockly(false);
   }
@@ -117,7 +116,7 @@ cwc.mode.Modder.prototype.showEditor = function() {
  * @param {!string} content
  */
 cwc.mode.Modder.prototype.addBlocklyView = function(content) {
-  var blocklyInstance = this.helper.getInstance('blockly');
+  let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
     blocklyInstance.addView(content);
   }
@@ -128,12 +127,12 @@ cwc.mode.Modder.prototype.addBlocklyView = function(content) {
  * Shows the blockly editor and hides other overlapping elements.
  */
 cwc.mode.Modder.prototype.showBlockly = function() {
-  var blockly = this.helper.getInstance('blockly');
+  let blockly = this.helper.getInstance('blockly');
   if (blockly) {
     blockly.showBlockly(true);
   }
 
-  var editor = this.helper.getInstance('editor');
+  let editor = this.helper.getInstance('editor');
   if (editor) {
     editor.showEditor(false);
   }
@@ -144,8 +143,8 @@ cwc.mode.Modder.prototype.showBlockly = function() {
  * Syncs the library with the existing files.
  */
 cwc.mode.Modder.prototype.syncLibrary = function() {
-  var fileInstance = this.helper.getInstance('file');
-  var libraryInstance = this.helper.getInstance('library');
+  let fileInstance = this.helper.getInstance('file');
+  let libraryInstance = this.helper.getInstance('library');
   if (fileInstance && libraryInstance) {
     libraryInstance.syncFiles();
   }
@@ -156,7 +155,7 @@ cwc.mode.Modder.prototype.syncLibrary = function() {
  * Runs the preview.
  */
 cwc.mode.Modder.prototype.runPreview = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.run();
   }
@@ -168,7 +167,7 @@ cwc.mode.Modder.prototype.runPreview = function() {
  * @param {!cwc.ui.EditorFlags} flags
  */
 cwc.mode.Modder.prototype.setEditorFlags = function(flags) {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.setEditorFlags(flags);
   }
@@ -179,7 +178,7 @@ cwc.mode.Modder.prototype.setEditorFlags = function(flags) {
  * @param {boolean} active
  */
 cwc.mode.Modder.prototype.setAutoUpdate = function(active) {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.setAutoUpdate(active);
   }
@@ -190,7 +189,7 @@ cwc.mode.Modder.prototype.setAutoUpdate = function(active) {
  * @param {string} title
  */
 cwc.mode.Modder.prototype.setTitle = function(title) {
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.enableTitle(true);
     guiInstance.setTitle(title);

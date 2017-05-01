@@ -19,64 +19,67 @@
  */
 
 
-
 /**
  * Vertical obstacle generator.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
-  var value_obstacles = Blockly.JavaScript.valueToCode(
+  let value_obstacles = Blockly.JavaScript.valueToCode(
     block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_spaces = Blockly.JavaScript.valueToCode(
+  let value_spaces = Blockly.JavaScript.valueToCode(
     block, 'spaces', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_sprite = Blockly.JavaScript.valueToCode(
+  let value_sprite = Blockly.JavaScript.valueToCode(
     block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_sprite_top = Blockly.JavaScript.valueToCode(
+  let value_sprite_top = Blockly.JavaScript.valueToCode(
     block, 'sprite_top', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_sprite_bottom = Blockly.JavaScript.valueToCode(
+  let value_sprite_bottom = Blockly.JavaScript.valueToCode(
     block, 'sprite_bottom', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_group = Blockly.JavaScript.valueToCode(
+  let value_group = Blockly.JavaScript.valueToCode(
     block, 'group', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_value = Blockly.JavaScript.valueToCode(
+  let value_value = Blockly.JavaScript.valueToCode(
     block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_property = block.getFieldValue('property');
+  let dropdown_property = block.getFieldValue('property');
 
   return 'cwc.framework.Phaser.VerticalObstacleGenerator(\n  ' +
     value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
     value_spaces + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
     value_sprite_bottom + ', ' + value_group + ', \'' + dropdown_property +
-    '\', ' +  value_value + ');\n';
+    '\', ' + value_value + ');\n';
 };
 
 
 /**
  * Random vertical obstacle generator.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
     block) {
-  var value_obstacles = Blockly.JavaScript.valueToCode(
+  let value_obstacles = Blockly.JavaScript.valueToCode(
     block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_sprite = Blockly.JavaScript.valueToCode(
+  let value_sprite = Blockly.JavaScript.valueToCode(
     block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_sprite_optional = Blockly.JavaScript.valueToCode(
+  let value_sprite_optional = Blockly.JavaScript.valueToCode(
     block, 'sprite_optional', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_group = Blockly.JavaScript.valueToCode(
+  let value_group = Blockly.JavaScript.valueToCode(
     block, 'group', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_x = Blockly.JavaScript.valueToCode(
+  let value_x = Blockly.JavaScript.valueToCode(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_y = Blockly.JavaScript.valueToCode(
+  let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_value = Blockly.JavaScript.valueToCode(
+  let value_value = Blockly.JavaScript.valueToCode(
     block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var dropdown_property = block.getFieldValue('property');
+  let dropdown_direction = block.getFieldValue('direction');
+  let dropdown_property = block.getFieldValue('property');
 
   return 'cwc.framework.Phaser.RandomVerticalObstacleGenerator(\n  ' +
     value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
     value_sprite + ', ' + value_sprite_optional + ', ' +
     value_group + ', \'' + dropdown_direction + '\', \'' + dropdown_property +
-    '\', ' +  value_value + ');\n';
+    '\', ' + value_value + ');\n';
 };

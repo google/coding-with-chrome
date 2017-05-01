@@ -33,5 +33,5 @@ cwc.file.ContentType = {
   PENCIL_CODE: 'pencil_code',
   PYTHON: 'python',
   TEXT: 'text',
-  RAW: 'raw'
+  RAW: 'raw',
 };

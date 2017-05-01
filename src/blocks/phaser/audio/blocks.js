@@ -43,7 +43,7 @@ Blockly.Blocks['phaser_audio_add'] = {
     this.setColour(250);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -60,7 +60,7 @@ Blockly.Blocks['phaser_audio_play'] = {
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -77,7 +77,7 @@ Blockly.Blocks['phaser_audio_pause'] = {
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -94,7 +94,7 @@ Blockly.Blocks['phaser_audio_resume'] = {
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -111,5 +111,5 @@ Blockly.Blocks['phaser_audio_stop'] = {
     this.setColour(245);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -19,12 +19,12 @@
  */
 
 
-
 /**
  * Sample image: 50px_red.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_50px_red'] = function() {
-  var image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAn1BMVEUAAAAAAI' +
+  let image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAn1BMVEUAAAAAAI' +
     'AAgAAAgICAAACAAICAgADAwMBkZGQJCQkAAP8A/wD/AAD//wD/AP8A///v7+/h4eHU1NTGxs' +
     'a5ubmrq6udnZ2QkJCCgoJ1dXVnZ2dZWVlMTEw+Pj4xMTEjIyP/AADyAADmAADZAADMAAC/AA' +
     'CzAACmAACZAACMAACAAABzAABmAABZAABNAABAAAD/2tr/u7v/nJz/fX3/XV3pGHVwAAAAW0' +
@@ -36,9 +36,10 @@ Blockly.JavaScript['general_sample_image_50px_red'] = function() {
 
 /**
  * Sample image: 50px_green.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_50px_green'] = function() {
-  var image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABCFBMVEUAAAAAAI' +
+  let image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABCFBMVEUAAAAAAI' +
     'AAgAAAgICAAACAAICAgADAwMBkZGQJCQkAAP8A/wD/AAD//wD/AP8A///v7+/h4eHU1NTGxs' +
     'a5ubmrq6udnZ2QkJCCgoJ1dXVnZ2dZWVlMTEw+Pj4xMTEjIyP/AADyAADmAADZAADMAAC/AA' +
     'CzAACmAACZAACMAACAAABzAABmAABZAABNAABAAAD/2tr/u7v/nJz/fX3/XV3/Pj7/Hx//AA' +
@@ -52,9 +53,10 @@ Blockly.JavaScript['general_sample_image_50px_green'] = function() {
 
 /**
  * Sample image: 50px_blue.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_50px_blue'] = function() {
-  var image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABmFBMVEUAAAAAAI' +
+  let image = 'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAABmFBMVEUAAAAAAI' +
     'AAgAAAgICAAACAAICAgADAwMBkZGQJCQkAAP8A/wD/AAD//wD/AP8A///v7+/h4eHU1NTGxs' +
     'a5ubmrq6udnZ2QkJCCgoJ1dXVnZ2dZWVlMTEw+Pj4xMTEjIyP/AADyAADmAADZAADMAAC/AA' +
     'CzAACmAACZAACMAACAAABzAABmAABZAABNAABAAAD/2tr/u7v/nJz/fX3/XV3/Pj7/Hx//AA' +
@@ -71,9 +73,10 @@ Blockly.JavaScript['general_sample_image_50px_blue'] = function() {
 
 /**
  * Sample image: ball_red.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_ball_red'] = function() {
-  var image = 'data:image/png;base64,' +
+  let image = 'data:image/png;base64,' +
     'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAB3RJTUUH4QQaFQkFYK1d4QAA' +
     'AAlwSFlzAAAewQAAHsEBw2lUUwAAAARnQU1BAACxjwv8YQUAAAECUExURf///9AQEM8PD9ER' +
     'EdESEtQVFeIjI/IzM/g5Of9AQPc4OPEyMuAgINITE8oKCs4PD+YmJvo7O84ODu8wMOoqKswN' +
@@ -95,9 +98,10 @@ Blockly.JavaScript['general_sample_image_ball_red'] = function() {
 
 /**
  * Sample image: bg/bg_01.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_bg_01'] = function() {
-  var image = 'data:image/png;base64,' +
+  let image = 'data:image/png;base64,' +
     'iVBORw0KGgoAAAANSUhEUgAAA+gAAAMgCAMAAACHxrgPAAAC5VBMVEUAAAAAAIAAgAAAgICA' +
     'AACAAICAgADAwMBkZGQJCQkAAP8A/wD/AAD//wD/AP8A///v7+/h4eHU1NTGxsa5ubmrq6ud' +
     'nZ2QkJCCgoJ1dXVnZ2dZWVlMTEw+Pj4xMTEjIyP/AADyAADmAADZAADMAAC/AACzAACmAACZ' +
@@ -206,9 +210,10 @@ Blockly.JavaScript['general_sample_image_bg_01'] = function() {
 
 /**
  * Sample image: bg/bg_02.png
+ * @return {string}
  */
 Blockly.JavaScript['general_sample_image_bg_02'] = function() {
-  var image = 'data:image/png;base64,' +
+  let image = 'data:image/png;base64,' +
     'iVBORw0KGgoAAAANSUhEUgAAA+gAAAMgCAMAAACHxrgPAAABmFBMVEUAAAAAAIAAgAAAgICA' +
     'AACAAICAgADAwMBkZGQJCQkAAP8A/wD/AAD//wD/AP8A///v7+/h4eHU1NTGxsa5ubmrq6ud' +
     'nZ2QkJCCgoJ1dXVnZ2dZWVlMTEw+Pj4xMTEjIyP/AADyAADmAADZAADMAAC/AACzAACmAACZ' +

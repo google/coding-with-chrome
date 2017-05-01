@@ -23,13 +23,11 @@ goog.require('cwc.mode.tts.Editor');
 goog.require('cwc.mode.tts.Layout');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.tts.Mod = function(helper) {
-
   /** @type {cwc.mode.tts.Layout} */
   this.layout = new cwc.mode.tts.Layout(helper);
 

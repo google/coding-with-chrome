@@ -22,7 +22,6 @@ goog.provide('cwc.framework.Python');
 goog.require('cwc.utils.Dialog');
 
 
-
 /**
  * @constructor
  * @struct
@@ -45,8 +44,8 @@ cwc.framework.Python = function() {
  * @export
  */
 cwc.framework.Python.prototype.run = function() {
-  var pythonCode = document.getElementById('code').textContent.trim();
-  var pythonVersion3 = false;
+  let pythonCode = document.getElementById('code').textContent.trim();
+  let pythonVersion3 = false;
 
   if (pythonCode.startsWith('#!/usr/bin/python3')) {
     pythonVersion3 = true;
@@ -55,7 +54,6 @@ cwc.framework.Python.prototype.run = function() {
   }
 
   Sk['canvas'] = 'canvas-chrome';
-  //Sk.outputfun = this.dialog.showContent;
   Sk.configure({
     'debugout': this.showDebug.bind(this),
     'inputfun': this.showInput.bind(this),
@@ -63,11 +61,11 @@ cwc.framework.Python.prototype.run = function() {
     'output': this.showOutput.bind(this),
     'uncaughtException': this.showError.bind(this),
     'python3': pythonVersion3,
-    'read': this.builtinRead
+    'read': this.builtinRead,
   });
 
   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'content';
-  var pythonPromise = Sk.misceval.asyncToPromise(function() {
+  let pythonPromise = Sk.misceval.asyncToPromise(function() {
     return Sk.importMainWithBody('<stdin>', false, pythonCode, true);
   });
   pythonPromise.then(
@@ -117,9 +115,10 @@ cwc.framework.Python.prototype.showOutput = function(text) {
 /**
  * Prompt user for input.
  * @param {string=} opt_msg
+ * @return {Promise}
  */
 cwc.framework.Python.prototype.showInput = function(opt_msg) {
-  var msg = opt_msg || this.lastMsg || '';
+  let msg = opt_msg || this.lastMsg || '';
   this.lastMsg = '';
   return this.dialog.showPrompt('Input', msg);
 };
@@ -127,11 +126,12 @@ cwc.framework.Python.prototype.showInput = function(opt_msg) {
 
 /**
  * @param {!string} file_name
+ * @return {Object}
  */
 cwc.framework.Python.prototype.builtinRead = function(file_name) {
   if (Sk.builtinFiles === undefined ||
       Sk.builtinFiles['files'][file_name] === undefined) {
-    throw 'File not found: \'' + file_name + '\'';
+    throw new Error('File not found: \'' + file_name + '\'');
   }
   return Sk.builtinFiles['files'][file_name];
 };

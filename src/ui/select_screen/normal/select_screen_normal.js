@@ -44,7 +44,6 @@ cwc.ui.SelectScreenNormalView = {
 };
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -86,11 +85,11 @@ cwc.ui.SelectScreenNormal.prototype.decorate = function(node) {
 
 /**
  * Shows the default or the select view.
- * @param {cwc.ui.SelectScreenNormalView=} opt_name
+ * @param {cwc.ui.SelectScreenNormalView=} optName
  * @export
  */
-cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
-  var name = opt_name || cwc.ui.SelectScreenNormalView.OVERVIEW;
+cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
+  let name = optName || cwc.ui.SelectScreenNormalView.OVERVIEW;
 
   switch (name) {
     // General overview
@@ -128,6 +127,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'simple/blocks/Hello-World.cwc');
       this.setClickEvent_('link-text-loop', this.loadFile_,
           'simple/blocks/Text-Loop.cwc');
+      this.setClickEvent_('link-sunlights', this.loadFile_,
+          'simple/blocks/Sunlights.cwc');
       break;
 
     // Game example screen
@@ -170,6 +171,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
           'ev3/blocks/EV3-Educator-BlockGrabber.cwc');
       this.setClickEvent_('link-color-sensor', this.loadFile_,
           'ev3/blocks/EV3-Color-Sensor.cwc');
+      this.setClickEvent_('link-ir-sensor', this.loadFile_,
+          'ev3/blocks/EV3-IR-Sensor.cwc');
       break;
 
     // Sphero example screen
@@ -204,12 +207,15 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(opt_name) {
 
     // MBot ranger example screen
     case cwc.ui.SelectScreenNormalView.MBOT_RANGER:
-      //var mBotRangerPath = 'resources/examples/makeblock/mbot_ranger/blocks/';
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotRangerOverview);
       this.setNavHeader_('mBot Ranger', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.newFile_,
           cwc.file.Type.MBOT_RANGER_BLOCKLY);
+      this.setClickEvent_('link-ultrasonic_stop', this.loadFile_,
+        'makeblock/mbot_ranger/blocks/Ultrasonic sensor - stop.cwc');
+      this.setClickEvent_('link-sound_generator', this.loadFile_,
+        'makeblock/mbot_ranger/blocks/Sound generator - Melodie.cwc');
       break;
 
     default:
@@ -236,7 +242,7 @@ cwc.ui.SelectScreenNormal.prototype.showLastView = function() {
  */
 cwc.ui.SelectScreenNormal.prototype.setNavHeader_ = function(title,
     opt_icon, opt_color_class) {
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.setHeader(title, opt_icon, opt_color_class);
   }
@@ -279,8 +285,8 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
  * @param {!cwc.soy.SelectScreenNormal} template
  */
 cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
-  var modules = {};
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let modules = {};
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
   }
@@ -291,7 +297,7 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
       experimental: this.helper.experimentalEnabled(),
       modules: modules,
       online: this.helper.checkFeature('online'),
-      prefix: this.prefix
+      prefix: this.prefix,
     });
   } else {
     console.error('Unable to render template', template);
@@ -313,14 +319,14 @@ cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
     console.error('Missing function!');
     return null;
   }
-  var elementName = this.prefix + name;
-  var element = goog.dom.getElement(elementName);
+  let elementName = this.prefix + name;
+  let element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Missing element ' + elementName + '!');
     return null;
   }
 
-  var click_func = func;
+  let click_func = func;
   if (opt_param) {
     click_func = function() {
       func.call(this, opt_param);
@@ -338,11 +344,11 @@ cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
  * @private
  */
 cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
-  var fileCreatorInstance = this.helper.getInstance('fileCreator');
+  let fileCreatorInstance = this.helper.getInstance('fileCreator');
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }
@@ -355,11 +361,11 @@ cwc.ui.SelectScreenNormal.prototype.newFile_ = function(type) {
  * @private
  */
 cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
-  var loaderInstance = this.helper.getInstance('fileLoader');
+  let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + this.resourcesPath_ + file_name);
   }
-  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }

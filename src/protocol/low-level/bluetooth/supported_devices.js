@@ -20,7 +20,6 @@
 goog.provide('cwc.protocol.bluetooth.supportedDevices');
 
 
-
 /**
  * List Format:
  *
@@ -41,19 +40,19 @@ cwc.protocol.bluetooth.supportedDevices = {
     indicator: 'EV3',
     deviceClass: 2052,
     uuid: '00001101-0000-1000-8000-00805f9b34fb',
-    icon: 'adb'
+    icon: 'adb',
   },
   SPHERO: {
     name: 'Sphero 2.0',
     indicator: 'Sphero',
     deviceClass: 2360392,
     uuid: '00001101-0000-1000-8000-00805f9b34fb',
-    icon: 'adjust'
+    icon: 'adjust',
   },
   MAKEBLOCK: {
     name: 'Makeblock',
     indicator: 'Makeblock',
     deviceClass: 5898756,
-    uuid: '00001101-0000-1000-8000-00805f9b34fb'
-  }
+    uuid: '00001101-0000-1000-8000-00805f9b34fb',
+  },
 };

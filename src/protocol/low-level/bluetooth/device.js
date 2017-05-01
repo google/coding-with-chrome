@@ -23,22 +23,21 @@ goog.require('cwc.protocol.bluetooth.supportedDevices');
 goog.require('cwc.utils.ByteTools');
 
 
-
 /**
  * @param {!string} address
  * @param {!boolean} connected
+ * @param {!boolean} connectable
  * @param {!number} device_class
  * @param {!string} name
  * @param {!boolean} paired
- * @param {!Array.} uuids
+ * @param {!Array} uuids
  * @param {!cwc.protocol.bluetooth.supportedDevices} profile
- * @param {string=} opt_type
+ * @param {string=} optType
  * @param {chrome_bluetooth=} opt_bluetooth
  * @constructor
  */
-cwc.protocol.bluetooth.Device = function(address, connected, device_class,
-    name, paired, uuids, profile, opt_type, opt_bluetooth) {
-
+cwc.protocol.bluetooth.Device = function(address, connected, connectable,
+    device_class, name, paired, uuids, profile, optType, opt_bluetooth) {
   /** @type {!string} */
   this.address = address;
 
@@ -47,6 +46,9 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
 
   /** @type {!boolean} */
   this.connecting = false;
+
+  /** @type {!boolean} */
+  this.connectable = false;
 
   /** @type {!string} */
   this.device_class = device_class;
@@ -64,7 +66,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   this.profile = profile;
 
   /** @type {!string} */
-  this.type = opt_type || '';
+  this.type = optType || '';
 
   /** @type {!chrome.bluetooth} */
   this.bluetooth = opt_bluetooth || chrome.bluetooth;
@@ -109,7 +111,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
   this.socketProperties = {
     'persistent': false,
     'name': 'CwC Bluetooth Device',
-    'bufferSize': 4096
+    'bufferSize': 4096,
   };
 };
 
@@ -118,9 +120,17 @@ cwc.protocol.bluetooth.Device = function(address, connected, device_class,
  * @param {!Function} callback
  * @export
  */
-cwc.protocol.bluetooth.Device.prototype.setConnectEvent = function(
-    callback) {
+cwc.protocol.bluetooth.Device.prototype.setConnectEvent = function(callback) {
   this.connectEvent = callback;
+};
+
+
+/**
+ * @param {!boolean} connectable
+ * @export
+ */
+cwc.protocol.bluetooth.Device.prototype.setConnectable = function(connectable) {
+  this.connectable = connectable;
 };
 
 
@@ -143,7 +153,7 @@ cwc.protocol.bluetooth.Device.prototype.setDisconnectEvent = function(
 cwc.protocol.bluetooth.Device.prototype.setDataHandler = function(
     callback, opt_packet_header, opt_min_packet_size) {
   if (opt_packet_header) {
-    var id = opt_packet_header.join('_');
+    let id = opt_packet_header.join('_');
     this.dataHandler[id] = {};
     this.dataHandler[id]['buffer'] = null;
     this.dataHandler[id]['callback'] = callback;
@@ -251,10 +261,10 @@ cwc.protocol.bluetooth.Device.prototype.getSocket = function() {
 
 
 /**
- * @param {Function} opt_callback Will be only called  after an connection.
+ * @param {Function=} optCallback Will be only called  after an connection.
  * @export
  */
-cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
+cwc.protocol.bluetooth.Device.prototype.connect = function(optCallback) {
   if (this.connecting) {
     return;
   }
@@ -267,7 +277,7 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
 
   console.log('Connecting Bluetooth device', this.address, '...');
   this.connecting = true;
-  var createSocketEvent = function(create_info) {
+  let createSocketEvent = function(create_info) {
     if (chrome.runtime.lastError) {
       console.log('Error creating socket:', chrome.runtime.lastError);
       this.connecting = false;
@@ -278,8 +288,8 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
       this.connecting = false;
       return;
     }
-    if (opt_callback) {
-      this.connectCallback = opt_callback;
+    if (optCallback) {
+      this.connectCallback = optCallback;
     }
     this.socketId = create_info['socketId'];
     console.log('Connecting socket', this.socketId, 'for', this.address,
@@ -294,22 +304,22 @@ cwc.protocol.bluetooth.Device.prototype.connect = function(opt_callback) {
 
 /**
  * @param {boolean=} opt_force
- * @param {Function=} opt_callback
+ * @param {Function=} optCallback
  * @export
  */
 cwc.protocol.bluetooth.Device.prototype.disconnect = function(opt_force,
-    opt_callback) {
+    optCallback) {
   if (this.socketId == null) {
     if (opt_force) {
       this.connecting = false;
     }
-    if (opt_callback) {
-      opt_callback();
+    if (optCallback) {
+      optCallback();
     }
     return;
   }
-  if (opt_callback) {
-    this.disconnectCallback = opt_callback;
+  if (optCallback) {
+    this.disconnectCallback = optCallback;
   }
   this.bluetoothSocket.disconnect(this.socketId,
       this.handleDisconnect_.bind(this));
@@ -388,7 +398,7 @@ cwc.protocol.bluetooth.Device.prototype.unpaused = function() {
 
 
 /**
- * Handles incomming data packets.
+ * Handles incoming data packets.
  * @param {ArrayBuffer} data
  * @export
  */
@@ -404,14 +414,15 @@ cwc.protocol.bluetooth.Device.prototype.handleData = function(data) {
   }
 
   for (let handler in this.dataHandler) {
-    var dataView = cwc.utils.ByteTools.getUint8Data(data,
-      this.dataHandler[handler]['headers'],
-      this.dataHandler[handler]['size'],
-      this.dataHandler[handler]['buffer']);
-    dataView['data'].map(this.dataHandler[handler]['callback']);
-    this.dataHandler[handler]['buffer'] = dataView['buffer'] || null;
+    if (Object.prototype.hasOwnProperty.call(this.dataHandler, handler)) {
+      let dataView = cwc.utils.ByteTools.getUint8Data(data,
+        this.dataHandler[handler]['headers'],
+        this.dataHandler[handler]['size'],
+        this.dataHandler[handler]['buffer']);
+      dataView['data'].map(this.dataHandler[handler]['callback']);
+      this.dataHandler[handler]['buffer'] = dataView['buffer'] || null;
+    }
   }
-
 };
 
 
@@ -449,7 +460,7 @@ cwc.protocol.bluetooth.Device.prototype.handleClose_ = function(socket_id) {
 cwc.protocol.bluetooth.Device.prototype.handleSend_ = function(
     opt_bytes_sent) {
   if (chrome.runtime.lastError) {
-    var errorMessage = chrome.runtime.lastError.message;
+    let errorMessage = chrome.runtime.lastError.message;
     if ((errorMessage.toLowerCase().includes('socket') &&
          errorMessage.toLowerCase().includes('not') &&
          errorMessage.toLowerCase().includes('connected')) ||
@@ -490,14 +501,16 @@ cwc.protocol.bluetooth.Device.prototype.handleSockets_ = function(socket_info) {
     return;
   }
   for (let i in socket_info) {
-    var socket = socket_info[i];
-    if (socket.connected && socket.address == this.address &&
-        this.socketId != socket.socketId) {
-      console.log('Reconnecting bluetooth device', this.address, 'to socket',
-        socket.socketId);
-      this.socketId = socket.socketId;
-      this.paused = socket.paused;
-      return;
+    if (Object.prototype.hasOwnProperty.call(socket_info, i)) {
+      let socket = socket_info[i];
+      if (socket.connected && socket.address == this.address &&
+          this.socketId != socket.socketId) {
+        console.log('Reconnecting bluetooth device', this.address, 'to socket',
+          socket.socketId);
+        this.socketId = socket.socketId;
+        this.paused = socket.paused;
+        return;
+      }
     }
   }
 };
@@ -510,7 +523,7 @@ cwc.protocol.bluetooth.Device.prototype.handleSockets_ = function(socket_info) {
 cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
     opt_connection_info) {
   if (chrome.runtime.lastError) {
-    var errorMessage = chrome.runtime.lastError;
+    let errorMessage = chrome.runtime.lastError;
     console.warn('Socket connection failed:', errorMessage);
     if (errorMessage['message'].toLowerCase().includes('connection') &&
         errorMessage['message'].toLowerCase().includes('failed') ||

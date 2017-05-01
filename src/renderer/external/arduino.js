@@ -26,7 +26,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -43,8 +42,8 @@ cwc.renderer.external.Arduino = function(helper) {
  * Initializes and defines the Arduino renderer.
  */
 cwc.renderer.external.Arduino.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -65,15 +64,14 @@ cwc.renderer.external.Arduino.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var header = renderer_helper.getFrameworkHeader(
+  let header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.ARDUINO,
     frameworks);
-  var body = '\n<script>' +
-      '  var customCode = function(arduino) {\n' +
+  let body = '\n<script>' +
+      '  let customCode = function(arduino) {\n' +
       editor_content[cwc.file.ContentType.CUSTOM] +
-      '\n};\n' + '  var runner = new cwc.framework.Runner();\n' +
-      '  var customFramework = new cwc.framework.Arduino(runner);\n' +
+      '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
+      '  let customFramework = new cwc.framework.Arduino(runner);\n' +
       '  customFramework.listen(customCode);\n' +
       '</script>\n';
 

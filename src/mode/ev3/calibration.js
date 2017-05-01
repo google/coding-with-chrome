@@ -25,7 +25,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -89,7 +88,6 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   if (!this.connection) {
     console.error('Missing connection instance !');
   }
-
 };
 
 
@@ -97,8 +95,8 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
  * Decorates the EV3 monitor window.
  */
 cwc.mode.ev3.Calibration.prototype.decorate = function() {
-  var runnerInstance = this.helper.getInstance('runner', true);
-  var runnerMonitor = runnerInstance.getMonitor();
+  let runnerInstance = this.helper.getInstance('runner', true);
+  let runnerMonitor = runnerInstance.getMonitor();
   if (!runnerMonitor) {
     console.error('Runner Monitor is not there!', this.runner);
     return;
@@ -124,7 +122,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   // Robot Models
   for (let robot in cwc.protocol.ev3.Robots) {
     if (cwc.protocol.ev3.Robots.hasOwnProperty(robot)) {
-      var item = cwc.ui.Helper.getMenuItem(robot, '',
+      let item = cwc.ui.Helper.getMenuItem(robot, '',
         this.setType.bind(this));
       this.nodeRobotList.appendChild(item);
     }
@@ -132,7 +130,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   cwc.ui.Helper.mdlRefresh();
 
   // Robot Model
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     this.setRobotModel(fileInstance.getModel() || 'TRACK3R');
   } else {
@@ -141,7 +139,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   goog.style.setElementShown(this.nodeRobotCustom, false);
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
@@ -157,7 +155,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
  * @private
  */
 cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
-  var detectSensors = goog.dom.getElement(this.prefix + 'detect-sensors');
+  let detectSensors = goog.dom.getElement(this.prefix + 'detect-sensors');
 
   // Calibration
   this.addEventListener_(detectSensors, goog.events.EventType.CLICK,
@@ -182,7 +180,7 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
  * @param {Event} event
  */
 cwc.mode.ev3.Calibration.prototype.setType = function(event) {
-  var model = event.target.textContent;
+  let model = event.target.textContent;
   if (model.toLowerCase() == 'custom') {
     goog.style.setElementShown(this.nodeRobotCustom, true);
     return;
@@ -200,8 +198,8 @@ cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
   console.log('Set robot model to', model);
   console.log('Type:', cwc.protocol.ev3.Robots[model].type);
 
-  var robotConfig = cwc.protocol.ev3.Robots[model];
-  var fileInstance = this.helper.getInstance('file');
+  let robotConfig = cwc.protocol.ev3.Robots[model];
+  let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     fileInstance.setModel(model);
   }
@@ -254,7 +252,7 @@ cwc.mode.ev3.Calibration.prototype.cleanUp = function() {
  */
 cwc.mode.ev3.Calibration.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

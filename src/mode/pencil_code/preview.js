@@ -23,7 +23,6 @@ goog.require('cwc.ui.Preview');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

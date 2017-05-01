@@ -23,7 +23,6 @@ goog.require('cwc.runner.profile.raspberryPi.Command');
 goog.require('cwc.ui.Runner');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -73,7 +72,7 @@ cwc.mode.raspberryPi.Runner.prototype.decorate = function() {
   this.runner.addCommand('sendSerialText', this.command.sendSerialText, this);
 
   // Events
-  var apiEventHandler = this.api.getEventHandler();
+  let apiEventHandler = this.api.getEventHandler();
   if (!apiEventHandler) {
     console.error('Raspberry Pi API event handler is not defined!');
   }

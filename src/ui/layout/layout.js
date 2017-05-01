@@ -42,7 +42,6 @@ goog.require('goog.ui.SplitPane');
 goog.require('goog.ui.SplitPane.Orientation');
 
 
-
 /**
  * Supported layout types.
  * @enum {!Object.<string>|string}
@@ -54,7 +53,7 @@ cwc.ui.LayoutType = {
   SIMPLE_SINGLE_COLUMN: 'SIMPLE_SINGLE_COLUMN',
   SIMPLE_TWO_COLUMN: 'SIMPLE_TWO_COLUMN',
   LEFT_SIDEBAR: 'LEFT_SIDEBAR',
-  NONE: 'NONE'
+  NONE: 'NONE',
 };
 
 
@@ -69,9 +68,8 @@ cwc.ui.LayoutTypeTemplate = {
   SIMPLE_SINGLE_COLUMN: cwc.soy.ui.Layout.simpleSingleColumn.template,
   SIMPLE_TWO_COLUMN: cwc.soy.ui.Layout.simpleTwoColumn.template,
   LEFT_SIDEBAR: cwc.soy.ui.Layout.leftSidebar.template,
-  NONE: null
+  NONE: null,
 };
-
 
 
 /**
@@ -170,7 +168,7 @@ cwc.ui.Layout.prototype.getNode_ = function(name) {
  * @export
  */
 cwc.ui.Layout.prototype.prepare = function() {
-  var guiInstance = this.helper.getInstance('gui', true);
+  let guiInstance = this.helper.getInstance('gui', true);
   this.node = guiInstance.getLayoutNode();
 
   this.viewport_monitor = new goog.dom.ViewportSizeMonitor();
@@ -189,9 +187,9 @@ cwc.ui.Layout.prototype.prepare = function() {
 cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
   this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SINGLE_COLUMN,
     cwc.ui.LayoutType.SINGLE_COLUMN);
-  var chromeMain = this.getNode_('chrome-main');
-  var topComponent = new goog.ui.Component();
-  var bottomComponent = new goog.ui.Component();
+  let chromeMain = this.getNode_('chrome-main');
+  let topComponent = new goog.ui.Component();
+  let bottomComponent = new goog.ui.Component();
   this.firstSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
       goog.ui.SplitPane.Orientation.VERTICAL);
   this.firstSplitpane.setInitialSize(175);
@@ -211,9 +209,9 @@ cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
 cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
     opt_first_splitpane_size, opt_second_splitpane_size) {
   this.renderTemplate_(cwc.ui.LayoutType.TWO_COLUMN);
-  var chromeMain = this.getNode_('chrome-main');
-  var topComponent = new goog.ui.Component();
-  var bottomComponent = new goog.ui.Component();
+  let chromeMain = this.getNode_('chrome-main');
+  let topComponent = new goog.ui.Component();
+  let bottomComponent = new goog.ui.Component();
   this.firstSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
       goog.ui.SplitPane.Orientation.VERTICAL);
   this.firstSplitpane.setHandleSize(this.handleSize);
@@ -221,9 +219,9 @@ cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
   this.monitorResize(this.firstSplitpane);
   this.adjustSizeOnChange(this.firstSplitpane);
 
-  var contentTop = this.getNode_('content-top-chrome');
-  var leftComponent = new goog.ui.Component();
-  var rightComponent = new goog.ui.Component();
+  let contentTop = this.getNode_('content-top-chrome');
+  let leftComponent = new goog.ui.Component();
+  let rightComponent = new goog.ui.Component();
   this.secondSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
       goog.ui.SplitPane.Orientation.HORIZONTAL);
   this.secondSplitpane.setHandleSize(this.handleSize);
@@ -255,9 +253,9 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
     opt_first_splitpane_size) {
   this.renderTemplate_(cwc.ui.LayoutTypeTemplate.SIMPLE_TWO_COLUMN,
     cwc.ui.LayoutType.SIMPLE_TWO_COLUMN);
-  var chromeMain = this.getNode_('chrome-main');
-  var leftComponent = new goog.ui.Component();
-  var rightComponent = new goog.ui.Component();
+  let chromeMain = this.getNode_('chrome-main');
+  let leftComponent = new goog.ui.Component();
+  let rightComponent = new goog.ui.Component();
   this.firstSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
       goog.ui.SplitPane.Orientation.HORIZONTAL);
   this.firstSplitpane.setInitialSize(opt_first_splitpane_size || 400);
@@ -277,9 +275,9 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
 cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
   this.renderTemplate_(cwc.ui.LayoutTypeTemplate.LEFT_SIDEBAR,
     cwc.ui.LayoutType.LEFT_SIDEBAR);
-  var chromeMain = this.getNode_('chrome-main');
-  var leftComponent = new goog.ui.Component();
-  var rightComponent = new goog.ui.Component();
+  let chromeMain = this.getNode_('chrome-main');
+  let leftComponent = new goog.ui.Component();
+  let rightComponent = new goog.ui.Component();
   this.firstSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
       goog.ui.SplitPane.Orientation.HORIZONTAL);
   this.firstSplitpane.setInitialSize(175);
@@ -288,9 +286,9 @@ cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
   this.monitorResize(this.firstSplitpane);
   this.adjustSizeOnChange(this.firstSplitpane);
 
-  var contentRight = this.getNode_('content-right-chrome');
-  var topComponent = new goog.ui.Component();
-  var bottomComponent = new goog.ui.Component();
+  let contentRight = this.getNode_('content-right-chrome');
+  let topComponent = new goog.ui.Component();
+  let bottomComponent = new goog.ui.Component();
   this.secondSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
       goog.ui.SplitPane.Orientation.VERTICAL);
   this.secondSplitpane.setInitialSize(175);
@@ -339,7 +337,7 @@ cwc.ui.Layout.prototype.getOverlay = function() {
  * @export
  */
 cwc.ui.Layout.prototype.showOverlay = function(visible) {
-  var overlay = this.getOverlay();
+  let overlay = this.getOverlay();
   if (overlay) {
     goog.style.setElementShown(overlay, visible);
     if (visible) {
@@ -357,7 +355,7 @@ cwc.ui.Layout.prototype.showOverlay = function(visible) {
 cwc.ui.Layout.prototype.getSplitpane = function() {
   return {
     'first': this.firstSplitpane,
-    'second': this.secondSplitpane
+    'second': this.secondSplitpane,
   };
 };
 
@@ -367,7 +365,7 @@ cwc.ui.Layout.prototype.getSplitpane = function() {
  */
 cwc.ui.Layout.prototype.updateSizeInformation = function() {
   this.viewportSize = this.viewport_monitor.getSize();
-  var guiInstance = this.helper.getInstance('gui');
+  let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     this.headerSize = guiInstance.getHeaderSize();
     this.chromeSize = new goog.math.Size(this.viewportSize.width,
@@ -420,8 +418,8 @@ cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
  * Adjusts the UI to the correct size after an resize.
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
-  var firstSplitpaneComponentSize = null;
-  var secondSplitpaneComponentSize = null;
+  let firstSplitpaneComponentSize = null;
+  let secondSplitpaneComponentSize = null;
   this.updateSizeInformation();
   this.adjustLayoutChrome();
 
@@ -460,19 +458,19 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       }
       this.firstSplitpane.setSize(this.chromeSize, firstSplitpaneComponentSize);
       this.secondSplitpane.setSize(
-          new goog.math.Size(
-              this.chromeSize.width,
-              this.firstSplitpane.getFirstComponentSize() || 0),
-          secondSplitpaneComponentSize);
+        new goog.math.Size(
+          this.chromeSize.width,
+          this.firstSplitpane.getFirstComponentSize() || 0),
+        secondSplitpaneComponentSize);
       break;
 
     case cwc.ui.LayoutType.LEFT_SIDEBAR:
       this.firstSplitpane.setSize(this.chromeSize);
-      var secondSplitpaneSize = new goog.math.Size(
+      this.secondSplitpane.setSize(
+        new goog.math.Size(
           this.chromeSize.width - this.firstSplitpane.getFirstComponentSize() -
           this.handleSize,
-          this.chromeSize.height);
-      this.secondSplitpane.setSize(secondSplitpaneSize);
+          this.chromeSize.height));
       break;
 
     case cwc.ui.LayoutType.DEFAULT:
@@ -572,9 +570,9 @@ cwc.ui.Layout.prototype.setFullscreen = function(fullscreen,
     this.secondSplitpaneCachedSize = (this.secondSplitpane) ?
         this.secondSplitpane.getFirstComponentSize() : 200;
   }
-  var chromeWidth = (opt_size !== undefined) ? opt_size :
+  let chromeWidth = (opt_size !== undefined) ? opt_size :
       this.chromeSize.width - this.handleSize;
-  var chromeHeight = this.chromeSize.height - this.handleSize;
+  let chromeHeight = this.chromeSize.height - this.handleSize;
   switch (this.layout) {
     case cwc.ui.LayoutType.TWO_COLUMN:
       this.firstSplitpane.setFirstComponentSize((fullscreen) ?
@@ -617,10 +615,10 @@ cwc.ui.Layout.prototype.handleResizeEvent = function() {
 
 /**
  * @param {!cwc.ui.LayoutTypeTemplate} template
- * @param {cwc.ui.LayoutType=} opt_type
+ * @param {cwc.ui.LayoutType=} optType
  * @private
  */
-cwc.ui.Layout.prototype.renderTemplate_ = function(template, opt_type) {
+cwc.ui.Layout.prototype.renderTemplate_ = function(template, optType) {
   this.resetLayout_();
   goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
   this.nodes = {
@@ -629,10 +627,10 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, opt_type) {
     'content-right': this.getNode_('content-right-chrome'),
     'content-top': this.getNode_('content-top-chrome'),
     'content-bottom': this.getNode_('content-bottom-chrome'),
-    'overlay': this.getNode_('content-overlay')
+    'overlay': this.getNode_('content-overlay'),
   };
-  if (opt_type) {
-    this.layout = opt_type;
+  if (optType) {
+    this.layout = optType;
   }
 };
 
@@ -668,7 +666,7 @@ cwc.ui.Layout.prototype.resetLayout_ = function() {
  */
 cwc.ui.Layout.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };
@@ -687,7 +685,7 @@ cwc.ui.Layout.prototype.addEventListener_ = function(src, type,
  */
 cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.customListener, eventListener);
 };

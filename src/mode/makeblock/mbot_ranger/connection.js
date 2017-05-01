@@ -23,7 +23,6 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('goog.Timer');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -82,7 +81,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
  * @export
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
   }
@@ -146,7 +145,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.cleanUp = function() {
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.addEventListener_ = function(
     src, type, listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

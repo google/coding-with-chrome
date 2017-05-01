@@ -24,7 +24,6 @@ goog.require('cwc.soy.Renderer');
 goog.require('soydata');
 
 
-
 /**
  * @constructor
  * @struct
@@ -40,10 +39,10 @@ cwc.renderer.Helper = function() {};
  * @export
  */
 cwc.renderer.Helper.prototype.injectFiles = function(content, files) {
-  var fileReplace = function(unused_result, file_id) {
-    var fileContent = files.getFileContent(file_id);
+  let fileReplace = function(unused_result, file_id) {
+    let fileContent = files.getFileContent(file_id);
     return fileContent;
-  }.bind(this);
+  };
   return content.replace(/{{ file:(.+) }}/gi, fileReplace);
 };
 
@@ -77,7 +76,7 @@ cwc.renderer.Helper.prototype.getHTML = function(opt_body, opt_header,
     body: this.sanitizedHtml_(opt_body),
     head: this.sanitizedHtml_(opt_header),
     css: this.sanitizedCss_(opt_css),
-    js: this.sanitizedJs_(opt_javascript)
+    js: this.sanitizedJs_(opt_javascript),
   });
 };
 
@@ -95,7 +94,7 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(opt_body, opt_header,
     body: this.sanitizedHtml_(opt_body),
     head: this.sanitizedHtml_(opt_header),
     css: this.sanitizedCss_(opt_css),
-    js: this.sanitizedJs_(opt_javascript)
+    js: this.sanitizedJs_(opt_javascript),
   });
 };
 
@@ -115,7 +114,7 @@ cwc.renderer.Helper.prototype.getHTMLCanvas = function(opt_body, opt_header,
     head: this.sanitizedHtml_(opt_header),
     css: this.sanitizedCss_(opt_css),
     js: this.sanitizedJs_(opt_javascript),
-    canvas: opt_canvas || 'canvas-chrome'
+    canvas: opt_canvas || 'canvas-chrome',
   });
 };
 
@@ -159,7 +158,7 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
     data_url: this.sanitizedUri_(data_url),
     type: 'text/html',
     width: opt_width || 400,
-    height: opt_height || 400
+    height: opt_height || 400,
   });
 };
 
@@ -167,18 +166,18 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
 /**
  * Returns data encoded content.
  * @param {!string} content
- * @param {string=} opt_type
+ * @param {string=} optType
  * @return {!string}
  * @export
  */
 cwc.renderer.Helper.prototype.getDataUrl = function(content,
-    opt_type) {
+    optType) {
   if (goog.isString(content) && goog.string.startsWith(content, 'data:')) {
     return content;
   }
 
-  var dataUrl = '';
-  var dataType = opt_type || 'text/html';
+  let dataUrl = '';
+  let dataType = optType || 'text/html';
 
   try {
     dataUrl = 'data:' + dataType + ';base64,' + btoa(content);
@@ -197,7 +196,7 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
  */
 cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
   return cwc.soy.Renderer.javaScriptContent({
-    content: this.sanitizedJs_(content)
+    content: this.sanitizedJs_(content),
   });
 };
 
@@ -210,7 +209,7 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
 cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url, opt_filename) {
   return cwc.soy.Renderer.javaScriptUrl({
     url: url,
-    filename: opt_filename
+    filename: opt_filename,
   });
 };
 
@@ -223,13 +222,13 @@ cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url, opt_filename) {
  */
 cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
     opt_encoding, opt_filename) {
-  var encoding = opt_encoding || 'base64';
-  var filename = opt_filename;
+  let encoding = opt_encoding || 'base64';
+  let filename = opt_filename;
 
   if (goog.string.startsWith(data, 'data:text/javascript;')) {
     data = data.split(';')[1];
     if (data.includes(',')) {
-      var dataFragments = data.split(',');
+      let dataFragments = data.split(',');
       encoding = dataFragments[0];
       data = dataFragments[1];
     }
@@ -238,7 +237,7 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
   return cwc.soy.Renderer.javaScriptDataUrl({
     data: data,
     encoding: encoding,
-    filename: filename
+    filename: filename,
   });
 };
 
@@ -250,7 +249,7 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
  */
 cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
     renderer_frameworks) {
-  var framework = renderer_frameworks.getFile(filename);
+  let framework = renderer_frameworks.getFile(filename);
   if (!framework) {
     console.warn('Was unable to get framework file:', filename);
     return '';
@@ -260,16 +259,18 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
 
 
 /**
- * @param {!Array.} filenames
+ * @param {!Array} filenames
  * @param {!cwc.file.Files} renderer_frameworks
  * @return {!string}
  */
 cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
     renderer_frameworks) {
-  var headers = '';
+  let headers = '';
   for (let filename in filenames) {
-    headers += this.getFrameworkHeader(filenames[filename],
-      renderer_frameworks);
+    if (Object.prototype.hasOwnProperty.call(filenames, filename)) {
+      headers += this.getFrameworkHeader(filenames[filename],
+        renderer_frameworks);
+    }
   }
   return headers;
 };

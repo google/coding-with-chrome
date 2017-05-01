@@ -23,7 +23,6 @@ goog.require('cwc.utils.StackType');
 
 
 describe('StackType', function() {
-
   it('enum', function() {
     expect(typeof cwc.utils.StackType).toEqual('object');
   });
@@ -36,17 +35,17 @@ describe('StackType', function() {
   it('DELAY', function() {
     expect(cwc.utils.StackType.DELAY).toEqual('delay');
   });
-
 });
 
 
 describe('StackEntry', function() {
-
-  var type = cwc.utils.StackType.CMD;
-  var func = function(data) {return data['a'] + data['b'];};
-  var value = {a: 11, b: 12};
-  var name = 'Test';
-  var stackEntry = new cwc.utils.StackEntry(type, func, value, name);
+  let type = cwc.utils.StackType.CMD;
+  let func = function(data) {
+return data['a'] + data['b'];
+};
+  let value = {a: 11, b: 12};
+  let name = 'Test';
+  let stackEntry = new cwc.utils.StackEntry(type, func, value, name);
 
   it('constructor', function() {
     expect(typeof stackEntry).toEqual('object');
@@ -67,17 +66,15 @@ describe('StackEntry', function() {
   it('getName', function() {
     expect(stackEntry.getName()).toEqual(name);
   });
-
 });
 
 
 describe('StackQueue (autostart)', function() {
-
-  var stackQueue = new cwc.utils.StackQueue();
-  var counter = 0;
-  var counterFunc = function() {
+  let stackQueue = new cwc.utils.StackQueue();
+  let counter = 0;
+  let counterFunc = function() {
     counter = counter + 1;
-  }.bind(this);
+  };
 
   it('constructor', function() {
     expect(typeof stackQueue).toEqual('object');
@@ -99,79 +96,78 @@ describe('StackQueue (autostart)', function() {
     window.setTimeout(function() {
       expect(counter).toEqual(5);
       done();
-    }, 50);
+    }, 100);
   });
 
   it('addDelay', function(done) {
-    var timeTests = function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(1);
-      }, 50);
-      window.setTimeout(function() {
-        expect(counter).toEqual(2);
-      }, 150);
-      window.setTimeout(function() {
-        if (counter == 3) {
-          expect(counter).toEqual(3);
-        } else {
-          window.setTimeout(function() {
-            expect(counter).toEqual(3);
-          }, 50);
-        }
-      }, 250);
-      window.setTimeout(function() {
-        if (counter == 4) {
-          expect(counter).toEqual(4);
-          done();
-        } else {
-          window.setTimeout(function() {
-            expect(counter).toEqual(4);
-            done();
-          }, 75);
-        }
-      }, 350);
-    }.bind(this);
-
     counter = 0;
     expect(counter).toEqual(0);
-    stackQueue.addCommand(timeTests);
+    stackQueue.addCommand(function() {
+      window.setTimeout(function() {
+        expect(counter).toEqual(4);
+        done();
+      }, 400);
+    });
     stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(1);
+    });
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(2);
+    });
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(3);
+    });
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(4);
+    });
     expect(counter).toEqual(1);
   });
 
   it('stop', function(done) {
     expect(counter).toEqual(4);
+    stackQueue.addCommand(function() {
+      window.setTimeout(function() {
+        expect(counter).toEqual(5);
+        done();
+      }, 150);
+    });
     stackQueue.addCommand(counterFunc);
-    stackQueue.addDelay(100);
-    stackQueue.addCommand(counterFunc);
-    stackQueue.addDelay(100);
-    stackQueue.addCommand(counterFunc);
-    stackQueue.addDelay(100);
-    stackQueue.addCommand(counterFunc);
-    stackQueue.stop();
-    expect(counter).toEqual(5);
-    window.setTimeout(function() {
+    stackQueue.addCommand(function() {
       expect(counter).toEqual(5);
-      done();
-    }, 75);
+    });
+    stackQueue.addDelay(100);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(6);
+    });
+    stackQueue.addDelay(100);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(false);
+    });
+    stackQueue.addDelay(100);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(false);
+    });
+    stackQueue.stop();
   });
-
 });
 
 
-
 describe('StackQueue (no autostart)', function() {
-  var stackQueue = new cwc.utils.StackQueue(true);
-  var counter = 0;
-  var counterFunc = function() {
+  let stackQueue = new cwc.utils.StackQueue(false);
+  let counter = 0;
+  let counterFunc = function() {
     counter = counter + 1;
-  }.bind(this);
+  };
 
   it('constructor', function() {
     expect(typeof stackQueue).toEqual('object');
@@ -187,7 +183,7 @@ describe('StackQueue (no autostart)', function() {
     window.setTimeout(function() {
       expect(counter).toEqual(0);
       done();
-    }, 100);
+    }, 50);
   });
 
   it('start', function(done) {
@@ -200,57 +196,44 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('addDelay', function(done) {
-    var timeTests = function() {
-      window.setTimeout(function() {
-        expect(counter).toEqual(1);
-      }, 50);
-      window.setTimeout(function() {
-        expect(counter).toEqual(1);
-        stackQueue.start();
-      }, 100);
-      window.setTimeout(function() {
-        expect(counter).toEqual(2);
-        stackQueue.start();
-      }, 150);
-      window.setTimeout(function() {
-        if (counter == 3) {
-          expect(counter).toEqual(3);
-        } else {
-          window.setTimeout(function() {
-            expect(counter).toEqual(3);
-          }, 25);
-        }
-      }, 250);
-      window.setTimeout(function() {
-        if (counter == 4) {
-          expect(counter).toEqual(4);
-        } else {
-          window.setTimeout(function() {
-            expect(counter).toEqual(4);
-          }, 25);
-        }
-      }, 350);
+    counter = 0;
+    expect(counter).toEqual(0);
+    stackQueue.addCommand(function() {
       window.setTimeout(function() {
         expect(counter).toEqual(4);
         done();
-      }, 450);
-    }.bind(this);
-
-    counter = 0;
-    expect(counter).toEqual(0);
-    stackQueue.addCommand(timeTests);
+      }, 400);
+    });
     stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(1);
+    });
+    stackQueue.addDelay(50);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(2);
+    });
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
-    stackQueue.addDelay(100);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(3);
+    });
+    stackQueue.addDelay(50);
     stackQueue.addCommand(counterFunc);
-    stackQueue.addDelay(100);
-    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(function() {
+      expect(counter).toEqual(4);
+    });
     stackQueue.start();
   });
 
   it('stop', function(done) {
     expect(counter).toEqual(4);
+    stackQueue.addCommand(function() {
+      window.setTimeout(function() {
+        expect(counter).toEqual(5);
+        done();
+      }, 75);
+    });
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);
     stackQueue.addCommand(counterFunc);
@@ -261,10 +244,5 @@ describe('StackQueue (no autostart)', function() {
     stackQueue.start();
     stackQueue.stop();
     expect(counter).toEqual(5);
-    window.setTimeout(function() {
-      expect(counter).toEqual(5);
-      done();
-    }, 75);
   });
-
 });

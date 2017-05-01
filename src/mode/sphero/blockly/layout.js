@@ -22,7 +22,6 @@ goog.provide('cwc.mode.sphero.blockly.Layout');
 goog.require('cwc.soy.mode.sphero.blockly.Layout');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -37,7 +36,7 @@ cwc.mode.sphero.blockly.Layout = function(helper) {
  * Decorates the Sphero layout.
  */
 cwc.mode.sphero.blockly.Layout.prototype.decorate = function() {
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateSimpleTwoColumnLayout();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
@@ -53,5 +52,4 @@ cwc.mode.sphero.blockly.Layout.prototype.decorate = function() {
       cwc.soy.mode.sphero.blockly.Layout.runner,
       {'prefix': this.helper.getPrefix('sphero-runner')}
   );
-
 };

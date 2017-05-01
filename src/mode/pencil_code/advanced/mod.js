@@ -25,7 +25,6 @@ goog.require('cwc.mode.pencilCode.advanced.Layout');
 goog.require('cwc.renderer.external.PencilCode');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

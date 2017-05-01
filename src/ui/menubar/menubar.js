@@ -27,7 +27,6 @@ goog.require('goog.dom');
 goog.require('goog.soy');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -105,7 +104,7 @@ cwc.ui.Menubar = function(helper) {
   this.serialConnectStatus = null;
 
   /** @type {chrome.app.window.AppWindow} */
-  this.currentWindow =  null;
+  this.currentWindow = null;
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
@@ -128,7 +127,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.Menubar.menubarTemplate, {
-        'prefix': this.prefix
+        'prefix': this.prefix,
       }
   );
 
@@ -156,7 +155,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
   goog.events.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
     function() {
-      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showBluetoothDevices();
     }, false, this);
 
@@ -165,7 +164,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     this.prefix + 'bluetooth-connected');
   goog.events.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
     function() {
-      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showBluetoothDevices();
     }, false, this);
 
@@ -188,7 +187,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   // Serial enabled
   this.nodeSerial = goog.dom.getElement(this.prefix + 'serial');
   goog.events.listen(this.nodeSerial, goog.events.EventType.CLICK, function() {
-    var connectScreenInstance = this.helper.getInstance('connectScreen');
+    let connectScreenInstance = this.helper.getInstance('connectScreen');
     connectScreenInstance.showSerialDevices();
   }, false, this);
 
@@ -197,7 +196,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     this.prefix + 'serial-connected');
   goog.events.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
     function() {
-      var connectScreenInstance = this.helper.getInstance('connectScreen');
+      let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showSerialDevices();
     }, false, this);
 
@@ -225,7 +224,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     this.restoreWindow, false, this);
 
   if (this.isChromeApp_) {
-    this.currentWindow =  chrome.app.window.current();
+    this.currentWindow = chrome.app.window.current();
     goog.style.setElementShown(this.nodeMaximizeButton,
       !this.currentWindow['isMaximized']());
     goog.style.setElementShown(this.nodeRestoreButton,
@@ -252,7 +251,7 @@ cwc.ui.Menubar.prototype.setAuthenticated = function(auth) {
  * Logs in into Google Account for gDrive integration.
  */
 cwc.ui.Menubar.prototype.loginAccount = function() {
-  var accountInstance = this.helper.getInstance('account', true);
+  let accountInstance = this.helper.getInstance('account', true);
   accountInstance.authenticate();
 };
 
@@ -261,7 +260,7 @@ cwc.ui.Menubar.prototype.loginAccount = function() {
  * Logs out of current Google Account.
  */
 cwc.ui.Menubar.prototype.logoutAccount = function() {
-  var accountInstance = this.helper.getInstance('account', true);
+  let accountInstance = this.helper.getInstance('account', true);
   accountInstance.deauthenticate();
 };
 
@@ -270,7 +269,7 @@ cwc.ui.Menubar.prototype.logoutAccount = function() {
  * Shows new file dialog.
  */
 cwc.ui.Menubar.prototype.requestShowSelectScreen = function() {
-  var selectScreenInstance = this.helper.getInstance('selectScreen');
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.requestShowSelectScreen();
   }
@@ -290,7 +289,7 @@ cwc.ui.Menubar.prototype.requestCloseWindow = function() {
  */
 cwc.ui.Menubar.prototype.closeWindow = function() {
   console.log('Close Coding with Chrome editor ...');
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
     bluetoothInstance.closeSockets();
   }
@@ -303,7 +302,7 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
  */
 cwc.ui.Menubar.prototype.minimizeWindow = function() {
   this.currentWindow['minimize']();
-  var editorWindow = chrome.app.window.get('editor');
+  let editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['drawAttention']();
   }
@@ -373,7 +372,7 @@ cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
  */
 cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
   this.helper.showInfo('Checking bluetooth state ...');
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
     bluetoothInstance.updateAdapterState();
   }

@@ -21,12 +21,10 @@ goog.provide('cwc.protocol.USB.Device');
 goog.provide('cwc.protocol.USB.Devices');
 
 
-
 /**
  * @constructor
  */
 cwc.protocol.USB.Device = function() {
-
   /** @type {string} */
   this.address = '';
 
@@ -47,7 +45,6 @@ cwc.protocol.USB.Device = function() {
 };
 
 
-
 /**
  * @constructor
  */
@@ -60,12 +57,12 @@ cwc.protocol.USB.Devices = function() {
  * Updates device list.
  */
 cwc.protocol.USB.Devices.prototype.updateDevices = function() {
-  var devices = cwc.protocol.USB.supportedDevices;
+  let devices = cwc.protocol.USB.supportedDevices;
   for (let i = 0; i < devices.length; i++) {
     for (let i2 = 0; i2 < devices[i].length; i2++) {
-      var vendorId = i;
-      var productId = i2;
-      var device = devices[vendorId][i2];
+      let vendorId = i;
+      let productId = i2;
+      let device = devices[vendorId][i2];
       console.log('Search for usb device', device.name);
       chrome.usb.getDevices({'vendorId': vendorId, 'productId': productId},
           this.onDeviceFound);

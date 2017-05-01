@@ -26,7 +26,6 @@ goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.Select');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -156,7 +155,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
  */
 cwc.ui.EditorToolbar.prototype.addOption = function(name, func, opt_tooltip) {
   if (this.nodeMoreList) {
-    var item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
+    let item = cwc.ui.Helper.getMenuItem(name, opt_tooltip, func);
     this.nodeMoreList.appendChild(item);
     goog.style.setElementShown(this.nodeMore, true);
     cwc.ui.Helper.mdlRefresh();
@@ -168,7 +167,7 @@ cwc.ui.EditorToolbar.prototype.addOption = function(name, func, opt_tooltip) {
  * Saves the currently open file.
  */
 cwc.ui.EditorToolbar.prototype.save = function() {
-  var fileSaverInstance = this.helper.getInstance('fileSaver');
+  let fileSaverInstance = this.helper.getInstance('fileSaver');
   if (fileSaverInstance) {
     fileSaverInstance.saveFile(true);
   }
@@ -179,9 +178,9 @@ cwc.ui.EditorToolbar.prototype.save = function() {
  * Undo change to the editor.
  */
 cwc.ui.EditorToolbar.prototype.undo = function() {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var history = editorInstance.undoChange();
+    let history = editorInstance.undoChange();
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
@@ -192,9 +191,9 @@ cwc.ui.EditorToolbar.prototype.undo = function() {
  * Redo change to the editor.
  */
 cwc.ui.EditorToolbar.prototype.redo = function() {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var history = editorInstance.redoChange();
+    let history = editorInstance.redoChange();
     this.enableUndoButton(history['undo'] > 0);
     this.enableRedoButton(history['redo'] > 0);
   }
@@ -205,9 +204,9 @@ cwc.ui.EditorToolbar.prototype.redo = function() {
  * Enable or disable debug.
  */
 cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    var active = goog.dom.classlist.contains(this.nodeDebug, 'active');
+    let active = goog.dom.classlist.contains(this.nodeDebug, 'active');
     goog.dom.classlist.enable(this.nodeDebug, 'active', !active);
     goog.dom.classlist.enable(this.nodeDebug, 'icon_24px_red', !active);
     editorInstance.setSyntaxCheck(!active);
@@ -229,7 +228,7 @@ cwc.ui.EditorToolbar.prototype.editorChangeViewEvent = function(event) {
  * @param {string} name
  */
 cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
-  var editorInstance = this.helper.getInstance('editor');
+  let editorInstance = this.helper.getInstance('editor');
   if (editorInstance && name) {
     this.currentView = name;
     editorInstance.changeView(name);
@@ -241,8 +240,8 @@ cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
  * Insert a media.
  */
 cwc.ui.EditorToolbar.prototype.insertMedia = function() {
-  var editorInstance = this.helper.getInstance('editor');
-  var libraryInstance = this.helper.getInstance('library');
+  let editorInstance = this.helper.getInstance('editor');
+  let libraryInstance = this.helper.getInstance('library');
   if (editorInstance && libraryInstance) {
     libraryInstance.showLibrary();
   }
@@ -253,7 +252,7 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
  * Publish file.
  */
 cwc.ui.EditorToolbar.prototype.publish = function() {
-  var fileExporterInstance = this.helper.getInstance('fileExporter');
+  let fileExporterInstance = this.helper.getInstance('fileExporter');
   fileExporterInstance.exportHtmlToGoogleCloud();
 };
 
@@ -321,7 +320,7 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editor_mode == 'text/coffeescript') {
     this.enableDebugButton(true);
   } else {
-    var editorInstance = this.helper.getInstance('editor');
+    let editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       editorInstance.setSyntaxCheck(false);
     }
@@ -339,7 +338,7 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
  * @export
  */
 cwc.ui.EditorToolbar.prototype.addView = function(name) {
-  var selectedView = new goog.ui.MenuItem(name);
+  let selectedView = new goog.ui.MenuItem(name);
   this.selectView.addItem(selectedView);
 
   if (!this.currentView) {
@@ -382,7 +381,7 @@ cwc.ui.EditorToolbar.prototype.toggleExpand = function() {
  */
 cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert) {
   this.expandState = expand;
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     if (invert) {
       layoutInstance.setFullscreen(expand, 0);

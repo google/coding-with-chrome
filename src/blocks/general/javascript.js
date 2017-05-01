@@ -19,12 +19,13 @@
  */
 
 
-
 /**
  * Infinity loop
+ * @param {Blockly.Block} block
+ * @return {string}
  */
 Blockly.JavaScript['general_infinity_loop'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var infinity_loop = function() {\n' +
     '  try {\n' + statements_code + '  } catch (err) {\n    return;\n  }\n' +
     '  window.setTimeout(infinity_loop, 50);\n' +
@@ -34,39 +35,47 @@ Blockly.JavaScript['general_infinity_loop'] = function(block) {
 
 /**
  * Library file
+ * @param {Blockly.Block} block
+ * @return {string}
  */
 Blockly.JavaScript['general_file_library'] = function(block) {
-  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
-  var code = '{{ file:' + value_filename + ' }}';
+  let value_filename = block.getFieldValue('filename').replace(/"/g, '');
+  let code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Library file image
+ * @param {Blockly.Block} block
+ * @return {string}
  */
 Blockly.JavaScript['general_file_library_image'] = function(block) {
-  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
-  var code = '{{ file:' + value_filename + ' }}';
+  let value_filename = block.getFieldValue('filename').replace(/"/g, '');
+  let code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Library file audio
+ * @param {Blockly.Block} block
+ * @return {string}
  */
 Blockly.JavaScript['general_file_library_audio'] = function(block) {
-  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
-  var code = '{{ file:' + value_filename + ' }}';
+  let value_filename = block.getFieldValue('filename').replace(/"/g, '');
+  let code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Library file text
+ * @param {Blockly.Block} block
+ * @return {string}
  */
 Blockly.JavaScript['general_file_library_text'] = function(block) {
-  var value_filename = block.getFieldValue('filename').replace(/"/g, '');
-  var code = '{{ file:' + value_filename + ' }}';
+  let value_filename = block.getFieldValue('filename').replace(/"/g, '');
+  let code = '{{ file:' + value_filename + ' }}';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

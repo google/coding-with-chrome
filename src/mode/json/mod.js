@@ -24,7 +24,6 @@ goog.require('cwc.mode.json.Layout');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

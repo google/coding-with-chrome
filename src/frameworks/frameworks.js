@@ -24,7 +24,6 @@ goog.provide('cwc.framework.External');
 goog.provide('cwc.framework.Internal');
 
 
-
 /**
  * External frameworks for the preview window or runner framework.
  * @enum {!Object.<string>|string}
@@ -33,17 +32,17 @@ cwc.framework.External = {
   COFFEESCRIPT: 'coffee-script.js',
   JQUERY: {
     V3_X: 'jquery.min.js',
-    V2_2_4: 'jquery-2.2.4.min.js'
+    V2_2_4: 'jquery-2.2.4.min.js',
   },
   JQUERY_TURTLE: 'jquery-turtle.js',
   PHASER: 'phaser.min.js',
   SKULPT: {
     CORE: 'skulpt.min.js',
-    STDLIB: 'skulpt-stdlib.js'
+    STDLIB: 'skulpt-stdlib.js',
   },
   THREE_JS: {
-    CORE: 'three.min.js'
-  }
+    CORE: 'three.min.js',
+  },
 };
 
 
@@ -62,5 +61,5 @@ cwc.framework.Internal = {
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',
   SPHERO: 'sphero_framework.js',
-  TURTLE: 'turtle_framework.js'
+  TURTLE: 'turtle_framework.js',
 };

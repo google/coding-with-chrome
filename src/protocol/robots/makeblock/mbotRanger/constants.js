@@ -30,7 +30,6 @@ goog.provide('cwc.protocol.makeblock.mbotRanger.Port');
 goog.provide('cwc.protocol.makeblock.mbotRanger.Slot');
 
 
-
 /**
  * In future developments, this should be replaced by a state machine.
  * @enum {!Object.<string>|number}
@@ -38,7 +37,7 @@ goog.provide('cwc.protocol.makeblock.mbotRanger.Slot');
 cwc.protocol.makeblock.mbotRanger.ByteType = {
   INDEX: 2,
   DATATYPE: 3,
-  PAYLOAD: 4
+  PAYLOAD: 4,
 };
 
 
@@ -50,7 +49,7 @@ cwc.protocol.makeblock.mbotRanger.Action = {
   GET: 0x01,
   RUN: 0x02,
   RESET: 0x04,
-  START: 0x05
+  START: 0x05,
 };
 
 
@@ -62,7 +61,7 @@ cwc.protocol.makeblock.mbotRanger.DataType = {
   BYTE: 1,
   FLOAT: 2,
   SHORT: 3,
-  STRING: 4
+  STRING: 4,
 };
 
 
@@ -84,7 +83,7 @@ cwc.protocol.makeblock.mbotRanger.Device = {
   TEMPERATURE: 0x1b,
   TONE: 34,
   ULTRASONIC: 0x01,
-  VERSION: 0
+  VERSION: 0,
 };
 
 
@@ -107,7 +106,7 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
   LIGHTSENSOR_1: 0x2a,
   LIGHTSENSOR_2: 0x2b,
   TEMPERATURE: 0x21,
-  VERSION: 0x20
+  VERSION: 0x20,
 };
 
 
@@ -127,7 +126,7 @@ cwc.protocol.makeblock.mbotRanger.Port = {
   TEMPERATURE: 0x0d,
   LEFT_MOTOR: 0x22,
   RIGHT_MOTOR: 0x11,
-  TONE: 45
+  TONE: 45,
 };
 
 
@@ -138,5 +137,5 @@ cwc.protocol.makeblock.mbotRanger.Port = {
 cwc.protocol.makeblock.mbotRanger.Slot = {
   AUTO: 0,
   ONE: 1,
-  TWO: 2
+  TWO: 2,
 };

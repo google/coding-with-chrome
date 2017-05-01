@@ -22,7 +22,6 @@
 goog.provide('cwc.framework.Phaser');
 
 
-
 /**
  * @param {!number} x
  * @param {!number} y
@@ -34,7 +33,7 @@ goog.provide('cwc.framework.Phaser');
  */
 cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
     opt_group, opt_manipulation, opt_manipulation_value) {
-  var sprite = game.add.sprite(x, y, sprite_name);
+  let sprite = game.add.sprite(x, y, sprite_name);
   if (opt_group) {
     opt_group.add(sprite);
   }
@@ -44,7 +43,7 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
   sprite['z'] = 100;
   if (opt_manipulation && opt_manipulation_value) {
     if (opt_manipulation.includes('.')) {
-      var attributes = opt_manipulation.split('.');
+      let attributes = opt_manipulation.split('.');
       sprite['body'][attributes[0]][attributes[1]] = opt_manipulation_value;
     } else {
       sprite['body'][opt_manipulation] = opt_manipulation_value;
@@ -69,11 +68,11 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
 cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
     space, sprite, opt_sprite_top, opt_sprite_bottom, opt_group,
     opt_manipulation = '', opt_manipulation_value = '') {
-  var spriteSpace = game.rnd.integerInRange(0, num_blocks - space - 1);
-  var height = game.cache.getImage(sprite).height;
+  let spriteSpace = game.rnd.integerInRange(0, num_blocks - space - 1);
+  let height = game.cache.getImage(sprite).height;
   for (let i = 0; i < num_blocks; i++) {
     if (i < spriteSpace || i >= spriteSpace + space) {
-      var groupSprite = sprite;
+      let groupSprite = sprite;
       if (i == spriteSpace + space && opt_sprite_bottom) {
         groupSprite = opt_sprite_bottom;
       } else if (i == spriteSpace - 1 && opt_sprite_top) {
@@ -102,8 +101,8 @@ cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
 cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
     num_blocks, sprite, opt_sprite, opt_group, opt_direction,
     opt_manipulation = '', opt_manipulation_value = '') {
-  var height = game.cache.getImage(sprite).height;
-  var numBlocks = game.rnd.integerInRange(0, num_blocks);
+  let height = game.cache.getImage(sprite).height;
+  let numBlocks = game.rnd.integerInRange(0, num_blocks);
   if (opt_direction === 'top') {
     y = y - height;
   }

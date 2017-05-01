@@ -1,0 +1,23 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"simple_draw_circle\" x=\"-90\" y=\"-230\">\n    <value name=\"x\">\n      <shadow type=\"math_number\">\n        <field name=\"NUM\">50</field>\n      </shadow>\n    </value>\n    <value name=\"y\">\n      <shadow type=\"math_number\">\n        <field name=\"NUM\">50</field>\n      </shadow>\n    </value>\n    <value name=\"radius\">\n      <shadow type=\"math_number\">\n        <field name=\"NUM\">100</field>\n      </shadow>\n    </value>\n    <value name=\"fillColor\">\n      <shadow type=\"colour_picker\">\n        <field name=\"COLOUR\">#ff0000</field>\n      </shadow>\n    </value>\n    <value name=\"borderColor\">\n      <shadow type=\"colour_picker\">\n        <field name=\"COLOUR\">#990000</field>\n      </shadow>\n    </value>\n    <value name=\"borderSize\">\n      <shadow type=\"math_number\">\n        <field name=\"NUM\">1</field>\n      </shadow>\n    </value>\n    <next>\n      <block type=\"controls_for\">\n        <field name=\"VAR\">y</field>\n        <value name=\"FROM\">\n          <block type=\"math_number\">\n            <field name=\"NUM\">0</field>\n          </block>\n        </value>\n        <value name=\"TO\">\n          <block type=\"math_number\">\n            <field name=\"NUM\">800</field>\n          </block>\n        </value>\n        <value name=\"BY\">\n          <block type=\"math_number\">\n            <field name=\"NUM\">10</field>\n          </block>\n        </value>\n        <statement name=\"DO\">\n          <block type=\"controls_for\">\n            <field name=\"VAR\">x</field>\n            <value name=\"FROM\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">0</field>\n              </block>\n            </value>\n            <value name=\"TO\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">800</field>\n              </block>\n            </value>\n            <value name=\"BY\">\n              <block type=\"math_number\">\n                <field name=\"NUM\">15</field>\n              </block>\n            </value>\n            <statement name=\"DO\">\n              <block type=\"simple_draw_line\">\n                <value name=\"start_x\">\n                  <shadow type=\"math_number\">\n                    <field name=\"NUM\">0</field>\n                  </shadow>\n                </value>\n                <value name=\"start_y\">\n                  <shadow type=\"math_number\">\n                    <field name=\"NUM\">0</field>\n                  </shadow>\n                </value>\n                <value name=\"end_x\">\n                  <shadow type=\"math_number\" id=\"VQ6-urk2eD=^CbvaO74]\">\n                    <field name=\"NUM\">400</field>\n                  </shadow>\n                  <block type=\"variables_get\">\n                    <field name=\"VAR\">x</field>\n                  </block>\n                </value>\n                <value name=\"end_y\">\n                  <shadow type=\"math_number\" id=\"($3C4]88(iZ@V#Bmb6KR\">\n                    <field name=\"NUM\">0</field>\n                  </shadow>\n                  <block type=\"variables_get\">\n                    <field name=\"VAR\">y</field>\n                  </block>\n                </value>\n                <value name=\"fillColor\">\n                  <shadow type=\"colour_picker\">\n                    <field name=\"COLOUR\">#ffcc33</field>\n                  </shadow>\n                </value>\n                <value name=\"borderSize\">\n                  <shadow type=\"math_number\">\n                    <field name=\"NUM\">0.1</field>\n                  </shadow>\n                </value>\n              </block>\n            </statement>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
+    "javascript": ""
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "$flags_$": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "basic_blockly",
+  "mode": "basic_blockly",
+  "model": "",
+  "title": "Sunlights",
+  "ui": "blockly",
+  "version": "1.0"
+}

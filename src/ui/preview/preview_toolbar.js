@@ -26,7 +26,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.dom.classlist');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -125,7 +124,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
  * Runs preview.
  */
 cwc.ui.PreviewToolbar.prototype.runPreview = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.run();
   }
@@ -136,7 +135,7 @@ cwc.ui.PreviewToolbar.prototype.runPreview = function() {
  * Stops preview.
  */
 cwc.ui.PreviewToolbar.prototype.stopPreview = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.stop();
   }
@@ -182,7 +181,7 @@ cwc.ui.PreviewToolbar.prototype.enableSoftRefresh = function(enable) {
  * Reloads the preview.
  */
 cwc.ui.PreviewToolbar.prototype.refreshPreview = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.refresh();
   }
@@ -193,7 +192,7 @@ cwc.ui.PreviewToolbar.prototype.refreshPreview = function() {
  * Reloads the preview.
  */
 cwc.ui.PreviewToolbar.prototype.reloadPreview = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.reload();
   }
@@ -204,7 +203,7 @@ cwc.ui.PreviewToolbar.prototype.reloadPreview = function() {
  * Sets auto update feature.
  */
 cwc.ui.PreviewToolbar.prototype.autoUpdate = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.setAutoUpdate(!this.autoUpdateState);
   }
@@ -252,7 +251,7 @@ cwc.ui.PreviewToolbar.prototype.collapse = function(e) {
  * Open preview in an new browser window.
  */
 cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
-  var previewInstance = this.helper.getInstance('preview');
+  let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.openInBrowser();
   }
@@ -266,7 +265,7 @@ cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
  */
 cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert) {
   this.expandState = expand;
-  var layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
     if (invert) {
       layoutInstance.setFullscreen(expand);

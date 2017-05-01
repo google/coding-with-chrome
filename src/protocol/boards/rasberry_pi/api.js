@@ -26,7 +26,6 @@ goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -59,8 +58,8 @@ cwc.protocol.raspberryPi.Api = function(helper) {
  * @export
  */
 cwc.protocol.raspberryPi.Api.prototype.autoConnect = function() {
-  var serialInstance = this.helper.getInstance('serial', true);
-  var device = serialInstance.getConnectedDevice();
+  let serialInstance = this.helper.getInstance('serial', true);
+  let device = serialInstance.getConnectedDevice();
   if (device) {
     this.connect(device);
   }
@@ -138,8 +137,8 @@ cwc.protocol.raspberryPi.Api.prototype.send = function(data) {
  * @export
  */
 cwc.protocol.raspberryPi.Api.prototype.sendText = function(text) {
-  var buffer = new ArrayBuffer(text.length);
-  var bufferView = new Uint8Array(buffer);
+  let buffer = new ArrayBuffer(text.length);
+  let bufferView = new Uint8Array(buffer);
   for (let i = 0; i < text.length; i++) {
     bufferView[i] = text.charCodeAt(i);
   }

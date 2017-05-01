@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.arduino.Connect');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -53,9 +52,9 @@ cwc.mode.arduino.Connect.prototype.init = function() {
  */
 cwc.mode.arduino.Connect.prototype.handleConnect_ = function(device) {
   if (device) {
-    var runnerInstance = this.helper.getInstance('runner');
+    let runnerInstance = this.helper.getInstance('runner');
     if (runnerInstance) {
-      var terminalEvent = runnerInstance.writeTerminal.bind(runnerInstance);
+      let terminalEvent = runnerInstance.writeTerminal.bind(runnerInstance);
       this.api.setTerminalHandler(terminalEvent);
     }
     this.api.connect(device);

@@ -27,14 +27,12 @@ goog.require('cwc.protocol.Serial.unsupportedDevicePaths');
 goog.require('goog.Timer');
 
 
-
 /**
  * @param {!cwc.ui.helper} helper
  * @param {!chrome.serial} serial
  * @constructor
  */
 cwc.protocol.serial.Devices = function(helper, serial) {
-
   /** @type {cwc.utils.Helper} */
   this.helper = helper;
 
@@ -162,7 +160,7 @@ cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
   this.connectionIds[connection_id] = this.devices[device_path];
   this.connectedDevice_ = this.devices[device_path];
 
-  var menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setSerialConnected(true);
   }
@@ -180,7 +178,7 @@ cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
   this.connectionIds[connection_id] = null;
   this.connectedDevice_ = null;
 
-  var menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menubar');
   if (menubarInstance) {
     menubarInstance.setSerialConnected(false);
   }
@@ -193,12 +191,12 @@ cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
  */
 cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     devices) {
-  var filteredDevices = [];
+  let filteredDevices = [];
 
   if (!devices || devices.length == 0) {
     this.log_.warn('Did not find any serial devices!');
   } else {
-    var unsupportedPaths = cwc.protocol.Serial.unsupportedDevicePaths;
+    let unsupportedPaths = cwc.protocol.Serial.unsupportedDevicePaths;
     for (let i = 0; i < devices.length; i++) {
       if (devices[i].path in unsupportedPaths) {
         this.log_.debug('Ignored serial device:', devices[i]);
@@ -212,17 +210,17 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
   if (!filteredDevices) {
     this.log_.warn('Did not find any supported serial device!');
   } else {
-    var supportedDevices = cwc.protocol.Serial.supportedDevices;
-    var supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
+    let supportedDevices = cwc.protocol.Serial.supportedDevices;
+    let supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
     this.log_.debug('Found', filteredDevices.length, 'serial devices...');
     for (let i = 0; i < filteredDevices.length; i++) {
-      var deviceEntry = filteredDevices[i];
-      var devicePath = deviceEntry['path'];
+      let deviceEntry = filteredDevices[i];
+      let devicePath = deviceEntry['path'];
       if (!(devicePath in this.devices)) {
-        var displayName = deviceEntry['displayName'] || '';
-        var productId = deviceEntry['productId'];
-        var vendorId = deviceEntry['vendorId'];
-        var device = new cwc.protocol.serial.Device(
+        let displayName = deviceEntry['displayName'] || '';
+        let productId = deviceEntry['productId'];
+        let vendorId = deviceEntry['vendorId'];
+        let device = new cwc.protocol.serial.Device(
           devicePath, vendorId, productId, displayName, this.serial);
 
         if (vendorId in supportedDevices &&
@@ -241,7 +239,7 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     }
   }
 
-  var connectionManagerInstance = this.helper.getInstance('connectionManager');
+  let connectionManagerInstance = this.helper.getInstance('connectionManager');
   if (connectionManagerInstance) {
     connectionManagerInstance.setSerialDevices(this.devices);
   }
@@ -262,7 +260,7 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
  */
 cwc.protocol.serial.Devices.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener_, eventListener);
 };

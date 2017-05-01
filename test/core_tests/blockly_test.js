@@ -20,9 +20,8 @@
 
 
 describe('Blockly', function() {
-
   beforeEach(function() {
-    var fixture = '<div id="fixture"></div>';
+    let fixture = '<div id="fixture"></div>';
     document.body.insertAdjacentHTML(
       'afterbegin',
       fixture);
@@ -35,5 +34,4 @@ describe('Blockly', function() {
   it('object', function() {
     expect(typeof Blockly).toEqual('object');
   });
-
 });

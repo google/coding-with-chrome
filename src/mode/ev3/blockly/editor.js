@@ -26,7 +26,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -64,7 +63,6 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
-
   this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
   if (!this.nodeBlockly) {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
@@ -108,7 +106,7 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
  * Runs / Executes the code.
  */
 cwc.mode.ev3.blockly.Editor.prototype.runCode = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }
@@ -119,7 +117,7 @@ cwc.mode.ev3.blockly.Editor.prototype.runCode = function() {
  * Switches from the Blockly ui to the code editor.
  */
 cwc.mode.ev3.blockly.Editor.prototype.showEditor = function() {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
   fileInstance.setUi('custom');
@@ -130,7 +128,7 @@ cwc.mode.ev3.blockly.Editor.prototype.showEditor = function() {
  * Switches from the code editor to the Blockly ui.
  */
 cwc.mode.ev3.blockly.Editor.prototype.showBlockly = function() {
-  var dialogInstance = this.helper.getInstance('dialog');
+  let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
       if (answer) {
@@ -145,7 +143,7 @@ cwc.mode.ev3.blockly.Editor.prototype.showBlockly = function() {
  * @param {Event=} opt_e
  */
 cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
-  var fileInstance = this.helper.getInstance('file');
+  let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
@@ -166,9 +164,9 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
  */
 cwc.mode.ev3.blockly.Editor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var target = goog.isString(src) ?
+  let target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;
-  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(target, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

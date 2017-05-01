@@ -25,7 +25,6 @@ goog.require('cwc.mode.basic.simple.Layout');
 goog.require('cwc.renderer.internal.HTML5');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

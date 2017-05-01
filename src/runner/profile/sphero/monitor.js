@@ -20,7 +20,6 @@
 goog.provide('cwc.runner.profile.sphero.Monitor');
 
 
-
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor
@@ -56,11 +55,11 @@ cwc.runner.profile.sphero.Monitor.prototype.reset = function() {
  * @param {!Object} data
  */
 cwc.runner.profile.sphero.Monitor.prototype.roll = function(data) {
-  var speed = this.speed_ = data['speed'] === undefined ?
+  let speed = this.speed_ = data['speed'] === undefined ?
     this.speed_ : data['speed'];
-  var heading = this.heading_ = data['heading'] === undefined ?
-    this.heading_ :  data['heading'];
-  var angle = heading - this.angle_;
+  let heading = this.heading_ = data['heading'] === undefined ?
+    this.heading_ : data['heading'];
+  let angle = heading - this.angle_;
   if (angle == 360) {
     angle = 0;
   } else if (angle > 360) {

@@ -24,7 +24,6 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -71,7 +70,7 @@ cwc.mode.raspberryPi.advanced.Editor.prototype.decorate = function() {
  * Runs / Executes the code.
  */
 cwc.mode.raspberryPi.advanced.Editor.prototype.runCode = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }

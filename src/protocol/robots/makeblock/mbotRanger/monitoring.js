@@ -24,7 +24,6 @@ goog.provide('cwc.protocol.makeblock.mbotRanger.Monitoring');
 goog.require('goog.Timer');
 
 
-
 /**
  * @constructor
  * @param {!cwc.protocol.makeblock.mbotRanger.Api} api
@@ -32,7 +31,6 @@ goog.require('goog.Timer');
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
-
   /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = api;
 
@@ -162,28 +160,28 @@ function(enable) {
 /**
  * @param {!boolean} enable
  * @param {!goog.Timer} monitor
- * @param {string=} opt_name
+ * @param {string=} optName
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enable_ = function(
-  enable, monitor, opt_name) {
+  enable, monitor, optName) {
   if (enable) {
-    this.start_(monitor, opt_name);
+    this.start_(monitor, optName);
   } else {
-    this.stop_(monitor, opt_name);
+    this.stop_(monitor, optName);
   }
 };
 
 
 /**
  * @param {!goog.Timer} monitor
- * @param {string=} opt_name
+ * @param {string=} optName
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
-  monitor, opt_name) {
-  if (opt_name) {
-    console.log('Starting mBot Ranger', opt_name, 'sensor monitoring ...');
+  monitor, optName) {
+  if (optName) {
+    console.log('Starting mBot Ranger', optName, 'sensor monitoring ...');
   }
   monitor.start();
 };
@@ -191,13 +189,13 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
 
 /**
  * @param {!goog.Timer} monitor
- * @param {string=} opt_name
+ * @param {string=} optName
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
-  monitor, opt_name) {
-  if (opt_name) {
-    console.log('Stopping mBot Ranger', opt_name, 'sensor monitoring ...');
+  monitor, optName) {
+  if (optName) {
+    console.log('Stopping mBot Ranger', optName, 'sensor monitoring ...');
   }
   monitor.stop();
 };
@@ -217,7 +215,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.addEventListener_ =
 function(src, type, listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

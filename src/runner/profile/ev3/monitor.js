@@ -20,7 +20,6 @@
 goog.provide('cwc.runner.profile.ev3.Monitor');
 
 
-
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor

@@ -26,7 +26,6 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -43,8 +42,8 @@ cwc.renderer.external.PencilCode = function(helper) {
  * Initializes and defines the simple renderer.
  */
 cwc.renderer.external.PencilCode.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -64,14 +63,13 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     library_files,
     frameworks,
     renderer_helper) {
-
-  var coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
-  var header = renderer_helper.getFrameworkHeaders([
+  let coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
+  let header = renderer_helper.getFrameworkHeaders([
     cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.JQUERY_TURTLE
+    cwc.framework.External.JQUERY_TURTLE,
   ], frameworks);
-  var body = '\n<script type="text\/coffeescript">\n' +
+  let body = '\n<script type="text\/coffeescript">\n' +
     '$.turtle();\n' + coffeescript + '\n</script>\n';
   return renderer_helper.getHTMLGrid(body, header);
 };

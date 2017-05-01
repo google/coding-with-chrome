@@ -26,7 +26,6 @@ goog.require('goog.Timer');
 goog.require('goog.dom');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -75,9 +74,9 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.runner.enableTerminal(true);
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
@@ -97,7 +96,7 @@ cwc.mode.arduino.Runner.prototype.handleHandshake = function(
   }
 
   // Monitor Arduino events.
-  //var eventHandler = this.arduino.getEventHandler();
+  // var eventHandler = this.arduino.getEventHandler();
 
   // Send acknowledge for the start.
   goog.Timer.callOnce(function() {
@@ -138,7 +137,7 @@ cwc.mode.arduino.Runner.prototype.cleanUp = function() {
  */
 cwc.mode.arduino.Runner.prototype.addEventListener = function(src,
     type, listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

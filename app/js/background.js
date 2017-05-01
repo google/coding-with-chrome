@@ -19,55 +19,57 @@
  */
 
 
-chrome.app.runtime.onLaunched.addListener(function(launchData) {
-  if (launchData) {
-    if (launchData.items) {
-      console.log('Found file:', launchData.items[0]);
+chrome.app.runtime.onLaunched.addListener(
+  function(launchData) {
+    if (launchData) {
+      if (launchData.items) {
+        console.log('Found file:', launchData.items[0]);
+      }
+      console.log('launchData', launchData);
     }
-    console.log('launchData', launchData);
-  }
 
-  var screenWidth = screen.availWidth;
-  var screenHeight = screen.availHeight;
-  console.log('Screensize', screenWidth, 'x', screenHeight);
-  var editorWidth = 1280;
-  var editorHeight = 720;
-  var editorConfig = {
-    frame: 'none',
-    id: 'editor',
-    innerBounds: {
-      width: editorWidth,
-      height: editorHeight,
-      minWidth: 800,
-      minHeight: 600
-    },
-    hidden: true
-  };
-  var loaderWidth = 512;
-  var loaderHeight = 250;
-  var loaderConfig = {
-    alwaysOnTop: true,
-    frame: 'chrome',
-    id: 'loader',
-    focused: true,
-    resizable: false,
-    innerBounds: {
-      width: loaderWidth,
-      height: loaderHeight,
-      minWidth: loaderWidth,
-      minHeight: loaderHeight,
-      maxWidth: loaderWidth,
-      maxHeight: loaderHeight
-    }
-  };
-  chrome.app.window.create('html/loader.html', loaderConfig, function(
-      loaderWindow) {
-    loaderWindow.outerBounds.setPosition(
-      Math.round((screenWidth - loaderWidth) / 2),
-      Math.round((screenHeight - loaderHeight) / 2)
-    );
-    loaderWindow.drawAttention();
-    chrome.app.window.create('html/editor.html', editorConfig);});
+    let screenWidth = screen.availWidth;
+    let screenHeight = screen.availHeight;
+    console.log('Screensize', screenWidth, 'x', screenHeight);
+    let editorWidth = 1280;
+    let editorHeight = 720;
+    let editorConfig = {
+      frame: 'none',
+      id: 'editor',
+      innerBounds: {
+        width: editorWidth,
+        height: editorHeight,
+        minWidth: 800,
+        minHeight: 600,
+      },
+      hidden: true,
+    };
+    let loaderWidth = 512;
+    let loaderHeight = 250;
+    let loaderConfig = {
+      alwaysOnTop: true,
+      frame: 'chrome',
+      id: 'loader',
+      focused: true,
+      resizable: false,
+      innerBounds: {
+        width: loaderWidth,
+        height: loaderHeight,
+        minWidth: loaderWidth,
+        minHeight: loaderHeight,
+        maxWidth: loaderWidth,
+        maxHeight: loaderHeight,
+      },
+    };
+    chrome.app.window.create('html/loader.html', loaderConfig, function(
+        loaderWindow) {
+      loaderWindow.outerBounds.setPosition(
+        Math.round((screenWidth - loaderWidth) / 2),
+        Math.round((screenHeight - loaderHeight) / 2)
+      );
+      loaderWindow.drawAttention();
+      chrome.app.window.create('html/editor.html', editorConfig);
+  });
 });
 
 

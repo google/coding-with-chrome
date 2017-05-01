@@ -36,5 +36,5 @@ Blockly.Blocks['phaser_update'] = {
     this.setPreviousStatement(true, 'Update_');
     this.setNextStatement(true, 'Render_');
     this.setTooltip('');
-  }
+  },
 };

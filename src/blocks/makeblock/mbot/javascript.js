@@ -20,12 +20,13 @@
  */
 
 
-
 /**
  * mBot move forward.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_move_forward'] = function(block) {
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   return 'mbot.movePower(' + speed + ');\n';
 };
@@ -33,11 +34,13 @@ Blockly.JavaScript['mbot_move_forward'] = function(block) {
 
 /**
  * mBot move forward time.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
-  var time = parseInt(Blockly.JavaScript.valueToCode(
+  let time = parseInt(Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
   return 'mbot.movePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
@@ -46,9 +49,11 @@ Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
 
 /**
  * mBot move backwards.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   return 'mbot.movePower(' + (-speed) + ');\n';
 };
@@ -56,11 +61,13 @@ Blockly.JavaScript['mbot_move_backward'] = function(block) {
 
 /**
  * mBot move forward time.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
-  var time = parseInt(Blockly.JavaScript.valueToCode(
+  let time = parseInt(Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
   return 'mbot.movePowerTime(' + (time * 1000) + ', ' + (-speed) + ', true);\n';
@@ -69,9 +76,11 @@ Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
 
 /**
  * Rotate left.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_left'] = function(block) {
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   return 'mbot.rotatePower(' + speed + ');\n';
 };
@@ -79,11 +88,13 @@ Blockly.JavaScript['mbot_rotate_left'] = function(block) {
 
 /**
  * Rotate left time.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
-  var time = parseInt(Blockly.JavaScript.valueToCode(
+  let time = parseInt(Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
   return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
@@ -92,9 +103,11 @@ Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
 
 /**
  * Rotate right.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_right'] = function(block) {
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   return 'mbot.rotatePower(' + (-speed) + ');\n';
 };
@@ -102,11 +115,13 @@ Blockly.JavaScript['mbot_rotate_right'] = function(block) {
 
 /**
  * Rotate right time.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_right_time'] = function(block) {
-  var time = parseInt(Blockly.JavaScript.valueToCode(
+  let time = parseInt(Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
-  var speed = parseInt(Blockly.JavaScript.valueToCode(
+  let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
   return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
@@ -116,17 +131,20 @@ Blockly.JavaScript['mbot_rotate_right_time'] = function(block) {
 
 /**
  * Stop Moving.
+ * @return {!string}
  */
-Blockly.JavaScript['mbot_stop_moving'] = function(opt_block) {
+Blockly.JavaScript['mbot_stop_moving'] = function() {
   return 'mbot.stop(true);\n';
 };
 
 
 /**
  * Button change.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_button_change'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var buttonEvent = function(pressed) {\n' +
       statements_code +
     '};\nmbot.onButtonChange(buttonEvent);\n';
@@ -135,9 +153,11 @@ Blockly.JavaScript['mbot_button_change'] = function(block) {
 
 /**
  * Lightness sensor change.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_lightness_sensor_change'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var lightnessSensorEvent = function(lightness) {\n' +
       statements_code +
     '};\nmbot.onLightnessSensorChange(lightnessSensorEvent);\n';
@@ -146,9 +166,11 @@ Blockly.JavaScript['mbot_lightness_sensor_change'] = function(block) {
 
 /**
  * Linefollower sensor change.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_linefollower_sensor_change'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var linefollowerSensorEvent = function(left, right, raw) {\n' +
       statements_code +
     '};\nmbot.onLinefollowerSensorChange(linefollowerSensorEvent);\n';
@@ -157,9 +179,11 @@ Blockly.JavaScript['mbot_linefollower_sensor_change'] = function(block) {
 
 /**
  * Ultrasonic sensor change.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_ultrasonic_sensor_change'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var ultrasonicSensorEvent = function(distance) {\n' +
       statements_code +
     '};\nmbot.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
@@ -167,8 +191,8 @@ Blockly.JavaScript['mbot_ultrasonic_sensor_change'] = function(block) {
 
 
 Blockly.JavaScript['mbot_play_tone'] = function(block) {
-  var text_frequency = block.getFieldValue('frequency');
-  var text_duration = block.getFieldValue('duration');
+  let text_frequency = block.getFieldValue('frequency');
+  let text_duration = block.getFieldValue('duration');
   return 'mbot.playTone(' + text_frequency + ', ' + text_duration + ', ' +
        Number(text_duration) + ');\n';
 };
@@ -176,43 +200,56 @@ Blockly.JavaScript['mbot_play_tone'] = function(block) {
 
 /**
  * Beep.
+ * @return {!string}
  */
-Blockly.JavaScript['mbot_beep_buzzer'] = function(opt_block) {
+Blockly.JavaScript['mbot_beep_buzzer'] = function() {
   return 'mbot.playTone(524, 240, 240);';
 };
 
 
+/**
+ * @param {!Blockly.block} block
+ * @return {!string}
+ */
 Blockly.JavaScript['mbot_rgb'] = function(block) {
-  var position = parseInt(block.getFieldValue('position') || 0);
-  var colour = parseInt(Blockly.JavaScript.valueToCode(
+  let position = parseInt(block.getFieldValue('position') || 0);
+  let colour = parseInt(Blockly.JavaScript.valueToCode(
     block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
     .replace('#', '')
     .replace('\'', '')
     .replace('"', ''), 16);
-  var red = colour >> 16;
-  var green = colour >> 8 & 0xFF;
-  var blue = colour & 0xFF;
+  let red = colour >> 16;
+  let green = colour >> 8 & 0xFF;
+  let blue = colour & 0xFF;
   return 'mbot.setLEDColor(' + red + ', ' + green + ', ' + blue + ', ' +
     position + ', 100);\n';
 };
 
 
-Blockly.JavaScript['mbot_ultrasonic_sensor_value'] = function(opt_block) {
-  var code = 'mbot.getUltrasonicSensorValue()';
+/**
+ * @return {!array}
+ */
+Blockly.JavaScript['mbot_ultrasonic_sensor_value'] = function() {
+  let code = 'mbot.getUltrasonicSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
-Blockly.JavaScript['mbot_lightness_sensor_value'] = function(opt_block) {
-  var code = 'mbot.getLightnessSensorValue()';
+/**
+ * @return {!array}
+ */
+Blockly.JavaScript['mbot_lightness_sensor_value'] = function() {
+  let code = 'mbot.getLightnessSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Wait.
+ * @param {!Blockly.block} block
+ * @return {!string}
  */
 Blockly.JavaScript['mbot_wait'] = function(block) {
-  var time = block.getFieldValue('time');
+  let time = block.getFieldValue('time');
   return 'mbot.wait(' + time + ');\n';
 };

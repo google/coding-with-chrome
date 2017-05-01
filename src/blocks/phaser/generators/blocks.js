@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Vertical obstacle generator.
  */
@@ -84,7 +83,7 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
     this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -151,5 +150,5 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
     this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.renderer.external.makeblock.mbotRanger');
+goog.provide('cwc.renderer.external.makeblock.MBotRanger');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
@@ -26,14 +26,13 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  * @struct
  * @final
  */
-cwc.renderer.external.makeblock.mbotRanger = function(helper) {
+cwc.renderer.external.makeblock.MBotRanger = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
@@ -42,9 +41,9 @@ cwc.renderer.external.makeblock.mbotRanger = function(helper) {
 /**
  * Initializes and defines the mbot renderer.
  */
-cwc.renderer.external.makeblock.mbotRanger.prototype.init = function() {
-  var rendererInstance = this.helper.getInstance('renderer', true);
-  var renderer = this.render.bind(this);
+cwc.renderer.external.makeblock.MBotRanger.prototype.init = function() {
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -58,20 +57,19 @@ cwc.renderer.external.makeblock.mbotRanger.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.makeblock.mbotRanger.prototype.render = function(
+cwc.renderer.external.makeblock.MBotRanger.prototype.render = function(
     editor_content,
     editor_flags,
     library_files,
     frameworks,
     renderer_helper) {
-
-  var header = renderer_helper.getFrameworkHeader(
+  let header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.MBOT_RANGER, frameworks);
-  var content = editor_content[cwc.file.ContentType.JAVASCRIPT];
-  var body = '\n<script>' +
-      '  var code = function(mBotRanger) {\n' + content + '\n};\n'+
+  let content = editor_content[cwc.file.ContentType.JAVASCRIPT];
+  let body = '\n<script>' +
+      '  let code = function(mBotRanger) {\n' + content + '\n};\n'+
       '  new cwc.framework.makeblock.mBotRanger(code);\n' +
       '</script>\n';
-  var html = renderer_helper.getHTML(body, header);
+  let html = renderer_helper.getHTML(body, header);
   return html;
 };

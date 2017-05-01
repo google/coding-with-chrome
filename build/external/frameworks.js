@@ -17,8 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-var closureBuilder = require('closure-builder');
-
+let closureBuilder = require('closure-builder');
 
 
 /**
@@ -27,17 +26,17 @@ var closureBuilder = require('closure-builder');
 closureBuilder.build({
   name: 'Coffeescript',
   resources: [
-    'third_party/coffeescript/extras/coffee-script.js'
+    'third_party/coffeescript/extras/coffee-script.js',
   ],
-  out: 'genfiles/frameworks/external/'
+  out: 'genfiles/frameworks/external/',
 });
 
 closureBuilder.build({
   name: 'Coffeescript file',
   resources: [
-    'third_party/coffeescript/extras/coffee-script.js'
+    'third_party/coffeescript/extras/coffee-script.js',
   ],
-  out: 'genfiles/external/coffeescript/'
+  out: 'genfiles/external/coffeescript/',
 });
 
 
@@ -47,9 +46,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'three.js',
   resources: [
-    'third_party/three.js/build/three.min.js'
+    'third_party/three.js/build/three.min.js',
   ],
-  out: 'genfiles/frameworks/external/three.min.js'
+  out: 'genfiles/frameworks/external/three.min.js',
 });
 
 
@@ -59,9 +58,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'jQuery 3.x',
   resources: [
-    'third_party/jquery-dist/dist/jquery.min.js'
+    'third_party/jquery-dist/dist/jquery.min.js',
   ],
-  out: 'genfiles/frameworks/external/'
+  out: 'genfiles/frameworks/external/',
 });
 
 
@@ -71,9 +70,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'jQuery 2.2.4',
   resources: [
-    'third_party/jquery-dist-2.2.4/dist/jquery.min.js'
+    'third_party/jquery-dist-2.2.4/dist/jquery.min.js',
   ],
-  out: 'genfiles/frameworks/external/jquery-2.2.4.min.js'
+  out: 'genfiles/frameworks/external/jquery-2.2.4.min.js',
 });
 
 
@@ -83,9 +82,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'jQuery Turtle file',
   resources: [
-    'third_party/jquery-turtle/jquery-turtle.min.js'
+    'third_party/jquery-turtle/jquery-turtle.min.js',
   ],
-  out: 'genfiles/frameworks/external/jquery-turtle.js'
+  out: 'genfiles/frameworks/external/jquery-turtle.js',
 });
 
 
@@ -95,9 +94,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'phaser.js',
   resources: [
-    'third_party/phaser/build/phaser.min.js'
+    'third_party/phaser/build/phaser.min.js',
   ],
-  out: 'genfiles/frameworks/external/phaser.min.js'
+  out: 'genfiles/frameworks/external/phaser.min.js',
 });
 
 
@@ -107,9 +106,9 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Skulpt Core',
   resources: [
-    'third_party/skulpt-dist/skulpt.min.js'
+    'third_party/skulpt-dist/skulpt.min.js',
   ],
-  out: 'genfiles/frameworks/external/skulpt.min.js'
+  out: 'genfiles/frameworks/external/skulpt.min.js',
 });
 
 
@@ -119,7 +118,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Skulpt Std lib',
   resources: [
-    'third_party/skulpt-dist/skulpt-stdlib.js'
+    'third_party/skulpt-dist/skulpt-stdlib.js',
   ],
-  out: 'genfiles/frameworks/external/skulpt-stdlib.js'
+  out: 'genfiles/frameworks/external/skulpt-stdlib.js',
 });

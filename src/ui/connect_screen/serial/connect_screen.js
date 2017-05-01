@@ -22,7 +22,6 @@ goog.provide('cwc.ui.connectScreen.Serial');
 goog.require('cwc.soy.connectScreen.Serial');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -43,12 +42,12 @@ cwc.ui.connectScreen.Serial = function(helper) {
  * Shows serial connect screen.
  */
 cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
-  var serialInstance = this.helper.getInstance('serial', true);
-  var serialDevices = serialInstance.getDevices();
-  var devices = {};
+  let serialInstance = this.helper.getInstance('serial', true);
+  let serialDevices = serialInstance.getDevices();
+  let devices = {};
   for (let serialDevice in serialDevices) {
     if (serialDevices.hasOwnProperty(serialDevice)) {
-      var device = serialDevices[serialDevice];
+      let device = serialDevices[serialDevice];
       devices[device.getPath()] = this.parseDeviceData_(device);
     }
   }
@@ -56,10 +55,10 @@ cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
   this.showTemplate_('Connect serial device',
     cwc.soy.connectScreen.Serial.devices, {
       prefix: this.prefix,
-      devices: devices
+      devices: devices,
     });
 
-  var deviceList = goog.dom.getElement(this.prefix + 'device-list');
+  let deviceList = goog.dom.getElement(this.prefix + 'device-list');
   goog.events.listen(deviceList, goog.events.EventType.CLICK,
     this.handleAction_.bind(this));
 };
@@ -70,14 +69,14 @@ cwc.ui.connectScreen.Serial.prototype.showDevices = function() {
  * @private
  */
 cwc.ui.connectScreen.Serial.prototype.handleAction_ = function(e) {
-  var target = e.target;
+  let target = e.target;
   if (!target || !target.dataset || !target.hasAttribute('data-action')) {
     return;
   }
-  var serialInstance = this.helper.getInstance('serial');
-  var action = target.dataset['action'];
-  var path = target.dataset['path'];
-  var device = serialInstance.getDevice(path);
+  let serialInstance = this.helper.getInstance('serial');
+  let action = target.dataset['action'];
+  let path = target.dataset['path'];
+  let device = serialInstance.getDevice(path);
   if (!device) {
     return;
   }
@@ -91,16 +90,14 @@ cwc.ui.connectScreen.Serial.prototype.handleAction_ = function(e) {
     default:
       console.log(target.dataset);
   }
-
 };
-
 
 
 /**
  * @private
  */
 cwc.ui.connectScreen.Serial.prototype.close_ = function() {
-  var dialogInstance = this.helper.getInstance('dialog', true);
+  let dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.close();
 };
 
@@ -113,7 +110,7 @@ cwc.ui.connectScreen.Serial.prototype.connectDevice_ = function(device) {
   this.close_();
   this.showTemplate_('Connecting serial device',
     cwc.soy.connectScreen.Serial.connect, {
-      device: this.parseDeviceData_(device)
+      device: this.parseDeviceData_(device),
     });
   device.connect(this.close_.bind(this));
 };
@@ -127,7 +124,7 @@ cwc.ui.connectScreen.Serial.prototype.disconnectDevice_ = function(device) {
   this.close_();
   this.showTemplate_('Disconnecting serial device',
     cwc.soy.connectScreen.Serial.disconnect, {
-      device: this.parseDeviceData_(device)
+      device: this.parseDeviceData_(device),
     });
   device.disconnect(true, this.close_.bind(this));
 };
@@ -141,7 +138,7 @@ cwc.ui.connectScreen.Serial.prototype.disconnectDevice_ = function(device) {
  */
 cwc.ui.connectScreen.Serial.prototype.showTemplate_ = function(title,
     template, opt_context) {
-  var dialogInstance = this.helper.getInstance('dialog', true);
+  let dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.showTemplate(title, template, opt_context);
 };
 
@@ -157,6 +154,6 @@ cwc.ui.connectScreen.Serial.prototype.parseDeviceData_ = function(device) {
     'path': device.getPath(),
     'connected': device.isConnected(),
     'type': '',
-    'icon': ''
+    'icon': '',
   };
 };

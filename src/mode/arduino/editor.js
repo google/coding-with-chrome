@@ -23,7 +23,6 @@ goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -65,7 +64,7 @@ cwc.mode.arduino.Editor.prototype.decorate = function() {
  * Runs / Executes the code.
  */
 cwc.mode.arduino.Editor.prototype.runCode = function() {
-  var runnerInstance = this.helper.getInstance('runner');
+  let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
   }

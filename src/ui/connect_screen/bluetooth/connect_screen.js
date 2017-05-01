@@ -22,7 +22,6 @@ goog.provide('cwc.ui.connectScreen.Bluetooth');
 goog.require('cwc.soy.connectScreen.Bluetooth');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -43,12 +42,12 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
  * Shows bluetooth connect screen.
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var bluetoothDevices = bluetoothInstance.getDevices();
-  var devices = {};
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let bluetoothDevices = bluetoothInstance.getDevices();
+  let devices = {};
   for (let bluetoothDevice in bluetoothDevices) {
     if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
-      var device = bluetoothDevices[bluetoothDevice];
+      let device = bluetoothDevices[bluetoothDevice];
       devices[device.getAddress()] = this.parseDeviceData_(device);
     }
   }
@@ -56,10 +55,10 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
   this.showTemplate_('Connect Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.devices, {
       prefix: this.prefix,
-      devices: devices
+      devices: devices,
     });
 
-  var deviceList = goog.dom.getElement(this.prefix + 'device-list');
+  let deviceList = goog.dom.getElement(this.prefix + 'device-list');
   goog.events.listen(deviceList, goog.events.EventType.CLICK,
     this.handleAction_.bind(this));
 };
@@ -70,14 +69,14 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
-  var target = e.target;
+  let target = e.target;
   if (!target || !target.dataset || !target.hasAttribute('data-action')) {
     return;
   }
-  var bluetoothInstance = this.helper.getInstance('bluetooth');
-  var action = target.dataset['action'];
-  var address = target.dataset['address'];
-  var device = bluetoothInstance.getDevice(address);
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let action = target.dataset['action'];
+  let address = target.dataset['address'];
+  let device = bluetoothInstance.getDevice(address);
   if (!device) {
     return;
   }
@@ -91,7 +90,6 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
     default:
       console.log(target.dataset);
   }
-
 };
 
 
@@ -99,7 +97,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
-  var dialogInstance = this.helper.getInstance('dialog', true);
+  let dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.close();
 };
 
@@ -112,7 +110,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
   this.close_();
   this.showTemplate_('Connecting Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.connect, {
-      device: this.parseDeviceData_(device)
+      device: this.parseDeviceData_(device),
     });
   device.connect(this.close_.bind(this));
 };
@@ -126,7 +124,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
   this.close_();
   this.showTemplate_('Disconnecting Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.disconnect, {
-      device: this.parseDeviceData_(device)
+      device: this.parseDeviceData_(device),
     });
   device.disconnect(true, this.close_.bind(this));
 };
@@ -140,7 +138,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
     template, opt_context) {
-  var dialogInstance = this.helper.getInstance('dialog', true);
+  let dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.showTemplate(title, template, opt_context);
 };
 
@@ -156,6 +154,6 @@ cwc.ui.connectScreen.Bluetooth.prototype.parseDeviceData_ = function(device) {
     'address': device.getAddress(),
     'connected': device.isConnected(),
     'type': device.getType(),
-    'icon': device.getIcon()
+    'icon': device.getIcon(),
   };
 };

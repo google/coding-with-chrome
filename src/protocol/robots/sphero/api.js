@@ -32,7 +32,6 @@ goog.require('cwc.utils.ByteTools');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -40,7 +39,6 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.sphero.Api = function(helper) {
-
   /** @type {string} */
   this.name = 'Sphero';
 
@@ -108,7 +106,7 @@ cwc.protocol.sphero.Api = function(helper) {
  * @export
  */
 cwc.protocol.sphero.Api.prototype.autoConnect = function() {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
   bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.connect.bind(this));
 };
@@ -121,8 +119,8 @@ cwc.protocol.sphero.Api.prototype.autoConnect = function() {
  * @export
  */
 cwc.protocol.sphero.Api.prototype.connect = function(address) {
-  var bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  var device = bluetoothInstance.getDevice(address);
+  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+  let device = bluetoothInstance.getDevice(address);
   if (!device) {
     console.error('Sphero ball is not ready yet...');
     return false;
@@ -268,9 +266,9 @@ cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
  */
 cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
     opt_state) {
-  var speed = this.speed_ = opt_speed === undefined ?
+  let speed = this.speed_ = opt_speed === undefined ?
     this.speed_ : opt_speed;
-  var heading = this.heading_ = opt_heading === undefined ?
+  let heading = this.heading_ = opt_heading === undefined ?
     this.heading_ : opt_heading;
   this.send_(this.commands.roll(speed, heading, opt_state));
 };
@@ -405,30 +403,30 @@ cwc.protocol.sphero.Api.prototype.send_ = function(buffer) {
  * @private
  */
 cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
-  var xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
-  var ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
-  var xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
-  var yvel = cwc.utils.ByteTools.signedBytesToInt([data[6], data[7]]);
-  var speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
+  let xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
+  let ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
+  let xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
+  let yvel = cwc.utils.ByteTools.signedBytesToInt([data[6], data[7]]);
+  let speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
 
   if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
     this.locationPosX_ = xpos;
     this.locationPosY_ = ypos;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.LocationData({x: xpos, y: ypos}));
+      cwc.protocol.sphero.Events.locationData({x: xpos, y: ypos}));
   }
 
   if (xvel != this.locationVelX || yvel != this.locationVelY) {
     this.locationVelX_ = xvel;
     this.locationVelY_ = yvel;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.VelocityData({x: xvel, y: yvel}));
+      cwc.protocol.sphero.Events.velocityData({x: xvel, y: yvel}));
   }
 
   if (speed != this.locationSpeed) {
     this.locationSpeed_ = speed;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.SpeedValue(speed));
+      cwc.protocol.sphero.Events.speedValue(speed));
   }
 };
 
@@ -438,24 +436,24 @@ cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
  * @private
  */
 cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
-  var x = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
-  var y = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
-  var z = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
-  var axis = data[6] == 0x01 ? 'y' : 'x';
-  var xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
-  var yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
-  var speed = data[11];
+  let x = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
+  let y = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
+  let z = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
+  let axis = data[6] == 0x01 ? 'y' : 'x';
+  let xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
+  let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
+  let speed = data[11];
   this.eventHandler.dispatchEvent(
-    cwc.protocol.sphero.Events.Collision({
+    cwc.protocol.sphero.Events.collision({
       x: x,
       y: y,
       z: z,
       axis: axis,
       magnitude: {
         x: xMagnitude,
-        y: yMagnitude
+        y: yMagnitude,
       },
-      speed: speed
+      speed: speed,
     }));
 };
 
@@ -469,9 +467,9 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
   if (!this.verifiyChecksum_(buffer)) {
     return;
   }
-  var type = buffer[3];
-  var len = buffer[4];
-  var data = buffer.slice(5, buffer.length -1);
+  let type = buffer[3];
+  let len = buffer[4];
+  let data = buffer.slice(5, buffer.length -1);
   switch (type) {
     case cwc.protocol.sphero.CallbackType.RGB:
       console.log('RGB:', data[0], data[1], data[2]);
@@ -495,9 +493,9 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
   if (!this.verifiyChecksum_(buffer)) {
     return;
   }
-  var message = buffer[2];
-  var len = buffer[4];
-  var data = buffer.slice(5, buffer.length -1);
+  let message = buffer[2];
+  let len = buffer[4];
+  let data = buffer.slice(5, buffer.length -1);
   switch (message) {
     case cwc.protocol.sphero.MessageType.COLLISION_DETECTED:
       this.parseCollisionData_(data);
@@ -517,9 +515,9 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
  */
 cwc.protocol.sphero.Api.prototype.verifiyChecksum_ = function(buffer,
     opt_checksum) {
-  var bufferChecksum = 0;
-  var bufferLength = buffer.length -1;
-  var checksum = opt_checksum || buffer[bufferLength];
+  let bufferChecksum = 0;
+  let bufferLength = buffer.length -1;
+  let checksum = opt_checksum || buffer[bufferLength];
   for (let i = 2; i < bufferLength; i++) {
     bufferChecksum += buffer[i];
   }

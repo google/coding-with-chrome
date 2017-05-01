@@ -22,7 +22,6 @@ goog.provide('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 
 
-
 /**
  * Helper for i18n.
  * @constructor
@@ -30,7 +29,6 @@ goog.require('cwc.utils.Logger');
  * @export
  */
 cwc.utils.I18n = function() {
-
   /** @type {!string} */
   this.name = 'i18n';
 
@@ -67,13 +65,13 @@ cwc.utils.I18n = function() {
 
 
 /**
- * @param {Function=} opt_callback
- * @param {string=} opt_language
- * @param {string=} opt_language_file
- * @param {string=} opt_blacklist_file
+ * @param {Function=} callback
+ * @param {string=} language
+ * @param {string=} languageFile
+ * @param {string=} blacklistFile
  */
-cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
-    opt_language_file, opt_blacklist_file) {
+cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
+    languageFile = '', blacklistFile = '') {
   // Register global Locales variable
   window['Locales'] = {};
   window['Locales']['blacklist'] = [];
@@ -83,22 +81,22 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
   window['i18soy'] = this.translateSoy.bind(this);
 
   // Callback handling
-  var callbackHandling = function() {
-    this.setLanguage(opt_language);
-    if (goog.isFunction(opt_callback)) {
-      opt_callback();
+  let callbackHandling = function() {
+    this.setLanguage(language);
+    if (goog.isFunction(callback)) {
+      callback();
     }
   }.bind(this);
 
   // Load optional files like blacklist and language
-  if (opt_blacklist_file && !opt_language_file) {
-    this.loadBlacklistFile_(opt_blacklist_file, callbackHandling);
-  } else if (opt_blacklist_file && opt_language_file) {
-    this.loadBlacklistFile_(opt_blacklist_file, function() {
-      this.loadLanguageFile_(opt_language_file, callbackHandling);
+  if (blacklistFile && !languageFile) {
+    this.loadBlacklistFile_(blacklistFile, callbackHandling);
+  } else if (blacklistFile && languageFile) {
+    this.loadBlacklistFile_(blacklistFile, function() {
+      this.loadLanguageFile_(languageFile, callbackHandling);
     }.bind(this));
-  } else if (opt_language_file) {
-    this.loadLanguageFile_(opt_language_file, callbackHandling);
+  } else if (languageFile) {
+    this.loadLanguageFile_(languageFile, callbackHandling);
   } else {
     callbackHandling();
   }
@@ -108,20 +106,18 @@ cwc.utils.I18n.prototype.prepare = function(opt_callback, opt_language,
 /**
  * Translate the given text to the current language.
  * @param {!string} key
- * @param {string=} opt_text
- * @param {Object=} opt_options
+ * @param {string=} text
  * @return {!string}
  */
-cwc.utils.I18n.prototype.translate = function(key, opt_text, opt_options) {
-
+cwc.utils.I18n.prototype.translate = function(key, text = '') {
   if (!Locales || !Locales[this.language] ||
       typeof Locales['blacklist'][key] !== 'undefined') {
-    return opt_text || key;
+    return text || key;
   }
 
   if (typeof Locales[this.language][key] === 'undefined') {
-    this.handleMissingKey_(key, opt_text);
-    return opt_text || key;
+    this.handleMissingKey_(key, text);
+    return text || key;
   }
 
   return Locales[this.language][key];
@@ -131,20 +127,20 @@ cwc.utils.I18n.prototype.translate = function(key, opt_text, opt_options) {
 /**
  * Translate the given soy context to the current language.
  * @param {!string} text
- * @param {Object=} opt_values
+ * @param {Object=} optValues
  * @return {!string}
  */
-cwc.utils.I18n.prototype.translateSoy = function(text, opt_values) {
-  if (!opt_values) {
+cwc.utils.I18n.prototype.translateSoy = function(text, optValues) {
+  if (!optValues) {
     return this.translate(text);
   }
 
-  var indirect = (/^\{\$\w+\}$/.test(text));
+  let indirect = (/^\{\$\w+\}$/.test(text));
   if (!indirect) {
     text = this.translate(text);
   }
   text = text.replace(/\{\$([^}]+)}/g, function(match, key) {
-    return (opt_values != null && key in opt_values) ? opt_values[key] : match;
+    return (optValues != null && key in optValues) ? optValues[key] : match;
   });
 
   return indirect ? this.translate(text) : text;
@@ -167,11 +163,10 @@ cwc.utils.I18n.prototype.getLanguage = function() {
 
 
 /**
- * @param {string=} opt_language
+ * @param {string=} language
  */
-cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
-  this.language = opt_language || this.getLanguage();
-
+cwc.utils.I18n.prototype.setLanguage = function(language = '') {
+  this.language = language || this.getLanguage();
   if (!Locales) {
     this.log_.error('Global variable "Locales" is undefined.');
   } else if (Locales && Object.keys(Locales).length == 0) {
@@ -183,13 +178,14 @@ cwc.utils.I18n.prototype.setLanguage = function(opt_language) {
 
 
 /**
- * @param {string=} opt_language
- * @param {string=} opt_text
+ * @param {string=} language
+ * @param {string=} text
+ * @return {Object}
  */
-cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
-  var language = opt_language || this.getLanguage();
-  if (opt_text) {
-    return Locales[language][opt_text];
+cwc.utils.I18n.prototype.getLanguageData = function(
+    language = this.getLanguage(), text = '') {
+  if (text) {
+    return Locales[language][text];
   }
   return Locales[language];
 };
@@ -199,13 +195,13 @@ cwc.utils.I18n.prototype.getLanguageData = function(opt_language, opt_text) {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.getToDo = function() {
-  var counter = 0;
-  var result = '';
+  let counter = 0;
+  let result = '';
   for (let textId in this.untranslated) {
-    if (this.untranslated.hasOwnProperty(textId)) {
+    if (Object.prototype.hasOwnProperty.call(this.untranslated, textId)) {
       result += '  \'' + textId + '\': \'' + textId + '\',\n';
+      counter += 1;
     }
-    counter += 1;
   }
   if (result) {
     console.log('Found', counter, 'untranslated text for', this.getLanguage());
@@ -218,71 +214,71 @@ cwc.utils.I18n.prototype.getToDo = function() {
 
 /**
  * Adding blacklist file.
- * @param {!string} file_url
- * @param {Function=} opt_callback
+ * @param {!string} file
+ * @param {Function=} optCallback
  * @private
  */
-cwc.utils.I18n.prototype.loadBlacklistFile_ = function(file_url, opt_callback) {
-  if (this.blacklistNodeUrl_ === file_url) {
+cwc.utils.I18n.prototype.loadBlacklistFile_ = function(file, optCallback) {
+  if (this.blacklistNodeUrl_ === file) {
     return;
   }
-  this.log_.info('Loading blacklist file:', file_url);
-  var headNode = document.head || document.getElementsByTagName('head')[0];
-  var oldScriptNode = document.getElementById(this.blacklistNodeId);
+  this.log_.info('Loading blacklist file:', file);
+  let headNode = document.head || document.getElementsByTagName('head')[0];
+  let oldScriptNode = document.getElementById(this.blacklistNodeId);
   if (oldScriptNode) {
     oldScriptNode.parentNode.removeChild(oldScriptNode);
   }
-  var scriptNode = document.createElement('script');
+  let scriptNode = document.createElement('script');
   scriptNode.id = this.blacklistNodeId;
-  if (goog.isFunction(opt_callback)) {
-    scriptNode.onload = opt_callback;
+  if (goog.isFunction(optCallback)) {
+    scriptNode.onload = optCallback;
   }
   headNode.appendChild(scriptNode);
-  scriptNode.src = file_url;
-  this.blacklistNodeUrl_ = file_url;
+  scriptNode.src = file;
+  this.blacklistNodeUrl_ = file;
 };
 
 
 /**
  * Adding language file.
- * @param {!string} file_url
- * @param {Function=} opt_callback
+ * @param {!string} file
+ * @param {Function=} optCallback
  * @private
  */
-cwc.utils.I18n.prototype.loadLanguageFile_ = function(file_url, opt_callback) {
-  if (this.scriptNodeUrl_ === file_url) {
+cwc.utils.I18n.prototype.loadLanguageFile_ = function(file, optCallback) {
+  if (this.scriptNodeUrl_ === file) {
     return;
   }
-  this.log_.info('Loading language file:', file_url);
-  var headNode = document.head || document.getElementsByTagName('head')[0];
-  var oldScriptNode = document.getElementById(this.scriptNodeId);
+  this.log_.info('Loading language file:', file);
+  let headNode = document.head || document.getElementsByTagName('head')[0];
+  let oldScriptNode = document.getElementById(this.scriptNodeId);
   if (oldScriptNode) {
     oldScriptNode.parentNode.removeChild(oldScriptNode);
   }
-  var scriptNode = document.createElement('script');
+  let scriptNode = document.createElement('script');
   scriptNode.id = this.scriptNodeId;
-  if (goog.isFunction(opt_callback)) {
-    scriptNode.onload = opt_callback;
+  if (goog.isFunction(optCallback)) {
+    scriptNode.onload = optCallback;
   }
   headNode.appendChild(scriptNode);
-  scriptNode.src = file_url;
-  this.scriptNodeUrl_ = file_url;
+  scriptNode.src = file;
+  this.scriptNodeUrl_ = file;
 };
 
 
 /**
  * @param {!string} key
- * @param {string=} opt_text
+ * @param {string=} text
  * @private
  */
-cwc.utils.I18n.prototype.handleMissingKey_ = function(key, opt_text) {
+cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
   if (!/[a-zA-Z]{2,}/.test(key)) {
     return;
   }
 
   if (typeof this.untranslated[key] === 'undefined') {
-    if (opt_text) {
-      this.log_.warn('[i18n] Untranslated Key', key, 'with text:', opt_text);
+    if (text) {
+      this.log_.warn('[i18n] Untranslated Key', key, 'with text:', text);
     } else {
       this.log_.warn('[i18n] Untranslated Key', key);
     }

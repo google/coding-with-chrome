@@ -28,7 +28,6 @@ goog.require('cwc.mode.ev3.blockly.Layout');
 goog.require('cwc.renderer.external.EV3');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper

@@ -23,7 +23,6 @@
 goog.provide('cwc.protocol.makeblock.mbotRanger.Events');
 
 
-
 /**
  * Custom events.
  * @enum {string}
@@ -32,13 +31,14 @@ cwc.protocol.makeblock.mbotRanger.Events.Type = {
   LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
   LINEFOLLOWER_SENSOR: 'linefollower_sensor_value_changed',
   TEMPERATURE_SENSOR: 'temperature_sensor_value_changed',
-  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed'
+  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed',
 };
 
 
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
@@ -52,6 +52,7 @@ cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
@@ -65,6 +66,7 @@ cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
@@ -78,6 +80,7 @@ cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
 /**
  * @param {Object} data
  * @param {number=} opt_port
+ * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
@@ -104,6 +107,6 @@ cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, opt_data,
   /** @type {!Object} */
   this.data = opt_data || {};
 
-  /** @type {number=} */
+  /** @type {number} */
   this.port = opt_port;
 };

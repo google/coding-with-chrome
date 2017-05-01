@@ -24,7 +24,6 @@ goog.provide('cwc.framework.TTS');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!cwc.framework.Runner} runner
@@ -71,7 +70,6 @@ cwc.framework.TTS.prototype.listen = function(callback) {
 cwc.framework.TTS.prototype.speak = function(text) {
   this.runner.send('speak', {'text': text});
 };
-
 
 
 goog.exportSymbol('cwc.framework.TTS', cwc.framework.TTS);

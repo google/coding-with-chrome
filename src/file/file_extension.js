@@ -32,5 +32,5 @@ cwc.file.Extensions = {
   JSON: '.json',
   PYTHON: '.py',
   TEXT: '.txt',
-  XML: '.xml'
+  XML: '.xml',
 };

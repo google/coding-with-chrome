@@ -50,7 +50,6 @@ cwc.ui.SelectScreenAdvancedView = {
 };
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -89,11 +88,11 @@ cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node) {
 
 /**
  * Shows the default or the select view.
- * @param {cwc.ui.SelectScreenAdvancedView=} opt_name
+ * @param {cwc.ui.SelectScreenAdvancedView=} optName
  * @export
  */
-cwc.ui.SelectScreenAdvanced.prototype.showView = function(opt_name) {
-  var name = opt_name || cwc.ui.SelectScreenAdvancedView.OVERVIEW;
+cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
+  let name = optName || cwc.ui.SelectScreenAdvancedView.OVERVIEW;
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenAdvancedView.OVERVIEW:
@@ -282,7 +281,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showLastView = function() {
  */
 cwc.ui.SelectScreenAdvanced.prototype.setNavHeader_ = function(title,
     opt_icon, opt_color_class) {
-  var navigationInstance = this.helper.getInstance('navigation');
+  let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.setHeader(title, opt_icon, opt_color_class);
   }
@@ -344,8 +343,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
-  var modules = {};
-  var userConfigInstance = this.helper.getInstance('userConfig');
+  let modules = {};
+  let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
   }
@@ -356,7 +355,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
       experimental: this.helper.experimentalEnabled(),
       modules: modules,
       online: this.helper.checkFeature('online'),
-      prefix: this.prefix
+      prefix: this.prefix,
     });
   } else {
     console.error('Unable to render template', template);
@@ -378,14 +377,14 @@ cwc.ui.SelectScreenAdvanced.prototype.setClickEvent_ = function(name, func,
     console.error('Missing function!');
     return null;
   }
-  var elementName = this.prefix + name;
-  var element = goog.dom.getElement(elementName);
+  let elementName = this.prefix + name;
+  let element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Missing element ' + elementName + '!');
     return null;
   }
 
-  var click_func = func;
+  let click_func = func;
   if (opt_param) {
     click_func = function() {
       func.call(this, opt_param);
@@ -403,11 +402,11 @@ cwc.ui.SelectScreenAdvanced.prototype.setClickEvent_ = function(name, func,
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.newFile_ = function(type) {
-  var fileCreatorInstance = this.helper.getInstance('fileCreator');
+  let fileCreatorInstance = this.helper.getInstance('fileCreator');
   if (fileCreatorInstance) {
     fileCreatorInstance.create(type);
   }
-  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }
@@ -420,11 +419,11 @@ cwc.ui.SelectScreenAdvanced.prototype.newFile_ = function(type) {
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
-  var loaderInstance = this.helper.getInstance('fileLoader');
+  let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
     loaderInstance.loadExampleFile('../../' + file_name);
   }
-  var editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }

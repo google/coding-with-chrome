@@ -26,7 +26,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.string');
 
 
-
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -61,7 +60,7 @@ cwc.renderer.Renderer = function(helper) {
  */
 cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
     opt_prefix_path = '') {
-  var fileLoaderInstance = this.helper.getInstance('fileLoader', true);
+  let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
 
   for (let framework of Object.keys(frameworks)) {
     if (goog.isString(frameworks[framework])) {
@@ -82,19 +81,19 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
 /**
  * @param {string!} name
  * @param {string!} content
- * @param {string=} opt_type
+ * @param {string=} optType
  */
 cwc.renderer.Renderer.prototype.addFramework = function(name, content,
-    opt_type) {
-  var frameworkContent = this.rendererHelper.getDataUrl(content,
+    optType) {
+  let frameworkContent = this.rendererHelper.getDataUrl(content,
       'text/javascript');
   if (!frameworkContent) {
     console.error('Received empty content for framework', name);
     return;
   }
 
-  var frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,
-      opt_type);
+  let frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,
+      optType);
   if (!frameworkFile) {
     console.error('Was not able to add File', frameworkFile);
   } else {
@@ -142,12 +141,12 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
  */
 cwc.renderer.Renderer.prototype.getRenderedContent = function(
     opt_preview_mode) {
-  var editorInstance = this.helper.getInstance('editor', true);
-  var fileInstance = this.helper.getInstance('file');
+  let editorInstance = this.helper.getInstance('editor', true);
+  let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     this.libraryFiles = fileInstance.getFiles();
   }
-  var content = editorInstance.getEditorContent();
+  let content = editorInstance.getEditorContent();
   if (!content) {
     console.warn('Empty render content!');
   }
@@ -166,7 +165,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
  * @return {string} Data URL with the rendered content.
  */
 cwc.renderer.Renderer.prototype.getContentUrl = function() {
-  var content = this.getRenderedContent();
+  let content = this.getRenderedContent();
   return this.rendererHelper.getDataUrl(content);
 };
 
@@ -184,7 +183,7 @@ cwc.renderer.Renderer.prototype.getRenderedPreview = function() {
  * @return {string} Rendered content as data url.
  */
 cwc.renderer.Renderer.prototype.getPreviewUrl = function() {
-  var content = this.getRenderedPreview();
+  let content = this.getRenderedPreview();
   if (content) {
     return this.rendererHelper.getDataUrl(content);
   } else {

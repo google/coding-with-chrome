@@ -26,7 +26,6 @@ goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
-
 /**
  * @constructor
  * @param {!cwc.protocol.ev3.Api} api
@@ -174,7 +173,7 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
   if (!this.started) {
     console.log('Preparing EV3 monitoring ...');
   }
-  var monitoring = false;
+  let monitoring = false;
 
   if (cwc.protocol.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
     this.monitorSensorColor.start();
@@ -383,7 +382,7 @@ cwc.protocol.ev3.Monitoring.prototype.updateData = function() {
  */
 cwc.protocol.ev3.Monitoring.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

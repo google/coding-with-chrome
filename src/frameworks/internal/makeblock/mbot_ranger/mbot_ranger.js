@@ -23,7 +23,6 @@ goog.provide('cwc.framework.makeblock.mBotRanger');
 goog.require('cwc.framework.Runner');
 
 
-
 /**
  * @constructor
  * @param {!Function} code
@@ -54,7 +53,9 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
   /** @type {Function} */
-  this.code = function() {code(this);}.bind(this);
+  this.code = function() {
+code(this);
+}.bind(this);
 
   /** @private {!string} */
   this.code_ = code.toString();
@@ -180,16 +181,15 @@ function() {
 };
 
 
-
 /**
  * @param {!number} speed
  * @return {!number} Calculated delay + buffer.
  * @export
  */
 cwc.framework.makeblock.mBotRanger.prototype.getDelay = function(speed) {
-  var buffer = 250;
-  var motorSpeed = this.motorSpeed;
-  var delay = Math.floor(
+  let buffer = 250;
+  let motorSpeed = this.motorSpeed;
+  let delay = Math.floor(
     ((Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
   return delay;
 };
@@ -395,7 +395,7 @@ function(data) {
  * @private
  */
 cwc.framework.makeblock.mBotRanger.prototype.monitor_ = function() {
-  var prefix = 'mBotRanger.';
+  let prefix = 'mBotRanger.';
   this.runner.enableMonitor(this.code_,
     prefix + 'onLineFollowerSensorChange', 'setLineFollowerMonitor');
   this.runner.enableMonitor(this.code_,

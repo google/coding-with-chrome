@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Infinity loop
  */
@@ -34,7 +33,7 @@ Blockly.Blocks['general_infinity_loop'] = {
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
-  }
+  },
 };
 
 
@@ -51,7 +50,7 @@ Blockly.Blocks['general_file_library'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -72,7 +71,7 @@ Blockly.Blocks['general_file_library_image'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -89,7 +88,7 @@ Blockly.Blocks['general_file_library_audio'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };
 
 
@@ -106,5 +105,5 @@ Blockly.Blocks['general_file_library_text'] = {
     this.setColour(150);
     this.setTooltip('');
     this.setHelpUrl('');
-  }
+  },
 };

@@ -19,9 +19,9 @@
  */
 
 
-
 /**
  * Debug camera.
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_debug_camera'] = function() {
   return 'game.debug.cameraInfo(game.camera, 32, 32);\n';
@@ -30,6 +30,7 @@ Blockly.JavaScript['phaser_debug_camera'] = function() {
 
 /**
  * Debug pointer.
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_debug_pointer'] = function() {
   return 'game.debug.pointer(game.input.activePointer);\n';
@@ -38,9 +39,11 @@ Blockly.JavaScript['phaser_debug_pointer'] = function() {
 
 /**
  * Debug sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_debug_sprite'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
 
   return 'game.debug.spriteInfo(' + variable + ', 32, 32);\n';

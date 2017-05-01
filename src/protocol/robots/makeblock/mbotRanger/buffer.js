@@ -23,7 +23,6 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Header');
 goog.require('cwc.utils.ByteArray');
 
 
-
 /**
  * @constructor
  */
@@ -138,11 +137,11 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSlot = function(slot) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.makeblock.mbotRanger.Buffer.prototype.readSigned = function() {
-  var buffer = this.data.getData();
-  var checkSum = buffer.length;
-  var dataLength = buffer.length;
-  var dataBuffer = new ArrayBuffer(dataLength + 3);
-  var data = new Uint8Array(dataBuffer);
+  let buffer = this.data.getData();
+  let checkSum = buffer.length;
+  let dataLength = buffer.length;
+  let dataBuffer = new ArrayBuffer(dataLength + 3);
+  let data = new Uint8Array(dataBuffer);
   data[0] = this.header[0];
   data[1] = this.header[1];
   data[2] = checkSum;

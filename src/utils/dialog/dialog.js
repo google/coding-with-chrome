@@ -31,9 +31,8 @@ goog.require('goog.dom');
 cwc.utils.DialogType = {
   CONFIRM: 'confirm',
   ERROR: 'error',
-  PROMPT: 'info'
+  PROMPT: 'info',
 };
-
 
 
 /**
@@ -73,7 +72,7 @@ cwc.utils.Dialog = function() {
  * @export
  */
 cwc.utils.Dialog.prototype.show = function() {
-  var dialog = this.getDialog_();
+  let dialog = this.getDialog_();
   if (dialog) {
     if (!dialog.hasAttribute('open')) {
       if (dialog.show) {
@@ -91,7 +90,7 @@ cwc.utils.Dialog.prototype.show = function() {
  * @export
  */
 cwc.utils.Dialog.prototype.showModal = function() {
-  var dialog = this.getDialog_();
+  let dialog = this.getDialog_();
   if (dialog) {
     if (!dialog.hasAttribute('open')) {
       if (dialog.showModal) {
@@ -109,7 +108,7 @@ cwc.utils.Dialog.prototype.showModal = function() {
  * @export
  */
 cwc.utils.Dialog.prototype.close = function() {
-  var dialog = this.getDialog_();
+  let dialog = this.getDialog_();
   if (!dialog) {
     return;
   }
@@ -136,17 +135,17 @@ cwc.utils.Dialog.prototype.close = function() {
  *   title: string,
  *   opt_title_icon: (string|undefined),
  *   opt_title_untranslated: (string|undefined),
- *   opt_values: (string|undefined)
+ *   optValues: (string|undefined)
  * })=} opt_template
- * @param {string=} opt_values
+ * @param {string=} optValues
  * @export
  */
 cwc.utils.Dialog.prototype.render = function(title, content,
-    opt_template, opt_values) {
-  var dialog = this.getDialog_();
-  var dialogTitle = title;
-  var dialogTitleIcon = '';
-  var dialogTitleUntranslated = '';
+    opt_template, optValues) {
+  let dialog = this.getDialog_();
+  let dialogTitle = title;
+  let dialogTitleIcon = '';
+  let dialogTitleUntranslated = '';
 
   if (typeof title !== 'string') {
     dialogTitle = title.title;
@@ -162,7 +161,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
           title: dialogTitle,
           opt_title_icon: dialogTitleIcon,
           opt_title_untranslated: dialogTitleUntranslated,
-          opt_values: opt_values
+          optValues: optValues,
         });
     this.refresh_();
   }
@@ -219,21 +218,21 @@ cwc.utils.Dialog.prototype.updateTemplate = function(template, values) {
 /**
  * @param {!string} id
  * @param {!string} text
- * @param {Function} opt_callback
+ * @param {Function} optCallback
  * @export
  */
-cwc.utils.Dialog.prototype.addButton = function(id, text, opt_callback) {
-  var button = goog.dom.createDom(
+cwc.utils.Dialog.prototype.addButton = function(id, text, optCallback) {
+  let button = goog.dom.createDom(
     'button', {
       'id': this.prefix + id,
       'type': 'button',
-      'class': 'mdl-button'
+      'class': 'mdl-button',
     }, text
   );
-  if (opt_callback) {
-    button.addEventListener('click', opt_callback);
+  if (optCallback) {
+    button.addEventListener('click', optCallback);
   }
-  var buttonsDiv = goog.dom.getElement(this.prefix + 'buttons');
+  let buttonsDiv = goog.dom.getElement(this.prefix + 'buttons');
   goog.dom.appendChild(buttonsDiv, button);
 };
 
@@ -244,7 +243,7 @@ cwc.utils.Dialog.prototype.getButton = function(id) {
 
 
 cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
-  var button = goog.dom.getElement(this.prefix + id);
+  let button = goog.dom.getElement(this.prefix + id);
   goog.dom.setTextContent(button, text);
 };
 
@@ -252,13 +251,14 @@ cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
 /**
  * @param {!string|Object} title
  * @param {!string} content
+ * @return {!Promise}
  * @export
  */
 cwc.utils.Dialog.prototype.showAlert = function(title, content) {
   return new Promise((resolve, reject) => {
     if (this.getDialog_()) {
       this.render(title, content, cwc.soy.Dialog.alertTemplate);
-      var okButton = goog.dom.getElement(this.prefix + 'ok');
+      let okButton = goog.dom.getElement(this.prefix + 'ok');
       okButton.addEventListener('click', this.close.bind(this));
       if (this.defaultCloseHandler_) {
         okButton.addEventListener('click', this.defaultCloseHandler_);
@@ -277,16 +277,17 @@ cwc.utils.Dialog.prototype.showAlert = function(title, content) {
 /**
  * @param {!string|Object} title
  * @param {!string} content
- * @param {string=} opt_value
+ * @param {string=} optValue
+ * @return {!Promise}
  * @export
  */
-cwc.utils.Dialog.prototype.showPrompt = function(title, content, opt_value) {
+cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
   return new Promise((resolve, reject) => {
     if (this.getDialog_()) {
-      this.render(title, content, cwc.soy.Dialog.promptTemplate, opt_value);
-      var inputField = goog.dom.getElement(this.prefix + 'input');
+      this.render(title, content, cwc.soy.Dialog.promptTemplate, optValue);
+      let inputField = goog.dom.getElement(this.prefix + 'input');
 
-      var okButton = goog.dom.getElement(this.prefix + 'ok');
+      let okButton = goog.dom.getElement(this.prefix + 'ok');
       okButton.addEventListener('click', this.close.bind(this));
       if (this.defaultCloseHandler_) {
         okButton.addEventListener('click', this.defaultCloseHandler_);
@@ -300,7 +301,7 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, opt_value) {
         }
       });
 
-      var cancelButton = goog.dom.getElement(this.prefix + 'cancel');
+      let cancelButton = goog.dom.getElement(this.prefix + 'cancel');
       cancelButton.addEventListener('click', this.close.bind(this));
       cancelButton.addEventListener('click', reject);
       this.showModal();
@@ -314,6 +315,7 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, opt_value) {
 /**
  * @param {!string|Object} title
  * @param {!string} content
+ * @return {!Promise}
  * @export
  */
 cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
@@ -321,7 +323,7 @@ cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
     if (this.getDialog_()) {
       this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
 
-      var yesButton = goog.dom.getElement(this.prefix + 'yes');
+      let yesButton = goog.dom.getElement(this.prefix + 'yes');
       yesButton.addEventListener('click', this.close.bind(this));
       if (this.defaultCloseHandler_) {
         yesButton.addEventListener('click', this.defaultCloseHandler_);
@@ -330,7 +332,7 @@ cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
         resolve(true);
       });
 
-      var noButton = goog.dom.getElement(this.prefix + 'no');
+      let noButton = goog.dom.getElement(this.prefix + 'no');
       noButton.addEventListener('click', this.close.bind(this));
       noButton.addEventListener('click', function() {
         resolve(false);
@@ -363,6 +365,7 @@ cwc.utils.Dialog.prototype.refresh_ = function() {
 
 
 /**
+ * @return {Element}
  * @private
  */
 cwc.utils.Dialog.prototype.getDialog_ = function() {
@@ -382,12 +385,11 @@ cwc.utils.Dialog.prototype.getDialog_ = function() {
  * @private
  */
 cwc.utils.Dialog.prototype.prepare_ = function() {
-
   if (!this.styleSheet) {
-    var content = cwc.soy.Dialog.style({ prefix: this.prefix }).getContent();
-    var head = document.head || document.getElementsByTagName('head')[0];
+    let content = cwc.soy.Dialog.style({prefix: this.prefix}).getContent();
+    let head = document.head || document.getElementsByTagName('head')[0];
     this.styleSheet = document.createElement('style');
-    if (this.styleSheet.styleSheet){
+    if (this.styleSheet.styleSheet) {
       this.styleSheet.styleSheet.cssText = content;
     } else {
       this.styleSheet.appendChild(document.createTextNode(content));
@@ -397,8 +399,8 @@ cwc.utils.Dialog.prototype.prepare_ = function() {
 
   if (!goog.dom.getElement(this.prefixDialog_)) {
     this.node = document.body || document.getElementsByTagName('body')[0];
-    var dialog = goog.soy.renderAsFragment(cwc.soy.Dialog.template, {
-      prefix: this.prefix });
+    let dialog = goog.soy.renderAsFragment(cwc.soy.Dialog.template, {
+      prefix: this.prefix});
     if (this.node && dialog) {
       this.node.appendChild(dialog);
     } else {
@@ -406,5 +408,4 @@ cwc.utils.Dialog.prototype.prepare_ = function() {
     }
     this.dialog = goog.dom.getElement(this.prefixDialog_);
   }
-
 };

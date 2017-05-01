@@ -21,18 +21,22 @@
 
 /**
  * Phaser input section.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input'] = function(block) {
-  var statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'input_: function(e) {\n' + statements_code + '},\n';
 };
 
 
 /**
  * Add keyboard cursor keys.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = this.input.keyboard.createCursorKeys();\n' +
     variable + '.down.onDown.add(this.input_, this);\n' +
@@ -44,9 +48,11 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
 
 /**
  * Add keyboard spacebar.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable +
     ' = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);\n' +
@@ -56,10 +62,12 @@ Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
 
 /**
  * Add keyboard key.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
-  var dropdown_keycode = block.getFieldValue('keycode');
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let dropdown_keycode = block.getFieldValue('keycode');
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = this.input.keyboard.addKey(' + dropdown_keycode +
     ');\n' +
@@ -69,9 +77,11 @@ Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
 
 /**
  * Add mouse keys.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_mouse_keys_add'] = function(block) {
-  var variable = Blockly.JavaScript.valueToCode(block,
+  let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = this.input.mouse.input;\n' +
     variable + '.onDown.add(this.input_, this);\n';
@@ -80,13 +90,15 @@ Blockly.JavaScript['phaser_input_mouse_keys_add'] = function(block) {
 
 /**
  * Keyboard cursor is pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
     block) {
-  var value_cursors = Blockly.JavaScript.valueToCode(
+  let value_cursors = Blockly.JavaScript.valueToCode(
     block, 'cursors', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var code = value_cursors + dropdown_direction + '.isDown && e === ' +
+  let dropdown_direction = block.getFieldValue('direction');
+  let code = value_cursors + dropdown_direction + '.isDown && e === ' +
     value_cursors + dropdown_direction;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -94,13 +106,15 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
 
 /**
  * Keyboard cursor is hold pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_is_hold_pressed'] = function(
     block) {
-  var value_cursors = Blockly.JavaScript.valueToCode(
+  let value_cursors = Blockly.JavaScript.valueToCode(
     block, 'cursors', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var code = value_cursors + dropdown_direction + '.isDown && e !== ' +
+  let dropdown_direction = block.getFieldValue('direction');
+  let code = value_cursors + dropdown_direction + '.isDown && e !== ' +
     value_cursors + dropdown_direction;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -108,36 +122,42 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_hold_pressed'] = function(
 
 /**
  * Keyboard key is pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_is_pressed'] = function(block) {
-  var value_key = Blockly.JavaScript.valueToCode(
+  let value_key = Blockly.JavaScript.valueToCode(
     block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = value_key + '.isDown && e === ' + value_key;
+  let code = value_key + '.isDown && e === ' + value_key;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Keyboard key is hold pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_is_hold_pressed'] = function(
     block) {
-  var value_key = Blockly.JavaScript.valueToCode(
+  let value_key = Blockly.JavaScript.valueToCode(
     block, 'key', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = value_key + '.isDown && e !== ' + value_key;
+  let code = value_key + '.isDown && e !== ' + value_key;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 
 /**
  * Mouse button is pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_mouse_key_is_pressed'] = function(
     block) {
-  var value_mouse = Blockly.JavaScript.valueToCode(
+  let value_mouse = Blockly.JavaScript.valueToCode(
     block, 'mouse', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var code = value_mouse + '.activePointer.' + dropdown_direction + ' && ' +
+  let dropdown_direction = block.getFieldValue('direction');
+  let code = value_mouse + '.activePointer.' + dropdown_direction + ' && ' +
     'e === ' + value_mouse + '.activePointer';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -145,13 +165,15 @@ Blockly.JavaScript['phaser_input_mouse_key_is_pressed'] = function(
 
 /**
  * Mouse button is hold pressed.
+ * @param {Blockly.Block} block
+ * @return {!string}
  */
 Blockly.JavaScript['phaser_input_mouse_key_is_hold_pressed'] = function(
     block) {
-  var value_mouse = Blockly.JavaScript.valueToCode(
+  let value_mouse = Blockly.JavaScript.valueToCode(
     block, 'mouse', Blockly.JavaScript.ORDER_ATOMIC);
-  var dropdown_direction = block.getFieldValue('direction');
-  var code = value_mouse + '.activePointer.' + dropdown_direction + ' && ' +
+  let dropdown_direction = block.getFieldValue('direction');
+  let code = value_mouse + '.activePointer.' + dropdown_direction + ' && ' +
     'e !== ' + value_mouse + '.activePointer';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };

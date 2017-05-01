@@ -52,7 +52,7 @@ cwc.utils.ByteTools.bytesToInt32 = function(data) {
  * @return {number}
  */
 cwc.utils.ByteTools.Int32ToBytes = function(data) {
-  var view = new DataView(data);
+  let view = new DataView(data);
   view.setUint32(0);
   return data;
 };
@@ -81,8 +81,8 @@ cwc.utils.ByteTools.isArrayBufferEqual = function(data1, data2) {
  * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.toUint8Array = function(data) {
-  var dataLength = data.length;
-  var dataBuffer = new Uint8Array(dataLength);
+  let dataLength = data.length;
+  let dataBuffer = new Uint8Array(dataLength);
   for (let i=0; i < dataLength; i++) {
     dataBuffer[i] = data[i];
   }
@@ -96,7 +96,7 @@ cwc.utils.ByteTools.toUint8Array = function(data) {
  * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
-  var data = new Uint8Array(data1.length + data2.length);
+  let data = new Uint8Array(data1.length + data2.length);
   data.set(data1, 0);
   data.set(data2, data1.length);
   return data;
@@ -120,10 +120,10 @@ cwc.utils.ByteTools.uint8Data;
  */
 cwc.utils.ByteTools.getUint8Data = function(data,
     opt_headers, opt_size, opt_buffer) {
-  var buffer = null;
-  var dataView = null;
-  var parsedData = [];
-  var validData = true;
+  let buffer = null;
+  let dataView = null;
+  let parsedData = [];
+  let validData = true;
 
   if (data) {
     // Prepare data buffer
@@ -135,11 +135,10 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
     // Additional length checks if needed.
     if (opt_size) {
-
       // Perpend buffer if needed.
       if (opt_buffer && dataView.length < opt_size) {
         if (opt_buffer instanceof ArrayBuffer) {
-          buffer =  new Uint8Array(opt_buffer);
+          buffer = new Uint8Array(opt_buffer);
         } else {
           buffer = opt_buffer;
         }
@@ -155,7 +154,7 @@ cwc.utils.ByteTools.getUint8Data = function(data,
     // Data processing for data with headers.
     if (validData) {
       if (opt_headers) {
-        var headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
+        let headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
           opt_headers);
         if (headers) {
           let headersLength = headers.length;
@@ -182,9 +181,8 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
   return {
     'data': parsedData,
-    'buffer': buffer
+    'buffer': buffer,
   };
-
 };
 
 
@@ -195,9 +193,9 @@ cwc.utils.ByteTools.getUint8Data = function(data,
  * @return {Array|null}
  */
 cwc.utils.ByteTools.getHeaderPositions = function(data, headers) {
-  var dataLength = data.length;
-  var headerLength = headers.length;
-  var result = [];
+  let dataLength = data.length;
+  let headerLength = headers.length;
+  let result = [];
 
   if (dataLength < headerLength) {
     return null;

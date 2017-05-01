@@ -24,7 +24,6 @@ goog.require('goog.color');
 goog.require('goog.color.alpha');
 
 
-
 /**
  * Class for representing manipulations of the canvas object.
  * @param {boolean=} opt_preset
@@ -39,7 +38,6 @@ goog.require('goog.color.alpha');
  */
 cwc.framework.simple.DrawManipulation = function(opt_preset,
     opt_backgroundColor, opt_borderColor, opt_borderSize, opt_rotation) {
-
   /** @private {boolean} */
   this.preset_ = opt_preset || false;
 
@@ -231,7 +229,6 @@ cwc.framework.simple.DrawManipulation.prototype.getStrokeStyle = function() {
 };
 
 
-
 /**
  * @param {number} degrees The degrees for the rotation of object without the
  *     degree symbol e.g. 90 for a 90 degree rotation of the object.
@@ -317,7 +314,6 @@ cwc.framework.simple.DrawManipulation.prototype.doPost = function(display) {
 };
 
 
-
 /**
  * Class for representing colors.
  * @param {string=} opt_color Color in hex (e.g #3CA or #33CCAA),
@@ -325,30 +321,29 @@ cwc.framework.simple.DrawManipulation.prototype.doPost = function(display) {
  *     Alpha/transparent colors are supported as well.
  * @param {string=} opt_hex A a string containing a hex representation of the
  *     color.
- * @param {string=} opt_type A string containing the type of color format
+ * @param {string=} optType A string containing the type of color format
  *     passed in ('hex', 'rgb', 'named').
  * @constructor
  * @struct
  */
 cwc.framework.simple.ColorToHex = function(
-    opt_color, opt_hex, opt_type) {
-
+    opt_color, opt_hex, optType) {
   /** @type {string} */
   this.type = '';
 
   /** @type {string} */
   this.hex = '';
 
-  if (opt_hex && opt_type) {
+  if (opt_hex && optType) {
     this.hex = opt_hex;
-    this.type = opt_type;
+    this.type = optType;
   } else if (opt_color != null) {
     try {
-      var normal_color = goog.color.parse(opt_color);
+      let normal_color = goog.color.parse(opt_color);
       this.hex = normal_color.hex;
       this.type = normal_color.type;
     } catch (err) {
-      var alpha_color = goog.color.alpha.parse(opt_color);
+      let alpha_color = goog.color.alpha.parse(opt_color);
       this.hex = alpha_color.hex;
       this.type = alpha_color.type;
     }

@@ -19,7 +19,6 @@
  */
 
 
-
 /**
  * Write text.
  */
@@ -35,9 +34,8 @@ Blockly.Blocks['simple_text_write'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Writes the text on the screen.'));
-  }
+  },
 };
-
 
 
 /**
@@ -74,7 +72,7 @@ Blockly.Blocks['simple_draw_circle'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an circle on the screen.'));
-  }
+  },
 };
 
 
@@ -89,7 +87,7 @@ Blockly.Blocks['simple_draw_clear'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Clears the screen.'));
-  }
+  },
 };
 
 
@@ -131,7 +129,7 @@ Blockly.Blocks['simple_draw_rectangle'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an rectangle on the screen.'));
-  }
+  },
 };
 
 
@@ -169,7 +167,7 @@ Blockly.Blocks['simple_draw_line'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an line on the screen.'));
-  }
+  },
 };
 
 
@@ -199,7 +197,7 @@ Blockly.Blocks['simple_draw_point'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an point on the screen.'));
-  }
+  },
 };
 
 
@@ -241,7 +239,7 @@ Blockly.Blocks['simple_draw_ellipse'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an ellipse on the screen.'));
-  }
+  },
 };
 
 
@@ -291,7 +289,7 @@ Blockly.Blocks['simple_draw_triangle'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws and triangle on the screen.'));
-  }
+  },
 };
 
 
@@ -321,5 +319,5 @@ Blockly.Blocks['simple_draw_text'] = {
     this.setPreviousStatement(true, ['Number', 'String']);
     this.setNextStatement(true, ['Number', 'String']);
     this.setTooltip(i18t('Draws an text on the screen.'));
-  }
+  },
 };

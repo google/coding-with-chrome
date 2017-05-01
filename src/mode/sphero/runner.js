@@ -28,7 +28,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -121,7 +120,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.decorate(this.node);
 
   // Sphero Events
-  var apiEventHandler = this.api.getEventHandler();
+  let apiEventHandler = this.api.getEventHandler();
   if (!apiEventHandler) {
     console.error('Sphero API event handler is not defined!');
   }
@@ -129,17 +128,16 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
     cwc.protocol.sphero.Events.Type.COLLISION, 'collision');
 
   // Preview output
-  var turtleNode = this.runner.getTurtleNode();
+  let turtleNode = this.runner.getTurtleNode();
   this.turtle.decorate(turtleNode);
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    var eventHandler = layoutInstance.getEventHandler();
+    let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
-
 };
 
 
@@ -184,7 +182,7 @@ cwc.mode.sphero.Runner.prototype.cleanUp = function() {
  */
 cwc.mode.sphero.Runner.prototype.addEventListener = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var eventListener = goog.events.listen(src, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

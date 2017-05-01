@@ -31,7 +31,6 @@ goog.require('goog.events.EventType');
 goog.require('goog.ui.KeyboardShortcutHandler');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -85,7 +84,6 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   if (!this.connection) {
     console.error('Missing connection instance !');
   }
-
 };
 
 
@@ -93,7 +91,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
  * Decorates the EV3 monitor window.
  */
 cwc.mode.ev3.Monitor.prototype.decorate = function() {
-  var runnerInstance = this.helper.getInstance('runner', true);
+  let runnerInstance = this.helper.getInstance('runner', true);
   this.runnerMonitor_ = runnerInstance.getMonitor();
   if (!this.runnerMonitor_) {
     console.error('Runner Monitor is not there!', this.runnerMonitor_);
@@ -107,34 +105,34 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   goog.soy.renderElement(
       this.nodeIntro,
       cwc.soy.mode.ev3.Monitor.intro, {
-        prefix: this.prefix
+        prefix: this.prefix,
       }
   );
 
   goog.soy.renderElement(
       this.nodeMonitor,
       cwc.soy.mode.ev3.Monitor.monitor, {
-        prefix: this.prefix
+        prefix: this.prefix,
       }
   );
 
   goog.soy.renderElement(
       this.nodeControl,
       cwc.soy.mode.ev3.Monitor.control, {
-        prefix: this.prefix
+        prefix: this.prefix,
       }
   );
 
   this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
 
   // Update event
-  var eventHandler = this.connection.getEventHandler();
+  let eventHandler = this.connection.getEventHandler();
   this.addEventListener_(eventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData, false,
       this);
 
   // Custom events
-  var customEventHandler = this.helper.getEventHandler();
+  let customEventHandler = this.helper.getEventHandler();
   this.addEventListener_(customEventHandler, 'changeRobotType', function(e) {
     this.updateRobotType(e.data);
   }, false, this);
@@ -143,7 +141,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   this.updateDeviceData();
 
   // Unload event
-  var layoutInstance = this.helper.getInstance('layout');
+  let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
@@ -167,7 +165,7 @@ cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
         this.nodeMonitorValues,
         cwc.soy.mode.ev3.Monitor.monitorValues, {
           prefix: this.prefix,
-          devices: this.connection.getDeviceData()
+          devices: this.connection.getDeviceData(),
         }
     );
   }
@@ -199,7 +197,6 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
-
   // Movements
   this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
     this.api.rotateSteps(45, -50);
@@ -237,7 +234,6 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
     this.api.stop();
   }.bind(this), false, this);
-
 };
 
 
@@ -268,6 +264,7 @@ cwc.mode.ev3.Monitor.prototype.addKeyHandler_ = function() {
 
 /**
  * Handles keyboard shortcuts.
+ * @param {event} event
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
@@ -299,11 +296,12 @@ cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
 
 /**
  * Handles arm keyboard shortcuts.
+ * @param {!string} keys
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(keys) {
-  var speed = 40;
-  var steps = 5;
+  let speed = 40;
+  let steps = 5;
 
   switch (keys) {
     // Normal speed
@@ -331,12 +329,13 @@ cwc.mode.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(keys) {
 
 /**
  * Handles vehicle keyboard shortcuts.
+ * @param {string} keys
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(keys) {
-  var steps = 5;
-  var speed = 50;
-  var boostedSpeed = 100;
+  let steps = 5;
+  let speed = 50;
+  let boostedSpeed = 100;
 
   switch (keys) {
     // Normal speed
@@ -396,9 +395,9 @@ cwc.mode.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(keys) {
  */
 cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type,
     listener, opt_useCapture, opt_listenerScope) {
-  var target = goog.isString(src) ?
+  let target = goog.isString(src) ?
     goog.dom.getElement(this.prefix + src) : src;
-  var eventListener = goog.events.listen(target, type, listener, opt_useCapture,
+  let eventListener = goog.events.listen(target, type, listener, opt_useCapture,
       opt_listenerScope);
   goog.array.insert(this.listener, eventListener);
 };

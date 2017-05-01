@@ -26,7 +26,6 @@ goog.require('cwc.renderer.external.Python');
 goog.require('cwc.utils.Helper');
 
 
-
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
