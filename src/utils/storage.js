@@ -266,8 +266,9 @@ cwc.utils.Storage.prototype.saveChromeStorage = function(type) {
  * @param {string=} type
  * @return {!string} The key name
  */
-cwc.utils.Storage.prototype.getKeyname = function(name = '', type = '') {
-  return this.getTypename(type || this.defaultType_) + '__' + name;
+cwc.utils.Storage.prototype.getKeyname = function(name = '',
+    type = this.defaultType_) {
+  return this.getTypename(type) + '__' + name;
 };
 
 
@@ -286,16 +287,16 @@ cwc.utils.Storage.prototype.getTypename = function(type) {
  * @param {string=} type Type of the storage entry.
  * @return {string|boolean|null} Value of the storage entry.
  */
-cwc.utils.Storage.prototype.get = function(name, type = '') {
+cwc.utils.Storage.prototype.get = function(name, type = this.defaultType_) {
   if (!type || !name) {
-    this.log_.warn('Can\'t get value without a type and name!');
+    this.log_.error('Can\'t get value without a type and name!');
     return null;
   }
   if (!this.storage_) {
     this.log_.error('Storage is not available!');
     return null;
   }
-  let keyName = this.getKeyname(name, type || this.defaultType_);
+  let keyName = this.getKeyname(name, type);
   let keyValue = this.storage_.getItem(keyName);
   this.log_.info('Get item', keyName, ':', keyValue);
   switch (keyValue) {
@@ -332,23 +333,24 @@ cwc.utils.Storage.prototype.getAll = function(type) {
  * @param {string} value Value of the config entry.
  * @param {string=} type Type of the storage entry.
  */
-cwc.utils.Storage.prototype.set = function(name, value, type = '') {
+cwc.utils.Storage.prototype.set = function(name, value,
+    type = this.defaultType_) {
   if (!type || !name) {
-    this.log_.warn('Can\'t store value without a type and name!');
+    this.log_.error('Can\'t store value without a type and name!');
     return;
   }
   if (!this.storage_) {
-    this.log_.warn('No storage available!');
+    this.log_.error('No storage available!');
     return;
   }
-  let keyName = this.getKeyname(name, type || this.defaultType_);
+  let keyName = this.getKeyname(name, type);
   if (value == this.storage_.getItem(keyName)) {
     return;
   }
   this.storage_.setItem(keyName, value);
   this.log_.info('Sets item', keyName, ':', value);
   if (this.syncChrome) {
-    this.saveChromeStorage(type || this.defaultType_);
+    this.saveChromeStorage(type);
   }
 };
 
@@ -358,19 +360,19 @@ cwc.utils.Storage.prototype.set = function(name, value, type = '') {
  * @param {!string} name Name of the storage entry.
  * @param {string=} type Type of the storage entry.
  */
-cwc.utils.Storage.prototype.remove = function(name, type = '') {
+cwc.utils.Storage.prototype.remove = function(name, type = this.defaultType_) {
   if (!type || !name) {
-    this.log_.warn('Can\'t remove entry without a type and name!');
+    this.log_.error('Can\'t remove entry without a type and name!');
     return;
   }
   if (!this.storage_) {
-    this.log_.warn('No storage available!');
+    this.log_.error('No storage available!');
     return;
   }
-  let keyName = this.getKeyname(name, type || this.defaultType_);
+  let keyName = this.getKeyname(name, type);
   this.storage_.removeItem(keyName);
   this.log_.info('Remove item', keyName);
   if (this.syncChrome) {
-    this.saveChromeStorage(type || this.defaultType_);
+    this.saveChromeStorage(type);
   }
 };

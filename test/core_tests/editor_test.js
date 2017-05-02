@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mindstorms Connection Manager for Coding in Chrome editor.
+ * @fileoverview Editor tests.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -18,18 +18,20 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-{namespace cwc.soy.ConnectionManager.Mindstorms autoescape="strict"}
 
+describe('Editor', function() {
+  document.body.insertAdjacentHTML('afterbegin',
+    '<div id="cwc-editor"></div>');
 
-/**
- * Arduino connect screen.
- */
-{template .template}
-  {@param prefix: string}
-  <h2>Connect Mindstorms</h2>
-  <p>
-    If the Mindstorm is not connected, please connect the Mindstorm over Bluetoth and click on
-    "next".
-  </p>
-  <div id="{$prefix}link-next" class="goog-button">Next</div>
-{/template}
+  let builder = new cwc.ui.Builder();
+
+  it('export', function() {
+    expect(typeof builder).toEqual('object');
+  });
+
+  it('decorate', function() {
+    let editorNode = document.getElementById('cwc-editor');
+    builder.decorate(editorNode, function() {
+    });
+  });
+});

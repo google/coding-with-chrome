@@ -44,19 +44,19 @@ cwc.protocol.makeblock.mbotRanger.Commands = function() {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {!number} opt_index 0 or 1 - 12
+ * @param {!number} index 0 or 1 - 12
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.setRGBLED = function(red,
-    green, blue, opt_index) {
+    green, blue, index = 0x00) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.RGBLED);
   buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.AUTO);
   buffer.writeSlot(cwc.protocol.makeblock.mbotRanger.Slot.AUTO);
-  buffer.writeByte(opt_index || 0x00);
+  buffer.writeByte(index);
   buffer.writeByte(red);
   buffer.writeByte(green);
   buffer.writeByte(blue);
@@ -87,18 +87,18 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
 /**
  * Sets motor power
  * @param {!number} power (0-255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
-    power, opt_slot) {
+    power, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
   buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_SPEED);
-  buffer.writeSlot(opt_slot || cwc.protocol.makeblock.mbotRanger.Slot.ONE);
+  buffer.writeSlot(slot);
   buffer.writeShort(power);
   return buffer.readSigned();
 };
@@ -107,21 +107,21 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
 /**
  * Rotates the motor for the given steps.
  * @param {!number} steps (−32768 - 32.767)
- * @param {number=} opt_power (0-255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @param {number=} power (0-255)
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
-    opt_power, opt_slot) {
+    power = 130, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
   buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_POS);
-  buffer.writeSlot(opt_slot || cwc.protocol.makeblock.mbotRanger.Slot.ONE);
+  buffer.writeSlot(slot);
   buffer.writeInt(steps);
-  buffer.writeShort(opt_power || 130);
+  buffer.writeShort(power);
   return buffer.readSigned();
 };
 

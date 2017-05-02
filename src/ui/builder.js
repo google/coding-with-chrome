@@ -43,7 +43,6 @@ goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Blockly');
-goog.require('cwc.ui.ConnectionManager');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Editor');
@@ -79,7 +78,6 @@ goog.require('goog.dom');
 cwc.ui.BuilderHelpers = {
   'blockly': cwc.ui.Blockly,
   'connectScreen': cwc.ui.connectScreen.Screens,
-  'connectionManager': cwc.ui.ConnectionManager,
   'documentation': cwc.ui.Documentation,
   'editor': cwc.ui.Editor,
   'file': cwc.fileHandler.File,
@@ -147,9 +145,6 @@ cwc.ui.Builder = function() {
   /** @type {string} */
   this.name = 'Builder';
 
-  /** @private {!number} */
-  this.loglevel_ = 0;
-
   /** @type {boolean} */
   this.error = false;
 
@@ -165,11 +160,14 @@ cwc.ui.Builder = function() {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Element} */
-  this.nodeOverlayer = null;
-
   /** @type {Array} */
   this.listener = [];
+
+  /** @type {Function} */
+  this.callback = null;
+
+  /** @private {!number} */
+  this.loglevel_ = 0;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
@@ -182,10 +180,10 @@ cwc.ui.Builder = function() {
 /**
  * Decorates the given node and adds the code editor.
  * @param {!Element|string} node
- * @param {Element=} overlayer
+ * @param {Function=} callback
  * @export
  */
-cwc.ui.Builder.prototype.decorate = function(node, overlayer = null) {
+cwc.ui.Builder.prototype.decorate = function(node, callback = null) {
   this.setProgress('Loading Coding with Chrome editor ...', 1, 1);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
@@ -194,7 +192,10 @@ cwc.ui.Builder.prototype.decorate = function(node, overlayer = null) {
   } else {
     this.raiseError('Required node is neither a string or an object!');
   }
-  this.nodeOverlayer = overlayer;
+
+  if (callback && typeof callback === 'function') {
+    this.callback = callback;
+  }
 
   this.addEventListener_(window, goog.events.EventType.ERROR, function(event) {
     let browserEvent = event.getBrowserEvent();
@@ -352,8 +353,8 @@ cwc.ui.Builder.prototype.loadUI = function() {
     if (typeof window.componentHandler !== 'undefined') {
       window.componentHandler.upgradeDom();
     }
-    if (this.nodeOverlayer) {
-      goog.dom.removeNode(this.nodeOverlayer);
+    if (this.callback) {
+      this.callback();
     }
     this.helper.removeEventListeners(this.listener, this.name);
   }
@@ -397,6 +398,9 @@ cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
   if (loader) {
     loader.contentWindow.postMessage({
       'command': 'error', 'msg': error}, '*');
+  }
+  if (this.callback) {
+    this.callback();
   }
   if (!skipThrow) {
     throw error;

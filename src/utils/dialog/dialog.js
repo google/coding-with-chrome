@@ -135,13 +135,13 @@ cwc.utils.Dialog.prototype.close = function() {
  *   title: string,
  *   opt_title_icon: (string|undefined),
  *   opt_title_untranslated: (string|undefined),
- *   optValues: (string|undefined)
- * })=} opt_template
- * @param {string=} optValues
+ *   opt_values: (string|undefined)
+ * })=} template
+ * @param {string=} values
  * @export
  */
 cwc.utils.Dialog.prototype.render = function(title, content,
-    opt_template, optValues) {
+    template = cwc.soy.Dialog.contentTemplate, values) {
   let dialog = this.getDialog_();
   let dialogTitle = title;
   let dialogTitleIcon = '';
@@ -154,14 +154,13 @@ cwc.utils.Dialog.prototype.render = function(title, content,
   }
 
   if (dialog) {
-    goog.soy.renderElement(dialog,
-        opt_template || cwc.soy.Dialog.contentTemplate, {
+    goog.soy.renderElement(dialog, template, {
           content: content,
           prefix: this.prefix,
           title: dialogTitle,
           opt_title_icon: dialogTitleIcon,
           opt_title_untranslated: dialogTitleUntranslated,
-          optValues: optValues,
+          opt_values: values,
         });
     this.refresh_();
   }

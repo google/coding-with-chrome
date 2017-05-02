@@ -58,15 +58,15 @@ cwc.file.Files.prototype.addFile = function(name, content,
     optType, opt_size, opt_group) {
   let new_file = new cwc.file.File(name, content, optType,
       opt_size, opt_group);
-  let fileName = new_file.getFilename();
+  let filename = new_file.getFilename();
   let fileType = new_file.getType();
-  if (this.getFile(fileName)) {
-    console.warn('Overwrite existing file', fileName);
+  if (this.getFile(filename)) {
+    console.warn('Overwrite existing file', filename);
   }
-  this.data_[fileName] = new_file;
+  this.data_[filename] = new_file;
   this.updateSize_();
-  console.log('Added', fileName, 'with type', fileType);
-  return this.data_[fileName];
+  console.log('Added', filename, 'with type', fileType);
+  return this.data_[filename];
 };
 
 
@@ -77,9 +77,9 @@ cwc.file.Files.prototype.addFile = function(name, content,
  * @export
  */
 cwc.file.Files.prototype.getFile = function(name, opt_group) {
-  let fileName = ((opt_group) ? opt_group + '/' : '') + name;
-  if (this.existFileName(fileName)) {
-    return this.data_[fileName];
+  let filename = ((opt_group) ? opt_group + '/' : '') + name;
+  if (this.existFileName(filename)) {
+    return this.data_[filename];
   }
   return null;
 };

@@ -282,13 +282,13 @@ cwc.ui.Library.prototype.getFiles = function() {
     for (let file in files) {
       if (files.hasOwnProperty(file)) {
         let fileData = files[file];
-        let fileName = fileData.getName();
-        fileList[fileName] = {};
-        fileList[fileName]['content'] = soydata.VERY_UNSAFE.ordainSanitizedUri(
+        let filename = fileData.getName();
+        fileList[filename] = {};
+        fileList[filename]['content'] = soydata.VERY_UNSAFE.ordainSanitizedUri(
           fileData.getContent());
-        fileList[fileName]['media_type'] = fileData.getMediaType();
-        fileList[fileName]['size'] = fileData.getSize();
-        fileList[fileName]['type'] = fileData.getType();
+        fileList[filename]['media_type'] = fileData.getMediaType();
+        fileList[filename]['size'] = fileData.getSize();
+        fileList[filename]['type'] = fileData.getType();
       }
     }
   }
@@ -380,13 +380,13 @@ cwc.ui.Library.prototype.handleSearch_ = function() {
  * @param {Object} e
  */
 cwc.ui.Library.prototype.handleFileClick_ = function(e) {
-  let fileName = e.target.dataset['fileName'];
+  let filename = e.target.dataset['filename'];
   let fileAction = e.target.dataset['fileAction'];
-  console.log(fileAction, ':', fileName);
-  if (fileName && fileAction) {
+  console.log(fileAction, ':', filename);
+  if (filename && fileAction) {
     switch (fileAction) {
       case 'insertMacro':
-        this.insertFileMacro(fileName);
+        this.insertFileMacro(filename);
         break;
     }
   }

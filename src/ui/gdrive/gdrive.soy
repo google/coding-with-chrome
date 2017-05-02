@@ -26,16 +26,13 @@
  */
 {template .gDriveTemplate}
   {@param prefix: string}
+
   <div id="{$prefix}body">
-    <ul id="{$prefix}menu">
-    </ul>
+    <ul id="{$prefix}menu"></ul>
     <div id="{$prefix}content">
-      <div id="{$prefix}fileparents">
-      </div>
-      <div id="{$prefix}filelist">
-      </div>
-      <div id="{$prefix}filename">
-      </div>
+      <div id="{$prefix}fileparents"></div>
+      <div id="{$prefix}filelist"></div>
+      <div id="{$prefix}filename"></div>
     </div>
   </div>
 {/template}
@@ -46,6 +43,7 @@
  */
 {template .gDriveFileName}
   {@param filename: string}
+
   <form action="#">
     <div class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" value="{$filename}" disabled>
@@ -63,6 +61,7 @@
 {template .gDriveParentFolders}
   {@param prefix: string}
   {@param parents: list<?>}
+
   {foreach $parent in $parents}
     <button class="mdl-button mdl-js-button {$prefix}parentfolder"
             data-gdrive-id="{$parent.id}" {if isLast($parent)}disabled{/if}>
@@ -77,6 +76,7 @@
  */
 {template .gDriveFileList}
   {@param files: ?}
+
   <div>
     <table class="mdl-data-table mdl-js-data-table">
       <thead>

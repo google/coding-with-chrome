@@ -108,13 +108,13 @@
   {@param content: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
-  {@param? optValues: string}
+  {@param? opt_values: string}
 
   {call .dialogTitle_ data="all" /}
   <div class="mdl-dialog__content {$prefix}prompt">
     {if $content}<span class="{$prefix}prompt-content">{$content}</span>{/if}
     <div class="mdl-textfield mdl-js-textfield">
-      <input class="mdl-textfield__input" type="text" id="{$prefix}input" value="{if $optValues}{$optValues}{/if}">
+      <input class="mdl-textfield__input" type="text" id="{$prefix}input" value="{if $opt_values}{$opt_values}{/if}">
       <label class="mdl-textfield__label" for="{$prefix}input"></label>
     </div>
   </div>

@@ -38,7 +38,7 @@ cwc.fileHandler.FileSaver = function(helper) {
   this.fileData = '';
 
   /** @type {string} */
-  this.fileName = '';
+  this.filename = '';
 
   /** @type {string} */
   this.fileType = '';
@@ -64,9 +64,9 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
   if (autoDetect && this.gDriveId) {
     this.saveGDriveFile(true);
   } else if (this.fileHandler) {
-    this.prepareSaveFile(this.fileHandler, this.fileName, this.fileData);
+    this.prepareSaveFile(this.fileHandler, this.filename, this.fileData);
   } else {
-    this.selectFileToSave(this.fileName, this.fileData);
+    this.selectFileToSave(this.filename, this.fileData);
   }
 };
 
@@ -77,7 +77,7 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
 cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
   console.log('saveFileAs...');
   this.prepareContent();
-  this.selectFileToSave(this.fileName, this.fileData);
+  this.selectFileToSave(this.filename, this.fileData);
 };
 
 
@@ -91,9 +91,9 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   let gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
   if (save_file) {
-    gDriveInstance.saveFile(this.fileName, this.fileData, this.gDriveId);
+    gDriveInstance.saveFile(this.filename, this.fileData, this.gDriveId);
   } else {
-    gDriveInstance.saveDialog(this.fileName, this.fileData, this.gDriveId);
+    gDriveInstance.saveDialog(this.filename, this.fileData, this.gDriveId);
   }
 };
 
@@ -106,7 +106,7 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
   console.log('Save file in Google Cloud');
   let gCloudInstance = this.helper.getInstance('gcloud', true);
   this.prepareContent();
-  gCloudInstance.publishDialog(this.fileName, this.fileData, this.fileType);
+  gCloudInstance.publishDialog(this.filename, this.fileData, this.fileType);
 };
 
 /**
@@ -121,7 +121,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 
   let file = fileInstance.getFile();
   let fileType = fileInstance.getFileType();
-  let fileName = fileInstance.getFileName();
+  let filename = fileInstance.getFileName();
   let fileTitle = fileInstance.getFileTitle();
   let fileHandler = fileInstance.getFileHandler();
   let fileUi = fileInstance.getUi();
@@ -133,7 +133,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   if (file.isRaw()) {
     let editorView = fileConfig.editor_views[0];
     this.fileData = editorInstance.getEditorContent(editorView);
-    this.fileName = this.addFileExtension(fileName || fileTitle || 'untitled',
+    this.filename = this.addFileExtension(filename || fileTitle || 'untitled',
         fileConfig.extension);
   } else {
     if (fileConfig.blockly_views) {
@@ -160,7 +160,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
       file.setEditorFlags(editorFlags);
     }
     this.fileData = file.getJson();
-    this.fileName = this.addFileExtension(fileName || fileTitle || 'untitled');
+    this.filename = this.addFileExtension(filename || fileTitle || 'untitled');
     this.fileType = fileType;
   }
 
@@ -236,11 +236,11 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
 cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     writer, name, content, file_entry) {
   let fileInstance = this.helper.getInstance('file', true);
-  let fileName = file_entry['name'] || name;
+  let filename = file_entry['name'] || name;
   let blobContent = new Blob([content]);
   let truncated = false;
   let helperInstance = this.helper;
-  console.log('Writing file', fileName, 'with file-size', blobContent['size'],
+  console.log('Writing file', filename, 'with file-size', blobContent['size'],
       ':', content);
   writer.onwriteend = function(opt_event) {
     if (!truncated) {
@@ -250,10 +250,10 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
     }
     fileInstance.setFileHandler(file_entry);
     fileInstance.setUnsavedChange(false);
-    helperInstance.showSuccess('Saved file ' + fileName + ' successful.');
+    helperInstance.showSuccess('Saved file ' + filename + ' successful.');
   };
   writer.onerror = function(opt_event) {
-    this.helper.showError('Unable to save file ' + fileName + '!');
+    this.helper.showError('Unable to save file ' + filename + '!');
   };
   writer.seek(0);
   writer.write(blobContent, {'type': 'text/plain'});

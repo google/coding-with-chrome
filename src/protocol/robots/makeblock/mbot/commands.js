@@ -44,19 +44,19 @@ cwc.protocol.makeblock.mbot.Commands = function() {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {!number} opt_index   0 for all lights; 1 for left, 2 for right
+ * @param {!number} index 0 for all lights; 1 for left, 2 for right
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
-    blue, opt_index) {
+    blue, index = 0x00) {
   let buffer = new cwc.protocol.makeblock.mbot.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
   buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.LEDLIGHT);
   buffer.writePort(cwc.protocol.makeblock.mbot.Port.LED_LIGHT);
   buffer.writeByte(cwc.protocol.makeblock.mbot.Slot.LED_LIGHT);
-  buffer.writeByte(opt_index || 0x00);
+  buffer.writeByte(index);
   buffer.writeByte(red);
   buffer.writeByte(green);
   buffer.writeByte(blue);
@@ -86,17 +86,17 @@ cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
 /**
  * Sets motor power
  * @param {!number} power (0-255)
- * @param {number=} opt_port
+ * @param {number=} port
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
-    opt_port) {
+    port = cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR) {
   let buffer = new cwc.protocol.makeblock.mbot.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE);
   buffer.writeType(cwc.protocol.makeblock.mbot.CommandType.RUN);
   buffer.writeDevice(cwc.protocol.makeblock.mbot.Device.DCMOTOR);
-  buffer.writePort(opt_port || cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR);
+  buffer.writePort(port);
   buffer.writeShort(power);
   return buffer.readSigned();
 };

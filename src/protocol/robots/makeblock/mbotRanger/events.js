@@ -37,76 +37,76 @@ cwc.protocol.makeblock.mbotRanger.Events.Type = {
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
+ * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
-    opt_port) {
+    port = undefined) {
   return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
       cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
-      data, opt_port);
+      data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
+ * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
-    data, opt_port) {
+    data, port = undefined) {
   return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
       cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
-      data, opt_port);
+      data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
+ * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
-    data, opt_port) {
+    data, port = undefined) {
   return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
       cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR,
-      data, opt_port);
+      data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
+ * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
-    opt_port) {
+    port = undefined) {
   return new cwc.protocol.makeblock.mbotRanger.Events.Data_(
       cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
-      data, opt_port);
+      data, port);
 };
 
 
 /**
  * @param {!cwc.protocol.makeblock.mbotRanger.Events.Type} type
- * @param {Object=} opt_data
- * @param {number=} opt_port
+ * @param {Object=} data
+ * @param {number=} port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, opt_data,
-    opt_port) {
+cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, data = {},
+    port = undefined) {
   /** @type {!cwc.protocol.makeblock.mbotRanger.Events.Type} */
   this.type = type;
 
-  /** @type {!Object} */
-  this.data = opt_data || {};
+  /** @type {Object} */
+  this.data = data;
 
   /** @type {number} */
-  this.port = opt_port;
+  this.port = port;
 };

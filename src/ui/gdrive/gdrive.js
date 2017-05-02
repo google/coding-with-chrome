@@ -103,15 +103,45 @@ cwc.ui.GDrive = function(helper) {
 
 
 /**
+ * Decorates the file library.
+ */
+cwc.ui.GDrive.prototype.decorate = function() {
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    let eventHandler = layoutInstance.getEventHandler();
+    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+        this.cleanUp, false, this);
+  }
+};
+
+
+/**
+ * Shows the library.
+ */
+cwc.ui.GDrive.prototype.showLibrary = function() {
+  let dialogInstance = this.helper.getInstance('dialog', true);
+  let title = {
+    title: 'Google Drive',
+    icon: 'folder_open',
+  };
+  dialogInstance.showTemplate(title, cwc.soy.GDrive.gDriveTemplate, {
+    prefix: this.prefix,
+  });
+  this.decorate();
+};
+
+
+/**
  * Fetches all related files from Google drive.
  */
 cwc.ui.GDrive.prototype.getFile = function() {
   let fileEvent = this.handleFileList.bind(this);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'q': 'mimeType = \'' + this.mimeType + '\'',
   }, fileEvent);
 };
+
 
 /**
  * Displays a Google Drive open dialog.
@@ -120,6 +150,7 @@ cwc.ui.GDrive.prototype.openDialog = function() {
   this.dialogType = 'open';
   this.getMyFiles();
 };
+
 
 /*
  * Displays a Google Drive save dialog.
@@ -131,6 +162,7 @@ cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
   this.getMyFiles();
 };
 
+
 /**
  * Returns all files which are created by the user.
  */
@@ -138,7 +170,7 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
   this.switchMenu(this.menuMyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
   let fileEvent = this.handleFileList.bind(this);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
@@ -147,6 +179,7 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
        'in parents and trashed = false'),
   }, fileEvent);
 };
+
 
 /*
  * Navigate down a sub-folder in the Google Drive file browser.
@@ -160,13 +193,14 @@ cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
   if (typeof trashed === 'boolean') {
     query += ' and trashed = ' + trashed;
   }
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': query,
   }, fileEvent);
 };
+
 
 /*
  * Switch to the clicked on sidebar menu.
@@ -179,6 +213,7 @@ cwc.ui.GDrive.prototype.switchMenu = function(node) {
   this.menuCurrent = node;
 };
 
+
 /**
  * Returns all files which are shared with the user.
  */
@@ -187,7 +222,7 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
   this.parents = [{
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
@@ -206,7 +241,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
   this.parents = [{
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
@@ -227,7 +262,7 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
   let fileEvent = this.handleFileList.bind(this);
   let lastDays = new Date();
   lastDays.setDate(new Date().getDate() - 7);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
@@ -246,7 +281,7 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
   this.parents = [{
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
-  this.getFiles({
+  this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
@@ -348,9 +383,9 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
     menuNode.appendChild(menus[i]);
   }
   if (this.dialogType === 'save') {
-    let fileName = goog.dom.getElement(this.prefix + 'filename');
+    let filename = goog.dom.getElement(this.prefix + 'filename');
     goog.soy.renderElement(
-      fileName,
+      filename,
       cwc.soy.GDrive.gDriveFileName,
       {filename: this.saveFileName}
     );
@@ -363,7 +398,6 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
     }.bind(this));
   }
   cwc.ui.Helper.mdlRefresh();
-
   return dialog;
 };
 
@@ -392,23 +426,6 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
       this.data[files[i]['id']] = files[i];
     }
     this.renderDialog(files);
-  }
-};
-
-
-/**
- * @param {Object} params
- * @param {function(?)} callback
- */
-cwc.ui.GDrive.prototype.getFiles = function(params, callback) {
-  let accountInstance = this.helper.getInstance('account');
-  console.log('Requesting Google Drive files: ' + params['q']);
-  if (accountInstance) {
-    let opts = {
-      path: '/drive/v3/files',
-      params: params,
-    };
-    accountInstance.request(opts, callback);
   }
 };
 
@@ -534,5 +551,23 @@ cwc.ui.GDrive.prototype.loadFileContent = function(file, content) {
     fileLoaderInstance.handleFileData(content, file['name'], null, file['id']);
   } else {
     this.helper.showWarn('Unable to open file ' + file['name'] + ' !');
+  }
+};
+
+
+/**
+ * @param {Object} params
+ * @param {function(?)} callback
+ * @private
+ */
+cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
+  let accountInstance = this.helper.getInstance('account');
+  console.log('Requesting Google Drive files: ' + params['q']);
+  if (accountInstance) {
+    let opts = {
+      path: '/drive/v3/files',
+      params: params,
+    };
+    accountInstance.request(opts, callback);
   }
 };

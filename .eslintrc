@@ -8,7 +8,7 @@
       'varsIgnorePattern':'_unused$'
     }],
     'no-console': 0,
-    'camelcase': [1, {properties: 'never'}],
+    'camelcase': [0, {properties: 'never'}],
     'new-cap': [2, {
       'newIsCapExceptions': ['instance', 'command_profile', 'fileConfig.file',
         'CodeMirror.fold.combine']

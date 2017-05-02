@@ -25,4 +25,8 @@ describe('Builder', function() {
   it('export', function() {
     expect(typeof builder).toEqual('object');
   });
+
+  it('decorate', function() {
+    expect(typeof builder.decorate).toEqual('function');
+  });
 });

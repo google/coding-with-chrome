@@ -47,7 +47,7 @@ goog.require('goog.events.EventTarget');
  *   cwc.protocol.ev3.Api|
  *   cwc.renderer.Renderer|
  *   cwc.ui.Blockly|
- *   cwc.ui.ConnectionManager|
+ *   cwc.ui.ConnectScreen|
  *   cwc.ui.Debug|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
@@ -259,16 +259,15 @@ cwc.utils.Helper.prototype.showSuccess = function(msg) {
 
 /**
  * Removes all defined event listeners in the provided list.
- * @param {Array} events_list
- * @param {string=} optName
+ * @param {Array} events
+ * @param {string=} name
  * @return {!Array} empty array
  */
-cwc.utils.Helper.prototype.removeEventListeners = function(events_list,
-    optName) {
-  if (events_list) {
-    this.log_.debug('Clearing', events_list.length, 'events listener',
-        (optName) ? ' for ' + optName : '');
-    goog.array.forEach(events_list, function(listener) {
+cwc.utils.Helper.prototype.removeEventListeners = function(events, name = '') {
+  if (events) {
+    this.log_.debug('Clearing', events.length, 'events listener',
+        (name) ? ' for ' + name : '');
+    goog.array.forEach(events, function(listener) {
       goog.events.unlistenByKey(listener);
     });
   }
@@ -279,11 +278,12 @@ cwc.utils.Helper.prototype.removeEventListeners = function(events_list,
 /**
  * @param {string} name
  * @param {string|boolean} value
- * @param {string=} opt_group
+ * @param {string=} group
  * @export
  */
-cwc.utils.Helper.prototype.setFeature = function(name, value, opt_group) {
-  this.features_.set(name, value, opt_group);
+cwc.utils.Helper.prototype.setFeature = function(name, value,
+    group = undefined) {
+  this.features_.set(name, value, group);
 };
 
 
@@ -319,12 +319,12 @@ cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
 
 /**
  * @param {string} name
- * @param {string=} opt_group
+ * @param {string=} group
  * @return {!boolean}
  * @export
  */
-cwc.utils.Helper.prototype.checkFeature = function(name, opt_group) {
-  return this.features_.get(name, opt_group) || false;
+cwc.utils.Helper.prototype.checkFeature = function(name, group = undefined) {
+  return this.features_.get(name, group) || false;
 };
 
 
@@ -450,21 +450,21 @@ cwc.utils.Helper.prototype.getPrefix = function(additionalPrefix = '') {
  * @param {Function} func
  */
 cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
-  let fileName = '';
+  let filename = '';
   let fileModified = false;
   let fileInstance = this.getInstance('file');
   if (fileInstance) {
-    fileName = fileInstance.getFileTitle();
+    filename = fileInstance.getFileTitle();
     fileModified = fileInstance.isModified();
   }
 
-  console.log('File', fileName, 'was modified:', fileModified);
+  console.log('File', filename, 'was modified:', fileModified);
   if (fileModified) {
     let dialogInstance = this.getInstance('dialog');
     let title = {
       icon: 'warning',
       title: 'Unsaved Changes for',
-      untranslated: ' ' + fileName,
+      untranslated: ' ' + filename,
     };
     let content = 'Changes have not been saved. Exit?';
     dialogInstance.showYesNo(title, content).then((answer) => {

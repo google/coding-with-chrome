@@ -78,15 +78,15 @@ cwc.protocol.sphero.Events.collision = function(data) {
 
 /**
  * @param {!cwc.protocol.sphero.Events.Type} type
- * @param {Object=} opt_data
+ * @param {Object=} data
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.sphero.Events.Data_ = function(type, opt_data) {
+cwc.protocol.sphero.Events.Data_ = function(type, data = {}) {
   /** @type {!cwc.protocol.sphero.Events.Type} */
   this.type = type;
 
   /** @type {!Object} */
-  this.data = opt_data || {};
+  this.data = data;
 };

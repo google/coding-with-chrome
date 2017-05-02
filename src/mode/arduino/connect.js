@@ -28,9 +28,6 @@ cwc.mode.arduino.Connect = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {cwc.ui.ConnectionManager} */
-  this.connectionManager = helper.getInstance('connectionManager');
-
   /** @type {cwc.protocol.arduino.Api} */
   this.api = helper.getInstance('arduino');
 };
@@ -40,9 +37,6 @@ cwc.mode.arduino.Connect = function(helper) {
  *
  */
 cwc.mode.arduino.Connect.prototype.init = function() {
-  if (this.connectionManager) {
-    this.connectionManager.getArduino(this.handleConnect_.bind(this));
-  }
 };
 
 

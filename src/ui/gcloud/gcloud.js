@@ -47,7 +47,7 @@ cwc.ui.GCloud = function(helper) {
   this.prefix = 'gcloud-';
 
   /** @type {string} */
-  this.fileName = '';
+  this.filename = '';
 
   /** @type {string} */
   this.fileContent = '';
@@ -80,7 +80,7 @@ cwc.ui.GCloud = function(helper) {
  */
 cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   let accountInstance = this.helper.getInstance('account', true);
-  this.fileName = name;
+  this.filename = name;
   this.fileContent = content;
   this.fileType = type;
   let callback = (response) => {
@@ -110,7 +110,7 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
  * Resets Google Cloud dialog.
  */
 cwc.ui.GCloud.prototype.clear = function() {
-  this.fileName = '';
+  this.filename = '';
   this.fileContent = '';
   this.fileType = '';
   this.projectId = '';
@@ -314,7 +314,7 @@ cwc.ui.GCloud.prototype.publish = function() {
     method: 'POST',
     params: {
       'uploadType': 'media',
-      'name': this.storagePrefix + this.fileName,
+      'name': this.storagePrefix + this.filename,
     },
     content: this.fileContent,
     header: {
@@ -339,7 +339,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
   };
   accountInstance.request({
     path: '/storage/v1/b/' + this.bucketName + '/o/' + encodeURIComponent(
-        this.storagePrefix + this.fileName),
+        this.storagePrefix + this.filename),
     method: 'PUT',
     params: {
       'predefinedAcl': 'publicRead',

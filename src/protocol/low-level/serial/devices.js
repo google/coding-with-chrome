@@ -238,11 +238,6 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
       }
     }
   }
-
-  let connectionManagerInstance = this.helper.getInstance('connectionManager');
-  if (connectionManagerInstance) {
-    connectionManagerInstance.setSerialDevices(this.devices);
-  }
 };
 
 

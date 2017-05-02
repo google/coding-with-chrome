@@ -72,10 +72,11 @@ cwc.framework.Runner = function(callback = null, scope = null, monitor = null) {
  * Adds the command to the listener.
  * @param {string} name
  * @param {!Function} func
- * @param {?=} opt_scope
+ * @param {?=} scope
  * @export
  */
-cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
+cwc.framework.Runner.prototype.addCommand = function(name, func,
+    scope = this.scope) {
   if (!name) {
     console.error('Runner command is undefined!');
     return;
@@ -83,8 +84,8 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
     console.error('Runner function ' + name + ' is undefined!');
     return;
   }
-  if (opt_scope || this.scope) {
-    this.commands[name] = func.bind(opt_scope || this.scope);
+  if (scope) {
+    this.commands[name] = func.bind(scope);
   } else {
     this.commands[name] = func;
   }
@@ -98,7 +99,7 @@ cwc.framework.Runner.prototype.addCommand = function(name, func, opt_scope) {
  * @export
  */
 cwc.framework.Runner.prototype.enableMonitor = function(code, command,
-  monitor_command) {
+    monitor_command) {
   let status = code.includes(command);
   console.log((status ? 'Enable ' : 'Disable ') + monitor_command + ' ...');
   this.send(monitor_command, {'enable': status});
@@ -109,21 +110,21 @@ cwc.framework.Runner.prototype.enableMonitor = function(code, command,
  * Sends the defined data to the runner.
  * @param {!string} name
  * @param {Object|string=} value
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Runner.prototype.send = function(name, value = {}, opt_delay) {
+cwc.framework.Runner.prototype.send = function(name, value = {}, delay = 0) {
   if (!this.appWindow || !this.appOrigin) {
     console.error('Communication channel has not yet been opened');
     return;
   }
-  if (opt_delay) {
+  if (delay) {
     let stackCall = function() {
       this.appWindow.postMessage({'command': name, 'value': value},
         this.appOrigin);
     }.bind(this);
     this.senderStack_.addCommand(stackCall);
-    this.senderStack_.addDelay(opt_delay);
+    this.senderStack_.addDelay(delay);
   } else {
     this.appWindow.postMessage({'command': name, 'value': value},
       this.appOrigin);
@@ -157,12 +158,12 @@ cwc.framework.Runner.prototype.setMonitor = function(monitor) {
 
 /**
  * Sends the direct update confirmation to the runner..
- * @param {string=} opt_data
+ * @param {string=} data
  * @export
  */
-cwc.framework.Runner.prototype.enableDirectUpdate = function(opt_data) {
+cwc.framework.Runner.prototype.enableDirectUpdate = function(data = '') {
   console.log('Enable direct update.');
-  this.send('__direct_update__', opt_data);
+  this.send('__direct_update__', data);
 };
 
 

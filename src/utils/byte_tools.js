@@ -113,13 +113,13 @@ cwc.utils.ByteTools.uint8Data;
 
 /**
  * @param {ArrayBuffer|Uint8Array} data
- * @param {Array=} opt_headers
- * @param {number=} opt_size
- * @param {ArrayBuffer|Uint8Array=} opt_buffer
+ * @param {Array=} dataHeaders
+ * @param {number=} size
+ * @param {ArrayBuffer|Uint8Array=} optBuffer
  * @return {cwc.utils.ByteTools.uint8Data} result
  */
 cwc.utils.ByteTools.getUint8Data = function(data,
-    opt_headers, opt_size, opt_buffer) {
+    dataHeaders = null, size = 0, optBuffer) {
   let buffer = null;
   let dataView = null;
   let parsedData = [];
@@ -134,18 +134,18 @@ cwc.utils.ByteTools.getUint8Data = function(data,
     }
 
     // Additional length checks if needed.
-    if (opt_size) {
+    if (size) {
       // Perpend buffer if needed.
-      if (opt_buffer && dataView.length < opt_size) {
-        if (opt_buffer instanceof ArrayBuffer) {
-          buffer = new Uint8Array(opt_buffer);
+      if (optBuffer && dataView.length < size) {
+        if (optBuffer instanceof ArrayBuffer) {
+          buffer = new Uint8Array(optBuffer);
         } else {
-          buffer = opt_buffer;
+          buffer = optBuffer;
         }
         dataView = cwc.utils.ByteTools.joinUint8Array(buffer, dataView);
       }
 
-      if (dataView.length < opt_size) {
+      if (dataView.length < size) {
         buffer = dataView;
         validData = false;
       }
@@ -153,16 +153,16 @@ cwc.utils.ByteTools.getUint8Data = function(data,
 
     // Data processing for data with headers.
     if (validData) {
-      if (opt_headers) {
+      if (dataHeaders) {
         let headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
-          opt_headers);
+          dataHeaders);
         if (headers) {
           let headersLength = headers.length;
           for (let headerPos = 0; headerPos < headersLength; headerPos++) {
             let dataFragment = dataView.slice(
               headers[headerPos], headers[headerPos+1]);
             if (dataFragment.length) {
-              if (!opt_size || (opt_size && dataFragment.length >= opt_size)) {
+              if (!size || (size && dataFragment.length >= size)) {
                 parsedData.push(dataFragment);
               } else {
                 buffer = dataFragment;

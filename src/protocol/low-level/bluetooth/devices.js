@@ -339,11 +339,6 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
   if (menubarInstance) {
     menubarInstance.setBluetoothConnected(deviceConnected);
   }
-
-  let connectionManagerInstance = this.helper.getInstance('connectionManager');
-  if (connectionManagerInstance) {
-    connectionManagerInstance.setBluetoothDevices(this.devices);
-  }
 };
 
 
