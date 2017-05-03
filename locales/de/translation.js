@@ -143,7 +143,7 @@ Locales['de'] = {
   'Switch to Editor': 'Wechsel zum Editor',
   'Switch to the Blocky editor mode': 'Wechseln zum Blocky-Editor-Modus',
   'Switch to the raw code editor view': 'Wechsel zum unverarbeitetn Programmeditor',
-  'Swtich game state': 'Wechsel denn Spiel Zustand',
+  'Switch game state': 'Wechsel denn Spiel Zustand',
   'Text Object': 'Text Objekt',
   'Text loop': 'Text Schleife',
   'Text': 'Text',
