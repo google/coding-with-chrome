@@ -27,7 +27,7 @@ goog.provide('cwc.config.GDrive');
  * @enum {!Object.<string>|string|array}
  */
 cwc.config.GDrive = {
-  PAGE_SIZE: 200,
+  PAGE_SIZE: 250,
   ORDER_BY: 'folder,modifiedTime desc,name',
   FILE_FIELDS: 'files(id,mimeType,parents,iconLink,modifiedTime,name,owners)',
   FOLDER_MIME_TYPE: 'application/vnd.google-apps.folder',
@@ -36,7 +36,11 @@ cwc.config.GDrive = {
     'html': 'text/html',
     'cwc': 'application/cwc',
   },
-  MIME_TYPES: [],
+  MIME_TYPES: [
+    'text/python',
+    'text/html',
+    'application/cwc',
+  ],
   ACCEPTED_MIME_TYPE_QUERY: '(' +
     'mimeType = \'text/python\' or ' +
     'mimeType = \'text/html\' or ' +

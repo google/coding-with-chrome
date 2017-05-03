@@ -132,18 +132,6 @@ cwc.ui.GDrive.prototype.showLibrary = function() {
 
 
 /**
- * Fetches all related files from Google drive.
- */
-cwc.ui.GDrive.prototype.getFile = function() {
-  let fileEvent = this.handleFileList.bind(this);
-  this.getFiles_({
-    'pageSize': cwc.config.GDrive.PAGE_SIZE,
-    'q': 'mimeType = \'' + this.mimeType + '\'',
-  }, fileEvent);
-};
-
-
-/**
  * Displays a Google Drive open dialog.
  */
 cwc.ui.GDrive.prototype.openDialog = function() {
@@ -181,16 +169,33 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
 };
 
 
-/*
- * Navigate down a sub-folder in the Google Drive file browser.
+/**
+ * Fetches all related files from Google drive.
  */
-cwc.ui.GDrive.prototype.getSubFolder = function(file, trashed) {
-  this.saveFileParentId = file['id'];
-  this.parents.push({name: file['name'], id: file['id']});
+cwc.ui.GDrive.prototype.getFile = function() {
+  let fileEvent = this.handleFileList.bind(this);
+  this.getFiles_({
+    'pageSize': cwc.config.GDrive.PAGE_SIZE,
+    'q': 'mimeType = \'' + this.mimeType + '\'',
+  }, fileEvent);
+};
+
+
+/**
+ * Navigate down a sub-folder in the Google Drive file browser.
+ * @param {!string} file
+ * @param {boolean=} trashed
+ */
+cwc.ui.GDrive.prototype.getFolder = function(file, trashed = false) {
+  let name = file['name'];
+  let id = file ['id'];
+  console.log('Navigate to', name, 'folder');
+  this.saveFileParentId = id;
+  this.parents.push({name: name, id: id});
   let fileEvent = this.handleFileList.bind(this);
   let query = cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY + ' and \'' + (
-    file['id'] + '\' in parents');
-  if (typeof trashed === 'boolean') {
+    id + '\' in parents');
+  if (trashed) {
     query += ' and trashed = ' + trashed;
   }
   this.getFiles_({
@@ -227,8 +232,7 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
-       ' and sharedWithMe = true and ' +
-       'trashed = false'),
+       ' and sharedWithMe = true and trashed = false'),
   }, fileEvent);
 };
 
@@ -246,8 +250,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
     'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
-      ' and starred = true and ' +
-      'trashed = false'),
+      ' and starred = true and trashed = false'),
   }, fileEvent);
 };
 
@@ -285,8 +288,7 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
     'orderBy': cwc.config.GDrive.ORDER_BY,
     'fields': cwc.config.GDrive.FILE_FIELDS,
-    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY +
-      ' and trashed = true'),
+    'q': (cwc.config.GDrive.ACCEPTED_MIME_TYPE_QUERY + ' and trashed = true'),
   }, fileEvent);
 };
 
@@ -297,15 +299,14 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
  * @param {goog.ui.Dialog} dialog Contains file browser to update file list on.
  */
 cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
-  let fileList = goog.dom.getElement(this.prefix + 'filelist');
+  let fileList = goog.dom.getElement(this.prefix + 'file_list');
   goog.soy.renderElement(
     fileList,
     cwc.soy.GDrive.gDriveFileList,
     {prefix: this.prefix, files: files}
   );
 
-  let fileParents = goog.dom.getElement(this.prefix + 'fileparents');
-  console.log('this.parents: ' + JSON.stringify(this.parents));
+  let fileParents = goog.dom.getElement(this.prefix + 'file_parents');
   goog.soy.renderElement(
     fileParents,
     cwc.soy.GDrive.gDriveParentFolders,
@@ -313,9 +314,9 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
   );
 
   let elements = goog.dom.getElementsByClass('gdrive-loader');
-  for (let i2 = 0; i2 < elements.length; ++i2) {
+  for (let i = 0; i < elements.length; ++i) {
     (function() {
-      let element = elements[i2];
+      let element = elements[i];
       let loaderEvent = function() {
         let fileId = goog.dom.dataset.get(element, 'id');
         let file = this.data[fileId];
@@ -323,7 +324,9 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
           dialog.setVisible(false);
           this.downloadFile(file);
         } else if (file['mimeType'] === cwc.config.GDrive.FOLDER_MIME_TYPE) {
-          this.getSubFolder(file, false);
+          this.getFolder(file, false);
+        } else {
+          console.error('Unsupported file', file);
         }
       };
       goog.events.listen(element, goog.events.EventType.CLICK,
@@ -332,25 +335,25 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
   }
 
   elements = goog.dom.getElementsByClass('cwc-gdrive-parentfolder');
-  for (let i2 = 0; i2 < elements.length; ++i2) {
+  for (let i = 0; i < elements.length; ++i) {
     (function() {
-      let element = elements[i2];
+      let element = elements[i];
       let loaderEvent = function(e) {
         let folderId = e.target.getAttribute('data-gdrive-id');
         let currentParent = null;
         console.log('click file:', JSON.stringify(folderId),
             'parents:', JSON.stringify(this.parents));
-        for (let i = this.parents.length - 1; i >= 0; i--) {
-          currentParent = this.parents[i];
-          this.parents.splice(i, 1);
-          if (currentParent.id === folderId || i === 0) {
+        for (let i2 = this.parents.length - 1; i2 >= 0; i2--) {
+          currentParent = this.parents[i2];
+          this.parents.splice(i2, 1);
+          if (currentParent.id === folderId || i2 === 0) {
             break;
           }
         }
         if (currentParent.callback) {
           currentParent.callback();
         } else {
-          this.getSubFolder(
+          this.getFolder(
               {'id': currentParent.id, 'name': currentParent.name},
               false);
         }
@@ -407,7 +410,7 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
  * @param {Object} files Filelist with the result of the search.
  */
 cwc.ui.GDrive.prototype.renderDialog = function(files) {
-  let fileList = goog.dom.getElement(this.prefix + 'filelist');
+  let fileList = goog.dom.getElement(this.prefix + 'file_list');
   if (!fileList) {
     this.currentDialog = this.prepareDialog();
   }
@@ -535,22 +538,6 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
         'alt': 'media',
       },
     }, loadEvent.bind(this));
-  }
-};
-
-
-/**
- * @param {Object} file The file instance.
- * @param {string} content The file content.
- */
-cwc.ui.GDrive.prototype.loadFileContent = function(file, content) {
-  let fileLoaderInstance = this.helper.getInstance('fileLoader');
-  if (content) {
-    console.log('Load file content...');
-    console.log(content);
-    fileLoaderInstance.handleFileData(content, file['name'], null, file['id']);
-  } else {
-    this.helper.showWarn('Unable to open file ' + file['name'] + ' !');
   }
 };
 

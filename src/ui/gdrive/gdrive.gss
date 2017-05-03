@@ -53,30 +53,30 @@
   height: 450px;
 }
 
-#{$prefix}gdrive-filelist {
+#{$prefix}gdrive-file_list {
   position: relative;
   min-width: 750px;
   height: 350px;
   overflow: scroll;
 }
 
-#{$prefix}gdrive-filelist td {
+#{$prefix}gdrive-file_list td {
   border-bottom: 1px solid #EBEBEB;
 }
 
-#{$prefix}gdrive-filelist thead {
+#{$prefix}gdrive-file_list thead {
   background: #fff;
 }
 
-#{$prefix}gdrive-filelist tr {
+#{$prefix}gdrive-file_list tr {
   padding-top: 20px;
 }
 
-#{$prefix}gdrive-filelist tr:hover td {
+#{$prefix}gdrive-file_list tr:hover td {
   background: #ffffcc;
 }
 
-#{$prefix}gdrive-filelist tr td webview {
+#{$prefix}gdrive-file_list tr td webview {
   width: 16px;
   height: 16px;
 }

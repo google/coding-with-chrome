@@ -97,80 +97,78 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 
 /**
- * @param {!string} file_name
+ * @param {!string} filename
  * @export
  */
-cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(
-    file_name) {
-  console.log('Getting example file:', file_name);
+cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
+  console.log('Getting example file:', filename);
   let fileLoaderHandler = this.loadExampleFileData.bind(this);
-  this.getResourceFile('examples/' + file_name, fileLoaderHandler);
+  this.getResourceFile('examples/' + filename, fileLoaderHandler);
 };
 
 
 /**
- * @param {!string} file_name
+ * @param {!string} filename
  * @param {!string} content
  * @export
  */
-cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(
-    file_name, content) {
-  console.log('Loading example file:', file_name);
-  this.handleFileData(content, file_name, null, null, true);
+cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
+    content) {
+  console.log('Loading example file:', filename);
+  this.handleFileData(content, filename, null, null, true);
 };
 
 
 /**
  * @param {!string} id
- * @param {!string} file_name
+ * @param {!string} filename
  * @param {!string} content
  * @export
  */
 cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
-    file_name, content) {
+    filename, content) {
   console.log(content);
-  this.handleFileData(content, file_name, null, id);
+  this.handleFileData(content, filename, null, id);
 };
 
 
 /**
  * Handles the file data and sets the file instance accordingly.
  * @param {!string|Object} content
- * @param {string=} opt_file_name
- * @param {Object=} opt_file_handler
- * @param {string=} opt_gdrive_id
- * @param {boolean=} opt_example
+ * @param {string=} filename
+ * @param {Object=} fileHandler
+ * @param {string=} gDriveId
+ * @param {boolean=} example
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
-    opt_file_name, opt_file_handler, opt_gdrive_id, opt_example) {
+    filename = '', fileHandler = null, gDriveId = null, example = false) {
   console.log('Handle file data:', content);
   let fileInstance = this.helper.getInstance('file', true);
   let modeInstance = this.helper.getInstance('mode', true);
-  let fileType = cwc.file.detector.detectType(content, opt_file_name);
+  let fileType = cwc.file.detector.detectType(content, filename);
   console.log('Filetype:', fileType);
   let fileConfig = cwc.fileHandler.Config.get(fileType, true);
   console.log('FileConfig:', fileConfig);
   let file = new fileConfig.file(
-    content, fileType, fileConfig.contentType, opt_file_name);
+    content, fileType, fileConfig.contentType, filename);
 
   // If file was not loaded locally or from Google Drive, load default content.
-  if (fileConfig.content && !opt_file_handler && !opt_gdrive_id &&
-      !opt_example) {
+  if (fileConfig.content && !fileHandler && !gDriveId && !example) {
     console.log('Loading default content.');
     file = new fileConfig.file(fileConfig.content, fileType,
         fileConfig.contentType);
   }
-  console.log('File:', file, '(', opt_file_name, ')');
+  console.log('File:', file, '(', filename, ')');
   console.log('Content Length:', content.length);
 
   fileInstance.setFile(file);
-  if (opt_file_handler) {
-    if (opt_file_handler.name) {
-      fileInstance.setFileName(opt_file_handler.name);
+  if (fileHandler) {
+    if (fileHandler.name) {
+      fileInstance.setFileName(fileHandler.name);
     }
-    fileInstance.setFileHandler(opt_file_handler);
-  } else if (opt_gdrive_id) {
-    fileInstance.setGDriveId(opt_gdrive_id);
+    fileInstance.setFileHandler(fileHandler);
+  } else if (gDriveId) {
+    fileInstance.setGDriveId(gDriveId);
   }
 
   // Clear Google Cloud publish settings.
@@ -254,7 +252,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
       modeInstance.showEditor();
     }
   }
-  this.helper.showSuccess('Loaded file ' + opt_file_name + ' successful.');
+  this.helper.showSuccess('Loaded file ' + filename + ' successful.');
 };
 
 
