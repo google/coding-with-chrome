@@ -108,6 +108,19 @@ cwc.protocol.raspberryPi.Api.prototype.disconnect = function() {
 
 
 /**
+ * Resets the Raspberry Pi.
+ */
+cwc.protocol.raspberryPi.Api.prototype.reset = function() {
+  if (!this.connected) {
+    console.warn('Raspberry Pi is not connected, no need to reset!');
+    return;
+  }
+  console.log('Reset RaspberryPi device', this.device);
+  this.device.reset();
+};
+
+
+/**
  * @return {boolean}
  */
 cwc.protocol.raspberryPi.Api.prototype.isConnected = function() {

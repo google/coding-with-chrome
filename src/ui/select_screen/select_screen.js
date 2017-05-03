@@ -181,10 +181,6 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   this.setClickEvent_('link-normal-mode', this.showNormalOverview);
   this.setClickEvent_('link-advanced-mode', this.showAdvancedOverview);
 
-  if (this.helper.checkFeature('online')) {
-    this.setClickEvent_('link-intro', this.showIntro);
-  }
-
   if (this.helper.getAndSetFirstRun(this.name)) {
     // this.startTour();
   }
@@ -356,17 +352,16 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
  * Adds the click event for the given name and the given function.
  * @param {!string} name
  * @param {!function()} event
- * @param {string=} opt_prefix
+ * @param {string=} prefix
  * @return {goog.events.ListenableKey|null|number}
  */
 cwc.ui.SelectScreen.prototype.setClickEvent_ = function(name, event,
-    opt_prefix) {
-  let prefix = opt_prefix || this.prefix;
+    prefix = this.prefix) {
   let elementName = prefix + name;
   let element = goog.dom.getElement(elementName);
   if (!element) {
     console.error('Was not able to find element ' + elementName + '!');
-    return;
+    return null;
   }
 
   return goog.events.listen(element, goog.events.EventType.CLICK,

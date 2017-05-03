@@ -206,6 +206,16 @@ cwc.protocol.serial.Device.prototype.disconnect = function(opt_force,
 
 
 /**
+ * @export
+ */
+cwc.protocol.serial.Device.prototype.reset = function() {
+  if (this.connectionId) {
+    this.serial.flush(this.connectionId);
+  }
+};
+
+
+/**
  * @param {!ArrayBuffer|Uint8Array} data
  * @export
  */
@@ -273,7 +283,7 @@ cwc.protocol.serial.Device.prototype.handleDisconnect_ = function(result) {
       this.disconnectEvent(this.path, this.connectionId);
     }
     if (goog.isFunction(this.disconnectCallback)) {
-      this.disconnectCallback(this.path, this.disconnectionId);
+      this.disconnectCallback(this.path, this.connectionId);
       this.disconnectCallback = null;
     }
     console.log('Disconnected from serial connection id', this.connectionId);

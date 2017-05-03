@@ -41,17 +41,17 @@ CodeMirror.Doc.prototype.getValue = function() {};
 /** @type {Function} */
 CodeMirror.Doc.prototype.historySize = function() {};
 
-/** @type {Function} */
-CodeMirror.fold = function() {};
+/** @type {Object} */
+CodeMirror.fold = {};
 
 /** @type {Function} */
-CodeMirror.fold.prototype.combine = function() {};
+CodeMirror.fold.combine = function() {};
 
 /** @type {Function} */
-CodeMirror.fold.prototype.brace = function() {};
+CodeMirror.fold.brace = function() {};
 
 /** @type {Function} */
-CodeMirror.fold.prototype.comment = function() {};
+CodeMirror.fold.comment = function() {};
 
 /** @type {Function} */
 CodeMirror.prototype.setOption = function() {};

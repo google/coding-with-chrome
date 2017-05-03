@@ -42,12 +42,11 @@ goog.require('goog.events.EventTarget');
  *   cwc.fileHandler.FileSaver|
  *   cwc.mode.Modder|
  *   cwc.protocol.arduino.Api|
- *   cwc.protocol.serial.Api|
  *   cwc.protocol.bluetooth.Api|
  *   cwc.protocol.ev3.Api|
+ *   cwc.protocol.serial.Api|
  *   cwc.renderer.Renderer|
  *   cwc.ui.Blockly|
- *   cwc.ui.ConnectScreen|
  *   cwc.ui.Debug|
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|

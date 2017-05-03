@@ -304,7 +304,7 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
  *     opt_colorOrManipulation Either a string of the color of the point or a
  *     hash of options for additional manipulation.
- * @param {string=} font The font face and size to use e.g. "48px serif"
+ * @param {string} font The font face and size to use e.g. "48px serif"
  * @param {boolean=} opt_stroke Whenever to use the stroke style.
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
@@ -380,7 +380,7 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
  *     opt_colorOrManipulation Either a string of the color of the point or a
  *     hash of options for additional manipulation.
- * @param {number=} size The size of the point e.g. 2 for a 2x2 point.
+ * @param {number} size The size of the point e.g. 2 for a 2x2 point.
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export

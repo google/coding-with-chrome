@@ -120,7 +120,7 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {goog.async.Throttle} */
   this.runThrottle_ = new goog.async.Throttle(
-    this.run_.bind(this), this.syncThrottleTime_);
+    this.run_.bind(this), this.runThrottleTime_);
 
   /** @private {!boolean} */
   this.skipAutoUpdate_ = true;

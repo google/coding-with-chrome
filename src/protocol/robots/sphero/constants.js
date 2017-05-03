@@ -69,7 +69,7 @@ cwc.protocol.sphero.Command = {
 
 /**
  * Type of command.
- * @enum {number}
+ * @enum {!Object.<number>|number}
  */
 cwc.protocol.sphero.CommandType = {
   DIRECT: {

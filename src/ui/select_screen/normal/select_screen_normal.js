@@ -41,6 +41,7 @@ cwc.ui.SelectScreenNormalView = {
   OVERVIEW: 'overview',
   ROBOT: 'robotOverview',
   SPHERO: 'spheroOverview',
+  NONE: '',
 };
 
 
@@ -62,8 +63,8 @@ cwc.ui.SelectScreenNormal = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {cwc.ui.SelectScreenNormalView} */
-  this.currentView = null;
+  /** @type {!cwc.ui.SelectScreenNormalView} */
+  this.currentView = cwc.ui.SelectScreenNormalView.NONE;
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
@@ -282,7 +283,7 @@ cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
 
 
 /**
- * @param {!cwc.soy.SelectScreenNormal} template
+ * @param {!Function} template
  */
 cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
   let modules = {};

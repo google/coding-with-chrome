@@ -73,7 +73,6 @@ cwc.ui.RunnerToolbar = function(helper) {
 
 /**
  * @param {!Element} node
- * @param {string=} opt_prefix
  */
 cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
   this.node = node;

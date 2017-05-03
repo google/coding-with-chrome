@@ -51,8 +51,8 @@ cwc.runner.profile.ev3.Command.prototype.playSound = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Command.prototype.showImage = function(data) {
-  this.api.showImage(data['file'], data['delay']);
+cwc.runner.profile.ev3.Command.prototype.drawImage = function(data) {
+  this.api.drawImage(data['file'], data['delay']);
 };
 
 

@@ -207,14 +207,6 @@ cwc.protocol.sphero.Api.prototype.getEventHandler = function() {
 
 
 /**
- * @return {goog.events.EventTarget}
- */
-cwc.protocol.sphero.Api.prototype.getLocationData = function() {
-  return this.locationData;
-};
-
-
-/**
  *
  */
 cwc.protocol.sphero.Api.prototype.setColisionDetection = function() {
@@ -416,14 +408,14 @@ cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
       cwc.protocol.sphero.Events.locationData({x: xpos, y: ypos}));
   }
 
-  if (xvel != this.locationVelX || yvel != this.locationVelY) {
+  if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
     this.locationVelX_ = xvel;
     this.locationVelY_ = yvel;
     this.eventHandler.dispatchEvent(
       cwc.protocol.sphero.Events.velocityData({x: xvel, y: yvel}));
   }
 
-  if (speed != this.locationSpeed) {
+  if (speed != this.locationSpeed_) {
     this.locationSpeed_ = speed;
     this.eventHandler.dispatchEvent(
       cwc.protocol.sphero.Events.speedValue(speed));
@@ -460,7 +452,7 @@ cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
 
 /**
  * Handles received data and callbacks from the Bluetooth socket.
- * @param {ArrayBuffer} buffer
+ * @param {Array} buffer
  * @private
  */
 cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
@@ -486,7 +478,7 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
 
 /**
  * Handles async packets from the Bluetooth socket.
- * @param {ArrayBuffer} buffer
+ * @param {Array} buffer
  * @private
  */
 cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
@@ -508,7 +500,7 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
 
 
 /**
- * @param {!ArrayBuffer} buffer
+ * @param {!Array} buffer
  * @param {Number=} opt_checksum
  * @return {!boolean}
  * @private

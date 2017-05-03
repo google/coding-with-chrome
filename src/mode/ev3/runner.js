@@ -140,7 +140,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // EV3 Unit Commands
   this.runner.addCommand('playSound', this.command.playSound, this);
   this.runner.addCommand('playTone', this.command.playTone, this);
-  this.runner.addCommand('showImage', this.command.showImage, this);
+  this.runner.addCommand('drawImage', this.command.drawImage, this);
 
   // Direct commands
   this.runner.addCommand('movePower', this.command.movePower, this);

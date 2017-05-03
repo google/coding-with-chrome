@@ -111,7 +111,7 @@ cwc.ui.Runner = function(helper) {
   /** @type {Element} */
   this.nodeMonitor = null;
 
-  /** @type {Object} */
+  /** @type {Node} */
   this.content = null;
 
   /** @type {Object} */
@@ -123,25 +123,25 @@ cwc.ui.Runner = function(helper) {
   /** @type {!string} */
   this.overlayTemplatePrefix = '';
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateConnect = cwc.soy.Runner.connect;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateDisconnect = cwc.soy.Runner.disconnect;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templatePrepare = cwc.soy.Runner.prepare;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateRun = cwc.soy.Runner.run;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateStop = cwc.soy.Runner.stop;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateTerminate = cwc.soy.Runner.terminate;
 
-  /** @type {!Object} */
+  /** @type {!Function} */
   this.templateReload = cwc.soy.Runner.reload;
 
   /** @type {Object} */

@@ -96,6 +96,9 @@ chrome.bluetoothSocket.create = function() {};
 chrome.bluetoothSocket.disconnect = function() {};
 
 /** @type {Function} */
+chrome.bluetoothSocket.setPaused = function() {};
+
+/** @type {Function} */
 chrome.bluetoothSocket.getInfo = function() {};
 
 /** @type {Function} */

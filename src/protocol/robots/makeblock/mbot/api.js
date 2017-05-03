@@ -347,7 +347,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.intBitsToFloat_ = function(num) {
 
 /**
  * Handles async packets from the Bluetooth socket.
- * @param {ArrayBuffer} buffer
+ * @param {Array} buffer
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
@@ -375,7 +375,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleAsync_ = function(buffer) {
 /**
  * Handles the different type of sensor data.
  * @param {!cwc.protocol.makeblock.mbot.IndexType} index_type
- * @param {ArrayBuffer} data
+ * @param {Array} data
  * @param {number=} opt_data_size
  * @private
  */

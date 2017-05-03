@@ -79,7 +79,7 @@ cwc.mode.raspberryPi.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api.stop();
+  this.reset();
 };
 
 

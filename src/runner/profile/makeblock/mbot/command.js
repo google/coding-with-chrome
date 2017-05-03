@@ -55,20 +55,16 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.rotatePower = function(
 
 /**
  * wait for a certain second
- * @param {Object=} opt_data
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.wait = function(
-    opt_data) {};
+cwc.runner.profile.makeblock.mbot.Command.prototype.wait = function() {};
 
 
 /**
- * stop the mbot completely
- * @param {Object=} opt_data
+ * Stops the mBot completely
  * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.stop = function(opt_data) {
-  this.api.setLeftMotor(0);
-  this.api.setRightMotor(0);
+cwc.runner.profile.makeblock.mbot.Command.prototype.stop = function() {
+  this.api.stop();
 };
 
 
@@ -89,26 +85,4 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.setLEDColor = function(
  */
 cwc.runner.profile.makeblock.mbot.Command.prototype.playTone = function(data) {
   this.api.playTone(data['frequency'], data['duration']);
-};
-
-
-/**
- * return ultrasonic value from mbot
- * @return {number} sensor value
- * @export
- */
-cwc.runner.profile.makeblock.mbot.Command.prototype.ultrasonicValue = function(
-) {
-  return this.api.ultrasonicValue();
-};
-
-
-/**
- * return lightness sensor value from mbot
- * @return {number} sensor value
- * @export
- */
-cwc.runner.profile.makeblock.mbot.Command.prototype.lightSensorValue = function(
-) {
-  return this.api.lightSensorValue();
 };

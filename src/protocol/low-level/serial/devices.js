@@ -225,10 +225,10 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
 
         if (vendorId in supportedDevices &&
             productId in supportedDevices[vendorId]) {
-          device.setDisplayName(supportedDevices[vendorId][productId]['name']);
+          device.setName(supportedDevices[vendorId][productId]['name']);
           device.setSupported(true);
         } else if (devicePath in supportedPaths) {
-          device.setDisplayName(supportedPaths[devicePath]['name']);
+          device.setName(supportedPaths[devicePath]['name']);
           device.setSupported(true);
         }
 

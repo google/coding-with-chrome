@@ -419,7 +419,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
 
 /**
  * Handles async packets from the Bluetooth socket.
- * @param {ArrayBuffer} buffer
+ * @param {Array} buffer
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
@@ -449,7 +449,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
 /**
  * Handles the different type of sensor data.
  * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index_type
- * @param {ArrayBuffer} data
+ * @param {Array} data
  * @param {number=} opt_data_size
  * @private
  */

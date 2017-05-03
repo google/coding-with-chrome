@@ -333,8 +333,8 @@ cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.showImage = function(file_name, opt_delay) {
-  this.runner.send('showImage', {'file': file_name}, opt_delay);
+cwc.framework.Ev3.prototype.drawImage = function(file_name, opt_delay) {
+  this.runner.send('drawImage', {'file': file_name}, opt_delay);
 };
 
 

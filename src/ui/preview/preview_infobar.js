@@ -156,7 +156,7 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   }, false, this);
 
   goog.events.listen(this.nodeWarn, goog.events.EventType.CLICK, function() {
-    if (this.warmNum > 0) {
+    if (this.warnNum > 0) {
       this.toggleConsole();
     }
   }, false, this);

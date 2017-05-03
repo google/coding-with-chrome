@@ -47,6 +47,7 @@ cwc.ui.SelectScreenAdvancedView = {
   PYTHON: 'pythonOverview',
   ROBOT: 'robotOverview',
   SPHERO: 'spheroOverview',
+  NONE: '',
 };
 
 
@@ -68,8 +69,8 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {cwc.ui.SelectScreenAdvancedView} */
-  this.currentView = null;
+  /** @type {!cwc.ui.SelectScreenAdvancedView} */
+  this.currentView = cwc.ui.SelectScreenAdvancedView.NONE;
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
@@ -339,7 +340,7 @@ cwc.ui.SelectScreenAdvanced.prototype.addRobotMenuHandler_ = function() {
 
 
 /**
- * @param {!cwc.soy.SelectScreenAdvanced} template
+ * @param {!Function} template
  * @private
  */
 cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {

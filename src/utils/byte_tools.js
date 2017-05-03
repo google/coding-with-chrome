@@ -48,17 +48,6 @@ cwc.utils.ByteTools.bytesToInt32 = function(data) {
 
 
 /**
- * @param {ArrayBuffer} data
- * @return {number}
- */
-cwc.utils.ByteTools.Int32ToBytes = function(data) {
-  let view = new DataView(data);
-  view.setUint32(0);
-  return data;
-};
-
-
-/**
   * @param {!ArrayBuffer|Array} data1
   * @param {!ArrayBuffer|Array} data2
   * @return {!boolean}

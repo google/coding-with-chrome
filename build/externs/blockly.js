@@ -187,12 +187,6 @@ Blockly.Variables.createVariable = function(workspace, opt_callback) {};
 /** @constructor */
 Blockly.Workspace = function() {};
 
-/**
- * @param {!string} name
- * @param {!Function} callback
- */
-Blockly.Workspace.registerButtonCallback = function(name, callback) {};
-
 /** @type {Object} */
 Blockly.Workspace.options = {};
 
@@ -234,6 +228,13 @@ Blockly.Workspace.prototype.updateToolbox = function(tree) {};
 Blockly.Workspace.prototype.addChangeListener = function(func) {};
 
 /**
+ * @param {!string} name
+ * @param {!Function} callback
+ */
+Blockly.Workspace.prototype.registerButtonCallback = function(
+  name, callback) {};
+
+/**
  * @param {boolean} redo False if undo, true if redo.
  */
 Blockly.Workspace.prototype.undo = function(redo) {};
@@ -262,3 +263,9 @@ Blockly.BlockDragSurfaceSvg = function(container) {};
  * @constructor
  */
 Blockly.workspaceDragSurfaceSvg = function(container) {};
+
+/** @type {Object} */
+Blockly.Toolbox = {};
+
+/** @constructor */
+Blockly.Toolbox.TreeControl = function() {};

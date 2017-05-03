@@ -186,9 +186,6 @@ cwc.mode.ev3.Monitor.prototype.updateRobotType = function(type) {
  */
 cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
   console.log('Clean up EV3 monitor ...');
-  if (this.timerMonitor) {
-    this.timerMonitor.stop();
-  }
   this.helper.removeEventListeners(this.listener, this.name);
 };
 
