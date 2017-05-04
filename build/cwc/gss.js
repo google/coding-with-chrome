@@ -22,13 +22,26 @@ let glob = closureBuilder.globSupport();
 
 
 /**
- * Coding with Chrome Closure Stylesheets files
+ * Coding with Chrome Closure Style Sheets files
  */
 closureBuilder.build({
-  name: 'CwC Closure Stylesheets files',
+  name: 'CwC Closure Style Sheets files',
   prefix: 'cwc-',
   srcs: glob([
     'src/**/*.gss',
   ]),
   out: 'genfiles/css/editor.css',
+});
+
+
+/**
+ * Dialog Closure Style Sheets files
+ */
+closureBuilder.build({
+  name: 'CwC dialog Style Sheet',
+  prefix: 'cwc-dialog-',
+  srcs: glob([
+    'src/utils/dialog/dialog.gss',
+  ]),
+  out: 'genfiles/css/dialog.css',
 });

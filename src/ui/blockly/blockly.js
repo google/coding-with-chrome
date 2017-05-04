@@ -62,7 +62,7 @@ cwc.ui.Blockly = function(helper) {
   this.nodeEditor = null;
 
   /** @private {Element} */
-  this.nodeBlocklyToolbox_ = null;
+  this.nodeToolbox_ = null;
 
   /** @type {string} */
   this.mediaFiles = '../external/blockly/';
@@ -109,7 +109,7 @@ cwc.ui.Blockly = function(helper) {
   /** @private {Object} */
   this.options_ = {
     'path': this.mediaFiles,
-    'toolbox': this.nodeBlocklyToolbox_ || '<xml><category><\/category><\/xml>',
+    'toolbox': '<xml><category><\/category><\/xml>',
     'trashcan': true,
     'grid': {
       'spacing': 20,
@@ -186,6 +186,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   // Blockly Toolbox
   if (this.toolboxTemplate) {
     this.updateToolboxTemplate();
+  } else if (this.nodeToolbox_) {
+    this.updateToolbox();
   } else {
     this.adjustSize();
   }
@@ -521,7 +523,7 @@ cwc.ui.Blockly.prototype.updateMediaButton = function(hasFiles) {
  * @param {!Element} toolbox
  */
 cwc.ui.Blockly.prototype.setToolbox = function(toolbox) {
-  this.nodeBlocklyToolbox_ = toolbox;
+  this.nodeToolbox_ = toolbox;
 };
 
 
@@ -530,7 +532,7 @@ cwc.ui.Blockly.prototype.setToolbox = function(toolbox) {
  * @param {Element=} toolbox
  */
 cwc.ui.Blockly.prototype.updateToolbox = function(
-    toolbox = this.nodeBlocklyToolbox_) {
+    toolbox = this.nodeToolbox_) {
   let workspace = this.getWorkspace();
   if (workspace) {
     workspace.updateToolbox(toolbox);

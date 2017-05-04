@@ -104,17 +104,17 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(opt_body, opt_header,
  * @param {string=} opt_header
  * @param {string=} opt_css
  * @param {string=} opt_javascript
- * @param {string=} opt_canvas
+ * @param {string=} canvas
  * @return {!string}
  */
 cwc.renderer.Helper.prototype.getHTMLCanvas = function(opt_body, opt_header,
-    opt_css, opt_javascript, opt_canvas) {
+    opt_css, opt_javascript, canvas = 'canvas-chrome') {
   return cwc.soy.Renderer.html({
     body: this.sanitizedHtml_(opt_body),
     head: this.sanitizedHtml_(opt_header),
     css: this.sanitizedCss_(opt_css),
     js: this.sanitizedJs_(opt_javascript),
-    canvas: opt_canvas || 'canvas-chrome',
+    canvas: canvas,
   });
 };
 
@@ -147,18 +147,18 @@ cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
 
 /**
  * @param {!string} data_url
- * @param {number=} opt_width
- * @param {number=} opt_height
+ * @param {number=} width
+ * @param {number=} height
  * @return {string} Rendered content as object.
  * @export
  */
 cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
-    opt_width, opt_height) {
+    width = 400, height = 400) {
   return cwc.soy.Renderer.objectTemplate({
     data_url: this.sanitizedUri_(data_url),
     type: 'text/html',
-    width: opt_width || 400,
-    height: opt_height || 400,
+    width: width,
+    height: height,
   });
 };
 
@@ -166,23 +166,21 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
 /**
  * Returns data encoded content.
  * @param {!string} content
- * @param {string=} optType
+ * @param {string=} type
  * @return {!string}
  * @export
  */
 cwc.renderer.Helper.prototype.getDataUrl = function(content,
-    optType) {
+    type = 'text/html') {
   if (goog.isString(content) && goog.string.startsWith(content, 'data:')) {
     return content;
   }
 
   let dataUrl = '';
-  let dataType = optType || 'text/html';
-
   try {
-    dataUrl = 'data:' + dataType + ';base64,' + btoa(content);
+    dataUrl = 'data:' + type + ';base64,' + btoa(content);
   } catch (err) {
-    dataUrl = 'data:' + dataType + ';charset=utf-8,' +
+    dataUrl = 'data:' + type + ';charset=utf-8,' +
       encodeURIComponent(content);
   }
 
@@ -203,28 +201,26 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
 
 /**
  * @param {!string} url
- * @param {string=} opt_filename
+ * @param {string=} filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url, opt_filename) {
+cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url,
+    filename = undefined) {
   return cwc.soy.Renderer.javaScriptUrl({
     url: url,
-    filename: opt_filename,
+    filename: filename,
   });
 };
 
 
 /**
  * @param {!string} data
- * @param {string=} opt_encoding default: base64
- * @param {string=} opt_filename
+ * @param {string=} encoding default: base64
+ * @param {string=} filename
  * @return {string}
  */
 cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
-    opt_encoding, opt_filename) {
-  let encoding = opt_encoding || 'base64';
-  let filename = opt_filename;
-
+    encoding = 'base64', filename = '') {
   if (goog.string.startsWith(data, 'data:text/javascript;')) {
     data = data.split(';')[1];
     if (data.includes(',')) {
@@ -243,18 +239,42 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
 
 
 /**
- * @param {!string} filename
- * @param {!cwc.file.Files} renderer_frameworks
+ * @param {!string} data
+ * @param {string=} encoding default: base64
+ * @param {string=} filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename,
-    renderer_frameworks) {
-  let framework = renderer_frameworks.getFile(filename);
-  if (!framework) {
-    console.warn('Was unable to get framework file:', filename);
+cwc.renderer.Helper.prototype.getStyleSheetDataUrl = function(data,
+    encoding = 'base64', filename = '') {
+  if (goog.string.startsWith(data, 'data:text/css;')) {
+    data = data.split(';')[1];
+    if (data.includes(',')) {
+      let dataFragments = data.split(',');
+      encoding = dataFragments[0];
+      data = dataFragments[1];
+    }
+  }
+
+  return cwc.soy.Renderer.styleSheetDataUrl({
+    data: data,
+    encoding: encoding,
+    filename: filename,
+  });
+};
+
+
+/**
+ * @param {!string} filename
+ * @param {!cwc.file.Files} files
+ * @return {string}
+ */
+cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
+  let file = files.getFile(filename);
+  if (!file) {
+    console.warn('Was unable to get file:', filename);
     return '';
   }
-  return this.getJavaScriptDataUrl(framework.getContent(), filename);
+  return this.getJavaScriptDataUrl(file.getContent(), undefined, filename);
 };
 
 
@@ -277,8 +297,23 @@ cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
 
 
 /**
+ * @param {!string} filename
+ * @param {!cwc.file.Files} files
+ * @return {string}
+ */
+cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
+  let file = files.getFile(filename);
+  if (!file) {
+    console.warn('Was unable to get file:', filename);
+    return '';
+  }
+  return this.getStyleSheetDataUrl(file.getContent(), filename);
+};
+
+
+/**
  * @param {!string} css
- * @return {!string}
+ * @return {!goog.soy.data.SanitizedCss}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedCss_ = function(css) {
@@ -291,7 +326,7 @@ cwc.renderer.Helper.prototype.sanitizedCss_ = function(css) {
 
 /**
  * @param {!string} javascript
- * @return {!string}
+ * @return {!goog.soy.data.SanitizedJs}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript) {
@@ -304,7 +339,7 @@ cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript) {
 
 /**
  * @param {!string} html
- * @return {!string}
+ * @return {!goog.soy.data.SanitizedHtml}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html) {
@@ -317,7 +352,7 @@ cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html) {
 
 /**
  * @param {!string} uri
- * @return {!string}
+ * @return {!goog.soy.data.SanitizedUri}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedUri_ = function(uri) {

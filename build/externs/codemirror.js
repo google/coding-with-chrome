@@ -20,13 +20,13 @@
 
 
 
-/** @type {Object} */
+/** @constructor */
 var CodeMirror = function() {};
 
 /** @type {Object} */
 CodeMirror.mimeModes = {};
 
-/** @type {Function} */
+/** @constructor */
 CodeMirror.Doc = function() {};
 
 /** @type {Function} */

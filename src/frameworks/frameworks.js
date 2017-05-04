@@ -22,6 +22,7 @@
  */
 goog.provide('cwc.framework.External');
 goog.provide('cwc.framework.Internal');
+goog.provide('cwc.framework.StyleSheet');
 
 
 /**
@@ -62,4 +63,13 @@ cwc.framework.Internal = {
   SIMPLE: 'simple_framework.js',
   SPHERO: 'sphero_framework.js',
   TURTLE: 'turtle_framework.js',
+};
+
+
+/**
+ * Style Sheet files for the preview window or runner framework.
+ * @enum {!Object.<string>|string}
+ */
+cwc.framework.StyleSheet = {
+  DIALOG: 'dialog.css',
 };

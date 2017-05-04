@@ -42,6 +42,9 @@ chrome.app.window = {};
 chrome.app.window.get = function() {};
 
 /** @type {Function} */
+chrome.app.window.AppWindow = function() {};
+
+/** @type {Function} */
 chrome.browser = function() {};
 
 /** @type {Function} */
@@ -181,3 +184,18 @@ chrome.identity.getAuthToken = function() {};
 
 /** @type {Function} */
 chrome.identity.removeCachedAuthToken = function() {};
+
+/**
+ * @constructor
+ * @extends {Element}
+ */
+let Webview = function() {}
+
+/** @type {Function} */
+Webview.prototype.stop = function() {};
+
+/** @type {Function} */
+Webview.prototype.reload = function() {};
+
+/** @type {Function} */
+Webview.prototype.terminate = function() {};

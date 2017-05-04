@@ -165,7 +165,7 @@ describe('Renderer Helper', function() {
 
   it('getJavaScriptDataUrl ', function() {
     let js1 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==').content;
-    let js2 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==', null,
+    let js2 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==', undefined,
       'test-file').content;
     expect(js1).toEqual('\n<script src="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA=="></script>\n');

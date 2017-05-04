@@ -52,8 +52,9 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
 /**
  * @param {Object} editor_content
  * @param {Object} editor_flags
- * @param {!cwc.file.Files} library_files
+ * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
+ * @param {!cwc.file.Files} styleSheets
  * @param {cwc.renderer.Helper} renderer_helper
  * @return {!string}
  * @export
@@ -61,8 +62,9 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
 cwc.renderer.internal.HTML5.prototype.render = function(
     editor_content,
     editor_flags,
-    library_files,
+    libraryFiles,
     frameworks,
+    styleSheets,
     renderer_helper) {
   let css = editor_content[cwc.file.ContentType.CSS] || '';
   let html = editor_content[cwc.file.ContentType.HTML] || '';
@@ -72,7 +74,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (html) {
     // Library files.
     if (html.includes('{{ file:')) {
-      html = renderer_helper.injectFiles(html, library_files);
+      html = renderer_helper.injectFiles(html, libraryFiles);
     }
 
     // Coffeescript framework.
@@ -84,7 +86,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (javascript) {
     // Library files.
     if (javascript.includes('{{ file:')) {
-      javascript = renderer_helper.injectFiles(javascript, library_files);
+      javascript = renderer_helper.injectFiles(javascript, libraryFiles);
     }
   }
 

@@ -22,6 +22,8 @@ goog.provide('cwc.renderer.external.Python');
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
+goog.require('cwc.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -51,8 +53,9 @@ cwc.renderer.external.Python.prototype.init = function() {
 /**
  * @param {Object} editor_content
  * @param {Object} editor_flags
- * @param {!cwc.file.Files} library_files
+ * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
+ * @param {!cwc.file.Files} styleSheets
  * @param {cwc.renderer.Helper} renderer_helper
  * @return {!string}
  * @export
@@ -60,8 +63,9 @@ cwc.renderer.external.Python.prototype.init = function() {
 cwc.renderer.external.Python.prototype.render = function(
     editor_content,
     editor_flags,
-    library_files,
+    libraryFiles,
     frameworks,
+    styleSheets,
     renderer_helper) {
   let python = editor_content[cwc.file.ContentType.PYTHON];
   let header = renderer_helper.getFrameworkHeaders([
@@ -70,6 +74,8 @@ cwc.renderer.external.Python.prototype.render = function(
     cwc.framework.External.SKULPT.STDLIB,
     cwc.framework.Internal.PYTHON,
   ], frameworks);
+  header += renderer_helper.getStyleSheetHeader(
+    cwc.framework.StyleSheet.DIALOG, styleSheets);
   let body = '<div id="content"></div>' +
   '<script id="code" type="text/python">\n' + python + '\n</script>' +
   '<script>new cwc.framework.Python().run();</script>';

@@ -111,7 +111,7 @@ cwc.ui.Runner = function(helper) {
   /** @type {Element} */
   this.nodeMonitor = null;
 
-  /** @type {Node} */
+  /** @type {Webview} */
   this.content = null;
 
   /** @type {Object} */
@@ -610,7 +610,7 @@ cwc.ui.Runner.prototype.run = function(opt_event) {
   }
   this.renderStatusTemplate(this.templatePrepare);
 
-  this.content = document.createElement('webview');
+  this.content = /** @type {Webview} */ (document.createElement('webview'));
   this.content.setAttribute('partition', 'runner');
   this.content.addEventListener('consolemessage',
       this.handleConsoleMessage_.bind(this), false);

@@ -116,7 +116,7 @@ cwc.ui.Preview = function(helper) {
   this.ran_ = false;
 
   /** @private {!number} */
-  this.runThrottleTime_ = 2000;
+  this.runThrottleTime_ = 1500;
 
   /** @private {goog.async.Throttle} */
   this.runThrottle_ = new goog.async.Throttle(

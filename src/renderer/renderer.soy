@@ -150,3 +150,17 @@
     <script src="data:text/javascript;{$encoding},{$data}"{if $filename} data-filename="{$filename}"{/if}></script>
   {\n}
 {/template}
+
+
+/**
+ * Style Sheet data url.
+ */
+{template .styleSheetDataUrl}
+  {@param data: string}
+  {@param encoding: string}
+  {@param? filename: string}
+
+  {\n}
+    <link rel="stylesheet" type="text/css" href="data:text/css;{$encoding},{$data}"{if $filename} data-filename="{$filename}"{/if}>
+  {\n}
+{/template}

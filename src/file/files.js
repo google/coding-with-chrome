@@ -59,13 +59,11 @@ cwc.file.Files.prototype.addFile = function(name, content,
   let new_file = new cwc.file.File(name, content, optType,
       opt_size, opt_group);
   let filename = new_file.getFilename();
-  let fileType = new_file.getType();
   if (this.getFile(filename)) {
     console.warn('Overwrite existing file', filename);
   }
   this.data_[filename] = new_file;
   this.updateSize_();
-  console.log('Added', filename, 'with type', fileType);
   return this.data_[filename];
 };
 

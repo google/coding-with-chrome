@@ -52,13 +52,10 @@ cwc.utils.Dialog = function() {
   this.dialog = null;
 
   /** @type {Element} */
-  this.node = document.body || document.getElementsByTagName('body')[0];
+  this.node = null;
 
   /** @type {Element} */
   this.nodeContent = null;
-
-  /** @type {Element|StyleSheet} */
-  this.styleSheet = null;
 
   /** @private {Function} */
   this.defaultCloseHandler_ = null;
@@ -384,18 +381,6 @@ cwc.utils.Dialog.prototype.getDialog_ = function() {
  * @private
  */
 cwc.utils.Dialog.prototype.prepare_ = function() {
-  if (!this.styleSheet) {
-    let content = cwc.soy.Dialog.style({prefix: this.prefix}).getContent();
-    let head = document.head || document.getElementsByTagName('head')[0];
-    this.styleSheet = document.createElement('style');
-    if (this.styleSheet.styleSheet) {
-      this.styleSheet.styleSheet.cssText = content;
-    } else {
-      this.styleSheet.appendChild(document.createTextNode(content));
-    }
-    head.appendChild(this.styleSheet);
-  }
-
   if (!goog.dom.getElement(this.prefixDialog_)) {
     this.node = document.body || document.getElementsByTagName('body')[0];
     let dialog = goog.soy.renderAsFragment(cwc.soy.Dialog.template, {

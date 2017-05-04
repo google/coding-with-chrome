@@ -1,0 +1,174 @@
+/**
+ * @fileoverview Dialog style for the Coding with Chrome editor.
+ *
+ * @license Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+#{$prefix}chrome .mdl-button {
+  border: none;
+  border-radius: 2px;
+  position: relative;
+  height: 36px;
+  margin: 0;
+  min-width: 64px;
+  padding: 0 16px;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  overflow: hidden;
+  will-change: box-shadow;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), 
+              background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  line-height: 36px;
+  vertical-align: middle;
+}
+
+#{$prefix}chrome .mdl-button::-moz-focus-inner {
+  border: 0;
+}
+
+#{$prefix}chrome .mdl-button:hover {
+  background-color: rgba(158,158,158, 0.20);
+}
+
+#{$prefix}chrome .mdl-button:focus:not(:active) {
+  background-color: rgba(0,0,0, 0.12);
+}
+
+#{$prefix}chrome .mdl-button:active {
+  background-color: rgba(158,158,158, 0.40);
+}
+
+#{$prefix}chrome.mdl-dialog {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0,0,0,0.14),
+    0 11px 15px -7px rgba(0,0,0,0.12),
+    0 24px 38px 3px rgba(0,0,0,0.2);
+}
+
+#{$prefix}chrome .mdl-dialog__title {
+  padding: 24px 24px 0;
+  margin: 0;
+  font-size: 2rem;
+}
+
+#{$prefix}chrome .mdl-dialog__title .material-icons {
+  vertical-align: middle;
+  padding-right: 5px;
+  margin-bottom: 2px;
+}
+
+#{$prefix}chrome .mdl-dialog__actions {
+  padding: 8px 8px 8px 24px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+#{$prefix}chrome .mdl-dialog__actions > * {
+  margin-right: 8px;
+  height: 36px;
+}
+
+#{$prefix}chrome .mdl-dialog__actions > :first-child {
+  margin-right: 0;
+}
+
+#{$prefix}chrome .mdl-dialog__actions--full-width {
+  padding: 0 0 8px;
+}
+
+#{$prefix}chrome .mdl-dialog__actions--full-width > * {
+  height: 48px;
+  -webkit-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  padding-right: 16px;
+  margin-right: 0;
+  text-align: right;
+}
+
+#{$prefix}chrome .mdl-dialog__content {
+  padding: 20px 24px 24px;
+  color: rgba(0,0,0,0.54);
+}
+
+#{$prefix}chrome .mdl-textfield {
+  position: relative;
+  font-size: 16px;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 300px;
+  max-width: 100%;
+  margin: 0;
+  padding: 20px 0;
+}
+
+#{$prefix}chrome .mdl-textfield .mdl-button {
+  position: absolute;
+  bottom: 20px;
+}
+
+#{$prefix}chrome .mdl-textfield--align-right {
+  text-align: right;
+}
+
+#{$prefix}chrome .mdl-textfield--full-width {
+  width: 100%;
+}
+
+#{$prefix}chrome .mdl-textfield--expandable {
+  min-width: 32px;
+  width: auto;
+  min-height: 32px;
+}
+
+#{$prefix}chrome .mdl-textfield__input {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0, 0.12);
+  display: block;
+  font-size: 16px;
+  margin: 0;
+  padding: 4px;
+  width: 100%;
+  background: none;
+  text-align: left;
+  color: inherit;
+}
+
+#{$prefix}chrome .mdl-textfield__input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#{$prefix}chrome .mdl-textfield__input[type="number"]::-webkit-inner-spin-button,
+#{$prefix}chrome .mdl-textfield__input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

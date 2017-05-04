@@ -51,8 +51,9 @@ cwc.renderer.external.EV3.prototype.init = function() {
 /**
  * @param {Object} editor_content
  * @param {Object} editor_flags
- * @param {cwc.file.Files} library_files
+ * @param {cwc.file.Files} libraryFiles
  * @param {cwc.file.Files} frameworks
+ * @param {!cwc.file.Files} styleSheets
  * @param {cwc.renderer.Helper} renderer_helper
  * @return {string}
  * @export
@@ -60,8 +61,9 @@ cwc.renderer.external.EV3.prototype.init = function() {
 cwc.renderer.external.EV3.prototype.render = function(
     editor_content,
     editor_flags,
-    library_files,
+    libraryFiles,
     frameworks,
+    styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
     cwc.framework.Internal.EV3,

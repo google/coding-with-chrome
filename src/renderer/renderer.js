@@ -50,6 +50,9 @@ cwc.renderer.Renderer = function(helper) {
 
   /** @type {!cwc.file.Files} */
   this.libraryFiles = new cwc.file.Files();
+
+  /** @type {!cwc.file.Files} */
+  this.styleSheetFiles = new cwc.file.Files();
 };
 
 
@@ -81,23 +84,20 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
 /**
  * @param {string!} name
  * @param {string!} content
- * @param {string=} optType
+ * @param {string=} type
  */
-cwc.renderer.Renderer.prototype.addFramework = function(name, content,
-    optType) {
-  let frameworkContent = this.rendererHelper.getDataUrl(content,
-      'text/javascript');
-  if (!frameworkContent) {
+cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
+  let fileContent = this.rendererHelper.getDataUrl(content, 'text/javascript');
+  if (!fileContent) {
     console.error('Received empty content for framework', name);
     return;
   }
 
-  let frameworkFile = this.frameworkFiles.addFile(name, frameworkContent,
-      optType);
-  if (!frameworkFile) {
-    console.error('Was not able to add File', frameworkFile);
+  let file = this.frameworkFiles.addFile(name, fileContent, type);
+  if (!file) {
+    console.error('Was not able to add File', file);
   } else {
-    console.info('Add framework', name, frameworkFile.getSize());
+    console.info('Add framework', name, file.getSize());
   }
 };
 
@@ -108,6 +108,61 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content,
  */
 cwc.renderer.Renderer.prototype.getFrameworks = function() {
   return this.frameworkFiles;
+};
+
+
+/**
+ * Preloads Style Sheets into memory.
+ * @param {!Object} styleSheets
+ * @param {string=} opt_prefix_path
+ */
+cwc.renderer.Renderer.prototype.loadStyleSheets = function(styleSheets,
+    opt_prefix_path = '') {
+  let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
+
+  for (let stylesheet of Object.keys(styleSheets)) {
+    if (goog.isString(styleSheets[stylesheet])) {
+      fileLoaderInstance.getResourceFile(
+        opt_prefix_path + styleSheets[stylesheet],
+        this.addStyleSheet.bind(this));
+    } else {
+      for (let file of Object.keys(styleSheets[stylesheet])) {
+        fileLoaderInstance.getResourceFile(
+          opt_prefix_path + styleSheets[stylesheet][file],
+          this.addStyleSheet.bind(this));
+      }
+    }
+  }
+};
+
+
+/**
+ * @param {string!} name
+ * @param {string!} content
+ * @param {string=} type
+ */
+cwc.renderer.Renderer.prototype.addStyleSheet = function(name, content, type) {
+  let fileContent = this.rendererHelper.getDataUrl(content, 'text/css');
+  if (!fileContent) {
+    console.error('Received empty content for Style Sheet', name);
+    return;
+  }
+
+  let file = this.styleSheetFiles.addFile(name, fileContent, type);
+  if (!file) {
+    console.error('Was not able to add File', file);
+  } else {
+    console.info('Add framework', name, file.getSize());
+  }
+};
+
+
+/**
+ * @return {!cwc.file.Files}
+ * @export
+ */
+cwc.renderer.Renderer.prototype.getStyleSheets = function() {
+  return this.styleSheetFiles;
 };
 
 
@@ -156,6 +211,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
       editorInstance.getEditorFlags(),
       this.libraryFiles,
       this.frameworkFiles,
+      this.styleSheetFiles,
       this.rendererHelper
   );
 };

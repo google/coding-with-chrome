@@ -610,6 +610,9 @@ cwc.ui.Builder.prototype.loadFrameworks = function() {
   this.setProgress('Pre-loading internal frameworks ...', 50, 100);
   rendererInstance.loadFrameworks(cwc.framework.Internal,
     '../frameworks/internal/');
+
+  this.setProgress('Pre-loading Style Sheets ...', 50, 100);
+  rendererInstance.loadStyleSheets(cwc.framework.StyleSheet, '../css/');
 };
 
 
