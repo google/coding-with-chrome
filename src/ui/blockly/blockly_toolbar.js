@@ -248,7 +248,7 @@ cwc.ui.BlocklyToolbar.prototype.updateMediaButton = function(has_files) {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.BlocklyToolbar.prototype.expand = function(e) {
   this.setExpand(true, e.target.closest('.goog-splitpane-second-container'));
@@ -257,7 +257,7 @@ cwc.ui.BlocklyToolbar.prototype.expand = function(e) {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.BlocklyToolbar.prototype.collapse = function(e) {
   this.setExpand(false, e.target.closest('.goog-splitpane-second-container'));

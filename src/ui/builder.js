@@ -161,7 +161,7 @@ cwc.ui.Builder = function() {
   this.node = null;
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @type {Function} */
   this.callback = null;
@@ -356,7 +356,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     if (this.callback) {
       this.callback();
     }
-    this.helper.removeEventListeners(this.listener, this.name);
+    this.helper.removeEventListeners(this.listener_, this.name);
   }
 };
 
@@ -671,5 +671,5 @@ cwc.ui.Builder.prototype.addEventListener_ = function(src, type, listener,
     useCapture = false, listenerScope = null) {
   let eventListener = goog.events.listen(src, type, listener, useCapture,
       listenerScope);
-  goog.array.insert(this.listener, eventListener);
+  goog.array.insert(this.listener_, eventListener);
 };

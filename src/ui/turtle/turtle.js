@@ -71,7 +71,7 @@ cwc.ui.Turtle = function(helper, image = '') {
   this.image = image;
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 };
 
 
@@ -88,14 +88,6 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
 
   // Runner
   this.connector.init();
-
-  // Event handler
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
-  }
 
   // Content
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -174,31 +166,4 @@ cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
  */
 cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
   console.log('Turtle Runner message:', e);
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
- */
-cwc.ui.Turtle.prototype.addEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
-};
-
-
-/**
- * Clears all object based events.
- */
-cwc.ui.Turtle.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
 };

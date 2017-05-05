@@ -249,13 +249,12 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
 cwc.protocol.serial.Devices.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
+    listener, capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
   goog.array.insert(this.listener_, eventListener);
 };

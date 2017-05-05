@@ -354,7 +354,7 @@ cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
 
 /**
  * Handles keyboard shortcuts.
- * @param {event} event
+ * @param {goog.events.EventLike} event
  * @private
  */
 cwc.ui.Navigation.prototype.handleKeyboardShortcut_ = function(event) {

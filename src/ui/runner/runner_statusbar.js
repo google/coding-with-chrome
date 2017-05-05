@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.RunnerStatusbar');
 
 goog.require('cwc.soy.RunnerStatusbar');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.ui.RunnerStatus');
 goog.require('goog.dom');
 goog.require('goog.soy');
 goog.require('goog.style');
@@ -48,9 +48,6 @@ cwc.ui.RunnerStatusbar = function(helper) {
 
   /** @type {Element} */
   this.nodeStatus = null;
-
-  /** @type {string} */
-  this.status = '';
 };
 
 
@@ -68,22 +65,48 @@ cwc.ui.RunnerStatusbar.prototype.decorate = function(node) {
   );
 
   this.nodeStatus = goog.dom.getElement(this.prefix + 'statusbar');
-  this.setStatus('…');
 };
 
 
 /**
  * Sets the status message.
- * @param {!string} status
+ * @param {!cwc.ui.RunnerStatus} status
+ * @param {number=} startTime
+ * @param {number=} stopTime
  */
-cwc.ui.RunnerStatusbar.prototype.setStatus = function(status) {
-  this.status = status;
+cwc.ui.RunnerStatusbar.prototype.setStatus = function(status, startTime = 0,
+    stopTime = 0) {
+  let statusText = status;
+  switch (status) {
+    case cwc.ui.RunnerStatus.PREPARE:
+      statusText = 'Preparing ...';
+      break;
+    case cwc.ui.RunnerStatus.STOPPED:
+      statusText = 'Stopped';
+      break;
+    case cwc.ui.RunnerStatus.RELOADING:
+      statusText = 'Reloading ...';
+      break;
+    case cwc.ui.RunnerStatus.LOADING:
+      statusText = 'Loading...';
+      break;
+    case cwc.ui.RunnerStatus.LOADED:
+      statusText = 'Finished after ' +
+        ((stopTime - startTime) / 1000) + ' seconds.';
+      break;
+    case cwc.ui.RunnerStatus.TERMINATED:
+      statusText = 'Terminated';
+      break;
+    case cwc.ui.RunnerStatus.UNRESPONSIVE:
+      statusText = 'Unresponsive';
+      break;
+  }
   if (this.nodeStatus) {
     this.show();
-    goog.dom.setTextContent(this.nodeStatus, status);
+    goog.dom.setTextContent(this.nodeStatus, statusText);
     goog.Timer.callOnce(this.hide.bind(this), 500);
   } else {
-    console.log(status);
+    console.log(statusText);
   }
 };
 

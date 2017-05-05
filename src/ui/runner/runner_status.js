@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor Hints of Code Editor.
+ * @fileoverview Runner for the Coding with Chrome editor.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.EditorHint');
+goog.provide('cwc.ui.RunnerStatus');
 
 
 /**
- * @enum {!Object.<string>|Function}
+ * @enum {number}
+ * @export
  */
-cwc.ui.EditorHint = {
-  COFFEESCRIPT: CodeMirror['hint']['coffeescript'],
-  CSS: CodeMirror['hint']['css'],
-  HTML: CodeMirror['hint']['html'],
-  JAVASCRIPT: CodeMirror['hint']['javascript'],
-  SQL: CodeMirror['hint']['sql'],
-  XML: CodeMirror['hint']['xml'],
-  UNKNOWN: CodeMirror['hint']['anyword'],
+cwc.ui.RunnerStatus = {
+  UNKNOWN: 0,
+  PREPARE: 1,
+  LOADING: 2,
+  RELOADING: 3,
+  REFRESHING: 4,
+  LOADED: 5,
+  RUNNING: 6,
+  STOPPED: 7,
+  TERMINATED: 8,
+  UNRESPONSIVE: 9,
 };

@@ -58,8 +58,8 @@ cwc.protocol.makeblock.mbot.Monitoring = function(api) {
   /** @type {!boolean} */
   this.started = false;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   // Monitor Events
   this.addEventListener_(this.monitorSensorLineFollower, goog.Timer.TICK,
@@ -113,13 +113,12 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.stop = function() {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function()} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
 cwc.protocol.makeblock.mbot.Monitoring.prototype.addEventListener_ = function(
-    src, type, listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+    src, type, listener, capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };

@@ -68,7 +68,7 @@ cwc.ui.Blockly = function(helper) {
   this.mediaFiles = '../external/blockly/';
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @type {boolean} */
   this.modified = false;
@@ -660,7 +660,7 @@ cwc.ui.Blockly.prototype.addEventListener_ = function(src, type,
     listener, useCapture = false, listenerScope = undefined) {
   let eventListener = goog.events.listen(src, type, listener, useCapture,
       listenerScope);
-  goog.array.insert(this.listener, eventListener);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -670,7 +670,7 @@ cwc.ui.Blockly.prototype.addEventListener_ = function(src, type,
  */
 cwc.ui.Blockly.prototype.cleanUp_ = function() {
   this.enabled = false;
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
   cwc.ui.Helper.hideElements(this.widgetClass);
   this.modified = false;
 };
@@ -707,7 +707,7 @@ cwc.ui.Blockly.prototype.decorateToolbox_ = function() {
 
 
 /**
- * @param {event} e
+ * @param {goog.events.EventLike} e
  * @private
  */
 cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {

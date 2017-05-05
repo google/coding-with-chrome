@@ -107,7 +107,7 @@ cwc.ui.Layout = function(helper) {
   this.layout = cwc.ui.LayoutType.NONE;
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @type {Array} */
   this.customListener = [];
@@ -593,13 +593,14 @@ cwc.ui.Layout.prototype.setFullscreen = function(fullscreen,
 /**
  * Adds an event listener to monitor the size of the splitpane.
  * @param {!goog.ui.SplitPane} splitpane
+ * @private
  */
 cwc.ui.Layout.prototype.monitorResize = function(splitpane) {
-  this.addCustomEventListener(splitpane,
+  this.addCustomEventListener_(splitpane,
       goog.ui.SplitPane.EventType.HANDLE_DRAG,
       this.handleResizeEvent, false, this);
 
-  this.addCustomEventListener(splitpane,
+  this.addCustomEventListener_(splitpane,
       goog.ui.SplitPane.EventType.HANDLE_SNAP,
       this.handleResizeEvent, false, this);
 };
@@ -660,15 +661,14 @@ cwc.ui.Layout.prototype.resetLayout_ = function() {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function()} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
-cwc.ui.Layout.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.ui.Layout.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -680,13 +680,12 @@ cwc.ui.Layout.prototype.addEventListener_ = function(src, type,
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function()} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  */
-cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
+cwc.ui.Layout.prototype.addCustomEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
   goog.array.insert(this.customListener, eventListener);
 };
 
@@ -695,7 +694,7 @@ cwc.ui.Layout.prototype.addCustomEventListener = function(src, type,
  * Clears all object based events.
  */
 cwc.ui.Layout.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
   this.resetLayout_();
 };
 

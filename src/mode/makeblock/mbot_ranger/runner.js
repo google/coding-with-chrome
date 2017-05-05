@@ -115,8 +115,8 @@ cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
@@ -166,7 +166,7 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 };
@@ -195,8 +195,8 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.handleCleanUp = function() {
  */
 cwc.mode.makeblock.mbotRanger.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener, this.name);
-  this.listener = [];
+  this.helper.removeEventListeners(this.listener_, this.name);
+  this.listener_ = [];
 };
 
 
@@ -208,12 +208,12 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.cleanUp = function() {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
+ * @private
  */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.addEventListener = function(src,
-    type, listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.mode.makeblock.mbotRanger.Runner.prototype.addEventListener_ = function(src,
+    type, listener, capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };

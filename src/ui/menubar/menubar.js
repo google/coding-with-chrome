@@ -92,18 +92,18 @@ cwc.ui.Menubar = function(helper) {
   this.nodeRestoreButton = null;
 
   /** @type {boolean} */
-  this.bluetooth = null;
+  this.bluetooth = false;
 
   /** @type {boolean} */
-  this.bluetoothConnectStatus = null;
+  this.bluetoothConnectStatus = false;
 
   /** @type {boolean} */
-  this.serial = null;
+  this.serial = false;
 
   /** @type {boolean} */
-  this.serialConnectStatus = null;
+  this.serialConnectStatus = false;
 
-  /** @type {chrome.app.window.AppWindow} */
+  /** @type {chrome.app.window.AppWindow|null} */
   this.currentWindow = null;
 
   /** @private {!boolean} */
@@ -117,8 +117,6 @@ cwc.ui.Menubar = function(helper) {
 /**
  * Decorates the given node and adds the menu bar.
  * @param {Element} node The target node to add the menu bar.
- * @param {string=} opt_prefix Additional prefix for the ids of the
- *    inserted elements and style definitions.
  * @export
  */
 cwc.ui.Menubar.prototype.decorate = function(node) {

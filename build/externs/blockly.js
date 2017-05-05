@@ -197,7 +197,7 @@ Blockly.Workspace.undoStack_ = [];
 Blockly.Workspace.redoStack_ = [];
 
 /** @type {Object} */
-Blockly.Workspace.toolbox_ = {};
+Blockly.Workspace.prototype.toolbox_ = {};
 
 /** @type {Function} */
 Blockly.Workspace.toolbox_.clearSelection = function() {};
@@ -235,7 +235,7 @@ Blockly.Workspace.prototype.registerButtonCallback = function(
   name, callback) {};
 
 /**
- * @param {boolean} redo False if undo, true if redo.
+ * @param {boolean=} redo False if undo, true if redo.
  */
 Blockly.Workspace.prototype.undo = function(redo) {};
 

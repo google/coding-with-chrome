@@ -64,19 +64,19 @@ cwc.renderer.Helper.prototype.prependText = function(content, text) {
 
 
 /**
- * @param {!string} opt_body
- * @param {string=} opt_header
- * @param {string=} opt_css
- * @param {string=} opt_javascript
+ * @param {!string} body
+ * @param {string=} header
+ * @param {string=} css
+ * @param {string=} javascript
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getHTML = function(opt_body, opt_header,
-    opt_css, opt_javascript) {
+cwc.renderer.Helper.prototype.getHTML = function(body, header, css,
+    javascript) {
   return cwc.soy.Renderer.html({
-    body: this.sanitizedHtml_(opt_body),
-    head: this.sanitizedHtml_(opt_header),
-    css: this.sanitizedCss_(opt_css),
-    js: this.sanitizedJs_(opt_javascript),
+    body: this.sanitizedHtml_(body),
+    head: this.sanitizedHtml_(header),
+    css: this.sanitizedCss_(css),
+    js: this.sanitizedJs_(javascript),
   });
 };
 
@@ -316,10 +316,7 @@ cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
  * @return {!goog.soy.data.SanitizedCss}
  * @private
  */
-cwc.renderer.Helper.prototype.sanitizedCss_ = function(css) {
-  if (!css) {
-    return '';
-  }
+cwc.renderer.Helper.prototype.sanitizedCss_ = function(css = '') {
   return soydata.VERY_UNSAFE.ordainSanitizedCss(css);
 };
 
@@ -329,10 +326,7 @@ cwc.renderer.Helper.prototype.sanitizedCss_ = function(css) {
  * @return {!goog.soy.data.SanitizedJs}
  * @private
  */
-cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript) {
-  if (!javascript) {
-    return '';
-  }
+cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript = '') {
   return soydata.VERY_UNSAFE.ordainSanitizedJs(javascript);
 };
 
@@ -342,10 +336,7 @@ cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript) {
  * @return {!goog.soy.data.SanitizedHtml}
  * @private
  */
-cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html) {
-  if (!html) {
-    return '';
-  }
+cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html = '') {
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(html);
 };
 
@@ -355,9 +346,6 @@ cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html) {
  * @return {!goog.soy.data.SanitizedUri}
  * @private
  */
-cwc.renderer.Helper.prototype.sanitizedUri_ = function(uri) {
-  if (!uri) {
-    return '';
-  }
+cwc.renderer.Helper.prototype.sanitizedUri_ = function(uri = '') {
   return soydata.VERY_UNSAFE.ordainSanitizedUri(uri);
 };

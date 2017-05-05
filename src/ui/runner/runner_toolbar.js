@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.RunnerToolbar');
 
 goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.ui.RunnerStatus');
 
 
 /**
@@ -105,6 +105,29 @@ cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
     this.run.bind(this));
   goog.events.listen(this.nodeStop, goog.events.EventType.CLICK,
     this.stop.bind(this));
+};
+
+
+/**
+ * Sets the status message.
+ * @param {!cwc.ui.RunnerStatus} status
+ */
+cwc.ui.RunnerToolbar.prototype.setStatus = function(status) {
+  switch (status) {
+    case cwc.ui.RunnerStatus.LOADED:
+    case cwc.ui.RunnerStatus.STOPPED:
+      this.setLoadStatus(false);
+      break;
+    case cwc.ui.RunnerStatus.LOADING:
+      this.setLoadStatus(true);
+      break;
+    case cwc.ui.RunnerStatus.TERMINATED:
+      this.setRunStatus(false);
+      break;
+    case cwc.ui.RunnerStatus.PREPARE:
+      this.setRunStatus(true);
+      break;
+  }
 };
 
 

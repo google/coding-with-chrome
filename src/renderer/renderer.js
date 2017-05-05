@@ -59,22 +59,20 @@ cwc.renderer.Renderer = function(helper) {
 /**
  * Preloads frameworks into memory.
  * @param {!Object} frameworks Framework files.
- * @param {string=} opt_prefix_path
+ * @param {string=} path
  */
 cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
-    opt_prefix_path = '') {
+    path = '') {
   let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
 
   for (let framework of Object.keys(frameworks)) {
     if (goog.isString(frameworks[framework])) {
       fileLoaderInstance.getResourceFile(
-        opt_prefix_path + frameworks[framework],
-        this.addFramework.bind(this));
+        path + frameworks[framework], this.addFramework.bind(this));
     } else {
       for (let file of Object.keys(frameworks[framework])) {
         fileLoaderInstance.getResourceFile(
-          opt_prefix_path + frameworks[framework][file],
-          this.addFramework.bind(this));
+          path + frameworks[framework][file], this.addFramework.bind(this));
       }
     }
   }
@@ -114,22 +112,20 @@ cwc.renderer.Renderer.prototype.getFrameworks = function() {
 /**
  * Preloads Style Sheets into memory.
  * @param {!Object} styleSheets
- * @param {string=} opt_prefix_path
+ * @param {string=} path
  */
 cwc.renderer.Renderer.prototype.loadStyleSheets = function(styleSheets,
-    opt_prefix_path = '') {
+    path = '') {
   let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
 
   for (let stylesheet of Object.keys(styleSheets)) {
     if (goog.isString(styleSheets[stylesheet])) {
       fileLoaderInstance.getResourceFile(
-        opt_prefix_path + styleSheets[stylesheet],
-        this.addStyleSheet.bind(this));
+        path + styleSheets[stylesheet], this.addStyleSheet.bind(this));
     } else {
       for (let file of Object.keys(styleSheets[stylesheet])) {
         fileLoaderInstance.getResourceFile(
-          opt_prefix_path + styleSheets[stylesheet][file],
-          this.addStyleSheet.bind(this));
+          path + styleSheets[stylesheet][file], this.addStyleSheet.bind(this));
       }
     }
   }

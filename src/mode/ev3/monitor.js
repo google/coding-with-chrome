@@ -69,8 +69,8 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
@@ -186,7 +186,7 @@ cwc.mode.ev3.Monitor.prototype.updateRobotType = function(type) {
  */
 cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
   console.log('Clean up EV3 monitor ...');
-  this.helper.removeEventListeners(this.listener, this.name);
+  this.helper.removeEventListeners(this.listener_, this.name);
 };
 
 
@@ -195,42 +195,48 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  */
 cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   // Movements
-  this.addEventListener_('move-left', goog.events.EventType.CLICK, function() {
-    this.api.rotateSteps(45, -50);
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-left'),
+    goog.events.EventType.CLICK, function() {
+      this.api.rotateSteps(45, -50);
+  }, false, this);
 
-  this.addEventListener_('move-forward', goog.events.EventType.CLICK,
-    function() {
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-forward'),
+    goog.events.EventType.CLICK, function() {
       this.api.moveSteps(50);
-    }.bind(this), false, this);
+  }, false, this);
 
-  this.addEventListener_('move-backward', goog.events.EventType.CLICK,
-    function() {
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-backward'),
+    goog.events.EventType.CLICK, function() {
       this.api.moveSteps(50, -50);
-    }.bind(this), false, this);
+  }, false, this);
 
-  this.addEventListener_('move-right', goog.events.EventType.CLICK, function() {
-    this.api.rotateSteps(45);
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-right'),
+    goog.events.EventType.CLICK, function() {
+      this.api.rotateSteps(45);
+  }, false, this);
 
   // Servo
-  this.addEventListener_('servo-up', goog.events.EventType.CLICK, function() {
-    this.api.moveServo(5, 50);
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'servo-up'),
+    goog.events.EventType.CLICK, function() {
+      this.api.moveServo(5, 50);
+  }, false, this);
 
-  this.addEventListener_('servo-down', goog.events.EventType.CLICK, function() {
-    this.api.moveServo(5, -50);
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'servo-down'),
+    goog.events.EventType.CLICK, function() {
+      this.api.moveServo(5, -50);
+  }, false, this);
 
   // Ping
-  this.addEventListener_('ping', goog.events.EventType.CLICK, function() {
-    this.api.playTone(3000, 200, 50);
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'ping'),
+    goog.events.EventType.CLICK, function() {
+      this.api.playTone(3000, 200, 50);
+  }, false, this);
 
   // Stop
-  this.addEventListener_('stop', goog.events.EventType.CLICK, function() {
-    this.api.stop();
-  }.bind(this), false, this);
+  this.addEventListener_(goog.dom.getElement(this.prefix + 'stop'),
+    goog.events.EventType.CLICK, function() {
+      this.api.stop();
+  }, false, this);
 };
 
 
@@ -261,7 +267,7 @@ cwc.mode.ev3.Monitor.prototype.addKeyHandler_ = function() {
 
 /**
  * Handles keyboard shortcuts.
- * @param {event} event
+ * @param {goog.events.EventLike} event
  * @private
  */
 cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
@@ -386,15 +392,12 @@ cwc.mode.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(keys) {
  * @param {EventTarget|goog.events.Listenable|string} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
-cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let target = goog.isString(src) ?
-    goog.dom.getElement(this.prefix + src) : src;
-  let eventListener = goog.events.listen(target, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.mode.ev3.Monitor.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };

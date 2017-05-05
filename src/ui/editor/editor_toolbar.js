@@ -350,7 +350,7 @@ cwc.ui.EditorToolbar.prototype.addView = function(name) {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.EditorToolbar.prototype.expand = function(e) {
   this.setExpand(true, e.target.closest('.goog-splitpane-second-container'));
@@ -359,7 +359,7 @@ cwc.ui.EditorToolbar.prototype.expand = function(e) {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.EditorToolbar.prototype.collapse = function(e) {
   this.setExpand(false, e.target.closest('.goog-splitpane-second-container'));

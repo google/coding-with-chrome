@@ -42,8 +42,8 @@ cwc.mode.raspberryPi.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 };
 
 
@@ -130,7 +130,7 @@ cwc.mode.raspberryPi.Connection.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.stop();
-  this.helper.removeEventListeners(this.listener, this.name);
+  this.helper.removeEventListeners(this.listener_, this.name);
 };
 
 
@@ -142,13 +142,12 @@ cwc.mode.raspberryPi.Connection.prototype.cleanUp = function() {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
 cwc.mode.raspberryPi.Connection.prototype.addEventListener_ = function(src,
-    type, listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+    type, listener, capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };

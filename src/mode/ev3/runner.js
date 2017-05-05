@@ -80,8 +80,8 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
@@ -176,46 +176,25 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
       cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
 
-  // Overlay and templates.
-  let templates = cwc.soy.mode.ev3.Runner;
-  this.runner.setInfoTemplate(templates.info);
-  if (this.showOverlay && !this.showPreview) {
-    this.runner.setOverlayTemplate(templates.overlay);
-  } else if (!this.showPreview) {
-    this.runner.setConnectTemplate(templates.connect);
-    this.runner.setDisconnectTemplate(templates.disconnect);
-    this.runner.setPrepareTemplate(templates.prepare);
-    this.runner.setRunTemplate(templates.run);
-    this.runner.setReloadTemplate(templates.reload);
-    this.runner.setStopTemplate(templates.stop);
-    this.runner.setTerminateTemplate(templates.stop);
-  }
-
+  // Info template
+  this.runner.showInfoButton(true);
+  this.runner.setInfoTemplate(cwc.soy.mode.ev3.Runner.info);
   this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
   this.runner.decorate(this.node);
 
-  if (templates.info) {
-    this.runner.showInfoButton(true);
-  }
-
-  if (this.showPreview) {
-    this.runner.showTurtle(true);
-  }
-
   // Preview output
-  let turtleNode = this.runner.getTurtleNode();
-  this.turtle.decorate(turtleNode);
+  this.runner.showTurtle(true);
+  this.turtle.decorate(this.runner.getTurtleNode());
 
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
+    this.addEventListener_(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
   }
 
   // EV3 events
-  this.addEventListener(apiEventHandler,
+  this.addEventListener_(apiEventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
       this.updateDeviceInfo, false, this);
 };
@@ -298,14 +277,14 @@ cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
+ * @private
  */
-cwc.mode.ev3.Runner.prototype.addEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.mode.ev3.Runner.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -314,6 +293,6 @@ cwc.mode.ev3.Runner.prototype.addEventListener = function(src, type,
  */
 cwc.mode.ev3.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener, this.name);
-  this.listener = [];
+  this.helper.removeEventListeners(this.listener_, this.name);
+  this.listener_ = [];
 };

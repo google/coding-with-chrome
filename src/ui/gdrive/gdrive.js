@@ -109,7 +109,7 @@ cwc.ui.GDrive.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 };

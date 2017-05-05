@@ -48,9 +48,6 @@ cwc.mode.arduino.Runner = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {!Array} */
-  this.listener = [];
-
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
 
@@ -72,14 +69,6 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
   this.runner.decorate(this.node);
   this.runner.showRunButton(false);
   this.runner.enableTerminal(true);
-
-  // Unload event
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
-  }
 };
 
 
@@ -112,32 +101,4 @@ cwc.mode.arduino.Runner.prototype.handleCleanUp = function() {
   if (this.arduino) {
     this.arduino.cleanUp();
   }
-};
-
-
-/**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.arduino.Runner.prototype.cleanUp = function() {
-  this.helper.removeEventListeners(this.listener, this.name);
-  this.listener = [];
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
- */
-cwc.mode.arduino.Runner.prototype.addEventListener = function(src,
-    type, listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
 };

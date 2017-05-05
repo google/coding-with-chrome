@@ -26,6 +26,9 @@ var CodeMirror = function() {};
 /** @type {Object} */
 CodeMirror.mimeModes = {};
 
+/** @type {Function} */
+CodeMirror.prototype.historySize = function() {};
+
 /** @constructor */
 CodeMirror.Doc = function() {};
 

@@ -20,6 +20,8 @@
 goog.provide('cwc.ui.RunnerMonitor');
 
 goog.require('cwc.soy.RunnerMonitor');
+goog.require('cwc.ui.RunnerStatus');
+
 goog.require('goog.math');
 goog.require('goog.style');
 
@@ -128,6 +130,23 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
 
   goog.events.listen(this.nodeMainStop, goog.events.EventType.CLICK,
       this.handleStop_, false, this);
+};
+
+
+/**
+ * Sets the status message.
+ * @param {!cwc.ui.RunnerStatus} status
+ */
+cwc.ui.RunnerMonitor.prototype.setStatus = function(status) {
+  switch (status) {
+    case cwc.ui.RunnerStatus.STOPPED:
+      this.setRunStatus(false);
+      break;
+    case cwc.ui.RunnerStatus.REFRESHING:
+    case cwc.ui.RunnerStatus.PREPARE:
+      this.setRunStatus(true);
+      break;
+  }
 };
 
 

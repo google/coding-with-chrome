@@ -231,7 +231,7 @@ cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.PreviewToolbar.prototype.expand = function(e) {
   this.setExpand(true, e.target.closest('.goog-splitpane-first-container'));
@@ -240,7 +240,7 @@ cwc.ui.PreviewToolbar.prototype.expand = function(e) {
 
 /**
  * Toggles the current expand state.
- * @param {event} e
+ * @param {goog.events.EventLike} e
  */
 cwc.ui.PreviewToolbar.prototype.collapse = function(e) {
   this.setExpand(false, e.target.closest('.goog-splitpane-first-container'));

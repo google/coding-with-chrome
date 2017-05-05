@@ -67,8 +67,8 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
@@ -154,7 +154,7 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.helper.removeEventListeners(this.listener, this.name);
+  this.helper.removeEventListeners(this.listener_, this.name);
 };
 
 
@@ -278,7 +278,7 @@ cwc.mode.sphero.Monitor.prototype.updateSpeedData_ = function(e) {
 
 /**
  * Handles keyboard shortcuts.
- * @param {event} event
+ * @param {goog.events.EventLike} event
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
@@ -347,5 +347,5 @@ cwc.mode.sphero.Monitor.prototype.addEventListener_ = function(src, type,
     goog.dom.getElement(this.prefix + src) : src;
   let eventListener = goog.events.listen(target, type, listener, useCapture,
       listenerScope);
-  goog.array.insert(this.listener, eventListener);
+  goog.array.insert(this.listener_, eventListener);
 };

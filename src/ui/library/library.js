@@ -71,7 +71,7 @@ cwc.ui.Library = function(helper) {
   this.nodePreview = null;
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @type {number} */
   this.numOfFiles_ = 0;
@@ -88,7 +88,7 @@ cwc.ui.Library.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
@@ -99,23 +99,23 @@ cwc.ui.Library.prototype.decorate = function() {
   this.nodeSearchButton = goog.dom.getElement(this.prefix + 'search-button');
   this.nodeSearchTerm = goog.dom.getElement(this.prefix + 'search-term');
 
-  this.addEventListener(this.nodeAddFile, goog.events.EventType.CLICK,
+  this.addEventListener_(this.nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
-  this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGLEAVE,
+  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DRAGLEAVE,
     this.handleDragLeave_, false, this);
-  this.addEventListener(this.nodeAddFile, goog.events.EventType.DRAGOVER,
+  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DRAGOVER,
     this.handleDragOver_, false, this);
-  this.addEventListener(this.nodeAddFile, goog.events.EventType.DROP,
+  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
-  this.addEventListener(this.nodeAll, goog.events.EventType.CLICK,
+  this.addEventListener_(this.nodeAll, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener(this.nodeAudio, goog.events.EventType.CLICK,
+  this.addEventListener_(this.nodeAudio, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener(this.nodeImages, goog.events.EventType.CLICK,
+  this.addEventListener_(this.nodeImages, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener(this.nodeSearchButton, goog.events.EventType.CLICK,
+  this.addEventListener_(this.nodeSearchButton, goog.events.EventType.CLICK,
     this.handleSearch_, false, this);
-  this.addEventListener(this.nodeSearchTerm, goog.events.EventType.KEYUP,
+  this.addEventListener_(this.nodeSearchTerm, goog.events.EventType.KEYUP,
     this.handleSearchKey_, false, this);
 
   this.prepareTour_();
@@ -401,14 +401,14 @@ cwc.ui.Library.prototype.handleFileClick_ = function(e) {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
+ * @private
  */
-cwc.ui.Library.prototype.addEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.ui.Library.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -416,7 +416,7 @@ cwc.ui.Library.prototype.addEventListener = function(src, type,
  * Clean up the event listener and any other modification.
  */
 cwc.ui.Library.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
 };
 
 

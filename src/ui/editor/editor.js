@@ -131,7 +131,7 @@ cwc.ui.Editor = function(helper) {
   this.theme = 'default';
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @private {!boolean} */
   this.isVisible_ = true;
@@ -196,15 +196,15 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 
   // Add event listener to monitor changes like resize and unload.
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener(viewportMonitor, goog.events.EventType.RESIZE,
+  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener(eventHandler, goog.events.EventType.RESIZE,
+    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
-    this.addEventListener(eventHandler, goog.events.EventType.UNLOAD,
+    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
   this.adjustSize();
@@ -224,8 +224,8 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
 
   let extraKeys = {
     'Ctrl-Q': function(cm) {
- cm.foldCode(cm.getCursor());
-},
+      cm.foldCode(cm.getCursor());
+    },
     'Ctrl-J': 'toMatchingTag',
     'Cmd-Space': 'autocomplete',
     'Ctrl-Space': 'autocomplete',
@@ -421,11 +421,10 @@ cwc.ui.Editor.prototype.getEditorContent = function(optName) {
 
 /**
  * @param {!string} content
- * @param {string=} opt_view
+ * @param {string=} view
  */
 cwc.ui.Editor.prototype.setEditorContent = function(content,
-    opt_view) {
-  let view = opt_view || cwc.file.ContentType.CUSTOM;
+    view = cwc.file.ContentType.CUSTOM) {
   if (view in this.editorView) {
     this.editorView[view].setContent(content);
   } else {
@@ -437,15 +436,14 @@ cwc.ui.Editor.prototype.setEditorContent = function(content,
 /**
  * @param {!string} content
  */
-cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(
-    content) {
+cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(content) {
   this.setEditorContent(content, cwc.file.ContentType.JAVASCRIPT);
 };
 
 
 /**
  * Sync JavaScript content from other modules.
- * @param {event=} opt_event
+ * @param {goog.events.EventLike=} opt_event
  */
 cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
   let fileUi = this.helper.getInstance('file').getUi();
@@ -629,7 +627,7 @@ cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
 
 
 /**
- * @param {event=} opt_event
+ * @param {goog.events.EventLike=} opt_event
  */
 cwc.ui.Editor.prototype.handleSyncEvent = function(opt_event) {
   if (opt_event && opt_event['recordUndo'] === false) {
@@ -760,14 +758,14 @@ cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
+ * @private
  */
-cwc.ui.Editor.prototype.addEventListener = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.ui.Editor.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -776,6 +774,6 @@ cwc.ui.Editor.prototype.addEventListener = function(src, type,
  * @private
  */
 cwc.ui.Editor.prototype.cleanUp_ = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
   this.modified = false;
 };

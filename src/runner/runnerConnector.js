@@ -58,8 +58,8 @@ cwc.runner.Connector = function(helper, optName) {
   /** @type {!boolean} */
   this.listen = false;
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 
   /** @type {!boolean} */
   this.directUpdate = false;
@@ -343,15 +343,14 @@ cwc.runner.Connector.prototype.handlePong_ = function(data) {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function()} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
-cwc.runner.Connector.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.runner.Connector.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -359,5 +358,5 @@ cwc.runner.Connector.prototype.addEventListener_ = function(src, type,
  * Clears all object based events.
  */
 cwc.runner.Connector.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
 };

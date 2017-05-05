@@ -110,7 +110,7 @@ cwc.ui.Preview = function(helper) {
   this.toolbar = null;
 
   /** @type {Array} */
-  this.listener = [];
+  this.listener_ = [];
 
   /** @private {!boolean} */
   this.ran_ = false;
@@ -437,8 +437,7 @@ cwc.ui.Preview.prototype.delayAutoUpdate = function() {
   if (this.autoUpdateDelayer) {
     window.clearTimeout(this.autoUpdateDelayer);
   }
-  let autoUpdater = this.doAutoUpdate.bind(this);
-  this.autoUpdateDelayer = window.setTimeout(autoUpdater,
+  this.autoUpdateDelayer = window.setTimeout(this.doAutoUpdate.bind(this),
       this.autoUpdateDelay);
 };
 
@@ -572,15 +571,14 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
+ * @param {boolean=} capture
+ * @param {Object=} scope
  * @private
  */
-cwc.ui.Preview.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let eventListener = goog.events.listen(src, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
+cwc.ui.Preview.prototype.addEventListener_ = function(src, type, listener,
+    capture = false, scope = undefined) {
+  let eventListener = goog.events.listen(src, type, listener, capture, scope);
+  goog.array.insert(this.listener_, eventListener);
 };
 
 
@@ -588,5 +586,5 @@ cwc.ui.Preview.prototype.addEventListener_ = function(src, type,
  * Clears all object based events.
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
-  this.listener = this.helper.removeEventListeners(this.listener, this.name);
+  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
 };

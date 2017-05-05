@@ -54,8 +54,8 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
   /** @type {string} */
   this.prefix = helper.getPrefix('ev3');
 
-  /** @type {!Array} */
-  this.listener = [];
+  /** @private {!Array} */
+  this.listener_ = [];
 };
 
 
@@ -147,26 +147,4 @@ cwc.mode.ev3.blockly.Editor.prototype.switchToEditor = function(opt_e) {
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable|string} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} opt_useCapture
- * @param {Object=} opt_listenerScope
- * @private
- */
-cwc.mode.ev3.blockly.Editor.prototype.addEventListener_ = function(src, type,
-    listener, opt_useCapture, opt_listenerScope) {
-  let target = goog.isString(src) ?
-    goog.dom.getElement(this.prefix + src) : src;
-  let eventListener = goog.events.listen(target, type, listener, opt_useCapture,
-      opt_listenerScope);
-  goog.array.insert(this.listener, eventListener);
 };
