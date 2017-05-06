@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.EditorFlags');
 
-goog.require('cwc.config.interpreter');
+goog.require('cwc.config.InterpreterFlag');
 
 
 /**
@@ -71,7 +71,7 @@ cwc.ui.EditorFlags.prototype.getDebugFlag = function() {
 
 
 /**
- * @param {!cwc.config.interpreter.Flag.LOAD} value
+ * @param {!string} value
  */
 cwc.ui.EditorFlags.prototype.setLoadFlag = function(value) {
   this.setFlag('interpreter.load', value);
@@ -79,7 +79,7 @@ cwc.ui.EditorFlags.prototype.setLoadFlag = function(value) {
 
 
 /**
- * @return {cwc.config.interpreter.Flag.LOAD}
+ * @return {string}
  */
 cwc.ui.EditorFlags.prototype.getLoadFlag = function() {
   return this.getFlag('interpreter.load');

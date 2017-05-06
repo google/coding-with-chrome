@@ -54,7 +54,9 @@
       {if $style}{$style}{\n}{/if}
     </style>{\n}
     {if $css}
-      {call .css}{param content: $css /}{/call}
+      {call .css}
+        {param content: $css /}
+      {/call}
     {/if}
     {if $head}{$head}{\n}{/if}
   </head>{\n}
@@ -82,11 +84,7 @@
   {@param? css: string}
   {@param? js: string}
 
-  {call .html}
-    {param body: $body /}
-    {param head: $head /}
-    {param css: $css /}
-    {param js: $js /}
+  {call .html data="all"}
     {param style kind="css"}
       body {lb}
         background-size: 25px 25px;
@@ -121,7 +119,9 @@
 {template .javaScriptContent}
   {@param content: string}
 
-  <script>{\n}{$content}{\n}</script>{\n}
+  {if $content}
+    <script>{\n}{$content}{\n}</script>{\n}
+  {/if}
 {/template}
 
 

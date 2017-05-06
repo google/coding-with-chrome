@@ -88,7 +88,7 @@ cwc.ui.Preview = function(helper) {
   /** @type {number} */
   this.autoUpdateDelay = 750;
 
-  /** @type {number} */
+  /** @type {number|null} */
   this.autoUpdateDelayer = null;
 
   /** @type {goog.events.ListenableKey|number} */

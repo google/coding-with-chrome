@@ -179,12 +179,12 @@ cwc.protocol.bluetooth.Devices.prototype.getDevice = function(address) {
 
 /**
  * @param {!string} name
- * @param {boolean=} opt_multisearch
+ * @param {boolean=} multisearch
  * @return {cwc.protocol.bluetooth.Device}
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
-    opt_multisearch) {
+    multisearch = false) {
   let connectedDevice = [];
   let disconnectedDevice = [];
   for (let entry in this.devices) {
@@ -204,14 +204,14 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
   if (numConnected) {
     this.log_.debug('Found', numConnected, 'connected device for', name, ':',
       connectedDevice);
-    if (opt_multisearch && numConnected > 1) {
+    if (multisearch && numConnected > 1) {
       return connectedDevice[Math.floor(Math.random() * numConnected)];
     }
     return connectedDevice[0];
   } else if (numDisconnected) {
     this.log_.debug('Found', numDisconnected, 'disconnected device for', name,
       ':', disconnectedDevice);
-    if (opt_multisearch && numDisconnected > 1) {
+    if (multisearch && numDisconnected > 1) {
       return disconnectedDevice[Math.floor(Math.random() * numDisconnected)];
     }
     return disconnectedDevice[0];
@@ -232,20 +232,20 @@ cwc.protocol.bluetooth.Devices.prototype.getDevices = function() {
 
 
 /**
- * @param {!string} device_name
+ * @param {!string} name
  * @param {Function} callback
- * @param {boolean=} opt_multisearch
+ * @param {boolean=} multisearch
  * @export
  */
-cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(
-    device_name, callback, opt_multisearch) {
-  let device = this.getDeviceByName(device_name, opt_multisearch);
+cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(name,
+    callback, multisearch = false) {
+  let device = this.getDeviceByName(name, multisearch);
   if (device) {
     if (device.isConnected() && device.hasSocket()) {
       callback(device.getAddress());
     } else {
       let connectEvent = function(socket_id, address) {
-        callback(address);
+        callback(device, address);
       };
       device.connect(connectEvent.bind(this));
     }

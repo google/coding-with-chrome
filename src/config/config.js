@@ -24,7 +24,7 @@ goog.provide('cwc.config.Experimental');
 goog.provide('cwc.config.Number');
 goog.provide('cwc.config.Prefix');
 goog.provide('cwc.config.Sample');
-goog.provide('cwc.config.interpreter');
+goog.provide('cwc.config.InterpreterFlag');
 
 goog.require('cwc.utils.LogLevel');
 
@@ -115,7 +115,7 @@ cwc.config.Sample = {
  * Supported commands Flags for the Interpreter.
  * @enum {!Object.<string>}
  */
-cwc.config.interpreter.Flag = {
+cwc.config.InterpreterFlag = {
   LOAD: {
     ONLOAD: 'onLoad',  // Load on "window.onload"
     ONDOMREADY: 'onDomReady',  // Load on "document.DOMContentLoaded"

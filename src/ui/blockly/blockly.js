@@ -76,7 +76,7 @@ cwc.ui.Blockly = function(helper) {
   /** @type {!boolean} */
   this.zoomControl = true;
 
-  /** @type {Blockly.Workspace} */
+  /** @type {Blockly.WorkspaceSvg} */
   this.workspace = null;
 
   /** @type {cwc.ui.BlocklyToolbar} */
@@ -142,6 +142,13 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
     prefix: this.prefix,
   });
 
+  // Editor node
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
+  if (!this.nodeEditor) {
+    this.log.error('Unable to find Blockly node to decorate!');
+    return;
+  }
+
   // Toolbar
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
   if (this.nodeToolbar) {
@@ -179,7 +186,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   }
 
   // Blockly Editor
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
   this.workspace = Blockly.inject(this.nodeEditor, options);
 
@@ -385,7 +391,7 @@ cwc.ui.Blockly.prototype.enableMediaButton = function(enable) {
 
 
 /**
- * @return {Blockly.Workspace}
+ * @return {Blockly.WorkspaceSvg}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
   if (!this.workspace) {
@@ -587,7 +593,7 @@ cwc.ui.Blockly.prototype.setToolboxTemplate = function(template,
 
 /**
  * @param {!string} name
- * @param {!string|object} value
+ * @param {!string|Object} value
  */
 cwc.ui.Blockly.prototype.setWorkspaceOption = function(name, value) {
   let workspace = this.getWorkspace();

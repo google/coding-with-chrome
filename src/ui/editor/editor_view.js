@@ -47,7 +47,7 @@ cwc.ui.EditorView = function(opt_content, optType, opt_hints, opt_flags) {
   this.flags = opt_flags || new cwc.ui.EditorFlags();
 
   /** @type {number} */
-  this.cursorPosition = null;
+  this.cursorPosition = 0;
 };
 
 

@@ -55,7 +55,7 @@ cwc.protocol.sphero.Events.velocityData = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @return {!cwc.protocol.sphero.Events.Data_}
  * @final
  */
@@ -78,7 +78,7 @@ cwc.protocol.sphero.Events.collision = function(data) {
 
 /**
  * @param {!cwc.protocol.sphero.Events.Type} type
- * @param {Object=} data
+ * @param {Object|number=} data
  * @constructor
  * @final
  * @private
@@ -87,6 +87,6 @@ cwc.protocol.sphero.Events.Data_ = function(type, data = {}) {
   /** @type {!cwc.protocol.sphero.Events.Type} */
   this.type = type;
 
-  /** @type {!Object} */
+  /** @type {Object|number} */
   this.data = data;
 };

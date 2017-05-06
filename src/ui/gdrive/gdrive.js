@@ -54,7 +54,7 @@ cwc.ui.GDrive = function(helper) {
   this.currentDialog = null;
 
   /** @type {string} */
-  this.dialogType = null;
+  this.dialogType = '';
 
   /** @type {!string} */
   this.mimeType = 'application/cwc';
@@ -394,9 +394,8 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
     );
     dialog.listen(goog.ui.Dialog.EventType.SELECT, function(event) {
       if (event.key === 'ok') {
-        this.saveFile(
-            this.saveFileName, this.saveFileContent, null,
-            this.saveFileParentId);
+        this.saveFile(this.saveFileName, this.saveFileContent, undefined,
+          this.saveFileParentId);
       }
     }.bind(this));
   }
@@ -509,7 +508,7 @@ cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
     fileInstance.setGDriveId(file['id']);
     console.info('Saved gDrive file: ' + file['id']);
   } else {
-    this.helper.showError('Was not able to save file ' + file['name'] + ' !');
+    this.helper.showError('Was not able to save file!');
     console.error('Save failed!');
   }
 };

@@ -19,7 +19,6 @@
  */
 
 
-
 /** @type {Object} */
 window.componentHandler = {};
 

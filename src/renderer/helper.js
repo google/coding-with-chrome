@@ -64,7 +64,7 @@ cwc.renderer.Helper.prototype.prependText = function(content, text) {
 
 
 /**
- * @param {!string} body
+ * @param {string=} body
  * @param {string=} header
  * @param {string=} css
  * @param {string=} javascript
@@ -73,47 +73,47 @@ cwc.renderer.Helper.prototype.prependText = function(content, text) {
 cwc.renderer.Helper.prototype.getHTML = function(body, header, css,
     javascript) {
   return cwc.soy.Renderer.html({
-    body: this.sanitizedHtml_(body),
-    head: this.sanitizedHtml_(header),
-    css: this.sanitizedCss_(css),
-    js: this.sanitizedJs_(javascript),
+    body: body ? this.sanitizedHtml_(body) : '',
+    head: header ? this.sanitizedHtml_(header) : '',
+    css: css ? this.sanitizedCss_(css) : '',
+    js: javascript ? this.sanitizedJs_(javascript) : '',
   });
 };
 
 
 /**
- * @param {!string} opt_body
- * @param {string=} opt_header
- * @param {string=} opt_css
- * @param {string=} opt_javascript
+ * @param {string=} body
+ * @param {string=} header
+ * @param {string=} css
+ * @param {string=} javascript
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getHTMLGrid = function(opt_body, opt_header,
-    opt_css, opt_javascript) {
+cwc.renderer.Helper.prototype.getHTMLGrid = function(body, header, css,
+    javascript) {
   return cwc.soy.Renderer.htmlGrid({
-    body: this.sanitizedHtml_(opt_body),
-    head: this.sanitizedHtml_(opt_header),
-    css: this.sanitizedCss_(opt_css),
-    js: this.sanitizedJs_(opt_javascript),
+    body: body ? this.sanitizedHtml_(body) : '',
+    head: header ? this.sanitizedHtml_(header) : '',
+    css: css ? this.sanitizedCss_(css) : '',
+    js: javascript ? this.sanitizedJs_(javascript) : '',
   });
 };
 
 
 /**
- * @param {!string} opt_body
- * @param {string=} opt_header
- * @param {string=} opt_css
- * @param {string=} opt_javascript
+ * @param {!string} body
+ * @param {string=} header
+ * @param {string=} css
+ * @param {string=} javascript
  * @param {string=} canvas
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getHTMLCanvas = function(opt_body, opt_header,
-    opt_css, opt_javascript, canvas = 'canvas-chrome') {
+cwc.renderer.Helper.prototype.getHTMLCanvas = function(body, header, css,
+    javascript, canvas = 'canvas-chrome') {
   return cwc.soy.Renderer.html({
-    body: this.sanitizedHtml_(opt_body),
-    head: this.sanitizedHtml_(opt_header),
-    css: this.sanitizedCss_(opt_css),
-    js: this.sanitizedJs_(opt_javascript),
+    body: body ? this.sanitizedHtml_(body) : '',
+    head: header ? this.sanitizedHtml_(header) : '',
+    css: css ? this.sanitizedCss_(css) : '',
+    js: javascript ? this.sanitizedJs_(javascript) : '',
     canvas: canvas,
   });
 };
@@ -121,24 +121,24 @@ cwc.renderer.Helper.prototype.getHTMLCanvas = function(opt_body, opt_header,
 
 /**
  * @param {!string} html
- * @param {string=} opt_header
+ * @param {string=} header
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
+cwc.renderer.Helper.prototype.getRawHTML = function(html, header) {
   if (!html) {
     return '';
   }
-  if (opt_header) {
+  if (header) {
     if (html.includes('</head>')) {
-      return html.replace('</head>', opt_header + '\n</head>');
+      return html.replace('</head>', header + '\n</head>');
     } else if (html.includes('<body')) {
       return html.replace('<body',
-        '<head>\n' + opt_header + '\n</head>\n<body');
+        '<head>\n' + header + '\n</head>\n<body');
     } else if (html.includes('<html>')) {
       return html.replace('<html>',
-        '<html>\n<head>\n' + opt_header + '\n</head>\n');
+        '<html>\n<head>\n' + header + '\n</head>\n');
     } else if (!html.includes('<html')) {
-      return '<head>\n' + opt_header + '\n</head>\n' + html;
+      return '<head>\n' + header + '\n</head>\n' + html;
     }
   }
   return html;
@@ -152,8 +152,8 @@ cwc.renderer.Helper.prototype.getRawHTML = function(html, opt_header) {
  * @return {string} Rendered content as object.
  * @export
  */
-cwc.renderer.Helper.prototype.getObjectTag = function(data_url,
-    width = 400, height = 400) {
+cwc.renderer.Helper.prototype.getObjectTag = function(data_url, width = 400,
+    height = 400) {
   return cwc.soy.Renderer.objectTemplate({
     data_url: this.sanitizedUri_(data_url),
     type: 'text/html',
@@ -264,7 +264,7 @@ cwc.renderer.Helper.prototype.getStyleSheetDataUrl = function(data,
 
 
 /**
- * @param {!string} filename
+ * @param {!string|cwc.framework.External|cwc.framework.Internal} filename
  * @param {!cwc.file.Files} files
  * @return {string}
  */
@@ -280,16 +280,14 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
 
 /**
  * @param {!Array} filenames
- * @param {!cwc.file.Files} renderer_frameworks
+ * @param {!cwc.file.Files} files
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames,
-    renderer_frameworks) {
+cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
   let headers = '';
   for (let filename in filenames) {
     if (Object.prototype.hasOwnProperty.call(filenames, filename)) {
-      headers += this.getFrameworkHeader(filenames[filename],
-        renderer_frameworks);
+      headers += this.getFrameworkHeader(filenames[filename], files);
     }
   }
   return headers;

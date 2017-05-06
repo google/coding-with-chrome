@@ -33,23 +33,16 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.sphero.Api = function(helper) {
+cwc.protocol.sphero.Api = function() {
   /** @type {string} */
   this.name = 'Sphero';
 
   /** @type {boolean} */
   this.prepared = false;
-
-  /** @type {string} */
-  this.autoConnectName = 'Sphero';
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {!cwc.protocol.sphero.Commands} */
   this.commands = new cwc.protocol.sphero.Commands();
@@ -57,10 +50,10 @@ cwc.protocol.sphero.Api = function(helper) {
   /** @type {cwc.protocol.sphero.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.Monitoring(this);
 
-  /** @private {!Array.} */
+  /** @private {!Array} */
   this.headerAck_ = [0xff, 0xff];
 
-  /** @private {!Array.} */
+  /** @private {!Array} */
   this.headerAsync_ = [0xff, 0xfe];
 
   /** @private {!number} */
@@ -102,25 +95,12 @@ cwc.protocol.sphero.Api = function(helper) {
 
 
 /**
- * AutoConnects the Sphero ball.
- * @export
- */
-cwc.protocol.sphero.Api.prototype.autoConnect = function() {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  bluetoothInstance.autoConnectDevice(this.autoConnectName,
-      this.connect.bind(this));
-};
-
-
-/**
  * Connects the Sphero ball.
- * @param {!string} address
+ * @param {!cwc.protocol.bluetooth.Device} device
  * @return {boolean} Was able to prepare and connect to the Sphero.
  * @export
  */
-cwc.protocol.sphero.Api.prototype.connect = function(address) {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  let device = bluetoothInstance.getDevice(address);
+cwc.protocol.sphero.Api.prototype.connect = function(device) {
   if (!device) {
     console.error('Sphero ball is not ready yet...');
     return false;
@@ -138,10 +118,10 @@ cwc.protocol.sphero.Api.prototype.connect = function(address) {
 
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 cwc.protocol.sphero.Api.prototype.isConnected = function() {
-  return (this.device && this.device.isConnected());
+  return (this.device && this.device.isConnected()) ? true : false;
 };
 
 
@@ -219,11 +199,11 @@ cwc.protocol.sphero.Api.prototype.setColisionDetection = function() {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {boolean=} opt_persistant
+ * @param {boolean=} opt_persistent
  */
 cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
-    opt_persistant) {
-  this.send_(this.commands.setRGB(red, green, blue, opt_persistant));
+    opt_persistent) {
+  this.send_(this.commands.setRGB(red, green, blue, opt_persistent));
 };
 
 
@@ -300,10 +280,10 @@ cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
  */
 cwc.protocol.sphero.Api.prototype.stop = function() {
   this.reset();
-  this.setRGB(0, 0, 0, 1);
+  this.setRGB(0, 0, 0, true);
   this.setBackLed(0);
   this.boost(false);
-  this.roll(0, 0, 0);
+  this.roll(0, 0, false);
 };
 
 
@@ -352,10 +332,10 @@ cwc.protocol.sphero.Api.prototype.getVersion = function() {
  */
 cwc.protocol.sphero.Api.prototype.runTest = function() {
   console.log('Prepare self test…');
-  this.setRGB(255, 0, 0, 1);
-  this.setRGB(0, 255, 0, 1);
-  this.setRGB(0, 0, 255, 1);
-  this.setRGB(0, 0, 0, 1);
+  this.setRGB(255, 0, 0, true);
+  this.setRGB(0, 255, 0, true);
+  this.setRGB(0, 0, 255, true);
+  this.setRGB(0, 0, 0, true);
 
   this.setBackLed(100);
   this.setBackLed(75);
@@ -452,7 +432,7 @@ cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
 
 /**
  * Handles received data and callbacks from the Bluetooth socket.
- * @param {Array} buffer
+ * @param {!Array} buffer
  * @private
  */
 cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
@@ -478,7 +458,7 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
 
 /**
  * Handles async packets from the Bluetooth socket.
- * @param {Array} buffer
+ * @param {!Array} buffer
  * @private
  */
 cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
@@ -501,18 +481,20 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
 
 /**
  * @param {!Array} buffer
- * @param {Number=} opt_checksum
+ * @param {Number=} checksum
  * @return {!boolean}
  * @private
  */
 cwc.protocol.sphero.Api.prototype.verifiyChecksum_ = function(buffer,
-    opt_checksum) {
+    checksum) {
   let bufferChecksum = 0;
   let bufferLength = buffer.length -1;
-  let checksum = opt_checksum || buffer[bufferLength];
+  if (!checksum) {
+    checksum = buffer[bufferLength];
+  }
   for (let i = 2; i < bufferLength; i++) {
     bufferChecksum += buffer[i];
   }
 
-  return checksum === (bufferChecksum % 256) ^ 0xFF;
+  return (checksum === (bufferChecksum % 256) ^ 0xFF) ? true : false;
 };

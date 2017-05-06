@@ -103,8 +103,11 @@ Blockly.JavaScript.prototype.blockToCode = function(block) {};
 Blockly.JavaScript.prototype.statementToCode = function(block, name) {};
 
 
+/** @type {Object} */
+Blockly.Xml = {};
+
 /**
- * @param {!Blockly.Workspace} workspace The workspace containing blocks.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace containing blocks.
  * @param {boolean} pretty_print
  * @return {!Element} XML document.
  */
@@ -118,13 +121,13 @@ Blockly.Xml.textToDom = function(text) {};
 
 /**
  * @param {!Element} xml XML DOM.
- * @param {!Blockly.Workspace} workspace The workspace.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace.
  */
 Blockly.Xml.domToWorkspace = function(xml, workspace) {};
 
 /**
  * @param {!Element} xmlBlock XML block element.
- * @param {!Blockly.Workspace} workspace The workspace.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace.
  * @return {!Blockly.Block} The root block created.
  */
 Blockly.Xml.domToBlock = function(xmlBlock, workspace) {};
@@ -140,7 +143,7 @@ Blockly.Xml.domToPrettyText = function(dom) {};
 Blockly.Block = function() {};
 
 /**
- * @param {!Blockly.Workspace} workspace
+ * @param {!Blockly.WorkspaceSvg} workspace
  * @param {?string} prototypeName
  * @param {string=} opt_id
  * @constructor
@@ -170,15 +173,12 @@ Blockly.JavaScript.ORDER_ATOMIC = '';
 Blockly.JavaScript.prototype.valueToCode = function(block, name, order) {};
 
 
-/** @type {Object} */
-Blockly.Xml = {};
-
 
 /** @type {Object} */
 Blockly.Variables = {};
 
 /**
- * @param {!Blockly.Workspace} workspace
+ * @param {!Blockly.WorkspaceSvg} workspace
  * @param {function(?string=)=} opt_callback
  */
 Blockly.Variables.createVariable = function(workspace, opt_callback) {};
@@ -186,58 +186,6 @@ Blockly.Variables.createVariable = function(workspace, opt_callback) {};
 
 /** @constructor */
 Blockly.Workspace = function() {};
-
-/** @type {Object} */
-Blockly.Workspace.options = {};
-
-/** @type {Array} */
-Blockly.Workspace.undoStack_ = [];
-
-/** @type {Array} */
-Blockly.Workspace.redoStack_ = [];
-
-/** @type {Object} */
-Blockly.Workspace.prototype.toolbox_ = {};
-
-/** @type {Function} */
-Blockly.Workspace.toolbox_.clearSelection = function() {};
-
-/** @type {Object} */
-Blockly.Workspace.toolbox_.tree_ = {};
-
-/** @type {Object} */
-Blockly.Workspace.toolbox_.tree_.childIndex_ = {};
-
-/** @param {number} newScale */
-Blockly.Workspace.prototype.setScale = function(newScale) {};
-
-/**
- * Center the workspace.
- */
-Blockly.Workspace.prototype.scrollCenter = function() {};
-
-/**
- * @param {Node|string} tree
- */
-Blockly.Workspace.prototype.updateToolbox = function(tree) {};
-
-/**
- * @param {!Function} func
- * @return {!Function}
- */
-Blockly.Workspace.prototype.addChangeListener = function(func) {};
-
-/**
- * @param {!string} name
- * @param {!Function} callback
- */
-Blockly.Workspace.prototype.registerButtonCallback = function(
-  name, callback) {};
-
-/**
- * @param {boolean=} redo False if undo, true if redo.
- */
-Blockly.Workspace.prototype.undo = function(redo) {};
 
 /**
  * @param {!Blockly.Options} options
@@ -248,6 +196,61 @@ Blockly.Workspace.prototype.undo = function(redo) {};
 Blockly.WorkspaceSvg = function(options,
     opt_blockDragSurface, opt_wsDragSurface) {
 };
+
+/** @type {Array} */
+Blockly.WorkspaceSvg.undoStack_ = [];
+
+/** @type {Array} */
+Blockly.WorkspaceSvg.redoStack_ = [];
+
+/** @type {Object} */
+Blockly.WorkspaceSvg.prototype.toolbox_ = {};
+
+/** @type {Object} */
+Blockly.WorkspaceSvg.toolbox_ = {};
+
+/** @type {Function} */
+Blockly.WorkspaceSvg.toolbox_.clearSelection = function() {};
+
+/** @type {Object} */
+Blockly.WorkspaceSvg.toolbox_.tree_ = {};
+
+/** @type {Object} */
+Blockly.WorkspaceSvg.toolbox_.tree_.childIndex_ = {};
+
+/** @type {Object} */
+Blockly.WorkspaceSvg.prototype.options = {};
+
+/** @param {number} newScale */
+Blockly.WorkspaceSvg.prototype.setScale = function(newScale) {};
+
+/**
+ * Center the workspace.
+ */
+Blockly.WorkspaceSvg.prototype.scrollCenter = function() {};
+
+/**
+ * @param {Node|string} tree
+ */
+Blockly.WorkspaceSvg.prototype.updateToolbox = function(tree) {};
+
+/**
+ * @param {!Function} func
+ * @return {!Function}
+ */
+Blockly.WorkspaceSvg.prototype.addChangeListener = function(func) {};
+
+/**
+ * @param {!string} name
+ * @param {!Function} callback
+ */
+Blockly.WorkspaceSvg.prototype.registerButtonCallback = function(
+  name, callback) {};
+
+/**
+ * @param {boolean=} redo False if undo, true if redo.
+ */
+Blockly.WorkspaceSvg.prototype.undo = function(redo) {};
 
 /** @constructor */
 Blockly.Options = function() {};
@@ -264,8 +267,14 @@ Blockly.BlockDragSurfaceSvg = function(container) {};
  */
 Blockly.workspaceDragSurfaceSvg = function(container) {};
 
-/** @type {Object} */
-Blockly.Toolbox = {};
 
 /** @constructor */
-Blockly.Toolbox.TreeControl = function() {};
+Blockly.Toolbox = function(workspace) {};
+
+/**
+ * @param {Blockly.Toolbox} toolbox
+ * @param {Object} config
+ * @constructor
+ * @extends {goog.ui.tree.TreeControl}
+ */
+Blockly.Toolbox.TreeControl = function(toolbox, config) {};

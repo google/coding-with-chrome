@@ -60,7 +60,7 @@ cwc.protocol.bluetooth.Device = function(address, connected, connectable,
   /** @type {!boolean} */
   this.paired = paired;
 
-  /** @type {!Array.} */
+  /** @type {!Array} */
   this.uuids = uuids;
 
   /** @type {!cwc.protocol.bluetooth.supportedDevices} */

@@ -59,17 +59,17 @@ cwc.framework.Sphero = function(code) {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {boolean=} opt_persistant
+ * @param {boolean=} opt_persistent
  * @param {number=} opt_delay in msec
  * @export
  */
 cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
-    opt_persistant, opt_delay) {
+    opt_persistent, opt_delay) {
   this.runner.send('setRGB', {
     'red': red,
     'green': green,
     'blue': blue,
-    'persistant': opt_persistant}, opt_delay);
+    'persistent': opt_persistent}, opt_delay);
 };
 
 

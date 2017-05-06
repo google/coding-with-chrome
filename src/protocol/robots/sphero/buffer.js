@@ -37,13 +37,13 @@ cwc.protocol.sphero.Buffer = function(optCallback) {
   this.callbackType = optCallback ||
       cwc.protocol.sphero.CallbackType.NONE;
 
-  /** @type {!cwc.protocol.sphero.Command} */
-  this.command = [0x00, 0x01];
+  /** @type {!cwc.protocol.sphero.Command|Array} */
+  this.command = cwc.protocol.sphero.Command.SYSTEM.PING;
 
   /** @type {!number} */
   this.header = 0xFF;
 
-  /** @type {!cwc.protocol.sphero.CommandType} */
+  /** @type {!number} */
   this.type = (optCallback) ?
       cwc.protocol.sphero.CommandType.DIRECT.REPLY :
       cwc.protocol.sphero.CommandType.DIRECT.NOREPLY;
@@ -107,7 +107,7 @@ cwc.protocol.sphero.Buffer.prototype.writeString = function(value) {
 
 
 /**
- * @param {!string} command
+ * @param {!cwc.protocol.sphero.Command|Array} command
  */
 cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
   this.command = command;

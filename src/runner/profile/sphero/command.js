@@ -36,7 +36,7 @@ cwc.runner.profile.sphero.Command = function(api) {
  * @param {!Object} data
  */
 cwc.runner.profile.sphero.Command.prototype.setRGB = function(data) {
-  this.api.setRGB(data['red'], data['green'], data['blue'], data['persistant']);
+  this.api.setRGB(data['red'], data['green'], data['blue'], data['persistent']);
 };
 
 
@@ -80,17 +80,11 @@ cwc.runner.profile.sphero.Command.prototype.calibrate = function(data) {
 };
 
 
-/**
- * @param {!Object} data
- */
-cwc.runner.profile.sphero.Command.prototype.stop = function(data) {
-  this.api.stop(data['delay']);
+cwc.runner.profile.sphero.Command.prototype.stop = function() {
+  this.api.stop();
 };
 
 
-/**
- * @param {!Object} opt_data
- */
-cwc.runner.profile.sphero.Command.prototype.sleep = function(opt_data) {
+cwc.runner.profile.sphero.Command.prototype.sleep = function() {
   this.api.sleep();
 };

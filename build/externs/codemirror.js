@@ -19,9 +19,11 @@
  */
 
 
-
-/** @constructor */
-var CodeMirror = function() {};
+/**
+  * @param {Node} node
+  * @constructor
+  */
+var CodeMirror = function(node) {};
 
 /** @type {Object} */
 CodeMirror.mimeModes = {};
@@ -29,8 +31,11 @@ CodeMirror.mimeModes = {};
 /** @type {Function} */
 CodeMirror.prototype.historySize = function() {};
 
-/** @constructor */
-CodeMirror.Doc = function() {};
+/**
+ * @param {string=} content
+ * @constructor
+ */
+CodeMirror.Doc = function(content) {};
 
 /** @type {Function} */
 CodeMirror.Doc.prototype.isClean = function() {};
@@ -82,6 +87,9 @@ CodeMirror.prototype.getCursor = function() {};
 
 /** @type {Function} */
 CodeMirror.prototype.setCursor = function() {};
+
+/** @type {Function} */
+CodeMirror.prototype.getValue = function() {};
 
 /** @type {Function} */
 CodeMirror.prototype.replaceSelection = function() {};

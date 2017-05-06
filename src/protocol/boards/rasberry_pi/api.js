@@ -27,22 +27,18 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.raspberryPi.Api = function(helper) {
+cwc.protocol.raspberryPi.Api = function() {
   /** @type {string} */
   this.name = 'Rasberry Pi';
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {cwc.protocol.serial.Device} */
   this.device = null;
 
-  /** @type {boolean} */
+  /** @type {!boolean} */
   this.connected = false;
 
   /** @type {goog.events.EventTarget} */
@@ -50,19 +46,6 @@ cwc.protocol.raspberryPi.Api = function(helper) {
 
   /** @type {Function} */
   this.terminalHandler = null;
-};
-
-
-/**
- * AutoConnects the Raspberry Pi.
- * @export
- */
-cwc.protocol.raspberryPi.Api.prototype.autoConnect = function() {
-  let serialInstance = this.helper.getInstance('serial', true);
-  let device = serialInstance.getConnectedDevice();
-  if (device) {
-    this.connect(device);
-  }
 };
 
 
@@ -121,7 +104,7 @@ cwc.protocol.raspberryPi.Api.prototype.reset = function() {
 
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 cwc.protocol.raspberryPi.Api.prototype.isConnected = function() {
   return this.connected;

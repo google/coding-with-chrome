@@ -32,12 +32,11 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.makeblock.mbot.Api = function(helper) {
+cwc.protocol.makeblock.mbot.Api = function() {
   /** @type {!cwc.protocol.makeblock.mbot.Commands} */
   this.commands = new cwc.protocol.makeblock.mbot.Commands();
 
@@ -50,14 +49,8 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {string} */
-  this.autoConnectName = 'Makeblock';
-
   /** @type {Object} */
   this.sensorData = {};
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {!cwc.protocol.makeblock.mbot.Monitoring} */
   this.monitoring = new cwc.protocol.makeblock.mbot.Monitoring(this);
@@ -68,7 +61,7 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
   /** @private {Object} */
   this.sensorDataCache_ = {};
 
-  /** @private {!Array.} */
+  /** @private {!Array} */
   this.headerAsync_ = [0xff, 0x55];
 
   /** @private {!number} */
@@ -77,25 +70,12 @@ cwc.protocol.makeblock.mbot.Api = function(helper) {
 
 
 /**
- * AutoConnects the mbot through bluetooth.
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.autoConnect = function() {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  bluetoothInstance.autoConnectDevice(this.autoConnectName,
-      this.connect.bind(this), true);
-};
-
-
-/**
  * Connects the mbot.
- * @param {!string} address
+ * @param {!cwc.protocol.bluetooth.Device} device
  * @return {boolean} Was able to prepare and connect to the mbot.
  * @export
  */
-cwc.protocol.makeblock.mbot.Api.prototype.connect = function(address) {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  let device = bluetoothInstance.getDevice(address);
+cwc.protocol.makeblock.mbot.Api.prototype.connect = function(device) {
   if (!device) {
     console.error('mBot is not ready yet...');
     return false;
@@ -113,11 +93,11 @@ cwc.protocol.makeblock.mbot.Api.prototype.connect = function(address) {
 
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.isConnected = function() {
-  return (this.device && this.device.isConnected());
+  return (this.device && this.device.isConnected()) ? true : false;
 };
 
 
@@ -300,7 +280,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.getVersion = function() {
 
 
 /**
- * convert float bytes to float value in robot response;
+ * Convert float bytes to float value in robot response;
  * @param  {Array} dataBytes bytes from the robot
  * @return {number} float value
  * @private
@@ -315,7 +295,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.parseFloatBytes_ = function(
 
 
 /**
- * convert four bytes (b4b3b2b1) to a single int.
+ * Convert four bytes (b4b3b2b1) to a single int.
  * @param {number} b1
  * @param {number} b2
  * @param {number} b3
@@ -330,7 +310,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.fourBytesToInt_ = function(b1, b2, b3,
 
 
 /**
- * convert from int (in byte form) to float
+ * Convert from int (in byte form) to float
  * @param {number} num   the input int value
  * @return {number}     the result as float
  * @private
@@ -421,15 +401,15 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
 
 /**
  * Dispatch event for sensor data change.
- * @param {!cwc.protocol.makeblock.mbot.IndexType} index_type
- * @param {!cwc.protocol.makeblock.mbot.Events.Type} event_type
+ * @param {!cwc.protocol.makeblock.mbot.IndexType} index
+ * @param {!cwc.protocol.makeblock.mbot.Events.Type} event
  * @param {ArrayBuffer} data
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.dispatchSensorEvent_ = function(
-    index_type, event_type, data) {
-  this.sensorData[index_type] = data;
-  this.eventHandler.dispatchEvent(event_type(data));
+    index, event, data) {
+  this.sensorData[index] = data;
+  this.eventHandler.dispatchEvent(event(data));
 };
 
 

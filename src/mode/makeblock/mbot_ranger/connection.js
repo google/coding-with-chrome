@@ -29,7 +29,10 @@ goog.require('goog.Timer');
  */
 cwc.mode.makeblock.mbotRanger.Connection = function(helper) {
   /** @type {string} */
-  this.name = 'mbot Connection';
+  this.name = 'mBot Ranger Connection';
+
+  /** @type {string} */
+  this.autoConnectName = 'Makeblock';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -71,7 +74,12 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.init = function() {
 cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
     opt_event) {
   if (!this.isConnected()) {
-    this.api.autoConnect();
+    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+    bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
+      if (device) {
+        this.api.connect(device);
+      }
+    }.bind(this));
   }
 };
 

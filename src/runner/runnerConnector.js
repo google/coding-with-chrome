@@ -25,17 +25,17 @@ goog.require('goog.events.BrowserEvent');
 
 /**
  * @param {!cwc.utils.Helper} helper
- * @param {string=} optName
+ * @param {string=} name
  * @constructor
  * @struct
  * @final
  */
-cwc.runner.Connector = function(helper, optName) {
-  /** @type {!string} */
-  this.name = 'Runner Connector' || optName;
-
+cwc.runner.Connector = function(helper, name = 'Runner Connector') {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.name = name;
 
   /** @type {!cwc.utils.Logger} */
   this.log_ = helper.getLogger();
@@ -64,8 +64,8 @@ cwc.runner.Connector = function(helper, optName) {
   /** @type {!boolean} */
   this.directUpdate = false;
 
-  /** @type {!number} */
-  this.token = new Date().getTime();
+  /** @type {!string} */
+  this.token = String(new Date().getTime());
 
   /** @type {!Object} */
   this.pingTime = {};
@@ -73,8 +73,8 @@ cwc.runner.Connector = function(helper, optName) {
   /** @type {!number} */
   this.pingCounter = 0;
 
-  /** @type {number} */
-  this.pingTestWorker = null;
+  /** @type {!number} */
+  this.pingTestWorker = 0;
 };
 
 
@@ -167,11 +167,11 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 /**
  * @param {!function(?)} command_profile
  * @param {!function(?)} api
- * @param {?=} opt_scope
+ * @param {?=} scope
  * @export
  */
 cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
-    api, opt_scope) {
+    api, scope) {
   let commandProfile = new command_profile(api);
   if (!commandProfile) {
     console.error('Invalid command profile', command_profile);
@@ -179,7 +179,7 @@ cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
   }
   let commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
   console.log(commandProfile, commandList);
-  let commandScope = opt_scope || commandProfile;
+  let commandScope = scope || commandProfile;
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && command !== 'constructor') {
@@ -342,7 +342,7 @@ cwc.runner.Connector.prototype.handlePong_ = function(data) {
  *
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
- * @param {function()} listener
+ * @param {Function} listener
  * @param {boolean=} capture
  * @param {Object=} scope
  * @private

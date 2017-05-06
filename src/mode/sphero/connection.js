@@ -30,6 +30,9 @@ cwc.mode.sphero.Connection = function(helper) {
   /** @type {string} */
   this.name = 'Sphero Connection';
 
+  /** @type {string} */
+  this.autoConnectName = 'Sphero';
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -69,7 +72,12 @@ cwc.mode.sphero.Connection.prototype.init = function() {
  */
 cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
-    this.api.autoConnect();
+    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+    bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
+      if (device) {
+        this.api.connect(device);
+      }
+    }.bind(this));
   }
   this.api.monitor(true);
 };

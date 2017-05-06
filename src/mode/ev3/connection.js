@@ -29,6 +29,12 @@ goog.require('goog.Timer');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.ev3.Connection = function(helper) {
+  /** @type {string} */
+  this.name = 'EV3 Connection';
+
+  /** @type {string} */
+  this.autoConnectName = 'EV3';
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -65,7 +71,12 @@ cwc.mode.ev3.Connection.prototype.init = function() {
  */
 cwc.mode.ev3.Connection.prototype.connect = function() {
   if (!this.isConnected()) {
-    this.api.autoConnect();
+    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
+    bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
+      if (device) {
+        this.api.connect(device);
+      }
+    }.bind(this));
   }
   this.api.monitor(true);
 };

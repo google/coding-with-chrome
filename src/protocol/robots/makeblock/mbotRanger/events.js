@@ -107,6 +107,6 @@ cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, data = {},
   /** @type {Object} */
   this.data = data;
 
-  /** @type {number} */
+  /** @type {number|undefined} */
   this.port = port;
 };

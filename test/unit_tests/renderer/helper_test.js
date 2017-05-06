@@ -181,4 +181,15 @@ describe('Renderer Helper', function() {
     expect(js2).toEqual('<script>\nlet 123;\n' +
       'function test(a) {return a+1;};\n</script>\n');
   });
+
+  it('getStyleSheetDataUrl ', function() {
+    let js1 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==').content;
+    let js2 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==', undefined,
+      'test-file').content;
+    expect(js1).toEqual('\n<link rel="stylesheet" type="text/css" ' +
+      'href="data:text/css;base64,SGVsbG9Xb3JsZA==">\n');
+    expect(js2).toEqual('\n<link rel="stylesheet" type="text/css" ' +
+      'href="data:text/css;base64,SGVsbG9Xb3JsZA==" ' +
+      'data-filename="test-file">\n');
+  });
 });

@@ -36,35 +36,26 @@ goog.require('cwc.protocol.ev3.Monitoring');
 goog.require('cwc.protocol.ev3.MotorMode');
 goog.require('cwc.protocol.ev3.OutputPort');
 
-goog.require('cwc.utils.Helper');
-
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.ev3.Api = function(helper) {
+cwc.protocol.ev3.Api = function() {
   /** @type {string} */
   this.name = 'EV3';
 
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {string} */
-  this.autoConnectName = 'EV3';
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
   /** @type {cwc.protocol.bluetooth.Device} */
   this.device = null;
 
-  /** @private {!Array.} */
+  /** @private {!Array} */
   this.header_ = [0xff, 0xff];
 
   /** @private {!number} */
@@ -106,25 +97,12 @@ cwc.protocol.ev3.Api = function(helper) {
 
 
 /**
- * AutoConnects the EV3 unit.
- * @export
- */
-cwc.protocol.ev3.Api.prototype.autoConnect = function() {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  bluetoothInstance.autoConnectDevice(this.autoConnectName,
-      this.connect.bind(this), true);
-};
-
-
-/**
  * Connects the EV3 unit.
- * @param {!string} address
+ * @param {!cwc.protocol.bluetooth.Device} device
  * @return {boolean} Was able to prepare and connect to the EV3.
  * @export
  */
-cwc.protocol.ev3.Api.prototype.connect = function(address) {
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  let device = bluetoothInstance.getDevice(address);
+cwc.protocol.ev3.Api.prototype.connect = function(device) {
   if (!device) {
     console.error('EV3 unit is not ready yet...');
     return false;
@@ -141,10 +119,10 @@ cwc.protocol.ev3.Api.prototype.connect = function(address) {
 
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 cwc.protocol.ev3.Api.prototype.isConnected = function() {
-  return this.device && this.device.isConnected();
+  return (this.device && this.device.isConnected()) ? true : false;
 };
 
 

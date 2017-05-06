@@ -25,17 +25,13 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.arduino.Api = function(helper) {
+cwc.protocol.arduino.Api = function() {
   /** @type {string} */
   this.name = 'Arduino';
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
@@ -43,7 +39,7 @@ cwc.protocol.arduino.Api = function(helper) {
   /** @type {cwc.protocol.serial.Device} */
   this.device = null;
 
-  /** @type {boolean} */
+  /** @type {!boolean} */
   this.connected = false;
 
   /** @type {Function} */
@@ -90,7 +86,7 @@ cwc.protocol.arduino.Api.prototype.disconnect = function() {
 
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 cwc.protocol.arduino.Api.prototype.isConnected = function() {
   return this.connected;

@@ -24,21 +24,19 @@ goog.provide('cwc.protocol.sphero.MessageType');
 
 
 /**
- * Enum of implemented callback types.
  * @enum {number}
  */
 cwc.protocol.sphero.CallbackType = {
   NONE: 0x00,
   LOCATION: 0x10,
   RGB: 0x15,
-  VESRION: 0x20,
+  VERSION: 0x20,
   UNKNOWN: 0xF0,
 };
 
 
 /**
- * Enum of commands for the communication protocol.
- * @enum {!Object.<string>|number}
+ * @enum {!Object.<Array>|Array}
  */
 cwc.protocol.sphero.Command = {
   SYSTEM: {
@@ -68,7 +66,6 @@ cwc.protocol.sphero.Command = {
 
 
 /**
- * Type of command.
  * @enum {!Object.<number>|number}
  */
 cwc.protocol.sphero.CommandType = {
@@ -80,7 +77,6 @@ cwc.protocol.sphero.CommandType = {
 
 
 /**
- * Enum of messages types.
  * @enum {number}
  */
 cwc.protocol.sphero.MessageType = {

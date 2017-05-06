@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.ui.Layout.simpleSingleColumn autoescape="strict"}
 
 
@@ -26,6 +25,7 @@
  */
 {template .template}
   {@param prefix: string}
+
   <div id="{$prefix}chrome-main">
     <div id="{$prefix}content-chrome"></div>
     {call cwc.soy.ui.Layout.contentOverlay data="all" /}

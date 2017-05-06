@@ -219,7 +219,8 @@ cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
  * @param {Event} event
  */
 cwc.ui.EditorToolbar.prototype.editorChangeViewEvent = function(event) {
-  this.editorChangeView(event.target.getValue());
+  let eventTarget = /** @type {CodeMirror} */ (event.target);
+  this.editorChangeView(eventTarget.getValue());
 };
 
 
@@ -377,9 +378,9 @@ cwc.ui.EditorToolbar.prototype.toggleExpand = function() {
 /**
  * Expands or collapses the current window.
  * @param {boolean} expand
- * @param {boolean} invert
+ * @param {boolean=} invert
  */
-cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert) {
+cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert = false) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {

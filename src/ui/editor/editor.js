@@ -74,7 +74,7 @@ cwc.ui.Editor = function(helper) {
   /** @type {!string} */
   this.prefix = this.helper.getPrefix('editor');
 
-  /** @type {!CodeMirror.CursorPosition|string} */
+  /** @type {!string} */
   this.cursorPosition = '';
 
   /** @type {boolean} */

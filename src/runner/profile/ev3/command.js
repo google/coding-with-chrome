@@ -52,7 +52,7 @@ cwc.runner.profile.ev3.Command.prototype.playSound = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.drawImage = function(data) {
-  this.api.drawImage(data['file'], data['delay']);
+  this.api.drawImage(data['file']);
 };
 
 
@@ -92,8 +92,7 @@ cwc.runner.profile.ev3.Command.prototype.customMoveSteps = function(data) {
  * @param {!Object} data
  */
 cwc.runner.profile.ev3.Command.prototype.rotateSteps = function(data) {
-  this.api.rotateSteps(data['steps'], data['speed'], data['break'],
-    data['single']);
+  this.api.rotateSteps(data['steps'], data['speed'], data['break']);
 };
 
 

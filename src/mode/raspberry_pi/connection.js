@@ -66,7 +66,11 @@ cwc.mode.raspberryPi.Connection.prototype.init = function() {
  */
 cwc.mode.raspberryPi.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
-    this.api.autoConnect();
+    let serialInstance = this.helper.getInstance('serial', true);
+    let device = serialInstance.getConnectedDevice();
+    if (device) {
+      this.api.connect(device);
+    }
   }
 };
 

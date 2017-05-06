@@ -49,21 +49,21 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   /** @type {!number} */
   this.monitorSensorUltrasonicInterval = 200;  // Duration in ms.
 
-  /** @type {goog.Timer} */
+  /** @type {!goog.Timer} */
   this.monitorSensorLineFollower = new goog.Timer(
     this.monitorSensorLineFollowerInterval);
 
-  /** @type {goog.Timer} */
+  /** @type {!goog.Timer} */
   this.monitorSensorLight1 = new goog.Timer(this.monitorSensorLight1Interval);
 
-  /** @type {goog.Timer} */
+  /** @type {!goog.Timer} */
   this.monitorSensorLight2 = new goog.Timer(this.monitorSensorLight2Interval);
 
-  /** @type {goog.Timer} */
+  /** @type {!goog.Timer} */
   this.monitorSensorTemperature = new goog.Timer(
     this.monitorSensorTemperatureInterval);
 
-  /** @type {goog.Timer} */
+  /** @type {!goog.Timer} */
   this.monitorSensorUltrasonic = new goog.Timer(
     this.monitorSensorUltrasonicInterval);
 
@@ -160,28 +160,28 @@ function(enable) {
 /**
  * @param {!boolean} enable
  * @param {!goog.Timer} monitor
- * @param {string=} optName
+ * @param {string=} name
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enable_ = function(
-  enable, monitor, optName) {
+  enable, monitor, name) {
   if (enable) {
-    this.start_(monitor, optName);
+    this.start_(monitor, name);
   } else {
-    this.stop_(monitor, optName);
+    this.stop_(monitor, name);
   }
 };
 
 
 /**
  * @param {!goog.Timer} monitor
- * @param {string=} optName
+ * @param {string=} name
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
-  monitor, optName) {
-  if (optName) {
-    console.log('Starting mBot Ranger', optName, 'sensor monitoring ...');
+  monitor, name) {
+  if (name) {
+    console.log('Starting mBot Ranger', name, 'sensor monitoring ...');
   }
   monitor.start();
 };
@@ -189,13 +189,13 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
 
 /**
  * @param {!goog.Timer} monitor
- * @param {string=} optName
+ * @param {string=} name
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
-  monitor, optName) {
-  if (optName) {
-    console.log('Stopping mBot Ranger', optName, 'sensor monitoring ...');
+  monitor, name) {
+  if (name) {
+    console.log('Stopping mBot Ranger', name, 'sensor monitoring ...');
   }
   monitor.stop();
 };

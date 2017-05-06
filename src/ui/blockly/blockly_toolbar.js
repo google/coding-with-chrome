@@ -275,9 +275,9 @@ cwc.ui.BlocklyToolbar.prototype.toggleExpand = function() {
 /**
  * Expands or collapses the current window.
  * @param {boolean} expand
- * @param {boolean} invert
+ * @param {boolean=} invert
  */
-cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand, invert) {
+cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand, invert = false) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {

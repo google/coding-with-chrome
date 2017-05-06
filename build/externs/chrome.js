@@ -185,11 +185,12 @@ chrome.identity.getAuthToken = function() {};
 /** @type {Function} */
 chrome.identity.removeCachedAuthToken = function() {};
 
+
 /**
  * @constructor
  * @extends {Element}
  */
-let Webview = function() {}
+let Webview = function() {};
 
 /** @type {Function} */
 Webview.prototype.stop = function() {};
@@ -199,3 +200,9 @@ Webview.prototype.reload = function() {};
 
 /** @type {Function} */
 Webview.prototype.terminate = function() {};
+
+
+/**
+ * @constructor
+ */
+let  AppWindow = function() {};

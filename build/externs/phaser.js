@@ -20,17 +20,21 @@
 
 
 /** @constructor */
-var Phaser = function() {};
+let Phaser = function() {};
 
 /** @constructor */
 Phaser.Game = function() {};
 
 
 /** @type {Object} */
-var game = function() {};
+let game = function() {};
 
-/** @type {Function} */
-game.add.sprite = function(x, y, sprite_name) {};
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {string} name
+ */
+game.add.sprite = function(x, y, name) {};
 
 /** @type {Function} */
 game.cache.getImage = function() {};

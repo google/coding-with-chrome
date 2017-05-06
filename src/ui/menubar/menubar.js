@@ -103,7 +103,7 @@ cwc.ui.Menubar = function(helper) {
   /** @type {boolean} */
   this.serialConnectStatus = false;
 
-  /** @type {chrome.app.window.AppWindow|null} */
+  /** @type {AppWindow|null} */
   this.currentWindow = null;
 
   /** @private {!boolean} */

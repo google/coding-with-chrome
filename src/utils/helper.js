@@ -168,7 +168,7 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
 
 /**
  * @param {!string} name
- * @param {!Element} node
+ * @param {Element=} node
  * @param {boolean=} required
  * @param {string=} prefix
  * @return {cwc.utils.HelperInstance}

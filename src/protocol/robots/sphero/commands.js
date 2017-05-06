@@ -40,18 +40,18 @@ cwc.protocol.sphero.Commands = function() {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {boolean=} opt_persistant
+ * @param {boolean=} persistent
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setRGB = function(red, green, blue,
-    opt_persistant) {
+    persistent = false) {
   let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.RGB_LED.SET);
   buffer.writeByte(red);
   buffer.writeByte(green);
   buffer.writeByte(blue);
-  buffer.writeByte(opt_persistant == false ? 0x00 : 0x01);
+  buffer.writeByte(persistent == false ? 0x00 : 0x01);
   return buffer.readSigned();
 };
 
@@ -119,24 +119,24 @@ cwc.protocol.sphero.Commands.prototype.roll = function(speed = 50, heading = 0,
 /**
  * Sets collision detection.
  * @param {number=} method 0x00 to disable this service.
- * @param {number=} threshold_x left/right axes
- * @param {number=} threshold_y front/back axes
- * @param {number=} speed_x
- * @param {number=} speed_y
+ * @param {number=} thresholdX left/right axes
+ * @param {number=} thresholdY front/back axes
+ * @param {number=} speedX
+ * @param {number=} speedY
  * @param {number=} interval in 10msec
- * @return {!cwc.protocol.sphero.Buffer}
+ * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.sphero.Commands.prototype.setColisionDetection = function(
-    method = 0x01, threshold_x = 0x60, threshold_y = 0x60, speed_x = 0x60,
-    speed_y = 0x60, interval = 0x0A) {
+    method = 0x01, thresholdX = 0x60, thresholdY = 0x60, speedX = 0x60,
+    speedY = 0x60, interval = 0x0A) {
   let buffer = new cwc.protocol.sphero.Buffer();
   buffer.writeCommand(cwc.protocol.sphero.Command.COLLISION_DETECTION);
   buffer.writeByte(method);
-  buffer.writeByte(threshold_x);
-  buffer.writeByte(threshold_y);
-  buffer.writeByte(speed_x);
-  buffer.writeByte(speed_y);
+  buffer.writeByte(thresholdX);
+  buffer.writeByte(thresholdY);
+  buffer.writeByte(speedX);
+  buffer.writeByte(speedY);
   buffer.writeByte(interval);
   return buffer.readSigned();
 };
@@ -208,7 +208,7 @@ cwc.protocol.sphero.Commands.prototype.getLocation = function() {
  */
 cwc.protocol.sphero.Commands.prototype.getVersion = function() {
   let buffer = new cwc.protocol.sphero.Buffer(
-      cwc.protocol.sphero.CallbackType.FIRMWARE);
+      cwc.protocol.sphero.CallbackType.VERSION);
   buffer.writeCommand(cwc.protocol.sphero.Command.SYSTEM.VERSION);
   return buffer.readSigned();
 };
