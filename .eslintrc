@@ -34,6 +34,7 @@
     'expect': true,
     'game': true,
     'getTestBlockCode': true,
+    'getTestBuffer': true,
     'goog': true,
     'i18soy': true,
     'i18t': true,

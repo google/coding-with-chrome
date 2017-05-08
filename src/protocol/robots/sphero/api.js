@@ -101,18 +101,17 @@ cwc.protocol.sphero.Api = function() {
  * @export
  */
 cwc.protocol.sphero.Api.prototype.connect = function(device) {
-  if (!device) {
+  if (!device || !device.isConnected()) {
     console.error('Sphero ball is not ready yet...');
     return false;
   }
 
-  if (!this.prepared && device.isConnected()) {
+  if (!this.prepared) {
     console.log('Preparing Sphero bluetooth api for', device.getAddress());
     this.device = device;
     this.prepare();
     this.runTest();
   }
-
   return true;
 };
 

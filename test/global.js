@@ -19,6 +19,7 @@
  */
 
 /* eslint no-unused-vars: 0 */
+goog.require('cwc.utils.ByteTools');
 
 Locales = {};
 
@@ -31,4 +32,8 @@ let getTestBlockCode = function(block) {
   Blockly.Xml.domToWorkspace(xmlDom, workspace);
   let code = Blockly.JavaScript.workspaceToCode(workspace);
   return code;
+};
+
+let getTestBuffer = function(data) {
+  return cwc.utils.ByteTools.getUint8Data(data).data[0];
 };
