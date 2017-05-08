@@ -103,12 +103,12 @@ cwc.protocol.ev3.Api = function() {
  * @export
  */
 cwc.protocol.ev3.Api.prototype.connect = function(device) {
-  if (!device) {
+  if (!device || !device.isConnected()) {
     console.error('EV3 unit is not ready yet...');
     return false;
   }
 
-  if (!this.prepared && device.isConnected()) {
+  if (!this.prepared) {
     console.log('Prepare EV3 bluetooth api for', device.getAddress());
     this.device = device;
     this.prepare();

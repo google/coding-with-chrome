@@ -22,6 +22,7 @@ goog.provide('cwc.ui.Blockly');
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
@@ -91,9 +92,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {!Object} */
   this.toolboxTemplateData = {type: '', files: []};
 
-  /** @type {!cwc.utils.Logger} */
-  this.log = this.helper.getLogger();
-
   /** @private {!boolean} */
   this.isVisible_ = true;
 
@@ -125,6 +123,9 @@ cwc.ui.Blockly = function(helper) {
       'scaleSpeed': 1.2,
     },
   };
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -145,7 +146,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   // Editor node
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   if (!this.nodeEditor) {
-    this.log.error('Unable to find Blockly node to decorate!');
+    this.log_.error('Unable to find Blockly node to decorate!');
     return;
   }
 
@@ -186,7 +187,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   }
 
   // Blockly Editor
-  this.log.info('Decorating Blockly node', this.nodeEditor, 'with', options);
+  this.log_.info('Decorating Blockly node', this.nodeEditor, 'with', options);
   this.workspace = Blockly.inject(this.nodeEditor, options);
 
   // Blockly Toolbox
@@ -278,8 +279,8 @@ cwc.ui.Blockly.prototype.addView = function(xml) {
       workspace.redoStack_ = [];
     } catch (e) {
       this.helper.showError('Error by loading Blockly file!');
-      console.error(e);
-      console.log(xml);
+      this.log_.error(e);
+      this.log_.debug(xml);
     }
   }
 };
@@ -395,7 +396,7 @@ cwc.ui.Blockly.prototype.enableMediaButton = function(enable) {
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
   if (!this.workspace) {
-    this.log.warn('Blockly workspace is not ready yet!');
+    this.log_.warn('Blockly workspace is not ready yet!');
   }
   return this.workspace;
 };
@@ -452,8 +453,8 @@ cwc.ui.Blockly.prototype.getXML = function() {
       return Blockly.Xml.domToPrettyText(xml);
     } catch (e) {
       this.helper.showError('Error getting Blockly XML!');
-      console.error(e);
-      console.log(xml);
+      this.log_.error(e);
+      this.log_.debug(xml);
     }
   }
   return '';
@@ -559,7 +560,7 @@ cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
     let toolbox = template(data).content;
     this.updateToolbox(toolbox);
   } else {
-    console.warn('Was unable to update Blockly toolbox.');
+    this.log_.warn('Was unable to update Blockly toolbox.');
   }
 };
 

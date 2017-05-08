@@ -52,7 +52,7 @@ cwc.renderer.external.RaspberryPi.prototype.init = function() {
  * @param {Object} editor_content
  * @param {Object} editor_flags
  * @param {cwc.file.Files} libraryFiles
- * @param {cwc.file.Files} frameworks
+ * @param {!cwc.file.Files} frameworks
  * @param {!cwc.file.Files} styleSheets
  * @param {cwc.renderer.Helper} renderer_helper
  * @return {string}

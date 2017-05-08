@@ -44,11 +44,8 @@ cwc.fileFormat.File = function(content = '') {
   /** @type {string} */
   this.name = 'Chrog format';
 
-  /** @private {!number} */
-  this.loglevel_ = 0;
-
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {string} */
   this.author_ = '';

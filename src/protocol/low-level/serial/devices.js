@@ -23,6 +23,7 @@ goog.require('cwc.protocol.serial.Device');
 goog.require('cwc.protocol.Serial.supportedDevicePaths');
 goog.require('cwc.protocol.Serial.supportedDevices');
 goog.require('cwc.protocol.Serial.unsupportedDevicePaths');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
@@ -33,11 +34,8 @@ goog.require('goog.Timer');
  * @constructor
  */
 cwc.protocol.serial.Devices = function(helper, serial) {
-  /** @type {cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = helper.getLogger();
+  /** @type {!string} */
+  this.name = 'Serial Devices';
 
   /** @type {!chrome.serial} */
   this.serial = serial;
@@ -59,6 +57,12 @@ cwc.protocol.serial.Devices = function(helper, serial) {
 
   /** @private {!Array} */
   this.listener_ = [];
+
+  /** @private {string} */
+  this.deviceCache_ = '';
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -70,7 +74,7 @@ cwc.protocol.serial.Devices.prototype.prepare = function() {
     return;
   }
 
-  this.log_.debug('Preparing serial devices ...');
+  this.log_.debug('Preparing ...');
   this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
       this.updateDevices.bind(this));
   this.deviceMonitor.start();
@@ -109,7 +113,7 @@ cwc.protocol.serial.Devices.prototype.getConnectedDevice = function() {
   if (this.connectedDevice_ && this.connectedDevice_.isConnected()) {
     return this.connectedDevice_;
   }
-  this.log_.error('Unable to find any connected serial device!');
+  this.log_.error('Unable to find any connected device!');
   return null;
 };
 
@@ -191,17 +195,21 @@ cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
  */
 cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     devices) {
-  let filteredDevices = [];
+  if (devices && this.deviceCache_ &&
+      this.deviceCache_ === JSON.stringify(devices.sort())) {
+    return;
+  }
 
+  let filteredDevices = [];
   if (!devices || devices.length == 0) {
     this.log_.warn('Did not find any serial devices!');
   } else {
     let unsupportedPaths = cwc.protocol.Serial.unsupportedDevicePaths;
     for (let i = 0; i < devices.length; i++) {
       if (devices[i].path in unsupportedPaths) {
-        this.log_.debug('Ignored serial device:', devices[i]);
+        this.log_.debug('Ignored device:', devices[i]);
       } else {
-        this.log_.debug('Found serial device:', devices[i]);
+        this.log_.debug('Found device:', devices[i]);
         filteredDevices.push(devices[i]);
       }
     }
@@ -212,7 +220,7 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
   } else {
     let supportedDevices = cwc.protocol.Serial.supportedDevices;
     let supportedPaths = cwc.protocol.Serial.supportedDevicePaths;
-    this.log_.debug('Found', filteredDevices.length, 'serial devices...');
+    this.log_.debug('Found', filteredDevices.length, ' devices...');
     for (let i = 0; i < filteredDevices.length; i++) {
       let deviceEntry = filteredDevices[i];
       let devicePath = deviceEntry['path'];
@@ -238,6 +246,7 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
       }
     }
   }
+  this.deviceCache_ = JSON.stringify(devices.sort());
 };
 
 

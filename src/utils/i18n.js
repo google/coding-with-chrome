@@ -32,11 +32,8 @@ cwc.utils.I18n = function() {
   /** @type {!string} */
   this.name = 'i18n';
 
-  /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
-
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @type {!string} */
   this.language = '';

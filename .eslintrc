@@ -23,6 +23,7 @@
     '$': true,
     'Blockly': true,
     'CodeMirror': true,
+    'ENABLE_LOGGING': true,
     'Locales': true,
     'Shepherd': true,
     'Sk': true,
@@ -40,6 +41,6 @@
     'i18t': true,
     'it': true,
     'soydata': true,
-    'var_args': true
+    'var_args': true,
   }
 }

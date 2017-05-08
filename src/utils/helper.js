@@ -80,12 +80,6 @@ cwc.utils.Helper = function() {
   /** @type {!string} */
   this.name = 'Helper';
 
-  /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.config.LogLevel;
-
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
-
   /** @private {!cwc.utils.Features} */
   this.features_ = new cwc.utils.Features();
 
@@ -103,6 +97,9 @@ cwc.utils.Helper = function() {
 
   /** @private {Object} */
   this.hadFirstRun_ = {};
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -424,15 +421,6 @@ cwc.utils.Helper.prototype.setPrefix = function(prefix) {
 
 
 /**
- * @return {!cwc.utils.Logger}
- * @export
- */
-cwc.utils.Helper.prototype.getLogger = function() {
-  return this.log_;
-};
-
-
-/**
  * @param {string=} additionalPrefix
  * @return {string}
  * @export
@@ -457,7 +445,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
     fileModified = fileInstance.isModified();
   }
 
-  console.log('File', filename, 'was modified:', fileModified);
+  this.log_.info('File', filename, 'was modified:', fileModified);
   if (fileModified) {
     let dialogInstance = this.getInstance('dialog');
     let title = {
@@ -507,7 +495,7 @@ cwc.utils.Helper.prototype.endTour = function() {
 cwc.utils.Helper.prototype.isFirstRun = function(name, feature = 'general') {
   let firstRun = !this.hadFirstRun_[name + '__' + feature];
   if (firstRun) {
-    console.log('First run for', name,
+    this.log_.info('First run for', name,
       (feature !== 'general') ? 'and feature ' + feature : '');
   }
   return firstRun;

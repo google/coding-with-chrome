@@ -36,11 +36,8 @@ cwc.utils.Features = function() {
   /** @type {!string} */
   this.name = 'Features';
 
-  /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
-
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @type {!string} */
   this.defaultGroup = 'general';
@@ -71,7 +68,7 @@ cwc.utils.Features = function() {
  * @export
  */
 cwc.utils.Features.prototype.detectFeatures = function() {
-  console.log('Detecting features ...');
+  this.log_.info('Detecting features ...');
   this.detectChromeFeatures();
   this.detectBrowserFeatures();
   this.detectOnlineStatus();
@@ -100,6 +97,11 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function() {
 
   // Communication features
   this.setBrowserFeature('bluetooth', typeof navigator.bluetooth);
+
+  // Web Workers and Service Workers
+  this.setBrowserFeature('Worker', typeof Worker);
+  this.setBrowserFeature('SharedWorker', typeof SharedWorker);
+  this.setBrowserFeature('serviceWorker', typeof navigator.serviceWorker);
 };
 
 
@@ -340,7 +342,7 @@ cwc.utils.Features.prototype.log = function() {
     if (this.feature_.hasOwnProperty(group)) {
       for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
-          console.log('[', group, ']', feature, '=',
+          this.log_.info('[', group, ']', feature, '=',
               this.feature_[group][feature]);
         }
       }

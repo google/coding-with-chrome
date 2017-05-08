@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Turtle');
 
 goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.Turtle');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -52,9 +53,6 @@ cwc.ui.Turtle = function(helper, image = '') {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {!cwc.utils.Logger} */
-  this.log = this.helper.getLogger();
-
   /** @type {string} */
   this.turtleFramework = 'turtle_framework.js';
 
@@ -72,6 +70,9 @@ cwc.ui.Turtle = function(helper, image = '') {
 
   /** @type {Array} */
   this.listener_ = [];
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -153,7 +154,7 @@ cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
  * @param {Event=} opt_event
  */
 cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
-  console.log('Turtle graphic loaded ...');
+  this.log_.info('Turtle graphic loaded ...');
   this.connector.start();
   this.ready = true;
 };
@@ -165,5 +166,5 @@ cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
  * @private
  */
 cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
-  console.log('Turtle Runner message:', e);
+  this.log_.info('Turtle Runner message:', e);
 };

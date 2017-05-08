@@ -278,3 +278,6 @@ Blockly.Toolbox = function(workspace) {};
  * @extends {goog.ui.tree.TreeControl}
  */
 Blockly.Toolbox.TreeControl = function(toolbox, config) {};
+
+/** @type {Object} */
+Blockly.Toolbox.TreeControl.childIndex_ = {};

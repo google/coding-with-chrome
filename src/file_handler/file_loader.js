@@ -24,7 +24,8 @@ goog.require('cwc.file.detector');
 goog.require('cwc.fileHandler.Config');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorType');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.net.XhrIo');
 
 
@@ -36,7 +37,7 @@ goog.require('goog.net.XhrIo');
  */
 cwc.fileHandler.FileLoader = function(helper) {
   /** @type {string} */
-  this.name = 'FileLoader';
+  this.name = 'File Loader';
 
   /** @type {!Array} */
   this.extensions = helper.getFileExtensions() || [];
@@ -59,6 +60,9 @@ cwc.fileHandler.FileLoader = function(helper) {
 
   /** @type {!cwc.utils.Helper} **/
   this.helper = helper;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -101,7 +105,7 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
  * @export
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
-  console.log('Getting example file:', filename);
+  this.log_.info('Getting example file:', filename);
   let fileLoaderHandler = this.loadExampleFileData.bind(this);
   this.getResourceFile('examples/' + filename, fileLoaderHandler);
 };
@@ -114,7 +118,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
     content) {
-  console.log('Loading example file:', filename);
+  this.log_.info('Loading example file:', filename);
   this.handleFileData(content, filename, null, null, true);
 };
 
@@ -127,7 +131,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
  */
 cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
     filename, content) {
-  console.log(content);
+  this.log_.debug(content);
   this.handleFileData(content, filename, null, id);
 };
 
@@ -142,24 +146,24 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
     filename = '', fileHandler = null, gDriveId = null, example = false) {
-  console.log('Handle file data:', content);
+  this.log_.info('Handle file data:', content);
   let fileInstance = this.helper.getInstance('file', true);
   let modeInstance = this.helper.getInstance('mode', true);
   let fileType = cwc.file.detector.detectType(content, filename);
-  console.log('Filetype:', fileType);
+  this.log_.info('Filetype:', fileType);
   let fileConfig = cwc.fileHandler.Config.get(fileType, true);
-  console.log('FileConfig:', fileConfig);
+  this.log_.info('FileConfig:', fileConfig);
   let file = new fileConfig.file(
     content, fileType, fileConfig.contentType, filename);
 
   // If file was not loaded locally or from Google Drive, load default content.
   if (fileConfig.content && !fileHandler && !gDriveId && !example) {
-    console.log('Loading default content.');
+    this.log_.info('Loading default content.');
     file = new fileConfig.file(fileConfig.content, fileType,
         fileConfig.contentType);
   }
-  console.log('File:', file, '(', filename, ')');
-  console.log('Content Length:', content.length);
+  this.log_.info('File:', file, '(', filename, ')');
+  this.log_.info('Content Length:', content.length);
 
   fileInstance.setFile(file);
   if (fileHandler) {
@@ -262,7 +266,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(content,
  */
 cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     callback, optCallback_scope) {
-  console.log('Select file to load content for the following types:',
+  this.log_.info('Select file to load content for the following types:',
     this.acceptedFiles);
   chrome.fileSystem.chooseEntry({
     'accepts': this.acceptedFiles,
@@ -276,7 +280,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     }
     if (file_entry && file_entry.isFile && !file_entries) {
       file_entry.file(function(file) {
-        console.log('Load file: ' + file_entry.name);
+        this.log_.info('Load file: ' + file_entry.name);
         this.readFile(file, file_entry, callback, optCallback_scope);
       }.bind(this));
     } else if (file_entries) {
@@ -294,16 +298,15 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
  * @param {!Blob} file
  * @param {!FileEntry} file_entry
  * @param {!function(?)} callback
- * @param {Object=} optCallback_scope
+ * @param {Object=} scope
  */
 cwc.fileHandler.FileLoader.prototype.readFile = function(file,
-    file_entry, callback, optCallback_scope) {
-  console.log('Reading file', file.name, '…');
+    file_entry, callback, scope) {
+  this.log_.info('Reading file', file.name, '…');
   let reader = new FileReader;
   let readerEvent = this.openFile.bind(this);
-  reader.onload = function(event) {
-    readerEvent(file, file_entry, event.target.result, callback,
-        optCallback_scope);
+  reader.onload = function(e) {
+    readerEvent(file, file_entry, e.target.result, callback, scope);
   };
   reader.readAsText(file);
 };
@@ -333,7 +336,7 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     optCallback) {
   if (file) {
-    console.log('Loading file', file, '...');
+    this.log_.info('Loading file', file, '...');
     let xhr = new goog.net.XhrIo();
     let xhrEvent = this.resourceFileHandler.bind(this);
     let filename = file.replace(/^.*(\\|\/|\:)/, '');
@@ -362,6 +365,6 @@ cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
   if (goog.isFunction(optCallback)) {
     optCallback.call(optCallback_scope || this, filename, content);
   } else {
-    console.log('Received data for', filename, ':', content);
+    this.log_.debug('Received data for', filename, ':', content);
   }
 };

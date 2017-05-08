@@ -19,9 +19,10 @@
  */
 goog.provide('cwc.ui.Menubar');
 
+goog.require('cwc.protocol.bluetooth.Events');
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.soy');
@@ -91,17 +92,17 @@ cwc.ui.Menubar = function(helper) {
   /** @type {Element} */
   this.nodeRestoreButton = null;
 
-  /** @type {boolean} */
-  this.bluetooth = false;
+  /** @type {boolean|undefined} */
+  this.bluetooth = undefined;
 
-  /** @type {boolean} */
-  this.bluetoothConnectStatus = false;
+  /** @type {boolean|undefined} */
+  this.bluetoothConnectStatus = undefined;
 
-  /** @type {boolean} */
-  this.serial = false;
+  /** @type {boolean|undefined} */
+  this.serial = undefined;
 
-  /** @type {boolean} */
-  this.serialConnectStatus = false;
+  /** @type {boolean|undefined} */
+  this.serialConnectStatus = undefined;
 
   /** @type {AppWindow|null} */
   this.currentWindow = null;
@@ -111,6 +112,9 @@ cwc.ui.Menubar = function(helper) {
 
   /** @private {!boolean} */
   this.isChromeOS_ = this.helper.checkChromeFeature('os');
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -232,6 +236,17 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     goog.style.setElementShown(this.nodeMaximizeButton, false);
     goog.style.setElementShown(this.nodeRestoreButton, false);
   }
+
+  // Event Handling
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    goog.events.listen(bluetoothInstance.getEventHandler(),
+      cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE,
+      this.handleBluetoothAdapterChange_, false, this);
+    goog.events.listen(bluetoothInstance.getEventHandler(),
+      cwc.protocol.bluetooth.Events.Type.DEVICE_STATE_CHANGE,
+      this.handleBluetoothDeviceChange_, false, this);
+  }
 };
 
 
@@ -286,7 +301,7 @@ cwc.ui.Menubar.prototype.requestCloseWindow = function() {
  * Close editor window.
  */
 cwc.ui.Menubar.prototype.closeWindow = function() {
-  console.log('Close Coding with Chrome editor ...');
+  this.log_.info('Close Coding with Chrome editor ...');
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
     bluetoothInstance.closeSockets();
@@ -328,43 +343,6 @@ cwc.ui.Menubar.prototype.restoreWindow = function() {
 
 
 /**
- * @param {boolean} enabled Determine if Bluetooth is enabled.
- * @export
- */
-cwc.ui.Menubar.prototype.setBluetoothEnabled = function(enabled) {
-  if (this.helper.checkChromeFeature('bluetooth')) {
-    if (this.bluetooth != enabled) {
-      console.log('Set Bluetooth to', enabled ? 'enabled' : 'disabled');
-    }
-    goog.style.setElementShown(this.nodeBluetooth, enabled);
-    goog.style.setElementShown(this.nodeBluetoothConnected, false);
-    goog.style.setElementShown(this.nodeBluetoothDisabled, !enabled);
-  }
-  this.bluetooth = enabled;
-};
-
-
-/**
- * @param {boolean} connected Determine if any Bluetooth devices are connected.
- * @export
- */
-cwc.ui.Menubar.prototype.setBluetoothConnected = function(connected) {
-  if (this.helper.checkChromeFeature('bluetooth') && this.bluetooth) {
-    if (this.bluetoothConnectStatus != connected) {
-      console.log('Set Bluetooth status to',
-        connected ? 'connected' : 'disconnected');
-    }
-    goog.style.setElementShown(this.nodeBluetooth, !connected);
-    goog.style.setElementShown(this.nodeBluetoothConnected, connected);
-    goog.style.setElementShown(this.nodeBluetoothDisabled, false);
-  } else {
-    this.setBluetoothEnabled(false);
-  }
-  this.bluetoothConnectStatus = connected;
-};
-
-
-/**
  * @param {Event=} opt_event
  * @private
  */
@@ -384,7 +362,7 @@ cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
 cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
   if (this.helper.checkChromeFeature('serial')) {
     if (this.serial != enabled) {
-      console.log('Set Serial to', enabled ? 'enabled' : 'disabled');
+      this.log_.info('Set Serial to', enabled ? 'enabled' : 'disabled');
     }
     goog.style.setElementShown(this.nodeSerial, enabled);
     goog.style.setElementShown(this.nodeSerialConnected, false);
@@ -401,7 +379,7 @@ cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
 cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
   if (this.helper.checkChromeFeature('serial') && this.serial) {
     if (this.serialConnectStatus != connected) {
-      console.log('Set Serial status to',
+      this.log_.info('Set Serial status to',
         connected ? 'connected' : 'disconnected');
     }
     goog.style.setElementShown(this.nodeSerial, !connected);
@@ -411,4 +389,35 @@ cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
     this.setSerialEnabled(false);
   }
   this.serialConnectStatus = connected;
+};
+
+
+/**
+ * @param {?} e
+ * @private
+ */
+cwc.ui.Menubar.prototype.handleBluetoothAdapterChange_ = function(e) {
+  if (this.bluetooth === e.data.enabled) {
+    return;
+  }
+  goog.style.setElementShown(this.nodeBluetooth, e.data.enabled);
+  goog.style.setElementShown(this.nodeBluetoothConnected, false);
+  goog.style.setElementShown(this.nodeBluetoothDisabled, !e.data.enabled);
+  this.bluetooth = e.data.enabled;
+};
+
+
+/**
+ * @param {?} e
+ * @private
+ */
+cwc.ui.Menubar.prototype.handleBluetoothDeviceChange_ = function(e) {
+  this.log_.info(e);
+  if (this.bluetoothConnectStatus === e.data.connected) {
+    return;
+  }
+  goog.style.setElementShown(this.nodeBluetooth, !e.data.connected);
+  goog.style.setElementShown(this.nodeBluetoothConnected, e.data.connected);
+  goog.style.setElementShown(this.nodeBluetoothDisabled, false);
+  this.bluetoothConnectStatus = e.data.connected;
 };

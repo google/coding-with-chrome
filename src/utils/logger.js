@@ -23,7 +23,7 @@ goog.provide('cwc.utils.Logger');
 
 /**
  * Log levels:
- * 0 (AUTO)      Automatic handling
+ * 0 (NONE)      off
  * 1 (ALERT)     action must be taken immediately
  * 2 (CRITICAL)  critical conditions
  * 3 (ERROR)     error conditions
@@ -35,7 +35,7 @@ goog.provide('cwc.utils.Logger');
  * @enum {number}
  */
 cwc.utils.LogLevel = {
-  AUTO: 0,
+  NONE: 0,
   ALERT: 1,
   CRITICAL: 2,
   ERROR: 3,
@@ -48,20 +48,26 @@ cwc.utils.LogLevel = {
 
 
 /**
- * @constructor
+ * @param {string=} name
  * @param {number=} logLevel
- * @param {string=} optName
+ * @constructor
  * @final
  */
-cwc.utils.Logger = function(logLevel = cwc.utils.LogLevel.NOTICE, optName) {
-  /** @type {!number} */
-  this.logLevel = logLevel;
-
+cwc.utils.Logger = function(name = 'Logger',
+    logLevel = cwc.utils.LogLevel.NOTICE) {
   /** @type {!string} */
-  this.name = optName || '';
+  this.name = name;
 
-  /** @private {Object} */
-  this.cache_ = {};
+  /** @type {!Array} */
+  this.displayName = this.name ? ['%c' + this.name, 'font-weight: bold;'] : [];
+
+  /** @type {!number} */
+  this.logLevel = typeof cwc.config !== 'undefined' ?
+    Number(cwc.config.Logging.LEVEL) : logLevel;
+
+  /** @type {!boolean} */
+  this.enabled_ = typeof cwc.config !== 'undefined' ?
+    (cwc.config.Logging.ENABLED ? true : false) : true;
 };
 
 
@@ -70,8 +76,9 @@ cwc.utils.Logger = function(logLevel = cwc.utils.LogLevel.NOTICE, optName) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.trace = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.TRACE) {
-    Function.prototype.apply.apply(console.log, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.TRACE) {
+    Function.prototype.apply.apply(
+      console.log, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -81,8 +88,9 @@ cwc.utils.Logger.prototype.trace = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.debug = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.DEBUG) {
-    Function.prototype.apply.apply(console.log, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.DEBUG) {
+    Function.prototype.apply.apply(
+      console.log, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -92,8 +100,9 @@ cwc.utils.Logger.prototype.debug = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.info = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.INFO) {
-    Function.prototype.apply.apply(console.log, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.INFO) {
+    Function.prototype.apply.apply(
+      console.log, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -103,8 +112,9 @@ cwc.utils.Logger.prototype.info = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.notice = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.NOTICE) {
-    Function.prototype.apply.apply(console.log, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.NOTICE) {
+    Function.prototype.apply.apply(
+      console.log, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -114,10 +124,9 @@ cwc.utils.Logger.prototype.notice = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.warn = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.WARNING &&
-      JSON.stringify(this.cache_.warn) != JSON.stringify(args)) {
-    Function.prototype.apply.apply(console.warn, [console, args]);
-    this.cache_.warn = args;
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.WARNING) {
+    Function.prototype.apply.apply(
+      console.warn, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -127,10 +136,9 @@ cwc.utils.Logger.prototype.warn = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.error = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.ERROR &&
-      JSON.stringify(this.cache_.error) != JSON.stringify(args)) {
-    Function.prototype.apply.apply(console.error, [console, args]);
-    this.cache_.error = args;
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.ERROR) {
+    Function.prototype.apply.apply(
+      console.error, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -140,8 +148,9 @@ cwc.utils.Logger.prototype.error = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.critical = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.CRITICAL) {
-    Function.prototype.apply.apply(console.error, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.CRITICAL) {
+    Function.prototype.apply.apply(
+      console.error, [console, this.displayName.concat(args)]);
   }
 };
 
@@ -151,7 +160,8 @@ cwc.utils.Logger.prototype.critical = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.alert = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.ALERT) {
-    Function.prototype.apply.apply(console.error, [console, args]);
+  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.ALERT) {
+    Function.prototype.apply.apply(
+      console.error, [console, this.displayName.concat(args)]);
   }
 };

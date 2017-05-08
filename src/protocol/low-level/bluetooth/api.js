@@ -21,8 +21,10 @@ goog.provide('cwc.protocol.bluetooth.Api');
 
 goog.require('cwc.protocol.bluetooth.Adapter');
 goog.require('cwc.protocol.bluetooth.Devices');
+goog.require('cwc.protocol.bluetooth.Events');
+goog.require('cwc.utils.Logger');
 
-goog.require('cwc.utils.Helper');
+goog.require('goog.events.EventTarget');
 
 
 /**
@@ -38,17 +40,11 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = helper.getLogger();
-
   /** @type {boolean} */
   this.enabled = false;
 
   /** @type {boolean} */
   this.prepared = false;
-
-  /** @type {cwc.protocol.bluetooth.Adapter} */
-  this.adapter = null;
 
   /** @type {cwc.protocol.bluetooth.Devices} */
   this.devices = null;
@@ -64,6 +60,15 @@ cwc.protocol.bluetooth.Api = function(helper) {
 
   /** @private {!chrome.bluetoothSocket} */
   this.bluetoothSocket_ = this.isChromeApp_ && chrome.bluetoothSocket;
+
+  /** @private {cwc.protocol.bluetooth.Adapter} */
+  this.adapter_ = null;
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -82,13 +87,16 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
   this.log_.debug('Preparing Bluetooth 2.0 support...');
 
   // Monitor Bluetooth adapter
-  this.adapter = new cwc.protocol.bluetooth.Adapter(this.helper,
-      this.bluetooth_);
-  this.adapter.prepare();
+  goog.events.listen(this.eventHandler_,
+    cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE,
+    this.updateDevices, false, this);
+  this.adapter_ = new cwc.protocol.bluetooth.Adapter(this.bluetooth_,
+    this.eventHandler_);
+  this.adapter_.prepare();
 
   // Monitor Bluetooth devices
-  this.devices = new cwc.protocol.bluetooth.Devices(this.helper,
-      this.bluetooth_);
+  this.devices = new cwc.protocol.bluetooth.Devices(this.bluetooth_,
+    this.eventHandler_);
   this.devices.prepare();
 
   // Monitor Bluetooth sockets
@@ -146,6 +154,14 @@ cwc.protocol.bluetooth.Api.prototype.getDevices = function() {
 
 
 /**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.protocol.bluetooth.Api.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+
+
+/**
  * @param {!string} device_name
  * @param {Function} callback
  * @param {boolean=} opt_multisearch
@@ -163,8 +179,8 @@ cwc.protocol.bluetooth.Api.prototype.autoConnectDevice = function(device_name,
  * @export
  */
 cwc.protocol.bluetooth.Api.prototype.updateAdapterState = function() {
-  if (this.adapter) {
-    this.adapter.updateAdapterState();
+  if (this.adapter_) {
+    this.adapter_.updateAdapterState();
   }
 };
 

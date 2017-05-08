@@ -21,22 +21,20 @@ goog.provide('cwc.protocol.bluetooth.Devices');
 
 goog.require('cwc.protocol.bluetooth.Device');
 goog.require('cwc.protocol.bluetooth.supportedDevices');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 goog.require('goog.async.Throttle');
 
 
 /**
- * @param {!cwc.ui.helper} helper
  * @param {!chrome.bluetooth} bluetooth
+ * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetooth.Devices = function(helper, bluetooth) {
-  /** @type {cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = helper.getLogger();
+cwc.protocol.bluetooth.Devices = function(bluetooth, eventHandler) {
+  /** @type {!string} */
+  this.name = 'Bluetooth Devices';
 
   /** @type {!chrome.bluetooth} */
   this.bluetooth = bluetooth;
@@ -64,6 +62,15 @@ cwc.protocol.bluetooth.Devices = function(helper, bluetooth) {
 
   /** @private {!Array} */
   this.listener_ = [];
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler;
+
+  /** @private {string} */
+  this.deviceCache_ = '';
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -242,7 +249,7 @@ cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(name,
   let device = this.getDeviceByName(name, multisearch);
   if (device) {
     if (device.isConnected() && device.hasSocket()) {
-      callback(device.getAddress());
+      callback(device, device.getAddress());
     } else {
       let connectEvent = function(socket_id, address) {
         callback(device, address);
@@ -299,10 +306,13 @@ cwc.protocol.bluetooth.Devices.prototype.handleCloseSocket_ = function(
  * @private
  */
 cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
+  if (devices && this.deviceCache_ &&
+      this.deviceCache_ === JSON.stringify(devices.sort())) {
+    return;
+  }
   if (!devices || devices.length == 0) {
     this.log_.warn('Did not find any Bluetooth devices!');
   }
-  let deviceConnected = false;
   for (let i = 0; i < devices.length; i++) {
     let deviceEntry = devices[i];
     let profile = this.getDeviceProfile(deviceEntry);
@@ -321,24 +331,19 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
         let uuids = deviceEntry['uuids'];
         let device = new cwc.protocol.bluetooth.Device(
             address, connected, connectable, deviceClass, name, paired, uuids,
-            profile, type, this.bluetooth);
+            profile, this.eventHandler_, type, this.bluetooth);
         device.setConnectEvent(this.handleConnect_.bind(this));
         device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         this.devices[address] = device;
       }
       if (connected) {
         this.devices[address].getSocket();
-        deviceConnected = true;
       }
     } else {
       this.log_.debug('Found no device profile for:', deviceEntry);
     }
   }
-
-  let menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance) {
-    menubarInstance.setBluetoothConnected(deviceConnected);
-  }
+  this.deviceCache_ = JSON.stringify(devices.sort());
 };
 
 
@@ -350,16 +355,12 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
 cwc.protocol.bluetooth.Devices.prototype.handleConnect_ = function(socket_id,
     address) {
   let device = this.devices[address];
-  if (!device) {
-    this.log_.debug('Connected socket', socket_id, 'to', address);
-  } else {
+  if (device) {
     this.log_.debug('Connected device', device);
+  } else {
+    this.log_.debug('Connected socket', socket_id, 'to', address);
   }
   this.socketIds[socket_id] = this.devices[address];
-  let menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance && device) {
-    menubarInstance.setBluetoothConnected(true);
-  }
 };
 
 
@@ -370,13 +371,13 @@ cwc.protocol.bluetooth.Devices.prototype.handleConnect_ = function(socket_id,
  */
 cwc.protocol.bluetooth.Devices.prototype.handleDisconnect_ = function(socket_id,
     address) {
-  this.log_.debug('Disconnected socket', socket_id, 'from', address);
-  delete this.socketIds[socket_id];
   let device = this.devices[address];
-  let menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance && device) {
-    menubarInstance.setBluetoothConnected(false);
+  if (device) {
+    this.log_.debug('Disconnected device', device);
+  } else {
+    this.log_.debug('Disconnected socket', socket_id, 'from', address);
   }
+  delete this.socketIds[socket_id];
 };
 
 

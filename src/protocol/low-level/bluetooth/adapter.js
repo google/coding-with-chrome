@@ -19,24 +19,24 @@
  */
 goog.provide('cwc.protocol.bluetooth.Adapter');
 
+goog.require('cwc.protocol.bluetooth.Events');
+goog.require('cwc.utils.Logger');
+
 
 /**
- * @param {!cwc.ui.helper} helper
  * @param {!chrome.bluetooth} bluetooth
+ * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
-  /** @type {cwc.utils.Helper} */
-  this.helper = helper;
+cwc.protocol.bluetooth.Adapter = function(bluetooth, eventHandler) {
+  /** @type {!string} */
+  this.name = 'Bluetooth Adapter';
 
   /** @type {!chrome.bluetooth} */
   this.bluetooth = bluetooth;
 
   /** @type {!string} */
   this.address = '';
-
-  /** @type {!string} */
-  this.name = '';
 
   /** @type {!boolean} */
   this.powered = false;
@@ -50,8 +50,14 @@ cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!boolean} */
-  this.enabled = false;
+  /** @type {boolean} */
+  this.enabled = undefined;
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler;
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -60,9 +66,11 @@ cwc.protocol.bluetooth.Adapter = function(helper, bluetooth) {
  */
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
-    console.log('Prepare Bluetooth adapter...');
+    this.log_.info('Preparing ...');
     this.bluetooth.onAdapterStateChanged.addListener(
         this.handleAdapterState_.bind(this));
+    this.eventHandler_.dispatchEvent(
+      cwc.protocol.bluetooth.Events.adapterState({enabled: this.enabled}));
     this.updateAdapterState();
     this.prepared = true;
   }
@@ -78,46 +86,34 @@ cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
 
 
 /**
- * @export
- */
-cwc.protocol.bluetooth.Adapter.prototype.getState = function() {
-
-};
-
-
-/**
- * @param {?} adapter_info
+ * @param {?} info
  * @private
  */
-cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(
-    adapter_info) {
-  if (!adapter_info) {
-    console.log('Error receiving Bluetooth adapter state.');
+cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(info) {
+  if (!info) {
+    this.log_.error('Error receiving adapter state.');
     return;
   }
-  this.address = adapter_info['address'];
-  this.name = adapter_info['name'];
-  this.powered = adapter_info['powered'];
-  this.available = adapter_info['available'];
-  this.discovering = adapter_info['discovering'];
+  this.address = info['address'];
+  this.name = info['name'];
+  this.powered = info['powered'];
+  this.available = info['available'];
+  this.discovering = info['discovering'];
 
-  if (adapter_info && this.available && this.powered && !this.enabled) {
-    console.log('Enable Bluetooth adapter:', adapter_info);
+  if (this.enabled == (this.available && this.powered && this.prepared)) {
+    return;
+  } else if (this.available && this.powered && !this.enabled) {
+    this.log_.info('Enable adapter:', info);
     this.enabled = true;
-    let bluetoothInstance = this.helper.getInstance('bluetooth');
-    if (bluetoothInstance) {
-      bluetoothInstance.updateDevices();
-    }
   } else if (this.enabled || !this.prepared) {
-    console.log('Bluetooth adapter is not prepared:', adapter_info);
+    this.log_.info('Adapter is not prepared:', info);
     this.enabled = false;
   } else if (!this.address) {
-    console.log('Found no compatible Bluetooth adapter!');
-    console.log(adapter_info);
+    this.log_.info('Found no compatible Bluetooth adapter!');
+    this.log_.info(info);
     this.enabled = false;
   }
-  let menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance) {
-    menubarInstance.setBluetoothEnabled(this.enabled);
-  }
+
+  this.eventHandler_.dispatchEvent(
+    cwc.protocol.bluetooth.Events.adapterState({enabled: this.enabled}));
 };

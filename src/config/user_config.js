@@ -71,9 +71,6 @@ cwc.UserConfig = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = this.helper.getLogger();
-
   /** @private {!cwc.utils.Storage} */
   this.storage_ = this.helper.getInstance('storage', true);
 

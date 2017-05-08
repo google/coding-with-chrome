@@ -189,9 +189,8 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 
   // Decorate editor mode select.
   goog.events.listen(this.nodeInfobarModes, goog.events.EventType.CLICK,
-    function(event) {
-      let value = event.target.firstChild.data;
-      this.setEditorMode(value);
+    function(e) {
+      this.setEditorMode(e.target.firstChild.data);
     }, false, this);
 
   // Add event listener to monitor changes like resize and unload.
@@ -443,9 +442,8 @@ cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(content) {
 
 /**
  * Sync JavaScript content from other modules.
- * @param {goog.events.EventLike=} opt_event
  */
-cwc.ui.Editor.prototype.syncJavaScript = function(opt_event) {
+cwc.ui.Editor.prototype.syncJavaScript = function() {
   let fileUi = this.helper.getInstance('file').getUi();
   let blocklyInstance = this.helper.getInstance('blockly');
   switch (fileUi) {
@@ -611,7 +609,7 @@ cwc.ui.Editor.prototype.getCurrentView = function() {
 /**
  * @param {Event=} opt_event
  */
-cwc.ui.Editor.prototype.handleChangeEvent = function(opt_event) {
+cwc.ui.Editor.prototype.handleChangeEvent = function() {
   if (!this.modified) {
     this.modified = true;
     if (this.toolbar) {

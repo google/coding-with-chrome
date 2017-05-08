@@ -99,11 +99,8 @@ cwc.utils.Storage = function(storageType = cwc.utils.StorageType.NONE) {
   /** @type {!string} */
   this.name = 'Storage';
 
-  /** @private {!cwc.utils.LogLevel} */
-  this.loglevel_ = cwc.utils.LogLevel.NOTICE;
-
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!Object} */
   this.storage_ = {};

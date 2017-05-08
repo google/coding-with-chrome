@@ -21,6 +21,8 @@ goog.provide('cwc.ui.Message');
 goog.provide('cwc.ui.MessageType');
 
 goog.require('cwc.soy.ui.Message');
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.Timer');
 goog.require('goog.dom.classlist');
 goog.require('goog.soy');
@@ -60,6 +62,9 @@ cwc.ui.Message = function(helper) {
 
   /** @type {Element} */
   this.snackbar = null;
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -130,16 +135,16 @@ cwc.ui.Message.prototype.showMessage = function(message, optType) {
   switch (type) {
     case cwc.ui.MessageType.INFO:
     case cwc.ui.MessageType.SUCCESS:
-      console.info(prefix, message);
+      this.log_.notice(prefix, message);
       break;
     case cwc.ui.MessageType.WARNING:
-      console.warn(prefix, message);
+      this.log_.warn(prefix, message);
       break;
     case cwc.ui.MessageType.ERROR:
-      console.error(prefix, message);
+      this.log_.error(prefix, message);
       break;
     default:
-      console.log(prefix, message);
+      this.log_.info(prefix, message);
   }
 
   // Visual output

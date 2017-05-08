@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.runner.Connector');
 
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.events');
 goog.require('goog.events.BrowserEvent');
 
@@ -36,9 +38,6 @@ cwc.runner.Connector = function(helper, name = 'Runner Connector') {
 
   /** @type {string} */
   this.name = name;
-
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = helper.getLogger();
 
   /** @type {!Object} */
   this.commands = {};
@@ -75,6 +74,9 @@ cwc.runner.Connector = function(helper, name = 'Runner Connector') {
 
   /** @type {!number} */
   this.pingTestWorker = 0;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 

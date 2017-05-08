@@ -52,6 +52,7 @@ closureBuilder.build({
   options: {
     closure: {
       debug: true,
+      define: 'ENABLE_LOGGING',
       formatting: 'PRETTY_PRINT',
     },
   },

@@ -166,11 +166,8 @@ cwc.ui.Builder = function() {
   /** @type {Function} */
   this.callback = null;
 
-  /** @private {!number} */
-  this.loglevel_ = 0;
-
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.loglevel_, this.name);
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
@@ -197,8 +194,8 @@ cwc.ui.Builder.prototype.decorate = function(node, callback = null) {
     this.callback = callback;
   }
 
-  this.addEventListener_(window, goog.events.EventType.ERROR, function(event) {
-    let browserEvent = event.getBrowserEvent();
+  this.addEventListener_(window, goog.events.EventType.ERROR, function(e) {
+    let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 

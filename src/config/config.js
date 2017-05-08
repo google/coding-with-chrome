@@ -21,24 +21,23 @@ goog.provide('cwc.config');
 goog.provide('cwc.config.Debug');
 goog.provide('cwc.config.Default');
 goog.provide('cwc.config.Experimental');
+goog.provide('cwc.config.InterpreterFlag');
+goog.provide('cwc.config.Logging');
 goog.provide('cwc.config.Number');
 goog.provide('cwc.config.Prefix');
 goog.provide('cwc.config.Sample');
-goog.provide('cwc.config.InterpreterFlag');
 
 goog.require('cwc.utils.LogLevel');
 
 
-/**
- * Default log level.
- * @type {cwc.utils.LogLevel}
- */
-cwc.config.LogLevel = cwc.utils.LogLevel.INFO;
+/** @define {boolean} */
+const ENABLE_LOGGING = false;
 
 
 /**
  * Debug modes.
  * @enum {boolean}
+ * @export
  */
 cwc.config.Debug = {
   ENABLED: false,
@@ -56,15 +55,6 @@ cwc.config.Debug = {
 
 
 /**
- * Debug modes.
- * @enum {boolean}
- */
-cwc.config.Experimental = {
-  ENABLED: false,
-};
-
-
-/**
  * Default values.
  * @enum {string}
  */
@@ -74,14 +64,34 @@ cwc.config.Default = {
 
 
 /**
+ * Debug modes.
+ * @enum {boolean}
+ */
+cwc.config.Experimental = {
+  ENABLED: false,
+};
+
+
+/**
+ * Debug modes.
+ * @enum {boolean|number}
+ * @export
+ */
+cwc.config.Logging = {
+  ENABLED: ENABLE_LOGGING,
+  LEVEL: cwc.utils.LogLevel.NOTICE,
+};
+
+
+/**
  * Magic numbers for calculations.
  * @enum {number}
  */
 cwc.config.Number = {
   /**
-  * Magic Number for approximating a Circular Arc With a Cubic Bezier Path.
-  * (see http://en.wikipedia.org/wiki/B%C3%A9zier_spline)
-  */
+   * Magic Number for approximating a Circular Arc With a Cubic Bezier Path.
+   * (see http://en.wikipedia.org/wiki/B%C3%A9zier_spline)
+   */
   CIRCULAR_ARCS: .5522847498,
 };
 
