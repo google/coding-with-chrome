@@ -357,20 +357,6 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
 
 
 /**
- * @return {string|null}
- * @export
- */
-cwc.utils.Helper.prototype.getFileExtensions = function() {
-  let manifest = this.getManifest();
-  if (manifest) {
-    let fileExtensions = manifest['file_handlers']['supported']['extensions'];
-    return fileExtensions;
-  }
-  return null;
-};
-
-
-/**
  * @param {string=} optName
  * @return {!boolean}
  * @export

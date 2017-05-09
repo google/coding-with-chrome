@@ -91,29 +91,10 @@ cwc.file.detector.detectType = function(content, opt_filename) {
 
 
 /**
- * @param {Object|string} content
- * @return {*}
+ * @param {!string|Object} content
+ * @return {!boolean}
  */
-cwc.file.detector.getJsonData = function(content) {
-  let jsonData = null;
-  if (typeof content == 'object') {
-    return content;
-  } else {
-    try {
-      jsonData = JSON.parse(content);
-    } catch (error) {
-      return null;
-    }
-  }
-  return jsonData;
-};
-
-
-/**
- * @param {string} content
- * @return {boolean}
- */
-cwc.file.detector.isChrogFile = function(content) {
+cwc.file.detector.isFileFormat = function(content) {
   let jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
     let jsonFormat = jsonData['format'] || '';
@@ -126,16 +107,21 @@ cwc.file.detector.isChrogFile = function(content) {
 
 
 /**
- * @param {Object|string|null} content
- * @return {boolean}
+ * @param {Object|string} content
+ * @return {*}
  */
-cwc.file.detector.isValidJson = function(content) {
-  try {
-    JSON.parse(content);
-  } catch (error) {
-    return false;
+cwc.file.detector.getJsonData = function(content) {
+  let jsonData = null;
+  if (typeof content == 'object') {
+    return content;
+  } else if (content.constructor == String) {
+    try {
+      jsonData = JSON.parse(content);
+    } catch (error) {
+      return null;
+    }
   }
-  return true;
+  return jsonData;
 };
 
 

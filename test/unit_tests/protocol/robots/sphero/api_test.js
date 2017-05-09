@@ -25,6 +25,10 @@ describe('Sphero api protocol', function() {
   let device = new cwc.protocol.virtual.Device();
   let api = new cwc.protocol.sphero.Api();
 
+  it('constructor', function() {
+    expect(typeof api).toEqual('object');
+  });
+
   describe('Connect', function() {
     it('disconnected device', function() {
       expect(api.connect(device)).toEqual(false);

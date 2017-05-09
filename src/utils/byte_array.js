@@ -22,15 +22,15 @@ goog.provide('cwc.utils.ByteArrayTypes');
 
 
 /**
- * @enum {!string}
+ * @enum {!number}
  */
 cwc.utils.ByteArrayTypes = {
-  BYTE: 'byte',
-  SHORT: 'short',
-  INT: 'int',
-  UINT: 'uint',
-  UINT16: 'uint16',
-  STR: 'str',
+  BYTE: 1,
+  SHORT: 2,
+  INT: 3,
+  UINT: 4,
+  UINT16: 5,
+  STR: 6,
 };
 
 

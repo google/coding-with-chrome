@@ -23,6 +23,10 @@ goog.require('cwc.renderer.Helper');
 describe('Renderer Helper', function() {
   let helper = new cwc.renderer.Helper();
 
+  it('constructor', function() {
+    expect(typeof helper).toEqual('object');
+  });
+
   it('prependText', function() {
     let test1 = helper.prependText('World!', 'Hello');
     let test2 = helper.prependText('Hello World!', 'Hello');

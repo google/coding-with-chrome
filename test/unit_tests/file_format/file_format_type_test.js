@@ -17,13 +17,21 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.fileFormat.File');
+goog.require('cwc.fileFormat.AdvancedFile');
+goog.require('cwc.fileFormat.BlocklyFile');
+goog.require('cwc.fileFormat.CoffeeScriptFile');
+goog.require('cwc.fileFormat.CustomFile');
+goog.require('cwc.fileFormat.JavaScriptFile');
+goog.require('cwc.fileFormat.RawFile');
 
 
 describe('File format', function() {
-  let fileFormat = new cwc.fileFormat.File();
-
-  it('constructor', function() {
-    expect(typeof fileFormat).toEqual('object');
+  it('functions', function() {
+    expect(typeof cwc.fileFormat.AdvancedFile).toEqual('function');
+    expect(typeof cwc.fileFormat.BlocklyFile).toEqual('function');
+    expect(typeof cwc.fileFormat.CoffeeScriptFile).toEqual('function');
+    expect(typeof cwc.fileFormat.CustomFile).toEqual('function');
+    expect(typeof cwc.fileFormat.JavaScriptFile).toEqual('function');
+    expect(typeof cwc.fileFormat.RawFile).toEqual('function');
   });
 });

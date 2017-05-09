@@ -1,4 +1,4 @@
-/**
+ /**
  * @fileoverview File format tests.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
@@ -17,13 +17,24 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.fileFormat.File');
+goog.require('cwc.fileHandler.ConfigData');
 
 
-describe('File format', function() {
-  let fileFormat = new cwc.fileFormat.File();
+describe('File Config', function() {
+  let configData = cwc.fileHandler.ConfigData;
 
   it('constructor', function() {
-    expect(typeof fileFormat).toEqual('object');
+    expect(typeof configData).toEqual('object');
+  });
+
+  describe('File formats', function() {
+    for (let entry in configData) {
+      if (Object.prototype.hasOwnProperty.call(configData, entry)) {
+        let config = configData[entry];
+        it(entry, function() {
+          config.file(config.content, config.fileType, config.contentType);
+        });
+      }
+    }
   });
 });

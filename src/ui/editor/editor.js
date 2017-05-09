@@ -28,9 +28,10 @@ goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
-goog.require('goog.async.Throttle');
 goog.require('goog.array');
+goog.require('goog.async.Throttle');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.ViewportSizeMonitor');
@@ -47,11 +48,11 @@ goog.require('goog.ui.Component.EventType');
  * @final
  */
 cwc.ui.Editor = function(helper) {
-  /** @type {CodeMirror} */
-  this.editor = null;
-
   /** @type {string} */
   this.name = 'Editor';
+
+  /** @type {CodeMirror} */
+  this.editor = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -142,6 +143,9 @@ cwc.ui.Editor = function(helper) {
   /** @private {goog.async.Throttle} */
   this.syncThrottle_ = new goog.async.Throttle(
     this.syncJavaScript.bind(this), this.syncThrottleTime_);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -155,7 +159,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   this.node = node;
   this.modified = false;
 
-  console.log('Decorate', this.name, 'into node', this.node);
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
         experimental: this.helper.experimentalEnabled(),
@@ -215,9 +219,9 @@ cwc.ui.Editor.prototype.decorate = function(node) {
  * @param {Element} node
  */
 cwc.ui.Editor.prototype.decorateEditor = function(node) {
-  console.log('Decorate code editor...');
+  this.log_.info('Decorate code editor...');
   if (!node) {
-    console.error('Was unable to create editor at node ' + node);
+    this.log_.error('Was unable to create editor at node ' + node);
     return;
   }
 
@@ -369,7 +373,7 @@ cwc.ui.Editor.prototype.getEditorMode = function() {
  */
 cwc.ui.Editor.prototype.setEditorMode = function(mode) {
   if (mode && mode !== this.editorType) {
-    console.log('Set editor mode to: ' + mode);
+    this.log_.info('Set editor mode to: ' + mode);
     this.editor.setOption('mode', mode);
     this.updateInfobar();
     this.updateToolbar();
@@ -385,8 +389,8 @@ cwc.ui.Editor.prototype.setEditorMode = function(mode) {
  */
 cwc.ui.Editor.prototype.setEditorHints = function(hints) {
   if (hints && hints !== this.editorHints) {
-    console.log('Set editor hints to: ' + hints);
-    this.editor.setOption('hintOptions', hints);
+    this.log_.info('Set editor hints to: ' + hints);
+    this.editor.setOption('hintOptions', CodeMirror['hint'][hints]);
     this.refreshEditor();
     this.editorHints = hints;
   }
@@ -404,7 +408,7 @@ cwc.ui.Editor.prototype.getEditorContent = function(optName) {
     if (optName in this.editorView) {
       return this.editorView[optName].getContent();
     } else {
-      console.error('Editor content', optName, 'is not defined!');
+      this.log_.error('Editor content', optName, 'is not defined!');
     }
   } else {
     for (let view in this.editorView) {
@@ -427,7 +431,7 @@ cwc.ui.Editor.prototype.setEditorContent = function(content,
   if (view in this.editorView) {
     this.editorView[view].setContent(content);
   } else {
-    console.error('Editor view', view, 'is unknown!');
+    this.log_.error('Editor view', view, 'is unknown!');
   }
 };
 
@@ -449,12 +453,12 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
   switch (fileUi) {
     case 'blockly':
       if (blocklyInstance) {
-        console.log('Syncing JavaScript from Blockly...');
+        this.log_.info('Syncing JavaScript from Blockly...');
         this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
       }
       break;
     default:
-      console.log('Unsynced UI mode', fileUi);
+      this.log_.info('Unsynced UI mode', fileUi);
   }
 };
 
@@ -550,7 +554,7 @@ cwc.ui.Editor.prototype.insertText = function(text) {
  */
 cwc.ui.Editor.prototype.changeView = function(name) {
   if (!(name in this.editorView)) {
-    console.error('Editor view "' + name + '" not exists!');
+    this.log_.error('Editor view "' + name + '" not exists!');
     return;
   }
 
@@ -577,11 +581,11 @@ cwc.ui.Editor.prototype.changeView = function(name) {
 cwc.ui.Editor.prototype.addView = function(name, opt_content, optType,
     opt_hints, opt_flags) {
   if (name in this.editorView) {
-    console.error('Editor View', name, 'already exists!');
+    this.log_.error('Editor View', name, 'already exists!');
     return;
   }
 
-  console.log('Create Editor View', name,
+  this.log_.info('Create Editor View', name,
     (optType ? 'with type' : ''), optType,
     (opt_hints ? 'and hints' : ''),
     (opt_content ? 'for content:' : ''), '\n...\n' + opt_content + '\n...');
@@ -713,7 +717,7 @@ cwc.ui.Editor.createMarker = function() {
  * Updates the editor Infobar.
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
-  console.info('Update Infobar...');
+  this.log_.info('Update Infobar...');
   if (this.nodeInfobarCurrentMode) {
     this.nodeInfobarCurrentMode.textContent = this.getEditorMode();
   }
@@ -729,7 +733,7 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
 cwc.ui.Editor.prototype.updateToolbar = function() {
   let editorMode = this.getEditorMode();
   if (editorMode !== this.editorType && this.toolbar) {
-    console.info('Update Toolbar for', editorMode);
+    this.log_.info('Update Toolbar for', editorMode);
     this.toolbar.updateToolbar(editorMode);
   }
 };

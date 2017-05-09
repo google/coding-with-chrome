@@ -115,15 +115,15 @@ cwc.fileFormat.File.prototype.init = function() {
   this.files_ = new cwc.file.Files();
   this.flags_ = {};
   this.frameworks_ = new cwc.file.Files();
-  this.raw_ = false;
   this.history_ = '';
   this.mode_ = 'advanced';
   this.model_ = '';
-  this.ui_ = 'default';
+  this.raw_ = false;
+  this.setFlag('__editor__', new cwc.ui.EditorFlags());
   this.title_ = 'Untitled file';
   this.type_ = cwc.file.Type.UNKNOWN;
+  this.ui_ = 'default';
   this.version_ = '1.0';
-  this.setFlag('__editor__', new cwc.ui.EditorFlags());
 };
 
 
@@ -509,7 +509,7 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
 
   if (jsonData['flags']) {
     for (let flag in jsonData['flags']) {
-      if (Object.prototype.hasOwnProperty.call(flag, jsonData['flags'])) {
+      if (Object.prototype.hasOwnProperty.call(jsonData['flags'], flag)) {
         this.setFlag(flag, jsonData['flags'][flag]);
       }
     }
@@ -558,6 +558,10 @@ cwc.fileFormat.File.prototype.loadJson = function(data) {
   if (jsonData['history']) {
     this.setHistory(jsonData['history']);
   }
+
+  if (jsonData['raw']) {
+    this.setHistory(jsonData['raw']);
+  }
 };
 
 
@@ -574,10 +578,11 @@ cwc.fileFormat.File.prototype.toJSON = function() {
     'format': this.format_,
     'frameworks': this.frameworks_,
     'history': this.history_,
-    'type': this.type_,
     'mode': this.mode_,
     'model': this.model_,
+    'raw': this.raw_,
     'title': this.title_,
+    'type': this.type_,
     'ui': this.ui_,
     'version': this.version_,
   };
@@ -602,133 +607,4 @@ cwc.fileFormat.File.prototype.getMetaData = function() {
     'author': this.author_,
     'version': this.version_,
   };
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getAdvancedFile = function(opt_content,
-    type = cwc.file.Type.ADVANCED) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setTitle('Untitled advanced file', true)
-    .setContent(cwc.file.ContentType.JAVASCRIPT,
-       '// Put your JavaScript code here\n', true)
-    .setContent(cwc.file.ContentType.HTML,
-       '<!-- Put your HTML code here -->\n', true)
-    .setContent(cwc.file.ContentType.CSS,
-       '/* Put your CSS code here */\n', true)
-    .setMode('advanced');
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getBlocklyFile = function(opt_content,
-    type = cwc.file.Type.BLOCKLY) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setTitle('Untitled Blockly file', true)
-    .setContent(cwc.file.ContentType.BLOCKLY, '', true)
-    .setContent(cwc.file.ContentType.JAVASCRIPT, '', true)
-    .setMode('blockly', true)
-    .setUi('blockly');
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getCustomFile = function(opt_content,
-    type = cwc.file.Type.CUSTOM) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setContent(cwc.file.ContentType.CUSTOM, '', true)
-    .setTitle('Untitled custom file', true);
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getPencilCodeFile = function(opt_content,
-    type = cwc.file.Type.PENCIL_CODE) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setTitle('Untitled Pencil Code file', true)
-    .setContent(cwc.file.ContentType.COFFEESCRIPT,
-      'speed 2\n' +
-      'pen red\n' +
-      'for [1..45]\n' +
-      '  fd 100\n' +
-      '  rt 88\n', true);
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getPhaserFile = function(opt_content,
-    type = cwc.file.Type.PHASER) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setTitle('Untitled Phaser file', true)
-    .setContent(cwc.file.ContentType.JAVASCRIPT,
-        'var game = new Phaser.Game(800, 600, Phaser.AUTO, ' +
-        '\'phaser-game\', {\n' +
-        '  preload: preload,\n' +
-        '  create: create,\n' +
-        '  update: update,\n' +
-        '  render: render\n' +
-        '});\n\n' +
-        'function preload() {\n\n}\n\n' +
-        'function create() {\n\n}\n\n' +
-        'function update() {\n\n}\n\n' +
-        'function render() {\n\n}\n', true);
-};
-
-
-/**
- * @param {string=} content
- * @param {cwc.file.Type=} type
- * @param {cwc.file.ContentType=} contentType
- * @param {string=} filename
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getRawFile = function(content = '',
-    type = cwc.file.Type.RAW, contentType = cwc.file.ContentType.RAW,
-    filename = 'Untitled raw file') {
-  return new cwc.fileFormat.File()
-    .setType(type)
-    .setTitle(filename)
-    .setContent(contentType, content, true)
-    .setRaw(true);
-};
-
-
-/**
- * @param {string=} opt_content
- * @param {cwc.file.Type=} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.getSimpleFile = function(opt_content,
-    type = cwc.file.Type.SIMPLE) {
-  return new cwc.fileFormat.File(opt_content)
-    .setType(type)
-    .setTitle('Untitled simple file', true)
-    .setContent(cwc.file.ContentType.JAVASCRIPT,
-        '// Put your JavaScript code here\n', true)
-    .setMode('simple', true);
 };

@@ -47,4 +47,9 @@ closureBuilder.build({
   ],
   compress: true,
   out: 'genfiles/js/cwc_ui.js',
+  options: {
+    closure: {
+      define: 'ENABLE_LOGGING=false',
+    },
+  },
 });

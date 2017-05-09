@@ -24,7 +24,7 @@ goog.provide('cwc.config.GDrive');
 
 /**
  * Google Drive config
- * @enum {!Object.<string>|string|array}
+ * @enum {!Object.<string>|number|string}
  */
 cwc.config.GDrive = {
   PAGE_SIZE: 250,

@@ -275,7 +275,6 @@ Blockly.Toolbox = function(workspace) {};
  * @param {Blockly.Toolbox} toolbox
  * @param {Object} config
  * @constructor
- * @extends {goog.ui.tree.TreeControl}
  */
 Blockly.Toolbox.TreeControl = function(toolbox, config) {};
 

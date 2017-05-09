@@ -47,13 +47,12 @@ cwc.fileHandler.FileCreator = function(helper) {
 cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
   let fileConfig = cwc.fileHandler.Config.get(file_type);
   if (!fileConfig) {
-    console.error('Filetype', file_type, 'is not supported!');
+    console.error('File type', file_type, 'is not supported!');
     return;
   }
   console.log('Create file for', file_type, ':', fileConfig);
 
-  // Creates empty .cwc file with the given file_type.
-  let file = fileConfig.file(fileConfig.content || '', file_type,
+  let file = fileConfig.file(fileConfig.content || '', fileConfig.fileType,
       fileConfig.contentType);
 
   if (fileConfig.contentType && fileConfig.content) {
@@ -79,6 +78,9 @@ cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
   }
   if (fileConfig.title) {
     file.setTitle(fileConfig.title);
+  }
+  if (fileConfig.raw) {
+    file.setRaw(fileConfig.raw);
   }
 
   this.loadFile(file, fileConfig.name || 'Untitled file');

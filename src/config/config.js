@@ -30,10 +30,6 @@ goog.provide('cwc.config.Sample');
 goog.require('cwc.utils.LogLevel');
 
 
-/** @define {boolean} */
-const ENABLE_LOGGING = false;
-
-
 /**
  * Debug modes.
  * @enum {boolean}
@@ -78,8 +74,7 @@ cwc.config.Experimental = {
  * @export
  */
 cwc.config.Logging = {
-  ENABLED: ENABLE_LOGGING,
-  LEVEL: cwc.utils.LogLevel.NOTICE,
+  LEVEL: cwc.utils.LogLevel.INFO,
 };
 
 

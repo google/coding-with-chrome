@@ -23,7 +23,13 @@ goog.provide('cwc.fileHandler.ConfigData');
 goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Extensions');
 goog.require('cwc.file.Type');
+goog.require('cwc.fileFormat.AdvancedFile');
+goog.require('cwc.fileFormat.BlocklyFile');
+goog.require('cwc.fileFormat.CoffeeScriptFile');
+goog.require('cwc.fileFormat.CustomFile');
 goog.require('cwc.fileFormat.File');
+goog.require('cwc.fileFormat.JavaScriptFile');
+goog.require('cwc.fileFormat.RawFile');
 goog.require('cwc.mode.Type');
 
 
@@ -43,46 +49,49 @@ cwc.fileHandler.Config = function() {};
 
 /**
  * @param {!string} name
- * @param {!cwc.fileFormat.File} file
+ * @param {!cwc.fileFormat.File|
+ *         cwc.fileFormat.BlocklyFile|
+ *         cwc.fileFormat.PhaserFile} file
  * @param {!cwc.file.Type} type
  * @param {!cwc.mode.Type} mode
- * @param {cwc.file.Extensions=} opt_extension
- * @param {cwc.file.ContentType=} opt_content_type
- * @param {string=} opt_content
- * @param {Object=} opt_config
+ * @param {cwc.file.Extensions=} extension
+ * @param {cwc.file.ContentType=} content_type
+ * @param {string=} content
+ * @param {Object=} config
  */
-cwc.fileHandler.Config.add = function(name, file, type, mode, opt_extension,
-    opt_content_type, opt_content, opt_config) {
-  let config = opt_config || {};
-  config.name = name;
+cwc.fileHandler.Config.add = function(name, file, type, mode,
+    extension = cwc.file.Extensions.CWC, content_type, content = '',
+    config = {}) {
+  config.content = content;
+  config.contentType = content_type;
+  config.extension = extension;
   config.file = file;
-  config.type = type;
+  config.fileType = type;
   config.mode = mode;
-  config.extension = opt_extension || cwc.file.Extensions.CWC;
-  config.contentType = opt_content_type;
-  config.content = opt_content || '';
+  config.name = name;
+  config.raw = file == cwc.fileFormat.RawFile;
   config.title = 'Untitled ' + name;
   if (!('editor_views' in config)) {
-    if (file == cwc.fileFormat.File.getBlocklyFile ||
-        file == cwc.fileFormat.File.getSimpleFile ||
-        file == cwc.fileFormat.File.getPhaserFile) {
+    if (file == cwc.fileFormat.BlocklyFile ||
+        file == cwc.fileFormat.JavaScriptFile) {
       config.editor_views = [cwc.file.ContentType.JAVASCRIPT];
-    } else if (file == cwc.fileFormat.File.getAdvancedFile) {
+    } else if (file == cwc.fileFormat.AdvancedFile) {
       config.editor_views = [
         cwc.file.ContentType.JAVASCRIPT,
         cwc.file.ContentType.HTML,
         cwc.file.ContentType.CSS,
       ];
-    } else if (file == cwc.fileFormat.File.getPencilCodeFile) {
+    } else if (file == cwc.fileFormat.CoffeeScriptFile) {
       config.editor_views = [cwc.file.ContentType.COFFEESCRIPT];
-    } else if (file == cwc.fileFormat.File.getRawFile && opt_content_type) {
-      config.editor_views = [opt_content_type];
+    } else if (file == cwc.fileFormat.RawFile && content_type) {
+      config.editor_views = [content_type];
     } else {
       config.editor_views = [cwc.file.ContentType.CUSTOM];
     }
   }
   if (!('blockly_views' in config)) {
-    if (file == cwc.fileFormat.File.getBlocklyFile) {
+    if (file == cwc.fileFormat.BlocklyFile ||
+        file == cwc.fileFormat.BlocklyFile) {
       config.blockly_views = [cwc.file.ContentType.BLOCKLY];
     }
   }
@@ -114,16 +123,17 @@ cwc.fileHandler.Config.get = function(type, opt_required) {
  * Arduino file config.
  */
 cwc.fileHandler.Config.add('Arduino file',
-    cwc.fileFormat.File.getCustomFile,
+    cwc.fileFormat.CustomFile,
     cwc.file.Type.ARDUINO,
-    cwc.mode.Type.ARDUINO);
+    cwc.mode.Type.ARDUINO
+);
 
 
 /**
  * Basic simple file config.
  */
 cwc.fileHandler.Config.add('Basic file',
-    cwc.fileFormat.File.getSimpleFile,
+    cwc.fileFormat.JavaScriptFile,
     cwc.file.Type.BASIC,
     cwc.mode.Type.BASIC,
     cwc.file.Extensions.CWC,
@@ -131,28 +141,32 @@ cwc.fileHandler.Config.add('Basic file',
     null, {
       library: true,
       preview: true,
-      auto_update: true});
+      auto_update: true,
+    }
+);
 
 
 /**
  * Basic blockly file config.
  */
 cwc.fileHandler.Config.add('Basic blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.BASIC_BLOCKLY,
     cwc.mode.Type.BASIC_BLOCKLY,
     cwc.file.Extensions.CWC,
     null,
     null, {
       library: true,
-      preview: true});
+      preview: true,
+    }
+);
 
 
 /**
  * Basic advanced file config.
  */
 cwc.fileHandler.Config.add('Basic advanced file',
-    cwc.fileFormat.File.getAdvancedFile,
+    cwc.fileFormat.AdvancedFile,
     cwc.file.Type.BASIC_ADVANCED,
     cwc.mode.Type.BASIC_ADVANCED,
     cwc.file.Extensions.CWC,
@@ -160,166 +174,198 @@ cwc.fileHandler.Config.add('Basic advanced file',
     null, {
       library: true,
       preview: true,
-      auto_update: true});
+      auto_update: true,
+    }
+);
 
 
 /**
  * EV3 file config.
  */
 cwc.fileHandler.Config.add('EV3 file',
-    cwc.fileFormat.File.getSimpleFile,
+    cwc.fileFormat.JavaScriptFile,
     cwc.file.Type.EV3,
-    cwc.mode.Type.EV3);
+    cwc.mode.Type.EV3
+);
 
 
 /**
  * EV3 blockly file config.
  */
 cwc.fileHandler.Config.add('EV3 blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.EV3_BLOCKLY,
-    cwc.mode.Type.EV3_BLOCKLY);
+    cwc.mode.Type.EV3_BLOCKLY
+);
 
 
 /**
  * Sphero file config.
  */
 cwc.fileHandler.Config.add('Sphero file',
-    cwc.fileFormat.File.getSimpleFile,
+    cwc.fileFormat.JavaScriptFile,
     cwc.file.Type.SPHERO,
-    cwc.mode.Type.SPHERO);
+    cwc.mode.Type.SPHERO
+);
 
 
 /**
  * Sphero blockly file config.
  */
 cwc.fileHandler.Config.add('Sphero blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.SPHERO_BLOCKLY,
-    cwc.mode.Type.SPHERO_BLOCKLY);
+    cwc.mode.Type.SPHERO_BLOCKLY
+);
 
 
 /**
  * mBot blockly file config.
  */
 cwc.fileHandler.Config.add('mBot blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.MBOT_BLOCKLY,
-    cwc.mode.Type.MBOT_BLOCKLY);
+    cwc.mode.Type.MBOT_BLOCKLY
+);
 
 
 /**
  * mBot ranger blockly file config.
  */
 cwc.fileHandler.Config.add('mBot Ranger blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.MBOT_RANGER_BLOCKLY,
-    cwc.mode.Type.MBOT_RANGER_BLOCKLY);
+    cwc.mode.Type.MBOT_RANGER_BLOCKLY
+);
 
 
 /**
  * Coffeescript file config.
  */
 cwc.fileHandler.Config.add('Coffeescript file',
-    cwc.fileFormat.File.getRawFile,
+    cwc.fileFormat.RawFile,
     cwc.file.Type.COFFEESCRIPT,
     cwc.mode.Type.COFFEESCRIPT,
     cwc.file.Extensions.COFFEESCRIPT,
     cwc.file.ContentType.COFFEESCRIPT,
-    '# Untitled Coffeescript\n');
+    '# Untitled Coffeescript\n'
+);
 
 
 /**
  * Basic simple file config.
  */
 cwc.fileHandler.Config.add('Pencil Code file',
-    cwc.fileFormat.File.getPencilCodeFile,
+    cwc.fileFormat.CoffeeScriptFile,
     cwc.file.Type.PENCIL_CODE,
     cwc.mode.Type.PENCIL_CODE,
     cwc.file.Extensions.CWC,
     cwc.file.ContentType.COFFEESCRIPT,
-    null, {
+    'speed 2\n' +
+    'pen red\n' +
+    'for [1..45]\n' +
+    '  fd 100\n' +
+    '  rt 88\n', {
       library: true,
       preview: true,
-      auto_update: true});
+      auto_update: true,
+    }
+);
 
 
 /**
  * Phaser file config.
  */
 cwc.fileHandler.Config.add('Phaser file',
-    cwc.fileFormat.File.getPhaserFile,
+    cwc.fileFormat.JavaScriptFile,
     cwc.file.Type.PHASER,
     cwc.mode.Type.PHASER,
     cwc.file.Extensions.CWC,
-    null,
-    null, {
+    cwc.file.ContentType.JAVASCRIPT,
+    'var game = new Phaser.Game(800, 600, Phaser.AUTO, ' +
+    '\'phaser-game\', {\n' +
+    '  preload: preload,\n' +
+    '  create: create,\n' +
+    '  update: update,\n' +
+    '  render: render\n' +
+    '});\n\n' +
+    'function preload() {\n\n}\n\n' +
+    'function create() {\n\n}\n\n' +
+    'function update() {\n\n}\n\n' +
+    'function render() {\n\n}\n', {
       library: true,
-      preview: true});
+      preview: true,
+    }
+);
 
 
 /**
  * Phaser blockly file config.
  */
 cwc.fileHandler.Config.add('Phaser blockly file',
-    cwc.fileFormat.File.getBlocklyFile,
+    cwc.fileFormat.BlocklyFile,
     cwc.file.Type.PHASER_BLOCKLY,
     cwc.mode.Type.PHASER_BLOCKLY,
     cwc.file.Extensions.CWC,
     null,
     null, {
       library: true,
-      preview: true});
+      preview: true,
+    }
+);
 
 
 /**
  * Raspberry Pi file config.
  */
 cwc.fileHandler.Config.add('Raspberry Pi',
-    cwc.fileFormat.File.getSimpleFile,
+    cwc.fileFormat.JavaScriptFile,
     cwc.file.Type.RASPBERRY_PI,
-    cwc.mode.Type.RASPBERRY_PI);
+    cwc.mode.Type.RASPBERRY_PI
+);
 
 
 /**
  * JSON file config.
  */
 cwc.fileHandler.Config.add('JSON file',
-    cwc.fileFormat.File.getRawFile,
+    cwc.fileFormat.RawFile,
     cwc.file.Type.JSON,
     cwc.mode.Type.JSON,
-    cwc.file.Extensions.JSON);
+    cwc.file.Extensions.JSON
+);
 
 
 /**
  * Python file config.
  */
 cwc.fileHandler.Config.add('Python file',
-    cwc.fileFormat.File.getRawFile,
+    cwc.fileFormat.RawFile,
     cwc.file.Type.PYTHON,
     cwc.mode.Type.PYTHON,
     cwc.file.Extensions.PYTHON,
     cwc.file.ContentType.PYTHON,
-    '#!/usr/bin/python2.7\n');
+    '#!/usr/bin/python2.7\n'
+);
 
 
 /**
  * Text file config.
  */
 cwc.fileHandler.Config.add('Text file',
-    cwc.fileFormat.File.getRawFile,
+    cwc.fileFormat.RawFile,
     cwc.file.Type.TEXT,
     cwc.mode.Type.TEXT,
     cwc.file.Extensions.TEXT,
-    cwc.file.ContentType.TEXT,
-    '');
+    cwc.file.ContentType.TEXT
+);
 
 
 /**
  * HTML file config.
  */
 cwc.fileHandler.Config.add('HTML file',
-    cwc.fileFormat.File.getRawFile,
+    cwc.fileFormat.RawFile,
     cwc.file.Type.HTML,
     cwc.mode.Type.HTML5,
     cwc.file.Extensions.HTML,
@@ -332,4 +378,5 @@ cwc.fileHandler.Config.add('HTML file',
     '  </head>\n' +
     '  <body>\n\n' +
     '  </body>\n' +
-    '</html>\n');
+    '</html>\n'
+);

@@ -24,6 +24,9 @@ goog.require('cwc.utils.ByteTools');
 describe('Sphero Commands', function() {
   let commands = new cwc.protocol.sphero.Commands();
 
+  it('constructor', function() {
+    expect(typeof commands).toEqual('object');
+  });
   it('setRGB', function() {
     let result1 = cwc.utils.ByteTools.toUint8Array([
       255, 254, 2, 32, 0, 5, 255, 0, 0, 0, 217]);

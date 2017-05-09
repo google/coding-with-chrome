@@ -35,7 +35,7 @@ goog.require('cwc.utils.Logger');
  * @param {!cwc.protocol.bluetooth.supportedDevices} profile
  * @param {!goog.events.EventTarget} eventHandler
  * @param {string=} type
- * @param {chrome_bluetooth=} bluetooth
+ * @param {chrome.bluetooth=} bluetooth
  * @constructor
  */
 cwc.protocol.bluetooth.Device = function(address, connected, connectable,

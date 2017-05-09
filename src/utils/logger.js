@@ -21,6 +21,10 @@ goog.provide('cwc.utils.LogLevel');
 goog.provide('cwc.utils.Logger');
 
 
+/** @define {boolean} */
+const ENABLE_LOGGING = true;
+
+
 /**
  * Log levels:
  * 0 (NONE)      off
@@ -66,8 +70,7 @@ cwc.utils.Logger = function(name = 'Logger',
     Number(cwc.config.Logging.LEVEL) : logLevel;
 
   /** @type {!boolean} */
-  this.enabled_ = typeof cwc.config !== 'undefined' ?
-    (cwc.config.Logging.ENABLED ? true : false) : true;
+  this.enabled_ = ENABLE_LOGGING;
 };
 
 

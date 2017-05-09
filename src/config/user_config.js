@@ -23,7 +23,7 @@ goog.provide('cwc.userConfigType');
 
 
 /**
- * @enum {string}
+ * @enum {!string}
  */
 cwc.userConfigName = {
   ADVANCED_MODE: 'advanced_mode',
@@ -46,7 +46,7 @@ cwc.userConfigName = {
 
 
 /**
- * @enum {string}
+ * @enum {!string}
  */
 cwc.userConfigType = {
   BLOCKLY: 'blockly',
@@ -83,7 +83,7 @@ cwc.UserConfig = function(helper) {
  * Gets the value for the named config value.
  * @param {!cwc.userConfigType|string} type Type of the config entry.
  * @param {!cwc.userConfigName|string} name Name of the config entry.
- * @return {!string} Value of the config entry.
+ * @return {string|boolean} Value of the config entry.
  */
 cwc.UserConfig.prototype.get = function(type, name) {
   return this.storage_.get(name, this.prefix + type);
@@ -93,7 +93,7 @@ cwc.UserConfig.prototype.get = function(type, name) {
 /**
  * Gets the value for the named config type.
  * @param {!cwc.userConfigType|string} type Type of the config entry.
- * @return {!Object} Values of the config entry.
+ * @return {Object} Values of the config entry.
  */
 cwc.UserConfig.prototype.getAll = function(type) {
   return this.storage_.getAll(this.prefix + type);

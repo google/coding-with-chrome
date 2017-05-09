@@ -39,7 +39,7 @@ closureBuilder.build({
  */
 closureBuilder.build({
   name: 'CwC dialog Style Sheet',
-  prefix: 'cwc-dialog-',
+  prefix: 'cwc-',
   srcs: glob([
     'src/utils/dialog/dialog.gss',
   ]),

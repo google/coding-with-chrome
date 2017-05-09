@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor Hints of Code Editor.
+ * @fileoverview File format tests.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.EditorHint');
+goog.require('cwc.fileHandler.FileLoader');
+goog.require('cwc.utils.Helper');
 
 
-/**
- * @enum {!string}
- */
-cwc.ui.EditorHint = {
-  COFFEESCRIPT: 'coffeescript',
-  CSS: 'css',
-  HTML: 'html',
-  JAVASCRIPT: 'javascript',
-  SQL: 'sql',
-  XML: 'xml',
-  UNKNOWN: 'anyword',
-};
+describe('File Loader', function() {
+  let helper = new cwc.utils.Helper();
+  let fileLoader = new cwc.fileHandler.FileLoader(helper);
+
+  it('constructor', function() {
+    expect(typeof fileLoader).toEqual('object');
+  });
+});
