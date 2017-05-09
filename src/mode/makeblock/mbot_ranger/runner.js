@@ -132,9 +132,12 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
+  // Start Event
   this.runner.setStartEvent(this.handleStart_, this);
+
+  // Commands
   this.runner.addCommandProfile(
-    cwc.runner.profile.makeblock.mbotRanger.Command, this.api);
+    new cwc.runner.profile.makeblock.mbotRanger.Command(this.api));
 
   // Monitoring
   this.runner.addMonitor('movePower', this.monitor.movePower, this);

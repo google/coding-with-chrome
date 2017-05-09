@@ -100,7 +100,7 @@ cwc.mode.ev3.Connection.prototype.isConnected = function() {
 
 
 /**
- * @return {Function}
+ * @return {goog.events.EventTarget}
  */
 cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
   return this.api.getEventHandler();
@@ -108,7 +108,7 @@ cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
 
 
 /**
- * @return {Function}
+ * @return {Object}
  */
 cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
   return this.api.getDeviceData();
@@ -116,7 +116,7 @@ cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
 
 
 /**
- * @return {Function}
+ * @return {Object}
  */
 cwc.mode.ev3.Connection.prototype.getDevices = function() {
   return this.api.getDevices();

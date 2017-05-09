@@ -551,7 +551,7 @@ cwc.ui.Blockly.prototype.updateToolbox = function(
 
 /**
  * Update the toolbox with the template
- * @param {Object=} template
+ * @param {Function=} template
  * @param {Object=} data
  */
 cwc.ui.Blockly.prototype.updateToolboxTemplate = function(

@@ -49,9 +49,6 @@ cwc.mode.raspberryPi.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.raspberryPi.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.raspberryPi.Command} */
-  this.command = new cwc.runner.profile.raspberryPi.Command(this.api);
-
   /** @private {!Array} */
   this.listener_ = [];
 
@@ -67,9 +64,9 @@ cwc.mode.raspberryPi.Runner = function(helper, connection) {
 cwc.mode.raspberryPi.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
 
-  // Serial support
-  this.runner.addCommand('sendSerial', this.command.sendSerial, this);
-  this.runner.addCommand('sendSerialText', this.command.sendSerialText, this);
+  // Commands
+  this.runner.addCommandProfile(
+    new cwc.runner.profile.raspberryPi.Command(this.api));
 
   // Events
   let apiEventHandler = this.api.getEventHandler();

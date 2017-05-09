@@ -30,7 +30,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer = function() {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Header} */
+  /** @type {!Array} */
   this.header = cwc.protocol.makeblock.mbotRanger.Header;
 };
 

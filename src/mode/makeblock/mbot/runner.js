@@ -52,9 +52,6 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.makeblock.mbot.Command} */
-  this.command = new cwc.runner.profile.makeblock.mbot.Command(this.api);
-
   /** @type {!string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAA' +
     'BXAvmHAAABG2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu7' +
@@ -134,18 +131,16 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
-  this.runner.addCommand('__start__', this.handleStart_, this);
+  // Start Event
+  this.runner.setStartEvent(this.handleStart_, this);
 
-  // Normal Commands
-  this.runner.addCommand('movePower', this.command.movePower, this);
+  // Commands
+  this.runner.addCommandProfile(
+    new cwc.runner.profile.makeblock.mbot.Command(this.api));
+
+  // Monitoring
   this.runner.addMonitor('movePower', this.monitor.movePower, this);
-
-  this.runner.addCommand('rotatePower', this.command.rotatePower, this);
   this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
-
-  this.runner.addCommand('stop', this.command.stop, this);
-  this.runner.addCommand('setLEDColor', this.command.setLEDColor, this);
-  this.runner.addCommand('playTone', this.command.playTone, this);
 
   // Events
   let apiEventHandler = this.api.getEventHandler();

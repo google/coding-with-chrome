@@ -35,7 +35,7 @@ cwc.runner.profile.sphero.Command = function(api) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.setRGB = function(data) {
+cwc.runner.profile.sphero.Command.prototype['setRGB'] = function(data) {
   this.api.setRGB(data['red'], data['green'], data['blue'], data['persistent']);
 };
 
@@ -43,7 +43,7 @@ cwc.runner.profile.sphero.Command.prototype.setRGB = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.roll = function(data) {
+cwc.runner.profile.sphero.Command.prototype['roll'] = function(data) {
   this.api.roll(data['speed'], data['heading'], data['state']);
 };
 
@@ -51,7 +51,7 @@ cwc.runner.profile.sphero.Command.prototype.roll = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.boost = function(data) {
+cwc.runner.profile.sphero.Command.prototype['boost'] = function(data) {
   this.api.boost(data['enable']);
 };
 
@@ -59,7 +59,7 @@ cwc.runner.profile.sphero.Command.prototype.boost = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.setBackLed = function(data) {
+cwc.runner.profile.sphero.Command.prototype['setBackLed'] = function(data) {
   this.api.setBackLed(data['brightness']);
 };
 
@@ -67,7 +67,8 @@ cwc.runner.profile.sphero.Command.prototype.setBackLed = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.setMotionTimeout = function(data) {
+cwc.runner.profile.sphero.Command.prototype['setMotionTimeout'] = function(
+    data) {
   this.api.setMotionTimeout(data['timeout']);
 };
 
@@ -75,16 +76,16 @@ cwc.runner.profile.sphero.Command.prototype.setMotionTimeout = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Command.prototype.calibrate = function(data) {
+cwc.runner.profile.sphero.Command.prototype['calibrate'] = function(data) {
   this.api.calibrate(data['heading']);
 };
 
 
-cwc.runner.profile.sphero.Command.prototype.stop = function() {
+cwc.runner.profile.sphero.Command.prototype['stop'] = function() {
   this.api.stop();
 };
 
 
-cwc.runner.profile.sphero.Command.prototype.sleep = function() {
+cwc.runner.profile.sphero.Command.prototype['sleep'] = function() {
   this.api.sleep();
 };

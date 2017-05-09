@@ -39,7 +39,8 @@ cwc.runner.profile.raspberryPi.Command = function(api) {
 /**
  * @param {Object} data data package
  */
-cwc.runner.profile.raspberryPi.Command.prototype.sendSerial = function(data) {
+cwc.runner.profile.raspberryPi.Command.prototype['sendSerial'] = function(
+    data) {
   this.api.send(data['data']);
 };
 
@@ -47,7 +48,7 @@ cwc.runner.profile.raspberryPi.Command.prototype.sendSerial = function(data) {
 /**
  * @param {Object} data data package
  */
-cwc.runner.profile.raspberryPi.Command.prototype.sendSerialText = function(
+cwc.runner.profile.raspberryPi.Command.prototype['sendSerialText'] = function(
     data) {
   this.api.sendText(data['text']);
 };

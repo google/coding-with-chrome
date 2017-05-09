@@ -191,7 +191,7 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   let bucketsContainer = goog.dom.getElement(
     this.prefix + 'buckets-container');
   goog.soy.renderElement(
-      bucketsContainer,
+      /** @type {Element} */ (bucketsContainer),
       cwc.soy.GCloud.gCloudBuckets,
       {prefix: this.prefix, items: items}
   );
@@ -204,7 +204,7 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
   };
   goog.events.listen(bucketSelect, goog.events.EventType.CHANGE,
     bucketChangeListener, false, this);
-  goog.dom.append(bucketsContainer, bucketSelect);
+  goog.dom.append(/** @type {!Node} */ (bucketsContainer), bucketSelect);
 
   if (this.bucketName) {
     goog.dom.forms.setValue(bucketSelect, this.bucketName);

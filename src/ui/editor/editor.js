@@ -611,7 +611,7 @@ cwc.ui.Editor.prototype.getCurrentView = function() {
 
 
 /**
- * @param {Event=} opt_event
+ * Handles changes on the content.
  */
 cwc.ui.Editor.prototype.handleChangeEvent = function() {
   if (!this.modified) {

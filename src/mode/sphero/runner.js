@@ -51,9 +51,6 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.sphero.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.sphero.Command} */
-  this.command = new cwc.runner.profile.sphero.Command(this.api);
-
   /** @type {string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAA' +
     'DE6YVjAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAxAAAAMQBz4pYTAAAABl0RVh0U29mdH' +
@@ -98,23 +95,15 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
-  this.runner.addCommand('__start__', this.handleStart_, this);
+  // Start Event
+  this.runner.setStartEvent(this.handleStart_, this);
 
-  // Normal Commands
-  this.runner.addCommand('boost', this.command.boost, this);
-  this.runner.addCommand('setRGB', this.command.setRGB, this);
-  this.runner.addCommand('setBackLed', this.command.setBackLed, this);
-  this.runner.addCommand('setMotionTimeout', this.command.setMotionTimeout,
-    this);
+  // Commands
+  this.runner.addCommandProfile(
+    new cwc.runner.profile.sphero.Command(this.api));
 
-  this.runner.addCommand('roll', this.command.roll, this);
+  // Monitoring
   this.runner.addMonitor('roll', this.monitor.roll, this.monitor);
-
-  this.runner.addCommand('stop', this.command.stop, this);
-
-  // System Commands
-  this.runner.addCommand('calibrate', this.command.calibrate, this);
-  this.runner.addCommand('sleep', this.command.sleep, this);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node);

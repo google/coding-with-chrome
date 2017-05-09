@@ -77,7 +77,7 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
  */
 cwc.mode.arduino.Runner.prototype.handleHandshake = function(
     opt_token) {
-  console.log('Recieved Handshake:', opt_token);
+  console.log('Received Handshake:', opt_token);
 
   // Stores EV3 instance.
   if (!this.arduino) {

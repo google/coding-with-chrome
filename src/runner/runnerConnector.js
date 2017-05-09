@@ -167,16 +167,14 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
- * @param {!function(?)} command_profile
- * @param {!function(?)} api
+ * @param {!function(?)} commandProfile
  * @param {?=} scope
  * @export
  */
-cwc.runner.Connector.prototype.addCommandProfile = function(command_profile,
-    api, scope) {
-  let commandProfile = new command_profile(api);
+cwc.runner.Connector.prototype.addCommandProfile = function(commandProfile,
+    scope) {
   if (!commandProfile) {
-    console.error('Invalid command profile', command_profile);
+    console.error('Invalid command profile', commandProfile);
     return;
   }
   let commandList = Object.getOwnPropertyNames(commandProfile.__proto__);

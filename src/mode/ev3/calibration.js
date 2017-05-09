@@ -122,8 +122,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   // Robot Models
   for (let robot in cwc.protocol.ev3.Robots) {
     if (cwc.protocol.ev3.Robots.hasOwnProperty(robot)) {
-      let item = cwc.ui.Helper.getMenuItem(robot, '',
-        this.setType.bind(this));
+      let item = cwc.ui.Helper.getMenuItem(robot, '', this.setType.bind(this));
       this.nodeRobotList.appendChild(item);
     }
   }

@@ -83,7 +83,7 @@ cwc.UserConfig = function(helper) {
  * Gets the value for the named config value.
  * @param {!cwc.userConfigType|string} type Type of the config entry.
  * @param {!cwc.userConfigName|string} name Name of the config entry.
- * @return {string|boolean} Value of the config entry.
+ * @return {string|boolean|null} Value of the config entry.
  */
 cwc.UserConfig.prototype.get = function(type, name) {
   return this.storage_.get(name, this.prefix + type);

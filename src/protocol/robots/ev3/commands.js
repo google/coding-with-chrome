@@ -235,7 +235,7 @@ cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
 
 
 /**
- * @param {!cwc.protocol.ev3.InputPort|number} ports
+ * @param {!cwc.protocol.ev3.OutputPort|number} ports
  * @param {!number} power (-100 - 100)
  * @param {boolean=} opt_brake Stop current movements.
  * @return {!ArrayBuffer}
@@ -262,8 +262,8 @@ cwc.protocol.ev3.Commands.prototype.movePower = function(ports, power,
 
 
 /**
- * @param {!cwc.protocol.ev3.InputPort} port_left Left motor port.
- * @param {!cwc.protocol.ev3.InputPort} port_right Right motor port.
+ * @param {!cwc.protocol.ev3.OutputPort} port_left Left motor port.
+ * @param {!cwc.protocol.ev3.OutputPort} port_right Right motor port.
  * @param {!number} power_left Power value for left motor. (-100 - 100)
  * @param {!number} power_right Power value for right motor. (-100 - 100)
  * @param {boolean=} opt_brake Stop current movements.
@@ -297,7 +297,7 @@ cwc.protocol.ev3.Commands.prototype.rotatePower = function(port_left,
 
 /**
  * Moves the motors for the predefined specific steps.
- * @param {!cwc.protocol.ev3.InputPort|number} ports
+ * @param {!cwc.protocol.ev3.OutputPort|number} ports
  * @param {!number} steps
  * @param {number=} opt_speed (-100 - 100)
  * @param {number=} opt_ramp_up (-100 - 100)
@@ -329,8 +329,8 @@ cwc.protocol.ev3.Commands.prototype.moveSteps = function(ports, steps,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!number} port_left
- * @param {!number} port_right
+ * @param {!cwc.protocol.ev3.OutputPort} port_left
+ * @param {!cwc.protocol.ev3.OutputPort} port_right
  * @param {!number} steps
  * @param {number=} opt_speed_left
  * @param {number=} opt_speed_right
@@ -404,17 +404,18 @@ cwc.protocol.ev3.Commands.prototype.customRotateSteps = function(ports, steps,
 
 
 /**
- * @param {cwc.protocol.ev3.InputPort=} opt_port
- * @param {boolean=} opt_brake Stop current movements.
+ * @param {cwc.protocol.ev3.OutputPort=} port
+ * @param {number=} brake Stop current movements.
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.stop = function(opt_port, opt_brake) {
+cwc.protocol.ev3.Commands.prototype.stop = function(
+    port = cwc.protocol.ev3.OutputPort.ALL, brake = 0) {
   let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.OUTPUT.STOP);
   buffer.writeNullByte();
-  buffer.writePorts(opt_port || cwc.protocol.ev3.OutputPort.ALL);
-  buffer.writeByte(opt_brake || 0);
+  buffer.writePorts(port);
+  buffer.writeByte(brake);
   return buffer.readSigned();
 };
 

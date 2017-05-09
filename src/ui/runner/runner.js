@@ -325,10 +325,15 @@ cwc.ui.Runner.prototype.renderOverlayTemplate = function(template) {
 /**
  * Will run on each .reload, .stop and .terminated().
  * @param {function()} func
+ * @param {Object=} scope
  */
-cwc.ui.Runner.prototype.setCleanUpFunction = function(func) {
+cwc.ui.Runner.prototype.setCleanUpFunction = function(func, scope) {
   if (goog.isFunction(func)) {
-    this.externalCleanUp = func;
+    if (scope) {
+      this.externalCleanUp = func.bind(scope);
+    } else {
+      this.externalCleanUp = func;
+    }
   }
 };
 
@@ -649,12 +654,11 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, scope = undefined) {
 
 /**
  * @param {!function(?)} profile
- * @param {!function(?)} api
  * @param {?=} scope
  */
-cwc.ui.Runner.prototype.addCommandProfile = function(profile, api,
+cwc.ui.Runner.prototype.addCommandProfile = function(profile,
     scope = undefined) {
-  this.connector.addCommandProfile(profile, api, scope);
+  this.connector.addCommandProfile(profile, scope);
 };
 
 

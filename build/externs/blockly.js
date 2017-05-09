@@ -32,7 +32,7 @@ Blockly.HSV_VALUE;
  * @param {!Element|string} container Containing element, or its ID,
  *     or a CSS selector.
  * @param {Object=} opt_options Optional dictionary of options.
- * @return {!Blockly.Workspace} Newly created main workspace.
+ * @return {!Blockly.WorkspaceSvg} Newly created main workspace.
  */
 Blockly.inject = function(container, opt_options) {};
 
@@ -50,15 +50,6 @@ Blockly.svgResize = function(workspace) {};
  * @param {Node|string} tree DOM tree of blocks, or text representation of same.
  */
 Blockly.updateToolbox = function(tree) {};
-
-/**
- * @param {!Function} func
- * @return {!Array.<!Array>} Opaque data that can be passed to
- *     removeChangeListener.
- * @deprecated April 2015
- */
-Blockly.addChangeListener = function(func) {};
-
 
 /** @type {Function} */
 Blockly.Events = function() {};

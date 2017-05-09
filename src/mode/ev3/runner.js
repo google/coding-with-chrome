@@ -54,9 +54,6 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.runner.profile.ev3.Command} */
-  this.command = new cwc.runner.profile.ev3.Command(this.api);
-
   /** @type {!string} */
   this.sprite = ' data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAMAA' +
     'AACYceEAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAEVAAABFQEpfgIbAAAAGXRFWHRTb2Z0d' +
@@ -115,45 +112,17 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
-  // Start command
-  this.runner.addCommand('__start__', this.handleStart_, this);
+  // Start Event
+  this.runner.setStartEvent(this.handleStart_, this);
 
-  // Movement commands
-  this.runner.addCommand('moveSteps', this.command.moveSteps, this);
+  // Commands
+  this.runner.addCommandProfile(
+    new cwc.runner.profile.ev3.Command(this.api));
+
+  // Monitoring
   this.runner.addMonitor('moveSteps', this.monitor.moveSteps, this.monitor);
-
-  this.runner.addCommand('movePen', this.command.movePen, this);
   this.runner.addMonitor('movePen', this.monitor.movePen, this.monitor);
-
-  this.runner.addCommand('moveServo', this.command.moveServo, this);
-
-  this.runner.addCommand('rotateSteps', this.command.rotateSteps, this);
   this.runner.addMonitor('rotateSteps', this.monitor.rotateSteps, this.monitor);
-
-  // Custom movement commands
-  this.runner.addCommand('customMoveSteps',
-      this.command.customMoveSteps, this);
-
-  this.runner.addCommand('customRotateSteps',
-      this.command.customRotateSteps, this);
-
-  // EV3 Unit Commands
-  this.runner.addCommand('playSound', this.command.playSound, this);
-  this.runner.addCommand('playTone', this.command.playTone, this);
-  this.runner.addCommand('drawImage', this.command.drawImage, this);
-
-  // Direct commands
-  this.runner.addCommand('movePower', this.command.movePower, this);
-  this.runner.addCommand('rotatePower', this.command.rotatePower, this);
-  this.runner.addCommand('stop', this.command.stop, this);
-
-  // General commands
-  this.runner.addCommand('setColorSensorMode', this.command.setColorSensorMode,
-      this);
-  this.runner.addCommand('setIrSensorMode', this.command.setIrSensorMode, this);
-  this.runner.addCommand('setUltrasonicSensorMode',
-      this.command.setUltrasonicSensorMode, this);
-  this.runner.addCommand('setLed', this.command.setLed, this);
 
   // Events
   let apiEventHandler = this.api.getEventHandler();
@@ -179,7 +148,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // Info template
   this.runner.showInfoButton(true);
   this.runner.setInfoTemplate(cwc.soy.mode.ev3.Runner.info);
-  this.runner.setCleanUpFunction(this.command.cleanUp.bind(this));
+  this.runner.setCleanUpFunction(this.api.cleanUp, this);
   this.runner.decorate(this.node);
 
   // Preview output

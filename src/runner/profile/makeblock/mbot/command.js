@@ -36,7 +36,8 @@ cwc.runner.profile.makeblock.mbot.Command = function(api) {
  * move mbot forward or backward
  * @param {Object} data data package
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.movePower = function(data) {
+cwc.runner.profile.makeblock.mbot.Command.prototype['movePower'] = function(
+    data) {
   this.api.setLeftMotorPower(-data['speed']);
   this.api.setRightMotorPower(data['speed']);
 };
@@ -46,7 +47,7 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.movePower = function(data) {
  * turn mbot to a direction
  * @param {Object} data data package
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.rotatePower = function(
+cwc.runner.profile.makeblock.mbot.Command.prototype['rotatePower'] = function(
     data) {
   this.api.setLeftMotorPower(data['speed']);
   this.api.setRightMotorPower(data['speed']);
@@ -56,23 +57,21 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.rotatePower = function(
 /**
  * wait for a certain second
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.wait = function() {};
+cwc.runner.profile.makeblock.mbot.Command.prototype['wait'] = function() {};
 
 
 /**
  * Stops the mBot completely
- * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.stop = function() {
+cwc.runner.profile.makeblock.mbot.Command.prototype['stop'] = function() {
   this.api.stop();
 };
 
 
 /**
  * @param {!Object} data
- * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.setLEDColor = function(
+cwc.runner.profile.makeblock.mbot.Command.prototype['setLEDColor'] = function(
     data) {
   this.api.setLEDColor(
     data['red'], data['green'], data['blue'], data['position']);
@@ -81,8 +80,8 @@ cwc.runner.profile.makeblock.mbot.Command.prototype.setLEDColor = function(
 
 /**
  * @param {!Object} data
- * @export
  */
-cwc.runner.profile.makeblock.mbot.Command.prototype.playTone = function(data) {
+cwc.runner.profile.makeblock.mbot.Command.prototype['playTone'] = function(
+    data) {
   this.api.playTone(data['frequency'], data['duration']);
 };

@@ -222,7 +222,7 @@ cwc.fileFormat.File.prototype.getDescription = function() {
  * @return {cwc.ui.EditorFlags}
  */
 cwc.fileFormat.File.prototype.getEditorFlags = function() {
-  return this.getFlag('__editor__');
+  return /** @type {cwc.ui.EditorFlags} */ (this.getFlag('__editor__'));
 };
 
 
@@ -400,7 +400,7 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
- * @param {!string} type
+ * @param {!cwc.file.Type} type
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setType = function(type) {

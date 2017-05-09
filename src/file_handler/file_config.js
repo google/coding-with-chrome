@@ -27,7 +27,6 @@ goog.require('cwc.fileFormat.AdvancedFile');
 goog.require('cwc.fileFormat.BlocklyFile');
 goog.require('cwc.fileFormat.CoffeeScriptFile');
 goog.require('cwc.fileFormat.CustomFile');
-goog.require('cwc.fileFormat.File');
 goog.require('cwc.fileFormat.JavaScriptFile');
 goog.require('cwc.fileFormat.RawFile');
 goog.require('cwc.mode.Type');
@@ -49,8 +48,12 @@ cwc.fileHandler.Config = function() {};
 
 /**
  * @param {!string} name
- * @param {!cwc.fileFormat.File|
+ * @param {!cwc.fileFormat.AdvancedFile|
  *         cwc.fileFormat.BlocklyFile|
+ *         cwc.fileFormat.CoffeeScriptFile|
+ *         cwc.fileFormat.CustomFile|
+ *         cwc.fileFormat.JavaScriptFile|
+ *         cwc.fileFormat.RawFile|
  *         cwc.fileFormat.PhaserFile} file
  * @param {!cwc.file.Type} type
  * @param {!cwc.mode.Type} mode
@@ -137,8 +140,8 @@ cwc.fileHandler.Config.add('Basic file',
     cwc.file.Type.BASIC,
     cwc.mode.Type.BASIC,
     cwc.file.Extensions.CWC,
-    null,
-    null, {
+    undefined,
+    undefined, {
       library: true,
       preview: true,
       auto_update: true,
@@ -154,8 +157,8 @@ cwc.fileHandler.Config.add('Basic blockly file',
     cwc.file.Type.BASIC_BLOCKLY,
     cwc.mode.Type.BASIC_BLOCKLY,
     cwc.file.Extensions.CWC,
-    null,
-    null, {
+    undefined,
+    undefined, {
       library: true,
       preview: true,
     }
@@ -170,8 +173,8 @@ cwc.fileHandler.Config.add('Basic advanced file',
     cwc.file.Type.BASIC_ADVANCED,
     cwc.mode.Type.BASIC_ADVANCED,
     cwc.file.Extensions.CWC,
-    null,
-    null, {
+    undefined,
+    undefined, {
       library: true,
       preview: true,
       auto_update: true,
@@ -307,8 +310,8 @@ cwc.fileHandler.Config.add('Phaser blockly file',
     cwc.file.Type.PHASER_BLOCKLY,
     cwc.mode.Type.PHASER_BLOCKLY,
     cwc.file.Extensions.CWC,
-    null,
-    null, {
+    undefined,
+    undefined, {
       library: true,
       preview: true,
     }

@@ -29,13 +29,16 @@ goog.require('goog.Timer');
 
 
 /**
- * @param {!cwc.ui.helper} helper
+ * @param {!cwc.utils.Helper} helper
  * @param {!chrome.serial} serial
  * @constructor
  */
 cwc.protocol.serial.Devices = function(helper, serial) {
   /** @type {!string} */
   this.name = 'Serial Devices';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
   /** @type {!chrome.serial} */
   this.serial = serial;

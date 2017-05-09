@@ -32,7 +32,7 @@ cwc.protocol.makeblock.mbot.Buffer = function() {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
-  /** @type {!cwc.protocol.makeblock.mbot.Header} */
+  /** @type {!Array} */
   this.header = cwc.protocol.makeblock.mbot.Header;
 };
 

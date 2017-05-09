@@ -76,7 +76,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   this.shortcutHandler = null;
 
   /** @private {cwc.protocol.ev3.RobotType} */
-  this.robotType_ = cwc.protocol.ev3.RobotType.UNKOWN;
+  this.robotType_ = cwc.protocol.ev3.RobotType.UNKNOWN;
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
@@ -174,7 +174,7 @@ cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
 
 /**
  * Updates device Data in monitor tab.
- * @param {!string} type
+ * @param {!cwc.protocol.ev3.RobotType} type
  */
 cwc.mode.ev3.Monitor.prototype.updateRobotType = function(type) {
   this.robotType_ = type;

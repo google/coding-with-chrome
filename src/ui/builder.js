@@ -73,7 +73,7 @@ goog.require('goog.dom');
 
 /**
  * General helpers.
- * @type {!Object.<Function>|Function}
+ * @enum {!Function}
  */
 cwc.ui.BuilderHelpers = {
   'blockly': cwc.ui.Blockly,
@@ -103,8 +103,8 @@ cwc.ui.BuilderHelpers = {
 
 
 /**
- * General helpers.
- * @type {!Object.<Function>|Function}
+ * General protocols.
+ * @enum {!Function}
  */
 cwc.ui.supportedProtocols = {
   // Low-level
@@ -124,8 +124,8 @@ cwc.ui.supportedProtocols = {
 
 
 /**
- * Specific oauth2 helpers.
- * @type {!Object.<Function>|Function}
+ * Specific oAuth2 helpers.
+ * @enum {!Function}
  */
 cwc.ui.oauth2Helpers = {
   'account': cwc.ui.Account,

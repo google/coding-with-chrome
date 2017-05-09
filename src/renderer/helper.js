@@ -311,7 +311,7 @@ cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
 
 /**
  * @param {!string} css
- * @return {!goog.soy.data.SanitizedCss}
+ * @return {!string}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedCss_ = function(css = '') {
@@ -321,7 +321,7 @@ cwc.renderer.Helper.prototype.sanitizedCss_ = function(css = '') {
 
 /**
  * @param {!string} javascript
- * @return {!goog.soy.data.SanitizedJs}
+ * @return {!string}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript = '') {
@@ -331,7 +331,7 @@ cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript = '') {
 
 /**
  * @param {!string} html
- * @return {!goog.soy.data.SanitizedHtml}
+ * @return {!string}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html = '') {
@@ -341,7 +341,7 @@ cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html = '') {
 
 /**
  * @param {!string} uri
- * @return {!goog.soy.data.SanitizedUri}
+ * @return {!string}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedUri_ = function(uri = '') {

@@ -117,7 +117,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
 cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
     data) {
   this.log_.info('Loading example file:', filename);
-  this.handleFileData(data, filename, null, null, true);
+  this.handleFileData(data, filename, null, undefined, true);
 };
 
 
@@ -136,14 +136,14 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 
 /**
  * Handles the file data and sets the file instance accordingly.
- * @param {!string|Object} data
+ * @param {!string} data
  * @param {string=} filename
  * @param {Object=} fileHandler
  * @param {string=} gDriveId
  * @param {boolean=} example
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
-    filename = '', fileHandler = null, gDriveId = null, example = false) {
+    filename = '', fileHandler = null, gDriveId = undefined, example = false) {
   this.log_.info('Handle file data:', data);
   let fileInstance = this.helper.getInstance('file', true);
   let modeInstance = this.helper.getInstance('mode', true);
@@ -275,7 +275,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       let message = chrome.runtime.lastError.message;
-      if (message != 'User canceled') {
+      if (message && message !== 'User canceled') {
         this.helper.showWarning(message);
         return;
       }
@@ -333,17 +333,17 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 
 /**
  * @param {string} file
- * @param {Function=} optCallback
+ * @param {Function=} callback
  */
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
-    optCallback) {
+    callback) {
   if (file) {
     this.log_.info('Loading file', file, '...');
     let xhr = new goog.net.XhrIo();
     let xhrEvent = this.resourceFileHandler.bind(this);
     let filename = file.replace(/^.*(\\|\/|\:)/, '');
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
-      xhrEvent(e, filename, optCallback);
+      xhrEvent(e, filename, callback);
     });
     goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
       this.helper.showError('Unable to open file ' + file + ':' +

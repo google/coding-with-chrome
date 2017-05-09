@@ -97,9 +97,8 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   }
 };
 
+
 /**
- * @param {boolean} save_file If true save file, otherwise open 'save as'
- *   file dialog.
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
@@ -108,6 +107,7 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
   this.prepareContent();
   gCloudInstance.publishDialog(this.filename, this.fileData, this.fileType);
 };
+
 
 /**
  * Prepares file and ensures we have the latest editor content.

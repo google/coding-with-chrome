@@ -28,7 +28,7 @@ goog.provide('cwc.protocol.Serial.unsupportedDevicePaths');
  *   PATH: 'Comment...'
  * }
  *
- * @enum {!Object.<!Object>}
+ * @enum {!string}
  */
 cwc.protocol.Serial.unsupportedDevicePaths = {
   '/dev/cu.Bluetooth-Incoming-Port': 'Unsupported',
