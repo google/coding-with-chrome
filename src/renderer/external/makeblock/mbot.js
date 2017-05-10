@@ -66,7 +66,7 @@ cwc.renderer.external.makeblock.MBot.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.MBOT, frameworks);
+    /** @type {string} */ (cwc.framework.Internal.MBOT), frameworks);
   let body = '\n<script>' +
       '  let code = function(mbot) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +

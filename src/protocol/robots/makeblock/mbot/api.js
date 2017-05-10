@@ -402,8 +402,8 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
 /**
  * Dispatch event for sensor data change.
  * @param {!cwc.protocol.makeblock.mbot.IndexType} index
- * @param {!cwc.protocol.makeblock.mbot.Events.Type} event
- * @param {ArrayBuffer} data
+ * @param {!Function} event
+ * @param {Object|number} data
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.dispatchSensorEvent_ = function(

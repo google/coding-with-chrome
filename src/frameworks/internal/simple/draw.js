@@ -328,7 +328,7 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
     }
   }
   let canvasInstructions = function() {
-    display.font = font;
+    display.font = font || '24px serif';
     if (opt_stroke) {
       display.strokeText(text, x, y);
     } else {
@@ -399,7 +399,7 @@ cwc.framework.simple.Draw.prototype.point = function(x, y,
     }
   }
   let canvasInstructions = function() {
-    display.fillRect(x, y, size, size);
+    display.fillRect(x, y, size || 1, size || 1);
   };
   return this.execute_(canvasInstructions, display, manipulation);
 };

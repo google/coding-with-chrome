@@ -89,7 +89,7 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.title_ = '';
 
-  /** @private {cwc.file.Type} */
+  /** @private {cwc.file.Type|string} */
   this.type_ = cwc.file.Type.UNKNOWN;
 
   /** @private {string} */
@@ -400,7 +400,7 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
- * @param {!cwc.file.Type} type
+ * @param {!cwc.file.Type|string} type
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setType = function(type) {

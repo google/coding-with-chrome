@@ -28,19 +28,19 @@ goog.require('goog.style');
 
 /**
  * @param {!string} name
- * @param {string=} opt_title
- * @param {function()=} optFunc
+ * @param {string=} title
+ * @param {Function=} func
  * @return {!Element}
  */
-cwc.ui.Helper.getMenuItem = function(name, opt_title, optFunc) {
+cwc.ui.Helper.getMenuItem = function(name, title, func) {
   let text = document.createTextNode(i18t(name));
   let item = goog.dom.createDom(goog.dom.TagName.LI, 'mdl-menu__item');
   item.appendChild(text);
-  if (opt_title) {
-    item.title = i18t(opt_title);
+  if (title) {
+    item.title = i18t(title);
   }
-  if (optFunc) {
-    goog.events.listen(item, goog.events.EventType.CLICK, optFunc);
+  if (func) {
+    goog.events.listen(item, goog.events.EventType.CLICK, func);
   }
   return item;
 };
@@ -72,19 +72,6 @@ cwc.ui.Helper.mdlRefresh = function() {
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
   }
-};
-
-
-/**
- * Uninstalls styles and returns null.
- * @param {Element|StyleSheet} style_sheet
- * @return {null}
- */
-cwc.ui.Helper.uninstallStyles = function(style_sheet) {
-  if (style_sheet) {
-    goog.style.uninstallStyles(style_sheet);
-  }
-  return null;
 };
 
 

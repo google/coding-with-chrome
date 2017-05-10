@@ -22,8 +22,7 @@ goog.provide('cwc.renderer.Renderer');
 goog.require('cwc.file.Files');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
-
-goog.require('goog.string');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -53,6 +52,9 @@ cwc.renderer.Renderer = function(helper) {
 
   /** @type {!cwc.file.Files} */
   this.styleSheetFiles = new cwc.file.Files();
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -87,15 +89,15 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
 cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
   let fileContent = this.rendererHelper.getDataUrl(content, 'text/javascript');
   if (!fileContent) {
-    console.error('Received empty content for framework', name);
+    this.log_.error('Received empty content for framework', name);
     return;
   }
 
   let file = this.frameworkFiles.addFile(name, fileContent, type);
   if (!file) {
-    console.error('Was not able to add File', file);
+    this.log_.error('Was not able to add File', file);
   } else {
-    console.info('Add framework', name, file.getSize());
+    this.log_.info('Add framework', name, file.getSize());
   }
 };
 
@@ -140,15 +142,15 @@ cwc.renderer.Renderer.prototype.loadStyleSheets = function(styleSheets,
 cwc.renderer.Renderer.prototype.addStyleSheet = function(name, content, type) {
   let fileContent = this.rendererHelper.getDataUrl(content, 'text/css');
   if (!fileContent) {
-    console.error('Received empty content for Style Sheet', name);
+    this.log_.error('Received empty content for Style Sheet', name);
     return;
   }
 
   let file = this.styleSheetFiles.addFile(name, fileContent, type);
   if (!file) {
-    console.error('Was not able to add File', file);
+    this.log_.error('Was not able to add File', file);
   } else {
-    console.info('Add framework', name, file.getSize());
+    this.log_.info('Add framework', name, file.getSize());
   }
 };
 
@@ -178,7 +180,7 @@ cwc.renderer.Renderer.prototype.getRendererHelper = function() {
  */
 cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
   if (!goog.isFunction(renderer)) {
-    console.error('Renderer is not an function !');
+    this.log_.error('Renderer is not an function !');
   }
   this.renderer = renderer;
 };
@@ -199,7 +201,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
   }
   let content = editorInstance.getEditorContent();
   if (!content) {
-    console.warn('Empty render content!');
+    this.log_.warn('Empty render content!');
   }
 
   return this.renderer(
@@ -239,7 +241,7 @@ cwc.renderer.Renderer.prototype.getPreviewUrl = function() {
   if (content) {
     return this.rendererHelper.getDataUrl(content);
   } else {
-    console.error('Was not able to get preview URL: ' + content);
+    this.log_.error('Was not able to get preview URL: ' + content);
   }
   return '';
 };

@@ -259,7 +259,7 @@ function(event) {
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
  *
- * @param {EventTarget|goog.events.Listenable|string} src
+ * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
  * @param {function(?)} listener
  * @param {boolean=} capture

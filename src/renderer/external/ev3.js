@@ -66,8 +66,7 @@ cwc.renderer.external.EV3.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.EV3,
-    frameworks);
+    /** @type {string} */ (cwc.framework.Internal.EV3), frameworks);
   let body = '\n<script>' +
       '  let code = function(ev3) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +

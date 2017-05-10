@@ -64,7 +64,7 @@ cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
@@ -78,7 +78,7 @@ cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
 
 
 /**
- * @param {Object} data
+ * @param {Object|number} data
  * @param {number=} port
  * @return {!cwc.protocol.makeblock.mbotRanger.Events.Data_}
  * @final
@@ -93,7 +93,7 @@ cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
 
 /**
  * @param {!cwc.protocol.makeblock.mbotRanger.Events.Type} type
- * @param {Object=} data
+ * @param {Object|number=} data
  * @param {number=} port
  * @constructor
  * @final
@@ -104,7 +104,7 @@ cwc.protocol.makeblock.mbotRanger.Events.Data_ = function(type, data = {},
   /** @type {!cwc.protocol.makeblock.mbotRanger.Events.Type} */
   this.type = type;
 
-  /** @type {Object} */
+  /** @type {Object|number} */
   this.data = data;
 
   /** @type {number|undefined} */

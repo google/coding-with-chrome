@@ -86,7 +86,7 @@ cwc.ui.Blockly = function(helper) {
   /** @type {boolean} */
   this.toolboxAutocollapse = false;
 
-  /** @type {Object} */
+  /** @type {Function} */
   this.toolboxTemplate = null;
 
   /** @type {!Object} */
@@ -580,7 +580,7 @@ cwc.ui.Blockly.prototype.updateFiles = function(files) {
 
 
 /**
- * @param {!Object} template
+ * @param {!Function} template
  * @param {Object=} data
  */
 cwc.ui.Blockly.prototype.setToolboxTemplate = function(template,

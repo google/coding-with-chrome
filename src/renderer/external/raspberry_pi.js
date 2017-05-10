@@ -66,8 +66,7 @@ cwc.renderer.external.RaspberryPi.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.RASPBERRY_PI,
-    frameworks);
+    /** @type {string} */ (cwc.framework.Internal.RASPBERRY_PI), frameworks);
   let body = '\n<script>' +
       '  let code = function(pi) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +

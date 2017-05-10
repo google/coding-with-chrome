@@ -525,9 +525,3 @@ cwc.utils.Helper.prototype.openUrl = function(url) {
     window.open(url);
   }
 };
-
-
-/**
- * @export
- */
-cwc.utils.Helper.prototype.uninstallStyles = cwc.ui.Helper.uninstallStyles;

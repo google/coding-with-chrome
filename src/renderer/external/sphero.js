@@ -66,7 +66,7 @@ cwc.renderer.external.Sphero.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.SPHERO, frameworks);
+    /** @type {string} */ (cwc.framework.Internal.SPHERO), frameworks);
   let body = '\n<script>' +
       '  let code = function(sphero) {\n' +
       editor_content[cwc.file.ContentType.JAVASCRIPT] +

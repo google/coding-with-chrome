@@ -323,7 +323,7 @@ cwc.ui.Runner.prototype.renderOverlayTemplate = function(template) {
 
 
 /**
- * Will run on each .reload, .stop and .terminated().
+ * Will run on each .reload(), .stop() and .terminated().
  * @param {function()} func
  * @param {Object=} scope
  */

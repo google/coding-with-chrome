@@ -86,7 +86,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
 /**
  * Sets motor power
  * @param {!number} power (0-255)
- * @param {number=} port
+ * @param {cwc.protocol.makeblock.mbot.Port=} port
  * @return {!ArrayBuffer}
  * @export
  */

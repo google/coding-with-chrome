@@ -93,7 +93,7 @@ cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.Events.Type} type
- * @param {Object=} data
+ * @param {Object|number=} data
  * @param {number=} port
  * @constructor
  * @final
@@ -103,7 +103,7 @@ cwc.protocol.makeblock.mbot.Events.Data_ = function(type, data, port) {
   /** @type {!cwc.protocol.makeblock.mbot.Events.Type} */
   this.type = type;
 
-  /** @type {!Object} */
+  /** @type {!Object|number} */
   this.data = data || {};
 
   /** @type {number|undefined} */

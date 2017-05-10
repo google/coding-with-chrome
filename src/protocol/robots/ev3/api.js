@@ -436,7 +436,7 @@ cwc.protocol.ev3.Api.prototype.rotatePower = function(power_left,
 
 
 /**
- * @param {cwc.protocol.ev3.InputPort=} opt_port
+ * @param {cwc.protocol.ev3.OutputPort=} opt_port
  */
 cwc.protocol.ev3.Api.prototype.stop = function(opt_port) {
   let brake = 1;

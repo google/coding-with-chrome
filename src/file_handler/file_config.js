@@ -48,13 +48,7 @@ cwc.fileHandler.Config = function() {};
 
 /**
  * @param {!string} name
- * @param {!cwc.fileFormat.AdvancedFile|
- *         cwc.fileFormat.BlocklyFile|
- *         cwc.fileFormat.CoffeeScriptFile|
- *         cwc.fileFormat.CustomFile|
- *         cwc.fileFormat.JavaScriptFile|
- *         cwc.fileFormat.RawFile|
- *         cwc.fileFormat.PhaserFile} file
+ * @param {!Function} file
  * @param {!cwc.file.Type} type
  * @param {!cwc.mode.Type} mode
  * @param {cwc.file.Extensions=} extension

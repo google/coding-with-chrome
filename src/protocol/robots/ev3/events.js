@@ -177,19 +177,19 @@ cwc.protocol.ev3.Events.ultrasonicSensorValue = function(data, opt_port) {
 
 /**
  * @param {!cwc.protocol.ev3.Events.Type} type
- * @param {Object|number=} opt_data
- * @param {number=} opt_port
+ * @param {Object|number=} data
+ * @param {number=} port
  * @constructor
  * @final
  * @private
  */
-cwc.protocol.ev3.Events.Data_ = function(type, opt_data, opt_port) {
+cwc.protocol.ev3.Events.Data_ = function(type, data, port) {
   /** @type {!cwc.protocol.ev3.Events.Type} */
   this.type = type;
 
   /** @type {!Object|number} */
-  this.data = opt_data || {};
+  this.data = data || {};
 
-  /** @type {number} */
-  this.port = opt_port;
+  /** @type {number|undefined} */
+  this.port = port;
 };

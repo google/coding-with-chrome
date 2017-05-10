@@ -659,7 +659,7 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
  *
  * @param {EventTarget|goog.events.Listenable} src
  * @param {string} type
- * @param {function()} listener
+ * @param {Function} listener
  * @param {boolean=} useCapture
  * @param {Object=} listenerScope
  * @private

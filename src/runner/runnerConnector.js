@@ -100,7 +100,7 @@ cwc.runner.Connector.prototype.init = function(opt_listen) {
  */
 cwc.runner.Connector.prototype.setTarget = function(target) {
   if (!target) {
-    console.error('Was not able to init runner with', target);
+    this.log_.error('Was not able to init runner with', target);
     return;
   }
   this.targetLoaded = false;
@@ -131,7 +131,7 @@ cwc.runner.Connector.prototype.send = function(command, optValue) {
 cwc.runner.Connector.prototype.start = function() {
   this.executeCommand('__init__', null, true);
   if (this.listen) {
-    console.log('Sending handshake with token', this.token);
+    this.log_.info('Sending handshake with token', this.token);
     this.send('__handshake__', this.token);
   }
 };
@@ -141,7 +141,7 @@ cwc.runner.Connector.prototype.start = function() {
  * @private
  */
 cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
-  console.log('Enabled direct update ...');
+  this.log_.info('Enabled direct update ...');
   this.directUpdate = true;
 };
 
@@ -149,17 +149,17 @@ cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
 /**
  * @param {!string} name
  * @param {!function(?)} func
- * @param {?=} opt_scope
+ * @param {?=} scope
  * @export
  */
-cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
+cwc.runner.Connector.prototype.addCommand = function(name, func, scope) {
   if (!func || typeof func !== 'function') {
-    console.error('Invalid Runner function for', name);
+    this.log_.error('Invalid function for', name);
     return;
   }
-  console.log('Adding Runner command', name, func);
-  if (opt_scope) {
-    this.commands[name] = func.bind(opt_scope);
+  this.log_.info('Adding command', name, func);
+  if (scope) {
+    this.commands[name] = func.bind(scope);
   } else {
     this.commands[name] = func;
   }
@@ -167,14 +167,18 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, opt_scope) {
 
 
 /**
- * @param {!function(?)} commandProfile
+ * @param {!Function} commandProfile
  * @param {?=} scope
  * @export
  */
 cwc.runner.Connector.prototype.addCommandProfile = function(commandProfile,
     scope) {
   if (!commandProfile) {
-    console.error('Invalid command profile', commandProfile);
+    this.log_.error('Invalid command profile', commandProfile);
+    return;
+  }
+  if (!commandProfile.__proto__) {
+    this.log_.error('Unable to detect commands', commandProfile);
     return;
   }
   let commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
@@ -207,7 +211,7 @@ cwc.runner.Connector.prototype.setStartEvent = function(func, opt_scope) {
  */
 cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {
   if (!func) {
-    console.error('Runner monitor function is undefined for', name);
+    this.log_.error('Runner monitor function is undefined for', name);
     return;
   }
   if (opt_scope) {
@@ -243,8 +247,7 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
     opt_ignore_unknown) {
   if (typeof this.commands[name] === 'undefined') {
     if (!opt_ignore_unknown) {
-      console.warn('Runner connector received unknown command', name,
-        'with value', value);
+      this.log_.warn('Received unknown command', name, 'with value', value);
     }
     return;
   }
@@ -296,7 +299,7 @@ cwc.runner.Connector.prototype.handleContentLoad_ = function(opt_event) {
 cwc.runner.Connector.prototype.handleMessage_ = function(event) {
   let browserEvent = event.getBrowserEvent();
   if (!browserEvent) {
-    console.error('Was not able to get browser event!');
+    this.log_.error('Was not able to get browser event!');
     return;
   }
 
@@ -311,7 +314,7 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
  */
 cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
   if (!token || this.token !== token) {
-    console.error('Received wrong handshake token:', token);
+    this.log_.error('Received wrong handshake token:', token);
     return;
   }
   console.log('Received handshake with token:', token);
@@ -330,7 +333,7 @@ cwc.runner.Connector.prototype.handlePong_ = function(data) {
   let sendTime = data['time'] - this.pingTime[data['id']];
   let responseTime = currentTime - data['time'];
   let delay = currentTime - this.pingTime[data['id']];
-  console.log('PONG from', data['id'], ':', 'send=', sendTime + 'ms',
+  this.log_.info('PONG from', data['id'], ':', 'send=', sendTime + 'ms',
       'response=', responseTime + 'ms', 'delay=', delay + 'ms');
 };
 

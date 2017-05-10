@@ -240,20 +240,20 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
 /**
  * Rotates the motor for the given steps.
  * @param {!number} steps (−32768 - 32.767)
- * @param {number=} opt_power (0-180)
- * @param {number=} opt_slot
+ * @param {number=} power (0-180)
+ * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.moveSteps = function(steps,
-    opt_power, opt_slot) {
-  if (opt_slot === undefined) {
-    let motorPower = cwc.utils.NumberTools.minMax(opt_power, -130, 130) || 130;
+    power = 90, slot) {
+  if (slot === undefined) {
+    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
     this.send_(this.commands.moveSteps(-steps, motorPower,
       cwc.protocol.makeblock.mbotRanger.Slot.ONE));
     this.send_(this.commands.moveSteps(steps, motorPower,
       cwc.protocol.makeblock.mbotRanger.Slot.TWO));
   } else {
-    this.send_(this.commands.moveSteps(steps, opt_power, opt_slot));
+    this.send_(this.commands.moveSteps(steps, power, slot));
   }
 };
 
@@ -484,8 +484,8 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
 /**
  * Dispatch event for sensor data change.
  * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index
- * @param {!cwc.protocol.makeblock.mbotRanger.Events.Type} event
- * @param {ArrayBuffer|number} data
+ * @param {!Function} event
+ * @param {Object|number} data
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.dispatchSensorEvent_ = function(

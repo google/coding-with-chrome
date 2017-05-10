@@ -23,6 +23,7 @@ goog.provide('cwc.mode.Modder');
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -43,6 +44,9 @@ cwc.mode.Modder = function(helper) {
 
   /** @type {Object} */
   this.modder = null;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -55,7 +59,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     return;
   }
 
-  console.log('Loading Mode', mode,
+  this.log_.info('Loading Mode', mode,
     (modeConfig.version ? 'version ' + modeConfig.version : ''),
     (modeConfig.name ? '(' + modeConfig.name + ')' : ''),
     (modeConfig.authors ? 'from ' + modeConfig.authors : ''),
@@ -73,9 +77,9 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   this.helper.endTour();
 
   this.mode = mode;
-  console.log('Initialize mode', mode, '…');
+  this.log_.info('Initialize mode', mode, '…');
   this.modder = new modeConfig.Mod(this.helper);
-  console.log('Decorate UI for mode', mode);
+  this.log_.info('Decorate UI for mode', mode);
   this.modder.decorate();
 };
 

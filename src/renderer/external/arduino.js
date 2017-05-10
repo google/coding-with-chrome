@@ -67,8 +67,7 @@ cwc.renderer.external.Arduino.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.ARDUINO,
-    frameworks);
+    /** @type {string} */ (cwc.framework.Internal.ARDUINO), frameworks);
   let body = '\n<script>' +
       '  let customCode = function(arduino) {\n' +
       editor_content[cwc.file.ContentType.CUSTOM] +

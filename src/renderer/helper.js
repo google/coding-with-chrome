@@ -77,7 +77,7 @@ cwc.renderer.Helper.prototype.getHTML = function(body, header, css,
     head: header ? this.sanitizedHtml_(header) : '',
     css: css ? this.sanitizedCss_(css) : '',
     js: javascript ? this.sanitizedJs_(javascript) : '',
-  });
+  }).getContent();
 };
 
 
@@ -95,7 +95,7 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(body, header, css,
     head: header ? this.sanitizedHtml_(header) : '',
     css: css ? this.sanitizedCss_(css) : '',
     js: javascript ? this.sanitizedJs_(javascript) : '',
-  });
+  }).getContent();
 };
 
 
@@ -115,7 +115,7 @@ cwc.renderer.Helper.prototype.getHTMLCanvas = function(body, header, css,
     css: css ? this.sanitizedCss_(css) : '',
     js: javascript ? this.sanitizedJs_(javascript) : '',
     canvas: canvas,
-  });
+  }).getContent();
 };
 
 
@@ -159,7 +159,7 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url, width = 400,
     type: 'text/html',
     width: width,
     height: height,
-  });
+  }).getContent();
 };
 
 
@@ -195,7 +195,7 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
 cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
   return cwc.soy.Renderer.javaScriptContent({
     content: this.sanitizedJs_(content),
-  });
+  }).getContent();
 };
 
 
@@ -209,7 +209,7 @@ cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url,
   return cwc.soy.Renderer.javaScriptUrl({
     url: url,
     filename: filename,
-  });
+  }).getContent();
 };
 
 
@@ -234,7 +234,7 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
     data: data,
     encoding: encoding,
     filename: filename,
-  });
+  }).getContent();
 };
 
 
@@ -259,12 +259,12 @@ cwc.renderer.Helper.prototype.getStyleSheetDataUrl = function(data,
     data: data,
     encoding: encoding,
     filename: filename,
-  });
+  }).getContent();
 };
 
 
 /**
- * @param {!string|cwc.framework.External|cwc.framework.Internal} filename
+ * @param {!string} filename
  * @param {!cwc.file.Files} files
  * @return {string}
  */
@@ -279,16 +279,14 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
 
 
 /**
- * @param {!Array} filenames
+ * @param {!Array.<string>} filenames
  * @param {!cwc.file.Files} files
  * @return {!string}
  */
 cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
   let headers = '';
-  for (let filename in filenames) {
-    if (Object.prototype.hasOwnProperty.call(filenames, filename)) {
-      headers += this.getFrameworkHeader(filenames[filename], files);
-    }
+  for (let filename of filenames) {
+    headers += this.getFrameworkHeader(filename, files);
   }
   return headers;
 };

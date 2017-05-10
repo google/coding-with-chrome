@@ -66,7 +66,7 @@ cwc.renderer.external.makeblock.MBotRanger.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
-    cwc.framework.Internal.MBOT_RANGER, frameworks);
+    /** @type {string} */ (cwc.framework.Internal.MBOT_RANGER), frameworks);
   let content = editor_content[cwc.file.ContentType.JAVASCRIPT];
   let body = '\n<script>' +
       '  let code = function(mBotRanger) {\n' + content + '\n};\n'+

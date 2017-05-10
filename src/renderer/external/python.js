@@ -75,7 +75,7 @@ cwc.renderer.external.Python.prototype.render = function(
     cwc.framework.Internal.PYTHON,
   ], frameworks);
   header += renderer_helper.getStyleSheetHeader(
-    cwc.framework.StyleSheet.DIALOG, styleSheets);
+    /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
   let body = '<div id="content"></div>' +
   '<script id="code" type="text/python">\n' + python + '\n</script>' +
   '<script>new cwc.framework.Python().run();</script>';

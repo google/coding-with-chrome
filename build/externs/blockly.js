@@ -194,8 +194,8 @@ Blockly.WorkspaceSvg.undoStack_ = [];
 /** @type {Array} */
 Blockly.WorkspaceSvg.redoStack_ = [];
 
-/** @type {Object} */
-Blockly.WorkspaceSvg.prototype.toolbox_ = {};
+/** @type {Blockly.Toolbox} */
+Blockly.WorkspaceSvg.prototype.toolbox_;
 
 /** @type {Object} */
 Blockly.WorkspaceSvg.toolbox_ = {};
@@ -203,8 +203,8 @@ Blockly.WorkspaceSvg.toolbox_ = {};
 /** @type {Function} */
 Blockly.WorkspaceSvg.toolbox_.clearSelection = function() {};
 
-/** @type {Object} */
-Blockly.WorkspaceSvg.toolbox_.tree_ = {};
+/** @type {Blockly.Toolbox.TreeControl} */
+Blockly.WorkspaceSvg.toolbox_.tree_;
 
 /** @type {Object} */
 Blockly.WorkspaceSvg.toolbox_.tree_.childIndex_ = {};
@@ -262,6 +262,7 @@ Blockly.workspaceDragSurfaceSvg = function(container) {};
 /** @constructor */
 Blockly.Toolbox = function(workspace) {};
 
+
 /**
  * @param {Blockly.Toolbox} toolbox
  * @param {Object} config
@@ -270,4 +271,4 @@ Blockly.Toolbox = function(workspace) {};
 Blockly.Toolbox.TreeControl = function(toolbox, config) {};
 
 /** @type {Object} */
-Blockly.Toolbox.TreeControl.childIndex_ = {};
+Blockly.Toolbox.TreeControl.prototype.childIndex_ = {};

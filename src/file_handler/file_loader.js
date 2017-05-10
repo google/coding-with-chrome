@@ -333,7 +333,7 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file,
 
 /**
  * @param {string} file
- * @param {Function=} callback
+ * @param {function(string, string)=} callback
  */
 cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     callback) {

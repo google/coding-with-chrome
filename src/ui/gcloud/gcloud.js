@@ -24,7 +24,6 @@ goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.style');
 
 goog.require('cwc.soy.GCloud');
 goog.require('cwc.utils.Helper');

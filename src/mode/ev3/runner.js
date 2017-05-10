@@ -148,7 +148,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // Info template
   this.runner.showInfoButton(true);
   this.runner.setInfoTemplate(cwc.soy.mode.ev3.Runner.info);
-  this.runner.setCleanUpFunction(this.api.cleanUp, this);
+  this.runner.setCleanUpFunction(this.api.cleanUp, this.api);
   this.runner.decorate(this.node);
 
   // Preview output
