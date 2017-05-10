@@ -42,7 +42,7 @@ describe('Renderer Helper', function() {
         'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
         'display:block; }</style>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
-      expect(helper.getHTML().content).toEqual(htmlCode);
+      expect(helper.getHTML()).toEqual(htmlCode);
     });
 
     it('getHTML - html', function() {
@@ -50,7 +50,7 @@ describe('Renderer Helper', function() {
         'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
         'display:block; }</style>\n' +
         '</head>\n<body>\n<h1>test</h1>\n</body>\n</html>\n';
-      expect(helper.getHTML('<h1>test</h1>').content).toEqual(htmlCode);
+      expect(helper.getHTML('<h1>test</h1>')).toEqual(htmlCode);
     });
 
     it('getHTML - head', function() {
@@ -61,7 +61,7 @@ describe('Renderer Helper', function() {
         '</head>\n<body>\n</body>\n</html>\n';
       expect(helper.getHTML(
         '', '<script src="http://example.org"></script>'
-      ).content).toEqual(htmlCode);
+      )).toEqual(htmlCode);
     });
 
     it('getHTML - css', function() {
@@ -70,7 +70,7 @@ describe('Renderer Helper', function() {
         'display:block; }</style>\n' +
         '<style>\nbody { background: #f00;}\n</style>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
-      expect(helper.getHTML('', '', 'body { background: #f00;}').content)
+      expect(helper.getHTML('', '', 'body { background: #f00;}'))
         .toEqual(htmlCode);
     });
 
@@ -81,7 +81,7 @@ describe('Renderer Helper', function() {
         '</head>\n<body>\n<script>\nlet 123;\n' +
         'function test(a) {return a+1;};\n</script>\n</body>\n</html>\n';
       expect(helper.getHTML('', '', '',
-        'let 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
+        'let 123;\nfunction test(a) {return a+1;};')).toEqual(htmlCode);
     });
 
     it('getHTML', function() {
@@ -96,7 +96,7 @@ describe('Renderer Helper', function() {
         '<h1>test</h1>',
         '<script src="http://example.org"></script>',
         'body { background: #f00;}',
-        'let 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
+        'let 123;\nfunction test(a) {return a+1;};')).toEqual(htmlCode);
     });
   });
 
@@ -115,7 +115,7 @@ describe('Renderer Helper', function() {
       '<h1>test</h1>',
       '<script src="http://example.org"></script>',
       'body { background: #f00;}',
-      'let 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
+      'let 123;\nfunction test(a) {return a+1;};')).toEqual(htmlCode);
   });
 
   it('getHTMLCanvas', function() {
@@ -131,7 +131,7 @@ describe('Renderer Helper', function() {
       '<h1>test</h1>',
       '<script src="http://example.org"></script>',
       'body { background: #f00;}',
-      'let 123;\nfunction test(a) {return a+1;};').content).toEqual(htmlCode);
+      'let 123;\nfunction test(a) {return a+1;};')).toEqual(htmlCode);
   });
 
   it('getDataUrl ', function() {
@@ -145,9 +145,9 @@ describe('Renderer Helper', function() {
 
   it('getObjectTag ', function() {
     let url = 'data:text/javascript;base64,SGVsbG9Xb3JsZA==';
-    let objectTag1 = helper.getObjectTag(url).content;
-    let objectTag2 = helper.getObjectTag(url, 100, 200).content;
-    let objectTag3 = helper.getObjectTag(url, 200, 100).content;
+    let objectTag1 = helper.getObjectTag(url);
+    let objectTag2 = helper.getObjectTag(url, 100, 200);
+    let objectTag3 = helper.getObjectTag(url, 200, 100);
     expect(objectTag1).toEqual('<object data="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA==" type="text/html" width="400" height="400"></object>');
     expect(objectTag2).toEqual('<object data="data:text/javascript;base64,' +
@@ -168,9 +168,9 @@ describe('Renderer Helper', function() {
   });
 
   it('getJavaScriptDataUrl ', function() {
-    let js1 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==').content;
+    let js1 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==');
     let js2 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==', undefined,
-      'test-file').content;
+      'test-file');
     expect(js1).toEqual('\n<script src="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA=="></script>\n');
     expect(js2).toEqual('\n<script src="data:text/javascript;base64,' +
@@ -178,18 +178,18 @@ describe('Renderer Helper', function() {
   });
 
   it('getJavaScript ', function() {
-    let js1 = helper.getJavaScriptContent('test();').content;
+    let js1 = helper.getJavaScriptContent('test();');
     let js2 = helper.getJavaScriptContent('let 123;\n' +
-      'function test(a) {return a+1;};').content;
+      'function test(a) {return a+1;};');
     expect(js1).toEqual('<script>\ntest();\n</script>\n');
     expect(js2).toEqual('<script>\nlet 123;\n' +
       'function test(a) {return a+1;};\n</script>\n');
   });
 
   it('getStyleSheetDataUrl ', function() {
-    let js1 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==').content;
+    let js1 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==');
     let js2 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==', undefined,
-      'test-file').content;
+      'test-file');
     expect(js1).toEqual('\n<link rel="stylesheet" type="text/css" ' +
       'href="data:text/css;base64,SGVsbG9Xb3JsZA==">\n');
     expect(js2).toEqual('\n<link rel="stylesheet" type="text/css" ' +
