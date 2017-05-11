@@ -357,15 +357,15 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
 /**
  * @param {Event} e
  * @param {string} filename
- * @param {function(string, string)=} optCallback
- * @param {Object=} optCallback_scope
+ * @param {function(string, string)=} callback
+ * @param {Object=} scope
  */
 cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
-    optCallback, optCallback_scope) {
-  let xhr = e.target;
+    callback, scope) {
+  let xhr = /** @type {!goog.net.XhrIo} */ (e.target);
   let data = xhr.getResponseText() || '';
-  if (goog.isFunction(optCallback)) {
-    optCallback.call(optCallback_scope || this, filename, data);
+  if (goog.isFunction(callback)) {
+    callback.call(scope || this, filename, data);
   } else {
     this.log_.debug('Received data for', filename, ':', data);
   }

@@ -37,7 +37,7 @@ cwc.protocol.ev3.Commands = function() {
 
 /**
  * @param {!string} name
- * @param {Object} args
+ * @param {...Object|number} args
  * @return {Object}
  */
 cwc.protocol.ev3.Commands.prototype.getCache = function(name, ...args) {
@@ -45,14 +45,14 @@ cwc.protocol.ev3.Commands.prototype.getCache = function(name, ...args) {
   if (key in this.cache_) {
     return this.cache_[key];
   }
-  return false;
+  return null;
 };
 
 
 /**
  * @param {!string} name
  * @param {!Object} data
- * @param {Object} args
+ * @param {...Object|number} args
  * @return {Object}
  */
 cwc.protocol.ev3.Commands.prototype.setCache = function(name, data, ...args) {
@@ -68,7 +68,8 @@ cwc.protocol.ev3.Commands.prototype.setCache = function(name, data, ...args) {
  * @return {!string}
  */
 cwc.protocol.ev3.Commands.prototype.getCacheName = function(name, args) {
-  return name + ':' + JSON.stringify(Array.prototype.slice.call(args));
+  return name + ':' + JSON.stringify(
+    Array.prototype.slice.call(/** @type {IArrayLike} */ (args)));
 };
 
 
@@ -122,14 +123,14 @@ cwc.protocol.ev3.Commands.prototype.getFirmware = function() {
 /**
  * Get the current raw data of the sensor.
  * @param {!cwc.protocol.ev3.InputPort} port
- * @param {number?} opt_mode
+ * @param {number=} mode
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
-  let cache = this.getCache('getActorData', port, opt_mode);
+cwc.protocol.ev3.Commands.prototype.getActorData = function(port, mode = 0) {
+  let cache = this.getCache('getActorData', port, mode);
   if (cache) {
-    return cache;
+    return /** @type {!ArrayBuffer} */ (cache);
   }
   let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.ACTOR_VALUE);
@@ -137,24 +138,25 @@ cwc.protocol.ev3.Commands.prototype.getActorData = function(port, opt_mode) {
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
-  buffer.writeByte(opt_mode || 0);
+  buffer.writeByte(mode);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getActorData', buffer.readSigned(), port, opt_mode);
+  return /** @type {!ArrayBuffer} */ (this.setCache('getActorData',
+    buffer.readSigned(), port, mode));
 };
 
 
 /**
  * Gets the current data of the sensor.
  * @param {!cwc.protocol.ev3.InputPort} port
- * @param {number?} opt_mode
+ * @param {number=} mode
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
-  let cache = this.getCache('getSensorData', port, opt_mode);
+cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, mode = 0) {
+  let cache = this.getCache('getSensorData', port, mode);
   if (cache) {
-    return cache;
+    return /** @type {!ArrayBuffer} */ (cache);
   }
   let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
      cwc.protocol.ev3.CallbackType.DEVICE_RAW_VALUE);
@@ -162,25 +164,26 @@ cwc.protocol.ev3.Commands.prototype.getSensorData = function(port, opt_mode) {
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
-  buffer.writeByte(opt_mode || 0);
+  buffer.writeByte(mode);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorData', buffer.readSigned(), port, opt_mode);
+  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorData',
+    buffer.readSigned(), port, mode));
 };
 
 
 /**
  * Get the current data of the sensor in Pct.
  * @param {!cwc.protocol.ev3.InputPort} port
- * @param {number?} opt_mode
+ * @param {number=} mode
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
-    opt_mode) {
-  let cache = this.getCache('getSensorDataPct', port, opt_mode);
+    mode = 0) {
+  let cache = this.getCache('getSensorDataPct', port, mode);
   if (cache) {
-    return cache;
+    return /** @type {!ArrayBuffer} */ (cache);
   }
   let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_PCT_VALUE);
@@ -188,24 +191,25 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataPct = function(port,
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
-  buffer.writeByte(opt_mode || 0);
+  buffer.writeByte(mode);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorDataPct', buffer.readSigned(), port, opt_mode);
+  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorDataPct',
+    buffer.readSigned(), port, mode));
 };
 
 
 /**
  * Get the current data of the sensor in Si.
  * @param {!cwc.protocol.ev3.InputPort} port
- * @param {number?} opt_mode
+ * @param {number=} mode
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
-  let cache = this.getCache('getSensorDataSi', port, opt_mode);
+cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, mode = 0) {
+  let cache = this.getCache('getSensorDataSi', port, mode);
   if (cache) {
-    return cache;
+    return /** @type {!ArrayBuffer} */ (cache);
   }
   let buffer = new cwc.protocol.ev3.Buffer(0x04, 0,
       cwc.protocol.ev3.CallbackType.DEVICE_SI_VALUE);
@@ -213,23 +217,25 @@ cwc.protocol.ev3.Commands.prototype.getSensorDataSi = function(port, opt_mode) {
   buffer.writeNullByte();
   buffer.writePort(port);
   buffer.writeNullByte();
-  buffer.writeByte(opt_mode || 0);
+  buffer.writeByte(mode);
   buffer.writeSingleByte();
   buffer.writeIndex();
-  return this.setCache('getSensorDataSi', buffer.readSigned(), port, opt_mode);
+  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorDataSi',
+    buffer.readSigned(), port, mode));
 };
 
 
 /**
  * @param {cwc.protocol.ev3.LedColor} color
- * @param {cwc.protocol.ev3.LedMode=} opt_mode
+ * @param {cwc.protocol.ev3.LedMode=} mode
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.ev3.Commands.prototype.setLed = function(color, opt_mode) {
+cwc.protocol.ev3.Commands.prototype.setLed = function(color,
+    mode = cwc.protocol.ev3.LedMode.NORMAL) {
   let buffer = new cwc.protocol.ev3.Buffer();
   buffer.writeCommand(cwc.protocol.ev3.Command.UI.WRITE.LED);
-  buffer.writeByte(color + (color ? opt_mode || 0 : 0));
+  buffer.writeByte(color + mode);
   return buffer.readSigned();
 };
 
@@ -373,7 +379,7 @@ cwc.protocol.ev3.Commands.prototype.rotateSteps = function(port_left,
 
 /**
  * Rotates the defined motors for the predefined specific steps.
- * @param {!number} ports
+ * @param {!cwc.protocol.ev3.OutputPort} ports
  * @param {!number} steps
  * @param {number=} opt_speed
  * @param {number=} opt_ramp_up

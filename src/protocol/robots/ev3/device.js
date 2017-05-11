@@ -35,6 +35,7 @@ cwc.protocol.ev3.DeviceName = {
   TOUCH_SENSOR: 'Touch Sensor',
   TOUCH_SENSOR_OPT: 'Opt Touch Sensor',
   ULTRASONIC_SENSOR: 'Ultrasonic Sensor',
+  NONE: '',
 };
 
 

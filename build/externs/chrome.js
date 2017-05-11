@@ -119,11 +119,11 @@ chrome.bluetoothSocket.onReceive.addListener = function() {};
 /** @type {Function} */
 chrome.bluetoothSocket.onReceiveError.addListener = function() {};
 
-/** @type {Function} */
+/** @constructor */
 chrome.serial = function() {};
 
 /** @type {Function} */
-chrome.getDevices = function() {};
+chrome.serial.getDevices = function() {};
 
 /** @type {Function} */
 chrome.serial.onReceive = function() {};

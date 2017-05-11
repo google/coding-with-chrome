@@ -25,7 +25,7 @@ goog.provide('cwc.protocol.serial.Device');
  * @param {!number} vendor_id
  * @param {!number} product_id
  * @param {string=} optName
- * @param {chrome_serial=} opt_serial
+ * @param {chrome.serial=} opt_serial
  * @constructor
  */
 cwc.protocol.serial.Device = function(path, vendor_id, product_id,
@@ -63,22 +63,22 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id,
   /** @type {!number} */
   this.connectionId = 0;
 
-  /** @type {!Function} */
+  /** @type {Function} */
   this.connectCallback = null;
 
   /** @type {!number} */
   this.connectErrors = 0;
 
-  /** @type {!Function} */
+  /** @type {Function} */
   this.connectEvent = null;
 
-  /** @type {!Function} */
+  /** @type {Function} */
   this.disconnectCallback = null;
 
-  /** @type {!Function} */
+  /** @type {Function} */
   this.disconnectEvent = null;
 
-  /** @type {!Function} */
+  /** @type {Function} */
   this.dataHandler = null;
 };
 

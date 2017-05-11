@@ -203,9 +203,6 @@ Blockly.WorkspaceSvg.toolbox_ = {};
 /** @type {Function} */
 Blockly.WorkspaceSvg.toolbox_.clearSelection = function() {};
 
-/** @type {Blockly.Toolbox.TreeControl} */
-Blockly.WorkspaceSvg.toolbox_.tree_;
-
 /** @type {Object} */
 Blockly.WorkspaceSvg.toolbox_.tree_.childIndex_ = {};
 
@@ -258,10 +255,11 @@ Blockly.BlockDragSurfaceSvg = function(container) {};
  */
 Blockly.workspaceDragSurfaceSvg = function(container) {};
 
-
 /** @constructor */
 Blockly.Toolbox = function(workspace) {};
 
+/** @type {Blockly.Toolbox.TreeControl} */
+Blockly.Toolbox.prototype.tree_;
 
 /**
  * @param {Blockly.Toolbox} toolbox

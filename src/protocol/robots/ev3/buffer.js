@@ -28,12 +28,12 @@ goog.require('cwc.utils.ByteArray');
 
 /**
  * @constructor
- * @param {number=} opt_global_size
- * @param {number=} opt_local_size
- * @param {cwc.protocol.ev3.CallbackType=} optCallback
+ * @param {number=} globalSize
+ * @param {number=} localSize
+ * @param {cwc.protocol.ev3.CallbackType=} callback
  */
-cwc.protocol.ev3.Buffer = function(opt_global_size,
-    opt_local_size, optCallback) {
+cwc.protocol.ev3.Buffer = function(globalSize = 0x00, localSize = 0x00,
+    callback) {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray(
       cwc.protocol.ev3.ParameterSize.BYTE,
@@ -41,28 +41,17 @@ cwc.protocol.ev3.Buffer = function(opt_global_size,
       cwc.protocol.ev3.ParameterSize.INT,
       cwc.protocol.ev3.ParameterSize.STRING);
 
-  /** @type {!number} */
-  this.globalSize = opt_global_size || 0x00;
-
-  /** @type {!number} */
-  this.localSize = opt_local_size || 0x00;
-
   /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = optCallback ||
-      cwc.protocol.ev3.CallbackType.NONE;
+  this.callbackType = callback || cwc.protocol.ev3.CallbackType.NONE;
 
-  /** @type {!cwc.protocol.ev3.InputPort} */
-  this.callbackTarget = 0x00;
+  /** @type {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} */
+  this.callbackTarget = cwc.protocol.ev3.InputPort.ONE;
 
-  /** @type {!cwc.protocol.ev3.CommandType} */
-  this.type = (optCallback) ?
+  this.data.write(/** @type {number} */ ((callback) ?
       cwc.protocol.ev3.CommandType.DIRECT.REPLY :
-      cwc.protocol.ev3.CommandType.DIRECT.NOREPLY;
-
-  this.data.write(this.type);
-  this.data.write(this.globalSize & 0xFF);
-  this.data.write(((this.localSize << 2) |
-      ((this.globalSize >> 8) & 0x03)) & 0xFF);
+      cwc.protocol.ev3.CommandType.DIRECT.NOREPLY));
+  this.data.write(globalSize & 0xFF);
+  this.data.write(((localSize << 2) | ((globalSize >> 8) & 0x03)) & 0xFF);
 };
 
 

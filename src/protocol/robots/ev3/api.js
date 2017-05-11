@@ -160,11 +160,10 @@ cwc.protocol.ev3.Api.prototype.disconnect = function() {
 
 /**
  * Resets the EV3 connection.
- * @param {number=} opt_delay
  */
-cwc.protocol.ev3.Api.prototype.reset = function(opt_delay) {
+cwc.protocol.ev3.Api.prototype.reset = function() {
   if (this.device) {
-    this.device.reset(opt_delay);
+    this.device.reset();
   }
 };
 
@@ -488,11 +487,11 @@ cwc.protocol.ev3.Api.prototype.drawImage = function(file_name) {
  * @param {!number} y1
  * @param {!number} x2
  * @param {!number} y2
- * @param {string=} opt_color
+ * @param {number=} color
  * @export
  */
-cwc.protocol.ev3.Api.prototype.drawLine = function(x1, y1, x2, y2, opt_color) {
-  this.send_(this.commands.drawLine(x1, y1, x2, y2, opt_color));
+cwc.protocol.ev3.Api.prototype.drawLine = function(x1, y1, x2, y2, color = 1) {
+  this.send_(this.commands.drawLine(x1, y1, x2, y2, color));
 };
 
 
@@ -832,7 +831,7 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
   let value = 0;
   let result = 0;
   let callback = data[2];
-  let port = data[3];
+  let port = /** @type {cwc.protocol.ev3.InputPort} */ (data[3]);
 
   // Handles the different callback types.
   switch (callback) {
@@ -843,7 +842,7 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
       break;
     case cwc.protocol.ev3.CallbackType.BATTERY:
       value = data.subarray(5, 5 + 16);
-      this.battery = value;
+      this.battery = (String.fromCharCode.apply(null, value)).trim();
       console.log('EV3 Battery level', this.battery);
       break;
     case cwc.protocol.ev3.CallbackType.DEVICE_NAME:
@@ -858,12 +857,12 @@ cwc.protocol.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
       break;
     case cwc.protocol.ev3.CallbackType.DEVICE_SI_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);
-      result = (new Float32Array(value.buffer)[0]).toFixed(1);
+      result = Number((new Float32Array(value.buffer)[0]).toFixed(1));
       this.updateDeviceData_(port, result, this.deviceData[port].getName());
       break;
     case cwc.protocol.ev3.CallbackType.ACTOR_VALUE:
       value = new Uint8Array([data[5], data[6], data[7], data[8]]);
-      result = new Int32Array(value.buffer)[0];
+      result = /** @type {number} */ (new Int32Array(value.buffer)[0]);
       this.updateDeviceData_(port, result, this.deviceData[port].getName());
       break;
   }
