@@ -50,8 +50,9 @@ chrome.browser = function() {};
 /** @type {Function} */
 chrome.browser.openTab = function() {};
 
-/** @type {Function} */
-chrome.bluetooth = function() {};
+
+/** @type {Object} */
+chrome.bluetooth = {};
 
 /** @type {Function} */
 chrome.bluetooth.getDevices = function() {};
@@ -82,6 +83,7 @@ chrome.bluetooth.onDeviceRemoved = {};
 
 /** @type {Function} */
 chrome.bluetooth.onDeviceRemoved.addListener = function() {};
+
 
 /** @type {Function} */
 chrome.bluetoothSocket = function() {};
@@ -119,23 +121,37 @@ chrome.bluetoothSocket.onReceive.addListener = function() {};
 /** @type {Function} */
 chrome.bluetoothSocket.onReceiveError.addListener = function() {};
 
+
 /** @constructor */
 chrome.serial = function() {};
 
 /** @type {Function} */
-chrome.serial.getDevices = function() {};
+chrome.serial.prototype.connect = function() {};
 
 /** @type {Function} */
-chrome.serial.onReceive = function() {};
+chrome.serial.prototype.disconnect = function() {};
 
 /** @type {Function} */
-chrome.serial.onReceiveError = function() {};
+chrome.serial.prototype.send = function() {};
 
 /** @type {Function} */
-chrome.serial.onReceive.addListener= function() {};
+chrome.serial.prototype.flush = function() {};
 
 /** @type {Function} */
-chrome.serial.onReceiveError.addListener= function() {};
+chrome.serial.prototype.getDevices = function() {};
+
+/** @type {Function} */
+chrome.serial.prototype.onReceive = function() {};
+
+/** @type {Function} */
+chrome.serial.prototype.onReceiveError = function() {};
+
+/** @type {Function} */
+chrome.serial.prototype.onReceive.addListener= function() {};
+
+/** @type {Function} */
+chrome.serial.prototype.onReceiveError.addListener= function() {};
+
 
 /** @type {Function} */
 chrome.system = function() {};

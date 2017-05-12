@@ -35,7 +35,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = new cwc.mode.makeblock.mbotRanger.Connection(helper);
 
-  /** @type {!cwc.mode.makeblock.mbotRanger.advanced.Editor} */
+  /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Editor} */
   this.editor = new cwc.mode.makeblock.mbotRanger.blockly.Editor(helper);
 
   /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Layout} */

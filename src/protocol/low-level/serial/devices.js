@@ -132,7 +132,7 @@ cwc.protocol.serial.Devices.prototype.getDevices = function() {
 
 /**
  * @param {!string} connection_id
- * @param {ByteArray} data
+ * @param {ArrayBuffer} data
  * @export
  */
 cwc.protocol.serial.Devices.prototype.receiveData = function(

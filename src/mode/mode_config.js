@@ -31,7 +31,7 @@ cwc.mode.Config = function() {};
 
 
 /**
- * @param {!cwc.mode.type} type
+ * @param {!cwc.mode.Type} type
  * @param {boolean=} required
  * @return {Object}
  */

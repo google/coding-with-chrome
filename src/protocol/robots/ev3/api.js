@@ -88,9 +88,6 @@ cwc.protocol.ev3.Api = function() {
   /** @type {!cwc.protocol.ev3.Commands} */
   this.commands = new cwc.protocol.ev3.Commands();
 
-  /** @type {!cwc.protocol.ev3.DeviceName} */
-  this.deviceName = cwc.protocol.ev3.DeviceName;
-
   /** @type {Object} */
   this.cache_ = {};
 };
@@ -197,7 +194,8 @@ cwc.protocol.ev3.Api.prototype.getDeviceInfo = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getColorSensorData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.COLOR_SENSOR]];
 };
 
 
@@ -205,7 +203,8 @@ cwc.protocol.ev3.Api.prototype.getColorSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getIrSensorData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.IR_SENSOR]];
 };
 
 
@@ -213,7 +212,8 @@ cwc.protocol.ev3.Api.prototype.getIrSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getTouchSensorData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.TOUCH_SENSOR]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.TOUCH_SENSOR]];
 };
 
 
@@ -221,7 +221,8 @@ cwc.protocol.ev3.Api.prototype.getTouchSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getTouchSensorOptData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.TOUCH_SENSOR_OPT]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.TOUCH_SENSOR_OPT]];
 };
 
 
@@ -229,7 +230,8 @@ cwc.protocol.ev3.Api.prototype.getTouchSensorOptData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getUltraSonicSensorData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR]];
 };
 
 
@@ -237,7 +239,8 @@ cwc.protocol.ev3.Api.prototype.getUltraSonicSensorData = function() {
  * @return {Object}
  */
 cwc.protocol.ev3.Api.prototype.getGyroSensorData = function() {
-  return this.deviceData[this.deviceInfo[this.deviceName.GYRO_SENSOR]];
+  return this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.GYRO_SENSOR]];
 };
 
 
@@ -253,7 +256,8 @@ cwc.protocol.ev3.Api.prototype.getEventHandler = function() {
  * @param {cwc.protocol.ev3.ColorSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
-  let sensor = this.deviceData[this.deviceInfo[this.deviceName.COLOR_SENSOR]];
+  let sensor = this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.COLOR_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
     sensor.setCss(
@@ -266,7 +270,8 @@ cwc.protocol.ev3.Api.prototype.setColorSensorMode = function(mode) {
  * @param {cwc.protocol.ev3.IrSensorMode} mode
  */
 cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
-  let sensor = this.deviceData[this.deviceInfo[this.deviceName.IR_SENSOR]];
+  let sensor = this.deviceData[
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.IR_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
   }
@@ -278,7 +283,7 @@ cwc.protocol.ev3.Api.prototype.setIrSensorMode = function(mode) {
  */
 cwc.protocol.ev3.Api.prototype.setUltrasonicSensorMode = function(mode) {
   let sensor = this.deviceData[
-    this.deviceInfo[this.deviceName.ULTRASONIC_SENSOR]];
+    this.deviceInfo[cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR]];
   if (sensor) {
     sensor.setMode(mode);
   }
@@ -306,9 +311,12 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
 
   // Sensor ports
   this.sensor = {};
-  this.sensor[this.deviceName.COLOR_SENSOR] = cwc.protocol.ev3.InputPort.ONE;
-  this.sensor[this.deviceName.TOUCH_SENSOR] = cwc.protocol.ev3.InputPort.TWO;
-  this.sensor[this.deviceName.IR_SENSOR] = cwc.protocol.ev3.InputPort.FOUR;
+  this.sensor[cwc.protocol.ev3.DeviceName.COLOR_SENSOR] =
+    cwc.protocol.ev3.InputPort.ONE;
+  this.sensor[cwc.protocol.ev3.DeviceName.TOUCH_SENSOR] =
+    cwc.protocol.ev3.InputPort.TWO;
+  this.sensor[cwc.protocol.ev3.DeviceName.IR_SENSOR] =
+    cwc.protocol.ev3.InputPort.FOUR;
   this.getDeviceType(cwc.protocol.ev3.InputPort.ONE);
   this.getDeviceType(cwc.protocol.ev3.InputPort.TWO);
   this.getDeviceType(cwc.protocol.ev3.InputPort.THREE);
@@ -316,9 +324,12 @@ cwc.protocol.ev3.Api.prototype.getDevices = function() {
 
   // Actor ports
   this.actor = {};
-  this.actor[this.deviceName.MEDIUM_MOTOR] = cwc.protocol.ev3.OutputPort.A;
-  this.actor[this.deviceName.LARGE_MOTOR] = cwc.protocol.ev3.OutputPort.B;
-  this.actor[this.deviceName.LARGE_MOTOR_OPT] = cwc.protocol.ev3.OutputPort.C;
+  this.actor[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR] =
+    cwc.protocol.ev3.OutputPort.A;
+  this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR] =
+    cwc.protocol.ev3.OutputPort.B;
+  this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT] =
+    cwc.protocol.ev3.OutputPort.C;
   this.getDeviceType(cwc.protocol.ev3.InputPort.A);
   this.getDeviceType(cwc.protocol.ev3.InputPort.B);
   this.getDeviceType(cwc.protocol.ev3.InputPort.C);
@@ -413,8 +424,8 @@ cwc.protocol.ev3.Api.prototype.setLed = function(color, opt_mode) {
  */
 cwc.protocol.ev3.Api.prototype.movePower = function(power) {
   let brake = true;
-  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let motor_left = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR];
+  let motor_right = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT];
   let ports = motor_left | motor_right;
   this.send_(this.commands.movePower(ports, power, brake));
 };
@@ -427,8 +438,8 @@ cwc.protocol.ev3.Api.prototype.movePower = function(power) {
 cwc.protocol.ev3.Api.prototype.rotatePower = function(power_left,
     opt_power_right) {
   let brake = true;
-  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let motor_left = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR];
+  let motor_right = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotatePower(motor_left, motor_right, power_left,
       opt_power_right || power_left, brake));
 };
@@ -529,8 +540,9 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
   let brake = true;
   let rampUp = 0;
   let rampDown = 0;
-  this.send_(this.commands.moveSteps(this.actor[this.deviceName.MEDIUM_MOTOR],
-      steps, opt_speed, rampUp, rampDown, brake));
+  this.send_(this.commands.moveSteps(
+    this.actor[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR], steps, opt_speed,
+    rampUp, rampDown, brake));
 };
 
 
@@ -543,8 +555,8 @@ cwc.protocol.ev3.Api.prototype.moveServo = function(steps, opt_speed) {
  */
 cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
     opt_speed, opt_break) {
-  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let motor_left = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR];
+  let motor_right = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT];
   let brake = opt_break === undefined ? true : opt_break;
   let rampUp = 0;
   let rampDown = 0;
@@ -564,7 +576,7 @@ cwc.protocol.ev3.Api.prototype.moveSteps = function(steps,
 cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
     opt_ports, opt_speed, opt_break) {
   let ports = opt_ports === undefined ?
-    this.actor[this.deviceName.LARGE_MOTOR] : opt_ports;
+    this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR] : opt_ports;
   let brake = opt_break === undefined ? true : opt_break;
   let rampUp = 0;
   let rampDown = 0;
@@ -583,8 +595,8 @@ cwc.protocol.ev3.Api.prototype.customMoveSteps = function(steps,
 cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
     opt_step_speed, opt_break) {
   let brake = opt_break === undefined ? true : opt_break;
-  let motor_left = this.actor[this.deviceName.LARGE_MOTOR];
-  let motor_right = this.actor[this.deviceName.LARGE_MOTOR_OPT];
+  let motor_left = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR];
+  let motor_right = this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT];
   this.send_(this.commands.rotateSteps(motor_left, motor_right, steps,
       opt_step_speed, opt_step_speed, 0, 0, brake));
 };
@@ -601,7 +613,7 @@ cwc.protocol.ev3.Api.prototype.rotateSteps = function(steps,
 cwc.protocol.ev3.Api.prototype.customRotateSteps = function(steps,
     opt_ports, opt_step_speed, opt_break) {
   let ports = opt_ports === undefined ?
-    this.actor[this.deviceName.LARGE_MOTOR_OPT] : opt_ports;
+    this.actor[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT] : opt_ports;
   let brake = opt_break === undefined ? true : opt_break;
   this.send_(this.commands.customRotateSteps(ports, steps, opt_step_speed, 0, 0,
       brake));
@@ -647,67 +659,67 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   let deviceCss = '';
   switch (deviceTypeName) {
     case cwc.protocol.ev3.DeviceType.IR_PROX:
-      deviceName = this.deviceName.IR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.IR_SENSOR;
       deviceMode = cwc.protocol.ev3.IrSensorMode.PROXIMITY;
       break;
     case cwc.protocol.ev3.DeviceType.IR_SEEK:
-      deviceName = this.deviceName.IR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.IR_SENSOR;
       deviceMode = cwc.protocol.ev3.IrSensorMode.SEEK;
       break;
     case cwc.protocol.ev3.DeviceType.IR_REMOTE:
-      deviceName = this.deviceName.IR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.IR_SENSOR;
       deviceMode = cwc.protocol.ev3.IrSensorMode.REMOTECONTROL;
       break;
     case cwc.protocol.ev3.DeviceType.TOUCH:
-      deviceName = this.deviceName.TOUCH_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.TOUCH_SENSOR;
       break;
     case cwc.protocol.ev3.DeviceType.COL_REFLECT:
-      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.COLOR_SENSOR;
       deviceMode = cwc.protocol.ev3.ColorSensorMode.REFLECTIVE;
       break;
     case cwc.protocol.ev3.DeviceType.COL_AMBIENT:
-      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.COLOR_SENSOR;
       deviceMode = cwc.protocol.ev3.ColorSensorMode.AMBIENT;
       break;
     case cwc.protocol.ev3.DeviceType.COL_COLOR:
-      deviceName = this.deviceName.COLOR_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.COLOR_SENSOR;
       deviceMode = cwc.protocol.ev3.ColorSensorMode.COLOR;
       deviceCss = 'color';
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_CM:
-      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR;
       deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_CM;
       break;
     case cwc.protocol.ev3.DeviceType.US_DIST_IN:
-      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR;
       deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.DIST_INCH;
       break;
     case cwc.protocol.ev3.DeviceType.US_LISTEN:
-      deviceName = this.deviceName.ULTRASONIC_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR;
       deviceMode = cwc.protocol.ev3.UltrasonicSensorMode.LISTEN;
       break;
     case cwc.protocol.ev3.DeviceType.GYRO_ANG:
-      deviceName = this.deviceName.GYRO_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.GYRO_SENSOR;
       deviceMode = cwc.protocol.ev3.GyroMode.ANGLE;
       break;
     case cwc.protocol.ev3.DeviceType.GYRO_RATE:
-      deviceName = this.deviceName.GYRO_SENSOR;
+      deviceName = cwc.protocol.ev3.DeviceName.GYRO_SENSOR;
       deviceMode = cwc.protocol.ev3.GyroMode.RATE;
       break;
     case cwc.protocol.ev3.DeviceType.L_MOTOR_DEG:
-      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceName = cwc.protocol.ev3.DeviceName.LARGE_MOTOR;
       deviceMode = cwc.protocol.ev3.MotorMode.DEGREE;
       break;
     case cwc.protocol.ev3.DeviceType.L_MOTOR_ROT:
-      deviceName = this.deviceName.LARGE_MOTOR;
+      deviceName = cwc.protocol.ev3.DeviceName.LARGE_MOTOR;
       deviceMode = cwc.protocol.ev3.MotorMode.ROTATION;
       break;
     case cwc.protocol.ev3.DeviceType.M_MOTOR_DEG:
-      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceName = cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR;
       deviceMode = cwc.protocol.ev3.MotorMode.DEGREE;
       break;
     case cwc.protocol.ev3.DeviceType.M_MOTOR_ROT:
-      deviceName = this.deviceName.MEDIUM_MOTOR;
+      deviceName = cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR;
       deviceMode = cwc.protocol.ev3.MotorMode.ROTATION;
       break;
     default:
@@ -717,14 +729,14 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   // Support of two devices of the same type.
   if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
     switch (deviceName) {
-      case this.deviceName.LARGE_MOTOR:
-        deviceName = this.deviceName.LARGE_MOTOR_OPT;
+      case cwc.protocol.ev3.DeviceName.LARGE_MOTOR:
+        deviceName = cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT;
         break;
-      case this.deviceName.MEDIUM_MOTOR:
-        deviceName = this.deviceName.MEDIUM_MOTOR_OPT;
+      case cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR:
+        deviceName = cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT;
         break;
-      case this.deviceName.TOUCH_SENSOR:
-        deviceName = this.deviceName.TOUCH_SENSOR_OPT;
+      case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
+        deviceName = cwc.protocol.ev3.DeviceName.TOUCH_SENSOR_OPT;
         break;
     }
   }
@@ -768,43 +780,43 @@ cwc.protocol.ev3.Api.prototype.updateDeviceData_ = function(port, value,
     this.deviceData[port].setValue(value);
     this.monitoring.update();
     switch (opt_device_name) {
-      case this.deviceName.COLOR_SENSOR:
+      case cwc.protocol.ev3.DeviceName.COLOR_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.colorSensorValue(value, port));
         break;
-      case this.deviceName.GYRO_SENSOR:
+      case cwc.protocol.ev3.DeviceName.GYRO_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.gyroSensorValue(value, port));
         break;
-      case this.deviceName.IR_SENSOR:
+      case cwc.protocol.ev3.DeviceName.IR_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.irSensorValue(value, port));
         break;
-      case this.deviceName.ULTRASONIC_SENSOR:
+      case cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.ultrasonicSensorValue(value, port));
         break;
-      case this.deviceName.TOUCH_SENSOR:
+      case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.touchSensorValue(value, port));
         break;
-      case this.deviceName.TOUCH_SENSOR_OPT:
+      case cwc.protocol.ev3.DeviceName.TOUCH_SENSOR_OPT:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.touchSensorOptValue(value, port));
         break;
-      case this.deviceName.LARGE_MOTOR:
+      case cwc.protocol.ev3.DeviceName.LARGE_MOTOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.touchSensorValue(value, port));
         break;
-      case this.deviceName.MEDIUM_MOTOR:
+      case cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.mediumMotorValue(value, port));
         break;
-      case this.deviceName.LARGE_MOTOR_OPT:
+      case cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.largeMotorOptValue(value, port));
         break;
-      case this.deviceName.MEDIUM_MOTOR_OPT:
+      case cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT:
         this.eventHandler.dispatchEvent(
             cwc.protocol.ev3.Events.mediumMotorOptValue(value, port));
         break;

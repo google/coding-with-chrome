@@ -50,7 +50,7 @@ cwc.protocol.bluetooth.Adapter = function(bluetooth, eventHandler) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {boolean} */
+  /** @type {boolean|undefined} */
   this.enabled = undefined;
 
   /** @private {!goog.events.EventTarget} */

@@ -25,13 +25,13 @@ goog.provide('cwc.protocol.serial.Device');
  * @param {!number} vendor_id
  * @param {!number} product_id
  * @param {string=} optName
- * @param {chrome.serial=} opt_serial
+ * @param {chrome.serial=} serial
  * @constructor
  */
 cwc.protocol.serial.Device = function(path, vendor_id, product_id,
-    optName, opt_serial) {
+    optName, serial = chrome.serial) {
   /** @type {!chrome.serial} */
-  this.serial = opt_serial || chrome.serial;
+  this.serial = serial;
 
   /** @type {!string} */
   this.path = path || '';
@@ -165,10 +165,10 @@ cwc.protocol.serial.Device.prototype.setDataHandler = function(callback) {
 
 
 /**
- * @param {Function=} optCallback
+ * @param {Function=} callback
  * @export
  */
-cwc.protocol.serial.Device.prototype.connect = function(optCallback) {
+cwc.protocol.serial.Device.prototype.connect = function(callback) {
   if (this.connected && this.connectionId) {
     console.warn('Serial device at', this.path, 'is already connected',
       'with connection id', this.connectionId, '!');
@@ -176,7 +176,9 @@ cwc.protocol.serial.Device.prototype.connect = function(optCallback) {
   }
 
   console.log('Connect serial device', this.path, '…');
-  this.connectCallback = optCallback;
+  if (callback) {
+    this.connectCallback = callback;
+  }
   this.serial.connect(this.path, this.connectionOptions,
       this.handleConnect_.bind(this));
 };
@@ -242,7 +244,7 @@ cwc.protocol.serial.Device.prototype.sendText = function(text) {
 
 
 /**
- * @param {Object} connection_info
+ * @param {!Object} connection_info
  * @private
  */
 cwc.protocol.serial.Device.prototype.handleConnect_ = function(

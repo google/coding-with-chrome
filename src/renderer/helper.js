@@ -310,38 +310,43 @@ cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
 /**
  * @param {!string} css
  * @return {!string}
+ * @suppress {invalidCasts}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedCss_ = function(css = '') {
-  return soydata.VERY_UNSAFE.ordainSanitizedCss(css);
+  return /** @type {string} */ (soydata.VERY_UNSAFE.ordainSanitizedCss(css));
 };
 
 
 /**
  * @param {!string} javascript
  * @return {!string}
+ * @suppress {invalidCasts}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedJs_ = function(javascript = '') {
-  return soydata.VERY_UNSAFE.ordainSanitizedJs(javascript);
+  return /** @type {string} */ (
+    soydata.VERY_UNSAFE.ordainSanitizedJs(javascript));
 };
 
 
 /**
  * @param {!string} html
  * @return {!string}
+ * @suppress {invalidCasts}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedHtml_ = function(html = '') {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(html);
+  return /** @type {string} */ (soydata.VERY_UNSAFE.ordainSanitizedHtml(html));
 };
 
 
 /**
  * @param {!string} uri
  * @return {!string}
+ * @suppress {invalidCasts}
  * @private
  */
 cwc.renderer.Helper.prototype.sanitizedUri_ = function(uri = '') {
-  return soydata.VERY_UNSAFE.ordainSanitizedUri(uri);
+  return /** @type {string} */ (soydata.VERY_UNSAFE.ordainSanitizedUri(uri));
 };

@@ -50,7 +50,7 @@ cwc.protocol.serial.Api = function(helper) {
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
-  /** @type {chrome.serial} */
+  /** @type {chrome.serial|boolean} */
   this.serial_ = this.isChromeApp_ && chrome.serial;
 
   this.prepare();

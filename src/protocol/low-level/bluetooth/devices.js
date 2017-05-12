@@ -125,7 +125,7 @@ cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
 
 /**
  * @param {!string} socket_id
- * @param {ByteArray} data
+ * @param {ArrayBuffer} data
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.receiveData = function(
