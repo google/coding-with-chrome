@@ -24,16 +24,12 @@ goog.require('cwc.utils.Logger');
 
 
 /**
- * @param {!chrome.bluetooth} bluetooth
  * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetooth.Adapter = function(bluetooth, eventHandler) {
+cwc.protocol.bluetooth.Adapter = function(eventHandler) {
   /** @type {!string} */
   this.name = 'Bluetooth Adapter';
-
-  /** @type {!chrome.bluetooth} */
-  this.bluetooth = bluetooth;
 
   /** @type {!string} */
   this.address = '';
@@ -67,7 +63,7 @@ cwc.protocol.bluetooth.Adapter = function(bluetooth, eventHandler) {
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
     this.log_.info('Preparing ...');
-    this.bluetooth.onAdapterStateChanged.addListener(
+    chrome.bluetooth.onAdapterStateChanged.addListener(
         this.handleAdapterState_.bind(this));
     this.eventHandler_.dispatchEvent(
       cwc.protocol.bluetooth.Events.adapterState({enabled: this.enabled}));
@@ -81,7 +77,7 @@ cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
  * @export
  */
 cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
-  this.bluetooth.getAdapterState(this.handleAdapterState_.bind(this));
+  chrome.bluetooth.getAdapterState(this.handleAdapterState_.bind(this));
 };
 
 

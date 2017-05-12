@@ -19,7 +19,6 @@
  */
 
 
-
 /** @type {Function} */
 chrome.storage = function() {};
 
@@ -51,7 +50,7 @@ chrome.browser = function() {};
 chrome.browser.openTab = function() {};
 
 
-/** @type {Object} */
+/** @const */
 chrome.bluetooth = {};
 
 /** @type {Function} */
@@ -69,13 +68,13 @@ chrome.bluetooth.getAdapterState = function() {};
 /** @type {Object} */
 chrome.bluetooth.onDeviceAdded = {};
 
-/** @type {Object} */
+/** @type {Function} */
 chrome.bluetooth.onDeviceAdded.addListener = function() {};
 
 /** @type {Object} */
 chrome.bluetooth.onDeviceChanged = {};
 
-/** @type {Object} */
+/** @type {Function} */
 chrome.bluetooth.onDeviceChanged.addListener = function() {};
 
 /** @type {Object} */
@@ -122,35 +121,35 @@ chrome.bluetoothSocket.onReceive.addListener = function() {};
 chrome.bluetoothSocket.onReceiveError.addListener = function() {};
 
 
-/** @constructor */
-chrome.serial = function() {};
+/** @const */
+chrome.serial = {};
 
 /** @type {Function} */
-chrome.serial.prototype.connect = function() {};
+chrome.serial.connect = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.disconnect = function() {};
+chrome.serial.disconnect = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.send = function() {};
+chrome.serial.send = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.flush = function() {};
+chrome.serial.flush = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.getDevices = function() {};
+chrome.serial.getDevices = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.onReceive = function() {};
+chrome.serial.onReceive = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.onReceiveError = function() {};
+chrome.serial.onReceiveError = function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.onReceive.addListener= function() {};
+chrome.serial.onReceive.addListener= function() {};
 
 /** @type {Function} */
-chrome.serial.prototype.onReceiveError.addListener= function() {};
+chrome.serial.onReceiveError.addListener= function() {};
 
 
 /** @type {Function} */
@@ -221,4 +220,4 @@ Webview.prototype.terminate = function() {};
 /**
  * @constructor
  */
-let  AppWindow = function() {};
+let AppWindow = function() {};

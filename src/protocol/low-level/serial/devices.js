@@ -30,18 +30,14 @@ goog.require('goog.Timer');
 
 /**
  * @param {!cwc.utils.Helper} helper
- * @param {!chrome.serial} serial
  * @constructor
  */
-cwc.protocol.serial.Devices = function(helper, serial) {
+cwc.protocol.serial.Devices = function(helper) {
   /** @type {!string} */
   this.name = 'Serial Devices';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {!chrome.serial} */
-  this.serial = serial;
 
   /** @type {Object} */
   this.devices = {};
@@ -90,7 +86,7 @@ cwc.protocol.serial.Devices.prototype.prepare = function() {
  * @export
  */
 cwc.protocol.serial.Devices.prototype.updateDevices = function() {
-  this.serial.getDevices(this.handleGetDevices_.bind(this));
+  chrome.serial.getDevices(this.handleGetDevices_.bind(this));
 };
 
 
@@ -232,7 +228,7 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
         let productId = deviceEntry['productId'];
         let vendorId = deviceEntry['vendorId'];
         let device = new cwc.protocol.serial.Device(
-          devicePath, vendorId, productId, displayName, this.serial);
+          devicePath, vendorId, productId, displayName);
 
         if (vendorId in supportedDevices &&
             productId in supportedDevices[vendorId]) {

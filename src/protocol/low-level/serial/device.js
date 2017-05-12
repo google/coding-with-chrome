@@ -25,14 +25,9 @@ goog.provide('cwc.protocol.serial.Device');
  * @param {!number} vendor_id
  * @param {!number} product_id
  * @param {string=} optName
- * @param {chrome.serial=} serial
  * @constructor
  */
-cwc.protocol.serial.Device = function(path, vendor_id, product_id,
-    optName, serial = chrome.serial) {
-  /** @type {!chrome.serial} */
-  this.serial = serial;
-
+cwc.protocol.serial.Device = function(path, vendor_id, product_id, optName) {
   /** @type {!string} */
   this.path = path || '';
 
@@ -179,7 +174,7 @@ cwc.protocol.serial.Device.prototype.connect = function(callback) {
   if (callback) {
     this.connectCallback = callback;
   }
-  this.serial.connect(this.path, this.connectionOptions,
+  chrome.serial.connect(this.path, this.connectionOptions,
       this.handleConnect_.bind(this));
 };
 
@@ -203,7 +198,8 @@ cwc.protocol.serial.Device.prototype.disconnect = function(opt_force,
   if (optCallback) {
     this.disconnectCallback = optCallback;
   }
-  this.serial.disconnect(this.connectionId, this.handleDisconnect_.bind(this));
+  chrome.serial.disconnect(this.connectionId,
+    this.handleDisconnect_.bind(this));
 };
 
 
@@ -212,7 +208,7 @@ cwc.protocol.serial.Device.prototype.disconnect = function(opt_force,
  */
 cwc.protocol.serial.Device.prototype.reset = function() {
   if (this.connectionId) {
-    this.serial.flush(this.connectionId);
+    chrome.serial.flush(this.connectionId);
   }
 };
 
@@ -223,7 +219,7 @@ cwc.protocol.serial.Device.prototype.reset = function() {
  */
 cwc.protocol.serial.Device.prototype.send = function(data) {
   if (this.connectionId && data) {
-    this.serial.send(this.connectionId, data, this.handleSend_.bind(this));
+    chrome.serial.send(this.connectionId, data, this.handleSend_.bind(this));
   }
 };
 

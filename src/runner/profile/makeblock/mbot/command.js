@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.makeblock.mbot.Command');
 /**
  * @param {!cwc.protocol.makeblock.mbot.Api} api
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.makeblock.mbot.Command = function(api) {

@@ -143,11 +143,11 @@ cwc.protocol.raspberryPi.Api.prototype.sendText = function(text) {
 
 
 /**
- * @param {!ArrayBuffer} buffer
+ * @param {!ArrayBuffer|Uint8Array} buffer
  * @private
  */
 cwc.protocol.raspberryPi.Api.prototype.send_ = function(buffer) {
-  if (!this.device) {
+  if (!this.device || !buffer) {
     return;
   }
   this.device.send(buffer);

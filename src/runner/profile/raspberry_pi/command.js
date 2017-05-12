@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.raspberryPi.Command');
 /**
  * @param {!cwc.protocol.raspberryPi.Api} api
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.raspberryPi.Command = function(api) {

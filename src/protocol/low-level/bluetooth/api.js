@@ -55,12 +55,6 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
-  /** @private {chrome.bluetooth} */
-  this.bluetooth_ = this.isChromeApp_ && chrome.bluetooth;
-
-  /** @private {!chrome.bluetoothSocket} */
-  this.bluetoothSocket_ = this.isChromeApp_ && chrome.bluetoothSocket;
-
   /** @private {cwc.protocol.bluetooth.Adapter} */
   this.adapter_ = null;
 
@@ -76,7 +70,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
  * Prepares the bluetooth api and monitors Bluetooth adapter.
  */
 cwc.protocol.bluetooth.Api.prototype.prepare = function() {
-  if (!this.bluetooth_) {
+  if (!this.isChromeApp_ || !chrome.bluetooth) {
     console.warn('Bluetooth 2.0 support is not available!');
     return;
   }
@@ -90,13 +84,11 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
   goog.events.listen(this.eventHandler_,
     cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE,
     this.updateDevices, false, this);
-  this.adapter_ = new cwc.protocol.bluetooth.Adapter(this.bluetooth_,
-    this.eventHandler_);
+  this.adapter_ = new cwc.protocol.bluetooth.Adapter(this.eventHandler_);
   this.adapter_.prepare();
 
   // Monitor Bluetooth devices
-  this.devices = new cwc.protocol.bluetooth.Devices(this.bluetooth_,
-    this.eventHandler_);
+  this.devices = new cwc.protocol.bluetooth.Devices(this.eventHandler_);
   this.devices.prepare();
 
   // Monitor Bluetooth sockets
@@ -200,9 +192,9 @@ cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
  * @private
  */
 cwc.protocol.bluetooth.Api.prototype.addEventListener_ = function() {
-  this.bluetoothSocket_.onReceive.addListener(
+  chrome.bluetoothSocket.onReceive.addListener(
       this.handleOnReceive_.bind(this));
-  this.bluetoothSocket_.onReceiveError.addListener(
+  chrome.bluetoothSocket.onReceiveError.addListener(
       this.handleOnReceiveError_.bind(this));
 };
 

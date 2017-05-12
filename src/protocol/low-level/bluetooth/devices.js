@@ -28,19 +28,12 @@ goog.require('goog.async.Throttle');
 
 
 /**
- * @param {!chrome.bluetooth} bluetooth
  * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetooth.Devices = function(bluetooth, eventHandler) {
+cwc.protocol.bluetooth.Devices = function(eventHandler) {
   /** @type {!string} */
   this.name = 'Bluetooth Devices';
-
-  /** @type {!chrome.bluetooth} */
-  this.bluetooth = bluetooth;
-
-  /** @type {!chrome.bluetoothSocket} */
-  this.bluetoothSocket = chrome.bluetoothSocket;
 
   /** @type {Object} */
   this.devices = {};
@@ -86,10 +79,11 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
   this.closeSockets();
   this.throttledUpdateDevices = new goog.async.Throttle(
       this.updateDevices.bind(this), this.updateDevicesInterval);
-  this.bluetooth.onDeviceAdded.addListener(this.handleDeviceAdded_.bind(this));
-  this.bluetooth.onDeviceChanged.addListener(
+  chrome.bluetooth.onDeviceAdded.addListener(
+      this.handleDeviceAdded_.bind(this));
+  chrome.bluetooth.onDeviceChanged.addListener(
       this.handleDeviceChanged_.bind(this));
-  this.bluetooth.onDeviceRemoved.addListener(
+  chrome.bluetooth.onDeviceRemoved.addListener(
       this.handleDeviceRemoved_.bind(this));
   this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
       this.updateDevices.bind(this));
@@ -103,7 +97,7 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
  * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
-  this.bluetooth.getDevices(this.handleGetDevices_.bind(this));
+  chrome.bluetooth.getDevices(this.handleGetDevices_.bind(this));
 };
 
 
@@ -115,11 +109,11 @@ cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
   this.log_.debug('Closing all existing sockets ...');
   let handleSockets = function(sockets) {
     for (let i = 0; i < sockets.length; i++) {
-      this.bluetoothSocket.close(sockets[i].socketId,
+      chrome.bluetoothSocket.close(sockets[i].socketId,
           this.handleCloseSocket_.bind(this));
     }
   };
-  this.bluetoothSocket.getSockets(handleSockets.bind(this));
+  chrome.bluetoothSocket.getSockets(handleSockets.bind(this));
 };
 
 
@@ -151,7 +145,7 @@ cwc.protocol.bluetooth.Devices.prototype.receiveError = function(
 
 /**
  * @param {?} device
- * @return {?object}
+ * @return {!cwc.protocol.bluetooth.supportedDevices|null}
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
   let supportedDevices = cwc.protocol.bluetooth.supportedDevices;
@@ -331,7 +325,7 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
         let uuids = deviceEntry['uuids'];
         let device = new cwc.protocol.bluetooth.Device(
             address, connected, connectable, deviceClass, name, paired, uuids,
-            profile, this.eventHandler_, type, this.bluetooth);
+            profile, this.eventHandler_, type);
         device.setConnectEvent(this.handleConnect_.bind(this));
         device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         this.devices[address] = device;

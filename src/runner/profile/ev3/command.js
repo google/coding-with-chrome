@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.ev3.Command');
 /**
  * @param {!cwc.protocol.ev3.Api} api
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.ev3.Command = function(api) {

@@ -115,11 +115,8 @@ cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
 };
 
 
-/**
- * @return {Object}
- */
 cwc.mode.ev3.Connection.prototype.getDevices = function() {
-  return this.api.getDevices();
+  this.api.getDevices();
 };
 
 

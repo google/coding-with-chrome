@@ -263,11 +263,11 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 
 
 /**
- * @param {!function(?)} callback
- * @param {Object=} optCallback_scope
+ * @param {!Function} callback
+ * @param {Object=} scope
  */
-cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
-    callback, optCallback_scope) {
+cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(callback,
+    scope) {
   this.log_.info('Select file to load content for the following types:',
     this.acceptedFiles);
   chrome.fileSystem.chooseEntry({
@@ -283,7 +283,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
     if (file_entry && file_entry.isFile && !file_entries) {
       file_entry.file(function(file) {
         this.log_.info('Load file: ' + file_entry.name);
-        this.readFile(file, file_entry, callback, optCallback_scope);
+        this.readFile(file, file_entry, callback, scope);
       }.bind(this));
     } else if (file_entries) {
       this.helper.showError('Too many file entries.');
@@ -302,8 +302,8 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(
  * @param {!function(?)} callback
  * @param {Object=} scope
  */
-cwc.fileHandler.FileLoader.prototype.readFile = function(file,
-    file_entry, callback, scope) {
+cwc.fileHandler.FileLoader.prototype.readFile = function(file, file_entry,
+    callback, scope) {
   this.log_.info('Reading file', file.name, '…');
   let reader = new FileReader;
   let readerEvent = this.openFile.bind(this);
@@ -319,12 +319,12 @@ cwc.fileHandler.FileLoader.prototype.readFile = function(file,
  * @param {Object} file_entry
  * @param {string} content
  * @param {!function(?, ?, ?)} callback
- * @param {Object=} optCallback_scope
+ * @param {Object=} scope
  */
-cwc.fileHandler.FileLoader.prototype.openFile = function(file,
-    file_entry, content, callback, optCallback_scope) {
+cwc.fileHandler.FileLoader.prototype.openFile = function(file, file_entry,
+    content, callback, scope) {
   if (file && content) {
-    callback.call(optCallback_scope, file, file_entry, content);
+    callback.call(scope, file, file_entry, content);
   } else {
     this.helper.showError('Unable to open file ' + file + '!');
   }

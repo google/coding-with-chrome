@@ -653,7 +653,11 @@ cwc.ui.Runner.prototype.addCommand = function(name, func, scope = undefined) {
 
 
 /**
- * @param {!function(?)} profile
+ * @param {!cwc.runner.profile.ev3.Command|
+ *         cwc.runner.profile.makeblock.mbot.Command|
+ *         cwc.runner.profile.makeblock.mbotRanger.Command|
+ *         cwc.runner.profile.raspberryPi.Command|
+ *         cwc.runner.profile.sphero.Command} profile
  * @param {?=} scope
  */
 cwc.ui.Runner.prototype.addCommandProfile = function(profile,
