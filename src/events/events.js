@@ -1,8 +1,7 @@
 /**
- * @fileoverview Skulpt externs.
- * @externs
+ * @fileoverview Events for Coding in Chrome.
  *
- * @license Copyright 2016 Google Inc. All Rights Reserved.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +17,26 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.events');
+goog.provide('cwc.events.Editor');
+goog.provide('cwc.events.General');
 
 
-/** @constructor */
-var Sk = function() {};
+/**
+ * @enum {!string}
+ * @export
+ */
+cwc.events.Editor = {
+  ENABLED: false,
 
-/** @type {Function} */
-Sk.configure = function() {};
+};
 
-/** @type {Object} */
-Sk.builtinFiles = {};
 
-/** @type {Object} */
-Sk.TurtleGraphics = {};
+/**
+ * @enum {!string}
+ * @export
+ */
+cwc.events.General = {
+  ENABLED: false,
 
-/** @type {Object} */
-Sk.misceval = {};
-
-/** @type {Function} */
-Sk.misceval.asyncToPromise = function() {};
-
-/** @type {Function} */
-Sk.importMainWithBody = function() {};
+};

@@ -27,8 +27,6 @@ goog.require('cwc.ui.Helper');
 goog.require('goog.dom.dataset');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.ui.Dialog');
-goog.require('goog.ui.Dialog.EventType');
 
 
 /**
@@ -49,9 +47,6 @@ cwc.ui.GDrive = function(helper) {
 
   /** @type {Object} */
   this.data = null;
-
-  /** @type {goog.ui.Dialog} */
-  this.currentDialog = null;
 
   /** @type {string} */
   this.dialogType = '';
@@ -115,6 +110,34 @@ cwc.ui.GDrive.prototype.decorate = function() {
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
+
+  let menuNode = goog.dom.getElement(this.prefix + 'menu');
+  let menus = this.dialogMenus[this.dialogType];
+  this.menuCurrent = menus[0];
+  for (let i = 0; i < menus.length; i++) {
+    menuNode.appendChild(menus[i]);
+  }
+  if (this.dialogType === 'save') {
+    let filename = goog.dom.getElement(this.prefix + 'filename');
+    goog.soy.renderElement(
+      filename,
+      cwc.soy.GDrive.gDriveFileName, {
+        filename: this.saveFileName,
+        prefix: this.prefix,
+      }
+    );
+    let saveButton = goog.dom.getElement(this.prefix + 'save_file');
+    saveButton.addEventListener('click', function() {
+      let dialogInstance = this.helper.getInstance('dialog', true);
+      let fileInstance = this.helper.getInstance('file', true);
+      let saveFilename = goog.dom.getElement(this.prefix + 'save_filename');
+      fileInstance.setFileName(saveFilename);
+      this.saveFile(saveFilename.value || this.saveFileName,
+        this.saveFileContent, undefined, this.saveFileParentId);
+      dialogInstance.close();
+    }.bind(this));
+  }
+  cwc.ui.Helper.mdlRefresh();
 };
 
 
@@ -129,8 +152,30 @@ cwc.ui.GDrive.prototype.showLibrary = function() {
   };
   dialogInstance.showTemplate(title, cwc.soy.GDrive.gDriveTemplate, {
     prefix: this.prefix,
+    type: this.dialogType,
   });
   this.decorate();
+};
+
+
+/**
+ * Prepares and renders the GDrive result dialog.
+ */
+cwc.ui.GDrive.prototype.prepareDialog = function() {
+  this.showLibrary();
+};
+
+
+/**
+ * Renders the GDrive result dialog.
+ * @param {Object} files Filelist with the result of the search.
+ */
+cwc.ui.GDrive.prototype.renderDialog = function(files) {
+  let fileList = goog.dom.getElement(this.prefix + 'file_list');
+  if (!fileList) {
+    this.prepareDialog();
+  }
+  this.updateFileList(files);
 };
 
 
@@ -280,7 +325,7 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
 
 
 /**
- * Returns all trasthed files by the user.
+ * Returns all trashed files by the user.
  */
 cwc.ui.GDrive.prototype.getTrashFiles = function() {
   this.switchMenu(this.menuTrashFiles);
@@ -299,9 +344,8 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
 /**
  * Updates the GDrive filelist with the new files.
  * @param {Object} files Filelist with the result of the search.
- * @param {goog.ui.Dialog} dialog Contains file browser to update file list on.
  */
-cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
+cwc.ui.GDrive.prototype.updateFileList = function(files) {
   let fileList = goog.dom.getElement(this.prefix + 'file_list');
   goog.soy.renderElement(
     fileList,
@@ -324,7 +368,8 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
         let fileId = goog.dom.dataset.get(element, 'id');
         let file = this.data[fileId];
         if (cwc.config.GDrive.MIME_TYPES.indexOf(file['mimeType']) > -1) {
-          dialog.setVisible(false);
+          let dialogInstance = this.helper.getInstance('dialog', true);
+          dialogInstance.close();
           this.downloadFile(file);
         } else if (file['mimeType'] === cwc.config.GDrive.FOLDER_MIME_TYPE) {
           this.getFolder(file, false);
@@ -365,58 +410,6 @@ cwc.ui.GDrive.prototype.updateFileList = function(files, dialog) {
         loaderEvent, false, this);
     }).bind(this)();
   }
-};
-
-
-/**
- * Prepares and renders the GDrive result dialog.
- * @return {goog.ui.Dialog}
- */
-cwc.ui.GDrive.prototype.prepareDialog = function() {
-  let dialog = new goog.ui.Dialog();
-  dialog.setTitle('Google Drive');
-  dialog.setSafeHtmlContent(cwc.soy.GDrive.gDriveTemplate({
-    'prefix': this.prefix}).toSafeHtml());
-  dialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
-  dialog.setDisposeOnHide(true);
-  dialog.render();
-  dialog.setVisible(true);
-
-  let menuNode = goog.dom.getElement(this.prefix + 'menu');
-  let menus = this.dialogMenus[this.dialogType];
-  this.menuCurrent = menus[0];
-  for (let i = 0; i < menus.length; i++) {
-    menuNode.appendChild(menus[i]);
-  }
-  if (this.dialogType === 'save') {
-    let filename = goog.dom.getElement(this.prefix + 'filename');
-    goog.soy.renderElement(
-      filename,
-      cwc.soy.GDrive.gDriveFileName,
-      {filename: this.saveFileName}
-    );
-    dialog.listen(goog.ui.Dialog.EventType.SELECT, function(event) {
-      if (event.key === 'ok') {
-        this.saveFile(this.saveFileName, this.saveFileContent, undefined,
-          this.saveFileParentId);
-      }
-    }.bind(this));
-  }
-  cwc.ui.Helper.mdlRefresh();
-  return dialog;
-};
-
-
-/**
- * Renders the GDrive result dialog.
- * @param {Object} files Filelist with the result of the search.
- */
-cwc.ui.GDrive.prototype.renderDialog = function(files) {
-  let fileList = goog.dom.getElement(this.prefix + 'file_list');
-  if (!fileList) {
-    this.currentDialog = this.prepareDialog();
-  }
-  this.updateFileList(files, this.currentDialog);
 };
 
 

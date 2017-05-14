@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.basic.blockly.Layout');
 
-goog.require('cwc.soy.mode.Basic.blockly.Blocks');
+goog.require('cwc.soy.simple.Blocks');
 goog.require('cwc.soy.mode.Basic.blockly.Layout');
 goog.require('cwc.utils.Helper');
 
@@ -61,5 +61,5 @@ cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
 
   let nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
   goog.soy.renderElement(nodeBlocklyToolbox,
-    cwc.soy.mode.Basic.blockly.Blocks.toolbox);
+    cwc.soy.simple.Blocks.toolbox);
 };

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.blockly.Editor');
 
-goog.require('cwc.soy.mode.ev3.blockly.Blocks');
+goog.require('cwc.soy.ev3.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -77,7 +77,7 @@ cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
 
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolboxTemplate(cwc.soy.mode.ev3.blockly.Blocks.toolbox);
+  this.blockly.setToolboxTemplate(cwc.soy.ev3.Blocks.toolbox);
   this.blockly.decorate(this.nodeBlockly);
 
   // Text editor

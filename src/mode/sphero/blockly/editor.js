@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.blockly.Editor');
 
-goog.require('cwc.soy.mode.sphero.blockly.Blocks');
+goog.require('cwc.soy.sphero.Blocks');
 
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
@@ -79,7 +79,7 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
     return;
   }
   goog.soy.renderElement(this.nodeBlocklyToolbox,
-    cwc.soy.mode.sphero.blockly.Blocks.toolbox);
+    cwc.soy.sphero.Blocks.toolbox);
 
   this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
   if (!this.nodeEditor) {

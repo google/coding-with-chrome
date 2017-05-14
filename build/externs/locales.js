@@ -1,5 +1,6 @@
 /**
  * @fileoverview Locales externs for Coding with Chrome.
+ * @externs
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *

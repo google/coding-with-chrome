@@ -1,5 +1,6 @@
 /**
  * @fileoverview Mocha externs.
+ * @externs
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
@@ -17,7 +18,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 
 
 /** @type {Function} */

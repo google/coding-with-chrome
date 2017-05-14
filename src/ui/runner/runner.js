@@ -33,7 +33,6 @@ goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.html.SafeHtml');
 goog.require('goog.math');
 goog.require('goog.soy');
 goog.require('goog.style');

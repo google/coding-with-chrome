@@ -275,20 +275,17 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(callback,
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       let message = chrome.runtime.lastError.message;
-      if (message && message !== 'User canceled') {
+      if (message && message !== 'User cancelled') {
         this.helper.showWarning(message);
         return;
       }
-    }
-    if (file_entry && file_entry.isFile && !file_entries) {
+    } else if (file_entry && file_entry.isFile && !file_entries) {
       file_entry.file(function(file) {
         this.log_.info('Load file: ' + file_entry.name);
         this.readFile(file, file_entry, callback, scope);
       }.bind(this));
     } else if (file_entries) {
       this.helper.showError('Too many file entries.');
-    } else {
-      this.helper.showWarning('No file was selected!');
     }
   }.bind(this));
 };

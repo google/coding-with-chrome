@@ -1,5 +1,6 @@
 /**
  * @fileoverview I18n externs for Coding with Chrome.
+ * @externs
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

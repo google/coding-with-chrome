@@ -60,7 +60,7 @@
   background-color: rgba(158,158,158, 0.40);
 }
 
-#{$prefix}dialog-chrome.mdl-dialog {
+#{$prefix}dialog-chrome {
   border: none;
   box-shadow: 0 9px 46px 8px rgba(0,0,0,0.14),
     0 11px 15px -7px rgba(0,0,0,0.12),

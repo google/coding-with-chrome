@@ -1,5 +1,6 @@
 /**
  * @fileoverview Shepherd externs.
+ * @externs
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *

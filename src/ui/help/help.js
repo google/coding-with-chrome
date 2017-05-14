@@ -42,9 +42,6 @@ cwc.ui.Help = function(helper) {
 };
 
 
-/**
- * @export
- */
 cwc.ui.Help.prototype.showAbout = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('About Coding with Chrome', cwc.soy.Help.about, {
@@ -56,9 +53,6 @@ cwc.ui.Help.prototype.showAbout = function() {
 };
 
 
-/**
- * @export
- */
 cwc.ui.Help.prototype.showIntro = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Intro', cwc.soy.Help.intro, {
@@ -66,9 +60,6 @@ cwc.ui.Help.prototype.showIntro = function() {
 };
 
 
-/**
- * @export
- */
 cwc.ui.Help.prototype.showOpenSource = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Coding with Chrome credits',
@@ -83,9 +74,6 @@ cwc.ui.Help.prototype.showOpenSource = function() {
 };
 
 
-/**
- * @export
- */
 cwc.ui.Help.prototype.showHelp = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showTemplate('Help', cwc.soy.Help.help,
@@ -96,7 +84,6 @@ cwc.ui.Help.prototype.showHelp = function() {
 /**
  * Shows some debug information.
  * @param {Event=} opt_event
- * @export
  */
 cwc.ui.Help.prototype.showDebug = function(opt_event) {
   let layoutInstance = this.helper.getInstance('layout', true);

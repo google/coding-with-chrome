@@ -1,5 +1,6 @@
 /**
  * @fileoverview Coding with Chrome externs.
+ * @externs
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +18,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 
 
 /** @type {Object} */

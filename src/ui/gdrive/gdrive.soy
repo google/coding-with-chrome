@@ -26,13 +26,16 @@
  */
 {template .gDriveTemplate}
   {@param prefix: string}
+  {@param type: string}
 
   <div id="{$prefix}body">
     <ul id="{$prefix}menu"></ul>
     <div id="{$prefix}content">
       <div id="{$prefix}file_parents"></div>
       <div id="{$prefix}file_list"></div>
-      <div id="{$prefix}filename"></div>
+      {if $type == 'save'}
+        <div id="{$prefix}filename"></div>
+      {/if}
     </div>
   </div>
 {/template}
@@ -43,14 +46,19 @@
  */
 {template .gDriveFileName}
   {@param filename: string}
+  {@param prefix: string}
 
   <form action="#">
     <div class="mdl-textfield mdl-js-textfield">
-      <input class="mdl-textfield__input" type="text" value="{$filename}" disabled>
-      <label class="mdl-textfield__label" for="sample1">
+      <input id="{$prefix}save_filename" class="mdl-textfield__input" type="text" value="{$filename}">
+      <label class="mdl-textfield__label" for="{$prefix}save_filename">
         {msg desc=""}Filename{/msg}
       </label>
     </div>
+    <button id="{$prefix}save_file" 
+            class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+      Save
+    </button>
   </form>
 {/template}
 

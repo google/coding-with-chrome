@@ -1,5 +1,6 @@
 /**
  * @fileoverview Blockly externs.
+ * @externs
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
