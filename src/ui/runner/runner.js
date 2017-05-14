@@ -685,6 +685,19 @@ cwc.ui.Runner.prototype.addMonitor = function(name, func, scope = undefined) {
 
 
 /**
+ * @param {!cwc.runner.profile.ev3.Monitor|
+ *         cwc.runner.profile.makeblock.mbot.Monitor|
+ *         cwc.runner.profile.makeblock.mbotRanger.Monitor|
+ *         cwc.runner.profile.sphero.Monitor} profile
+ * @param {?=} scope
+ */
+cwc.ui.Runner.prototype.addMonitorProfile = function(profile,
+    scope = undefined) {
+  this.connector.addMonitorProfile(profile, scope);
+};
+
+
+/**
  * @param {EventTarget|goog.events.Listenable} event_handler
  * @param {!string} event
  * @param {!string} command

@@ -108,10 +108,6 @@ cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.makeblock.mbotRanger.Monitor} */
-  this.monitor = new cwc.runner.profile.makeblock.mbotRanger.Monitor(
-    this.turtle);
-
   /** @type {Element} */
   this.node = null;
 
@@ -132,16 +128,13 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
-  // Start Event
-  this.runner.setStartEvent(this.handleStart_, this);
-
   // Commands
   this.runner.addCommandProfile(
     new cwc.runner.profile.makeblock.mbotRanger.Command(this.api));
 
-  // Monitoring
-  this.runner.addMonitor('movePower', this.monitor.movePower, this);
-  this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
+  // Monitors
+  this.runner.addMonitorProfile(
+    new cwc.runner.profile.makeblock.mbotRanger.Monitor(this.turtle));
 
   // Events
   let apiEventHandler = this.api.getEventHandler();
@@ -172,16 +165,6 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
-};
-
-
-/**
- * @private
- */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.handleStart_ = function() {
-  this.monitor.reset();
-  this.turtle.action('speed', 3);
-  this.turtle.reset();
 };
 
 

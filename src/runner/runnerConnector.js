@@ -171,27 +171,25 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, scope) {
  *         cwc.runner.profile.makeblock.mbot.Command|
  *         cwc.runner.profile.makeblock.mbotRanger.Command|
  *         cwc.runner.profile.raspberryPi.Command|
- *         cwc.runner.profile.sphero.Command} commandProfile
+ *         cwc.runner.profile.sphero.Command} profile
  * @param {?=} scope
  * @export
  */
-cwc.runner.Connector.prototype.addCommandProfile = function(commandProfile,
-    scope) {
-  if (!commandProfile) {
-    this.log_.error('Invalid command profile', commandProfile);
+cwc.runner.Connector.prototype.addCommandProfile = function(profile, scope) {
+  if (!profile) {
+    this.log_.error('Invalid command profile', profile);
     return;
   }
-  if (!commandProfile.__proto__) {
-    this.log_.error('Unable to detect commands', commandProfile);
+  if (!profile.__proto__) {
+    this.log_.error('Unable to detect commands', profile);
     return;
   }
-  let commandList = Object.getOwnPropertyNames(commandProfile.__proto__);
-  console.log(commandProfile, commandList);
-  let commandScope = scope || commandProfile;
+  let commandList = Object.getOwnPropertyNames(profile.__proto__);
+  console.log(profile, commandList);
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && command !== 'constructor') {
-      this.addCommand(command, commandProfile[command], commandScope);
+      this.addCommand(command, profile[command], scope || profile);
     }
   }
 };
@@ -227,6 +225,34 @@ cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {
 
 
 /**
+ * @param {!cwc.runner.profile.ev3.Monitor|
+ *         cwc.runner.profile.makeblock.mbot.Monitor|
+ *         cwc.runner.profile.makeblock.mbotRanger.Monitor|
+ *         cwc.runner.profile.sphero.Monitor} profile
+ * @param {?=} scope
+ * @export
+ */
+cwc.runner.Connector.prototype.addMonitorProfile = function(profile, scope) {
+  if (!profile) {
+    this.log_.error('Invalid monitor profile', profile);
+    return;
+  }
+  if (!profile.__proto__) {
+    this.log_.error('Unable to detect monitors', profile);
+    return;
+  }
+  let monitorList = Object.getOwnPropertyNames(profile.__proto__);
+  console.log(profile, monitorList);
+  for (let i = 0; i < monitorList.length; i++) {
+    let monitor = monitorList[i];
+    if (!monitor.endsWith('_') && monitor !== 'constructor') {
+      this.addMonitor(monitor, profile[monitor], scope || profile);
+    }
+  }
+};
+
+
+/**
  * @param {EventTarget|goog.events.Listenable} event_handler
  * @param {!string} event
  * @param {!string} command
@@ -243,7 +269,7 @@ cwc.runner.Connector.prototype.addEvent = function(event_handler, event,
 
 /**
  * @param {!string} name
- * @param {?} value
+ * @param {?=} value
  * @param {boolean=} opt_ignore_unknown
  * @export
  */
@@ -256,7 +282,16 @@ cwc.runner.Connector.prototype.executeCommand = function(name, value,
     return;
   }
   this.commands[name](value);
+  this.executeMonitor(name, value);
+};
 
+
+/**
+ * @param {!string} name
+ * @param {?=} value
+ * @export
+ */
+cwc.runner.Connector.prototype.executeMonitor = function(name, value) {
   if (typeof this.monitor[name] === 'undefined') {
     return;
   }
@@ -322,7 +357,16 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
     return;
   }
   console.log('Received handshake with token:', token);
+  this.handleStart_();
+};
+
+
+/**
+ * @private
+ */
+cwc.runner.Connector.prototype.handleStart_ = function() {
   this.executeCommand('__start__', null, true);
+  this.executeMonitor('reset');
   this.ping();
   this.send('__start__');
 };
@@ -333,10 +377,9 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
  * @private
  */
 cwc.runner.Connector.prototype.handlePong_ = function(data) {
-  let currentTime = new Date().getTime();
   let sendTime = data['time'] - this.pingTime[data['id']];
-  let responseTime = currentTime - data['time'];
-  let delay = currentTime - this.pingTime[data['id']];
+  let responseTime = new Date().getTime() - data['time'];
+  let delay = new Date().getTime() - this.pingTime[data['id']];
   this.log_.info('PONG from', data['id'], ':', 'send=', sendTime + 'ms',
       'response=', responseTime + 'ms', 'delay=', delay + 'ms');
 };

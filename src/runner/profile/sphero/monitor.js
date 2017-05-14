@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.sphero.Monitor');
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.sphero.Monitor = function(turtle) {

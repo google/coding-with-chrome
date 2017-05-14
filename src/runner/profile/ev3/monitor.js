@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.ev3.Monitor');
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.ev3.Monitor = function(turtle) {
@@ -38,15 +37,18 @@ cwc.runner.profile.ev3.Monitor = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.runner.profile.ev3.Monitor.prototype.reset = function() {
+cwc.runner.profile.ev3.Monitor.prototype['reset'] = function() {
   this.speed_ = 0;
+  this.turtle.action('speed', 1);
+  this.turtle.action('scale', 1);
+  this.turtle.reset();
 };
 
 
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.moveSteps = function(data) {
+cwc.runner.profile.ev3.Monitor.prototype['moveSteps'] = function(data) {
   if (data['speed'] > 0) {
     this.turtle.action('fd', data['distance'] * 2.5 || data['steps']);
   } else if (data['speed'] < 0) {
@@ -58,7 +60,7 @@ cwc.runner.profile.ev3.Monitor.prototype.moveSteps = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.rotateSteps = function(data) {
+cwc.runner.profile.ev3.Monitor.prototype['rotateSteps'] = function(data) {
   if (data['angle']) {
     if (data['speed'] > 0) {
       this.turtle.action('rt', data['angle']);
@@ -72,7 +74,7 @@ cwc.runner.profile.ev3.Monitor.prototype.rotateSteps = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.customRotateSteps = function(data) {
+cwc.runner.profile.ev3.Monitor.prototype['customRotateSteps'] = function(data) {
   if (data['angle']) {
     if (data['speed'] > 0) {
       this.turtle.action('rt', data['angle']);
@@ -86,7 +88,7 @@ cwc.runner.profile.ev3.Monitor.prototype.customRotateSteps = function(data) {
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.ev3.Monitor.prototype.movePen = function(data) {
+cwc.runner.profile.ev3.Monitor.prototype['movePen'] = function(data) {
   this.turtle.action('pen', data['color'] || !data['invert']);
   if (data['invert']) {
     this.turtle.action('pu');

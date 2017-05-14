@@ -23,7 +23,6 @@ goog.provide('cwc.runner.profile.makeblock.mbotRanger.Monitor');
 /**
  * @param {!cwc.ui.Turtle} turtle
  * @constructor
- * @struct
  * @final
  */
 cwc.runner.profile.makeblock.mbotRanger.Monitor = function(turtle) {
@@ -38,17 +37,20 @@ cwc.runner.profile.makeblock.mbotRanger.Monitor = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype.reset = function() {
+cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['reset'] =
+function() {
   this.speed_ = 0;
+  this.turtle.action('speed', 3);
+  this.turtle.reset();
 };
 
 
 /**
- * move mbot forward or backward
+ * Move mBot forward or backward
  * @param  {Object} data data package
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype.movePower = function(
-    data) {
+cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['movePower'] =
+function(data) {
   if (data['speed'] > 0) {
     this.turtle.action('fd', data['speed']);
   } else {
@@ -58,10 +60,10 @@ cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype.movePower = function(
 
 
 /**
- * turn mbot to a direction
+ * Turn mBot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype.rotatePower =
+cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['rotatePower'] =
 function(data) {
   if (data['speed'] > 0) {
     this.turtle.action('rt', data['speed']);
