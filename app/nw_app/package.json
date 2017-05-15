@@ -1,0 +1,9 @@
+{
+  "name": "Coding with Chrome",
+  "version": "0.0.1",
+  "main": "js/background.js",
+  "window": {
+    "title": "Coding with Chrome",
+    "icon": "icons/128x128.png"
+  }
+}

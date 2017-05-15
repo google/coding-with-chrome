@@ -516,10 +516,9 @@ cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
 
 /**
  * Displays the start of load event.
- * @param {Event=} opt_event
  * @private
  */
-cwc.ui.Preview.prototype.handleLoadStart_ = function(opt_event) {
+cwc.ui.Preview.prototype.handleLoadStart_ = function() {
   this.startTime = new Date().getTime();
   this.status = cwc.ui.PreviewStatus.LOADING;
   if (this.toolbar) {
@@ -531,10 +530,9 @@ cwc.ui.Preview.prototype.handleLoadStart_ = function(opt_event) {
 
 /**
  * Displays the end of the load event.
- * @param {Event=} opt_event
  * @private
  */
-cwc.ui.Preview.prototype.handleLoadStop_ = function(opt_event) {
+cwc.ui.Preview.prototype.handleLoadStop_ = function() {
   let duration = (new Date().getTime() - this.startTime) / 1000;
   this.status = cwc.ui.PreviewStatus.LOADED;
   if (this.toolbar) {
@@ -546,10 +544,9 @@ cwc.ui.Preview.prototype.handleLoadStop_ = function(opt_event) {
 
 /**
  * Shows a unresponsive warning with the options to terminate the preview.
- * @param {Event=} opt_event
  * @private
  */
-cwc.ui.Preview.prototype.handleUnresponsive_ = function(opt_event) {
+cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
   this.setStatusText('Unresponsive...');
   this.status = cwc.ui.PreviewStatus.UNRESPONSIVE;
 

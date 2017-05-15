@@ -23,7 +23,6 @@ goog.require('cwc.soy.ui.Gui');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
-goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.soy');
@@ -45,9 +44,6 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('gui');
-
-  /** @type {goog.dom.ViewportSizeMonitor} */
-  this.viewport_monitor = new goog.dom.ViewportSizeMonitor();
 
   /** @type {Element} */
   this.node = null;
@@ -115,12 +111,6 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   // Add elements interactions.
   goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
       this.renameTitle, false, this);
-
-  // Add default Events.
-  goog.events.listen(this.viewport_monitor, goog.events.EventType.RESIZE,
-      this.adjustSize, false, this);
-
-  this.adjustSize();
 };
 
 
@@ -182,13 +172,4 @@ cwc.ui.Gui.prototype.getLayoutNode = function() {
  */
 cwc.ui.Gui.prototype.getHeaderSize = function() {
   return goog.style.getSize(this.nodeHeader);
-};
-
-
-/**
- * Adjusts the UI to the correct size after resize.
- */
-cwc.ui.Gui.prototype.adjustSize = function() {
-  let viewportSize = this.viewport_monitor.getSize();
-  goog.style.setSize(this.nodeChrome, viewportSize);
 };

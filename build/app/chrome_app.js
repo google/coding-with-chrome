@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome app files.
+ * @fileoverview BUILD configuration for Coding with Chrome (Chrome app).
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *

@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome (Web app).
+ * @fileoverview BUILD configuration for Coding with Chrome (nw.js app).
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -46,7 +46,7 @@ closureBuilder.build({
     'build/externs/shepherd.js',
   ],
   compress: true,
-  out: 'genfiles/web_app/js/cwc_ui.js',
+  out: 'genfiles/nw_app/js/cwc_ui.js',
   options: {
     closure: {
       define: 'ENABLE_LOGGING=false',
@@ -67,7 +67,7 @@ closureBuilder.build({
     'genfiles/core/js/',
     'genfiles/core/resources/',
   ],
-  out: 'genfiles/web_app/',
+  out: 'genfiles/nw_app/',
 });
 
 
@@ -77,9 +77,11 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Chrome app files',
   resources: [
-    'app/web_app/editor.html',
+    'app/nw_app/html/',
+    'app/nw_app/manifest.json',
+    'app/nw_app/package.json',
   ],
-  out: 'genfiles/web_app/',
+  out: 'genfiles/nw_app/',
 });
 
 
@@ -92,7 +94,7 @@ closureBuilder.build({
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
-  out: 'genfiles/web_app/',
+  out: 'genfiles/nw_app/',
 });
 
 
@@ -105,7 +107,7 @@ closureBuilder.build({
     'genfiles/core/frameworks/internal',
     'genfiles/third_party/frameworks/external',
   ],
-  out: 'genfiles/web_app/frameworks',
+  out: 'genfiles/nw_app/frameworks',
 });
 
 
@@ -118,5 +120,57 @@ closureBuilder.build({
     'LICENSE.md',
     'NOTICE.md',
   ],
-  out: 'genfiles/web_app/',
+  out: 'genfiles/nw_app/',
 });
+
+
+/**
+ * Background file
+ */
+closureBuilder.build({
+  name: 'CwC Background',
+  srcs: [
+    'app/nw_app/js/background.js',
+  ],
+  out: 'genfiles/nw_app/js/background.js',
+});
+
+
+/**
+ * Debug file
+ */
+closureBuilder.build({
+  name: 'CwC Debug',
+  resources: [
+    'app/nw_app/js/debug.js',
+  ],
+  out: 'genfiles/nw_app/js/',
+});
+
+
+/**
+ * Editor-loader
+ */
+closureBuilder.build({
+  name: 'CwC Editor',
+  srcs: [
+    'app/nw_app/js/editor.js',
+  ],
+  externs: [
+    'build/externs/cwc.js',
+  ],
+  out: 'genfiles/nw_app/js/editor.js',
+});
+
+
+/**
+ * Pre-loader
+ */
+closureBuilder.build({
+  name: 'CwC Loader',
+  srcs: [
+    'app/nw_app/js/loader.js',
+  ],
+  out: 'genfiles/nw_app/js/loader.js',
+});
+
