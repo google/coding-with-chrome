@@ -1,11 +1,11 @@
-[<img src="resources/external/chrome_webstore.png" align="right" alt="Available in the Chrome Web Store">](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
+[<img src="static_files/resources/external/chrome_webstore.png" align="right" alt="Available in the Chrome Web Store">](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
 
 Coding with Chrome
 ==================
 [![Code Climate](https://codeclimate.com/github/google/coding-with-chrome/badges/gpa.svg)](https://codeclimate.com/github/google/coding-with-chrome)
 [![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome)
 
-<p align="center"><img src="app/images/cwc_logo.png"></p>
+<p align="center"><img src="static_files/images/cwc_logo.png"></p>
 
 Coding with Chrome is an Educational Development Environment built around two
 core philosophies:
@@ -36,7 +36,7 @@ If you only want to install __Coding with Chrome__, you could use the pre-compil
 
 
 ## Build the Coding with Chrome App
-If you want to build the latest Coding with Chrome App from the source code, please check [doc/BUILD.md](BUILD.md)
+If you want to build the latest Coding with Chrome App from the source code, please check the [build instructions](BUILD.md).
 
 
 ## Supported hardware and system
