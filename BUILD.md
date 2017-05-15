@@ -1,5 +1,5 @@
-Coding with Chrome
-==================
+Build Coding with Chrome
+=========================
 <p align="center"><img src="static_files/images/cwc_logo.png"></p>
 
 ## What you need to build your own Coding with Chrome App
