@@ -1,6 +1,6 @@
 Coding with Chrome
 ==================
-<p align="center"><img src="app/images/cwc_logo.png"></p>
+<p align="center"><img src="static_files/images/cwc_logo.png"></p>
 
 ## What you need to build your own Coding with Chrome App
 In order to build the Coding with Chrome App, you only need to have Node.js/npm, git and Open JDK / Java JRE installed on your system.
