@@ -29,37 +29,18 @@ npm run debug
 ## Other options
 
 ### Rebuild the app
-If you change something in the source code, you will need to re-compile it by:
-```bash
-npm run rebuild
-```
+If you change something in the source code, you need to re-compile it.
 After this you only need to reload the Chrome App to see your change in action.
 
 ### Update dependencies
 Run the following command to update the dependencies to the latest version:
 ```bash
-npm run update
+npm run sync
 ```
 After this you only need to reload the Chrome App to see your change in action.
 
 
 ### Google Drive support (experimental)
-To enable the experimental Google Drive support add your application key and
-your api key to the `app/manifest.json` file:
-```json
-…
-  "description": "Coding with Chrome.",
-  "key": "MIIBIjANBgkqhki…",
-…
-  "oauth2": {
-    "client_id": "958…",
-    "scopes": [
-      "https://www.googleapis.com/auth/drive",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
-…
-```
 Since this feature is experimental, although problems are unlikely we can not
 guarantee this code is error free. Please make sure that you back up your
 Google Drive data, or only use test accounts without critical files or data.

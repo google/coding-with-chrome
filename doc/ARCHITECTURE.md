@@ -22,6 +22,9 @@ Coding with Chrome.
   * **js** - Start javascript files to load the ui
 * **doc** - Technical documentation
 * **genfiles** - Output folder for the compiled Chrome application
+  * **chrome_app** - Chrome App version
+  * **third_party** - Pre-compiled third party library and frameworks
+  * **web_app** - Webbrowser version 
 * **src** - Source folder for actual code
   * **config** - Main configurations for Coding with Chrome
   * **file** - File and files classes

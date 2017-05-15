@@ -30,7 +30,7 @@ closureBuilder.build({
   srcs: glob([
     'src/**/*.gss',
   ]),
-  out: 'genfiles/css/editor.css',
+  out: 'genfiles/core/css/editor.css',
 });
 
 
@@ -43,5 +43,5 @@ closureBuilder.build({
   srcs: glob([
     'src/utils/dialog/dialog.gss',
   ]),
-  out: 'genfiles/css/dialog.css',
+  out: 'genfiles/core/css/dialog.css',
 });

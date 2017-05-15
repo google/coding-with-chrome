@@ -6,7 +6,6 @@ OWNERS
 Thumbs.db
 create_npm_test.sh
 debug.log
-genfiles
 genfiles.*
 gensoyfiles
 node_modules

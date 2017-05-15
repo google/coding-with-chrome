@@ -33,7 +33,7 @@ closureBuilder.build({
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/js/locales/blacklist.js',
+  out: 'genfiles/core/js/locales/blacklist.js',
 });
 
 
@@ -49,7 +49,7 @@ closureBuilder.build({
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/js/locales/de.js',
+  out: 'genfiles/core/js/locales/de.js',
 });
 
 
@@ -65,7 +65,7 @@ closureBuilder.build({
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/js/locales/en.js',
+  out: 'genfiles/core/js/locales/en.js',
 });
 
 
@@ -81,7 +81,7 @@ closureBuilder.build({
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/js/locales/ja.js',
+  out: 'genfiles/core/js/locales/ja.js',
 });
 
 
@@ -97,5 +97,5 @@ closureBuilder.build({
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/js/locales/ko.js',
+  out: 'genfiles/core/js/locales/ko.js',
 });

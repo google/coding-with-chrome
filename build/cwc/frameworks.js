@@ -35,7 +35,7 @@ closureBuilder.build({
     'src/utils/logger.js',
     'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/arduino_framework.js',
+  out: 'genfiles/core/frameworks/internal/arduino_framework.js',
 });
 
 
@@ -53,7 +53,7 @@ closureBuilder.build({
     'src/protocol/robots/ev3/*.js',
     'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/ev3_framework.js',
+  out: 'genfiles/core/frameworks/internal/ev3_framework.js',
 });
 
 
@@ -72,7 +72,7 @@ closureBuilder.build({
   externs: [
     'build/externs/skulpt.js',
   ],
-  out: 'genfiles/frameworks/internal/python_framework.js',
+  out: 'genfiles/core/frameworks/internal/python_framework.js',
 });
 
 
@@ -89,7 +89,7 @@ closureBuilder.build({
     'src/frameworks/internal/runner/runner.js',
     'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/mbot_framework.js',
+  out: 'genfiles/core/frameworks/internal/mbot_framework.js',
 });
 
 
@@ -106,7 +106,7 @@ closureBuilder.build({
     'src/frameworks/internal/runner/runner.js',
     'src/utils/stack_queue.js',
   ]),
-  out: 'genfiles/frameworks/internal/mbot_ranger_framework.js',
+  out: 'genfiles/core/frameworks/internal/mbot_ranger_framework.js',
 });
 
 
@@ -122,7 +122,7 @@ closureBuilder.build({
   externs: [
     'build/externs/phaser.js',
   ],
-  out: 'genfiles/frameworks/internal/phaser_framework.js',
+  out: 'genfiles/core/frameworks/internal/phaser_framework.js',
 });
 
 
@@ -139,7 +139,7 @@ closureBuilder.build({
     'src/frameworks/internal/runner/runner.js',
     'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/raspberry_pi_framework.js',
+  out: 'genfiles/core/frameworks/internal/raspberry_pi_framework.js',
 });
 
 
@@ -155,7 +155,7 @@ closureBuilder.build({
   deps: [
     'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/runner_framework.js',
+  out: 'genfiles/core/frameworks/internal/runner_framework.js',
 });
 
 
@@ -174,7 +174,7 @@ closureBuilder.build({
     'src/utils/logger.js',
     'src/utils/dialog/*',
   ]),
-  out: 'genfiles/frameworks/internal/simple_framework.js',
+  out: 'genfiles/core/frameworks/internal/simple_framework.js',
 });
 
 
@@ -191,7 +191,7 @@ closureBuilder.build({
     'src/frameworks/internal/runner/runner.js',
     'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/sphero_framework.js',
+  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
 });
 
 
@@ -208,7 +208,7 @@ closureBuilder.build({
     'src/frameworks/internal/runner/runner.js',
     'src/utils/stack_queue.js',
   ],
-  out: 'genfiles/frameworks/internal/tts_framework.js',
+  out: 'genfiles/core/frameworks/internal/tts_framework.js',
 });
 
 
@@ -228,5 +228,5 @@ closureBuilder.build({
   externs: [
     'build/externs/jquery.js',
   ],
-  out: 'genfiles/frameworks/internal/turtle_framework.js',
+  out: 'genfiles/core/frameworks/internal/turtle_framework.js',
 });

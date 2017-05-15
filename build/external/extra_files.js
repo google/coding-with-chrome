@@ -36,7 +36,7 @@ closureBuilder.build({
     BlocklyPath + 'javascript_compressed.js',
     'patches/blockly/audio_preload_patch.js',
   ],
-  out: 'genfiles/external/blockly/',
+  out: 'genfiles/third_party/external/blockly/',
 });
 
 
@@ -48,7 +48,7 @@ closureBuilder.build({
     BlocklyPath + 'msg/js/ja.js',
     BlocklyPath + 'msg/js/ko.js',
   ],
-  out: 'genfiles/external/blockly/msg/',
+  out: 'genfiles/third_party/external/blockly/msg/',
 });
 
 
@@ -79,7 +79,7 @@ closureBuilder.build({
     codeMirrorPath + 'keymap',
     codeMirrorPath + 'theme',
   ],
-  out: 'genfiles/external/codemirror/',
+  out: 'genfiles/third_party/external/codemirror/',
 });
 
 closureBuilder.build({
@@ -92,7 +92,7 @@ closureBuilder.build({
     codeMirrorPath + 'addon/hint/show-hint.css',
     codeMirrorPath + 'addon/lint/lint.css',
   ],
-  out: 'genfiles/external/codemirror/codemirror.css',
+  out: 'genfiles/third_party/external/codemirror/codemirror.css',
 });
 
 closureBuilder.build({
@@ -114,7 +114,7 @@ closureBuilder.build({
     'build/externs/codemirror.js',
     'build/externs/global.js',
   ],
-  out: 'genfiles/external/codemirror/addons.js',
+  out: 'genfiles/third_party/external/codemirror/addons.js',
   options: {
     exclude_test: true,
   },
@@ -138,7 +138,7 @@ closureBuilder.build({
     'build/externs/codemirror.js',
     'build/externs/global.js',
   ],
-  out: 'genfiles/external/codemirror/modes.js',
+  out: 'genfiles/third_party/external/codemirror/modes.js',
 });
 
 
@@ -157,7 +157,7 @@ closureBuilder.build({
     },
   },
   warn: false,
-  out: 'genfiles/external/jshint/jshint.js',
+  out: 'genfiles/third_party/external/jshint/jshint.js',
 });
 
 
@@ -174,5 +174,5 @@ closureBuilder.build({
     // 'third_party/shepherd/dist/js/shepherd.min.js',
     'third_party/tether/dist/js/tether.min.js',
   ],
-  out: 'genfiles/external/shepherd',
+  out: 'genfiles/third_party/external/shepherd',
 });

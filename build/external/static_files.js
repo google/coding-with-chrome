@@ -29,7 +29,7 @@ closureBuilder.build({
   resources: glob([
     'third_party/roboto/*.woff2',
   ]),
-  out: 'genfiles/fonts/',
+  out: 'genfiles/third_party/fonts/',
 });
 
 
@@ -41,7 +41,7 @@ closureBuilder.build({
   resources: [
     'third_party/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
   ],
-  out: 'genfiles/fonts/',
+  out: 'genfiles/third_party/fonts/',
 });
 
 
@@ -54,7 +54,7 @@ closureBuilder.build({
     'third_party/material-design-lite/material.min.js',
     'third_party/material-design-lite/material.min.css',
   ],
-  out: 'genfiles/external/material-design-lite/',
+  out: 'genfiles/third_party/external/material-design-lite/',
 });
 
 
@@ -67,7 +67,7 @@ closureBuilder.build({
     'third_party/dialog-polyfill/dialog-polyfill.js',
     'third_party/dialog-polyfill/dialog-polyfill.css',
   ],
-  out: 'genfiles/external/dialog-polyfill/',
+  out: 'genfiles/third_party/external/dialog-polyfill/',
 });
 
 
@@ -79,7 +79,7 @@ closureBuilder.build({
   resources: [
     'third_party/coffeelint/js/coffeelint.js',
   ],
-  out: 'genfiles/external/coffeelint/',
+  out: 'genfiles/third_party/external/coffeelint/',
 });
 
 
@@ -91,5 +91,5 @@ closureBuilder.build({
   resources: [
     'third_party/HTMLHint/lib/htmlhint.js',
   ],
-  out: 'genfiles/external/htmlhint/',
+  out: 'genfiles/third_party/external/htmlhint/',
 });

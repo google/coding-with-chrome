@@ -28,101 +28,15 @@ Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 
 
 ## Installing Coding with Chrome
-If you only want to install __Coding with Chrome__, you could use the pre-compiled
-version on the Chrome store.
+If you only want to install __Coding with Chrome__, you could use the pre-compiled version on the Chrome store.
 
 1. Visit the [Chrome Web Store][1]
 2. Click __Add to Chrome__
 3. Go to [chrome://apps](chrome://apps) and launch __Coding with Chrome__
 
 
-## What you need to build your own Coding with Chrome App
-In order to build the Coding with Chrome App, you only need to have Node.js/npm.
-If you want to clone/copy the Coding with Chrome App repo, you need git as well.
-
-Each build is cross platform compatible. Which mean if you build the
-Coding with Chrome App on Windows you could use the generated code
-`genfiles/` folder on the other platforms like Mac OS X as well.
-
-
-### Windows
-Install Node.js from the official web page at https://nodejs.org
-* Optional
-  * Install git from the official web page at https://git-scm.com/
-  * Install Java JRE
-
-### Mac OS X
-Install Node.js from the official web page at https://nodejs.org
-* Optional
-  * Install git from the official web page at https://git-scm.com/
-  * Install Java JRE
-
-### Linux/BSD
-Use your package manager to install Node.js, or build from source.
-* Optional
-  * Use your package manager to install git, or build from source.
-  * Install Open JDK or Java JRE
-
-
-## How to build your own Coding with Chrome App
-
-### Get the sources
-Download the source files manual from GitHub or with git by running:
-```bash
-git clone --recursive git://github.com/google/coding-with-chrome.git
-```
-
-### Init / update submodules
-In some cases you need to init and update the submodules manually by:
-```bash
-git submodule init
-git submodule update
-```
-
-### Get required packages
-Enter the "coding-with-chrome" directory and get the required packages by:
-```bash
-npm install
-```
-
-### Build and run the actual app
-To compile and run the Chrome app use the following command:
-```bash
-npm run app
-```
-This will automatically build and start the application on Mac OS, Linux or
-Windows.
-
-### Build the actual app
-To compile the Chrome app run the build script:
-```bash
-npm run build
-```
-The build version will be put in the `genfiles/` directory, together with all
-required packages and files.
-
-
-## How to load Coding with Chrome App manual in the Chrome Browser
-
-### Enable developer mode
-Visit `chrome://extensions` in your browser (or open up the Chrome menu by
-clicking the icon to the far right of the Omnibox (three horizontal bars) and
-select Extensions under the Tools menu to get to the same place).
-
-Ensure that the Developer mode checkbox in the top right-hand corner is checked.
-
-### Add the app
-On the same page click `Load unpacked extension…` to pop up a file-selection
-dialog.
-
-Navigate to the directory in which your `genfiles/` files live, and select it.
-
-Alternatively, you can drag and drop the directory where your `genfiles/` files
-live onto chrome://extensions in your browser to load it.
-
-### Launch the app
-On the same page click `Launch` next to `Coding with Chrome` or visit
-`chrome://apps` in your browser and click on the `Coding with Chrome` icon.
+## Build the Coding with Chrome App
+If you want to build the latest Coding with Chrome App from the source code, please check [doc/BUILD.md](BUILD.md)
 
 
 ## Supported hardware and system

@@ -1,7 +1,7 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome blocks.
+ * @fileoverview BUILD configuration for Coding with Chrome app files.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,3 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-let closureBuilder = require('closure-builder');
-let glob = closureBuilder.globSupport();
-
-
-/**
- * Custom Blocks
- */
-closureBuilder.build({
-  name: 'Custom Blocks',
-  srcs: glob([
-    'src/blocks/**/*.js',
-  ]),
-  externs: [
-    'build/externs/blockly.js',
-  ],
-  jscomp_off: ['checkVars'],
-  out: 'genfiles/core/js/cwc_blocks.js',
-});

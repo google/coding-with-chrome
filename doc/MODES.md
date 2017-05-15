@@ -22,7 +22,7 @@ defines the used renderer according the mode config (cwc.mode.ConfigData).
 src/file/file_type.js
 
 ### Add file extension
-Add the offical file extension if you don't want to use the .cwc file format.
+Add the official file extension if you don't want to use the .cwc file format.
 src/file/file_extension.js
 
 ### Define a file_content_type

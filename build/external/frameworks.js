@@ -28,7 +28,7 @@ closureBuilder.build({
   resources: [
     'third_party/coffeescript/extras/coffee-script.js',
   ],
-  out: 'genfiles/frameworks/external/',
+  out: 'genfiles/third_party/frameworks/external/',
 });
 
 closureBuilder.build({
@@ -36,7 +36,7 @@ closureBuilder.build({
   resources: [
     'third_party/coffeescript/extras/coffee-script.js',
   ],
-  out: 'genfiles/external/coffeescript/',
+  out: 'genfiles/third_party/external/coffeescript/',
 });
 
 
@@ -48,7 +48,7 @@ closureBuilder.build({
   resources: [
     'third_party/three.js/build/three.min.js',
   ],
-  out: 'genfiles/frameworks/external/three.min.js',
+  out: 'genfiles/third_party/frameworks/external/three.min.js',
 });
 
 
@@ -60,7 +60,7 @@ closureBuilder.build({
   resources: [
     'third_party/jquery-dist/dist/jquery.min.js',
   ],
-  out: 'genfiles/frameworks/external/',
+  out: 'genfiles/third_party/frameworks/external/',
 });
 
 
@@ -72,7 +72,7 @@ closureBuilder.build({
   resources: [
     'third_party/jquery-dist-2.2.4/dist/jquery.min.js',
   ],
-  out: 'genfiles/frameworks/external/jquery-2.2.4.min.js',
+  out: 'genfiles/third_party/frameworks/external/jquery-2.2.4.min.js',
 });
 
 
@@ -84,7 +84,7 @@ closureBuilder.build({
   resources: [
     'third_party/jquery-turtle/jquery-turtle.min.js',
   ],
-  out: 'genfiles/frameworks/external/jquery-turtle.js',
+  out: 'genfiles/third_party/frameworks/external/jquery-turtle.js',
 });
 
 
@@ -96,7 +96,7 @@ closureBuilder.build({
   resources: [
     'third_party/phaser/build/phaser.min.js',
   ],
-  out: 'genfiles/frameworks/external/phaser.min.js',
+  out: 'genfiles/third_party/frameworks/external/phaser.min.js',
 });
 
 
@@ -108,7 +108,7 @@ closureBuilder.build({
   resources: [
     'third_party/skulpt-dist/skulpt.min.js',
   ],
-  out: 'genfiles/frameworks/external/skulpt.min.js',
+  out: 'genfiles/third_party/frameworks/external/skulpt.min.js',
 });
 
 
@@ -120,5 +120,5 @@ closureBuilder.build({
   resources: [
     'third_party/skulpt-dist/skulpt-stdlib.js',
   ],
-  out: 'genfiles/frameworks/external/skulpt-stdlib.js',
+  out: 'genfiles/third_party/frameworks/external/skulpt-stdlib.js',
 });

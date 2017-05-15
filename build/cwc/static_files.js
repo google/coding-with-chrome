@@ -1,7 +1,7 @@
 /**
- * @fileoverview BUILD configuration for static files.
+ * @fileoverview BUILD configuration for Coding with Chrome satic files.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,42 +21,15 @@ let closureBuilder = require('closure-builder');
 
 
 /**
- * Application data
+ * Static files
  */
 closureBuilder.build({
-  name: 'Static files',
+  name: 'CwC core files',
   resources: [
-    'app/css/',
-    'app/html/',
-    'app/icons/',
-    'app/images/',
-    'app/manifest.json',
+    'static_files/css/',
+    'static_files/icons/',
+    'static_files/images/',
+    'static_files/resources/',
   ],
-  out: 'genfiles/',
-});
-
-
-/**
- * Resource files
- */
-closureBuilder.build({
-  name: 'Resource files',
-  resources: [
-    'resources/',
-  ],
-  out: 'genfiles/',
-});
-
-
-/**
- * Markdown files
- */
-closureBuilder.build({
-  name: 'Markdown files',
-  markdown: [
-    'LICENSE.md',
-    'NOTICE.md',
-  ],
-  out: 'genfiles/',
-  replace: ['id="three-js"', 'id="threejs"'],
+  out: 'genfiles/core/',
 });

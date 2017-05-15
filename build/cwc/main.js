@@ -46,7 +46,7 @@ closureBuilder.build({
     'build/externs/shepherd.js',
   ],
   compress: true,
-  out: 'genfiles/js/cwc_ui.js',
+  out: 'genfiles/core/js/cwc_ui.js',
   options: {
     closure: {
       define: 'ENABLE_LOGGING=false',
