@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "4.5.12",
+  "version": "4.5.16",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -11,6 +11,7 @@
     "nw": "^0.22.3",
     "nw-builder": "^3.2.0",
     "rimraf": "^2.6.1",
+    "command-line-usage": "^4.0.0",
     "rollup-plugin-buble": "^0.15.0"
   },
   "devDependencies": {
@@ -27,6 +28,8 @@
     "npm-check-updates": "latest"
   },
   "scripts": {
+    "usage": "node build/usage.js",
+
     "test": "npm run test-soy && npm run test-units && npm run test-core",
     "pretest": "npm run lint",
     "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
@@ -63,7 +66,10 @@
     "build-core": "npm run clean-core && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-gss && npm run build-cwc-locales && npm run build-cwc-soy && npm run build-cwc-static-files",
     "build-third_party": "npm run clean-third_party && npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
 
-    "publish-nw_app": "npm run build-core && npm run build-nw_app && nwbuild --platforms win32,win64,linux32,linux64 --buildDir dist/ genfiles/nw_app/",
+    "publish-nw_app": "npm run publish-nw_app-win && npm run publish-nw_app-mac && npm run publish-nw_app-linux",
+    "publish-nw_app-win": "nwbuild --platforms win --buildDir dist/ genfiles/nw_app/",
+    "publish-nw_app-mac": "nwbuild --platforms osx64 --buildDir dist/ genfiles/nw_app/",
+    "publish-nw_app-linux": "nwbuild --platforms linux --buildDir dist/ genfiles/nw_app/",
 
     "chrome-app": "npm run build-core && npm run build-chrome_app && npm run launch",
     "nw-app": "npm run build-core && npm run build-nw_app && npm run launch-nw",

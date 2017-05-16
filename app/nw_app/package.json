@@ -1,6 +1,6 @@
 {
   "name": "Coding with Chrome",
-  "version": "0.0.1",
+  "version": "4.5.16",
   "main": "js/background.js",
   "window": {
     "title": "Coding with Chrome",
