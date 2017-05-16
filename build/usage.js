@@ -21,34 +21,55 @@ const commandLineUsage = require('command-line-usage');
 
 const sections = [{
     header: 'Coding with Chrome',
-    content: 'An [italic]{Educational Development Environment}.'
+    content: 'An [italic]{Educational Development Environment}.',
   }, {
     header: 'Synopsis',
-    content: '$ npm run <command>'
+    content: '$ npm run <command>',
   }, {
     header: 'Basic commands',
-    content: [
-      { name: 'usage', summary: 'Display this usage.'},
-      { name: 'chrome-app', summary: 'Compiles and started the Chrome app.' },
-      { name: 'nw-app', summary: 'Compiles and started the binary version.' },
-      { name: 'web-app', summary: 'Compiles and started the web app version.' },
-    ]
+    content: [{
+        name: 'usage',
+        summary: 'Display this usage.',
+    }, {
+        name: 'chrome-app',
+        summary: 'Compiles and started the Chrome app.',
+    }, {
+        name: 'nw-app',
+        summary: 'Compiles and started the binary version.',
+    }, {
+        name: 'web-app',
+        summary: 'Compiles and started the web app version.',
+    }],
   }, {
     header: 'Developer commands',
-    content: [
-      { name: 'sync', summary: 'Updates source code and dependencies.' },
-      { name: 'clean', summary: 'Cleans all cached / pre-builded files.' },
-      { name: 'lint', summary: 'Performs lint check.' },
-      { name: 'test', summary: 'Performs automated tests.' }
-    ]
+    content: [{
+        name: 'sync',
+        summary: 'Updates source code and dependencies.',
+    }, {
+        name: 'clean',
+        summary: 'Cleans all cached / pre-builded files.',
+    }, {
+        name: 'lint',
+        summary: 'Performs lint check.',
+    }, {
+        name: 'test',
+        summary: 'Performs automated tests.',
+    }],
   }, {
     header: 'Deploy commands',
-    content: [
-      { name: 'publish-nw_app', summary: 'Builds all binary versions of the app.' },
-      { name: 'publish-nw_app-win', summary: 'Builds Windows (32bit/64bit) binary version of the app.' },
-      { name: 'publish-nw_app-mac', summary: 'Builds Mac (64bit) binary version of the app.' },
-      { name: 'publish-nw_app-linux', summary: 'Builds Linux (32bit/64bit) binary version of the app.' }
-    ]
+    content: [{
+        name: 'publish-nw_app',
+        summary: 'Builds all binary versions of the app.',
+    }, {
+        name: 'publish-nw_app-win',
+        summary: 'Builds Windows (32bit/64bit) binary version of the app.',
+    }, {
+        name: 'publish-nw_app-mac',
+        summary: 'Builds Mac (64bit) binary version of the app.',
+    }, {
+        name: 'publish-nw_app-linux',
+        summary: 'Builds Linux (32bit/64bit) binary version of the app.',
+    }],
   },
 ];
 
