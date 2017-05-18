@@ -44,10 +44,10 @@ npm run clean
 The following methods will help you to debug certain functions or parts without
 the need to recompile the hole source code.
 
-### Using genfiles/chrome_app/js/debug.js
-The `genfiles/chrome_app/js/debug.js` file allows you to overwrite definitions or to change function without the need of recompile everything.
+### Using dist/chrome_os/js/debug.js
+The `dist/chrome_os/js/debug.js` file allows you to overwrite definitions or to change function without the need of recompile everything.
 
-Just overwrite your function in the `genfiles/chrome_app/js/debug.js` file and reload the application to see your change in action.
+Just overwrite your function in the `dist/chrome_os/js/debug.js` file and reload the application to see your change in action.
 
 In some cases it could be that you need to insert the hole object definition
 here and not only parts of it.
@@ -67,20 +67,20 @@ cwc.protocol.bluetooth.Device.prototype.getAddress=function(){
 };
 ```
 
-**NOTE: Please keep in mind that your changes in the `genfiles/chrome_app/js/debug.js` file will be overwritten if you compile or recompile the code.**
+**NOTE: Please keep in mind that your changes in the `dist/chrome_os/js/debug.js` file will be overwritten if you compile or recompile the code.**
 
-### Using genfiles/chrome_app/js/cwc_ui.js
-Instead of overwriting definitions in the `genfiles/chrome_app/js/debug.js` file you could directly replace them in the `genfiles/chrome_app/js/cwc_ui.js` file.
+### Using dist/chrome_os/js/cwc_ui.js
+Instead of overwriting definitions in the `dist/chrome_os/js/debug.js` file you could directly replace them in the `dist/chrome_os/js/cwc_ui.js` file.
 
 Please keep in mind that this file contains optimized code, so its not really
 readable but this will also avoid to re-compile the code to test something.
 
-Original genfiles/chrome_app/js/cwc_ui.js:
+Original dist/chrome_os/js/cwc_ui.js:
 ```javascript
 cwc.mode.tts.Mod = ...
 ```
 
-Modified genfiles/chrome_app/js/cwc_ui.js:
+Modified dist/chrome_os/js/cwc_ui.js:
 ```javascript
 /**
  * @constructor
@@ -105,7 +105,7 @@ cwc.mode.tts.Mod.prototype.decorate = function() {
 };
 ```
 
-**NOTE: Please keep in mind that your changes in the `genfiles/chrome_app/js/cwc_ui.js` file will be overwritten if you compile or recompile the code.**
+**NOTE: Please keep in mind that your changes in the `dist/chrome_os/js/cwc_ui.js` file will be overwritten if you compile or recompile the code.**
 
 ### Chrome Developer Tools
 Even this is an Chrome application, you could still use the Chrome Developer

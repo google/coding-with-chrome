@@ -20,9 +20,11 @@ Coding with Chrome.
   * **icons** - Chrome app icons
   * **images** - Static image files
   * **js** - Start javascript files to load the ui
+* **dist** - Distributions versions
 * **doc** - Technical documentation
-* **genfiles** - Output folder for the compiled Chrome application
-  * **chrome_app** - Chrome App version
+* **genfiles** - Output folder for the pre-compiled files
+  * **core** - Pre-compiled core files version
+  * **nw_app** - Pre-compiled files for the binary version
   * **third_party** - Pre-compiled third party library and frameworks
   * **web_app** - Webbrowser version 
 * **src** - Source folder for actual code

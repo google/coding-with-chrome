@@ -46,10 +46,10 @@ closureBuilder.build({
     'build/externs/shepherd.js',
   ],
   compress: true,
-  out: 'genfiles/chrome_app/js/cwc_ui.js',
+  out: 'dist/chrome_os/js/cwc_ui.js',
   options: {
     closure: {
-      define: 'ENABLE_LOGGING=false',
+      define: 'ENABLE_LOGGING=true',
     },
   },
 });
@@ -67,7 +67,7 @@ closureBuilder.build({
     'genfiles/core/js/',
     'genfiles/core/resources/',
   ],
-  out: 'genfiles/chrome_app/',
+  out: 'dist/chrome_os/',
 });
 
 
@@ -80,7 +80,7 @@ closureBuilder.build({
     'app/chrome_app/html/',
     'app/chrome_app/manifest.json',
   ],
-  out: 'genfiles/chrome_app/',
+  out: 'dist/chrome_os/',
 });
 
 
@@ -93,7 +93,7 @@ closureBuilder.build({
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
-  out: 'genfiles/chrome_app/',
+  out: 'dist/chrome_os/',
 });
 
 
@@ -106,7 +106,7 @@ closureBuilder.build({
     'genfiles/core/frameworks/internal',
     'genfiles/third_party/frameworks/external',
   ],
-  out: 'genfiles/chrome_app/frameworks',
+  out: 'dist/chrome_os/frameworks',
 });
 
 
@@ -119,7 +119,7 @@ closureBuilder.build({
     'LICENSE.md',
     'NOTICE.md',
   ],
-  out: 'genfiles/chrome_app/',
+  out: 'dist/chrome_os/',
 });
 
 
@@ -131,7 +131,7 @@ closureBuilder.build({
   srcs: [
     'app/chrome_app/js/background.js',
   ],
-  out: 'genfiles/chrome_app/js/background.js',
+  out: 'dist/chrome_os/js/background.js',
 });
 
 
@@ -143,7 +143,7 @@ closureBuilder.build({
   resources: [
     'app/chrome_app/js/debug.js',
   ],
-  out: 'genfiles/chrome_app/js/',
+  out: 'dist/chrome_os/js/',
 });
 
 
@@ -158,7 +158,7 @@ closureBuilder.build({
   externs: [
     'build/externs/cwc.js',
   ],
-  out: 'genfiles/chrome_app/js/editor.js',
+  out: 'dist/chrome_os/js/editor.js',
 });
 
 
@@ -170,6 +170,6 @@ closureBuilder.build({
   srcs: [
     'app/chrome_app/js/loader.js',
   ],
-  out: 'genfiles/chrome_app/js/loader.js',
+  out: 'dist/chrome_os/js/loader.js',
 });
 

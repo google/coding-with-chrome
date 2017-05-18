@@ -23,6 +23,7 @@ goog.require('cwc.file.ContentType');
 goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorHint');
+goog.require('cwc.ui.EditorInfobar');
 goog.require('cwc.ui.EditorToolbar');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
@@ -88,9 +89,6 @@ cwc.ui.Editor = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {Element} */
   this.nodeInfobar = null;
 
   /** @type {Element} */
@@ -113,6 +111,9 @@ cwc.ui.Editor = function(helper) {
 
   /** @type {Element} */
   this.nodeSelectView = null;
+
+  /** @type {cwc.ui.Infobar} */
+  this.infobar = null;
 
   /** @type {cwc.ui.EditorToolbar} */
   this.toolbar = null;
@@ -178,11 +179,15 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   }
 
   // Decorate code editor.
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  this.decorateEditor(this.nodeEditor);
+  this.decorateEditor(goog.dom.getElement(this.prefix + 'code'));
 
   // Decorate editor info-bar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
+  if (this.nodeInfobar) {
+    this.infobar = new cwc.ui.EditorInfobar(this.helper);
+    this.infobar.decorate(this.nodeInfobar);
+  }
+
   this.nodeInfobarCurrentMode = goog.dom.getElement(this.prefix +
     'info-current-mode-text');
   this.nodeInfobarLineCol = goog.dom.getElement(this.prefix + 'info-line-col');

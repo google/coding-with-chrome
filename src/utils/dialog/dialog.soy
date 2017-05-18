@@ -41,11 +41,11 @@
   {@param? opt_title_untranslated: string}
 
   {call .dialogTitle_ data="all" /}
-  <div id="{$prefix}content" class="mdl-dialog__content">
+  <div id="{$prefix}content" class="_content">
     {$content}
   </div>
-  <div id="{$prefix}buttons" class="mdl-dialog__actions">
-    <button id="{$prefix}close" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
+  <div id="{$prefix}buttons" class="_actions">
+    <button id="{$prefix}close" type="button" class="_button _button--raised close">
       {msg desc=""}Close{/msg}
     </button>
   </div>
@@ -63,11 +63,11 @@
   {@param? opt_title_untranslated: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="mdl-dialog__content">
+  <div class="_content">
     {$content}
   </div>
-  <div class="mdl-dialog__actions">
-    <button id="{$prefix}ok" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  <div class="_actions">
+    <button id="{$prefix}ok" type="button" class="_button _button--raised _button--colored">
       {msg desc=""}OK{/msg}
     </button>
   </div>
@@ -85,14 +85,14 @@
   {@param? opt_title_untranslated: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="mdl-dialog__content">
+  <div class="_content">
     {$content}
   </div>
-  <div class="mdl-dialog__actions">
-    <button id="{$prefix}yes" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  <div class="_actions">
+    <button id="{$prefix}yes" type="button" class="_button _button--raised">
       {msg desc=""}Yes{/msg}
     </button>
-    <button id="{$prefix}no" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
+    <button id="{$prefix}no" type="button" class="_button _button--raised close">
       {msg desc=""}No{/msg}
     </button>
   </div>
@@ -111,18 +111,18 @@
   {@param? opt_values: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="mdl-dialog__content {$prefix}prompt">
+  <div class="_content {$prefix}prompt">
     {if $content}<span class="{$prefix}prompt-content">{$content}</span>{/if}
-    <div class="mdl-textfield mdl-js-textfield">
-      <input class="mdl-textfield__input" type="text" id="{$prefix}input" value="{if $opt_values}{$opt_values}{/if}">
-      <label class="mdl-textfield__label" for="{$prefix}input"></label>
+    <div class="_textfield">
+      <input class="_textfield__input" type="text" id="{$prefix}input" value="{if $opt_values}{$opt_values}{/if}">
+      <label class="_textfield__label" for="{$prefix}input"></label>
     </div>
   </div>
-  <div class="mdl-dialog__actions">
-    <button id="{$prefix}ok" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+  <div class="_actions">
+    <button id="{$prefix}ok" type="button" class="_button _button--raised _button--colored">
       {msg desc=""}Ok{/msg}
     </button>
-    <button id="{$prefix}cancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect close">
+    <button id="{$prefix}cancel" type="button" class="_button _button--raised close">
       {msg desc=""}Cancel{/msg}
     </button>
   </div>
@@ -137,43 +137,9 @@
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
 
-  <h3 class="mdl-dialog__title">
+  <h3 class="_title">
     {if $opt_title_icon}<i class="material-icons">{$opt_title_icon}</i>{/if}
     {msg desc=""}{$title}{/msg}
     {$opt_title_untranslated}
   </h3>
-{/template}
-
-
-/**
- * CSS style definitions.
- */
-{template .style}
-  {@param prefix: string}
-
-  {call .mdlStyle_}
-    {param prefix: $prefix /}
-  {/call}
-
-  body {lb}
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  {rb}
-
-  #{$prefix}chrome {lb}
-    margin: auto;
-    min-width: 300px;
-    position: fixed;
-    top: 50%;
-    transform: translate(0, -50%);
-    width: -webkit-fit-content;
-  {rb}
-
-  .{$prefix}prompt-content {lb}
-    white-space: pre-line;
-  {rb}
-
-  .{$prefix}prompt > .mdl-textfield{lb}
-    margin-left: 5px !important;
-  {rb}
-
 {/template}

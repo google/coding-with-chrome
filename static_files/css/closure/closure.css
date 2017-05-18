@@ -21,13 +21,10 @@
  */
 
 @import 'common.css';
-@import 'dialog.css';
 @import 'menu.css';
-@import 'menubar.css';
 @import 'menubutton.css';
 @import 'menuitem.css';
 @import 'splitpane.css';
-@import 'tablesorter.css';
 
 .modal-dialog, .modal-dialog-bg, .goog-menu {
   z-index: 100;

@@ -18,12 +18,79 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-#{$prefix}dialog-chrome .mdl-button {
+
+#{$prefix}dialog-chrome {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0,0,0,0.14),
+    0 11px 15px -7px rgba(0,0,0,0.12),
+    0 24px 38px 3px rgba(0,0,0,0.2);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  min-width: 40%;
+  margin: auto;
+  padding: 0.5em;
+  position: fixed;
+  top: 50%;
+  transform: translate(0,-50%);
+  width: -webkit-fit-content;
+}
+
+
+#{$prefix}dialog-chrome ._title {
+  padding: 24px 24px 0;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+#{$prefix}dialog-chrome ._title .material-icons {
+  vertical-align: middle;
+  padding-right: 5px;
+  margin-bottom: 2px;
+}
+
+#{$prefix}dialog-chrome ._actions {
+  padding: 8px 8px 8px 24px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+#{$prefix}dialog-chrome ._actions > * {
+  margin-right: 8px;
+  height: 36px;
+}
+
+#{$prefix}dialog-chrome ._actions > :first-child {
+  margin-right: 0;
+}
+
+#{$prefix}dialog-chrome ._actions--full-width {
+  padding: 0 0 8px;
+}
+
+#{$prefix}dialog-chrome ._actions--full-width > * {
+  height: 48px;
+  -webkit-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  padding-right: 16px;
+  margin-right: 0;
+  text-align: right;
+}
+
+#{$prefix}dialog-chrome ._button {
+  background: 0 0;
   border: none;
   border-radius: 2px;
   position: relative;
   height: 36px;
-  margin: 0;
   min-width: 64px;
   padding: 0 16px;
   display: inline-block;
@@ -44,87 +111,45 @@
   vertical-align: middle;
 }
 
-#{$prefix}dialog-chrome .mdl-button::-moz-focus-inner {
+#{$prefix}dialog-chrome ._button::-moz-focus-inner {
   border: 0;
 }
 
-#{$prefix}dialog-chrome .mdl-button:hover {
-  background-color: rgba(158,158,158, 0.20);
+#{$prefix}dialog-chrome ._button:hover {
+  background-color: rgba(158,158,158, 0.2);
 }
 
-#{$prefix}dialog-chrome .mdl-button:focus:not(:active) {
+#{$prefix}dialog-chrome ._button:focus:not(:active) {
   background-color: rgba(0,0,0, 0.12);
 }
 
-#{$prefix}dialog-chrome .mdl-button:active {
+#{$prefix}dialog-chrome ._button:active {
   background-color: rgba(158,158,158, 0.40);
 }
 
-#{$prefix}dialog-chrome {
-  border: none;
-  box-shadow: 0 9px 46px 8px rgba(0,0,0,0.14),
-    0 11px 15px -7px rgba(0,0,0,0.12),
-    0 24px 38px 3px rgba(0,0,0,0.2);
-  min-width: 40%;
+#{$prefix}dialog-chrome ._button--colored,
+#{$prefix}dialog-chrome  ._button--raised._button--colored {
+  background: #3f51b5;
+  color: #fff;
 }
 
-#{$prefix}dialog-chrome .mdl-dialog__title {
-  padding: 24px 24px 0;
-  margin: 0;
-  font-size: 2rem;
+#{$prefix}dialog-chrome ._button--raised {
+    background: rgba(158,158,158,.1);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),
+                0 3px 1px -2px rgba(0,0,0,.2),
+                0 1px 5px 0 rgba(0,0,0,.12);
 }
 
-#{$prefix}dialog-chrome .mdl-dialog__title .material-icons {
-  vertical-align: middle;
-  padding-right: 5px;
-  margin-bottom: 2px;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__actions {
-  padding: 8px 8px 8px 24px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row-reverse;
-  -ms-flex-direction: row-reverse;
-  flex-direction: row-reverse;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__actions > * {
-  margin-right: 8px;
-  height: 36px;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__actions > :first-child {
-  margin-right: 0;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__actions--full-width {
-  padding: 0 0 8px;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__actions--full-width > * {
-  height: 48px;
-  -webkit-flex: 0 0 100%;
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
-  padding-right: 16px;
-  margin-right: 0;
-  text-align: right;
-}
-
-#{$prefix}dialog-chrome .mdl-dialog__content {
+#{$prefix}dialog-chrome ._content {
   padding: 20px 24px 24px;
   color: rgba(0,0,0,0.54);
+  white-space: pre-line;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield {
+#{$prefix}dialog-chrome ._textfield {
   position: relative;
   font-size: 16px;
-  display: inline-block;
+  display: block;
   box-sizing: border-box;
   width: 300px;
   max-width: 100%;
@@ -132,26 +157,26 @@
   padding: 20px 0;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield .mdl-button {
+#{$prefix}dialog-chrome ._textfield ._button {
   position: absolute;
   bottom: 20px;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield--align-right {
+#{$prefix}dialog-chrome ._textfield--align-right {
   text-align: right;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield--full-width {
+#{$prefix}dialog-chrome ._textfield--full-width {
   width: 100%;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield--expandable {
+#{$prefix}dialog-chrome ._textfield--expandable {
   min-width: 32px;
   width: auto;
   min-height: 32px;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield__input {
+#{$prefix}dialog-chrome ._textfield__input {
   border: none;
   border-bottom: 1px solid rgba(0,0,0, 0.12);
   display: block;
@@ -164,12 +189,12 @@
   color: inherit;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield__input[type="number"] {
+#{$prefix}dialog-chrome ._textfield__input[type="number"] {
   -moz-appearance: textfield;
 }
 
-#{$prefix}dialog-chrome .mdl-textfield__input[type="number"]::-webkit-inner-spin-button,
-#{$prefix}dialog-chrome .mdl-textfield__input[type="number"]::-webkit-outer-spin-button {
+#{$prefix}dialog-chrome ._textfield__input[type="number"]::-webkit-inner-spin-button,
+#{$prefix}dialog-chrome ._textfield__input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

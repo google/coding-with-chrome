@@ -71,7 +71,7 @@ cwc.utils.Dialog = function() {
 cwc.utils.Dialog.prototype.show = function() {
   let dialog = this.getDialog_();
   if (dialog) {
-    if (!dialog.hasAttribute('open')) {
+    if (!this.isOpen(dialog)) {
       if (dialog.show) {
         dialog.show();
       } else {
@@ -89,7 +89,7 @@ cwc.utils.Dialog.prototype.show = function() {
 cwc.utils.Dialog.prototype.showModal = function() {
   let dialog = this.getDialog_();
   if (dialog) {
-    if (!dialog.hasAttribute('open')) {
+    if (!this.isOpen(dialog)) {
       if (dialog.showModal) {
         dialog.showModal();
       } else {
@@ -109,7 +109,7 @@ cwc.utils.Dialog.prototype.close = function() {
   if (!dialog) {
     return;
   }
-  if (dialog.hasAttribute('open')) {
+  if (this.isOpen(dialog)) {
     while (dialog.firstChild) {
       dialog.removeChild(this.dialog.firstChild);
     }
@@ -222,7 +222,7 @@ cwc.utils.Dialog.prototype.addButton = function(id, text, optCallback) {
     'button', {
       'id': this.prefix + id,
       'type': 'button',
-      'class': 'mdl-button',
+      'class': '_button',
     }, text
   );
   if (optCallback) {
@@ -347,6 +347,19 @@ cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
  */
 cwc.utils.Dialog.prototype.setDefaultCloseHandler = function(func) {
   this.defaultCloseHandler_ = func;
+};
+
+
+/**
+ * @param {Element=} dialog
+ * @return {boolean}
+ */
+cwc.utils.Dialog.prototype.isOpen = function(dialog) {
+  let dialogElement = dialog || this.getDialog_();
+  if (!dialogElement) {
+    return false;
+  }
+  return dialogElement.hasAttribute('open');
 };
 
 
