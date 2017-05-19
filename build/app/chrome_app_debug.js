@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome (Chrome app).
+ * @fileoverview BUILD configuration for Coding with Chrome (Chrome app DEBUG).
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -47,9 +47,13 @@ closureBuilder.build({
   ],
   compress: true,
   out: 'dist/chrome_os/js/cwc_ui.js',
+  out_source_map: 'dist/chrome_os/js/cwc_ui.js.map',
+  append: '//# sourceMappingURL=cwc_ui.js.map',
   options: {
     closure: {
-      define: 'ENABLE_LOGGING=false',
+      debug: true,
+      define: 'ENABLE_LOGGING',
+      formatting: 'PRETTY_PRINT',
     },
   },
 });

@@ -96,7 +96,7 @@ cwc.mode.makeblock.mbot.blockly.Editor.prototype.decorate = function() {
   this.editor.decorate(this.nodeEditor);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
+  this.editor.showMode(false);
 
   // Switch buttons.
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),

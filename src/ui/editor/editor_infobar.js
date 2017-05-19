@@ -19,6 +19,9 @@
  */
 goog.provide('cwc.ui.EditorInfobar');
 
+goog.require('cwc.soy.ui.EditorInfobar');
+goog.require('cwc.ui.Helper');
+
 
 /**
  * @constructor
@@ -30,20 +33,104 @@ cwc.ui.EditorInfobar = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('editor-infobar');
+
   /** @type {Element} */
   this.node = null;
 
-  /** @type {string} */
-  this.prefix = this.helper.getPrefix('editor-infobar');
+  /** @type {Element} */
+  this.nodeLineText = null;
+
+  /** @type {Element} */
+  this.nodeMode = null;
+
+  /** @type {Element} */
+  this.nodeModes = null;
+
+  /** @type {Element} */
+  this.nodeModeSelect = null;
+
+  /** @type {Element} */
+  this.nodeModeText = null;
 };
 
 
 /**
  * @param {Element} node
- * @param {Element} node_editor
- * @param {Element} node_select_view
- * @param {string=} opt_prefix
  */
 cwc.ui.EditorInfobar.prototype.decorate = function(node) {
   this.node = node;
+
+  goog.soy.renderElement(
+      this.node,
+      cwc.soy.ui.EditorInfobar.template, {
+        prefix: this.prefix,
+        modes: CodeMirror.mimeModes || {},
+      }
+  );
+
+  this.nodeLineText = goog.dom.getElement(this.prefix +'line-text');
+  this.nodeMode = goog.dom.getElement(this.prefix + 'mode');
+  this.nodeModeSelect = goog.dom.getElement(this.prefix + 'mode-select');
+  this.nodeModeText = goog.dom.getElement(this.prefix +'mode-text');
+  this.nodeModes = goog.dom.getElement(this.prefix + 'modes');
+
+  // Decorate editor mode select.
+  goog.events.listen(this.nodeModes, goog.events.EventType.CLICK,
+    this.handleModeChange_, false, this);
+};
+
+
+/**
+ * Enables/Disables the editor type like "text/javascript" inside the info bar.
+ * @param {boolean} enable
+ */
+cwc.ui.EditorInfobar.prototype.enableModeSelect = function(enable) {
+  if (this.nodeInfobarModeSelect) {
+    cwc.ui.Helper.enableElement(this.nodeInfobarModeSelect, enable);
+  }
+};
+
+
+/**
+ * Shows/Hide the editor type like "text/javascript" inside the info bar.
+ * @param {boolean} visible
+ */
+cwc.ui.EditorInfobar.prototype.showMode = function(visible) {
+  if (this.nodeMode) {
+    goog.style.setElementShown(this.nodeMode, visible);
+  }
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.ui.EditorInfobar.prototype.setMode = function(text) {
+  if (this.nodeModeText) {
+    this.nodeModeText.textContent = text;
+  }
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.ui.EditorInfobar.prototype.setLineInfo = function(text) {
+  if (this.nodeLineText) {
+    this.nodeLineText.textContent = text;
+  }
+};
+
+
+/**
+ * @param {Object} e
+ * @private
+ */
+cwc.ui.EditorInfobar.prototype.handleModeChange_ = function(e) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.setEditorMode(e.target.firstChild.data);
+  }
 };

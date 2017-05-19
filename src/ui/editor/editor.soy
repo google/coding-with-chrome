@@ -27,13 +27,14 @@
 {template .template}
   {@param experimental: bool}
   {@param prefix: string}
-  {@param modes: ?}
 
-  {call .toolbar_ data="all" /}
+  <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
+    {call .toolbar_ data="all" /}
+  </header>
   <div id="{$prefix}code">
     <div id="{$prefix}view"></div>
   </div>
-  {call .infobar_ data="all" /}
+  <footer id="{$prefix}infobar"></footer>
 {/template}
 
 
@@ -45,82 +46,81 @@
   {@param prefix: string}
 
   {let $toolbarPrefix: $prefix + 'toolbar-' /}
-  <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
-    <div class="mdl-layout__header-row">
-      <nav class="mdl-navigation">
+  
+  <div class="mdl-layout__header-row">
+    <nav class="mdl-navigation">
 
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'save' /}
+        {param icon: 'save' /}
+        {param opt_title: 'Save the project' /}
+      {/call}
+
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'undo' /}
+        {param icon: 'undo' /}
+        {param opt_title: 'Undo last change' /}
+      {/call}
+
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'redo' /}
+        {param icon: 'redo' /}
+        {param opt_title: 'Redo last change' /}
+      {/call}
+
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'media' /}
+        {param icon: 'perm_media' /}
+        {param opt_title: 'Insert Image...' /}
+      {/call}
+
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'debug' /}
+        {param icon: 'bug_report' /}
+        {param opt_title: 'Check Syntax...' /}
+      {/call}
+
+      {if $experimental}
         {call .navigationIcon_}
           {param prefix: $toolbarPrefix /}
-          {param id: 'save' /}
-          {param icon: 'save' /}
-          {param opt_title: 'Save the project' /}
+          {param id: 'publish' /}
+          {param icon: 'cloud_upload' /}
+          {param opt_title: 'Publish to Google Cloud...' /}
         {/call}
+      {/if}
 
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'undo' /}
-          {param icon: 'undo' /}
-          {param opt_title: 'Undo last change' /}
-        {/call}
+    </nav>
+    <div class="mdl-layout-spacer"></div>
+    <nav class="mdl-navigation">
 
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'redo' /}
-          {param icon: 'redo' /}
-          {param opt_title: 'Redo last change' /}
-        {/call}
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'expand' /}
+        {param icon: 'fullscreen' /}
+        {param opt_title: 'Expand Text editor' /}
+      {/call}
 
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'media' /}
-          {param icon: 'perm_media' /}
-          {param opt_title: 'Insert Image...' /}
-        {/call}
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'expand-exit' /}
+        {param icon: 'fullscreen_exit' /}
+        {param opt_title: 'Collapse Text editor.' /}
+      {/call}
 
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'debug' /}
-          {param icon: 'bug_report' /}
-          {param opt_title: 'Check Syntax...' /}
-        {/call}
+      {call .navigationIcon_}
+        {param prefix: $toolbarPrefix /}
+        {param id: 'menu-more' /}
+        {param icon: 'more_vert' /}
+        {param opt_title: 'More options...' /}
+      {/call}
 
-        {if $experimental}
-          {call .navigationIcon_}
-            {param prefix: $toolbarPrefix /}
-            {param id: 'publish' /}
-            {param icon: 'cloud_upload' /}
-            {param opt_title: 'Publish to Google Cloud...' /}
-          {/call}
-        {/if}
-
-      </nav>
-      <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation">
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'expand' /}
-          {param icon: 'fullscreen' /}
-          {param opt_title: 'Expand Text editor' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'expand-exit' /}
-          {param icon: 'fullscreen_exit' /}
-          {param opt_title: 'Collapse Text editor.' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'menu-more' /}
-          {param icon: 'more_vert' /}
-          {param opt_title: 'More options...' /}
-        {/call}
-
-      </nav>
-    </div>
-  </header>
+    </nav>
+  </div>
 
   // More menu list
   <ul id="{$toolbarPrefix}menu-more-list"
@@ -128,30 +128,6 @@
       data-mdl-for="{$toolbarPrefix}menu-more">
   </ul>
 
-{/template}
-
-
-/**
- * Infobar template.
- */
-{template .infobar_}
-  {@param prefix: string}
-  {@param modes: ?}
-
-  <div id="{$prefix}infobar">
-    <div id="{$prefix}info-line-col" class="{$prefix}info"></div>
-    <div id="{$prefix}info-mode" class="{$prefix}info">
-      <span id="{$prefix}info-current-mode-text">{msg desc=""}unknown{/msg}</span>
-      <button id="{$prefix}info-mode-select" class="mdl-button mdl-js-button mdl-button--icon" disabled>
-        <i class="material-icons">more_vert</i>
-      </button>
-      <ul id="{$prefix}info-modes" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}info-mode-select">
-        {foreach $mode in keys($modes)}
-          <li class="mdl-menu__item">{$mode}</li>
-        {/foreach}
-      </ul>
-    </div>
-  </div>
 {/template}
 
 

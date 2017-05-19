@@ -61,6 +61,7 @@
     "build": "npm run build-third_party && npm run build-core",
     "build-main": "node build/cwc/main.js",
     "build-chrome_app": "npm run clean-chrome_app && node build/app/chrome_app.js",
+    "build-chrome_app_debug": "npm run clean-chrome_app && node build/app/chrome_app_debug.js",
     "build-nw_app": "npm run clean-nw_app && node build/app/nw_app.js",
     "build-web_app": "npm run clean-web_app && node build/app/web_app.js",
     "build-core": "npm run clean-core && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-gss && npm run build-cwc-locales && npm run build-cwc-soy && npm run build-cwc-static-files",
@@ -73,6 +74,7 @@
     "publish-nw_app-linux": "nwbuild --platforms linux --buildDir dist/ genfiles/nw_app/",
 
     "chrome-app": "npm run build-core && npm run build-chrome_app && npm run launch",
+    "chrome-app-debug": "npm run build-core && npm run build-chrome_app_debug && npm run launch",
     "nw-app": "npm run build-core && npm run build-nw_app && npm run launch-nw",
     "web-app": "npm run build-core && npm run build-web_app && npm run launch-web",
 

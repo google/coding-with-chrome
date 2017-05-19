@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#{$prefix}editor-toolbar-chrome > .mdl-layout__header-row {
+#{$prefix}editor-toolbar > .mdl-layout__header-row {
   height: 34px;
 }
 
-#{$prefix}editor-toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {
+#{$prefix}editor-toolbar > .mdl-layout__header-row .mdl-navigation__link {
   padding: 0 5px;
 }
 
@@ -89,31 +89,4 @@
 
 #{$prefix}editor-infobar .goog-menu-button-inner-box {
   border-style: none;
-}
-
-#{$prefix}editor-info-line-col {
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 27px;
-}
-
-#{$prefix}editor-info-mode {
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 27px;
-}
-
-#{$prefix}editor-info-modes {
-  border-top: 1px solid #eee;
-}
-
-#{$prefix}editor-info-modes .mdl-menu__item {
-  height: 28px;
-  line-height: 28px;
-}
-
-.{$prefix}editor-info {
-  border-right: 1px solid #e5e5e5;
-  padding: 0 5px;
-  float: left;
 }

@@ -92,18 +92,6 @@ cwc.ui.Editor = function(helper) {
   this.nodeInfobar = null;
 
   /** @type {Element} */
-  this.nodeInfobarCurrentMode = null;
-
-  /** @type {Element} */
-  this.nodeInfobarLineCol = null;
-
-  /** @type {Element} */
-  this.nodeInfobarMode = null;
-
-  /** @type {Element} */
-  this.nodeInfobarModes = null;
-
-  /** @type {Element} */
   this.nodeInfobarModeSelect = null;
 
   /** @type {Element} */
@@ -164,13 +152,12 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
         experimental: this.helper.experimentalEnabled(),
-        modes: CodeMirror.mimeModes || {},
         prefix: this.prefix,
       }
   );
 
   // Decorate editor tool-bar.
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   if (this.nodeToolbar) {
     this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
     this.toolbar = new cwc.ui.EditorToolbar(this.helper);
@@ -187,20 +174,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
     this.infobar = new cwc.ui.EditorInfobar(this.helper);
     this.infobar.decorate(this.nodeInfobar);
   }
-
-  this.nodeInfobarCurrentMode = goog.dom.getElement(this.prefix +
-    'info-current-mode-text');
-  this.nodeInfobarLineCol = goog.dom.getElement(this.prefix + 'info-line-col');
-  this.nodeInfobarMode = goog.dom.getElement(this.prefix + 'info-mode');
-  this.nodeInfobarModes = goog.dom.getElement(this.prefix + 'info-modes');
-  this.nodeInfobarModeSelect = goog.dom.getElement(
-    this.prefix + 'info-mode-select');
-
-  // Decorate editor mode select.
-  goog.events.listen(this.nodeInfobarModes, goog.events.EventType.CLICK,
-    function(e) {
-      this.setEditorMode(e.target.firstChild.data);
-    }, false, this);
 
   // Add event listener to monitor changes like resize and unload.
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
@@ -279,7 +252,7 @@ cwc.ui.Editor.prototype.showEditor = function(visible) {
   this.isVisible_ = visible;
   goog.style.setElementShown(this.node, visible);
   if (visible && this.editor) {
-    this.editor.refresh();
+    this.adjustSize();
   }
 };
 
@@ -310,9 +283,9 @@ cwc.ui.Editor.prototype.showExpandButton = function(visible) {
  * Shows/Hide the editor type like "text/javascript" inside the info bar.
  * @param {boolean} visible
  */
-cwc.ui.Editor.prototype.showEditorTypeInfo = function(visible) {
-  if (this.nodeInfobarMode) {
-    goog.style.setElementShown(this.nodeInfobarMode, visible);
+cwc.ui.Editor.prototype.showMode = function(visible) {
+  if (this.infobar) {
+    this.infobar.showMode(visible);
   }
 };
 
@@ -322,8 +295,8 @@ cwc.ui.Editor.prototype.showEditorTypeInfo = function(visible) {
  * @param {boolean} enable
  */
 cwc.ui.Editor.prototype.enableModeSelect = function(enable) {
-  if (this.nodeInfobarModeSelect) {
-    cwc.ui.Helper.enableElement(this.nodeInfobarModeSelect, enable);
+  if (this.infobar) {
+    this.infobar.enableModeSelect(enable);
   }
 };
 
@@ -353,12 +326,11 @@ cwc.ui.Editor.prototype.updateMediaButton = function(has_files) {
 /**
  * @param {!string} name
  * @param {!function()} func
- * @param {string=} opt_tooltip
+ * @param {string=} tooltip
  */
-cwc.ui.Editor.prototype.addOption = function(name, func,
-    opt_tooltip) {
+cwc.ui.Editor.prototype.addOption = function(name, func, tooltip) {
   if (this.toolbar) {
-    this.toolbar.addOption(name, func, opt_tooltip);
+    this.toolbar.addOption(name, func, tooltip);
   }
 };
 
@@ -723,11 +695,11 @@ cwc.ui.Editor.createMarker = function() {
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
   this.log_.info('Update Infobar...');
-  if (this.nodeInfobarCurrentMode) {
-    this.nodeInfobarCurrentMode.textContent = this.getEditorMode();
+  if (this.infobar) {
+    this.infobar.setMode(this.getEditorMode());
   }
-  if (this.nodeInfobarLineCol) {
-    goog.dom.setTextContent(this.nodeInfobarLineCol, '1 : 0');
+  if (this.infobar) {
+    this.infobar.setLineInfo('1 : 0');
   }
 };
 
@@ -749,10 +721,10 @@ cwc.ui.Editor.prototype.updateToolbar = function() {
  * @param {CodeMirror} cm
  */
 cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
-  if (this.nodeInfobarLineCol) {
+  if (this.infobar) {
     let position = cm.getCursor();
-    goog.dom.setTextContent(this.nodeInfobarLineCol,
-        (position['line'] + 1) + ' : ' + (position['ch'] + 1));
+    this.infobar.setLineInfo(
+      (position['line'] + 1) + ' : ' + (position['ch'] + 1));
   }
 };
 

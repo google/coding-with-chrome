@@ -52,6 +52,6 @@ cwc.mode.phaser.advanced.Editor.prototype.decorate = function() {
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node);
   this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
+  this.editor.showMode(false);
   this.editor.enableMediaButton(true);
 };

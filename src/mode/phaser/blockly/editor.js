@@ -81,7 +81,7 @@ cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
   this.editor.decorate(this.nodeEditor);
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
-  this.editor.showEditorTypeInfo(false);
+  this.editor.showMode(false);
   this.editor.enableMediaButton(true);
 
   // Additional buttons.
