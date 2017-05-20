@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.basic.simple.Editor');
 
+goog.require('cwc.mode.basic.Hints');
 goog.require('cwc.ui.Editor');
 
 
@@ -52,4 +53,5 @@ cwc.mode.basic.simple.Editor.prototype.decorate = function() {
   this.editor.decorate(this.node);
   this.editor.showEditorViews(false);
   this.editor.enableMediaButton(true);
+  this.editor.setLocalHints(cwc.mode.basic.Hints);
 };

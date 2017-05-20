@@ -21,14 +21,14 @@ goog.provide('cwc.ui.Editor');
 
 goog.require('cwc.file.ContentType');
 goog.require('cwc.soy.ui.Editor');
+goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
+goog.require('cwc.ui.EditorAutocompleteList');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorInfobar');
 goog.require('cwc.ui.EditorToolbar');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
-goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.array');
@@ -61,12 +61,6 @@ cwc.ui.Editor = function(helper) {
   /** @type {cwc.ui.EditorFlags} */
   this.editorFlags = new cwc.ui.EditorFlags();
 
-  /** @type {cwc.ui.EditorType|string} */
-  this.editorType = cwc.ui.EditorType.UNKNOWN;
-
-  /** @type {cwc.ui.EditorHint|string} */
-  this.editorHints = cwc.ui.EditorHint.UNKNOWN;
-
   /** @type {Object} */
   this.editorView = {};
 
@@ -89,6 +83,9 @@ cwc.ui.Editor = function(helper) {
   this.node = null;
 
   /** @type {Element} */
+  this.nodeEditor = null;
+
+  /** @type {Element} */
   this.nodeInfobar = null;
 
   /** @type {Element} */
@@ -100,25 +97,49 @@ cwc.ui.Editor = function(helper) {
   /** @type {Element} */
   this.nodeSelectView = null;
 
-  /** @type {cwc.ui.Infobar} */
+  /** @type {cwc.ui.EditorInfobar} */
   this.infobar = null;
 
   /** @type {cwc.ui.EditorToolbar} */
   this.toolbar = null;
 
   /** @type {!Array} */
-  this.gutters = [
-    'CodeMirror-linenumbers',
-    'CodeMirror-breakpoints',
-    'CodeMirror-foldgutter',
-    'CodeMirror-lint-markers',
-  ];
-
-  /** @type {!Array} */
-  this.rulers = [{color: '#ccc', column: 80, lineStyle: 'dashed'}];
+  this.rulers = [{'color': '#ccc', 'column': 80, 'lineStyle': 'dashed'}];
 
   /** @type {!string} */
   this.theme = 'default';
+
+  /** @private {cwc.ui.EditorHint|string} */
+  this.editorHint_ = cwc.ui.EditorHint.UNKNOWN;
+
+  /** @private {!Object} */
+  this.editorHintGlobals_ = cwc.ui.EditorAutocompleteList.getGlobals();
+
+  /** @private {!Object} */
+  this.editorHintLocals_ = {};
+
+  /** @private {cwc.ui.EditorType|string} */
+  this.editorType_ = cwc.ui.EditorType.UNKNOWN;
+
+  /** @private {Object} */
+  this.options_ = {
+    'autoCloseBrackets': true,
+    'autoCloseTags': true,
+    'foldGutter': true,
+    'gutters': [
+      'CodeMirror-linenumbers',
+      'CodeMirror-foldgutter',
+      'CodeMirror-lint-markers',
+    ],
+    'highlightSelectionMatches': {'showToken': /\w/},
+    'hint': this.editorHint_,
+    'lineNumbers': true,
+    'matchTags': {'bothTags': true},
+    'rulers': this.rulers,
+    'showTrailingSpace': true,
+    'styleActiveLine': true,
+    'theme': this.theme,
+  };
 
   /** @type {Array} */
   this.listener_ = [];
@@ -166,7 +187,19 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   }
 
   // Decorate code editor.
-  this.decorateEditor(goog.dom.getElement(this.prefix + 'code'));
+  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
+  this.editor = new CodeMirror(this.nodeEditor, this.options_);
+  this.editor.setOption('extraKeys', {
+    'Ctrl-Q': function(cm) {
+      cm.foldCode(cm.getCursor());
+    },
+    'Ctrl-J': 'toMatchingTag',
+    'Cmd-Space': 'autocomplete',
+    'Ctrl-Space': 'autocomplete',
+  });
+  this.editor.on('change', this.handleChange_.bind(this));
+  this.editor.on('cursorActivity', this.updateCursorPosition.bind(this));
+  this.editor.on('keyup', this.handleKeyUp_.bind(this));
 
   // Decorate editor info-bar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
@@ -189,58 +222,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
         this.cleanUp_, false, this);
   }
   this.adjustSize();
-};
-
-
-/**
- * Decorates the Code Mirror editor with default options.
- * @param {Element} node
- */
-cwc.ui.Editor.prototype.decorateEditor = function(node) {
-  this.log_.info('Decorate code editor...');
-  if (!node) {
-    this.log_.error('Was unable to create editor at node ' + node);
-    return;
-  }
-
-  let extraKeys = {
-    'Ctrl-Q': function(cm) {
-      cm.foldCode(cm.getCursor());
-    },
-    'Ctrl-J': 'toMatchingTag',
-    'Cmd-Space': 'autocomplete',
-    'Ctrl-Space': 'autocomplete',
-  };
-
-  let foldGutterEvent = {
-    'rangeFinder': new CodeMirror.fold.combine(CodeMirror.fold.brace,
-                                               CodeMirror.fold.comment)};
-  let gutterClickEvent = function(cm, n) {
-    let info = cm.lineInfo(n);
-    cm.setGutterMarker(n,
-        'CodeMirror-breakpoints',
-        info.gutterMarkers ? null : cwc.ui.Editor.createMarker());
-  };
-  let cursorEvent = this.updateCursorPosition.bind(this);
-  let changeEvent = this.handleChangeEvent.bind(this);
-  this.editor = new CodeMirror(node);
-  this.editor.setOption('autoCloseBrackets', true);
-  this.editor.setOption('autoCloseTags', true);
-  this.editor.setOption('extraKeys', extraKeys);
-  this.editor.setOption('foldGutter', foldGutterEvent);
-  this.editor.setOption('gutters', this.gutters);
-  this.editor.setOption('highlightSelectionMatches', {showToken: /\w/});
-  this.editor.setOption('lineNumbers', true);
-  this.editor.setOption('matchTags', {bothTags: true});
-  this.editor.setOption('rulers', this.rulers);
-  this.editor.setOption('showTrailingSpace', true);
-  this.editor.setOption('styleActiveLine', true);
-  this.editor.setOption('styleActiveLine', true);
-  this.editor.setOption('hintOptions', this.editorHints);
-  this.editor.setOption('theme', this.theme);
-  this.editor.on('cursorActivity', cursorEvent);
-  this.editor.on('gutterClick', gutterClickEvent);
-  this.editor.on('change', changeEvent);
 };
 
 
@@ -349,13 +330,13 @@ cwc.ui.Editor.prototype.getEditorMode = function() {
  * @param {!(cwc.ui.EditorType|string)} mode Editor code mode.
  */
 cwc.ui.Editor.prototype.setEditorMode = function(mode) {
-  if (mode && mode !== this.editorType) {
-    this.log_.info('Set editor mode to: ' + mode);
+  if (mode && mode !== this.editorType_) {
+    this.log_.info('Set editor mode to', mode);
     this.editor.setOption('mode', mode);
     this.updateInfobar();
     this.updateToolbar();
     this.refreshEditor();
-    this.editorType = mode;
+    this.editorType_ = mode;
   }
 };
 
@@ -365,11 +346,22 @@ cwc.ui.Editor.prototype.setEditorMode = function(mode) {
  * @param {!cwc.ui.EditorHint} hints
  */
 cwc.ui.Editor.prototype.setEditorHints = function(hints) {
-  if (hints && hints !== this.editorHints) {
-    this.log_.info('Set editor hints to: ' + hints);
+  if (hints && hints !== this.editorHint_) {
+    this.log_.info('Set global editor hint to', hints);
     this.editor.setOption('hintOptions', CodeMirror['hint'][hints]);
     this.refreshEditor();
-    this.editorHints = hints;
+    this.editorHint_ = hints;
+  }
+};
+
+
+/**
+ * @param {!Object} hints
+ */
+cwc.ui.Editor.prototype.setLocalHints = function(hints) {
+  if (hints && hints !== this.editorHintLocals_) {
+    this.log_.info('Set local editor hint to', hints);
+    this.editorHintLocals_ = hints;
   }
 };
 
@@ -588,24 +580,6 @@ cwc.ui.Editor.prototype.getCurrentView = function() {
 
 
 /**
- * Handles changes on the content.
- */
-cwc.ui.Editor.prototype.handleChangeEvent = function() {
-  if (!this.modified) {
-    this.modified = true;
-    if (this.toolbar) {
-      this.toolbar.enableUndoButton(this.modified);
-    }
-  }
-  let guiInstance = this.helper.getInstance('gui');
-  if (guiInstance) {
-    guiInstance.setStatus(this.modified ? '*' : '');
-  }
-  this.eventHandler.dispatchEvent(goog.ui.Component.EventType.CHANGE);
-};
-
-
-/**
  * @param {goog.events.EventLike=} opt_event
  */
 cwc.ui.Editor.prototype.handleSyncEvent = function(opt_event) {
@@ -683,14 +657,6 @@ cwc.ui.Editor.prototype.adjustSize = function() {
 
 
 /**
- * @return {Element}
- */
-cwc.ui.Editor.createMarker = function() {
-  return goog.dom.createDom(goog.dom.TagName.SPAN, 'CodeMirror-breakpoint');
-};
-
-
-/**
  * Updates the editor Infobar.
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
@@ -699,7 +665,10 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
     this.infobar.setMode(this.getEditorMode());
   }
   if (this.infobar) {
-    this.infobar.setLineInfo('1 : 0');
+    this.infobar.setLineInfo({
+      'line': 0,
+      'ch': 0,
+    });
   }
 };
 
@@ -709,7 +678,7 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
  */
 cwc.ui.Editor.prototype.updateToolbar = function() {
   let editorMode = this.getEditorMode();
-  if (editorMode !== this.editorType && this.toolbar) {
+  if (editorMode !== this.editorType_ && this.toolbar) {
     this.log_.info('Update Toolbar for', editorMode);
     this.toolbar.updateToolbar(editorMode);
   }
@@ -722,10 +691,46 @@ cwc.ui.Editor.prototype.updateToolbar = function() {
  */
 cwc.ui.Editor.prototype.updateCursorPosition = function(cm) {
   if (this.infobar) {
-    let position = cm.getCursor();
-    this.infobar.setLineInfo(
-      (position['line'] + 1) + ' : ' + (position['ch'] + 1));
+    this.infobar.setLineInfo(cm.getCursor());
   }
+};
+
+
+/**
+ * Handles changes on the content.
+ * @private
+ */
+cwc.ui.Editor.prototype.handleChange_ = function() {
+  if (!this.modified) {
+    this.modified = true;
+    if (this.toolbar) {
+      this.toolbar.enableUndoButton(this.modified);
+    }
+  }
+  let guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.setStatus(this.modified ? '*' : '');
+  }
+  this.eventHandler.dispatchEvent(goog.ui.Component.EventType.CHANGE);
+};
+
+
+/**
+ * Handles key up events inside the editor.
+ * @param {CodeMirror} cm
+ * @param {Object} e
+ * @private
+ */
+cwc.ui.Editor.prototype.handleKeyUp_ = function(cm, e) {
+  if (!cm || cm['state']['completionActive'] ||
+      typeof cwc.ui.EditorAutocompleteBlacklistKeys[e.code] !== 'undefined') {
+    return;
+  }
+  CodeMirror.commands.autocomplete(cm, null, {
+    'completeSingle': false,
+    'globalScope': Object.assign(
+      this.editorHintGlobals_, this.editorHintLocals_),
+  });
 };
 
 

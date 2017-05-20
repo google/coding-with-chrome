@@ -87,8 +87,8 @@ cwc.ui.EditorInfobar.prototype.decorate = function(node) {
  * @param {boolean} enable
  */
 cwc.ui.EditorInfobar.prototype.enableModeSelect = function(enable) {
-  if (this.nodeInfobarModeSelect) {
-    cwc.ui.Helper.enableElement(this.nodeInfobarModeSelect, enable);
+  if (this.nodeModeSelect) {
+    cwc.ui.Helper.enableElement(this.nodeModeSelect, enable);
   }
 };
 
@@ -115,11 +115,12 @@ cwc.ui.EditorInfobar.prototype.setMode = function(text) {
 
 
 /**
- * @param {!string} text
+ * @param {!Object} position
  */
-cwc.ui.EditorInfobar.prototype.setLineInfo = function(text) {
+cwc.ui.EditorInfobar.prototype.setLineInfo = function(position) {
   if (this.nodeLineText) {
-    this.nodeLineText.textContent = text;
+    this.nodeLineText.textContent = 'Line ' + (position['line'] + 1) +
+      ', Column ' + (position['ch'] + 1);
   }
 };
 

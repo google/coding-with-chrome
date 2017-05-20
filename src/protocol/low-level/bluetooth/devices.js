@@ -67,9 +67,6 @@ cwc.protocol.bluetooth.Devices = function(eventHandler) {
 };
 
 
-/**
- * @export
- */
 cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
   if (this.prepared) {
     return;
@@ -93,9 +90,6 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
 };
 
 
-/**
- * @export
- */
 cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
   chrome.bluetooth.getDevices(this.handleGetDevices_.bind(this));
 };
@@ -103,7 +97,6 @@ cwc.protocol.bluetooth.Devices.prototype.updateDevices = function() {
 
 /**
  * Closes all existing sockets.
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
   this.log_.debug('Closing all existing sockets ...');
@@ -120,7 +113,6 @@ cwc.protocol.bluetooth.Devices.prototype.closeSockets = function() {
 /**
  * @param {!string} socket_id
  * @param {ArrayBuffer} data
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.receiveData = function(
     socket_id, data) {
@@ -133,7 +125,6 @@ cwc.protocol.bluetooth.Devices.prototype.receiveData = function(
 /**
  * @param {!string} socket_id
  * @param {!string} error
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.receiveError = function(
     socket_id, error) {
@@ -167,7 +158,6 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
 /**
  * @param {!string} address
  * @return {cwc.protocol.bluetooth.Device}
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.getDevice = function(address) {
   if (address in this.devices) {
@@ -182,7 +172,6 @@ cwc.protocol.bluetooth.Devices.prototype.getDevice = function(address) {
  * @param {!string} name
  * @param {boolean=} multisearch
  * @return {cwc.protocol.bluetooth.Device}
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
     multisearch = false) {
@@ -225,7 +214,6 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
 
 /**
  * @return {Object}
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.getDevices = function() {
   return this.devices;
@@ -236,7 +224,6 @@ cwc.protocol.bluetooth.Devices.prototype.getDevices = function() {
  * @param {!string} name
  * @param {Function} callback
  * @param {boolean=} multisearch
- * @export
  */
 cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(name,
     callback, multisearch = false) {
@@ -256,7 +243,6 @@ cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(name,
 
 /**
  * @param {Object=} opt_device
- * @private
  */
 cwc.protocol.bluetooth.Devices.prototype.handleDeviceAdded_ = function(
     opt_device) {

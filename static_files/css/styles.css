@@ -30,7 +30,7 @@
 /* External style sheets. */
 @import 'blockly/blockly.css';
 @import 'closure/closure.css';
-@import 'codemirror/codemirror4.css';
+@import 'codemirror/codemirror5.css';
 @import 'dialog-polyfill/dialog-polyfill.css';
 @import 'material-design-lite/material-design-lite.css';
 @import 'shepherd/shepherd.css';

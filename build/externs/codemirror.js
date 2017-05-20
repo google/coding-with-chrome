@@ -22,9 +22,10 @@
 
 /**
   * @param {Node} node
+  * @param {Object} options
   * @constructor
   */
-var CodeMirror = function(node) {};
+var CodeMirror = function(node, options) {};
 
 /** @type {Object} */
 CodeMirror.mimeModes = {};
@@ -87,6 +88,9 @@ CodeMirror.prototype.execCommand = function() {};
 CodeMirror.prototype.getCursor = function() {};
 
 /** @type {Function} */
+CodeMirror.prototype.getTokenAt = function() {};
+
+/** @type {Function} */
 CodeMirror.prototype.setCursor = function() {};
 
 /** @type {Function} */
@@ -116,6 +120,14 @@ CodeMirror.lineInfo = function() {};
 /** @type {Object} */
 CodeMirror.lineInfo.prototype.gutterMarkers = null;
 
+
+/** @type {Object} */
+CodeMirror.commands = {};
+
+/** @type {Function} */
+CodeMirror.commands.autocomplete = function() {};
+
+
 /** @type {Object} */
 CodeMirror.hint = {};
 
@@ -124,7 +136,6 @@ CodeMirror.hint.html = function() {};
 
 /** @type {Function} */
 CodeMirror.hint.javascript = function() {};
-
 
 /** @type {Object} */
 var coffeelint = function() {};

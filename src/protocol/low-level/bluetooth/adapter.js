@@ -57,9 +57,6 @@ cwc.protocol.bluetooth.Adapter = function(eventHandler) {
 };
 
 
-/**
- * @export
- */
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
     this.log_.info('Preparing ...');
@@ -73,9 +70,6 @@ cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
 };
 
 
-/**
- * @export
- */
 cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
   chrome.bluetooth.getAdapterState(this.handleAdapterState_.bind(this));
 };

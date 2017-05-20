@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.advanced.Editor');
 
+goog.require('cwc.mode.ev3.Hints');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
@@ -63,6 +64,7 @@ cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
   this.editor.decorate(this.nodeEditor);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
+  this.editor.setLocalHints(cwc.mode.ev3.Hints);
 };
 
 
