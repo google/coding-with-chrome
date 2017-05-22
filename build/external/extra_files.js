@@ -77,7 +77,6 @@ closureBuilder.build({
   resources: [
     codeMirrorPath + 'lib/codemirror.js',
     codeMirrorPath + 'keymap',
-    codeMirrorPath + 'theme',
   ],
   out: 'genfiles/third_party/external/codemirror/',
 });
@@ -93,6 +92,16 @@ closureBuilder.build({
     codeMirrorPath + 'addon/lint/lint.css',
   ],
   out: 'genfiles/third_party/external/codemirror/codemirror.css',
+});
+
+closureBuilder.build({
+  name: 'CodeMirror theme',
+  srcs: [
+    codeMirrorPath + 'theme/eclipse.css',
+    codeMirrorPath + 'theme/icecoder.css',
+    codeMirrorPath + 'theme/mdn-like.css',
+  ],
+  out: 'genfiles/third_party/external/codemirror/codemirror_theme.css',
 });
 
 closureBuilder.build({

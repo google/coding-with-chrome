@@ -21,6 +21,7 @@
  */
 
 @import '../../external/codemirror/codemirror.css';
+@import '../../external/codemirror/codemirror_theme.css';
 
 
 .CodeMirror-gutter-wrapper {
@@ -29,6 +30,18 @@
 
 .CodeMirror-guttermarker-subtle {
   font-size: 18px;
+}
+
+.CodeMirror-foldgutter-open {
+  opacity: 0.4;
+}
+
+.CodeMirror-foldgutter-open:hover {
+  opacity: 0.8;
+}
+
+.CodeMirror-foldgutter-folded {
+  opacity: 1;
 }
 
 .CodeMirror-focused .cm-matchhighlight {

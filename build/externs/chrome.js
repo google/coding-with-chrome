@@ -85,8 +85,8 @@ chrome.bluetooth.onDeviceRemoved = {};
 chrome.bluetooth.onDeviceRemoved.addListener = function() {};
 
 
-/** @type {Function} */
-chrome.bluetoothSocket = function() {};
+/** @const */
+chrome.bluetoothSocket = {};
 
 /** @type {Function} */
 chrome.bluetoothSocket.close = function() {};
@@ -120,6 +120,13 @@ chrome.bluetoothSocket.onReceive.addListener = function() {};
 
 /** @type {Function} */
 chrome.bluetoothSocket.onReceiveError.addListener = function() {};
+
+
+/** @const */
+chrome.contextMenus = {};
+
+/** @type {Function} */
+chrome.contextMenus.create = function() {};
 
 
 /** @const */

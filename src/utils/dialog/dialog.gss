@@ -27,9 +27,12 @@
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   min-width: 40%;
+  max-height: 98%;
   margin: auto;
   padding: 0.5em;
   position: fixed;
+  display: flex;
+  flex-direction: column;
   top: 50%;
   transform: translate(0,-50%);
   width: -webkit-fit-content;
@@ -51,14 +54,9 @@
 
 #{$prefix}dialog-chrome ._actions {
   padding: 8px 8px 8px 24px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: row-reverse;
-  -ms-flex-direction: row-reverse;
+  min-height: 34px;
   flex-direction: row-reverse;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -77,8 +75,6 @@
 
 #{$prefix}dialog-chrome ._actions--full-width > * {
   height: 48px;
-  -webkit-flex: 0 0 100%;
-  -ms-flex: 0 0 100%;
   flex: 0 0 100%;
   padding-right: 16px;
   margin-right: 0;
@@ -144,6 +140,7 @@
   padding: 20px 24px 24px;
   color: rgba(0,0,0,0.54);
   white-space: pre-line;
+  overflow: auto;
 }
 
 #{$prefix}dialog-chrome ._textfield {

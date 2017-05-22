@@ -75,14 +75,10 @@
       "fileSystem": ["write"]
     },
     "serial",
-    "system.memory",
     "identity",
     "tts",
     "usb",
     "unlimitedStorage",
-    "webview",
-    "https://ssl.gstatic.com/",
-    "https://www.googleapis.com/",
-    "https://accounts.google.com/"
+    "webview"
   ]
 }

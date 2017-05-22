@@ -59,6 +59,10 @@
   text-align: center;
 }
 
+#{$prefix}editor-infobar-mode-select {
+  min-width: 125px;
+}
+
 #{$prefix}editor-infobar-modes {
   border-top: 1px solid #eee;
 }

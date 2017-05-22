@@ -95,6 +95,7 @@ cwc.utils.Dialog.prototype.showModal = function() {
       } else {
         dialog.setAttribute('open', '');
       }
+      dialog.style.display = 'flex';
     }
   }
   this.refresh_();
@@ -118,6 +119,7 @@ cwc.utils.Dialog.prototype.close = function() {
     } else {
       dialog.removeAttribute('open');
     }
+    dialog.style.display = 'none';
   }
 };
 

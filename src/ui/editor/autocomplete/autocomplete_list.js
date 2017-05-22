@@ -29,12 +29,27 @@ cwc.ui.EditorAutocompleteList = function() {};
  */
 cwc.ui.EditorAutocompleteList.getGlobals = function() {
   let globals = {};
+  let blacklist = {
+    'window': true,
+    'CLOSURE_DEFINES': true,
+    'COMPILED': true,
+    'top': true,
+    'self': true,
+    'parent': true,
+    'opener': true,
+    'frames': true,
+    'i18soy': true,
+    'i18t': true,
+    'Locales': true,
+    '$jscomp': true,
+    '__proto__': true,
+  };
   if (!window) {
     return globals;
   }
 
   for (let property in window) {
-    if (window.hasOwnProperty(property) &&
+    if (Object.prototype.hasOwnProperty.call(window, property) &&
         !property.includes('$$jscomp$') &&
         !property.includes('$JSCompiler_') &&
         !property.includes('$cwc$') &&
@@ -47,19 +62,7 @@ cwc.ui.EditorAutocompleteList.getGlobals = function() {
         !property.includes('closure_lm') &&
         !property.includes('webkit') &&
         !property.startsWith('cwc') &&
-        property !== 'window' &&
-        property !== 'CLOSURE_DEFINES' &&
-        property !== 'COMPILED' &&
-        property !== 'top' &&
-        property !== 'self' &&
-        property !== 'parent' &&
-        property !== 'opener' &&
-        property !== 'frames' &&
-        property !== 'i18soy' &&
-        property !== 'i18t' &&
-        property !== 'Locales' &&
-        property !== '$jscomp' &&
-        property !== '__proto__') {
+        !blacklist[property]) {
        globals[property] = window[property];
     }
   }

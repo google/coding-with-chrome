@@ -53,6 +53,15 @@ cwc.ui.EditorInfobar = function(helper) {
 
   /** @type {Element} */
   this.nodeModeText = null;
+
+  /** @private {!Object} */
+  this.modeBlacklist_ = {
+    'application/x-javascript': true,
+    'application/x-json': true,
+    'text/javascript': true,
+    'text/x-coffeescript': true,
+    'text-xml': true,
+  };
 };
 
 
@@ -62,14 +71,23 @@ cwc.ui.EditorInfobar = function(helper) {
 cwc.ui.EditorInfobar.prototype.decorate = function(node) {
   this.node = node;
 
+  // Filter valid modes.
+  let modes = [];
+  for (let mode in CodeMirror.mimeModes) {
+    if (Object.prototype.hasOwnProperty.call(CodeMirror.mimeModes, mode) &&
+        !this.modeBlacklist_[mode]) {
+      modes.push(mode);
+    }
+  }
+
+  // Render editor infobar.
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.EditorInfobar.template, {
         prefix: this.prefix,
-        modes: CodeMirror.mimeModes || {},
+        modes: modes.sort(),
       }
   );
-
   this.nodeLineText = goog.dom.getElement(this.prefix +'line-text');
   this.nodeMode = goog.dom.getElement(this.prefix + 'mode');
   this.nodeModeSelect = goog.dom.getElement(this.prefix + 'mode-select');
