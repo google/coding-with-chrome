@@ -115,13 +115,12 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
 cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   let fileInstance = this.helper.getInstance('file', true);
   let editorInstance = this.helper.getInstance('editor', true);
-  let blocklyInstance = this.helper.getInstance('blockly', true);
   let editorFlags = editorInstance.getEditorFlags();
   let gDriveId = fileInstance.getGDriveId();
 
   let file = fileInstance.getFile();
   let fileType = fileInstance.getFileType();
-  let filename = fileInstance.getFileName();
+  let filename = fileInstance.getFilename();
   let fileTitle = fileInstance.getFileTitle();
   let fileHandler = fileInstance.getFileHandler();
   let fileUi = fileInstance.getUi();
@@ -137,6 +136,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
         fileConfig.extension);
   } else {
     if (fileConfig.blockly_views) {
+      let blocklyInstance = this.helper.getInstance('blockly', true);
       for (let i = 0; i < fileConfig.blockly_views.length; i++) {
         let blocklyView = fileConfig.blockly_views[i];
         let blocklyContent = blocklyInstance.getXML();
@@ -145,9 +145,9 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     }
     if (fileConfig.editor_views) {
       for (let i = 0; i < fileConfig.editor_views.length; i++) {
-        let editorView = fileConfig.editor_views[i];
-        let editorContent = editorInstance.getEditorContent(editorView);
-        file.setContent(editorView, editorContent);
+        let name = fileConfig.editor_views[i];
+        let view = editorInstance.getView(name);
+        file.setContent(name, view.getContent(), view.getType());
       }
     }
     if (fileTitle) {
@@ -159,7 +159,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     if (editorFlags) {
       file.setEditorFlags(editorFlags);
     }
-    this.fileData = file.getJson();
+    this.fileData = file.getJSON();
     this.filename = this.addFileExtension(filename || fileTitle || 'untitled');
     this.fileType = fileType;
   }

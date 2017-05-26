@@ -83,7 +83,6 @@ cwc.ui.Navigation = function(helper) {
 /**
  * Decorates the given node and adds the navigation.
  * @param {Element} node The target node to add the navigation.
- * @export
  */
 cwc.ui.Navigation.prototype.decorate = function(node) {
   this.node = node;
@@ -345,7 +344,6 @@ cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
 
 /**
  * @param {boolean} enable
- * @export
  */
 cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
   goog.style.setElementShown(this.nodeSaveFile, enable);

@@ -20,7 +20,7 @@
 goog.provide('cwc.file.detector');
 
 goog.require('cwc.file.Type');
-goog.require('cwc.fileFormat.FILE_HEADER');
+goog.require('cwc.fileFormat.File');
 
 
 /**
@@ -50,11 +50,12 @@ cwc.file.detector.detectType = function(content, opt_filename) {
   let data = content;
   let jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
-    // JSON file
+    // Coding with Chrome file
     let jsonFormat = jsonData['format'] || '';
-    if (jsonFormat == cwc.fileFormat.FILE_HEADER) {
+    if (cwc.fileFormat.File.hasFileHeader(jsonFormat)) {
       return jsonData['type'] || cwc.file.Type.UNKNOWN;
     } else {
+      // JSON file
       return cwc.file.Type.JSON;
     }
   } else if (cwc.file.detector.isValidString(data)) {
@@ -97,10 +98,7 @@ cwc.file.detector.detectType = function(content, opt_filename) {
 cwc.file.detector.isFileFormat = function(content) {
   let jsonData = cwc.file.detector.getJsonData(content);
   if (jsonData) {
-    let jsonFormat = jsonData['format'] || '';
-    if (jsonFormat == cwc.fileFormat.FILE_HEADER) {
-      return true;
-    }
+    return cwc.fileFormat.File.hasFileHeader(jsonData['format']);
   }
   return false;
 };

@@ -170,7 +170,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
   fileInstance.setFile(file);
   if (fileHandler) {
     if (fileHandler.name) {
-      fileInstance.setFileName(fileHandler.name);
+      fileInstance.setFilename(fileHandler.name);
     }
     fileInstance.setFileHandler(fileHandler);
   } else if (gDriveId) {
@@ -185,8 +185,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 
   // Settings file title.
   let fileTitle = fileInstance.getFileTitle();
-  if (!fileTitle && fileInstance.getFileName()) {
-    fileTitle = fileInstance.getFileName();
+  if (!fileTitle && fileInstance.getFilename()) {
+    fileTitle = fileInstance.getFilename();
   }
   if (fileTitle) {
     modeInstance.setTitle(fileTitle);

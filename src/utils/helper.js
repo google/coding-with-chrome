@@ -146,20 +146,14 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
  * @export
  */
 cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
-  let error = null;
-  if (typeof this.instances_[name] == 'undefined') {
-    error = 'Instance ' + name + ' is not defined!';
-    this.log_.error(error);
-  } else if (!this.instances_[name]) {
-    error = 'Instance ' + name + ' is not initialized yet.';
-    this.log_.warn(error);
+  if (required) {
+    if (typeof this.instances_[name] == 'undefined') {
+      throw new Error('Instance ' + name + ' is not defined!');
+    } else if (!this.instances_[name]) {
+      throw new Error('Instance ' + name + ' is not initialized yet.');
+    }
   }
-  if (required && error) {
-    throw new Error('Required ' + error);
-  } else if (error) {
-    return null;
-  }
-  return this.instances_[name];
+  return this.instances_[name] || null;
 };
 
 

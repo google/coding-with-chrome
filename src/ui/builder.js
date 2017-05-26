@@ -42,10 +42,8 @@ goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.sphero.Api');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
-goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
-goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Experimental');
 goog.require('cwc.ui.GCloud');
 goog.require('cwc.ui.GDrive');
@@ -57,10 +55,8 @@ goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Navigation');
-goog.require('cwc.ui.Preview');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
-goog.require('cwc.ui.Turtle');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Helper');
@@ -76,10 +72,8 @@ goog.require('goog.dom');
  * @enum {!Function}
  */
 cwc.ui.BuilderHelpers = {
-  'blockly': cwc.ui.Blockly,
   'connectScreen': cwc.ui.connectScreen.Screens,
   'documentation': cwc.ui.Documentation,
-  'editor': cwc.ui.Editor,
   'file': cwc.fileHandler.File,
   'fileCreator': cwc.fileHandler.FileCreator,
   'fileExporter': cwc.fileHandler.FileExporter,
@@ -93,12 +87,9 @@ cwc.ui.BuilderHelpers = {
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
   'navigation': cwc.ui.Navigation,
-  'preview': cwc.ui.Preview,
   'renderer': cwc.renderer.Renderer,
-  'runner': cwc.ui.Runner,
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
-  'turtle': cwc.ui.Turtle,
 };
 
 

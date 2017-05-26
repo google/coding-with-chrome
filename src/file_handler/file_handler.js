@@ -68,9 +68,11 @@ cwc.fileHandler.File.prototype.clear = function() {
  * @param {!cwc.fileFormat.File} file
  */
 cwc.fileHandler.File.prototype.setFile = function(file) {
-  this.clear();
   console.log('Set instance file to:', file);
   this.file_ = file;
+  this.fileHandler_ = null;
+  this.gDriveId_ = '';
+  this.hasUnsavedChange_ = false;
 };
 
 
@@ -92,34 +94,32 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 
 /**
  * @param {!string} name
- * @param {string=} opt_group
+ * @param {string=} group
  * @return {cwc.file.File}
  */
-cwc.fileHandler.File.prototype.getLibraryFile = function(name, opt_group) {
-  return this.file_.getFiles().getFile(name, opt_group);
+cwc.fileHandler.File.prototype.getLibraryFile = function(name, group) {
+  return this.file_.getFiles().getFile(name, group);
 };
 
 
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {string=} optType
- * @param {number=} opt_size
- * @param {string=} opt_group
+ * @param {string=} type
+ * @param {number=} size
+ * @param {string=} group
  * @return {cwc.file.File}
  */
-cwc.fileHandler.File.prototype.addLibraryFile = function(name, content,
-    optType, opt_size, opt_group) {
-  return this.file_.getFiles().addFile(name, content, optType, opt_size,
-      opt_group);
+cwc.fileHandler.File.prototype.addLibraryFile = function(name, content, type,
+    size, group) {
+  return this.file_.getFiles().addFile(name, content, type, size, group);
 };
 
 
 /**
  * @param {string!} file_content
  */
-cwc.fileHandler.File.prototype.setFileContent = function(
-    file_content) {
+cwc.fileHandler.File.prototype.setFileContent = function(file_content) {
   this.fileContent_ = file_content;
 };
 
@@ -151,16 +151,16 @@ cwc.fileHandler.File.prototype.getFileType = function() {
 /**
  * @param {string} file_name
  */
-cwc.fileHandler.File.prototype.setFileName = function(file_name) {
-  this.file_.setFileName(file_name);
+cwc.fileHandler.File.prototype.setFilename = function(file_name) {
+  this.file_.setFilename(file_name);
 };
 
 
 /**
  * @return {string}
  */
-cwc.fileHandler.File.prototype.getFileName = function() {
-  return this.file_.getFileName();
+cwc.fileHandler.File.prototype.getFilename = function() {
+  return this.file_.getFilename();
 };
 
 
@@ -215,7 +215,6 @@ cwc.fileHandler.File.prototype.setEditorFlags = function(flags) {
 
 /**
  * @param {string} file_title
- * @export
  */
 cwc.fileHandler.File.prototype.setFileTitle = function(file_title) {
   let guiInstance = this.helper.getInstance('gui');
@@ -272,7 +271,6 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
 
 /**
  * @param {string} model
- * @export
  */
 cwc.fileHandler.File.prototype.setModel = function(model) {
   this.file_.setModel(model);
@@ -288,24 +286,24 @@ cwc.fileHandler.File.prototype.getModel = function() {
 
 
 /**
- * @param {boolean} unsaved_change
+ * @param {boolean} unsavedChange
  */
-cwc.fileHandler.File.prototype.setUnsavedChange = function(unsaved_change) {
-  this.hasUnsavedChange_ = unsaved_change;
+cwc.fileHandler.File.prototype.setUnsavedChange = function(unsavedChange) {
+  this.hasUnsavedChange_ = unsavedChange;
 
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.setModified(unsaved_change);
+    editorInstance.setModified(unsavedChange);
   }
 
   let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
-    blocklyInstance.setModified(unsaved_change);
+    blocklyInstance.setModified(unsavedChange);
   }
 
   let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
-    guiInstance.setStatus(unsaved_change ? '*' : '');
+    guiInstance.setStatus(unsavedChange ? '*' : '');
   }
 };
 

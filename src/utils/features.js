@@ -342,7 +342,7 @@ cwc.utils.Features.prototype.log = function() {
     if (this.feature_.hasOwnProperty(group)) {
       for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
-          this.log_.info('[', group, ']', feature, '=',
+          this.log_.info('[' + group + ']', feature, '=',
               this.feature_[group][feature]);
         }
       }

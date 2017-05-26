@@ -20,6 +20,7 @@
 goog.provide('cwc.file.Files');
 
 goog.require('cwc.file.File');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -28,11 +29,37 @@ goog.require('cwc.file.File');
  * @final
  */
 cwc.file.Files = function() {
-  /** @private {Object} */
+  /** @type {!string} */
+  this.name = 'Files';
+
+  /** @private {!Object} */
   this.data_ = {};
 
-  /** @private {number} */
+  /** @private {!number} */
   this.size_ = 0;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} content
+ * @param {string=} type
+ * @param {number=} size
+ * @param {string=} group
+ * @return {cwc.file.File}
+ */
+cwc.file.Files.prototype.addFile = function(name, content, type, size, group) {
+  let new_file = new cwc.file.File(name, content, type, size, group);
+  let filename = new_file.getFilename();
+  if (this.getFile(filename)) {
+    this.log_.warn('Overwrite existing file', filename);
+  }
+  this.data_[filename] = new_file;
+  this.updateSize_();
+  return this.data_[filename];
 };
 
 
@@ -47,35 +74,11 @@ cwc.file.Files.prototype.existFileName = function(filename) {
 
 /**
  * @param {!string} name
- * @param {!string} content
- * @param {string=} optType
- * @param {number=} opt_size
- * @param {string=} opt_group
+ * @param {string=} group
  * @return {cwc.file.File}
- * @export
  */
-cwc.file.Files.prototype.addFile = function(name, content,
-    optType, opt_size, opt_group) {
-  let new_file = new cwc.file.File(name, content, optType,
-      opt_size, opt_group);
-  let filename = new_file.getFilename();
-  if (this.getFile(filename)) {
-    console.warn('Overwrite existing file', filename);
-  }
-  this.data_[filename] = new_file;
-  this.updateSize_();
-  return this.data_[filename];
-};
-
-
-/**
- * @param {!string} name
- * @param {string=} opt_group
- * @return {cwc.file.File}
- * @export
- */
-cwc.file.Files.prototype.getFile = function(name, opt_group) {
-  let filename = ((opt_group) ? opt_group + '/' : '') + name;
+cwc.file.Files.prototype.getFile = function(name, group) {
+  let filename = this.getFilename_(name, group);
   if (this.existFileName(filename)) {
     return this.data_[filename];
   }
@@ -87,7 +90,6 @@ cwc.file.Files.prototype.getFile = function(name, opt_group) {
  * @param {!string} name
  * @param {string=} opt_group
  * @return {string}
- * @export
  */
 cwc.file.Files.prototype.getFileContent = function(name, opt_group) {
   let file = this.getFile(name, opt_group);
@@ -115,11 +117,10 @@ cwc.file.Files.prototype.toJSON = function() {
 
 /**
  * @param {Object} data
- * @export
  */
 cwc.file.Files.prototype.setData = function(data) {
   for (let entry in data) {
-    if (data.hasOwnProperty(entry)) {
+    if (Object.prototype.hasOwnProperty.call(data, entry)) {
       let file = data[entry];
       this.addFile(
           file.name,
@@ -129,12 +130,13 @@ cwc.file.Files.prototype.setData = function(data) {
           file.group);
     }
   }
+  this.updateSize_();
+  this.log_.info('Added', this.size_, 'files');
 };
 
 
 /**
  * @return {number} Number of files.
- * @export
  */
 cwc.file.Files.prototype.getSize = function() {
   return this.size_;
@@ -142,17 +144,26 @@ cwc.file.Files.prototype.getSize = function() {
 
 
 /**
+ * @param {!string} name
+ * @param {string=} group
+ * @return {boolean} Whether we have this file.
+ */
+cwc.file.Files.prototype.hasFile = function(name, group) {
+  let filename = this.getFilename_(name, group);
+  return this.existFileName(filename);
+};
+
+
+/**
  * @return {boolean} Whether we have any files.
- * @export
  */
 cwc.file.Files.prototype.hasFiles = function() {
-  return this.size_ != 0;
+  return this.size_ !== 0;
 };
 
 
 /**
  * @return {Object}
- * @export
  */
 cwc.file.Files.prototype.getFiles = function() {
   return this.data_;
@@ -161,11 +172,21 @@ cwc.file.Files.prototype.getFiles = function() {
 
 /**
  * Clears all files.
- * @export
  */
 cwc.file.Files.prototype.clear = function() {
   this.data_ = {};
   this.size_ = 0;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {string=} group
+ * @return {!string}
+ * @private
+ */
+cwc.file.Files.prototype.getFilename_ = function(name, group) {
+  return ((group) ? group + '/' : '') + name;
 };
 
 
@@ -175,7 +196,7 @@ cwc.file.Files.prototype.clear = function() {
 cwc.file.Files.prototype.updateSize_ = function() {
   let newSize = 0;
   for (let key in this.data_) {
-    if (this.data_.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(this.data_, key)) {
       newSize++;
     }
   }

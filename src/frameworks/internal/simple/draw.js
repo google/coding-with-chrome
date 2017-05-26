@@ -358,6 +358,10 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
       image.includes('data:')) {
     imageElement = new Image();
     imageElement.src = image;
+    imageElement.onload = function() {
+      this.execute_(canvasInstructions, display);
+    };
+    return this;
   } else {
     imageElement = /** @type {HTMLCanvasElement|HTMLImageElement|
       HTMLVideoElement} */ (image);

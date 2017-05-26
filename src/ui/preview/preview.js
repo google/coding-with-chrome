@@ -23,7 +23,7 @@ goog.provide('cwc.ui.PreviewStatus');
 goog.require('cwc.soy.Preview');
 goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewToolbar');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.async.Throttle');
 goog.require('goog.dom');
@@ -127,6 +127,9 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -235,7 +238,7 @@ cwc.ui.Preview.prototype.runOnce = function(opt_event) {
  */
 cwc.ui.Preview.prototype.stop = function() {
   if (this.content) {
-    console.info('Stop Preview');
+    this.log_.info('Stop Preview');
     if (this.webviewSupport_) {
       this.content.stop();
     }
@@ -254,7 +257,7 @@ cwc.ui.Preview.prototype.stop = function() {
  */
 cwc.ui.Preview.prototype.refresh = function() {
   if (this.content) {
-    console.info('Refresh Preview');
+    this.log_.info('Refresh Preview');
     if (this.toolbar) {
       this.toolbar.setRunStatus(true);
     }
@@ -273,7 +276,7 @@ cwc.ui.Preview.prototype.refresh = function() {
  */
 cwc.ui.Preview.prototype.reload = function() {
   if (this.content) {
-    console.info('Reload Preview');
+    this.log_.info('Reload Preview');
     this.stop();
     this.run();
   }
@@ -285,7 +288,7 @@ cwc.ui.Preview.prototype.reload = function() {
  */
 cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
-    console.info('Terminate Preview');
+    this.log_.info('Terminate Preview');
     this.status = cwc.ui.PreviewStatus.TERMINATED;
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
@@ -371,7 +374,7 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   let contentUrl = rendererInstance.getContentUrl();
   if (!contentUrl) {
-    console.error('Was not able to get content url!');
+    this.log_.error('Was not able to get content url!');
   }
   return contentUrl || '';
 };
@@ -382,9 +385,10 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
   if (url && this.content) {
+    this.log_.info('Update preview ...');
     this.content['src'] = url;
   } else {
-    console.error('Was unable to set content url!');
+    this.log_.error('Was unable to set content url!');
   }
 };
 
@@ -407,7 +411,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
     if (opt_no_skip) {
       this.skipAutoUpdate_ = false;
     }
-    console.log('Activate AutoUpdate...');
+    this.log_.info('Activate AutoUpdate...');
     let editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       let editorEventHandler = editorInstance.getEventHandler();
@@ -419,7 +423,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
       }
     }
   } else if (!active && this.autoUpdateEvent) {
-    console.log('Deactivate AutoUpdate...');
+    this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
     this.autoUpdateEvent = null;
     if (this.toolbar) {
@@ -451,12 +455,12 @@ cwc.ui.Preview.prototype.doAutoUpdate = function() {
   }
 
   if (this.skipAutoUpdate_ && this.ran_) {
-    console.log('Skipping auto update ...');
+    this.log_.info('Skipping auto update ...');
     this.skipAutoUpdate_ = false;
     return;
   }
 
-  console.log('Perform auto update ...');
+  this.log_.info('Perform auto update ...');
   this.run();
 };
 
@@ -494,7 +498,7 @@ cwc.ui.Preview.prototype.run_ = function(opt_event) {
  */
 cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
   let shortcut = event.identifier;
-  console.log('Shortcut: ' + shortcut);
+  this.log_.info('Shortcut: ' + shortcut);
 
   if (shortcut == 'CTRL_ENTER') {
     this.run();

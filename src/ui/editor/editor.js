@@ -139,6 +139,10 @@ cwc.ui.Editor = function(helper) {
     'showTrailingSpace': true,
     'styleActiveLine': true,
     'theme': this.theme,
+    'foldOptions': {
+      'widget': '\u22EF',
+    },
+    'onUpdateLinting': this.handleLint_.bind(this),
   };
 
   /** @type {Array} */
@@ -367,17 +371,17 @@ cwc.ui.Editor.prototype.setLocalHints = function(hints) {
 
 
 /**
- * @param {string=} optName
- * @return {Object}
+ * @param {string=} name
+ * @return {Object|string}
  */
-cwc.ui.Editor.prototype.getEditorContent = function(optName) {
+cwc.ui.Editor.prototype.getEditorContent = function(name) {
   let editorContent = {};
 
-  if (optName) {
-    if (optName in this.editorView) {
-      return this.editorView[optName].getContent();
+  if (name) {
+    if (name in this.editorView) {
+      return this.editorView[name].getContent();
     } else {
-      this.log_.error('Editor content', optName, 'is not defined!');
+      this.log_.error('Editor content', name, 'is not defined!');
     }
   } else {
     for (let view in this.editorView) {
@@ -386,7 +390,6 @@ cwc.ui.Editor.prototype.getEditorContent = function(optName) {
       }
     }
   }
-
   return editorContent;
 };
 
@@ -542,25 +545,23 @@ cwc.ui.Editor.prototype.changeView = function(name) {
 /**
  * Adds a new editor view with the given name.
  * @param {!string} name
- * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} optType
- * @param {cwc.ui.EditorHint=} opt_hints
- * @param {cwc.ui.EditorFlags=} opt_flags
+ * @param {string=} content
+ * @param {cwc.ui.EditorType=} type
+ * @param {cwc.ui.EditorHint=} hints
+ * @param {cwc.ui.EditorFlags=} flags
  */
-cwc.ui.Editor.prototype.addView = function(name, opt_content, optType,
-    opt_hints, opt_flags) {
+cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
+    flags) {
   if (name in this.editorView) {
     this.log_.error('Editor View', name, 'already exists!');
     return;
   }
 
   this.log_.info('Create Editor View', name,
-    (optType ? 'with type' : ''), optType,
-    (opt_hints ? 'and hints' : ''),
-    (opt_content ? 'for content:' : ''), '\n...\n' + opt_content + '\n...');
-
-  this.editorView[name] = new cwc.ui.EditorView(opt_content, optType,
-    opt_hints, opt_flags);
+    (type ? 'with type' : ''), type,
+    (hints ? 'and hints' : ''), hints,
+    (content ? 'for content:' : ''), '\n...\n' + content + '\n...');
+  this.editorView[name] = new cwc.ui.EditorView(content, type, hints, flags);
 
   if (this.toolbar) {
     this.toolbar.addView(name);
@@ -568,6 +569,20 @@ cwc.ui.Editor.prototype.addView = function(name, opt_content, optType,
   }
 
   this.adjustSize();
+};
+
+
+/**
+ * @param {!string} name
+ * @return {cwc.ui.EditorView}
+ */
+cwc.ui.Editor.prototype.getView = function(name) {
+  if (!(name in this.editorView)) {
+    this.log_.error('Editor View', name, 'is unknown!');
+    return;
+  }
+
+  return this.editorView[name];
 };
 
 
@@ -731,6 +746,15 @@ cwc.ui.Editor.prototype.handleKeyUp_ = function(cm, e) {
     'globalScope': Object.assign(
       this.editorHintGlobals_, this.editorHintLocals_),
   });
+};
+
+
+/**
+ * @param {Object} e
+ * @private
+ */
+cwc.ui.Editor.prototype.handleLint_ = function(e) {
+  this.log_.info('lint', e);
 };
 
 

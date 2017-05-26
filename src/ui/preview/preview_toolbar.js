@@ -145,7 +145,6 @@ cwc.ui.PreviewToolbar.prototype.stopPreview = function() {
 /**
  * Sets run status.
  * @param {!boolean} running
- * @export
  */
 cwc.ui.PreviewToolbar.prototype.setRunStatus = function(running) {
   cwc.ui.Helper.enableElement(this.nodeStop, running);
@@ -156,7 +155,6 @@ cwc.ui.PreviewToolbar.prototype.setRunStatus = function(running) {
 /**
  * Sets load status.
  * @param {!boolean} loaded
- * @export
  */
 cwc.ui.PreviewToolbar.prototype.setLoadStatus = function(loaded) {
   cwc.ui.Helper.enableElement(this.nodeRefresh, !loaded);
@@ -168,7 +166,6 @@ cwc.ui.PreviewToolbar.prototype.setLoadStatus = function(loaded) {
 
 /**
  * @param {!boolean} enable
- * @export
  */
 cwc.ui.PreviewToolbar.prototype.enableSoftRefresh = function(enable) {
   console.log('Enable soft refresh:', enable);

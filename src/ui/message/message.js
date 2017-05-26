@@ -121,7 +121,6 @@ cwc.ui.Message.prototype.warning = function(message) {
  * Renders content and shows defined message window.
  * @param {string} message
  * @param {cwc.ui.MessageType=} optType
- * @export
  */
 cwc.ui.Message.prototype.showMessage = function(message, optType) {
   let type = optType || cwc.ui.MessageType.INFO;

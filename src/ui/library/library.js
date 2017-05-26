@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Library');
 
 goog.require('cwc.file.File');
 goog.require('cwc.soy.Library');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
@@ -78,6 +79,9 @@ cwc.ui.Library = function(helper) {
 
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -161,7 +165,7 @@ cwc.ui.Library.prototype.startTour = function() {
  */
 cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
     mediaType = '') {
-  console.log('Updating library file list ...', mediaType);
+  this.log_.info('Updating library file list ...', mediaType);
   let dialogInstance = this.helper.getInstance('dialog', true);
   dialogInstance.updateTemplate(cwc.soy.Library.template, {
     prefix: this.prefix,
@@ -184,7 +188,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
   if (fileInstance) {
     let files = this.getFiles();
     if (files && fileInstance.getFiles().getSize() > 0) {
-      console.log('Syncing library ', fileInstance.getFiles().getSize(),
+      this.log_.info('Syncing library ', fileInstance.getFiles().getSize(),
         ' files...');
       if (blocklyInstance) {
         blocklyInstance.clearSelection();
@@ -195,7 +199,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
       }
       this.numOfFiles_ = fileInstance.getFiles().getSize();
     } else if (!goog.isObject(files)) {
-      console.error('Library data are in the wrong format!');
+      this.log_.error('Library data are in the wrong format!');
     }
   }
 };
@@ -205,7 +209,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
  * Asks the user to select a file entry to add to the library.
  */
 cwc.ui.Library.prototype.selectFileToAdd = function() {
-  console.log('Select File to add...');
+  this.log_.info('Select File to add...');
   let selectEventHandler = this.chooseEntry.bind(this);
   chrome.fileSystem.chooseEntry({}, selectEventHandler);
 };
@@ -220,9 +224,9 @@ cwc.ui.Library.prototype.chooseEntry = function(file_entry, file_entries) {
   if (file_entry && file_entry.isFile && !file_entries) {
     file_entry.file(this.readFile.bind(this));
   } else if (file_entries) {
-    console.error('Too many file entries.');
+    this.log_.error('Too many file entries.');
   } else {
-    console.error('Invalid file entry!');
+    this.log_.error('Invalid file entry!');
   }
 };
 
@@ -307,7 +311,7 @@ cwc.ui.Library.prototype.addFile = function(name, content, optType) {
   if (fileInstance) {
     let newFile = fileInstance.addLibraryFile(name, content, optType);
     if (!newFile) {
-      console.error('Was not able to add File: ' + newFile);
+      this.log_.error('Was not able to add File: ' + newFile);
     } else {
       this.syncFiles();
       this.updateLibraryFileList(null, newFile.getMediaType());
@@ -380,9 +384,9 @@ cwc.ui.Library.prototype.handleSearch_ = function() {
  * @param {Object} e
  */
 cwc.ui.Library.prototype.handleFileClick_ = function(e) {
-  let filename = e.target.dataset['filename'];
+  let filename = e.target.dataset['fileName'];
   let fileAction = e.target.dataset['fileAction'];
-  console.log(fileAction, ':', filename);
+  this.log_.info('Click action', fileAction, 'for file', filename);
   if (filename && fileAction) {
     switch (fileAction) {
       case 'insertMacro':

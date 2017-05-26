@@ -94,7 +94,7 @@ cwc.fileHandler.FileCreator.prototype.create = function(file_type) {
 cwc.fileHandler.FileCreator.prototype.loadFile = function(file,
     name) {
   let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-  let fileContent = file.getJson();
+  let fileContent = file.getJSON();
   if (!fileContent) {
     console.error('No valid file content:', fileContent, 'for', file);
   }

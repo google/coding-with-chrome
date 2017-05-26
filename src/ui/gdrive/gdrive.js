@@ -131,7 +131,7 @@ cwc.ui.GDrive.prototype.decorate = function() {
       let dialogInstance = this.helper.getInstance('dialog', true);
       let fileInstance = this.helper.getInstance('file', true);
       let saveFilename = goog.dom.getElement(this.prefix + 'save_filename');
-      fileInstance.setFileName(saveFilename);
+      fileInstance.setFilename(saveFilename);
       this.saveFile(saveFilename.value || this.saveFileName,
         this.saveFileContent, undefined, this.saveFileParentId);
       dialogInstance.close();

@@ -71,6 +71,11 @@ cwc.utils.Logger = function(name = 'Logger',
 
   /** @type {!boolean} */
   this.enabled_ = ENABLE_LOGGING;
+
+  /** Disable logging styles for specific environments */
+  if ((window.mocha || window.jasmine) && this.name) {
+    this.displayName = ['[' + this.name + ']'];
+  }
 };
 
 

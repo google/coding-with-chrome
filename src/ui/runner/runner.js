@@ -435,7 +435,6 @@ cwc.ui.Runner.prototype.writeTerminal = function(data) {
  * Enable / disable monitor.
  * @param {boolean} enable
  * @param {number=} height
- * @export
  */
 cwc.ui.Runner.prototype.enableMonitor = function(enable, height = 250) {
   this.monitorEnabled = enable;
@@ -450,7 +449,6 @@ cwc.ui.Runner.prototype.enableMonitor = function(enable, height = 250) {
 /**
  * Shows / hides terminal window.
  * @param {boolean} visible
- * @export
  */
 cwc.ui.Runner.prototype.showMonitor = function(visible) {
   if (this.nodeMonitor) {
@@ -461,7 +459,6 @@ cwc.ui.Runner.prototype.showMonitor = function(visible) {
 
 /**
  * @return {cwc.ui.RunnerMonitor}
- * @export
  */
 cwc.ui.Runner.prototype.getMonitor = function() {
   return this.monitor;
@@ -470,7 +467,6 @@ cwc.ui.Runner.prototype.getMonitor = function() {
 
 /**
  * Constructs the runner and executes the content.
- * @export
  */
 cwc.ui.Runner.prototype.run = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
@@ -513,7 +509,6 @@ cwc.ui.Runner.prototype.run = function() {
 
 /**
  * Stops the runner window.
- * @export
  */
 cwc.ui.Runner.prototype.stop = function() {
   if (this.content) {
@@ -529,7 +524,6 @@ cwc.ui.Runner.prototype.stop = function() {
 
 /**
  * Refreshes the runner window.
- * @export
  */
 cwc.ui.Runner.prototype.refresh = function() {
   if (this.content) {
@@ -545,7 +539,6 @@ cwc.ui.Runner.prototype.refresh = function() {
 
 /**
  * Reloads the runner window.
- * @export
  */
 cwc.ui.Runner.prototype.reload = function() {
   if (this.content) {
@@ -557,8 +550,7 @@ cwc.ui.Runner.prototype.reload = function() {
 
 
 /**
- * Terminates the runner window.
- * @export
+ * Terminates the runner content.
  */
 cwc.ui.Runner.prototype.terminate = function() {
   if (this.content) {
@@ -572,8 +564,7 @@ cwc.ui.Runner.prototype.terminate = function() {
 
 
 /**
- * Terminates the runner window.
- * @export
+ * Removes the runner content.
  */
 cwc.ui.Runner.prototype.remove = function() {
   if (this.content) {

@@ -110,6 +110,9 @@ chrome.bluetoothSocket.getInfo = function() {};
 chrome.bluetoothSocket.getSockets = function() {};
 
 /** @type {Function} */
+chrome.bluetoothSocket.send = function() {};
+
+/** @type {Function} */
 chrome.bluetoothSocket.onReceive = function() {};
 
 /** @type {Function} */

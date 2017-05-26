@@ -121,7 +121,6 @@ cwc.ui.Menubar = function(helper) {
 /**
  * Decorates the given node and adds the menu bar.
  * @param {Element} node The target node to add the menu bar.
- * @export
  */
 cwc.ui.Menubar.prototype.decorate = function(node) {
   this.node = node;
@@ -357,7 +356,6 @@ cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
 
 /**
  * @param {boolean} enabled
- * @export
  */
 cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
   if (this.helper.checkChromeFeature('serial')) {
@@ -374,7 +372,6 @@ cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
 
 /**
  * @param {boolean} connected
- * @export
  */
 cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
   if (this.helper.checkChromeFeature('serial') && this.serial) {

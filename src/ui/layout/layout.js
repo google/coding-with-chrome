@@ -149,7 +149,6 @@ cwc.ui.Layout.prototype.getNode_ = function(name) {
 
 /**
  * Prepares the layout.
- * @export
  */
 cwc.ui.Layout.prototype.prepare = function() {
   let guiInstance = this.helper.getInstance('gui', true);
@@ -163,7 +162,6 @@ cwc.ui.Layout.prototype.prepare = function() {
 
 /**
  * Decorates the given node and adds the single column layout.
- * @export
  */
 cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
   this.renderTemplate_(cwc.soy.ui.Layout.singleColumn.template,
@@ -185,7 +183,6 @@ cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
  * Decorates the given node and adds the two column layout.
  * @param {number=} first_splitpane_size
  * @param {number=} second_splitpane_size
- * @export
  */
 cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
     first_splitpane_size = 400, second_splitpane_size = 600) {
@@ -217,7 +214,6 @@ cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
 
 /**
  * Decorates the given node and adds the simple single column layout.
- * @export
  */
 cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
   this.renderTemplate_(cwc.soy.ui.Layout.simpleSingleColumn.template,
@@ -229,7 +225,6 @@ cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
 /**
  * Decorates the given node and adds the simple two column layout.
  * @param {number=} first_splitpane_size
- * @export
  */
 cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
     first_splitpane_size = 400) {
@@ -252,7 +247,6 @@ cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
 
 /**
  * Decorates the given node and adds the left sidebar layout.
- * @export
  */
 cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
   this.renderTemplate_(cwc.soy.ui.Layout.leftSidebar.template,
@@ -284,7 +278,6 @@ cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
 /**
  * Returns the available nodes of the current layout.
  * @return {Object}
- * @export
  */
 cwc.ui.Layout.prototype.getNodes = function() {
   return this.nodes;
@@ -295,7 +288,6 @@ cwc.ui.Layout.prototype.getNodes = function() {
  * Returns the named node of the current layout.
  * @param {!string} name
  * @return {Object}
- * @export
  */
 cwc.ui.Layout.prototype.getNode = function(name) {
   if (name in this.nodes) {
@@ -307,7 +299,6 @@ cwc.ui.Layout.prototype.getNode = function(name) {
 
 /**
  * @return {Element}
- * @export
  */
 cwc.ui.Layout.prototype.getOverlay = function() {
   return this.nodes['overlay'];
@@ -316,7 +307,6 @@ cwc.ui.Layout.prototype.getOverlay = function() {
 
 /**
  * @param {boolean} visible
- * @export
  */
 cwc.ui.Layout.prototype.showOverlay = function(visible) {
   let overlay = this.getOverlay();
@@ -332,7 +322,6 @@ cwc.ui.Layout.prototype.showOverlay = function(visible) {
 /**
  * Return the available splitpanes for the current layout.
  * @return {Object}
- * @export
  */
 cwc.ui.Layout.prototype.getSplitpane = function() {
   return {
@@ -469,7 +458,6 @@ cwc.ui.Layout.prototype.adjustSize = function() {
 
 /**
  * @param {!number} size
- * @export
  */
 cwc.ui.Layout.prototype.setHandleSize = function(size) {
   this.handleSize = size;
@@ -496,7 +484,6 @@ cwc.ui.Layout.prototype.cleanFixComponentSizes = function() {
 
 /**
  * @param {!number} size Fix left component size.
- * @export
  */
 cwc.ui.Layout.prototype.setFixLeftComponentSize = function(size) {
   this.fixLeftComponentSize = size;
@@ -507,7 +494,6 @@ cwc.ui.Layout.prototype.setFixLeftComponentSize = function(size) {
 
 /**
  * @param {!number} size Fix right component size.
- * @export
  */
 cwc.ui.Layout.prototype.setFixRightComponentSize = function(size) {
   this.fixLeftComponentSize = null;
@@ -518,7 +504,6 @@ cwc.ui.Layout.prototype.setFixRightComponentSize = function(size) {
 
 /**
  * @param {!number} size Fix top component size.
- * @export
  */
 cwc.ui.Layout.prototype.setFixTopComponentSize = function(size) {
   this.fixTopComponentSize = size;
@@ -529,7 +514,6 @@ cwc.ui.Layout.prototype.setFixTopComponentSize = function(size) {
 
 /**
  * @param {!number} size Fix bottom component size.
- * @export
  */
 cwc.ui.Layout.prototype.setFixBottomComponentSize = function(size) {
   this.fixTopComponentSize = null;
@@ -542,7 +526,6 @@ cwc.ui.Layout.prototype.setFixBottomComponentSize = function(size) {
  * Adjusts the main UI element to fullscreen.
  * @param {!boolean} fullscreen
  * @param {number=} size
- * @export
  */
 cwc.ui.Layout.prototype.setFullscreen = function(fullscreen, size) {
   if (fullscreen && this.fullscreen !== fullscreen) {

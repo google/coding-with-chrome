@@ -19,18 +19,21 @@
  */
 goog.provide('cwc.file.File');
 
+goog.require('cwc.file.getMimeTypeByContent');
+goog.require('cwc.file.getMimeTypeByExtension');
+
 
 /**
  * @param {string} name
  * @param {string} content
- * @param {string=} optType
- * @param {number=} opt_size
- * @param {string=} opt_group
+ * @param {string=} type
+ * @param {number=} size
+ * @param {string=} group
  * @constructor
  * @struct
  * @final
  */
-cwc.file.File = function(name, content, optType, opt_size, opt_group) {
+cwc.file.File = function(name, content, type, size, group) {
   /** @private {string} */
   this.name_ = name;
 
@@ -38,25 +41,19 @@ cwc.file.File = function(name, content, optType, opt_size, opt_group) {
   this.content_ = content || '';
 
   /** @private {string} */
-  this.type_ = optType || 'unknown';
-
-  /** @private {number} */
-  this.size_ = opt_size || this.content_.length || 0;
+  this.type_ = type || cwc.file.File.getType(name, content);
 
   /** @private {string} */
-  this.group_ = opt_group || '';
+  this.mediaType_ = cwc.file.File.getMediaType(this.type_);
+
+  /** @private {number} */
+  this.size_ = size || this.content_.length || 0;
+
+  /** @private {string} */
+  this.group_ = group || '';
 
   /** @private {number} */
   this.version_ = 1;
-
-  if (!optType) {
-    if (this.content_.includes('data:')) {
-      let contentFileType = this.content_.split(';')[0].split(':')[1];
-      if (contentFileType) {
-        this.type_ = contentFileType;
-      }
-    }
-  }
 };
 
 
@@ -96,21 +93,7 @@ cwc.file.File.prototype.getType = function() {
  * @return {!string}
  */
 cwc.file.File.prototype.getMediaType = function() {
-  let type = this.type_.split('/')[0];
-  switch (type) {
-    case 'application':
-    case 'audio':
-    case 'example':
-    case 'image':
-    case 'message':
-    case 'model':
-    case 'multipart':
-    case 'text':
-    case 'video':
-      return type;
-    default:
-      return '';
-  }
+  return this.mediaType_;
 };
 
 
@@ -165,6 +148,55 @@ cwc.file.File.prototype.toJSON = function() {
 /**
  * @return {string}
  */
-cwc.file.File.prototype.getJson = function() {
+cwc.file.File.prototype.getJSON = function() {
   return JSON.stringify(this.toJSON(), null, 2);
+};
+
+
+/**
+ * @param {!string} name
+ * @param {string} content
+ * @return {!string}
+ */
+cwc.file.File.getType = function(name, content) {
+  // Get type over file extensions.
+  if (name.includes('.')) {
+    let mimeType = cwc.file.getMimeTypeByExtension(name);
+    if (mimeType) {
+      return mimeType;
+    }
+  }
+
+  // Get type over file content.
+  if (content) {
+    let mimeType = cwc.file.getMimeTypeByContent(content);
+    if (mimeType) {
+      return mimeType;
+    }
+  }
+
+  return '';
+};
+
+
+/**
+ * @param {!string} mimeType
+ * @return {!string}
+ */
+cwc.file.File.getMediaType = function(mimeType) {
+  let type = mimeType.split('/')[0];
+  switch (type) {
+    case 'application':
+    case 'audio':
+    case 'example':
+    case 'image':
+    case 'message':
+    case 'model':
+    case 'multipart':
+    case 'text':
+    case 'video':
+      return type;
+    default:
+      return '';
+  }
 };

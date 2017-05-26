@@ -66,6 +66,14 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     (modeConfig.description ? ':' + modeConfig.description : '')
   );
 
+  // Remove former instances.
+  this.helper.setInstance('blockly', null, true);
+  this.helper.setInstance('editor', null, true);
+  this.helper.setInstance('preview', null, true);
+  this.helper.setInstance('runner', null, true);
+  this.helper.setInstance('turtle', null, true);
+
+  // Update navigation view
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     if (modeConfig.title) {
@@ -74,28 +82,28 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     navigationInstance.enableSaveFile(true);
   }
 
+  // End existing tours
   this.helper.endTour();
 
+  this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
-  this.log_.info('Initialize mode', mode, '…');
   this.modder = new modeConfig.Mod(this.helper);
-  this.log_.info('Decorate UI for mode', mode);
   this.modder.decorate();
 };
 
 
 /**
  * @param {!string} name
- * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} optType
- * @param {cwc.ui.EditorHint=} opt_hints
- * @param {cwc.ui.EditorFlags=} opt_flags
+ * @param {string=} content
+ * @param {cwc.ui.EditorType=} type
+ * @param {cwc.ui.EditorHint=} hints
+ * @param {cwc.ui.EditorFlags=} flags
  */
-cwc.mode.Modder.prototype.addEditorView = function(name, opt_content, optType,
-    opt_hints, opt_flags) {
+cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints,
+    flags) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.addView(name, opt_content, optType, opt_hints, opt_flags);
+    editorInstance.addView(name, content, type, hints, flags);
   }
 };
 
