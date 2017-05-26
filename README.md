@@ -82,5 +82,5 @@ For translation instruction, please check [doc/I18N.md](doc/I18N.md).
 ## Credits
 Coding with Chrome is made possible by other [open source software](NOTICE.md).
 
-[1]: https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed
+[1]: https://g.co/codingwithchrome/install
 [2]: https://cla.developers.google.com/
