@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.makeblock.MBotRanger');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -67,7 +67,7 @@ cwc.renderer.external.makeblock.MBotRanger.prototype.render = function(
     renderer_helper) {
   let header = renderer_helper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.Internal.MBOT_RANGER), frameworks);
-  let content = editor_content[cwc.file.ContentType.JAVASCRIPT];
+  let content = editor_content[cwc.ui.EditorContent.JAVASCRIPT];
   let body = '\n<script>' +
       '  let code = function(mBotRanger) {\n' + content + '\n};\n'+
       '  new cwc.framework.makeblock.mBotRanger(code);\n' +

@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.ConfigData');
 goog.provide('cwc.mode.Mod');
 
+goog.require('cwc.file.MimeType');
 goog.require('cwc.mode.Type');
 goog.require('cwc.mode.arduino.Mod');
 goog.require('cwc.mode.basic.advanced.Mod');
@@ -68,17 +69,20 @@ cwc.mode.Mod = function(config_data) {
   /** @type {!Object} */
   this.Mod = config_data.mod || {};
 
-  /** @type {Array} */
+  /** @type {!Array} */
   this.authors = config_data.authors || [];
 
   /** @type {cwc.file.Type} Primary file type*/
   this.fileType = config_data.file_type || cwc.file.Type.UNKNOWN;
 
-  /** @type {Array} Additional supported file types */
-  this.fileTypes = config_data.file_types || [];
+  /** @type {!Array} Supported mime types */
+  this.mimeTypes = config_data.mime_types || [];
 
-  /** @type {!Object} */
-  this.config = config_data.config || {};
+  /** @type {!boolean} */
+  this.runPreview = config_data.run_preview || false;
+
+  /** @type {!boolean} */
+  this.autoPreview = config_data.auto_preview || false;
 
   if (!goog.isFunction(config_data.mod)) {
     console.error('Mod for', this.name, 'is not a function!');
@@ -96,10 +100,11 @@ cwc.mode.ConfigData = {};
  * Arduino mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.ARDUINO] = new cwc.mode.Mod({
-  name: 'Arduino',
-  file_type: cwc.file.Type.ARDUINO,
-  mod: cwc.mode.arduino.Mod,
   authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.ARDUINO,
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.arduino.Mod,
+  name: 'Arduino',
 });
 
 
@@ -107,12 +112,14 @@ cwc.mode.ConfigData[cwc.mode.Type.ARDUINO] = new cwc.mode.Mod({
  * Basic mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.BASIC,
+  icon: 'school',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.basic.simple.Mod,
   name: 'Basic',
   title: 'Simple',
-  icon: 'school',
-  file_type: cwc.file.Type.BASIC,
-  mod: cwc.mode.basic.simple.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -120,12 +127,14 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
  * Basic blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.BASIC_BLOCKLY,
+  icon: 'school',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.basic.blockly.Mod,
   name: 'Basic Blockly',
   title: 'Blocks',
-  icon: 'school',
-  file_type: cwc.file.Type.BASIC_BLOCKLY,
-  mod: cwc.mode.basic.blockly.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -133,10 +142,12 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
  * Basic advanced mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.BASIC_ADVANCED] = new cwc.mode.Mod({
-  name: 'Basic advanced',
-  file_type: cwc.file.Type.BASIC_ADVANCED,
-  mod: cwc.mode.basic.advanced.Mod,
   authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.BASIC_ADVANCED,
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.basic.advanced.Mod,
+  name: 'Basic advanced',
 });
 
 
@@ -144,12 +155,13 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_ADVANCED] = new cwc.mode.Mod({
  * Mindstorms EV3 advanced mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.EV3] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn, Stefan Sauer'],
+  file_type: cwc.file.Type.EV3,
+  icon: 'adb',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.ev3.advanced.Mod,
   name: 'EV3',
   title: 'EV3',
-  icon: 'adb',
-  file_type: cwc.file.Type.EV3,
-  mod: cwc.mode.ev3.advanced.Mod,
-  authors: ['Markus Bordihn, Stefan Sauer'],
 });
 
 
@@ -157,12 +169,13 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3] = new cwc.mode.Mod({
  * Mindstorms EV3 blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn, Stefan Sauer'],
+  file_type: cwc.file.Type.EV3_BLOCKLY,
+  icon: 'adb',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.ev3.blockly.Mod,
   name: 'EV3 blockly',
   title: 'EV3',
-  icon: 'adb',
-  file_type: cwc.file.Type.EV3_BLOCKLY,
-  mod: cwc.mode.ev3.blockly.Mod,
-  authors: ['Markus Bordihn, Stefan Sauer'],
 });
 
 
@@ -170,12 +183,14 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
  * Pencilcode mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.PENCIL_CODE,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.pencilCode.advanced.Mod,
   name: 'Pencil Code',
   title: 'Pencil Code',
-  icon: 'mode_edit',
-  file_type: cwc.file.Type.PENCIL_CODE,
-  mod: cwc.mode.pencilCode.advanced.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -183,12 +198,14 @@ cwc.mode.ConfigData[cwc.mode.Type.PENCIL_CODE] = new cwc.mode.Mod({
  * Phaser mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.PHASER,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.phaser.advanced.Mod,
   name: 'Phaser',
   title: 'Phaser',
-  icon: 'mode_edit',
-  file_type: cwc.file.Type.PHASER,
-  mod: cwc.mode.phaser.advanced.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -196,25 +213,14 @@ cwc.mode.ConfigData[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
  * Phaser blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.PHASER_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.PHASER_BLOCKLY,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.phaser.blockly.Mod,
   name: 'Phaser blockly',
   title: 'Phaser',
-  icon: 'mode_edit',
-  file_type: cwc.file.Type.PHASER_BLOCKLY,
-  mod: cwc.mode.phaser.blockly.Mod,
-  authors: ['Markus Bordihn'],
-});
-
-
-/**
- * Python mode.
- */
-cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
-  name: 'Python',
-  title: 'Python',
-  icon: 'mode_edit',
-  file_type: cwc.file.Type.PYTHON,
-  mod: cwc.mode.python.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -222,12 +228,13 @@ cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
  * Raspberry Pi mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.RASPBERRY_PI,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.raspberryPi.advanced.Mod,
   name: 'Raspberry Pi',
   title: 'Raspberry Pi',
-  icon: 'mode_edit',
-  file_type: cwc.file.Type.RASPBERRY_PI,
-  mod: cwc.mode.raspberryPi.advanced.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -235,12 +242,13 @@ cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
  * Sphero advanced mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.SPHERO,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.sphero.advanced.Mod,
   name: 'Sphero',
   title: 'Sphero',
-  icon: 'adjust',
-  file_type: cwc.file.Type.SPHERO,
-  mod: cwc.mode.sphero.advanced.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -248,12 +256,13 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
  * Sphero blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.SPHERO_BLOCKLY,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.sphero.blockly.Mod,
   name: 'Sphero blockly',
   title: 'Sphero',
-  icon: 'adjust',
-  file_type: cwc.file.Type.SPHERO_BLOCKLY,
-  mod: cwc.mode.sphero.blockly.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -261,12 +270,13 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
  * mBot blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Yu Wang', 'Markus Bordihn'],
+  file_type: cwc.file.Type.MBOT_BLOCKLY,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.makeblock.mbot.blockly.Mod,
   name: 'mBot blockly',
   title: 'mBot',
-  icon: 'adjust',
-  file_type: cwc.file.Type.MBOT_BLOCKLY,
-  mod: cwc.mode.makeblock.mbot.blockly.Mod,
-  authors: ['Yu Wang', 'Markus Bordihn'],
 });
 
 
@@ -274,12 +284,28 @@ cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
  * mBot Ranger blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.MBOT_RANGER_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Yu Wang', 'Markus Bordihn'],
+  file_type: cwc.file.Type.MBOT_RANGER_BLOCKLY,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.makeblock.mbotRanger.blockly.Mod,
   name: 'mBot Ranger blockly',
   title: 'mBot Ranger',
-  icon: 'adjust',
-  file_type: cwc.file.Type.MBOT_RANGER_BLOCKLY,
-  mod: cwc.mode.makeblock.mbotRanger.blockly.Mod,
-  authors: ['Yu Wang', 'Markus Bordihn'],
+});
+
+
+/**
+ * Python mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.PYTHON,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.PYTHON.type],
+  mod: cwc.mode.python.Mod,
+  name: 'Python',
+  title: 'Python',
 });
 
 
@@ -287,12 +313,14 @@ cwc.mode.ConfigData[cwc.mode.Type.MBOT_RANGER_BLOCKLY] = new cwc.mode.Mod({
  * HTML5 mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.HTML,
+  icon: 'public',
+  mime_types: [cwc.file.MimeType.HTML.type],
+  mod: cwc.mode.html5.Mod,
   name: 'HTML 5',
   title: 'HTML5',
-  icon: 'public',
-  file_type: cwc.file.Type.HTML,
-  mod: cwc.mode.html5.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -300,10 +328,11 @@ cwc.mode.ConfigData[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
  * JSON mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.JSON] = new cwc.mode.Mod({
-  name: 'JSON',
-  file_type: cwc.file.Type.JSON,
-  mod: cwc.mode.json.Mod,
   authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.JSON,
+  mime_types: [cwc.file.MimeType.JSON.type],
+  mod: cwc.mode.json.Mod,
+  name: 'JSON',
 });
 
 
@@ -311,12 +340,14 @@ cwc.mode.ConfigData[cwc.mode.Type.JSON] = new cwc.mode.Mod({
  * Coffeescript mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.COFFEESCRIPT] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.COFFEESCRIPT,
+  icon: 'local_cafe',
+  mime_types: [cwc.file.MimeType.COFFEESCRIPT.type],
+  mod: cwc.mode.coffeescript.Mod,
   name: 'Coffeescript',
   title: 'CoffeeScript',
-  icon: 'local_cafe',
-  file_type: cwc.file.Type.COFFEESCRIPT,
-  mod: cwc.mode.coffeescript.Mod,
-  authors: ['Markus Bordihn'],
 });
 
 
@@ -324,10 +355,11 @@ cwc.mode.ConfigData[cwc.mode.Type.COFFEESCRIPT] = new cwc.mode.Mod({
  * Text mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.TEXT] = new cwc.mode.Mod({
-  name: 'Text',
-  file_type: cwc.file.Type.TEXT,
-  mod: cwc.mode.text.Mod,
   authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.TEXT,
+  mime_types: [cwc.file.MimeType.TEXT.type],
+  mod: cwc.mode.text.Mod,
+  name: 'Text',
 });
 
 

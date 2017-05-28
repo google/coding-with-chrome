@@ -19,8 +19,7 @@
  */
 goog.provide('cwc.file.File');
 
-goog.require('cwc.file.getMimeTypeByContent');
-goog.require('cwc.file.getMimeTypeByExtension');
+goog.require('cwc.file.getMimeTypeByNameAndContent');
 
 
 /**
@@ -41,7 +40,7 @@ cwc.file.File = function(name, content, type, size, group) {
   this.content_ = content || '';
 
   /** @private {string} */
-  this.type_ = type || cwc.file.File.getType(name, content);
+  this.type_ = type || cwc.file.getMimeTypeByNameAndContent(name, content);
 
   /** @private {string} */
   this.mediaType_ = cwc.file.File.getMediaType(this.type_);
@@ -150,32 +149,6 @@ cwc.file.File.prototype.toJSON = function() {
  */
 cwc.file.File.prototype.getJSON = function() {
   return JSON.stringify(this.toJSON(), null, 2);
-};
-
-
-/**
- * @param {!string} name
- * @param {string} content
- * @return {!string}
- */
-cwc.file.File.getType = function(name, content) {
-  // Get type over file extensions.
-  if (name.includes('.')) {
-    let mimeType = cwc.file.getMimeTypeByExtension(name);
-    if (mimeType) {
-      return mimeType;
-    }
-  }
-
-  // Get type over file content.
-  if (content) {
-    let mimeType = cwc.file.getMimeTypeByContent(content);
-    if (mimeType) {
-      return mimeType;
-    }
-  }
-
-  return '';
 };
 
 

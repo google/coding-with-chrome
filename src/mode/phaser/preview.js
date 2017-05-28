@@ -52,8 +52,6 @@ cwc.mode.phaser.Preview.prototype.decorate = function(opt_blockly_mode) {
   this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
   this.helper.setInstance('preview', this.preview, true);
   this.preview.decorate(this.node);
-  this.preview.setAutoUpdate(true, opt_blockly_mode);
-  this.preview.enableSoftRefresh(false);
 };
 
 

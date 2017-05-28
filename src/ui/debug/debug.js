@@ -94,8 +94,6 @@ cwc.ui.Debug.prototype.addEvents = function() {
   goog.events.listen(goog.dom.getElement(this.prefix + 'close'),
     goog.events.EventType.CLICK, this.close, false, this);
 
-  this.addChangeHandler(goog.dom.getElement(this.prefix + 'file_types'),
-      this.handleFileType);
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'mode_types'),
       this.handleModeType);
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
@@ -142,19 +140,6 @@ cwc.ui.Debug.prototype.close = function(opt_event) {
 /**
  * @param {?} event
  */
-cwc.ui.Debug.prototype.handleFileType = function(event) {
-  let target = event.target;
-  let fileType = target.options[target.selectedIndex].value;
-  console.log('FileType:', fileType);
-  if (fileType) {
-    this.newFile(cwc.file.Type[fileType]);
-  }
-};
-
-
-/**
- * @param {?} event
- */
 cwc.ui.Debug.prototype.handleModeType = function(event) {
   let target = event.target;
   let editorMode = target.options[target.selectedIndex].value;
@@ -193,18 +178,6 @@ cwc.ui.Debug.prototype.addLinkHandler = function(element, func) {
  */
 cwc.ui.Debug.prototype.addChangeHandler = function(element, func) {
   goog.events.listen(element, goog.events.EventType.CHANGE, func, false, this);
-};
-
-
-/**
- * Creates a new file of the given type.
- * @param {cwc.file.Type} type
- */
-cwc.ui.Debug.prototype.newFile = function(type) {
-  let fileCreatorInstance = this.helper.getInstance('fileCreator');
-  if (fileCreatorInstance) {
-    fileCreatorInstance.create(type);
-  }
 };
 
 

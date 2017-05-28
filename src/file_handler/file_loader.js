@@ -19,12 +19,11 @@
  */
 goog.provide('cwc.fileHandler.FileLoader');
 
-goog.require('cwc.file.ContentType');
-goog.require('cwc.file.detector');
+goog.require('cwc.file.MimeType');
+goog.require('cwc.file.getMimeTypeByNameAndContent');
 goog.require('cwc.fileFormat.File');
-goog.require('cwc.fileHandler.Config');
+goog.require('cwc.mode.Config');
 goog.require('cwc.ui.EditorHint');
-goog.require('cwc.ui.EditorType');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.net.XhrIo');
@@ -117,7 +116,7 @@ cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
 cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
     data) {
   this.log_.info('Loading example file:', filename);
-  this.handleFileData(data, filename, null, undefined, true);
+  this.handleFileData(data, filename, null, undefined);
 };
 
 
@@ -140,34 +139,70 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  * @param {string=} filename
  * @param {Object=} fileHandler
  * @param {string=} gDriveId
- * @param {boolean=} example
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
-    filename = '', fileHandler = null, gDriveId = undefined, example = false) {
+    filename = '', fileHandler = null, gDriveId = undefined) {
   this.log_.info('Handle file data:', data);
   let fileInstance = this.helper.getInstance('file', true);
   let modeInstance = this.helper.getInstance('mode', true);
-  let fileType = cwc.file.detector.detectType(data, filename);
-  this.log_.info('Filetype:', fileType);
-  let fileConfig = cwc.fileHandler.Config.get(fileType, true);
-  this.log_.info('File config:', fileConfig);
+  let mimeType = cwc.file.getMimeTypeByNameAndContent(filename, data);
+  this.log_.info('MIME-type:', mimeType);
 
-  let file;
-  if (fileConfig.raw && !cwc.file.detector.isFileFormat(data)) {
-    this.log_.info('Loading raw data ...');
-    file = new fileConfig.file(data, fileType, fileConfig.contentType);
-  } else if (fileHandler || gDriveId || example) {
-    this.log_.info('Loading file data ...');
-    file = new cwc.fileFormat.File(data);
+  let modeType;
+  // Handle CWC file format
+  if (mimeType === cwc.file.MimeType.CWC.type) {
+    let file = new cwc.fileFormat.File(data);
+    modeType = cwc.mode.Config.getMode(file.getMode());
+    this.log_.info('Loading CWC file with mode', modeType, '...');
+    fileInstance.setFile(file);
+    fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+    modeInstance.setMode(modeType);
+
+    // Handling Blockly and normal Editor content.
+    let editorContent = file.getContentData();
+    for (let entry in editorContent) {
+      if (Object.prototype.hasOwnProperty.call(editorContent, entry)) {
+        let content = editorContent[entry];
+        let contentType = content.getType();
+        switch (contentType) {
+          case cwc.file.MimeType.BLOCKLY.type:
+            modeInstance.addBlocklyView(
+              content.getName(), content.getContent());
+            break;
+          case cwc.file.MimeType.COFFEESCRIPT.type:
+          case cwc.file.MimeType.CSS.type:
+          case cwc.file.MimeType.HTML.type:
+          case cwc.file.MimeType.JAVASCRIPT.type:
+            modeInstance.addEditorView(
+              content.getName(), content.getContent(), contentType);
+            break;
+          default:
+            this.log_.warn('Unknown content type:', contentType);
+        }
+      }
+    }
+
+    // Handle UI mode
+    let fileUi = fileInstance.getUi();
+    if (fileUi) {
+      if (fileUi === 'blockly') {
+        modeInstance.showBlockly();
+      } else if (fileUi === 'editor') {
+        modeInstance.showEditor();
+      }
+    }
+
+  // Handle raw file format
   } else {
-    this.log_.info('Loading default content ...', fileConfig.content);
-    file = new fileConfig.file(fileConfig.content, fileType,
-      fileConfig.contentType);
+    modeType = cwc.mode.Config.getModeByMimeType(mimeType);
+    this.log_.info('Loading raw data with mode', modeType, '...');
+    fileInstance.setRawFile(data, filename);
+    fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+    modeInstance.setMode(modeType);
+    modeInstance.addEditorView('__default__', data, mimeType);
   }
-  this.log_.info('File:', file, '(', filename, ')');
-  this.log_.info('Data Length:', data.length);
 
-  fileInstance.setFile(file);
+  // Sets file handler for local or gDrive files
   if (fileHandler) {
     if (fileHandler.name) {
       fileInstance.setFilename(fileHandler.name);
@@ -177,87 +212,15 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     fileInstance.setGDriveId(gDriveId);
   }
 
-  // Clear Google Cloud publish settings.
-  let gCloudInstance = this.helper.getInstance('gcloud');
-  if (gCloudInstance) {
-    gCloudInstance.clear();
-  }
-
-  // Settings file title.
-  let fileTitle = fileInstance.getFileTitle();
-  if (!fileTitle && fileInstance.getFilename()) {
-    fileTitle = fileInstance.getFilename();
-  }
+  // Sets the file title.
+  let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
   if (fileTitle) {
     modeInstance.setTitle(fileTitle);
   }
 
-  // Loading mode and preparing UI parts.
-  modeInstance.setMode(fileConfig.mode);
+  // Handle post modification tasks.
+  modeInstance.postMode(modeType);
 
-  // Adding Blocky content.
-  if (fileConfig.blockly_views) {
-    for (let i = 0; i < fileConfig.blockly_views.length; i++) {
-      let blocklyView = fileConfig.blockly_views[i];
-      let blocklyContent = file.getContent(blocklyView);
-      modeInstance.addBlocklyView(blocklyContent);
-    }
-  }
-
-  // Adding editor content.
-  if (fileConfig.editor_views) {
-    for (let i = 0; i < fileConfig.editor_views.length; i++) {
-      let editorView = fileConfig.editor_views[i];
-      let editorContent = file.getContent(editorView);
-      let editorHint = '';
-      let editorType = '';
-      switch (editorView) {
-        case cwc.file.ContentType.CSS:
-          editorType = cwc.ui.EditorType.CSS;
-          editorHint = cwc.ui.EditorHint.CSS;
-          break;
-        case cwc.file.ContentType.HTML:
-          editorType = cwc.ui.EditorType.HTML;
-          editorHint = cwc.ui.EditorHint.HTML;
-          break;
-        case cwc.file.ContentType.JAVASCRIPT:
-          editorType = cwc.ui.EditorType.JAVASCRIPT;
-          editorHint = cwc.ui.EditorHint.JAVASCRIPT;
-          break;
-        case cwc.file.ContentType.COFFEESCRIPT:
-          editorType = cwc.ui.EditorType.COFFEESCRIPT;
-          editorHint = cwc.ui.EditorHint.COFFEESCRIPT;
-          break;
-        case cwc.file.ContentType.TEXT:
-          editorType = cwc.ui.EditorType.TEXT;
-          break;
-        case cwc.file.ContentType.PYTHON:
-          editorType = cwc.ui.EditorType.PYTHON;
-          break;
-      }
-      modeInstance.addEditorView(editorView, editorContent, editorType,
-        editorHint);
-    }
-  }
-
-  if (fileConfig.library) {
-    modeInstance.syncLibrary();
-  }
-  if (fileConfig.preview) {
-    modeInstance.runPreview();
-  }
-  if (fileConfig.auto_update) {
-    modeInstance.setAutoUpdate(true);
-  }
-
-  let fileUi = fileInstance.getUi();
-  if (fileUi) {
-    if (fileUi == 'blockly') {
-      modeInstance.showBlockly();
-    } else if (fileUi == 'editor') {
-      modeInstance.showEditor();
-    }
-  }
   this.helper.showSuccess('Loaded file ' + filename + ' successful.');
 };
 
@@ -275,7 +238,8 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(callback,
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       let message = chrome.runtime.lastError.message;
-      if (message && message !== 'User cancelled') {
+      if (message && message !== 'User cancelled' &&
+          message !== 'User canceled') {
         this.helper.showWarning(message);
         return;
       }

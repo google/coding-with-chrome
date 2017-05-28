@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.TTS');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
@@ -79,7 +79,7 @@ cwc.renderer.external.TTS.prototype.render = function(
 
   let body = '\n<script>' +
       '  let ttsCode = function(tts) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
       '  let ttsFramework = new cwc.framework.TTS(runner);\n' +
       '  ttsFramework.listen(ttsCode);\n' +

@@ -50,17 +50,29 @@ cwc.mode.Config.get = function(type, required = false) {
 
 
 /**
- * @param {cwc.file.Type} fileType
- * @return {cwc.mode.ConfigData}
+ * @param {!cwc.mode.Type} modeType
+ * @return {!string}
  */
-cwc.mode.Config.getModForFileType = function(fileType) {
+cwc.mode.Config.getMode = function(modeType) {
+  if (cwc.mode.Config.get(modeType, true)) {
+    return modeType;
+  }
+  return '';
+};
+
+
+/**
+ * @param {!string} mimeType
+ * @return {!string}
+ */
+cwc.mode.Config.getModeByMimeType = function(mimeType) {
   for (let mod in cwc.mode.ConfigData) {
     if (Object.prototype.hasOwnProperty.call(cwc.mode.ConfigData, mod)) {
       let modConfig = cwc.mode.ConfigData[mod];
-      if (fileType == modConfig.fileType) {
-        return modConfig;
+      if (modConfig.mimeTypes.indexOf(mimeType) !== -1) {
+        return mod;
       }
     }
   }
-  return null;
+  return '';
 };

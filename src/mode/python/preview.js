@@ -51,7 +51,6 @@ cwc.mode.python.Preview.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
   this.helper.setInstance('preview', this.preview, true);
   this.preview.decorate(this.node);
-  this.preview.setAutoUpdate(true);
 };
 
 

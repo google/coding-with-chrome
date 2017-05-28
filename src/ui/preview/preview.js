@@ -123,9 +123,6 @@ cwc.ui.Preview = function(helper) {
     this.run_.bind(this), this.runThrottleTime_);
 
   /** @private {!boolean} */
-  this.skipAutoUpdate_ = true;
-
-  /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!cwc.utils.Logger|null} */
@@ -404,13 +401,9 @@ cwc.ui.Preview.prototype.openInBrowser = function() {
 /**
  * Enables or disables the automatic update of the preview.
  * @param {boolean} active
- * @param {boolean=} opt_no_skip
  */
-cwc.ui.Preview.prototype.setAutoUpdate = function(active, opt_no_skip) {
+cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
   if (active && !this.autoUpdateEvent) {
-    if (opt_no_skip) {
-      this.skipAutoUpdate_ = false;
-    }
     this.log_.info('Activate AutoUpdate...');
     let editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
@@ -451,12 +444,6 @@ cwc.ui.Preview.prototype.delayAutoUpdate = function() {
  */
 cwc.ui.Preview.prototype.doAutoUpdate = function() {
   if (!this.autoUpdate) {
-    return;
-  }
-
-  if (this.skipAutoUpdate_ && this.ran_) {
-    this.log_.info('Skipping auto update ...');
-    this.skipAutoUpdate_ = false;
     return;
   }
 

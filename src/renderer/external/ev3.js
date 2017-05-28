@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.EV3');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -69,7 +69,7 @@ cwc.renderer.external.EV3.prototype.render = function(
     /** @type {string} */ (cwc.framework.Internal.EV3), frameworks);
   let body = '\n<script>' +
       '  let code = function(ev3) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' +
       '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';

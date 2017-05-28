@@ -53,6 +53,25 @@ cwc.framework.Python.prototype.run = function() {
     pythonVersion3 = false;
   }
 
+  // Add turtle shortcuts, if needed.
+  if (pythonCode.includes('from turtle import *\n') &&
+      (pythonCode.includes('forward') || pythonCode.includes('backward')) &&
+      !pythonCode.includes('Turtle()')) {
+    let turtleShortHands = 'from turtle import *\n' +
+      'cwcTurtle = Turtle()\n' +
+      'def backward(*args): cwcTurtle.backward(*args)\n' +
+      'def color(*args): cwcTurtle.color(*args)\n' +
+      'def forward(*args): cwcTurtle.forward(*args)\n' +
+      'def goto(*args): cwcTurtle.goto(*args)\n' +
+      'def left(*args): cwcTurtle.left(*args)\n' +
+      'def right(*args): cwcTurtle.right(*args)\n' +
+      'def shape(*args): cwcTurtle.shape(*args)\n' +
+      'def speed(*args): cwcTurtle.speed(*args)\n';
+    pythonCode = pythonCode.replace('from turtle import *\n', turtleShortHands)
+      .replace(/‘/g, '\'').replace(/’/g, '\'');
+    console.warn('Note: Shortcuts for turtle graphics are enabled.');
+  }
+
   Sk['canvas'] = 'canvas-chrome';
   Sk.configure({
     'debugout': this.showDebug.bind(this),

@@ -36,7 +36,6 @@ goog.require('goog.events.EventTarget');
 /**
  * @typedef {cwc.ui.Account|
  *   cwc.file.File|
- *   cwc.fileHandler.FileCreator|
  *   cwc.fileHandler.FileExporter|
  *   cwc.fileHandler.FileLoader|
  *   cwc.fileHandler.FileSaver|

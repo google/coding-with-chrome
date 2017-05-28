@@ -104,6 +104,9 @@ cwc.ui.Blockly = function(helper) {
   /** @private {!string} */
   this.rowItemClass_ = 'blocklyTreeRowItem';
 
+  /** @private {!string} */
+  this.viewName_ = '';
+
   /** @private {Object} */
   this.options_ = {
     'path': this.mediaFiles,
@@ -263,14 +266,17 @@ cwc.ui.Blockly.prototype.addOption = function(name, func, tooltip) {
 
 
 /**
- * @param {string} xml
+ * @param {!string} name
+ * @param {string=} xml
  */
-cwc.ui.Blockly.prototype.addView = function(xml) {
+cwc.ui.Blockly.prototype.addView = function(name, xml) {
+  this.viewName_ = name;
   if (!xml) {
     return;
   }
   let workspace = this.getWorkspace();
   if (workspace) {
+    this.log_.info('Create view', name, 'with', xml);
     let xmlDom = Blockly.Xml.textToDom(xml);
     try {
       Blockly.Xml.domToWorkspace(xmlDom, workspace);
@@ -399,6 +405,14 @@ cwc.ui.Blockly.prototype.getWorkspace = function() {
     this.log_.warn('Blockly workspace is not ready yet!');
   }
   return this.workspace;
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.ui.Blockly.prototype.getViewName = function() {
+  return this.viewName_;
 };
 
 

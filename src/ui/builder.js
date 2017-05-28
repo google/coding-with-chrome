@@ -25,7 +25,6 @@ goog.provide('cwc.ui.BuilderHelpers');
 goog.require('cwc.UserConfig');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
-goog.require('cwc.fileHandler.FileCreator');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
@@ -75,7 +74,6 @@ cwc.ui.BuilderHelpers = {
   'connectScreen': cwc.ui.connectScreen.Screens,
   'documentation': cwc.ui.Documentation,
   'file': cwc.fileHandler.File,
-  'fileCreator': cwc.fileHandler.FileCreator,
   'fileExporter': cwc.fileHandler.FileExporter,
   'fileLoader': cwc.fileHandler.FileLoader,
   'fileSaver': cwc.fileHandler.FileSaver,

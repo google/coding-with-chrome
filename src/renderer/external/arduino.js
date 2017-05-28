@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.Arduino');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -70,7 +70,7 @@ cwc.renderer.external.Arduino.prototype.render = function(
     /** @type {string} */ (cwc.framework.Internal.ARDUINO), frameworks);
   let body = '\n<script>' +
       '  let customCode = function(arduino) {\n' +
-      editor_content[cwc.file.ContentType.CUSTOM] +
+      editor_content[cwc.ui.EditorContent.DEFAULT] +
       '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
       '  let customFramework = new cwc.framework.Arduino(runner);\n' +
       '  customFramework.listen(customCode);\n' +

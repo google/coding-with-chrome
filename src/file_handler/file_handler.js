@@ -32,11 +32,20 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.fileHandler.File = function(helper) {
-  /** @private {!cwc.fileFormat.File} */
-  this.file_ = new cwc.fileFormat.File();
+  /** @private {cwc.fileFormat.File|null} */
+  this.file_ = null;
+
+  /** @private {string|null} */
+  this.rawFile_ = null;
+
+  /** @private {!string} */
+  this.filename_ = '';
 
   /** @private {!string} */
   this.fileContent_ = '';
+
+  /** @private {!cwc.file.MimeType} */
+  this.mimeType_ = '';
 
   /** @private {Object} */
   this.fileHandler_ = null;
@@ -54,13 +63,19 @@ cwc.fileHandler.File = function(helper) {
 
 /**
  * Clears the file instance.
+ * @param {boolean=} silent
  */
-cwc.fileHandler.File.prototype.clear = function() {
-  console.log('Clear File instance...');
-  this.file_ = new cwc.fileFormat.File();
+cwc.fileHandler.File.prototype.clear = function(silent = false) {
+  if (!silent) {
+    console.log('Clear File instance...');
+  }
   this.fileHandler_ = null;
+  this.file_ = null;
+  this.filename_ = '';
   this.gDriveId_ = '';
   this.hasUnsavedChange_ = false;
+  this.mimeType_ = '';
+  this.rawFile_ = null;
 };
 
 
@@ -69,10 +84,20 @@ cwc.fileHandler.File.prototype.clear = function() {
  */
 cwc.fileHandler.File.prototype.setFile = function(file) {
   console.log('Set instance file to:', file);
+  this.clear(true);
   this.file_ = file;
-  this.fileHandler_ = null;
-  this.gDriveId_ = '';
-  this.hasUnsavedChange_ = false;
+};
+
+
+/**
+ * @param {!string} content
+ * @param {string=} filename
+ */
+cwc.fileHandler.File.prototype.setRawFile = function(content, filename) {
+  console.log('Set raw content to:', content);
+  this.clear(true);
+  this.rawFile_ = content;
+  this.filename_ = filename || '';
 };
 
 
@@ -88,7 +113,27 @@ cwc.fileHandler.File.prototype.getFile = function() {
  * @return {!cwc.file.Files}
  */
 cwc.fileHandler.File.prototype.getFiles = function() {
-  return this.file_.getFiles();
+  if (this.file_) {
+    return this.file_.getFiles();
+  }
+  return null;
+};
+
+
+/**
+ * @return {!cwc.file.MimeType}
+ */
+cwc.fileHandler.File.prototype.getMimeType = function() {
+  return this.mimeType_;
+};
+
+
+/**
+ * @param {!cwc.file.MimeType} mimeType
+ */
+cwc.fileHandler.File.prototype.setMimeType = function(mimeType) {
+  console.log('setMimeType:', mimeType);
+  this.mimeType_ = mimeType;
 };
 
 
@@ -98,7 +143,10 @@ cwc.fileHandler.File.prototype.getFiles = function() {
  * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.getLibraryFile = function(name, group) {
-  return this.file_.getFiles().getFile(name, group);
+  if (this.file_) {
+    return this.file_.getFiles().getFile(name, group);
+  }
+  return null;
 };
 
 
@@ -112,7 +160,20 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name, group) {
  */
 cwc.fileHandler.File.prototype.addLibraryFile = function(name, content, type,
     size, group) {
-  return this.file_.getFiles().addFile(name, content, type, size, group);
+  if (this.file_) {
+    return this.file_.getFiles().addFile(name, content, type, size, group);
+  }
+};
+
+
+/**
+ * @return {!boolean}
+ */
+cwc.fileHandler.File.prototype.hasLibraryFiles = function() {
+  if (this.file_) {
+    return this.file_.hasFiles();
+  }
+  return false;
 };
 
 
@@ -149,10 +210,14 @@ cwc.fileHandler.File.prototype.getFileType = function() {
 
 
 /**
- * @param {string} file_name
+ * @param {string} filename
  */
-cwc.fileHandler.File.prototype.setFilename = function(file_name) {
-  this.file_.setFilename(file_name);
+cwc.fileHandler.File.prototype.setFilename = function(filename) {
+  if (this.file_) {
+    this.file_.setFilename(filename);
+  } else {
+    this.filename_ = filename;
+  }
 };
 
 
@@ -160,7 +225,10 @@ cwc.fileHandler.File.prototype.setFilename = function(file_name) {
  * @return {string}
  */
 cwc.fileHandler.File.prototype.getFilename = function() {
-  return this.file_.getFilename();
+  if (this.file_) {
+    this.file_.getFilename();
+  }
+  return this.filename_;
 };
 
 
@@ -168,7 +236,9 @@ cwc.fileHandler.File.prototype.getFilename = function() {
  * @param {!string} ui
  */
 cwc.fileHandler.File.prototype.setUi = function(ui) {
-  this.file_.setUi(ui);
+  if (this.file_) {
+    this.file_.setUi(ui);
+  }
 };
 
 
@@ -176,8 +246,12 @@ cwc.fileHandler.File.prototype.setUi = function(ui) {
  * @return {!string}
  */
 cwc.fileHandler.File.prototype.getUi = function() {
-  return this.file_.getUi();
+  if (this.file_) {
+    return this.file_.getUi();
+  }
+  return '';
 };
+
 
 /**
  * @param {!string} name
@@ -214,14 +288,16 @@ cwc.fileHandler.File.prototype.setEditorFlags = function(flags) {
 
 
 /**
- * @param {string} file_title
+ * @param {string} title
  */
-cwc.fileHandler.File.prototype.setFileTitle = function(file_title) {
+cwc.fileHandler.File.prototype.setFileTitle = function(title) {
   let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
-    guiInstance.setTitle(file_title);
+    guiInstance.setTitle(title);
   }
-  this.file_.setTitle(file_title);
+  if (this.file_) {
+    this.file_.setTitle(title);
+  }
 };
 
 
@@ -229,7 +305,10 @@ cwc.fileHandler.File.prototype.setFileTitle = function(file_title) {
  * @return {string}
  */
 cwc.fileHandler.File.prototype.getFileTitle = function() {
-  return this.file_.getTitle();
+  if (this.file_) {
+    return this.file_.getTitle();
+  }
+  return this.filename_;
 };
 
 

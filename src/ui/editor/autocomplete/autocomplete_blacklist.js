@@ -21,6 +21,7 @@ goog.provide('cwc.ui.EditorAutocompleteBlacklistKeys');
 
 
 /**
+ * Ignore the following KeyboardEvent.code for auto complete.
  * @enum {boolean}
  */
 cwc.ui.EditorAutocompleteBlacklistKeys = {
@@ -31,11 +32,20 @@ cwc.ui.EditorAutocompleteBlacklistKeys = {
   'ArrowLeft': true,
   'ArrowRight': true,
   'ArrowUp': true,
+  'Backslash': true,
   'Backspace': true,
   'Comma': true,
+  'ContextMenu': true,
   'ControlLeft': true,
   'ControlRight': true,
   'Ctrl': true,
+  'Delete': true,
+  'Digit1': true,
+  'Digit2': true,
+  'Digit3': true,
+  'Digit4': true,
+  'Digit5': true,
+  'Digit6': true,
   'Digit7': true,
   'Digit8': true,
   'Digit9': true,
@@ -54,6 +64,7 @@ cwc.ui.EditorAutocompleteBlacklistKeys = {
   'F8': true,
   'F9': true,
   'Home': true,
+  'Insert': true,
   'Minus': true,
   'NumpadAdd': true,
   'NumpadDivide': true,

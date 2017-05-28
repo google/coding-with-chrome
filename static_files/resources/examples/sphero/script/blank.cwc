@@ -1,0 +1,28 @@
+{
+  "author": "Unknown",
+  "content": {
+    "javascript": {
+      "name": "javascript",
+      "type": "application/javascript",
+      "size": 0,
+      "content": "",
+      "group": "",
+      "version": 1,
+      "filename": "javascript"
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "sphero",
+  "model": "",
+  "title": "Untitled Sphero file",
+  "type": "sphero",
+  "ui": "default",
+  "version": "1.0"
+}

@@ -22,9 +22,26 @@ goog.require('cwc.file.getMimeTypeByExtension');
 
 
 describe('File Mime Type', function() {
+  let cwcData = '{ "format": "Coding with Chrome File Format x.0" }';
+  let htmlData = '<!DOCTYPE html><title>Title</title><h1>Hello World</h1>';
+  let javascriptData = 'var test = "Hello World";';
+  let jsonData = '{"test":1}';
+  let xmlData = '<?xml version="1.0" encoding="UTF-8"?><example></example>';
+
   it('getMimeTypeByExtension', function() {
     expect(cwc.file.getMimeTypeByExtension('image.png')).toEqual('image/png');
     expect(cwc.file.getMimeTypeByExtension('image.jpg')).toEqual('image/jpeg');
     expect(cwc.file.getMimeTypeByExtension('image.jpeg')).toEqual('image/jpeg');
+  });
+
+  it('getMimeTypeByContent', function() {
+    expect(cwc.file.getMimeTypeByContent(cwcData)).toEqual(
+      'application/cwc+json');
+    expect(cwc.file.getMimeTypeByContent(htmlData)).toEqual('text/html');
+    expect(cwc.file.getMimeTypeByContent(javascriptData)).toEqual(
+      'application/javascript');
+
+    expect(cwc.file.getMimeTypeByContent(jsonData)).toEqual('application/json');
+    expect(cwc.file.getMimeTypeByContent(xmlData)).toEqual('application/xml');
   });
 });

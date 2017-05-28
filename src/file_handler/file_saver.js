@@ -19,9 +19,7 @@
  */
 goog.provide('cwc.fileHandler.FileSaver');
 
-goog.require('cwc.file.Extensions');
-goog.require('cwc.fileHandler.Config');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.file.MimeType');
 
 
 /**
@@ -113,57 +111,47 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
  * Prepares file and ensures we have the latest editor content.
  */
 cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
-  let fileInstance = this.helper.getInstance('file', true);
   let editorInstance = this.helper.getInstance('editor', true);
-  let editorFlags = editorInstance.getEditorFlags();
-  let gDriveId = fileInstance.getGDriveId();
-
-  let file = fileInstance.getFile();
-  let fileType = fileInstance.getFileType();
-  let filename = fileInstance.getFilename();
-  let fileTitle = fileInstance.getFileTitle();
+  let fileInstance = this.helper.getInstance('file', true);
   let fileHandler = fileInstance.getFileHandler();
-  let fileUi = fileInstance.getUi();
-  let fileConfig = cwc.fileHandler.Config.get(fileType);
-  if (!fileConfig) {
-    throw new Error('Filetype ' + fileType + ' is not supported!');
-  }
+  let fileTitle = fileInstance.getFileTitle();
+  let filename = fileInstance.getFilename();
+  let gDriveId = fileInstance.getGDriveId();
+  let mimeType = fileInstance.getMimeType();
 
-  if (file.isRaw()) {
-    let editorView = fileConfig.editor_views[0];
-    this.fileData = editorInstance.getEditorContent(editorView);
-    this.filename = this.addFileExtension(filename || fileTitle || 'untitled',
-        fileConfig.extension);
-  } else {
-    if (fileConfig.blockly_views) {
-      let blocklyInstance = this.helper.getInstance('blockly', true);
-      for (let i = 0; i < fileConfig.blockly_views.length; i++) {
-        let blocklyView = fileConfig.blockly_views[i];
-        let blocklyContent = blocklyInstance.getXML();
-        file.setContent(blocklyView, blocklyContent);
+  // Handle CWC file format
+  if (mimeType.type === cwc.file.MimeType.CWC.type) {
+    let file = fileInstance.getFile();
+
+    let blocklyInstance = this.helper.getInstance('blockly');
+    if (blocklyInstance) {
+      let viewName = blocklyInstance.getViewName();
+      if (viewName) {
+        file.setContent(viewName, blocklyInstance.getXML());
       }
     }
-    if (fileConfig.editor_views) {
-      for (let i = 0; i < fileConfig.editor_views.length; i++) {
-        let name = fileConfig.editor_views[i];
-        let view = editorInstance.getView(name);
-        file.setContent(name, view.getContent(), view.getType());
+
+    let editorInstance = this.helper.getInstance('editor');
+    if (editorInstance) {
+      let views = editorInstance.getViews();
+      for (let entry in views) {
+        if (Object.prototype.hasOwnProperty.call(views, entry)) {
+          file.setContent(entry, views[entry].getContent());
+        }
       }
     }
-    if (fileTitle) {
-      file.setTitle(fileTitle);
-    }
-    if (fileUi) {
-      file.setUi(fileUi);
-    }
-    if (editorFlags) {
-      file.setEditorFlags(editorFlags);
-    }
+
     this.fileData = file.getJSON();
     this.filename = this.addFileExtension(filename || fileTitle || 'untitled');
-    this.fileType = fileType;
+
+  // Handle raw file format
+  } else {
+    this.fileData = editorInstance.getEditorContent('__default__');
+    this.filename = this.addFileExtension(
+      filename || 'unnamed', mimeType.ext[0]);
   }
 
+  this.fileType = mimeType.type;
   this.fileHandler = fileHandler;
   this.gDriveId = gDriveId;
 };
@@ -171,11 +159,11 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 
 /**
  * @param {!string} filename
- * @param {cwc.file.Extensions=} extension
+ * @param {string=} extension
  * @return {!string}
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
-    filename, extension = cwc.file.Extensions.CWC) {
+    filename, extension = cwc.file.MimeType.CWC.ext[0]) {
   if (filename.includes(extension)) {
     return filename;
   }

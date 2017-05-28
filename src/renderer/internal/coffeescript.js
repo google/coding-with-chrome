@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.internal.Coffeescript');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
@@ -65,11 +65,10 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  let coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   let header = renderer_helper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.External.COFFEESCRIPT), frameworks
   );
   let body = '\n<script type="text\/coffeescript">\n' +
-    coffeescript + '\n</script>\n';
+    editor_content[cwc.ui.EditorContent.DEFAULT] + '\n</script>\n';
   return renderer_helper.getHTML(body, header);
 };

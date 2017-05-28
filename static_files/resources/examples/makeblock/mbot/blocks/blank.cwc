@@ -1,0 +1,37 @@
+{
+  "author": "Unknown",
+  "content": {
+    "blockly": {
+      "name": "blockly",
+      "type": "application/blockly+xml",
+      "size": 48,
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
+      "group": "",
+      "version": 1,
+      "filename": "blockly"
+    },
+    "javascript": {
+      "name": "javascript",
+      "type": "application/javascript",
+      "size": 0,
+      "content": "",
+      "group": "",
+      "version": 1,
+      "filename": "javascript"
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "mbot_blockly",
+  "model": "",
+  "title": "Untitled mBot blockly file",
+  "type": "mbot_blockly",
+  "ui": "blockly",
+  "version": "1.0"
+}

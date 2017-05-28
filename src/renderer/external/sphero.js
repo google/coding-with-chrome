@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.Sphero');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -69,7 +69,7 @@ cwc.renderer.external.Sphero.prototype.render = function(
     /** @type {string} */ (cwc.framework.Internal.SPHERO), frameworks);
   let body = '\n<script>' +
       '  let code = function(sphero) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.Sphero(code);\n' +
       '</script>\n';

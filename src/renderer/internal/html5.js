@@ -19,11 +19,12 @@
  */
 goog.provide('cwc.renderer.internal.HTML5');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
 
 
@@ -66,9 +67,10 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  let css = editor_content[cwc.file.ContentType.CSS] || '';
-  let html = editor_content[cwc.file.ContentType.HTML] || '';
-  let javascript = editor_content[cwc.file.ContentType.JAVASCRIPT] || '';
+  let css = editor_content[cwc.ui.EditorContent.CSS] || '';
+  let html = editor_content[cwc.ui.EditorContent.HTML] ||
+    editor_content[cwc.ui.EditorContent.DEFAULT] || '';
+  let javascript = editor_content[cwc.ui.EditorContent.JAVASCRIPT] || '';
   let headers = [];
 
   if (html) {
@@ -78,7 +80,8 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     }
 
     // Coffeescript framework.
-    if (html.includes('text/coffeescript')) {
+    if (html.includes('text/coffeescript') ||
+        html.includes('application/coffeescript')) {
       headers.push(cwc.framework.External.COFFEESCRIPT);
     }
   }

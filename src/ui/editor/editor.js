@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.Editor');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
 goog.require('cwc.ui.EditorAutocompleteList');
@@ -399,20 +399,12 @@ cwc.ui.Editor.prototype.getEditorContent = function(name) {
  * @param {string=} view
  */
 cwc.ui.Editor.prototype.setEditorContent = function(content,
-    view = cwc.file.ContentType.CUSTOM) {
+    view = cwc.ui.EditorContent.DEFAULT) {
   if (view in this.editorView) {
     this.editorView[view].setContent(content);
   } else {
     this.log_.error('Editor view', view, 'is unknown!');
   }
-};
-
-
-/**
- * @param {!string} content
- */
-cwc.ui.Editor.prototype.setEditorJavaScriptContent = function(content) {
-  this.setEditorContent(content, cwc.file.ContentType.JAVASCRIPT);
 };
 
 
@@ -426,7 +418,8 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
     case 'blockly':
       if (blocklyInstance) {
         this.log_.info('Syncing JavaScript from Blockly...');
-        this.setEditorJavaScriptContent(blocklyInstance.getJavaScript());
+        this.setEditorContent(
+          blocklyInstance.getJavaScript(), cwc.ui.EditorContent.JAVASCRIPT);
       }
       break;
     default:
@@ -557,7 +550,7 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
     return;
   }
 
-  this.log_.info('Create Editor View', name,
+  this.log_.info('Create view', name,
     (type ? 'with type' : ''), type,
     (hints ? 'and hints' : ''), hints,
     (content ? 'for content:' : ''), '\n...\n' + content + '\n...');
@@ -579,10 +572,18 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
 cwc.ui.Editor.prototype.getView = function(name) {
   if (!(name in this.editorView)) {
     this.log_.error('Editor View', name, 'is unknown!');
-    return;
+    return null;
   }
 
   return this.editorView[name];
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.ui.Editor.prototype.getViews = function() {
+  return this.editorView;
 };
 
 

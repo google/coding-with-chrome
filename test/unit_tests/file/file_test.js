@@ -25,9 +25,9 @@ describe('File', function() {
   let pngData = 'data:image/png;base64,.....';
 
   it('getType', function() {
-    expect(cwc.file.File.getType('', jpegData)).toEqual('image/jpeg');
-    expect(cwc.file.File.getType('', pngData)).toEqual('image/png');
-    expect(cwc.file.File.getType('image.jpg')).toEqual('image/jpeg');
-    expect(cwc.file.File.getType('image.png')).toEqual('image/png');
+    expect(new cwc.file.File('', jpegData).getType()).toEqual('image/jpeg');
+    expect(new cwc.file.File('', pngData).getType()).toEqual('image/png');
+    expect(new cwc.file.File('image.jpg').getType()).toEqual('image/jpeg');
+    expect(new cwc.file.File('image.png').getType()).toEqual('image/png');
   });
 });

@@ -144,7 +144,7 @@ describe('File format', function() {
       file.loadJSON(legacyFormat);
       expect(file.getAuthor()).toEqual('Markus Bordihn');
       expect(file.hasFiles()).toEqual(true);
-      expect(file.getContent('javascript')).toEqual(
+      expect(file.getContent('__javascript__')).toEqual(
         legacyFormat['content']['javascript']);
       expect(file.getFileContent('image.jpg')).toEqual(
         legacyFormat['files']['image.jpg']['content']);

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.RaspberryPi');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -69,7 +69,7 @@ cwc.renderer.external.RaspberryPi.prototype.render = function(
     /** @type {string} */ (cwc.framework.Internal.RASPBERRY_PI), frameworks);
   let body = '\n<script>' +
       '  let code = function(pi) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' +
       '  new cwc.framework.RaspberryPi(code);\n' +
       '</script>\n';

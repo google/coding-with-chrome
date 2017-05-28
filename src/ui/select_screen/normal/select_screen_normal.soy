@@ -52,29 +52,12 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
-          {param title: 'Draw' /}
-          {param text: 'Create artworks of color and forms' /}
-          {param link_text: 'Start drawing' /}
-          {param link_id: 'draw' /}
-          {param opt_color_class: 'bg-blue' /}
-          {param opt_hidden: true /}
-        {/call}
-
-        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
           {param title: 'Games' /}
           {param text: 'Create simple games by dragging and dropping code blocks' /}
           {param link_text: 'Start creating games' /}
           {param link_id: 'games' /}
           {param opt_color_class: 'bg-lime' /}
           {param opt_icon: 'videogame_asset' /}
-        {/call}
-
-        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
-          {param title: 'Music' /}
-          {param text: 'Create some music' /}
-          {param link_text: 'Make some noise' /}
-          {param link_id: 'music' /}
-          {param opt_hidden: true /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
@@ -161,49 +144,6 @@
 
 
 /**
- * Draw overview page.
- */
-{template .drawOverview}
-  {@param prefix: string}
-
-  <div id="{$prefix}draw-overview" class="mdl-layout__container">
-
-    {call .overviewHeader_ data="all"}
-      {param active_link: 'draw' /}
-    {/call}
-
-    <div class="cwc-content">
-
-      {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Draw' /}
-        {param opt_text: 'Use blocks to draw' /}
-        {param opt_color_class: 'bg-blue' /}
-        {param opt_icon: 'bubble_chart' /}
-      {/call}
-
-      <div class="mdl-grid max-width">
-
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
-          {param text: 'Create artworks of colors and forms' /}
-          {param link_text: 'Empty project' /}
-          {param link_id: 'blank' /}
-          {param opt_image: '' /}
-          {param opt_color_class: 'bg-light-blue' /}
-          {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Draw block file' /}
-        {/call}
-
-      </div>
-
-    </div>
-
-  </div>
-
-{/template}
-
-
-/**
  * Games overview page.
  */
 {template .gamesOverview}
@@ -274,34 +214,6 @@
         {/call}
 
       </div>
-
-    </div>
-
-  </div>
-
-{/template}
-
-
-/**
- * Music overview page.
- */
-{template .musicOverview}
-  {@param prefix: string}
-
-  <div class="mdl-layout__container">
-
-    {call .overviewHeader_ data="all"}
-      {param active_link: 'music' /}
-    {/call}
-
-    <div class="cwc-content">
-
-      {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Music' /}
-        {param opt_text: 'Play music with code' /}
-        {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'queue_music' /}
-      {/call}
 
     </div>
 

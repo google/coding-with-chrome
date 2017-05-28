@@ -19,12 +19,12 @@
  */
 goog.provide('cwc.renderer.external.Python');
 
-goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
 
 
@@ -67,7 +67,6 @@ cwc.renderer.external.Python.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  let python = editor_content[cwc.file.ContentType.PYTHON];
   let header = renderer_helper.getFrameworkHeaders([
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.SKULPT.CORE,
@@ -77,8 +76,9 @@ cwc.renderer.external.Python.prototype.render = function(
   header += renderer_helper.getStyleSheetHeader(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
   let body = '<div id="content"></div>' +
-  '<script id="code" type="text/python">\n' + python + '\n</script>' +
-  '<script>new cwc.framework.Python().run();</script>';
+  '<script id="code" type="text/python">\n' +
+    editor_content[cwc.ui.EditorContent.DEFAULT] +
+  '\n</script>\n<script>new cwc.framework.Python().run();</script>';
 
   return renderer_helper.getHTMLCanvas(body, header);
 };

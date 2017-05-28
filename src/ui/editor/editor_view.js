@@ -27,24 +27,24 @@ goog.require('cwc.ui.EditorType');
 /**
  * @constructor
  * @struct
- * @param {string=} opt_content
- * @param {cwc.ui.EditorType=} optType
- * @param {cwc.ui.EditorHint=} opt_hints
- * @param {cwc.ui.EditorFlags=} opt_flags
+ * @param {string=} content
+ * @param {cwc.ui.EditorType=} type
+ * @param {cwc.ui.EditorHint=} hints
+ * @param {cwc.ui.EditorFlags=} flags
  * @final
  */
-cwc.ui.EditorView = function(opt_content, optType, opt_hints, opt_flags) {
+cwc.ui.EditorView = function(content, type, hints, flags) {
   /** @type {!CodeMirror.Doc} */
-  this.doc = new CodeMirror.Doc(opt_content || '');
+  this.doc = new CodeMirror.Doc(content || '');
 
   /** @type {!cwc.ui.EditorType} */
-  this.type = optType || cwc.ui.EditorType.UNKNOWN;
+  this.type = type || cwc.ui.EditorType.UNKNOWN;
 
   /** @type {!cwc.ui.EditorHint} */
-  this.hints = opt_hints || cwc.ui.EditorHint.UNKNOWN;
+  this.hints = hints || cwc.ui.EditorHint.UNKNOWN;
 
   /** @type {!cwc.ui.EditorFlags} */
-  this.flags = opt_flags || new cwc.ui.EditorFlags();
+  this.flags = flags || new cwc.ui.EditorFlags();
 
   /** @type {number} */
   this.cursorPosition = 0;

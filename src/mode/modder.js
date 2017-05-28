@@ -20,6 +20,7 @@
  */
 goog.provide('cwc.mode.Modder');
 
+goog.require('cwc.file.MimeType');
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
@@ -63,7 +64,8 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     (modeConfig.version ? 'version ' + modeConfig.version : ''),
     (modeConfig.name ? '(' + modeConfig.name + ')' : ''),
     (modeConfig.authors ? 'from ' + modeConfig.authors : ''),
-    (modeConfig.description ? ':' + modeConfig.description : '')
+    (modeConfig.description ? ':' + modeConfig.description : ''),
+    'MIME-types', modeConfig.mimeTypes
   );
 
   // Remove former instances.
@@ -85,10 +87,54 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   // End existing tours
   this.helper.endTour();
 
+  // Clear Google Cloud publish settings.
+  let gCloudInstance = this.helper.getInstance('gcloud');
+  if (gCloudInstance) {
+    gCloudInstance.clear();
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = new modeConfig.Mod(this.helper);
   this.modder.decorate();
+};
+
+
+/**
+ * @param {cwc.mode.Type} mode
+ */
+cwc.mode.Modder.prototype.postMode = function(mode) {
+  let modeConfig = cwc.mode.Config.get(mode, true);
+  if (!modeConfig) {
+    return;
+  }
+
+  // Preview Handling
+  if (modeConfig.autoPreview) {
+    this.setAutoUpdate(true);
+  } else if (modeConfig.runPreview) {
+    this.runPreview();
+  }
+
+  // File handling
+  let fileHandlerInstance = this.helper.getInstance('fileHandler');
+  if (fileHandlerInstance) {
+    if (fileHandlerInstance.hasLibraryFiles()) {
+      this.syncLibrary();
+    }
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} content
+ */
+cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
+  let blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    blocklyInstance.addView(name, content);
+  }
 };
 
 
@@ -120,17 +166,6 @@ cwc.mode.Modder.prototype.showEditor = function() {
   let blockly = this.helper.getInstance('blockly');
   if (blockly) {
     blockly.showBlockly(false);
-  }
-};
-
-
-/**
- * @param {!string} content
- */
-cwc.mode.Modder.prototype.addBlocklyView = function(content) {
-  let blocklyInstance = this.helper.getInstance('blockly');
-  if (blocklyInstance) {
-    blocklyInstance.addView(content);
   }
 };
 

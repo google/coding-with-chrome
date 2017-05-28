@@ -53,5 +53,4 @@ cwc.mode.coffeescript.Preview.prototype.decorate = function() {
   this.helper.setInstance('preview', this.preview, true);
   this.preview.decorate(this.node);
   this.preview.showConsole(true);
-  this.preview.setAutoUpdate(true);
 };

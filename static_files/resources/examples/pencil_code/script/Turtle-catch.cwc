@@ -1,22 +1,14 @@
 {
   "author": "David Bau",
   "content": {
-    "coffeescript": {
-      "name": "coffeescript",
-      "type": "text/coffeescript",
-      "size": 387,
-      "content": "speed Infinity\nwrite \"Catch blue before red gets you.\"\nbk 200\nr = hatch red\nb = hatch blue\ntick 10, ->\n  turnto lastmousemove\n  fd 6\n  r.turnto turtle\n  r.fd 4\n  b.turnto direction b\n  b.fd 3\n  if b.touches(turtle)\n    write \"You win!\"\n    tick off\n  else if r.touches(turtle)\n    write \"Red got you!\"\n    tick off\n  else if not b.inside(document)\n    write \"Blue got away!\"\n    tick off",
-      "group": "",
-      "version": 1,
-      "filename": "coffeescript"
-    }
+    "coffeescript": "speed Infinity\nwrite \"Catch blue before red gets you.\"\nbk 200\nr = hatch red\nb = hatch blue\ntick 10, ->\n  turnto lastmousemove\n  fd 6\n  r.turnto turtle\n  r.fd 4\n  b.turnto direction b\n  b.fd 3\n  if b.touches(turtle)\n    write \"You win!\"\n    tick off\n  else if r.touches(turtle)\n    write \"Red got you!\"\n    tick off\n  else if not b.inside(document)\n    write \"Blue got away!\"\n    tick off"
   },
   "description": "",
   "files": {},
   "flags": {
     "__editor__": {}
   },
-  "format": "Coding with Chrome File Format 2",
+  "format": "Coding with Chrome File Format 1",
   "frameworks": {},
   "history": "",
   "mode": "pencil_code",

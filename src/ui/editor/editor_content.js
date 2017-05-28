@@ -1,7 +1,7 @@
 /**
- * @fileoverview Support file extensions for Coding with Chrome.
+ * @fileoverview Default editor content for Coding with Chrome.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,19 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.file.Extensions');
+goog.provide('cwc.ui.EditorContent');
 
 
 /**
  * @enum {string}
  */
-cwc.file.Extensions = {
-  COFFEESCRIPT: '.coffee',
-  CSS: '.css',
-  CWC: '.cwc',
-  HTML: '.html',
-  JAVASCRIPT: '.js',
-  JSON: '.json',
-  PYTHON: '.py',
-  TEXT: '.txt',
-  XML: '.xml',
+cwc.ui.EditorContent = {
+  COFFEESCRIPT: '__coffeescript__',
+  CSS: '__css__',
+  DEFAULT: '__default__',
+  HTML: '__html__',
+  JAVASCRIPT: '__javascript__',
+  PENCIL_CODE: '__pencil_code__',
+  PYTHON: '__python__',
+  TEXT: '__text__',
 };

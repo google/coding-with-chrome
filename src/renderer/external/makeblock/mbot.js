@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.makeblock.MBot');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
@@ -69,7 +69,7 @@ cwc.renderer.external.makeblock.MBot.prototype.render = function(
     /** @type {string} */ (cwc.framework.Internal.MBOT), frameworks);
   let body = '\n<script>' +
       '  let code = function(mbot) {\n' +
-      editor_content[cwc.file.ContentType.JAVASCRIPT] +
+      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.makeblock.mBot(code);\n' +
       '</script>\n';

@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.EditorToolbar');
 
 goog.require('cwc.ui.Helper');
+goog.require('cwc.file.MimeType');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.MenuItem');
@@ -316,9 +317,11 @@ cwc.ui.EditorToolbar.prototype.updateMediaButton = function(has_files) {
  * @param {string} editor_mode
  */
 cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
-  if (editor_mode == 'text/html' ||
-      editor_mode == 'text/javascript' ||
-      editor_mode == 'text/coffeescript') {
+  if (editor_mode == cwc.file.MimeType.COFFEESCRIPT.type ||
+      editor_mode == cwc.file.MimeType.CSS.type ||
+      editor_mode == cwc.file.MimeType.HTML.type ||
+      editor_mode == cwc.file.MimeType.JAVASCRIPT.type ||
+      editor_mode == cwc.file.MimeType.JSON.type) {
     this.enableDebugButton(true);
   } else {
     let editorInstance = this.helper.getInstance('editor');
@@ -326,9 +329,9 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
       editorInstance.setSyntaxCheck(false);
     }
     this.enableDebugButton(false);
-    if (this.helper.experimentalEnabled()) {
-      this.enablePublishButton(false);
-    }
+  }
+  if (this.helper.experimentalEnabled()) {
+    this.enablePublishButton(false);
   }
 };
 

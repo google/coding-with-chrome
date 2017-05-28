@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.renderer.external.PencilCode');
 
-goog.require('cwc.file.ContentType');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
 goog.require('cwc.renderer.Helper');
@@ -65,13 +65,13 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  let coffeescript = editor_content[cwc.file.ContentType.COFFEESCRIPT];
   let header = renderer_helper.getFrameworkHeaders([
     cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
   ], frameworks);
   let body = '\n<script type="text\/coffeescript">\n' +
-    '$.turtle();\n' + coffeescript + '\n</script>\n';
+    '$.turtle();\n' + editor_content[cwc.ui.EditorContent.COFFEESCRIPT] +
+    '\n</script>\n';
   return renderer_helper.getHTMLGrid(body, header);
 };

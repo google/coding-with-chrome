@@ -24,9 +24,9 @@ goog.provide('cwc.fileFormat.CustomFile');
 goog.provide('cwc.fileFormat.JavaScriptFile');
 goog.provide('cwc.fileFormat.RawFile');
 
-
 goog.require('cwc.file.Type');
 goog.require('cwc.fileFormat.File');
+goog.require('cwc.ui.EditorContent');
 
 
 /**
@@ -39,11 +39,11 @@ cwc.fileFormat.AdvancedFile = function(content = '',
   return new cwc.fileFormat.File()
     .setType(type)
     .setTitle('Untitled advanced file')
-    .setContent(cwc.file.ContentType.JAVASCRIPT,
+    .setContent(cwc.ui.EditorContent.JAVASCRIPT,
        '// Put your JavaScript code here\n')
-    .setContent(cwc.file.ContentType.HTML,
+    .setContent(cwc.ui.EditorContent.HTML,
        '<!-- Put your HTML code here -->\n')
-    .setContent(cwc.file.ContentType.CSS,
+    .setContent(cwc.ui.EditorContent.CSS,
        '/* Put your CSS code here */\n')
     .setMode('advanced');
 };
@@ -59,8 +59,8 @@ cwc.fileFormat.BlocklyFile = function(content = '',
   return new cwc.fileFormat.File()
     .setType(type)
     .setTitle('Untitled Blockly file')
-    .setContent(cwc.file.ContentType.BLOCKLY, content)
-    .setContent(cwc.file.ContentType.JAVASCRIPT, '')
+    .setContent(cwc.ui.EditorContent.BLOCKLY, content)
+    .setContent(cwc.ui.EditorContent.JAVASCRIPT, '')
     .setMode('blockly')
     .setUi('blockly');
 };
@@ -76,7 +76,7 @@ cwc.fileFormat.CoffeeScriptFile = function(content = '',
   return new cwc.fileFormat.File()
     .setType(type)
     .setTitle('Untitled CoffeeScript file')
-    .setContent(cwc.file.ContentType.COFFEESCRIPT, content);
+    .setContent(cwc.ui.EditorContent.COFFEESCRIPT, content);
 };
 
 
@@ -89,7 +89,7 @@ cwc.fileFormat.CustomFile = function(content = '',
     type = cwc.file.Type.CUSTOM) {
   return new cwc.fileFormat.File()
     .setType(type)
-    .setContent(cwc.file.ContentType.CUSTOM, content)
+    .setContent(cwc.ui.EditorContent.CUSTOM, content)
     .setTitle('Untitled custom file');
 };
 
@@ -105,7 +105,7 @@ cwc.fileFormat.JavaScriptFile = function(
   return new cwc.fileFormat.File()
     .setType(type)
     .setTitle('Untitled JavaScript file')
-    .setContent(cwc.file.ContentType.JAVASCRIPT, content)
+    .setContent(cwc.ui.EditorContent.JAVASCRIPT, content)
     .setMode('simple');
 };
 
@@ -113,12 +113,12 @@ cwc.fileFormat.JavaScriptFile = function(
 /**
  * @param {string=} content
  * @param {cwc.file.Type=} type
- * @param {cwc.file.ContentType=} contentType
+ * @param {cwc.ui.EditorContent=} contentType
  * @param {string=} filename
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.RawFile = function(content = '',
-    type = cwc.file.Type.RAW, contentType = cwc.file.ContentType.RAW,
+    type = cwc.file.Type.RAW, contentType = cwc.ui.EditorContent.RAW,
     filename = 'Untitled raw file') {
   return new cwc.fileFormat.File()
     .setType(type)

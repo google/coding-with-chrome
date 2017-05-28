@@ -21,8 +21,8 @@ goog.provide('cwc.fileFormat.FILE_HEADER');
 goog.provide('cwc.fileFormat.FILE_VERSION');
 goog.provide('cwc.fileFormat.File');
 
-goog.require('cwc.file.ContentType');
 goog.require('cwc.file.Files');
+goog.require('cwc.file.MimeType');
 goog.require('cwc.file.Type');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.utils.Logger');
@@ -76,11 +76,8 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {!Object.<string>|string} */
   this.flags_ = {};
 
-  /** @private {cwc.file.Files} */
+  /** @private {!cwc.file.Files} */
   this.frameworks_ = new cwc.file.Files();
-
-  /** @private {boolean} */
-  this.raw_ = false;
 
   /** @private {string} */
   this.history_ = '';
@@ -129,7 +126,6 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.history_ = '';
   this.mode_ = 'advanced';
   this.model_ = '';
-  this.raw_ = false;
   this.setFlag('__editor__', new cwc.ui.EditorFlags());
   this.title_ = 'Untitled file';
   this.type_ = cwc.file.Type.UNKNOWN;
@@ -158,7 +154,7 @@ cwc.fileFormat.File.prototype.getAuthor = function() {
 
 
 /**
- * @param {cwc.file.ContentType|string} name
+ * @param {string} name
  * @param {string=} group
  * @return {boolean}
  */
@@ -171,7 +167,7 @@ cwc.fileFormat.File.prototype.hasContent = function(name, group) {
 
 
 /**
- * @param {cwc.file.ContentType|string} name
+ * @param {string} name
  * @param {string=} group
  * @return {string}
  */
@@ -181,7 +177,7 @@ cwc.fileFormat.File.prototype.getContent = function(name, group) {
 
 
 /**
- * @param {!cwc.file.ContentType|string} name
+ * @param {!string} name
  * @param {!string} content
  * @param {string=} type
  * @return {!cwc.fileFormat.File}
@@ -198,6 +194,14 @@ cwc.fileFormat.File.prototype.setContent = function(name, content, type) {
 cwc.fileFormat.File.prototype.setContentData = function(data) {
   this.log_.debug('setContentData:', data);
   this.content_.setData(data);
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.fileFormat.File.prototype.getContentData = function() {
+  return this.content_.getFiles();
 };
 
 
@@ -516,121 +520,7 @@ cwc.fileFormat.File.prototype.getHistory = function() {
  * @param {string} data JSON data.
  */
 cwc.fileFormat.File.prototype.loadJSON = function(data) {
-  let jsonData = data;
-  if (typeof data != 'object') {
-    try {
-      jsonData = JSON.parse(data);
-    } catch (error) {
-      throw new Error('Was not able to parse JSON: ' + error.message +
-        '\ndata:' + data);
-    }
-  }
-  if (!jsonData || !cwc.fileFormat.File.hasFileHeader(jsonData['format'])) {
-    throw new Error('File format: ' + jsonData['format'] + ' is not support!');
-  }
-
-  // File format version handling
-  let fileFormatVersion = cwc.fileFormat.File.getFileHeaderVersion(
-    jsonData['format']);
-  if (fileFormatVersion === 0) {
-    throw new Error('Unknown file format version', fileFormatVersion);
-  } else if (fileFormatVersion < cwc.fileFormat.FILE_VERSION) {
-    this.log_.warn('Loading legacy file format version', fileFormatVersion);
-  } else if (fileFormatVersion > cwc.fileFormat.FILE_VERSION) {
-    this.log_.error('File format version', fileFormatVersion,
-      'is not supported by the current version. Please update ...');
-  }
-  this.log_.info('Loading json data', jsonData);
-  this.init(true);
-
-  // Handle content entries.
-  if (jsonData['content']) {
-    if (fileFormatVersion === 1) {
-      for (let entry in jsonData['content']) {
-        if (Object.prototype.hasOwnProperty.call(
-            jsonData['content'], entry)) {
-          this.log_.info('Convert legacy content', entry);
-          let type = undefined;
-          switch (entry) {
-            case 'javascript':
-              type = 'text/javascript';
-              break;
-            case 'blockly':
-              type = 'application/blockly+xml';
-              break;
-            case 'coffeescript':
-              type = 'text/coffeescript';
-              break;
-            case 'html':
-              type = 'text/html';
-              break;
-             case 'css':
-              type = 'text/css';
-              break;
-          }
-          this.setContent(entry, jsonData['content'][entry], type);
-        }
-      }
-    } else {
-      this.setContentData(jsonData['content']);
-    }
-  }
-
-  if (jsonData['flags']) {
-    for (let flag in jsonData['flags']) {
-      if (Object.prototype.hasOwnProperty.call(jsonData['flags'], flag)) {
-        this.setFlag(flag, jsonData['flags'][flag]);
-      }
-    }
-  }
-
-  if (jsonData['title']) {
-    this.setTitle(decodeURIComponent(jsonData['title']));
-  }
-
-  if (jsonData['author']) {
-    this.setAuthor(decodeURIComponent(jsonData['author']));
-  }
-
-  if (jsonData['version']) {
-    this.setVersion(decodeURIComponent(jsonData['version']));
-  }
-
-  if (jsonData['description']) {
-    this.setDescription(decodeURIComponent(jsonData['description']));
-  }
-
-  if (jsonData['type']) {
-    this.setType(decodeURIComponent(jsonData['type']));
-  }
-
-  if (jsonData['mode']) {
-    this.setMode(decodeURIComponent(jsonData['mode']));
-  }
-
-  if (jsonData['model']) {
-    this.setModel(decodeURIComponent(jsonData['model']));
-  }
-
-  if (jsonData['ui']) {
-    this.setUi(decodeURIComponent(jsonData['ui']));
-  }
-
-  if (jsonData['frameworks']) {
-    this.setFrameworks(jsonData['frameworks']);
-  }
-
-  if (jsonData['files']) {
-    this.setFilesData(jsonData['files']);
-  }
-
-  if (jsonData['history']) {
-    this.setHistory(jsonData['history']);
-  }
-
-  if (jsonData['raw']) {
-    this.setHistory(jsonData['raw']);
-  }
+  cwc.fileFormat.File.loadJSON(this, data);
 };
 
 
@@ -638,31 +528,16 @@ cwc.fileFormat.File.prototype.loadJSON = function(data) {
  * @return {!Object}
  */
 cwc.fileFormat.File.prototype.toJSON = function() {
-  return {
-    'author': this.author_,
-    'content': this.content_.toJSON(),
-    'description': this.description_,
-    'files': this.files_.toJSON(),
-    'flags': this.flags_,
-    'format': this.format_,
-    'frameworks': this.frameworks_,
-    'history': this.history_,
-    'mode': this.mode_,
-    'model': this.model_,
-    'raw': this.raw_,
-    'title': this.title_,
-    'type': this.type_,
-    'ui': this.ui_,
-    'version': this.version_,
-  };
+  console.log(cwc.fileFormat.File.toJSON(this));
+  return cwc.fileFormat.File.toJSON(this);
 };
 
 
 /**
- * @return {string}
+ * @return {!string}
  */
 cwc.fileFormat.File.prototype.getJSON = function() {
-  return JSON.stringify(this.toJSON(), null, 2);
+  return JSON.stringify(this.toJSON(), null, 2) || '';
 };
 
 
@@ -700,4 +575,154 @@ cwc.fileFormat.File.getFileHeaderVersion = function(header) {
     return Number(header.replace(cwc.fileFormat.FILE_HEADER + ' ', '')) || 0;
   }
   return 0;
+};
+
+
+/**
+ * Loads the defined JSON data and sets the supported options.
+ * @param {!cwc.fileFormat.File} file
+ * @param {!string} data
+ */
+cwc.fileFormat.File.loadJSON = function(file, data) {
+  let jsonData = data;
+  if (typeof data != 'object') {
+    try {
+      jsonData = JSON.parse(data);
+    } catch (error) {
+      throw new Error('Was not able to parse JSON: ' + error.message +
+        '\ndata:' + data);
+    }
+  }
+  if (!jsonData || !cwc.fileFormat.File.hasFileHeader(jsonData['format'])) {
+    throw new Error('File format: ' + jsonData['format'] + ' is not support!');
+  }
+
+  // File format version handling
+  let fileFormatVersion = cwc.fileFormat.File.getFileHeaderVersion(
+    jsonData['format']);
+  if (fileFormatVersion === 0) {
+    throw new Error('Unknown file format version', fileFormatVersion);
+  } else if (fileFormatVersion < cwc.fileFormat.FILE_VERSION) {
+    file.log_.warn('Loading legacy file format version', fileFormatVersion);
+  } else if (fileFormatVersion > cwc.fileFormat.FILE_VERSION) {
+    file.log_.error('File format version', fileFormatVersion,
+      'is not supported by the current version. Please update ...');
+  }
+  file.log_.info('Loading json data', jsonData);
+  file.init(true);
+
+  // Handle content entries.
+  if (jsonData['content']) {
+    // Handle legacy file format 1.0
+    if (fileFormatVersion === 1) {
+      for (let entry in jsonData['content']) {
+        if (Object.prototype.hasOwnProperty.call(
+            jsonData['content'], entry)) {
+          let name = entry;
+          switch(entry) {
+            case 'coffeescript':
+              name = cwc.ui.EditorContent.COFFEESCRIPT;
+              break;
+            case 'css':
+              name = cwc.ui.EditorContent.CSS;
+              break;
+            case 'html':
+              name = cwc.ui.EditorContent.HTML;
+              break;
+            case 'javascript':
+              name = cwc.ui.EditorContent.JAVASCRIPT;
+              break;
+            case 'pencil_code':
+              name = cwc.ui.EditorContent.PENCIL_CODE;
+              break;
+            case 'python':
+              name = cwc.ui.EditorContent.PYTHON;
+              break;
+          }
+          file.log_.info('Convert legacy content', entry, 'to', name);
+          file.setContent(name, jsonData['content'][entry]);
+        }
+      }
+
+    // Handle current file format
+    } else {
+      file.setContentData(jsonData['content']);
+    }
+  }
+
+  if (jsonData['flags']) {
+    for (let flag in jsonData['flags']) {
+      if (Object.prototype.hasOwnProperty.call(jsonData['flags'], flag)) {
+        file.setFlag(flag, jsonData['flags'][flag]);
+      }
+    }
+  }
+
+  if (jsonData['title']) {
+    file.setTitle(decodeURIComponent(jsonData['title']));
+  }
+
+  if (jsonData['author']) {
+    file.setAuthor(decodeURIComponent(jsonData['author']));
+  }
+
+  if (jsonData['version']) {
+    file.setVersion(decodeURIComponent(jsonData['version']));
+  }
+
+  if (jsonData['description']) {
+    file.setDescription(decodeURIComponent(jsonData['description']));
+  }
+
+  if (jsonData['type']) {
+    file.setType(decodeURIComponent(jsonData['type']));
+  }
+
+  if (jsonData['mode']) {
+    file.setMode(decodeURIComponent(jsonData['mode']));
+  }
+
+  if (jsonData['model']) {
+    file.setModel(decodeURIComponent(jsonData['model']));
+  }
+
+  if (jsonData['ui']) {
+    file.setUi(decodeURIComponent(jsonData['ui']));
+  }
+
+  if (jsonData['frameworks']) {
+    file.setFrameworks(jsonData['frameworks']);
+  }
+
+  if (jsonData['files']) {
+    file.setFilesData(jsonData['files']);
+  }
+
+  if (jsonData['history']) {
+    file.setHistory(jsonData['history']);
+  }
+};
+
+
+/**
+ * @param {!cwc.fileFormat.File} file
+ * @return {!Object}
+ */
+cwc.fileFormat.File.toJSON = function(file) {
+  return {
+    'author': file.author_,
+    'content': file.content_.toJSON(),
+    'description': file.description_,
+    'files': file.files_.toJSON(),
+    'flags': file.flags_,
+    'format': file.format_,
+    'frameworks': file.frameworks_,
+    'history': file.history_,
+    'mode': file.mode_,
+    'model': file.model_,
+    'title': file.title_,
+    'type': file.type_,
+    'ui': file.ui_,
+    'version': file.version_,
+  };
 };
