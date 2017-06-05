@@ -10,21 +10,19 @@
       "version": 1,
       "filename": "blockly"
     },
-    "javascript": {
-      "name": "javascript",
+    "__javascript__": {
+      "name": "__javascript__",
       "type": "application/javascript",
       "size": 29,
       "content": "ev3.setRobotModel(\"custom\");\n",
       "group": "",
       "version": 1,
-      "filename": "javascript"
+      "filename": ""
     }
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 2",
   "frameworks": {},
   "history": "",

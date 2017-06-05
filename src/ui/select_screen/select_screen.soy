@@ -53,24 +53,44 @@
 
     <div class="mdl-grid">
 
-      {call .choiceCard_ data="all"}
-        {param title: 'Beginner' /}
-        {param text: 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.' /}
-        {param action: 'Use Beginner Mode' /}
-        {param link_id: 'normal-mode' /}
-        {param color_class: 'mdl-color--teal-50' /}
-        {param image: 'images/selection/blockly.png' /}
-      {/call}
+      <div id="cwc-select-screen-link-normal-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--teal-50">
+        <div class="mdl-card__media">
+          <div id="blocklyExampleDiv"></div>
+          <xml id="blocklyExampleToolbox" style="display: none">
+            <block type="controls_if"></block>
+            <block type="controls_repeat_ext"></block>
+          </xml>
+        </div>
+        <div class="mdl-card__title"><h4 class="mdl-card__title-text">Beginner</h4></div>
+        <div class="mdl-card__supporting-text">
+          <span class="mdl-typography--font-light mdl-typography--subhead">
+            Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.
+          </span>
+        </div>
+        <div class="mdl-card__actions">
+          <a class="mdl-button mdl-js-button mdl-typography--text-uppercase link_normal-mode" href="#normal-mode">
+            Use Beginner Mode<i class="material-icons">chevron_right</i></a>
+        </div>
+      </div>
 
-      {call .choiceCard_ data="all"}
-        {param title: 'Advanced' /}
-        {param text: 'Use a high-level programming language like JavaScript or CoffeeScript to write your code' /}
-        {param action: 'Use Advanced Mode' /}
-        {param link_id: 'advanced-mode' /}
-        {param color_class: 'mdl-color--orange-50' /}
-        {param image: 'images/selection/code_editor.png' /}
-      {/call}
-
+      <div id="cwc-select-screen-link-advanced-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--orange-50">
+        <div class="mdl-card__media">
+          <textarea id="codeMirrorExample">{literal}
+// My first program
+const HELLO = 'Hello World!';{/literal}
+          </textarea>
+        </div>
+        <div class="mdl-card__title"><h4 class="mdl-card__title-text">Advanced</h4></div>
+        <div class="mdl-card__supporting-text">
+          <span class="mdl-typography--font-light mdl-typography--subhead">
+            Use a high-level programming language like JavaScript or CoffeeScript to write your code
+          </span>
+        </div>
+        <div class="mdl-card__actions">
+          <a class="mdl-button mdl-js-button mdl-typography--text-uppercase link_advanced-mode" href="#advanced-mode" data-upgraded=",MaterialButton">
+            Use Advanced Mode<i class="material-icons">chevron_right</i></a>
+        </div>
+      </div>
     </div>
 
     <div id="{$prefix}sub-note">
@@ -139,40 +159,4 @@
   {if $debug}<div id="{$prefix}debug">Debug mode</div>{/if}
   {if $experimental}<div id="{$prefix}experimental">Experimental mode</div>{/if}
   {if $version}<div id="{$prefix}version">{$version}</div>{/if}
-{/template}
-
-
-/**
- * Choice Card.
- */
-{template .choiceCard_}
-  {@param prefix: string}
-  {@param title: string}
-  {@param text: string}
-  {@param action: string}
-  {@param link_id: string}
-  {@param color_class: string}
-  {@param image: string}
-
-  <div id="{$prefix}link-{$link_id}" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp{if $color_class} {$color_class}{/if}">
-    <div class="mdl-card__media">
-      <img src="../{$image}">
-    </div>
-    <div class="mdl-card__title">
-       <h4 class="mdl-card__title-text">
-         {msg desc="title_text"}{$title}{/msg}
-      </h4>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <span class="mdl-typography--font-light mdl-typography--subhead">
-        {msg desc="support_text"}{$text}{/msg}
-      </span>
-    </div>
-    <div class="mdl-card__actions">
-       <a class="mdl-button mdl-js-button mdl-typography--text-uppercase link_{$link_id}" href="#{$link_id}">
-         {msg desc="action_text"}{$action}{/msg}
-         <i class="material-icons">chevron_right</i>
-       </a>
-    </div>
-  </div>
 {/template}

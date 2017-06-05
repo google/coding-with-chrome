@@ -226,7 +226,7 @@ cwc.file.MimeType = {
 
 
 /**
- * @param {!string|object} content
+ * @param {!string|Object} content
  * @return {!string}
  */
 cwc.file.getMimeTypeByContent = function(content) {

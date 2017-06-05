@@ -1,15 +1,15 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "4.5.24",
+  "version": "4.6.4",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.16",
+    "closure-builder": "^2.2.17",
     "jsdoc": "^3.4.3",
     "nw": "^0.22.3",
-    "nw-builder": "^3.2.1",
+    "nw-builder": "^3.4.0",
     "rimraf": "^2.6.1",
     "command-line-usage": "^4.0.0",
     "rollup-plugin-buble": "^0.15.0"
@@ -63,6 +63,7 @@
     "build-chrome_app": "npm run clean-chrome_app && node build/app/chrome_app.js",
     "build-chrome_app_debug": "npm run clean-chrome_app && node build/app/chrome_app_debug.js",
     "build-nw_app": "npm run clean-nw_app && node build/app/nw_app.js",
+    "build-nw_app_debug": "npm run clean-nw_app && node build/app/nw_app_debug.js",
     "build-web_app": "npm run clean-web_app && node build/app/web_app.js",
     "build-core": "npm run clean-core && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-gss && npm run build-cwc-locales && npm run build-cwc-soy && npm run build-cwc-static-files",
     "build-third_party": "npm run clean-third_party && npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
@@ -76,6 +77,7 @@
     "chrome-app": "npm run build-core && npm run build-chrome_app && npm run launch",
     "chrome-app-debug": "npm run build-core && npm run build-chrome_app_debug && npm run launch",
     "nw-app": "npm run build-core && npm run build-nw_app && npm run launch-nw",
+    "nw-app-debug": "npm run build-core && npm run build-nw_app_debug && npm run launch-nw",
     "web-app": "npm run build-core && npm run build-web_app && npm run launch-web",
 
     "launch": "echo Lauching app. Please wait ... && npm run launch-linux --silent || npm run launch-mac --silent || npm run launch-win --silent",

@@ -5,14 +5,11 @@
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1",
   "frameworks": {},
   "history": "",
   "mode": "pencil_code",
-  "model": "",
   "raw": false,
   "title": "Pencil Code - Turtle Catch",
   "type": "pencil_code",

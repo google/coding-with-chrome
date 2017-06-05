@@ -183,6 +183,10 @@ cwc.ui.Builder.prototype.decorate = function(node, callback = null) {
     this.callback = callback;
   }
 
+  if (typeof window['nw'] !== 'undefined') {
+    window['nw']['Window']['get']()['showDevTools']();
+  }
+
   this.addEventListener_(window, goog.events.EventType.ERROR, function(e) {
     let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);

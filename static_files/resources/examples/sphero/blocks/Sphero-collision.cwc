@@ -6,15 +6,12 @@
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",
   "type": "sphero_blockly",
   "mode": "sphero_blockly",
-  "model": "",
   "title": "Collision example",
   "ui": "blockly",
   "version": "1.1"

@@ -5,17 +5,12 @@
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {
-      "ue": {}
-    }
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",
   "type": "basic",
   "mode": "basic",
-  "model": "",
   "title": "three.js - Cube",
   "ui": "default",
   "version": "1.0"

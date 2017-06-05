@@ -6,15 +6,12 @@
   },
   "description": "mBot tries to follow a black line with the help of the line follower sensor.",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 1.0",
   "frameworks": {},
   "history": "",
   "type": "mbot_blockly",
   "mode": "mbot_blockly",
-  "model": "",
   "title": "mBot - Line follower",
   "ui": "blockly",
   "version": "1.0"

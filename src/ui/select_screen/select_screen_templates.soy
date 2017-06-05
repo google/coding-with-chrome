@@ -66,7 +66,7 @@
 /**
  * Select card design.
  */
-{template .selectCardBig}
+{template .fileCard}
   {@param link_id: string}
   {@param prefix: string}
   {@param text: string}
@@ -75,36 +75,33 @@
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
-  {@param? opt_text: string}
 
-  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}
-        <div class="cwc-select-card-icon">
-          <i class="icon_auto">{$opt_icon}</i>
-        </div>
-      {/if}
-      {if $opt_text}<div>{msg desc=""}{$opt_text}{/msg}</div>{/if}
+  <div class="cwc-file-card mdl-cell mdl-shadow--4dp" id="{$prefix}link-{$link_id}">
+    <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
+      <h3>{msg desc=""}{$title}{/msg}</h3>
+      <div class="card__logo">
+        {if $opt_image}
+          <img src="../{$opt_image}">
+        {elseif $opt_icon}
+          <div class="cwc-select-card-icon">
+            <i class="icon_auto">{$opt_icon}</i>
+          </div>
+        {else}
+          <div class="cwc-select-card-icon">
+            <i class="icon_auto">insert_drive_file</i>
+          </div>
+        {/if}
+      </div>      
     </div>
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">
-        {msg desc=""}{$title}{/msg}
-      </h2>
-    </div>
-    <div class="mdl-card__supporting-text">
+    <div class="card__body">
       {msg desc=""}{$text}{/msg}
     </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a href="#" id="{$prefix}link-{$link_id}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent">
-        {if $opt_link_text}
-          {msg desc=""}{$opt_link_text}{/msg}
-        {else}
-          {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
-        {/if}
-        <i class="material-icons">chevron_right</i>
-        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-      </a>
+    <div class="card__action">
+      {if $opt_link_text}
+        {msg desc=""}{$opt_link_text}{/msg}
+      {else}
+        {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
+      {/if}
     </div>
   </div>
 {/template}
@@ -120,7 +117,7 @@
   {@param video_id: string}
   {@param? opt_color_class: string}
 
-  <div class="cwc-select-card-big mdl-cell mdl-card mdl-shadow--4dp">
+  <div class="cwc-file-card mdl-cell mdl-card mdl-shadow--4dp">
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
       <webview style="width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{$video_id}?rel=0&amp;controls=0" frameborder="0"></webview>
     </div>

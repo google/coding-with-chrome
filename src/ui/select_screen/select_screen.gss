@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+#{$prefix}select-screen-link-normal-mode #blocklyExampleDiv,
+#{$prefix}select-screen-link-advanced-mode .CodeMirror {
+  height: 185px;
+  width: 100%;
+}
+
 #{$prefix}select-screen-version {
   background: #00f;
   color: #fff;
@@ -127,4 +133,106 @@
 
 #{$prefix}select-screen-welcome .mdl-grid > .mdl-card > .mdl-card__media {
   background-color: #fff;
+}
+
+
+/** 
+ * File Cards definitions
+ */
+
+.cwc-file-card {
+  background: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),
+              0 3px 1px -2px rgba(0,0,0,.2),
+              0 1px 5px 0 rgba(0,0,0,.12);
+  cursor: pointer;
+  font-weight: 300;
+  margin: 8px;
+  width: 320px;
+  min-height: 290px;
+}
+
+.cwc-file-card:hover {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),
+              0 1px 10px 0 rgba(0,0,0,.12),
+              0 2px 4px -1px rgba(0,0,0,.2);
+}
+
+.cwc-file-card > .card__header {
+  height: 100px;
+  background: linear-gradient(90deg,#fcfcfc 0,#f7f7f7);
+  color: #4c4c4c;
+  line-height: 22px;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.cwc-file-card > .card__header > h3 {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 300;
+  margin: 0 81px 0 0;
+}
+
+.cwc-file-card > .card__header > .card__logo {
+  background: #fff;
+  border: 5px solid rgb(3, 169, 244);
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  margin-top: -40px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 200ms ease-in;
+}
+
+.cwc-file-card:hover > .card__header > .card__logo {
+  transition: all 200ms ease-in;
+  transform: scale(1.5);
+}
+
+.cwc-file-card > .card__header > .card__logo img,
+.cwc-file-card > .card__header > .card__logo > .cwc-select-card-icon {
+  max-height: 50px;
+  max-width: 50px;
+  font-size: 50px;
+  margin: 0 auto;
+}
+
+.cwc-file-card > .card__header > .card__logo > .cwc-select-card-icon > i {
+  color: rgb(3, 169, 244);
+  font-size: 50px;
+}
+
+.cwc-file-card > .card__body {
+  display: flex;
+  flex: 1;
+  font-size: 16px;
+  padding: 20px;
+  min-height: 115px;
+}
+
+.cwc-file-card > .card__action {
+  height: 35px;
+  overflow: hidden;
+  padding: 0 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #4285f4;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.cwc-file-card:hover > .card__action {
+  font-weight: bold;
 }

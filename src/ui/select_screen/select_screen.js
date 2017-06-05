@@ -184,6 +184,17 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
   if (this.helper.getAndSetFirstRun(this.name)) {
     // this.startTour();
   }
+
+  // Blockly demo
+  Blockly.inject('blocklyExampleDiv', {
+    'media': '/external/blockly/media/',
+    'toolbox': document.getElementById('blocklyExampleToolbox'),
+  });
+
+  // Codemirror demo
+  CodeMirror.fromTextArea(document.getElementById('codeMirrorExample'), {
+    'lineNumbers': true,
+  });
 };
 
 

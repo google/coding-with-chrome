@@ -31,6 +31,9 @@ var CodeMirror = function(node, options) {};
 CodeMirror.mimeModes = {};
 
 /** @type {Function} */
+CodeMirror.fromTextArea = function() {};
+
+/** @type {Function} */
 CodeMirror.prototype.historySize = function() {};
 
 /**

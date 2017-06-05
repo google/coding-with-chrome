@@ -1,26 +1,23 @@
 {
   "author": "Unknown",
   "content": {
-    "javascript": {
-      "name": "javascript",
+    "__javascript__": {
+      "name": "__javascript__",
       "type": "application/javascript",
       "size": 0,
       "content": "",
       "group": "",
       "version": 1,
-      "filename": "javascript"
+      "filename": ""
     }
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 2",
   "frameworks": {},
   "history": "",
   "mode": "basic",
-  "model": "",
   "title": "Untitled Basic file",
   "type": "basic",
   "ui": "default",

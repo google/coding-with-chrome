@@ -99,39 +99,37 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'New program' /}
           {param text: 'Start building new code' /}
           {param opt_link_text: 'create new program' /}
           {param link_id: 'blank' /}
-          {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Blockly file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Hello World' /}
           {param text: 'Try a Hello World example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-block-hello-world.png' /}
+          {param opt_icon: 'speaker_notes' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Text loop' /}
           {param text: 'Write many things on the screen with a repeating program (a loop)' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-block-text-loop.png' /}
+          {param opt_icon: 'repeat' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Sunlights' /}
           {param text: 'Write many things on the screen with a repeating program (a loop)' /}
           {param link_id: 'sunlights' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'wb_sunny' /}
         {/call}
 
       </div>
@@ -166,7 +164,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create your own game' /}
           {param opt_link_text: 'Empty project' /}
@@ -174,43 +172,38 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Game file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Switch game state' /}
           {param text: 'Switch from one game state to another game state' /}
           {param link_id: 'switch-game-state' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'switch_camera' /}
-          {param opt_text: 'Example' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Move a sprite' /}
           {param text: 'Move a sprite with your cursor keys' /}
           {param link_id: 'move-a-sprite' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'games' /}
-          {param opt_text: 'Example' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Bouncing ball with floor and ceiling' /}
           {param text: 'A bouncing ball with floor and ceiling' /}
           {param link_id: 'bouncing-ball' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'featured_video' /}
-          {param opt_text: 'Example' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Bouncing cubes' /}
           {param text: 'Different types of bouncing cubes' /}
           {param link_id: 'bouncing-cubes' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'featured_video' /}
-          {param opt_text: 'Example' /}
         {/call}
 
       </div>
@@ -308,38 +301,37 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive an EV3 or an on-screen robot with Blockly' /}
           {param opt_link_text: 'New EV3 blocks program' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'EV3 block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Educator - Block Grabber' /}
           {param text: 'Educator Robot is grabbing a block' /}
           {param link_id: 'block-grabber' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/ev3-block-block-grabber.png' /}
+          {param opt_icon: 'rv_hookup' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'IR sensor - collision avoidance' /}
           {param text: 'Navigates freely in the environment and avoid collisions.' /}
           {param link_id: 'ir-sensor' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'perm_scan_wifi' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Color sensor - sound' /}
           {param text: 'Plays different tones depending on the detected color.' /}
           {param link_id: 'color-sensor' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/ev3-block-color-sensor-sound.png' /}
+          {param opt_icon: 'music_note' /}
         {/call}
 
       </div>
@@ -383,7 +375,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a Sphero or an on-screen robot with Blockly' /}
           {param opt_link_text: 'new Sphero blocks program' /}
@@ -391,23 +383,22 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Sphero block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Rectangle example' /}
           {param text: 'Try a Sphero example - rolling a rectangle' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/sphero-block-rectangle.png' /}
+          {param opt_icon: 'crop_square' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Collison Example' /}
           {param text: 'Try a Sphero example - change color on collision' /}
           {param link_id: 'collision' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/sphero-block-collison.png' /}
+          {param opt_icon: 'perm_scan_wifi' /}
         {/call}
 
       </div>
@@ -451,7 +442,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot or an on-screen robot with Blockly' /}
           {param opt_link_text: 'new mbot blocks program' /}
@@ -459,39 +450,38 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'mBot block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Button turn on light' /}
           {param text: 'Pressing the on-board button will turn on the light' /}
           {param link_id: 'button_light' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'lightbulb_outline' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Sound on present' /}
           {param text: 'Place the hand over the mBot to play a sound' /}
           {param link_id: 'lightness_sound' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'music_note' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Collison avoidance' /}
           {param text: 'Try a mBot example - Collision avoidance' /}
           {param link_id: 'collision_avoidance' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'perm_scan_wifi' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Line follower' /}
           {param text: 'mBot will follow a black line' /}
           {param link_id: 'line_follower' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'timeline' /}
         {/call}
 
       </div>
@@ -535,7 +525,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'New program' /}
           {param text: 'Begin a new program to drive a mBot with Blockly' /}
           {param link_text: 'new mBot Ranger blocks program' /}
@@ -543,23 +533,22 @@
           {param opt_image: '' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'mBot Ranger block file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Ultrasonic sensor - Stop' /}
           {param text: 'MBot Ranger stops before obstacle' /}
           {param link_id: 'ultrasonic_stop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'perm_scan_wifi' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Sound generator' /}
           {param text: 'MBot Ranger plays an Melodie' /}
           {param link_id: 'sound_generator' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'music_note' /}
         {/call}
 
       </div>

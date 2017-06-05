@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Editor');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.soy.ui.Editor');
+goog.require('cwc.ui.EditorAutocompleteBlacklistCodes');
 goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
 goog.require('cwc.ui.EditorAutocompleteList');
 goog.require('cwc.ui.EditorFlags');
@@ -739,7 +740,8 @@ cwc.ui.Editor.prototype.handleChange_ = function() {
  */
 cwc.ui.Editor.prototype.handleKeyUp_ = function(cm, e) {
   if (!cm || cm['state']['completionActive'] ||
-      typeof cwc.ui.EditorAutocompleteBlacklistKeys[e.code] !== 'undefined') {
+      typeof cwc.ui.EditorAutocompleteBlacklistCodes[e.code] !== 'undefined' ||
+      typeof cwc.ui.EditorAutocompleteBlacklistKeys[e.key] !== 'undefined') {
     return;
   }
   CodeMirror.commands.autocomplete(cm, null, {

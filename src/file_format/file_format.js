@@ -480,24 +480,6 @@ cwc.fileFormat.File.prototype.getVersion = function() {
 
 
 /**
- * @param {!boolean} raw
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.prototype.setRaw = function(raw) {
-  this.raw_ = raw;
-  return this;
-};
-
-
-/**
- * @return {boolean}
- */
-cwc.fileFormat.File.prototype.isRaw = function() {
-  return this.raw_;
-};
-
-
-/**
  * @param {!string} history
  * @return {!cwc.fileFormat.File}
  */

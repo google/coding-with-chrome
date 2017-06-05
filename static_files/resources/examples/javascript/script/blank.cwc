@@ -1,7 +1,7 @@
 {
-  "author": "Markus Bordihn",
+  "author": "",
   "content": {
-    "javascript": "command.write('Hello World!');\n"
+    "javascript": ""
   },
   "description": "",
   "files": {},
@@ -11,7 +11,7 @@
   "history": "",
   "type": "basic",
   "mode": "basic",
-  "title": "Basic: Hello World",
+  "title": "Unnamed JavaScript project",
   "ui": "default",
   "version": "1.0"
 }

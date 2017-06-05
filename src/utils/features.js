@@ -129,6 +129,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function() {
   // General features.
   this.setChromeFeature('bluetooth', typeof chrome.bluetooth);
   this.setChromeFeature('bluetoothSocket', typeof chrome.bluetoothSocket);
+  this.setChromeFeature('bluetoothLowEnergy', typeof chrome.bluetoothLowEnergy);
   this.setChromeFeature('browser', typeof chrome.browser);
   this.setChromeFeature('serial', typeof chrome.serial);
   this.setChromeFeature('webview', 'src' in document.createElement('webview'));

@@ -17,6 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.ui.EditorAutocompleteBlacklistCodes');
 goog.provide('cwc.ui.EditorAutocompleteBlacklistKeys');
 
 
@@ -24,7 +25,7 @@ goog.provide('cwc.ui.EditorAutocompleteBlacklistKeys');
  * Ignore the following KeyboardEvent.code for auto complete.
  * @enum {boolean}
  */
-cwc.ui.EditorAutocompleteBlacklistKeys = {
+cwc.ui.EditorAutocompleteBlacklistCodes = {
   'Alt': true,
   'AltLeft': true,
   'AltRight': true,
@@ -32,6 +33,7 @@ cwc.ui.EditorAutocompleteBlacklistKeys = {
   'ArrowLeft': true,
   'ArrowRight': true,
   'ArrowUp': true,
+  'Backquote': true,
   'Backslash': true,
   'Backspace': true,
   'Comma': true,
@@ -51,6 +53,7 @@ cwc.ui.EditorAutocompleteBlacklistKeys = {
   'Digit9': true,
   'End': true,
   'Enter': true,
+  'Escape': true,
   'F1': true,
   'F10': true,
   'F11': true,
@@ -75,4 +78,17 @@ cwc.ui.EditorAutocompleteBlacklistKeys = {
   'ShiftRight': true,
   'Space': true,
   'Tab': true,
+};
+
+
+/**
+ * Ignore the following KeyboardEvent.key for auto complete.
+ * @enum {boolean}
+ */
+cwc.ui.EditorAutocompleteBlacklistKeys = {
+  '#': true,
+  '*': true,
+  '+': true,
+  '@': true,
+  '|': true,
 };

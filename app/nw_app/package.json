@@ -1,9 +1,10 @@
 {
   "name": "binary",
-  "version": "4.5.24",
+  "version": "4.6.4",
   "main": "js/background.js",
   "window": {
     "title": "Coding with Chrome",
-    "icon": "icons/128x128.png"
+    "icon": "icons/128x128.png",
+    "toolbar": true
   }
 }

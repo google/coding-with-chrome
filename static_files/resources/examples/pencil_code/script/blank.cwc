@@ -13,14 +13,11 @@
   },
   "description": "",
   "files": {},
-  "flags": {
-    "__editor__": {}
-  },
+  "flags": {},
   "format": "Coding with Chrome File Format 2",
   "frameworks": {},
   "history": "",
   "mode": "pencil_code",
-  "model": "",
   "title": "Untitled Pencil Code file",
   "type": "pencil_code",
   "ui": "default",

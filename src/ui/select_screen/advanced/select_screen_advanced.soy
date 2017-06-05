@@ -122,54 +122,53 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Simple JS file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Hello World' /}
           {param text: 'Hello World example' /}
           {param link_id: 'hello-world' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-script-hello-world.png' /}
+          {param opt_icon: 'speaker_notes' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Text loop' /}
           {param text: 'Text loop example' /}
           {param link_id: 'text-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-script-text-loop.png' /}
+          {param opt_icon: 'repeat' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Line loop' /}
           {param text: 'Draw lines with loops' /}
           {param link_id: 'line-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-script-line-loop.png' /}
+          {param opt_icon: 'repeat' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Point loop' /}
           {param text: 'Draw points with random colors and loops' /}
           {param link_id: 'point-loop' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-script-point-loop.png' /}
+          {param opt_icon: 'repeat' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Draw Portal Turret' /}
           {param text: 'Draw a Portal Turret' /}
           {param link_id: 'draw-portal-turret' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/basic-draw-portal-turret.png' /}
+          {param opt_icon: 'palette' /}
         {/call}
 
       </div>
@@ -273,52 +272,49 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Empty project' /}
           {param text: 'Start an empty JavaScript project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'JavaScript file' /}
         {/call}
 
         {if $online}
-          {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Video tutorials' /}
             {param text: 'Start learning JavaScript with video tutorials on YouTube' /}
             {param opt_link_text: 'Select Tutorials' /}
             {param link_id: 'js-tutorials' /}
             {param opt_color_class: 'bg-green' /}
             {param opt_icon: 'movie_creation' /}
-            {param opt_text: 'Video tutorials' /}
           {/call}
         {/if}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'JavaScript Frameworks' /}
           {param text: 'Different kind of JavaScript framework examples' /}
           {param opt_link_text: 'Select Framework' /}
           {param link_id: 'js-frameworks' /}
           {param opt_color_class: 'bg-orange' /}
           {param opt_icon: 'pages' /}
-          {param opt_text: 'JavaScript Frameworks' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Circle Animation' /}
           {param text: 'Example that animates a circle' /}
           {param link_id: 'circle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/javascript-circle-animation.png' /}
+          {param opt_icon: 'toys' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Triangle animation' /}
           {param text: 'Example that animates a triangle' /}
           {param link_id: 'triangle-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/javascript-triangle-animation.png' /}
+          {param opt_icon: 'toys' /}
         {/call}
 
       </div>
@@ -425,7 +421,7 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Three.js - Cube example' /}
           {param text: 'Animated 3D cube' /}
           {param link_id: 'cube-animation' /}
@@ -469,14 +465,13 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'CoffeeScript file' /}
           {param text: 'Start an empty CoffeeScript project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'CoffeeScript file' /}
         {/call}
 
       </div>
@@ -515,22 +510,21 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Python project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Simple python file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Guess number' /}
           {param text: 'Simple guess number game.' /}
           {param link_id: 'guess-number' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: '' /}
+          {param opt_icon: 'question_answer' /}
         {/call}
 
       </div>
@@ -573,22 +567,21 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Pencil Code project' /}
           {param text: 'Start an empty pencil code project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Pencil Code file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Turtle catch' /}
           {param text: 'Simple game where the goal is to catch a turtle' /}
           {param link_id: 'turtle-catch' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/pencil-code-turtle-catch.png' /}
+          {param opt_icon: 'videogame_asset' /}
         {/call}
 
       </div>
@@ -664,22 +657,21 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'HTML5 project' /}
           {param text: 'Start an empty HTML5 project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'HTML5 file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Form example' /}
           {param text: 'HTML5 form example' /}
           {param link_id: 'form' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/html5-form.png' /}
+          {param opt_icon: 'web' /}
         {/call}
 
       </div>
@@ -764,24 +756,23 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
+        {call cwc.soy.SelectScreenTemplate.fileCard}
           {param prefix: $prefix /}
-          {param title: 'Empty project' /}
+          {param title: 'EV3 project' /}
           {param text: 'Start an empty EV3 project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'EV3 file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig}
+        {call cwc.soy.SelectScreenTemplate.fileCard}
           {param prefix: $prefix /}
           {param title: 'Line follower' /}
           {param text: 'Simple line follower example' /}
           {param link_id: 'line-follower' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/ev3-script-line-follow.png' /}
+          {param opt_icon: 'timeline' /}
         {/call}
 
       </div>
@@ -825,22 +816,21 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Sphero project' /}
           {param text: 'Start an empty Sphero project' /}
           {param opt_link_text: 'Empty project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Sphero file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Rectangle example' /}
           {param text: 'Example Sphero is rolling a rectangle' /}
           {param link_id: 'rectangle' /}
           {param opt_color_class: 'bg-blue' /}
-          {param opt_image: 'images/selection/sphero-script-rectangle.png' /}
+          {param opt_icon: 'crop_square' /}
         {/call}
 
       </div>
@@ -879,14 +869,13 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Empty project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: '' /}
         {/call}
 
       </div>
@@ -921,22 +910,21 @@
 
       <div class="mdl-grid max-width">
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
-          {param title: 'Empty project' /}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: '3D file project' /}
           {param text: 'Create empty project' /}
           {param opt_link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'insert_drive_file' /}
-          {param opt_text: 'Simple 3D file' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.selectCardBig data="all"}
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: '3D cube animation' /}
           {param text: 'Animated 3D cube' /}
           {param link_id: 'cube-animation' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_image: 'images/selection/javascript-cube-animation.png' /}
+          {param opt_icon: 'rotate_90_degrees_ccw' /}
         {/call}
 
       </div>
