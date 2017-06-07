@@ -601,7 +601,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
         if (Object.prototype.hasOwnProperty.call(
             jsonData['content'], entry)) {
           let name = entry;
-          switch(entry) {
+          switch (entry) {
             case 'coffeescript':
               name = cwc.ui.EditorContent.COFFEESCRIPT;
               break;

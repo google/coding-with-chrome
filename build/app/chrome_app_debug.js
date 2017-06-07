@@ -65,6 +65,8 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC core files',
   resources: [
+    'genfiles/core/LICENSE.html',
+    'genfiles/core/NOTICE.html',
     'genfiles/core/css/',
     'genfiles/core/icons/',
     'genfiles/core/images/',
@@ -111,19 +113,6 @@ closureBuilder.build({
     'genfiles/third_party/frameworks/external',
   ],
   out: 'dist/chrome_os/frameworks',
-});
-
-
-/**
- * Markdown files
- */
-closureBuilder.build({
-  name: 'CwC Markdown files',
-  markdown: [
-    'LICENSE.md',
-    'NOTICE.md',
-  ],
-  out: 'dist/chrome_os/',
 });
 
 

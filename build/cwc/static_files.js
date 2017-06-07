@@ -33,3 +33,20 @@ closureBuilder.build({
   ],
   out: 'genfiles/core/',
 });
+
+
+/**
+ * Markdown files
+ */
+closureBuilder.build({
+  name: 'CwC Markdown files',
+  markdown: [
+    'LICENSE.md',
+    'NOTICE.md',
+  ],
+  replace: [
+    ['nw-js', 'nwjs'],
+    ['three-js', 'threejs'],
+  ],
+  out: 'genfiles/core/',
+});
