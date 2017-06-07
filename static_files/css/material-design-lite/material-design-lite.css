@@ -84,7 +84,7 @@ html>body,
 
 .mdl-layout__header-row {
   height: 44px;
-  padding: 0 10px 0 80px;
+  padding: 0 10px 0 50px;
 }
 
 .mdl-navigation {
@@ -122,30 +122,6 @@ html>body,
 .cwc-content-large {
   height: calc(100% - 88px);
   overflow: auto;
-}
-
-.cwc-band {
-  width: 100%;
-  text-align: center;
-  position: relative;
-}
-
-.cwc-band-icon {
-  position: absolute;
-  left: calc(25% - 50px);
-  top: 15px;
-  font-size: 64px;
-}
-
-.cwc-band-text {
-  max-width: 800px;
-  margin-left: 25%;
-  padding: 24px;
-  text-align: left;
-}
-
-.cwc-band-text p {
-  padding-top: 8px;
 }
 
 .cwc-navigation {

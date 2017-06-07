@@ -23,7 +23,6 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.Uri');
 goog.require('goog.events');
 goog.require('goog.net.XhrIo');
-goog.require('goog.structs.Map');
 
 
 /**
@@ -220,7 +219,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
     }
   }
 
-  let headers = new goog.structs.Map(opts.header);
+  let headers = new Map(opts.header);
   headers.set('Authorization', 'Bearer ' + token);
   headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 

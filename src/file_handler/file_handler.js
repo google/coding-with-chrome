@@ -44,7 +44,7 @@ cwc.fileHandler.File = function(helper) {
   /** @private {!string} */
   this.fileContent_ = '';
 
-  /** @private {!cwc.file.MimeType} */
+  /** @private {cwc.file.MimeType} */
   this.mimeType_ = '';
 
   /** @private {Object} */
@@ -102,7 +102,7 @@ cwc.fileHandler.File.prototype.setRawFile = function(content, filename) {
 
 
 /**
- * @return {!cwc.fileFormat.File}
+ * @return {cwc.fileFormat.File}
  */
 cwc.fileHandler.File.prototype.getFile = function() {
   return this.file_;
@@ -121,7 +121,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 
 
 /**
- * @return {!cwc.file.MimeType}
+ * @return {cwc.file.MimeType}
  */
 cwc.fileHandler.File.prototype.getMimeType = function() {
   return this.mimeType_;
@@ -163,6 +163,7 @@ cwc.fileHandler.File.prototype.addLibraryFile = function(name, content, type,
   if (this.file_) {
     return this.file_.getFiles().addFile(name, content, type, size, group);
   }
+  return null;
 };
 
 

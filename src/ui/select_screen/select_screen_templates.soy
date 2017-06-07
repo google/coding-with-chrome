@@ -45,7 +45,7 @@
     </div>
     <div class="mdl-card__title">
       <h4 class="mdl-card__title-text">
-        {msg desc=""}{$title}{/msg}
+        {msg desc=""}{$title|changeNewlineToBr}{/msg}
       </h4>
     </div>
     <div class="mdl-card__supporting-text">
@@ -78,7 +78,7 @@
 
   <div class="cwc-file-card mdl-cell mdl-shadow--4dp" id="{$prefix}link-{$link_id}">
     <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
-      <h3>{msg desc=""}{$title}{/msg}</h3>
+      <h3>{msg desc=""}{$title|changeNewlineToBr}{/msg}</h3>
       <div class="card__logo">
         {if $opt_image}
           <img src="../{$opt_image}">
@@ -215,9 +215,9 @@
   {@param? opt_icon: string}
   {@param? opt_text: string}
 
-  <header class="cwc-band{if $opt_color_class} {$opt_color_class}{/if}">
-    {if $opt_icon}<div class="cwc-band-icon icon_auto">{$opt_icon}</div>{/if}
-    <div class="cwc-band-text">
+  <header class="cwc-select-header{if $opt_color_class} {$opt_color_class}{/if}">
+    {if $opt_icon}<div class="header__icon icon_auto">{$opt_icon}</div>{/if}
+    <div class="header__text">
       <div class="mdl-typography--display-2 mdl-typography--font-thin">
         {msg desc=""}{$title}{/msg}
       </div>
