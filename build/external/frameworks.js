@@ -101,6 +101,18 @@ closureBuilder.build({
 
 
 /**
+ * Brython
+ */
+closureBuilder.build({
+  name: 'Brython Core',
+  resources: [
+    'third_party/brython/www/src/brython_dist.js',
+  ],
+  out: 'genfiles/third_party/frameworks/external/brython_dist.js',
+});
+
+
+/**
  * Skulpt Core
  */
 closureBuilder.build({

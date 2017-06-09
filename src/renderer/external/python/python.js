@@ -1,5 +1,5 @@
 /**
- * @fileoverview Renderer for Python.
+ * @fileoverview Renderer for Python 2.x and 3.x.
  *
  * @license Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -67,18 +67,35 @@ cwc.renderer.external.Python.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
+  let content = editor_content[cwc.ui.EditorContent.DEFAULT];
+  if (content.includes('#!/usr/bin/python2.') ||
+      content.includes('print \'')) {
+    let header = renderer_helper.getFrameworkHeaders([
+      cwc.framework.External.JQUERY.V2_2_4,
+      cwc.framework.External.SKULPT.CORE,
+      cwc.framework.External.SKULPT.STDLIB,
+      cwc.framework.Internal.PYTHON2,
+    ], frameworks);
+    header += renderer_helper.getStyleSheetHeader(
+      /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
+    let body = '<div id="content"></div>' +
+    '<script id="code" type="text/python">\n' +
+      content +
+    '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
+
+    return renderer_helper.getHTMLCanvas(body, header);
+  }
+
   let header = renderer_helper.getFrameworkHeaders([
-    cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.SKULPT.CORE,
-    cwc.framework.External.SKULPT.STDLIB,
-    cwc.framework.Internal.PYTHON2,
+    cwc.framework.External.BRYTHON,
+    cwc.framework.Internal.PYTHON3,
   ], frameworks);
   header += renderer_helper.getStyleSheetHeader(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
   let body = '<div id="content"></div>' +
   '<script id="code" type="text/python">\n' +
-    editor_content[cwc.ui.EditorContent.DEFAULT] +
-  '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
-
-  return renderer_helper.getHTMLCanvas(body, header);
+    content +
+  '\n</script>\n<script>new cwc.framework.Python3().run();</script>';
+  
+  return renderer_helper.getHTML(body, header);
 };

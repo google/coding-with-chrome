@@ -315,6 +315,8 @@ cwc.file.getMimeTypeByContent = function(content) {
         ) && content.includes('=') && content.includes(';'))
       ) {
     return cwc.file.MimeType.JAVASCRIPT.type;
+  } else if (content.startsWith('#!/usr/bin/python')) {
+    return cwc.file.MimeType.PYTHON.text;
   } else if (content.constructor == String) {
     return cwc.file.MimeType.TEXT.type;
   }

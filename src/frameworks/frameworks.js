@@ -30,6 +30,7 @@ goog.provide('cwc.framework.StyleSheet');
  * @enum {!Object.<string>|string}
  */
 cwc.framework.External = {
+  BRYTHON: 'brython_dist.js',
   COFFEESCRIPT: 'coffee-script.js',
   JQUERY: {
     V3_X: 'jquery.min.js',
@@ -57,7 +58,8 @@ cwc.framework.Internal = {
   MBOT: 'mbot_framework.js',
   MBOT_RANGER: 'mbot_ranger_framework.js',
   PHASER: 'phaser_framework.js',
-  PYTHON: 'python_framework.js',
+  PYTHON2: 'python2_framework.js',
+  PYTHON3: 'python3_framework.js',
   RASPBERRY_PI: 'raspberry_pi_framework.js',
   RUNNER: 'runner_framework.js',
   SIMPLE: 'simple_framework.js',

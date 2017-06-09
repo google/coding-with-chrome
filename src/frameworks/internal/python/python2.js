@@ -1,5 +1,5 @@
 /**
- * @fileoverview Python framework for the runner instance.
+ * @fileoverview Python 2.x framework for the runner instance.
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Python');
+goog.provide('cwc.framework.Python2');
 
 goog.require('cwc.utils.Dialog');
 
@@ -28,9 +28,9 @@ goog.require('cwc.utils.Dialog');
  * @final
  * @export
  */
-cwc.framework.Python = function() {
+cwc.framework.Python2 = function() {
   /** @type {string} */
-  this.name = 'Python Framework';
+  this.name = 'Python 2.x Framework';
 
   /** @type {!cwc.utils.Dialog} */
   this.dialog = new cwc.utils.Dialog();
@@ -43,7 +43,7 @@ cwc.framework.Python = function() {
 /**
  * @export
  */
-cwc.framework.Python.prototype.run = function() {
+cwc.framework.Python2.prototype.run = function() {
   let pythonCode = document.getElementById('code').textContent.trim();
   let pythonVersion3 = false;
 
@@ -101,7 +101,7 @@ cwc.framework.Python.prototype.run = function() {
 /**
  * @param {!string} text
  */
-cwc.framework.Python.prototype.showDebug = function(text) {
+cwc.framework.Python2.prototype.showDebug = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
     this.lastMsg = text;
     console.debug(text);
@@ -112,7 +112,7 @@ cwc.framework.Python.prototype.showDebug = function(text) {
 /**
  * @param {!string} text
  */
-cwc.framework.Python.prototype.showError = function(text) {
+cwc.framework.Python2.prototype.showError = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
     this.lastMsg = text;
     console.error(text);
@@ -123,7 +123,7 @@ cwc.framework.Python.prototype.showError = function(text) {
 /**
  * @param {!string} text
  */
-cwc.framework.Python.prototype.showOutput = function(text) {
+cwc.framework.Python2.prototype.showOutput = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
     this.lastMsg = text;
     console.log(text);
@@ -136,7 +136,7 @@ cwc.framework.Python.prototype.showOutput = function(text) {
  * @param {string=} opt_msg
  * @return {Promise}
  */
-cwc.framework.Python.prototype.showInput = function(opt_msg) {
+cwc.framework.Python2.prototype.showInput = function(opt_msg) {
   let msg = opt_msg || this.lastMsg || '';
   this.lastMsg = '';
   return this.dialog.showPrompt('Input', msg);
@@ -147,7 +147,7 @@ cwc.framework.Python.prototype.showInput = function(opt_msg) {
  * @param {!string} file_name
  * @return {Object}
  */
-cwc.framework.Python.prototype.builtinRead = function(file_name) {
+cwc.framework.Python2.prototype.builtinRead = function(file_name) {
   if (Sk.builtinFiles === undefined ||
       Sk.builtinFiles['files'][file_name] === undefined) {
     throw new Error('File not found: \'' + file_name + '\'');

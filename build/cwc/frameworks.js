@@ -58,21 +58,37 @@ closureBuilder.build({
 
 
 /**
- * Python Framework
+ * Python 2.x Framework
  */
 closureBuilder.build({
-  name: 'cwc.framework.Python',
+  name: 'cwc.framework.Python2',
   compress: true,
-  srcs: glob([
-    'src/frameworks/internal/python/*.js',
-  ]),
+  srcs: [
+    'src/frameworks/internal/python/python2.js',
+  ],
   deps: glob([
     'src/utils/dialog/*',
   ]),
   externs: [
     'build/externs/skulpt.js',
   ],
-  out: 'genfiles/core/frameworks/internal/python_framework.js',
+  out: 'genfiles/core/frameworks/internal/python2_framework.js',
+});
+
+
+/**
+ * Python 3.x Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.Python3',
+  compress: true,
+  srcs: [
+    'src/frameworks/internal/python/python3.js',
+  ],
+  externs: [
+    'build/externs/brython.js',
+  ],
+  out: 'genfiles/core/frameworks/internal/python3_framework.js',
 });
 
 
