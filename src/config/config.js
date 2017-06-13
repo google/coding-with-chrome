@@ -21,7 +21,6 @@ goog.provide('cwc.config');
 goog.provide('cwc.config.Debug');
 goog.provide('cwc.config.Default');
 goog.provide('cwc.config.Experimental');
-goog.provide('cwc.config.InterpreterFlag');
 goog.provide('cwc.config.Logging');
 goog.provide('cwc.config.Number');
 goog.provide('cwc.config.Prefix');
@@ -113,18 +112,4 @@ cwc.config.Sample = {
   TEXT_PLACEHOLDER: 'Lorem ipsum non in vita reverti. Et facti sunt dies ut ' +
       'expertus. Experientiarum fecisti. Quod est tibi. In ' +
       'casu, cursus ut,',
-};
-
-
-/**
- * Supported commands Flags for the Interpreter.
- * @enum {!Object.<string>}
- */
-cwc.config.InterpreterFlag = {
-  LOAD: {
-    ONLOAD: 'onLoad',  // Load on "window.onload"
-    ONDOMREADY: 'onDomReady',  // Load on "document.DOMContentLoaded"
-    INHEAD: 'inHead',  // Place script inside <head>…</head>
-    INBODY: 'inBody',  // Place script inside <body>…</body>
-  },
 };

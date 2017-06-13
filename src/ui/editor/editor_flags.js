@@ -19,8 +19,6 @@
  */
 goog.provide('cwc.ui.EditorFlags');
 
-goog.require('cwc.config.InterpreterFlag');
-
 
 /**
  * @constructor

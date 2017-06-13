@@ -30,12 +30,10 @@ goog.require('cwc.ui.EditorContent');
 
 
 /**
- * @param {string=} content
  * @param {cwc.file.Type=} type
  * @return {!cwc.fileFormat.File}
  */
-cwc.fileFormat.AdvancedFile = function(content = '',
-    type = cwc.file.Type.ADVANCED) {
+cwc.fileFormat.AdvancedFile = function(type = cwc.file.Type.ADVANCED) {
   return new cwc.fileFormat.File()
     .setType(type)
     .setTitle('Untitled advanced file')

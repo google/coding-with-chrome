@@ -70,7 +70,7 @@ cwc.renderer.external.PencilCode.prototype.render = function(
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
   ], frameworks);
-  let body = '\n<script type="text\/coffeescript">\n' +
+  let body = '\n<script type="text/coffeescript">\n' +
     '$.turtle();\n' + editor_content[cwc.ui.EditorContent.COFFEESCRIPT] +
     '\n</script>\n';
   return renderer_helper.getHTMLGrid(body, header);

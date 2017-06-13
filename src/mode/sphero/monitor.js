@@ -290,7 +290,6 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
   let boostedSpeed = 255;
 
   switch (event.identifier) {
-
     // Normal speed
     case 'forward':
       this.api.roll(normalSpeed, 0);

@@ -302,7 +302,7 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     this.log_.info('Loading file', file, '...');
     let xhr = new goog.net.XhrIo();
     let xhrEvent = this.resourceFileHandler.bind(this);
-    let filename = file.replace(/^.*(\\|\/|\:)/, '');
+    let filename = file.replace(/^.*(\\|\/|:)/, '');
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       xhrEvent(e, filename, callback);
     });

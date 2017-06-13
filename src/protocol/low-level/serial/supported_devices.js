@@ -46,7 +46,7 @@ cwc.protocol.Serial.supportedDevice = {
     'name': 'EV3 serial tty',
   },
   EV3_CU: {
-    'name': 'EV3 serial cu',  // calling unit
+    'name': 'EV3 serial cu', // calling unit
   },
 };
 

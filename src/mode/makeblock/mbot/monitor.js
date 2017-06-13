@@ -216,7 +216,6 @@ cwc.mode.makeblock.mbot.Monitor.prototype.handleKeyboardShortcut_ = function(
   let boostedSpeed = 255;
 
   switch (event.identifier) {
-
     // Normal speed
     case 'forward':
       this.api.setLeftMotorPower(-normalSpeed);

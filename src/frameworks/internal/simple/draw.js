@@ -456,14 +456,14 @@ cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
   let controlY = halfHeight * cwc.config.Number.CIRCULAR_ARCS;
   let canvasInstructions = function() {
     display.moveTo(centerX, centerY + halfHeight);
-    display.bezierCurveTo(  // Top-Left part
+    display.bezierCurveTo( // Top-Left part
         centerX, middleY - controlY, middleX - controlX,
         centerY, middleX, centerY);
-    display.bezierCurveTo(  // Top-Right part
+    display.bezierCurveTo( // Top-Right part
         middleX + controlX, centerY, endX, middleY - controlY, endX, middleY);
-    display.bezierCurveTo(  // Bottom-Right part
+    display.bezierCurveTo( // Bottom-Right part
         endX, middleY + controlY, middleX + controlX, endY, middleX, endY);
-    display.bezierCurveTo(  // Bottom-Left part
+    display.bezierCurveTo( // Bottom-Left part
         middleX - controlX, endY, centerX,
         middleY + controlY, centerX, middleY);
   };

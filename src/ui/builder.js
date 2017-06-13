@@ -39,8 +39,8 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.sphero.Api');
-goog.require('cwc.protocol.tcp.Server');
 goog.require('cwc.renderer.Renderer');
+goog.require('cwc.server.Server');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
@@ -299,9 +299,8 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Starting HTTP Server', 29, 100);
-    let server = new cwc.protocol.tcp.Server();
-    server.listen();
+    this.setProgress('Prepare internal Server', 29, 100);
+    this.prepareServer();
   }
 
   if (!this.error) {
@@ -525,7 +524,7 @@ cwc.ui.Builder.prototype.prepareDialog = function() {
  * Prepare and load the supported protocols.
  */
 cwc.ui.Builder.prototype.prepareProtocols = function() {
-  this.log_.debug('Prepare Protocols instances ...');
+  this.log_.debug('Prepare Protocols support ...');
   let protocols = cwc.ui.supportedProtocols;
   let numOfProtocols = Object.keys(protocols).length;
   let counter = 1;
@@ -538,6 +537,18 @@ cwc.ui.Builder.prototype.prepareProtocols = function() {
     }
   }
   this.prepared = true;
+};
+
+/**
+ * Prepare internal Servers.
+ */
+cwc.ui.Builder.prototype.prepareServer = function() {
+  this.log_.debug('Prepare internal Servers ...');
+  let serverInstance = new cwc.server.Server();
+  if (serverInstance) {
+    serverInstance.prepare();
+  }
+  this.helper.setInstance('server', serverInstance);
 };
 
 

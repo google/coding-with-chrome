@@ -258,7 +258,7 @@ cwc.file.getMimeTypeByContent = function(content) {
       content.includes('"') && content.includes(':')) {
       let jsonData = null;
     try {
-      jsonData = JSON.parse(content);
+      jsonData = JSON.parse(/** @type {string}*/ (content));
     } catch (error) {
       jsonData = null;
     }

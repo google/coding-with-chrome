@@ -68,7 +68,7 @@ cwc.renderer.internal.Coffeescript.prototype.render = function(
   let header = renderer_helper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.External.COFFEESCRIPT), frameworks
   );
-  let body = '\n<script type="text\/coffeescript">\n' +
+  let body = '\n<script type="text/coffeescript">\n' +
     editor_content[cwc.ui.EditorContent.DEFAULT] + '\n</script>\n';
   return renderer_helper.getHTML(body, header);
 };

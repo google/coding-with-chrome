@@ -66,16 +66,38 @@ cwc.utils.ByteTools.isArrayBufferEqual = function(data1, data2) {
 
 
 /**
- * @param {!Array} data
+ * @param {!Array|string} data
  * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.toUint8Array = function(data) {
   let dataLength = data.length;
   let dataBuffer = new Uint8Array(dataLength);
-  for (let i=0; i < dataLength; i++) {
-    dataBuffer[i] = data[i];
+  if (typeof data === 'string') {
+    // Handle Strings
+    for (let i=0; i < dataLength; i++) {
+      dataBuffer[i] = data.charCodeAt(i);
+    }
+  } else {
+    // Handle Arrays
+    for (let i=0; i < dataLength; i++) {
+      dataBuffer[i] = data[i];
+    }
   }
   return dataBuffer;
+};
+
+
+/**
+ * @param {!ArrayBuffer} data
+ * @return {!string}
+ */
+cwc.utils.ByteTools.toString = function(data) {
+  let result = '';
+  let buffer = new Uint8Array(data);
+  for (let value of buffer) {
+    result += String.fromCharCode(value);
+  }
+  return result;
 };
 
 

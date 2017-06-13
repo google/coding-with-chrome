@@ -36,7 +36,7 @@ cwc.protocol.sphero.Monitoring = function(api) {
   this.monitor = false;
 
   /** @type {!number} */
-  this.monitorLocationInterval = 1000;  // Duration in ms.
+  this.monitorLocationInterval = 1000; // Duration in ms.
 
   /** @type {goog.Timer} */
   this.monitorLocation = new goog.Timer(this.monitorLocationInterval);

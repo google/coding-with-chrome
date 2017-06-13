@@ -110,7 +110,7 @@ cwc.ui.Blockly = function(helper) {
   /** @private {Object} */
   this.options_ = {
     'path': this.mediaFiles,
-    'toolbox': '<xml><category><\/category><\/xml>',
+    'toolbox': '<xml><category></category></xml>',
     'trashcan': true,
     'grid': {
       'spacing': 20,

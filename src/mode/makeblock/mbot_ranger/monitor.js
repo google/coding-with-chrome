@@ -216,7 +216,6 @@ function(event) {
   }
 
   switch (event.identifier) {
-
     // Normal speed
     case 'forward':
       this.api.movePower(this.normalSpeed_);

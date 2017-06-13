@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.19",
+    "closure-builder": "^2.2.20",
     "jsdoc": "^3.4.3",
     "nw": "^0.23.1",
     "nw-builder": "^3.4.1",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^3.19.0",
+    "eslint": "^4.0.0",
     "eslint-config-google": "^0.8.0",
     "http-server": "latest",
     "jasmine-core": "latest",

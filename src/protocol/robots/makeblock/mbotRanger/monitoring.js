@@ -35,19 +35,19 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   this.api = api;
 
   /** @type {!number} */
-  this.monitorSensorLineFollowerInterval = 100;  // Duration in ms.
+  this.monitorSensorLineFollowerInterval = 100; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorLight1Interval = 1500;  // Duration in ms.
+  this.monitorSensorLight1Interval = 1500; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorLight2Interval = 1750;  // Duration in ms.
+  this.monitorSensorLight2Interval = 1750; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorTemperatureInterval = 1500;  // Duration in ms.
+  this.monitorSensorTemperatureInterval = 1500; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorUltrasonicInterval = 200;  // Duration in ms.
+  this.monitorSensorUltrasonicInterval = 200; // Duration in ms.
 
   /** @type {!goog.Timer} */
   this.monitorSensorLineFollower = new goog.Timer(

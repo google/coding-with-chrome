@@ -113,7 +113,7 @@ CwcLoader.prototype.messageHandler = function(event) {
  */
 CwcLoader.prototype.setProgress = function(text, current, total) {
   let percent = Math.round((100 / total) * current);
-  console.log('[', percent, '\%]', text);
+  console.log('[', percent, '%]', text);
   this.setProgressText(text);
   this.setProgressThumb(percent);
 };
@@ -124,7 +124,7 @@ CwcLoader.prototype.setProgress = function(text, current, total) {
  */
 CwcLoader.prototype.setProgressThumb = function(progress) {
   if (this.progressThumbNode) {
-    this.progressThumbNode.style.width = progress + '\%';
+    this.progressThumbNode.style.width = progress + '%';
   }
 };
 

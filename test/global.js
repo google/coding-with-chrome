@@ -26,8 +26,8 @@ Locales = {};
 let getTestBlockCode = function(block) {
   let blocklyDiv = document.getElementById('test-workspace');
   let workspace = Blockly.inject(blocklyDiv);
-  let xmlCode = '<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n' +
-    '<block type=\"' + block + '\"></block>\n</xml>';
+  let xmlCode = '<xml xmlns="http://www.w3.org/1999/xhtml">\n' +
+    '<block type="' + block + '"></block>\n</xml>';
   let xmlDom = Blockly.Xml.textToDom(xmlCode);
   Blockly.Xml.domToWorkspace(xmlDom, workspace);
   let code = Blockly.JavaScript.workspaceToCode(workspace);

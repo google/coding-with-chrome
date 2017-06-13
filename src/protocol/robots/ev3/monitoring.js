@@ -40,22 +40,22 @@ cwc.protocol.ev3.Monitoring = function(api) {
   this.monitor = false;
 
   /** @type {!number} */
-  this.monitorMotorInterval = 2000;  // Duration in ms.
+  this.monitorMotorInterval = 2000; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorTouchInterval = 500;  // Duration in ms.
+  this.monitorSensorTouchInterval = 500; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorColorInterval = 200;  // Duration in ms.
+  this.monitorSensorColorInterval = 200; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorGyroInterval = 150;  // Duration in ms.
+  this.monitorSensorGyroInterval = 150; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorIrInterval = 200;  // Duration in ms.
+  this.monitorSensorIrInterval = 200; // Duration in ms.
 
   /** @type {!number} */
-  this.monitorSensorUltrasonicInterval = 200;  // Duration in ms.
+  this.monitorSensorUltrasonicInterval = 200; // Duration in ms.
 
   /** @type {!number} */
   this.monitorUpdateInterval = Math.min(this.monitorMotorInterval,

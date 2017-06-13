@@ -36,7 +36,7 @@ goog.provide('cwc.protocol.ev3.Polarity');
 
 /**
  * Enum of implemented callback types.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.CallbackType = {
   NONE: 0x00,
@@ -53,7 +53,7 @@ cwc.protocol.ev3.CallbackType = {
 
 /**
  * Color sensor modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.ColorSensorMode = {
   REFLECTIVE: 0,
@@ -64,7 +64,7 @@ cwc.protocol.ev3.ColorSensorMode = {
 
 /**
  * Color sensor values.
- * @enum {string}
+ * @enum {!string}
  */
 cwc.protocol.ev3.ColorSensorValues = {
   0: 'transparent',
@@ -179,7 +179,7 @@ cwc.protocol.ev3.CommandType = {
 
 /**
  * Sensor and Actors device types.
- * @enum {string}
+ * @enum {!string}
  */
 cwc.protocol.ev3.DeviceType = {
   'COL_AMBIENT': 'col-ambient',
@@ -204,7 +204,7 @@ cwc.protocol.ev3.DeviceType = {
 
 /**
  * Input ports.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.InputPort = {
   ONE: 0x00,
@@ -220,7 +220,7 @@ cwc.protocol.ev3.InputPort = {
 
 /**
  * Output ports.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.OutputPort = {
   A: 0x01,
@@ -233,7 +233,7 @@ cwc.protocol.ev3.OutputPort = {
 
 /**
  * IR sensor modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.IrSensorMode = {
   PROXIMITY: 0,
@@ -244,7 +244,7 @@ cwc.protocol.ev3.IrSensorMode = {
 
 /**
  * Ultrasonic sensor modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.UltrasonicSensorMode = {
   DIST_CM: 0,
@@ -255,7 +255,7 @@ cwc.protocol.ev3.UltrasonicSensorMode = {
 
 /**
  * Led colors.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.LedColor = {
   OFF: 0,
@@ -267,7 +267,7 @@ cwc.protocol.ev3.LedColor = {
 
 /**
  * Led modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.LedMode = {
   NORMAL: 0,
@@ -278,7 +278,7 @@ cwc.protocol.ev3.LedMode = {
 
 /**
  * Led Types.
- * @enum {Object.<string>|number}
+ * @enum {!Object.<number>|number}
  */
 cwc.protocol.ev3.LedType = {
   ALL: 0,
@@ -295,7 +295,7 @@ cwc.protocol.ev3.LedType = {
 
 /**
  * Motor modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.MotorMode = {
   DEGREE: 0,
@@ -306,7 +306,7 @@ cwc.protocol.ev3.MotorMode = {
 
 /**
  * Motor modes.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.GyroMode = {
   ANGLE: 0,
@@ -318,19 +318,19 @@ cwc.protocol.ev3.GyroMode = {
 
 /**
  * Parameter sizes for the different types.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.ParameterSize = {
-  BYTE: 0x81,   // 1 byte
-  SHORT: 0x82,  // 2 bytes
-  INT: 0x83,    // 4 bytes
-  STRING: 0x84,  // null-terminated string
+  BYTE: 0x81, // 1 byte
+  SHORT: 0x82, // 2 bytes
+  INT: 0x83, // 4 bytes
+  STRING: 0x84, // null-terminated string
 };
 
 
 /**
  * Motor polarity.
- * @enum {number}
+ * @enum {!number}
  */
 cwc.protocol.ev3.Polarity = {
   BACKWARD: -1,

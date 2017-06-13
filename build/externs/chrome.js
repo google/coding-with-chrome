@@ -169,11 +169,17 @@ chrome.serial.onReceiveError.addListener= function() {};
 /** @const */
 chrome.sockets = {};
 
-/** @type {Function} */
-chrome.sockets.tcpServer = function() {};
+/** @type {Object} */
+chrome.sockets.tcp = {};
 
 /** @type {Function} */
 chrome.sockets.tcp.onReceive = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceive.addListener = function() {};
+
+/** @type {Object} */
+chrome.sockets.tcpServer = {};
 
 /** @type {Function} */
 chrome.sockets.tcpServer.listen = function() {};
@@ -184,8 +190,7 @@ chrome.sockets.tcpServer.create = function() {};
 /** @type {Function} */
 chrome.sockets.tcpServer.onAccept.addListener = function() {};
 
-/** @type {Function} */
-chrome.sockets.tcp.onReceive.addListener = function() {};
+
 
 
 /** @type {Function} */
@@ -199,18 +204,6 @@ chrome.tts = function() {};
 
 /** @type {Function} */
 chrome.usb = function() {};
-
-/** @type {Function} */
-chrome.sockets = function() {};
-
-/** @type {Function} */
-chrome.tcp = function() {};
-
-/** @type {Function} */
-chrome.udp = function() {};
-
-/** @type {Function} */
-chrome.tcpServer = function() {};
 
 /** @type {Function} */
 chrome.manifest = function() {};
