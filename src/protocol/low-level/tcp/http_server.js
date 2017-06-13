@@ -50,8 +50,8 @@ cwc.protocol.tcp.HTTPServer = function() {
   /** @private {number} */
   this.socket_ = null;
 
-  /** @private {!Array} */
-  this.clientSocket_ = [];
+  /** @private {!Object} */
+  this.files_ = {};
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
@@ -81,9 +81,10 @@ cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
 /**
  * @param {!number} socketId
  * @param {!string} content
+ * @param {string=} type
  */
 cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
-  content) {
+  content, type='text/plain') {
   chrome.sockets.tcp.getInfo(socketId, function(socketInfo) {
     if (!socketInfo['connected']) {
       this.log_.error('Socket is no longer connected', socketInfo);
@@ -94,7 +95,7 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
     output.push('HTTP/1.1 200 OK');
     output.push('Server: Coding with Chrome - local');
     output.push('Content-length: ' + content.length);
-    output.push('Content-type: text/plain');
+    output.push('Content-type: ' + type);
     output.push('');
     output.push(content);
     output.push('\n');
@@ -103,6 +104,21 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
     view.set(response, 0);
     chrome.sockets.tcp.send(socketId, view.buffer, this.handleSend_.bind(this));
   }.bind(this));
+};
+
+
+/**
+ * @param {!string} path
+ * @param {!string} content
+ * @param {string=} type
+ */
+cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content,
+    type='text/plain') {
+  this.log_.info('Add file', path, 'with type', type);
+  this.files_[path.startsWith('/') ? path : '/' + path] = {
+    content: content,
+    type: type,
+  };
 };
 
 
@@ -184,6 +200,9 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
     console.log('GET', requestPath);
     if (requestPath === '/') {
       this.sendHTTPResponse(socketId, 'CwC HTTPServer\n' + new Date());
+    } else if (typeof this.files_[requestPath] !== 'undefined') {
+      let file = this.files_[requestPath];
+      this.sendHTTPResponse(socketId, file.content, file.type);
     } else {
       this.disconnectClientSocket_(socketId);
     }

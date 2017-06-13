@@ -29,11 +29,14 @@ goog.require('cwc.protocol.tcp.HTTPServer');
  * @constructor
  */
 cwc.server.Server = function() {
-
+  /** @type {cwc.protocol.tcp.HTTPServer} */
+  this.httpServer = new cwc.protocol.tcp.HTTPServer();
 };
 
 
 cwc.server.Server.prototype.prepare = function() {
-  let server = new cwc.protocol.tcp.HTTPServer();
-  server.listen();
+  if (this.httpServer) {
+    this.httpServer.listen();
+    this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
+  }
 };

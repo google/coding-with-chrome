@@ -8,7 +8,7 @@
   "dependencies": {
     "closure-builder": "^2.2.20",
     "jsdoc": "^3.4.3",
-    "nw": "^0.23.1",
+    "nw": "^0.23.2",
     "nw-builder": "^3.4.1",
     "rimraf": "^2.6.1",
     "command-line-usage": "^4.0.0",
