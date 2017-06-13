@@ -109,7 +109,10 @@ cwc.ui.Preview = function(helper) {
   /** @type {cwc.ui.PreviewToolbar} */
   this.toolbar = null;
 
-  /** @type {Array} */
+  /** @private {!string} */
+  this.partition_ = 'preview';
+
+  /** @private {Array} */
   this.listener_ = [];
 
   /** @private {!boolean} */
@@ -238,8 +241,9 @@ cwc.ui.Preview.prototype.stop = function() {
     this.log_.info('Stop Preview');
     if (this.webviewSupport_) {
       this.content.stop();
+    } else {
+      this.setContentUrl('about:blank');
     }
-    this.setContentUrl('about:blank');
     if (this.toolbar) {
       this.toolbar.setRunStatus(false);
     }
@@ -307,15 +311,16 @@ cwc.ui.Preview.prototype.render = function() {
       if (this.status == cwc.ui.PreviewStatus.LOADING ||
           this.status == cwc.ui.PreviewStatus.UNRESPONSIVE) {
         this.terminate();
+      } else {
+        this.stop();
       }
-      this.stop();
     }
     goog.dom.removeChildren(this.nodeContent);
   }
 
   if (this.webviewSupport_) {
     this.content = document.createElement('webview');
-    this.content['setAttribute']('partition', 'preview');
+    this.content['setAttribute']('partition', this.partition_);
     this.content['setUserAgentOverride']('CwC sandbox');
     this.content.addEventListener('consolemessage',
         this.handleConsoleMessage_.bind(this), false);
@@ -382,7 +387,10 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
   if (url && this.content) {
-    this.log_.info('Update preview ...');
+    this.log_.info('Update preview with', url.substring(0, 32), '...');
+    if (url.length >= 1600000) {
+      this.log_.warn('Content URL exceed char limit with', url.length, '!');
+    }
     this.content['src'] = url;
   } else {
     this.log_.error('Was unable to set content url!');

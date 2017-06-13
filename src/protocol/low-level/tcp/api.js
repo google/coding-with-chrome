@@ -1,5 +1,5 @@
 /**
- * @fileoverview Python 3.x framework for the runner instance.
+ * @fileoverview Handels the communication with tcp devices.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -17,24 +17,36 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Python3');
+goog.provide('cwc.protocol.tcp.Api');
+
+goog.require('goog.events.EventTarget');
 
 
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
- * @export
  */
-cwc.framework.Python3 = function() {
+cwc.protocol.tcp.Api = function(helper) {
   /** @type {string} */
-  this.name = 'Python 3.x Framework';
-};
+  this.name = 'TCP';
 
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
-/**
- * @export
- */
-cwc.framework.Python3.prototype.run = function() {
-  document.body.addEventListener('load', brython, false);
+  /** @type {boolean} */
+  this.enabled = false;
+
+  /** @type {boolean} */
+  this.prepared = false;
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };

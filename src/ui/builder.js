@@ -39,6 +39,7 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.sphero.Api');
+goog.require('cwc.protocol.tcp.Server');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Debug');
@@ -295,6 +296,12 @@ cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error) {
     this.setProgress('Prepare protocols ...', 28, 100);
     this.prepareProtocols();
+  }
+
+  if (!this.error) {
+    this.setProgress('Starting HTTP Server', 29, 100);
+    let server = new cwc.protocol.tcp.Server();
+    server.listen();
   }
 
   if (!this.error) {

@@ -35,6 +35,9 @@ chrome.storage.local.set = function() {};
 /** @type {Function} */
 chrome.runtime.getManifest = function() {};
 
+/** @type {Function} */
+chrome.runtime.getURL = function() {};
+
 /** @type {Object} */
 chrome.app.window = {};
 
@@ -163,6 +166,28 @@ chrome.serial.onReceive.addListener= function() {};
 chrome.serial.onReceiveError.addListener= function() {};
 
 
+/** @const */
+chrome.sockets = {};
+
+/** @type {Function} */
+chrome.sockets.tcpServer = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceive = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcpServer.listen = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcpServer.create = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcpServer.onAccept.addListener = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceive.addListener = function() {};
+
+
 /** @type {Function} */
 chrome.system = function() {};
 
@@ -226,6 +251,9 @@ Webview.prototype.reload = function() {};
 
 /** @type {Function} */
 Webview.prototype.terminate = function() {};
+
+/** @type {Function} */
+Webview.prototype.executeScript = function() {};
 
 
 /**

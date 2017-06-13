@@ -87,9 +87,27 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
  * @param {string=} type
  */
 cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
+  if (!content) {
+    this.log_.error('Received empty content for framework', name);
+    return;
+  }
+  if (!name.includes('.min.')) {
+    // Try to optimize unminimized code by removing comments and white-spaces.
+    let originalContentLength = content.length;
+    content = content.replace(/\\n\\n/g, '\\n')
+      .replace(/ {4}/g, '  ')
+      .replace(/[ \t]?\/\/.+?\\n/g, '')
+      .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
+      .replace(/[ \t]+\\n/g, '\\n')
+      .replace(/(\\n){2,}/g, '\\n');
+    if (originalContentLength > content.length) {
+      this.log_.info('Optimized content from', originalContentLength, 'to',
+        content.length);
+    }
+  }
   let fileContent = this.rendererHelper.getDataUrl(content, 'text/javascript');
   if (!fileContent) {
-    this.log_.error('Received empty content for framework', name);
+    this.log_.error('Received empty file for framework', name);
     return;
   }
 

@@ -20,5 +20,5 @@
  */
 
 
-/** @constructor */
+/** @type {Function} */
 var brython = function() {};

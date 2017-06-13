@@ -30,7 +30,10 @@ goog.provide('cwc.framework.StyleSheet');
  * @enum {!Object.<string>|string}
  */
 cwc.framework.External = {
-  BRYTHON: 'brython_dist.js',
+  BRYTHON: {
+    CORE: 'brython.js',
+    STDLIB: 'brython_stdlib.js',
+  },
   COFFEESCRIPT: 'coffee-script.js',
   JQUERY: {
     V3_X: 'jquery.min.js',

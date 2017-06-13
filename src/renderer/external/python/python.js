@@ -68,6 +68,8 @@ cwc.renderer.external.Python.prototype.render = function(
     styleSheets,
     renderer_helper) {
   let content = editor_content[cwc.ui.EditorContent.DEFAULT];
+
+  // Python 2.x handling.
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
     let header = renderer_helper.getFrameworkHeaders([
@@ -86,8 +88,10 @@ cwc.renderer.external.Python.prototype.render = function(
     return renderer_helper.getHTMLCanvas(body, header);
   }
 
+  // Python 3.x as default
   let header = renderer_helper.getFrameworkHeaders([
-    cwc.framework.External.BRYTHON,
+    cwc.framework.External.BRYTHON.CORE,
+    cwc.framework.External.BRYTHON.STDLIB,
     cwc.framework.Internal.PYTHON3,
   ], frameworks);
   header += renderer_helper.getStyleSheetHeader(
@@ -96,6 +100,6 @@ cwc.renderer.external.Python.prototype.render = function(
   '<script id="code" type="text/python">\n' +
     content +
   '\n</script>\n<script>new cwc.framework.Python3().run();</script>';
-  
+
   return renderer_helper.getHTML(body, header);
 };

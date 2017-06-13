@@ -29,6 +29,7 @@
     'Sk': true,
     'afterEach': true,
     'beforeEach': true,
+    'brython': true,
     'chrome': true,
     'cwc': true,
     'describe': true,
@@ -42,5 +43,6 @@
     'it': true,
     'soydata': true,
     'var_args': true,
+    'window': true,
   }
 }

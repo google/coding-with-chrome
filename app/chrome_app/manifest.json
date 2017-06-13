@@ -51,7 +51,10 @@
   "webview": {
     "partitions": [{
         "name": "static",
-        "accessible_resources": ["LICENSE.html", "NOTICE.html"]
+        "accessible_resources": [
+          "LICENSE.html",
+          "NOTICE.html"
+        ]
       }
     ]
   },
@@ -74,11 +77,17 @@
     "storage", {
       "fileSystem": ["write"]
     },
+    "system.network",
     "serial",
     "identity",
     "tts",
     "usb",
     "unlimitedStorage",
     "webview"
-  ]
+  ],
+  "sockets": {
+    "tcpServer" : {
+      "listen": ["*"]
+    }
+  }
 }
