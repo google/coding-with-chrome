@@ -30,7 +30,7 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.tcp.HTTPServer = function() {
   /** @type {string} */
-  this.name = 'TCP';
+  this.name = 'HTTP Server';
 
   /** @type {boolean} */
   this.enabled = false;
@@ -83,8 +83,32 @@ cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
  * @param {!string} content
  * @param {string=} type
  */
-cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
+cwc.protocol.tcp.HTTPServer.prototype.send200Response = function(socketId,
+    content, type='text/plain') {
+  this.sendHTTPResponse(socketId, content, type, 200);
+};
+
+
+/**
+ * @param {!number} socketId
+ * @param {!string} content
+ * @param {string=} type
+ */
+cwc.protocol.tcp.HTTPServer.prototype.send404Response = function(socketId,
   content, type='text/plain') {
+  this.sendHTTPResponse(socketId, content, type, 404);
+};
+
+
+/**
+ * @param {!number} socketId
+ * @param {!string} content
+ * @param {string=} type
+ * @param {number=} status
+ */
+cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
+    content, type='text/plain', status=200) {
+  // Makes sure that the connection is still usable.
   chrome.sockets.tcp.getInfo(socketId, function(socketInfo) {
     if (!socketInfo['connected']) {
       this.log_.error('Socket is no longer connected', socketInfo);
@@ -92,17 +116,30 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
       return;
     }
     let output = [];
-    output.push('HTTP/1.1 200 OK');
+    if (status === 200) {
+      output.push('HTTP/1.1 200 OK');
+    } else if (status === 404) {
+      output.push('HTTP/1.1 404 Not found');
+    }
+
     output.push('Server: Coding with Chrome - local');
     output.push('Content-length: ' + content.length);
     output.push('Content-type: ' + type);
+    output.push('Connection: keep-alive');
     output.push('');
     output.push(content);
     output.push('\n');
+
+    // Prepare ArrayBuffer with content.
     let response = cwc.utils.ByteTools.toUint8Array(output.join('\n'));
     let view = new Uint8Array(new ArrayBuffer(response.byteLength));
     view.set(response, 0);
-    chrome.sockets.tcp.send(socketId, view.buffer, this.handleSend_.bind(this));
+
+    // Handling keep alive.
+    chrome.sockets.tcp.setKeepAlive(socketId, true, 1, function() {
+      chrome.sockets.tcp.send(socketId, view.buffer,
+        this.handleSend_.bind(this));
+    }.bind(this));
   }.bind(this));
 };
 
@@ -114,7 +151,11 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
  */
 cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content,
     type='text/plain') {
-  this.log_.info('Add file', path, 'with type', type);
+  if (!content) {
+    this.log_.warn('Empty file', path);
+    return;
+  }
+  this.log_.info('Add', path, 'with type', type, content.length);
   this.files_[path.startsWith('/') ? path : '/' + path] = {
     content: content,
     type: type,
@@ -202,9 +243,9 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
       this.sendHTTPResponse(socketId, 'CwC HTTPServer\n' + new Date());
     } else if (typeof this.files_[requestPath] !== 'undefined') {
       let file = this.files_[requestPath];
-      this.sendHTTPResponse(socketId, file.content, file.type);
+      this.send200Response(socketId, file.content, file.type);
     } else {
-      this.disconnectClientSocket_(socketId);
+      this.send404Response(socketId, 'File not found!');
     }
   } else {
     this.disconnectClientSocket_(socketId);

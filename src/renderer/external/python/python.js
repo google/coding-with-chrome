@@ -90,10 +90,10 @@ cwc.renderer.external.Python.prototype.render = function(
 
   // Python 3.x as default
   let header = renderer_helper.getFrameworkHeaders([
-    cwc.framework.External.BRYTHON.CORE,
-    cwc.framework.External.BRYTHON.STDLIB,
     cwc.framework.Internal.PYTHON3,
   ], frameworks);
+  header += renderer_helper.getFrameworkHeaderURL(
+    cwc.framework.External.BRYTHON.DIST);
   header += renderer_helper.getStyleSheetHeader(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
   let body = '<div id="content"></div>' +
@@ -101,5 +101,5 @@ cwc.renderer.external.Python.prototype.render = function(
     content +
   '\n</script>\n<script>new cwc.framework.Python3().run();</script>';
 
-  return renderer_helper.getHTML(body, header);
+  return renderer_helper.getHTMLCanvas(body, header);
 };

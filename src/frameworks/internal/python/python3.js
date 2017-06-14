@@ -36,5 +36,5 @@ cwc.framework.Python3 = function() {
  * @export
  */
 cwc.framework.Python3.prototype.run = function() {
-  document.body.addEventListener('load', brython, false);
+  brython();
 };

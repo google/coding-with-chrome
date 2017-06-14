@@ -101,26 +101,14 @@ closureBuilder.build({
 
 
 /**
- * Brython Core
+ * Brython Dist
  */
 closureBuilder.build({
-  name: 'Brython Core',
+  name: 'Brython Dist',
   resources: [
-    'third_party/brython/www/src/brython.js',
+    'third_party/brython/www/src/brython_dist.js',
   ],
-  out: 'genfiles/third_party/frameworks/external/brython.js',
-});
-
-
-/**
- * Brython Std lib
- */
-closureBuilder.build({
-  name: 'Brython Std lib',
-  resources: [
-    'third_party/brython/www/src/brython_stdlib.js',
-  ],
-  out: 'genfiles/third_party/frameworks/external/brython_stdlib.js',
+  out: 'genfiles/third_party/frameworks/external/brython_dist.js',
 });
 
 

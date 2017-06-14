@@ -91,7 +91,14 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
     this.log_.error('Received empty content for framework', name);
     return;
   }
-  if (!name.includes('.min.')) {
+
+  // Add framework file to server instance if available.
+  let serverInstance = this.helper.getInstance('server');
+  if (serverInstance) {
+    serverInstance.addFrameworkFile(name, content);
+  }
+
+  if (!name.includes('.min.') && content.length > 400000) {
     // Try to optimize unminimized code by removing comments and white-spaces.
     let originalContentLength = content.length;
     content = content.replace(/\\n\\n/g, '\\n')

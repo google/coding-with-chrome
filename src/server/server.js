@@ -31,6 +31,12 @@ goog.require('cwc.protocol.tcp.HTTPServer');
 cwc.server.Server = function() {
   /** @type {cwc.protocol.tcp.HTTPServer} */
   this.httpServer = new cwc.protocol.tcp.HTTPServer();
+
+  /** @type {!string} */
+  this.httpServerPrefix = 'http://localhost:8090';
+
+  /** @type {!string} */
+  this.frameworkPrefix = '/framework/';
 };
 
 
@@ -40,3 +46,26 @@ cwc.server.Server.prototype.prepare = function() {
     this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
   }
 };
+
+
+/**
+ * @param {!string} name
+ * @param {!string} content
+ * @param {!string} type
+ */
+cwc.server.Server.prototype.addFrameworkFile = function(name, content) {
+  if (this.httpServer) {
+    this.httpServer.addFile(this.frameworkPrefix + name, content,
+        'text/javascript');
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @return {!string}
+ */
+cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
+  return this.httpServerPrefix + this.frameworkPrefix + name;
+};
+

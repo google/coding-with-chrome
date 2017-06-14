@@ -178,6 +178,9 @@ chrome.sockets.tcp.onReceive = function() {};
 /** @type {Function} */
 chrome.sockets.tcp.onReceive.addListener = function() {};
 
+/** @type {Function} */
+chrome.sockets.tcp.setKeepAlive = function() {};
+
 /** @type {Object} */
 chrome.sockets.tcpServer = {};
 
