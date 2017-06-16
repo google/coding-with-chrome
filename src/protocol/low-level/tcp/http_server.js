@@ -18,9 +18,33 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.tcp.HTTPServer');
+goog.provide('cwc.protocol.tcp.HTTPServerFile');
 
 goog.require('cwc.utils.ByteTools');
 goog.require('goog.events.EventTarget');
+
+
+/**
+ * @param {!string} path
+ * @param {string=} content
+ * @param {string=} type
+ * @param {string=} redirect
+ * @constructor
+ * @final
+ */
+cwc.protocol.tcp.HTTPServerFile = function(path, content, type, redirect) {
+  /** @type {!string} */
+  this.path = path;
+
+  /** @type {!string} */
+  this.content = content || '';
+
+  /** @type {!string} */
+  this.type = type || '';
+
+  /** @type {!string} */
+  this.redirect = redirect || '';
+};
 
 
 /**
@@ -91,6 +115,16 @@ cwc.protocol.tcp.HTTPServer.prototype.send200Response = function(socketId,
 
 /**
  * @param {!number} socketId
+ * @param {!string} redirect
+ */
+cwc.protocol.tcp.HTTPServer.prototype.send301Response = function(socketId,
+    redirect) {
+  this.sendHTTPResponse(socketId, redirect, null, 301);
+};
+
+
+/**
+ * @param {!number} socketId
  * @param {!string} content
  * @param {string=} type
  */
@@ -118,13 +152,17 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
     let output = [];
     if (status === 200) {
       output.push('HTTP/1.1 200 OK');
+    } else if (status === 301) {
+      output.push('HTTP/1.1 301 Moved Permanently');
+      output.push('Location: ' + content);
     } else if (status === 404) {
       output.push('HTTP/1.1 404 Not found');
     }
 
+    output.push('Access-Control-Allow-Origin: null');
     output.push('Server: Coding with Chrome - local');
-    output.push('Content-length: ' + content.length);
     output.push('Content-type: ' + type);
+    output.push('Content-length: ' + content.length);
     output.push('Connection: keep-alive');
     output.push('');
     output.push(content);
@@ -155,12 +193,37 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content,
     this.log_.warn('Empty file', path);
     return;
   }
+  if (!path.startsWith('/')) {
+    path = '/' + path;
+  }
   this.log_.info('Add', path, 'with type', type, content.length);
-  this.files_[path.startsWith('/') ? path : '/' + path] = {
-    content: content,
-    type: type,
-  };
+  this.files_[path] = new cwc.protocol.tcp.HTTPServerFile(path, content, type);
 };
+
+
+/**
+ * @param {!string} path
+ * @param {!string} redirect
+ */
+cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
+  if (!path.startsWith('/')) {
+    path = '/' + path;
+  }
+  if (!redirect.startsWith('/')) {
+    redirect = '/' + redirect;
+  }
+  if (path === redirect) {
+    this.log_.error('Redirect Loop', redirect);
+    return;
+  }
+  if (typeof this.files_[redirect] === 'undefined') {
+    this.log_.warn('Redirect target', redirect, 'is currently unknown!');
+  }
+  this.log_.info('Add redirect', path, 'to', redirect);
+  this.files_[path] = new cwc.protocol.tcp.HTTPServerFile(
+    path, null, null, redirect);
+};
+
 
 
 /**
@@ -238,13 +301,31 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
   }
   if (data.startsWith('GET ') && data.includes('HTTP')) {
     let requestPath = data.substring(4, data.indexOf(' ', 4));
-    console.log('GET', requestPath);
+    let requestParameter = '';
+    if (requestPath.includes('?')) {
+      let requestFragments = requestPath.split('?');
+      requestPath = requestFragments[0];
+      requestParameter = requestFragments[1];
+    }
+    console.log('GET', requestPath, requestParameter);
+
     if (requestPath === '/') {
-      this.sendHTTPResponse(socketId, 'CwC HTTPServer\n' + new Date());
+      // Index page
+      this.send200Response(socketId, 'CwC HTTPServer\n' + new Date());
     } else if (typeof this.files_[requestPath] !== 'undefined') {
       let file = this.files_[requestPath];
-      this.send200Response(socketId, file.content, file.type);
+      if (file.redirect) {
+        // Redirect handling
+        this.log_.info('301', requestPath, '>', file.redirect);
+        this.send301Response(socketId, file.redirect);
+      } else {
+        // Normal file handling
+        this.log_.info('200', requestPath);
+        this.send200Response(socketId, file.content, file.type);
+      }
     } else {
+      // File not found handling
+      this.log_.info('404', requestPath);
       this.send404Response(socketId, 'File not found!');
     }
   } else {

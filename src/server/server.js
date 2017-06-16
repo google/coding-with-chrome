@@ -43,7 +43,17 @@ cwc.server.Server = function() {
 cwc.server.Server.prototype.prepare = function() {
   if (this.httpServer) {
     this.httpServer.listen();
+
+    // Default files
     this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
+    this.httpServer.addFile(this.frameworkPrefix + '__init__.py', '#',
+      'text/x-python');
+
+    // Framework redirects
+    this.addFrameworkRedirect('brython_turtle.py',
+      '/framework/Lib/site-packages/turtle.py');
+    this.addFrameworkRedirect('__init__.py',
+      '/framework/Lib/site-packages/turtle/__init__.py');
   }
 };
 
@@ -55,8 +65,22 @@ cwc.server.Server.prototype.prepare = function() {
  */
 cwc.server.Server.prototype.addFrameworkFile = function(name, content) {
   if (this.httpServer) {
-    this.httpServer.addFile(this.frameworkPrefix + name, content,
-        'text/javascript');
+    let type = 'text/javascript';
+    if (name.endsWith('.py')) {
+      type = 'text/x-python';
+    }
+    this.httpServer.addFile(this.frameworkPrefix + name, content, type);
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} path
+ */
+cwc.server.Server.prototype.addFrameworkRedirect = function(name, path) {
+  if (this.httpServer) {
+    this.httpServer.addRedirect(path, this.frameworkPrefix + name);
   }
 };
 

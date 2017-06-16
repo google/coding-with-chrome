@@ -224,6 +224,8 @@
         {param text: 'Use the Python language to create programs' /}
         {param link_text: 'Use Python' /}
         {param id: 'python' /}
+        {param opt_link_text: 'Use Python 2.7' /}
+        {param opt_id: 'python27' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'gesture' /}
       {/call}
@@ -502,7 +504,7 @@
     <div class="cwc-content">
 
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Python' /}
+        {param title: 'Python 3.x' /}
         {param opt_text: '' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'gesture' /}
@@ -511,8 +513,65 @@
       <div class="mdl-grid max-width">
 
         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
-          {param title: 'Python project' /}
-          {param text: 'Create empty project' /}
+          {param title: 'Python 3.x project' /}
+          {param text: 'Start with an empty Python 3.x project' /}
+          {param opt_link_text: 'Create new project' /}
+          {param link_id: 'blank' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'insert_drive_file' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Guess number' /}
+          {param text: 'Simple guess number game.' /}
+          {param link_id: 'guess-number' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'question_answer' /}
+        {/call}
+
+      </div>
+
+    </div>
+
+    {call cwc.soy.SelectScreenTemplate.footer}
+      {param text: '"Python" is a registered trademark of the PSF. The Python logos (in several variants) are use trademarks of the PSF as well.' /}
+    {/call}
+
+  </div>
+
+{/template}
+
+
+/**
+ * Python overview page.
+ */
+{template .python27Overview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call .overviewHeader_ data="all"}
+      {param active_link: 'programming-language' /}
+    {/call}
+
+    {call .programmingLanguageHeader_ data="all"}
+      {param active_link: 'python27' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Python 2.7' /}
+        {param opt_text: '' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'gesture' /}
+      {/call}
+
+      <div class="mdl-grid max-width">
+
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Python 2.7 project' /}
+          {param text: 'Start with an empty Python 2.7 project' /}
           {param opt_link_text: 'Create new project' /}
           {param link_id: 'blank' /}
           {param opt_color_class: 'bg-light-blue' /}
@@ -1006,6 +1065,11 @@
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
         {param title: 'Python' /}
         {param id: 'python' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Python 2.7' /}
+        {param id: 'python27' /}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.headerLink data="all"}

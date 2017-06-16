@@ -45,6 +45,7 @@ cwc.ui.SelectScreenAdvancedView = {
   PENCIL_CODE: 'pencilCodeOverview',
   PROGRAMMING_LANGUAGE: 'programmingLanguageOverview',
   PYTHON: 'pythonOverview',
+  PYTHON27: 'python27Overview',
   ROBOT: 'robotOverview',
   SPHERO: 'spheroOverview',
   NONE: '',
@@ -142,6 +143,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
           cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
       this.setClickEvent_('link-python', this.showView,
           cwc.ui.SelectScreenAdvancedView.PYTHON);
+      this.setClickEvent_('link-python27', this.showView,
+          cwc.ui.SelectScreenAdvancedView.PYTHON27);
       this.setClickEvent_('link-pencil-code', this.showView,
           cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
       break;
@@ -185,8 +188,15 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
         'resources/examples/python/blank.py');
+      break;
+    case cwc.ui.SelectScreenAdvancedView.PYTHON27:
+      this.showTemplate_(cwc.soy.SelectScreenAdvanced.python27Overview);
+      this.setNavHeader_('Python 2.7', 'gesture');
+      this.addProgrammingMenuHandler_();
+      this.setClickEvent_('link-blank', this.loadFile_,
+        'resources/examples/python2.7/blank.py');
       this.setClickEvent_('link-guess-number', this.loadFile_,
-        'resources/examples/python/guess-number.py');
+        'resources/examples/python2.7/guess-number.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
@@ -330,6 +340,8 @@ cwc.ui.SelectScreenAdvanced.prototype.addProgrammingMenuHandler_ = function() {
       cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT);
   this.setClickEvent_('menu-python', this.showView,
       cwc.ui.SelectScreenAdvancedView.PYTHON);
+  this.setClickEvent_('menu-python27', this.showView,
+      cwc.ui.SelectScreenAdvancedView.PYTHON27);
   this.setClickEvent_('menu-pencil-code', this.showView,
       cwc.ui.SelectScreenAdvancedView.PENCIL_CODE);
 };

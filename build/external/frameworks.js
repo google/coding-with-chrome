@@ -113,6 +113,18 @@ closureBuilder.build({
 
 
 /**
+ * Brython Turtle
+ */
+closureBuilder.build({
+  name: 'Brython Turtle',
+  resources: [
+    'third_party/brython/www/src/Lib/site-packages/turtle.py',
+  ],
+  out: 'genfiles/third_party/frameworks/external/brython_turtle.py',
+});
+
+
+/**
  * Skulpt Core
  */
 closureBuilder.build({

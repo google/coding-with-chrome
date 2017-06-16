@@ -96,10 +96,10 @@ cwc.renderer.external.Python.prototype.render = function(
     cwc.framework.External.BRYTHON.DIST);
   header += renderer_helper.getStyleSheetHeader(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
-  let body = '<div id="content"></div>' +
+  let body = '<div id="container"></div>' +
   '<script id="code" type="text/python">\n' +
     content +
   '\n</script>\n<script>new cwc.framework.Python3().run();</script>';
 
-  return renderer_helper.getHTMLCanvas(body, header);
+  return renderer_helper.getHTML(body, header);
 };
