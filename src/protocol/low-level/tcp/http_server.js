@@ -21,6 +21,7 @@ goog.provide('cwc.protocol.tcp.HTTPServer');
 goog.provide('cwc.protocol.tcp.HTTPServerFile');
 
 goog.require('cwc.utils.ByteTools');
+goog.require('cwc.utils.Logger');
 goog.require('goog.events.EventTarget');
 
 
@@ -40,10 +41,10 @@ cwc.protocol.tcp.HTTPServerFile = function(path, content, type, redirect) {
   this.content = content || '';
 
   /** @type {!string} */
-  this.type = type || '';
+  this.type = type || '';
 
   /** @type {!string} */
-  this.redirect = redirect || '';
+  this.redirect = redirect || '';
 };
 
 
@@ -71,7 +72,7 @@ cwc.protocol.tcp.HTTPServer = function() {
   /** @type {!number} */
   this.backlog = 10;
 
-  /** @private {number} */
+  /** @private {number|null} */
   this.socket_ = null;
 
   /** @private {!Object} */
@@ -87,7 +88,7 @@ cwc.protocol.tcp.HTTPServer = function() {
 
 /**
  * @param {number=} port
- * @param {address=} address
+ * @param {string=} address
  */
 cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
   if (port) {
@@ -119,7 +120,7 @@ cwc.protocol.tcp.HTTPServer.prototype.send200Response = function(socketId,
  */
 cwc.protocol.tcp.HTTPServer.prototype.send301Response = function(socketId,
     redirect) {
-  this.sendHTTPResponse(socketId, redirect, null, 301);
+  this.sendHTTPResponse(socketId, redirect, undefined, 301);
 };
 
 
@@ -221,9 +222,8 @@ cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
   }
   this.log_.info('Add redirect', path, 'to', redirect);
   this.files_[path] = new cwc.protocol.tcp.HTTPServerFile(
-    path, null, null, redirect);
+    path, undefined, undefined, redirect);
 };
-
 
 
 /**

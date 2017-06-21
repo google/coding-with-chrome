@@ -53,6 +53,9 @@ cwc.renderer.Renderer = function(helper) {
   /** @type {!cwc.file.Files} */
   this.styleSheetFiles = new cwc.file.Files();
 
+  /** @type {!boolean} */
+  this.serverMode_ = false;
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -212,13 +215,19 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
 
 
 /**
+ * @param {!boolean} enable
+ */
+cwc.renderer.Renderer.prototype.setServerMode = function(enable) {
+  this.serverMode_ = enable;
+};
+
+
+/**
  * Renders the JavaScript, CSS and HTML content together with all settings.
- * @param {boolean=} opt_preview_mode
  * @return {string}
  * @export
  */
-cwc.renderer.Renderer.prototype.getRenderedContent = function(
-    opt_preview_mode) {
+cwc.renderer.Renderer.prototype.getRenderedContent = function() {
   let editorInstance = this.helper.getInstance('editor', true);
   let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
@@ -229,7 +238,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
     this.log_.warn('Empty render content!');
   }
 
-  return this.renderer(
+  let html = this.renderer(
       content,
       editorInstance.getEditorFlags(),
       this.libraryFiles,
@@ -237,6 +246,15 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
       this.styleSheetFiles,
       this.rendererHelper
   );
+
+  if (this.serverMode_) {
+    let serverInstance = this.helper.getInstance('server');
+    if (serverInstance) {
+      serverInstance.setPreview(html);
+    }
+  }
+
+  return html;
 };
 
 
@@ -245,30 +263,13 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function(
  */
 cwc.renderer.Renderer.prototype.getContentUrl = function() {
   let content = this.getRenderedContent();
-  return this.rendererHelper.getDataUrl(content);
-};
-
-
-/**
- * Gets preview code.
- * @return {string}
- */
-cwc.renderer.Renderer.prototype.getRenderedPreview = function() {
-  return this.getRenderedContent(true);
-};
-
-
-/**
- * @return {string} Rendered content as data url.
- */
-cwc.renderer.Renderer.prototype.getPreviewUrl = function() {
-  let content = this.getRenderedPreview();
-  if (content) {
-    return this.rendererHelper.getDataUrl(content);
-  } else {
-    this.log_.error('Was not able to get preview URL: ' + content);
+  if (this.serverMode_) {
+    let serverInstance = this.helper.getInstance('server');
+    if (serverInstance) {
+      return serverInstance.getPreviewURL();
+    }
   }
-  return '';
+  return this.rendererHelper.getDataUrl(content);
 };
 
 

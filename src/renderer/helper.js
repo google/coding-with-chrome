@@ -297,8 +297,8 @@ cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
  * @return {string}
  */
 cwc.renderer.Helper.prototype.getFrameworkHeaderURL = function(filename) {
-  return this.getJavaScriptUrl('http://localhost:8090/framework/' + filename,
-    filename);
+  let file = '/framework/' + filename;
+  return this.getJavaScriptUrl(file, file);
 };
 
 

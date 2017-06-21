@@ -37,6 +37,9 @@ cwc.server.Server = function() {
 
   /** @type {!string} */
   this.frameworkPrefix = '/framework/';
+
+  /** @type {!string} */
+  this.previewFile = '/preview.html';
 };
 
 
@@ -50,10 +53,8 @@ cwc.server.Server.prototype.prepare = function() {
       'text/x-python');
 
     // Framework redirects
-    this.addFrameworkRedirect('brython_turtle.py',
-      '/framework/Lib/site-packages/turtle.py');
-    this.addFrameworkRedirect('__init__.py',
-      '/framework/Lib/site-packages/turtle/__init__.py');
+    this.addFrameworkRedirect('brython_turtle.py', '/turtle.py');
+    this.addFrameworkRedirect('__init__.py', '/turtle/__init__.py');
   }
 };
 
@@ -61,11 +62,11 @@ cwc.server.Server.prototype.prepare = function() {
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {!string} type
+ * @param {string=} type
  */
-cwc.server.Server.prototype.addFrameworkFile = function(name, content) {
+cwc.server.Server.prototype.addFrameworkFile = function(name, content,
+    type = 'text/javascript') {
   if (this.httpServer) {
-    let type = 'text/javascript';
     if (name.endsWith('.py')) {
       type = 'text/x-python';
     }
@@ -86,6 +87,17 @@ cwc.server.Server.prototype.addFrameworkRedirect = function(name, path) {
 
 
 /**
+ * @param {!string} content
+ * @param {string=} type
+ */
+cwc.server.Server.prototype.setPreview = function(content, type = 'text/html') {
+  if (this.httpServer) {
+    this.httpServer.addFile(this.previewFile, content, type);
+  }
+};
+
+
+/**
  * @param {!string} name
  * @return {!string}
  */
@@ -93,3 +105,11 @@ cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
   return this.httpServerPrefix + this.frameworkPrefix + name;
 };
 
+
+/**
+ * @return {!string}
+ */
+cwc.server.Server.prototype.getPreviewURL = function() {
+  return this.httpServerPrefix + this.previewFile + '?' +
+    Math.floor(Math.random() * 100000000);
+};

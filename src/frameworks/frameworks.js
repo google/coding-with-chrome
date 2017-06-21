@@ -31,7 +31,8 @@ goog.provide('cwc.framework.StyleSheet');
  */
 cwc.framework.External = {
   BRYTHON: {
-    DIST: 'brython_dist.js',
+    CORE: 'brython.js',
+    STDLIB: 'brython_stdlib.js',
     TURTLE: 'brython_turtle.py',
   },
   COFFEESCRIPT: 'coffee-script.js',

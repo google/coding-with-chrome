@@ -152,7 +152,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
   // Handle CWC file format
   if (mimeType === cwc.file.MimeType.CWC.type) {
     let file = new cwc.fileFormat.File(data);
-    modeType = cwc.mode.Config.getMode(file.getMode());
+    modeType = cwc.mode.Config.getMode(
+      /** @type {cwc.mode.Type} */ (file.getMode()));
     this.log_.info('Loading CWC file with mode', modeType, '...');
     fileInstance.setFile(file);
     fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));

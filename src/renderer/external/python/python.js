@@ -47,6 +47,7 @@ cwc.renderer.external.Python.prototype.init = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
+  rendererInstance.setServerMode(true);
 };
 
 
@@ -93,13 +94,14 @@ cwc.renderer.external.Python.prototype.render = function(
     cwc.framework.Internal.PYTHON3,
   ], frameworks);
   header += renderer_helper.getFrameworkHeaderURL(
-    cwc.framework.External.BRYTHON.DIST);
+    cwc.framework.External.BRYTHON.CORE);
+  header += renderer_helper.getFrameworkHeaderURL(
+    cwc.framework.External.BRYTHON.STDLIB);
   header += renderer_helper.getStyleSheetHeader(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
   let body = '<div id="container"></div>' +
-  '<script id="code" type="text/python">\n' +
-    content +
-  '\n</script>\n<script>new cwc.framework.Python3().run();</script>';
+  '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
+  '<script>new cwc.framework.Python3().run();</script>';
 
   return renderer_helper.getHTML(body, header);
 };

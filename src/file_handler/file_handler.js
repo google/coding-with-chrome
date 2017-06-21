@@ -44,8 +44,8 @@ cwc.fileHandler.File = function(helper) {
   /** @private {!string} */
   this.fileContent_ = '';
 
-  /** @private {cwc.file.MimeType} */
-  this.mimeType_ = '';
+  /** @private {cwc.file.MimeType|null} */
+  this.mimeType_ = null;
 
   /** @private {Object} */
   this.fileHandler_ = null;
@@ -74,7 +74,7 @@ cwc.fileHandler.File.prototype.clear = function(silent = false) {
   this.filename_ = '';
   this.gDriveId_ = '';
   this.hasUnsavedChange_ = false;
-  this.mimeType_ = '';
+  this.mimeType_ = null;
   this.rawFile_ = null;
 };
 
@@ -110,7 +110,7 @@ cwc.fileHandler.File.prototype.getFile = function() {
 
 
 /**
- * @return {!cwc.file.Files}
+ * @return {cwc.file.Files}
  */
 cwc.fileHandler.File.prototype.getFiles = function() {
   if (this.file_) {
@@ -121,7 +121,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 
 
 /**
- * @return {cwc.file.MimeType}
+ * @return {cwc.file.MimeType|null}
  */
 cwc.fileHandler.File.prototype.getMimeType = function() {
   return this.mimeType_;

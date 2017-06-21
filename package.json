@@ -1,14 +1,14 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "4.6.4",
+  "version": "4.6.19",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "closure-builder": "^2.2.20",
     "jsdoc": "^3.4.3",
-    "nw": "^0.23.2",
+    "nw": "^0.23.3",
     "nw-builder": "^3.4.1",
     "rimraf": "^2.6.1",
     "command-line-usage": "^4.0.0",
