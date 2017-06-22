@@ -172,11 +172,18 @@ chrome.sockets = {};
 /** @type {Object} */
 chrome.sockets.tcp = {};
 
+
 /** @type {Function} */
 chrome.sockets.tcp.onReceive = function() {};
 
 /** @type {Function} */
 chrome.sockets.tcp.onReceive.addListener = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceiveError = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceiveError.addListener = function() {};
 
 /** @type {Function} */
 chrome.sockets.tcp.setKeepAlive = function() {};
@@ -193,7 +200,8 @@ chrome.sockets.tcpServer.create = function() {};
 /** @type {Function} */
 chrome.sockets.tcpServer.onAccept.addListener = function() {};
 
-
+/** @type {Function} */
+chrome.sockets.tcpServer.onAcceptError.addListener = function() {};
 
 
 /** @type {Function} */

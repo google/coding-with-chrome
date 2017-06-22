@@ -75,10 +75,12 @@ cwc.renderer.external.Python.prototype.render = function(
       content.includes('print \'')) {
     let header = renderer_helper.getFrameworkHeaders([
       cwc.framework.External.JQUERY.V2_2_4,
-      cwc.framework.External.SKULPT.CORE,
-      cwc.framework.External.SKULPT.STDLIB,
       cwc.framework.Internal.PYTHON2,
     ], frameworks);
+    header += renderer_helper.getFrameworkHeaderURL(
+      cwc.framework.External.SKULPT.CORE);
+    header += renderer_helper.getFrameworkHeaderURL(
+      cwc.framework.External.SKULPT.STDLIB);
     header += renderer_helper.getStyleSheetHeader(
       /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
     let body = '<div id="content"></div>' +
@@ -86,7 +88,7 @@ cwc.renderer.external.Python.prototype.render = function(
       content +
     '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
 
-    return renderer_helper.getHTMLCanvas(body, header);
+    return renderer_helper.getHTML(body, header);
   }
 
   // Python 3.x as default

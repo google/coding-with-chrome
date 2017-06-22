@@ -188,6 +188,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
         'resources/examples/python/blank.py');
+      this.setClickEvent_('link-turtle-graphics', this.loadFile_,
+        'resources/examples/python/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PYTHON27:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.python27Overview);
@@ -197,6 +199,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
         'resources/examples/python2.7/blank.py');
       this.setClickEvent_('link-guess-number', this.loadFile_,
         'resources/examples/python2.7/guess-number.py');
+      this.setClickEvent_('link-turtle-graphics', this.loadFile_,
+        'resources/examples/python2.7/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);

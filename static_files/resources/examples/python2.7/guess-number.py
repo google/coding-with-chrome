@@ -1,5 +1,5 @@
 #!/usr/bin/python2.7
-""" A simple guess the number game ."""
+"""A simple guess the number game ."""
 __author__ = "Markus Bordihn"
 
 import random

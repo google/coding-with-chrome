@@ -254,12 +254,20 @@ cwc.protocol.tcp.HTTPServer.prototype.listen_ = function(socketInfo) {
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleAccept_ = function(acceptInfo) {
-  console.log('Accept handler', acceptInfo);
   if (acceptInfo['socketId'] !== this.socket_) {
-    this.log_.error('Socket mismatch!');
+    this.log_.error('Socket mismatch!', acceptInfo);
     return;
   }
   chrome.sockets.tcp.setPaused(acceptInfo['clientSocketId'], false);
+};
+
+
+/**
+ * @param {Object} error
+ * @private
+ */
+cwc.protocol.tcp.HTTPServer.prototype.handleAcceptError_ = function(error) {
+  this.log_.error('Accept Error Handler', error);
 };
 
 
@@ -268,9 +276,11 @@ cwc.protocol.tcp.HTTPServer.prototype.handleAccept_ = function(acceptInfo) {
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleListen_ = function(result) {
-  console.log('Listening on', this.address, ':', this.port, result);
+  this.log_.info('Listening on', this.address, ':', this.port, result);
   chrome.sockets.tcpServer.onAccept.addListener(this.handleAccept_.bind(this));
-  chrome.sockets.tcp.onReceive.addListener(this.HandleRecieve_.bind(this));
+  chrome.sockets.tcpServer.onAcceptError.addListener(
+    this.handleAcceptError_.bind(this));
+  chrome.sockets.tcp.onReceive.addListener(this.handleRecieve_.bind(this));
   chrome.sockets.tcp.onReceiveError.addListener(
     this.HandleRecieveError_.bind(this));
 };
@@ -281,7 +291,9 @@ cwc.protocol.tcp.HTTPServer.prototype.handleListen_ = function(result) {
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleSend_ = function(sendInfo) {
-  console.log('Send handler', sendInfo);
+  if (chrome.runtime.lastError) {
+    this.log_.error('Send Handler Error', chrome.runtime.lastError, sendInfo);
+  }
 };
 
 
@@ -289,8 +301,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleSend_ = function(sendInfo) {
  * @param {Object} receiveInfo
  * @private
  */
-cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
-  console.log('Receive Handler', receiveInfo);
+cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
   if (!receiveInfo['data']) {
     return;
   }
@@ -307,7 +318,7 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
       requestPath = requestFragments[0];
       requestParameter = requestFragments[1];
     }
-    console.log('GET', requestPath, requestParameter);
+    this.log_.info('GET', requestPath, requestParameter);
 
     if (requestPath === '/') {
       // Index page
@@ -316,32 +327,43 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieve_ = function(receiveInfo) {
       let file = this.files_[requestPath];
       if (file.redirect) {
         // Redirect handling
-        this.log_.info('301', requestPath, '>', file.redirect);
+        this.log_.info('SEND 301', requestPath, '>', file.redirect);
         this.send301Response(socketId, file.redirect);
       } else {
         // Normal file handling
-        this.log_.info('200', requestPath);
+        this.log_.info('SEND 200', requestPath);
         this.send200Response(socketId, file.content, file.type);
       }
     } else {
       // File not found handling
-      this.log_.info('404', requestPath);
+      this.log_.info('SEND 404', requestPath);
       this.send404Response(socketId, 'File not found!');
     }
   } else {
+    this.log_.info('Unsupported request', data);
     this.disconnectClientSocket_(socketId);
   }
-  console.log(data);
 };
 
 
 /**
- * @param {Object} receiveInfo
+ * @param {Object} error
  * @private
  */
-cwc.protocol.tcp.HTTPServer.prototype.HandleRecieveError_ = function(
-    receiveInfo) {
-  console.log('Receive Error Handler', receiveInfo);
+cwc.protocol.tcp.HTTPServer.prototype.HandleRecieveError_ = function(error) {
+  if (error['resultCode'] === -100) {
+    this.closeClientSocket_(error['socketId']);
+  } else {
+    this.log_.error('Receive Error Handler', error);
+  }
+};
+
+
+/**
+ * @param {!number} socketId
+ */
+cwc.protocol.tcp.HTTPServer.prototype.closeClientSocket_ = function(socketId) {
+  chrome.sockets.tcp.close(socketId);
 };
 
 
@@ -351,6 +373,6 @@ cwc.protocol.tcp.HTTPServer.prototype.HandleRecieveError_ = function(
 cwc.protocol.tcp.HTTPServer.prototype.disconnectClientSocket_ = function(
     socketId) {
   chrome.sockets.tcp.disconnect(socketId, function() {
-    chrome.sockets.tcp.close(socketId);
-  });
+    this.closeClientSocket_(socketId);
+  }.bind(this));
 };
