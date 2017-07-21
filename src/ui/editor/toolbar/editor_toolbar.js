@@ -125,6 +125,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
 
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
+  goog.style.setElementShown(this.nodeMedia, false);
 
   if (this.helper.experimentalEnabled()) {
     this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
@@ -314,7 +315,6 @@ cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
  */
 cwc.ui.EditorToolbar.prototype.enableLibraryButton = function(enable) {
   if (this.nodeLibrary) {
-    goog.style.setElementShown(this.nodeLibrary, enable);
     cwc.ui.Helper.enableElement(this.nodeLibrary, enable);
   }
 };
@@ -325,8 +325,27 @@ cwc.ui.EditorToolbar.prototype.enableLibraryButton = function(enable) {
  */
 cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
   if (this.nodeMedia) {
-    goog.style.setElementShown(this.nodeMedia, enable);
     cwc.ui.Helper.enableElement(this.nodeMedia, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.showLibraryButton = function(enable) {
+  if (this.nodeLibrary) {
+    goog.style.setElementShown(this.nodeLibrary, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.showMediaButton = function(enable) {
+  if (this.nodeMedia) {
+    goog.style.setElementShown(this.nodeMedia, enable);
   }
 };
 
@@ -334,7 +353,7 @@ cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
 /**
  * @param {boolean} has_files
  */
-cwc.ui.EditorToolbar.prototype.updateMediaButton = function(has_files) {
+cwc.ui.EditorToolbar.prototype.updateLibraryButton = function(has_files) {
   if (this.nodeMedia) {
     goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
     goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
