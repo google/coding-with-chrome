@@ -252,7 +252,6 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
   let libraryInstance = this.helper.getInstance('library');
   if (editorInstance && libraryInstance) {
     console.log('insertMedia');
-    //libraryInstance.showLibrary();
   }
 };
 
