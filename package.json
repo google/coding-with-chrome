@@ -6,9 +6,9 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.20",
-    "jsdoc": "^3.4.3",
-    "nw": "^0.23.3",
+    "closure-builder": "^2.2.22",
+    "jsdoc": "^3.5.3",
+    "nw": "^0.23.6-1",
     "nw-builder": "^3.4.1",
     "rimraf": "^2.6.1",
     "command-line-usage": "^4.0.0",
@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.0.0",
-    "eslint-config-google": "^0.8.0",
+    "eslint": "^4.2.0",
+    "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
     "karma": "latest",

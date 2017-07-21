@@ -53,6 +53,9 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeExpandExit = null;
 
   /** @type {Element} */
+  this.nodeLibrary = null;
+
+  /** @type {Element} */
   this.nodeMedia = null;
 
   /** @type {Element} */
@@ -109,6 +112,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
   this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
@@ -135,6 +139,8 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
+  goog.events.listen(this.nodeLibrary, goog.events.EventType.CLICK,
+    this.showLibrary.bind(this));
   goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
     this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
@@ -245,6 +251,19 @@ cwc.ui.EditorToolbar.prototype.insertMedia = function() {
   let editorInstance = this.helper.getInstance('editor');
   let libraryInstance = this.helper.getInstance('library');
   if (editorInstance && libraryInstance) {
+    console.log('insertMedia');
+    //libraryInstance.showLibrary();
+  }
+};
+
+
+/**
+ * Insert a media.
+ */
+cwc.ui.EditorToolbar.prototype.showLibrary = function() {
+  let editorInstance = this.helper.getInstance('editor');
+  let libraryInstance = this.helper.getInstance('library');
+  if (editorInstance && libraryInstance) {
     libraryInstance.showLibrary();
   }
 };
@@ -294,8 +313,20 @@ cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
 /**
  * @param {boolean} enable
  */
+cwc.ui.EditorToolbar.prototype.enableLibraryButton = function(enable) {
+  if (this.nodeLibrary) {
+    goog.style.setElementShown(this.nodeLibrary, enable);
+    cwc.ui.Helper.enableElement(this.nodeLibrary, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
 cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
   if (this.nodeMedia) {
+    goog.style.setElementShown(this.nodeMedia, enable);
     cwc.ui.Helper.enableElement(this.nodeMedia, enable);
   }
 };

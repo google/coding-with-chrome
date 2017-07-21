@@ -135,7 +135,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
     title: 'File library',
     icon: 'perm_media',
   };
-  dialogInstance.showTemplate(title, cwc.soy.Library.template, {
+  dialogInstance.showTemplate(title, cwc.soy.Library.library, {
     prefix: this.prefix,
     files: this.getFiles(),
   });
@@ -167,7 +167,7 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
     mediaType = '') {
   this.log_.info('Updating library file list ...', mediaType);
   let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.updateTemplate(cwc.soy.Library.template, {
+  dialogInstance.updateTemplate(cwc.soy.Library.library, {
     prefix: this.prefix,
     files: files || this.getFiles(),
     opt_media_type: mediaType,
