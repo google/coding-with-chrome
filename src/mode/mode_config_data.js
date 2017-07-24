@@ -357,7 +357,10 @@ cwc.mode.ConfigData[cwc.mode.Type.COFFEESCRIPT] = new cwc.mode.Mod({
 cwc.mode.ConfigData[cwc.mode.Type.TEXT] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   file_type: cwc.file.Type.TEXT,
-  mime_types: [cwc.file.MimeType.TEXT.type],
+  mime_types: [
+    cwc.file.MimeType.TEXT.type,
+    cwc.file.MimeType.CSS.type,
+  ],
   mod: cwc.mode.text.Mod,
   name: 'Text',
 });

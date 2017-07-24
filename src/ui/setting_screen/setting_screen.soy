@@ -34,33 +34,43 @@
           </span>
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">
+          <a href="#settings-tab-general" class="mdl-layout__tab is-active">
             {msg desc=""}General{/msg}
           </a>
-          <a href="#scroll-tab-2" class="mdl-layout__tab">
+          <a href="#settings-tab-modules" class="mdl-layout__tab">
             {msg desc=""}Modules{/msg}
           </a>
-          <a href="#scroll-tab-3" class="mdl-layout__tab">
+          <a href="#settings-tab-editor" class="mdl-layout__tab">
+            {msg desc=""}Editor{/msg}
+          </a>
+          <a href="#settings-tab-misc" class="mdl-layout__tab">
             {msg desc=""}Misc{/msg}
           </a>
         </div>
       </header>
       <main class="mdl-layout__content">
-        <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+        <section class="mdl-layout__tab-panel is-active" id="settings-tab-general">
           <div class="page-content">
             {call .generalTab}
               {param prefix: $prefix /}
             {/call}
           </div>
         </section>
-        <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+        <section class="mdl-layout__tab-panel" id="settings-tab-modules">
           <div class="page-content">
             {call .modulesTab}
               {param prefix: $prefix /}
             {/call}
           </div>
         </section>
-        <section class="mdl-layout__tab-panel" id="scroll-tab-3">
+        <section class="mdl-layout__tab-panel" id="settings-tab-editor">
+          <div class="page-content">
+            {call .editorTab}
+              {param prefix: $prefix /}
+            {/call}
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="settings-tab-misc">
           <div class="page-content">
             {call .miscTab}
               {param prefix: $prefix /}
@@ -268,6 +278,34 @@
           You need to restart the application after enabling or disabling any module
         {/msg}
       </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
+ * Editor tab.
+ */
+{template .editorTab}
+  {@param prefix: string}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+
+      {call .header_}
+        {param title: 'Editor settings' /}
+        {param text: 'This screen allows you to change some editor settings' /}
+      {/call}
+      <ul class="mdl-list">
+        // Auto-complete
+        {call .setting_}
+          {param prefix: $prefix /}
+          {param title: 'Auto-complete' /}
+          {param text: 'Use Auto-Complete List to suggest text when typing.' /}
+          {param type: 'switch' /}
+          {param id: 'auto-complete' /}
+        {/call}
+
+      </ul>
     </div>
   </section>
 {/template}

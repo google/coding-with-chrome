@@ -19,8 +19,10 @@
  */
 goog.provide('cwc.ui.EditorToolbar');
 
-goog.require('cwc.ui.Helper');
 goog.require('cwc.file.MimeType');
+goog.require('cwc.file.MimeType');
+goog.require('cwc.soy.ui.EditorToolbar');
+goog.require('cwc.ui.Helper');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.MenuItem');
@@ -38,9 +40,6 @@ cwc.ui.EditorToolbar = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {Element} */
   this.nodeSelectView = null;
 
   /** @type {Element} */
@@ -51,6 +50,9 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {Element} */
   this.nodeExpandExit = null;
+
+  /** @type {Element} */
+  this.nodeLibrary = null;
 
   /** @type {Element} */
   this.nodeMedia = null;
@@ -77,7 +79,7 @@ cwc.ui.EditorToolbar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'toolbar-';
+  this.prefix = this.helper.getPrefix('editor-toolbar');
 
   /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
@@ -87,28 +89,35 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {boolean} */
   this.expandState = false;
+
+  /** @private {cwc.utils.Dialog} */
+  this.dialog_ = null;
 };
 
 
 /**
  * @param {Element} node
- * @param {Element} node_editor
  * @param {Element} node_select_view
- * @param {string=} opt_prefix
  */
-cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
-    node_select_view, opt_prefix) {
+cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   this.node = node;
-  this.nodeEditor = node_editor;
   this.nodeSelectView = node_select_view;
-  this.prefix = (opt_prefix || '') + this.prefix;
+
+  // Render editor toolbar.
+  goog.soy.renderElement(
+    this.node,
+    cwc.soy.ui.EditorToolbar.template, {
+      experimental: this.helper.experimentalEnabled(),
+      prefix: this.prefix,
+    }
+  );
 
   this.selectView.setTooltip('Change view');
   this.selectView.render(this.nodeSelectView);
-
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
   this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
@@ -121,6 +130,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
 
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
+  goog.style.setElementShown(this.nodeMedia, false);
 
   if (this.helper.experimentalEnabled()) {
     this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
@@ -135,6 +145,8 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
+  goog.events.listen(this.nodeLibrary, goog.events.EventType.CLICK,
+    this.showLibrary.bind(this));
   goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
     this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
@@ -242,6 +254,47 @@ cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
  * Insert a media.
  */
 cwc.ui.EditorToolbar.prototype.insertMedia = function() {
+  let dialogInstance = this.helper.getInstance('dialog', true);
+  this.dialog_ = dialogInstance.showTemplate({
+      title: 'Insert media file',
+      icon: 'image',
+    },
+    cwc.soy.ui.EditorToolbar.uploadFile, {
+      prefix: this.prefix,
+    }
+  );
+  let nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  let nodeUpload = goog.dom.getElement(this.prefix + 'upload');
+  goog.events.listen(nodeAddFile, goog.events.EventType.CLICK, function() {
+    nodeUpload.click();
+  });
+  goog.events.listen(nodeUpload, goog.events.EventType.CHANGE, function(e) {
+    let file = e.target.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
+  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGLEAVE, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    goog.dom.classlist.enable(e.target, 'active', false);
+  });
+  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGOVER, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    goog.dom.classlist.enable(e.target, 'active', true);
+  });
+  goog.events.listen(nodeAddFile, goog.events.EventType.DROP, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let file = e.getBrowserEvent().dataTransfer.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
+};
+
+
+/**
+ * Insert a media.
+ */
+cwc.ui.EditorToolbar.prototype.showLibrary = function() {
   let editorInstance = this.helper.getInstance('editor');
   let libraryInstance = this.helper.getInstance('library');
   if (editorInstance && libraryInstance) {
@@ -294,6 +347,16 @@ cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
 /**
  * @param {boolean} enable
  */
+cwc.ui.EditorToolbar.prototype.enableLibraryButton = function(enable) {
+  if (this.nodeLibrary) {
+    cwc.ui.Helper.enableElement(this.nodeLibrary, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
 cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
   if (this.nodeMedia) {
     cwc.ui.Helper.enableElement(this.nodeMedia, enable);
@@ -302,9 +365,29 @@ cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
 
 
 /**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.showLibraryButton = function(enable) {
+  if (this.nodeLibrary) {
+    goog.style.setElementShown(this.nodeLibrary, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.EditorToolbar.prototype.showMediaButton = function(enable) {
+  if (this.nodeMedia) {
+    goog.style.setElementShown(this.nodeMedia, enable);
+  }
+};
+
+
+/**
  * @param {boolean} has_files
  */
-cwc.ui.EditorToolbar.prototype.updateMediaButton = function(has_files) {
+cwc.ui.EditorToolbar.prototype.updateLibraryButton = function(has_files) {
   if (this.nodeMedia) {
     goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
     goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
@@ -404,4 +487,35 @@ cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert = false) {
  */
 cwc.ui.EditorToolbar.prototype.showExpandButton = function(visible) {
   goog.style.setElementShown(this.nodeExpand, visible);
+};
+
+
+/**
+ * Reads file content as data URL and adds file to library.
+ * @param {!Blob} file
+ * @private
+ */
+cwc.ui.EditorToolbar.prototype.insertFileContent_ = function(file) {
+  let editorInstance = this.helper.getInstance('editor');
+
+  if (file && editorInstance && editorInstance.isVisible()) {
+    let reader = new FileReader();
+
+    reader.onload = function(event) {
+      switch (editorInstance.getEditorMode()) {
+        case cwc.file.MimeType.CSS.type:
+          editorInstance.insertText(
+            'url(\'' + event.target.result + '\');\n');
+          break;
+        case cwc.file.MimeType.HTML.type:
+          editorInstance.insertText(
+            '<img src="' + event.target.result + '">\n');
+          break;
+        default:
+          editorInstance.insertText(event.target.result);
+      }
+      this.dialog_.close();
+    }.bind(this);
+    reader.readAsDataURL(file);
+  }
 };

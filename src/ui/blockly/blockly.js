@@ -533,9 +533,9 @@ cwc.ui.Blockly.prototype.redoChange = function() {
  * Updates the media button appearance.
  * @param {boolean} hasFiles
  */
-cwc.ui.Blockly.prototype.updateMediaButton = function(hasFiles) {
+cwc.ui.Blockly.prototype.updateLibraryButton = function(hasFiles) {
   if (this.toolbar) {
-    this.toolbar.updateMediaButton(hasFiles);
+    this.toolbar.updateLibraryButton(hasFiles);
   }
 };
 
