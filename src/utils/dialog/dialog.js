@@ -185,6 +185,7 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
  * @param {!string|Object} title
  * @param {!function (Object, null=, (Object<string,*>|null)=)} template
  * @param {!Object} values
+ * @return {!cwc.utils.Dialog}
  * @export
  */
 cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
@@ -196,6 +197,7 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
   }
+  return this;
 };
 
 

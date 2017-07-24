@@ -53,5 +53,7 @@ cwc.mode.text.Editor.prototype.decorate = function() {
   this.editor.decorate(this.node);
   this.editor.showEditorViews(false);
   this.editor.showExpandButton(false);
+  this.editor.showLibraryButton(false);
+  this.editor.showMediaButton(true);
   this.editor.enableModeSelect(true);
 };

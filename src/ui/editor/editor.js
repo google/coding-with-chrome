@@ -19,11 +19,12 @@
  */
 goog.provide('cwc.ui.Editor');
 
-goog.require('cwc.ui.EditorContent');
+goog.require('cwc.UserConfig');
 goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorAutocompleteBlacklistCodes');
 goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
 goog.require('cwc.ui.EditorAutocompleteList');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorInfobar');
@@ -113,6 +114,9 @@ cwc.ui.Editor = function(helper) {
   /** @private {cwc.ui.EditorHint|string} */
   this.editorHint_ = cwc.ui.EditorHint.UNKNOWN;
 
+  /** @private {!boolean} */
+  this.editorHintEnable_ = true;
+
   /** @private {!Object} */
   this.editorHintGlobals_ = cwc.ui.EditorAutocompleteList.getGlobals();
 
@@ -182,15 +186,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
       }
   );
 
-  // Decorate editor tool-bar.
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  if (this.nodeToolbar) {
-    this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
-    this.toolbar = new cwc.ui.EditorToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.node, this.nodeSelectView,
-      this.prefix);
-  }
-
   // Decorate code editor.
   this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
   this.editor = new CodeMirror(this.nodeEditor, this.options_);
@@ -206,11 +201,26 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   this.editor.on('cursorActivity', this.updateCursorPosition.bind(this));
   this.editor.on('keyup', this.handleKeyUp_.bind(this));
 
+  // Decorate editor tool-bar.
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
+  if (this.nodeToolbar) {
+    this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
+    this.toolbar = new cwc.ui.EditorToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar, this.nodeSelectView);
+  }
+
   // Decorate editor info-bar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   if (this.nodeInfobar) {
     this.infobar = new cwc.ui.EditorInfobar(this.helper);
     this.infobar.decorate(this.nodeInfobar);
+  }
+
+  // Loading User settings.
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.editorHintEnable_ = userConfigInstance.get(cwc.userConfigType.EDITOR,
+      cwc.userConfigName.AUTO_COMPLETE);
   }
 
   // Add event listener to monitor changes like resize and unload.
@@ -761,7 +771,8 @@ cwc.ui.Editor.prototype.handleChange_ = function() {
  * @private
  */
 cwc.ui.Editor.prototype.handleKeyUp_ = function(cm, e) {
-  if (!cm || cm['state']['completionActive'] ||
+  if (!this.editorHintEnable_ ||
+      !cm || cm['state']['completionActive'] ||
       typeof cwc.ui.EditorAutocompleteBlacklistCodes[e.code] !== 'undefined' ||
       typeof cwc.ui.EditorAutocompleteBlacklistKeys[e.key] !== 'undefined') {
     return;

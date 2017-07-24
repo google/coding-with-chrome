@@ -42,17 +42,17 @@ cwc.fileHandler.FileLoader = function(helper) {
   /** @type {!Array} */
   this.acceptedFiles = [{
     'description': 'All supported files',
-    'extensions': ['cwc', 'txt', 'html', 'htm', 'js', 'coffee', 'py'],
+    'extensions': ['cwc', 'txt', 'html', 'htm', 'js', 'coffee', 'py', 'css'],
   }, {
     'description': 'Coding with Chrome file (.cwc)',
     'extensions': ['cwc'],
   },
-    {'extensions': ['txt']},
-    {'extensions': ['html']},
-    {'extensions': ['htm']},
-    {'extensions': ['js']},
     {'extensions': ['coffee']},
+    {'extensions': ['css']},
+    {'extensions': ['htm', 'html']},
+    {'extensions': ['js']},
     {'extensions': ['py']},
+    {'extensions': ['txt']},
   ];
 
   /** @type {!cwc.utils.Helper} **/

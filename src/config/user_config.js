@@ -25,8 +25,20 @@ goog.provide('cwc.userConfigType');
 /**
  * @enum {!string}
  */
+cwc.userConfigType = {
+  BLOCKLY: 'blockly',
+  EDITOR: 'editor',
+  GENERAL: 'general',
+  MODULE: 'module',
+};
+
+
+/**
+ * @enum {!string}
+ */
 cwc.userConfigName = {
   ADVANCED_MODE: 'advanced_mode',
+  AUTO_COMPLETE: 'auto_complete',
   COFFEESCRIPT: 'coffeescript',
   DEBUG_MODE: 'debug_mode',
   EV3: 'ev3',
@@ -42,16 +54,6 @@ cwc.userConfigName = {
   SKIP_WELCOME: 'skip_welcome',
   SPHERO: 'sphero',
   ZOOM: 'zoom',
-};
-
-
-/**
- * @enum {!string}
- */
-cwc.userConfigType = {
-  BLOCKLY: 'blockly',
-  GENERAL: 'general',
-  MODULE: 'module',
 };
 
 

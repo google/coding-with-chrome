@@ -61,6 +61,7 @@ cwc.mode.raspberryPi.advanced.Editor.prototype.decorate = function() {
   // Output editor.
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.nodeEditor);
+  this.editor.showLibraryButton(false);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
 };

@@ -94,12 +94,6 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.setConfig_('fullscreen', cwc.userConfigType.GENERAL,
     cwc.userConfigName.FULLSCREEN);
 
-  // Misc settings
-  this.setConfig_('experimental-mode', cwc.userConfigType.GENERAL,
-    cwc.userConfigName.EXPERIMENTAL_MODE);
-  this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
-    cwc.userConfigName.DEBUG_MODE);
-
   // Robots modules
   this.setConfig_('mode-ev3', cwc.userConfigType.MODULE,
     cwc.userConfigName.EV3);
@@ -123,6 +117,16 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   // Markup language
   this.setConfig_('mode-html5', cwc.userConfigType.MODULE,
     cwc.userConfigName.HTML5);
+
+  // Editor settings
+  this.setConfig_('auto-complete', cwc.userConfigType.EDITOR,
+    cwc.userConfigName.AUTO_COMPLETE);
+
+  // Misc settings
+  this.setConfig_('experimental-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.EXPERIMENTAL_MODE);
+  this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.DEBUG_MODE);
 };
 
 

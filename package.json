@@ -1,14 +1,14 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "4.6.19",
+  "version": "4.6.24",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "closure-builder": "^2.2.23",
     "jsdoc": "^3.5.3",
-    "nw": "^0.23.6-1",
+    "nw": "^0.23.7",
     "nw-builder": "^3.4.1",
     "rimraf": "^2.6.1",
     "command-line-usage": "^4.0.0",
@@ -16,14 +16,13 @@
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.2.0",
+    "eslint": "^4.3.0",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
     "karma": "latest",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
-    "karma-es6-preprocessor": "latest",
     "karma-jasmine": "latest",
     "npm-check-updates": "latest"
   },

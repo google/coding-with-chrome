@@ -50,5 +50,6 @@ cwc.mode.python.Editor.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate(this.node);
+  this.editor.showLibraryButton(false);
   this.editor.showEditorViews(false);
 };

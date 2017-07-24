@@ -19,8 +19,10 @@
  */
 goog.provide('cwc.ui.EditorToolbar');
 
-goog.require('cwc.ui.Helper');
 goog.require('cwc.file.MimeType');
+goog.require('cwc.file.MimeType');
+goog.require('cwc.soy.ui.EditorToolbar');
+goog.require('cwc.ui.Helper');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.MenuItem');
@@ -36,9 +38,6 @@ goog.require('goog.ui.Select');
 cwc.ui.EditorToolbar = function(helper) {
   /** @type {Element} */
   this.node = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
 
   /** @type {Element} */
   this.nodeSelectView = null;
@@ -80,7 +79,7 @@ cwc.ui.EditorToolbar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = 'toolbar-';
+  this.prefix = this.helper.getPrefix('editor-toolbar');
 
   /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
@@ -90,25 +89,31 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {boolean} */
   this.expandState = false;
+
+  /** @private {cwc.utils.Dialog} */
+  this.dialog_ = null;
 };
 
 
 /**
  * @param {Element} node
- * @param {Element} node_editor
  * @param {Element} node_select_view
- * @param {string=} opt_prefix
  */
-cwc.ui.EditorToolbar.prototype.decorate = function(node, node_editor,
-    node_select_view, opt_prefix) {
+cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   this.node = node;
-  this.nodeEditor = node_editor;
   this.nodeSelectView = node_select_view;
-  this.prefix = (opt_prefix || '') + this.prefix;
+
+  // Render editor toolbar.
+  goog.soy.renderElement(
+    this.node,
+    cwc.soy.ui.EditorToolbar.template, {
+      experimental: this.helper.experimentalEnabled(),
+      prefix: this.prefix,
+    }
+  );
 
   this.selectView.setTooltip('Change view');
   this.selectView.render(this.nodeSelectView);
-
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
@@ -249,11 +254,40 @@ cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
  * Insert a media.
  */
 cwc.ui.EditorToolbar.prototype.insertMedia = function() {
-  let editorInstance = this.helper.getInstance('editor');
-  let libraryInstance = this.helper.getInstance('library');
-  if (editorInstance && libraryInstance) {
-    console.log('insertMedia');
-  }
+  let dialogInstance = this.helper.getInstance('dialog', true);
+  this.dialog_ = dialogInstance.showTemplate({
+      title: 'Insert media file',
+      icon: 'image',
+    },
+    cwc.soy.ui.EditorToolbar.uploadFile, {
+      prefix: this.prefix,
+    }
+  );
+  let nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  let nodeUpload = goog.dom.getElement(this.prefix + 'upload');
+  goog.events.listen(nodeAddFile, goog.events.EventType.CLICK, function() {
+    nodeUpload.click();
+  });
+  goog.events.listen(nodeUpload, goog.events.EventType.CHANGE, function(e) {
+    let file = e.target.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
+  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGLEAVE, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    goog.dom.classlist.enable(e.target, 'active', false);
+  });
+  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGOVER, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    goog.dom.classlist.enable(e.target, 'active', true);
+  });
+  goog.events.listen(nodeAddFile, goog.events.EventType.DROP, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let file = e.getBrowserEvent().dataTransfer.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
 };
 
 
@@ -453,4 +487,35 @@ cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert = false) {
  */
 cwc.ui.EditorToolbar.prototype.showExpandButton = function(visible) {
   goog.style.setElementShown(this.nodeExpand, visible);
+};
+
+
+/**
+ * Reads file content as data URL and adds file to library.
+ * @param {!Blob} file
+ * @private
+ */
+cwc.ui.EditorToolbar.prototype.insertFileContent_ = function(file) {
+  let editorInstance = this.helper.getInstance('editor');
+
+  if (file && editorInstance && editorInstance.isVisible()) {
+    let reader = new FileReader();
+
+    reader.onload = function(event) {
+      switch (editorInstance.getEditorMode()) {
+        case cwc.file.MimeType.CSS.type:
+          editorInstance.insertText(
+            'url(\'' + event.target.result + '\');\n');
+          break;
+        case cwc.file.MimeType.HTML.type:
+          editorInstance.insertText(
+            '<img src="' + event.target.result + '">\n');
+          break;
+        default:
+          editorInstance.insertText(event.target.result);
+      }
+      this.dialog_.close();
+    }.bind(this);
+    reader.readAsDataURL(file);
+  }
 };
