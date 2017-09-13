@@ -6,17 +6,21 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.23",
-    "jsdoc": "^3.5.3",
-    "nw": "^0.23.7",
+    "closure-builder": "^2.2.27",
+    "command-line-usage": "^4.0.1",
+    "jasmine-core": "^2.8.0",
+    "jsdoc": "^3.5.4",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "npm-check-updates": "^2.12.1",
+    "nw": "^0.25.0",
     "nw-builder": "^3.4.1",
-    "rimraf": "^2.6.1",
-    "command-line-usage": "^4.0.0",
+    "rimraf": "^2.6.2",
     "rollup-plugin-buble": "^0.15.0"
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.3.0",
+    "eslint": "^4.6.1",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
@@ -28,7 +32,6 @@
   },
   "scripts": {
     "usage": "node build/usage.js",
-
     "test": "npm run test-soy && npm run test-units && npm run test-core",
     "pretest": "npm run lint",
     "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
@@ -37,7 +40,6 @@
     "pretest-units": "node build/test/unit_files.js",
     "test-core": "echo Starting core tests ... && karma start test/core_tests.conf",
     "pretest-core": "npm run build && npm run build-main",
-
     "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
     "build-cwc-blocks": "node build/cwc/blocks.js",
     "build-cwc-debug": "npm run build-cwc-deps && npm run build-cwc-main-debug",
@@ -56,7 +58,6 @@
     "build-external-extra": "node build/external/extra_files.js",
     "build-external-static": "node build/external/static_files.js",
     "build-framework-files": "npm run build-external-frameworks && npm run build-cwc-frameworks",
-
     "build": "npm run build-third_party && npm run build-core",
     "build-main": "node build/cwc/main.js",
     "build-chrome_app": "npm run clean-chrome_app && node build/app/chrome_app.js",
@@ -66,26 +67,22 @@
     "build-web_app": "npm run clean-web_app && node build/app/web_app.js",
     "build-core": "npm run clean-core && npm run build-cwc-blocks && npm run build-cwc-frameworks && npm run build-cwc-gss && npm run build-cwc-locales && npm run build-cwc-soy && npm run build-cwc-static-files",
     "build-third_party": "npm run clean-third_party && npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
-
     "publish-chrome_app": "npm run build-chrome_app",
     "publish-nw_app": "npm run publish-nw_app-win && npm run publish-nw_app-mac && npm run publish-nw_app-linux",
     "publish-nw_app-win": "nwbuild --platforms win --buildDir dist/ genfiles/nw_app/",
     "publish-nw_app-mac": "nwbuild --platforms osx64 --buildDir dist/ genfiles/nw_app/",
     "publish-nw_app-linux": "nwbuild --platforms linux --buildDir dist/ genfiles/nw_app/",
-
     "chrome-app": "npm run build-core && npm run build-chrome_app && npm run launch",
     "chrome-app-debug": "npm run build-core && npm run build-chrome_app_debug && npm run launch",
     "nw-app": "npm run build-core && npm run build-nw_app && npm run launch-nw",
     "nw-app-debug": "npm run build-core && npm run build-nw_app_debug && npm run launch-nw",
     "web-app": "npm run build-core && npm run build-web_app && npm run launch-web",
-
     "launch": "echo Lauching app. Please wait ... && npm run launch-linux --silent || npm run launch-mac --silent || npm run launch-win --silent",
     "launch-nw": "nw genfiles/nw_app",
     "launch-linux": "google-chrome --load-and-launch-app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch-web": "http-server genfiles/web_app",
     "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\dist\\chrome_os --enable-logging --v=1 --no-first-run",
-
     "clean": "npm run clean-npm && npm run clean-chrome_app && npm run clean-core && npm run clean-soy_files && npm run clean-test && npm run clean-third_party",
     "clean-chrome_app": "echo Cleaning up Chrome app genfiles. Please wait ... && rimraf dist/chrome_os/*",
     "clean-core": "echo Cleaning up core genfiles. Please wait ... && rimraf genfiles/core/*",
@@ -95,9 +92,7 @@
     "clean-third_party": "echo Cleaning up third_party genfiles. Please wait ... && rimraf genfiles/third_party/*",
     "clean-nw_app": "echo Cleaning up NW.js app genfiles. Please wait ... && rimraf genfiles/nw_app/*",
     "clean-web_app": "echo Cleaning up Web app genfiles. Please wait ... && rimraf genfiles/web_app/*",
-
     "clean-build": "npm run clean && npm run build",
-
     "documentation": "jsdoc src -r -c documentation.json -d docs",
     "lint": "eslint .",
     "show-updates": "ncu",
