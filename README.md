@@ -27,7 +27,7 @@ components like:
 Apache License, Version 2.0 see [LICENSE.md](LICENSE.md)
 
 
-## Installing Coding with Chrome
+## Installing Coding with Chrome as Chrome App
 If you only want to install __Coding with Chrome__, you could use the pre-compiled version on the Chrome store.
 
 1. Visit the [Chrome Web Store][1]
@@ -36,7 +36,7 @@ If you only want to install __Coding with Chrome__, you could use the pre-compil
 
 
 ## Build the Coding with Chrome App
-If you want to build the latest Coding with Chrome App from the source code, please check the [build instructions](BUILD.md).
+If you want to build the latest Coding with Chrome App from the source code, please check the [build instructions](doc/BUILD.md).
 
 
 ## Supported hardware and system
