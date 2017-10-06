@@ -1,9 +1,9 @@
 Build Coding with Chrome - Binary Mac Application
 ==============================================
-<p align="center"><img src="static_files/images/cwc_logo.png"></p>
+<p align="center"><img src="../static_files/images/cwc_logo.png"></p>
 
 ## Prerequisites
-Please make sure you followed the [Build pre-requisites](BUILD.md) before using this document.
+Please make sure you followed the [Build pre-requisites](../BUILD.md) before using this document.
 
 ## Build the core files
 In order to build the actual app you need first to build all core files.
