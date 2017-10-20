@@ -367,6 +367,6 @@ cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
   let publicUrlContainer = goog.dom.getElement(this.prefix + 'public-url');
   goog.soy.renderElement(publicUrlContainer, cwc.soy.GCloud.gCloudPublicURL, {
     prefix: this.prefix, path: this.publicUrlPath,
-    encodedPath: encodeURIComponent(this.publicUrlPath),
+    encodedPath: encodeURI(this.publicUrlPath),
   });
 };
