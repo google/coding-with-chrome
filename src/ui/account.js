@@ -219,7 +219,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
     }
   }
 
-  let headers = new Map(opts.header);
+  let headers = new Map(Object.entries(opts.header || {}));
   headers.set('Authorization', 'Bearer ' + token);
   headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 
