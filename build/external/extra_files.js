@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-let buble = require('rollup-plugin-buble');
 let closureBuilder = require('closure-builder');
 let glob = closureBuilder.globSupport();
 
@@ -69,7 +68,6 @@ closureBuilder.build({
   format: 'umd',
   srcs: codeMirrorPath + 'src/codemirror.js',
   out: codeMirrorPath + 'lib/codemirror.js',
-  plugins: [buble({namedFunctionExpressions: false})],
 });
 
 closureBuilder.build({
