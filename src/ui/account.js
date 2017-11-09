@@ -80,9 +80,14 @@ cwc.ui.Account.prototype.prepare = function() {
 /**
  * Handles the oAuth 2.0 authentication.
  */
-cwc.ui.Account.prototype.authenticate = function() {
+cwc.ui.Account.prototype.authenticate = function(callback) {
   console.log('Try to authenticated...');
-  let authentificationEvent = this.handleAuthentication_.bind(this);
+  let authentificationEvent = (function(opt_access_token) {
+    this.handleAuthentication_(opt_access_token);
+    if(callback) {
+      callback(this.authenticated);
+    }
+  }).bind(this);
   chrome.identity.getAuthToken({'interactive': true}, authentificationEvent);
 };
 
@@ -194,50 +199,54 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
 cwc.ui.Account.prototype.request = function(opts, callback) {
   let params = opts.params || {};
 
-  if (!this.authenticated) {
-    this.authenticate();
-  }
-
-  let subdomain = 'www';
-  if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
+  let handleRequest = (function() {
+    let subdomain = 'www';
+    if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
       opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
-    subdomain = opts.subdomain;
-  }
-
-  let uri = subdomain + '.googleapis.com';
-  let url = goog.Uri.create('https', null, uri, null, opts.path);
-  if (opts.raw) {
-    url = new goog.Uri(opts.path);
-  }
-  let method = opts.method || 'GET';
-  let content = opts.content;
-  let token = opts.token || this.accessToken || '';
-
-  for (let i in params) {
-    if (Object.prototype.hasOwnProperty.call(params, i)) {
-      url.setParameterValue(i, params[i]);
+      subdomain = opts.subdomain;
     }
+
+    let uri = subdomain + '.googleapis.com';
+    let url = goog.Uri.create('https', null, uri, null, opts.path);
+    if (opts.raw) {
+      url = new goog.Uri(opts.path);
+    }
+    let method = opts.method || 'GET';
+    let content = opts.content;
+    let token = opts.token || this.accessToken || '';
+
+    for (let i in params) {
+      if (Object.prototype.hasOwnProperty.call(params, i)) {
+        url.setParameterValue(i, params[i]);
+      }
+    }
+
+    let headers = new Map(Object.entries(opts.header || {}));
+    headers.set('Authorization', 'Bearer ' + token);
+    headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
+
+    let xhrRepsonseEvent = function (event) {
+      this.handleXhrResponse(event, callback);
+    };
+
+    /** @type {goog.net.XhrIo} */
+    let xhr = new goog.net.XhrIo();
+    goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
+      false, this);
+    goog.events.listen(xhr, goog.net.EventType.ERROR, this.handleXhrError,
+      false, this);
+    goog.events.listen(xhr, goog.net.EventType.TIMEOUT, this.handleXhrTimeout,
+      false, this);
+
+    console.log('Request: ' + method + ' ' + url);
+    xhr.send(url, method, content, headers);
+  }).bind(this);
+
+  if (!this.authenticated) {
+    this.authenticate(handleRequest);
+  } else {
+    handleRequest();
   }
-
-  let headers = new Map(Object.entries(opts.header || {}));
-  headers.set('Authorization', 'Bearer ' + token);
-  headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
-
-  let xhrRepsonseEvent = function(event) {
-    this.handleXhrResponse(event, callback);
-  };
-
-  /** @type {goog.net.XhrIo} */
-  let xhr = new goog.net.XhrIo();
-  goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
-      false, this);
-  goog.events.listen(xhr, goog.net.EventType.ERROR, this.handleXhrError,
-      false, this);
-  goog.events.listen(xhr, goog.net.EventType.TIMEOUT, this.handleXhrTimeout,
-      false, this);
-
-  console.log('Request: ' + method + ' ' + url);
-  xhr.send(url, method, content, headers);
 };
 
 
