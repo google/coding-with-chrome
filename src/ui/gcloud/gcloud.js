@@ -355,7 +355,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
     },
     content: JSON.stringify({
       'contentType': 'text/html',
-      'cacheControl': 'public, max-age=0'
+      'cacheControl': 'public, max-age=0',
     }),
   }, callback);
 };

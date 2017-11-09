@@ -21,6 +21,9 @@
 
 
 /** @type {Function} */
+let chrome = function() {};
+
+/** @type {Function} */
 chrome.storage = function() {};
 
 /** @type {Function} */
@@ -33,10 +36,19 @@ chrome.storage.local.get = function() {};
 chrome.storage.local.set = function() {};
 
 /** @type {Function} */
+chrome.runtime = function() {};
+
+/** @type {Function} */
 chrome.runtime.getManifest = function() {};
 
 /** @type {Function} */
 chrome.runtime.getURL = function() {};
+
+/** @type {Object} */
+chrome.runtime.lastError = {};
+
+/** @type {Function} */
+chrome.app = function() {};
 
 /** @type {Object} */
 chrome.app.window = {};

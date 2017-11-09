@@ -25,7 +25,7 @@
   * @param {Object} options
   * @constructor
   */
-var CodeMirror = function(node, options) {};
+let CodeMirror = function(node, options) {};
 
 /** @type {Object} */
 CodeMirror.mimeModes = {};

@@ -79,12 +79,13 @@ cwc.ui.Account.prototype.prepare = function() {
 
 /**
  * Handles the oAuth 2.0 authentication.
+ * @param {function(?)=} callback
  */
 cwc.ui.Account.prototype.authenticate = function(callback) {
   console.log('Try to authenticated...');
   let authentificationEvent = (function(opt_access_token) {
     this.handleAuthentication_(opt_access_token);
-    if(callback) {
+    if (callback) {
       callback(this.authenticated);
     }
   }).bind(this);
@@ -225,7 +226,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
     headers.set('Authorization', 'Bearer ' + token);
     headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 
-    let xhrRepsonseEvent = function (event) {
+    let xhrRepsonseEvent = function(event) {
       this.handleXhrResponse(event, callback);
     };
 
