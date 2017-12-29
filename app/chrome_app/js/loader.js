@@ -25,18 +25,18 @@
  * @final
  */
 let CwcLoader = function() {
-  /** @type {element} */
+  /** @type {Element} */
   this.versionNode = document.getElementById('cwc-version-text');
 
-  /** @type {element} */
+  /** @type {Element} */
   this.progressBarNode = document.getElementById(
       'cwc-preloader-progress-bar');
 
-  /** @type {element} */
+  /** @type {Element} */
   this.progressTextNode = document.getElementById(
       'cwc-preloader-progress-text');
 
-  /** @type {element} */
+  /** @type {Element} */
   this.progressThumbNode = document.getElementById(
       'cwc-preloader-progress-bar-thumb');
 

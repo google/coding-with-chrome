@@ -7,19 +7,19 @@
   "private": true,
   "dependencies": {
     "closure-builder": "^2.2.29",
-    "command-line-usage": "^4.0.1",
+    "command-line-usage": "^4.0.2",
     "jasmine-core": "^2.8.0",
     "jsdoc": "^3.5.5",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "npm-check-updates": "^2.12.1",
-    "nw": "^0.26.4",
+    "nw": "^0.27.3",
     "nw-builder": "^3.5.1",
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.10.0",
+    "eslint": "^4.14.0",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",

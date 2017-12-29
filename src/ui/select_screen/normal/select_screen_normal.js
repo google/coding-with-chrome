@@ -24,6 +24,8 @@ goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.utils.Helper');
 
+goog.require('goog.object');
+
 
 /**
  * @enum {!string}
@@ -62,6 +64,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
   /** @type {!cwc.ui.SelectScreenNormalView} */
   this.currentView = cwc.ui.SelectScreenNormalView.NONE;
 
+  /** @type {Array<?>} */
+  this.projects = null;
+
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
@@ -76,7 +81,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
  * @export
  */
 cwc.ui.SelectScreenNormal.prototype.decorate = function(node) {
+  let projectHelper = this.helper.getInstance('project');
   this.node = node;
+  projectHelper.deactivateProject();
 };
 
 
@@ -87,6 +94,8 @@ cwc.ui.SelectScreenNormal.prototype.decorate = function(node) {
  */
 cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
   let name = optName || cwc.ui.SelectScreenNormalView.OVERVIEW;
+  let projectHelper = this.helper.getInstance('project');
+  this.projects = null;
 
   switch (name) {
     // General overview
@@ -103,7 +112,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // Basic example screen
     case cwc.ui.SelectScreenNormalView.BASIC:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - Blocks']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.basicOverview);
+      this.setProjectClickEvents_('simple/blocks/blank.cwc');
       this.setNavHeader_('Blocks', 'school');
       this.setClickEvent_('link-blank', this.loadFile_,
           'simple/blocks/blank.cwc');
@@ -117,7 +129,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // Game example screen
     case cwc.ui.SelectScreenNormalView.GAMES:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - Games']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.gamesOverview);
+      this.setProjectClickEvents_('phaser/blocks/blank.cwc');
       this.setClickEvent_('link-blank', this.loadFile_,
           'phaser/blocks/blank.cwc');
       this.setClickEvent_('link-switch-game-state', this.loadFile_,
@@ -146,7 +161,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // EV3 example screen
     case cwc.ui.SelectScreenNormalView.EV3:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - EV3']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.ev3Overview);
+      this.setProjectClickEvents_('ev3/blocks/blank.cwc');
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -161,7 +179,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // Sphero example screen
     case cwc.ui.SelectScreenNormalView.SPHERO:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - Sphero']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
+      this.setProjectClickEvents_('sphero/blocks/blank.cwc');
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -174,7 +195,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // MBot example screen
     case cwc.ui.SelectScreenNormalView.MBOT:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - mBot Blue']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
+      this.setProjectClickEvents_('makeblock/mbot/blocks/blank.cwc');
       this.setNavHeader_('mBot', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -191,7 +215,10 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
 
     // MBot ranger example screen
     case cwc.ui.SelectScreenNormalView.MBOT_RANGER:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Beginner - mBot Ranger']);
       this.showTemplate_(cwc.soy.SelectScreenNormal.mbotRangerOverview);
+      this.setProjectClickEvents_('makeblock/mbot_ranger/blocks/blank.cwc');
       this.setNavHeader_('mBot Ranger', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -282,6 +309,7 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
       modules: modules,
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
+      projects: this.projects,
     });
   } else {
     console.error('Unable to render template', template);
@@ -335,5 +363,29 @@ cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
   let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
+  }
+};
+
+
+/**
+ * Add click events to all visible projects
+ * @param {string} file_name Example file name to load.
+ * @private
+ */
+cwc.ui.SelectScreenNormal.prototype.setProjectClickEvents_ = function(
+  file_name) {
+  let visibleProjects = this.projects || [];
+  let projectHelper = this.helper.getInstance('project');
+  visibleProjects.forEach((project) => {
+    this.setClickEvent_(`link-project-${project.id}`, () => {
+      projectHelper.setActiveProject(project.id);
+      this.loadFile_(file_name);
+    });
+  });
+
+  if (visibleProjects.length) {
+    this.setClickEvent_('link-projects-more', () => {
+      window.open('https://edu.workbencheducation.com');
+    });
   }
 };

@@ -69,6 +69,36 @@
   z-index: 10;
 }
 
+#{$prefix}gui-media-overlay {
+  align-items: center;
+  background-color: #000;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 34px; /* height of header */
+}
+
+#{$prefix}gui-media-overlay-content img,
+#{$prefix}gui-media-overlay-content webview {
+  max-height: 90vh;
+  max-width: 90vw;
+}
+
+#{$prefix}gui-media-overlay webview {
+  height: 750px;
+  width: 1000px;
+}
+
+#{$prefix}gui-media-overlay-close {
+  color: #fff;
+  left: 16px;
+  position: absolute;
+  top: 16px;
+}
+
 #{$prefix}gui-status {
   margin-left: 5px;
 }

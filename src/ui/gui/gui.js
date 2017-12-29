@@ -61,6 +61,15 @@ cwc.ui.Gui = function(helper) {
   this.nodeLayout = null;
 
   /** @type {Element} */
+  this.nodeMediaOverlay = null;
+
+  /** @type {Element} */
+  this.nodeMediaOverlayClose = null;
+
+  /** @type {Element} */
+  this.nodeMediaOverlayContent = null;
+
+  /** @type {Element} */
   this.nodeMenubar = null;
 
   /** @type {Element} */
@@ -74,6 +83,9 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {Element} */
   this.nodeTitle = null;
+
+  /** @type {Function} */
+  this.onMediaCloseCallback = null;
 };
 
 
@@ -97,6 +109,11 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeChrome = goog.dom.getElement(this.prefix + 'chrome');
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
+  this.nodeMediaOverlay = goog.dom.getElement(this.prefix + 'media-overlay');
+  this.nodeMediaOverlayClose = goog.dom.getElement(
+    this.prefix + 'media-overlay-close');
+  this.nodeMediaOverlayContent = goog.dom.getElement(
+    this.prefix + 'media-overlay-content');
   this.nodeMenubar = goog.dom.getElement(this.prefix + 'menubar');
   this.nodeMessage = goog.dom.getElement(this.prefix + 'message');
   this.nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
@@ -108,9 +125,13 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.helper.decorateInstance('message', this.nodeMessage);
   this.helper.decorateInstance('navigation', this.nodeNavigation);
 
+  this.hideMedia();
+
   // Add elements interactions.
   goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
       this.renameTitle, false, this);
+  goog.events.listen(this.nodeMediaOverlayClose, goog.events.EventType.CLICK,
+    this.onMediaClose_, false, this);
 };
 
 
@@ -143,6 +164,38 @@ cwc.ui.Gui.prototype.enableTitle = function(enabled) {
 cwc.ui.Gui.prototype.setStatus = function(status) {
   if (this.nodeStatus && status !== undefined) {
     goog.dom.setTextContent(this.nodeStatus, status);
+  }
+};
+
+
+/**
+ * Shows a full takeover overlay with media centered in it
+ * @param {Element} media An element to display
+ * @param {Function} closeCallback Function to call on close
+ */
+cwc.ui.Gui.prototype.showMedia = function(media, closeCallback) {
+  goog.style.setElementShown(this.nodeMediaOverlay, true);
+  this.nodeMediaOverlayContent.appendChild(media);
+  this.onMediaCloseCallback = closeCallback;
+};
+
+
+/**
+ * Hides the media overlay
+ */
+cwc.ui.Gui.prototype.hideMedia = function() {
+  goog.style.setElementShown(this.nodeMediaOverlay, false);
+  this.nodeMediaOverlayContent.innerHTML = '';
+};
+
+
+/**
+ * Fired on media close button click
+ */
+cwc.ui.Gui.prototype.onMediaClose_ = function() {
+  if (goog.isFunction(this.onMediaCloseCallback)) {
+    this.onMediaCloseCallback();
+    this.onMediaCloseCallback = null;
   }
 };
 

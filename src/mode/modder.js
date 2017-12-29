@@ -56,6 +56,8 @@ cwc.mode.Modder = function(helper) {
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
   let modeConfig = cwc.mode.Config.get(mode, true);
+  let project = this.helper.getInstance('project');
+
   if (!modeConfig) {
     return;
   }
@@ -97,6 +99,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   this.mode = mode;
   this.modder = new modeConfig.Mod(this.helper);
   this.modder.decorate();
+  project.decorate();
 };
 
 

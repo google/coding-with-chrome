@@ -233,38 +233,43 @@ cwc.ui.RunnerToolbar.prototype.enableInfoButton = function(enable) {
 
 /**
  * Toggles the current expand state.
+ * @param {goog.events.EventLike} e
  */
-cwc.ui.RunnerToolbar.prototype.toggleExpand = function() {
+cwc.ui.RunnerToolbar.prototype.toggleExpand = function(e) {
   this.expandState = !this.expandState;
-  this.setExpand(this.expandState);
+  this.setExpand(this.expandState,
+      e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
 /**
  * Toggles the current expand state.
+ * @param {goog.events.EventLike} e
  */
-cwc.ui.RunnerToolbar.prototype.expand = function() {
-  this.setExpand(true);
+cwc.ui.RunnerToolbar.prototype.expand = function(e) {
+  this.setExpand(true, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
 /**
  * Toggles the current expand state.
+ * @param {goog.events.EventLike} e
  */
-cwc.ui.RunnerToolbar.prototype.collapse = function() {
-  this.setExpand(false);
+cwc.ui.RunnerToolbar.prototype.collapse = function(e) {
+  this.setExpand(false, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
 /**
  * Expands or collapse the current window.
  * @param {boolean} expand
+ * @param {Element} expandPanel
  */
-cwc.ui.RunnerToolbar.prototype.setExpand = function(expand) {
+cwc.ui.RunnerToolbar.prototype.setExpand = function(expand, expandPanel) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    layoutInstance.setFullscreen(expand, 0);
+    layoutInstance.setPanelFullscreen(expand, expandPanel);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }

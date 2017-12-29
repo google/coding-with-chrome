@@ -440,7 +440,7 @@ cwc.ui.EditorToolbar.prototype.addView = function(name) {
  * @param {goog.events.EventLike} e
  */
 cwc.ui.EditorToolbar.prototype.expand = function(e) {
-  this.setExpand(true, e.target.closest('.goog-splitpane-second-container'));
+  this.setExpand(true, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
@@ -449,32 +449,30 @@ cwc.ui.EditorToolbar.prototype.expand = function(e) {
  * @param {goog.events.EventLike} e
  */
 cwc.ui.EditorToolbar.prototype.collapse = function(e) {
-  this.setExpand(false, e.target.closest('.goog-splitpane-second-container'));
+  this.setExpand(false, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
 /**
  * Toggles the current expand state.
+ * @param {goog.events.EventLike} e
  */
-cwc.ui.EditorToolbar.prototype.toggleExpand = function() {
-  this.setExpand(!this.expandState);
+cwc.ui.EditorToolbar.prototype.toggleExpand = function(e) {
+  this.setExpand(!this.expandState,
+      e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
 /**
  * Expands or collapses the current window.
  * @param {boolean} expand
- * @param {boolean=} invert
+ * @param {Element} expandPanel
  */
-cwc.ui.EditorToolbar.prototype.setExpand = function(expand, invert = false) {
+cwc.ui.EditorToolbar.prototype.setExpand = function(expand, expandPanel) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    if (invert) {
-      layoutInstance.setFullscreen(expand, 0);
-    } else {
-      layoutInstance.setFullscreen(expand);
-    }
+    layoutInstance.setPanelFullscreen(expand, expandPanel);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }

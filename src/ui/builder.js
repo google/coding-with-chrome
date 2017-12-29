@@ -55,6 +55,7 @@ goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Navigation');
+goog.require('cwc.ui.Project');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.connectScreen.Screens');
@@ -64,6 +65,7 @@ goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Storage');
 
+goog.require('goog.array');
 goog.require('goog.dom');
 
 
@@ -86,6 +88,7 @@ cwc.ui.BuilderHelpers = {
   'message': cwc.ui.Message,
   'mode': cwc.mode.Modder,
   'navigation': cwc.ui.Navigation,
+  'project': cwc.ui.Project,
   'renderer': cwc.renderer.Renderer,
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
@@ -336,6 +339,11 @@ cwc.ui.Builder.prototype.loadUI = function() {
   if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare account support ...', 80, 100);
     this.prepareAccount();
+  }
+
+  if (!this.error) {
+    this.setProgress('Loading select screen ...', 95, 100);
+    this.loadProjects();
   }
 
   if (!this.error) {
@@ -660,6 +668,15 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
   if (selectScreenInstance) {
     selectScreenInstance.showSelectScreen();
   }
+};
+
+
+/**
+ * Loads projects from Workbench
+ */
+cwc.ui.Builder.prototype.loadProjects = function() {
+  let projects = this.helper.getInstance('project');
+  projects.downloadContent();
 };
 
 
