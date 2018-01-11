@@ -196,6 +196,8 @@ cwc.ui.Project.prototype.downloadContent = function() {
  * @private
  */
 cwc.ui.Project.prototype.getProjectList = function(filterTags) {
+  if (!this.helper.experimentalEnabled()) return null;
+
   let storage = this.helper.getInstance('storage');
   let projects = JSON.parse(storage.get('projects')) || [];
   projects = projects.map((project) => {

@@ -341,8 +341,8 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.prepareAccount();
   }
 
-  if (!this.error) {
-    this.setProgress('Loading select screen ...', 95, 100);
+  if (!this.error && this.helper.experimentalEnabled()) {
+    this.setProgress('Loading projects ...', 95, 100);
     this.loadProjects();
   }
 
