@@ -89,12 +89,12 @@ closureBuilder.build({
 
 
 /**
- * phaser.js
+ * Phaser CE
  */
 closureBuilder.build({
   name: 'phaser.js',
   resources: [
-    'third_party/phaser/build/phaser.min.js',
+    'third_party/phaser-ce/build/phaser.min.js',
   ],
   out: 'genfiles/third_party/frameworks/external/phaser.min.js',
 });
