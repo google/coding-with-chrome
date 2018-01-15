@@ -44,6 +44,9 @@ chrome.runtime.getManifest = function() {};
 /** @type {Function} */
 chrome.runtime.getURL = function() {};
 
+/** @type {Function} */
+chrome.runtime.onInstalled = function() {};
+
 /** @type {Object} */
 chrome.runtime.lastError = {};
 

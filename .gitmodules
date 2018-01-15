@@ -85,6 +85,11 @@
 [submodule "third_party/tether"]
 	path = third_party/tether
 	url = https://github.com/HubSpot/tether.git
+
 [submodule "third_party/brython"]
 	path = third_party/brython
 	url = https://github.com/brython-dev/brython.git
+
+[submodule "third_party/phaser-ce"]
+	path = third_party/phaser-ce
+	url = https://github.com/photonstorm/phaser-ce
