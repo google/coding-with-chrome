@@ -49,25 +49,10 @@ cwc.ui.Gui = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeChrome = null;
-
-  /** @type {Element} */
-  this.nodeFooter = null;
-
-  /** @type {Element} */
   this.nodeHeader = null;
 
   /** @type {Element} */
   this.nodeLayout = null;
-
-  /** @type {Element} */
-  this.nodeMenubar = null;
-
-  /** @type {Element} */
-  this.nodeMessage = null;
-
-  /** @type {Element} */
-  this.nodeNavigation = null;
 
   /** @type {Element} */
   this.nodeStatus = null;
@@ -94,19 +79,31 @@ cwc.ui.Gui.prototype.decorate = function(node) {
       {'prefix': this.prefix});
 
   // Main nodes
-  this.nodeChrome = goog.dom.getElement(this.prefix + 'chrome');
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
-  this.nodeMenubar = goog.dom.getElement(this.prefix + 'menubar');
-  this.nodeMessage = goog.dom.getElement(this.prefix + 'message');
-  this.nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
 
-  // Decorates additional modules
-  this.helper.decorateInstance('menubar', this.nodeMenubar);
-  this.helper.decorateInstance('message', this.nodeMessage);
-  this.helper.decorateInstance('navigation', this.nodeNavigation);
+  // Decorates menubar
+  let menubarInstance = this.helper.getInstance('menubar');
+  let nodeMenubar = goog.dom.getElement(this.prefix + 'menubar');
+  if (menubarInstance && nodeMenubar) {
+    menubarInstance.decorate(nodeMenubar);
+  }
+
+  // Decorates message
+  let messageInstance = this.helper.getInstance('message');
+  let nodeMessage = goog.dom.getElement(this.prefix + 'message');
+  if (messageInstance && nodeMessage) {
+    messageInstance.decorate(nodeMessage);
+  }
+
+  // Decorates navigation
+  let navigationInstance = this.helper.getInstance('navigation');
+  let nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
+  if (navigationInstance && nodeNavigation) {
+    navigationInstance.decorate(nodeNavigation);
+  }
 
   // Add elements interactions.
   goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,

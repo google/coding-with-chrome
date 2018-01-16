@@ -34,6 +34,12 @@ goog.require('goog.events.EventTarget');
 
 
 /**
+ * @typedef {cwc.addon.Tutorial}
+ */
+cwc.utils.AddonInstance;
+
+
+/**
  * @typedef {cwc.ui.Account|
  *   cwc.file.File|
  *   cwc.fileHandler.FileExporter|
@@ -94,6 +100,9 @@ cwc.utils.Helper = function() {
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
 
+  /** @private {Object<string, cwc.utils.AddonInstance>} */
+  this.addones_ = {};
+
   /** @private {Object} */
   this.hadFirstRun_ = {};
 
@@ -119,6 +128,40 @@ cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
     type: name,
     data: data,
   });
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!cwc.utils.AddonInstance} instance
+ * @param {boolean=} overwrite
+ * @export
+ */
+cwc.utils.Helper.prototype.setAddon = function(name, instance,
+    overwrite = false) {
+  if (this.addones_[name] && !overwrite) {
+    this.log_.error('Addon', name, ' already exists!');
+  }
+  this.log_.debug('Set', name, 'addon to', instance);
+  this.addones_[name] = instance;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {boolean=} required
+ * @return {cwc.utils.AddonInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.getAddon = function(name, required = false) {
+  if (required) {
+    if (typeof this.addones_[name] == 'undefined') {
+      throw new Error('Addon ' + name + ' is not defined!');
+    } else if (!this.addones_[name]) {
+      throw new Error('Addon ' + name + ' is not initialized yet.');
+    }
+  }
+  return this.addones_[name] || null;
 };
 
 
@@ -153,24 +196,6 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
     }
   }
   return this.instances_[name] || null;
-};
-
-
-/**
- * @param {!string} name
- * @param {Element=} node
- * @param {boolean=} required
- * @param {string=} prefix
- * @return {cwc.utils.HelperInstance}
- * @export
- */
-cwc.utils.Helper.prototype.decorateInstance = function(name, node,
-    required = false, prefix = this.getPrefix()) {
-  let instance = this.getInstance(name, required);
-  if (instance) {
-    instance.decorate(node, prefix);
-  }
-  return instance;
 };
 
 

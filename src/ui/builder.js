@@ -23,6 +23,7 @@ goog.provide('cwc.ui.Builder');
 goog.provide('cwc.ui.BuilderHelpers');
 
 goog.require('cwc.UserConfig');
+goog.require('cwc.addon.Tutorial');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileExporter');
@@ -65,6 +66,15 @@ goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
+
+
+/**
+ * Addons.
+ * @enum {!Function}
+ */
+cwc.ui.Addons = {
+  'tutorial': cwc.addon.Tutorial,
+};
 
 
 /**
@@ -319,6 +329,11 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
+    this.setProgress('Prepare addons ...', 45, 100);
+    this.prepareAddons();
+  }
+
+  if (!this.error) {
     this.setProgress('Render editor GUI ...', 50, 100);
     this.renderGui();
   }
@@ -457,6 +472,24 @@ cwc.ui.Builder.prototype.prepareAccount = function() {
 
 
 /**
+ * Prepare addons.
+ */
+cwc.ui.Builder.prototype.prepareAddons = function() {
+  this.log_.debug('Prepare Addons ...');
+  let addons = cwc.ui.Addons;
+  let numOfAddons = Object.keys(addons).length;
+  let counter = 1;
+  for (let addon in addons) {
+    if (addons.hasOwnProperty(addon)) {
+      this.setProgress('Loading addon: ' + addon, counter, numOfAddons);
+      this.loadAddon(addons[addon], addon);
+      counter++;
+    }
+  }
+};
+
+
+/**
  * Prepare Bluetooth interface if needed.
  */
 cwc.ui.Builder.prototype.prepareBluetooth = function() {
@@ -562,8 +595,7 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
   let counter = 1;
   for (let helper in helpers) {
     if (helpers.hasOwnProperty(helper)) {
-      this.setProgress('Loading helper: ' + helper, counter,
-          numOfHelpers);
+      this.setProgress('Loading helper: ' + helper, counter, numOfHelpers);
       this.loadHelper(helpers[helper], helper);
       counter++;
     }
@@ -593,6 +625,18 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 
 
 /**
+ * @param {!cwc.utils.AddonInstance} instance
+ * @param {!string} instanceName
+ */
+cwc.ui.Builder.prototype.loadAddon = function(instance, instanceName) {
+  if (!goog.isFunction(instance)) {
+    this.raiseError('Addon ' + instanceName + ' is not defined!');
+  }
+  this.helper.setAddon(instanceName, new instance(this.helper));
+};
+
+
+/**
  * @param {!cwc.utils.HelperInstance} instance
  * @param {!string} instanceName
  */
@@ -600,8 +644,7 @@ cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
   if (!goog.isFunction(instance)) {
     this.raiseError('Helper ' + instanceName + ' is not defined!');
   }
-  let helperInstance = new instance(this.helper);
-  this.helper.setInstance(instanceName, helperInstance);
+  this.helper.setInstance(instanceName, new instance(this.helper));
 };
 
 
