@@ -37,6 +37,10 @@
   text-align: center;
 }
 
+#{$prefix}library-add-file.active {
+  border: 2px dashed #f00;
+}
+
 #{$prefix}library-add-file .material-icons {
   vertical-align: middle;
 }
@@ -45,10 +49,6 @@
   display: block !important;
   margin: auto !important;
   margin-bottom: 10px !important;
-}
-
-#{$prefix}library-add-file.active {
-  border: 2px dashed #f00;
 }
 
 #{$prefix}library-add-file-text {
@@ -128,4 +128,21 @@
 
 #{$prefix}library-search-file img {
   margin-right: 5px !important;
+}
+
+#{$prefix}library-search-drop {
+  border-radius: 5px;
+  border: 2px dashed #ccc;
+  margin-top: 25px;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+}
+
+#{$prefix}library-search-drop.active {
+  border: 2px dashed #f00;
+}
+
+#{$prefix}library-search-drop .material-icons {
+  vertical-align: middle;
 }

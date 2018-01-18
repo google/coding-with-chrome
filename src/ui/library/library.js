@@ -22,11 +22,13 @@ goog.provide('cwc.ui.Library');
 goog.require('cwc.file.File');
 goog.require('cwc.soy.Library');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Resources');
 
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.require('goog.string.path');
 
 goog.require('soydata');
 
@@ -51,25 +53,7 @@ cwc.ui.Library = function(helper) {
   this.prefix = this.helper.getPrefix('library');
 
   /** @type {Element} */
-  this.nodeAddFile = null;
-
-  /** @type {Element} */
-  this.nodeAll = null;
-
-  /** @type {Element} */
-  this.nodeAudio = null;
-
-  /** @type {Element} */
-  this.nodeImages = null;
-
-  /** @type {Element} */
-  this.nodeSearchButton = null;
-
-  /** @type {Element} */
   this.nodeSearchTerm = null;
-
-  /** @type {Element} */
-  this.nodePreview = null;
 
   /** @type {Array} */
   this.listener_ = [];
@@ -96,28 +80,38 @@ cwc.ui.Library.prototype.decorate = function() {
         this.cleanUp, false, this);
   }
 
-  this.nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
-  this.nodeAll = goog.dom.getElement(this.prefix + 'all');
-  this.nodeAudio = goog.dom.getElement(this.prefix + 'audio');
-  this.nodeImages = goog.dom.getElement(this.prefix + 'images');
-  this.nodeSearchButton = goog.dom.getElement(this.prefix + 'search-button');
+  let nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  let nodeAll = goog.dom.getElement(this.prefix + 'all');
+  let nodeAudio = goog.dom.getElement(this.prefix + 'audio');
+  let nodeImages = goog.dom.getElement(this.prefix + 'images');
+  let nodeSearchButton = goog.dom.getElement(this.prefix + 'search-button');
+  let nodeSearchDrop = goog.dom.getElement(this.prefix + 'search-drop');
   this.nodeSearchTerm = goog.dom.getElement(this.prefix + 'search-term');
 
-  this.addEventListener_(this.nodeAddFile, goog.events.EventType.CLICK,
-    this.selectFileToAdd, false, this);
-  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DRAGLEAVE,
+  // Drag and Drop events
+  this.addEventListener_(nodeAddFile, goog.events.EventType.DRAGLEAVE,
     this.handleDragLeave_, false, this);
-  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DRAGOVER,
+  this.addEventListener_(nodeAddFile, goog.events.EventType.DRAGOVER,
     this.handleDragOver_, false, this);
-  this.addEventListener_(this.nodeAddFile, goog.events.EventType.DROP,
+  this.addEventListener_(nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
-  this.addEventListener_(this.nodeAll, goog.events.EventType.CLICK,
+  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DRAGLEAVE,
+    this.handleDragLeave_, false, this);
+  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DRAGOVER,
+    this.handleDragOver_, false, this);
+  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DROP,
+    this.handleDrop_, false, this);
+
+  // Other events
+  this.addEventListener_(nodeAddFile, goog.events.EventType.CLICK,
+    this.selectFileToAdd, false, this);
+  this.addEventListener_(nodeAll, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(this.nodeAudio, goog.events.EventType.CLICK,
+  this.addEventListener_(nodeAudio, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(this.nodeImages, goog.events.EventType.CLICK,
+  this.addEventListener_(nodeImages, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(this.nodeSearchButton, goog.events.EventType.CLICK,
+  this.addEventListener_(nodeSearchButton, goog.events.EventType.CLICK,
     this.handleSearch_, false, this);
   this.addEventListener_(this.nodeSearchTerm, goog.events.EventType.KEYUP,
     this.handleSearchKey_, false, this);
@@ -170,7 +164,7 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
   dialogInstance.updateTemplate(cwc.soy.Library.library, {
     prefix: this.prefix,
     files: files || this.getFiles(),
-    opt_media_type: mediaType,
+    opt_media_type: mediaType || '',
   });
   this.decorate();
 };
@@ -243,6 +237,29 @@ cwc.ui.Library.prototype.readFile = function(file) {
     readerEvent(file.name, event.target.result);
   };
   reader.readAsDataURL(file);
+};
+
+
+/**
+ * Reads url content as data URL and adds content to library.
+ * @param {!string} url
+ */
+cwc.ui.Library.prototype.readUrl = function(url) {
+  let urlContent = url;
+
+  // Google Image search
+  if (url.startsWith('https://www.google.') &&
+      url.includes('/imgres?') &&
+      url.includes('imgurl=http')) {
+    urlContent = decodeURIComponent(/imgurl=([^&]+)/.exec(url)[1]);
+  }
+
+  cwc.utils.Resources.getUriAsBase64(urlContent).then(content => {
+    let filename = goog.string.path.baseName(urlContent || '');
+    this.addFile(filename, content);
+  }).catch(error => {
+    this.helper.showError(error);
+  });
 };
 
 
@@ -349,9 +366,15 @@ cwc.ui.Library.prototype.handleDragOver_ = function(e) {
 cwc.ui.Library.prototype.handleDrop_ = function(e) {
   e.stopPropagation();
   e.preventDefault();
-  let file = e.getBrowserEvent().dataTransfer.files[0];
-  if (file) {
-    this.readFile(file);
+  let dataTransfer = e.getBrowserEvent().dataTransfer;
+  if (dataTransfer.files[0]) {
+    // Handle files
+    this.readFile(dataTransfer.files[0]);
+  } else if (dataTransfer.items[0]) {
+    // Handle urls
+    dataTransfer.items[0].getAsString(this.readUrl.bind(this));
+  } else {
+    this.log_.info('Unknown data transfer type', dataTransfer);
   }
   goog.dom.classlist.enable(e.target, 'active', false);
 };

@@ -21,15 +21,18 @@ goog.provide('cwc.addon.Tutorial');
 goog.require('cwc.utils.Logger');
 
 
-
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.addon.Tutorial = function() {
+cwc.addon.Tutorial = function(helper) {
   /** @type {!string} */
   this.name = 'Tutorial';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -37,7 +40,7 @@ cwc.addon.Tutorial = function() {
 
 
 cwc.addon.Tutorial.prototype.prepare = function() {
-  this.log_.info('Preparing addon', name);
+  this.log_.info('Preparing addon ...');
 };
 
 

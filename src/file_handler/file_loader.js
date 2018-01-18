@@ -25,8 +25,7 @@ goog.require('cwc.fileFormat.File');
 goog.require('cwc.mode.Config');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.utils.Logger');
-
-goog.require('goog.net.XhrIo');
+goog.require('cwc.utils.Resources');
 
 
 /**
@@ -301,34 +300,11 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     callback) {
   if (file) {
     this.log_.info('Loading file', file, '...');
-    let xhr = new goog.net.XhrIo();
-    let xhrEvent = this.resourceFileHandler.bind(this);
     let filename = file.replace(/^.*(\\|\/|:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
-      xhrEvent(e, filename, callback);
+    cwc.utils.Resources.getUriAsText(file).then(content => {
+      callback(filename, content);
+    }).catch(error => {
+      this.helper.showError(error);
     });
-    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
-      this.helper.showError('Unable to open file ' + file + ':' +
-          e.target.getLastError());
-    });
-    xhr.send(file);
-  }
-};
-
-
-/**
- * @param {Event} e
- * @param {string} filename
- * @param {function(string, string)=} callback
- * @param {Object=} scope
- */
-cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
-    callback, scope) {
-  let xhr = /** @type {!goog.net.XhrIo} */ (e.target);
-  let data = xhr.getResponseText() || '';
-  if (goog.isFunction(callback)) {
-    callback.call(scope || this, filename, data);
-  } else {
-    this.log_.debug('Received data for', filename, ':', data);
   }
 };
