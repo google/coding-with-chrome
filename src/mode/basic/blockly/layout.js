@@ -45,7 +45,7 @@ cwc.mode.basic.blockly.Layout = function(helper) {
  */
 cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
+  layoutInstance.decorateDefault(this.layoutWidth);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

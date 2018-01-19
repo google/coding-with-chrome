@@ -44,7 +44,7 @@ cwc.mode.phaser.advanced.Layout = function(helper) {
  */
 cwc.mode.phaser.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
+  layoutInstance.decorateDefault(this.layoutWidth);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

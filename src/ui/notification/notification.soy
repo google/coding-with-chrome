@@ -1,5 +1,5 @@
 /**
- * @fileoverview Templates for Coding in Chrome editor.
+ * @fileoverview Editor for Coding in Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,19 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.ui.Layout.singleColumn autoescape="strict"}
+
+{namespace cwc.soy.ui.Notification autoescape="strict"}
 
 
 /**
- * Main HTML template for the Coding with Chrome GUI.
+ * Main HTML template for the messages.
  */
 {template .template}
   {@param prefix: string}
-
-  <div id="{$prefix}chrome-main" class="goog-splitpane">
-    <div id="{$prefix}content-top-chrome" class="goog-splitpane-first-container"></div>
-    <div id="{$prefix}content-bottom-chrome" class="goog-splitpane-second-container"></div>
-    <div id="{$prefix}content-splitter" class="goog-splitpane-handle"></div>
-    {call cwc.soy.ui.Layout.contentOverlay data="all" /}
+  <div id="{$prefix}snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
   </div>
 {/template}

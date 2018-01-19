@@ -91,11 +91,11 @@ cwc.ui.Gui.prototype.decorate = function(node) {
     menubarInstance.decorate(nodeMenubar);
   }
 
-  // Decorates message
-  let messageInstance = this.helper.getInstance('message');
-  let nodeMessage = goog.dom.getElement(this.prefix + 'message');
-  if (messageInstance && nodeMessage) {
-    messageInstance.decorate(nodeMessage);
+  // Decorates notification
+  let notificationInstance = this.helper.getInstance('notification');
+  let nodeNotification = goog.dom.getElement(this.prefix + 'notification');
+  if (notificationInstance && nodeNotification) {
+    notificationInstance.decorate(nodeNotification);
   }
 
   // Decorates navigation

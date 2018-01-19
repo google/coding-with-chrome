@@ -40,7 +40,7 @@ cwc.mode.python.Layout = function(helper) {
  */
 cwc.mode.python.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(630);
+  layoutInstance.decorateDefault(630);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

@@ -24,7 +24,7 @@ goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
 goog.require('cwc.utils.DialogType');
-goog.require('cwc.ui.MessageType');
+goog.require('cwc.ui.NotificationType');
 goog.require('cwc.utils.Helper');
 
 
@@ -79,7 +79,7 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
         file_types: cwc.file.Type,
         mode_types: cwc.mode.Type,
         dialog_types: cwc.utils.DialogType,
-        message_types: cwc.ui.MessageType,
+        message_types: cwc.ui.NotificationType,
       }
   );
 
@@ -158,7 +158,7 @@ cwc.ui.Debug.prototype.handleMessageType = function(event) {
   let messageType = target.options[target.selectedIndex].value;
   console.log('MessageType:', messageType);
   if (messageType) {
-    this.newMessage(cwc.ui.MessageType[messageType]);
+    this.newMessage(cwc.ui.NotificationType[messageType]);
   }
 };
 

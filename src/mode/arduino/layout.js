@@ -37,7 +37,7 @@ cwc.mode.arduino.Layout = function(helper) {
  */
 cwc.mode.arduino.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(500);
+  layoutInstance.decorateDefault(500);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

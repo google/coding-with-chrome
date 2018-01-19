@@ -37,7 +37,7 @@ cwc.mode.makeblock.mbot.blockly.Layout = function(helper) {
  */
 cwc.mode.makeblock.mbot.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout();
+  layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
 

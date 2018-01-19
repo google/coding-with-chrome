@@ -64,6 +64,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Menubar|
  *   cwc.ui.Message|
  *   cwc.ui.Navigation|
+ *   cwc.ui.Notification|
  *   cwc.ui.Preview|
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
@@ -212,14 +213,14 @@ cwc.utils.Helper.prototype.getI18nData = function() {
 
 
 /**
- * Shows an error message over the message instance.
+ * Shows an error message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showError = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.error(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.error(msg);
   } else {
     this.log_.error(msg);
   }
@@ -227,14 +228,14 @@ cwc.utils.Helper.prototype.showError = function(msg) {
 
 
 /**
- * Shows a warning message over the message instance.
+ * Shows a warning message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showWarning = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.warning(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.warning(msg);
   } else {
     this.log_.warn(msg);
   }
@@ -242,14 +243,14 @@ cwc.utils.Helper.prototype.showWarning = function(msg) {
 
 
 /**
- * Shows an info message over the message instance.
+ * Shows an info message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showInfo = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.info(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.info(msg);
   } else {
     this.log_.info(msg);
   }
@@ -257,14 +258,14 @@ cwc.utils.Helper.prototype.showInfo = function(msg) {
 
 
 /**
- * Shows an success message over the message instance.
+ * Shows an success message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showSuccess = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.success(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.success(msg);
   } else {
     this.log_.info(msg);
   }

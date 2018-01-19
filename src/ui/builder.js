@@ -54,7 +54,7 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.Menubar');
-goog.require('cwc.ui.Message');
+goog.require('cwc.ui.Notification');
 goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
@@ -93,7 +93,7 @@ cwc.ui.BuilderHelpers = {
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
   'menubar': cwc.ui.Menubar,
-  'message': cwc.ui.Message,
+  'notification': cwc.ui.Notification,
   'mode': cwc.mode.Modder,
   'navigation': cwc.ui.Navigation,
   'renderer': cwc.renderer.Renderer,

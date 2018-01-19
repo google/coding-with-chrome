@@ -40,7 +40,7 @@ cwc.mode.coffeescript.Layout = function(helper) {
  */
 cwc.mode.coffeescript.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(500);
+  layoutInstance.decorateDefault(500);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

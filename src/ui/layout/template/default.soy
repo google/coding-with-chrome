@@ -1,7 +1,7 @@
 /**
- * @fileoverview Templates for Coding in Chrome editor.
+ * @fileoverview Default template for Coding in Chrome editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.ui.Layout.advancedThreeColumn autoescape="strict"}
+{namespace cwc.soy.ui.Layout.default autoescape="strict"}
 
 
 /**
@@ -27,13 +27,10 @@
   {@param prefix: string}
 
   <div id="{$prefix}chrome-main" class="goog-splitpane">
-    <div id="{$prefix}content-top-chrome" class="goog-splitpane-first-container goog-splitpane">
-      <div id="{$prefix}content-left-chrome" class="goog-splitpane-first-container"></div>
-      <div id="{$prefix}content-right-chrome" class="goog-splitpane-second-container"></div>
-      <div id="{$prefix}content-second-splitter" class="goog-splitpane-handle"></div>
-    </div>
-    <div id="{$prefix}content-bottom-chrome" class="goog-splitpane-second-container"></div>
-    <div id="{$prefix}content-first-splitter" class="goog-splitpane-handle"></div>
-    {call cwc.soy.ui.Layout.contentOverlay data="all" /}
+    <div id="{$prefix}content-left-chrome" class="goog-splitpane-first-container"></div>
+    <div id="{$prefix}content-right-chrome" class="goog-splitpane-second-container"></div>
+    <div id="{$prefix}content-splitter" class="goog-splitpane-handle"></div>
+
+    <div id="{$prefix}content-overlay" style="display: none;"></div>
   </div>
 {/template}

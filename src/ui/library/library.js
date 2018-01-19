@@ -55,6 +55,9 @@ cwc.ui.Library = function(helper) {
   /** @type {Element} */
   this.nodeSearchTerm = null;
 
+  /** @type {Element} */
+  this.nodeSearchError = null;
+
   /** @type {Array} */
   this.listener_ = [];
 
@@ -87,6 +90,7 @@ cwc.ui.Library.prototype.decorate = function() {
   let nodeSearchButton = goog.dom.getElement(this.prefix + 'search-button');
   let nodeSearchDrop = goog.dom.getElement(this.prefix + 'search-drop');
   this.nodeSearchTerm = goog.dom.getElement(this.prefix + 'search-term');
+  this.nodeSearchError = goog.dom.getElement(this.prefix + 'search-error');
 
   // Drag and Drop events
   this.addEventListener_(nodeAddFile, goog.events.EventType.DRAGLEAVE,
@@ -258,6 +262,7 @@ cwc.ui.Library.prototype.readUrl = function(url) {
     let filename = goog.string.path.baseName(urlContent || '');
     this.addFile(filename, content);
   }).catch(error => {
+    goog.dom.classlist.enable(this.nodeSearchError, 'active', true);
     this.helper.showError(error);
   });
 };
@@ -356,6 +361,7 @@ cwc.ui.Library.prototype.handleDragOver_ = function(e) {
   e.stopPropagation();
   e.preventDefault();
   goog.dom.classlist.enable(e.target, 'active', true);
+  goog.dom.classlist.enable(this.nodeSearchError, 'active', false);
 };
 
 

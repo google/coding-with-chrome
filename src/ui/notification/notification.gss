@@ -15,22 +15,22 @@
  */
 
 
-.{$prefix}message-type-info {
+.{$prefix}notification-type-info {
   background: #323232;
   color: #fff;
 }
 
-.{$prefix}message-type-success {
+.{$prefix}notification-type-success {
   background: #5cb85c;
   color: #fff;
 }
 
-.{$prefix}message-type-warning {
+.{$prefix}notification-type-warning {
   background: #ff5722;
   color: #fff;
 }
 
-.{$prefix}message-type-error {
+.{$prefix}notification-type-error {
   background: #f44336;
   color: #fff;
 }

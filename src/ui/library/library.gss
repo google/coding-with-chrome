@@ -126,6 +126,10 @@
   margin-left: 22px !important;
 }
 
+#{$prefix}library-search-file {
+  padding-top: 25px;
+}
+
 #{$prefix}library-search-file img {
   margin-right: 5px !important;
 }
@@ -134,7 +138,7 @@
   border-radius: 5px;
   border: 2px dashed #ccc;
   margin-top: 25px;
-  padding: 20px;
+  padding: 80px;
   position: relative;
   text-align: center;
 }
@@ -145,4 +149,21 @@
 
 #{$prefix}library-search-drop .material-icons {
   vertical-align: middle;
+}
+
+#{$prefix}library-search-error {
+  margin-top: 10px;
+  position: relative;
+  text-align: center;
+  color: #f00;
+  display: none;
+}
+
+#{$prefix}library-search-error.active {
+  display: block;
+}
+
+#{$prefix}library-search-note {
+  position: absolute;
+  bottom: 0;
 }

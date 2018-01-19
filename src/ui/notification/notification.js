@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Message');
-goog.provide('cwc.ui.MessageType');
+goog.provide('cwc.ui.Notification');
+goog.provide('cwc.ui.NotificationType');
 
-goog.require('cwc.soy.ui.Message');
+goog.require('cwc.soy.ui.Notification');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
@@ -31,7 +31,7 @@ goog.require('goog.soy');
 /**
  * @enum {string}
  */
-cwc.ui.MessageType = {
+cwc.ui.NotificationType = {
   CONFIRM: 'confirm',
   DEBUG: 'debug',
   ERROR: 'error',
@@ -47,15 +47,15 @@ cwc.ui.MessageType = {
  * @struct
  * @final
  */
-cwc.ui.Message = function(helper) {
+cwc.ui.Notification = function(helper) {
   /** @type {string} */
-  this.name = 'Message';
+  this.name = 'Notification';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('message');
+  this.prefix = this.helper.getPrefix('notification');
 
   /** @type {Element} */
   this.node = null;
@@ -72,12 +72,12 @@ cwc.ui.Message = function(helper) {
  * Decorates the given node and adds a ui messenger.
  * @param {Element} node The target node to add the ui messenger.
  */
-cwc.ui.Message.prototype.decorate = function(node) {
+cwc.ui.Notification.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Message.template,
+      cwc.soy.ui.Notification.template,
       {'prefix': this.prefix}
   );
 
@@ -88,43 +88,43 @@ cwc.ui.Message.prototype.decorate = function(node) {
 /**
  * @param {!string} message Shows info message.
  */
-cwc.ui.Message.prototype.info = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.INFO);
+cwc.ui.Notification.prototype.info = function(message) {
+  this.showMessage(message, cwc.ui.NotificationType.INFO);
 };
 
 
 /**
  * @param {!string} message Shows promotion message.
  */
-cwc.ui.Message.prototype.success = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.SUCCESS);
+cwc.ui.Notification.prototype.success = function(message) {
+  this.showMessage(message, cwc.ui.NotificationType.SUCCESS);
 };
 
 
 /**
  * @param {!string} message Shows error message.
  */
-cwc.ui.Message.prototype.error = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.ERROR);
+cwc.ui.Notification.prototype.error = function(message) {
+  this.showMessage(message, cwc.ui.NotificationType.ERROR);
 };
 
 
 /**
  * @param {!string} message Shows warning message.
  */
-cwc.ui.Message.prototype.warning = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.WARNING);
+cwc.ui.Notification.prototype.warning = function(message) {
+  this.showMessage(message, cwc.ui.NotificationType.WARNING);
 };
 
 
 /**
  * Renders content and shows defined message window.
  * @param {string} message
- * @param {cwc.ui.MessageType=} optType
+ * @param {cwc.ui.NotificationType=} optType
  */
-cwc.ui.Message.prototype.showMessage = function(message, optType) {
-  let type = optType || cwc.ui.MessageType.INFO;
-  let prefix = '[' + type + ' message]';
+cwc.ui.Notification.prototype.showMessage = function(message, optType) {
+  let type = optType || cwc.ui.NotificationType.INFO;
+  let prefix = '[' + type + ' notification]';
   let snackbarData = {
     message: message,
     timeout: null,
@@ -132,14 +132,14 @@ cwc.ui.Message.prototype.showMessage = function(message, optType) {
 
   // Console logging
   switch (type) {
-    case cwc.ui.MessageType.INFO:
-    case cwc.ui.MessageType.SUCCESS:
+    case cwc.ui.NotificationType.INFO:
+    case cwc.ui.NotificationType.SUCCESS:
       this.log_.notice(prefix, message);
       break;
-    case cwc.ui.MessageType.WARNING:
+    case cwc.ui.NotificationType.WARNING:
       this.log_.warn(prefix, message);
       break;
-    case cwc.ui.MessageType.ERROR:
+    case cwc.ui.NotificationType.ERROR:
       this.log_.error(prefix, message);
       break;
     default:
@@ -149,12 +149,12 @@ cwc.ui.Message.prototype.showMessage = function(message, optType) {
   // Visual output
   if (this.snackbar) {
     switch (type) {
-      case cwc.ui.MessageType.INFO:
-      case cwc.ui.MessageType.SUCCESS:
+      case cwc.ui.NotificationType.INFO:
+      case cwc.ui.NotificationType.SUCCESS:
         snackbarData['timeout'] = 3000;
         break;
-      case cwc.ui.MessageType.ERROR:
-      case cwc.ui.MessageType.WARNING:
+      case cwc.ui.NotificationType.ERROR:
+      case cwc.ui.NotificationType.WARNING:
         snackbarData['actionHandler'] = this.close.bind(this);
         snackbarData['actionText'] = 'Dismiss';
         snackbarData['timeout'] = 30000;
@@ -166,7 +166,7 @@ cwc.ui.Message.prototype.showMessage = function(message, optType) {
 };
 
 
-cwc.ui.Message.prototype.close = function() {
+cwc.ui.Notification.prototype.close = function() {
   if (this.snackbar) {
     goog.dom.classlist.remove(this.snackbar, 'mdl-snackbar--active');
   }

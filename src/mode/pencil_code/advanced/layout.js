@@ -40,7 +40,7 @@ cwc.mode.pencilCode.advanced.Layout = function(helper) {
  */
 cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(500);
+  layoutInstance.decorateDefault(500);
 
   goog.soy.renderElement(
       layoutInstance.getNode('content-left'),

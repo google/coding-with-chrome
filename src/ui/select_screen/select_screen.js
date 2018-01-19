@@ -128,7 +128,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    layoutInstance.decorateSimpleSingleColumnLayout();
+    layoutInstance.decorateBlank();
     let nodes = layoutInstance.getNodes();
     this.decorate(nodes['content']);
     if (this.lockBasicMode && !opt_force_overview) {

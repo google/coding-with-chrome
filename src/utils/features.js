@@ -102,6 +102,9 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function() {
   this.setBrowserFeature('Worker', typeof Worker);
   this.setBrowserFeature('SharedWorker', typeof SharedWorker);
   this.setBrowserFeature('serviceWorker', typeof navigator.serviceWorker);
+
+  // IndexedDB
+  this.setBrowserFeature('IndexedDB', typeof window.IndexedDB);
 };
 
 

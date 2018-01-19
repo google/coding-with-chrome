@@ -1,7 +1,7 @@
 /**
- * @fileoverview Layout templates and style definitons for the Coding in Chrome editor.
+ * @fileoverview Message pane.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,24 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.ui.Layout autoescape="strict"}
+goog.provide('cwc.ui.MessagePane');
 
-
-/**
- * Layout template.
- */
-{template .template}
-  {@param prefix: string}
-
-  {call .contentOverlay data="all" /}
-  <div id="{$prefix}content-overlay"></div>
-{/template}
 
 
 /**
- * Layout template.
+ * Class represents the monitor inside the ui.
+ * @param {!cwc.utils.Helper} helper
+ * @constructor
+ * @struct
+ * @final
  */
-{template .contentOverlay}
-  {@param prefix: string}
+cwc.ui.MessagePane = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
-  <div id="{$prefix}content-overlay" style="display: none;"></div>
-{/template}
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('message-pane');
+
+  /** @type {Element} */
+  this.node = null;
+};
