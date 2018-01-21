@@ -38,64 +38,64 @@ closureBuilder.build({
 
 
 /**
- * DE Translation.
+ * DEU Translation.
  */
 closureBuilder.build({
-  name: 'Locales.de',
+  name: 'Locales.deu',
   srcs: glob([
-    'locales/de/translation.js',
+    'locales/deu/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/de.js',
+  out: 'genfiles/core/js/locales/deu.js',
 });
 
 
 /**
- * EN Translation.
+ * ENG Translation.
  */
 closureBuilder.build({
-  name: 'Locales.en',
+  name: 'Locales.eng',
   srcs: glob([
-    'locales/en/translation.js',
+    'locales/eng/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/en.js',
+  out: 'genfiles/core/js/locales/eng.js',
 });
 
 
 /**
- * JA Translation.
+ * JPN Translation.
  */
 closureBuilder.build({
-  name: 'Locales.ja',
+  name: 'Locales.jpn',
   srcs: glob([
-    'locales/ja/translation.js',
+    'locales/jpn/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/ja.js',
+  out: 'genfiles/core/js/locales/jpn.js',
 });
 
 
 /**
- * KO Translation.
+ * KOR Translation.
  */
 closureBuilder.build({
-  name: 'Locales.ko',
+  name: 'Locales.kor',
   srcs: glob([
-    'locales/ko/translation.js',
+    'locales/kor/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/ko.js',
+  out: 'genfiles/core/js/locales/kor.js',
 });

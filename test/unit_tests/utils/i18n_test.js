@@ -20,28 +20,43 @@
 goog.require('cwc.utils.I18n');
 
 
-describe('i18n', function() {
-  let i18nUtils = new cwc.utils.I18n();
+describe('i18n - Constructor', function() {
+  describe('Constructor', function() {
+    let i18nUtils = new cwc.utils.I18n();
 
-  it('prepare', function(done) {
-    i18nUtils.prepare(function() {
-      expect(true);
-      done();
+    it('prepare', function(done) {
+      i18nUtils.prepare(function() {
+        expect(true);
+        done();
+      });
+    });
+
+    it('translate - fallback', function() {
+      let randomString = Math.random().toString(36);
+      expect(i18nUtils.translate(randomString)).toEqual(randomString);
+      expect(
+        i18nUtils.translate(randomString + '!')).toEqual(randomString + '!');
+      expect(i18nUtils.translate(randomString.toLowerCase()))
+        .toEqual(randomString.toLowerCase());
+      expect(i18nUtils.translate(randomString.toUpperCase()))
+        .toEqual(randomString.toUpperCase());
+    });
+
+    it('translate', function() {
+      let testString = 'Hello, World';
+      expect(i18nUtils.translate(testString)).toEqual('Hello, World');
     });
   });
 
-  it('translate - fallback', function() {
-    let randomString = Math.random().toString(36);
-    expect(i18nUtils.translate(randomString)).toEqual(randomString);
-    expect(i18nUtils.translate(randomString + '!')).toEqual(randomString + '!');
-    expect(i18nUtils.translate(randomString.toLowerCase()))
-      .toEqual(randomString.toLowerCase());
-    expect(i18nUtils.translate(randomString.toUpperCase()))
-      .toEqual(randomString.toUpperCase());
-  });
-
-  it('translate', function() {
-    let testString = 'Hello, World';
-    expect(i18nUtils.translate(testString)).toEqual('Hello, World');
+  describe('Functions', function() {
+    it('getISO639_1', function() {
+      expect(cwc.utils.I18n.getISO639_1('en')).toEqual('en');
+      expect(cwc.utils.I18n.getISO639_1('ja')).toEqual('ja');
+      expect(cwc.utils.I18n.getISO639_1('eng')).toEqual('en');
+      expect(cwc.utils.I18n.getISO639_1('deu')).toEqual('de');
+      expect(cwc.utils.I18n.getISO639_1('jpn')).toEqual('ja');
+      expect(cwc.utils.I18n.getISO639_1('kor')).toEqual('ko');
+      expect(cwc.utils.I18n.getISO639_1('123')).toEqual('');
+    });
   });
 });

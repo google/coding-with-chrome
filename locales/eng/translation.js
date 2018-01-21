@@ -24,7 +24,7 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['en'] = {
+Locales['eng'] = {
   ' steps)': ' steps)',
   '* You need to restart the application after enabling or disabling these options': '* You need to restart the application after enabling or disabling these options',
   'About Coding with Chrome': 'About Coding with Chrome',

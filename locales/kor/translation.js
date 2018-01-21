@@ -24,7 +24,7 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['ko'] = {
+Locales['kor'] = {
   'Hello, World': '안녕하세요, 세계',
   'Hello %s': '안녕하세요 %s',
 };

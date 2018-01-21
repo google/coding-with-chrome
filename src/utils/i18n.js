@@ -286,3 +286,32 @@ cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
     this.untranslated[key]++;
   }
 };
+
+
+/**
+ * ISO639-3 mapping table
+ */
+cwc.utils.I18n.ISO639_3 = {
+  'eng': 'en',
+  'deu': 'de',
+  'hin': 'hi',
+  'jpn': 'ja',
+  'kor': 'ko',
+};
+
+
+/**
+ * @param {!string} language
+ * @return {string}
+ */
+cwc.utils.I18n.getISO639_1 = function(language) {
+  if (language.length === 2) {
+    return language;
+  }
+
+  if (cwc.utils.I18n.ISO639_3[language]) {
+    return cwc.utils.I18n.ISO639_3[language];
+  }
+
+  return '';
+};

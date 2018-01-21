@@ -61,6 +61,12 @@ cwc.ui.Debug.prototype.prepare = function() {
         cwc.userConfigName.DEBUG_MODE) || false;
   }
   console.log('Debug mode:', this.enabled);
+
+  if (this.enabled) {
+    if (typeof window['nw'] !== 'undefined') {
+      window['nw']['Window']['get']()['showDevTools']();
+    }
+  }
 };
 
 

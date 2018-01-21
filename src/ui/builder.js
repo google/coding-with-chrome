@@ -184,10 +184,6 @@ cwc.ui.Builder.prototype.decorate = function(node, callback = null) {
     this.callback = callback;
   }
 
-  if (typeof window['nw'] !== 'undefined') {
-    window['nw']['Window']['get']()['showDevTools']();
-  }
-
   this.addEventListener_(window, goog.events.EventType.ERROR, function(e) {
     let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
@@ -241,23 +237,32 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   this.helper.setInstance('i18n', i18nInstance);
 
   let blacklistFile = '../js/locales/blacklist.js';
-  let language = 'en';
-  let languageFile = '../js/locales/en.js';
+  let language = cwc.config.Default.LANGUAGE;
+  let languageFile = '../js/locales/eng.js';
   let blocklyLanguageFile = '';
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
+    let supportedUserLanguage = ['deu', 'eng', 'jpn', 'kor'];
     let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE);
     if (userLanguage && userLanguage != language) {
-      console.log('Using user preferred language:', userLanguage);
-      language = userLanguage;
+      if (supportedUserLanguage.includes(userLanguage)) {
+        console.log('Set user preferred language:', userLanguage);
+        language = userLanguage;
 
-      if (language != cwc.config.Default.LANGUAGE) {
-        // Coding with Chrome language file.
-        languageFile = '../js/locales/' + language + '.js';
+        if (language != cwc.config.Default.LANGUAGE) {
+          // Coding with Chrome language file.
+          languageFile = '../js/locales/' + language + '.js';
 
-        // Blockly language file.
-        blocklyLanguageFile = '../external/blockly/msg/' + language + '.js';
+          // Blockly language file.
+          blocklyLanguageFile = '../external/blockly/msg/' +
+            cwc.utils.I18n.getISO639_1(language) + '.js';
+        }
+      } else {
+        console.warn('Unsupported language', userLanguage, 'using',
+          cwc.config.Default.LANGUAGE, 'instead!');
+        userConfigInstance.set(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
       }
     }
   }
