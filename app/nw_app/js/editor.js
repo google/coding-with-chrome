@@ -51,9 +51,8 @@ let cwcBuildUi = function() {
       return null;
     }
   }
-  let editorNode = document.getElementById('cwc-editor');
   let uiBuilder = new cwc.ui.Builder();
-  uiBuilder.decorate(editorNode);
+  uiBuilder.decorate();
   return uiBuilder;
 };
 

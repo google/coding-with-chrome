@@ -176,26 +176,24 @@ cwc.ui.Builder = function() {
 
 /**
  * Decorates the given node and adds the code editor.
- * @param {!Element|string} node
+ * @param {Element|string=} node
  * @param {Function=} callback
  * @export
  */
-cwc.ui.Builder.prototype.decorate = function(node, callback = null) {
+cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   this.setProgress('Loading Coding with Chrome editor ...', 1, 1);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
     this.node = node;
+  } else if (document.getElementById('cwc-editor')) {
+    this.node = document.getElementById('cwc-editor');
   } else {
     this.raiseError('Required node is neither a string or an object!');
   }
 
   if (callback && typeof callback === 'function') {
     this.callback = callback;
-  }
-
-  if (typeof window['nw'] !== 'undefined') {
-    window['nw']['Window']['get']()['showDevTools']();
   }
 
   this.addEventListener_(window, goog.events.EventType.ERROR, function(e) {

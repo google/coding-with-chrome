@@ -60,7 +60,18 @@ cwc.ui.Debug.prototype.prepare = function() {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
         cwc.userConfigName.DEBUG_MODE) || false;
   }
-  console.log('Debug mode:', this.enabled);
+
+  if (!this.enabled) {
+    return;
+  }
+
+  console.log('Enable debug mode ...');
+
+  // Show Developer Tools for native application.
+  if (typeof window['nw'] !== 'undefined') {
+    console.log('Show developer tools...');
+    window['nw']['Window']['get']()['showDevTools']();
+  }
 };
 
 
