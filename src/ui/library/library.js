@@ -168,7 +168,7 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
   dialogInstance.updateTemplate(cwc.soy.Library.library, {
     prefix: this.prefix,
     files: files || this.getFiles(),
-    opt_media_type: mediaType || '',
+    opt_media_type: mediaType || '',
   });
   this.decorate();
 };
@@ -258,10 +258,10 @@ cwc.ui.Library.prototype.readUrl = function(url) {
     urlContent = decodeURIComponent(/imgurl=([^&]+)/.exec(url)[1]);
   }
 
-  cwc.utils.Resources.getUriAsBase64(urlContent).then(content => {
-    let filename = goog.string.path.baseName(urlContent || '');
+  cwc.utils.Resources.getUriAsBase64(urlContent).then((content) => {
+    let filename = goog.string.path.baseName(urlContent || '');
     this.addFile(filename, content);
-  }).catch(error => {
+  }).catch((error) => {
     goog.dom.classlist.enable(this.nodeSearchError, 'active', true);
     this.helper.showError(error);
   });

@@ -19,11 +19,11 @@
  */
 goog.provide('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 
+goog.require('cwc.mode.makeblock.blockly.Editor');
 goog.require('cwc.mode.makeblock.mbotRanger.Connection');
-goog.require('cwc.mode.makeblock.mbotRanger.Runner');
-goog.require('cwc.mode.makeblock.mbotRanger.blockly.Editor');
-goog.require('cwc.mode.makeblock.mbotRanger.blockly.Layout');
 goog.require('cwc.mode.makeblock.mbotRanger.Monitor');
+goog.require('cwc.mode.makeblock.mbotRanger.Runner');
+goog.require('cwc.mode.makeblock.mbotRanger.blockly.Layout');
 goog.require('cwc.renderer.external.makeblock.MBotRanger');
 
 
@@ -32,11 +32,11 @@ goog.require('cwc.renderer.external.makeblock.MBotRanger');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
+  /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Editor} */
+  this.editor = new cwc.mode.makeblock.blockly.Editor(helper);
+  
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = new cwc.mode.makeblock.mbotRanger.Connection(helper);
-
-  /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Editor} */
-  this.editor = new cwc.mode.makeblock.mbotRanger.blockly.Editor(helper);
 
   /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Layout} */
   this.layout = new cwc.mode.makeblock.mbotRanger.blockly.Layout(helper);

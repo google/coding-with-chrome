@@ -301,9 +301,9 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
   if (file) {
     this.log_.info('Loading file', file, '...');
     let filename = file.replace(/^.*(\\|\/|:)/, '');
-    cwc.utils.Resources.getUriAsText(file).then(content => {
+    cwc.utils.Resources.getUriAsText(file).then((content) => {
       callback(filename, content);
-    }).catch(error => {
+    }).catch((error) => {
       this.helper.showError(error);
     });
   }

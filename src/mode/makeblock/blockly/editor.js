@@ -1,7 +1,7 @@
 /**
- * @fileoverview layout for mBot instances.
+ * @fileoverview General Blockly Editor for Makeblock.
  *
- * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.blockly.Editor');
+goog.provide('cwc.mode.makeblock.blockly.Editor');
 
-goog.require('cwc.soy.mbotRanger.Blocks');
+goog.require('cwc.soy.mbot.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -32,7 +32,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor = function(helper) {
+cwc.mode.makeblock.blockly.Editor = function(helper) {
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
 
@@ -55,14 +55,14 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor = function(helper) {
   this.nodeEditor = null;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('mbot-ranger-editor');
+  this.prefix = helper.getPrefix('mbot-editor');
 };
 
 
 /**
  * Decorates the simple editor.
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
+cwc.mode.makeblock.blockly.Editor.prototype.decorate = function() {
   this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
   if (!this.nodeBlockly) {
     console.error('Was unable to find Blockly node:', this.nodeBlockly);
@@ -84,7 +84,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
     return;
   }
   goog.soy.renderElement(this.nodeBlocklyToolbox,
-    cwc.soy.mbotRanger.Blocks.toolbox);
+    cwc.soy.mbot.Blocks.toolbox);
 
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
@@ -116,7 +116,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.decorate = function() {
 /**
  * Runs / Executes the code.
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.runCode = function() {
+cwc.mode.makeblock.blockly.Editor.prototype.runCode = function() {
   let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.run();
@@ -127,7 +127,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.runCode = function() {
 /**
  * Switches from the Blockly ui to the code editor.
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showEditor = function() {
+cwc.mode.makeblock.blockly.Editor.prototype.showEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
@@ -138,8 +138,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showEditor = function() {
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showBlockly = function(
-) {
+cwc.mode.makeblock.blockly.Editor.prototype.showBlockly = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
@@ -153,8 +152,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.showBlockly = function(
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.makeblock.mbotRanger.blockly.Editor.prototype.switchToEditor =
-function() {
+cwc.mode.makeblock.blockly.Editor.prototype.switchToEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);

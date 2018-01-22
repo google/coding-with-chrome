@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.MessagePane');
 
 
-
 /**
  * Class represents the monitor inside the ui.
  * @param {!cwc.utils.Helper} helper

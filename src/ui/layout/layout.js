@@ -44,7 +44,7 @@ goog.require('goog.ui.SplitPane.Orientation');
 cwc.ui.LayoutType = {
   DEFAULT: 'default',
   BLANK: 'blank',
-  NONE: 'none'
+  NONE: 'none',
 };
 
 
@@ -300,7 +300,6 @@ cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
   let firstSplitpaneComponentSize = null;
-  let secondSplitpaneComponentSize = null;
   this.updateSizeInformation();
   this.adjustLayoutChrome();
 
@@ -410,7 +409,6 @@ cwc.ui.Layout.prototype.setFullscreen = function(fullscreen, size) {
   }
   let chromeWidth = (size !== undefined) ? size :
       this.chromeSize.width - this.handleSize;
-  let chromeHeight = this.chromeSize.height - this.handleSize;
   switch (this.layout) {
     case cwc.ui.LayoutType.DEFAULT:
       this.firstSplitpane.setFirstComponentSize(fullscreen ?
