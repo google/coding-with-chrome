@@ -236,17 +236,14 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   }
   this.helper.setInstance('i18n', i18nInstance);
 
-  let blacklistFile = '../js/locales/blacklist.js';
   let language = cwc.config.Default.LANGUAGE;
   let languageFile = '../js/locales/eng.js';
-  let blocklyLanguageFile = '';
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
-    let supportedUserLanguage = ['deu', 'eng', 'jpn', 'kor'];
     let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE);
     if (userLanguage && userLanguage != language) {
-      if (supportedUserLanguage.includes(userLanguage)) {
+      if (userLanguage.length === 3) {
         console.log('Set user preferred language:', userLanguage);
         language = userLanguage;
 
@@ -255,8 +252,11 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
           languageFile = '../js/locales/' + language + '.js';
 
           // Blockly language file.
-          blocklyLanguageFile = '../external/blockly/msg/' +
-            cwc.utils.I18n.getISO639_1(language) + '.js';
+          cwc.ui.Helper.insertScript(
+            '../external/blockly/msg/' +
+              cwc.utils.I18n.getISO639_1(language) + '.js',
+            'blockly-language'
+          );
         }
       } else {
         console.warn('Unsupported language', userLanguage, 'using',
@@ -266,11 +266,14 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
       }
     }
   }
-  if (blocklyLanguageFile) {
-    cwc.ui.Helper.insertScript(blocklyLanguageFile, 'blockly-language');
-  }
+
   i18nInstance.prepare(
-    this.loadUI.bind(this), language, languageFile, blacklistFile);
+    this.loadUI.bind(this),
+    language,
+    languageFile,
+    '../js/locales/blacklist.js',
+    '../js/locales/supported.js'
+  );
 };
 
 

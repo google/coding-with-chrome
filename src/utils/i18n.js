@@ -38,6 +38,9 @@ cwc.utils.I18n = function() {
   /** @type {!string} */
   this.language = '';
 
+  /** @type {!Array} */
+  this.supportedLanguages = [];
+
   /** @type {!string} */
   this.fallbackLanguage = 'en';
 
@@ -48,16 +51,13 @@ cwc.utils.I18n = function() {
   this.blacklistNodeId = 'cwc-i18n-blacklist';
 
   /** @type {!string} */
-  this.scriptNodeId = 'cwc-i18n-language';
+  this.languageNodeId = 'cwc-i18n-language';
+
+  /** @type {!string} */
+  this.supportedLanguagesNodeId = 'cwc.i18n-supported-languages';
 
   /** @type {!Object} */
   this.usage = {};
-
-  /** @private {!string} */
-  this.blacklistNodeUrl_ = '';
-
-  /** @private {!string} */
-  this.scriptNodeUrl_ = '';
 };
 
 
@@ -66,12 +66,14 @@ cwc.utils.I18n = function() {
  * @param {string=} language
  * @param {string=} languageFile
  * @param {string=} blacklistFile
+ * @param {string=} supportedLanguagesFile
  */
 cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
-    languageFile = '', blacklistFile = '') {
+    languageFile = '', blacklistFile = '', supportedLanguagesFile = '') {
   // Register global Locales variable
   window['Locales'] = {};
   window['Locales']['blacklist'] = [];
+  window['Locales']['supportedLanguages'] = [];
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
@@ -79,6 +81,7 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
 
   // Callback handling
   let callbackHandling = function() {
+    this.setSupportedLanguages();
     this.setLanguage(language);
     if (goog.isFunction(callback)) {
       callback();
@@ -86,16 +89,20 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
   }.bind(this);
 
   // Load optional files like blacklist and language
-  if (blacklistFile && !languageFile) {
-    this.loadBlacklistFile_(blacklistFile, callbackHandling);
-  } else if (blacklistFile && languageFile) {
-    this.loadBlacklistFile_(blacklistFile, function() {
-      if (languageFile) {
-        this.loadLanguageFile_(languageFile, callbackHandling);
-      }
-    }.bind(this));
-  } else if (languageFile) {
-    this.loadLanguageFile_(languageFile, callbackHandling);
+  const promises = [];
+  if (supportedLanguagesFile) {
+    promises.push(this.loadFile_(supportedLanguagesFile,
+      this.supportedLanguagesNodeId));
+  }
+  if (blacklistFile) {
+    promises.push(this.loadFile_(blacklistFile, this.blacklistNodeId));
+  }
+  if (languageFile) {
+    promises.push(this.loadFile_(languageFile, this.languageNodeId));
+  }
+
+  if (promises.length) {
+    Promise.all(promises).then(callbackHandling);
   } else {
     callbackHandling();
   }
@@ -191,6 +198,22 @@ cwc.utils.I18n.prototype.getLanguageData = function(
 
 
 /**
+ * @return {Array}
+ */
+cwc.utils.I18n.prototype.getSupportedLanguages = function() {
+  return this.supportedLanguages;
+};
+
+
+/**
+ * @param {Array=} languages
+ */
+cwc.utils.I18n.prototype.setSupportedLanguages = function(languages) {
+  this.supportedLanguages = languages || Locales['supportedLanguages'];
+};
+
+
+/**
  * @return {!string}
  */
 cwc.utils.I18n.prototype.getToDo = function() {
@@ -212,56 +235,32 @@ cwc.utils.I18n.prototype.getToDo = function() {
 
 
 /**
- * Adding blacklist file.
- * @param {!string} file
- * @param {Function=} optCallback
- * @private
- */
-cwc.utils.I18n.prototype.loadBlacklistFile_ = function(file, optCallback) {
-  if (this.blacklistNodeUrl_ === file) {
-    return;
-  }
-  this.log_.info('Loading blacklist file:', file);
-  let headNode = document.head || document.getElementsByTagName('head')[0];
-  let oldScriptNode = document.getElementById(this.blacklistNodeId);
-  if (oldScriptNode) {
-    oldScriptNode.parentNode.removeChild(oldScriptNode);
-  }
-  let scriptNode = document.createElement('script');
-  scriptNode.id = this.blacklistNodeId;
-  if (goog.isFunction(optCallback)) {
-    scriptNode.onload = optCallback;
-  }
-  headNode.appendChild(scriptNode);
-  scriptNode.src = file;
-  this.blacklistNodeUrl_ = file;
-};
-
-
-/**
  * Adding language file.
  * @param {!string} file
- * @param {Function=} optCallback
+ * @param {string} node_id
+ * @return {Promise}
  * @private
  */
-cwc.utils.I18n.prototype.loadLanguageFile_ = function(file, optCallback) {
-  if (this.scriptNodeUrl_ === file) {
-    return;
-  }
-  this.log_.info('Loading language file:', file);
-  let headNode = document.head || document.getElementsByTagName('head')[0];
-  let oldScriptNode = document.getElementById(this.scriptNodeId);
-  if (oldScriptNode) {
-    oldScriptNode.parentNode.removeChild(oldScriptNode);
-  }
-  let scriptNode = document.createElement('script');
-  scriptNode.id = this.scriptNodeId;
-  if (goog.isFunction(optCallback)) {
-    scriptNode.onload = optCallback;
-  }
-  headNode.appendChild(scriptNode);
-  scriptNode.src = file;
-  this.scriptNodeUrl_ = file;
+cwc.utils.I18n.prototype.loadFile_ = function(file,
+    node_id = 'cwc-i18n-loader') {
+  return new Promise((resolve, reject) => {
+    let headNode = document.head || document.getElementsByTagName('head')[0];
+    let oldScriptNode = document.getElementById(node_id);
+    if (oldScriptNode) {
+      if (oldScriptNode.src === file) {
+        this.log_.warn('File', file, 'was already loaded!');
+        return;
+      }
+      oldScriptNode.parentNode.removeChild(oldScriptNode);
+    }
+    this.log_.info('Loading file:', file);
+    let scriptNode = document.createElement('script');
+    scriptNode.id = node_id;
+    scriptNode.onload = resolve;
+    scriptNode.onerror = reject;
+    headNode.appendChild(scriptNode);
+    scriptNode.src = file;
+  });
 };
 
 

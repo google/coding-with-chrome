@@ -1,8 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
- * @externs
+ * @fileoverview Supported languages for translations.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  */
 
 
-/** @type {Function} */
-var i18t = function() {};
-
-/** @type {Function} */
-var i18soy = function() {};
-
-/** @type {Object} */
-var Locales = function() {};
-
-/** @type {Object} */
-Locales.blacklist = {};
-
-/** @type {Array} */
-Locales.supportedLanguages = [];
+/**
+ * @final
+ * @export
+ */
+/* eslint-disable max-len */
+Locales['supportedLanguages'] = [
+  'deu',
+  'eng',
+  'jpn',
+];

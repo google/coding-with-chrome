@@ -22,7 +22,7 @@ let glob = closureBuilder.globSupport();
 
 
 /**
- * Blacklist.
+ * Blacklisted words.
  */
 closureBuilder.build({
   name: 'Locales.blacklist',
@@ -34,6 +34,22 @@ closureBuilder.build({
   ],
   compress: true,
   out: 'genfiles/core/js/locales/blacklist.js',
+});
+
+
+/**
+ * Supported languages.
+ */
+closureBuilder.build({
+  name: 'Locales.supportedLanguages',
+  srcs: glob([
+    'locales/supported.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/core/js/locales/supported.js',
 });
 
 
