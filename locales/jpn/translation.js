@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Japanses.
+ * @fileoverview Translation file for Japanese.
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
@@ -24,7 +24,7 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['ja'] = {
+Locales['jpn'] = {
   '(0 - 254)': '(0 - 254)',
   '* You need to restart the application after enabling or disabling these options.': '* このオプションを変更した後、アプリの再起動が必要です。',
   'About Coding with Chrome': 'コーディング ウィズ クロームについて',

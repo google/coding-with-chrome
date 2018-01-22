@@ -24,7 +24,7 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['de'] = {
+Locales['deu'] = {
   'About': 'Über',
   'Advanced': 'Fortgeschrittener',
   'All': 'Alle',

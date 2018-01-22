@@ -54,10 +54,19 @@ cwc.ui.SettingScreen = function(helper) {
 cwc.ui.SettingScreen.prototype.decorate = function(node) {
   this.node = node;
 
+  // Supported languages
+  let languages = ['eng'];
+  let i18nInstance = this.helper.getInstance('i18n');
+  if (i18nInstance) {
+    languages = i18nInstance.getSupportedLanguages();
+  }
+
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.SettingScreen.template,
-      {'prefix': this.prefix}
+      cwc.soy.ui.SettingScreen.template, {
+        'prefix': this.prefix,
+        'languages': languages,
+      }
   );
 
   let userConfigInstance = this.helper.getInstance('userConfig');
@@ -69,7 +78,6 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
   showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.SKIP_WELCOME);
   advancedMode.disabled = showWelcome.checked;
-
 
   goog.events.listen(closeButton, goog.events.EventType.CLICK,
      this.hide, false, this);

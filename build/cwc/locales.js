@@ -22,7 +22,7 @@ let glob = closureBuilder.globSupport();
 
 
 /**
- * Blacklist.
+ * Blacklisted words.
  */
 closureBuilder.build({
   name: 'Locales.blacklist',
@@ -38,64 +38,96 @@ closureBuilder.build({
 
 
 /**
- * DE Translation.
+ * Supported languages.
  */
 closureBuilder.build({
-  name: 'Locales.de',
+  name: 'Locales.supportedLanguages',
   srcs: glob([
-    'locales/de/translation.js',
+    'locales/supported.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/de.js',
+  out: 'genfiles/core/js/locales/supported.js',
 });
 
 
 /**
- * EN Translation.
+ * DEU Translation.
  */
 closureBuilder.build({
-  name: 'Locales.en',
+  name: 'Locales.deu',
   srcs: glob([
-    'locales/en/translation.js',
+    'locales/deu/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/en.js',
+  out: 'genfiles/core/js/locales/deu.js',
 });
 
 
 /**
- * JA Translation.
+ * ENG Translation.
  */
 closureBuilder.build({
-  name: 'Locales.ja',
+  name: 'Locales.eng',
   srcs: glob([
-    'locales/ja/translation.js',
+    'locales/eng/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/ja.js',
+  out: 'genfiles/core/js/locales/eng.js',
 });
 
 
 /**
- * KO Translation.
+ * JPN Translation.
  */
 closureBuilder.build({
-  name: 'Locales.ko',
+  name: 'Locales.jpn',
   srcs: glob([
-    'locales/ko/translation.js',
+    'locales/jpn/translation.js',
   ]),
   externs: [
     'build/externs/locales.js',
   ],
   compress: true,
-  out: 'genfiles/core/js/locales/ko.js',
+  out: 'genfiles/core/js/locales/jpn.js',
+});
+
+
+/**
+ * KOR Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.kor',
+  srcs: glob([
+    'locales/kor/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/core/js/locales/kor.js',
+});
+
+
+/**
+ * HIN Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.hin',
+  srcs: glob([
+    'locales/hin/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/core/js/locales/hin.js',
 });

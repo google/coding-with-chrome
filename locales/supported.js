@@ -1,7 +1,7 @@
 /**
- * @fileoverview Translation file for Korean.
+ * @fileoverview Supported languages for translations.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  */
 
 
@@ -24,7 +24,9 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['ko'] = {
-  'Hello, World': '안녕하세요, 세계',
-  'Hello %s': '안녕하세요 %s',
-};
+Locales['supportedLanguages'] = [
+  'deu',
+  'eng',
+  'hin',
+  'jpn',
+];

@@ -36,7 +36,7 @@ If you only want to install __Coding with Chrome__, you could use the pre-compil
 
 
 ## Build the Coding with Chrome App
-If you want to build the latest Coding with Chrome App from the source code, please check the [build instructions](doc/BUILD.md).
+If you want to build the latest Coding with Chrome App from the source code, please check the [build instructions](BUILD.md).
 
 
 ## Supported hardware and system

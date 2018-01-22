@@ -25,6 +25,8 @@
  */
 {template .template}
   {@param prefix: string}
+  {@param languages: list<string>}
+
   <div id="{$prefix}body">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
@@ -53,6 +55,7 @@
           <div class="page-content">
             {call .generalTab}
               {param prefix: $prefix /}
+              {param languages: $languages /}
             {/call}
           </div>
         </section>
@@ -94,6 +97,8 @@
  */
 {template .generalTab}
   {@param prefix: string}
+  {@param languages: list<string>}
+
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
 
@@ -143,9 +148,9 @@
               <i class="material-icons">more_vert</i>
             </button>
             <ul id="{$prefix}language" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="menu-ui-language">
-              <li class="mdl-menu__item">de</li>
-              <li class="mdl-menu__item">en</li>
-              <li class="mdl-menu__item">ja</li>
+              {foreach $language in $languages}
+                <li class="mdl-menu__item">{$language}</li>
+              {/foreach}
             </ul>
           </span>
         </li>
