@@ -27,5 +27,6 @@
 Locales['supportedLanguages'] = [
   'deu',
   'eng',
+  'hin',
   'jpn',
 ];
