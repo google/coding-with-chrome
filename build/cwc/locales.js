@@ -115,3 +115,19 @@ closureBuilder.build({
   compress: true,
   out: 'genfiles/core/js/locales/kor.js',
 });
+
+
+/**
+ * HIN Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.hin',
+  srcs: glob([
+    'locales/hin/translation.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  out: 'genfiles/core/js/locales/hin.js',
+});

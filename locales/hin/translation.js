@@ -1,7 +1,7 @@
 /**
  * @fileoverview Translation file for Hindi.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author rohangoyal1407@google.com (Rohan Goyal)
+ * @author rohangoyal1407@gmail.com (Rohan Goyal)
  */
 
 
@@ -24,7 +24,7 @@
  * @export
  */
 /* eslint-disable max-len */
-Locales['hi'] = {
+Locales['hin'] = {
   ' steps)': ' कदम)',
   '* You need to restart the application after enabling or disabling these options': '* इन विकल्पों को सक्षम या अक्षम करने के बाद आपको एप्लिकेशन को पुनरारंभ करना होगा',
   'About Coding with Chrome': 'क्रोम के साथ कोडिंग के बारे में',
@@ -473,5 +473,5 @@ Locales['hi'] = {
   'velocity': 'वेग',
   'wait (': 'रूको (',
   'when finished': 'समाप्त होने पर',
-  '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': '{$ startSpan} क्रोम के साथ कोडिंग के लिए हमारा संक्षिप्त परिचय देखने के लिए {$ endSpan} क्लिक करें',
+  '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': '{$startSpan} क्रोम के साथ कोडिंग के लिए हमारा संक्षिप्त परिचय देखने के लिए {$endSpan} क्लिक करें',
 };
