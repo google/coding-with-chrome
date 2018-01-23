@@ -37,7 +37,7 @@ cwc.ui.ProjectLoader = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.projectsApiBase = 'https://staging.cwist.com/api/v1/activities/';
+  this.projectsApiBase = 'https://edu.workbencheducation.com/api/v1/activities/';
 
   /** @type {string} */
   this.projectsApiAll = `${this.projectsApiBase}?content_channels=1`;

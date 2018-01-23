@@ -51,7 +51,7 @@ cwc.ui.Project = function(helper) {
   this.loader = new cwc.ui.ProjectLoader(helper);
 
   /** @type {string} */
-  this.projectDetailLinkBase = 'https://staging.cwist.com/cwists/preview/';
+  this.projectDetailLinkBase = 'https://edu.workbencheducation.com/cwists/preview/';
 
   /** @type {string} */
   this.activeStepClass = this.prefix + 'step-container--active';
@@ -196,8 +196,6 @@ cwc.ui.Project.prototype.downloadContent = function() {
  * @private
  */
 cwc.ui.Project.prototype.getProjectList = function(filterTags) {
-  if (!this.helper.experimentalEnabled()) return null;
-
   let storage = this.helper.getInstance('storage');
   let projects = JSON.parse(storage.get('projects')) || [];
   projects = projects.map((project) => {
