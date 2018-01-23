@@ -186,6 +186,28 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
     this.accessToken = '';
   }
   this.authenticated = authenticated;
+
+  //Need to make classroom call after authentication is set.
+  if (navigationInstance) {
+    if(authenticated) {
+      console.log('Check classroom');
+      this.request({
+        subdomain: 'classroom',
+        path: '/v1/courses',
+        params: {
+          'studentId': 'me'
+        }
+      }, function(response) {
+        console.log('response');
+        console.log(response);
+        if(Object.keys(response).length > 0) {
+          navigationInstance.enableOpenGoogleClassroom(true);
+        }
+      });
+    } else {
+      navigationInstance.enableOpenGoogleClassroom(false);
+    }
+  } 
 };
 
 
@@ -248,8 +270,10 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
   }).bind(this);
 
   if (!this.authenticated) {
+    console.log('call authenticate again');
     this.authenticate(handleRequest);
   } else {
+    console.log('handleRequest');
     handleRequest();
   }
 };

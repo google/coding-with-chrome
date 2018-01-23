@@ -104,6 +104,9 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
   this.nodeSaveFile = goog.dom.getElement(this.prefix + 'save-file');
   this.nodeSaveGoogleDriveFile = goog.dom.getElement(
       this.prefix + 'save-google-drive');
+  this.nodeOpenGoogleClassroom = goog.dom.getElement(
+      this.prefix + 'open-google-classroom');
+
 
   // Footer Items
   this.nodeAbout = goog.dom.getElement(this.prefix + 'about');
@@ -115,6 +118,7 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
   goog.style.setElementShown(this.nodeDebug, this.helper.debugEnabled());
   this.enableOpenGoogleDriveFile(false);
   this.enableSaveGoogleDriveFile(false);
+  this.enableOpenGoogleClassroom(false);
 
   // Events
   goog.events.listen(this.nodeHome, goog.events.EventType.CLICK,
@@ -131,6 +135,9 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
     this.saveFileAs.bind(this));
   goog.events.listen(this.nodeSaveGoogleDriveFile, goog.events.EventType.CLICK,
     this.saveGDriveFile.bind(this));
+  goog.events.listen(this.nodeOpenGoogleClassroom, goog.events.EventType.CLICK,
+    this.requestShowGoogleClassroomOverview.bind(this));
+
 
   goog.events.listen(this.nodeAbout, goog.events.EventType.CLICK,
     this.showAbout.bind(this));
@@ -269,6 +276,16 @@ cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
 };
 
 
+cwc.ui.Navigation.prototype.requestShowGoogleClassroomOverview = function() {
+  alert('clicked classroom');
+  /*let gclassroomInstance = this.helper.getInstance('gclassroom');
+  if (gclassroomInstance) {
+    gclassroomInstance.open();
+    this.hide();
+  }*/
+};
+
+
 /**
  * Shows about screen.
  */
@@ -384,6 +401,15 @@ cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
  */
 cwc.ui.Navigation.prototype.enableSaveFile = function(enable) {
   goog.style.setElementShown(this.nodeSaveFile, enable);
+};
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableOpenGoogleClassroom = function(enable) {
+  if (this.nodeOpenGoogleClassroom) {
+    goog.style.setElementShown(this.nodeOpenGoogleClassroom, enable);
+  }
 };
 
 
