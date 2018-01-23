@@ -120,6 +120,9 @@ closureBuilder.build({
   srcs: [
     'app/chrome_app/js/background.js',
   ],
+  externs: [
+    'build/externs/chrome.js',
+  ],
   out: 'dist/chrome_os/js/background.js',
 });
 
@@ -145,6 +148,7 @@ closureBuilder.build({
     'app/chrome_app/js/editor.js',
   ],
   externs: [
+    'build/externs/chrome.js',
     'build/externs/cwc.js',
   ],
   out: 'dist/chrome_os/js/editor.js',
@@ -158,6 +162,9 @@ closureBuilder.build({
   name: 'CwC Loader',
   srcs: [
     'app/chrome_app/js/loader.js',
+  ],
+  externs: [
+    'build/externs/chrome.js',
   ],
   out: 'dist/chrome_os/js/loader.js',
 });
