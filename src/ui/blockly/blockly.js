@@ -134,11 +134,20 @@ cwc.ui.Blockly = function(helper) {
 
 /**
  * Decorates the Blockly editor into the given node.
- * @param {!Element} node
+ * @param {Element} node
  * @param {Object=} options Optional dictionary of options.
  */
 cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
-  this.node = node;
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    console.error('Invalid Blockly node:', this.node);
+    return;
+  }
 
   // Template
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
@@ -154,7 +163,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   }
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   if (this.nodeToolbar) {
     this.toolbar = new cwc.ui.BlocklyToolbar(this.helper);
     this.toolbar.decorate(this.nodeToolbar, this.node, this.prefix);

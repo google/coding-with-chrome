@@ -221,55 +221,12 @@ cwc.ui.Runner.prototype.decorate = function(node) {
 
   // Runner
   this.connector.init(true);
-
-  // Monitor Changes
-  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
-      this.adjustSize, false, this);
-
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
-        this.adjustSize, false, this);
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
     layoutInstance.refresh();
-  }
-
-  this.adjustSize();
-};
-
-
-/**
- * Adjusts size after resize or on size change.
- */
-cwc.ui.Runner.prototype.adjustSize = function() {
-  let parentElement = goog.dom.getParentElement(this.node);
-  if (parentElement) {
-    let parentSize = goog.style.getSize(parentElement);
-    let newHeight = parentSize.height;
-
-    if (this.nodeToolbar) {
-      let toolbarSize = goog.style.getSize(this.nodeToolbar);
-      newHeight = newHeight - toolbarSize.height;
-    }
-
-    if (this.nodeInfobar) {
-      let infobarSize = goog.style.getSize(this.nodeInfobar);
-      newHeight = newHeight - infobarSize.height;
-    }
-
-    if (this.nodeMonitor && this.monitorEnabled) {
-      let monitorSize = goog.style.getSize(this.nodeMonitor);
-      newHeight = newHeight - monitorSize.height;
-    }
-
-    let contentSize = new goog.math.Size(parentSize.width, newHeight);
-    goog.style.setSize(this.nodeContent, contentSize);
-  }
-  if (this.monitor && this.monitorEnabled) {
-    this.monitor.adjustSize();
   }
 };
 
@@ -442,7 +399,6 @@ cwc.ui.Runner.prototype.enableMonitor = function(enable, height = 250) {
   if (enable) {
     goog.style.setHeight(this.nodeMonitor, height);
   }
-  this.adjustSize();
 };
 
 

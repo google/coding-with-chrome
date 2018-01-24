@@ -30,9 +30,6 @@ goog.require('cwc.utils.Helper');
 cwc.mode.html5.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
@@ -42,16 +39,6 @@ cwc.mode.html5.Layout = function(helper) {
 cwc.mode.html5.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(630);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.HTML5.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.HTML5.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.HTML5.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.HTML5.preview);
 };

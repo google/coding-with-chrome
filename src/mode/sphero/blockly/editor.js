@@ -43,18 +43,6 @@ cwc.mode.sphero.blockly.Editor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {Element} */
-  this.nodeBlockly = null;
-
-  /** @type {Element} */
-  this.nodeBlocklyToolbox = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
-
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-editor');
 };
@@ -64,37 +52,14 @@ cwc.mode.sphero.blockly.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
-  this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
-  if (!this.nodeBlockly) {
-    console.error('Was unable to find Blockly node:', this.nodeBlockly);
-    return;
-  }
-
-  // Blockly toolbox
-  this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
-      'blockly-toolbox');
-  if (!this.nodeBlocklyToolbox) {
-    console.error('Was unable to find Blockly Toolbox:',
-        this.nodeBlocklyToolbox);
-    return;
-  }
-  goog.soy.renderElement(this.nodeBlocklyToolbox,
-    cwc.soy.sphero.Blocks.toolbox);
-
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
-
-  // Blockly editor.
+  // Blockly editor and toolbox
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolbox(this.nodeBlocklyToolbox);
-  this.blockly.decorate(this.nodeBlockly);
+  this.blockly.updateToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
+  this.blockly.decorate();
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor);
+  this.editor.decorate();
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);

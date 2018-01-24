@@ -29,9 +29,6 @@ goog.require('cwc.soy.mode.basic.Simple');
 cwc.mode.basic.simple.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
@@ -41,16 +38,6 @@ cwc.mode.basic.simple.Layout = function(helper) {
 cwc.mode.basic.simple.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(630);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.basic.Simple.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.basic.Simple.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.basic.Simple.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.basic.Simple.preview);
 };

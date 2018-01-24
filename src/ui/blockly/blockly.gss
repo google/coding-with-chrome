@@ -18,10 +18,14 @@
   position: relative;
 }
 
-#{$prefix}blockly-toolbar-chrome > .mdl-layout__header-row {
+#{$prefix}blockly-toolbar {
+  min-height: 34px;
+}
+
+#{$prefix}blockly-toolbar > .mdl-layout__header-row {
   height: 34px;
 }
 
-#{$prefix}blockly-toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {
+#{$prefix}blockly-toolbar > .mdl-layout__header-row .mdl-navigation__link {
   padding: 0 5px;
 }

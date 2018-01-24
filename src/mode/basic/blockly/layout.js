@@ -32,9 +32,6 @@ cwc.mode.basic.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
-
   /** @type {!number} */
   this.layoutWidth = 500;
 };
@@ -46,20 +43,11 @@ cwc.mode.basic.blockly.Layout = function(helper) {
 cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(this.layoutWidth);
+  layoutInstance.renderMainContent(cwc.soy.mode.Basic.blockly.Layout.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.Basic.blockly.Layout.preview);
 
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.Layout.editor, {
-        prefix: this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.Layout.preview, {
-        prefix: this.prefix}
-  );
-
-  let nodeBlocklyToolbox = goog.dom.getElement(this.prefix + 'blockly-toolbox');
+  let nodeBlocklyToolbox = goog.dom.getElement(
+    this.helper.getPrefix() + 'blockly-toolbox');
   goog.soy.renderElement(nodeBlocklyToolbox,
     cwc.soy.simple.Blocks.toolbox);
 };

@@ -42,17 +42,8 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {Element} */
-  this.nodeBlockly = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
-
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3');
+  this.prefix = helper.getPrefix();
 
   /** @private {!Array} */
   this.listener_ = [];
@@ -63,26 +54,14 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
-  this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
-  if (!this.nodeBlockly) {
-    console.error('Was unable to find Blockly node:', this.nodeBlockly);
-    return;
-  }
-
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
-
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.setToolboxTemplate(cwc.soy.ev3.Blocks.toolbox);
-  this.blockly.decorate(this.nodeBlockly);
+  this.blockly.decorate();
 
   // Text editor
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor);
+  this.editor.decorate();
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);

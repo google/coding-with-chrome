@@ -37,15 +37,6 @@ cwc.mode.ev3.advanced.Editor = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix('ev3');
 };
 
 
@@ -53,15 +44,8 @@ cwc.mode.ev3.advanced.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
-
-  // Output editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor);
+  this.editor.decorate();
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
   this.editor.setLocalHints(cwc.mode.ev3.Hints);

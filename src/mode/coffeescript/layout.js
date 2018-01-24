@@ -41,16 +41,6 @@ cwc.mode.coffeescript.Layout = function(helper) {
 cwc.mode.coffeescript.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(500);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Coffeescript.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Coffeescript.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.Coffeescript.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.Coffeescript.preview);
 };

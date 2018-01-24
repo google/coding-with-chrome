@@ -31,9 +31,6 @@ cwc.mode.phaser.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
-
   /** @type {!number} */
   this.layoutWidth = 400;
 };
@@ -45,16 +42,6 @@ cwc.mode.phaser.blockly.Layout = function(helper) {
 cwc.mode.phaser.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(this.layoutWidth);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.blockly.Layout.preview, {
-        prefix: this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.blockly.Layout.editor, {
-        prefix: this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.Basic.blockly.Layout.preview);
+  layoutInstance.renderRightContent(cwc.soy.mode.Basic.blockly.Layout.editor);
 };

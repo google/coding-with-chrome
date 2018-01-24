@@ -30,8 +30,7 @@
 
 #{$prefix}preview-toolbar-chrome {
   flex: 0 1 auto;
-  height: 26px;
-  min-height: 26px;
+  min-height: 34px;
 }
 
 #{$prefix}preview-toolbar-chrome > .mdl-layout__header-row {

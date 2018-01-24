@@ -446,6 +446,45 @@ cwc.ui.Layout.prototype.handleResizeEvent = function() {
 
 /**
  * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
+ * @param {string=} prefix
+ */
+cwc.ui.Layout.prototype.renderLeftContent = function(template, prefix = '') {
+  this.renderContent_(template, this.getNode('content-left'), prefix);
+};
+
+
+/**
+ * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
+ * @param {string=} prefix
+ */
+cwc.ui.Layout.prototype.renderMainContent = function(template, prefix = '') {
+  this.renderContent_(template, this.getNode('content-main'), prefix);
+};
+
+
+/**
+ * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
+ * @param {string=} prefix
+ */
+cwc.ui.Layout.prototype.renderRightContent = function(template, prefix = '') {
+  this.renderContent_(template, this.getNode('content-right'), prefix);
+};
+
+
+/**
+ * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
+ * @param {Element} node
+ * @param {string=} prefix
+ * @private
+ */
+cwc.ui.Layout.prototype.renderContent_ = function(template, node, prefix = '') {
+  goog.soy.renderElement(node, template, {
+    'prefix': prefix || this.helper.getPrefix(),
+  });
+};
+
+/**
+ * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
  * @param {cwc.ui.LayoutType=} type
  * @private
  */
@@ -455,9 +494,8 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, type) {
   this.nodes = {
     'content': this.getNode_('content-chrome'),
     'content-left': this.getNode_('content-left-chrome'),
+    'content-main': this.getNode_('content-main-chrome'),
     'content-right': this.getNode_('content-right-chrome'),
-    'content-top': this.getNode_('content-top-chrome'),
-    'content-bottom': this.getNode_('content-bottom-chrome'),
     'overlay': this.getNode_('content-overlay'),
   };
   if (type) {

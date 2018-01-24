@@ -29,9 +29,6 @@ goog.require('cwc.soy.mode.pencilCode.Advanced');
 cwc.mode.pencilCode.advanced.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
@@ -41,16 +38,6 @@ cwc.mode.pencilCode.advanced.Layout = function(helper) {
 cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(500);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.pencilCode.Advanced.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.pencilCode.Advanced.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.pencilCode.Advanced.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.pencilCode.Advanced.preview);
 };

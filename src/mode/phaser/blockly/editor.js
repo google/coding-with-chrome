@@ -33,23 +33,14 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.mode.phaser.blockly.Editor = function(helper) {
-  /** @type {!cwc.ui.Blockly} */
-  this.blockly = new cwc.ui.Blockly(helper);
-
-  /** @type {Element} */
-  this.nodeBlockly = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {!cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
+  /** @type {!cwc.ui.Blockly} */
+  this.blockly = new cwc.ui.Blockly(helper);
+
+  /** @type {!cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
 };
 
 
@@ -57,28 +48,16 @@ cwc.mode.phaser.blockly.Editor = function(helper) {
  * Decorates the Blockly editor.
  */
 cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
-  this.nodeBlockly = goog.dom.getElement(this.prefix + 'blockly-chrome');
-  if (!this.nodeBlockly) {
-    console.error('Was unable to find Blockly node:', this.nodeBlockly);
-    return;
-  }
-
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'editor-chrome');
-  if (!this.nodeEditor) {
-    console.error('Was unable to find Editor node:', this.nodeEditor);
-    return;
-  }
-
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.setToolboxTemplate(cwc.soy.phaser.Blocks.toolbox);
-  this.blockly.decorate(this.nodeBlockly);
+  this.blockly.decorate();
   this.blockly.enableToolboxAutocollapse();
   this.blockly.disableOrphansBlocks(true);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.nodeEditor);
+  this.editor.decorate();
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);

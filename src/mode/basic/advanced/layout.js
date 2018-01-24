@@ -42,16 +42,6 @@ cwc.mode.basic.advanced.Layout = function(helper) {
 cwc.mode.basic.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(630);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Basic.advanced.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Basic.advanced.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.Basic.advanced.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.Basic.advanced.preview);
 };

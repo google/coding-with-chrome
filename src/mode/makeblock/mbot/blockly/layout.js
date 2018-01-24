@@ -40,19 +40,8 @@ cwc.mode.makeblock.mbot.blockly.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-
-  let nodes = layoutInstance.getNodes();
-  console.log('Adding Content');
-
-  goog.soy.renderElement(
-      nodes['content-left'],
-      cwc.soy.mode.makeblock.mbot.blockly.Layout.editor,
-      {'prefix': this.helper.getPrefix('mbot-editor')}
-  );
-
-  goog.soy.renderElement(
-      nodes['content-right'],
-      cwc.soy.mode.makeblock.mbot.blockly.Layout.runner,
-      {'prefix': this.helper.getPrefix('mbot-runner')}
-  );
+  layoutInstance.renderMainContent(
+    cwc.soy.mode.makeblock.mbot.blockly.Layout.editor);
+  layoutInstance.renderRightContent(
+    cwc.soy.mode.makeblock.mbot.blockly.Layout.runner);
 };

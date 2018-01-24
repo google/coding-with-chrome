@@ -19,9 +19,9 @@
   overflow: hidden;
 }
 
-#{$prefix}gui-chrome header {
-  min-height: 34px;
+#{$prefix}gui-chrome > header {
   display: flex;
+  min-height: 34px;
 }
 
 #{$prefix}gui-chrome > header,

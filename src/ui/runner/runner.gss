@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-#{$prefix}runner-body {
+#{$prefix}runner-body,
+#{$prefix}runner-chrome {
+  align-content: stretch;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+}
+
+#{$prefix}runner-toolbar-chrome {
+  flex: 0 1 auto;
 }
 
 #{$prefix}runner-toolbar-chrome > .mdl-layout__header-row {
@@ -61,6 +71,7 @@
 }
 
 #{$prefix}runner-content {
+  flex: 1 1 auto;
   overflow: auto;
   position: relative;
 }
@@ -111,6 +122,7 @@
 }
 
 #{$prefix}runner-infobar {
+  flex: 0 1 auto;
   position: relative;
   height: 26px;
   min-height: 26px;

@@ -40,16 +40,6 @@ cwc.mode.sphero.advanced.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.sphero.advanced.editor,
-      {'prefix': this.helper.getPrefix('sphero-editor')}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.sphero.advanced.runner,
-      {'prefix': this.helper.getPrefix('sphero-runner')}
-  );
+  layoutInstance.renderMainContent(cwc.soy.mode.sphero.advanced.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.sphero.advanced.runner);
 };
