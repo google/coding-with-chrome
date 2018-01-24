@@ -33,11 +33,8 @@
   line-height: 32px;
 }
 
-#{$prefix}gui-chrome footer {
-  display: flex;
-}
-
 #{$prefix}gui-chrome > footer {
+  display: flex;
   background: #CFD8DC;
   position: absolute;
   bottom: 0;

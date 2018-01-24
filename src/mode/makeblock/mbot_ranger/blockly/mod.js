@@ -34,7 +34,7 @@ goog.require('cwc.renderer.external.makeblock.MBotRanger');
 cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Editor} */
   this.editor = new cwc.mode.makeblock.blockly.Editor(helper);
-  
+
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = new cwc.mode.makeblock.mbotRanger.Connection(helper);
 

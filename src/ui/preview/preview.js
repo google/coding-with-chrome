@@ -31,7 +31,6 @@ goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
-goog.require('goog.math.Size');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
 goog.require('goog.ui.KeyboardShortcutHandler');
@@ -167,8 +166,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
-        this.adjustSize, false, this);
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
@@ -192,24 +189,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
  * Adjusts size after resize or on size change.
  */
 cwc.ui.Preview.prototype.adjustSize = function() {
-  let parentElement = goog.dom.getParentElement(this.node);
-  if (parentElement) {
-    let parentSize = goog.style.getSize(parentElement);
-    let newHeight = parentSize.height;
-
-    if (this.nodeToolbar) {
-      let toolbarSize = goog.style.getSize(this.nodeToolbar);
-      newHeight = newHeight - toolbarSize.height;
-    }
-
-    if (this.nodeInfobar) {
-      let infobarSize = goog.style.getSize(this.nodeInfobar);
-      newHeight = newHeight - infobarSize.height;
-    }
-
-    let contentSize = new goog.math.Size(parentSize.width, newHeight);
-    goog.style.setSize(this.nodeContent, contentSize);
-  }
   this.delayAutoUpdate();
 };
 
@@ -537,7 +516,7 @@ cwc.ui.Preview.prototype.handleLoadStop_ = function() {
   if (this.toolbar) {
     this.toolbar.setLoadStatus(false);
   }
-  this.setStatusText('Finished after ' + duration + ' seconds.');
+  this.setStatusText('Finished after ' + duration + ' secs.');
 };
 
 
