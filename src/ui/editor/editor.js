@@ -170,7 +170,7 @@ cwc.ui.Editor = function(helper) {
 
 /**
  * Decorates the given node and adds the code editor.
- * @param {Element} node The target node to add the code editor.
+ * @param {Element=} node The target node to add the code editor.
  */
 cwc.ui.Editor.prototype.decorate = function(node) {
   if (node) {

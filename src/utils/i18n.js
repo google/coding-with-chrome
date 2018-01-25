@@ -70,10 +70,11 @@ cwc.utils.I18n = function() {
  */
 cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
     languageFile = '', blacklistFile = '', supportedLanguagesFile = '') {
-  // Register global Locales variable
-  window['Locales'] = {};
-  window['Locales']['blacklist'] = [];
-  window['Locales']['supportedLanguages'] = [];
+  // Register global Locales variable if needed.
+  window['Locales'] = window['Locales'] || {};
+  window['Locales']['blacklist'] = window['Locales']['blacklist'] || [];
+  window['Locales']['supportedLanguages'] =
+    window['Locales']['supportedLanguages'] || [];
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
@@ -102,7 +103,12 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
   }
 
   if (promises.length) {
-    Promise.all(promises).then(callbackHandling);
+    Promise.all(promises).then(
+      callbackHandling
+    ).catch((e) => {
+      this.log_.error('Unable to load required file(s):', e);
+      callbackHandling();
+    });
   } else {
     callbackHandling();
   }

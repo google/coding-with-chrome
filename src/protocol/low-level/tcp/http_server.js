@@ -49,13 +49,17 @@ cwc.protocol.tcp.HTTPServerFile = function(path, content, type, redirect) {
 
 
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.tcp.HTTPServer = function() {
+cwc.protocol.tcp.HTTPServer = function(helper) {
   /** @type {string} */
   this.name = 'HTTP Server';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
 
   /** @type {boolean} */
   this.enabled = false;
@@ -72,6 +76,9 @@ cwc.protocol.tcp.HTTPServer = function() {
   /** @type {!number} */
   this.backlog = 10;
 
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
   /** @private {number|null} */
   this.socket_ = null;
 
@@ -83,6 +90,22 @@ cwc.protocol.tcp.HTTPServer = function() {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+};
+
+
+/**
+ * Prepares the http server.
+ */
+cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
+  if (!this.isChromeApp_ || !chrome.sockets) {
+    console.warn('Sockets support is not available!');
+    return;
+  }
+  if (this.prepared) {
+    return;
+  }
+  this.log_.debug('Preparing HTTPServer support...');
+  this.prepared = true;
 };
 
 

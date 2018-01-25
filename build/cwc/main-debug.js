@@ -46,8 +46,8 @@ closureBuilder.build({
     'build/externs/shepherd.js',
   ],
   compress: true,
-  out: 'genfiles/chrome_app/js/cwc_ui.js',
-  out_source_map: 'genfiles/chrome_app/js/cwc_ui.js.map',
+  out: 'genfiles/core/js/cwc_ui.js',
+  out_source_map: 'genfiles/core/js/cwc_ui.js.map',
   append: '//# sourceMappingURL=cwc_ui.js.map',
   options: {
     closure: {

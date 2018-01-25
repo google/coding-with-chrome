@@ -134,7 +134,7 @@ cwc.ui.Blockly = function(helper) {
 
 /**
  * Decorates the Blockly editor into the given node.
- * @param {Element} node
+ * @param {Element=} node
  * @param {Object=} options Optional dictionary of options.
  */
 cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {

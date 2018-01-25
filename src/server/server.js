@@ -26,11 +26,20 @@ goog.require('cwc.protocol.tcp.HTTPServer');
 
 
 /**
+ * @param {!cwc.utils.Helper} helper
  * @constructor
+ * @struct
+ * @final
  */
-cwc.server.Server = function() {
+cwc.server.Server = function(helper) {
+  /** @type {string} */
+  this.name = 'Server';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {cwc.protocol.tcp.HTTPServer} */
-  this.httpServer = new cwc.protocol.tcp.HTTPServer();
+  this.httpServer = null;
 
   /** @type {!string} */
   this.httpServerPrefix = 'http://localhost:8090';
@@ -44,18 +53,17 @@ cwc.server.Server = function() {
 
 
 cwc.server.Server.prototype.prepare = function() {
-  if (this.httpServer) {
-    this.httpServer.listen();
+  this.httpServer = this.helper.getInstance('http-server');
+  this.httpServer.listen();
 
-    // Default files
-    this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
-    this.httpServer.addFile(this.frameworkPrefix + '__init__.py', '#',
-      'text/x-python');
+  // Default files
+  this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
+  this.httpServer.addFile(this.frameworkPrefix + '__init__.py', '#',
+    'text/x-python');
 
-    // Framework redirects
-    this.addFrameworkRedirect('brython_turtle.py', '/turtle.py');
-    this.addFrameworkRedirect('__init__.py', '/turtle/__init__.py');
-  }
+  // Framework redirects
+  this.addFrameworkRedirect('brython_turtle.py', '/turtle.py');
+  this.addFrameworkRedirect('__init__.py', '/turtle/__init__.py');
 };
 
 

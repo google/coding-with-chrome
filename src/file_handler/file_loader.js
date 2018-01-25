@@ -98,24 +98,22 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 /**
  * @param {!string} filename
+ * @deprecated
  * @export
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
-  this.log_.info('Getting example file:', filename);
-  let fileLoaderHandler = this.loadExampleFileData.bind(this);
-  this.getResourceFile('examples/' + filename, fileLoaderHandler);
+  this.loadLocalFile('examples/' + filename);
 };
 
 
 /**
  * @param {!string} filename
- * @param {!string} data
  * @export
  */
-cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
-    data) {
-  this.log_.info('Loading example file:', filename);
-  this.handleFileData(data, filename, null, undefined);
+cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(filename) {
+  this.getResourceFile(filename, (filename, data) => {
+    this.handleFileData(data, filename, null, undefined);
+  });
 };
 
 

@@ -32,14 +32,16 @@
   "scripts": {
     "usage": "node build/usage.js",
 
-    "test": "npm run test-soy && npm run test-units && npm run test-core",
     "pretest": "npm run lint",
-    "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
+    "test": "npm run test-soy && npm run test-units && npm run test-core",
     "pretest-soy": "node build/test/soy_files.js",
-    "test-units": "echo Starting unit tests ... && karma start test/unit_tests.conf",
+    "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
     "pretest-units": "node build/test/unit_files.js",
+    "test-units": "echo Starting unit tests ... && karma start test/unit_tests.conf",
+    "pretest-core": "npm run build && npm run build-cwc-main-debug",
     "test-core": "echo Starting core tests ... && karma start test/core_tests.conf",
-    "pretest-core": "npm run build && npm run build-main",
+    "pretest-mode": "npm run build && npm run build-cwc-main-debug",
+    "test-mode": "echo Starting mode tests ... && karma start test/mode_tests.conf",
 
     "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
     "build-cwc-blocks": "node build/cwc/blocks.js",
@@ -61,7 +63,6 @@
     "build-framework-files": "npm run build-external-frameworks && npm run build-cwc-frameworks",
 
     "build": "npm run build-third_party && npm run build-core",
-    "build-main": "node build/cwc/main.js",
     "build-chrome_app": "npm run clean-chrome_app && node build/app/chrome_app.js",
     "build-chrome_app_debug": "npm run clean-chrome_app && node build/app/chrome_app_debug.js",
     "build-nw_app": "npm run clean-nw_app && node build/app/nw_app.js",
