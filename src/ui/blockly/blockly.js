@@ -149,7 +149,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
     return;
   }
 
-  // Template
+  // Render blockly editor template.
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
     experimental: this.helper.experimentalEnabled(),
     prefix: this.prefix,

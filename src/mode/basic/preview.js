@@ -40,9 +40,8 @@ cwc.mode.basic.Preview = function(helper) {
 
 /**
  * Decorates the preview window.
- * @param {boolean=} opt_blockly_mode
  */
-cwc.mode.basic.Preview.prototype.decorate = function(opt_blockly_mode) {
+cwc.mode.basic.Preview.prototype.decorate = function() {
   this.helper.setInstance('preview', this.preview, true);
   this.preview.decorate();
 };

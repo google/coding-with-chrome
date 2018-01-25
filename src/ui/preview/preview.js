@@ -148,6 +148,8 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     return;
   }
 
+  // Render preview template.
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
     this.node, cwc.soy.Preview.template, {prefix: this.prefix}
   );

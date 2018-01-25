@@ -184,12 +184,12 @@ cwc.ui.Editor.prototype.decorate = function(node) {
     return;
   }
 
+  // Render code editor template.
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   this.editorFlags = new cwc.ui.EditorFlags();
   this.editorView = {};
-  this.node = node;
   this.modified = false;
 
-  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
         experimental: this.helper.experimentalEnabled(),
