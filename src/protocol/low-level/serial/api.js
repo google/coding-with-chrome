@@ -50,6 +50,9 @@ cwc.protocol.serial.Api = function(helper) {
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+
   this.prepare();
 };
 
@@ -60,13 +63,13 @@ cwc.protocol.serial.Api = function(helper) {
  */
 cwc.protocol.serial.Api.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.serial) {
-    console.warn('Serial support is not available!');
+    this.log_.warn('Serial support is not available!');
     return;
   }
   if (this.prepared) {
     return;
   }
-  console.log('Prepare serial support...');
+  this.log_.info('Preparing serial support...');
 
   // Monitor serial devices
   this.devices = new cwc.protocol.serial.Devices(this.helper);

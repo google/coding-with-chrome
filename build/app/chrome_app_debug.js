@@ -18,45 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 let closureBuilder = require('closure-builder');
-let glob = closureBuilder.globSupport();
-
-
-/**
- * Core application.
- */
-closureBuilder.build({
-  name: 'cwc.ui.Builder',
-  srcs: glob([
-    'src/**/*.js',
-    'gensoyfiles/**/*.js',
-    '!src/{blocks,blocks/**.js}',
-    '!src/frameworks/{internal,internal/**.js}',
-  ]),
-  externs: [
-    'build/externs/blockly.js',
-    'build/externs/chrome.js',
-    'build/externs/codemirror.js',
-    'build/externs/coffeescript.js',
-    'build/externs/global.js',
-    'build/externs/i18n.js',
-    'build/externs/jquery-turtle.js',
-    'build/externs/jquery.js',
-    'build/externs/material-design.js',
-    'build/externs/mocha.js',
-    'build/externs/shepherd.js',
-  ],
-  compress: true,
-  out: 'dist/chrome_os/js/cwc_ui.js',
-  out_source_map: 'dist/chrome_os/js/cwc_ui.js.map',
-  append: '//# sourceMappingURL=cwc_ui.js.map',
-  options: {
-    closure: {
-      debug: true,
-      define: 'ENABLE_LOGGING',
-      formatting: 'PRETTY_PRINT',
-    },
-  },
-});
 
 
 /**
@@ -173,3 +134,15 @@ closureBuilder.build({
   out: 'dist/chrome_os/js/loader.js',
 });
 
+
+/**
+ * Source Map files
+ */
+closureBuilder.build({
+  name: 'CwC debug files',
+  resources: [
+    'src/',
+    'gensoyfiles/',
+  ],
+  out: 'dist/chrome_os/js/',
+});

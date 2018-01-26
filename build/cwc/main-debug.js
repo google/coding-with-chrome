@@ -53,20 +53,6 @@ closureBuilder.build({
     closure: {
       debug: true,
       define: 'ENABLE_LOGGING',
-      formatting: 'PRETTY_PRINT',
     },
   },
-});
-
-
-/**
- * Debug infos files
- */
-closureBuilder.build({
-  name: 'CwC debug files',
-  resources: [
-    'src/',
-    'gensoyfiles/',
-  ],
-  out: 'genfiles/chrome_app/js/',
 });

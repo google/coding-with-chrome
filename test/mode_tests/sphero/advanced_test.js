@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode Sphero - Blockly
+ * @fileoverview Mode Sphero - Advanced
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,7 +19,7 @@
  */
 
 
-describe('[Mode Sphero - Blockly]', function() {
+describe('[Mode Sphero - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
@@ -40,9 +40,9 @@ describe('[Mode Sphero - Blockly]', function() {
   });
 
   describe('Loading files', function() {
-    it('block/blank.cwc', function(done) {
+    it('script/blank.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/sphero/blocks/blank.cwc'
+        'examples/../../resources/examples/sphero/script/blank.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();
@@ -51,20 +51,9 @@ describe('[Mode Sphero - Blockly]', function() {
         done();
       });
     });
-    it('blocks/Sphero-collision.cwc', function(done) {
+    it('script/Sphero-rectangle.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/sphero/blocks/Sphero-collision.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Sphero-rectangle.cwc', function(done) {
-      builder.loadFile(
-        'examples/../../resources/examples/sphero/blocks/Sphero-rectangle.cwc'
+        'examples/../../resources/examples/sphero/script/Sphero-rectangle.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

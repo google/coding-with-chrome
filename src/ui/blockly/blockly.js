@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Blockly');
 
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
+goog.require('cwc.ui.BlocklyToolbox');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Logger');
 
@@ -82,6 +83,9 @@ cwc.ui.Blockly = function(helper) {
 
   /** @type {cwc.ui.BlocklyToolbar} */
   this.toolbar = null;
+
+  /** @type {cwc.ui.BlocklyToolbox} */
+  this.toolbox = null;
 
   /** @type {boolean} */
   this.toolboxAutocollapse = false;
@@ -204,6 +208,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   this.workspace = Blockly.inject(this.nodeEditor, options);
 
   // Blockly Toolbox
+  this.toolbox = new cwc.ui.BlocklyToolbox(this.helper);
+  this.toolbox.decorate();
+
   if (this.toolboxTemplate) {
     this.updateToolboxTemplate();
   } else if (this.nodeToolbox_) {

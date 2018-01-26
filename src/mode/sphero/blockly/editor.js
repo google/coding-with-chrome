@@ -54,7 +54,7 @@ cwc.mode.sphero.blockly.Editor = function(helper) {
 cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
   // Blockly editor and toolbox
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.updateToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
+  this.blockly.setToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
   this.blockly.decorate();
 
   // Text editor.

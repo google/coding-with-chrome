@@ -154,10 +154,19 @@ cwc.ui.Runner = function(helper) {
 
 /**
  * Decorates the given node and adds the Runner window.
- * @param {Element} node The target node to add the Runner window.
+ * @param {Element=} node The target node to add the Runner window.
  */
 cwc.ui.Runner.prototype.decorate = function(node) {
-  this.node = node;
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    console.error('Invalid Runner node:', this.node);
+    return;
+  }
 
   goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
     prefix: this.prefix,

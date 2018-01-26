@@ -37,6 +37,9 @@ cwc.ui.Experimental = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -49,7 +52,7 @@ cwc.ui.Experimental.prototype.prepare = function() {
     this.enabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
         cwc.userConfigName.EXPERIMENTAL_MODE) || false;
   }
-  console.log('Experimental mode:', this.enabled);
+  this.log_.info('Enabled:', this.enabled);
 };
 
 
