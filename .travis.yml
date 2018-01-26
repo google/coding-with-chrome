@@ -1,20 +1,10 @@
 sudo: required
-dist: trusty
-group: deprecated-2017Q4
-
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-
-before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  chrome: stable
 
 script:
   - unset _JAVA_OPTIONS
+  - npm test
 
 language: node_js
 
