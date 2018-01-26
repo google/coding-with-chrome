@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode test Basic Simple.
+ * @fileoverview Mode Basic - Blockly
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,7 +19,7 @@
  */
 
 
-describe('[Mode Basic Simple]', function() {
+describe('[Mode Basic - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
@@ -39,11 +39,17 @@ describe('[Mode Basic Simple]', function() {
     });
   });
 
-  describe('Loading files', function() {
+  describe('Loading file', function() {
     it('block/blank.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/simple/blocks/blank.cwc');
-      done();
+        'examples/../../resources/examples/simple/blocks/blank.cwc'
+      ).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, () => {
+        expect(false).toEqual(true);
+        done();
+      });
     });
   });
 });

@@ -13,7 +13,7 @@
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "npm-check-updates": "^2.14.0",
-    "nw": "^0.27.5",
+    "nw": "^0.28.0",
     "nw-builder": "^3.5.1",
     "rimraf": "^2.6.2"
   },
@@ -102,6 +102,7 @@
     "clean-build": "npm run clean && npm run build",
 
     "documentation": "jsdoc src -r -c documentation.json -d docs",
+    "deploy": "npm test && git push",
     "lint": "eslint .",
     "show-updates": "ncu",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",

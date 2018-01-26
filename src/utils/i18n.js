@@ -282,9 +282,9 @@ cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
 
   if (typeof this.untranslated[key] === 'undefined') {
     if (text) {
-      this.log_.warn('[i18n] Untranslated Key', key, 'with text:', text);
+      this.log_.warn('Untranslated Key', key, 'with text:', text);
     } else {
-      this.log_.warn('[i18n] Untranslated Key', key);
+      this.log_.warn('Untranslated Key', key);
     }
     this.untranslated[key] = 1;
   } else {

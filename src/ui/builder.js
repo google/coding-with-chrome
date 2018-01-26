@@ -245,13 +245,14 @@ cwc.ui.Builder.prototype.isReady = function() {
 
 /**
  * @param {!string} file_name
+ * @return {Promise}
  * @export
  */
 cwc.ui.Builder.prototype.loadFile = function(file_name) {
   if (this.isReady()) {
     let loaderInstance = this.helper.getInstance('fileLoader');
     if (loaderInstance) {
-      loaderInstance.loadLocalFile(file_name);
+      return loaderInstance.loadLocalFile(file_name);
     }
   } else {
     console.error('Builder is not ready yet!');

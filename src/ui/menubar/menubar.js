@@ -409,7 +409,6 @@ cwc.ui.Menubar.prototype.handleBluetoothAdapterChange_ = function(e) {
  * @private
  */
 cwc.ui.Menubar.prototype.handleBluetoothDeviceChange_ = function(e) {
-  this.log_.info(e);
   if (this.bluetoothConnectStatus === e.data.connected) {
     return;
   }
