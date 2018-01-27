@@ -56,8 +56,8 @@ cwc.mode.ev3.blockly.Editor = function(helper) {
 cwc.mode.ev3.blockly.Editor.prototype.decorate = function() {
   // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolboxTemplate(cwc.soy.ev3.Blocks.toolbox);
   this.blockly.decorate();
+  this.blockly.setToolboxTemplate(cwc.soy.ev3.Blocks.toolbox);
 
   // Text editor
   this.helper.setInstance('editor', this.editor, true);

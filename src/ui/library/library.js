@@ -189,8 +189,7 @@ cwc.ui.Library.prototype.syncFiles = function() {
       this.log_.info('Syncing library ', fileInstance.getFiles().getSize(),
         ' files...');
       if (blocklyInstance) {
-        blocklyInstance.clearSelection();
-        blocklyInstance.updateFiles(files);
+        blocklyInstance.setToolboxFiles(files);
       }
       if (editorInstance) {
         editorInstance.updateLibraryButton(fileInstance.getFiles().hasFiles());

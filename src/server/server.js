@@ -62,7 +62,6 @@ cwc.server.Server.prototype.prepare = function() {
     'text/x-python');
 
   // Framework redirects
-  this.addFrameworkRedirect('brython_turtle.py', '/turtle.py');
   this.addFrameworkRedirect('__init__.py', '/turtle/__init__.py');
 };
 

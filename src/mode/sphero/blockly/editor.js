@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.sphero.blockly.Editor');
 
 goog.require('cwc.soy.sphero.Blocks');
-
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -54,8 +53,8 @@ cwc.mode.sphero.blockly.Editor = function(helper) {
 cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
   // Blockly editor and toolbox
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
   this.blockly.decorate();
+  this.blockly.setToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);

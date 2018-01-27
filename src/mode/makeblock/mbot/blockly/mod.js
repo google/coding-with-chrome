@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.makeblock.mbot.blockly.Mod');
 
+goog.require('cwc.soy.mbot.Blocks');
 goog.require('cwc.mode.makeblock.blockly.Editor');
 goog.require('cwc.mode.makeblock.mbot.Connection');
 goog.require('cwc.mode.makeblock.mbot.Monitor');
@@ -58,7 +59,7 @@ cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
 cwc.mode.makeblock.mbot.blockly.Mod.prototype.decorate = function() {
   this.connection.init();
   this.layout.decorate();
-  this.editor.decorate();
+  this.editor.decorate(cwc.soy.mbot.Blocks.toolbox);
   this.runner.decorate();
   this.monitor.decorate();
   this.renderer.init();

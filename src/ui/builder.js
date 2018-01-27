@@ -99,7 +99,6 @@ cwc.ui.BuilderHelpers = {
   'notification': cwc.ui.Notification,
   'renderer': cwc.renderer.Renderer,
   'selectScreen': cwc.ui.SelectScreen,
-  'server': cwc.server.Server,
   'settingScreen': cwc.ui.SettingScreen,
 };
 
@@ -466,10 +465,11 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
  * Prepare internal Servers if needed.
  */
 cwc.ui.Builder.prototype.prepareServer = function() {
-  let serverInstance = this.helper.getInstance('server');
+  let serverInstance = new cwc.server.Server(this.helper);
   if (this.helper.checkChromeFeature('sockets.tcpServer') && serverInstance) {
     serverInstance.prepare();
   }
+  this.helper.setInstance('server', serverInstance);
 };
 
 

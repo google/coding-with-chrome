@@ -12,4 +12,4 @@ t.right(120)
 t.color('blue')
 t.forward(150)
 
-turtle._Screen().end()
+turtle.show_scene()

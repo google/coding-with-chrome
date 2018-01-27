@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.basic.blockly.Editor');
 
+goog.require('cwc.soy.simple.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -53,19 +54,10 @@ cwc.mode.basic.blockly.Editor = function(helper) {
  * Decorates the Blockly editor.
  */
 cwc.mode.basic.blockly.Editor.prototype.decorate = function() {
-  // Blocks toolbox
-  this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
-      'blockly-toolbox');
-  if (!this.nodeBlocklyToolbox) {
-    console.error('Was unable to find Blockly Toolbox:',
-        this.nodeBlocklyToolbox);
-    return;
-  }
-
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolbox(this.nodeBlocklyToolbox);
   this.blockly.decorate();
+  this.blockly.setToolboxTemplate(cwc.soy.simple.Blocks.toolbox);
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);

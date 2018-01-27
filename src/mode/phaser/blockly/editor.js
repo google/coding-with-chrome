@@ -50,9 +50,9 @@ cwc.mode.phaser.blockly.Editor = function(helper) {
 cwc.mode.phaser.blockly.Editor.prototype.decorate = function() {
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolboxTemplate(cwc.soy.phaser.Blocks.toolbox);
   this.blockly.decorate();
-  this.blockly.enableToolboxAutocollapse();
+  this.blockly.setToolboxTemplate(cwc.soy.phaser.Blocks.toolbox);
+  this.blockly.setToolboxAutoCollapse(true);
   this.blockly.disableOrphansBlocks(true);
 
   // Text editor.

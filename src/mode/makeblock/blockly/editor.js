@@ -55,23 +55,15 @@ cwc.mode.makeblock.blockly.Editor = function(helper) {
 
 /**
  * Decorates the simple editor.
+ * @param {Function=} toolbox
  */
-cwc.mode.makeblock.blockly.Editor.prototype.decorate = function() {
-  // Blockly toolbox
-  this.nodeBlocklyToolbox = goog.dom.getElement(this.prefix +
-      'blockly-toolbox');
-  if (!this.nodeBlocklyToolbox) {
-    console.error('Was unable to find Blockly Toolbox:',
-        this.nodeBlocklyToolbox);
-    return;
-  }
-  goog.soy.renderElement(this.nodeBlocklyToolbox,
-    cwc.soy.mbot.Blocks.toolbox);
-
+cwc.mode.makeblock.blockly.Editor.prototype.decorate = function(toolbox) {
   // Blockly editor.
   this.helper.setInstance('blockly', this.blockly, true);
-  this.blockly.setToolbox(this.nodeBlocklyToolbox);
   this.blockly.decorate();
+  if (toolbox) {
+    this.blockly.setToolboxTemplate(toolbox);
+  }
 
   // Text editor.
   this.helper.setInstance('editor', this.editor, true);

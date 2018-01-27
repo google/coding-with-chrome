@@ -63,9 +63,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditor = null;
 
-  /** @private {Element} */
-  this.nodeToolbox_ = null;
-
   /** @type {string} */
   this.mediaFiles = '../external/blockly/';
 
@@ -87,15 +84,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {cwc.ui.BlocklyToolbox} */
   this.toolbox = null;
 
-  /** @type {boolean} */
-  this.toolboxAutocollapse = false;
-
-  /** @type {Function} */
-  this.toolboxTemplate = null;
-
-  /** @type {!Object} */
-  this.toolboxTemplateData = {type: '', files: []};
-
   /** @private {!boolean} */
   this.isVisible_ = true;
 
@@ -104,9 +92,6 @@ cwc.ui.Blockly = function(helper) {
 
   /** @private {Function} */
   this.editorChangeHandler_ = null;
-
-  /** @private {!string} */
-  this.rowItemClass_ = 'blocklyTreeRowItem';
 
   /** @private {!string} */
   this.viewName_ = '';
@@ -211,15 +196,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   this.toolbox = new cwc.ui.BlocklyToolbox(this.helper);
   this.toolbox.decorate();
 
-  if (this.toolboxTemplate) {
-    this.updateToolboxTemplate();
-  } else if (this.nodeToolbox_) {
-    this.updateToolbox();
-  } else {
-    this.adjustSize();
-  }
-  this.decorateToolbox_();
-
   // Monitor changes
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
   if (viewportMonitor) {
@@ -247,6 +223,7 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
     });
   }
 
+  this.adjustSize();
   this.enabled = true;
 };
 
@@ -333,49 +310,6 @@ cwc.ui.Blockly.prototype.adjustSize = function() {
 
 
 /**
- * Collapse Toolbox without the optional label.
- * @param {string=} ignoreLabel
- */
-cwc.ui.Blockly.prototype.collapseToolbox = function(ignoreLabel = '') {
-  let treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
-  if (!treeRoot) {
-    return;
-  }
-  let itemClassName = this.rowItemClass_ + '_' + ignoreLabel.replace(
-    /([^a-z0-9 ]+)/gi, '').replace(/( )+/g, '_').toLowerCase();
-  let skipItem = treeRoot.getElementsByClassName(itemClassName)[0];
-  if (ignoreLabel && !skipItem) {
-    return;
-  }
-
-  let items = treeRoot.getElementsByClassName(this.rowItemClass_);
-  for (let name in items) {
-    if (Object.prototype.hasOwnProperty.call(items, name)) {
-      let item = items[name];
-      if (item !== skipItem) {
-        if (item.getAttribute && item.getAttribute('aria-expanded') == 'true') {
-          if (item.id && this.getToolboxTree()) {
-            this.getToolboxTree().childIndex_[item.id].collapse();
-          }
-        }
-      }
-    }
-  }
-};
-
-
-/**
- * Clear selection of the toolbox of the current workspace.
- */
-cwc.ui.Blockly.prototype.clearSelection = function() {
-  let toolbox = this.getToolbox();
-  if (toolbox) {
-    toolbox.clearSelection();
-  }
-};
-
-
-/**
  * Request to create new variable.
  */
 cwc.ui.Blockly.prototype.createVariable = function() {
@@ -392,14 +326,6 @@ cwc.ui.Blockly.prototype.createVariable = function() {
  */
 cwc.ui.Blockly.prototype.disableOrphansBlocks = function(enabled) {
   this.disableOrphansBlocks_ = enabled;
-};
-
-
-/**
- * Update the toolbox with the template
- */
-cwc.ui.Blockly.prototype.enableToolboxAutocollapse = function() {
-  this.toolboxAutocollapse = true;
 };
 
 
@@ -430,30 +356,6 @@ cwc.ui.Blockly.prototype.getWorkspace = function() {
  */
 cwc.ui.Blockly.prototype.getViewName = function() {
   return this.viewName_;
-};
-
-
-/**
- * @return {Blockly.Toolbox}
- */
-cwc.ui.Blockly.prototype.getToolbox = function() {
-  let workspace = this.getWorkspace();
-  if (workspace) {
-    return workspace.toolbox_;
-  }
-  return null;
-};
-
-
-/**
- * @return {Blockly.Toolbox.TreeControl}
- */
-cwc.ui.Blockly.prototype.getToolboxTree = function() {
-  let toolbox = this.getToolbox();
-  if (toolbox) {
-    return toolbox.tree_;
-  }
-  return null;
 };
 
 
@@ -558,72 +460,6 @@ cwc.ui.Blockly.prototype.updateLibraryButton = function(hasFiles) {
 
 
 /**
- * @param {!Element} toolbox
- */
-cwc.ui.Blockly.prototype.setToolbox = function(toolbox) {
-  this.nodeToolbox_ = toolbox;
-};
-
-
-/**
- * Updates the toolbox.
- * @param {Element=} toolbox
- */
-cwc.ui.Blockly.prototype.updateToolbox = function(
-    toolbox = this.nodeToolbox_) {
-  let workspace = this.getWorkspace();
-  if (workspace) {
-    workspace.updateToolbox(toolbox);
-    this.decorateToolbox_();
-  }
-  this.resize();
-};
-
-
-/**
- * Update the toolbox with the template
- * @param {Function=} template
- * @param {Object=} data
- */
-cwc.ui.Blockly.prototype.updateToolboxTemplate = function(
-    template = this.toolboxTemplate, data = this.toolboxTemplateData) {
-  if (template) {
-    let toolbox = template(data).content;
-    this.updateToolbox(toolbox);
-  } else {
-    this.log_.warn('Was unable to update Blockly toolbox.');
-  }
-};
-
-
-/**
- * @param {!Array} files
- */
-cwc.ui.Blockly.prototype.updateFiles = function(files) {
-  if (!this.toolboxTemplate) {
-    return;
-  }
-  let data = this.toolboxTemplateData || {};
-  data.files = files;
-  this.toolboxTemplateData = data;
-  this.updateToolboxTemplate();
-};
-
-
-/**
- * @param {!Function} template
- * @param {Object=} data
- */
-cwc.ui.Blockly.prototype.setToolboxTemplate = function(template,
-    data = undefined) {
-  this.toolboxTemplate = template;
-  if (data) {
-    this.toolboxTemplateData = data;
-  }
-};
-
-
-/**
  * @param {!string} name
  * @param {!string|Object} value
  */
@@ -683,6 +519,33 @@ cwc.ui.Blockly.prototype.resetZoom = function() {
 
 
 /**
+ * @param {boolean} enable
+ */
+cwc.ui.Blockly.prototype.setToolboxAutoCollapse = function(enable) {
+  this.toolbox.setAutoCollapse(enable);
+};
+
+
+/**
+ * @param {!Function} template
+ * @param {Object=} data
+ */
+cwc.ui.Blockly.prototype.setToolboxTemplate = function(template, data) {
+  this.toolbox.setTemplate(template, data);
+  this.toolbox.update();
+  this.toolbox.decorate();
+};
+
+
+/**
+ * @param {!Array} files
+ */
+cwc.ui.Blockly.prototype.setToolboxFiles = function(files) {
+  this.toolbox.setFiles(files);
+};
+
+
+/**
  * Adds an event listener for a specific event on a native event
  * target (such as a DOM element) or an object that has implemented
  * {@link goog.events.Listenable}.
@@ -715,44 +578,14 @@ cwc.ui.Blockly.prototype.cleanUp_ = function() {
 
 
 /**
- * Enables additional DOM manipulations.
- * @private
- */
-cwc.ui.Blockly.prototype.decorateToolbox_ = function() {
-  let treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
-  if (!treeRoot) {
-    return;
-  }
-
-  let treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
-  for (let name in treeLabels) {
-    if (Object.prototype.hasOwnProperty.call(treeLabels, name)) {
-      let treeLabel = treeLabels[name];
-      if (!treeLabel.textContent) {
-        continue;
-      }
-      let label = treeLabel.textContent.replace(/([^a-z0-9 ]+)/gi, '')
-        .replace(/( )+/g, '_').toLowerCase();
-      let blocklyTreeRowItem = treeLabel.parentNode.parentNode;
-      if (blocklyTreeRowItem) {
-        goog.dom.classlist.add(blocklyTreeRowItem, this.rowItemClass_);
-        goog.dom.classlist.add(blocklyTreeRowItem,
-          this.rowItemClass_ + '_' + label);
-      }
-    }
-  }
-};
-
-
-/**
  * @param {goog.events.EventLike} e
  * @private
  */
 cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
   switch (e.type) {
     case Blockly.Events.UI:
-      if (this.toolboxAutocollapse && e.newValue) {
-        this.collapseToolbox(e.newValue);
+      if (this.toolbox.getAutoCollapse() && e.newValue) {
+        this.toolbox.collapse(e.newValue);
       }
       break;
 
