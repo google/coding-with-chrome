@@ -62,7 +62,7 @@ cwc.protocol.bluetooth.Devices = function(eventHandler) {
   /** @private {string} */
   this.deviceCache_ = '';
 
-  /** @private {array} */
+  /** @private {!Array} */
   this.autoConnectDeviceCache_ = [];
 
   /** @type {!cwc.utils.Logger} */

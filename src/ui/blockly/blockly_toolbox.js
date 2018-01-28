@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.ui.BlocklyToolbox');
 
+goog.require('cwc.utils.Logger');
+
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -96,9 +98,9 @@ cwc.ui.BlocklyToolbox.prototype.getAutoCollapse = function() {
 
 
 /**
- * @param {Object=} data
+ * @param {Object} data
  */
-cwc.ui.BlocklyToolbox.prototype.setData = function(data = undefined) {
+cwc.ui.BlocklyToolbox.prototype.setData = function(data) {
   this.data = data;
 };
 

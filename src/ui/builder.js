@@ -186,7 +186,7 @@ cwc.ui.Builder = function() {
  * @export
  */
 cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
-  this.setProgress('Loading Coding with Chrome editor ...', 1, 1);
+  this.setProgress('Loading Coding with Chrome editor ...', 0);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
@@ -256,6 +256,9 @@ cwc.ui.Builder.prototype.loadFile = function(file_name) {
   } else {
     console.error('Builder is not ready yet!');
   }
+  return new Promise((resolve, reject) => {
+    reject();
+  });
 };
 
 
@@ -269,7 +272,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Checking requirements ...', 10, 100);
+    this.setProgress('Checking requirements ...', 5);
     this.checkRequirements_('blockly');
     this.checkRequirements_('codemirror');
     this.checkRequirements_('coffeelint');
@@ -279,77 +282,77 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Prepare debug ...', 20, 100);
+    this.setProgress('Prepare debug ...', 10);
     this.prepareDebug_();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare experimental ...', 23, 100);
+    this.setProgress('Prepare experimental ...', 20);
     this.prepareExperimental_();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare dialog ...', 25, 100);
+    this.setProgress('Prepare dialog ...', 25);
     this.prepareDialog();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare protocols ...', 28, 100);
+    this.setProgress('Prepare protocols ...', 30);
     this.prepareProtocols();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare internal Server', 29, 100);
+    this.setProgress('Prepare internal Server', 35);
     this.prepareServer();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare helpers ...', 30, 100);
+    this.setProgress('Prepare helpers ...', 40);
     this.prepareHelper();
   }
 
+  if (!this.error) {
+    this.setProgress('Prepare addons ...', 45);
+    this.prepareAddons();
+  }
+
   if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare OAuth2 Helpers ...', 35, 100);
+    this.setProgress('Prepare OAuth2 Helpers ...', 50);
     this.prepareOauth2Helper();
   }
 
   if (!this.error) {
-    this.setProgress('Loading frameworks ...', 40, 100);
+    this.setProgress('Loading frameworks ...', 55);
     this.loadFrameworks();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare addons ...', 45, 100);
-    this.prepareAddons();
-  }
-
-  if (!this.error) {
-    this.setProgress('Render editor GUI ...', 50, 100);
+    this.setProgress('Render editor GUI ...', 60);
     this.renderGui();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Bluetooth support ...', 60, 100);
+    this.setProgress('Prepare Bluetooth support ...', 65);
     this.prepareBluetooth();
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Serial support ...', 70, 100);
+    this.setProgress('Prepare Serial support ...', 70);
     this.prepareSerial();
   }
 
   if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare account support ...', 80, 100);
+    this.setProgress('Prepare account support ...', 80);
     this.prepareAccount();
   }
 
   if (!this.error) {
-    this.setProgress('Loading select screen ...', 90, 100);
+    this.setProgress('Loading select screen ...', 90);
     this.showSelectScreen();
   }
 
   if (!this.error) {
-    this.setProgress('Done.', 100, 100);
+    this.setProgress('Done.', 100);
     this.closeLoader();
     this.loaded = true;
     if (typeof window.componentHandler !== 'undefined') {
@@ -366,9 +369,9 @@ cwc.ui.Builder.prototype.loadUI = function() {
 /**
  * @param {!string} text
  * @param {!number} current
- * @param {!number} total
+ * @param {number=} total
  */
-cwc.ui.Builder.prototype.setProgress = function(text, current, total) {
+cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
   this.log_.info('[' + current + '%] ' + text);
   let loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
@@ -433,7 +436,7 @@ cwc.ui.Builder.prototype.prepareAddons = function() {
   for (let addon in cwc.ui.Addons) {
     if (cwc.ui.Addons.hasOwnProperty(addon)) {
       this.log_.info('Loading addon: ' + addon);
-      this.loadAddon(cwc.ui.Addons[addon], addon);
+      this.loadAddon_(cwc.ui.Addons[addon], addon);
     }
   }
 };
@@ -563,12 +566,15 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 /**
  * @param {!cwc.utils.AddonInstance} instance
  * @param {!string} instanceName
+ * @private
  */
-cwc.ui.Builder.prototype.loadAddon = function(instance, instanceName) {
+cwc.ui.Builder.prototype.loadAddon_ = function(instance, instanceName) {
   if (!goog.isFunction(instance)) {
     this.raiseError('Addon ' + instanceName + ' is not defined!');
   }
-  this.helper.setAddon(instanceName, new instance(this.helper));
+  let instanceConstruct = new instance(this.helper);
+  this.helper.setAddon(instanceName, instanceConstruct);
+  instanceConstruct.prepare();
 };
 
 

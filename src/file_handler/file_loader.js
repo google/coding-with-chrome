@@ -148,7 +148,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     this.log_.info('Handle file data:', data);
     let fileInstance = this.helper.getInstance('file', true);
     let modeInstance = this.helper.getInstance('mode', true);
-    let mimeType = cwc.file.getMimeTypeByNameAndContent(filename, data);
+    let mimeType = cwc.file.getMimeTypeByNameAndContent(filename || '', data);
     this.log_.info('MIME-type:', mimeType);
 
     let modeType;
@@ -310,7 +310,7 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     cwc.utils.Resources.getUriAsText(file).then((content) => {
       callback(filename, content);
     }).catch((error) => {
-      this.helper.showError(error);
+      this.helper.showError(String(error));
     });
   }
 };

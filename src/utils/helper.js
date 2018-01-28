@@ -62,8 +62,8 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Layout|
  *   cwc.ui.Library|
  *   cwc.ui.Menubar|
- *   cwc.ui.Message|
  *   cwc.ui.Navigation|
+ *   cwc.ui.Notification|
  *   cwc.ui.Notification|
  *   cwc.ui.Preview|
  *   cwc.ui.Runner|

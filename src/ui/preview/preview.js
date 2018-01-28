@@ -134,7 +134,7 @@ cwc.ui.Preview = function(helper) {
 
 /**
  * Decorates the given node and adds the preview window.
- * @param {Element} node The target node to add the preview window.
+ * @param {Element=} node The target node to add the preview window.
  */
 cwc.ui.Preview.prototype.decorate = function(node) {
   if (node) {

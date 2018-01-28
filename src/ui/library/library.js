@@ -262,7 +262,7 @@ cwc.ui.Library.prototype.readUrl = function(url) {
     this.addFile(filename, content);
   }).catch((error) => {
     goog.dom.classlist.enable(this.nodeSearchError, 'active', true);
-    this.helper.showError(error);
+    this.helper.showError(String(error));
   });
 };
 

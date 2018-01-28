@@ -18,6 +18,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.addon.Tutorial');
+
+goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Logger');
 
 
@@ -41,6 +43,21 @@ cwc.addon.Tutorial = function(helper) {
 
 cwc.addon.Tutorial.prototype.prepare = function() {
   this.log_.info('Preparing addon ...');
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
+  if (selectScreenInstance) {
+    let eventHandler = selectScreenInstance.getEventHandler();
+    goog.events.listen(eventHandler,
+      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, (e) => {
+        let view = e.data;
+        this.log_.info('Change View', view);
+        if (view == 'basicOverview') {
+          let node = goog.dom.getElement(
+            'cwc-select-screen-normal-navigation-overview');
+          node['style']['background'] = 'red';
+        }
+      }
+    );
+  }
 };
 
 

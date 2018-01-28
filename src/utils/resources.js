@@ -27,7 +27,7 @@ goog.require('goog.net.XhrIo');
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsText = function(uri) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let xhr = new goog.net.XhrIo();
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
@@ -50,7 +50,7 @@ cwc.utils.Resources.getUriAsText = function(uri) {
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsBlob = function(uri) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let xhr = new goog.net.XhrIo();
     xhr.setResponseType(goog.net.XhrIo.ResponseType.BLOB);
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
@@ -74,16 +74,17 @@ cwc.utils.Resources.getUriAsBlob = function(uri) {
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsBase64 = function(uri) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let xhr = new goog.net.XhrIo();
     xhr.setResponseType(goog.net.XhrIo.ResponseType.BLOB);
     goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
+      let content = /** @type {!Blob} */ (xhrResponse.getResponse());
       let contentReader = new FileReader();
       contentReader.onload = (e) => {
         resolve(e.target.result);
       };
-      contentReader.readAsDataURL(xhrResponse.getResponse());
+      contentReader.readAsDataURL(content);
     });
     goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
       reject(new Error(

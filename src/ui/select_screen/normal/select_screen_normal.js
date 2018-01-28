@@ -22,6 +22,7 @@ goog.provide('cwc.ui.SelectScreenNormalView');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreenNormal');
+goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Helper');
 
 
@@ -43,10 +44,11 @@ cwc.ui.SelectScreenNormalView = {
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  * @struct
  */
-cwc.ui.SelectScreenNormal = function(helper) {
+cwc.ui.SelectScreenNormal = function(helper, eventHandler) {
   /** @type {string} */
   this.name = 'SelectScreenNormal';
 
@@ -67,6 +69,9 @@ cwc.ui.SelectScreenNormal = function(helper) {
 
   /** @private {!string} */
   this.resourcesPath_ = 'resources/examples/';
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler;
 };
 
 
@@ -207,6 +212,8 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
   }
   this.addMenuHandler_();
   this.currentView = name;
+  this.eventHandler_.dispatchEvent(
+    cwc.ui.SelectScreen.Events.changeView(this.currentView));
 };
 
 

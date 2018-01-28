@@ -54,10 +54,11 @@ cwc.ui.SelectScreenAdvancedView = {
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  * @struct
  */
-cwc.ui.SelectScreenAdvanced = function(helper) {
+cwc.ui.SelectScreenAdvanced = function(helper, eventHandler) {
   /** @type {string} */
   this.name = 'SelectScreenAdvanced';
 
@@ -75,6 +76,9 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler;
 };
 
 

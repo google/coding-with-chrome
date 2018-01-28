@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.serial.Api');
 
 goog.require('cwc.protocol.serial.Devices');
+goog.require('cwc.utils.Logger');
 
 
 /**
