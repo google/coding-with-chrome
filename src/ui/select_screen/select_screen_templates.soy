@@ -91,7 +91,7 @@
             <i class="icon_auto">insert_drive_file</i>
           </div>
         {/if}
-      </div>      
+      </div>
     </div>
     <div class="card__body">
       {msg desc=""}{$text}{/msg}
@@ -187,6 +187,54 @@
       </div>
     </div>
   </section>
+{/template}
+
+
+/**
+ * Projects list
+ */
+{template .projectsSection}
+  {@param? projects: list<[name:string, description:string, link_id:string]>}
+
+  {if $projects}
+    <div class="mdl-cell mdl-cell--12-col">
+      <h2 class="mdl-typography--title">Projects</h2>
+    </div>
+
+    {foreach $project in $projects}
+      {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+        {param title: $project.name /}
+        {param text: $project.description /}
+        {param opt_link_text: 'Start Project' /}
+        {param link_id: $project.link_id /}
+        {param opt_image: '' /}
+        {param opt_icon: 'format_list_numbered' /}
+      {/call}
+    {/foreach}
+
+    {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+        {param title: 'More Projects' /}
+        {param text: 'Looking for more interactive exercises? These projects and more can be found on edu.workbencheducation.com' /}
+        {param opt_link_text: 'Find More Projects' /}
+        {param link_id: 'projects-more' /}
+        {param opt_image: '' /}
+        {param opt_icon: 'open_in_new' /}
+      {/call}
+  {/if}
+{/template}
+
+
+/**
+ * Programs header, only displays if there are projects
+ */
+{template .programsHeader}
+  {@param? projects: list<?>}
+
+  {if $projects}
+    <div class="mdl-cell mdl-cell--12-col">
+      <h2 class="mdl-typography--title">Programs</h2>
+    </div>
+  {/if}
 {/template}
 
 

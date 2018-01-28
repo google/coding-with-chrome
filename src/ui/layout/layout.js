@@ -21,11 +21,8 @@ goog.provide('cwc.ui.Layout');
 goog.provide('cwc.ui.LayoutType');
 
 goog.require('cwc.soy.ui.Layout');
-goog.require('cwc.soy.ui.Layout.leftSidebar');
 goog.require('cwc.soy.ui.Layout.simpleSingleColumn');
 goog.require('cwc.soy.ui.Layout.simpleTwoColumn');
-goog.require('cwc.soy.ui.Layout.singleColumn');
-goog.require('cwc.soy.ui.Layout.twoColumn');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
@@ -47,11 +44,8 @@ goog.require('goog.ui.SplitPane.Orientation');
  */
 cwc.ui.LayoutType = {
   DEFAULT: 'DEFAULT',
-  SINGLE_COLUMN: 'SINGLE_COLUMN',
-  TWO_COLUMN: 'TWO_COLUMN',
   SIMPLE_SINGLE_COLUMN: 'SIMPLE_SINGLE_COLUMN',
   SIMPLE_TWO_COLUMN: 'SIMPLE_TWO_COLUMN',
-  LEFT_SIDEBAR: 'LEFT_SIDEBAR',
   NONE: 'NONE',
 };
 
@@ -134,6 +128,15 @@ cwc.ui.Layout = function(helper) {
 
   /** @type {boolean} */
   this.fullscreen = false;
+
+  /** @type {boolean} */
+  this.sidebarPanelFullscreen = false;
+
+  /** @type {boolean} */
+  this.leftPanelFullscreen = false;
+
+  /** @type {boolean} */
+  this.rightPanelFullscreen = false;
 };
 
 
@@ -161,58 +164,6 @@ cwc.ui.Layout.prototype.prepare = function() {
 
 
 /**
- * Decorates the given node and adds the single column layout.
- */
-cwc.ui.Layout.prototype.decorateSingleColumnLayout = function() {
-  this.renderTemplate_(cwc.soy.ui.Layout.singleColumn.template,
-    cwc.ui.LayoutType.SINGLE_COLUMN);
-  let chromeMain = this.getNode_('chrome-main');
-  let topComponent = new goog.ui.Component();
-  let bottomComponent = new goog.ui.Component();
-  this.firstSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
-      goog.ui.SplitPane.Orientation.VERTICAL);
-  this.firstSplitpane.setInitialSize(175);
-  this.firstSplitpane.setHandleSize(this.handleSize);
-  this.firstSplitpane.decorate(chromeMain);
-  this.monitorResize(this.firstSplitpane);
-  this.adjustSize();
-};
-
-
-/**
- * Decorates the given node and adds the two column layout.
- * @param {number=} first_splitpane_size
- * @param {number=} second_splitpane_size
- */
-cwc.ui.Layout.prototype.decorateTwoColumnLayout = function(
-    first_splitpane_size = 400, second_splitpane_size = 600) {
-  this.renderTemplate_(cwc.soy.ui.Layout.twoColumn.template,
-    cwc.ui.LayoutType.TWO_COLUMN);
-  let chromeMain = this.getNode_('chrome-main');
-  let topComponent = new goog.ui.Component();
-  let bottomComponent = new goog.ui.Component();
-  this.firstSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
-      goog.ui.SplitPane.Orientation.VERTICAL);
-  this.firstSplitpane.setHandleSize(this.handleSize);
-  this.firstSplitpane.decorate(chromeMain);
-  this.monitorResize(this.firstSplitpane);
-  this.adjustSizeOnChange(this.firstSplitpane);
-
-  let contentTop = this.getNode_('content-top-chrome');
-  let leftComponent = new goog.ui.Component();
-  let rightComponent = new goog.ui.Component();
-  this.secondSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
-      goog.ui.SplitPane.Orientation.HORIZONTAL);
-  this.secondSplitpane.setHandleSize(this.handleSize);
-  this.secondSplitpane.decorate(contentTop);
-  this.monitorResize(this.secondSplitpane);
-  this.adjustSize();
-  this.firstSplitpane.setFirstComponentSize(first_splitpane_size);
-  this.secondSplitpane.setFirstComponentSize(second_splitpane_size);
-};
-
-
-/**
  * Decorates the given node and adds the simple single column layout.
  */
 cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
@@ -224,54 +175,44 @@ cwc.ui.Layout.prototype.decorateSimpleSingleColumnLayout = function() {
 
 /**
  * Decorates the given node and adds the simple two column layout.
- * @param {number=} first_splitpane_size
+ * In addition to the two main panels, there is a hidden sidebar
+ * that can be shown by calling "showSidebar"
+ * @param {number=} main_size
  */
 cwc.ui.Layout.prototype.decorateSimpleTwoColumnLayout = function(
-    first_splitpane_size = 400) {
+    main_size = 400) {
   this.renderTemplate_(cwc.soy.ui.Layout.simpleTwoColumn.template,
     cwc.ui.LayoutType.SIMPLE_TWO_COLUMN);
+
+
   let chromeMain = this.getNode_('chrome-main');
-  let leftComponent = new goog.ui.Component();
-  let rightComponent = new goog.ui.Component();
-  this.firstSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
+  let sidebarPane = new goog.ui.Component();
+  // Sidebar hidden by default
+  let sidebarPaneSize = 0;
+  let mainContentPane = new goog.ui.Component();
+  this.firstSplitpane = new goog.ui.SplitPane(sidebarPane, mainContentPane,
       goog.ui.SplitPane.Orientation.HORIZONTAL);
-  this.firstSplitpane.setInitialSize(first_splitpane_size);
-  this.firstSplitpane.setHandleSize(this.handleSize);
+  this.firstSplitpane.setInitialSize(sidebarPaneSize);
+  this.firstSplitpane.setHandleSize(0);
   this.firstSplitpane.decorate(chromeMain);
   this.monitorResize(this.firstSplitpane);
   this.adjustSizeOnChange(this.firstSplitpane);
   this.adjustSize();
-  this.firstSplitpane.setFirstComponentSize(first_splitpane_size);
-};
+  this.firstSplitpane.setFirstComponentSize(sidebarPaneSize);
 
 
-/**
- * Decorates the given node and adds the left sidebar layout.
- */
-cwc.ui.Layout.prototype.decorateLeftSidebarLayout = function() {
-  this.renderTemplate_(cwc.soy.ui.Layout.leftSidebar.template,
-    cwc.ui.LayoutType.LEFT_SIDEBAR);
-  let chromeMain = this.getNode_('chrome-main');
-  let leftComponent = new goog.ui.Component();
-  let rightComponent = new goog.ui.Component();
-  this.firstSplitpane = new goog.ui.SplitPane(leftComponent, rightComponent,
-      goog.ui.SplitPane.Orientation.HORIZONTAL);
-  this.firstSplitpane.setInitialSize(175);
-  this.firstSplitpane.setHandleSize(this.handleSize);
-  this.firstSplitpane.decorate(chromeMain);
-  this.monitorResize(this.firstSplitpane);
-  this.adjustSizeOnChange(this.firstSplitpane);
-
-  let contentRight = this.getNode_('content-right-chrome');
-  let topComponent = new goog.ui.Component();
-  let bottomComponent = new goog.ui.Component();
-  this.secondSplitpane = new goog.ui.SplitPane(topComponent, bottomComponent,
-      goog.ui.SplitPane.Orientation.VERTICAL);
-  this.secondSplitpane.setInitialSize(175);
+  let chromeContent = this.getNode_('chrome-content');
+  let chromeContentLeftComponent = new goog.ui.Component();
+  let chromeContentRightComponent = new goog.ui.Component();
+  this.secondSplitpane = new goog.ui.SplitPane(chromeContentLeftComponent,
+      chromeContentRightComponent, goog.ui.SplitPane.Orientation.HORIZONTAL);
+  this.secondSplitpane.setInitialSize(main_size);
   this.secondSplitpane.setHandleSize(this.handleSize);
-  this.secondSplitpane.decorate(contentRight);
+  this.secondSplitpane.decorate(chromeContent);
   this.monitorResize(this.secondSplitpane);
+  this.adjustSizeOnChange(this.secondSplitpane);
   this.adjustSize();
+  this.secondSplitpane.setFirstComponentSize(main_size);
 };
 
 
@@ -400,48 +341,34 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       break;
 
     case cwc.ui.LayoutType.SIMPLE_TWO_COLUMN:
-      if (!this.fullscreen) {
-        if (this.fixRightComponentSize) {
-          firstSplitpaneComponentSize = this.chromeSize.width -
-           this.handleSize - this.fixRightComponentSize;
-        }
-      }
-      this.firstSplitpane.setSize(this.chromeSize, firstSplitpaneComponentSize);
-      break;
-    case cwc.ui.LayoutType.SINGLE_COLUMN:
-      this.firstSplitpane.setSize(this.chromeSize);
-      break;
-
-    case cwc.ui.LayoutType.TWO_COLUMN:
-      if (!this.fullscreen) {
-        if (this.fixTopComponentSize) {
-          firstSplitpaneComponentSize = this.fixTopComponentSize;
-        } else if (this.fixBottomComponentSize) {
-          firstSplitpaneComponentSize = this.chromeSize.height -
-              this.handleSize - this.fixBottomComponentSize;
-        }
+      if (this.sidebarPanelFullscreen) {
+        firstSplitpaneComponentSize = this.chromeSize.width;
+      } else if (this.leftPanelFullscreen) {
+        firstSplitpaneComponentSize = 0;
+        secondSplitpaneComponentSize = this.chromeSize.width;
+      } else if (this.rightPanelFullscreen) {
+        firstSplitpaneComponentSize = 0;
+        secondSplitpaneComponentSize = 0;
+      } else {
         if (this.fixLeftComponentSize) {
           secondSplitpaneComponentSize = this.fixLeftComponentSize;
-        } else if (this.fixRightComponentSize) {
+        }
+        if (this.fixRightComponentSize) {
           secondSplitpaneComponentSize = this.chromeSize.width -
-              this.handleSize - this.fixRightComponentSize;
+            this.firstSplitpane.getFirstComponentSize() - this.handleSize -
+            this.fixRightComponentSize;
         }
       }
-      this.firstSplitpane.setSize(this.chromeSize, firstSplitpaneComponentSize);
-      this.secondSplitpane.setSize(
-        new goog.math.Size(
-          this.chromeSize.width,
-          this.firstSplitpane.getFirstComponentSize() || 0),
-        secondSplitpaneComponentSize);
-      break;
 
-    case cwc.ui.LayoutType.LEFT_SIDEBAR:
-      this.firstSplitpane.setSize(this.chromeSize);
-      this.secondSplitpane.setSize(
-        new goog.math.Size(
-          this.chromeSize.width - this.firstSplitpane.getFirstComponentSize() -
-          this.handleSize,
-          this.chromeSize.height));
+      this.firstSplitpane.setSize(this.chromeSize, firstSplitpaneComponentSize);
+      if (this.secondSplitpane) {
+        this.secondSplitpane.setSize(
+          new goog.math.Size(
+            this.chromeSize.width - this.firstSplitpane.getFirstComponentSize(),
+            this.chromeSize.height
+          ),
+          secondSplitpaneComponentSize);
+      }
       break;
 
     case cwc.ui.LayoutType.DEFAULT:
@@ -461,9 +388,6 @@ cwc.ui.Layout.prototype.adjustSize = function() {
  */
 cwc.ui.Layout.prototype.setHandleSize = function(size) {
   this.handleSize = size;
-  if (this.firstSplitpane) {
-    this.firstSplitpane.setHandleSize(this.handleSize);
-  }
   if (this.secondSplitpane) {
     this.secondSplitpane.setHandleSize(this.handleSize);
   }
@@ -479,6 +403,26 @@ cwc.ui.Layout.prototype.cleanFixComponentSizes = function() {
   this.fixRightComponentSize = null;
   this.fixTopComponentSize = null;
   this.fixBottomComponentSize = null;
+};
+
+
+/**
+ * Show the sidebar
+ */
+cwc.ui.Layout.prototype.showSidebar = function() {
+  this.firstSplitpane.setSize(this.chromeSize, 400);
+  this.firstSplitpane.setHandleSize(this.defaultHandleSize);
+  this.adjustSize();
+};
+
+
+/**
+ * Hide the sidebar
+ */
+cwc.ui.Layout.prototype.hideSidebar = function() {
+  this.firstSplitpane.setSize(this.chromeSize, 0);
+  this.firstSplitpane.setHandleSize(0);
+  this.adjustSize();
 };
 
 
@@ -523,34 +467,78 @@ cwc.ui.Layout.prototype.setFixBottomComponentSize = function(size) {
 
 
 /**
- * Adjusts the main UI element to fullscreen.
- * @param {!boolean} fullscreen
- * @param {number=} size
+ * @param {boolean} fullscreen Indicates if the panel should expand to fullscreen
+ * @param {Element=} panelNode The panel to expand or collapse
  */
-cwc.ui.Layout.prototype.setFullscreen = function(fullscreen, size) {
-  if (fullscreen && this.fullscreen !== fullscreen) {
+cwc.ui.Layout.prototype.setPanelFullscreen = function(fullscreen, panelNode) {
+  if (!this.fullscreen) {
     this.firstSplitpaneCachedSize = (this.firstSplitpane) ?
         this.firstSplitpane.getFirstComponentSize() : 200;
     this.secondSplitpaneCachedSize = (this.secondSplitpane) ?
         this.secondSplitpane.getFirstComponentSize() : 200;
-  }
-  let chromeWidth = (size !== undefined) ? size :
-      this.chromeSize.width - this.handleSize;
-  let chromeHeight = this.chromeSize.height - this.handleSize;
-  switch (this.layout) {
-    case cwc.ui.LayoutType.TWO_COLUMN:
-      this.firstSplitpane.setFirstComponentSize(fullscreen ?
-          chromeHeight : this.firstSplitpaneCachedSize);
-      this.secondSplitpane.setFirstComponentSize(fullscreen ?
-          chromeWidth : this.secondSplitpaneCachedSize);
-      break;
-    case cwc.ui.LayoutType.SIMPLE_TWO_COLUMN:
-      this.firstSplitpane.setFirstComponentSize(fullscreen ?
-          chromeWidth : this.firstSplitpaneCachedSize);
-      break;
+    this.sidebarPanelFullscreen = false;
+    this.leftPanelFullscreen = false;
+    this.rightPanelFullscreen = false;
   }
 
+  if (goog.isDef(panelNode)) {
+    if (panelNode === this.nodes['content-left']) {
+      this.setLeftPanelFullscreen_(fullscreen);
+    } else if (panelNode === this.nodes['content-sidebar']) {
+      this.setSidebarPanelFullscreen_(fullscreen);
+    } else if (panelNode === this.nodes['content-right']) {
+      this.setRightPanelFullscreen_(fullscreen);
+    }
+  }
+
+  if (this.firstSplitpane) {
+    this.firstSplitpane.setHandleSize(fullscreen ? 0 : this.defaultHandleSize);
+  }
+  if (this.secondSplitpane) {
+    this.secondSplitpane.setHandleSize(fullscreen ? 0 : this.handleSize);
+  }
+
+  this.fullscreen = fullscreen;
   this.handleResizeEvent();
+  this.adjustSize();
+};
+
+
+/**
+ * @param {boolean} fullscreen Indicates if the panel should expand to fullscreen
+ */
+cwc.ui.Layout.prototype.setSidebarPanelFullscreen_ = function(fullscreen) {
+  this.firstSplitpane.setFirstComponentSize(fullscreen ?
+    this.chromeSize.width : this.firstSplitpaneCachedSize);
+  this.sidebarPanelFullscreen = fullscreen;
+};
+
+
+/**
+ * @param {boolean} fullscreen Indicates if the panel should expand to fullscreen
+ */
+cwc.ui.Layout.prototype.setLeftPanelFullscreen_ = function(fullscreen) {
+  this.firstSplitpane.setFirstComponentSize(fullscreen ?
+      0 : this.firstSplitpaneCachedSize);
+  if (this.secondSplitpane) {
+    this.secondSplitpane.setFirstComponentSize(fullscreen ?
+        this.chromeSize.width : this.secondSplitpaneCachedSize);
+  }
+  this.leftPanelFullscreen = fullscreen;
+};
+
+
+/**
+ * @param {boolean} fullscreen Indicates if the panel should expand to fullscreen
+ */
+cwc.ui.Layout.prototype.setRightPanelFullscreen_ = function(fullscreen) {
+  this.firstSplitpane.setFirstComponentSize(fullscreen ?
+    0 : this.firstSplitpaneCachedSize);
+  if (this.secondSplitpane) {
+    this.secondSplitpane.setFirstComponentSize(fullscreen ?
+      0 : this.secondSplitpaneCachedSize);
+  }
+  this.rightPanelFullscreen = fullscreen;
 };
 
 
@@ -588,6 +576,7 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, type) {
   goog.soy.renderElement(this.node, template, {'prefix': this.prefix});
   this.nodes = {
     'content': this.getNode_('content-chrome'),
+    'content-sidebar': this.getNode_('content-sidebar'),
     'content-left': this.getNode_('content-left-chrome'),
     'content-right': this.getNode_('content-right-chrome'),
     'content-top': this.getNode_('content-top-chrome'),
@@ -606,7 +595,7 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, type) {
  */
 cwc.ui.Layout.prototype.resetLayout_ = function() {
   this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
-  this.setFullscreen(false);
+  this.setPanelFullscreen(false);
   this.setHandleSize(this.defaultHandleSize);
   this.customListener = this.helper.removeEventListeners(this.customListener,
       this.name);

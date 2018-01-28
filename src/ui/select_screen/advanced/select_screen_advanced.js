@@ -73,6 +73,9 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
   /** @type {!cwc.ui.SelectScreenAdvancedView} */
   this.currentView = cwc.ui.SelectScreenAdvancedView.NONE;
 
+  /** @type {Array<?>} */
+  this.projects = null;
+
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 };
@@ -84,7 +87,9 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
  * @export
  */
 cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node) {
+  let projectHelper = this.helper.getInstance('project');
   this.node = node;
+  projectHelper.deactivateProject();
 };
 
 
@@ -95,6 +100,9 @@ cwc.ui.SelectScreenAdvanced.prototype.decorate = function(node) {
  */
 cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
   let name = optName || cwc.ui.SelectScreenAdvancedView.OVERVIEW;
+  let projectHelper = this.helper.getInstance('project');
+  this.projects = null;
+
   switch (name) {
     // General overview
     case cwc.ui.SelectScreenAdvancedView.OVERVIEW:
@@ -116,7 +124,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // Basic screen
     case cwc.ui.SelectScreenAdvancedView.BASIC:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - Simple']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.basicOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/simple/script/blank.cwc');
       this.setNavHeader_('Simple', 'school');
       this.setClickEvent_('link-blank', this.loadFile_,
           'resources/examples/simple/script/blank.cwc');
@@ -151,7 +163,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // Programming language Screens
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - JavaScript']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/javascript/script/blank.cwc');
       this.setNavHeader_('JavaScript', 'beenhere');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-js-tutorials', this.showView,
@@ -176,14 +192,22 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
         'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - CoffeeScript']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.coffeeScriptOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/coffeescript/script/blank.coffee');
       this.setNavHeader_('CoffeeScript', 'local_cafe');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
         'resources/examples/coffeescript/script/blank.coffee');
       break;
     case cwc.ui.SelectScreenAdvancedView.PYTHON:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - Python 3.x']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pythonOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/python/blank.py');
       this.setNavHeader_('Python', 'gesture');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -192,7 +216,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
         'resources/examples/python/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PYTHON27:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - Python 2.7']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.python27Overview);
+      this.setProjectClickEvents_(
+        'resources/examples/python2.7/blank.py');
       this.setNavHeader_('Python 2.7', 'gesture');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -203,7 +231,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
         'resources/examples/python2.7/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - Pencil Code']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/pencil_code/script/blank.cwc');
       this.setNavHeader_('Pencil Code', 'mode_edit');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -222,7 +254,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // HTML5 screen
     case cwc.ui.SelectScreenAdvancedView.HTML5:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - HTML5']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
+      this.setProjectClickEvents_(
+        'resources/examples/html5/blank.html');
       this.setNavHeader_('HTML5', 'public');
       this.setClickEvent_('link-blank', this.loadFile_,
         'resources/examples/html5/blank.html');
@@ -242,7 +278,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // EV3 screen
     case cwc.ui.SelectScreenAdvancedView.EV3:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - EV3']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.ev3Overview);
+      this.setProjectClickEvents_(
+        'resources/examples/ev3/script/blank.cwc');
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -253,7 +293,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // Sphero screen
     case cwc.ui.SelectScreenAdvancedView.SPHERO:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - Sphero']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.spheroOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/sphero/script/blank.cwc');
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
@@ -272,7 +316,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
 
     // 3D overview
     case cwc.ui.SelectScreenAdvancedView.GRAPHIC_3D:
+      this.projects = projectHelper.getProjectList(
+        ['CWC Advanced - 3D']);
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.graphic3DOverview);
+      this.setProjectClickEvents_(
+        'resources/examples/simple/script/blank.cwc');
       this.setNavHeader_('3D', '3d_rotation');
       this.setClickEvent_('link-blank', this.loadFile_,
         'resources/examples/simple/script/blank.cwc');
@@ -381,6 +429,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showTemplate_ = function(template) {
       modules: modules,
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
+      projects: this.projects,
     });
   } else {
     console.error('Unable to render template', template);
@@ -434,5 +483,29 @@ cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
   let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
+  }
+};
+
+
+/**
+ * Add click events to all visible projects
+ * @param {string} file_name Example file name to load.
+ * @private
+ */
+cwc.ui.SelectScreenAdvanced.prototype.setProjectClickEvents_ = function(
+  file_name) {
+  let visibleProjects = this.projects || [];
+  let projectHelper = this.helper.getInstance('project');
+  visibleProjects.forEach((project) => {
+    this.setClickEvent_(`link-project-${project.id}`, () => {
+      projectHelper.setActiveProject(project.id);
+      this.loadFile_(file_name);
+    });
+  });
+
+  if (visibleProjects.length) {
+    this.setClickEvent_('link-projects-more', () => {
+      window.open('https://edu.workbencheducation.com');
+    });
   }
 };

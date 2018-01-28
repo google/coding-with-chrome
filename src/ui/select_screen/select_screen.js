@@ -151,6 +151,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
     guiInstance.setTitle('');
     guiInstance.enableTitle(false);
     guiInstance.setStatus('');
+    guiInstance.hideMedia('');
   }
 
   let navigationInstance = this.helper.getInstance('navigation');

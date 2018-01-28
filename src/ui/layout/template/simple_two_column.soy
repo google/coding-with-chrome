@@ -27,9 +27,13 @@
   {@param prefix: string}
 
   <div id="{$prefix}chrome-main" class="goog-splitpane">
-    <div id="{$prefix}content-left-chrome" class="goog-splitpane-first-container"></div>
-    <div id="{$prefix}content-right-chrome" class="goog-splitpane-second-container"></div>
-    <div id="{$prefix}content-splitter" class="goog-splitpane-handle"></div>
+    <div id="{$prefix}content-sidebar" class="goog-splitpane-first-container"></div>
+    <div id="{$prefix}chrome-content" class="goog-splitpane-second-container">
+      <div id="{$prefix}content-left-chrome" class="goog-splitpane-first-container"></div>
+      <div id="{$prefix}content-right-chrome" class="goog-splitpane-second-container"></div>
+      <div id="{$prefix}chrome-content-splitter" class="goog-splitpane-handle"></div>
+    </div>
+    <div id="{$prefix}chrome-sidebar-splitter" class="goog-splitpane-handle"></div>
     {call cwc.soy.ui.Layout.contentOverlay data="all" /}
   </div>
 {/template}

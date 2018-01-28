@@ -219,10 +219,12 @@ cwc.ui.PreviewToolbar.prototype.setAutoUpdate = function(enable) {
 
 /**
  * Toggles the current expand state.
+ * @param {goog.events.EventLike} e
  */
-cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
+cwc.ui.PreviewToolbar.prototype.toggleExpand = function(e) {
   this.expandState = !this.expandState;
-  this.setExpand(this.expandState);
+  this.setExpand(this.expandState,
+      e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
@@ -231,7 +233,7 @@ cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
  * @param {goog.events.EventLike} e
  */
 cwc.ui.PreviewToolbar.prototype.expand = function(e) {
-  this.setExpand(true, e.target.closest('.goog-splitpane-first-container'));
+  this.setExpand(true, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
@@ -240,7 +242,7 @@ cwc.ui.PreviewToolbar.prototype.expand = function(e) {
  * @param {goog.events.EventLike} e
  */
 cwc.ui.PreviewToolbar.prototype.collapse = function(e) {
-  this.setExpand(false, e.target.closest('.goog-splitpane-first-container'));
+  this.setExpand(false, e.target.closest('[class*="goog-splitpane-"]'));
 };
 
 
@@ -258,17 +260,13 @@ cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
 /**
  * Expands or collapse the current window.
  * @param {boolean} expand
- * @param {boolean=} invert
+ * @param {Element} expandPanel
  */
-cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert = false) {
+cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, expandPanel) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    if (invert) {
-      layoutInstance.setFullscreen(expand);
-    } else {
-      layoutInstance.setFullscreen(expand, 0);
-    }
+    layoutInstance.setPanelFullscreen(expand, expandPanel);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }
