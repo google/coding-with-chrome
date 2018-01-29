@@ -184,23 +184,33 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
           cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
       }, false, this);
   }
-  this.setClickEvent_('link-normal-mode', this.showNormalOverview);
-  this.setClickEvent_('link-advanced-mode', this.showAdvancedOverview);
 
   if (this.helper.getAndSetFirstRun(this.name)) {
     // this.startTour();
   }
 
   // Blockly demo
-  Blockly.inject('blocklyExampleDiv', {
+  let workspace = Blockly.inject('blocklyExampleDiv', {
     'media': '/external/blockly/media/',
     'toolbox': document.getElementById('blocklyExampleToolbox'),
   });
+  Blockly.Xml.domToWorkspace(
+    document.getElementById('blocklyExampleWorkspace'), workspace);
 
   // Codemirror demo
   CodeMirror.fromTextArea(document.getElementById('codeMirrorExample'), {
     'lineNumbers': true,
+    'foldGutter': true,
+    'gutters': ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
   });
+
+  // Events
+  goog.events.listen(document.querySelector(
+      '#' + this.prefix + 'link-normal-mode .mdl-card__actions'),
+    goog.events.EventType.CLICK, this.showNormalOverview, false, this);
+  goog.events.listen(document.querySelector(
+      '#' + this.prefix + 'link-advanced-mode .mdl-card__actions'),
+    goog.events.EventType.CLICK, this.showAdvancedOverview, false, this);
 };
 
 
@@ -370,25 +380,4 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
   } else {
     console.error('Unable to render template', template);
   }
-};
-
-
-/**
- * Adds the click event for the given name and the given function.
- * @param {!string} name
- * @param {!function()} event
- * @param {string=} prefix
- * @return {goog.events.ListenableKey|null|number}
- */
-cwc.ui.SelectScreen.prototype.setClickEvent_ = function(name, event,
-    prefix = this.prefix) {
-  let elementName = prefix + name;
-  let element = goog.dom.getElement(elementName);
-  if (!element) {
-    console.error('Was not able to find element ' + elementName + '!');
-    return null;
-  }
-
-  return goog.events.listen(element, goog.events.EventType.CLICK,
-      event, false, this);
 };

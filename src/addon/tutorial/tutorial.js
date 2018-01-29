@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.addon.Tutorial');
 
+goog.require('cwc.soy.addon.Tutorial');
 goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Logger');
 
@@ -36,31 +37,40 @@ cwc.addon.Tutorial = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('addon-tutorial');
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
 cwc.addon.Tutorial.prototype.prepare = function() {
-  this.log_.info('Preparing addon ...');
+  this.log_.info('Preparing tutorial addon ...');
   let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     let eventHandler = selectScreenInstance.getEventHandler();
     goog.events.listen(eventHandler,
-      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, (e) => {
-        let view = e.data;
-        this.log_.info('Change View', view);
-        if (view == 'basicOverview') {
-          let node = goog.dom.getElement(
-            'cwc-select-screen-normal-navigation-overview');
-          node['style']['background'] = 'red';
-        }
-      }
-    );
+      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, this.events, false, this);
   }
 };
 
 
-cwc.addon.Tutorial.prototype.decorate = function() {
+cwc.addon.Tutorial.prototype.events = function(e) {
+  let view = e.data;
+  this.log_.info('Change View', view);
+  if (view == 'basicOverview') {
+    let navigationNode = goog.dom.getElement(
+      'cwc-select-screen-normal-navigation-overview');
+    navigationNode['style']['background'] = 'red';
+    this.decorateBasic();
+  }
+};
 
+
+cwc.addon.Tutorial.prototype.decorateBasic = function() {
+  let node = document.querySelector('.cwc-file-card-list > .__extension');
+  goog.soy.renderElement(node, cwc.soy.addon.Tutorial.basic, {
+    prefix: this.prefix,
+  });
 };

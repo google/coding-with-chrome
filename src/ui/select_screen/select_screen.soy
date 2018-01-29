@@ -44,22 +44,22 @@
   {call .header_ data="all"}
     {param title: 'Welcome to Coding with Chrome!' /}
     {param text: 'Coding with Chrome is an educational development environment' /}
-    {param opt_action: 'First, please select your current coding skill' /}
   {/call}
 
   <div id="{$prefix}welcome">
 
     {call .banner_ data="all" /}
 
-    <div class="mdl-grid">
+    {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+      {param text: 'First, please select your current coding skill' /}
+      {param opt_icon: 'chevron_right' /}
+    {/call}
+
+    <div class="mdl-grid" style="padding-top: 0;">
 
       <div id="cwc-select-screen-link-normal-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--teal-50">
         <div class="mdl-card__media">
-          <div id="blocklyExampleDiv"></div>
-          <xml id="blocklyExampleToolbox" style="display: none">
-            <block type="controls_if"></block>
-            <block type="controls_repeat_ext"></block>
-          </xml>
+          {call .blocklyExample_ /}
         </div>
         <div class="mdl-card__title"><h4 class="mdl-card__title-text">Beginner</h4></div>
         <div class="mdl-card__supporting-text">
@@ -75,10 +75,7 @@
 
       <div id="cwc-select-screen-link-advanced-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--orange-50">
         <div class="mdl-card__media">
-          <textarea id="codeMirrorExample">{literal}
-// My first program
-const HELLO = 'Hello World!';{/literal}
-          </textarea>
+          {call .editorExample_ /}
         </div>
         <div class="mdl-card__title"><h4 class="mdl-card__title-text">Advanced</h4></div>
         <div class="mdl-card__supporting-text">
@@ -93,7 +90,7 @@ const HELLO = 'Hello World!';{/literal}
       </div>
     </div>
 
-    <div id="{$prefix}sub-note">
+    <div id="{$prefix}sub-note" class="mdl-grid">
       <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
         <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
         <div class="mdl-checkbox__label">
@@ -116,7 +113,7 @@ const HELLO = 'Hello World!';{/literal}
 /**
  * Header template.
  */
-{template .header_}
+{template .header_ private="true"}
   {@param prefix: string}
   {@param title: string}
   {@param text: string}
@@ -150,7 +147,7 @@ const HELLO = 'Hello World!';{/literal}
 /**
  * Banner template.
  */
-{template .banner_}
+{template .banner_ private="true"}
   {@param debug: bool}
   {@param experimental: bool}
   {@param prefix: string}
@@ -159,4 +156,54 @@ const HELLO = 'Hello World!';{/literal}
   {if $debug}<div id="{$prefix}debug">Debug mode</div>{/if}
   {if $experimental}<div id="{$prefix}experimental">Experimental mode</div>{/if}
   {if $version}<div id="{$prefix}version">{$version}</div>{/if}
+{/template}
+
+
+/**
+ * Blockly example
+ */
+{template .blocklyExample_ private="true"}
+  <div id="blocklyExampleDiv"></div>
+  <xml id="blocklyExampleToolbox" style="display: none">
+    <block type="controls_repeat_ext">
+      <value name="TIMES">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_if"></block>
+  </xml>
+  <xml id="blocklyExampleWorkspace" style="display: none">
+    <variables>
+      <variable type="">var1</variable>
+    </variables>
+    <block type="controls_repeat_ext" x="20" y="20">
+      <value name="TIMES">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <statement name="DO">
+        <block type="controls_if"></block>
+      </statement>
+    </block>
+  </xml>
+{/template}
+
+
+/**
+ * Editor example
+ */
+{template .editorExample_ private="true"}
+  <textarea id="codeMirrorExample">{literal}
+// My first program
+const HELLO = 'Hello World!';
+for (let i = 0; i < 10; i++) {
+  if (...) {
+
+  }
+}
+{/literal}
+  </textarea>
 {/template}

@@ -74,7 +74,7 @@
   font-size: 64px;
   left: 60px;
   position: absolute;
-  top: 30px;
+  top: 15px;
 }
 
 #{$prefix}select-screen-band-text {
@@ -87,6 +87,10 @@
 
 #{$prefix}select-screen-band-text .mdl-typography--headline {
   margin: 0 0 10px;
+}
+
+#{$prefix}select-screen-band-text .mdl-typography--title {
+  margin: 0;
 }
 
 #{$prefix}select-screen-band-sub-text {
@@ -140,35 +144,42 @@
  * Header
  */
 
-.cwc-select-header {
+.{$prefix}select-header {
   width: 100%;
   text-align: center;
   position: relative;
 }
 
-.cwc-select-header .header__icon {
+.{$prefix}select-header .header__icon {
   position: absolute;
   left: 15px;
   top: 15px;
   font-size: 64px;
 }
 
-.cwc-select-header .header__text {
+.{$prefix}select-header .header__text {
   margin-left: 70px;
-  max-width: 800px;
-  padding: 24px;
+  padding: 12px 24px;
   text-align: left;
 }
 
-.cwc-select-header .header__text p {
+.{$prefix}select-header .header__text p {
   padding-top: 8px;
 }
 
-.cwc-select-header > .header__text > .mdl-typography--headline {
+.{$prefix}select-header > .header__text > .mdl-typography--headline {
   margin: 0;
   padding: 0;
 }
 
+
+.{$prefix}select-title-grid {
+  padding: 8px 8px 0px 8px;
+}
+
+.{$prefix}select-title-grid .material-icons {
+  vertical-align: middle;
+}
 
 /** 
  * File Cards
@@ -181,7 +192,7 @@
               0 1px 5px 0 rgba(0,0,0,.12);
   cursor: pointer;
   font-weight: 300;
-  margin: 8px;
+  margin: 0 15px 15px 0;
   width: 300px;
   min-height: 290px;
 }
@@ -269,4 +280,23 @@
 
 .cwc-file-card:hover > .card__action {
   font-weight: bold;
+}
+
+.cwc-file-card-list {
+  padding: 0 15px;
+}
+
+.cwc-file-card-list > .mdl-grid {
+  padding: 0 15px;
+}
+
+.cwc-file-card-list .__text {
+  color: #4c4c4c;
+  font-size: 16px;
+  margin: 0 20px 0 0;
+  padding: 5px 0px 5px 15px;
+}
+
+.cwc-file-card-list .__text > .material-icons {
+  vertical-align: bottom;
 }
