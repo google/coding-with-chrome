@@ -21,13 +21,26 @@
 
 
 /**
- *
+ * Tutorial Basic template
  */
 {template .basic}
-  <div class="mdl-grid cwc-select-title-grid">
-    <div>
-      <i class="material-icons">library_books</i>
-      {msg desc=""}Select a Tutorial{/msg}
+  {@param prefix: string}
+
+  <div id="{$prefix}-basic-content">
+    {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+      {param text: 'Select a Tutorial ...' /}
+      {param opt_icon: 'library_books' /}
+    {/call}
+
+    <div class="mdl-grid">
+      {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+        {param title: 'Example Tutorial' /}
+        {param text: 'Example Tutorial ...' /}
+        {param opt_link_text: 'Start Example Tutorial' /}
+        {param link_id: 'basic' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'insert_drive_file' /}
+      {/call}
     </div>
   </div>
 {/template}

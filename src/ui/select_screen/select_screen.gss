@@ -148,6 +148,7 @@
   width: 100%;
   text-align: center;
   position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 
 .{$prefix}select-header .header__icon {
@@ -282,21 +283,12 @@
   font-weight: bold;
 }
 
-.cwc-file-card-list {
-  padding: 0 15px;
-}
-
-.cwc-file-card-list > .mdl-grid {
-  padding: 0 15px;
-}
-
-.cwc-file-card-list .__text {
+.mdl-grid.cwc-select-title-grid {
   color: #4c4c4c;
-  font-size: 16px;
-  margin: 0 20px 0 0;
-  padding: 5px 0px 5px 15px;
+  padding: 10px 0 0px 10px;
 }
 
-.cwc-file-card-list .__text > .material-icons {
+.mdl-grid.cwc-select-title-grid > .material-icons {
+  font-size: 20px;
   vertical-align: bottom;
 }

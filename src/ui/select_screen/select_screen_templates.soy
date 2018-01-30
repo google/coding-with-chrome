@@ -70,10 +70,10 @@
   {@param content: ?}
 
   <div class="cwc-file-card-list">
-    <div class="__text">
-      <i class="material-icons">folder_open</i>
-      Select a Program
-    </div>
+    {call cwc.soy.SelectScreenTemplate.titleGrid}
+      {param text: 'Select a Program' /}
+      {param opt_icon: 'folder_open' /}
+    {/call}
     <div class="__content mdl-grid max-width">
       {$content}
     </div>
@@ -258,12 +258,10 @@
   {@param? opt_icon: string}
 
   <div class="mdl-grid cwc-select-title-grid">
-    <div>
-      {if $opt_icon}
-        <i class="material-icons">{$opt_icon}</i>
-      {/if}
-      {msg desc=""}{$text}{/msg}
-    </div>
+    {if $opt_icon}
+      <i class="material-icons">{$opt_icon}</i>
+    {/if}
+    {msg desc=""}{$text}{/msg}
   </div>
 {/template}
 

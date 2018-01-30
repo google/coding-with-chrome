@@ -68,7 +68,7 @@ cwc.ui.SelectScreenNormal = function(helper, eventHandler) {
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!string} */
-  this.resourcesPath_ = 'resources/examples/';
+  this.resourcesPath_ = '../../resources/examples/';
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = eventHandler;
@@ -337,7 +337,7 @@ cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
 cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
   let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
-    loaderInstance.loadExampleFile('../../' + this.resourcesPath_ + file_name);
+    loaderInstance.loadExampleFile(this.resourcesPath_ + file_name);
   }
   let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {

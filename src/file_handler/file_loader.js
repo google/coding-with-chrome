@@ -161,6 +161,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
       fileInstance.setFile(file);
       fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
       modeInstance.setMode(modeType);
+      modeInstance.setFilename(filename);
 
       // Handling Blockly and normal Editor content.
       let editorContent = file.getContentData();

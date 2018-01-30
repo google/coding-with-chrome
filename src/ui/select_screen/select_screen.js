@@ -44,22 +44,22 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('select-screen');
 
-  /** @type {!goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
-
   /** @type {Element} */
   this.node = null;
 
   /** @type {Element} */
   this.nodeContent = null;
 
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
   /** @type {!cwc.ui.SelectScreenNormal} */
   this.selectScreenNormal = new cwc.ui.SelectScreenNormal(
-    this.helper, this.eventHandler);
+    this.helper, this.eventHandler_);
 
   /** @type {cwc.ui.SelectScreenAdvanced} */
   this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(
-    this.helper, this.eventHandler);
+    this.helper, this.eventHandler_);
 
   /** @type {boolean} */
   this.updateMode = false;
@@ -287,7 +287,7 @@ cwc.ui.SelectScreen.prototype.showIntro = function() {
  * @return {!goog.events.EventTarget}
  */
 cwc.ui.SelectScreen.prototype.getEventHandler = function() {
-  return this.eventHandler;
+  return this.eventHandler_;
 };
 
 
