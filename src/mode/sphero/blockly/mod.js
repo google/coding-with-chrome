@@ -19,12 +19,13 @@
  */
 goog.provide('cwc.mode.sphero.blockly.Mod');
 
+goog.require('cwc.mode.default.blockly.Editor');
 goog.require('cwc.mode.sphero.Connection');
-goog.require('cwc.mode.sphero.Runner');
-goog.require('cwc.mode.sphero.blockly.Editor');
-goog.require('cwc.mode.sphero.blockly.Layout');
 goog.require('cwc.mode.sphero.Monitor');
+goog.require('cwc.mode.sphero.Runner');
+goog.require('cwc.mode.sphero.blockly.Layout');
 goog.require('cwc.renderer.external.Sphero');
+goog.require('cwc.soy.sphero.Blocks');
 
 
 /**
@@ -35,8 +36,8 @@ cwc.mode.sphero.blockly.Mod = function(helper) {
   /** @type {cwc.mode.sphero.Connection} */
   this.connection = new cwc.mode.sphero.Connection(helper);
 
-  /** @type {cwc.mode.sphero.blockly.Editor} */
-  this.editor = new cwc.mode.sphero.blockly.Editor(helper);
+  /** @type {cwc.mode.default.blockly.Editor} */
+  this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {cwc.mode.sphero.blockly.Layout} */
   this.layout = new cwc.mode.sphero.blockly.Layout(helper);
@@ -58,7 +59,7 @@ cwc.mode.sphero.blockly.Mod = function(helper) {
 cwc.mode.sphero.blockly.Mod.prototype.decorate = function() {
   this.connection.init();
   this.layout.decorate();
-  this.editor.decorate();
+  this.editor.decorate(cwc.soy.sphero.Blocks.toolbox);
   this.runner.decorate();
   this.monitor.decorate();
   this.renderer.init();

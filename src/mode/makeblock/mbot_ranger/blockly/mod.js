@@ -19,13 +19,13 @@
  */
 goog.provide('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 
-goog.require('cwc.soy.mbotRanger.Blocks');
-goog.require('cwc.mode.makeblock.blockly.Editor');
+goog.require('cwc.mode.default.blockly.Editor');
 goog.require('cwc.mode.makeblock.mbotRanger.Connection');
 goog.require('cwc.mode.makeblock.mbotRanger.Monitor');
 goog.require('cwc.mode.makeblock.mbotRanger.Runner');
 goog.require('cwc.mode.makeblock.mbotRanger.blockly.Layout');
 goog.require('cwc.renderer.external.makeblock.MBotRanger');
+goog.require('cwc.soy.mbotRanger.Blocks');
 
 
 /**
@@ -34,7 +34,7 @@ goog.require('cwc.renderer.external.makeblock.MBotRanger');
  */
 cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Editor} */
-  this.editor = new cwc.mode.makeblock.blockly.Editor(helper);
+  this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = new cwc.mode.makeblock.mbotRanger.Connection(helper);

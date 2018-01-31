@@ -36,6 +36,9 @@ goog.require('goog.ui.Select');
  * @final
  */
 cwc.ui.EditorToolbar = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {Element} */
   this.node = null;
 
@@ -74,9 +77,6 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {Element} */
   this.nodeRedo = null;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('editor-toolbar');

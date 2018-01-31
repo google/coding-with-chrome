@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.BlocklyToolbar');
 
+goog.require('cwc.soy.ui.BlocklyToolbar');
 goog.require('cwc.ui.Helper');
 
 
@@ -29,17 +30,23 @@ goog.require('cwc.ui.Helper');
  * @final
  */
 cwc.ui.BlocklyToolbar = function(helper) {
-  /** @type {Element} */
-  this.node = null;
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('blockly-toolbar');
 
   /** @type {Element} */
-  this.nodeBlockly = null;
+  this.node = null;
 
   /** @type {Element} */
   this.nodeExpand = null;
 
   /** @type {Element} */
   this.nodeExpandExit = null;
+
+  /** @type {Element} */
+  this.nodeLibrary = null;
 
   /** @type {Element} */
   this.nodeMedia = null;
@@ -65,12 +72,6 @@ cwc.ui.BlocklyToolbar = function(helper) {
   /** @type {Element} */
   this.nodeVariable = null;
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = 'toolbar-';
-
   /** @type {boolean} */
   this.expandState = false;
 };
@@ -78,17 +79,22 @@ cwc.ui.BlocklyToolbar = function(helper) {
 
 /**
  * @param {!Element} node
- * @param {!Element} node_blockly
- * @param {string=} opt_prefix
  */
-cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
-    opt_prefix) {
+cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
   this.node = node;
-  this.nodeBlockly = node_blockly;
-  this.prefix = (opt_prefix || '') + this.prefix;
+
+  // Render blockly toolbar.
+  goog.soy.renderElement(
+    this.node,
+    cwc.soy.ui.BlocklyToolbar.template, {
+      experimental: this.helper.experimentalEnabled(),
+      prefix: this.prefix,
+    }
+  );
 
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
+  this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
   this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
@@ -97,10 +103,12 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
   this.nodeVariable = goog.dom.getElement(this.prefix + 'variable');
 
+  cwc.ui.Helper.enableElement(this.nodeRedo, false);
+
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
+  goog.style.setElementShown(this.nodeMedia, false);
 
-  cwc.ui.Helper.enableElement(this.nodeRedo, false);
   if (this.helper.experimentalEnabled()) {
     this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
     goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
@@ -112,6 +120,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node, node_blockly,
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
+  goog.events.listen(this.nodeLibrary, goog.events.EventType.CLICK,
+    this.showLibrary.bind(this));
   goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
     this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
@@ -231,6 +241,38 @@ cwc.ui.BlocklyToolbar.prototype.enableRedoButton = function(enable) {
 cwc.ui.BlocklyToolbar.prototype.enableMediaButton = function(enable) {
   if (this.nodeMedia) {
     cwc.ui.Helper.enableElement(this.nodeMedia, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.BlocklyToolbar.prototype.showLibraryButton = function(enable) {
+  if (this.nodeLibrary) {
+    goog.style.setElementShown(this.nodeLibrary, enable);
+  }
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.ui.BlocklyToolbar.prototype.showMediaButton = function(enable) {
+  if (this.nodeMedia) {
+    goog.style.setElementShown(this.nodeMedia, enable);
+  }
+};
+
+
+/**
+ * Insert a media.
+ */
+cwc.ui.BlocklyToolbar.prototype.showLibrary = function() {
+  let editorInstance = this.helper.getInstance('editor');
+  let libraryInstance = this.helper.getInstance('library');
+  if (editorInstance && libraryInstance) {
+    libraryInstance.showLibrary();
   }
 };
 

@@ -20,9 +20,10 @@
 goog.provide('cwc.mode.basic.blockly.Mod');
 
 goog.require('cwc.mode.basic.Preview');
-goog.require('cwc.mode.basic.blockly.Editor');
 goog.require('cwc.mode.basic.blockly.Layout');
+goog.require('cwc.mode.default.blockly.Editor');
 goog.require('cwc.renderer.internal.HTML5');
+goog.require('cwc.soy.simple.Blocks');
 goog.require('cwc.utils.Helper');
 
 
@@ -34,8 +35,8 @@ cwc.mode.basic.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.basic.blockly.Layout} */
   this.layout = new cwc.mode.basic.blockly.Layout(helper);
 
-  /** @type {!cwc.mode.basic.blockly.Editor} */
-  this.editor = new cwc.mode.basic.blockly.Editor(helper);
+  /** @type {!cwc.mode.default.blockly.Editor} */
+  this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {!cwc.mode.basic.Preview} */
   this.preview = new cwc.mode.basic.Preview(helper);
@@ -50,7 +51,7 @@ cwc.mode.basic.blockly.Mod = function(helper) {
  */
 cwc.mode.basic.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
-  this.editor.decorate();
+  this.editor.decorate(cwc.soy.simple.Blocks.toolbox);
   this.preview.decorate();
   this.renderer.init();
 };

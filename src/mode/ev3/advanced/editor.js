@@ -50,14 +50,3 @@ cwc.mode.ev3.advanced.Editor.prototype.decorate = function() {
   this.editor.showMode(false);
   this.editor.setLocalHints(cwc.mode.ev3.Hints);
 };
-
-
-/**
- * Runs / Executes the code.
- */
-cwc.mode.ev3.advanced.Editor.prototype.runCode = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.run();
-  }
-};

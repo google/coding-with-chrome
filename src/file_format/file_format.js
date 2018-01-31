@@ -590,7 +590,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
     file.log_.error('File format version', fileFormatVersion,
       'is not supported by the current version. Please update ...');
   }
-  file.log_.info('Loading json data', jsonData);
+  file.log_.info('Loading JSON data with', jsonData.length, 'size ...');
   file.init(true);
 
   // Handle content entries.

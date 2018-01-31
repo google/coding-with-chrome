@@ -19,13 +19,13 @@
  */
 goog.provide('cwc.mode.makeblock.mbot.blockly.Mod');
 
-goog.require('cwc.soy.mbot.Blocks');
-goog.require('cwc.mode.makeblock.blockly.Editor');
+goog.require('cwc.mode.default.blockly.Editor');
 goog.require('cwc.mode.makeblock.mbot.Connection');
 goog.require('cwc.mode.makeblock.mbot.Monitor');
 goog.require('cwc.mode.makeblock.mbot.Runner');
 goog.require('cwc.mode.makeblock.mbot.blockly.Layout');
 goog.require('cwc.renderer.external.makeblock.MBot');
+goog.require('cwc.soy.mbot.Blocks');
 
 
 /**
@@ -34,7 +34,7 @@ goog.require('cwc.renderer.external.makeblock.MBot');
  */
 cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
   /** @type {cwc.mode.makeblock.blockly.Editor} */
-  this.editor = new cwc.mode.makeblock.blockly.Editor(helper);
+  this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);

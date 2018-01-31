@@ -141,7 +141,6 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   // Render blockly editor template.
   this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(this.node, cwc.soy.ui.Blockly.template, {
-    experimental: this.helper.experimentalEnabled(),
     prefix: this.prefix,
   });
 
@@ -152,11 +151,11 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
     return;
   }
 
-  // Toolbar
+  // Decorate Toolbar
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   if (this.nodeToolbar) {
     this.toolbar = new cwc.ui.BlocklyToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.node, this.prefix);
+    this.toolbar.decorate(this.nodeToolbar);
   }
 
   // Modal window
@@ -270,7 +269,7 @@ cwc.ui.Blockly.prototype.addView = function(name, xml) {
   }
   let workspace = this.getWorkspace();
   if (workspace) {
-    this.log_.info('Create view', name, 'with', xml);
+    this.log_.info('Add view', name, '(', xml.length, ')');
     let xmlDom = Blockly.Xml.textToDom(xml);
     try {
       Blockly.Xml.domToWorkspace(xmlDom, workspace);
@@ -409,6 +408,17 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
 
 
 /**
+ * Shows/Hide the media button.
+ * @param {boolean} visible
+ */
+cwc.ui.Blockly.prototype.showMediaButton = function(visible) {
+  if (this.toolbar) {
+    this.toolbar.showMediaButton(visible);
+  }
+};
+
+
+/**
  * Undo the last change in the editor.
  * @return {Object}
  */
@@ -521,7 +531,7 @@ cwc.ui.Blockly.prototype.resetZoom = function() {
 /**
  * @param {boolean} enable
  */
-cwc.ui.Blockly.prototype.setToolboxAutoCollapse = function(enable) {
+cwc.ui.Blockly.prototype.enableToolboxAutoCollapse = function(enable) {
   this.toolbox.setAutoCollapse(enable);
 };
 

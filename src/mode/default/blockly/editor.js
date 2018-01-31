@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor for the Sphero modification.
+ * @fileoverview General Blockly Editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,8 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.blockly.Editor');
+goog.provide('cwc.mode.default.blockly.Editor');
 
-goog.require('cwc.soy.sphero.Blocks');
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Helper');
@@ -32,38 +31,36 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.mode.sphero.blockly.Editor = function(helper) {
+cwc.mode.default.blockly.Editor = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
   /** @type {!cwc.ui.Blockly} */
   this.blockly = new cwc.ui.Blockly(helper);
 
   /** @type {!cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix('sphero-editor');
 };
 
 
 /**
- * Decorates the simple editor.
+ * Decorates the Blockly editor.
+ * @param {!Function} toolbox
  */
-cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
-  // Blockly editor and toolbox
+cwc.mode.default.blockly.Editor.prototype.decorate = function(toolbox) {
+  // Blockly editor
   this.helper.setInstance('blockly', this.blockly, true);
   this.blockly.decorate();
-  this.blockly.setToolboxTemplate(cwc.soy.sphero.Blocks.toolbox);
+  this.blockly.setToolboxTemplate(toolbox);
 
-  // Text editor.
+  // Text editor
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate();
   this.editor.showEditor(false);
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
 
-  // Switch buttons.
+  // Switch buttons
   this.blockly.addOption('Switch to Editor', this.showEditor.bind(this),
       'Switch to the raw code editor view');
   this.editor.addOption('Switch to Blockly', this.showBlockly.bind(this),
@@ -79,31 +76,20 @@ cwc.mode.sphero.blockly.Editor.prototype.decorate = function() {
 
 
 /**
- * Runs / Executes the code.
- */
-cwc.mode.sphero.blockly.Editor.prototype.runCode = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.run();
-  }
-};
-
-
-/**
  * Switches from the Blockly ui to the code editor.
  */
-cwc.mode.sphero.blockly.Editor.prototype.showEditor = function() {
+cwc.mode.default.blockly.Editor.prototype.showEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
-  fileInstance.setUi('custom');
+  fileInstance.setUi('javascript');
 };
 
 
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.sphero.blockly.Editor.prototype.showBlockly = function() {
+cwc.mode.default.blockly.Editor.prototype.showBlockly = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
     'overwrite any manual changes! Continue?').then((answer) => {
@@ -117,9 +103,48 @@ cwc.mode.sphero.blockly.Editor.prototype.showBlockly = function() {
 /**
  * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.sphero.blockly.Editor.prototype.switchToEditor = function() {
+cwc.mode.default.blockly.Editor.prototype.switchToEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
+};
+
+
+/**
+ * Shows/Hide the media button.
+ * @param {boolean} visible
+ */
+cwc.mode.default.blockly.Editor.prototype.showMediaButton = function(visible) {
+  this.blockly.showMediaButton(visible);
+  this.editor.showMediaButton(visible);
+};
+
+
+/**
+ * Shows/Hide the library button.
+ * @param {boolean} visible
+ */
+cwc.mode.default.blockly.Editor.prototype.showLibraryButton = function(
+    visible) {
+  this.blockly.showLibraryButton(visible);
+  this.editor.showLibraryButton(visible);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.mode.default.blockly.Editor.prototype.enableToolboxAutoCollapse = function(
+    enable) {
+  this.blockly.enableToolboxAutoCollapse(enable);
+};
+
+
+/**
+ * @param {boolean} enable
+ */
+cwc.mode.default.blockly.Editor.prototype.disableOrphansBlocks = function(
+    enable) {
+  this.blockly.disableOrphansBlocks(enable);
 };

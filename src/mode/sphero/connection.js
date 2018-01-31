@@ -137,7 +137,7 @@ cwc.mode.sphero.Connection.prototype.getApi = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.sphero.Connection.prototype.cleanUp = function() {
-  console.log('Clean up Sphero connection ...', this);
+  console.log('Clean up Sphero connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
