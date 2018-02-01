@@ -82,7 +82,7 @@ cwc.mode.default.blockly.Editor.prototype.showEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(true);
   this.blockly.showBlockly(false);
-  fileInstance.setUi('javascript');
+  fileInstance.setUi('editor');
 };
 
 
@@ -101,13 +101,29 @@ cwc.mode.default.blockly.Editor.prototype.showBlockly = function() {
 
 
 /**
- * Switches from the code editor to the Blockly ui.
+ * Switches from the Blockly ui to the code editor.
  */
 cwc.mode.default.blockly.Editor.prototype.switchToEditor = function() {
   let fileInstance = this.helper.getInstance('file');
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   fileInstance.setUi('blockly');
+};
+
+
+/**
+ * @return {!cwc.ui.Blockly}
+ */
+cwc.mode.default.blockly.Editor.prototype.getBlockly = function() {
+  return this.blockly;
+};
+
+
+/**
+ * @return {!cwc.ui.Editor}
+ */
+cwc.mode.default.blockly.Editor.prototype.getEditor = function() {
+  return this.editor;
 };
 
 
@@ -129,22 +145,4 @@ cwc.mode.default.blockly.Editor.prototype.showLibraryButton = function(
     visible) {
   this.blockly.showLibraryButton(visible);
   this.editor.showLibraryButton(visible);
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.mode.default.blockly.Editor.prototype.enableToolboxAutoCollapse = function(
-    enable) {
-  this.blockly.enableToolboxAutoCollapse(enable);
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.mode.default.blockly.Editor.prototype.disableOrphansBlocks = function(
-    enable) {
-  this.blockly.disableOrphansBlocks(enable);
 };

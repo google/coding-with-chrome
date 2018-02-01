@@ -52,8 +52,8 @@ cwc.mode.phaser.blockly.Mod = function(helper) {
 cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate(cwc.soy.phaser.Blocks.toolbox);
-  this.editor.enableToolboxAutoCollapse(true);
-  this.editor.disableOrphansBlocks(true);
+  this.editor.getBlockly().enableToolboxAutoCollapse(true);
+  this.editor.getBlockly().disableOrphansBlocks(true);
   this.preview.decorate(true);
   this.renderer.init();
 };

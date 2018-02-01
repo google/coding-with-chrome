@@ -249,8 +249,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(callback,
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       let message = chrome.runtime.lastError.message;
-      if (message && message !== 'User canceled' &&
-          message !== 'User canceled') {
+      if (message && message !== 'User cancelled') {
         this.helper.showWarning(message);
         return;
       }

@@ -23,7 +23,6 @@ goog.provide('cwc.mode.Mod');
 goog.require('cwc.file.MimeType');
 goog.require('cwc.mode.Type');
 goog.require('cwc.mode.arduino.Mod');
-goog.require('cwc.mode.basic.advanced.Mod');
 goog.require('cwc.mode.basic.blockly.Mod');
 goog.require('cwc.mode.basic.simple.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
@@ -135,19 +134,6 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   mod: cwc.mode.basic.blockly.Mod,
   name: 'Basic Blockly',
   title: 'Blocks',
-});
-
-
-/**
- * Basic advanced mode.
- */
-cwc.mode.ConfigData[cwc.mode.Type.BASIC_ADVANCED] = new cwc.mode.Mod({
-  authors: ['Markus Bordihn'],
-  auto_preview: true,
-  file_type: cwc.file.Type.BASIC_ADVANCED,
-  mime_types: [cwc.file.MimeType.CWC.type],
-  mod: cwc.mode.basic.advanced.Mod,
-  name: 'Basic advanced',
 });
 
 

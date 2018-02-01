@@ -1,7 +1,7 @@
 /**
- * @fileoverview Layout for the Basic advanced modification.
+ * @fileoverview General Code Editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,41 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.advanced.Layout');
+goog.provide('cwc.mode.default.Editor');
 
-goog.require('cwc.soy.mode.Basic.advanced');
+goog.require('cwc.ui.Editor');
 goog.require('cwc.utils.Helper');
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @struct
+ * @final
  */
-cwc.mode.basic.advanced.Layout = function(helper) {
+cwc.mode.default.Editor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
+  /** @type {!cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(this.helper);
 };
 
 
 /**
- * Decorates the basic advanced layout.
+ * Decorates the editor.
  */
-cwc.mode.basic.advanced.Layout.prototype.decorate = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateDefault(630);
-  layoutInstance.renderMainContent(cwc.soy.mode.Basic.advanced.editor);
-  layoutInstance.renderRightContent(cwc.soy.mode.Basic.advanced.preview);
+cwc.mode.default.Editor.prototype.decorate = function() {
+  this.helper.setInstance('editor', this.editor, true);
+  this.editor.decorate();
+  this.editor.showEditorViews(true);
+  this.editor.enableMediaButton(true);
+};
+
+
+/**
+ * @return {!cwc.ui.Editor}
+ */
+cwc.mode.default.Editor.prototype.getEditor = function() {
+  return this.editor;
 };

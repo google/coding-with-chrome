@@ -1,17 +1,28 @@
 {
   "author": "Markus Bordihn",
   "content": {
-    "javascript": "// Draw a red circle\ndraw.circle(150, 150, 75, '#ff0000');\n\n// Draw a green circle\ndraw.circle(200, 100, 75, '#00ff00');\n\n// Draw a blue circle\ndraw.circle(250, 150, 75, '#0000ff');\n"
+    "__javascript__": {
+      "name": "__javascript__",
+      "type": "application/javascript",
+      "size": 188,
+      "content": "// Draw a red circle\ndraw.circle(150, 150, 75, '#ff000077');\n\n// Draw a green circle\ndraw.circle(200, 100, 75, '#00ff0077');\n\n// Draw a blue circle\ndraw.circle(250, 150, 75, '#0000ff77');\n",
+      "group": "",
+      "version": 1,
+      "filename": "__javascript__"
+    }
   },
   "description": "",
   "files": {},
-  "flags": {},
-  "format": "Coding with Chrome File Format 1.0",
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 2",
   "frameworks": {},
   "history": "",
-  "type": "basic",
   "mode": "basic",
-  "title": "Untitled Basic file",
+  "model": "",
+  "title": "Color Wheel",
+  "type": "basic",
   "ui": "default",
   "version": "1.0"
 }

@@ -29,7 +29,6 @@ cwc.file.Type = {
   ADVANCED: 'advanced',
   ARDUINO: 'arduino',
   BASIC: 'basic',
-  BASIC_ADVANCED: 'basic_advanced',
   BASIC_BLOCKLY: 'basic_blockly',
   BLOCKLY: 'blockly',
   COFFEESCRIPT: 'coffeescript',
