@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout for the Phaser Blockly modification.
+ * @fileoverview Message pane.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -17,31 +17,46 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.phaser.blockly.Layout');
+goog.provide('cwc.ui.Message');
 
-goog.require('cwc.soy.mode.phaser.blockly.Layout');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.soy.ui.Message');
 
 
 /**
- * @constructor
+ * Class represents the monitor inside the ui.
  * @param {!cwc.utils.Helper} helper
+ * @constructor
+ * @struct
+ * @final
  */
-cwc.mode.phaser.blockly.Layout = function(helper) {
+cwc.ui.Message = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!number} */
-  this.layoutWidth = 400;
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('message');
+
+  /** @type {Element} */
+  this.node = null;
 };
 
 
-/**
- * Decorates the Blockly layout.
- */
-cwc.mode.phaser.blockly.Layout.prototype.decorate = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateDefault(this.layoutWidth);
-  layoutInstance.renderMainContent(cwc.soy.mode.Basic.blockly.Layout.preview);
-  layoutInstance.renderRightContent(cwc.soy.mode.Basic.blockly.Layout.editor);
+cwc.ui.Message.prototype.decorate = function(node) {
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    this.log_.error('Invalid Status node:', this.node);
+    return;
+  }
+
+  goog.soy.renderElement(
+      this.node,
+      cwc.soy.ui.Message.template, {
+        'prefix': this.prefix,
+      }
+  );
 };

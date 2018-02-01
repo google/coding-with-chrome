@@ -39,6 +39,6 @@ cwc.mode.html5.Layout = function(helper) {
 cwc.mode.html5.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(630);
-  layoutInstance.renderMainContent(cwc.soy.mode.HTML5.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.HTML5.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.HTML5.preview);
 };

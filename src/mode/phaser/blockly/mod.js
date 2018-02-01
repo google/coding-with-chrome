@@ -20,8 +20,8 @@
 goog.provide('cwc.mode.phaser.blockly.Mod');
 
 goog.require('cwc.mode.default.blockly.Editor');
+goog.require('cwc.mode.default.blockly.Layout');
 goog.require('cwc.mode.phaser.Preview');
-goog.require('cwc.mode.phaser.blockly.Layout');
 goog.require('cwc.renderer.internal.HTML5');
 goog.require('cwc.soy.phaser.Blocks');
 goog.require('cwc.utils.Helper');
@@ -32,8 +32,8 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.phaser.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.phaser.blockly.Layout} */
-  this.layout = new cwc.mode.phaser.blockly.Layout(helper);
+  /** @type {!cwc.mode.default.blockly.Layout} */
+  this.layout = new cwc.mode.default.blockly.Layout(helper);
 
   /** @type {!cwc.mode.default.blockly.Editor} */
   this.editor = new cwc.mode.default.blockly.Editor(helper);

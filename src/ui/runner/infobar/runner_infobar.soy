@@ -1,5 +1,5 @@
 /**
- * @fileoverview Preview for Coding in Chrome editor.
+ * @fileoverview Runner infobar for Coding in Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,22 +17,18 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
-{namespace cwc.soy.PreviewInfobar autoescape="strict"}
+{namespace cwc.soy.ui.RunnerInfobar autoescape="strict"}
 
 
 /**
- * HTML template for the preview infobar.
+ * HTML template for the Runner infobar.
  */
 {template .template}
   {@param prefix: string}
-
   <div id="{$prefix}console"></div>
-  <div>
-    <div id="{$prefix}status">
-      <div id="{$prefix}status-icon" class="{$prefix}info"></div>
-      <div id="{$prefix}status-text" class="{$prefix}info"></div>
-    </div>
+  <div id="{$prefix}termnial"></div>
+  <div id="{$prefix}body">
+    <div id="{$prefix}terminal">Terminal</div>
     <div id="{$prefix}messages">
       <div id="{$prefix}debug">
         Debug

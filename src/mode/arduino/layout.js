@@ -38,7 +38,7 @@ cwc.mode.arduino.Layout = function(helper) {
 cwc.mode.arduino.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(500);
-  layoutInstance.renderMainContent(
+  layoutInstance.renderMiddleContent(
     cwc.soy.mode.Arduino.editor, this.helper.getPrefix('arduino-editor'));
   layoutInstance.renderRightContent(
     cwc.soy.mode.Arduino.runner, this.helper.getPrefix('arduino-runner'));

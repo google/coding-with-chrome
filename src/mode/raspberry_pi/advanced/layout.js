@@ -40,6 +40,6 @@ cwc.mode.raspberryPi.advanced.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-  layoutInstance.renderMainContent(cwc.soy.mode.raspberryPi.advanced.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.raspberryPi.advanced.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.raspberryPi.advanced.runner);
 };

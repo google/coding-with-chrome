@@ -457,8 +457,8 @@ cwc.ui.Layout.prototype.renderLeftContent = function(template, prefix = '') {
  * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
  * @param {string=} prefix
  */
-cwc.ui.Layout.prototype.renderMainContent = function(template, prefix = '') {
-  this.renderContent_(template, this.getNode('content-main'), prefix);
+cwc.ui.Layout.prototype.renderMiddleContent = function(template, prefix = '') {
+  this.renderContent_(template, this.getNode('content-middle'), prefix);
 };
 
 
@@ -494,7 +494,7 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, type) {
   this.nodes = {
     'content': this.getNode_('content-chrome'),
     'content-left': this.getNode_('content-left-chrome'),
-    'content-main': this.getNode_('content-main-chrome'),
+    'content-middle': this.getNode_('content-middle-chrome'),
     'content-right': this.getNode_('content-right-chrome'),
     'overlay': this.getNode_('content-overlay'),
   };

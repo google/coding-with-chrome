@@ -1,7 +1,7 @@
 /**
- * @fileoverview Runner for the Coding with Chrome editor.
+ * @fileoverview States for the Statusbar.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.RunnerStatus');
+goog.provide('cwc.ui.StatusbarState');
 
 
 /**
  * @enum {number}
  * @export
  */
-cwc.ui.RunnerStatus = {
+cwc.ui.StatusbarState = {
   UNKNOWN: 0,
-  PREPARE: 1,
-  LOADING: 2,
-  RELOADING: 3,
-  REFRESHING: 4,
-  LOADED: 5,
-  RUNNING: 6,
-  STOPPED: 7,
-  TERMINATED: 8,
-  UNRESPONSIVE: 9,
+  INITIALIZED: 1,
+  LOADED: 2,
+  LOADING: 3,
+  PREPARE: 4,
+  REFRESHING: 5,
+  RELOADING: 6,
+  RUNNING: 7,
+  STOPPED: 8,
+  TERMINATED: 9,
+  UNRESPONSIVE: 10,
 };

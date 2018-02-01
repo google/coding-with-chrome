@@ -1,7 +1,7 @@
 /**
- * @fileoverview Statusbar for the runner.
+ * @fileoverview Statusbar.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,12 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.RunnerStatusbar');
+goog.provide('cwc.ui.Statusbar');
 
-goog.require('cwc.soy.RunnerStatusbar');
-goog.require('cwc.ui.RunnerStatus');
+goog.require('cwc.soy.ui.Statusbar');
+goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.dom');
 goog.require('goog.soy');
 goog.require('goog.style');
@@ -33,7 +35,7 @@ goog.require('goog.style');
  * @struct
  * @final
  */
-cwc.ui.RunnerStatusbar = function(helper) {
+cwc.ui.Statusbar = function(helper) {
   /** @type {string} */
   this.name = 'RunnerStatusbar';
 
@@ -41,80 +43,99 @@ cwc.ui.RunnerStatusbar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('runner-statusbar');
+  this.prefix = this.helper.getPrefix('statusbar');
 
   /** @type {Element} */
   this.node = null;
 
   /** @type {Element} */
   this.nodeStatus = null;
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
 /**
  * Decorates the given node and adds the editor status to the ui.
- * @param {Element} node The target node to add the status bar.
+ * @param {Element=} node The target node to add the status bar.
  */
-cwc.ui.RunnerStatusbar.prototype.decorate = function(node) {
-  this.node = node;
+cwc.ui.Statusbar.prototype.decorate = function(node) {
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    this.log_.error('Invalid Status node:', this.node);
+    return;
+  }
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.RunnerStatusbar.template,
-      {'prefix': this.prefix}
+      cwc.soy.ui.Statusbar.template, {
+        'prefix': this.prefix,
+      }
   );
 
-  this.nodeStatus = goog.dom.getElement(this.prefix + 'statusbar');
+  this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
+  if (!this.nodeStatus) {
+    this.log_.error('Invalid Status text node:', this.nodeStatus);
+    return;
+  }
 };
 
 
 /**
  * Sets the status message.
- * @param {!cwc.ui.RunnerStatus} status
+ * @param {!cwc.ui.StatusbarState} status
  * @param {number=} startTime
  * @param {number=} stopTime
  */
-cwc.ui.RunnerStatusbar.prototype.setStatus = function(status, startTime = 0,
+cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
     stopTime = 0) {
   let statusText = status;
   switch (status) {
-    case cwc.ui.RunnerStatus.PREPARE:
+    case cwc.ui.StatusbarState.PREPARE:
       statusText = 'Preparing ...';
       break;
-    case cwc.ui.RunnerStatus.STOPPED:
+    case cwc.ui.StatusbarState.STOPPED:
       statusText = 'Stopped';
       break;
-    case cwc.ui.RunnerStatus.RELOADING:
+    case cwc.ui.StatusbarState.RELOADING:
       statusText = 'Reloading ...';
       break;
-    case cwc.ui.RunnerStatus.LOADING:
+    case cwc.ui.StatusbarState.RUNNING:
+      statusText = 'Running ...';
+      break;
+    case cwc.ui.StatusbarState.LOADING:
       statusText = 'Loading...';
       break;
-    case cwc.ui.RunnerStatus.LOADED:
+    case cwc.ui.StatusbarState.LOADED:
       statusText = 'Finished after ' +
         ((stopTime - startTime) / 1000) + ' seconds.';
       break;
-    case cwc.ui.RunnerStatus.TERMINATED:
+    case cwc.ui.StatusbarState.TERMINATED:
       statusText = 'Terminated';
       break;
-    case cwc.ui.RunnerStatus.UNRESPONSIVE:
+    case cwc.ui.StatusbarState.UNRESPONSIVE:
       statusText = 'Unresponsive';
       break;
   }
   if (this.nodeStatus) {
     this.show();
     goog.dom.setTextContent(this.nodeStatus, statusText);
-    goog.Timer.callOnce(this.hide.bind(this), 500);
-  } else {
-    console.log(statusText);
+    goog.Timer.callOnce(this.hide.bind(this), 1500);
   }
+  this.log_.info(statusText);
 };
 
 
 /**
  * Shows status bar.
  */
-cwc.ui.RunnerStatusbar.prototype.hide = function() {
+cwc.ui.Statusbar.prototype.hide = function() {
   goog.Timer.callOnce(function() {
     goog.style.setElementShown(this.node, false);
   }.bind(this), 1000);
@@ -124,6 +145,6 @@ cwc.ui.RunnerStatusbar.prototype.hide = function() {
 /**
  * Hides status bar.
  */
-cwc.ui.RunnerStatusbar.prototype.show = function() {
+cwc.ui.Statusbar.prototype.show = function() {
   goog.style.setElementShown(this.node, true);
 };

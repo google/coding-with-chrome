@@ -38,6 +38,6 @@ cwc.mode.basic.simple.Layout = function(helper) {
 cwc.mode.basic.simple.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(630);
-  layoutInstance.renderMainContent(cwc.soy.mode.basic.Simple.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.basic.Simple.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.basic.Simple.preview);
 };

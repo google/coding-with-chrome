@@ -20,6 +20,7 @@
 
 goog.provide('cwc.ui.PreviewToolbar');
 
+goog.require('cwc.soy.ui.PreviewToolbar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -33,14 +34,14 @@ goog.require('goog.dom.classlist');
  * @final
  */
 cwc.ui.PreviewToolbar = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('preview-toolbar');
+
+  /** @type {Element} */
+  this.node = null;
 
   /** @type {boolean} */
   this.runStatus = false;
@@ -56,9 +57,6 @@ cwc.ui.PreviewToolbar = function(helper) {
 
   /** @type {Element} */
   this.nodeExpandExit = null;
-
-  /** @type {Element} */
-  this.nodeOpenInBrowser = null;
 
   /** @type {Element} */
   this.nodeRefresh = null;
@@ -86,15 +84,24 @@ cwc.ui.PreviewToolbar = function(helper) {
 cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
   this.node = node;
 
+  // Render editor toolbar.
+  goog.soy.renderElement(
+    this.node,
+    cwc.soy.ui.PreviewToolbar.template, {
+      prefix: this.prefix,
+    }
+  );
+
   this.nodeAutoReload = goog.dom.getElement(this.prefix + 'auto-reload');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
-  this.nodeOpenInBrowser = goog.dom.getElement(this.prefix + 'open-in-browser');
   this.nodeRefresh = goog.dom.getElement(this.prefix + 'refresh');
   this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
   this.nodeRun = goog.dom.getElement(this.prefix + 'run');
   this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
+  let nodeOpenInBrowser = goog.dom.getElement(this.prefix + 'open-in-browser');
 
+  // Default status of options
   cwc.ui.Helper.enableElement(this.nodeRefresh, false);
   cwc.ui.Helper.enableElement(this.nodeReload, false);
   cwc.ui.Helper.enableElement(this.nodeStop, false);
@@ -107,7 +114,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
-  goog.events.listen(this.nodeOpenInBrowser, goog.events.EventType.CLICK,
+  goog.events.listen(nodeOpenInBrowser, goog.events.EventType.CLICK,
     this.openInBrowser.bind(this));
   goog.events.listen(this.nodeRefresh, goog.events.EventType.CLICK,
     this.refreshPreview.bind(this));
@@ -117,6 +124,38 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
     this.runPreview.bind(this));
   goog.events.listen(this.nodeStop, goog.events.EventType.CLICK,
     this.stopPreview.bind(this));
+};
+
+
+/**
+ * Sets the status message.
+ * @param {!cwc.ui.RunnerStatus} status
+ */
+cwc.ui.PreviewToolbar.prototype.setStatus = function(status) {
+  // Load Status
+  switch (status) {
+    case cwc.ui.StatusbarState.LOADED:
+    case cwc.ui.StatusbarState.STOPPED:
+    case cwc.ui.StatusbarState.TERMINATED:
+      this.setLoadStatus(false);
+      break;
+    case cwc.ui.StatusbarState.LOADING:
+    case cwc.ui.StatusbarState.PREPARE:
+      this.setLoadStatus(true);
+      break;
+  }
+
+  // Run Status
+  switch (status) {
+    case cwc.ui.StatusbarState.STOPPED:
+    case cwc.ui.StatusbarState.TERMINATED:
+      this.setRunStatus(false);
+      break;
+    case cwc.ui.StatusbarState.LOADING:
+    case cwc.ui.StatusbarState.PREPARE:
+      this.setRunStatus(true);
+      break;
+  }
 };
 
 

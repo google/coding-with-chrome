@@ -40,10 +40,36 @@ describe('[Mode Phaser - Blockly]', function() {
   });
 
   describe('Loading file', function() {
+    let filePath = 'examples/../../resources/examples/phaser/blocks/';
     it('block/blank.cwc', function(done) {
-      builder.loadFile(
-        'examples/../../resources/examples/phaser/blocks/blank.cwc'
-      ).then(() => {
+      builder.loadFile(filePath + 'blank.cwc').then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, () => {
+        expect(false).toEqual(true);
+        done();
+      });
+    });
+    it('block/bouncing-ball.cwc', function(done) {
+      builder.loadFile(filePath + 'bouncing-ball.cwc').then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, () => {
+        expect(false).toEqual(true);
+        done();
+      });
+    });
+    it('block/bouncing-cubes.cwc', function(done) {
+      builder.loadFile(filePath + 'bouncing-cubes.cwc').then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, () => {
+        expect(false).toEqual(true);
+        done();
+      });
+    });
+    it('block/move-a-sprite.cwc', function(done) {
+      builder.loadFile(filePath + 'move-a-sprite.cwc').then(() => {
         expect(true).toEqual(true);
         done();
       }, () => {

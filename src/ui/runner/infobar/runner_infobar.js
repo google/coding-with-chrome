@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.RunnerInfobar');
 goog.provide('cwc.ui.RunnerInfobarLevel');
 
-goog.require('cwc.soy.RunnerInfobar');
+goog.require('cwc.soy.ui.RunnerInfobar');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.debug.DivConsole');
@@ -115,7 +115,7 @@ cwc.ui.RunnerInfobar.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.RunnerInfobar.template,
+      cwc.soy.ui.RunnerInfobar.template,
       {'prefix': this.prefix}
   );
 

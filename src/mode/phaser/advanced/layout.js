@@ -42,7 +42,8 @@ cwc.mode.phaser.advanced.Layout = function(helper) {
 cwc.mode.phaser.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(this.layoutWidth);
-  layoutInstance.renderMainContent(cwc.soy.mode.phaser.advanced.Layout.editor);
+  layoutInstance.renderMiddleContent(
+    cwc.soy.mode.phaser.advanced.Layout.editor);
   layoutInstance.renderRightContent(
     cwc.soy.mode.phaser.advanced.Layout.preview);
 };

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Layout for the Blockly modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.blockly.Layout');
+goog.provide('cwc.mode.default.blockly.Layout');
 
-goog.require('cwc.soy.mode.Basic.blockly.Layout');
+goog.require('cwc.soy.mode.default.blockly.Layout');
 goog.require('cwc.utils.Helper');
 
 
@@ -27,21 +27,23 @@ goog.require('cwc.utils.Helper');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.basic.blockly.Layout = function(helper) {
+cwc.mode.default.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {!number} */
-  this.layoutWidth = 500;
+  this.layoutWidth = 400;
 };
 
 
 /**
  * Decorates the Blockly layout.
  */
-cwc.mode.basic.blockly.Layout.prototype.decorate = function() {
+cwc.mode.default.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(this.layoutWidth);
-  layoutInstance.renderMainContent(cwc.soy.mode.Basic.blockly.Layout.editor);
-  layoutInstance.renderRightContent(cwc.soy.mode.Basic.blockly.Layout.preview);
+  layoutInstance.renderMiddleContent(
+    cwc.soy.mode.default.blockly.Layout.preview);
+  layoutInstance.renderRightContent(
+    cwc.soy.mode.default.blockly.Layout.editor);
 };

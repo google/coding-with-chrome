@@ -41,6 +41,6 @@ cwc.mode.coffeescript.Layout = function(helper) {
 cwc.mode.coffeescript.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(500);
-  layoutInstance.renderMainContent(cwc.soy.mode.Coffeescript.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.Coffeescript.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.Coffeescript.preview);
 };

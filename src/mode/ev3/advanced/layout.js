@@ -40,6 +40,6 @@ cwc.mode.ev3.advanced.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-  layoutInstance.renderMainContent(cwc.soy.mode.ev3.advanced.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.ev3.advanced.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.ev3.advanced.runner);
 };

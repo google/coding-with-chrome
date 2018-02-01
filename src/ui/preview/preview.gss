@@ -28,20 +28,6 @@
   padding: 0 10px 0 20px;
 }
 
-#{$prefix}preview-toolbar-chrome {
-  flex: 0 1 auto;
-  min-height: 34px;
-}
-
-#{$prefix}preview-toolbar-chrome > .mdl-layout__header-row {
-  height: 34px;
-}
-
-
-#{$prefix}preview-toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {
-  padding: 0 5px;
-}
-
 #{$prefix}preview-content {
   background: #fff;
   position: relative;

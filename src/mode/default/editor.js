@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Code Editor.
+ * @fileoverview Default Code Editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

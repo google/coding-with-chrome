@@ -1,5 +1,5 @@
 /**
- * @fileoverview General Blockly Editor.
+ * @fileoverview Default Blockly Editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

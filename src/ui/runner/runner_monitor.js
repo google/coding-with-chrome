@@ -19,8 +19,8 @@
  */
 goog.provide('cwc.ui.RunnerMonitor');
 
-goog.require('cwc.soy.RunnerMonitor');
-goog.require('cwc.ui.RunnerStatus');
+goog.require('cwc.soy.ui.RunnerMonitor');
+goog.require('cwc.ui.StatusbarState');
 
 goog.require('goog.math');
 goog.require('goog.style');
@@ -99,7 +99,7 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.RunnerMonitor.template,
+      cwc.soy.ui.RunnerMonitor.template,
       {'prefix': this.prefix}
   );
 
@@ -139,11 +139,11 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
  */
 cwc.ui.RunnerMonitor.prototype.setStatus = function(status) {
   switch (status) {
-    case cwc.ui.RunnerStatus.STOPPED:
+    case cwc.ui.StatusbarState.STOPPED:
       this.setRunStatus(false);
       break;
-    case cwc.ui.RunnerStatus.REFRESHING:
-    case cwc.ui.RunnerStatus.PREPARE:
+    case cwc.ui.StatusbarState.REFRESHING:
+    case cwc.ui.StatusbarState.PREPARE:
       this.setRunStatus(true);
       break;
   }

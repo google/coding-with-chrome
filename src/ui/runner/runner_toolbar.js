@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.RunnerToolbar');
 
 goog.require('cwc.ui.Helper');
-goog.require('cwc.ui.RunnerStatus');
+goog.require('cwc.ui.StatusbarState');
 
 
 /**
@@ -30,14 +30,14 @@ goog.require('cwc.ui.RunnerStatus');
  * @final
  */
 cwc.ui.RunnerToolbar = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('runner-toolbar');
+
+  /** @type {Element} */
+  this.node = null;
 
   /** @type {boolean} */
   this.runStatus = false;
@@ -114,17 +114,17 @@ cwc.ui.RunnerToolbar.prototype.decorate = function(node) {
  */
 cwc.ui.RunnerToolbar.prototype.setStatus = function(status) {
   switch (status) {
-    case cwc.ui.RunnerStatus.LOADED:
-    case cwc.ui.RunnerStatus.STOPPED:
+    case cwc.ui.StatusbarState.LOADED:
+    case cwc.ui.StatusbarState.STOPPED:
       this.setLoadStatus(false);
       break;
-    case cwc.ui.RunnerStatus.LOADING:
+    case cwc.ui.StatusbarState.LOADING:
       this.setLoadStatus(true);
       break;
-    case cwc.ui.RunnerStatus.TERMINATED:
+    case cwc.ui.StatusbarState.TERMINATED:
       this.setRunStatus(false);
       break;
-    case cwc.ui.RunnerStatus.PREPARE:
+    case cwc.ui.StatusbarState.PREPARE:
       this.setRunStatus(true);
       break;
   }

@@ -40,6 +40,6 @@ cwc.mode.sphero.blockly.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-  layoutInstance.renderMainContent(cwc.soy.mode.sphero.blockly.Layout.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.sphero.blockly.Layout.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.sphero.blockly.Layout.runner);
 };

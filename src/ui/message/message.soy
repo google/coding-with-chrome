@@ -1,0 +1,44 @@
+/**
+ * @fileoverview Message template.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+{namespace cwc.soy.ui.Message autoescape="strict"}
+
+
+/**
+ * Message template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+    <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#{$prefix}main" class="mdl-layout__tab is-active">
+          <span class="icon_24px icon_button">library_books</span>
+        </a>
+      </div>
+    </header>
+    <div id="{$prefix}content" class="mdl-layout__content">
+      <section id="{$prefix}main" class="mdl-layout__tab-panel is-active">
+        Main
+      </section>
+    </div>
+  </div>
+{/template}

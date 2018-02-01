@@ -1,7 +1,7 @@
 /**
- * @fileoverview Message pane.
+ * @fileoverview Default Message panel.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,39 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.MessagePane');
+goog.provide('cwc.mode.default.Message');
+
+goog.require('cwc.ui.Message');
+goog.require('cwc.utils.Helper');
 
 
 /**
- * Class represents the monitor inside the ui.
- * @param {!cwc.utils.Helper} helper
  * @constructor
+ * @param {!cwc.utils.Helper} helper
  * @struct
  * @final
  */
-cwc.ui.MessagePane = function(helper) {
+cwc.mode.default.Message = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = this.helper.getPrefix('message-pane');
+  /** @type {!cwc.ui.Message} */
+  this.message = new cwc.ui.Message(this.helper);
+};
 
-  /** @type {Element} */
-  this.node = null;
+
+/**
+ * Decorates the editor.
+ */
+cwc.mode.default.Message.prototype.decorate = function() {
+  this.helper.setInstance('message', this.message);
+  this.message.decorate();
+};
+
+
+/**
+ * @return {!cwc.ui.Editor}
+ */
+cwc.mode.default.Message.prototype.getMessage = function() {
+  return this.message;
 };

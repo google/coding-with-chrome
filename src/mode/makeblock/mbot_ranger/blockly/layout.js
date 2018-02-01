@@ -40,7 +40,7 @@ cwc.mode.makeblock.mbotRanger.blockly.Layout.prototype.decorate = function() {
   layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-  layoutInstance.renderMainContent(
+  layoutInstance.renderMiddleContent(
     cwc.soy.mode.makeblock.mbotRanger.blockly.Layout.editor);
   layoutInstance.renderRightContent(
     cwc.soy.mode.makeblock.mbotRanger.blockly.Layout.runner);

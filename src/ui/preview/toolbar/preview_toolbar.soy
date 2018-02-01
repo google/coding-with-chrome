@@ -1,0 +1,95 @@
+/**
+ * @fileoverview Toolbar Preview template.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.ui.PreviewToolbar autoescape="strict"}
+
+
+/**
+ * Toolbar template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div class="mdl-layout__header-row">
+    <nav class="mdl-navigation">
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'run' /}
+        {param icon: 'play_arrow' /}
+        {param opt_title: 'Runs the code and update preview' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'stop' /}
+        {param icon: 'stop' /}
+        {param opt_title: 'Stops or terminates the preview' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'reload' /}
+        {param icon: 'refresh' /}
+        {param opt_title: 'Reload preview' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'refresh' /}
+        {param icon: 'refresh' /}
+        {param opt_title: 'Refresh preview' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'auto-reload' /}
+        {param icon: 'autorenew' /}
+        {param opt_title: 'Automatically reloads the preview after a change on the editor content' /}
+      {/call}
+
+    </nav>
+    <div class="mdl-layout-spacer"></div>
+    <nav class="mdl-navigation">
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'open-in-browser' /}
+        {param icon: 'open_in_browser' /}
+        {param opt_title: 'Open preview in new browser window' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'expand' /}
+        {param icon: 'fullscreen' /}
+        {param opt_title: 'Expand Preview' /}
+      {/call}
+
+      {call cwc.soy.ui.Template.navigationIcon}
+        {param prefix: $prefix /}
+        {param id: 'expand-exit' /}
+        {param icon: 'fullscreen_exit' /}
+        {param opt_title: 'Collapse Preview' /}
+      {/call}
+
+    </nav>
+  </div>
+
+{/template}

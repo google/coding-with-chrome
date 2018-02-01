@@ -21,7 +21,7 @@
 goog.provide('cwc.ui.PreviewInfobar');
 goog.provide('cwc.ui.PreviewInfobarLevel');
 
-goog.require('cwc.soy.PreviewInfobar');
+goog.require('cwc.soy.ui.PreviewInfobar');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.debug.DivConsole');
@@ -92,9 +92,6 @@ cwc.ui.PreviewInfobar = function(helper) {
   /** @type {Element} */
   this.nodeWarnNum = null;
 
-  /** @type {Element} */
-  this.nodeStatusText = null;
-
   /** @type {number} */
   this.debugNum = 0;
 
@@ -117,8 +114,9 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.PreviewInfobar.template,
-      {'prefix': this.prefix}
+      cwc.soy.ui.PreviewInfobar.template, {
+        'prefix': this.prefix,
+      }
   );
 
   this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
@@ -128,7 +126,6 @@ cwc.ui.PreviewInfobar.prototype.decorate = function(node) {
   this.nodeErrorNum = goog.dom.getElement(this.prefix + 'error-num');
   this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
   this.nodeInfoNum = goog.dom.getElement(this.prefix + 'info-num');
-  this.nodeStatusText = goog.dom.getElement(this.prefix + 'status-text');
   this.nodeWarn = goog.dom.getElement(this.prefix + 'warn');
   this.nodeWarnNum = goog.dom.getElement(this.prefix + 'warn-num');
 
@@ -214,16 +211,6 @@ cwc.ui.PreviewInfobar.prototype.clear = function() {
   }
 
   this.updateOverview();
-};
-
-
-/**
- * @param {string} status
- */
-cwc.ui.PreviewInfobar.prototype.setStatusText = function(status) {
-  if (this.nodeStatusText) {
-    goog.dom.setTextContent(this.nodeStatusText, status);
-  }
 };
 
 

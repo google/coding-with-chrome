@@ -38,6 +38,6 @@ cwc.mode.pencilCode.advanced.Layout = function(helper) {
 cwc.mode.pencilCode.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(500);
-  layoutInstance.renderMainContent(cwc.soy.mode.pencilCode.Advanced.editor);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.pencilCode.Advanced.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.pencilCode.Advanced.preview);
 };
