@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-#{$prefix}preview-toolbar-chrome > .mdl-layout__header-row {
-  height: 34px;
-}
-
-
-#{$prefix}preview-toolbar-chrome > .mdl-layout__header-row .mdl-navigation__link {
-  padding: 0 5px;
+#{$prefix}preview-chrome,
+#{$prefix}preview-body,
+#{$prefix}preview-content {
+  align-content: stretch;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: flex-start;
 }
 
 #{$prefix}preview-body .mdl-layout__header-row {
@@ -28,10 +29,8 @@
 }
 
 #{$prefix}preview-content {
-  position: relative;
   background: #fff;
-  width: 100%;
-  height: 100%;
+  position: relative;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
   -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
@@ -50,12 +49,13 @@
 
 #{$prefix}preview-content iframe,
 #{$prefix}preview-content webview {
-  display: flex;
-  height: 100%;
-  width: 100%;
+  flex: 1 1 auto;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 #{$prefix}preview-infobar {
+  flex: 0 1 auto;
   height: 26px;
   min-height: 26px;
 }

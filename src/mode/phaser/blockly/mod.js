@@ -19,10 +19,11 @@
  */
 goog.provide('cwc.mode.phaser.blockly.Mod');
 
+goog.require('cwc.mode.default.blockly.Editor');
+goog.require('cwc.mode.default.blockly.Layout');
 goog.require('cwc.mode.phaser.Preview');
-goog.require('cwc.mode.phaser.blockly.Editor');
-goog.require('cwc.mode.phaser.blockly.Layout');
 goog.require('cwc.renderer.internal.HTML5');
+goog.require('cwc.soy.phaser.Blocks');
 goog.require('cwc.utils.Helper');
 
 
@@ -31,11 +32,11 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.phaser.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.phaser.blockly.Layout} */
-  this.layout = new cwc.mode.phaser.blockly.Layout(helper);
+  /** @type {!cwc.mode.default.blockly.Layout} */
+  this.layout = new cwc.mode.default.blockly.Layout(helper);
 
-  /** @type {!cwc.mode.phaser.blockly.Editor} */
-  this.editor = new cwc.mode.phaser.blockly.Editor(helper);
+  /** @type {!cwc.mode.default.blockly.Editor} */
+  this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {!cwc.mode.phaser.Preview} */
   this.preview = new cwc.mode.phaser.Preview(helper);
@@ -50,7 +51,9 @@ cwc.mode.phaser.blockly.Mod = function(helper) {
  */
 cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
   this.layout.decorate();
-  this.editor.decorate();
+  this.editor.decorate(cwc.soy.phaser.Blocks.toolbox);
+  this.editor.getBlockly().enableToolboxAutoCollapse(true);
+  this.editor.getBlockly().disableOrphansBlocks(true);
   this.preview.decorate(true);
   this.renderer.init();
 };

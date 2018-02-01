@@ -42,7 +42,7 @@
 
 #{$prefix}preview-infobar-status {
   float: left;
-  width: 150px;
+  width: 180px;
   line-height: 26px;
 }
 
@@ -53,6 +53,7 @@
 #{$prefix}preview-infobar-messages {
   float: right;
   line-height: 26px;
+  min-width: 200px;
 }
 
 #{$prefix}preview-infobar-debug,

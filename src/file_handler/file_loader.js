@@ -25,8 +25,7 @@ goog.require('cwc.fileFormat.File');
 goog.require('cwc.mode.Config');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.utils.Logger');
-
-goog.require('goog.net.XhrIo');
+goog.require('cwc.utils.Resources');
 
 
 /**
@@ -99,24 +98,30 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 /**
  * @param {!string} filename
+ * @deprecated
  * @export
  */
 cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
-  this.log_.info('Getting example file:', filename);
-  let fileLoaderHandler = this.loadExampleFileData.bind(this);
-  this.getResourceFile('examples/' + filename, fileLoaderHandler);
+  this.loadLocalFile('examples/' + filename);
 };
 
 
 /**
  * @param {!string} filename
- * @param {!string} data
+ * @return {Promise}
  * @export
  */
-cwc.fileHandler.FileLoader.prototype.loadExampleFileData = function(filename,
-    data) {
-  this.log_.info('Loading example file:', filename);
-  this.handleFileData(data, filename, null, undefined);
+cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(filename) {
+  return new Promise((resolve, reject) => {
+    this.getResourceFile(filename, (filename, data) => {
+      this.handleFileData(data, filename, null, undefined).then(
+        resolve,
+        (e) => {
+          this.log_.error('Loading error:', e);
+          reject();
+        });
+    });
+  });
 };
 
 
@@ -139,90 +144,95 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
  * @param {string=} filename
  * @param {Object=} fileHandler
  * @param {string=} gDriveId
+ * @return {Promise}
  */
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     filename = '', fileHandler = null, gDriveId = undefined) {
-  this.log_.info('Handle file data:', data);
-  let fileInstance = this.helper.getInstance('file', true);
-  let modeInstance = this.helper.getInstance('mode', true);
-  let mimeType = cwc.file.getMimeTypeByNameAndContent(filename, data);
-  this.log_.info('MIME-type:', mimeType);
+  return new Promise((resolve) => {
+    this.log_.info('Handle file data:', data);
+    let fileInstance = this.helper.getInstance('file', true);
+    let modeInstance = this.helper.getInstance('mode', true);
+    let mimeType = cwc.file.getMimeTypeByNameAndContent(filename || '', data);
+    this.log_.info('MIME-type:', mimeType);
 
-  let modeType;
-  // Handle CWC file format
-  if (mimeType === cwc.file.MimeType.CWC.type) {
-    let file = new cwc.fileFormat.File(data);
-    modeType = cwc.mode.Config.getMode(
-      /** @type {cwc.mode.Type} */ (file.getMode()));
-    this.log_.info('Loading CWC file with mode', modeType, '...');
-    fileInstance.setFile(file);
-    fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
-    modeInstance.setMode(modeType);
+    let modeType;
+    // Handle CWC file format
+    if (mimeType === cwc.file.MimeType.CWC.type) {
+      let file = new cwc.fileFormat.File(data);
+      modeType = cwc.mode.Config.getMode(
+        /** @type {cwc.mode.Type} */ (file.getMode()));
+      this.log_.info('Loading CWC file with mode', modeType, '...');
+      fileInstance.setFile(file);
+      fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+      modeInstance.setMode(modeType);
+      modeInstance.setFilename(filename);
 
-    // Handling Blockly and normal Editor content.
-    let editorContent = file.getContentData();
-    for (let entry in editorContent) {
-      if (Object.prototype.hasOwnProperty.call(editorContent, entry)) {
-        let content = editorContent[entry];
-        let contentType = content.getType();
-        switch (contentType) {
-          case cwc.file.MimeType.BLOCKLY.type:
-            modeInstance.addBlocklyView(
-              content.getName(), content.getContent());
-            break;
-          case cwc.file.MimeType.COFFEESCRIPT.type:
-          case cwc.file.MimeType.CSS.type:
-          case cwc.file.MimeType.HTML.type:
-          case cwc.file.MimeType.JAVASCRIPT.type:
-            modeInstance.addEditorView(
-              content.getName(), content.getContent(), contentType);
-            break;
-          default:
-            this.log_.warn('Unknown content type:', contentType);
+      // Handling Blockly and normal Editor content.
+      let editorContent = file.getContentData();
+      for (let entry in editorContent) {
+        if (Object.prototype.hasOwnProperty.call(editorContent, entry)) {
+          let content = editorContent[entry];
+          let contentType = content.getType();
+          switch (contentType) {
+            case cwc.file.MimeType.BLOCKLY.type:
+              modeInstance.addBlocklyView(
+                content.getName(), content.getContent());
+              break;
+            case cwc.file.MimeType.COFFEESCRIPT.type:
+            case cwc.file.MimeType.CSS.type:
+            case cwc.file.MimeType.HTML.type:
+            case cwc.file.MimeType.JAVASCRIPT.type:
+              modeInstance.addEditorView(
+                content.getName(), content.getContent(), contentType);
+              break;
+            default:
+              this.log_.warn('Unknown content type:', contentType);
+          }
         }
       }
-    }
 
-    // Handle UI mode
-    let fileUi = fileInstance.getUi();
-    if (fileUi) {
-      if (fileUi === 'blockly') {
-        modeInstance.showBlockly();
-      } else if (fileUi === 'editor') {
-        modeInstance.showEditor();
+      // Handle UI mode
+      let fileUi = fileInstance.getUi();
+      if (fileUi) {
+        if (fileUi === 'blockly') {
+          modeInstance.showBlockly();
+        } else if (fileUi === 'editor') {
+          modeInstance.showEditor();
+        }
       }
+
+    // Handle raw file format
+    } else {
+      modeType = cwc.mode.Config.getModeByMimeType(mimeType);
+      this.log_.info('Loading raw data with mode', modeType, '...');
+      fileInstance.setRawFile(data, filename);
+      fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+      modeInstance.setMode(modeType);
+      modeInstance.addEditorView('__default__', data, mimeType);
     }
 
-  // Handle raw file format
-  } else {
-    modeType = cwc.mode.Config.getModeByMimeType(mimeType);
-    this.log_.info('Loading raw data with mode', modeType, '...');
-    fileInstance.setRawFile(data, filename);
-    fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
-    modeInstance.setMode(modeType);
-    modeInstance.addEditorView('__default__', data, mimeType);
-  }
-
-  // Sets file handler for local or gDrive files
-  if (fileHandler) {
-    if (fileHandler.name) {
-      fileInstance.setFilename(fileHandler.name);
+    // Sets file handler for local or gDrive files
+    if (fileHandler) {
+      if (fileHandler.name) {
+        fileInstance.setFilename(fileHandler.name);
+      }
+      fileInstance.setFileHandler(fileHandler);
+    } else if (gDriveId) {
+      fileInstance.setGDriveId(gDriveId);
     }
-    fileInstance.setFileHandler(fileHandler);
-  } else if (gDriveId) {
-    fileInstance.setGDriveId(gDriveId);
-  }
 
-  // Sets the file title.
-  let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
-  if (fileTitle) {
-    modeInstance.setTitle(fileTitle);
-  }
+    // Sets the file title.
+    let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
+    if (fileTitle) {
+      modeInstance.setTitle(fileTitle);
+    }
 
-  // Handle post modification tasks.
-  modeInstance.postMode(modeType);
+    // Handle post modification tasks.
+    modeInstance.postMode(modeType);
 
-  this.helper.showSuccess('Loaded file ' + filename + ' successful.');
+    this.helper.showSuccess('Loaded file ' + filename + ' successful.');
+    resolve();
+  });
 };
 
 
@@ -239,8 +249,7 @@ cwc.fileHandler.FileLoader.prototype.selectFileToLoad = function(callback,
   }, function(file_entry, file_entries) {
     if (chrome.runtime.lastError) {
       let message = chrome.runtime.lastError.message;
-      if (message && message !== 'User cancelled' &&
-          message !== 'User canceled') {
+      if (message && message !== 'User cancelled') {
         this.helper.showWarning(message);
         return;
       }
@@ -301,34 +310,11 @@ cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
     callback) {
   if (file) {
     this.log_.info('Loading file', file, '...');
-    let xhr = new goog.net.XhrIo();
-    let xhrEvent = this.resourceFileHandler.bind(this);
     let filename = file.replace(/^.*(\\|\/|:)/, '');
-    goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
-      xhrEvent(e, filename, callback);
+    cwc.utils.Resources.getUriAsText(file).then((content) => {
+      callback(filename, content);
+    }).catch((error) => {
+      this.helper.showError(String(error));
     });
-    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
-      this.helper.showError('Unable to open file ' + file + ':' +
-          e.target.getLastError());
-    });
-    xhr.send(file);
-  }
-};
-
-
-/**
- * @param {Event} e
- * @param {string} filename
- * @param {function(string, string)=} callback
- * @param {Object=} scope
- */
-cwc.fileHandler.FileLoader.prototype.resourceFileHandler = function(e, filename,
-    callback, scope) {
-  let xhr = /** @type {!goog.net.XhrIo} */ (e.target);
-  let data = xhr.getResponseText() || '';
-  if (goog.isFunction(callback)) {
-    callback.call(scope || this, filename, data);
-  } else {
-    this.log_.debug('Received data for', filename, ':', data);
   }
 };

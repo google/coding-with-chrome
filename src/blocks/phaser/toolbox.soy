@@ -29,7 +29,6 @@
   {@param? files: ?}
 
   <xml>
-
     <category name="{msg desc="Phaser Game Blocks"}Game{/msg}" colour="75">
       {call .gameBlocks /}
     </category>
@@ -109,7 +108,6 @@
     <sep></sep>
 
     {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
-
   </xml>
 {/template}
 
@@ -158,7 +156,6 @@
  * Phaser sample files
  */
 {template .sampleFiles}
-
   <block type="phaser_load_image">
     <field name="name">50px_red</field>
       <value name="image">
@@ -200,7 +197,6 @@
         <block type="general_sample_image_bg_02"></block>
     </value>
   </block>
-
 {/template}
 
 
@@ -237,7 +233,6 @@
       {call .inputBlocks data="all" /}
     </category>
   {/if}
-
 {/template}
 
 
@@ -245,7 +240,6 @@
  * Create blocks.
  */
 {template .createBlocks}
-
   <block type="phaser_create"></block>
 
   <block type="phaser_stage_background_color"></block>
@@ -265,7 +259,6 @@
       <block type="math_number"><field name="NUM">1500</field></block>
     </value>
   </block>
-
 {/template}
 
 
@@ -515,7 +508,6 @@
       </block>
     </value>
   </block>
-
 {/template}
 
 
@@ -614,7 +606,6 @@
  * Game blocks.
  */
 {template .gameBlocks}
-
   <block type="phaser_game">
     <next>
       <block type="phaser_game_state">
@@ -1112,5 +1103,4 @@
       </block>
     </value>
   </block>
-
 {/template}

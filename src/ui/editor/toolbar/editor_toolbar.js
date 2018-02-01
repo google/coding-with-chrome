@@ -36,6 +36,12 @@ goog.require('goog.ui.Select');
  * @final
  */
 cwc.ui.EditorToolbar = function(helper) {
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('editor-toolbar');
+
   /** @type {Element} */
   this.node = null;
 
@@ -74,12 +80,6 @@ cwc.ui.EditorToolbar = function(helper) {
 
   /** @type {Element} */
   this.nodeRedo = null;
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = this.helper.getPrefix('editor-toolbar');
 
   /** @type {!goog.ui.Select} */
   this.selectView = new goog.ui.Select();
@@ -125,9 +125,9 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
 
+  // Default status of options
   cwc.ui.Helper.enableElement(this.nodeUndo, false);
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
-
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
   goog.style.setElementShown(this.nodeMedia, false);

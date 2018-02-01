@@ -22,6 +22,10 @@
   height: 34px;
 }
 
+#{$prefix}runner-monitor-toolbar {
+  min-height: 34px;
+}
+
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab span {
   padding-top: 6px;
 }

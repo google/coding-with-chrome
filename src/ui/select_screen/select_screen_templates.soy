@@ -66,6 +66,25 @@
 /**
  * Select card design.
  */
+{template .fileCardList}
+  {@param content: ?}
+
+  <div class="cwc-file-card-list">
+    {call cwc.soy.SelectScreenTemplate.titleGrid}
+      {param text: 'Select a Program' /}
+      {param opt_icon: 'folder_open' /}
+    {/call}
+    <div class="__content mdl-grid max-width">
+      {$content}
+    </div>
+    <div class="__extension"></div>
+  </div>
+{/template}
+
+
+/**
+ * Select card design.
+ */
 {template .fileCard}
   {@param link_id: string}
   {@param prefix: string}
@@ -228,6 +247,22 @@
       {/if}
     </div>
   </header>
+{/template}
+
+
+/**
+ * Grid title.
+ */
+{template .titleGrid}
+  {@param text: string}
+  {@param? opt_icon: string}
+
+  <div class="mdl-grid cwc-select-title-grid">
+    {if $opt_icon}
+      <i class="material-icons">{$opt_icon}</i>
+    {/if}
+    {msg desc=""}{$text}{/msg}
+  </div>
 {/template}
 
 

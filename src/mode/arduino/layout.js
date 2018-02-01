@@ -37,17 +37,9 @@ cwc.mode.arduino.Layout = function(helper) {
  */
 cwc.mode.arduino.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(500);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Arduino.editor,
-      {'prefix': this.helper.getPrefix('arduino-editor')}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Arduino.runner,
-      {'prefix': this.helper.getPrefix('arduino-runner')}
-  );
+  layoutInstance.decorateDefault(500);
+  layoutInstance.renderMiddleContent(
+    cwc.soy.mode.Arduino.editor, this.helper.getPrefix('arduino-editor'));
+  layoutInstance.renderRightContent(
+    cwc.soy.mode.Arduino.runner, this.helper.getPrefix('arduino-runner'));
 };

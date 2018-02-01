@@ -18,41 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 let closureBuilder = require('closure-builder');
-let glob = closureBuilder.globSupport();
-
-
-/**
- * Core application.
- */
-closureBuilder.build({
-  name: 'cwc.ui.Builder',
-  srcs: glob([
-    'src/**/*.js',
-    'gensoyfiles/**/*.js',
-    '!src/{blocks,blocks/**.js}',
-    '!src/frameworks/{internal,internal/**.js}',
-  ]),
-  externs: [
-    'build/externs/blockly.js',
-    'build/externs/chrome.js',
-    'build/externs/codemirror.js',
-    'build/externs/coffeescript.js',
-    'build/externs/global.js',
-    'build/externs/i18n.js',
-    'build/externs/jquery-turtle.js',
-    'build/externs/jquery.js',
-    'build/externs/material-design.js',
-    'build/externs/mocha.js',
-    'build/externs/shepherd.js',
-  ],
-  compress: true,
-  out: 'dist/chrome_os/js/cwc_ui.js',
-  options: {
-    closure: {
-      define: 'ENABLE_LOGGING=false',
-    },
-  },
-});
 
 
 /**

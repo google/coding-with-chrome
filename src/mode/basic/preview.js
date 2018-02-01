@@ -33,25 +33,17 @@ cwc.mode.basic.Preview = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Element} */
-  this.node = null;
-
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(helper);
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
 /**
  * Decorates the preview window.
- * @param {boolean=} opt_blockly_mode
  */
-cwc.mode.basic.Preview.prototype.decorate = function(opt_blockly_mode) {
-  this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
+cwc.mode.basic.Preview.prototype.decorate = function() {
   this.helper.setInstance('preview', this.preview, true);
-  this.preview.decorate(this.node);
+  this.preview.decorate();
 };
 
 

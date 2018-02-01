@@ -34,6 +34,12 @@ goog.require('goog.events.EventTarget');
 
 
 /**
+ * @typedef {cwc.addon.Tutorial}
+ */
+cwc.utils.AddonInstance;
+
+
+/**
  * @typedef {cwc.ui.Account|
  *   cwc.file.File|
  *   cwc.fileHandler.FileExporter|
@@ -56,8 +62,9 @@ goog.require('goog.events.EventTarget');
  *   cwc.ui.Layout|
  *   cwc.ui.Library|
  *   cwc.ui.Menubar|
- *   cwc.ui.Message|
  *   cwc.ui.Navigation|
+ *   cwc.ui.Notification|
+ *   cwc.ui.Notification|
  *   cwc.ui.Preview|
  *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
@@ -94,6 +101,9 @@ cwc.utils.Helper = function() {
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
 
+  /** @private {Object<string, cwc.utils.AddonInstance>} */
+  this.addones_ = {};
+
   /** @private {Object} */
   this.hadFirstRun_ = {};
 
@@ -119,6 +129,40 @@ cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
     type: name,
     data: data,
   });
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!cwc.utils.AddonInstance} instance
+ * @param {boolean=} overwrite
+ * @export
+ */
+cwc.utils.Helper.prototype.setAddon = function(name, instance,
+    overwrite = false) {
+  if (this.addones_[name] && !overwrite) {
+    this.log_.error('Addon', name, ' already exists!');
+  }
+  this.log_.debug('Set', name, 'addon to', instance);
+  this.addones_[name] = instance;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {boolean=} required
+ * @return {cwc.utils.AddonInstance}
+ * @export
+ */
+cwc.utils.Helper.prototype.getAddon = function(name, required = false) {
+  if (required) {
+    if (typeof this.addones_[name] == 'undefined') {
+      throw new Error('Addon ' + name + ' is not defined!');
+    } else if (!this.addones_[name]) {
+      throw new Error('Addon ' + name + ' is not initialized yet.');
+    }
+  }
+  return this.addones_[name] || null;
 };
 
 
@@ -157,24 +201,6 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
 
 
 /**
- * @param {!string} name
- * @param {Element=} node
- * @param {boolean=} required
- * @param {string=} prefix
- * @return {cwc.utils.HelperInstance}
- * @export
- */
-cwc.utils.Helper.prototype.decorateInstance = function(name, node,
-    required = false, prefix = this.getPrefix()) {
-  let instance = this.getInstance(name, required);
-  if (instance) {
-    instance.decorate(node, prefix);
-  }
-  return instance;
-};
-
-
-/**
  * @return {Object}
  */
 cwc.utils.Helper.prototype.getI18nData = function() {
@@ -187,14 +213,14 @@ cwc.utils.Helper.prototype.getI18nData = function() {
 
 
 /**
- * Shows an error message over the message instance.
+ * Shows an error message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showError = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.error(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.error(msg);
   } else {
     this.log_.error(msg);
   }
@@ -202,14 +228,14 @@ cwc.utils.Helper.prototype.showError = function(msg) {
 
 
 /**
- * Shows a warning message over the message instance.
+ * Shows a warning message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showWarning = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.warning(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.warning(msg);
   } else {
     this.log_.warn(msg);
   }
@@ -217,14 +243,14 @@ cwc.utils.Helper.prototype.showWarning = function(msg) {
 
 
 /**
- * Shows an info message over the message instance.
+ * Shows an info message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showInfo = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.info(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.info(msg);
   } else {
     this.log_.info(msg);
   }
@@ -232,14 +258,14 @@ cwc.utils.Helper.prototype.showInfo = function(msg) {
 
 
 /**
- * Shows an success message over the message instance.
+ * Shows an success message over the notification instance.
  * @param {!string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showSuccess = function(msg) {
-  let messageInstance = this.getInstance('message');
-  if (messageInstance) {
-    messageInstance.success(msg);
+  let notificationInstance = this.getInstance('notification');
+  if (notificationInstance) {
+    notificationInstance.success(msg);
   } else {
     this.log_.info(msg);
   }

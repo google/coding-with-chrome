@@ -31,9 +31,6 @@ cwc.mode.phaser.advanced.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
-
   /** @type {!number} */
   this.layoutWidth = 600;
 };
@@ -44,17 +41,9 @@ cwc.mode.phaser.advanced.Layout = function(helper) {
  */
 cwc.mode.phaser.advanced.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(this.layoutWidth);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.phaser.advanced.Layout.editor, {
-        prefix: this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.phaser.advanced.Layout.preview, {
-        prefix: this.prefix}
-  );
+  layoutInstance.decorateDefault(this.layoutWidth);
+  layoutInstance.renderMiddleContent(
+    cwc.soy.mode.phaser.advanced.Layout.editor);
+  layoutInstance.renderRightContent(
+    cwc.soy.mode.phaser.advanced.Layout.preview);
 };

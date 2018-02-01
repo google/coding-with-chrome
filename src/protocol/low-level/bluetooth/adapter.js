@@ -60,10 +60,10 @@ cwc.protocol.bluetooth.Adapter = function(eventHandler) {
 cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
     this.log_.info('Preparing ...');
-    chrome.bluetooth.onAdapterStateChanged.addListener(
-        this.handleAdapterState_.bind(this));
     this.eventHandler_.dispatchEvent(
-      cwc.protocol.bluetooth.Events.adapterState({enabled: this.enabled}));
+      cwc.protocol.bluetooth.Events.adapterState({enabled: false}));
+    chrome.bluetooth.onAdapterStateChanged.addListener(
+      this.handleAdapterState_.bind(this));
     this.updateAdapterState();
     this.prepared = true;
   }
@@ -90,17 +90,16 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(info) {
   this.available = info['available'];
   this.discovering = info['discovering'];
 
-  if (this.enabled == (this.available && this.powered && this.prepared)) {
+  if (!this.address) {
+    return;
+  } else if (
+      this.enabled == (this.available && this.powered && this.prepared)) {
     return;
   } else if (this.available && this.powered && !this.enabled) {
     this.log_.info('Enable adapter:', info);
     this.enabled = true;
-  } else if (this.enabled || !this.prepared) {
+  } else if (this.enabled && !this.prepared) {
     this.log_.info('Adapter is not prepared:', info);
-    this.enabled = false;
-  } else if (!this.address) {
-    this.log_.info('Found no compatible Bluetooth adapter!');
-    this.log_.info(info);
     this.enabled = false;
   }
 

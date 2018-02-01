@@ -74,7 +74,7 @@
   font-size: 64px;
   left: 60px;
   position: absolute;
-  top: 30px;
+  top: 15px;
 }
 
 #{$prefix}select-screen-band-text {
@@ -87,6 +87,10 @@
 
 #{$prefix}select-screen-band-text .mdl-typography--headline {
   margin: 0 0 10px;
+}
+
+#{$prefix}select-screen-band-text .mdl-typography--title {
+  margin: 0;
 }
 
 #{$prefix}select-screen-band-sub-text {
@@ -140,30 +144,43 @@
  * Header
  */
 
-.cwc-select-header {
+.{$prefix}select-header {
   width: 100%;
   text-align: center;
   position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 
-.cwc-select-header .header__icon {
+.{$prefix}select-header .header__icon {
   position: absolute;
   left: 15px;
   top: 15px;
   font-size: 64px;
 }
 
-.cwc-select-header .header__text {
-  max-width: 800px;
+.{$prefix}select-header .header__text {
   margin-left: 70px;
-  padding: 24px;
+  padding: 12px 24px;
   text-align: left;
 }
 
-.cwc-select-header .header__text p {
+.{$prefix}select-header .header__text p {
   padding-top: 8px;
 }
 
+.{$prefix}select-header > .header__text > .mdl-typography--headline {
+  margin: 0;
+  padding: 0;
+}
+
+
+.{$prefix}select-title-grid {
+  padding: 8px 8px 0px 8px;
+}
+
+.{$prefix}select-title-grid .material-icons {
+  vertical-align: middle;
+}
 
 /** 
  * File Cards
@@ -176,7 +193,7 @@
               0 1px 5px 0 rgba(0,0,0,.12);
   cursor: pointer;
   font-weight: 300;
-  margin: 8px;
+  margin: 0 15px 15px 0;
   width: 300px;
   min-height: 290px;
 }
@@ -188,15 +205,15 @@
 }
 
 .cwc-file-card > .card__header {
-  height: 100px;
   background: linear-gradient(90deg,#fcfcfc 0,#f7f7f7);
   color: #4c4c4c;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: center;
   line-height: 22px;
   padding: 0 20px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
 }
 
@@ -204,23 +221,23 @@
   font-size: 20px;
   line-height: 26px;
   font-weight: 300;
-  margin: 0 70px 0 0;
+  margin: 0 80px 0 0;
 }
 
 .cwc-file-card > .card__header > .card__logo {
   background: #fff;
-  border: 5px solid rgb(3, 169, 244);
   border-radius: 50%;
+  border: 5px solid rgb(3, 169, 244);
+  display: flex;
+  flex-direction: column;
   height: 70px;
-  width: 70px;
+  justify-content: center;
   margin-top: -40px;
   position: absolute;
   right: 10px;
   top: 50%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   transition: all 200ms ease-in;
+  width: 70px;
 }
 
 .cwc-file-card:hover > .card__header > .card__logo {
@@ -264,4 +281,14 @@
 
 .cwc-file-card:hover > .card__action {
   font-weight: bold;
+}
+
+.mdl-grid.cwc-select-title-grid {
+  color: #4c4c4c;
+  padding: 10px 0 0px 10px;
+}
+
+.mdl-grid.cwc-select-title-grid > .material-icons {
+  font-size: 20px;
+  vertical-align: bottom;
 }

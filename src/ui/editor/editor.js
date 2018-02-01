@@ -54,11 +54,14 @@ cwc.ui.Editor = function(helper) {
   /** @type {string} */
   this.name = 'Editor';
 
-  /** @type {CodeMirror} */
-  this.editor = null;
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!string} */
+  this.prefix = this.helper.getPrefix('editor');
+
+  /** @type {CodeMirror} */
+  this.editor = null;
 
   /** @type {cwc.ui.EditorFlags} */
   this.editorFlags = new cwc.ui.EditorFlags();
@@ -68,9 +71,6 @@ cwc.ui.Editor = function(helper) {
 
   /** @type {string} */
   this.currentEditorView = '';
-
-  /** @type {!string} */
-  this.prefix = this.helper.getPrefix('editor');
 
   /** @type {!string} */
   this.cursorPosition = '';
@@ -170,18 +170,28 @@ cwc.ui.Editor = function(helper) {
 
 /**
  * Decorates the given node and adds the code editor.
- * @param {Element} node The target node to add the code editor.
+ * @param {Element=} node The target node to add the code editor.
  */
 cwc.ui.Editor.prototype.decorate = function(node) {
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    console.error('Invalid Editor node:', this.node);
+    return;
+  }
+
+  // Render code editor template.
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   this.editorFlags = new cwc.ui.EditorFlags();
   this.editorView = {};
-  this.node = node;
   this.modified = false;
 
-  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
-        experimental: this.helper.experimentalEnabled(),
         prefix: this.prefix,
       }
   );
@@ -201,7 +211,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   this.editor.on('cursorActivity', this.updateCursorPosition.bind(this));
   this.editor.on('keyup', this.handleKeyUp_.bind(this));
 
-  // Decorate editor tool-bar.
+  // Decorate toolbar.
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   if (this.nodeToolbar) {
     this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
@@ -209,7 +219,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
     this.toolbar.decorate(this.nodeToolbar, this.nodeSelectView);
   }
 
-  // Decorate editor info-bar.
+  // Decorate infobar.
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   if (this.nodeInfobar) {
     this.infobar = new cwc.ui.EditorInfobar(this.helper);

@@ -33,6 +33,7 @@ closureBuilder.build({
     '!src/frameworks/{internal,internal/**.js}',
   ]),
   externs: [
+    'build/externs/addons.js',
     'build/externs/blockly.js',
     'build/externs/chrome.js',
     'build/externs/codemirror.js',

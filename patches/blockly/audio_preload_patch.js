@@ -19,45 +19,24 @@
  */
 
 
-
 /**
- * Load an audio file.  Cache it, ready for instantaneous playing.
- * @param {!Array.<string>} filenames List of file types in decreasing order of
- *   preference (i.e. increasing size).  E.g. ['media/go.mp3', 'media/go.wav']
- *   Filenames include path from Blockly's root.  File extensions matter.
- * @param {string} name Name of sound.
- * @private
+ * Preload all the audio files so that they play quickly when asked for.
+ * @package
  */
-Blockly.WorkspaceSvg.prototype.loadAudio_ = function(filenames, name) {
-  if (!filenames.length) {
-    return;
-  }
-  try {
-    var audioTest = new window['Audio']();
-  } catch (e) {
-    // No browser support for Audio.
-    // IE can throw an error even if the Audio object exists.
-    return;
-  }
-  var sound;
-  for (var i = 0; i < filenames.length; i++) {
-    var filename = filenames[i];
-    var ext = filename.match(/\.(\w+)$/);
-    if (ext && audioTest.canPlayType('audio/' + ext[1])) {
-      // Found an audio format we can play.
-      sound = new window['Audio'](filename);
-      sound.setAttribute('preload', 'auto');
+Blockly.WorkspaceAudio.prototype.preload = function() {
+  for (let name in this.SOUNDS_) {
+    let sound = this.SOUNDS_[name];
+    sound.volume = 0.01;
+    let playPromise = sound.play();
+    if (playPromise !== undefined) {
+      playPromise.then((e) => {
+        sound.pause();
+      });
+    }
+    // iOS can only process one sound at a time.  Trying to load more than one
+    // corrupts the earlier ones.  Just load one and leave the others uncached.
+    if (goog.userAgent.IPAD || goog.userAgent.IPHONE) {
       break;
     }
   }
-  if (sound && sound.play) {
-    this.SOUNDS_[name] = sound;
-  }
 };
-
-
-/**
- * Preload all the audio files so that they play quickly when asked for.
- * @private
- */
-Blockly.WorkspaceSvg.prototype.preloadAudio_ = function() {};

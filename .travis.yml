@@ -14,6 +14,7 @@ before_install:
 
 script:
   - unset _JAVA_OPTIONS
+  - npm test
 
 language: node_js
 

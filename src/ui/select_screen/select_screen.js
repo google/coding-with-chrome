@@ -26,6 +26,7 @@ goog.require('cwc.ui.SelectScreenNormal');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
+goog.require('goog.events.EventTarget');
 
 
 /**
@@ -49,11 +50,16 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {Element} */
   this.nodeContent = null;
 
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
   /** @type {!cwc.ui.SelectScreenNormal} */
-  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(this.helper);
+  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(
+    this.helper, this.eventHandler_);
 
   /** @type {cwc.ui.SelectScreenAdvanced} */
-  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(this.helper);
+  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(
+    this.helper, this.eventHandler_);
 
   /** @type {boolean} */
   this.updateMode = false;
@@ -128,7 +134,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    layoutInstance.decorateSimpleSingleColumnLayout();
+    layoutInstance.decorateBlank();
     let nodes = layoutInstance.getNodes();
     this.decorate(nodes['content']);
     if (this.lockBasicMode && !opt_force_overview) {
@@ -178,23 +184,33 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
           cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
       }, false, this);
   }
-  this.setClickEvent_('link-normal-mode', this.showNormalOverview);
-  this.setClickEvent_('link-advanced-mode', this.showAdvancedOverview);
 
   if (this.helper.getAndSetFirstRun(this.name)) {
     // this.startTour();
   }
 
   // Blockly demo
-  Blockly.inject('blocklyExampleDiv', {
+  let workspace = Blockly.inject('blocklyExampleDiv', {
     'media': '/external/blockly/media/',
     'toolbox': document.getElementById('blocklyExampleToolbox'),
   });
+  Blockly.Xml.domToWorkspace(
+    document.getElementById('blocklyExampleWorkspace'), workspace);
 
   // Codemirror demo
   CodeMirror.fromTextArea(document.getElementById('codeMirrorExample'), {
     'lineNumbers': true,
+    'foldGutter': true,
+    'gutters': ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
   });
+
+  // Events
+  goog.events.listen(document.querySelector(
+      '#' + this.prefix + 'link-normal-mode .mdl-card__actions'),
+    goog.events.EventType.CLICK, this.showNormalOverview, false, this);
+  goog.events.listen(document.querySelector(
+      '#' + this.prefix + 'link-advanced-mode .mdl-card__actions'),
+    goog.events.EventType.CLICK, this.showAdvancedOverview, false, this);
 };
 
 
@@ -264,6 +280,14 @@ cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
  */
 cwc.ui.SelectScreen.prototype.showIntro = function() {
   this.helper.getInstance('help').showIntro();
+};
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.ui.SelectScreen.prototype.getEventHandler = function() {
+  return this.eventHandler_;
 };
 
 
@@ -356,25 +380,4 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
   } else {
     console.error('Unable to render template', template);
   }
-};
-
-
-/**
- * Adds the click event for the given name and the given function.
- * @param {!string} name
- * @param {!function()} event
- * @param {string=} prefix
- * @return {goog.events.ListenableKey|null|number}
- */
-cwc.ui.SelectScreen.prototype.setClickEvent_ = function(name, event,
-    prefix = this.prefix) {
-  let elementName = prefix + name;
-  let element = goog.dom.getElement(elementName);
-  if (!element) {
-    console.error('Was not able to find element ' + elementName + '!');
-    return null;
-  }
-
-  return goog.events.listen(element, goog.events.EventType.CLICK,
-      event, false, this);
 };

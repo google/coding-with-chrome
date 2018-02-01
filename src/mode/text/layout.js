@@ -40,7 +40,7 @@ cwc.mode.text.Layout = function(helper) {
  */
 cwc.mode.text.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleSingleColumnLayout();
+  layoutInstance.decorateBlank();
 
   goog.soy.renderElement(
       layoutInstance.getNode('content'),

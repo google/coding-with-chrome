@@ -17,6 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+window['Locales'] = window['Locales'] || {};
 
 
 /**

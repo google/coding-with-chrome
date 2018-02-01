@@ -17,6 +17,7 @@
  *
  * @author rohangoyal1407@gmail.com (Rohan Goyal)
  */
+window['Locales'] = window['Locales'] || {};
 
 
 /**

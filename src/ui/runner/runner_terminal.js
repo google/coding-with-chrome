@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.RunnerTerminal');
 
-goog.require('cwc.soy.RunnerTerminal');
+goog.require('cwc.soy.ui.RunnerTerminal');
 
 
 /**
@@ -51,7 +51,7 @@ cwc.ui.RunnerTerminal.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.RunnerTerminal.template,
+      cwc.soy.ui.RunnerTerminal.template,
       {'prefix': this.prefix}
   );
 

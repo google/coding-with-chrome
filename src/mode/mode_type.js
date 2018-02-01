@@ -27,7 +27,6 @@ goog.provide('cwc.mode.Type');
 cwc.mode.Type = {
   ARDUINO: 'arduino',
   BASIC: 'basic',
-  BASIC_ADVANCED: 'basic_advanced',
   BASIC_BLOCKLY: 'basic_blockly',
   COFFEESCRIPT: 'coffeescript',
   EV3: 'ev3',

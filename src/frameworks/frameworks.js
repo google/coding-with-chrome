@@ -33,7 +33,6 @@ cwc.framework.External = {
   BRYTHON: {
     CORE: 'brython.js',
     STDLIB: 'brython_stdlib.js',
-    TURTLE: 'brython_turtle.py',
   },
   COFFEESCRIPT: 'coffee-script.js',
   JQUERY: {

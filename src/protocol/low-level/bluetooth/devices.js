@@ -62,6 +62,9 @@ cwc.protocol.bluetooth.Devices = function(eventHandler) {
   /** @private {string} */
   this.deviceCache_ = '';
 
+  /** @private {!Array} */
+  this.autoConnectDeviceCache_ = [];
+
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -194,6 +197,7 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
   if (numConnected) {
     this.log_.debug('Found', numConnected, 'connected device for', name, ':',
       connectedDevice);
+    this.autoConnectDeviceCache_ = [];
     if (multisearch && numConnected > 1) {
       return connectedDevice[Math.floor(Math.random() * numConnected)];
     }
@@ -205,10 +209,11 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
       return disconnectedDevice[Math.floor(Math.random() * numDisconnected)];
     }
     return disconnectedDevice[0];
-  } else {
+  } else if (!this.autoConnectDeviceCache_.includes(name)) {
     this.log_.error('Bluetooth device with name', name, 'is unknown!');
-    return null;
+    this.autoConnectDeviceCache_.push(name);
   }
+  return null;
 };
 
 
@@ -242,20 +247,17 @@ cwc.protocol.bluetooth.Devices.prototype.autoConnectDevice = function(name,
 
 
 /**
- * @param {Object=} opt_device
+ * @private
  */
-cwc.protocol.bluetooth.Devices.prototype.handleDeviceAdded_ = function(
-    opt_device) {
+cwc.protocol.bluetooth.Devices.prototype.handleDeviceAdded_ = function() {
   this.throttledUpdateDevices.fire();
 };
 
 
 /**
- * @param {Object=} opt_device
  * @private
  */
-cwc.protocol.bluetooth.Devices.prototype.handleDeviceChanged_ = function(
-    opt_device) {
+cwc.protocol.bluetooth.Devices.prototype.handleDeviceChanged_ = function() {
   this.throttledUpdateDevices.fire();
 };
 

@@ -1,7 +1,7 @@
 /**
- * @fileoverview UI Messenger for the Coding with Chrome editor.
+ * @fileoverview Message pane.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,39 +18,18 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Message');
-goog.provide('cwc.ui.MessageType');
 
 goog.require('cwc.soy.ui.Message');
-goog.require('cwc.utils.Logger');
-
-goog.require('goog.Timer');
-goog.require('goog.dom.classlist');
-goog.require('goog.soy');
 
 
 /**
- * @enum {string}
- */
-cwc.ui.MessageType = {
-  CONFIRM: 'confirm',
-  DEBUG: 'debug',
-  ERROR: 'error',
-  INFO: 'info',
-  SUCCESS: 'success',
-  WARNING: 'warning',
-};
-
-
-/**
+ * Class represents the monitor inside the ui.
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
 cwc.ui.Message = function(helper) {
-  /** @type {string} */
-  this.name = 'Message';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -59,115 +38,25 @@ cwc.ui.Message = function(helper) {
 
   /** @type {Element} */
   this.node = null;
-
-  /** @type {Element} */
-  this.snackbar = null;
-
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
-/**
- * Decorates the given node and adds a ui messenger.
- * @param {Element} node The target node to add the ui messenger.
- */
 cwc.ui.Message.prototype.decorate = function(node) {
-  this.node = node;
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
+
+  if (!this.node) {
+    this.log_.error('Invalid Status node:', this.node);
+    return;
+  }
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Message.template,
-      {'prefix': this.prefix}
+      cwc.soy.ui.Message.template, {
+        'prefix': this.prefix,
+      }
   );
-
-  this.snackbar = goog.dom.getElement(this.prefix + 'snackbar');
-};
-
-
-/**
- * @param {!string} message Shows info message.
- */
-cwc.ui.Message.prototype.info = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.INFO);
-};
-
-
-/**
- * @param {!string} message Shows promotion message.
- */
-cwc.ui.Message.prototype.success = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.SUCCESS);
-};
-
-
-/**
- * @param {!string} message Shows error message.
- */
-cwc.ui.Message.prototype.error = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.ERROR);
-};
-
-
-/**
- * @param {!string} message Shows warning message.
- */
-cwc.ui.Message.prototype.warning = function(message) {
-  this.showMessage(message, cwc.ui.MessageType.WARNING);
-};
-
-
-/**
- * Renders content and shows defined message window.
- * @param {string} message
- * @param {cwc.ui.MessageType=} optType
- */
-cwc.ui.Message.prototype.showMessage = function(message, optType) {
-  let type = optType || cwc.ui.MessageType.INFO;
-  let prefix = '[' + type + ' message]';
-  let snackbarData = {
-    message: message,
-    timeout: null,
-  };
-
-  // Console logging
-  switch (type) {
-    case cwc.ui.MessageType.INFO:
-    case cwc.ui.MessageType.SUCCESS:
-      this.log_.notice(prefix, message);
-      break;
-    case cwc.ui.MessageType.WARNING:
-      this.log_.warn(prefix, message);
-      break;
-    case cwc.ui.MessageType.ERROR:
-      this.log_.error(prefix, message);
-      break;
-    default:
-      this.log_.info(prefix, message);
-  }
-
-  // Visual output
-  if (this.snackbar) {
-    switch (type) {
-      case cwc.ui.MessageType.INFO:
-      case cwc.ui.MessageType.SUCCESS:
-        snackbarData['timeout'] = 3000;
-        break;
-      case cwc.ui.MessageType.ERROR:
-      case cwc.ui.MessageType.WARNING:
-        snackbarData['actionHandler'] = this.close.bind(this);
-        snackbarData['actionText'] = 'Dismiss';
-        snackbarData['timeout'] = 30000;
-        break;
-    }
-    goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
-    this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
-  }
-};
-
-
-cwc.ui.Message.prototype.close = function() {
-  if (this.snackbar) {
-    goog.dom.classlist.remove(this.snackbar, 'mdl-snackbar--active');
-  }
 };

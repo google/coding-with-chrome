@@ -70,10 +70,11 @@ cwc.utils.I18n = function() {
  */
 cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
     languageFile = '', blacklistFile = '', supportedLanguagesFile = '') {
-  // Register global Locales variable
-  window['Locales'] = {};
-  window['Locales']['blacklist'] = [];
-  window['Locales']['supportedLanguages'] = [];
+  // Register global Locales variable if needed.
+  window['Locales'] = window['Locales'] || {};
+  window['Locales']['blacklist'] = window['Locales']['blacklist'] || [];
+  window['Locales']['supportedLanguages'] =
+    window['Locales']['supportedLanguages'] || [];
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
@@ -102,7 +103,11 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
   }
 
   if (promises.length) {
-    Promise.all(promises).then(callbackHandling);
+    Promise.all(promises).then(
+      callbackHandling
+    ).catch((e) => {
+      this.log_.error('Loading error:', e);
+    });
   } else {
     callbackHandling();
   }
@@ -241,11 +246,10 @@ cwc.utils.I18n.prototype.getToDo = function() {
  * @return {Promise}
  * @private
  */
-cwc.utils.I18n.prototype.loadFile_ = function(file,
-    node_id = 'cwc-i18n-loader') {
+cwc.utils.I18n.prototype.loadFile_ = function(file, node_id) {
   return new Promise((resolve, reject) => {
     let headNode = document.head || document.getElementsByTagName('head')[0];
-    let oldScriptNode = document.getElementById(node_id);
+    let oldScriptNode = document.getElementById(node_id || 'cwc-i18n-loader');
     if (oldScriptNode) {
       if (oldScriptNode.src === file) {
         this.log_.warn('File', file, 'was already loaded!');
@@ -276,9 +280,9 @@ cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
 
   if (typeof this.untranslated[key] === 'undefined') {
     if (text) {
-      this.log_.warn('[i18n] Untranslated Key', key, 'with text:', text);
+      this.log_.warn('Untranslated Key', key, 'with text:', text);
     } else {
-      this.log_.warn('[i18n] Untranslated Key', key);
+      this.log_.warn('Untranslated Key', key);
     }
     this.untranslated[key] = 1;
   } else {

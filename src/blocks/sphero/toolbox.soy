@@ -25,54 +25,55 @@
  * Blockly blocks.
  */
 {template .toolbox}
+  <xml>
+    <category name="Movements" colour="120">
+      <block type="sphero_roll">
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="sphero_heading"></block>
+      <block type="sphero_stop"></block>
+    </category>
 
-  <category name="Movements" colour="120">
-    <block type="sphero_roll">
-      <value name="speed">
-        <block type="math_number"><field name="NUM">40</field></block>
-      </value>
-    </block>
-    <block type="sphero_heading"></block>
-    <block type="sphero_stop"></block>
-  </category>
+    <category name="Movements (Advance)" colour="120">
+      <block type="sphero_roll_step">
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="sphero_roll_time">
+        <value name="time">
+          <block type="math_number"><field name="NUM">2</field></block>
+        </value>
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+    </category>
 
-  <category name="Movements (Advance)" colour="120">
-    <block type="sphero_roll_step">
-      <value name="speed">
-        <block type="math_number"><field name="NUM">40</field></block>
-      </value>
-    </block>
-    <block type="sphero_roll_time">
-      <value name="time">
-        <block type="math_number"><field name="NUM">2</field></block>
-      </value>
-      <value name="speed">
-        <block type="math_number"><field name="NUM">40</field></block>
-      </value>
-    </block>
-  </category>
+    <category name="Lights" colour="120">
+      <block type="sphero_rgb">
+        <value name="colour">
+          <block type="colour_picker">
+            <field name="COLOUR">#ff0000</field>
+         </block>
+        </value>
+      </block>
+      <block type="sphero_backlight"></block>
+    </category>
 
-  <category name="Lights" colour="120">
-    <block type="sphero_rgb">
-      <value name="colour">
-        <block type="colour_picker">
-          <field name="COLOUR">#ff0000</field>
-       </block>
-      </value>
-    </block>
-    <block type="sphero_backlight"></block>
-  </category>
+    <category name="Events" colour="120">
+      <block type="sphero_collision"></block>
+    </category>
 
-  <category name="Events" colour="120">
-    <block type="sphero_collision"></block>
-  </category>
+    <sep></sep>
 
-  <sep></sep>
+    {call cwc.soy.mode.Blocks.defaultBlocks /}
 
-  {call cwc.soy.mode.Blocks.defaultBlocks /}
+    <sep></sep>
 
-  <sep></sep>
+    {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
 
-  {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
-
+  </xml>
 {/template}

@@ -26,6 +26,8 @@ goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events.EventTarget');
+
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -40,6 +42,9 @@ cwc.mode.Modder = function(helper) {
   /** @type {cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {string} */
+  this.filename = '';
+
   /** @type {cwc.mode.Type} */
   this.mode = cwc.mode.Type.NONE;
 
@@ -48,6 +53,9 @@ cwc.mode.Modder = function(helper) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
 };
 
 
@@ -101,6 +109,14 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
 
 
 /**
+ * @param {string} filename
+ */
+cwc.mode.Modder.prototype.setFilename = function(filename) {
+  this.filename = filename || '';
+};
+
+
+/**
  * @param {cwc.mode.Type} mode
  */
 cwc.mode.Modder.prototype.postMode = function(mode) {
@@ -123,6 +139,10 @@ cwc.mode.Modder.prototype.postMode = function(mode) {
       this.syncLibrary();
     }
   }
+
+  // Event Handling
+  this.eventHandler_.dispatchEvent(
+    cwc.mode.Modder.Events.changeMode(this.mode, this.filename));
 };
 
 
@@ -242,3 +262,12 @@ cwc.mode.Modder.prototype.setTitle = function(title) {
     guiInstance.setTitle(title);
   }
 };
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.mode.Modder.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+

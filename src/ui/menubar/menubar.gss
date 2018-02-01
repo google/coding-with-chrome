@@ -37,3 +37,11 @@
   float: right;
   padding-left: 5px;
 }
+
+#{$prefix}menubar-account-logout-disabled {
+  opacity: 0.7;
+}
+
+#{$prefix}menubar-bluetooth-disabled {
+  opacity: 0.7;
+}

@@ -63,7 +63,9 @@ cwc.utils.Logger = function(name = 'Logger',
   this.name = name;
 
   /** @type {!Array} */
-  this.displayName = this.name ? ['%c' + this.name, 'font-weight: bold;'] : [];
+  this.displayName = this.name ? (
+    window['__karma__'] ? [this.name] : ['%c' + this.name, 'font-weight: bold;']
+  ) : [];
 
   /** @type {!number} */
   this.logLevel = typeof cwc.config !== 'undefined' ?

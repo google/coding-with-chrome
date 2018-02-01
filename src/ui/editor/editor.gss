@@ -15,6 +15,10 @@
  */
 
 
+#{$prefix}editor-toolbar {
+  min-height: 34px;
+}
+
 #{$prefix}editor-view {
   position: absolute;
   bottom: 20px;

@@ -20,11 +20,11 @@
 goog.provide('cwc.ui.Runner');
 
 goog.require('cwc.runner.Connector');
-goog.require('cwc.soy.Runner');
+goog.require('cwc.soy.ui.Runner');
 goog.require('cwc.ui.RunnerInfobar');
 goog.require('cwc.ui.RunnerMonitor');
-goog.require('cwc.ui.RunnerStatus');
-goog.require('cwc.ui.RunnerStatusbar');
+goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.RunnerTerminal');
 goog.require('cwc.ui.RunnerToolbar');
 goog.require('cwc.ui.Turtle');
@@ -61,12 +61,6 @@ cwc.ui.Runner = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeBody = null;
-
-  /** @type {Element} */
-  this.nodeContent = null;
-
-  /** @type {Element} */
   this.nodeRuntime = null;
 
   /** @type {Element} */
@@ -77,9 +71,6 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {Element} */
   this.nodeInfo = null;
-
-  /** @type {Element} */
-  this.nodeStatus = null;
 
   /** @type {Element} */
   this.nodeStatusbar = null;
@@ -112,12 +103,12 @@ cwc.ui.Runner = function(helper) {
   this.commands = {};
 
   /** @type {cwc.ui.RunnerStatus} */
-  this.status = cwc.ui.RunnerStatus.UNKNOWN;
+  this.status = cwc.ui.StatusbarState.UNKNOWN;
 
   /** @type {cwc.ui.RunnerInfobar} */
   this.infobar = null;
 
-  /** @type {cwc.ui.RunnerStatusbar} */
+  /** @type {cwc.ui.Statusbar} */
   this.statusbar = null;
 
   /** @type {cwc.ui.RunnerTerminal} */
@@ -154,24 +145,46 @@ cwc.ui.Runner = function(helper) {
 
 /**
  * Decorates the given node and adds the Runner window.
- * @param {Element} node The target node to add the Runner window.
+ * @param {Element=} node The target node to add the Runner window.
  */
 cwc.ui.Runner.prototype.decorate = function(node) {
-  this.node = node;
+  if (node) {
+    this.node = node;
+  } else {
+    this.node = goog.dom.getElement(this.prefix + 'chrome');
+  }
 
-  goog.soy.renderElement(this.node, cwc.soy.Runner.template, {
+  if (!this.node) {
+    console.error('Invalid Runner node:', this.node);
+    return;
+  }
+
+  goog.soy.renderElement(this.node, cwc.soy.ui.Runner.template, {
     prefix: this.prefix,
     toolbarPrefix: this.helper.getPrefix('runner-toolbar'),
   });
 
-  this.nodeBody = goog.dom.getElement(this.prefix + 'body');
-  this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
-  this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
+
+  // Runtime
   this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
 
   // Turtle
   this.nodeTurtle = goog.dom.getElement(this.prefix + 'turtle');
+
+  // Toolbar
+  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  if (this.nodeToolbar) {
+    this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
+    this.toolbar.decorate(this.nodeToolbar);
+  }
+
+  // Statusbar
+  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
+  if (this.nodeStatusbar) {
+    this.statusbar = new cwc.ui.Statusbar(this.helper);
+    this.statusbar.decorate(this.nodeStatusbar);
+  }
 
   // Infobar
   this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
@@ -184,26 +197,12 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   this.monitor.decorate(this.nodeMonitor);
   this.enableMonitor(false);
 
-  // Statusbar
-  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  if (this.nodeStatusbar) {
-    this.statusbar = new cwc.ui.RunnerStatusbar(this.helper);
-    this.statusbar.decorate(this.nodeStatusbar);
-  }
-
   // Terminal
   this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
   if (this.nodeTerminal) {
     this.terminal = new cwc.ui.RunnerTerminal(this.helper);
     this.terminal.decorate(this.nodeTerminal);
     this.enableTerminal(false);
-  }
-
-  // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
-  if (this.nodeToolbar) {
-    this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar);
   }
 
   // Overlay
@@ -221,55 +220,12 @@ cwc.ui.Runner.prototype.decorate = function(node) {
 
   // Runner
   this.connector.init(true);
-
-  // Monitor Changes
-  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
-      this.adjustSize, false, this);
-
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
-        this.adjustSize, false, this);
     this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
     layoutInstance.refresh();
-  }
-
-  this.adjustSize();
-};
-
-
-/**
- * Adjusts size after resize or on size change.
- */
-cwc.ui.Runner.prototype.adjustSize = function() {
-  let parentElement = goog.dom.getParentElement(this.node);
-  if (parentElement) {
-    let parentSize = goog.style.getSize(parentElement);
-    let newHeight = parentSize.height;
-
-    if (this.nodeToolbar) {
-      let toolbarSize = goog.style.getSize(this.nodeToolbar);
-      newHeight = newHeight - toolbarSize.height;
-    }
-
-    if (this.nodeInfobar) {
-      let infobarSize = goog.style.getSize(this.nodeInfobar);
-      newHeight = newHeight - infobarSize.height;
-    }
-
-    if (this.nodeMonitor && this.monitorEnabled) {
-      let monitorSize = goog.style.getSize(this.nodeMonitor);
-      newHeight = newHeight - monitorSize.height;
-    }
-
-    let contentSize = new goog.math.Size(parentSize.width, newHeight);
-    goog.style.setSize(this.nodeContent, contentSize);
-  }
-  if (this.monitor && this.monitorEnabled) {
-    this.monitor.adjustSize();
   }
 };
 
@@ -442,7 +398,6 @@ cwc.ui.Runner.prototype.enableMonitor = function(enable, height = 250) {
   if (enable) {
     goog.style.setHeight(this.nodeMonitor, height);
   }
-  this.adjustSize();
 };
 
 
@@ -482,14 +437,14 @@ cwc.ui.Runner.prototype.run = function() {
 
   this.showInfo(false);
   if (this.content) {
-    if (this.status == cwc.ui.RunnerStatus.LOADING ||
-        this.status == cwc.ui.RunnerStatus.UNRESPONSIVE) {
+    if (this.status == cwc.ui.StatusbarState.LOADING ||
+        this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
       this.terminate();
     }
     this.stop();
     goog.dom.removeChildren(this.nodeRuntime);
   }
-  this.setStatus_(cwc.ui.RunnerStatus.PREPARE);
+  this.setStatus_(cwc.ui.StatusbarState.PREPARE);
 
   this.content = /** @type {Webview} */ (document.createElement('webview'));
   this.content.setAttribute('partition', 'runner');
@@ -512,7 +467,7 @@ cwc.ui.Runner.prototype.run = function() {
  */
 cwc.ui.Runner.prototype.stop = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.RunnerStatus.STOPPED);
+    this.setStatus_(cwc.ui.StatusbarState.STOPPED);
     this.content.stop();
     this.setContentUrl('about:blank');
     if (this.externalCleanUp) {
@@ -527,7 +482,7 @@ cwc.ui.Runner.prototype.stop = function() {
  */
 cwc.ui.Runner.prototype.refresh = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.RunnerStatus.REFRESHING);
+    this.setStatus_(cwc.ui.StatusbarState.REFRESHING);
     if (this.externalCleanUp) {
       this.externalCleanUp();
     }
@@ -542,7 +497,7 @@ cwc.ui.Runner.prototype.refresh = function() {
  */
 cwc.ui.Runner.prototype.reload = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.RunnerStatus.RELOADING);
+    this.setStatus_(cwc.ui.StatusbarState.RELOADING);
     this.stop();
     this.run();
   }
@@ -554,7 +509,7 @@ cwc.ui.Runner.prototype.reload = function() {
  */
 cwc.ui.Runner.prototype.terminate = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.RunnerStatus.TERMINATED);
+    this.setStatus_(cwc.ui.StatusbarState.TERMINATED);
     if (this.externalCleanUp) {
       this.externalCleanUp();
     }
@@ -603,7 +558,7 @@ cwc.ui.Runner.prototype.handleConsoleMessage_ = function(e) {
  */
 cwc.ui.Runner.prototype.handleLoadStart = function() {
   this.startTime = new Date().getTime();
-  this.setStatus_(cwc.ui.RunnerStatus.LOADING);
+  this.setStatus_(cwc.ui.StatusbarState.LOADING);
 };
 
 
@@ -612,7 +567,7 @@ cwc.ui.Runner.prototype.handleLoadStart = function() {
  */
 cwc.ui.Runner.prototype.handleLoadStop = function() {
   this.stopTime = new Date().getTime();
-  this.setStatus_(cwc.ui.RunnerStatus.LOADED);
+  this.setStatus_(cwc.ui.StatusbarState.LOADED);
   this.connector.start();
 };
 
@@ -621,7 +576,7 @@ cwc.ui.Runner.prototype.handleLoadStop = function() {
  * Shows an unresponsive warning with the option to terminate the preview.
  */
 cwc.ui.Runner.prototype.handleUnresponsive = function() {
-  this.setStatus_(cwc.ui.RunnerStatus.UNRESPONSIVE);
+  this.setStatus_(cwc.ui.StatusbarState.UNRESPONSIVE);
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showYesNo('Unresponsive Warning',
     'The preview is unresponsive! Terminate?').then((answer) => {

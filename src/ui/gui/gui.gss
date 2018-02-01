@@ -19,9 +19,9 @@
   overflow: hidden;
 }
 
-#{$prefix}gui-chrome header {
-  min-height: 34px;
+#{$prefix}gui-chrome > header {
   display: flex;
+  min-height: 34px;
 }
 
 #{$prefix}gui-chrome > header,
@@ -33,11 +33,8 @@
   line-height: 32px;
 }
 
-#{$prefix}gui-chrome footer {
-  display: flex;
-}
-
 #{$prefix}gui-chrome > footer {
+  display: flex;
   background: #CFD8DC;
   position: absolute;
   bottom: 0;

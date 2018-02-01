@@ -30,17 +30,11 @@ goog.require('cwc.utils.Helper');
  * @final
  */
 cwc.mode.phaser.advanced.Editor = function(helper) {
-  /** @type {!cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
+  /** @type {!cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
 };
 
 
@@ -48,9 +42,8 @@ cwc.mode.phaser.advanced.Editor = function(helper) {
  * Decorates the editor.
  */
 cwc.mode.phaser.advanced.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node);
+  this.editor.decorate();
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
   this.editor.enableMediaButton(true);

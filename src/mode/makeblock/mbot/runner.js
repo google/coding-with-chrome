@@ -44,7 +44,7 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('mbot-runner');
+  this.prefix = helper.getPrefix();
 
   /** @type {!cwc.mode.makeblock.mbot.Connection} */
   this.connection = connection;

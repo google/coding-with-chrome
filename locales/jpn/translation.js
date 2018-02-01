@@ -17,6 +17,7 @@
  *
  * @author junji.hashimoto@gmail.com (Junji Hashimoto)
  */
+window['Locales'] = window['Locales'] || {};
 
 
 /**

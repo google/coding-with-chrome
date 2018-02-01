@@ -75,9 +75,6 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {!cwc.runner.profile.sphero.Monitor} */
   this.monitor = new cwc.runner.profile.sphero.Monitor(this.turtle);
 
-  /** @type {Element} */
-  this.node = null;
-
   /** @private {!Array} */
   this.listener_ = [];
 
@@ -91,7 +88,6 @@ cwc.mode.sphero.Runner = function(helper, connection) {
  * @export
  */
 cwc.mode.sphero.Runner.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
 
@@ -106,7 +102,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   this.runner.addMonitor('roll', this.monitor.roll, this.monitor);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
-  this.runner.decorate(this.node);
+  this.runner.decorate();
 
   // Sphero Events
   let apiEventHandler = this.api.getEventHandler();

@@ -22,9 +22,8 @@ goog.provide('cwc.ui.SelectScreenAdvancedView');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreenAdvanced');
+goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Helper');
-
-goog.require('goog.dom');
 
 
 /**
@@ -54,10 +53,11 @@ cwc.ui.SelectScreenAdvancedView = {
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  * @struct
  */
-cwc.ui.SelectScreenAdvanced = function(helper) {
+cwc.ui.SelectScreenAdvanced = function(helper, eventHandler) {
   /** @type {string} */
   this.name = 'SelectScreenAdvanced';
 
@@ -75,6 +75,12 @@ cwc.ui.SelectScreenAdvanced = function(helper) {
 
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!string} */
+  this.resourcesPath_ = '../../resources/examples/';
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler;
 };
 
 
@@ -119,17 +125,17 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.basicOverview);
       this.setNavHeader_('Simple', 'school');
       this.setClickEvent_('link-blank', this.loadFile_,
-          'resources/examples/simple/script/blank.cwc');
+          'simple/script/blank.cwc');
       this.setClickEvent_('link-hello-world', this.loadFile_,
-          'resources/examples/simple/script/Hello-World.cwc');
+          'simple/script/Hello-World.cwc');
       this.setClickEvent_('link-text-loop', this.loadFile_,
-          'resources/examples/simple/script/Text-Loop.cwc');
+          'simple/script/Text-Loop.cwc');
       this.setClickEvent_('link-line-loop', this.loadFile_,
-          'resources/examples/simple/script/Line-Loop.cwc');
+          'simple/script/Line-Loop.cwc');
       this.setClickEvent_('link-point-loop', this.loadFile_,
-          'resources/examples/simple/script/Point-Loop.cwc');
+          'simple/script/Point-Loop.cwc');
       this.setClickEvent_('link-draw-portal-turret', this.loadFile_,
-          'resources/examples/simple/script/Draw-Portal-Turret.cwc');
+          'simple/script/Draw-Portal-Turret.cwc');
       break;
 
     // Programming language Overview
@@ -159,11 +165,11 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.setClickEvent_('link-js-frameworks', this.showView,
         cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_FRAMEWORKS);
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/javascript/script/blank.cwc');
+        'javascript/script/blank.cwc');
       this.setClickEvent_('link-circle-animation', this.loadFile_,
-        'resources/examples/javascript/script/CircleAnimation.cwc');
+        'javascript/script/CircleAnimation.cwc');
       this.setClickEvent_('link-triangle-animation', this.loadFile_,
-        'resources/examples/javascript/script/TriangleAnimation.cwc');
+        'javascript/script/TriangleAnimation.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.JAVASCRIPT_TUTORIAL:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptVideoTutorial);
@@ -173,43 +179,43 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.javaScriptFrameworks);
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-cube-animation', this.loadFile_,
-        'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
+        'javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
     case cwc.ui.SelectScreenAdvancedView.COFFEESCRIPT:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.coffeeScriptOverview);
       this.setNavHeader_('CoffeeScript', 'local_cafe');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/coffeescript/script/blank.coffee');
+        'coffeescript/script/blank.coffee');
       break;
     case cwc.ui.SelectScreenAdvancedView.PYTHON:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pythonOverview);
       this.setNavHeader_('Python', 'gesture');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/python/blank.py');
+        'python/blank.py');
       this.setClickEvent_('link-turtle-graphics', this.loadFile_,
-        'resources/examples/python/turtle-graphics.py');
+        'python/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PYTHON27:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.python27Overview);
       this.setNavHeader_('Python 2.7', 'gesture');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/python2.7/blank.py');
+        'python2.7/blank.py');
       this.setClickEvent_('link-guess-number', this.loadFile_,
-        'resources/examples/python2.7/guess-number.py');
+        'python2.7/guess-number.py');
       this.setClickEvent_('link-turtle-graphics', this.loadFile_,
-        'resources/examples/python2.7/turtle-graphics.py');
+        'python2.7/turtle-graphics.py');
       break;
     case cwc.ui.SelectScreenAdvancedView.PENCIL_CODE:
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.pencilCodeOverview);
       this.setNavHeader_('Pencil Code', 'mode_edit');
       this.addProgrammingMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/pencil_code/script/blank.cwc');
+        'pencil_code/script/blank.cwc');
       this.setClickEvent_('link-turtle-catch', this.loadFile_,
-        'resources/examples/pencil_code/script/Turtle-catch.cwc');
+        'pencil_code/script/Turtle-catch.cwc');
       break;
 
     // Markup language Overview
@@ -225,9 +231,9 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.html5Overview);
       this.setNavHeader_('HTML5', 'public');
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/html5/blank.html');
+        'html5/blank.html');
       this.setClickEvent_('link-form', this.loadFile_,
-        'resources/examples/html5/form.html');
+        'html5/form.html');
       break;
 
     // Robot overview
@@ -246,9 +252,9 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/ev3/script/blank.cwc');
+        'ev3/script/blank.cwc');
       this.setClickEvent_('link-line-follower', this.loadFile_,
-        'resources/examples/ev3/script/EV3-line-follower.cwc');
+        'ev3/script/EV3-line-follower.cwc');
       break;
 
     // Sphero screen
@@ -257,9 +263,9 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/sphero/script/blank.cwc');
+        'sphero/script/blank.cwc');
       this.setClickEvent_('link-rectangle', this.loadFile_,
-        'resources/examples/sphero/script/Sphero-rectangle.cwc');
+        'sphero/script/Sphero-rectangle.cwc');
       break;
 
     // Games overview
@@ -267,7 +273,7 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.gamesOverview);
       this.setNavHeader_('Games', 'videogame_asset');
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/phaser/script/blank.cwc');
+        'phaser/script/blank.cwc');
       break;
 
     // 3D overview
@@ -275,9 +281,9 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
       this.showTemplate_(cwc.soy.SelectScreenAdvanced.graphic3DOverview);
       this.setNavHeader_('3D', '3d_rotation');
       this.setClickEvent_('link-blank', this.loadFile_,
-        'resources/examples/simple/script/blank.cwc');
+        'simple/script/blank.cwc');
       this.setClickEvent_('link-cube-animation', this.loadFile_,
-        'resources/examples/javascript/frameworks/three.js/AnimatedCube.cwc');
+        'javascript/frameworks/three.js/AnimatedCube.cwc');
       break;
 
     default:
@@ -285,6 +291,8 @@ cwc.ui.SelectScreenAdvanced.prototype.showView = function(optName) {
   }
   this.addMenuHandler_();
   this.currentView = name;
+  this.eventHandler_.dispatchEvent(
+    cwc.ui.SelectScreen.Events.changeView(this.currentView));
 };
 
 
@@ -403,7 +411,7 @@ cwc.ui.SelectScreenAdvanced.prototype.setClickEvent_ = function(name, func,
     return null;
   }
   let elementName = this.prefix + name;
-  let element = goog.dom.getElement(elementName);
+  let element = document.getElementById(elementName);
   if (!element) {
     console.error('Missing element ' + elementName + '!');
     return null;
@@ -429,7 +437,7 @@ cwc.ui.SelectScreenAdvanced.prototype.setClickEvent_ = function(name, func,
 cwc.ui.SelectScreenAdvanced.prototype.loadFile_ = function(file_name) {
   let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
-    loaderInstance.loadExampleFile('../../' + file_name);
+    loaderInstance.loadExampleFile(this.resourcesPath_ + file_name);
   }
   let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {

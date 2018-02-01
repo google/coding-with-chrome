@@ -29,20 +29,11 @@ goog.require('cwc.ui.Editor');
  * @final
  */
 cwc.mode.pencilCode.advanced.Editor = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
+  /** @type {cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
 };
 
 
@@ -50,9 +41,8 @@ cwc.mode.pencilCode.advanced.Editor = function(helper) {
  * Decorates the simple editor.
  */
 cwc.mode.pencilCode.advanced.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node);
+  this.editor.decorate();
   this.editor.showEditorViews(false);
   this.editor.showMode(false);
   this.editor.enableMediaButton(true);

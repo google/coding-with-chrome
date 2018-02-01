@@ -29,9 +29,6 @@ goog.require('cwc.soy.mode.ev3.blockly.Layout');
 cwc.mode.ev3.blockly.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix('ev3');
 };
 
 
@@ -40,19 +37,9 @@ cwc.mode.ev3.blockly.Layout = function(helper) {
  */
 cwc.mode.ev3.blockly.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout();
+  layoutInstance.decorateDefault();
   layoutInstance.setFixRightComponentSize(400);
   layoutInstance.setHandleSize(1);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.ev3.blockly.Layout.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.ev3.blockly.Layout.runner,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.renderMiddleContent(cwc.soy.mode.ev3.blockly.Layout.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.ev3.blockly.Layout.runner);
 };

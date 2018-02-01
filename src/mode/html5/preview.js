@@ -33,14 +33,8 @@ cwc.mode.html5.Preview = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Element} */
-  this.node = null;
-
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(helper);
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
@@ -48,7 +42,6 @@ cwc.mode.html5.Preview = function(helper) {
  * Decorates the preview window.
  */
 cwc.mode.html5.Preview.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'preview-chrome');
   this.helper.setInstance('preview', this.preview, true);
-  this.preview.decorate(this.node);
+  this.preview.decorate();
 };

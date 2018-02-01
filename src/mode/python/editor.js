@@ -29,17 +29,11 @@ goog.require('cwc.ui.Editor');
  * @final
  */
 cwc.mode.python.Editor = function(helper) {
-  /** @type {Element} */
-  this.node = null;
-
-  /** @type {cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
+  /** @type {cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
 };
 
 
@@ -47,9 +41,8 @@ cwc.mode.python.Editor = function(helper) {
  * Decorates the text Editor.
  */
 cwc.mode.python.Editor.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'editor-chrome');
   this.helper.setInstance('editor', this.editor, true);
-  this.editor.decorate(this.node);
+  this.editor.decorate();
   this.editor.showLibraryButton(false);
   this.editor.showEditorViews(false);
 };

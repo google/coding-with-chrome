@@ -17,6 +17,7 @@
  *
  * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  */
+window['Locales'] = window['Locales'] || {};
 
 
 /**

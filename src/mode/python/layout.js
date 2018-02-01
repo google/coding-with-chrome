@@ -29,9 +29,6 @@ goog.require('cwc.soy.mode.Python');
 cwc.mode.python.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
 };
 
 
@@ -40,17 +37,7 @@ cwc.mode.python.Layout = function(helper) {
  */
 cwc.mode.python.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.decorateSimpleTwoColumnLayout(630);
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-left'),
-      cwc.soy.mode.Python.editor,
-      {'prefix': this.prefix}
-  );
-
-  goog.soy.renderElement(
-      layoutInstance.getNode('content-right'),
-      cwc.soy.mode.Python.preview,
-      {'prefix': this.prefix}
-  );
+  layoutInstance.decorateDefault(630);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.Python.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.Python.preview);
 };

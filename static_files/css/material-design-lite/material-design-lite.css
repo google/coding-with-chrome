@@ -22,7 +22,7 @@
 
 @import 'material.indigo-blue.min.css';
 
-html>body,
+html > body,
 .mdl-textfield__input {
   font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
   -webkit-font-smoothing: antialiased;

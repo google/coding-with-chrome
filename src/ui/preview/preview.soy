@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.Preview autoescape="strict"}
+{namespace cwc.soy.ui.Preview autoescape="strict"}
 
 
 /**
@@ -25,107 +25,13 @@
  */
 {template .template}
   {@param prefix: string}
+
   <div id="{$prefix}body">
-    {call .toolbar_ data="all" /}
-    <div id="{$prefix}content"></div>
+    <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black"></header>
+    <div id="{$prefix}content">
+      <div id="{$prefix}statusbar"></div>
+      <div id="{$prefix}runtime"></div>
+    </div>
     <footer id="{$prefix}infobar" class="mdl-layout__header"></footer>
   </div>
-{/template}
-
-
-/**
- * Toolbar template.
- */
-{template .toolbar_}
-  {@param prefix: string}
-
-  {let $toolbarPrefix: $prefix + 'toolbar-' /}
-  <header id="{$toolbarPrefix}chrome" class="mdl-layout__header bg_10_pct_black">
-    <div class="mdl-layout__header-row">
-      <nav class="mdl-navigation">
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'run' /}
-          {param icon: 'play_arrow' /}
-          {param opt_title: 'Runs the code and update preview' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'stop' /}
-          {param icon: 'stop' /}
-          {param opt_title: 'Stops or terminates the preview' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'reload' /}
-          {param icon: 'refresh' /}
-          {param opt_title: 'Reload preview' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'refresh' /}
-          {param icon: 'refresh' /}
-          {param opt_title: 'Refresh preview' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'auto-reload' /}
-          {param icon: 'autorenew' /}
-          {param opt_title: 'Automatically reloads the preview after a change on the editor content' /}
-        {/call}
-
-      </nav>
-      <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation">
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'open-in-browser' /}
-          {param icon: 'open_in_browser' /}
-          {param opt_title: 'Open preview in new browser window' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'expand' /}
-          {param icon: 'fullscreen' /}
-          {param opt_title: 'Expand Preview' /}
-        {/call}
-
-        {call .navigationIcon_}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'expand-exit' /}
-          {param icon: 'fullscreen_exit' /}
-          {param opt_title: 'Collapse Preview' /}
-        {/call}
-
-      </nav>
-    </div>
-  </header>
-
-{/template}
-
-
-/**
- * Navigation link button.
- */
-{template .navigationIcon_}
-  {@param prefix: string}
-  {@param id: string}
-  {@param icon: string}
-  {@param? opt_title: string}
-
-  <span class="mdl-navigation__link">
-    <button id="{$prefix}{$id}"
-            class="mdl-button mdl-js-button mdl-button--icon"
-            {if $opt_title}title="{msg desc=""}{$opt_title}{/msg}"{/if}>
-      <i class="material-icons">{$icon}</i>
-    </button>
-  </span>
-
 {/template}

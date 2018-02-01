@@ -157,7 +157,7 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, scope) {
     this.log_.error('Invalid function for', name);
     return;
   }
-  this.log_.info('Adding command', name, func);
+  this.log_.info('Adding command', name);
   if (scope) {
     this.commands[name] = func.bind(scope);
   } else {

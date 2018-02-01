@@ -177,8 +177,7 @@
   {@param prefix: string}
 
   <div id="{$prefix}search-file">
-    
-    <h5>{msg desc=""}Search for Images on Google{/msg}</h5>
+
     <div>
       <img src="../images/logos/googlelogo_color_52x20dp.png">
       <div class="mdl-textfield mdl-js-textfield">
@@ -191,12 +190,27 @@
         <i class="material-icons">search</i> {msg desc=""}Search{/msg}
       </button>
     </div>
-    <p>
+
+    <div id="{$prefix}search-drop">
+      <i class="material-icons">file_upload</i>
+      {msg desc=""}Drop image here{/msg}
+    </div>
+
+    <div id="{$prefix}search-error">
+      {msg desc=""}It seems there is an problem.{/msg}<br>
+      {msg desc=""}
+        Please download the image and upload the downloaded image instead.
+      {/msg}
+      {msg desc=""}Thanks.{/msg}
+    </div>
+
+    <p id="{$prefix}search-note">
       {msg desc=""}Results shown are labeled for commercial reuse with modification.{/msg}
       <a href="https://support.google.com/drive/?p=docs_image_search" target="_blank">
         {msg desc=""}Learn more{/msg}
       </a>
     </p>
+
   </div>
 
 {/template}
