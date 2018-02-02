@@ -15,7 +15,27 @@
  */
 
 #{$prefix}message-chrome {
-  background: #ccc;
-  max-height: 200px;
+  flex: 0 0 auto;
+  height: 234px;
   z-index: 1;
+}
+
+#{$prefix}message-chrome .mdl-layout__tab-bar,
+#{$prefix}message-chrome .mdl-layout__tab-bar-container,
+#{$prefix}message-chrome .mdl-layout__tab,
+#{$prefix}message-chrome .mdl-layout__tab span {
+  height: 34px;
+}
+
+#{$prefix}message-toolbar {
+  min-height: 34px;
+}
+
+#{$prefix}message-content {
+  background: #eee;
+  min-height: 200px;
+}
+
+#{$prefix}message-chrome .mdl-layout__container {
+  height: auto;
 }

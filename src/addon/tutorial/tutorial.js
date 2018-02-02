@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tutorial addon.
+ * @fileoverview Tutorial addon example.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -85,6 +85,10 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
   this.log_.info('Change Mode', mode, 'for file', file);
   if (mode == 'basic_blockly' && file == 'tutorial-1.cwc') {
     this.log_.info('Adding message pane ...');
+    let messageInstance = this.helper.getInstance('message');
+    if (messageInstance) {
+      messageInstance.show(true);
+    }
   }
 };
 

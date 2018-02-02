@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-
 #{$prefix}runner-monitor-toolbar,
-#{$prefix}runner-monitor-toolbar .mdl-layout__tab-bar,
+#{$prefix}runner-monitor-toolbar .mdl-layout__tab span,
 #{$prefix}runner-monitor-toolbar .mdl-layout__tab,
-#{$prefix}runner-monitor-toolbar .mdl-layout__tab span {
+#{$prefix}runner-monitor-toolbar .mdl-layout__tab-bar,
+#{$prefix}runner-monitor-toolbar .mdl-layout__tab-bar-container {
   height: 34px;
 }
+
 
 #{$prefix}runner-monitor-toolbar {
   min-height: 34px;

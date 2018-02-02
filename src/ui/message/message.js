@@ -38,9 +38,18 @@ cwc.ui.Message = function(helper) {
 
   /** @type {Element} */
   this.node = null;
+
+  /** @type {Element} */
+  this.nodeTutorial = null;
+
+  /** @type {Element} */
+  this.nodeHelp = null;
 };
 
 
+/**
+ * @param {Element} node
+ */
 cwc.ui.Message.prototype.decorate = function(node) {
   if (node) {
     this.node = node;
@@ -59,4 +68,14 @@ cwc.ui.Message.prototype.decorate = function(node) {
         'prefix': this.prefix,
       }
   );
+
+  this.show(false);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Message.prototype.show = function(visible) {
+  goog.style.setElementShown(this.node, visible);
 };
