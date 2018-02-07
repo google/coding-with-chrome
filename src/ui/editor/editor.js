@@ -173,12 +173,7 @@ cwc.ui.Editor = function(helper) {
  * @param {Element=} node The target node to add the code editor.
  */
 cwc.ui.Editor.prototype.decorate = function(node) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     console.error('Invalid Editor node:', this.node);
     return;

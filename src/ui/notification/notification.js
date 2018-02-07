@@ -125,10 +125,6 @@ cwc.ui.Notification.prototype.warning = function(message) {
 cwc.ui.Notification.prototype.showMessage = function(message, optType) {
   let type = optType || cwc.ui.NotificationType.INFO;
   let prefix = '[' + type + ' notification]';
-  let snackbarData = {
-    message: message,
-    timeout: null,
-  };
 
   // Console logging
   switch (type) {
@@ -148,21 +144,36 @@ cwc.ui.Notification.prototype.showMessage = function(message, optType) {
 
   // Visual output
   if (this.snackbar) {
-    switch (type) {
-      case cwc.ui.NotificationType.INFO:
-      case cwc.ui.NotificationType.SUCCESS:
-        snackbarData['timeout'] = 3000;
-        break;
-      case cwc.ui.NotificationType.ERROR:
-      case cwc.ui.NotificationType.WARNING:
-        snackbarData['actionHandler'] = this.close.bind(this);
-        snackbarData['actionText'] = 'Dismiss';
-        snackbarData['timeout'] = 30000;
-        break;
-    }
-    goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
-    this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
+    this.showSnackbarMessage(message, optType);
   }
+};
+
+
+/**
+ * Renders content and shows defined message snackbar.
+ * @param {string} message
+ * @param {cwc.ui.NotificationType=} optType
+ */
+cwc.ui.Notification.prototype.showSnackbarMessage = function(message, optType) {
+  let snackbarData = {
+    message: message,
+    timeout: null,
+  };
+
+  switch (optType || cwc.ui.NotificationType.INFO) {
+    case cwc.ui.NotificationType.INFO:
+    case cwc.ui.NotificationType.SUCCESS:
+      snackbarData['timeout'] = 3000;
+      break;
+    case cwc.ui.NotificationType.ERROR:
+    case cwc.ui.NotificationType.WARNING:
+      snackbarData['actionHandler'] = this.close.bind(this);
+      snackbarData['actionText'] = 'Dismiss';
+      snackbarData['timeout'] = 30000;
+      break;
+  }
+  goog.dom.classlist.add(this.snackbar, 'mdl-snackbar--active');
+  this.snackbar['MaterialSnackbar']['showSnackbar'](snackbarData);
 };
 
 

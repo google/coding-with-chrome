@@ -42,12 +42,7 @@ cwc.ui.Message = function(helper) {
 
 
 cwc.ui.Message.prototype.decorate = function(node) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     this.log_.error('Invalid Status node:', this.node);
     return;

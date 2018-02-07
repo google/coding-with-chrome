@@ -33,13 +33,7 @@ cwc.utils.Resources.getUriAsText = function(uri) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
     resolve(xhrResponse.getResponseText() || '');
     });
-    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
-      reject(new Error(
-          'Unable to open uri ' + uri + ':' + e.target.getLastError()));
-    });
-    goog.events.listen(xhr, goog.net.EventType.TIMEOUT, function() {
-      reject(new Error('Timeout for uri ' + uri));
-    });
+    cwc.utils.Resources.addXhrErrorEvents_(xhr, reject, uri);
     xhr.send(uri);
   });
 };
@@ -57,13 +51,7 @@ cwc.utils.Resources.getUriAsBlob = function(uri) {
       let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
     resolve(xhrResponse.getResponse());
     });
-    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
-      reject(new Error(
-          'Unable to open uri ' + uri + ':' + e.target.getLastError()));
-    });
-    goog.events.listen(xhr, goog.net.EventType.TIMEOUT, function() {
-      reject(new Error('Timeout for uri ' + uri));
-    });
+    cwc.utils.Resources.addXhrErrorEvents_(xhr, reject, uri);
     xhr.send(uri);
   });
 };
@@ -86,13 +74,25 @@ cwc.utils.Resources.getUriAsBase64 = function(uri) {
       };
       contentReader.readAsDataURL(content);
     });
-    goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
-      reject(new Error(
-          'Unable to open uri ' + uri + ':' + e.target.getLastError()));
-    });
-    goog.events.listen(xhr, goog.net.EventType.TIMEOUT, function() {
-      reject(new Error('Timeout for uri ' + uri));
-    });
+    cwc.utils.Resources.addXhrErrorEvents_(xhr, reject, uri);
     xhr.send(uri);
+  });
+};
+
+
+/**
+ * @param {!goog.net.XhrIo} xhr
+ * @param {!function} reject
+ * @param {string=} uri
+ * @private
+ */
+cwc.utils.Resources.addXhrErrorEvents_ = function(xhr, reject,
+    uri = 'unknown') {
+  goog.events.listen(xhr, goog.net.EventType.ERROR, function(e) {
+    reject(new Error(
+        'Unable to open uri ' + uri + ':' + e.target.getLastError()));
+  });
+  goog.events.listen(xhr, goog.net.EventType.TIMEOUT, function() {
+    reject(new Error('Timeout for uri ' + uri));
   });
 };

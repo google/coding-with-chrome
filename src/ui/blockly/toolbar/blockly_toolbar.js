@@ -58,19 +58,10 @@ cwc.ui.BlocklyToolbar = function(helper) {
   this.nodeMoreList = null;
 
   /** @type {Element} */
-  this.nodeSave = null;
-
-  /** @type {Element} */
-  this.nodePublish = null;
-
-  /** @type {Element} */
   this.nodeUndo = null;
 
   /** @type {Element} */
   this.nodeRedo = null;
-
-  /** @type {Element} */
-  this.nodeVariable = null;
 
   /** @type {boolean} */
   this.expandState = false;
@@ -92,6 +83,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
     }
   );
 
+  let nodeSave = goog.dom.getElement(this.prefix + 'save');
+  let nodeVariable = goog.dom.getElement(this.prefix + 'variable');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
   this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
@@ -99,9 +92,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
-  this.nodeSave = goog.dom.getElement(this.prefix + 'save');
   this.nodeUndo = goog.dom.getElement(this.prefix + 'undo');
-  this.nodeVariable = goog.dom.getElement(this.prefix + 'variable');
 
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
 
@@ -110,8 +101,8 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
   goog.style.setElementShown(this.nodeMedia, false);
 
   if (this.helper.experimentalEnabled()) {
-    this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
-    goog.events.listen(this.nodePublish, goog.events.EventType.CLICK,
+    let nodePublish = goog.dom.getElement(this.prefix + 'publish');
+    goog.events.listen(nodePublish, goog.events.EventType.CLICK,
       this.publish.bind(this));
   }
 
@@ -126,11 +117,11 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
     this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
     this.redo.bind(this));
-  goog.events.listen(this.nodeSave, goog.events.EventType.CLICK,
+  goog.events.listen(nodeSave, goog.events.EventType.CLICK,
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
-  goog.events.listen(this.nodeVariable, goog.events.EventType.CLICK,
+  goog.events.listen(nodeVariable, goog.events.EventType.CLICK,
     this.createVariable.bind(this));
 };
 
