@@ -30,14 +30,14 @@ goog.require('cwc.utils.Helper');
  * @enum {!string}
  */
 cwc.ui.SelectScreenNormalView = {
-  BASIC: 'basicOverview',
-  GAMES: 'gamesOverview',
-  EV3: 'ev3Overview',
-  MBOT: 'mbotOverview',
-  MBOT_RANGER: 'mbotRangerOverview',
+  BASIC: 'basic',
+  GAMES: 'games',
+  EV3: 'ev3',
+  MBOT: 'mbot',
+  MBOT_RANGER: 'mbotRanger',
   OVERVIEW: 'overview',
-  ROBOT: 'robotOverview',
-  SPHERO: 'spheroOverview',
+  ROBOT: 'robot',
+  SPHERO: 'sphero',
   NONE: '',
 };
 

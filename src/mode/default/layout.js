@@ -1,7 +1,7 @@
 /**
- * @fileoverview Preview for the Simple editor.
+ * @fileoverview Layout for the default modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,40 +17,31 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.Preview');
+goog.provide('cwc.mode.default.Layout');
 
-goog.require('cwc.ui.Preview');
+goog.require('cwc.soy.mode.default.Layout');
 goog.require('cwc.utils.Helper');
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @struct
- * @final
  */
-cwc.mode.basic.Preview = function(helper) {
+cwc.mode.default.Layout = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.ui.Preview} */
-  this.preview = new cwc.ui.Preview(helper);
+  /** @type {!number} */
+  this.layoutWidth = 400;
 };
 
 
 /**
- * Decorates the preview window.
+ * Decorates the Blockly layout.
  */
-cwc.mode.basic.Preview.prototype.decorate = function() {
-  this.helper.setInstance('preview', this.preview, true);
-  this.preview.decorate();
-};
-
-
-/**
- * Shows or hides the built in console.
- * @param {boolean} visible
- */
-cwc.mode.basic.Preview.prototype.showConsole = function(visible) {
-  this.preview.showConsole(visible);
+cwc.mode.default.Layout.prototype.decorate = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.decorateDefault(this.layoutWidth);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.preview);
 };

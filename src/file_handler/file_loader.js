@@ -115,11 +115,11 @@ cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(filename) {
   return new Promise((resolve, reject) => {
     this.getResourceFile(filename, (filename, data) => {
       this.handleFileData(data, filename, null, undefined).then(
-        resolve,
-        (e) => {
-          this.log_.error('Loading error:', e);
-          reject();
-        });
+        resolve
+      ).catch((e) => {
+        this.log_.error('Loading error:', e);
+        reject();
+      });
     });
   });
 };
