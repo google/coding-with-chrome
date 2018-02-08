@@ -127,12 +127,7 @@ cwc.ui.Preview = function(helper) {
  * @param {Element=} node The target node to add the preview window.
  */
 cwc.ui.Preview.prototype.decorate = function(node) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     console.error('Invalid Preview node:', this.node);
     return;

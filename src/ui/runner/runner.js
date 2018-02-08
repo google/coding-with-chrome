@@ -148,12 +148,7 @@ cwc.ui.Runner = function(helper) {
  * @param {Element=} node The target node to add the Runner window.
  */
 cwc.ui.Runner.prototype.decorate = function(node) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     console.error('Invalid Runner node:', this.node);
     return;

@@ -37,7 +37,7 @@ goog.require('goog.style');
  */
 cwc.ui.Statusbar = function(helper) {
   /** @type {string} */
-  this.name = 'RunnerStatusbar';
+  this.name = 'Statusbar';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -61,12 +61,7 @@ cwc.ui.Statusbar = function(helper) {
  * @param {Element=} node The target node to add the status bar.
  */
 cwc.ui.Statusbar.prototype.decorate = function(node) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     this.log_.error('Invalid Status node:', this.node);
     return;
@@ -95,34 +90,7 @@ cwc.ui.Statusbar.prototype.decorate = function(node) {
  */
 cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
     stopTime = 0) {
-  let statusText = status;
-  switch (status) {
-    case cwc.ui.StatusbarState.PREPARE:
-      statusText = 'Preparing ...';
-      break;
-    case cwc.ui.StatusbarState.STOPPED:
-      statusText = 'Stopped';
-      break;
-    case cwc.ui.StatusbarState.RELOADING:
-      statusText = 'Reloading ...';
-      break;
-    case cwc.ui.StatusbarState.RUNNING:
-      statusText = 'Running ...';
-      break;
-    case cwc.ui.StatusbarState.LOADING:
-      statusText = 'Loading...';
-      break;
-    case cwc.ui.StatusbarState.LOADED:
-      statusText = 'Finished after ' +
-        ((stopTime - startTime) / 1000) + ' seconds.';
-      break;
-    case cwc.ui.StatusbarState.TERMINATED:
-      statusText = 'Terminated';
-      break;
-    case cwc.ui.StatusbarState.UNRESPONSIVE:
-      statusText = 'Unresponsive';
-      break;
-  }
+  let statusText = cwc.ui.Statusbar.translateState(status, startTime, stopTime);
   if (this.nodeStatus) {
     this.show();
     goog.dom.setTextContent(this.nodeStatus, statusText);
@@ -147,4 +115,34 @@ cwc.ui.Statusbar.prototype.hide = function() {
  */
 cwc.ui.Statusbar.prototype.show = function() {
   goog.style.setElementShown(this.node, true);
+};
+
+
+/*
+ * @param {!cwc.ui.StatusbarState} status
+ * @param {number=} startTime
+ * @param {number=} stopTime
+ * @return {string}
+ */
+cwc.ui.Statusbar.translateState = function(status, startTime = 0,
+    stopTime = 0) {
+  switch (status) {
+    case cwc.ui.StatusbarState.PREPARE:
+      return 'Preparing ...';
+    case cwc.ui.StatusbarState.STOPPED:
+      return 'Stopped';
+    case cwc.ui.StatusbarState.RELOADING:
+      return 'Reloading ...';
+    case cwc.ui.StatusbarState.RUNNING:
+      return 'Running ...';
+    case cwc.ui.StatusbarState.LOADING:
+      return 'Loading ...';
+    case cwc.ui.StatusbarState.LOADED:
+      return 'Finished after ' + ((stopTime - startTime) / 1000) + ' seconds.';
+    case cwc.ui.StatusbarState.TERMINATED:
+      return 'Terminated';
+    case cwc.ui.StatusbarState.UNRESPONSIVE:
+      return 'Unresponsive';
+  }
+  return status || '';
 };

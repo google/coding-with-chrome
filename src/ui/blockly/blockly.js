@@ -127,12 +127,7 @@ cwc.ui.Blockly = function(helper) {
  * @param {Object=} options Optional dictionary of options.
  */
 cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
-  if (node) {
-    this.node = node;
-  } else {
-    this.node = goog.dom.getElement(this.prefix + 'chrome');
-  }
-
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     console.error('Invalid Blockly node:', this.node);
     return;
