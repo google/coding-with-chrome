@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.Connection');
 
+goog.require('cwc.utils.Listener');
 goog.require('goog.Timer');
 
 
@@ -45,8 +46,8 @@ cwc.mode.sphero.Connection = function(helper) {
   /** @type {!number} */
   this.connectMonitorInterval = 5000;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Listener} */
+  this.listener_ = new cwc.utils.Listener(this.name);
 };
 
 
@@ -57,7 +58,7 @@ cwc.mode.sphero.Connection = function(helper) {
 cwc.mode.sphero.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
-    this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
+    this.listener_.add(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
   this.connectMonitor.start();
@@ -142,24 +143,5 @@ cwc.mode.sphero.Connection.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.stop();
-  this.helper.removeEventListeners(this.listener_, this.name);
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.sphero.Connection.prototype.addEventListener_ = function(src, type,
-    listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
+  this.listener_.clear();
 };

@@ -165,14 +165,14 @@ cwc.ui.Builder = function() {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Array} */
-  this.listener_ = [];
-
   /** @type {Function} */
   this.callback = null;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!cwc.utils.Listener} */
+  this.listener_ = new cwc.utils.Listener(this.name);
 
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
@@ -203,7 +203,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   }
 
   // Register Error handler
-  this.addEventListener_(window, goog.events.EventType.ERROR, function(e) {
+  this.listener_.add(window, goog.events.EventType.ERROR, function(e) {
     let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
@@ -361,7 +361,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     if (this.callback) {
       this.callback(this);
     }
-    this.helper.removeEventListeners(this.listener_, this.name);
+    this.listener_.clear();
   }
 };
 
@@ -738,24 +738,4 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
     this.raiseError('Unable to find ' + name + ' !\n' +
         'Please check if you have included the ' + name + ' files.');
   }
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {Function} listener
- * @param {boolean=} useCapture
- * @param {Object=} listenerScope
- * @private
- */
-cwc.ui.Builder.prototype.addEventListener_ = function(src, type, listener,
-    useCapture = false, listenerScope = null) {
-  let eventListener = goog.events.listen(src, type, listener, useCapture,
-      listenerScope);
-  goog.array.insert(this.listener_, eventListener);
 };

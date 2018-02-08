@@ -8,7 +8,7 @@
   "dependencies": {
     "closure-builder": "^2.2.36",
     "command-line-usage": "^4.1.0",
-    "jasmine-core": "^2.99.0",
+    "jasmine-core": "^2.99.1",
     "jsdoc": "^3.5.5",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
