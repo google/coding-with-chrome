@@ -19,11 +19,7 @@
  */
 goog.provide('cwc.mode.phaser.advanced.Mod');
 
-goog.require('cwc.mode.phaser.Preview');
-goog.require('cwc.mode.phaser.advanced.Editor');
-goog.require('cwc.mode.phaser.advanced.Layout');
-goog.require('cwc.renderer.internal.HTML5');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.mode.default.Mod');
 
 
 /**
@@ -31,17 +27,8 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.phaser.advanced.Mod = function(helper) {
-  /** @type {!cwc.mode.phaser.advanced.Layout} */
-  this.layout = new cwc.mode.phaser.advanced.Layout(helper);
-
-  /** @type {!cwc.mode.phaser.advanced.Editor} */
-  this.editor = new cwc.mode.phaser.advanced.Editor(helper);
-
-  /** @type {!cwc.mode.phaser.Preview} */
-  this.preview = new cwc.mode.phaser.Preview(helper);
-
-  /** @type {cwc.renderer.internal.HTML5} */
-  this.renderer = new cwc.renderer.internal.HTML5(helper);
+  /** @type {!cwc.mode.default.blockly.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -49,8 +36,8 @@ cwc.mode.phaser.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.phaser.advanced.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
-  this.preview.decorate(true);
-  this.renderer.init();
+  this.mod.decorate();
+  this.mod.editor.showEditorViews(false);
+  this.mod.editor.showMode(false);
+  this.mod.editor.enableMediaButton(true);
 };

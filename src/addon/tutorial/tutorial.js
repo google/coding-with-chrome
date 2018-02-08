@@ -20,8 +20,10 @@
 goog.provide('cwc.addon.Tutorial');
 
 goog.require('cwc.mode.Modder.Events');
+goog.require('cwc.mode.Type');
 goog.require('cwc.soy.addon.Tutorial');
 goog.require('cwc.ui.SelectScreen.Events');
+goog.require('cwc.ui.SelectScreenNormalView');
 goog.require('cwc.utils.Logger');
 
 
@@ -70,7 +72,7 @@ cwc.addon.Tutorial.prototype.prepare = function() {
 cwc.addon.Tutorial.prototype.eventsSelectScreen = function(e) {
   let view = e.data;
   this.log_.info('Change View', view);
-  if (view == 'basicOverview') {
+  if (view == cwc.ui.SelectScreenNormalView.BASIC) {
     let navigationNode = goog.dom.getElement(
       'cwc-select-screen-normal-navigation-overview');
     navigationNode['style']['background'] = 'red';
@@ -83,7 +85,7 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
   let file = e.data.file;
   this.log_.info('Change Mode', mode, 'for file', file);
-  if (mode == 'basic_blockly' && file == 'tutorial-1.cwc') {
+  if (mode == cwc.mode.Type.BASIC_BLOCKLY && file == 'tutorial-1.cwc') {
     this.log_.info('Adding message pane ...');
     let messageInstance = this.helper.getInstance('message');
     if (messageInstance) {
