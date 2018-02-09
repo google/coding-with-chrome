@@ -62,8 +62,8 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
   /** @type {goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
@@ -120,7 +120,7 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function() {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout', true);
   let layoutEventHandler = layoutInstance.getEventHandler();
-  this.addEventListener_(layoutEventHandler, goog.events.EventType.UNLOAD,
+  this.events_.listen(layoutEventHandler, goog.events.EventType.UNLOAD,
     this.cleanUp, false, this);
 
   this.addEventHandler_();
@@ -137,7 +137,7 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
 };
 
 
@@ -146,36 +146,29 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.cleanUp = function() {
  */
 cwc.mode.makeblock.mbotRanger.Monitor.prototype.addEventHandler_ = function() {
   // Movements
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-left'),
-    goog.events.EventType.CLICK, function() {
+  this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
       this.api.rotatePower(-this.normalSpeed_);
   }, false, this);
 
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-forward'),
-    goog.events.EventType.CLICK, function() {
+  this.events_.listen('move-forward', goog.events.EventType.CLICK, function() {
       this.api.movePower(this.normalSpeed_);
   }, false, this);
 
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-backward'),
-    goog.events.EventType.CLICK,
-    function() {
+  this.events_.listen('move-backward', goog.events.EventType.CLICK, function() {
       this.api.movePower(-this.normalSpeed_);
   }, false, this);
 
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'move-right'),
-    goog.events.EventType.CLICK, function() {
+  this.events_.listen('move-right', goog.events.EventType.CLICK, function() {
       this.api.rotatePower(this.normalSpeed_);
   }, false, this);
 
   // Ping
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'ping'),
-    goog.events.EventType.CLICK, function() {
+  this.events_.listen('ping', goog.events.EventType.CLICK, function() {
       this.api.playTone(588, 240);
   }, false, this);
 
   // Stop
-  this.addEventListener_(goog.dom.getElement(this.prefix + 'stop'),
-    goog.events.EventType.CLICK, function() {
+  this.events_.listen('stop', goog.events.EventType.CLICK, function() {
       this.connection.stop();
   }, false, this);
 };
@@ -250,23 +243,4 @@ function(event) {
     default:
       console.info(event.identifier);
   }
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.makeblock.mbotRanger.Monitor.prototype.addEventListener_ = function(
-    src, type, listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
 };

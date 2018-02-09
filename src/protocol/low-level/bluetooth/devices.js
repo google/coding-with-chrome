@@ -1,5 +1,5 @@
 /**
- * @fileoverview Handles the pairing and communication with USB devices.
+ * @fileoverview Handles the pairing and communication with Bluetooth devices.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -53,8 +53,8 @@ cwc.protocol.bluetooth.Devices = function(eventHandler) {
   /** @type {!goog.Timer} */
   this.deviceMonitor = new goog.Timer(this.updateDevicesInterval);
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = eventHandler;
@@ -85,7 +85,7 @@ cwc.protocol.bluetooth.Devices.prototype.prepare = function() {
       this.handleDeviceChanged_.bind(this));
   chrome.bluetooth.onDeviceRemoved.addListener(
       this.handleDeviceRemoved_.bind(this));
-  this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
+  this.events_.listen(this.deviceMonitor, goog.Timer.TICK,
       this.updateDevices.bind(this));
   this.deviceMonitor.start();
   this.updateDevices();
@@ -148,7 +148,7 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
       let profile = supportedDevices[entry];
       if (device['deviceClass'] == profile.deviceClass &&
           device['uuids'].includes(profile.uuid) &&
-          device['name'].includes(profile.indicator)) {
+          device['name'].includes(profile.namePrefix)) {
         this.log_.debug('Found device profile', profile.name, 'for', device);
         return profile;
       }
@@ -183,7 +183,7 @@ cwc.protocol.bluetooth.Devices.prototype.getDeviceByName = function(name,
   for (let entry in this.devices) {
     if (this.devices.hasOwnProperty(entry)) {
       let device = this.devices[entry];
-      if (device.getIndicator().includes(name)) {
+      if (device.getNamePrefix().includes(name)) {
         if (device.isConnected()) {
           connectedDevice.push(device);
         } else {
@@ -312,8 +312,14 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
         let type = profile.name;
         let uuids = deviceEntry['uuids'];
         let device = new cwc.protocol.bluetooth.Device(
-            address, connected, connectable, deviceClass, name, paired, uuids,
-            profile, this.eventHandler_, type);
+            connectable, deviceClass, uuids,
+            profile, this.eventHandler_);
+        device.setAddress(address);
+        device.setConnected(connected);
+        device.setName(name);
+        device.setPaired(paired);
+        device.setType(type);
+
         device.setConnectEvent(this.handleConnect_.bind(this));
         device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         this.devices[address] = device;
@@ -360,23 +366,4 @@ cwc.protocol.bluetooth.Devices.prototype.handleDisconnect_ = function(socket_id,
     this.log_.debug('Disconnected socket', socket_id, 'from', address);
   }
   delete this.socketIds[socket_id];
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.protocol.bluetooth.Devices.prototype.addEventListener_ = function(src, type,
-    listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
 };

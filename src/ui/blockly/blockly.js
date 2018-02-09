@@ -66,9 +66,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {string} */
   this.mediaFiles = '../external/blockly/';
 
-  /** @type {Array} */
-  this.listener_ = [];
-
   /** @type {boolean} */
   this.modified = false;
 
@@ -83,6 +80,9 @@ cwc.ui.Blockly = function(helper) {
 
   /** @type {cwc.ui.BlocklyToolbox} */
   this.toolbox = null;
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!boolean} */
   this.isVisible_ = true;
@@ -193,16 +193,16 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   // Monitor changes
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
   if (viewportMonitor) {
-    this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
+    this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
   }
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
+    this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
 
@@ -549,34 +549,13 @@ cwc.ui.Blockly.prototype.setToolboxFiles = function(files) {
   this.toolbox.setFiles(files);
 };
 
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} useCapture
- * @param {Object=} listenerScope
- * @private
- */
-cwc.ui.Blockly.prototype.addEventListener_ = function(src, type,
-    listener, useCapture = false, listenerScope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, useCapture,
-      listenerScope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
 /**
  * Cleans up the event listener and any other modification.
  * @private
  */
 cwc.ui.Blockly.prototype.cleanUp_ = function() {
   this.enabled = false;
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
   cwc.ui.Helper.hideElements(this.widgetClass);
   this.modified = false;
 };

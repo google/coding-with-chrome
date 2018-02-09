@@ -22,6 +22,7 @@ goog.provide('cwc.mode.ev3.Calibration');
 goog.require('cwc.protocol.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Calibration');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
 
@@ -82,8 +83,8 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   if (!this.connection) {
     console.error('Missing connection instance !');
@@ -141,7 +142,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
@@ -157,11 +158,11 @@ cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
   let detectSensors = goog.dom.getElement(this.prefix + 'detect-sensors');
 
   // Calibration
-  this.addEventListener_(detectSensors, goog.events.EventType.CLICK,
+  this.events_.listen(detectSensors, goog.events.EventType.CLICK,
     this.detect.bind(this), false, this);
 
   // Robot set
-  this.addEventListener_(this.nodeSet, goog.events.EventType.CLICK,
+  this.events_.listen(this.nodeSet, goog.events.EventType.CLICK,
     this.setCalibration, false, this);
 };
 
@@ -233,24 +234,5 @@ cwc.mode.ev3.Calibration.prototype.setCalibration = function(opt_event) {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.ev3.Calibration.prototype.cleanUp = function() {
-  this.helper.removeEventListeners(this.listener_, this.name);
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.ev3.Calibration.prototype.addEventListener_ = function(src, type,
-    listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
+   this.events_.clear();
 };

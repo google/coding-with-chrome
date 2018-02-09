@@ -34,6 +34,7 @@ goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.bluetooth.Api');
+goog.require('cwc.protocol.bluetoothLE.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
@@ -110,6 +111,7 @@ cwc.ui.BuilderHelpers = {
 cwc.ui.supportedProtocols = {
   // Low-level
   'bluetooth': cwc.protocol.bluetooth.Api,
+  'bluetoothLE': cwc.protocol.bluetoothLE.Api,
   'http-server': cwc.protocol.tcp.HTTPServer,
   'serial': cwc.protocol.serial.Api,
 
@@ -171,8 +173,8 @@ cwc.ui.Builder = function() {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {!cwc.utils.Listener} */
-  this.listener_ = new cwc.utils.Listener(this.name);
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
@@ -203,7 +205,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   }
 
   // Register Error handler
-  this.listener_.add(window, goog.events.EventType.ERROR, function(e) {
+  this.events_.listen(window, goog.events.EventType.ERROR, function(e) {
     let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
@@ -332,7 +334,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
   }
 
   if (!this.error) {
-    this.setProgress('Prepare Bluetooth support ...', 65);
+    this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
     this.prepareBluetooth();
   }
 
@@ -361,7 +363,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     if (this.callback) {
       this.callback(this);
     }
-    this.listener_.clear();
+    this.events_.clear();
   }
 };
 
@@ -443,12 +445,17 @@ cwc.ui.Builder.prototype.prepareAddons = function() {
 
 
 /**
- * Prepare Bluetooth interface if needed.
+ * Prepare Bluetooth / Bluetooth LE interface if needed.
  */
 cwc.ui.Builder.prototype.prepareBluetooth = function() {
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (this.helper.checkChromeFeature('bluetooth') && bluetoothInstance) {
     bluetoothInstance.prepare();
+  }
+
+  let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
+  if (this.helper.checkBrowserFeature('bluetooth') && bluetoothLEInstance) {
+    bluetoothLEInstance.prepare();
   }
 };
 

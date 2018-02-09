@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.sphero.Connection');
 
-goog.require('cwc.utils.Listener');
 goog.require('goog.Timer');
 
 
@@ -46,8 +45,8 @@ cwc.mode.sphero.Connection = function(helper) {
   /** @type {!number} */
   this.connectMonitorInterval = 5000;
 
-  /** @private {!cwc.utils.Listener} */
-  this.listener_ = new cwc.utils.Listener(this.name);
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 };
 
 
@@ -58,7 +57,7 @@ cwc.mode.sphero.Connection = function(helper) {
 cwc.mode.sphero.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
-    this.listener_.add(this.connectMonitor, goog.Timer.TICK,
+    this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
   this.connectMonitor.start();
@@ -143,5 +142,5 @@ cwc.mode.sphero.Connection.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.stop();
-  this.listener_.clear();
+  this.events_.clear();
 };

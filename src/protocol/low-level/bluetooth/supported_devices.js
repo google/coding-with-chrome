@@ -37,21 +37,21 @@ goog.provide('cwc.protocol.bluetooth.supportedDevices');
 cwc.protocol.bluetooth.supportedDevices = {
   EV3: {
     name: 'Lego Mindstorms EV3',
-    indicator: 'EV3',
+    namePrefix: 'EV3',
     deviceClass: 2052,
     uuid: '00001101-0000-1000-8000-00805f9b34fb',
     icon: 'adb',
   },
   SPHERO: {
     name: 'Sphero 2.0',
-    indicator: 'Sphero',
+    namePrefix: 'Sphero',
     deviceClass: 2360392,
     uuid: '00001101-0000-1000-8000-00805f9b34fb',
     icon: 'adjust',
   },
   MAKEBLOCK: {
     name: 'Makeblock',
-    indicator: 'Makeblock',
+    namePrefix: 'Makeblock',
     deviceClass: 5898756,
     uuid: '00001101-0000-1000-8000-00805f9b34fb',
   },

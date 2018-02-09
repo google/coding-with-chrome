@@ -76,7 +76,12 @@ cwc.protocol.serial.Api.prototype.prepare = function() {
   this.devices = new cwc.protocol.serial.Devices(this.helper);
   this.devices.prepare();
 
-  this.addEventListener_();
+  // Monitor serial data
+  chrome.serial.onReceive.addListener(
+    this.handleOnReceive_.bind(this));
+  chrome.serial.onReceiveError.addListener(
+    this.handleOnReceiveError_.bind(this));
+
   this.prepared = true;
 };
 
@@ -122,18 +127,6 @@ cwc.protocol.serial.Api.prototype.getConnectedDevice = function() {
     return this.devices.getConnectedDevice();
   }
   return null;
-};
-
-
-/**
- * Adds the different types of event listener to device.
- * @private
- */
-cwc.protocol.serial.Api.prototype.addEventListener_ = function() {
-  chrome.serial.onReceive.addListener(
-      this.handleOnReceive_.bind(this));
-  chrome.serial.onReceiveError.addListener(
-      this.handleOnReceiveError_.bind(this));
 };
 
 

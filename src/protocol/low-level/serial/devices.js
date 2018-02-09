@@ -54,8 +54,8 @@ cwc.protocol.serial.Devices = function(helper) {
   /** @private {cwc.protocol.serial.Device} */
   this.connectedDevice_ = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {string} */
   this.deviceCache_ = '';
@@ -74,7 +74,7 @@ cwc.protocol.serial.Devices.prototype.prepare = function() {
   }
 
   this.log_.debug('Preparing ...');
-  this.addEventListener_(this.deviceMonitor, goog.Timer.TICK,
+  this.events_.listen(this.deviceMonitor, goog.Timer.TICK,
       this.updateDevices.bind(this));
   this.deviceMonitor.start();
   this.updateDevices();
@@ -246,23 +246,4 @@ cwc.protocol.serial.Devices.prototype.handleGetDevices_ = function(
     }
   }
   this.deviceCache_ = JSON.stringify(devices.sort());
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.protocol.serial.Devices.prototype.addEventListener_ = function(src, type,
-    listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
 };

@@ -58,8 +58,8 @@ cwc.ui.Library = function(helper) {
   /** @type {Element} */
   this.nodeSearchError = null;
 
-  /** @type {Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
   /** @type {number} */
   this.numOfFiles_ = 0;
@@ -79,7 +79,7 @@ cwc.ui.Library.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
@@ -93,31 +93,31 @@ cwc.ui.Library.prototype.decorate = function() {
   this.nodeSearchError = goog.dom.getElement(this.prefix + 'search-error');
 
   // Drag and Drop events
-  this.addEventListener_(nodeAddFile, goog.events.EventType.DRAGLEAVE,
+  this.events_.listen(nodeAddFile, goog.events.EventType.DRAGLEAVE,
     this.handleDragLeave_, false, this);
-  this.addEventListener_(nodeAddFile, goog.events.EventType.DRAGOVER,
+  this.events_.listen(nodeAddFile, goog.events.EventType.DRAGOVER,
     this.handleDragOver_, false, this);
-  this.addEventListener_(nodeAddFile, goog.events.EventType.DROP,
+  this.events_.listen(nodeAddFile, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
-  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DRAGLEAVE,
+  this.events_.listen(nodeSearchDrop, goog.events.EventType.DRAGLEAVE,
     this.handleDragLeave_, false, this);
-  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DRAGOVER,
+  this.events_.listen(nodeSearchDrop, goog.events.EventType.DRAGOVER,
     this.handleDragOver_, false, this);
-  this.addEventListener_(nodeSearchDrop, goog.events.EventType.DROP,
+  this.events_.listen(nodeSearchDrop, goog.events.EventType.DROP,
     this.handleDrop_, false, this);
 
   // Other events
-  this.addEventListener_(nodeAddFile, goog.events.EventType.CLICK,
+  this.events_.listen(nodeAddFile, goog.events.EventType.CLICK,
     this.selectFileToAdd, false, this);
-  this.addEventListener_(nodeAll, goog.events.EventType.CLICK,
+  this.events_.listen(nodeAll, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(nodeAudio, goog.events.EventType.CLICK,
+  this.events_.listen(nodeAudio, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(nodeImages, goog.events.EventType.CLICK,
+  this.events_.listen(nodeImages, goog.events.EventType.CLICK,
     this.handleFileClick_, false, this);
-  this.addEventListener_(nodeSearchButton, goog.events.EventType.CLICK,
+  this.events_.listen(nodeSearchButton, goog.events.EventType.CLICK,
     this.handleSearch_, false, this);
-  this.addEventListener_(this.nodeSearchTerm, goog.events.EventType.KEYUP,
+  this.events_.listen(this.nodeSearchTerm, goog.events.EventType.KEYUP,
     this.handleSearchKey_, false, this);
 
   this.prepareTour_();
@@ -426,29 +426,10 @@ cwc.ui.Library.prototype.handleFileClick_ = function(e) {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.Library.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
  * Clean up the event listener and any other modification.
  */
 cwc.ui.Library.prototype.cleanUp = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
 };
 
 

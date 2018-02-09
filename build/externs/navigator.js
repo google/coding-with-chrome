@@ -1,8 +1,8 @@
 /**
- * @fileoverview jQuery externs for Coding with Chrome.
+ * @fileoverview Navigator externs for Coding with Chrome.
  * @externs
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 
 
 /** @type {Object} */
-var jQuery = function() {};
+navigator.bluetooth = {};
 
-/** @type {Object} */
-var $ = function() {};
+/** @type {Function} */
+navigator.bluetooth.requestDevice = function() {};

@@ -73,8 +73,7 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.bluetooth) {
     console.warn('Bluetooth 2.0 support is not available!');
     return;
-  }
-  if (this.prepared) {
+  } else if (this.prepared) {
     return;
   }
 
@@ -92,7 +91,11 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
   this.devices.prepare();
 
   // Monitor Bluetooth sockets
-  this.addEventListener_();
+  chrome.bluetoothSocket.onReceive.addListener(
+    this.handleOnReceive_.bind(this));
+  chrome.bluetoothSocket.onReceiveError.addListener(
+    this.handleOnReceiveError_.bind(this));
+
   this.prepared = true;
 };
 
@@ -171,18 +174,6 @@ cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
   if (this.devices) {
     this.devices.closeSockets();
   }
-};
-
-
-/**
- * Adds the different types of event listener to device.
- * @private
- */
-cwc.protocol.bluetooth.Api.prototype.addEventListener_ = function() {
-  chrome.bluetoothSocket.onReceive.addListener(
-      this.handleOnReceive_.bind(this));
-  chrome.bluetoothSocket.onReceiveError.addListener(
-      this.handleOnReceiveError_.bind(this));
 };
 
 

@@ -138,8 +138,8 @@ cwc.ui.Runner = function(helper) {
   /** @type {?function()} */
   this.externalCleanUp = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 };
 
 
@@ -218,7 +218,7 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
     layoutInstance.refresh();
   }
@@ -687,31 +687,11 @@ cwc.ui.Runner.prototype.setStatus_ = function(status) {
   this.status = status;
 };
 
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.Runner.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
 /**
  * Clears all object based events.
  */
 cwc.ui.Runner.prototype.cleanUp = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
   this.connector.cleanUp();
   this.remove();
 };

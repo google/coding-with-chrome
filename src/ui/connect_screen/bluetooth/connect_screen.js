@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.connectScreen.Bluetooth');
 
 goog.require('cwc.soy.connectScreen.Bluetooth');
+goog.require('cwc.utils.Events');
 
 
 /**
@@ -35,6 +36,9 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('connectScreenBluetooth');
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix);
 };
 
 
@@ -42,9 +46,11 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
  * Shows bluetooth connect screen.
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
+  let devices = {};
+
+  // Bluetooth 2.x devices
   let bluetoothInstance = this.helper.getInstance('bluetooth', true);
   let bluetoothDevices = bluetoothInstance.getDevices();
-  let devices = {};
   for (let bluetoothDevice in bluetoothDevices) {
     if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
       let device = bluetoothDevices[bluetoothDevice];
@@ -52,15 +58,26 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
     }
   }
 
+  // Bluetooth LE devices
+  let bluetoothLEInstance = this.helper.getInstance('bluetoothLE', true);
+  let bluetoothLEDevices = bluetoothLEInstance.getDevices();
+  for (let bluetoothLEDevice in bluetoothLEDevices) {
+    if (bluetoothLEDevices.hasOwnProperty(bluetoothLEDevice)) {
+      let device = bluetoothLEDevices[bluetoothLEDevice];
+      devices[device.getAddress()] = this.parseDeviceData_(device);
+    }
+  }
+
   this.showTemplate_('Connect Bluetooth device',
-    cwc.soy.connectScreen.Bluetooth.devices, {
+    cwc.soy.connectScreen.Bluetooth.template, {
       prefix: this.prefix,
       devices: devices,
     });
 
-  let deviceList = goog.dom.getElement(this.prefix + 'device-list');
-  goog.events.listen(deviceList, goog.events.EventType.CLICK,
+  this.events_.listen('device-list', goog.events.EventType.CLICK,
     this.handleAction_.bind(this));
+  this.events_.listen('search-button', goog.events.EventType.CLICK,
+    this.handleSearch_.bind(this));
 };
 
 
@@ -90,6 +107,16 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
     default:
       console.log(target.dataset);
   }
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
+  console.log('Searching for bluetooth device ...');
+  let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
+  bluetoothLEInstance.requestDevice();
 };
 
 

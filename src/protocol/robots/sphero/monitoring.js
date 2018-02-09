@@ -44,11 +44,11 @@ cwc.protocol.sphero.Monitoring = function(api) {
   /** @type {boolean} */
   this.started = false;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   // Monitor Events
-  this.addEventListener_(this.monitorLocation, goog.Timer.TICK,
+  this.events_.listen(this.monitorLocation, goog.Timer.TICK,
     this.api.getLocation, false, this.api);
 };
 
@@ -76,23 +76,4 @@ cwc.protocol.sphero.Monitoring.prototype.stop = function() {
   console.log('Stopping Sphero Monitoring ...');
   this.monitorLocation.stop();
   this.started = false;
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.protocol.sphero.Monitoring.prototype.addEventListener_ = function(src, type,
-    listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
 };

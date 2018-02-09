@@ -49,8 +49,8 @@ cwc.mode.raspberryPi.Runner = function(helper, connection) {
   /** @type {!cwc.protocol.raspberryPi.Api} */
   this.api = this.connection.getApi();
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);

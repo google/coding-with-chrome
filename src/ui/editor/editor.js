@@ -111,6 +111,9 @@ cwc.ui.Editor = function(helper) {
   /** @type {!string} */
   this.theme = 'default';
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
   /** @private {cwc.ui.EditorHint|string} */
   this.editorHint_ = cwc.ui.EditorHint.UNKNOWN;
 
@@ -149,9 +152,6 @@ cwc.ui.Editor = function(helper) {
     },
     'onUpdateLinting': this.handleLint_.bind(this),
   };
-
-  /** @type {Array} */
-  this.listener_ = [];
 
   /** @private {!boolean} */
   this.isVisible_ = true;
@@ -230,15 +230,15 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 
   // Add event listener to monitor changes like resize and unload.
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
+  this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.RESIZE,
+    this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
         this.adjustSize, false, this);
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
   this.adjustSize();
@@ -800,29 +800,10 @@ cwc.ui.Editor.prototype.handleLint_ = function(e) {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.Editor.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
  * Cleans up the event listener and any other modification.
  * @private
  */
 cwc.ui.Editor.prototype.cleanUp_ = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
   this.modified = false;
 };

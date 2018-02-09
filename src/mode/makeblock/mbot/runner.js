@@ -114,8 +114,8 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
@@ -190,6 +190,5 @@ cwc.mode.makeblock.mbot.Runner.prototype.handleCleanUp = function() {
  */
 cwc.mode.makeblock.mbot.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener_, this.name);
-  this.listener_ = [];
+  this.events_.clear();
 };

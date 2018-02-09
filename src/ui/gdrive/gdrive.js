@@ -95,8 +95,8 @@ cwc.ui.GDrive = function(helper) {
   /** @type {string} */
   this.saveFileParentId = '';
 
-  /** @type {Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 };
 
 
@@ -107,7 +107,7 @@ cwc.ui.GDrive.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
 
@@ -377,7 +377,7 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
           console.error('Unsupported file', file);
         }
       };
-      this.addEventListener_(element, goog.events.EventType.CLICK,
+      this.events_.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
     }).bind(this)();
   }
@@ -406,7 +406,7 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
               false);
         }
       };
-      this.addEventListener_(element, goog.events.EventType.CLICK,
+      this.events_.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
     }).bind(this)();
   }
@@ -556,27 +556,8 @@ cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.GDrive.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
  * @private
  */
 cwc.ui.GDrive.prototype.cleanUp_ = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
 };

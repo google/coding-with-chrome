@@ -42,8 +42,8 @@ cwc.mode.raspberryPi.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 };
 
 
@@ -52,7 +52,7 @@ cwc.mode.raspberryPi.Connection = function(helper) {
  * @export
  */
 cwc.mode.raspberryPi.Connection.prototype.init = function() {
-  this.addEventListener_(this.connectMonitor, goog.Timer.TICK,
+  this.events_.listen(this.connectMonitor, goog.Timer.TICK,
     this.connect.bind(this));
   this.connectMonitor.start();
   this.connect();
@@ -134,24 +134,5 @@ cwc.mode.raspberryPi.Connection.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.stop();
-  this.helper.removeEventListeners(this.listener_, this.name);
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.raspberryPi.Connection.prototype.addEventListener_ = function(src,
-    type, listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
+  this.events_.clear();
 };

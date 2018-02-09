@@ -17,20 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.utils.Listener');
+goog.provide('cwc.utils.Events');
 
 goog.require('goog.events');
 
 
 /**
  * @param {string=} name
- * @param {number=} logLevel
+ * @param {string=} prefix
  * @constructor
  * @final
  */
-cwc.utils.Listener = function(name = 'Listener') {
+cwc.utils.Events = function(name = 'Events', prefix = '') {
   /** @type {!string} */
-  this.name = name;
+  this.name = name || '';
+
+  /** @type {!string} */
+  this.prefix = prefix || '';
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -51,11 +54,11 @@ cwc.utils.Listener = function(name = 'Listener') {
  * @param {boolean=} capture
  * @param {Object=} scope
  */
-cwc.utils.Listener.prototype.add = function(src, type,
+cwc.utils.Events.prototype.listen = function(src, type,
     listener, capture = false, scope = undefined) {
   let eventTarget = src;
   if (typeof src === 'string' || src instanceof String) {
-    eventTarget = document.getElementById(src);
+    eventTarget = document.getElementById(this.prefix + src);
   }
   this.listener_.push(
     goog.events.listen(eventTarget, type, listener, capture, scope)
@@ -66,9 +69,10 @@ cwc.utils.Listener.prototype.add = function(src, type,
 /**
  * Removes all defined event listeners in the provided list.
  */
-cwc.utils.Listener.prototype.clear = function() {
+cwc.utils.Events.prototype.clear = function() {
   this.log_.debug('Clearing', this.listener_.length, 'events listener');
-  this.listener_.forEach(function(listener) {
-    goog.events.unlistenByKey(listener);
-  });
+  for (let i = 0, len = this.listener_.length; i < len; i++) {
+    goog.events.unlistenByKey(this.listener_[i]);
+  }
+  this.listener_ = [];
 };

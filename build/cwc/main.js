@@ -43,6 +43,7 @@ closureBuilder.build({
     'build/externs/jquery-turtle.js',
     'build/externs/jquery.js',
     'build/externs/material-design.js',
+    'build/externs/navigator.js',
     'build/externs/mocha.js',
     'build/externs/shepherd.js',
   ],

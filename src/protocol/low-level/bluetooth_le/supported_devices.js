@@ -1,8 +1,7 @@
 /**
- * @fileoverview jQuery externs for Coding with Chrome.
- * @externs
+ * @fileoverview List of known and supported Bluetooth LE devices.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +17,16 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+goog.provide('cwc.protocol.bluetoothLE.supportedDevices');
 
 
-/** @type {Object} */
-var jQuery = function() {};
-
-/** @type {Object} */
-var $ = function() {};
+/**
+ * @enum {!Object.<!Object>}
+ */
+cwc.protocol.bluetoothLE.supportedDevices = {
+  SPHERO_SPRK_PLUS: {
+    name: 'Sphero SPRK +',
+    namePrefix: 'SK-',
+    icon: 'adjust',
+  },
+};

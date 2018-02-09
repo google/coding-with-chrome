@@ -111,8 +111,8 @@ cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
@@ -162,7 +162,7 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 };
@@ -181,25 +181,5 @@ cwc.mode.makeblock.mbotRanger.Runner.prototype.handleCleanUp = function() {
  */
 cwc.mode.makeblock.mbotRanger.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener_, this.name);
-  this.listener_ = [];
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.addEventListener_ = function(src,
-    type, listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
+  this.events_.clear();
 };

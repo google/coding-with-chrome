@@ -74,8 +74,8 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   /** @type {!cwc.ui.Runner} */
   this.runner = new cwc.ui.Runner(helper);
@@ -154,12 +154,12 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.addEventListener_(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventHandler(),
         goog.events.EventType.UNLOAD, this.cleanUp, false, this);
   }
 
   // EV3 events
-  this.addEventListener_(apiEventHandler,
+  this.events_.listen(apiEventHandler,
       cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
       this.updateDeviceInfo, false, this);
 };
@@ -230,29 +230,9 @@ cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.mode.ev3.Runner.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.ev3.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
-  this.helper.removeEventListeners(this.listener_, this.name);
-  this.listener_ = [];
+  this.events_.clear();
 };

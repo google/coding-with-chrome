@@ -98,11 +98,11 @@ cwc.ui.Preview = function(helper) {
   /** @type {cwc.ui.PreviewInfobar} */
   this.infobar = null;
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
   /** @private {!string} */
   this.partition_ = 'preview';
-
-  /** @private {Array} */
-  this.listener_ = [];
 
   /** @private {!boolean} */
   this.ran_ = false;
@@ -165,13 +165,13 @@ cwc.ui.Preview.prototype.decorate = function(node) {
 
   // Monitor Changes
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.addEventListener_(viewportMonitor, goog.events.EventType.RESIZE,
+  this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
       this.adjustSize, false, this);
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.addEventListener_(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
   }
 
@@ -181,7 +181,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   shortcutHandler.registerShortcut('CTRL_ENTER',
       goog.events.KeyCodes.ENTER, CTRL);
 
-  this.addEventListener_(
+  this.events_.listen(
       shortcutHandler,
       goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
       this.handleShortcut_, false, this);
@@ -508,25 +508,6 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function(?)} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.Preview.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
  * @param {!cwc.ui.RunnerStatus} status
  * @private
  */
@@ -548,5 +529,5 @@ cwc.ui.Preview.prototype.setStatus_ = function(status) {
  * Clears all object based events.
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.events_.clear();
 };

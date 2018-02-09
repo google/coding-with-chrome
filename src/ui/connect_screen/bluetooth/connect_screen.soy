@@ -22,7 +22,23 @@
 
 
 /**
- * Devices template..
+ * Bluetooth device template.
+ */
+{template .template}
+  {@param prefix: string}
+  {@param devices: ?}
+
+  {call .devices data="all" /}  
+
+  <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display: none;">
+    <i class="material-icons">add</i> Search for Bluetooth devices ...
+  </button>
+
+{/template}
+
+
+/**
+ * Devices template.
  */
 {template .devices}
   {@param prefix: string}
@@ -45,7 +61,7 @@
 
 
 /**
- * Connect devices template..
+ * Connect devices template.
  */
 {template .connect}
   {@param device: ?}
@@ -67,7 +83,7 @@
 
 
 /**
- * Devices template..
+ * Devices template.
  */
 {template .deviceList_}
   {@param address: string}

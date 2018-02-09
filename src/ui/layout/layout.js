@@ -82,12 +82,6 @@ cwc.ui.Layout = function(helper) {
   /** @type {cwc.ui.LayoutType} */
   this.layout = cwc.ui.LayoutType.NONE;
 
-  /** @type {Array} */
-  this.listener_ = [];
-
-  /** @type {Array} */
-  this.customListener = [];
-
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
@@ -126,6 +120,9 @@ cwc.ui.Layout = function(helper) {
 
   /** @type {boolean} */
   this.fullscreen = false;
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 };
 
 
@@ -287,10 +284,10 @@ cwc.ui.Layout.prototype.adjustLayoutChrome = function() {
  * @param {goog.ui.SplitPane} splitpane
  */
 cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
-  this.addEventListener_(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG,
+  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG,
       this.adjustSize, false, this);
 
-  this.addEventListener_(splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP,
+  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP,
       this.adjustSize, false, this);
 };
 
@@ -426,12 +423,10 @@ cwc.ui.Layout.prototype.setFullscreen = function(fullscreen, size) {
  * @private
  */
 cwc.ui.Layout.prototype.monitorResize = function(splitpane) {
-  this.addCustomEventListener_(splitpane,
-      goog.ui.SplitPane.EventType.HANDLE_DRAG,
+  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG,
       this.handleResizeEvent, false, this);
 
-  this.addCustomEventListener_(splitpane,
-      goog.ui.SplitPane.EventType.HANDLE_SNAP,
+  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP,
       this.handleResizeEvent, false, this);
 };
 
@@ -522,47 +517,10 @@ cwc.ui.Layout.prototype.resetLayout_ = function() {
 
 
 /**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.ui.Layout.prototype.addEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- */
-cwc.ui.Layout.prototype.addCustomEventListener_ = function(src, type, listener,
-    capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.customListener, eventListener);
-};
-
-
-/**
  * Clears all object based events.
  */
 cwc.ui.Layout.prototype.cleanUp = function() {
-  this.listener_ = this.helper.removeEventListeners(this.listener_, this.name);
+  this.listener_ = this.events_.clear();
   this.resetLayout_();
 };
 

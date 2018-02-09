@@ -67,23 +67,23 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   this.monitorSensorUltrasonic = new goog.Timer(
     this.monitorSensorUltrasonicInterval);
 
-  /** @private {!Array} */
-  this.listener_ = [];
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
 
   // Monitor Events
-  this.addEventListener_(this.monitorSensorLineFollower, goog.Timer.TICK,
+  this.events_.listen(this.monitorSensorLineFollower, goog.Timer.TICK,
       this.api.readLineFollowerSensor, false, this.api);
 
-  this.addEventListener_(this.monitorSensorLight1, goog.Timer.TICK,
+  this.events_.listen(this.monitorSensorLight1, goog.Timer.TICK,
       this.api.readLightSensor1, false, this.api);
 
-  this.addEventListener_(this.monitorSensorLight2, goog.Timer.TICK,
+  this.events_.listen(this.monitorSensorLight2, goog.Timer.TICK,
       this.api.readLightSensor2, false, this.api);
 
-  this.addEventListener_(this.monitorSensorTemperature, goog.Timer.TICK,
+  this.events_.listen(this.monitorSensorTemperature, goog.Timer.TICK,
       this.api.readTemperatureSensor, false, this.api);
 
-  this.addEventListener_(this.monitorSensorUltrasonic, goog.Timer.TICK,
+  this.events_.listen(this.monitorSensorUltrasonic, goog.Timer.TICK,
       this.api.readUltrasonicSensor, false, this.api);
 };
 
@@ -198,23 +198,4 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
     console.log('Stopping mBot Ranger', name, 'sensor monitoring ...');
   }
   monitor.stop();
-};
-
-
-/**
- * Adds an event listener for a specific event on a native event
- * target (such as a DOM element) or an object that has implemented
- * {@link goog.events.Listenable}.
- *
- * @param {EventTarget|goog.events.Listenable} src
- * @param {string} type
- * @param {function()} listener
- * @param {boolean=} capture
- * @param {Object=} scope
- * @private
- */
-cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.addEventListener_ =
-function(src, type, listener, capture = false, scope = undefined) {
-  let eventListener = goog.events.listen(src, type, listener, capture, scope);
-  goog.array.insert(this.listener_, eventListener);
 };

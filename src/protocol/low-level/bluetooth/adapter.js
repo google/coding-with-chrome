@@ -62,6 +62,8 @@ cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
     this.log_.info('Preparing ...');
     this.eventHandler_.dispatchEvent(
       cwc.protocol.bluetooth.Events.adapterState({enabled: false}));
+
+    // Monitor adapter state
     chrome.bluetooth.onAdapterStateChanged.addListener(
       this.handleAdapterState_.bind(this));
     this.updateAdapterState();
