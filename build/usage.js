@@ -32,12 +32,24 @@ const sections = [{
         summary: 'Display this usage.',
     }, {
         name: 'chrome-app',
-        summary: 'Compiles and started the Chrome app.',
+        summary: 'Compiles and started the Chrome app version.',
     }, {
         name: 'nw-app',
         summary: 'Compiles and started the binary version.',
     }, {
         name: 'web-app',
+        summary: 'Compiles and started the web app version.',
+    }],
+  }, {
+    header: 'Debug commands',
+    content: [{
+        name: 'chrome-app-debug',
+        summary: 'Compiles and started the Chrome app.',
+    }, {
+        name: 'nw-app-debug',
+        summary: 'Compiles and started the binary version.',
+    }, {
+        name: 'web-app-debug',
         summary: 'Compiles and started the web app version.',
     }],
   }, {
@@ -56,7 +68,7 @@ const sections = [{
         summary: 'Performs automated tests.',
     }],
   }, {
-    header: 'Deploy commands',
+    header: 'Deploy commands (binary)',
     content: [{
         name: 'publish-nw_app',
         summary: 'Builds all binary versions of the app.',

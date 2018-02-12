@@ -12,3 +12,4 @@ gensoyfiles
 node_modules
 npm-debug.log*
 test/genfiles
+*.stackdump

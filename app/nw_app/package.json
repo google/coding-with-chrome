@@ -6,5 +6,7 @@
     "title": "Coding with Chrome",
     "icon": "icons/128x128.png",
     "toolbar": true
+  },
+  "dependencies": {
   }
 }

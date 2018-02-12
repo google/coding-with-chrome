@@ -18,41 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 let closureBuilder = require('closure-builder');
-let glob = closureBuilder.globSupport();
-
-
-/**
- * Core application.
- */
-closureBuilder.build({
-  name: 'cwc.ui.Builder',
-  srcs: glob([
-    'src/**/*.js',
-    'gensoyfiles/**/*.js',
-    '!src/{blocks,blocks/**.js}',
-    '!src/frameworks/{internal,internal/**.js}',
-  ]),
-  externs: [
-    'build/externs/blockly.js',
-    'build/externs/chrome.js',
-    'build/externs/codemirror.js',
-    'build/externs/coffeescript.js',
-    'build/externs/global.js',
-    'build/externs/i18n.js',
-    'build/externs/jquery-turtle.js',
-    'build/externs/jquery.js',
-    'build/externs/material-design.js',
-    'build/externs/mocha.js',
-    'build/externs/shepherd.js',
-  ],
-  compress: true,
-  out: 'genfiles/nw_app/js/cwc_ui.js',
-  options: {
-    closure: {
-      define: 'ENABLE_LOGGING=false',
-    },
-  },
-});
 
 
 /**
@@ -69,7 +34,7 @@ closureBuilder.build({
     'genfiles/core/js/',
     'genfiles/core/resources/',
   ],
-  out: 'genfiles/nw_app/',
+  out: 'dist/nw_app/',
 });
 
 
@@ -83,7 +48,7 @@ closureBuilder.build({
     'app/nw_app/manifest.json',
     'app/nw_app/package.json',
   ],
-  out: 'genfiles/nw_app/',
+  out: 'dist/nw_app/',
 });
 
 
@@ -96,7 +61,7 @@ closureBuilder.build({
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
-  out: 'genfiles/nw_app/',
+  out: 'dist/nw_app/',
 });
 
 
@@ -109,7 +74,7 @@ closureBuilder.build({
     'genfiles/core/frameworks/internal',
     'genfiles/third_party/frameworks/external',
   ],
-  out: 'genfiles/nw_app/frameworks',
+  out: 'dist/nw_app/frameworks',
 });
 
 
@@ -124,7 +89,7 @@ closureBuilder.build({
   externs: [
     'build/externs/chrome.js',
   ],
-  out: 'genfiles/nw_app/js/background.js',
+  out: 'dist/nw_app/js/background.js',
 });
 
 
@@ -136,7 +101,7 @@ closureBuilder.build({
   resources: [
     'app/nw_app/js/debug.js',
   ],
-  out: 'genfiles/nw_app/js/',
+  out: 'dist/nw_app/js/',
 });
 
 
@@ -152,7 +117,7 @@ closureBuilder.build({
     'build/externs/chrome.js',
     'build/externs/cwc.js',
   ],
-  out: 'genfiles/nw_app/js/editor.js',
+  out: 'dist/nw_app/js/editor.js',
 });
 
 
@@ -167,6 +132,6 @@ closureBuilder.build({
   externs: [
     'build/externs/chrome.js',
   ],
-  out: 'genfiles/nw_app/js/loader.js',
+  out: 'dist/nw_app/js/loader.js',
 });
 
