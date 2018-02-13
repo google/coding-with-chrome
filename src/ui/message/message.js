@@ -74,3 +74,13 @@ cwc.ui.Message.prototype.decorate = function(node) {
 cwc.ui.Message.prototype.show = function(visible) {
   goog.style.setElementShown(this.node, visible);
 };
+
+
+/**
+ * @param {!function (Object, null=, (Object<string,*>|null)=)} template
+ * @param {!Object} values
+ */
+cwc.ui.Message.prototype.renderContent = function(template, values) {
+  goog.soy.renderElement(
+    goog.dom.getElement(this.prefix + 'main'), template, values);
+};

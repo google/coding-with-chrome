@@ -21,7 +21,7 @@
 
 
 /**
- * Tutorial Basic template
+ * Tutorial Basic card
  */
 {template .basic}
   {@param prefix: string}
@@ -42,5 +42,29 @@
         {param opt_icon: 'insert_drive_file' /}
       {/call}
     </div>
+  </div>
+{/template}
+
+
+/**
+ * Tutorial template.
+ */
+{template .tutorial}
+  {@param prefix: string}
+
+  <div id="{$prefix}content">
+    <h3>Tutorial</h3>
+
+    <ol class="progress">
+      <li data-step="1" class="is-active">
+        Step 1
+      </li>
+      <li data-step="2">
+        Step 2
+      </li>
+      <li data-step="3">
+        Step 3
+      </li>
+    </ol>
   </div>
 {/template}
