@@ -219,7 +219,7 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
  */
 cwc.ui.SelectScreen.prototype.startTour = function() {
   if (this.tour_) {
-    this.tour_['start']();
+    this.tour_.start();
   }
 };
 

@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.bluetooth.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * @enum {string}
@@ -35,7 +37,7 @@ cwc.protocol.bluetooth.Events.Type = {
  * @final
  */
 cwc.protocol.bluetooth.Events.adapterState = function(data) {
-  return new cwc.protocol.bluetooth.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE, data);
 };
 
@@ -46,22 +48,6 @@ cwc.protocol.bluetooth.Events.adapterState = function(data) {
  * @final
  */
 cwc.protocol.bluetooth.Events.deviceState = function(data) {
-  return new cwc.protocol.bluetooth.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.bluetooth.Events.Type.DEVICE_STATE_CHANGE, data);
-};
-
-
-/**
- * @param {!cwc.protocol.bluetooth.Events.Type} type
- * @param {Object|number=} data
- * @constructor
- * @final
- * @private
- */
-cwc.protocol.bluetooth.Events.Data_ = function(type, data = {}) {
-  /** @type {!cwc.protocol.bluetooth.Events.Type} */
-  this.type = type;
-
-  /** @type {Object|number} */
-  this.data = data;
 };

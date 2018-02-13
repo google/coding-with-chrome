@@ -44,6 +44,12 @@ cwc.protocol.default.Device = function() {
 
   /** @type {!string} */
   this.icon = '';
+
+  /** @type {!cwc.protocol.bluetooth.supportedDevices|
+   *         !cwc.protocol.bluetoothLE.supportedDevices|
+   *         !Object}
+   */
+  this.profile = {};
 };
 
 
@@ -140,6 +146,22 @@ cwc.protocol.default.Device.prototype.setType = function(type) {
  */
 cwc.protocol.default.Device.prototype.getType = function() {
   return this.type || '';
+};
+
+
+/**
+ * @param {!Object} profile
+ */
+cwc.protocol.default.Device.prototype.setProfile = function(profile) {
+  this.profile = profile;
+};
+
+
+/**
+ * @return {!Object}
+ */
+cwc.protocol.default.Device.prototype.getProfile = function() {
+  return this.profile || {};
 };
 
 

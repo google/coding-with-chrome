@@ -100,5 +100,3 @@ cwc.protocol.ev3.Device.prototype.setMode = function(mode) {
 cwc.protocol.ev3.Device.prototype.setCss = function(css) {
   this.css = css;
 };
-
-

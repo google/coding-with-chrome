@@ -1,0 +1,88 @@
+/**
+ * Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+#{$prefix}addon-tutorial-content h3 {
+  margin: 10px;
+}
+
+#{$prefix}addon-tutorial-content .progress {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  color: #888;
+}
+
+#{$prefix}addon-tutorial-content .progress > li {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+#{$prefix}addon-tutorial-content .progress > li:before {
+  content: attr(data-step);
+  display: block;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  background: #ddd;
+  text-align: center;
+  margin-bottom: 0.25em;
+  line-height: 3em;
+  border-radius: 100%;
+  position: relative;
+  z-index: 1000;
+}
+
+#{$prefix}addon-tutorial-content .progress > li:after {
+  content: '';
+  position: absolute;
+  display: block;
+  background: #ddd;
+  width: 100%;
+  height: 0.5em;
+  top: 1.25em;
+  left: 50%;
+  margin-left: 1.5em;
+  z-index: -1;
+}
+
+#{$prefix}addon-tutorial-content .progress > li:last-child:after {
+  display: none;
+}
+
+#{$prefix}addon-tutorial-content .progress > li.is-active {
+  color: rgb(63,81,181);
+}
+
+#{$prefix}addon-tutorial-content .progress > li.is-active:before {
+  color: #fff;
+  background: rgb(63,81,181);
+}
+
+#{$prefix}addon-tutorial-content .progress > li.is-complete {
+  color: rgba(63,81,181,0.6);
+}
+
+#{$prefix}addon-tutorial-content .progress > li.is-complete:before,
+#{$prefix}addon-tutorial-content .progress > li.is-complete:after {
+  color: #fff;
+  background: rgba(63,81,181,0.7);
+}

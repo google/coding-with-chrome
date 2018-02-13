@@ -63,11 +63,29 @@ cwc.protocol.bluetoothLE.Devices.prototype.prepare = function() {
 
 
 cwc.protocol.bluetoothLE.Devices.prototype.requestDevice = function() {
-  navigator.bluetooth.requestDevice({
-    'filters': [{
-      'namePrefix': 'SK-',
-    }],
-  }).then(this.handleRequestDevice_.bind(this));
+  navigator.bluetooth.requestDevice(
+    this.getDeviceFilter_()
+  ).then(
+    this.handleRequestDevice_.bind(this)
+  );
+};
+
+
+/**
+ * @return {object}
+ * @private
+ */
+cwc.protocol.bluetoothLE.Devices.prototype.getDeviceFilter_ = function() {
+  let filters = [];
+  for (let entry in cwc.protocol.bluetoothLE.supportedDevices) {
+    if (cwc.protocol.bluetoothLE.supportedDevices.hasOwnProperty(entry)) {
+      let device = cwc.protocol.bluetoothLE.supportedDevices[entry];
+      filters.push({'namePrefix': device.namePrefix});
+    }
+  }
+  return {
+    'filters': filters,
+  };
 };
 
 

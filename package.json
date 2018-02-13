@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.36",
+    "closure-builder": "^2.2.37",
     "command-line-usage": "^4.1.0",
     "jasmine-core": "^2.99.1",
     "jsdoc": "^3.5.5",

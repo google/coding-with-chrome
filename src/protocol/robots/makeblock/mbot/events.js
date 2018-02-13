@@ -22,6 +22,8 @@
  */
 goog.provide('cwc.protocol.makeblock.mbot.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * Custom events.
@@ -37,75 +39,49 @@ cwc.protocol.makeblock.mbot.Events.Type = {
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data,
-    opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED,
-      data, opt_port);
+cwc.protocol.makeblock.mbot.Events.ButtonPressed = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED, data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue = function(data,
-    opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR,
-      data, opt_port);
+    port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR, data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data,
-    opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR,
-      data, opt_port);
+cwc.protocol.makeblock.mbot.Events.LightnessSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR, data, port);
 };
 
 
 /**
  * @param {Object} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.makeblock.mbot.Events.Data_}
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue = function(data,
-    opt_port) {
-  return new cwc.protocol.makeblock.mbot.Events.Data_(
-      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR,
-      data, opt_port);
-};
-
-
-/**
- * @param {!cwc.protocol.makeblock.mbot.Events.Type} type
- * @param {Object|number=} data
- * @param {number=} port
- * @constructor
- * @final
- * @private
- */
-cwc.protocol.makeblock.mbot.Events.Data_ = function(type, data, port) {
-  /** @type {!cwc.protocol.makeblock.mbot.Events.Type} */
-  this.type = type;
-
-  /** @type {!Object|number} */
-  this.data = data || {};
-
-  /** @type {number|undefined} */
-  this.port = port;
+    port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR, data, port);
 };

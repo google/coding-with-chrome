@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.mode.Modder.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * @enum {string}
@@ -31,29 +33,13 @@ cwc.mode.Modder.Events.Type = {
 /**
  * @param {!string} mode
  * @param {string=} file
- * @return {!cwc.mode.Modder.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.mode.Modder.Events.changeMode = function(mode, file) {
-  return new cwc.mode.Modder.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.mode.Modder.Events.Type.MODE_CHANGE, {
         'mode': mode,
         'file': file || '',
       });
-};
-
-
-/**
- * @param {!cwc.mode.Modder.Events.Type} type
- * @param {Object|number=} data
- * @constructor
- * @final
- * @private
- */
-cwc.mode.Modder.Events.Data_ = function(type, data = {}) {
-  /** @type {!cwc.mode.Modder.Events.Type} */
-  this.type = type;
-
-  /** @type {Object|number} */
-  this.data = data;
 };

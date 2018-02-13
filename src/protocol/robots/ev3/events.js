@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.ev3.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * Custom events.
@@ -42,154 +44,130 @@ cwc.protocol.ev3.Events.Type = {
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.ev3.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.ev3.Events.changedDevices = function(data) {
-  return new cwc.protocol.ev3.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.ev3.Events.Type.CHANGED_DEVICES, data);
 };
 
 
 /**
  * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.colorSensorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.gyroSensorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.GYRO_SENSOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.irSensorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.IR_SENSOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.largeMotorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.largeMotorOptValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_OPT, data,
-      opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.mediumMotorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.mediumMotorOptValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_OPT, data,
-      opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.touchSensorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR, data, opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.touchSensorOptValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_OPT, data,
-        opt_port);
-};
-
-
-/**
- * @param {Object|number} data
- * @param {number=} opt_port
- * @return {!cwc.protocol.ev3.Events.Data_}
- * @final
- */
-cwc.protocol.ev3.Events.ultrasonicSensorValue = function(data, opt_port) {
-  return new cwc.protocol.ev3.Events.Data_(
-      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR, data,
-        opt_port);
-};
-
-
-/**
- * @param {!cwc.protocol.ev3.Events.Type} type
- * @param {Object|number=} data
  * @param {number=} port
- * @constructor
+ * @return {!cwc.utils.EventData}
  * @final
- * @private
  */
-cwc.protocol.ev3.Events.Data_ = function(type, data, port) {
-  /** @type {!cwc.protocol.ev3.Events.Type} */
-  this.type = type;
+cwc.protocol.ev3.Events.colorSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.COLOR_SENSOR, data, port);
+};
 
-  /** @type {!Object|number} */
-  this.data = data || {};
 
-  /** @type {number|undefined} */
-  this.port = port;
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.gyroSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.GYRO_SENSOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.irSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.IR_SENSOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.largeMotorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.LARGE_MOTOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.largeMotorOptValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_OPT, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.mediumMotorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.mediumMotorOptValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_OPT, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.touchSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.touchSensorOptValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_OPT, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.ev3.Events.ultrasonicSensorValue = function(data, port) {
+  return new cwc.utils.EventData(
+      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR, data, port);
 };

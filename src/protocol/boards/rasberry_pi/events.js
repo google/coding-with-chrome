@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.raspberryPi.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * Custom events.
@@ -35,22 +37,6 @@ cwc.protocol.raspberryPi.Events.Type = {
  * @final
  */
 cwc.protocol.raspberryPi.Events.recievedData = function(data) {
-  return new cwc.protocol.raspberryPi.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.raspberryPi.Events.Type.RECIEVED_DATA, data);
-};
-
-
-/**
- * @param {!cwc.protocol.raspberryPi.Events.Type} type
- * @param {Object|number=} opt_data
- * @constructor
- * @final
- * @private
- */
-cwc.protocol.raspberryPi.Events.Data_ = function(type, opt_data) {
-  /** @type {!cwc.protocol.raspberryPi.Events.Type} */
-  this.type = type;
-
-  /** @type {!Object|number} */
-  this.data = opt_data || {};
 };

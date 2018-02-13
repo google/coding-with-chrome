@@ -25,45 +25,22 @@ goog.require('cwc.utils.Logger');
 
 
 /**
- * @param {!boolean} connectable
- * @param {!string} device_class
- * @param {!Array} uuids
- * @param {!cwc.protocol.bluetooth.supportedDevices} profile
  * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  * @extends {cwc.protocol.default.Device}
  */
-cwc.protocol.bluetooth.Device = function(connectable,
-    device_class, uuids, profile, eventHandler) {
+cwc.protocol.bluetooth.Device = function(eventHandler) {
   /** @type {!boolean} */
   this.connecting = false;
 
-  /** @type {!boolean} */
-  this.connectable = connectable;
-
-  /** @type {!string} */
-  this.device_class = device_class;
-
-  /** @type {!Array} */
-  this.uuids = uuids;
-
-  /** @type {!cwc.protocol.bluetooth.supportedDevices} */
-  this.profile = profile;
-
   /** @type {number|null} */
   this.socketId = null;
-
-  /** @type {string} */
-  this.rssi = '';
 
   /** @type {!Object} */
   this.connectionInfos = {};
 
   /** @type {!Function|null} */
   this.connectEvent = null;
-
-  /** @type {!number} */
-  this.connectErrors = 0;
 
   /** @type {!Function|null} */
   this.connectCallback = null;
@@ -108,14 +85,6 @@ cwc.protocol.bluetooth.Device.prototype.setConnectEvent = function(callback) {
 
 
 /**
- * @param {!boolean} connectable
- */
-cwc.protocol.bluetooth.Device.prototype.setConnectable = function(connectable) {
-  this.connectable = connectable;
-};
-
-
-/**
  * @param {!Function} callback
  */
 cwc.protocol.bluetooth.Device.prototype.setDisconnectEvent = function(
@@ -155,44 +124,10 @@ cwc.protocol.bluetooth.Device.prototype.hasSocket = function() {
 /**
  * @return {!string}
  */
-cwc.protocol.bluetooth.Device.prototype.getRSSI = function() {
-  return (this.rssi || '');
-};
-
-
-/**
- * @return {!string}
- */
 cwc.protocol.bluetooth.Device.prototype.getNamePrefix = function() {
   if (this.profile) {
     if (typeof this.profile.namePrefix !== 'undefined') {
       return this.profile.namePrefix || '';
-    }
-  }
-  return '';
-};
-
-
-/**
- * @return {!string}
- */
-cwc.protocol.bluetooth.Device.prototype.getIcon = function() {
-  if (this.profile) {
-    if (typeof this.profile.icon !== 'undefined') {
-      return this.profile.icon || '';
-    }
-  }
-  return '';
-};
-
-
-/**
- * @return {!string}
- */
-cwc.protocol.bluetooth.Device.prototype.getType = function() {
-  if (this.profile) {
-    if (typeof this.profile.name !== 'undefined') {
-      return this.profile.name|| '';
     }
   }
   return '';
@@ -428,7 +363,6 @@ cwc.protocol.bluetooth.Device.prototype.handleSocketInfo_ = function(
   }
   this.connected = socket_info['connected'];
   this.paused_ = socket_info['paused'];
-  this.persistent = socket_info['persistent'];
 };
 
 
@@ -469,7 +403,6 @@ cwc.protocol.bluetooth.Device.prototype.handleConnect_ = function(
     if (errorMessage['message'].toLowerCase().includes('connection') &&
         errorMessage['message'].toLowerCase().includes('failed') ||
         errorMessage['message'].toLowerCase().includes('0x2743')) {
-      this.connectErrors++;
       this.close();
     }
     this.connecting = false;

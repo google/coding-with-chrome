@@ -52,6 +52,10 @@ cwc.addon.Tutorial = function(helper) {
 
 
 cwc.addon.Tutorial.prototype.prepare = function() {
+  if (!this.helper.experimentalEnabled()) {
+    return;
+  }
+
   this.log_.info('Preparing tutorial addon ...');
   let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
@@ -69,18 +73,21 @@ cwc.addon.Tutorial.prototype.prepare = function() {
 };
 
 
+/**
+ * @param {Event} e
+ */
 cwc.addon.Tutorial.prototype.eventsSelectScreen = function(e) {
   let view = e.data;
   this.log_.info('Change View', view);
   if (view == cwc.ui.SelectScreenNormalView.BASIC) {
-    let navigationNode = goog.dom.getElement(
-      'cwc-select-screen-normal-navigation-overview');
-    navigationNode['style']['background'] = 'red';
     this.decorateBasic();
   }
 };
 
 
+/**
+ * @param {Event} e
+ */
 cwc.addon.Tutorial.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
   let file = e.data.file;
@@ -90,6 +97,39 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
     let messageInstance = this.helper.getInstance('message');
     if (messageInstance) {
       messageInstance.show(true);
+      messageInstance.renderContent(cwc.soy.addon.Tutorial.tutorial, {
+        prefix: this.prefix,
+      });
+      let tour = new Shepherd.Tour({
+        'defaults': {
+          'classes': 'shepherd-theme-arrows',
+          'showCancelLink': true,
+        },
+      });
+      tour.addStep('workspace', {
+        'title': i18t('Tutorial'),
+        'text': i18t('This is the workspace area to drop blocks.'),
+        'attachTo': '#cwc-blockly-chrome center',
+        'buttons': [{
+          'text': i18t('Exit'),
+          'action': tour.cancel,
+          'classes': 'shepherd-button-secondary',
+        }, {
+          'text': i18t('Next'),
+          'action': tour.next,
+          'classes': 'shepherd-button-example-primary',
+        }],
+      });
+      tour.addStep('blocks', {
+        'text': i18t('Drag and drop blocks from here to the workspace area.'),
+        'attachTo': '.blocklyToolboxDiv left',
+        'buttons': [{
+          'text': i18t('Exit'),
+          'action': tour.cancel,
+          'classes': 'shepherd-button-example-primary',
+        }],
+      });
+      tour.start();
     }
   }
 };

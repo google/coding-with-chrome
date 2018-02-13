@@ -142,10 +142,9 @@ cwc.protocol.bluetooth.Devices.prototype.receiveError = function(
  * @return {!cwc.protocol.bluetooth.supportedDevices|null}
  */
 cwc.protocol.bluetooth.Devices.prototype.getDeviceProfile = function(device) {
-  let supportedDevices = cwc.protocol.bluetooth.supportedDevices;
-  for (let entry in supportedDevices) {
-    if (supportedDevices.hasOwnProperty(entry)) {
-      let profile = supportedDevices[entry];
+  for (let entry in cwc.protocol.bluetooth.supportedDevices) {
+    if (cwc.protocol.bluetooth.supportedDevices.hasOwnProperty(entry)) {
+      let profile = cwc.protocol.bluetooth.supportedDevices[entry];
       if (device['deviceClass'] == profile.deviceClass &&
           device['uuids'].includes(profile.uuid) &&
           device['name'].includes(profile.namePrefix)) {
@@ -301,25 +300,17 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
     if (profile) {
       let address = deviceEntry['address'];
       let connected = deviceEntry['connected'];
-      let connectable = deviceEntry['connectable'];
       if (address in this.devices) {
         this.devices[address].updateInfo();
-        this.devices[address].setConnectable(connectable);
       } else {
-        let deviceClass = deviceEntry['deviceClass'];
-        let name = deviceEntry['name'];
-        let paired = deviceEntry['paired'];
-        let type = profile.name;
-        let uuids = deviceEntry['uuids'];
-        let device = new cwc.protocol.bluetooth.Device(
-            connectable, deviceClass, uuids,
-            profile, this.eventHandler_);
+        let device = new cwc.protocol.bluetooth.Device(this.eventHandler_);
         device.setAddress(address);
         device.setConnected(connected);
-        device.setName(name);
-        device.setPaired(paired);
-        device.setType(type);
-
+        device.setIcon(profile.icon);
+        device.setName(deviceEntry['name']);
+        device.setPaired(deviceEntry['paired']);
+        device.setProfile(profile);
+        device.setType(profile.name);
         device.setConnectEvent(this.handleConnect_.bind(this));
         device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         this.devices[address] = device;

@@ -18,6 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.utils.Events');
+goog.provide('cwc.utils.EventData');
 
 goog.require('goog.events');
 
@@ -75,4 +76,24 @@ cwc.utils.Events.prototype.clear = function() {
     goog.events.unlistenByKey(this.listener_[i]);
   }
   this.listener_ = [];
+};
+
+
+/**
+ * @param {!string} type
+ * @param {Object|number=} data
+ * @param {string|number=} source
+ * @constructor
+ * @final
+ * @private
+ */
+cwc.utils.EventData = function(type, data, source) {
+  /** @type {!string} */
+  this.type = type;
+
+  /** @type {!Object|number} */
+  this.data = data || {};
+
+  /** @type {!string|number} */
+  this.source = source || '';
 };

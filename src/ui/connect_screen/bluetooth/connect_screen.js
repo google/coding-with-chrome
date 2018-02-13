@@ -73,6 +73,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
       prefix: this.prefix,
       devices: devices,
       ble: this.helper.checkBrowserFeature('bluetooth'),
+      experimental: this.helper.experimentalEnabled(),
     });
 
   this.events_.listen('device-list', goog.events.EventType.CLICK,

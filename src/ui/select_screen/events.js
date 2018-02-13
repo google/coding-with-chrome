@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.ui.SelectScreen.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * @enum {string}
@@ -30,26 +32,10 @@ cwc.ui.SelectScreen.Events.Type = {
 
 /**
  * @param {Object} data
- * @return {!cwc.ui.SelectScreen.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.ui.SelectScreen.Events.changeView = function(data) {
-  return new cwc.ui.SelectScreen.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, data);
-};
-
-
-/**
- * @param {!cwc.ui.SelectScreen.Events.Type} type
- * @param {Object|number=} data
- * @constructor
- * @final
- * @private
- */
-cwc.ui.SelectScreen.Events.Data_ = function(type, data = {}) {
-  /** @type {!cwc.ui.SelectScreen.Events.Type} */
-  this.type = type;
-
-  /** @type {Object|number} */
-  this.data = data;
 };

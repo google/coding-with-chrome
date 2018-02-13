@@ -32,16 +32,7 @@ cwc.protocol.USB.Device = function() {
   this.connected = false;
 
   /** @type {string} */
-  this.deviceClass = '';
-
-  /** @type {string} */
   this.name = '';
-
-  /** @type {string} */
-  this.rssi = '';
-
-  /** @type {boolean} */
-  this.paired = false;
 };
 
 

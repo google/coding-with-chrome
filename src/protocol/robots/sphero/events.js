@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.sphero.Events');
 
+goog.require('cwc.utils.EventData');
+
 
 /**
  * Custom events.
@@ -34,59 +36,43 @@ cwc.protocol.sphero.Events.Type = {
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.sphero.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.sphero.Events.locationData = function(data) {
-  return new cwc.protocol.sphero.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.sphero.Events.Type.CHANGED_LOCATION, data);
 };
 
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.sphero.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.sphero.Events.velocityData = function(data) {
-  return new cwc.protocol.sphero.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY, data);
 };
 
 
 /**
  * @param {Object|number} data
- * @return {!cwc.protocol.sphero.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.sphero.Events.speedValue = function(data) {
-  return new cwc.protocol.sphero.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.sphero.Events.Type.CHANGED_SPEED, data);
 };
 
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.sphero.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.sphero.Events.collision = function(data) {
-  return new cwc.protocol.sphero.Events.Data_(
+  return new cwc.utils.EventData(
       cwc.protocol.sphero.Events.Type.COLLISION, data);
-};
-
-
-/**
- * @param {!cwc.protocol.sphero.Events.Type} type
- * @param {Object|number=} data
- * @constructor
- * @final
- * @private
- */
-cwc.protocol.sphero.Events.Data_ = function(type, data = {}) {
-  /** @type {!cwc.protocol.sphero.Events.Type} */
-  this.type = type;
-
-  /** @type {Object|number} */
-  this.data = data;
 };

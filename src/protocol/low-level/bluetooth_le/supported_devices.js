@@ -25,8 +25,19 @@ goog.provide('cwc.protocol.bluetoothLE.supportedDevices');
  */
 cwc.protocol.bluetoothLE.supportedDevices = {
   SPHERO_SPRK_PLUS: {
-    name: 'Sphero SPRK +',
+    name: 'Sphero SPRK+',
     namePrefix: 'SK-',
     icon: 'adjust',
+    characteristic: {
+      antiDos: '22bb746f2bbd75542d6f726568705327',
+      commands: '22bb746f2ba175542d6f726568705327',
+      response: '22bb746f2ba675542d6f726568705327',
+      txPower: '22bb746f2bb275542d6f726568705327',
+      wake: '22bb746f2bbf75542d6f726568705327',
+    },
+    services: {
+      robotControl: '22bb746f2ba075542d6f726568705327',
+      spheroBLE: '22bb746f2bb075542d6f726568705327',
+    },
   },
 };

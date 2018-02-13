@@ -151,7 +151,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
  */
 cwc.ui.Library.prototype.startTour = function() {
   if (this.tour_) {
-    this.tour_['start']();
+    this.tour_.start();
   }
 };
 

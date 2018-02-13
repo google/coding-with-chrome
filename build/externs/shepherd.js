@@ -44,6 +44,9 @@ Shepherd.Tour.prototype.addStep = function() {};
 Shepherd.Tour.prototype.cancel = function() {};
 
 /** @type {Function} */
+Shepherd.Tour.prototype.start = function() {};
+
+/** @type {Function} */
 Shepherd.Tour.prototype.next = function() {};
 
 
