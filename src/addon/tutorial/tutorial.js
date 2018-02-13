@@ -46,6 +46,9 @@ cwc.addon.Tutorial = function(helper) {
   /** @private {!string} */
   this.resourcesPath_ = '../../resources/tutorial/';
 
+  /** @private {Shepherd.Tour} */
+  this.tour_ = null;
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
