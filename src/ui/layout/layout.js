@@ -22,7 +22,7 @@ goog.provide('cwc.ui.LayoutType');
 
 goog.require('cwc.soy.ui.Layout.blank');
 goog.require('cwc.soy.ui.Layout.default');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
@@ -507,8 +507,6 @@ cwc.ui.Layout.prototype.resetLayout_ = function() {
   this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
   this.setFullscreen(false);
   this.setHandleSize(this.defaultHandleSize);
-  this.customListener = this.helper.removeEventListeners(this.customListener,
-      this.name);
   this.cleanFixComponentSizes();
   this.cleanSplitpaneCachedSize();
   this.firstSplitpane = null;
@@ -520,7 +518,7 @@ cwc.ui.Layout.prototype.resetLayout_ = function() {
  * Clears all object based events.
  */
 cwc.ui.Layout.prototype.cleanUp = function() {
-  this.listener_ = this.events_.clear();
+  this.events_.clear();
   this.resetLayout_();
 };
 

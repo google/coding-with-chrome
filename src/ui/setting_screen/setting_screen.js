@@ -96,6 +96,31 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
         cwc.userConfigName.LANGUAGE, value);
     }, false, this);
 
+  this.setUserConfig();
+};
+
+
+/**
+ * Shows settings screen.
+ */
+cwc.ui.SettingScreen.prototype.show = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  let overlayNode = layoutInstance.getOverlay();
+  this.decorate(overlayNode);
+  layoutInstance.showOverlay(true);
+};
+
+
+/**
+ * Hides settings screen.
+ */
+cwc.ui.SettingScreen.prototype.hide = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.showOverlay(false);
+};
+
+
+cwc.ui.SettingScreen.prototype.setUserConfig = function() {
   // General settings
   this.setConfig_('advanced-mode', cwc.userConfigType.GENERAL,
     cwc.userConfigName.ADVANCED_MODE);
@@ -135,26 +160,6 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
     cwc.userConfigName.EXPERIMENTAL_MODE);
   this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
     cwc.userConfigName.DEBUG_MODE);
-};
-
-
-/**
- * Shows settings screen.
- */
-cwc.ui.SettingScreen.prototype.show = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  let overlayNode = layoutInstance.getOverlay();
-  this.decorate(overlayNode);
-  layoutInstance.showOverlay(true);
-};
-
-
-/**
- * Hides settings screen.
- */
-cwc.ui.SettingScreen.prototype.hide = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.showOverlay(false);
 };
 
 

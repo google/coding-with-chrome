@@ -194,15 +194,20 @@ cwc.ui.SelectScreen.prototype.showWelcome = function() {
     'media': '/external/blockly/media/',
     'toolbox': document.getElementById('blocklyExampleToolbox'),
   });
-  Blockly.Xml.domToWorkspace(
-    document.getElementById('blocklyExampleWorkspace'), workspace);
+  let workspaceNode = goog.dom.getElement('blocklyExampleWorkspace');
+  if (workspaceNode) {
+    Blockly.Xml.domToWorkspace(workspaceNode, workspace);
+  }
 
   // Codemirror demo
-  CodeMirror.fromTextArea(document.getElementById('codeMirrorExample'), {
-    'lineNumbers': true,
-    'foldGutter': true,
-    'gutters': ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-  });
+  let editorNode = goog.dom.getElement('codeMirrorExample');
+  if (editorNode) {
+    CodeMirror.fromTextArea(editorNode, {
+      'lineNumbers': true,
+      'foldGutter': true,
+      'gutters': ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    });
+  }
 
   // Events
   goog.events.listen(document.querySelector(

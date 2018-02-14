@@ -389,5 +389,5 @@ cwc.runner.Connector.prototype.handlePong_ = function(data) {
  * Clears all object based events.
  */
 cwc.runner.Connector.prototype.cleanUp = function() {
-  this.listener_ = this.events_.clear();
+  this.events_.clear();
 };

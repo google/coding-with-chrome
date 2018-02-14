@@ -31,6 +31,7 @@ goog.require('cwc.ui.EditorInfobar');
 goog.require('cwc.ui.EditorToolbar');
 goog.require('cwc.ui.EditorType');
 goog.require('cwc.ui.EditorView');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.array');

@@ -129,7 +129,7 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
 
 /**
  * Sets the status message.
- * @param {!cwc.ui.RunnerStatus} status
+ * @param {!cwc.ui.StatusbarState} status
  */
 cwc.ui.PreviewToolbar.prototype.setStatus = function(status) {
   // Load Status

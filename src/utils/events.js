@@ -20,6 +20,8 @@
 goog.provide('cwc.utils.Events');
 goog.provide('cwc.utils.EventData');
 
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.events');
 
 
@@ -57,9 +59,11 @@ cwc.utils.Events = function(name = 'Events', prefix = '') {
  */
 cwc.utils.Events.prototype.listen = function(src, type,
     listener, capture = false, scope = undefined) {
-  let eventTarget = src;
+  let eventTarget = null;
   if (typeof src === 'string' || src instanceof String) {
     eventTarget = document.getElementById(this.prefix + src);
+  } else {
+    eventTarget = src;
   }
   this.listener_.push(
     goog.events.listen(eventTarget, type, listener, capture, scope)
@@ -85,7 +89,6 @@ cwc.utils.Events.prototype.clear = function() {
  * @param {string|number=} source
  * @constructor
  * @final
- * @private
  */
 cwc.utils.EventData = function(type, data, source) {
   /** @type {!string} */

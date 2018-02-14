@@ -82,7 +82,7 @@ cwc.utils.Resources.getUriAsBase64 = function(uri) {
 
 /**
  * @param {!goog.net.XhrIo} xhr
- * @param {!function} reject
+ * @param {!Function} reject
  * @param {string=} uri
  * @private
  */

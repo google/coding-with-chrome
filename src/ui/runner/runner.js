@@ -23,17 +23,15 @@ goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.ui.Runner');
 goog.require('cwc.ui.RunnerInfobar');
 goog.require('cwc.ui.RunnerMonitor');
-goog.require('cwc.ui.StatusbarState');
-goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.RunnerTerminal');
 goog.require('cwc.ui.RunnerToolbar');
+goog.require('cwc.ui.Statusbar');
+goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.ui.Turtle');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.dom');
-goog.require('goog.dom.ViewportSizeMonitor');
-goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.math');
 goog.require('goog.soy');
 goog.require('goog.style');
 
@@ -102,7 +100,7 @@ cwc.ui.Runner = function(helper) {
   /** @type {Object} */
   this.commands = {};
 
-  /** @type {cwc.ui.RunnerStatus} */
+  /** @type {cwc.ui.StatusbarState} */
   this.status = cwc.ui.StatusbarState.UNKNOWN;
 
   /** @type {cwc.ui.RunnerInfobar} */
@@ -668,7 +666,7 @@ cwc.ui.Runner.prototype.showRunButton = function(visible) {
 
 
 /**
- * @param {!cwc.ui.RunnerStatus} status
+ * @param {!cwc.ui.StatusbarState} status
  * @private
  */
 cwc.ui.Runner.prototype.setStatus_ = function(status) {

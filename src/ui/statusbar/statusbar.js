@@ -118,7 +118,7 @@ cwc.ui.Statusbar.prototype.show = function() {
 };
 
 
-/*
+/**
  * @param {!cwc.ui.StatusbarState} status
  * @param {number=} startTime
  * @param {number=} stopTime
@@ -144,5 +144,5 @@ cwc.ui.Statusbar.translateState = function(status, startTime = 0,
     case cwc.ui.StatusbarState.UNRESPONSIVE:
       return 'Unresponsive';
   }
-  return status || '';
+  return '';
 };

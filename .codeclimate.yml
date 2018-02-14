@@ -38,4 +38,6 @@ ratings:
 
 exclude_paths:
 - doc/**/*
+- locales/**/*
+- src/blocks/**/*
 - third_party/**/*

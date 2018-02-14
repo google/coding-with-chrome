@@ -23,9 +23,9 @@ goog.provide('cwc.ui.GDrive');
 goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GDrive');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.dom.dataset');
-goog.require('goog.events');
 goog.require('goog.events.EventType');
 
 

@@ -70,16 +70,20 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
 
   this.showTemplate_('Connect Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.template, {
-      prefix: this.prefix,
-      devices: devices,
       ble: this.helper.checkBrowserFeature('bluetooth'),
+      devices: devices,
       experimental: this.helper.experimentalEnabled(),
+      prefix: this.prefix,
     });
+
+  if (this.helper.checkBrowserFeature('bluetooth') &&
+      this.helper.experimentalEnabled()) {
+    this.events_.listen('search-button', goog.events.EventType.CLICK,
+      this.handleSearch_.bind(this));
+  }
 
   this.events_.listen('device-list', goog.events.EventType.CLICK,
     this.handleAction_.bind(this));
-  this.events_.listen('search-button', goog.events.EventType.CLICK,
-    this.handleSearch_.bind(this));
 };
 
 

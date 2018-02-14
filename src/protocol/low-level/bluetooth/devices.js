@@ -299,23 +299,23 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
     let profile = this.getDeviceProfile(deviceEntry);
     if (profile) {
       let address = deviceEntry['address'];
-      let connected = deviceEntry['connected'];
       if (address in this.devices) {
         this.devices[address].updateInfo();
       } else {
         let device = new cwc.protocol.bluetooth.Device(this.eventHandler_);
         device.setAddress(address);
-        device.setConnected(connected);
+        device.setConnectEvent(this.handleConnect_.bind(this));
+        device.setConnected(deviceEntry['connected']);
+        device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         device.setIcon(profile.icon);
+        device.setLogName('Bluetooth Device ' + address);
         device.setName(deviceEntry['name']);
         device.setPaired(deviceEntry['paired']);
         device.setProfile(profile);
         device.setType(profile.name);
-        device.setConnectEvent(this.handleConnect_.bind(this));
-        device.setDisconnectEvent(this.handleDisconnect_.bind(this));
         this.devices[address] = device;
       }
-      if (connected) {
+      if (deviceEntry['connected']) {
         this.devices[address].getSocket();
       }
     } else {

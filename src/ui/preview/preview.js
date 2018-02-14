@@ -25,11 +25,11 @@ goog.require('cwc.ui.PreviewToolbar');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.async.Throttle');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
-goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.soy');
@@ -58,12 +58,6 @@ cwc.ui.Preview = function(helper) {
 
   /** @type {Element} */
   this.nodeRuntime = null;
-
-  /** @type {Element} */
-  this.nodeToolbar = null;
-
-  /** @type {Element} */
-  this.nodeInfobar = null;
 
   /** @type {boolean} */
   this.autoUpdate = false;
@@ -143,24 +137,24 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  if (this.nodeToolbar) {
+  let nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
+  if (nodeToolbar) {
     this.toolbar = new cwc.ui.PreviewToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar);
+    this.toolbar.decorate(nodeToolbar);
   }
 
   // Statusbar
-  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  if (this.nodeStatusbar) {
+  let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
+  if (nodeStatusbar) {
     this.statusbar = new cwc.ui.Statusbar(this.helper);
-    this.statusbar.decorate(this.nodeStatusbar);
+    this.statusbar.decorate(nodeStatusbar);
   }
 
   // Infobar
-  this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  if (this.nodeInfobar) {
+  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
+  if (nodeInfobar) {
     this.infobar = new cwc.ui.PreviewInfobar(this.helper);
-    this.infobar.decorate(this.nodeInfobar);
+    this.infobar.decorate(nodeInfobar);
   }
 
   // Monitor Changes
@@ -508,7 +502,7 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
 
 
 /**
- * @param {!cwc.ui.RunnerStatus} status
+ * @param {!cwc.ui.StatusbarState} status
  * @private
  */
 cwc.ui.Preview.prototype.setStatus_ = function(status) {

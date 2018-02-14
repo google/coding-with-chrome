@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.default.Device');
 
+goog.require('cwc.utils.Logger');
+
 
 /**
  * @constructor
@@ -50,6 +52,9 @@ cwc.protocol.default.Device = function() {
    *         !Object}
    */
   this.profile = {};
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger();
 };
 
 
@@ -178,4 +183,12 @@ cwc.protocol.default.Device.prototype.setIcon = function(icon) {
  */
 cwc.protocol.default.Device.prototype.getIcon = function() {
   return this.icon || '';
+};
+
+
+/**
+ * @param {!string} name
+ */
+cwc.protocol.default.Device.prototype.setLogName = function(name) {
+  this.log_ = new cwc.utils.Logger(name);
 };

@@ -23,6 +23,7 @@ goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.BlocklyToolbox');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');

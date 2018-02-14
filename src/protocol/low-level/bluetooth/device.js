@@ -21,7 +21,6 @@ goog.provide('cwc.protocol.bluetooth.Device');
 
 goog.require('cwc.protocol.bluetooth.supportedDevices');
 goog.require('cwc.utils.ByteTools');
-goog.require('cwc.utils.Logger');
 
 
 /**
@@ -69,9 +68,6 @@ cwc.protocol.bluetooth.Device = function(eventHandler) {
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = eventHandler;
-
-  /** @type {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger('Bluetooth Device ' + this.address);
 };
 goog.inherits(cwc.protocol.bluetooth.Device, cwc.protocol.default.Device);
 

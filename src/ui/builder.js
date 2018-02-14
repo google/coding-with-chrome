@@ -62,6 +62,7 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.utils.Dialog');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
@@ -149,9 +150,6 @@ cwc.ui.Builder = function() {
   /** @type {string} */
   this.name = 'Builder';
 
-  /** @type {boolean} */
-  this.error = false;
-
   /** @type {!cwc.utils.Helper} */
   this.helper = new cwc.utils.Helper();
 
@@ -211,9 +209,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   }, false, this);
 
   // Prepare and load Storage
-  if (!this.error) {
-    this.loadStorage_();
-  }
+  this.loadStorage_();
 };
 
 
@@ -273,98 +269,70 @@ cwc.ui.Builder.prototype.loadUI = function() {
     return;
   }
 
-  if (!this.error) {
-    this.setProgress('Checking requirements ...', 5);
-    this.checkRequirements_('blockly');
-    this.checkRequirements_('codemirror');
-    this.checkRequirements_('coffeelint');
-    this.checkRequirements_('coffeescript');
-    this.checkRequirements_('htmlhint');
-    this.checkRequirements_('jshint');
-  }
+  this.setProgress('Checking requirements ...', 5);
+  this.checkRequirements_('blockly');
+  this.checkRequirements_('codemirror');
+  this.checkRequirements_('coffeelint');
+  this.checkRequirements_('coffeescript');
+  this.checkRequirements_('htmlhint');
+  this.checkRequirements_('jshint');
 
-  if (!this.error) {
-    this.setProgress('Prepare debug ...', 10);
-    this.prepareDebug_();
-  }
+  this.setProgress('Prepare debug ...', 10);
+  this.prepareDebug_();
 
-  if (!this.error) {
-    this.setProgress('Prepare experimental ...', 20);
-    this.prepareExperimental_();
-  }
+  this.setProgress('Prepare experimental ...', 20);
+  this.prepareExperimental_();
 
-  if (!this.error) {
-    this.setProgress('Prepare dialog ...', 25);
-    this.prepareDialog();
-  }
+  this.setProgress('Prepare dialog ...', 25);
+  this.prepareDialog();
 
-  if (!this.error) {
-    this.setProgress('Prepare protocols ...', 30);
-    this.prepareProtocols();
-  }
+  this.setProgress('Prepare protocols ...', 30);
+  this.prepareProtocols();
 
-  if (!this.error) {
-    this.setProgress('Prepare internal Server', 35);
-    this.prepareServer();
-  }
+  this.setProgress('Prepare internal Server', 35);
+  this.prepareServer();
 
-  if (!this.error) {
-    this.setProgress('Prepare helpers ...', 40);
-    this.prepareHelper();
-  }
+  this.setProgress('Prepare helpers ...', 40);
+  this.prepareHelper();
 
-  if (!this.error) {
-    this.setProgress('Prepare addons ...', 45);
-    this.prepareAddons();
-  }
+  this.setProgress('Prepare addons ...', 45);
+  this.prepareAddons();
 
-  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
+  if (this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare OAuth2 Helpers ...', 50);
     this.prepareOauth2Helper();
   }
 
-  if (!this.error) {
-    this.setProgress('Loading frameworks ...', 55);
-    this.loadFrameworks();
-  }
+  this.setProgress('Loading frameworks ...', 55);
+  this.loadFrameworks();
 
-  if (!this.error) {
-    this.setProgress('Render editor GUI ...', 60);
-    this.renderGui();
-  }
+  this.setProgress('Render editor GUI ...', 60);
+  this.renderGui();
 
-  if (!this.error) {
-    this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
-    this.prepareBluetooth();
-  }
+  this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
+  this.prepareBluetooth();
 
-  if (!this.error) {
-    this.setProgress('Prepare Serial support ...', 70);
-    this.prepareSerial();
-  }
+  this.setProgress('Prepare Serial support ...', 70);
+  this.prepareSerial();
 
-  if (!this.error && this.helper.checkChromeFeature('manifest.oauth2')) {
+  if (this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare account support ...', 80);
     this.prepareAccount();
   }
 
-  if (!this.error) {
-    this.setProgress('Loading select screen ...', 90);
-    this.showSelectScreen();
-  }
+  this.setProgress('Loading select screen ...', 90);
+  this.showSelectScreen();
 
-  if (!this.error) {
-    this.setProgress('Done.', 100);
-    this.closeLoader();
-    this.loaded = true;
-    if (typeof window.componentHandler !== 'undefined') {
-      window.componentHandler.upgradeDom();
-    }
-    if (this.callback) {
-      this.callback(this);
-    }
-    this.events_.clear();
+  this.setProgress('Done.', 100);
+  this.closeLoader();
+  this.loaded = true;
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
   }
+  if (this.callback) {
+    this.callback(this);
+  }
+  this.events_.clear();
 };
 
 
@@ -400,7 +368,6 @@ cwc.ui.Builder.prototype.closeLoader = function() {
  * @param {boolean=} skipThrow
  */
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
-  this.error = true;
   let loader = this.chromeApp_ && chrome.app.window.get('loader');
   if (loader) {
     loader.contentWindow.postMessage({
@@ -626,7 +593,7 @@ cwc.ui.Builder.prototype.renderGui = function() {
 
   // Decorate GUI with all other components.
   let guiInstance = this.helper.getInstance('gui');
-  if (guiInstance && !this.error) {
+  if (guiInstance) {
     this.log_.info('Decorate gui ...');
     guiInstance.decorate(this.node);
   } else {

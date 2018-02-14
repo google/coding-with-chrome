@@ -135,7 +135,7 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
 
 /**
  * Sets the status message.
- * @param {!cwc.ui.RunnerStatus} status
+ * @param {!cwc.ui.StatusbarState} status
  */
 cwc.ui.RunnerMonitor.prototype.setStatus = function(status) {
   switch (status) {
