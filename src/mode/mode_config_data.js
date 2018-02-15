@@ -29,6 +29,7 @@ goog.require('cwc.mode.coffeescript.Mod');
 goog.require('cwc.mode.ev3.advanced.Mod');
 goog.require('cwc.mode.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
+goog.require('cwc.mode.javascript.Mod');
 goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
 goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
@@ -121,7 +122,6 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
   title: 'Simple',
 });
 
-
 /**
  * Basic blockly mode.
  */
@@ -136,6 +136,19 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   title: 'Blocks',
 });
 
+/**
+ * Javascript mode. (raw .js file without .cwc wrapper)
+ */
+cwc.mode.ConfigData[cwc.mode.Type.JAVASCRIPT] = new cwc.mode.Mod({
+  authors: ['Adam Carheden'],
+  auto_preview: true,
+  file_type: cwc.file.Type.JAVASCRIPT,
+  icon: 'local_cafe',
+  mime_types: [cwc.file.MimeType.JAVASCRIPT.type],
+  mod: cwc.mode.javascript.Mod,
+  name: 'Javascript',
+  title: 'JavaScript',
+});
 
 /**
  * Mindstorms EV3 advanced mode.
