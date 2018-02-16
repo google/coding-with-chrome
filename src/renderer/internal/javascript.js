@@ -1,7 +1,7 @@
 /**
- * @fileoverview Renderer for Javascript modification.
+ * @fileoverview Renderer for JavaScript modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,11 @@ cwc.renderer.internal.Javascript = function(helper) {
 
 
 /**
- * Initializes and defines the Javascript renderer.
+ * Initializes and defines the JavaScript renderer.
  */
 cwc.renderer.internal.Javascript.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
   let renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setRenderer(renderer);
 };
 
@@ -65,7 +65,6 @@ cwc.renderer.internal.Javascript.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  let body = '\n<script type="text/javascript">\n' +
-    editor_content[cwc.ui.EditorContent.DEFAULT] + '\n</script>\n';
-  return renderer_helper.getHTML(body, '');
+  return renderer_helper.getHTML(
+    null, null, null, editor_content[cwc.ui.EditorContent.DEFAULT]);
 };

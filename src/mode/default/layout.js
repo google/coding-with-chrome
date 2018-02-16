@@ -32,7 +32,7 @@ cwc.mode.default.Layout = function(helper) {
   this.helper = helper;
 
   /** @type {!number} */
-  this.layoutWidth = 400;
+  this.layoutWidth = 700;
 };
 
 
@@ -42,6 +42,18 @@ cwc.mode.default.Layout = function(helper) {
 cwc.mode.default.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateDefault(this.layoutWidth);
+  layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
+  layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.preview);
+};
+
+
+/**
+ * Decorates the Editor layout.
+ */
+cwc.mode.default.Layout.prototype.decorateRunner = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.decorateDefault();
+  layoutInstance.setFixRightComponentSize(400);
   layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
   layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.preview);
 };

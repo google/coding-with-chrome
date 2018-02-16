@@ -86,6 +86,11 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
  * Decorates the editor.
  */
 cwc.mode.default.Mod.prototype.decorateMessage = function() {
-  this.helper.setInstance('message', this.message);
+  this.helper.setInstance('message', this.message, true);
   this.message.decorate();
+};
+
+
+cwc.mode.default.Mod.prototype.setRenderer = function(renderer) {
+  this.renderer = renderer;
 };

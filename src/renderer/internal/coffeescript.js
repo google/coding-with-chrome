@@ -42,8 +42,8 @@ cwc.renderer.internal.Coffeescript = function(helper) {
  * Initializes and defines the Coffeescript renderer.
  */
 cwc.renderer.internal.Coffeescript.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
   let renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setRenderer(renderer);
 };
 

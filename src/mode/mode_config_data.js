@@ -122,6 +122,7 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
   title: 'Simple',
 });
 
+
 /**
  * Basic blockly mode.
  */
@@ -136,19 +137,6 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   title: 'Blocks',
 });
 
-/**
- * Javascript mode. (raw .js file without .cwc wrapper)
- */
-cwc.mode.ConfigData[cwc.mode.Type.JAVASCRIPT] = new cwc.mode.Mod({
-  authors: ['Adam Carheden'],
-  auto_preview: true,
-  file_type: cwc.file.Type.JAVASCRIPT,
-  icon: 'local_cafe',
-  mime_types: [cwc.file.MimeType.JAVASCRIPT.type],
-  mod: cwc.mode.javascript.Mod,
-  name: 'Javascript',
-  title: 'JavaScript',
-});
 
 /**
  * Mindstorms EV3 advanced mode.
@@ -316,10 +304,27 @@ cwc.mode.ConfigData[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
   auto_preview: true,
   file_type: cwc.file.Type.HTML,
   icon: 'public',
-  mime_types: [cwc.file.MimeType.HTML.type],
+  mime_types: [
+    cwc.file.MimeType.HTML.type
+  ],
   mod: cwc.mode.html5.Mod,
   name: 'HTML 5',
   title: 'HTML5',
+});
+
+
+/**
+ * JavaScript mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.JAVASCRIPT] = new cwc.mode.Mod({
+  authors: ['Adam Carheden'],
+  auto_preview: true,
+  file_type: cwc.file.Type.JAVASCRIPT,
+  icon: 'local_cafe',
+  mime_types: [cwc.file.MimeType.JAVASCRIPT.type],
+  mod: cwc.mode.javascript.Mod,
+  name: 'JavaScript',
+  title: 'JavaScript',
 });
 
 

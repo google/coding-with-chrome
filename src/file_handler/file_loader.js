@@ -294,7 +294,7 @@ cwc.fileHandler.FileLoader.prototype.readFile = function(file, file_entry,
  */
 cwc.fileHandler.FileLoader.prototype.openFile = function(file, file_entry,
     content, callback, scope) {
-  if (file && content) {
+  if (file) {
     callback.call(scope, file, file_entry, content);
   } else {
     this.helper.showError('Unable to open file ' + file + '!');

@@ -21,8 +21,6 @@ goog.provide('cwc.mode.default.blockly.Editor');
 
 goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
-goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Helper');
 
 
 /**

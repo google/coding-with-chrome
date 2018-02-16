@@ -1,7 +1,7 @@
 /**
- * @fileoverview Javascript modifications.
+ * @fileoverview JavaScript modifications.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,7 @@
  */
 goog.provide('cwc.mode.javascript.Mod');
 
-goog.require('cwc.mode.javascript.Editor');
-goog.require('cwc.mode.javascript.Layout');
-goog.require('cwc.mode.javascript.Preview');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.renderer.internal.Javascript');
 
 
@@ -30,14 +28,8 @@ goog.require('cwc.renderer.internal.Javascript');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.javascript.Mod = function(helper) {
-  /** @type {cwc.mode.javascript.Layout} */
-  this.layout = new cwc.mode.javascript.Layout(helper);
-
-  /** @type {cwc.mode.javascript.Editor} */
-  this.editor = new cwc.mode.javascript.Editor(helper);
-
-  /** @type {cwc.mode.javascript.Preview} */
-  this.preview = new cwc.mode.javascript.Preview(helper);
+  /** @type {!cwc.mode.default.blockly.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {cwc.renderer.internal.Javascript} */
   this.renderer = new cwc.renderer.internal.Javascript(helper);
@@ -48,8 +40,7 @@ cwc.mode.javascript.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.javascript.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
-  this.preview.decorate();
-  this.renderer.init();
+  this.mod.setRenderer(this.renderer);
+  this.mod.decorate();
+  this.mod.editor.showEditorViews(false);
 };

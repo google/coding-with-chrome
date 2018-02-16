@@ -590,9 +590,9 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
   }
 
   this.log_.info('Create view', name,
-    (type ? 'with type' : ''), type,
-    (hints ? 'and hints' : ''), hints,
-    (content ? 'for content:' : ''), '\n...\n' + content + '\n...');
+    (type ? 'with type ' + type : ''),
+    (hints ? 'and hints ' + hints : ''),
+    (content ? 'for content:' : ''), content);
   this.editorView[name] = new cwc.ui.EditorView(content, type, hints, flags);
 
   if (this.toolbar) {
