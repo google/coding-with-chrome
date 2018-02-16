@@ -1,7 +1,7 @@
 /**
- * @fileoverview Renderer for Coffeescript modification.
+ * @fileoverview Renderer for JavaScript modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author carheden@google.com (Adam Carheden)
  */
-goog.provide('cwc.renderer.internal.Coffeescript');
+goog.provide('cwc.renderer.internal.Javascript');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
@@ -32,16 +32,16 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.internal.Coffeescript = function(helper) {
+cwc.renderer.internal.Javascript = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
 
 
 /**
- * Initializes and defines the Coffeescript renderer.
+ * Initializes and defines the JavaScript renderer.
  */
-cwc.renderer.internal.Coffeescript.prototype.init = function() {
+cwc.renderer.internal.Javascript.prototype.init = function() {
   let renderer = this.render.bind(this);
   let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setRenderer(renderer);
@@ -58,17 +58,13 @@ cwc.renderer.internal.Coffeescript.prototype.init = function() {
  * @return {!string}
  * @export
  */
-cwc.renderer.internal.Coffeescript.prototype.render = function(
+cwc.renderer.internal.Javascript.prototype.render = function(
     editor_content,
     editor_flags,
     libraryFiles,
     frameworks,
     styleSheets,
     renderer_helper) {
-  let header = renderer_helper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.External.COFFEESCRIPT), frameworks
-  );
-  let body = '\n<script type="text/coffeescript">\n' +
-    editor_content[cwc.ui.EditorContent.DEFAULT] + '\n</script>\n';
-  return renderer_helper.getHTML(body, header);
+  return renderer_helper.getHTML(
+    null, null, null, editor_content[cwc.ui.EditorContent.DEFAULT]);
 };

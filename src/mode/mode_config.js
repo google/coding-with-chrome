@@ -36,6 +36,10 @@ cwc.mode.Config = function() {};
  * @return {Object}
  */
 cwc.mode.Config.get = function(type, required = false) {
+  if (!type) {
+    console.warn('Mode type is undefined!');
+    return null;
+  }
   if (type in cwc.mode.ConfigData) {
     return cwc.mode.ConfigData[type];
   } else {

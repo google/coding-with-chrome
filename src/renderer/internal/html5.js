@@ -44,8 +44,8 @@ cwc.renderer.internal.HTML5 = function(helper) {
  * Initializes and defines the HTML5 renderer.
  */
 cwc.renderer.internal.HTML5.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
   let renderer = this.render.bind(this);
+  let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setRenderer(renderer);
 };
 
