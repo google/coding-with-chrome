@@ -63,11 +63,18 @@ cwc.protocol.bluetoothLE.Devices.prototype.prepare = function() {
 };
 
 
-cwc.protocol.bluetoothLE.Devices.prototype.requestDevice = function() {
-  navigator.bluetooth.requestDevice(
-    this.getDeviceFilter_()
-  ).then(
-    this.handleRequestDevice_.bind(this)
+/**
+ * @param {Function=} optCallback Will be only called  after an connection.
+ */
+cwc.protocol.bluetoothLE.Devices.prototype.requestDevice = function(
+    optCallback) {
+  navigator.bluetooth.requestDevice(this.getDeviceFilter_()).then(
+    (bluetoothDevice) => {
+      this.handleRequestDevice_(bluetoothDevice);
+      if (optCallback) {
+        optCallback();
+      }
+    }
   );
 };
 
@@ -78,31 +85,52 @@ cwc.protocol.bluetoothLE.Devices.prototype.requestDevice = function() {
  */
 cwc.protocol.bluetoothLE.Devices.prototype.getDeviceFilter_ = function() {
   let filters = [];
+  let services = [];
   for (let entry in cwc.protocol.bluetoothLE.supportedDevices) {
     if (cwc.protocol.bluetoothLE.supportedDevices.hasOwnProperty(entry)) {
       let device = cwc.protocol.bluetoothLE.supportedDevices[entry];
       filters.push({'namePrefix': device.namePrefix});
+      services = [...new Set([...services, ...Object.keys(device.services).map(
+        (service) => device.services[service]
+      )])];
     }
   }
   return {
     'filters': filters,
+    'optionalServices': services,
   };
 };
 
 
 /**
- * @param {?} device
- * @private
+ * @param {!string} id
+ * @return {cwc.protocol.bluetoothLE.Device}
  */
-cwc.protocol.bluetoothLE.Devices.prototype.handleRequestDevice_ = function(
-    device) {
-  console.log('handleRequestDevice_', device);
-  let id = device['id'];
-  this.devices[id] = new cwc.protocol.bluetoothLE.Device();
-  this.devices[id].setId(device['id']);
-  this.devices[id].setName(device['name']);
-  this.devices[id].setConnected(device['gatt']['connected']);
-  console.log(this.devices);
+cwc.protocol.bluetoothLE.Devices.prototype.getDevice = function(id) {
+  if (id in this.devices) {
+    return this.devices[id];
+  }
+  this.log_.error('Bluetooth device id', id, 'is unknown!');
+  return null;
+};
+
+
+/**
+ * @param {?} device
+ * @return {!cwc.protocol.bluetoothLE.supportedDevices|null}
+ */
+cwc.protocol.bluetoothLE.Devices.prototype.getDeviceProfile = function(device) {
+  for (let entry in cwc.protocol.bluetoothLE.supportedDevices) {
+    if (cwc.protocol.bluetoothLE.supportedDevices.hasOwnProperty(entry)) {
+      let profile = cwc.protocol.bluetoothLE.supportedDevices[entry];
+      if (device['name'] == profile.name ||
+          device['name'].includes(profile.namePrefix)) {
+        this.log_.debug('Found device profile', profile.name, 'for', device);
+        return profile;
+      }
+    }
+  }
+  return null;
 };
 
 
@@ -111,4 +139,24 @@ cwc.protocol.bluetoothLE.Devices.prototype.handleRequestDevice_ = function(
  */
 cwc.protocol.bluetoothLE.Devices.prototype.getDevices = function() {
   return this.devices;
+};
+
+
+/**
+ * @param {?} bluetoothDevice
+ * @private
+ */
+cwc.protocol.bluetoothLE.Devices.prototype.handleRequestDevice_ = function(
+    bluetoothDevice) {
+  console.log('handleRequestDevice_', bluetoothDevice);
+  let profile = this.getDeviceProfile(bluetoothDevice);
+  let device = new cwc.protocol.bluetoothLE.Device()
+    .setConnected(bluetoothDevice['gatt']['connected'])
+    .setGATT(bluetoothDevice['gatt'])
+    .setId(bluetoothDevice['id'])
+    .setLogName('Bluetooth LE Device ' + bluetoothDevice['id'])
+    .setName(bluetoothDevice['name'])
+    .setProfile(profile);
+  this.devices[bluetoothDevice['id']] = device;
+  console.log(this.devices);
 };

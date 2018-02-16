@@ -303,17 +303,15 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
       if (address in this.devices) {
         this.devices[address].updateInfo();
       } else {
-        let device = new cwc.protocol.bluetooth.Device(this.eventHandler_);
-        device.setAddress(address);
-        device.setConnectEvent(this.handleConnect_.bind(this));
-        device.setConnected(deviceEntry['connected']);
-        device.setDisconnectEvent(this.handleDisconnect_.bind(this));
-        device.setIcon(profile.icon);
-        device.setLogName('Bluetooth Device ' + address);
-        device.setName(deviceEntry['name']);
-        device.setPaired(deviceEntry['paired']);
-        device.setProfile(profile);
-        device.setType(profile.name);
+        let device = new cwc.protocol.bluetooth.Device(this.eventHandler_)
+          .setAddress(address)
+          .setConnectEvent(this.handleConnect_.bind(this))
+          .setConnected(deviceEntry['connected'])
+          .setDisconnectEvent(this.handleDisconnect_.bind(this))
+          .setLogName('Bluetooth Device ' + address)
+          .setName(deviceEntry['name'])
+          .setPaired(deviceEntry['paired'])
+          .setProfile(profile);
         this.devices[address] = device;
       }
       if (deviceEntry['connected']) {

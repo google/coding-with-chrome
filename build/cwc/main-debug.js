@@ -57,3 +57,16 @@ closureBuilder.build({
     },
   },
 });
+
+
+/**
+ * Source Map files
+ */
+closureBuilder.build({
+  name: 'CwC debug files',
+  resources: [
+    'src/',
+    'gensoyfiles/',
+  ],
+  out: 'genfiles/core/js/',
+});

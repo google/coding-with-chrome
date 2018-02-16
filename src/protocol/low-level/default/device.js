@@ -60,9 +60,11 @@ cwc.protocol.default.Device = function() {
 
 /**
  * @param {!string} address
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setAddress = function(address) {
   this.address = address;
+  return this;
 };
 
 
@@ -76,9 +78,11 @@ cwc.protocol.default.Device.prototype.getAddress = function() {
 
 /**
  * @param {!boolean} connected
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setConnected = function(connected) {
   this.connected = connected;
+  return this;
 };
 
 
@@ -92,9 +96,11 @@ cwc.protocol.default.Device.prototype.isConnected = function() {
 
 /**
  * @param {!boolean} paired
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setPaired = function(paired) {
   this.paired = paired;
+  return this;
 };
 
 
@@ -108,9 +114,11 @@ cwc.protocol.default.Device.prototype.isPaired = function() {
 
 /**
  * @param {!string} id
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setId = function(id) {
   this.id = id;
+  return this;
 };
 
 
@@ -124,9 +132,11 @@ cwc.protocol.default.Device.prototype.getId = function() {
 
 /**
  * @param {!string} name
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setName = function(name) {
   this.name = name;
+  return this;
 };
 
 
@@ -140,9 +150,11 @@ cwc.protocol.default.Device.prototype.getName = function() {
 
 /**
  * @param {!string} type
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setType = function(type) {
   this.type = type;
+  return this;
 };
 
 
@@ -156,9 +168,17 @@ cwc.protocol.default.Device.prototype.getType = function() {
 
 /**
  * @param {!Object} profile
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setProfile = function(profile) {
   this.profile = profile;
+  if (!this.icon && profile.icon) {
+    this.icon = profile.icon;
+  }
+  if (!this.type && profile.name) {
+    this.type = profile.name;
+  }
+  return this;
 };
 
 
@@ -172,9 +192,11 @@ cwc.protocol.default.Device.prototype.getProfile = function() {
 
 /**
  * @param {!string} icon
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setIcon = function(icon) {
   this.icon = icon;
+  return this;
 };
 
 
@@ -188,7 +210,9 @@ cwc.protocol.default.Device.prototype.getIcon = function() {
 
 /**
  * @param {!string} name
+ * @return {THIS}
  */
 cwc.protocol.default.Device.prototype.setLogName = function(name) {
   this.log_ = new cwc.utils.Logger(name);
+  return this;
 };

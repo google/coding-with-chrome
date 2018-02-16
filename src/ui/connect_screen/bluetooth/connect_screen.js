@@ -96,10 +96,17 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
   if (!target || !target.dataset || !target.hasAttribute('data-action')) {
     return;
   }
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
   let action = target.dataset['action'];
   let address = target.dataset['address'];
-  let device = bluetoothInstance.getDevice(address);
+  let id = target.dataset['id'];
+  let device = null;
+  if (address) {
+    let bluetoothInstance = this.helper.getInstance('bluetooth');
+    device = bluetoothInstance.getDevice(address);
+  } else if (id) {
+    let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
+    device = bluetoothLEInstance.getDevice(id);
+  }
   if (!device) {
     return;
   }
@@ -120,9 +127,8 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
-  console.log('Searching for bluetooth device ...');
   let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
-  bluetoothLEInstance.requestDevice();
+  bluetoothLEInstance.requestDevice(this.refresh_.bind(this));
 };
 
 
@@ -177,16 +183,26 @@ cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
 
 
 /**
+ * @private
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.refresh_ = function() {
+  console.log('Refreshing ...');
+  this.showDevices();
+};
+
+
+/**
  * @param {!cwc.protocol.bluetooth.Device} device
  * @return {Object}
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.parseDeviceData_ = function(device) {
   return {
-    'name': device.getName(),
     'address': device.getAddress(),
     'connected': device.isConnected(),
-    'type': device.getType(),
     'icon': device.getIcon(),
+    'id': device.getId(),
+    'name': device.getName(),
+    'type': device.getType(),
   };
 };

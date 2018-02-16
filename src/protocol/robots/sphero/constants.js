@@ -26,6 +26,14 @@ goog.provide('cwc.protocol.sphero.MessageType');
 /**
  * @enum {number}
  */
+cwc.protocol.sphero.AntiDOS = {
+  DEVELOPER_MODE: [0x30, 0x31, 0x31, 0x69, 0x33],
+};
+
+
+/**
+ * @enum {number}
+ */
 cwc.protocol.sphero.CallbackType = {
   NONE: 0x00,
   LOCATION: 0x10,

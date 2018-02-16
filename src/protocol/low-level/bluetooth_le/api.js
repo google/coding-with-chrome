@@ -74,10 +74,25 @@ cwc.protocol.bluetoothLE.Api.prototype.prepare = function() {
 };
 
 
-cwc.protocol.bluetoothLE.Api.prototype.requestDevice = function() {
+/**
+ * @param {Function=} optCallback Will be only called  after an connection.
+ */
+cwc.protocol.bluetoothLE.Api.prototype.requestDevice = function(optCallback) {
   if (this.devices) {
-    this.devices.requestDevice();
+    this.devices.requestDevice(optCallback);
   }
+};
+
+
+/**
+ * @param {!string} id
+ * @return {cwc.protocol.bluetoothLE.Device}
+ */
+cwc.protocol.bluetoothLE.Api.prototype.getDevice = function(id) {
+  if (this.devices) {
+    return this.devices.getDevice(id);
+  }
+  return null;
 };
 
 

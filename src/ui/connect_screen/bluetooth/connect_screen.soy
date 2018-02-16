@@ -51,12 +51,13 @@
   <ul id="{$prefix}device-list" class="mdl-list">
     {foreach $device in keys($devices)}
 
-      {call .deviceList_}
+      {call .device_}
         {param address: $devices[$device]['address'] /}
         {param connected: $devices[$device]['connected'] /}
         {param icon: $devices[$device]['icon'] /}
-        {param type: $devices[$device]['type'] /}
+        {param id: $devices[$device]['id'] /}
         {param name: $devices[$device]['name'] /}
+        {param type: $devices[$device]['type'] /}
       {/call}
 
     {/foreach}
@@ -70,29 +71,44 @@
 {template .connect}
   {@param device: ?}
 
-  {msg desc=""}Connecting device {$device['name']} ({$device['type']}) at {$device['address']} ...{/msg}
+  {msg desc=""}Connecting device{/msg} {$device['name']} ({$device['type']})
+  {msg desc=""}at{/msg}
+    {if $device['address']}
+      {$device['address']}
+    {elseif $device['id']}
+      {$device['id']}
+    {/if}
+  ...
   <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 {/template}
 
 
 /**
- * Disconnect devices template..
+ * Disconnect devices template.
  */
 {template .disconnect}
   {@param device: ?}
 
-  {msg desc=""}Disconnecting device {$device['name']} ({$device['type']}) at {$device['address']} ...{/msg}
+  {msg desc=""}Disconnecting device{/msg} {$device['name']} ({$device['type']})
+  {msg desc=""}at{/msg} 
+    {if $device['address']}
+      {$device['address']}
+    {elseif $device['id']}
+      {$device['id']}
+    {/if}
+  ...
   <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 {/template}
 
 
 /**
- * Devices template.
+ * Bluetooth device template.
  */
-{template .deviceList_}
+{template .device_}
   {@param address: string}
   {@param connected: bool}
   {@param icon: string}
+  {@param id: string}
   {@param name: string}
   {@param type: string}
 
@@ -109,30 +125,46 @@
         <span>{$name}</span>
       {else}
         <span class="link_text"
-              data-action="connect"
-              data-address="{$address}"
-              title="{msg desc=""}Connect {$type} device{/msg}">
+          data-action="connect"
+          {if $address}
+            data-address="{$address}"
+          {elseif $id}
+            data-id="{$id}"
+          {/if}
+          title="{msg desc=""}Connect {$type} device{/msg}">
           {$name}
         </span>
       {/if}
       <span class="mdl-list__item-text-body">
-        {msg desc=""}Address: {$address}{/msg}<br>
+        {if $address}
+          {msg desc=""}Address{/msg}: {$address}<br>
+        {elseif $id}
+          {msg desc=""}Id{/msg}: {$id}<br>
+        {/if}
         {msg desc=""}{$type}{/msg}
       </span>
     </span>
     <span class="">
       {if $connected}
         <i class="link_button material-icons"
-           data-action="disconnect"
-           data-address="{$address}"
-           title="{msg desc=""}Disonnect {$type} device{/msg}">
+          data-action="disconnect"
+          {if $address}
+            data-address="{$address}"
+          {elseif $id}
+            data-id="{$id}"
+          {/if}
+          title="{msg desc=""}Disonnect {$type} device{/msg}">
           bluetooth_connected
         </i>
       {else}
         <i class="link_button material-icons"
-           data-action="connect"
-           data-address="{$address}"
-           title="{msg desc=""}Connect {$type} device{/msg}">
+          data-action="connect"
+          {if $address}
+            data-address="{$address}"
+          {elseif $id}
+            data-id="{$id}"
+          {/if}
+          title="{msg desc=""}Connect {$type} device{/msg}">
           bluetooth
         </i>
       {/if}
