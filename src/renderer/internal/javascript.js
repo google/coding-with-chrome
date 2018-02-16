@@ -65,6 +65,6 @@ cwc.renderer.internal.Javascript.prototype.render = function(
     frameworks,
     styleSheets,
     renderer_helper) {
-  return renderer_helper.getHTML(
-    null, null, null, editor_content[cwc.ui.EditorContent.DEFAULT]);
+  return renderer_helper.getHTML(undefined, undefined, undefined,
+    editor_content[cwc.ui.EditorContent.DEFAULT]);
 };

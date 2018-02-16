@@ -33,7 +33,7 @@ cwc.protocol.raspberryPi.Events.Type = {
 
 /**
  * @param {Object|number} data
- * @return {!cwc.protocol.raspberryPi.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.raspberryPi.Events.recievedData = function(data) {

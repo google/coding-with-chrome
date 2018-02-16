@@ -21,6 +21,7 @@ goog.provide('cwc.protocol.bluetoothLE.Devices');
 
 goog.require('cwc.protocol.bluetoothLE.Device');
 goog.require('cwc.protocol.bluetoothLE.supportedDevices');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
@@ -72,7 +73,7 @@ cwc.protocol.bluetoothLE.Devices.prototype.requestDevice = function() {
 
 
 /**
- * @return {object}
+ * @return {Object}
  * @private
  */
 cwc.protocol.bluetoothLE.Devices.prototype.getDeviceFilter_ = function() {

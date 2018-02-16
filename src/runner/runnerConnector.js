@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.runner.Connector');
 
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.events');

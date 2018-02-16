@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.protocol.sphero.Monitoring');
 
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 
@@ -31,6 +33,9 @@ goog.require('goog.Timer');
 cwc.protocol.sphero.Monitoring = function(api) {
   /** @type {!cwc.protocol.sphero.Api} */
   this.api = api;
+
+  /** @type {string} */
+  this.name = 'Sphero Monitoring';
 
   /** @type {boolean} */
   this.monitor = false;
@@ -60,7 +65,7 @@ cwc.protocol.sphero.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
-  console.log('Starting Sphero Monitoring ...');
+  console.log('Starting...');
   this.monitorLocation.start();
   this.started = true;
 };
@@ -73,7 +78,7 @@ cwc.protocol.sphero.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
-  console.log('Stopping Sphero Monitoring ...');
+  console.log('Stopping...');
   this.monitorLocation.stop();
   this.started = false;
 };

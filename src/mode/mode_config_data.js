@@ -304,9 +304,7 @@ cwc.mode.ConfigData[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
   auto_preview: true,
   file_type: cwc.file.Type.HTML,
   icon: 'public',
-  mime_types: [
-    cwc.file.MimeType.HTML.type
-  ],
+  mime_types: [cwc.file.MimeType.HTML.type],
   mod: cwc.mode.html5.Mod,
   name: 'HTML 5',
   title: 'HTML5',

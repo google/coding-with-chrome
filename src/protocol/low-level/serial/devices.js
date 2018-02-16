@@ -23,6 +23,7 @@ goog.require('cwc.protocol.serial.Device');
 goog.require('cwc.protocol.Serial.supportedDevicePaths');
 goog.require('cwc.protocol.Serial.supportedDevices');
 goog.require('cwc.protocol.Serial.unsupportedDevicePaths');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');

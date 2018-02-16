@@ -91,6 +91,10 @@ cwc.mode.default.Mod.prototype.decorateMessage = function() {
 };
 
 
+/**
+ * @param {cwc.renderer.internal.HTML5|
+ *         cwc.renderer.internal.Javascript} renderer
+ */
 cwc.mode.default.Mod.prototype.setRenderer = function(renderer) {
   this.renderer = renderer;
 };

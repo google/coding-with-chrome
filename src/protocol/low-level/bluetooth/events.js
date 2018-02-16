@@ -33,7 +33,7 @@ cwc.protocol.bluetooth.Events.Type = {
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.bluetooth.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.bluetooth.Events.adapterState = function(data) {
@@ -44,7 +44,7 @@ cwc.protocol.bluetooth.Events.adapterState = function(data) {
 
 /**
  * @param {Object} data
- * @return {!cwc.protocol.bluetooth.Events.Data_}
+ * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.protocol.bluetooth.Events.deviceState = function(data) {

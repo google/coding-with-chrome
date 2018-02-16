@@ -194,7 +194,7 @@ cwc.ui.Layout.prototype.getNodes = function() {
 /**
  * Returns the named node of the current layout.
  * @param {!string} name
- * @return {Object}
+ * @return {Element}
  */
 cwc.ui.Layout.prototype.getNode = function(name) {
   if (name in this.nodes) {

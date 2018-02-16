@@ -1,7 +1,7 @@
 /**
  * @fileoverview Message pane.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,20 @@
 goog.provide('cwc.ui.Message');
 
 goog.require('cwc.soy.ui.Message');
+goog.require('cwc.utils.Logger');
 
 
 /**
- * Class represents the monitor inside the ui.
+ * Class represents the message pane inside the ui.
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
 cwc.ui.Message = function(helper) {
+  /** @type {string} */
+  this.name = 'Message';
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -44,6 +48,9 @@ cwc.ui.Message = function(helper) {
 
   /** @type {Element} */
   this.nodeHelp = null;
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 

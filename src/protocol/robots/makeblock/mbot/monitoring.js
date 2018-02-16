@@ -21,6 +21,8 @@
  */
 goog.provide('cwc.protocol.makeblock.mbot.Monitoring');
 
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 
@@ -33,6 +35,9 @@ goog.require('goog.Timer');
 cwc.protocol.makeblock.mbot.Monitoring = function(api) {
   /** @type {!cwc.protocol.makeblock.mbot.Api} */
   this.api = api;
+
+  /** @type {string} */
+  this.name = 'mBot Monitoring';
 
   /** @type {!number} */
   this.monitorSensorLineFollowerInterval = 100; // Duration in ms.
@@ -81,7 +86,7 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
-  console.log('Starting mBot Monitoring ...');
+  console.log('Starting...');
   this.monitorSensorLineFollower.start();
   this.monitorSensorLight.start();
   this.monitorSensorUltrasonic.start();
@@ -97,7 +102,7 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
-  console.log('Stopping mBot Monitoring ...');
+  console.log('Stopping...');
   this.monitorSensorLineFollower.stop();
   this.monitorSensorLight.stop();
   this.monitorSensorUltrasonic.stop();

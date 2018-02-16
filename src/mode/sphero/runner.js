@@ -150,5 +150,4 @@ cwc.mode.sphero.Runner.prototype.handleCleanUp = function() {
 cwc.mode.sphero.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
   this.events_.clear();
-  this.listener_ = [];
 };

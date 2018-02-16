@@ -21,6 +21,8 @@
  */
 goog.provide('cwc.protocol.makeblock.mbotRanger.Monitoring');
 
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 
@@ -33,6 +35,9 @@ goog.require('goog.Timer');
 cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
   /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
   this.api = api;
+
+  /** @type {string} */
+  this.name = 'mBot Ranger Monitoring';
 
   /** @type {!number} */
   this.monitorSensorLineFollowerInterval = 100; // Duration in ms.
@@ -93,7 +98,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
-  console.log('Starting mBot Ranger Monitoring ...');
+  console.log('Starting...');
   this.start_(this.monitorSensorLineFollower);
   this.start_(this.monitorSensorLight1);
   this.start_(this.monitorSensorLight2);
@@ -107,7 +112,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop = function() {
-  console.log('Stopping mBot Ranger Monitoring ...');
+  console.log('Stopping...');
   this.stop_(this.monitorSensorLineFollower);
   this.stop_(this.monitorSensorLight1);
   this.stop_(this.monitorSensorLight2);
@@ -181,7 +186,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enable_ = function(
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
   monitor, name) {
   if (name) {
-    console.log('Starting mBot Ranger', name, 'sensor monitoring ...');
+    console.log('Starting', name, 'sensor monitoring ...');
   }
   monitor.start();
 };
@@ -195,7 +200,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start_ = function(
 cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop_ = function(
   monitor, name) {
   if (name) {
-    console.log('Stopping mBot Ranger', name, 'sensor monitoring ...');
+    console.log('Stopping', name, 'sensor monitoring ...');
   }
   monitor.stop();
 };

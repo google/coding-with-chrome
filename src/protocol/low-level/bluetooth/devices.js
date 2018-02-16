@@ -21,6 +21,7 @@ goog.provide('cwc.protocol.bluetooth.Devices');
 
 goog.require('cwc.protocol.bluetooth.Device');
 goog.require('cwc.protocol.bluetooth.supportedDevices');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');

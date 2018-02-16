@@ -18,8 +18,10 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.ev3.Monitoring');
+
 goog.require('cwc.protocol.ev3.DeviceName');
 goog.require('cwc.protocol.ev3.Events');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.Timer');
 goog.require('goog.events');
@@ -35,6 +37,9 @@ goog.require('goog.events.EventTarget');
 cwc.protocol.ev3.Monitoring = function(api) {
   /** @type {!cwc.protocol.ev3.Api} */
   this.api = api;
+
+  /** @type {string} */
+  this.name = 'EV3 Monitoring';
 
   /** @type {boolean} */
   this.monitor = false;
@@ -122,7 +127,7 @@ cwc.protocol.ev3.Monitoring.prototype.init = function() {
     return;
   }
 
-  console.log('Init EV3 sensor and actor monitoring ...');
+  console.log('Init sensor and actor monitoring ...');
 
   this.events_.listen(this.monitorSensorColor, goog.Timer.TICK,
       this.updateColorSensor, false, this);
@@ -171,7 +176,7 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
     return;
   }
   if (!this.started) {
-    console.log('Preparing EV3 monitoring ...');
+    console.log('Preparing...');
   }
   let monitoring = false;
 
@@ -238,7 +243,7 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
  */
 cwc.protocol.ev3.Monitoring.prototype.stop = function() {
   if (this.started) {
-    console.log('Stopping EV3 Monitoring ...');
+    console.log('Stopping...');
     this.monitorSensorColor.stop();
     this.monitorSensorGyro.stop();
     this.monitorSensorIr.stop();
