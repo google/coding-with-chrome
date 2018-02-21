@@ -117,6 +117,41 @@ cwc.protocol.sphero.Api.prototype.connect = function(device) {
 
 
 /**
+ * Connects the Sphero ball.
+ * @param {!cwc.protocol.bluetoothLE.Device} device
+ * @return {boolean} Was able to prepare and connect to the Sphero.
+ * @export
+ */
+cwc.protocol.sphero.Api.prototype.connectLE = function(device) {
+  if (!device || !device.isConnected()) {
+    console.error('Sphero ball is not ready yet...');
+    return false;
+  }
+
+  if (!this.prepared) {
+    console.log('Preparing Sphero bluetooth LE api for', device.getId());
+    this.device = device;
+    this.device.sendRaw(
+      new TextEncoder('utf-8').encode('011i3'),
+      '22bb746f-2bbd-7554-2d6f-726568705327'
+    ).then(() => {
+      this.device.sendRaw(
+        Uint8Array.from(0x07),
+        '22bb746f-2bb2-7554-2d6f-726568705327'
+      );
+    }).then(() => {
+      this.device.sendRaw(
+        Uint8Array.from(0x01),
+        '22bb746f-2bbf-7554-2d6f-726568705327'
+      );
+    });
+    //this.runTest();
+  }
+  return true;
+};
+
+
+/**
  * @return {!boolean}
  */
 cwc.protocol.sphero.Api.prototype.isConnected = function() {

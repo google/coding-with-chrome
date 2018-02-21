@@ -24,11 +24,10 @@ goog.require('cwc.utils.ByteTools');
 
 
 /**
- * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  * @extends {cwc.protocol.default.Device}
  */
-cwc.protocol.bluetooth.Device = function(eventHandler) {
+cwc.protocol.bluetooth.Device = function() {
   /** @type {!boolean} */
   this.connecting = false;
 
@@ -65,9 +64,6 @@ cwc.protocol.bluetooth.Device = function(eventHandler) {
 
   /** @private {!boolean} */
   this.paused_ = false;
-
-  /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = eventHandler;
 };
 goog.inherits(cwc.protocol.bluetooth.Device, cwc.protocol.default.Device);
 

@@ -30,7 +30,7 @@ cwc.protocol.bluetoothLE.supportedDevices = {
     icon: 'adjust',
     characteristic: {
       robotControl: {
-        commands: '22bb746f-2ba1-7554-2d6f-726568705327',
+        command: '22bb746f-2ba1-7554-2d6f-726568705327',
         response: '22bb746f-2ba6-7554-2d6f-726568705327',
       },
       spheroBLE: {

@@ -55,6 +55,9 @@ cwc.protocol.default.Device = function() {
 
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger();
+
+  /** @type {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
 };
 
 
@@ -94,6 +97,25 @@ cwc.protocol.default.Device.prototype.setConnected = function(connected) {
 cwc.protocol.default.Device.prototype.isConnected = function() {
   return this.connected;
 };
+
+
+/**
+ * @param {!goog.events.EventTarget} eventHandler
+ * @return {this}
+ */
+cwc.protocol.default.Device.prototype.setEventHandler = function(eventHandler) {
+  this.eventHandler_ = eventHandler;
+  return this;
+};
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.protocol.default.Device.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+
 
 
 /**

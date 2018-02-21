@@ -42,13 +42,16 @@ cwc.protocol.bluetoothLE.Devices = function(eventHandler) {
   /** @type {boolean} */
   this.prepared = false;
 
+  /** @private {Object} */
+  this.deviceTypeMap_ = {};
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = eventHandler;
 
-  /** @type {!cwc.utils.Logger} */
+  /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
 
@@ -143,6 +146,18 @@ cwc.protocol.bluetoothLE.Devices.prototype.getDevices = function() {
 
 
 /**
+ * @param {!string} name
+ * @return {Array.cwc.protocol.bluetoothLE.Device}
+ */
+cwc.protocol.bluetoothLE.Devices.prototype.getDevicesByName = function(name) {
+  if (name in this.deviceTypeMap_) {
+    return this.deviceTypeMap_[name];
+  }
+  return null;
+};
+
+
+/**
  * @param {?} bluetoothDevice
  * @private
  */
@@ -150,13 +165,26 @@ cwc.protocol.bluetoothLE.Devices.prototype.handleRequestDevice_ = function(
     bluetoothDevice) {
   console.log('handleRequestDevice_', bluetoothDevice);
   let profile = this.getDeviceProfile(bluetoothDevice);
+  if (!profile) {
+    return;
+  }
+
+  // Creating device entry.
   let device = new cwc.protocol.bluetoothLE.Device()
     .setConnected(bluetoothDevice['gatt']['connected'])
-    .setGATT(bluetoothDevice['gatt'])
+    .setDevice(bluetoothDevice)
     .setId(bluetoothDevice['id'])
     .setLogName('Bluetooth LE Device ' + bluetoothDevice['id'])
     .setName(bluetoothDevice['name'])
     .setProfile(profile);
+  device.addEventHandler();
   this.devices[bluetoothDevice['id']] = device;
+
+  // Storing device in type map for easy access.
+  if (!(profile.name in this.deviceTypeMap_)) {
+    this.deviceTypeMap_[profile.name] = [];
+  }
+  this.deviceTypeMap_[profile.name].push(device);
+  
   console.log(this.devices);
 };

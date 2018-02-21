@@ -303,11 +303,12 @@ cwc.protocol.bluetooth.Devices.prototype.handleGetDevices_ = function(devices) {
       if (address in this.devices) {
         this.devices[address].updateInfo();
       } else {
-        let device = new cwc.protocol.bluetooth.Device(this.eventHandler_)
+        let device = new cwc.protocol.bluetooth.Device()
           .setAddress(address)
           .setConnectEvent(this.handleConnect_.bind(this))
           .setConnected(deviceEntry['connected'])
           .setDisconnectEvent(this.handleDisconnect_.bind(this))
+          .setEventHandler(this.eventHandler_)
           .setLogName('Bluetooth Device ' + address)
           .setName(deviceEntry['name'])
           .setPaired(deviceEntry['paired'])

@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.sphero.Connection');
 
 goog.require('cwc.utils.Events');
+goog.require('cwc.protocol.bluetoothLE.supportedDevices');
 
 goog.require('goog.Timer');
 
@@ -74,14 +75,26 @@ cwc.mode.sphero.Connection.prototype.init = function() {
  */
 cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
+    // Sphero 2.0
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
       if (device) {
         this.api.connect(device);
       }
     }.bind(this));
+
+    // Sphero SPK+
+    let bluetoothLEInstance = this.helper.getInstance('bluetoothLE', true);
+    let devices = bluetoothLEInstance.getDevicesByName(
+      cwc.protocol.bluetoothLE.supportedDevices.SPHERO_SPRK_PLUS.name);
+    if (devices) {
+      devices[0].connect().then((device) => {
+        this.api.connectLE(device);
+      });
+    }
+    console.log(devices);
   }
-  this.api.monitor(true);
+  this.api.monitor(false);
 };
 
 

@@ -39,9 +39,15 @@ cwc.protocol.bluetoothLE.Device = function() {
   this.characteristic_ = {};
 
   /** @private {Object} */
-  this.gatt_ = {};
+  this.device_ = {};
 };
 goog.inherits(cwc.protocol.bluetoothLE.Device, cwc.protocol.default.Device);
+
+
+cwc.protocol.bluetoothLE.Device.prototype.addEventHandler = function() {
+  this.device_.addEventListener('gattserverdisconnected',
+    this.handleDisconnect_.bind(this));
+};
 
 
 /**
@@ -49,23 +55,31 @@ goog.inherits(cwc.protocol.bluetoothLE.Device, cwc.protocol.default.Device);
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.bluetoothLE.Device.prototype.setGATT = function(gatt) {
-  this.gatt_ = gatt;
+cwc.protocol.bluetoothLE.Device.prototype.setDevice = function(device) {
+  this.device_ = device;
   return this;
 };
 
 
 /**
- * @param {Function=} optCallback Will be only called  after an connection.
+ * @return {Promise}
  */
-cwc.protocol.bluetoothLE.Device.prototype.connect = function(optCallback) {
-  this.log_.info('Connecting...');
-  this.gatt_['connect']().then((server) => {
-    this.server_ = server;
-    this.handleConnect_();
-    if (optCallback) {
-      optCallback();
+cwc.protocol.bluetoothLE.Device.prototype.connect = function() {
+  return new Promise((resolve) => {
+    this.connected = this.device_['gatt']['connected'];
+    if (this.connected) {
+      return resolve(this);
     }
+    this.log_.info('Connecting...');
+    this.device_['gatt']['connect']().then((server) => {
+      this.server_ = server;
+      this.connected = this.device_['gatt']['connected'];
+      this.handleConnect_().then(() => {
+        this.log_.info('Connected!');
+        this.connected = true;
+        resolve(this);
+      });
+    });
   });
 };
 
@@ -76,6 +90,19 @@ cwc.protocol.bluetoothLE.Device.prototype.connect = function(optCallback) {
  */
 cwc.protocol.bluetoothLE.Device.prototype.send = function(buffer) {
   console.log('Send buffer', buffer);
+  //this.characteristic_['22bb746f-2ba1-7554-2d6f-726568705327']['writeValue'](buffer);
+};
+
+
+/**
+ * Sends the buffer to the socket.
+ * @param {!Array|ArrayBuffer|Uint8Array} buffer
+ * @param {!string} characteristicId
+ */
+cwc.protocol.bluetoothLE.Device.prototype.sendRaw = function(buffer,
+    characteristicId) {
+  console.log('Send raw buffer', buffer);
+  return this.characteristic_[characteristicId]['writeValue'](buffer);
 };
 
 
@@ -84,34 +111,49 @@ cwc.protocol.bluetoothLE.Device.prototype.send = function(buffer) {
  * @private
  */
 cwc.protocol.bluetoothLE.Device.prototype.handleConnect_ = function() {
+  let promises = [];
   for (let entry in this.profile.services) {
     if (this.profile.services.hasOwnProperty(entry)) {
       let serviceEntry = this.profile.services[entry];
-      this.connectService_(serviceEntry, entry);
+      promises.push(this.connectService_(serviceEntry, entry));
     }
   }
+  return Promise.all(promises);
+};
+
+
+/**
+ * @param {!Object} event
+ * @private
+ */
+cwc.protocol.bluetoothLE.Device.prototype.handleDisconnect_ = function(event) {
+  console.log('Disconnected!', event);
+  this.connected = false;
 };
 
 
 /**
  * @param {!string} serviceId
- * @param {string=} test
+ * @param {string=} characteristic
  * @private
  */
 cwc.protocol.bluetoothLE.Device.prototype.connectService_ = function(
-    serviceId, test) {
-  this.log_.info('Connecting service', serviceId);
-  this.server_['getPrimaryService'](serviceId).then((service) => {
+    serviceId, characteristic) {
+  this.log_.info('Connect service', serviceId);
+  return this.server_['getPrimaryService'](serviceId).then((service) => {
     this.services_[service['uuid']] = service;
-
-    if (test) {
-      // Preconnecting Characteristic
-      for (let entry in this.profile.characteristic[test]) {
-        if (this.profile.characteristic[test].hasOwnProperty(entry)) {
-          let characteristicEntry = this.profile.characteristic[test][entry];
-          this.connectCharacteristic_(characteristicEntry, serviceId);
+    // Preconnecting Characteristic.
+    if (characteristic) {
+      let promises = [];
+      for (let entry in this.profile.characteristic[characteristic]) {
+        if (this.profile.characteristic[characteristic].hasOwnProperty(entry)) {
+          let characteristicEntry =
+            this.profile.characteristic[characteristic][entry];
+          promises.push(
+            this.connectCharacteristic_(characteristicEntry, serviceId));
         }
       }
+      return Promise.all(promises);
     }
   });
 };
@@ -126,8 +168,8 @@ cwc.protocol.bluetoothLE.Device.prototype.connectCharacteristic_ = function(
     characteristicId, serviceId) {
   this.log_.info('Connecting characteristic', characteristicId, 'on service',
     serviceId);
-  this.services_[serviceId]['getCharacteristic'](characteristicId).then(
-    (characteristicId) => {
-      this.characteristic_[characteristicId] = characteristicId;
+  return this.services_[serviceId]['getCharacteristic'](characteristicId).then(
+    (characteristic) => {
+      this.characteristic_[characteristicId] = characteristic;
   });
 };

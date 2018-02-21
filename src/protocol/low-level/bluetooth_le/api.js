@@ -105,3 +105,15 @@ cwc.protocol.bluetoothLE.Api.prototype.getDevices = function() {
   }
   return null;
 };
+
+
+/**
+ * @param {!string} name
+ * @return {Object}
+ */
+cwc.protocol.bluetoothLE.Api.prototype.getDevicesByName = function(name) {
+  if (this.devices) {
+    return this.devices.getDevicesByName(name);
+  }
+  return null;
+};
