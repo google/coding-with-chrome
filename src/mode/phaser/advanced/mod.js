@@ -27,7 +27,7 @@ goog.require('cwc.mode.default.Mod');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.phaser.advanced.Mod = function(helper) {
-  /** @type {!cwc.mode.default.blockly.Mod} */
+  /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 };
 

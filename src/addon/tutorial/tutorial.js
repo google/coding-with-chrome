@@ -43,6 +43,9 @@ cwc.addon.Tutorial = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('addon-tutorial');
 
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app');
+
   /** @private {!string} */
   this.resourcesPath_ = '../../resources/tutorial/';
 

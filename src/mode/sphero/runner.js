@@ -23,6 +23,7 @@ goog.require('cwc.runner.profile.sphero.Command');
 goog.require('cwc.runner.profile.sphero.Monitor');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');

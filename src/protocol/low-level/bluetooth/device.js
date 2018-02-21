@@ -75,6 +75,7 @@ goog.inherits(cwc.protocol.bluetooth.Device, cwc.protocol.default.Device);
 /**
  * @param {!Function} callback
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.bluetooth.Device.prototype.setConnectEvent = function(callback) {
   this.connectEvent = callback;
@@ -85,6 +86,7 @@ cwc.protocol.bluetooth.Device.prototype.setConnectEvent = function(callback) {
 /**
  * @param {!Function} callback
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.bluetooth.Device.prototype.setDisconnectEvent = function(
     callback) {

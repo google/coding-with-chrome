@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.mode.sphero.Connection');
 
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 

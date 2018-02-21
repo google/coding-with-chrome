@@ -20,6 +20,8 @@
 goog.provide('cwc.mode.makeblock.mbotRanger.Connection');
 
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 

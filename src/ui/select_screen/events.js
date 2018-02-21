@@ -31,11 +31,12 @@ cwc.ui.SelectScreen.Events.Type = {
 
 
 /**
- * @param {cwc.ui.SelectScreenAdvancedView|cwc.ui.SelectScreenNormalView} data
+ * @param {cwc.ui.SelectScreenAdvancedView|
+ *         cwc.ui.SelectScreenNormalView} data
  * @return {!cwc.utils.EventData}
  * @final
  */
 cwc.ui.SelectScreen.Events.changeView = function(data) {
   return new cwc.utils.EventData(
-      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, data);
+    cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE, data);
 };

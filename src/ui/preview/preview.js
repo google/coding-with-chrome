@@ -444,7 +444,7 @@ cwc.ui.Preview.prototype.run_ = function(opt_event) {
  * @private
  */
 cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
-  let shortcut = event.identifier;
+  let shortcut = event['identifier'];
   this.log_.info('Shortcut: ' + shortcut);
 
   if (shortcut == 'CTRL_ENTER') {

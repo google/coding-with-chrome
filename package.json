@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.17.0",
+    "eslint": "^4.18.0",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
@@ -97,7 +97,7 @@
     "launch-linux": "google-chrome --load-and-launch-app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch-web": "http-server dist/web_app",
-    "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\dist\\chrome_os --enable-logging --v=1 --no-first-run",
+    "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\dist\\chrome_os --enable-logging --v=1 --no-first-run --enable-experimental-web-platform-features",
     "clean": "npm run clean-npm && npm run clean-chrome_app && npm run clean-core && npm run clean-soy_files && npm run clean-test && npm run clean-third_party",
 
     "clean-chrome_app": "echo Cleaning up Chrome app dist files. Please wait ... && rimraf dist/chrome_os/*",

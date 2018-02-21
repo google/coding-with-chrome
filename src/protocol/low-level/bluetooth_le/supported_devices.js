@@ -47,6 +47,29 @@ cwc.protocol.bluetoothLE.supportedDevices = {
       spheroBLE: '22bb746f-2bb0-7554-2d6f-726568705327',
     },
   },
+  SPHERO_BB8: {
+    name: 'Sphero BB-8',
+    namePrefix: 'BB-',
+    icon: 'adjust',
+    characteristic: {
+      robotControl: {
+        commands: '22bb746f-2ba1-7554-2d6f-726568705327',
+        response: '22bb746f-2ba6-7554-2d6f-726568705327',
+      },
+      spheroBLE: {
+        antiDOS: '22bb746f-2bbd-7554-2d6f-726568705327',
+        antiDOSTimeout: '22bb746f-2bbe-7554-2d6f-726568705327',
+        rssi: '22bb746f-2bb6-7554-2d6f-726568705327',
+        sleep: '22bb746f-2bb7-7554-2d6f-726568705327',
+        txPower: '22bb746f-2bb2-7554-2d6f-726568705327',
+        wake: '22bb746f-2bbf-7554-2d6f-726568705327',
+      },
+    },
+    services: {
+      robotControl: '22bb746f-2ba0-7554-2d6f-726568705327',
+      spheroBLE: '22bb746f-2bb0-7554-2d6f-726568705327',
+    },
+  },
 /*
   SPHERO_OLLIE: {
     namePrefix: '2B-',

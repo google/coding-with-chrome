@@ -28,7 +28,7 @@ goog.require('cwc.renderer.internal.Javascript');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.javascript.Mod = function(helper) {
-  /** @type {!cwc.mode.default.blockly.Mod} */
+  /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {cwc.renderer.internal.Javascript} */

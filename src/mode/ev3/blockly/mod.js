@@ -37,7 +37,7 @@ cwc.mode.ev3.blockly.Mod = function(helper) {
   /** @type {cwc.mode.ev3.Connection} */
   this.connection = new cwc.mode.ev3.Connection(helper);
 
-  /** @type {cwc.mode.ev3.blockly.Editor} */
+  /** @type {cwc.mode.default.blockly.Editor} */
   this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {cwc.mode.ev3.Runner} */

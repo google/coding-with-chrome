@@ -168,6 +168,18 @@ cwc.utils.Helper.prototype.getAddon = function(name, required = false) {
 
 /**
  * @param {!string} name
+ * @export
+ */
+cwc.utils.Helper.prototype.prepareAddon = function(name) {
+  let instance = this.getAddon(name);
+  if (instance) {
+    instance.prepare();
+  }
+};
+
+
+/**
+ * @param {!string} name
  * @param {!cwc.utils.HelperInstance} instance
  * @param {boolean=} overwrite
  * @export

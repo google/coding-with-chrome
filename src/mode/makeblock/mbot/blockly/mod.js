@@ -33,7 +33,7 @@ goog.require('cwc.soy.mbot.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
-  /** @type {cwc.mode.makeblock.blockly.Editor} */
+  /** @type {cwc.mode.default.blockly.Editor} */
   this.editor = new cwc.mode.default.blockly.Editor(helper);
 
   /** @type {cwc.mode.makeblock.mbot.Connection} */

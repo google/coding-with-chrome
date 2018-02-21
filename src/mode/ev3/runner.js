@@ -26,6 +26,7 @@ goog.require('cwc.runner.profile.ev3.Monitor');
 goog.require('cwc.soy.mode.ev3.Runner');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');

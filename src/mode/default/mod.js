@@ -21,6 +21,7 @@ goog.provide('cwc.mode.default.Mod');
 
 goog.require('cwc.mode.default.Layout');
 goog.require('cwc.renderer.internal.HTML5');
+goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Preview');
 
@@ -45,7 +46,9 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 
-  /** @type {cwc.renderer.internal.HTML5} */
+  /** @type {cwc.renderer.internal.HTML5|
+   *         cwc.renderer.internal.Javascript}
+   */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
 };
 

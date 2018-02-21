@@ -21,6 +21,7 @@ goog.provide('cwc.mode.sphero.Monitor');
 
 goog.require('cwc.protocol.sphero.Events');
 goog.require('cwc.soy.mode.sphero.Monitor');
+goog.require('cwc.utils.Events');
 goog.require('cwc.ui.Helper');
 
 goog.require('goog.events');

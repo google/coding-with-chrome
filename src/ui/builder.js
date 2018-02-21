@@ -546,9 +546,8 @@ cwc.ui.Builder.prototype.loadAddon_ = function(instance, instanceName) {
   if (!goog.isFunction(instance)) {
     this.raiseError('Addon ' + instanceName + ' is not defined!');
   }
-  let instanceConstruct = new instance(this.helper);
-  this.helper.setAddon(instanceName, instanceConstruct);
-  instanceConstruct.prepare();
+  this.helper.setAddon(instanceName, new instance(this.helper));
+  this.helper.prepareAddon(instanceName);
 };
 
 

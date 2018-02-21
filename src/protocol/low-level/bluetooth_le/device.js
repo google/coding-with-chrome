@@ -47,6 +47,7 @@ goog.inherits(cwc.protocol.bluetoothLE.Device, cwc.protocol.default.Device);
 /**
  * @param {!Object} gatt
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.bluetoothLE.Device.prototype.setGATT = function(gatt) {
   this.gatt_ = gatt;

@@ -55,7 +55,7 @@ cwc.ui.Message = function(helper) {
 
 
 /**
- * @param {Element} node
+ * @param {Element=} node
  */
 cwc.ui.Message.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');

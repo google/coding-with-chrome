@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.makeblock.mbotRanger.Monitor');
 
 goog.require('cwc.soy.mode.makeblock.mbotRanger.Monitor');
+goog.require('cwc.utils.Events');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');

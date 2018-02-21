@@ -61,6 +61,7 @@ cwc.protocol.default.Device = function() {
 /**
  * @param {!string} address
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setAddress = function(address) {
   this.address = address;
@@ -79,6 +80,7 @@ cwc.protocol.default.Device.prototype.getAddress = function() {
 /**
  * @param {!boolean} connected
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setConnected = function(connected) {
   this.connected = connected;
@@ -97,6 +99,7 @@ cwc.protocol.default.Device.prototype.isConnected = function() {
 /**
  * @param {!boolean} paired
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setPaired = function(paired) {
   this.paired = paired;
@@ -115,6 +118,7 @@ cwc.protocol.default.Device.prototype.isPaired = function() {
 /**
  * @param {!string} id
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setId = function(id) {
   this.id = id;
@@ -133,6 +137,7 @@ cwc.protocol.default.Device.prototype.getId = function() {
 /**
  * @param {!string} name
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setName = function(name) {
   this.name = name;
@@ -151,6 +156,7 @@ cwc.protocol.default.Device.prototype.getName = function() {
 /**
  * @param {!string} type
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setType = function(type) {
   this.type = type;
@@ -169,6 +175,7 @@ cwc.protocol.default.Device.prototype.getType = function() {
 /**
  * @param {!Object} profile
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setProfile = function(profile) {
   this.profile = profile;
@@ -193,6 +200,7 @@ cwc.protocol.default.Device.prototype.getProfile = function() {
 /**
  * @param {!string} icon
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setIcon = function(icon) {
   this.icon = icon;
@@ -211,6 +219,7 @@ cwc.protocol.default.Device.prototype.getIcon = function() {
 /**
  * @param {!string} name
  * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setLogName = function(name) {
   this.log_ = new cwc.utils.Logger(name);

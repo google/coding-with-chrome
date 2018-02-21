@@ -20,6 +20,8 @@
 goog.provide('cwc.mode.makeblock.mbot.Connection');
 
 goog.require('cwc.protocol.makeblock.mbot.Api');
+goog.require('cwc.utils.Events');
+
 goog.require('goog.Timer');
 
 
