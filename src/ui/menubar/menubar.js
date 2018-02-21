@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.Menubar');
 
-goog.require('cwc.protocol.bluetooth.Events');
+goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Logger');
@@ -240,10 +240,10 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
     goog.events.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE,
+      cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
       this.handleBluetoothAdapterChange_, false, this);
     goog.events.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.Events.Type.DEVICE_STATE_CHANGE,
+      cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE,
       this.handleBluetoothDeviceChange_, false, this);
   }
 };

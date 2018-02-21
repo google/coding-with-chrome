@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetooth.Adapter');
+goog.provide('cwc.protocol.bluetooth.classic.Adapter');
 
-goog.require('cwc.protocol.bluetooth.Events');
+goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.utils.Logger');
 
 
@@ -27,7 +27,7 @@ goog.require('cwc.utils.Logger');
  * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetooth.Adapter = function(eventHandler) {
+cwc.protocol.bluetooth.classic.Adapter = function(eventHandler) {
   /** @type {!string} */
   this.name = 'Bluetooth Adapter';
 
@@ -57,11 +57,11 @@ cwc.protocol.bluetooth.Adapter = function(eventHandler) {
 };
 
 
-cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
+cwc.protocol.bluetooth.classic.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
     this.log_.info('Preparing ...');
     this.eventHandler_.dispatchEvent(
-      cwc.protocol.bluetooth.Events.adapterState({enabled: false}));
+      cwc.protocol.bluetooth.classic.Events.adapterState({enabled: false}));
 
     // Monitor adapter state
     chrome.bluetooth.onAdapterStateChanged.addListener(
@@ -72,7 +72,8 @@ cwc.protocol.bluetooth.Adapter.prototype.prepare = function() {
 };
 
 
-cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
+cwc.protocol.bluetooth.classic.Adapter.prototype.updateAdapterState = function(
+    ) {
   chrome.bluetooth.getAdapterState(this.handleAdapterState_.bind(this));
 };
 
@@ -81,7 +82,8 @@ cwc.protocol.bluetooth.Adapter.prototype.updateAdapterState = function() {
  * @param {?} info
  * @private
  */
-cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(info) {
+cwc.protocol.bluetooth.classic.Adapter.prototype.handleAdapterState_ = function(
+    info) {
   if (!info) {
     this.log_.error('Error receiving adapter state.');
     return;
@@ -106,5 +108,7 @@ cwc.protocol.bluetooth.Adapter.prototype.handleAdapterState_ = function(info) {
   }
 
   this.eventHandler_.dispatchEvent(
-    cwc.protocol.bluetooth.Events.adapterState({enabled: this.enabled}));
+    cwc.protocol.bluetooth.classic.Events.adapterState({
+      enabled: this.enabled,
+    }));
 };

@@ -23,19 +23,27 @@ goog.require('cwc.utils.ByteArrayTypes');
 
 describe('ByteArray', function() {
   let byteHeader = Math.random();
-  let shortHeader = Math.random();
+  let indexHeader = Math.random();
   let integerHeader = Math.random();
+  let shortHeader = Math.random();
   let stringHeader = Math.random();
-  let byteArray = new cwc.utils.ByteArray(byteHeader, shortHeader,
-      integerHeader, stringHeader);
+  let byteArray = new cwc.utils.ByteArray();
 
   it('opt_header', function() {
+    byteArray.setHeader(cwc.utils.ByteArrayTypes.BYTE, byteHeader);
+    byteArray.setHeader(cwc.utils.ByteArrayTypes.SHORT, shortHeader);
+    byteArray.setHeader(cwc.utils.ByteArrayTypes.INT, integerHeader);
+    byteArray.setHeader(cwc.utils.ByteArrayTypes.INDEX, indexHeader);
+    byteArray.setHeader(cwc.utils.ByteArrayTypes.STR, stringHeader);
+
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.BYTE))
       .toBe(byteHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.SHORT))
       .toBe(shortHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.INT))
       .toBe(integerHeader);
+    expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.INDEX))
+      .toBe(indexHeader);
     expect(byteArray.getHeader(cwc.utils.ByteArrayTypes.STR))
       .toBe(stringHeader);
   });

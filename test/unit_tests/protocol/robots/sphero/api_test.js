@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.protocol.sphero.Api');
+goog.require('cwc.protocol.sphero.classic.Api');
 goog.require('cwc.protocol.virtual.Device');
 
 
 describe('Sphero api protocol', function() {
   let device = new cwc.protocol.virtual.Device();
-  let api = new cwc.protocol.sphero.Api();
+  let api = new cwc.protocol.sphero.classic.Api();
 
   it('constructor', function() {
     expect(typeof api).toEqual('object');

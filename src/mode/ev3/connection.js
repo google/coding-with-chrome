@@ -39,14 +39,14 @@ cwc.mode.ev3.Connection = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.ev3.Api} */
-  this.api = helper.getInstance('ev3', true);
-
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
   /** @type {!number} */
   this.connectMonitorInterval = 5000;
+
+  /** @private {!cwc.protocol.ev3.Api} */
+  this.api_ = new cwc.protocol.ev3.Api();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -75,11 +75,11 @@ cwc.mode.ev3.Connection.prototype.connect = function() {
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
       if (device) {
-        this.api.connect(device);
+        this.api_.connect(device);
       }
     }.bind(this));
   }
-  this.api.monitor(true);
+  this.api_.monitor(true);
 };
 
 
@@ -88,7 +88,7 @@ cwc.mode.ev3.Connection.prototype.connect = function() {
  */
 cwc.mode.ev3.Connection.prototype.disconnect = function() {
   console.log('Disconnect the EV3 unit...');
-  this.api.disconnect();
+  this.api_.disconnect();
 };
 
 
@@ -96,7 +96,7 @@ cwc.mode.ev3.Connection.prototype.disconnect = function() {
  * @return {!boolean}
  */
 cwc.mode.ev3.Connection.prototype.isConnected = function() {
-  return this.api.isConnected();
+  return this.api_.isConnected();
 };
 
 
@@ -104,7 +104,7 @@ cwc.mode.ev3.Connection.prototype.isConnected = function() {
  * @return {goog.events.EventTarget}
  */
 cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
-  return this.api.getEventHandler();
+  return this.api_.getEventHandler();
 };
 
 
@@ -112,12 +112,12 @@ cwc.mode.ev3.Connection.prototype.getEventHandler = function() {
  * @return {Object}
  */
 cwc.mode.ev3.Connection.prototype.getDeviceData = function() {
-  return this.api.getDeviceData();
+  return this.api_.getDeviceData();
 };
 
 
 cwc.mode.ev3.Connection.prototype.getDevices = function() {
-  this.api.getDevices();
+  this.api_.getDevices();
 };
 
 
@@ -126,7 +126,7 @@ cwc.mode.ev3.Connection.prototype.getDevices = function() {
  * @export
  */
 cwc.mode.ev3.Connection.prototype.getApi = function() {
-  return this.api;
+  return this.api_;
 };
 
 
@@ -138,7 +138,7 @@ cwc.mode.ev3.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api.stop();
+  this.api_.stop();
 };
 
 
@@ -150,7 +150,7 @@ cwc.mode.ev3.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.api.monitor(false);
+  this.api_.monitor(false);
   this.stop();
   this.events_.clear();
 };

@@ -1,10 +1,10 @@
 /**
- * @fileoverview Handles the communication with the Sphero unit.
+ * @fileoverview Handles the communication with the Sphero Classic unit.
  *
  * This api allows to read and control the Lego Mindstorm Sphero sensors and
  * actors over an Bluetooth connection.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.sphero.Api');
+goog.provide('cwc.protocol.sphero.v1.Api');
 
-goog.require('cwc.protocol.sphero.CallbackType');
-goog.require('cwc.protocol.sphero.Commands');
-goog.require('cwc.protocol.sphero.Events');
-goog.require('cwc.protocol.sphero.MessageType');
-goog.require('cwc.protocol.sphero.Monitoring');
+goog.require('cwc.protocol.sphero.v1.CallbackType');
+goog.require('cwc.protocol.sphero.v1.Commands');
+goog.require('cwc.protocol.sphero.v1.Events');
+goog.require('cwc.protocol.sphero.v1.MessageType');
+goog.require('cwc.protocol.sphero.v1.Monitoring');
 goog.require('cwc.utils.ByteTools');
 
 goog.require('goog.events.EventTarget');
@@ -37,18 +37,18 @@ goog.require('goog.events.EventTarget');
  * @struct
  * @final
  */
-cwc.protocol.sphero.Api = function() {
+cwc.protocol.sphero.v1.Api = function() {
   /** @type {string} */
   this.name = 'Sphero';
 
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!cwc.protocol.sphero.Commands} */
-  this.commands = new cwc.protocol.sphero.Commands();
+  /** @type {!cwc.protocol.sphero.v1.Commands} */
+  this.commands = new cwc.protocol.sphero.v1.Commands();
 
-  /** @type {cwc.protocol.sphero.Monitoring} */
-  this.monitoring = new cwc.protocol.sphero.Monitoring(this);
+  /** @type {cwc.protocol.sphero.v1.Monitoring} */
+  this.monitoring = new cwc.protocol.sphero.v1.Monitoring(this);
 
   /** @private {!Array} */
   this.headerAck_ = [0xff, 0xff];
@@ -59,7 +59,7 @@ cwc.protocol.sphero.Api = function() {
   /** @private {!number} */
   this.headerMinSize_ = 7;
 
-  /** @type {cwc.protocol.bluetooth.Device} */
+  /** @type {cwc.protocol.bluetooth.classic.Device} */
   this.device = null;
 
   /** @private {!boolean} */
@@ -96,33 +96,11 @@ cwc.protocol.sphero.Api = function() {
 
 /**
  * Connects the Sphero ball.
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.bluetooth.lowEnergy.Device} device
  * @return {boolean} Was able to prepare and connect to the Sphero.
  * @export
  */
-cwc.protocol.sphero.Api.prototype.connect = function(device) {
-  if (!device || !device.isConnected()) {
-    console.error('Sphero ball is not ready yet...');
-    return false;
-  }
-
-  if (!this.prepared) {
-    console.log('Preparing Sphero bluetooth api for', device.getAddress());
-    this.device = device;
-    this.prepare();
-    this.runTest();
-  }
-  return true;
-};
-
-
-/**
- * Connects the Sphero ball.
- * @param {!cwc.protocol.bluetoothLE.Device} device
- * @return {boolean} Was able to prepare and connect to the Sphero.
- * @export
- */
-cwc.protocol.sphero.Api.prototype.connectLE = function(device) {
+cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
   if (!device || !device.isConnected()) {
     console.error('Sphero ball is not ready yet...');
     return false;
@@ -145,7 +123,7 @@ cwc.protocol.sphero.Api.prototype.connectLE = function(device) {
         '22bb746f-2bbf-7554-2d6f-726568705327'
       );
     });
-    //this.runTest();
+    this.runTest();
   }
   return true;
 };
@@ -154,7 +132,7 @@ cwc.protocol.sphero.Api.prototype.connectLE = function(device) {
 /**
  * @return {!boolean}
  */
-cwc.protocol.sphero.Api.prototype.isConnected = function() {
+cwc.protocol.sphero.v1.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected()) ? true : false;
 };
 
@@ -162,7 +140,7 @@ cwc.protocol.sphero.Api.prototype.isConnected = function() {
 /**
  * @export
  */
-cwc.protocol.sphero.Api.prototype.prepare = function() {
+cwc.protocol.sphero.v1.Api.prototype.prepare = function() {
   this.device.setDataHandler(this.handleAcknowledged_.bind(this),
       this.headerAck_, this.headerMinSize_);
   this.device.setDataHandler(this.handleAsync_.bind(this),
@@ -181,7 +159,7 @@ cwc.protocol.sphero.Api.prototype.prepare = function() {
 /**
  * Disconnects the Sphero ball.
  */
-cwc.protocol.sphero.Api.prototype.disconnect = function() {
+cwc.protocol.sphero.v1.Api.prototype.disconnect = function() {
   if (this.device) {
     this.device.disconnect();
   }
@@ -192,7 +170,7 @@ cwc.protocol.sphero.Api.prototype.disconnect = function() {
 /**
  * Resets the Sphero ball connection.
  */
-cwc.protocol.sphero.Api.prototype.reset = function() {
+cwc.protocol.sphero.v1.Api.prototype.reset = function() {
   if (this.device) {
     this.device.reset();
   }
@@ -203,7 +181,7 @@ cwc.protocol.sphero.Api.prototype.reset = function() {
  * @param {!boolean} enable
  * @export
  */
-cwc.protocol.sphero.Api.prototype.monitor = function(enable) {
+cwc.protocol.sphero.v1.Api.prototype.monitor = function(enable) {
   if (enable && this.isConnected()) {
     this.monitoring.start();
   } else if (!enable) {
@@ -215,7 +193,7 @@ cwc.protocol.sphero.Api.prototype.monitor = function(enable) {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.protocol.sphero.Api.prototype.getEventHandler = function() {
+cwc.protocol.sphero.v1.Api.prototype.getEventHandler = function() {
   return this.eventHandler;
 };
 
@@ -223,7 +201,7 @@ cwc.protocol.sphero.Api.prototype.getEventHandler = function() {
 /**
  *
  */
-cwc.protocol.sphero.Api.prototype.setColisionDetection = function() {
+cwc.protocol.sphero.v1.Api.prototype.setColisionDetection = function() {
   this.send_(this.commands.setColisionDetection());
 };
 
@@ -235,7 +213,7 @@ cwc.protocol.sphero.Api.prototype.setColisionDetection = function() {
  * @param {!number} blue 0-255
  * @param {boolean=} opt_persistent
  */
-cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
+cwc.protocol.sphero.v1.Api.prototype.setRGB = function(red, green, blue,
     opt_persistent) {
   this.send_(this.commands.setRGB(red, green, blue, opt_persistent));
 };
@@ -244,7 +222,7 @@ cwc.protocol.sphero.Api.prototype.setRGB = function(red, green, blue,
 /**
  * Gets the current RGB color.
  */
-cwc.protocol.sphero.Api.prototype.getRGB = function() {
+cwc.protocol.sphero.v1.Api.prototype.getRGB = function() {
   this.send_(this.commands.getRGB());
 };
 
@@ -252,7 +230,7 @@ cwc.protocol.sphero.Api.prototype.getRGB = function() {
 /**
  * @param {!number} brightness 0-255
  */
-cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness) {
+cwc.protocol.sphero.v1.Api.prototype.setBackLed = function(brightness) {
   this.send_(this.commands.setBackLed(brightness));
 };
 
@@ -260,7 +238,7 @@ cwc.protocol.sphero.Api.prototype.setBackLed = function(brightness) {
 /**
  * @param {!number} heading 0-359
  */
-cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
+cwc.protocol.sphero.v1.Api.prototype.setHeading = function(heading) {
   this.send_(this.commands.setHeading(heading));
 };
 
@@ -270,7 +248,7 @@ cwc.protocol.sphero.Api.prototype.setHeading = function(heading) {
  * @param {number=} opt_heading 0-359
  * @param {boolean=} opt_state
  */
-cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
+cwc.protocol.sphero.v1.Api.prototype.roll = function(opt_speed, opt_heading,
     opt_state) {
   let speed = this.speed_ = opt_speed === undefined ?
     this.speed_ : opt_speed;
@@ -283,7 +261,7 @@ cwc.protocol.sphero.Api.prototype.roll = function(opt_speed, opt_heading,
 /**
  * @param {!number} timeout in msec
  */
-cwc.protocol.sphero.Api.prototype.setMotionTimeout = function(timeout) {
+cwc.protocol.sphero.v1.Api.prototype.setMotionTimeout = function(timeout) {
   this.send_(this.commands.setMotionTimeout(timeout));
 };
 
@@ -291,7 +269,7 @@ cwc.protocol.sphero.Api.prototype.setMotionTimeout = function(timeout) {
 /**
  * @param {!boolean} enabled
  */
-cwc.protocol.sphero.Api.prototype.boost = function(enabled) {
+cwc.protocol.sphero.v1.Api.prototype.boost = function(enabled) {
   this.send_(this.commands.boost(enabled));
 };
 
@@ -302,7 +280,7 @@ cwc.protocol.sphero.Api.prototype.boost = function(enabled) {
  * @param {number=} opt_macro
  * @param {number=} opt_orb_basic
  */
-cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
+cwc.protocol.sphero.v1.Api.prototype.sleep = function(opt_wakeup, opt_macro,
     opt_orb_basic) {
   console.log('Sends Sphero to sleep, good night.');
   this.send_(this.commands.sleep(opt_wakeup, opt_macro, opt_orb_basic));
@@ -312,7 +290,7 @@ cwc.protocol.sphero.Api.prototype.sleep = function(opt_wakeup, opt_macro,
 /**
  * Stops the Sphero and clears the buffer.
  */
-cwc.protocol.sphero.Api.prototype.stop = function() {
+cwc.protocol.sphero.v1.Api.prototype.stop = function() {
   this.reset();
   this.setRGB(0, 0, 0, true);
   this.setBackLed(0);
@@ -325,7 +303,7 @@ cwc.protocol.sphero.Api.prototype.stop = function() {
  * Starts the calibration to calibrate the Sphero.
  * @param {!number} heading
  */
-cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
+cwc.protocol.sphero.v1.Api.prototype.calibrate = function(heading) {
   if (!this.calibrate_) {
     this.setRGB(0, 0, 0);
     this.setBackLed(255);
@@ -338,7 +316,7 @@ cwc.protocol.sphero.Api.prototype.calibrate = function(heading) {
 /**
  * Ends the calibrate of the Sphero and store the new 0 point.
  */
-cwc.protocol.sphero.Api.prototype.setCalibration = function() {
+cwc.protocol.sphero.v1.Api.prototype.setCalibration = function() {
   this.calibrate_ = false;
   this.setBackLed(0);
   this.setHeading(0);
@@ -348,7 +326,7 @@ cwc.protocol.sphero.Api.prototype.setCalibration = function() {
 /**
  * Reads the current Sphero location.
  */
-cwc.protocol.sphero.Api.prototype.getLocation = function() {
+cwc.protocol.sphero.v1.Api.prototype.getLocation = function() {
   this.send_(this.commands.getLocation());
 };
 
@@ -356,7 +334,7 @@ cwc.protocol.sphero.Api.prototype.getLocation = function() {
 /**
  * Reads current Sphero version.
  */
-cwc.protocol.sphero.Api.prototype.getVersion = function() {
+cwc.protocol.sphero.v1.Api.prototype.getVersion = function() {
   this.send_(this.commands.getVersion());
 };
 
@@ -364,7 +342,7 @@ cwc.protocol.sphero.Api.prototype.getVersion = function() {
 /**
  * Run self test.
  */
-cwc.protocol.sphero.Api.prototype.runTest = function() {
+cwc.protocol.sphero.v1.Api.prototype.runTest = function() {
   console.log('Prepare self test…');
   this.setRGB(255, 0, 0, true);
   this.setRGB(0, 255, 0, true);
@@ -385,7 +363,7 @@ cwc.protocol.sphero.Api.prototype.runTest = function() {
 /**
  * Basic cleanup for the Sphero ball.
  */
-cwc.protocol.sphero.Api.prototype.cleanUp = function() {
+cwc.protocol.sphero.v1.Api.prototype.cleanUp = function() {
   console.log('Clean up Sphero…');
   this.monitoring.stop();
   this.reset();
@@ -396,7 +374,7 @@ cwc.protocol.sphero.Api.prototype.cleanUp = function() {
  * @param {!ArrayBuffer} buffer
  * @private
  */
-cwc.protocol.sphero.Api.prototype.send_ = function(buffer) {
+cwc.protocol.sphero.v1.Api.prototype.send_ = function(buffer) {
   if (!this.device) {
     return;
   }
@@ -408,7 +386,7 @@ cwc.protocol.sphero.Api.prototype.send_ = function(buffer) {
  * @param {Object} data
  * @private
  */
-cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
+cwc.protocol.sphero.v1.Api.prototype.updateLocationData_ = function(data) {
   let xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
   let ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
   let xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
@@ -419,20 +397,20 @@ cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
     this.locationPosX_ = xpos;
     this.locationPosY_ = ypos;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.locationData({x: xpos, y: ypos}));
+      cwc.protocol.sphero.v1.Events.locationData({x: xpos, y: ypos}));
   }
 
   if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
     this.locationVelX_ = xvel;
     this.locationVelY_ = yvel;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.velocityData({x: xvel, y: yvel}));
+      cwc.protocol.sphero.v1.Events.velocityData({x: xvel, y: yvel}));
   }
 
   if (speed != this.locationSpeed_) {
     this.locationSpeed_ = speed;
     this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.Events.speedValue(speed));
+      cwc.protocol.sphero.v1.Events.speedValue(speed));
   }
 };
 
@@ -441,7 +419,7 @@ cwc.protocol.sphero.Api.prototype.updateLocationData_ = function(data) {
  * @param {Object} data
  * @private
  */
-cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
+cwc.protocol.sphero.v1.Api.prototype.parseCollisionData_ = function(data) {
   let x = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
   let y = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
   let z = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
@@ -450,7 +428,7 @@ cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
   let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
   let speed = data[11];
   this.eventHandler.dispatchEvent(
-    cwc.protocol.sphero.Events.collision({
+    cwc.protocol.sphero.v1.Events.collision({
       x: x,
       y: y,
       z: z,
@@ -469,7 +447,7 @@ cwc.protocol.sphero.Api.prototype.parseCollisionData_ = function(data) {
  * @param {!Array} buffer
  * @private
  */
-cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
+cwc.protocol.sphero.v1.Api.prototype.handleAcknowledged_ = function(buffer) {
   if (!this.verifiyChecksum_(buffer)) {
     return;
   }
@@ -477,10 +455,10 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
   let len = buffer[4];
   let data = buffer.slice(5, buffer.length -1);
   switch (type) {
-    case cwc.protocol.sphero.CallbackType.RGB:
+    case cwc.protocol.sphero.v1.CallbackType.RGB:
       console.log('RGB:', data[0], data[1], data[2]);
       break;
-    case cwc.protocol.sphero.CallbackType.LOCATION:
+    case cwc.protocol.sphero.v1.CallbackType.LOCATION:
       this.updateLocationData_(data);
       break;
     default:
@@ -495,7 +473,7 @@ cwc.protocol.sphero.Api.prototype.handleAcknowledged_ = function(buffer) {
  * @param {!Array} buffer
  * @private
  */
-cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
+cwc.protocol.sphero.v1.Api.prototype.handleAsync_ = function(buffer) {
   if (!this.verifiyChecksum_(buffer)) {
     return;
   }
@@ -503,7 +481,7 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
   let len = buffer[4];
   let data = buffer.slice(5, buffer.length -1);
   switch (message) {
-    case cwc.protocol.sphero.MessageType.COLLISION_DETECTED:
+    case cwc.protocol.sphero.v1.MessageType.COLLISION_DETECTED:
       this.parseCollisionData_(data);
       break;
     default:
@@ -519,7 +497,7 @@ cwc.protocol.sphero.Api.prototype.handleAsync_ = function(buffer) {
  * @return {!boolean}
  * @private
  */
-cwc.protocol.sphero.Api.prototype.verifiyChecksum_ = function(buffer,
+cwc.protocol.sphero.v1.Api.prototype.verifiyChecksum_ = function(buffer,
     checksum) {
   let bufferChecksum = 0;
   let bufferLength = buffer.length -1;

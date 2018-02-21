@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetooth.Events');
+goog.provide('cwc.protocol.bluetooth.classic.Events');
 
 goog.require('cwc.utils.EventData');
 
@@ -25,7 +25,7 @@ goog.require('cwc.utils.EventData');
 /**
  * @enum {string}
  */
-cwc.protocol.bluetooth.Events.Type = {
+cwc.protocol.bluetooth.classic.Events.Type = {
   ADAPTER_STATE_CHANGE: 'adapter_state_change',
   DEVICE_STATE_CHANGE: 'device_stage_change',
 };
@@ -36,9 +36,9 @@ cwc.protocol.bluetooth.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.bluetooth.Events.adapterState = function(data) {
+cwc.protocol.bluetooth.classic.Events.adapterState = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE, data);
+      cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE, data);
 };
 
 
@@ -47,7 +47,7 @@ cwc.protocol.bluetooth.Events.adapterState = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.bluetooth.Events.deviceState = function(data) {
+cwc.protocol.bluetooth.classic.Events.deviceState = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.bluetooth.Events.Type.DEVICE_STATE_CHANGE, data);
+      cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE, data);
 };

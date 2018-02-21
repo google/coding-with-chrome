@@ -1,7 +1,7 @@
 /**
- * @fileoverview Sphero Communication buffer
+ * @fileoverview Sphero Classic Communication buffer
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,43 +17,43 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.sphero.Buffer');
+goog.provide('cwc.protocol.sphero.v1.Buffer');
 
-goog.require('cwc.protocol.sphero.CallbackType');
-goog.require('cwc.protocol.sphero.Command');
-goog.require('cwc.protocol.sphero.CommandType');
+goog.require('cwc.protocol.sphero.v1.CallbackType');
+goog.require('cwc.protocol.sphero.v1.Command');
+goog.require('cwc.protocol.sphero.v1.CommandType');
 goog.require('cwc.utils.ByteArray');
 
 
 /**
  * @constructor
- * @param {cwc.protocol.sphero.CallbackType=} optCallback
+ * @param {cwc.protocol.sphero.v1.CallbackType=} optCallback
  */
-cwc.protocol.sphero.Buffer = function(optCallback) {
+cwc.protocol.sphero.v1.Buffer = function(optCallback) {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
-  /** @type {cwc.protocol.sphero.CallbackType} */
+  /** @type {cwc.protocol.sphero.v1.CallbackType} */
   this.callbackType = optCallback ||
-      cwc.protocol.sphero.CallbackType.NONE;
+      cwc.protocol.sphero.v1.CallbackType.NONE;
 
-  /** @type {!cwc.protocol.sphero.Command|Array} */
-  this.command = cwc.protocol.sphero.Command.SYSTEM.PING;
+  /** @type {!cwc.protocol.sphero.v1.Command|Array} */
+  this.command = cwc.protocol.sphero.v1.Command.SYSTEM.PING;
 
   /** @type {!number} */
   this.header = 0xFF;
 
   /** @type {!number} */
   this.type = (optCallback) ?
-      cwc.protocol.sphero.CommandType.DIRECT.REPLY :
-      cwc.protocol.sphero.CommandType.DIRECT.NOREPLY;
+      cwc.protocol.sphero.v1.CommandType.DIRECT.REPLY :
+      cwc.protocol.sphero.v1.CommandType.DIRECT.NOREPLY;
 };
 
 
 /**
  * Writes null byte with 0x00.
  */
-cwc.protocol.sphero.Buffer.prototype.writeNullByte = function() {
+cwc.protocol.sphero.v1.Buffer.prototype.writeNullByte = function() {
   this.data.writeByte(0x00);
 };
 
@@ -61,7 +61,7 @@ cwc.protocol.sphero.Buffer.prototype.writeNullByte = function() {
 /**
  * Writes single byte with 0x01.
  */
-cwc.protocol.sphero.Buffer.prototype.writeSingleByte = function() {
+cwc.protocol.sphero.v1.Buffer.prototype.writeSingleByte = function() {
   this.data.writeByte(0x01);
 };
 
@@ -69,7 +69,7 @@ cwc.protocol.sphero.Buffer.prototype.writeSingleByte = function() {
 /**
  * @param {number} value
  */
-cwc.protocol.sphero.Buffer.prototype.writeByte = function(value) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeByte = function(value) {
   this.data.writeByte(value);
 };
 
@@ -77,7 +77,7 @@ cwc.protocol.sphero.Buffer.prototype.writeByte = function(value) {
 /**
  * @param {number} value
  */
-cwc.protocol.sphero.Buffer.prototype.writeInt = function(value) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeInt = function(value) {
   this.data.writeInt(value);
 };
 
@@ -85,7 +85,7 @@ cwc.protocol.sphero.Buffer.prototype.writeInt = function(value) {
 /**
  * @param {number} value
  */
-cwc.protocol.sphero.Buffer.prototype.writeUInt = function(value) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeUInt = function(value) {
   this.data.writeUInt16(value);
 };
 
@@ -93,7 +93,7 @@ cwc.protocol.sphero.Buffer.prototype.writeUInt = function(value) {
 /**
  * @param {number} value
  */
-cwc.protocol.sphero.Buffer.prototype.writeShort = function(value) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeShort = function(value) {
   this.data.writeShort(value);
 };
 
@@ -101,15 +101,15 @@ cwc.protocol.sphero.Buffer.prototype.writeShort = function(value) {
 /**
  * @param {string} value
  */
-cwc.protocol.sphero.Buffer.prototype.writeString = function(value) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeString = function(value) {
   this.data.writeString(value);
 };
 
 
 /**
- * @param {!cwc.protocol.sphero.Command|Array} command
+ * @param {!cwc.protocol.sphero.v1.Command|Array} command
  */
-cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
+cwc.protocol.sphero.v1.Buffer.prototype.writeCommand = function(command) {
   this.command = command;
 };
 
@@ -117,7 +117,7 @@ cwc.protocol.sphero.Buffer.prototype.writeCommand = function(command) {
 /**
  * @return {!ArrayBuffer}
  */
-cwc.protocol.sphero.Buffer.prototype.readSigned = function() {
+cwc.protocol.sphero.v1.Buffer.prototype.readSigned = function() {
   let buffer = this.data.getData();
   let checkSum = 0;
   let dataLength = buffer.length + 1;

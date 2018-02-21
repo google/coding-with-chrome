@@ -57,13 +57,19 @@ cwc.utils.Events = function(name = 'Events', prefix = '') {
  * @param {boolean=} capture
  * @param {Object=} scope
  */
-cwc.utils.Events.prototype.listen = function(src, type,
-    listener, capture = false, scope = undefined) {
+cwc.utils.Events.prototype.listen = function(src, type, listener,
+    capture = false, scope = undefined) {
   let eventTarget = null;
   if (typeof src === 'string' || src instanceof String) {
     eventTarget = document.getElementById(this.prefix + src);
+    if (!eventTarget) {
+      this.log_.error('Unable to find element', this.prefix + src);
+    }
   } else {
     eventTarget = src;
+  }
+  if (!eventTarget) {
+    this.log_.error('Undefined event target!', eventTarget);
   }
   this.listener_.push(
     goog.events.listen(eventTarget, type, listener, capture, scope)

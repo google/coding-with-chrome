@@ -49,7 +49,7 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   /** @type {!cwc.mode.sphero.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.sphero.Api} */
+  /** @type {!cwc.protocol.sphero.classic.Api} */
   this.api = this.connection.getApi();
 
   /** @type {string} */
@@ -111,7 +111,7 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
     console.error('Sphero API event handler is not defined!');
   }
   this.runner.addEvent(apiEventHandler,
-    cwc.protocol.sphero.Events.Type.COLLISION, 'collision');
+    cwc.protocol.sphero.classic.Events.Type.COLLISION, 'collision');
 
   // Preview output
   let turtleNode = this.runner.getTurtleNode();

@@ -24,121 +24,84 @@ goog.require('cwc.protocol.ev3.ParameterSize');
 goog.require('cwc.protocol.ev3.InputPort');
 goog.require('cwc.protocol.ev3.OutputPort');
 goog.require('cwc.utils.ByteArray');
+goog.require('cwc.utils.ByteArrayTypes');
 
 
 /**
  * @constructor
- * @param {number=} globalSize
- * @param {number=} localSize
- * @param {cwc.protocol.ev3.CallbackType=} callback
+ * @extends {cwc.utils.ByteArray}
  */
-cwc.protocol.ev3.Buffer = function(globalSize = 0x00, localSize = 0x00,
-    callback) {
-  /** @type {!cwc.utils.ByteArray} */
-  this.data = new cwc.utils.ByteArray(
-      cwc.protocol.ev3.ParameterSize.BYTE,
-      cwc.protocol.ev3.ParameterSize.SHORT,
-      cwc.protocol.ev3.ParameterSize.INT,
-      cwc.protocol.ev3.ParameterSize.STRING);
-
+cwc.protocol.ev3.Buffer = function() {
   /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = callback || cwc.protocol.ev3.CallbackType.NONE;
+  this.callbackType = cwc.protocol.ev3.CallbackType.NONE;
 
   /** @type {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} */
   this.callbackTarget = cwc.protocol.ev3.InputPort.ONE;
 
-  this.data.write(/** @type {number} */ ((callback) ?
+  /** @private {!Array} */
+  this.data_ = [];
+
+  /** @private {Object.<cwc.utils.ByteArrayTypes|string|number>} */
+  this.headers_ = {};
+};
+goog.inherits(cwc.protocol.ev3.Buffer, cwc.utils.ByteArray);
+
+
+/**
+ * @param {cwc.protocol.ev3.CallbackType=} callbackType
+ * @param {number=} globalSize
+ * @param {number=} localSize
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.protocol.ev3.Buffer.prototype.writeHeader = function(callbackType,
+    globalSize = 0x04, localSize = 0x00) {
+  if (callbackType) {
+    this.callbackType = callbackType;
+  }
+
+  this.setHeader(cwc.utils.ByteArrayTypes.BYTE,
+    cwc.protocol.ev3.ParameterSize.BYTE);
+  this.setHeader(cwc.utils.ByteArrayTypes.SHORT,
+    cwc.protocol.ev3.ParameterSize.SHORT);
+  this.setHeader(cwc.utils.ByteArrayTypes.INT,
+    cwc.protocol.ev3.ParameterSize.INT);
+  this.setHeader(cwc.utils.ByteArrayTypes.STR,
+    cwc.protocol.ev3.ParameterSize.STRING);
+  this.setHeader(cwc.utils.ByteArrayTypes.INDEX,
+    cwc.protocol.ev3.ParameterSize.INDEX);
+
+  this.write(/** @type {number} */ ((callbackType) ?
       cwc.protocol.ev3.CommandType.DIRECT.REPLY :
       cwc.protocol.ev3.CommandType.DIRECT.NOREPLY));
-  this.data.write(globalSize & 0xFF);
-  this.data.write(((localSize << 2) | ((globalSize >> 8) & 0x03)) & 0xFF);
-};
-
-
-/**
- * @param {!Array|!string} command
- */
-cwc.protocol.ev3.Buffer.prototype.writeCommand = function(command) {
-  if (command instanceof Array) {
-    this.data.write(command[0]);
-    this.data.write(command[1]);
-  } else {
-    this.data.write(command);
-  }
-};
-
-
-/**
- * Writes null byte with 0x00.
- */
-cwc.protocol.ev3.Buffer.prototype.writeNullByte = function() {
-  this.data.writeByte(0x00);
-};
-
-
-/**
- * Writes single byte with 0x01.
- */
-cwc.protocol.ev3.Buffer.prototype.writeSingleByte = function() {
-  this.data.writeByte(0x01);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.ev3.Buffer.prototype.writeByte = function(value) {
-  this.data.writeByte(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.ev3.Buffer.prototype.writeInt = function(value) {
-  this.data.writeInt(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.ev3.Buffer.prototype.writeShort = function(value) {
-  this.data.writeShort(value);
-};
-
-
-/**
- * @param {string} value
- */
-cwc.protocol.ev3.Buffer.prototype.writeString = function(value) {
-  this.data.writeString(value);
-};
-
-
-/**
- * @param {number=} opt_index
- */
-cwc.protocol.ev3.Buffer.prototype.writeIndex = function(opt_index) {
-  this.data.write(0xE1);
-  this.data.write(opt_index || 0x00);
+  this.write(globalSize & 0xFF);
+  this.write(((localSize << 2) | ((globalSize >> 8) & 0x03)) & 0xFF);
+  return this;
 };
 
 
 /**
  * @param {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} port
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.ev3.Buffer.prototype.writePort = function(port) {
-  this.data.writeByte(port);
+  this.writeNullByte();
+  this.writeByte(port);
   this.callbackTarget = port;
+  return this;
 };
 
 
 /**
  * @param {!number} ports
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.ev3.Buffer.prototype.writePorts = function(ports) {
-  this.data.writeByte(ports);
+  this.writeNullByte();
+  this.writeByte(ports);
+  return this;
 };
 
 
@@ -146,7 +109,7 @@ cwc.protocol.ev3.Buffer.prototype.writePorts = function(ports) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.ev3.Buffer.prototype.readSigned = function() {
-  let buffer = this.data.getData();
+  let buffer = this.getData();
   let dataLength = buffer.length + 2;
   let dataBuffer = new ArrayBuffer(dataLength + 2);
   let data = new Uint8Array(dataBuffer);

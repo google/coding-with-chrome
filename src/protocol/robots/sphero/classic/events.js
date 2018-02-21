@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero Event definitions.
+ * @fileoverview Sphero Classic Event definitions.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.sphero.Events');
+goog.provide('cwc.protocol.sphero.classic.Events');
 
 goog.require('cwc.utils.EventData');
 
@@ -26,7 +26,7 @@ goog.require('cwc.utils.EventData');
  * Custom events.
  * @enum {string}
  */
-cwc.protocol.sphero.Events.Type = {
+cwc.protocol.sphero.classic.Events.Type = {
   CHANGED_LOCATION: 'changed_devices',
   CHANGED_VELOCITY: 'changed_values',
   CHANGED_SPEED: 'changed_speed',
@@ -39,9 +39,9 @@ cwc.protocol.sphero.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.sphero.Events.locationData = function(data) {
+cwc.protocol.sphero.classic.Events.locationData = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.sphero.Events.Type.CHANGED_LOCATION, data);
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_LOCATION, data);
 };
 
 
@@ -50,9 +50,9 @@ cwc.protocol.sphero.Events.locationData = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.sphero.Events.velocityData = function(data) {
+cwc.protocol.sphero.classic.Events.velocityData = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY, data);
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_VELOCITY, data);
 };
 
 
@@ -61,9 +61,9 @@ cwc.protocol.sphero.Events.velocityData = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.sphero.Events.speedValue = function(data) {
+cwc.protocol.sphero.classic.Events.speedValue = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.sphero.Events.Type.CHANGED_SPEED, data);
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_SPEED, data);
 };
 
 
@@ -72,7 +72,7 @@ cwc.protocol.sphero.Events.speedValue = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.sphero.Events.collision = function(data) {
+cwc.protocol.sphero.classic.Events.collision = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.sphero.Events.Type.COLLISION, data);
+      cwc.protocol.sphero.classic.Events.Type.COLLISION, data);
 };

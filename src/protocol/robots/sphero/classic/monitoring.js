@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero monitoring logic.
+ * @fileoverview Sphero Classic monitoring logic.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.sphero.Monitoring');
+goog.provide('cwc.protocol.sphero.classic.Monitoring');
 
 goog.require('cwc.utils.Events');
 
@@ -26,12 +26,12 @@ goog.require('goog.Timer');
 
 /**
  * @constructor
- * @param {!cwc.protocol.sphero.Api} api
+ * @param {!cwc.protocol.sphero.classic.Api} api
  * @struct
  * @final
  */
-cwc.protocol.sphero.Monitoring = function(api) {
-  /** @type {!cwc.protocol.sphero.Api} */
+cwc.protocol.sphero.classic.Monitoring = function(api) {
+  /** @type {!cwc.protocol.sphero.classic.Api} */
   this.api = api;
 
   /** @type {string} */
@@ -61,7 +61,7 @@ cwc.protocol.sphero.Monitoring = function(api) {
 /**
  * Starts the monitoring.
  */
-cwc.protocol.sphero.Monitoring.prototype.start = function() {
+cwc.protocol.sphero.classic.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
@@ -74,7 +74,7 @@ cwc.protocol.sphero.Monitoring.prototype.start = function() {
 /**
  * Stops the port monitoring.
  */
-cwc.protocol.sphero.Monitoring.prototype.stop = function() {
+cwc.protocol.sphero.classic.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }

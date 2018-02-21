@@ -196,47 +196,39 @@ cwc.mode.ev3.Monitor.prototype.cleanUp = function() {
  */
 cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   // Movements
-  this.events_.listen(goog.dom.getElement('move-left'),
-    goog.events.EventType.CLICK, function() {
-      this.api.rotateSteps(45, -50);
+  this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
+    this.api.rotateSteps(45, -50);
   }, false, this);
 
-  this.events_.listen(goog.dom.getElement('move-forward'),
-    goog.events.EventType.CLICK, function() {
-      this.api.moveSteps(50);
+  this.events_.listen('move-forward', goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(50);
   }, false, this);
 
-  this.events_.listen(goog.dom.getElement('move-backward'),
-    goog.events.EventType.CLICK, function() {
-      this.api.moveSteps(50, -50);
+  this.events_.listen('move-backward', goog.events.EventType.CLICK, function() {
+    this.api.moveSteps(50, -50);
   }, false, this);
 
-  this.events_.listen(goog.dom.getElement('move-right'),
-    goog.events.EventType.CLICK, function() {
-      this.api.rotateSteps(45);
+  this.events_.listen('move-right', goog.events.EventType.CLICK, function() {
+    this.api.rotateSteps(45);
   }, false, this);
 
   // Servo
-  this.events_.listen(goog.dom.getElement('servo-up'),
-    goog.events.EventType.CLICK, function() {
-      this.api.moveServo(5, 50);
+  this.events_.listen('servo-up', goog.events.EventType.CLICK, function() {
+    this.api.moveServo(5, 50);
   }, false, this);
 
-  this.events_.listen(goog.dom.getElement('servo-down'),
-    goog.events.EventType.CLICK, function() {
-      this.api.moveServo(5, -50);
+  this.events_.listen('servo-down', goog.events.EventType.CLICK, function() {
+    this.api.moveServo(5, -50);
   }, false, this);
 
   // Ping
-  this.events_.listen(goog.dom.getElement('ping'),
-    goog.events.EventType.CLICK, function() {
-      this.api.playTone(3000, 200, 50);
+  this.events_.listen('ping', goog.events.EventType.CLICK, function() {
+    this.api.playTone(3000, 200, 50);
   }, false, this);
 
   // Stop
-  this.events_.listen(goog.dom.getElement('stop'),
-    goog.events.EventType.CLICK, function() {
-      this.api.stop();
+  this.events_.listen('stop', goog.events.EventType.CLICK, function() {
+    this.api.stop();
   }, false, this);
 };
 

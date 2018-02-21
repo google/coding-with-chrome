@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetoothLE.supportedDevices');
+goog.provide('cwc.protocol.bluetooth.lowEnergy.supportedDevices');
 
 
 /**
  * @enum {!Object.<!Object>}
  */
-cwc.protocol.bluetoothLE.supportedDevices = {
+cwc.protocol.bluetooth.lowEnergy.supportedDevices = {
   SPHERO_SPRK_PLUS: {
     name: 'Sphero SPRK+',
     namePrefix: 'SK-',

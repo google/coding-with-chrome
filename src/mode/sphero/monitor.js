@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.Monitor');
 
-goog.require('cwc.protocol.sphero.Events');
+goog.require('cwc.protocol.sphero.classic.Events');
 goog.require('cwc.soy.mode.sphero.Monitor');
 goog.require('cwc.utils.Events');
 goog.require('cwc.ui.Helper');
@@ -47,7 +47,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {!cwc.mode.sphero.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.sphero.Api} */
+  /** @type {!cwc.protocol.sphero.classic.Api} */
   this.api = this.connection.getApi();
 
   /** @type {Element} */
@@ -124,15 +124,15 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   // Update events
   let eventHandler = this.connection.getEventHandler();
   this.events_.listen(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_LOCATION,
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_LOCATION,
       this.updateLocationData_, false, this);
 
   this.events_.listen(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_VELOCITY,
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_VELOCITY,
       this.updateVelocityData_, false, this);
 
   this.events_.listen(eventHandler,
-      cwc.protocol.sphero.Events.Type.CHANGED_SPEED,
+      cwc.protocol.sphero.classic.Events.Type.CHANGED_SPEED,
       this.updateSpeedData_, false, this);
 
   // Unload event

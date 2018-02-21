@@ -325,6 +325,7 @@ cwc.protocol.ev3.ParameterSize = {
   SHORT: 0x82, // 2 bytes
   INT: 0x83, // 4 bytes
   STRING: 0x84, // null-terminated string
+  INDEX: 0xE1, // index
 };
 
 

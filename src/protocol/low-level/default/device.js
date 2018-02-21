@@ -47,16 +47,16 @@ cwc.protocol.default.Device = function() {
   /** @type {!string} */
   this.icon = '';
 
-  /** @type {!cwc.protocol.bluetooth.supportedDevices|
-   *         !cwc.protocol.bluetoothLE.supportedDevices|
+  /** @type {!cwc.protocol.bluetooth.classic.supportedDevices|
+   *         !cwc.protocol.bluetooth.lowEnergy.supportedDevices|
    *         !Object}
    */
   this.profile = {};
 
-  /** @type {!cwc.utils.Logger} */
+  /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger();
 
-  /** @type {!goog.events.EventTarget} */
+  /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 };
 
@@ -115,7 +115,6 @@ cwc.protocol.default.Device.prototype.setEventHandler = function(eventHandler) {
 cwc.protocol.default.Device.prototype.getEventHandler = function() {
   return this.eventHandler_;
 };
-
 
 
 /**

@@ -47,7 +47,7 @@ cwc.utils.AddonInstance;
  *   cwc.fileHandler.FileSaver|
  *   cwc.mode.Modder|
  *   cwc.protocol.arduino.Api|
- *   cwc.protocol.bluetooth.Api|
+ *   cwc.protocol.bluetooth.classic.Api|
  *   cwc.protocol.ev3.Api|
  *   cwc.protocol.serial.Api|
  *   cwc.renderer.Renderer|

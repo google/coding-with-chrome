@@ -31,41 +31,19 @@ cwc.utils.ByteArrayTypes = {
   UINT: 4,
   UINT16: 5,
   STR: 6,
+  INDEX: 7,
 };
 
 
 /**
  * @constructor
- * @param {string|number=} byteHeader
- * @param {string|number=} shortHeader
- * @param {string|number=} integerHeader
- * @param {string|number=} stringHeader
- * @final
- * @export
  */
-cwc.utils.ByteArray = function(byteHeader = '', shortHeader = '',
-    integerHeader = '', stringHeader = '') {
+cwc.utils.ByteArray = function() {
   /** @private {!Array} */
   this.data_ = [];
 
   /** @private {Object.<cwc.utils.ByteArrayTypes|string|number>} */
   this.headers_ = {};
-
-  if (byteHeader) {
-    this.setHeader(cwc.utils.ByteArrayTypes.BYTE, byteHeader);
-  }
-
-  if (shortHeader) {
-    this.setHeader(cwc.utils.ByteArrayTypes.SHORT, shortHeader);
-  }
-
-  if (integerHeader) {
-    this.setHeader(cwc.utils.ByteArrayTypes.INT, integerHeader);
-  }
-
-  if (stringHeader) {
-    this.setHeader(cwc.utils.ByteArrayTypes.STR, stringHeader);
-  }
 };
 
 
@@ -73,29 +51,61 @@ cwc.utils.ByteArray = function(byteHeader = '', shortHeader = '',
  * Writes a byte into the buffer.
  * @param {number} value
  * @param {number=} defaultValue
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeByte = function(value, defaultValue = 0x00) {
   this.addHeader(cwc.utils.ByteArrayTypes.BYTE);
   this.write(value === undefined ? defaultValue : value);
+  return this;
+};
+
+
+/**
+ * Writes null byte with 0x00.
+ * @return {THIS}
+ * @template THIS
+ * @export
+ */
+cwc.utils.ByteArray.prototype.writeNullByte = function() {
+  this.writeByte(0x00);
+  return this;
+};
+
+
+/**
+ * Writes single byte with 0x01.
+ * @return {THIS}
+ * @template THIS
+ * @export
+ */
+cwc.utils.ByteArray.prototype.writeSingleByte = function() {
+  this.writeByte(0x01);
+  return this;
 };
 
 
 /**
  * Writes a short into the buffer.
  * @param {number} value
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeShort = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.SHORT);
   this.write(value);
   this.write(value >> 8);
+  return this;
 };
 
 
 /**
  * Writes an integer into the buffer.
  * @param {number} value
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeInt = function(value) {
@@ -104,35 +114,44 @@ cwc.utils.ByteArray.prototype.writeInt = function(value) {
   this.write(value >> 8);
   this.write(value >> 16);
   this.write(value >> 24);
+  return this;
 };
 
 
 /**
  * Writes an unsigned integer into the buffer.
  * @param {number} value
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeUInt = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.UINT);
   this.write(value & 0xFF);
+  return this;
 };
 
 
 /**
  * Writes an unsigned 16bit integer into the buffer.
  * @param {number} value
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeUInt16 = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.UINT16);
   this.write(value >> 8);
   this.write(value & 0xFF);
+  return this;
 };
 
 
 /**
  * Writes a string into the buffer.
  * @param {string} value
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.writeString = function(value) {
@@ -142,15 +161,49 @@ cwc.utils.ByteArray.prototype.writeString = function(value) {
     this.write(value.charCodeAt(i));
   }
   this.write(0x00);
+  return this;
+};
+
+
+/**
+ * @param {!Array|!string} command
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.utils.ByteArray.prototype.writeCommand = function(command) {
+  if (command instanceof Array) {
+    this.write(command[0]);
+    this.write(command[1]);
+  } else {
+    this.write(command);
+  }
+  return this;
+};
+
+
+/**
+ * Writes an index integer into the buffer.
+ * @param {number} value
+ * @return {THIS}
+ * @template THIS
+ * @export
+ */
+cwc.utils.ByteArray.prototype.writeIndex = function(value) {
+  this.addHeader(cwc.utils.ByteArrayTypes.INDEX);
+  this.write(value || 0x00);
+  return this;
 };
 
 
 /**
  * @param {string|number} data
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.utils.ByteArray.prototype.write = function(data) {
   this.data_.push(data);
+  return this;
 };
 
 

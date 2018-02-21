@@ -142,7 +142,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.bluetooth.classic.Device} device
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
@@ -156,7 +156,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.bluetooth.classic.Device} device
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
@@ -192,7 +192,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.refresh_ = function() {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.bluetooth.classic.Device} device
  * @return {Object}
  * @private
  */

@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetoothLE.Api');
+goog.provide('cwc.protocol.bluetooth.lowEnergy.Api');
 
-goog.require('cwc.protocol.bluetoothLE.Adapter');
-goog.require('cwc.protocol.bluetoothLE.Devices');
+goog.require('cwc.protocol.bluetooth.lowEnergy.Adapter');
+goog.require('cwc.protocol.bluetooth.lowEnergy.Devices');
 goog.require('cwc.utils.Logger');
 
 
@@ -30,7 +30,7 @@ goog.require('cwc.utils.Logger');
  * @struct
  * @final
  */
-cwc.protocol.bluetoothLE.Api = function(helper) {
+cwc.protocol.bluetooth.lowEnergy.Api = function(helper) {
   /** @type {string} */
   this.name = 'Bluetooth LE';
 
@@ -40,13 +40,13 @@ cwc.protocol.bluetoothLE.Api = function(helper) {
   /** @type {boolean} */
   this.enabled = false;
 
-  /** @type {cwc.protocol.bluetoothLE.Devices} */
+  /** @type {cwc.protocol.bluetooth.lowEnergy.Devices} */
   this.devices = null;
 
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {cwc.protocol.bluetoothLE.Adapter} */
+  /** @private {cwc.protocol.bluetooth.lowEnergy.Adapter} */
   this.adapter_ = null;
 
   /** @private {!cwc.utils.Logger} */
@@ -57,17 +57,19 @@ cwc.protocol.bluetoothLE.Api = function(helper) {
 /**
  * Prepares the bluetooth le api and monitors Bluetooth adapter.
  */
-cwc.protocol.bluetoothLE.Api.prototype.prepare = function() {
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.prepare = function() {
   if (this.prepared) {
     return;
   }
 
   this.log_.debug('Preparing Bluetooth LowEnergy support...');
 
-  this.adapter_ = new cwc.protocol.bluetoothLE.Adapter(this.eventHandler_);
+  this.adapter_ = new cwc.protocol.bluetooth.lowEnergy.Adapter(
+    this.eventHandler_);
   this.adapter_.prepare();
 
-  this.devices = new cwc.protocol.bluetoothLE.Devices(this.eventHandler_);
+  this.devices = new cwc.protocol.bluetooth.lowEnergy.Devices(
+    this.eventHandler_);
   this.devices.prepare();
 
   this.prepared = true;
@@ -77,7 +79,8 @@ cwc.protocol.bluetoothLE.Api.prototype.prepare = function() {
 /**
  * @param {Function=} optCallback Will be only called  after an connection.
  */
-cwc.protocol.bluetoothLE.Api.prototype.requestDevice = function(optCallback) {
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevice = function(
+    optCallback) {
   if (this.devices) {
     this.devices.requestDevice(optCallback);
   }
@@ -86,9 +89,9 @@ cwc.protocol.bluetoothLE.Api.prototype.requestDevice = function(optCallback) {
 
 /**
  * @param {!string} id
- * @return {cwc.protocol.bluetoothLE.Device}
+ * @return {cwc.protocol.bluetooth.lowEnergy.Device}
  */
-cwc.protocol.bluetoothLE.Api.prototype.getDevice = function(id) {
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevice = function(id) {
   if (this.devices) {
     return this.devices.getDevice(id);
   }
@@ -99,7 +102,7 @@ cwc.protocol.bluetoothLE.Api.prototype.getDevice = function(id) {
 /**
  * @return {Object}
  */
-cwc.protocol.bluetoothLE.Api.prototype.getDevices = function() {
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevices = function() {
   if (this.devices) {
     return this.devices.getDevices();
   }
@@ -111,7 +114,8 @@ cwc.protocol.bluetoothLE.Api.prototype.getDevices = function() {
  * @param {!string} name
  * @return {Object}
  */
-cwc.protocol.bluetoothLE.Api.prototype.getDevicesByName = function(name) {
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevicesByName = function(
+    name) {
   if (this.devices) {
     return this.devices.getDevicesByName(name);
   }

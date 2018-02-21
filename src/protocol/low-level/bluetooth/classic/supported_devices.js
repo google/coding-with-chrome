@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetooth.supportedDevices');
+goog.provide('cwc.protocol.bluetooth.classic.supportedDevices');
 
 
 /**
@@ -34,7 +34,7 @@ goog.provide('cwc.protocol.bluetooth.supportedDevices');
  *
  * @enum {!Object.<!Object>}
  */
-cwc.protocol.bluetooth.supportedDevices = {
+cwc.protocol.bluetooth.classic.supportedDevices = {
   EV3: {
     name: 'Lego Mindstorms EV3',
     namePrefix: 'EV3',

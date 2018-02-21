@@ -52,7 +52,7 @@ cwc.protocol.ev3.Api = function() {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {cwc.protocol.bluetooth.Device} */
+  /** @type {cwc.protocol.bluetooth.classic.Device} */
   this.device = null;
 
   /** @private {!Array} */
@@ -95,7 +95,7 @@ cwc.protocol.ev3.Api = function() {
 
 /**
  * Connects the EV3 unit.
- * @param {!cwc.protocol.bluetooth.Device} device
+ * @param {!cwc.protocol.bluetooth.classic.Device} device
  * @return {boolean} Was able to prepare and connect to the EV3.
  * @export
  */

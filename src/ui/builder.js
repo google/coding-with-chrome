@@ -33,14 +33,14 @@ goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
-goog.require('cwc.protocol.bluetooth.Api');
-goog.require('cwc.protocol.bluetoothLE.Api');
+goog.require('cwc.protocol.bluetooth.classic.Api');
+goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
 goog.require('cwc.protocol.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
-goog.require('cwc.protocol.sphero.Api');
+goog.require('cwc.protocol.sphero.classic.Api');
 goog.require('cwc.protocol.tcp.HTTPServer');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.server.Server');
@@ -111,8 +111,8 @@ cwc.ui.BuilderHelpers = {
  */
 cwc.ui.supportedProtocols = {
   // Low-level
-  'bluetooth': cwc.protocol.bluetooth.Api,
-  'bluetoothLE': cwc.protocol.bluetoothLE.Api,
+  'bluetooth': cwc.protocol.bluetooth.classic.Api,
+  'bluetoothLE': cwc.protocol.bluetooth.lowEnergy.Api,
   'http-server': cwc.protocol.tcp.HTTPServer,
   'serial': cwc.protocol.serial.Api,
 
@@ -121,10 +121,9 @@ cwc.ui.supportedProtocols = {
   'raspberryPi': cwc.protocol.raspberryPi.Api,
 
   // Robots
-  'ev3': cwc.protocol.ev3.Api,
   'mbot': cwc.protocol.makeblock.mbot.Api,
   'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
-  'sphero': cwc.protocol.sphero.Api,
+  'sphero': cwc.protocol.sphero.classic.Api,
 };
 
 

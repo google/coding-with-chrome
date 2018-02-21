@@ -17,11 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetooth.Api');
+goog.provide('cwc.protocol.bluetooth.classic.Api');
 
-goog.require('cwc.protocol.bluetooth.Adapter');
-goog.require('cwc.protocol.bluetooth.Devices');
-goog.require('cwc.protocol.bluetooth.Events');
+goog.require('cwc.protocol.bluetooth.classic.Adapter');
+goog.require('cwc.protocol.bluetooth.classic.Devices');
+goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.events.EventTarget');
@@ -33,7 +33,7 @@ goog.require('goog.events.EventTarget');
  * @struct
  * @final
  */
-cwc.protocol.bluetooth.Api = function(helper) {
+cwc.protocol.bluetooth.classic.Api = function(helper) {
   /** @type {string} */
   this.name = 'Bluetooth';
 
@@ -46,7 +46,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {cwc.protocol.bluetooth.Devices} */
+  /** @type {cwc.protocol.bluetooth.classic.Devices} */
   this.devices = null;
 
   /** @type {Object} */
@@ -55,7 +55,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
-  /** @private {cwc.protocol.bluetooth.Adapter} */
+  /** @private {cwc.protocol.bluetooth.classic.Adapter} */
   this.adapter_ = null;
 
   /** @private {!goog.events.EventTarget} */
@@ -69,7 +69,7 @@ cwc.protocol.bluetooth.Api = function(helper) {
 /**
  * Prepares the bluetooth api and monitors Bluetooth adapter.
  */
-cwc.protocol.bluetooth.Api.prototype.prepare = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.bluetooth) {
     console.warn('Bluetooth 2.0 support is not available!');
     return;
@@ -81,13 +81,14 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
 
   // Monitor Bluetooth adapter
   goog.events.listen(this.eventHandler_,
-    cwc.protocol.bluetooth.Events.Type.ADAPTER_STATE_CHANGE,
+    cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
     this.updateDevices, false, this);
-  this.adapter_ = new cwc.protocol.bluetooth.Adapter(this.eventHandler_);
+  this.adapter_ = new cwc.protocol.bluetooth.classic.Adapter(
+    this.eventHandler_);
   this.adapter_.prepare();
 
   // Monitor Bluetooth devices
-  this.devices = new cwc.protocol.bluetooth.Devices(this.eventHandler_);
+  this.devices = new cwc.protocol.bluetooth.classic.Devices(this.eventHandler_);
   this.devices.prepare();
 
   // Monitor Bluetooth sockets
@@ -100,7 +101,7 @@ cwc.protocol.bluetooth.Api.prototype.prepare = function() {
 };
 
 
-cwc.protocol.bluetooth.Api.prototype.updateDevices = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.updateDevices = function() {
   if (this.devices) {
     this.devices.updateDevices();
   }
@@ -109,9 +110,9 @@ cwc.protocol.bluetooth.Api.prototype.updateDevices = function() {
 
 /**
  * @param {!string} address
- * @return {cwc.protocol.bluetooth.Device}
+ * @return {cwc.protocol.bluetooth.classic.Device}
  */
-cwc.protocol.bluetooth.Api.prototype.getDevice = function(address) {
+cwc.protocol.bluetooth.classic.Api.prototype.getDevice = function(address) {
   if (this.devices) {
     return this.devices.getDevice(address);
   }
@@ -121,9 +122,9 @@ cwc.protocol.bluetooth.Api.prototype.getDevice = function(address) {
 
 /**
  * @param {!string} name
- * @return {cwc.protocol.bluetooth.Device}
+ * @return {cwc.protocol.bluetooth.classic.Device}
  */
-cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
+cwc.protocol.bluetooth.classic.Api.prototype.getDeviceByName = function(name) {
   if (this.devices) {
     return this.devices.getDeviceByName(name);
   }
@@ -134,7 +135,7 @@ cwc.protocol.bluetooth.Api.prototype.getDeviceByName = function(name) {
 /**
  * @return {Object}
  */
-cwc.protocol.bluetooth.Api.prototype.getDevices = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.getDevices = function() {
   if (this.devices) {
     return this.devices.getDevices();
   }
@@ -145,7 +146,7 @@ cwc.protocol.bluetooth.Api.prototype.getDevices = function() {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.protocol.bluetooth.Api.prototype.getEventHandler = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.getEventHandler = function() {
   return this.eventHandler_;
 };
 
@@ -155,22 +156,22 @@ cwc.protocol.bluetooth.Api.prototype.getEventHandler = function() {
  * @param {Function} callback
  * @param {boolean=} opt_multisearch
  */
-cwc.protocol.bluetooth.Api.prototype.autoConnectDevice = function(device_name,
-    callback, opt_multisearch) {
+cwc.protocol.bluetooth.classic.Api.prototype.autoConnectDevice = function(
+    device_name, callback, opt_multisearch) {
   if (this.devices) {
     this.devices.autoConnectDevice(device_name, callback, opt_multisearch);
   }
 };
 
 
-cwc.protocol.bluetooth.Api.prototype.updateAdapterState = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.updateAdapterState = function() {
   if (this.adapter_) {
     this.adapter_.updateAdapterState();
   }
 };
 
 
-cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
+cwc.protocol.bluetooth.classic.Api.prototype.closeSockets = function() {
   if (this.devices) {
     this.devices.closeSockets();
   }
@@ -181,7 +182,7 @@ cwc.protocol.bluetooth.Api.prototype.closeSockets = function() {
  * @param {Object} info
  * @private
  */
-cwc.protocol.bluetooth.Api.prototype.handleOnReceive_ = function(info) {
+cwc.protocol.bluetooth.classic.Api.prototype.handleOnReceive_ = function(info) {
   this.devices.receiveData(info['socketId'], info['data']);
 };
 
@@ -190,7 +191,7 @@ cwc.protocol.bluetooth.Api.prototype.handleOnReceive_ = function(info) {
  * @param {Object} info
  * @private
  */
-cwc.protocol.bluetooth.Api.prototype.handleOnReceiveError_ = function(
+cwc.protocol.bluetooth.classic.Api.prototype.handleOnReceiveError_ = function(
     info) {
   this.devices.receiveError(info['socketId'], info['error']);
 };

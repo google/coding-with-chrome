@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetoothLE.Device');
+goog.provide('cwc.protocol.bluetooth.lowEnergy.Device');
 
-goog.require('cwc.protocol.bluetoothLE.supportedDevices');
+goog.require('cwc.protocol.bluetooth.lowEnergy.supportedDevices');
 goog.require('cwc.protocol.default.Device');
 goog.require('cwc.utils.ByteTools');
 
@@ -28,7 +28,7 @@ goog.require('cwc.utils.ByteTools');
  * @constructor
  * @extends {cwc.protocol.default.Device}
  */
-cwc.protocol.bluetoothLE.Device = function() {
+cwc.protocol.bluetooth.lowEnergy.Device = function() {
   /** @private {Object} */
   this.server_ = {};
 
@@ -41,21 +41,22 @@ cwc.protocol.bluetoothLE.Device = function() {
   /** @private {Object} */
   this.device_ = {};
 };
-goog.inherits(cwc.protocol.bluetoothLE.Device, cwc.protocol.default.Device);
+goog.inherits(
+  cwc.protocol.bluetooth.lowEnergy.Device, cwc.protocol.default.Device);
 
 
-cwc.protocol.bluetoothLE.Device.prototype.addEventHandler = function() {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.addEventHandler = function() {
   this.device_.addEventListener('gattserverdisconnected',
     this.handleDisconnect_.bind(this));
 };
 
 
 /**
- * @param {!Object} gatt
+ * @param {!Object} device
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.bluetoothLE.Device.prototype.setDevice = function(device) {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.setDevice = function(device) {
   this.device_ = device;
   return this;
 };
@@ -64,7 +65,7 @@ cwc.protocol.bluetoothLE.Device.prototype.setDevice = function(device) {
 /**
  * @return {Promise}
  */
-cwc.protocol.bluetoothLE.Device.prototype.connect = function() {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.connect = function() {
   return new Promise((resolve) => {
     this.connected = this.device_['gatt']['connected'];
     if (this.connected) {
@@ -88,9 +89,8 @@ cwc.protocol.bluetoothLE.Device.prototype.connect = function() {
  * Sends the buffer to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
  */
-cwc.protocol.bluetoothLE.Device.prototype.send = function(buffer) {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.send = function(buffer) {
   console.log('Send buffer', buffer);
-  //this.characteristic_['22bb746f-2ba1-7554-2d6f-726568705327']['writeValue'](buffer);
 };
 
 
@@ -98,8 +98,9 @@ cwc.protocol.bluetoothLE.Device.prototype.send = function(buffer) {
  * Sends the buffer to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
  * @param {!string} characteristicId
+ * @return {Promise}
  */
-cwc.protocol.bluetoothLE.Device.prototype.sendRaw = function(buffer,
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.sendRaw = function(buffer,
     characteristicId) {
   console.log('Send raw buffer', buffer);
   return this.characteristic_[characteristicId]['writeValue'](buffer);
@@ -108,9 +109,10 @@ cwc.protocol.bluetoothLE.Device.prototype.sendRaw = function(buffer,
 
 /**
  * @param {!Object} server
+ * @return {Promise}
  * @private
  */
-cwc.protocol.bluetoothLE.Device.prototype.handleConnect_ = function() {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleConnect_ = function() {
   let promises = [];
   for (let entry in this.profile.services) {
     if (this.profile.services.hasOwnProperty(entry)) {
@@ -126,7 +128,8 @@ cwc.protocol.bluetoothLE.Device.prototype.handleConnect_ = function() {
  * @param {!Object} event
  * @private
  */
-cwc.protocol.bluetoothLE.Device.prototype.handleDisconnect_ = function(event) {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleDisconnect_ = function(
+    event) {
   console.log('Disconnected!', event);
   this.connected = false;
 };
@@ -135,9 +138,10 @@ cwc.protocol.bluetoothLE.Device.prototype.handleDisconnect_ = function(event) {
 /**
  * @param {!string} serviceId
  * @param {string=} characteristic
+ * @return {Promise}
  * @private
  */
-cwc.protocol.bluetoothLE.Device.prototype.connectService_ = function(
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectService_ = function(
     serviceId, characteristic) {
   this.log_.info('Connect service', serviceId);
   return this.server_['getPrimaryService'](serviceId).then((service) => {
@@ -162,10 +166,11 @@ cwc.protocol.bluetoothLE.Device.prototype.connectService_ = function(
 /**
  * @param {!string} characteristicId
  * @param {!string} serviceId
+ * @return {Promise}
  * @private
  */
-cwc.protocol.bluetoothLE.Device.prototype.connectCharacteristic_ = function(
-    characteristicId, serviceId) {
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectCharacteristic_ =
+    function(characteristicId, serviceId) {
   this.log_.info('Connecting characteristic', characteristicId, 'on service',
     serviceId);
   return this.services_[serviceId]['getCharacteristic'](characteristicId).then(

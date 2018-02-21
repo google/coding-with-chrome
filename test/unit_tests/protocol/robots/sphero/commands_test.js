@@ -17,12 +17,12 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.protocol.sphero.Commands');
+goog.require('cwc.protocol.sphero.classic.Commands');
 goog.require('cwc.utils.ByteTools');
 
 
 describe('Sphero Commands', function() {
-  let commands = new cwc.protocol.sphero.Commands();
+  let commands = new cwc.protocol.sphero.classic.Commands();
 
   it('constructor', function() {
     expect(typeof commands).toEqual('object');

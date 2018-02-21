@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.bluetoothLE.Adapter');
+goog.provide('cwc.protocol.bluetooth.lowEnergy.Adapter');
 
 goog.require('cwc.utils.Logger');
 
@@ -26,7 +26,7 @@ goog.require('cwc.utils.Logger');
  * @param {!goog.events.EventTarget} eventHandler
  * @constructor
  */
-cwc.protocol.bluetoothLE.Adapter = function(eventHandler) {
+cwc.protocol.bluetooth.lowEnergy.Adapter = function(eventHandler) {
   /** @type {!string} */
   this.name = 'Bluetooth LE Adapter';
 
@@ -41,7 +41,7 @@ cwc.protocol.bluetoothLE.Adapter = function(eventHandler) {
 };
 
 
-cwc.protocol.bluetoothLE.Adapter.prototype.prepare = function() {
+cwc.protocol.bluetooth.lowEnergy.Adapter.prototype.prepare = function() {
   if (!this.prepared) {
     this.log_.info('Preparing ...');
     this.prepared = true;
