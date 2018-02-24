@@ -19,8 +19,7 @@
  */
 goog.provide('cwc.mode.text.Mod');
 
-goog.require('cwc.mode.text.Editor');
-goog.require('cwc.mode.text.Layout');
+goog.require('cwc.mode.default.Mod');
 
 
 /**
@@ -28,11 +27,8 @@ goog.require('cwc.mode.text.Layout');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.text.Mod = function(helper) {
-  /** @type {cwc.mode.text.Layout} */
-  this.layout = new cwc.mode.text.Layout(helper);
-
-  /** @type {cwc.mode.text.Editor} */
-  this.editor = new cwc.mode.text.Editor(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -40,6 +36,11 @@ cwc.mode.text.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.text.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
+  this.mod.setRender(null);
+  this.mod.decorate();
+  this.mod.editor.enableModeSelect(true);
+  this.mod.editor.showEditorViews(false);
+  this.mod.editor.showExpandButton(false);
+  this.mod.editor.showLibraryButton(false);
+  this.mod.editor.showMediaButton(true);
 };

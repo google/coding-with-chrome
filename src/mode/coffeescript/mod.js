@@ -19,9 +19,7 @@
  */
 goog.provide('cwc.mode.coffeescript.Mod');
 
-goog.require('cwc.mode.coffeescript.Editor');
-goog.require('cwc.mode.coffeescript.Layout');
-goog.require('cwc.mode.coffeescript.Preview');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.renderer.internal.Coffeescript');
 
 
@@ -30,14 +28,8 @@ goog.require('cwc.renderer.internal.Coffeescript');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.coffeescript.Mod = function(helper) {
-  /** @type {cwc.mode.coffeescript.Layout} */
-  this.layout = new cwc.mode.coffeescript.Layout(helper);
-
-  /** @type {cwc.mode.coffeescript.Editor} */
-  this.editor = new cwc.mode.coffeescript.Editor(helper);
-
-  /** @type {cwc.mode.coffeescript.Preview} */
-  this.preview = new cwc.mode.coffeescript.Preview(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {cwc.renderer.internal.Coffeescript} */
   this.renderer = new cwc.renderer.internal.Coffeescript(helper);
@@ -48,8 +40,6 @@ cwc.mode.coffeescript.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.coffeescript.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
-  this.preview.decorate();
-  this.renderer.init();
+  this.mod.setRenderer(this.renderer);
+  this.mod.decorate();
 };

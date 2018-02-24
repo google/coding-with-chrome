@@ -1,0 +1,113 @@
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenNormal autoescape="strict"}
+
+
+/**
+ * Normal overview page.
+ */
+{template .overview}
+  {@param prefix: string}
+
+  <div id="{$prefix}overview">
+
+    {call .header data="all"}
+      {param active_link: 'home' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Block Coding' /}
+        {param opt_text: 'Block-based programming' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'extension' /}
+      {/call}
+
+      <div class="mdl-grid">
+
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+          {param view: 'basic' /}
+          {param link_text: 'Go Blockly' /}
+          {param text: 'Use Blockly to build code by dragging and dropping code blocks' /}
+          {param title: 'Blockly' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'school' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+          {param view: 'games' /}
+          {param link_text: 'Start creating games' /}
+          {param text: 'Create simple games by dragging and dropping code blocks' /}
+          {param title: 'Games' /}
+          {param opt_color_class: 'bg-lime' /}
+          {param opt_icon: 'videogame_asset' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+          {param view: 'robot' /}
+          {param link_text: 'Go Robots' /}
+          {param text: 'Control real or on-screen robots with Blockly' /}
+          {param title: 'Robots' /}
+          {param opt_color_class: 'bg-orange' /}
+          {param opt_icon: 'memory' /}
+        {/call}
+
+      </div>
+
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Overview header.
+ */
+{template .header}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-overview" class="mdl-layout__header-row mdl-layout__header bg_10_pct_black">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: '' /}
+        {param icon: 'home' /}
+        {param view: 'overview' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Blocks' /}
+        {param view: 'basic' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Games' /}
+        {param view: 'games' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Robots' /}
+        {param view: 'robot' /}
+      {/call}
+
+    </nav>
+  </header>
+{/template}

@@ -24,17 +24,29 @@
  * Select card design.
  */
 {template .selectCard}
-  {@param link_id: string}
   {@param link_text: string}
-  {@param prefix: string}
   {@param text: string}
   {@param title: string}
+  {@param? file: string}
+  {@param? mode: string}
+  {@param? view: string}
   {@param? opt_color_class: string}
   {@param? opt_hidden: bool}
   {@param? opt_icon: string}
   {@param? opt_image: string}
 
-  <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}">
+  <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}"
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $view}
+      data-file-action="loadView"
+      data-file-name="{$view}"
+    {/if}
+  >
     <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
       {if $opt_icon}
@@ -54,7 +66,7 @@
       </span>
     </div>
     <div class="mdl-card__actions">
-       <a href="#" id="{$prefix}link-{$link_id}" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
+       <a href="#" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
          {msg desc=""}{$link_text}{/msg}
          <i class="material-icons">chevron_right</i>
        </a>
@@ -86,16 +98,30 @@
  * Select card design.
  */
 {template .fileCard}
-  {@param link_id: string}
-  {@param prefix: string}
   {@param text: string}
   {@param title: string}
+  {@param? id: string}
+  {@param? file: string}
+  {@param? mode: string}
+  {@param? view: string}
   {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
 
-  <div class="cwc-file-card mdl-cell mdl-shadow--4dp" id="{$prefix}link-{$link_id}">
+  <div class="cwc-file-card mdl-cell mdl-shadow--4dp"
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $view}
+      data-file-action="loadView"
+      data-file-name="{$view}"
+    {/if}
+  >
+
     <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
       <h3>{msg desc=""}{$title|changeNewlineToBr}{/msg}</h3>
       <div class="card__logo">
@@ -115,7 +141,7 @@
     <div class="card__body">
       {msg desc=""}{$text}{/msg}
     </div>
-    <div class="card__action">
+    <div class="card__action"{if $id} id="{$id}"{/if}>
       {if $opt_link_text}
         {msg desc=""}{$opt_link_text}{/msg}
       {else}
@@ -159,30 +185,26 @@
 
 
 /**
- * Header card design.
+ * Select section design.
  */
 {template .selectSection}
+  {@param content: ?}
   {@param id: string}
-  {@param link_text: string}
   {@param modules: ?}
-  {@param prefix: string}
   {@param text: string}
   {@param title: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_icon_rotate: string}
-  {@param? opt_id: string}
   {@param? opt_image: string}
-  {@param? opt_link_text: string}
 
   {let $isEnabled: isNonnull($modules[$id]) and $modules[$id] == true or not isNonnull($modules[$id]) /}
-  {let $opt_isEnabled: isNonnull($modules[$opt_id]) and $modules[$opt_id] == true or not isNonnull($modules[opt_id]) /}
 
   <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp{if not $isEnabled} hidden{/if}">
     <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
       {if $opt_icon}
-        <i class="icon_auto{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
+        <i class="icon_128px_fixed{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
       {/if}
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
@@ -193,19 +215,39 @@
         {msg desc=""}{$text}{/msg}
       </div>
       <div class="mdl-card__actions">
-        <a href="#" id="{$prefix}link-{$id}" class="mdl-button">
-          {msg desc=""}{$link_text}{/msg}
-          <i class="material-icons">chevron_right</i>
-        </a>
-        {if $opt_link_text and $opt_id}
-          <a href="#" id="{$prefix}link-{$opt_id}" class="mdl-button{if not $opt_isEnabled} hidden{/if}">
-            {msg desc=""}{$opt_link_text}{/msg}
-            <i class="material-icons">chevron_right</i>
-          </a>
-        {/if}
+        {$content}
       </div>
     </div>
   </section>
+{/template}
+
+
+/**
+ * Select section link.
+ */
+{template .selectSectionLink}
+  {@param text: string}
+  {@param? file: string}
+  {@param? id: string}
+  {@param? mode: string}
+  {@param? view: string}
+
+  <a href="#" class="cwc-select-section-link mdl-button"
+    {if $id}id="{$id}"{/if}
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $view}
+      data-file-action="loadView"
+      data-file-name="{$view}"
+    {/if}
+  >
+    {msg desc=""}{$text}{/msg}
+    <i class="material-icons">chevron_right</i>
+  </a>
 {/template}
 
 
@@ -214,13 +256,36 @@
  */
 {template .headerLink}
   {@param active_link: string}
-  {@param id: string}
-  {@param prefix: string}
   {@param title: string}
+  {@param? icon: string}
+  {@param? file: string}
+  {@param? id: string}
+  {@param? mode: string}
   {@param? opt_hidden: bool}
+  {@param? view: string}
 
-  <a id="{$prefix}menu-{$id}" class="mdl-navigation__link{if $active_link == $id} is-active{/if}{if $opt_hidden} hidden{/if}" href="#">
-    {msg desc=""}{$title}{/msg}
+  <a href="#" class="cwc-select-header-link mdl-navigation__link
+    {if $active_link == $id or $active_link == $view} is-active{/if}
+    {if $icon} icon_24px_raw{/if}
+    {if $opt_hidden} hidden{/if}"
+    {if $id} id="{$id}"{/if}
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $view}
+      data-file-action="loadView"
+      data-file-name="{$view}"
+    {/if}
+  >
+    {if $icon}
+      {$icon}
+    {/if}
+    {if $title}
+      {msg desc=""}{$title}{/msg}
+    {/if}
   </a>
 {/template}
 

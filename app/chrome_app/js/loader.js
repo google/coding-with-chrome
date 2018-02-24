@@ -39,9 +39,6 @@ let CwcLoader = function() {
   /** @type {Element} */
   this.progressThumbNode = document.getElementById(
       'cwc-preloader-progress-bar-thumb');
-
-  /** @type {Object} */
-  this.manifest = chrome.runtime.getManifest();
 };
 
 
@@ -51,8 +48,8 @@ let CwcLoader = function() {
 CwcLoader.prototype.prepare = function() {
   console.log('Loading the Coding with Chrome UI ...');
 
-  if (this.manifest && this.versionNode) {
-    this.versionNode.innerText = this.manifest.version;
+  if (this.versionNode && chrome.runtime.getManifest) {
+    this.versionNode.innerText = chrome.runtime.getManifest();
   }
 
   document.addEventListener('keypress', this.keyHandler.bind(this), false);

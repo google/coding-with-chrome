@@ -1,0 +1,26 @@
+{
+  "author": "Unknown",
+  "content": {
+    "__javascript__": {
+      "name": "__javascript__",
+      "type": "application/javascript",
+      "size": 0,
+      "content": "",
+      "group": "",
+      "version": 1,
+      "filename": ""
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "ev3",
+  "model": "TRACK3R",
+  "title": "Untitled EV3 file",
+  "type": "ev3",
+  "ui": "default",
+  "version": "1.0"
+}

@@ -29,6 +29,7 @@ cwc.protocol.bluetooth.lowEnergy.supportedDevices = {
     namePrefix: 'SK-',
     icon: 'adjust',
     characteristic: {
+      default: '22bb746f-2ba1-7554-2d6f-726568705327',
       robotControl: {
         command: '22bb746f-2ba1-7554-2d6f-726568705327',
         response: '22bb746f-2ba6-7554-2d6f-726568705327',
@@ -52,8 +53,9 @@ cwc.protocol.bluetooth.lowEnergy.supportedDevices = {
     namePrefix: 'BB-',
     icon: 'adjust',
     characteristic: {
+      default: '22bb746f-2ba1-7554-2d6f-726568705327',
       robotControl: {
-        commands: '22bb746f-2ba1-7554-2d6f-726568705327',
+        command: '22bb746f-2ba1-7554-2d6f-726568705327',
         response: '22bb746f-2ba6-7554-2d6f-726568705327',
       },
       spheroBLE: {

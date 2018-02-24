@@ -63,9 +63,7 @@ cwc.utils.Logger = function(name = 'Logger',
   this.name = name;
 
   /** @type {!Array} */
-  this.displayName = this.name ? (
-    window['__karma__'] ? [this.name] : ['%c' + this.name, 'font-weight: bold;']
-  ) : [];
+  this.displayName = this.name ? ['%c' + this.name, 'font-weight: bold;']: [];
 
   /** @type {!number} */
   this.logLevel = typeof cwc.config !== 'undefined' ?
@@ -74,8 +72,11 @@ cwc.utils.Logger = function(name = 'Logger',
   /** @type {!boolean} */
   this.enabled_ = ENABLE_LOGGING;
 
-  /** Disable logging styles for specific environments */
-  if ((window.mocha || window.jasmine) && this.name) {
+  /**
+   * Disable logging styles for specific environments like Mocha, Jasmine, ...
+   */
+  if ((window['mocha'] || window['jasmine'] || window['__karma__']) &&
+      this.name) {
     this.displayName = ['[' + this.name + ']'];
   }
 };

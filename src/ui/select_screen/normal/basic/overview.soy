@@ -1,0 +1,116 @@
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenNormal.basic autoescape="strict"}
+
+
+/**
+ * Basic overview page.
+ */
+{template .overview}
+  {@param prefix: string}
+
+  <div class="mdl-layout__container">
+
+    {call cwc.soy.SelectScreenNormal.header data="all"}
+      {param active_link: 'basic' /}
+    {/call}
+
+    <div class="cwc-content">
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Blocks' /}
+        {param opt_text: 'Drag and drop code blocks to make programs' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'school' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'New program' /}
+            {param text: 'Start building new code' /}
+            {param opt_link_text: 'Create new program' /}
+            {param mode: 'basic_blockly' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Hello World' /}
+            {param text: 'Try a Hello World example' /}
+            {param file: 'simple/blocks/Hello-World.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'speaker_notes' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Text loop' /}
+            {param text: 'Write many things on the screen with a repeating program (a loop)' /}
+            {param file: 'simple/blocks/Text-Loop.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'repeat' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Sunlights' /}
+            {param text: 'Write many things on the screen with a repeating program (a loop)' /}
+            {param file: 'simple/blocks/Sunlights.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'wb_sunny' /}
+          {/call}
+        {/param}
+      {/call}
+
+    </div>
+
+  </div>
+
+{/template}
+
+
+/**
+ * Overview header.
+ */
+{template .overviewHeader_}
+  {@param prefix: string}
+  {@param active_link: string}
+
+  <header id="{$prefix}navigation-overview" class="mdl-layout__header-row mdl-layout__header bg_10_pct_black">
+    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a id="{$prefix}menu-home" class="mdl-navigation__link icon_24px_raw{if $active_link == 'home'} is-active{/if}" href="#">home</a>
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Blocks' /}
+        {param id: 'basic' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Games' /}
+        {param id: 'games' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
+        {param title: 'Robots' /}
+        {param id: 'robot' /}
+      {/call}
+
+    </nav>
+  </header>
+{/template}

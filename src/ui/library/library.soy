@@ -127,8 +127,8 @@
   {foreach $file in keys($files)}
     {if $files[$file]['media_type'] == 'audio'}
       <div class="{$prefix}audio-entry"
-        data-file-name="{$file}"
-        data-file-action="insertMacro">
+        data-file-action="insertMacro"
+        data-file-name="{$file}">
         <i class="material-icons"
           data-file-name="{$file}" data-file-action="insertMacro">
           audiotrack

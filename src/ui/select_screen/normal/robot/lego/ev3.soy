@@ -1,0 +1,95 @@
+
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenNormal.robot.lego autoescape="strict"}
+
+
+/**
+ * EV3 overview page.
+ */
+{template .ev3}
+  {@param prefix: string}
+
+  <div id="{$prefix}ev3-overview" class="mdl-layout__container">
+
+    {call cwc.soy.SelectScreenNormal.header data="all"}
+      {param active_link: 'robot' /}
+    {/call}
+
+    {call cwc.soy.SelectScreenNormal.robot.header data="all"}
+      {param active_link: 'ev3' /}
+    {/call}
+
+    <div class="cwc-content-large">
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Robots: EV3' /}
+        {param opt_text: 'Control an EV3 with Blocks' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'adb' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'New program' /}
+            {param text: 'Begin a new program to drive an EV3 or an on-screen robot with Blockly' /}
+            {param opt_link_text: 'New EV3 blocks program' /}
+            {param mode: 'ev3_blockly' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Educator\nBlock Grabber' /}
+            {param text: 'Educator Robot is grabbing a block' /}
+            {param file: 'ev3/blocks/EV3-Educator-BlockGrabber.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'rv_hookup' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'IR sensor\nCollision avoidance' /}
+            {param text: 'Navigates freely in the environment and avoid collisions.' /}
+            {param file: 'ev3/blocks/EV3-IR-Sensor.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'perm_scan_wifi' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Color sensor\nPlay sound' /}
+            {param text: 'Plays different tones depending on the detected color.' /}
+            {param file: 'ev3/blocks/EV3-Color-Sensor.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'music_note' /}
+          {/call}
+        {/param}
+      {/call}
+
+    </div>
+
+    {call cwc.soy.SelectScreenTemplate.footer}
+      {param text: 'Coding with Chrome is not affiliated, sponsored, or endorsed by LEGO® Education or the LEGO® Group.' /}
+      {param opt_text: 'LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.' /}
+    {/call}
+
+  </div>
+
+{/template}

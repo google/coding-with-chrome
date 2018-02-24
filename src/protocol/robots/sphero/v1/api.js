@@ -39,7 +39,7 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.sphero.v1.Api = function() {
   /** @type {string} */
-  this.name = 'Sphero';
+  this.name = 'Sphero v1';
 
   /** @type {boolean} */
   this.prepared = false;
@@ -111,18 +111,11 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
     this.device = device;
     this.device.sendRaw(
       new TextEncoder('utf-8').encode('011i3'),
-      '22bb746f-2bbd-7554-2d6f-726568705327'
-    ).then(() => {
-      this.device.sendRaw(
-        Uint8Array.from(0x07),
-        '22bb746f-2bb2-7554-2d6f-726568705327'
-      );
-    }).then(() => {
-      this.device.sendRaw(
-        Uint8Array.from(0x01),
-        '22bb746f-2bbf-7554-2d6f-726568705327'
-      );
-    });
+      '22bb746f-2bbd-7554-2d6f-726568705327');
+    this.device.sendRaw(
+      Uint8Array.from(0x07), '22bb746f-2bb2-7554-2d6f-726568705327');
+    this.device.sendRaw(
+      Uint8Array.from(0x01), '22bb746f-2bbf-7554-2d6f-726568705327');
     this.runTest();
   }
   return true;
@@ -364,7 +357,7 @@ cwc.protocol.sphero.v1.Api.prototype.runTest = function() {
  * Basic cleanup for the Sphero ball.
  */
 cwc.protocol.sphero.v1.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero…');
+  console.log('Clean up Sphero v1 API…');
   this.monitoring.stop();
   this.reset();
 };

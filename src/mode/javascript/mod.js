@@ -42,5 +42,4 @@ cwc.mode.javascript.Mod = function(helper) {
 cwc.mode.javascript.Mod.prototype.decorate = function() {
   this.mod.setRenderer(this.renderer);
   this.mod.decorate();
-  this.mod.editor.showEditorViews(false);
 };

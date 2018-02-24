@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.phaser.blockly.Mod');
 
-goog.require('cwc.mode.default.blockly.Mod');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.soy.phaser.Blocks');
 
 
@@ -28,8 +28,8 @@ goog.require('cwc.soy.phaser.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.phaser.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.default.blockly.Mod} */
-  this.mod = new cwc.mode.default.blockly.Mod(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -37,7 +37,8 @@ cwc.mode.phaser.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
-  this.mod.decorate(cwc.soy.phaser.Blocks.toolbox);
-  this.mod.editor.getBlockly().enableToolboxAutoCollapse(true);
-  this.mod.editor.getBlockly().disableOrphansBlocks(true);
+  this.mod.enableBlockly(cwc.soy.phaser.Blocks.toolbox);
+  this.mod.decorate();
+  this.mod.blockly.enableToolboxAutoCollapse(true);
+  this.mod.blockly.disableOrphansBlocks(true);
 };

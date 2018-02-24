@@ -37,7 +37,6 @@ cwc.mode.phaser.advanced.Mod = function(helper) {
  */
 cwc.mode.phaser.advanced.Mod.prototype.decorate = function() {
   this.mod.decorate();
-  this.mod.editor.showEditorViews(false);
   this.mod.editor.showMode(false);
   this.mod.editor.enableMediaButton(true);
 };

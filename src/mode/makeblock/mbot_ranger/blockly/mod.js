@@ -19,11 +19,10 @@
  */
 goog.provide('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 
-goog.require('cwc.mode.default.blockly.Editor');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.makeblock.mbotRanger.Connection');
 goog.require('cwc.mode.makeblock.mbotRanger.Monitor');
 goog.require('cwc.mode.makeblock.mbotRanger.Runner');
-goog.require('cwc.mode.makeblock.mbotRanger.blockly.Layout');
 goog.require('cwc.renderer.external.makeblock.MBotRanger');
 goog.require('cwc.soy.mbotRanger.Blocks');
 
@@ -33,24 +32,21 @@ goog.require('cwc.soy.mbotRanger.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.default.blockly.Editor} */
-  this.editor = new cwc.mode.default.blockly.Editor(helper);
-
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
   this.connection = new cwc.mode.makeblock.mbotRanger.Connection(helper);
 
-  /** @type {!cwc.mode.makeblock.mbotRanger.blockly.Layout} */
-  this.layout = new cwc.mode.makeblock.mbotRanger.blockly.Layout(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.mode.makeblock.mbotRanger.Monitor} */
+  this.monitor = new cwc.mode.makeblock.mbotRanger.Monitor(helper,
+    this.connection);
 
   /** @type {!cwc.renderer.external.makeblock.MBotRanger} */
   this.renderer = new cwc.renderer.external.makeblock.MBotRanger(helper);
 
   /** @type {!cwc.mode.makeblock.mbotRanger.Runner} */
   this.runner = new cwc.mode.makeblock.mbotRanger.Runner(helper,
-    this.connection);
-
-  /** @type {!cwc.mode.makeblock.mbotRanger.Monitor} */
-  this.monitor = new cwc.mode.makeblock.mbotRanger.Monitor(helper,
     this.connection);
 };
 
@@ -59,10 +55,10 @@ cwc.mode.makeblock.mbotRanger.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.makeblock.mbotRanger.blockly.Mod.prototype.decorate = function() {
-  this.connection.init();
-  this.layout.decorate();
-  this.editor.decorate(cwc.soy.mbotRanger.Blocks.toolbox);
-  this.runner.decorate();
-  this.monitor.decorate();
-  this.renderer.init();
+  this.mod.enableBlockly(cwc.soy.mbotRanger.Blocks.toolbox);
+  this.mod.setConnection(this.connection);
+  this.mod.setMonitor(this.monitor);
+  this.mod.setRenderer(this.renderer);
+  this.mod.setRunner(this.runner);
+  this.mod.decorate();
 };

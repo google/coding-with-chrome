@@ -21,13 +21,22 @@ goog.provide('cwc.ui.SelectScreenNormal');
 goog.provide('cwc.ui.SelectScreenNormalView');
 
 goog.require('cwc.file.Type');
+goog.require('cwc.mode.Type');
 goog.require('cwc.soy.SelectScreenNormal');
+goog.require('cwc.soy.SelectScreenNormal.basic');
+goog.require('cwc.soy.SelectScreenNormal.games');
+goog.require('cwc.soy.SelectScreenNormal.robot');
+goog.require('cwc.soy.SelectScreenNormal.robot.lego');
+goog.require('cwc.soy.SelectScreenNormal.robot.makeblock');
+goog.require('cwc.soy.SelectScreenNormal.robot.sphero.bb8');
+goog.require('cwc.soy.SelectScreenNormal.robot.sphero.classic');
+goog.require('cwc.soy.SelectScreenNormal.robot.sphero.sprk_plus');
 goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Helper');
 
 
 /**
- * @enum {!string}
+ * @enum {!Object.<string>|string}
  */
 cwc.ui.SelectScreenNormalView = {
   BASIC: 'basic',
@@ -37,7 +46,11 @@ cwc.ui.SelectScreenNormalView = {
   MBOT_RANGER: 'mbotRanger',
   OVERVIEW: 'overview',
   ROBOT: 'robot',
-  SPHERO: 'sphero',
+  SPHERO: {
+    CLASSIC: 'sphero_classic',
+    SPRK_PLUS: 'sphero_sprk_plus',
+    BB8: 'sphero_bb8',
+  },
   NONE: '',
 };
 
@@ -68,7 +81,7 @@ cwc.ui.SelectScreenNormal = function(helper, eventHandler) {
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!string} */
-  this.resourcesPath_ = '../../resources/examples/';
+  this.resourcesPath_ = '../resources/examples/';
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = eventHandler;
@@ -98,119 +111,75 @@ cwc.ui.SelectScreenNormal.prototype.showView = function(optName) {
     case cwc.ui.SelectScreenNormalView.OVERVIEW:
       this.showTemplate_(cwc.soy.SelectScreenNormal.overview);
       this.setNavHeader_('Coding with Chrome');
-      this.setClickEvent_('link-basic', this.showView,
-          cwc.ui.SelectScreenNormalView.BASIC);
-      this.setClickEvent_('link-games', this.showView,
-          cwc.ui.SelectScreenNormalView.GAMES);
-      this.setClickEvent_('link-robot', this.showView,
-          cwc.ui.SelectScreenNormalView.ROBOT);
       break;
 
-    // Basic example screen
+    // Basic examples
     case cwc.ui.SelectScreenNormalView.BASIC:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.basicOverview);
+      this.showTemplate_(cwc.soy.SelectScreenNormal.basic.overview);
       this.setNavHeader_('Blocks', 'school');
-      this.setClickEvent_('link-blank', this.loadFile_,
-          'simple/blocks/blank.cwc');
-      this.setClickEvent_('link-hello-world', this.loadFile_,
-          'simple/blocks/Hello-World.cwc');
-      this.setClickEvent_('link-text-loop', this.loadFile_,
-          'simple/blocks/Text-Loop.cwc');
-      this.setClickEvent_('link-sunlights', this.loadFile_,
-          'simple/blocks/Sunlights.cwc');
       break;
 
-    // Game example screen
+    // Game examples
     case cwc.ui.SelectScreenNormalView.GAMES:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.gamesOverview);
-      this.setClickEvent_('link-blank', this.loadFile_,
-          'phaser/blocks/blank.cwc');
-      this.setClickEvent_('link-switch-game-state', this.loadFile_,
-          'phaser/blocks/switch-game-state.cwc');
-      this.setClickEvent_('link-move-a-sprite', this.loadFile_,
-          'phaser/blocks/move-a-sprite.cwc');
-      this.setClickEvent_('link-bouncing-ball', this.loadFile_,
-          'phaser/blocks/bouncing-ball.cwc');
-      this.setClickEvent_('link-bouncing-cubes', this.loadFile_,
-          'phaser/blocks/bouncing-cubes.cwc');
+      this.showTemplate_(cwc.soy.SelectScreenNormal.games.overview);
+      this.setNavHeader_('Games', 'videogame_asset');
       break;
 
     // Robot overview
     case cwc.ui.SelectScreenNormalView.ROBOT:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.robotOverview);
+      this.showTemplate_(cwc.soy.SelectScreenNormal.robot.overview);
       this.setNavHeader_('Robots', 'memory');
-      this.setClickEvent_('link-ev3', this.showView,
-          cwc.ui.SelectScreenNormalView.EV3);
-      this.setClickEvent_('link-sphero', this.showView,
-          cwc.ui.SelectScreenNormalView.SPHERO);
-      this.setClickEvent_('link-mbot_blue', this.showView,
-          cwc.ui.SelectScreenNormalView.MBOT);
-      this.setClickEvent_('link-mbot_ranger', this.showView,
-          cwc.ui.SelectScreenNormalView.MBOT_RANGER);
       break;
 
-    // EV3 example screen
+    // EV3 examples
     case cwc.ui.SelectScreenNormalView.EV3:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.ev3Overview);
+      this.showTemplate_(cwc.soy.SelectScreenNormal.robot.lego.ev3);
       this.setNavHeader_('EV3', 'adb');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.loadFile_,
-          'ev3/blocks/blank.cwc');
-      this.setClickEvent_('link-block-grabber', this.loadFile_,
-          'ev3/blocks/EV3-Educator-BlockGrabber.cwc');
-      this.setClickEvent_('link-color-sensor', this.loadFile_,
-          'ev3/blocks/EV3-Color-Sensor.cwc');
-      this.setClickEvent_('link-ir-sensor', this.loadFile_,
-          'ev3/blocks/EV3-IR-Sensor.cwc');
       break;
 
-    // Sphero example screen
-    case cwc.ui.SelectScreenNormalView.SPHERO:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.spheroOverview);
+    // Sphero BB-8 examples
+    case cwc.ui.SelectScreenNormalView.SPHERO.BB8:
+      this.showTemplate_(
+        cwc.soy.SelectScreenNormal.robot.sphero.bb8.overview);
       this.setNavHeader_('Sphero', 'adjust');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.loadFile_,
-          'sphero/blocks/blank.cwc');
-      this.setClickEvent_('link-rectangle', this.loadFile_,
-          'sphero/blocks/Sphero-rectangle.cwc');
-      this.setClickEvent_('link-collision', this.loadFile_,
-          'sphero/blocks/Sphero-collision.cwc');
       break;
 
-    // MBot example screen
+    // Sphero Classic examples
+    case cwc.ui.SelectScreenNormalView.SPHERO.CLASSIC:
+      this.showTemplate_(
+        cwc.soy.SelectScreenNormal.robot.sphero.classic.overview);
+      this.setNavHeader_('Sphero', 'adjust');
+      this.addRobotMenuHandler_();
+      break;
+
+    // Sphero SPRK+ examples
+    case cwc.ui.SelectScreenNormalView.SPHERO.SPRK_PLUS:
+      this.showTemplate_(
+        cwc.soy.SelectScreenNormal.robot.sphero.sprk_plus.overview);
+      this.setNavHeader_('Sphero', 'adjust');
+      this.addRobotMenuHandler_();
+      break;
+
+    // Makeblock mBot examples
     case cwc.ui.SelectScreenNormalView.MBOT:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.mbotOverview);
+      this.showTemplate_(cwc.soy.SelectScreenNormal.robot.makeblock.mbot);
       this.setNavHeader_('mBot', 'adjust');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.loadFile_,
-        'makeblock/mbot/blocks/blank.cwc');
-      this.setClickEvent_('link-button_light', this.loadFile_,
-        'makeblock/mbot/blocks/mBot-button_light.cwc');
-      this.setClickEvent_('link-collision_avoidance', this.loadFile_,
-        'makeblock/mbot/blocks/mBot-collision_avoidance.cwc');
-      this.setClickEvent_('link-lightness_sound', this.loadFile_,
-        'makeblock/mbot/blocks/mBot-lightness_sound.cwc');
-      this.setClickEvent_('link-line_follower', this.loadFile_,
-        'makeblock/mbot/blocks/mBot-line_follower.cwc');
       break;
 
-    // MBot ranger example screen
+    // Makeblock mBot Ranger examples
     case cwc.ui.SelectScreenNormalView.MBOT_RANGER:
-      this.showTemplate_(cwc.soy.SelectScreenNormal.mbotRangerOverview);
+      this.showTemplate_(cwc.soy.SelectScreenNormal.robot.makeblock.mbotRanger);
       this.setNavHeader_('mBot Ranger', 'adjust');
       this.addRobotMenuHandler_();
-      this.setClickEvent_('link-blank', this.loadFile_,
-        'makeblock/mbot_ranger/blocks/blank.cwc');
-      this.setClickEvent_('link-ultrasonic_stop', this.loadFile_,
-        'makeblock/mbot_ranger/blocks/Ultrasonic sensor - stop.cwc');
-      this.setClickEvent_('link-sound_generator', this.loadFile_,
-        'makeblock/mbot_ranger/blocks/Sound generator - Melodie.cwc');
       break;
 
     default:
       return;
   }
-  this.addMenuHandler_();
+  this.addFileHandler_();
   this.currentView = name;
   this.eventHandler_.dispatchEvent(
     cwc.ui.SelectScreen.Events.changeView(this.currentView));
@@ -241,34 +210,16 @@ cwc.ui.SelectScreenNormal.prototype.setNavHeader_ = function(title,
 
 
 /**
- * Adding menu link handler.
+ * Adding file link handler.
  * @private
  */
-cwc.ui.SelectScreenNormal.prototype.addMenuHandler_ = function() {
-  this.setClickEvent_('menu-home', this.showView,
-      cwc.ui.SelectScreenNormalView.OVERVIEW);
-  this.setClickEvent_('menu-basic', this.showView,
-      cwc.ui.SelectScreenNormalView.BASIC);
-  this.setClickEvent_('menu-games', this.showView,
-      cwc.ui.SelectScreenNormalView.GAMES);
-  this.setClickEvent_('menu-robot', this.showView,
-      cwc.ui.SelectScreenNormalView.ROBOT);
-};
-
-
-/**
- * Adding menu link handler.
- * @private
- */
-cwc.ui.SelectScreenNormal.prototype.addRobotMenuHandler_ = function() {
-  this.setClickEvent_('menu-ev3', this.showView,
-      cwc.ui.SelectScreenNormalView.EV3);
-  this.setClickEvent_('menu-sphero', this.showView,
-      cwc.ui.SelectScreenNormalView.SPHERO);
-  this.setClickEvent_('menu-mbot', this.showView,
-      cwc.ui.SelectScreenNormalView.MBOT);
-  this.setClickEvent_('menu-mbot-ranger', this.showView,
-      cwc.ui.SelectScreenNormalView.MBOT_RANGER);
+cwc.ui.SelectScreenNormal.prototype.addFileHandler_ = function() {
+  let classnames = document.querySelectorAll(
+    '.cwc-file-card, .cwc-select-card, .cwc-select-section-link, ' +
+    '.cwc-select-header-link');
+  Array.from(classnames).forEach((element) => {
+    element.addEventListener('click', this.handleFileClick_.bind(this));
+  });
 };
 
 
@@ -297,50 +248,37 @@ cwc.ui.SelectScreenNormal.prototype.showTemplate_ = function(template) {
 
 
 /**
- * Adds the click event for the given name and the given function.
- * @param {!string} name
- * @param {!function(?)} func
- * @param {string=} opt_param
- * @return {goog.events.ListenableKey|null|number}
  * @private
+ * @param {Object} e
  */
-cwc.ui.SelectScreenNormal.prototype.setClickEvent_ = function(name, func,
-    opt_param) {
-  if (!func) {
-    console.error('Missing function!');
-    return null;
-  }
-  let elementName = this.prefix + name;
-  let element = document.getElementById(elementName);
-  if (!element) {
-    console.error('Missing element ' + elementName + '!');
-    return null;
-  }
-
-  let click_func = func;
-  if (opt_param) {
-    click_func = function() {
-      func.call(this, opt_param);
-    };
-  }
-
-  return goog.events.listen(element, goog.events.EventType.CLICK, click_func,
-    false, this);
-};
-
-
-/**
- * Loads file into editor.
- * @param {string} file_name Example file name to load.
- * @private
- */
-cwc.ui.SelectScreenNormal.prototype.loadFile_ = function(file_name) {
-  let loaderInstance = this.helper.getInstance('fileLoader');
-  if (loaderInstance) {
-    loaderInstance.loadExampleFile(this.resourcesPath_ + file_name);
-  }
-  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
-  if (editorWindow) {
-    editorWindow['clearAttention']();
+cwc.ui.SelectScreenNormal.prototype.handleFileClick_ = function(e) {
+  let filename = e.currentTarget.dataset['fileName'];
+  let fileAction = e.currentTarget.dataset['fileAction'];
+  console.log('Click action', fileAction, 'for file', filename);
+  if (filename && fileAction) {
+    switch (fileAction) {
+      case 'loadFile': {
+        let loaderInstance = this.helper.getInstance('fileLoader');
+        if (loaderInstance) {
+          loaderInstance.loadLocalFile(this.resourcesPath_ + filename);
+        }
+        break;
+      }
+      case 'loadMode': {
+        let modeInstance = this.helper.getInstance('mode');
+        if (modeInstance) {
+          modeInstance.loadMode(filename);
+        }
+        break;
+      }
+      case 'loadView': {
+        this.showView(filename);
+        break;
+      }
+    }
+    let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+    if (editorWindow) {
+      editorWindow['clearAttention']();
+    }
   }
 };

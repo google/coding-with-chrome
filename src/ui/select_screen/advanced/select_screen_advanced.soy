@@ -205,39 +205,62 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'JavaScript' /}
         {param text: 'Use JavaScript to create programs' /}
-        {param link_text: 'Use JavaScript' /}
-        {param id: 'javascript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'beenhere' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use JavaScript' /}
+            {param view: 'AdvancedJavaScript' /}
+          {/call}
+        {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'CoffeeScript' /}
         {param text: 'Use the simple CoffeeScript language to create programs' /}
-        {param link_text: 'Use CoffeeScript' /}
-        {param id: 'coffeescript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'local_cafe' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use CoffeeScript' /}
+            {param view: 'AdvancedCoffeeScript' /}
+          {/call}
+        {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Python' /}
         {param text: 'Use the Python language to create programs' /}
-        {param link_text: 'Use Python' /}
-        {param id: 'python' /}
-        {param opt_link_text: 'Use Python 2.7' /}
-        {param opt_id: 'python27' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'gesture' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Python' /}
+            {param view: 'AdvancedPython' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Python 2.7' /}
+            {param view: 'AdvancedPython27' /}
+          {/call}
+        {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Pencil Code' /}
         {param text: 'Draw art, play music or create games' /}
-        {param link_text: 'Use Pencil Code' /}
-        {param id: 'pencil-code' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'mode_edit' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Pencil Code' /}
+            {param view: 'AdvancedPencilCode' /}
+          {/call}
+        {/param}
       {/call}
 
     </div>
@@ -683,10 +706,15 @@
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'HTML5' /}
         {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
-        {param link_text: 'Use HTML5' /}
-        {param id: 'html5' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'public' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use HTML5' /}
+            {param view: 'AdvancedHtml5' /}
+          {/call}
+        {/param}
       {/call}
 
     </div>
@@ -772,20 +800,32 @@
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'EV3' /}
-        {param text: 'Control the EV3 or a virtual robot with JavaScript' /}
-        {param link_text: 'Use EV3 Robot' /}
         {param id: 'ev3' /}
+        {param text: 'Control the EV3 or a virtual robot with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use EV3 Robot' /}
+            {param view: 'AdvancedEv3' /}
+          {/call}
+        {/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Sphero' /}
-        {param text: 'Control the Sphero or a virtual robot with JavaScript' /}
-        {param link_text: 'Use Sphero robot' /}
         {param id: 'sphero' /}
+        {param text: 'Control the Sphero or a virtual robot with JavaScript' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Sphero robot' /}
+            {param view: 'AdvancedSphero' /}
+          {/call}
+        {/param}
       {/call}
 
     </div>
