@@ -18,7 +18,7 @@ To only compile the Chrome app run the build script with the following command:
 ```bash
 npm run build-chrome_app
 ```
-The build version will be compiled in the `genfiles/chrome_app` directory, together with all required packages and files.
+The build version will be compiled in the `dist/chrome_os` directory, together with all required packages and files.
 
 ## Build and run the actual app (testing)
 For testing you can compile and run the Chrome app use the following command:
@@ -41,9 +41,9 @@ Ensure that the Developer mode checkbox in the top right-hand corner is checked.
 On the same page click `Load unpacked extension…` to pop up a file-selection
 dialog.
 
-Navigate to the directory in which your `genfiles/chrome_app` files live, and select it.
+Navigate to the directory in which your `dist/chrome_os` files live, and select it.
 
-Alternatively, you can drag and drop the directory where your `genfiles/chrome_app` files
+Alternatively, you can drag and drop the directory where your `dist/chrome_os` files
 live onto chrome://extensions in your browser to load it.
 
 ### Launch the app
