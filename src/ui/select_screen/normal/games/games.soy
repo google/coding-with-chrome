@@ -1,0 +1,92 @@
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenNormal.games autoescape="strict"}
+
+
+/** Default icon. */
+{template .icon}
+  videogame_asset
+{/template}
+
+
+/**
+ * Games overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Games' /}
+        {param opt_text: 'Create your own games...' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Empty project' /}
+            {param text: 'Create your own game' /}
+            {param opt_link_text: 'Empty project' /}
+            {param mode: 'phaser_blockly' /}
+            {param opt_image: '' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Switch game state' /}
+            {param text: 'Switch from one game state to another game state' /}
+            {param file: 'phaser/blocks/switch-game-state.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'switch_camera' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Move a sprite' /}
+            {param text: 'Move a sprite with your cursor keys' /}
+            {param file: 'phaser/blocks/move-a-sprite.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'games' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Bouncing ball with floor and ceiling' /}
+            {param text: 'A bouncing ball with floor and ceiling' /}
+            {param file: 'phaser/blocks/bouncing-ball.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'featured_video' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Bouncing cubes' /}
+            {param text: 'Different types of bouncing cubes' /}
+            {param file: 'phaser/blocks/bouncing-cubes.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'featured_video' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

@@ -17,31 +17,20 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.SelectScreenNormal.robot.makeblock autoescape="strict"}
+{namespace cwc.soy.SelectScreenNormal.robot.makeblock.mbotRanger autoescape="strict"}
 
 
 /**
  * mBot Ranger overview page.
  */
-{template .mbotRanger}
-  {@param prefix: string}
+{template .overview}
 
-  <div id="{$prefix}mbot-overview" class="mdl-layout__container">
-
-    {call cwc.soy.SelectScreenNormal.header data="all"}
-      {param active_link: 'robot' /}
-    {/call}
-
-    {call cwc.soy.SelectScreenNormal.robot.header data="all"}
-      {param active_link: 'mbot-ranger' /}
-    {/call}
-
-    <div class="cwc-content-large">
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: mBot Ranger' /}
         {param opt_text: 'Control a mBot Ranger with blocks' /}
-        {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'functions' /}
         {param opt_icon_rotate: '90' /}
       {/call}
@@ -76,12 +65,10 @@
         {/param}
       {/call}
 
-    </div>
+    {/param}
+  {/call}
 
-    {call cwc.soy.SelectScreenTemplate.footer}
-      {param text: 'Trademarks are the property of their respective owners. mBot® is the trademarks of MakerWorks, Inc. All rights reserved.' /}
-    {/call}
-
-  </div>
-
+  {call cwc.soy.SelectScreenTemplate.footer}
+    {param text: 'Trademarks are the property of their respective owners. mBot® is the trademarks of MakerWorks, Inc. All rights reserved.' /}
+  {/call}
 {/template}

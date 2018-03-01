@@ -1,0 +1,142 @@
+/**
+ * @fileoverview Normal select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenNormal autoescape="strict"}
+
+
+/**
+ * Normal overview template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div class="{$prefix}overview mdl-layout mdl-js-layout">
+
+    <header class="{$prefix}navigation-overview mdl-layout__header bg_10_pct_black">
+      <nav class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param active: true /}
+          {param icon: 'home' /}
+          {param id: 'home' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'blocks' /}
+          {param name: 'Blocks' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenNormal.basic.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'games' /}
+          {param name: 'Games' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenNormal.games.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'robots' /}
+          {param name: 'Robots' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenNormal.robot.icon /}{/param}
+        {/call}
+      </nav>
+    </header>
+
+    <main class="cwc-select-screen-container mdl-layout__content">
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param active: true /}
+        {param id: 'home' /}
+        {param content kind="html"}
+          {call .overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'blocks' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenNormal.basic.overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'games' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenNormal.games.overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'robots' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenNormal.robot.template data="all" /}
+        {/param}
+      {/call}
+
+    </div>
+
+  </div>
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+    {call cwc.soy.SelectScreenTemplate.header}
+      {param title: 'Block Coding' /}
+      {param opt_text: 'Block-based programming' /}
+      {param opt_icon: 'extension' /}
+    {/call}
+
+    <div class="mdl-grid">
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param tab: 'blocks' /}
+        {param link_text: 'Go Blockly' /}
+        {param text: 'Use Blockly to build code by dragging and dropping code blocks' /}
+        {param title: 'Blockly' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'school' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param tab: 'games' /}
+        {param link_text: 'Start creating games' /}
+        {param text: 'Create simple games by dragging and dropping code blocks' /}
+        {param title: 'Games' /}
+        {param opt_color_class: 'bg-lime' /}
+        {param opt_icon: 'videogame_asset' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param tab: 'robots' /}
+        {param link_text: 'Go Robots' /}
+        {param text: 'Control real or on-screen robots with Blockly' /}
+        {param title: 'Robots' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'memory' /}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

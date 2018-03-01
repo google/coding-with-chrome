@@ -168,12 +168,6 @@ html > body,
   opacity: 1;
 }
 
-.cwc-overview section.section--center,
-.cwc-overview .max-width {
-  max-width: 860px;
-  margin: 20px auto;
-}
-
 .cwc-select-card .mdl-card__media,
 .cwc-select-card-big .mdl-card__media {
   position: relative;
@@ -230,6 +224,10 @@ html > body,
 
 .cwc-select-card-big .mdl-card__title {
   border-top: 1px solid #f5f5f5;
+}
+
+.cwc-select-section {
+  margin: 5px 10%;
 }
 
 .cwc-select-section > .mdl-cell > i {

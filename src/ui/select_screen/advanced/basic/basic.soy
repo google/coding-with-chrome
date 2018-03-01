@@ -1,0 +1,99 @@
+/**
+ * @fileoverview Advanced screen: Basic
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenAdvanced.basic autoescape="strict"}
+
+
+/** Default icon. */
+{template .icon}
+  school
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Simple' /}
+        {param opt_text: 'JavaScript made easy - JavaScript plus a variety of functions that make your life easier' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Empty project' /}
+            {param text: 'Create empty project' /}
+            {param opt_link_text: 'Create new project' /}
+            {param mode: 'basic' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Hello World' /}
+            {param text: 'Hello World example' /}
+            {param file: 'simple/script/Hello-World.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'speaker_notes' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Text loop' /}
+            {param text: 'Text loop example' /}
+            {param file: 'simple/script/Text-Loop.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'repeat' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Line loop' /}
+            {param text: 'Draw lines with loops' /}
+            {param file: 'simple/script/Line-Loop.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'repeat' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Point loop' /}
+            {param text: 'Draw points with random colors and loops' /}
+            {param file: 'simple/script/Point-Loop.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'repeat' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Draw Portal Turret' /}
+            {param text: 'Draw a Portal Turret' /}
+            {param file: 'simple/script/Draw-Portal-Turret.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'palette' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

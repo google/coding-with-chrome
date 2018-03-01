@@ -1,0 +1,60 @@
+/**
+ * @fileoverview Advanced screen: Games
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenAdvanced.games autoescape="strict"}
+
+
+/** Default icon. */
+{template .icon}
+  videogame_asset
+{/template}
+
+
+/**
+ * Games overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Games' /}
+        {param opt_text: 'Create your own games...' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Empty project' /}
+            {param text: 'Create your own game' /}
+            {param opt_link_text: 'Empty project' /}
+            {param mode: 'phaser' /}
+            {param opt_image: '' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

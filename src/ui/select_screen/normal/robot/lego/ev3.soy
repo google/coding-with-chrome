@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Normal select screen for Coding in Chrome editor.
  *
@@ -18,31 +17,20 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.SelectScreenNormal.robot.lego autoescape="strict"}
+{namespace cwc.soy.SelectScreenNormal.robot.lego.ev3 autoescape="strict"}
 
 
 /**
  * EV3 overview page.
  */
-{template .ev3}
-  {@param prefix: string}
+{template .overview}
 
-  <div id="{$prefix}ev3-overview" class="mdl-layout__container">
-
-    {call cwc.soy.SelectScreenNormal.header data="all"}
-      {param active_link: 'robot' /}
-    {/call}
-
-    {call cwc.soy.SelectScreenNormal.robot.header data="all"}
-      {param active_link: 'ev3' /}
-    {/call}
-
-    <div class="cwc-content-large">
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: EV3' /}
         {param opt_text: 'Control an EV3 with Blocks' /}
-        {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
       {/call}
 
@@ -60,7 +48,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Educator\nBlock Grabber' /}
             {param text: 'Educator Robot is grabbing a block' /}
-            {param file: 'ev3/blocks/EV3-Educator-BlockGrabber.cwc' /}
+            {param file: 'lego/ev3/blocks/EV3-Educator-BlockGrabber.cwc' /}
             {param opt_color_class: 'bg-blue' /}
             {param opt_icon: 'rv_hookup' /}
           {/call}
@@ -68,7 +56,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'IR sensor\nCollision avoidance' /}
             {param text: 'Navigates freely in the environment and avoid collisions.' /}
-            {param file: 'ev3/blocks/EV3-IR-Sensor.cwc' /}
+            {param file: 'lego/ev3/blocks/EV3-IR-Sensor.cwc' /}
             {param opt_color_class: 'bg-blue' /}
             {param opt_icon: 'perm_scan_wifi' /}
           {/call}
@@ -76,20 +64,19 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Color sensor\nPlay sound' /}
             {param text: 'Plays different tones depending on the detected color.' /}
-            {param file: 'ev3/blocks/EV3-Color-Sensor.cwc' /}
+            {param file: 'lego/ev3/blocks/EV3-Color-Sensor.cwc' /}
             {param opt_color_class: 'bg-blue' /}
             {param opt_icon: 'music_note' /}
           {/call}
         {/param}
       {/call}
 
-    </div>
+    {/param}
+  {/call}
 
-    {call cwc.soy.SelectScreenTemplate.footer}
-      {param text: 'Coding with Chrome is not affiliated, sponsored, or endorsed by LEGO® Education or the LEGO® Group.' /}
-      {param opt_text: 'LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.' /}
-    {/call}
-
-  </div>
+  {call cwc.soy.SelectScreenTemplate.footer}
+    {param text: 'Coding with Chrome is not affiliated, sponsored, or endorsed by LEGO® Education or the LEGO® Group.' /}
+    {param opt_text: 'LEGO®, the LEGO® logo, the Brick, DUPLO®, and MINDSTORMS® are trademarks of the LEGO® Group. ©2012 The LEGO® Group.' /}
+  {/call}
 
 {/template}

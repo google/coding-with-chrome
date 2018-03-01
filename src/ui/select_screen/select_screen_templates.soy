@@ -21,57 +21,72 @@
 
 
 /**
+ * Container
+ */
+{template .container}
+  {@param content: ?}
+
+  <div>
+    {$content}
+  </div>
+{/template}
+
+
+/**
+ * Container
+ */
+{template .containerSub}
+  {@param content: ?}
+
+  <div>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+      {$content}
+    </div>
+  </div>
+{/template}
+
+
+/**
  * Select card design.
  */
 {template .selectCard}
   {@param link_text: string}
   {@param text: string}
   {@param title: string}
-  {@param? file: string}
-  {@param? mode: string}
-  {@param? view: string}
   {@param? opt_color_class: string}
   {@param? opt_hidden: bool}
   {@param? opt_icon: string}
   {@param? opt_image: string}
 
-  <div class="cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp{if $opt_hidden} hidden{/if}"
-    {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
-    {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
-    {elseif $view}
-      data-file-action="loadView"
-      data-file-name="{$view}"
-    {/if}
-  >
-    <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
-      {if $opt_image}<img src="../{$opt_image}">{/if}
-      {if $opt_icon}
-        <div class="cwc-select-card-icon">
-          <i class="icon_auto">{$opt_icon}</i>
-        </div>
-      {/if}
-    </div>
-    <div class="mdl-card__title">
-      <h4 class="mdl-card__title-text">
-        {msg desc=""}{$title|changeNewlineToBr}{/msg}
-      </h4>
-    </div>
-    <div class="mdl-card__supporting-text">
-      <span class="mdl-typography--font-light mdl-typography--subhead">
-        {msg desc=""}{$text}{/msg}
-      </span>
-    </div>
-    <div class="mdl-card__actions">
-       <a href="#" class="android-link mdl-button mdl-js-button mdl-typography--text-uppercase">
-         {msg desc=""}{$link_text}{/msg}
-         <i class="material-icons">chevron_right</i>
-       </a>
-    </div>
-  </div>
+  {call .dataActionDiv_ data="all"}
+    {param classes: 'cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp' /}
+    {param content kind="html"}
+      <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+        {if $opt_image}<img src="../{$opt_image}">{/if}
+        {if $opt_icon}
+          <div class="cwc-select-card-icon">
+            <i class="icon_auto">{$opt_icon}</i>
+          </div>
+        {/if}
+      </div>
+      <div class="mdl-card__title">
+        <h4 class="mdl-card__title-text">
+          {msg desc=""}{$title|changeNewlineToBr}{/msg}
+        </h4>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <span class="mdl-typography--font-light mdl-typography--subhead">
+          {msg desc=""}{$text}{/msg}
+        </span>
+      </div>
+      <div class="mdl-card__actions">
+         <a href="#" class="mdl-button mdl-js-button mdl-typography--text-uppercase">
+           {msg desc=""}{$link_text}{/msg}
+           <i class="material-icons">chevron_right</i>
+         </a>
+      </div>
+    {/param}
+  {/call}
 {/template}
 
 
@@ -101,54 +116,42 @@
   {@param text: string}
   {@param title: string}
   {@param? id: string}
-  {@param? file: string}
-  {@param? mode: string}
-  {@param? view: string}
   {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_image: string}
 
-  <div class="cwc-file-card mdl-cell mdl-shadow--4dp"
-    {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
-    {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
-    {elseif $view}
-      data-file-action="loadView"
-      data-file-name="{$view}"
-    {/if}
-  >
-
-    <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
-      <h3>{msg desc=""}{$title|changeNewlineToBr}{/msg}</h3>
-      <div class="card__logo">
-        {if $opt_image}
-          <img src="../{$opt_image}">
-        {elseif $opt_icon}
-          <div class="cwc-select-card-icon">
-            <i class="icon_auto">{$opt_icon}</i>
-          </div>
+  {call .dataActionDiv_ data="all"}
+    {param classes: 'cwc-file-card mdl-cell mdl-shadow--4dp' /}
+    {param content kind="html"}
+      <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
+        <h3>{msg desc=""}{$title|changeNewlineToBr}{/msg}</h3>
+        <div class="card__logo">
+          {if $opt_image}
+            <img src="../{$opt_image}">
+          {elseif $opt_icon}
+            <div class="cwc-select-card-icon">
+              <i class="icon_auto">{$opt_icon}</i>
+            </div>
+          {else}
+            <div class="cwc-select-card-icon">
+              <i class="icon_auto">insert_drive_file</i>
+            </div>
+          {/if}
+        </div>      
+      </div>
+      <div class="card__body">
+        {msg desc=""}{$text}{/msg}
+      </div>
+      <div class="card__action"{if $id} id="{$id}"{/if}>
+        {if $opt_link_text}
+          {msg desc=""}{$opt_link_text}{/msg}
         {else}
-          <div class="cwc-select-card-icon">
-            <i class="icon_auto">insert_drive_file</i>
-          </div>
+          {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
         {/if}
-      </div>      
-    </div>
-    <div class="card__body">
-      {msg desc=""}{$text}{/msg}
-    </div>
-    <div class="card__action"{if $id} id="{$id}"{/if}>
-      {if $opt_link_text}
-        {msg desc=""}{$opt_link_text}{/msg}
-      {else}
-        {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
-      {/if}
-    </div>
-  </div>
+      </div>
+    {/param}
+  {/call}
 {/template}
 
 
@@ -227,66 +230,14 @@
  */
 {template .selectSectionLink}
   {@param text: string}
-  {@param? file: string}
-  {@param? id: string}
-  {@param? mode: string}
-  {@param? view: string}
 
-  <a href="#" class="cwc-select-section-link mdl-button"
-    {if $id}id="{$id}"{/if}
-    {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
-    {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
-    {elseif $view}
-      data-file-action="loadView"
-      data-file-name="{$view}"
-    {/if}
-  >
-    {msg desc=""}{$text}{/msg}
-    <i class="material-icons">chevron_right</i>
-  </a>
-{/template}
-
-
-/**
- * Header link entry.
- */
-{template .headerLink}
-  {@param active_link: string}
-  {@param title: string}
-  {@param? icon: string}
-  {@param? file: string}
-  {@param? id: string}
-  {@param? mode: string}
-  {@param? opt_hidden: bool}
-  {@param? view: string}
-
-  <a href="#" class="cwc-select-header-link mdl-navigation__link
-    {if $active_link == $id or $active_link == $view} is-active{/if}
-    {if $icon} icon_24px_raw{/if}
-    {if $opt_hidden} hidden{/if}"
-    {if $id} id="{$id}"{/if}
-    {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
-    {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
-    {elseif $view}
-      data-file-action="loadView"
-      data-file-name="{$view}"
-    {/if}
-  >
-    {if $icon}
-      {$icon}
-    {/if}
-    {if $title}
-      {msg desc=""}{$title}{/msg}
-    {/if}
-  </a>
+  {call .dataActionLink_ data="all"}
+    {param classes: 'cwc-select-section-link mdl-button' /}
+    {param content kind="html"}
+      {msg desc=""}{$text}{/msg}
+      <i class="material-icons">chevron_right</i>
+    {/param}
+  {/call}
 {/template}
 
 
@@ -295,18 +246,17 @@
  */
 {template .header}
   {@param title: string}
-  {@param? opt_color_class: string}
   {@param? opt_icon: string}
   {@param? opt_text: string}
 
-  <header class="cwc-select-header{if $opt_color_class} {$opt_color_class}{/if}">
+  <header class="cwc-select-header">
     {if $opt_icon}<div class="header__icon icon_auto">{$opt_icon}</div>{/if}
     <div class="header__text">
-      <div class="mdl-typography--display-2 mdl-typography--font-thin">
+      <div class="mdl-typography--display-1 mdl-typography--font-thin">
         {msg desc=""}{$title}{/msg}
       </div>
       {if $opt_text}
-        <p class="mdl-typography--headline mdl-typography--font-thin">
+        <p class="mdl-typography--headline mdl-typography--font-thin mdl-color-text--grey-500">
           {msg desc=""}{$opt_text}{/msg}
         </p>
       {/if}
@@ -332,6 +282,71 @@
 
 
 /**
+ * Main tab bar link
+ */
+{template .mainTabBarLink}
+  {@param id: string}
+  {@param? active: bool}
+  {@param? icon: string}
+  {@param? name: string}
+  {let $tab_id: 'select-screen-tab-' + $id /}
+
+  <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-layout__tab{if $active} is-active{/if}">
+    {if $icon}<i class="icon_24px" aria-hidden="true">{$icon}</i>{/if}
+    {if $name}{$name}{/if}
+  </a>
+{/template}
+
+
+/**
+ * Main tab bar content
+ */
+{template .mainTabBarContent}
+  {@param content: ?}
+  {@param id: string}
+  {@param? active: bool}
+  {let $tab_id: 'select-screen-tab-' + $id /}
+
+  <section class="mdl-layout__tab-panel{if $active} is-active{/if}" id="{$tab_id}">
+    {$content}
+  </section>
+{/template}
+
+
+/**
+ * Sub tab bar link
+ */
+{template .subTabBarLink}
+  {@param id: string}
+  {@param name: string}
+  {@param? active: bool}
+  {@param? icon: bool}
+  {let $tab_id: 'select-screen-tab-' + $id /}
+
+  <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-tabs__tab 
+    {if $icon} icon_24px_raw{/if}
+    {if $active} is-active{/if}">{$name}</a>
+
+{/template}
+
+
+/**
+ * Sub tab bar content
+ */
+{template .subTabBarContent}
+  {@param content: ?}
+  {@param id: string}
+  {@param? active: bool}
+  {let $tab_id: 'select-screen-tab-' + $id /}
+
+  <section class="mdl-tabs__panel{if $active} is-active{/if}" id="{$tab_id}">
+    {$content}
+  </section>
+
+{/template}
+
+
+/**
  * Custom footer.
  */
 {template .footer}
@@ -343,4 +358,56 @@
       {$text}{if $opt_text}<br>{$opt_text}{/if}
     </div>
   </footer>
+{/template}
+
+
+/**
+ * Data file actions.
+ */
+{template .dataActionDiv_ private="true"}
+  {@param content: ?}
+  {@param? file: string}
+  {@param? classes: string}
+  {@param? mode: string}
+  {@param? tab: string}
+  {@param? opt_hidden: bool}
+
+  <div class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $tab}
+      data-file-action="switchTab"
+      data-file-name="select-screen-tab-{$tab}-link"
+    {/if}
+  >{$content}</div>
+{/template}
+
+
+/**
+ * Data file actions.
+ */
+{template .dataActionLink_ private="true"}
+  {@param content: ?}
+  {@param? file: string}
+  {@param? classes: string}
+  {@param? mode: string}
+  {@param? tab: string}
+  {@param? opt_hidden: bool}
+
+  <a href="#" class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
+    {if $file}
+      data-file-action="loadFile"
+      data-file-name="{$file}"
+    {elseif $mode}
+      data-file-action="loadMode"
+      data-file-name="{$mode}"
+    {elseif $tab}
+      data-file-action="switchTab"
+      data-file-name="select-screen-tab-{$tab}-link"
+    {/if}
+  >{$content}</a>
 {/template}

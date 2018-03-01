@@ -24,24 +24,13 @@
  * Sphero BB-8 page.
  */
 {template .overview}
-  {@param prefix: string}
 
-  <div id="{$prefix}sphero-overview" class="mdl-layout__container">
-
-    {call cwc.soy.SelectScreenNormal.header data="all"}
-      {param active_link: 'robot' /}
-    {/call}
-
-    {call cwc.soy.SelectScreenNormal.robot.header data="all"}
-      {param active_link: 'sphero' /}
-    {/call}
-
-    <div class="cwc-content-large">
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: Sphero BB-8' /}
         {param opt_text: 'Control a Sphero BB-8 with blocks' /}
-        {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adjust' /}
       {/call}
 
@@ -59,12 +48,11 @@
         {/param}
       {/call}
 
-    </div>
+    {/param}
+  {/call}
 
-    {call cwc.soy.SelectScreenTemplate.footer}
-      {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
-    {/call}
-
-  </div>
+  {call cwc.soy.SelectScreenTemplate.footer}
+    {param text: 'Trademarks are the property of their respective owners. Sphero® and OllieTM are trademarks of Sphero, Inc. dba Sphero®. All rights reserved.' /}
+  {/call}
 
 {/template}

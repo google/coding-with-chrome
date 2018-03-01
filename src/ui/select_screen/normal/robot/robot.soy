@@ -20,31 +20,138 @@
 {namespace cwc.soy.SelectScreenNormal.robot autoescape="strict"}
 
 
+/** Default icon. */
+{template .icon}
+  memory
+{/template}
+
+
 /**
  * Robot overview page.
  */
-{template .overview}
+{template .template}
   {@param modules: ?}
-  {@param prefix: string}
 
-  <div id="{$prefix}robot-overview" class="cwc-overview mdl-layout__container">
+  {call cwc.soy.SelectScreenTemplate.containerSub}
+    {param content kind="html"}
 
-    {call cwc.soy.SelectScreenNormal.header data="all"}
-      {param active_link: 'robot' /}
-    {/call}
+      <div class="mdl-tabs__tab-bar">
 
-    <div class="cwc-content">
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param active: true /}
+          {param id: 'robot_overview' /}
+          {param name: 'Overview' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'lego_ev3' /}
+          {param name: 'EV3' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'makeblock_mbot' /}
+          {param name: 'mBot' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'makeblock_mbot_ranger' /}
+          {param name: 'mBot Ranger' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'sphero_bb_8' /}
+          {param name: 'Sphero BB-8' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'sphero_classic' /}
+          {param name: 'Sphero 2.0' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'sphero_sprk_plus' /}
+          {param name: 'Sphero SPRK+' /}
+        {/call}
+
+      </div>
+
+      <div class="cwc-select-screen-scroller">
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param active: true /}
+          {param id: 'robot_overview' /}
+          {param content kind="html"}
+            {call .overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'lego_ev3' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.lego.ev3.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'makeblock_mbot' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.makeblock.mbot.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'makeblock_mbot_ranger' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.makeblock.mbotRanger.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'sphero_bb_8' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.sphero.bb8.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'sphero_classic' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.sphero.classic.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'sphero_sprk_plus' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.sphero.sprkPlus.overview data="all" /}
+          {/param}
+        {/call}
+
+      </div>
+
+    {/param}
+  {/call}
+
+{/template}
+
+
+/**
+ * Robots overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots' /}
         {param opt_text: 'Simple robot control with blocks' /}
-        {param opt_color_class: 'bg-orange' /}
-        {param opt_icon: 'memory' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param title: 'EV3' /}
-        {param id: 'ev3' /}
+        {param title: 'Lego' /}
+        {param id: 'lego' /}
         {param text: 'Control a real or virtual EV3 by assembling Blockly Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'adb' /}
@@ -52,10 +159,9 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use EV3 Robot' /}
-            {param view: 'ev3' /}
+            {param tab: 'lego_ev3' /}
           {/call}
         {/param}
-
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
@@ -68,25 +174,24 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use Sphero 2.0 robot' /}
-            {param view: 'sphero_classic' /}
+            {param tab: 'sphero_classic' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use Sphero SPRK+ robot' /}
-            {param view: 'sphero_sprk_plus' /}
+            {param tab: 'sphero_sprk_plus' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use Sphero BB-8 robot' /}
-            {param view: 'sphero_bb8' /}
+            {param tab: 'sphero_bb8' /}
           {/call}
         {/param}
-
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
-        {param title: 'MakeBlock mBot' /}
-        {param id: 'mbot_blue' /}
+        {param title: 'MakeBlock' /}
+        {param id: 'makeblock' /}
         {param text: 'Control an mBot by assembling Blockly Blocks' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'functions' /}
@@ -95,53 +200,17 @@
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use mBot - Blue Robot' /}
-            {param view: 'mbot' /}
+            {param tab: 'makeblock_mbot' /}
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
             {param text: 'Use mBot Ranger Robot' /}
-            {param view: 'mbot_ranger' /}
+            {param tab: 'makeblock_mbot_ranger' /}
           {/call}
         {/param}
       {/call}
 
-    </div>
+    {/param}
+  {/call}
 
-  </div>
-
-{/template}
-
-
-/**
- * Robot header.
- */
-{template .header}
-  {@param prefix: string}
-  {@param active_link: string}
-
-  <header id="{$prefix}navigation-robot" class="mdl-layout__header-row mdl-layout__header">
-    <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-
-      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'EV3' /}
-        {param id: 'ev3' /}
-      {/call}
-
-      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'Sphero' /}
-        {param id: 'sphero' /}
-      {/call}
-
-      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'mBot' /}
-        {param id: 'mbot' /}
-      {/call}
-
-      {call cwc.soy.SelectScreenTemplate.headerLink data="all"}
-        {param title: 'mBot Ranger' /}
-        {param id: 'mbot-ranger' /}
-      {/call}
-
-    </nav>
-  </header>
 {/template}

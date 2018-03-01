@@ -55,6 +55,9 @@ cwc.ui.Gui = function(helper) {
   this.nodeLayout = null;
 
   /** @type {Element} */
+  this.nodeOverlay = null;
+
+  /** @type {Element} */
   this.nodeStatus = null;
 
   /** @type {Element} */
@@ -75,14 +78,17 @@ cwc.ui.Gui.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Gui.guiTemplate,
-      {'prefix': this.prefix});
+      cwc.soy.ui.Gui.guiTemplate, {
+        'prefix': this.prefix
+      });
 
   // Main nodes
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
+  this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
+  this.showOverlay(false);
 
   // Decorates menubar
   let menubarInstance = this.helper.getInstance('menubar');
@@ -108,6 +114,15 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   // Add elements interactions.
   goog.events.listen(this.nodeTitle, goog.events.EventType.CHANGE,
       this.renameTitle, false, this);
+
+  // Use user settings
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    if (userConfigInstance.get(
+        cwc.userConfigType.GENERAL,cwc.userConfigName.FULLSCREEN)) {
+      chrome.app.window.current()['maximize']();
+    }
+  }
 };
 
 
@@ -145,6 +160,14 @@ cwc.ui.Gui.prototype.setStatus = function(status) {
 
 
 /**
+ * @param {boolean} visible
+ */
+cwc.ui.Gui.prototype.showOverlay = function(visible = true) {
+  goog.style.setElementShown(this.nodeOverlay, visible);
+};
+
+
+/**
  * Shows a prompt to rename the title.
  * @param {Event=} opt_event
  */
@@ -161,6 +184,14 @@ cwc.ui.Gui.prototype.renameTitle = function(opt_event) {
  */
 cwc.ui.Gui.prototype.getLayoutNode = function() {
   return this.nodeLayout;
+};
+
+
+/**
+ * @return {Element}
+ */
+cwc.ui.Gui.prototype.getOverlayNode = function() {
+  return this.nodeOverlay;
 };
 
 

@@ -49,13 +49,13 @@
 .icon_auto_red,
 .icon_auto_white,
 .icon_gamepad {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
   display: inline-block;
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none !important;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }

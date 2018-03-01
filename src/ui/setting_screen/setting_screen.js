@@ -128,14 +128,12 @@ cwc.ui.SettingScreen.prototype.setUserConfig = function() {
     cwc.userConfigName.FULLSCREEN);
 
   // Robots modules
-  this.setConfig_('mode-ev3', cwc.userConfigType.MODULE,
-    cwc.userConfigName.EV3);
+  this.setConfig_('mode-lego', cwc.userConfigType.MODULE,
+    cwc.userConfigName.LEGO);
   this.setConfig_('mode-sphero', cwc.userConfigType.MODULE,
     cwc.userConfigName.SPHERO);
-  this.setConfig_('mode-mbot-blue', cwc.userConfigType.MODULE,
-    cwc.userConfigName.MBOT_BLUE);
-  this.setConfig_('mode-mbot-ranger', cwc.userConfigType.MODULE,
-    cwc.userConfigName.MBOT_RANGER);
+  this.setConfig_('mode-makeblock', cwc.userConfigType.MODULE,
+    cwc.userConfigName.MAKEBLOCK);
 
   // programming language modules
   this.setConfig_('mode-javascript', cwc.userConfigType.MODULE,

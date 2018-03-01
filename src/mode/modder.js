@@ -58,7 +58,7 @@ cwc.mode.Modder = function(helper) {
   this.eventHandler_ = new goog.events.EventTarget();
 
   /** @type {string} */
-  this.templatePath_ = '../resources/template/';
+  this.templatePath_ = '../resources/templates/';
 };
 
 
@@ -115,6 +115,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   this.mode = mode;
   this.modder = new modeConfig.Mod(this.helper);
   this.modder.decorate();
+
+  // Hide overlay after loading.
+  let guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.showOverlay(false);
+  }
 };
 
 

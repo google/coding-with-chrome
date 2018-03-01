@@ -1,0 +1,178 @@
+/**
+ * @fileoverview Advanced select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenAdvanced.programming.javascript autoescape="strict"}
+
+
+/**
+ * JavaScript overview page.
+ */
+{template .overview}
+  {@param online: bool}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'JavaScript' /}
+        {param opt_text: 'Write code in JavaScript' /}
+        {param opt_icon: 'beenhere' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Empty project' /}
+            {param text: 'Start an empty JavaScript project' /}
+            {param opt_link_text: 'Empty project' /}
+            {param mode: 'javascript' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'insert_drive_file' /}
+          {/call}
+
+          {if $online}
+            {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+              {param title: 'Video tutorials' /}
+              {param text: 'Start learning JavaScript with video tutorials on YouTube' /}
+              {param opt_link_text: 'Select Tutorials' /}
+              {param view: 'javascript_tutorial' /}
+              {param opt_color_class: 'bg-green' /}
+              {param opt_icon: 'movie_creation' /}
+            {/call}
+          {/if}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'JavaScript Frameworks' /}
+            {param text: 'Different kind of JavaScript framework examples' /}
+            {param opt_link_text: 'Select Framework' /}
+            {param view: 'javascript_framework' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'pages' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Circle Animation' /}
+            {param text: 'Example that animates a circle' /}
+            {param file: 'javascript/script/CircleAnimation.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'toys' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Triangle animation' /}
+            {param text: 'Example that animates a triangle' /}
+            {param file: 'javascript/script/TriangleAnimation.cwc' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_icon: 'toys' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}
+
+
+/**
+ * JavaScript Video Tutorial page.
+ */
+{template .tutorial}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+    {call cwc.soy.SelectScreenTemplate.header}
+      {param title: 'JavaScript video tutorials' /}
+      {param opt_text: 'Learn JavaScript with video tutorials on YouTube.' /}
+      {param opt_color_class: 'bg-green' /}
+      {param opt_icon: 'video_library' /}
+    {/call}
+
+      <div class="mdl-grid max-width">
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
+          {param title: 'JavaScript Intro' /}
+          {param text: 'In this video, we introduce Coding with Chrome and how you can use it to learn how to program in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'Cbpug5Atmmo' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
+          {param title: 'Dates' /}
+          {param text: 'In this video, we write JavaScript to work with dates in Coding with Chrome.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'S3DhDiw0pXs' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
+          {param title: 'Birthdays' /}
+          {param text: 'In this video, we use Coding with Chrome to learn about dates in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'R4XE3GW1EUc' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.selectCardVideo}
+          {param title: 'Birthday Counter' /}
+          {param text: 'In this video we use Coding with Chrome to build a birthday counter in JavaScript.' /}
+          {param link_text: 'Open video in Browser' /}
+          {param video_id: 'CkoJWKWIWFU' /}
+          {param opt_color_class: 'bg-green' /}
+        {/call}
+      </div>
+
+    {/param}
+  {/call}
+
+{/template}
+
+
+/**
+ * JavaScript Frameworks page.
+ */
+{template .framework}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'JavaScript Frameworks' /}
+        {param opt_text: 'Learn the different kind of JavaScript frameworks.' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'pages' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Three.js - Cube example' /}
+            {param text: 'Animated 3D cube' /}
+            {param link_id: 'cube-animation' /}
+            {param opt_color_class: 'bg-light-blue' /}
+            {param opt_image: '' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

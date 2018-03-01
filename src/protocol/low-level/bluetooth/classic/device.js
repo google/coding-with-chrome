@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.bluetooth.classic.Device');
 
 goog.require('cwc.protocol.bluetooth.classic.supportedDevices');
+goog.require('cwc.protocol.default.Device');
 goog.require('cwc.utils.ByteTools');
 
 
