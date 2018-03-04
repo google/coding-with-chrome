@@ -227,10 +227,8 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
  * @private
  */
 cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
-  let classnames = document.querySelectorAll(
-    '.cwc-file-card, .cwc-select-card, .cwc-select-section-link, ' +
-    '.cwc-select-header-link');
-  Array.from(classnames).forEach((element) => {
+  let elements = document.querySelectorAll('[data-select-screen-action]');
+  Array.from(elements).forEach((element) => {
     element.addEventListener('click', this.handleFileClick_.bind(this));
   });
 };
@@ -281,8 +279,8 @@ cwc.ui.SelectScreen.prototype.showView_ = function(name) {
  * @param {Object} e
  */
 cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
-  let filename = e.currentTarget.dataset['fileName'];
-  let fileAction = e.currentTarget.dataset['fileAction'];
+  let filename = e.currentTarget.dataset['selectScreenValue'];
+  let fileAction = e.currentTarget.dataset['selectScreenAction'];
   if (!fileAction || !filename) {
     return;
   }

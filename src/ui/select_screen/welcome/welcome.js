@@ -66,8 +66,12 @@ cwc.ui.SelectScreenWelcome.prototype.decorate = function() {
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     let showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
-    showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.SKIP_WELCOME);
+    if (userConfigInstance.get(
+          cwc.userConfigType.GENERAL, cwc.userConfigName.SKIP_WELCOME)) {
+      showWelcome.parentNode['MaterialCheckbox']['uncheck']();
+    } else {
+      showWelcome.parentNode['MaterialCheckbox']['check']();
+    }
     goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
       function(opt_event) {
         this.updateMode = !showWelcome.checked;

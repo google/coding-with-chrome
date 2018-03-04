@@ -81,14 +81,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Markup language' /}
         {param opt_text: 'Build website code' /}
         {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param id: 'html5' /}  
         {param title: 'HTML5' /}

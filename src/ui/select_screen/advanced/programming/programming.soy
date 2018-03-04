@@ -129,14 +129,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Programming language' /}
         {param opt_text: 'Text-based programming languages' /}
         {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param id: 'javascript' /}
         {param title: 'JavaScript' /}

@@ -26,14 +26,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Python 2.7' /}
         {param opt_text: '' /}
         {param opt_icon: 'gesture' /}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}

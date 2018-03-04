@@ -26,14 +26,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: Sphero 2.0' /}
         {param opt_text: 'Control a Sphero 2.0 with blocks' /}
         {param opt_icon: 'adjust' /}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}

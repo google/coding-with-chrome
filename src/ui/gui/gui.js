@@ -58,6 +58,9 @@ cwc.ui.Gui = function(helper) {
   this.nodeOverlay = null;
 
   /** @type {Element} */
+  this.nodeSettings = null;
+
+  /** @type {Element} */
   this.nodeStatus = null;
 
   /** @type {Element} */
@@ -87,8 +90,10 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
+  this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.showOverlay(false);
+  this.showSettings(false);
 
   // Decorates menubar
   let menubarInstance = this.helper.getInstance('menubar');
@@ -164,6 +169,20 @@ cwc.ui.Gui.prototype.setStatus = function(status) {
  */
 cwc.ui.Gui.prototype.showOverlay = function(visible = true) {
   goog.style.setElementShown(this.nodeOverlay, visible);
+  if (visible) {
+    this.refresh();
+  }
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Gui.prototype.showSettings = function(visible = true) {
+  goog.style.setElementShown(this.nodeSettings, visible);
+  if (visible) {
+    this.refresh();
+  }
 };
 
 
@@ -196,8 +215,26 @@ cwc.ui.Gui.prototype.getOverlayNode = function() {
 
 
 /**
+ * @return {Element}
+ */
+cwc.ui.Gui.prototype.getSettingsNode = function() {
+  return this.nodeSettings;
+};
+
+
+/**
  * @return {!goog.math.Size}
  */
 cwc.ui.Gui.prototype.getHeaderSize = function() {
   return goog.style.getSize(this.nodeHeader);
+};
+
+
+/**
+ * Refresh dom structure and trigger external frameworks.
+ */
+cwc.ui.Gui.prototype.refresh = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
 };

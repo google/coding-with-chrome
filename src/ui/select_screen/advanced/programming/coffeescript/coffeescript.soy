@@ -26,14 +26,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'CoffeeScript' /}
         {param opt_text: 'Write code in the simplified CoffeeScript language' /}
         {param opt_icon: 'local_cafe' /}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}

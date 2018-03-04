@@ -25,9 +25,14 @@
  */
 {template .container}
   {@param content: ?}
+  {@param? header: ?}
+  {@param? id: string}
 
-  <div>
-    {$content}
+  <div{if $id} id="{$id}"{/if}>
+    {if $header}{$header}{/if}
+    <div class="mdl-grid">
+      {$content}
+    </div>
   </div>
 {/template}
 
@@ -59,28 +64,26 @@
   {@param? opt_image: string}
 
   {call .dataActionDiv_ data="all"}
-    {param classes: 'cwc-select-card mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp' /}
+    {param classes: 'mdl-card-square mdl-card mdl-shadow--2dp' /}
     {param content kind="html"}
-      <div class="mdl-card__media{if $opt_color_class} {$opt_color_class}{/if}">
+      <div class="mdl-card__title mdl-card--expand {if $opt_color_class} {$opt_color_class}{/if}">
         {if $opt_image}<img src="../{$opt_image}">{/if}
         {if $opt_icon}
-          <div class="cwc-select-card-icon">
-            <i class="icon_auto">{$opt_icon}</i>
+          <div class="mdl-card__title-icon icon_auto">
+            {$opt_icon}
           </div>
         {/if}
-      </div>
-      <div class="mdl-card__title">
-        <h4 class="mdl-card__title-text">
+        <h2 class="mdl-card__title-text">
           {msg desc=""}{$title|changeNewlineToBr}{/msg}
-        </h4>
+        </h2>
       </div>
       <div class="mdl-card__supporting-text">
         <span class="mdl-typography--font-light mdl-typography--subhead">
           {msg desc=""}{$text}{/msg}
         </span>
       </div>
-      <div class="mdl-card__actions">
-         <a href="#" class="mdl-button mdl-js-button mdl-typography--text-uppercase">
+      <div class="mdl-card__actions mdl-card--border">
+         <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
            {msg desc=""}{$link_text}{/msg}
            <i class="material-icons">chevron_right</i>
          </a>
@@ -96,16 +99,8 @@
 {template .fileCardList}
   {@param content: ?}
 
-  <div class="cwc-file-card-list">
-    {call cwc.soy.SelectScreenTemplate.titleGrid}
-      {param text: 'Select a Program' /}
-      {param opt_icon: 'folder_open' /}
-    {/call}
-    <div class="__content mdl-grid max-width">
-      {$content}
-    </div>
-    <div class="__extension"></div>
-  </div>
+  {$content}
+  <div class="__extension"></div>
 {/template}
 
 
@@ -122,7 +117,7 @@
   {@param? opt_image: string}
 
   {call .dataActionDiv_ data="all"}
-    {param classes: 'cwc-file-card mdl-cell mdl-shadow--4dp' /}
+    {param classes: 'cwc-file-card mdl-card mdl-shadow--2dp' /}
     {param content kind="html"}
       <div class="card__header{if $opt_color_class} {$opt_color_class}{/if}">
         <h3>{msg desc=""}{$title|changeNewlineToBr}{/msg}</h3>
@@ -140,15 +135,17 @@
           {/if}
         </div>      
       </div>
-      <div class="card__body">
+      <div class="mdl-card__supporting-text">
         {msg desc=""}{$text}{/msg}
       </div>
-      <div class="card__action"{if $id} id="{$id}"{/if}>
-        {if $opt_link_text}
-          {msg desc=""}{$opt_link_text}{/msg}
-        {else}
-          {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
-        {/if}
+      <div class="mdl-card__actions mdl-card--border"{if $id} id="{$id}"{/if}>
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          {if $opt_link_text}
+            {msg desc=""}{$opt_link_text}{/msg}
+          {else}
+            {msg desc=""}Load{/msg} {msg desc=""}{$title}{/msg}
+          {/if}
+        </a>
       </div>
     {/param}
   {/call}
@@ -203,25 +200,23 @@
 
   {let $isEnabled: isNonnull($modules[$id]) and $modules[$id] == true or not isNonnull($modules[$id]) /}
 
-  <section class="cwc-select-section section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp{if not $isEnabled} hidden{/if}">
-    <header class="mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone{if $opt_color_class} {$opt_color_class}{/if}">
+  <div class="mdl-card-wide mdl-card mdl-card--expand mdl-shadow--2dp{if not $isEnabled} hidden{/if}">
+    <div class="mdl-card__title{if $opt_color_class} {$opt_color_class}{/if}">
       {if $opt_image}<img src="../{$opt_image}">{/if}
       {if $opt_icon}
-        <i class="icon_128px_fixed{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
+        <i class="mdl-card__title-icon icon_auto{if $opt_icon_rotate} icon_rotate_{$opt_icon_rotate}deg{/if}">{$opt_icon}</i>
       {/if}
-    </header>
-    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
-      <div class="mdl-card__supporting-text">
-        <h4>
-          {msg desc=""}{$title}{/msg}
-        </h4>
-        {msg desc=""}{$text}{/msg}
-      </div>
-      <div class="mdl-card__actions">
-        {$content}
-      </div>
+      <h2 class="mdl-card__title-text">
+        {msg desc=""}{$title}{/msg}
+      </h2>
     </div>
-  </section>
+    <div class="mdl-card__supporting-text">
+      {msg desc=""}{$text}{/msg}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      {$content}
+    </div>
+  </div>
 {/template}
 
 
@@ -232,7 +227,7 @@
   {@param text: string}
 
   {call .dataActionLink_ data="all"}
-    {param classes: 'cwc-select-section-link mdl-button' /}
+    {param classes: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' /}
     {param content kind="html"}
       {msg desc=""}{$text}{/msg}
       <i class="material-icons">chevron_right</i>
@@ -374,14 +369,14 @@
 
   <div class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
     {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
+      data-select-screen-action="loadFile"
+      data-select-screen-value="{$file}"
     {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
+      data-select-screen-action="loadMode"
+      data-select-screen-value="{$mode}"
     {elseif $tab}
-      data-file-action="switchTab"
-      data-file-name="select-screen-tab-{$tab}-link"
+      data-select-screen-action="switchTab"
+      data-select-screen-value="select-screen-tab-{$tab}-link"
     {/if}
   >{$content}</div>
 {/template}
@@ -400,14 +395,14 @@
 
   <a href="#" class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
     {if $file}
-      data-file-action="loadFile"
-      data-file-name="{$file}"
+      data-select-screen-action="loadFile"
+      data-select-screen-value="{$file}"
     {elseif $mode}
-      data-file-action="loadMode"
-      data-file-name="{$mode}"
+      data-select-screen-action="loadMode"
+      data-select-screen-value="{$mode}"
     {elseif $tab}
-      data-file-action="switchTab"
-      data-file-name="select-screen-tab-{$tab}-link"
+      data-select-screen-action="switchTab"
+      data-select-screen-value="select-screen-tab-{$tab}-link"
     {/if}
   >{$content}</a>
 {/template}

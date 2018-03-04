@@ -104,10 +104,9 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
  * Shows settings screen.
  */
 cwc.ui.SettingScreen.prototype.show = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  let overlayNode = layoutInstance.getOverlay();
-  this.decorate(overlayNode);
-  layoutInstance.showOverlay(true);
+  let guiInstance = this.helper.getInstance('gui', true);
+  this.decorate(guiInstance.getSettingsNode());
+  guiInstance.showSettings(true);
 };
 
 
@@ -115,8 +114,7 @@ cwc.ui.SettingScreen.prototype.show = function() {
  * Hides settings screen.
  */
 cwc.ui.SettingScreen.prototype.hide = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
-  layoutInstance.showOverlay(false);
+  this.helper.getInstance('gui').showSettings(false);
 };
 
 

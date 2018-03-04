@@ -32,14 +32,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Simple' /}
         {param opt_text: 'JavaScript made easy - JavaScript plus a variety of functions that make your life easier' /}
         {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
+    {/param}
 
+    {param content kind="html"}
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}

@@ -29,29 +29,32 @@
   {@param prefix: string}
   {@param version: string}
 
-  {call .header_ data="all"}
-    {param title: 'Welcome to Coding with Chrome!' /}
-    {param text: 'Coding with Chrome is an educational development environment' /}
-  {/call}
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param id: 'cwc-select-screen-welcome' /}
+    {param header kind="html"}
+      {call .header_ data="all"}
+        {param title: 'Welcome to Coding with Chrome!' /}
+        {param text: 'Coding with Chrome is an educational development environment' /}
+      {/call}
 
-  <div id="{$prefix}welcome">
+      {call .banner_ data="all" /}
 
-    {call .banner_ data="all" /}
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Start coding now ...' /}
+        {param opt_text: 'First, please select your current coding skill' /}
+        {param opt_icon: 'extension' /}
+      {/call}
+    {/param}
 
-    {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-      {param text: 'First, please select your current coding skill' /}
-      {param opt_icon: 'chevron_right' /}
-    {/call}
+    {param content kind="html"}
 
-    <div class="mdl-grid" style="padding-top: 0;">
-
-      <div id="cwc-select-screen-link-normal-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--teal-50">
+      <div id="cwc-select-screen-link-normal-mode" class="mdl-card mdl-card--expand mdl-shadow--3dp mdl-color--lime">
         <div class="mdl-card__media">
           {call .blocklyExample_ /}
         </div>
         <div class="mdl-card__title"><h4 class="mdl-card__title-text">Beginner</h4></div>
         <div class="mdl-card__supporting-text">
-          <span class="mdl-typography--font-light mdl-typography--subhead">
+          <span class="mdl-typography--subhead">
             Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.
           </span>
         </div>
@@ -61,13 +64,13 @@
         </div>
       </div>
 
-      <div id="cwc-select-screen-link-advanced-mode" class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--3dp mdl-color--orange-50">
+      <div id="cwc-select-screen-link-advanced-mode" class="mdl-card mdl-card--expand mdl-shadow--3dp mdl-color--amber">
         <div class="mdl-card__media">
           {call .editorExample_ /}
         </div>
         <div class="mdl-card__title"><h4 class="mdl-card__title-text">Advanced</h4></div>
         <div class="mdl-card__supporting-text">
-          <span class="mdl-typography--font-light mdl-typography--subhead">
+          <span class="mdl-typography--subhead">
             Use a high-level programming language like JavaScript or CoffeeScript to write your code
           </span>
         </div>
@@ -76,25 +79,26 @@
             Use Advanced Mode<i class="material-icons">chevron_right</i></a>
         </div>
       </div>
-    </div>
 
-    <div id="{$prefix}sub-note" class="mdl-grid">
-      <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-        <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
-        <div class="mdl-checkbox__label">
-          {msg desc=""}
-            Show screen on startup
-          {/msg}
-          <span class="mdl-card__supporting-text">
-            ({msg desc=""}
-                You can change your choice at any time in the settings menu
-            {/msg})
-          </span>
-        </div>
-      </label>
-    </div>
+    {/param}
+  {/call}
 
+  <div id="{$prefix}sub-note" class="mdl-grid">
+    <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
+      <div class="mdl-checkbox__label">
+        {msg desc=""}
+          Show screen on startup
+        {/msg}
+        <span class="mdl-card__supporting-text">
+          ({msg desc=""}
+              You can change your choice at any time in the settings menu
+          {/msg})
+        </span>
+      </div>
+    </label>
   </div>
+
 {/template}
 
 

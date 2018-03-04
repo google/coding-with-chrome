@@ -136,17 +136,17 @@
  * Advanced overview page.
  */
 {template .overview}
-  {@param prefix: string}
 
-  <div class="{$prefix}overview">
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param header kind="html"}
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Advanced Coding' /}
+        {param opt_text: 'High-level programming' /}
+        {param opt_icon: 'subject' /}
+      {/call}
+    {/param}
 
-    {call cwc.soy.SelectScreenTemplate.header}
-      {param title: 'Advanced Coding' /}
-      {param opt_text: 'High-level programming' /}
-      {param opt_icon: 'subject' /}
-    {/call}
-
-    <div class="mdl-grid">
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param title: 'Simple' /}
@@ -202,6 +202,7 @@
         {param opt_icon: '3d_rotation' /}
       {/call}
 
-    </div>
-  </div>
+    {/param}
+  {/call}
+
 {/template}

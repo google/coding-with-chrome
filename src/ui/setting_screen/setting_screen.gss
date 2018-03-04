@@ -38,6 +38,10 @@
   height: initial;
 }
 
+#cwc-setting-screen-body h4:first-child {
+  margin: 0 0 16px;
+}
+
 #{$prefix}setting-screen-close {
   z-index: 10;
   position: fixed;

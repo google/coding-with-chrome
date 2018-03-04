@@ -59,7 +59,7 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink}
-          {param id: 'sphero_bb_8' /}
+          {param id: 'sphero_bb8' /}
           {param name: 'Sphero BB-8' /}
         {/call}
 
@@ -107,7 +107,7 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'sphero_bb_8' /}
+          {param id: 'sphero_bb8' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenNormal.robot.sphero.bb8.overview data="all" /}
           {/param}
@@ -141,13 +141,15 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
-    {param content kind="html"}
-
+    {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots' /}
         {param opt_text: 'Simple robot control with blocks' /}
         {param opt_icon kind="html"}{call .icon /}{/param}
       {/call}
+    {/param}
+
+    {param content kind="html"}
 
       {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
         {param title: 'Lego' /}

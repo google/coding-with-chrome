@@ -76,13 +76,19 @@
   overflow-x: hidden;
 }
 
+#{$prefix}gui-settings,
 #{$prefix}gui-overlay {
   cursor: default;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   height: calc(100% - 34px);
-  background: #f00;
+  background: #fff;
   position: absolute;
   top: 34px;
+  left: 0;
+}
+
+#{$prefix}gui-settings {
+  z-index: 10;
 }

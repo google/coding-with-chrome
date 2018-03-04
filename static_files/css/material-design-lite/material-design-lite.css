@@ -25,7 +25,6 @@
 html > body,
 .mdl-textfield__input {
   font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
-  -webkit-font-smoothing: antialiased;
 }
 
 .mdl-dialog {
@@ -114,6 +113,54 @@ html > body,
   line-height: 42px;
 }
 
+/**
+ * Square card.
+ */
+.mdl-card-square {
+  width: 320px;
+  height: 320px;
+  margin: 5px;
+}
+
+.mdl-card-square > .mdl-card__title {
+  color: #fff;
+  position: relative;
+}
+
+.mdl-card-square > .mdl-card__title > .mdl-card__title-icon {
+  font-size: 128px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/**
+ * Wide card.
+ */
+.mdl-card-wide {
+  width: 512px;
+  margin: 5px;
+}
+
+.mdl-card-wide > .mdl-card__title {
+  color: #fff;
+  position: relative;
+  height: 176px;
+}
+
+.mdl-card-wide > .mdl-card__title > .mdl-card__title-icon {
+  font-size: 128px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/**
+ * CWC content
+ */
+
 .cwc-content {
   height: calc(100% - 44px);
   overflow: auto;
@@ -166,71 +213,4 @@ html > body,
 
 .cwc-navigation .mdl-navigation__link:hover {
   opacity: 1;
-}
-
-.cwc-select-card .mdl-card__media,
-.cwc-select-card-big .mdl-card__media {
-  position: relative;
-}
-
-
-.cwc-select-card .mdl-card__media .cwc-select-card-icon {
-  font-size: 128px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.cwc-select-card:hover,
-.cwc-select-card-big:hover,
-.cwc-select-section:hover {
-  box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
-              0 1px 10px 0 rgba(0,0,0,.32),
-              0 2px 4px -1px rgba(0,0,0,.22);
-}
-
-.cwc-select-card-big.mdl-cell {
-  margin: 8px;
-  width: 320px;
-}
-
-.cwc-select-card-big .mdl-card__media {
-  position: relative;
-  height: 200px;
-}
-
-.cwc-select-card-big .mdl-card__media .cwc-select-card-icon {
-  font-size: 128px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-}
-
-.cwc-select-card-big .mdl-card__media > div {
-  font-size: 32px;
-  line-height: 32px;
-  position: absolute;
-  top: 50%;
-  left: 125px;
-  transform: translateY(-50%);
-}
-
-.cwc-select-card-big .mdl-card__supporting-text {
-  display: flex;
-  flex: 1;
-}
-
-.cwc-select-card-big .mdl-card__title {
-  border-top: 1px solid #f5f5f5;
-}
-
-.cwc-select-section {
-  margin: 5px 10%;
-}
-
-.cwc-select-section > .mdl-cell > i {
-  font-size: 128px;
-  margin: auto;
 }
