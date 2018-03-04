@@ -1,0 +1,34 @@
+{
+  "author": "Unknown",
+  "content": {
+    "blockly": {
+      "name": "blockly",
+      "type": "application/blockly+xml",
+      "size": 48,
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
+      "group": "",
+      "version": 1,
+      "filename": "blockly"
+    },
+    "__javascript__": {
+      "name": "__javascript__",
+      "type": "application/javascript",
+      "size": 0,
+      "content": "",
+      "group": "",
+      "version": 1,
+      "filename": ""
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "mbot_ranger_blockly",
+  "title": "Untitled mBot Ranger blockly file",
+  "type": "mbot_ranger_blockly",
+  "ui": "blockly",
+  "version": "1.0"
+}

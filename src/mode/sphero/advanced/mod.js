@@ -19,11 +19,11 @@
  */
 goog.provide('cwc.mode.sphero.advanced.Mod');
 
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Connection');
-goog.require('cwc.mode.sphero.Runner');
-goog.require('cwc.mode.sphero.advanced.Editor');
-goog.require('cwc.mode.sphero.advanced.Layout');
+goog.require('cwc.mode.sphero.Hints');
 goog.require('cwc.mode.sphero.Monitor');
+goog.require('cwc.mode.sphero.Runner');
 goog.require('cwc.renderer.external.Sphero');
 
 
@@ -32,23 +32,20 @@ goog.require('cwc.renderer.external.Sphero');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.sphero.advanced.Mod = function(helper) {
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
+
   /** @type {cwc.mode.sphero.Connection} */
   this.connection = new cwc.mode.sphero.Connection(helper);
 
-  /** @type {cwc.mode.sphero.advanced.Editor} */
-  this.editor = new cwc.mode.sphero.advanced.Editor(helper);
-
-  /** @type {cwc.mode.sphero.advanced.Layout} */
-  this.layout = new cwc.mode.sphero.advanced.Layout(helper);
+  /** @type {cwc.mode.sphero.Monitor} */
+  this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 
   /** @type {cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
 
   /** @type {cwc.mode.sphero.Runner} */
   this.runner = new cwc.mode.sphero.Runner(helper, this.connection);
-
-  /** @type {cwc.mode.sphero.Monitor} */
-  this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 };
 
 
@@ -56,10 +53,10 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.sphero.advanced.Mod.prototype.decorate = function() {
-  this.connection.init();
-  this.layout.decorate();
-  this.editor.decorate();
-  this.runner.decorate();
-  this.monitor.decorate();
-  this.renderer.init();
+  this.mod.setConnection(this.connection);
+  this.mod.setMonitor(this.monitor);
+  this.mod.setRenderer(this.renderer);
+  this.mod.setRunner(this.runner);
+  this.mod.decorate();
+  this.mod.editor.setLocalHints(cwc.mode.sphero.Hints);
 };

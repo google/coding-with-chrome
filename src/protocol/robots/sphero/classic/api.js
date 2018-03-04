@@ -39,7 +39,7 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.sphero.classic.Api = function() {
   /** @type {string} */
-  this.name = 'Sphero';
+  this.name = 'Sphero Classic';
 
   /** @type {boolean} */
   this.prepared = false;

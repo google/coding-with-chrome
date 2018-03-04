@@ -186,17 +186,17 @@
       <ul class="mdl-list">
         {call .setting_}
           {param prefix: $prefix /}
-          {param title: 'EV3 module' /}
-          {param text: 'Control a real or virtual EV3' /}
+          {param title: 'Lego module' /}
+          {param text: 'Mindstorm EV3' /}
           {param type: 'switch' /}
-          {param id: 'mode-ev3' /}
+          {param id: 'mode-lego' /}
           {param opt_checked: true /}
         {/call}
 
         {call .setting_}
           {param prefix: $prefix /}
           {param title: 'Sphero module' /}
-          {param text: 'Control a real or virtual Sphero' /}
+          {param text: 'Sphero 2.0, Sphero SPRK+, Sphero BB-8' /}
           {param type: 'switch' /}
           {param id: 'mode-sphero' /}
           {param opt_checked: true /}
@@ -204,21 +204,13 @@
 
         {call .setting_}
           {param prefix: $prefix /}
-          {param title: 'MakeBlock - mBot Blue' /}
-          {param text: 'Control a MakeBlock mBot Blue' /}
+          {param title: 'MakeBlock' /}
+          {param text: 'mBot Blue and mbot Ranger' /}
           {param type: 'switch' /}
-          {param id: 'mode-mbot-blue' /}
+          {param id: 'mode-makeblock' /}
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
-          {param title: 'MakeBlock - mBot Ranger' /}
-          {param text: 'Control a MakeBlock mBot Ranger' /}
-          {param type: 'switch' /}
-          {param id: 'mode-mbot-ranger' /}
-          {param opt_checked: true /}
-        {/call}
       </ul>
 
       {call .subHeader_}

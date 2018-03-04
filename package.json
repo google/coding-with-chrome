@@ -1,25 +1,25 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "4.6.25",
+  "version": "5.2.22",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.37",
+    "closure-builder": "^2.2.38",
     "command-line-usage": "^4.1.0",
     "jasmine-core": "^2.99.1",
     "jsdoc": "^3.5.5",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
-    "npm-check-updates": "^2.14.0",
-    "nw": "^0.28.2",
+    "npm-check-updates": "^2.14.1",
+    "nw": "^0.28.3",
     "nw-builder": "^3.5.1",
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "closure-templates": "latest",
-    "eslint": "^4.18.0",
+    "eslint": "^4.18.1",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
@@ -31,7 +31,6 @@
   },
   "scripts": {
     "usage": "node build/usage.js",
-
     "pretest": "npm run lint",
     "test": "npm run test-soy && npm run test-units && npm run test-core",
     "pretest-soy": "node build/test/soy_files.js",
@@ -44,6 +43,7 @@
     "test-mode": "echo Starting mode tests ... && karma start test/mode_tests.conf",
 
     "prebuild-cwc-soy": "npm run clean-soy_files",
+    "prebuild-cwc-gss": "npm run clean-gss_files",
     "build-cwc": "npm run build-cwc-deps && npm run build-cwc-main",
     "build-cwc-blocks": "node build/cwc/blocks.js",
     "build-cwc-debug": "npm run build-cwc-deps && npm run build-cwc-main-debug",
@@ -98,10 +98,11 @@
     "launch-mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch-app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch-web": "http-server dist/web_app",
     "launch-win": "echo && \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --load-and-launch-app=%CD%\\dist\\chrome_os --enable-logging --v=1 --no-first-run --enable-experimental-web-platform-features",
-    "clean": "npm run clean-npm && npm run clean-chrome_app && npm run clean-core && npm run clean-soy_files && npm run clean-test && npm run clean-third_party",
 
+    "clean": "npm run clean-npm && npm run clean-chrome_app && npm run clean-core && npm run clean-soy_files && npm run clean-test && npm run clean-third_party",
     "clean-chrome_app": "echo Cleaning up Chrome app dist files. Please wait ... && rimraf dist/chrome_os/*",
     "clean-core": "echo Cleaning up core genfiles. Please wait ... && rimraf genfiles/core/*",
+    "clean-gss_files": "echo Cleaning gss genfiles. Please wait ... && rimraf genfiles/core/css/editor.css",
     "clean-npm": "echo Cleaning up npm files. Please wait ... && npm prune",
     "clean-soy_files": "echo Cleaning up soy genfiles. Please wait ... && rimraf gensoyfiles/*",
     "clean-test": "echo Cleaning up test genfiles. Please wait ... && rimraf test/genfiles/*",

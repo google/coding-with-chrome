@@ -41,30 +41,32 @@ describe('StackType', function() {
 describe('StackEntry', function() {
   let type = cwc.utils.StackType.CMD;
   let func = function(data) {
-return data['a'] + data['b'];
-};
+    return data['a'] + data['b'];
+  };
   let value = {a: 11, b: 12};
-  let name = 'Test';
-  let stackEntry = new cwc.utils.StackEntry(type, func, value, name);
+  let callback = function(test) {
+    return test;
+  };
+  let stackEntry = new cwc.utils.StackEntry(type, func, value, callback);
 
   it('constructor', function() {
     expect(typeof stackEntry).toEqual('object');
   });
 
-  it('getType', function() {
-    expect(stackEntry.getType()).toEqual(type);
+  it('getCallback', function() {
+    expect(stackEntry.getCallback()).toEqual(callback);
   });
 
   it('getFunc', function() {
     expect(stackEntry.getFunc()).toEqual(func);
   });
 
-  it('getValue', function() {
-    expect(stackEntry.getValue()).toEqual(value);
+  it('getType', function() {
+    expect(stackEntry.getType()).toEqual(type);
   });
 
-  it('getName', function() {
-    expect(stackEntry.getName()).toEqual(name);
+  it('getValue', function() {
+    expect(stackEntry.getValue()).toEqual(value);
   });
 });
 

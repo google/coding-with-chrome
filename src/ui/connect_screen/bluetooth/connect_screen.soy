@@ -27,12 +27,11 @@
 {template .template}
   {@param prefix: string}
   {@param ble: bool}
-  {@param experimental: bool}
   {@param devices: ?}
 
   {call .devices data="all" /}  
 
-  {if $ble and $experimental}
+  {if $ble}
     <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
       <i class="material-icons">add</i> Search for Bluetooth devices ...
     </button>

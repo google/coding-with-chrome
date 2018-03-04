@@ -21,6 +21,8 @@ goog.provide('cwc.protocol.default.Device');
 
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events.EventTarget');
+
 
 /**
  * @constructor

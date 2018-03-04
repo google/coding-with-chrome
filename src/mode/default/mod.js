@@ -19,11 +19,47 @@
  */
 goog.provide('cwc.mode.default.Mod');
 
-goog.require('cwc.mode.default.Layout');
 goog.require('cwc.renderer.internal.HTML5');
+goog.require('cwc.soy.mode.default.Layout');
+goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Preview');
+
+
+/**
+ * @typedef {cwc.mode.ev3.Connection|
+ *   cwc.mode.makeblock.mbot.Connection|
+ *   cwc.mode.makeblock.mbotRanger.Connection|
+ *   cwc.mode.sphero.Connection}
+ */
+cwc.mode.default.ConnectionTypes;
+
+
+/**
+ * @typedef {cwc.renderer.external.EV3|
+ *   cwc.renderer.external.Sphero|
+ *   cwc.renderer.internal.Coffeescript|
+ *   cwc.renderer.internal.HTML5|
+ *   cwc.renderer.internal.Javascript}
+ */
+cwc.mode.default.RendererTypes;
+
+
+/**
+ * @typedef {cwc.mode.ev3.Runner|
+ *   cwc.mode.makeblock.mbot.Runner|
+ *   cwc.mode.makeblock.mbotRanger.Runner|
+ *   cwc.mode.sphero.Runner}
+ */
+cwc.mode.default.RunnerTypes;
+
+
+/**
+ * @typedef {cwc.mode.ev3.Monitor|
+ *   cwc.mode.sphero.Monitor}
+ */
+cwc.mode.default.MonitorTypes;
 
 
 /**
@@ -35,10 +71,7 @@ cwc.mode.default.Mod = function(helper) {
   this.helper = helper;
 
   /** @type {!cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(this.helper);
-
-  /** @type {!cwc.mode.default.Layout} */
-  this.layout = new cwc.mode.default.Layout(this.helper);
+  this.editor = new cwc.ui.Editor(helper);
 
   /** @type {!cwc.ui.Message} */
   this.message = new cwc.ui.Message(this.helper);
@@ -46,33 +79,116 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 
-  /** @type {cwc.renderer.internal.HTML5|
-   *         cwc.renderer.internal.Javascript}
-   */
+  /** @type {cwc.ui.Blockly} */
+  this.blockly = null;
+
+  /** @type {Object} */
+  this.blocklyToolbox = null;
+
+  /** @type {cwc.mode.default.ConnectionTypes} */
+  this.connection = null;
+
+  /** @type {cwc.mode.default.RendererTypes} */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
+
+  /** @type {cwc.mode.default.RunnerTypes} */
+  this.runner = null;
+
+  /** @type {cwc.mode.default.MonitorTypes} */
+  this.monitor = null;
 };
 
 
 /**
- * Decorates standard Blockly editor.
+ * Decorates standard Editor.
  */
 cwc.mode.default.Mod.prototype.decorate = function() {
-  this.layout.decorate();
+  if (this.connection) {
+    this.connection.init();
+  }
+  this.decorateLayout();
+
+  if (this.blockly) {
+    this.decorateBlockly();
+  }
   this.decorateEditor();
-  this.decoratePreview();
+
+  // Add Blockly events if needed.
+  if (this.blockly) {
+    // Switch buttons
+    this.blockly.addOption('Switch to Editor', this.showEditor_.bind(this),
+        'Switch to the raw code editor view');
+    this.editor.addOption('Switch to Blockly', this.showBlockly_.bind(this),
+        'Switch to the Blocky editor mode');
+
+    // Custom Events
+    this.blockly.addEditorChangeHandler(
+      this.editor.handleSyncEvent.bind(this.editor));
+
+    // Reset size
+    this.blockly.adjustSize();
+  }
+
+  if (this.runner) {
+    this.runner.decorate();
+  } else {
+    this.decoratePreview();
+  }
+
+  if (this.monitor) {
+    this.monitor.decorate();
+  }
   this.decorateMessage();
-  this.renderer.init();
+
+  if (this.renderer) {
+    this.renderer.init();
+  }
 };
 
 
 /**
- * Decorates editor
+ * Decorates Blockly
+ */
+cwc.mode.default.Mod.prototype.decorateBlockly = function() {
+  this.helper.setInstance('blockly', this.blockly, true);
+  this.blockly.decorate();
+  this.blockly.setToolboxTemplate(this.blocklyToolbox);
+};
+
+
+/**
+ * Decorates Editor
  */
 cwc.mode.default.Mod.prototype.decorateEditor = function() {
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate();
-  this.editor.showEditorViews(true);
-  this.editor.enableMediaButton(true);
+  this.editor.showEditorViews(false);
+};
+
+
+/**
+ * Decorates the Editor layout.
+ */
+cwc.mode.default.Mod.prototype.decorateLayout = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  if (this.runner) {
+    layoutInstance.decorateDefault();
+    layoutInstance.setFixRightComponentSize(400);
+    if (this.blockly) {
+      layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.blockly);
+    } else {
+      layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
+    }
+    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.runner);
+  } else if (this.blockly) {
+    layoutInstance.decorateDefault(400);
+    layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.preview);
+    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.blockly);
+  } else {
+    layoutInstance.decorateDefault(700);
+    layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
+    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.preview);
+  }
 };
 
 
@@ -86,7 +202,7 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
 
 
 /**
- * Decorates the editor.
+ * Decorates the message.
  */
 cwc.mode.default.Mod.prototype.decorateMessage = function() {
   this.helper.setInstance('message', this.message, true);
@@ -95,9 +211,75 @@ cwc.mode.default.Mod.prototype.decorateMessage = function() {
 
 
 /**
- * @param {cwc.renderer.internal.HTML5|
- *         cwc.renderer.internal.Javascript} renderer
+ * @param {!Function} toolbox
+ */
+cwc.mode.default.Mod.prototype.enableBlockly = function(toolbox) {
+  this.blockly = new cwc.ui.Blockly(this.helper);
+  this.blocklyToolbox = toolbox;
+};
+
+
+/**
+ * @param {!cwc.mode.default.ConnectionTypes} connection
+ */
+cwc.mode.default.Mod.prototype.setConnection = function(connection) {
+  this.connection = connection;
+};
+
+
+/**
+ * @param {!cwc.mode.default.RendererTypes} renderer
  */
 cwc.mode.default.Mod.prototype.setRenderer = function(renderer) {
   this.renderer = renderer;
+};
+
+
+/**
+ * @param {!cwc.mode.default.RunnerTypes} runner
+ */
+cwc.mode.default.Mod.prototype.setRunner = function(runner) {
+  this.runner = runner;
+};
+
+
+/**
+ * @param {!cwc.mode.default.MonitorTypes} monitor
+ */
+cwc.mode.default.Mod.prototype.setMonitor = function(monitor) {
+  this.monitor = monitor;
+};
+
+
+/**
+ * Switches from the Blockly ui to the code editor.
+ */
+cwc.mode.default.Mod.prototype.showEditor_ = function() {
+  this.editor.showEditor(true);
+  this.blockly.showBlockly(false);
+  this.helper.getInstance('file').setUi('editor');
+};
+
+
+/**
+ * Switches from the code editor to the Blockly ui.
+ */
+cwc.mode.default.Mod.prototype.showBlockly_ = function() {
+  let dialogInstance = this.helper.getInstance('dialog');
+  dialogInstance.showYesNo('Warning', 'Switching to Blockly mode will ' +
+    'overwrite any manual changes! Continue?').then((answer) => {
+      if (answer) {
+        this.switchToEditor_();
+      }
+    });
+};
+
+
+/**
+ * Switches from the Blockly ui to the code editor.
+ */
+cwc.mode.default.Mod.prototype.switchToEditor_ = function() {
+  this.editor.showEditor(false);
+  this.blockly.showBlockly(true);
+  this.helper.getInstance('file').setUi('blockly');
 };

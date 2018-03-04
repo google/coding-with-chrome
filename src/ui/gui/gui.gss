@@ -51,7 +51,7 @@
 #{$prefix}gui-bar *,
 #{$prefix}gui-message *,
 #{$prefix}gui-titlebar *,
-#{$prefix}gui-header .mdl-layout-title *{
+#{$prefix}gui-header .mdl-layout-title * {
   -webkit-app-region: no-drag;
 }
 
@@ -70,8 +70,25 @@
   margin-left: 5px;
 }
 
-#{$prefix}gui-layout{
+#{$prefix}gui-layout {
   cursor: default;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+#{$prefix}gui-settings,
+#{$prefix}gui-overlay {
+  cursor: default;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: calc(100% - 34px);
+  background: #fff;
+  position: absolute;
+  top: 34px;
+  left: 0;
+}
+
+#{$prefix}gui-settings {
+  z-index: 10;
 }

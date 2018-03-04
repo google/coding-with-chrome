@@ -39,7 +39,7 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.sphero.v1.Api = function() {
   /** @type {string} */
-  this.name = 'Sphero';
+  this.name = 'Sphero v1';
 
   /** @type {boolean} */
   this.prepared = false;
@@ -102,7 +102,7 @@ cwc.protocol.sphero.v1.Api = function() {
  */
 cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
   if (!device || !device.isConnected()) {
-    console.error('Sphero ball is not ready yet...');
+    console.error('Sphero is not ready yet...');
     return false;
   }
 
@@ -111,19 +111,14 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
     this.device = device;
     this.device.sendRaw(
       new TextEncoder('utf-8').encode('011i3'),
-      '22bb746f-2bbd-7554-2d6f-726568705327'
-    ).then(() => {
-      this.device.sendRaw(
-        Uint8Array.from(0x07),
-        '22bb746f-2bb2-7554-2d6f-726568705327'
-      );
-    }).then(() => {
-      this.device.sendRaw(
-        Uint8Array.from(0x01),
-        '22bb746f-2bbf-7554-2d6f-726568705327'
-      );
-    });
-    this.runTest();
+      '22bb746f-2bbd-7554-2d6f-726568705327');
+    this.device.sendRaw(
+      Uint8Array.from(0x07), '22bb746f-2bb2-7554-2d6f-726568705327');
+    this.device.sendRaw(
+      Uint8Array.from(0x01), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
+        this.prepare();
+        this.runTest();
+      });
   }
   return true;
 };
@@ -141,10 +136,12 @@ cwc.protocol.sphero.v1.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.sphero.v1.Api.prototype.prepare = function() {
-  this.device.setDataHandler(this.handleAcknowledged_.bind(this),
-      this.headerAck_, this.headerMinSize_);
-  this.device.setDataHandler(this.handleAsync_.bind(this),
-      this.headerAsync_, this.headerMinSize_);
+  this.device.listen('22bb746f-2ba6-7554-2d6f-726568705327',
+    this.handleData_.bind(this));
+  //this.device.setDataHandler(this.handleAcknowledged_.bind(this),
+  //    this.headerAck_, this.headerMinSize_);
+  //this.device.setDataHandler(this.handleAsync_.bind(this),
+  //    this.headerAsync_, this.headerMinSize_);
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
@@ -364,7 +361,7 @@ cwc.protocol.sphero.v1.Api.prototype.runTest = function() {
  * Basic cleanup for the Sphero ball.
  */
 cwc.protocol.sphero.v1.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero…');
+  console.log('Clean up Sphero v1 API…');
   this.monitoring.stop();
   this.reset();
 };
@@ -439,6 +436,19 @@ cwc.protocol.sphero.v1.Api.prototype.parseCollisionData_ = function(data) {
       },
       speed: speed,
     }));
+};
+
+
+/**
+ * @param {!Array} buffer
+ * @private
+ */
+cwc.protocol.sphero.v1.Api.prototype.handleData_ = function(buffer) {
+  if (!this.verifiyChecksum_(buffer)) {
+    console.error('Checksum error ...');
+    return;
+  }
+  console.log('handleData', buffer, buffer[3]);
 };
 
 

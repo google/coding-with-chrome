@@ -28,6 +28,7 @@ goog.provide('cwc.utils.StackType');
 cwc.utils.StackType = {
   CMD: 'cmd',
   DELAY: 'delay',
+  PROMISE: 'promise',
 };
 
 
@@ -36,10 +37,11 @@ cwc.utils.StackType = {
  * @param {!cwc.utils.StackType} type
  * @param {Function=} func
  * @param {string|number=} value
- * @param {string=} name
+ * @param {Function=} callback
  * @final
  */
-cwc.utils.StackEntry = function(type, func = undefined, value = '', name = '') {
+cwc.utils.StackEntry = function(type, func = undefined, value = '',
+    callback = undefined) {
   /** @private {!cwc.utils.StackType} */
   this.type_ = type;
 
@@ -49,8 +51,8 @@ cwc.utils.StackEntry = function(type, func = undefined, value = '', name = '') {
   /** @private {string|number} */
   this.value_ = value;
 
-  /** @private {string} */
-  this.name_ = name;
+  /** @private {Function|undefined} */
+  this.callback_ = callback;
 };
 
 
@@ -71,6 +73,16 @@ cwc.utils.StackEntry.prototype.getFunc = function() {
   return this.func_;
 };
 
+// DO TO CALLBACK ... BLE
+
+/**
+ * @return {Function|undefined}
+ * @export
+ */
+cwc.utils.StackEntry.prototype.getCallback = function() {
+  return this.callback_;
+};
+
 
 /**
  * @return {string|number}
@@ -82,25 +94,10 @@ cwc.utils.StackEntry.prototype.getValue = function() {
 
 
 /**
- * @return {string}
- * @export
- */
-cwc.utils.StackEntry.prototype.getName = function() {
-  return this.name_;
-};
-
-
-/**
  * @constructor
  * @param {boolean=} autostart
  */
 cwc.utils.StackQueue = function(autostart = true) {
-  /** @private {boolean} */
-  this.autopause_ = false;
-
-  /** @private {Object} */
-  this.stack_ = {};
-
   /** @type {number|string} */
   this.default_group = 'default';
 
@@ -112,30 +109,55 @@ cwc.utils.StackQueue = function(autostart = true) {
 
   /** @type {boolean} */
   this.run = false;
+
+  /** @private {Object} */
+  this.stack_ = {};
 };
 
 
 /**
  * Add command to the stack queue.
  * @param {!Function} command
- * @param {number|string=} optGroup
+ * @param {number|string=} group
  * @export
  */
-cwc.utils.StackQueue.prototype.addCommand = function(command, optGroup) {
-  this.addStack_(new cwc.utils.StackEntry(cwc.utils.StackType.CMD, command),
-    optGroup);
+cwc.utils.StackQueue.prototype.addCommand = function(command, group) {
+  if (command && command instanceof Function) {
+    this.addStack_(
+      new cwc.utils.StackEntry(cwc.utils.StackType.CMD, command), group
+    );
+  }
 };
 
 
 /**
  * Pause the stack queue for the given delay.
  * @param {number} delay in ms
- * @param {number|string=} optGroup
+ * @param {number|string=} group
  * @export
  */
-cwc.utils.StackQueue.prototype.addDelay = function(delay, optGroup) {
-  this.addStack_(new cwc.utils.StackEntry(
-    cwc.utils.StackType.DELAY, null, delay), optGroup);
+cwc.utils.StackQueue.prototype.addDelay = function(delay, group) {
+  this.addStack_(
+    new cwc.utils.StackEntry(cwc.utils.StackType.DELAY, null, delay), group
+  );
+};
+
+
+/**
+ * Add promise command to the stack queue.
+ * @param {!Function} command
+ * @param {Function=} callback
+ * @param {number|string=} group
+ * @export
+ */
+cwc.utils.StackQueue.prototype.addPromise = function(command, callback, group) {
+  if (command && command instanceof Function) {
+    this.addStack_(
+      new cwc.utils.StackEntry(
+        cwc.utils.StackType.PROMISE, command, '', callback
+      ), group
+    );
+  }
 };
 
 
@@ -145,16 +167,7 @@ cwc.utils.StackQueue.prototype.addDelay = function(delay, optGroup) {
  */
 cwc.utils.StackQueue.prototype.clear = function() {
   this.stack_[this.default_group] = [];
-};
-
-
-/**
- * Sets and initializes the stack queue timer.
- * @param {number=} interval
- * @export
- */
-cwc.utils.StackQueue.prototype.setTimerInterval = function(interval) {
-  this.timerInterval_ = interval;
+  this.run = false;
 };
 
 
@@ -204,23 +217,6 @@ cwc.utils.StackQueue.prototype.getNext = function(group = this.default_group) {
 
 
 /**
- * Returns the next valid command.
- * @param {number|string=} optGroup
- * @return {Function|undefined}
- * @export
- */
-cwc.utils.StackQueue.prototype.getNextCommand = function(optGroup) {
-  let stackItem = null;
-  while ((stackItem = this.getNext(optGroup))) {
-    if (stackItem.getType() == cwc.utils.StackType.CMD) {
-      return stackItem.getFunc();
-    }
-  }
-  return null;
-};
-
-
-/**
  * Adds the entry to the stack queue.
  * @param {cwc.utils.StackEntry} stackEntry
  * @param {number|string=} group
@@ -254,24 +250,35 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function() {
   }
 
   let task = this.stack_[this.default_group].shift();
-  let type = task.getType();
-  let value = task.getValue();
+  let callback = task.getCallback();
   let func = task.getFunc();
+  let type = task.getType();
   switch (type) {
     case cwc.utils.StackType.CMD:
-      if (func && typeof func === 'function') {
-        this.run = true;
-        func(value);
-        this.run = false;
-        this.handleQueue_();
-      }
+      this.run = true;
+      func();
+      this.run = false;
+      this.handleQueue_();
       break;
     case cwc.utils.StackType.DELAY:
       this.run = true;
       setTimeout(function() {
         this.run = false;
         this.handleQueue_();
-      }.bind(this), value);
+      }.bind(this), task.getValue());
+      break;
+    case cwc.utils.StackType.PROMISE:
+      this.run = true;
+      func().then((e) => {
+        this.run = false;
+        this.handleQueue_();
+        if (callback) {
+          callback(e);
+        }
+      }).catch(() => {
+        this.run = false;
+        this.handleQueue_();
+      });
       break;
     default:
       console.error('Unknown Stack Type', type);

@@ -15,7 +15,8 @@
  */
 
 #{$prefix}runner-body,
-#{$prefix}runner-chrome {
+#{$prefix}runner-chrome,
+#{$prefix}runner-content {
   align-content: stretch;
   background: #fff;
   display: flex;

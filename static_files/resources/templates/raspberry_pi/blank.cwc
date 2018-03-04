@@ -1,0 +1,18 @@
+{
+  "author": "Markus Bordihn",
+  "content": {
+    "javascript": "// Recieve Data from Raspberry Pi over serial\nvar dataHandler = function(data) {\n  console.log(new TextDecoder().decode(data))\n};\npi.onData(dataHandler);\n\n// Send Data to Raspberry Pi over serial with 1ms delay\nfor (let i=0; i < 10000; i++) {\n  pi.sendSerialText(\"'\" + i + '\"', 1);\n}\n"
+  },
+  "description": "Simple load test for serial connection ...",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 1.0",
+  "frameworks": {},
+  "history": "",
+  "type": "rapsberry_pi",
+  "mode": "raspberry_pi",
+  "model": "",
+  "title": "Raspberry Pi - Load Test",
+  "ui": "default",
+  "version": "1.0"
+}

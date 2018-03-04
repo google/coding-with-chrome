@@ -38,6 +38,5 @@ cwc.mode.basic.simple.Mod = function(helper) {
  */
 cwc.mode.basic.simple.Mod.prototype.decorate = function() {
   this.mod.decorate();
-  this.mod.editor.showEditorViews(false);
   this.mod.editor.setLocalHints(cwc.mode.basic.Hints);
 };

@@ -650,6 +650,7 @@ cwc.protocol.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
       console.warn('Please check connection on port', port, '!');
     } else {
       console.warn('Unknown device type "', type, '" on port', port, '!');
+      console.warn('Please check re-connect device on port', port, '!');
     }
     return;
   }

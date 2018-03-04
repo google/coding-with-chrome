@@ -21,8 +21,9 @@ goog.provide('cwc.ui.SelectScreen');
 
 goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreen');
-goog.require('cwc.ui.SelectScreenAdvanced');
-goog.require('cwc.ui.SelectScreenNormal');
+goog.require('cwc.soy.SelectScreenAdvanced');
+goog.require('cwc.soy.SelectScreenNormal');
+goog.require('cwc.ui.SelectScreenWelcome');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');
@@ -53,13 +54,8 @@ cwc.ui.SelectScreen = function(helper) {
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
-  /** @type {!cwc.ui.SelectScreenNormal} */
-  this.selectScreenNormal = new cwc.ui.SelectScreenNormal(
-    this.helper, this.eventHandler_);
-
-  /** @type {cwc.ui.SelectScreenAdvanced} */
-  this.selectScreenAdvanced = new cwc.ui.SelectScreenAdvanced(
-    this.helper, this.eventHandler_);
+  /** @type {!cwc.ui.SelectScreenWelcome} */
+  this.selectScreenWelcome = new cwc.ui.SelectScreenWelcome(this);
 
   /** @type {boolean} */
   this.updateMode = false;
@@ -70,8 +66,11 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {boolean} */
   this.lockAdvancedMode = false;
 
-  /** @private {Shepherd.Tour} */
-  this.tour_ = null;
+  /** @type {boolean} */
+  this.prepared_ = false;
+
+  /** @private {!string} */
+  this.resourcesPath_ = '../resources/examples/';
 };
 
 
@@ -81,17 +80,11 @@ cwc.ui.SelectScreen = function(helper) {
  */
 cwc.ui.SelectScreen.prototype.decorate = function(node) {
   this.node = node;
-
   goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
     'prefix': this.prefix,
   });
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
-  if (this.nodeContent) {
-    this.selectScreenNormal.decorate(this.nodeContent);
-    this.selectScreenAdvanced.decorate(this.nodeContent);
-  }
-  this.prepareTour_();
 };
 
 
@@ -114,9 +107,23 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(optCallback,
 
 /**
  * Renders and shows the select screen.
- * @param {boolean=} opt_force_overview
+ * @param {boolean=} forceOverview
  */
-cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
+cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
+  let guiInstance = this.helper.getInstance('gui', true);
+  if (this.prepared_ && !forceOverview) {
+    guiInstance.showOverlay(true);
+    return;
+  }
+  this.decorate(guiInstance.getOverlayNode());
+  guiInstance.showOverlay(true);
+
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    layoutInstance.decorateBlank();
+    layoutInstance.refresh();
+  }
+
   let advancedMode = false;
   let skipWelcomeScreen = false;
   let userConfigInstance = this.helper.getInstance('userConfig');
@@ -125,44 +132,27 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
             cwc.userConfigName.SKIP_WELCOME);
     advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
             cwc.userConfigName.ADVANCED_MODE);
-    if (!this.lockBasicMode && !this.lockAdvancedMode &&
-        userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.FULLSCREEN)) {
-      chrome.app.window.current()['maximize']();
-    }
+  }
+  if (this.lockBasicMode && !forceOverview) {
+    this.showOverview();
+  } else if (this.lockAdvancedMode && !forceOverview) {
+    this.showOverview(true);
+  } else if (!skipWelcomeScreen) {
+    this.setNavHeader_('Coding with Chrome');
+    this.showWelcome();
+  } else {
+    this.showOverview(advancedMode);
   }
 
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    layoutInstance.decorateBlank();
-    let nodes = layoutInstance.getNodes();
-    this.decorate(nodes['content']);
-    if (this.lockBasicMode && !opt_force_overview) {
-      this.showNormalOverview();
-    } else if (this.lockAdvancedMode && !opt_force_overview) {
-      this.showAdvancedOverview();
-    } else if (!skipWelcomeScreen) {
-      this.setNavHeader_('Coding with Chrome');
-      this.showWelcome();
-    } else if (advancedMode) {
-      this.showAdvancedOverview(opt_force_overview);
-    } else {
-      this.showNormalOverview(opt_force_overview);
-    }
-    layoutInstance.refresh();
-  }
-
-  let guiInstance = this.helper.getInstance('gui');
-  if (guiInstance) {
-    guiInstance.setTitle('');
-    guiInstance.enableTitle(false);
-    guiInstance.setStatus('');
-  }
+  guiInstance.setTitle('');
+  guiInstance.enableTitle(false);
+  guiInstance.setStatus('');
 
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.enableSaveFile(false);
   }
+  this.prepared_ = true;
 };
 
 
@@ -170,112 +160,33 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(opt_force_overview) {
  * Shows the general welcome screen.
  */
 cwc.ui.SelectScreen.prototype.showWelcome = function() {
-  this.showTemplate_(cwc.soy.SelectScreen.welcome);
-
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance) {
-    let showWelcome = goog.dom.getElement(this.prefix + 'show-welcome');
-    showWelcome.checked = !userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.SKIP_WELCOME);
-    goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
-      function(opt_event) {
-        this.updateMode = !showWelcome.checked;
-        userConfigInstance.set(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
-      }, false, this);
-  }
-
-  if (this.helper.getAndSetFirstRun(this.name)) {
-    // this.startTour();
-  }
-
-  // Blockly demo
-  let workspace = Blockly.inject('blocklyExampleDiv', {
-    'media': '/external/blockly/media/',
-    'toolbox': document.getElementById('blocklyExampleToolbox'),
-  });
-  let workspaceNode = goog.dom.getElement('blocklyExampleWorkspace');
-  if (workspaceNode) {
-    Blockly.Xml.domToWorkspace(workspaceNode, workspace);
-  }
-
-  // Codemirror demo
-  let editorNode = goog.dom.getElement('codeMirrorExample');
-  if (editorNode) {
-    CodeMirror.fromTextArea(editorNode, {
-      'lineNumbers': true,
-      'foldGutter': true,
-      'gutters': ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-    });
-  }
-
-  // Events
-  goog.events.listen(document.querySelector(
-      '#' + this.prefix + 'link-normal-mode .mdl-card__actions'),
-    goog.events.EventType.CLICK, this.showNormalOverview, false, this);
-  goog.events.listen(document.querySelector(
-      '#' + this.prefix + 'link-advanced-mode .mdl-card__actions'),
-    goog.events.EventType.CLICK, this.showAdvancedOverview, false, this);
-};
-
-
-/**
- * Starts an basic tour.
- */
-cwc.ui.SelectScreen.prototype.startTour = function() {
-  if (this.tour_) {
-    this.tour_.start();
-  }
-};
-
-
-/**
- * Shows the basic overview for normal users.
- * @param {boolean=} opt_force_overview
- */
-cwc.ui.SelectScreen.prototype.showNormalOverview = function(
-    opt_force_overview) {
   this.helper.endTour();
-  this.lockBasicMode = true;
-  this.lockAdvancedMode = false;
-  if (this.updateMode) {
-    let userConfigInstance = this.helper.getInstance('userConfig');
-    if (userConfigInstance) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.ADVANCED_MODE, false);
-    }
-    this.updateMode = false;
-    this.selectScreenNormal.showView();
-  } else if (opt_force_overview) {
-    this.selectScreenNormal.showView(cwc.ui.SelectScreenNormalView.OVERVIEW);
-  } else {
-    this.selectScreenNormal.showLastView();
-  }
-};
-
-
-/**
- * Shows the advanced overview for more advanced user.
- * @param {boolean=} opt_force_overview
- */
-cwc.ui.SelectScreen.prototype.showAdvancedOverview = function(
-    opt_force_overview) {
-  this.helper.endTour();
-  this.lockAdvancedMode = true;
   this.lockBasicMode = false;
+  this.lockAdvancedMode = false;
+  this.selectScreenWelcome.decorate();
+};
+
+
+/**
+ * Shows the basic or advanced overview.
+ * @param {boolean=} advanced
+ */
+cwc.ui.SelectScreen.prototype.showOverview = function(advanced = false) {
+  this.helper.endTour();
+  this.lockBasicMode = !advanced;
+  this.lockAdvancedMode = advanced;
   if (this.updateMode) {
     let userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.ADVANCED_MODE, true);
+          cwc.userConfigName.ADVANCED_MODE, advanced);
     }
     this.updateMode = false;
-    this.selectScreenAdvanced.showView();
-  } else if (opt_force_overview) {
-    this.selectScreenAdvanced.showView(
-      cwc.ui.SelectScreenAdvancedView.OVERVIEW);
+  }
+  if (advanced) {
+    this.showTemplate_(cwc.soy.SelectScreenAdvanced.template);
   } else {
-    this.selectScreenAdvanced.showLastView();
+    this.showTemplate_(cwc.soy.SelectScreenNormal.template);
   }
 };
 
@@ -297,64 +208,6 @@ cwc.ui.SelectScreen.prototype.getEventHandler = function() {
 
 
 /**
- * @private
- */
-cwc.ui.SelectScreen.prototype.prepareTour_ = function() {
-  if (!this.helper.checkJavaScriptFeature('shepherd') || this.tour_) {
-    return;
-  }
-
-  this.tour_ = new Shepherd.Tour({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true,
-    },
-  });
-  this.tour_.addStep('welcome', {
-    'title': i18t('Welcome to Coding with Chrome!'),
-    'text': i18t('This tour will explain some UI parts.'),
-    'buttons': [{
-      'text': 'Exit',
-      'action': this.tour_.cancel,
-      'classes': 'shepherd-button-secondary',
-    }, {
-      'text': 'Next',
-      'action': this.tour_.next,
-      'classes': 'shepherd-button-example-primary',
-    }],
-  });
-  this.tour_.addStep('menubar', {
-    'title': i18t('Menubar'),
-    'text': i18t('...'),
-    'attachTo': '#cwc-gui-bar bottom',
-  });
-  this.tour_.addStep('navigation', {
-    'title': i18t('Navigation'),
-    'text': i18t('...'),
-    'when': {
-      'before-show': function() {
-        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      },
-    },
-  });
-  this.tour_.addStep('skip_welcome', {
-    'title': i18t('Show screen on startup'),
-    'text': i18t('...'),
-    'attachTo': '#cwc-select-screen-show-welcome top',
-    'when': {
-      'before-show': function() {
-        document.getElementsByClassName('mdl-layout__drawer-button')[0].click();
-      },
-    },
-  });
-  this.tour_.addStep('welcome', {
-    'text': i18t('Please select your current coding skill to start.'),
-    'attachTo': '.mdl-grid top',
-  });
-};
-
-
-/**
  * @param {!string} title
  * @param {string=} opt_icon
  * @param {string=} opt_color_class
@@ -370,19 +223,92 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
 
 
 /**
- * @param {!Function} template
+ * Adding file link handler.
  * @private
  */
+cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
+  let elements = document.querySelectorAll('[data-select-screen-action]');
+  Array.from(elements).forEach((element) => {
+    element.addEventListener('click', this.handleFileClick_.bind(this));
+  });
+};
+
+
+/**
+ * @param {!Function} template
+ */
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
+  let modules = {};
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
+  }
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
       debug: this.helper.debugEnabled(),
       experimental: this.helper.experimentalEnabled(),
+      modules: modules,
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
       version: this.helper.getAppVersion(),
     });
+    this.addFileHandler_();
+    cwc.ui.Helper.mdlRefresh();
   } else {
     console.error('Unable to render template', template);
+  }
+};
+
+/**
+ * @param {cwc.ui.SelectScreenNormalView|
+ *    cwc.ui.SelectScreenAdvancedView=} name
+ */
+cwc.ui.SelectScreen.prototype.showView_ = function(name) {
+  if (this.lockBasicMode) {
+    this.selectScreenNormal.showView(name);
+  } else if (this.lockAdvancedMode) {
+    this.selectScreenAdvanced.showView(name);
+  } else {
+    console.error('Unable to show view', name);
+  }
+};
+
+
+/**
+ * @private
+ * @param {Object} e
+ */
+cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
+  let filename = e.currentTarget.dataset['selectScreenValue'];
+  let fileAction = e.currentTarget.dataset['selectScreenAction'];
+  if (!fileAction || !filename) {
+    return;
+  }
+  console.log('Click action', fileAction, 'for file', filename);
+  if (filename && fileAction) {
+    switch (fileAction) {
+      case 'loadFile': {
+        let loaderInstance = this.helper.getInstance('fileLoader');
+        if (loaderInstance) {
+          loaderInstance.loadLocalFile(this.resourcesPath_ + filename);
+        }
+        break;
+      }
+      case 'loadMode': {
+        let modeInstance = this.helper.getInstance('mode');
+        if (modeInstance) {
+          modeInstance.loadMode(filename);
+        }
+        break;
+      }
+      case 'switchTab': {
+        document.getElementById(filename)['click']();
+        break;
+      }
+    }
+    let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+    if (editorWindow) {
+      editorWindow['clearAttention']();
+    }
   }
 };

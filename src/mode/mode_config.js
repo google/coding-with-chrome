@@ -32,10 +32,9 @@ cwc.mode.Config = function() {};
 
 /**
  * @param {!cwc.mode.Type} type
- * @param {boolean=} required
  * @return {Object}
  */
-cwc.mode.Config.get = function(type, required = false) {
+cwc.mode.Config.get = function(type) {
   if (!type) {
     console.warn('Mode type is undefined!');
     return null;
@@ -43,13 +42,8 @@ cwc.mode.Config.get = function(type, required = false) {
   if (type in cwc.mode.ConfigData) {
     return cwc.mode.ConfigData[type];
   } else {
-    let error = 'Mode config for ' + type + ' is not defined !';
-    if (required) {
-      throw new Error('Required ' + error);
-    }
-    console.warn(error);
+    throw new Error('Required Mode config for ' + type + ' is not defined !');
   }
-  return null;
 };
 
 
@@ -58,7 +52,7 @@ cwc.mode.Config.get = function(type, required = false) {
  * @return {!string}
  */
 cwc.mode.Config.getMode = function(modeType) {
-  if (cwc.mode.Config.get(modeType, true)) {
+  if (cwc.mode.Config.get(modeType)) {
     return modeType;
   }
   return '';

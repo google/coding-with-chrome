@@ -61,6 +61,7 @@
 
 #{$prefix}select-screen-body {
   min-height: 100%;
+  background: linear-gradient(90deg,#fcfcfc 0,#f7f7f7);
 }
 
 #{$prefix}select-screen-band {
@@ -111,8 +112,16 @@
   width: 650px;
 }
 
-#{$prefix}select-screen-welcome > .mdl-grid {
-  max-width: 800px;
+#{$prefix}select-screen-welcome .mdl-card {
+  margin: 10px;
+}
+
+#{$prefix}select-screen-welcome .mdl-card__supporting-text {
+  flex: 1;
+}
+
+#{$prefix}select-screen-welcome .mdl-button {
+  width: 95%;
 }
 
 #{$prefix}select-screen-welcome .mdl-grid > .mdl-card:hover {
@@ -125,43 +134,25 @@
   margin: auto;
 }
 
-#{$prefix}select-screen-welcome .mdl-grid > .mdl-card > .mdl-card__supporting-text {
-  min-height: 100px;
-  padding-bottom: 0;
-}
-
-#{$prefix}select-screen-welcome .mdl-grid > .mdl-card > .mdl-card__actions > a {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-#{$prefix}select-screen-welcome .mdl-grid > .mdl-card > .mdl-card__media {
-  background-color: #fff;
-}
-
 
 /**
  * Header
  */
 
 .{$prefix}select-header {
-  width: 100%;
-  text-align: center;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 
 .{$prefix}select-header .header__icon {
   position: absolute;
-  left: 15px;
+  right: 15px;
   top: 15px;
-  font-size: 64px;
+  font-size: 34px;
+  display: none;
 }
 
 .{$prefix}select-header .header__text {
-  margin-left: 70px;
-  padding: 12px 24px;
-  text-align: left;
+  padding: 10px 5px;
 }
 
 .{$prefix}select-header .header__text p {
@@ -169,6 +160,7 @@
 }
 
 .{$prefix}select-header > .header__text > .mdl-typography--headline {
+  font-size: 20px;
   margin: 0;
   padding: 0;
 }
@@ -183,9 +175,8 @@
 }
 
 /** 
- * File Cards
+ * File Card
  */
-
 .cwc-file-card {
   background: #fff;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),
@@ -194,8 +185,8 @@
   cursor: pointer;
   font-weight: 300;
   margin: 0 15px 15px 0;
-  width: 300px;
-  min-height: 290px;
+  overflow: visible;
+  min-height: 250px;
 }
 
 .cwc-file-card:hover {
@@ -258,29 +249,8 @@
   font-size: 50px;
 }
 
-.cwc-file-card > .card__body {
-  display: flex;
+.cwc-file-card > .mdl-card__supporting-text {
   flex: 1;
-  font-size: 16px;
-  padding: 20px;
-  min-height: 115px;
-}
-
-.cwc-file-card > .card__action {
-  height: 35px;
-  overflow: hidden;
-  padding: 0 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #4285f4;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.cwc-file-card:hover > .card__action {
-  font-weight: bold;
 }
 
 .mdl-grid.cwc-select-title-grid {
@@ -291,4 +261,80 @@
 .mdl-grid.cwc-select-title-grid > .material-icons {
   font-size: 20px;
   vertical-align: bottom;
+}
+
+/**
+ * New
+ */
+
+#{$prefix}select-screen-content > .mdl-layout__content {
+  height: calc(100vh - 48px);
+}
+
+.{$prefix}select-header,
+.{$prefix}select-screen-container .mdl-grid {
+  margin: 0 auto;
+  max-width: 95%;
+  width: 100%;
+}
+
+.{$prefix}select-screen-container .mdl-tabs__tab-bar {
+  background-color: #fff;
+  background-image: none;
+  border-bottom: 1px solid #efefef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.{$prefix}select-screen-overview .mdl-layout__tab > .icon_24px {
+  margin: -4px 10px 0px 0px;
+  padding: 0 5px;
+  vertical-align: middle;
+}
+
+.{$prefix}select-screen-overview .mdl-layout__tab {
+  height: auto;
+  padding: 0 20px;
+}
+
+
+/** 
+ * Naviation and Overview design
+ */
+
+.{$prefix}select-screen-navigation-overview {
+  min-height: 44px;
+}
+
+.{$prefix}select-screen-navigation-overview .mdl-navigation__link {
+  line-height: 44px;
+}
+
+.{$prefix}select-screen-navigation-robot .mdl-navigation {
+  margin-left: 71px;
+}
+
+.{$prefix}select-screen-navigation-overview .mdl-layout__header-row {
+  padding: 0;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  height: 45px;
+}
+
+.{$prefix}select-screen-navigation-overview .is-active {
+  position: relative;
+  font-weight: bold;
+}
+
+.{$prefix}select-screen-navigation-overview .is-active:after {
+  content: "";
+  width: 70%;
+  height: 2px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  background-color: rgb(255,64,129);
 }

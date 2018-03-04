@@ -1,0 +1,209 @@
+/**
+ * @fileoverview Advanced select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenAdvanced.programming autoescape="strict"}
+
+
+/** Default icon. */
+{template .icon}
+  view_stream
+{/template}
+
+
+/**
+ * Programming overview page.
+ */
+{template .template}
+  {@param modules: ?}
+
+  {call cwc.soy.SelectScreenTemplate.containerSub}
+    {param content kind="html"}
+
+      <div class="mdl-tabs__tab-bar">
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param active: true /}
+          {param id: 'programming_overview' /}
+          {param name: 'Overview' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'javascript' /}
+          {param name: 'JavaScript' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'python' /}
+          {param name: 'Python' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'python27' /}
+          {param name: 'Python 2.7' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'coffeescript' /}
+          {param name: 'Coffeescript' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {param id: 'pencil_code' /}
+          {param name: 'Pencil Code' /}
+        {/call}
+
+      </div>
+
+      <div class="cwc-select-screen-scroller">
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param active: true /}
+          {param id: 'programming_overview' /}
+          {param content kind="html"}
+            {call .overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'javascript' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.programming.javascript.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'python' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.programming.python.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'python27' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.programming.python27.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'coffeescript' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.programming.coffeescript.overview data="all" /}
+          {/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'pencil_code' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenAdvanced.programming.pencil_code.overview data="all" /}
+          {/param}
+        {/call}
+
+      </div>
+
+    {/param}
+  {/call}
+
+{/template}
+
+
+/**
+ * Programming language overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param header kind="html"}
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Programming language' /}
+        {param opt_text: 'Text-based programming languages' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
+      {/call}
+    {/param}
+
+    {param content kind="html"}
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
+        {param id: 'javascript' /}
+        {param title: 'JavaScript' /}
+        {param text: 'Use JavaScript to create programs' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'beenhere' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use JavaScript' /}
+            {param tab: 'javascript' /}
+          {/call}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
+        {param id: 'python' /}
+        {param title: 'Python' /}
+        {param text: 'Use the Python language to create programs' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'gesture' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Python' /}
+            {param tab: 'python' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Python 2.7' /}
+            {param tab: 'python27' /}
+          {/call}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
+        {param id: 'coffeescript' /}
+        {param title: 'CoffeeScript' /}
+        {param text: 'Use the simple CoffeeScript language to create programs' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'local_cafe' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use CoffeeScript' /}
+            {param tab: 'coffeescript' /}
+          {/call}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectSection data="all"}
+        {param id: 'pencil_code' /}
+        {param title: 'Pencil Code' /}
+        {param text: 'Draw art, play music or create games' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'mode_edit' /}
+
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Pencil Code' /}
+            {param tab: 'pencil_code' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

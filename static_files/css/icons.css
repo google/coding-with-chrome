@@ -20,43 +20,51 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-.icon_gamepad,
+.icon_128px_fixed,
+.icon_18px,
+.icon_18px_black,
+.icon_18px_blue,
+.icon_18px_grey,
+.icon_18px_raw,
+.icon_18px_red,
+.icon_18px_white, 
+.icon_24px,
+.icon_24px_black,
+.icon_24px_blue,
+.icon_24px_grey,
+.icon_24px_raw,
+.icon_24px_red,
+.icon_24px_white,
+.icon_36px,
+.icon_36px_black,
+.icon_36px_blue,
+.icon_36px_grey,
+.icon_36px_raw,
+.icon_36px_red,
+.icon_36px_white,
 .icon_auto,
 .icon_auto_black,
 .icon_auto_blue,
-.icon_auto_red,
 .icon_auto_grey,
+.icon_auto_red,
 .icon_auto_white,
-.icon_36px,
-.icon_24px,
-.icon_18px,
-.icon_36px_black,
-.icon_24px_black,
-.icon_18px_black,
-.icon_36px_blue,
-.icon_24px_blue,
-.icon_18px_blue,
-.icon_36px_raw,
-.icon_24px_raw,
-.icon_18px_raw,
-.icon_36px_red,
-.icon_24px_red,
-.icon_18px_red,
-.icon_36px_grey,
-.icon_24px_grey,
-.icon_18px_grey,
-.icon_36px_white,
-.icon_24px_white,
-.icon_18px_white {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
+.icon_gamepad {
   display: inline-block;
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none !important;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+
+.icon_128px_fixed {
+  display: block;
+  font-size: 128px !important;
+  height: 128px;
+  width: 128px;
 }
 
 .icon_36px_raw {

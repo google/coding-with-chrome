@@ -21,6 +21,17 @@
 
 
 /**
+ * Blockly template.
+ */
+{template .blockly}
+  {@param prefix: string}
+
+  <div id="{$prefix}editor-chrome"></div>
+  <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;"></div>
+{/template}
+
+
+/**
  * Editor template.
  */
 {template .editor}
@@ -37,5 +48,16 @@
   {@param prefix: string}
 
   <div id="{$prefix}preview-chrome"></div>
+  <div id="{$prefix}message-chrome"></div>
+{/template}
+
+
+/**
+ * Runner template.
+ */
+{template .runner}
+  {@param prefix: string}
+
+  <div id="{$prefix}runner-chrome">Runner</div>
   <div id="{$prefix}message-chrome"></div>
 {/template}

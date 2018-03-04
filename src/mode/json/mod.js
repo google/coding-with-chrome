@@ -19,9 +19,7 @@
  */
 goog.provide('cwc.mode.json.Mod');
 
-goog.require('cwc.mode.json.Editor');
-goog.require('cwc.mode.json.Layout');
-goog.require('cwc.utils.Helper');
+goog.require('cwc.mode.default.Mod');
 
 
 /**
@@ -29,11 +27,8 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.json.Mod = function(helper) {
-  /** @type {cwc.mode.json.Layout} */
-  this.layout = new cwc.mode.json.Layout(helper);
-
-  /** @type {cwc.mode.json.Editor} */
-  this.editor = new cwc.mode.json.Editor(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -41,6 +36,5 @@ cwc.mode.json.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.json.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
+  this.mod.decorate();
 };

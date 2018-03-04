@@ -98,16 +98,6 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 /**
  * @param {!string} filename
- * @deprecated
- * @export
- */
-cwc.fileHandler.FileLoader.prototype.loadExampleFile = function(filename) {
-  this.loadLocalFile('examples/' + filename);
-};
-
-
-/**
- * @param {!string} filename
  * @return {Promise}
  * @export
  */

@@ -1,0 +1,208 @@
+/**
+ * @fileoverview Advanced select screen for Coding in Chrome editor.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.SelectScreenAdvanced autoescape="strict"}
+
+
+/**
+ * Advanced overview template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div class="{$prefix}overview mdl-layout mdl-js-layout">
+
+    <header class="{$prefix}navigation-overview mdl-layout__header bg_10_pct_black">
+      <nav class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param active: true /}
+          {param icon: 'home' /}
+          {param id: 'home' /}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'basic' /}
+          {param name: 'Basic' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.basic.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'games' /}
+          {param name: 'Games' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.games.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'programming' /}
+          {param name: 'Programming' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.programming.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'markup' /}
+          {param name: 'Markup' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.markup.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'robots' /}
+          {param name: 'Robots' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.robot.icon /}{/param}
+        {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'graphic' /}
+          {param name: 'Graphic' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.graphic.icon /}{/param}
+        {/call}
+      </nav>
+    </header>
+
+    <main class="cwc-select-screen-container mdl-layout__content">
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param active: true /}
+        {param id: 'home' /}
+        {param content kind="html"}
+          {call .overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'basic' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.basic.overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'games' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.games.overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'programming' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.programming.template data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'markup' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.markup.template data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'robots' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.robot.template data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'graphic' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.graphic.overview data="all" /}
+        {/param}
+      {/call}
+
+    </div>
+
+  </div>
+{/template}
+
+
+/**
+ * Advanced overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param header kind="html"}
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Advanced Coding' /}
+        {param opt_text: 'High-level programming' /}
+        {param opt_icon: 'subject' /}
+      {/call}
+    {/param}
+
+    {param content kind="html"}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Simple' /}
+        {param text: 'JavaScript made easy through easy starter functions' /}
+        {param link_text: 'Go Simple' /}
+        {param tab: 'basic' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'school' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Games' /}
+        {param text: 'Create games with the Phaser framework' /}
+        {param link_text: 'Start creating games' /}
+        {param tab: 'games' /}
+        {param opt_color_class: 'bg-lime' /}
+        {param opt_icon: 'videogame_asset' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Programming' /}
+        {param text: 'Build software with text-based programming languages' /}
+        {param link_text: 'Go Coding ' /}
+        {param tab: 'programming' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: 'view_stream' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Markup' /}
+        {param text: 'Put together the components of a website- HTML, CSS and JavaScript' /}
+        {param link_text: 'Go Web' /}
+        {param tab: 'markup' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: 'public' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'Robots' /}
+        {param text: 'Control real or virtual robots' /}
+        {param link_text: 'Go Robots' /}
+        {param tab: 'robot' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'memory' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: '3D' /}
+        {param text: 'Create and display animated 3D computer graphics' /}
+        {param link_text: 'Start drawing' /}
+        {param tab: 'graphic' /}
+        {param opt_color_class: 'bg-blue' /}
+        {param opt_icon: '3d_rotation' /}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

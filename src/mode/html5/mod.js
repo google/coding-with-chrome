@@ -19,11 +19,9 @@
  */
 goog.provide('cwc.mode.html5.Mod');
 
-goog.require('cwc.mode.html5.Editor');
-goog.require('cwc.mode.html5.Layout');
-goog.require('cwc.mode.html5.Preview');
 goog.require('cwc.renderer.internal.HTML5');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.mode.default.Mod');
 
 
 /**
@@ -31,17 +29,8 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.html5.Mod = function(helper) {
-  /** @type {cwc.mode.html5.Editor} */
-  this.editor = new cwc.mode.html5.Editor(helper);
-
-  /** @type {cwc.mode.html5.Layout} */
-  this.layout = new cwc.mode.html5.Layout(helper);
-
-  /** @type {cwc.mode.html5.Preview} */
-  this.preview = new cwc.mode.html5.Preview(helper);
-
-  /** @type {cwc.renderer.internal.HTML5} */
-  this.renderer = new cwc.renderer.internal.HTML5(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -49,8 +38,5 @@ cwc.mode.html5.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.html5.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
-  this.preview.decorate();
-  this.renderer.init();
+  this.mod.decorate();
 };

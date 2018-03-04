@@ -56,6 +56,19 @@ cwc.mode.Modder = function(helper) {
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @type {string} */
+  this.templatePath_ = '../resources/templates/';
+};
+
+
+/**
+ * @param {cwc.mode.Type} mode
+ */
+cwc.mode.Modder.prototype.loadMode = function(mode) {
+  let modeConfig = cwc.mode.Config.get(mode);
+  let loaderInstance = this.helper.getInstance('fileLoader', true);
+  loaderInstance.loadLocalFile(this.templatePath_ + modeConfig.template);
 };
 
 
@@ -63,10 +76,7 @@ cwc.mode.Modder = function(helper) {
  * @param {cwc.mode.Type} mode
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
-  let modeConfig = cwc.mode.Config.get(mode, true);
-  if (!modeConfig) {
-    return;
-  }
+  let modeConfig = cwc.mode.Config.get(mode);
 
   this.log_.info('Loading Mode', mode,
     (modeConfig.version ? 'version ' + modeConfig.version : ''),
@@ -105,6 +115,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   this.mode = mode;
   this.modder = new modeConfig.Mod(this.helper);
   this.modder.decorate();
+
+  // Hide overlay after loading.
+  let guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.showOverlay(false);
+  }
 };
 
 
@@ -120,10 +136,7 @@ cwc.mode.Modder.prototype.setFilename = function(filename) {
  * @param {cwc.mode.Type} mode
  */
 cwc.mode.Modder.prototype.postMode = function(mode) {
-  let modeConfig = cwc.mode.Config.get(mode, true);
-  if (!modeConfig) {
-    return;
-  }
+  let modeConfig = cwc.mode.Config.get(mode);
 
   // Preview Handling
   if (modeConfig.autoPreview) {
@@ -270,4 +283,3 @@ cwc.mode.Modder.prototype.setTitle = function(title) {
 cwc.mode.Modder.prototype.getEventHandler = function() {
   return this.eventHandler_;
 };
-

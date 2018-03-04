@@ -19,11 +19,8 @@
  */
 goog.provide('cwc.mode.python.Mod');
 
-goog.require('cwc.mode.python.Editor');
-goog.require('cwc.mode.python.Layout');
-goog.require('cwc.mode.python.Preview');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.renderer.external.Python');
-goog.require('cwc.utils.Helper');
 
 
 /**
@@ -31,14 +28,8 @@ goog.require('cwc.utils.Helper');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.python.Mod = function(helper) {
-  /** @type {cwc.mode.python.Layout} */
-  this.layout = new cwc.mode.python.Layout(helper);
-
-  /** @type {cwc.mode.python.Editor} */
-  this.editor = new cwc.mode.python.Editor(helper);
-
-  /** @type {cwc.mode.python.Preview} */
-  this.preview = new cwc.mode.python.Preview(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {cwc.renderer.external.Python} */
   this.renderer = new cwc.renderer.external.Python(helper);
@@ -49,9 +40,7 @@ cwc.mode.python.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.python.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
-  this.preview.decorate();
-  this.preview.showConsole(true);
-  this.renderer.init();
+  this.mod.setRenderer(this.renderer);
+  this.mod.decorate();
+  this.mod.preview.showConsole(true);
 };

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.basic.blockly.Mod');
 
-goog.require('cwc.mode.default.blockly.Mod');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.soy.simple.Blocks');
 
 
@@ -28,8 +28,8 @@ goog.require('cwc.soy.simple.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.basic.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.default.blockly.Mod} */
-  this.mod = new cwc.mode.default.blockly.Mod(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -37,5 +37,6 @@ cwc.mode.basic.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.basic.blockly.Mod.prototype.decorate = function() {
-  this.mod.decorate(cwc.soy.simple.Blocks.toolbox);
+  this.mod.enableBlockly(cwc.soy.simple.Blocks.toolbox);
+  this.mod.decorate();
 };

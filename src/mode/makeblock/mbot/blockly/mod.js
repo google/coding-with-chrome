@@ -19,11 +19,10 @@
  */
 goog.provide('cwc.mode.makeblock.mbot.blockly.Mod');
 
-goog.require('cwc.mode.default.blockly.Editor');
+goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.makeblock.mbot.Connection');
 goog.require('cwc.mode.makeblock.mbot.Monitor');
 goog.require('cwc.mode.makeblock.mbot.Runner');
-goog.require('cwc.mode.makeblock.mbot.blockly.Layout');
 goog.require('cwc.renderer.external.makeblock.MBot');
 goog.require('cwc.soy.mbot.Blocks');
 
@@ -33,23 +32,20 @@ goog.require('cwc.soy.mbot.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
-  /** @type {cwc.mode.default.blockly.Editor} */
-  this.editor = new cwc.mode.default.blockly.Editor(helper);
-
   /** @type {cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
 
-  /** @type {cwc.mode.makeblock.mbot.blockly.Layout} */
-  this.layout = new cwc.mode.makeblock.mbot.blockly.Layout(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {cwc.mode.makeblock.mbot.Monitor} */
+  this.monitor = new cwc.mode.makeblock.mbot.Monitor(helper, this.connection);
 
   /** @type {cwc.renderer.external.makeblock.MBot} */
   this.renderer = new cwc.renderer.external.makeblock.MBot(helper);
 
   /** @type {cwc.mode.makeblock.mbot.Runner} */
   this.runner = new cwc.mode.makeblock.mbot.Runner(helper, this.connection);
-
-  /** @type {cwc.mode.makeblock.mbot.Monitor} */
-  this.monitor = new cwc.mode.makeblock.mbot.Monitor(helper, this.connection);
 };
 
 
@@ -57,10 +53,10 @@ cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.makeblock.mbot.blockly.Mod.prototype.decorate = function() {
-  this.connection.init();
-  this.layout.decorate();
-  this.editor.decorate(cwc.soy.mbot.Blocks.toolbox);
-  this.runner.decorate();
-  this.monitor.decorate();
-  this.renderer.init();
+  this.mod.enableBlockly(cwc.soy.mbot.Blocks.toolbox);
+  this.mod.setConnection(this.connection);
+  this.mod.setMonitor(this.monitor);
+  this.mod.setRenderer(this.renderer);
+  this.mod.setRunner(this.runner);
+  this.mod.decorate();
 };

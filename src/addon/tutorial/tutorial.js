@@ -23,7 +23,6 @@ goog.require('cwc.mode.Modder.Events');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.addon.Tutorial');
 goog.require('cwc.ui.SelectScreen.Events');
-goog.require('cwc.ui.SelectScreenNormalView');
 goog.require('cwc.utils.Logger');
 
 
@@ -47,7 +46,7 @@ cwc.addon.Tutorial = function(helper) {
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!string} */
-  this.resourcesPath_ = '../../resources/tutorial/';
+  this.resourcesPath_ = '../resources/tutorial/';
 
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
@@ -165,7 +164,7 @@ cwc.addon.Tutorial.prototype.decorateBasic = function() {
 cwc.addon.Tutorial.prototype.loadFile_ = function(file_name) {
   let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
-    loaderInstance.loadExampleFile(this.resourcesPath_ + file_name);
+    loaderInstance.loadLocalFile(this.resourcesPath_ + file_name);
   }
   let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
