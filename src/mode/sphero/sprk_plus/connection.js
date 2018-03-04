@@ -61,6 +61,16 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
+  let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
+  let devices = bluetoothInstance.getDevicesByName(
+    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name);
+  if (!devices || !devices[0]) {
+    console.log('Unable to find',
+      cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name,
+      'please connect...');
+    let connectScreenInstance = this.helper.getInstance('connectScreen');
+    connectScreenInstance.showBluetoothDevices();
+  }
   this.connectMonitor.start();
   this.connect();
 };
@@ -82,7 +92,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
       });
     }
   }
-  this.api_.monitor(false);
+  this.api_.monitor(true);
 };
 
 

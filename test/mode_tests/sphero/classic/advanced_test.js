@@ -42,7 +42,7 @@ describe('[Mode Sphero Classic - Advanced]', function() {
   describe('Loading files', function() {
     it('script/blank.cwc', function(done) {
       builder.loadFile(
-        '../resources/templates/sphero/classic/script/blank.cwc'
+        '../resources/templates/sphero/classic/blank.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();
@@ -53,7 +53,7 @@ describe('[Mode Sphero Classic - Advanced]', function() {
     });
     it('script/Sphero-rectangle.cwc', function(done) {
       builder.loadFile(
-        '../resources/templates/sphero/classic/script/Sphero-rectangle.cwc'
+        '../resources/examples/sphero/classic/script/Sphero-rectangle.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

@@ -93,6 +93,26 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connect = function() {
 
 
 /**
+ * @param {!string} characteristicId
+ * @param {!Function} func
+ */
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.listen = function(
+  characteristicId, func) {
+  if (!this.characteristic_[characteristicId]) {
+    this.log_.error('Unknown characteristic', characteristicId);
+    return;
+  }
+  this.characteristic_[characteristicId]['startNotifications']().then(() => {
+    this.log_.info('Adding event listener for', characteristicId);
+    this.characteristic_[characteristicId]['addEventListener'](
+      'characteristicvaluechanged', function(e) {
+        func(e.target.value.buffer)
+      });
+  });
+};
+
+
+/**
  * Sends the buffer to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
  */
@@ -109,12 +129,13 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.send = function(buffer) {
  * Sends the buffer to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
  * @param {!string} characteristicId
+ * @param {Function=} callback
  */
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.sendRaw = function(buffer,
-    characteristicId) {
+    characteristicId, callback) {
   this.stack_.addPromise(() => {
     return this.characteristic_[characteristicId]['writeValue'](buffer);
-  });
+  }, callback);
 };
 
 
@@ -197,4 +218,9 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectCharacteristic_ =
     (characteristic) => {
       this.characteristic_[characteristicId] = characteristic;
   });
+};
+
+
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleData_ = function(e) {
+  console.log('Data', e.target, e.target.value);
 };

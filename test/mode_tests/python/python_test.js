@@ -42,7 +42,7 @@ describe('[Mode Python - Python 3.x]', function() {
   describe('Loading file', function() {
     it('python/blank.py', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/python/blank.py'
+        '../resources/templates/python/blank.py'
       ).then(() => {
         expect(true).toEqual(true);
         done();

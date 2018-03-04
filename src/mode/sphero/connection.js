@@ -82,7 +82,7 @@ cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
       }
     }.bind(this));
   }
-  this.api_.monitor(false);
+  this.api_.monitor(true);
 };
 
 

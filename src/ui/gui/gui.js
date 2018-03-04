@@ -82,7 +82,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node,
       cwc.soy.ui.Gui.guiTemplate, {
-        'prefix': this.prefix
+        'prefix': this.prefix,
       });
 
   // Main nodes
@@ -124,7 +124,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     if (userConfigInstance.get(
-        cwc.userConfigType.GENERAL,cwc.userConfigName.FULLSCREEN)) {
+        cwc.userConfigType.GENERAL, cwc.userConfigName.FULLSCREEN)) {
       chrome.app.window.current()['maximize']();
     }
   }

@@ -117,7 +117,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
   }
   this.decorate(guiInstance.getOverlayNode());
   guiInstance.showOverlay(true);
-  
+
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.decorateBlank();
@@ -147,7 +147,7 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
   guiInstance.setTitle('');
   guiInstance.enableTitle(false);
   guiInstance.setStatus('');
-  
+
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
     navigationInstance.enableSaveFile(false);
@@ -186,7 +186,7 @@ cwc.ui.SelectScreen.prototype.showOverview = function(advanced = false) {
   if (advanced) {
     this.showTemplate_(cwc.soy.SelectScreenAdvanced.template);
   } else {
-    this.showTemplate_(cwc.soy.SelectScreenNormal.template);    
+    this.showTemplate_(cwc.soy.SelectScreenNormal.template);
   }
 };
 

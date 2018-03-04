@@ -37,10 +37,11 @@ cwc.utils.StackType = {
  * @param {!cwc.utils.StackType} type
  * @param {Function=} func
  * @param {string|number=} value
- * @param {string=} name
+ * @param {Function=} callback
  * @final
  */
-cwc.utils.StackEntry = function(type, func = undefined, value = '', name = '') {
+cwc.utils.StackEntry = function(type, func = undefined, value = '',
+    callback = undefined) {
   /** @private {!cwc.utils.StackType} */
   this.type_ = type;
 
@@ -50,8 +51,8 @@ cwc.utils.StackEntry = function(type, func = undefined, value = '', name = '') {
   /** @private {string|number} */
   this.value_ = value;
 
-  /** @private {string} */
-  this.name_ = name;
+  /** @private {Function|undefined} */
+  this.callback_ = callback;
 };
 
 
@@ -72,6 +73,16 @@ cwc.utils.StackEntry.prototype.getFunc = function() {
   return this.func_;
 };
 
+// DO TO CALLBACK ... BLE
+
+/**
+ * @return {Function|undefined}
+ * @export
+ */
+cwc.utils.StackEntry.prototype.getCallback = function() {
+  return this.callback_;
+};
+
 
 /**
  * @return {string|number}
@@ -79,15 +90,6 @@ cwc.utils.StackEntry.prototype.getFunc = function() {
  */
 cwc.utils.StackEntry.prototype.getValue = function() {
   return this.value_;
-};
-
-
-/**
- * @return {string}
- * @export
- */
-cwc.utils.StackEntry.prototype.getName = function() {
-  return this.name_;
 };
 
 
@@ -144,13 +146,16 @@ cwc.utils.StackQueue.prototype.addDelay = function(delay, group) {
 /**
  * Add promise command to the stack queue.
  * @param {!Function} command
+ * @param {Function=} callback
  * @param {number|string=} group
  * @export
  */
-cwc.utils.StackQueue.prototype.addPromise = function(command, group) {
+cwc.utils.StackQueue.prototype.addPromise = function(command, callback, group) {
   if (command && command instanceof Function) {
     this.addStack_(
-      new cwc.utils.StackEntry(cwc.utils.StackType.PROMISE, command), group
+      new cwc.utils.StackEntry(
+        cwc.utils.StackType.PROMISE, command, '', callback
+      ), group
     );
   }
 };
@@ -245,8 +250,9 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function() {
   }
 
   let task = this.stack_[this.default_group].shift();
-  let type = task.getType();
+  let callback = task.getCallback();
   let func = task.getFunc();
+  let type = task.getType();
   switch (type) {
     case cwc.utils.StackType.CMD:
       this.run = true;
@@ -263,9 +269,12 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function() {
       break;
     case cwc.utils.StackType.PROMISE:
       this.run = true;
-      func().then(() => {
+      func().then((e) => {
         this.run = false;
         this.handleQueue_();
+        if (callback) {
+          callback(e);
+        }
       }).catch(() => {
         this.run = false;
         this.handleQueue_();
