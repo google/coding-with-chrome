@@ -138,10 +138,6 @@ cwc.protocol.sphero.v1.Api.prototype.isConnected = function() {
 cwc.protocol.sphero.v1.Api.prototype.prepare = function() {
   this.device.listen('22bb746f-2ba6-7554-2d6f-726568705327',
     this.handleData_.bind(this));
-  //this.device.setDataHandler(this.handleAcknowledged_.bind(this),
-  //    this.headerAck_, this.headerMinSize_);
-  //this.device.setDataHandler(this.handleAsync_.bind(this),
-  //    this.headerAsync_, this.headerMinSize_);
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);

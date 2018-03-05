@@ -41,7 +41,7 @@
             {param title: 'Python 2.7 project' /}
             {param text: 'Start with an empty Python 2.7 project' /}
             {param opt_link_text: 'Create new project' /}
-            {param link_id: 'blank' /}
+            {param mode: 'python27' /}
             {param opt_color_class: 'bg-light-blue' /}
             {param opt_icon: 'insert_drive_file' /}
           {/call}
@@ -49,7 +49,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Guess number' /}
             {param text: 'Simple guess number game.' /}
-            {param link_id: 'guess-number' /}
+            {param file: 'python27/guess-number.py' /}
             {param opt_color_class: 'bg-light-blue' /}
             {param opt_icon: 'question_answer' /}
           {/call}
@@ -57,7 +57,7 @@
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Turtle Graphics' /}
             {param text: 'Use turtle graphics to draw an triangle.' /}
-            {param link_id: 'turtle-graphics' /}
+            {param file: 'python27/turtle-graphics.py' /}
             {param opt_color_class: 'bg-light-blue' /}
             {param opt_icon: 'mode_edit' /}
           {/call}

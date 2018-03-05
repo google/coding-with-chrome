@@ -40,7 +40,7 @@ describe('[Mode Phaser - Blockly]', function() {
   });
 
   describe('Loading file', function() {
-    let filePath = 'examples/../../resources/examples/phaser/blocks/';
+    let filePath = '../resources/examples/phaser/blocks/';
     it('block/blank.cwc', function(done) {
       builder.loadFile(filePath + 'blank.cwc').then(() => {
         expect(true).toEqual(true);

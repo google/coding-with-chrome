@@ -67,9 +67,30 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.prepare = function() {
 
 
 /**
- * @param {Function=} optCallback Will be only called  after an connection.
+ * @param {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.requestDevice = function(
+    device) {
+  let services = Object.keys(device.services).map(
+    (service) => device.services[service]
+  );
+  navigator.bluetooth.requestDevice({
+    'filters': [
+      {'namePrefix': device.namePrefix},
+    ],
+    'optionalServices': services,
+  }).then(
+    (bluetoothDevice) => {
+      this.handleRequestDevice_(bluetoothDevice);
+    }
+  );
+};
+
+
+/**
+ * @param {Function=} optCallback Will be only called  after an connection.
+ */
+cwc.protocol.bluetooth.lowEnergy.Devices.prototype.requestDevices = function(
     optCallback) {
   navigator.bluetooth.requestDevice(this.getDeviceFilter_()).then(
     (bluetoothDevice) => {

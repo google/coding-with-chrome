@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero SPRK+ Block modifications.
+ * @fileoverview Sphero SPRK+ modifications.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,21 +17,20 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.sprkPlus.blockly.Mod');
+goog.provide('cwc.mode.sphero.sprkPlus.advanced.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.Connection');
 goog.require('cwc.mode.sphero.Monitor');
 goog.require('cwc.mode.sphero.Runner');
 goog.require('cwc.renderer.external.Sphero');
-goog.require('cwc.soy.sphero.Blocks');
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.sprkPlus.blockly.Mod = function(helper) {
+cwc.mode.sphero.sprkPlus.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
@@ -52,8 +51,7 @@ cwc.mode.sphero.sprkPlus.blockly.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.sphero.sprkPlus.blockly.Mod.prototype.decorate = function() {
-  this.mod.enableBlockly(cwc.soy.sphero.Blocks.toolbox);
+cwc.mode.sphero.sprkPlus.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
   this.mod.setMonitor(this.monitor);
   this.mod.setRenderer(this.renderer);

@@ -284,7 +284,6 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
   if (!fileAction || !filename) {
     return;
   }
-  console.log('Click action', fileAction, 'for file', filename);
   if (filename && fileAction) {
     switch (fileAction) {
       case 'loadFile': {

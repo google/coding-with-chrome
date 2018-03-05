@@ -106,7 +106,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.listen = function(
     this.log_.info('Adding event listener for', characteristicId);
     this.characteristic_[characteristicId]['addEventListener'](
       'characteristicvaluechanged', function(e) {
-        func(e.target.value.buffer)
+        func(e.target.value.buffer);
       });
   });
 };

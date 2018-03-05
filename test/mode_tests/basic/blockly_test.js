@@ -42,7 +42,7 @@ describe('[Mode Basic - Blockly]', function() {
   describe('Loading file', function() {
     it('block/blank.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/simple/blocks/blank.cwc'
+        '../resources/examples/simple/blocks/blank.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

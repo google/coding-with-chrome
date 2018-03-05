@@ -42,7 +42,7 @@ describe('[Mode Javascript - Advanced]', function() {
   describe('Loading files', function() {
     it('raw/blank.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/javascript/raw/blank.js'
+        '../resources/examples/javascript/raw/blank.js'
       ).then(() => {
         expect(true).toEqual(true);
         done();
@@ -53,7 +53,7 @@ describe('[Mode Javascript - Advanced]', function() {
     });
     it('raw/Javascript-countdown.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/javascript/raw/countdown.js'
+        '../resources/examples/javascript/raw/countdown.js'
       ).then(() => {
         expect(true).toEqual(true);
         done();

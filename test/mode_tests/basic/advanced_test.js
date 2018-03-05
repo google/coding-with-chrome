@@ -42,7 +42,7 @@ describe('[Mode Basic - Advanced]', function() {
   describe('Loading file', function() {
     it('block/blank.cwc', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/simple/script/blank.cwc'
+        '../resources/examples/simple/script/blank.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

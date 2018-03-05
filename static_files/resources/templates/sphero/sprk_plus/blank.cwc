@@ -1,0 +1,25 @@
+{
+  "author": "Unknown",
+  "content": {
+    "__javascript__": {
+      "name": "__javascript__",
+      "type": "application/javascript",
+      "size": 0,
+      "content": "",
+      "group": "",
+      "version": 1,
+      "filename": ""
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "sphero_sprk_plus",
+  "title": "Untitled Sphero SPRK+ file",
+  "type": "sphero_sprk_plus",
+  "ui": "default",
+  "version": "1.0"
+}

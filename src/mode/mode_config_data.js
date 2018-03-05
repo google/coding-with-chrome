@@ -41,6 +41,7 @@ goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.bb8.blockly.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
+goog.require('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
 goog.require('cwc.mode.tts.Mod');
@@ -169,7 +170,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3] = new cwc.mode.Mod({
   mime_types: [cwc.file.MimeType.CWC.type],
   mod: cwc.mode.ev3.advanced.Mod,
   name: 'EV3',
-  template: 'ev3/blank.cwc',
+  template: 'lego/ev3/blank.cwc',
 });
 
 
@@ -183,7 +184,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
   mime_types: [cwc.file.MimeType.CWC.type],
   mod: cwc.mode.ev3.blockly.Mod,
   name: 'EV3 blockly',
-  template: 'ev3/blank-blocks.cwc',
+  template: 'lego/ev3/blank-blocks.cwc',
 });
 
 
@@ -319,6 +320,21 @@ cwc.mode.ConfigData[cwc.mode.Type.PYTHON] = new cwc.mode.Mod({
 
 
 /**
+ * Python 2.7 mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.PYTHON27] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  file_type: cwc.file.Type.PYTHON,
+  icon: 'mode_edit',
+  mime_types: [cwc.file.MimeType.PYTHON.type],
+  mod: cwc.mode.python.Mod,
+  name: 'Python 2.7',
+  template: 'python27/blank.py',
+});
+
+
+/**
  * Raspberry Pi mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
@@ -375,7 +391,21 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
 
 
 /**
- * Sphero blockly mode.
+ * Sphero SRPK+ mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.SPHERO_SPRK_PLUS] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.SPHERO_SPRK_PLUS,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.sphero.sprkPlus.advanced.Mod,
+  name: 'Sphero SPRK+',
+  template: 'sphero/sprk_plus/blank.cwc',
+});
+
+
+/**
+ * Sphero SPRK+ blockly mode.
  */
 cwc.mode.ConfigData[cwc.mode.Type.SPHERO_SPRK_PLUS_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],

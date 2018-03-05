@@ -61,6 +61,17 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
+  let connectScreenInstance = this.helper.getInstance('connectScreen');
+  connectScreenInstance.requestBluetoothDevice(
+    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS
+  ).then((bluetoothDevice) => {
+    bluetoothDevice.connect().then((device) => {
+      this.api_.connect(device);
+    });
+  }).catch(() => {
+    this.connectMonitor.start();
+  });
+/*
   let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
   let devices = bluetoothInstance.getDevicesByName(
     cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name);
@@ -71,13 +82,12 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
     let connectScreenInstance = this.helper.getInstance('connectScreen');
     connectScreenInstance.showBluetoothDevices();
   }
-  this.connectMonitor.start();
-  this.connect();
+  this.connect();*/
 };
 
 
 /**
- * Connects the Sphero ball.
+ * Connects the Sphero SPRK+.
  * @param {Event=} opt_event
  * @export
  */

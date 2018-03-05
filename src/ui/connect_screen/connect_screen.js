@@ -54,6 +54,17 @@ cwc.ui.connectScreen.Screens.prototype.showBluetoothDevices = function() {
 
 
 /**
+ * Request user to connect the specific device, if not already connected.
+ * @param {cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
+ * @return {Promise}
+ */
+cwc.ui.connectScreen.Screens.prototype.requestBluetoothDevice = function(
+    device) {
+  return this.bluetoothScreen.requestDevice(device);
+};
+
+
+/**
  * Shows serial connect screen.
  */
 cwc.ui.connectScreen.Screens.prototype.showSerialDevices = function() {

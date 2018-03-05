@@ -254,12 +254,15 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function() {
   let func = task.getFunc();
   let type = task.getType();
   switch (type) {
+    // Normal command handling.
     case cwc.utils.StackType.CMD:
       this.run = true;
       func();
       this.run = false;
       this.handleQueue_();
       break;
+
+    // Delay command handling.
     case cwc.utils.StackType.DELAY:
       this.run = true;
       setTimeout(function() {
@@ -267,19 +270,22 @@ cwc.utils.StackQueue.prototype.handleQueue_ = function() {
         this.handleQueue_();
       }.bind(this), task.getValue());
       break;
+
+    // Promise command handling.
     case cwc.utils.StackType.PROMISE:
       this.run = true;
       func().then((e) => {
-        this.run = false;
-        this.handleQueue_();
         if (callback) {
           callback(e);
         }
+        this.run = false;
+        this.handleQueue_();
       }).catch(() => {
         this.run = false;
         this.handleQueue_();
       });
       break;
+
     default:
       console.error('Unknown Stack Type', type);
   }

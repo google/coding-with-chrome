@@ -88,6 +88,25 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
 
 
 /**
+ * @param {cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
+ * @return {Promise}
+ */
+cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
+  console.log('Request device ....', device);
+  return new Promise((resolve, reject) => {
+    let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
+    let devices = bluetoothInstance.getDevicesByName(device.name);
+    if (devices && devices[0]) {
+      return resolve(devices[0]);
+    }
+    console.log('Asked user to connect device', device.name);
+    bluetoothInstance.requestDevice(device);
+    reject();
+  });
+};
+
+
+/**
  * @param {Event} e
  * @private
  */
@@ -128,7 +147,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
  */
 cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
   let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
-  bluetoothLEInstance.requestDevice(this.refresh_.bind(this));
+  bluetoothLEInstance.requestDevices(this.refresh_.bind(this));
 };
 
 

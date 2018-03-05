@@ -77,12 +77,23 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.prepare = function() {
 
 
 /**
- * @param {Function=} optCallback Will be only called  after an connection.
+ * @param {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevice = function(
+    device) {
+  if (this.devices) {
+    this.devices.requestDevice(device);
+  }
+};
+
+
+/**
+ * @param {Function=} optCallback Will be only called  after an connection.
+ */
+cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevices = function(
     optCallback) {
   if (this.devices) {
-    this.devices.requestDevice(optCallback);
+    this.devices.requestDevices(optCallback);
   }
 };
 

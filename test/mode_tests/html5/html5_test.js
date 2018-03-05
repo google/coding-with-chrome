@@ -42,7 +42,7 @@ describe('[Mode HTML5]', function() {
   describe('Loading file', function() {
     it('html5/blank.html', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/html5/blank.html'
+        '../resources/templates/html5/blank.html'
       ).then(() => {
         expect(true).toEqual(true);
         done();
@@ -54,7 +54,7 @@ describe('[Mode HTML5]', function() {
 
     it('html5/form.html', function(done) {
       builder.loadFile(
-        'examples/../../resources/examples/html5/form.html'
+        '../resources/examples/html5/form.html'
       ).then(() => {
         expect(true).toEqual(true);
         done();
