@@ -49,7 +49,7 @@ CwcLoader.prototype.prepare = function() {
   console.log('Loading the Coding with Chrome UI ...');
 
   if (this.versionNode && chrome.runtime.getManifest) {
-    this.versionNode.innerText = chrome.runtime.getManifest();
+    this.versionNode.innerText = chrome.runtime.getManifest().version;
   }
 
   document.addEventListener('keypress', this.keyHandler.bind(this), false);

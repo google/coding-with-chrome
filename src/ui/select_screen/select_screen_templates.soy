@@ -27,12 +27,16 @@
   {@param content: ?}
   {@param? header: ?}
   {@param? id: string}
+  {@param? prefix: string}
 
-  <div{if $id} id="{$id}"{/if}>
+  <div{if $id} id="{$prefix}{$id}"{/if}>
     {if $header}{$header}{/if}
     <div class="mdl-grid">
       {$content}
     </div>
+    {if $id}
+      <div id="{$prefix}{$id}-addon"></div>
+    {/if}
   </div>
 {/template}
 

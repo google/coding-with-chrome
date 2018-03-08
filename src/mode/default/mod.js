@@ -31,7 +31,8 @@ goog.require('cwc.ui.Preview');
  * @typedef {cwc.mode.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
- *   cwc.mode.sphero.Connection}
+ *   cwc.mode.sphero.Connection|
+ *   cwc.mode.sphero.sprkPlus.Connection}
  */
 cwc.mode.default.ConnectionTypes;
 
@@ -41,7 +42,8 @@ cwc.mode.default.ConnectionTypes;
  *   cwc.renderer.external.Sphero|
  *   cwc.renderer.internal.Coffeescript|
  *   cwc.renderer.internal.HTML5|
- *   cwc.renderer.internal.Javascript}
+ *   cwc.renderer.internal.Javascript|
+ *   cwc.renderer.external.Python}
  */
 cwc.mode.default.RendererTypes;
 
@@ -103,11 +105,15 @@ cwc.mode.default.Mod = function(helper) {
  * Decorates standard Editor.
  */
 cwc.mode.default.Mod.prototype.decorate = function() {
+  // Decorates Layout
+  this.decorateLayout();
+
+  // Handle device connections.
   if (this.connection) {
     this.connection.init();
   }
-  this.decorateLayout();
 
+  // Decorates Editor and Blockly Editor.
   if (this.blockly) {
     this.decorateBlockly();
   }

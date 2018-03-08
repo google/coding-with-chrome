@@ -92,6 +92,11 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connect = function() {
 };
 
 
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.disconnect = function() {
+  return true;
+};
+
+
 /**
  * @param {!string} characteristicId
  * @param {!Function} func
@@ -145,7 +150,6 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.reset = function() {
 
 
 /**
- * @param {!Object} server
  * @return {Promise}
  * @private
  */

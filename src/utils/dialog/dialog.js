@@ -68,6 +68,15 @@ cwc.utils.Dialog = function() {
 /**
  * @export
  */
+cwc.utils.Dialog.prototype.prepare = function() {
+  this.dialog = this.getDialog_();
+  this.close();
+};
+
+
+/**
+ * @export
+ */
 cwc.utils.Dialog.prototype.show = function() {
   let dialog = this.getDialog_();
   if (dialog) {
@@ -119,8 +128,8 @@ cwc.utils.Dialog.prototype.close = function() {
     } else {
       dialog.removeAttribute('open');
     }
-    dialog.style.display = 'none';
   }
+  dialog.style.display = 'none';
 };
 
 
@@ -189,6 +198,10 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
  * @export
  */
 cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
+  if (!template) {
+    console.error('Unable to render template!');
+  }
+
   if (this.getDialog_()) {
     this.render(title, '', cwc.soy.Dialog.contentTemplate);
     let closeButton = goog.dom.getElement(this.prefix + 'close');
@@ -388,6 +401,9 @@ cwc.utils.Dialog.prototype.getDialog_ = function() {
     this.dialog = goog.dom.getElement(this.prefixDialog_);
   } else {
     this.prepare_();
+  }
+  if (!this.dialog) {
+    console.error('Unable to get Dialog!');
   }
   return this.dialog;
 };

@@ -31,8 +31,7 @@ cwc.ui.SelectScreen.Events.Type = {
 
 
 /**
- * @param {cwc.ui.SelectScreenAdvancedView|
- *         cwc.ui.SelectScreenNormalView} data
+ * @param {Element} data
  * @return {!cwc.utils.EventData}
  * @final
  */

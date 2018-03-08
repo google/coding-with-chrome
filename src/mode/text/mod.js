@@ -36,7 +36,7 @@ cwc.mode.text.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.text.Mod.prototype.decorate = function() {
-  this.mod.setRender(null);
+  this.mod.setRenderer(null);
   this.mod.decorate();
   this.mod.editor.enableModeSelect(true);
   this.mod.editor.showEditorViews(false);

@@ -172,7 +172,7 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevices = function() {
 
 /**
  * @param {!string} name
- * @return {Array.cwc.protocol.bluetooth.lowEnergy.Device}
+ * @return {Array.<cwc.protocol.bluetooth.lowEnergy.Device>}
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevicesByName = function(
     name) {
