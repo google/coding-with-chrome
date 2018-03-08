@@ -100,6 +100,9 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.version_ = '';
 
+  /** @private {object} */
+  this.addon_ = {};
+
   if (content) {
     this.loadJSON(content);
   } else {
@@ -131,6 +134,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.type_ = cwc.file.Type.UNKNOWN;
   this.ui_ = 'default';
   this.version_ = '1.0';
+  this.addon_ = {};
 };
 
 
@@ -496,6 +500,21 @@ cwc.fileFormat.File.prototype.getHistory = function() {
   return this.history_;
 };
 
+/**
+ * @return {object}
+ */
+cwc.fileFormat.File.prototype.getAddon = function() {
+  return this.addon_;
+};
+
+/**
+ * @param {!object} addon
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.prototype.setAddon = function(addon) {
+  this.addon_ = addon;
+  return this;
+};
 
 /**
  * Loads the defined JSON data and sets the supported options.
@@ -683,6 +702,10 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   if (jsonData['history']) {
     file.setHistory(jsonData['history']);
   }
+
+  if (jsonData['addon']) {
+    file.setAddon(jsonData['addon']);
+  }
 };
 
 
@@ -692,6 +715,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
  */
 cwc.fileFormat.File.toJSON = function(file) {
   return {
+    'addon': file.addon_.toJSON(),
     'author': file.author_,
     'content': file.content_.toJSON(),
     'description': file.description_,

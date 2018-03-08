@@ -65,6 +65,10 @@ describe('File format', function() {
     'ui': 'default',
     'version': '1.0',
   };
+  let addonContent = {};
+  let addonKey = Math.random().toString(36).replace();
+  let addonValue = Math.random().toString(36).replace();
+  addonContent[addonKey] = addonValue;
 
   it('constructor', function() {
     expect(typeof fileFormat).toEqual('object');
@@ -135,6 +139,18 @@ describe('File format', function() {
 
   it('hasFiles', function() {
     expect(fileFormat.hasFiles()).toEqual(false);
+  });
+
+  it('getAddon (empty)', function() {
+    expect(fileFormat.getAddon()).toEqual({});
+  });
+
+  it('setAddon', function() {
+    fileFormat.setAddon(addonContent);
+  });
+
+  it('getAddon', function() {
+    expect(fileFormat.getAddon()).toEqual(addonContent);
   });
 
   describe('Legacy format', function() {

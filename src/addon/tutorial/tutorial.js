@@ -102,7 +102,7 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
     let messageInstance = this.helper.getInstance('message');
     if (messageInstance) {
       messageInstance.show(true);
-      messageInstance.renderContent(cwc.soy.addon.Tutorial.tutorial, {
+      messageInstance.renderMain(cwc.soy.addon.Tutorial.tutorial, {
         prefix: this.prefix,
       });
       let tour = new Shepherd.Tour({
