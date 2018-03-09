@@ -93,6 +93,16 @@ cwc.framework.simple.Command.prototype.showYesNo = function(title, content) {
   return this.dialog_.showYesNo(title, content);
 };
 
+/**
+ * @param {!string} title
+ * @param {!string} content
+ * @param {!string} action
+ * @return {!Promise}
+ * @export
+ */
+cwc.framework.simple.Command.prototype.showActionCancel = function(title, content, action) {
+  return this.dialog_.showActionCancel(title, content, action);
+};
 
 /**
  * Maps function to the global window name space.
@@ -107,6 +117,7 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
     'showAlert': this.showAlert.bind(this),
     'showPrompt': this.showPrompt.bind(this),
     'showYesNo': this.showYesNo.bind(this),
+    'showActionCancel': this.showActionCancel.bind(this),
   };
 };
 

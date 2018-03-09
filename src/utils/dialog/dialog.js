@@ -344,6 +344,37 @@ cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
   });
 };
 
+/**
+ * @param {!string|Object} title
+ * @param {!string} content
+ * @param {!string} action
+ * @return {!Promise}
+ * @export
+ */
+cwc.utils.Dialog.prototype.showActionCancel = function(title, content, action) {
+  return new Promise((resolve, reject) => {
+    if (this.getDialog_()) {
+      this.render(title, content, cwc.soy.Dialog.actionCancelTemplate, action);
+      let actionButton = goog.dom.getElement(this.prefix + 'action');
+      actionButton.addEventListener('click', this.close.bind(this));
+      if (this.defaultCloseHandler_) {
+        actionButton.addEventListener('click', this.defaultCloseHandler_);
+      }
+      actionButton.addEventListener('click', function() {
+        resolve(true);
+      });
+
+      let cancelButton = goog.dom.getElement(this.prefix + 'cancel');
+      cancelButton.addEventListener('click', this.close.bind(this));
+      cancelButton.addEventListener('click', function() {
+        resolve(false);
+      });
+      this.showModal();
+    } else {
+      reject();
+    }
+  });
+};
 
 /**
  * @param {Function!} func
