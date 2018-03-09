@@ -100,7 +100,7 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.version_ = '';
 
-  /** @private {object} */
+  /** @private {!Object} */
   this.addon_ = {};
 
   if (content) {
@@ -501,14 +501,14 @@ cwc.fileFormat.File.prototype.getHistory = function() {
 };
 
 /**
- * @return {object}
+ * @return {!Object}
  */
 cwc.fileFormat.File.prototype.getAddon = function() {
   return this.addon_;
 };
 
 /**
- * @param {!object} addon
+ * @param {!Object} addon
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setAddon = function(addon) {
