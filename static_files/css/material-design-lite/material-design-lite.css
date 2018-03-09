@@ -158,9 +158,79 @@ html > body,
 }
 
 /**
+ * Steps design
+ */
+.mdl-steps {
+  list-style: none;
+  margin: 5px auto;
+  padding: 0;
+  display: table;
+  table-layout: fixed;
+  min-width: 300px;
+  color: #888;
+}
+
+.mdl-steps > li {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.mdl-steps > li:before {
+  content: attr(data-step);
+  display: block;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  background: #ddd;
+  text-align: center;
+  margin-bottom: 0.25em;
+  line-height: 3em;
+  border-radius: 100%;
+  position: relative;
+  z-index: 1000;
+}
+
+.mdl-steps > li:after {
+  content: '';
+  position: absolute;
+  display: block;
+  background: #ddd;
+  width: 100%;
+  height: 0.5em;
+  top: 1.25em;
+  left: 50%;
+  margin-left: 1.5em;
+  z-index: -1;
+}
+
+.mdl-steps > li:last-child:after {
+  display: none;
+}
+
+.mdl-steps > li.is-active {
+  color: rgb(63,81,181);
+}
+
+.mdl-steps > li.is-active:before {
+  color: #fff;
+  background: rgb(63,81,181);
+}
+
+.mdl-steps > li.is-complete {
+  color: rgba(63,81,181,0.6);
+}
+
+.mdl-steps > li.is-complete:before,
+.mdl-steps > li.is-complete:after {
+  color: #fff;
+  background: rgba(63,81,181,0.7);
+}
+
+/**
  * CWC content
  */
-
 .cwc-content {
   height: calc(100% - 44px);
   overflow: auto;

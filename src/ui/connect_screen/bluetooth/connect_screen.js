@@ -76,8 +76,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
       prefix: this.prefix,
     });
 
-  if (this.helper.checkBrowserFeature('bluetooth') &&
-      this.helper.experimentalEnabled()) {
+  if (this.helper.checkBrowserFeature('bluetooth')) {
     this.events_.listen('search-button', goog.events.EventType.CLICK,
       this.handleSearch_.bind(this));
   }
@@ -93,15 +92,26 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
  */
 cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
   console.log('Request device ....', device);
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
     let devices = bluetoothInstance.getDevicesByName(device.name);
     if (devices && devices[0]) {
       return resolve(devices[0]);
     }
     console.log('Asked user to connect device', device.name);
-    this.showDevices();
-    reject();
+    this.showTemplate_('Connect ' + device.name,
+      cwc.soy.connectScreen.Bluetooth.requestDevice, {
+        ble: this.helper.checkBrowserFeature('bluetooth'),
+        device: device,
+        experimental: this.helper.experimentalEnabled(),
+        prefix: this.prefix,
+    });
+    this.events_.listen('search-button', goog.events.EventType.CLICK, () => {
+      bluetoothInstance.requestDevice(device).then((bluetoothDevice) => {
+        this.close_();
+        resolve(bluetoothDevice);
+      });
+    });
   });
 };
 
@@ -191,13 +201,13 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
 /**
  * @param {!string} title
  * @param {Object} template
- * @param {Object} opt_context
+ * @param {Object} context
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
-    template, opt_context) {
+    template, context) {
   let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate(title, template, opt_context);
+  dialogInstance.showTemplate(title, template, context);
 };
 
 

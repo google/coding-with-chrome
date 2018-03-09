@@ -63,11 +63,15 @@ chrome.app.runtime.onLaunched.addListener(
     };
     chrome.app.window.create('html/loader.html', loaderConfig, function(
         loaderWindow) {
-      loaderWindow.outerBounds.setPosition(
-        Math.round((screenWidth - loaderWidth) / 2),
-        Math.round((screenHeight - loaderHeight) / 2)
-      );
-      loaderWindow.drawAttention();
+      if (loaderWindow) {
+        loaderWindow.outerBounds.setPosition(
+          Math.round((screenWidth - loaderWidth) / 2),
+          Math.round((screenHeight - loaderHeight) / 2)
+        );
+        loaderWindow.drawAttention();
+      } else {
+        console.warn('Loaded inside sandboxed window!');
+      }
       chrome.app.window.create('html/editor.html', editorConfig);
   });
 });

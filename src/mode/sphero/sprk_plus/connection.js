@@ -46,8 +46,15 @@ cwc.mode.sphero.sprkPlus.Connection = function(helper) {
   /** @private {!cwc.protocol.sphero.v1.Api} */
   this.api_ = new cwc.protocol.sphero.v1.Api();
 
+  /** @private {!goog.events.EventTarget} */
+  this.apiEvents_ = this.api_.getEventHandler();
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} */
+  this.device_ =
+    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS;
 };
 
 
@@ -56,33 +63,26 @@ cwc.mode.sphero.sprkPlus.Connection = function(helper) {
  * @export
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
+  if (this.apiEvents_) {
+    this.events_.listen(this.apiEvents_,
+      cwc.protocol.sphero.v1.Events.Type.CONNECTING,
+      this.handleConnecting_.bind(this));
+  }
+
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
   let connectScreenInstance = this.helper.getInstance('connectScreen');
-  connectScreenInstance.requestBluetoothDevice(
-    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS
-  ).then((bluetoothDevice) => {
-    bluetoothDevice.connect().then((device) => {
-      this.api_.connect(device);
-    });
+  connectScreenInstance.requestBluetoothDevice(this.device_).then(
+    (bluetoothDevice) => {
+      bluetoothDevice.connect().then((device) => {
+        this.api_.connect(device);
+      });
   }).catch(() => {
     this.connectMonitor.start();
   });
-/*
-  let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
-  let devices = bluetoothInstance.getDevicesByName(
-    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name);
-  if (!devices || !devices[0]) {
-    console.log('Unable to find',
-      cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name,
-      'please connect...');
-    let connectScreenInstance = this.helper.getInstance('connectScreen');
-    connectScreenInstance.showBluetoothDevices();
-  }
-  this.connect();*/
 };
 
 
@@ -94,8 +94,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
 cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
-    let devices = bluetoothInstance.getDevicesByName(
-      cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_SPRK_PLUS.name);
+    let devices = bluetoothInstance.getDevicesByName(this.device_);
     if (devices) {
       devices[0].connect().then((device) => {
         this.api_.connect(device);
@@ -143,7 +142,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.isConnected = function() {
  * @return {goog.events.EventTarget}
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.getEventHandler = function() {
-  return this.api_.getEventHandler();
+  return this.apiEvents_;
 };
 
 
@@ -153,6 +152,19 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.getEventHandler = function() {
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.getApi = function() {
   return this.api_;
+};
+
+
+/**
+ * @param {Event} e
+ * @private
+ */
+cwc.mode.sphero.sprkPlus.Connection.prototype.handleConnecting_ = function(e) {
+  let message = e.data;
+  let step = e.source;
+  let title = 'Connecting ' + this.device_.name;
+  let connectScreenInstance = this.helper.getInstance('connectScreen');
+  connectScreenInstance.showConnectingStep(title, message, step);
 };
 
 

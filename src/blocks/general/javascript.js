@@ -26,10 +26,10 @@
  */
 Blockly.JavaScript['general_infinity_loop'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'var infinity_loop = function() {\n' +
+  return 'let infinity_loop = function() {\n' +
     '  try {\n' + statements_code + '  } catch (err) {\n    return;\n  }\n' +
     '  window.setTimeout(infinity_loop, 50);\n' +
-  '}\ninfinity_loop();\n';
+  '};\ninfinity_loop();\n';
 };
 
 

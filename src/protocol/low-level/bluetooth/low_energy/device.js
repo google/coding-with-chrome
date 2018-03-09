@@ -78,12 +78,12 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connect = function() {
     if (this.connected) {
       return resolve(this);
     }
-    this.log_.info('Connecting...');
+    this.log.info('Connecting...');
     this.device_['gatt']['connect']().then((server) => {
       this.server_ = server;
       this.connected = this.device_['gatt']['connected'];
       this.handleConnect_().then(() => {
-        this.log_.info('Connected!');
+        this.log.info('Connected!');
         this.connected = true;
         resolve(this);
       });
@@ -104,11 +104,11 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.disconnect = function() {
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.listen = function(
   characteristicId, func) {
   if (!this.characteristic_[characteristicId]) {
-    this.log_.error('Unknown characteristic', characteristicId);
+    this.log.error('Unknown characteristic', characteristicId);
     return;
   }
   this.characteristic_[characteristicId]['startNotifications']().then(() => {
-    this.log_.info('Adding event listener for', characteristicId);
+    this.log.info('Adding event listener for', characteristicId);
     this.characteristic_[characteristicId]['addEventListener'](
       'characteristicvaluechanged', function(e) {
         func(e.target.value.buffer);
@@ -188,7 +188,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleDisconnect_ = function(
  */
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectService_ = function(
     serviceId, characteristic) {
-  this.log_.info('Connect service', serviceId);
+  this.log.info('Connect service', serviceId);
   return this.server_['getPrimaryService'](serviceId).then((service) => {
     this.services_[service['uuid']] = service;
     // Preconnecting Characteristic.
@@ -216,7 +216,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectService_ = function(
  */
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectCharacteristic_ =
     function(characteristicId, serviceId) {
-  this.log_.info('Connecting characteristic', characteristicId, 'on service',
+  this.log.info('Connecting characteristic', characteristicId, 'on service',
     serviceId);
   return this.services_[serviceId]['getCharacteristic'](characteristicId).then(
     (characteristic) => {

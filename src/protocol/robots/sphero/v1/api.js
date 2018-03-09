@@ -108,16 +108,36 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     console.log('Preparing Sphero bluetooth LE api for', device.getId());
+    this.eventHandler.dispatchEvent(
+      cwc.protocol.sphero.v1.Events.connecting(
+        'Connecting  device ...', 1));
     this.device = device;
+
+    // Enable Developer mode.
     this.device.sendRaw(
       new TextEncoder('utf-8').encode('011i3'),
-      '22bb746f-2bbd-7554-2d6f-726568705327');
+      '22bb746f-2bbd-7554-2d6f-726568705327', () => {
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.sphero.v1.Events.connecting(
+            'Enable developer mode ...', 2));
+    });
+
+    // Power on device.
     this.device.sendRaw(
-      Uint8Array.from(0x07), '22bb746f-2bb2-7554-2d6f-726568705327');
+      new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.sphero.v1.Events.connecting(
+            'Power on device. Waiting until device wakes up ...', 2));
+      });
+
+    // Wakeup device.
     this.device.sendRaw(
-      Uint8Array.from(0x01), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
+      new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
         this.prepare();
         this.runTest();
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.sphero.v1.Events.connecting(
+            'Connected ...', 3));
       });
   }
   return true;
@@ -269,14 +289,13 @@ cwc.protocol.sphero.v1.Api.prototype.boost = function(enabled) {
 
 /**
  * Puts the Sphero into sleep.
- * @param {number=} opt_wakeup
- * @param {number=} opt_macro
- * @param {number=} opt_orb_basic
+ * @param {number=} wakeup
+ * @param {number=} macro
+ * @param {number=} orbBasic
  */
-cwc.protocol.sphero.v1.Api.prototype.sleep = function(opt_wakeup, opt_macro,
-    opt_orb_basic) {
+cwc.protocol.sphero.v1.Api.prototype.sleep = function(wakeup, macro, orbBasic) {
   console.log('Sends Sphero to sleep, good night.');
-  this.send_(this.commands.sleep(opt_wakeup, opt_macro, opt_orb_basic));
+  this.send_(this.commands.sleep(wakeup, macro, orbBasic));
 };
 
 
@@ -444,7 +463,7 @@ cwc.protocol.sphero.v1.Api.prototype.handleData_ = function(buffer) {
     console.error('Checksum error ...');
     return;
   }
-  console.log('handleData', buffer, buffer[3]);
+  console.log('handleData', buffer);
 };
 
 

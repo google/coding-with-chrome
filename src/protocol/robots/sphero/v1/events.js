@@ -28,9 +28,10 @@ goog.require('cwc.utils.EventData');
  */
 cwc.protocol.sphero.v1.Events.Type = {
   CHANGED_LOCATION: 'changed_devices',
-  CHANGED_VELOCITY: 'changed_values',
   CHANGED_SPEED: 'changed_speed',
+  CHANGED_VELOCITY: 'changed_values',
   COLLISION: 'collision',
+  CONNECTING: 'connecting',
 };
 
 
@@ -75,4 +76,16 @@ cwc.protocol.sphero.v1.Events.speedValue = function(data) {
 cwc.protocol.sphero.v1.Events.collision = function(data) {
   return new cwc.utils.EventData(
       cwc.protocol.sphero.v1.Events.Type.COLLISION, data);
+};
+
+
+/**
+ * @param {string} data
+ * @param {number} step
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.sphero.v1.Events.connecting = function(data, step) {
+  return new cwc.utils.EventData(
+      cwc.protocol.sphero.v1.Events.Type.CONNECTING, data, step);
 };

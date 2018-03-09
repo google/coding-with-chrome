@@ -68,38 +68,39 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.prepare = function() {
 
 /**
  * @param {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
+ * @return {Promise}
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.requestDevice = function(
     device) {
   let services = Object.keys(device.services).map(
     (service) => device.services[service]
   );
-  navigator.bluetooth.requestDevice({
-    'filters': [
-      {'namePrefix': device.namePrefix},
-    ],
-    'optionalServices': services,
-  }).then(
-    (bluetoothDevice) => {
-      this.handleRequestDevice_(bluetoothDevice);
-    }
-  );
+  return new Promise((resolve, reject) => {
+    navigator.bluetooth.requestDevice({
+      'filters': [
+        {'namePrefix': device.namePrefix},
+      ],
+      'optionalServices': services,
+    }).then((bluetoothDevice) => {
+      resolve(this.handleRequestDevice_(bluetoothDevice));
+    }).catch(() => reject);
+  });
 };
 
 
 /**
- * @param {Function=} optCallback Will be only called  after an connection.
+ * @param {Function=} callback Will be only called  after an connection.
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.requestDevices = function(
-    optCallback) {
-  navigator.bluetooth.requestDevice(this.getDeviceFilter_()).then(
-    (bluetoothDevice) => {
-      this.handleRequestDevice_(bluetoothDevice);
-      if (optCallback) {
-        optCallback();
-      }
+    callback) {
+  let filter = this.getDeviceFilter_();
+  this.log_.info('Searching for devices with filter', filter);
+  navigator.bluetooth.requestDevice(filter).then((bluetoothDevice) => {
+    this.handleRequestDevice_(bluetoothDevice);
+    if (callback) {
+      callback();
     }
-  );
+  });
 };
 
 
@@ -185,6 +186,7 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevicesByName = function(
 
 /**
  * @param {?} bluetoothDevice
+ * @return {cwc.protocol.bluetooth.lowEnergy.Device}
  * @private
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.handleRequestDevice_ =
@@ -212,5 +214,5 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.handleRequestDevice_ =
   }
   this.deviceTypeMap_[profile.name].push(device);
 
-  console.log(this.devices);
+  return this.devices[bluetoothDevice['id']];
 };

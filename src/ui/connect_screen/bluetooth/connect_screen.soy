@@ -108,17 +108,16 @@
   {@param device: ?}
   {@param prefix: string}
 
-  {if $ble}
-    {msg desc=""}Please make sure that{/msg} {$device['name']} ({$device['type']})
+  <p>
+    {msg desc=""}Please make sure that{/msg} {$device['name']}
     {msg desc=""}is charged and turned on.{/msg}
+  </p>
 
+  {if $ble}
     <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-      <i class="material-icons">add</i> Connect device ...
+      <i class="material-icons">add</i> Search for {$device['name']} ...
     </button>
-  {else}
-    Bluetooth low energy is not available ...
   {/if}
-  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
 {/template}
 

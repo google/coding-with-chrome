@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.connectScreen.Screens');
 
+goog.require('cwc.soy.connectScreen.Screens');
 goog.require('cwc.ui.connectScreen.Bluetooth');
 goog.require('cwc.ui.connectScreen.Serial');
 
@@ -46,14 +47,6 @@ cwc.ui.connectScreen.Screens = function(helper) {
 
 
 /**
- * Shows bluetooth connect screen.
- */
-cwc.ui.connectScreen.Screens.prototype.showBluetoothDevices = function() {
-  this.bluetoothScreen.showDevices();
-};
-
-
-/**
  * Request user to connect the specific device, if not already connected.
  * @param {cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
  * @return {Promise}
@@ -65,8 +58,37 @@ cwc.ui.connectScreen.Screens.prototype.requestBluetoothDevice = function(
 
 
 /**
+ * Shows bluetooth connect screen.
+ */
+cwc.ui.connectScreen.Screens.prototype.showBluetoothDevices = function() {
+  this.bluetoothScreen.showDevices();
+};
+
+
+/**
  * Shows serial connect screen.
  */
 cwc.ui.connectScreen.Screens.prototype.showSerialDevices = function() {
   this.serialScreen.showDevices();
+};
+
+
+/**
+ * @param {!string} title
+ * @param {!string} text
+ * @param {!number} step
+ */
+cwc.ui.connectScreen.Screens.prototype.showConnectingStep = function(
+    title, text, step) {
+  let dialogInstance = this.helper.getInstance('dialog', true);
+  dialogInstance.showTemplate(title,
+    cwc.soy.connectScreen.Screens.connectingSteps, {
+      step: step,
+      text: text,
+    });
+  if (step == 3) {
+    window.setTimeout(() => {
+      this.helper.getInstance('dialog').close();
+    }, 2000);
+  }
 };

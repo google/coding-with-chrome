@@ -41,6 +41,7 @@ goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.mode.sphero.advanced.Mod');
 goog.require('cwc.mode.sphero.bb8.blockly.Mod');
 goog.require('cwc.mode.sphero.blockly.Mod');
+goog.require('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
@@ -387,6 +388,20 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   mod: cwc.mode.sphero.blockly.Mod,
   name: 'Sphero 2.0 blockly',
   template: 'sphero/classic/blank-blocks.cwc',
+});
+
+
+/**
+ * Sphero Ollie blockly mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.SPHERO_OLLIE_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  file_type: cwc.file.Type.SPHERO_OLLIE_BLOCKLY,
+  icon: 'adjust',
+  mime_types: [cwc.file.MimeType.CWC.type],
+  mod: cwc.mode.sphero.ollie.blockly.Mod,
+  name: 'Sphero Ollie blockly',
+  template: 'sphero/ollie/blank-blocks.cwc',
 });
 
 

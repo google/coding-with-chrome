@@ -52,6 +52,7 @@ cwc.file.Type = {
   SPHERO: 'sphero',
   SPHERO_BB8_BLOCKLY: 'sphero_bb8_blockly',
   SPHERO_BLOCKLY: 'sphero_blockly',
+  SPHERO_OLLIE_BLOCKLY: 'sphero_ollie_blockly',
   SPHERO_SPRK_PLUS_BLOCKLY: 'sphero_sprk_plus_blockly',
   TEXT: 'text',
   TTS: 'tts',

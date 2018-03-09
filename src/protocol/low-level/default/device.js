@@ -55,8 +55,8 @@ cwc.protocol.default.Device = function() {
    */
   this.profile = {};
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger();
+  /** @type {!cwc.utils.Logger} */
+  this.log = new cwc.utils.Logger();
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
@@ -245,6 +245,6 @@ cwc.protocol.default.Device.prototype.getIcon = function() {
  * @template THIS
  */
 cwc.protocol.default.Device.prototype.setLogName = function(name) {
-  this.log_ = new cwc.utils.Logger(name);
+  this.log = new cwc.utils.Logger(name);
   return this;
 };

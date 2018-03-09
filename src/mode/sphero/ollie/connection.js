@@ -1,5 +1,5 @@
 /**
- * @fileoverview Connection for the Sphero BB-8 modification.
+ * @fileoverview Connection for the Sphero Ollie modification.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.bb8.Connection');
+goog.provide('cwc.mode.sphero.ollie.Connection');
 
 goog.require('cwc.protocol.bluetooth.lowEnergy.supportedDevices');
 goog.require('cwc.protocol.sphero.v1.Api');
@@ -30,9 +30,9 @@ goog.require('goog.Timer');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.bb8.Connection = function(helper) {
+cwc.mode.sphero.ollie.Connection = function(helper) {
   /** @type {string} */
-  this.name = 'Sphero BB-8 Connection';
+  this.name = 'Sphero Ollie Connection';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -46,15 +46,11 @@ cwc.mode.sphero.bb8.Connection = function(helper) {
   /** @private {!cwc.protocol.sphero.v1.Api} */
   this.api_ = new cwc.protocol.sphero.v1.Api();
 
-  /** @private {!goog.events.EventTarget} */
+  /** @private {goog.events.EventTarget} */
   this.apiEvents_ = this.api_.getEventHandler();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
-
-  /** @private {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} */
-  this.device_ =
-    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_BB8;
 };
 
 
@@ -62,24 +58,19 @@ cwc.mode.sphero.bb8.Connection = function(helper) {
  * Connects the Sphero unit.
  * @export
  */
-cwc.mode.sphero.bb8.Connection.prototype.init = function() {
-  if (this.apiEvents_) {
-    this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECTING,
-      this.handleConnecting_.bind(this));
-  }
-
+cwc.mode.sphero.ollie.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
   let connectScreenInstance = this.helper.getInstance('connectScreen');
-  connectScreenInstance.requestBluetoothDevice(this.device_).then(
-    (bluetoothDevice) => {
-      bluetoothDevice.connect().then((device) => {
-        this.api_.connect(device);
-      });
+  connectScreenInstance.requestBluetoothDevice(
+    cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_OLLIE
+  ).then((bluetoothDevice) => {
+    bluetoothDevice.connect().then((device) => {
+      this.api_.connect(device);
+    });
   }).catch(() => {
     this.connectMonitor.start();
   });
@@ -87,14 +78,15 @@ cwc.mode.sphero.bb8.Connection.prototype.init = function() {
 
 
 /**
- * Connects the Sphero BB-8.
+ * Connects the Sphero SPRK+.
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.bb8.Connection.prototype.connect = function(opt_event) {
+cwc.mode.sphero.ollie.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     let bluetoothInstance = this.helper.getInstance('bluetoothLE', true);
-    let devices = bluetoothInstance.getDevicesByName(this.device_);
+    let devices = bluetoothInstance.getDevicesByName(
+      cwc.protocol.bluetooth.lowEnergy.supportedDevices.SPHERO_OLLIE.name);
     if (devices) {
       devices[0].connect().then((device) => {
         this.api_.connect(device);
@@ -108,7 +100,7 @@ cwc.mode.sphero.bb8.Connection.prototype.connect = function(opt_event) {
 /**
  * Stops the current executions.
  */
-cwc.mode.sphero.bb8.Connection.prototype.stop = function() {
+cwc.mode.sphero.ollie.Connection.prototype.stop = function() {
   let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
@@ -122,7 +114,7 @@ cwc.mode.sphero.bb8.Connection.prototype.stop = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.bb8.Connection.prototype.reset = function(opt_event) {
+cwc.mode.sphero.ollie.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
@@ -133,7 +125,7 @@ cwc.mode.sphero.bb8.Connection.prototype.reset = function(opt_event) {
  * @return {!boolean}
  * @export
  */
-cwc.mode.sphero.bb8.Connection.prototype.isConnected = function() {
+cwc.mode.sphero.ollie.Connection.prototype.isConnected = function() {
   return this.api_.isConnected();
 };
 
@@ -141,37 +133,24 @@ cwc.mode.sphero.bb8.Connection.prototype.isConnected = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.sphero.bb8.Connection.prototype.getEventHandler = function() {
-  return this.apiEvents_;
+cwc.mode.sphero.ollie.Connection.prototype.getEventHandler = function() {
+  return this.api_.getEventHandler();
 };
 
 
 /**
- * @return {!cwc.protocol.sphero.classic.Api}
+ * @return {!cwc.protocol.sphero.v1.Api}
  * @export
  */
-cwc.mode.sphero.bb8.Connection.prototype.getApi = function() {
+cwc.mode.sphero.ollie.Connection.prototype.getApi = function() {
   return this.api_;
-};
-
-
-/**
- * @param {Event} e
- * @private
- */
-cwc.mode.sphero.bb8.Connection.prototype.handleConnecting_ = function(e) {
-  let message = e.data;
-  let step = e.source;
-  let title = 'Connecting ' + this.device_.name;
-  let connectScreenInstance = this.helper.getInstance('connectScreen');
-  connectScreenInstance.showConnectingStep(title, message, step);
 };
 
 
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.bb8.Connection.prototype.cleanUp = function() {
+cwc.mode.sphero.ollie.Connection.prototype.cleanUp = function() {
   console.log('Clean up Sphero connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();

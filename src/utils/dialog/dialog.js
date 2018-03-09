@@ -69,7 +69,8 @@ cwc.utils.Dialog = function() {
  * @export
  */
 cwc.utils.Dialog.prototype.prepare = function() {
-  this.dialog = this.getDialog_();
+  this.getDialog_();
+  this.refresh_();
   this.close();
 };
 
@@ -204,9 +205,9 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
 
   if (this.getDialog_()) {
     this.render(title, '', cwc.soy.Dialog.contentTemplate);
-    let closeButton = goog.dom.getElement(this.prefix + 'close');
     let contentNode = goog.dom.getElement(this.prefix + 'content');
     goog.soy.renderElement(contentNode, template, values);
+    let closeButton = goog.dom.getElement(this.prefix + 'close');
     closeButton.addEventListener('click', this.close.bind(this));
     this.showModal();
   }
