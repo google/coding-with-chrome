@@ -328,38 +328,6 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
 /**
  * @param {!string|Object} title
  * @param {!string} content
- * @return {!Promise}
- * @export
- */
-cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
-  return new Promise((resolve, reject) => {
-    if (this.getDialog_()) {
-      this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
-
-      let yesButton = goog.dom.getElement(this.prefix + 'yes');
-      yesButton.addEventListener('click', this.close.bind(this));
-      if (this.defaultCloseHandler_) {
-        yesButton.addEventListener('click', this.defaultCloseHandler_);
-      }
-      yesButton.addEventListener('click', function() {
-        resolve(true);
-      });
-
-      let noButton = goog.dom.getElement(this.prefix + 'no');
-      noButton.addEventListener('click', this.close.bind(this));
-      noButton.addEventListener('click', function() {
-        resolve(false);
-      });
-      this.showModal();
-    } else {
-      reject();
-    }
-  });
-};
-
-/**
- * @param {!string|Object} title
- * @param {!string} content
  * @param {!string} action
  * @return {!Promise}
  * @export

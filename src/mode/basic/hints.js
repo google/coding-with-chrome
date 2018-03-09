@@ -39,7 +39,6 @@ cwc.mode.basic.Hints = {
     'write': function() {},
     'showAlert': function() {},
     'showPrompt': function() {},
-    'showYesNo': function() {},
     'showActionCancel': function() {},
   },
 };

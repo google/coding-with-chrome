@@ -161,7 +161,8 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
       dialogInstance.showAlert('Blockly alert', message).then(callback);
     };
     Blockly['confirm'] = function(message, callback) {
-      dialogInstance.showYesNo('Blockly confirm', message).then(callback);
+      dialogInstance.showActionCancel('Blockly confirm', message, 'Confirm')
+        .then(callback);
     };
     Blockly['prompt'] = function(message, defaultValue, callback) {
       dialogInstance.showPrompt(
