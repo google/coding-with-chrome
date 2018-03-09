@@ -29,8 +29,8 @@
   {@param prefix: string}
   {@param version: string}
 
-  {call cwc.soy.SelectScreenTemplate.container}
-    {param id: 'cwc-select-screen-welcome' /}
+  {call cwc.soy.SelectScreenTemplate.container data="all"}
+    {param id: 'welcome' /}
     {param header kind="html"}
       {call .header_ data="all"}
         {param title: 'Welcome to Coding with Chrome!' /}

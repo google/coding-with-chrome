@@ -148,7 +148,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.getEventHandler = function() {
 
 
 /**
- * @return {!cwc.protocol.sphero.classic.Api}
+ * @return {!cwc.protocol.sphero.v1.Api}
  * @export
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.getApi = function() {

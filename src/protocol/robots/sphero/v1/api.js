@@ -59,7 +59,7 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @private {!number} */
   this.headerMinSize_ = 7;
 
-  /** @type {cwc.protocol.bluetooth.classic.Device} */
+  /** @type {cwc.protocol.bluetooth.lowEnergy.Device} */
   this.device = null;
 
   /** @private {!boolean} */

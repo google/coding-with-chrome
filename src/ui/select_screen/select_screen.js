@@ -254,22 +254,12 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     });
     this.addFileHandler_();
     cwc.ui.Helper.mdlRefresh();
+
+    // Event Handling
+    this.eventHandler_.dispatchEvent(
+      cwc.ui.SelectScreen.Events.changeView(this.nodeContent));
   } else {
     console.error('Unable to render template', template);
-  }
-};
-
-/**
- * @param {cwc.ui.SelectScreenNormalView|
- *    cwc.ui.SelectScreenAdvancedView=} name
- */
-cwc.ui.SelectScreen.prototype.showView_ = function(name) {
-  if (this.lockBasicMode) {
-    this.selectScreenNormal.showView(name);
-  } else if (this.lockAdvancedMode) {
-    this.selectScreenAdvanced.showView(name);
-  } else {
-    console.error('Unable to show view', name);
   }
 };
 
@@ -305,7 +295,8 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
         break;
       }
     }
-    let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+    let editorWindow = this.helper.checkChromeFeature('app') &&
+      chrome.app.window.get('editor');
     if (editorWindow) {
       editorWindow['clearAttention']();
     }

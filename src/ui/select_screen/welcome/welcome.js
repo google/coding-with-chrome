@@ -74,7 +74,6 @@ cwc.ui.SelectScreenWelcome.prototype.decorate = function() {
     }
     goog.events.listen(showWelcome, goog.events.EventType.CHANGE,
       function(opt_event) {
-        this.updateMode = !showWelcome.checked;
         userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.SKIP_WELCOME, !showWelcome.checked);
       }, false, this);

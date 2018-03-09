@@ -111,16 +111,16 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     gCloudInstance.clear();
   }
 
-  this.log_.info('Initialize mode and decorate UI for', mode, '…');
-  this.mode = mode;
-  this.modder = new modeConfig.Mod(this.helper);
-  this.modder.decorate();
-
-  // Hide overlay after loading.
+  // Close overlay before loading.
   let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
     guiInstance.showOverlay(false);
   }
+
+  this.log_.info('Initialize mode and decorate UI for', mode, '…');
+  this.mode = mode;
+  this.modder = new modeConfig.Mod(this.helper);
+  this.modder.decorate();
 };
 
 
