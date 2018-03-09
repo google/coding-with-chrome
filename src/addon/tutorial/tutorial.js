@@ -66,7 +66,7 @@ cwc.addon.Tutorial.prototype.prepare = function() {
   if (selectScreenInstance) {
     goog.events.listen(selectScreenInstance.getEventHandler(),
       cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
-      this.eventsSelectScreen, false, this);
+      this.decorate, false, this);
   }
 
   let modeInstance = this.helper.getInstance('mode');
@@ -79,13 +79,23 @@ cwc.addon.Tutorial.prototype.prepare = function() {
 
 
 /**
- * @param {Event} e
+ * @param {Event} opt_e
  */
-cwc.addon.Tutorial.prototype.eventsSelectScreen = function(e) {
-  let view = e.data;
-  this.log_.info('Change View', view);
-  if (view == cwc.ui.SelectScreenNormalView.BASIC) {
-    this.decorateBasic();
+cwc.addon.Tutorial.prototype.decorate = function(opt_e) {
+  // Render cards
+  let basicNode = document.getElementById(
+    'cwc-select-screen-normal_basic-addon');
+  if (basicNode) {
+    let template = goog.soy.renderAsElement(cwc.soy.addon.Tutorial.basic, {
+      prefix: this.prefix,
+    });
+    basicNode.appendChild(template);
+
+    // Event handler for the cards
+    let basicCard = document.getElementById('cwc-addon-tutorial-link-basic');
+    goog.events.listen(basicCard, goog.events.EventType.CLICK, function() {
+        this.loadFile_('simple/blocks/tutorial-1.cwc');
+      }, false, this);
   }
 };
 
@@ -137,22 +147,6 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
       tour.start();
     }
   }
-};
-
-
-cwc.addon.Tutorial.prototype.decorateBasic = function() {
-  // Render cards
-  let node = document.querySelector('.cwc-file-card-list > .__extension');
-  let template = goog.soy.renderAsElement(cwc.soy.addon.Tutorial.basic, {
-    prefix: this.prefix,
-  });
-  node.appendChild(template);
-
-  // Event handler for the cards
-  let basicCard = document.getElementById('cwc-addon-tutorial-link-basic');
-  goog.events.listen(basicCard, goog.events.EventType.CLICK, function() {
-      this.loadFile_('simple/blocks/tutorial-1.cwc');
-    }, false, this);
 };
 
 

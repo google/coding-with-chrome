@@ -100,7 +100,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
       return resolve(devices[0]);
     }
     console.log('Asked user to connect device', device.name);
-    bluetoothInstance.requestDevice(device);
+    this.showDevices();
     reject();
   });
 };
@@ -211,7 +211,8 @@ cwc.ui.connectScreen.Bluetooth.prototype.refresh_ = function() {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.protocol.bluetooth.classic.Device|
+ *  cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
  * @return {Object}
  * @private
  */

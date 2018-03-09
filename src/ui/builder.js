@@ -486,6 +486,7 @@ cwc.ui.Builder.prototype.prepareDialog = function() {
         this.helper.getInstance('navigation').hide();
       }.bind(this)
     );
+    dialogInstance.prepare();
   }
   this.helper.setInstance('dialog', dialogInstance);
 };

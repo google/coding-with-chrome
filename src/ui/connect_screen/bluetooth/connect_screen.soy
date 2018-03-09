@@ -25,9 +25,9 @@
  * Bluetooth device template.
  */
 {template .template}
-  {@param prefix: string}
   {@param ble: bool}
   {@param devices: ?}
+  {@param prefix: string}
 
   {call .devices data="all" /}  
 
@@ -97,6 +97,29 @@
     {/if}
   ...
   <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
+ * Request device template.
+ */
+{template .requestDevice}
+  {@param ble: bool}
+  {@param device: ?}
+  {@param prefix: string}
+
+  {if $ble}
+    {msg desc=""}Please make sure that{/msg} {$device['name']} ({$device['type']})
+    {msg desc=""}is charged and turned on.{/msg}
+
+    <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+      <i class="material-icons">add</i> Connect device ...
+    </button>
+  {else}
+    Bluetooth low energy is not available ...
+  {/if}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+
 {/template}
 
 
