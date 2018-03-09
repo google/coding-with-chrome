@@ -329,26 +329,26 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
 /**
  * @param {!string|Object} title
  * @param {!string} content
+ * @param {!string} action
  * @return {!Promise}
  * @export
  */
-cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
+cwc.utils.Dialog.prototype.showActionCancel = function(title, content, action) {
   return new Promise((resolve, reject) => {
     if (this.getDialog_()) {
-      this.render(title, content, cwc.soy.Dialog.yesNoTemplate);
-
-      let yesButton = goog.dom.getElement(this.prefix + 'yes');
-      yesButton.addEventListener('click', this.close.bind(this));
+      this.render(title, content, cwc.soy.Dialog.actionCancelTemplate, action);
+      let actionButton = goog.dom.getElement(this.prefix + 'action');
+      actionButton.addEventListener('click', this.close.bind(this));
       if (this.defaultCloseHandler_) {
-        yesButton.addEventListener('click', this.defaultCloseHandler_);
+        actionButton.addEventListener('click', this.defaultCloseHandler_);
       }
-      yesButton.addEventListener('click', function() {
+      actionButton.addEventListener('click', function() {
         resolve(true);
       });
 
-      let noButton = goog.dom.getElement(this.prefix + 'no');
-      noButton.addEventListener('click', this.close.bind(this));
-      noButton.addEventListener('click', function() {
+      let cancelButton = goog.dom.getElement(this.prefix + 'cancel');
+      cancelButton.addEventListener('click', this.close.bind(this));
+      cancelButton.addEventListener('click', function() {
         resolve(false);
       });
       this.showModal();
@@ -357,7 +357,6 @@ cwc.utils.Dialog.prototype.showYesNo = function(title, content) {
     }
   });
 };
-
 
 /**
  * @param {Function!} func

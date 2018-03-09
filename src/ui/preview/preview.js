@@ -492,8 +492,8 @@ cwc.ui.Preview.prototype.handleLoadStop_ = function() {
 cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
   this.setStatus_(cwc.ui.StatusbarState.UNRESPONSIVE);
   let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showYesNo('Unresponsive Warning',
-    'The preview is unresponsive! Terminate?').then((answer) => {
+  dialogInstance.showActionCancel('Unresponsive Warning',
+    'The preview is unresponsive! Terminate?', 'Terminate').then((answer) => {
       if (answer) {
         this.terminate();
       }

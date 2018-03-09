@@ -75,29 +75,29 @@
 
 
 /**
- * Yes / no template.
+ * Action / Cancel template.
  */
-{template .yesNoTemplate}
+{template .actionCancelTemplate}
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
+  {@param? opt_values: string}
 
   {call .dialogTitle_ data="all" /}
   <div class="_content">
     {$content}
   </div>
   <div class="_actions">
-    <button id="{$prefix}yes" type="button" class="_button _button--raised">
-      {msg desc=""}Yes{/msg}
+    <button id="{$prefix}action" type="button" class="_button _button--raised">
+      {msg desc=""}{$opt_values}{/msg}
     </button>
-    <button id="{$prefix}no" type="button" class="_button _button--raised close">
-      {msg desc=""}No{/msg}
+    <button id="{$prefix}cancel" type="button" class="_button _button--raised close">
+      {msg desc=""}Cancel{/msg}
     </button>
   </div>
 {/template}
-
 
 /**
  * Prompt template.
