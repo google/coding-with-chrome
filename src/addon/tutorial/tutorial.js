@@ -23,6 +23,7 @@ goog.require('cwc.mode.Modder.Events');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.addon.Tutorial');
 goog.require('cwc.ui.SelectScreen.Events');
+goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
 
 
@@ -34,7 +35,7 @@ goog.require('cwc.utils.Logger');
  */
 cwc.addon.Tutorial = function(helper) {
   /** @type {!string} */
-  this.name = 'Tutorial';
+  this.name = 'Addon Tutorial';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -51,6 +52,9 @@ cwc.addon.Tutorial = function(helper) {
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
 
+  /** @private {cwc.utils.Database} */
+  this.cache_ = new cwc.utils.Database(this.name);
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -62,19 +66,22 @@ cwc.addon.Tutorial.prototype.prepare = function() {
   }
 
   this.log_.info('Preparing tutorial addon ...');
-  let selectScreenInstance = this.helper.getInstance('selectScreen');
-  if (selectScreenInstance) {
-    goog.events.listen(selectScreenInstance.getEventHandler(),
-      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
-      this.decorate, false, this);
-  }
 
-  let modeInstance = this.helper.getInstance('mode');
-  if (modeInstance) {
-    goog.events.listen(modeInstance.getEventHandler(),
-      cwc.mode.Modder.Events.Type.MODE_CHANGE,
-      this.eventsModder, false, this);
-  }
+  this.cache_.open().then(() => {
+    let selectScreenInstance = this.helper.getInstance('selectScreen');
+    if (selectScreenInstance) {
+      goog.events.listen(selectScreenInstance.getEventHandler(),
+        cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
+        this.decorate, false, this);
+    }
+
+    let modeInstance = this.helper.getInstance('mode');
+    if (modeInstance) {
+      goog.events.listen(modeInstance.getEventHandler(),
+        cwc.mode.Modder.Events.Type.MODE_CHANGE,
+        this.eventsModder, false, this);
+    }
+  });
 };
 
 

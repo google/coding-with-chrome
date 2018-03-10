@@ -21,6 +21,7 @@ goog.provide('cwc.renderer.Renderer');
 
 goog.require('cwc.file.Files');
 goog.require('cwc.renderer.Helper');
+goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
@@ -56,8 +57,30 @@ cwc.renderer.Renderer = function(helper) {
   /** @type {!boolean} */
   this.serverMode_ = false;
 
+  /** @private {cwc.utils.Database} */
+  this.cache_ = new cwc.utils.Database(this.name);
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+};
+
+
+/**
+ * @return {Promise}
+ */
+cwc.renderer.Renderer.prototype.prepare = function() {
+  return this.cache_.open();
+};
+
+
+/**
+ * Basic cache test.
+ */
+cwc.renderer.Renderer.prototype.test = function() {
+  this.cache_.addFile('test', 'Hello World');
+  this.cache_.getFile('test').then((result) => {
+    console.log('db test', result);
+  });
 };
 
 

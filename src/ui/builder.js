@@ -568,17 +568,19 @@ cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
  */
 cwc.ui.Builder.prototype.loadFrameworks = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
+  rendererInstance.prepare().then(() => {
+    rendererInstance.test();
+    this.log_.info('Pre-loading external frameworks ...');
+    rendererInstance.loadFrameworks(cwc.framework.External,
+      '../frameworks/external/');
 
-  this.log_.info('Pre-loading external frameworks ...');
-  rendererInstance.loadFrameworks(cwc.framework.External,
-    '../frameworks/external/');
+    this.log_.info('Pre-loading internal frameworks ...');
+    rendererInstance.loadFrameworks(cwc.framework.Internal,
+      '../frameworks/internal/');
 
-  this.log_.info('Pre-loading internal frameworks ...');
-  rendererInstance.loadFrameworks(cwc.framework.Internal,
-    '../frameworks/internal/');
-
-  this.log_.info('Pre-loading Style Sheets ...');
-  rendererInstance.loadStyleSheets(cwc.framework.StyleSheet, '../css/');
+    this.log_.info('Pre-loading Style Sheets ...');
+    rendererInstance.loadStyleSheets(cwc.framework.StyleSheet, '../css/');
+  });
 };
 
 
