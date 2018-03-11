@@ -73,16 +73,14 @@ cwc.renderer.external.Python.prototype.render = function(
   // Python 2.x handling.
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
-    let header = renderer_helper.getFrameworkHeaders([
+    let header = renderer_helper.getJavaScriptURLs([
       cwc.framework.External.JQUERY.V2_2_4,
+      cwc.framework.External.SKULPT.CORE,
+      cwc.framework.External.SKULPT.STDLIB,
       cwc.framework.Internal.PYTHON2,
-    ], frameworks);
-    header += renderer_helper.getFrameworkHeaderURL(
-      cwc.framework.External.SKULPT.CORE);
-    header += renderer_helper.getFrameworkHeaderURL(
-      cwc.framework.External.SKULPT.STDLIB);
-    header += renderer_helper.getStyleSheetHeader(
-      /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
+    ]);
+    header += renderer_helper.getStyleSheetURL(
+      /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
     let body = '<div id="content"></div>' +
     '<script id="code" type="text/python">\n' +
       content +
@@ -92,15 +90,13 @@ cwc.renderer.external.Python.prototype.render = function(
   }
 
   // Python 3.x as default
-  let header = renderer_helper.getFrameworkHeaders([
+  let header = renderer_helper.getJavaScriptURLs([
+    cwc.framework.External.BRYTHON.CORE,
+    cwc.framework.External.BRYTHON.STDLIB,
     cwc.framework.Internal.PYTHON3,
-  ], frameworks);
-  header += renderer_helper.getFrameworkHeaderURL(
-    cwc.framework.External.BRYTHON.CORE);
-  header += renderer_helper.getFrameworkHeaderURL(
-    cwc.framework.External.BRYTHON.STDLIB);
-  header += renderer_helper.getStyleSheetHeader(
-    /** @type {string} */ (cwc.framework.StyleSheet.DIALOG), styleSheets);
+  ]);
+  header += renderer_helper.getStyleSheetURL(
+    /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
   let body = '<div id="container"></div>' +
   '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
   '<script>new cwc.framework.Python3().run();</script>';

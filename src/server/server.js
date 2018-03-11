@@ -45,9 +45,6 @@ cwc.server.Server = function(helper) {
   this.httpServerPrefix = 'http://localhost:8090';
 
   /** @type {!string} */
-  this.frameworkPrefix = '/framework/';
-
-  /** @type {!string} */
   this.previewFile = '/preview.html';
 };
 
@@ -55,29 +52,16 @@ cwc.server.Server = function(helper) {
 cwc.server.Server.prototype.prepare = function() {
   this.httpServer = this.helper.getInstance('http-server');
   this.httpServer.listen();
-
-  // Default files
-  this.httpServer.addFile('test.html', '<h1>Hello World</h1>', 'text/html');
-  this.httpServer.addFile(this.frameworkPrefix + '__init__.py', '#',
-    'text/x-python');
-
-  // Framework redirects
-  this.addFrameworkRedirect('__init__.py', '/turtle/__init__.py');
 };
 
 
 /**
  * @param {!string} name
  * @param {!string} content
- * @param {string=} type
  */
-cwc.server.Server.prototype.addFrameworkFile = function(name, content,
-    type = 'text/javascript') {
+cwc.server.Server.prototype.addFile = function(name, content) {
   if (this.httpServer) {
-    if (name.endsWith('.py')) {
-      type = 'text/x-python';
-    }
-    this.httpServer.addFile(this.frameworkPrefix + name, content, type);
+    this.httpServer.addFile(name, content);
   }
 };
 
@@ -86,20 +70,19 @@ cwc.server.Server.prototype.addFrameworkFile = function(name, content,
  * @param {!string} name
  * @param {!string} path
  */
-cwc.server.Server.prototype.addFrameworkRedirect = function(name, path) {
+cwc.server.Server.prototype.addRedirect = function(name, path) {
   if (this.httpServer) {
-    this.httpServer.addRedirect(path, this.frameworkPrefix + name);
+    this.httpServer.addRedirect(path, name);
   }
 };
 
 
 /**
  * @param {!string} content
- * @param {string=} type
  */
-cwc.server.Server.prototype.setPreview = function(content, type = 'text/html') {
+cwc.server.Server.prototype.setPreview = function(content) {
   if (this.httpServer) {
-    this.httpServer.addFile(this.previewFile, content, type);
+    this.httpServer.addFile(this.previewFile, content);
   }
 };
 
@@ -109,7 +92,7 @@ cwc.server.Server.prototype.setPreview = function(content, type = 'text/html') {
  * @return {!string}
  */
 cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
-  return this.httpServerPrefix + this.frameworkPrefix + name;
+  return this.httpServerPrefix + name;
 };
 
 

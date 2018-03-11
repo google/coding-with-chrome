@@ -204,12 +204,24 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
  * @param {string=} filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url,
-    filename = undefined) {
+cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename) {
   return cwc.soy.Renderer.javaScriptUrl({
     url: url,
-    filename: filename,
+    filename: filename || url,
   }).getContent();
+};
+
+
+/**
+ * @param {!Array.<string>} filenames
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getJavaScriptURLs = function(filenames) {
+  let headers = '';
+  for (let filename of filenames) {
+    headers += this.getJavaScriptURL(filename);
+  }
+  return headers;
 };
 
 
@@ -219,7 +231,7 @@ cwc.renderer.Helper.prototype.getJavaScriptUrl = function(url,
  * @param {string=} filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
+cwc.renderer.Helper.prototype.getJavaScriptDataURL = function(data,
     encoding = 'base64', filename = '') {
   if (goog.string.startsWith(data, 'data:text/javascript;')) {
     data = data.split(';')[1];
@@ -234,6 +246,19 @@ cwc.renderer.Helper.prototype.getJavaScriptDataUrl = function(data,
     data: data,
     encoding: encoding,
     filename: filename,
+  }).getContent();
+};
+
+
+/**
+ * @param {!string} url
+ * @param {string=} filename
+ * @return {string}
+ */
+cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename) {
+  return cwc.soy.Renderer.styleSheetUrl({
+    url: url,
+    filename: filename || url,
   }).getContent();
 };
 
@@ -274,7 +299,7 @@ cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
     console.warn('Was unable to get file:', filename);
     return '';
   }
-  return this.getJavaScriptDataUrl(file.getContent(), undefined, filename);
+  return this.getJavaScriptDataURL(file.getContent(), undefined, filename);
 };
 
 
@@ -289,16 +314,6 @@ cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
     headers += this.getFrameworkHeader(filename, files);
   }
   return headers;
-};
-
-
-/**
- * @param {!string} filename
- * @return {string}
- */
-cwc.renderer.Helper.prototype.getFrameworkHeaderURL = function(filename) {
-  let file = '/framework/' + filename;
-  return this.getJavaScriptUrl(file, file);
 };
 
 

@@ -134,7 +134,7 @@ describe('Renderer Helper', function() {
       'let 123;\nfunction test(a) {return a+1;};')).toEqual(htmlCode);
   });
 
-  it('getDataUrl ', function() {
+  it('getDataUrl', function() {
     let js1 = helper.getDataUrl('Hello World');
     let js2 = helper.getDataUrl('Hello World', 'text/javascript');
     let js3 = helper.getDataUrl('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
@@ -143,7 +143,7 @@ describe('Renderer Helper', function() {
     expect(js3).toEqual('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
   });
 
-  it('getObjectTag ', function() {
+  it('getObjectTag', function() {
     let url = 'data:text/javascript;base64,SGVsbG9Xb3JsZA==';
     let objectTag1 = helper.getObjectTag(url);
     let objectTag2 = helper.getObjectTag(url, 100, 200);
@@ -156,7 +156,7 @@ describe('Renderer Helper', function() {
       'SGVsbG9Xb3JsZA==" type="text/html" width="200" height="100"></object>');
   });
 
-  it('getRawHTML ', function() {
+  it('getRawHTML', function() {
     let html1 = helper.getRawHTML('Hello World');
     let html2 = helper.getRawHTML('<html></html>', '<test>');
     let html3 = helper.getRawHTML('<head></head>', '<test>');
@@ -167,9 +167,9 @@ describe('Renderer Helper', function() {
     expect(html4).toEqual('<head>\n<test>\n</head>\n<body></body>');
   });
 
-  it('getJavaScriptDataUrl ', function() {
-    let js1 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==');
-    let js2 = helper.getJavaScriptDataUrl('SGVsbG9Xb3JsZA==', undefined,
+  it('getJavaScriptDataURL', function() {
+    let js1 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==');
+    let js2 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');
     expect(js1).toEqual('\n<script src="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA=="></script>\n');
@@ -177,7 +177,7 @@ describe('Renderer Helper', function() {
       'SGVsbG9Xb3JsZA==" data-filename="test-file"></script>\n');
   });
 
-  it('getJavaScript ', function() {
+  it('getJavaScript', function() {
     let js1 = helper.getJavaScriptContent('test();');
     let js2 = helper.getJavaScriptContent('let 123;\n' +
       'function test(a) {return a+1;};');
@@ -186,7 +186,7 @@ describe('Renderer Helper', function() {
       'function test(a) {return a+1;};\n</script>\n');
   });
 
-  it('getStyleSheetDataUrl ', function() {
+  it('getStyleSheetDataUrl', function() {
     let js1 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==');
     let js2 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==', undefined,
       'test-file');

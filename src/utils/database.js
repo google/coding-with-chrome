@@ -27,23 +27,24 @@ goog.require('cwc.utils.Logger');
  * @param {number=} version
  * @constructor
  */
-cwc.utils.Database = function(name, version = 1) {
+cwc.utils.Database = function(name, version) {
   /** @type {!string} */
   this.name = 'Database';
 
-  /** @private {Object} */
+  /** @private {*} */
   this.database_ = null;
 
   /** @private {!string} */
   this.name_ = name;
 
-  /** @private {!number} */
-  this.version_ = version;
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name + ':' + this.name_);
 
+  /** @private {!string} */
   this.defaultObjectStore_ = '__files__';
+
+  /** @private {string|number=} */
+  this.version_ = version;
 };
 
 
@@ -53,6 +54,10 @@ cwc.utils.Database = function(name, version = 1) {
  */
 cwc.utils.Database.prototype.open = function() {
   return new Promise((resolve, reject) => {
+    if (this.database_) {
+      return resolve(this.database_);
+    }
+
     if (typeof indexedDB === 'undefined') {
       this.log_.error('IndexDB is unsupported!');
       return reject();
@@ -60,9 +65,13 @@ cwc.utils.Database.prototype.open = function() {
 
     let dbRequest = indexedDB.open(this.name_, this.version_);
     dbRequest['onsuccess'] = () => {
-      this.log_.info('Open database version', this.version_);
+      if (this.database_) {
+        return resolve(this.database_);
+      }
       this.database_ = dbRequest.result;
-      resolve();
+      this.version_ = this.database_.version;
+      this.log_.info('Open database with version', this.version_);
+      resolve(this.database_);
     };
     dbRequest['onerror'] = (e) => {
       this.log_.error(e);
@@ -83,10 +92,26 @@ cwc.utils.Database.prototype.open = function() {
  * @param {!string} content
  */
 cwc.utils.Database.prototype.addFile = function(name, content) {
-  let group = this.defaultObjectStore_;
-  let objectStore =
-    this.database_['transaction'](group, 'readwrite')['objectStore'](group);
-  objectStore['add'](content, name);
+  this.open().then(() => {
+    let group = this.defaultObjectStore_;
+    let objectStore =
+      this.database_['transaction'](group, 'readwrite')['objectStore'](group);
+    objectStore['add'](content, name);
+  });
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} content
+ */
+cwc.utils.Database.prototype.putFile = function(name, content) {
+  this.open().then(() => {
+    let group = this.defaultObjectStore_;
+    let objectStore =
+      this.database_['transaction'](group, 'readwrite')['objectStore'](group);
+    objectStore['put'](content, name);
+  });
 };
 
 
@@ -95,10 +120,10 @@ cwc.utils.Database.prototype.addFile = function(name, content) {
  * @return {Promise}
  */
 cwc.utils.Database.prototype.getFile = function(name) {
-  let group = this.defaultObjectStore_;
-  let objectStore =
-    this.database_['transaction'](group, 'readonly')['objectStore'](group);
   return new Promise((resolve, reject) => {
+    let group = this.defaultObjectStore_;
+    let objectStore =
+      this.database_['transaction'](group, 'readonly')['objectStore'](group);
     let result = objectStore['get'](name);
     result['onsuccess'] = (e) => {
       resolve(e.target.result);
@@ -107,4 +132,12 @@ cwc.utils.Database.prototype.getFile = function(name) {
       reject(e);
     };
   });
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.utils.Database.prototype.getVersion = function() {
+  return this.version_;
 };

@@ -1,5 +1,5 @@
  /**
- * @fileoverview Simple TCP Server.
+ * @fileoverview Simple cached HTTP Server.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -18,34 +18,10 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.tcp.HTTPServer');
-goog.provide('cwc.protocol.tcp.HTTPServerFile');
 
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Logger');
 goog.require('goog.events.EventTarget');
-
-
-/**
- * @param {!string} path
- * @param {string=} content
- * @param {string=} type
- * @param {string=} redirect
- * @constructor
- * @final
- */
-cwc.protocol.tcp.HTTPServerFile = function(path, content, type, redirect) {
-  /** @type {!string} */
-  this.path = path;
-
-  /** @type {!string} */
-  this.content = content || '';
-
-  /** @type {!string} */
-  this.type = type || '';
-
-  /** @type {!string} */
-  this.redirect = redirect || '';
-};
 
 
 /**
@@ -82,8 +58,11 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
   /** @private {number|null} */
   this.socket_ = null;
 
+  /** @private {cwc.utils.Database} */
+  this.files_ = new cwc.utils.Database(this.name);
+
   /** @private {!Object} */
-  this.files_ = {};
+  this.redirects_ = {};
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
@@ -95,6 +74,7 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
 
 /**
  * Prepares the http server.
+ * @return {Promise}
  */
 cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.sockets) {
@@ -104,8 +84,11 @@ cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
   if (this.prepared) {
     return;
   }
-  this.log_.debug('Preparing HTTPServer support...');
-  this.prepared = true;
+
+  return this.files_.open().then(() => {
+    this.log_.debug('Preparing HTTPServer support...');
+    this.prepared = true;
+  });
 };
 
 
@@ -209,10 +192,8 @@ cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
 /**
  * @param {!string} path
  * @param {!string} content
- * @param {string=} type
  */
-cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content,
-    type='text/plain') {
+cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
   if (!content) {
     this.log_.warn('Empty file', path);
     return;
@@ -220,8 +201,18 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content,
   if (!path.startsWith('/')) {
     path = '/' + path;
   }
-  this.log_.info('Add', path, 'with type', type, content.length);
-  this.files_[path] = new cwc.protocol.tcp.HTTPServerFile(path, content, type);
+
+  this.log_.info('Add', path, content.length);
+  this.files_.putFile(path, content);
+};
+
+
+/**
+ * @param {!string} path
+ * @return {Promise}
+ */
+cwc.protocol.tcp.HTTPServer.prototype.getFile = function(path) {
+  return this.files_.getFile(path);
 };
 
 
@@ -240,12 +231,8 @@ cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
     this.log_.error('Redirect Loop', redirect);
     return;
   }
-  if (typeof this.files_[redirect] === 'undefined') {
-    this.log_.warn('Redirect target', redirect, 'is currently unknown!');
-  }
   this.log_.info('Add redirect', path, 'to', redirect);
-  this.files_[path] = new cwc.protocol.tcp.HTTPServerFile(
-    path, undefined, undefined, redirect);
+  this.redirects_[path] = redirect;
 };
 
 
@@ -305,7 +292,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleListen_ = function(result) {
     this.handleAcceptError_.bind(this));
   chrome.sockets.tcp.onReceive.addListener(this.handleRecieve_.bind(this));
   chrome.sockets.tcp.onReceiveError.addListener(
-    this.HandleRecieveError_.bind(this));
+    this.handleRecieveError_.bind(this));
 };
 
 
@@ -346,21 +333,32 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
     if (requestPath === '/') {
       // Index page
       this.send200Response(socketId, 'CwC HTTPServer\n' + new Date());
-    } else if (typeof this.files_[requestPath] !== 'undefined') {
-      let file = this.files_[requestPath];
-      if (file.redirect) {
-        // Redirect handling
-        this.log_.info('SEND 301', requestPath, '>', file.redirect);
-        this.send301Response(socketId, file.redirect);
-      } else {
-        // Normal file handling
-        this.log_.info('SEND 200', requestPath);
-        this.send200Response(socketId, file.content, file.type);
-      }
+    } else if (typeof this.redirects_[requestPath] !== 'undefined') {
+      // Handle redirect
+      this.log_.info('301', requestPath, '>', this.redirects_[requestPath]);
+      this.send301Response(socketId, this.redirects_[requestPath]);
     } else {
-      // File not found handling
-      this.log_.info('SEND 404', requestPath);
-      this.send404Response(socketId, 'File not found!');
+      this.getFile(requestPath).then((content) => {
+        if (content !== undefined) {
+          // File found handling
+          let contentType = 'text/plain';
+          if (requestPath.endsWith('.js')) {
+            contentType = 'text/javascript';
+          } else if (requestPath.endsWith('.css')) {
+            contentType = 'text/css';
+          } else if (requestPath.endsWith('.py')) {
+            contentType = 'text/x-python';
+          } else if (requestPath.endsWith('.html') ||
+              requestPath.endsWith('.htm')) {
+            contentType = 'text/html';
+          }
+          this.send200Response(socketId, content, contentType);
+        } else {
+          // File not found handling
+          this.log_.info('404', requestPath);
+          this.send404Response(socketId, 'File not found!');
+        }
+      });
     }
   } else {
     this.log_.info('Unsupported request', data);
@@ -373,7 +371,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
  * @param {Object} error
  * @private
  */
-cwc.protocol.tcp.HTTPServer.prototype.HandleRecieveError_ = function(error) {
+cwc.protocol.tcp.HTTPServer.prototype.handleRecieveError_ = function(error) {
   if (error['resultCode'] === -100) {
     this.closeClientSocket_(error['socketId']);
   } else {

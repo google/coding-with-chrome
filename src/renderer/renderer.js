@@ -20,10 +20,14 @@
 goog.provide('cwc.renderer.Renderer');
 
 goog.require('cwc.file.Files');
+goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
+goog.require('cwc.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Resources');
 
 
 /**
@@ -62,6 +66,9 @@ cwc.renderer.Renderer = function(helper) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!string} */
+  this.version_ = '2';
 };
 
 
@@ -69,7 +76,33 @@ cwc.renderer.Renderer = function(helper) {
  * @return {Promise}
  */
 cwc.renderer.Renderer.prototype.prepare = function() {
-  return this.cache_.open();
+  return this.cache_.open().then(() => {
+    this.cache_.getFile('__version__').then((result) => {
+      this.updateCache(result);
+    });
+  });
+};
+
+
+/**
+ * @param {!string|number} version
+ */
+cwc.renderer.Renderer.prototype.updateCache = function(version) {
+  if (this.version_ >= version) {
+    this.log_.info('No need for updates ...');
+  }
+  this.log_.info('Updating Cache to version', this.version_);
+
+  this.log_.info('Loading external frameworks ...');
+  this.loadFrameworks(cwc.framework.External);
+
+  this.log_.info('Loading internal frameworks ...');
+  this.loadFrameworks(cwc.framework.Internal);
+
+  this.log_.info('Loading Style Sheets ...');
+  this.loadStyleSheets(cwc.framework.StyleSheet);
+
+  this.cache_.addFile('__version__', this.version_);
 };
 
 
@@ -85,34 +118,33 @@ cwc.renderer.Renderer.prototype.test = function() {
 
 
 /**
- * Preloads frameworks into memory.
+ * Loads frameworks into cache.
  * @param {!Object} frameworks Framework files.
- * @param {string=} path
  */
-cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks,
-    path = '') {
-  let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-
+cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks) {
+  let frameworkFiles = [];
   for (let framework of Object.keys(frameworks)) {
     if (goog.isString(frameworks[framework])) {
-      fileLoaderInstance.getResourceFile(
-        path + frameworks[framework], this.addFramework.bind(this));
+      frameworkFiles.push(frameworks[framework]);
     } else {
       for (let file of Object.keys(frameworks[framework])) {
-        fileLoaderInstance.getResourceFile(
-          path + frameworks[framework][file], this.addFramework.bind(this));
+        frameworkFiles.push(frameworks[framework][file]);
       }
     }
   }
+  frameworkFiles.forEach((frameworkFile) => {
+    cwc.utils.Resources.getUriAsText('../' + frameworkFile).then((content) => {
+      this.addFramework(frameworkFile, content);
+    });
+  });
 };
 
 
 /**
  * @param {string!} name
  * @param {string!} content
- * @param {string=} type
  */
-cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
+cwc.renderer.Renderer.prototype.addFramework = function(name, content) {
   if (!content) {
     this.log_.error('Received empty content for framework', name);
     return;
@@ -121,10 +153,10 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
   // Add framework file to server instance if available.
   let serverInstance = this.helper.getInstance('server');
   if (serverInstance) {
-    serverInstance.addFrameworkFile(name, content);
+    serverInstance.addFile(name, content);
   }
 
-  if (!name.includes('.min.') && content.length > 400000) {
+  if (!name.includes('.min.') && content.length > 1000) {
     // Try to optimize unminimized code by removing comments and white-spaces.
     let originalContentLength = content.length;
     content = content.replace(/\\n\\n/g, '\\n')
@@ -132,10 +164,15 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
       .replace(/[ \t]?\/\/.+?\\n/g, '')
       .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
       .replace(/[ \t]+\\n/g, '\\n')
-      .replace(/(\\n){2,}/g, '\\n');
+      .replace(/(\\n){2,}/g, '\\n')
+      .replace(/;\\n/g, ';');
     if (originalContentLength > content.length) {
-      this.log_.info('Optimized content from', originalContentLength, 'to',
-        content.length);
+      let optimized = Math.ceil(((originalContentLength - content.length) /
+          originalContentLength) * 100);
+      if (optimized >= 5) {
+        this.log_.info('Optimized content from', originalContentLength, 'to',
+          content.length, 'by', optimized, '%');
+      }
     }
   }
   let fileContent = this.rendererHelper.getDataUrl(content, 'text/javascript');
@@ -144,7 +181,8 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content, type) {
     return;
   }
 
-  let file = this.frameworkFiles.addFile(name, fileContent, type);
+  this.cache_.addFile(name, fileContent);
+  let file = this.frameworkFiles.addFile(name, fileContent);
   if (!file) {
     this.log_.error('Was not able to add File', file);
   } else {
@@ -164,24 +202,25 @@ cwc.renderer.Renderer.prototype.getFrameworks = function() {
 
 /**
  * Preloads Style Sheets into memory.
- * @param {!Object} styleSheets
+ * @param {!Object} frameworks
  * @param {string=} path
  */
-cwc.renderer.Renderer.prototype.loadStyleSheets = function(styleSheets,
-    path = '') {
-  let fileLoaderInstance = this.helper.getInstance('fileLoader', true);
-
-  for (let stylesheet of Object.keys(styleSheets)) {
-    if (goog.isString(styleSheets[stylesheet])) {
-      fileLoaderInstance.getResourceFile(
-        path + styleSheets[stylesheet], this.addStyleSheet.bind(this));
+cwc.renderer.Renderer.prototype.loadStyleSheets = function(frameworks) {
+  let frameworkFiles = [];
+  for (let framework of Object.keys(frameworks)) {
+    if (goog.isString(frameworks[framework])) {
+      frameworkFiles.push(frameworks[framework]);
     } else {
-      for (let file of Object.keys(styleSheets[stylesheet])) {
-        fileLoaderInstance.getResourceFile(
-          path + styleSheets[stylesheet][file], this.addStyleSheet.bind(this));
+      for (let file of Object.keys(frameworks[framework])) {
+        frameworkFiles.push(frameworks[framework][file]);
       }
     }
   }
+  frameworkFiles.forEach((frameworkFile) => {
+    cwc.utils.Resources.getUriAsText('../' + frameworkFile).then((content) => {
+      this.addStyleSheet(frameworkFile, content);
+    });
+  });
 };
 
 
@@ -197,6 +236,13 @@ cwc.renderer.Renderer.prototype.addStyleSheet = function(name, content, type) {
     return;
   }
 
+  // Add framework file to server instance if available.
+  let serverInstance = this.helper.getInstance('server');
+  if (serverInstance) {
+    serverInstance.addFile(name, content);
+  }
+
+  this.cache_.addFile(name, fileContent);
   let file = this.styleSheetFiles.addFile(name, fileContent, type);
   if (!file) {
     this.log_.error('Was not able to add File', file);
