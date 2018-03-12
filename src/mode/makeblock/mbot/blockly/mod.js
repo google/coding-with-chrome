@@ -32,19 +32,19 @@ goog.require('cwc.soy.mbot.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
-  /** @type {cwc.mode.makeblock.mbot.Connection} */
+  /** @type {!cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.mode.makeblock.mbot.Monitor} */
+  /** @type {!cwc.mode.makeblock.mbot.Monitor} */
   this.monitor = new cwc.mode.makeblock.mbot.Monitor(helper, this.connection);
 
-  /** @type {cwc.renderer.external.makeblock.MBot} */
+  /** @type {!cwc.renderer.external.makeblock.MBot} */
   this.renderer = new cwc.renderer.external.makeblock.MBot(helper);
 
-  /** @type {cwc.mode.makeblock.mbot.Runner} */
+  /** @type {!cwc.mode.makeblock.mbot.Runner} */
   this.runner = new cwc.mode.makeblock.mbot.Runner(helper, this.connection);
 };
 

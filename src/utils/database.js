@@ -43,7 +43,7 @@ cwc.utils.Database = function(name, version) {
   /** @private {!string} */
   this.defaultObjectStore_ = '__files__';
 
-  /** @private {string|number=} */
+  /** @private {number|undefined} */
   this.version_ = version;
 };
 
@@ -136,7 +136,7 @@ cwc.utils.Database.prototype.getFile = function(name) {
 
 
 /**
- * @return {!string}
+ * @return {!number}
  */
 cwc.utils.Database.prototype.getVersion = function() {
   return this.version_;

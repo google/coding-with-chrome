@@ -31,7 +31,7 @@ cwc.mode.pencilCode.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.renderer.external.PencilCode} */
+  /** @type {!cwc.renderer.external.PencilCode} */
   this.renderer = new cwc.renderer.external.PencilCode(helper);
 };
 

@@ -32,22 +32,22 @@ goog.require('cwc.renderer.external.RaspberryPi');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.raspberryPi.advanced.Mod = function(helper) {
-  /** @type {cwc.mode.raspberryPi.Connection} */
+  /** @type {!cwc.mode.raspberryPi.Connection} */
   this.connection = new cwc.mode.raspberryPi.Connection(helper);
 
-  /** @type {cwc.mode.raspberryPi.Monitor} */
+  /** @type {!cwc.mode.raspberryPi.Monitor} */
   this.monitor = new cwc.mode.raspberryPi.Monitor(helper);
 
-  /** @type {cwc.mode.raspberryPi.advanced.Editor} */
+  /** @type {!cwc.mode.raspberryPi.advanced.Editor} */
   this.editor = new cwc.mode.raspberryPi.advanced.Editor(helper);
 
-  /** @type {cwc.mode.raspberryPi.Runner} */
+  /** @type {!cwc.mode.raspberryPi.Runner} */
   this.runner = new cwc.mode.raspberryPi.Runner(helper, this.connection);
 
-  /** @type {cwc.mode.raspberryPi.advanced.Layout} */
+  /** @type {!cwc.mode.raspberryPi.advanced.Layout} */
   this.layout = new cwc.mode.raspberryPi.advanced.Layout(helper);
 
-  /** @type {cwc.renderer.external.RaspberryPi} */
+  /** @type {!cwc.renderer.external.RaspberryPi} */
   this.renderer = new cwc.renderer.external.RaspberryPi(helper);
 };
 

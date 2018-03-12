@@ -31,19 +31,19 @@ goog.require('cwc.renderer.external.Arduino');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.arduino.Mod = function(helper) {
-  /** @type {cwc.mode.arduino.Connect} */
+  /** @type {!cwc.mode.arduino.Connect} */
   this.connect = new cwc.mode.arduino.Connect(helper);
 
-  /** @type {cwc.mode.arduino.Editor} */
+  /** @type {!cwc.mode.arduino.Editor} */
   this.editor = new cwc.mode.arduino.Editor(helper);
 
-  /** @type {cwc.mode.arduino.Layout} */
+  /** @type {!cwc.mode.arduino.Layout} */
   this.layout = new cwc.mode.arduino.Layout(helper);
 
-  /** @type {cwc.renderer.external.Arduino} */
+  /** @type {!cwc.renderer.external.Arduino} */
   this.renderer = new cwc.renderer.external.Arduino(helper);
 
-  /** @type {cwc.mode.arduino.Runner} */
+  /** @type {!cwc.mode.arduino.Runner} */
   this.runner = new cwc.mode.arduino.Runner(helper);
 };
 

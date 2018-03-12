@@ -31,7 +31,7 @@ cwc.mode.coffeescript.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.renderer.internal.Coffeescript} */
+  /** @type {!cwc.renderer.internal.Coffeescript} */
   this.renderer = new cwc.renderer.internal.Coffeescript(helper);
 };
 

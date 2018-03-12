@@ -49,6 +49,9 @@ cwc.protocol.bluetooth.lowEnergy.Api = function(helper) {
   /** @private {cwc.protocol.bluetooth.lowEnergy.Adapter} */
   this.adapter_ = null;
 
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };

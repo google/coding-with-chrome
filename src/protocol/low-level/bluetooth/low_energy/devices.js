@@ -194,7 +194,7 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.handleRequestDevice_ =
   console.log('handleRequestDevice_', bluetoothDevice);
   let profile = this.getDeviceProfile(bluetoothDevice);
   if (!profile) {
-    return;
+    this.log_.warn('Unknown device', bluetoothDevice);
   }
 
   // Creating device entry.

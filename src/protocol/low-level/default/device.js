@@ -103,7 +103,8 @@ cwc.protocol.default.Device.prototype.isConnected = function() {
 
 /**
  * @param {!goog.events.EventTarget} eventHandler
- * @return {this}
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.default.Device.prototype.setEventHandler = function(eventHandler) {
   this.eventHandler_ = eventHandler;

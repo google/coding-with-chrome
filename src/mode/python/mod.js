@@ -31,7 +31,7 @@ cwc.mode.python.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.renderer.external.Python} */
+  /** @type {!cwc.renderer.external.Python} */
   this.renderer = new cwc.renderer.external.Python(helper);
 };
 

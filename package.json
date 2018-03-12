@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "closure-builder": "^2.2.38",
-    "command-line-usage": "^4.1.0",
+    "command-line-usage": "^5.0.2",
     "jasmine-core": "^2.99.1",
     "jsdoc": "^3.5.5",
     "karma": "^1.7.1",

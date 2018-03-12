@@ -98,7 +98,7 @@ cwc.ui.BlocklyToolbox.prototype.getAutoCollapse = function() {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  */
 cwc.ui.BlocklyToolbox.prototype.setData = function(data) {
   this.data = data;
@@ -106,7 +106,7 @@ cwc.ui.BlocklyToolbox.prototype.setData = function(data) {
 
 
 /**
- * @return {Object}
+ * @return {!Object}
  */
 cwc.ui.BlocklyToolbox.prototype.getData = function() {
   return this.data;

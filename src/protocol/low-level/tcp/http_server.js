@@ -20,7 +20,9 @@
 goog.provide('cwc.protocol.tcp.HTTPServer');
 
 goog.require('cwc.utils.ByteTools');
+goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
+
 goog.require('goog.events.EventTarget');
 
 

@@ -35,16 +35,16 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.mode.sphero.Connection} */
+  /** @type {!cwc.mode.sphero.Connection} */
   this.connection = new cwc.mode.sphero.Connection(helper);
 
-  /** @type {cwc.mode.sphero.Monitor} */
+  /** @type {!cwc.mode.sphero.Monitor} */
   this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 
-  /** @type {cwc.renderer.external.Sphero} */
+  /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
 
-  /** @type {cwc.mode.sphero.Runner} */
+  /** @type {!cwc.mode.sphero.Runner} */
   this.runner = new cwc.mode.sphero.Runner(helper, this.connection);
 };
 

@@ -31,7 +31,7 @@ cwc.mode.javascript.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.renderer.internal.Javascript} */
+  /** @type {!cwc.renderer.internal.Javascript} */
   this.renderer = new cwc.renderer.internal.Javascript(helper);
 };
 

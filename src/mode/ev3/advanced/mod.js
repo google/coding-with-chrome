@@ -33,22 +33,22 @@ goog.require('cwc.renderer.external.EV3');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.ev3.advanced.Mod = function(helper) {
-  /** @type {cwc.mode.ev3.Connection} */
+  /** @type {!cwc.mode.ev3.Connection} */
   this.connection = new cwc.mode.ev3.Connection(helper);
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {cwc.mode.ev3.Monitor} */
+  /** @type {!cwc.mode.ev3.Monitor} */
   this.monitor = new cwc.mode.ev3.Monitor(helper, this.connection);
 
-  /** @type {cwc.renderer.external.EV3} */
+  /** @type {!cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
 
-  /** @type {cwc.mode.ev3.Runner} */
+  /** @type {!cwc.mode.ev3.Runner} */
   this.runner = new cwc.mode.ev3.Runner(helper, this.connection);
 
-  /** @type {cwc.mode.ev3.Calibration} */
+  /** @type {!cwc.mode.ev3.Calibration} */
   this.calibration = new cwc.mode.ev3.Calibration(helper, this.connection,
     this.runner);
 };

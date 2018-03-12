@@ -203,7 +203,6 @@ cwc.renderer.Renderer.prototype.getFrameworks = function() {
 /**
  * Preloads Style Sheets into memory.
  * @param {!Object} frameworks
- * @param {string=} path
  */
 cwc.renderer.Renderer.prototype.loadStyleSheets = function(frameworks) {
   let frameworkFiles = [];

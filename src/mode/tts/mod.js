@@ -28,10 +28,10 @@ goog.require('cwc.mode.tts.Layout');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.tts.Mod = function(helper) {
-  /** @type {cwc.mode.tts.Layout} */
+  /** @type {!cwc.mode.tts.Layout} */
   this.layout = new cwc.mode.tts.Layout(helper);
 
-  /** @type {cwc.mode.tts.Editor} */
+  /** @type {!cwc.mode.tts.Editor} */
   this.editor = new cwc.mode.tts.Editor(helper);
 };
 
