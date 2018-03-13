@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.Config');
 
-goog.require('cwc.file.Type');
 goog.require('cwc.mode.ConfigData');
 
 

@@ -32,7 +32,10 @@ goog.require('goog.dom');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.Connection} connection
+ * @param {!cwc.mode.sphero.Connection|
+ *   cwc.mode.sphero.bb8.Connection|
+ *   cwc.mode.sphero.sprkPlus.Connection|
+ *   cwc.mode.sphero.ollie.Connection} connection
  * @struct
  * @final
  */

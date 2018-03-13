@@ -40,9 +40,9 @@ describe('[Mode Coffeescript - Advanced]', function() {
   });
 
   describe('Loading files', function() {
-    it('script/blank.cwc', function(done) {
+    it('blank.coffee', function(done) {
       builder.loadFile(
-        '../resources/examples/coffeescript/script/blank.coffee'
+        '../resources/templates/coffeescript/blank.coffee'
       ).then(() => {
         expect(true).toEqual(true);
         done();
@@ -51,7 +51,7 @@ describe('[Mode Coffeescript - Advanced]', function() {
         done();
       });
     });
-    it('script/Coffeescript-rectangle.cwc', function(done) {
+    it('script/countdown.coffee', function(done) {
       builder.loadFile(
         '../resources/examples/coffeescript/script/countdown.coffee'
       ).then(() => {

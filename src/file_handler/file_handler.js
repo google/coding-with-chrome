@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.fileHandler.File');
 
-goog.require('cwc.file.Type');
 goog.require('cwc.fileFormat.File');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.utils.Helper');
@@ -139,12 +138,11 @@ cwc.fileHandler.File.prototype.setMimeType = function(mimeType) {
 
 /**
  * @param {!string} name
- * @param {string=} group
  * @return {cwc.file.File}
  */
-cwc.fileHandler.File.prototype.getLibraryFile = function(name, group) {
+cwc.fileHandler.File.prototype.getLibraryFile = function(name) {
   if (this.file_) {
-    return this.file_.getFiles().getFile(name, group);
+    return this.file_.getFiles().getFile(name);
   }
   return null;
 };
@@ -155,13 +153,12 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name, group) {
  * @param {!string} content
  * @param {string=} type
  * @param {number=} size
- * @param {string=} group
  * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.addLibraryFile = function(name, content, type,
-    size, group) {
+    size) {
   if (this.file_) {
-    return this.file_.getFiles().addFile(name, content, type, size, group);
+    return this.file_.getFiles().addFile(name, content, type, size);
   }
   return null;
 };
@@ -195,30 +192,10 @@ cwc.fileHandler.File.prototype.getFileContent = function() {
 
 
 /**
- * @param {cwc.file.Type} file_type
- */
-cwc.fileHandler.File.prototype.setFileType = function(file_type) {
-  this.file_.setType(file_type);
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileHandler.File.prototype.getFileType = function() {
-  return this.file_.getType();
-};
-
-
-/**
  * @param {string} filename
  */
 cwc.fileHandler.File.prototype.setFilename = function(filename) {
-  if (this.file_) {
-    this.file_.setFilename(filename);
-  } else {
-    this.filename_ = filename;
-  }
+  this.filename_ = filename;
 };
 
 
@@ -226,9 +203,6 @@ cwc.fileHandler.File.prototype.setFilename = function(filename) {
  * @return {string}
  */
 cwc.fileHandler.File.prototype.getFilename = function() {
-  if (this.file_) {
-    this.file_.getFilename();
-  }
   return this.filename_;
 };
 

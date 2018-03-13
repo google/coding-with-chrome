@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.Debug');
 
 goog.require('cwc.config.Debug');
-goog.require('cwc.file.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.Debug');
 goog.require('cwc.utils.DialogType');
@@ -87,7 +86,6 @@ cwc.ui.Debug.prototype.decorate = function(node, opt_prefix) {
       this.node,
       cwc.soy.Debug.template, {
         prefix: this.prefix,
-        file_types: cwc.file.Type,
         mode_types: cwc.mode.Type,
         dialog_types: cwc.utils.DialogType,
         message_types: cwc.ui.NotificationType,
@@ -105,8 +103,6 @@ cwc.ui.Debug.prototype.addEvents = function() {
   goog.events.listen(goog.dom.getElement(this.prefix + 'close'),
     goog.events.EventType.CLICK, this.close, false, this);
 
-  this.addChangeHandler(goog.dom.getElement(this.prefix + 'mode_types'),
-      this.handleModeType);
   this.addChangeHandler(goog.dom.getElement(this.prefix + 'message_types'),
       this.handleMessageType);
 
@@ -151,19 +147,6 @@ cwc.ui.Debug.prototype.close = function(opt_event) {
 /**
  * @param {?} event
  */
-cwc.ui.Debug.prototype.handleModeType = function(event) {
-  let target = event.target;
-  let editorMode = target.options[target.selectedIndex].value;
-  console.log('ModeType:', editorMode);
-  if (editorMode) {
-    this.newMode(cwc.mode.Type[editorMode]);
-  }
-};
-
-
-/**
- * @param {?} event
- */
 cwc.ui.Debug.prototype.handleMessageType = function(event) {
   let target = event.target;
   let messageType = target.options[target.selectedIndex].value;
@@ -194,19 +177,7 @@ cwc.ui.Debug.prototype.addChangeHandler = function(element, func) {
 
 /**
  * Creates a new mode of the given type.
- * @param {cwc.file.Type} type
- */
-cwc.ui.Debug.prototype.newMode = function(type) {
-  let modeInstance = this.helper.getInstance('mode');
-  if (modeInstance) {
-    modeInstance.setMode(type);
-  }
-};
-
-
-/**
- * Creates a new mode of the given type.
- * @param {cwc.file.Type} type
+ * @param {string} type
  */
 cwc.ui.Debug.prototype.newMessage = function(type) {
   let messageInstance = this.helper.getInstance('message');

@@ -40,7 +40,7 @@ describe('[Mode Sphero Classic - Advanced]', function() {
   });
 
   describe('Loading files', function() {
-    it('script/blank.cwc', function(done) {
+    it('blank.cwc', function(done) {
       builder.loadFile(
         '../resources/templates/sphero/classic/blank.cwc'
       ).then(() => {

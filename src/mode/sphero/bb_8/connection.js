@@ -147,7 +147,7 @@ cwc.mode.sphero.bb8.Connection.prototype.getEventHandler = function() {
 
 
 /**
- * @return {!cwc.protocol.sphero.classic.Api}
+ * @return {!cwc.protocol.sphero.v1.Api}
  * @export
  */
 cwc.mode.sphero.bb8.Connection.prototype.getApi = function() {

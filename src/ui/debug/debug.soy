@@ -25,8 +25,6 @@
  */
 {template .template}
   {@param prefix: string}
-  {@param file_types: ?}
-  {@param mode_types: ?}
   {@param message_types: ?}
   {@param dialog_types: ?}
 
@@ -34,20 +32,6 @@
     <h2 class="mdl-dialog__title">Debug screen</h2>
 
     <div id="{$prefix}close" class="icon_24px icon_button">close</div>
-
-    <h3>File Types</h3>
-    <select id="{$prefix}file_types">
-    {foreach $file_type in keys($file_types)}
-      <option value="{$file_type}">{$file_type}</option>
-    {/foreach}
-    </select>
-
-    <h3>Mode Types</h3>
-    <select id="{$prefix}mode_types">
-    {foreach $mode_type in keys($mode_types)}
-      <option value="{$mode_type}">{$mode_type}</option>
-    {/foreach}
-    </select>
 
     <h3>Message Types</h3>
     <select id="{$prefix}message_types">

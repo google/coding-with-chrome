@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.ui.SelectScreen');
 
-goog.require('cwc.file.Type');
 goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');

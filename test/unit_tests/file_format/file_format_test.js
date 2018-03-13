@@ -115,15 +115,6 @@ describe('File format', function() {
     expect(fileFormat.getDescription()).toEqual('This is a test!');
   });
 
-  it('setFilename', function() {
-    fileFormat.setFilename('World Hello!');
-    fileFormat.setFilename('Hello World!');
-  });
-
-  it('getFilename', function() {
-    expect(fileFormat.getFilename()).toEqual('Hello World!');
-  });
-
   it('setTitle', function() {
     fileFormat.setTitle('This is a title!');
   });
@@ -145,12 +136,12 @@ describe('File format', function() {
   });
 
   it('getMetadata (unset, default namespace)', function() {
-    expect(fileFormat.getMetadata(metadataKey1)).toEqual(null);
+    expect(fileFormat.getMetadata(metadataKey1)).toEqual('');
   });
 
   it('getMetadata (unset, non-default namespace)', function() {
     expect(fileFormat.getMetadata(metadataKey1,
-      metadataNamespace)).toEqual(null);
+      metadataNamespace)).toEqual('');
   });
 
   it('setMetadata (default namespace)', function() {
@@ -171,7 +162,7 @@ describe('File format', function() {
 
   it('getMetadata (non-default namespace, wrong key)', function() {
     expect(fileFormat.getMetadata(metadataKey1,
-      metadataNamespace)).toEqual(null);
+      metadataNamespace)).toEqual('');
   });
 
   it('getMetadata (non-default namespace, correct key)', function() {
@@ -180,7 +171,7 @@ describe('File format', function() {
   });
 
   it('getMetadata (default namespace, wrong key)', function() {
-    expect(fileFormat.getMetadata(metadataKey2)).toEqual(null);
+    expect(fileFormat.getMetadata(metadataKey2)).toEqual('');
   });
 
   describe('Legacy format', function() {

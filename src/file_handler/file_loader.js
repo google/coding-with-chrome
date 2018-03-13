@@ -146,8 +146,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     this.log_.info('MIME-type:', mimeType);
 
     let modeType;
-    // Handle CWC file format
     if (mimeType === cwc.file.MimeType.CWC.type) {
+       // Handle CWC file format
       let file = new cwc.fileFormat.File(data);
       modeType = cwc.mode.Config.getMode(
         /** @type {cwc.mode.Type} */ (file.getMode()));
@@ -190,9 +190,8 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
           modeInstance.showEditor();
         }
       }
-
-    // Handle raw file format
     } else {
+      // Handle raw file format
       modeType = cwc.mode.Config.getModeByMimeType(mimeType);
       this.log_.info('Loading raw data with mode', modeType, '...');
       fileInstance.setRawFile(data, filename);

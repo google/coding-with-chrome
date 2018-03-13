@@ -23,7 +23,7 @@ goog.provide('cwc.fileFormat.File');
 
 goog.require('cwc.file.Files');
 goog.require('cwc.file.MimeType');
-goog.require('cwc.file.Type');
+goog.require('cwc.mode.Type');
 goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.utils.Logger');
 
@@ -39,7 +39,7 @@ cwc.fileFormat.FILE_HEADER = 'Coding with Chrome File Format';
  * The cwc format header for identification.
  * @const {!number}
  */
-cwc.fileFormat.FILE_VERSION = 2.0;
+cwc.fileFormat.FILE_VERSION = 3.0;
 
 
 /**
@@ -55,20 +55,11 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {string} */
-  this.author_ = '';
-
   /** @private {!cwc.file.Files} */
   this.content_ = new cwc.file.Files();
 
   /** @private {string} */
-  this.description_ = '';
-
-  /** @private {string} */
   this.format_ = cwc.fileFormat.FILE_HEADER + ' ' + cwc.fileFormat.FILE_VERSION;
-
-  /** @private {!string} */
-  this.filename_ = '';
 
   /** @private {!cwc.file.Files} */
   this.files_ = new cwc.file.Files();
@@ -82,26 +73,17 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.history_ = '';
 
-  /** @private {string} */
-  this.mode_ = '';
-
-  /** @private {string} */
-  this.model_ = '';
+  /** @private {!cwc.mode.Type} */
+  this.mode_ = cwc.mode.Type.NONE;
 
   /** @private {string} */
   this.ui_ = '';
 
-  /** @private {string} */
-  this.title_ = '';
-
-  /** @private {cwc.file.Type|string} */
-  this.type_ = cwc.file.Type.UNKNOWN;
-
-  /** @private {string} */
-  this.version_ = '';
-
   /** @private {!Object} */
   this.metadata_ = {};
+
+  /** @private {!string} */
+  this.metedataNamespace_ = '__default__';
 
   if (content) {
     this.loadJSON(content);
@@ -119,21 +101,14 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   if (!silent) {
     this.log_.info('Clearing existing file information...');
   }
-  this.author_ = 'Unknown';
   this.content_ = new cwc.file.Files();
-  this.description_ = '';
-  this.filename_ = '';
   this.files_ = new cwc.file.Files();
   this.flags_ = {};
   this.frameworks_ = new cwc.file.Files();
   this.history_ = '';
-  this.mode_ = 'advanced';
-  this.model_ = '';
+  this.mode_ = cwc.mode.Type.NONE;
   this.setFlag('__editor__', new cwc.ui.EditorFlags());
-  this.title_ = 'Untitled file';
-  this.type_ = cwc.file.Type.UNKNOWN;
   this.ui_ = 'default';
-  this.version_ = '1.0';
   this.metadata_ = {};
 };
 
@@ -143,9 +118,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setAuthor = function(author) {
-  this.log_.debug('setAuthor:', author);
-  this.author_ = author;
-  return this;
+  return this.setMetadata('author', author);
 };
 
 
@@ -153,7 +126,7 @@ cwc.fileFormat.File.prototype.setAuthor = function(author) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getAuthor = function() {
-  return this.author_;
+  return this.getMetadata('author');
 };
 
 
@@ -211,12 +184,10 @@ cwc.fileFormat.File.prototype.getContentData = function() {
 
 /**
  * @param {!string} description
- * @return {cwc.fileFormat.File}
+ * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setDescription = function(description) {
-  this.description_ = description;
-  this.log_.debug('setDescription:', description);
-  return this;
+  return this.setMetadata('description', description);
 };
 
 
@@ -224,7 +195,7 @@ cwc.fileFormat.File.prototype.setDescription = function(description) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getDescription = function() {
-  return this.description_;
+  return this.getMetadata('description');
 };
 
 
@@ -241,25 +212,6 @@ cwc.fileFormat.File.prototype.getEditorFlags = function() {
  */
 cwc.fileFormat.File.prototype.setEditorFlags = function(flags) {
   this.setFlag('__editor__', flags);
-};
-
-
-/**
- * @param {!string} name
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.prototype.setFilename = function(name) {
-  this.log_.debug('setFilename:', name);
-  this.filename_ = name;
-  return this;
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileFormat.File.prototype.getFilename = function() {
-  return this.filename_;
 };
 
 
@@ -351,21 +303,47 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
 
 
 /**
- * @param {!string} mode
- * @param {boolean=} opt_no_overwrite
+ * @param {!string} name
+ * @param {string=} namespace
+ * @return {!string}
+ */
+cwc.fileFormat.File.prototype.getMetadata = function(name,
+    namespace = this.metedataNamespace_) {
+  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
+    return '';
+  }
+  return this.metadata_[namespace][name];
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} value
+ * @param {string=} namespace
  * @return {!cwc.fileFormat.File}
  */
-cwc.fileFormat.File.prototype.setMode = function(mode, opt_no_overwrite) {
-  if (!opt_no_overwrite || (opt_no_overwrite && !this.mode_)) {
-    this.mode_ = mode;
-    this.log_.debug('setMode:', mode);
+cwc.fileFormat.File.prototype.setMetadata = function(name, value,
+    namespace = this.metedataNamespace_) {
+  if (!(namespace in this.metadata_)) {
+    this.metadata_[namespace] = {};
   }
+  this.metadata_[namespace][name] = value;
   return this;
 };
 
 
 /**
- * @return {string}
+ * @param {!cwc.mode.Type} mode
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.prototype.setMode = function(mode) {
+  this.mode_ = mode;
+  return this;
+};
+
+
+/**
+ * @return {cwc.mode.Type}
  */
 cwc.fileFormat.File.prototype.getMode = function() {
   return this.mode_;
@@ -374,15 +352,10 @@ cwc.fileFormat.File.prototype.getMode = function() {
 
 /**
  * @param {!string} model
- * @param {boolean=} opt_no_overwrite
  * @return {!cwc.fileFormat.File}
  */
-cwc.fileFormat.File.prototype.setModel = function(model, opt_no_overwrite) {
-  if (!opt_no_overwrite || (opt_no_overwrite && !this.model_)) {
-    this.model_ = model;
-    this.log_.debug('setModel:', model);
-  }
-  return this;
+cwc.fileFormat.File.prototype.setModel = function(model) {
+  return this.setMetadata('model', model);
 };
 
 
@@ -390,7 +363,7 @@ cwc.fileFormat.File.prototype.setModel = function(model, opt_no_overwrite) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getModel = function() {
-  return this.model_;
+  return this.getMetadata('model');
 };
 
 
@@ -421,13 +394,7 @@ cwc.fileFormat.File.prototype.getUi = function() {
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setTitle = function(title) {
-  if (this.title_) {
-    this.log_.debug('Overwriting title:', title);
-  } else {
-    this.log_.debug('Set title:', title);
-  }
-  this.title_ = title;
-  return this;
+  return this.setMetadata('title', title);
 };
 
 
@@ -435,32 +402,7 @@ cwc.fileFormat.File.prototype.setTitle = function(title) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getTitle = function() {
-  return this.title_;
-};
-
-
-/**
- * @param {!cwc.file.Type|string} type
- * @return {!cwc.fileFormat.File}
- */
-cwc.fileFormat.File.prototype.setType = function(type) {
-  if (this.type_ == type || !type) {
-    return this;
-  }
-  if (this.type_ !== cwc.file.Type.UNKNOWN) {
-    this.log_.warn('Overwriting existing type', this.type_, 'with', type);
-  }
-  this.log_.debug('setType:', type);
-  this.type_ = type;
-  return this;
-};
-
-
-/**
- * @return {string}
- */
-cwc.fileFormat.File.prototype.getType = function() {
-  return this.type_;
+  return this.getMetadata('title');
 };
 
 
@@ -469,9 +411,7 @@ cwc.fileFormat.File.prototype.getType = function() {
  * @return {cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setVersion = function(version) {
-  this.log_.debug('setVersion:', version);
-  this.version_ = version;
-  return this;
+  return this.setMetadata('version', version);
 };
 
 
@@ -479,7 +419,7 @@ cwc.fileFormat.File.prototype.setVersion = function(version) {
  * @return {string}
  */
 cwc.fileFormat.File.prototype.getVersion = function() {
-  return this.version_;
+  return this.getMetadata('version');
 };
 
 
@@ -500,31 +440,6 @@ cwc.fileFormat.File.prototype.getHistory = function() {
   return this.history_;
 };
 
-/**
- * @param {!string} name
- * @param {!string} namespace
- * @return {*}
- */
-cwc.fileFormat.File.prototype.getMetadata = function(name,
-  namespace = 'default') {
-  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
-    return null;
-  }
-  return this.metadata_[namespace][name];
-};
-
-/**
- * @param {!string} name
- * @param {*} value
- * @param {!string} namespace
- */
-cwc.fileFormat.File.prototype.setMetadata = function(name, value,
-  namespace = 'default') {
-  if (!(namespace in this.metadata_)) {
-    this.metadata_[namespace] = {};
-  }
-  this.metadata_[namespace][name] = value;
-};
 
 /**
  * Loads the defined JSON data and sets the supported options.
@@ -549,19 +464,6 @@ cwc.fileFormat.File.prototype.toJSON = function() {
  */
 cwc.fileFormat.File.prototype.getJSON = function() {
   return JSON.stringify(this.toJSON(), null, 2) || '';
-};
-
-
-/**
- * @return {Object}
- */
-cwc.fileFormat.File.prototype.getMetaData = function() {
-  return {
-    'title': this.title_,
-    'description': this.description_,
-    'author': this.author_,
-    'version': this.version_,
-  };
 };
 
 
@@ -622,10 +524,10 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   file.log_.info('Loading JSON data with', jsonData.length, 'size ...');
   file.init(true);
 
-  // Handle content entries.
   if (jsonData['content']) {
-    // Handle legacy file format 1.0
+    // Handle content entries.
     if (fileFormatVersion === 1) {
+      // Handle legacy file format 1.0
       for (let entry in jsonData['content']) {
         if (Object.prototype.hasOwnProperty.call(
             jsonData['content'], entry)) {
@@ -654,9 +556,8 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
           file.setContent(name, jsonData['content'][entry]);
         }
       }
-
-    // Handle current file format
     } else {
+      // Handle current file format
       file.setContentData(jsonData['content']);
     }
   }
@@ -669,32 +570,8 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
     }
   }
 
-  if (jsonData['title']) {
-    file.setTitle(decodeURIComponent(jsonData['title']));
-  }
-
-  if (jsonData['author']) {
-    file.setAuthor(decodeURIComponent(jsonData['author']));
-  }
-
-  if (jsonData['version']) {
-    file.setVersion(decodeURIComponent(jsonData['version']));
-  }
-
-  if (jsonData['description']) {
-    file.setDescription(decodeURIComponent(jsonData['description']));
-  }
-
-  if (jsonData['type']) {
-    file.setType(decodeURIComponent(jsonData['type']));
-  }
-
   if (jsonData['mode']) {
     file.setMode(decodeURIComponent(jsonData['mode']));
-  }
-
-  if (jsonData['model']) {
-    file.setModel(decodeURIComponent(jsonData['model']));
   }
 
   if (jsonData['ui']) {
@@ -716,6 +593,29 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   if (jsonData['metadata']) {
     file.metadata_ = jsonData['metadata'];
   }
+
+  /**
+   * Deprecated fields from file format < 3.0
+   */
+  if (jsonData['author']) {
+    file.setAuthor(decodeURIComponent(jsonData['author']));
+  }
+
+  if (jsonData['description']) {
+    file.setModel(decodeURIComponent(jsonData['description']));
+  }
+
+  if (jsonData['model']) {
+    file.setModel(decodeURIComponent(jsonData['model']));
+  }
+
+  if (jsonData['title']) {
+    file.setTitle(decodeURIComponent(jsonData['title']));
+  }
+
+  if (jsonData['version']) {
+    file.setVersion(decodeURIComponent(jsonData['version']));
+  }
 };
 
 
@@ -725,20 +625,14 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
  */
 cwc.fileFormat.File.toJSON = function(file) {
   return {
-    'metadata': file.metadata_.toJSON(),
-    'author': file.author_,
+    'format': file.format_,
     'content': file.content_.toJSON(),
-    'description': file.description_,
     'files': file.files_.toJSON(),
     'flags': file.flags_,
-    'format': file.format_,
     'frameworks': file.frameworks_,
     'history': file.history_,
+    'metadata': file.metadata_,
     'mode': file.mode_,
-    'model': file.model_,
-    'title': file.title_,
-    'type': file.type_,
     'ui': file.ui_,
-    'version': file.version_,
   };
 };

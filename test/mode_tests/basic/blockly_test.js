@@ -40,9 +40,9 @@ describe('[Mode Basic - Blockly]', function() {
   });
 
   describe('Loading file', function() {
-    it('block/blank.cwc', function(done) {
+    it('blank-blocks.cwc', function(done) {
       builder.loadFile(
-        '../resources/examples/simple/blocks/blank.cwc'
+        '../resources/templates/basic/blank-blocks.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

@@ -89,7 +89,7 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @private {!number} */
   this.speed_ = 20;
 
-  /** @type {goog.events.EventTarget} */
+  /** @type {!goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 };
 
@@ -204,7 +204,7 @@ cwc.protocol.sphero.v1.Api.prototype.monitor = function(enable) {
 
 
 /**
- * @return {goog.events.EventTarget}
+ * @return {!goog.events.EventTarget}
  */
 cwc.protocol.sphero.v1.Api.prototype.getEventHandler = function() {
   return this.eventHandler;

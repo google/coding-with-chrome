@@ -39,10 +39,10 @@ cwc.protocol.ev3.Buffer = function() {
   this.callbackTarget = cwc.protocol.ev3.InputPort.ONE;
 
   /** @type {!Array} */
-  this.data_ = [];
+  this.data = [];
 
   /** @type {Object.<cwc.utils.ByteArrayTypes|string|number>} */
-  this.headers_ = {};
+  this.headers = {};
 };
 goog.inherits(cwc.protocol.ev3.Buffer, cwc.utils.ByteArray);
 

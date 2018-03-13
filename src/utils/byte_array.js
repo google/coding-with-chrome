@@ -39,11 +39,11 @@ cwc.utils.ByteArrayTypes = {
  * @constructor
  */
 cwc.utils.ByteArray = function() {
-  /** @private {!Array} */
-  this.data_ = [];
+  /** @type {!Array} */
+  this.data = [];
 
-  /** @private {Object.<cwc.utils.ByteArrayTypes|string|number>} */
-  this.headers_ = {};
+  /** @type {Object.<cwc.utils.ByteArrayTypes|string|number>} */
+  this.headers = {};
 };
 
 
@@ -202,7 +202,7 @@ cwc.utils.ByteArray.prototype.writeIndex = function(value) {
  * @export
  */
 cwc.utils.ByteArray.prototype.write = function(data) {
-  this.data_.push(data);
+  this.data.push(data);
   return this;
 };
 
@@ -212,7 +212,7 @@ cwc.utils.ByteArray.prototype.write = function(data) {
  * @export
  */
 cwc.utils.ByteArray.prototype.length = function() {
-  return this.data_.length;
+  return this.data.length;
 };
 
 
@@ -221,7 +221,7 @@ cwc.utils.ByteArray.prototype.length = function() {
  * @export
  */
 cwc.utils.ByteArray.prototype.getData = function() {
-  return this.data_;
+  return this.data;
 };
 
 
@@ -229,7 +229,7 @@ cwc.utils.ByteArray.prototype.getData = function() {
  * @export
  */
 cwc.utils.ByteArray.prototype.clearData = function() {
-  this.data_ = [];
+  this.data = [];
 };
 
 
@@ -239,7 +239,7 @@ cwc.utils.ByteArray.prototype.clearData = function() {
  */
 cwc.utils.ByteArray.prototype.addHeader = function(type) {
   if (this.hasHeader(type)) {
-    this.write(this.headers_[type]);
+    this.write(this.headers[type]);
   }
 };
 
@@ -250,7 +250,7 @@ cwc.utils.ByteArray.prototype.addHeader = function(type) {
  * @export
  */
 cwc.utils.ByteArray.prototype.setHeader = function(type, data) {
-  this.headers_[type] = data;
+  this.headers[type] = data;
 };
 
 
@@ -260,7 +260,7 @@ cwc.utils.ByteArray.prototype.setHeader = function(type, data) {
  * @export
  */
 cwc.utils.ByteArray.prototype.hasHeader = function(type) {
-  return type in this.headers_;
+  return type in this.headers;
 };
 
 
@@ -270,5 +270,5 @@ cwc.utils.ByteArray.prototype.hasHeader = function(type) {
  * @export
  */
 cwc.utils.ByteArray.prototype.getHeader = function(type) {
-  return this.headers_[type];
+  return this.headers[type];
 };

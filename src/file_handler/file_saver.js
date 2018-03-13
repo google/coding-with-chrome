@@ -39,7 +39,7 @@ cwc.fileHandler.FileSaver = function(helper) {
   this.filename = '';
 
   /** @type {string} */
-  this.fileType = '';
+  this.mimeType = '';
 
   /** @type {Object} */
   this.fileHandler = null;
@@ -103,7 +103,7 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
   console.log('Save file in Google Cloud');
   let gCloudInstance = this.helper.getInstance('gcloud', true);
   this.prepareContent();
-  gCloudInstance.publishDialog(this.filename, this.fileData, this.fileType);
+  gCloudInstance.publishDialog(this.filename, this.fileData, this.mimeType);
 };
 
 
@@ -119,8 +119,8 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   let gDriveId = fileInstance.getGDriveId();
   let mimeType = fileInstance.getMimeType();
 
-  // Handle CWC file format
   if (mimeType.type === cwc.file.MimeType.CWC.type) {
+    // Handle CWC file format
     let file = fileInstance.getFile();
 
     let blocklyInstance = this.helper.getInstance('blockly');
@@ -131,7 +131,6 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
       }
     }
 
-    let editorInstance = this.helper.getInstance('editor');
     if (editorInstance) {
       let views = editorInstance.getViews();
       for (let entry in views) {
@@ -143,17 +142,16 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 
     this.fileData = file.getJSON();
     this.filename = this.addFileExtension(filename || fileTitle || 'untitled');
-
-  // Handle raw file format
   } else {
+    // Handle raw file format
     this.fileData = editorInstance.getEditorContent('__default__');
     this.filename = this.addFileExtension(
       filename || 'unnamed', mimeType.ext[0]);
   }
 
-  this.fileType = mimeType.type;
   this.fileHandler = fileHandler;
   this.gDriveId = gDriveId;
+  this.mimeType = mimeType.type;
 };
 
 

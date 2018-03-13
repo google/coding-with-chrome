@@ -27,12 +27,11 @@ goog.require('cwc.file.getMimeTypeByNameAndContent');
  * @param {string} content
  * @param {string=} type
  * @param {number=} size
- * @param {string=} group
  * @constructor
  * @struct
  * @final
  */
-cwc.file.File = function(name, content, type, size, group) {
+cwc.file.File = function(name, content, type, size) {
   /** @private {string} */
   this.name_ = name;
 
@@ -47,9 +46,6 @@ cwc.file.File = function(name, content, type, size, group) {
 
   /** @private {number} */
   this.size_ = size || this.content_.length || 0;
-
-  /** @private {string} */
-  this.group_ = group || '';
 
   /** @private {number} */
   this.version_ = 1;
@@ -105,41 +101,15 @@ cwc.file.File.prototype.getSize = function() {
 
 
 /**
- * @return {string}
- */
-cwc.file.File.prototype.getGroup = function() {
-  return this.group_;
-};
-
-
-/**
- * @return {string}
- */
-cwc.file.File.prototype.getFilename = function() {
-  return ((this.group_) ? this.group_ + '/' : '') + this.name_;
-};
-
-
-/**
- * @return {string}
- */
-cwc.file.File.prototype.getSafeFilename = function() {
-  return this.getFilename().replace(/[.\w]/gi, '_');
-};
-
-
-/**
  * @return {Object}
  */
 cwc.file.File.prototype.toJSON = function() {
   return {
-    'name': this.name_,
-    'type': this.type_,
-    'size': this.size_,
     'content': this.content_,
-    'group': this.group_,
+    'name': this.name_,
+    'size': this.size_,
+    'type': this.type_,
     'version': this.version_,
-    'filename': this.getFilename(),
   };
 };
 

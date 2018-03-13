@@ -40,7 +40,7 @@ describe('[Mode Sphero Classic - Blockly]', function() {
   });
 
   describe('Loading files', function() {
-    it('block/blank.cwc', function(done) {
+    it('blank-blocks.cwc', function(done) {
       builder.loadFile(
         '../resources/templates/sphero/classic/blank-blocks.cwc'
       ).then(() => {

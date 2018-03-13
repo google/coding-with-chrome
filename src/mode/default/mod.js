@@ -32,7 +32,9 @@ goog.require('cwc.ui.Preview');
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
  *   cwc.mode.sphero.Connection|
- *   cwc.mode.sphero.sprkPlus.Connection}
+ *   cwc.mode.sphero.bb8.Connection|
+ *   cwc.mode.sphero.sprkPlus.Connection|
+ *   cwc.mode.sphero.ollie.Connection}
  */
 cwc.mode.default.ConnectionTypes;
 
@@ -43,7 +45,10 @@ cwc.mode.default.ConnectionTypes;
  *   cwc.renderer.internal.Coffeescript|
  *   cwc.renderer.internal.HTML5|
  *   cwc.renderer.internal.Javascript|
- *   cwc.renderer.external.Python}
+ *   cwc.renderer.external.Python|
+ *   cwc.renderer.external.PencilCode|
+ *   cwc.renderer.external.makeblock.MBotRanger|
+ *   cwc.renderer.external.makeblock.MBot}
  */
 cwc.mode.default.RendererTypes;
 
@@ -59,7 +64,8 @@ cwc.mode.default.RunnerTypes;
 
 /**
  * @typedef {cwc.mode.ev3.Monitor|
- *   cwc.mode.sphero.Monitor}
+ *   cwc.mode.sphero.Monitor|
+ *   cwc.mode.makeblock.mbot.Monitor}
  */
 cwc.mode.default.MonitorTypes;
 

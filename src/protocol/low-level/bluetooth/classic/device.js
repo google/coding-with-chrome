@@ -424,7 +424,7 @@ cwc.protocol.bluetooth.classic.Device.prototype.handleConnect_ = function(
     this.connectCallback = null;
   }
   this.connecting = false;
-  this.eventHandler_.dispatchEvent(
+  this.eventHandler.dispatchEvent(
     cwc.protocol.bluetooth.classic.Events.deviceState({connected: true}));
 };
 
@@ -445,6 +445,6 @@ cwc.protocol.bluetooth.classic.Device.prototype.handleDisconnect_ = function() {
     this.disconnectCallback = null;
   }
   this.connecting = false;
-  this.eventHandler_.dispatchEvent(
+  this.eventHandler.dispatchEvent(
     cwc.protocol.bluetooth.classic.Events.deviceState({connected: false}));
 };

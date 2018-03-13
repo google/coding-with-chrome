@@ -23,6 +23,8 @@ goog.require('cwc.protocol.bluetooth.lowEnergy.Adapter');
 goog.require('cwc.protocol.bluetooth.lowEnergy.Devices');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events.EventTarget');
+
 
 /**
  * @param {!cwc.utils.Helper} helper

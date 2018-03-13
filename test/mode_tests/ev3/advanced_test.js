@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode Basic - Advanced
+ * @fileoverview Mode EV3 - Advanced
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,7 +19,7 @@
  */
 
 
-describe('[Mode Basic - Advanced]', function() {
+describe('[Mode EV3 - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
@@ -42,7 +42,7 @@ describe('[Mode Basic - Advanced]', function() {
   describe('Loading file', function() {
     it('blank.cwc', function(done) {
       builder.loadFile(
-        '../resources/templates/basic/blank.cwc'
+        '../resources/templates/lego/ev3/blank.cwc'
       ).then(() => {
         expect(true).toEqual(true);
         done();

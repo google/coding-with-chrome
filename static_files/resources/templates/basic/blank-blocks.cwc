@@ -1,33 +1,34 @@
 {
-  "author": "Unknown",
   "content": {
     "blockly": {
-      "name": "blockly",
-      "type": "application/blockly+xml",
-      "size": 48,
       "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "name": "blockly",
+      "size": 75,
+      "type": "application/blockly+xml",
+      "version": 1
     },
     "__javascript__": {
-      "name": "__javascript__",
-      "type": "application/javascript",
-      "size": 0,
       "content": "",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "name": "__javascript__",
+      "size": 0,
+      "type": "application/javascript",
+      "version": 1
     }
   },
-  "description": "",
   "files": {},
-  "flags": {},
-  "format": "Coding with Chrome File Format 2",
+  "flags": {
+    "__editor__": {}
+  },
+  "format": "Coding with Chrome File Format 3",
   "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Unknown",
+      "title": "Untitled Basic blockly file",
+      "version": "1.0"
+    }
+  },
   "mode": "basic_blockly",
-  "title": "Untitled Basic blockly file",
-  "type": "basic_blockly",
-  "ui": "blockly",
-  "version": "1.0"
+  "ui": "blockly"
 }

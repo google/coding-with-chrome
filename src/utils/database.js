@@ -136,7 +136,7 @@ cwc.utils.Database.prototype.getFile = function(name) {
 
 
 /**
- * @return {!number}
+ * @return {number|undefined}
  */
 cwc.utils.Database.prototype.getVersion = function() {
   return this.version_;

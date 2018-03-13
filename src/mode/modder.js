@@ -79,11 +79,9 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   let modeConfig = cwc.mode.Config.get(mode);
 
   this.log_.info('Loading Mode', mode,
-    (modeConfig.version ? 'version ' + modeConfig.version : ''),
     (modeConfig.name ? '(' + modeConfig.name + ')' : ''),
     (modeConfig.authors ? 'from ' + modeConfig.authors : ''),
-    (modeConfig.description ? ':' + modeConfig.description : ''),
-    'MIME-types', modeConfig.mimeTypes
+    'for MIME-types', modeConfig.mimeTypes
   );
 
   // Remove former instances.
@@ -119,7 +117,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
 
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
-  this.modder = new modeConfig.Mod(this.helper);
+  this.modder = modeConfig.getMod(this.helper);
   this.modder.decorate();
 };
 

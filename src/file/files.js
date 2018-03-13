@@ -48,12 +48,11 @@ cwc.file.Files = function() {
  * @param {!string} content
  * @param {string=} type
  * @param {number=} size
- * @param {string=} group
  * @return {cwc.file.File}
  */
-cwc.file.Files.prototype.addFile = function(name, content, type, size, group) {
-  let new_file = new cwc.file.File(name, content, type, size, group);
-  let filename = new_file.getFilename();
+cwc.file.Files.prototype.addFile = function(name, content, type, size) {
+  let new_file = new cwc.file.File(name, content, type, size);
+  let filename = new_file.getName();
   if (this.getFile(filename)) {
     this.log_.warn('Overwrite existing file', filename);
   }
@@ -126,8 +125,7 @@ cwc.file.Files.prototype.setData = function(data) {
           file.name,
           file.content,
           file.type,
-          file.size,
-          file.group);
+          file.size);
     }
   }
   this.updateSize_();
