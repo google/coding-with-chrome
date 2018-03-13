@@ -44,7 +44,7 @@ cwc.ui.Message = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeTutorial = null;
+  this.nodeMain = null;
 
   /** @type {Element} */
   this.nodeHelp = null;
@@ -90,4 +90,13 @@ cwc.ui.Message.prototype.show = function(visible) {
 cwc.ui.Message.prototype.renderContent = function(template, values) {
   goog.soy.renderElement(
     goog.dom.getElement(this.prefix + 'main'), template, values);
+};
+
+/**
+ * @param {!function (Object, null=, (Object<string,*>|null)=)} template
+ * @param {!Object} values
+ */
+cwc.ui.Message.prototype.renderHelp = function(template, values) {
+  goog.soy.renderElement(
+    goog.dom.getElement(this.prefix + 'help'), template, values);
 };

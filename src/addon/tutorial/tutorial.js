@@ -167,7 +167,7 @@ cwc.addon.Tutorial.prototype.loadFile_ = function(file_name) {
   if (loaderInstance) {
     loaderInstance.loadLocalFile(this.resourcesPath_ + file_name);
   }
-  let editorWindow = this.isChromeApp_ && chrome.app.window.get('editor');
+  let editorWindow = this.chromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {
     editorWindow['clearAttention']();
   }

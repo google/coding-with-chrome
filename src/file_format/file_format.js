@@ -100,6 +100,9 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.version_ = '';
 
+  /** @private {!Object} */
+  this.metadata_ = {};
+
   if (content) {
     this.loadJSON(content);
   } else {
@@ -131,6 +134,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.type_ = cwc.file.Type.UNKNOWN;
   this.ui_ = 'default';
   this.version_ = '1.0';
+  this.metadata_ = {};
 };
 
 
@@ -496,6 +500,31 @@ cwc.fileFormat.File.prototype.getHistory = function() {
   return this.history_;
 };
 
+/**
+ * @param {!string} name
+ * @param {!string} namespace
+ * @return {*}
+ */
+cwc.fileFormat.File.prototype.getMetadata = function(name,
+  namespace = 'default') {
+  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
+    return null;
+  }
+  return this.metadata_[namespace][name];
+};
+
+/**
+ * @param {!string} name
+ * @param {*} value
+ * @param {!string} namespace
+ */
+cwc.fileFormat.File.prototype.setMetadata = function(name, value,
+  namespace = 'default') {
+  if (!(namespace in this.metadata_)) {
+    this.metadata_[namespace] = {};
+  }
+  this.metadata_[namespace][name] = value;
+};
 
 /**
  * Loads the defined JSON data and sets the supported options.
@@ -683,6 +712,10 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   if (jsonData['history']) {
     file.setHistory(jsonData['history']);
   }
+
+  if (jsonData['metadata']) {
+    file.metadata_ = jsonData['metadata'];
+  }
 };
 
 
@@ -692,6 +725,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
  */
 cwc.fileFormat.File.toJSON = function(file) {
   return {
+    'metadata': file.metadata_.toJSON(),
     'author': file.author_,
     'content': file.content_.toJSON(),
     'description': file.description_,
