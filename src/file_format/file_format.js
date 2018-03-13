@@ -101,7 +101,7 @@ cwc.fileFormat.File = function(content = '') {
   this.version_ = '';
 
   /** @private {!Object} */
-  this.addon_ = {};
+  this.metadata_ = {};
 
   if (content) {
     this.loadJSON(content);
@@ -134,7 +134,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.type_ = cwc.file.Type.UNKNOWN;
   this.ui_ = 'default';
   this.version_ = '1.0';
-  this.addon_ = {};
+  this.metadata_ = {};
 };
 
 
@@ -501,19 +501,29 @@ cwc.fileFormat.File.prototype.getHistory = function() {
 };
 
 /**
- * @return {!Object}
+ * @param {!string} name
+ * @param {!string} namespace
+ * @return {*}
  */
-cwc.fileFormat.File.prototype.getAddon = function() {
-  return this.addon_;
+cwc.fileFormat.File.prototype.getMetadata = function(name,
+  namespace = 'default') {
+  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
+    return null;
+  }
+  return this.metadata_[namespace][name];
 };
 
 /**
- * @param {!Object} addon
- * @return {!cwc.fileFormat.File}
+ * @param {!string} name
+ * @param {*} value
+ * @param {!string} namespace
  */
-cwc.fileFormat.File.prototype.setAddon = function(addon) {
-  this.addon_ = addon;
-  return this;
+cwc.fileFormat.File.prototype.setMetadata = function(name, value,
+  namespace = 'default') {
+  if (!(namespace in this.metadata_)) {
+    this.metadata_[namespace] = {};
+  }
+  this.metadata_[namespace][name] = value;
 };
 
 /**
@@ -703,8 +713,8 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
     file.setHistory(jsonData['history']);
   }
 
-  if (jsonData['addon']) {
-    file.setAddon(jsonData['addon']);
+  if (jsonData['metadata']) {
+    file.metadata_ = jsonData['metadata'];
   }
 };
 
@@ -715,7 +725,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
  */
 cwc.fileFormat.File.toJSON = function(file) {
   return {
-    'addon': file.addon_.toJSON(),
+    'metadata': file.metadata_.toJSON(),
     'author': file.author_,
     'content': file.content_.toJSON(),
     'description': file.description_,

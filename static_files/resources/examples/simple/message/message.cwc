@@ -1,6 +1,9 @@
 {
-   "addon" : {
-      "message" : "This is an example of 'Hello, World' written in JavaScript. 'Hello, World' is typically the first code a programmer writes when learning a new programming language. It's simple but demonstrates how to send a message to the user."
+   "metadata" : {
+      "message" : {
+        "content": "This is an example of 'Hello, World' written in JavaScript. 'Hello, World' is typically the first code a programmer writes when learning a new programming language. It's simple but demonstrates how to send a message to the user.",
+        "help": "No help available"
+			}
    },
    "history" : "",
    "flags" : {},

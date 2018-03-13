@@ -72,20 +72,27 @@ cwc.addon.Message.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
   let fileName = e.data.file;
   this.log_.info('Change Mode', mode, 'for file', fileName);
-  let message = this.helper.getInstance('file').getFile().getAddon()['message'];
-  if (message) {
+  let content = this.helper.getInstance('file').getFile().getMetadata('content',
+    'message');
+  let help = this.helper.getInstance('file').getFile().getMetadata('help',
+    'message');
+  if (content || help) {
     this.log_.info('Adding message pane ...');
     let messageInstance = this.helper.getInstance('message');
     if (!messageInstance) return;
     messageInstance.show(true);
-    messageInstance.renderContent(cwc.soy.addon.Message.message, {
-      prefix: this.prefix,
-      message: message,
-    });
-    messageInstance.renderHelp(cwc.soy.addon.Message.help, {
-      prefix: this.prefix,
-      help: 'No help available',
-    });
+    if (content) {
+      messageInstance.renderContent(cwc.soy.addon.Message.message, {
+        prefix: this.prefix,
+        content: content,
+      });
+    }
+    if (help) {
+      messageInstance.renderHelp(cwc.soy.addon.Message.help, {
+        prefix: this.prefix,
+        help: help,
+      });
+    }
   }
 };
 
