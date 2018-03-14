@@ -6,18 +6,14 @@
       "type": "application/blockly+xml",
       "size": 154,
       "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"ev3_set_robot_model\" x=\"-190\" y=\"-250\">\n    <field name=\"robot\">custom</field>\n  </block>\n</xml>",
-      "group": "",
-      "version": 1,
-      "filename": "blockly"
+      "version": 1
     },
     "__javascript__": {
       "name": "__javascript__",
       "type": "application/javascript",
       "size": 29,
       "content": "ev3.setRobotModel(\"custom\");\n",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -29,7 +25,6 @@
   "mode": "ev3_blockly",
   "model": "TRACK3R",
   "title": "Untitled EV3 blockly file",
-  "type": "ev3_blockly",
   "ui": "blockly",
   "version": "1.0"
 }

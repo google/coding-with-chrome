@@ -6,9 +6,7 @@
       "type": "application/javascript",
       "size": 0,
       "content": "",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -20,7 +18,6 @@
   "mode": "ev3",
   "model": "TRACK3R",
   "title": "Untitled EV3 file",
-  "type": "ev3",
   "ui": "default",
   "version": "1.0"
 }

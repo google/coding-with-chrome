@@ -6,9 +6,7 @@
       "type": "application/javascript",
       "size": 241,
       "content": "var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-game', {\n  preload: preload,\n  create: create,\n  update: update,\n  render: render\n});\n\nfunction preload() {\n\n}\n\nfunction create() {\n\n}\n\nfunction update() {\n\n}\n\nfunction render() {\n\n}\n",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -22,7 +20,6 @@
   "mode": "phaser",
   "model": "",
   "title": "Untitled Phaser file",
-  "type": "phaser",
   "ui": "default",
   "version": "1.0"
 }

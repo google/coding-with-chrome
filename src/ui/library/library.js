@@ -179,19 +179,18 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
  * Syncs the files with the library.
  */
 cwc.ui.Library.prototype.syncFiles = function() {
-  let blocklyInstance = this.helper.getInstance('blockly');
-  let editorInstance = this.helper.getInstance('editor');
   let fileInstance = this.helper.getInstance('file');
-  this.numOfFiles_ = 0;
-
   if (fileInstance) {
+    this.numOfFiles_ = 0;
     let files = this.getFiles();
     if (files && fileInstance.getFiles().getSize() > 0) {
       this.log_.info('Syncing library ', fileInstance.getFiles().getSize(),
         ' files...');
+      let blocklyInstance = this.helper.getInstance('blockly');
       if (blocklyInstance) {
         blocklyInstance.setToolboxFiles(files);
       }
+      let editorInstance = this.helper.getInstance('editor');
       if (editorInstance) {
         editorInstance.updateLibraryButton(fileInstance.getFiles().hasFiles());
       }

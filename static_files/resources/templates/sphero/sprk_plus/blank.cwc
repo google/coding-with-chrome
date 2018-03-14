@@ -6,9 +6,7 @@
       "type": "application/javascript",
       "size": 0,
       "content": "",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -19,7 +17,6 @@
   "history": "",
   "mode": "sphero_sprk_plus",
   "title": "Untitled Sphero SPRK+ file",
-  "type": "sphero_sprk_plus",
   "ui": "default",
   "version": "1.0"
 }

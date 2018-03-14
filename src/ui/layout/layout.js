@@ -443,6 +443,15 @@ cwc.ui.Layout.prototype.handleResizeEvent = function() {
  * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
  * @param {string=} prefix
  */
+cwc.ui.Layout.prototype.renderContent = function(template, prefix = '') {
+  this.renderContent_(template, this.getNode('content'), prefix);
+};
+
+
+/**
+ * @param {!function ({prefix: string}, null=): soydata.SanitizedHtml} template
+ * @param {string=} prefix
+ */
 cwc.ui.Layout.prototype.renderLeftContent = function(template, prefix = '') {
   this.renderContent_(template, this.getNode('content-left'), prefix);
 };

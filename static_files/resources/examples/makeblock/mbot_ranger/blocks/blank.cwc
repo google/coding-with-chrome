@@ -6,7 +6,6 @@
       "type": "application/blockly+xml",
       "size": 48,
       "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
-      "group": "",
       "version": 1,
       "filename": "blockly"
     },
@@ -15,9 +14,7 @@
       "type": "application/javascript",
       "size": 0,
       "content": "",
-      "group": "",
       "version": 1,
-      "filename": ""
     }
   },
   "description": "",

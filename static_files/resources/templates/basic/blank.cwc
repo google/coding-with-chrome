@@ -6,9 +6,7 @@
       "type": "application/javascript",
       "size": 0,
       "content": "",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -19,7 +17,6 @@
   "history": "",
   "mode": "basic",
   "title": "Untitled Basic file",
-  "type": "basic",
   "ui": "default",
   "version": "1.0"
 }

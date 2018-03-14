@@ -58,7 +58,7 @@ cwc.protocol.default.Device = function() {
   /** @type {!cwc.utils.Logger} */
   this.log = new cwc.utils.Logger();
 
-  /** @private {!goog.events.EventTarget} */
+  /** @type {!goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 };
 

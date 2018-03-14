@@ -93,7 +93,6 @@ cwc.fileHandler.File.prototype.setFile = function(file) {
  * @param {string=} filename
  */
 cwc.fileHandler.File.prototype.setRawFile = function(content, filename) {
-  console.log('Set raw content to:', content);
   this.clear(true);
   this.rawFile_ = content;
   this.filename_ = filename || '';

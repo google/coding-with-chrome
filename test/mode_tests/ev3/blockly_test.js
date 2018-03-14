@@ -51,5 +51,16 @@ describe('[Mode EV3 - Blockly]', function() {
         done();
       });
     });
+    it('blocks/EV3-Color-Sensor.cwc', function(done) {
+      builder.loadFile(
+        '../resources/examples/lego/ev3/blocks/EV3-Color-Sensor.cwc'
+      ).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, () => {
+        expect(false).toEqual(true);
+        done();
+      });
+    });
   });
 });

@@ -159,6 +159,17 @@ cwc.mode.default.Mod.prototype.decorate = function() {
 
 
 /**
+ * Decorates standard Editor.
+ */
+cwc.mode.default.Mod.prototype.decorateRaw = function() {
+  let layoutInstance = this.helper.getInstance('layout', true);
+  layoutInstance.decorateBlank();
+  layoutInstance.renderContent(cwc.soy.mode.default.Layout.editor);
+  this.decorateEditor();
+};
+
+
+/**
  * Decorates Blockly
  */
 cwc.mode.default.Mod.prototype.decorateBlockly = function() {

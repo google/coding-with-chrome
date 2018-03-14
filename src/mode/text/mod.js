@@ -37,7 +37,7 @@ cwc.mode.text.Mod = function(helper) {
  */
 cwc.mode.text.Mod.prototype.decorate = function() {
   this.mod.setRenderer(null);
-  this.mod.decorate();
+  this.mod.decorateRaw();
   this.mod.editor.enableModeSelect(true);
   this.mod.editor.showEditorViews(false);
   this.mod.editor.showExpandButton(false);

@@ -139,7 +139,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     filename = '', fileHandler = null, gDriveId = undefined) {
   return new Promise((resolve) => {
-    this.log_.info('Handle file data:', data);
+    this.log_.info('Handle file data ... (', data.length, ')');
     let fileInstance = this.helper.getInstance('file', true);
     let modeInstance = this.helper.getInstance('mode', true);
     let mimeType = cwc.file.getMimeTypeByNameAndContent(filename || '', data);

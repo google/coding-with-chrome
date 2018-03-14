@@ -6,9 +6,7 @@
       "type": "application/coffeescript",
       "size": 45,
       "content": "speed 2\npen red\nfor [1..45]\n  fd 100\n  rt 88\n",
-      "group": "",
-      "version": 1,
-      "filename": ""
+      "version": 1
     }
   },
   "description": "",
@@ -19,7 +17,6 @@
   "history": "",
   "mode": "pencil_code",
   "title": "Untitled Pencil Code file",
-  "type": "pencil_code",
   "ui": "default",
   "version": "1.0"
 }
