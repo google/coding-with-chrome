@@ -562,6 +562,9 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
     }
   }
 
+  /**
+   * Handling of additional fields.
+   */
   if (jsonData['flags']) {
     for (let flag in jsonData['flags']) {
       if (Object.prototype.hasOwnProperty.call(jsonData['flags'], flag)) {
@@ -569,52 +572,45 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
       }
     }
   }
-
   if (jsonData['mode']) {
-    file.setMode(decodeURIComponent(jsonData['mode']));
+    file.setMode(
+      /** @type {cwc.mode.Type} */ (decodeURIComponent(jsonData['mode'])));
   }
-
   if (jsonData['ui']) {
     file.setUi(decodeURIComponent(jsonData['ui']));
   }
-
   if (jsonData['frameworks']) {
     file.setFrameworks(jsonData['frameworks']);
   }
-
   if (jsonData['files']) {
     file.setFilesData(jsonData['files']);
   }
-
   if (jsonData['history']) {
     file.setHistory(jsonData['history']);
   }
-
   if (jsonData['metadata']) {
     file.metadata_ = jsonData['metadata'];
   }
 
   /**
-   * Deprecated fields from file format < 3.0
+   * Handling of deprecated fields for file format < 3.0
    */
-  if (jsonData['author']) {
-    file.setAuthor(decodeURIComponent(jsonData['author']));
-  }
-
-  if (jsonData['description']) {
-    file.setModel(decodeURIComponent(jsonData['description']));
-  }
-
-  if (jsonData['model']) {
-    file.setModel(decodeURIComponent(jsonData['model']));
-  }
-
-  if (jsonData['title']) {
-    file.setTitle(decodeURIComponent(jsonData['title']));
-  }
-
-  if (jsonData['version']) {
-    file.setVersion(decodeURIComponent(jsonData['version']));
+  if (fileFormatVersion < 3) {
+    if (jsonData['author']) {
+      file.setAuthor(decodeURIComponent(jsonData['author']));
+    }
+    if (jsonData['description']) {
+      file.setModel(decodeURIComponent(jsonData['description']));
+    }
+    if (jsonData['model']) {
+      file.setModel(decodeURIComponent(jsonData['model']));
+    }
+    if (jsonData['title']) {
+      file.setTitle(decodeURIComponent(jsonData['title']));
+    }
+    if (jsonData['version']) {
+      file.setVersion(decodeURIComponent(jsonData['version']));
+    }
   }
 };
 

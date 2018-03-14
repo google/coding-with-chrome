@@ -40,49 +40,9 @@ describe('[Mode Basic - Blockly]', function() {
   });
 
   describe('Loading file', function() {
-    it('blank-blocks.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/basic/blank-blocks.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Hello-World.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/basic/blocks/Hello-World.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Sunlights.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/basic/blocks/Sunlights.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Text-Loop.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/basic/blocks/Text-Loop.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+    loadTemplateFile('basic/blank-blocks.cwc', builder, it);
+    loadExampleFile('basic/blocks/Hello-World.cwc', builder, it);
+    loadExampleFile('basic/blocks/Sunlights.cwc', builder, it);
+    loadExampleFile('basic/blocks/Text-Loop.cwc', builder, it);
   });
 });

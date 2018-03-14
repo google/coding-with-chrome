@@ -34,7 +34,8 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @typedef {cwc.addon.Tutorial}
+ * @typedef {cwc.addon.Message|
+ *   cwc.addon.Tutorial}
  */
 cwc.utils.AddonInstance;
 

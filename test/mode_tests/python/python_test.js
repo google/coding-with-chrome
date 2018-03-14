@@ -39,17 +39,9 @@ describe('[Mode Python - Python 3.x]', function() {
     });
   });
 
-  describe('Loading file', function() {
-    it('python/blank.py', function(done) {
-      builder.loadFile(
-        '../resources/templates/python/blank.py'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+  describe('Loading files', function() {
+    loadTemplateFile('python/blank.py', builder, it);
+    loadExampleFile('python/class-test.py', builder, it);
+    loadExampleFile('python/turtle-graphics.py', builder, it);
   });
 });

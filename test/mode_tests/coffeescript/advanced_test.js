@@ -40,27 +40,7 @@ describe('[Mode Coffeescript - Advanced]', function() {
   });
 
   describe('Loading files', function() {
-    it('blank.coffee', function(done) {
-      builder.loadFile(
-        '../resources/templates/coffeescript/blank.coffee'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('script/countdown.coffee', function(done) {
-      builder.loadFile(
-        '../resources/examples/coffeescript/script/countdown.coffee'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+    loadTemplateFile('coffeescript/blank.coffee', builder, it);
+    loadExampleFile('coffeescript/script/countdown.coffee', builder, it);
   });
 });

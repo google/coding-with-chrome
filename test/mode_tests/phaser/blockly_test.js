@@ -39,45 +39,12 @@ describe('[Mode Phaser - Blockly]', function() {
     });
   });
 
-  describe('Loading file', function() {
-    it('block/blank.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/phaser/blank-blocks.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    let filePath = '../resources/examples/phaser/blocks/';
-    it('block/bouncing-ball.cwc', function(done) {
-      builder.loadFile(filePath + 'bouncing-ball.cwc').then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('block/bouncing-cubes.cwc', function(done) {
-      builder.loadFile(filePath + 'bouncing-cubes.cwc').then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('block/move-a-sprite.cwc', function(done) {
-      builder.loadFile(filePath + 'move-a-sprite.cwc').then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+  describe('Loading files', function() {
+    loadTemplateFile('phaser/blank-blocks.cwc', builder, it);
+    loadExampleFile('phaser/blocks/bouncing-ball.cwc', builder, it);
+    loadExampleFile('phaser/blocks/bouncing-cubes.cwc', builder, it);
+    loadExampleFile('phaser/blocks/move-a-sprite.cwc', builder, it);
+    loadExampleFile('phaser/blocks/move-around-the-world.cwc', builder, it);
+    loadExampleFile('phaser/blocks/switch-game-state.cwc', builder, it);
   });
 });

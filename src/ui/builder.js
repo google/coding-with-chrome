@@ -23,8 +23,8 @@ goog.provide('cwc.ui.Builder');
 goog.provide('cwc.ui.BuilderHelpers');
 
 goog.require('cwc.UserConfig');
-goog.require('cwc.addon.Tutorial');
 goog.require('cwc.addon.Message');
+goog.require('cwc.addon.Tutorial');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileExporter');
@@ -75,8 +75,8 @@ goog.require('goog.dom');
  * @enum {!Function}
  */
 cwc.ui.Addons = {
-  'tutorial': cwc.addon.Tutorial,
   'message': cwc.addon.Message,
+  'tutorial': cwc.addon.Tutorial,
 };
 
 
@@ -245,17 +245,7 @@ cwc.ui.Builder.prototype.isReady = function() {
  * @export
  */
 cwc.ui.Builder.prototype.loadFile = function(file_name) {
-  if (this.isReady()) {
-    let loaderInstance = this.helper.getInstance('fileLoader');
-    if (loaderInstance) {
-      return loaderInstance.loadLocalFile(file_name);
-    }
-  } else {
-    console.error('Builder is not ready yet!');
-  }
-  return new Promise((resolve, reject) => {
-    reject();
-  });
+  return this.helper.getInstance('fileLoader').loadLocalFile(file_name);
 };
 
 

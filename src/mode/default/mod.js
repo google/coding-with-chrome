@@ -65,7 +65,8 @@ cwc.mode.default.RunnerTypes;
 /**
  * @typedef {cwc.mode.ev3.Monitor|
  *   cwc.mode.sphero.Monitor|
- *   cwc.mode.makeblock.mbot.Monitor}
+ *   cwc.mode.makeblock.mbot.Monitor|
+ *   cwc.mode.makeblock.mbotRanger.Monitor}
  */
 cwc.mode.default.MonitorTypes;
 

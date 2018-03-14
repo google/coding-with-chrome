@@ -40,16 +40,11 @@ describe('[Mode Basic - Advanced]', function() {
   });
 
   describe('Loading file', function() {
-    it('blank.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/basic/blank.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+    loadTemplateFile('basic/blank.cwc', builder, it);
+    loadExampleFile('basic/script/Draw-Portal-Turret.cwc', builder, it);
+    loadExampleFile('basic/script/Hello-World.cwc', builder, it);
+    loadExampleFile('basic/script/Line-Loop.cwc', builder, it);
+    loadExampleFile('basic/script/Point-Loop.cwc', builder, it);
+    loadExampleFile('basic/script/Text-Loop.cwc', builder, it);
   });
 });

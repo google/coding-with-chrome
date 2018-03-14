@@ -37,3 +37,27 @@ let getTestBlockCode = function(block) {
 let getTestBuffer = function(data) {
   return cwc.utils.ByteTools.getUint8Data(data).data[0];
 };
+
+let loadExampleFile = function(file, builder) {
+  return it(file, function(done) {
+    builder.loadFile('../resources/examples/' + file).then(() => {
+      expect(true).toEqual(true);
+      done();
+    }, (error) => {
+      expect(error).toEqual(null);
+      done();
+    });
+  });
+};
+
+let loadTemplateFile = function(file, builder, it) {
+  return it(file, function(done) {
+    builder.loadFile('../resources/templates/' + file).then(() => {
+      expect(true).toEqual(true);
+      done();
+    }, (error) => {
+      expect(error).toEqual(null);
+      done();
+    });
+  });
+};

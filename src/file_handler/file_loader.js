@@ -97,19 +97,20 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 
 /**
- * @param {!string} filename
+ * @param {!string} file
  * @return {Promise}
  * @export
  */
-cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(filename) {
+cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(file) {
+  this.log_.info('Loading file', file, '...');
   return new Promise((resolve, reject) => {
-    this.getResourceFile(filename, (filename, data) => {
-      this.handleFileData(data, filename, null, undefined).then(
-        resolve
-      ).catch((e) => {
-        this.log_.error('Loading error:', e);
-        reject();
-      });
+    let filename = file.replace(/^.*(\\|\/|:)/, '');
+    return cwc.utils.Resources.getUriAsText(file).then((content) => {
+      return this.handleFileData(content, filename, null, undefined)
+        .then(resolve).catch(reject);
+    }).catch((e) => {
+      this.helper.showError(String(e));
+      reject(e);
     });
   });
 };
@@ -287,23 +288,5 @@ cwc.fileHandler.FileLoader.prototype.openFile = function(file, file_entry,
     callback.call(scope, file, file_entry, content);
   } else {
     this.helper.showError('Unable to open file ' + file + '!');
-  }
-};
-
-
-/**
- * @param {string} file
- * @param {function(string, string)=} callback
- */
-cwc.fileHandler.FileLoader.prototype.getResourceFile = function(file,
-    callback) {
-  if (file) {
-    this.log_.info('Loading file', file, '...');
-    let filename = file.replace(/^.*(\\|\/|:)/, '');
-    cwc.utils.Resources.getUriAsText(file).then((content) => {
-      callback(filename, content);
-    }).catch((error) => {
-      this.helper.showError(String(error));
-    });
   }
 };

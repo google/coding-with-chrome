@@ -42,17 +42,19 @@ cwc.protocol.bluetooth.lowEnergy.Api = function(helper) {
   /** @type {boolean} */
   this.enabled = false;
 
-  /** @type {cwc.protocol.bluetooth.lowEnergy.Devices} */
-  this.devices = null;
-
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {cwc.protocol.bluetooth.lowEnergy.Adapter} */
-  this.adapter_ = null;
-
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @private {cwc.protocol.bluetooth.lowEnergy.Adapter} */
+  this.adapter_ = new cwc.protocol.bluetooth.lowEnergy.Adapter(
+    this.eventHandler_);
+
+  /** @private {cwc.protocol.bluetooth.lowEnergy.Devices} */
+  this.devices_ = new cwc.protocol.bluetooth.lowEnergy.Devices(
+    this.eventHandler_);
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -68,14 +70,8 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.prepare = function() {
   }
 
   this.log_.debug('Preparing Bluetooth LowEnergy support...');
-
-  this.adapter_ = new cwc.protocol.bluetooth.lowEnergy.Adapter(
-    this.eventHandler_);
   this.adapter_.prepare();
-
-  this.devices = new cwc.protocol.bluetooth.lowEnergy.Devices(
-    this.eventHandler_);
-  this.devices.prepare();
+  this.devices_.prepare();
 
   this.prepared = true;
 };
@@ -87,9 +83,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.prepare = function() {
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevice = function(
     device) {
-  if (this.devices) {
-    return this.devices.requestDevice(device);
-  }
+  return this.devices_.requestDevice(device);
 };
 
 
@@ -98,9 +92,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevice = function(
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevices = function(
     callback) {
-  if (this.devices) {
-    this.devices.requestDevices(callback);
-  }
+  this.devices_.requestDevices(callback);
 };
 
 
@@ -109,10 +101,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevices = function(
  * @return {cwc.protocol.bluetooth.lowEnergy.Device}
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevice = function(id) {
-  if (this.devices) {
-    return this.devices.getDevice(id);
-  }
-  return null;
+  return this.devices_.getDevice(id);
 };
 
 
@@ -120,10 +109,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevice = function(id) {
  * @return {Object}
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevices = function() {
-  if (this.devices) {
-    return this.devices.getDevices();
-  }
-  return null;
+  return this.devices_.getDevices();
 };
 
 
@@ -133,8 +119,5 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevices = function() {
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevicesByName = function(
     name) {
-  if (this.devices) {
-    return this.devices.getDevicesByName(name);
-  }
-  return null;
+  return this.devices_.getDevicesByName(name);
 };

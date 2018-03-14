@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.blockly.Mod');
+goog.provide('cwc.mode.sphero.classic.blockly.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Connection');
@@ -31,7 +31,7 @@ goog.require('cwc.soy.sphero.Blocks');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.blockly.Mod = function(helper) {
+cwc.mode.sphero.classic.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
@@ -52,7 +52,7 @@ cwc.mode.sphero.blockly.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.sphero.blockly.Mod.prototype.decorate = function() {
+cwc.mode.sphero.classic.blockly.Mod.prototype.decorate = function() {
   this.mod.enableBlockly(cwc.soy.sphero.Blocks.toolbox);
   this.mod.setConnection(this.connection);
   this.mod.setMonitor(this.monitor);

@@ -40,38 +40,8 @@ describe('[Mode Sphero Classic - Blockly]', function() {
   });
 
   describe('Loading files', function() {
-    it('blank-blocks.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/sphero/classic/blank-blocks.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Sphero-collision.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/sphero/classic/blocks/Sphero-collision.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/Sphero-rectangle.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/sphero/classic/blocks/Sphero-rectangle.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+    loadTemplateFile('sphero/classic/blank-blocks.cwc', builder, it);
+    loadExampleFile('sphero/classic/blocks/Sphero-collision.cwc', builder, it);
+    loadExampleFile('sphero/classic/blocks/Sphero-rectangle.cwc', builder, it);
   });
 });

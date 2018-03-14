@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode Python - Python 2.7
+ * @fileoverview Mode EV3 - Blockly
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,7 +19,7 @@
  */
 
 
-describe('[Mode Python - Python 2.7]', function() {
+describe('[Mode EV3 - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
@@ -40,8 +40,11 @@ describe('[Mode Python - Python 2.7]', function() {
   });
 
   describe('Loading files', function() {
-    loadTemplateFile('python27/blank.py', builder, it);
-    loadExampleFile('python27/guess-number.py', builder, it);
-    loadExampleFile('python27/turtle-graphics.py', builder, it);
+    loadTemplateFile('lego/ev3/blank-blocks.cwc', builder, it);
+    loadExampleFile('lego/ev3/blocks/EV3-Color-Sensor.cwc', builder, it);
+    loadExampleFile(
+      'lego/ev3/blocks/EV3-Educator-BlockGrabber.cwc', builder, it);
+    loadExampleFile('lego/ev3/blocks/EV3-IR-Sensor.cwc', builder, it);
+    loadExampleFile('lego/ev3/blocks/EV3-Robot-Arm-H25.cwc', builder, it);
   });
 });

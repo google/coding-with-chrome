@@ -41,6 +41,8 @@
     'i18soy': true,
     'i18t': true,
     'it': true,
+    'loadExampleFile': true,
+    'loadTemplateFile': true,
     'soydata': true,
     'var_args': true,
     'window': true,

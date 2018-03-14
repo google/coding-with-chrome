@@ -38,9 +38,9 @@ goog.require('cwc.mode.phaser.advanced.Mod');
 goog.require('cwc.mode.phaser.blockly.Mod');
 goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.raspberryPi.advanced.Mod');
-goog.require('cwc.mode.sphero.advanced.Mod');
+goog.require('cwc.mode.sphero.classic.advanced.Mod');
 goog.require('cwc.mode.sphero.bb8.blockly.Mod');
-goog.require('cwc.mode.sphero.blockly.Mod');
+goog.require('cwc.mode.sphero.classic.blockly.Mod');
 goog.require('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.blockly.Mod');
@@ -346,7 +346,7 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.file.MimeType.CWC.type],
-  mod: cwc.mode.sphero.advanced.Mod,
+  mod: cwc.mode.sphero.classic.advanced.Mod,
   name: 'Sphero 2.0',
   template: 'sphero/classic/blank.cwc',
 });
@@ -359,7 +359,7 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.file.MimeType.CWC.type],
-  mod: cwc.mode.sphero.blockly.Mod,
+  mod: cwc.mode.sphero.classic.blockly.Mod,
   name: 'Sphero 2.0 blockly',
   template: 'sphero/classic/blank-blocks.cwc',
 });

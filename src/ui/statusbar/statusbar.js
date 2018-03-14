@@ -91,6 +91,7 @@ cwc.ui.Statusbar.prototype.decorate = function(node) {
 cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
     stopTime = 0) {
   let statusText = cwc.ui.Statusbar.translateState(status, startTime, stopTime);
+  if (!statusText) return;
   if (this.nodeStatus) {
     this.show();
     goog.dom.setTextContent(this.nodeStatus, statusText);

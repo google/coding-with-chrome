@@ -40,27 +40,7 @@ describe('[Mode Sphero Classic - Advanced]', function() {
   });
 
   describe('Loading files', function() {
-    it('blank.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/sphero/classic/blank.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('script/Sphero-rectangle.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/sphero/classic/script/Sphero-rectangle.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+    loadTemplateFile('sphero/classic/blank.cwc', builder, it);
+    loadExampleFile('sphero/classic/script/Sphero-rectangle.cwc', builder, it);
   });
 });

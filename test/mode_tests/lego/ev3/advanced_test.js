@@ -39,17 +39,8 @@ describe('[Mode EV3 - Advanced]', function() {
     });
   });
 
-  describe('Loading file', function() {
-    it('blank.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/lego/ev3/blank.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+  describe('Loading files', function() {
+    loadTemplateFile('lego/ev3/blank.cwc', builder, it);
+    loadExampleFile('lego/ev3/script/EV3-line-follower.cwc', builder, it);
   });
 });

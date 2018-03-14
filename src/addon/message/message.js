@@ -72,10 +72,10 @@ cwc.addon.Message.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
   let fileName = e.data.file;
   this.log_.info('Change Mode', mode, 'for file', fileName);
-  let content = this.helper.getInstance('file').getFile().getMetadata('content',
-    'message');
-  let help = this.helper.getInstance('file').getFile().getMetadata('help',
-    'message');
+  let file = this.helper.getInstance('file').getFile();
+  if (!file) return;
+  let content = file.getMetadata('content', 'message');
+  let help = file.getMetadata('help', 'message');
   if (content || help) {
     this.log_.info('Adding message pane ...');
     let messageInstance = this.helper.getInstance('message');
@@ -95,4 +95,3 @@ cwc.addon.Message.prototype.eventsModder = function(e) {
     }
   }
 };
-

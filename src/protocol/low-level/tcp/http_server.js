@@ -76,7 +76,6 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
 
 /**
  * Prepares the http server.
- * @return {Promise}
  */
 cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.sockets) {
@@ -87,10 +86,9 @@ cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
     return;
   }
 
-  return this.files_.open().then(() => {
-    this.log_.debug('Preparing HTTPServer support...');
-    this.prepared = true;
-  });
+  this.log_.debug('Preparing cache file support...');
+  this.files_.open();
+  this.prepared = true;
 };
 
 

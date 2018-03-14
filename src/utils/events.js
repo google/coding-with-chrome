@@ -91,7 +91,7 @@ cwc.utils.Events.prototype.clear = function() {
 
 /**
  * @param {!string} type
- * @param {Object|number=} data
+ * @param {Object|string|number=} data
  * @param {string|number=} source
  * @constructor
  * @final
@@ -100,7 +100,7 @@ cwc.utils.EventData = function(type, data, source) {
   /** @type {!string} */
   this.type = type;
 
-  /** @type {!Object|number} */
+  /** @type {!Object|string|number} */
   this.data = data || {};
 
   /** @type {!string|number} */

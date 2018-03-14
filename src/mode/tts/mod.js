@@ -19,8 +19,7 @@
  */
 goog.provide('cwc.mode.tts.Mod');
 
-goog.require('cwc.mode.tts.Editor');
-goog.require('cwc.mode.tts.Layout');
+goog.require('cwc.mode.default.Mod');
 
 
 /**
@@ -28,11 +27,8 @@ goog.require('cwc.mode.tts.Layout');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.tts.Mod = function(helper) {
-  /** @type {!cwc.mode.tts.Layout} */
-  this.layout = new cwc.mode.tts.Layout(helper);
-
-  /** @type {!cwc.mode.tts.Editor} */
-  this.editor = new cwc.mode.tts.Editor(helper);
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
 };
 
 
@@ -40,6 +36,5 @@ cwc.mode.tts.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.tts.Mod.prototype.decorate = function() {
-  this.layout.decorate();
-  this.editor.decorate();
+  this.mod.decorate();
 };

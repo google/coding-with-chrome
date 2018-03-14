@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.advanced.Mod');
+goog.provide('cwc.mode.sphero.classic.advanced.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Connection');
@@ -31,7 +31,7 @@ goog.require('cwc.renderer.external.Sphero');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.advanced.Mod = function(helper) {
+cwc.mode.sphero.classic.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
@@ -52,7 +52,7 @@ cwc.mode.sphero.advanced.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.sphero.advanced.Mod.prototype.decorate = function() {
+cwc.mode.sphero.classic.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
   this.mod.setMonitor(this.monitor);
   this.mod.setRenderer(this.renderer);

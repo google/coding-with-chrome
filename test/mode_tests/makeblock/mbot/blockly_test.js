@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode EV3 - Blockly
+ * @fileoverview Mode mBot - Blockly
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,7 +19,7 @@
  */
 
 
-describe('[Mode EV3 - Blockly]', function() {
+describe('[Mode mBot - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
@@ -39,28 +39,15 @@ describe('[Mode EV3 - Blockly]', function() {
     });
   });
 
-  describe('Loading file', function() {
-    it('blank-blocks.cwc', function(done) {
-      builder.loadFile(
-        '../resources/templates/lego/ev3/blank-blocks.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
-    it('blocks/EV3-Color-Sensor.cwc', function(done) {
-      builder.loadFile(
-        '../resources/examples/lego/ev3/blocks/EV3-Color-Sensor.cwc'
-      ).then(() => {
-        expect(true).toEqual(true);
-        done();
-      }, () => {
-        expect(false).toEqual(true);
-        done();
-      });
-    });
+  describe('Loading files', function() {
+    loadTemplateFile('makeblock/mbot/blank-blocks.cwc', builder, it);
+    loadExampleFile(
+      'makeblock/mbot/blocks/mBot-button_light.cwc', builder, it);
+    loadExampleFile(
+      'makeblock/mbot/blocks/mBot-collision_avoidance.cwc', builder, it);
+    loadExampleFile(
+      'makeblock/mbot/blocks/mBot-lightness_sound.cwc', builder, it);
+    loadExampleFile(
+      'makeblock/mbot/blocks/mBot-line_follower.cwc', builder, it);
   });
 });
