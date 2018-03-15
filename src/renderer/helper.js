@@ -175,7 +175,9 @@ cwc.renderer.Helper.prototype.getDataUrl = function(content,
   if (goog.isString(content) && goog.string.startsWith(content, 'data:')) {
     return content;
   }
-
+  if (type == 'application/javascript') {
+    type = 'text/javascript';
+  }
   let dataUrl = '';
   try {
     dataUrl = 'data:' + type + ';base64,' + btoa(content);

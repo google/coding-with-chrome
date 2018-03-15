@@ -156,8 +156,8 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
-  let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
-  bluetoothLEInstance.requestDevices(this.refresh_.bind(this));
+  this.helper.getInstance('bluetoothLE')
+    .requestDevices(this.refresh_.bind(this));
 };
 
 
@@ -165,8 +165,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.close();
+  this.helper.getInstance('dialog').close();
 };
 
 
@@ -206,8 +205,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
  */
 cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
     template, context) {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate(title, template, context);
+  this.helper.getInstance('dialog').showTemplate(title, template, context);
 };
 
 

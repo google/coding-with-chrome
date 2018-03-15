@@ -48,22 +48,18 @@ cwc.renderer.external.TTS.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
  */
 cwc.renderer.external.TTS.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
+    rendererHelper) {
   let header = '';
   let runnerFramework = frameworks.getFile(this.runnerFramework);
   if (runnerFramework) {
@@ -79,11 +75,11 @@ cwc.renderer.external.TTS.prototype.render = function(
 
   let body = '\n<script>' +
       '  let ttsCode = function(tts) {\n' +
-      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
+      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
       '  let ttsFramework = new cwc.framework.TTS(runner);\n' +
       '  ttsFramework.listen(ttsCode);\n' +
       '</script>\n';
 
-  return renderer_helper.getHTML(body, header);
+  return rendererHelper.getHTML(body, header);
 };

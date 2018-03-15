@@ -160,6 +160,17 @@
 
 
 /**
+ * Connect devices template.
+ */
+{template .loading_ private="true"}
+  {@param text: string}
+
+  {msg desc=""}{$text}{/msg}
+  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+{/template}
+
+
+/**
  * Blockly example
  */
 {template .blocklyExample_ private="true"}

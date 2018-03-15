@@ -49,31 +49,27 @@ cwc.renderer.external.makeblock.MBot.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
  */
 cwc.renderer.external.makeblock.MBot.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let header = renderer_helper.getFrameworkHeader(
+    rendererHelper) {
+  let header = rendererHelper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.Internal.MBOT), frameworks);
   let body = '\n<script>' +
       '  let code = function(mbot) {\n' +
-      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
+      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.makeblock.mBot(code);\n' +
       '</script>\n';
 
-  let html = renderer_helper.getHTML(body, header);
+  let html = rendererHelper.getHTML(body, header);
   return html;
 };

@@ -1,7 +1,7 @@
 /**
- * @fileoverview Renderer for the Coding with Chrome editor.
+ * @fileoverview Cache for the Coding with Chrome editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.Renderer');
+goog.provide('cwc.Cache');
 
-goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Database');
-goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
 
@@ -36,34 +34,48 @@ goog.require('cwc.utils.Resources');
  * @struct
  * @final
  */
-cwc.renderer.Renderer = function(helper) {
+cwc.Cache = function(helper) {
   /** @type {string} */
-  this.name = 'Renderer';
+  this.name = 'Cache';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {Function} */
-  this.renderer = null;
-
   /** @type {!cwc.renderer.Helper} */
   this.rendererHelper = new cwc.renderer.Helper();
 
-  /** @type {!cwc.file.Files} */
-  this.files = new cwc.file.Files();
-
-  /** @type {!boolean} */
-  this.serverMode_ = false;
+  /** @private {cwc.utils.Database} */
+  this.cache_ = new cwc.utils.Database(this.name);
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!string} */
+  this.version_ = '2';
 };
 
 
 /**
- * @export
+ * @return {Promise}
  */
-cwc.renderer.Renderer.prototype.prepare = function() {
+cwc.Cache.prototype.prepare = function() {
+  return this.cache_.open().then(() => {
+    this.cache_.getFile('__version__').then((version) => {
+      this.update(version);
+    });
+  });
+};
+
+
+/**
+ * @param {!string|number} version
+ */
+cwc.Cache.prototype.update = function(version) {
+  if (this.version_ >= version) {
+    this.log_.info('No need for updates ...');
+  }
+  this.log_.info('Updating Cache to version', this.version_);
+
   this.log_.info('Loading external frameworks ...');
   this.loadFiles(cwc.framework.External);
 
@@ -72,6 +84,8 @@ cwc.renderer.Renderer.prototype.prepare = function() {
 
   this.log_.info('Loading Style Sheets ...');
   this.loadFiles(cwc.framework.StyleSheet);
+
+  this.cache_.addFile('__version__', this.version_);
 };
 
 
@@ -79,7 +93,7 @@ cwc.renderer.Renderer.prototype.prepare = function() {
  * Loads files into cache.
  * @param {!Object} files
  */
-cwc.renderer.Renderer.prototype.loadFiles = function(files) {
+cwc.Cache.prototype.loadFiles = function(files) {
   let fileFiles = [];
   for (let file of Object.keys(files)) {
     if (goog.isString(files[file])) {
@@ -103,8 +117,7 @@ cwc.renderer.Renderer.prototype.loadFiles = function(files) {
  * @param {string!} content
  * @param {boolean=} optimize
  */
-cwc.renderer.Renderer.prototype.addFile = function(name, content,
-    optimize = false) {
+cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
   if (!content) {
     this.log_.error('Received empty content for', name);
     return;
@@ -140,106 +153,14 @@ cwc.renderer.Renderer.prototype.addFile = function(name, content,
     this.log_.error('Received empty file for', name);
     return;
   }
-
-  let file = this.files.addFile(name, fileContent);
-  if (!file) {
-    this.log_.error('Was not able to add File', file);
-  } else {
-    this.log_.info('Add framework', name, file.getSize());
-  }
+  this.cache_.addFile(name, fileContent);
 };
 
 
 /**
- * @return {!cwc.file.Files}
- * @export
+ * @param {string} name
+ * @return {Promise}
  */
-cwc.renderer.Renderer.prototype.getFrameworks = function() {
-  return this.files;
-};
-
-
-/**
- * @return {!cwc.renderer.Helper}
- * @export
- */
-cwc.renderer.Renderer.prototype.getRendererHelper = function() {
-  return this.rendererHelper;
-};
-
-
-/**
- * Sets the renderer for the content.
- * @param {Function} renderer
- * @export
- */
-cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
-  if (!goog.isFunction(renderer)) {
-    this.log_.error('Renderer is not an function !');
-  }
-  this.renderer = renderer;
-};
-
-
-/**
- * @param {!boolean} enable
- */
-cwc.renderer.Renderer.prototype.setServerMode = function(enable) {
-  this.serverMode_ = enable;
-};
-
-
-/**
- * Renders the JavaScript, CSS and HTML content together with all settings.
- * @return {!string}
- * @export
- */
-cwc.renderer.Renderer.prototype.getRenderedContent = function() {
-  let fileInstance = this.helper.getInstance('file');
-  let libraryFiles = fileInstance ?
-    fileInstance.getFiles() : new cwc.file.Files();
-  let editorContent = this.helper.getInstance('editor').getEditorContent();
-  if (!editorContent) {
-    this.log_.warn('Empty render content!');
-  }
-
-  let html = this.renderer(
-      editorContent,
-      libraryFiles,
-      this.files,
-      this.rendererHelper
-  );
-
-  if (this.serverMode_) {
-    let serverInstance = this.helper.getInstance('server');
-    if (serverInstance) {
-      serverInstance.setPreview(html);
-    }
-  }
-
-  return html || '';
-};
-
-
-/**
- * @return {string} Data URL with the rendered content.
- */
-cwc.renderer.Renderer.prototype.getContentUrl = function() {
-  let content = this.getRenderedContent();
-  if (this.serverMode_) {
-    let serverInstance = this.helper.getInstance('server');
-    if (serverInstance) {
-      return serverInstance.getPreviewURL();
-    }
-  }
-  return this.rendererHelper.getDataUrl(content);
-};
-
-
-/**
- * @return {string} Rendered content as object.
- * @export
- */
-cwc.renderer.Renderer.prototype.getObjectTag = function() {
-  return this.rendererHelper.getObjectTag(this.getContentUrl());
+cwc.Cache.prototype.getFile = function(name) {
+  return this.cache_.getFile(name);
 };

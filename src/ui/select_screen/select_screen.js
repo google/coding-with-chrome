@@ -264,6 +264,18 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
 
 
 /**
+ * @param {!string} title
+ * @param {!Object} template
+ * @param {string=} text
+ */
+cwc.ui.SelectScreen.prototype.showDialog_ = function(title, template, text) {
+  this.helper.getInstance('dialog').showTemplate(title, template, {
+    'text': text || 'Please wait ...',
+  });
+};
+
+
+/**
  * @private
  * @param {Object} e
  */
@@ -276,17 +288,16 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
   if (filename && fileAction) {
     switch (fileAction) {
       case 'loadFile': {
-        let loaderInstance = this.helper.getInstance('fileLoader');
-        if (loaderInstance) {
-          loaderInstance.loadLocalFile(this.resourcesPath_ + filename);
-        }
+        this.showDialog_('Loading example file ' + filename,
+          cwc.soy.SelectScreen.loading_);
+        this.helper.getInstance('fileLoader')
+          .loadLocalFile(this.resourcesPath_ + filename);
         break;
       }
       case 'loadMode': {
-        let modeInstance = this.helper.getInstance('mode');
-        if (modeInstance) {
-          modeInstance.loadMode(filename);
-        }
+        this.showDialog_('Loading mode ' + filename,
+          cwc.soy.SelectScreen.loading_);
+        this.helper.getInstance('mode').loadMode(filename);
         break;
       }
       case 'switchTab': {

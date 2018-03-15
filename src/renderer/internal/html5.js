@@ -51,32 +51,28 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
  */
 cwc.renderer.internal.HTML5.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let css = editor_content[cwc.ui.EditorContent.CSS] || '';
-  let html = editor_content[cwc.ui.EditorContent.HTML] ||
-    editor_content[cwc.ui.EditorContent.DEFAULT] || '';
-  let javascript = editor_content[cwc.ui.EditorContent.JAVASCRIPT] || '';
+    rendererHelper) {
+  let css = editorContent[cwc.ui.EditorContent.CSS] || '';
+  let html = editorContent[cwc.ui.EditorContent.HTML] ||
+    editorContent[cwc.ui.EditorContent.DEFAULT] || '';
+  let javascript = editorContent[cwc.ui.EditorContent.JAVASCRIPT] || '';
   let headers = [];
 
   if (html) {
     // Library files.
     if (html.includes('{{ file:')) {
-      html = renderer_helper.injectFiles(html, libraryFiles);
+      html = rendererHelper.injectFiles(html, libraryFiles);
     }
 
     // Coffeescript framework.
@@ -89,7 +85,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   if (javascript) {
     // Library files.
     if (javascript.includes('{{ file:')) {
-      javascript = renderer_helper.injectFiles(javascript, libraryFiles);
+      javascript = rendererHelper.injectFiles(javascript, libraryFiles);
     }
   }
 
@@ -122,9 +118,9 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     }
   }
 
-  let header = renderer_helper.getFrameworkHeaders(headers, frameworks);
+  let header = rendererHelper.getFrameworkHeaders(headers, frameworks);
   if (((css || javascript) && html) || (javascript && !html && !css)) {
-    return renderer_helper.getHTML(html, header, css, javascript);
+    return rendererHelper.getHTML(html, header, css, javascript);
   }
-  return renderer_helper.getRawHTML(html, header);
+  return rendererHelper.getRawHTML(html, header);
 };

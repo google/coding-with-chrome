@@ -53,15 +53,6 @@ cwc.ui.Turtle = function(helper, image = '') {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {string} */
-  this.turtleFramework = 'turtle_framework.js';
-
-  /** @type {string} */
-  this.jqueryFramework = 'jquery-2.2.4.min.js';
-
-  /** @type {string} */
-  this.jqueryTurtleFramework = 'jquery-turtle.js';
-
   /** @type {boolean} */
   this.ready = false;
 
@@ -134,16 +125,18 @@ cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
   let renderer = this.helper.getInstance('renderer', true);
   let frameworks = renderer.getFrameworks();
   let helper = renderer.getRendererHelper();
-
-  let css = '';
-  let header = helper.getFrameworkHeaders([this.jqueryFramework,
-    this.jqueryTurtleFramework, this.turtleFramework], frameworks);
+  let header = helper.getFrameworkHeaders([
+    cwc.framework.External.JQUERY.V2_2_4,
+    cwc.framework.External.JQUERY_TURTLE,
+    cwc.framework.Internal.TURTLE,
+  ], frameworks);
   let body = '';
   if (this.image) {
     body += '<img id="turtle" src="' + this.image + '" ' +
       'style="display: none;">\n';
   }
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
+  let css = '';
   let html = helper.getHTMLGrid(body, header, css);
   return helper.getDataUrl(html);
 };

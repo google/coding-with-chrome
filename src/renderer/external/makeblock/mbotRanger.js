@@ -49,29 +49,25 @@ cwc.renderer.external.makeblock.MBotRanger.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
  */
 cwc.renderer.external.makeblock.MBotRanger.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let header = renderer_helper.getFrameworkHeader(
+    rendererHelper) {
+  let header = rendererHelper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.Internal.MBOT_RANGER), frameworks);
-  let content = editor_content[cwc.ui.EditorContent.JAVASCRIPT];
+  let content = editorContent[cwc.ui.EditorContent.JAVASCRIPT];
   let body = '\n<script>' +
       '  let code = function(mBotRanger) {\n' + content + '\n};\n'+
       '  new cwc.framework.makeblock.mBotRanger(code);\n' +
       '</script>\n';
-  let html = renderer_helper.getHTML(body, header);
+  let html = rendererHelper.getHTML(body, header);
   return html;
 };

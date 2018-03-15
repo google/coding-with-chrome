@@ -49,22 +49,18 @@ cwc.renderer.internal.Javascript.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
  */
 cwc.renderer.internal.Javascript.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  return renderer_helper.getHTML(undefined, undefined, undefined,
-    editor_content[cwc.ui.EditorContent.DEFAULT]);
+    rendererHelper) {
+  return rendererHelper.getHTML(undefined, undefined, undefined,
+    editorContent[cwc.ui.EditorContent.DEFAULT]);
 };

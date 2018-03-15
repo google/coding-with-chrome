@@ -341,17 +341,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
       this.getFile(requestPath).then((content) => {
         if (content !== undefined) {
           // File found handling
-          let contentType = 'text/plain';
-          if (requestPath.endsWith('.js')) {
-            contentType = 'text/javascript';
-          } else if (requestPath.endsWith('.css')) {
-            contentType = 'text/css';
-          } else if (requestPath.endsWith('.py')) {
-            contentType = 'text/x-python';
-          } else if (requestPath.endsWith('.html') ||
-              requestPath.endsWith('.htm')) {
-            contentType = 'text/html';
-          }
+          let contentType = cwc.file.getMimeTypeByExtension(requestPath);
           this.send200Response(socketId, content, contentType);
         } else {
           // File not found handling

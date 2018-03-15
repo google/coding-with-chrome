@@ -1,0 +1,27 @@
+{
+  "format": "Coding with Chrome File Format 3",
+  "content": {
+    "__javascript__": {
+      "content": "var scene, camera, renderer;\nvar geometry, material, mesh;\n\ninit();\nanimate();\n\nfunction init() {\n  scene = new THREE.Scene();\n\n  camera = new THREE.PerspectiveCamera(\n    75, window.innerWidth / window.innerHeight, 1, 10000);\n  camera.position.z = 1000;\n\n  geometry = new THREE.BoxGeometry(250, 250, 250);\n  material = new THREE.MeshBasicMaterial({\n    color: 0xff0000, wireframe: true });\n\n  mesh = new THREE.Mesh(geometry, material);\n  scene.add(mesh);\n\n  renderer = new THREE.WebGLRenderer();\n  renderer.setSize(window.innerWidth, window.innerHeight);\n\n  document.body.appendChild(renderer.domElement);\n}\n\nfunction animate() {\n  requestAnimationFrame(animate);\n\n  mesh.rotation.x += 0.01;\n  mesh.rotation.y += 0.02;\n\n  renderer.render(scene, camera);\n}",
+      "name": "__javascript__",
+      "size": 756,
+      "type": "application/javascript",
+      "version": 1
+    }
+  },
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Unknown",
+      "title": "three.js - Cube",
+      "version": "1.0"
+    }
+  },
+  "mode": "basic",
+  "ui": "default"
+}

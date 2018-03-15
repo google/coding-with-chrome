@@ -50,31 +50,27 @@ cwc.renderer.external.Arduino.prototype.init = function() {
 
 /**
  * Arduino render logic.
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
  */
 cwc.renderer.external.Arduino.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let header = renderer_helper.getFrameworkHeader(
+    rendererHelper) {
+  let header = rendererHelper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.Internal.ARDUINO), frameworks);
   let body = '\n<script>' +
       '  let customCode = function(arduino) {\n' +
-      editor_content[cwc.ui.EditorContent.DEFAULT] +
+      editorContent[cwc.ui.EditorContent.DEFAULT] +
       '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
       '  let customFramework = new cwc.framework.Arduino(runner);\n' +
       '  customFramework.listen(customCode);\n' +
       '</script>\n';
 
-  return renderer_helper.getHTML(body, header);
+  return rendererHelper.getHTML(body, header);
 };

@@ -115,6 +115,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     guiInstance.showOverlay(false);
   }
 
+  // Close existing dialogs.
+  let dialogInstance = this.helper.getInstance('dialog');
+  if (dialogInstance) {
+    dialogInstance.close();
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);

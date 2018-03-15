@@ -49,30 +49,26 @@ cwc.renderer.external.EV3.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
  */
 cwc.renderer.external.EV3.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let header = renderer_helper.getFrameworkHeader(
+    rendererHelper) {
+  let header = rendererHelper.getFrameworkHeader(
     /** @type {string} */ (cwc.framework.Internal.EV3), frameworks);
   let body = '\n<script>' +
       '  let code = function(ev3) {\n' +
-      editor_content[cwc.ui.EditorContent.JAVASCRIPT] +
+      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' +
       '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';
 
-  return renderer_helper.getHTML(body, header);
+  return rendererHelper.getHTML(body, header);
 };

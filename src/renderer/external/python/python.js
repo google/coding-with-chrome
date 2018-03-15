@@ -52,54 +52,50 @@ cwc.renderer.external.Python.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
  */
 cwc.renderer.external.Python.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let content = editor_content[cwc.ui.EditorContent.DEFAULT];
+    rendererHelper) {
+  let content = editorContent[cwc.ui.EditorContent.DEFAULT];
 
   // Python 2.x handling.
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
-    let header = renderer_helper.getJavaScriptURLs([
+    let header = rendererHelper.getJavaScriptURLs([
       cwc.framework.External.JQUERY.V2_2_4,
       cwc.framework.External.SKULPT.CORE,
       cwc.framework.External.SKULPT.STDLIB,
       cwc.framework.Internal.PYTHON2,
     ]);
-    header += renderer_helper.getStyleSheetURL(
+    header += rendererHelper.getStyleSheetURL(
       /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
     let body = '<div id="content"></div>' +
     '<script id="code" type="text/python">\n' +
       content +
     '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
 
-    return renderer_helper.getHTML(body, header);
+    return rendererHelper.getHTML(body, header);
   }
 
   // Python 3.x as default
-  let header = renderer_helper.getJavaScriptURLs([
+  let header = rendererHelper.getJavaScriptURLs([
     cwc.framework.External.BRYTHON.CORE,
     cwc.framework.External.BRYTHON.STDLIB,
     cwc.framework.Internal.PYTHON3,
   ]);
-  header += renderer_helper.getStyleSheetURL(
+  header += rendererHelper.getStyleSheetURL(
     /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
   let body = '<div id="container"></div>' +
   '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
   '<script>new cwc.framework.Python3().run();</script>';
 
-  return renderer_helper.getHTML(body, header);
+  return rendererHelper.getHTML(body, header);
 };

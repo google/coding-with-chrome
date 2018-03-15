@@ -62,8 +62,8 @@
   {@param link_text: string}
   {@param text: string}
   {@param title: string}
+  {@param? hidden: bool}
   {@param? opt_color_class: string}
-  {@param? opt_hidden: bool}
   {@param? opt_icon: string}
   {@param? opt_image: string}
 
@@ -115,6 +115,7 @@
   {@param text: string}
   {@param title: string}
   {@param? id: string}
+  {@param? hidden: bool}
   {@param? opt_link_text: string}
   {@param? opt_color_class: string}
   {@param? opt_icon: string}
@@ -369,9 +370,9 @@
   {@param? classes: string}
   {@param? mode: string}
   {@param? tab: string}
-  {@param? opt_hidden: bool}
+  {@param? hidden: bool}
 
-  <div class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
+  <div class="{if $classes}{$classes}{/if}{if $hidden} hidden{/if}"
     {if $file}
       data-select-screen-action="loadFile"
       data-select-screen-value="{$file}"
@@ -395,9 +396,9 @@
   {@param? classes: string}
   {@param? mode: string}
   {@param? tab: string}
-  {@param? opt_hidden: bool}
+  {@param? hidden: bool}
 
-  <a href="#" class="{if $classes}{$classes}{/if}{if $opt_hidden} hidden{/if}"
+  <a href="#" class="{if $classes}{$classes}{/if}{if $hidden} hidden{/if}"
     {if $file}
       data-select-screen-action="loadFile"
       data-select-screen-value="{$file}"

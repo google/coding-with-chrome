@@ -22,6 +22,7 @@
 goog.provide('cwc.ui.Builder');
 goog.provide('cwc.ui.BuilderHelpers');
 
+goog.require('cwc.Cache');
 goog.require('cwc.UserConfig');
 goog.require('cwc.addon.Message');
 goog.require('cwc.addon.Tutorial');
@@ -85,6 +86,7 @@ cwc.ui.Addons = {
  * @enum {!Function}
  */
 cwc.ui.BuilderHelpers = {
+  'cache': cwc.Cache,
   'connectScreen': cwc.ui.connectScreen.Screens,
   'documentation': cwc.ui.Documentation,
   'file': cwc.fileHandler.File,
@@ -292,8 +294,8 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.prepareOauth2Helper();
   }
 
-  this.setProgress('Loading frameworks ...', 55);
-  this.loadFrameworks();
+  this.setProgress('Loading cache ...', 55);
+  this.loadCache();
 
   this.setProgress('Render editor GUI ...', 60);
   this.renderGui();
@@ -556,9 +558,9 @@ cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
 /**
  * Loads additional frameworks for the renderer.
  */
-cwc.ui.Builder.prototype.loadFrameworks = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
-  rendererInstance.prepare();
+cwc.ui.Builder.prototype.loadCache = function() {
+  this.helper.getInstance('cache').prepare();
+  this.helper.getInstance('renderer').prepare();
 };
 
 

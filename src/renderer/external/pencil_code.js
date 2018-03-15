@@ -49,29 +49,25 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
 
 
 /**
- * @param {Object} editor_content
- * @param {Object} editor_flags
+ * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
- * @param {!cwc.file.Files} styleSheets
- * @param {cwc.renderer.Helper} renderer_helper
+ * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
  */
 cwc.renderer.external.PencilCode.prototype.render = function(
-    editor_content,
-    editor_flags,
+    editorContent,
     libraryFiles,
     frameworks,
-    styleSheets,
-    renderer_helper) {
-  let header = renderer_helper.getFrameworkHeaders([
+    rendererHelper) {
+  let header = rendererHelper.getFrameworkHeaders([
     cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
   ], frameworks);
   let body = '\n<script type="text/coffeescript">\n' +
-    '$.turtle();\n' + editor_content[cwc.ui.EditorContent.COFFEESCRIPT] +
+    '$.turtle();\n' + editorContent[cwc.ui.EditorContent.COFFEESCRIPT] +
     '\n</script>\n';
-  return renderer_helper.getHTMLGrid(body, header);
+  return rendererHelper.getHTMLGrid(body, header);
 };
