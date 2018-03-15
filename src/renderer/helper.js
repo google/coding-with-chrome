@@ -296,7 +296,6 @@ cwc.renderer.Helper.prototype.getStyleSheetDataUrl = function(data,
 cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
   let file = files.getFile(filename);
   if (!file) {
-    console.warn('Was unable to get file:', filename);
     return '';
   }
   return this.getJavaScriptDataURL(file.getContent(), undefined, filename);
@@ -325,7 +324,6 @@ cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
 cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
   let file = files.getFile(filename);
   if (!file) {
-    console.warn('Was unable to get file:', filename);
     return '';
   }
   return this.getStyleSheetDataUrl(file.getContent(), filename);

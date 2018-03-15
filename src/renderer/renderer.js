@@ -53,10 +53,10 @@ cwc.renderer.Renderer = function(helper) {
   this.frameworkFiles = new cwc.file.Files();
 
   /** @type {!cwc.file.Files} */
-  this.libraryFiles = new cwc.file.Files();
+  this.styleSheetFiles = new cwc.file.Files();
 
   /** @type {!cwc.file.Files} */
-  this.styleSheetFiles = new cwc.file.Files();
+  this.files = new cwc.file.Files();
 
   /** @type {!boolean} */
   this.serverMode_ = false;
@@ -77,8 +77,8 @@ cwc.renderer.Renderer = function(helper) {
  */
 cwc.renderer.Renderer.prototype.prepare = function() {
   return this.cache_.open().then(() => {
-    this.cache_.getFile('__version__').then((result) => {
-      this.updateCache(result);
+    this.cache_.getFile('__version__').then((version) => {
+      this.updateCache(version);
     });
   });
 };
@@ -94,10 +94,10 @@ cwc.renderer.Renderer.prototype.updateCache = function(version) {
   this.log_.info('Updating Cache to version', this.version_);
 
   this.log_.info('Loading external frameworks ...');
-  this.loadFrameworks(cwc.framework.External);
+  this.loadFiles(cwc.framework.External);
 
   this.log_.info('Loading internal frameworks ...');
-  this.loadFrameworks(cwc.framework.Internal);
+  this.loadFiles(cwc.framework.Internal);
 
   this.log_.info('Loading Style Sheets ...');
   this.loadStyleSheets(cwc.framework.StyleSheet);
@@ -119,9 +119,9 @@ cwc.renderer.Renderer.prototype.test = function() {
 
 /**
  * Loads frameworks into cache.
- * @param {!Object} frameworks Framework files.
+ * @param {!Object} frameworks
  */
-cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks) {
+cwc.renderer.Renderer.prototype.loadFiles = function(frameworks) {
   let frameworkFiles = [];
   for (let framework of Object.keys(frameworks)) {
     if (goog.isString(frameworks[framework])) {
@@ -134,7 +134,7 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks) {
   }
   frameworkFiles.forEach((frameworkFile) => {
     cwc.utils.Resources.getUriAsText('../' + frameworkFile).then((content) => {
-      this.addFramework(frameworkFile, content);
+      this.addFile(frameworkFile, content, 'text/javascript');
     });
   });
 };
@@ -143,20 +143,23 @@ cwc.renderer.Renderer.prototype.loadFrameworks = function(frameworks) {
 /**
  * @param {string!} name
  * @param {string!} content
+ * @param {string=} type
+ * @param {boolean=} optimize
  */
-cwc.renderer.Renderer.prototype.addFramework = function(name, content) {
+cwc.renderer.Renderer.prototype.addFile = function(name, content,
+    type = 'text/javascript', optimize = false) {
   if (!content) {
-    this.log_.error('Received empty content for framework', name);
+    this.log_.error('Received empty content for', name);
     return;
   }
 
-  // Add framework file to server instance if available.
+  // Add file to server instance if available.
   let serverInstance = this.helper.getInstance('server');
   if (serverInstance) {
     serverInstance.addFile(name, content);
   }
 
-  if (!name.includes('.min.') && content.length > 1000) {
+  if (optimize && !name.includes('.min.') && content.length > 1000) {
     // Try to optimize unminimized code by removing comments and white-spaces.
     let originalContentLength = content.length;
     content = content.replace(/\\n\\n/g, '\\n')
@@ -164,8 +167,7 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content) {
       .replace(/[ \t]?\/\/.+?\\n/g, '')
       .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
       .replace(/[ \t]+\\n/g, '\\n')
-      .replace(/(\\n){2,}/g, '\\n')
-      .replace(/;\\n/g, ';');
+      .replace(/(\\n){2,}/g, '\\n');
     if (originalContentLength > content.length) {
       let optimized = Math.ceil(((originalContentLength - content.length) /
           originalContentLength) * 100);
@@ -175,14 +177,15 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content) {
       }
     }
   }
-  let fileContent = this.rendererHelper.getDataUrl(content, 'text/javascript');
+
+  let fileContent = this.rendererHelper.getDataUrl(content, type);
   if (!fileContent) {
-    this.log_.error('Received empty file for framework', name);
+    this.log_.error('Received empty file for', name);
     return;
   }
-
   this.cache_.addFile(name, fileContent);
-  let file = this.frameworkFiles.addFile(name, fileContent);
+
+  let file = this.files.addFile(name, fileContent);
   if (!file) {
     this.log_.error('Was not able to add File', file);
   } else {
@@ -196,7 +199,7 @@ cwc.renderer.Renderer.prototype.addFramework = function(name, content) {
  * @export
  */
 cwc.renderer.Renderer.prototype.getFrameworks = function() {
-  return this.frameworkFiles;
+  return this.files;
 };
 
 
@@ -217,46 +220,9 @@ cwc.renderer.Renderer.prototype.loadStyleSheets = function(frameworks) {
   }
   frameworkFiles.forEach((frameworkFile) => {
     cwc.utils.Resources.getUriAsText('../' + frameworkFile).then((content) => {
-      this.addStyleSheet(frameworkFile, content);
+      this.addFile(frameworkFile, content, 'text/css');
     });
   });
-};
-
-
-/**
- * @param {string!} name
- * @param {string!} content
- * @param {string=} type
- */
-cwc.renderer.Renderer.prototype.addStyleSheet = function(name, content, type) {
-  let fileContent = this.rendererHelper.getDataUrl(content, 'text/css');
-  if (!fileContent) {
-    this.log_.error('Received empty content for Style Sheet', name);
-    return;
-  }
-
-  // Add framework file to server instance if available.
-  let serverInstance = this.helper.getInstance('server');
-  if (serverInstance) {
-    serverInstance.addFile(name, content);
-  }
-
-  this.cache_.addFile(name, fileContent);
-  let file = this.styleSheetFiles.addFile(name, fileContent, type);
-  if (!file) {
-    this.log_.error('Was not able to add File', file);
-  } else {
-    this.log_.info('Add framework', name, file.getSize());
-  }
-};
-
-
-/**
- * @return {!cwc.file.Files}
- * @export
- */
-cwc.renderer.Renderer.prototype.getStyleSheets = function() {
-  return this.styleSheetFiles;
 };
 
 
@@ -292,15 +258,14 @@ cwc.renderer.Renderer.prototype.setServerMode = function(enable) {
 
 /**
  * Renders the JavaScript, CSS and HTML content together with all settings.
- * @return {string}
+ * @return {!string}
  * @export
  */
 cwc.renderer.Renderer.prototype.getRenderedContent = function() {
-  let editorInstance = this.helper.getInstance('editor', true);
   let fileInstance = this.helper.getInstance('file');
-  if (fileInstance) {
-    this.libraryFiles = fileInstance.getFiles();
-  }
+  let libraryFiles = fileInstance ?
+    fileInstance.getFiles() : new cwc.file.Files();
+  let editorInstance = this.helper.getInstance('editor');
   let content = editorInstance.getEditorContent();
   if (!content) {
     this.log_.warn('Empty render content!');
@@ -309,9 +274,9 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
   let html = this.renderer(
       content,
       editorInstance.getEditorFlags(),
-      this.libraryFiles,
-      this.frameworkFiles,
-      this.styleSheetFiles,
+      libraryFiles,
+      this.files,
+      this.files,
       this.rendererHelper
   );
 
@@ -322,7 +287,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
     }
   }
 
-  return html;
+  return html || '';
 };
 
 
