@@ -108,25 +108,22 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     console.log('Preparing Sphero bluetooth LE api for', device.getId());
-    this.eventHandler.dispatchEvent(
-      cwc.protocol.sphero.v1.Events.connecting(
-        'Connecting  device ...', 1));
+    this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+        'Connecting device ...', 1));
     this.device = device;
 
     // Enable Developer mode.
     this.device.sendRaw(
       new TextEncoder('utf-8').encode('011i3'),
       '22bb746f-2bbd-7554-2d6f-726568705327', () => {
-        this.eventHandler.dispatchEvent(
-          cwc.protocol.sphero.v1.Events.connecting(
+        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Enable developer mode ...', 2));
     });
 
     // Power on device.
     this.device.sendRaw(
       new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
-        this.eventHandler.dispatchEvent(
-          cwc.protocol.sphero.v1.Events.connecting(
+        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Power on device. Waiting until device wakes up ...', 2));
       });
 
@@ -135,9 +132,8 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
       new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
         this.prepare();
         this.runTest();
-        this.eventHandler.dispatchEvent(
-          cwc.protocol.sphero.v1.Events.connecting(
-            'Connected ...', 3));
+        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+            'Ready ...', 3));
       });
   }
   return true;
@@ -367,7 +363,7 @@ cwc.protocol.sphero.v1.Api.prototype.runTest = function() {
   this.setBackLed(25);
   this.setBackLed(0);
 
-  this.setRGB(255, 0, 0);
+  this.setRGB(64, 64, 64);
   this.roll(0, 180);
 };
 
@@ -459,11 +455,23 @@ cwc.protocol.sphero.v1.Api.prototype.parseCollisionData_ = function(data) {
  * @private
  */
 cwc.protocol.sphero.v1.Api.prototype.handleData_ = function(buffer) {
-  if (!this.verifiyChecksum_(buffer)) {
+  let data = new Uint8Array(buffer);
+  console.log('handleData', buffer, data);
+  if (data[0] !== 0xFF) {
+    console.error('Data fragment ...');
+    return;
+  }
+  if (!this.verifiyChecksum_(data)) {
     console.error('Checksum error ...');
     return;
   }
-  console.log('handleData', buffer);
+  if (data[1] === cwc.protocol.sphero.v1.ResponseType.ACKNOWLEDGEMENT) {
+    this.handleAcknowledged_(data);
+  } else if (data[1] === cwc.protocol.sphero.v1.ResponseType.ASYNCHRONOUS) {
+    this.handleAsync_(data);
+  } else {
+    console.error('Data error ...');
+  }
 };
 
 
@@ -473,9 +481,6 @@ cwc.protocol.sphero.v1.Api.prototype.handleData_ = function(buffer) {
  * @private
  */
 cwc.protocol.sphero.v1.Api.prototype.handleAcknowledged_ = function(buffer) {
-  if (!this.verifiyChecksum_(buffer)) {
-    return;
-  }
   let type = buffer[3];
   let len = buffer[4];
   let data = buffer.slice(5, buffer.length -1);
@@ -499,9 +504,6 @@ cwc.protocol.sphero.v1.Api.prototype.handleAcknowledged_ = function(buffer) {
  * @private
  */
 cwc.protocol.sphero.v1.Api.prototype.handleAsync_ = function(buffer) {
-  if (!this.verifiyChecksum_(buffer)) {
-    return;
-  }
   let message = buffer[2];
   let len = buffer[4];
   let data = buffer.slice(5, buffer.length -1);

@@ -1,0 +1,34 @@
+{
+  "format": "Coding with Chrome File Format 3",
+  "content": {
+    "blockly": {
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <variables></variables>\n  <block type=\"sphero_collision\" x=\"133\" y=\"126\">\n    <statement name=\"CODE\">\n      <block type=\"sphero_rgb\">\n        <value name=\"colour\">\n          <block type=\"colour_picker\">\n            <field name=\"COLOUR\">#ff0000</field>\n          </block>\n        </value>\n        <next>\n          <block type=\"sphero_rgb\">\n            <value name=\"colour\">\n              <block type=\"colour_picker\">\n                <field name=\"COLOUR\">#33ff33</field>\n              </block>\n            </value>\n          </block>\n        </next>\n      </block>\n    </statement>\n  </block>\n</xml>",
+      "name": "blockly",
+      "size": 642,
+      "type": "application/blockly+xml",
+      "version": 1
+    },
+    "__javascript__": {
+      "content": "",
+      "name": "__javascript__",
+      "size": 151,
+      "type": "application/javascript",
+      "version": 1
+    }
+  },
+  "files": {},
+  "flags": {
+    "__editor__": {}
+  },
+  "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Markus Bordihn",
+      "title": "Collision example",
+      "version": "1.1"
+    }
+  },
+  "mode": "sphero_sprk_plus_blockly",
+  "ui": "blockly"
+}

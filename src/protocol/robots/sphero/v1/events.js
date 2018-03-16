@@ -85,7 +85,7 @@ cwc.protocol.sphero.v1.Events.collision = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.sphero.v1.Events.connecting = function(data, step) {
+cwc.protocol.sphero.v1.Events.connect = function(data, step) {
   return new cwc.utils.EventData(
       cwc.protocol.sphero.v1.Events.Type.CONNECTING, data, step);
 };

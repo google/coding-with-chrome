@@ -85,6 +85,15 @@ cwc.protocol.sphero.v1.CommandType = {
 
 
 /**
+ * @enum {!Object.<number>|number}
+ */
+cwc.protocol.sphero.v1.ResponseType = {
+  ACKNOWLEDGEMENT: 0xFF,
+  ASYNCHRONOUS: 0xFE,
+};
+
+
+/**
  * @enum {number}
  */
 cwc.protocol.sphero.v1.MessageType = {
