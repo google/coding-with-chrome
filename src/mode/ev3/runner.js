@@ -19,8 +19,8 @@
  */
 goog.provide('cwc.mode.ev3.Runner');
 
-goog.require('cwc.protocol.ev3.Events');
-goog.require('cwc.protocol.ev3.Robots');
+goog.require('cwc.protocol.lego.ev3.Events');
+goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.runner.profile.ev3.Command');
 goog.require('cwc.runner.profile.ev3.Monitor');
 goog.require('cwc.soy.mode.ev3.Runner');
@@ -52,7 +52,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.mode.ev3.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.ev3.Api} */
+  /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = this.connection.getApi();
 
   /** @type {!string} */
@@ -87,17 +87,17 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!boolean} */
   this.showPreview = true;
 
-  /** @type {!cwc.protocol.ev3.RobotType} */
-  this.robotType = cwc.protocol.ev3.Robots['TRACK3R'].type;
+  /** @type {!cwc.protocol.lego.ev3.RobotType} */
+  this.robotType = cwc.protocol.lego.ev3.Robots['TRACK3R'].type;
 
   /** @type {!number} */
-  this.wheelDiameter = cwc.protocol.ev3.Robots['TRACK3R'].wheelDiameter;
+  this.wheelDiameter = cwc.protocol.lego.ev3.Robots['TRACK3R'].wheelDiameter;
 
   /** @type {!number} */
-  this.wheelWidth = cwc.protocol.ev3.Robots['TRACK3R'].wheelWidth;
+  this.wheelWidth = cwc.protocol.lego.ev3.Robots['TRACK3R'].wheelWidth;
 
   /** @type {!number} */
-  this.wheelbase = cwc.protocol.ev3.Robots['TRACK3R'].wheelbase;
+  this.wheelbase = cwc.protocol.lego.ev3.Robots['TRACK3R'].wheelbase;
 };
 
 
@@ -127,19 +127,19 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
     console.error('EV3 API event handler is not defined!');
   }
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR,
+      cwc.protocol.lego.ev3.Events.Type.COLOR_SENSOR,
       'updateColorSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.GYRO_SENSOR,
+      cwc.protocol.lego.ev3.Events.Type.GYRO_SENSOR,
       'updateGyroSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.IR_SENSOR,
+      cwc.protocol.lego.ev3.Events.Type.IR_SENSOR,
       'updateIrSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR,
+      cwc.protocol.lego.ev3.Events.Type.TOUCH_SENSOR,
       'updateTouchSensor');
   this.runner.addEvent(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR,
+      cwc.protocol.lego.ev3.Events.Type.ULTRASONIC_SENSOR,
       'updateUltrasonicSensor');
 
   // Info template
@@ -161,7 +161,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 
   // EV3 events
   this.events_.listen(apiEventHandler,
-      cwc.protocol.ev3.Events.Type.CHANGED_DEVICES,
+      cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
       this.updateDeviceInfo, false, this);
 };
 
@@ -187,7 +187,7 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
 
 
 /**
- * @param {cwc.protocol.ev3.RobotType=} optType
+ * @param {cwc.protocol.lego.ev3.RobotType=} optType
  */
 cwc.mode.ev3.Runner.prototype.setRobotType = function(optType) {
   if (optType !== undefined) {

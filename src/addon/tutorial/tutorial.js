@@ -159,13 +159,13 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
 
 /**
  * Loads file into editor.
- * @param {string} file_name Example file name to load.
+ * @param {string} filename Example file name to load.
  * @private
  */
-cwc.addon.Tutorial.prototype.loadFile_ = function(file_name) {
+cwc.addon.Tutorial.prototype.loadFile_ = function(filename) {
   let loaderInstance = this.helper.getInstance('fileLoader');
   if (loaderInstance) {
-    loaderInstance.loadLocalFile(this.resourcesPath_ + file_name);
+    loaderInstance.loadLocalFile(this.resourcesPath_ + filename);
   }
   let editorWindow = this.chromeApp_ && chrome.app.window.get('editor');
   if (editorWindow) {

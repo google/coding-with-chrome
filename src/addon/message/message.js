@@ -70,8 +70,8 @@ cwc.addon.Message.prototype.prepare = function() {
  */
 cwc.addon.Message.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
-  let fileName = e.data.file;
-  this.log_.info('Change Mode', mode, 'for file', fileName);
+  let filename = e.data.file;
+  this.log_.info('Change Mode', mode, 'for file', filename);
   let file = this.helper.getInstance('file').getFile();
   if (!file) return;
   let content = file.getMetadata('content', 'message');

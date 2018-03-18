@@ -21,12 +21,12 @@ goog.provide('cwc.runner.profile.ev3.Command');
 
 
 /**
- * @param {!cwc.protocol.ev3.Api} api
+ * @param {!cwc.protocol.lego.ev3.Api} api
  * @constructor
  * @final
  */
 cwc.runner.profile.ev3.Command = function(api) {
-  /** @type {!cwc.protocol.ev3.Api} */
+  /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = api;
 };
 

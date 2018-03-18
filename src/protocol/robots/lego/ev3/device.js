@@ -17,14 +17,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.Device');
-goog.provide('cwc.protocol.ev3.DeviceName');
+goog.provide('cwc.protocol.lego.ev3.Device');
+goog.provide('cwc.protocol.lego.ev3.DeviceName');
 
 
 /**
  * @enum {!Object.<string>|string}
  */
-cwc.protocol.ev3.DeviceName = {
+cwc.protocol.lego.ev3.DeviceName = {
   COLOR_SENSOR: 'Color Sensor',
   GYRO_SENSOR: 'Gyro Sensor',
   IR_SENSOR: 'IR Sensor',
@@ -40,13 +40,13 @@ cwc.protocol.ev3.DeviceName = {
 
 
 /**
- * @param {!cwc.protocol.ev3.DeviceName} name
+ * @param {!cwc.protocol.lego.ev3.DeviceName} name
  * @param {number=} opt_mode
  * @param {number=} optValue
  * @param {string=} opt_css
  * @constructor
  */
-cwc.protocol.ev3.Device = function(name, opt_mode, optValue, opt_css) {
+cwc.protocol.lego.ev3.Device = function(name, opt_mode, optValue, opt_css) {
   this.name = name;
   this.mode = opt_mode || 0;
   this.css = opt_css || 'default';
@@ -57,7 +57,7 @@ cwc.protocol.ev3.Device = function(name, opt_mode, optValue, opt_css) {
 /**
  * @param {number} value
  */
-cwc.protocol.ev3.Device.prototype.setValue = function(value) {
+cwc.protocol.lego.ev3.Device.prototype.setValue = function(value) {
   this.value = value;
 };
 
@@ -65,15 +65,15 @@ cwc.protocol.ev3.Device.prototype.setValue = function(value) {
 /**
  * @return {number}
  */
-cwc.protocol.ev3.Device.prototype.getValue = function() {
+cwc.protocol.lego.ev3.Device.prototype.getValue = function() {
   return this.value;
 };
 
 
 /**
- * @return {!cwc.protocol.ev3.DeviceName}
+ * @return {!cwc.protocol.lego.ev3.DeviceName}
  */
-cwc.protocol.ev3.Device.prototype.getName = function() {
+cwc.protocol.lego.ev3.Device.prototype.getName = function() {
   return this.name;
 };
 
@@ -81,7 +81,7 @@ cwc.protocol.ev3.Device.prototype.getName = function() {
 /**
  * @return {number}
  */
-cwc.protocol.ev3.Device.prototype.getMode = function() {
+cwc.protocol.lego.ev3.Device.prototype.getMode = function() {
   return this.mode;
 };
 
@@ -89,7 +89,7 @@ cwc.protocol.ev3.Device.prototype.getMode = function() {
 /**
  * @param {!number} mode
  */
-cwc.protocol.ev3.Device.prototype.setMode = function(mode) {
+cwc.protocol.lego.ev3.Device.prototype.setMode = function(mode) {
   this.mode = mode;
 };
 
@@ -97,6 +97,6 @@ cwc.protocol.ev3.Device.prototype.setMode = function(mode) {
 /**
  * @param {!string} css
  */
-cwc.protocol.ev3.Device.prototype.setCss = function(css) {
+cwc.protocol.lego.ev3.Device.prototype.setCss = function(css) {
   this.css = css;
 };

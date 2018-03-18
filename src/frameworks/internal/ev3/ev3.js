@@ -23,11 +23,11 @@
 goog.provide('cwc.framework.Ev3');
 
 goog.require('cwc.framework.Runner');
-goog.require('cwc.protocol.ev3.DeviceName');
-goog.require('cwc.protocol.ev3.LedColor');
-goog.require('cwc.protocol.ev3.LedMode');
-goog.require('cwc.protocol.ev3.RobotType');
-goog.require('cwc.protocol.ev3.Robots');
+goog.require('cwc.protocol.lego.ev3.DeviceName');
+goog.require('cwc.protocol.lego.ev3.LedColor');
+goog.require('cwc.protocol.lego.ev3.LedMode');
+goog.require('cwc.protocol.lego.ev3.RobotType');
+goog.require('cwc.protocol.lego.ev3.Robots');
 
 
 /**
@@ -85,8 +85,8 @@ cwc.framework.Ev3 = function(code) {
   /** @type {number} */
   this.ultrasonicSensorValue = 0;
 
-  /** @type {cwc.protocol.ev3.RobotType} */
-  this.robotType = cwc.protocol.ev3.RobotType.UNKNOWN;
+  /** @type {cwc.protocol.lego.ev3.RobotType} */
+  this.robotType = cwc.protocol.lego.ev3.RobotType.UNKNOWN;
 
   /** @type {number} */
   this.wheelDiameter = 0;
@@ -134,21 +134,21 @@ cwc.framework.Ev3.prototype.setRobotModel = function(model) {
   if (model == 'custom') {
     return;
   }
-  if (!(model in cwc.protocol.ev3.Robots)) {
+  if (!(model in cwc.protocol.lego.ev3.Robots)) {
     console.error('Unknown robot model: ' + model);
     return;
   }
   console.log('Set robot model to ' + model);
-  this.setRobotType(cwc.protocol.ev3.Robots[model].type);
-  this.setWheelDiameter(cwc.protocol.ev3.Robots[model].wheelDiameter);
-  this.setWheelWidth(cwc.protocol.ev3.Robots[model].wheelWidth);
-  this.setWheelbase(cwc.protocol.ev3.Robots[model].wheelbase);
+  this.setRobotType(cwc.protocol.lego.ev3.Robots[model].type);
+  this.setWheelDiameter(cwc.protocol.lego.ev3.Robots[model].wheelDiameter);
+  this.setWheelWidth(cwc.protocol.lego.ev3.Robots[model].wheelWidth);
+  this.setWheelbase(cwc.protocol.lego.ev3.Robots[model].wheelbase);
 };
 
 
 /**
  * Sets the EV3 robot type.
- * @param {!cwc.protocol.ev3.RobotType<string>} type
+ * @param {!cwc.protocol.lego.ev3.RobotType<string>} type
  * @export
  */
 cwc.framework.Ev3.prototype.setRobotType = function(type) {
@@ -329,12 +329,12 @@ cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
 
 /**
  * Displays the selected file name on the EV3 display.
- * @param {!string} file_name
+ * @param {!string} filename
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.drawImage = function(file_name, opt_delay) {
-  this.runner.send('drawImage', {'file': file_name}, opt_delay);
+cwc.framework.Ev3.prototype.drawImage = function(filename, opt_delay) {
+  this.runner.send('drawImage', {'file': filename}, opt_delay);
 };
 
 
@@ -357,15 +357,15 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
 
 /**
  * Plays a sound file.
- * @param {!string} file_name
+ * @param {!string} filename
  * @param {number=} opt_volume
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.playSound = function(file_name, opt_volume,
+cwc.framework.Ev3.prototype.playSound = function(filename, opt_volume,
     opt_delay) {
   this.runner.send('playSound', {
-    'file': file_name,
+    'file': filename,
     'volume': opt_volume}, opt_delay);
 };
 
@@ -409,7 +409,7 @@ cwc.framework.Ev3.prototype.movePen = function(steps,
  * @export
  */
 cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
-  if (this.robotType == cwc.protocol.ev3.RobotType.ARM) {
+  if (this.robotType == cwc.protocol.lego.ev3.RobotType.ARM) {
     this.customMoveSteps(steps, undefined, opt_speed, opt_delay);
   } else {
     let delay = /** @type {number|undefined} */ (
@@ -487,7 +487,7 @@ cwc.framework.Ev3.prototype.rotateSteps = function(steps,
  */
 cwc.framework.Ev3.prototype.rotateAngle = function(angle,
     opt_speed, opt_delay) {
-  if (this.robotType == cwc.protocol.ev3.RobotType.ARM) {
+  if (this.robotType == cwc.protocol.lego.ev3.RobotType.ARM) {
     this.customRotateAngle(angle, undefined, opt_speed, opt_delay);
   } else {
     let rotateDistance = this.rotateCircumference / 360;
@@ -604,8 +604,8 @@ cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode,
 
 
 /**
- * @param {cwc.protocol.ev3.LedColor} color
- * @param {cwc.protocol.ev3.LedMode=} opt_mode
+ * @param {cwc.protocol.lego.ev3.LedColor} color
+ * @param {cwc.protocol.lego.ev3.LedMode=} opt_mode
  * @param {number=} opt_delay in msec
  * @export
  */
@@ -688,7 +688,7 @@ cwc.framework.Ev3.prototype.handleUpdateUltrasonicSensor_ = function(data) {
 
 /**
  * Sets the robot type.
- * @param {!cwc.protocol.ev3.RobotType<string>} data
+ * @param {!cwc.protocol.lego.ev3.RobotType<string>} data
  * @private
  */
 cwc.framework.Ev3.prototype.handleUpdateRobotType_ = function(data) {

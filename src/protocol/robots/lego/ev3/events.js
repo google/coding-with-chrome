@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.Events');
+goog.provide('cwc.protocol.lego.ev3.Events');
 
 goog.require('cwc.utils.EventData');
 
@@ -26,19 +26,32 @@ goog.require('cwc.utils.EventData');
  * Custom events.
  * @enum {string}
  */
-cwc.protocol.ev3.Events.Type = {
+cwc.protocol.lego.ev3.Events.Type = {
   CHANGED_DEVICES: 'changed_devices',
   CHANGED_VALUES: 'changed_values',
   COLOR_SENSOR: 'color_sensor_value_changed',
+  CONNECT: 'connect',
   GYRO_SENSOR: 'gyro_sensor_value_changed',
   IR_SENSOR: 'ir_sensor_value_changed',
-  LARGE_MOTOR_OPT: 'large_motor_optValue_changed',
   LARGE_MOTOR: 'large_motor_value_changed',
-  MEDIUM_MOTOR_OPT: 'medium_motor_optValue_changed',
+  LARGE_MOTOR_OPT: 'large_motor_optValue_changed',
   MEDIUM_MOTOR: 'medium_motor_value_changed',
-  TOUCH_SENSOR_OPT: 'touch_sensor_optValue_changed',
+  MEDIUM_MOTOR_OPT: 'medium_motor_optValue_changed',
   TOUCH_SENSOR: 'touch_sensor_value_changed',
+  TOUCH_SENSOR_OPT: 'touch_sensor_optValue_changed',
   ULTRASONIC_SENSOR: 'ultra_sonic_sensor_value_changed',
+};
+
+
+/**
+ * @param {string} data
+ * @param {number} step
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.lego.ev3.Events.connect = function(data, step) {
+  return new cwc.utils.EventData(
+      cwc.protocol.lego.ev3.Events.Type.CONNECT, data, step);
 };
 
 
@@ -47,9 +60,9 @@ cwc.protocol.ev3.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.changedDevices = function(data) {
+cwc.protocol.lego.ev3.Events.changedDevices = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.CHANGED_DEVICES, data);
+      cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES, data);
 };
 
 
@@ -59,9 +72,9 @@ cwc.protocol.ev3.Events.changedDevices = function(data) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.colorSensorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.colorSensorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.COLOR_SENSOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.COLOR_SENSOR, data, port);
 };
 
 
@@ -71,9 +84,9 @@ cwc.protocol.ev3.Events.colorSensorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.gyroSensorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.gyroSensorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.GYRO_SENSOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.GYRO_SENSOR, data, port);
 };
 
 
@@ -83,9 +96,9 @@ cwc.protocol.ev3.Events.gyroSensorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.irSensorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.irSensorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.IR_SENSOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.IR_SENSOR, data, port);
 };
 
 
@@ -95,9 +108,9 @@ cwc.protocol.ev3.Events.irSensorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.largeMotorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.largeMotorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.LARGE_MOTOR, data, port);
 };
 
 
@@ -107,9 +120,9 @@ cwc.protocol.ev3.Events.largeMotorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.largeMotorOptValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.largeMotorOptValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.LARGE_MOTOR_OPT, data, port);
+      cwc.protocol.lego.ev3.Events.Type.LARGE_MOTOR_OPT, data, port);
 };
 
 
@@ -119,9 +132,9 @@ cwc.protocol.ev3.Events.largeMotorOptValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.mediumMotorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.mediumMotorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.MEDIUM_MOTOR, data, port);
 };
 
 
@@ -131,9 +144,9 @@ cwc.protocol.ev3.Events.mediumMotorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.mediumMotorOptValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.mediumMotorOptValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.MEDIUM_MOTOR_OPT, data, port);
+      cwc.protocol.lego.ev3.Events.Type.MEDIUM_MOTOR_OPT, data, port);
 };
 
 
@@ -143,9 +156,9 @@ cwc.protocol.ev3.Events.mediumMotorOptValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.touchSensorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.touchSensorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.TOUCH_SENSOR, data, port);
 };
 
 
@@ -155,9 +168,9 @@ cwc.protocol.ev3.Events.touchSensorValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.touchSensorOptValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.touchSensorOptValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.TOUCH_SENSOR_OPT, data, port);
+      cwc.protocol.lego.ev3.Events.Type.TOUCH_SENSOR_OPT, data, port);
 };
 
 
@@ -167,7 +180,7 @@ cwc.protocol.ev3.Events.touchSensorOptValue = function(data, port) {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.ev3.Events.ultrasonicSensorValue = function(data, port) {
+cwc.protocol.lego.ev3.Events.ultrasonicSensorValue = function(data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.ev3.Events.Type.ULTRASONIC_SENSOR, data, port);
+      cwc.protocol.lego.ev3.Events.Type.ULTRASONIC_SENSOR, data, port);
 };

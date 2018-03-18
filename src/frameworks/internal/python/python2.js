@@ -144,13 +144,13 @@ cwc.framework.Python2.prototype.showInput = function(opt_msg) {
 
 
 /**
- * @param {!string} file_name
+ * @param {!string} filename
  * @return {Object}
  */
-cwc.framework.Python2.prototype.builtinRead = function(file_name) {
+cwc.framework.Python2.prototype.builtinRead = function(filename) {
   if (Sk.builtinFiles === undefined ||
-      Sk.builtinFiles['files'][file_name] === undefined) {
-    throw new Error('File not found: \'' + file_name + '\'');
+      Sk.builtinFiles['files'][filename] === undefined) {
+    throw new Error('File not found: \'' + filename + '\'');
   }
-  return Sk.builtinFiles['files'][file_name];
+  return Sk.builtinFiles['files'][filename];
 };

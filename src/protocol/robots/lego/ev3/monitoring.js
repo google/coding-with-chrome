@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.Monitoring');
+goog.provide('cwc.protocol.lego.ev3.Monitoring');
 
-goog.require('cwc.protocol.ev3.DeviceName');
-goog.require('cwc.protocol.ev3.Events');
+goog.require('cwc.protocol.lego.ev3.DeviceName');
+goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.Timer');
@@ -30,12 +30,12 @@ goog.require('goog.events.EventTarget');
 
 /**
  * @constructor
- * @param {!cwc.protocol.ev3.Api} api
+ * @param {!cwc.protocol.lego.ev3.Api} api
  * @struct
  * @final
  */
-cwc.protocol.ev3.Monitoring = function(api) {
-  /** @type {!cwc.protocol.ev3.Api} */
+cwc.protocol.lego.ev3.Monitoring = function(api) {
+  /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = api;
 
   /** @type {string} */
@@ -122,7 +122,7 @@ cwc.protocol.ev3.Monitoring = function(api) {
 /**
  * Prepares events for port monitoring.
  */
-cwc.protocol.ev3.Monitoring.prototype.init = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.init = function() {
   if (this.monitor) {
     return;
   }
@@ -167,7 +167,7 @@ cwc.protocol.ev3.Monitoring.prototype.init = function() {
  * Starts the port monitoring.
  * @param {Object=} opt_device_info
  */
-cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
+cwc.protocol.lego.ev3.Monitoring.prototype.start = function(opt_device_info) {
   if (opt_device_info) {
     this.deviceInfo = opt_device_info;
   }
@@ -180,53 +180,53 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
   }
   let monitoring = false;
 
-  if (cwc.protocol.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
     this.monitorSensorColor.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.GYRO_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR in this.deviceInfo) {
     this.monitorSensorGyro.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.IR_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.IR_SENSOR in this.deviceInfo) {
     this.monitorSensorIr.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR in this.deviceInfo) {
     this.monitorSensorUltrasonic.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.TOUCH_SENSOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR in this.deviceInfo) {
     this.monitorSensorTouch.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.TOUCH_SENSOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT in this.deviceInfo) {
     this.monitorSensorTouchOpt.start();
     monitoring = true;
   }
 
 
-  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR in this.deviceInfo) {
     this.monitorLargeMotor.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR in this.deviceInfo) {
     this.monitorMediumMotor.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
     this.monitorLargeMotorOpt.start();
     monitoring = true;
   }
 
-  if (cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
+  if (cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
     this.monitorMediumMotorOpt.start();
     monitoring = true;
   }
@@ -241,7 +241,7 @@ cwc.protocol.ev3.Monitoring.prototype.start = function(opt_device_info) {
 /**
  * Stops the port monitoring.
  */
-cwc.protocol.ev3.Monitoring.prototype.stop = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.stop = function() {
   if (this.started) {
     console.log('Stopping...');
     this.monitorSensorColor.stop();
@@ -262,7 +262,7 @@ cwc.protocol.ev3.Monitoring.prototype.stop = function() {
 /**
  * Informs monitoring that an update is needed.
  */
-cwc.protocol.ev3.Monitoring.prototype.update = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.update = function() {
   this.detectChangedValues = true;
 };
 
@@ -270,101 +270,101 @@ cwc.protocol.ev3.Monitoring.prototype.update = function() {
 /**
  * Requests updated color sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateColorSensor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateColorSensor = function() {
   this.api.getSensorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.COLOR_SENSOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR]);
 };
 
 
 /**
  * Requests updated gyro sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateGyroSensor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateGyroSensor = function() {
   this.api.getSensorDataSi(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.GYRO_SENSOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR]);
 };
 
 
 /**
  * Request updated ir sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateIrSensor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateIrSensor = function() {
   this.api.getSensorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.IR_SENSOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR]);
 };
 
 
 /**
  * Request updated ultrasonic sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateUltrasonicSensor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateUltrasonicSensor = function() {
   this.api.getSensorDataSi(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.ULTRASONIC_SENSOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR]);
 };
 
 
 /**
  * Request updated touch sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateTouchSensor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateTouchSensor = function() {
   this.api.getSensorDataPct(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.TOUCH_SENSOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR]);
 };
 
 
 /**
  * Request updated touch sensor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateTouchSensorOpt = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateTouchSensorOpt = function() {
   this.api.getSensorDataPct(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.TOUCH_SENSOR_OPT]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT]);
 };
 
 
 /**
  * Request updated large motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateLargeMotor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateLargeMotor = function() {
   this.api.getActorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.LARGE_MOTOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR]);
 };
 
 
 /**
  * Request updated medium motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateMediumMotor = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateMediumMotor = function() {
   this.api.getActorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR]);
 };
 
 
 /**
  * Request updated opt large motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateLargeMotorOpt = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateLargeMotorOpt = function() {
   this.api.getActorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.LARGE_MOTOR_OPT]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT]);
 };
 
 
 /**
  * Request updated opt medium motor device data.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
   this.api.getActorData(
-      this.deviceInfo[cwc.protocol.ev3.DeviceName.MEDIUM_MOTOR_OPT]);
+      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT]);
 };
 
 
 /**
  * Triggers event handler that updates values are available.
  */
-cwc.protocol.ev3.Monitoring.prototype.updateData = function() {
+cwc.protocol.lego.ev3.Monitoring.prototype.updateData = function() {
   if (this.api.isConnected()) {
     if (this.detectChangedValues) {
       this.eventHandler.dispatchEvent(
-          cwc.protocol.ev3.Events.Type.CHANGED_VALUES);
+          cwc.protocol.lego.ev3.Events.Type.CHANGED_VALUES);
       this.detectChangedValues = false;
     }
   } else {

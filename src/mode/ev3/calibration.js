@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.Calibration');
 
-goog.require('cwc.protocol.ev3.Robots');
+goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Calibration');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
@@ -74,7 +74,7 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {!cwc.mode.ev3.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.ev3.Api} */
+  /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = this.connection.getApi();
 
   /** @type {!cwc.mode.ev3.Runner} */
@@ -121,8 +121,8 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
   this.nodeWheelbase = goog.dom.getElement(this.prefix + 'wheelbase');
 
   // Robot Models
-  for (let robot in cwc.protocol.ev3.Robots) {
-    if (cwc.protocol.ev3.Robots.hasOwnProperty(robot)) {
+  for (let robot in cwc.protocol.lego.ev3.Robots) {
+    if (cwc.protocol.lego.ev3.Robots.hasOwnProperty(robot)) {
       let item = cwc.ui.Helper.getMenuItem(robot, '', this.setType.bind(this));
       this.nodeRobotList.appendChild(item);
     }
@@ -196,9 +196,9 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
  */
 cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
   console.log('Set robot model to', model);
-  console.log('Type:', cwc.protocol.ev3.Robots[model].type);
+  console.log('Type:', cwc.protocol.lego.ev3.Robots[model].type);
 
-  let robotConfig = cwc.protocol.ev3.Robots[model];
+  let robotConfig = cwc.protocol.lego.ev3.Robots[model];
   let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     fileInstance.setModel(model);
@@ -214,7 +214,7 @@ cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
   this.nodeRobotType.value = robotConfig.type;
 
   this.helper.dispatchEvent('changeRobotType',
-    cwc.protocol.ev3.Robots[model].type);
+    cwc.protocol.lego.ev3.Robots[model].type);
 };
 
 

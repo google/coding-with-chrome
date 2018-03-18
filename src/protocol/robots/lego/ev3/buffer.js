@@ -17,12 +17,12 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.Buffer');
+goog.provide('cwc.protocol.lego.ev3.Buffer');
 
-goog.require('cwc.protocol.ev3.CommandType');
-goog.require('cwc.protocol.ev3.ParameterSize');
-goog.require('cwc.protocol.ev3.InputPort');
-goog.require('cwc.protocol.ev3.OutputPort');
+goog.require('cwc.protocol.lego.ev3.CommandType');
+goog.require('cwc.protocol.lego.ev3.ParameterSize');
+goog.require('cwc.protocol.lego.ev3.InputPort');
+goog.require('cwc.protocol.lego.ev3.OutputPort');
 goog.require('cwc.utils.ByteArray');
 goog.require('cwc.utils.ByteArrayTypes');
 
@@ -31,12 +31,15 @@ goog.require('cwc.utils.ByteArrayTypes');
  * @constructor
  * @extends {cwc.utils.ByteArray}
  */
-cwc.protocol.ev3.Buffer = function() {
-  /** @type {!cwc.protocol.ev3.CallbackType} */
-  this.callbackType = cwc.protocol.ev3.CallbackType.NONE;
+cwc.protocol.lego.ev3.Buffer = function() {
+  /** @type {!cwc.protocol.lego.ev3.CallbackType} */
+  this.callbackType = cwc.protocol.lego.ev3.CallbackType.NONE;
 
-  /** @type {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} */
-  this.callbackTarget = cwc.protocol.ev3.InputPort.ONE;
+  /**
+   * @type {!cwc.protocol.lego.ev3.InputPort|
+   *   cwc.protocol.lego.ev3.OutputPort}
+   */
+  this.callbackTarget = cwc.protocol.lego.ev3.InputPort.ONE;
 
   /** @type {!Array} */
   this.data = [];
@@ -44,36 +47,36 @@ cwc.protocol.ev3.Buffer = function() {
   /** @type {Object.<cwc.utils.ByteArrayTypes|string|number>} */
   this.headers = {};
 };
-goog.inherits(cwc.protocol.ev3.Buffer, cwc.utils.ByteArray);
+goog.inherits(cwc.protocol.lego.ev3.Buffer, cwc.utils.ByteArray);
 
 
 /**
- * @param {cwc.protocol.ev3.CallbackType=} callbackType
+ * @param {cwc.protocol.lego.ev3.CallbackType=} callbackType
  * @param {number=} globalSize
  * @param {number=} localSize
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.ev3.Buffer.prototype.writeHeader = function(callbackType,
+cwc.protocol.lego.ev3.Buffer.prototype.writeHeader = function(callbackType,
     globalSize = 0x04, localSize = 0x00) {
   if (callbackType) {
     this.callbackType = callbackType;
   }
 
   this.setHeader(cwc.utils.ByteArrayTypes.BYTE,
-    cwc.protocol.ev3.ParameterSize.BYTE);
+    cwc.protocol.lego.ev3.ParameterSize.BYTE);
   this.setHeader(cwc.utils.ByteArrayTypes.SHORT,
-    cwc.protocol.ev3.ParameterSize.SHORT);
+    cwc.protocol.lego.ev3.ParameterSize.SHORT);
   this.setHeader(cwc.utils.ByteArrayTypes.INT,
-    cwc.protocol.ev3.ParameterSize.INT);
+    cwc.protocol.lego.ev3.ParameterSize.INT);
   this.setHeader(cwc.utils.ByteArrayTypes.STR,
-    cwc.protocol.ev3.ParameterSize.STRING);
+    cwc.protocol.lego.ev3.ParameterSize.STRING);
   this.setHeader(cwc.utils.ByteArrayTypes.INDEX,
-    cwc.protocol.ev3.ParameterSize.INDEX);
+    cwc.protocol.lego.ev3.ParameterSize.INDEX);
 
   this.write(/** @type {number} */ ((callbackType) ?
-      cwc.protocol.ev3.CommandType.DIRECT.REPLY :
-      cwc.protocol.ev3.CommandType.DIRECT.NOREPLY));
+      cwc.protocol.lego.ev3.CommandType.DIRECT.REPLY :
+      cwc.protocol.lego.ev3.CommandType.DIRECT.NOREPLY));
   this.write(globalSize & 0xFF);
   this.write(((localSize << 2) | ((globalSize >> 8) & 0x03)) & 0xFF);
   return this;
@@ -81,11 +84,12 @@ cwc.protocol.ev3.Buffer.prototype.writeHeader = function(callbackType,
 
 
 /**
- * @param {!cwc.protocol.ev3.InputPort|cwc.protocol.ev3.OutputPort} port
+ * @param {!cwc.protocol.lego.ev3.InputPort|
+ *   cwc.protocol.lego.ev3.OutputPort} port
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.ev3.Buffer.prototype.writePort = function(port) {
+cwc.protocol.lego.ev3.Buffer.prototype.writePort = function(port) {
   this.writeNullByte();
   this.writeByte(port);
   this.callbackTarget = port;
@@ -98,7 +102,7 @@ cwc.protocol.ev3.Buffer.prototype.writePort = function(port) {
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.ev3.Buffer.prototype.writePorts = function(ports) {
+cwc.protocol.lego.ev3.Buffer.prototype.writePorts = function(ports) {
   this.writeNullByte();
   this.writeByte(ports);
   return this;
@@ -108,7 +112,7 @@ cwc.protocol.ev3.Buffer.prototype.writePorts = function(ports) {
 /**
  * @return {!ArrayBuffer}
  */
-cwc.protocol.ev3.Buffer.prototype.readSigned = function() {
+cwc.protocol.lego.ev3.Buffer.prototype.readSigned = function() {
   let buffer = this.getData();
   let dataLength = buffer.length + 2;
   let dataBuffer = new ArrayBuffer(dataLength + 2);

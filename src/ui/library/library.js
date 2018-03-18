@@ -412,7 +412,7 @@ cwc.ui.Library.prototype.handleSearch_ = function() {
  * @param {Object} e
  */
 cwc.ui.Library.prototype.handleFileClick_ = function(e) {
-  let filename = e.target.dataset['fileName'];
+  let filename = e.target.dataset['filename'];
   let fileAction = e.target.dataset['fileAction'];
   this.log_.info('Click action', fileAction, 'for file', filename);
   if (filename && fileAction) {

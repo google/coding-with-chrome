@@ -36,9 +36,6 @@ cwc.utils.Features = function() {
   /** @type {!string} */
   this.name = 'Features';
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
-
   /** @type {!string} */
   this.defaultGroup = 'general';
 
@@ -59,6 +56,9 @@ cwc.utils.Features = function() {
 
   /** @private {Object|goog.events.ListenableKey|number} */
   this.offlineMonitor_ = null;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 
   this.detectFeatures();
 };
@@ -346,7 +346,7 @@ cwc.utils.Features.prototype.log = function() {
     if (this.feature_.hasOwnProperty(group)) {
       for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
-          this.log_.info('[' + group + ']', feature, '=',
+          this.log_.info(group + '.' + feature, '=',
               this.feature_[group][feature]);
         }
       }

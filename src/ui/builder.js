@@ -35,7 +35,7 @@ goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.bluetooth.classic.Api');
 goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
-goog.require('cwc.protocol.ev3.Api');
+goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
@@ -242,12 +242,12 @@ cwc.ui.Builder.prototype.isReady = function() {
 
 
 /**
- * @param {!string} file_name
+ * @param {!string} filename
  * @return {Promise}
  * @export
  */
-cwc.ui.Builder.prototype.loadFile = function(file_name) {
-  return this.helper.getInstance('fileLoader').loadLocalFile(file_name);
+cwc.ui.Builder.prototype.loadFile = function(filename) {
+  return this.helper.getInstance('fileLoader').loadLocalFile(filename);
 };
 
 

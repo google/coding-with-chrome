@@ -31,7 +31,7 @@ cwc.protocol.sphero.v1.Events.Type = {
   CHANGED_SPEED: 'changed_speed',
   CHANGED_VELOCITY: 'changed_values',
   COLLISION: 'collision',
-  CONNECTING: 'connecting',
+  CONNECT: 'connect',
 };
 
 
@@ -87,5 +87,5 @@ cwc.protocol.sphero.v1.Events.collision = function(data) {
  */
 cwc.protocol.sphero.v1.Events.connect = function(data, step) {
   return new cwc.utils.EventData(
-      cwc.protocol.sphero.v1.Events.Type.CONNECTING, data, step);
+      cwc.protocol.sphero.v1.Events.Type.CONNECT, data, step);
 };

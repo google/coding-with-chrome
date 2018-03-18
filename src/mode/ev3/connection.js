@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.ev3.Connection');
 
-goog.require('cwc.protocol.ev3.Api');
+goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.Timer');
@@ -45,8 +45,8 @@ cwc.mode.ev3.Connection = function(helper) {
   /** @type {!number} */
   this.connectMonitorInterval = 5000;
 
-  /** @private {!cwc.protocol.ev3.Api} */
-  this.api_ = new cwc.protocol.ev3.Api();
+  /** @private {!cwc.protocol.lego.ev3.Api} */
+  this.api_ = new cwc.protocol.lego.ev3.Api();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -122,7 +122,7 @@ cwc.mode.ev3.Connection.prototype.getDevices = function() {
 
 
 /**
- * @return {!cwc.protocol.ev3.Api}
+ * @return {!cwc.protocol.lego.ev3.Api}
  * @export
  */
 cwc.mode.ev3.Connection.prototype.getApi = function() {

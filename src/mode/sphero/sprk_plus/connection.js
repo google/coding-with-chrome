@@ -65,7 +65,7 @@ cwc.mode.sphero.sprkPlus.Connection = function(helper) {
 cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECTING,
+      cwc.protocol.sphero.v1.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
   }
 

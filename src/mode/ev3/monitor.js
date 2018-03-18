@@ -19,10 +19,10 @@
  */
 goog.provide('cwc.mode.ev3.Monitor');
 
-goog.require('cwc.protocol.ev3.Api');
-goog.require('cwc.protocol.ev3.Events');
-goog.require('cwc.protocol.ev3.RobotType');
-goog.require('cwc.protocol.ev3.Robots');
+goog.require('cwc.protocol.lego.ev3.Api');
+goog.require('cwc.protocol.lego.ev3.Events');
+goog.require('cwc.protocol.lego.ev3.RobotType');
+goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
@@ -64,7 +64,7 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @type {!cwc.mode.ev3.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.ev3.Api} */
+  /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = this.connection.getApi();
 
   /** @type {boolean} */
@@ -76,8 +76,8 @@ cwc.mode.ev3.Monitor = function(helper, connection) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
-  /** @private {cwc.protocol.ev3.RobotType} */
-  this.robotType_ = cwc.protocol.ev3.RobotType.UNKNOWN;
+  /** @private {cwc.protocol.lego.ev3.RobotType} */
+  this.robotType_ = cwc.protocol.lego.ev3.RobotType.UNKNOWN;
 
   /** @private {cwc.ui.RunnerMonitor} */
   this.runnerMonitor_ = null;
@@ -129,8 +129,8 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   // Update event
   let eventHandler = this.connection.getEventHandler();
   this.events_.listen(eventHandler,
-      cwc.protocol.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData, false,
-      this);
+    cwc.protocol.lego.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData,
+    false, this);
 
   // Custom events
   let customEventHandler = this.helper.getEventHandler();
@@ -175,7 +175,7 @@ cwc.mode.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
 
 /**
  * Updates device Data in monitor tab.
- * @param {!cwc.protocol.ev3.RobotType} type
+ * @param {!cwc.protocol.lego.ev3.RobotType} type
  */
 cwc.mode.ev3.Monitor.prototype.updateRobotType = function(type) {
   this.robotType_ = type;
@@ -271,10 +271,10 @@ cwc.mode.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
 
   // Motor control commands
   switch (this.robotType_) {
-    case cwc.protocol.ev3.RobotType.ARM:
+    case cwc.protocol.lego.ev3.RobotType.ARM:
       this.handleArmKeyboardShortcut_(event.identifier);
       break;
-    case cwc.protocol.ev3.RobotType.VEHICLE:
+    case cwc.protocol.lego.ev3.RobotType.VEHICLE:
       this.handleVehicleKeyboardShortcut_(event.identifier);
       break;
     default:

@@ -17,28 +17,28 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.ev3.CallbackType');
-goog.provide('cwc.protocol.ev3.ColorSensorMode');
-goog.provide('cwc.protocol.ev3.ColorSensorValues');
-goog.provide('cwc.protocol.ev3.Command');
-goog.provide('cwc.protocol.ev3.CommandType');
-goog.provide('cwc.protocol.ev3.DeviceType');
-goog.provide('cwc.protocol.ev3.InputPort');
-goog.provide('cwc.protocol.ev3.IrSensorMode');
-goog.provide('cwc.protocol.ev3.LedColor');
-goog.provide('cwc.protocol.ev3.LedMode');
-goog.provide('cwc.protocol.ev3.LedType');
-goog.provide('cwc.protocol.ev3.MotorMode');
-goog.provide('cwc.protocol.ev3.OutputPort');
-goog.provide('cwc.protocol.ev3.ParameterSize');
-goog.provide('cwc.protocol.ev3.Polarity');
+goog.provide('cwc.protocol.lego.ev3.CallbackType');
+goog.provide('cwc.protocol.lego.ev3.ColorSensorMode');
+goog.provide('cwc.protocol.lego.ev3.ColorSensorValues');
+goog.provide('cwc.protocol.lego.ev3.Command');
+goog.provide('cwc.protocol.lego.ev3.CommandType');
+goog.provide('cwc.protocol.lego.ev3.DeviceType');
+goog.provide('cwc.protocol.lego.ev3.InputPort');
+goog.provide('cwc.protocol.lego.ev3.IrSensorMode');
+goog.provide('cwc.protocol.lego.ev3.LedColor');
+goog.provide('cwc.protocol.lego.ev3.LedMode');
+goog.provide('cwc.protocol.lego.ev3.LedType');
+goog.provide('cwc.protocol.lego.ev3.MotorMode');
+goog.provide('cwc.protocol.lego.ev3.OutputPort');
+goog.provide('cwc.protocol.lego.ev3.ParameterSize');
+goog.provide('cwc.protocol.lego.ev3.Polarity');
 
 
 /**
  * Enum of implemented callback types.
  * @enum {!number}
  */
-cwc.protocol.ev3.CallbackType = {
+cwc.protocol.lego.ev3.CallbackType = {
   NONE: 0x00,
   DEVICE_NAME: 0x01,
   ACTOR_VALUE: 0x05,
@@ -55,7 +55,7 @@ cwc.protocol.ev3.CallbackType = {
  * Color sensor modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.ColorSensorMode = {
+cwc.protocol.lego.ev3.ColorSensorMode = {
   REFLECTIVE: 0,
   AMBIENT: 1,
   COLOR: 2,
@@ -66,7 +66,7 @@ cwc.protocol.ev3.ColorSensorMode = {
  * Color sensor values.
  * @enum {!string}
  */
-cwc.protocol.ev3.ColorSensorValues = {
+cwc.protocol.lego.ev3.ColorSensorValues = {
   0: 'transparent',
   1: 'black',
   2: 'blue',
@@ -82,7 +82,7 @@ cwc.protocol.ev3.ColorSensorValues = {
  * Enum of commands for the communication protocol.
  * @enum {!Object.<string>|number}
  */
-cwc.protocol.ev3.Command = {
+cwc.protocol.lego.ev3.Command = {
   UI: {
     FLUSH: {
     },
@@ -165,7 +165,7 @@ cwc.protocol.ev3.Command = {
  * Type of command.
  * @enum {!Object.<number>}
  */
-cwc.protocol.ev3.CommandType = {
+cwc.protocol.lego.ev3.CommandType = {
   DIRECT: {
     REPLY: 0x00,
     NOREPLY: 0x80,
@@ -181,7 +181,7 @@ cwc.protocol.ev3.CommandType = {
  * Sensor and Actors device types.
  * @enum {!string}
  */
-cwc.protocol.ev3.DeviceType = {
+cwc.protocol.lego.ev3.DeviceType = {
   'COL_AMBIENT': 'col-ambient',
   'COL_COLOR': 'col-color',
   'COL_REFLECT': 'col-reflect',
@@ -206,7 +206,7 @@ cwc.protocol.ev3.DeviceType = {
  * Input ports.
  * @enum {!number}
  */
-cwc.protocol.ev3.InputPort = {
+cwc.protocol.lego.ev3.InputPort = {
   ONE: 0x00,
   TWO: 0x01,
   THREE: 0x02,
@@ -222,7 +222,7 @@ cwc.protocol.ev3.InputPort = {
  * Output ports.
  * @enum {!number}
  */
-cwc.protocol.ev3.OutputPort = {
+cwc.protocol.lego.ev3.OutputPort = {
   A: 0x01,
   B: 0x02,
   C: 0x04,
@@ -235,7 +235,7 @@ cwc.protocol.ev3.OutputPort = {
  * IR sensor modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.IrSensorMode = {
+cwc.protocol.lego.ev3.IrSensorMode = {
   PROXIMITY: 0,
   SEEK: 1,
   REMOTECONTROL: 2,
@@ -246,7 +246,7 @@ cwc.protocol.ev3.IrSensorMode = {
  * Ultrasonic sensor modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.UltrasonicSensorMode = {
+cwc.protocol.lego.ev3.UltrasonicSensorMode = {
   DIST_CM: 0,
   DIST_INCH: 1,
   LISTEN: 2,
@@ -257,7 +257,7 @@ cwc.protocol.ev3.UltrasonicSensorMode = {
  * Led colors.
  * @enum {!number}
  */
-cwc.protocol.ev3.LedColor = {
+cwc.protocol.lego.ev3.LedColor = {
   OFF: 0,
   GREEN: 1,
   RED: 2,
@@ -269,7 +269,7 @@ cwc.protocol.ev3.LedColor = {
  * Led modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.LedMode = {
+cwc.protocol.lego.ev3.LedMode = {
   NORMAL: 0,
   FLASH: 3,
   PULSE: 6,
@@ -280,7 +280,7 @@ cwc.protocol.ev3.LedMode = {
  * Led Types.
  * @enum {!Object.<number>|number}
  */
-cwc.protocol.ev3.LedType = {
+cwc.protocol.lego.ev3.LedType = {
   ALL: 0,
   RIGHT: {
     RED: 1,
@@ -297,7 +297,7 @@ cwc.protocol.ev3.LedType = {
  * Motor modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.MotorMode = {
+cwc.protocol.lego.ev3.MotorMode = {
   DEGREE: 0,
   ROTATION: 1,
   PERCENT: 2,
@@ -308,7 +308,7 @@ cwc.protocol.ev3.MotorMode = {
  * Motor modes.
  * @enum {!number}
  */
-cwc.protocol.ev3.GyroMode = {
+cwc.protocol.lego.ev3.GyroMode = {
   ANGLE: 0,
   RATE: 1,
   FAS: 2,
@@ -320,7 +320,7 @@ cwc.protocol.ev3.GyroMode = {
  * Parameter sizes for the different types.
  * @enum {!number}
  */
-cwc.protocol.ev3.ParameterSize = {
+cwc.protocol.lego.ev3.ParameterSize = {
   BYTE: 0x81, // 1 byte
   SHORT: 0x82, // 2 bytes
   INT: 0x83, // 4 bytes
@@ -333,7 +333,7 @@ cwc.protocol.ev3.ParameterSize = {
  * Motor polarity.
  * @enum {!number}
  */
-cwc.protocol.ev3.Polarity = {
+cwc.protocol.lego.ev3.Polarity = {
   BACKWARD: -1,
   OPPOSITE: 0,
   FORWARD: 1,

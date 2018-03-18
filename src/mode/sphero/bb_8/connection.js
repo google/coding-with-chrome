@@ -65,7 +65,7 @@ cwc.mode.sphero.bb8.Connection = function(helper) {
 cwc.mode.sphero.bb8.Connection.prototype.init = function() {
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECTING,
+      cwc.protocol.sphero.v1.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
   }
 

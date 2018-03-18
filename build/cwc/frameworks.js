@@ -50,7 +50,7 @@ closureBuilder.build({
   ]),
   deps: glob([
     'src/frameworks/internal/runner/runner.js',
-    'src/protocol/robots/ev3/*.js',
+    'src/protocol/robots/lego/ev3/*.js',
     'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/ev3_framework.js',
