@@ -19,21 +19,19 @@
  */
 goog.provide('cwc.ui.EditorView');
 
-goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorType');
 
 
 /**
- * @constructor
- * @struct
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
- * @param {cwc.ui.EditorFlags=} flags
+ * @constructor
+ * @struct
  * @final
  */
-cwc.ui.EditorView = function(content, type, hints, flags) {
+cwc.ui.EditorView = function(content, type, hints) {
   /** @type {!CodeMirror.Doc} */
   this.doc = new CodeMirror.Doc(content || '');
 
@@ -42,9 +40,6 @@ cwc.ui.EditorView = function(content, type, hints, flags) {
 
   /** @type {!cwc.ui.EditorHint} */
   this.hints = hints || cwc.ui.EditorHint.UNKNOWN;
-
-  /** @type {!cwc.ui.EditorFlags} */
-  this.flags = flags || new cwc.ui.EditorFlags();
 
   /** @type {number} */
   this.cursorPosition = 0;
@@ -56,15 +51,6 @@ cwc.ui.EditorView = function(content, type, hints, flags) {
  */
 cwc.ui.EditorView.prototype.getDoc = function() {
   return this.doc;
-};
-
-
-/**
- * @param {!string} name
- * @return {string}
- */
-cwc.ui.EditorView.prototype.getFlag = function(name) {
-  return this.flags.getFlag(name);
 };
 
 

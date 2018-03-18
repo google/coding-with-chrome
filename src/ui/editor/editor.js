@@ -25,7 +25,6 @@ goog.require('cwc.ui.EditorAutocompleteBlacklistCodes');
 goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
 goog.require('cwc.ui.EditorAutocompleteList');
 goog.require('cwc.ui.EditorContent');
-goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorInfobar');
 goog.require('cwc.ui.EditorToolbar');
@@ -63,9 +62,6 @@ cwc.ui.Editor = function(helper) {
 
   /** @type {CodeMirror} */
   this.editor = null;
-
-  /** @type {cwc.ui.EditorFlags} */
-  this.editorFlags = new cwc.ui.EditorFlags();
 
   /** @type {Object} */
   this.editorView = {};
@@ -182,7 +178,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 
   // Render code editor template.
   this.log_.debug('Decorate', this.name, 'into node', this.node);
-  this.editorFlags = new cwc.ui.EditorFlags();
   this.editorView = {};
   this.modified = false;
 
@@ -466,23 +461,6 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
   }
 };
 
-
-/**
- * @return {cwc.ui.EditorFlags}
- */
-cwc.ui.Editor.prototype.getEditorFlags = function() {
-  return this.editorFlags;
-};
-
-
-/**
- * @param {!cwc.ui.EditorFlags} flags
- */
-cwc.ui.Editor.prototype.setEditorFlags = function(flags) {
-  this.editorFlags = flags;
-};
-
-
 /**
  * Syntax checks for supported formats.
  * @param {!boolean} active
@@ -580,10 +558,8 @@ cwc.ui.Editor.prototype.changeView = function(name) {
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
- * @param {cwc.ui.EditorFlags=} flags
  */
-cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
-    flags) {
+cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
   if (name in this.editorView) {
     this.log_.error('Editor View', name, 'already exists!');
     return;
@@ -593,7 +569,7 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints,
     (type ? 'with type ' + type : ''),
     (hints ? 'and hints ' + hints : ''),
     (content ? 'for content:' : ''), content);
-  this.editorView[name] = new cwc.ui.EditorView(content, type, hints, flags);
+  this.editorView[name] = new cwc.ui.EditorView(content, type, hints);
 
   if (this.toolbar) {
     this.toolbar.addView(name);

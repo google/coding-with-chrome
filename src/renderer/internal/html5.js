@@ -95,11 +95,11 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     // C64 screen
     if (script.startsWith('10 ')) {
       css = 'body {color: #6076c5; background: #20398d; font-size: 24px;' +
-        'font-family: "Lucida Console";}';
-      javascript = '';
-      html = '**** COMMODORE 64 BASIC V2 ****<br>' +
+        'font-family: "Lucida Console"; padding: 20px;}';
+      html = ' **** COMMODORE 64 BASIC V2 ****<br>' +
         '64K RAM SYSTEM  38911 BASIC BYTES FREE<br>' +
         'READY.<br><br>Nice try, clever clogs.<br>';
+      javascript = '';
     }
 
     // Simple framework.

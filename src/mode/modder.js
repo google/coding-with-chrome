@@ -181,13 +181,11 @@ cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
- * @param {cwc.ui.EditorFlags=} flags
  */
-cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints,
-    flags) {
+cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    editorInstance.addView(name, content, type, hints, flags);
+    editorInstance.addView(name, content, type, hints);
   }
 };
 
@@ -242,18 +240,6 @@ cwc.mode.Modder.prototype.runPreview = function() {
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.run();
-  }
-};
-
-
-/**
- * Sets editor flags.
- * @param {!cwc.ui.EditorFlags} flags
- */
-cwc.mode.Modder.prototype.setEditorFlags = function(flags) {
-  let editorInstance = this.helper.getInstance('editor');
-  if (editorInstance) {
-    editorInstance.setEditorFlags(flags);
   }
 };
 

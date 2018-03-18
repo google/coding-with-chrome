@@ -82,7 +82,6 @@ cwc.fileHandler.File.prototype.clear = function(silent = false) {
  * @param {!cwc.fileFormat.File} file
  */
 cwc.fileHandler.File.prototype.setFile = function(file) {
-  console.log('Set instance file to:', file);
   this.clear(true);
   this.file_ = file;
 };
@@ -130,7 +129,6 @@ cwc.fileHandler.File.prototype.getMimeType = function() {
  * @param {!cwc.file.MimeType} mimeType
  */
 cwc.fileHandler.File.prototype.setMimeType = function(mimeType) {
-  console.log('setMimeType:', mimeType);
   this.mimeType_ = mimeType;
 };
 
@@ -229,7 +227,7 @@ cwc.fileHandler.File.prototype.getUi = function() {
 
 /**
  * @param {!string} name
- * @param {Object.<string>|string|cwc.ui.EditorFlags} value
+ * @param {Object.<string>|string} value
  */
 cwc.fileHandler.File.prototype.setFlag = function(name, value) {
   this.file_.setFlag(name, value);
@@ -238,26 +236,10 @@ cwc.fileHandler.File.prototype.setFlag = function(name, value) {
 
 /**
  * @param {!string} name
- * @return {Object.<string>|string|cwc.ui.EditorFlags}
+ * @return {Object.<string>|string}
  */
 cwc.fileHandler.File.prototype.getFlag = function(name) {
   return this.file_.getFlag(name);
-};
-
-
-/**
- * @return {cwc.ui.EditorFlags}
- */
-cwc.fileHandler.File.prototype.getEditorFlags = function() {
-  return this.file_.getEditorFlags();
-};
-
-
-/**
- * @param {cwc.ui.EditorFlags} flags
- */
-cwc.fileHandler.File.prototype.setEditorFlags = function(flags) {
-  this.file_.setEditorFlags(flags);
 };
 
 

@@ -24,7 +24,6 @@ goog.provide('cwc.fileFormat.File');
 goog.require('cwc.file.Files');
 goog.require('cwc.file.MimeType');
 goog.require('cwc.mode.Type');
-goog.require('cwc.ui.EditorFlags');
 goog.require('cwc.utils.Logger');
 
 
@@ -107,7 +106,6 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.frameworks_ = new cwc.file.Files();
   this.history_ = '';
   this.mode_ = cwc.mode.Type.NONE;
-  this.setFlag('__editor__', new cwc.ui.EditorFlags());
   this.ui_ = 'default';
   this.metadata_ = {};
 };
@@ -200,22 +198,6 @@ cwc.fileFormat.File.prototype.getDescription = function() {
 
 
 /**
- * @return {cwc.ui.EditorFlags}
- */
-cwc.fileFormat.File.prototype.getEditorFlags = function() {
-  return /** @type {cwc.ui.EditorFlags} */ (this.getFlag('__editor__'));
-};
-
-
-/**
- * @param {cwc.ui.EditorFlags} flags
- */
-cwc.fileFormat.File.prototype.setEditorFlags = function(flags) {
-  this.setFlag('__editor__', flags);
-};
-
-
-/**
  * @param {string} name
  * @param {string=} group
  * @return {string}
@@ -261,7 +243,7 @@ cwc.fileFormat.File.prototype.hasFiles = function() {
 
 /**
  * @param {!string} name
- * @return {Object.<string>|string|cwc.ui.EditorFlags}
+ * @return {Object.<string>|string}
  */
 cwc.fileFormat.File.prototype.getFlag = function(name) {
   return this.flags_[name] || '';
@@ -278,7 +260,7 @@ cwc.fileFormat.File.prototype.getFlags = function() {
 
 /**
  * @param {!string} name
- * @param {Object.<string>|string|cwc.ui.EditorFlags} value
+ * @param {Object.<string>|string} value
  */
 cwc.fileFormat.File.prototype.setFlag = function(name, value) {
   this.flags_[name] = value;
