@@ -58,12 +58,6 @@ cwc.runner.Connector = function(helper, name = 'Runner Connector') {
   /** @type {!boolean} */
   this.listen = false;
 
-  /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name);
-
-  /** @type {!boolean} */
-  this.directUpdate = false;
-
   /** @type {!string} */
   this.token = String(new Date().getTime());
 
@@ -76,6 +70,9 @@ cwc.runner.Connector = function(helper, name = 'Runner Connector') {
   /** @type {!number} */
   this.pingTestWorker = 0;
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -83,14 +80,14 @@ cwc.runner.Connector = function(helper, name = 'Runner Connector') {
 
 /**
  * Inits the runner instance.
- * @param {boolean=} opt_listen
+ * @param {boolean=} listen
  */
-cwc.runner.Connector.prototype.init = function(opt_listen) {
-  if (opt_listen) {
+cwc.runner.Connector.prototype.init = function(listen) {
+  if (listen) {
     this.events_.listen(window, 'message', this.handleMessage_, false, this);
     this.listen = true;
   }
-  this.addCommand('__direct_update__', this.enableDirectUpdate_, this);
+  this.addCommand('__gamepad__', this.handleGamepad_, this);
   this.addCommand('__handshake__', this.handleHandshake_, this);
   this.addCommand('__pong__', this.handlePong_, this);
 };
@@ -113,15 +110,15 @@ cwc.runner.Connector.prototype.setTarget = function(target) {
 
 /**
  * @param {string!} command
- * @param {Object|number|string|Array=} optValue
+ * @param {Object|number|string|Array=} value
  */
-cwc.runner.Connector.prototype.send = function(command, optValue) {
+cwc.runner.Connector.prototype.send = function(command, value) {
   if (!this.target || !this.target.contentWindow || !this.targetLoaded) {
     return;
   }
 
   this.target.contentWindow.postMessage({
-    'command': command, 'value': optValue},
+    'command': command, 'value': value},
     this.targetOrigin);
 };
 
@@ -135,15 +132,6 @@ cwc.runner.Connector.prototype.start = function() {
     this.log_.info('Sending handshake with token', this.token);
     this.send('__handshake__', this.token);
   }
-};
-
-
-/**
- * @private
- */
-cwc.runner.Connector.prototype.enableDirectUpdate_ = function() {
-  this.log_.info('Enabled direct update ...');
-  this.directUpdate = true;
 };
 
 
@@ -198,27 +186,27 @@ cwc.runner.Connector.prototype.addCommandProfile = function(profile, scope) {
 
 /**
  * @param {!function(?)} func
- * @param {?=} opt_scope
+ * @param {?=} scope
  * @export
  */
-cwc.runner.Connector.prototype.setStartEvent = function(func, opt_scope) {
-  this.addCommand('__start__', func, opt_scope);
+cwc.runner.Connector.prototype.setStartEvent = function(func, scope) {
+  this.addCommand('__start__', func, scope);
 };
 
 
 /**
  * @param {!string} name
  * @param {!function(?)} func
- * @param {?=} opt_scope
+ * @param {?=} scope
  * @export
  */
-cwc.runner.Connector.prototype.addMonitor = function(name, func, opt_scope) {
+cwc.runner.Connector.prototype.addMonitor = function(name, func, scope) {
   if (!func) {
     this.log_.error('Runner monitor function is undefined for', name);
     return;
   }
-  if (opt_scope) {
-    this.monitor[name] = func.bind(opt_scope);
+  if (scope) {
+    this.monitor[name] = func.bind(scope);
   } else {
     this.monitor[name] = func;
   }
@@ -311,11 +299,11 @@ cwc.runner.Connector.prototype.ping = function() {
 
 
 /**
- * @param {boolean=} opt_disable
+ * @param {boolean=} disable
  * @export
  */
-cwc.runner.Connector.prototype.pingTest = function(opt_disable) {
-  if (opt_disable && this.pingTestWorker) {
+cwc.runner.Connector.prototype.pingTest = function(disable) {
+  if (disable && this.pingTestWorker) {
     clearInterval(this.pingTestWorker);
   } else if (!this.pingTestWorker) {
     this.pingTestWorker = setInterval(this.ping.bind(this), 0);
@@ -324,10 +312,9 @@ cwc.runner.Connector.prototype.pingTest = function(opt_disable) {
 
 
 /**
- * @param {goog.events.BrowserEvent=} opt_event
  * @private
  */
-cwc.runner.Connector.prototype.handleContentLoad_ = function(opt_event) {
+cwc.runner.Connector.prototype.handleContentLoad_ = function() {
   this.targetLoaded = true;
 };
 
@@ -345,6 +332,14 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
 
   this.executeCommand(browserEvent['data']['command'],
       browserEvent['data']['value']);
+};
+
+
+/**
+ * @private
+ */
+cwc.runner.Connector.prototype.handleGamepad_ = function() {
+  console.log('Enable Gamepad Support');
 };
 
 

@@ -62,25 +62,16 @@ cwc.ui.Runner = function(helper) {
   this.nodeRuntime = null;
 
   /** @type {Element} */
-  this.nodeToolbar = null;
-
-  /** @type {Element} */
   this.nodeTerminal = null;
 
   /** @type {Element} */
   this.nodeInfo = null;
 
   /** @type {Element} */
-  this.nodeStatusbar = null;
-
-  /** @type {Element} */
   this.nodeOverlay = null;
 
   /** @type {Element} */
   this.nodeTurtle = null;
-
-  /** @type {Element} */
-  this.nodeInfobar = null;
 
   /** @type {Element} */
   this.nodeMonitor = null;
@@ -130,9 +121,6 @@ cwc.ui.Runner = function(helper) {
   /** @type {number} */
   this.stopTime = 0;
 
-  /** @type {string} */
-  this.targetOrigin = '*';
-
   /** @type {?function()} */
   this.externalCleanUp = null;
 
@@ -166,23 +154,25 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   this.nodeTurtle = goog.dom.getElement(this.prefix + 'turtle');
 
   // Toolbar
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
-  if (this.nodeToolbar) {
+  let nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
+  if (nodeToolbar) {
     this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar);
+    this.toolbar.decorate(nodeToolbar);
   }
 
   // Statusbar
-  this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  if (this.nodeStatusbar) {
+  let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
+  if (nodeStatusbar) {
     this.statusbar = new cwc.ui.Statusbar(this.helper);
-    this.statusbar.decorate(this.nodeStatusbar);
+    this.statusbar.decorate(nodeStatusbar);
   }
 
   // Infobar
-  this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  this.infobar = new cwc.ui.RunnerInfobar(this.helper);
-  this.infobar.decorate(this.nodeInfobar);
+  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
+  if (nodeInfobar) {
+    this.infobar = new cwc.ui.RunnerInfobar(this.helper);
+    this.infobar.decorate(nodeInfobar);
+  }
 
   // Monitor
   this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');

@@ -107,9 +107,24 @@ cwc.utils.ByteTools.toString = function(data) {
  * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
+  if (!data1 || !data2) {
+    return data1 || data2;
+  }
   let data = new Uint8Array(data1.length + data2.length);
   data.set(data1, 0);
   data.set(data2, data1.length);
+  return data;
+};
+
+
+/**
+ * @param {ArrayBuffer|Unit8Array} data
+ * @return {Uint8Array}
+ */
+cwc.utils.ByteTools.getUint8Array = function(data) {
+  if (data instanceof ArrayBuffer) {
+    return new Uint8Array(data);
+  }
   return data;
 };
 
@@ -132,18 +147,11 @@ cwc.utils.ByteTools.uint8Data;
 cwc.utils.ByteTools.getUint8Data = function(data,
     dataHeaders = null, size = 0, optBuffer) {
   let buffer = null;
-  let dataView = null;
+  let dataView = cwc.utils.ByteTools.getUint8Array(data);
   let parsedData = [];
   let validData = true;
 
-  if (data) {
-    // Prepare data buffer
-    if (data instanceof ArrayBuffer) {
-      dataView = new Uint8Array(data);
-    } else {
-      dataView = data;
-    }
-
+  if (dataView) {
     // Additional length checks if needed.
     if (size) {
       // Perpend buffer if needed.
@@ -194,6 +202,42 @@ cwc.utils.ByteTools.getUint8Data = function(data,
     'data': parsedData,
     'buffer': buffer,
   };
+};
+
+/**
+ * @param {ArrayBuffer|Uint8Array} data
+ * @param {Array=} headers
+ * @param {number=} size
+ * @param {ArrayBuffer|Uint8Array=} buffer
+ * @return {cwc.utils.ByteTools.uint8Data} result
+ */
+cwc.utils.ByteTools.getUint8Data2 = function(data, headers, size, buffer) {
+  // Prepare Data Buffer
+  let dataBuffer = cwc.utils.ByteTools.getUint8Array(data);
+  let dataFragment = cwc.utils.ByteTools.getUint8Array(buffer);
+  let uint8Data = {
+    'data': [],
+    'buffer': null,
+  };
+
+  // Checking if data have at least min size
+  if (dataBuffer.length < size &&
+      dataBuffer.length + dataFragment.length < size) {
+    uint8Data['buffer'] =
+      cwc.utils.ByteTools.joinUint8Array(dataBuffer, dataFragment);
+    return uint8Data;
+  }
+
+  // Checking Data headers
+  // [['0xFF','0xFF'], ['0xFF','0xFF']]
+  let dataHeaders = typeof headers[0] === 'string' ? [headers] : headers;
+  console.log(dataHeaders);
+
+  // Check if first position matching any headers
+
+  // Check if we find headers inside the data
+
+  return uint8Data;
 };
 
 

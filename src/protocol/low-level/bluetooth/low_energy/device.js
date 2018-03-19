@@ -110,8 +110,8 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.listen = function(
   this.characteristic_[characteristicId]['startNotifications']().then(() => {
     this.log.info('Adding event listener for', characteristicId);
     this.characteristic_[characteristicId]['addEventListener'](
-      'characteristicvaluechanged', function(e) {
-        func(e.target.value.buffer);
+      'characteristicvaluechanged', (e) => {
+        this.handleData_(e.target.value.buffer, func);
       });
   });
 };
@@ -225,6 +225,15 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectCharacteristic_ =
 };
 
 
-cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleData_ = function(e) {
-  console.log('Data', e.target, e.target.value);
+/**
+ * @param {?} data
+ * @param {?} callback
+ */
+cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleData_ = function(data,
+    callback) {
+  if (!data) {
+    return;
+  }
+  console.log('Data', data);
+  callback(data);
 };
