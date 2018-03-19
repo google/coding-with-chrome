@@ -183,6 +183,7 @@ cwc.utils.Helper.prototype.prepareAddon = function(name) {
  * @param {!string} name
  * @param {!cwc.utils.HelperInstance} instance
  * @param {boolean=} overwrite
+ * @return {!cwc.utils.HelperInstance}
  * @export
  */
 cwc.utils.Helper.prototype.setInstance = function(name, instance,
@@ -192,6 +193,7 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
   }
   this.log_.debug('Set', name, 'instance to', instance);
   this.instances_[name] = instance;
+  return this.instances_[name];
 };
 
 

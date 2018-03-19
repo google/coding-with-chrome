@@ -63,6 +63,7 @@ goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Gamepad');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
@@ -286,6 +287,9 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.setProgress('Prepare helpers ...', 40);
   this.prepareHelper();
 
+  this.setProgress('Gamepad support ...', 44);
+  this.prepareGamepad();
+
   this.setProgress('Prepare addons ...', 45);
   this.prepareAddons();
 
@@ -434,7 +438,7 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
  */
 cwc.ui.Builder.prototype.prepareServer = function() {
   let serverInstance = new cwc.server.Server(this.helper);
-  if (this.helper.checkChromeFeature('sockets.tcpServer') && serverInstance) {
+  if (this.helper.checkChromeFeature('sockets.tcpServer')) {
     serverInstance.prepare();
   }
   this.helper.setInstance('server', serverInstance);
@@ -447,10 +451,7 @@ cwc.ui.Builder.prototype.prepareServer = function() {
  */
 cwc.ui.Builder.prototype.prepareDebug_ = function() {
   let debugInstance = new cwc.ui.Debug(this.helper);
-  if (debugInstance) {
-    debugInstance.prepare();
-  }
-  this.helper.setInstance('debug', debugInstance);
+  this.helper.setInstance('debug', debugInstance).prepare();
 };
 
 
@@ -460,10 +461,7 @@ cwc.ui.Builder.prototype.prepareDebug_ = function() {
  */
 cwc.ui.Builder.prototype.prepareExperimental_ = function() {
   let experimentalInstance = new cwc.ui.Experimental(this.helper);
-  if (experimentalInstance) {
-    experimentalInstance.prepare();
-  }
-  this.helper.setInstance('experimental', experimentalInstance);
+  this.helper.setInstance('experimental', experimentalInstance).prepare();
 };
 
 
@@ -472,15 +470,12 @@ cwc.ui.Builder.prototype.prepareExperimental_ = function() {
  */
 cwc.ui.Builder.prototype.prepareDialog = function() {
   let dialogInstance = new cwc.utils.Dialog();
-  if (dialogInstance) {
-    dialogInstance.setDefaultCloseHandler(
-      function() {
-        this.helper.getInstance('navigation').hide();
-      }.bind(this)
-    );
-    dialogInstance.prepare();
-  }
-  this.helper.setInstance('dialog', dialogInstance);
+  dialogInstance.setDefaultCloseHandler(
+    function() {
+      this.helper.getInstance('navigation').hide();
+    }.bind(this)
+  );
+  this.helper.setInstance('dialog', dialogInstance).prepare();
 };
 
 
@@ -511,6 +506,12 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
     }
   }
   this.prepared = true;
+};
+
+
+cwc.ui.Builder.prototype.prepareGamepad = function() {
+  let gamepadInstance = new cwc.utils.Gamepad();
+  this.helper.setInstance('gamepad', gamepadInstance).prepare();
 };
 
 

@@ -22,6 +22,7 @@ goog.provide('cwc.ui.Menubar');
 goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
@@ -48,9 +49,6 @@ cwc.ui.Menubar = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeAccountBody = null;
-
-  /** @type {Element} */
   this.nodeAccountLogin = null;
 
   /** @type {Element} */
@@ -58,9 +56,6 @@ cwc.ui.Menubar = function(helper) {
 
   /** @type {Element} */
   this.nodeBluetooth = null;
-
-  /** @type {Element} */
-  this.nodeBluetoothBody = null;
 
   /** @type {Element} */
   this.nodeBluetoothConnected = null;
@@ -72,19 +67,16 @@ cwc.ui.Menubar = function(helper) {
   this.nodeSerial = null;
 
   /** @type {Element} */
-  this.nodeSerialBody = null;
-
-  /** @type {Element} */
   this.nodeSerialConnected = null;
 
   /** @type {Element} */
   this.nodeSerialDisabled = null;
 
   /** @type {Element} */
-  this.nodeCloseButton = null;
+  this.nodeGamepad = null;
 
   /** @type {Element} */
-  this.nodeMinimizeButton = null;
+  this.nodeGamepadConnected = null;
 
   /** @type {Element} */
   this.nodeMaximizeButton = null;
@@ -113,6 +105,9 @@ cwc.ui.Menubar = function(helper) {
   /** @private {!boolean} */
   this.isChromeOS_ = this.helper.checkChromeFeature('os');
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
+
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -123,6 +118,7 @@ cwc.ui.Menubar = function(helper) {
  * @param {Element} node The target node to add the menu bar.
  */
 cwc.ui.Menubar.prototype.decorate = function(node) {
+  let dialogInstance = this.helper.getInstance('dialog');
   this.node = node;
 
   goog.soy.renderElement(
@@ -133,73 +129,71 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   );
 
   // Account body
-  this.nodeAccountBody = goog.dom.getElement(this.prefix + 'account-body');
-  goog.style.setElementShown(this.nodeAccountBody,
+  goog.style.setElementShown(goog.dom.getElement(this.prefix + 'account-body'),
     !this.isChromeOS_ && this.helper.checkChromeFeature('manifest.oauth2'));
 
   // Account login
   this.nodeAccountLogin = goog.dom.getElement(this.prefix + 'account');
-  goog.events.listen(this.nodeAccountLogin, goog.events.EventType.CLICK,
+  this.events_.listen(this.nodeAccountLogin, goog.events.EventType.CLICK,
     this.loginAccount, false, this);
 
   // Account logout
   this.nodeAccountLogout = goog.dom.getElement(this.prefix + 'account-logout');
-  goog.events.listen(this.nodeAccountLogout, goog.events.EventType.CLICK,
-    this.logoutAccount, false, this);
+  this.events_.listen(this.nodeAccountLogout, goog.events.EventType.CLICK,
+    this.logoutAccount);
 
   // Bluetooth body
-  this.nodeBluetoothBody = goog.dom.getElement(this.prefix + 'bluetooth-body');
-  goog.style.setElementShown(this.nodeBluetoothBody,
+  goog.style.setElementShown(
+    goog.dom.getElement(this.prefix + 'bluetooth-body'),
     this.helper.checkChromeFeature('bluetooth'));
 
   // Bluetooth enabled
   this.nodeBluetooth = goog.dom.getElement(this.prefix + 'bluetooth');
-  goog.events.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
+  this.events_.listen(this.nodeBluetooth, goog.events.EventType.CLICK,
     function() {
       let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showBluetoothDevices();
-    }, false, this);
+    });
 
   // Bluetooth connected
   this.nodeBluetoothConnected = goog.dom.getElement(
     this.prefix + 'bluetooth-connected');
-  goog.events.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
+  this.events_.listen(this.nodeBluetoothConnected, goog.events.EventType.CLICK,
     function() {
       let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showBluetoothDevices();
-    }, false, this);
+    });
 
   // Bluetooth disabled
   this.nodeBluetoothDisabled = goog.dom.getElement(
     this.prefix + 'bluetooth-disabled');
-  goog.events.listen(this.nodeBluetoothDisabled, goog.events.EventType.CLICK,
-    this.checkBluetoothState_, false, this);
+  this.events_.listen(this.nodeBluetoothDisabled, goog.events.EventType.CLICK,
+    this.checkBluetoothState_);
 
   // Close button
-  this.nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
-  goog.events.listen(this.nodeCloseButton, goog.events.EventType.CLICK,
-    this.requestCloseWindow, false, this);
+  let nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
+  this.events_.listen(nodeCloseButton, goog.events.EventType.CLICK,
+    this.requestCloseWindow);
 
   // Serial body
-  this.nodeSerialBody = goog.dom.getElement(this.prefix + 'serial-body');
-  goog.style.setElementShown(this.nodeSerialBody,
+  goog.style.setElementShown(goog.dom.getElement(this.prefix + 'serial-body'),
     this.helper.checkChromeFeature('serial'));
 
   // Serial enabled
   this.nodeSerial = goog.dom.getElement(this.prefix + 'serial');
-  goog.events.listen(this.nodeSerial, goog.events.EventType.CLICK, function() {
+  this.events_.listen(this.nodeSerial, goog.events.EventType.CLICK, function() {
     let connectScreenInstance = this.helper.getInstance('connectScreen');
     connectScreenInstance.showSerialDevices();
-  }, false, this);
+  });
 
   // Serial connected
   this.nodeSerialConnected = goog.dom.getElement(
     this.prefix + 'serial-connected');
-  goog.events.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
+  this.events_.listen(this.nodeSerialConnected, goog.events.EventType.CLICK,
     function() {
       let connectScreenInstance = this.helper.getInstance('connectScreen');
       connectScreenInstance.showSerialDevices();
-    }, false, this);
+    });
 
   // Serial disabled
   this.nodeSerialDisabled = goog.dom.getElement(
@@ -209,20 +203,42 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     this.setSerialEnabled(true);
   }
 
+  // Gamepad
+  goog.style.setElementShown(goog.dom.getElement(this.prefix + 'gamepad-body'),
+    this.helper.checkBrowserFeature('Gamepad'));
+  let gamepadInstance = this.helper.getInstance('gamepad');
+  this.nodeGamepad = goog.dom.getElement(this.prefix + 'gamepad');
+  this.events_.listen(
+    this.nodeGamepad, goog.events.EventType.CLICK, () => {
+      dialogInstance.showAlert('Enable Gamepad support',
+        'Please turn on the Gamepad and press any of the buttons.');
+    });
+  this.events_.listen(gamepadInstance.getEventHandler(),
+      cwc.utils.Gamepad.Events.Type.CONNECTED, () => {
+        dialogInstance.close('Enable Gamepad support');
+        this.setGamepad(true);
+      });
+  this.events_.listen(gamepadInstance.getEventHandler(),
+      cwc.utils.Gamepad.Events.Type.DISCONNECTED, () => {
+        this.setGamepad(false);
+      });
+  this.nodeGamepadConnected = goog.dom.getElement(
+    this.prefix + 'gamepad-connected');
+  this.setGamepad(false);
+
   // Minimize icon
-  this.nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
-  goog.events.listen(this.nodeMinimizeButton, goog.events.EventType.CLICK,
-    this.minimizeWindow, false, this);
+  this.events_.listen(
+    'minimize', goog.events.EventType.CLICK, this.minimizeWindow);
 
   // Maximize icon
   this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
-  goog.events.listen(this.nodeMaximizeButton, goog.events.EventType.CLICK,
-    this.maximizeWindow, false, this);
+  this.events_.listen(
+    this.nodeMaximizeButton, goog.events.EventType.CLICK, this.maximizeWindow);
 
   // Restore icon
   this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
-  goog.events.listen(this.nodeRestoreButton, goog.events.EventType.CLICK,
-    this.restoreWindow, false, this);
+  this.events_.listen(
+    this.nodeRestoreButton, goog.events.EventType.CLICK, this.restoreWindow);
 
   if (this.isChromeApp_) {
     this.currentWindow = chrome.app.window.current();
@@ -231,7 +247,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
     goog.style.setElementShown(this.nodeRestoreButton,
       this.currentWindow['isMaximized']());
   } else {
-    goog.style.setElementShown(this.nodeCloseButton, false);
+    goog.style.setElementShown(nodeCloseButton, false);
     goog.style.setElementShown(this.nodeMaximizeButton, false);
     goog.style.setElementShown(this.nodeRestoreButton, false);
   }
@@ -239,12 +255,12 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
   // Event Handling
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
-    goog.events.listen(bluetoothInstance.getEventHandler(),
+    this.events_.listen(bluetoothInstance.getEventHandler(),
       cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
-      this.handleBluetoothAdapterChange_, false, this);
-    goog.events.listen(bluetoothInstance.getEventHandler(),
+      this.handleBluetoothAdapterChange_);
+    this.events_.listen(bluetoothInstance.getEventHandler(),
       cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE,
-      this.handleBluetoothDeviceChange_, false, this);
+      this.handleBluetoothDeviceChange_);
   }
 };
 
@@ -390,6 +406,15 @@ cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
 
 
 /**
+ * @param {boolean} connected
+ */
+cwc.ui.Menubar.prototype.setGamepad = function(connected) {
+  goog.style.setElementShown(this.nodeGamepad, !connected);
+  goog.style.setElementShown(this.nodeGamepadConnected, connected);
+};
+
+
+/**
  * @param {?} e
  * @private
  */
@@ -416,4 +441,13 @@ cwc.ui.Menubar.prototype.handleBluetoothDeviceChange_ = function(e) {
   goog.style.setElementShown(this.nodeBluetoothConnected, e.data.connected);
   goog.style.setElementShown(this.nodeBluetoothDisabled, false);
   this.bluetoothConnectStatus = e.data.connected;
+};
+
+
+/**
+ * Cleans up the event listener and any other modification.
+ * @private
+ */
+cwc.ui.Menubar.prototype.cleanUp_ = function() {
+  this.events_.clear();
 };

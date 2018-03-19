@@ -33,6 +33,7 @@
       {param icon: 'close' /}
       {param title: 'close' /}
     {/call}
+
     <div id="{$prefix}maximize-body">
       {call .menubarButton_ data="all"}
         {param id: 'maximize' /}
@@ -98,6 +99,19 @@
             disabled>
       <i class="material-icons">usb</i>
     </button>
+  </div>
+
+  <div id="{$prefix}gamepad-body">
+    {call .menubarButton_ data="all"}
+      {param id: 'gamepad' /}
+      {param icon: 'videogame_asset' /}
+      {param title: 'Enable Gamepad support' /}
+    {/call}
+    {call .menubarButton_ data="all"}
+      {param id: 'gamepad-connected' /}
+      {param icon: 'videogame_asset' /}
+      {param title: 'Gamepad' /}
+    {/call}
   </div>
 {/template}
 

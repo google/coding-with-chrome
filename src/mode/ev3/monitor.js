@@ -25,6 +25,7 @@ goog.require('cwc.protocol.lego.ev3.RobotType');
 goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.events');
@@ -150,6 +151,7 @@ cwc.mode.ev3.Monitor.prototype.decorate = function() {
   }
 
   this.addEventHandler_();
+  this.addGamepadHandler_();
   this.addKeyHandler_();
   runnerInstance.enableMonitor(true);
   layoutInstance.refresh();
@@ -230,6 +232,34 @@ cwc.mode.ev3.Monitor.prototype.addEventHandler_ = function() {
   this.events_.listen('stop', goog.events.EventType.CLICK, function() {
     this.api.stop();
   }, false, this);
+};
+
+
+/**
+ * @private
+ */
+cwc.mode.ev3.Monitor.prototype.addGamepadHandler_ = function() {
+  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
+    (e) => {
+      this.api.movePower(e.data * 100);
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
+    (e) => {
+      this.api.movePower(-e.data * 100);
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.AXIS[0],
+    (e) => {
+      if (e.data > 0.1 || e.data < -0.1) {
+        this.api.rotatePower(e.data * 100);
+      } else {
+        this.api.rotatePower(0);
+      }
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
+    () => {
+      this.api.playTone(3000, 200, 50);
+  });
 };
 
 

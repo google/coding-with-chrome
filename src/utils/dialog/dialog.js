@@ -62,6 +62,9 @@ cwc.utils.Dialog = function() {
 
   /** @private {!string} */
   this.prefixDialog_ = this.prefix + 'chrome';
+
+  /** @private {!string} */
+  this.title_ = '';
 };
 
 
@@ -113,9 +116,15 @@ cwc.utils.Dialog.prototype.showModal = function() {
 
 
 /**
+ * @param {string=} title
  * @export
  */
-cwc.utils.Dialog.prototype.close = function() {
+cwc.utils.Dialog.prototype.close = function(title) {
+  // Close only specific dialogs with matching title.
+  if (title && typeof title === 'string' && this.title_ !== title) {
+    return;
+  }
+
   let dialog = this.getDialog_();
   if (!dialog) {
     return;
@@ -163,6 +172,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
   }
 
   if (dialog) {
+    this.title_ = dialogTitle;
     goog.soy.renderElement(dialog, template, {
           content: content,
           prefix: this.prefix,

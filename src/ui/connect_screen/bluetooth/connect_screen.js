@@ -108,8 +108,9 @@ cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
     });
     this.events_.listen('search-button', goog.events.EventType.CLICK, () => {
       bluetoothInstance.requestDevice(device).then((bluetoothDevice) => {
-        this.showConnectingStep(
-          'Pairing Device', 'Pairing device' + device.name, 1);
+        this.helper.getInstance('connectScreen')
+          .showConnectingStep(
+            'Pairing Device', 'Pairing device' + device.name, 1);
         resolve(bluetoothDevice);
       }).catch(() => {
         this.close_();

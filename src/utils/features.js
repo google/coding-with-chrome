@@ -98,13 +98,16 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function() {
   // Communication features
   this.setBrowserFeature('bluetooth', typeof navigator.bluetooth);
 
+  // IndexedDB
+  this.setBrowserFeature('indexedDB', typeof window.indexedDB);
+
+  // Gamepad
+  this.setBrowserFeature('Gamepad', typeof navigator.getGamepads);
+
   // Web Workers and Service Workers
   this.setBrowserFeature('Worker', typeof Worker);
   this.setBrowserFeature('SharedWorker', typeof SharedWorker);
   this.setBrowserFeature('serviceWorker', typeof navigator.serviceWorker);
-
-  // IndexedDB
-  this.setBrowserFeature('indexedDB', typeof window.indexedDB);
 };
 
 

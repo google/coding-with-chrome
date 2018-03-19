@@ -28,15 +28,19 @@ goog.require('goog.events');
 /**
  * @param {string=} name
  * @param {string=} prefix
+ * @param {Object=} scope
  * @constructor
  * @final
  */
-cwc.utils.Events = function(name = 'Events', prefix = '') {
+cwc.utils.Events = function(name = 'Events', prefix = '', scope = undefined) {
   /** @type {!string} */
   this.name = name || '';
 
   /** @type {!string} */
   this.prefix = prefix || '';
+
+
+  this.scope = scope;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -72,7 +76,8 @@ cwc.utils.Events.prototype.listen = function(src, type, listener,
     this.log_.error('Undefined event target!', eventTarget);
   }
   this.listener_.push(
-    goog.events.listen(eventTarget, type, listener, capture, scope)
+    goog.events.listen(eventTarget, type, listener, capture,
+      scope || this.scope)
   );
 };
 

@@ -23,6 +23,7 @@
 #{$prefix}menubar-account-body,
 #{$prefix}menubar-bluetooth-body,
 #{$prefix}menubar-close,
+#{$prefix}menubar-gamepad-body,
 #{$prefix}menubar-help,
 #{$prefix}menubar-maximize-body,
 #{$prefix}menubar-minimize,
@@ -38,10 +39,8 @@
   padding-left: 5px;
 }
 
-#{$prefix}menubar-account-logout-disabled {
-  opacity: 0.7;
-}
-
-#{$prefix}menubar-bluetooth-disabled {
-  opacity: 0.7;
+#{$prefix}menubar-account-logout-disabled,
+#{$prefix}menubar-bluetooth-disabled,
+#{$prefix}menubar-gamepad {
+  opacity: 0.5;
 }
