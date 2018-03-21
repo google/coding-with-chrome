@@ -33,16 +33,16 @@ cwc.utils.Gamepad = function() {
   this.name = 'Gamepad';
 
   /** @type {number} */
-  this.index = null;
+  this.index = undefined;
 
   /** @type {number} */
   this.timestamp = -1;
 
   /** @private [array] */
-  this.axesCache_ = [];
+  this.axesCache_ = [0, 0, 0, 0];
 
   /** @private [array] */
-  this.buttonCache_ = [];
+  this.buttonCache_ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
@@ -88,7 +88,20 @@ cwc.utils.Gamepad.prototype.getEventHandler = function() {
  * @return {Object}
  */
 cwc.utils.Gamepad.prototype.getGamepad = function(index = this.index) {
+  if (index === undefined) {
+    return null;
+  }
   return navigator.getGamepads()[index];
+};
+
+
+/**
+ * @param {number=} shift
+ * @return {!number}
+ */
+cwc.utils.Gamepad.prototype.getLeftAxisAngle = function(shift) {
+  return cwc.utils.Gamepad.getAngle(
+    this.axesCache_[0], this.axesCache_[1], shift);
 };
 
 
@@ -112,7 +125,8 @@ cwc.utils.Gamepad.prototype.handleConnect_ = function(e) {
 cwc.utils.Gamepad.prototype.handleDisconnect_ = function(e) {
   this.log_.info('Gamepad disconnected', e['gamepad']);
   if (this.index === e['gamepad']['index']) {
-    this.index = null;
+    this.index = undefined;
+    this.timestamp = -1;
     this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.disconnected());
   }
 };
@@ -122,10 +136,10 @@ cwc.utils.Gamepad.prototype.handleDisconnect_ = function(e) {
  * @private
  */
 cwc.utils.Gamepad.prototype.handleTick_ = function() {
-  if (this.index === null) {
+  let gamepad = this.getGamepad();
+  if (!gamepad) {
     return;
   }
-  let gamepad = this.getGamepad();
   if (gamepad['timestamp'] > this.timestamp) {
     this.timestamp = gamepad['timestamp'];
     this.handleEvent_(gamepad);
@@ -139,21 +153,42 @@ cwc.utils.Gamepad.prototype.handleTick_ = function() {
  */
 cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
   gamepad['axes'].forEach((axis, index) => {
+    // Smooth axes to avoid false triggers from vibrations.
+    if (axis > -0.04 && axis < 0.04) {
+      axis = 0;
+    }
     if (axis !== this.axesCache_[index]) {
       this.axesCache_[index] = axis;
       this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.axisMoved(
         index, axis
       ));
-      console.log(index, axis);
     }
   });
   gamepad['buttons'].forEach((button, index) => {
-    if (button['pressed'] || this.buttonCache_[index] !== button['pressed']) {
+    if (button['pressed'] || this.buttonCache_[index] !== button['value']) {
       this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.buttonPressed(
         index, button['value']
       ));
-      console.log(index, button);
     }
-    this.buttonCache_[index] = button['pressed'];
+    this.buttonCache_[index] = button['value'];
   });
+};
+
+
+/**
+ * @param {!number} x
+ * @param {!number} y
+ * @param {number=} shift
+ * @return {!number};
+ */
+cwc.utils.Gamepad.getAngle = function(x, y, shift = 90) {
+  let angle = 0;
+  if (y || x) {
+    angle = Math.atan2(y, x) * 180 / Math.PI + shift;
+    if (angle < 0) {
+      angle += 360;
+    }
+  }
+
+  return angle;
 };

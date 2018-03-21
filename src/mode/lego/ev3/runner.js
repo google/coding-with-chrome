@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.Runner');
+goog.provide('cwc.mode.lego.ev3.Runner');
 
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.Robots');
@@ -35,11 +35,11 @@ goog.require('goog.dom');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.ev3.Connection} connection
+ * @param {!cwc.mode.lego.ev3.Connection} connection
  * @struct
  * @final
  */
-cwc.mode.ev3.Runner = function(helper, connection) {
+cwc.mode.lego.ev3.Runner = function(helper, connection) {
   /** @type {string} */
   this.name = 'EV3 Runner';
 
@@ -49,7 +49,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.mode.ev3.Connection} */
+  /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = connection;
 
   /** @type {!cwc.protocol.lego.ev3.Api} */
@@ -105,7 +105,7 @@ cwc.mode.ev3.Runner = function(helper, connection) {
  * Decorates the runner object for the EV3 modification.
  * @export
  */
-cwc.mode.ev3.Runner.prototype.decorate = function() {
+cwc.mode.lego.ev3.Runner.prototype.decorate = function() {
   this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
   this.helper.setInstance('runner', this.runner, true);
   this.helper.setInstance('turtle', this.turtle, true);
@@ -169,7 +169,7 @@ cwc.mode.ev3.Runner.prototype.decorate = function() {
 /**
  * @private
  */
-cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
+cwc.mode.lego.ev3.Runner.prototype.handleStart_ = function() {
   this.updateDeviceInfo();
   this.setWheelDiameter();
   this.setWheelWidth();
@@ -181,7 +181,7 @@ cwc.mode.ev3.Runner.prototype.handleStart_ = function() {
 /**
  * Updates the runner inside the sandbox with the device information.
  */
-cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
+cwc.mode.lego.ev3.Runner.prototype.updateDeviceInfo = function() {
   this.runner.send('updateDeviceInfo', this.api.getDeviceInfo());
 };
 
@@ -189,7 +189,7 @@ cwc.mode.ev3.Runner.prototype.updateDeviceInfo = function() {
 /**
  * @param {cwc.protocol.lego.ev3.RobotType=} optType
  */
-cwc.mode.ev3.Runner.prototype.setRobotType = function(optType) {
+cwc.mode.lego.ev3.Runner.prototype.setRobotType = function(optType) {
   if (optType !== undefined) {
     this.robotType = optType;
   }
@@ -200,7 +200,7 @@ cwc.mode.ev3.Runner.prototype.setRobotType = function(optType) {
 /**
  * @param {number=} opt_diameter in diameter
  */
-cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(opt_diameter) {
+cwc.mode.lego.ev3.Runner.prototype.setWheelDiameter = function(opt_diameter) {
   if (opt_diameter !== undefined) {
     this.wheelDiameter = opt_diameter;
   }
@@ -211,7 +211,7 @@ cwc.mode.ev3.Runner.prototype.setWheelDiameter = function(opt_diameter) {
 /**
  * @param {number=} opt_width in diameter
  */
-cwc.mode.ev3.Runner.prototype.setWheelWidth = function(opt_width) {
+cwc.mode.lego.ev3.Runner.prototype.setWheelWidth = function(opt_width) {
   if (opt_width !== undefined) {
     this.wheelWidth = opt_width;
   }
@@ -222,7 +222,7 @@ cwc.mode.ev3.Runner.prototype.setWheelWidth = function(opt_width) {
 /**
  * @param {number=} opt_distance in millimeter
  */
-cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
+cwc.mode.lego.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
   if (opt_distance) {
     this.wheelbase = opt_distance;
   }
@@ -233,7 +233,7 @@ cwc.mode.ev3.Runner.prototype.setWheelbase = function(opt_distance) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.ev3.Runner.prototype.cleanUp = function() {
+cwc.mode.lego.ev3.Runner.prototype.cleanUp = function() {
   this.connection.cleanUp();
   this.events_.clear();
 };

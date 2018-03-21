@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.Hints');
+goog.provide('cwc.mode.lego.ev3.Hints');
 
 
 /**
  * @enum {!Object.<Function>}
  */
-cwc.mode.ev3.Hints = {
+cwc.mode.lego.ev3.Hints = {
   'ev3': {
     'customMoveSteps': function() {},
     'customRotateAngle': function() {},

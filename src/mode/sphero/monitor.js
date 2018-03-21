@@ -21,8 +21,9 @@ goog.provide('cwc.mode.sphero.Monitor');
 
 goog.require('cwc.protocol.sphero.classic.Events');
 goog.require('cwc.soy.mode.sphero.Monitor');
-goog.require('cwc.utils.Events');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Gamepad.Events');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');
@@ -150,6 +151,7 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
     this.cleanUp, false, this);
 
   this.addEventHandler_();
+  this.addGamepadHandler_();
   this.addKeyHandler_();
   runnerInstance.enableMonitor(true);
   layoutInstance.refresh();
@@ -211,6 +213,39 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
     calibrationSlide, goog.events.EventType.MOUSEUP, function() {
       this.api.setCalibration();
     }, false, this);
+};
+
+
+/**
+ * @private
+ */
+cwc.mode.sphero.Monitor.prototype.addGamepadHandler_ = function() {
+  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
+  let gamepad = this.helper.getInstance('gamepad');
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
+    (e) => {
+      this.api.roll(e.data * 255, gamepad.getLeftAxisAngle());
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
+    () => {
+      this.connection.stop();
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
+    () => {
+      this.api.setRGB(0, 255, 0);
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[1],
+    () => {
+      this.api.setRGB(255, 0, 0);
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[2],
+    () => {
+      this.api.setRGB(0, 0, 255);
+  });
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[3],
+    () => {
+      this.api.setRGB(0, 0, 0);
+  });
 };
 
 

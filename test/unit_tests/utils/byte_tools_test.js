@@ -195,61 +195,49 @@ describe('ByteTools', function() {
         [255, 255, 0, 16, 11, 255, 253, 255, 250, 0, 24, 255, 247, 0, 25, 200]);
     let packet6 = cwc.utils.ByteTools.toUint8Array(
         [255, 255, 0, 16, 11, 0, 4, 255, 235, 0, 0, 0, 0, 0, 0, 246]);
-    let packet7 = cwc.utils.ByteTools.toUint8Array(
-        [255, 255, 0, 16, 11, 0, 4, 255, 255, 0, 0, 0, 0, 0, 0, 246]);
     let headers1 = [0xff, 0xff];
     let headers2 = [0xff, 0xfe];
     let size1 = 9;
     let size2 = 16;
-    let size3 = 7;
     let buffer1 = cwc.utils.ByteTools.toUint8Array([0, 255]);
-    let result7Group1 = cwc.utils.ByteTools.toUint8Array(
-        [255, 255, 0, 16, 11, 0, 4]);
-    let result7Group2 = cwc.utils.ByteTools.toUint8Array(
-        [255, 255, 0, 0, 0, 0, 0, 0, 246]);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, null, size1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, null, size1).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, size1).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 8).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 8).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 9).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 9).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 10).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers1, 10).data)
       .toEqual(undefined);
-    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet1, headers2, size1).data)
       .toEqual(undefined);
     expect(cwc.utils.ByteTools.getUint8Data(packet1Shifted, headers1, size1)
-      .data[0])
+      .data)
       .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1Shifted, headers1, size1,
-        buffer1).data[0])
+        buffer1).data)
       .toEqual(packet1);
     expect(cwc.utils.ByteTools.getUint8Data(packet1Broken, headers1, size1)
-      .data[0])
+      .data)
       .toEqual(undefined);
     expect(cwc.utils.ByteTools.getUint8Data(packet1Broken, headers1, size1)
       .buffer)
       .toEqual(packet1Broken);
     expect(cwc.utils.ByteTools.getUint8Data(packet1Broken, headers1, size1,
-        buffer1).data[0])
+        buffer1).data)
       .toEqual(packet1);
-    expect(cwc.utils.ByteTools.getUint8Data(packet2, headers1, size1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet2, headers1, size1).data)
       .toEqual(packet2);
-    expect(cwc.utils.ByteTools.getUint8Data(packet3, headers1, size1).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet3, headers1, size1).data)
       .toEqual(packet3);
-    expect(cwc.utils.ByteTools.getUint8Data(packet4, headers1, size2).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet4, headers1, size2).data)
       .toEqual(packet4);
-    expect(cwc.utils.ByteTools.getUint8Data(packet5, headers1, size2).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet5, headers1, size2).data)
       .toEqual(packet5);
-    expect(cwc.utils.ByteTools.getUint8Data(packet6, headers1, size2).data[0])
+    expect(cwc.utils.ByteTools.getUint8Data(packet6, headers1, size2).data)
       .toEqual(packet6);
-
-    // Testing multi-data strings.
-    let data7 = cwc.utils.ByteTools.getUint8Data(packet7, headers1, size3);
-    expect(data7.data[0]).toEqual(result7Group1);
-    expect(data7.data[1]).toEqual(result7Group2);
   });
 });

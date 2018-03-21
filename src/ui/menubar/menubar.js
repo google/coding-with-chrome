@@ -22,6 +22,7 @@ goog.provide('cwc.ui.Menubar');
 goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.soy.Menubar');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Logger');
 

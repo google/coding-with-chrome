@@ -118,7 +118,7 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
 
 
 /**
- * @param {ArrayBuffer|Unit8Array} data
+ * @param {ArrayBuffer|Uint8Array} data
  * @return {Uint8Array}
  */
 cwc.utils.ByteTools.getUint8Array = function(data) {
@@ -139,103 +139,61 @@ cwc.utils.ByteTools.uint8Data;
 
 /**
  * @param {ArrayBuffer|Uint8Array} data
- * @param {Array=} dataHeaders
- * @param {number=} size
- * @param {ArrayBuffer|Uint8Array=} optBuffer
- * @return {cwc.utils.ByteTools.uint8Data} result
- */
-cwc.utils.ByteTools.getUint8Data = function(data,
-    dataHeaders = null, size = 0, optBuffer) {
-  let buffer = null;
-  let dataView = cwc.utils.ByteTools.getUint8Array(data);
-  let parsedData = [];
-  let validData = true;
-
-  if (dataView) {
-    // Additional length checks if needed.
-    if (size) {
-      // Perpend buffer if needed.
-      if (optBuffer && dataView.length < size) {
-        if (optBuffer instanceof ArrayBuffer) {
-          buffer = new Uint8Array(optBuffer);
-        } else {
-          buffer = optBuffer;
-        }
-        dataView = cwc.utils.ByteTools.joinUint8Array(buffer, dataView);
-      }
-
-      if (dataView.length < size) {
-        buffer = dataView;
-        validData = false;
-      }
-    }
-
-    // Data processing for data with headers.
-    if (validData) {
-      if (dataHeaders) {
-        let headers = cwc.utils.ByteTools.getHeaderPositions(dataView,
-          dataHeaders);
-        if (headers) {
-          let headersLength = headers.length;
-          for (let headerPos = 0; headerPos < headersLength; headerPos++) {
-            let dataFragment = dataView.slice(
-              headers[headerPos], headers[headerPos+1]);
-            if (dataFragment.length) {
-              if (!size || (size && dataFragment.length >= size)) {
-                parsedData.push(dataFragment);
-              } else {
-                buffer = dataFragment;
-              }
-            }
-          }
-        } else {
-          buffer = dataView;
-        }
-      } else {
-        // Data processing for data without headers.
-        parsedData.push(dataView);
-      }
-    }
-  }
-
-  return {
-    'data': parsedData,
-    'buffer': buffer,
-  };
-};
-
-/**
- * @param {ArrayBuffer|Uint8Array} data
  * @param {Array=} headers
  * @param {number=} size
  * @param {ArrayBuffer|Uint8Array=} buffer
  * @return {cwc.utils.ByteTools.uint8Data} result
  */
-cwc.utils.ByteTools.getUint8Data2 = function(data, headers, size, buffer) {
+cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
+  console.log(data, headers, size, buffer);
   // Prepare Data Buffer
-  let dataBuffer = cwc.utils.ByteTools.getUint8Array(data);
-  let dataFragment = cwc.utils.ByteTools.getUint8Array(buffer);
+  let dataArray = cwc.utils.ByteTools.getUint8Array(data);
   let uint8Data = {
-    'data': [],
+    'data': dataArray,
     'buffer': null,
   };
 
-  // Checking if data have at least min size
-  if (dataBuffer.length < size &&
-      dataBuffer.length + dataFragment.length < size) {
-    uint8Data['buffer'] =
-      cwc.utils.ByteTools.joinUint8Array(dataBuffer, dataFragment);
+  // Return the data if no further processing is needed.
+  if (!headers && !size && !buffer) {
     return uint8Data;
   }
 
-  // Checking Data headers
-  // [['0xFF','0xFF'], ['0xFF','0xFF']]
-  let dataHeaders = typeof headers[0] === 'string' ? [headers] : headers;
-  console.log(dataHeaders);
+  // Join any existing buffer.
+  if (buffer) {
+    let dataFragment = cwc.utils.ByteTools.getUint8Array(buffer);
+    dataArray = cwc.utils.ByteTools.joinUint8Array(dataFragment, dataArray);
+  }
 
-  // Check if first position matching any headers
+  // Check if data have at least min size.
+  if (size && dataArray.length < size) {
+    uint8Data['buffer'] = dataArray;
+    uint8Data['data'] = undefined;
+    return uint8Data;
+  }
 
-  // Check if we find headers inside the data
+  // Perform additional header checks.
+  if (headers) {
+    let dataHeaders = typeof headers[0] !== 'object' ? [headers] : headers;
+
+    // Quick header search on first position.
+    for (let header of dataHeaders) {
+      if ((header[0] === dataArray[0]) &&
+          (header[1] === undefined || header[1] === dataArray[1])) {
+        return uint8Data;
+      }
+    }
+
+    // Advanced header check on all position.
+    for (let header of dataHeaders) {
+      let headerPosition = cwc.utils.ByteTools.getHeaderPositions(dataArray,
+        header);
+      if (headerPosition) {
+        uint8Data['data'] = dataArray.slice(headerPosition[0]);
+        return uint8Data;
+      }
+    }
+    uint8Data['data'] = undefined;
+  }
 
   return uint8Data;
 };

@@ -79,8 +79,8 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {!string} */
   this.battery = '';
 
-  /** @type {goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
+  /** @private {goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
 
   /** @type {!cwc.protocol.lego.ev3.Monitoring} */
   this.monitoring = new cwc.protocol.lego.ev3.Monitoring(this);
@@ -107,8 +107,12 @@ cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     console.log('Prepare EV3 bluetooth api for', device.getAddress());
+    this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
+      'Prepare EV3 api for' + device.getAddress(), 2));
     this.device = device;
     this.prepare();
+    this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
+      'Ready ...', 3));
   }
 
   return true;
@@ -248,7 +252,7 @@ cwc.protocol.lego.ev3.Api.prototype.getGyroSensorData = function() {
  * @return {goog.events.EventTarget}
  */
 cwc.protocol.lego.ev3.Api.prototype.getEventHandler = function() {
-  return this.eventHandler;
+  return this.eventHandler_;
 };
 
 
@@ -426,8 +430,27 @@ cwc.protocol.lego.ev3.Api.prototype.movePower = function(power) {
   let brake = true;
   let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
   let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  let ports = motorLeft | motorRight;
-  this.send_(this.commands.movePower(ports, power, brake));
+  this.send_(this.commands.movePower(motorLeft | motorRight, power, brake));
+};
+
+
+/**
+ * @param {!number} power
+ */
+cwc.protocol.lego.ev3.Api.prototype.movePowerLeft = function(power) {
+  let brake = true;
+  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
+  this.send_(this.commands.movePower(motorLeft, power, brake));
+};
+
+
+/**
+ * @param {!number} power
+ */
+cwc.protocol.lego.ev3.Api.prototype.movePowerRight = function(power) {
+  let brake = true;
+  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
+  this.send_(this.commands.movePower(motorRight, power, brake));
 };
 
 
@@ -746,7 +769,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   console.log('Found', deviceName, 'with mode', deviceMode, 'on port', port);
   this.deviceData[port] = new cwc.protocol.lego.ev3.Device(deviceName,
       deviceMode, 0, deviceCss);
-  this.eventHandler.dispatchEvent(
+  this.eventHandler_.dispatchEvent(
       cwc.protocol.lego.ev3.Events.changedDevices(this.deviceData));
   this.deviceInfo[deviceName] = port;
 
@@ -783,43 +806,43 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value,
     this.monitoring.update();
     switch (opt_device_name) {
       case cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.colorSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.gyroSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.IR_SENSOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.irSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.ultrasonicSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.touchSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.touchSensorOptValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.touchSensorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.mediumMotorValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.largeMotorOptValue(value, port));
         break;
       case cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT:
-        this.eventHandler.dispatchEvent(
+        this.eventHandler_.dispatchEvent(
             cwc.protocol.lego.ev3.Events.mediumMotorOptValue(value, port));
         break;
     }

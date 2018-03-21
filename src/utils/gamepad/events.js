@@ -23,7 +23,7 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {string}
+ * @enum {!Object.<string>|string}
  */
 cwc.utils.Gamepad.Events.Type = {
   AXIS: {
@@ -49,7 +49,7 @@ cwc.utils.Gamepad.Events.Type = {
     13: 'button_down',
     14: 'button_left',
     15: 'button_right',
-    16: 'button_vendor',
+    16: 'button_home',
   },
   CONNECTED: 'connected',
   DISCONNECTED: 'disconnected',
@@ -68,7 +68,6 @@ cwc.utils.Gamepad.Events.connected = function(data) {
 
 
 /**
- * @param {Object} data
  * @return {!cwc.utils.EventData}
  * @final
  */
@@ -85,7 +84,7 @@ cwc.utils.Gamepad.Events.disconnected = function() {
  */
 cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.AXIS[index], value);
+      cwc.utils.Gamepad.Events.Type.AXIS[index], value || 0);
 };
 
 
@@ -96,5 +95,5 @@ cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
  */
 cwc.utils.Gamepad.Events.buttonPressed = function(index, value) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.BUTTON[index], value);
+      cwc.utils.Gamepad.Events.Type.BUTTON[index], value || 0);
 };

@@ -89,8 +89,8 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @private {!number} */
   this.speed_ = 20;
 
-  /** @type {!goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
 };
 
 
@@ -108,33 +108,33 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     console.log('Preparing Sphero bluetooth LE api for', device.getId());
-    this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
-        'Connecting device ...', 1));
+    this.eventHandler_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+        'Preparing device ...', 1));
     this.device = device;
 
     // Enable Developer mode.
     this.device.sendRaw(
       new TextEncoder('utf-8').encode('011i3'),
       '22bb746f-2bbd-7554-2d6f-726568705327', () => {
-        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+        this.eventHandler_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Enable developer mode ...', 2));
     });
 
     // Power on device.
     this.device.sendRaw(
       new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
-        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+        this.eventHandler_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Power on device. Waiting until device wakes up ...', 2));
-      });
+    });
 
     // Wakeup device.
     this.device.sendRaw(
       new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
         this.prepare();
         this.runTest();
-        this.eventHandler.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
+        this.eventHandler_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Ready ...', 3));
-      });
+    });
   }
   return true;
 };
@@ -203,7 +203,7 @@ cwc.protocol.sphero.v1.Api.prototype.monitor = function(enable) {
  * @return {!goog.events.EventTarget}
  */
 cwc.protocol.sphero.v1.Api.prototype.getEventHandler = function() {
-  return this.eventHandler;
+  return this.eventHandler_;
 };
 
 
@@ -404,20 +404,20 @@ cwc.protocol.sphero.v1.Api.prototype.updateLocationData_ = function(data) {
   if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
     this.locationPosX_ = xpos;
     this.locationPosY_ = ypos;
-    this.eventHandler.dispatchEvent(
+    this.eventHandler_.dispatchEvent(
       cwc.protocol.sphero.v1.Events.locationData({x: xpos, y: ypos}));
   }
 
   if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
     this.locationVelX_ = xvel;
     this.locationVelY_ = yvel;
-    this.eventHandler.dispatchEvent(
+    this.eventHandler_.dispatchEvent(
       cwc.protocol.sphero.v1.Events.velocityData({x: xvel, y: yvel}));
   }
 
   if (speed != this.locationSpeed_) {
     this.locationSpeed_ = speed;
-    this.eventHandler.dispatchEvent(
+    this.eventHandler_.dispatchEvent(
       cwc.protocol.sphero.v1.Events.speedValue(speed));
   }
 };
@@ -435,7 +435,7 @@ cwc.protocol.sphero.v1.Api.prototype.parseCollisionData_ = function(data) {
   let xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
   let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
   let speed = data[11];
-  this.eventHandler.dispatchEvent(
+  this.eventHandler_.dispatchEvent(
     cwc.protocol.sphero.v1.Events.collision({
       x: x,
       y: y,

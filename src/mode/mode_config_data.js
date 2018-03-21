@@ -26,8 +26,8 @@ goog.require('cwc.mode.arduino.Mod');
 goog.require('cwc.mode.basic.blockly.Mod');
 goog.require('cwc.mode.basic.simple.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
-goog.require('cwc.mode.ev3.advanced.Mod');
-goog.require('cwc.mode.ev3.blockly.Mod');
+goog.require('cwc.mode.lego.ev3.advanced.Mod');
+goog.require('cwc.mode.lego.ev3.blockly.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.javascript.Mod');
 goog.require('cwc.mode.json.Mod');
@@ -158,7 +158,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3] = new cwc.mode.Mod({
   authors: ['Markus Bordihn, Stefan Sauer'],
   icon: 'adb',
   mime_types: [cwc.file.MimeType.CWC.type],
-  mod: cwc.mode.ev3.advanced.Mod,
+  mod: cwc.mode.lego.ev3.advanced.Mod,
   name: 'EV3',
   template: 'lego/ev3/blank.cwc',
 });
@@ -171,7 +171,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn, Stefan Sauer'],
   icon: 'adb',
   mime_types: [cwc.file.MimeType.CWC.type],
-  mod: cwc.mode.ev3.blockly.Mod,
+  mod: cwc.mode.lego.ev3.blockly.Mod,
   name: 'EV3 blockly',
   template: 'lego/ev3/blank-blocks.cwc',
 });

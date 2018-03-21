@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ev3.Calibration');
+goog.provide('cwc.mode.lego.ev3.Calibration');
 
 goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Calibration');
@@ -29,12 +29,12 @@ goog.require('cwc.utils.Helper');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.ev3.Connection} connection
- * @param {!cwc.mode.ev3.Runner} runner
+ * @param {!cwc.mode.lego.ev3.Connection} connection
+ * @param {!cwc.mode.lego.ev3.Runner} runner
  * @struct
  * @final
  */
-cwc.mode.ev3.Calibration = function(helper, connection, runner) {
+cwc.mode.lego.ev3.Calibration = function(helper, connection, runner) {
   /** @type {string} */
   this.name = 'EV3 Calibration';
 
@@ -71,13 +71,13 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
   /** @type {Element} */
   this.nodeRobotList = null;
 
-  /** @type {!cwc.mode.ev3.Connection} */
+  /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = connection;
 
   /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {!cwc.mode.ev3.Runner} */
+  /** @type {!cwc.mode.lego.ev3.Runner} */
   this.runner = runner;
 
   /** @type {boolean} */
@@ -95,7 +95,7 @@ cwc.mode.ev3.Calibration = function(helper, connection, runner) {
 /**
  * Decorates the EV3 monitor window.
  */
-cwc.mode.ev3.Calibration.prototype.decorate = function() {
+cwc.mode.lego.ev3.Calibration.prototype.decorate = function() {
   let runnerInstance = this.helper.getInstance('runner', true);
   let runnerMonitor = runnerInstance.getMonitor();
   if (!runnerMonitor) {
@@ -154,7 +154,7 @@ cwc.mode.ev3.Calibration.prototype.decorate = function() {
 /**
  * @private
  */
-cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
+cwc.mode.lego.ev3.Calibration.prototype.addEventHandler_ = function() {
   let detectSensors = goog.dom.getElement(this.prefix + 'detect-sensors');
 
   // Calibration
@@ -170,7 +170,7 @@ cwc.mode.ev3.Calibration.prototype.addEventHandler_ = function() {
 /**
  * Detects the connected EV3 devices.
  */
-cwc.mode.ev3.Calibration.prototype.detect = function() {
+cwc.mode.lego.ev3.Calibration.prototype.detect = function() {
   this.connection.getDevices();
 };
 
@@ -179,7 +179,7 @@ cwc.mode.ev3.Calibration.prototype.detect = function() {
  * Detects the connected EV3 devices.
  * @param {Event} event
  */
-cwc.mode.ev3.Calibration.prototype.setType = function(event) {
+cwc.mode.lego.ev3.Calibration.prototype.setType = function(event) {
   let model = event.target.textContent;
   if (model.toLowerCase() == 'custom') {
     goog.style.setElementShown(this.nodeRobotCustom, true);
@@ -194,7 +194,7 @@ cwc.mode.ev3.Calibration.prototype.setType = function(event) {
  * Sets the EV3 robot model
  * @param {!string} model
  */
-cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
+cwc.mode.lego.ev3.Calibration.prototype.setRobotModel = function(model) {
   console.log('Set robot model to', model);
   console.log('Type:', cwc.protocol.lego.ev3.Robots[model].type);
 
@@ -222,7 +222,7 @@ cwc.mode.ev3.Calibration.prototype.setRobotModel = function(model) {
  * Transfers the calibration settings.
  * @param {Event=} opt_event
  */
-cwc.mode.ev3.Calibration.prototype.setCalibration = function(opt_event) {
+cwc.mode.lego.ev3.Calibration.prototype.setCalibration = function(opt_event) {
   this.runner.setWheelDiameter(this.nodeWheelDiameter.value);
   this.runner.setWheelWidth(this.nodeWheelWidth.value);
   this.runner.setWheelbase(this.nodeWheelbase.value);
@@ -233,6 +233,6 @@ cwc.mode.ev3.Calibration.prototype.setCalibration = function(opt_event) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.ev3.Calibration.prototype.cleanUp = function() {
+cwc.mode.lego.ev3.Calibration.prototype.cleanUp = function() {
    this.events_.clear();
 };

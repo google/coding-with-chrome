@@ -28,7 +28,7 @@ goog.require('cwc.ui.Preview');
 
 
 /**
- * @typedef {cwc.mode.ev3.Connection|
+ * @typedef {cwc.mode.lego.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
  *   cwc.mode.sphero.Connection|
@@ -54,7 +54,7 @@ cwc.mode.default.RendererTypes;
 
 
 /**
- * @typedef {cwc.mode.ev3.Runner|
+ * @typedef {cwc.mode.lego.ev3.Runner|
  *   cwc.mode.makeblock.mbot.Runner|
  *   cwc.mode.makeblock.mbotRanger.Runner|
  *   cwc.mode.sphero.Runner}
@@ -63,7 +63,7 @@ cwc.mode.default.RunnerTypes;
 
 
 /**
- * @typedef {cwc.mode.ev3.Monitor|
+ * @typedef {cwc.mode.lego.ev3.Monitor|
  *   cwc.mode.sphero.Monitor|
  *   cwc.mode.makeblock.mbot.Monitor|
  *   cwc.mode.makeblock.mbotRanger.Monitor}

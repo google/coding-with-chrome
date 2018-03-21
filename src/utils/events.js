@@ -106,7 +106,7 @@ cwc.utils.EventData = function(type, data, source) {
   this.type = type;
 
   /** @type {!Object|string|number} */
-  this.data = data || {};
+  this.data = (typeof data !== 'undefined') ? data : {};
 
   /** @type {!string|number} */
   this.source = source || '';
