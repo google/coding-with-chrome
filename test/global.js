@@ -35,7 +35,7 @@ let getTestBlockCode = function(block) {
 };
 
 let getTestBuffer = function(data) {
-  return cwc.utils.ByteTools.getUint8Data(data).data[0];
+  return cwc.utils.ByteTools.getUint8Data(data).data;
 };
 
 let loadExampleFile = function(file, builder) {
