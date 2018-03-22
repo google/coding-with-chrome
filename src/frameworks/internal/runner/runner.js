@@ -157,17 +157,6 @@ cwc.framework.Runner.prototype.setMonitor = function(monitor) {
 
 
 /**
- * Sends the direct update confirmation to the runner..
- * @param {string=} data
- * @export
- */
-cwc.framework.Runner.prototype.enableDirectUpdate = function(data = '') {
-  console.log('Enable direct update.');
-  this.send('__direct_update__', data);
-};
-
-
-/**
  * Handles the received messages and executes the predefined actions.
  * @param {Event} event
  * @private

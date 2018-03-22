@@ -118,14 +118,17 @@ cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
 
 
 /**
- * @param {ArrayBuffer|Uint8Array} data
- * @return {Uint8Array}
+ * @param {!ArrayBuffer|Uint8Array} data
+ * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.getUint8Array = function(data) {
+  if (data instanceof Uint8Array) {
+    return data;
+  }
   if (data instanceof ArrayBuffer) {
     return new Uint8Array(data);
   }
-  return data;
+  console.error('Unable to read:', data);
 };
 
 

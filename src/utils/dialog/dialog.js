@@ -195,7 +195,9 @@ cwc.utils.Dialog.prototype.showContent = function(title, content) {
   if (this.getDialog_()) {
     this.render(title, content, cwc.soy.Dialog.contentTemplate);
     let closeButton = goog.dom.getElement(this.prefix + 'close');
-    closeButton.addEventListener('click', this.close.bind(this));
+    closeButton.addEventListener('click', () => {
+        this.close();
+      });
     this.showModal();
   }
 };
@@ -218,7 +220,9 @@ cwc.utils.Dialog.prototype.showTemplate = function(title, template, values) {
     let contentNode = goog.dom.getElement(this.prefix + 'content');
     goog.soy.renderElement(contentNode, template, values);
     let closeButton = goog.dom.getElement(this.prefix + 'close');
-    closeButton.addEventListener('click', this.close.bind(this));
+    closeButton.addEventListener('click', () => {
+      this.close();
+    });
     this.showModal();
   }
   return this;
@@ -283,7 +287,9 @@ cwc.utils.Dialog.prototype.showAlert = function(title, content) {
     if (this.getDialog_()) {
       this.render(title, content, cwc.soy.Dialog.alertTemplate);
       let okButton = goog.dom.getElement(this.prefix + 'ok');
-      okButton.addEventListener('click', this.close.bind(this));
+      okButton.addEventListener('click', () => {
+        this.close();
+      });
       if (this.defaultCloseHandler_) {
         okButton.addEventListener('click', this.defaultCloseHandler_);
       }
@@ -312,7 +318,9 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
       let inputField = goog.dom.getElement(this.prefix + 'input');
 
       let okButton = goog.dom.getElement(this.prefix + 'ok');
-      okButton.addEventListener('click', this.close.bind(this));
+      okButton.addEventListener('click', () => {
+        this.close();
+      });
       if (this.defaultCloseHandler_) {
         okButton.addEventListener('click', this.defaultCloseHandler_);
       }
@@ -326,7 +334,9 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
       });
 
       let cancelButton = goog.dom.getElement(this.prefix + 'cancel');
-      cancelButton.addEventListener('click', this.close.bind(this));
+      cancelButton.addEventListener('click', () => {
+        this.close();
+      });
       cancelButton.addEventListener('click', reject);
       this.showModal();
     } else {
@@ -348,7 +358,9 @@ cwc.utils.Dialog.prototype.showActionCancel = function(title, content, action) {
     if (this.getDialog_()) {
       this.render(title, content, cwc.soy.Dialog.actionCancelTemplate, action);
       let actionButton = goog.dom.getElement(this.prefix + 'action');
-      actionButton.addEventListener('click', this.close.bind(this));
+      actionButton.addEventListener('click', () => {
+        this.close();
+      });
       if (this.defaultCloseHandler_) {
         actionButton.addEventListener('click', this.defaultCloseHandler_);
       }
@@ -357,7 +369,9 @@ cwc.utils.Dialog.prototype.showActionCancel = function(title, content, action) {
       });
 
       let cancelButton = goog.dom.getElement(this.prefix + 'cancel');
-      cancelButton.addEventListener('click', this.close.bind(this));
+      cancelButton.addEventListener('click', () => {
+        this.close();
+      });
       cancelButton.addEventListener('click', function() {
         resolve(false);
       });

@@ -259,10 +259,8 @@ cwc.mode.lego.ev3.Monitor.prototype.addGamepadHandler_ = function() {
       this.api.rotatePower(e.data * 100);
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
-    (e) => {
-      if (e === 1) {
-        this.api.playTone(3000, 200, 50);
-      }
+    () => {
+      this.api.playTone(3000, 200, 50);
   });
 };
 

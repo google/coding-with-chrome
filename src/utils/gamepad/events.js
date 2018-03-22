@@ -18,6 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.utils.Gamepad.Events');
+goog.provide('cwc.utils.Gamepad.Events.Type');
 
 goog.require('cwc.utils.EventData');
 
@@ -53,6 +54,7 @@ cwc.utils.Gamepad.Events.Type = {
   },
   CONNECTED: 'connected',
   DISCONNECTED: 'disconnected',
+  UPDATE: 'update',
 };
 
 
@@ -96,4 +98,14 @@ cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
 cwc.utils.Gamepad.Events.buttonPressed = function(index, value) {
   return new cwc.utils.EventData(
       cwc.utils.Gamepad.Events.Type.BUTTON[index], value || 0);
+};
+
+
+/**
+ * @param {Object} data
+ * @return {!cwc.utils.EventData}
+ */
+cwc.utils.Gamepad.Events.update = function(data) {
+  return new cwc.utils.EventData(
+      cwc.utils.Gamepad.Events.Type.UPDATE, data);
 };

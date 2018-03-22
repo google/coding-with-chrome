@@ -20,6 +20,7 @@
 goog.provide('cwc.runner.Connector');
 
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Gamepad.Events.Type');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.events');
@@ -340,6 +341,13 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
  */
 cwc.runner.Connector.prototype.handleGamepad_ = function() {
   console.log('Enable Gamepad Support');
+  let gamepadInstance = this.helper.getInstance('gamepad');
+  let eventHandler = gamepadInstance.getEventHandler();
+  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.UPDATE,
+    (e) => {
+      console.log('Gamepad', e.data);
+      this.send('__gamepad__', e.data);
+  });
 };
 
 
