@@ -10,7 +10,7 @@ In order to build the actual app you need first to build all core files.
 This step is normally needed only once and after an update of the core files.
 This could be done with the following command:
 ```bash
-npm run build-core
+npm run build
 ```
 
 ## Build the launcher
