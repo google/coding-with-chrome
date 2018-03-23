@@ -148,7 +148,6 @@ cwc.utils.ByteTools.uint8Data;
  * @return {cwc.utils.ByteTools.uint8Data} result
  */
 cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
-  console.log(data, headers, size, buffer);
   // Prepare Data Buffer
   let dataArray = cwc.utils.ByteTools.getUint8Array(data);
   let uint8Data = {

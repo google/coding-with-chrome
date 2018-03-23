@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Connection');
+goog.provide('cwc.mode.sphero.classic.Connection');
 
 goog.require('cwc.protocol.sphero.classic.Api');
 goog.require('cwc.utils.Events');
@@ -29,7 +29,7 @@ goog.require('goog.Timer');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.Connection = function(helper) {
+cwc.mode.sphero.classic.Connection = function(helper) {
   /** @type {string} */
   this.name = 'Sphero 2.0 Connection';
 
@@ -57,7 +57,7 @@ cwc.mode.sphero.Connection = function(helper) {
  * Connects the Sphero unit.
  * @export
  */
-cwc.mode.sphero.Connection.prototype.init = function() {
+cwc.mode.sphero.classic.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
@@ -73,7 +73,7 @@ cwc.mode.sphero.Connection.prototype.init = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
+cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
   if (!this.isConnected()) {
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
@@ -89,7 +89,7 @@ cwc.mode.sphero.Connection.prototype.connect = function(opt_event) {
 /**
  * Stops the current executions.
  */
-cwc.mode.sphero.Connection.prototype.stop = function() {
+cwc.mode.sphero.classic.Connection.prototype.stop = function() {
   let runnerInstance = this.helper.getInstance('runner');
   if (runnerInstance) {
     runnerInstance.terminate();
@@ -103,7 +103,7 @@ cwc.mode.sphero.Connection.prototype.stop = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.Connection.prototype.reset = function(opt_event) {
+cwc.mode.sphero.classic.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
@@ -114,7 +114,7 @@ cwc.mode.sphero.Connection.prototype.reset = function(opt_event) {
  * @return {!boolean}
  * @export
  */
-cwc.mode.sphero.Connection.prototype.isConnected = function() {
+cwc.mode.sphero.classic.Connection.prototype.isConnected = function() {
   return this.api_.isConnected();
 };
 
@@ -122,7 +122,7 @@ cwc.mode.sphero.Connection.prototype.isConnected = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.sphero.Connection.prototype.getEventHandler = function() {
+cwc.mode.sphero.classic.Connection.prototype.getEventHandler = function() {
   return this.api_.getEventHandler();
 };
 
@@ -131,7 +131,7 @@ cwc.mode.sphero.Connection.prototype.getEventHandler = function() {
  * @return {!cwc.protocol.sphero.classic.Api}
  * @export
  */
-cwc.mode.sphero.Connection.prototype.getApi = function() {
+cwc.mode.sphero.classic.Connection.prototype.getApi = function() {
   return this.api_;
 };
 
@@ -139,7 +139,7 @@ cwc.mode.sphero.Connection.prototype.getApi = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.Connection.prototype.cleanUp = function() {
+cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
   console.log('Clean up Sphero connection ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();

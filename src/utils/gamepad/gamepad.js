@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.utils.Gamepad');
 
+goog.require('cwc.utils.Gamepad.Events');
+goog.require('cwc.utils.Gamepad.Mapping');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.events.EventTarget');
@@ -60,7 +62,7 @@ cwc.utils.Gamepad.prototype.prepare = function() {
   window.addEventListener('gamepadconnected',
     this.handleConnect_.bind(this));
   window.addEventListener('gamepaddisconnected',
-   this.handleDisconnect_.bind(this));
+    this.handleDisconnect_.bind(this));
 };
 
 
@@ -142,7 +144,7 @@ cwc.utils.Gamepad.prototype.handleTick_ = function() {
     this.handleEvent_(gamepad);
     this.cache_['timestamp'] = gamepad['timestamp'];
   }
-  window.requestAnimationFrame(this.handleTick_.bind(this));
+  window.setTimeout(this.handleTick_.bind(this), 33);
 };
 
 
@@ -151,31 +153,40 @@ cwc.utils.Gamepad.prototype.handleTick_ = function() {
  */
 cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
   let changed = false;
+
+  // Checking current status for each single axes.
   gamepad['axes'].forEach((axis, index) => {
+    let mappedIndex = cwc.utils.Gamepad.getIndex(index, 'axes', gamepad);
     // Smooth axes to avoid false triggers from vibrations.
     if (axis > -0.04 && axis < 0.04) {
       axis = 0;
     }
-    if (axis !== this.cache_['axes'][index]) {
-      this.cache_['axes'][index] = axis;
+    if (axis !== this.cache_['axes'][mappedIndex]) {
+      this.cache_['axes'][mappedIndex] = axis;
       this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.axisMoved(
-        index, axis
+        mappedIndex, axis
       ));
       changed = true;
     }
   });
+
+  // Checking current status for each single button.
   gamepad['buttons'].forEach((button, index) => {
-    if (button['pressed'] ||
-        this.cache_['buttons'][index] !== button['value']) {
-      this.cache_['buttons'][index] = button['value'];
+    let mappedIndex = cwc.utils.Gamepad.getIndex(index, 'buttons', gamepad);
+    if (this.cache_['buttons'][mappedIndex] !== button['value']) {
+      this.cache_['buttons'][mappedIndex] = button['value'];
+      let value = button['value'];
       this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.buttonPressed(
-        index, button['value']
+        mappedIndex, button['value'], value
       ));
       changed = true;
     }
   });
+
   if (changed) {
-    this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.update());
+    // Create an immutable version of the current cache for the event.
+    this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.update(
+      JSON.parse(JSON.stringify(this.cache_))));
   }
 };
 
@@ -194,6 +205,28 @@ cwc.utils.Gamepad.getAngle = function(x, y, shift = 90) {
       angle += 360;
     }
   }
-
   return angle;
+};
+
+
+/**
+ * Return's mapped index for supported controllers.
+ * @param {!number} index
+ * @param {!string} type
+ * @param {!Object} gamepad
+ * @return {!number}
+ */
+cwc.utils.Gamepad.getIndex = function(index, type, gamepad) {
+  if (gamepad['mapping'] === 'standard') {
+    return index;
+  }
+
+  if (gamepad['mapping'] === '' && cwc.utils.Gamepad.Mapping[gamepad['id']]) {
+    let mapping = cwc.utils.Gamepad.Mapping[gamepad['id']][type];
+    if (typeof mapping[index] !== 'undefined') {
+      return mapping[index] || 0;
+    }
+  }
+
+  return index || 0;
 };

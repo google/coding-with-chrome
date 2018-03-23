@@ -20,10 +20,10 @@
 goog.provide('cwc.mode.sphero.classic.advanced.Mod');
 
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.mode.sphero.Connection');
 goog.require('cwc.mode.sphero.Hints');
 goog.require('cwc.mode.sphero.Monitor');
 goog.require('cwc.mode.sphero.Runner');
+goog.require('cwc.mode.sphero.classic.Connection');
 goog.require('cwc.renderer.external.Sphero');
 
 
@@ -36,7 +36,7 @@ cwc.mode.sphero.classic.advanced.Mod = function(helper) {
   this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {!cwc.mode.sphero.Connection} */
-  this.connection = new cwc.mode.sphero.Connection(helper);
+  this.connection = new cwc.mode.sphero.classic.Connection(helper);
 
   /** @type {!cwc.mode.sphero.Monitor} */
   this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);

@@ -713,6 +713,7 @@ cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
  */
 cwc.framework.Ev3.prototype.handleUpdateGamepad_ = function(data) {
   console.log(data);
+  console.log(data['buttons']);
 };
 
 
