@@ -44,8 +44,8 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Chrome app files',
   resources: [
-    'app/nw_app/html/',
-    'app/nw_app/manifest.json',
+    'app/chrome_app/html/',
+    'app/chrome_app/manifest.json',
     'app/nw_app/package.json',
   ],
   out: 'dist/nw_app/',
@@ -84,7 +84,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Background',
   srcs: [
-    'app/nw_app/js/background.js',
+    'app/chrome_app/js/background.js',
   ],
   externs: [
     'build/externs/chrome.js',
@@ -99,7 +99,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Debug',
   resources: [
-    'app/nw_app/js/debug.js',
+    'app/chrome_app/js/debug.js',
   ],
   out: 'dist/nw_app/js/',
 });
@@ -111,7 +111,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Editor',
   srcs: [
-    'app/nw_app/js/editor.js',
+    'app/chrome_app/js/editor.js',
   ],
   externs: [
     'build/externs/chrome.js',
@@ -127,7 +127,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Loader',
   srcs: [
-    'app/nw_app/js/loader.js',
+    'app/chrome_app/js/loader.js',
   ],
   externs: [
     'build/externs/chrome.js',

@@ -23,73 +23,57 @@ let cwcChromeSupport = (
   typeof chrome !== 'undefined' &&
   typeof chrome.app !== 'undefined' &&
   typeof chrome.app.window !== 'undefined');
+let loader = cwcChromeSupport && chrome.app.window.get('loader');
 
 let cwcBuildUi = function() {
-  if (cwcChromeSupport) {
-    let loader = chrome.app.window.get('loader');
-    if (loader) {
-      loader.contentWindow.postMessage({'command': 'progress',
-        'text': 'Build the Coding with Chrome UI ...',
-        'current': 1, 'total': 100}, '*');
-    }
+  if (loader) {
+    loader.contentWindow.postMessage({'command': 'progress',
+       'text': 'Build the Coding with Chrome UI ...',
+       'current': 1, 'total': 100}, '*');
     if (typeof cwc == 'undefined') {
-      if (loader) {
-        loader.contentWindow.postMessage({'command': 'error',
-          'msg': 'The cwc namespace is undefined!\n' +
-            'Please make sure that the compiler runs without any errors!'},
-          '*');
-      }
-      return null;
+      loader.contentWindow.postMessage({'command': 'error',
+        'msg': 'The cwc namespace is undefined!\n' +
+          'Please make sure that the compiler runs without any errors!'},
+        '*');
     } else if (typeof cwc.ui == 'undefined' ||
                typeof cwc.ui.Builder == 'undefined') {
-      if (loader) {
-        loader.contentWindow.postMessage({'command': 'error',
-          'msg': 'cwc.ui.Builder is undefined!\n' +
-            'Maybe an uncaught TypeError, SyntaxError, ... or missing files.'},
-          '*');
-      }
-      return null;
+      loader.contentWindow.postMessage({'command': 'error',
+        'msg': 'cwc.ui.Builder is undefined!\n' +
+          'Maybe an uncaught TypeError, SyntaxError, ... or missing files.'},
+        '*');
     }
   }
-  let uiBuilder = new cwc.ui.Builder();
-  uiBuilder.decorate();
-  return uiBuilder;
+  return new cwc.ui.Builder().decorate();
 };
-
 
 let cwcLoadScripts = function() {
   let header = document.getElementsByTagName('head')[0];
-  if (header) {
-    let loader = cwcChromeSupport && chrome.app.window.get('loader');
-    let message = 'Loading additional JavaScripts ...';
-    if (loader) {
-      loader.contentWindow.postMessage({'command': 'progress',
-        'text': message,
-        'current': 0, 'total': 100}, '*');
-    }
-    // Adding main ui script.
-    let uiScript = document.createElement('script');
-    uiScript.type = 'text/javascript';
-    uiScript.src = '../js/cwc_ui.js';
-    uiScript.onload = function() {
-      // Adding debugging script.
-      let debugScript = document.createElement('script');
-      debugScript.type = 'text/javascript';
-      debugScript.src = '../js/debug.js';
-      header.appendChild(debugScript);
-    };
-    header.appendChild(uiScript);
-
-    if (loader) {
-      loader.contentWindow.postMessage({'command': 'progress',
-        'text': message,
-        'current': 100, 'total': 100}, '*');
-    }
-  } else {
+  if (!header) {
     console.error('Seems DOM content is not ready!');
+    return;
+  }
+  if (loader) {
+    loader.contentWindow.postMessage({'command': 'progress',
+      'text': 'Loading additional Scripts ...',
+      'current': 0, 'total': 100}, '*');
+  }
+  let uiScript = document.createElement('script');
+  uiScript.type = 'text/javascript';
+  uiScript.src = '../js/cwc_ui.js';
+  uiScript.onload = function() {
+    let debugScript = document.createElement('script');
+    debugScript.type = 'text/javascript';
+    debugScript.src = '../js/debug.js';
+    header.appendChild(debugScript);
+  };
+  header.appendChild(uiScript);
+
+  if (loader) {
+    loader.contentWindow.postMessage({'command': 'progress',
+      'text': 'Loaded additional Scripts',
+      'current': 100, 'total': 100}, '*');
   }
 };
-
 
 window.addEventListener('load', cwcBuildUi, false);
 document.addEventListener('DOMContentLoaded', cwcLoadScripts, false);

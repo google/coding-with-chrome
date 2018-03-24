@@ -24,6 +24,10 @@
   justify-content: flex-start;
 }
 
+#{$prefix}preview-runtime {
+  display: flex;
+}
+
 #{$prefix}preview-body .mdl-layout__header-row {
   padding: 0 10px 0 20px;
 }

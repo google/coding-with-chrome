@@ -40,4 +40,5 @@ exclude_paths:
 - doc/**/*
 - locales/**/*
 - src/blocks/**/*
+- static_files/**/*
 - third_party/**/*

@@ -70,7 +70,7 @@ chrome.app.runtime.onLaunched.addListener(
         );
         loaderWindow.drawAttention();
       } else {
-        console.warn('Loaded inside sandboxed window!');
+        console.warn('Loaded inside sand-boxed window!');
       }
       chrome.app.window.create('html/editor.html', editorConfig);
   });
