@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.fileHandler.FileSaver');
 
-goog.require('cwc.file.MimeType');
+goog.require('cwc.utils.mime.Type');
 
 
 /**
@@ -119,7 +119,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
   let gDriveId = fileInstance.getGDriveId();
   let mimeType = fileInstance.getMimeType();
 
-  if (mimeType.type === cwc.file.MimeType.CWC.type) {
+  if (mimeType.type === cwc.utils.mime.Type.CWC.type) {
     // Handle CWC file format
     let file = fileInstance.getFile();
 
@@ -161,7 +161,7 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
  * @return {!string}
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
-    filename, extension = cwc.file.MimeType.CWC.ext[0]) {
+    filename, extension = cwc.utils.mime.Type.CWC.ext[0]) {
   if (filename.includes(extension)) {
     return filename;
   }

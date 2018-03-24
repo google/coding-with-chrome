@@ -22,6 +22,7 @@ goog.provide('cwc.protocol.tcp.HTTPServer');
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.mime.getTypeByExtension');
 
 goog.require('goog.events.EventTarget');
 
@@ -341,7 +342,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
       this.getFile(requestPath).then((content) => {
         if (content !== undefined) {
           // File found handling
-          let contentType = cwc.file.getMimeTypeByExtension(requestPath);
+          let contentType = cwc.utils.mime.getTypeByExtension(requestPath);
           this.send200Response(socketId, content, contentType);
         } else {
           // File not found handling

@@ -26,6 +26,7 @@ goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
+goog.require('cwc.utils.mime.getTypeByExtension');
 
 
 /**
@@ -147,7 +148,7 @@ cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
       }
     }
   }
-  let mimeType = cwc.file.getMimeTypeByExtension(name);
+  let mimeType = cwc.utils.mime.getTypeByExtension(name);
   let fileContent = this.rendererHelper.getDataUrl(content, mimeType);
   if (!fileContent) {
     this.log_.error('Received empty file for', name);

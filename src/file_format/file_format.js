@@ -22,7 +22,7 @@ goog.provide('cwc.fileFormat.FILE_VERSION');
 goog.provide('cwc.fileFormat.File');
 
 goog.require('cwc.file.Files');
-goog.require('cwc.file.MimeType');
+goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Logger');
 

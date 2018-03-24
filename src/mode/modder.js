@@ -20,7 +20,7 @@
  */
 goog.provide('cwc.mode.Modder');
 
-goog.require('cwc.file.MimeType');
+goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');

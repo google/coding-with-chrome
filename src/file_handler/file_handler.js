@@ -43,7 +43,7 @@ cwc.fileHandler.File = function(helper) {
   /** @private {!string} */
   this.fileContent_ = '';
 
-  /** @private {cwc.file.MimeType|null} */
+  /** @private {cwc.utils.mime.Type|null} */
   this.mimeType_ = null;
 
   /** @private {Object} */
@@ -118,7 +118,7 @@ cwc.fileHandler.File.prototype.getFiles = function() {
 
 
 /**
- * @return {cwc.file.MimeType|null}
+ * @return {cwc.utils.mime.Type|null}
  */
 cwc.fileHandler.File.prototype.getMimeType = function() {
   return this.mimeType_;
@@ -126,7 +126,7 @@ cwc.fileHandler.File.prototype.getMimeType = function() {
 
 
 /**
- * @param {!cwc.file.MimeType} mimeType
+ * @param {!cwc.utils.mime.Type} mimeType
  */
 cwc.fileHandler.File.prototype.setMimeType = function(mimeType) {
   this.mimeType_ = mimeType;

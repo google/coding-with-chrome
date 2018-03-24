@@ -19,8 +19,8 @@
  */
 goog.provide('cwc.fileHandler.FileLoader');
 
-goog.require('cwc.file.MimeType');
-goog.require('cwc.file.getMimeTypeByNameAndContent');
+goog.require('cwc.utils.mime.Type');
+goog.require('cwc.utils.mime.getTypeByNameAndContent');
 goog.require('cwc.fileFormat.File');
 goog.require('cwc.mode.Config');
 goog.require('cwc.ui.EditorHint');
@@ -143,18 +143,18 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     this.log_.info('Handle file data ... (', data.length, ')');
     let fileInstance = this.helper.getInstance('file', true);
     let modeInstance = this.helper.getInstance('mode', true);
-    let mimeType = cwc.file.getMimeTypeByNameAndContent(filename || '', data);
+    let mimeType = cwc.utils.mime.getTypeByNameAndContent(filename || '', data);
     this.log_.info('MIME-type:', mimeType);
 
     let modeType;
-    if (mimeType === cwc.file.MimeType.CWC.type) {
+    if (mimeType === cwc.utils.mime.Type.CWC.type) {
        // Handle CWC file format
       let file = new cwc.fileFormat.File(data);
       modeType = cwc.mode.Config.getMode(
         /** @type {cwc.mode.Type} */ (file.getMode()));
       this.log_.info('Loading CWC file with mode', modeType, '...');
       fileInstance.setFile(file);
-      fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+      fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
       modeInstance.setMode(modeType);
       modeInstance.setFilename(filename);
 
@@ -165,14 +165,14 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
           let content = editorContent[entry];
           let contentType = content.getType();
           switch (contentType) {
-            case cwc.file.MimeType.BLOCKLY.type:
+            case cwc.utils.mime.Type.BLOCKLY.type:
               modeInstance.addBlocklyView(
                 content.getName(), content.getContent());
               break;
-            case cwc.file.MimeType.COFFEESCRIPT.type:
-            case cwc.file.MimeType.CSS.type:
-            case cwc.file.MimeType.HTML.type:
-            case cwc.file.MimeType.JAVASCRIPT.type:
+            case cwc.utils.mime.Type.COFFEESCRIPT.type:
+            case cwc.utils.mime.Type.CSS.type:
+            case cwc.utils.mime.Type.HTML.type:
+            case cwc.utils.mime.Type.JAVASCRIPT.type:
               modeInstance.addEditorView(
                 content.getName(), content.getContent(), contentType);
               break;
@@ -196,7 +196,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
       modeType = cwc.mode.Config.getModeByMimeType(mimeType);
       this.log_.info('Loading raw data with mode', modeType, '...');
       fileInstance.setRawFile(data, filename);
-      fileInstance.setMimeType(cwc.file.getMimeTypeData(mimeType));
+      fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
       modeInstance.setMode(modeType);
       modeInstance.addEditorView('__default__', data, mimeType);
     }

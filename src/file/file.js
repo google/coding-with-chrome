@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.file.File');
 
-goog.require('cwc.file.getMimeTypeByNameAndContent');
+goog.require('cwc.utils.mime.getTypeByNameAndContent');
 
 
 /**
@@ -39,7 +39,7 @@ cwc.file.File = function(name, content, type, size) {
   this.content_ = content || '';
 
   /** @private {string} */
-  this.type_ = type || cwc.file.getMimeTypeByNameAndContent(name, content);
+  this.type_ = type || cwc.utils.mime.getTypeByNameAndContent(name, content);
 
   /** @private {string} */
   this.mediaType_ = cwc.file.File.getMediaType(this.type_);

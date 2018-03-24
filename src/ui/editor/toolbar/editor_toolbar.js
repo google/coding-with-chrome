@@ -19,8 +19,8 @@
  */
 goog.provide('cwc.ui.EditorToolbar');
 
-goog.require('cwc.file.MimeType');
-goog.require('cwc.file.MimeType');
+goog.require('cwc.utils.mime.Type');
+goog.require('cwc.utils.mime.Type');
 goog.require('cwc.soy.ui.EditorToolbar');
 goog.require('cwc.ui.Helper');
 
@@ -400,11 +400,11 @@ cwc.ui.EditorToolbar.prototype.updateLibraryButton = function(has_files) {
  * @param {string} editor_mode
  */
 cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
-  if (editor_mode == cwc.file.MimeType.COFFEESCRIPT.type ||
-      editor_mode == cwc.file.MimeType.CSS.type ||
-      editor_mode == cwc.file.MimeType.HTML.type ||
-      editor_mode == cwc.file.MimeType.JAVASCRIPT.type ||
-      editor_mode == cwc.file.MimeType.JSON.type) {
+  if (editor_mode == cwc.utils.mime.Type.COFFEESCRIPT.type ||
+      editor_mode == cwc.utils.mime.Type.CSS.type ||
+      editor_mode == cwc.utils.mime.Type.HTML.type ||
+      editor_mode == cwc.utils.mime.Type.JAVASCRIPT.type ||
+      editor_mode == cwc.utils.mime.Type.JSON.type) {
     this.enableDebugButton(true);
   } else {
     let editorInstance = this.helper.getInstance('editor');
@@ -503,11 +503,11 @@ cwc.ui.EditorToolbar.prototype.insertFileContent_ = function(file) {
 
     reader.onload = function(event) {
       switch (editorInstance.getEditorMode()) {
-        case cwc.file.MimeType.CSS.type:
+        case cwc.utils.mime.Type.CSS.type:
           editorInstance.insertText(
             'url(\'' + event.target.result + '\');\n');
           break;
-        case cwc.file.MimeType.HTML.type:
+        case cwc.utils.mime.Type.HTML.type:
           editorInstance.insertText(
             '<img src="' + event.target.result + '">\n');
           break;
