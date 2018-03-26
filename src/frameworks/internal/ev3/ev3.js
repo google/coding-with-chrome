@@ -109,7 +109,14 @@ cwc.framework.Ev3 = function(code) {
   /** @private {!cwc.framework.Runner} */
   this.runner_ = new cwc.framework.Runner(this.code, this);
 
-  // External commands
+  this.addCommandListener();
+};
+
+
+/**
+ * Enable external listener
+ */
+cwc.framework.Ev3.prototype.addCommandListener = function() {
   this.runner_.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
   this.runner_.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
   this.runner_.addCommand('updateGyroSensor', this.handleUpdateGyroSensor_);

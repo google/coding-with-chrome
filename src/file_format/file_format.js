@@ -22,7 +22,6 @@ goog.provide('cwc.fileFormat.FILE_VERSION');
 goog.provide('cwc.fileFormat.File');
 
 goog.require('cwc.file.Files');
-goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Logger');
 
@@ -72,22 +71,20 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.history_ = '';
 
+  /** @private {!Object} */
+  this.metadata_ = {};
+
   /** @private {!cwc.mode.Type} */
   this.mode_ = cwc.mode.Type.NONE;
 
   /** @private {string} */
-  this.ui_ = '';
-
-  /** @private {!Object} */
-  this.metadata_ = {};
+  this.ui_ = 'default';
 
   /** @private {!string} */
   this.metedataNamespace_ = '__default__';
 
   if (content) {
     this.loadJSON(content);
-  } else {
-    this.init(true);
   }
 };
 
@@ -105,9 +102,9 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.flags_ = {};
   this.frameworks_ = new cwc.file.Files();
   this.history_ = '';
+  this.metadata_ = {};
   this.mode_ = cwc.mode.Type.NONE;
   this.ui_ = 'default';
-  this.metadata_ = {};
 };
 
 
@@ -603,10 +600,10 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
  */
 cwc.fileFormat.File.toJSON = function(file) {
   return {
-    'format': file.format_,
     'content': file.content_.toJSON(),
     'files': file.files_.toJSON(),
     'flags': file.flags_,
+    'format': file.format_,
     'frameworks': file.frameworks_,
     'history': file.history_,
     'metadata': file.metadata_,

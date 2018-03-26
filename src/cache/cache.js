@@ -133,12 +133,7 @@ cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
   if (optimize && !name.includes('.min.') && content.length > 1000) {
     // Try to optimize unminimized code by removing comments and white-spaces.
     let originalContentLength = content.length;
-    content = content.replace(/\\n\\n/g, '\\n')
-      .replace(/ {4}/g, '  ')
-      .replace(/[ \t]?\/\/.+?\\n/g, '')
-      .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
-      .replace(/[ \t]+\\n/g, '\\n')
-      .replace(/(\\n){2,}/g, '\\n');
+    content = cwc.Cache.optimizeContent(content);
     if (originalContentLength > content.length) {
       let optimized = Math.ceil(((originalContentLength - content.length) /
           originalContentLength) * 100);
@@ -164,4 +159,21 @@ cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
  */
 cwc.Cache.prototype.getFile = function(name) {
   return this.cache_.getFile(name);
+};
+
+
+/**
+ * @param {!string} content
+ * @return {!string}
+ */
+cwc.Cache.optimizeContent = function(content) {
+  if (content && content instanceof String) {
+      return content.replace(/\\n\\n/g, '\\n')
+        .replace(/ {4}/g, '  ')
+        .replace(/[ \t]?\/\/.+?\\n/g, '')
+        .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
+        .replace(/[ \t]+\\n/g, '\\n')
+        .replace(/(\\n){2,}/g, '\\n');
+  }
+  return content;
 };
