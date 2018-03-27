@@ -326,7 +326,8 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
         bluetoothInstance.closeSockets();
       }
     } else {
-      this.log_.warn('Failed to get Features helper. Can\'t check if bluetoothSocket is suppoeted');
+      this.log_.warn('Failed to get Features helper.'+
+        'Can\'t check if bluetoothSocket is supported');
     }
   }
   this.currentWindow['close']();
