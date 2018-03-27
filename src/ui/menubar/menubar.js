@@ -320,7 +320,14 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
   this.log_.info('Close Coding with Chrome editor ...');
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
-    bluetoothInstance.closeSockets();
+    let featuresInstance = this.helper.getInstance('features');
+    if (featuresInstance) {
+      if (featuresInstance.getChromeFeature('bluetoothSocket')) {
+        bluetoothInstance.closeSockets();
+      }
+    } else {
+      this.log_.warn('Failed to get Features helper. Can\'t check if bluetoothSocket is suppoeted');
+    }
   }
   this.currentWindow['close']();
 };
