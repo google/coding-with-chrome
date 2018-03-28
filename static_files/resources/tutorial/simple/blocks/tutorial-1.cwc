@@ -6,14 +6,14 @@
       "type": "application/blockly+xml",
       "size": 48,
       "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
-      "version": 1,
+      "version": 1
     },
     "__javascript__": {
       "name": "__javascript__",
       "type": "application/javascript",
       "size": 0,
       "content": "",
-      "version": 1,
+      "version": 1
     }
   },
   "description": "",

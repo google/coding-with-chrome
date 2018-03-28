@@ -26,6 +26,9 @@
 @import 'menuitem.css';
 @import 'splitpane.css';
 
+@import '../../external/closure/roundedtab.css';
+@import '../../external/closure/tabbar.css';
+
 .modal-dialog, .modal-dialog-bg, .goog-menu {
   z-index: 100;
 }
