@@ -35,7 +35,7 @@ cwc.mode.sphero.classic.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.sphero.Connection} */
+  /** @type {!cwc.mode.sphero.classic.Connection} */
   this.connection = new cwc.mode.sphero.classic.Connection(helper);
 
   /** @type {!cwc.mode.sphero.Monitor} */

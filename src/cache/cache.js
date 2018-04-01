@@ -45,8 +45,13 @@ cwc.Cache = function(helper) {
   /** @type {!cwc.renderer.Helper} */
   this.rendererHelper = new cwc.renderer.Helper();
 
-  /** @private {cwc.utils.Database} */
-  this.cache_ = new cwc.utils.Database(this.name);
+  /** @private {!cwc.utils.Database} */
+  this.database_ = new cwc.utils.Database(this.name);
+
+  /** @private {!Object} */
+  this.databaseConfig_ = {
+    'objectStoreNames': ['__library__'],
+  };
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -60,8 +65,8 @@ cwc.Cache = function(helper) {
  * @return {Promise}
  */
 cwc.Cache.prototype.prepare = function() {
-  return this.cache_.open().then(() => {
-    this.cache_.getFile('__version__').then((version) => {
+  return this.database_.open(this.databaseConfig_).then(() => {
+    this.database_.getFile('__version__').then((version) => {
       this.update(version);
     });
   });
@@ -86,7 +91,7 @@ cwc.Cache.prototype.update = function(version) {
   this.log_.info('Loading Style Sheets ...');
   this.loadFiles(cwc.framework.StyleSheet);
 
-  this.cache_.addFile('__version__', this.version_);
+  this.database_.addFile('__version__', this.version_);
 };
 
 
@@ -149,7 +154,7 @@ cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
     this.log_.error('Received empty file for', name);
     return;
   }
-  this.cache_.addFile(name, fileContent);
+  this.database_.addFile(name, fileContent);
 };
 
 
@@ -158,7 +163,33 @@ cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
  * @return {Promise}
  */
 cwc.Cache.prototype.getFile = function(name) {
-  return this.cache_.getFile(name);
+  return this.database_.getFile(name);
+};
+
+
+/**
+ * @param {string!} name
+ * @param {string!} content
+ */
+cwc.Cache.prototype.addLibraryFile = function(name, content) {
+  this.database_.addFile(name, content, '__library__');
+};
+
+
+/**
+ * @param {string} name
+ * @return {Promise}
+ */
+cwc.Cache.prototype.getLibraryFile = function(name) {
+  return this.database_.getFile(name, '__library__');
+};
+
+
+/**
+ * @return {Promise}
+ */
+cwc.Cache.prototype.clearLibraryFiles = function() {
+  return this.database_.clearFiles('__library__');
 };
 
 

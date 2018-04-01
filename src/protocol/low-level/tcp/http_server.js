@@ -62,7 +62,7 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
   this.socket_ = null;
 
   /** @private {cwc.utils.Database} */
-  this.files_ = new cwc.utils.Database(this.name);
+  this.database_ = new cwc.utils.Database(this.name);
 
   /** @private {!Object} */
   this.redirects_ = {};
@@ -80,7 +80,7 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
  */
 cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
   if (!this.isChromeApp_ || !chrome.sockets) {
-    console.warn('Sockets support is not available!');
+    this.log_.error('Sockets support is not available!');
     return;
   }
   if (this.prepared) {
@@ -88,7 +88,7 @@ cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
   }
 
   this.log_.debug('Preparing cache file support...');
-  this.files_.open();
+  this.database_.open();
   this.prepared = true;
 };
 
@@ -204,7 +204,7 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
   }
 
   this.log_.info('Add', path, content.length);
-  this.files_.putFile(path, content);
+  this.database_.putFile(path, content);
 };
 
 
@@ -213,7 +213,7 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
  * @return {Promise}
  */
 cwc.protocol.tcp.HTTPServer.prototype.getFile = function(path) {
-  return this.files_.getFile(path);
+  return this.database_.getFile(path);
 };
 
 

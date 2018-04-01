@@ -343,9 +343,8 @@ cwc.runner.Connector.prototype.handleGamepad_ = function() {
   console.log('Enable Gamepad Support');
   let gamepadInstance = this.helper.getInstance('gamepad');
   let eventHandler = gamepadInstance.getEventHandler();
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.UPDATE,
-    (e) => {
-      console.log('Gamepad', e.data);
+  this.events_.listen(eventHandler,
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.UPDATE), (e) => {
       this.send('__gamepad__', e.data);
   });
 };

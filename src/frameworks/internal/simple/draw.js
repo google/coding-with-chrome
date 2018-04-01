@@ -129,20 +129,20 @@ cwc.framework.simple.Draw.prototype.mapGlobal = function() {
 /**
  * Returns only a not empty string or undefined to avoid additional checks.
  *
- * This method is used to avoid additional checks or type casting for params
+ * This method is used to avoid additional checks or type casting for param
  * with shared types e.g. {({name: string|number}|string)=}.
  * It returns only a string or undefined to satisfy the JavaScript compiler.
  *
  * @param {({backgroundColor: string,
  *            borderColor: string,
- *            borderSize: number}|string)=} opt_content Content to check.
+ *            borderSize: number}|string)=} content Content to check.
  * @return {string|undefined}
  * @private
  */
-cwc.framework.simple.Draw.convertString_ = function(opt_content) {
-  if (goog.isString(opt_content)) {
-    if (!goog.string.isEmptyOrWhitespace(goog.string.makeSafe(opt_content))) {
-      return opt_content;
+cwc.framework.simple.Draw.convertString_ = function(content) {
+  if (goog.isString(content)) {
+    if (!goog.string.isEmptyOrWhitespace(goog.string.makeSafe(content))) {
+      return content;
     }
   }
   return undefined;
@@ -163,32 +163,32 @@ cwc.framework.simple.Draw.ManipulationContent;
  * @param {number} y The y value for the center of the circle.
  * @param {number} radius
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the circle or a
+ *     colorOrManipulation Either a string of the color of the circle or a
  *     hash of options for additional manipulation.
- * @param {string=} opt_borderColor
- * @param {number=} opt_borderSize
+ * @param {string=} borderColor
+ * @param {number=} borderSize
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export
  */
 cwc.framework.simple.Draw.prototype.circle = function(x, y, radius,
-    opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
+    colorOrManipulation, borderColor, borderSize) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
   if (!manipulation.hasPreset()) {
     let background_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
     }
 
-    if (opt_borderColor) {
-      manipulation.setBorderColor(opt_borderColor);
+    if (borderColor) {
+      manipulation.setBorderColor(borderColor);
     }
 
-    if (opt_borderSize) {
-      manipulation.setBorderSize(opt_borderSize);
+    if (borderSize) {
+      manipulation.setBorderSize(borderSize);
     }
   }
 
@@ -216,7 +216,7 @@ cwc.framework.simple.Draw.prototype.clear = function() {
  * @param {number} to_x The x value for the end point of the line.
  * @param {number} to_y The y value for the end point of the line.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the line or a
+ *     colorOrManipulation Either a string of the color of the line or a
  *     hash of options for additional manipulation.
  * @param {number=} opt_width The width of the line.
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
@@ -224,13 +224,13 @@ cwc.framework.simple.Draw.prototype.clear = function() {
  * @export
  */
 cwc.framework.simple.Draw.prototype.line = function(from_x, from_y,
-    to_x, to_y, opt_colorOrManipulation, opt_width) {
+    to_x, to_y, colorOrManipulation, opt_width) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
   if (!manipulation.hasPreset()) {
     let border_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (border_color) {
       manipulation.setBorderColor(border_color);
     } else {
@@ -259,33 +259,33 @@ cwc.framework.simple.Draw.prototype.line = function(from_x, from_y,
  * @param {number} width The width of the rectangle.
  * @param {number} height The height of the rectangle.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the rectangle or
+ *     colorOrManipulation Either a string of the color of the rectangle or
  *     a hash of options for additional manipulation.
- * @param {string=} opt_borderColor
- * @param {number=} opt_borderSize
+ * @param {string=} borderColor
+ * @param {number=} borderSize
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export
  */
 cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
-    opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
+    colorOrManipulation, borderColor, borderSize) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
 
   if (!manipulation.hasPreset()) {
     let background_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
     }
 
-    if (opt_borderColor) {
-      manipulation.setBorderColor(opt_borderColor);
+    if (borderColor) {
+      manipulation.setBorderColor(borderColor);
     }
 
-    if (opt_borderSize) {
-      manipulation.setBorderSize(opt_borderSize);
+    if (borderSize) {
+      manipulation.setBorderSize(borderSize);
     }
   }
 
@@ -302,25 +302,25 @@ cwc.framework.simple.Draw.prototype.rectangle = function(x, y, width, height,
  * @param {number} x The x position of the text.
  * @param {number} y The y position of the text.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the point or a
+ *     colorOrManipulation Either a string of the color of the point or a
  *     hash of options for additional manipulation.
  * @param {string=} font The font face and size to use e.g. "48px serif"
- * @param {boolean=} opt_stroke Whenever to use the stroke style.
+ * @param {boolean=} stroke Whenever to use the stroke style.
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export
  */
 cwc.framework.simple.Draw.prototype.text = function(text, x, y,
-    opt_colorOrManipulation, font = '24px serif', opt_stroke) {
+    colorOrManipulation, font = '24px serif', stroke) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
 
   if (!manipulation.hasPreset()) {
     let textColor = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (textColor) {
-      if (opt_stroke) {
+      if (stroke) {
         manipulation.setStrokeStyle(textColor);
       } else {
         manipulation.setFillStyle(textColor);
@@ -329,7 +329,7 @@ cwc.framework.simple.Draw.prototype.text = function(text, x, y,
   }
   let canvasInstructions = function() {
     display.font = font || '24px serif';
-    if (opt_stroke) {
+    if (stroke) {
       display.strokeText(text, x, y);
     } else {
       display.fillText(text, x, y);
@@ -382,7 +382,7 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
  * @param {number} x The x position of the point.
  * @param {number} y The y position of the point.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the point or a
+ *     colorOrManipulation Either a string of the color of the point or a
  *     hash of options for additional manipulation.
  * @param {number} size The size of the point e.g. 2 for a 2x2 point.
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
@@ -390,14 +390,14 @@ cwc.framework.simple.Draw.prototype.image = function(image, x, y,
  * @export
  */
 cwc.framework.simple.Draw.prototype.point = function(x, y,
-    opt_colorOrManipulation, size = 1) {
+    colorOrManipulation, size = 1) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
 
   if (!manipulation.hasPreset()) {
     let background_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (background_color) {
       manipulation.setFillStyle(background_color);
     }
@@ -416,32 +416,32 @@ cwc.framework.simple.Draw.prototype.point = function(x, y,
  * @param {number} width The width of the ellipse.
  * @param {number} height The height of the ellipse.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the ellipse or a
+ *     colorOrManipulation Either a string of the color of the ellipse or a
  *     hash of options for additional manipulation.
- * @param {string=} opt_borderColor
- * @param {number=} opt_borderSize
+ * @param {string=} borderColor
+ * @param {number=} borderSize
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export
  */
 cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
-    opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
+    colorOrManipulation, borderColor, borderSize) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
   if (!manipulation.hasPreset()) {
     let background_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
     }
 
-    if (opt_borderColor) {
-      manipulation.setBorderColor(opt_borderColor);
+    if (borderColor) {
+      manipulation.setBorderColor(borderColor);
     }
 
-    if (opt_borderSize) {
-      manipulation.setBorderSize(opt_borderSize);
+    if (borderSize) {
+      manipulation.setBorderSize(borderSize);
     }
   }
   let halfWidth = width / 2;
@@ -480,32 +480,32 @@ cwc.framework.simple.Draw.prototype.ellipse = function(x, y, width, height,
  * @param {number} x3 The x value for the third point of the triangle.
  * @param {number} y3 The y value for the third point of the triangle.
  * @param {cwc.framework.simple.Draw.ManipulationContent=}
- *     opt_colorOrManipulation Either a string of the color of the triangle or a
+ *     colorOrManipulation Either a string of the color of the triangle or a
  *     hash of options for additional manipulation.
- * @param {string=} opt_borderColor
- * @param {number=} opt_borderSize
+ * @param {string=} borderColor
+ * @param {number=} borderSize
  * @return {!cwc.framework.simple.Draw} This draw object, for chaining
  *     with other draw operations.
  * @export
  */
 cwc.framework.simple.Draw.prototype.triangle = function(x1, y1, x2, y2, x3, y3,
-    opt_colorOrManipulation, opt_borderColor, opt_borderSize) {
+    colorOrManipulation, borderColor, borderSize) {
   let display = this.getDisplay_();
   let manipulation = cwc.framework.simple.Draw.getManipulations_(
-      opt_colorOrManipulation);
+      colorOrManipulation);
   if (!manipulation.hasPreset()) {
     let background_color = cwc.framework.simple.Draw.convertString_(
-        opt_colorOrManipulation);
+        colorOrManipulation);
     if (background_color) {
       manipulation.setBgColor(background_color);
     }
 
-    if (opt_borderColor) {
-      manipulation.setBorderColor(opt_borderColor);
+    if (borderColor) {
+      manipulation.setBorderColor(borderColor);
     }
 
-    if (opt_borderSize) {
-      manipulation.setBorderSize(opt_borderSize);
+    if (borderSize) {
+      manipulation.setBorderSize(borderSize);
     }
   }
   let canvasInstructions = function() {
@@ -545,26 +545,6 @@ cwc.framework.simple.Draw.prototype.execute_ = function(drawFn, display,
 
 
 /**
- * Returns the manipulation objects with or without defined presets.
- * @param {cwc.framework.simple.Draw.ManipulationContent|Object=}
- *     opt_manipulation If used, a hash of options for additional manipulations.
- * @return {!cwc.framework.simple.DrawManipulation}
- * @private
- */
-cwc.framework.simple.Draw.getManipulations_ = function(opt_manipulation) {
-  let manipulations = new cwc.framework.simple.DrawManipulation();
-  if (goog.isObject(opt_manipulation)) {
-    manipulations.setPreset(true);
-    manipulations.setBgColor(opt_manipulation['backgroundColor']);
-    manipulations.setBorderColor(opt_manipulation['borderColor']);
-    manipulations.setBorderSize(opt_manipulation['borderSize']);
-    manipulations.setFillStyle(opt_manipulation['fillStyle']);
-  }
-  return manipulations;
-};
-
-
-/**
  * Adjusts canvas element by resize.
  * @private
  */
@@ -573,4 +553,24 @@ cwc.framework.simple.Draw.prototype.handleResize_ = function() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
   }
+};
+
+
+/**
+ * Returns the manipulation objects with or without defined presets.
+ * @param {cwc.framework.simple.Draw.ManipulationContent|Object=}
+ *     manipulation If used, a hash of options for additional manipulations.
+ * @return {!cwc.framework.simple.DrawManipulation}
+ * @private
+ */
+cwc.framework.simple.Draw.getManipulations_ = function(manipulation) {
+  let manipulations = new cwc.framework.simple.DrawManipulation();
+  if (goog.isObject(manipulation)) {
+    manipulations.setPreset(true);
+    manipulations.setBgColor(manipulation['backgroundColor']);
+    manipulations.setBorderColor(manipulation['borderColor']);
+    manipulations.setBorderSize(manipulation['borderSize']);
+    manipulations.setFillStyle(manipulation['fillStyle']);
+  }
+  return manipulations;
 };

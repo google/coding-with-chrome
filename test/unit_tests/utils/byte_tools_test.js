@@ -119,7 +119,7 @@ describe('ByteTools', function() {
       .toEqual(result);
   });
 
-  it('getHeaderPositions', function() {
+  it('getBytePositions', function() {
     let data = cwc.utils.ByteTools.toUint8Array(
         [255, 255, 0, 21, 4, 255, 254, 0, 231]);
     let data2 = cwc.utils.ByteTools.toUint8Array([255, 255]);
@@ -140,41 +140,41 @@ describe('ByteTools', function() {
     let header11 = [255, 255, 255];
     let header12 = [255, 255];
     let header13 = [255];
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header1))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header1))
       .toEqual([3]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header2))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header2))
       .toEqual([0]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header3))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header3))
       .toEqual([5]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header4))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header4))
       .toEqual(null);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header5))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header5))
       .toEqual([7]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header6))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header6))
       .toEqual([8]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header7))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header7))
       .toEqual(null);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header8))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header8))
       .toEqual([5]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header9))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header9))
       .toEqual([6]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header10))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header10))
       .toEqual([0]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data, header11))
+    expect(cwc.utils.ByteTools.getBytePositions(data, header11))
       .toEqual(null);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data2, header1))
+    expect(cwc.utils.ByteTools.getBytePositions(data2, header1))
       .toEqual(null);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data2, header2))
+    expect(cwc.utils.ByteTools.getBytePositions(data2, header2))
       .toEqual([0]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data2, header11))
+    expect(cwc.utils.ByteTools.getBytePositions(data2, header11))
       .toEqual(null);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data3, header6))
+    expect(cwc.utils.ByteTools.getBytePositions(data3, header6))
       .toEqual([8]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data3, header12))
+    expect(cwc.utils.ByteTools.getBytePositions(data3, header12))
       .toEqual([0, 5]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data3, header13))
+    expect(cwc.utils.ByteTools.getBytePositions(data3, header13))
       .toEqual([0, 1, 5, 6]);
-    expect(cwc.utils.ByteTools.getHeaderPositions(data4, header11))
+    expect(cwc.utils.ByteTools.getBytePositions(data4, header11))
       .toEqual(null);
   });
 

@@ -65,7 +65,7 @@ cwc.utils.Gamepad.Events.Type = {
  */
 cwc.utils.Gamepad.Events.connected = function(data) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.CONNECTED, data);
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.CONNECTED), data);
 };
 
 
@@ -75,7 +75,7 @@ cwc.utils.Gamepad.Events.connected = function(data) {
  */
 cwc.utils.Gamepad.Events.disconnected = function() {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.DISCONNECTED, '');
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.DISCONNECTED), '');
 };
 
 
@@ -86,7 +86,8 @@ cwc.utils.Gamepad.Events.disconnected = function() {
  */
 cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.AXIS[index], value || 0);
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.AXIS[index]),
+    value || 0);
 };
 
 
@@ -97,7 +98,8 @@ cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
  */
 cwc.utils.Gamepad.Events.buttonPressed = function(index, value) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.BUTTON[index], value || 0);
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.BUTTON[index]),
+    value || 0);
 };
 
 
@@ -107,5 +109,5 @@ cwc.utils.Gamepad.Events.buttonPressed = function(index, value) {
  */
 cwc.utils.Gamepad.Events.update = function(data) {
   return new cwc.utils.EventData(
-      cwc.utils.Gamepad.Events.Type.UPDATE, data);
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.UPDATE), data);
 };

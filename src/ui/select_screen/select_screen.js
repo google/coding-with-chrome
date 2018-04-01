@@ -109,19 +109,22 @@ cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(optCallback,
  * @param {boolean=} forceOverview
  */
 cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    layoutInstance.decorateBlank();
+    layoutInstance.refresh();
+  }
+
   let guiInstance = this.helper.getInstance('gui', true);
+  guiInstance.setTitle('');
+  guiInstance.enableTitle(false);
+  guiInstance.setStatus('');
   if (this.prepared_ && !forceOverview) {
     guiInstance.showOverlay(true);
     return;
   }
   this.decorate(guiInstance.getOverlayNode());
   guiInstance.showOverlay(true);
-
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    layoutInstance.decorateBlank();
-    layoutInstance.refresh();
-  }
 
   let advancedMode = false;
   let skipWelcomeScreen = false;
@@ -142,10 +145,6 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
   } else {
     this.showOverview(advancedMode);
   }
-
-  guiInstance.setTitle('');
-  guiInstance.enableTitle(false);
-  guiInstance.setStatus('');
 
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {

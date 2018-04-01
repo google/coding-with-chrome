@@ -22,12 +22,16 @@
  */
 goog.provide('cwc.protocol.sphero.classic.Api');
 
+goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.protocol.sphero.classic.CallbackType');
 goog.require('cwc.protocol.sphero.classic.Commands');
 goog.require('cwc.protocol.sphero.classic.Events');
 goog.require('cwc.protocol.sphero.classic.MessageType');
 goog.require('cwc.protocol.sphero.classic.Monitoring');
+goog.require('cwc.protocol.sphero.classic.ResponseType');
 goog.require('cwc.utils.ByteTools');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
 
@@ -49,15 +53,6 @@ cwc.protocol.sphero.classic.Api = function() {
 
   /** @type {cwc.protocol.sphero.classic.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.classic.Monitoring(this);
-
-  /** @private {!Array} */
-  this.headerAck_ = [0xff, 0xff];
-
-  /** @private {!Array} */
-  this.headerAsync_ = [0xff, 0xfe];
-
-  /** @private {!number} */
-  this.headerMinSize_ = 7;
 
   /** @type {cwc.protocol.bluetooth.classic.Device} */
   this.device = null;
@@ -91,6 +86,15 @@ cwc.protocol.sphero.classic.Api = function() {
 
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.StreamReader} */
+  this.streamReader_ = new cwc.utils.StreamReader()
+    .setChecksum(this.verifiyChecksum_)
+    .setHeaders([[0xff, 0xff], [0xff, 0xfe]])
+    .setMinimumSize(7);
 };
 
 
@@ -128,10 +132,10 @@ cwc.protocol.sphero.classic.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.sphero.classic.Api.prototype.prepare = function() {
-  this.device.setDataHandler(this.handleAcknowledged_.bind(this),
-      this.headerAck_, this.headerMinSize_);
-  this.device.setDataHandler(this.handleAsync_.bind(this),
-      this.headerAsync_, this.headerMinSize_);
+  console.log(this.device);
+  this.events_.listen(this.device.getEventHandler(),
+    cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
+    this.handleOnReceive_.bind(this));
   this.setRGB(255, 0, 0);
   this.getRGB();
   this.setRGB(0, 255, 0);
@@ -430,51 +434,65 @@ cwc.protocol.sphero.classic.Api.prototype.parseCollisionData_ = function(data) {
 
 
 /**
- * Handles received data and callbacks from the Bluetooth socket.
- * @param {!Array} buffer
+ * Handles packets from the Bluetooth socket.
+ * @param {Event} e
  * @private
  */
-cwc.protocol.sphero.classic.Api.prototype.handleAcknowledged_ = function(
-    buffer) {
-  if (!this.verifiyChecksum_(buffer)) {
+cwc.protocol.sphero.classic.Api.prototype.handleOnReceive_ = function(e) {
+  let dataBuffer = this.streamReader_.readByHeader(e.data);
+  if (!dataBuffer) {
     return;
   }
-  let type = buffer[3];
-  let len = buffer[4];
-  let data = buffer.slice(5, buffer.length -1);
-  switch (type) {
-    case cwc.protocol.sphero.classic.CallbackType.RGB:
-      console.log('RGB:', data[0], data[1], data[2]);
-      break;
-    case cwc.protocol.sphero.classic.CallbackType.LOCATION:
-      this.updateLocationData_(data);
-      break;
-    default:
-      console.log('Received type', type, 'with', len,
-        ' bytes of unknown data:', data);
-  }
-};
 
-
-/**
- * Handles async packets from the Bluetooth socket.
- * @param {!Array} buffer
- * @private
- */
-cwc.protocol.sphero.classic.Api.prototype.handleAsync_ = function(buffer) {
-  if (!this.verifiyChecksum_(buffer)) {
+  // Verify packet length.
+  let packetLength = dataBuffer[4] + 5;
+  if (dataBuffer.length < packetLength) {
+    this.streamReader_.addBuffer(dataBuffer);
     return;
+  } else if (dataBuffer.length > packetLength) {
+    dataBuffer = dataBuffer.slice(0, packetLength);
+    this.streamReader_.addBuffer(dataBuffer.slice(packetLength));
   }
-  let message = buffer[2];
-  let len = buffer[4];
-  let data = buffer.slice(5, buffer.length -1);
-  switch (message) {
-    case cwc.protocol.sphero.classic.MessageType.COLLISION_DETECTED:
-      this.parseCollisionData_(data);
-      break;
-    default:
-      console.log('Received message', message, 'with', len,
-        ' bytes of unknown data:', data);
+
+  // Handling packet message.
+  let messageType = dataBuffer[1];
+  let messageResponse = dataBuffer[2];
+  let seq = dataBuffer[3];
+  let len = dataBuffer[4];
+  let data = dataBuffer.slice(5, 4 + len);
+  if (messageType === cwc.protocol.sphero.v1.ResponseType.ACKNOWLEDGEMENT) {
+    if (len = 1 &&
+       messageResponse === cwc.protocol.sphero.classic.ResponseType.PRE_SLEEP) {
+      console.warn('Pre-sleep warning (10 sec)');
+      return;
+    }
+    // Handles received data and callbacks from the Bluetooth socket.
+    switch (seq) {
+      case cwc.protocol.sphero.classic.CallbackType.RGB:
+        console.log('RGB:', data, data[0], data[1], data[2]);
+        break;
+      case cwc.protocol.sphero.classic.CallbackType.LOCATION:
+        console.log('Location', data);
+        this.updateLocationData_(data);
+        break;
+      default:
+        console.log('Received type', seq, 'with', len,
+          ' bytes of unknown data:', data);
+    }
+  } else if (messageType ===
+      cwc.protocol.sphero.v1.ResponseType.ASYNCHRONOUS) {
+    // Handles async packets from the Bluetooth socket.
+    switch (messageResponse) {
+      case cwc.protocol.sphero.classic.MessageType.COLLISION_DETECTED:
+        console.log('Collision', data);
+        this.parseCollisionData_(data);
+        break;
+      default:
+        console.log('Received message', messageResponse, 'with', len,
+          ' bytes of unknown data:', data);
+    }
+  } else {
+    console.error('Data error ...', dataBuffer);
   }
 };
 
@@ -487,12 +505,16 @@ cwc.protocol.sphero.classic.Api.prototype.handleAsync_ = function(buffer) {
  */
 cwc.protocol.sphero.classic.Api.prototype.verifiyChecksum_ = function(buffer,
     checksum) {
-  let bufferChecksum = 0;
-  let bufferLength = buffer.length -1;
-  if (!checksum) {
-    checksum = buffer[bufferLength];
+  // SOP1 always 0xFF and minimum packet size of 6
+  if (!buffer || buffer[0] !== 0xFF || buffer.length < 6) {
+    return false;
   }
-  for (let i = 2; i < bufferLength; i++) {
+  let packetLength = buffer[4] + 4;
+  if (!checksum) {
+    checksum = buffer[packetLength];
+  }
+  let bufferChecksum = 0;
+  for (let i = 2; i < packetLength; i++) {
     bufferChecksum += buffer[i];
   }
 

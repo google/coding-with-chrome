@@ -50,12 +50,6 @@ cwc.protocol.bluetooth.classic.Device = function() {
   /** @type {!Function|null} */
   this.disconnectCallback = null;
 
-  /** @type {!Object} */
-  this.dataHandler = {};
-
-  /** @type {!Function|null} */
-  this.dataHandlerAll = null;
-
   /** @type {Object} */
   this.socketProperties = {
     'persistent': false,
@@ -91,26 +85,6 @@ cwc.protocol.bluetooth.classic.Device.prototype.setDisconnectEvent = function(
     callback) {
   this.disconnectEvent = callback;
   return this;
-};
-
-
-/**
- * @param {!Function} callback
- * @param {Array=} opt_packet_header
- * @param {number=} opt_min_packet_size
- */
-cwc.protocol.bluetooth.classic.Device.prototype.setDataHandler = function(
-    callback, opt_packet_header, opt_min_packet_size) {
-  if (opt_packet_header) {
-    let id = opt_packet_header.join('_');
-    this.dataHandler[id] = {};
-    this.dataHandler[id]['buffer'] = null;
-    this.dataHandler[id]['callback'] = callback;
-    this.dataHandler[id]['headers'] = opt_packet_header;
-    this.dataHandler[id]['size'] = opt_min_packet_size || 4;
-  } else {
-    this.dataHandlerAll = callback;
-  }
 };
 
 
@@ -276,23 +250,8 @@ cwc.protocol.bluetooth.classic.Device.prototype.handleData = function(data) {
   if (!data) {
     return;
   }
-  if (this.dataHandlerAll) {
-    this.dataHandlerAll(data);
-  }
-  if (!this.dataHandler) {
-    return;
-  }
-
-  for (let handler in this.dataHandler) {
-    if (Object.prototype.hasOwnProperty.call(this.dataHandler, handler)) {
-      let dataView = cwc.utils.ByteTools.getUint8Data(data,
-        this.dataHandler[handler]['headers'],
-        this.dataHandler[handler]['size'],
-        this.dataHandler[handler]['buffer']);
-      dataView['data'].map(this.dataHandler[handler]['callback']);
-      this.dataHandler[handler]['buffer'] = dataView['buffer'] || null;
-    }
-  }
+  this.eventHandler.dispatchEvent(
+    cwc.protocol.bluetooth.classic.Events.onReceive(data));
 };
 
 

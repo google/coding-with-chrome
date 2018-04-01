@@ -1,0 +1,37 @@
+{
+  "content": {
+    "blockly": {
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <variables>\n    <variable type=\"\" id=\"`J)(`^7f+n%NS}QM_lPx\">distance</variable>\n  </variables>\n  <block type=\"ev3_set_robot_model\" x=\"-310\" y=\"-350\">\n    <field name=\"robot\">EDUCATOR</field>\n    <next>\n      <block type=\"ev3_play_tone\">\n        <field name=\"frequency\">100</field>\n        <field name=\"duration\">500</field>\n        <field name=\"volume\">50</field>\n        <next>\n          <block type=\"ev3_ultrasonic_sensor_mode\">\n            <field name=\"mode\">distance cm</field>\n            <next>\n              <block type=\"ev3_ultrasonic_sensor_change\">\n                <statement name=\"CODE\">\n                  <block type=\"controls_if\">\n                    <mutation elseif=\"2\" else=\"1\"></mutation>\n                    <value name=\"IF0\">\n                      <block type=\"logic_compare\">\n                        <field name=\"OP\">LT</field>\n                        <value name=\"A\">\n                          <block type=\"variables_get\">\n                            <field name=\"VAR\" id=\"`J)(`^7f+n%NS}QM_lPx\" variabletype=\"\">distance</field>\n                          </block>\n                        </value>\n                        <value name=\"B\">\n                          <block type=\"math_number\">\n                            <field name=\"NUM\">20</field>\n                          </block>\n                        </value>\n                      </block>\n                    </value>\n                    <statement name=\"DO0\">\n                      <block type=\"ev3_move_power\">\n                        <field name=\"direction\">backward</field>\n                        <field name=\"power\">60</field>\n                        <next>\n                          <block type=\"ev3_play_tone\">\n                            <field name=\"frequency\">400</field>\n                            <field name=\"duration\">200</field>\n                            <field name=\"volume\">50</field>\n                          </block>\n                        </next>\n                      </block>\n                    </statement>\n                    <value name=\"IF1\">\n                      <block type=\"logic_compare\">\n                        <field name=\"OP\">LT</field>\n                        <value name=\"A\">\n                          <block type=\"variables_get\">\n                            <field name=\"VAR\" id=\"`J)(`^7f+n%NS}QM_lPx\" variabletype=\"\">distance</field>\n                          </block>\n                        </value>\n                        <value name=\"B\">\n                          <block type=\"math_number\">\n                            <field name=\"NUM\">30</field>\n                          </block>\n                        </value>\n                      </block>\n                    </value>\n                    <statement name=\"DO1\">\n                      <block type=\"ev3_rotate_power\">\n                        <field name=\"direction\">right</field>\n                        <field name=\"power\">20</field>\n                      </block>\n                    </statement>\n                    <value name=\"IF2\">\n                      <block type=\"logic_compare\">\n                        <field name=\"OP\">LT</field>\n                        <value name=\"A\">\n                          <block type=\"variables_get\">\n                            <field name=\"VAR\" id=\"`J)(`^7f+n%NS}QM_lPx\" variabletype=\"\">distance</field>\n                          </block>\n                        </value>\n                        <value name=\"B\">\n                          <block type=\"math_number\">\n                            <field name=\"NUM\">50</field>\n                          </block>\n                        </value>\n                      </block>\n                    </value>\n                    <statement name=\"DO2\">\n                      <block type=\"ev3_rotate_power\">\n                        <field name=\"direction\">right</field>\n                        <field name=\"power\">40</field>\n                      </block>\n                    </statement>\n                    <statement name=\"ELSE\">\n                      <block type=\"ev3_move_power\">\n                        <field name=\"direction\">forward</field>\n                        <field name=\"power\">60</field>\n                      </block>\n                    </statement>\n                  </block>\n                </statement>\n                <next>\n                  <block type=\"ev3_move_power\">\n                    <field name=\"direction\">forward</field>\n                    <field name=\"power\">60</field>\n                  </block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </next>\n      </block>\n    </next>\n  </block>\n</xml>",
+      "name": "blockly",
+      "size": 4686,
+      "type": "application/blockly+xml",
+      "version": 1
+    },
+    "__javascript__": {
+      "content": "var distance;\n\n\nev3.setRobotModel(\"EDUCATOR\");\nev3.playTone(100, 500, 50, 500);\nev3.setUltrasonicSensorMode(0);\nvar ultrasonicSensorEvent = function(distance) {\n  if (distance < 20) {\n    ev3.movePower(-60);\n    ev3.playTone(400, 200, 50, 200);\n  } else if (distance < 30) {\n    ev3.rotatePower(20, 20);\n  } else if (distance < 50) {\n    ev3.rotatePower(40, 40);\n  } else {\n    ev3.movePower(60);\n  }\n};\nev3.onUltrasonicSensorChange(ultrasonicSensorEvent);\nev3.movePower(60);\n",
+      "name": "__javascript__",
+      "size": 476,
+      "type": "application/javascript",
+      "version": 1
+    }
+  },
+  "files": {},
+  "flags": {
+    "__editor__": {
+      "$flags_$": {}
+    }
+  },
+  "format": "Coding with Chrome File Format 3",
+  "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Markus Bordihn",
+      "model": "TRACK3R",
+      "title": "Collision avoidance",
+      "version": "1.0"
+    }
+  },
+  "mode": "ev3_blockly",
+  "ui": "blockly"
+}

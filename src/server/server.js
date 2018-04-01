@@ -68,6 +68,17 @@ cwc.server.Server.prototype.addFile = function(name, content) {
 
 /**
  * @param {!string} name
+ * @param {!string} content
+ */
+cwc.server.Server.prototype.addUserFile = function(name, content) {
+  if (this.httpServer) {
+    this.httpServer.addUserFile(name, content);
+  }
+};
+
+
+/**
+ * @param {!string} name
  * @param {!string} path
  */
 cwc.server.Server.prototype.addRedirect = function(name, path) {

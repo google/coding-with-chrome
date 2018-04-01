@@ -31,6 +31,9 @@ cwc.utils.Database = function(name, version) {
   /** @type {!string} */
   this.name = 'Database';
 
+  /** @private {!Object} */
+  this.config_ = {};
+
   /** @private {*} */
   this.database_ = null;
 
@@ -49,10 +52,18 @@ cwc.utils.Database = function(name, version) {
 
 
 /**
- * @export
+ * @param {Object} config
  * @return {Promise}
+ * @export
  */
-cwc.utils.Database.prototype.open = function() {
+cwc.utils.Database.prototype.open = function(config = this.config_) {
+  let objectStoreNames = [this.defaultObjectStore_];
+  if (config) {
+    this.config_ = config;
+    if (config['objectStoreNames']) {
+      objectStoreNames = objectStoreNames.concat(config['objectStoreNames']);
+    }
+  }
   return new Promise((resolve, reject) => {
     if (this.database_) {
       return resolve(this.database_);
@@ -79,52 +90,62 @@ cwc.utils.Database.prototype.open = function() {
     };
     dbRequest['onupgradeneeded'] = (e) => {
       let database = e.target.result;
-      if (!database['objectStoreNames'].contains(this.defaultObjectStore_)) {
-        database['createObjectStore'](this.defaultObjectStore_);
-      }
+      objectStoreNames.forEach((objetStoreName) => {
+        if (!database['objectStoreNames'].contains(objetStoreName)) {
+          this.log_.info('Create Object Store', objetStoreName);
+          database['createObjectStore'](objetStoreName);
+        }
+      });
     };
   });
 };
 
 
 /**
+ * Adds a new record, if not already exists.
  * @param {!string} name
  * @param {!string} content
+ * @param {string=} group
  */
-cwc.utils.Database.prototype.addFile = function(name, content) {
+cwc.utils.Database.prototype.addFile = function(name, content, group) {
   this.open().then(() => {
-    let group = this.defaultObjectStore_;
-    let objectStore =
-      this.database_['transaction'](group, 'readwrite')['objectStore'](group);
-    objectStore['add'](content, name);
+    this.getObjectStore_(group)['add'](content, name);
+  });
+};
+
+
+/**
+ * Updates given record, or inserts a new record if not already exist.
+ * @param {string=} group
+ */
+cwc.utils.Database.prototype.clearFiles = function(group) {
+  this.open().then(() => {
+    this.getObjectStore_(group)['clear']();
+  });
+};
+
+
+/**
+ * Updates given record, or inserts a new record if not already exist.
+ * @param {!string} name
+ * @param {!string} content
+ * @param {string=} group
+ */
+cwc.utils.Database.prototype.putFile = function(name, content, group) {
+  this.open().then(() => {
+    this.getObjectStore_(group)['put'](content, name);
   });
 };
 
 
 /**
  * @param {!string} name
- * @param {!string} content
- */
-cwc.utils.Database.prototype.putFile = function(name, content) {
-  this.open().then(() => {
-    let group = this.defaultObjectStore_;
-    let objectStore =
-      this.database_['transaction'](group, 'readwrite')['objectStore'](group);
-    objectStore['put'](content, name);
-  });
-};
-
-
-/**
- * @param {!string} name
+ * @param {string=} group
  * @return {Promise}
  */
-cwc.utils.Database.prototype.getFile = function(name) {
+cwc.utils.Database.prototype.getFile = function(name, group) {
   return new Promise((resolve, reject) => {
-    let group = this.defaultObjectStore_;
-    let objectStore =
-      this.database_['transaction'](group, 'readonly')['objectStore'](group);
-    let result = objectStore['get'](name);
+    let result = this.getObjectStoreReadOnly_(group)['get'](name);
     result['onsuccess'] = (e) => {
       resolve(e.target.result);
     };
@@ -140,4 +161,27 @@ cwc.utils.Database.prototype.getFile = function(name) {
  */
 cwc.utils.Database.prototype.getVersion = function() {
   return this.version_;
+};
+
+
+/**
+ * @param {string=} group
+ * @return {!IDBObjectStore}
+ * @private
+ */
+cwc.utils.Database.prototype.getObjectStore_ = function(
+    group = this.defaultObjectStore_) {
+  return this.database_['transaction'](group, 'readwrite')['objectStore'](
+    group);
+};
+
+
+/**
+ * @param {string=} group
+ * @return {!IDBObjectStore}
+ * @private
+ */
+cwc.utils.Database.prototype.getObjectStoreReadOnly_ = function(
+    group = this.defaultObjectStore_) {
+  return this.database_['transaction'](group, 'readonly')['objectStore'](group);
 };

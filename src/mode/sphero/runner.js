@@ -32,7 +32,7 @@ goog.require('goog.dom');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.Connection|
+ * @param {!cwc.mode.sphero.classic.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
@@ -50,7 +50,7 @@ cwc.mode.sphero.Runner = function(helper, connection) {
   this.prefix = helper.getPrefix('sphero-runner');
 
   /**
-   * @type {!cwc.mode.sphero.Connection|
+   * @type {!cwc.mode.sphero.classic.Connection|
    *   cwc.mode.sphero.bb8.Connection|
    *   cwc.mode.sphero.sprkPlus.Connection|
    *   cwc.mode.sphero.ollie.Connection}

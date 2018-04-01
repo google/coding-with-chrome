@@ -140,68 +140,19 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
     filename = '', fileHandler = null, gDriveId = undefined) {
   return new Promise((resolve) => {
-    this.log_.info('Handle file data ... (', data.length, ')');
-    let fileInstance = this.helper.getInstance('file', true);
-    let modeInstance = this.helper.getInstance('mode', true);
     let mimeType = cwc.utils.mime.getTypeByNameAndContent(filename || '', data);
-    this.log_.info('MIME-type:', mimeType);
+    this.log_.info('Handle file data ... (', data.length, ') with MIME-type:',
+      mimeType);
 
-    let modeType;
+    // Load compatible file mode.
     if (mimeType === cwc.utils.mime.Type.CWC.type) {
-       // Handle CWC file format
-      let file = new cwc.fileFormat.File(data);
-      modeType = cwc.mode.Config.getMode(
-        /** @type {cwc.mode.Type} */ (file.getMode()));
-      this.log_.info('Loading CWC file with mode', modeType, '...');
-      fileInstance.setFile(file);
-      fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
-      modeInstance.setMode(modeType);
-      modeInstance.setFilename(filename);
-
-      // Handling Blockly and normal Editor content.
-      let editorContent = file.getContentData();
-      for (let entry in editorContent) {
-        if (Object.prototype.hasOwnProperty.call(editorContent, entry)) {
-          let content = editorContent[entry];
-          let contentType = content.getType();
-          switch (contentType) {
-            case cwc.utils.mime.Type.BLOCKLY.type:
-              modeInstance.addBlocklyView(
-                content.getName(), content.getContent());
-              break;
-            case cwc.utils.mime.Type.COFFEESCRIPT.type:
-            case cwc.utils.mime.Type.CSS.type:
-            case cwc.utils.mime.Type.HTML.type:
-            case cwc.utils.mime.Type.JAVASCRIPT.type:
-              modeInstance.addEditorView(
-                content.getName(), content.getContent(), contentType);
-              break;
-            default:
-              this.log_.warn('Unknown content type:', contentType);
-          }
-        }
-      }
-
-      // Handle UI mode
-      let fileUi = fileInstance.getUi();
-      if (fileUi) {
-        if (fileUi === 'blockly') {
-          modeInstance.showBlockly();
-        } else if (fileUi === 'editor') {
-          modeInstance.showEditor();
-        }
-      }
+      this.loadCWCFile(new cwc.fileFormat.File(data), filename);
     } else {
-      // Handle raw file format
-      modeType = cwc.mode.Config.getModeByMimeType(mimeType);
-      this.log_.info('Loading raw data with mode', modeType, '...');
-      fileInstance.setRawFile(data, filename);
-      fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
-      modeInstance.setMode(modeType);
-      modeInstance.addEditorView('__default__', data, mimeType);
+      this.loadRawFile(data, filename);
     }
 
     // Sets file handler for local or gDrive files
+    let fileInstance = this.helper.getInstance('file');
     if (fileHandler) {
       if (fileHandler.name) {
         fileInstance.setFilename(fileHandler.name);
@@ -211,18 +162,80 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
       fileInstance.setGDriveId(gDriveId);
     }
 
-    // Sets the file title.
-    let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
-    if (fileTitle) {
-      modeInstance.setTitle(fileTitle);
-    }
-
-    // Handle post modification tasks.
-    modeInstance.postMode(modeType);
-
     this.helper.showSuccess('Loaded file ' + filename + ' successful.');
     resolve();
   });
+};
+
+
+/**
+ * @param {!cwc.fileFormat.File} file
+ * @param {string=} filename
+ */
+cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
+    filename = '') {
+  let modeType = cwc.mode.Config.getMode(
+    /** @type {cwc.mode.Type} */ (file.getMode()));
+  this.log_.info('Loading CWC file with mode', modeType, '...');
+
+  let fileInstance = this.helper.getInstance('file');
+  fileInstance.setFile(file);
+  fileInstance.setMimeType(cwc.utils.mime.Type.CWC);
+
+  let modeInstance = this.helper.getInstance('mode');
+  modeInstance.setMode(modeType);
+  modeInstance.setFilename(filename);
+
+  // Handling Blockly and normal Editor content.
+  let editorContent = file.getContentData();
+  for (let entry in editorContent) {
+    if (Object.prototype.hasOwnProperty.call(editorContent, entry)) {
+      let content = editorContent[entry];
+      let contentType = content.getType();
+      switch (contentType) {
+        case cwc.utils.mime.Type.BLOCKLY.type:
+          modeInstance.addBlocklyView(
+            content.getName(), content.getContent());
+          break;
+        case cwc.utils.mime.Type.COFFEESCRIPT.type:
+        case cwc.utils.mime.Type.CSS.type:
+        case cwc.utils.mime.Type.HTML.type:
+        case cwc.utils.mime.Type.JAVASCRIPT.type:
+          modeInstance.addEditorView(
+            content.getName(), content.getContent(), contentType);
+          break;
+        default:
+          this.log_.warn('Unknown content type:', contentType);
+      }
+    }
+  }
+
+  // Handle library files
+  // let cacheInstance = this.helper.getInstance('cache');
+
+  modeInstance.postMode();
+};
+
+
+/**
+ * @param {!string} content
+ * @param {string=} filename
+ */
+cwc.fileHandler.FileLoader.prototype.loadRawFile = function(content,
+    filename = '') {
+  let mimeType = cwc.utils.mime.getTypeByNameAndContent(filename, content);
+  let modeType = cwc.mode.Config.getModeByMimeType(mimeType);
+  this.log_.info('Loading', mimeType, 'file with mode', modeType, '...');
+
+  let fileInstance = this.helper.getInstance('file');
+  fileInstance.setRawFile(content, filename);
+  fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
+
+  let modeInstance = this.helper.getInstance('mode');
+  modeInstance.setMode(modeType);
+  modeInstance.setFilename(filename);
+  modeInstance.addEditorView('__default__', content, mimeType);
+  modeInstance.postMode();
 };
 
 

@@ -48,6 +48,26 @@ cwc.utils.ByteTools.bytesToInt32 = function(data) {
 
 
 /**
+ * @param {Object} data
+ * @return {number}
+ */
+cwc.utils.ByteTools.bytesToInt32Alternative = function(data) {
+  let value = new Uint8Array([data[0], data[1], data[2], data[3]]);
+  return Number(new Int32Array(value.buffer)[0]);
+};
+
+
+/**
+ * @param {Object} data
+ * @return {number}
+ */
+cwc.utils.ByteTools.bytesToFloat32 = function(data) {
+  let value = new Uint8Array([data[0], data[1], data[2], data[3]]);
+  return Number((new Float32Array(value.buffer)[0]));
+};
+
+
+/**
   * @param {!ArrayBuffer|Array} data1
   * @param {!ArrayBuffer|Array} data2
   * @return {!boolean}
@@ -88,32 +108,36 @@ cwc.utils.ByteTools.toUint8Array = function(data) {
 
 
 /**
- * @param {!ArrayBuffer} data
+ * @param {!ArrayBuffer|Uint8Array} data
  * @return {!string}
  */
 cwc.utils.ByteTools.toString = function(data) {
-  let result = '';
-  let buffer = new Uint8Array(data);
-  for (let value of buffer) {
-    result += String.fromCharCode(value);
-  }
-  return result;
+  return (String.fromCharCode.apply(null, data)).replace(/\0/g, '').trim();
 };
 
 
 /**
- * @param {!Uint8Array} data1
- * @param {!Uint8Array} data2
+ * @param {!ArrayBuffer|ArrayBufferView|Uint8Array} data
+ * @return {!string}
+ */
+cwc.utils.ByteTools.toUTF8 = function(data) {
+  return new TextDecoder('utf-8').decode(data).trim();
+};
+
+
+/**
+ * @param {Uint8Array} data1
+ * @param {Uint8Array} data2
  * @return {!Uint8Array}
  */
 cwc.utils.ByteTools.joinUint8Array = function(data1, data2) {
   if (!data1 || !data2) {
-    return data1 || data2;
+    return data1 || data2 || new Uint8Array(0);
   }
-  let data = new Uint8Array(data1.length + data2.length);
-  data.set(data1, 0);
-  data.set(data2, data1.length);
-  return data;
+  let joinedArray = new Uint8Array(data1.length + data2.length);
+  joinedArray.set(data1, 0);
+  joinedArray.set(data2, data1.length);
+  return joinedArray;
 };
 
 
@@ -129,6 +153,7 @@ cwc.utils.ByteTools.getUint8Array = function(data) {
     return new Uint8Array(data);
   }
   console.error('Unable to read:', data);
+  return new Uint8Array(0);
 };
 
 
@@ -145,19 +170,17 @@ cwc.utils.ByteTools.uint8Data;
  * @param {Array=} headers
  * @param {number=} size
  * @param {ArrayBuffer|Uint8Array=} buffer
- * @return {cwc.utils.ByteTools.uint8Data} result
+ * @return {cwc.utils.ByteTools.uint8Data}
  */
 cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
   // Prepare Data Buffer
   let dataArray = cwc.utils.ByteTools.getUint8Array(data);
-  let uint8Data = {
-    'data': dataArray,
-    'buffer': null,
-  };
 
   // Return the data if no further processing is needed.
   if (!headers && !size && !buffer) {
-    return uint8Data;
+    return {
+      'data': dataArray,
+    };
   }
 
   // Join any existing buffer.
@@ -168,9 +191,9 @@ cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
 
   // Check if data have at least min size.
   if (size && dataArray.length < size) {
-    uint8Data['buffer'] = dataArray;
-    uint8Data['data'] = undefined;
-    return uint8Data;
+    return {
+      'buffer': dataArray,
+    };
   }
 
   // Perform additional header checks.
@@ -181,50 +204,64 @@ cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
     for (let header of dataHeaders) {
       if ((header[0] === dataArray[0]) &&
           (header[1] === undefined || header[1] === dataArray[1])) {
-        return uint8Data;
+        return {
+          'data': dataArray,
+        };
       }
     }
 
     // Advanced header check on all position.
     for (let header of dataHeaders) {
-      let headerPosition = cwc.utils.ByteTools.getHeaderPositions(dataArray,
+      let headerPosition = cwc.utils.ByteTools.getBytePositions(dataArray,
         header);
       if (headerPosition) {
-        uint8Data['data'] = dataArray.slice(headerPosition[0]);
-        return uint8Data;
+        if (headerPosition.length === 1) {
+          return {
+            'data': dataArray.slice(headerPosition[0]),
+          };
+        } else {
+          return {
+            'data': dataArray.slice(headerPosition[0], headerPosition[1]),
+            'buffer': dataArray.slice(headerPosition[1]),
+          };
+        }
       }
     }
-    uint8Data['data'] = undefined;
+    return {
+      'buffer': dataArray,
+    };
   }
 
-  return uint8Data;
+  return {
+    'data': dataArray,
+  };
 };
 
 
 /**
- * Returns the header position in the given data stream.
+ * Returns the bytes position in the given data stream.
  * @param {Uint8Array|Array} data
- * @param {Array} headers
+ * @param {Array} bytes
  * @return {Array|null}
  */
-cwc.utils.ByteTools.getHeaderPositions = function(data, headers) {
+cwc.utils.ByteTools.getBytePositions = function(data, bytes) {
   let dataLength = data.length;
-  let headerLength = headers.length;
+  let byteLength = bytes.length;
   let result = [];
 
-  if (dataLength < headerLength) {
+  if (dataLength < byteLength) {
     return null;
   }
 
   for (let dataPos = 0; dataPos < dataLength; dataPos++) {
-    if (data[dataPos] === headers[0]) {
-      let foundHeaders = true;
-      for (let headerPos = 0; headerPos < headerLength; headerPos++) {
-        if (data[dataPos + headerPos] !== headers[headerPos]) {
-          foundHeaders = false;
+    if (data[dataPos] === bytes[0]) {
+      let foundbytes = true;
+      for (let bytePos = 0; bytePos < byteLength; bytePos++) {
+        if (data[dataPos + bytePos] !== bytes[bytePos]) {
+          foundbytes = false;
         }
       }
-      if (foundHeaders && dataPos + headerLength <= dataLength) {
+      if (foundbytes && dataPos + byteLength <= dataLength) {
         result.push(dataPos);
       }
     }

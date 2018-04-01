@@ -84,6 +84,9 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     'for MIME-types', modeConfig.mimeTypes
   );
 
+  // Remove former informations.
+  this.setFilename();
+
   // Remove former instances.
   this.helper.setInstance('blockly', null, true);
   this.helper.setInstance('editor', null, true);
@@ -129,7 +132,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
 
 
 /**
- * @param {string} filename
+ * @param {string=} filename
  */
 cwc.mode.Modder.prototype.setFilename = function(filename) {
   this.filename = filename || '';
@@ -137,9 +140,9 @@ cwc.mode.Modder.prototype.setFilename = function(filename) {
 
 
 /**
- * @param {cwc.mode.Type} mode
+ * @param {cwc.mode.Type=} mode
  */
-cwc.mode.Modder.prototype.postMode = function(mode) {
+cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   this.log_.info('Post handling for', mode);
   let modeConfig = cwc.mode.Config.get(mode);
 
@@ -150,10 +153,27 @@ cwc.mode.Modder.prototype.postMode = function(mode) {
     this.runPreview();
   }
 
-  // File handling
-  let fileHandlerInstance = this.helper.getInstance('file');
-  if (fileHandlerInstance) {
-    if (fileHandlerInstance.hasLibraryFiles()) {
+  // Handle file data, if needed.
+  let fileInstance = this.helper.getInstance('file');
+  if (fileInstance) {
+    // Setting file title
+    let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
+    if (fileTitle) {
+      this.setTitle(fileTitle);
+    }
+
+    // Handle UI mode
+    switch (fileInstance.getUi()) {
+      case 'blockly':
+        this.showBlockly();
+        break;
+      case 'editor':
+        this.showEditor();
+        break;
+    }
+
+    // Sync Library files
+    if (fileInstance.hasLibraryFiles()) {
       this.syncLibrary();
     }
   }

@@ -260,7 +260,10 @@ cwc.utils.ByteArray.prototype.setHeader = function(type, data) {
  * @export
  */
 cwc.utils.ByteArray.prototype.hasHeader = function(type) {
-  return type in this.headers;
+  if (this.headers && type) {
+    return type in this.headers;
+  }
+  return false;
 };
 
 

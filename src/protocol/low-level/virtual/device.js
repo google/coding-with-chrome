@@ -19,9 +19,12 @@
  */
 goog.provide('cwc.protocol.virtual.Device');
 
+goog.require('cwc.protocol.default.Device');
+
 
 /**
  * @constructor
+ * @extends {cwc.protocol.default.Device}
  */
 cwc.protocol.virtual.Device = function() {
   /** @type {!string} */
@@ -29,13 +32,8 @@ cwc.protocol.virtual.Device = function() {
 
   /** @type {!boolean} */
   this.connected = false;
-
-  /** @type {!Object} */
-  this.dataHandler = {};
-
-  /** @type {!Function} */
-  this.dataHandlerAll = null;
 };
+goog.inherits(cwc.protocol.virtual.Device, cwc.protocol.default.Device);
 
 
 /**
@@ -76,45 +74,6 @@ cwc.protocol.virtual.Device.prototype.disconnect = function(force, callback) {
 cwc.protocol.virtual.Device.prototype.reset = function() {
   if (!this.connected) {
     return;
-  }
-};
-
-
-/**
- * @return {!boolean}
- * @export
- */
-cwc.protocol.virtual.Device.prototype.isConnected = function() {
-  return this.connected;
-};
-
-
-/**
- * @return {!string}
- * @export
- */
-cwc.protocol.virtual.Device.prototype.getAddress = function() {
-  return this.address || '';
-};
-
-
-/**
- * @param {!Function} callback
- * @param {Array=} opt_packet_header
- * @param {number=} opt_min_packet_size
- * @export
- */
-cwc.protocol.virtual.Device.prototype.setDataHandler = function(
-    callback, opt_packet_header, opt_min_packet_size) {
-  if (opt_packet_header) {
-    let id = opt_packet_header.join('_');
-    this.dataHandler[id] = {};
-    this.dataHandler[id]['buffer'] = null;
-    this.dataHandler[id]['callback'] = callback;
-    this.dataHandler[id]['headers'] = opt_packet_header;
-    this.dataHandler[id]['size'] = opt_min_packet_size || 4;
-  } else {
-    this.dataHandlerAll = callback;
   }
 };
 

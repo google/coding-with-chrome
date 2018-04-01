@@ -228,7 +228,7 @@ cwc.utils.mime.Type = {
  * @return {!string}
  */
 cwc.utils.mime.getByType = function(type) {
-  for (let entry in cwc.file.MimeType) {
+  for (let entry in cwc.utils.mime.Type) {
     if (Object.prototype.hasOwnProperty.call(cwc.utils.mime.Type, entry)) {
       if (cwc.utils.mime.Type[entry].type === type) {
         return cwc.utils.mime.Type[entry];

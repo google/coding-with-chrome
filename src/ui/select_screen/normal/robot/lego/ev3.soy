@@ -63,6 +63,14 @@
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'UltraSonic sensor\nCollision avoidance' /}
+            {param text: 'Navigates freely in the environment and avoid collisions.' /}
+            {param file: 'lego/ev3/blocks/EV3-UltraSonic-Sensor.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'perm_scan_wifi' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Color sensor\nPlay sound' /}
             {param text: 'Plays different tones depending on the detected color.' /}
             {param file: 'lego/ev3/blocks/EV3-Color-Sensor.cwc' /}

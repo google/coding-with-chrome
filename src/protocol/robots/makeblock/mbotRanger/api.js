@@ -22,13 +22,16 @@
  */
 goog.provide('cwc.protocol.makeblock.mbotRanger.Api');
 
+goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.protocol.makeblock.mbotRanger.Commands');
 goog.require('cwc.protocol.makeblock.mbotRanger.IndexType');
 goog.require('cwc.protocol.makeblock.mbotRanger.Monitoring');
 goog.require('cwc.protocol.makeblock.mbotRanger.Port');
 goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 goog.require('cwc.utils.ByteTools');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.NumberTools');
+goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
 
@@ -60,14 +63,17 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
   /** @private {Object} */
   this.sensorDataCache_ = {};
 
-  /** @private {!Array} */
-  this.headerAsync_ = [0xff, 0x55];
-
-  /** @private {!number} */
-  this.headerMinSize_ = 4;
+  /** @private {!cwc.utils.StreamReader} */
+  this.streamReader_ = new cwc.utils.StreamReader()
+    .setHeaders([0xff, 0x55])
+    .setFooter([0x0d, 0x0a])
+    .setMinimumSize(4);
 };
 
 
@@ -107,8 +113,9 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
-  this.device.setDataHandler(this.handleAsync_.bind(this),
-      this.headerAsync_, this.headerMinSize_);
+  this.events_.listen(this.device.getEventHandler(),
+    cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
+    this.handleOnReceive_.bind(this));
   this.playTone(524, 240);
   this.playTone(584, 240);
   this.setRGBLED(0, 0, 0, 0);
@@ -399,17 +406,24 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
 
 /**
  * Handles async packets from the Bluetooth socket.
- * @param {Array} buffer
+ * @param {Event} e
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
-    buffer) {
-  let indexType = buffer[2];
-  let dataType = buffer[3];
-  let data = buffer.slice(4, buffer.length -1);
+cwc.protocol.makeblock.mbotRanger.Api.prototype.handleOnReceive_ = function(e) {
+  let dataBuffer = this.streamReader_.readByHeaderAndFooter(e.data);
+
+  // Ignore empty and OK packages with 0xff, 0x55, 0x0d, 0x0a
+  if (!dataBuffer || dataBuffer.length === 4) {
+    return;
+  }
+
+  let len = dataBuffer[1];
+  let indexType = dataBuffer[2];
+  let dataType = dataBuffer[3];
+  let data = dataBuffer.slice(4);
   switch (indexType) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.VERSION:
-      console.log('VERSION', data);
+      console.log('mBot Firmware', new TextDecoder('utf-8').decode(data));
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
@@ -421,7 +435,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleAsync_ = function(
     case cwc.protocol.makeblock.mbotRanger.IndexType.ACK:
       break;
     default:
-      console.log('UNKNOWN index', indexType, dataType, buffer);
+      console.log('UNKNOWN index', len, indexType, dataType, dataBuffer);
   }
 };
 

@@ -215,14 +215,14 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
         'Please turn on the Gamepad and press any of the buttons.');
     });
   this.events_.listen(gamepadInstance.getEventHandler(),
-      cwc.utils.Gamepad.Events.Type.CONNECTED, () => {
-        dialogInstance.close('Enable Gamepad support');
-        this.setGamepad(true);
-      });
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.CONNECTED), () => {
+      dialogInstance.close('Enable Gamepad support');
+      this.setGamepad(true);
+    });
   this.events_.listen(gamepadInstance.getEventHandler(),
-      cwc.utils.Gamepad.Events.Type.DISCONNECTED, () => {
-        this.setGamepad(false);
-      });
+    /** @type {string} */ (cwc.utils.Gamepad.Events.Type.DISCONNECTED), () => {
+      this.setGamepad(false);
+    });
   this.nodeGamepadConnected = goog.dom.getElement(
     this.prefix + 'gamepad-connected');
   this.setGamepad(false);

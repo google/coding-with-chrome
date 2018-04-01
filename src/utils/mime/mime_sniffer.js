@@ -43,6 +43,8 @@ cwc.utils.mime.getTypeByContent = function(content) {
     return '';
   }
 
+  let text = /** @type {!string} */ (content);
+
   // Data-URL scheme
   if (content.startsWith('data:') &&
       content.includes('/') &&
@@ -54,40 +56,19 @@ cwc.utils.mime.getTypeByContent = function(content) {
   }
 
   // JSON file format
-  if (content.startsWith('{') && content.includes('}') &&
-      content.includes('"') && content.includes(':')) {
-      let jsonData = null;
-    try {
-      jsonData = JSON.parse(/** @type {string}*/ (content));
-    } catch (error) {
-      jsonData = null;
-    }
-    if (jsonData && typeof jsonData === 'object') {
-      if (jsonData['format'] && jsonData['format'].includes(cwcHeader)) {
-        return cwc.utils.mime.Type.CWC.type;
-      } else {
-        return cwc.utils.mime.Type.JSON.type;
-      }
-    }
+  let jsonContent = cwc.utils.mime.isJSONContent(text);
+  if (jsonContent) {
+    return jsonContent;
   }
 
   // XML file format
-  if ((content.startsWith('<xml') && content.includes('</xml>')) ||
-       content.startsWith('<?xml version="1.0"')) {
-    if (content.includes('//W3C//DTD XHTML')) {
-      return cwc.utils.mime.Type.XHTML.type;
-    } else if (content.includes('<block type=') &&
-        content.includes(' x=') &&
-        content.includes(' y=') &&
-        content.includes('</block>') &&
-        content.includes('<field name=') &&
-        content.includes('</field>')) {
-      return cwc.utils.mime.Type.BLOCKLY.type;
-    }
-    return cwc.utils.mime.Type.XML.type;
+  let xmlContent = cwc.utils.mime.isXMLContent(text);
+  if (xmlContent) {
+    return xmlContent;
+  }
 
   // HTML file format
-  } else if (content.startsWith('<!DOCTYPE html>') || (
+  if (content.startsWith('<!DOCTYPE html>') || (
       content.includes('<html') && content.includes('</html>'))) {
     return cwc.utils.mime.Type.HTML.type;
 
@@ -119,6 +100,55 @@ cwc.utils.mime.getTypeByContent = function(content) {
     return cwc.utils.mime.Type.PYTHON.text;
   } else if (content.constructor == String) {
     return cwc.utils.mime.Type.TEXT.type;
+  }
+  return '';
+};
+
+
+/**
+ * @param {!string} content
+ * @return {!string}
+ */
+cwc.utils.mime.isJSONContent = function(content) {
+  if (content.startsWith('{') && content.includes('}') &&
+      content.includes('"') && content.includes(':')) {
+    let jsonData = null;
+    try {
+      jsonData = JSON.parse((content));
+    } catch (error) {
+      jsonData = null;
+    }
+    if (jsonData && typeof jsonData === 'object') {
+      if (jsonData['format'] && jsonData['format'].includes(
+          'Coding with Chrome File Format')) {
+        return cwc.utils.mime.Type.CWC.type;
+      } else {
+        return cwc.utils.mime.Type.JSON.type;
+      }
+    }
+  }
+  return '';
+};
+
+
+/**
+ * @param {!string} content
+ * @return {!string}
+ */
+cwc.utils.mime.isXMLContent = function(content) {
+  if ((content.startsWith('<xml') && content.includes('</xml>')) ||
+       content.startsWith('<?xml version="1.0"')) {
+    if (content.includes('//W3C//DTD XHTML')) {
+      return cwc.utils.mime.Type.XHTML.type;
+    } else if (content.includes('<block type=') &&
+        content.includes(' x=') &&
+        content.includes(' y=') &&
+        content.includes('</block>') &&
+        content.includes('<field name=') &&
+        content.includes('</field>')) {
+      return cwc.utils.mime.Type.BLOCKLY.type;
+    }
+    return cwc.utils.mime.Type.XML.type;
   }
   return '';
 };

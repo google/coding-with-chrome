@@ -45,6 +45,7 @@ describe('[Mode EV3 - Blockly]', function() {
     loadExampleFile(
       'lego/ev3/blocks/EV3-Educator-BlockGrabber.cwc', builder, it);
     loadExampleFile('lego/ev3/blocks/EV3-IR-Sensor.cwc', builder, it);
+    loadExampleFile('lego/ev3/blocks/EV3-UltraSonic-Sensor.cwc', builder, it);
     loadExampleFile('lego/ev3/blocks/EV3-Robot-Arm-H25.cwc', builder, it);
   });
 });

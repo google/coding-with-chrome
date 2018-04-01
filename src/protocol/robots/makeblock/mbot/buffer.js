@@ -27,95 +27,55 @@ goog.require('cwc.utils.ByteArray');
 
 /**
  * @constructor
+ * @extends {cwc.utils.ByteArray}
  */
 cwc.protocol.makeblock.mbot.Buffer = function() {
-  /** @type {!cwc.utils.ByteArray} */
-  this.data = new cwc.utils.ByteArray();
+  /** @type {!Array} */
+  this.data = [];
 
   /** @type {!Array} */
   this.header = cwc.protocol.makeblock.mbot.Header;
 };
+goog.inherits(cwc.protocol.makeblock.mbot.Buffer, cwc.utils.ByteArray);
 
 
 /**
- * Writes null byte with 0x00.
+ * @param {!cwc.protocol.makeblock.mbot.Device} device
+ * @return {THIS}
+ * @template THIS
  */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeNullByte = function() {
-  this.data.writeByte(0x00);
-};
-
-
-/**
- * Writes single byte with 0x01.
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeSingleByte = function() {
-  this.data.writeByte(0x01);
-};
-
-
-/**
- * @param {number} value
- * @param {number=} opt_default
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeByte = function(value,
-    opt_default) {
-  this.data.writeByte(value, opt_default);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeInt = function(value) {
-  this.data.writeInt(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeShort = function(value) {
-  this.data.writeShort(value);
-};
-
-
-/**
- * @param {string} value
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeString = function(value) {
-  this.data.writeString(value);
-};
-
-
-/**
- * @param {!cwc.protocol.makeblock.mbot.Device} command
- */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeDevice = function(command) {
-  this.data.writeByte(command);
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeDevice = function(device) {
+  return this.writeByte(device);
 };
 
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.CommandType} type
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writeType = function(type) {
-  this.data.writeByte(type);
+  return this.writeByte(type);
 };
 
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.Port} port
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writePort = function(port) {
-  this.data.writeByte(port);
+  return this.writeByte(port);
 };
 
 
 /**
  * @param {!cwc.protocol.makeblock.mbot.IndexType} index
+ * @return {THIS}
+ * @template THIS
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writeIndex = function(index) {
-  this.data.writeUInt(index);
+  return this.writeUInt(index);
 };
 
 
@@ -123,7 +83,7 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writeIndex = function(index) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.readSigned = function() {
-  let buffer = this.data.getData();
+  let buffer = this.getData();
   let checkSum = buffer.length;
   let dataLength = buffer.length;
   let dataBuffer = new ArrayBuffer(dataLength + 3);

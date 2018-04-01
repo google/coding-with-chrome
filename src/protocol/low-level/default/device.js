@@ -116,6 +116,9 @@ cwc.protocol.default.Device.prototype.setEventHandler = function(eventHandler) {
  * @return {!goog.events.EventTarget}
  */
 cwc.protocol.default.Device.prototype.getEventHandler = function() {
+  if (!this.eventHandler) {
+    this.eventHandler = new goog.events.EventTarget();
+  }
   return this.eventHandler;
 };
 

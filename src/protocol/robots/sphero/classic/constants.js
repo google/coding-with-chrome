@@ -21,6 +21,7 @@ goog.provide('cwc.protocol.sphero.classic.CallbackType');
 goog.provide('cwc.protocol.sphero.classic.Command');
 goog.provide('cwc.protocol.sphero.classic.CommandType');
 goog.provide('cwc.protocol.sphero.classic.MessageType');
+goog.provide('cwc.protocol.sphero.classic.ResponseType');
 
 
 /**
@@ -32,6 +33,14 @@ cwc.protocol.sphero.classic.CallbackType = {
   RGB: 0x15,
   VERSION: 0x20,
   UNKNOWN: 0xF0,
+};
+
+
+/**
+ * @enum {number}
+ */
+cwc.protocol.sphero.classic.ResponseType = {
+  PRE_SLEEP: 0x05,
 };
 
 

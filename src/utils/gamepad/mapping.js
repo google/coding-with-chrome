@@ -21,7 +21,7 @@ goog.provide('cwc.utils.Gamepad.Mapping');
 
 
 /**
- * @type {Object}
+ * @enum {!Object.<string>|number|string}
  */
 cwc.utils.Gamepad.Mapping = {
   'HORIPAD 4  (Vendor: 0f0d Product: 0066)': {

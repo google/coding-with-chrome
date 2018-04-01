@@ -35,6 +35,8 @@ goog.require('cwc.protocol.lego.ev3.LedMode');
 goog.require('cwc.protocol.lego.ev3.Monitoring');
 goog.require('cwc.protocol.lego.ev3.MotorMode');
 goog.require('cwc.protocol.lego.ev3.OutputPort');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
@@ -55,12 +57,6 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {cwc.protocol.bluetooth.classic.Device} */
   this.device = null;
 
-  /** @private {!Array} */
-  this.header_ = [0xff, 0xff];
-
-  /** @private {!number} */
-  this.headerMinSize_ = 5;
-
   /** @type {Object} */
   this.actor = {};
 
@@ -76,20 +72,23 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {!string} */
   this.firmware = '';
 
-  /** @type {!string} */
-  this.battery = '';
-
-  /** @private {goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
-
-  /** @type {!cwc.protocol.lego.ev3.Monitoring} */
-  this.monitoring = new cwc.protocol.lego.ev3.Monitoring(this);
-
   /** @type {!cwc.protocol.lego.ev3.Commands} */
   this.commands = new cwc.protocol.lego.ev3.Commands();
 
   /** @type {Object} */
   this.cache_ = {};
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @type {!cwc.protocol.lego.ev3.Monitoring} */
+  this.monitoring = new cwc.protocol.lego.ev3.Monitoring(this);
+
+  /** @private {!cwc.utils.StreamReader} */
+  this.streamReader_ = new cwc.utils.StreamReader().setMinimumSize(5);
 };
 
 
@@ -131,12 +130,13 @@ cwc.protocol.lego.ev3.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
-  this.device.setDataHandler(this.handleOnReceive_.bind(this));
-  // this.device.setDataHandler(this.handleOnReceive_.bind(this),
-  //    this.header_, this.headerMinSize_);
+  this.events_.listen(this.device.getEventHandler(),
+    cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
+    this.handleOnReceive_.bind(this));
   this.monitoring.init();
   this.playTone(2000, 200, 25);
   this.getFirmware();
+  this.getBattery();
   this.getDevices();
   this.playTone(3000, 200, 50);
   this.drawClean();
@@ -249,7 +249,7 @@ cwc.protocol.lego.ev3.Api.prototype.getGyroSensorData = function() {
 
 
 /**
- * @return {goog.events.EventTarget}
+ * @return {!goog.events.EventTarget}
  */
 cwc.protocol.lego.ev3.Api.prototype.getEventHandler = function() {
   return this.eventHandler_;
@@ -344,6 +344,14 @@ cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
 /**
  * @export
  */
+cwc.protocol.lego.ev3.Api.prototype.getBattery = function() {
+  this.send_(this.commands.getBattery());
+};
+
+
+/**
+ * @export
+ */
 cwc.protocol.lego.ev3.Api.prototype.getFirmware = function() {
   this.send_(this.commands.getFirmware());
 };
@@ -415,11 +423,11 @@ cwc.protocol.lego.ev3.Api.prototype.getActorData = function(port) {
 
 /**
  * @param {cwc.protocol.lego.ev3.LedColor} color
- * @param {cwc.protocol.lego.ev3.LedMode=} opt_mode
+ * @param {cwc.protocol.lego.ev3.LedMode=} mode
  * @export
  */
-cwc.protocol.lego.ev3.Api.prototype.setLed = function(color, opt_mode) {
-  this.send_(this.commands.setLed(color, opt_mode));
+cwc.protocol.lego.ev3.Api.prototype.setLed = function(color, mode) {
+  this.send_(this.commands.setLed(color, mode));
 };
 
 
@@ -573,18 +581,18 @@ cwc.protocol.lego.ev3.Api.prototype.moveServo = function(steps, speed) {
 /**
  * Moves the motors for the predefined specific steps.
  * @param {!number} steps
- * @param {number=} opt_speed
+ * @param {number=} speed
  * @param {boolean=} opt_break
  * @export
  */
 cwc.protocol.lego.ev3.Api.prototype.moveSteps = function(steps,
-    opt_speed, opt_break) {
+    speed, opt_break) {
   let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
   let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
   let brake = opt_break === undefined ? true : opt_break;
   let rampUp = 0;
   let rampDown = 0;
-  this.send_(this.commands.moveSteps(motorLeft | motorRight, steps, opt_speed,
+  this.send_(this.commands.moveSteps(motorLeft | motorRight, steps, speed,
       rampUp, rampDown, brake));
 };
 
@@ -665,7 +673,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   if (type == cwc.protocol.lego.ev3.DeviceType.NONE) {
     return;
   }
-  let typeNormalized = type.replace(/-/g, '_').replace(/ /g, '');
+  let typeNormalized = type.replace(/-/g, '_').replace(/\s/g, '');
   if (!(typeNormalized in cwc.protocol.lego.ev3.DeviceType)) {
     if (type == 'PORT ERROR') {
       console.error('Received Port Error on port', port, '!');
@@ -673,7 +681,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
     } else if (type == 'TERMINAL') {
       console.warn('Please check connection on port', port, '!');
     } else {
-      console.warn('Unknown device type "', type, '" on port', port, '!');
+      console.warn('Unknown device "' + typeNormalized + '" on port', port);
       console.warn('Please check re-connect device on port', port, '!');
     }
     return;
@@ -852,55 +860,56 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value,
 
 /**
  * Handles received data and callbacks from the Bluetooth socket.
- * @param {Array<number>|ArrayBuffer|ArrayBufferView|null|number} raw_data
+ * @param {Event} e
  * @private
  */
-cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(raw_data) {
-  if (!raw_data) {
-    console.error('Received no data!');
+cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
+  let dataBuffer = this.streamReader_.read(e.data);
+  if (!dataBuffer) {
     return;
   }
-  let data = new Uint8Array(raw_data);
-  if (data.length < 5) {
-    console.error('Received data are to small!');
+
+  // Verify packet length.
+  let packetLength = cwc.utils.ByteTools.bytesToInt(
+    [dataBuffer[1], dataBuffer[0]]) + 2;
+  if (dataBuffer.length < packetLength) {
+    this.streamReader_.addBuffer(dataBuffer);
     return;
+  } else if (dataBuffer.length > packetLength) {
+    dataBuffer = dataBuffer.slice(0, packetLength);
+    this.streamReader_.addBuffer(dataBuffer.slice(packetLength));
   }
-  let value = 0;
-  let result = 0;
-  let callback = data[2];
-  let port = /** @type {cwc.protocol.lego.ev3.InputPort} */ (data[3]);
+
+  let callback =
+    /** @type {cwc.protocol.lego.ev3.CallbackType} */ (dataBuffer[2]);
+  let port = /** @type {cwc.protocol.lego.ev3.InputPort} */ (dataBuffer[3]);
+  let data = dataBuffer.slice(5);
 
   // Handles the different callback types.
   switch (callback) {
     case cwc.protocol.lego.ev3.CallbackType.FIRMWARE:
-      value = data.subarray(5, 5 + 16);
-      this.firmware = (String.fromCharCode.apply(null, value)).trim();
+      this.firmware = cwc.utils.ByteTools.toUTF8(data);
       console.log('EV3 Firmware Version', this.firmware);
       break;
     case cwc.protocol.lego.ev3.CallbackType.BATTERY:
-      value = data.subarray(5, 5 + 16);
-      this.battery = (String.fromCharCode.apply(null, value)).trim();
-      console.log('EV3 Battery level', this.battery);
+      console.log('EV3 Battery level', data);
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_NAME:
-      value = data.subarray(5, 5 + 0x7E);
-      this.updateDeviceType_(port,
-        (String.fromCharCode.apply(null, value)).trim());
+      this.updateDeviceType_(port, cwc.utils.ByteTools.toString(data));
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_PCT_VALUE:
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_RAW_VALUE:
-      value = data[5];
-      this.updateDeviceData_(port, value, this.deviceData[port].getName());
+      this.updateDeviceData_(port, data[0], this.deviceData[port].getName());
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_SI_VALUE:
-      value = new Uint8Array([data[5], data[6], data[7], data[8]]);
-      result = Number((new Float32Array(value.buffer)[0]).toFixed(1));
-      this.updateDeviceData_(port, result, this.deviceData[port].getName());
+      this.updateDeviceData_(
+        port, cwc.utils.ByteTools.bytesToFloat32(data).toFixed(1),
+        this.deviceData[port].getName());
       break;
     case cwc.protocol.lego.ev3.CallbackType.ACTOR_VALUE:
-      value = new Uint8Array([data[5], data[6], data[7], data[8]]);
-      result = /** @type {number} */ (new Int32Array(value.buffer)[0]);
-      this.updateDeviceData_(port, result, this.deviceData[port].getName());
+      this.updateDeviceData_(
+        port, cwc.utils.ByteTools.bytesToInt32Alternative(data),
+        this.deviceData[port].getName());
       break;
   }
 };

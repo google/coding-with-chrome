@@ -43,11 +43,11 @@ cwc.mode.lego.ev3.Runner = function(helper, connection) {
   /** @type {string} */
   this.name = 'EV3 Runner';
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix();
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix();
 
   /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = connection;

@@ -174,11 +174,10 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDevice = function(address) {
 
 /**
  * @param {!string} name
- * @param {boolean=} multisearch
  * @return {cwc.protocol.bluetooth.classic.Device}
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.getDeviceByName = function(
-    name, multisearch = false) {
+    name) {
   let connectedDevice = [];
   let disconnectedDevice = [];
   for (let entry in this.devices) {
@@ -199,14 +198,14 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDeviceByName = function(
     this.log_.debug('Found', numConnected, 'connected device for', name, ':',
       connectedDevice);
     this.autoConnectDeviceCache_ = [];
-    if (multisearch && numConnected > 1) {
+    if (numConnected > 1) {
       return connectedDevice[Math.floor(Math.random() * numConnected)];
     }
     return connectedDevice[0];
   } else if (numDisconnected) {
     this.log_.debug('Found', numDisconnected, 'disconnected device for', name,
       ':', disconnectedDevice);
-    if (multisearch && numDisconnected > 1) {
+    if (numDisconnected > 1) {
       return disconnectedDevice[Math.floor(Math.random() * numDisconnected)];
     }
     return disconnectedDevice[0];
@@ -229,11 +228,10 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDevices = function() {
 /**
  * @param {!string} name
  * @param {Function} callback
- * @param {boolean=} multisearch
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.autoConnectDevice = function(
-    name, callback, multisearch = false) {
-  let device = this.getDeviceByName(name, multisearch);
+    name, callback) {
+  let device = this.getDeviceByName(name);
   if (device) {
     if (device.isConnected() && device.hasSocket()) {
       callback(device, device.getAddress());

@@ -1,18 +1,32 @@
 {
-  "author": "Markus Bordihn",
   "content": {
-    "blockly": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"sphero_collision\" id=\"sL@Yb=/0,R+~:dQNnYmf\" x=\"133\" y=\"126\">\n    <statement name=\"CODE\">\n      <block type=\"sphero_rgb\" id=\"Cg@38m8u5o%{7xH4!DSs\">\n        <value name=\"colour\">\n          <block type=\"colour_picker\" id=\"Hcx}?D@keOXy7Bu(B)jJ\">\n            <field name=\"COLOUR\">#ff0000</field>\n          </block>\n        </value>\n        <next>\n          <block type=\"sphero_rgb\" id=\"BSexl;QIklEg@In+t3Y+\">\n            <value name=\"colour\">\n              <block type=\"colour_picker\" id=\"1/LI~Uq#Q+cq0q.G*WJq\">\n                <field name=\"COLOUR\">#33ff33</field>\n              </block>\n            </value>\n          </block>\n        </next>\n      </block>\n    </statement>\n  </block>\n</xml>",
-    "javascript": ""
+    "blockly": {
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <variables></variables>\n  <block type=\"sphero_rgb\" x=\"110\" y=\"70\">\n    <value name=\"colour\">\n      <block type=\"colour_picker\">\n        <field name=\"COLOUR\">#33ff33</field>\n      </block>\n    </value>\n    <next>\n      <block type=\"sphero_collision\">\n        <statement name=\"CODE\">\n          <block type=\"sphero_rgb\">\n            <value name=\"colour\">\n              <block type=\"colour_picker\">\n                <field name=\"COLOUR\">#ff0000</field>\n              </block>\n            </value>\n            <next>\n              <block type=\"sphero_rgb\">\n                <value name=\"colour\">\n                  <block type=\"colour_picker\">\n                    <field name=\"COLOUR\">#33ff33</field>\n                  </block>\n                </value>\n              </block>\n            </next>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
+      "name": "blockly",
+      "size": 917,
+      "type": "application/blockly+xml",
+      "version": 1
+    },
+    "__javascript__": {
+      "content": "",
+      "name": "__javascript__",
+      "size": 187,
+      "type": "application/javascript",
+      "version": 1
+    }
   },
-  "description": "",
   "files": {},
   "flags": {},
-  "format": "Coding with Chrome File Format 1.0",
+  "format": "Coding with Chrome File Format 3",
   "frameworks": {},
   "history": "",
-  "type": "sphero_blockly",
+  "metadata": {
+    "__default__": {
+      "author": "Markus Bordihn",
+      "title": "Collision example",
+      "version": "1.1"
+    }
+  },
   "mode": "sphero_blockly",
-  "title": "Collision example",
-  "ui": "blockly",
-  "version": "1.1"
+  "ui": "blockly"
 }

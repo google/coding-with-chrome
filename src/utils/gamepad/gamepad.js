@@ -149,7 +149,7 @@ cwc.utils.Gamepad.prototype.handleTick_ = function() {
 
 
 /**
- * @param {Object} gamepad
+ * @param {!Object} gamepad
  */
 cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
   let changed = false;
@@ -175,9 +175,8 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
     let mappedIndex = cwc.utils.Gamepad.getIndex(index, 'buttons', gamepad);
     if (this.cache_['buttons'][mappedIndex] !== button['value']) {
       this.cache_['buttons'][mappedIndex] = button['value'];
-      let value = button['value'];
       this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.buttonPressed(
-        mappedIndex, button['value'], value
+        mappedIndex, button['value']
       ));
       changed = true;
     }
@@ -186,7 +185,7 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
   if (changed) {
     // Create an immutable version of the current cache for the event.
     this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.update(
-      JSON.parse(JSON.stringify(this.cache_))));
+      /** @type {Object} */ (JSON.parse(JSON.stringify(this.cache_)))));
   }
 };
 

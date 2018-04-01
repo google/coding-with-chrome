@@ -322,7 +322,7 @@ cwc.fileFormat.File.prototype.setMode = function(mode) {
 
 
 /**
- * @return {cwc.mode.Type}
+ * @return {!cwc.mode.Type}
  */
 cwc.fileFormat.File.prototype.getMode = function() {
   return this.mode_;

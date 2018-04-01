@@ -27,90 +27,40 @@ goog.require('cwc.utils.ByteArray');
 
 /**
  * @constructor
- * @param {cwc.protocol.sphero.classic.CallbackType=} optCallback
+ * @extends {cwc.utils.ByteArray}
  */
-cwc.protocol.sphero.classic.Buffer = function(optCallback) {
-  /** @type {!cwc.utils.ByteArray} */
-  this.data = new cwc.utils.ByteArray();
-
+cwc.protocol.sphero.classic.Buffer = function() {
   /** @type {cwc.protocol.sphero.classic.CallbackType} */
-  this.callbackType = optCallback ||
-      cwc.protocol.sphero.classic.CallbackType.NONE;
+  this.callbackType = cwc.protocol.sphero.classic.CallbackType.NONE;
 
   /** @type {!cwc.protocol.sphero.classic.Command|Array} */
   this.command = cwc.protocol.sphero.classic.Command.SYSTEM.PING;
 
-  /** @type {!number} */
-  this.header = 0xFF;
-
-  /** @type {!number} */
-  this.type = (optCallback) ?
-      cwc.protocol.sphero.classic.CommandType.DIRECT.REPLY :
-      cwc.protocol.sphero.classic.CommandType.DIRECT.NOREPLY;
+  /** @type {!Array} */
+  this.data = [];
 };
+goog.inherits(cwc.protocol.sphero.classic.Buffer, cwc.utils.ByteArray);
 
 
 /**
- * Writes null byte with 0x00.
+ * @param {!cwc.protocol.sphero.classic.CallbackType} callback
+ * @return {THIS}
+ * @template THIS
  */
-cwc.protocol.sphero.classic.Buffer.prototype.writeNullByte = function() {
-  this.data.writeByte(0x00);
-};
-
-
-/**
- * Writes single byte with 0x01.
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeSingleByte = function() {
-  this.data.writeByte(0x01);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeByte = function(value) {
-  this.data.writeByte(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeInt = function(value) {
-  this.data.writeInt(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeUInt = function(value) {
-  this.data.writeUInt16(value);
-};
-
-
-/**
- * @param {number} value
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeShort = function(value) {
-  this.data.writeShort(value);
-};
-
-
-/**
- * @param {string} value
- */
-cwc.protocol.sphero.classic.Buffer.prototype.writeString = function(value) {
-  this.data.writeString(value);
+cwc.protocol.sphero.classic.Buffer.prototype.setCallback = function(callback) {
+  this.callbackType = callback;
+  return this;
 };
 
 
 /**
  * @param {!cwc.protocol.sphero.classic.Command|Array} command
+ * @return {THIS}
+ * @template THIS
  */
-cwc.protocol.sphero.classic.Buffer.prototype.writeCommand = function(command) {
+cwc.protocol.sphero.classic.Buffer.prototype.setCommand = function(command) {
   this.command = command;
+  return this;
 };
 
 
@@ -118,13 +68,15 @@ cwc.protocol.sphero.classic.Buffer.prototype.writeCommand = function(command) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.sphero.classic.Buffer.prototype.readSigned = function() {
-  let buffer = this.data.getData();
+  let buffer = this.getData();
   let checkSum = 0;
   let dataLength = buffer.length + 1;
   let dataBuffer = new ArrayBuffer(dataLength + 6);
   let data = new Uint8Array(dataBuffer);
-  data[0] = this.header;
-  data[1] = this.type;
+  data[0] = 0xFF;
+  data[1] = this.callbackType ?
+      cwc.protocol.sphero.classic.CommandType.DIRECT.REPLY :
+      cwc.protocol.sphero.classic.CommandType.DIRECT.NOREPLY;
   data[2] = this.command[0];
   data[3] = this.command[1];
   data[4] = this.callbackType;

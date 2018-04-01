@@ -109,9 +109,6 @@ cwc.mode.makeblock.mbot.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.runner.profile.makeblock.mbot.Monitor} */
-  this.monitor = new cwc.runner.profile.makeblock.mbot.Monitor(this.turtle);
-
   /** @type {Element} */
   this.node = null;
 
@@ -139,9 +136,9 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.runner.addCommandProfile(
     new cwc.runner.profile.makeblock.mbot.Command(this.api));
 
-  // Monitoring
-  this.runner.addMonitor('movePower', this.monitor.movePower, this);
-  this.runner.addMonitor('rotatePower', this.monitor.rotatePower, this);
+  // Monitors
+  this.runner.addMonitorProfile(
+    new cwc.runner.profile.makeblock.mbot.Monitor(this.turtle));
 
   // Events
   let apiEventHandler = this.api.getEventHandler();
@@ -162,8 +159,8 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
   this.runner.decorate(this.node);
 
   // Preview output
-  let turtleNode = this.runner.getTurtleNode();
-  this.turtle.decorate(turtleNode);
+  this.runner.showTurtle(true);
+  this.turtle.decorate(this.runner.getTurtleNode());
 };
 
 
@@ -171,7 +168,6 @@ cwc.mode.makeblock.mbot.Runner.prototype.decorate = function() {
  * @private
  */
 cwc.mode.makeblock.mbot.Runner.prototype.handleStart_ = function() {
-  this.monitor.reset();
   this.turtle.action('speed', 3);
   this.turtle.reset();
   this.api.start();

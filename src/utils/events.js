@@ -96,7 +96,7 @@ cwc.utils.Events.prototype.clear = function() {
 
 /**
  * @param {!string} type
- * @param {Object|string|number=} data
+ * @param {ArrayBuffer|Object|string|number=} data
  * @param {string|number=} source
  * @constructor
  * @final
@@ -105,7 +105,7 @@ cwc.utils.EventData = function(type, data, source) {
   /** @type {!string} */
   this.type = type;
 
-  /** @type {!Object|string|number|null} */
+  /** @type {!ArrayBuffer|Object|string|number|null} */
   this.data = (typeof data !== 'undefined') ? data : {};
 
   /** @type {!string|number} */

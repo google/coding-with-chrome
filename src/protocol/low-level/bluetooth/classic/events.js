@@ -28,6 +28,7 @@ goog.require('cwc.utils.EventData');
 cwc.protocol.bluetooth.classic.Events.Type = {
   ADAPTER_STATE_CHANGE: 'adapter_state_change',
   DEVICE_STATE_CHANGE: 'device_stage_change',
+  ON_RECEIVE: 'on_receive',
 };
 
 
@@ -50,4 +51,15 @@ cwc.protocol.bluetooth.classic.Events.adapterState = function(data) {
 cwc.protocol.bluetooth.classic.Events.deviceState = function(data) {
   return new cwc.utils.EventData(
       cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE, data);
+};
+
+
+/**
+ * @param {!ArrayBuffer} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.bluetooth.classic.Events.onReceive = function(data) {
+  return new cwc.utils.EventData(
+      cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE, data);
 };

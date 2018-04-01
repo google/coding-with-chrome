@@ -37,7 +37,7 @@ cwc.runner.profile.makeblock.mbot.Monitor = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.runner.profile.makeblock.mbot.Monitor.prototype.reset = function() {
+cwc.runner.profile.makeblock.mbot.Monitor.prototype['reset'] = function() {
   this.speed_ = 0;
 };
 
@@ -46,7 +46,8 @@ cwc.runner.profile.makeblock.mbot.Monitor.prototype.reset = function() {
  * move mbot forward or backward
  * @param  {Object} data data package
  */
-cwc.runner.profile.makeblock.mbot.Monitor.prototype.movePower = function(data) {
+cwc.runner.profile.makeblock.mbot.Monitor.prototype['movePower'] = function(
+    data) {
   if (data['speed'] > 0) {
     this.turtle.action('fd', data['speed']);
   } else {
@@ -59,8 +60,9 @@ cwc.runner.profile.makeblock.mbot.Monitor.prototype.movePower = function(data) {
  * turn mbot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.makeblock.mbot.Monitor.prototype.rotatePower = function(
+cwc.runner.profile.makeblock.mbot.Monitor.prototype['rotatePower'] = function(
     data) {
+  console.log(this, this.turtle);
   if (data['speed'] > 0) {
     this.turtle.action('rt', data['speed']);
   } else {

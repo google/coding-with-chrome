@@ -33,7 +33,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.Connection|
+ * @param {!cwc.mode.sphero.classic.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
@@ -49,7 +49,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   this.prefix = this.helper.getPrefix('sphero-monitor');
 
   /**
-   * @type {!cwc.mode.sphero.Connection|
+   * @type {!cwc.mode.sphero.classic.Connection|
    *   cwc.mode.sphero.bb8.Connection|
    *   cwc.mode.sphero.sprkPlus.Connection|
    *   cwc.mode.sphero.ollie.Connection}

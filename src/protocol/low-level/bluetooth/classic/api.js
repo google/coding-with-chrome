@@ -140,13 +140,12 @@ cwc.protocol.bluetooth.classic.Api.prototype.getEventHandler = function() {
 
 
 /**
- * @param {!string} device_name
+ * @param {!string} deviceName
  * @param {Function} callback
- * @param {boolean=} opt_multisearch
  */
 cwc.protocol.bluetooth.classic.Api.prototype.autoConnectDevice = function(
-    device_name, callback, opt_multisearch) {
-  this.devices_.autoConnectDevice(device_name, callback, opt_multisearch);
+    deviceName, callback) {
+  this.devices_.autoConnectDevice(deviceName, callback);
 };
 
 
