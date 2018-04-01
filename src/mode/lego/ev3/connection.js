@@ -61,7 +61,7 @@ cwc.mode.lego.ev3.Connection = function(helper) {
  */
 cwc.mode.lego.ev3.Connection.prototype.init = function() {
   this.handleConnecting_({
-    'data': 'Connection EV3',
+    'data': 'Connecting EV3',
     'source': 1,
   });
   if (this.apiEvents_) {
@@ -86,11 +86,8 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
 cwc.mode.lego.ev3.Connection.prototype.connect = function() {
   if (!this.isConnected()) {
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-    bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
-      if (device) {
-        this.api_.connect(device);
-      }
-    }.bind(this));
+    bluetoothInstance.autoConnectDevice(this.autoConnectName,
+      this.api_.connect.bind(this.api_));
   }
   this.api_.monitor(true);
 };

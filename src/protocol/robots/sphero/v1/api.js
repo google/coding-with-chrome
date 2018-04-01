@@ -1,8 +1,8 @@
 /**
- * @fileoverview Handles the communication with the Sphero Classic unit.
+ * @fileoverview Handles the communication with the Sphero v1 unit.
  *
- * This api allows to read and control the Lego Mindstorm Sphero sensors and
- * actors over an Bluetooth connection.
+ * This api allows to read and control the Sphero sensors and actors over an
+ * Bluetooth connection.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -23,7 +23,7 @@
 goog.provide('cwc.protocol.sphero.v1.Api');
 
 goog.require('cwc.protocol.sphero.v1.CallbackType');
-goog.require('cwc.protocol.sphero.v1.Commands');
+goog.require('cwc.protocol.sphero.classic.Commands');
 goog.require('cwc.protocol.sphero.v1.Events');
 goog.require('cwc.protocol.sphero.v1.MessageType');
 goog.require('cwc.protocol.sphero.v1.Monitoring');
@@ -44,8 +44,8 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!cwc.protocol.sphero.v1.Commands} */
-  this.commands = new cwc.protocol.sphero.v1.Commands();
+  /** @type {!cwc.protocol.sphero.classic.Commands} */
+  this.commands = new cwc.protocol.sphero.classic.Commands();
 
   /** @type {cwc.protocol.sphero.v1.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.v1.Monitoring(this);

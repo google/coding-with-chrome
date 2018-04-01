@@ -99,7 +99,9 @@ cwc.protocol.lego.ev3.Api = function() {
  * @export
  */
 cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
-  if (!device || !device.isConnected()) {
+  if (!device) {
+    return false;
+  } else if (!device.isConnected()) {
     console.error('EV3 unit is not ready yet...');
     return false;
   }

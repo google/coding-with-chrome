@@ -105,16 +105,22 @@ cwc.protocol.sphero.classic.Api = function() {
  * @export
  */
 cwc.protocol.sphero.classic.Api.prototype.connect = function(device) {
-  if (!device || !device.isConnected()) {
+  if (!device) {
+    return false;
+  } else if (!device.isConnected()) {
     console.error('Sphero ball is not ready yet...');
     return false;
   }
 
   if (!this.prepared) {
-    console.log('Preparing Sphero bluetooth api for', device.getAddress());
+    console.log('Preparing Sphero classic api for', device.getAddress());
+    this.eventHandler.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
+      'Prepare Sphero Classic api for' + device.getAddress(), 2));
     this.device = device;
     this.prepare();
     this.runTest();
+    this.eventHandler.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
+      'Ready ...', 3));
   }
   return true;
 };
