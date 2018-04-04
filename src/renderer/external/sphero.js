@@ -45,6 +45,7 @@ cwc.renderer.external.Sphero.prototype.init = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   let renderer = this.render.bind(this);
   rendererInstance.setRenderer(renderer);
+  rendererInstance.setServerMode(true);
 };
 
 
@@ -61,14 +62,76 @@ cwc.renderer.external.Sphero.prototype.render = function(
     libraryFiles,
     frameworks,
     rendererHelper) {
-  let header = rendererHelper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.Internal.SPHERO), frameworks);
-  let body = '\n<script>' +
-      '  let code = function(sphero) {\n' +
-      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
-      '\n};\n'+
-      '  new cwc.framework.Sphero(code);\n' +
-      '</script>\n';
+  let content = editorContent[cwc.ui.EditorContent.JAVASCRIPT].trim();
+
+  if (content.startsWith('#!/usr/bin/python')) {
+    // Strip shebang
+    content = content.replace(/^#!.*/, '');
+    return this.renderPython(content, frameworks, rendererHelper);
+  }
+
+  return this.renderJavaScript(content, frameworks, rendererHelper);
+};
+
+/**
+ * @param {string} content
+ * @param {!cwc.file.Files} frameworks
+ * @param {cwc.renderer.Helper} rendererHelper
+ * @return {string}
+ */
+cwc.renderer.external.Sphero.prototype.renderJavaScript = function(
+    content,
+    frameworks,
+    rendererHelper) {
+  let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.SPHERO
+  ]);
+
+  let body = `
+<script>
+let code = function(sphero) {
+${content}
+};
+new cwc.framework.Sphero(code);
+</script>
+  `;
+
+  return rendererHelper.getHTML(body, header);
+};
+
+/**
+ * @param {string} content
+ * @param {!cwc.file.Files} frameworks
+ * @param {cwc.renderer.Helper} rendererHelper
+ * @return {string}
+ */
+cwc.renderer.external.Sphero.prototype.renderPython = function(
+    content,
+    frameworks,
+    rendererHelper) {
+  let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.SPHERO,
+    cwc.framework.External.BRYTHON.CORE,
+    cwc.framework.External.BRYTHON.STDLIB,
+    cwc.framework.Internal.PYTHON3,
+  ]);
+
+  let body = `
+<script id="code" type="text/python">
+from browser import window
+sphero = window.python.sphero
+${content}
+</script>
+<script>
+let code = function(sphero) {
+  window.python = window.python || {};
+  window.python.sphero = sphero;
+  console.log(sphero);
+  new cwc.framework.Python3().run();
+};
+new cwc.framework.Sphero(code);
+</script>
+  `;
 
   return rendererHelper.getHTML(body, header);
 };
