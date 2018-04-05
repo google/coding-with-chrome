@@ -110,7 +110,7 @@ cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(file) {
         .then(resolve).catch(reject);
     }).catch((e) => {
       this.helper.showError(String(e));
-      reject(e);
+      throw e;
     });
   });
 };
