@@ -18,6 +18,7 @@
 #{$prefix}preview-toolbar {
   flex: 0 1 auto;
   min-height: 34px;
+  display: flex !important;
 }
 
 #{$prefix}preview-toolbar > .mdl-layout__header-row {

@@ -16,6 +16,7 @@
 
 #{$prefix}blockly-toolbar {
   min-height: 34px;
+  display: flex !important;
 }
 
 #{$prefix}blockly-toolbar > .mdl-layout__header-row {

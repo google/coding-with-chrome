@@ -15,6 +15,9 @@
  */
 
 
+#{$prefix}editor-toolbar {
+  display: flex !important;
+}
 #{$prefix}editor-toolbar > .mdl-layout__header-row {
   height: 34px;
 }
