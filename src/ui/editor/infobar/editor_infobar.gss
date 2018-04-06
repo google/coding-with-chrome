@@ -20,6 +20,7 @@
   background: #f5f5f5;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #ebebeb;
+  display: flex !important;
 }
 
 #{$prefix}editor-infobar .goog-menu-button {

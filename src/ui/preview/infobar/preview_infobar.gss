@@ -15,6 +15,9 @@
  */
 
 
+#{$prefix}preview-infobar {
+  display: flex !important;
+}
 .{$prefix}preview-infobar-num {
   position: absolute;
   right: 0;
