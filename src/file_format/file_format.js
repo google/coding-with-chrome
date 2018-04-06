@@ -286,9 +286,10 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
  * @param {string=} namespace
  * @return {!string}
  */
-cwc.fileFormat.File.prototype.getMetadata = function(name,
-    namespace = this.metedataNamespace_) {
+cwc.fileFormat.File.prototype.getMetadata = function(
+    name, namespace = this.metedataNamespace_) {
   if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
+    this.log_.warn('Unknown meta data', namespace + '.' + name);
     return '';
   }
   return this.metadata_[namespace][name];
@@ -447,6 +448,14 @@ cwc.fileFormat.File.prototype.getJSON = function() {
 
 
 /**
+ * @return {!number}
+ */
+cwc.fileFormat.File.prototype.getFileFormatVersion = function() {
+  return cwc.fileFormat.File.getFileHeaderVersion(this.format_);
+};
+
+
+/**
  * @param {!string} header
  * @return {boolean}
  */
@@ -503,8 +512,8 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   file.log_.info('Loading JSON data with', jsonData.length, 'size ...');
   file.init(true);
 
+  // Handle content entries.
   if (jsonData['content']) {
-    // Handle content entries.
     if (fileFormatVersion === 1) {
       // Handle legacy file format 1.0
       for (let entry in jsonData['content']) {

@@ -22,9 +22,20 @@ goog.require('cwc.utils.StorageCustom');
 
 
 describe('Storage', function() {
+  it('constructor', function() {
+    expect(typeof cwc.utils.Storage).toEqual('function');
+  });
+
+  it('getStorageType', function() {
+    expect(cwc.utils.Storage.getStorageType() !== '').toBe(true);
+  });
+});
+
+
+describe('Storage - Default', function() {
   let storage = new cwc.utils.Storage();
-  let testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
-  let testValue = Math.floor(Math.random()*1000000);
+  let testItem = '__cwc__test__' + Math.floor(Math.random() * 1000000);
+  let testValue = Math.floor(Math.random() * 1000000);
   let testGroup = 'group_12345';
 
   it('constructor', function() {
@@ -38,24 +49,24 @@ describe('Storage', function() {
     storage.prepare(callback);
   });
 
-  it('getStorageType', function() {
-    expect(storage.getStorageType() !== '').toBe(true);
-  });
-
   it('set', function() {
     storage.set(testItem, testValue);
-    storage.set(testItem, testValue+1, testGroup);
+    storage.set(testItem, testValue + 1, testGroup);
   });
 
   it('get', function() {
+    storage.set(testItem, testValue);
+    storage.set(testItem, testValue + 1, testGroup);
     expect(storage.get(testItem)).toEqual(String(testValue));
-    expect(storage.get(testItem, testGroup)).toEqual(String(testValue+1));
+    expect(storage.get(testItem, testGroup)).toEqual(String(testValue + 1));
   });
 
   it('remove', function() {
+    storage.set(testItem, testValue);
+    storage.set(testItem, testValue + 1, testGroup);
     storage.remove(testItem);
     expect(storage.get(testItem)).toEqual(null);
-    expect(storage.get(testItem, testGroup)).toEqual(String(testValue+1));
+    expect(storage.get(testItem, testGroup)).toEqual(String(testValue + 1));
     storage.remove(testItem, testGroup);
     expect(storage.get(testItem, testGroup)).toEqual(null);
   });
@@ -63,7 +74,7 @@ describe('Storage', function() {
 
 
 describe('Storage - Custom', function() {
-  let testValue = Math.floor(Math.random()*1000000);
+  let testValue = Math.floor(Math.random() * 1000000);
   let customStorage = new cwc.utils.StorageCustom();
 
   it('constructor', function() {
@@ -72,12 +83,14 @@ describe('Storage - Custom', function() {
 
   it('set', function() {
     customStorage.set({'123': testValue});
-    customStorage.set({'321': testValue+1});
+    customStorage.set({'321': testValue + 1});
   });
 
   it('get', function() {
+    customStorage.set({'123': testValue});
+    customStorage.set({'321': testValue + 1});
     expect(customStorage.get('123')['123']).toEqual(testValue);
-    expect(customStorage.get('321')['321']).toEqual(testValue+1);
+    expect(customStorage.get('321')['321']).toEqual(testValue + 1);
   });
 
   it('clear', function() {
@@ -100,8 +113,8 @@ describe('Storage - Chrome Mode', function() {
 
   // Storage
   let storage = new cwc.utils.Storage();
-  let testItem = '__cwc__test__' + Math.floor(Math.random()*1000000);
-  let testValue = Math.floor(Math.random()*1000000);
+  let testItem = '__cwc__test__' + Math.floor(Math.random() * 1000000);
+  let testValue = Math.floor(Math.random() * 1000000);
   let testGroup = 'group_12345';
 
   it('constructor', function() {
@@ -115,24 +128,24 @@ describe('Storage - Chrome Mode', function() {
     storage.prepare(callback);
   });
 
-  it('getStorageType', function() {
-    expect(storage.getStorageType() !== '').toBe(true);
-  });
-
   it('set', function() {
     storage.set(testItem, testValue);
-    storage.set(testItem, testValue+1, testGroup);
+    storage.set(testItem, testValue + 1, testGroup);
   });
 
   it('get', function() {
+    storage.set(testItem, testValue);
+    storage.set(testItem, testValue + 1, testGroup);
     expect(storage.get(testItem)).toEqual(String(testValue));
-    expect(storage.get(testItem, testGroup)).toEqual(String(testValue+1));
+    expect(storage.get(testItem, testGroup)).toEqual(String(testValue + 1));
   });
 
   it('remove', function() {
+    storage.set(testItem, testValue);
+    storage.set(testItem, testValue + 1, testGroup);
     storage.remove(testItem);
     expect(storage.get(testItem)).toEqual(null);
-    expect(storage.get(testItem, testGroup)).toEqual(String(testValue+1));
+    expect(storage.get(testItem, testGroup)).toEqual(String(testValue + 1));
     storage.remove(testItem, testGroup);
     expect(storage.get(testItem, testGroup)).toEqual(null);
   });

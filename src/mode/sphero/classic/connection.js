@@ -104,7 +104,7 @@ cwc.mode.sphero.classic.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api_.stop();
+  this.api_.exec('stop');
 };
 
 
@@ -155,6 +155,7 @@ cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
     this.connectMonitor.stop();
   }
   this.stop();
+  this.api_.cleanUp();
   this.events_.clear();
 };
 

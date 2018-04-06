@@ -54,7 +54,7 @@ cwc.protocol.sphero.classic.Monitoring = function(api) {
 
   // Monitor Events
   this.events_.listen(this.monitorLocation, goog.Timer.TICK,
-    this.api.getLocation, false, this.api);
+    this.updateLocation.bind(this));
 };
 
 
@@ -81,4 +81,18 @@ cwc.protocol.sphero.classic.Monitoring.prototype.stop = function() {
   console.log('Stopping...');
   this.monitorLocation.stop();
   this.started = false;
+};
+
+
+cwc.protocol.sphero.classic.Monitoring.prototype.cleanUp = function() {
+  this.stop();
+  // this.events_.clear();
+};
+
+
+/**
+ * Updates the current location of the Sphero device.
+ */
+cwc.protocol.sphero.classic.Monitoring.prototype.updateLocation = function() {
+  this.api.exec('getLocation');
 };

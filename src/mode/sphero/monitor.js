@@ -60,18 +60,6 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   this.api = this.connection.getApi();
 
   /** @type {Element} */
-  this.nodeIntro = null;
-
-  /** @type {Element} */
-  this.nodeControl = null;
-
-  /** @type {Element} */
-  this.nodeCalibration = null;
-
-  /** @type {Element} */
-  this.nodeMonitor = null;
-
-  /** @type {Element} */
   this.nodeMonitorLocation = null;
 
   /** @type {goog.ui.KeyboardShortcutHandler} */
@@ -97,31 +85,26 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
     return;
   }
 
-  this.nodeIntro = this.runnerMonitor_.getIntroNode();
-  this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
-  this.nodeCalibration = this.runnerMonitor_.getCalibrationNode();
-  this.nodeControl = this.runnerMonitor_.getControlNode();
-
   goog.soy.renderElement(
-      this.nodeIntro,
+      this.runnerMonitor_.getIntroNode(),
       cwc.soy.mode.sphero.Monitor.intro,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      this.nodeCalibration,
+      this.runnerMonitor_.getCalibrationNode(),
       cwc.soy.mode.sphero.Monitor.calibration,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      this.nodeMonitor,
+      this.runnerMonitor_.getMonitorNode(),
       cwc.soy.mode.sphero.Monitor.monitor,
       {'prefix': this.prefix}
   );
 
   goog.soy.renderElement(
-      this.nodeControl,
+      this.runnerMonitor_.getControlNode(),
       cwc.soy.mode.sphero.Monitor.control,
       {'prefix': this.prefix}
   );
@@ -175,21 +158,21 @@ cwc.mode.sphero.Monitor.prototype.cleanUp = function() {
 cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
-    this.api.roll(50, 270);
+    this.api.exec('roll', {'speed': 50, 'heading': 270});
   }.bind(this), false, this);
 
   this.events_.listen('move-forward', goog.events.EventType.CLICK,
     function() {
-      this.api.roll(50, 0);
+      this.api.exec('roll', {'speed': 50, 'heading': 0});
     }.bind(this), false, this);
 
   this.events_.listen('move-backward', goog.events.EventType.CLICK,
     function() {
-      this.api.roll(50, 180);
+      this.api.exec('roll', {'speed': 50, 'heading': 180});
     }.bind(this), false, this);
 
   this.events_.listen('move-right', goog.events.EventType.CLICK, function() {
-    this.api.roll(50, 90);
+    this.api.exec('roll', {'speed': 50, 'heading': 90});
   }.bind(this), false, this);
 
   // Stop
@@ -199,19 +182,19 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
 
   // Sleep
   this.events_.listen('sleep', goog.events.EventType.CLICK, function() {
-    this.api.sleep();
+    this.api.exec('sleep');
   }.bind(this), false, this);
 
   // Calibration slide
   let calibrationSlide = goog.dom.getElement(this.prefix + 'calibration-slide');
   this.events_.listen(
     calibrationSlide, goog.events.EventType.INPUT, function(e) {
-      this.api.calibrate(e.target.value);
+      this.api.exec('calibrate', {'heading': e.target.value});
     }, false, this);
 
   this.events_.listen(
     calibrationSlide, goog.events.EventType.MOUSEUP, function() {
-      this.api.setCalibration();
+      this.api.exec('setCalibration');
     }, false, this);
 };
 
@@ -224,27 +207,28 @@ cwc.mode.sphero.Monitor.prototype.addGamepadHandler_ = function() {
   let gamepad = this.helper.getInstance('gamepad');
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
     (e) => {
-      this.api.roll(e.data * 255, gamepad.getLeftAxisAngle());
+      this.api.exec('roll', {
+        'speed': e.data * 255, 'heading': gamepad.getLeftAxisAngle()});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
     () => {
-      this.connection.stop();
+      this.api.exec('rollStop');
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
     () => {
-      this.api.setRGB(0, 255, 0);
+      this.api.exec('setRGB', {'green': 255});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[1],
     () => {
-      this.api.setRGB(255, 0, 0);
+      this.api.exec('setRGB', {'red': 255});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[2],
     () => {
-      this.api.setRGB(0, 0, 255);
+      this.api.exec('setRGB', {'blue': 255});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[3],
     () => {
-      this.api.setRGB(0, 0, 0);
+      this.api.exec('setRGB');
   });
 };
 
@@ -336,35 +320,35 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
   switch (event.identifier) {
     // Normal speed
     case 'forward':
-      this.api.roll(normalSpeed, 0);
+      this.api.exec('roll', {'speed': normalSpeed, 'heading': 0});
       break;
     case 'right':
-      this.api.roll(normalSpeed, 90);
+      this.api.exec('roll', {'speed': normalSpeed, 'heading': 90});
       break;
     case 'backward':
-      this.api.roll(normalSpeed, 180);
+      this.api.exec('roll', {'speed': normalSpeed, 'heading': 180});
       break;
     case 'left':
-      this.api.roll(normalSpeed, 270);
+      this.api.exec('roll', {'speed': normalSpeed, 'heading': 270});
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.roll(boostedSpeed, 0);
+      this.api.exec('roll', {'speed': boostedSpeed, 'heading': 0});
       break;
     case 'boost-right':
-      this.api.roll(boostedSpeed, 90);
+      this.api.exec('roll', {'speed': boostedSpeed, 'heading': 90});
       break;
     case 'boost-backward':
-      this.api.roll(boostedSpeed, 180);
+      this.api.exec('roll', {'speed': boostedSpeed, 'heading': 180});
       break;
     case 'boost-left':
-      this.api.roll(boostedSpeed, 270);
+      this.api.exec('roll', {'speed': boostedSpeed, 'heading': 270});
       break;
 
     case 'stop':
-      this.api.boost(false);
-      this.api.roll(0);
+      this.api.exec('boost', {'enable': false});
+      this.api.exec('rollStop');
       break;
     default:
       console.info(event.identifier);

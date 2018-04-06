@@ -22,9 +22,9 @@ goog.require('cwc.fileFormat.File');
 
 describe('File format', function() {
   let fileFormat = new cwc.fileFormat.File();
-  let content1 = Math.random().toString(36).replace();
-  let content2 = Math.random().toString(36).replace();
-  let content3 = Math.random().toString(36).replace();
+  let content1 = Math.random().toString(36);
+  let content2 = Math.random().toString(36);
+  let content3 = Math.random().toString(36);
   let version = Math.random();
   let legacyFormat = {
     'author': 'Markus Bordihn',
@@ -65,33 +65,44 @@ describe('File format', function() {
     'ui': 'default',
     'version': '1.0',
   };
-  let metadataKey1 = Math.random().toString(36).replace();
-  let metadataValue1 = Math.random().toString(36).replace();
-  let metadataNamespace = Math.random().toString(36).replace();
-  let metadataKey2 = Math.random().toString(36).replace();
-  let metadataInnerKey = Math.random().toString(36).replace();
+  let metadataKeyRandom = Math.random().toString(36);
+  let metadataKey1 = Math.random().toString(36);
+  let metadataValue1 = Math.random().toString(36);
+  let metadataNamespace = Math.random().toString(36);
+  let metadataKey2 = Math.random().toString(36);
+  let metadataInnerKey = Math.random().toString(36);
   let metadataValue2 = {};
-  metadataValue2[metadataInnerKey] = Math.random().toString(36).replace();
+  metadataValue2[metadataInnerKey] = Math.random().toString(36);
 
   it('constructor', function() {
     expect(typeof fileFormat).toEqual('object');
   });
 
+  it('getFileHeaderVersion', function() {
+    expect(cwc.fileFormat.File.getFileHeaderVersion(legacyFormat['format']))
+      .toEqual(1);
+  });
+
   it('setAuthor', function() {
-    fileFormat.setAuthor('Markus Bordihn');
+    expect(fileFormat.setAuthor('Markus Bordihn').getAuthor())
+      .toEqual('Markus Bordihn');
   });
 
   it('getAuthor', function() {
+    fileFormat.setAuthor('Markus Bordihn');
     expect(fileFormat.getAuthor()).toEqual('Markus Bordihn');
   });
 
   it('setContent', function() {
-    fileFormat.setContent('test1', content1);
-    fileFormat.setContent('test2', content2);
-    fileFormat.setContent('test3', content3);
+    expect(fileFormat.setContent('test1', 3).hasContent('test1')).toEqual(true);
+    expect(fileFormat.setContent('test2', 2).hasContent('test2')).toEqual(true);
+    expect(fileFormat.setContent('test3', 1).hasContent('test3')).toEqual(true);
   });
 
   it('hasContent', function() {
+    fileFormat.setContent('test1', 1);
+    fileFormat.setContent('test2', 2);
+    fileFormat.setContent('test3', 3);
     expect(fileFormat.hasContent('test1')).toEqual(true);
     expect(fileFormat.hasContent('test2')).toEqual(true);
     expect(fileFormat.hasContent('test3')).toEqual(true);
@@ -101,6 +112,9 @@ describe('File format', function() {
   });
 
   it('getContent', function() {
+    fileFormat.setContent('test1', content1);
+    fileFormat.setContent('test2', content2);
+    fileFormat.setContent('test3', content3);
     expect(fileFormat.getContent('test1')).toEqual(content1);
     expect(fileFormat.getContent('test2')).toEqual(content2);
     expect(fileFormat.getContent('test3')).toEqual(content3);
@@ -112,6 +126,7 @@ describe('File format', function() {
   });
 
   it('getDescription', function() {
+    fileFormat.setDescription('This is a test!');
     expect(fileFormat.getDescription()).toEqual('This is a test!');
   });
 
@@ -120,6 +135,7 @@ describe('File format', function() {
   });
 
   it('getTitle', function() {
+    fileFormat.setTitle('This is a title!');
     expect(fileFormat.getTitle()).toEqual('This is a title!');
   });
 
@@ -128,6 +144,7 @@ describe('File format', function() {
   });
 
   it('getVersion', function() {
+    fileFormat.setVersion(version);
     expect(fileFormat.getVersion()).toEqual(version);
   });
 
@@ -136,11 +153,11 @@ describe('File format', function() {
   });
 
   it('getMetadata (unset, default namespace)', function() {
-    expect(fileFormat.getMetadata(metadataKey1)).toEqual('');
+    expect(fileFormat.getMetadata(metadataKeyRandom)).toEqual('');
   });
 
   it('getMetadata (unset, non-default namespace)', function() {
-    expect(fileFormat.getMetadata(metadataKey1,
+    expect(fileFormat.getMetadata(metadataKeyRandom,
       metadataNamespace)).toEqual('');
   });
 
@@ -151,6 +168,7 @@ describe('File format', function() {
   });
 
   it('getMetadata (default namespace, set)', function() {
+    fileFormat.setMetadata(metadataKey1, metadataValue1);
     expect(fileFormat.getMetadata(metadataKey1)).toEqual(metadataValue1);
   });
 
@@ -166,6 +184,7 @@ describe('File format', function() {
   });
 
   it('getMetadata (non-default namespace, correct key)', function() {
+    fileFormat.setMetadata(metadataKey2, metadataValue2, metadataNamespace);
     expect(fileFormat.getMetadata(metadataKey2,
       metadataNamespace)).toEqual(metadataValue2);
   });

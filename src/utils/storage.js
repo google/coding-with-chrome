@@ -99,104 +99,101 @@ cwc.utils.Storage = function(storageType = cwc.utils.StorageType.NONE) {
   /** @type {!string} */
   this.name = 'Storage';
 
+  /** @private {string} */
+  this.prefix_ = 'cwc__storage__';
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {!Object} */
-  this.storage_ = {};
-
-  /** @private {!cwc.utils.StorageType} */
-  this.storageType_ = storageType || this.getStorageType();
-
-  /** @private {string} */
-  this.prefix_ = 'cwc__storage__';
+  /** @private {!boolean} */
+  this.chromeStorageLoaded_ = false;
 
   /** @private {string} */
   this.defaultType_ = '__default__';
 
-  /** @type {!boolean} */
-  this.syncChrome = false;
+  /** @private {!cwc.utils.StorageType} */
+  this.storageType_ = storageType || cwc.utils.Storage.getStorageType();
+
+  /** @private {!Object} */
+  this.storage_ = this.getStorageByType(this.storageType_);
+
+  /** @private {!boolean} */
+  this.syncChrome_ = this.storageType_ == cwc.utils.StorageType.CHROME_STORAGE ?
+    true : false;
+
+  // Preload Chrome Storage, if needed.
+  if (this.syncChrome_ && !this.chromeStorageLoaded_) {
+    this.loadChromeStorage();
+  }
 };
 
 
 /**
- * @param {Function=} optCallback
+ * @param {Function=} callback
  * @return {!cwc.utils.Storage}
  */
-cwc.utils.Storage.prototype.prepare = function(optCallback) {
+cwc.utils.Storage.prototype.prepare = function(callback) {
   this.log_.info('Preparing', this.storageType_, 'storage ...');
-  switch (this.storageType_) {
-    case cwc.utils.StorageType.LOCAL_STORAGE:
-      if (localStorage) {
-        this.storage_ = localStorage;
-      } else {
-        this.log_.error('Local storage is undefined!');
-      }
-      break;
-    case cwc.utils.StorageType.SESSION_STORAGE:
-      if (sessionStorage) {
-        this.storage_ = sessionStorage;
-      } else {
-        this.log_.error('Session storage is undefined!');
-      }
-      this.log_.warn('Only un-synced sessionStorage is supported!');
-      break;
-    case cwc.utils.StorageType.CHROME_STORAGE:
-      if (sessionStorage) {
-        this.storage_ = sessionStorage;
-      } else {
-        this.log_.error('Sessions storage is undefined!');
-      }
-      this.syncChrome = true;
-      this.loadChromeStorage(undefined, optCallback);
-      break;
-    default:
-      this.log_.warn('Local storage is unsupported !');
+  if (callback) {
+    if (this.storageType_ === cwc.utils.StorageType.CHROME_STORAGE &&
+        !this.chromeStorageLoaded_) {
+      this.loadChromeStorage(undefined, callback);
+    } else {
+      callback(this);
+    }
   }
-
-  if (optCallback &&
-      this.storageType_ !== cwc.utils.StorageType.CHROME_STORAGE) {
-    optCallback(this);
-  }
-
   return this;
 };
 
 
 /**
- * @return {!cwc.utils.StorageType}
+ * Gets the corresponding storage for the given type.
+ * @param {!cwc.utils.StorageType} type
+ * @return {!Object}
  * @export
  */
-cwc.utils.Storage.prototype.getStorageType = function() {
-  if ((typeof chrome === 'undefined' || (
-       typeof chrome !== 'undefined' &&
-       typeof chrome.storage === 'undefined')) &&
-      typeof localStorage !== 'undefined') {
-    return cwc.utils.StorageType.LOCAL_STORAGE;
-  } else if (typeof sessionStorage !== 'undefined') {
-    if (typeof chrome !== 'undefined' &&
-        typeof chrome.storage !== 'undefined' &&
-        typeof chrome.storage.local !== 'undefined') {
-      return cwc.utils.StorageType.CHROME_STORAGE;
-    } else {
-      return cwc.utils.StorageType.SESSION_STORAGE;
-    }
+cwc.utils.Storage.prototype.getStorageByType = function(type) {
+  switch (type) {
+    case cwc.utils.StorageType.LOCAL_STORAGE:
+      if (localStorage) {
+        return localStorage;
+      } else {
+        this.log_.error('Local storage is undefined!');
+      }
+      break;
+    case cwc.utils.StorageType.SESSION_STORAGE:
+      this.log_.warn('Only un-synced sessionStorage is supported!');
+      if (sessionStorage) {
+        return sessionStorage;
+      } else {
+        this.log_.error('Session storage is undefined!');
+      }
+      break;
+    case cwc.utils.StorageType.CHROME_STORAGE:
+      if (sessionStorage) {
+        return sessionStorage;
+      } else {
+        this.log_.error('Sessions storage is undefined!');
+      }
+      break;
+    default:
+      this.log_.warn('Local storage is unsupported !');
   }
-  return cwc.utils.StorageType.NONE;
+  return {};
 };
 
 
 /**
  * Loads user config from local Chrome storage.
- * @param {string=} optType
- * @param {Function=} optCallback
+ * @param {string=} type
+ * @param {Function=} callbackFunc
  */
-cwc.utils.Storage.prototype.loadChromeStorage = function(optType,
-    optCallback) {
+cwc.utils.Storage.prototype.loadChromeStorage = function(type, callbackFunc) {
   this.log_.info('Loading Chrome storage ...');
-  let storageKey = optType ? this.getKeyname('', optType) : null;
+  let storageKey = type ? this.getKeyname('', type) : null;
   let callback = function(data) {
-    this.handleLoadChromeStorage_(data, storageKey, optCallback);
+    this.handleLoadChromeStorage_(data, storageKey, callbackFunc);
+    this.chromeStorageLoaded_ = true;
   };
   chrome.storage.local.get(storageKey, callback.bind(this));
 };
@@ -346,7 +343,7 @@ cwc.utils.Storage.prototype.set = function(name, value,
   }
   this.storage_.setItem(keyName, value);
   this.log_.info('Sets item', keyName, ':', value);
-  if (this.syncChrome) {
+  if (this.syncChrome_) {
     this.saveChromeStorage(type);
   }
 };
@@ -369,7 +366,31 @@ cwc.utils.Storage.prototype.remove = function(name, type = this.defaultType_) {
   let keyName = this.getKeyname(name, type);
   this.storage_.removeItem(keyName);
   this.log_.info('Remove item', keyName);
-  if (this.syncChrome) {
+  if (this.syncChrome_) {
     this.saveChromeStorage(type);
   }
+};
+
+
+/**
+ * Detects the available storage type.
+ * @return {!cwc.utils.StorageType}
+ * @export
+ */
+cwc.utils.Storage.getStorageType = function() {
+  if ((typeof chrome === 'undefined' || (
+       typeof chrome !== 'undefined' &&
+       typeof chrome.storage === 'undefined')) &&
+      typeof localStorage !== 'undefined') {
+    return cwc.utils.StorageType.LOCAL_STORAGE;
+  } else if (typeof sessionStorage !== 'undefined') {
+    if (typeof chrome !== 'undefined' &&
+        typeof chrome.storage !== 'undefined' &&
+        typeof chrome.storage.local !== 'undefined') {
+      return cwc.utils.StorageType.CHROME_STORAGE;
+    } else {
+      return cwc.utils.StorageType.SESSION_STORAGE;
+    }
+  }
+  return cwc.utils.StorageType.NONE;
 };

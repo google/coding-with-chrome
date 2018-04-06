@@ -59,91 +59,90 @@ cwc.framework.Sphero = function(code) {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {boolean=} opt_persistent
- * @param {number=} opt_delay in msec
+ * @param {boolean=} persistent
+ * @param {number=} delay in msec
  * @export
  */
 cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
-    opt_persistent, opt_delay) {
+    persistent, delay) {
   this.runner.send('setRGB', {
     'red': red,
     'green': green,
     'blue': blue,
-    'persistent': opt_persistent}, opt_delay);
+    'persistent': persistent}, delay);
 };
 
 
 /**
  * @param {!number} brightness 0-100
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.setBackLed = function(brightness, opt_delay) {
-  this.runner.send('setBackLed', {'brightness': brightness}, opt_delay);
+cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
+  this.runner.send('setBackLed', {'brightness': brightness}, delay);
 };
 
 
 /**
  * @param {!number} timeout in msec
- * @param {number=} opt_delay
+ * @param {number=} delay
  * @export
  */
-cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, opt_delay) {
-  this.runner.send('setMotionTimeout', {'timeout': timeout}, opt_delay);
+cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, delay) {
+  this.runner.send('setMotionTimeout', {'timeout': timeout}, delay);
 };
 
 
 /**
- * @param {number=} opt_speed 0-255
- * @param {number=} opt_heading 0-359
- * @param {boolean=} opt_state
- * @param {number=} opt_delay in msec
+ * @param {number=} speed 0-255
+ * @param {number=} heading 0-359
+ * @param {boolean=} state
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.roll = function(opt_speed, opt_heading,
-    opt_state, opt_delay) {
+cwc.framework.Sphero.prototype.roll = function(speed, heading, state, delay) {
   this.runner.send('roll', {
-    'speed': opt_speed,
-    'heading': opt_heading,
-    'state': opt_state}, opt_delay);
+    'speed': speed,
+    'heading': heading,
+    'state': state}, delay);
 };
 
 
 /**
  * @param {!number} time in sec
  * @param {number=} speed 0-255
- * @param {number=} opt_heading 0-359
- * @param {boolean=} opt_stop
+ * @param {number=} heading 0-359
+ * @param {boolean=} stop
  * @export
  */
-cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20,
-    opt_heading, opt_stop) {
+cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20, heading,
+    stop) {
   let rollTime = Math.floor(time*2) || 0;
   for (let num = 0; num < rollTime; num++) {
-    this.roll(speed, opt_heading, true, 500);
+    this.roll(speed, heading, true, 500);
   }
-  if (opt_stop) {
-    this.roll(0, opt_heading, true, 100);
+  if (stop) {
+    this.roll(0, heading, true, 100);
   }
 };
 
 
 /**
  * @param {!boolean} enable
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.boost = function(enable, opt_delay) {
-  this.runner.send('boost', {'enable': enable}, opt_delay);
+cwc.framework.Sphero.prototype.boost = function(enable, delay) {
+  this.runner.send('boost', {'enable': enable}, delay);
 };
 
 
 /**
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.stop = function(opt_delay) {
-  this.runner.send('stop', null, opt_delay);
+cwc.framework.Sphero.prototype.stop = function(delay) {
+  this.runner.send('stop', null, delay);
 };
 
 

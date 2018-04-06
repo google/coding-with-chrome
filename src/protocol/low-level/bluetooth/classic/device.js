@@ -177,6 +177,9 @@ cwc.protocol.bluetooth.classic.Device.prototype.disconnect = function(force,
 };
 
 
+/**
+ * Dummy reset function.
+ */
 cwc.protocol.bluetooth.classic.Device.prototype.reset = function() {
   if (this.socketId == null) {
     return;
@@ -198,14 +201,21 @@ cwc.protocol.bluetooth.classic.Device.prototype.updateInfo = function() {
 
 /**
  * Sends the buffer to the socket.
- * @param {!Array|ArrayBuffer|Uint8Array} buffer
+ * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
  */
 cwc.protocol.bluetooth.classic.Device.prototype.send = function(buffer) {
   if (this.socketId == null) {
     return;
   }
-  chrome.bluetoothSocket.send(this.socketId, buffer,
+  if (Array.isArray(buffer)) {
+    for (let i = 0, len = buffer.length; i < len; ++i) {
+      chrome.bluetoothSocket.send(this.socketId, buffer[i],
+        this.handleSend_.bind(this));
+    }
+  } else {
+    chrome.bluetoothSocket.send(this.socketId, buffer,
       this.handleSend_.bind(this));
+  }
 };
 
 

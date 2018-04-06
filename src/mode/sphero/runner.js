@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.sphero.Runner');
 
-goog.require('cwc.runner.profile.sphero.Command');
 goog.require('cwc.runner.profile.sphero.Monitor');
 goog.require('cwc.ui.Runner');
 goog.require('cwc.ui.Turtle');
@@ -103,11 +102,10 @@ cwc.mode.sphero.Runner.prototype.decorate = function() {
   // Start Event
   this.runner.setStartEvent(this.handleStart_, this);
 
-  // Commands
-  this.runner.addCommandProfile(
-    new cwc.runner.profile.sphero.Command(this.api));
+  // Add supported API Commands
+  this.runner.addApiProfile(this.api);
 
-  // Monitoring
+  // Add Monitoring
   this.runner.addMonitor('roll', this.monitor.roll, this.monitor);
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));

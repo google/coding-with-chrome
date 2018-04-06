@@ -22,7 +22,7 @@ goog.require('cwc.utils.ByteTools');
 
 
 describe('Sphero Commands', function() {
-  let commands = new cwc.protocol.sphero.classic.Commands();
+  let commands = cwc.protocol.sphero.classic.Commands;
 
   it('constructor', function() {
     expect(typeof commands).toEqual('object');

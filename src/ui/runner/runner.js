@@ -571,6 +571,14 @@ cwc.ui.Runner.prototype.handleUnresponsive = function() {
 
 
 /**
+ * @param {!cwc.protocol.sphero.classic.Api} api
+ */
+cwc.ui.Runner.prototype.addApiProfile = function(api) {
+  this.connector.addApiProfile(api);
+};
+
+
+/**
  * @param {string} name
  * @param {function(?)} func
  * @param {?=} scope

@@ -45,7 +45,7 @@ cwc.protocol.sphero.v1.Api = function() {
   this.prepared = false;
 
   /** @type {!cwc.protocol.sphero.classic.Commands} */
-  this.commands = new cwc.protocol.sphero.classic.Commands();
+  this.commands = cwc.protocol.sphero.classic.Commands;
 
   /** @type {cwc.protocol.sphero.v1.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.v1.Monitoring(this);
@@ -160,7 +160,7 @@ cwc.protocol.sphero.v1.Api.prototype.prepare = function() {
   this.getRGB();
   this.setRGB(0, 0, 255);
   this.getRGB();
-  this.setColisionDetection();
+  this.setCollisionDetection();
   this.prepared = true;
 };
 
@@ -210,8 +210,8 @@ cwc.protocol.sphero.v1.Api.prototype.getEventHandler = function() {
 /**
  *
  */
-cwc.protocol.sphero.v1.Api.prototype.setColisionDetection = function() {
-  this.send_(this.commands.setColisionDetection());
+cwc.protocol.sphero.v1.Api.prototype.setCollisionDetection = function() {
+  this.send_(this.commands.setCollisionDetection());
 };
 
 
@@ -280,18 +280,6 @@ cwc.protocol.sphero.v1.Api.prototype.setMotionTimeout = function(timeout) {
  */
 cwc.protocol.sphero.v1.Api.prototype.boost = function(enabled) {
   this.send_(this.commands.boost(enabled));
-};
-
-
-/**
- * Puts the Sphero into sleep.
- * @param {number=} wakeup
- * @param {number=} macro
- * @param {number=} orbBasic
- */
-cwc.protocol.sphero.v1.Api.prototype.sleep = function(wakeup, macro, orbBasic) {
-  console.log('Sends Sphero to sleep, good night.');
-  this.send_(this.commands.sleep(wakeup, macro, orbBasic));
 };
 
 

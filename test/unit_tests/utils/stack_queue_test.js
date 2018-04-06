@@ -84,12 +84,17 @@ describe('StackQueue (autostart)', function() {
   });
 
   it('start', function() {
+    stackQueue = new cwc.utils.StackQueue();
+    counter = 0;
     expect(counter).toEqual(0);
     stackQueue.start();
     expect(counter).toEqual(0);
   });
 
   it('addCommand', function(done) {
+    stackQueue = new cwc.utils.StackQueue();
+    stackQueue.start();
+    counter = 0;
     expect(counter).toEqual(0);
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
@@ -103,6 +108,7 @@ describe('StackQueue (autostart)', function() {
   });
 
   it('addDelay', function(done) {
+    stackQueue = new cwc.utils.StackQueue();
     counter = 0;
     timestamp = Date.now();
     expect(counter).toEqual(0);
@@ -134,6 +140,8 @@ describe('StackQueue (autostart)', function() {
   });
 
   it('stop', function(done) {
+    stackQueue = new cwc.utils.StackQueue();
+    counter = 4;
     timestamp = Date.now();
     expect(counter).toEqual(4);
     stackQueue.addCommand(counterFunc);
@@ -176,6 +184,8 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('addCommand', function(done) {
+    stackQueue = new cwc.utils.StackQueue(false);
+    counter = 0;
     expect(counter).toEqual(0);
     stackQueue.addCommand(counterFunc);
     stackQueue.addCommand(counterFunc);
@@ -187,6 +197,13 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('start', function(done) {
+    stackQueue = new cwc.utils.StackQueue(false);
+    counter = 0;
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(counterFunc);
+    stackQueue.addCommand(counterFunc);
     expect(counter).toEqual(0);
     stackQueue.start();
     stackQueue.addCommand(function() {
@@ -196,6 +213,7 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('addDelay', function(done) {
+    stackQueue = new cwc.utils.StackQueue(false);
     counter = 0;
     timestamp = Date.now();
     expect(counter).toEqual(0);
@@ -227,6 +245,8 @@ describe('StackQueue (no autostart)', function() {
   });
 
   it('stop', function(done) {
+    stackQueue = new cwc.utils.StackQueue(false);
+    counter = 4;
     expect(counter).toEqual(4);
     stackQueue.addCommand(counterFunc);
     stackQueue.addDelay(100);

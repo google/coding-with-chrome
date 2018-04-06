@@ -1,0 +1,5 @@
+--exclude_directories=reports,node_modules
+--exclude_files=Gruntfile.js
+--max_line_length=120
+--disable=5,240
+--custom_jsdoc_tags=namespace,version

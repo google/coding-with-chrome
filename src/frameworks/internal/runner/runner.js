@@ -70,7 +70,7 @@ cwc.framework.Runner = function(callback = null, scope = null, monitor = null) {
 
 /**
  * Adds the command to the listener.
- * @param {string} name
+ * @param {!string} name
  * @param {!Function} func
  * @param {?=} scope
  * @export
@@ -84,15 +84,12 @@ cwc.framework.Runner.prototype.addCommand = function(name, func,
     console.error('Runner function ' + name + ' is undefined!');
     return;
   }
-  if (scope) {
-    this.commands[name] = func.bind(scope);
-  } else {
-    this.commands[name] = func;
-  }
+  this.commands[name] = scope ? func.bind(scope) : func;
 };
 
 
 /**
+ * Enables/disable monitoring depending on used code.
  * @param {!string} code
  * @param {!string} command
  * @param {!string} monitor_command
@@ -114,20 +111,19 @@ cwc.framework.Runner.prototype.enableMonitor = function(code, command,
  * @export
  */
 cwc.framework.Runner.prototype.send = function(name, value = {}, delay = 0) {
-  if (!this.appWindow || !this.appOrigin) {
-    console.error('Communication channel has not yet been opened');
-    return;
-  }
-  if (delay) {
-    let stackCall = function() {
-      this.appWindow.postMessage({'command': name, 'value': value},
-        this.appOrigin);
+  if (this.isReady_()) {
+    let sendCommand = function() {
+      this.appWindow.postMessage({
+        'command': name,
+        'value': value,
+      }, this.appOrigin);
     }.bind(this);
-    this.senderStack_.addCommand(stackCall);
-    this.senderStack_.addDelay(delay);
-  } else {
-    this.appWindow.postMessage({'command': name, 'value': value},
-      this.appOrigin);
+    if (delay) {
+      this.senderStack_.addCommand(sendCommand);
+      this.senderStack_.addDelay(delay);
+    } else {
+      sendCommand();
+    }
   }
 };
 
@@ -171,12 +167,13 @@ cwc.framework.Runner.prototype.handleMessage_ = function(event) {
   if (!this.appOrigin && 'origin' in event) {
     this.appOrigin = event['origin'];
   }
-  let command = event['data']['command'];
-  let value = event['data']['value'];
-  if (command in this.commands) {
-    this.commands[command](value);
+  if (event['data']['command'] in this.commands) {
+    this.commands[event['data']['command']](
+      event['data']['value']
+    );
   } else {
-    console.error('Command ' + command + ' is not defined yet');
+    console.error('Command ' + event['data']['command'] +
+      ' is not defined yet');
   }
 };
 
@@ -215,4 +212,16 @@ cwc.framework.Runner.prototype.handleStart_ = function() {
  */
 cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
   this.send('__pong__', {id: ping_id, time: new Date().getTime()});
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.framework.Runner.prototype.isReady_ = function() {
+  if (!this.appWindow || !this.appOrigin) {
+    console.error('Communication channel has not yet been opened');
+    return false;
+  }
+  return true;
 };

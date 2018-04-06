@@ -22,41 +22,47 @@ goog.require('cwc.protocol.virtual.Device');
 
 
 describe('Sphero api protocol', function() {
-  let device = new cwc.protocol.virtual.Device();
-  let api = new cwc.protocol.sphero.classic.Api();
-
   it('constructor', function() {
+    let api = new cwc.protocol.sphero.classic.Api();
     expect(typeof api).toEqual('object');
   });
 
   describe('Connect', function() {
     it('disconnected device', function() {
+      let device = new cwc.protocol.virtual.Device();
+      expect(device.isConnected()).toEqual(false);
+      let api = new cwc.protocol.sphero.classic.Api();
       expect(api.connect(device)).toEqual(false);
       expect(api.isConnected()).toEqual(false);
     });
 
     it('connected device', function() {
+      let device = new cwc.protocol.virtual.Device();
       device.connect();
+      expect(device.isConnected()).toEqual(true);
+      let api = new cwc.protocol.sphero.classic.Api();
       expect(api.connect(device)).toEqual(true);
       expect(api.isConnected()).toEqual(true);
     });
   });
 
   describe('commands', function() {
+    let api = new cwc.protocol.sphero.classic.Api();
     it('setRGB', function() {
-      api.setRGB(255, 0, 0);
-      api.setRGB(255, 255, 0);
-      api.setRGB(255, 255, 255);
+      api.exec('setRGB', {'red': 255});
+      api.exec('setRGB', {'red': 255, 'green': 255});
+      api.exec('setRGB', {'red': 255, 'green': 255, 'blue': 255});
     });
     it('setBackLed', function() {
-      api.setBackLed(100);
+      api.exec('setBackLed', {'brightness': 100});
     });
     it('roll', function() {
-      api.roll(0, 180);
+      api.exec('roll', {'heading': 180});
     });
   });
 
   it('Disconnect', function() {
+    let api = new cwc.protocol.sphero.classic.Api();
     api.disconnect();
     expect(api.isConnected()).toEqual(false);
   });

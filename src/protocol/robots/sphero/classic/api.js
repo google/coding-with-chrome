@@ -1,8 +1,8 @@
 /**
  * @fileoverview Handles the communication with the Sphero Classic unit.
  *
- * This api allows to read and control the Lego Mindstorm Sphero sensors and
- * actors over an Bluetooth connection.
+ * This api allows to read and control the Sphero sensors and actors over an
+ * Bluetooth connection.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -24,8 +24,8 @@ goog.provide('cwc.protocol.sphero.classic.Api');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.protocol.sphero.classic.CallbackType');
-goog.require('cwc.protocol.sphero.classic.Commands');
 goog.require('cwc.protocol.sphero.classic.Events');
+goog.require('cwc.protocol.sphero.classic.Handler');
 goog.require('cwc.protocol.sphero.classic.MessageType');
 goog.require('cwc.protocol.sphero.classic.Monitoring');
 goog.require('cwc.protocol.sphero.classic.ResponseType');
@@ -48,17 +48,14 @@ cwc.protocol.sphero.classic.Api = function() {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!cwc.protocol.sphero.classic.Commands} */
-  this.commands = new cwc.protocol.sphero.classic.Commands();
-
-  /** @type {cwc.protocol.sphero.classic.Monitoring} */
-  this.monitoring = new cwc.protocol.sphero.classic.Monitoring(this);
-
   /** @type {cwc.protocol.bluetooth.classic.Device} */
   this.device = null;
 
-  /** @private {!boolean} */
-  this.calibrate_ = false;
+  /** @type {!cwc.protocol.sphero.classic.Handler} */
+  this.handler = new cwc.protocol.sphero.classic.Handler();
+
+  /** @type {cwc.protocol.sphero.classic.Monitoring} */
+  this.monitoring = new cwc.protocol.sphero.classic.Monitoring(this);
 
   /** @private {!number} */
   this.locationPosX_ = 0;
@@ -78,12 +75,6 @@ cwc.protocol.sphero.classic.Api = function() {
   /** @private {!number} */
   this.locationSpeed_ = 0;
 
-  /** @private {!number} */
-  this.heading_ = 0;
-
-  /** @private {!number} */
-  this.speed_ = 20;
-
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
@@ -99,7 +90,7 @@ cwc.protocol.sphero.classic.Api = function() {
 
 
 /**
- * Connects the Sphero ball.
+ * Connects the Sphero device.
  * @param {!cwc.protocol.bluetooth.classic.Device} device
  * @return {boolean} Was able to prepare and connect to the Sphero.
  * @export
@@ -108,7 +99,7 @@ cwc.protocol.sphero.classic.Api.prototype.connect = function(device) {
   if (!device) {
     return false;
   } else if (!device.isConnected()) {
-    console.error('Sphero ball is not ready yet...');
+    console.error('Sphero device is not ready yet...');
     return false;
   }
 
@@ -142,19 +133,19 @@ cwc.protocol.sphero.classic.Api.prototype.prepare = function() {
   this.events_.listen(this.device.getEventHandler(),
     cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
-  this.setRGB(255, 0, 0);
-  this.getRGB();
-  this.setRGB(0, 255, 0);
-  this.getRGB();
-  this.setRGB(0, 0, 255);
-  this.getRGB();
-  this.setColisionDetection();
+  this.exec('setRGB', {'red': 255, 'persistent': true});
+  this.exec('getRGB');
+  this.exec('setRGB', {'green': 255, 'persistent': true});
+  this.exec('getRGB');
+  this.exec('setRGB', {'blue': 255, 'persistent': true});
+  this.exec('getRGB');
+  this.exec('setCollisionDetection');
   this.prepared = true;
 };
 
 
 /**
- * Disconnects the Sphero ball.
+ * Disconnects the Sphero device.
  */
 cwc.protocol.sphero.classic.Api.prototype.disconnect = function() {
   if (this.device) {
@@ -165,12 +156,33 @@ cwc.protocol.sphero.classic.Api.prototype.disconnect = function() {
 
 
 /**
- * Resets the Sphero ball connection.
+ * Executer for the default handler commands.
+ * @param {!string} command
+ * @param {Object=} data
+ * @export
  */
-cwc.protocol.sphero.classic.Api.prototype.reset = function() {
-  if (this.device) {
-    this.device.reset();
-  }
+cwc.protocol.sphero.classic.Api.prototype.exec = function(command, data = {}) {
+  this.send_(this.handler[command](data));
+};
+
+
+/**
+ * Executer for the runner profiles with parameters in revert order.
+ * @param {!Object} data
+ * @param {!string} command
+ * @export
+ */
+cwc.protocol.sphero.classic.Api.prototype.execRunnerProfile = function(data,
+    command) {
+  this.exec(command, data);
+};
+
+
+/**
+ * @return {!cwc.protocol.sphero.classic.Handler}
+ */
+cwc.protocol.sphero.classic.Api.prototype.getRunnerProfile = function() {
+  return this.handler;
 };
 
 
@@ -196,186 +208,42 @@ cwc.protocol.sphero.classic.Api.prototype.getEventHandler = function() {
 
 
 /**
- *
- */
-cwc.protocol.sphero.classic.Api.prototype.setColisionDetection = function() {
-  this.send_(this.commands.setColisionDetection());
-};
-
-
-/**
- * Sets the RGB color.
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
- * @param {boolean=} opt_persistent
- */
-cwc.protocol.sphero.classic.Api.prototype.setRGB = function(red, green, blue,
-    opt_persistent) {
-  this.send_(this.commands.setRGB(red, green, blue, opt_persistent));
-};
-
-
-/**
- * Gets the current RGB color.
- */
-cwc.protocol.sphero.classic.Api.prototype.getRGB = function() {
-  this.send_(this.commands.getRGB());
-};
-
-
-/**
- * @param {!number} brightness 0-255
- */
-cwc.protocol.sphero.classic.Api.prototype.setBackLed = function(brightness) {
-  this.send_(this.commands.setBackLed(brightness));
-};
-
-
-/**
- * @param {!number} heading 0-359
- */
-cwc.protocol.sphero.classic.Api.prototype.setHeading = function(heading) {
-  this.send_(this.commands.setHeading(heading));
-};
-
-
-/**
- * @param {number} opt_speed 0-255
- * @param {number=} opt_heading 0-359
- * @param {boolean=} opt_state
- */
-cwc.protocol.sphero.classic.Api.prototype.roll = function(opt_speed,
-    opt_heading, opt_state) {
-  let speed = this.speed_ = opt_speed === undefined ?
-    this.speed_ : opt_speed;
-  let heading = this.heading_ = opt_heading === undefined ?
-    this.heading_ : opt_heading;
-  this.send_(this.commands.roll(speed, heading, opt_state));
-};
-
-
-/**
- * @param {!number} timeout in msec
- */
-cwc.protocol.sphero.classic.Api.prototype.setMotionTimeout = function(timeout) {
-  this.send_(this.commands.setMotionTimeout(timeout));
-};
-
-
-/**
- * @param {!boolean} enabled
- */
-cwc.protocol.sphero.classic.Api.prototype.boost = function(enabled) {
-  this.send_(this.commands.boost(enabled));
-};
-
-
-/**
- * Puts the Sphero into sleep.
- * @param {number=} opt_wakeup
- * @param {number=} opt_macro
- * @param {number=} opt_orb_basic
- */
-cwc.protocol.sphero.classic.Api.prototype.sleep = function(opt_wakeup,
-    opt_macro, opt_orb_basic) {
-  console.log('Sends Sphero to sleep, good night.');
-  this.send_(this.commands.sleep(opt_wakeup, opt_macro, opt_orb_basic));
-};
-
-
-/**
- * Stops the Sphero and clears the buffer.
- */
-cwc.protocol.sphero.classic.Api.prototype.stop = function() {
-  this.reset();
-  this.setRGB(0, 0, 0, true);
-  this.setBackLed(0);
-  this.boost(false);
-  this.roll(0, 0, false);
-};
-
-
-/**
- * Starts the calibration to calibrate the Sphero.
- * @param {!number} heading
- */
-cwc.protocol.sphero.classic.Api.prototype.calibrate = function(heading) {
-  if (!this.calibrate_) {
-    this.setRGB(0, 0, 0);
-    this.setBackLed(255);
-    this.calibrate_ = true;
-  }
-  this.roll(0, heading);
-};
-
-
-/**
- * Ends the calibrate of the Sphero and store the new 0 point.
- */
-cwc.protocol.sphero.classic.Api.prototype.setCalibration = function() {
-  this.calibrate_ = false;
-  this.setBackLed(0);
-  this.setHeading(0);
-};
-
-
-/**
- * Reads the current Sphero location.
- */
-cwc.protocol.sphero.classic.Api.prototype.getLocation = function() {
-  this.send_(this.commands.getLocation());
-};
-
-
-/**
- * Reads current Sphero version.
- */
-cwc.protocol.sphero.classic.Api.prototype.getVersion = function() {
-  this.send_(this.commands.getVersion());
-};
-
-
-/**
  * Run self test.
  */
 cwc.protocol.sphero.classic.Api.prototype.runTest = function() {
   console.log('Prepare self test…');
-  this.setRGB(255, 0, 0, true);
-  this.setRGB(0, 255, 0, true);
-  this.setRGB(0, 0, 255, true);
-  this.setRGB(0, 0, 0, true);
-
-  this.setBackLed(100);
-  this.setBackLed(75);
-  this.setBackLed(50);
-  this.setBackLed(25);
-  this.setBackLed(0);
-
-  this.setRGB(255, 0, 0);
-  this.roll(0, 180);
+  this.exec('setRGB', {'red': 255, 'persistent': true});
+  this.exec('setRGB', {'green': 255, 'persistent': true});
+  this.exec('setRGB', {'blue': 255, 'persistent': true});
+  this.exec('setRGB', {'persistent': true});
+  this.exec('setBackLed', {'brightness': 100});
+  this.exec('setBackLed', {'brightness': 75});
+  this.exec('setBackLed', {'brightness': 50});
+  this.exec('setBackLed', {'brightness': 25});
+  this.exec('setBackLed');
+  this.exec('setRGB', {'green': 128});
+  this.exec('roll', {'speed': 0, 'heading': 180});
 };
 
 
 /**
- * Basic cleanup for the Sphero ball.
+ * Basic cleanup for the Sphero device.
  */
 cwc.protocol.sphero.classic.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero…');
-  this.monitoring.stop();
-  this.reset();
+  console.log('Clean up Sphero API …');
+  this.events_.clear();
+  this.monitoring.cleanUp();
 };
 
 
 /**
- * @param {!ArrayBuffer} buffer
+ * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
  * @private
  */
 cwc.protocol.sphero.classic.Api.prototype.send_ = function(buffer) {
-  if (!this.device) {
-    return;
+  if (this.device) {
+    this.device.send(buffer);
   }
-  this.device.send(buffer);
 };
 
 
@@ -475,7 +343,7 @@ cwc.protocol.sphero.classic.Api.prototype.handleOnReceive_ = function(e) {
     // Handles received data and callbacks from the Bluetooth socket.
     switch (seq) {
       case cwc.protocol.sphero.classic.CallbackType.RGB:
-        console.log('RGB:', data, data[0], data[1], data[2]);
+        console.log('RGB:', data[0], data[1], data[2]);
         break;
       case cwc.protocol.sphero.classic.CallbackType.LOCATION:
         console.log('Location', data);

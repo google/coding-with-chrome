@@ -55,6 +55,8 @@ cwc.file.Files.prototype.addFile = function(name, content, type, size) {
   let filename = file.getName();
   if (this.existFileName(filename)) {
     this.log_.warn('Overwrite existing file', filename);
+  } else {
+    this.log_.info('Added file', filename);
   }
   this.data_[filename] = file;
   this.updateSize_();

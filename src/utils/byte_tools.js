@@ -121,7 +121,10 @@ cwc.utils.ByteTools.toString = function(data) {
  * @return {!string}
  */
 cwc.utils.ByteTools.toUTF8 = function(data) {
-  return new TextDecoder('utf-8').decode(data).trim();
+  if (data) {
+    return new TextDecoder('utf-8').decode(data).trim();
+  }
+  return '';
 };
 
 

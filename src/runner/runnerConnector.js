@@ -128,10 +128,43 @@ cwc.runner.Connector.prototype.send = function(command, value) {
  * @export
  */
 cwc.runner.Connector.prototype.start = function() {
-  this.executeCommand('__init__', null, true);
   if (this.listen) {
     this.log_.info('Sending handshake with token', this.token);
     this.send('__handshake__', this.token);
+  }
+};
+
+
+/**
+ * Adds runner commands provided by api implementations.
+ * @param {!cwc.protocol.sphero.classic.Api} api
+ * @export
+ */
+cwc.runner.Connector.prototype.addApiProfile = function(api) {
+  if (!api) {
+    this.log_.error('Invalid api', api);
+    return;
+  }
+  if (!api.getRunnerProfile) {
+    this.log_.error('Unable to get api profiles for', api);
+    return;
+  }
+  if (!api.execRunnerProfile) {
+    this.log_.error('Unable to get api profile exec for', api);
+    return;
+  }
+  let profile = api.getRunnerProfile();
+  if (!profile.__proto__) {
+    this.log_.error('Unable to detect api any commands', profile);
+    return;
+  }
+  let commandList = Object.getOwnPropertyNames(profile.__proto__);
+  console.log(profile, commandList);
+  for (let i = 0; i < commandList.length; i++) {
+    let command = commandList[i];
+    if (!command.endsWith('_') && command !== 'constructor') {
+      this.addCommand(command, api.execRunnerProfile.bind(api));
+    }
   }
 };
 
@@ -260,18 +293,14 @@ cwc.runner.Connector.prototype.addEvent = function(event_handler, event,
 /**
  * @param {!string} name
  * @param {?=} value
- * @param {boolean=} opt_ignore_unknown
  * @export
  */
-cwc.runner.Connector.prototype.executeCommand = function(name, value,
-    opt_ignore_unknown) {
+cwc.runner.Connector.prototype.executeCommand = function(name, value = null) {
   if (typeof this.commands[name] === 'undefined') {
-    if (!opt_ignore_unknown) {
-      this.log_.warn('Received unknown command', name, 'with value', value);
-    }
+    this.log_.warn('Received unknown command', name, 'with value', value);
     return;
   }
-  this.commands[name](value);
+  this.commands[name](value, name);
   this.executeMonitor(name, value);
 };
 
@@ -331,8 +360,10 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
     return;
   }
 
-  this.executeCommand(browserEvent['data']['command'],
-      browserEvent['data']['value']);
+  this.executeCommand(
+    browserEvent['data']['command'],
+    browserEvent['data']['value']
+  );
 };
 
 
@@ -341,8 +372,7 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
  */
 cwc.runner.Connector.prototype.handleGamepad_ = function() {
   console.log('Enable Gamepad Support');
-  let gamepadInstance = this.helper.getInstance('gamepad');
-  let eventHandler = gamepadInstance.getEventHandler();
+  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
   this.events_.listen(eventHandler,
     /** @type {string} */ (cwc.utils.Gamepad.Events.Type.UPDATE), (e) => {
       this.send('__gamepad__', e.data);
@@ -368,7 +398,7 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
  * @private
  */
 cwc.runner.Connector.prototype.handleStart_ = function() {
-  this.executeCommand('__start__', null, true);
+  this.executeCommand('__start__');
   this.executeMonitor('reset');
   this.ping();
   this.send('__start__');
