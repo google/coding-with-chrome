@@ -84,7 +84,7 @@ cwc.renderer.external.Sphero.prototype.renderJavaScript = function(
     frameworks,
     rendererHelper) {
   let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.SPHERO
+    cwc.framework.Internal.SPHERO,
   ]);
 
   let body = `
