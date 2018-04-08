@@ -42,9 +42,7 @@ cwc.renderer.external.Sphero = function(helper) {
  * Initializes and defines the Sphero renderer.
  */
 cwc.renderer.external.Sphero.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
-  let renderer = this.render.bind(this);
-  rendererInstance.setRenderer(renderer);
+  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
 };
 
 

@@ -55,6 +55,7 @@ cwc.renderer.internal.HTML5.prototype.init = function() {
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
+ * @param {Object=} environ
  * @return {!string}
  * @export
  */
@@ -62,7 +63,8 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     editorContent,
     libraryFiles,
     frameworks,
-    rendererHelper) {
+    rendererHelper,
+    environ = {}) {
   let css = editorContent[cwc.ui.EditorContent.CSS] || '';
   let html = editorContent[cwc.ui.EditorContent.HTML] ||
     editorContent[cwc.ui.EditorContent.DEFAULT] || '';
@@ -73,6 +75,11 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     // Library files.
     if (html.includes('{{ file:')) {
       html = rendererHelper.injectFiles(html, libraryFiles);
+    }
+
+    // Library urls.
+    if (html.includes('{{ url:')) {
+      html = rendererHelper.injectURLs(html, environ['baseURL']);
     }
 
     // Coffeescript framework.
@@ -86,6 +93,11 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     // Library files.
     if (javascript.includes('{{ file:')) {
       javascript = rendererHelper.injectFiles(javascript, libraryFiles);
+    }
+
+    // Library urls.
+    if (javascript.includes('{{ url:')) {
+      javascript = rendererHelper.injectURLs(javascript, environ['baseURL']);
     }
   }
 

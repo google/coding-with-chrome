@@ -178,39 +178,50 @@ cwc.protocol.tcp.HTTPServer.prototype.getRootURL = function() {
  */
 cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
     options = {}, clientSocketId, requestPath = '') {
-  let contentType = options['content_type'] || 'text/plain';
+  if (chrome.runtime.lastError) {
+    this.log_.error('Unable to send http response: ',
+      chrome.runtime.lastError.message);
+    return;
+  }
   let statusCode = options['status_code'] || 200;
-  let httpVersion = (options['http_version'] || 'HTTP/1.1') + ' ';
   chrome.sockets.tcp.getInfo(clientSocketId, function(socketInfo) {
     if (!socketInfo['connected']) {
       this.log_.error('Socket is no longer connected', socketInfo);
       this.disconnectClientSocket_(clientSocketId);
       return;
     }
-    let output = [];
-    if (statusCode === 200) {
-      this.log_.info('200', requestPath);
-      output.push(httpVersion + '200 OK');
-    } else if (statusCode === 301) {
-      this.log_.info('301', requestPath, '>', this.redirects_[requestPath]);
-      output.push(httpVersion + '301 Moved Permanently');
-      output.push('Location: ' + content);
-    } else if (statusCode === 404) {
-      this.log_.info('404', requestPath);
-      output.push(httpVersion + '404 Not found');
-    } else if (Number.isInteger(statusCode)) {
-      this.log_.info(statusCode, requestPath);
-      output.push(httpVersion + statusCode);
-    } else {
-      this.log_.warn('Unknown status code', statusCode);
-      output.push(httpVersion + '501 Not Implemented');
-    }
 
+    // Get status text, depending on content and status code.
+    let statusText = '501 Not Implemented';
+    let redirect = '';
+    if (statusCode === 200 && content !== undefined) {
+      statusText = '200 OK';
+    } else if (statusCode === 301 && content) {
+      statusText = '301 Moved Permanently';
+      redirect = content;
+    } else if (statusCode === 404 || content === undefined) {
+      content = '';
+      statusText = '404 Not found';
+    } else if (Number.isInteger(statusCode)) {
+      statusText = statusCode;
+    }
+    this.log_.info(statusText, requestPath, redirect ? '> ' + redirect : '');
+
+    // Create HTTP response.
+    let output = [];
+    output.push((options['http_version'] || 'HTTP/1.1') + ' ' + statusText);
+    if (redirect) {
+       output.push('Location: ' + redirect || content);
+    }
     output.push('Access-Control-Allow-Origin: null');
     output.push('Server: Coding with Chrome - local');
-    output.push('Content-type: ' + contentType);
+    if (!content || redirect) {
+      output.push('Connection: close');
+    } else {
+      output.push('Connection: keep-alive');
+    }
+    output.push('Content-type: ' + options['content_type'] || 'text/plain');
     output.push('Content-length: ' + content.length);
-    output.push('Connection: keep-alive');
     output.push('');
     output.push(content);
     output.push('\n');

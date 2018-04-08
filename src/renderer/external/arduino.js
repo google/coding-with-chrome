@@ -42,9 +42,7 @@ cwc.renderer.external.Arduino = function(helper) {
  * Initializes and defines the Arduino renderer.
  */
 cwc.renderer.external.Arduino.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
-  let renderer = this.render.bind(this);
-  rendererInstance.setRenderer(renderer);
+  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
 };
 
 

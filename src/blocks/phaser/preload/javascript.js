@@ -38,7 +38,7 @@ Blockly.JavaScript['phaser_preload'] = function(block) {
 Blockly.JavaScript['phaser_load_audio'] = function(block) {
   let text_name = block.getFieldValue('name');
   let value_audio = Blockly.JavaScript.valueToCode(block, 'audio',
-    Blockly.JavaScript.ORDER_NONE);
+    Blockly.JavaScript.ORDER_NONE).replace('file:', 'url:/library/');
   return 'game.load.audio(\'' + text_name + '\', \'' + value_audio + '\');\n';
 };
 

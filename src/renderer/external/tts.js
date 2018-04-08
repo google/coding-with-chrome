@@ -41,9 +41,7 @@ cwc.renderer.external.TTS = function(helper) {
  * Initializes and defines the TTS renderer.
  */
 cwc.renderer.external.TTS.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
-  let renderer = this.render.bind(this);
-  rendererInstance.setRenderer(renderer);
+  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
 };
 
 

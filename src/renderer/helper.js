@@ -48,6 +48,20 @@ cwc.renderer.Helper.prototype.injectFiles = function(content, files) {
 
 
 /**
+ * @param {!string} content Content to modify.
+ * @param {string=} baseURL
+ * @return {!string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.injectURLs = function(content, baseURL) {
+  let urlReplace = function(unused_result, url) {
+    return (baseURL || '') + url;
+  };
+  return content.replace(/{{ url:(.+) }}/gi, urlReplace);
+};
+
+
+/**
  * @param {string} content Content to modify.
  * @param {string} text Text to prepend if not already in content.
  * @return {string}
@@ -222,13 +236,13 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
 /**
  * @param {!string} url
  * @param {string=} filename
- * @param {string=} baseUrl
+ * @param {string=} baseURL
  * @return {string}
  */
 cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename,
-    baseUrl) {
+    baseURL) {
   return cwc.soy.Renderer.javaScriptUrl({
-    url: (baseUrl || '') + url,
+    url: (baseURL || '') + url,
     filename: filename || url,
   }).getContent();
 };
@@ -236,13 +250,13 @@ cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename,
 
 /**
  * @param {!Array.<string>} filenames
- * @param {string=} baseUrl
+ * @param {string=} baseURL
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptURLs = function(filenames, baseUrl) {
+cwc.renderer.Helper.prototype.getJavaScriptURLs = function(filenames, baseURL) {
   let headers = '';
   for (let filename of filenames) {
-    headers += this.getJavaScriptURL(filename, filename, baseUrl);
+    headers += this.getJavaScriptURL(filename, filename, baseURL);
   }
   return headers;
 };
@@ -276,13 +290,13 @@ cwc.renderer.Helper.prototype.getJavaScriptDataURL = function(data,
 /**
  * @param {!string} url
  * @param {string=} filename
- * @param {string=} baseUrl
+ * @param {string=} baseURL
  * @return {string}
  */
 cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename,
-    baseUrl) {
+    baseURL) {
   return cwc.soy.Renderer.styleSheetUrl({
-    url: (baseUrl || '') + url,
+    url: (baseURL || '') + url,
     filename: filename || url,
   }).getContent();
 };

@@ -148,7 +148,8 @@ cwc.Cache.prototype.getFile = function(name) {
  * @param {string!} content
  */
 cwc.Cache.prototype.addLibraryFile = function(name, content) {
-  this.database_.addFile(name, content, '__library__');
+  let filename = name.includes('/library/') ? name : '/library/' + name;
+  this.database_.addFile(filename, content, '__library__');
 };
 
 
@@ -157,7 +158,11 @@ cwc.Cache.prototype.addLibraryFile = function(name, content) {
  * @return {Promise}
  */
 cwc.Cache.prototype.getLibraryFile = function(name) {
-  return this.database_.getFile(name, '__library__');
+  let filename = name.includes('/library/') ? name : '/library/' + name;
+  if (filename.includes('%20')) {
+    filename = decodeURI(filename);
+  }
+  return this.database_.getFile(filename, '__library__');
 };
 
 

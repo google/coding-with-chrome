@@ -55,29 +55,36 @@ cwc.server.Server.prototype.prepare = function() {
     console.log('Custom Handler test', request);
     httpResponse('Hello World 123:' + request);
   });
+
+  // Handle framework /css/ files ...
   this.httpServer.addCustomHandler('/css/', function(request, httpResponse) {
     this.helper.getInstance('cache').getFile(request).then((content) => {
-      if (content !== undefined) {
-        httpResponse(content, {
-          'content_type': cwc.utils.mime.getTypeByExtension(request),
-        });
-      } else {
-        httpResponse(content, {'status_code': 404});
-      }
+      httpResponse(content, {
+        'content_type': cwc.utils.mime.getTypeByExtension(request),
+      });
     });
   }.bind(this));
+
+  // Handle framework files ...
   this.httpServer.addCustomHandler('/frameworks/', function(request,
       httpResponse) {
     this.helper.getInstance('cache').getFile(request).then((content) => {
-      if (content !== undefined) {
-        httpResponse(content, {
-          'content_type': cwc.utils.mime.getTypeByExtension(request),
-        });
-      } else {
-        httpResponse(content, {'status_code': 404});
-      }
+      httpResponse(content, {
+        'content_type': cwc.utils.mime.getTypeByExtension(request),
+      });
     });
   }.bind(this));
+
+  // Handle library files ...
+  this.httpServer.addCustomHandler('/library/', function(request,
+      httpResponse) {
+    this.helper.getInstance('cache').getLibraryFile(request).then((content) => {
+      httpResponse(content, {
+          'content_type': cwc.utils.mime.getTypeByExtension(request),
+      });
+    });
+  }.bind(this));
+
   this.httpServer.listen();
 };
 

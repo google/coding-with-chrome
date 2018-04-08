@@ -42,9 +42,7 @@ cwc.renderer.external.PencilCode = function(helper) {
  * Initializes and defines the simple renderer.
  */
 cwc.renderer.external.PencilCode.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
-  let renderer = this.render.bind(this);
-  rendererInstance.setRenderer(renderer);
+  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
 };
 
 
