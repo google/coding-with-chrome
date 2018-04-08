@@ -53,6 +53,7 @@ cwc.renderer.external.Sphero.prototype.init = function() {
  * @param {cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
+ * @param {Object=} environ
  * @return {string}
  * @export
  */
@@ -60,15 +61,16 @@ cwc.renderer.external.Sphero.prototype.render = function(
     editorContent,
     libraryFiles,
     frameworks,
-    rendererHelper) {
-  let header = rendererHelper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.Internal.SPHERO), frameworks);
+    rendererHelper,
+    environ = {}) {
+  let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.SPHERO,
+  ], environ['baseURL']);
   let body = '\n<script>' +
       '  let code = function(sphero) {\n' +
       editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n'+
       '  new cwc.framework.Sphero(code);\n' +
       '</script>\n';
-
-  return rendererHelper.getHTML(body, header);
+  return rendererHelper.getHTMLRunner(body, header, environ);
 };

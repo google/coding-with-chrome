@@ -82,6 +82,26 @@ cwc.renderer.Helper.prototype.getHTML = function(body, header, css,
 
 
 /**
+ * @param {!string} body
+ * @param {string=} header
+ * @param {string=} css
+ * @param {string=} javascript
+ * @param {string=} canvas
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getHTMLCanvas = function(body, header, css,
+    javascript, canvas = 'canvas-chrome') {
+  return cwc.soy.Renderer.html({
+    body: body ? this.sanitizedHtml_(body) : '',
+    head: header ? this.sanitizedHtml_(header) : '',
+    css: css ? this.sanitizedCss_(css) : '',
+    js: javascript ? this.sanitizedJs_(javascript) : '',
+    canvas: canvas,
+  }).getContent();
+};
+
+
+/**
  * @param {string=} body
  * @param {string=} header
  * @param {string=} css
@@ -100,21 +120,19 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(body, header, css,
 
 
 /**
- * @param {!string} body
+ * @param {string=} body
  * @param {string=} header
- * @param {string=} css
- * @param {string=} javascript
- * @param {string=} canvas
+ * @param {object=} environ
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getHTMLCanvas = function(body, header, css,
-    javascript, canvas = 'canvas-chrome') {
-  return cwc.soy.Renderer.html({
+cwc.renderer.Helper.prototype.getHTMLRunner = function(body, header,
+    environ = {}) {
+  header += this.getStyleSheetURL(
+    /** @type {string} */ (cwc.framework.StyleSheet.RUNNER), 'Runner CSS',
+    environ['baseURL']);
+  return cwc.soy.Renderer.htmlRunner({
     body: body ? this.sanitizedHtml_(body) : '',
     head: header ? this.sanitizedHtml_(header) : '',
-    css: css ? this.sanitizedCss_(css) : '',
-    js: javascript ? this.sanitizedJs_(javascript) : '',
-    canvas: canvas,
   }).getContent();
 };
 
@@ -170,7 +188,7 @@ cwc.renderer.Helper.prototype.getObjectTag = function(data_url, width = 400,
  * @return {!string}
  * @export
  */
-cwc.renderer.Helper.prototype.getDataUrl = function(content,
+cwc.renderer.Helper.prototype.getDataURL = function(content,
     type = 'text/html') {
   if (goog.isString(content) && goog.string.startsWith(content, 'data:')) {
     return content;
@@ -204,11 +222,13 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
 /**
  * @param {!string} url
  * @param {string=} filename
+ * @param {string=} baseUrl
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename) {
+cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename,
+    baseUrl) {
   return cwc.soy.Renderer.javaScriptUrl({
-    url: url,
+    url: (baseUrl || '') + url,
     filename: filename || url,
   }).getContent();
 };
@@ -216,12 +236,13 @@ cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename) {
 
 /**
  * @param {!Array.<string>} filenames
+ * @param {string=} baseUrl
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getJavaScriptURLs = function(filenames) {
+cwc.renderer.Helper.prototype.getJavaScriptURLs = function(filenames, baseUrl) {
   let headers = '';
   for (let filename of filenames) {
-    headers += this.getJavaScriptURL(filename);
+    headers += this.getJavaScriptURL(filename, filename, baseUrl);
   }
   return headers;
 };
@@ -255,11 +276,13 @@ cwc.renderer.Helper.prototype.getJavaScriptDataURL = function(data,
 /**
  * @param {!string} url
  * @param {string=} filename
+ * @param {string=} baseUrl
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename) {
+cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename,
+    baseUrl) {
   return cwc.soy.Renderer.styleSheetUrl({
-    url: url,
+    url: (baseUrl || '') + url,
     filename: filename || url,
   }).getContent();
 };
@@ -271,7 +294,7 @@ cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename) {
  * @param {string=} filename
  * @return {string}
  */
-cwc.renderer.Helper.prototype.getStyleSheetDataUrl = function(data,
+cwc.renderer.Helper.prototype.getStyleSheetDataURL = function(data,
     encoding = 'base64', filename = '') {
   if (goog.string.startsWith(data, 'data:text/css;')) {
     data = data.split(';')[1];
@@ -328,7 +351,7 @@ cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
   if (!file) {
     return '';
   }
-  return this.getStyleSheetDataUrl(file.getContent(), filename);
+  return this.getStyleSheetDataURL(file.getContent(), filename);
 };
 
 

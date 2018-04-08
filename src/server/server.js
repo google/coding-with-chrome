@@ -51,6 +51,33 @@ cwc.server.Server = function(helper) {
 
 cwc.server.Server.prototype.prepare = function() {
   this.httpServer = this.helper.getInstance('http-server');
+  this.httpServer.addCustomHandler('/test/', (request, httpResponse) => {
+    console.log('Custom Handler test', request);
+    httpResponse('Hello World 123:' + request);
+  });
+  this.httpServer.addCustomHandler('/css/', function(request, httpResponse) {
+    this.helper.getInstance('cache').getFile(request).then((content) => {
+      if (content !== undefined) {
+        httpResponse(content, {
+          'content_type': cwc.utils.mime.getTypeByExtension(request),
+        });
+      } else {
+        httpResponse(content, {'status_code': 404});
+      }
+    });
+  }.bind(this));
+  this.httpServer.addCustomHandler('/frameworks/', function(request,
+      httpResponse) {
+    this.helper.getInstance('cache').getFile(request).then((content) => {
+      if (content !== undefined) {
+        httpResponse(content, {
+          'content_type': cwc.utils.mime.getTypeByExtension(request),
+        });
+      } else {
+        httpResponse(content, {'status_code': 404});
+      }
+    });
+  }.bind(this));
   this.httpServer.listen();
 };
 
@@ -62,17 +89,6 @@ cwc.server.Server.prototype.prepare = function() {
 cwc.server.Server.prototype.addFile = function(name, content) {
   if (this.httpServer) {
     this.httpServer.addFile(name, content);
-  }
-};
-
-
-/**
- * @param {!string} name
- * @param {!string} content
- */
-cwc.server.Server.prototype.addUserFile = function(name, content) {
-  if (this.httpServer) {
-    this.httpServer.addUserFile(name, content);
   }
 };
 
@@ -104,6 +120,14 @@ cwc.server.Server.prototype.setPreview = function(content) {
  */
 cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
   return this.httpServerPrefix + name;
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.server.Server.prototype.getRootURL = function() {
+  return this.httpServer.getRootURL();
 };
 
 

@@ -98,6 +98,24 @@
 
 
 /**
+ * HTML runner template.
+ */
+{template .htmlRunner}
+  {@param body: string}
+  {@param head: string}
+
+  {call .html data="all"}
+    {param body kind="html"}
+      <div id="runner"></div>
+      {$body}
+    {/param}
+  {/call}
+
+{/template}
+
+
+
+/**
  * CSS tag.
  */
 {template .css}

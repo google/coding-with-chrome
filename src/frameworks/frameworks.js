@@ -31,22 +31,22 @@ goog.provide('cwc.framework.StyleSheet');
  */
 cwc.framework.External = {
   BRYTHON: {
-    CORE: 'frameworks/external/brython.js',
-    STDLIB: 'frameworks/external/brython_stdlib.js',
+    CORE: '/frameworks/external/brython.js',
+    STDLIB: '/frameworks/external/brython_stdlib.js',
   },
-  COFFEESCRIPT: 'frameworks/external/coffee-script.js',
+  COFFEESCRIPT: '/frameworks/external/coffee-script.js',
   JQUERY: {
-    V3_X: 'frameworks/external/jquery.min.js',
-    V2_2_4: 'frameworks/external/jquery-2.2.4.min.js',
+    V3_X: '/frameworks/external/jquery.min.js',
+    V2_2_4: '/frameworks/external/jquery-2.2.4.min.js',
   },
-  JQUERY_TURTLE: 'frameworks/external/jquery-turtle.js',
-  PHASER: 'frameworks/external/phaser.min.js',
+  JQUERY_TURTLE: '/frameworks/external/jquery-turtle.js',
+  PHASER: '/frameworks/external/phaser.min.js',
   SKULPT: {
-    CORE: 'frameworks/external/skulpt.min.js',
-    STDLIB: 'frameworks/external/skulpt-stdlib.js',
+    CORE: '/frameworks/external/skulpt.min.js',
+    STDLIB: '/frameworks/external/skulpt-stdlib.js',
   },
   THREE_JS: {
-    CORE: 'frameworks/external/three.min.js',
+    CORE: '/frameworks/external/three.min.js',
   },
 };
 
@@ -56,18 +56,18 @@ cwc.framework.External = {
  * @enum {!Object.<string>|string}
  */
 cwc.framework.Internal = {
-  ARDUINO: 'frameworks/internal/arduino_framework.js',
-  EV3: 'frameworks/internal/ev3_framework.js',
-  MBOT: 'frameworks/internal/mbot_framework.js',
-  MBOT_RANGER: 'frameworks/internal/mbot_ranger_framework.js',
-  PHASER: 'frameworks/internal/phaser_framework.js',
-  PYTHON2: 'frameworks/internal/python2_framework.js',
-  PYTHON3: 'frameworks/internal/python3_framework.js',
-  RASPBERRY_PI: 'frameworks/internal/raspberry_pi_framework.js',
-  RUNNER: 'frameworks/internal/runner_framework.js',
-  SIMPLE: 'frameworks/internal/simple_framework.js',
-  SPHERO: 'frameworks/internal/sphero_framework.js',
-  TURTLE: 'frameworks/internal/turtle_framework.js',
+  ARDUINO: '/frameworks/internal/arduino_framework.js',
+  EV3: '/frameworks/internal/ev3_framework.js',
+  MBOT: '/frameworks/internal/mbot_framework.js',
+  MBOT_RANGER: '/frameworks/internal/mbot_ranger_framework.js',
+  PHASER: '/frameworks/internal/phaser_framework.js',
+  PYTHON2: '/frameworks/internal/python2_framework.js',
+  PYTHON3: '/frameworks/internal/python3_framework.js',
+  RASPBERRY_PI: '/frameworks/internal/raspberry_pi_framework.js',
+  RUNNER: '/frameworks/internal/runner_framework.js',
+  SIMPLE: '/frameworks/internal/simple_framework.js',
+  SPHERO: '/frameworks/internal/sphero_framework.js',
+  TURTLE: '/frameworks/internal/turtle_framework.js',
 };
 
 
@@ -76,5 +76,6 @@ cwc.framework.Internal = {
  * @enum {!Object.<string>|string}
  */
 cwc.framework.StyleSheet = {
-  DIALOG: 'css/dialog.css',
+  DIALOG: '/css/dialog.css',
+  RUNNER: '/css/runner.css',
 };

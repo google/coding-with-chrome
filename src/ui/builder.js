@@ -116,7 +116,6 @@ cwc.ui.supportedProtocols = {
   // Low-level
   'bluetooth': cwc.protocol.bluetooth.classic.Api,
   'bluetoothLE': cwc.protocol.bluetooth.lowEnergy.Api,
-  'http-server': cwc.protocol.tcp.HTTPServer,
   'serial': cwc.protocol.serial.Api,
 
   // Boards
@@ -439,6 +438,7 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
 cwc.ui.Builder.prototype.prepareServer = function() {
   let serverInstance = new cwc.server.Server(this.helper);
   if (this.helper.checkChromeFeature('sockets.tcpServer')) {
+    this.helper.setInstance('http-server', new cwc.protocol.tcp.HTTPServer());
     serverInstance.prepare();
   }
   this.helper.setInstance('server', serverInstance);

@@ -223,6 +223,14 @@ cwc.fileFormat.File.prototype.setFilesData = function(data) {
 
 
 /**
+ * @return {Object}
+ */
+cwc.fileFormat.File.prototype.getFileData = function() {
+  return this.files_.getFiles();
+};
+
+
+/**
  * @return {!cwc.file.Files}
  */
 cwc.fileFormat.File.prototype.getFiles = function() {

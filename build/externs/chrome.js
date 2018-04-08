@@ -195,10 +195,16 @@ chrome.sockets.tcp.onReceive = function() {};
 chrome.sockets.tcp.onReceive.addListener = function() {};
 
 /** @type {Function} */
+chrome.sockets.tcp.onReceive.removeListener = function() {};
+
+/** @type {Function} */
 chrome.sockets.tcp.onReceiveError = function() {};
 
 /** @type {Function} */
 chrome.sockets.tcp.onReceiveError.addListener = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcp.onReceiveError.removeListener = function() {};
 
 /** @type {Function} */
 chrome.sockets.tcp.setKeepAlive = function() {};
@@ -216,7 +222,13 @@ chrome.sockets.tcpServer.create = function() {};
 chrome.sockets.tcpServer.onAccept.addListener = function() {};
 
 /** @type {Function} */
+chrome.sockets.tcpServer.onAccept.removeListener = function() {};
+
+/** @type {Function} */
 chrome.sockets.tcpServer.onAcceptError.addListener = function() {};
+
+/** @type {Function} */
+chrome.sockets.tcpServer.onAcceptError.removeListener = function() {};
 
 
 /** @type {Function} */

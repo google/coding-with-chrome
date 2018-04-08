@@ -211,7 +211,15 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
   }
 
   // Handle library files
-  // let cacheInstance = this.helper.getInstance('cache');
+  let cacheInstance = this.helper.getInstance('cache');
+  cacheInstance.clearLibraryFiles();
+  let fileContent = file.getFileData();
+  for (let entry in fileContent) {
+    if (Object.prototype.hasOwnProperty.call(fileContent, entry)) {
+      let content = fileContent[entry];
+      cacheInstance.addLibraryFile(content.getName(), content.getRawContent());
+    }
+  }
 
   modeInstance.postMode();
 };

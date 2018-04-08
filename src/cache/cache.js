@@ -57,7 +57,7 @@ cwc.Cache = function(helper) {
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
-  this.version_ = '2';
+  this.version_ = '3';
 };
 
 
@@ -77,10 +77,13 @@ cwc.Cache.prototype.prepare = function() {
  * @param {!string|number} version
  */
 cwc.Cache.prototype.update = function(version) {
-  if (this.version_ >= version) {
-    this.log_.info('No need for updates ...');
+  if (version && this.version_ <= version) {
+    this.log_.info('No updates needed', version, '>=', this.version_);
+    return;
   }
+
   this.log_.info('Updating Cache to version', this.version_);
+  this.database_.clearFiles();
 
   this.log_.info('Loading external frameworks ...');
   this.loadFiles(cwc.framework.External);
@@ -121,40 +124,13 @@ cwc.Cache.prototype.loadFiles = function(files) {
 /**
  * @param {string!} name
  * @param {string!} content
- * @param {boolean=} optimize
  */
-cwc.Cache.prototype.addFile = function(name, content, optimize = false) {
+cwc.Cache.prototype.addFile = function(name, content) {
   if (!content) {
     this.log_.error('Received empty content for', name);
     return;
   }
-
-  // Add file to server instance if available.
-  let serverInstance = this.helper.getInstance('server');
-  if (serverInstance) {
-    serverInstance.addFile(name, content);
-  }
-
-  if (optimize && !name.includes('.min.') && content.length > 1000) {
-    // Try to optimize unminimized code by removing comments and white-spaces.
-    let originalContentLength = content.length;
-    content = cwc.Cache.optimizeContent(content);
-    if (originalContentLength > content.length) {
-      let optimized = Math.ceil(((originalContentLength - content.length) /
-          originalContentLength) * 100);
-      if (optimized >= 5) {
-        this.log_.info('Optimized content from', originalContentLength, 'to',
-          content.length, 'by', optimized, '%');
-      }
-    }
-  }
-  let mimeType = cwc.utils.mime.getTypeByExtension(name);
-  let fileContent = this.rendererHelper.getDataUrl(content, mimeType);
-  if (!fileContent) {
-    this.log_.error('Received empty file for', name);
-    return;
-  }
-  this.database_.addFile(name, fileContent);
+  this.database_.addFile(name, content);
 };
 
 

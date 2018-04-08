@@ -111,12 +111,6 @@ cwc.renderer.Renderer.prototype.addFile = function(name, content,
     return;
   }
 
-  // Add file to server instance if available.
-  let serverInstance = this.helper.getInstance('server');
-  if (serverInstance) {
-    serverInstance.addFile(name, content);
-  }
-
   if (optimize && !name.includes('.min.') && content.length > 1000) {
     // Try to optimize unminimized code by removing comments and white-spaces.
     let originalContentLength = content.length;
@@ -136,7 +130,7 @@ cwc.renderer.Renderer.prototype.addFile = function(name, content,
     }
   }
   let mimeType = cwc.utils.mime.getTypeByExtension(name);
-  let fileContent = this.rendererHelper.getDataUrl(content, mimeType);
+  let fileContent = this.rendererHelper.getDataURL(content, mimeType);
   if (!fileContent) {
     this.log_.error('Received empty file for', name);
     return;
@@ -208,7 +202,9 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
       editorContent,
       libraryFiles,
       this.files,
-      this.rendererHelper
+      this.rendererHelper, {
+        'baseURL': this.helper.getInstance('server').getRootURL(),
+      }
   );
 
   if (this.serverMode_) {
@@ -233,7 +229,7 @@ cwc.renderer.Renderer.prototype.getContentUrl = function() {
       return serverInstance.getPreviewURL();
     }
   }
-  return this.rendererHelper.getDataUrl(content);
+  return this.rendererHelper.getDataURL(content);
 };
 
 

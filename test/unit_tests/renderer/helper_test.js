@@ -135,9 +135,9 @@ describe('Renderer Helper', function() {
   });
 
   it('getDataUrl', function() {
-    let js1 = helper.getDataUrl('Hello World');
-    let js2 = helper.getDataUrl('Hello World', 'text/javascript');
-    let js3 = helper.getDataUrl('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
+    let js1 = helper.getDataURL('Hello World');
+    let js2 = helper.getDataURL('Hello World', 'text/javascript');
+    let js3 = helper.getDataURL('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
     expect(js1).toEqual('data:text/html;base64,SGVsbG8gV29ybGQ=');
     expect(js2).toEqual('data:text/javascript;base64,SGVsbG8gV29ybGQ=');
     expect(js3).toEqual('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
@@ -187,8 +187,8 @@ describe('Renderer Helper', function() {
   });
 
   it('getStyleSheetDataUrl', function() {
-    let js1 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==');
-    let js2 = helper.getStyleSheetDataUrl('SGVsbG9Xb3JsZA==', undefined,
+    let js1 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==');
+    let js2 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');
     expect(js1).toEqual('\n<link rel="stylesheet" type="text/css" ' +
       'href="data:text/css;base64,SGVsbG9Xb3JsZA==">\n');

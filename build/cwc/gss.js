@@ -45,3 +45,16 @@ closureBuilder.build({
   ]),
   out: 'genfiles/core/css/dialog.css',
 });
+
+
+/**
+ * Runner Style Sheets files
+ */
+closureBuilder.build({
+  name: 'CwC runner Style Sheet',
+  prefix: 'cwc-',
+  srcs: glob([
+    'src/frameworks/internal/runner/runner.gss',
+  ]),
+  out: 'genfiles/core/css/runner.css',
+});

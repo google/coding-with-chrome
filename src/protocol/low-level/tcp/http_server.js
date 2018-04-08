@@ -28,38 +28,28 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {!cwc.utils.Helper} helper
+ * @param {string=} address
+ * @param {number=} port
  * @constructor
  * @struct
  * @final
  */
-cwc.protocol.tcp.HTTPServer = function(helper) {
+cwc.protocol.tcp.HTTPServer = function(address, port) {
   /** @type {string} */
   this.name = 'HTTP Server';
 
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @type {boolean} */
-  this.enabled = false;
-
-  /** @type {boolean} */
-  this.prepared = false;
-
   /** @type {!string} */
-  this.address = '127.0.0.1';
+  this.address = address || '127.0.0.1';
 
   /** @type {!number} */
-  this.port = 8090;
+  this.port = port || 8090;
 
   /** @type {!number} */
   this.backlog = 10;
 
   /** @private {!boolean} */
-  this.isChromeApp_ = this.helper.checkChromeFeature('app');
-
-  /** @private {number|null} */
-  this.socket_ = null;
+  this.isChromeApp_ = typeof chrome.app !== 'undefined' &&
+      typeof chrome.app.window !== 'undefined';
 
   /** @private {cwc.utils.Database} */
   this.database_ = new cwc.utils.Database(this.name);
@@ -67,29 +57,20 @@ cwc.protocol.tcp.HTTPServer = function(helper) {
   /** @private {!Object} */
   this.redirects_ = {};
 
+  /** @private {!Object} */
+  this.customHandlers_ = {};
+
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
+  /** @private {number|null} */
+  this.socketId_ = null;
+
+  /** @private {boolean} */
+  this.isConnected_ = false;
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
-};
-
-
-/**
- * Prepares the http server.
- */
-cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
-  if (!this.isChromeApp_ || !chrome.sockets) {
-    this.log_.error('Sockets support is not available!');
-    return;
-  }
-  if (this.prepared) {
-    return;
-  }
-
-  this.log_.debug('Preparing cache file support...');
-  this.database_.open();
-  this.prepared = true;
 };
 
 
@@ -98,6 +79,11 @@ cwc.protocol.tcp.HTTPServer.prototype.prepare = function() {
  * @param {string=} address
  */
 cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
+  if (!this.isChromeApp_ || !chrome.sockets) {
+    this.log_.error('Chrome sockets support is not available!');
+    return;
+  }
+
   if (port) {
     this.port = port;
   }
@@ -105,88 +91,34 @@ cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
     this.address = address;
   }
   if (this.port && this.address) {
-    this.createSocket_(this.listen_.bind(this));
+    this.database_.open();
+    chrome.sockets.tcpServer.create({}, this.handleCreate_.bind(this));
   }
 };
 
 
-/**
- * @param {!number} socketId
- * @param {!string} content
- * @param {string=} type
- */
-cwc.protocol.tcp.HTTPServer.prototype.send200Response = function(socketId,
-    content, type='text/plain') {
-  this.sendHTTPResponse(socketId, content, type, 200);
+cwc.protocol.tcp.HTTPServer.prototype.unlisten = function() {
+  chrome.sockets.tcpServer.onAccept.removeListener(
+    this.handleAccept_.bind(this));
+  chrome.sockets.tcpServer.onAcceptError.removeListener(
+    this.handleAcceptError_.bind(this));
+  chrome.sockets.tcp.onReceive.removeListener(
+    this.handleRecieve_.bind(this));
+  chrome.sockets.tcp.onReceiveError.removeListener(
+    this.handleRecieveError_.bind(this));
+  this.socketId_ = null;
+  this.isConnected_ = false;
 };
 
 
 /**
- * @param {!number} socketId
- * @param {!string} redirect
+ * @param {!string} path
+ * @param {!function} handler
  */
-cwc.protocol.tcp.HTTPServer.prototype.send301Response = function(socketId,
-    redirect) {
-  this.sendHTTPResponse(socketId, redirect, undefined, 301);
-};
-
-
-/**
- * @param {!number} socketId
- * @param {!string} content
- * @param {string=} type
- */
-cwc.protocol.tcp.HTTPServer.prototype.send404Response = function(socketId,
-  content, type='text/plain') {
-  this.sendHTTPResponse(socketId, content, type, 404);
-};
-
-
-/**
- * @param {!number} socketId
- * @param {!string} content
- * @param {string=} type
- * @param {number=} status
- */
-cwc.protocol.tcp.HTTPServer.prototype.sendHTTPResponse = function(socketId,
-    content, type='text/plain', status=200) {
-  // Makes sure that the connection is still usable.
-  chrome.sockets.tcp.getInfo(socketId, function(socketInfo) {
-    if (!socketInfo['connected']) {
-      this.log_.error('Socket is no longer connected', socketInfo);
-      this.disconnectClientSocket_(socketId);
-      return;
-    }
-    let output = [];
-    if (status === 200) {
-      output.push('HTTP/1.1 200 OK');
-    } else if (status === 301) {
-      output.push('HTTP/1.1 301 Moved Permanently');
-      output.push('Location: ' + content);
-    } else if (status === 404) {
-      output.push('HTTP/1.1 404 Not found');
-    }
-
-    output.push('Access-Control-Allow-Origin: null');
-    output.push('Server: Coding with Chrome - local');
-    output.push('Content-type: ' + type);
-    output.push('Content-length: ' + content.length);
-    output.push('Connection: keep-alive');
-    output.push('');
-    output.push(content);
-    output.push('\n');
-
-    // Prepare ArrayBuffer with content.
-    let response = cwc.utils.ByteTools.toUint8Array(output.join('\n'));
-    let view = new Uint8Array(new ArrayBuffer(response.byteLength));
-    view.set(response, 0);
-
-    // Handling keep alive.
-    chrome.sockets.tcp.setKeepAlive(socketId, true, 1, function() {
-      chrome.sockets.tcp.send(socketId, view.buffer,
-        this.handleSend_.bind(this));
-    }.bind(this));
-  }.bind(this));
+cwc.protocol.tcp.HTTPServer.prototype.addCustomHandler = function(path,
+  handler) {
+  this.log_.info('Add custom Handler for', path);
+  this.customHandlers_[path] = handler;
 };
 
 
@@ -203,17 +135,8 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
     path = '/' + path;
   }
 
-  this.log_.info('Add', path, content.length);
+  this.log_.info('Add file', path, content.length);
   this.database_.putFile(path, content);
-};
-
-
-/**
- * @param {!string} path
- * @return {Promise}
- */
-cwc.protocol.tcp.HTTPServer.prototype.getFile = function(path) {
-  return this.database_.getFile(path);
 };
 
 
@@ -238,25 +161,71 @@ cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
 
 
 /**
- * @param {Function=} callback
- * @private
+ * @return {!string}
  */
-cwc.protocol.tcp.HTTPServer.prototype.createSocket_ = function(callback) {
-  chrome.sockets.tcpServer.create({}, callback);
+cwc.protocol.tcp.HTTPServer.prototype.getRootURL = function() {
+  return 'http://' + this.address + ':' + this.port;
 };
 
 
 /**
- * @param {Object} socketInfo
+ * HTTP response handler
+ * @param {!string} content
+ * @param {Object=} options
+ * @param {number=} clientSocketId
+ * @param {string=} requestPath
  * @private
  */
-cwc.protocol.tcp.HTTPServer.prototype.listen_ = function(socketInfo) {
-  this.socket_ = socketInfo['socketId'];
-  if (!this.socket_) {
-    this.log_.error('Unable to get socket', socketInfo);
-  }
-  chrome.sockets.tcpServer.listen(this.socket_, this.address, this.port,
-    this.backlog, this.handleListen_.bind(this));
+cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
+    options = {}, clientSocketId, requestPath = '') {
+  let contentType = options['content_type'] || 'text/plain';
+  let statusCode = options['status_code'] || 200;
+  let httpVersion = (options['http_version'] || 'HTTP/1.1') + ' ';
+  chrome.sockets.tcp.getInfo(clientSocketId, function(socketInfo) {
+    if (!socketInfo['connected']) {
+      this.log_.error('Socket is no longer connected', socketInfo);
+      this.disconnectClientSocket_(clientSocketId);
+      return;
+    }
+    let output = [];
+    if (statusCode === 200) {
+      this.log_.info('200', requestPath);
+      output.push(httpVersion + '200 OK');
+    } else if (statusCode === 301) {
+      this.log_.info('301', requestPath, '>', this.redirects_[requestPath]);
+      output.push(httpVersion + '301 Moved Permanently');
+      output.push('Location: ' + content);
+    } else if (statusCode === 404) {
+      this.log_.info('404', requestPath);
+      output.push(httpVersion + '404 Not found');
+    } else if (Number.isInteger(statusCode)) {
+      this.log_.info(statusCode, requestPath);
+      output.push(httpVersion + statusCode);
+    } else {
+      this.log_.warn('Unknown status code', statusCode);
+      output.push(httpVersion + '501 Not Implemented');
+    }
+
+    output.push('Access-Control-Allow-Origin: null');
+    output.push('Server: Coding with Chrome - local');
+    output.push('Content-type: ' + contentType);
+    output.push('Content-length: ' + content.length);
+    output.push('Connection: keep-alive');
+    output.push('');
+    output.push(content);
+    output.push('\n');
+
+    // Prepare ArrayBuffer with content.
+    let response = cwc.utils.ByteTools.toUint8Array(output.join('\n'));
+    let view = new Uint8Array(new ArrayBuffer(response.byteLength));
+    view.set(response, 0);
+
+    // Handling keep alive.
+    chrome.sockets.tcp.setKeepAlive(clientSocketId, true, 1, function() {
+      chrome.sockets.tcp.send(clientSocketId, view.buffer,
+        this.handleSend_.bind(this));
+    }.bind(this));
+  }.bind(this));
 };
 
 
@@ -265,7 +234,7 @@ cwc.protocol.tcp.HTTPServer.prototype.listen_ = function(socketInfo) {
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleAccept_ = function(acceptInfo) {
-  if (acceptInfo['socketId'] !== this.socket_) {
+  if (acceptInfo['socketId'] !== this.socketId_) {
     this.log_.error('Socket mismatch!', acceptInfo);
     return;
   }
@@ -283,15 +252,42 @@ cwc.protocol.tcp.HTTPServer.prototype.handleAcceptError_ = function(error) {
 
 
 /**
+ * @param {Object} createInfo
+ * @private
+ */
+cwc.protocol.tcp.HTTPServer.prototype.handleCreate_ = function(createInfo) {
+  if (chrome.runtime.lastError) {
+    this.log_.error('Unable to create socket: ',
+      chrome.runtime.lastError.message);
+    return;
+  }
+  if (!createInfo['socketId']) {
+    this.log_.error('Unable to get socket id', createInfo);
+    return;
+  }
+  this.socketId_ = createInfo['socketId'];
+  this.isConnected_ = true;
+  chrome.sockets.tcpServer.listen(this.socketId_, this.address, this.port,
+    this.backlog, this.handleListen_.bind(this));
+};
+
+
+/**
  * @param {number} result
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleListen_ = function(result) {
-  this.log_.info('Listening on', this.address, ':', this.port, result);
-  chrome.sockets.tcpServer.onAccept.addListener(this.handleAccept_.bind(this));
+  if (result < 0) {
+    this.log_.error('Unable to connect to server', result);
+    return;
+  }
+  this.log_.info('Listening on', this.getRootURL(), result);
+  chrome.sockets.tcpServer.onAccept.addListener(
+    this.handleAccept_.bind(this));
   chrome.sockets.tcpServer.onAcceptError.addListener(
     this.handleAcceptError_.bind(this));
-  chrome.sockets.tcp.onReceive.addListener(this.handleRecieve_.bind(this));
+  chrome.sockets.tcp.onReceive.addListener(
+    this.handleRecieve_.bind(this));
   chrome.sockets.tcp.onReceiveError.addListener(
     this.handleRecieveError_.bind(this));
 };
@@ -316,12 +312,13 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
   if (!receiveInfo['data']) {
     return;
   }
-  let socketId = receiveInfo['socketId'];
-  let data = cwc.utils.ByteTools.toString(receiveInfo['data']);
+  let data = cwc.utils.ByteTools.toUTF8(receiveInfo['data']);
   if (!data) {
+    this.log_.error('Text decoding failed for', receiveInfo['data']);
     return;
   }
   if (data.startsWith('GET ') && data.includes('HTTP')) {
+    let result = true;
     let requestPath = data.substring(4, data.indexOf(' ', 4));
     let requestParameter = '';
     if (requestPath.includes('?')) {
@@ -329,31 +326,48 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
       requestPath = requestFragments[0];
       requestParameter = requestFragments[1];
     }
+    let httpResponse = function(content = '', options = {}) {
+      this.httpResponse_(
+        content, options, receiveInfo['socketId'], requestPath);
+    }.bind(this);
     this.log_.info('GET', requestPath, requestParameter);
-
     if (requestPath === '/') {
       // Index page
-      this.send200Response(socketId, 'CwC HTTPServer\n' + new Date());
+      httpResponse('CwC HTTPServer\n' + new Date());
     } else if (typeof this.redirects_[requestPath] !== 'undefined') {
       // Handle redirect
-      this.log_.info('301', requestPath, '>', this.redirects_[requestPath]);
-      this.send301Response(socketId, this.redirects_[requestPath]);
-    } else {
-      this.getFile(requestPath).then((content) => {
+      httpResponse(this.redirects_[requestPath], {'status_code': 301});
+    } else if (Object.keys(this.customHandlers_).length) {
+      // Handle custom handler
+      let foundCustomHandler = false;
+      for (let customHandler in this.customHandlers_) {
+        if (this.customHandlers_.hasOwnProperty(customHandler)) {
+          if (requestPath.startsWith(customHandler)) {
+            this.log_.info('CUSTOM', requestPath);
+            this.customHandlers_[customHandler](requestPath, httpResponse);
+            foundCustomHandler = true;
+          }
+        }
+      }
+      result = foundCustomHandler;
+    }
+
+    if (!result) {
+      this.database_.getFile(requestPath).then((content) => {
         if (content !== undefined) {
           // File found handling
-          let contentType = cwc.utils.mime.getTypeByExtension(requestPath);
-          this.send200Response(socketId, content, contentType);
+          httpResponse(content, {
+            'content_type': cwc.utils.mime.getTypeByExtension(requestPath),
+          });
         } else {
           // File not found handling
-          this.log_.info('404', requestPath);
-          this.send404Response(socketId, 'File not found!');
+          httpResponse(content, {'status_code': 404});
         }
       });
     }
   } else {
     this.log_.info('Unsupported request', data);
-    this.disconnectClientSocket_(socketId);
+    this.disconnectClientSocket_(receiveInfo['socketId']);
   }
 };
 

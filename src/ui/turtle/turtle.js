@@ -123,22 +123,18 @@ cwc.ui.Turtle.prototype.reset = function() {
  */
 cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
   let renderer = this.helper.getInstance('renderer', true);
-  let frameworks = renderer.getFrameworks();
   let helper = renderer.getRendererHelper();
-  let header = helper.getFrameworkHeaders([
+  let header = renderer.getJavaScriptURLs([
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
     cwc.framework.Internal.TURTLE,
-  ], frameworks);
-  let body = '';
-  if (this.image) {
-    body += '<img id="turtle" src="' + this.image + '" ' +
-      'style="display: none;">\n';
-  }
+  ], this.helper.getInstance('server').getRootURL());
+  let body = this.image ? '<img id="turtle" src="' + this.image + '" ' +
+      'style="display: none;">\n' : '';
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
   let css = '';
   let html = helper.getHTMLGrid(body, header, css);
-  return helper.getDataUrl(html);
+  return helper.getDataURL(html);
 };
 
 

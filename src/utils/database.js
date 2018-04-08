@@ -107,8 +107,10 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
  * @param {!string} content
  * @param {string=} group
  */
-cwc.utils.Database.prototype.addFile = function(name, content, group) {
+cwc.utils.Database.prototype.addFile = function(name, content,
+    group = this.defaultObjectStore_) {
   this.open().then(() => {
+    this.log_.info('Add file', name, 'in group', group);
     this.getObjectStore_(group)['add'](content, name);
   });
 };
@@ -118,8 +120,10 @@ cwc.utils.Database.prototype.addFile = function(name, content, group) {
  * Updates given record, or inserts a new record if not already exist.
  * @param {string=} group
  */
-cwc.utils.Database.prototype.clearFiles = function(group) {
+cwc.utils.Database.prototype.clearFiles = function(
+    group = this.defaultObjectStore_) {
   this.open().then(() => {
+    this.log_.info('Clear files in group', group);
     this.getObjectStore_(group)['clear']();
   });
 };
@@ -131,8 +135,10 @@ cwc.utils.Database.prototype.clearFiles = function(group) {
  * @param {!string} content
  * @param {string=} group
  */
-cwc.utils.Database.prototype.putFile = function(name, content, group) {
+cwc.utils.Database.prototype.putFile = function(name, content,
+    group = this.defaultObjectStore_) {
   this.open().then(() => {
+    this.log_.info('Put file', name, 'in group', group);
     this.getObjectStore_(group)['put'](content, name);
   });
 };

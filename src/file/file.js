@@ -53,10 +53,29 @@ cwc.file.File = function(name, content, type, size) {
 
 
 /**
+ * @param {!string} content
+ */
+cwc.file.File.prototype.setContent = function(content) {
+  this.content_ = content;
+};
+
+
+/**
  * @return {string}
  */
 cwc.file.File.prototype.getContent = function() {
   return this.content_;
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.file.File.prototype.getRawContent = function() {
+  if (this.content_.includes('data:')) {
+    return atob(this.content_.split(',')[1]);
+  }
+  return atob(this.content_);
 };
 
 
