@@ -57,6 +57,7 @@ cwc.utils.Database = function(name, version) {
  * @export
  */
 cwc.utils.Database.prototype.open = function(config = this.config_) {
+  let formerConfig = this.config_;
   let objectStoreNames = [this.defaultObjectStore_];
   if (config) {
     this.config_ = config;
@@ -65,7 +66,7 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
     }
   }
   return new Promise((resolve, reject) => {
-    if (this.database_) {
+    if (this.database_ && formerConfig === this.config_) {
       return resolve(this.database_);
     }
 
@@ -123,8 +124,12 @@ cwc.utils.Database.prototype.addFile = function(name, content,
 cwc.utils.Database.prototype.clearFiles = function(
     group = this.defaultObjectStore_) {
   this.open().then(() => {
-    this.log_.info('Clear files in group', group);
-    this.getObjectStore_(group)['clear']();
+    if (this.existObjectStore_(group)) {
+      this.log_.info('Clear files in group', group);
+      this.getObjectStore_(group)['clear']();
+    } else {
+      this.log_.warn('ObjectStore', group, 'does not exists!');
+    }
   });
 };
 
@@ -190,4 +195,15 @@ cwc.utils.Database.prototype.getObjectStore_ = function(
 cwc.utils.Database.prototype.getObjectStoreReadOnly_ = function(
     group = this.defaultObjectStore_) {
   return this.database_['transaction'](group, 'readonly')['objectStore'](group);
+};
+
+
+/**
+ * @param {string=} group
+ * @return {boolean}
+ * @private
+ */
+cwc.utils.Database.prototype.existObjectStore_ = function(
+    group = this.defaultObjectStore_) {
+  return this.database_ && this.database_['objectStoreNames'].contains(group);
 };

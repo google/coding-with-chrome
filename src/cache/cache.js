@@ -22,7 +22,6 @@ goog.provide('cwc.Cache');
 goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.framework.StyleSheet');
-goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
@@ -42,11 +41,11 @@ cwc.Cache = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.renderer.Helper} */
-  this.rendererHelper = new cwc.renderer.Helper();
+  /** @private {!string} */
+  this.version = '3';
 
   /** @private {!cwc.utils.Database} */
-  this.database_ = new cwc.utils.Database(this.name);
+  this.database_ = new cwc.utils.Database(this.name, this.version);
 
   /** @private {!Object} */
   this.databaseConfig_ = {
@@ -55,9 +54,6 @@ cwc.Cache = function(helper) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
-
-  /** @private {!string} */
-  this.version_ = '3';
 };
 
 
@@ -77,12 +73,12 @@ cwc.Cache.prototype.prepare = function() {
  * @param {!string|number} version
  */
 cwc.Cache.prototype.update = function(version) {
-  if (version && this.version_ <= version) {
-    this.log_.info('No updates needed', version, '>=', this.version_);
+  if (version && this.version <= version) {
+    this.log_.info('No updates needed', version, '>=', this.version);
     return;
   }
 
-  this.log_.info('Updating Cache to version', this.version_);
+  this.log_.info('Updating Cache to version', this.version);
   this.database_.clearFiles();
 
   this.log_.info('Loading external frameworks ...');
@@ -94,7 +90,7 @@ cwc.Cache.prototype.update = function(version) {
   this.log_.info('Loading Style Sheets ...');
   this.loadFiles(cwc.framework.StyleSheet);
 
-  this.database_.addFile('__version__', this.version_);
+  this.database_.addFile('__version__', this.version);
 };
 
 
