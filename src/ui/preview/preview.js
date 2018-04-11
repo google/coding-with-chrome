@@ -22,6 +22,7 @@ goog.provide('cwc.ui.Preview');
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewToolbar');
+goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.Logger');
@@ -89,6 +90,9 @@ cwc.ui.Preview = function(helper) {
   /** @type {cwc.ui.Statusbar} */
   this.statusbar = null;
 
+  /** @type {cwc.ui.StatusButton} */
+  this.statusButton = new cwc.ui.StatusButton(this.helper);
+
   /** @type {cwc.ui.PreviewInfobar} */
   this.infobar = null;
 
@@ -150,11 +154,19 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
+  // Statusbutton
+  let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
+  if (nodeStatusButton) {
+    this.statusButton.decorate(nodeStatusButton);
+    this.statusButton.setRunAction(this.run.bind(this));
+    this.statusButton.setStopAction(this.stop.bind(this));
+  }
+
   // Infobar
   let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   if (nodeInfobar) {
-    this.infobar = new cwc.ui.PreviewInfobar(this.helper);
-    this.infobar.decorate(nodeInfobar);
+    this.infobar = new cwc.ui.PreviewInfobar(this.helper).
+      decorate(nodeInfobar);
   }
 
   // Monitor Changes
@@ -512,8 +524,8 @@ cwc.ui.Preview.prototype.setStatus_ = function(status) {
   if (this.statusbar) {
     this.statusbar.setStatus(status, this.startTime, this.stopTime);
   }
-  if (this.toolbar) {
-    this.toolbar.setStatus(status);
+  if (this.statusButton) {
+    this.statusButton.setStatus(status);
   }
   this.status = status;
 };

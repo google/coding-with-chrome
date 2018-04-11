@@ -43,12 +43,6 @@ cwc.ui.PreviewToolbar = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {boolean} */
-  this.runStatus = false;
-
-  /** @type {boolean} */
-  this.loadStatus = false;
-
   /** @type {Element} */
   this.nodeAutoReload = null;
 
@@ -63,12 +57,6 @@ cwc.ui.PreviewToolbar = function(helper) {
 
   /** @type {Element} */
   this.nodeReload = null;
-
-  /** @type {Element} */
-  this.nodeRun = null;
-
-  /** @type {Element} */
-  this.nodeStop = null;
 
   /** @type {boolean} */
   this.autoUpdateState = false;
@@ -97,14 +85,11 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
   this.nodeRefresh = goog.dom.getElement(this.prefix + 'refresh');
   this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
-  this.nodeRun = goog.dom.getElement(this.prefix + 'run');
-  this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
   let nodeOpenInBrowser = goog.dom.getElement(this.prefix + 'open-in-browser');
 
   // Default status of options
   cwc.ui.Helper.enableElement(this.nodeRefresh, false);
   cwc.ui.Helper.enableElement(this.nodeReload, false);
-  cwc.ui.Helper.enableElement(this.nodeStop, false);
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeReload, false);
 
@@ -120,42 +105,6 @@ cwc.ui.PreviewToolbar.prototype.decorate = function(node) {
     this.refreshPreview.bind(this));
   goog.events.listen(this.nodeReload, goog.events.EventType.CLICK,
     this.reloadPreview.bind(this));
-  goog.events.listen(this.nodeRun, goog.events.EventType.CLICK,
-    this.runPreview.bind(this));
-  goog.events.listen(this.nodeStop, goog.events.EventType.CLICK,
-    this.stopPreview.bind(this));
-};
-
-
-/**
- * Sets the status message.
- * @param {!cwc.ui.StatusbarState} status
- */
-cwc.ui.PreviewToolbar.prototype.setStatus = function(status) {
-  // Load Status
-  switch (status) {
-    case cwc.ui.StatusbarState.LOADED:
-    case cwc.ui.StatusbarState.STOPPED:
-    case cwc.ui.StatusbarState.TERMINATED:
-      this.setLoadStatus(false);
-      break;
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
-      this.setLoadStatus(true);
-      break;
-  }
-
-  // Run Status
-  switch (status) {
-    case cwc.ui.StatusbarState.STOPPED:
-    case cwc.ui.StatusbarState.TERMINATED:
-      this.setRunStatus(false);
-      break;
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
-      this.setRunStatus(true);
-      break;
-  }
 };
 
 
@@ -167,39 +116,6 @@ cwc.ui.PreviewToolbar.prototype.runPreview = function() {
   if (previewInstance) {
     previewInstance.run();
   }
-};
-
-
-/**
- * Stops preview.
- */
-cwc.ui.PreviewToolbar.prototype.stopPreview = function() {
-  let previewInstance = this.helper.getInstance('preview');
-  if (previewInstance) {
-    previewInstance.stop();
-  }
-};
-
-
-/**
- * Sets run status.
- * @param {!boolean} running
- */
-cwc.ui.PreviewToolbar.prototype.setRunStatus = function(running) {
-  cwc.ui.Helper.enableElement(this.nodeStop, running);
-  this.runStatus = running;
-};
-
-
-/**
- * Sets load status.
- * @param {!boolean} loaded
- */
-cwc.ui.PreviewToolbar.prototype.setLoadStatus = function(loaded) {
-  cwc.ui.Helper.enableElement(this.nodeRefresh, !loaded);
-  cwc.ui.Helper.enableElement(this.nodeReload, !loaded);
-  cwc.ui.Helper.enableElement(this.nodeRun, !loaded);
-  this.loadStatus = loaded;
 };
 
 
@@ -267,19 +183,17 @@ cwc.ui.PreviewToolbar.prototype.toggleExpand = function() {
 
 /**
  * Toggles the current expand state.
- * @param {goog.events.EventLike} e
  */
-cwc.ui.PreviewToolbar.prototype.expand = function(e) {
-  this.setExpand(true, e.target.closest('.goog-splitpane-first-container'));
+cwc.ui.PreviewToolbar.prototype.expand = function() {
+  this.setExpand(true);
 };
 
 
 /**
  * Toggles the current expand state.
- * @param {goog.events.EventLike} e
  */
-cwc.ui.PreviewToolbar.prototype.collapse = function(e) {
-  this.setExpand(false, e.target.closest('.goog-splitpane-first-container'));
+cwc.ui.PreviewToolbar.prototype.collapse = function() {
+  this.setExpand(false);
 };
 
 
@@ -297,17 +211,12 @@ cwc.ui.PreviewToolbar.prototype.openInBrowser = function() {
 /**
  * Expands or collapse the current window.
  * @param {boolean} expand
- * @param {boolean=} invert
  */
-cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert = false) {
+cwc.ui.PreviewToolbar.prototype.setExpand = function(expand) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    if (invert) {
-      layoutInstance.setFullscreen(expand);
-    } else {
-      layoutInstance.setFullscreen(expand, 0);
-    }
+    layoutInstance.setFullscreenPreview(expand);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }
@@ -320,12 +229,4 @@ cwc.ui.PreviewToolbar.prototype.setExpand = function(expand, invert = false) {
  */
 cwc.ui.PreviewToolbar.prototype.showExpandButton = function(visible) {
   goog.style.setElementShown(this.nodeExpand, visible);
-};
-
-
-/**
- * @param {boolean} visible
- */
-cwc.ui.PreviewToolbar.prototype.showRunButton = function(visible) {
-  goog.style.setElementShown(this.nodeRun, visible);
 };

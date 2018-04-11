@@ -21,16 +21,15 @@
 }
 
 #{$prefix}layout-content-overlay {
-  top: 0;
   left: 0;
-  position: absolute;
-  z-index: 1000;
   overflow: auto;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
 }
 
-#{$prefix}layout-content-left-chrome,
-#{$prefix}layout-content-middle-chrome,
-#{$prefix}layout-content-right-chrome {
+#{$prefix}layout-content-editor-chrome,
+#{$prefix}layout-content-preview-chrome {
   display: flex;
   flex-direction: column;
 }

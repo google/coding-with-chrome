@@ -264,7 +264,7 @@ cwc.ui.RunnerToolbar.prototype.setExpand = function(expand) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    layoutInstance.setFullscreen(expand, 0);
+    layoutInstance.setFullscreenPreview(expand);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }

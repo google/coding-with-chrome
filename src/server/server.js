@@ -42,9 +42,6 @@ cwc.server.Server = function(helper) {
   this.httpServer = null;
 
   /** @type {!string} */
-  this.httpServerPrefix = 'http://localhost:8090';
-
-  /** @type {!string} */
   this.previewFile = '/preview.html';
 };
 
@@ -126,7 +123,7 @@ cwc.server.Server.prototype.setPreview = function(content) {
  * @return {!string}
  */
 cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
-  return this.httpServerPrefix + name;
+  return this.getRootURL() + name;
 };
 
 
@@ -142,6 +139,6 @@ cwc.server.Server.prototype.getRootURL = function() {
  * @return {!string}
  */
 cwc.server.Server.prototype.getPreviewURL = function() {
-  return this.httpServerPrefix + this.previewFile + '?' +
+  return this.getRootURL() + this.previewFile + '?' +
     Math.floor(Math.random() * 100000000);
 };

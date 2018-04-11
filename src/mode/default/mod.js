@@ -191,27 +191,20 @@ cwc.mode.default.Mod.prototype.decorateEditor = function() {
 
 
 /**
- * Decorates the Editor layout.
+ * Decorates the Preview / Editor layout.
  */
 cwc.mode.default.Mod.prototype.decorateLayout = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
-  if (this.runner) {
-    layoutInstance.decorateDefault();
-    layoutInstance.setFixRightComponentSize(400);
-    if (this.blockly) {
-      layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.blockly);
-    } else {
-      layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
-    }
-    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.runner);
-  } else if (this.blockly) {
-    layoutInstance.decorateDefault(400);
-    layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.preview);
-    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.blockly);
+  layoutInstance.decorateDefault();
+  if (this.blockly) {
+    layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.blockly);
   } else {
-    layoutInstance.decorateDefault(700);
-    layoutInstance.renderMiddleContent(cwc.soy.mode.default.Layout.editor);
-    layoutInstance.renderRightContent(cwc.soy.mode.default.Layout.preview);
+    layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.editor);
+  }
+  if (this.runner) {
+    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
+  } else {
+    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
   }
 };
 

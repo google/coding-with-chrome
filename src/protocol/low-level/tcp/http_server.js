@@ -92,7 +92,9 @@ cwc.protocol.tcp.HTTPServer.prototype.listen = function(port, address) {
   }
   if (this.port && this.address) {
     this.database_.open();
-    chrome.sockets.tcpServer.create({}, this.handleCreate_.bind(this));
+    chrome.sockets.tcpServer.create({
+      'persistent': false,
+    }, this.handleCreate_.bind(this));
   }
 };
 
@@ -169,6 +171,15 @@ cwc.protocol.tcp.HTTPServer.prototype.getRootURL = function() {
 
 
 /**
+ * Close tcp server.
+ */
+cwc.protocol.tcp.HTTPServer.prototype.close = function() {
+  this.closeSocket_(this.socketId_);
+  this.unlisten();
+};
+
+
+/**
  * HTTP response handler
  * @param {!string} content
  * @param {Object=} options
@@ -187,7 +198,7 @@ cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
   chrome.sockets.tcp.getInfo(clientSocketId, function(socketInfo) {
     if (!socketInfo['connected']) {
       this.log_.error('Socket is no longer connected', socketInfo);
-      this.disconnectClientSocket_(clientSocketId);
+      this.disconnectSocket_(clientSocketId);
       return;
     }
 
@@ -288,6 +299,15 @@ cwc.protocol.tcp.HTTPServer.prototype.handleCreate_ = function(createInfo) {
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleListen_ = function(result) {
+  if (chrome.runtime.lastError) {
+    this.log_.error('Unable to connect to server',
+      chrome.runtime.lastError.message);
+    if (chrome.runtime.lastError.message.includes('ERR_ADDRESS_IN_USE')) {
+      this.port++;
+      this.listen();
+    }
+    return;
+  }
   if (result < 0) {
     this.log_.error('Unable to connect to server', result);
     return;
@@ -378,7 +398,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
     }
   } else {
     this.log_.info('Unsupported request', data);
-    this.disconnectClientSocket_(receiveInfo['socketId']);
+    this.disconnectSocket_(receiveInfo['socketId']);
   }
 };
 
@@ -389,7 +409,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
  */
 cwc.protocol.tcp.HTTPServer.prototype.handleRecieveError_ = function(error) {
   if (error['resultCode'] === -100) {
-    this.closeClientSocket_(error['socketId']);
+    this.closeSocket_(error['socketId']);
   } else {
     this.log_.error('Receive Error Handler', error);
   }
@@ -399,7 +419,12 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieveError_ = function(error) {
 /**
  * @param {!number} socketId
  */
-cwc.protocol.tcp.HTTPServer.prototype.closeClientSocket_ = function(socketId) {
+cwc.protocol.tcp.HTTPServer.prototype.closeSocket_ = function(socketId) {
+  if (chrome.runtime.lastError) {
+    this.log_.error('Unable to close socket: ',
+      chrome.runtime.lastError.message);
+    return;
+  }
   chrome.sockets.tcp.close(socketId);
 };
 
@@ -407,9 +432,8 @@ cwc.protocol.tcp.HTTPServer.prototype.closeClientSocket_ = function(socketId) {
 /**
  * @param {!number} socketId
  */
-cwc.protocol.tcp.HTTPServer.prototype.disconnectClientSocket_ = function(
-    socketId) {
+cwc.protocol.tcp.HTTPServer.prototype.disconnectSocket_ = function(socketId) {
   chrome.sockets.tcp.disconnect(socketId, function() {
-    this.closeClientSocket_(socketId);
+    this.closeSocket_(socketId);
   }.bind(this));
 };

@@ -281,19 +281,17 @@ cwc.ui.BlocklyToolbar.prototype.updateLibraryButton = function(has_files) {
 
 /**
  * Toggles the current expand state.
- * @param {goog.events.EventLike} e
  */
-cwc.ui.BlocklyToolbar.prototype.expand = function(e) {
-  this.setExpand(true, e.target.closest('.goog-splitpane-second-container'));
+cwc.ui.BlocklyToolbar.prototype.expand = function() {
+  this.setExpand(true);
 };
 
 
 /**
  * Toggles the current expand state.
- * @param {goog.events.EventLike} e
  */
-cwc.ui.BlocklyToolbar.prototype.collapse = function(e) {
-  this.setExpand(false, e.target.closest('.goog-splitpane-second-container'));
+cwc.ui.BlocklyToolbar.prototype.collapse = function() {
+  this.setExpand(false);
 };
 
 
@@ -308,17 +306,12 @@ cwc.ui.BlocklyToolbar.prototype.toggleExpand = function() {
 /**
  * Expands or collapses the current window.
  * @param {boolean} expand
- * @param {boolean=} invert
  */
-cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand, invert = false) {
+cwc.ui.BlocklyToolbar.prototype.setExpand = function(expand) {
   this.expandState = expand;
   let layoutInstance = this.helper.getInstance('layout', true);
   if (layoutInstance) {
-    if (invert) {
-      layoutInstance.setFullscreen(expand, 0);
-    } else {
-      layoutInstance.setFullscreen(expand);
-    }
+    layoutInstance.setFullscreenEditor(expand);
     goog.style.setElementShown(this.nodeExpand, !expand);
     goog.style.setElementShown(this.nodeExpandExit, expand);
   }

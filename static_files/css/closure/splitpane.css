@@ -20,22 +20,10 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-.goog-splitpane-handle-vertical {
-  cursor: row-resize;
-  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAFCAYAAACeuGYRAAAAFUlEQVR42mPYvXv3f1IxA1lgcNsEAEynfFEloq9lAAAAAElFTkSuQmCC") -0px -0px no-repeat;
-  background-color: #f5f5f5;
-  background-position: center center;
-}
 
 .goog-splitpane-handle-horizontal {
   cursor: col-resize;
-  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAANCAYAAABhPKSIAAAAFElEQVR42mPYvXv3fwYgQKFHsCAAPg18UTl1gYYAAAAASUVORK5CYII=") -0px -0px no-repeat;
-  background-color: #f5f5f5;
-  background-position: center center;
+  background-image: url(../../images/backgrounds/30_pct_black.png);
+  background-color: rgb(63,81,181);
   box-shadow: -1px 0 2px #eee;
-}
-
-.goog-splitpane-first-container,
-.goog-splitpane-second-container {
-  overflow: hidden;
 }
