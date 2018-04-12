@@ -153,7 +153,7 @@ cwc.mode.lego.ev3.Connection.prototype.stop = function() {
 
 
 /**
- * @param {Event} e
+ * @param {Event|Object} e
  * @private
  */
 cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {

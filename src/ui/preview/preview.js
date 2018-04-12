@@ -165,8 +165,8 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Infobar
   let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
   if (nodeInfobar) {
-    this.infobar = new cwc.ui.PreviewInfobar(this.helper).
-      decorate(nodeInfobar);
+    this.infobar = new cwc.ui.PreviewInfobar(this.helper);
+    this.infobar.decorate(nodeInfobar);
   }
 
   // Monitor Changes

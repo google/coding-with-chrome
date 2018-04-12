@@ -22,6 +22,7 @@ goog.provide('cwc.ui.StatusButton');
 goog.require('cwc.soy.ui.StatusButton');
 goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Events');
 
 
 /**
@@ -63,7 +64,7 @@ cwc.ui.StatusButton = function(helper) {
 
 /**
  * Decorates the given node and adds the status button to the ui.
- * @param {Element=} node The target node to add the status bar.
+ * @param {Element} node The target node to add the status bar.
  */
 cwc.ui.StatusButton.prototype.decorate = function(node) {
   this.node = node;
@@ -88,7 +89,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
 
 
 /**
- * @param {function} func
+ * @param {function(?)} func
  */
 cwc.ui.StatusButton.prototype.setStopAction = function(func) {
   this.events_.listen('stop-button', goog.events.EventType.CLICK, func);
@@ -96,7 +97,7 @@ cwc.ui.StatusButton.prototype.setStopAction = function(func) {
 
 
 /**
- * @param {function} func
+ * @param {function(?)} func
  */
 cwc.ui.StatusButton.prototype.setRunAction = function(func) {
   this.events_.listen('run-button', goog.events.EventType.CLICK, func);

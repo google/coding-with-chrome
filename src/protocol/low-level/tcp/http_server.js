@@ -115,7 +115,7 @@ cwc.protocol.tcp.HTTPServer.prototype.unlisten = function() {
 
 /**
  * @param {!string} path
- * @param {!function} handler
+ * @param {!Function} handler
  */
 cwc.protocol.tcp.HTTPServer.prototype.addCustomHandler = function(path,
   handler) {
@@ -174,21 +174,23 @@ cwc.protocol.tcp.HTTPServer.prototype.getRootURL = function() {
  * Close tcp server.
  */
 cwc.protocol.tcp.HTTPServer.prototype.close = function() {
-  this.closeSocket_(this.socketId_);
-  this.unlisten();
+  if (this.socketId_ !== null) {
+    this.closeSocket_(this.socketId_);
+    this.unlisten();
+  }
 };
 
 
 /**
  * HTTP response handler
  * @param {!string} content
- * @param {Object=} options
- * @param {number=} clientSocketId
+ * @param {!number} clientSocketId
  * @param {string=} requestPath
+ * @param {Object=} options
  * @private
  */
 cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
-    options = {}, clientSocketId, requestPath = '') {
+    clientSocketId, requestPath = '', options = {}) {
   if (chrome.runtime.lastError) {
     this.log_.error('Unable to send http response: ',
       chrome.runtime.lastError.message);
@@ -359,7 +361,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
     }
     let httpResponse = function(content = '', options = {}) {
       this.httpResponse_(
-        content, options, receiveInfo['socketId'], requestPath);
+        content, receiveInfo['socketId'], requestPath, options);
     }.bind(this);
     this.log_.info('GET', requestPath, requestParameter);
     if (requestPath === '/') {

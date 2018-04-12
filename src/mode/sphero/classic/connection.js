@@ -109,18 +109,6 @@ cwc.mode.sphero.classic.Connection.prototype.stop = function() {
 
 
 /**
- * Resets the connection.
- * @param {Event=} opt_event
- * @export
- */
-cwc.mode.sphero.classic.Connection.prototype.reset = function(opt_event) {
-  if (this.isConnected()) {
-    this.api_.reset();
-  }
-};
-
-
-/**
  * @return {!boolean}
  * @export
  */
@@ -161,7 +149,7 @@ cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
 
 
 /**
- * @param {Event} e
+ * @param {Event|Object} e
  * @private
  */
 cwc.mode.sphero.classic.Connection.prototype.handleConnecting_ = function(e) {

@@ -171,7 +171,7 @@ cwc.runner.Connector.prototype.addApiProfile = function(api) {
 
 /**
  * @param {!string} name
- * @param {!function(?)} func
+ * @param {!function(Object, string)} func
  * @param {?=} scope
  * @export
  */

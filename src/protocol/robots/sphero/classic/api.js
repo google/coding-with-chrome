@@ -75,7 +75,7 @@ cwc.protocol.sphero.classic.Api = function() {
   /** @private {!number} */
   this.locationSpeed_ = 0;
 
-  /** @type {goog.events.EventTarget} */
+  /** @type {!goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
   /** @private {!cwc.utils.Events} */
@@ -200,7 +200,7 @@ cwc.protocol.sphero.classic.Api.prototype.monitor = function(enable) {
 
 
 /**
- * @return {goog.events.EventTarget}
+ * @return {!goog.events.EventTarget}
  */
 cwc.protocol.sphero.classic.Api.prototype.getEventHandler = function() {
   return this.eventHandler;

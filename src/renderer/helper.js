@@ -136,7 +136,7 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(body, header, css,
 /**
  * @param {string=} body
  * @param {string=} header
- * @param {object=} environ
+ * @param {Object=} environ
  * @return {!string}
  */
 cwc.renderer.Helper.prototype.getHTMLRunner = function(body, header,

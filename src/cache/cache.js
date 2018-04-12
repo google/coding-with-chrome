@@ -41,8 +41,8 @@ cwc.Cache = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @private {!string} */
-  this.version = '3';
+  /** @private {!number} */
+  this.version = 3;
 
   /** @private {!cwc.utils.Database} */
   this.database_ = new cwc.utils.Database(this.name, this.version);
@@ -162,9 +162,6 @@ cwc.Cache.prototype.getLibraryFile = function(name) {
 };
 
 
-/**
- * @return {Promise}
- */
 cwc.Cache.prototype.clearLibraryFiles = function() {
   return this.database_.clearFiles('__library__');
 };

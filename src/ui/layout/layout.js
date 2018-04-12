@@ -374,7 +374,6 @@ cwc.ui.Layout.prototype.getEventHandler = function() {
  * Adjusts the main UI element to fullscreen.
  * @param {!boolean} fullscreen
  * @param {!boolean} editorMode
- * @param {number=} size
  */
 cwc.ui.Layout.prototype.setFullscreen_ = function(fullscreen,
     editorMode = false) {
