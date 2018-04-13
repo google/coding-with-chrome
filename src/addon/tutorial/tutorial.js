@@ -114,48 +114,47 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
   let mode = e.data.mode;
   let file = e.data.file;
   this.log_.info('Change Mode', mode, 'for file', file);
-  if (mode == cwc.mode.Type.BASIC_BLOCKLY && file == 'tutorial-1.cwc') {
-    this.log_.info('Adding message pane ...');
-    let messageInstance = this.helper.getInstance('message');
-    if (messageInstance) {
-      messageInstance.show(true);
-      messageInstance.renderContent(cwc.soy.addon.Tutorial.tutorial, {
-        prefix: this.prefix,
-      });
-      let tour = new Shepherd.Tour({
-        'defaults': {
-          'classes': 'shepherd-theme-arrows',
-          'showCancelLink': true,
-        },
-      });
-      tour.addStep('workspace', {
-        'title': i18t('Tutorial'),
-        'text': i18t('This is the workspace area to drop blocks.'),
-        'attachTo': '#cwc-blockly-chrome center',
-        'buttons': [{
-          'text': i18t('Exit'),
-          'action': tour.cancel,
-          'classes': 'shepherd-button-secondary',
-        }, {
-          'text': i18t('Next'),
-          'action': tour.next,
-          'classes': 'shepherd-button-example-primary',
-        }],
-      });
-      tour.addStep('blocks', {
-        'text': i18t('Drag and drop blocks from here to the workspace area.'),
-        'attachTo': '.blocklyToolboxDiv left',
-        'buttons': [{
-          'text': i18t('Exit'),
-          'action': tour.cancel,
-          'classes': 'shepherd-button-example-primary',
-        }],
-      });
-      tour.start();
-    }
-  }
-};
+  if (mode != cwc.mode.Type.BASIC_BLOCKLY || file != 'tutorial-1.cwc') return;
 
+  let tabbedPaneInstance = this.helper.getAddon('tabbedPane');
+  if (!tabbedPaneInstance) {
+    this.log_.error('Tabbed pane Add-on missing');
+    return;
+  }
+  this.log_.info('Adding tabbed pane ...');
+  tabbedPaneInstance.renderContent(cwc.soy.addon.Tutorial.tutorial,
+    {prefix: this.prefix}, 'Tutorial', 'Blockly');
+  let tour = new Shepherd.Tour({
+    'defaults': {
+      'classes': 'shepherd-theme-arrows',
+      'showCancelLink': true,
+    },
+  });
+  tour.addStep('workspace', {
+    'title': i18t('Tutorial'),
+    'text': i18t('This is the workspace area to drop blocks.'),
+    'attachTo': '#cwc-blockly-chrome center',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': tour.cancel,
+      'classes': 'shepherd-button-secondary',
+    }, {
+      'text': i18t('Next'),
+      'action': tour.next,
+      'classes': 'shepherd-button-example-primary',
+    }],
+  });
+  tour.addStep('blocks', {
+    'text': i18t('Drag and drop blocks from here to the workspace area.'),
+    'attachTo': '.blocklyToolboxDiv left',
+    'buttons': [{
+      'text': i18t('Exit'),
+      'action': tour.cancel,
+      'classes': 'shepherd-button-example-primary',
+    }],
+  });
+  tour.start();
+};
 
 /**
  * Loads file into editor.

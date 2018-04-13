@@ -25,6 +25,7 @@ goog.provide('cwc.ui.BuilderHelpers');
 goog.require('cwc.Cache');
 goog.require('cwc.UserConfig');
 goog.require('cwc.addon.Message');
+goog.require('cwc.addon.TabbedPane');
 goog.require('cwc.addon.Tutorial');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
@@ -78,6 +79,7 @@ goog.require('goog.dom');
  */
 cwc.ui.Addons = {
   'message': cwc.addon.Message,
+  'tabbedPane': cwc.addon.TabbedPane,
   'tutorial': cwc.addon.Tutorial,
 };
 

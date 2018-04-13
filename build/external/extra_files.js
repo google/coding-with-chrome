@@ -184,3 +184,15 @@ closureBuilder.build({
   ],
   out: 'genfiles/third_party/external/shepherd',
 });
+
+/**
+ * Closure
+ */
+closureBuilder.build({
+  name: 'Closure css',
+  resources: [
+    'third_party/closure-library/closure/goog/css/roundedtab.css',
+    'third_party/closure-library/closure/goog/css/tabbar.css',
+  ],
+  out: 'genfiles/third_party/external/closure-library/closure/goog/css',
+});
