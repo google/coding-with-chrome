@@ -24,6 +24,15 @@
   min-width: 60px;
 }
 
+.{$prefix}sidebar-icon.active {
+  border-right: 2px solid red;
+  background: rgba(64,64,64,0.1);
+}
+
+.{$prefix}sidebar-icon.active > .mdl-button {
+  opacity: 1;
+}
+
 #{$prefix}sidebar-icons {
   width: 60px;
   float: left;
@@ -32,6 +41,7 @@
 }
 
 #{$prefix}sidebar-icons .mdl-button {
+  opacity: 0.8;
   box-shadow: 
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
     0 6px 10px 0 rgba(0, 0, 0, 0.14),

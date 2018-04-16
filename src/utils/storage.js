@@ -118,10 +118,9 @@ cwc.utils.Storage = function(storageType = cwc.utils.StorageType.NONE) {
   this.storage_ = this.getStorageByType(this.storageType_);
 
   /** @private {!boolean} */
-  this.syncChrome_ = this.storageType_ == cwc.utils.StorageType.CHROME_STORAGE ?
-    true : false;
+  this.syncChrome_ = this.storageType_ === cwc.utils.StorageType.CHROME_STORAGE;
 
-  // Preload Chrome Storage, if needed.
+  // Pre-load Chrome Storage, if needed.
   if (this.syncChrome_ && !this.chromeStorageLoaded_) {
     this.loadChromeStorage();
   }
@@ -135,8 +134,7 @@ cwc.utils.Storage = function(storageType = cwc.utils.StorageType.NONE) {
 cwc.utils.Storage.prototype.prepare = function(callback) {
   this.log_.info('Preparing', this.storageType_, 'storage ...');
   if (callback) {
-    if (this.storageType_ === cwc.utils.StorageType.CHROME_STORAGE &&
-        !this.chromeStorageLoaded_) {
+    if (this.syncChrome_ && !this.chromeStorageLoaded_) {
       this.loadChromeStorage(undefined, callback);
     } else {
       callback(this);
@@ -189,13 +187,13 @@ cwc.utils.Storage.prototype.getStorageByType = function(type) {
  * @param {Function=} callbackFunc
  */
 cwc.utils.Storage.prototype.loadChromeStorage = function(type, callbackFunc) {
-  this.log_.info('Loading Chrome storage ...');
   let storageKey = type ? this.getKeyname('', type) : null;
-  let callback = function(data) {
+  this.log_.info('Loading Chrome storage', storageKey || '');
+  chrome.storage.local.get(storageKey, function(data) {
+    this.log_.info('Loaded', data, 'data.');
     this.handleLoadChromeStorage_(data, storageKey, callbackFunc);
     this.chromeStorageLoaded_ = true;
-  };
-  chrome.storage.local.get(storageKey, callback.bind(this));
+  }.bind(this));
 };
 
 
@@ -213,7 +211,7 @@ cwc.utils.Storage.prototype.handleLoadChromeStorage_ = function(data,
       if ((storageKey && key == storageKey) ||
           (!storageKey && key.startsWith(this.prefix_))) {
         if (goog.isObject(data[key])) {
-          this.log_.info('Syncing', data[key].length, key,
+          this.log_.info('Syncing', data[key].length || '', key,
             'items to session storage.');
           for (let item in data[key]) {
             if (Object.prototype.hasOwnProperty.call(data[key], item)) {

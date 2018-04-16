@@ -89,9 +89,9 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
 
   this.events_.listen('speaker_notes-button', goog.events.EventType.CLICK,
     (e) => {
+      this.setActive_(e.target);
       this.showContent('Description',
         this.helper.getInstance('file').getFileDescription());
-      this.log_.info('button', e.target.closest('.mdl-button'));
   });
 };
 
@@ -126,7 +126,7 @@ cwc.ui.Sidebar.prototype.addCustomButton = function(id, icon, tooltip = '',
 
   if (func) {
     this.events_.listen(button, goog.events.EventType.CLICK, function() {
-      this.log_.info('Trigger custom action ...');
+      this.setActive_(button);
       func();
     }.bind(this));
   }
@@ -152,13 +152,12 @@ cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
  * @param {!string} content
  */
 cwc.ui.Sidebar.prototype.showContent = function(title, content) {
-  this.showContent_(false);
   if (this.contentName === title) {
+    this.showContent_(false);
     this.contentName = '';
     return;
   }
 
-  this.showContent_(false);
   goog.soy.renderElement(
     this.nodeContent,
     cwc.soy.ui.Sidebar.content, {
@@ -191,6 +190,9 @@ cwc.ui.Sidebar.prototype.clear = function() {
  * @private
  */
 cwc.ui.Sidebar.prototype.showContent_ = function(visible) {
+  if (!visible) {
+    this.clearActive_();
+  }
   goog.style.setElementShown(this.nodeContent, visible);
   this.helper.getInstance('layout').adjustSize();
 };
@@ -204,4 +206,28 @@ cwc.ui.Sidebar.prototype.clearCustomButtons_ = function() {
     goog.dom.removeChildren(this.nodeCustomIcons);
   }
   this.customButtonIds = [];
+};
+
+
+/**
+ * @param {Element} button
+ * @private
+ */
+cwc.ui.Sidebar.prototype.setActive_ = function(button) {
+  this.clearActive_();
+  goog.dom.classlist.enable(
+    button.closest('.' + this.prefix + 'icon'), 'active', true);
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Sidebar.prototype.clearActive_ = function() {
+  let elements = cwc.ui.Helper.getElements(this.prefix + 'icon');
+  if (elements) {
+    elements.forEach((elem) => {
+      goog.dom.classlist.enable(elem, 'active', false);
+    });
+  }
 };
