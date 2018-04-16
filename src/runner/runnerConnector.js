@@ -171,7 +171,7 @@ cwc.runner.Connector.prototype.addApiProfile = function(api) {
 
 /**
  * @param {!string} name
- * @param {!function(Object, string)} func
+ * @param {!function(Object, string)|cwc.runner.Connector} func
  * @param {?=} scope
  * @export
  */
@@ -181,11 +181,7 @@ cwc.runner.Connector.prototype.addCommand = function(name, func, scope) {
     return;
   }
   this.log_.info('Adding command', name);
-  if (scope) {
-    this.commands[name] = func.bind(scope);
-  } else {
-    this.commands[name] = func;
-  }
+  this.commands[name] = scope ? func.bind(scope) : func;
 };
 
 

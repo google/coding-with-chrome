@@ -21,7 +21,6 @@ goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewInfobar');
-goog.require('cwc.ui.PreviewToolbar');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
@@ -84,9 +83,6 @@ cwc.ui.Preview = function(helper) {
   /** @type {cwc.ui.StatusbarState<number>} */
   this.status = cwc.ui.StatusbarState.INITIALIZED;
 
-  /** @type {cwc.ui.PreviewToolbar} */
-  this.toolbar = null;
-
   /** @type {cwc.ui.Statusbar} */
   this.statusbar = null;
 
@@ -140,13 +136,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Runtime
   this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
 
-  // Toolbar
-  let nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  if (nodeToolbar) {
-    this.toolbar = new cwc.ui.PreviewToolbar(this.helper);
-    this.toolbar.decorate(nodeToolbar);
-  }
-
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
   if (nodeStatusbar) {
@@ -154,12 +143,20 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
-  // Statusbutton
+  // Statusbutton and actions
   let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
   if (nodeStatusButton) {
-    this.statusButton.decorate(nodeStatusButton);
-    this.statusButton.setRunAction(this.run.bind(this));
-    this.statusButton.setStopAction(this.stop.bind(this));
+    this.statusButton.decorate(nodeStatusButton)
+      .setBrowserAction(this.openInBrowser.bind(this))
+      .setFullscreenAction(function() {
+        this.helper.getInstance('layout').setFullscreenPreview(true);
+      }.bind(this))
+      .setFullscreenExitAction(function() {
+        this.helper.getInstance('layout').setFullscreenPreview(false);
+      }.bind(this))
+      .setReloadAction(this.refresh.bind(this))
+      .setRunAction(this.run.bind(this))
+      .setStopAction(this.stop.bind(this));
   }
 
   // Infobar
@@ -319,17 +316,6 @@ cwc.ui.Preview.prototype.render = function() {
 
 
 /**
- * Switch between refresh and reload for the loaded content.
- * @param {boolean} enable
- */
-cwc.ui.Preview.prototype.enableSoftRefresh = function(enable) {
-  if (this.toolbar) {
-    this.toolbar.enableSoftRefresh(enable);
-  }
-};
-
-
-/**
  * Shows or hides the built in console.
  * @param {boolean} visible
  */
@@ -395,17 +381,11 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
       this.autoUpdateEvent = goog.events.listen(editorEventHandler,
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
-      if (this.toolbar) {
-        this.toolbar.setAutoUpdate(true);
-      }
     }
   } else if (!active && this.autoUpdateEvent) {
     this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
     this.autoUpdateEvent = null;
-    if (this.toolbar) {
-      this.toolbar.setAutoUpdate(false);
-    }
   }
   this.autoUpdate = active;
 };

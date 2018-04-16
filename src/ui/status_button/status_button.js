@@ -46,6 +46,9 @@ cwc.ui.StatusButton = function(helper) {
   this.node = null;
 
   /** @type {Element} */
+  this.nodeBrowser = null;
+
+  /** @type {Element} */
   this.nodeStatus = null;
 
   /** @type {Element} */
@@ -53,6 +56,15 @@ cwc.ui.StatusButton = function(helper) {
 
   /** @type {Element} */
   this.nodeStop = null;
+
+  /** @type {Element} */
+  this.nodeReload = null;
+
+  /** @type {Element} */
+  this.nodeFullscreen = null;
+
+  /** @type {Element} */
+  this.nodeFullscreenExit = null;
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
@@ -65,6 +77,8 @@ cwc.ui.StatusButton = function(helper) {
 /**
  * Decorates the given node and adds the status button to the ui.
  * @param {Element} node The target node to add the status bar.
+ * @return {THIS}
+ * @template THIS
  */
 cwc.ui.StatusButton.prototype.decorate = function(node) {
   this.node = node;
@@ -80,27 +94,100 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
       }
   );
 
+  this.nodeBrowser = goog.dom.getElement(this.prefix + 'browser');
+  this.nodeFullscreen = goog.dom.getElement(this.prefix + 'fullscreen');
+  this.nodeFullscreenExit =
+    goog.dom.getElement(this.prefix + 'fullscreen_exit');
+  this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
   this.nodeRun = goog.dom.getElement(this.prefix + 'run');
   this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
 
+  goog.style.setElementShown(this.nodeBrowser, false);
+  goog.style.setElementShown(this.nodeFullscreen, false);
+  goog.style.setElementShown(this.nodeFullscreenExit, false);
+  goog.style.setElementShown(this.nodeReload, false);
   goog.style.setElementShown(this.nodeRun, true);
   goog.style.setElementShown(this.nodeStop, false);
+  return this;
 };
 
 
 /**
  * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
  */
-cwc.ui.StatusButton.prototype.setStopAction = function(func) {
-  this.events_.listen('stop-button', goog.events.EventType.CLICK, func);
+cwc.ui.StatusButton.prototype.setBrowserAction = function(func) {
+  goog.style.setElementShown(this.nodeBrowser, true);
+  this.events_.listen('browser-action', goog.events.EventType.CLICK, func);
+  return this;
 };
 
 
 /**
  * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.ui.StatusButton.prototype.setFullscreenAction = function(func) {
+  goog.style.setElementShown(this.nodeFullscreen, true);
+  this.events_.listen('fullscreen-action', goog.events.EventType.CLICK, func);
+  this.events_.listen('fullscreen-action', goog.events.EventType.CLICK, () => {
+    goog.style.setElementShown(this.nodeFullscreenExit, true);
+    goog.style.setElementShown(this.nodeFullscreen, false);
+  });
+  return this;
+};
+
+
+/**
+ * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.ui.StatusButton.prototype.setFullscreenExitAction = function(func) {
+  this.events_.listen('fullscreen_exit-action', goog.events.EventType.CLICK,
+    func);
+  this.events_.listen('fullscreen_exit-action', goog.events.EventType.CLICK,
+    () => {
+      goog.style.setElementShown(this.nodeFullscreen, true);
+      goog.style.setElementShown(this.nodeFullscreenExit, false);
+  });
+  return this;
+};
+
+
+/**
+ * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.ui.StatusButton.prototype.setReloadAction = function(func) {
+  goog.style.setElementShown(this.nodeReload, true);
+  this.events_.listen('reload-action', goog.events.EventType.CLICK, func);
+  return this;
+};
+
+
+/**
+ * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
  */
 cwc.ui.StatusButton.prototype.setRunAction = function(func) {
   this.events_.listen('run-button', goog.events.EventType.CLICK, func);
+  return this;
+};
+
+
+/**
+ * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.ui.StatusButton.prototype.setStopAction = function(func) {
+  this.events_.listen('stop-button', goog.events.EventType.CLICK, func);
+  return this;
 };
 
 

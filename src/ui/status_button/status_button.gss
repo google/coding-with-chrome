@@ -17,42 +17,41 @@
 
 #{$prefix}status-button-body {
   position: absolute;
-  right: -27px;
-  top: calc(50% - 56px);
+  right: 20px;
+  bottom: 20px;
   z-index: 100;
 }
 
 #{$prefix}status-button-body .mdl-button--fab {
-  transform: rotate(180deg);
-  background: rgba(63,81,181,0.8);
+  background: rgba(255,64,129,0.9);
+  box-shadow: 
+    0 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0 6px 10px 0 rgba(0, 0, 0, 0.14),
+    0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 
 #{$prefix}status-button-body .mdl-button--fab:hover {
-  background: rgb(63,81,181);
+  background: rgb(255,64,129);
 }
 
-#{$prefix}status-button-border {
-  border-bottom: 0;
-  border-top-left-radius: 100px;
-  border-top-right-radius: 100px;
-  border: 2px solid rgba(63,81,181, 0.7);
-  box-sizing: border-box;
-  height: 28px;
-  position: absolute;
-  right: -16px;
-  top: 14px;
-  transform: rotate(90deg);
-  width: 58px;
+#{$prefix}status-button-body .material-icons {
+  color: #fff;
 }
 
-#{$prefix}status-button-border-mask {
-  background: rgba(255,255,255,0.9);
-  border-top-left-radius: 100px;
-  border-top-right-radius: 100px;
-  height: 29px;
-  position: absolute;
-  right: 12px;
-  top: 13px;
-  transform: rotate(-90deg);
-  width: 54px;
+#{$prefix}status-button-body .mdl-button--mini-fab {
+  background: rgba(158,158,158,0.4);
+  margin: 8px;
+}
+
+#{$prefix}status-button-body .mdl-button--mini-fab:hover {
+  background: rgba(158,158,158,0.6);
+}
+
+#{$prefix}status-button-body .mdl-button--mini-fab .material-icons {
+  color: #000;
+}
+
+#{$prefix}status-button-run,
+#{$prefix}status-button-stop {
+  margin-top: 5px;
 }

@@ -26,8 +26,30 @@
 {template .template}
   {@param prefix: string}
   <div id="{$prefix}body">
-    <div id="{$prefix}border"></div>
-    <div id="{$prefix}border-mask"></div>
+
+    {call .actionIcon_ data="all"}
+      {param id: 'browser' /}
+      {param icon: 'open_in_browser' /}
+      {param text: 'Open View in Browser' /}
+    {/call}
+
+    {call .actionIcon_ data="all"}
+      {param id: 'fullscreen' /}
+      {param icon: 'fullscreen' /}
+      {param text: 'Expand View' /}
+    {/call}
+
+    {call .actionIcon_ data="all"}
+      {param id: 'fullscreen_exit' /}
+      {param icon: 'fullscreen_exit' /}
+      {param text: 'Collapse View' /}
+    {/call}
+
+    {call .actionIcon_ data="all"}
+      {param id: 'reload' /}
+      {param icon: 'refresh' /}
+      {param text: 'Refresh View' /}
+    {/call}
 
     {call .statusIcon_ data="all"}
       {param id: 'run' /}
@@ -46,7 +68,28 @@
 
 
 /**
- * Status icon template.
+ * Action icon template.
+ */
+{template .actionIcon_ private="true"}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param text: string}
+
+  <div id="{$prefix}{$id}">
+    <button id="{$prefix}{$id}-action" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect">
+      <i class="material-icons">{$icon}</i>
+    </button>
+    <div class="mdl-tooltip" data-mdl-for="{$prefix}{$id}-action">
+      {$text}
+    </div>
+  </div>
+
+{/template}
+
+
+/**
+ * Status icon for run and stop.
  */
 {template .statusIcon_ private="true"}
   {@param prefix: string}

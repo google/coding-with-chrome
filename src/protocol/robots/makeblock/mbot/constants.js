@@ -25,7 +25,7 @@ goog.provide('cwc.protocol.makeblock.mbot.CommandType');
 goog.provide('cwc.protocol.makeblock.mbot.DataType');
 goog.provide('cwc.protocol.makeblock.mbot.Device');
 goog.provide('cwc.protocol.makeblock.mbot.Header');
-goog.provide('cwc.protocol.makeblock.mbot.IndexType');
+goog.provide('cwc.protocol.makeblock.mbot.CallbackType');
 goog.provide('cwc.protocol.makeblock.mbot.Port');
 goog.provide('cwc.protocol.makeblock.mbot.Slot');
 
@@ -94,7 +94,7 @@ cwc.protocol.makeblock.mbot.Header = [0xff, 0x55];
  * Enum of implemented callback types.
  * @enum {!number}
  */
-cwc.protocol.makeblock.mbot.IndexType = {
+cwc.protocol.makeblock.mbot.CallbackType = {
   NONE: 0x00,
   ULTRASONIC: 0x10,
   LINEFOLLOWER: 0x11,

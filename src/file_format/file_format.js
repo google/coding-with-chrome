@@ -596,7 +596,7 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
       file.setAuthor(decodeURIComponent(jsonData['author']));
     }
     if (jsonData['description']) {
-      file.setModel(decodeURIComponent(jsonData['description']));
+      file.setDescription(decodeURIComponent(jsonData['description']));
     }
     if (jsonData['model']) {
       file.setModel(decodeURIComponent(jsonData['model']));

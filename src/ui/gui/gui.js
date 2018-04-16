@@ -52,7 +52,7 @@ cwc.ui.Gui = function(helper) {
   this.nodeHeader = null;
 
   /** @type {Element} */
-  this.nodeLayout = null;
+  this.nodeContent = null;
 
   /** @type {Element} */
   this.nodeOverlay = null;
@@ -62,6 +62,9 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {Element} */
   this.nodeStatus = null;
+
+  /** @type {Element} */
+  this.nodeSidebar = null;
 
   /** @type {Element} */
   this.nodeTitle = null;
@@ -87,10 +90,11 @@ cwc.ui.Gui.prototype.decorate = function(node) {
 
   // Main nodes
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
-  this.nodeLayout = goog.dom.getElement(this.prefix + 'layout');
+  this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
+  this.nodeSidebar = goog.dom.getElement(this.prefix + 'sidebar');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.showOverlay(false);
   this.showSettings(false);
@@ -114,6 +118,12 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   let nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
   if (navigationInstance && nodeNavigation) {
     navigationInstance.decorate(nodeNavigation);
+  }
+
+  // Decorates sidebar
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance && this.nodeSidebar) {
+    sidebarInstance.decorate(this.nodeSidebar);
   }
 
   // Add elements interactions.
@@ -201,8 +211,8 @@ cwc.ui.Gui.prototype.renameTitle = function(opt_event) {
 /**
  * @return {Element}
  */
-cwc.ui.Gui.prototype.getLayoutNode = function() {
-  return this.nodeLayout;
+cwc.ui.Gui.prototype.getContentNode = function() {
+  return this.nodeContent;
 };
 
 
@@ -227,6 +237,14 @@ cwc.ui.Gui.prototype.getSettingsNode = function() {
  */
 cwc.ui.Gui.prototype.getHeaderSize = function() {
   return goog.style.getSize(this.nodeHeader);
+};
+
+
+/**
+ * @return {!goog.math.Size}
+ */
+cwc.ui.Gui.prototype.getSidebarSize = function() {
+  return goog.style.getSize(this.nodeSidebar);
 };
 
 

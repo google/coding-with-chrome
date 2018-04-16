@@ -24,7 +24,6 @@
 @import 'menu.css';
 @import 'menubutton.css';
 @import 'menuitem.css';
-@import 'splitpane.css';
 
 .modal-dialog, .modal-dialog-bg, .goog-menu {
   z-index: 100;

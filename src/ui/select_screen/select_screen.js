@@ -115,6 +115,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
     layoutInstance.refresh();
   }
 
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.clear();
+  }
+
   let guiInstance = this.helper.getInstance('gui', true);
   guiInstance.setTitle('');
   guiInstance.enableTitle(false);

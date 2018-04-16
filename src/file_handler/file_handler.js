@@ -189,6 +189,17 @@ cwc.fileHandler.File.prototype.getFileContent = function() {
 
 
 /**
+ * @return {!string}
+ */
+cwc.fileHandler.File.prototype.getFileDescription = function() {
+  if (this.file_) {
+    return this.file_.getDescription();
+  }
+  return '';
+};
+
+
+/**
  * @param {string} filename
  */
 cwc.fileHandler.File.prototype.setFilename = function(filename) {

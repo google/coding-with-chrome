@@ -115,13 +115,22 @@ cwc.addon.Tutorial.prototype.eventsModder = function(e) {
   let file = e.data.file;
   this.log_.info('Change Mode', mode, 'for file', file);
   if (mode == cwc.mode.Type.BASIC_BLOCKLY && file == 'tutorial-1.cwc') {
-    this.log_.info('Adding message pane ...');
-    let messageInstance = this.helper.getInstance('message');
-    if (messageInstance) {
-      messageInstance.show(true);
-      messageInstance.renderContent(cwc.soy.addon.Tutorial.tutorial, {
-        prefix: this.prefix,
-      });
+    this.log_.info('Adding sidebar content ...');
+    let sidebarInstance = this.helper.getInstance('sidebar');
+    if (sidebarInstance) {
+      // Preparing Sidebar Icon ...
+      let button = sidebarInstance.addCustomButton(
+        'tutorial', 'library_books', 'Select a Tutorial ...', function() {
+          this.helper.getInstance('sidebar').renderContent(
+            'Tutorial', cwc.soy.addon.Tutorial.tutorial, {
+              prefix: this.prefix,
+          });
+      }.bind(this));
+
+      // Showing tutorial
+      button.click();
+
+      // Starting Tour ...
       let tour = new Shepherd.Tour({
         'defaults': {
           'classes': 'shepherd-theme-arrows',

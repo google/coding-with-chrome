@@ -23,7 +23,7 @@ goog.require('cwc.protocol.makeblock.mbot.Buffer');
 goog.require('cwc.protocol.makeblock.mbot.CommandType');
 goog.require('cwc.protocol.makeblock.mbot.Device');
 goog.require('cwc.protocol.makeblock.mbot.Header');
-goog.require('cwc.protocol.makeblock.mbot.IndexType');
+goog.require('cwc.protocol.makeblock.mbot.CallbackType');
 goog.require('cwc.protocol.makeblock.mbot.Port');
 goog.require('cwc.protocol.makeblock.mbot.Slot');
 
@@ -51,7 +51,7 @@ cwc.protocol.makeblock.mbot.Commands = function() {
 cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
     blue, index = 0x00) {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RUN)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.LEDLIGHT)
     .writePort(cwc.protocol.makeblock.mbot.Port.LED_LIGHT)
@@ -74,7 +74,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
 cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
     duration) {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RUN)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.BUZZER)
     .writeShort(frequency)
@@ -93,7 +93,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
 cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
     port = cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR) {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RUN)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.DCMOTOR)
     .writePort(port)
@@ -110,7 +110,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
 cwc.protocol.makeblock.mbot.Commands.prototype.readUltrasonicSensor = function(
 ) {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.ULTRASONIC)
     .writePort(cwc.protocol.makeblock.mbot.Port.ULTRASONIC)
@@ -125,7 +125,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.readUltrasonicSensor = function(
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.readLightSensor = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.LIGHTSENSOR)
     .writePort(cwc.protocol.makeblock.mbot.Port.LIGHTSENSOR)
@@ -141,7 +141,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.readLightSensor = function() {
 cwc.protocol.makeblock.mbot.Commands.prototype.readLineFollowerSensor =
 function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.LINEFOLLOWER)
     .writePort(cwc.protocol.makeblock.mbot.Port.LINEFOLLOWER)
@@ -156,7 +156,7 @@ function() {
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.getVersion = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.VERSION)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.VERSION)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
     .writeDevice(cwc.protocol.makeblock.mbot.Device.VERSION)
     .readSigned();
@@ -170,7 +170,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.getVersion = function() {
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.reset = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RESET)
     .readSigned();
 };
@@ -183,7 +183,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.reset = function() {
  */
 cwc.protocol.makeblock.mbot.Commands.prototype.start = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeIndex(cwc.protocol.makeblock.mbot.IndexType.NONE)
+    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.START)
     .readSigned();
 };

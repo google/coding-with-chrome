@@ -24,7 +24,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Api');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.protocol.makeblock.mbot.Commands');
-goog.require('cwc.protocol.makeblock.mbot.IndexType');
+goog.require('cwc.protocol.makeblock.mbot.CallbackType');
 goog.require('cwc.protocol.makeblock.mbot.Monitoring');
 goog.require('cwc.protocol.makeblock.mbot.Port');
 goog.require('cwc.utils.ByteTools');
@@ -350,15 +350,15 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleOnReceive_ = function(e) {
   let dataType = dataBuffer[3];
   let data = dataBuffer.slice(4, dataBuffer.length);
   switch (indexType) {
-    case cwc.protocol.makeblock.mbot.IndexType.VERSION:
+    case cwc.protocol.makeblock.mbot.CallbackType.VERSION:
       console.log('mBot Firmware', new TextDecoder('utf-8').decode(data));
       break;
-    case cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC:
-    case cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER:
-    case cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR:
+    case cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC:
+    case cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER:
+    case cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR:
       this.handleSensorData_(indexType, data, 4);
       break;
-    case cwc.protocol.makeblock.mbot.IndexType.INNER_BUTTON:
+    case cwc.protocol.makeblock.mbot.CallbackType.INNER_BUTTON:
       this.handleSensorData_(indexType, data);
       break;
     default:
@@ -369,7 +369,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleOnReceive_ = function(e) {
 
 /**
  * Handles the different type of sensor data.
- * @param {!cwc.protocol.makeblock.mbot.IndexType} index_type
+ * @param {!cwc.protocol.makeblock.mbot.CallbackType} index_type
  * @param {Array} data
  * @param {number=} opt_data_size
  * @private
@@ -388,16 +388,16 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
   this.sensorDataCache_[index_type] = data;
 
   switch (index_type) {
-    case cwc.protocol.makeblock.mbot.IndexType.INNER_BUTTON:
+    case cwc.protocol.makeblock.mbot.CallbackType.INNER_BUTTON:
       this.dispatchSensorEvent_(index_type,
         cwc.protocol.makeblock.mbot.Events.ButtonPressed, data[0]);
       break;
-    case cwc.protocol.makeblock.mbot.IndexType.LIGHTSENSOR:
+    case cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR:
       this.dispatchSensorEvent_(index_type,
         cwc.protocol.makeblock.mbot.Events.LightnessSensorValue,
         this.parseFloatBytes_(data));
       break;
-    case cwc.protocol.makeblock.mbot.IndexType.LINEFOLLOWER:
+    case cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER:
       this.dispatchSensorEvent_(index_type,
         cwc.protocol.makeblock.mbot.Events.LinefollowerSensorValue, {
           'left': data[3] >= 64,
@@ -405,7 +405,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
           'raw': data,
         });
       break;
-    case cwc.protocol.makeblock.mbot.IndexType.ULTRASONIC:
+    case cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC:
       this.dispatchSensorEvent_(index_type,
         cwc.protocol.makeblock.mbot.Events.UltrasonicSensorValue,
         this.parseFloatBytes_(data));
@@ -416,7 +416,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
 
 /**
  * Dispatch event for sensor data change.
- * @param {!cwc.protocol.makeblock.mbot.IndexType} index
+ * @param {!cwc.protocol.makeblock.mbot.CallbackType} index
  * @param {!Function} event
  * @param {Object|number} data
  * @private

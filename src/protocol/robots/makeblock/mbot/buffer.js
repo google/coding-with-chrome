@@ -21,7 +21,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Buffer');
 
 goog.require('cwc.protocol.makeblock.mbot.CommandType');
 goog.require('cwc.protocol.makeblock.mbot.Header');
-goog.require('cwc.protocol.makeblock.mbot.IndexType');
+goog.require('cwc.protocol.makeblock.mbot.CallbackType');
 goog.require('cwc.utils.ByteArray');
 
 
@@ -70,11 +70,11 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writePort = function(port) {
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbot.IndexType} index
+ * @param {!cwc.protocol.makeblock.mbot.CallbackType} index
  * @return {THIS}
  * @template THIS
  */
-cwc.protocol.makeblock.mbot.Buffer.prototype.writeIndex = function(index) {
+cwc.protocol.makeblock.mbot.Buffer.prototype.writeCallback = function(index) {
   return this.writeUInt(index);
 };
 

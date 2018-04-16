@@ -1,0 +1,86 @@
+/**
+ * @fileoverview Sidebar for Coding in Chrome editor.
+ *
+ * @license Copyright 2015 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.ui.Sidebar autoescape="strict"}
+
+
+/**
+ * Sidebar template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div id="{$prefix}body">
+
+    <div id="{$prefix}icons">
+      {call .sidebarIcon data="all"}
+        {param id: 'speaker_notes' /}
+        {param icon: 'speaker_notes' /}
+        {param tooltip: 'Showing notes' /}
+      {/call}
+
+      <div id="{$prefix}icons-seperator"></div>
+
+      <div id="{$prefix}icons-custom"></div>
+    </div>
+
+    <div id="{$prefix}content"></div>
+
+  </div>
+{/template}
+
+
+
+/**
+ * Sidebar Content
+ */
+{template .content}
+  {@param prefix: string}
+  {@param title: string}
+  {@param content: string}
+
+  <header>
+    <h3>{$title}</h3>
+    <button id="{$prefix}content-close" class="mdl-button mdl-js-button mdl-button--icon">
+      <i class="material-icons">close</i>
+    </button>
+  </header>
+  <section id="{$prefix}content-body">{$content}</section>
+{/template}
+
+
+/**
+ * Sidebar Icon.
+ */
+{template .sidebarIcon}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param? tooltip: string}
+
+  <div id="{$prefix}{$id}">
+    <button id="{$prefix}{$id}-button" class="mdl-button mdl-js-button mdl-button--icon">
+      <i class="material-icons">{$icon}</i>
+    </button>
+    {if $tooltip}
+      <div class="mdl-tooltip" data-mdl-for="{$prefix}{$id}-button">{$tooltip}</div>
+    {/if}
+  </div>
+
+{/template}

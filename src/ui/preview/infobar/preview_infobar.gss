@@ -15,9 +15,6 @@
  */
 
 
-#{$prefix}preview-infobar {
-  display: flex !important;
-}
 .{$prefix}preview-infobar-num {
   position: absolute;
   right: 0;
@@ -31,6 +28,10 @@
   text-align: center;
   padding-left: 4px;
   padding-right: 4px;
+}
+
+#{$prefix}preview-infobar {
+  display: flex !important;
 }
 
 #{$prefix}preview-infobar-console {

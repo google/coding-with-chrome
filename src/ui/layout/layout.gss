@@ -33,3 +33,17 @@
   display: flex;
   flex-direction: column;
 }
+
+#{$prefix}layout-content-splitter {
+  z-index: 100!important;
+}
+
+#{$prefix}layout-content-splitter.goog-splitpane-handle-horizontal {
+  cursor: col-resize;
+  background-image: url(../../images/backgrounds/30_pct_black.png);
+  background-color: rgb(63,81,181);
+  box-shadow:
+    0 4px 5px 0 rgba(0,0,0,0.14),
+    0 1px 10px 0 rgba(0,0,0,0.12),
+    0 2px 4px -1px rgba(0,0,0,0.2);
+}

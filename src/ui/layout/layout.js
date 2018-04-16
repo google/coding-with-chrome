@@ -70,8 +70,8 @@ cwc.ui.Layout = function(helper) {
   /** @type {string} */
   this.name = 'Layout';
 
-  /** @type {goog.dom.ViewportSizeMonitor} */
-  this.viewport_monitor = null;
+  /** @type {!goog.dom.ViewportSizeMonitor} */
+  this.viewportMonitor = new goog.dom.ViewportSizeMonitor();
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -117,6 +117,10 @@ cwc.ui.Layout = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  // Monitor resizes
+  goog.events.listen(this.viewportMonitor, goog.events.EventType.RESIZE,
+    this.adjustSize, false, this);
 };
 
 
@@ -124,11 +128,7 @@ cwc.ui.Layout = function(helper) {
  * Prepares the layout.
  */
 cwc.ui.Layout.prototype.prepare = function() {
-  let guiInstance = this.helper.getInstance('gui', true);
-  this.node = guiInstance.getLayoutNode();
-  this.viewport_monitor = new goog.dom.ViewportSizeMonitor();
-  goog.events.listen(this.viewport_monitor, goog.events.EventType.RESIZE,
-                     this.adjustSize, false, this);
+  this.node = this.helper.getInstance('gui').getContentNode();
   this.decorateBlank();
 };
 
@@ -147,7 +147,7 @@ cwc.ui.Layout.prototype.decorateBlank = function() {
  * Decorates the given node and adds the simple two column layout.
  * @param {number=} splitpaneSize
  */
-cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 400) {
+cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 450) {
   this.renderTemplate_(cwc.soy.ui.Layout.default.template,
     cwc.ui.LayoutType.DEFAULT);
   let chromeMain = this.getNode_('chrome-main');
@@ -212,11 +212,13 @@ cwc.ui.Layout.prototype.showOverlay = function(visible) {
  * Update sizes.
  */
 cwc.ui.Layout.prototype.updateSizeInformation = function() {
-  this.viewportSize = this.viewport_monitor.getSize();
+  this.viewportSize = this.viewportMonitor.getSize();
   let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
-    this.chromeSize = new goog.math.Size(this.viewportSize.width,
-        this.viewportSize.height - guiInstance.getHeaderSize().height);
+    this.chromeSize = new goog.math.Size(
+      this.viewportSize.width - guiInstance.getSidebarSize().width,
+      this.viewportSize.height - guiInstance.getHeaderSize().height
+    );
   } else {
     this.chromeSize = new goog.math.Size(this.viewportSize.width,
         this.viewportSize.height);
@@ -230,19 +232,6 @@ cwc.ui.Layout.prototype.updateSizeInformation = function() {
 cwc.ui.Layout.prototype.refresh = function() {
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
-  }
-};
-
-
-/**
- * Adjusts size of the layout chrome.
- */
-cwc.ui.Layout.prototype.adjustLayoutChrome = function() {
-  if (this.node) {
-    goog.style.setSize(this.node, this.chromeSize);
-  }
-  if (this.nodes['overlay']) {
-    goog.style.setSize(this.nodes['overlay'], this.chromeSize);
   }
 };
 
@@ -265,7 +254,6 @@ cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
   this.updateSizeInformation();
-  this.adjustLayoutChrome();
 
   switch (this.layout) {
     case cwc.ui.LayoutType.BLANK:

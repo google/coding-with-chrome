@@ -124,6 +124,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     dialogInstance.close();
   }
 
+  // Remove custom sidebar button.
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.clear();
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);

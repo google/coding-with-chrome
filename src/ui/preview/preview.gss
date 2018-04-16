@@ -26,6 +26,7 @@
 
 #{$prefix}preview-runtime {
   display: flex;
+  overflow: hidden;
 }
 
 #{$prefix}preview-body .mdl-layout__header-row {
