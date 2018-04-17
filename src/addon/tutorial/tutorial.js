@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tutorial addon example.
+ * @fileoverview Tutorial addon.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -49,14 +49,11 @@ cwc.addon.Tutorial = function(helper) {
   /** @private {!string} */
   this.resourcesPath_ = '../resources/tutorial/';
 
-  /** @private {Shepherd.Tour} */
-  this.tour_ = null;
-
-  /** @private {cwc.utils.Database} */
-  this.cache_ = new cwc.utils.Database(this.name);
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {Shepherd.Tour} */
+  this.tour_ = null;
 };
 
 
@@ -67,21 +64,19 @@ cwc.addon.Tutorial.prototype.prepare = function() {
 
   this.log_.info('Preparing tutorial addon ...');
 
-  this.cache_.open().then(() => {
-    let selectScreenInstance = this.helper.getInstance('selectScreen');
-    if (selectScreenInstance) {
-      goog.events.listen(selectScreenInstance.getEventHandler(),
-        cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
-        this.decorate, false, this);
-    }
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
+  if (selectScreenInstance) {
+    goog.events.listen(selectScreenInstance.getEventHandler(),
+      cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
+      this.decorate, false, this);
+  }
 
-    let modeInstance = this.helper.getInstance('mode');
-    if (modeInstance) {
-      goog.events.listen(modeInstance.getEventHandler(),
-        cwc.mode.Modder.Events.Type.MODE_CHANGE,
-        this.eventsModder, false, this);
-    }
-  });
+  let modeInstance = this.helper.getInstance('mode');
+  if (modeInstance) {
+    goog.events.listen(modeInstance.getEventHandler(),
+      cwc.mode.Modder.Events.Type.MODE_CHANGE,
+      this.eventsModder, false, this);
+  }
 };
 
 
@@ -93,78 +88,119 @@ cwc.addon.Tutorial.prototype.decorate = function(opt_e) {
   let basicNode = document.getElementById(
     'cwc-select-screen-normal_basic-addon');
   if (basicNode) {
-    let template = goog.soy.renderAsElement(cwc.soy.addon.Tutorial.basic, {
+    let template = goog.soy.renderAsElement(cwc.soy.addon.Tutorial.cards, {
       prefix: this.prefix,
     });
     basicNode.appendChild(template);
 
     // Event handler for the cards
-    let basicCard = document.getElementById('cwc-addon-tutorial-link-basic');
-    goog.events.listen(basicCard, goog.events.EventType.CLICK, function() {
-        this.loadFile_('simple/blocks/tutorial-1.cwc');
+    let cwcCard = document.getElementById('cwc-addon-tutorial-link-cwc');
+    goog.events.listen(cwcCard, goog.events.EventType.CLICK, function() {
+        this.loadFile_('cwc.cwc');
+      }, false, this);
+    let blocklyCard =
+      document.getElementById('cwc-addon-tutorial-link-blockly');
+    goog.events.listen(blocklyCard, goog.events.EventType.CLICK, function() {
+        this.loadFile_('blockly.cwc');
       }, false, this);
   }
 };
 
+/**
+ * @param {Array} steps
+ */
+cwc.addon.Tutorial.prototype.loadTour_ = function(steps) {
+  this.log_.info('Loading tour...');
+  this.tour = new Shepherd.Tour({
+    'defaults': {
+      'classes': 'shepherd-theme-arrows',
+      'showCancelLink': true,
+    },
+  });
+  for (let i in steps) {
+    if (!Object.prototype.hasOwnProperty.call(steps, i)) continue;
+    let step = steps[i];
+    for (let key of ['id', 'buttons']) {
+      if (key in step) {
+        this.log_.warn('Overwriting "'+key+'"="'+step.id+' in step '+i);
+      }
+    }
+    step.id = 'step'+i;
+    step.buttons = [];
+    if (i > 0) {
+      step.buttons.push({
+        'text': i18t('Back'),
+        'action': this.tour.back,
+        'classes': 'shepherd-button-example-primary',
+      });
+    }
+    let cancelText = (i < steps.length-1) ? 'Exit' : 'Done';
+    step.buttons.push({
+      'text': i18t(cancelText),
+      'action': this.tour.cancel,
+      'classes': 'shepherd-button-secondary',
+    });
+    if (i < steps.length-1) {
+      step.buttons.push({
+        'text': i18t('Next'),
+        'action': this.tour.next,
+        'classes': 'shepherd-button-example-primary',
+      });
+    }
+    for (let key of ['title', 'text']) {
+      if (key in step) {
+        step[key] = i18t(step[key]);
+      } else {
+        this.log_.warn('Step '+i+' has no "'+key+'" key.');
+      }
+    }
+    this.tour.addStep(step);
+  }
+
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    let button = sidebarInstance.addCustomButton('tour', 'timeline',
+      'Restart Tour');
+    // We listen ourselves instead of passing the event handler to
+    // addCustomButton() because addCustomButton() highlights the button on
+    // click. Since we have no content, we don't want to change the active
+    // button.
+    goog.events.listen(button, goog.events.EventType.CLICK, () => {
+      this.log_.info('Restarting tour...');
+      this.tour.cancel();
+      this.tour.start();
+    });
+  }
+  this.log_.info('Starting tour with '+steps.length+' steps...');
+  this.tour.start();
+};
 
 /**
  * @param {Event} e
  */
 cwc.addon.Tutorial.prototype.eventsModder = function(e) {
-  let mode = e.data.mode;
   let file = e.data.file;
-  this.log_.info('Change Mode', mode, 'for file', file);
-  if (mode == cwc.mode.Type.BASIC_BLOCKLY && file == 'tutorial-1.cwc') {
-    this.log_.info('Adding sidebar content ...');
-    let sidebarInstance = this.helper.getInstance('sidebar');
-    if (sidebarInstance) {
-      // Preparing Sidebar Icon ...
-      let button = sidebarInstance.addCustomButton(
-        'tutorial', 'library_books', 'Select a Tutorial ...', function() {
-          this.helper.getInstance('sidebar').renderContent(
-            'Tutorial', cwc.soy.addon.Tutorial.tutorial, {
-              prefix: this.prefix,
-          });
-      }.bind(this));
+  let fileInstance = this.helper.getInstance('file');
 
-      // Showing tutorial
-      button.click();
-
-      // Starting Tour ...
-      let tour = new Shepherd.Tour({
-        'defaults': {
-          'classes': 'shepherd-theme-arrows',
-          'showCancelLink': true,
-        },
-      });
-      tour.addStep('workspace', {
-        'title': i18t('Tutorial'),
-        'text': i18t('This is the workspace area to drop blocks.'),
-        'attachTo': '#cwc-blockly-chrome center',
-        'buttons': [{
-          'text': i18t('Exit'),
-          'action': tour.cancel,
-          'classes': 'shepherd-button-secondary',
-        }, {
-          'text': i18t('Next'),
-          'action': tour.next,
-          'classes': 'shepherd-button-example-primary',
-        }],
-      });
-      tour.addStep('blocks', {
-        'text': i18t('Drag and drop blocks from here to the workspace area.'),
-        'attachTo': '.blocklyToolboxDiv left',
-        'buttons': [{
-          'text': i18t('Exit'),
-          'action': tour.cancel,
-          'classes': 'shepherd-button-example-primary',
-        }],
-      });
-      tour.start();
+  let tour = fileInstance.getFile().getMetadata('tour', 'tutorial');
+  if (tour) {
+    if (Array.isArray(tour)) {
+      this.loadTour_(tour);
+    } else {
+      this.log_.error('Invalid tutorial data. "tour" is not an array');
     }
+  } else {
+    this.log_.info('No tour for file', file);
+  }
+
+
+  let content = fileInstance.getFile().getMetadata('content', 'tutorial');
+  if (content) {
+     this.loadContent_(content);
+  } else {
+    this.log_.info('No content for file', file);
   }
 };
-
 
 /**
  * Loads file into editor.

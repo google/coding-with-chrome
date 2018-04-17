@@ -21,9 +21,9 @@
 
 
 /**
- * Tutorial Basic card
+ * Tutorial cards
  */
-{template .basic}
+{template .cards}
   {@param prefix: string}
 
   <div id="{$prefix}-basic-content">
@@ -34,37 +34,22 @@
 
     <div class="mdl-grid">
       {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
-        {param title: 'Example Tutorial' /}
-        {param text: 'Example Tutorial ...' /}
-        {param opt_link_text: 'Start Example Tutorial' /}
-        {param id: $prefix + 'link-basic' /}
+        {param title: 'Coding with Chrome Basics' /}
+        {param text: 'An introduction to Coding with Chrome' /}
+        {param opt_link_text: 'Learn Coding with Chrome' /}
+        {param id: $prefix + 'link-cwc' /}
         {param opt_color_class: 'bg-light-blue' /}
-        {param opt_icon: 'insert_drive_file' /}
+        {param opt_icon: 'school' /}
+      {/call}
+      {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+        {param title: 'Blockly Basics' /}
+        {param text: 'Learn drag-and-drop programming' /}
+        {param opt_link_text: 'Learn Blockly' /}
+        {param id: $prefix + 'link-blockly' /}
+        {param opt_color_class: 'bg-light-blue' /}
+        {param opt_icon: 'school' /}
       {/call}
     </div>
-  </div>
-{/template}
 
-
-/**
- * Tutorial template.
- */
-{template .tutorial}
-  {@param prefix: string}
-
-  <div id="{$prefix}content">
-    <h3>Tutorial</h3>
-
-    <ol class="mdl-steps">
-      <li data-step="1" class="is-active">
-        Step 1
-      </li>
-      <li data-step="2">
-        Step 2
-      </li>
-      <li data-step="3">
-        Step 3
-      </li>
-    </ol>
   </div>
 {/template}
