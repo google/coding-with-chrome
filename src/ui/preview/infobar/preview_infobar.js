@@ -251,23 +251,32 @@ cwc.ui.PreviewInfobar.prototype.addMessage = function(event) {
   let logLevel = goog.debug.Logger.Level.getPredefinedLevel('ALL');
   let logLevelName = 'Unknown';
 
-  if (level == cwc.ui.PreviewInfobarLevel.DEBUG) {
-    this.debugNum = (this.debugNum || 0) + 1;
-    logLevel = goog.debug.Logger.Level.getPredefinedLevel('FINE');
-    logLevelName = 'Debug';
-    message = goog.debug.expose(event);
-  } else if (level == cwc.ui.PreviewInfobarLevel.INFO) {
-    this.infoNum = (this.infoNum || 0) + 1;
-    logLevel = goog.debug.Logger.Level.getPredefinedLevel('INFO');
-    logLevelName = 'Info';
-  } else if (level == cwc.ui.PreviewInfobarLevel.WARN) {
-    this.warnNum = (this.warnNum || 0) + 1;
-    logLevel = goog.debug.Logger.Level.getPredefinedLevel('WARNING');
-    logLevelName = 'Warn';
-  } else if (level == cwc.ui.PreviewInfobarLevel.ERROR) {
-    this.errorNum = (this.errorNum || 0) + 1;
-    logLevel = goog.debug.Logger.Level.getPredefinedLevel('SEVERE');
-    logLevelName = 'Error';
+  switch (level) {
+    case cwc.ui.PreviewInfobarLevel.DEBUG:
+      this.debugNum = (this.debugNum || 0) + 1;
+      logLevel = goog.debug.Logger.Level.getPredefinedLevel('FINE');
+      logLevelName = 'Debug';
+      message = goog.debug.expose(event);
+      break;
+    case cwc.ui.PreviewInfobarLevel.INFO:
+      this.infoNum = (this.infoNum || 0) + 1;
+      logLevel = goog.debug.Logger.Level.getPredefinedLevel('INFO');
+      logLevelName = 'Info';
+      break;
+    case cwc.ui.PreviewInfobarLevel.WARN:
+      if (message.startsWith('AudioParam value setter') ||
+          message.startsWith('GainNode.gain.value setter')) {
+        return;
+      }
+      this.warnNum = (this.warnNum || 0) + 1;
+      logLevel = goog.debug.Logger.Level.getPredefinedLevel('WARNING');
+      logLevelName = 'Warn';
+      break;
+    case cwc.ui.PreviewInfobarLevel.ERROR:
+      this.errorNum = (this.errorNum || 0) + 1;
+      logLevel = goog.debug.Logger.Level.getPredefinedLevel('SEVERE');
+      logLevelName = 'Error';
+      break;
   }
 
   this.addLogRecord(logLevel, message, logLevelName);

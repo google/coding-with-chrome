@@ -157,6 +157,7 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
     this.setAutoUpdate(true);
   } else if (modeConfig.runPreview) {
     this.runPreview();
+    this.helper.getInstance('preview').focus();
   }
 
   // Handle file data, if needed.
@@ -261,6 +262,7 @@ cwc.mode.Modder.prototype.syncLibrary = function() {
 
 /**
  * Runs the preview.
+ * @param {boolean} focus
  */
 cwc.mode.Modder.prototype.runPreview = function() {
   let previewInstance = this.helper.getInstance('preview');
