@@ -221,6 +221,12 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
     }
   }
 
+  // Handle sidebar icons
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.enableDescription(file.getDescription());
+  }
+
   modeInstance.postMode();
 };
 

@@ -147,7 +147,7 @@ cwc.ui.Layout.prototype.decorateBlank = function() {
  * Decorates the given node and adds the simple two column layout.
  * @param {number=} splitpaneSize
  */
-cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 450) {
+cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 400) {
   this.renderTemplate_(cwc.soy.ui.Layout.default.template,
     cwc.ui.LayoutType.DEFAULT);
   let chromeMain = this.getNode_('chrome-main');
