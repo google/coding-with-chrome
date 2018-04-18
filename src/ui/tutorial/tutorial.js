@@ -68,6 +68,12 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       'showCancelLink': true,
     },
   });
+  this.tour_.once('cancel', () => {
+    let sidebarInstance = this.helper.getInstance('sidebar');
+    if (sidebarInstance) {
+      sidebarInstance.setActive('tutorial', false);
+    }
+  });
   this.tourLength_ = tourData.length;
   for (let i in tourData) {
     if (!Object.prototype.hasOwnProperty.call(tourData, i)) continue;
@@ -75,36 +81,35 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
     let step = {};
 
     // Step id
-    step.id = data.id || 'step' + i;
+    step['id'] = data['id'] || 'step' + i;
 
     // Title
-    if (data.title) {
-      step.title = i18t(data.title);
+    if (data['title']) {
+      step['title'] = i18t(data['title']);
     } else {
       this.log_.error('Step', i, 'missing title!');
     }
 
     // Text
-    if (data.text) {
-      step.text = i18t(data.text);
+    if (data['text']) {
+      step['text'] = i18t(data['text']);
     } else {
       this.log_.error('Step', i, 'missing text!');
     }
 
     // Attached to element
-    if (data.attachTo) {
-      step.attachTo = data.attachTo;
+    if (typeof data['attachTo'] !== 'undefined') {
+      step['attachTo'] = data['attachTo'];
     }
 
     // Handle buttons
-    if (data.buttons) {
-      step.buttons = data.buttons;
+    if (data['buttons']) {
+      step['buttons'] = data['buttons'];
     } else {
-      step.buttons = [];
-      console.log(i, this.tourLength_);
+      step['buttons'] = [];
       // Back button
       if (i > 0) {
-        step.buttons.push({
+        step['buttons'].push({
           'text': i18t('Back'),
           'action': this.tour_.back,
           'classes': 'shepherd-button-secondary',
@@ -113,7 +118,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
 
       // Exit
       if (i == 0) {
-        step.buttons.push({
+        step['buttons'].push({
           'text': i18t('Exit'),
           'action': this.cancel.bind(this),
           'classes': 'shepherd-button-secondary',
@@ -122,7 +127,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
 
       // Done
       if (i == this.tourLength_ - 1) {
-        step.buttons.push({
+        step['buttons'].push({
           'text': i18t('Done'),
           'action': this.cancel.bind(this),
           'classes': 'shepherd-button-example-primary',
@@ -130,7 +135,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       }
       // Next button
       if (i < this.tourLength_ - 1) {
-        step.buttons.push({
+        step['buttons'].push({
           'text': i18t('Next'),
           'action': this.tour_.next,
           'classes': 'shepherd-button-example-primary',
