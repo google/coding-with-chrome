@@ -96,12 +96,12 @@ cwc.addon.Tutorial.prototype.decorate = function(opt_e) {
     // Event handler for the cards
     let cwcCard = document.getElementById('cwc-addon-tutorial-link-cwc');
     goog.events.listen(cwcCard, goog.events.EventType.CLICK, function() {
-        this.loadFile_('cwc.cwc');
+        this.loadFile_('cwc.cwct');
       }, false, this);
     let blocklyCard =
       document.getElementById('cwc-addon-tutorial-link-blockly');
     goog.events.listen(blocklyCard, goog.events.EventType.CLICK, function() {
-        this.loadFile_('blockly.cwc');
+        this.loadFile_('blockly.cwct');
       }, false, this);
   }
 };

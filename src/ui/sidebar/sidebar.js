@@ -93,6 +93,10 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
       this.showContent('Description',
         this.helper.getInstance('file').getFileDescription());
   });
+  this.events_.listen('tour-button', goog.events.EventType.CLICK,
+    (e) => {
+      this.log_.info("Tour button clicked");
+  });
 };
 
 

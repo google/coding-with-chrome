@@ -27,7 +27,7 @@ goog.provide('cwc.utils.mime.getByType');
 cwc.utils.mime.Type = {
   CWC: {
     descr: 'Coding with Chrome file format',
-    ext: ['.cwc'],
+    ext: ['.cwc', '.cwct'],
     type: 'application/cwc+json',
   },
   JAVASCRIPT: {
