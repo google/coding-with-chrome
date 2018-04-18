@@ -278,7 +278,7 @@ cwc.ui.Navigation.prototype.showAbout = function() {
  * Shows debug screen.
  */
 cwc.ui.Navigation.prototype.showDebug = function() {
-  this.helper.getInstance('help').showDebug();
+  console.log('Hello World !');
   this.hide();
 };
 

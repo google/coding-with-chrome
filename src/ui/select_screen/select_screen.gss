@@ -124,6 +124,12 @@
   width: 95%;
 }
 
+@media screen and (min-width: 1366px) {
+  #{$prefix}select-screen-welcome .mdl-grid {
+    width: 60%;
+  }
+}
+
 #{$prefix}select-screen-welcome .mdl-grid > .mdl-card:hover {
   box-shadow: 0 4px 5px 0 rgba(0,0,0,.34),
               0 1px 10px 0 rgba(0,0,0,.32),

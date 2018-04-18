@@ -60,6 +60,9 @@ cwc.ui.StatusButton = function(helper) {
   /** @type {Element} */
   this.nodeReload = null;
 
+    /** @type {Element} */
+  this.nodeTerminate = null;
+
   /** @type {Element} */
   this.nodeFullscreen = null;
 
@@ -99,6 +102,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
   this.nodeFullscreenExit =
     goog.dom.getElement(this.prefix + 'fullscreen_exit');
   this.nodeReload = goog.dom.getElement(this.prefix + 'reload');
+  this.nodeTerminate = goog.dom.getElement(this.prefix + 'terminate');
   this.nodeRun = goog.dom.getElement(this.prefix + 'run');
   this.nodeStop = goog.dom.getElement(this.prefix + 'stop');
 
@@ -106,6 +110,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
   goog.style.setElementShown(this.nodeFullscreen, false);
   goog.style.setElementShown(this.nodeFullscreenExit, false);
   goog.style.setElementShown(this.nodeReload, false);
+  goog.style.setElementShown(this.nodeTerminate, false);
   goog.style.setElementShown(this.nodeRun, true);
   goog.style.setElementShown(this.nodeStop, false);
   return this;
@@ -165,6 +170,18 @@ cwc.ui.StatusButton.prototype.setFullscreenExitAction = function(func) {
 cwc.ui.StatusButton.prototype.setReloadAction = function(func) {
   goog.style.setElementShown(this.nodeReload, true);
   this.events_.listen('reload-action', goog.events.EventType.CLICK, func);
+  return this;
+};
+
+
+/**
+ * @param {function(?)} func
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.ui.StatusButton.prototype.setTerminateAction = function(func) {
+  goog.style.setElementShown(this.nodeTerminate, true);
+  this.events_.listen('terminate-action', goog.events.EventType.CLICK, func);
   return this;
 };
 

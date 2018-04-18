@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.Experimental');
 
 goog.require('cwc.config.Experimental');
-goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
 

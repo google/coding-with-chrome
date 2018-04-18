@@ -23,6 +23,7 @@ goog.provide('cwc.mode.Modder');
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Type');
+goog.require('cwc.Tutorial');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
@@ -59,6 +60,9 @@ cwc.mode.Modder = function(helper) {
 
   /** @private {string} */
   this.templatePath_ = '../resources/templates/';
+
+  /** @private {cwc.Tutorial} */
+  this.tutorial_ = null;
 };
 
 
@@ -130,6 +134,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     sidebarInstance.clear();
   }
 
+  // Remove tutorial
+  if (this.tutorial_) {
+    this.tutorial_.clear();
+    this.tutorial_ = null;
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);
@@ -157,6 +167,7 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
     this.setAutoUpdate(true);
   } else if (modeConfig.runPreview) {
     this.runPreview();
+    this.helper.getInstance('preview').focus();
   }
 
   // Handle file data, if needed.
@@ -182,6 +193,10 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
     if (fileInstance.hasLibraryFiles()) {
       this.syncLibrary();
     }
+
+    // Enable tutorials
+    this.tutorial_ = new cwc.Tutorial(this.helper);
+    this.tutorial_.render();
   }
 
   // Event Handling
@@ -261,6 +276,7 @@ cwc.mode.Modder.prototype.syncLibrary = function() {
 
 /**
  * Runs the preview.
+ * @param {boolean} focus
  */
 cwc.mode.Modder.prototype.runPreview = function() {
   let previewInstance = this.helper.getInstance('preview');

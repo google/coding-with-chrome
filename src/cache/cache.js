@@ -145,6 +145,9 @@ cwc.Cache.prototype.getFile = function(name) {
  */
 cwc.Cache.prototype.addLibraryFile = function(name, content) {
   let filename = name.includes('/library/') ? name : '/library/' + name;
+  if (content.includes('data:')) {
+    content = atob(content.split(',')[1]);
+  }
   this.database_.addFile(filename, content, '__library__');
 };
 

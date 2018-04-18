@@ -143,19 +143,28 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
-  // Statusbutton and actions
+  // Status Button and actions
   let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
   if (nodeStatusButton) {
     this.statusButton.decorate(nodeStatusButton)
       .setBrowserAction(this.openInBrowser.bind(this))
-      .setFullscreenAction(function() {
+      .setFullscreenAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(true);
-      }.bind(this))
-      .setFullscreenExitAction(function() {
+        this.focus();
+      })
+      .setFullscreenExitAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(false);
-      }.bind(this))
-      .setReloadAction(this.refresh.bind(this))
-      .setRunAction(this.run.bind(this))
+        this.focus();
+      })
+      .setReloadAction(() => {
+        this.refresh();
+        this.focus();
+      })
+      .setTerminateAction(this.terminate.bind(this))
+      .setRunAction(() => {
+        this.run();
+        this.focus();
+      })
       .setStopAction(this.stop.bind(this));
   }
 
@@ -382,6 +391,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
     }
+    this.focus();
   } else if (!active && this.autoUpdateEvent) {
     this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
@@ -410,9 +420,15 @@ cwc.ui.Preview.prototype.doAutoUpdate = function() {
   if (!this.autoUpdate) {
     return;
   }
-
   this.log_.info('Perform auto update ...');
   this.run();
+};
+
+
+cwc.ui.Preview.prototype.focus = function() {
+  if (this.content) {
+    this.content.focus();
+  }
 };
 
 

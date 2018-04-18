@@ -328,6 +328,11 @@ cwc.ui.Library.prototype.getFiles = function() {
  * @param {string=} optType
  */
 cwc.ui.Library.prototype.addFile = function(name, content, optType) {
+  let cacheInstance = this.helper.getInstance('cache');
+  if (cacheInstance) {
+    cacheInstance.addLibraryFile(name, content);
+  }
+
   let fileInstance = this.helper.getInstance('file');
   if (fileInstance) {
     let newFile = fileInstance.addLibraryFile(name, content, optType);

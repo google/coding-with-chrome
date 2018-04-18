@@ -57,11 +57,17 @@
   border-top: 1px solid #dadce0;
 }
 
+@media screen and (min-width: 1366px) {
+  #{$prefix}sidebar-content {
+    width: 400px!important;
+  }
+}
+
 #{$prefix}sidebar-content {
   background: #fff;
   height: calc(100% - 34px);
   margin-left: 60px;
-  width: 400px;
+  width: 300px;
   position: relative;
   box-shadow:
     0 4px 5px 0 rgba(0,0,0,0.14),

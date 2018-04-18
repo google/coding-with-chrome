@@ -104,10 +104,13 @@ cwc.ui.Helper.insertScript = function(script_url, opt_id, optCallback) {
 
 /**
  * Enables or disables an element.
- * @param {Element} element
+ * @param {Element|string} element
  * @param {boolean} enabled
  */
 cwc.ui.Helper.enableElement = function(element, enabled) {
+  if (typeof element === 'string') {
+    element = goog.dom.getElement(element);
+  }
   if (enabled) {
     if (element.hasAttribute('disabled')) {
       element.removeAttribute('disabled');

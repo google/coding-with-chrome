@@ -93,10 +93,6 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
       this.showContent('Description',
         this.helper.getInstance('file').getFileDescription());
   });
-  this.events_.listen('tour-button', goog.events.EventType.CLICK,
-    (e) => {
-      this.log_.info("Tour button clicked");
-  });
 };
 
 
@@ -111,7 +107,7 @@ cwc.ui.Sidebar.prototype.addCustomButton = function(id, icon, tooltip = '',
     func) {
   if (this.customButtonIds.includes(id)) {
     this.log_.error('Custom button', id, 'already exists');
-    return;
+    return null;
   }
 
   let button = goog.soy.renderAsElement(
@@ -136,6 +132,23 @@ cwc.ui.Sidebar.prototype.addCustomButton = function(id, icon, tooltip = '',
   }
 
   return button;
+};
+
+
+/**
+ * @param {!string} id
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableButton = function(id, enabled) {
+  cwc.ui.Helper.enableElement(this.prefix + id + '-button', enabled);
+};
+
+
+/**
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableDescription = function(enabled) {
+  this.enableButton('speaker_notes', enabled);
 };
 
 
