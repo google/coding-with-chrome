@@ -65,6 +65,7 @@ cwc.addon.Message.prototype.prepare = function() {
   }
 };
 
+
 /**
  * @param {Event} e
  */

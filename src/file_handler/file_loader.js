@@ -222,10 +222,17 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
     }
   }
 
+  // Handle tutorial / tour data
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  if (tutorialInstance) {
+    tutorialInstance.setTour(file.getTutorialTour());
+  }
+
   // Handle sidebar icons
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.enableDescription(file.getDescription());
+    sidebarInstance.enableTutorial(file.getTutorialTour());
   }
 
   modeInstance.postMode();

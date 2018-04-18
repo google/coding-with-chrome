@@ -70,6 +70,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @private {!string} */
   this.resourcesPath_ = '../resources/examples/';
+
+  /** @private {!string} */
+  this.tutorialPath_ = '../resources/tutorial/';
 };
 
 
@@ -296,6 +299,13 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
           cwc.soy.SelectScreen.loading_);
         this.helper.getInstance('fileLoader')
           .loadLocalFile(this.resourcesPath_ + filename);
+        break;
+      }
+      case 'loadTutorial': {
+        this.showDialog_('Loading tutorial file ' + filename,
+          cwc.soy.SelectScreen.loading_);
+        this.helper.getInstance('fileLoader')
+          .loadLocalFile(this.tutorialPath_ + filename);
         break;
       }
       case 'loadMode': {

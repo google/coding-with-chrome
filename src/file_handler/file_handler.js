@@ -200,6 +200,17 @@ cwc.fileHandler.File.prototype.getFileDescription = function() {
 
 
 /**
+ * @return {Array}
+ */
+cwc.fileHandler.File.prototype.getFileTutorialTour = function() {
+  if (this.file_) {
+    return this.file_.getTutorialTour();
+  }
+  return null;
+};
+
+
+/**
  * @param {string} filename
  */
 cwc.fileHandler.File.prototype.setFilename = function(filename) {

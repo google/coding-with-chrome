@@ -86,12 +86,19 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   this.nodeCustomIcons = goog.dom.getElement(this.prefix + 'icons-custom');
   this.hideContent();
 
-
+  // File Description
   this.events_.listen('speaker_notes-button', goog.events.EventType.CLICK,
     (e) => {
       this.setActive_(e.target);
       this.showContent('Description',
         this.helper.getInstance('file').getFileDescription());
+  });
+
+  // Tutorial / Tour
+  this.events_.listen('tutorial-button', goog.events.EventType.CLICK,
+    (e) => {
+      this.setActive_(e.target);
+      this.helper.getInstance('tutorial').startTour();
   });
 };
 
@@ -153,6 +160,27 @@ cwc.ui.Sidebar.prototype.enableDescription = function(enabled) {
 
 
 /**
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableTutorial = function(enabled) {
+  this.enableButton('tutorial', enabled);
+};
+
+
+/**
+ * @param {!string} id
+ * @param {boolean} active
+ */
+cwc.ui.Sidebar.prototype.setActive = function(id, active) {
+  if (active) {
+    this.clearActive_();
+  }
+  let elem = goog.dom.getElement(this.prefix + id);
+  goog.dom.classlist.enable(elem, 'active', active);
+};
+
+
+/**
  * @param {!string} title
  * @param {!function (Object, null=, (Object<string,*>|null)=)} template
  * @param {!Object} values
@@ -166,27 +194,31 @@ cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
 
 /**
  * @param {!string} title
- * @param {!string} content
+ * @param {string} content
  */
-cwc.ui.Sidebar.prototype.showContent = function(title, content) {
+cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
   if (this.contentName === title) {
     this.showContent_(false);
     this.contentName = '';
     return;
   }
 
-  goog.soy.renderElement(
-    this.nodeContent,
-    cwc.soy.ui.Sidebar.content, {
-      'prefix': this.prefix,
-      'title': title,
-      'content': content,
-    }
-  );
-  this.events_.listen('content-close', goog.events.EventType.CLICK,
-    this.hideContent.bind(this));
+  if (content) {
+    goog.soy.renderElement(
+      this.nodeContent,
+      cwc.soy.ui.Sidebar.content, {
+        'prefix': this.prefix,
+        'title': title,
+        'content': content,
+      }
+    );
+    this.events_.listen('content-close', goog.events.EventType.CLICK,
+      this.hideContent.bind(this));
+    this.showContent_(true);
+  } else {
+    this.showContent_(false);
+  }
   this.contentName = title;
-  this.showContent_(true);
 };
 
 

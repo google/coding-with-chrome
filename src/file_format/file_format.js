@@ -395,6 +395,26 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
+ * @return {Object}
+ */
+cwc.fileFormat.File.prototype.getTutorial = function() {
+  return this.getMetadata('tutorial');
+};
+
+
+/**
+ * @return {Array}
+ */
+cwc.fileFormat.File.prototype.getTutorialTour = function() {
+  let tour = this.getMetadata('tour', 'tutorial');
+  if (tour && Array.isArray(tour)) {
+    return tour;
+  }
+  return null;
+};
+
+
+/**
  * @param {!string} version
  * @return {cwc.fileFormat.File}
  */

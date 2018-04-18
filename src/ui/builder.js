@@ -60,6 +60,7 @@ goog.require('cwc.ui.Notification');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Sidebar');
+goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Events');
@@ -105,6 +106,7 @@ cwc.ui.BuilderHelpers = {
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
   'sidebar': cwc.ui.Sidebar,
+  'tutorial': cwc.ui.Tutorial,
 };
 
 

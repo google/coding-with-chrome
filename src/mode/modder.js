@@ -23,7 +23,6 @@ goog.provide('cwc.mode.Modder');
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Config');
 goog.require('cwc.mode.Type');
-goog.require('cwc.Tutorial');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
@@ -60,9 +59,6 @@ cwc.mode.Modder = function(helper) {
 
   /** @private {string} */
   this.templatePath_ = '../resources/templates/';
-
-  /** @private {cwc.Tutorial} */
-  this.tutorial_ = null;
 };
 
 
@@ -134,12 +130,6 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     sidebarInstance.clear();
   }
 
-  // Remove tutorial
-  if (this.tutorial_) {
-    this.tutorial_.clear();
-    this.tutorial_ = null;
-  }
-
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);
@@ -194,9 +184,11 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
       this.syncLibrary();
     }
 
-    // Enable tutorials
-    this.tutorial_ = new cwc.Tutorial(this.helper);
-    this.tutorial_.render();
+    // Start tutorial for tutorial files .cwct automatically
+    let tutorialInstance = this.helper.getInstance('tutorial');
+    if (tutorialInstance && this.filename.toLowerCase().endsWith('.cwct')) {
+      tutorialInstance.startTour();
+    }
   }
 
   // Event Handling

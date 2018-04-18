@@ -369,6 +369,7 @@
   {@param? file: string}
   {@param? classes: string}
   {@param? mode: string}
+  {@param? tutorial: string}
   {@param? tab: string}
   {@param? hidden: bool}
 
@@ -376,6 +377,9 @@
     {if $file}
       data-select-screen-action="loadFile"
       data-select-screen-value="{$file}"
+    {elseif $tutorial}
+      data-select-screen-action="loadTutorial"
+      data-select-screen-value="{$tutorial}"
     {elseif $mode}
       data-select-screen-action="loadMode"
       data-select-screen-value="{$mode}"
