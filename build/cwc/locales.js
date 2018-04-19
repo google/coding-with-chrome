@@ -59,7 +59,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Locales.deu',
   srcs: glob([
-    'locales/deu/translation.js',
+    'locales/deu/**/*.js',
   ]),
   externs: [
     'build/externs/locales.js',
@@ -75,7 +75,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Locales.eng',
   srcs: glob([
-    'locales/eng/translation.js',
+    'locales/eng/**/*.js',
   ]),
   externs: [
     'build/externs/locales.js',

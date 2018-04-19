@@ -68,7 +68,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       'showCancelLink': true,
     },
   });
-  this.tour_.once('cancel', () => {
+  this.tour_['once']('cancel', () => {
     let sidebarInstance = this.helper.getInstance('sidebar');
     if (sidebarInstance) {
       sidebarInstance.setActive('tutorial', false);
@@ -111,7 +111,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       if (i > 0) {
         step['buttons'].push({
           'text': i18t('Back'),
-          'action': this.tour_.back,
+          'action': this.tour_['back'],
           'classes': 'shepherd-button-secondary',
         });
       }
@@ -137,7 +137,7 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       if (i < this.tourLength_ - 1) {
         step['buttons'].push({
           'text': i18t('Next'),
-          'action': this.tour_.next,
+          'action': this.tour_['next'],
           'classes': 'shepherd-button-example-primary',
         });
       }

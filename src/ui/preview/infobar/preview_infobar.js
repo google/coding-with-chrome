@@ -265,7 +265,8 @@ cwc.ui.PreviewInfobar.prototype.addMessage = function(event) {
       break;
     case cwc.ui.PreviewInfobarLevel.WARN:
       if (message.startsWith('AudioParam value setter') ||
-          message.startsWith('GainNode.gain.value setter')) {
+          message.startsWith('GainNode.gain.value setter') ||
+          message.startsWith('The AudioContext was')) {
         return;
       }
       this.warnNum = (this.warnNum || 0) + 1;

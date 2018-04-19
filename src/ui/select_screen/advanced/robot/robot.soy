@@ -30,6 +30,7 @@
  * Robot overview page.
  */
 {template .template}
+  {@param experimental: bool}
   {@param modules: ?}
 
   {call cwc.soy.SelectScreenTemplate.containerSub}
@@ -83,25 +84,27 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'sphero_bb8' /}
-          {param content kind="html"}
-            {call cwc.soy.SelectScreenAdvanced.robot.sphero.bb8.overview data="all" /}
-          {/param}
-        {/call}
-
-        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
           {param id: 'sphero_classic' /}
           {param content kind="html"}
             {call cwc.soy.SelectScreenAdvanced.robot.sphero.classic.overview data="all" /}
           {/param}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-          {param id: 'sphero_sprk_plus' /}
-          {param content kind="html"}
-            {call cwc.soy.SelectScreenAdvanced.robot.sphero.sprkPlus.overview data="all" /}
-          {/param}
-        {/call}
+        {if $experimental}
+          {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+            {param id: 'sphero_sprk_plus' /}
+            {param content kind="html"}
+              {call cwc.soy.SelectScreenAdvanced.robot.sphero.sprkPlus.overview data="all" /}
+            {/param}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+            {param id: 'sphero_bb8' /}
+            {param content kind="html"}
+              {call cwc.soy.SelectScreenAdvanced.robot.sphero.bb8.overview data="all" /}
+            {/param}
+          {/call}
+        {/if}
 
       </div>
 
@@ -115,6 +118,7 @@
  * Robot overview page.
  */
 {template .overview}
+  {@param experimental: bool}
 
   {call cwc.soy.SelectScreenTemplate.container}
     {param header kind="html"}
@@ -156,15 +160,17 @@
             {param tab: 'sphero_classic' /}
           {/call}
 
-          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-            {param text: 'Use Sphero SPRK+ robot' /}
-            {param tab: 'sphero_sprk_plus' /}
-          {/call}
+          {if $experimental}
+            {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+              {param text: 'Use Sphero SPRK+ robot' /}
+              {param tab: 'sphero_sprk_plus' /}
+            {/call}
 
-          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-            {param text: 'Use Sphero BB-8 robot' /}
-            {param tab: 'sphero_bb8' /}
-          {/call}
+            {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+              {param text: 'Use Sphero BB-8 robot' /}
+              {param tab: 'sphero_bb8' /}
+            {/call}
+          {/if}
         {/param}
       {/call}
 

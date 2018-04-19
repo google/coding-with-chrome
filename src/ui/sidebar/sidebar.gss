@@ -17,7 +17,7 @@
 
 #{$prefix}sidebar-body {
   background-color: #fafafa;
-  border-left: 1.1px solid rgba(0,0,0,0.12);
+  border-left: 1px solid rgba(0,0,0,0.12);
   float: right;
   height: 100vh;
   overflow: hidden;

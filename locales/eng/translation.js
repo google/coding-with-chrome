@@ -18,6 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 window['Locales'] = window['Locales'] || {};
+Locales['eng'] = Locales['eng'] || {};
 
 
 /**
@@ -25,7 +26,7 @@ window['Locales'] = window['Locales'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Locales['eng'] = {
+Object.assign(Locales['eng'], {
   ' steps)': ' steps)',
   '* You need to restart the application after enabling or disabling these options': '* You need to restart the application after enabling or disabling these options',
   'About Coding with Chrome': 'About Coding with Chrome',
@@ -33,15 +34,12 @@ Locales['eng'] = {
   'Address: {$address}': 'Address: {$address}',
   'Advanced Coding': 'Advanced Coding',
   'Advanced Mode': 'Advanced Mode',
-  'Advanced': 'Advanced',
   'Animated 3D cube': 'Animated 3D cube',
   'Automatically reloads the preview after a change on the editor content': 'Automatically reloads the preview after a change on the editor content',
   'Begin a new program to drive a Sphero or an on-screen robot with Blockly': 'Begin a new program to drive a Sphero or an on-screen robot with Blockly',
   'Begin a new program to drive a mBot or an on-screen robot with Blockly': 'Begin a new program to drive a mBot or an on-screen robot with Blockly',
   'Begin a new program to drive a mBot with Blockly': 'Begin a new program to drive a mBot with Blockly',
   'Begin a new program to drive an EV3 or an on-screen robot with Blockly': 'Begin a new program to drive an EV3 or an on-screen robot with Blockly',
-  'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.': 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.',
-  'Beginner': 'Beginner',
   'Block Coding': 'Block Coding',
   'Blockly file': 'Blockly file',
   'Blocks': 'Blocks',
@@ -55,7 +53,6 @@ Locales['eng'] = {
   'Close Settings': 'Close Settings',
   'Close': 'Close',
   'Coding with Chrome credits': 'Coding with Chrome credits',
-  'Coding with Chrome is an educational development environment': 'Coding with Chrome is an educational development environment',
   'CoffeeScript file': 'CoffeeScript file',
   'CoffeeScript module': 'CoffeeScript module',
   'Collapse Blockly editor.': 'Collapse Blockly editor.',
@@ -129,7 +126,6 @@ Locales['eng'] = {
   'Experimental mode': 'Experimental mode',
   'File Library': 'File Library',
   'File:': 'File:',
-  'First, please {$startBold}select your current coding skill{$endBold}': 'First, please {$startBold}select your current coding skill{$endBold}',
   'Form example': 'Form example',
   'Form': 'Form',
   'GRYO BOY': 'GRYO BOY',
@@ -276,7 +272,6 @@ Locales['eng'] = {
   'Sets wheelbase': 'Sets wheelbase',
   'Settings': 'Settings',
   'Shared with me': 'Shared with me',
-  'Show screen on startup': 'Show screen on startup',
   'Show welcome screen': 'Show welcome screen',
   'Shows general information...': 'Shows general information...',
   'Simple 3D file': 'Simple 3D file',
@@ -347,8 +342,6 @@ Locales['eng'] = {
   'Undo last change': 'Undo last change',
   'Unsaved changes for Game Engine': 'Unsaved changes for Game Engine',
   'Unsaved changes for basic: Text loop': 'Unsaved changes for basic: Text loop',
-  'Use Advanced Mode': 'Use Advanced Mode',
-  'Use Beginner Mode': 'Use Beginner Mode',
   'Use Blockly to build code by dragging and dropping code blocks': 'Use Blockly to build code by dragging and dropping code blocks',
   'Use CoffeeScript': 'Use CoffeeScript',
   'Use EV3 Robot': 'Use EV3 Robot',
@@ -358,7 +351,6 @@ Locales['eng'] = {
   'Use Pencil Code': 'Use Pencil Code',
   'Use Python': 'Use Python',
   'Use Sphero robot': 'Use Sphero robot',
-  'Use a high-level programming language like JavaScript or CoffeeScript to write your code': 'Use a high-level programming language like JavaScript or CoffeeScript to write your code',
   'Use mBot - Blue Robot': 'Use mBot - Blue Robot',
   'Use mBot Ranger Robot': 'Use mBot Ranger Robot',
   'Use the Python language to create programs': 'Use the Python language to create programs',
@@ -368,7 +360,6 @@ Locales['eng'] = {
   'Wait for the given milliseconds': 'Wait for the given milliseconds',
   'Warning': 'Warning',
   'Website modules': 'Website modules',
-  'Welcome to Coding with Chrome!': 'Welcome to Coding with Chrome!',
   'Working, please wait...': 'Working, please wait...',
   'World wrap sprite': 'World wrap sprite',
   'Write code in JavaScript': 'Write code in JavaScript',
@@ -376,7 +367,6 @@ Locales['eng'] = {
   'Write code with Pencil Code': 'Write code with Pencil Code',
   'Write many things on the screen with a repeating program (a loop)': 'Write many things on the screen with a repeating program (a loop)',
   'Yes': 'Yes',
-  'You can change your choice at any time in the settings menu': 'You can change your choice at any time in the settings menu',
   'You need to restart the application after enabling or disabling any module': 'You need to restart the application after enabling or disabling any module',
   'acceleration': 'acceleration',
   'ambient light intensity': 'ambient light intensity',
@@ -475,4 +465,4 @@ Locales['eng'] = {
   'wait (': 'wait (',
   'when finished': 'when finished',
   '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.',
-};
+});

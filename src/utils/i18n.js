@@ -78,6 +78,7 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
+  window['i18v'] = this.translateVariable.bind(this);
   window['i18soy'] = this.translateSoy.bind(this);
 
   // Callback handling
@@ -155,6 +156,17 @@ cwc.utils.I18n.prototype.translateSoy = function(text, optValues) {
   });
 
   return indirect ? this.translate(text) : text;
+};
+
+
+/**
+ * Translate the given key and variable.
+ * @param {!string} key
+ * @param {!string} variable
+ * @return {!string}
+ */
+cwc.utils.I18n.prototype.translateVariable = function(key, variable) {
+  return this.translate(key).replace('$VAR$', variable);
 };
 
 

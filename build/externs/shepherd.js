@@ -49,6 +49,12 @@ Shepherd.Tour.prototype.start = function() {};
 /** @type {Function} */
 Shepherd.Tour.prototype.next = function() {};
 
+/** @type {Function} */
+Shepherd.Tour.prototype.once = function() {};
+
+/** @type {Function} */
+Shepherd.Tour.prototype.back= function() {};
+
 
 /** @constructor */
 Shepherd.Evented = function() {};

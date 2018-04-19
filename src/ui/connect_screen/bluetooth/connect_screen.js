@@ -68,10 +68,12 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
     }
   }
 
+  let foundDevices = Object.keys(devices).length > 0;
   this.showTemplate_('Connect Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.template, {
       ble: this.helper.checkBrowserFeature('bluetooth'),
       devices: devices,
+      found_devices: foundDevices,
       experimental: this.helper.experimentalEnabled(),
       prefix: this.prefix,
     });
@@ -81,8 +83,10 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
       this.handleSearch_.bind(this));
   }
 
-  this.events_.listen('device-list', goog.events.EventType.CLICK,
-    this.handleAction_.bind(this));
+  if (foundDevices) {
+    this.events_.listen('device-list', goog.events.EventType.CLICK,
+      this.handleAction_.bind(this));
+  }
 };
 
 

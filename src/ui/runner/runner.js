@@ -29,6 +29,7 @@ goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.events.EventType');

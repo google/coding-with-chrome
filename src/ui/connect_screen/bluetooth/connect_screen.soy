@@ -27,9 +27,16 @@
 {template .template}
   {@param ble: bool}
   {@param devices: ?}
+  {@param found_devices: bool}
   {@param prefix: string}
 
-  {call .devices data="all" /}  
+  {if $found_devices} 
+    {call .devices data="all" /}
+  {else}
+    {msg desc=""}
+      Please make sure that the bluetooth device is charged and turned on.
+    {/msg}
+  {/if}
 
   {if $ble}
     <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">

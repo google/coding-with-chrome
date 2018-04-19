@@ -1,8 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
- * @externs
+ * @fileoverview Translation file for the Status bar / button (german).
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+window['Locales'] = window['Locales'] || {};
+Locales['deu'] = Locales['deu'] || {};
 
 
-/** @type {Function} */
-var i18t = function() {};
-
-/** @type {Function} */
-var i18v = function() {};
-
-/** @type {Function} */
-var i18soy = function() {};
-
-/** @type {Object} */
-var Locales = function() {};
-
-/** @type {Object} */
-Locales.blacklist = {};
-
-/** @type {Array} */
-Locales.supportedLanguages = [];
+/**
+ * @final
+ * @export
+ */
+/* eslint-disable max-len */
+Object.assign(Locales['deu'], {
+  'STATUS_LOADED': 'Beendet nach $VAR$ Sekunden.',
+  'STATUS_LOADING': 'Laded ...',
+  'STATUS_PREPARE': 'Vorbereitung',
+  'STATUS_RELOADING': 'Neu laden ...',
+  'STATUS_RUNNING': 'Läuft ...',
+  'STATUS_STOPPED': 'Angehalten',
+  'STATUS_TERMINATED': 'Beended',
+  'STATUS_UNRESPONSIVE': 'Reagiert nicht',
+});

@@ -1,8 +1,7 @@
 /**
- * @fileoverview I18n externs for Coding with Chrome.
- * @externs
+ * @fileoverview Translation file for Phaser blocks (english).
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+window['Locales'] = window['Locales'] || {};
+Locales['eng'] = Locales['eng'] || {};
 
 
-/** @type {Function} */
-var i18t = function() {};
-
-/** @type {Function} */
-var i18v = function() {};
-
-/** @type {Function} */
-var i18soy = function() {};
-
-/** @type {Object} */
-var Locales = function() {};
-
-/** @type {Object} */
-Locales.blacklist = {};
-
-/** @type {Array} */
-Locales.supportedLanguages = [];
+/**
+ * @final
+ * @export
+ */
+/* eslint-disable max-len */
+Object.assign(Locales['eng'], {
+  'BLOCKS_PHASER_OPEN_FILE_LIBRARY': 'Open file library',
+});

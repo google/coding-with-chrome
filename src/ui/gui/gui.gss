@@ -60,6 +60,11 @@
 
 #{$prefix}gui-navigation {
   overflow: hidden;
+  z-index: 20;
+}
+
+.mdl-layout__obfuscator.is-visible {
+  z-index: 19;
 }
 
 #{$prefix}gui-message {

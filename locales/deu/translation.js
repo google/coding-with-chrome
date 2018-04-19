@@ -18,6 +18,7 @@
  * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  */
 window['Locales'] = window['Locales'] || {};
+Locales['deu'] = Locales['deu'] || {};
 
 
 /**
@@ -25,14 +26,12 @@ window['Locales'] = window['Locales'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Locales['deu'] = {
+Object.assign(Locales['deu'], {
   'About': 'Über',
   'Advanced': 'Fortgeschrittener',
   'All': 'Alle',
   'Audio': 'Audio',
   'Automatically reloads the preview after a change on the editor content': 'Automatisches Neuladen der Vorschau nach einer Änderung des Editorinhalts',
-  'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.': 'Lerne mit visuellen Blöcken zu Programmieren. Erstelle Schritt für Schritt ein Programm mit dem setzten, ziehen und ändern von Blöcken.',
-  'Beginner': 'Anfänger',
   'Block Coding': 'Block basierte Programmierung',
   'Blockly Prompt': 'Blockly Aufforderung',
   'Blockly file': 'Blockly Datei',
@@ -41,7 +40,6 @@ Locales['deu'] = {
   'Cancel': 'Abbrechen',
   'Check Syntax...': 'Überprüfe Syntax...',
   'Close': 'Schließen',
-  'Coding with Chrome is an educational development environment': 'Coding with Chrome ist eine pädagogische Entwicklerumgebung',
   'Collapse Blockly editor.': 'Verkleinere den Block Editor.',
   'Collapse Preview': 'Verkleinere die Vorschau',
   'Collapse Text editor.': 'Verkleinere den Text Editor.',
@@ -67,7 +65,6 @@ Locales['deu'] = {
   'Expand Text editor': 'Vergrößere den Text Editor',
   'File library': 'Datei Bibliothek',
   'Files': 'Dateien',
-  'First, please {$startBold}select your current coding skill{$endBold}': 'Bitte, {$startBold}wähle zuerst deine aktuellen Programmierfähigkeiten aus{$endBold}',
   'Functions': 'Funktionen',
   'Game file': 'Spiele Datei',
   'Game': 'Game',
@@ -132,7 +129,6 @@ Locales['deu'] = {
   'Serial is disabled!': 'Serielle Schnittstelle ist deaktiviert!',
   'Settings': 'Einstellungen',
   'Shared with me': 'Für mich freigegeben',
-  'Show screen on startup': 'Start Bildschirm anzeigen',
   'Starred': 'Makiert',
   'Start a file': 'Start eine neue Datei',
   'Start a new project': 'Starte ein neues Projekt',
@@ -156,17 +152,12 @@ Locales['deu'] = {
   'Update': 'Aktualisieren',
   'Upload file': 'Datei hochladen',
   'Upload': 'Hochladen',
-  'Use Advanced Mode': 'Verwende den Fortgeschrittener Modus',
-  'Use Beginner Mode': 'Verwende den Anfänger Modus',
   'Use Blockly to build code by dragging and dropping code blocks': 'Verwenden Sie Blockly, um Code zu erstellen, indem Sie Codeblöcke reinziehen und ablegen',
-  'Use a high-level programming language like JavaScript or CoffeeScript to write your code': 'Verwerden Sie eine höhere Programmiersprache wie JavaScript oder CoffeeScript, um deinen Code zu schreiben.',
   'Variables': 'Variablen',
-  'Welcome to Coding with Chrome!': 'Willkommen zu Programmieren mit Chrome!',
   'World wrap sprite': 'Welt wrap Sprite',
   'World': 'Welt',
   'Write many things on the screen with a repeating program (a loop)': 'Schreiben Sie viele Dinge auf mit einem sich wiederholenden Programm (eine Schleife)',
   'Yes': 'Ja',
-  'You can change your choice at any time in the settings menu': 'Dies kann du jederzeit im “Einstellungsmenü” wieder ändern.',
   'acceleration': 'Beschleunigung',
   'add background image': 'füge Hintergrundbild hinzu',
   'add text': 'hinzufügen von Text',
@@ -307,4 +298,4 @@ Locales['deu'] = {
   'with style': 'mit dem Stil',
   'with volume': 'mit der Lautstärke',
   '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': '{$startSpan}Klicke hier{$endSpan} für eine kurze Einleitung zu "Coding with Chrome".',
-};
+});

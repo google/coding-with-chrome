@@ -126,7 +126,7 @@
 
 @media screen and (min-width: 1366px) {
   #{$prefix}select-screen-welcome .mdl-grid {
-    width: 60%;
+    width: 70%;
   }
 }
 
