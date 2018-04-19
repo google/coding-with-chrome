@@ -143,8 +143,7 @@ cwc.mode.lego.ev3.Runner.prototype.decorate = function() {
       'updateUltrasonicSensor');
 
   // Info template
-  this.runner.showInfoButton(true);
-  this.runner.setInfoTemplate(cwc.soy.mode.ev3.Runner.info);
+  // this.runner.setInfoTemplate(cwc.soy.mode.ev3.Runner.info);
   this.runner.setCleanUpFunction(this.api.cleanUp, this.api);
   this.runner.decorate(this.node);
 

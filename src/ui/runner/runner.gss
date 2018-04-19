@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 #{$prefix}runner-body,
 #{$prefix}runner-chrome,
 #{$prefix}runner-content {
@@ -98,14 +99,6 @@
   top: 0;
   left: 0;
   z-index: 9;
-  background: #fff;
-}
-
-#{$prefix}runner-info {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
   background: #fff;
 }
 

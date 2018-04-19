@@ -65,9 +65,6 @@ cwc.ui.Runner = function(helper) {
   this.nodeTerminal = null;
 
   /** @type {Element} */
-  this.nodeInfo = null;
-
-  /** @type {Element} */
   this.nodeOverlay = null;
 
   /** @type {Element} */
@@ -78,9 +75,6 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {Webview} */
   this.content = null;
-
-  /** @type {function(Object, null=, Object<string, *>=):*} */
-  this.infoTemplate = function() {};
 
   /** @type {function(Object, null=, Object<string, *>=):*} */
   this.overlayTemplate = function() {};
@@ -126,6 +120,9 @@ cwc.ui.Runner = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -136,7 +133,7 @@ cwc.ui.Runner = function(helper) {
 cwc.ui.Runner.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
-    console.error('Invalid Runner node:', this.node);
+    this.log_.error('Invalid Runner node:', this.node);
     return;
   }
 
@@ -144,8 +141,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
     prefix: this.prefix,
     toolbarPrefix: this.helper.getPrefix('runner-toolbar'),
   });
-
-  this.nodeInfo = goog.dom.getElement(this.prefix + 'info');
 
   // Runtime
   this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
@@ -167,13 +162,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
-  // Infobar
-  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  if (nodeInfobar) {
-    this.infobar = new cwc.ui.RunnerInfobar(this.helper);
-    this.infobar.decorate(nodeInfobar);
-  }
-
   // Monitor
   this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
   this.monitor = new cwc.ui.RunnerMonitor(this.helper);
@@ -193,14 +181,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   this.showOverlay(this.overlayTemplate ? true : false);
   this.renderOverlayTemplate(this.overlayTemplate);
 
-  // Info overlay
-  let hasInfoTemplate = goog.isDefAndNotNull(this.infoTemplate);
-  if (this.toolbar) {
-    this.toolbar.enableInfoButton(hasInfoTemplate);
-  }
-  this.showInfo(hasInfoTemplate);
-  this.renderInfoTemplate(this.infoTemplate);
-
   // Runner
   this.connector.init(true);
   let layoutInstance = this.helper.getInstance('layout');
@@ -214,15 +194,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
 
 
 /**
- * Sets the info template.
- * @param {!function(Object, null=, Object<string, *>=):*} template
- */
-cwc.ui.Runner.prototype.setInfoTemplate = function(template) {
-  this.infoTemplate = template;
-};
-
-
-/**
  * Sets the terminate template.
  * @param {!function(Object, null=, Object<string, *>=):*} template
  * @param {string=} prefix
@@ -232,18 +203,7 @@ cwc.ui.Runner.prototype.setOverlayTemplate = function(template, prefix = '') {
     this.overlayTemplate = template;
     this.overlayTemplatePrefix = prefix;
   } else {
-    console.error('None overlay template!');
-  }
-};
-
-
-/**
- * Render the info template.
- * @param {function(Object, null=, Object<string, *>=):*} template
- */
-cwc.ui.Runner.prototype.renderInfoTemplate = function(template) {
-  if (this.nodeInfo && template) {
-    goog.soy.renderElement(this.nodeInfo, template);
+    this.log_.error('None overlay template!');
   }
 };
 
@@ -272,37 +232,6 @@ cwc.ui.Runner.prototype.setCleanUpFunction = function(func, scope) {
     } else {
       this.externalCleanUp = func;
     }
-  }
-};
-
-
-/**
- * @param {boolean} visible
- */
-cwc.ui.Runner.prototype.showInfoButton = function(visible) {
-  if (this.toolbar) {
-    this.toolbar.showInfoButton(visible);
-  }
-};
-
-
-/**
- * Toggles the info window.
- */
-cwc.ui.Runner.prototype.toggleInfo = function() {
-  if (this.nodeInfo) {
-    this.showInfo(!goog.style.isElementShown(this.nodeInfo));
-  }
-};
-
-
-/**
- * Shows / hides info window.
- * @param {boolean} visible
- */
-cwc.ui.Runner.prototype.showInfo = function(visible) {
-  if (this.nodeInfo) {
-    goog.style.setElementShown(this.nodeInfo, visible);
   }
 };
 
@@ -410,7 +339,7 @@ cwc.ui.Runner.prototype.run = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   let contentUrl = rendererInstance.getContentUrl();
   if (!contentUrl) {
-    console.error('Was not able to get content url!');
+    this.log_.error('Was not able to get content url!');
     return;
   }
 
@@ -418,7 +347,6 @@ cwc.ui.Runner.prototype.run = function() {
     this.infobar.clear();
   }
 
-  this.showInfo(false);
   if (this.content) {
     if (this.status == cwc.ui.StatusbarState.LOADING ||
         this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
@@ -506,7 +434,7 @@ cwc.ui.Runner.prototype.terminate = function() {
  */
 cwc.ui.Runner.prototype.remove = function() {
   if (this.content) {
-    console.info('Remove Runner...');
+    this.log_.info('Remove Runner...');
     this.terminate();
     this.nodeRuntime.removeChild(this.content);
     this.content = null;

@@ -46,6 +46,14 @@
             {param opt_color_class: 'bg-light-blue' /}
             {param opt_icon: 'insert_drive_file' /}
           {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Collision Example' /}
+            {param text: 'Try a Sphero example - change color on collision' /}
+            {param file: 'sphero/sprk_plus/blocks/Sphero-collision.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'perm_scan_wifi' /}
+          {/call}
         {/param}
       {/call}
 

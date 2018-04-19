@@ -28,7 +28,6 @@
   <div id="{$prefix}body">
     {call .toolbar_ data="all" /}
     <div id="{$prefix}content">
-      <div id="{$prefix}info"></div>
       <div id="{$prefix}status"></div>
       <div id="{$prefix}statusbar"></div>
       <div id="{$prefix}overlay"></div>
@@ -95,13 +94,6 @@
           {param id: 'expand-exit' /}
           {param icon: 'fullscreen_exit' /}
           {param opt_title: 'Collapse Blockly editor.' /}
-        {/call}
-
-        {call cwc.soy.ui.Template.navigationIcon}
-          {param prefix: $toolbarPrefix /}
-          {param id: 'info' /}
-          {param icon: 'info_outline' /}
-          {param opt_title: 'Shows general information...' /}
         {/call}
 
       </nav>
