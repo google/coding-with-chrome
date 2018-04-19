@@ -55,8 +55,7 @@
 #{$prefix}preview-content iframe,
 #{$prefix}preview-content webview {
   flex: 1 1 auto;
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: calc(100vh - 26px - 34px);
 }
 
 #{$prefix}preview-infobar {

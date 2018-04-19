@@ -5,14 +5,14 @@
       "name": "blockly",
       "type": "application/blockly+xml",
       "size": 1004,
-      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"phaser_game\" x=\"-250\" y=\"-250\">\n    <field name=\"name\">Unnamed Game</field>\n    <field name=\"width\">400</field>\n    <field name=\"height\">600</field>\n    <next>\n      <block type=\"phaser_game_state\">\n        <field name=\"name\">main</field>\n        <field name=\"autostart\">true</field>\n        <statement name=\"state\">\n          <block type=\"phaser_preload\">\n            <next>\n              <block type=\"phaser_create\">\n                <next>\n                  <block type=\"phaser_input\">\n                    <next>\n                      <block type=\"phaser_update\">\n                        <next>\n                          <block type=\"phaser_render\" collapsed=\"true\"></block>\n                        </next>\n                      </block>\n                    </next>\n                  </block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"phaser_game\" x=\"-250\" y=\"-250\">\n    <field name=\"name\">Unnamed Game</field>\n    <field name=\"width\">0</field>\n    <field name=\"height\">0</field>\n    <next>\n      <block type=\"phaser_game_state\">\n        <field name=\"name\">main</field>\n        <field name=\"autostart\">true</field>\n        <statement name=\"state\">\n          <block type=\"phaser_preload\">\n            <next>\n              <block type=\"phaser_create\">\n                <next>\n                  <block type=\"phaser_input\">\n                    <next>\n                      <block type=\"phaser_update\">\n                        <next>\n                          <block type=\"phaser_render\" collapsed=\"true\"></block>\n                        </next>\n                      </block>\n                    </next>\n                  </block>\n                </next>\n              </block>\n            </next>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
       "version": 1
     },
     "__javascript__": {
       "name": "__javascript__",
       "type": "application/javascript",
       "size": 429,
-      "content": "var obstacle_group;\nvar game = new Phaser.Game(400, 600, Phaser.AUTO, 'Unnamed Game');\ngame.state.add('main', {\n  preload: function(e) {\n  },\n  create: function () {\n    if (navigator.userAgent == 'CwC sandbox') {game.time.desiredFps = 30;}\n    obstacle_group = game.add.group(undefined, 'obstacle_group');\n  },\n  input_: function(e) {\n  },\n  update: function(e) {\n    this.input_(e);\n  },\n  render: function(e) {\n  },\n}, true);\n",
+      "content": "",
       "version": 1
     }
   },
