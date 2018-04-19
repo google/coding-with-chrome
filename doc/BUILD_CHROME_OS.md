@@ -1,6 +1,6 @@
 Build Coding with Chrome - Chrome Application
 ==============================================
-<p align="center"><img src="static_files/images/cwc_logo.png"></p>
+<p align="center"><img src="../static_files/images/cwc_logo.png"></p>
 
 ## Prerequisites
 Please make sure you followed the [Build pre-requisites](BUILD.md) before using this document.
