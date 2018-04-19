@@ -95,7 +95,7 @@ cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
   if (this.nodeStatus) {
     this.show();
     goog.dom.setTextContent(this.nodeStatus, statusText);
-    goog.Timer.callOnce(this.hide.bind(this), 1500);
+    goog.Timer.callOnce(this.hide.bind(this), 2000);
   }
   this.log_.info(statusText);
 };
@@ -107,7 +107,7 @@ cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
 cwc.ui.Statusbar.prototype.hide = function() {
   goog.Timer.callOnce(function() {
     goog.style.setElementShown(this.node, false);
-  }.bind(this), 1000);
+  }.bind(this), 2000);
 };
 
 

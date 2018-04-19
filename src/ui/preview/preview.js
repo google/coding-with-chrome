@@ -143,7 +143,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
-  // Status Button and actions
+  // Status Button and actions buttons
   let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
   if (nodeStatusButton) {
     this.statusButton.decorate(nodeStatusButton)

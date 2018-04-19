@@ -51,6 +51,15 @@
   color: #000;
 }
 
+#{$prefix}status-button-body .mdl-button--mini-fab:disabled {
+  cursor: default;
+  background: rgba(158,158,158,0.2);
+}
+
+#{$prefix}status-button-body .mdl-button--mini-fab:disabled .material-icons {
+  color: rgba(0,0,0,.26)!important;
+}
+
 #{$prefix}status-button-run,
 #{$prefix}status-button-stop {
   margin-top: 5px;

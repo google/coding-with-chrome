@@ -24,7 +24,7 @@ goog.require('cwc.soy.ui.Runner');
 goog.require('cwc.ui.RunnerInfobar');
 goog.require('cwc.ui.RunnerMonitor');
 goog.require('cwc.ui.RunnerTerminal');
-goog.require('cwc.ui.RunnerToolbar');
+goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.ui.Turtle');
@@ -88,6 +88,9 @@ cwc.ui.Runner = function(helper) {
   /** @type {cwc.ui.StatusbarState} */
   this.status = cwc.ui.StatusbarState.UNKNOWN;
 
+  /** @type {cwc.ui.StatusButton} */
+  this.statusButton = new cwc.ui.StatusButton(this.helper);
+
   /** @type {cwc.ui.RunnerInfobar} */
   this.infobar = null;
 
@@ -96,9 +99,6 @@ cwc.ui.Runner = function(helper) {
 
   /** @type {cwc.ui.RunnerTerminal} */
   this.terminal = null;
-
-  /** @type {cwc.ui.RunnerToolbar} */
-  this.toolbar = null;
 
   /** @type {cwc.ui.Turtle} */
   this.turtle = null;
@@ -139,7 +139,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
 
   goog.soy.renderElement(this.node, cwc.soy.ui.Runner.template, {
     prefix: this.prefix,
-    toolbarPrefix: this.helper.getPrefix('runner-toolbar'),
   });
 
   // Runtime
@@ -148,13 +147,6 @@ cwc.ui.Runner.prototype.decorate = function(node) {
   // Turtle
   this.nodeTurtle = goog.dom.getElement(this.prefix + 'turtle');
 
-  // Toolbar
-  let nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar-chrome');
-  if (nodeToolbar) {
-    this.toolbar = new cwc.ui.RunnerToolbar(this.helper);
-    this.toolbar.decorate(nodeToolbar);
-  }
-
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
   if (nodeStatusbar) {
@@ -162,11 +154,33 @@ cwc.ui.Runner.prototype.decorate = function(node) {
     this.statusbar.decorate(nodeStatusbar);
   }
 
+  // Status Button and actions buttons
+  let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
+  if (nodeStatusButton) {
+    this.statusButton.decorate(nodeStatusButton)
+      .setFullscreenAction(() => {
+        this.helper.getInstance('layout').setFullscreenPreview(true);
+      })
+      .setFullscreenExitAction(() => {
+        this.helper.getInstance('layout').setFullscreenPreview(false);
+      })
+      .setReloadAction(() => {
+        this.refresh();
+      })
+      .setTerminateAction(this.terminate.bind(this))
+      .setRunAction(() => {
+        this.run();
+      })
+      .setStopAction(this.stop.bind(this));
+  }
+
   // Monitor
   this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
-  this.monitor = new cwc.ui.RunnerMonitor(this.helper);
-  this.monitor.decorate(this.nodeMonitor);
-  this.enableMonitor(false);
+  if (this.nodeMonitor) {
+    this.monitor = new cwc.ui.RunnerMonitor(this.helper);
+    this.monitor.decorate(this.nodeMonitor);
+    this.enableMonitor(false);
+  }
 
   // Terminal
   this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
@@ -351,8 +365,9 @@ cwc.ui.Runner.prototype.run = function() {
     if (this.status == cwc.ui.StatusbarState.LOADING ||
         this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
       this.terminate();
+    } else {
+      this.stop();
     }
-    this.stop();
     goog.dom.removeChildren(this.nodeRuntime);
   }
   this.setStatus_(cwc.ui.StatusbarState.PREPARE);
@@ -466,8 +481,12 @@ cwc.ui.Runner.prototype.handleConsoleMessage_ = function(e) {
 
 /**
  * Displays the start of load event.
+ * @param {Event} e
  */
-cwc.ui.Runner.prototype.handleLoadStart = function() {
+cwc.ui.Runner.prototype.handleLoadStart = function(e) {
+  if (e && e['url'] === 'about:blank') {
+    return;
+  }
   this.startTime = new Date().getTime();
   this.setStatus_(cwc.ui.StatusbarState.LOADING);
 };
@@ -581,16 +600,6 @@ cwc.ui.Runner.prototype.send = function(command, optValue) {
 
 
 /**
- * @param {boolean} visible
- */
-cwc.ui.Runner.prototype.showRunButton = function(visible) {
-  if (this.toolbar) {
-    this.toolbar.showRunButton(visible);
-  }
-};
-
-
-/**
  * @param {!cwc.ui.StatusbarState} status
  * @private
  */
@@ -601,8 +610,8 @@ cwc.ui.Runner.prototype.setStatus_ = function(status) {
   if (this.statusbar) {
     this.statusbar.setStatus(status, this.startTime, this.stopTime);
   }
-  if (this.toolbar) {
-    this.toolbar.setStatus(status);
+  if (this.statusButton) {
+    this.statusButton.setStatus(status);
   }
   if (this.monitor) {
     this.monitor.setStatus(status);

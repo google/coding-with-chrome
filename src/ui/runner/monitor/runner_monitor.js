@@ -44,9 +44,6 @@ cwc.ui.RunnerMonitor = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeToolbar = null;
-
-  /** @type {Element} */
   this.nodeContent = null;
 
   /** @type {Element} */
@@ -121,9 +118,8 @@ cwc.ui.RunnerMonitor.prototype.decorate = function(node) {
   this.nodeMainRun = goog.dom.getElement(this.prefix + 'main-run');
   this.nodeMainStop = goog.dom.getElement(this.prefix + 'main-stop');
 
-  // Statusbar and Toolbar
+  // Statusbar
   this.nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
 
   goog.events.listen(this.nodeMainRun, goog.events.EventType.CLICK,
       this.handleRun_, false, this);
@@ -256,11 +252,6 @@ cwc.ui.RunnerMonitor.prototype.adjustSize = function() {
   if (this.node) {
     let parentSize = goog.style.getSize(this.node);
     let newHeight = parentSize.height;
-
-    if (this.nodeToolbar) {
-      let toolbarSize = goog.style.getSize(this.nodeToolbar);
-      newHeight = newHeight - toolbarSize.height;
-    }
 
     if (this.nodeStatusbar) {
       let infobarSize = goog.style.getSize(this.nodeStatusbar);

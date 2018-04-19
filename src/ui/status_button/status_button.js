@@ -97,6 +97,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
       }
   );
 
+  // Default nodes
   this.nodeBrowser = goog.dom.getElement(this.prefix + 'browser');
   this.nodeFullscreen = goog.dom.getElement(this.prefix + 'fullscreen');
   this.nodeFullscreenExit =
@@ -213,9 +214,36 @@ cwc.ui.StatusButton.prototype.setStopAction = function(func) {
  * @param {!cwc.ui.StatusbarState} status
  */
 cwc.ui.StatusButton.prototype.setStatus = function(status) {
-  // Load Status
+  // Terminate button
+  switch (status) {
+    case cwc.ui.StatusbarState.TERMINATED:
+      this.enableButton('terminate-action', false);
+      break;
+    case cwc.ui.StatusbarState.LOADED:
+    case cwc.ui.StatusbarState.LOADING:
+    case cwc.ui.StatusbarState.PREPARE:
+    case cwc.ui.StatusbarState.REFRESHING:
+    case cwc.ui.StatusbarState.STOPPED:
+      this.enableButton('terminate-action', true);
+      break;
+  }
+
+  // Reload button
   switch (status) {
     case cwc.ui.StatusbarState.LOADED:
+    case cwc.ui.StatusbarState.STOPPED:
+      this.enableButton('reload-action', true);
+      break;
+    case cwc.ui.StatusbarState.LOADING:
+    case cwc.ui.StatusbarState.PREPARE:
+    case cwc.ui.StatusbarState.REFRESHING:
+    case cwc.ui.StatusbarState.TERMINATED:
+      this.enableButton('reload-action', false);
+      break;
+  }
+
+  // Run and Stop button
+  switch (status) {
     case cwc.ui.StatusbarState.STOPPED:
     case cwc.ui.StatusbarState.TERMINATED:
       goog.style.setElementShown(this.nodeRun, true);
@@ -223,18 +251,18 @@ cwc.ui.StatusButton.prototype.setStatus = function(status) {
       break;
     case cwc.ui.StatusbarState.LOADING:
     case cwc.ui.StatusbarState.PREPARE:
-      break;
-  }
-
-  // Run Status
-  switch (status) {
-    case cwc.ui.StatusbarState.STOPPED:
-    case cwc.ui.StatusbarState.TERMINATED:
-      break;
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
+    case cwc.ui.StatusbarState.REFRESHING:
       goog.style.setElementShown(this.nodeRun, false);
       goog.style.setElementShown(this.nodeStop, true);
       break;
   }
+};
+
+
+/**
+ * @param {!string} id
+ * @param {boolean} enabled
+ */
+cwc.ui.StatusButton.prototype.enableButton = function(id, enabled) {
+  cwc.ui.Helper.enableElement(this.prefix + id, enabled);
 };
