@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.Turtle');
 
+goog.require('cwc.renderer.Helper');
 goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.Turtle');
 goog.require('cwc.utils.Logger');
@@ -117,14 +118,12 @@ cwc.ui.Turtle.prototype.reset = function() {
 
 
 /**
- * @param {Object=} opt_event
  * @return {string}
  * @private
  */
-cwc.ui.Turtle.prototype.renderContent_ = function(opt_event) {
-  let renderer = this.helper.getInstance('renderer', true);
-  let helper = renderer.getRendererHelper();
-  let header = renderer.getJavaScriptURLs([
+cwc.ui.Turtle.prototype.renderContent_ = function() {
+  let helper = new cwc.renderer.Helper();
+  let header = helper.getJavaScriptURLs([
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
     cwc.framework.Internal.TURTLE,

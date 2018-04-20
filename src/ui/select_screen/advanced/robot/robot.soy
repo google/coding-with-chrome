@@ -50,19 +50,21 @@
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.subTabBarLink}
-          {param id: 'sphero_bb8' /}
-          {param name: 'Sphero BB-8' /}
-        {/call}
-
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
           {param id: 'sphero_classic' /}
           {param name: 'Sphero 2.0' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
-          {param id: 'sphero_sprk_plus' /}
-          {param name: 'Sphero SPRK+' /}
-        {/call}
+        {if $experimental}
+          {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+            {param id: 'sphero_bb8' /}
+            {param name: 'Sphero BB-8' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+            {param id: 'sphero_sprk_plus' /}
+            {param name: 'Sphero SPRK+' /}
+          {/call}
+        {/if}
 
       </div>
 

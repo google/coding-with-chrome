@@ -159,7 +159,6 @@ cwc.runner.Connector.prototype.addApiProfile = function(api) {
     return;
   }
   let commandList = Object.getOwnPropertyNames(profile.__proto__);
-  console.log(profile, commandList);
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && command !== 'constructor') {
@@ -203,7 +202,6 @@ cwc.runner.Connector.prototype.addCommandProfile = function(profile, scope) {
     return;
   }
   let commandList = Object.getOwnPropertyNames(profile.__proto__);
-  console.log(profile, commandList);
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && command !== 'constructor') {
@@ -260,7 +258,6 @@ cwc.runner.Connector.prototype.addMonitorProfile = function(profile, scope) {
     return;
   }
   let monitorList = Object.getOwnPropertyNames(profile.__proto__);
-  console.log(profile, monitorList);
   for (let i = 0; i < monitorList.length; i++) {
     let monitor = monitorList[i];
     if (!monitor.endsWith('_') && monitor !== 'constructor') {
@@ -366,7 +363,7 @@ cwc.runner.Connector.prototype.handleMessage_ = function(event) {
  * @private
  */
 cwc.runner.Connector.prototype.handleGamepad_ = function() {
-  console.log('Enable Gamepad Support');
+  this.log_.info('Enable Gamepad Support');
   let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
   this.events_.listen(eventHandler,
     /** @type {string} */ (cwc.utils.Gamepad.Events.Type.UPDATE), (e) => {
@@ -384,7 +381,7 @@ cwc.runner.Connector.prototype.handleHandshake_ = function(token) {
     this.log_.error('Received wrong handshake token:', token);
     return;
   }
-  console.log('Received handshake with token:', token);
+  this.log_.info('Received handshake with token:', token);
   this.handleStart_();
 };
 

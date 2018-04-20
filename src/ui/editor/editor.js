@@ -435,7 +435,9 @@ cwc.ui.Editor.prototype.getEditorContent = function(name) {
 cwc.ui.Editor.prototype.setEditorContent = function(content,
     view = cwc.ui.EditorContent.DEFAULT) {
   if (view in this.editorView) {
-    this.editorView[view].setContent(content);
+    if (content !== this.editorView[view].getContent()) {
+      this.editorView[view].setContent(content);
+    }
   } else {
     this.log_.error('Editor view', view, 'is unknown!');
   }
@@ -451,7 +453,6 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
   switch (fileUi) {
     case 'blockly':
       if (blocklyInstance) {
-        this.log_.info('Syncing JavaScript from Blockly...');
         this.setEditorContent(
           blocklyInstance.getJavaScript(), cwc.ui.EditorContent.JAVASCRIPT);
       }

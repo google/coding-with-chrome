@@ -22,6 +22,8 @@ goog.require('cwc.renderer.Helper');
 
 describe('Renderer Helper', function() {
   let helper = new cwc.renderer.Helper();
+  let defaultCss = '* { margin:0; padding:0; }html, body { width:100%; ' +
+    'height:100%; overflow: hidden;}';
 
   it('constructor', function() {
     expect(typeof helper).toEqual('object');
@@ -38,24 +40,24 @@ describe('Renderer Helper', function() {
 
   describe('getHTML', function() {
     it('getHTML - raw', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>* { margin:0; ' +
-        'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { ' +
         'display:block; }</style>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
       expect(helper.getHTML()).toEqual(htmlCode);
     });
 
     it('getHTML - html', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>* { margin:0; ' +
-        'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { ' +
         'display:block; }</style>\n' +
         '</head>\n<body>\n<h1>test</h1>\n</body>\n</html>\n';
       expect(helper.getHTML('<h1>test</h1>')).toEqual(htmlCode);
     });
 
     it('getHTML - head', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>* { margin:0; ' +
-        'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { ' +
         'display:block; }</style>\n' +
         '<script src="http://example.org"></script>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
@@ -65,8 +67,8 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - css', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>* { margin:0; ' +
-        'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { ' +
         'display:block; }</style>\n' +
         '<style>\nbody { background: #f00;}\n</style>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
@@ -75,8 +77,8 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - javascript', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>* { margin:0; ' +
-        'padding:0; }html, body { width:100%; height:100%; }canvas { ' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { ' +
         'display:block; }</style>\n' +
         '</head>\n<body>\n<script>\nlet 123;\n' +
         'function test(a) {return a+1;};\n</script>\n</body>\n</html>\n';
@@ -85,9 +87,8 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML', function() {
-      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n' +
-        '<style>* { margin:0; padding:0; }html, body { ' +
-        'width:100%; height:100%; }canvas { display:block; }</style>\n' +
+      let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+        'canvas { display:block; }</style>\n' +
         '<style>\nbody { background: #f00;}\n</style>\n' +
         '<script src="http://example.org"></script>\n</head>\n<body>\n' +
         '<h1>test</h1>\n<script>\nlet 123;\nfunction test(a) {return a+1;};\n' +
@@ -101,9 +102,8 @@ describe('Renderer Helper', function() {
   });
 
   it('getHTMLGrid', function() {
-    let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n' +
-      '<style>* { margin:0; padding:0; }html, body { ' +
-      'width:100%; height:100%; }canvas { display:block; }' +
+    let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+      'canvas { display:block; }' +
       'body {background-size: 25px 25px; background-image: linear-gradient' +
       '(to right, #eee 1px, transparent 1px), linear-gradient(to bottom, #eee' +
       ' 1px, transparent 1px);}\n</style>\n' +
@@ -119,9 +119,8 @@ describe('Renderer Helper', function() {
   });
 
   it('getHTMLCanvas', function() {
-    let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n' +
-      '<style>* { margin:0; padding:0; }html, body { ' +
-      'width:100%; height:100%; }canvas { display:block; }</style>\n' +
+    let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
+      'canvas { display:block; }</style>\n' +
       '<style>\nbody { background: #f00;}\n</style>\n' +
       '<script src="http://example.org"></script>\n</head>\n<body>\n' +
       '<canvas id="canvas-chrome"></canvas>\n' +

@@ -19,7 +19,8 @@
  */
 goog.provide('cwc.ui.Account');
 
-goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
+
 goog.require('goog.Uri');
 goog.require('goog.events');
 goog.require('goog.net.XhrIo');
@@ -63,6 +64,9 @@ cwc.ui.Account = function(helper) {
 
   /** @type {string} */
   this.userLink = '';
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -82,7 +86,7 @@ cwc.ui.Account.prototype.prepare = function() {
  * @param {function(?)=} callback
  */
 cwc.ui.Account.prototype.authenticate = function(callback) {
-  console.log('Try to authenticated...');
+  this.log_.info('Try to authenticated...');
   let authentificationEvent = (function(opt_access_token) {
     this.handleAuthentication_(opt_access_token);
     if (callback) {
@@ -97,7 +101,7 @@ cwc.ui.Account.prototype.authenticate = function(callback) {
  * Deauthenticates the user.
  */
 cwc.ui.Account.prototype.deauthenticate = function() {
-  console.log('De-authenticated token: ' + this.accessToken);
+  this.log_.info('De-authenticated token: ' + this.accessToken);
   let unauthenticationEvent = this.setUnauthenticated.bind(this);
   chrome.identity.removeCachedAuthToken({'token': this.accessToken},
       unauthenticationEvent);
@@ -239,7 +243,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
     goog.events.listen(xhr, goog.net.EventType.TIMEOUT, this.handleXhrTimeout,
       false, this);
 
-    console.log('Request: ' + method + ' ' + url);
+    this.log_.info('Request: ' + method + ' ' + url);
     xhr.send(url, method, content, headers);
   }).bind(this);
 
@@ -260,7 +264,7 @@ cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
   /** @type {EventTarget|goog.net.XhrIo} */
   let xhr = e.target;
   let response = '';
-  console.log('Handle Xhr response:', xhr);
+  this.log_.info('Handle Xhr response:', xhr);
 
   if (xhr.isSuccess()) {
     let rawResponse = xhr.getResponseText();
@@ -282,7 +286,7 @@ cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
  */
 cwc.ui.Account.prototype.handleXhrError = function(event) {
   this.helper.showError('Xhr request error!');
-  console.error(event);
+  this.log_.error(event);
 };
 
 
@@ -292,7 +296,7 @@ cwc.ui.Account.prototype.handleXhrError = function(event) {
  */
 cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
   this.helper.showError('Xhr request timeout!');
-  console.error(event);
+  this.log_.error(event);
 };
 
 
@@ -305,7 +309,7 @@ cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
   if (opt_access_token) {
     this.accessToken = opt_access_token;
     this.setAuthenticated();
-    console.log('Access token: ' + this.accessToken);
+    this.log_.info('Access token: ' + this.accessToken);
     this.requestUserInfo();
     this.helper.showSuccess('Successful authenticated...');
   } else {

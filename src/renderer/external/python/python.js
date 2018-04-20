@@ -63,7 +63,7 @@ cwc.renderer.external.Python.prototype.render = function(
     libraryFiles,
     frameworks,
     rendererHelper) {
-  let content = editorContent[cwc.ui.EditorContent.DEFAULT];
+  let content = editorContent[cwc.ui.EditorContent.DEFAULT] || '';
 
   // Python 2.x handling.
   if (content.includes('#!/usr/bin/python2.') ||

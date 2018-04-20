@@ -22,6 +22,7 @@ goog.provide('cwc.fileHandler.File');
 goog.require('cwc.fileFormat.File');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -57,6 +58,9 @@ cwc.fileHandler.File = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -66,7 +70,7 @@ cwc.fileHandler.File = function(helper) {
  */
 cwc.fileHandler.File.prototype.clear = function(silent = false) {
   if (!silent) {
-    console.log('Clear File instance...');
+    this.log_.info('Clear File instance...');
   }
   this.fileHandler_ = null;
   this.file_ = null;
@@ -296,7 +300,7 @@ cwc.fileHandler.File.prototype.getFileTitle = function() {
 cwc.fileHandler.File.prototype.setFileHandler = function(file_handler) {
   this.fileHandler_ = file_handler;
   this.gDriveId_ = '';
-  console.log('setFileHandler:', file_handler);
+  this.log_.info('setFileHandler:', file_handler);
 };
 
 
@@ -314,7 +318,7 @@ cwc.fileHandler.File.prototype.getFileHandler = function() {
 cwc.fileHandler.File.prototype.setGDriveId = function(id) {
   this.gDriveId_ = id;
   this.fileHandler_ = null;
-  console.log('setGDriveId:', id);
+  this.log_.info('setGDriveId:', id);
 };
 
 

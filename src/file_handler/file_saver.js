@@ -20,6 +20,7 @@
 goog.provide('cwc.fileHandler.FileSaver');
 
 goog.require('cwc.utils.mime.Type');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -49,6 +50,9 @@ cwc.fileHandler.FileSaver = function(helper) {
 
   /** @type {cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -57,7 +61,7 @@ cwc.fileHandler.FileSaver = function(helper) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
-  console.log('saveFile...');
+  this.log_.info('saveFile...');
   this.prepareContent();
   if (autoDetect && this.gDriveId) {
     this.saveGDriveFile(true);
@@ -73,7 +77,7 @@ cwc.fileHandler.FileSaver.prototype.saveFile = function(autoDetect = false) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
-  console.log('saveFileAs...');
+  this.log_.info('saveFileAs...');
   this.prepareContent();
   this.selectFileToSave(this.filename, this.fileData);
 };
@@ -85,7 +89,7 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
-  console.log('Save file in Google Drive', this.gDriveId);
+  this.log_.info('Save file in Google Drive', this.gDriveId);
   let gDriveInstance = this.helper.getInstance('gdrive', true);
   this.prepareContent();
   if (save_file) {
@@ -100,7 +104,7 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
  * @export
  */
 cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
-  console.log('Save file in Google Cloud');
+  this.log_.info('Save file in Google Cloud');
   let gCloudInstance = this.helper.getInstance('gcloud', true);
   this.prepareContent();
   gCloudInstance.publishDialog(this.filename, this.fileData, this.mimeType);
@@ -176,15 +180,15 @@ cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
 cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
   let prepareSaveFile = function(file_entry, opt_file_entries) {
     if (chrome.runtime.lastError) {
-      console.error('Choose Entry error for', name, ':',
+      this.log_.error('Choose Entry error for', name, ':',
         chrome.runtime.lastError);
     } else if (file_entry) {
       this.prepareSaveFile(file_entry, name, content);
     } else {
-      console.error('Was unable to choose file entry to save.');
+      this.log_.error('Was unable to choose file entry to save.');
     }
   }.bind(this);
-  console.log('Select file to save content for', name);
+  this.log_.info('Select file to save content for', name);
   chrome.fileSystem.chooseEntry({
     'type': 'saveFile',
     'suggestedName': this.getSafeFilename_(name),
@@ -200,11 +204,11 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
 cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
     file_entry, name, content) {
   if (!file_entry) {
-    console.log('No file was selected for', name, file_entry);
+    this.log_.info('No file was selected for', name, file_entry);
     return;
   }
 
-  console.log('Prepare fileWriter for', name);
+  this.log_.info('Prepare fileWriter for', name);
   let fileWriter = this.fileWriterHandler.bind(this);
   file_entry.createWriter(function(writer) {
     fileWriter(writer, name, content, file_entry);
@@ -226,8 +230,8 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
   let blobContent = new Blob([content]);
   let truncated = false;
   let helperInstance = this.helper;
-  console.log('Writing file', filename, 'with file-size', blobContent['size'],
-      ':', content);
+  this.log_.info('Writing file', filename, 'with file-size',
+    blobContent['size'], ':', content);
   writer.onwriteend = function(opt_event) {
     if (!truncated) {
       this.truncate(this.position);

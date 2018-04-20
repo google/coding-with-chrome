@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.40",
+    "closure-builder": "^2.2.41",
     "command-line-usage": "^5.0.4",
     "jsdoc": "^3.5.5",
     "npm": "^5.8.0",

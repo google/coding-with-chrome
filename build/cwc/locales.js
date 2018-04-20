@@ -34,9 +34,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/blacklist.js',
 });
@@ -55,9 +55,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/supported.js',
 });
@@ -76,9 +76,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/deu.js',
 });
@@ -97,9 +97,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/eng.js',
 });
@@ -118,9 +118,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/jpn.js',
 });
@@ -139,9 +139,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/kor.js',
 });
@@ -160,9 +160,9 @@ closureBuilder.build({
   ],
   compress: true,
   options: {
-    closure : {
-      rewrite_polyfills: false
-    }
+    closure: {
+      rewrite_polyfills: false,
+    },
   },
   out: 'genfiles/core/js/locales/hin.js',
 });

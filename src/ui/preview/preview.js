@@ -150,15 +150,12 @@ cwc.ui.Preview.prototype.decorate = function(node) {
       .setBrowserAction(this.openInBrowser.bind(this))
       .setFullscreenAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(true);
-        this.focus();
       })
       .setFullscreenExitAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(false);
-        this.focus();
       })
       .setReloadAction(() => {
         this.refresh();
-        this.focus();
       })
       .setTerminateAction(this.terminate.bind(this))
       .setRunAction(() => {
@@ -185,6 +182,8 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     let eventHandler = layoutInstance.getEventHandler();
     this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
         this.cleanUp, false, this);
+    this.events_.listen(eventHandler, goog.events.EventType.DRAGEND,
+        this.refresh, false, this);
   }
 
   // HotKeys
@@ -257,6 +256,7 @@ cwc.ui.Preview.prototype.refresh = function() {
       this.content.contentWindow.location.reload(true);
     }
   }
+  this.focus();
 };
 
 
@@ -391,7 +391,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
     }
-    this.focus();
+    window.setTimeout(this.focus.bind(this), 1000);
   } else if (!active && this.autoUpdateEvent) {
     this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
@@ -425,9 +425,12 @@ cwc.ui.Preview.prototype.doAutoUpdate = function() {
 };
 
 
+/**
+ * Focus the content window.
+ */
 cwc.ui.Preview.prototype.focus = function() {
   if (this.content) {
-    this.content.focus();
+    this.content['focus']();
   }
 };
 

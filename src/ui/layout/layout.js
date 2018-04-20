@@ -158,9 +158,19 @@ cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 400) {
   this.splitpane.setInitialSize(splitpaneSize);
   this.splitpane.setHandleSize(this.handleSize);
   this.splitpane.decorate(chromeMain);
-  this.adjustSizeOnChange(this.splitpane);
-  this.adjustSize();
   this.splitpane.setFirstComponentSize(splitpaneSize);
+  this.adjustSize();
+
+  this.events_.listen(
+    this.splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG_END, () => {
+      this.adjustSize();
+      this.eventHandler.dispatchEvent(goog.events.EventType.DRAGEND);
+    });
+  this.events_.listen(
+    this.splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP, () => {
+      this.adjustSize();
+      this.eventHandler.dispatchEvent(goog.events.EventType.DRAGEND);
+    });
 };
 
 
@@ -237,19 +247,6 @@ cwc.ui.Layout.prototype.refresh = function() {
 
 
 /**
- * Adds event listener to adjust size of the split plane on drag and snap.
- * @param {goog.ui.SplitPane} splitpane
- */
-cwc.ui.Layout.prototype.adjustSizeOnChange = function(splitpane) {
-  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG_END,
-      this.adjustSize, false, this);
-
-  this.events_.listen(splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP,
-      this.adjustSize, false, this);
-};
-
-
-/**
  * Adjusts the UI to the correct size after an resize.
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
@@ -276,7 +273,7 @@ cwc.ui.Layout.prototype.adjustSize = function() {
       console.error('Unknown layout:', this.layout);
       break;
   }
-  this.handleResizeEvent();
+  this.eventHandler.dispatchEvent(goog.events.EventType.RESIZE);
 };
 
 
@@ -303,14 +300,6 @@ cwc.ui.Layout.prototype.setFullscreenEditor = function(fullscreen) {
  */
 cwc.ui.Layout.prototype.setFullscreenPreview = function(fullscreen) {
   this.setFullscreen_(fullscreen, false);
-};
-
-
-/**
- * Dispatches a resize event for any layout change to the event handler.
- */
-cwc.ui.Layout.prototype.handleResizeEvent = function() {
-  this.eventHandler.dispatchEvent(goog.events.EventType.RESIZE);
 };
 
 
