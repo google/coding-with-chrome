@@ -34,8 +34,7 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @typedef {cwc.addon.Message|
- *   cwc.addon.Tutorial}
+ * @typedef {cwc.addon.Message}
  */
 cwc.utils.AddonInstance;
 
@@ -71,6 +70,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.SelectScreen|
  *   cwc.ui.SettingScreen|
  *   cwc.ui.Turtle|
+ *   cwc.ui.Tutorial|
  *   cwc.ui.connectScreen.Screens|
  *   cwc.utils.Dialog}
  */

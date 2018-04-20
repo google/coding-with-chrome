@@ -105,7 +105,7 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
 /**
  * Adds a new record, if not already exists.
  * @param {!string} name
- * @param {!string} content
+ * @param {!string|number} content
  * @param {string=} group
  */
 cwc.utils.Database.prototype.addFile = function(name, content,

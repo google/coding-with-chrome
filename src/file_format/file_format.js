@@ -292,7 +292,7 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
 /**
  * @param {!string} name
  * @param {string=} namespace
- * @return {!string}
+ * @return {!string|Array}
  */
 cwc.fileFormat.File.prototype.getMetadata = function(
     name, namespace = this.metedataNamespace_) {

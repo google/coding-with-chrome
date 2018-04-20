@@ -112,6 +112,11 @@
   width: 650px;
 }
 
+
+/**
+ * Welcome screen
+ */
+
 #{$prefix}select-screen-welcome .mdl-card {
   margin: 10px;
 }

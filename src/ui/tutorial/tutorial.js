@@ -49,8 +49,8 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
 
-  /** @private {Number} */
-  this.tourLength_ = null;
+  /** @private {!number} */
+  this.tourLength_ = 0;
 };
 
 
@@ -173,5 +173,5 @@ cwc.ui.Tutorial.prototype.clear = function() {
     this.cancel();
     this.tour_ = null;
   }
-  this.tourLength_ = null;
+  this.tourLength_ = 0;
 };

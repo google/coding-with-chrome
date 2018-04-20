@@ -23,6 +23,7 @@
 goog.provide('cwc.server.Server');
 
 goog.require('cwc.protocol.tcp.HTTPServer');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -43,13 +44,20 @@ cwc.server.Server = function(helper) {
 
   /** @type {!string} */
   this.previewFile = '/preview.html';
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
 cwc.server.Server.prototype.prepare = function() {
   this.httpServer = this.helper.getInstance('http-server');
+  if (!this.httpServer) {
+    this.log_.error('Unable to found http-server');
+    return;
+  }
+
   this.httpServer.addCustomHandler('/test/', (request, httpResponse) => {
-    console.log('Custom Handler test', request);
     httpResponse('Hello World 123:' + request);
   });
 
@@ -131,7 +139,7 @@ cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
  * @return {!string}
  */
 cwc.server.Server.prototype.getRootURL = function() {
-  return this.httpServer.getRootURL();
+  return this.httpServer ? this.httpServer.getRootURL() : '/';
 };
 
 

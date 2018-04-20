@@ -268,7 +268,6 @@ cwc.mode.Modder.prototype.syncLibrary = function() {
 
 /**
  * Runs the preview.
- * @param {boolean} focus
  */
 cwc.mode.Modder.prototype.runPreview = function() {
   let previewInstance = this.helper.getInstance('preview');

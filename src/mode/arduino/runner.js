@@ -67,7 +67,6 @@ cwc.mode.arduino.Runner.prototype.decorate = function() {
 
   this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
   this.runner.decorate(this.node);
-  this.runner.showRunButton(false);
   this.runner.enableTerminal(true);
 };
 

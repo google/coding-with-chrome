@@ -68,6 +68,7 @@ closureBuilder.build({
   ],
   deps: glob([
     'src/utils/dialog/*',
+    'src/utils/logger.js',
   ]),
   externs: [
     'build/externs/skulpt.js',
@@ -187,8 +188,8 @@ closureBuilder.build({
   deps: glob([
     'src/config/config.js',
     'src/frameworks/internal/runner/runner.js',
-    'src/utils/logger.js',
     'src/utils/dialog/*',
+    'src/utils/logger.js',
   ]),
   out: 'genfiles/core/frameworks/internal/simple_framework.js',
 });

@@ -282,8 +282,10 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.setProgress('Prepare protocols ...', 30);
   this.prepareProtocols();
 
-  this.setProgress('Prepare internal Server', 35);
-  this.prepareServer();
+  if (this.helper.checkChromeFeature('sockets.tcpServer')) {
+    this.setProgress('Prepare internal Server', 35);
+    this.prepareServer();
+  }
 
   this.setProgress('Prepare helpers ...', 40);
   this.prepareHelper();
@@ -308,8 +310,10 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
   this.prepareBluetooth();
 
-  this.setProgress('Prepare Serial support ...', 70);
-  this.prepareSerial();
+  if (this.helper.checkChromeFeature('serial')) {
+    this.setProgress('Prepare Serial support ...', 70);
+    this.prepareSerial();
+  }
 
   if (this.helper.checkChromeFeature('manifest.oauth2')) {
     this.setProgress('Prepare account support ...', 80);
@@ -377,6 +381,7 @@ cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
   }
 };
 
+
 /**
  * Prepares account if needed.
  */
@@ -428,7 +433,7 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
  */
 cwc.ui.Builder.prototype.prepareSerial = function() {
   let serialInstance = this.helper.getInstance('serial');
-  if (this.helper.checkChromeFeature('serial') && serialInstance) {
+  if (serialInstance) {
     serialInstance.prepare();
   }
 };
@@ -438,12 +443,9 @@ cwc.ui.Builder.prototype.prepareSerial = function() {
  * Prepare internal Servers if needed.
  */
 cwc.ui.Builder.prototype.prepareServer = function() {
+  this.helper.setInstance('http-server', new cwc.protocol.tcp.HTTPServer());
   let serverInstance = new cwc.server.Server(this.helper);
-  if (this.helper.checkChromeFeature('sockets.tcpServer')) {
-    this.helper.setInstance('http-server', new cwc.protocol.tcp.HTTPServer());
-    serverInstance.prepare();
-  }
-  this.helper.setInstance('server', serverInstance);
+  this.helper.setInstance('server', serverInstance).prepare();
 };
 
 
@@ -472,8 +474,7 @@ cwc.ui.Builder.prototype.prepareExperimental_ = function() {
  */
 cwc.ui.Builder.prototype.prepareDialog = function() {
   let dialogInstance = new cwc.utils.Dialog();
-  dialogInstance.setDefaultCloseHandler(
-    function() {
+  dialogInstance.setDefaultCloseHandler(function() {
       this.helper.getInstance('navigation').hide();
     }.bind(this)
   );

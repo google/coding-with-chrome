@@ -92,7 +92,7 @@ cwc.renderer.Renderer.prototype.loadFiles = function(files) {
     }
   }
   fileFiles.forEach((file) => {
-    cwc.utils.Resources.getUriAsText('../' + file).then((content) => {
+    cwc.utils.Resources.getUriAsText('..' + file).then((content) => {
       this.addFile(file, content);
     });
   });

@@ -31,7 +31,7 @@ goog.require('cwc.ui.Preview');
  * @typedef {cwc.mode.lego.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
- *   cwc.mode.sphero.Connection|
+ *   cwc.mode.sphero.classic.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection}
@@ -91,7 +91,7 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {cwc.ui.Blockly} */
   this.blockly = null;
 
-  /** @type {Object} */
+  /** @type {!Function} */
   this.blocklyToolbox = null;
 
   /** @type {cwc.mode.default.ConnectionTypes} */
@@ -132,7 +132,7 @@ cwc.mode.default.Mod.prototype.decorate = function() {
     this.blockly.addOption('Switch to Editor', this.showEditor_.bind(this),
         'Switch to the raw code editor view');
     this.editor.addOption('Switch to Blockly', this.showBlockly_.bind(this),
-        'Switch to the Blocky editor mode');
+        'Switch to the Blockly editor mode');
 
     // Custom Events
     this.blockly.addEditorChangeHandler(

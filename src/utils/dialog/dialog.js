@@ -21,8 +21,10 @@ goog.provide('cwc.utils.Dialog');
 goog.provide('cwc.utils.DialogType');
 
 goog.require('cwc.soy.Dialog');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
+goog.require('goog.soy');
 
 
 /**
@@ -65,6 +67,9 @@ cwc.utils.Dialog = function() {
 
   /** @private {!string} */
   this.title_ = '';
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -72,7 +77,10 @@ cwc.utils.Dialog = function() {
  * @export
  */
 cwc.utils.Dialog.prototype.prepare = function() {
-  this.getDialog_();
+  this.log_.info('Preparing dialog ...');
+  if (!this.getDialog_()) {
+    this.log_.info('Unable to find dialog element!');
+  }
   this.refresh_();
   this.close();
 };

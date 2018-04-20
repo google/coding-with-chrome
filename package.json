@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.39",
+    "closure-builder": "^2.2.40",
     "command-line-usage": "^5.0.4",
     "jsdoc": "^3.5.5",
     "npm": "^5.8.0",
@@ -21,7 +21,7 @@
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
     "jasmine-core": "latest",
-    "karma": "latest",
+    "karma": "^2.0.2",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-jasmine": "latest"

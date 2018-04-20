@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blocky Editor for the Coding with Chrome editor.
+ * @fileoverview Blockly Editor for the Coding with Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blocky Toolbox.
+ * @fileoverview Blockly Toolbox.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

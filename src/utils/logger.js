@@ -147,7 +147,7 @@ cwc.utils.Logger.prototype.warn = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.error = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.ERROR) {
+  if (this.logLevel >= cwc.utils.LogLevel.ERROR) {
     Function.prototype.apply.apply(
       console.error, [console, this.displayName.concat(args)]);
   }
@@ -159,7 +159,7 @@ cwc.utils.Logger.prototype.error = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.critical = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.CRITICAL) {
+  if (this.logLevel >= cwc.utils.LogLevel.CRITICAL) {
     Function.prototype.apply.apply(
       console.error, [console, this.displayName.concat(args)]);
   }
@@ -171,7 +171,7 @@ cwc.utils.Logger.prototype.critical = function(...args) {
  * @param {...*} args
  */
 cwc.utils.Logger.prototype.alert = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.ALERT) {
+  if (this.logLevel >= cwc.utils.LogLevel.ALERT) {
     Function.prototype.apply.apply(
       console.error, [console, this.displayName.concat(args)]);
   }
