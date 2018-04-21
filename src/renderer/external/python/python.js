@@ -45,8 +45,8 @@ cwc.renderer.external.Python = function(helper) {
  */
 cwc.renderer.external.Python.prototype.init = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
-  rendererInstance.setRenderer(this.render.bind(this));
   rendererInstance.setServerMode(true);
+  rendererInstance.setRenderer(this.render.bind(this));
 };
 
 

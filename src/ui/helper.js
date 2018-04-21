@@ -108,15 +108,18 @@ cwc.ui.Helper.insertScript = function(script_url, opt_id, optCallback) {
  * @param {boolean} enabled
  */
 cwc.ui.Helper.enableElement = function(element, enabled) {
-  if (typeof element === 'string') {
-    element = goog.dom.getElement(element);
+  let node = typeof element === 'string' ?
+    goog.dom.getElement(element) : element;
+  if (!node) {
+    console.error('Unable to find element', element);
+    return;
   }
   if (enabled) {
-    if (element.hasAttribute('disabled')) {
-      element.removeAttribute('disabled');
+    if (node.hasAttribute('disabled')) {
+      node.removeAttribute('disabled');
     }
   } else {
-    element.setAttribute('disabled', true);
+    node.setAttribute('disabled', true);
   }
 };
 

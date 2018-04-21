@@ -62,6 +62,44 @@ cwc.renderer.Helper.prototype.injectURLs = function(content, baseURL) {
 
 
 /**
+ * @param {!string} content
+ * @param {string=} baseURL
+ * @return {!string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.cacheURLs = function(content, baseURL) {
+  let urlPattern = /{{ url:(.+) }}/gi;
+  let urls = [];
+  let results;
+  while ((results = urlPattern.exec(content)) !== null) {
+    urls.push(results[1]);
+  }
+  return this.getCachedURLs(urls, baseURL);
+};
+
+
+/**
+ * @param {!Array} urls
+ * @param {string=} baseURL
+ * @return {!string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.getCachedURLs = function(urls, baseURL) {
+  if (!urls || urls.length === 0) {
+    return '';
+  }
+  let result = '';
+  for (let url of urls) {
+    let finalURL= (baseURL || '') + url;
+    if (url.endsWith('.mp3') || url.endsWith('.ogg')) {
+      result += '<audio src="' + finalURL + '"></audio>';
+    }
+  }
+  return result;
+};
+
+
+/**
  * @param {string} content Content to modify.
  * @param {string} text Text to prepend if not already in content.
  * @return {string}
@@ -174,6 +212,22 @@ cwc.renderer.Helper.prototype.getRawHTML = function(html, header) {
     }
   }
   return html;
+};
+
+
+/**
+ * @param {string=} javascript
+ * @param {string=} header
+ * @param {string=} body
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getJavaScript = function(javascript, header,
+    body) {
+  return cwc.soy.Renderer.html({
+    body: body ? this.sanitizedHtml_(body) : '',
+    head: header ? this.sanitizedHtml_(header) : '',
+    js: javascript ? this.sanitizedJs_(javascript) : '',
+  }).getContent();
 };
 
 

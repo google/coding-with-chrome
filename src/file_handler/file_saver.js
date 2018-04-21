@@ -251,7 +251,7 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
 
 
 /**
- * Returns and OS safe filename.
+ * Returns an OS safe filename.
  * @param {!string} name
  * @return {!string}
  * @private

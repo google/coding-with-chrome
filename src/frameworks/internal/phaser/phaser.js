@@ -121,3 +121,37 @@ cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
     }
   }
 };
+
+
+/**
+ * Prepares Phaser framework.
+ * @private
+ */
+cwc.framework.Phaser.prepare_ = function() {
+  // Cleanup existing canvas elements, in the case this is an saved document.
+  let canvasElements = document.getElementsByTagName('canvas');
+  if (canvasElements) {
+    for (let canvaElement of canvasElements) {
+      if (canvaElement.style &&
+          canvaElement.style['touchAction'] == 'none' &&
+          canvaElement.style['userSelect'] == 'none') {
+        canvaElement.remove();
+      }
+    }
+  }
+
+  // Cleanup possible add on fragments like Ghostery
+  if (document.getElementById('ghostery-purple-box')) {
+    document.getElementById('ghostery-purple-box').remove();
+  } else {
+    if (document.getElementById('ghostery-box')) {
+      document.getElementById('ghostery-box').remove();
+    }
+    if (document.getElementById('ghostery-pb-background')) {
+      document.getElementById('ghostery-pb-background').remove();
+    }
+  }
+};
+
+
+document.addEventListener('DOMContentLoaded', cwc.framework.Phaser.prepare_);

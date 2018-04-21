@@ -170,9 +170,9 @@ describe('Renderer Helper', function() {
     let js1 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==');
     let js2 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');
-    expect(js1).toEqual('\n<script src="data:text/javascript;base64,' +
+    expect(js1).toEqual('<script src="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA=="></script>\n');
-    expect(js2).toEqual('\n<script src="data:text/javascript;base64,' +
+    expect(js2).toEqual('<script src="data:text/javascript;base64,' +
       'SGVsbG9Xb3JsZA==" data-filename="test-file"></script>\n');
   });
 
@@ -189,9 +189,9 @@ describe('Renderer Helper', function() {
     let js1 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==');
     let js2 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');
-    expect(js1).toEqual('\n<link rel="stylesheet" type="text/css" ' +
+    expect(js1).toEqual('<link rel="stylesheet" type="text/css" ' +
       'href="data:text/css;base64,SGVsbG9Xb3JsZA==">\n');
-    expect(js2).toEqual('\n<link rel="stylesheet" type="text/css" ' +
+    expect(js2).toEqual('<link rel="stylesheet" type="text/css" ' +
       'href="data:text/css;base64,SGVsbG9Xb3JsZA==" ' +
       'data-filename="test-file">\n');
   });

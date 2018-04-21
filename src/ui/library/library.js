@@ -458,11 +458,11 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
       'your files for your project.'),
     'attachTo': '#' + this.prefix + 'chrome center',
     'buttons': [{
-      'text': i18t('Exit'),
+      'text': i18t('EXIT'),
       'action': this.tour_.cancel,
       'classes': 'shepherd-button-secondary',
     }, {
-      'text': i18t('Next'),
+      'text': i18t('NEXT'),
       'action': this.tour_.next,
       'classes': 'shepherd-button-example-primary',
     }],
@@ -500,7 +500,7 @@ cwc.ui.Library.prototype.prepareTour_ = function() {
       'To close this window, click the close button.'),
     'attachTo': '#cwc-dialog-close left',
     'buttons': [{
-      'text': i18t('Exit'),
+      'text': i18t('EXIT'),
       'action': this.tour_.cancel,
       'classes': 'shepherd-button-example-primary',
     }],

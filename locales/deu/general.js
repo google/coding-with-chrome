@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Status bar / button (german).
+ * @fileoverview General Translation file (german).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -27,19 +27,17 @@ Locales['deu'] = Locales['deu'] || {};
  */
 /* eslint-disable max-len */
 Object.assign(Locales['deu'], {
-  'STATUS_BUTTON_COLLAPSE_VIEW': 'Verkleinere die Ansicht',
-  'STATUS_BUTTON_EXPAND_VIEW': 'Vergrößere die Ansicht',
-  'STATUS_BUTTON_OPEN_IN_BROWSER': 'Öffne die Ansicht in einen neuen Browser Fenster',
-  'STATUS_BUTTON_REFRESH_VIEW': 'Ansicht aktualisieren',
-  'STATUS_BUTTON_RUN_CODE': 'Führe denn Code aus und aktualisiere die Ansicht',
-  'STATUS_BUTTON_STOP_VIEW': 'Stoppt oder beendet die Ansicht',
-  'STATUS_BUTTON_TERMINATE_VIEW': 'Beendet die Anischt',
-  'STATUS_LOADED': 'Beendet nach $VAR$ Sekunden.',
-  'STATUS_LOADING': 'Laded ...',
-  'STATUS_PREPARE': 'Vorbereitung',
-  'STATUS_RELOADING': 'Neu laden ...',
-  'STATUS_RUNNING': 'Läuft ...',
-  'STATUS_STOPPED': 'Angehalten',
-  'STATUS_TERMINATED': 'Beended',
-  'STATUS_UNRESPONSIVE': 'Reagiert nicht',
+  'ABOUT': 'Über',
+  'BACK': 'Zurück',
+  'CANCEL': 'Abbrechen',
+  'CLOSE': 'Schließen',
+  'CONTINUE': 'Fortsetzen',
+  'DONE': 'Fertig',
+  'EXIT': 'Beenden',
+  'HELP': 'Hilfe',
+  'NEXT': 'Weiter',
+  'NO': 'Nein',
+  'OK': 'Ok',
+  'SETTINGS': 'Einstellungen',
+  'YES': 'Ja',
 });

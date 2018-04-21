@@ -231,6 +231,14 @@ cwc.fileHandler.File.prototype.getFilename = function() {
 
 
 /**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getSafeFilename = function() {
+  return this.filename_.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+};
+
+
+/**
  * @param {!string} ui
  */
 cwc.fileHandler.File.prototype.setUi = function(ui) {
@@ -291,6 +299,14 @@ cwc.fileHandler.File.prototype.getFileTitle = function() {
     return this.file_.getTitle();
   }
   return this.filename_;
+};
+
+
+/**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getSafeFileTitle = function() {
+  return this.getFileTitle().replace(/[^a-z0-9]/gi, '_').toLowerCase();
 };
 
 

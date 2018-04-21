@@ -150,9 +150,11 @@ cwc.ui.Preview.prototype.decorate = function(node) {
       .setBrowserAction(this.openInBrowser.bind(this))
       .setFullscreenAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(true);
+        this.refresh();
       })
       .setFullscreenExitAction(() => {
         this.helper.getInstance('layout').setFullscreenPreview(false);
+        this.refresh();
       })
       .setReloadAction(() => {
         this.refresh();

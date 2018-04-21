@@ -1,5 +1,5 @@
 /**
- * @fileoverview Renderer for JavaScript modification.
+ * @fileoverview Renderer for Phaser modification.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,14 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author carheden@google.com (Adam Carheden)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.internal.Javascript');
+goog.provide('cwc.renderer.external.Phaser');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.External');
+goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
 
 
@@ -32,17 +34,19 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.internal.Javascript = function(helper) {
+cwc.renderer.external.Phaser = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 };
 
 
 /**
- * Initializes and defines the JavaScript renderer.
+ * Initializes and defines the HTML5 renderer.
  */
-cwc.renderer.internal.Javascript.prototype.init = function() {
-  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+cwc.renderer.external.Phaser.prototype.init = function() {
+  let rendererInstance = this.helper.getInstance('renderer', true);
+  rendererInstance.setServerMode(true);
+  rendererInstance.setRenderer(this.render.bind(this));
 };
 
 
@@ -54,11 +58,30 @@ cwc.renderer.internal.Javascript.prototype.init = function() {
  * @return {!string}
  * @export
  */
-cwc.renderer.internal.Javascript.prototype.render = function(
+cwc.renderer.external.Phaser.prototype.render = function(
     editorContent,
     libraryFiles,
     frameworks,
     rendererHelper) {
-  return rendererHelper.getHTML(undefined, undefined, undefined,
-    editorContent[cwc.ui.EditorContent.DEFAULT]);
+  let body = '';
+  let javascript = editorContent[cwc.ui.EditorContent.JAVASCRIPT] || '';
+  if (javascript) {
+    // Library files.
+    if (javascript.includes('{{ file:')) {
+      javascript = rendererHelper.injectFiles(javascript, libraryFiles);
+    }
+
+    // Cache and inject Library urls.
+    if (javascript.includes('{{ url:')) {
+      // body = rendererHelper.cacheURLs(javascript);
+      javascript = rendererHelper.injectURLs(javascript);
+    }
+  }
+
+ let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.PHASER,
+    cwc.framework.External.PHASER,
+  ]);
+
+  return rendererHelper.getJavaScript(javascript, header, body);
 };

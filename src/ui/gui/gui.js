@@ -89,13 +89,14 @@ cwc.ui.Gui.prototype.decorate = function(node) {
       });
 
   // Main nodes
-  this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
+  this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
-  this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
   this.nodeSidebar = goog.dom.getElement(this.prefix + 'sidebar');
+  this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
+  this.nodeTitleBody = goog.dom.getElement(this.prefix + 'title-body');
   this.showOverlay(false);
   this.showSettings(false);
 
@@ -146,20 +147,19 @@ cwc.ui.Gui.prototype.decorate = function(node) {
  * @param {string} title Title to display in the gui.
  */
 cwc.ui.Gui.prototype.setTitle = function(title) {
-  if (this.nodeTitle && title !== undefined) {
+  this.showTitle(title);
+  if (title && this.nodeTitle && title !== undefined) {
     this.nodeTitle.value = title;
   }
 };
 
 
 /**
- * Enables or disables the title of the gui.
- * @param {boolean} enabled
+ * Shows or hide the title of the gui.
+ * @param {boolean} visible
  */
-cwc.ui.Gui.prototype.enableTitle = function(enabled) {
-  if (this.nodeTitle) {
-    this.nodeTitle.disabled = !enabled;
-  }
+cwc.ui.Gui.prototype.showTitle = function(visible) {
+  goog.style.setElementShown(this.nodeTitleBody, visible);
 };
 
 

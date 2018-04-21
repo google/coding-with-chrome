@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.phaser.blockly.Mod');
 
 goog.require('cwc.mode.default.Mod');
+goog.require('cwc.renderer.external.Phaser');
 goog.require('cwc.soy.phaser.Blocks');
 
 
@@ -30,6 +31,9 @@ goog.require('cwc.soy.phaser.Blocks');
 cwc.mode.phaser.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.renderer.external.Phaser} */
+  this.renderer = new cwc.renderer.external.Phaser(helper);
 };
 
 
@@ -38,6 +42,7 @@ cwc.mode.phaser.blockly.Mod = function(helper) {
  */
 cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
   this.mod.enableBlockly(cwc.soy.phaser.Blocks.toolbox);
+  this.mod.setRenderer(this.renderer);
   this.mod.decorate();
   this.mod.blockly.enableToolboxAutoCollapse(true);
   this.mod.blockly.disableOrphansBlocks(true);

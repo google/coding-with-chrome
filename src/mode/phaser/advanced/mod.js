@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.phaser.advanced.Mod');
 
 goog.require('cwc.mode.default.Mod');
+goog.require('cwc.renderer.external.Phaser');
 
 
 /**
@@ -29,6 +30,9 @@ goog.require('cwc.mode.default.Mod');
 cwc.mode.phaser.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.renderer.external.Phaser} */
+  this.renderer = new cwc.renderer.external.Phaser(helper);
 };
 
 
@@ -36,6 +40,7 @@ cwc.mode.phaser.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.phaser.advanced.Mod.prototype.decorate = function() {
+  this.mod.setRenderer(this.renderer);
   this.mod.decorate();
   this.mod.editor.showMode(false);
   this.mod.editor.enableMediaButton(true);

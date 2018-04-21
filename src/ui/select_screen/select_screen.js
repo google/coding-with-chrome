@@ -125,7 +125,6 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
 
   let guiInstance = this.helper.getInstance('gui', true);
   guiInstance.setTitle('');
-  guiInstance.enableTitle(false);
   guiInstance.setStatus('');
   if (this.prepared_ && !forceOverview) {
     guiInstance.showOverlay(true);

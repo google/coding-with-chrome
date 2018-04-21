@@ -30,43 +30,43 @@
     {call .actionIcon_ data="all"}
       {param id: 'browser' /}
       {param icon: 'open_in_browser' /}
-      {param text: 'Open View in Browser' /}
+      {param text: 'STATUS_BUTTON_OPEN_IN_BROWSER' /}
     {/call}
 
     {call .actionIcon_ data="all"}
       {param id: 'fullscreen' /}
       {param icon: 'fullscreen' /}
-      {param text: 'Expand View' /}
+      {param text: 'STATUS_BUTTON_EXPAND_VIEW' /}
     {/call}
 
     {call .actionIcon_ data="all"}
       {param id: 'fullscreen_exit' /}
       {param icon: 'fullscreen_exit' /}
-      {param text: 'Collapse View' /}
+      {param text: 'STATUS_BUTTON_COLLAPSE_VIEW' /}
     {/call}
 
     {call .actionIcon_ data="all"}
       {param id: 'terminate' /}
       {param icon: 'pan_tool' /}
-      {param text: 'Terminate View' /}
+      {param text: 'STATUS_BUTTON_TERMINATE_VIEW' /}
     {/call}
 
     {call .actionIcon_ data="all"}
       {param id: 'reload' /}
       {param icon: 'refresh' /}
-      {param text: 'Refresh View' /}
+      {param text: 'STATUS_BUTTON_REFRESH_VIEW' /}
     {/call}
 
     {call .statusIcon_ data="all"}
       {param id: 'run' /}
       {param icon: 'play_arrow' /}
-      {param text: 'Runs the code and update preview' /}
+      {param text: 'STATUS_BUTTON_RUN_CODE' /}
     {/call}
 
     {call .statusIcon_ data="all"}
       {param id: 'stop' /}
       {param icon: 'stop' /}
-      {param text: 'Stops or terminates the preview' /}
+      {param text: 'STATUS_BUTTON_STOP_VIEW' /}
     {/call}
 
   </div>
@@ -87,7 +87,7 @@
       <i class="material-icons">{$icon}</i>
     </button>
     <div class="mdl-tooltip mdl-tooltip--left" data-mdl-for="{$prefix}{$id}-action">
-      {$text}
+      {msg desc=""}{$text}{/msg}
     </div>
   </div>
 
@@ -108,7 +108,7 @@
       <i class="material-icons">{$icon}</i>
     </button>
     <div class="mdl-tooltip mdl-tooltip--left" data-mdl-for="{$prefix}{$id}-button">
-      {$text}
+      {msg desc=""}{$text}{/msg}
     </div>
   </div>
 

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Status bar / button (english).
+ * @fileoverview General Translation file (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -27,19 +27,17 @@ Locales['eng'] = Locales['eng'] || {};
  */
 /* eslint-disable max-len */
 Object.assign(Locales['eng'], {
-  'STATUS_BUTTON_COLLAPSE_VIEW': 'Collapse view',
-  'STATUS_BUTTON_EXPAND_VIEW': 'Expand view',
-  'STATUS_BUTTON_OPEN_IN_BROWSER': 'Open view in new Browser window',
-  'STATUS_BUTTON_REFRESH_VIEW': 'Refresh view',
-  'STATUS_BUTTON_RUN_CODE': 'Runs the code and updates the view',
-  'STATUS_BUTTON_STOP_VIEW': 'Stops or terminates the view',
-  'STATUS_BUTTON_TERMINATE_VIEW': 'Terminate view',
-  'STATUS_LOADED': 'Finished after $VAR$ seconds.',
-  'STATUS_LOADING': 'Loading ...',
-  'STATUS_PREPARE': 'Preparing',
-  'STATUS_RELOADING': 'Reloading ...',
-  'STATUS_RUNNING': 'Running ...',
-  'STATUS_STOPPED': 'Stopped',
-  'STATUS_TERMINATED': 'Terminated',
-  'STATUS_UNRESPONSIVE': 'Unresponsive',
+  'ABOUT': 'About',
+  'BACK': 'Back',
+  'CANCEL': 'Cancel',
+  'CLOSE': 'Close',
+  'CONTINUE': 'Continue',
+  'DONE': 'Done',
+  'EXIT': 'Exit',
+  'HELP': 'Help',
+  'NEXT': 'Next',
+  'NO': 'No',
+  'OK': 'Ok',
+  'SETTINGS': 'Settings',
+  'YES': 'Yes',
 });

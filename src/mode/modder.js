@@ -294,7 +294,6 @@ cwc.mode.Modder.prototype.setAutoUpdate = function(active) {
 cwc.mode.Modder.prototype.setTitle = function(title) {
   let guiInstance = this.helper.getInstance('gui');
   if (guiInstance) {
-    guiInstance.enableTitle(true);
     guiInstance.setTitle(title);
   }
 };

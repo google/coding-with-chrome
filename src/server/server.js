@@ -121,6 +121,19 @@ cwc.server.Server.prototype.addRedirect = function(name, path) {
  */
 cwc.server.Server.prototype.setPreview = function(content) {
   if (this.httpServer) {
+    let fileInstance = this.helper.getInstance('file');
+    if (fileInstance) {
+      let filename = fileInstance.getSafeFileTitle();
+      if (filename) {
+        if (!filename.endsWith('.html') && !filename.endsWith('.htm')) {
+          filename = filename + '.html';
+        }
+        this.previewFile = '/' + filename
+          .replace('_cwc', '') || '/preview.html';
+      } else {
+        this.previewFile = '/preview.html';
+      }
+    }
     this.httpServer.addFile(this.previewFile, content);
   }
 };

@@ -142,11 +142,11 @@ cwc.ui.SelectScreenWelcome.prototype.prepareTour_ = function() {
     'title': i18t('Welcome to Coding with Chrome!'),
     'text': i18t('This tour will explain some UI parts.'),
     'buttons': [{
-      'text': 'Exit',
+      'text': i18t('EXIT'),
       'action': this.tour_.cancel,
       'classes': 'shepherd-button-secondary',
     }, {
-      'text': 'Next',
+      'text': i18t('NEXT'),
       'action': this.tour_.next,
       'classes': 'shepherd-button-example-primary',
     }],

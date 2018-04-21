@@ -150,7 +150,6 @@
   {@param url: string}
   {@param? filename: string}
 
-  {\n}
     <script src="{$url}"{if $filename} data-filename="{$filename}"{/if}></script>
   {\n}
 {/template}
@@ -164,7 +163,6 @@
   {@param encoding: string}
   {@param? filename: string}
 
-  {\n}
     <script src="data:text/javascript;{$encoding},{$data}"{if $filename} data-filename="{$filename}"{/if}></script>
   {\n}
 {/template}
@@ -177,7 +175,6 @@
   {@param url: string}
   {@param? filename: string}
 
-  {\n}
     <link rel="stylesheet" type="text/css" href="{$url}"{if $filename} data-filename="{$filename}"{/if}>
   {\n}
 {/template}
@@ -191,7 +188,6 @@
   {@param encoding: string}
   {@param? filename: string}
 
-  {\n}
     <link rel="stylesheet" type="text/css" href="data:text/css;{$encoding},{$data}"{if $filename} data-filename="{$filename}"{/if}>
   {\n}
 {/template}
