@@ -128,10 +128,9 @@ cwc.server.Server.prototype.setPreview = function(content) {
         if (!filename.endsWith('.html') && !filename.endsWith('.htm')) {
           filename = filename + '.html';
         }
-        this.previewFile = '/' + filename
-          .replace('_cwc', '') || '/preview.html';
+        this.previewFile = '/preview/' + filename.replace('_cwc', '');
       } else {
-        this.previewFile = '/preview.html';
+        this.previewFile = '/preview/';
       }
     }
     this.httpServer.addFile(this.previewFile, content);

@@ -130,6 +130,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     sidebarInstance.clear();
   }
 
+  // Reset Render instance
+  let rendererInstance = this.helper.getInstance('renderer');
+  if (rendererInstance) {
+    rendererInstance.setServerMode(false);
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);

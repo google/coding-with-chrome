@@ -55,15 +55,15 @@ cwc.utils.LogLevel = {
  * @param {string=} name
  * @param {number=} logLevel
  * @constructor
- * @final
+ * @export
  */
 cwc.utils.Logger = function(name = 'Logger',
     logLevel = cwc.utils.LogLevel.NOTICE) {
   /** @type {!string} */
   this.name = name;
 
-  /** @type {!Array} */
-  this.displayName = this.name ? ['%c' + this.name, 'font-weight: bold;']: [];
+  /** @type {!string} */
+  this.displayName = this.name ? '%c' + this.name : '';
 
   /** @type {!number} */
   this.logLevel = typeof cwc.config !== 'undefined' ?
@@ -72,107 +72,99 @@ cwc.utils.Logger = function(name = 'Logger',
   /** @type {!boolean} */
   this.enabled_ = ENABLE_LOGGING;
 
-  /**
-   * Disable logging styles for specific environments like Mocha, Jasmine, ...
-   */
+  /** @type {!Function} */
+  this.trace = function() {};
+
+  /** @type {!Function} */
+  this.debug = function() {};
+
+  /** @type {!Function} */
+  this.info = function() {};
+
+  /** @type {!Function} */
+  this.notice = function() {};
+
+  /** @type {!Function} */
+  this.warn = function() {};
+
+  /** @type {!Function} */
+  this.error = function() {};
+
+  /** @type {!Function} */
+  this.critical = function() {};
+
+  /** @type {!Function} */
+  this.alert = function() {};
+
+  // Disable logging styles for specific environments like Mocha, Jasmine, ...
   if ((window['mocha'] || window['jasmine'] || window['__karma__']) &&
       this.name) {
-    this.displayName = ['[' + this.name + ']'];
+    this.displayName = '[' + this.name + ']';
+  }
+
+  this.setLogLevel(this.logLevel);
+};
+
+
+/**
+ * @param {!cwc.utils.LogLevel} logLevel
+ * @export
+ */
+cwc.utils.Logger.prototype.setLogLevel = function(logLevel) {
+  this.logLevel = logLevel;
+
+  // Trace logger
+  this.setLogger_('trace', cwc.utils.LogLevel.TRACE, console.log);
+
+  // Debug logger
+  this.setLogger_('debug', cwc.utils.LogLevel.DEBUG, console.log);
+
+  // Info logger
+  this.setLogger_('info', cwc.utils.LogLevel.INFO, console.log);
+
+  // Notice logger
+  this.setLogger_('notice', cwc.utils.LogLevel.NOTICE, console.log);
+
+  // Warn logger
+  this.setLogger_('warn', cwc.utils.LogLevel.WARN, console.warn);
+
+  // Error logger
+  this.setLogger_('error', cwc.utils.LogLevel.ERROR, console.error);
+
+  // Critical logger
+  this.setLogger_('critical', cwc.utils.LogLevel.CRITICAL, console.error);
+
+  // Critical logger
+  this.setLogger_('alert', cwc.utils.LogLevel.ALERT, console.error);
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!cwc.utils.LogLevel} logLevel
+ * @param {!Function} logger
+ * @private
+ */
+cwc.utils.Logger.prototype.setLogger_ = function(name, logLevel, logger) {
+  // Enable logger for all errors and higher by default.
+  if ((this.enabled_ || this.logLevel <= 3) && this.logLevel >= logLevel) {
+    this[name] = this.log_(logger);
+  } else {
+    this[name] = function() {};
   }
 };
 
 
 /**
- * Trace logger.
- * @param {...*} args
+ * @param {!Function} logger
+ * @return {Function}
+ * @private
  */
-cwc.utils.Logger.prototype.trace = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.TRACE) {
-    Function.prototype.apply.apply(
-      console.log, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Debug logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.debug = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.DEBUG) {
-    Function.prototype.apply.apply(
-      console.log, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Info logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.info = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.INFO) {
-    Function.prototype.apply.apply(
-      console.log, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Notice logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.notice = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.NOTICE) {
-    Function.prototype.apply.apply(
-      console.log, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Warn logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.warn = function(...args) {
-  if (this.enabled_ && this.logLevel >= cwc.utils.LogLevel.WARNING) {
-    Function.prototype.apply.apply(
-      console.warn, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Error logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.error = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.ERROR) {
-    Function.prototype.apply.apply(
-      console.error, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Critical logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.critical = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.CRITICAL) {
-    Function.prototype.apply.apply(
-      console.error, [console, this.displayName.concat(args)]);
-  }
-};
-
-
-/**
- * Alert logger.
- * @param {...*} args
- */
-cwc.utils.Logger.prototype.alert = function(...args) {
-  if (this.logLevel >= cwc.utils.LogLevel.ALERT) {
-    Function.prototype.apply.apply(
-      console.error, [console, this.displayName.concat(args)]);
+cwc.utils.Logger.prototype.log_ = function(logger) {
+  if (this.displayName.includes('%c')) {
+    return Function.prototype.bind.call(logger, console, this.displayName,
+      'font-weight: bold;');
+  } else {
+    return Function.prototype.bind.call(logger, console, this.displayName);
   }
 };

@@ -130,8 +130,7 @@ cwc.protocol.tcp.HTTPServer.prototype.addCustomHandler = function(path,
  */
 cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
   if (!content) {
-    this.log_.warn('Empty file', path);
-    return;
+    this.log_.warn('Empty content', path);
   }
   if (!path.startsWith('/')) {
     path = '/' + path;
