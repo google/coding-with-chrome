@@ -101,6 +101,14 @@
   padding: 10px 16px 10px 16px;
 }
 
+#{$prefix}sidebar-content > section > webview,
+#{$prefix}sidebar-content > section > iframe {
+  /* This must match the {$prefix}sidebar-content width - the horizontal
+     padding of {$prefix}sidebar-content > section */
+  max-width: 268px;
+}
+
+
 #{$prefix}sidebar-content-close {
   position: absolute;
   top: 3px;

@@ -19,10 +19,10 @@
  */
 goog.provide('cwc.ui.Sidebar');
 
+goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Sidebar');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
-
 
 /**
  * Class represents the statusbar inside the ui.
@@ -37,6 +37,9 @@ cwc.ui.Sidebar = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!cwc.renderer.Helper} */
+  this.rendererHelper = new cwc.renderer.Helper();
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('sidebar');
@@ -58,6 +61,9 @@ cwc.ui.Sidebar = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
+
+  /** @private {!boolean} */
+  this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -120,11 +126,29 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
         this.helper.getInstance('file').getFileDescription());
   });
 
-  // Tutorial / Tour
+  let tutorial = this.helper.getInstance('tutorial');
+
+  // Tour
+  this.events_.listen('tour-button', goog.events.EventType.CLICK,
+    (e) => {
+      this.setActive_(e.target);
+      tutorial.startTour();
+  });
+
+  // Tutorial
   this.events_.listen('tutorial-button', goog.events.EventType.CLICK,
     (e) => {
       this.setActive_(e.target);
-      this.helper.getInstance('tutorial').startTour();
+      this.showContent('Tutorial', ' '); // The content must be non-false or the content-body element isn't created
+      let tutorialContent = document.createElement(this.webviewSupport_ ? 
+        'webview' : 'iframe');
+      let content = goog.dom.getElement(this.prefix + 'content-body');
+      if (content) {
+        goog.dom.appendChild(content,tutorialContent);
+        tutorialContent['src'] = this.rendererHelper.getDataURL(tutorial.getContent());
+      } else {
+        this.log_.error('Failed to find element', this.prefix+'content-body');
+      }
   });
 };
 
@@ -184,6 +208,13 @@ cwc.ui.Sidebar.prototype.enableDescription = function(enabled) {
   this.enableButton('file_description', enabled);
 };
 
+
+/**
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableTour = function(enabled) {
+  this.enableButton('tour', enabled);
+};
 
 /**
  * @param {boolean} enabled

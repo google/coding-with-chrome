@@ -395,10 +395,14 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
- * @return {Object}
+ * @return {String}
  */
-cwc.fileFormat.File.prototype.getTutorial = function() {
-  return this.getMetadata('tutorial');
+cwc.fileFormat.File.prototype.getTutorialContent = function() {
+  let content = this.getMetadata('content', 'tutorial');
+  if (content && typeof content == 'string') {
+    return content;
+  }
+  return null;
 };
 
 

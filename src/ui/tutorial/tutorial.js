@@ -46,6 +46,9 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
+  /** @private {!string} */
+  this.content_ = null;
+
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
 
@@ -53,7 +56,26 @@ cwc.ui.Tutorial = function(helper) {
   this.tourLength_ = 0;
 };
 
+/**
+ * @param {!string} content
+ */
+cwc.ui.Tutorial.prototype.setContent = function(content) {
+  if (!content) {
+    this.log_.warn('Set empty tutorial content');
+    return;
+  }
+  this.log_.info('Setting content');
+  this.content_ = content;
+}
 
+/**
+ * @return {!string}
+ */
+cwc.ui.Tutorial.prototype.getContent = function() {
+  return this.content_;
+}
+
+/**
 /**
  * @param {!Array} tourData
  */
@@ -119,8 +141,8 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       // Exit
       if (i == 0) {
         step['buttons'].push({
-          'text': i18t('EXIT'),
-          'action': this.cancel.bind(this),
+          'text': i18t('Exit'),
+          'action': this.cancelTour.bind(this),
           'classes': 'shepherd-button-secondary',
         });
       }
@@ -128,8 +150,8 @@ cwc.ui.Tutorial.prototype.setTour = function(tourData) {
       // Done
       if (i == this.tourLength_ - 1) {
         step['buttons'].push({
-          'text': i18t('DONE'),
-          'action': this.cancel.bind(this),
+          'text': i18t('Done'),
+          'action': this.cancelTour.bind(this),
           'classes': 'shepherd-button-example-primary',
         });
       }
@@ -153,24 +175,24 @@ cwc.ui.Tutorial.prototype.startTour = function() {
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.showContent('');
-    sidebarInstance.setActive('tutorial', true);
+    sidebarInstance.setActive('tour', true);
   }
   this.tour_.start();
 };
 
 
-cwc.ui.Tutorial.prototype.cancel = function() {
+cwc.ui.Tutorial.prototype.cancelTour = function() {
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.setActive('tutorial', false);
+    sidebarInstance.setActive('tour', false);
   }
   this.tour_.cancel();
 };
 
 
-cwc.ui.Tutorial.prototype.clear = function() {
+cwc.ui.Tutorial.prototype.clearTour = function() {
   if (this.tour_) {
-    this.cancel();
+    this.cancelTour();
     this.tour_ = null;
   }
   this.tourLength_ = 0;
