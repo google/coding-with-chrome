@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Phaser blocks (german).
+ * @fileoverview Translation file for blocks (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
+Locales['eng'] = Locales['eng'] || {};
 
 
 /**
@@ -26,9 +26,7 @@ Locales['deu'] = Locales['deu'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Object.assign(Locales['deu'], {
-  'BLOCKS_PHASER_CREATE': 'Erstellen',
-  'BLOCKS_PHASER_GAME': 'Spiel',
-  'BLOCKS_PHASER_ON_CREATE': 'beim Erstellen',
-  'BLOCKS_PHASER_OPEN_FILE_LIBRARY': 'Öffne Datei Bibliothek',
+Object.assign(Locales['eng'], {
+  'BLOCKS_DO': 'do',
+  'BLOCKS_DEFINE': 'define',
 });

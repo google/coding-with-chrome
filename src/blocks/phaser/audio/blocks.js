@@ -26,14 +26,14 @@ Blockly.Blocks['phaser_audio_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
+        .appendField(i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as audio'))
         .appendField(new Blockly.FieldTextInput('audio'), 'audio')
         .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('with volume'))
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
-        .appendField(i18t('%'))
+        .appendField('%')
         .appendField(new Blockly.FieldDropdown([
           ['no loop', false],
           ['loop', true],

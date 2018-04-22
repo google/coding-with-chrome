@@ -26,7 +26,7 @@ Blockly.Blocks['phaser_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
+        .appendField(i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as sprite'))
         .appendField(new Blockly.FieldTextInput('sprite'), 'sprite')

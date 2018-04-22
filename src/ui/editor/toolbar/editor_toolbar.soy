@@ -53,20 +53,6 @@
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
-        {param id: 'library' /}
-        {param icon: 'perm_media' /}
-        {param opt_title: 'Insert file...' /}
-      {/call}
-
-      {call cwc.soy.ui.Template.navigationIcon}
-        {param prefix: $prefix /}
-        {param id: 'media' /}
-        {param icon: 'image' /}
-        {param opt_title: 'Insert media...' /}
-      {/call}
-
-      {call cwc.soy.ui.Template.navigationIcon}
-        {param prefix: $prefix /}
         {param id: 'debug' /}
         {param icon: 'bug_report' /}
         {param opt_title: 'Check Syntax...' /}
@@ -114,25 +100,5 @@
       class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
       data-mdl-for="{$prefix}menu-more">
   </ul>
-
-{/template}
-
-
-/**
- * Upload file
- */
-{template .uploadFile}
-  {@param prefix: string}
-
-  <div id="{$prefix}add-file">
-    <div id="{$prefix}add-file-text">
-      <input id="{$prefix}upload" type="file" name="fileupload" style="visibility: hidden;" />
-      <button id="{$prefix}upload-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-        {msg desc=""}Upload file{/msg}
-      </button>
-      <i class="material-icons">file_upload</i>
-      {msg desc=""}Drop file here or click to select{/msg}
-    </div>
-  </div>
 
 {/template}

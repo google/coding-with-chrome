@@ -40,6 +40,4 @@ cwc.mode.text.Mod.prototype.decorate = function() {
   this.mod.editor.enableModeSelect(true);
   this.mod.editor.showEditorViews(false);
   this.mod.editor.showExpandButton(false);
-  this.mod.editor.showLibraryButton(false);
-  this.mod.editor.showMediaButton(true);
 };

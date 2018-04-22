@@ -26,9 +26,9 @@ Blockly.Blocks['phaser_create'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.addCircle())
-      .appendField(i18t('on create'));
+      .appendField(i18t('BLOCKS_PHASER_ON_CREATE'));
     this.appendStatementInput('CODE')
-      .appendField(i18t('do'))
+      .appendField(i18t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Create']);
     this.setPreviousStatement(true, 'Create_');
@@ -84,7 +84,7 @@ Blockly.Blocks['phaser_add_group'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
+        .appendField(i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as group'))
         .appendField(new Blockly.FieldTextInput('group_name'), 'name');
@@ -109,7 +109,7 @@ Blockly.Blocks['phaser_time_loop_event'] = {
     this.appendDummyInput()
         .appendField(i18t('milliseconds'));
     this.appendStatementInput('func')
-        .appendField(i18t('do'));
+        .appendField(i18t('BLOCKS_DO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

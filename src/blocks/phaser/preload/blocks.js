@@ -28,7 +28,7 @@ Blockly.Blocks['phaser_preload'] = {
       .appendField(Blockly.BlocksTemplate.fileDownload())
       .appendField(i18t('on preload'));
     this.appendStatementInput('CODE')
-      .appendField(i18t('do'))
+      .appendField(i18t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Preload']);
     this.setPreviousStatement(true, 'Preload_');

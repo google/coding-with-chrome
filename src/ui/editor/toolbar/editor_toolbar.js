@@ -58,12 +58,6 @@ cwc.ui.EditorToolbar = function(helper) {
   this.nodeExpandExit = null;
 
   /** @type {Element} */
-  this.nodeLibrary = null;
-
-  /** @type {Element} */
-  this.nodeMedia = null;
-
-  /** @type {Element} */
   this.nodeMore= null;
 
   /** @type {Element} */
@@ -117,8 +111,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
-  this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
-  this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
@@ -130,7 +122,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
   cwc.ui.Helper.enableElement(this.nodeRedo, false);
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
-  goog.style.setElementShown(this.nodeMedia, false);
 
   if (this.helper.experimentalEnabled()) {
     this.nodePublish = goog.dom.getElement(this.prefix + 'publish');
@@ -145,10 +136,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
-  goog.events.listen(this.nodeLibrary, goog.events.EventType.CLICK,
-    this.showLibrary.bind(this));
-  goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
-    this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
     this.redo.bind(this));
   goog.events.listen(this.nodeSave, goog.events.EventType.CLICK,
@@ -251,59 +238,6 @@ cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
 
 
 /**
- * Insert a media.
- */
-cwc.ui.EditorToolbar.prototype.insertMedia = function() {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  this.dialog_ = dialogInstance.showTemplate({
-      title: 'Insert media file',
-      icon: 'image',
-    },
-    cwc.soy.ui.EditorToolbar.uploadFile, {
-      prefix: this.prefix,
-    }
-  );
-  let nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
-  let nodeUpload = goog.dom.getElement(this.prefix + 'upload');
-  goog.events.listen(nodeAddFile, goog.events.EventType.CLICK, function() {
-    nodeUpload.click();
-  });
-  goog.events.listen(nodeUpload, goog.events.EventType.CHANGE, function(e) {
-    let file = e.target.files[0];
-    this.insertFileContent_(file);
-  }, false, this);
-  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGLEAVE, function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    goog.dom.classlist.enable(e.target, 'active', false);
-  });
-  goog.events.listen(nodeAddFile, goog.events.EventType.DRAGOVER, function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    goog.dom.classlist.enable(e.target, 'active', true);
-  });
-  goog.events.listen(nodeAddFile, goog.events.EventType.DROP, function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    let file = e.getBrowserEvent().dataTransfer.files[0];
-    this.insertFileContent_(file);
-  }, false, this);
-};
-
-
-/**
- * Insert a media.
- */
-cwc.ui.EditorToolbar.prototype.showLibrary = function() {
-  let editorInstance = this.helper.getInstance('editor');
-  let libraryInstance = this.helper.getInstance('library');
-  if (editorInstance && libraryInstance) {
-    libraryInstance.showLibrary();
-  }
-};
-
-
-/**
  * Publish file.
  */
 cwc.ui.EditorToolbar.prototype.publish = function() {
@@ -341,57 +275,6 @@ cwc.ui.EditorToolbar.prototype.enableUndoButton = function(enable) {
  */
 cwc.ui.EditorToolbar.prototype.enableRedoButton = function(enable) {
   cwc.ui.Helper.enableElement(this.nodeRedo, enable);
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.EditorToolbar.prototype.enableLibraryButton = function(enable) {
-  if (this.nodeLibrary) {
-    cwc.ui.Helper.enableElement(this.nodeLibrary, enable);
-  }
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.EditorToolbar.prototype.enableMediaButton = function(enable) {
-  if (this.nodeMedia) {
-    cwc.ui.Helper.enableElement(this.nodeMedia, enable);
-  }
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.EditorToolbar.prototype.showLibraryButton = function(enable) {
-  if (this.nodeLibrary) {
-    goog.style.setElementShown(this.nodeLibrary, enable);
-  }
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.EditorToolbar.prototype.showMediaButton = function(enable) {
-  if (this.nodeMedia) {
-    goog.style.setElementShown(this.nodeMedia, enable);
-  }
-};
-
-
-/**
- * @param {boolean} has_files
- */
-cwc.ui.EditorToolbar.prototype.updateLibraryButton = function(has_files) {
-  if (this.nodeMedia) {
-    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
-    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
-  }
 };
 
 
@@ -480,35 +363,4 @@ cwc.ui.EditorToolbar.prototype.setExpand = function(expand) {
  */
 cwc.ui.EditorToolbar.prototype.showExpandButton = function(visible) {
   goog.style.setElementShown(this.nodeExpand, visible);
-};
-
-
-/**
- * Reads file content as data URL and adds file to library.
- * @param {!Blob} file
- * @private
- */
-cwc.ui.EditorToolbar.prototype.insertFileContent_ = function(file) {
-  let editorInstance = this.helper.getInstance('editor');
-
-  if (file && editorInstance && editorInstance.isVisible()) {
-    let reader = new FileReader();
-
-    reader.onload = function(event) {
-      switch (editorInstance.getEditorMode()) {
-        case cwc.utils.mime.Type.CSS.type:
-          editorInstance.insertText(
-            'url(\'' + event.target.result + '\');\n');
-          break;
-        case cwc.utils.mime.Type.HTML.type:
-          editorInstance.insertText(
-            '<img src="' + event.target.result + '">\n');
-          break;
-        default:
-          editorInstance.insertText(event.target.result);
-      }
-      this.dialog_.close();
-    }.bind(this);
-    reader.readAsDataURL(file);
-  }
 };

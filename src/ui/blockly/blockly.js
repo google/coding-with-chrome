@@ -326,17 +326,6 @@ cwc.ui.Blockly.prototype.disableOrphansBlocks = function(enabled) {
 
 
 /**
- * Enable/Disable the media button.
- * @param {boolean} enable
- */
-cwc.ui.Blockly.prototype.enableMediaButton = function(enable) {
-  if (this.toolbar) {
-    this.toolbar.enableMediaButton(enable);
-  }
-};
-
-
-/**
  * @return {Blockly.WorkspaceSvg}
  */
 cwc.ui.Blockly.prototype.getWorkspace = function() {
@@ -405,17 +394,6 @@ cwc.ui.Blockly.prototype.showBlockly = function(visible) {
 
 
 /**
- * Shows/Hide the media button.
- * @param {boolean} visible
- */
-cwc.ui.Blockly.prototype.showMediaButton = function(visible) {
-  if (this.toolbar) {
-    this.toolbar.showMediaButton(visible);
-  }
-};
-
-
-/**
  * Undo the last change in the editor.
  * @return {Object}
  */
@@ -452,17 +430,6 @@ cwc.ui.Blockly.prototype.redoChange = function() {
     'undo': undo,
     'redo': redo,
   };
-};
-
-
-/**
- * Updates the media button appearance.
- * @param {boolean} hasFiles
- */
-cwc.ui.Blockly.prototype.updateLibraryButton = function(hasFiles) {
-  if (this.toolbar) {
-    this.toolbar.updateLibraryButton(hasFiles);
-  }
 };
 
 

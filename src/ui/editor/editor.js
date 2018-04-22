@@ -277,28 +277,6 @@ cwc.ui.Editor.prototype.showExpandButton = function(visible) {
 
 
 /**
- * Shows/Hide the library button.
- * @param {boolean} visible
- */
-cwc.ui.Editor.prototype.showLibraryButton = function(visible) {
-  if (this.toolbar) {
-    this.toolbar.showLibraryButton(visible);
-  }
-};
-
-
-/**
- * Shows/Hide the media button.
- * @param {boolean} visible
- */
-cwc.ui.Editor.prototype.showMediaButton = function(visible) {
-  if (this.toolbar) {
-    this.toolbar.showMediaButton(visible);
-  }
-};
-
-
-/**
  * Shows/Hide the editor type like "text/javascript" inside the info bar.
  * @param {boolean} visible
  */
@@ -316,28 +294,6 @@ cwc.ui.Editor.prototype.showMode = function(visible) {
 cwc.ui.Editor.prototype.enableModeSelect = function(enable) {
   if (this.infobar) {
     this.infobar.enableModeSelect(enable);
-  }
-};
-
-
-/**
- * Enable/Disable the media button.
- * @param {boolean} enable
- */
-cwc.ui.Editor.prototype.enableMediaButton = function(enable) {
-  if (this.toolbar) {
-    this.toolbar.enableMediaButton(enable);
-  }
-};
-
-
-/**
- * Updates the media button appearance.
- * @param {boolean} has_files
- */
-cwc.ui.Editor.prototype.updateLibraryButton = function(has_files) {
-  if (this.toolbar) {
-    this.toolbar.updateLibraryButton(has_files);
   }
 };
 

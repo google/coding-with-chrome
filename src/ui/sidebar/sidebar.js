@@ -86,6 +86,20 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   this.nodeCustomIcons = goog.dom.getElement(this.prefix + 'icons-custom');
   this.hideContent();
 
+  // File Library
+  this.events_.listen('library-button', goog.events.EventType.CLICK,
+    (e) => {
+      this.setActive_(e.target);
+      this.helper.getInstance('library').showLibrary();
+  });
+
+  // Media functions
+  this.events_.listen('media-button', goog.events.EventType.CLICK,
+    (e) => {
+      this.setActive_(e.target);
+      this.helper.getInstance('library').showMediaUpload();
+  });
+
   // File Description
   this.events_.listen('speaker_notes-button', goog.events.EventType.CLICK,
     (e) => {
@@ -168,6 +182,40 @@ cwc.ui.Sidebar.prototype.enableTutorial = function(enabled) {
 
 
 /**
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableLibrary = function(enabled) {
+  this.enableButton('library', enabled);
+};
+
+
+/**
+ * @param {!string} id
+ * @param {boolean} visible
+ */
+cwc.ui.Sidebar.prototype.showButton = function(id, visible) {
+  goog.style.setElementShown(
+    goog.dom.getElement(this.prefix + id), visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Sidebar.prototype.showLibrary = function(visible) {
+  this.showButton('library', visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Sidebar.prototype.showMedia = function(visible) {
+  this.showButton('media', visible);
+};
+
+
+/**
  * @param {!string} id
  * @param {boolean} active
  */
@@ -175,8 +223,8 @@ cwc.ui.Sidebar.prototype.setActive = function(id, active) {
   if (active) {
     this.clearActive_();
   }
-  let elem = goog.dom.getElement(this.prefix + id);
-  goog.dom.classlist.enable(elem, 'active', active);
+  goog.dom.classlist.enable(
+    goog.dom.getElement(this.prefix + id), 'active', active);
 };
 
 

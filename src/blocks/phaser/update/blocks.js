@@ -30,7 +30,7 @@ Blockly.Blocks['phaser_update'] = {
       .appendField(Blockly.BlocksTemplate.repeat())
       .appendField(i18t('on update'));
     this.appendStatementInput('CODE')
-      .appendField(i18t('do'))
+      .appendField(i18t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Update']);
     this.setPreviousStatement(true, 'Update_');

@@ -174,7 +174,7 @@ Blockly.Blocks['sphero_collision'] = {
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('on collision'));
     this.appendStatementInput('CODE')
-      .appendField(i18t('do'))
+      .appendField(i18t('BLOCKS_DO'))
       .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);
     this.setNextStatement(true);

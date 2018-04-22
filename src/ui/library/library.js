@@ -20,7 +20,8 @@
 goog.provide('cwc.ui.Library');
 
 goog.require('cwc.file.File');
-goog.require('cwc.soy.Library');
+goog.require('cwc.soy.ui.Library');
+goog.require('cwc.ui.LibraryTour');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
@@ -65,8 +66,11 @@ cwc.ui.Library = function(helper) {
   /** @type {number} */
   this.numOfFiles_ = 0;
 
+  /** @private {cwc.utils.Dialog} */
+  this.dialog_ = null;
+
   /** @private {Shepherd.Tour} */
-  this.tour_ = null;
+  this.tour_ = cwc.ui.LibraryTour.get(this.prefix);
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -120,8 +124,6 @@ cwc.ui.Library.prototype.decorate = function() {
     this.handleSearch_, false, this);
   this.events_.listen(this.nodeSearchTerm, goog.events.EventType.KEYUP,
     this.handleSearchKey_, false, this);
-
-  this.prepareTour_();
 };
 
 
@@ -130,20 +132,63 @@ cwc.ui.Library.prototype.decorate = function() {
  */
 cwc.ui.Library.prototype.showLibrary = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
-  let title = {
-    title: 'File library',
-    icon: 'perm_media',
-  };
-  dialogInstance.showTemplate(title, cwc.soy.Library.library, {
-    prefix: this.prefix,
-    files: this.getFiles(),
-  });
+  dialogInstance.showTemplate({
+      title: 'File library',
+      icon: 'perm_media',
+    },
+    cwc.soy.ui.Library.fileLibrary, {
+      prefix: this.prefix,
+      files: this.getFiles(),
+    }
+  );
   this.decorate();
   this.syncFiles();
 
   if (this.helper.getAndSetFirstRun(this.name) && this.numOfFiles_ === 0) {
     this.startTour();
   }
+};
+
+
+/**
+ * Insert a media.
+ */
+cwc.ui.Library.prototype.showMediaUpload = function() {
+  let dialogInstance = this.helper.getInstance('dialog', true);
+  this.dialog_ = dialogInstance.showTemplate({
+      title: 'Insert media file',
+      icon: 'image',
+    },
+    cwc.soy.ui.Library.mediaUpload, {
+      prefix: this.prefix,
+    }
+  );
+  let nodeAddFile = goog.dom.getElement(this.prefix + 'add-file');
+  let nodeUpload = goog.dom.getElement(this.prefix + 'upload');
+  this.events_.listen(nodeAddFile, goog.events.EventType.CLICK, function() {
+    nodeUpload.click();
+  });
+  this.events_.listen(nodeUpload, goog.events.EventType.CHANGE, function(e) {
+    let file = e.target.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
+  this.events_.listen(nodeAddFile, goog.events.EventType.DRAGLEAVE,
+    function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      goog.dom.classlist.enable(e.target, 'active', false);
+  });
+  this.events_.listen(nodeAddFile, goog.events.EventType.DRAGOVER, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    goog.dom.classlist.enable(e.target, 'active', true);
+  });
+  this.events_.listen(nodeAddFile, goog.events.EventType.DROP, function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let file = e.getBrowserEvent().dataTransfer.files[0];
+    this.insertFileContent_(file);
+  }, false, this);
 };
 
 
@@ -166,7 +211,7 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
     mediaType = '') {
   this.log_.info('Updating library file list ...', mediaType);
   let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.updateTemplate(cwc.soy.Library.library, {
+  dialogInstance.updateTemplate(cwc.soy.ui.Library.fileLibrary, {
     prefix: this.prefix,
     files: files || this.getFiles(),
     opt_media_type: mediaType || '',
@@ -189,10 +234,6 @@ cwc.ui.Library.prototype.syncFiles = function() {
       let blocklyInstance = this.helper.getInstance('blockly');
       if (blocklyInstance) {
         blocklyInstance.setToolboxFiles(files);
-      }
-      let editorInstance = this.helper.getInstance('editor');
-      if (editorInstance) {
-        editorInstance.updateLibraryButton(fileInstance.getFiles().hasFiles());
       }
       this.numOfFiles_ = fileInstance.getFiles().getSize();
     } else if (!goog.isObject(files)) {
@@ -439,83 +480,37 @@ cwc.ui.Library.prototype.cleanUp = function() {
 
 
 /**
+ * Reads file content as data URL and adds file to the editor.
+ * @param {!Blob} file
  * @private
  */
-cwc.ui.Library.prototype.prepareTour_ = function() {
-  if (!this.helper.checkJavaScriptFeature('shepherd') || this.tour_) {
-    return;
+cwc.ui.Library.prototype.insertFileContent_ = function(file) {
+  let editorInstance = this.helper.getInstance('editor');
+  let sidebarInstance = this.helper.getInstance('sidebar');
+
+  if (file && editorInstance && editorInstance.isVisible()) {
+    let reader = new FileReader();
+
+    reader.onload = function(event) {
+      switch (editorInstance.getEditorMode()) {
+        case cwc.utils.mime.Type.CSS.type:
+          editorInstance.insertText(
+            'url(\'' + event.target.result + '\');\n');
+          break;
+        case cwc.utils.mime.Type.HTML.type:
+          editorInstance.insertText(
+            '<img src="' + event.target.result + '">\n');
+          break;
+        default:
+          editorInstance.insertText(event.target.result);
+      }
+      if (this.dialog_) {
+        this.dialog_.close();
+      }
+      if (sidebarInstance) {
+        sidebarInstance.clear();
+      }
+    }.bind(this);
+    reader.readAsDataURL(file);
   }
-
-  this.tour_ = new Shepherd.Tour({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true,
-    },
-  });
-  this.tour_.addStep('intro', {
-    'title': i18t('File library'),
-    'text': this.i18t_('intro', 'The file library is used to managed all of ' +
-      'your files for your project.'),
-    'attachTo': '#' + this.prefix + 'chrome center',
-    'buttons': [{
-      'text': i18t('EXIT'),
-      'action': this.tour_.cancel,
-      'classes': 'shepherd-button-secondary',
-    }, {
-      'text': i18t('NEXT'),
-      'action': this.tour_.next,
-      'classes': 'shepherd-button-example-primary',
-    }],
-  });
-  this.tour_.addStep('upload', {
-    'title': i18t('File library'),
-    'text': this.i18t_('upload_button',
-      'Click here to upload a file to your library.'),
-    'attachTo': '#' + this.prefix + 'upload-button left',
-    'advanceOn': '#' + this.prefix + 'upload-button click',
-  });
-  this.tour_.addStep('images', {
-    'text': this.i18t_('image_tab', 'You will find all image files here.'),
-    'attachTo': '#' + this.prefix + 'images_tab bottom',
-    'advanceOn': '#' + this.prefix + 'images_tab click',
-  });
-  this.tour_.addStep('audio', {
-    'text': this.i18t_('audio_tab', 'All audio files will be here.'),
-    'attachTo': '#' + this.prefix + 'audio_tab bottom',
-    'advanceOn': '#' + this.prefix + 'audio_tab click',
-  });
-  this.tour_.addStep('all', {
-    'text': this.i18t_('all_tab', 'All of your files will be here.'),
-    'attachTo': '#' + this.prefix + 'all_tab bottom',
-    'advanceOn': '#' + this.prefix + 'all_tab click',
-  });
-  this.tour_.addStep('search', {
-    'text': this.i18t_('search_tab',
-      'This search will help you to find additional images for your project.'),
-    'attachTo': '#' + this.prefix + 'search_tab bottom',
-    'advanceOn': '#' + this.prefix + 'search_tab click',
-  });
-  this.tour_.addStep('close', {
-    'text': this.i18t_('close_dialog',
-      'To close this window, click the close button.'),
-    'attachTo': '#cwc-dialog-close left',
-    'buttons': [{
-      'text': i18t('EXIT'),
-      'action': this.tour_.cancel,
-      'classes': 'shepherd-button-example-primary',
-    }],
-  });
-};
-
-
-/**
- * @param {!string} key
- * @param {string=} text
- * @return {string}
- */
-cwc.ui.Library.prototype.i18t_ = function(key, text = '') {
-  if (text) {
-    return i18t(this.name + '__' + key, text);
-  }
-  return i18t(key);
 };

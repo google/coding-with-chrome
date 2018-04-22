@@ -46,12 +46,6 @@ cwc.ui.BlocklyToolbar = function(helper) {
   this.nodeExpandExit = null;
 
   /** @type {Element} */
-  this.nodeLibrary = null;
-
-  /** @type {Element} */
-  this.nodeMedia = null;
-
-  /** @type {Element} */
   this.nodeMore = null;
 
   /** @type {Element} */
@@ -87,8 +81,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
   let nodeVariable = goog.dom.getElement(this.prefix + 'variable');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
-  this.nodeLibrary = goog.dom.getElement(this.prefix + 'library');
-  this.nodeMedia = goog.dom.getElement(this.prefix + 'media');
   this.nodeMore = goog.dom.getElement(this.prefix + 'menu-more');
   this.nodeMoreList = goog.dom.getElement(this.prefix + 'menu-more-list');
   this.nodeRedo = goog.dom.getElement(this.prefix + 'redo');
@@ -98,7 +90,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
 
   goog.style.setElementShown(this.nodeExpandExit, false);
   goog.style.setElementShown(this.nodeMore, false);
-  goog.style.setElementShown(this.nodeMedia, false);
 
   if (this.helper.experimentalEnabled()) {
     let nodePublish = goog.dom.getElement(this.prefix + 'publish');
@@ -111,10 +102,6 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
     this.expand.bind(this));
   goog.events.listen(this.nodeExpandExit, goog.events.EventType.CLICK,
     this.collapse.bind(this));
-  goog.events.listen(this.nodeLibrary, goog.events.EventType.CLICK,
-    this.showLibrary.bind(this));
-  goog.events.listen(this.nodeMedia, goog.events.EventType.CLICK,
-    this.insertMedia.bind(this));
   goog.events.listen(this.nodeRedo, goog.events.EventType.CLICK,
     this.redo.bind(this));
   goog.events.listen(nodeSave, goog.events.EventType.CLICK,
@@ -190,18 +177,6 @@ cwc.ui.BlocklyToolbar.prototype.redo = function() {
 
 
 /**
- * Insert a media.
- */
-cwc.ui.BlocklyToolbar.prototype.insertMedia = function() {
-  let blocklyInstance = this.helper.getInstance('blockly');
-  let libraryInstance = this.helper.getInstance('library');
-  if (blocklyInstance && libraryInstance) {
-    libraryInstance.showLibrary();
-  }
-};
-
-
-/**
  * Publish file.
  */
 cwc.ui.BlocklyToolbar.prototype.publish = function() {
@@ -223,59 +198,6 @@ cwc.ui.BlocklyToolbar.prototype.enableUndoButton = function(enable) {
  */
 cwc.ui.BlocklyToolbar.prototype.enableRedoButton = function(enable) {
   cwc.ui.Helper.enableElement(this.nodeRedo, enable);
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.BlocklyToolbar.prototype.enableMediaButton = function(enable) {
-  if (this.nodeMedia) {
-    cwc.ui.Helper.enableElement(this.nodeMedia, enable);
-  }
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.BlocklyToolbar.prototype.showLibraryButton = function(enable) {
-  if (this.nodeLibrary) {
-    goog.style.setElementShown(this.nodeLibrary, enable);
-  }
-};
-
-
-/**
- * @param {boolean} enable
- */
-cwc.ui.BlocklyToolbar.prototype.showMediaButton = function(enable) {
-  if (this.nodeMedia) {
-    goog.style.setElementShown(this.nodeMedia, enable);
-  }
-};
-
-
-/**
- * Insert a media.
- */
-cwc.ui.BlocklyToolbar.prototype.showLibrary = function() {
-  let editorInstance = this.helper.getInstance('editor');
-  let libraryInstance = this.helper.getInstance('library');
-  if (editorInstance && libraryInstance) {
-    libraryInstance.showLibrary();
-  }
-};
-
-
-/**
- * @param {boolean} has_files
- */
-cwc.ui.BlocklyToolbar.prototype.updateLibraryButton = function(has_files) {
-  if (this.nodeMedia) {
-    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px', has_files);
-    goog.dom.classlist.enable(this.nodeMedia, 'icon_24px_grey', !has_files);
-  }
 };
 
 

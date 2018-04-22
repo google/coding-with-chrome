@@ -29,6 +29,21 @@
   <div id="{$prefix}body">
 
     <div id="{$prefix}icons">
+
+      {call .sidebarIcon data="all"}
+        {param id: 'library' /}
+        {param icon: 'perm_media' /}
+        {param tooltip: 'File library' /}
+      {/call}
+
+      {call .sidebarIcon data="all"}
+        {param id: 'media' /}
+        {param icon: 'image' /}
+        {param tooltip: 'Image' /}
+      {/call}
+
+      <div class="{$prefix}icons-seperator"></div>
+
       {call .sidebarIcon data="all"}
         {param id: 'speaker_notes' /}
         {param icon: 'speaker_notes' /}
@@ -41,7 +56,7 @@
         {param tooltip: 'Start tutorial' /}
       {/call}
 
-      <div id="{$prefix}icons-seperator"></div>
+      <div class="{$prefix}icons-seperator"></div>
 
       <div id="{$prefix}icons-custom"></div>
     </div>

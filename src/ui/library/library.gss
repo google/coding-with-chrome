@@ -72,8 +72,8 @@
   margin: 10px;
   border: 1px solid #ccc;
   float: left;
-  width: 200px;
-  height: 25px;
+  min-width: 200px;
+  min-height: 25px;
   position: relative;
 }
 
@@ -86,16 +86,16 @@
   margin: 10px;
   border: 1px solid #ccc;
   float: left;
-  width: 100px;
-  height: 100px;
+  width: 240px;
+  min-height: 60px;
   position: relative;
 }
 
 .{$prefix}library-audio-entry audio {
-  width: 100px;
+  width: 260px;
   position: absolute;
   bottom: 0;
-  left: 10px;
+  left: 0;
   border-top: 1px solid #ccc;
 }
 

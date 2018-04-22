@@ -21,7 +21,7 @@
   float: right;
   height: 100vh;
   overflow: hidden;
-  min-width: 60px;
+  min-width: 54px;
 }
 
 .{$prefix}sidebar-icon.active {
@@ -34,7 +34,6 @@
 }
 
 #{$prefix}sidebar-icons {
-  width: 60px;
   float: left;
   margin-top: 33px;
   border-top: 1px solid rgba(0,0,0,0.12);
@@ -46,13 +45,12 @@
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
     0 6px 10px 0 rgba(0, 0, 0, 0.14),
     0 1px 18px 0 rgba(0, 0, 0, 0.12);
-  margin: 13px;
+  margin: 13px 10px;
 }
 
-#{$prefix}sidebar-icons-seperator {
-  margin: auto;
+.{$prefix}sidebar-icons-seperator {
+  margin: 5px auto;
   width: 20px;
-  padding-bottom: 16px;
   border-color: rgba(100,121,143,.12);
   border-top: 1px solid #dadce0;
 }
@@ -66,7 +64,7 @@
 #{$prefix}sidebar-content {
   background: #fff;
   height: calc(100% - 34px);
-  margin-left: 60px;
+  margin-left: 54px;
   width: 300px;
   position: relative;
   box-shadow:

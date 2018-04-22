@@ -233,6 +233,8 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
   if (sidebarInstance) {
     sidebarInstance.enableDescription(file.getDescription());
     sidebarInstance.enableTutorial(file.getTutorialTour());
+    sidebarInstance.showLibrary(true);
+    sidebarInstance.showMedia(false);
   }
 
   modeInstance.postMode();
@@ -257,6 +259,22 @@ cwc.fileHandler.FileLoader.prototype.loadRawFile = function(content,
   modeInstance.setMode(modeType);
   modeInstance.setFilename(filename);
   modeInstance.addEditorView('__default__', content, mimeType);
+
+  // Handle tutorial / tour data
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  if (tutorialInstance) {
+    tutorialInstance.clear();
+  }
+
+  // Handle sidebar icons
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.enableDescription(false);
+    sidebarInstance.enableTutorial(false);
+    sidebarInstance.showLibrary(false);
+    sidebarInstance.showMedia(true);
+  }
+
   modeInstance.postMode();
 };
 

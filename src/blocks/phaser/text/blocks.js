@@ -72,7 +72,7 @@ Blockly.Blocks['phaser_dynamic_text_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
+        .appendField(i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
          .appendField(i18t('as dynamic text'));
     this.appendValueInput('text')
@@ -121,7 +121,7 @@ Blockly.Blocks['phaser_action_text_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('define'));
+        .appendField(i18t('BLOCKS_DEFINE'));
     this.appendDummyInput()
          .appendField(i18t('as action text'));
     this.appendValueInput('text')
@@ -207,7 +207,7 @@ Blockly.Blocks['phaser_text_clicked'] = {
         .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('on click on action text'));
     this.appendStatementInput('func')
-        .appendField(i18t('do'));
+        .appendField(i18t('BLOCKS_DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+{namespace cwc.soy.ui.Library autoescape="strict"}
 
-{namespace cwc.soy.Library autoescape="strict"}
 
 /**
- * HTML template for the file library.
+ * File library template.
  */
-{template .library}
+{template .fileLibrary}
   {@param prefix: string}
   {@param files: ?}
   {@param? opt_media_type: string}
@@ -49,7 +49,7 @@
     </div>
 
     <div class="mdl-tabs__panel{if not $opt_media_type} is-active{/if}" id="{$prefix}upload">
-      {call .uploadFile data="all" /}
+      {call .mediaUpload data="all" /}
     </div>
 
     <div class="mdl-tabs__panel{if $opt_media_type == 'image'} is-active{/if}" id="{$prefix}images">
@@ -74,13 +74,14 @@
 
 
 /**
- * Upload file
+ * Media file upload template.
  */
-{template .uploadFile}
+{template .mediaUpload}
   {@param prefix: string}
 
   <div id="{$prefix}add-file">
     <div id="{$prefix}add-file-text">
+      <input id="{$prefix}upload" type="file" name="fileupload" style="visibility: hidden;" />
       <button id="{$prefix}upload-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
         {msg desc=""}Upload file{/msg}
       </button>
