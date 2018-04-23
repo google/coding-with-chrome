@@ -21,21 +21,99 @@
  */
 
 
+.blocklyTreeRoot {
+  padding: 2px 0 0 0;
+}
+
+.blocklyTreeLabel {
+  cursor: pointer !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  padding: 0 0px 0 5px !important;
+}
+
+.blocklyToolboxDiv {
+  background: rgba(200,200,200,0.5);
+  background: linear-gradient(to right, 
+    rgba(200,200,200,0.5) 0%,
+    rgba(200,200,200,0.5) 90%,
+    rgba(200,200,200,0.1) 95%,
+    rgba(200,200,200,0.0) 100%
+  );
+}
+
+.blocklyToolboxDiv::before {
+  bottom: 10px;
+  color: rgba(128,128,128,0.2);
+  content: 'delete';
+  font-family: 'Material Icons';
+  font-size: 128px;
+  font-style: normal;
+  left: 10px;
+  line-height: 1;
+  position: absolute;
+  z-index: -1;
+}
+
+.blocklyToolboxDiv [role=treeitem] [role=group] {
+  padding-left: 16px;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr,
+.blocklyTreeIcon.blocklyTreeIconOpen,
+.blocklyTreeIcon.blocklyTreeIconNone {
+  background: none;
+  color: #fff;
+  position: absolute;
+  left: 0;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr {
+  transform: rotate(270deg);
+  top: 10px;
+}
+
+.blocklyTreeIcon.blocklyTreeIconClosedLtr::before,
+.blocklyTreeIcon.blocklyTreeIconOpen::before {
+  color: rgba(255,255,255,0.9);
+  content: 'arrow_drop_down';
+  font-family: 'Material Icons';
+  font-size: 21px;
+}
+
+.blocklyRootTreeRowItem > .blocklyTreeRow {
+  border-left-width: 48px!important;
+}
+
+.blocklyTreeRow {
+  padding: 4px 10px 4px 0px !important;
+  border-radius: 3px;
+  background-color: #FAFAFA;
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
+  border-radius: 0 22px 22px 0;
+  border-left-width: 32px!important;
+}
+
 .blocklyTreeRowItem {
   position: relative;
 }
 
+.blocklyRootTreeRowItem::before {
+  left: 21px!important;
+}
+
 .blocklyTreeRowItem::before {
   bottom: 10px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.9);
   content: '';
   font-family: 'Material Icons';
   font-style: normal;
   line-height: 1;
   position: absolute;
-  left: 2px;
+  left: 5px;
   top: 5px;
   font-size: 21px;
+  height: 21px;
 }
 
 .blocklyTreeRowItem_sprites > .blocklyTreeRow {
@@ -43,6 +121,49 @@
   padding-left: 8px !important;
 }
 
+
+/**
+ * Default Icons for the toolbox
+ */
+.blocklyTreeRowItem_logic::before,
+.blocklyTreeRowItem_logik::before {
+  content: 'call_split';
+}
+
+.blocklyTreeRowItem_loops::before,
+.blocklyTreeRowItem_schleifen::before {
+  content: 'loop';
+}
+
+.blocklyTreeRowItem_math::before,
+.blocklyTreeRowItem_mathematik::before {
+  content: 'iso';
+}
+
+.blocklyTreeRowItem_text::before {
+  content: 'text_fields';
+}
+
+.blocklyTreeRowItem_colors::before,
+.blocklyTreeRowItem_colour::before,
+.blocklyTreeRowItem_farbe::before {
+  content: 'palette';
+}
+
+.blocklyTreeRowItem_variables::before,
+.blocklyTreeRowItem_variablen::before {
+  content: 'attach_money';
+}
+
+.blocklyTreeRowItem_functions::before,
+.blocklyTreeRowItem_funktionen::before {
+  content: 'functions';
+}
+
+
+/**
+ * Custom Icons for the toolbox
+ */
 .blocklyTreeRowItem_blocks_phaser_game::before {
   content: 'directions_run';
 }
@@ -56,6 +177,10 @@
 }
 
 .blocklyTreeRowItem_blocks_phaser_input::before {
+  content: 'keyboard';
+}
+
+.blocklyTreeRowItem_blocks_phaser_inputs::before {
   content: 'keyboard';
 }
 
@@ -77,4 +202,28 @@
 
 .blocklyTreeRowItem_blocks_phaser_audio::before {
   content: 'audiotrack';
+}
+
+.blocklyTreeRowItem_blocks_phaser_sprite::before {
+  content: 'portrait';
+}
+
+.blocklyTreeRowItem_blocks_phaser_tile_sprite::before {
+  content: 'burst_mode';
+}
+
+.blocklyTreeRowItem_blocks_phaser_physics_sprite::before {
+  content: 'rotate_90_degrees_ccw';
+}
+
+.blocklyTreeRowItem_blocks_phaser_text::before {
+  content: 'format_shapes';
+}
+
+.blocklyTreeRowItem_blocks_phaser_generator::before {
+  content: 'extension';
+}
+
+.blocklyTreeRowItem_blocks_phaser_world::before {
+  content: 'computer';
 }

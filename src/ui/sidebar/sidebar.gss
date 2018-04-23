@@ -21,7 +21,7 @@
   float: right;
   height: 100vh;
   overflow: hidden;
-  min-width: 54px;
+  min-width: 46px;
 }
 
 .{$prefix}sidebar-icon.active {
@@ -45,7 +45,7 @@
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
     0 6px 10px 0 rgba(0, 0, 0, 0.14),
     0 1px 18px 0 rgba(0, 0, 0, 0.12);
-  margin: 13px 10px;
+  margin: 12px 6px;
 }
 
 .{$prefix}sidebar-icons-seperator {
@@ -64,7 +64,7 @@
 #{$prefix}sidebar-content {
   background: #fff;
   height: calc(100% - 34px);
-  margin-left: 54px;
+  margin-left: 46px;
   width: 300px;
   position: relative;
   box-shadow:
@@ -105,4 +105,8 @@
   position: absolute;
   top: 3px;
   right: 10px;
+}
+
+[data-select-screen-value="select-screen-tab-robots-link"] .mdl-card__supporting-text {
+  min-height: 72px;
 }

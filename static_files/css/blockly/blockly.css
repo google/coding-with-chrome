@@ -55,46 +55,6 @@
   font-size: 14px !important;
 }
 
-.blocklyToolboxDiv {
-  background: rgba(200,200,200,0.5);
-}
-
-.blocklyToolboxDiv::before {
-  bottom: 10px;
-  color: rgba(128,128,128,0.2);
-  content: 'delete';
-  font-family: 'Material Icons';
-  font-size: 128px;
-  font-style: normal;
-  left: 10px;
-  line-height: 1;
-  position: absolute;
-  z-index: -1;
-}
-
-.blocklyToolboxDiv [role=treeitem] [role=group] {
-  padding-left: 20px;
-}
-
-.blocklyTreeRoot {
-  padding-right: 5px;
-}
-
-.blocklyTreeRow {
-  padding: 4px 10px 4px 0px !important;
-  border-radius: 3px;
-  background-color: #FAFAFA;
-  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
-  border-radius: 0 22px 22px 0;
-  border-left-width: 26px!important;
-}
-
-.blocklyTreeLabel {
-  cursor: pointer !important;
-  font-family: inherit !important;
-  font-size: 15px !important;
-}
-
 .blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-accel,
   .blocklyWidgetDiv .goog-menuitem-disabled .goog-menuitem-content {
   color: #CCC !important;

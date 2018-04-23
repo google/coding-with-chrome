@@ -89,15 +89,27 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   // File Library
   this.events_.listen('library-button', goog.events.EventType.CLICK,
     (e) => {
+      this.hideContent();
       this.setActive_(e.target);
       this.helper.getInstance('library').showLibrary();
+      let dialogInstance = this.helper.getInstance('dialog');
+      if (dialogInstance) {
+        dialogInstance.getCloseButton().addEventListener('click',
+          this.clearActive_.bind(this));
+      }
   });
 
   // Media functions
   this.events_.listen('media-button', goog.events.EventType.CLICK,
     (e) => {
+      this.hideContent();
       this.setActive_(e.target);
       this.helper.getInstance('library').showMediaUpload();
+      let dialogInstance = this.helper.getInstance('dialog');
+      if (dialogInstance) {
+        dialogInstance.getCloseButton().addEventListener('click',
+          this.clearActive_.bind(this));
+      }
   });
 
   // File Description
