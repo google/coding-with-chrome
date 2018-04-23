@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for Phaser blocks (german).
+ * @fileoverview Translation file for the sidebar (german).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -27,16 +27,8 @@ Locales['deu'] = Locales['deu'] || {};
  */
 /* eslint-disable max-len */
 Object.assign(Locales['deu'], {
-  'BLOCKS_PHASER_AUDIO': 'Audio',
-  'BLOCKS_PHASER_CREATE': 'Erstellen',
-  'BLOCKS_PHASER_GAME': 'Spiel',
-  'BLOCKS_PHASER_PRELOAD': 'Vorrausladen',
-  'BLOCKS_PHASER_INPUT': 'Eingabe',
-  'BLOCKS_PHASER_UPDATE': 'Aktualisieren',
-  'BLOCKS_PHASER_RENDERER': 'Renderer',
-  'BLOCKS_PHASER_FILES': 'Dateien',
-  'BLOCKS_PHASER_EXAMPLE_FILES': 'Beispiel Dateien',
-  'BLOCKS_PHASER_ON_CREATE': 'beim Erstellen',
-  'BLOCKS_PHASER_OPEN_FILE_LIBRARY': 'Öffne Datei Bibliothek',
-  'BLOCKS_PHASER_COLLIDE_WITH': 'kollidiert mit',
+  'SIDEBAR_LIBRARY': 'Öffne Datei Bibliothek',
+  'SIDEBAR_MEDIA': 'Medien hochladen und einfügen',
+  'SIDEBAR_FILE_DESCRIPTION': 'Dateibeschreibung anzeigen',
+  'SIDEBAR_TUTORIAL': 'Tutorial starten / neustarten',
 });

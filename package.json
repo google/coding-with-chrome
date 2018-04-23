@@ -114,6 +114,6 @@
     "lint": "eslint .",
     "show-updates": "ncu",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",
-    "update": "npm run clean && ncu -u -a && npm install && npm update -a && npm run build-third_party && npm test"
+    "update": "npm run clean && ncu -u -a --packageFile package.json && npm install && npm update -a && npm run build-third_party && npm test"
   }
 }

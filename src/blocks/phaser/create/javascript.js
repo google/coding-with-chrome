@@ -51,7 +51,24 @@ Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
  */
 Blockly.JavaScript['phaser_add_background'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
-  return 'game.add.image(0, 0, \'' + text_sprite + '\')\n';
+  return 'game.add.image(0, 0, \'' + text_sprite + '\');\n';
+};
+
+
+/**
+ * Add background with specific size.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_add_background_scaled'] = function(block) {
+  let text_sprite = block.getFieldValue('sprite');
+  let number_width = Number(block.getFieldValue('width')) || 'game.world.width';
+  let number_height =
+    Number(block.getFieldValue('height')) || 'game.world.height';
+  return 'var backgroundImage = game.add.image(0, 0, \'' +
+    text_sprite + '\');\n' +
+    'backgroundImage.width = ' + number_width + ';\n' +
+    'backgroundImage.height = ' + number_height + ';\n';
 };
 
 

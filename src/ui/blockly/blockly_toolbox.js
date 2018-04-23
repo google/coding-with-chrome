@@ -47,6 +47,9 @@ cwc.ui.BlocklyToolbox = function(helper) {
   /** @private {!string} */
   this.rowItemClass_ = 'blocklyTreeRowItem';
 
+  /** @private {!string} */
+  this.rootRowItemClass_ = 'blocklyRootTreeRowItem';
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -56,25 +59,39 @@ cwc.ui.BlocklyToolbox = function(helper) {
  * Enables additional DOM manipulations.
  */
 cwc.ui.BlocklyToolbox.prototype.decorate = function() {
+  this.decorateThreeLabels(true);
+};
+
+
+/**
+ * Decorate Blockly three labels.
+ * @param {boolean} root
+ */
+cwc.ui.BlocklyToolbox.prototype.decorateThreeLabels = function(root = false) {
   let treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
   if (!treeRoot) {
     return;
   }
-
   let treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
+
   for (let name in treeLabels) {
     if (Object.prototype.hasOwnProperty.call(treeLabels, name)) {
       let treeLabel = treeLabels[name];
       if (!treeLabel.textContent) {
         continue;
       }
-      let label = treeLabel.textContent.replace(/([^a-z0-9 ]+)/gi, '')
+      let label = treeLabel.textContent.replace(/([^a-z0-9_ ]+)/gi, '')
         .replace(/( )+/g, '_').toLowerCase();
       let blocklyTreeRowItem = treeLabel.parentNode.parentNode;
-      if (blocklyTreeRowItem) {
+      if (blocklyTreeRowItem && !goog.dom.classlist.contains(
+          blocklyTreeRowItem, this.rowItemClass_)) {
+        if (root) {
+          goog.dom.classlist.add(blocklyTreeRowItem, this.rootRowItemClass_);
+        }
         goog.dom.classlist.add(blocklyTreeRowItem, this.rowItemClass_);
         goog.dom.classlist.add(blocklyTreeRowItem,
           this.rowItemClass_ + '_' + label);
+        treeLabel.textContent = i18t(treeLabel.textContent);
       }
     }
   }
@@ -192,14 +209,15 @@ cwc.ui.BlocklyToolbox.prototype.collapse = function(ignoreLabel = '') {
     return;
   }
   let itemClassName = this.rowItemClass_ + '_' + ignoreLabel
-    .replace(/([^a-z0-9 ]+)/gi, '')
+    .replace(/([^a-z0-9_ ]+)/gi, '')
     .replace(/( )+/g, '_')
     .toLowerCase();
   let skipItem = treeRoot.getElementsByClassName(itemClassName)[0];
-  if (ignoreLabel && !skipItem) {
+
+  if ((ignoreLabel && !skipItem) ||
+      !goog.dom.classlist.contains(skipItem, this.rootRowItemClass_)) {
     return;
   }
-
   let items = treeRoot.getElementsByClassName(this.rowItemClass_);
   for (let name in items) {
     if (Object.prototype.hasOwnProperty.call(items, name)) {
@@ -213,6 +231,7 @@ cwc.ui.BlocklyToolbox.prototype.collapse = function(ignoreLabel = '') {
       }
     }
   }
+  window.dispatchEvent(new Event('resize'));
 };
 
 

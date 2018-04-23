@@ -101,7 +101,7 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   });
 
   // File Description
-  this.events_.listen('speaker_notes-button', goog.events.EventType.CLICK,
+  this.events_.listen('file_description-button', goog.events.EventType.CLICK,
     (e) => {
       this.setActive_(e.target);
       this.showContent('Description',
@@ -169,7 +169,7 @@ cwc.ui.Sidebar.prototype.enableButton = function(id, enabled) {
  * @param {boolean} enabled
  */
 cwc.ui.Sidebar.prototype.enableDescription = function(enabled) {
-  this.enableButton('speaker_notes', enabled);
+  this.enableButton('file_description', enabled);
 };
 
 

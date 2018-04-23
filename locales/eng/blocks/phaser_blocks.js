@@ -27,8 +27,16 @@ Locales['eng'] = Locales['eng'] || {};
  */
 /* eslint-disable max-len */
 Object.assign(Locales['eng'], {
+  'BLOCKS_PHASER_AUDIO': 'Audio',
   'BLOCKS_PHASER_CREATE': 'Create',
   'BLOCKS_PHASER_GAME': 'Game',
+  'BLOCKS_PHASER_PRELOAD': 'Preload',
+  'BLOCKS_PHASER_INPUT': 'Input',
+  'BLOCKS_PHASER_UPDATE': 'Update',
+  'BLOCKS_PHASER_RENDERER': 'Renderer',
+  'BLOCKS_PHASER_FILES': 'Files',
+  'BLOCKS_PHASER_EXAMPLE_FILES': 'Example Files',
   'BLOCKS_PHASER_ON_CREATE': 'on create',
   'BLOCKS_PHASER_OPEN_FILE_LIBRARY': 'Open file library',
+  'BLOCKS_PHASER_COLLIDE_WITH': 'collide with',
 });

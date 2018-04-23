@@ -1,0 +1,80 @@
+/**
+ * Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Blockly custom toolbox CSS definitions.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+
+
+.blocklyTreeRowItem {
+  position: relative;
+}
+
+.blocklyTreeRowItem::before {
+  bottom: 10px;
+  color: rgba(255,255,255,0.8);
+  content: '';
+  font-family: 'Material Icons';
+  font-style: normal;
+  line-height: 1;
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  font-size: 21px;
+}
+
+.blocklyTreeRowItem_sprites > .blocklyTreeRow {
+  border-left: 0 !important;
+  padding-left: 8px !important;
+}
+
+.blocklyTreeRowItem_blocks_phaser_game::before {
+  content: 'directions_run';
+}
+
+.blocklyTreeRowItem_blocks_phaser_preload::before {
+  content: 'file_download';
+}
+
+.blocklyTreeRowItem_blocks_phaser_create::before {
+  content: 'add_circle';
+}
+
+.blocklyTreeRowItem_blocks_phaser_input::before {
+  content: 'keyboard';
+}
+
+.blocklyTreeRowItem_blocks_phaser_update::before {
+  content: 'repeat';
+}
+
+.blocklyTreeRowItem_blocks_phaser_renderer::before {
+  content: 'computer';
+}
+
+.blocklyTreeRowItem_blocks_phaser_files::before {
+  content: 'perm_media';
+}
+
+.blocklyTreeRowItem_blocks_phaser_example_files::before {
+  content: 'insert_photo';
+}
+
+.blocklyTreeRowItem_blocks_phaser_audio::before {
+  content: 'audiotrack';
+}

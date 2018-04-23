@@ -33,27 +33,27 @@
       {call .sidebarIcon data="all"}
         {param id: 'library' /}
         {param icon: 'perm_media' /}
-        {param tooltip: 'File library' /}
+        {param tooltip: 'SIDEBAR_LIBRARY' /}
       {/call}
 
       {call .sidebarIcon data="all"}
         {param id: 'media' /}
         {param icon: 'image' /}
-        {param tooltip: 'Image' /}
+        {param tooltip: 'SIDEBAR_MEDIA' /}
       {/call}
 
       <div class="{$prefix}icons-seperator"></div>
 
       {call .sidebarIcon data="all"}
-        {param id: 'speaker_notes' /}
+        {param id: 'file_description' /}
         {param icon: 'speaker_notes' /}
-        {param tooltip: 'Show file description' /}
+        {param tooltip: 'SIDEBAR_FILE_DESCRIPTION' /}
       {/call}
 
       {call .sidebarIcon data="all"}
         {param id: 'tutorial' /}
         {param icon: 'local_library' /}
-        {param tooltip: 'Start tutorial' /}
+        {param tooltip: 'SIDEBAR_TUTORIAL' /}
       {/call}
 
       <div class="{$prefix}icons-seperator"></div>
@@ -100,7 +100,9 @@
       <i class="material-icons">{$icon}</i>
     </button>
     {if $tooltip}
-      <div class="mdl-tooltip" data-mdl-for="{$prefix}{$id}-button">{$tooltip}</div>
+      <div class="mdl-tooltip mdl-tooltip--left" data-mdl-for="{$prefix}{$id}-button">
+        {msg desc=""}{$tooltip}{/msg}
+      </div>
     {/if}
   </div>
 

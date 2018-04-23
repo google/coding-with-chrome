@@ -42,7 +42,7 @@ cwc.Cache = function(helper) {
   this.helper = helper;
 
   /** @private {!number} */
-  this.version = 4;
+  this.version = 5;
 
   /** @private {!cwc.utils.Database} */
   this.database_ = new cwc.utils.Database(this.name, this.version);

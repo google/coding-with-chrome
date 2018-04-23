@@ -29,15 +29,15 @@
   {@param? files: ?}
 
   <xml>
-    <category name="{msg desc=""}BLOCKS_PHASER_GAME{/msg}" colour="75">
+    <category name="BLOCKS_PHASER_GAME" colour="75">
       {call .gameBlocks /}
     </category>
 
-    <category name="{msg desc="Phaser Preload Blocks"}Preload{/msg}" colour="165">
+    <category name="BLOCKS_PHASER_PRELOAD" colour="165">
       {call .preloadBlocks /}
     </category>
 
-    <category name="{msg desc=""}BLOCKS_PHASER_CREATE{/msg}" colour="30">
+    <category name="BLOCKS_PHASER_CREATE" colour="30">
 
       {call .createBlocks /}
 
@@ -58,7 +58,7 @@
 
     </category>
 
-    <category name="{msg desc="Phaser Input Blocks"}Input{/msg}" colour="135">
+    <category name="BLOCKS_PHASER_INPUT" colour="135">
 
       {call .inputBlocks /}
 
@@ -68,7 +68,7 @@
 
     </category>
 
-    <category name="{msg desc="Phaser Update Blocks"}Update{/msg}" colour="315">
+    <category name="BLOCKS_PHASER_UPDATE" colour="315">
 
       {call .updateBlocks /}
 
@@ -82,24 +82,22 @@
 
     </category>
 
-    <category name="{msg desc="Phaser Render Blocks"}Render{/msg}" colour="195">
-
+    <category name="BLOCKS_PHASER_RENDERER" colour="195">
       {call .renderBlocks /}
-
     </category>
 
     <sep></sep>
 
     {if $files}
-      <category name="{msg desc="File Blocks"}Files{/msg}" colour="150">
+      <category name="BLOCKS_PHASER_FILES" colour="150">
         <button text="{msg desc=""}BLOCKS_PHASER_OPEN_FILE_LIBRARY{/msg}" callbackKey="FILE_LIBRARY_MANAGMENT" />
         {call .files data="all" /}
       </category>
     {/if}
 
-      <category name="{msg desc="File Blocks"}Sample Files{/msg}" colour="150">
-        {call .sampleFiles data="all" /}
-      </category>
+    <category name="BLOCKS_PHASER_EXAMPLE_FILES" colour="150">
+      {call .sampleFiles data="all" /}
+    </category>
 
     <sep></sep>
 
@@ -208,7 +206,7 @@
   {@param? opt_hide_input_blocks: bool}
   {@param? opt_show_create_blocks: bool}
 
-  <category name="{msg desc="Phaser Audio Blocks"}Audio{/msg}" colour="245">
+  <category name="BLOCKS_PHASER_AUDIO" colour="245">
     {call .audioBlocks data="all" /}
   </category>
 
@@ -245,6 +243,8 @@
   <block type="phaser_stage_background_color"></block>
 
   <block type="phaser_add_background"></block>
+
+  <block type="phaser_add_background_scaled"></block>
 
   <block type="phaser_add_group">
     <value name="variable">

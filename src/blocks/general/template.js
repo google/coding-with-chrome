@@ -50,6 +50,15 @@ Blockly.BlocksTemplate.addCircle = function() {
 /**
  * @return {!Blockly.FieldImage}
  */
+Blockly.BlocksTemplate.collide = function() {
+  return new Blockly.FieldImage(
+    '../images/icons/collide_20pt.png', 18, 18, '▼');
+};
+
+
+/**
+ * @return {!Blockly.FieldImage}
+ */
 Blockly.BlocksTemplate.event = function() {
   return new Blockly.FieldImage(
     '../images/icons/event_20pt.png', 18, 18, '▼');

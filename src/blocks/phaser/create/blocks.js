@@ -78,6 +78,29 @@ Blockly.Blocks['phaser_add_background'] = {
 
 
 /**
+ * Add background with specific size.
+ */
+Blockly.Blocks['phaser_add_background_scaled'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('add background image'))
+        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image())
+        .appendField(i18t('with size'))
+        .appendField(new Blockly.FieldNumber(0, 0, 5760), 'width')
+        .appendField('x')
+        .appendField(new Blockly.FieldNumber(0, 0, 2160), 'height');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(30);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Add group.
  */
 Blockly.Blocks['phaser_add_group'] = {

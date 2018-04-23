@@ -134,7 +134,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
 Blockly.Blocks['phaser_physics_arcade_overlap'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.runningMan())
+        .appendField(Blockly.BlocksTemplate.collide())
         .appendField(i18t('on collision between'));
     this.appendValueInput('object1');
     this.appendDummyInput()
@@ -157,12 +157,10 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
  */
 Blockly.Blocks['phaser_physics_arcade_collide'] = {
   init: function() {
+    this.appendValueInput('object1')
+        .appendField(Blockly.BlocksTemplate.collide());
     this.appendDummyInput()
-        .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('collide between'));
-    this.appendValueInput('object1');
-    this.appendDummyInput()
-        .appendField(i18t('and'));
+        .appendField(i18t('BLOCKS_PHASER_COLLIDE_WITH'));
     this.appendValueInput('object2');
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Update');

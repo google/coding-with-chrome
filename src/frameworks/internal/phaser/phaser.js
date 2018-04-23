@@ -128,6 +128,16 @@ cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
  * @private
  */
 cwc.framework.Phaser.prepare_ = function() {
+  if (navigator.userAgent == 'CwC sandbox') {
+    return;
+  }
+
+  if (document.location.href.includes('127.0.0.1:') &&
+      document.location.href.includes('/preview/')) {
+    console.log('Pre-caching files for export ...');
+    return;
+  }
+
   // Cleanup existing canvas elements, in the case this is an saved document.
   let canvasElements = document.getElementsByTagName('canvas');
   if (canvasElements) {
