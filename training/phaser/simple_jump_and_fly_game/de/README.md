@@ -6,7 +6,7 @@ Einfaches Jump und Fliegen Spiel
 * [Anforderungen](#anforderungen)
 * [1. Ein Spiel erstellen](#ein-spiel-erstellen)
 * [2. Laden benötigter Bilder und Sounds](#)
-* [3. Erstellen der Welt](#)
+* [3. Erstellen der Welt](#erstellen-der-welt)
   * [Hintergrundbild einfügen](#)
   * [Text einfügen](#)
   * [Boden hinzufügen](#)
@@ -23,7 +23,7 @@ Einfaches Jump und Fliegen Spiel
 * [10. Game verschönern](#)
 
 ## Einleitung
-Dieser Workshop richtet sich an Anfänger die immer schon mal ein eigenes Game entwickeln wollten.
+Dieser Workshop richtet sich an Anfänger die immer schon mal ein eigenes Spiel entwickeln wollten.
 Ihr lernt die Grundlage der Spieleentwicklung und wie eine Spiele Engine grundlegend funktioniert.
 
 Zum programmieren wird eine Block-basierte Programmierung mit vordefinierten Blöcke verwendet. 
@@ -32,23 +32,24 @@ Diese Blöcke setzt Ihr einfach für euer Spiel zusammen.
 Hierzu wird Coding with Chrome verwendet, welches kostenfrei erhältlich ist.
 
 ## Anforderungen
-Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor Modus in Coding with Chrome beschäftigt haben und eine Übersicht der verschiedenen “Blöcke” haben.
+Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor in Coding with Chrome beschäftigt haben und eine Übersicht der verschiedenen “Blöcke” haben.
 
 Es werde einige Spiele spezifische Begriffe verwenden, die ausführlich in [Grundlagen Games](../../basic/de/README.md) erklärt werden. 
 
 ## Ein Spiel erstellen
-Im Anfänger Modus wählst du **Ein Spiel erstellen** aus und erstellst ein **Neues Project**.
+Wähle im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Project**.
 
 Diese sollte dann in etwa wie folgt aussehen:
 ![][empty_game]
 
-Anschließend legt du den Namen und die Dimension (Größer der Spielfläche) fest.
+Anschließend legt du den Namen des Spiels und die Dimension (Größer der Spielfläche) fest.
 Für dieses Tutorial verwenden wir eine Dimension von 400x600.
+
 
 ![][game_name_dimension]
 
 ## Laden benötigter Bilder und Sounds
-Danach müssen wir uns um das Aussehen des Spiel Gedanken machen.
+Danach müssen wir uns um das Aussehen (Hintergrund, Spielfigur, Boden, Hindernisse, ...) des Spiel Gedanken machen.
 Fügt hierzu alle Bilder die Ihr verwenden wollt in eure **Datei Bibliothek** hinzu.
 
 Diese erreicht Ihr über die Sidebar:
