@@ -49,7 +49,7 @@ Für dieses Tutorial verwenden wir eine Dimension von 400x600.
 ![][game_name_dimension]
 
 ## Laden benötigter Bilder und Sounds
-Danach müssen wir uns um das Aussehen (Hintergrund, Spielfigur, Boden, Hindernisse, ...) des Spiel Gedanken machen.
+Danach müssen wir uns um das Aussehen (Hintergrund, Spielfigur, Boden, Hindernisse, …) des Spiel Gedanken machen.
 Fügt hierzu alle Bilder die Ihr verwenden wollt in eure **Datei Bibliothek** hinzu.
 
 Diese erreicht Ihr über die Sidebar:
@@ -67,7 +67,7 @@ Unter den Punkt **Dateien** findet Ihr eure hochgeladenen Dateien, zusätzlich b
 
 ![][example_files]
 
-Zieht eure Bilder anschließend von dem **Dateien** Bereich in euren **beim Vorausladen ...** Block und passt den Namen der Bilder an.
+Zieht eure Bilder anschließend von dem **Dateien** Bereich in euren **beim Vorausladen …** Block und passt den Namen der Bilder an.
 
 ![][preload_image]
 
@@ -87,23 +87,23 @@ obstacles | Hindernisse
 
 ## Erstellen der Welt
 Nun müssen die Grafiken noch der Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
-Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werden in den **beim Erstellen ...** Block gezogen.
+Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werden in den **beim Erstellen …** Block gezogen.
 
 ![][create_world]
 
 ### Hintergrundbild einfügen
 Zuerst fügen wir ein sich bewegendes Hintergrundbild hinzu.
-Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild hinzu …** in den **beim Erstellen ...** Block.
+Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild hinzu …** in den **beim Erstellen …** Block.
 
 ![][create_tile_sprite]
 
 ### Text einfügen
-Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den hinzufügen von Text … den Ihr in den beim Erstellen ... Block zieht.
+Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den hinzufügen von Text … den Ihr in den beim Erstellen … Block zieht.
 
 ![][create_text_object]
 
 ### Boden hinzufügen
-Für den Boden verwenden wir den Block **definiere … als Boden …** und fügen diesen in den **beim Erstellen ...** Block hinzu.
+Für den Boden verwenden wir den Block **definiere … als Boden …** und fügen diesen in den **beim Erstellen …** Block hinzu.
 
 ![][create_floor]
 
@@ -123,21 +123,21 @@ Um das Spiel interessanter zu machen fügen wir der Spielfigure physikalische Ei
 
 ### Schwerkraft / Anziehungskraft
 Damit unsere Figure nicht einfach in der Luft schwebt, fügen wir eine Anziehungskraft nach unten gereichte (y-Achse) von ca. 200 hinzu.
-Zieht hierfür einfach den Block **setze Physik Sprite...** unter den **beim Erstellen ....** Block.
+Zieht hierfür einfach den Block **setze Physik Sprite…** unter den **beim Erstellen ….** Block.
 
-¡[][create_player_physics]
+![][create_player_physics]
 
 Wählt anschließend “Anziehungskraft y” aus der Auswahlliste des Blocks aus und verwendet einen Wert von ca. 200.
 
-¡[][create_player_physics_block]
+![][create_player_physics_block]
 
 ### Kollision
 Der fällt unsere Figure einfach durch den Boden. Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
 
 Klickt hierfür auf **Aktualisieren** und geht dann wieder in den **Physik Sprite** Bereich.
-Hier zieht Ihr den Block **... kollidiert mit ...** in dem **beim Aktualisieren ...** Block.
+Hier zieht Ihr den Block **… kollidiert mit …** in dem **beim Aktualisieren …** Block.
 
-¡[][create_player_physics_collide]
+![][create_player_physics_collide]
 
 ## Steuerung hinzufügen
 Um unsere Spielfigure steuern zu können müssen wir zuerst festlegen wie wir diese steuern möchten.
@@ -152,11 +152,11 @@ Hier zieht ihr den **definiere … erfasse als Tastatur Leertaste** in euren bei
 ### Aktion bei Eingabe festlegen
 Damit auch etwas mit unsere Spielfigur passiert sobald die Leertaste gedrückt wird, müssen wir noch die entsprechende Aktion festlegen.
 
-Klickt hierzu auf **Eingabe** und zieht den Block **falls spacebar beim betätigen mache** Block in euren **bei Eingabe ...** Block.
+Klickt hierzu auf **Eingabe** und zieht den Block **falls spacebar beim betätigen mache** Block in euren **bei Eingabe …** Block.
 
 ![][input_spacebar]
 
-Geht anschließend auf die **Physik Sprite** Blöcke und zieht den Block **setzte Physik Sprite ... nach ...** in den **mache ...** Bereich des vorherigen Blocks.
+Geht anschließend auf die **Physik Sprite** Blöcke und zieht den Block **setzte Physik Sprite … nach …** in den **mache …** Bereich des vorherigen Blocks.
 
 ![][input_spacebar_do]
 
@@ -169,7 +169,7 @@ Nun sollte eure Figure beim drücken der Leertaste springen.
 ## Hindernisse hinzufügen
 Für die Hindernisse verwenden wir einen vordefinierten Hindernisse Generator Block.
 Da wir aber in bestimmten Abständen Hindernisse erzeugen wollen, verwenden wir den **Wiederhole alle … millisekunden** Block. 
-Diesen finden wir unter **Erstellen** und ziehen diesen in den **beim Erstellen ...** Block.
+Diesen finden wir unter **Erstellen** und ziehen diesen in den **beim Erstellen …** Block.
 
 ![][create_loop]
 
@@ -193,7 +193,7 @@ Um die Highscore automatisch erhöht wird, ziehen wir folgenden Block in die ber
 ## Spielende durch Kollision mit den Hindernissen
 Die einfachste Möglichkeit um das Ende des Spiel festzulegen, ist eine Kollisionsüberprüfung ob der Spieler die Hindernissen berührt hat.
 
-Wir fügen also in dem **beim Aktualisieren ...** Bereich eine Kollisionsüberprüfung zwischen dem Spieler und den Hindernissen hinzu.
+Wir fügen also in dem **beim Aktualisieren …** Bereich eine Kollisionsüberprüfung zwischen dem Spieler und den Hindernissen hinzu.
 
 ![][update_collision_block]
 
@@ -214,11 +214,11 @@ Zuerst müsst Ihr die entsprechenden Sounds hochladen und unter **Vorausladen** 
 
 ![][preload_sound]
 
-Anschließend wird der Sound unter **Erstellen** als **definiere ... als Audio ...** hinzugefügt.
+Anschließend wird der Sound unter **Erstellen** als **definiere … als Audio …** hinzugefügt.
 
 ![][preload_sound_example]
 
-Nun könnt Ihr mit dem Block **spiele Audio ...** an jeder beliebigen Stelle den enstprechenden Sound abspielen.
+Nun könnt Ihr mit dem Block **spiele Audio …** an jeder beliebigen Stelle den enstprechenden Sound abspielen.
 
 ![][input_play_audio]
 
