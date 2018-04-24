@@ -225,9 +225,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
   // Handle tutorial / tour data
   let tutorialInstance = this.helper.getInstance('tutorial');
   if (tutorialInstance) {
-    this.log_.info("setting tutorial content");
     tutorialInstance.setContent(file.getTutorialContent());
-    this.log_.info("set tutorial content");
     tutorialInstance.setTour(file.getTutorialTour());
   }
 
