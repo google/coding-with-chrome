@@ -52,9 +52,11 @@ Danach müssen wir uns um das Aussehen des Spiel Gedanken machen.
 Fügt hierzu alle Bilder die Ihr verwenden wollt in eure **Datei Bibliothek** hinzu.
 
 Diese erreicht Ihr über die Sidebar:
+
 ![][sidebar_file_library]
 
 Alternative könnt Ihr **Öffne Datei Bibliothek** unter **Dateien** verwenden:
+
 ![][files_file_library]
 
 Sobald Ihr alle benötigten Bilder und Sound Dateien hochgeladen habt, könnt Ihr das Fenster schließen.
@@ -65,6 +67,7 @@ Unter den Punkt **Dateien** findet Ihr eure hochgeladenen Dateien, zusätzlich b
 ![][example_files]
 
 Zieht eure Bilder anschließend von dem **Dateien** Bereich in euren **beim Vorausladen ...** Block und passt den Namen der Bilder an.
+
 ![][preload_image]
 
 ![]][preload_image_name]
