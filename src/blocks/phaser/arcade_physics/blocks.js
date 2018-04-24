@@ -118,7 +118,7 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('enable arcade physics for'));
+        .appendField(i18t('BLOCKS_PHASER_PHYSICS_ARCADE_ENABLE'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(0);

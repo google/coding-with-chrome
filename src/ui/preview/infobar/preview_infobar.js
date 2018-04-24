@@ -234,7 +234,7 @@ cwc.ui.PreviewInfobar.prototype.updateOverview = function() {
     goog.dom.setTextContent(this.nodeErrorNum, this.errorNum || '');
   }
 
-  if (this.warnNum || this.errorNum || this.infoNum > 1) {
+  if (this.warnNum || this.errorNum) {
     this.showConsole();
   } else {
     this.hideConsole();

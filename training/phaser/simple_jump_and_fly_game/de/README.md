@@ -182,11 +182,12 @@ Nun solltet Ihr die ersten Hindernisse in eurem Spiel sehen.
 
 ## Highscore hinzufügen
 Für die Highscore verwenden wir den sogenannten **dynamischen Text**, damit wir den Inhalt einfach ändern können.
-Dieser befindet sich unter **Erstellen → Text Objekt**:
+Dieser befindet sich unter **Erstellen → Text Objekt**.
+Fügt den Block **definiere highscore als dynamischen Text …** in den **beim Erstellen …** Bereich hinzu und passt die Position, Farbe, Größe und Aussehen an.
 
 ![][dynamic_text]
 
-Um die Highscore automatisch erhöht wird, ziehen wir folgenden Block in die bereits vorhandene Wiederholungsschleife.
+Damit die Highscore automatisch erhöht wird, ziehen wir den **Änderung highscore Text zu erhalte Text ...** Block in die bereits vorhandene Wiederholungsschleife.
 
 ![][dynamic_text_loop]
 
@@ -227,41 +228,41 @@ Nun könnt Ihr mit dem Block **spiele Audio …** an jeder beliebigen Stelle den
 
 
 [empty_game]: images/empty_game.png
-[game_name_dimension]: 
+[game_name_dimension]: images/game_name_dimension.png
 
 [sidebar_file_library]: images/sidebar_file_library.png
 [files_file_library]: images/files_file_library.png
 [example_files]: images/example_files.png
-[preload_image]:
-[preload_image_example]:
+[preload_image]: images/preload_image.png
+[preload_image_example]: images/preload_image_example.png
 
-[create_world]:
-[create_tile_sprite]:
-[create_text_object]:
-[create_floor]:
-[create_player]:
-[create_player_scale]:
+[create_world]: images/create_world.png
+[create_tile_sprite]: images/create_tile_sprite.png
+[create_text_object]: images/create_text_object.png
+[create_floor]: images/create_floor.png
+[create_player]: images/create_player.png
+[create_player_scale]: images/create_player_scale.png
 
-[create_player_physics]:
-[create_player_physics_block]:
-[create_player_physics_collide]:
+[create_player_physics]: images/create_player_physics.png
+[create_player_physics_block]: images/create_player_physics_block.png
+[create_player_physics_collide]: images/create_player_physics_collide.png
 
-[create_input]:
-[input_spacebar]:
-[input_spacebar_do]:
+[create_input]: images/create_input.png
+[input_spacebar]: images/input_spacebar.png
+[input_spacebar_do]: images/input_spacebar_do.png
 
-[create_loop]:
-[create_generator]:
+[create_loop]: images/create_loop.png
+[create_generator]: images/create_generator.png
 
-[dynamic_text]:
+[dynamic_text]: images/dynamic_text.png
 
-[update_collision_block]:
-[game_restart]:
-[update_collision_example]:
+[update_collision_block]: images/update_collision_block.png
+[game_restart]: images/game_restart.png
+[update_collision_example]: images/update_collision_example.png
 
 
-[preload_sound]:
-[preload_sound_example]:
-[input_play_audio]:
+[preload_sound]: images/preload_sound.png
+[preload_sound_example]: images/preload_sound_example.png
+[input_play_audio]: images/input_play_audio.png
 
-[full_game]:
+[full_game]: images/full_game.png

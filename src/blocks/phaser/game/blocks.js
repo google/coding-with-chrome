@@ -71,7 +71,7 @@ Blockly.Blocks['phaser_game_start'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('start game state'))
+        .appendField(i18t('BLOCKS_PHASER_GAME_START'))
         .appendField(new Blockly.FieldTextInput('main'), 'name');
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);

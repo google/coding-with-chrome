@@ -75,14 +75,14 @@ Die einfachste Art eines Text, wird auf dem Bildschirm angezeigt z.B. der Spiele
 ## Dynamische Texte
 ![][dynamic_text_block]
 
-Dynamische Texte werden verwendet wenn der Inhalt sich ändert.
-So werden dynamische Texte verwendet um eine Highscore oder das aktuelle Level anzuzeigen.
+Dynamische Texte werden verwendet wenn der Textinhalt sich ändert.
+Sie zeigen zum Beispiel die Highscore, die vorhandene Leben oder das aktuelle Spiel Level an.
 
 ## Aktion Texte
 ![][action_text_block]
 
 Bei Aktion Texte kann festgelegt werden, was bei einem Klick auf den Text passieren soll.
-Der häufigste Anwendungsfall ist der “Starte Game” Text beim Anfang eines Spieles.
+Der häufigste Anwendungsfall ist der **Starte Game** Text beim Anfang eines Spieles.
 
 # Die verschiedene Arten der Eingabe
 Die meisten Spiele lassen sich wahlweise entweder per Maus, Tastatur oder Bildschirm steuern.
@@ -90,13 +90,13 @@ Die meisten Spiele lassen sich wahlweise entweder per Maus, Tastatur oder Bildsc
 ## Festlegen der Eingabe Überwachung
 Zuerst muss im **Anlegen** Bereich festgelegt werden welche Art von Eingabe erfasst werden soll. Dies kann eine einzelne Taste, die Pfeiltasten oder die Maustaste sein.
 
-### Vordefinierte Tastertur Tasten
+### Vordefinierte Tastatur Tasten
 ![][capture_spacebar]
 
 Bei Spielen, die nur eine Eingabe benötigen, ist die Leertaste die einfachste Wahl.
 Diese wird auch meist verwendet um eine Figure springen zu lassen.
 
-### Speziele Tastertur Taste
+### Speziele Tastatur Taste
 ![][capture_keyboard_key]
 
 Falls gewünscht können natürlich auch andere Tasten verwendet werden, wie ASDW welche häufig als Alternative für die Pfeiltasten verwendet werden.
@@ -109,7 +109,7 @@ Die Pfeiltasten werden für die Steuerung der Figure nach oben, unten, rechts un
 ### Maustasten / Touch Bildschirm
 ![][capture_mouse_keys]
 
-Für alle Geräte die keine Tastertur haben, eigenet sich die Maustaste oder der Touch Bildschirm als Eingabegerät.
+Für alle Geräte die keine Tastatur haben, eignet sich die Maustaste oder der Touch-Bildschirm als Eingabegerät.
 
 ## Festlegen der Aktionen
 Anschließend muss im **Eingabe** Bereich festgelegt werden was bei einem Tastendruck passieren soll.

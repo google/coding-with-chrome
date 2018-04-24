@@ -99,7 +99,7 @@ Blockly.Blocks['phaser_audio_pause'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.audio())
-        .appendField(i18t('pause audio'));
+        .appendField(i18t('BLOCKS_PHASER_AUDIO_PAUSE'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);

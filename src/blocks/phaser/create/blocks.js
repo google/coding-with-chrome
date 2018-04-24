@@ -128,7 +128,7 @@ Blockly.Blocks['phaser_time_loop_event'] = {
     this.appendValueInput('time')
         .setCheck('Number')
         .appendField(Blockly.BlocksTemplate.repeat())
-        .appendField(i18t('repeat every'));
+        .appendField(i18t('BLOCKS_PHASER_TIME_LOOP_EVENT'));
     this.appendDummyInput()
         .appendField(i18t('milliseconds'));
     this.appendStatementInput('func')

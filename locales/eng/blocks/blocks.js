@@ -27,6 +27,7 @@ Locales['eng'] = Locales['eng'] || {};
  */
 /* eslint-disable max-len */
 Object.assign(Locales['eng'], {
-  'BLOCKS_DO': 'do',
+  'BLOCKS_CHANGE': 'change',
   'BLOCKS_DEFINE': 'define',
+  'BLOCKS_DO': 'do',
 });
