@@ -1,11 +1,12 @@
-Einfaches Jump und Fliegen Spiel
-================================
+Einfaches Jump ’n’ Run Spiel
+============================
 
 ## Inhaltsverzeichnis
 * [Einleitung](#einleitung)
 * [Anforderungen](#anforderungen)
 * [1. Ein Spiel erstellen](#ein-spiel-erstellen)
 * [2. Laden benötigter Bilder und Sounds](#laden-benötigter-bilder-und-sounds)
+[<img src="../../../../static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">]
 * [3. Erstellen der Welt](#erstellen-der-welt)
   * [Hintergrundbild einfügen](#hintergrundbild-einfügen)
   * [Text einfügen](#text-einfügen)
@@ -20,8 +21,8 @@ Einfaches Jump und Fliegen Spiel
 * [7. Hindernisse hinzufügen](#hindernisse-hinzufügen)
 * [8. Highscore hinzufügen](#highscore-hinzufügen)
 * [9. Spielende durch Kollision mit den Hindernissen](#spielende-durch-kollision-mit-den-hindernissen)
-* [10. Game verschönern](#game-verschönern)
-  * [Soundeffekte hinzufügen](#soundeffekte-hinzufügen)
+* [10. Soundeffekte hinzufügen](#soundeffekte-hinzufügen)
+* [11. Game verschönern](#game-verschönern)
 
 ## Einleitung
 Dieser Workshop richtet sich an Anfänger die immer schon mal ein eigenes Spiel entwickeln wollten.
@@ -132,7 +133,7 @@ Wählt anschließend “Anziehungskraft y” aus der Auswahlliste des Blocks aus
 ![][create_player_physics_block]
 
 ### Kollision
-Der fällt unsere Figure einfach durch den Boden. Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
+Nun fällt unsere Figure einfach durch den Boden. Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
 
 Klickt hierfür auf **Aktualisieren** und geht dann wieder in den **Physik Sprite** Bereich.
 Hier zieht Ihr den Block **… kollidiert mit …** in dem **beim Aktualisieren …** Block.
@@ -187,7 +188,7 @@ Fügt den Block **definiere highscore als dynamischen Text …** in den **beim E
 
 ![][dynamic_text]
 
-Damit die Highscore automatisch erhöht wird, ziehen wir den **Änderung highscore Text zu erhalte Text ...** Block in die bereits vorhandene Wiederholungsschleife.
+Damit die Highscore automatisch erhöht wird, ziehen wir den **ändere highscore Text zu erhalte Text ...** Block in die bereits vorhandene Wiederholungsschleife.
 
 ![][dynamic_text_loop]
 
@@ -199,16 +200,15 @@ Wir fügen also in dem **beim Aktualisieren …** Bereich eine Kollisionsüberpr
 ![][update_collision_block]
 
 Anschließend sagen wir dem Programm was es bei einer Kollision machen soll.
-Hierzu ziehen wir den **Spiel neustarten** Block unter **Game** in die Kollisionsüberprüfung:
+Hierzu verwenden wir den **Spiel neustarten** Block aus dem **Spiel** Bereich.
 
 ![][game_restart]
 
+Diesen Block ziehen wir in die Kollisionsüberprüfung zwischen unsere Spielfigur und den Hindernissen.
+
 ![][update_collision_example]
 
-## Game verschönern
-Zum Schluss verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hinzufügen oder aber einen Start bzw. End Bildschirm.
-
-### Soundeffekte hinzufügen
+## Soundeffekte hinzufügen
 Zusätzlich könnt ihr Soundeffekte hinzufügen die beim drücken einer Taste oder bei einer Kollision abgespielt werden.
 
 Zuerst müsst Ihr die entsprechenden Sounds hochladen und unter **Vorausladen** hinzufügen und den Namen anpassen.
@@ -223,6 +223,9 @@ Nun könnt Ihr mit dem Block **spiele Audio …** an jeder beliebigen Stelle den
 
 ![][input_play_audio]
 
+## Game verschönern
+Zum Schluss verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hinzufügen oder aber einen Start bzw. End Bildschirm.
+
 ## Komplettes Spiel
 ![][full_game]
 
@@ -234,6 +237,7 @@ Nun könnt Ihr mit dem Block **spiele Audio …** an jeder beliebigen Stelle den
 [files_file_library]: images/files_file_library.png
 [example_files]: images/example_files.png
 [preload_image]: images/preload_image.png
+[preload_image_name]: images/preload_image_name.png
 [preload_image_example]: images/preload_image_example.png
 
 [create_world]: images/create_world.png
@@ -250,11 +254,13 @@ Nun könnt Ihr mit dem Block **spiele Audio …** an jeder beliebigen Stelle den
 [create_input]: images/create_input.png
 [input_spacebar]: images/input_spacebar.png
 [input_spacebar_do]: images/input_spacebar_do.png
+[input_spacebar_do_example]: images/input_spacebar_do_example.png
 
 [create_loop]: images/create_loop.png
 [create_generator]: images/create_generator.png
 
 [dynamic_text]: images/dynamic_text.png
+[dynamic_text_loop]: images/dynamic_text_loop.png
 
 [update_collision_block]: images/update_collision_block.png
 [game_restart]: images/game_restart.png
