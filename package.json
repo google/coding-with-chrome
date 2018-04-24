@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "5.4.23",
+  "version": "5.4.24",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -9,8 +9,8 @@
     "closure-builder": "^2.2.41",
     "command-line-usage": "^5.0.4",
     "jsdoc": "^3.5.5",
-    "npm": "^5.8.0",
-    "npm-check-updates": "^2.14.1",
+    "npm": "^6.0.0",
+    "npm-check-updates": "^2.14.2",
     "nw": "^0.30.0",
     "nw-builder": "^3.5.1",
     "rimraf": "^2.6.2"

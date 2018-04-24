@@ -28,7 +28,6 @@ Locales['eng'] = Locales['eng'] || {};
 /* eslint-disable max-len */
 Object.assign(Locales['eng'], {
   ' steps)': ' steps)',
-  '* You need to restart the application after enabling or disabling these options': '* You need to restart the application after enabling or disabling these options',
   'About Coding with Chrome': 'About Coding with Chrome',
   'Address: {$address}': 'Address: {$address}',
   'Advanced Coding': 'Advanced Coding',
@@ -360,7 +359,6 @@ Object.assign(Locales['eng'], {
   'Write code in the simplified CoffeeScript language': 'Write code in the simplified CoffeeScript language',
   'Write code with Pencil Code': 'Write code with Pencil Code',
   'Write many things on the screen with a repeating program (a loop)': 'Write many things on the screen with a repeating program (a loop)',
-  'You need to restart the application after enabling or disabling any module': 'You need to restart the application after enabling or disabling any module',
   'acceleration': 'acceleration',
   'ambient light intensity': 'ambient light intensity',
   'angle': 'angle',
