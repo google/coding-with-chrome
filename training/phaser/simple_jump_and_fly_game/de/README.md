@@ -1,26 +1,27 @@
 Einfaches Jump und Fliegen Spiel
 ================================
 
-## Inhaltsverzeichniss
+## Inhaltsverzeichnis
 * [Einleitung](#einleitung)
 * [Anforderungen](#anforderungen)
 * [1. Ein Spiel erstellen](#ein-spiel-erstellen)
-* [2. Laden benötigter Bilder und Sounds](#)
+* [2. Laden benötigter Bilder und Sounds](#laden-benötigter-bilder-und-sounds)
 * [3. Erstellen der Welt](#erstellen-der-welt)
-  * [Hintergrundbild einfügen](#)
-  * [Text einfügen](#)
-  * [Boden hinzufügen](#)
-* [4. Erstellen der Spielfigur](#)
-* [5. Physikalische Eigenschaften definieren](#)
-  * [Schwerkraft / Anziehungskraft](#)
-  * [Kollision](#)
-* [6. Steuerung hinzufügen](#)
-  * [Eingabe überwachen](#)
-  * [Aktion bei Eingabe festlegen](#)
-* [7. Hindernisse hinzufügen](#)
-* [8. Highscore hinzufügen](#)
-* [9. Spielende durch Kollision mit den Hindernissen](#)
-* [10. Game verschönern](#)
+  * [Hintergrundbild einfügen](#hintergrundbild-einfügen)
+  * [Text einfügen](#text-einfügen)
+  * [Boden hinzufügen](#boden-hinzufügen)
+* [4. Erstellen der Spielfigur](#erstellen-der-spielfigur)
+* [5. Physikalische Eigenschaften definieren](#physikalische-eigenschaften-definieren)
+  * [Schwerkraft / Anziehungskraft](#schwerkraft--anziehungskraft)
+  * [Kollision](#kollision)
+* [6. Steuerung hinzufügen](#steuerung-hinzufügen)
+  * [Eingabe überwachen](#eingabe-überwachen)
+  * [Aktion bei Eingabe festlegen](#aktion-bei-eingabe-festlegen)
+* [7. Hindernisse hinzufügen](#hindernisse-hinzufügen)
+* [8. Highscore hinzufügen](#highscore-hinzufügen)
+* [9. Spielende durch Kollision mit den Hindernissen](#spielende-durch-kollision-mit-den-hindernissen)
+* [10. Game verschönern](#game-verschönern)
+  * [Soundeffekte hinzufügen](#soundeffekte-hinzufügen)
 
 ## Einleitung
 Dieser Workshop richtet sich an Anfänger die immer schon mal ein eigenes Spiel entwickeln wollten.
@@ -29,7 +30,7 @@ Ihr lernt die Grundlage der Spieleentwicklung und wie eine Spiele Engine grundle
 Zum programmieren wird eine Block-basierte Programmierung mit vordefinierten Blöcke verwendet. 
 Diese Blöcke setzt Ihr einfach für euer Spiel zusammen.
 
-Hierzu wird Coding with Chrome verwendet, welches kostenfrei erhältlich ist.
+Hierzu wird _Coding with Chrome_ verwendet, welches kostenfrei erhältlich ist.
 
 ## Anforderungen
 Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor in Coding with Chrome beschäftigt haben und eine Übersicht der verschiedenen “Blöcke” haben.
@@ -37,14 +38,13 @@ Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor in Coding wi
 Es werde einige Spiele spezifische Begriffe verwenden, die ausführlich in [Grundlagen Games](../../basic/de/README.md) erklärt werden. 
 
 ## Ein Spiel erstellen
-Wähle im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Project**.
+Wähle im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Projekt**.
 
 Diese sollte dann in etwa wie folgt aussehen:
 ![][empty_game]
 
 Anschließend legt du den Namen des Spiels und die Dimension (Größer der Spielfläche) fest.
 Für dieses Tutorial verwenden wir eine Dimension von 400x600.
-
 
 ![][game_name_dimension]
 
@@ -71,7 +71,7 @@ Zieht eure Bilder anschließend von dem **Dateien** Bereich in euren **beim Vora
 
 ![][preload_image]
 
-![]][preload_image_name]
+![][preload_image_name]
 
 Verwendet hierfür die folgenden vordefinierten Namen damit ihr nachher weniger ändern müsst.
 Solltet Ihr andere Namen verwenden, achtet bitte darauf diese in den entsprechenden Blöcken anzupassen.
@@ -92,7 +92,7 @@ Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werd
 ![][create_world]
 
 ### Hintergrundbild einfügen
-Zuerst fügen wir ein sich bewegendes Hintergrund Bild hinzu.
+Zuerst fügen wir ein sich bewegendes Hintergrundbild hinzu.
 Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild hinzu …** in den **beim Erstellen ...** Block.
 
 ![][create_tile_sprite]
@@ -195,22 +195,35 @@ Die einfachste Möglichkeit um das Ende des Spiel festzulegen, ist eine Kollisio
 
 Wir fügen also in dem **beim Aktualisieren ...** Bereich eine Kollisionsüberprüfung zwischen dem Spieler und den Hindernissen hinzu.
 
-![][update_collsion_block]
+![][update_collision_block]
 
 Anschließend sagen wir dem Programm was es bei einer Kollision machen soll.
 Hierzu ziehen wir den **Spiel neustarten** Block unter **Game** in die Kollisionsüberprüfung:
 
 ![][game_restart]
 
-![][update_collsion_example]
+![][update_collision_example]
 
 ## Game verschönern
-Zum Schluß verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hinzufügen oder aber einen Start bzw. End Bildschirm.
+Zum Schluss verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hinzufügen oder aber einen Start bzw. End Bildschirm.
 
-Zusätzlich könnt ihr Soundeffekte hinzufügen die beim drücken der Taste abgespielt werden.
+### Soundeffekte hinzufügen
+Zusätzlich könnt ihr Soundeffekte hinzufügen die beim drücken einer Taste oder bei einer Kollision abgespielt werden.
 
+Zuerst müsst Ihr die entsprechenden Sounds hochladen und unter **Vorausladen** hinzufügen und den Namen anpassen.
 
-## Anhang
+![][preload_sound]
+
+Anschließend wird der Sound unter **Erstellen** als **definiere ... als Audio ...** hinzugefügt.
+
+![][preload_sound_example]
+
+Nun könnt Ihr mit dem Block **spiele Audio ...** an jeder beliebigen Stelle den enstprechenden Sound abspielen.
+
+![][input_play_audio]
+
+## Komplettes Spiel
+![][full_game]
 
 
 [empty_game]: images/empty_game.png
@@ -242,6 +255,13 @@ Zusätzlich könnt ihr Soundeffekte hinzufügen die beim drücken der Taste abge
 
 [dynamic_text]:
 
-[update_collsion_block]:
+[update_collision_block]:
 [game_restart]:
-[update_collsion_example]:
+[update_collision_example]:
+
+
+[preload_sound]:
+[preload_sound_example]:
+[input_play_audio]:
+
+[full_game]:

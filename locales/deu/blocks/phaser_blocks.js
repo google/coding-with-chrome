@@ -28,6 +28,7 @@ Locales['deu'] = Locales['deu'] || {};
 /* eslint-disable max-len */
 Object.assign(Locales['deu'], {
   'BLOCKS_PHASER_AUDIO': 'Audio',
+  'BLOCKS_PHASER_AUDIO_ADD_BGM': 'als Hintergrundsound',
   'BLOCKS_PHASER_COLLIDE_WITH': 'kollidiert mit',
   'BLOCKS_PHASER_CREATE': 'Erstellen',
   'BLOCKS_PHASER_EXAMPLE_FILES': 'Beispiel Dateien',

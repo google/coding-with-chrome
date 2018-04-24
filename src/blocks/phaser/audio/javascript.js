@@ -20,6 +20,25 @@
 
 
 /**
+ * Add background music.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_audio_add_bgm'] = function(block) {
+  let text_audio = block.getFieldValue('audio');
+  let number_volume = block.getFieldValue('volume');
+  let dropdown_loop = block.getFieldValue('loop');
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'if (typeof ' + variable + ' === \'undefined\') {\n' +
+    '  ' + variable + ' = game.add.audio(\'' + text_audio + '\', ' +
+    number_volume / 100 + ', ' + (dropdown_loop || 'false') + ');\n' +
+    '} else {\n  ' + variable + '.stop();\n}\n' +
+    variable + '.play();\n';
+};
+
+
+/**
  * Add audio.
  * @param {Blockly.Block} block
  * @return {!string}

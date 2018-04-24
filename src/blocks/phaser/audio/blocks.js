@@ -20,7 +20,35 @@
 
 
 /**
- * Add sprite.
+ * Add background music.
+ */
+Blockly.Blocks['phaser_audio_add_bgm'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('BLOCKS_DEFINE'));
+    this.appendDummyInput()
+        .appendField(i18t('BLOCKS_PHASER_AUDIO_ADD_BGM'))
+        .appendField(new Blockly.FieldTextInput('bgm'), 'audio')
+        .appendField(Blockly.BlocksTemplate.audio())
+        .appendField(i18t('with volume'))
+        .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
+        .appendField('%')
+        .appendField(new Blockly.FieldDropdown([
+          ['no loop', false],
+          ['loop', true],
+        ]), 'loop');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(255);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Add audio.
  */
 Blockly.Blocks['phaser_audio_add'] = {
   init: function() {
