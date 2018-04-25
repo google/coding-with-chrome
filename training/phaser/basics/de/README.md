@@ -1,5 +1,14 @@
 Game Engine - Grundlagen
 ========================
+Author: Markus Bordihn
+<img src="../../../../static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">
+
+## Inhaltsverzeichnis
+* [Spiel](#spiel)
+* [Spielzustände](#spielzustände)
+* [Die verschiedenen Arten von Grafiken](#die-verschiedenen-arten-von-grafiken)
+* [Die verschiedenen Arten von Texten](#die-verschiedenen-arten-von-texten)
+* [Die verschiedene Arten der Eingabe](#die-verschiedene-arten-der-eingabe)
 
 ## Spiel
 Ein Spiel kennt mehrere Spielzustände, die je nach Benutzeraktion ausgeführt werden.
@@ -69,61 +78,61 @@ Diese Art der Grafik findet Verwendung bei allen beweglichen Grafiken die Einflu
 ## Die verschiedenen Arten von Texten
 Texte können im **Anlegen** Bereich erstellt werden, wobei man die folgenden drei Arten unterscheidet.
 
-## Einfache Texte
+### Einfache Texte
 ![][text_block]
 
 Die einfachste Art eines Text, wird auf dem Bildschirm angezeigt z.B. der Spiele Titel oder sonstige Beschriftungen.
 
-## Dynamische Texte
+### Dynamische Texte
 ![][dynamic_text_block]
 
 Dynamische Texte werden verwendet wenn der Textinhalt sich ändert.
 Sie zeigen zum Beispiel die Highscore, die vorhandenen Leben oder das aktuelle Spiel Level an.
 
-## Aktion Texte
+### Aktion Texte
 ![][action_text_block]
 
 Bei Aktion Texte kann festgelegt werden, was bei einem Klick auf den Text passieren soll.
 Der häufigste Anwendungsfall ist der **Starte Game** Text beim Anfang eines Spieles.
 
-# Die verschiedene Arten der Eingabe
+## Die verschiedene Arten der Eingabe
 Die meisten Spiele lassen sich wahlweise entweder per Maus, Tastatur oder Bildschirm steuern.
 
-## Festlegen der Eingabe Überwachung
+### Festlegen der Eingabe Überwachung
 Zuerst muss im **Anlegen** Bereich festgelegt werden welche Art von Eingabe erfasst werden soll.
 Dies kann eine einzelne Taste, die Pfeiltasten oder die Maustaste sein.
 
-### Vordefinierte Tastatur Tasten
+#### Vordefinierte Tastatur Tasten
 ![][capture_spacebar]
 
 Bei Spielen, die nur eine Eingabe benötigen, ist die Leertaste die einfachste Wahl.
 Diese wird auch meist verwendet um eine Figure springen zu lassen.
 
-### Speziele Tastatur Taste
+#### Speziele Tastatur Taste
 ![][capture_keyboard_key]
 
 Falls gewünscht können natürlich auch andere Tasten verwendet werden, wie ASDW welche häufig als Alternative für die Pfeiltasten verwendet werden.
 
-### Pfeiltasten
+#### Pfeiltasten
 ![][capture_cursor_keys]
 
 Die Pfeiltasten werden für die Steuerung der Figure nach oben, unten, rechts und links verwendet.
 
-### Maustasten / Touch Bildschirm
+#### Maustasten / Touch Bildschirm
 ![][capture_mouse_keys]
 
 Für alle Geräte die keine Tastatur haben, eignet sich die Maustaste oder der Touch-Bildschirm als Eingabegerät.
 
-## Festlegen der Aktionen
+### Festlegen der Aktionen
 Anschließend muss im **Eingabe** Bereich festgelegt werden was bei einem Tastendruck passieren soll.
 Hierbei unterscheidet man zwei Arten **beim betätigen** und **beim gedrückt lassen**.
 
-### Beim betätigen
+#### Beim betätigen
 Beim betätigen führt die Aktion immer nur einmal aus wenn eine Taste gedrückt ist.
 Dies wird für das Springen einer Figure verwendet oder in allen Fällen, in denen eine Aktion nur einmal ausgeführt werden soll.
 ![][input_key_down]
 
-### Beim gedrückt lassen
+#### Beim gedrückt lassen
 Beim gedrückt lassen wird die Aktion, solange die Taste gedrückt ist, mehrmals ausgeführt.
 Dies ist hilfreich wenn man den Spieler in verschiedene Richtungen bewegen will ohne jedesmal erneut auf die Taste drücken zu müssen.
 ![][input_key_pressed]

@@ -129,7 +129,7 @@ Um das Spiel interessanter zu machen fügen wir der Spielfigure physikalische Ei
 
 ### Schwerkraft / Anziehungskraft
 Damit unsere Figure nicht einfach in der Luft schwebt, fügen wir eine Anziehungskraft nach unten gereichte (y-Achse) von ca. 200 hinzu.
-Zieht hierfür einfach den Block **setze Physik Sprite…** unter den **beim Erstellen ….** Block.
+Zieht hierfür einfach den Block **setze Physik Sprite…** unter den **beim Erstellen …** Block.
 
 ![][create_player_physics]
 
@@ -151,7 +151,7 @@ Um unsere Spielfigure steuern zu können müssen wir zuerst festlegen wie wir di
 Um dies so einfach wie Möglich zu machen verwenden wir hierfür die Leertaste.
 
 ### Eingabe überwachen
-Klickt auf Anlegen und wählt **Eingaben** aus.
+Klickt auf **Erstellen** und wählt **Eingaben** aus.
 Hier zieht ihr den **definiere … erfasse als Tastatur Leertaste** in euren beim **Erstellen Block**.
 
 ![][create_input]
