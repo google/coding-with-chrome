@@ -22,6 +22,8 @@
   "history": "",
   "metadata": {
     "tutorial": {
+      "___TEMPLATE___:content": "blockly.cwct/content.html",
+      "___TEMPLATE___:processResults": "blockly.cwct/processResults.js",
       "tour": [
         {
           "title": "What is Blockly?",
@@ -59,11 +61,16 @@
             "on": "left"
           },
           "text": "...or throw away unneeded blocks."
+        },
+        {
+          "title": "Start Coding",
+          "attachTo": {
+            "element": "#cwc-sidebar-tutorial-button",
+            "on": "left"
+          },
+          "text": "Ready to start coding? Click the tutorial button for a lesson."
         }
-      ],
-      "content": "<html>\n<body>\n  <h3>Challenge</h3>\n  Can you draw a <span style='color: blue; font-weight: bold'>blue</span> circle with a <span style='color: green; font-weight: bold'>green</span> border?\n\n<div id='msg'>no messages</div>\n\n</body>\n</html>\n",
-      "validatePreview": "function() {\n  var scripts = document.getElementsByTagName('body')[0].getElementsByTagName('script');\n  if (!scripts || scripts.length == 0) {\n    return 'no scripts';\n  }; \n  var scr = scripts[0].textContent;\n  return scr.match(/draw.circle\\(([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+)\\)/);\n}\n",
-      "processResults": "function(res) {\n  document.getElementById('msg').innerHTML = \n    '<h3>Message</h3><pre>Result: ' + \n    JSON.stringify(res, null, '  ') + \n    '</pre>';\n}\n"
+      ]
     },
     "__default__": {
       "author": "Markus Bordihn",

@@ -402,6 +402,64 @@ cwc.fileFormat.File.prototype.getTutorialContent = function() {
   if (content && typeof content == 'string') {
     return content;
   }
+  if (content && typeof content == 'object') {
+    let lang = window.navigator.userLanguage || window.navigator.language;
+    if (lang) {
+      if (content.hasOwnProperty(lang) && typeof content[lang] == 'string') {
+        this.log_.info('Found tutorial in user\'s language,', lang);
+        return content[lang];
+      }
+      this.log_.warn('Tutorial not available in user\'s language,', lang,
+        'trying to find a similar language');
+      let shortLangRE = /-.*$/;
+      let langShort = lang.replace(shortLangRE, '').toLowerCase();
+      let firstLang = false;
+      for (let tlang in content) {
+        if (!content.hasOwnProperty(tlang)) continue;
+        if (typeof content[tlang] != 'string') continue;
+        if (!firstLang) firstLang = tlang;
+        let tlangShort = tlang.replace(shortLangRE).toLowerCase();
+        if (langShort == tlangShort) {
+          this.log_.info('Returning tutorial in', tlang, 'instead of', lang);
+          return content[tlang];
+        }
+      }
+      if (firstLang) {
+        this.log_.warn('Failed to find a similar language.',
+          'Using first available language', firstLang);
+        return content[firstLang];
+      } else {
+        this.log_.error('Tutorial content was an object,',
+          'but no languages found:', content);
+      }
+    } else {
+      this.log_.error('Failed to get language');
+    }
+  }
+  return null;
+};
+
+
+/**
+ * @return {String}
+ */
+cwc.fileFormat.File.prototype.getTutorialValidatePreview = function() {
+  let validate = this.getMetadata('validatePreview', 'tutorial');
+  if (validate && typeof validate == 'string') {
+    return validate;
+  }
+  return null;
+};
+
+
+/**
+ * @return {String}
+ */
+cwc.fileFormat.File.prototype.getTutorialProcessResults = function() {
+  let validate = this.getMetadata('processResults', 'tutorial');
+  if (validate && typeof validate == 'string') {
+    return validate;
+  }
   return null;
 };
 

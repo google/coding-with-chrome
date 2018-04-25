@@ -24,6 +24,8 @@ goog.require('cwc.soy.ui.Sidebar');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.dom.classlist');
+
 /**
  * Class represents the statusbar inside the ui.
  * @param {!cwc.utils.Helper} helper
@@ -67,6 +69,9 @@ cwc.ui.Sidebar = function(helper) {
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {Element} */
+  this.tutorialNode_ = null;
 };
 
 
@@ -137,21 +142,43 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
 
   // Tutorial
   this.events_.listen('tutorial-button', goog.events.EventType.CLICK,
-    (e) => {
-      this.setActive_(e.target);
-      this.showContent('Tutorial', ' '); // The content must be non-false or the content-body element isn't created
-      let tutorialContent = document.createElement(this.webviewSupport_ ? 
-        'webview' : 'iframe');
-      let content = goog.dom.getElement(this.prefix + 'content-body');
-      if (content) {
-        goog.dom.appendChild(content,tutorialContent);
-        tutorialContent['src'] = this.rendererHelper.getDataURL(tutorial.getContent());
-      } else {
-        this.log_.error('Failed to find element', this.prefix+'content-body');
-      }
-  });
+    this.renderTutorial.bind(this));
 };
 
+/**
+ * @return {Element}
+ */
+cwc.ui.Sidebar.prototype.getTutorialNode = function() {
+  return this.tutorialNode_;
+};
+
+cwc.ui.Sidebar.prototype.renderTutorial = function() {
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  if (!tutorialInstance) return;
+  let tutorialContent = tutorialInstance.getContent();
+  if (!tutorialContent) return;
+
+  let tutorialButton = goog.dom.getElement(this.prefix+'tutorial-button');
+  if (!tutorialButton) {
+    this.log_.error('Failed to find tutorial button');
+    return;
+  }
+  this.setActive_(tutorialButton);
+  // TODO(carheden): Support markdown for non-interactive tutorials
+
+  // The content must be non-false or the content-body element isn't created
+  this.showContent('Tutorial', ' ', true);
+  let content = goog.dom.getElement(this.prefix + 'content-body');
+  if (this.webviewSupport_) {
+    this.tutorialNode_ = document.createElement('webview');
+  } else {
+    this.tutorialNode_ = document.createElement('iframe');
+  }
+  goog.dom.appendChild(content, this.tutorialNode_);
+  this.tutorialNode_.src = this.rendererHelper.getDataURL(
+    tutorialInstance.getContent());
+  tutorialInstance.start(this.tutorialNode_);
+};
 
 /**
  * @param {!string} id
@@ -286,8 +313,10 @@ cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
 /**
  * @param {!string} title
  * @param {string} content
+ * @param {boolean} raw
  */
-cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
+cwc.ui.Sidebar.prototype.showContent = function(title, content = '',
+  raw = false) {
   if (this.contentName === title) {
     this.showContent_(false);
     this.contentName = '';
@@ -295,6 +324,11 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
   }
 
   if (content) {
+    if (raw) {
+      goog.dom.classlist.add(this.nodeContent, this.prefix+'raw');
+    } else {
+      goog.dom.classlist.remove(this.nodeContent, this.prefix+'raw');
+    }
     goog.soy.renderElement(
       this.nodeContent,
       cwc.soy.ui.Sidebar.content, {

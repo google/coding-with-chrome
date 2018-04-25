@@ -56,16 +56,24 @@
 }
 
 @media screen and (min-width: 1366px) {
-  #{$prefix}sidebar-content {
+  #{$prefix}sidebar-content,
+  #{$prefix}sidebar-content.{$prefix}sidebar-raw > section > webview,
+  #{$prefix}sidebar-content.{$prefix}sidebar-raw > section > iframe {
     width: 400px!important;
   }
+}
+
+#{$prefix}sidebar-content,
+#{$prefix}sidebar-content.{$prefix}sidebar-raw > section > webview,
+#{$prefix}sidebar-content.{$prefix}sidebar-raw > section > iframe {
+  width: 300px;
+  height: 100%;
 }
 
 #{$prefix}sidebar-content {
   background: #fff;
   height: calc(100% - 34px);
   margin-left: 46px;
-  width: 300px;
   position: relative;
   box-shadow:
     0 4px 5px 0 rgba(0,0,0,0.14),
@@ -73,6 +81,10 @@
     0 2px 4px -1px rgba(0,0,0,0.2);
   border-left: 1px solid rgba(0,0,0,.12);
   z-index: 0;
+}
+
+#{$prefix}sidebar-content-body {
+  height: 100%;
 }
 
 #{$prefix}sidebar-content > header {
@@ -101,13 +113,9 @@
   padding: 10px 16px 10px 16px;
 }
 
-#{$prefix}sidebar-content > section > webview,
-#{$prefix}sidebar-content > section > iframe {
-  /* This must match the {$prefix}sidebar-content width - the horizontal
-     padding of {$prefix}sidebar-content > section */
-  max-width: 268px;
+#{$prefix}sidebar-content.{$prefix}sidebar-raw > section {
+  padding: 0!important;
 }
-
 
 #{$prefix}sidebar-content-close {
   position: absolute;

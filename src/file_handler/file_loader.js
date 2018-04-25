@@ -226,6 +226,8 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
   let tutorialInstance = this.helper.getInstance('tutorial');
   if (tutorialInstance) {
     tutorialInstance.setContent(file.getTutorialContent());
+    tutorialInstance.setValidatePreview(file.getTutorialValidatePreview());
+    tutorialInstance.setProcessResults(file.getTutorialProcessResults());
     tutorialInstance.setTour(file.getTutorialTour());
   }
 
