@@ -9,7 +9,7 @@
   "short_name": "Coding with Chrome",
   "description": "Learn, improve, or teach coding skills within a Chrome browser.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgSWdCJSwkgFTY9d993Quot277oCS2PCM2H/F6U28NE8D3Z21GXS/7qW8XCGShB054Wboq62pP679f9tB9F+GRHzOh/an4zIu+Uhb3ZKVzZLJbHsP8N+E5wk3wgwOBgE+UXCy9I8i1RpfzutJ4aha+YEzvCsVpo6UwsuWiXORB9yRU5NuooYX+fhVpWZmrZJo4vqzQhuoJ/uWiQujABXXo4qdrclwSw8+JlpWLMqHHQ6HE8Sf7VWDdGvRdYP6LRZobWqovb659qEumJ0bxhwXtHkWgPHQWtW35T/r/oH8uuke35pH+YtBtaOqN5U3bYGPinP0bYrI33OSLUJx/DrC1wIDAQAB",
-  "version": "5.4.23",
+  "version": "5.4.24",
   "oauth2": {
     "client_id": "418162477970-2qmsb2sp3m522hf292154favsjgpsj9n.apps.googleusercontent.com",
     "scopes": [

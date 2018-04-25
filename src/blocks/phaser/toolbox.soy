@@ -326,6 +326,14 @@
   {@param? opt_show_create_blocks: bool}
 
   {if $opt_show_create_blocks}
+    <block type="phaser_audio_add_bgm">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">bgm</field>
+        </block>
+      </value>
+    </block>
+
     <block type="phaser_audio_add">
       <value name="variable">
         <block type="variables_get">

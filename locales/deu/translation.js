@@ -115,7 +115,6 @@ Object.assign(Locales['deu'], {
   'Search for Images on Google': 'Suche auf Google nach Bildern',
   'Search': 'Suchen',
   'Serial is disabled!': 'Serielle Schnittstelle ist deaktiviert!',
-  'Settings': 'Einstellungen',
   'Shared with me': 'Für mich freigegeben',
   'Starred': 'Makiert',
   'Start a file': 'Start eine neue Datei',

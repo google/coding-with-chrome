@@ -170,7 +170,7 @@ Blockly.Blocks['phaser_text_change'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
-        .appendField(i18t('change'));
+        .appendField(i18t('BLOCKS_CHANGE'));
     this.appendValueInput('text')
         .appendField(i18t('text to'));
     this.setInputsInline(true);
