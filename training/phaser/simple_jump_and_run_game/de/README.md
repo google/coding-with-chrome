@@ -1,5 +1,6 @@
 Einfaches Jump ’n’ Run Spiel
 ============================
+Author: Markus Bordihn
 
 ## Inhaltsverzeichnis
 * [Einleitung](#einleitung)
