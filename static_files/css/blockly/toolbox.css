@@ -125,6 +125,10 @@
 /**
  * Default Icons for the toolbox
  */
+.blocklyTreeRowItem_blocks_lists::before {
+  content: 'list';
+}
+
 .blocklyTreeRowItem_logic::before,
 .blocklyTreeRowItem_logik::before {
   content: 'call_split';
@@ -226,4 +230,48 @@
 
 .blocklyTreeRowItem_blocks_phaser_world::before {
   content: 'computer';
+}
+
+.blocklyTreeRowItem_attachments::before {
+  content: 'rv_hookup';
+}
+
+.blocklyTreeRowItem_command::before {
+  content: 'send';
+}
+
+.blocklyTreeRowItem_draw::before {
+  content: 'brush';
+}
+
+.blocklyTreeRowItem_events::before {
+  content: 'input';
+}
+
+.blocklyTreeRowItem_sounds::before {
+  content: 'audiotrack';
+}
+
+.blocklyTreeRowItem_sensors::before {
+  content: 'developer_board';
+}
+
+.blocklyTreeRowItem_movements::before {
+  content: 'open_with';
+}
+
+.blocklyTreeRowItem_movements_advance::before {
+  content: 'gamepad';
+}
+
+.blocklyTreeRowItem_robot_settings::before {
+  content: 'settings_input_component';
+}
+
+.blocklyTreeRowItem_movements_vehicle::before {
+  content: 'directions_car';
+}
+
+.blocklyTreeRowItem_lights::before {
+  content: 'lightbulb_outline';
 }

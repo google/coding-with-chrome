@@ -30,4 +30,5 @@ Object.assign(Locales['eng'], {
   'BLOCKS_CHANGE': 'change',
   'BLOCKS_DEFINE': 'define',
   'BLOCKS_DO': 'do',
+  'BLOCKS_LISTS': 'Lists',
 });
