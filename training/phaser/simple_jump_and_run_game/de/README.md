@@ -6,7 +6,9 @@ Einfaches Jump ’n’ Run Spiel
 * [Anforderungen](#anforderungen)
 * [1. Ein Spiel erstellen](#ein-spiel-erstellen)
 * [2. Laden benötigter Bilder und Sounds](#laden-benötigter-bilder-und-sounds)
-[<img src="../../../../static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">]
+
+<img src="../../../../static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">
+
 * [3. Erstellen der Welt](#erstellen-der-welt)
   * [Hintergrundbild einfügen](#hintergrundbild-einfügen)
   * [Text einfügen](#text-einfügen)
