@@ -93,8 +93,6 @@ obstacles | Hindernisse
 Nun müssen die Grafiken noch in die Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
 Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werden in den **beim Erstellen …** Block gezogen.
 
-![][create_world]
-
 ### Hintergrundbild einfügen
 Zuerst fügen wir ein sich bewegendes Hintergrundbild hinzu.
 Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild hinzu …** in den **beim Erstellen …** Block.
@@ -102,7 +100,7 @@ Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild 
 ![][create_tile_sprite]
 
 ### Text einfügen
-Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den ***hinzufügen von Text …** Block den Ihr in den beim **Erstellen …** Block zieht.
+Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den **hinzufügen von Text …** Block den Ihr in den beim **Erstellen …** Block zieht.
 
 ![][create_text_object]
 
@@ -112,6 +110,10 @@ Für den Boden verwenden wir den Block **definiere … als Boden …** und füge
 ![][create_floor]
 
 Bei den Boden könnt Ihr auch die Geschwindigkeit anpassen oder einfach beide Werte auf 0 setzen damit dieser sich nicht mehr bewegt.
+
+Am Ende solltet Ihr ca. folgendes haben:
+![][create_world]
+
 
 ## Erstellen der Spielfigur
 Seid Ihr mit eurer Welt zufrieden, fügen wir für Spielfigure als Arcade Sprite hinzu, damit wir diese später auch bewegen können.
@@ -136,7 +138,8 @@ Wählt anschließend “Anziehungskraft y” aus der Auswahlliste des Blocks aus
 ![][create_player_physics_block]
 
 ### Kollision
-Nun fällt unsere Figure einfach durch den Boden. Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
+Derzeit fällt unsere Figure einfach durch den Boden.
+Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
 
 Klickt hierfür auf **Aktualisieren** und geht dann wieder in den **Physik Sprite** Bereich.
 Hier zieht Ihr den Block **… kollidiert mit …** in dem **beim Aktualisieren …** Block.
@@ -194,6 +197,8 @@ Fügt den Block **definiere highscore als dynamischen Text …** in den **beim E
 Damit die Highscore automatisch erhöht wird, ziehen wir den **ändere highscore Text zu erhalte Text ...** Block in die bereits vorhandene Wiederholungsschleife.
 
 ![][dynamic_text_loop]
+
+![][dynamic_text_loop_block]
 
 ## Spielende durch Kollision mit den Hindernissen
 Die einfachste Möglichkeit um das Ende des Spiel festzulegen, ist eine Kollisionsüberprüfung ob der Spieler die Hindernissen berührt hat.
@@ -264,6 +269,7 @@ Zum Schluss verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hin
 
 [dynamic_text]: images/dynamic_text.png
 [dynamic_text_loop]: images/dynamic_text_loop.png
+[dynamic_text_loop_block]: images/dynamic_text_loop_block.png
 
 [update_collision_block]: images/update_collision_block.png
 [game_restart]: images/game_restart.png
