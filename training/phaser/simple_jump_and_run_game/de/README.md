@@ -42,12 +42,12 @@ Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor in Coding wi
 Es werde einige Spiele spezifische Begriffe verwenden, die ausführlich in [Grundlagen Games](../../basic/de/README.md) erklärt werden. 
 
 ## Ein Spiel erstellen
-Wähle im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Projekt**.
+Wählt im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Projekt**.
 
-Diese sollte dann in etwa wie folgt aussehen:
+Dies sollte dann in etwa wie folgt aussehen:
 ![][empty_game]
 
-Anschließend legt du den Namen des Spiels und die Dimension (Größer der Spielfläche) fest.
+Anschließend legt du den Namen des Spiels und die Dimension (die Größer der Spielfläche) fest.
 Für dieses Tutorial verwenden wir eine Dimension von 400x600.
 
 ![][game_name_dimension]
@@ -60,12 +60,12 @@ Diese erreicht Ihr über die Sidebar:
 
 ![][sidebar_file_library]
 
-Alternative könnt Ihr **Öffne Datei Bibliothek** unter **Dateien** verwenden:
+Alternative könnt Ihr auch **Öffne Datei Bibliothek** unter **Dateien** verwenden:
 
 ![][files_file_library]
 
-Sobald Ihr alle benötigten Bilder und Sound Dateien hochgeladen habt, könnt Ihr das Fenster schließen.
-Ihr könnt natürlich später jederzeit weitere Dateien hinzufügen.
+Sobald Ihr alle benötigten Bilder und Sound Dateien hochgeladen habt, könnt Ihr das **Datei Bibliothek** Fenster schließen.
+Ihr könnt natürlich später jederzeit weitere Dateien hinzufügen oder ändern.
 
 Unter den Punkt **Dateien** findet Ihr eure hochgeladenen Dateien, zusätzlich befinden sich unter **Beispiel Dateien** ein paar allgemeine Beispielbilder.
 
@@ -90,7 +90,7 @@ obstacles | Hindernisse
 ![][preload_image_example]
 
 ## Erstellen der Welt
-Nun müssen die Grafiken noch der Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
+Nun müssen die Grafiken noch in die Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
 Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werden in den **beim Erstellen …** Block gezogen.
 
 ![][create_world]
@@ -102,7 +102,7 @@ Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild 
 ![][create_tile_sprite]
 
 ### Text einfügen
-Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den hinzufügen von Text … den Ihr in den beim Erstellen … Block zieht.
+Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den ***hinzufügen von Text …** Block den Ihr in den beim **Erstellen …** Block zieht.
 
 ![][create_text_object]
 
