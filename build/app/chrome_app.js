@@ -44,7 +44,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC Chrome app files',
   resources: [
-    'app/chrome_app/html/',
+    'app/chrome_app/editor.html',
     'app/chrome_app/manifest.json',
   ],
   out: 'dist/chrome_os/',
@@ -102,35 +102,3 @@ closureBuilder.build({
   ],
   out: 'dist/chrome_os/js/',
 });
-
-
-/**
- * Editor-loader
- */
-closureBuilder.build({
-  name: 'CwC Editor',
-  srcs: [
-    'app/chrome_app/js/editor.js',
-  ],
-  externs: [
-    'build/externs/chrome.js',
-    'build/externs/cwc.js',
-  ],
-  out: 'dist/chrome_os/js/editor.js',
-});
-
-
-/**
- * Pre-loader
- */
-closureBuilder.build({
-  name: 'CwC Loader',
-  srcs: [
-    'app/chrome_app/js/loader.js',
-  ],
-  externs: [
-    'build/externs/chrome.js',
-  ],
-  out: 'dist/chrome_os/js/loader.js',
-});
-

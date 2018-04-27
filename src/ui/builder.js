@@ -54,6 +54,7 @@ goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
+goog.require('cwc.ui.LoadingScreen');
 goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Notification');
@@ -179,6 +180,9 @@ cwc.ui.Builder = function() {
 
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
+
+  /** @private {!cwc.ui.LoadingScreen} */
+  this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper);
 };
 
 
@@ -189,7 +193,6 @@ cwc.ui.Builder = function() {
  * @export
  */
 cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
-  this.setProgress('Loading Coding with Chrome editor ...', 0);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
@@ -199,6 +202,10 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   } else {
     this.raiseError('Required node is neither a string or an object!');
   }
+
+  // Decorate loading screen
+  this.loadingScreen_.decorate();
+  this.setProgress('Loading Coding with Chrome editor ...', 0);
 
   // Storing callback
   if (callback && typeof callback === 'function') {
@@ -324,7 +331,6 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.showSelectScreen();
 
   this.setProgress('Done.', 100);
-  this.closeLoader();
   this.loaded = true;
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
@@ -333,6 +339,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.callback(this);
   }
   this.events_.clear();
+  this.loadingScreen_.show(false);
 };
 
 
@@ -342,24 +349,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
  * @param {number=} total
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
-  this.log_.info('[' + current + '%] ' + text);
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({
-      'command': 'progress', 'text': text, 'current': current, 'total': total,
-    }, '*');
-  }
-};
-
-
-/**
- * Closes the Loader window.
- */
-cwc.ui.Builder.prototype.closeLoader = function() {
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({'command': 'close'}, '*');
-  }
+  this.loadingScreen_.setProgress(text, current, total);
 };
 
 
@@ -368,11 +358,6 @@ cwc.ui.Builder.prototype.closeLoader = function() {
  * @param {boolean=} skipThrow
  */
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({
-      'command': 'error', 'msg': error}, '*');
-  }
   if (this.callback) {
     this.callback(this);
   }
@@ -698,3 +683,11 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
         'Please check if you have included the ' + name + ' files.');
   }
 };
+
+
+// Decorates Coding with Chrome GUI 1sec after content is loaded. */
+window.addEventListener('load', function() {
+  window.setTimeout(function() {
+    new cwc.ui.Builder().decorate();
+  }, 1000);
+}, false);

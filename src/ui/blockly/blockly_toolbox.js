@@ -73,15 +73,12 @@ cwc.ui.BlocklyToolbox.prototype.decorateThreeLabels = function(root = false) {
     return;
   }
   let treeLabels = treeRoot.getElementsByClassName('blocklyTreeLabel');
-
   for (let name in treeLabels) {
     if (Object.prototype.hasOwnProperty.call(treeLabels, name)) {
       let treeLabel = treeLabels[name];
       if (!treeLabel.textContent) {
         continue;
       }
-      let label = treeLabel.textContent.replace(/([^a-z0-9_ ]+)/gi, '')
-        .replace(/( )+/g, '_').toLowerCase();
       let blocklyTreeRowItem = treeLabel.parentNode.parentNode;
       if (blocklyTreeRowItem && !goog.dom.classlist.contains(
           blocklyTreeRowItem, this.rowItemClass_)) {
@@ -89,6 +86,8 @@ cwc.ui.BlocklyToolbox.prototype.decorateThreeLabels = function(root = false) {
           goog.dom.classlist.add(blocklyTreeRowItem, this.rootRowItemClass_);
         }
         goog.dom.classlist.add(blocklyTreeRowItem, this.rowItemClass_);
+        let label = treeLabel.textContent.replace(/([^a-z0-9_ ]+)/gi, '')
+          .replace(/( )+/g, '_').toLowerCase();
         goog.dom.classlist.add(blocklyTreeRowItem,
           this.rowItemClass_ + '_' + label);
         treeLabel.textContent = i18t(treeLabel.textContent);

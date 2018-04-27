@@ -319,13 +319,17 @@
 {template .subTabBarLink}
   {@param id: string}
   {@param name: string}
+  {@param modules: ?}
   {@param? active: bool}
   {@param? icon: bool}
+  {@param? module: string}
   {let $tab_id: 'select-screen-tab-' + $id /}
+  {let $isEnabled: isNonnull($modules[$module]) and $modules[$module] == true or not isNonnull($modules[$module]) /}
 
   <a href="#{$tab_id}" id="{$tab_id}-link" class="mdl-tabs__tab 
     {if $icon} icon_24px_raw{/if}
-    {if $active} is-active{/if}">{$name}</a>
+    {if $active} is-active{/if}
+    {if not $isEnabled} hidden{/if}">{$name}</a>
 
 {/template}
 

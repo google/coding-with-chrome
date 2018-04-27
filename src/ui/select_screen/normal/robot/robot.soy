@@ -38,40 +38,46 @@
 
       <div class="mdl-tabs__tab-bar">
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param active: true /}
           {param id: 'robot_overview' /}
           {param name: 'Overview' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param id: 'lego_ev3' /}
+          {param module: 'lego' /}
           {param name: 'EV3' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param id: 'makeblock_mbot' /}
+          {param module: 'makeblock' /}
           {param name: 'mBot' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param id: 'makeblock_mbot_ranger' /}
+          {param module: 'makeblock' /}
           {param name: 'mBot Ranger' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param id: 'sphero_classic' /}
+          {param module: 'sphero' /}
           {param name: 'Sphero 2.0' /}
         {/call}
 
         {if $experimental}
-          {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
             {param id: 'sphero_sprk_plus' /}
+            {param module: 'sphero' /}
             {param name: 'Sphero SPRK+' /}
           {/call}
 
-          {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+          {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
             {param id: 'sphero_bb8' /}
+            {param module: 'sphero' /}
             {param name: 'Sphero BB-8' /}
           {/call}
         {/if}

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Setting screen (english).
+ * @fileoverview Loading screen Template for Coding in Chrome editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,22 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
+{namespace cwc.soy.ui.LoadingScreen autoescape="strict"}
 
 
 /**
- * @final
- * @export
+ * Container
  */
-/* eslint-disable max-len */
-Object.assign(Locales['eng'], {
-  'SETTING_SCREEN_TITLE': 'Settings',
-  'SETTING_SCREEN_GENERAL': 'General',
-  'SETTING_SCREEN_MODULES': 'Modules',
-  'SETTING_SCREEN_EDITOR': 'Editor',
-  'SETTING_SCREEN_MISC': 'Misc',
-  'SETTING_SCREEN_NOTE_RESTART': 'You need to restart the application after enabling or disabling an options',
+{template .template}
+  {@param? prefix: string}
 
-  'SETTING_SCREEN_SECTIONS': 'Sections',
-});
+  <div id="{$prefix}progress-bar" class="mdl-progress mdl-js-progress"></div>
+  <div id="{$prefix}progress-text">Loaded</div>
+{/template}

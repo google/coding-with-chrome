@@ -103,35 +103,3 @@ closureBuilder.build({
   ],
   out: 'dist/nw_app/js/',
 });
-
-
-/**
- * Editor-loader
- */
-closureBuilder.build({
-  name: 'CwC Editor',
-  srcs: [
-    'app/chrome_app/js/editor.js',
-  ],
-  externs: [
-    'build/externs/chrome.js',
-    'build/externs/cwc.js',
-  ],
-  out: 'dist/nw_app/js/editor.js',
-});
-
-
-/**
- * Pre-loader
- */
-closureBuilder.build({
-  name: 'CwC Loader',
-  srcs: [
-    'app/chrome_app/js/loader.js',
-  ],
-  externs: [
-    'build/externs/chrome.js',
-  ],
-  out: 'dist/nw_app/js/loader.js',
-});
-

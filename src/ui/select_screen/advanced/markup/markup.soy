@@ -37,13 +37,13 @@
 
       <div class="mdl-tabs__tab-bar">
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param active: true /}
-          {param id: 'robot_overview' /}
+          {param id: 'markup_overview' /}
           {param name: 'Overview' /}
         {/call}
 
-        {call cwc.soy.SelectScreenTemplate.subTabBarLink}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
           {param id: 'html5' /}
           {param name: 'HTML5' /}
         {/call}
@@ -54,7 +54,7 @@
 
         {call cwc.soy.SelectScreenTemplate.subTabBarContent}
           {param active: true /}
-          {param id: 'robot_overview' /}
+          {param id: 'markup_overview' /}
           {param content kind="html"}
             {call .overview data="all" /}
           {/param}

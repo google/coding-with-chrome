@@ -20,8 +20,22 @@
 
 
 describe('Prepare Editor', function() {
-  document.body.insertAdjacentHTML('afterbegin',
-    '<div id="cwc-editor"></div>');
+  document.body.insertAdjacentHTML('afterbegin', '' +
+    '<div id="cwc-loading-screen">' +
+    '  <div id="cwc-loading-screen-content">' +
+    '    <div id="cwc-loading-screen-logo">' +
+    '      <img src="images/cwc_logo.png">' +
+    '    </div>' +
+    '    <div id="cwc-loading-screen-progress">' +
+    '      <div id="cwc-loading-screen-progress-bar" ' +
+    'class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>' +
+    '      <div id="cwc-loading-screen-progress-text">' +
+    '       Loading Coding with Chrome</div>' +
+    '    </div>' +
+    '  </div>' +
+    '</div>' +
+    '<div id="cwc-editor"></div>'
+  );
 
   let builder = new cwc.ui.Builder();
 
