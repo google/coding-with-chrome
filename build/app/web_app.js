@@ -39,14 +39,26 @@ closureBuilder.build({
 
 
 /**
+ * Static external style-sheets
+ */
+closureBuilder.build({
+  name: 'External StyleSheets',
+  resources: [
+    'genfiles/third_party/css/external.css',
+  ],
+  out: 'dist/web_app/css/',
+});
+
+
+/**
  * Static application data
  */
 closureBuilder.build({
   name: 'CwC Chrome app files',
   resources: [
-    'app/web_app/index.html',
+    'app/chrome_app/editor.html',
   ],
-  out: 'dist/web_app/',
+  out: 'dist/web_app/index.html',
 });
 
 
@@ -56,6 +68,7 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CwC third party files',
   resources: [
+    'genfiles/third_party/css/',
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
@@ -64,7 +77,7 @@ closureBuilder.build({
 
 
 /**
- * Third party files
+ * Framework files
  */
 closureBuilder.build({
   name: 'Framework files',
@@ -73,4 +86,16 @@ closureBuilder.build({
     'genfiles/third_party/frameworks/external',
   ],
   out: 'dist/web_app/frameworks',
+});
+
+
+/**
+ * Debug file
+ */
+closureBuilder.build({
+  name: 'CwC Debug',
+  resources: [
+    'app/chrome_app/js/debug.js',
+  ],
+  out: 'dist/web_app/js/',
 });

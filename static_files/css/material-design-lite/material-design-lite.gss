@@ -20,8 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-@import 'material.indigo-blue.min.css';
-
 html > body,
 .mdl-textfield__input {
   font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
@@ -135,6 +133,11 @@ html > body,
   transform: translateX(-50%) translateY(-50%);
 }
 
+.mdl-card__media {
+  background-color: transparent;
+}
+
+
 /**
  * Wide card.
  */
@@ -226,61 +229,4 @@ html > body,
 .mdl-steps > li.is-complete:after {
   color: #fff;
   background: rgba(63,81,181,0.7);
-}
-
-/**
- * CWC content
- */
-.cwc-content {
-  height: calc(100% - 44px);
-  overflow: auto;
-}
-
-.cwc-content-large {
-  height: calc(100% - 88px);
-  overflow: auto;
-}
-
-.cwc-navigation {
-  min-height: 44px;
-}
-
-.cwc-navigation .mdl-navigation__link {
-  line-height: 44px;
-}
-
-.cwc-navigation .mdl-layout__header-row {
-  padding: 0;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.08);
-  text-transform: uppercase;
-  height: 45px;
-}
-
-.cwc-navigation .is-active {
-  position: relative;
-  font-weight: bold;
-  opacity: 1;
-}
-
-.cwc-navigation .is-active:after {
-  content: "";
-  width: 70%;
-  height: 2px;
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: rgb(255,64,129);
-  left: 15%;
-}
-
-.cwc-navigation .mdl-navigation__link {
-  opacity: 0.9;
-}
-
-.cwc-navigation .mdl-navigation__link:hover {
-  opacity: 1;
 }

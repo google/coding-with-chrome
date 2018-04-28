@@ -33,7 +33,7 @@
 }
 
 .blocklyToolboxDiv {
-  background: rgba(200,200,200,0.5);
+  background-color: rgba(200,200,200,0.5);
   background: linear-gradient(to right, 
     rgba(200,200,200,0.5) 0%,
     rgba(200,200,200,0.5) 90%,
@@ -87,7 +87,6 @@
 
 .blocklyTreeRow {
   padding: 4px 10px 4px 0px !important;
-  border-radius: 3px;
   background-color: #FAFAFA;
   box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
   border-radius: 0 22px 22px 0;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 The Coding with Chrome Authors.
+ * Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-/*
- * Dialog-polyfill custom CSS definitions.
- *
- * @author mbordihn@google.com (Markus Bordihn)
- */
 
-@import '../../external/dialog-polyfill/dialog-polyfill.css';
+a.shepherd-cancel-link {
+  margin-left: 5px;
+}
+
+.shepherd-step {
+  z-index: 110;
+}

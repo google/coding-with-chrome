@@ -15,20 +15,55 @@
  */
 
 /*
- * Google Closure library custom definitions.
+ * General custom CSS definitions.
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-@import 'common.css';
-@import 'menu.css';
-@import 'menubutton.css';
-@import 'menuitem.css';
-
-.modal-dialog, .modal-dialog-bg, .goog-menu {
-  z-index: 100;
+html{
+  height: 100%;
 }
 
-.logmsg {
-  color: #aaa;
+body {
+  background: #fff;
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-color: gray;
+  border-spacing: 0;
+}
+
+tr {
+  background-color: #fafafa;
+}
+
+tr:nth-of-type(even) {
+  background-color: #fff;
+}
+
+.img.center {
+  display: block;
+  margin: auto;
+  border: 0;
+}
+
+.link_text {
+  color: #ff4081;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.link_text,
+.link_button {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.link_text:hover,
+.link_button:hover {
+  opacity: 1;
 }

@@ -22,6 +22,33 @@ let glob = closureBuilder.globSupport();
 
 
 /**
+ * External Style Sheets files
+ */
+closureBuilder.build({
+  name: 'External Style Sheets',
+  srcs: glob([
+    /* Code Mirror style sheets */
+    'third_party/codemirror/lib/codemirror.css',
+    'third_party/codemirror/addon/dialog/dialog.css',
+    'third_party/codemirror/addon/fold/foldgutter.css',
+    'third_party/codemirror/addon/search/matchesonscrollbar.css',
+    'third_party/codemirror/addon/hint/show-hint.css',
+    'third_party/codemirror/addon/lint/lint.css',
+    'third_party/codemirror/theme/eclipse.css',
+    'third_party/codemirror/theme/icecoder.css',
+    'third_party/codemirror/theme/mdn-like.css',
+
+    /* Dialog Polyfill */
+    'third_party/dialog-polyfill/dialog-polyfill.css',
+
+    /* Shpherd */
+    'third_party/shepherd/dist/css/shepherd-theme-arrows.css',
+  ]),
+  out: 'genfiles/third_party/css/external.css',
+});
+
+
+/**
  * Roboto fonts
  */
 closureBuilder.build({
@@ -65,7 +92,6 @@ closureBuilder.build({
   name: 'Dialog polyfill',
   resources: [
     'third_party/dialog-polyfill/dialog-polyfill.js',
-    'third_party/dialog-polyfill/dialog-polyfill.css',
   ],
   out: 'genfiles/third_party/external/dialog-polyfill/',
 });

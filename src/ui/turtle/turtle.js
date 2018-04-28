@@ -127,7 +127,7 @@ cwc.ui.Turtle.prototype.renderContent_ = function() {
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
     cwc.framework.Internal.TURTLE,
-  ], this.helper.getInstance('server').getRootURL());
+  ], this.helper.getBaseURL());
   let body = this.image ? '<img id="turtle" src="' + this.image + '" ' +
       'style="display: none;">\n' : '';
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';

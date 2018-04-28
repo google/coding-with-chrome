@@ -1,5 +1,5 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome gss files.
+ * @fileoverview BUILD configuration for Coding with Chrome .gss files.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -28,6 +28,22 @@ closureBuilder.build({
   name: 'CwC Closure Style Sheets files',
   prefix: 'cwc-',
   srcs: glob([
+    // Internal style sheets
+    'static_files/css/animations.gss',
+    'static_files/css/backgrounds.gss',
+    'static_files/css/fonts.gss',
+    'static_files/css/icons.gss',
+    'static_files/css/default.gss',
+    'static_files/css/loading_screen.gss',
+
+    // External style definitions
+    'static_files/css/blockly/*.gss',
+    'static_files/css/closure/*.gss',
+    'static_files/css/codemirror/*.gss',
+    'static_files/css/material-design-lite/*.gss',
+    'static_files/css/shepherd/*.gss',
+
+    // GSS definitions
     'src/**/*.gss',
   ]),
   out: 'genfiles/core/css/editor.css',

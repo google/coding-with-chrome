@@ -182,7 +182,7 @@ cwc.ui.Builder = function() {
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.ui.LoadingScreen} */
-  this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper);
+  this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
 };
 
 
@@ -205,7 +205,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
 
   // Decorate loading screen
   this.loadingScreen_.decorate();
-  this.setProgress('Loading Coding with Chrome editor ...', 0);
+  this.setProgress('Loading ...', 0);
 
   // Storing callback
   if (callback && typeof callback === 'function') {
@@ -277,60 +277,35 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.checkRequirements_('htmlhint');
   this.checkRequirements_('jshint');
 
-  this.setProgress('Prepare debug ...', 10);
-  this.prepareDebug_();
-
-  this.setProgress('Prepare experimental ...', 20);
-  this.prepareExperimental_();
-
-  this.setProgress('Prepare dialog ...', 25);
-  this.prepareDialog();
-
-  this.setProgress('Prepare protocols ...', 30);
-  this.prepareProtocols();
-
+  // Track progressing status
+  this.setProgressFunc('Prepare debug ...', this.prepareDebug_);
+  this.setProgressFunc('Prepare experimental ...', this.prepareExperimental_);
+  this.setProgressFunc('Prepare dialog ...', this.prepareDialog);
+  this.setProgressFunc('Prepare protocols ...', this.prepareProtocols);
   if (this.helper.checkChromeFeature('sockets.tcpServer')) {
-    this.setProgress('Prepare internal Server', 35);
-    this.prepareServer();
+    this.setProgressFunc('Prepare internal Server', this.prepareServer);
   }
-
-  this.setProgress('Prepare helpers ...', 40);
-  this.prepareHelper();
-
-  this.setProgress('Gamepad support ...', 44);
-  this.prepareGamepad();
-
-  this.setProgress('Prepare addons ...', 45);
-  this.prepareAddons();
-
+  this.setProgressFunc('Prepare helpers ...', this.prepareHelper);
+  this.setProgressFunc('Gamepad support ...', this.prepareGamepad);
+  this.setProgressFunc('Prepare addons ...', this.prepareAddons);
   if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare OAuth2 Helpers ...', 50);
-    this.prepareOauth2Helper();
+    this.setProgressFunc('Prepare OAuth2 Helpers ...',
+      this.prepareOauth2Helper);
   }
-
-  this.setProgress('Loading cache ...', 55);
-  this.loadCache();
-
-  this.setProgress('Render editor GUI ...', 60);
-  this.renderGui();
-
-  this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
-  this.prepareBluetooth();
-
+  this.setProgressFunc('Loading cache ...', this.loadCache);
+  this.setProgressFunc('Render editor GUI ...', this.renderGui);
+  this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
+    this.prepareBluetooth);
   if (this.helper.checkChromeFeature('serial')) {
-    this.setProgress('Prepare Serial support ...', 70);
-    this.prepareSerial();
+    this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
   }
-
   if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare account support ...', 80);
-    this.prepareAccount();
+    this.setProgressFunc('Prepare account support ...', this.prepareAccount);
   }
+  this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
 
-  this.setProgress('Loading select screen ...', 90);
-  this.showSelectScreen();
-
-  this.setProgress('Done.', 100);
+  // Done.
+  this.setProgress('Coding with Chrome', 100);
   this.loaded = true;
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
@@ -339,7 +314,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.callback(this);
   }
   this.events_.clear();
-  this.loadingScreen_.show(false);
+  this.loadingScreen_.hideSecondsAfterStart(4000);
 };
 
 
@@ -350,6 +325,15 @@ cwc.ui.Builder.prototype.loadUI = function() {
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
   this.loadingScreen_.setProgress(text, current, total);
+};
+
+
+/**
+ * @param {!string} text
+ * @param {!Function} func
+ */
+cwc.ui.Builder.prototype.setProgressFunc = function(text, func) {
+  this.loadingScreen_.setProgressFunc(text, func);
 };
 
 
@@ -633,7 +617,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   this.helper.setInstance('i18n', i18nInstance);
 
   let language = cwc.config.Default.LANGUAGE;
-  let languageFile = '../js/locales/eng.js';
+  let languageFile = 'js/locales/eng.js';
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
@@ -649,7 +633,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
 
           // Blockly language file.
           cwc.ui.Helper.insertScript(
-            '../external/blockly/msg/' +
+            'external/blockly/msg/' +
               cwc.utils.I18n.getISO639_1(language) + '.js',
             'blockly-language'
           );
@@ -666,9 +650,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   i18nInstance.prepare(
     this.loadUI.bind(this),
     language,
-    languageFile,
-    '../js/locales/blacklist.js',
-    '../js/locales/supported.js'
+    languageFile
   );
 };
 
@@ -685,9 +667,7 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
 };
 
 
-// Decorates Coding with Chrome GUI 1sec after content is loaded. */
+// Decorates Coding with Chrome GUI after content is loaded. */
 window.addEventListener('load', function() {
-  window.setTimeout(function() {
-    new cwc.ui.Builder().decorate();
-  }, 1000);
+  new cwc.ui.Builder().decorate();
 }, false);

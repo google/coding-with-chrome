@@ -39,6 +39,18 @@ closureBuilder.build({
 
 
 /**
+ * Static external style-sheets
+ */
+closureBuilder.build({
+  name: 'External StyleSheets',
+  resources: [
+    'genfiles/third_party/css/external.css',
+  ],
+  out: 'dist/chrome_os/css/',
+});
+
+
+/**
  * Static application data
  */
 closureBuilder.build({
@@ -65,7 +77,7 @@ closureBuilder.build({
 
 
 /**
- * Third party files
+ * Framework files
  */
 closureBuilder.build({
   name: 'Framework files',

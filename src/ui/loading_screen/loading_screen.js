@@ -27,10 +27,11 @@ goog.require('goog.soy');
 
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {Function=} scope
  * @constructor
  * @struct
  */
-cwc.ui.LoadingScreen = function(helper) {
+cwc.ui.LoadingScreen = function(helper, scope) {
   /** @type {string} */
   this.name = 'Loading Screen';
 
@@ -44,6 +45,9 @@ cwc.ui.LoadingScreen = function(helper) {
   this.node = null;
 
   /** @type {Element} */
+  this.nodeProgressError = null;
+
+  /** @type {Element} */
   this.nodeProgressBar = null;
 
   /** @type {Element} */
@@ -54,6 +58,12 @@ cwc.ui.LoadingScreen = function(helper) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {Function} */
+  this.scope_ = scope;
+
+  /** @private {number} */
+  this.current_ = 0;
 };
 
 
@@ -65,10 +75,23 @@ cwc.ui.LoadingScreen.prototype.decorate = function() {
   goog.soy.renderElement(node, cwc.soy.ui.LoadingScreen.template, {
     'prefix': this.prefix,
   });
+  this.nodeProgressError = goog.dom.getElement(this.prefix + 'progress-error');
   this.nodeProgressText = goog.dom.getElement(this.prefix + 'progress-text');
   this.nodeVersion = goog.dom.getElement(this.prefix + 'version');
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
+  }
+
+  let nodeClose = goog.dom.getElement('cwc-loading-screen-close');
+  if (nodeClose) {
+    nodeClose.addEventListener('click', function() {
+      chrome.app.window.current()['close']();
+    });
+  }
+
+  let nodeVersion = goog.dom.getElement('cwc-loading-screen-info-version');
+  if (nodeVersion) {
+    goog.dom.setTextContent(nodeVersion, this.helper.getAppVersion());
   }
 };
 
@@ -82,15 +105,65 @@ cwc.ui.LoadingScreen.prototype.show = function(show) {
 
 
 /**
+ * @param {!number} seconds in msec
+ */
+cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(seconds) {
+  let startTime = Math.floor(performance.now());
+  let nodeTime = goog.dom.getElement('cwc-loading-screen-info-rendered');
+  if (nodeTime) {
+    goog.dom.setTextContent(nodeTime, startTime);
+  }
+  if (startTime < seconds) {
+    window.setTimeout(function() {
+      this.show(false);
+    }.bind(this), seconds - startTime);
+  } else {
+    this.show(false);
+  }
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.ui.LoadingScreen.prototype.setError = function(text) {
+  if (this.nodeProgressError) {
+    goog.dom.setTextContent(this.nodeProgressError, text);
+  }
+};
+
+
+/**
  * @param {!string} text
  * @param {!number} current
  * @param {number?} total
  */
 cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
     total = 100) {
+  this.current_ = current;
   let percent = Math.round((100 / total) * current);
   this.log_.info('[', percent + '%', ']', text);
   goog.dom.setTextContent(this.nodeProgressText, text);
   let className = '#' + this.prefix + 'progress-bar.mdl-js-progress';
   document.querySelector(className)['MaterialProgress']['setProgress'](percent);
+};
+
+
+/**
+ * @param {!string} text
+ * @param {Function} func
+ */
+cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func) {
+  this.current_ += 5;
+  this.setProgress(text, this.current_);
+  try {
+    if (this.scope_) {
+      func.bind(this.scope_)();
+    } else {
+      func();
+    }
+  } catch (error) {
+    this.setError('ERROR: ' + error.message);
+    throw error;
+  }
 };
