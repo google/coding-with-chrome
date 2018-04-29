@@ -46,7 +46,7 @@ into the master branch and part of the bundled application.
 
 ### Code reviews
 All submissions, including submissions by project members, require review. We
-use Github pull requests for this purpose.
+use GitHub pull requests for this purpose.
 
 
 ### The small print
