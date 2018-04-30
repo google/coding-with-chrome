@@ -32,17 +32,14 @@ cwc.utils.I18n = function() {
   /** @type {!string} */
   this.name = 'i18n';
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
-
   /** @type {!string} */
   this.language = '';
 
-  /** @type {!Array} */
-  this.supportedLanguages = [];
-
   /** @type {!string} */
-  this.fallbackLanguage = 'en';
+  this.fallbackLanguage = 'eng';
+
+  /** @type {!Array} */
+  this.supportedLanguages = [this.fallbackLanguage];
 
   /** @type {!Object} */
   this.untranslated = {};
@@ -58,18 +55,18 @@ cwc.utils.I18n = function() {
 
   /** @type {!Object} */
   this.usage = {};
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+
+  this.prepare_();
 };
 
 
 /**
- * @param {Function=} callback
- * @param {string=} language
- * @param {string=} languageFile
- * @param {string=} blacklistFile
- * @param {string=} supportedLanguagesFile
+ * @private
  */
-cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
-    languageFile = '', blacklistFile = '', supportedLanguagesFile = '') {
+cwc.utils.I18n.prototype.prepare_ = function() {
   // Register global Locales variable if needed.
   window['Locales'] = window['Locales'] || {};
   window['Locales']['blacklist'] = window['Locales']['blacklist'] || [];
@@ -81,37 +78,42 @@ cwc.utils.I18n.prototype.prepare = function(callback = undefined, language = '',
   window['i18v'] = this.translateVariable.bind(this);
   window['i18soy'] = this.translateSoy.bind(this);
 
-  // Callback handling
-  let callbackHandling = function() {
-    this.setSupportedLanguages();
+  this.setSupportedLanguages();
+  let language = this.getLanguage();
+  if (language) {
+    this.log_.info('Detected user language', language);
     this.setLanguage(language);
-    if (goog.isFunction(callback)) {
-      callback();
-    }
-  }.bind(this);
-
-  // Load optional files like blacklist and language
-  const promises = [];
-  if (supportedLanguagesFile) {
-    promises.push(this.loadFile_(supportedLanguagesFile,
-      this.supportedLanguagesNodeId));
-  }
-  if (blacklistFile) {
-    promises.push(this.loadFile_(blacklistFile, this.blacklistNodeId));
-  }
-  if (languageFile) {
-    promises.push(this.loadFile_(languageFile, this.languageNodeId));
-  }
-
-  if (promises.length) {
-    Promise.all(promises).then(
-      callbackHandling
-    ).catch((e) => {
-      this.log_.error('Loading error:', e);
-    });
   } else {
-    callbackHandling();
+    this.log_.info('Using fallback language', this.fallbackLanguage);
+    this.setLanguage(this.fallbackLanguage);
   }
+};
+
+
+/**
+ * @param {!string} file
+ * @return {Promise}
+ */
+cwc.utils.I18n.prototype.loadSupportedLanguagesFile = function(file) {
+  return this.loadFile_(file, this.supportedLanguagesNodeId);
+};
+
+
+/**
+ * @param {!string} file
+ * @return {Promise}
+ */
+cwc.utils.I18n.prototype.loadBlacklistFile = function(file) {
+  return this.loadFile_(file, this.blacklistNodeId);
+};
+
+
+/**
+ * @param {!string} file
+ * @return {Promise}
+ */
+cwc.utils.I18n.prototype.loadLanguageFile = function(file) {
+  return this.loadFile_(file, this.languageNodeId);
 };
 
 
@@ -175,7 +177,9 @@ cwc.utils.I18n.prototype.translateVariable = function(key, variable) {
  */
 cwc.utils.I18n.prototype.getLanguage = function() {
   if (!this.language) {
-    if (typeof chrome !== 'undefined' && typeof chrome.i18n !== 'undefined') {
+    if (typeof navigator !== 'undefined' && navigator['language']) {
+      return cwc.utils.I18n.bcp47ToISO639_3(navigator['language']);
+    } else if (typeof chrome !== 'undefined' && chrome.i18n) {
       return chrome.i18n.getUILanguage();
     } else if (this.fallbackLanguage) {
       return this.fallbackLanguage;
@@ -190,12 +194,14 @@ cwc.utils.I18n.prototype.getLanguage = function() {
  */
 cwc.utils.I18n.prototype.setLanguage = function(language = '') {
   this.language = language || this.getLanguage();
+  this.log_.info('Set language to', this.language);
   if (!Locales) {
     this.log_.error('Global variable "Locales" is undefined.');
   } else if (Locales && Object.keys(Locales).length == 0) {
     this.log_.error('Unable to find any language file.');
-  } else if (!Locales[this.language]) {
-    this.log_.error('Language', this.language, ' is untranslated.');
+  } else if (!Locales[this.language] &&
+             !Locales['supportedLanguages'].includes(this.language)) {
+    this.log_.error('Language', this.language, 'is untranslated.');
   }
 };
 
@@ -329,4 +335,24 @@ cwc.utils.I18n.getISO639_1 = function(language) {
   }
 
   return '';
+};
+
+
+/**
+ * bcp47 mapping table
+ */
+cwc.utils.I18n.BCP47 = {
+  'de': 'deu',
+  'de-DE': 'deu',
+  'en': 'eng',
+  'en-US': 'eng',
+};
+
+
+/**
+ * @param {!string} language
+ * @return {!string}
+ */
+cwc.utils.I18n.bcp47ToISO639_3 = function(language) {
+  return cwc.utils.I18n.BCP47[language] || '';
 };

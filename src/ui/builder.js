@@ -172,14 +172,14 @@ cwc.ui.Builder = function() {
   /** @type {Function} */
   this.callback = null;
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!boolean} */
-  this.chromeApp_ = this.helper.checkChromeFeature('app');
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!cwc.ui.LoadingScreen} */
   this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
@@ -292,7 +292,6 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.setProgressFunc('Prepare OAuth2 Helpers ...',
       this.prepareOauth2Helper);
   }
-  this.setProgressFunc('Loading cache ...', this.loadCache);
   this.setProgressFunc('Render editor GUI ...', this.renderGui);
   this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
     this.prepareBluetooth);
@@ -303,18 +302,19 @@ cwc.ui.Builder.prototype.loadUI = function() {
     this.setProgressFunc('Prepare account support ...', this.prepareAccount);
   }
   this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
-
-  // Done.
-  this.setProgress('Coding with Chrome', 100);
-  this.loaded = true;
-  if (typeof window.componentHandler !== 'undefined') {
-    window.componentHandler.upgradeDom();
-  }
-  if (this.callback) {
-    this.callback(this);
-  }
-  this.events_.clear();
-  this.loadingScreen_.hideSecondsAfterStart(4000);
+  this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
+    // Done.
+    this.setProgress('Starting Coding with Chrome', 100);
+    this.loaded = true;
+    if (typeof window.componentHandler !== 'undefined') {
+      window.componentHandler.upgradeDom();
+    }
+    if (this.callback) {
+      this.callback(this);
+    }
+    this.events_.clear();
+    this.loadingScreen_.hideSecondsAfterStart(4000);
+  });
 };
 
 
@@ -331,9 +331,10 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
 /**
  * @param {!string} text
  * @param {!Function} func
+ * @return {Function|Promise}
  */
 cwc.ui.Builder.prototype.setProgressFunc = function(text, func) {
-  this.loadingScreen_.setProgressFunc(text, func);
+  return this.loadingScreen_.setProgressFunc(text, func);
 };
 
 
@@ -530,10 +531,11 @@ cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
 
 /**
  * Loads additional frameworks for the renderer.
+ * @return {Promise}
  */
 cwc.ui.Builder.prototype.loadCache = function() {
-  this.helper.getInstance('cache').prepare();
   this.helper.getInstance('renderer').prepare();
+  return this.helper.getInstance('cache').prepare();
 };
 
 
@@ -610,10 +612,6 @@ cwc.ui.Builder.prototype.loadUserConfig_ = function() {
  */
 cwc.ui.Builder.prototype.loadI18n_ = function() {
   let i18nInstance = new cwc.utils.I18n();
-  if (!i18nInstance) {
-    this.loadUI();
-    return;
-  }
   this.helper.setInstance('i18n', i18nInstance);
 
   let language = cwc.config.Default.LANGUAGE;
@@ -624,7 +622,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
           cwc.userConfigName.LANGUAGE);
     if (userLanguage && userLanguage != language) {
       if (userLanguage.length === 3) {
-        console.log('Set user preferred language:', userLanguage);
+        this.log_.info('Set user preferred language:', userLanguage);
         language = userLanguage;
 
         if (language != cwc.config.Default.LANGUAGE) {
@@ -639,7 +637,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
           );
         }
       } else {
-        console.warn('Unsupported language', userLanguage, 'using',
+        this.log_.warn('Unsupported language', userLanguage, 'using',
           cwc.config.Default.LANGUAGE, 'instead!');
         userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
@@ -647,11 +645,10 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
     }
   }
 
-  i18nInstance.prepare(
-    this.loadUI.bind(this),
-    language,
-    languageFile
-  );
+  i18nInstance.loadLanguageFile(languageFile).then(() => {
+    i18nInstance.setLanguage(language);
+    this.loadUI();
+  });
 };
 
 

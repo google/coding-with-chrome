@@ -113,13 +113,9 @@ cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(seconds) {
   if (nodeTime) {
     goog.dom.setTextContent(nodeTime, startTime);
   }
-  if (startTime < seconds) {
-    window.setTimeout(function() {
+  window.setTimeout(function() {
       this.show(false);
-    }.bind(this), seconds - startTime);
-  } else {
-    this.show(false);
-  }
+  }.bind(this), startTime <= seconds ? seconds - startTime : 500);
 };
 
 
@@ -152,15 +148,16 @@ cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
 /**
  * @param {!string} text
  * @param {Function} func
+ * @return {Function|Promise}
  */
 cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func) {
   this.current_ += 5;
   this.setProgress(text, this.current_);
   try {
     if (this.scope_) {
-      func.bind(this.scope_)();
+      return func.bind(this.scope_)();
     } else {
-      func();
+      return func();
     }
   } catch (error) {
     this.setError('ERROR: ' + error.message);
