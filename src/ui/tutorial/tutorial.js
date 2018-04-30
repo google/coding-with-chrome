@@ -26,6 +26,8 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events');
+
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -46,132 +48,156 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {Shepherd.Tour} */
-  this.tour_ = null;
+  /** @private {!string} */
+  this.content_ = null;
 
-  /** @private {!number} */
-  this.tourLength_ = 0;
+  /** @private {!boolean} */
+  this.webviewSupport_ = this.helper.checkChromeFeature('webview');
+
+  /** @private {string} */
+  this.validatePreview_ = null;
+
+  /** @private {string} */
+  this.processResults_ = null;
 };
 
 
 /**
- * @param {!Array} tourData
+ * @param {!Object} tutorial
  */
-cwc.ui.Tutorial.prototype.setTour = function(tourData) {
-  if (!tourData) {
+cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
+  if (!tutorial || !tutorial['content']) {
     return;
   }
-  this.log_.info('Loading tour data', tourData);
-  this.tour_ = new Shepherd.Tour({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true,
-    },
-  });
-  this.tour_['once']('cancel', () => {
-    let sidebarInstance = this.helper.getInstance('sidebar');
-    if (sidebarInstance) {
-      sidebarInstance.setActive('tutorial', false);
-    }
-  });
-  this.tourLength_ = tourData.length;
-  for (let i in tourData) {
-    if (!Object.prototype.hasOwnProperty.call(tourData, i)) continue;
-    let data = tourData[i];
-    let step = {};
 
-    // Step id
-    step['id'] = data['id'] || 'step' + i;
-
-    // Title
-    if (data['title']) {
-      step['title'] = i18t(data['title']);
-    } else {
-      this.log_.error('Step', i, 'missing title!');
-    }
-
-    // Text
-    if (data['text']) {
-      step['text'] = i18t(data['text']);
-    } else {
-      this.log_.error('Step', i, 'missing text!');
-    }
-
-    // Attached to element
-    if (typeof data['attachTo'] !== 'undefined') {
-      step['attachTo'] = data['attachTo'];
-    }
-
-    // Handle buttons
-    if (data['buttons']) {
-      step['buttons'] = data['buttons'];
-    } else {
-      step['buttons'] = [];
-      // Back button
-      if (i > 0) {
-        step['buttons'].push({
-          'text': i18t('BACK'),
-          'action': this.tour_['back'],
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Exit
-      if (i == 0) {
-        step['buttons'].push({
-          'text': i18t('EXIT'),
-          'action': this.cancel.bind(this),
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Done
-      if (i == this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('DONE'),
-          'action': this.cancel.bind(this),
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
-      // Next button
-      if (i < this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('NEXT'),
-          'action': this.tour_['next'],
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
-    }
-
-    this.tour_.addStep(step);
+  if (!tutorial['processResults']) {
+    this.log_.warn('Empty processRsults');
   }
+  if (!tutorial['validatePreview']) {
+    this.log_.warn('Empty validatePreview');
+  }
+
+  this.log_.info('Loading tutorial data', tutorial);
+  this.content_ = tutorial['content'];
+  this.processResults_ = tutorial['processResults'];
+  this.validatePreview_ = tutorial['validatePreview'];
 };
 
 
-cwc.ui.Tutorial.prototype.startTour = function() {
-  this.log_.info('Starting tour with', this.tourLength_, 'steps...');
+cwc.ui.Tutorial.prototype.startTutorial = function() {
+  if (!this.content_) {
+    return;
+  }
+  this.log_.info('Starting tutorial ...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.showContent('');
+    sidebarInstance.showRawContent('Tutorial', this.content_);
     sidebarInstance.setActive('tutorial', true);
+    this.start();
   }
-  this.tour_.start();
 };
 
 
-cwc.ui.Tutorial.prototype.cancel = function() {
+/**
+ * @return {!string}
+ */
+cwc.ui.Tutorial.prototype.getContent = function() {
+  return this.content_;
+};
+
+
+cwc.ui.Tutorial.prototype.start = function() {
+  if (!this.webviewSupport_) {
+     this.log_.warn('No webview support');
+     return;
+  } // TODO(carheden): support iframe
+
+  let previewInstance = this.helper.getInstance('preview');
+  this.runValidatePreview(previewInstance.getContent());
+
+  goog.events.listen(previewInstance.getEventHandler(),
+    cwc.ui.preview.Events.Type.CONTENT_LOAD, (e) => {
+      this.runValidatePreview(e.data['preview']);
+    }, false, this);
+};
+
+
+/**
+ * @param {Object} preview
+ */
+cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
+  if (!preview) {
+    return;
+  }
+  if (this.validatePreview_) {
+    preview.executeScript({code: this.validatePreview_}, (results) => {
+      this.log_.info('validatePreview returned', results);
+      this.processValidatePreviewResults_.bind(this)(results[0]);
+     });
+    return;
+  }
+  this.processValidatePreviewResults_(null);
+};
+
+
+/**
+ * @param {!Object} results
+ * @private
+ */
+cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   let sidebarInstance = this.helper.getInstance('sidebar');
-  if (sidebarInstance) {
-    sidebarInstance.setActive('tutorial', false);
+  if (!sidebarInstance) {
+    this.log_.error('No sidebar, ignoring results of validatePreview');
+    return;
   }
-  this.tour_.cancel();
-};
-
-
-cwc.ui.Tutorial.prototype.clear = function() {
-  if (this.tour_) {
-    this.cancel();
-    this.tour_ = null;
+  let tutorialNode = sidebarInstance.getContentNode();
+  if (!tutorialNode) {
+    this.log_.warn('No tutorial node, ignore results of validatePreview');
+    return;
   }
-  this.tourLength_ = 0;
+
+  let listenForResults = function() {
+    addEventListener('message', function(e) {
+      if (e.data && (typeof e.data) === 'object' &&
+          e.data.hasOwnProperty('cwc-validated-data') &&
+          (typeof window.top['cwc-validated'] == 'function')) {
+        window.top['cwc-validated'](e.data['cwc-validated-data']['code'],
+          e.data['cwc-validated-data']['results']);
+      }
+    });
+    return true;
+  };
+  let postResults = function(ret) {
+    if (ret !== true) {
+      this.log_.warn('Error injecting listener for preview validator tutorial',
+        'Sending results anyway. Error was: ', ret);
+    }
+
+    let editorContent = this.helper.getInstance('editor').getEditorContent();
+    let code = '';
+    for (let key in editorContent) {
+      if (editorContent.hasOwnProperty(key)) {
+        code = editorContent[key];
+      }
+    }
+    let args = {'cwc-validated-data': {'code': code, 'results': results}};
+    this.log_.info('Process results with arguments', args);
+    tutorialNode.contentWindow.postMessage(args, '*');
+  }.bind(this);
+
+  // We attempt to inject the script twice because webview has no way to check
+  // if the page load is done. If it's not, executeScript() fails. If we
+  // always listen for 'loadstop', but it's already fired, we miss it and never
+  // execute.
+  let injectedCode = this.processResults_ +
+    '(' + listenForResults.toString() + ')()';
+  tutorialNode.addEventListener('loadstop', () => {
+    tutorialNode.executeScript({code: injectedCode}, postResults);
+  });
+  try {
+    tutorialNode.executeScript({code: injectedCode}, postResults);
+  } catch (e) {
+    this.log_.info('Failed to inject results.',
+      'but it should run next time the page changes:', e);
+  }
 };

@@ -191,9 +191,16 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
     }
 
     // Start tutorial for tutorial files .cwct automatically
-    let tutorialInstance = this.helper.getInstance('tutorial');
-    if (tutorialInstance && this.filename.toLowerCase().endsWith('.cwct')) {
-      tutorialInstance.startTour();
+    if (this.filename.toLowerCase().endsWith('.cwct')) {
+      let tourInstance = this.helper.getInstance('tour');
+      if (tourInstance) {
+        tourInstance.startTour();
+      }
+
+      let tutorialInstance = this.helper.getInstance('tutorial');
+      if (tutorialInstance) {
+        tutorialInstance.startTutorial();
+      }
     }
   }
 

@@ -24,6 +24,7 @@ goog.provide('cwc.utils.Helper');
 goog.provide('cwc.utils.HelperInstances');
 
 goog.require('cwc.config.Debug');
+goog.require('cwc.config.Default');
 goog.require('cwc.config.Prefix');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
@@ -224,6 +225,18 @@ cwc.utils.Helper.prototype.getI18nData = function() {
     return i18nInstance.getLanguageData();
   }
   return {};
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.utils.Helper.prototype.getUserLanguage = function() {
+  let i18nInstance = this.getInstance('i18n');
+  if (i18nInstance) {
+    return i18nInstance.getLanguage();
+  }
+  return cwc.config.Default.LANGUAGE || 'eng';
 };
 
 

@@ -147,7 +147,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 
     // Load compatible file mode.
     if (mimeType === cwc.utils.mime.Type.CWC.type) {
-      this.loadCWCFile(new cwc.fileFormat.File(data), filename);
+      this.loadCWCFile(data, filename);
     } else {
       this.loadRawFile(data, filename);
     }
@@ -170,11 +170,20 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 
 
 /**
- * @param {!cwc.fileFormat.File} file
+ * @param {!string} data
  * @param {string=} filename
  */
-cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
+cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
     filename = '') {
+  let file;
+  try {
+    file = new cwc.fileFormat.File(data);
+  } catch (error) {
+    this.helper.showError('Unable to load file ' + (filename || '') + ':' +
+      error.message);
+    throw error;
+  }
+
   let modeType = cwc.mode.Config.getMode(
     /** @type {cwc.mode.Type} */ (file.getMode()));
   this.log_.info('Loading CWC file with mode', modeType, '...');
@@ -222,17 +231,27 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(file,
     }
   }
 
-  // Handle tutorial / tour data
+  // User language
+  let userLanguage = this.helper.getUserLanguage();
+
+  // Handle tour data
+  let tourInstance = this.helper.getInstance('tour');
+  if (tourInstance) {
+    tourInstance.setTour(file.getTour(userLanguage));
+  }
+
+  // Handle tutorial data
   let tutorialInstance = this.helper.getInstance('tutorial');
   if (tutorialInstance) {
-    tutorialInstance.setTour(file.getTutorialTour());
+    tutorialInstance.setTutorial(file.getTutorial(userLanguage));
   }
 
   // Handle sidebar icons
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.enableDescription(file.getDescription());
-    sidebarInstance.enableTutorial(file.getTutorialTour());
+    sidebarInstance.enableTutorial(file.getTutorial(userLanguage));
+    sidebarInstance.enableTour(file.getTour(userLanguage));
     sidebarInstance.showLibrary(true);
     sidebarInstance.showMedia(false);
   }

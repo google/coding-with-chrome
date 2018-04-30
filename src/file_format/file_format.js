@@ -296,11 +296,16 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
  */
 cwc.fileFormat.File.prototype.getMetadata = function(
     name, namespace = this.metedataNamespace_) {
-  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
-    this.log_.warn('Unknown meta data', namespace + '.' + name);
+  if (!(namespace in this.metadata_) ||
+      (name && !(name in this.metadata_[namespace]))) {
+    this.log_.warn('Unknown meta data', namespace + (name ? '.' + name : ''));
     return '';
   }
-  return this.metadata_[namespace][name];
+  if (name) {
+    return this.metadata_[namespace][name];
+  } else {
+    return this.metadata_[namespace];
+  }
 };
 
 
@@ -395,20 +400,40 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
+ * @param {string=} language
  * @return {Object}
  */
-cwc.fileFormat.File.prototype.getTutorial = function() {
-  return this.getMetadata('tutorial');
+cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
+  let tour = this.getMetadata('', '__tour__');
+  let userLanguage = language;
+  if (tour) {
+    if (!tour[userLanguage]) {
+      this.log_.warn('Tour is not available in user\'s language', language);
+      userLanguage = 'eng';
+    }
+    if (tour[userLanguage]) {
+      return tour[userLanguage];
+    }
+  }
+  return null;
 };
 
 
 /**
- * @return {Array}
+ * @param {string=} language
+ * @return {Object}
  */
-cwc.fileFormat.File.prototype.getTutorialTour = function() {
-  let tour = this.getMetadata('tour', 'tutorial');
-  if (tour && Array.isArray(tour)) {
-    return tour;
+cwc.fileFormat.File.prototype.getTutorial = function(language = 'eng') {
+  let tutorial = this.getMetadata('', '__tutorial__');
+  let userLanguage = language;
+  if (tutorial) {
+    if (!tutorial[userLanguage]) {
+      this.log_.warn('Tutorial is not available in user\'s language', language);
+      userLanguage = 'eng';
+    }
+    if (tutorial[userLanguage]) {
+      return tutorial[userLanguage];
+    }
   }
   return null;
 };

@@ -173,7 +173,7 @@ cwc.utils.I18n.prototype.translateVariable = function(key, variable) {
 
 
 /**
- * @return {!string}
+ * @return {!string} language in ISO639_3
  */
 cwc.utils.I18n.prototype.getLanguage = function() {
   if (!this.language) {

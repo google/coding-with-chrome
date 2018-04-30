@@ -19,13 +19,16 @@
  */
 goog.provide('cwc.ui.Sidebar');
 
+goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Sidebar');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.dom.classlist');
+
 
 /**
- * Class represents the statusbar inside the ui.
+ * Class represents the sidebar inside the UI.
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
@@ -37,6 +40,9 @@ cwc.ui.Sidebar = function(helper) {
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!cwc.renderer.Helper} */
+  this.rendererHelper = new cwc.renderer.Helper();
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('sidebar');
@@ -59,8 +65,14 @@ cwc.ui.Sidebar = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
+  /** @private {!boolean} */
+  this.webviewSupport_ = this.helper.checkChromeFeature('webview');
+
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {Element} */
+  this.contentNode_ = null;
 };
 
 
@@ -120,12 +132,25 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
         this.helper.getInstance('file').getFileDescription());
   });
 
-  // Tutorial / Tour
-  this.events_.listen('tutorial-button', goog.events.EventType.CLICK,
-    (e) => {
-      this.setActive_(e.target);
-      this.helper.getInstance('tutorial').startTour();
+  // Tour
+  this.events_.listen('tour-button', goog.events.EventType.CLICK, () => {
+      this.helper.getInstance('tour').startTour();
+      this.showContent('Tour',
+        this.helper.getInstance('tour').getTourDescription());
   });
+
+  // Tutorial
+  this.events_.listen('tutorial-button', goog.events.EventType.CLICK, () => {
+    this.helper.getInstance('tutorial').startTutorial();
+  });
+};
+
+
+/**
+ * @return {Element}
+ */
+cwc.ui.Sidebar.prototype.getContentNode = function() {
+  return this.contentNode_;
 };
 
 
@@ -184,6 +209,13 @@ cwc.ui.Sidebar.prototype.enableDescription = function(enabled) {
   this.enableButton('file_description', enabled);
 };
 
+
+/**
+ * @param {boolean} enabled
+ */
+cwc.ui.Sidebar.prototype.enableTour = function(enabled) {
+  this.enableButton('tour', enabled);
+};
 
 /**
  * @param {boolean} enabled
@@ -257,6 +289,8 @@ cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
  * @param {string} content
  */
 cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
+  this.contentNode_ = null; // Content node is only used for raw content.
+
   if (this.contentName === title) {
     this.showContent_(false);
     this.contentName = '';
@@ -269,7 +303,7 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
       cwc.soy.ui.Sidebar.content, {
         'prefix': this.prefix,
         'title': title,
-        'content': content,
+        'content': content === '__RAW__' ? '' : content,
       }
     );
     this.events_.listen('content-close', goog.events.EventType.CLICK,
@@ -279,6 +313,30 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
     this.showContent_(false);
   }
   this.contentName = title;
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string} content
+ */
+cwc.ui.Sidebar.prototype.showRawContent = function(title, content = '') {
+  this.showContent(title, '__RAW__');
+
+  // TODO(carheden): Add markdown support
+
+  // The content must be non-false or the content-body element isn't created
+  let nodeContent = goog.dom.getElement(this.prefix + 'content-body');
+  if (!nodeContent) {
+    return;
+  }
+  if (this.webviewSupport_) {
+    this.contentNode_ = document.createElement('webview');
+  } else {
+    this.contentNode_ = document.createElement('iframe');
+  }
+  goog.dom.appendChild(nodeContent, this.contentNode_);
+  this.contentNode_.src = this.rendererHelper.getDataURL(content);
 };
 
 

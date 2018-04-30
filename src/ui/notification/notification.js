@@ -63,6 +63,9 @@ cwc.ui.Notification = function(helper) {
   /** @type {Element} */
   this.snackbar = null;
 
+  /** @type {!number} */
+  this.snackbarTextLimit = 255;
+
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -144,7 +147,15 @@ cwc.ui.Notification.prototype.showMessage = function(message, optType) {
 
   // Visual output
   if (this.snackbar) {
-    this.showSnackbarMessage(message, optType);
+    let snackbarMessage = message;
+    if (message.includes('JSON:') && message.includes('data:{')) {
+      snackbarMessage = message.split('data:{')[0];
+    }
+    if (snackbarMessage.length > this.snackbarTextLimit) {
+      snackbarMessage = snackbarMessage.substr(0, this.snackbarTextLimit) +
+        '...';
+    }
+    this.showSnackbarMessage(snackbarMessage, type);
   }
 };
 

@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.soy.ui.Preview');
+goog.require('cwc.ui.preview.Events');
 goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
@@ -30,6 +31,7 @@ goog.require('cwc.utils.Events');
 goog.require('goog.async.Throttle');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
+goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.soy');
@@ -94,6 +96,9 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = new goog.events.EventTarget();
 
   /** @private {!string} */
   this.partition_ = 'preview';
@@ -310,6 +315,8 @@ cwc.ui.Preview.prototype.render = function() {
     this.content['setUserAgentOverride']('CwC sandbox');
     this.content.addEventListener('consolemessage',
         this.handleConsoleMessage_.bind(this), false);
+    this.content.addEventListener('contentload',
+        this.handleContentLoad_.bind(this), false);
     this.content.addEventListener('loadstart',
         this.handleLoadStart_.bind(this), false);
     this.content.addEventListener('loadstop',
@@ -338,6 +345,14 @@ cwc.ui.Preview.prototype.showConsole = function(visible) {
       this.infobar.hideConsole();
     }
   }
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.ui.Preview.prototype.getContent = function() {
+  return this.content;
 };
 
 
@@ -515,6 +530,18 @@ cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
 
 
 /**
+ * Dispatches a CONTENT_LOAD event. Because we destroy and recreate the
+ * webview each time content changes, the user can't add an event listener
+ * to that directly.
+ * @private
+ */
+cwc.ui.Preview.prototype.handleContentLoad_ = function() {
+  this.eventHandler_.dispatchEvent(
+    cwc.ui.preview.Events.contentLoad(this.content));
+};
+
+
+/**
  * @param {!cwc.ui.StatusbarState} status
  * @private
  */
@@ -537,4 +564,12 @@ cwc.ui.Preview.prototype.setStatus_ = function(status) {
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
   this.events_.clear();
+};
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.ui.Preview.prototype.getEventHandler = function() {
+  return this.eventHandler_;
 };

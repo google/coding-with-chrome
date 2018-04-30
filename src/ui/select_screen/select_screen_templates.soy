@@ -370,26 +370,30 @@
  */
 {template .dataActionDiv_ private="true"}
   {@param content: ?}
-  {@param? file: string}
   {@param? classes: string}
-  {@param? mode: string}
-  {@param? tutorial: string}
-  {@param? tab: string}
+  {@param? file: string}
   {@param? hidden: bool}
+  {@param? mode: string}
+  {@param? tab: string}
+  {@param? tour: string}
+  {@param? tutorial: string}
 
   <div class="{if $classes}{$classes}{/if}{if $hidden} hidden{/if}"
     {if $file}
       data-select-screen-action="loadFile"
       data-select-screen-value="{$file}"
-    {elseif $tutorial}
-      data-select-screen-action="loadTutorial"
-      data-select-screen-value="{$tutorial}"
     {elseif $mode}
       data-select-screen-action="loadMode"
       data-select-screen-value="{$mode}"
     {elseif $tab}
       data-select-screen-action="switchTab"
       data-select-screen-value="select-screen-tab-{$tab}-link"
+    {elseif $tour}
+      data-select-screen-action="loadTour"
+      data-select-screen-value="{$tour}"
+    {elseif $tutorial}
+      data-select-screen-action="loadTutorial"
+      data-select-screen-value="{$tutorial}"
     {/if}
   >{$content}</div>
 {/template}

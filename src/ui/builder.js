@@ -61,6 +61,7 @@ goog.require('cwc.ui.Notification');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Sidebar');
+goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
 goog.require('cwc.utils.Dialog');
@@ -107,6 +108,7 @@ cwc.ui.BuilderHelpers = {
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
   'sidebar': cwc.ui.Sidebar,
+  'tour': cwc.ui.Tour,
   'tutorial': cwc.ui.Tutorial,
 };
 
@@ -645,6 +647,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
     }
   }
 
+  this.loadingScreen_.setUserLangauge(language);
   i18nInstance.loadLanguageFile(languageFile).then(() => {
     i18nInstance.setLanguage(language);
     this.loadUI();

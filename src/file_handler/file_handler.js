@@ -204,11 +204,12 @@ cwc.fileHandler.File.prototype.getFileDescription = function() {
 
 
 /**
+ * @param {string=} language
  * @return {Array}
  */
-cwc.fileHandler.File.prototype.getFileTutorialTour = function() {
+cwc.fileHandler.File.prototype.getFileTour = function(language) {
   if (this.file_) {
-    return this.file_.getTutorialTour();
+    return this.file_.getTour(language || this.helper.getUserLanguage());
   }
   return null;
 };
