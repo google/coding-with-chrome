@@ -15,25 +15,16 @@
  */
 
 /*
- * Main style definition to include all others style sheets.
+ * Google Closure library custom definitions.
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-/* Internal style sheets. */
-@import 'default.css';
-@import 'fonts.css';
-@import 'icons.css';
-@import 'preloader.css';
-@import 'backgrounds.css';
 
-/* External style sheets. */
-@import 'blockly/blockly.css';
-@import 'closure/closure.css';
-@import 'codemirror/codemirror5.css';
-@import 'dialog-polyfill/dialog-polyfill.css';
-@import 'material-design-lite/material-design-lite.css';
-@import 'shepherd/shepherd.css';
+.modal-dialog, .modal-dialog-bg, .goog-menu {
+  z-index: 100;
+}
 
-/* Editor style sheet. */
-@import 'editor.css';
+.logmsg {
+  color: #aaa;
+}

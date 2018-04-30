@@ -42,12 +42,12 @@ Für diesen Workshop solltet Ihr euch bereits mit dem Spiele Editor in Coding wi
 Es werde einige Spiele spezifische Begriffe verwenden, die ausführlich in [Grundlagen Games](../../basic/de/README.md) erklärt werden. 
 
 ## Ein Spiel erstellen
-Wähle im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Projekt**.
+Wählt im Anfänger Modus **Ein Spiel erstellen** aus und erstellst ein **Neues Projekt**.
 
-Diese sollte dann in etwa wie folgt aussehen:
+Dies sollte dann in etwa wie folgt aussehen:
 ![][empty_game]
 
-Anschließend legt du den Namen des Spiels und die Dimension (Größer der Spielfläche) fest.
+Anschließend legt du den Namen des Spiels und die Dimension (die Größer der Spielfläche) fest.
 Für dieses Tutorial verwenden wir eine Dimension von 400x600.
 
 ![][game_name_dimension]
@@ -60,12 +60,12 @@ Diese erreicht Ihr über die Sidebar:
 
 ![][sidebar_file_library]
 
-Alternative könnt Ihr **Öffne Datei Bibliothek** unter **Dateien** verwenden:
+Alternative könnt Ihr auch **Öffne Datei Bibliothek** unter **Dateien** verwenden:
 
 ![][files_file_library]
 
-Sobald Ihr alle benötigten Bilder und Sound Dateien hochgeladen habt, könnt Ihr das Fenster schließen.
-Ihr könnt natürlich später jederzeit weitere Dateien hinzufügen.
+Sobald Ihr alle benötigten Bilder und Sound Dateien hochgeladen habt, könnt Ihr das **Datei Bibliothek** Fenster schließen.
+Ihr könnt natürlich später jederzeit weitere Dateien hinzufügen oder ändern.
 
 Unter den Punkt **Dateien** findet Ihr eure hochgeladenen Dateien, zusätzlich befinden sich unter **Beispiel Dateien** ein paar allgemeine Beispielbilder.
 
@@ -90,10 +90,8 @@ obstacles | Hindernisse
 ![][preload_image_example]
 
 ## Erstellen der Welt
-Nun müssen die Grafiken noch der Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
+Nun müssen die Grafiken noch in die Spielwelt hinzugefügt werden, damit diese sichtbar im Spiel sind.
 Alle dafür benötigten Blöcke findet Ihr in dem Bereich **Erstellen** und werden in den **beim Erstellen …** Block gezogen.
-
-![][create_world]
 
 ### Hintergrundbild einfügen
 Zuerst fügen wir ein sich bewegendes Hintergrundbild hinzu.
@@ -102,7 +100,7 @@ Klickt hierfür auf **Tile Sprite** und zieht den Block **füge Hintergrundbild 
 ![][create_tile_sprite]
 
 ### Text einfügen
-Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den hinzufügen von Text … den Ihr in den beim Erstellen … Block zieht.
+Um einen Text hinzuzufügen klickt auf **Text Objekt** und benützt den **hinzufügen von Text …** Block den Ihr in den beim **Erstellen …** Block zieht.
 
 ![][create_text_object]
 
@@ -112,6 +110,10 @@ Für den Boden verwenden wir den Block **definiere … als Boden …** und füge
 ![][create_floor]
 
 Bei den Boden könnt Ihr auch die Geschwindigkeit anpassen oder einfach beide Werte auf 0 setzen damit dieser sich nicht mehr bewegt.
+
+Am Ende solltet Ihr ca. folgendes haben:
+![][create_world]
+
 
 ## Erstellen der Spielfigur
 Seid Ihr mit eurer Welt zufrieden, fügen wir für Spielfigure als Arcade Sprite hinzu, damit wir diese später auch bewegen können.
@@ -127,7 +129,7 @@ Um das Spiel interessanter zu machen fügen wir der Spielfigure physikalische Ei
 
 ### Schwerkraft / Anziehungskraft
 Damit unsere Figure nicht einfach in der Luft schwebt, fügen wir eine Anziehungskraft nach unten gereichte (y-Achse) von ca. 200 hinzu.
-Zieht hierfür einfach den Block **setze Physik Sprite…** unter den **beim Erstellen ….** Block.
+Zieht hierfür einfach den Block **setze Physik Sprite…** unter den **beim Erstellen …** Block.
 
 ![][create_player_physics]
 
@@ -136,7 +138,8 @@ Wählt anschließend “Anziehungskraft y” aus der Auswahlliste des Blocks aus
 ![][create_player_physics_block]
 
 ### Kollision
-Nun fällt unsere Figure einfach durch den Boden. Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
+Derzeit fällt unsere Figure einfach durch den Boden.
+Um diese zu verhindern müssen wir eine Kollision zwischen der Spielfigure und unseren Boden definieren.
 
 Klickt hierfür auf **Aktualisieren** und geht dann wieder in den **Physik Sprite** Bereich.
 Hier zieht Ihr den Block **… kollidiert mit …** in dem **beim Aktualisieren …** Block.
@@ -148,7 +151,7 @@ Um unsere Spielfigure steuern zu können müssen wir zuerst festlegen wie wir di
 Um dies so einfach wie Möglich zu machen verwenden wir hierfür die Leertaste.
 
 ### Eingabe überwachen
-Klickt auf Anlegen und wählt **Eingaben** aus.
+Klickt auf **Erstellen** und wählt **Eingaben** aus.
 Hier zieht ihr den **definiere … erfasse als Tastatur Leertaste** in euren beim **Erstellen Block**.
 
 ![][create_input]
@@ -194,6 +197,8 @@ Fügt den Block **definiere highscore als dynamischen Text …** in den **beim E
 Damit die Highscore automatisch erhöht wird, ziehen wir den **ändere highscore Text zu erhalte Text ...** Block in die bereits vorhandene Wiederholungsschleife.
 
 ![][dynamic_text_loop]
+
+![][dynamic_text_loop_block]
 
 ## Spielende durch Kollision mit den Hindernissen
 Die einfachste Möglichkeit um das Ende des Spiel festzulegen, ist eine Kollisionsüberprüfung ob der Spieler die Hindernissen berührt hat.
@@ -264,6 +269,7 @@ Zum Schluss verschönern wir das Spiel noch, indem wir zusätzliche Grafiken hin
 
 [dynamic_text]: images/dynamic_text.png
 [dynamic_text_loop]: images/dynamic_text_loop.png
+[dynamic_text_loop_block]: images/dynamic_text_loop_block.png
 
 [update_collision_block]: images/update_collision_block.png
 [game_restart]: images/game_restart.png

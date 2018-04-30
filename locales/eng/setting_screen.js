@@ -33,4 +33,6 @@ Object.assign(Locales['eng'], {
   'SETTING_SCREEN_EDITOR': 'Editor',
   'SETTING_SCREEN_MISC': 'Misc',
   'SETTING_SCREEN_NOTE_RESTART': 'You need to restart the application after enabling or disabling an options',
+
+  'SETTING_SCREEN_SECTIONS': 'Sections',
 });

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Launches the Coding with Chrome loader and editor.
+ * @fileoverview Launches the Coding with Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -42,40 +42,23 @@ chrome.app.runtime.onLaunched.addListener(
         minWidth: 800,
         minHeight: 600,
       },
-      hidden: true,
+      hidden: false,
     };
-    let loaderWidth = 512;
-    let loaderHeight = 250;
-    let loaderConfig = {
-      alwaysOnTop: true,
-      frame: 'chrome',
-      id: 'loader',
-      focused: true,
-      resizable: false,
-      innerBounds: {
-        width: loaderWidth,
-        height: loaderHeight,
-        minWidth: loaderWidth,
-        minHeight: loaderHeight,
-        maxWidth: loaderWidth,
-        maxHeight: loaderHeight,
-      },
-    };
-    chrome.app.window.create('html/loader.html', loaderConfig, function(
-        loaderWindow) {
-      if (loaderWindow) {
-        loaderWindow.outerBounds.setPosition(
-          Math.round((screenWidth - loaderWidth) / 2),
-          Math.round((screenHeight - loaderHeight) / 2)
+
+    chrome.app.window.create('editor.html', editorConfig, function(
+        editorWindow) {
+      if (editorWindow) {
+        editorWindow.outerBounds.setPosition(
+          Math.round((screenWidth - editorWidth) / 2),
+          Math.round((screenHeight - editorHeight) / 2)
         );
-        loaderWindow.drawAttention();
+        editorWindow.drawAttention();
       } else {
         console.warn('Loaded inside sand-boxed window!');
       }
-      chrome.app.window.create('html/editor.html', editorConfig);
-  });
-});
-
+    });
+  }
+);
 
 chrome.runtime.onInstalled.addListener(function() {
   console.log('Thanks for installing Coding with Chrome!');

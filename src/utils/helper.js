@@ -368,6 +368,20 @@ cwc.utils.Helper.prototype.detectFeatures = function() {
 
 
 /**
+ * @return {!string}
+ * @export
+ */
+cwc.utils.Helper.prototype.getBaseURL = function() {
+  let serverInstance = this.getInstance('server');
+  let baseURL = serverInstance ? serverInstance.getRootURL() : '';
+  if (!baseURL && window.location.host.includes(':')) {
+    baseURL = 'http://' + window.location.host;
+  }
+  return baseURL;
+};
+
+
+/**
  * @return {boolean}
  * @export
  */

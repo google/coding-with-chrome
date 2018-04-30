@@ -26,7 +26,6 @@ let closureBuilder = require('closure-builder');
 closureBuilder.build({
   name: 'CwC core files',
   resources: [
-    'static_files/css/',
     'static_files/icons/',
     'static_files/images/',
     'static_files/resources/',

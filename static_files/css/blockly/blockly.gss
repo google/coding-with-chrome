@@ -20,7 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-@import 'toolbox.css';
 
 .blocklySvg {
   background-color: #ECEFF1 !important;

@@ -203,7 +203,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
       libraryFiles,
       this.files,
       this.rendererHelper, {
-        'baseURL': this.helper.getInstance('server').getRootURL(),
+        'baseURL': this.helper.getBaseURL(),
       }
   );
 

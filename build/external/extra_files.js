@@ -81,29 +81,6 @@ closureBuilder.build({
 });
 
 closureBuilder.build({
-  name: 'CodeMirror css',
-  srcs: [
-    codeMirrorPath + 'lib/codemirror.css',
-    codeMirrorPath + 'addon/dialog/dialog.css',
-    codeMirrorPath + 'addon/fold/foldgutter.css',
-    codeMirrorPath + 'addon/search/matchesonscrollbar.css',
-    codeMirrorPath + 'addon/hint/show-hint.css',
-    codeMirrorPath + 'addon/lint/lint.css',
-  ],
-  out: 'genfiles/third_party/external/codemirror/codemirror.css',
-});
-
-closureBuilder.build({
-  name: 'CodeMirror theme',
-  srcs: [
-    codeMirrorPath + 'theme/eclipse.css',
-    codeMirrorPath + 'theme/icecoder.css',
-    codeMirrorPath + 'theme/mdn-like.css',
-  ],
-  out: 'genfiles/third_party/external/codemirror/codemirror_theme.css',
-});
-
-closureBuilder.build({
   name: 'CodeMirror addon',
   srcs: glob([
     codeMirrorPath + 'addon/comment/*.js',
@@ -175,7 +152,6 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Shepherd',
   resources: [
-    'third_party/shepherd/dist/css/shepherd-theme-arrows.css',
     // ToDo: Remove patched url after PR is merged.
     'https://raw.githubusercontent.com/MarkusBordihn/shepherd/master/dist/js/' +
     'shepherd.min.js',

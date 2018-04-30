@@ -55,6 +55,7 @@ cwc.renderer.external.Phaser.prototype.init = function() {
  * @param {!cwc.file.Files} libraryFiles
  * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
+ * @param {Object=} environ
  * @return {!string}
  * @export
  */
@@ -62,7 +63,8 @@ cwc.renderer.external.Phaser.prototype.render = function(
     editorContent,
     libraryFiles,
     frameworks,
-    rendererHelper) {
+    rendererHelper,
+    environ = {}) {
   let body = '';
   let javascript = editorContent[cwc.ui.EditorContent.JAVASCRIPT] || '';
   if (javascript) {
@@ -81,7 +83,7 @@ cwc.renderer.external.Phaser.prototype.render = function(
  let header = rendererHelper.getJavaScriptURLs([
     cwc.framework.Internal.PHASER,
     cwc.framework.External.PHASER,
-  ]);
+  ], environ['baseURL']);
 
   return rendererHelper.getJavaScript(javascript, header, body);
 };

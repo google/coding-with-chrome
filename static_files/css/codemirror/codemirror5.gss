@@ -20,9 +20,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-@import '../../external/codemirror/codemirror.css';
-@import '../../external/codemirror/codemirror_theme.css';
-
 
 .CodeMirror-gutter-wrapper {
   cursor: pointer;

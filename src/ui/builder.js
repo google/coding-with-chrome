@@ -54,6 +54,7 @@ goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
+goog.require('cwc.ui.LoadingScreen');
 goog.require('cwc.ui.Menubar');
 goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Notification');
@@ -171,14 +172,17 @@ cwc.ui.Builder = function() {
   /** @type {Function} */
   this.callback = null;
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
+  /** @private {!boolean} */
+  this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!boolean} */
-  this.chromeApp_ = this.helper.checkChromeFeature('app');
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!cwc.ui.LoadingScreen} */
+  this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
 };
 
 
@@ -189,7 +193,6 @@ cwc.ui.Builder = function() {
  * @export
  */
 cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
-  this.setProgress('Loading Coding with Chrome editor ...', 0);
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
@@ -199,6 +202,10 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   } else {
     this.raiseError('Required node is neither a string or an object!');
   }
+
+  // Decorate loading screen
+  this.loadingScreen_.decorate();
+  this.setProgress('Loading ...', 0);
 
   // Storing callback
   if (callback && typeof callback === 'function') {
@@ -270,69 +277,44 @@ cwc.ui.Builder.prototype.loadUI = function() {
   this.checkRequirements_('htmlhint');
   this.checkRequirements_('jshint');
 
-  this.setProgress('Prepare debug ...', 10);
-  this.prepareDebug_();
-
-  this.setProgress('Prepare experimental ...', 20);
-  this.prepareExperimental_();
-
-  this.setProgress('Prepare dialog ...', 25);
-  this.prepareDialog();
-
-  this.setProgress('Prepare protocols ...', 30);
-  this.prepareProtocols();
-
+  // Track progressing status
+  this.setProgressFunc('Prepare debug ...', this.prepareDebug_);
+  this.setProgressFunc('Prepare experimental ...', this.prepareExperimental_);
+  this.setProgressFunc('Prepare dialog ...', this.prepareDialog);
+  this.setProgressFunc('Prepare protocols ...', this.prepareProtocols);
   if (this.helper.checkChromeFeature('sockets.tcpServer')) {
-    this.setProgress('Prepare internal Server', 35);
-    this.prepareServer();
+    this.setProgressFunc('Prepare internal Server', this.prepareServer);
   }
-
-  this.setProgress('Prepare helpers ...', 40);
-  this.prepareHelper();
-
-  this.setProgress('Gamepad support ...', 44);
-  this.prepareGamepad();
-
-  this.setProgress('Prepare addons ...', 45);
-  this.prepareAddons();
-
+  this.setProgressFunc('Prepare helpers ...', this.prepareHelper);
+  this.setProgressFunc('Gamepad support ...', this.prepareGamepad);
+  this.setProgressFunc('Prepare addons ...', this.prepareAddons);
   if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare OAuth2 Helpers ...', 50);
-    this.prepareOauth2Helper();
+    this.setProgressFunc('Prepare OAuth2 Helpers ...',
+      this.prepareOauth2Helper);
   }
-
-  this.setProgress('Loading cache ...', 55);
-  this.loadCache();
-
-  this.setProgress('Render editor GUI ...', 60);
-  this.renderGui();
-
-  this.setProgress('Prepare Bluetooth / Bluetooth LE support ...', 65);
-  this.prepareBluetooth();
-
+  this.setProgressFunc('Render editor GUI ...', this.renderGui);
+  this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
+    this.prepareBluetooth);
   if (this.helper.checkChromeFeature('serial')) {
-    this.setProgress('Prepare Serial support ...', 70);
-    this.prepareSerial();
+    this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
   }
-
   if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgress('Prepare account support ...', 80);
-    this.prepareAccount();
+    this.setProgressFunc('Prepare account support ...', this.prepareAccount);
   }
-
-  this.setProgress('Loading select screen ...', 90);
-  this.showSelectScreen();
-
-  this.setProgress('Done.', 100);
-  this.closeLoader();
-  this.loaded = true;
-  if (typeof window.componentHandler !== 'undefined') {
-    window.componentHandler.upgradeDom();
-  }
-  if (this.callback) {
-    this.callback(this);
-  }
-  this.events_.clear();
+  this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
+  this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
+    // Done.
+    this.setProgress('Starting Coding with Chrome', 100);
+    this.loaded = true;
+    if (typeof window.componentHandler !== 'undefined') {
+      window.componentHandler.upgradeDom();
+    }
+    if (this.callback) {
+      this.callback(this);
+    }
+    this.events_.clear();
+    this.loadingScreen_.hideSecondsAfterStart(4000);
+  });
 };
 
 
@@ -342,24 +324,17 @@ cwc.ui.Builder.prototype.loadUI = function() {
  * @param {number=} total
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
-  this.log_.info('[' + current + '%] ' + text);
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({
-      'command': 'progress', 'text': text, 'current': current, 'total': total,
-    }, '*');
-  }
+  this.loadingScreen_.setProgress(text, current, total);
 };
 
 
 /**
- * Closes the Loader window.
+ * @param {!string} text
+ * @param {!Function} func
+ * @return {Function|Promise}
  */
-cwc.ui.Builder.prototype.closeLoader = function() {
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({'command': 'close'}, '*');
-  }
+cwc.ui.Builder.prototype.setProgressFunc = function(text, func) {
+  return this.loadingScreen_.setProgressFunc(text, func);
 };
 
 
@@ -368,11 +343,6 @@ cwc.ui.Builder.prototype.closeLoader = function() {
  * @param {boolean=} skipThrow
  */
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
-  let loader = this.chromeApp_ && chrome.app.window.get('loader');
-  if (loader) {
-    loader.contentWindow.postMessage({
-      'command': 'error', 'msg': error}, '*');
-  }
   if (this.callback) {
     this.callback(this);
   }
@@ -561,10 +531,11 @@ cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
 
 /**
  * Loads additional frameworks for the renderer.
+ * @return {Promise}
  */
 cwc.ui.Builder.prototype.loadCache = function() {
-  this.helper.getInstance('cache').prepare();
   this.helper.getInstance('renderer').prepare();
+  return this.helper.getInstance('cache').prepare();
 };
 
 
@@ -641,21 +612,17 @@ cwc.ui.Builder.prototype.loadUserConfig_ = function() {
  */
 cwc.ui.Builder.prototype.loadI18n_ = function() {
   let i18nInstance = new cwc.utils.I18n();
-  if (!i18nInstance) {
-    this.loadUI();
-    return;
-  }
   this.helper.setInstance('i18n', i18nInstance);
 
   let language = cwc.config.Default.LANGUAGE;
-  let languageFile = '../js/locales/eng.js';
+  let languageFile = 'js/locales/eng.js';
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE);
     if (userLanguage && userLanguage != language) {
       if (userLanguage.length === 3) {
-        console.log('Set user preferred language:', userLanguage);
+        this.log_.info('Set user preferred language:', userLanguage);
         language = userLanguage;
 
         if (language != cwc.config.Default.LANGUAGE) {
@@ -664,13 +631,13 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
 
           // Blockly language file.
           cwc.ui.Helper.insertScript(
-            '../external/blockly/msg/' +
+            'external/blockly/msg/' +
               cwc.utils.I18n.getISO639_1(language) + '.js',
             'blockly-language'
           );
         }
       } else {
-        console.warn('Unsupported language', userLanguage, 'using',
+        this.log_.warn('Unsupported language', userLanguage, 'using',
           cwc.config.Default.LANGUAGE, 'instead!');
         userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
@@ -678,13 +645,10 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
     }
   }
 
-  i18nInstance.prepare(
-    this.loadUI.bind(this),
-    language,
-    languageFile,
-    '../js/locales/blacklist.js',
-    '../js/locales/supported.js'
-  );
+  i18nInstance.loadLanguageFile(languageFile).then(() => {
+    i18nInstance.setLanguage(language);
+    this.loadUI();
+  });
 };
 
 
@@ -698,3 +662,9 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
         'Please check if you have included the ' + name + ' files.');
   }
 };
+
+
+// Decorates Coding with Chrome GUI after content is loaded. */
+window.addEventListener('load', function() {
+  new cwc.ui.Builder().decorate();
+}, false);

@@ -35,48 +35,42 @@
 
   <nav id="{$prefix}items" class="mdl-navigation">
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'New project' /}
       {param title: 'Start a new project' /}
       {param id: 'new-project' /}
       {param opt_icon: 'apps' /}
     {/call}
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'New file' /}
       {param title: 'Start a file' /}
       {param id: 'new-file' /}
       {param opt_icon: 'add' /}
     {/call}
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'Open file' /}
       {param title: 'Open a local file...' /}
       {param id: 'open-file' /}
       {param opt_icon: 'open_in_browser' /}
     {/call}
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'Save as new file' /}
       {param title: 'Save as new file...' /}
       {param id: 'save-file' /}
       {param opt_icon: 'save' /}
     {/call}
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'Open Google Drive file' /}
       {param title: 'Open a Google Drive file...' /}
       {param id: 'open-google-drive' /}
       {param opt_icon: 'open_in_browser' /}
     {/call}
 
-    {call .navigationLink_}
-      {param prefix: $prefix /}
+    {call .navigationLink_ data="all"}
       {param text: 'Save as Google Drive file' /}
       {param title: 'Save as Google Drive file...' /}
       {param id: 'save-google-drive' /}
@@ -88,8 +82,7 @@
   <footer class="mdl-mini-footer">
     <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section">
 
-      {call .linkButton_}
-        {param prefix: $prefix /}
+      {call .linkButton_ data="all"}
         {param text: 'ABOUT' /}
         {param title: 'Learn more about Coding with Chrome' /}
         {param id: 'about' /}
@@ -98,22 +91,19 @@
     </div>
     <div id="{$prefix}footer_right" class="mdl-mini-footer__right-section">
 
-      {call .iconButton_}
-        {param prefix: $prefix /}
+      {call .iconButton_ data="all"}
         {param icon: 'build' /}
         {param title: 'Open Debug' /}
         {param id: 'debug' /}
       {/call}
 
-      {call .iconButton_}
-        {param prefix: $prefix /}
+      {call .iconButton_ data="all"}
         {param icon: 'settings' /}
         {param title: 'Open Settings' /}
         {param id: 'settings' /}
       {/call}
 
-      {call .iconButton_}
-        {param prefix: $prefix /}
+      {call .iconButton_ data="all"}
         {param icon: 'help' /}
         {param title: 'HELP' /}
         {param id: 'help' /}
@@ -144,7 +134,7 @@
 /**
  * Navigation link item.
  */
-{template .navigationLink_}
+{template .navigationLink_ private="true"}
   {@param prefix: string}
   {@param text: string}
   {@param title: string}
@@ -161,7 +151,7 @@
 /**
  * Navigation text button.
  */
-{template .linkButton_}
+{template .linkButton_ private="true"}
   {@param prefix: string}
   {@param text: string}
   {@param title: string}
@@ -176,7 +166,7 @@
 /**
  * Navigation icon button.
  */
-{template .iconButton_}
+{template .iconButton_ private="true"}
   {@param prefix: string}
   {@param icon: string}
   {@param title: string}

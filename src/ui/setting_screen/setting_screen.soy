@@ -39,6 +39,9 @@
           <a href="#settings-tab-general" class="mdl-layout__tab is-active">
             {msg desc=""}SETTING_SCREEN_GENERAL{/msg}
           </a>
+          <a href="#settings-tab-sections" class="mdl-layout__tab">
+            {msg desc=""}SETTING_SCREEN_SECTIONS{/msg}
+          </a>
           <a href="#settings-tab-modules" class="mdl-layout__tab">
             {msg desc=""}SETTING_SCREEN_MODULES{/msg}
           </a>
@@ -53,31 +56,27 @@
       <main class="mdl-layout__content">
         <section class="mdl-layout__tab-panel is-active" id="settings-tab-general">
           <div class="page-content">
-            {call .generalTab}
-              {param prefix: $prefix /}
-              {param languages: $languages /}
-            {/call}
+            {call .generalTab data="all" /}
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="settings-tab-sections">
+          <div class="page-content">
+            {call .sectionsTab data="all" /}
           </div>
         </section>
         <section class="mdl-layout__tab-panel" id="settings-tab-modules">
           <div class="page-content">
-            {call .modulesTab}
-              {param prefix: $prefix /}
-            {/call}
+            {call .modulesTab data="all" /}
           </div>
         </section>
         <section class="mdl-layout__tab-panel" id="settings-tab-editor">
           <div class="page-content">
-            {call .editorTab}
-              {param prefix: $prefix /}
-            {/call}
+            {call .editorTab data="all" /}
           </div>
         </section>
         <section class="mdl-layout__tab-panel" id="settings-tab-misc">
           <div class="page-content">
-            {call .miscTab}
-              {param prefix: $prefix /}
-            {/call}
+            {call .miscTab data="all" /}
           </div>
         </section>
       </main>
@@ -95,7 +94,7 @@
 /**
  * General tab.
  */
-{template .generalTab}
+{template .generalTab private="true"}
   {@param prefix: string}
   {@param languages: list<string>}
 
@@ -107,27 +106,22 @@
         {param text: 'This screen allows you to change the default settings' /}
       {/call}
       <ul class="mdl-list">
-        // Welcome screen
-        {call .setting_}
-          {param prefix: $prefix /}
+
+        {call .setting_ data="all"}
           {param title: 'Show welcome screen' /}
           {param text: 'If enabled, a welcome screen will show every time CwC is started with the choice between "beginner mode" and "advanced mode".' /}
           {param type: 'checkbox' /}
           {param id: 'show-welcome' /}
         {/call}
 
-        // Advanced Mode
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Advanced Mode' /}
           {param text: 'The "advanced mode" will turn off all block-based options' /}
           {param type: 'switch' /}
           {param id: 'advanced-mode' /}
         {/call}
 
-        // Fullscreen
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Launch in fullscreen' /}
           {param text: 'If enabled, CwC will be launched in fullscreen' /}
           {param type: 'checkbox' /}
@@ -135,7 +129,7 @@
           {param opt_restart: true /}
         {/call}
 
-        // Language
+        // Language settings
         <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">
             <span>Language *</span>
@@ -165,9 +159,40 @@
 
 
 /**
+ * Sections tab.
+ */
+{template .sectionsTab private="true"}
+  {@param prefix: string}
+  <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+
+      {call .header_}
+        {param title: 'Sections' /}
+        {param text: 'This screen allows you to enable/disable the different kinds of sections' /}
+      {/call}
+
+      <ul class="mdl-list">
+        {call .setting_ data="all"}
+          {param title: 'Roboter' /}
+          {param text: '...' /}
+          {param type: 'switch' /}
+          {param id: 'section-roboter' /}
+          {param opt_checked: true /}
+        {/call}
+      </ul>
+
+      <div class="mdl-card__supporting-text">
+        * {msg desc=""}SETTING_SCREEN_NOTE_RESTART{/msg}
+      </div>
+    </div>
+  </section>
+{/template}
+
+
+/**
  * Modules tab.
  */
-{template .modulesTab}
+{template .modulesTab private="true"}
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -182,8 +207,7 @@
         {param text: 'Specific robot modules' /}
       {/call}
       <ul class="mdl-list">
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Lego module' /}
           {param text: 'Mindstorm EV3' /}
           {param type: 'switch' /}
@@ -191,8 +215,7 @@
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Sphero module' /}
           {param text: 'Sphero 2.0, Sphero SPRK+, Sphero BB-8' /}
           {param type: 'switch' /}
@@ -200,8 +223,7 @@
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'MakeBlock' /}
           {param text: 'mBot Blue and mbot Ranger' /}
           {param type: 'switch' /}
@@ -216,8 +238,7 @@
         {param text: 'Text-based programming languages' /}
       {/call}
       <ul class="mdl-list">
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'JavaScript module' /}
           {param text: 'Use JavaScript to create programs' /}
           {param type: 'switch' /}
@@ -225,8 +246,7 @@
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'CoffeeScript module' /}
           {param text: 'Use the simple CoffeeScript language to create programs' /}
           {param type: 'switch' /}
@@ -234,8 +254,7 @@
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Python module' /}
           {param text: 'Use the advanced Python language to create programs' /}
           {param type: 'switch' /}
@@ -243,8 +262,7 @@
           {param opt_checked: true /}
         {/call}
 
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Pencil Code module' /}
           {param text: 'Draw art, play music or create games' /}
           {param type: 'switch' /}
@@ -258,8 +276,7 @@
         {param text: 'Website modules' /}
       {/call}
       <ul class="mdl-list">
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'HTML5 module' /}
           {param text: 'Create applications and websites using HTML, CSS and JavaScript' /}
           {param type: 'switch' /}
@@ -279,7 +296,7 @@
 /**
  * Editor tab.
  */
-{template .editorTab}
+{template .editorTab private="true"}
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -290,8 +307,7 @@
       {/call}
       <ul class="mdl-list">
         // Auto-complete
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Auto-complete' /}
           {param text: 'Use Auto-Complete List to suggest text when typing.' /}
           {param type: 'switch' /}
@@ -307,7 +323,7 @@
 /**
  * Misc tab.
  */
-{template .miscTab}
+{template .miscTab private="true"}
   {@param prefix: string}
   <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -317,9 +333,8 @@
         {param text: 'This screen allows you to change some advanced settings' /}
       {/call}
       <ul class="mdl-list">
-        // Debug mode
-        {call .setting_}
-          {param prefix: $prefix /}
+
+        {call .setting_ data="all"}
           {param title: 'Debug mode' /}
           {param text: 'The "debug mode" will turn on some additional debug options' /}
           {param type: 'switch' /}
@@ -327,9 +342,7 @@
           {param opt_restart: true /}
         {/call}
 
-        // Experimental mode
-        {call .setting_}
-          {param prefix: $prefix /}
+        {call .setting_ data="all"}
           {param title: 'Experimental mode' /}
           {param text: 'The "experimental mode" will turn on some experimental options. Enable this at your own risk, no support or guarantee is provided.' /}
           {param type: 'switch' /}
@@ -349,7 +362,7 @@
 /**
  * Settings entry.
  */
-{template .setting_}
+{template .setting_ private="true"}
   {@param prefix: string}
   {@param title: string}
   {@param text: string}
