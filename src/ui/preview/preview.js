@@ -315,14 +315,14 @@ cwc.ui.Preview.prototype.render = function() {
     this.content['setUserAgentOverride']('CwC sandbox');
     this.content.addEventListener('consolemessage',
         this.handleConsoleMessage_.bind(this), false);
+    this.content.addEventListener('contentload',
+        this.handleContentLoad_.bind(this), false);
     this.content.addEventListener('loadstart',
         this.handleLoadStart_.bind(this), false);
     this.content.addEventListener('loadstop',
         this.handleLoadStop_.bind(this), false);
     this.content.addEventListener('unresponsive',
         this.handleUnresponsive_.bind(this), false);
-    this.content.addEventListener('contentload',
-        this.handleContentLoad_.bind(this), false);
   } else {
     this.content = document.createElement('iframe');
   }
@@ -345,6 +345,14 @@ cwc.ui.Preview.prototype.showConsole = function(visible) {
       this.infobar.hideConsole();
     }
   }
+};
+
+
+/**
+ * @return {Object}
+ */
+cwc.ui.Preview.prototype.getContent = function() {
+  return this.content;
 };
 
 

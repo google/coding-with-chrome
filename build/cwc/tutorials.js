@@ -1,7 +1,7 @@
 /**
- * @fileoverview BUILD configuration for Coding with Chrome satic files.
+ * @fileoverview BUILD configuration for Coding with Chrome tutorials.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,12 @@
  *
  * @author carheden@google.com (Adam Carheden)
  */
-require('closure-builder');
 let fs = require('fs');
 let path = require('path');
+let makeDir = require('make-dir');
+let inDir = fs.realpathSync(__dirname + '/../../static_files/tutorials');
+let outDir = fs.realpathSync(__dirname + '/../../genfiles/core/resources');
+
 
 let mkdir = function(dir) {
   if (fs.existsSync(dir)) {
@@ -45,7 +48,7 @@ let procTemplates = function(dir, callback) {
         if (stat && stat.isDirectory()) {
           procTemplates(file, callback);
         } else {
-          if (file.search(/\.cwct\.template$/i) >= 0) {
+          if (file.search(/cwct\.template$/i) >= 0) {
             callback(file);
           }
         }
@@ -54,41 +57,38 @@ let procTemplates = function(dir, callback) {
   });
 };
 
-let replace = function(obj, pwd) {
+let replacePlaceholders = function(obj, pwd) {
   if (obj === null || typeof obj !== 'object') {
     return;
   }
   for (let k in obj) {
     if (k.match(/^___TEMPLATE___:/)) {
-      obj[k.replace('___TEMPLATE___:', '')] = fs.readFileSync(pwd+'/'+obj[k],
-        'utf8');
+      obj[k.replace('___TEMPLATE___:', '')] =
+        fs.readFileSync(pwd+'/'+obj[k], 'utf8');
       delete obj[k];
     } else {
-      replace(obj[k], pwd);
+      replacePlaceholders(obj[k], pwd);
     }
   }
 };
 
-let inDir = fs.realpathSync(__dirname+'/../../static_templates');
-let outDir = fs.realpathSync(__dirname+'/../../genfiles/core');
 procTemplates(inDir, function(template) {
   fs.readFile(template, 'utf8', function(err, data) {
     if (err) {
       throw err;
     }
-    let cwc = JSON.parse(data);
-
-    replace(cwc, path.dirname(template));
-
-    let target = template.replace(inDir, outDir).replace(/\.template$/, '');
-    mkdir(path.dirname(target));
-    fs.writeFile(target, JSON.stringify(cwc, null, '  '), function(err) {
-      if (err) {
-        throw err;
-      }
-      let base = fs.realpathSync(inDir+'/..')+'/';
-      console.log(template.replace(base, '') + ' -> ' +
-        target.replace(base, ''));
+    let cwcData = JSON.parse(data);
+    replacePlaceholders(cwcData, path.dirname(template));
+    let base = path.join(fs.realpathSync(inDir + '/../..'), '/');
+    let targetDir = path.join(outDir, 'tutorials');
+    let target = path.dirname(template.replace(inDir, targetDir));
+    makeDir(path.dirname(target)).then(() => {
+      fs.writeFile(target, JSON.stringify(cwcData, null, '  '), function(err) {
+        if (err) {
+          throw err;
+        }
+        console.log(template.replace(base, ''), '->', target.replace(base, ''));
+      });
     });
   });
 });

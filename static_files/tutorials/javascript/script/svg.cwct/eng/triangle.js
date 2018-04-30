@@ -1,8 +1,25 @@
+/**
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author carheden@google.com (Adam Carheden)
+ */
+
 // Create a scalable vector graphic (SVG)
 // Note: There are other ways to draw in HTML5,
 //       such as the 'canvas' element
-let svg = document.createElementNS('http://www.w3.org/2000/svg',
-    'svg');
+let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 svg.setAttribute('height', 200);
 svg.setAttribute('width', 200);
 // We use the array notation ([]) to access these properties
@@ -38,9 +55,7 @@ let points = [
 // Finally we draw lines between each set of points
 for (let p=0; p<points.length; p++) {
   // Each leg of our triangle is an SVG line element
-  let line =
-    document.createElementNS('http://www.w3.org/2000/svg',
-    'line');
+  let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 
   // Set the color of each line.
   // This helps us figure out which line is which if we have

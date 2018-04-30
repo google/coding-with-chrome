@@ -51,9 +51,6 @@ cwc.protocol.bluetooth.classic.Devices = function(eventHandler) {
   /** @type {!number} */
   this.updateDevicesInterval = 5000;
 
-  /** @type {!goog.Timer} */
-  this.deviceMonitor = new goog.Timer(this.updateDevicesInterval);
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
@@ -86,9 +83,6 @@ cwc.protocol.bluetooth.classic.Devices.prototype.prepare = function() {
       this.handleDeviceChanged_.bind(this));
   chrome.bluetooth.onDeviceRemoved.addListener(
       this.handleDeviceRemoved_.bind(this));
-  this.events_.listen(this.deviceMonitor, goog.Timer.TICK,
-      this.updateDevices.bind(this));
-  this.deviceMonitor.start();
   this.updateDevices();
   this.preapred = true;
 };

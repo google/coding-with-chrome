@@ -296,11 +296,16 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
  */
 cwc.fileFormat.File.prototype.getMetadata = function(
     name, namespace = this.metedataNamespace_) {
-  if (!(namespace in this.metadata_) || !(name in this.metadata_[namespace])) {
-    this.log_.warn('Unknown meta data', namespace + '.' + name);
+  if (!(namespace in this.metadata_) ||
+      (name && !(name in this.metadata_[namespace]))) {
+    this.log_.warn('Unknown meta data', namespace + (name ? '.' + name : ''));
     return '';
   }
-  return this.metadata_[namespace][name];
+  if (name) {
+    return this.metadata_[namespace][name];
+  } else {
+    return this.metadata_[namespace];
+  }
 };
 
 
@@ -395,45 +400,19 @@ cwc.fileFormat.File.prototype.getTitle = function() {
 
 
 /**
- * @return {String}
+ * @param {string=} language
+ * @return {Object}
  */
-cwc.fileFormat.File.prototype.getTutorialContent = function() {
-  let content = this.getMetadata('content', 'tutorial');
-  if (content && typeof content == 'string') {
-    return content;
-  }
-  if (content && typeof content == 'object') {
-    let lang = window.navigator.userLanguage || window.navigator.language;
-    if (lang) {
-      if (content.hasOwnProperty(lang) && typeof content[lang] == 'string') {
-        this.log_.info('Found tutorial in user\'s language,', lang);
-        return content[lang];
-      }
-      this.log_.warn('Tutorial not available in user\'s language,', lang,
-        'trying to find a similar language');
-      let shortLangRE = /-.*$/;
-      let langShort = lang.replace(shortLangRE, '').toLowerCase();
-      let firstLang = false;
-      for (let tlang in content) {
-        if (!content.hasOwnProperty(tlang)) continue;
-        if (typeof content[tlang] != 'string') continue;
-        if (!firstLang) firstLang = tlang;
-        let tlangShort = tlang.replace(shortLangRE).toLowerCase();
-        if (langShort == tlangShort) {
-          this.log_.info('Returning tutorial in', tlang, 'instead of', lang);
-          return content[tlang];
-        }
-      }
-      if (firstLang) {
-        this.log_.warn('Failed to find a similar language.',
-          'Using first available language', firstLang);
-        return content[firstLang];
-      } else {
-        this.log_.error('Tutorial content was an object,',
-          'but no languages found:', content);
-      }
-    } else {
-      this.log_.error('Failed to get language');
+cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
+  let tour = this.getMetadata('', '__tour__');
+  let userLanguage = language;
+  if (tour) {
+    if (!tour[userLanguage]) {
+      this.log_.warn('Tour is not available in user\'s language', language);
+      userLanguage = 'eng';
+    }
+    if (tour[userLanguage]) {
+      return tour[userLanguage];
     }
   }
   return null;
@@ -441,36 +420,20 @@ cwc.fileFormat.File.prototype.getTutorialContent = function() {
 
 
 /**
- * @return {String}
+ * @param {string=} language
+ * @return {Object}
  */
-cwc.fileFormat.File.prototype.getTutorialValidatePreview = function() {
-  let validate = this.getMetadata('validatePreview', 'tutorial');
-  if (validate && typeof validate == 'string') {
-    return validate;
-  }
-  return null;
-};
-
-
-/**
- * @return {String}
- */
-cwc.fileFormat.File.prototype.getTutorialProcessResults = function() {
-  let validate = this.getMetadata('processResults', 'tutorial');
-  if (validate && typeof validate == 'string') {
-    return validate;
-  }
-  return null;
-};
-
-
-/**
- * @return {Array}
- */
-cwc.fileFormat.File.prototype.getTutorialTour = function() {
-  let tour = this.getMetadata('tour', 'tutorial');
-  if (tour && Array.isArray(tour)) {
-    return tour;
+cwc.fileFormat.File.prototype.getTutorial = function(language = 'eng') {
+  let tutorial = this.getMetadata('', '__tutorial__');
+  let userLanguage = language;
+  if (tutorial) {
+    if (!tutorial[userLanguage]) {
+      this.log_.warn('Tutorial is not available in user\'s language', language);
+      userLanguage = 'eng';
+    }
+    if (tutorial[userLanguage]) {
+      return tutorial[userLanguage];
+    }
   }
   return null;
 };

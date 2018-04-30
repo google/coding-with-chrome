@@ -53,9 +53,6 @@ cwc.ui.LoadingScreen = function(helper, scope) {
   /** @type {Element} */
   this.nodeProgressText = null;
 
-  /** @type {Element} */
-  this.nodeVersion = null;
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
@@ -77,7 +74,6 @@ cwc.ui.LoadingScreen.prototype.decorate = function() {
   });
   this.nodeProgressError = goog.dom.getElement(this.prefix + 'progress-error');
   this.nodeProgressText = goog.dom.getElement(this.prefix + 'progress-text');
-  this.nodeVersion = goog.dom.getElement(this.prefix + 'version');
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
   }
@@ -162,5 +158,16 @@ cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func) {
   } catch (error) {
     this.setError('ERROR: ' + error.message);
     throw error;
+  }
+};
+
+
+/**
+ * @param {!string} language
+ */
+cwc.ui.LoadingScreen.prototype.setUserLangauge = function(language) {
+  let nodeLanguage = goog.dom.getElement('cwc-loading-screen-info-language');
+  if (nodeLanguage) {
+    goog.dom.setTextContent(nodeLanguage, language);
   }
 };

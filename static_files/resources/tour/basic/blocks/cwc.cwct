@@ -15,87 +15,79 @@
       "version": 1
     }
   },
-  "format": "Coding with Chrome File Format 3",
+  "format": "Coding with Chrome File Format 3.0",
   "metadata": {
-    "tutorial": {
-      "tour": [
-        {
-          "title": "Welcome to Codeing with Chrome",
-          "text": "Coding with Chrome lets you edit code and see the results immediatly."
-        },
-        {
+    "__tour__": {
+      "eng": {
+        "description": "Tour of the Coding with Chrome user interface", 
+        "data": [{
+          "title": "Welcome to Coding with Chrome",
+          "text": "Coding with Chrome lets you edit code and see the results immediately."
+        }, {
           "title": "Editor",
           "attachTo": {
             "element": "#cwc-blockly-code",
             "on": "bottom"
           },
           "text": "You edit your program on the right side."
-        },
-        {
+        }, {
           "title": "Preview",
           "attachTo": {
             "element": "#cwc-layout-content-preview-chrome",
             "on": "bottom"
           },
           "text": "The results of your program appear on the left."
-        },
-        {
+        }, {
           "title": "Resize",
           "attachTo": {
             "element": "#cwc-layout-content-preview-chrome",
             "on": "right"
           },
           "text": "You can drag the center line to resize the panes."
-        },
-        {
+        }, {
           "title": "Sidebar",
           "attachTo": {
             "element": "#cwc-sidebar-body",
             "on": "left"
           },
           "text": "Some files have instructions or additional content in the sidebar."
-        },
-        {
+        }, {
           "title": "Tour",
           "attachTo": {
-            "element": "#cwc-sidebar-tutorial",
+            "element": "#cwc-sidebar-tour",
             "on": "left"
           },
           "text": "Your can restart this tour at any time with this button"
-        },
-        {
+        }, {
           "title": "Tooltips",
           "attachTo": {
             "element": "#cwc-status-button-body",
             "on": "right"
           },
           "text": "Coding with Chrome has lots of buttons. Hover your mouse over one to see what it does."
-        },
-        {
+        }, {
           "title": "Save button",
           "attachTo": {
             "element": "#cwc-blockly-toolbar-save",
             "on": "bottom"
           },
           "text": "This one saves your file."
-        },
-        {
+        }, {
           "title": "Title",
           "attachTo": {
             "element": "#cwc-gui-title",
             "on": "bottom"
           },
           "text": "Don't forget to give your project a title."
-        },
-        {
+        }, {
           "title": "Fin",
           "text": "Happy Coding!"
-        }
-      ]
+        }]
+      }
     },
     "__default__": {
       "author": "Adam Carheden",
-      "description": "Tour of the Coding with Chrome user interface",
+      "description": "",
       "title": "Tutorial 1",
       "version": "1.0"
     }

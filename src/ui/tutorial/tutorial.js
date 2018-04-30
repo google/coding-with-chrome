@@ -28,6 +28,7 @@ goog.require('cwc.utils.Logger');
 
 goog.require('goog.events');
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -50,12 +51,6 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!string} */
   this.content_ = null;
 
-  /** @private {Shepherd.Tour} */
-  this.tour_ = null;
-
-  /** @private {!number} */
-  this.tourLength_ = 0;
-
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
@@ -66,139 +61,48 @@ cwc.ui.Tutorial = function(helper) {
   this.processResults_ = null;
 };
 
-/**
- * @param {!string} content
- */
-cwc.ui.Tutorial.prototype.setContent = function(content) {
-  if (!content) {
-    this.log_.warn('Set empty tutorial content');
-    return;
-  }
-  this.content_ = content;
-};
 
 /**
- * @param {!string} validate
+ * @param {!Object} tutorial
  */
-cwc.ui.Tutorial.prototype.setValidatePreview = function(validate) {
-  if (!validate) {
-    this.log_.warn('Set empty validatePreview');
+cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
+  if (!tutorial || !tutorial['content']) {
     return;
   }
-  this.validatePreview_ = validate;
+
+  if (!tutorial['processResults']) {
+    this.log_.warn('Empty processRsults');
+  }
+  if (!tutorial['validatePreview']) {
+    this.log_.warn('Empty validatePreview');
+  }
+
+  this.log_.info('Loading tutorial data', tutorial);
+  this.content_ = tutorial['content'];
+  this.processResults_ = tutorial['processResults'];
+  this.validatePreview_ = tutorial['validatePreview'];
 };
 
-/**
- * @param {!string} validate
- */
-cwc.ui.Tutorial.prototype.setProcessResults = function(validate) {
-  if (!validate) {
-    this.log_.warn('Set empty processRsults');
+
+cwc.ui.Tutorial.prototype.startTutorial = function() {
+  if (!this.content_) {
     return;
   }
-  this.processResults_ = validate;
+  this.log_.info('Starting tutorial ...');
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.showRawContent('Tutorial', this.content_);
+    sidebarInstance.setActive('tutorial', true);
+    this.start();
+  }
 };
+
 
 /**
  * @return {!string}
  */
 cwc.ui.Tutorial.prototype.getContent = function() {
   return this.content_;
-};
-
-/**
-/**
- * @param {!Array} tourData
- */
-cwc.ui.Tutorial.prototype.setTour = function(tourData) {
-  if (!tourData) {
-    this.tour_ = null;
-    return;
-  }
-  this.log_.info('Loading tour data', tourData);
-  this.tour_ = new Shepherd.Tour({
-    'defaults': {
-      'classes': 'shepherd-theme-arrows',
-      'showCancelLink': true,
-    },
-  });
-  this.tour_['once']('cancel', () => {
-    let sidebarInstance = this.helper.getInstance('sidebar');
-    if (sidebarInstance) {
-      sidebarInstance.setActive('tutorial', false);
-    }
-  });
-  this.tourLength_ = tourData.length;
-  for (let i in tourData) {
-    if (!Object.prototype.hasOwnProperty.call(tourData, i)) continue;
-    let data = tourData[i];
-    let step = {};
-
-    // Step id
-    step['id'] = data['id'] || 'step' + i;
-
-    // Title
-    if (data['title']) {
-      step['title'] = i18t(data['title']);
-    } else {
-      this.log_.error('Step', i, 'missing title!');
-    }
-
-    // Text
-    if (data['text']) {
-      step['text'] = i18t(data['text']);
-    } else {
-      this.log_.error('Step', i, 'missing text!');
-    }
-
-    // Attached to element
-    if (typeof data['attachTo'] !== 'undefined') {
-      step['attachTo'] = data['attachTo'];
-    }
-
-    // Handle buttons
-    if (data['buttons']) {
-      step['buttons'] = data['buttons'];
-    } else {
-      step['buttons'] = [];
-      // Back button
-      if (i > 0) {
-        step['buttons'].push({
-          'text': i18t('BACK'),
-          'action': this.tour_['back'],
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Exit
-      if (i == 0) {
-        step['buttons'].push({
-          'text': i18t('EXIT'),
-          'action': this.cancelTour.bind(this),
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Done
-      if (i == this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('DONE'),
-          'action': this.cancelTour.bind(this),
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
-      // Next button
-      if (i < this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('NEXT'),
-          'action': this.tour_['next'],
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
-    }
-
-    this.tour_.addStep(step);
-  }
 };
 
 
@@ -209,40 +113,36 @@ cwc.ui.Tutorial.prototype.start = function() {
   } // TODO(carheden): support iframe
 
   let previewInstance = this.helper.getInstance('preview');
-  if (!previewInstance) {
-    this.log_.error('Failed to get preview instance');
-    return;
-  }
-
-  if (previewInstance.content) {
-    this.runValidatePreview(previewInstance.content);
-  }
+  this.runValidatePreview(previewInstance.getContent());
 
   goog.events.listen(previewInstance.getEventHandler(),
-    cwc.ui.preview.Events.Type.CONTENT_LOAD,
-    this.handlePreviewLoad, false, this);
+    cwc.ui.preview.Events.Type.CONTENT_LOAD, (e) => {
+      this.runValidatePreview(e.data['preview']);
+    }, false, this);
 };
 
-cwc.ui.Tutorial.prototype.handlePreviewLoad = function(e) {
-  // TODO(carheden): call the user's function with the source from the editor
-  // as an argument.
-  this.runValidatePreview(e.data['preview']);
-};
 
+/**
+ * @param {Object} preview
+ */
 cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
+  if (!preview) {
+    return;
+  }
   if (this.validatePreview_) {
-    preview.executeScript({code: '(' + this.validatePreview_ + ')()'},
-      (results) => {
-        this.log_.info('validatePreview returned', results);
-        this.processValidatePreviewResults_.bind(this)(results[0]);
+    preview.executeScript({code: this.validatePreview_}, (results) => {
+      this.log_.info('validatePreview returned', results);
+      this.processValidatePreviewResults_.bind(this)(results[0]);
      });
     return;
   }
   this.processValidatePreviewResults_(null);
 };
 
+
 /**
- * @param {Object} results
+ * @param {!Object} results
+ * @private
  */
 cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   let sidebarInstance = this.helper.getInstance('sidebar');
@@ -250,7 +150,7 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     this.log_.error('No sidebar, ignoring results of validatePreview');
     return;
   }
-  let tutorialNode = sidebarInstance.getTutorialNode();
+  let tutorialNode = sidebarInstance.getContentNode();
   if (!tutorialNode) {
     this.log_.warn('No tutorial node, ignore results of validatePreview');
     return;
@@ -260,7 +160,6 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     addEventListener('message', function(e) {
       if (e.data && (typeof e.data) === 'object' &&
           e.data.hasOwnProperty('cwc-validated-data') &&
-          'cwc-validated' in window.top &&
           (typeof window.top['cwc-validated'] == 'function')) {
         window.top['cwc-validated'](e.data['cwc-validated-data']['code'],
           e.data['cwc-validated-data']['results']);
@@ -282,7 +181,7 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
       }
     }
     let args = {'cwc-validated-data': {'code': code, 'results': results}};
-    this.log_.info('calling processResults with arguments', args);
+    this.log_.info('Process results with arguments', args);
     tutorialNode.contentWindow.postMessage(args, '*');
   }.bind(this);
 
@@ -290,9 +189,8 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   // if the page load is done. If it's not, executeScript() fails. If we
   // always listen for 'loadstop', but it's already fired, we miss it and never
   // execute.
-  let injectedCode =
-    '( window.top["cwc-validated"] = ('+this.processResults_+') );'+
-    '('+listenForResults.toString()+')()';
+  let injectedCode = this.processResults_ +
+    '(' + listenForResults.toString() + ')()';
   tutorialNode.addEventListener('loadstop', () => {
     tutorialNode.executeScript({code: injectedCode}, postResults);
   });
@@ -302,33 +200,4 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     this.log_.info('Failed to inject results.',
       'but it should run next time the page changes:', e);
   }
-};
-
-cwc.ui.Tutorial.prototype.startTour = function() {
-  if (!this.tour_) return;
-  this.log_.info('Starting tour with', this.tourLength_, 'steps...');
-  let sidebarInstance = this.helper.getInstance('sidebar');
-  if (sidebarInstance) {
-    sidebarInstance.showContent('');
-    sidebarInstance.setActive('tour', true);
-  }
-  this.tour_.start();
-};
-
-
-cwc.ui.Tutorial.prototype.cancelTour = function() {
-  let sidebarInstance = this.helper.getInstance('sidebar');
-  if (sidebarInstance) {
-    sidebarInstance.setActive('tour', false);
-  }
-  this.tour_.cancel();
-};
-
-
-cwc.ui.Tutorial.prototype.clearTour = function() {
-  if (this.tour_) {
-    this.cancelTour();
-    this.tour_ = null;
-  }
-  this.tourLength_ = 0;
 };

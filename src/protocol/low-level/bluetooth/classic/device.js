@@ -270,7 +270,7 @@ cwc.protocol.bluetooth.classic.Device.prototype.handleData = function(data) {
  */
 cwc.protocol.bluetooth.classic.Device.prototype.handleError = function(error) {
   this.log.info('handleError', error);
-  if (error.includes('disconnected')) {
+  if (error.includes('disconnected') || error.includes('system_error')) {
     this.close();
     this.handleDisconnect_();
   }

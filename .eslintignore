@@ -7,4 +7,3 @@ patches
 node_modules
 test/genfiles
 third_party
-static_templates

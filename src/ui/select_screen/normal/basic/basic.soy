@@ -86,7 +86,7 @@
   {if $experimental}
     <div id="tutorial-basic-content">
       {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
-        {param text: 'Select a Tutorial ...' /}
+        {param text: 'Select a Tour ...' /}
         {param opt_icon: 'library_books' /}
       {/call}
   
@@ -95,11 +95,29 @@
           {param title: 'Coding with Chrome Basics' /}
           {param text: 'An introduction to Coding with Chrome' /}
           {param opt_link_text: 'Learn Coding with Chrome' /}
-          {param tutorial: 'basic/blocks/cwc.cwct' /}
+          {param tour: 'basic/blocks/cwc.cwct' /}
           {param opt_color_class: 'bg-light-blue' /}
-          {param opt_icon: 'school' /}
+          {param opt_icon: 'library_books' /}
         {/call}
 
+        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+          {param title: 'Blockly Basics' /}
+          {param text: 'Learn drag-and-drop programming' /}
+          {param opt_link_text: 'Learn Blockly' /}
+          {param tour: 'basic/blocks/blockly.cwct' /}
+          {param opt_color_class: 'bg-light-blue' /}
+          {param opt_icon: 'library_books' /}
+        {/call}
+      </div>
+    </div>
+
+    <div id="tutorial-basic-content">
+      {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
+        {param text: 'Select a Tutorial ...' /}
+        {param opt_icon: 'school' /}
+      {/call}
+
+      <div class="mdl-grid">
         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Blockly Basics' /}
           {param text: 'Learn drag-and-drop programming' /}
@@ -108,17 +126,8 @@
           {param opt_color_class: 'bg-light-blue' /}
           {param opt_icon: 'school' /}
         {/call}
-
-        {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
-          {param title: 'Scalable Vector Graphics' /}
-          {param text: 'Drawing with JavaScript' /}
-          {param opt_link_text: 'Learn to draw with JavaScript' /}
-          {param tutorial: 'basic/script/svg.cwct' /}
-          {param opt_color_class: 'bg-light-blue' /}
-          {param opt_icon: 'school' /}
-        {/call}
-
       </div>
     </div>
+
   {/if}
 {/template}

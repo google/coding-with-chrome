@@ -26,8 +26,9 @@ goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom.classlist');
 
+
 /**
- * Class represents the statusbar inside the ui.
+ * Class represents the sidebar inside the UI.
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
@@ -71,7 +72,7 @@ cwc.ui.Sidebar = function(helper) {
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {Element} */
-  this.tutorialNode_ = null;
+  this.contentNode_ = null;
 };
 
 
@@ -131,54 +132,27 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
         this.helper.getInstance('file').getFileDescription());
   });
 
-  let tutorial = this.helper.getInstance('tutorial');
-
   // Tour
-  this.events_.listen('tour-button', goog.events.EventType.CLICK,
-    (e) => {
-      this.setActive_(e.target);
-      tutorial.startTour();
+  this.events_.listen('tour-button', goog.events.EventType.CLICK, () => {
+      this.helper.getInstance('tour').startTour();
+      this.showContent('Tour',
+        this.helper.getInstance('tour').getTourDescription());
   });
 
   // Tutorial
-  this.events_.listen('tutorial-button', goog.events.EventType.CLICK,
-    this.renderTutorial.bind(this));
+  this.events_.listen('tutorial-button', goog.events.EventType.CLICK, () => {
+    this.helper.getInstance('tutorial').startTutorial();
+  });
 };
+
 
 /**
  * @return {Element}
  */
-cwc.ui.Sidebar.prototype.getTutorialNode = function() {
-  return this.tutorialNode_;
+cwc.ui.Sidebar.prototype.getContentNode = function() {
+  return this.contentNode_;
 };
 
-cwc.ui.Sidebar.prototype.renderTutorial = function() {
-  let tutorialInstance = this.helper.getInstance('tutorial');
-  if (!tutorialInstance) return;
-  let tutorialContent = tutorialInstance.getContent();
-  if (!tutorialContent) return;
-
-  let tutorialButton = goog.dom.getElement(this.prefix+'tutorial-button');
-  if (!tutorialButton) {
-    this.log_.error('Failed to find tutorial button');
-    return;
-  }
-  this.setActive_(tutorialButton);
-  // TODO(carheden): Support markdown for non-interactive tutorials
-
-  // The content must be non-false or the content-body element isn't created
-  this.showContent('Tutorial', ' ', true);
-  let content = goog.dom.getElement(this.prefix + 'content-body');
-  if (this.webviewSupport_) {
-    this.tutorialNode_ = document.createElement('webview');
-  } else {
-    this.tutorialNode_ = document.createElement('iframe');
-  }
-  goog.dom.appendChild(content, this.tutorialNode_);
-  this.tutorialNode_.src = this.rendererHelper.getDataURL(
-    tutorialInstance.getContent());
-  tutorialInstance.start(this.tutorialNode_);
-};
 
 /**
  * @param {!string} id
@@ -313,10 +287,10 @@ cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
 /**
  * @param {!string} title
  * @param {string} content
- * @param {boolean} raw
  */
-cwc.ui.Sidebar.prototype.showContent = function(title, content = '',
-  raw = false) {
+cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
+  this.contentNode_ = null; // Content node is only used for raw content.
+
   if (this.contentName === title) {
     this.showContent_(false);
     this.contentName = '';
@@ -324,17 +298,12 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '',
   }
 
   if (content) {
-    if (raw) {
-      goog.dom.classlist.add(this.nodeContent, this.prefix+'raw');
-    } else {
-      goog.dom.classlist.remove(this.nodeContent, this.prefix+'raw');
-    }
     goog.soy.renderElement(
       this.nodeContent,
       cwc.soy.ui.Sidebar.content, {
         'prefix': this.prefix,
         'title': title,
-        'content': content,
+        'content': content === '__RAW__' ? '' : content,
       }
     );
     this.events_.listen('content-close', goog.events.EventType.CLICK,
@@ -344,6 +313,30 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '',
     this.showContent_(false);
   }
   this.contentName = title;
+};
+
+
+/**
+ * @param {!string} title
+ * @param {string} content
+ */
+cwc.ui.Sidebar.prototype.showRawContent = function(title, content = '') {
+  this.showContent(title, '__RAW__');
+
+  // TODO(carheden): Add markdown support
+
+  // The content must be non-false or the content-body element isn't created
+  let nodeContent = goog.dom.getElement(this.prefix + 'content-body');
+  if (!nodeContent) {
+    return;
+  }
+  if (this.webviewSupport_) {
+    this.contentNode_ = document.createElement('webview');
+  } else {
+    this.contentNode_ = document.createElement('iframe');
+  }
+  goog.dom.appendChild(nodeContent, this.contentNode_);
+  this.contentNode_.src = this.rendererHelper.getDataURL(content);
 };
 
 
