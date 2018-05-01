@@ -161,7 +161,7 @@ describe('File format', function() {
       metadataNamespace)).toEqual('');
   });
 
-  it('setMetadata (default namespace)', function() {
+  it('setMetadata (default namespace, value)', function() {
     expect(() => {
       fileFormat.setMetadata(metadataKey1, metadataValue1);
     }).not.toThrow();
@@ -191,6 +191,80 @@ describe('File format', function() {
 
   it('getMetadata (default namespace, wrong key)', function() {
     expect(fileFormat.getMetadata(metadataKey2)).toEqual('');
+  });
+
+  let defaultLanguage = 'eng';
+  it('tutorial (default language)', function() {
+    let tutorial = {
+      'content': 'Hello, world!',
+    };
+    expect(fileFormat.getTutorial()).toBe(null);
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tutorial, '__tutorial__');
+    }).not.toThrow();
+    expect(fileFormat.getTutorial()).toEqual(tutorial);
+  });
+
+  it('tutorial (non-default language)', function() {
+    let otherLanguage = 'deu';
+    let tutorialDefaultLanguage = {
+      'content': 'Hello, world!',
+    };
+    let tutorialOtherLanguage = {
+      'content': 'Hallo, Welt!',
+    };
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tutorialDefaultLanguage, '__tutorial__');
+    }).not.toThrow();
+    expect(() => {
+      fileFormat.setMetadata(otherLanguage, tutorialOtherLanguage, '__tutorial__');
+    }).not.toThrow();
+    expect(fileFormat.getTutorial(otherLanguage)).toEqual(tutorialOtherLanguage);
+    expect(fileFormat.getTutorial(defaultLanguage)).toEqual(tutorialDefaultLanguage);
+    expect(fileFormat.getTutorial()).toEqual(tutorialDefaultLanguage);
+  });
+
+  it('tour (default language)', function() {
+    let tour = {
+      'description': 'Test tour',
+      'data': [{
+        'title': 'Test',
+        'text': 'Testing tour',
+      }],
+    };
+    expect(fileFormat.getTour()).toBe(null);
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tour, '__tour__');
+    }).not.toThrow();
+    expect(fileFormat.getTour()).toEqual(tour);
+  });
+
+  it('tour (non-default language)', function() {
+    let otherLanguage = 'swe';
+    let tourDefaultLanguage = {
+      'description': 'Test tour',
+      'data': [{
+        'title': 'Test',
+        'text': 'Testing tour',
+      }],
+    };
+    let tourOtherLanguage = {
+      'description': 'Testa tur',
+      'data': [{
+        'title': 'Testa',
+        'text': 'Testning tur',
+      }],
+    };
+
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tourDefaultLanguage, '__tour__');
+    }).not.toThrow();
+    expect(() => {
+      fileFormat.setMetadata(otherLanguage, tourOtherLanguage, '__tour__');
+    }).not.toThrow();
+    expect(fileFormat.getTour(otherLanguage)).toEqual(tourOtherLanguage);
+    expect(fileFormat.getTour(defaultLanguage)).toEqual(tourDefaultLanguage);
+    expect(fileFormat.getTour()).toEqual(tourDefaultLanguage);
   });
 
   describe('Legacy format', function() {

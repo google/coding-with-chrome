@@ -49,16 +49,16 @@ cwc.ui.Tutorial = function(helper) {
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
-  this.content_ = null;
+  this.content_;
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {string} */
-  this.validatePreview_ = null;
+  this.validatePreview_;
 
   /** @private {string} */
-  this.processResults_ = null;
+  this.processResults_;
 };
 
 
