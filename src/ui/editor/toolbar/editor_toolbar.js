@@ -26,7 +26,6 @@ goog.require('cwc.ui.Helper');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.MenuItem');
-goog.require('goog.ui.Select');
 
 
 /**
@@ -75,12 +74,6 @@ cwc.ui.EditorToolbar = function(helper) {
   /** @type {Element} */
   this.nodeRedo = null;
 
-  /** @type {!goog.ui.Select} */
-  this.selectView = new goog.ui.Select();
-
-  /** @type {string} */
-  this.currentView = '';
-
   /** @type {boolean} */
   this.expandState = false;
 
@@ -106,8 +99,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
     }
   );
 
-  this.selectView.setTooltip('Change view');
-  this.selectView.render(this.nodeSelectView);
   this.nodeDebug = goog.dom.getElement(this.prefix + 'debug');
   this.nodeExpand = goog.dom.getElement(this.prefix + 'expand');
   this.nodeExpandExit = goog.dom.getElement(this.prefix + 'expand-exit');
@@ -142,9 +133,6 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
     this.save.bind(this));
   goog.events.listen(this.nodeUndo, goog.events.EventType.CLICK,
     this.undo.bind(this));
-
-  goog.events.listen(this.selectView, goog.ui.Component.EventType.ACTION,
-      this.editorChangeViewEvent, false, this);
 };
 
 
@@ -215,29 +203,6 @@ cwc.ui.EditorToolbar.prototype.setSyntaxCheck = function() {
 
 
 /**
- * Change editor view.
- * @param {Event} event
- */
-cwc.ui.EditorToolbar.prototype.editorChangeViewEvent = function(event) {
-  let eventTarget = /** @type {CodeMirror} */ (event.target);
-  this.editorChangeView(eventTarget.getValue());
-};
-
-
-/**
- * Change editor view.
- * @param {string} name
- */
-cwc.ui.EditorToolbar.prototype.editorChangeView = function(name) {
-  let editorInstance = this.helper.getInstance('editor');
-  if (editorInstance && name) {
-    this.currentView = name;
-    editorInstance.changeView(name);
-  }
-};
-
-
-/**
  * Publish file.
  */
 cwc.ui.EditorToolbar.prototype.publish = function() {
@@ -298,22 +263,6 @@ cwc.ui.EditorToolbar.prototype.updateToolbar = function(editor_mode) {
   }
   if (this.helper.experimentalEnabled()) {
     this.enablePublishButton(false);
-  }
-};
-
-
-/**
- * Add editor view.
- * @param {!string} name
- * @export
- */
-cwc.ui.EditorToolbar.prototype.addView = function(name) {
-  let selectedView = new goog.ui.MenuItem(name);
-  this.selectView.addItem(selectedView);
-
-  if (!this.currentView) {
-    this.editorChangeView(name);
-    this.selectView.setSelectedItem(selectedView);
   }
 };
 

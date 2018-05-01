@@ -22,7 +22,7 @@
 
 
 /**
- * Infobar template.
+ * Editor infobar template.
  */
 {template .template}
   {@param prefix: string}
@@ -33,6 +33,7 @@
       <i class="material-icons">short_text</i>
       <span id="{$prefix}line-text"></span>
     </li>
+    <li id="{$prefix}views"></li>
     <li id="{$prefix}space"></li>
     <li id="{$prefix}mode">
       <button id="{$prefix}mode-select" class="mdl-button mdl-js-button" disabled>
@@ -45,5 +46,36 @@
       </ul>
     </li>
   </ul>
+
+{/template}
+
+
+/**
+ * Editor view tabs.
+ */
+{template .viewTabs}
+  {@param prefix: string}
+  {@param currentView: string}
+  {@param views: ?}
+
+  <div id="{$prefix}views-body">
+    {foreach $view in $views}
+      <div data-editor-view="{$view}" class="{$prefix}tab{if $view == $currentView} active{/if}">
+        <div class="{$prefix}tab-section"></div>
+        {switch $view}
+          {case '__coffeescript__'}
+            Coffeescript
+          {case '__default__'}
+            Default
+          {case '__javascript__'}
+            JavaScript
+          {case '__python__'}
+            Python
+          {default}
+            {$view}
+        {/switch}
+      </div>
+    {/foreach}
+  </div>
 
 {/template}

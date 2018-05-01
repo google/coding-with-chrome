@@ -16,7 +16,7 @@
 
 
 #{$prefix}editor-infobar {
-  height: 26px;
+  height: 30px;
   background: #f5f5f5;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #ebebeb;
@@ -72,7 +72,10 @@
 }
 
 #{$prefix}editor-infobar-space {
-  flex:1 1 auto;
+  flex: 1 1 auto;
+  margin: 0!important;
+  min-width: 0px!important;
+  padding: 0!important;
 }
 
 #{$prefix}editor-infobar-line-text {
@@ -96,8 +99,81 @@
   line-height: 28px;
 }
 
+#{$prefix}editor-infobar-views {
+  position: relative;
+  width: 400px;
+}
+
+#{$prefix}editor-infobar-views-body {
+  height: 30px;
+  position: absolute;
+  top: -4px;
+  overflow: hidden;
+}
+
 .{$prefix}editor-infobar-editor-info {
   border-right: 1px solid #e5e5e5;
   padding: 0 5px;
   float: left;
+}
+
+.{$prefix}editor-infobar-tab {
+  background: #f5f5f5;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  cursor: pointer;
+  float: left;
+  margin: 0 0 0 15px;
+  opacity: 0.7;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: relative;
+}
+
+.{$prefix}editor-infobar-tab:hover {
+  opacity: 0.9;
+}
+
+.{$prefix}editor-infobar-tab.active {
+  background: #fff;
+  border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  border-top: 1px solid #fff;
+  cursor: default;
+  opacity: 1;
+}
+
+.{$prefix}editor-infobar-tab::before {
+  color: rgba(128,128,128,0.8);
+  content: 'code';
+  font-family: 'Material Icons';
+  font-size: 15px;
+  font-style: normal;
+  line-height: 1;
+  padding-right: 5px;
+  vertical-align: middle;
+}
+
+.{$prefix}editor-infobar-tab-section {
+  background: #f5f5f5;
+  border-left: 1px solid #e5e5e5;
+  box-shadow: -4px 0 4px -4px rgba(0,0,0,.1);
+  height: 28px;
+  left: -8px;
+  position: absolute;
+  top: -6px;
+  transform: rotate(-30deg);
+  width: 11px;
+}
+
+.{$prefix}editor-infobar-tab.active .{$prefix}editor-infobar-tab-section {
+  background: #fff;
+  border-left: 1px solid #aaa;
+  opacity: 1;
 }

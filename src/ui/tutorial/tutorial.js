@@ -126,7 +126,7 @@ cwc.ui.Tutorial.prototype.start = function() {
  * @param {Object} preview
  */
 cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
-  if (!preview) {
+  if (!preview || !this.content_) {
     return;
   }
   if (this.validatePreview_) {
@@ -200,4 +200,11 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     this.log_.info('Failed to inject results.',
       'but it should run next time the page changes:', e);
   }
+};
+
+
+cwc.ui.Tutorial.prototype.clear = function() {
+  this.content_ = null;
+  this.processResults_ = null;
+  this.validatePreview_ = null;
 };

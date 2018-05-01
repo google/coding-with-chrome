@@ -186,17 +186,18 @@ cwc.ui.Tour.prototype.cancelTour = function() {
 };
 
 
-cwc.ui.Tour.prototype.clearTour = function() {
-  if (this.tour_) {
-    this.cancelTour();
-    this.tour_ = null;
-  }
-  this.tourLength_ = 0;
-};
-
 /**
  * @return {!string}
  */
 cwc.ui.Tour.prototype.getTourDescription = function() {
   return this.tourDescription_ || '';
+};
+
+
+cwc.ui.Tour.prototype.clear = function() {
+  if (this.tour_) {
+    this.cancelTour();
+    this.tour_ = null;
+  }
+  this.tourLength_ = 0;
 };

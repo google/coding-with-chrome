@@ -136,6 +136,18 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     rendererInstance.setServerMode(false);
   }
 
+  // Clear existing Tour
+  let tourInstance = this.helper.getInstance('tour');
+  if (tourInstance) {
+    tourInstance.clear();
+  }
+
+  // Clear existing tutorial
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  if (tutorialInstance) {
+    tutorialInstance.clear();
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);
@@ -232,6 +244,17 @@ cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.addView(name, content, type, hints);
+  }
+};
+
+
+/**
+ * @param {!string} name
+ */
+cwc.mode.Modder.prototype.setEditorView = function(name) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.changeView(name);
   }
 };
 
