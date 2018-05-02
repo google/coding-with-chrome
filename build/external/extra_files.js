@@ -103,6 +103,7 @@ closureBuilder.build({
   options: {
     exclude_test: true,
   },
+  warn: false,
 });
 
 closureBuilder.build({
@@ -124,6 +125,7 @@ closureBuilder.build({
     'build/externs/global.js',
   ],
   out: 'genfiles/third_party/external/codemirror/modes.js',
+  warn: false,
 });
 
 

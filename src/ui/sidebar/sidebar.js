@@ -134,9 +134,7 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
 
   // Tour
   this.events_.listen('tour-button', goog.events.EventType.CLICK, () => {
-      this.helper.getInstance('tour').startTour();
-      this.showContent('Tour',
-        this.helper.getInstance('tour').getTourDescription());
+    this.helper.getInstance('tour').startTour();
   });
 
   // Tutorial
@@ -293,6 +291,7 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
 
   if (this.contentName === title) {
     this.showContent_(false);
+    this.clearActive_();
     this.contentName = '';
     return;
   }

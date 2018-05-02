@@ -157,7 +157,7 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   }
 
   let listenForResults = function() {
-    addEventListener('message', function(e) {
+    window.addEventListener('message', function(e) {
       if (e.data && (typeof e.data) === 'object' &&
           e.data.hasOwnProperty('cwc-validated-data') &&
           (typeof window.top['cwc-validated'] == 'function')) {
