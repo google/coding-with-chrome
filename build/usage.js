@@ -82,6 +82,24 @@ const sections = [{
         name: 'publish-nw_app-linux',
         summary: 'Builds Linux (32bit/64bit) binary version of the app.',
     }],
+  }, {
+    header: 'Test commands',
+    content: [{
+        name: 'test',
+        summary: 'Perform all tests.',
+    }, {
+        name: 'test-soy',
+        summary: 'Test all soy files for compilation errors.',
+    }, {
+        name: 'test-units',
+        summary: 'Perform general unit tests.',
+    }, {
+        name: 'test-core',
+        summary: 'Perform core tests tests.',
+    }, {
+        name: 'test-mode',
+        summary: 'Perform mode tests.',
+    }],
   },
 ];
 

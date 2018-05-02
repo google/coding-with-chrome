@@ -30,7 +30,7 @@
   "scripts": {
     "usage": "node build/usage.js",
     "pretest": "npm run lint",
-    "test": "npm run test-soy && npm run test-units && npm run test-core",
+    "test": "npm run test-soy && npm run test-units && npm run test-core && npm run test-mode",
     "pretest-soy": "node build/test/soy_files.js",
     "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
     "pretest-units": "node build/test/unit_files.js",
