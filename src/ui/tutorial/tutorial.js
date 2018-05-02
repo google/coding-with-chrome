@@ -91,10 +91,9 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
   this.log_.info('Starting tutorial ...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.showRawContent('Tutorial', this.content_);
-    sidebarInstance.setActive('tutorial', true);
-    this.start();
+    sidebarInstance.showRawContent('tutorial', 'Tutorial', this.content_);
   }
+  this.start();
 };
 
 

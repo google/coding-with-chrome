@@ -179,46 +179,55 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   }
 
   // Handle file data, if needed.
-  let fileInstance = this.helper.getInstance('file');
-  if (fileInstance) {
-    // Setting file title
-    let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
-    if (fileTitle) {
-      this.setTitle(fileTitle);
-    }
-
-    // Handle UI mode
-    switch (fileInstance.getUi()) {
-      case 'blockly':
-        this.showBlockly();
-        break;
-      case 'editor':
-        this.showEditor();
-        break;
-    }
-
-    // Sync Library files
-    if (fileInstance.hasLibraryFiles()) {
-      this.syncLibrary();
-    }
-
-    // Start tutorial for tutorial files .cwct automatically
-    if (this.filename.toLowerCase().endsWith('.cwct')) {
-      let tourInstance = this.helper.getInstance('tour');
-      if (tourInstance) {
-        tourInstance.startTour();
-      }
-
-      let tutorialInstance = this.helper.getInstance('tutorial');
-      if (tutorialInstance) {
-        tutorialInstance.startTutorial();
-      }
-    }
-  }
+  this.postModeFileData();
 
   // Event Handling
   this.eventHandler_.dispatchEvent(
     cwc.mode.Modder.Events.changeMode(this.mode, this.filename));
+};
+
+
+/**
+ * Handle file data, if needed.
+ */
+cwc.mode.Modder.prototype.postModeFileData = function() {
+  let fileInstance = this.helper.getInstance('file');
+  if (!fileInstance) {
+    return;
+  }
+  // Setting file title
+  let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
+  if (fileTitle) {
+    this.setTitle(fileTitle);
+  }
+
+  // Handle UI mode
+  switch (fileInstance.getUi()) {
+    case 'blockly':
+      this.showBlockly();
+      break;
+    case 'editor':
+      this.showEditor();
+      break;
+  }
+
+  // Sync Library files
+  if (fileInstance.hasLibraryFiles()) {
+    this.syncLibrary();
+  }
+
+  // Start tutorial for tutorial files .cwct automatically
+  if (this.filename.toLowerCase().endsWith('.cwct')) {
+    let tourInstance = this.helper.getInstance('tour');
+    if (tourInstance) {
+      tourInstance.startTour();
+    }
+
+    let tutorialInstance = this.helper.getInstance('tutorial');
+    if (tutorialInstance) {
+      tutorialInstance.startTutorial();
+    }
+  }
 };
 
 
