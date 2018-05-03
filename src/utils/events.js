@@ -39,7 +39,7 @@ cwc.utils.Events = function(name = 'Events', prefix = '', scope = undefined) {
   /** @type {!string} */
   this.prefix = prefix || '';
 
-
+  /** @type {Object} */
   this.scope = scope;
 
   /** @private {!cwc.utils.Logger} */

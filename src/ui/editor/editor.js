@@ -81,18 +81,6 @@ cwc.ui.Editor = function(helper) {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Element} */
-  this.nodeEditor = null;
-
-  /** @type {Element} */
-  this.nodeInfobar = null;
-
-  /** @type {Element} */
-  this.nodeInfobarModeSelect = null;
-
-  /** @type {Element} */
-  this.nodeToolbar = null;
-
   /** @type {cwc.ui.EditorInfobar} */
   this.infobar = null;
 
@@ -106,7 +94,7 @@ cwc.ui.Editor = function(helper) {
   this.theme = 'default';
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name);
+  this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {cwc.ui.EditorHint|string} */
   this.editorHint_ = cwc.ui.EditorHint.UNKNOWN;
@@ -181,14 +169,51 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   // Render code editor template.
   this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
-      this.node, cwc.soy.ui.Editor.template, {
-        prefix: this.prefix,
-      }
+    this.node, cwc.soy.ui.Editor.template, {prefix: this.prefix}
   );
 
-  // Decorate code editor.
-  this.nodeEditor = goog.dom.getElement(this.prefix + 'code');
-  this.editor = new CodeMirror(this.nodeEditor, this.options_);
+  // Decorate editor
+  this.decorateEditor(goog.dom.getElement(this.prefix + 'code'));
+
+  // Decorate toolbar.
+  let nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
+  if (nodeToolbar) {
+    this.toolbar = new cwc.ui.EditorToolbar(this.helper);
+    this.toolbar.decorate(nodeToolbar);
+  }
+
+  // Decorate infobar.
+  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
+  if (nodeInfobar) {
+    this.infobar = new cwc.ui.EditorInfobar(this.helper);
+    this.infobar.decorate(nodeInfobar);
+  }
+
+  // Loading User settings.
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    this.editorHintEnable_ = userConfigInstance.get(cwc.userConfigType.EDITOR,
+      cwc.userConfigName.AUTO_COMPLETE);
+  }
+
+  // Add event listener to monitor changes like resize and unload.
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    let eventHandler = layoutInstance.getEventHandler();
+    this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
+      this.refreshEditor);
+    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
+      this.cleanUp_);
+  }
+};
+
+
+/**
+ * Decorate code editor.
+ * @param {Element=} node
+ */
+cwc.ui.Editor.prototype.decorateEditor = function(node) {
+  this.editor = new CodeMirror(node, this.options_);
   this.editor.setOption('extraKeys', {
     'Ctrl-Q': function(cm) {
       cm.foldCode(cm.getCursor());
@@ -200,42 +225,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   this.editor.on('change', this.handleChange_.bind(this));
   this.editor.on('cursorActivity', this.updateCursorPosition.bind(this));
   this.editor.on('keyup', this.handleKeyUp_.bind(this));
-
-  // Decorate toolbar.
-  this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
-  if (this.nodeToolbar) {
-    this.toolbar = new cwc.ui.EditorToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar);
-  }
-
-  // Decorate infobar.
-  this.nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  if (this.nodeInfobar) {
-    this.infobar = new cwc.ui.EditorInfobar(this.helper);
-    this.infobar.decorate(this.nodeInfobar);
-  }
-
-  // Loading User settings.
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance) {
-    this.editorHintEnable_ = userConfigInstance.get(cwc.userConfigType.EDITOR,
-      cwc.userConfigName.AUTO_COMPLETE);
-  }
-
-  // Add event listener to monitor changes like resize and unload.
-  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.adjustSize, false, this);
-
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
-        this.adjustSize, false, this);
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp_, false, this);
-  }
-  this.adjustSize();
 };
 
 
@@ -246,9 +235,6 @@ cwc.ui.Editor.prototype.decorate = function(node) {
 cwc.ui.Editor.prototype.showEditor = function(visible) {
   this.isVisible_ = visible;
   goog.style.setElementShown(this.node, visible);
-  if (visible && this.editor) {
-    this.adjustSize();
-  }
 };
 
 
@@ -419,10 +405,11 @@ cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
  */
 cwc.ui.Editor.prototype.refreshEditor = function() {
   this.editor.refresh();
+  /**
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     layoutInstance.refresh();
-  }
+  }*/
 };
 
 
@@ -519,7 +506,6 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
   this.updateToolbar();
   if (!this.currentEditorView) {
     this.changeView(name);
-    this.adjustSize();
   }
   this.updateInfobar();
 };
@@ -603,32 +589,6 @@ cwc.ui.Editor.prototype.isVisible = function() {
  */
 cwc.ui.Editor.prototype.setModified = function(modified) {
   this.modified = modified;
-};
-
-
-/**
- * Adjusts size after resize or on size change.
- */
-cwc.ui.Editor.prototype.adjustSize = function() {
-  if (!this.node || !this.editor) {
-    return;
-  }
-
-  let parentElement = goog.dom.getParentElement(this.node);
-  if (parentElement) {
-    let parentSize = goog.style.getSize(parentElement);
-    let newHeight = parentSize.height;
-    if (this.nodeToolbar) {
-      let toolbarSize = goog.style.getSize(this.nodeToolbar);
-      newHeight = newHeight - toolbarSize.height;
-    }
-    if (this.nodeInfobar) {
-      let infobarSize = goog.style.getSize(this.nodeInfobar);
-      newHeight = newHeight - infobarSize.height;
-    }
-    this.editor.setSize(parentSize.width, newHeight);
-  }
-  this.refreshEditor();
 };
 
 

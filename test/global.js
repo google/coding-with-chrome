@@ -45,7 +45,7 @@ let loadExampleFile = function(file, builder) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      done();
+      throw error;
     });
   });
 };
@@ -57,7 +57,7 @@ let loadTemplateFile = function(file, builder, it) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      done();
+      throw error;
     });
   });
 };

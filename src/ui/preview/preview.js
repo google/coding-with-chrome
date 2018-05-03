@@ -95,7 +95,7 @@ cwc.ui.Preview = function(helper) {
   this.infobar = null;
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name);
+  this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
@@ -149,28 +149,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   }
 
   // Status Button and actions buttons
-  let nodeStatusButton = goog.dom.getElement(this.prefix + 'statusbutton');
-  if (nodeStatusButton) {
-    this.statusButton.decorate(nodeStatusButton)
-      .setBrowserAction(this.openInBrowser.bind(this))
-      .setFullscreenAction(() => {
-        this.helper.getInstance('layout').setFullscreenPreview(true);
-        this.refresh();
-      })
-      .setFullscreenExitAction(() => {
-        this.helper.getInstance('layout').setFullscreenPreview(false);
-        this.refresh();
-      })
-      .setReloadAction(() => {
-        this.refresh();
-      })
-      .setTerminateAction(this.terminate.bind(this))
-      .setRunAction(() => {
-        this.run();
-        this.focus();
-      })
-      .setStopAction(this.stop.bind(this));
-  }
+  this.decorateStatusButton(goog.dom.getElement(this.prefix + 'statusbutton'));
 
   // Infobar
   let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
@@ -205,6 +184,35 @@ cwc.ui.Preview.prototype.decorate = function(node) {
       this.handleShortcut_, false, this);
 
   this.adjustSize();
+};
+
+
+/**
+ * @param {!Element} node
+ */
+cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
+  if (!node) {
+    return;
+  }
+  this.statusButton.decorate(node)
+    .setBrowserAction(this.openInBrowser.bind(this))
+    .setFullscreenAction(() => {
+      this.helper.getInstance('layout').setFullscreenPreview(true);
+      this.refresh();
+    })
+    .setFullscreenExitAction(() => {
+      this.helper.getInstance('layout').setFullscreenPreview(false);
+      this.refresh();
+    })
+    .setReloadAction(() => {
+      this.refresh();
+    })
+    .setTerminateAction(this.terminate.bind(this))
+    .setRunAction(() => {
+      this.run();
+      this.focus();
+    })
+    .setStopAction(this.stop.bind(this));
 };
 
 
@@ -297,39 +305,52 @@ cwc.ui.Preview.prototype.render = function() {
   if (this.infobar) {
     this.infobar.clear();
   }
+
+  this.content = this.webviewSupport_ ?
+    this.renderWebview() : this.renderIframe();
+  goog.dom.appendChild(this.nodeRuntime, this.content);
+  this.setStatus_(cwc.ui.StatusbarState.INITIALIZED);
+  this.setContentUrl(this.getContentUrl());
+};
+
+
+/**
+ * Prepare content to be rendered in iframe element.
+ * @return {!Object}
+ */
+cwc.ui.Preview.prototype.renderIframe = function() {
   if (this.content) {
-    if (this.webviewSupport_) {
-      if (this.status == cwc.ui.StatusbarState.LOADING ||
-          this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
-        this.terminate();
-      } else {
-        this.stop();
-      }
+    goog.dom.removeChildren(this.nodeRuntime);
+  }
+  let content = document.createElement('iframe');
+  return content;
+};
+
+
+/**
+ * Prepare content to be rendered in WebView element.
+ * @return {!Object}
+ */
+cwc.ui.Preview.prototype.renderWebview = function() {
+  if (this.content) {
+    if (this.status == cwc.ui.StatusbarState.LOADING ||
+        this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
+      this.terminate();
+    } else {
+      this.stop();
     }
     goog.dom.removeChildren(this.nodeRuntime);
   }
 
-  if (this.webviewSupport_) {
-    this.content = document.createElement('webview');
-    this.content['setAttribute']('partition', this.partition_);
-    this.content['setUserAgentOverride']('CwC sandbox');
-    this.content.addEventListener('consolemessage',
-        this.handleConsoleMessage_.bind(this), false);
-    this.content.addEventListener('contentload',
-        this.handleContentLoad_.bind(this), false);
-    this.content.addEventListener('loadstart',
-        this.handleLoadStart_.bind(this), false);
-    this.content.addEventListener('loadstop',
-        this.handleLoadStop_.bind(this), false);
-    this.content.addEventListener('unresponsive',
-        this.handleUnresponsive_.bind(this), false);
-  } else {
-    this.content = document.createElement('iframe');
-  }
-
-  goog.dom.appendChild(this.nodeRuntime, this.content);
-  this.setStatus_(cwc.ui.StatusbarState.INITIALIZED);
-  this.setContentUrl(this.getContentUrl());
+  let content = document.createElement('webview');
+  content['setAttribute']('partition', this.partition_);
+  content['setUserAgentOverride']('CwC sandbox');
+  this.events_.listen(content, 'consolemessage', this.handleConsoleMessage_);
+  this.events_.listen(content, 'contentload', this.handleContentLoad_);
+  this.events_.listen(content, 'loadstart', this.handleLoadStart_);
+  this.events_.listen(content, 'loadstop', this.handleLoadStop_);
+  this.events_.listen(content, 'unresponsive', this.handleUnresponsive_);
+  return content;
 };
 
 
@@ -453,10 +474,9 @@ cwc.ui.Preview.prototype.focus = function() {
 
 
 /**
- * @param {Event=} opt_event
  * @private
  */
-cwc.ui.Preview.prototype.run_ = function(opt_event) {
+cwc.ui.Preview.prototype.run_ = function() {
   if (this.status == cwc.ui.StatusbarState.LOADING) {
     this.terminate();
   }

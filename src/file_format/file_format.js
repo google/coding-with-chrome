@@ -545,13 +545,23 @@ cwc.fileFormat.File.hasFileHeader = function(header) {
 
 /**
  * @param {!string} header
+ * @param {!cwc.fileFormat.File=} file
  * @return {number}
  */
-cwc.fileFormat.File.getFileHeaderVersion = function(header) {
+cwc.fileFormat.File.getFileHeaderVersion = function(header, file) {
+  let version = 0;
   if (cwc.fileFormat.File.hasFileHeader(header)) {
-    return Number(header.replace(cwc.fileFormat.FILE_HEADER + ' ', '')) || 0;
+    version = Number(header.replace(cwc.fileFormat.FILE_HEADER + ' ', '')) || 0;
   }
-  return 0;
+  if (version === 0) {
+    throw new Error('Unknown file format version', version);
+  } else if (version < cwc.fileFormat.FILE_VERSION && file) {
+    file.log_.warn('Loading legacy file format version', version);
+  } else if (version > cwc.fileFormat.FILE_VERSION && file) {
+    file.log_.error('File format version', version,
+      'is not supported by the current version. Please update ...');
+  }
+  return version;
 };
 
 
@@ -576,55 +586,14 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
 
   // File format version handling
   let fileFormatVersion = cwc.fileFormat.File.getFileHeaderVersion(
-    jsonData['format']);
-  if (fileFormatVersion === 0) {
-    throw new Error('Unknown file format version', fileFormatVersion);
-  } else if (fileFormatVersion < cwc.fileFormat.FILE_VERSION) {
-    file.log_.warn('Loading legacy file format version', fileFormatVersion);
-  } else if (fileFormatVersion > cwc.fileFormat.FILE_VERSION) {
-    file.log_.error('File format version', fileFormatVersion,
-      'is not supported by the current version. Please update ...');
-  }
+    jsonData['format'], file);
   file.log_.info('Loading JSON data with', Object.keys(jsonData).length,
     'entries');
   file.init(true);
 
   // Handle content entries.
   if (jsonData['content']) {
-    if (fileFormatVersion === 1) {
-      // Handle legacy file format 1.0
-      for (let entry in jsonData['content']) {
-        if (Object.prototype.hasOwnProperty.call(
-            jsonData['content'], entry)) {
-          let name = entry;
-          switch (entry) {
-            case 'coffeescript':
-              name = cwc.ui.EditorContent.COFFEESCRIPT;
-              break;
-            case 'css':
-              name = cwc.ui.EditorContent.CSS;
-              break;
-            case 'html':
-              name = cwc.ui.EditorContent.HTML;
-              break;
-            case 'javascript':
-              name = cwc.ui.EditorContent.JAVASCRIPT;
-              break;
-            case 'pencil_code':
-              name = cwc.ui.EditorContent.PENCIL_CODE;
-              break;
-            case 'python':
-              name = cwc.ui.EditorContent.PYTHON;
-              break;
-          }
-          file.log_.info('Convert legacy content', entry, 'to', name);
-          file.setContent(name, jsonData['content'][entry]);
-        }
-      }
-    } else {
-      // Handle current file format
-      file.setContentData(jsonData['content']);
-    }
+    cwc.fileFormat.File.handleContentData_(file, jsonData, fileFormatVersion);
   }
 
   /**
@@ -660,25 +629,80 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
     file.setView(jsonData['view']);
   }
 
-  /**
-   * Handling of deprecated fields for file format < 3.0
-   */
-  if (fileFormatVersion < 3) {
-    if (jsonData['author']) {
-      file.setAuthor(decodeURIComponent(jsonData['author']));
+  cwc.fileFormat.File.handleDeprecatedFields_(file, jsonData,
+    fileFormatVersion);
+};
+
+
+/**
+ * Handle content entries
+ * @param {!cwc.fileFormat.File} file
+ * @param {!Object} data
+ * @param {number=} version
+ * @private
+ */
+cwc.fileFormat.File.handleContentData_ = function(file, data, version) {
+  if (version === 1) {
+    // Handle legacy file format 1.0
+    for (let entry in data['content']) {
+      if (Object.prototype.hasOwnProperty.call(data['content'], entry)) {
+        let name = entry;
+        switch (entry) {
+          case 'coffeescript':
+            name = cwc.ui.EditorContent.COFFEESCRIPT;
+            break;
+          case 'css':
+            name = cwc.ui.EditorContent.CSS;
+            break;
+          case 'html':
+            name = cwc.ui.EditorContent.HTML;
+            break;
+          case 'javascript':
+            name = cwc.ui.EditorContent.JAVASCRIPT;
+            break;
+          case 'pencil_code':
+            name = cwc.ui.EditorContent.PENCIL_CODE;
+            break;
+          case 'python':
+            name = cwc.ui.EditorContent.PYTHON;
+            break;
+        }
+        file.log_.info('Converted legacy content', entry, 'to', name);
+        file.setContent(name, data['content'][entry]);
+      }
     }
-    if (jsonData['description']) {
-      file.setDescription(decodeURIComponent(jsonData['description']));
-    }
-    if (jsonData['model']) {
-      file.setModel(decodeURIComponent(jsonData['model']));
-    }
-    if (jsonData['title']) {
-      file.setTitle(decodeURIComponent(jsonData['title']));
-    }
-    if (jsonData['version']) {
-      file.setVersion(decodeURIComponent(jsonData['version']));
-    }
+  } else {
+    // Handle current file format
+    file.setContentData(data['content']);
+  }
+};
+
+
+/**
+ * Handle deprecated fields for file format < 3.0
+ * @param {!cwc.fileFormat.File} file
+ * @param {!Object} data
+ * @param {number=} version
+ * @private
+ */
+cwc.fileFormat.File.handleDeprecatedFields_ = function(file, data, version) {
+  if (version >= 3) {
+    return;
+  }
+  if (data['author']) {
+    file.setAuthor(decodeURIComponent(data['author']));
+  }
+  if (data['description']) {
+    file.setDescription(decodeURIComponent(data['description']));
+  }
+  if (data['model']) {
+    file.setModel(decodeURIComponent(data['model']));
+  }
+  if (data['title']) {
+    file.setTitle(decodeURIComponent(data['title']));
+  }
+  if (data['version']) {
+    file.setVersion(decodeURIComponent(data['version']));
   }
 };
 

@@ -46,13 +46,9 @@ cwc.utils.mime.getTypeByContent = function(content) {
   let text = /** @type {!string} */ (content);
 
   // Data-URL scheme
-  if (content.startsWith('data:') &&
-      content.includes('/') &&
-      content.includes(';')) {
-    let contentFileType = content.split(';')[0].split(':')[1];
-    if (contentFileType) {
-      return contentFileType;
-    }
+  let dataURLContent = cwc.utils.mime.isDataURLContent(text);
+  if (dataURLContent) {
+    return dataURLContent;
   }
 
   // JSON file format
@@ -71,35 +67,38 @@ cwc.utils.mime.getTypeByContent = function(content) {
   if (content.startsWith('<!DOCTYPE html>') || (
       content.includes('<html') && content.includes('</html>'))) {
     return cwc.utils.mime.Type.HTML.type;
+  }
 
   // JavaScript file format
-  } else if (
-      // ES6 class definition
-      (
-        content.includes('class ') && content.includes('constructor') &&
-        content.includes('(') && content.includes(')') &&
-        content.includes('{') && content.includes('}')
-      ) ||
-
-      // Prototype definition
-      (
-        content.includes('.prototype.') && content.includes('function') &&
-        content.includes('(') && content.includes(')') &&
-        content.includes('{') && content.includes('}')
-      ) ||
-
-      // Variable declarations
-      (
-        (
-          content.includes('let ') || content.includes('const ') ||
-          content.includes('var ')
-        ) && content.includes('=') && content.includes(';'))
-      ) {
+  if (cwc.utils.mime.isJavaScriptContent(text)) {
     return cwc.utils.mime.Type.JAVASCRIPT.type;
-  } else if (content.startsWith('#!/usr/bin/python')) {
+  }
+
+  // Python file format
+  if (content.startsWith('#!/usr/bin/python')) {
     return cwc.utils.mime.Type.PYTHON.text;
-  } else if (content.constructor == String) {
+  }
+
+  // Text file format
+  if (content.constructor == String) {
     return cwc.utils.mime.Type.TEXT.type;
+  }
+  return '';
+};
+
+
+/**
+ * @param {!string} content
+ * @return {!string}
+ */
+cwc.utils.mime.isDataURLContent = function(content) {
+  if (content.startsWith('data:') &&
+      content.includes('/') &&
+      content.includes(';')) {
+    let contentFileType = content.split(';')[0].split(':')[1];
+    if (contentFileType) {
+      return contentFileType;
+    }
   }
   return '';
 };
@@ -149,6 +148,39 @@ cwc.utils.mime.isXMLContent = function(content) {
       return cwc.utils.mime.Type.BLOCKLY.type;
     }
     return cwc.utils.mime.Type.XML.type;
+  }
+  return '';
+};
+
+
+/**
+ * @param {!string} content
+ * @return {!string}
+ */
+cwc.utils.mime.isJavaScriptContent = function(content) {
+  if (
+      // ES6 class definition
+      (
+        content.includes('class ') && content.includes('constructor') &&
+        content.includes('(') && content.includes(')') &&
+        content.includes('{') && content.includes('}')
+      ) ||
+
+      // Prototype definition
+      (
+        content.includes('.prototype.') && content.includes('function') &&
+        content.includes('(') && content.includes(')') &&
+        content.includes('{') && content.includes('}')
+      ) ||
+
+      // Variable declarations
+      (
+        (
+          content.includes('let ') || content.includes('const ') ||
+          content.includes('var ')
+        ) && content.includes('=') && content.includes(';'))
+      ) {
+    return cwc.utils.mime.Type.JAVASCRIPT.type;
   }
   return '';
 };
