@@ -99,49 +99,62 @@ cwc.ui.Sidebar.prototype.decorate = function(node) {
   this.hideContent();
 
   // File Library
-  this.events_.listen('library-button', goog.events.EventType.CLICK,
-    (e) => {
+  this.events_.listen('library-button', goog.events.EventType.CLICK, () => {
+    if (this.isContentActive('library')) {
       this.hideContent();
-      this.setActive_(e.target);
+    } else {
       this.helper.getInstance('library').showLibrary();
       let dialogInstance = this.helper.getInstance('dialog');
       if (dialogInstance) {
-        dialogInstance.getCloseButton().addEventListener('click',
-          this.clearActive_.bind(this));
+        dialogInstance.getCloseButton().addEventListener('click', () => {
+          this.setActive('library', false);
+        });
       }
+    }
   });
 
   // Media functions
-  this.events_.listen('media-button', goog.events.EventType.CLICK,
-    (e) => {
+  this.events_.listen('media-button', goog.events.EventType.CLICK, () => {
+    if (this.isContentActive('media')) {
       this.hideContent();
-      this.setActive_(e.target);
+    } else {
       this.helper.getInstance('library').showMediaUpload();
       let dialogInstance = this.helper.getInstance('dialog');
       if (dialogInstance) {
-        dialogInstance.getCloseButton().addEventListener('click',
-          this.clearActive_.bind(this));
+        dialogInstance.getCloseButton().addEventListener('click', () => {
+          this.setActive('library', false);
+        });
       }
+    }
   });
 
   // File Description
   this.events_.listen('file_description-button', goog.events.EventType.CLICK,
-    (e) => {
-      this.setActive_(e.target);
-      this.showContent('Description',
-        this.helper.getInstance('file').getFileDescription());
+    () => {
+      if (this.isContentActive('file_description')) {
+        this.hideContent();
+      } else {
+        this.showContent('file_description', 'Description',
+          this.helper.getInstance('file').getFileDescription());
+      }
   });
 
   // Tour
   this.events_.listen('tour-button', goog.events.EventType.CLICK, () => {
+    if (this.isContentActive('tour')) {
+      this.hideContent();
+    } else {
       this.helper.getInstance('tour').startTour();
-      this.showContent('Tour',
-        this.helper.getInstance('tour').getTourDescription());
+    }
   });
 
   // Tutorial
   this.events_.listen('tutorial-button', goog.events.EventType.CLICK, () => {
-    this.helper.getInstance('tutorial').startTutorial();
+    if (this.isContentActive('tutorial')) {
+      this.hideContent();
+    } else {
+      this.helper.getInstance('tutorial').startTutorial();
+    }
   });
 };
 
@@ -184,8 +197,11 @@ cwc.ui.Sidebar.prototype.addCustomButton = function(id, icon, tooltip = '',
 
   if (func) {
     this.events_.listen(button, goog.events.EventType.CLICK, function() {
-      this.setActive_(button);
-      func();
+      if (this.isContentActive(id)) {
+        this.hideContent();
+      } else {
+        func();
+      }
     }.bind(this));
   }
 
@@ -266,37 +282,25 @@ cwc.ui.Sidebar.prototype.showMedia = function(visible) {
 cwc.ui.Sidebar.prototype.setActive = function(id, active) {
   if (active) {
     this.clearActive_();
+    goog.dom.classlist.enable(
+      goog.dom.getElement(this.prefix + id), 'active', active);
+  } else {
+    this.hideContent();
   }
-  goog.dom.classlist.enable(
-    goog.dom.getElement(this.prefix + id), 'active', active);
 };
 
 
 /**
- * @param {!string} title
- * @param {!function (Object, null=, (Object<string,*>|null)=)} template
- * @param {!Object} values
+ * Show normal sidebar content.
+ * @param {!string} id
+ * @param {string=} title
+ * @param {string=} content
  */
-cwc.ui.Sidebar.prototype.renderContent = function(title, template, values) {
-  this.showContent(title, '');
-  goog.soy.renderElement(
-    goog.dom.getElement(this.prefix + 'content-body'), template, values);
-};
-
-
-/**
- * @param {!string} title
- * @param {string} content
- */
-cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
+cwc.ui.Sidebar.prototype.showContent = function(id, title, content = '') {
   this.contentNode_ = null; // Content node is only used for raw content.
-
-  if (this.contentName === title) {
-    this.showContent_(false);
-    this.contentName = '';
+  if (this.contentName === id) {
     return;
   }
-
   if (content) {
     goog.soy.renderElement(
       this.nodeContent,
@@ -312,16 +316,19 @@ cwc.ui.Sidebar.prototype.showContent = function(title, content = '') {
   } else {
     this.showContent_(false);
   }
-  this.contentName = title;
+  this.setActive(id, true);
+  this.contentName = id;
 };
 
 
 /**
+ * Show raw sidebar content.
+ * @param {!string} id
  * @param {!string} title
  * @param {string} content
  */
-cwc.ui.Sidebar.prototype.showRawContent = function(title, content = '') {
-  this.showContent(title, '__RAW__');
+cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
+  this.showContent(id, title, '__RAW__');
 
   // TODO(carheden): Add markdown support
 
@@ -342,7 +349,17 @@ cwc.ui.Sidebar.prototype.showRawContent = function(title, content = '') {
 
 cwc.ui.Sidebar.prototype.hideContent = function() {
   this.showContent_(false);
+  this.clearActive_();
   this.contentName = '';
+};
+
+
+/**
+ * @param {!string} contentName
+ * @return {boolean}
+ */
+cwc.ui.Sidebar.prototype.isContentActive = function(contentName) {
+  return contentName === this.contentName;
 };
 
 
@@ -373,17 +390,6 @@ cwc.ui.Sidebar.prototype.clearCustomButtons_ = function() {
     goog.dom.removeChildren(this.nodeCustomIcons);
   }
   this.customButtonIds = [];
-};
-
-
-/**
- * @param {Element} button
- * @private
- */
-cwc.ui.Sidebar.prototype.setActive_ = function(button) {
-  this.clearActive_();
-  goog.dom.classlist.enable(
-    button.closest('.' + this.prefix + 'icon'), 'active', true);
 };
 
 

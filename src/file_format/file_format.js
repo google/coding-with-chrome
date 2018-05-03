@@ -23,6 +23,7 @@ goog.provide('cwc.fileFormat.File');
 
 goog.require('cwc.file.Files');
 goog.require('cwc.mode.Type');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Logger');
 
 
@@ -80,6 +81,9 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {string} */
   this.ui_ = 'default';
 
+  /** @private {!cwc.ui.EditorContent} */
+  this.view_ = cwc.ui.EditorContent.NONE;
+
   /** @private {!string} */
   this.metedataNamespace_ = '__default__';
 
@@ -105,6 +109,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
   this.metadata_ = {};
   this.mode_ = cwc.mode.Type.NONE;
   this.ui_ = 'default';
+  this.view_ = cwc.ui.EditorContent.NONE;
 };
 
 
@@ -475,6 +480,24 @@ cwc.fileFormat.File.prototype.getHistory = function() {
 
 
 /**
+ * @param {!cwc.ui.EditorContent} view
+ * @return {!cwc.fileFormat.File}
+ */
+cwc.fileFormat.File.prototype.setView = function(view) {
+  this.view_ = view;
+  return this;
+};
+
+
+/**
+ * @return {!cwc.ui.EditorContent}
+ */
+cwc.fileFormat.File.prototype.getView = function() {
+  return this.view_;
+};
+
+
+/**
  * Loads the defined JSON data and sets the supported options.
  * @param {string} data JSON data.
  */
@@ -633,6 +656,9 @@ cwc.fileFormat.File.loadJSON = function(file, data) {
   if (jsonData['metadata']) {
     file.metadata_ = jsonData['metadata'];
   }
+  if (jsonData['view']) {
+    file.setView(jsonData['view']);
+  }
 
   /**
    * Handling of deprecated fields for file format < 3.0
@@ -672,5 +698,6 @@ cwc.fileFormat.File.toJSON = function(file) {
     'metadata': file.metadata_,
     'mode': file.mode_,
     'ui': file.ui_,
+    'view': file.view_,
   };
 };

@@ -32,4 +32,5 @@ cwc.ui.EditorContent = {
   PENCIL_CODE: '__pencil_code__',
   PYTHON: '__python__',
   TEXT: '__text__',
+  NOME: '',
 };

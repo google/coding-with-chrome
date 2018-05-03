@@ -144,6 +144,11 @@ cwc.ui.Library.prototype.showLibrary = function() {
   this.decorate();
   this.syncFiles();
 
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.showContent('library');
+  }
+
   if (this.helper.getAndSetFirstRun(this.name) && this.numOfFiles_ === 0) {
     this.startTour();
   }
@@ -189,6 +194,11 @@ cwc.ui.Library.prototype.showMediaUpload = function() {
     let file = e.getBrowserEvent().dataTransfer.files[0];
     this.insertFileContent_(file);
   }, false, this);
+
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.showContent('media');
+  }
 };
 
 

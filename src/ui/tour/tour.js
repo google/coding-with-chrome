@@ -28,6 +28,7 @@ goog.require('cwc.utils.Logger');
 
 goog.require('goog.events');
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -116,45 +117,19 @@ cwc.ui.Tour.prototype.setTour = function(tour) {
     if (data['buttons']) {
       step['buttons'] = data['buttons'];
     } else {
-      step['buttons'] = [];
-      // Back button
-      if (i > 0) {
-        step['buttons'].push({
-          'text': i18t('BACK'),
-          'action': this.tour_['back'],
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Exit
-      if (i == 0) {
-        step['buttons'].push({
-          'text': i18t('EXIT'),
-          'action': this.cancelTour.bind(this),
-          'classes': 'shepherd-button-secondary',
-        });
-      }
-
-      // Done
-      if (i == this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('DONE'),
-          'action': this.cancelTour.bind(this),
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
-      // Next button
-      if (i < this.tourLength_ - 1) {
-        step['buttons'].push({
-          'text': i18t('NEXT'),
-          'action': this.tour_['next'],
-          'classes': 'shepherd-button-example-primary',
-        });
-      }
+      step['buttons'] = this.processButtons_(i);
     }
 
     this.tour_.addStep(step);
   }
+};
+
+
+/**
+ * @return {!string}
+ */
+cwc.ui.Tour.prototype.getTourDescription = function() {
+  return this.tourDescription_ || '';
 };
 
 
@@ -166,12 +141,7 @@ cwc.ui.Tour.prototype.startTour = function() {
   this.log_.info('Starting tour with', this.tourLength_, 'steps...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    if (this.tourDescription_) {
-      sidebarInstance.showContent('Tour', this.tourDescription_);
-    } else {
-      sidebarInstance.showContent('');
-    }
-    sidebarInstance.setActive('tour', true);
+    sidebarInstance.showContent('tour', 'Tour', this.tourDescription_);
   }
   this.tour_.start();
 };
@@ -186,7 +156,7 @@ cwc.ui.Tour.prototype.cancelTour = function() {
 };
 
 
-cwc.ui.Tour.prototype.clearTour = function() {
+cwc.ui.Tour.prototype.clear = function() {
   if (this.tour_) {
     this.cancelTour();
     this.tour_ = null;
@@ -194,9 +164,47 @@ cwc.ui.Tour.prototype.clearTour = function() {
   this.tourLength_ = 0;
 };
 
+
 /**
- * @return {!string}
+ * @param {!number} step
+ * @return {!array}
+ * @private
  */
-cwc.ui.Tour.prototype.getTourDescription = function() {
-  return this.tourDescription_ || '';
+cwc.ui.Tour.prototype.processButtons_ = function(step) {
+  let tourButtons = [];
+  // Back button
+  if (step > 0) {
+    tourButtons.push({
+      'text': i18t('BACK'),
+      'action': this.tour_['back'],
+      'classes': 'shepherd-button-secondary',
+    });
+  }
+
+  // Exit
+  if (step == 0) {
+    tourButtons.push({
+      'text': i18t('EXIT'),
+      'action': this.cancelTour.bind(this),
+      'classes': 'shepherd-button-secondary',
+    });
+  }
+
+  // Done
+  if (step == this.tourLength_ - 1) {
+    tourButtons.push({
+      'text': i18t('DONE'),
+      'action': this.cancelTour.bind(this),
+      'classes': 'shepherd-button-example-primary',
+    });
+  }
+  // Next button
+  if (step < this.tourLength_ - 1) {
+    tourButtons.push({
+      'text': i18t('NEXT'),
+      'action': this.tour_['next'],
+      'classes': 'shepherd-button-example-primary',
+    });
+  }
+  return tourButtons;
 };

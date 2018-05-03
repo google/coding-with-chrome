@@ -312,6 +312,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
       window.componentHandler.upgradeDom();
     }
     if (this.callback) {
+      this.log_.info('Executing external callback ...');
       this.callback(this);
     }
     this.events_.clear();
@@ -333,10 +334,11 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
 /**
  * @param {!string} text
  * @param {!Function} func
+ * @param {number=} steps
  * @return {Function|Promise}
  */
-cwc.ui.Builder.prototype.setProgressFunc = function(text, func) {
-  return this.loadingScreen_.setProgressFunc(text, func);
+cwc.ui.Builder.prototype.setProgressFunc = function(text, func, steps) {
+  return this.loadingScreen_.setProgressFunc(text, func, steps);
 };
 
 
@@ -458,11 +460,11 @@ cwc.ui.Builder.prototype.prepareDialog = function() {
  * Prepare and load the supported protocols.
  */
 cwc.ui.Builder.prototype.prepareProtocols = function() {
-  this.log_.debug('Prepare Protocols support ...');
   for (let protocol in cwc.ui.supportedProtocols) {
     if (cwc.ui.supportedProtocols.hasOwnProperty(protocol)) {
-      this.log_.info('Loading protocol: ' + protocol);
-      this.loadHelper(cwc.ui.supportedProtocols[protocol], protocol);
+      this.setProgressFunc('Loading ' + protocol + ' protocol...', () => {
+        this.loadHelper_(cwc.ui.supportedProtocols[protocol], protocol);
+      }, 1);
     }
   }
   this.prepared = true;
@@ -473,17 +475,20 @@ cwc.ui.Builder.prototype.prepareProtocols = function() {
  * Prepare the UI and load the needed additional extensions.
  */
 cwc.ui.Builder.prototype.prepareHelper = function() {
-  this.log_.debug('Prepare Helper instances ...');
   for (let helper in cwc.ui.BuilderHelpers) {
     if (cwc.ui.BuilderHelpers.hasOwnProperty(helper)) {
-      this.log_.info('Loading helper: ' + helper);
-      this.loadHelper(cwc.ui.BuilderHelpers[helper], helper);
+      this.setProgressFunc('Loading ' + helper + ' helper...', () => {
+        this.loadHelper_(cwc.ui.BuilderHelpers[helper], helper);
+      }, 1);
     }
   }
   this.prepared = true;
 };
 
 
+/**
+ * Preparing general Gamepad support
+ */
 cwc.ui.Builder.prototype.prepareGamepad = function() {
   let gamepadInstance = new cwc.utils.Gamepad();
   this.helper.setInstance('gamepad', gamepadInstance).prepare();
@@ -494,11 +499,11 @@ cwc.ui.Builder.prototype.prepareGamepad = function() {
  * Load additional oauth2 helpers.
  */
 cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
-  this.log_.debug('Prepare OAuth2 Helper instances ...');
   for (let helper in cwc.ui.oauth2Helpers) {
     if (cwc.ui.oauth2Helpers.hasOwnProperty(helper)) {
-      this.log_.info('Loading OAuth2 helper: ' + helper);
-      this.loadHelper(cwc.ui.oauth2Helpers[helper], helper);
+      this.setProgressFunc('Loading ' + helper + ' OAuth2 helper ...', () => {
+        this.loadHelper_(cwc.ui.oauth2Helpers[helper], helper);
+      }, 1);
     }
   }
   this.prepared = true;
@@ -522,8 +527,9 @@ cwc.ui.Builder.prototype.loadAddon_ = function(instance, instanceName) {
 /**
  * @param {!cwc.utils.HelperInstance} instance
  * @param {!string} instanceName
+ * @private
  */
-cwc.ui.Builder.prototype.loadHelper = function(instance, instanceName) {
+cwc.ui.Builder.prototype.loadHelper_ = function(instance, instanceName) {
   if (!goog.isFunction(instance)) {
     this.raiseError('Helper ' + instanceName + ' is not defined!');
   }

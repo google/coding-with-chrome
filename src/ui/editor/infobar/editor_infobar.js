@@ -54,6 +54,9 @@ cwc.ui.EditorInfobar = function(helper) {
   /** @type {Element} */
   this.nodeModeText = null;
 
+  /** @type {Element} */
+  this.nodeViews = null;
+
   /** @private {!Object} */
   this.modeBlacklist_ = {
     'application/x-javascript': true,
@@ -93,10 +96,15 @@ cwc.ui.EditorInfobar.prototype.decorate = function(node) {
   this.nodeModeSelect = goog.dom.getElement(this.prefix + 'mode-select');
   this.nodeModeText = goog.dom.getElement(this.prefix +'mode-text');
   this.nodeModes = goog.dom.getElement(this.prefix + 'modes');
+  this.nodeViews = goog.dom.getElement(this.prefix + 'views');
 
   // Decorate editor mode select.
   goog.events.listen(this.nodeModes, goog.events.EventType.CLICK,
     this.handleModeChange_, false, this);
+
+  // Editor views
+  goog.events.listen(this.nodeViews, goog.events.EventType.CLICK,
+    this.handleViewChange_, false, this);
 };
 
 
@@ -144,6 +152,22 @@ cwc.ui.EditorInfobar.prototype.setLineInfo = function(position) {
 
 
 /**
+ * @param {!Array} views
+ * @param {string=} currentView
+ */
+cwc.ui.EditorInfobar.prototype.setViews = function(views, currentView) {
+  goog.soy.renderElement(
+      this.nodeViews,
+      cwc.soy.ui.EditorInfobar.viewTabs, {
+        prefix: this.prefix,
+        views: views,
+        currentView: currentView,
+      }
+  );
+};
+
+
+/**
  * @param {Object} e
  * @private
  */
@@ -151,5 +175,21 @@ cwc.ui.EditorInfobar.prototype.handleModeChange_ = function(e) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.setEditorMode(e.target.firstChild.data);
+  }
+};
+
+
+/**
+ * @param {Object} e
+ * @private
+ */
+cwc.ui.EditorInfobar.prototype.handleViewChange_ = function(e) {
+  let eventTarget = e.target.closest('.' + this.prefix + 'tab');
+  if (!eventTarget || goog.dom.classlist.contains(eventTarget, 'active')) {
+    return;
+  }
+  let viewTarget = eventTarget.dataset['editorView'];
+  if (viewTarget) {
+    this.helper.getInstance('editor').changeView(viewTarget);
   }
 };

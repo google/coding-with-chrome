@@ -186,7 +186,6 @@ cwc.mode.default.Mod.prototype.decorateBlockly = function() {
 cwc.mode.default.Mod.prototype.decorateEditor = function() {
   this.helper.setInstance('editor', this.editor, true);
   this.editor.decorate();
-  this.editor.showEditorViews(false);
 };
 
 

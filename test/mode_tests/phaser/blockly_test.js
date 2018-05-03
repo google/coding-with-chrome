@@ -23,23 +23,13 @@ describe('[Mode Phaser - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
   let builder = new cwc.ui.Builder();
 
-  describe('Prepare UI', function() {
-    it('export', function() {
-      expect(typeof builder).toEqual('object');
-      expect(typeof builder.decorate).toEqual('function');
-    });
-
-    it('decorate', function(done) {
+  describe('Prepare Mode', function() {
+    beforeAll(function(done) {
       builder.decorate(null, function() {
-        expect(builder.isPrepared()).toEqual(true);
-        expect(builder.isLoaded()).toEqual(true);
-        expect(builder.isReady()).toEqual(true);
         done();
       });
     });
-  });
 
-  describe('Loading files', function() {
     loadTemplateFile('phaser/blank-blocks.cwc', builder, it);
     loadExampleFile('phaser/blocks/bouncing-ball.cwc', builder, it);
     loadExampleFile('phaser/blocks/bouncing-cubes.cwc', builder, it);

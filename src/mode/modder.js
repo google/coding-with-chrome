@@ -136,6 +136,18 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     rendererInstance.setServerMode(false);
   }
 
+  // Clear existing Tour
+  let tourInstance = this.helper.getInstance('tour');
+  if (tourInstance) {
+    tourInstance.clear();
+  }
+
+  // Clear existing tutorial
+  let tutorialInstance = this.helper.getInstance('tutorial');
+  if (tutorialInstance) {
+    tutorialInstance.clear();
+  }
+
   this.log_.info('Initialize mode and decorate UI for', mode, '…');
   this.mode = mode;
   this.modder = modeConfig.getMod(this.helper);
@@ -167,46 +179,55 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   }
 
   // Handle file data, if needed.
-  let fileInstance = this.helper.getInstance('file');
-  if (fileInstance) {
-    // Setting file title
-    let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
-    if (fileTitle) {
-      this.setTitle(fileTitle);
-    }
-
-    // Handle UI mode
-    switch (fileInstance.getUi()) {
-      case 'blockly':
-        this.showBlockly();
-        break;
-      case 'editor':
-        this.showEditor();
-        break;
-    }
-
-    // Sync Library files
-    if (fileInstance.hasLibraryFiles()) {
-      this.syncLibrary();
-    }
-
-    // Start tutorial for tutorial files .cwct automatically
-    if (this.filename.toLowerCase().endsWith('.cwct')) {
-      let tourInstance = this.helper.getInstance('tour');
-      if (tourInstance) {
-        tourInstance.startTour();
-      }
-
-      let tutorialInstance = this.helper.getInstance('tutorial');
-      if (tutorialInstance) {
-        tutorialInstance.startTutorial();
-      }
-    }
-  }
+  this.postModeFileData();
 
   // Event Handling
   this.eventHandler_.dispatchEvent(
     cwc.mode.Modder.Events.changeMode(this.mode, this.filename));
+};
+
+
+/**
+ * Handle file data, if needed.
+ */
+cwc.mode.Modder.prototype.postModeFileData = function() {
+  let fileInstance = this.helper.getInstance('file');
+  if (!fileInstance) {
+    return;
+  }
+  // Setting file title
+  let fileTitle = fileInstance.getFileTitle() || fileInstance.getFilename();
+  if (fileTitle) {
+    this.setTitle(fileTitle);
+  }
+
+  // Handle UI mode
+  switch (fileInstance.getUi()) {
+    case 'blockly':
+      this.showBlockly();
+      break;
+    case 'editor':
+      this.showEditor();
+      break;
+  }
+
+  // Sync Library files
+  if (fileInstance.hasLibraryFiles()) {
+    this.syncLibrary();
+  }
+
+  // Start tutorial for tutorial files .cwct automatically
+  if (this.filename.toLowerCase().endsWith('.cwct')) {
+    let tourInstance = this.helper.getInstance('tour');
+    if (tourInstance) {
+      tourInstance.startTour();
+    }
+
+    let tutorialInstance = this.helper.getInstance('tutorial');
+    if (tutorialInstance) {
+      tutorialInstance.startTutorial();
+    }
+  }
 };
 
 
@@ -232,6 +253,17 @@ cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.addView(name, content, type, hints);
+  }
+};
+
+
+/**
+ * @param {!string} name
+ */
+cwc.mode.Modder.prototype.setEditorView = function(name) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.changeView(name);
   }
 };
 

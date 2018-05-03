@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.fileHandler.FileSaver');
 
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.utils.Logger');
 
@@ -148,7 +149,8 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     this.filename = this.addFileExtension(filename || fileTitle || 'untitled');
   } else {
     // Handle raw file format
-    this.fileData = editorInstance.getEditorContent('__default__');
+    this.fileData = editorInstance.getEditorContent(
+      cwc.ui.EditorContent.DEFAULT);
     this.filename = this.addFileExtension(
       filename || 'unnamed', mimeType.ext[0]);
   }

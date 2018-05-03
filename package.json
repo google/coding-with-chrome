@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "closure-builder": "^2.2.41",
+    "closure-builder": "^2.2.42",
     "command-line-usage": "^5.0.4",
     "jsdoc": "^3.5.5",
     "make-dir": "^1.2.0",
@@ -30,7 +30,7 @@
   "scripts": {
     "usage": "node build/usage.js",
     "pretest": "npm run lint",
-    "test": "npm run test-soy && npm run test-units && npm run test-core",
+    "test": "npm run test-soy && npm run test-units && npm run test-core && npm run test-mode",
     "pretest-soy": "node build/test/soy_files.js",
     "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
     "pretest-units": "node build/test/unit_files.js",
@@ -116,6 +116,8 @@
     "lint": "eslint .",
     "show-updates": "ncu",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",
-    "update": "npm run clean && ncu -u -a --packageFile package.json && npm install && npm update -a && npm run build-third_party && npm test"
+    "preupdate": "npm run clean",
+    "update": "ncu -u -a --packageFile package.json && npm install && npm update -a && npm dedupe",
+    "postupdate": "npm run build-third_party && npm test"
   }
 }

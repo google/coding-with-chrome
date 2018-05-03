@@ -68,24 +68,27 @@ cwc.ui.LoadingScreen = function(helper, scope) {
  * Decorates the loading Screen
  */
 cwc.ui.LoadingScreen.prototype.decorate = function() {
-  let node = goog.dom.getElement('cwc-loading-screen-progress');
-  goog.soy.renderElement(node, cwc.soy.ui.LoadingScreen.template, {
-    'prefix': this.prefix,
-  });
-  this.nodeProgressError = goog.dom.getElement(this.prefix + 'progress-error');
-  this.nodeProgressText = goog.dom.getElement(this.prefix + 'progress-text');
-  if (typeof window.componentHandler !== 'undefined') {
-    window.componentHandler.upgradeDom();
+  let nodeProgress = goog.dom.getElement(this.prefix + 'progress');
+  if (nodeProgress) {
+    goog.soy.renderElement(nodeProgress, cwc.soy.ui.LoadingScreen.template, {
+      'prefix': this.prefix,
+    });
+    this.nodeProgressError = goog.dom.getElement(
+      this.prefix + 'progress-error');
+    this.nodeProgressText = goog.dom.getElement(this.prefix + 'progress-text');
+    if (typeof window.componentHandler !== 'undefined') {
+      window.componentHandler.upgradeDom();
+    }
   }
 
-  let nodeClose = goog.dom.getElement('cwc-loading-screen-close');
+  let nodeClose = goog.dom.getElement(this.prefix + 'close');
   if (nodeClose) {
     nodeClose.addEventListener('click', function() {
       chrome.app.window.current()['close']();
     });
   }
 
-  let nodeVersion = goog.dom.getElement('cwc-loading-screen-info-version');
+  let nodeVersion = goog.dom.getElement(this.prefix + 'info-version');
   if (nodeVersion) {
     goog.dom.setTextContent(nodeVersion, this.helper.getAppVersion());
   }
@@ -96,22 +99,25 @@ cwc.ui.LoadingScreen.prototype.decorate = function() {
  * @param {boolean} show
  */
 cwc.ui.LoadingScreen.prototype.show = function(show) {
-  goog.style.showElement(goog.dom.getElement('cwc-loading-screen'), show);
+  let nodeLoadingScreen = goog.dom.getElement('cwc-loading-screen');
+  if (nodeLoadingScreen) {
+    goog.style.showElement(nodeLoadingScreen, show);
+  }
 };
 
 
 /**
- * @param {!number} seconds in msec
+ * @param {!number} msec
  */
-cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(seconds) {
+cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(msec) {
   let startTime = Math.floor(performance.now());
-  let nodeTime = goog.dom.getElement('cwc-loading-screen-info-rendered');
+  let nodeTime = goog.dom.getElement(this.prefix + 'info-rendered');
   if (nodeTime) {
     goog.dom.setTextContent(nodeTime, startTime);
   }
   window.setTimeout(function() {
       this.show(false);
-  }.bind(this), startTime <= seconds ? seconds - startTime : 500);
+  }.bind(this), startTime <= msec ? msec - startTime : 500);
 };
 
 
@@ -135,19 +141,24 @@ cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
   this.current_ = current;
   let percent = Math.round((100 / total) * current);
   this.log_.info('[', percent + '%', ']', text);
-  goog.dom.setTextContent(this.nodeProgressText, text);
-  let className = '#' + this.prefix + 'progress-bar.mdl-js-progress';
-  document.querySelector(className)['MaterialProgress']['setProgress'](percent);
+  if (this.nodeProgressText) {
+    goog.dom.setTextContent(this.nodeProgressText, text);
+    let className = '#' + this.prefix + 'progress-bar.mdl-js-progress';
+    document.querySelector(className)['MaterialProgress']['setProgress'](
+      percent);
+  }
 };
 
 
 /**
  * @param {!string} text
- * @param {Function} func
+ * @param {!Function} func
+ * @param {number=} steps
  * @return {Function|Promise}
  */
-cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func) {
-  this.current_ += 5;
+cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func,
+    steps = 5) {
+  this.current_ += steps;
   this.setProgress(text, this.current_);
   try {
     if (this.scope_) {
@@ -166,7 +177,7 @@ cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func) {
  * @param {!string} language
  */
 cwc.ui.LoadingScreen.prototype.setUserLangauge = function(language) {
-  let nodeLanguage = goog.dom.getElement('cwc-loading-screen-info-language');
+  let nodeLanguage = goog.dom.getElement(this.prefix + 'info-language');
   if (nodeLanguage) {
     goog.dom.setTextContent(nodeLanguage, language);
   }

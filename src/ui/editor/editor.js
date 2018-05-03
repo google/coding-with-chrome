@@ -93,9 +93,6 @@ cwc.ui.Editor = function(helper) {
   /** @type {Element} */
   this.nodeToolbar = null;
 
-  /** @type {Element} */
-  this.nodeSelectView = null;
-
   /** @type {cwc.ui.EditorInfobar} */
   this.infobar = null;
 
@@ -172,15 +169,17 @@ cwc.ui.Editor = function(helper) {
 cwc.ui.Editor.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
-    console.error('Invalid Editor node:', this.node);
+    this.log_.error('Invalid Editor node:', this.node);
     return;
   }
 
-  // Render code editor template.
-  this.log_.debug('Decorate', this.name, 'into node', this.node);
+  // Clear existing informations.
+  this.currentEditorView = null;
   this.editorView = {};
   this.modified = false;
 
+  // Render code editor template.
+  this.log_.debug('Decorate', this.name, 'into node', this.node);
   goog.soy.renderElement(
       this.node, cwc.soy.ui.Editor.template, {
         prefix: this.prefix,
@@ -205,9 +204,8 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   // Decorate toolbar.
   this.nodeToolbar = goog.dom.getElement(this.prefix + 'toolbar');
   if (this.nodeToolbar) {
-    this.nodeSelectView = goog.dom.getElement(this.prefix + 'view');
     this.toolbar = new cwc.ui.EditorToolbar(this.helper);
-    this.toolbar.decorate(this.nodeToolbar, this.nodeSelectView);
+    this.toolbar.decorate(this.nodeToolbar);
   }
 
   // Decorate infobar.
@@ -250,17 +248,6 @@ cwc.ui.Editor.prototype.showEditor = function(visible) {
   goog.style.setElementShown(this.node, visible);
   if (visible && this.editor) {
     this.adjustSize();
-  }
-};
-
-
-/**
- * Shows/Hides the editor views like CSS, HTML and JavaScript.
- * @param {boolean} visible
- */
-cwc.ui.Editor.prototype.showEditorViews = function(visible) {
-  if (this.nodeSelectView) {
-    goog.style.setElementShown(this.nodeSelectView, visible);
   }
 };
 
@@ -492,20 +479,22 @@ cwc.ui.Editor.prototype.insertText = function(text) {
  * @param {!string} name
  */
 cwc.ui.Editor.prototype.changeView = function(name) {
+  if (!name || !this.editor) {
+    return;
+  }
+
   if (!(name in this.editorView)) {
-    this.log_.error('Editor view "' + name + '" not exists!');
+    this.log_.error('View "' + name + '" not exists!');
     return;
   }
 
-  if (!this.editor) {
-    return;
-  }
-
+  this.log_.info('Change view to', name);
   let editorView = this.editorView[name];
   this.editor.swapDoc(editorView.getDoc());
   this.currentEditorView = name;
   this.setEditorMode(editorView.getType());
   this.setEditorHints(editorView.getHints());
+  this.updateInfobar();
 };
 
 
@@ -518,7 +507,7 @@ cwc.ui.Editor.prototype.changeView = function(name) {
  */
 cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
   if (name in this.editorView) {
-    this.log_.error('Editor View', name, 'already exists!');
+    this.log_.error('View', name, 'already exists!');
     return;
   }
 
@@ -527,13 +516,12 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
     (hints ? 'and hints ' + hints : ''),
     (content ? 'for content:' : ''), content);
   this.editorView[name] = new cwc.ui.EditorView(content, type, hints);
-
-  if (this.toolbar) {
-    this.toolbar.addView(name);
-    this.updateToolbar();
+  this.updateToolbar();
+  if (!this.currentEditorView) {
+    this.changeView(name);
+    this.adjustSize();
   }
-
-  this.adjustSize();
+  this.updateInfobar();
 };
 
 
@@ -648,16 +636,16 @@ cwc.ui.Editor.prototype.adjustSize = function() {
  * Updates the editor Infobar.
  */
 cwc.ui.Editor.prototype.updateInfobar = function() {
+  if (!this.infobar) {
+    return;
+  }
   this.log_.info('Update Infobar...');
-  if (this.infobar) {
-    this.infobar.setMode(this.getEditorMode());
-  }
-  if (this.infobar) {
-    this.infobar.setLineInfo({
-      'line': 0,
-      'ch': 0,
-    });
-  }
+  this.infobar.setMode(this.getEditorMode());
+  this.infobar.setLineInfo({
+    'line': 0,
+    'ch': 0,
+  });
+  this.infobar.setViews(Object.keys(this.editorView), this.currentEditorView);
 };
 
 
@@ -665,8 +653,11 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
  * Updates the editor Toolbar.
  */
 cwc.ui.Editor.prototype.updateToolbar = function() {
+  if (!this.toolbar) {
+    return;
+  }
   let editorMode = this.getEditorMode();
-  if (editorMode !== this.editorType_ && this.toolbar) {
+  if (editorMode !== this.editorType_) {
     this.log_.info('Update Toolbar for', editorMode);
     this.toolbar.updateToolbar(editorMode);
   }

@@ -19,13 +19,14 @@
  */
 goog.provide('cwc.fileHandler.FileLoader');
 
-goog.require('cwc.utils.mime.Type');
-goog.require('cwc.utils.mime.getTypeByNameAndContent');
 goog.require('cwc.fileFormat.File');
 goog.require('cwc.mode.Config');
+goog.require('cwc.ui.EditorContent');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
+goog.require('cwc.utils.mime.Type');
+goog.require('cwc.utils.mime.getTypeByNameAndContent');
 
 
 /**
@@ -211,6 +212,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
         case cwc.utils.mime.Type.CSS.type:
         case cwc.utils.mime.Type.HTML.type:
         case cwc.utils.mime.Type.JAVASCRIPT.type:
+        case cwc.utils.mime.Type.PYTHON.type:
           modeInstance.addEditorView(
             content.getName(), content.getContent(), contentType);
           break;
@@ -219,6 +221,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
       }
     }
   }
+  modeInstance.setEditorView(file.getView());
 
   // Handle library files
   let cacheInstance = this.helper.getInstance('cache');
@@ -277,13 +280,7 @@ cwc.fileHandler.FileLoader.prototype.loadRawFile = function(content,
   let modeInstance = this.helper.getInstance('mode');
   modeInstance.setMode(modeType);
   modeInstance.setFilename(filename);
-  modeInstance.addEditorView('__default__', content, mimeType);
-
-  // Handle tutorial / tour data
-  let tutorialInstance = this.helper.getInstance('tutorial');
-  if (tutorialInstance) {
-    tutorialInstance.clear();
-  }
+  modeInstance.addEditorView(cwc.ui.EditorContent.DEFAULT, content, mimeType);
 
   // Handle sidebar icons
   let sidebarInstance = this.helper.getInstance('sidebar');

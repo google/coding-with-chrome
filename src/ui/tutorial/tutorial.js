@@ -91,10 +91,9 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
   this.log_.info('Starting tutorial ...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.showRawContent('Tutorial', this.content_);
-    sidebarInstance.setActive('tutorial', true);
-    this.start();
+    sidebarInstance.showRawContent('tutorial', 'Tutorial', this.content_);
   }
+  this.start();
 };
 
 
@@ -126,7 +125,7 @@ cwc.ui.Tutorial.prototype.start = function() {
  * @param {Object} preview
  */
 cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
-  if (!preview) {
+  if (!preview || !this.content_) {
     return;
   }
   if (this.validatePreview_) {
@@ -157,7 +156,7 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   }
 
   let listenForResults = function() {
-    addEventListener('message', function(e) {
+    window.addEventListener('message', function(e) {
       if (e.data && (typeof e.data) === 'object' &&
           e.data.hasOwnProperty('cwc-validated-data') &&
           (typeof window.top['cwc-validated'] == 'function')) {
@@ -200,4 +199,11 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     this.log_.info('Failed to inject results.',
       'but it should run next time the page changes:', e);
   }
+};
+
+
+cwc.ui.Tutorial.prototype.clear = function() {
+  this.content_ = null;
+  this.processResults_ = null;
+  this.validatePreview_ = null;
 };

@@ -28,6 +28,7 @@
     'Shepherd': true,
     'Sk': true,
     'afterEach': true,
+    'beforeAll': true,
     'beforeEach': true,
     'brython': true,
     'chrome': true,
