@@ -32,5 +32,6 @@ describe('[Mode Javascript - Advanced]', function() {
 
     loadTemplateFile('javascript/blank.js', builder, it);
     loadExampleFile('javascript/raw/countdown.js', builder, it);
+    loadTutorialFile('javascript/script/svg.cwct', builder, it);
   });
 });

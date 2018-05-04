@@ -73,6 +73,7 @@ describe('File format', function() {
   let metadataInnerKey = Math.random().toString(36);
   let metadataValue2 = {};
   metadataValue2[metadataInnerKey] = Math.random().toString(36);
+  let defaultLanguage = 'eng';
 
   it('constructor', function() {
     expect(typeof fileFormat).toEqual('object');
@@ -161,7 +162,7 @@ describe('File format', function() {
       metadataNamespace)).toEqual('');
   });
 
-  it('setMetadata (default namespace)', function() {
+  it('setMetadata (default namespace, value)', function() {
     expect(() => {
       fileFormat.setMetadata(metadataKey1, metadataValue1);
     }).not.toThrow();
@@ -191,6 +192,89 @@ describe('File format', function() {
 
   it('getMetadata (default namespace, wrong key)', function() {
     expect(fileFormat.getMetadata(metadataKey2)).toEqual('');
+  });
+
+  it('getTutorial (no tutorial)', function() {
+    expect((new cwc.fileFormat.File()).getTutorial()).toBe(null);
+  });
+
+  it('getTutorial (default language)', function() {
+    let tutorial = {
+      'content': 'Hello, world!',
+    };
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tutorial, '__tutorial__');
+    }).not.toThrow();
+    expect(fileFormat.getTutorial()).toEqual(tutorial);
+  });
+
+  it('getTutorial (non-default language)', function() {
+    let otherLanguage = 'deu';
+    let tutorialDefaultLanguage = {
+      'content': 'Hello, world!',
+    };
+    let tutorialOtherLanguage = {
+      'content': 'Hallo, Welt!',
+    };
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tutorialDefaultLanguage,
+        '__tutorial__');
+    }).not.toThrow();
+    expect(() => {
+      fileFormat.setMetadata(otherLanguage, tutorialOtherLanguage,
+        '__tutorial__');
+    }).not.toThrow();
+    expect(fileFormat.getTutorial(otherLanguage)).toEqual(
+      tutorialOtherLanguage);
+    expect(fileFormat.getTutorial(defaultLanguage)).toEqual(
+      tutorialDefaultLanguage);
+    expect(fileFormat.getTutorial()).toEqual(tutorialDefaultLanguage);
+  });
+
+  it('getTour (no tour)', function() {
+    expect((new cwc.fileFormat.File()).getTour()).toBe(null);
+  });
+
+  it('getTour (default language)', function() {
+    let tour = {
+      'description': 'Test tour',
+      'data': [{
+        'title': 'Test',
+        'text': 'Testing tour',
+      }],
+    };
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tour, '__tour__');
+    }).not.toThrow();
+    expect(fileFormat.getTour()).toEqual(tour);
+  });
+
+  it('getTour (non-default language)', function() {
+    let otherLanguage = 'swe';
+    let tourDefaultLanguage = {
+      'description': 'Test tour',
+      'data': [{
+        'title': 'Test',
+        'text': 'Testing tour',
+      }],
+    };
+    let tourOtherLanguage = {
+      'description': 'Testa tur',
+      'data': [{
+        'title': 'Testa',
+        'text': 'Testning tur',
+      }],
+    };
+
+    expect(() => {
+      fileFormat.setMetadata(defaultLanguage, tourDefaultLanguage, '__tour__');
+    }).not.toThrow();
+    expect(() => {
+      fileFormat.setMetadata(otherLanguage, tourOtherLanguage, '__tour__');
+    }).not.toThrow();
+    expect(fileFormat.getTour(otherLanguage)).toEqual(tourOtherLanguage);
+    expect(fileFormat.getTour(defaultLanguage)).toEqual(tourDefaultLanguage);
+    expect(fileFormat.getTour()).toEqual(tourDefaultLanguage);
   });
 
   describe('Legacy format', function() {

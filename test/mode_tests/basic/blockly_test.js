@@ -34,5 +34,8 @@ describe('[Mode Basic - Blockly]', function() {
     loadExampleFile('basic/blocks/Hello-World.cwc', builder, it);
     loadExampleFile('basic/blocks/Sunlights.cwc', builder, it);
     loadExampleFile('basic/blocks/Text-Loop.cwc', builder, it);
+    loadTutorialFile('basic/blocks/blockly.cwct', builder, it);
+    loadTourFile('basic/blocks/cwc.cwct', builder, it);
+    loadTourFile('basic/blocks/blockly.cwct', builder, it);
   });
 });

@@ -49,13 +49,13 @@ cwc.ui.Tour = function(helper) {
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
-  this.content_ = null;
+  this.content_;
 
   /** @private {Shepherd.Tour} */
-  this.tour_ = null;
+  this.tour_;
 
   /** @private {!string} */
-  this.tourDescription_ = null;
+  this.tourDescription_;
 
   /** @private {!number} */
   this.tourLength_ = 0;
