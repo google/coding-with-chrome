@@ -15,13 +15,19 @@
  */
 
 
+#{$prefix}editor-chrome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 #{$prefix}editor-toolbar {
   min-height: 34px;
 }
 
 #{$prefix}editor-view {
-  position: absolute;
   bottom: 20px;
+  position: absolute;
   right: 5px;
   z-index: 10;
 }
@@ -36,11 +42,11 @@
 }
 
 #{$prefix}editor-view .goog-menu-button-outer-box {
-  margin: 0;
-  border-width: 1px 0;
-  padding-right: 5px;
-  border: 1px solid #ccc;
   border-radius: 2px;
+  border-width: 1px 0;
+  border: 1px solid #ccc;
+  margin: 0;
+  padding-right: 5px;
 }
 
 #{$prefix}editor-view .goog-menu-button-inner-box {
@@ -57,11 +63,13 @@
 
 #{$prefix}editor-code {
   box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 0;
   position: relative;
 }
 
 #{$prefix}editor-code-custom {
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-  -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }

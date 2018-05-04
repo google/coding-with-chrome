@@ -21,6 +21,10 @@
  */
 
 
+.CodeMirror {
+  flex: 1;
+}
+
 .CodeMirror-gutter-wrapper {
   cursor: pointer;
 }

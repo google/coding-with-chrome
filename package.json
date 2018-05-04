@@ -25,7 +25,7 @@
     "karma": "^2.0.2",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
-    "karma-jasmine": "latest"
+    "karma-jasmine": "^1.1.2"
   },
   "scripts": {
     "usage": "node build/usage.js",
