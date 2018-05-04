@@ -62,9 +62,21 @@ let loadTemplateFile = function(file, builder, it) {
   });
 };
 
-let loadResourceFile = function(file, builder, it) {
+let loadTourFile = function(file, builder, it) {
   return it(file, function(done) {
-    builder.loadFile('../resources/' + file).then(() => {
+    builder.loadFile('../resources/tour/' + file).then(() => {
+      expect(true).toEqual(true);
+      done();
+    }, (error) => {
+      expect(error).toEqual(null);
+      throw error;
+    });
+  });
+};
+
+let loadTutorialFile = function(file, builder, it) {
+  return it(file, function(done) {
+    builder.loadFile('../resources/tutorials/' + file).then(() => {
       expect(true).toEqual(true);
       done();
     }, (error) => {
