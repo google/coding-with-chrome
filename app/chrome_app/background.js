@@ -45,7 +45,7 @@ chrome.app.runtime.onLaunched.addListener(
       hidden: false,
     };
 
-    chrome.app.window.create('editor.html', editorConfig, function(
+    chrome.app.window.create('index.html', editorConfig, function(
         editorWindow) {
       if (editorWindow) {
         editorWindow.outerBounds.setPosition(

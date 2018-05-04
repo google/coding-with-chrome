@@ -345,14 +345,15 @@ cwc.utils.Features.prototype.setJavaScriptFeature = function(name, value) {
  * @export
  */
 cwc.utils.Features.prototype.log = function() {
+  let output = [];
   for (let group in this.feature_) {
     if (this.feature_.hasOwnProperty(group)) {
       for (let feature in this.feature_[group]) {
         if (this.feature_[group].hasOwnProperty(feature)) {
-          this.log_.info(group + '.' + feature, '=',
-              this.feature_[group][feature]);
+          output.push([group, feature, this.feature_[group][feature]]);
         }
       }
     }
   }
+  this.log_.table(output);
 };

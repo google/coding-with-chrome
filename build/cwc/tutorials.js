@@ -72,6 +72,7 @@ let replacePlaceholders = function(obj, pwd) {
   }
 };
 
+console.log('Processe Tutorials from', inDir);
 procTemplates(inDir, function(template) {
   fs.readFile(template, 'utf8', function(err, data) {
     if (err) {

@@ -18,57 +18,21 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
- * Core files
+ * Static files
  */
 closureBuilder.build({
-  name: 'CwC core files',
+  name: 'Copy static files',
   resources: [
+    'app/default/index.html',
     'genfiles/core/LICENSE.html',
     'genfiles/core/NOTICE.html',
-    'genfiles/core/css/',
     'genfiles/core/icons/',
     'genfiles/core/images/',
-    'genfiles/core/js/',
     'genfiles/core/resources/',
-  ],
-  out: 'dist/web_app/',
-});
-
-
-/**
- * Static external style-sheets
- */
-closureBuilder.build({
-  name: 'External StyleSheets',
-  resources: [
-    'genfiles/third_party/css/external.css',
-  ],
-  out: 'dist/web_app/css/',
-});
-
-
-/**
- * Static application data
- */
-closureBuilder.build({
-  name: 'CwC Chrome app files',
-  resources: [
-    'app/chrome_app/editor.html',
-  ],
-  out: 'dist/web_app/index.html',
-});
-
-
-/**
- * Third party files
- */
-closureBuilder.build({
-  name: 'CwC third party files',
-  resources: [
-    'genfiles/third_party/css/',
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
@@ -77,25 +41,39 @@ closureBuilder.build({
 
 
 /**
+ * JavaScript files
+ */
+closureBuilder.build({
+  name: 'Copy JavaScript files',
+  resources: glob([
+    'app/default/js/*',
+    'genfiles/core/js/*',
+  ]),
+  out: 'dist/web_app/js/',
+});
+
+
+/**
+ * StyleSheet files
+ */
+closureBuilder.build({
+  name: 'Copy StyleSheets files',
+  resources: glob([
+    'genfiles/core/css/*.css',
+    'genfiles/third_party/css/external.css',
+  ]),
+  out: 'dist/web_app/css/',
+});
+
+
+/**
  * Framework files
  */
 closureBuilder.build({
-  name: 'Framework files',
+  name: 'Copy Framework files',
   resources: [
     'genfiles/core/frameworks/internal',
     'genfiles/third_party/frameworks/external',
   ],
   out: 'dist/web_app/frameworks',
-});
-
-
-/**
- * Debug file
- */
-closureBuilder.build({
-  name: 'CwC Debug',
-  resources: [
-    'app/chrome_app/js/debug.js',
-  ],
-  out: 'dist/web_app/js/',
 });

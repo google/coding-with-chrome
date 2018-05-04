@@ -18,57 +18,22 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
- * Core files
+ * Static files
  */
 closureBuilder.build({
-  name: 'CwC core files',
+  name: 'Copy static files',
   resources: [
+    'app/chrome_app/manifest.json',
+    'app/default/index.html',
     'genfiles/core/LICENSE.html',
     'genfiles/core/NOTICE.html',
-    'genfiles/core/css/',
     'genfiles/core/icons/',
     'genfiles/core/images/',
-    'genfiles/core/js/',
     'genfiles/core/resources/',
-  ],
-  out: 'dist/chrome_os/',
-});
-
-
-/**
- * Static external style-sheets
- */
-closureBuilder.build({
-  name: 'External StyleSheets',
-  resources: [
-    'genfiles/third_party/css/external.css',
-  ],
-  out: 'dist/chrome_os/css/',
-});
-
-
-/**
- * Static application data
- */
-closureBuilder.build({
-  name: 'CwC Chrome app files',
-  resources: [
-    'app/chrome_app/editor.html',
-    'app/chrome_app/manifest.json',
-  ],
-  out: 'dist/chrome_os/',
-});
-
-
-/**
- * Third party files
- */
-closureBuilder.build({
-  name: 'CwC third party files',
-  resources: [
     'genfiles/third_party/external/',
     'genfiles/third_party/fonts/',
   ],
@@ -77,10 +42,36 @@ closureBuilder.build({
 
 
 /**
+ * JavaScript files
+ */
+closureBuilder.build({
+  name: 'Copy JavaScript files',
+  resources: glob([
+    'app/default/js/*',
+    'genfiles/core/js/*',
+  ]),
+  out: 'dist/chrome_os/js/',
+});
+
+
+/**
+ * StyleSheet files
+ */
+closureBuilder.build({
+  name: 'Copy StyleSheets files',
+  resources: glob([
+    'genfiles/core/css/*.css',
+    'genfiles/third_party/css/external.css',
+  ]),
+  out: 'dist/chrome_os/css/',
+});
+
+
+/**
  * Framework files
  */
 closureBuilder.build({
-  name: 'Framework files',
+  name: 'Copy Framework files',
   resources: [
     'genfiles/core/frameworks/internal',
     'genfiles/third_party/frameworks/external',
@@ -93,24 +84,12 @@ closureBuilder.build({
  * Background file
  */
 closureBuilder.build({
-  name: 'CwC Background',
+  name: 'Compile CwC Background',
   srcs: [
-    'app/chrome_app/js/background.js',
+    'app/chrome_app/background.js',
   ],
   externs: [
     'build/externs/chrome.js',
   ],
   out: 'dist/chrome_os/js/background.js',
-});
-
-
-/**
- * Debug file
- */
-closureBuilder.build({
-  name: 'CwC Debug',
-  resources: [
-    'app/chrome_app/js/debug.js',
-  ],
-  out: 'dist/chrome_os/js/',
 });

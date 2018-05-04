@@ -82,6 +82,9 @@ cwc.utils.Logger = function(name = 'Logger',
   this.info = function() {};
 
   /** @type {!Function} */
+  this.table = function() {};
+
+  /** @type {!Function} */
   this.notice = function() {};
 
   /** @type {!Function} */
@@ -114,13 +117,20 @@ cwc.utils.Logger.prototype.setLogLevel = function(logLevel) {
   this.logLevel = logLevel;
 
   // Trace logger
-  this.setLogger_('trace', cwc.utils.LogLevel.TRACE, console.log);
+  this.setLogger_('trace', cwc.utils.LogLevel.TRACE, console.trace);
 
   // Debug logger
   this.setLogger_('debug', cwc.utils.LogLevel.DEBUG, console.log);
 
   // Info logger
   this.setLogger_('info', cwc.utils.LogLevel.INFO, console.log);
+
+  // Table logger
+  if (typeof console.table === 'undefined') {
+    this.setLogger_('table', cwc.utils.LogLevel.INFO, console.info);
+  } else {
+    this.setLogger_('table', cwc.utils.LogLevel.INFO, console.table, true);
+  }
 
   // Notice logger
   this.setLogger_('notice', cwc.utils.LogLevel.NOTICE, console.log);
@@ -143,12 +153,13 @@ cwc.utils.Logger.prototype.setLogLevel = function(logLevel) {
  * @param {!string} name
  * @param {!cwc.utils.LogLevel} logLevel
  * @param {!Function} logger
+ * @param {boolean=} raw
  * @private
  */
-cwc.utils.Logger.prototype.setLogger_ = function(name, logLevel, logger) {
+cwc.utils.Logger.prototype.setLogger_ = function(name, logLevel, logger, raw) {
   // Enable logger for all errors and higher by default.
   if ((this.enabled_ || this.logLevel <= 3) && this.logLevel >= logLevel) {
-    this[name] = this.log_(logger);
+    this[name] = this.log_(logger, raw);
   } else {
     this[name] = function() {};
   }
@@ -157,11 +168,14 @@ cwc.utils.Logger.prototype.setLogger_ = function(name, logLevel, logger) {
 
 /**
  * @param {!Function} logger
+ * @param {bollean=} raw
  * @return {Function}
  * @private
  */
-cwc.utils.Logger.prototype.log_ = function(logger) {
-  if (this.displayName.includes('%c')) {
+cwc.utils.Logger.prototype.log_ = function(logger, raw = false) {
+  if (raw) {
+    return Function.prototype.bind.call(logger, console);
+  } else if (this.displayName.includes('%c')) {
     return Function.prototype.bind.call(logger, console, this.displayName,
       'font-weight: bold;');
   } else {

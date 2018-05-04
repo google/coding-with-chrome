@@ -42,20 +42,17 @@ cwc.ui.Tour = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = this.helper.getPrefix('tour');
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
-  this.content_;
+  this.content_ = '';
 
   /** @private {Shepherd.Tour} */
-  this.tour_;
+  this.tour_ = null;
 
   /** @private {!string} */
-  this.tourDescription_;
+  this.tourDescription_ = '';
 
   /** @private {!number} */
   this.tourLength_ = 0;

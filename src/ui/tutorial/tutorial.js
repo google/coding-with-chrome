@@ -42,23 +42,20 @@ cwc.ui.Tutorial = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = this.helper.getPrefix('tutorial');
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
-  this.content_;
+  this.content_ = '';
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
-  /** @private {string} */
-  this.validatePreview_;
+  /** @private {!string} */
+  this.validatePreview_ = '';
 
-  /** @private {string} */
-  this.processResults_;
+  /** @private {!string} */
+  this.processResults_ = '';
 };
 
 
