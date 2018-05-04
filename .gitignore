@@ -1,9 +1,12 @@
+*.stackdump
 .DS_Store
 .c9
+.nyc_output
 .project
 .settings
 OWNERS
 Thumbs.db
+coverage
 create_npm_test.sh
 debug.log
 genfiles
@@ -12,4 +15,3 @@ gensoyfiles
 node_modules
 npm-debug.log*
 test/genfiles
-*.stackdump
