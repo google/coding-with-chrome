@@ -73,6 +73,7 @@ describe('File format', function() {
   let metadataInnerKey = Math.random().toString(36);
   let metadataValue2 = {};
   metadataValue2[metadataInnerKey] = Math.random().toString(36);
+  let defaultLanguage = 'eng';
 
   it('constructor', function() {
     expect(typeof fileFormat).toEqual('object');
@@ -193,19 +194,21 @@ describe('File format', function() {
     expect(fileFormat.getMetadata(metadataKey2)).toEqual('');
   });
 
-  let defaultLanguage = 'eng';
-  it('tutorial (default language)', function() {
+  it('getTutorial (no tutorial)', function() {
+    expect((new cwc.fileFormat.File()).getTutorial()).toBe(null);
+  });
+
+  it('getTutorial (default language)', function() {
     let tutorial = {
       'content': 'Hello, world!',
     };
-    expect(fileFormat.getTutorial()).toBe(null);
     expect(() => {
       fileFormat.setMetadata(defaultLanguage, tutorial, '__tutorial__');
     }).not.toThrow();
     expect(fileFormat.getTutorial()).toEqual(tutorial);
   });
 
-  it('tutorial (non-default language)', function() {
+  it('getTutorial (non-default language)', function() {
     let otherLanguage = 'deu';
     let tutorialDefaultLanguage = {
       'content': 'Hello, world!',
@@ -214,17 +217,25 @@ describe('File format', function() {
       'content': 'Hallo, Welt!',
     };
     expect(() => {
-      fileFormat.setMetadata(defaultLanguage, tutorialDefaultLanguage, '__tutorial__');
+      fileFormat.setMetadata(defaultLanguage, tutorialDefaultLanguage,
+        '__tutorial__');
     }).not.toThrow();
     expect(() => {
-      fileFormat.setMetadata(otherLanguage, tutorialOtherLanguage, '__tutorial__');
+      fileFormat.setMetadata(otherLanguage, tutorialOtherLanguage,
+        '__tutorial__');
     }).not.toThrow();
-    expect(fileFormat.getTutorial(otherLanguage)).toEqual(tutorialOtherLanguage);
-    expect(fileFormat.getTutorial(defaultLanguage)).toEqual(tutorialDefaultLanguage);
+    expect(fileFormat.getTutorial(otherLanguage)).toEqual(
+      tutorialOtherLanguage);
+    expect(fileFormat.getTutorial(defaultLanguage)).toEqual(
+      tutorialDefaultLanguage);
     expect(fileFormat.getTutorial()).toEqual(tutorialDefaultLanguage);
   });
 
-  it('tour (default language)', function() {
+  it('getTour (no tour)', function() {
+    expect((new cwc.fileFormat.File()).getTour()).toBe(null);
+  });
+
+  it('getTour (default language)', function() {
     let tour = {
       'description': 'Test tour',
       'data': [{
@@ -232,14 +243,13 @@ describe('File format', function() {
         'text': 'Testing tour',
       }],
     };
-    expect(fileFormat.getTour()).toBe(null);
     expect(() => {
       fileFormat.setMetadata(defaultLanguage, tour, '__tour__');
     }).not.toThrow();
     expect(fileFormat.getTour()).toEqual(tour);
   });
 
-  it('tour (non-default language)', function() {
+  it('getTour (non-default language)', function() {
     let otherLanguage = 'swe';
     let tourDefaultLanguage = {
       'description': 'Test tour',

@@ -61,3 +61,15 @@ let loadTemplateFile = function(file, builder, it) {
     });
   });
 };
+
+let loadResourceFile = function(file, builder, it) {
+  return it(file, function(done) {
+    builder.loadFile('../resources/' + file).then(() => {
+      expect(true).toEqual(true);
+      done();
+    }, (error) => {
+      expect(error).toEqual(null);
+      throw error;
+    });
+  });
+};
