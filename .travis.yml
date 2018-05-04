@@ -28,7 +28,7 @@ before_script:
 
 script:
   - unset _JAVA_OPTIONS
-  - nyc --reporter=lcov --include-all-sources npm test
+  - nyc --reporter=lcov npm test
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
