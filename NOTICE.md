@@ -1,4 +1,5 @@
-﻿# Credits
+﻿Credits
+========
 
 * [Blockly](#blockly)
 * [Brython](#brython)
@@ -22,11 +23,12 @@
 * [jQuery](#jquery)
 * [three.js](#threejs)
 
+Blockly
+-------
 
-## Blockly
 <https://developers.google.com/blockly/>
 
-```
+```text
 
                                  Apache License
                            Version 2.0, January 2011
@@ -206,11 +208,12 @@
    END OF TERMS AND CONDITIONS
 ```
 
+Brython
+-------
 
-## Brython
 <http://www.brython.info/>
 
-```
+```text
 Copyright (c) 2012, Pierre Quentel pierre.quentel@gmail.com
 All rights reserved.
 
@@ -240,11 +243,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
+Closure Builder
+---------------
 
-## Closure Builder
 <https://github.com/google/closure-builder/>
 
-```
+```text
                                 Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -423,11 +427,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    END OF TERMS AND CONDITIONS
 ```
 
+Closure Library
+---------------
 
-## Closure Library
 <https://developers.google.com/closure/library/>
 
-```
+```text
                                 Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -606,11 +611,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    END OF TERMS AND CONDITIONS
 ```
 
+CodeMirror
+----------
 
-## CodeMirror
 <https://codemirror.net/>
 
-```
+```text
 Copyright (C) 2016 by Marijn Haverbeke <marijnh@gmail.com> and others
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -632,11 +638,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+CoffeeLint
+----------
 
-## CoffeeLint
 <http://www.coffeelint.org/>
 
-```
+```text
 CoffeeLint
 Copyright (c) 2011 Matthew Perpick
 
@@ -659,11 +666,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+CoffeeScript
+------------
 
-## CoffeeScript
 <https://github.com/jashkenas/coffeescript/>
 
-```
+```text
 Copyright (c) 2009-2015 Jeremy Ashkenas
 
 Permission is hereby granted, free of charge, to any person
@@ -688,11 +696,12 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+Dialog-Polyfill
+---------------
 
-## Dialog-Polyfill
 <https://github.com/GoogleChrome/dialog-polyfill/>
 
-```
+```text
 Copyright (c) 2013 The Chromium Authors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -722,11 +731,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
+HTMLHint
+---------
 
-## HTMLHint
 <https://github.com/yaniswang/HTMLHint/>
 
-```
+```text
 The MIT License
 
 Copyright (c) 2014-2016 Yanis Wang <yanis.wang@gmail.com>
@@ -750,11 +760,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+JSHint
+-------
 
-## JSHint
 <http://jshint.com/>
 
-```
+```text
 Copyright 2012 Anton Kovalyov (http://jshint.com)
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -777,11 +788,12 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+Material Design icons
+----------------------
 
-## Material Design icons
 <https://google.github.io/material-design-icons/>
 
-```
+```text
 We [Google] have made these icons available for you to incorporate them into
 your products under the Creative Common Attribution 4.0 International
 License (CC-BY 4.0). Feel free to remix and re-share these icons and
@@ -790,11 +802,12 @@ documentation in your products.
 <https://creativecommons.org/licenses/by/4.0/>
 ```
 
+Material Design Lite
+---------------------
 
-## Material Design Lite
 <https://github.com/google/material-design-lite/>
 
-```
+```text
                                 Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -1008,11 +1021,12 @@ documentation in your products.
    whether and how they wish to license it.
 ```
 
+NW.js
+------
 
-## NW.js
 <http://nwjs.io>
 
-```
+```text
 Copyright (c) 2012-2017 Intel Corp
 Copyright (c) 2012-2017 The Chromium Authors
 
@@ -1035,12 +1049,13 @@ OUT OF OR IN CONNECTIONWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+Open Sans Font
+---------------
 
-## Open Sans Font
 <https://www.google.com/fonts/specimen/Open+Sans>
 Steve Matteson
 
-```
+```text
                                 Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -1219,11 +1234,12 @@ Steve Matteson
    END OF TERMS AND CONDITIONS
 ```
 
+Phaser
+-------
 
-## Phaser
 <https://phaser.io>
 
-```
+```text
 The MIT License (MIT)
 
 Copyright (c) 2016 Richard Davey, Photon Storm Ltd.
@@ -1246,12 +1262,13 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
+Roboto Font
+------------
 
-## Roboto Font
 <https://www.google.com/fonts/specimen/Roboto>
 Christian Robertson
 
-```
+```text
                                 Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -1430,11 +1447,12 @@ Christian Robertson
    END OF TERMS AND CONDITIONS
 ```
 
+Shepherd
+---------
 
-## Shepherd
 <https://github.com/HubSpot/shepherd/>
 
-```
+```text
 Copyright (c) 2015 HubSpot, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1456,11 +1474,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+Skulpt
+-------
 
-## Skulpt
 <https://github.com/skulpt/skulpt/>
 
-```
+```text
 Copyright (c) 2009-2010 Scott Graham
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1496,11 +1515,12 @@ per:
     https://bitbucket.org/pypy/pypy/src/default/LICENSE
 ```
 
+jQuery
+-------
 
-## jQuery
 <http://jquery.com/>
 
-```
+```text
 Copyright jQuery Foundation and other contributors, https://jquery.org/
 
 This software consists of voluntary contributions made by many
@@ -1539,11 +1559,12 @@ own licenses; we recommend you read them, as their terms may differ from
 the terms above.
 ```
 
+jQuery-turtle
+--------------
 
-## jQuery-turtle
 <https://github.com/PencilCode/jquery-turtle>
 
-```
+```text
 jQuery-turtle version 2.0
 
 LICENSE (MIT):
@@ -1569,11 +1590,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
 
+three.js
+---------
 
-## three.js
 <http://threejs.org/>
 
-```
+```text
 The MIT License
 
 Copyright © 2010-2016 three.js authors

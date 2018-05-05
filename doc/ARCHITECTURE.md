@@ -4,7 +4,8 @@ Coding with Chrome - Architecture
 This document covers the technical architecture for the different parts of
 Coding with Chrome.
 
-## Folder structure
+Folder structure
+-----------------
 
 * **app** - Chrome app folder
   * **_locales** - Language specific translations
@@ -26,7 +27,7 @@ Coding with Chrome.
   * **core** - Pre-compiled core files version
   * **nw_app** - Pre-compiled files for the binary version
   * **third_party** - Pre-compiled third party library and frameworks
-  * **web_app** - Webbrowser version 
+  * **web_app** - Webbrowser version
 * **src** - Source folder for actual code
   * **config** - Main configurations for Coding with Chrome
   * **file** - File and files classes
@@ -77,13 +78,15 @@ Coding with Chrome.
   * **utils** - Collection of additional helper
 * **third_party** - Third party files like images, logos,...
 
-
-##Basic Workflow
+Basic Workflow
+---------------
 
 ### Renderer
+
 The renderer prepares the sandbox environment with the needed frameworks or
 preparations to execute the user generated code.
-```
+
+```text
 +----------------------+                             +----------------------+
 |                      |                             |                      |
 |       Editor         |                             |      Preview         |
@@ -97,11 +100,13 @@ preparations to execute the user generated code.
 ```
 
 ### Runner
+
 The runner is used if a hardware communication between the user generated code
 and the serial, Bluetooth or USB interface is needed.
 The code will be executed in the sandbox as well, but will have limited access
 to the internal apis over the runner framekwork / runner api.
-```
+
+```text
 +----------------------+                             +----------------------+
 |                      |      +----------------+     |                      |
 |       Editor         |      |                |     |      Preview         |

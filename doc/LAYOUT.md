@@ -1,18 +1,25 @@
 Coding with Chrome - Layout
 ============================
 
-### Use Material Design
-https://material.io/guidelines/
+Use Material Design
+--------------------
 
-### Use Material Design Icons
-https://material.io/icons/
+<https://material.io/guidelines/>
 
-### Supported screen sizes
+Use Material Design Icons
+--------------------------
+
+<https://material.io/icons/>
+
+Supported screen sizes
+-----------------------
+
 The list gives an overview for the general supported screen sizes and their
 priorities:
+
 * 1366x768
 * 1920x1080
-* 1280x1024 
+* 1280x1024
 * 1280x800
 * 1024x768
 

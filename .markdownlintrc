@@ -1,0 +1,5 @@
+{
+  "default": true,
+  "MD003": { "style": "setext_with_atx" },
+  "MD033": { "allowed_elements": ["img"] }
+}

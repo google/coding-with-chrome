@@ -1,7 +1,12 @@
+Contributing
+=============
+
 Want to contribute? Great! First, read this page (including the small print at
 the end).
 
-### Before you contribute
+Before you contribute
+----------------------
+
 Before we can use your code, you must sign the
 [Google Individual Contributor License Agreement](https://cla.developers.google.com/about/google-individual)
 (CLA), which you can do online. The CLA is necessary mainly because you own the
@@ -16,40 +21,50 @@ us first through the issue tracker with your idea so that we can help out and
 possibly guide you. Coordinating up front makes it much easier to avoid
 frustration later on.
 
-### General Workflow
+General Workflow
+-------------------
 
-#### 1. Fork the Repo
+### 1. Fork the Repo
+
 You will find more details on [Fork a Repo](https://help.github.com/articles/fork-a-repo/)
 
-#### 2. If needed, sync/rebase the branch to the master branch
+### 2. If needed, sync/rebase the branch to the master branch
+
 If the branch is even or ahead of master, you can skip this part.
 
 In the case the branch is behind master, please sync/rebase the branch with the
 master branch.
 
-#### 3. Add your changes
+### 3. Add your changes
+
 Add your contribution and make sure to use as less needed commits or to squash
 smaller commits.
 
-#### 4. Test your changes
-Please make sure your changes are working as expect and add additional unit or general tests to the test directory if needed.
+### 4. Test your changes
 
-#### 5. Create a pull request for the forked branch
+Please make sure your changes are working as expect and add additional unit or
+general tests to the test directory if needed.
+
+### 5. Create a pull request for the forked branch
+
 If everything works as expect, create a pull request for your forked branch.
 See: [Creating a pull request](https://help.github.com/articles/creating-a-pull-request/)
 
-#### 6. Merging into master branch
+### 6. Merging into master branch
+
 This step is handled by the "Coding with Chrome" team.
 Depending on the change it could take up to 1 week before your change is merged
 into the master branch and part of the bundled application.
 
+Code reviews
+-------------
 
-### Code reviews
 All submissions, including submissions by project members, require review. We
 use GitHub pull requests for this purpose.
 
+The small print
+----------------
 
-### The small print
 Contributions made by corporations are covered by a different agreement than
 the one above, the
 [Software Grant and Corporate Contributor License Agreement](https://cla.developers.google.com/about/google-corporate).
