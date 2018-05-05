@@ -1,9 +1,10 @@
 build/externs
-doc
+coverage
 dist
+doc
 genfiles
 gensoyfiles
-patches
 node_modules
+patches
 test/genfiles
 third_party
