@@ -6,7 +6,7 @@
 .settings
 OWNERS
 Thumbs.db
-coverage
+coverage/lcov-report
 create_npm_test.sh
 debug.log
 genfiles
