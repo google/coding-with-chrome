@@ -34,12 +34,12 @@ cwc.framework.RaspberryPi = function(code) {
   this.name = 'Raspberry Pi Framework';
 
   /** @type {Function} */
-  this.code = function() {
-code(this);
-}.bind(this);
+  this.code = code;
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code, this);
+  this.runner = new cwc.framework.Runner()
+    .setScope(this)
+    .setCallback(this.code);
 
   /** @type {!function(?)} */
   this.dataEvent = function() {};

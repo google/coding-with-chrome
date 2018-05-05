@@ -42,9 +42,7 @@ cwc.framework.Ev3 = function(code) {
   this.name = 'EV3 Framework';
 
   /** @type {Function} */
-  this.code = function() {
-    code(this);
-  }.bind(this);
+  this.code = code;
 
   /** @type {Object} */
   this.deviceInfo = {};
@@ -107,7 +105,9 @@ cwc.framework.Ev3 = function(code) {
   this.mediumMotorSpeed = 250 / 60;
 
   /** @private {!cwc.framework.Runner} */
-  this.runner_ = new cwc.framework.Runner(this.code, this);
+  this.runner_ = new cwc.framework.Runner()
+    .setScope(this)
+    .setCallback(this.code);
 
   this.addCommandListener();
 };

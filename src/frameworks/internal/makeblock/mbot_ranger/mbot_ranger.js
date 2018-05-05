@@ -53,16 +53,13 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
   /** @type {Function} */
-  this.code = function() {
-code(this);
-}.bind(this);
-
-  /** @private {!string} */
-  this.code_ = code.toString();
+  this.code = code;
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(
-    this.code, this, this.monitor_.bind(this));
+  this.runner = new cwc.framework.Runner()
+    .setScope(this)
+    .setCallback(this.code)
+    .setMonitor(this.monitor_);
 
   /** @type {!number} */
   this.buttonValue = 0;
@@ -82,7 +79,14 @@ code(this);
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
 
-  // External commands
+  this.addCommandListener();
+};
+
+
+/**
+ * Enable external listener
+ */
+cwc.framework.makeblock.mBotRanger.prototype.addCommandListener = function() {
   this.runner.addCommand('updateTemperatureSensor',
     this.updateTemperatureSensor_);
   this.runner.addCommand('updateLightnessSensor',
@@ -395,13 +399,12 @@ function(data) {
  * @private
  */
 cwc.framework.makeblock.mBotRanger.prototype.monitor_ = function() {
-  let prefix = 'mBotRanger.';
-  this.runner.enableMonitor(this.code_,
-    prefix + 'onLineFollowerSensorChange', 'setLineFollowerMonitor');
-  this.runner.enableMonitor(this.code_,
-    prefix + 'onLightnessSensorChange', 'setLightnessMonitor');
-  this.runner.enableMonitor(this.code_,
-    prefix + 'onTemperatureSensorChange', 'setTemperatureMonitor');
-  this.runner.enableMonitor(this.code_,
-    prefix + 'onUltrasonicSensorChange', 'setUltrasonicMonitor');
+  this.runner.enableMonitor(this.code, 'mBotRanger.onLineFollowerSensorChange',
+    'setLineFollowerMonitor');
+  this.runner.enableMonitor(this.code, 'mBotRanger.onLightnessSensorChange',
+    'setLightnessMonitor');
+  this.runner.enableMonitor(this.code, 'mBotRanger.onTemperatureSensorChange',
+    'setTemperatureMonitor');
+  this.runner.enableMonitor(this.code, 'mBotRanger.onUltrasonicSensorChange',
+    'setUltrasonicMonitor');
 };

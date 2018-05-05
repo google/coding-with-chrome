@@ -37,20 +37,24 @@ cwc.framework.Sphero = function(code) {
   this.name = 'Sphero Framework';
 
   /** @type {Function} */
-  this.code = function() {
-    code(this);
-  }.bind(this);
+  this.code = code;
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code, this);
-
-  /** @private {!function(?)} */
-  this.emptyFunction_ = function() {};
+  this.runner = new cwc.framework.Runner()
+    .setScope(this)
+    .setCallback(this.code);
 
   /** @type {!function(?)} */
-  this.collisionEvent = this.emptyFunction_;
+  this.collisionEvent = function() {};
 
-  // External commands
+  this.addCommandListener();
+};
+
+
+/**
+ * Enable external listener
+ */
+cwc.framework.Sphero.prototype.addCommandListener = function() {
   this.runner.addCommand('collision', this.handleCollision_);
 };
 

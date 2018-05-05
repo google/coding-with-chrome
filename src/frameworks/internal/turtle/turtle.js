@@ -43,7 +43,8 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
   };
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(null, this);
+  this.runner = new cwc.framework.Runner()
+    .setScope(this);
 
   /** @type {number} */
   this.scale = 1/10;

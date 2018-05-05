@@ -25,15 +25,12 @@ goog.require('cwc.utils.StackQueue');
 
 
 /**
- * @param {Function=} callback
- * @param {Object=} scope
- * @param {Function=} monitor
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Runner = function(callback = null, scope = null, monitor = null) {
+cwc.framework.Runner = function() {
   /** @type {string} */
   this.name = 'Runner Framework';
 
@@ -47,13 +44,13 @@ cwc.framework.Runner = function(callback = null, scope = null, monitor = null) {
   this.commands = {};
 
   /** @type {Object} */
-  this.scope = scope;
+  this.scope = null;
 
   /** @private {?Function} */
-  this.callback_ = callback;
+  this.callback_ = null;
 
   /** @private {?Function} */
-  this.monitor_ = monitor;
+  this.monitor_ = null;
 
   /** @private {!cwc.utils.StackQueue} */
   this.senderStack_ = new cwc.utils.StackQueue();
@@ -90,16 +87,16 @@ cwc.framework.Runner.prototype.addCommand = function(name, func,
 
 /**
  * Enables/disable monitoring depending on used code.
- * @param {!string} code
+ * @param {!Function} code
  * @param {!string} command
- * @param {!string} monitor_command
+ * @param {!string} monitorCommand
  * @export
  */
 cwc.framework.Runner.prototype.enableMonitor = function(code, command,
-    monitor_command) {
-  let status = code.includes(command);
-  console.log((status ? 'Enable ' : 'Disable ') + monitor_command + ' ...');
-  this.send(monitor_command, {'enable': status});
+    monitorCommand) {
+  let status = code.toString().includes(command);
+  console.log((status ? 'Enable ' : 'Disable ') + monitorCommand + ' ...');
+  this.send(monitorCommand, {'enable': status});
 };
 
 
@@ -131,24 +128,45 @@ cwc.framework.Runner.prototype.send = function(name, value = {}, delay = 0) {
 /**
  * Sets the callback function event.
  * @param {!Function} callback
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.framework.Runner.prototype.setCallback = function(callback) {
   if (callback && typeof callback === 'function') {
-    this.callback_ = callback;
+    this.callback_ = this.scope ? callback.bind(this.scope) : callback;
   }
+  return this;
+};
+
+
+/**
+ * Sets the runner scope.
+ * @param {!Function} scope
+ * @return {THIS}
+ * @template THIS
+ * @export
+ */
+cwc.framework.Runner.prototype.setScope = function(scope) {
+  if (scope && typeof scope === 'function') {
+    this.scope = scope;
+  }
+  return this;
 };
 
 
 /**
  * Sets the monitor function event.
  * @param {!Function} monitor
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.framework.Runner.prototype.setMonitor = function(monitor) {
   if (monitor && typeof monitor === 'function') {
-    this.monitor_ = monitor;
+    this.monitor_ = this.scope ? monitor.bind(this.scope) : monitor;
   }
+  return this;
 };
 
 
@@ -201,7 +219,7 @@ cwc.framework.Runner.prototype.handleStart_ = function() {
   }
   if (this.callback_) {
     console.log('Starting program ...');
-    this.callback_();
+    this.callback_(this.scope);
   }
 };
 

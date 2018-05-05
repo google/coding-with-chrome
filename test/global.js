@@ -45,7 +45,10 @@ let loadExampleFile = function(file, builder) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      throw error;
+      if (error) {
+        throw error;
+      }
+      done();
     });
   });
 };
@@ -57,7 +60,10 @@ let loadTemplateFile = function(file, builder, it) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      throw error;
+      if (error) {
+        throw error;
+      }
+      done();
     });
   });
 };
@@ -69,7 +75,10 @@ let loadTourFile = function(file, builder, it) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      throw error;
+      if (error) {
+        throw error;
+      }
+      done();
     });
   });
 };
@@ -81,7 +90,10 @@ let loadTutorialFile = function(file, builder, it) {
       done();
     }, (error) => {
       expect(error).toEqual(null);
-      throw error;
+      if (error) {
+        throw error;
+      }
+      done();
     });
   });
 };

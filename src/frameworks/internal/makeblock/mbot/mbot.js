@@ -35,9 +35,7 @@ cwc.framework.makeblock.mBot = function(code) {
   this.name = 'mbot Framework';
 
   /** @type {Function} */
-  this.code = function() {
-code(this);
-}.bind(this);
+  this.code = code;
 
   /** @private {!function(?)} */
   this.emptyFunction_ = function() {};
@@ -55,7 +53,9 @@ code(this);
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
   /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner(this.code, this);
+  this.runner = new cwc.framework.Runner()
+    .setScope(this)
+    .setCallback(this.code);
 
   /** @type {!number} */
   this.buttonValue = 0;
@@ -72,7 +72,14 @@ code(this);
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
 
-  // External commands
+  this.addCommandListener();
+};
+
+
+/**
+ * Enable external listener
+ */
+cwc.framework.makeblock.mBot.prototype.addCommandListener = function() {
   this.runner.addCommand('updateButton', this.updateButton_);
   this.runner.addCommand('updateLightnessSensor',
     this.updateLightnessSensor_);
