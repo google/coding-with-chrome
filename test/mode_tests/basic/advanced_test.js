@@ -21,20 +21,12 @@
 
 describe('[Mode Basic - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('basic/blank.cwc', builder, it);
-    loadExampleFile('basic/script/Draw-Portal-Turret.cwc', builder, it);
-    loadExampleFile('basic/script/Hello-World.cwc', builder, it);
-    loadExampleFile('basic/script/Line-Loop.cwc', builder, it);
-    loadExampleFile('basic/script/Point-Loop.cwc', builder, it);
-    loadExampleFile('basic/script/Text-Loop.cwc', builder, it);
+    loadTemplateFile('basic/blank.cwc', it);
+    loadExampleFile('basic/script/Draw-Portal-Turret.cwc', it);
+    loadExampleFile('basic/script/Hello-World.cwc', it);
+    loadExampleFile('basic/script/Line-Loop.cwc', it);
+    loadExampleFile('basic/script/Point-Loop.cwc', it);
+    loadExampleFile('basic/script/Text-Loop.cwc', it);
   });
 });

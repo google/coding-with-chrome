@@ -21,21 +21,13 @@
 
 describe('[Mode EV3 - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('lego/ev3/blank-blocks.cwc', builder, it);
-    loadExampleFile('lego/ev3/blocks/EV3-Color-Sensor.cwc', builder, it);
+    loadTemplateFile('lego/ev3/blank-blocks.cwc', it);
+    loadExampleFile('lego/ev3/blocks/EV3-Color-Sensor.cwc', it);
     loadExampleFile(
-      'lego/ev3/blocks/EV3-Educator-BlockGrabber.cwc', builder, it);
-    loadExampleFile('lego/ev3/blocks/EV3-IR-Sensor.cwc', builder, it);
-    loadExampleFile('lego/ev3/blocks/EV3-UltraSonic-Sensor.cwc', builder, it);
-    loadExampleFile('lego/ev3/blocks/EV3-Robot-Arm-H25.cwc', builder, it);
+      'lego/ev3/blocks/EV3-Educator-BlockGrabber.cwc', it);
+    loadExampleFile('lego/ev3/blocks/EV3-IR-Sensor.cwc', it);
+    loadExampleFile('lego/ev3/blocks/EV3-UltraSonic-Sensor.cwc', it);
+    loadExampleFile('lego/ev3/blocks/EV3-Robot-Arm-H25.cwc', it);
   });
 });

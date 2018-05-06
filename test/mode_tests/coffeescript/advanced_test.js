@@ -21,16 +21,8 @@
 
 describe('[Mode Coffeescript - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('coffeescript/blank.coffee', builder, it);
-    loadExampleFile('coffeescript/script/countdown.coffee', builder, it);
+    loadTemplateFile('coffeescript/blank.coffee', it);
+    loadExampleFile('coffeescript/script/countdown.coffee', it);
   });
 });

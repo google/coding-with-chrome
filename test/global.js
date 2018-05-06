@@ -38,62 +38,74 @@ let getTestBuffer = function(data) {
   return cwc.utils.ByteTools.getUint8Data(data).data;
 };
 
-let loadExampleFile = function(file, builder) {
-  return it(file, function(done) {
-    builder.loadFile('../resources/examples/' + file).then(() => {
-      expect(true).toEqual(true);
-      done();
-    }, (error) => {
-      expect(error).toEqual(null);
-      if (error) {
-        throw error;
-      }
-      done();
+let loadExampleFile = function(file, it) {
+  return it('Example:' + file, function(done) {
+    let builder = new cwc.ui.Builder(false);
+    builder.decorate(null, function() {
+      builder.loadFile('../resources/examples/' + file).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, (error) => {
+        expect(error).toEqual(null);
+        if (error) {
+          throw error;
+        }
+        done();
+      });
     });
   });
 };
 
-let loadTemplateFile = function(file, builder, it) {
-  return it(file, function(done) {
-    builder.loadFile('../resources/templates/' + file).then(() => {
-      expect(true).toEqual(true);
-      done();
-    }, (error) => {
-      expect(error).toEqual(null);
-      if (error) {
-        throw error;
-      }
-      done();
+let loadTemplateFile = function(file, it) {
+  return it('Template:' + file, function(done) {
+    let builder = new cwc.ui.Builder(false);
+    builder.decorate(null, function() {
+      builder.loadFile('../resources/templates/' + file).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, (error) => {
+        expect(error).toEqual(null);
+        if (error) {
+          throw error;
+        }
+        done();
+      });
     });
   });
 };
 
-let loadTourFile = function(file, builder, it) {
-  return it(file, function(done) {
-    builder.loadFile('../resources/tour/' + file).then(() => {
-      expect(true).toEqual(true);
-      done();
-    }, (error) => {
-      expect(error).toEqual(null);
-      if (error) {
-        throw error;
-      }
-      done();
+let loadTourFile = function(file, it) {
+  return it('Tour:' + file, function(done) {
+    let builder = new cwc.ui.Builder(false);
+    builder.decorate(null, function() {
+      builder.loadFile('../resources/tour/' + file).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, (error) => {
+        expect(error).toEqual(null);
+        if (error) {
+          throw error;
+        }
+        done();
+      });
     });
   });
 };
 
-let loadTutorialFile = function(file, builder, it) {
-  return it(file, function(done) {
-    builder.loadFile('../resources/tutorials/' + file).then(() => {
-      expect(true).toEqual(true);
-      done();
-    }, (error) => {
-      expect(error).toEqual(null);
-      if (error) {
-        throw error;
-      }
-      done();
+let loadTutorialFile = function(file, it) {
+  return it('Tutorial:' + file, function(done) {
+    let builder = new cwc.ui.Builder(false);
+    builder.decorate(null, function() {
+      builder.loadFile('../resources/tutorials/' + file).then(() => {
+        expect(true).toEqual(true);
+        done();
+      }, (error) => {
+        expect(error).toEqual(null);
+        if (error) {
+          throw error;
+        }
+        done();
+      });
     });
   });
 };

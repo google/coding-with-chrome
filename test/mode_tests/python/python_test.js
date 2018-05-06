@@ -21,17 +21,9 @@
 
 describe('[Mode Python - Python 3.x]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('python/blank.py', builder, it);
-    loadExampleFile('python/class-test.py', builder, it);
-    loadExampleFile('python/turtle-graphics.py', builder, it);
+    loadTemplateFile('python/blank.py', it);
+    loadExampleFile('python/class-test.py', it);
+    loadExampleFile('python/turtle-graphics.py', it);
   });
 });

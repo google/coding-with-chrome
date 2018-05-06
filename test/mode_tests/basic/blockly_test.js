@@ -21,21 +21,13 @@
 
 describe('[Mode Basic - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('basic/blank-blocks.cwc', builder, it);
-    loadExampleFile('basic/blocks/Hello-World.cwc', builder, it);
-    loadExampleFile('basic/blocks/Sunlights.cwc', builder, it);
-    loadExampleFile('basic/blocks/Text-Loop.cwc', builder, it);
-    loadTutorialFile('basic/blocks/blockly.cwct', builder, it);
-    loadTourFile('basic/blocks/cwc.cwct', builder, it);
-    loadTourFile('basic/blocks/blockly.cwct', builder, it);
+    loadTemplateFile('basic/blank-blocks.cwc', it);
+    loadExampleFile('basic/blocks/Hello-World.cwc', it);
+    loadExampleFile('basic/blocks/Sunlights.cwc', it);
+    loadExampleFile('basic/blocks/Text-Loop.cwc', it);
+    loadTutorialFile('basic/blocks/blockly.cwct', it);
+    loadTourFile('basic/blocks/cwc.cwct', it);
+    loadTourFile('basic/blocks/blockly.cwct', it);
   });
 });

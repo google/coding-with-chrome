@@ -21,17 +21,9 @@
 
 describe('[Mode Python - Python 2.7]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('python27/blank.py', builder, it);
-    loadExampleFile('python27/guess-number.py', builder, it);
-    loadExampleFile('python27/turtle-graphics.py', builder, it);
+    loadTemplateFile('python27/blank.py', it);
+    loadExampleFile('python27/guess-number.py', it);
+    loadExampleFile('python27/turtle-graphics.py', it);
   });
 });

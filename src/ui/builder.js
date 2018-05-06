@@ -147,12 +147,13 @@ cwc.ui.oauth2Helpers = {
 
 /**
  * Default construction of the Coding with Chrome editor.
+ * @param {boolean=} autoDecorate
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.ui.Builder = function() {
+cwc.ui.Builder = function(autoDecorate = true) {
   /** @type {string} */
   this.name = 'Builder';
 
@@ -185,6 +186,13 @@ cwc.ui.Builder = function() {
 
   /** @private {!cwc.ui.LoadingScreen} */
   this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
+
+  // Decorates Coding with Chrome GUI after content is loaded. */
+  if (autoDecorate) {
+    window.addEventListener('load', function() {
+      new cwc.ui.Builder().decorate();
+    }, false);
+  }
 };
 
 
@@ -201,7 +209,9 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
     this.node = node;
   } else if (goog.dom.getElement('cwc-editor')) {
     this.node = goog.dom.getElement('cwc-editor');
-  } else {
+  }
+
+  if (!this.node) {
     this.raiseError('Required node is neither a string or an object!');
   }
 
@@ -671,9 +681,3 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
         'Please check if you have included the ' + name + ' files.');
   }
 };
-
-
-// Decorates Coding with Chrome GUI after content is loaded. */
-window.addEventListener('load', function() {
-  new cwc.ui.Builder().decorate();
-}, false);

@@ -21,17 +21,9 @@
 
 describe('[Mode Javascript - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('javascript/blank.js', builder, it);
-    loadExampleFile('javascript/raw/countdown.js', builder, it);
-    loadTutorialFile('javascript/script/svg.cwct', builder, it);
+    loadTemplateFile('javascript/blank.js', it);
+    loadExampleFile('javascript/raw/countdown.js', it);
+    loadTutorialFile('javascript/script/svg.cwct', it);
   });
 });

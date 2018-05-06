@@ -21,23 +21,15 @@
 
 describe('[Mode mBot - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('makeblock/mbot/blank-blocks.cwc', builder, it);
+    loadTemplateFile('makeblock/mbot/blank-blocks.cwc', it);
     loadExampleFile(
-      'makeblock/mbot/blocks/mBot-button_light.cwc', builder, it);
+      'makeblock/mbot/blocks/mBot-button_light.cwc', it);
     loadExampleFile(
-      'makeblock/mbot/blocks/mBot-collision_avoidance.cwc', builder, it);
+      'makeblock/mbot/blocks/mBot-collision_avoidance.cwc', it);
     loadExampleFile(
-      'makeblock/mbot/blocks/mBot-lightness_sound.cwc', builder, it);
+      'makeblock/mbot/blocks/mBot-lightness_sound.cwc', it);
     loadExampleFile(
-      'makeblock/mbot/blocks/mBot-line_follower.cwc', builder, it);
+      'makeblock/mbot/blocks/mBot-line_follower.cwc', it);
   });
 });

@@ -24,6 +24,7 @@ goog.require('cwc.soy.mode.ev3.Calibration');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -86,8 +87,11 @@ cwc.mode.lego.ev3.Calibration = function(helper, connection, runner) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+
   if (!this.connection) {
-    console.error('Missing connection instance !');
+    this.log_.error('Missing connection instance !');
   }
 };
 
@@ -99,7 +103,7 @@ cwc.mode.lego.ev3.Calibration.prototype.decorate = function() {
   let runnerInstance = this.helper.getInstance('runner', true);
   let runnerMonitor = runnerInstance.getMonitor();
   if (!runnerMonitor) {
-    console.error('Runner Monitor is not there!', this.runner);
+    this.log_.error('Runner Monitor is not there!', this.runner);
     return;
   }
 
@@ -195,8 +199,8 @@ cwc.mode.lego.ev3.Calibration.prototype.setType = function(event) {
  * @param {!string} model
  */
 cwc.mode.lego.ev3.Calibration.prototype.setRobotModel = function(model) {
-  console.log('Set robot model to', model);
-  console.log('Type:', cwc.protocol.lego.ev3.Robots[model].type);
+  this.log_.info('Set robot model to', model);
+  this.log_.info('Type:', cwc.protocol.lego.ev3.Robots[model].type);
 
   let robotConfig = cwc.protocol.lego.ev3.Robots[model];
   let fileInstance = this.helper.getInstance('file');

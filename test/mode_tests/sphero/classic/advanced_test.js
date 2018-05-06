@@ -21,16 +21,8 @@
 
 describe('[Mode Sphero Classic - Advanced]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('sphero/classic/blank.cwc', builder, it);
-    loadExampleFile('sphero/classic/script/Sphero-rectangle.cwc', builder, it);
+    loadTemplateFile('sphero/classic/blank.cwc', it);
+    loadExampleFile('sphero/classic/script/Sphero-rectangle.cwc', it);
   });
 });

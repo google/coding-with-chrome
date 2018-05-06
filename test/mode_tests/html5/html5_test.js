@@ -21,16 +21,8 @@
 
 describe('[Mode HTML5]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('html5/blank.html', builder, it);
-    loadExampleFile('html5/form.html', builder, it);
+    loadTemplateFile('html5/blank.html', it);
+    loadExampleFile('html5/form.html', it);
   });
 });

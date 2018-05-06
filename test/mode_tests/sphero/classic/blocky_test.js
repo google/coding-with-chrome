@@ -21,17 +21,9 @@
 
 describe('[Mode Sphero Classic - Blockly]', function() {
   document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
-  let builder = new cwc.ui.Builder();
-
   describe('Prepare Mode', function() {
-    beforeAll(function(done) {
-      builder.decorate(null, function() {
-        done();
-      });
-    });
-
-    loadTemplateFile('sphero/classic/blank-blocks.cwc', builder, it);
-    loadExampleFile('sphero/classic/blocks/Sphero-collision.cwc', builder, it);
-    loadExampleFile('sphero/classic/blocks/Sphero-rectangle.cwc', builder, it);
+    loadTemplateFile('sphero/classic/blank-blocks.cwc', it);
+    loadExampleFile('sphero/classic/blocks/Sphero-collision.cwc', it);
+    loadExampleFile('sphero/classic/blocks/Sphero-rectangle.cwc', it);
   });
 });
