@@ -229,6 +229,9 @@ cwc.utils.mime.getTypeByName = function(name) {
     case 'css':
     case '__css__':
       return cwc.utils.mime.Type.CSS.type;
+    case 'python':
+    case '__python__':
+      return cwc.utils.mime.Type.PYTHON.type;
   }
   return '';
 };

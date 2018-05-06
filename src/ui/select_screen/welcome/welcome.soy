@@ -33,15 +33,15 @@
     {param id: 'welcome' /}
     {param header kind="html"}
       {call .header_ data="all"}
-        {param title: 'WELCOME_SCREEN_TITLE' /}
-        {param text: 'WELCOME_SCREEN_DESCRIPTION' /}
+        {param title: '@@WELCOME_SCREEN_TITLE' /}
+        {param text: '@@WELCOME_SCREEN_DESCRIPTION' /}
       {/call}
 
       {call .banner_ data="all" /}
 
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'WELCOME_SCREEN_HEADER' /}
-        {param opt_text: 'WELCOME_SCREEN_CHOOSE' /}
+        {param title: '@@WELCOME_SCREEN_HEADER' /}
+        {param opt_text: '@@WELCOME_SCREEN_CHOOSE' /}
         {param opt_icon: 'extension' /}
       {/call}
     {/param}
@@ -49,30 +49,30 @@
     {param content kind="html"}
 
       <div id="cwc-select-screen-link-normal-mode" class="mdl-card mdl-card--expand mdl-shadow--3dp mdl-color--lime">
-        <div class="mdl-card__title"><h4 class="mdl-card__title-text">{msg desc=""}WELCOME_SCREEN_BEGINNER{/msg}</h4></div>
+        <div class="mdl-card__title"><h4 class="mdl-card__title-text">{msg desc=""}@@WELCOME_SCREEN_BEGINNER{/msg}</h4></div>
         <div class="mdl-card__media">
           {call .blocklyExample_ /}
         </div>
         <div class="mdl-card__supporting-text">
-          <span class="mdl-typography--subhead">{msg desc=""}WELCOME_SCREEN_BEGINNER_TEXT{/msg}</span>
+          <span class="mdl-typography--subhead">{msg desc=""}@@WELCOME_SCREEN_BEGINNER_TEXT{/msg}</span>
         </div>
         <div class="mdl-card__actions">
           <a class="mdl-button mdl-js-button mdl-typography--text-uppercase link_normal-mode" href="#normal-mode">
-            {msg desc=""}WELCOME_SCREEN_BEGINNER_ACTION{/msg}<i class="material-icons">chevron_right</i></a>
+            {msg desc=""}@@WELCOME_SCREEN_BEGINNER_ACTION{/msg}<i class="material-icons">chevron_right</i></a>
         </div>
       </div>
 
       <div id="cwc-select-screen-link-advanced-mode" class="mdl-card mdl-card--expand mdl-shadow--3dp mdl-color--amber">
-        <div class="mdl-card__title"><h4 class="mdl-card__title-text">{msg desc=""}WELCOME_SCREEN_ADVANCED{/msg}</h4></div>
+        <div class="mdl-card__title"><h4 class="mdl-card__title-text">{msg desc=""}@@WELCOME_SCREEN_ADVANCED{/msg}</h4></div>
         <div class="mdl-card__media">
           {call .editorExample_ /}
         </div>
         <div class="mdl-card__supporting-text">
-          <span class="mdl-typography--subhead">{msg desc=""}WELCOME_SCREEN_ADVANCED_TEXT{/msg}</span>
+          <span class="mdl-typography--subhead">{msg desc=""}@@WELCOME_SCREEN_ADVANCED_TEXT{/msg}</span>
         </div>
         <div class="mdl-card__actions">
           <a class="mdl-button mdl-js-button mdl-typography--text-uppercase link_advanced-mode" href="#advanced-mode" data-upgraded=",MaterialButton">
-            {msg desc=""}WELCOME_SCREEN_ADVANCED_ACTION{/msg}<i class="material-icons">chevron_right</i></a>
+            {msg desc=""}@@WELCOME_SCREEN_ADVANCED_ACTION{/msg}<i class="material-icons">chevron_right</i></a>
         </div>
       </div>
 
@@ -83,9 +83,9 @@
     <label for="{$prefix}show-welcome" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="{$prefix}show-welcome" class="mdl-checkbox__input">
       <div class="mdl-checkbox__label">
-        {msg desc=""}WECLOME_SCREEN_SHOW_ON_STARTUP{/msg}
+        {msg desc=""}@@WECLOME_SCREEN_SHOW_ON_STARTUP{/msg}
         <span class="mdl-card__supporting-text">
-          ({msg desc=""}WECLOME_SCREEN_SHOW_ON_STARTUP_NOTE{/msg})
+          ({msg desc=""}@@WECLOME_SCREEN_SHOW_ON_STARTUP_NOTE{/msg})
         </span>
       </div>
     </label>

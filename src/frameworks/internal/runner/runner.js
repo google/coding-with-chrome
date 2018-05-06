@@ -77,7 +77,7 @@ cwc.framework.Runner.prototype.addCommand = function(name, func,
   if (!name) {
     console.error('Runner command is undefined!');
     return;
-  } else if (!func) {
+  } else if (!func || typeof func !== 'function') {
     console.error('Runner function ' + name + ' is undefined!');
     return;
   }
@@ -112,19 +112,20 @@ cwc.framework.Runner.prototype.enableMonitor = function(code, command,
  * @export
  */
 cwc.framework.Runner.prototype.send = function(name, value = {}, delay = 0) {
-  if (this.isReady_()) {
-    let sendCommand = function() {
-      this.appWindow.postMessage({
-        'command': name,
-        'value': value,
-      }, this.appOrigin);
-    }.bind(this);
-    if (delay) {
-      this.senderStack_.addCommand(sendCommand);
-      this.senderStack_.addDelay(delay);
-    } else {
-      sendCommand();
-    }
+  if (!name || !this.isReady_()) {
+    throw Error('Unable so send data!');
+  }
+  let sendCommand = function() {
+    this.appWindow.postMessage({
+      'command': name,
+      'value': value,
+    }, this.appOrigin);
+  }.bind(this);
+  if (delay) {
+    this.senderStack_.addCommand(sendCommand);
+    this.senderStack_.addDelay(delay);
+  } else {
+    sendCommand();
   }
 };
 
@@ -153,7 +154,7 @@ cwc.framework.Runner.prototype.setCallback = function(callback) {
  */
 cwc.framework.Runner.prototype.setScope = function(scope) {
   if (this.callback_ || this.monitor_) {
-    console.warn('Scope should be set before callback/monitor.');
+    throw new Error('Scope should be set before callback/monitor!');
   }
   if (scope && typeof scope === 'function') {
     this.scope_ = scope;
@@ -178,6 +179,26 @@ cwc.framework.Runner.prototype.setMonitor = function(monitor) {
 
 
 /**
+ * @param {!string} appOrigin
+ */
+cwc.framework.Runner.prototype.setAppOrigin = function(appOrigin) {
+  if (appOrigin) {
+    this.appOrigin = appOrigin;
+  }
+};
+
+
+/**
+ * @param {!Object} appWindow
+ */
+cwc.framework.Runner.prototype.setAppWindow = function(appWindow) {
+  if (appWindow) {
+    this.appWindow = appWindow;
+  }
+};
+
+
+/**
  * Handles the received messages and executes the predefined actions.
  * @param {Event} event
  * @private
@@ -186,20 +207,16 @@ cwc.framework.Runner.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }
+  if (!(event['data']['command'] in this.commands)) {
+    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
+  }
   if (!this.appWindow && 'source' in event) {
-    this.appWindow = event['source'];
+    this.setAppWindow(event['source']);
   }
   if (!this.appOrigin && 'origin' in event) {
-    this.appOrigin = event['origin'];
+    this.setAppOrigin(event['origin']);
   }
-  if (event['data']['command'] in this.commands) {
-    this.commands[event['data']['command']](
-      event['data']['value']
-    );
-  } else {
-    console.error('Command ' + event['data']['command'] +
-      ' is not defined yet');
-  }
+  this.commands[event['data']['command']](event['data']['value']);
 };
 
 
@@ -209,7 +226,7 @@ cwc.framework.Runner.prototype.handleMessage_ = function(event) {
  * @private
  */
 cwc.framework.Runner.prototype.handleHandshake_ = function(data) {
-  if (this.appWindow && this.appOrigin) {
+  if (this.isReady_()) {
     this.send('__handshake__', data);
   }
 };
@@ -242,6 +259,7 @@ cwc.framework.Runner.prototype.handlePing_ = function(ping_id) {
 
 /**
  * @return {boolean}
+ * @private
  */
 cwc.framework.Runner.prototype.isReady_ = function() {
   if (!this.appWindow || !this.appOrigin) {

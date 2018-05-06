@@ -27,6 +27,9 @@ describe('Framework: Runner', function() {
   let testFunction = function() {
     return 123;
   };
+  let testAppWindow = {
+    'postMessage': function() {},
+  };
 
   it('constructor', function() {
     let framework = new cwc.framework.Runner();
@@ -51,6 +54,10 @@ describe('Framework: Runner', function() {
     let framework = new cwc.framework.Runner();
     framework.setScope(testFunction);
     expect(framework.scope_).toEqual(testFunction);
+    framework.setCallback(callback);
+    expect(function() {
+      framework.setScope(testFunction);
+    }).toThrow(new Error('Scope should be set before callback/monitor!'));
   });
 
   it('setMonitor', function() {
@@ -73,6 +80,8 @@ describe('Framework: Runner', function() {
 
   it('enableMonitor', function() {
     let framework = new cwc.framework.Runner();
+    framework.setAppOrigin('local');
+    framework.setAppWindow(testAppWindow);
     expect(framework.enableMonitor('1\n2\n3\n', '1')).toEqual(true);
     expect(framework.enableMonitor('1\n2\n3\n', '2')).toEqual(true);
     expect(framework.enableMonitor('1\n2\n3\n', '3')).toEqual(true);
@@ -81,5 +90,95 @@ describe('Framework: Runner', function() {
     expect(framework.enableMonitor('1\n2\n3\n', '2', 'test')).toEqual(true);
     expect(framework.enableMonitor('1\n2\n3\n', '3', 'test')).toEqual(true);
     expect(framework.enableMonitor('1\n2\n3\n', '4', 'test')).toEqual(false);
+  });
+
+  it('send', function() {
+    let framework = new cwc.framework.Runner();
+    expect(function() {
+      framework.send('test', 'world');
+    }).toThrow(
+      new Error('Unable so send data!'));
+    let messageCache = null;
+    framework.setAppOrigin('local');
+    framework.setAppWindow({
+      'postMessage': function(data, origin) {
+        messageCache = data;
+        expect(origin).toEqual(framework.appOrigin);
+      },
+    });
+    expect(framework.send('test', 'world'));
+    expect(messageCache.command).toEqual('test');
+    expect(messageCache.value).toEqual('world');
+    expect(framework.send('test', 'world', 1));
+  });
+
+  it('handleMessage_', function() {
+    let framework = new cwc.framework.Runner();
+    let testEvent = {
+      'source': 'appWindow',
+      'origin': 'appOrigin',
+      'data': {
+        'command': 'hello',
+        'value': 'world',
+      },
+    };
+    expect(framework.handleMessage_).toThrow(
+      new Error('Was not able to get browser event!'));
+    expect(framework.appWindow).toEqual(null);
+    expect(framework.appOrigin).toEqual('');
+    expect(function() {
+      framework.handleMessage_(testEvent);
+    }).toThrow(new Error('Command hello is not defined!'));
+    framework.addCommand('hello', function() {});
+    expect(framework.handleMessage_(testEvent));
+    expect(framework.appWindow).toEqual('appWindow');
+    expect(framework.appOrigin).toEqual('appOrigin');
+  });
+
+  it('handleHandshake_', function() {
+    let framework = new cwc.framework.Runner();
+    framework.setAppOrigin('local');
+    framework.setAppWindow(testAppWindow);
+    let sendCache = null;
+    framework.send = function(name, data) {
+      sendCache = {
+        'name': name,
+        'data': data,
+      };
+    };
+    expect(framework.handleHandshake_('123'));
+    expect(sendCache.name).toEqual('__handshake__');
+    expect(sendCache.data).toEqual('123');
+  });
+
+  it('handleStart_', function() {
+    let framework = new cwc.framework.Runner();
+    let callbackCache = null;
+    framework.callback_ = function() {
+      callbackCache = 1;
+    };
+    let monitorCache = null;
+    framework.monitor_ = function() {
+      monitorCache = 2;
+    };
+    expect(framework.handleStart_());
+    expect(callbackCache).toEqual(1);
+    expect(monitorCache).toEqual(2);
+  });
+
+  it('handlePing_', function() {
+    let framework = new cwc.framework.Runner();
+    framework.setAppOrigin('local');
+    framework.setAppWindow(testAppWindow);
+    let sendCache = null;
+    framework.send = function(name, data) {
+      sendCache = {
+        'name': name,
+        'data': data,
+      };
+    };
+    expect(framework.handlePing_('123'));
+    expect(sendCache.name).toEqual('__pong__');
+    expect(sendCache.data.id).toEqual('123');
   });
 });

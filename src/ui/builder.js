@@ -147,13 +147,12 @@ cwc.ui.oauth2Helpers = {
 
 /**
  * Default construction of the Coding with Chrome editor.
- * @param {boolean=} autoDecorate
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.ui.Builder = function(autoDecorate = true) {
+cwc.ui.Builder = function() {
   /** @type {string} */
   this.name = 'Builder';
 
@@ -187,11 +186,10 @@ cwc.ui.Builder = function(autoDecorate = true) {
   /** @private {!cwc.ui.LoadingScreen} */
   this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
 
-  // Decorates Coding with Chrome GUI after content is loaded. */
-  if (autoDecorate) {
-    window.addEventListener('load', function() {
-      new cwc.ui.Builder().decorate();
-    }, false);
+  if (window['CWC_BUILDER']) {
+    this.log_.warn('Found an existing CWC Builder instance!');
+  } else {
+    window['CWC_BUILDER'] = true;
   }
 };
 
