@@ -34,20 +34,20 @@ cwc.framework.Runner = function() {
   /** @type {string} */
   this.name = 'Runner Framework';
 
-  /** @type {Object} */
-  this.appWindow = null;
-
   /** @type {string} */
   this.appOrigin = '';
 
   /** @type {Object} */
-  this.commands = {};
+  this.appWindow = null;
 
   /** @type {Object} */
-  this.scope = null;
+  this.commands = {};
 
   /** @private {?Function} */
   this.callback_ = null;
+
+  /** @private {Object} */
+  this.scope_ = null;
 
   /** @private {?Function} */
   this.monitor_ = null;
@@ -60,8 +60,8 @@ cwc.framework.Runner = function() {
 
   // External commands
   this.addCommand('__handshake__', this.handleHandshake_.bind(this));
-  this.addCommand('__start__', this.handleStart_.bind(this));
   this.addCommand('__ping__', this.handlePing_.bind(this));
+  this.addCommand('__start__', this.handleStart_.bind(this));
 };
 
 
@@ -73,7 +73,7 @@ cwc.framework.Runner = function() {
  * @export
  */
 cwc.framework.Runner.prototype.addCommand = function(name, func,
-    scope = this.scope) {
+    scope = this.scope_) {
   if (!name) {
     console.error('Runner command is undefined!');
     return;
@@ -89,14 +89,18 @@ cwc.framework.Runner.prototype.addCommand = function(name, func,
  * Enables/disable monitoring depending on used code.
  * @param {!Function} code
  * @param {!string} command
- * @param {!string} monitorCommand
+ * @param {string=} monitorCommand
+ * @return {!boolean}
  * @export
  */
 cwc.framework.Runner.prototype.enableMonitor = function(code, command,
     monitorCommand) {
   let status = code.toString().includes(command);
-  console.log((status ? 'Enable ' : 'Disable ') + monitorCommand + ' ...');
-  this.send(monitorCommand, {'enable': status});
+  if (monitorCommand) {
+    console.log((status ? 'Enable ' : 'Disable ') + monitorCommand + ' ...');
+    this.send(monitorCommand, {'enable': status});
+  }
+  return status;
 };
 
 
@@ -134,7 +138,7 @@ cwc.framework.Runner.prototype.send = function(name, value = {}, delay = 0) {
  */
 cwc.framework.Runner.prototype.setCallback = function(callback) {
   if (callback && typeof callback === 'function') {
-    this.callback_ = this.scope ? callback.bind(this.scope) : callback;
+    this.callback_ = this.scope_ ? callback.bind(this.scope_) : callback;
   }
   return this;
 };
@@ -148,8 +152,11 @@ cwc.framework.Runner.prototype.setCallback = function(callback) {
  * @export
  */
 cwc.framework.Runner.prototype.setScope = function(scope) {
+  if (this.callback_ || this.monitor_) {
+    console.warn('Scope should be set before callback/monitor.');
+  }
   if (scope && typeof scope === 'function') {
-    this.scope = scope;
+    this.scope_ = scope;
   }
   return this;
 };
@@ -164,7 +171,7 @@ cwc.framework.Runner.prototype.setScope = function(scope) {
  */
 cwc.framework.Runner.prototype.setMonitor = function(monitor) {
   if (monitor && typeof monitor === 'function') {
-    this.monitor_ = this.scope ? monitor.bind(this.scope) : monitor;
+    this.monitor_ = this.scope_ ? monitor.bind(this.scope_) : monitor;
   }
   return this;
 };
@@ -219,7 +226,7 @@ cwc.framework.Runner.prototype.handleStart_ = function() {
   }
   if (this.callback_) {
     console.log('Starting program ...');
-    this.callback_(this.scope);
+    this.callback_(this.scope_);
   }
 };
 
