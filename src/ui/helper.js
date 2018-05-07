@@ -76,33 +76,6 @@ cwc.ui.Helper.mdlRefresh = function() {
 
 
 /**
- * Adding script element to head.
- * @param {!string} script_url
- * @param {string=} opt_id
- * @param {Function=} optCallback
- */
-cwc.ui.Helper.insertScript = function(script_url, opt_id, optCallback) {
-  console.log('Insert Script', opt_id, 'with src:', script_url);
-  if (opt_id) {
-    let oldScriptNode = document.getElementById(opt_id);
-    if (oldScriptNode) {
-      oldScriptNode.parentNode.removeChild(oldScriptNode);
-    }
-  }
-  let scriptNode = document.createElement('script');
-  if (opt_id) {
-    scriptNode.id = opt_id;
-  }
-  if (goog.isFunction(optCallback)) {
-    scriptNode.onload = optCallback;
-  }
-  let headNode = document.head || document.getElementsByTagName('head')[0];
-  headNode.appendChild(scriptNode);
-  scriptNode.src = script_url;
-};
-
-
-/**
  * Enables or disables an element.
  * @param {Element|string} element
  * @param {boolean} enabled

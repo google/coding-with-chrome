@@ -36,11 +36,11 @@ cwc.ui.LibraryTour.get = function(prefix = '') {
     'text': i18t('Library__intro'),
     'attachTo': '#' + prefix + 'chrome center',
     'buttons': [{
-      'text': i18t('EXIT'),
+      'text': i18t('@@GENERAL__EXIT'),
       'action': tour.cancel,
       'classes': 'shepherd-button-secondary',
     }, {
-      'text': i18t('NEXT'),
+      'text': i18t('@@GENERAL__NEXT'),
       'action': tour.next,
       'classes': 'shepherd-button-example-primary',
     }],
@@ -75,7 +75,7 @@ cwc.ui.LibraryTour.get = function(prefix = '') {
     'text': i18t('Library__close_dialog'),
     'attachTo': '#cwc-dialog-close left',
     'buttons': [{
-      'text': i18t('EXIT'),
+      'text': i18t('@@GENERAL__EXIT'),
       'action': tour.cancel,
       'classes': 'shepherd-button-example-primary',
     }],

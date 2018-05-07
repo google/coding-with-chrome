@@ -81,6 +81,32 @@ cwc.utils.Resources.getUriAsBase64 = function(uri) {
 
 
 /**
+ * @param {!string} uri
+ * @param {!string} nodeId
+ * @return {Promise}
+ * @private
+ */
+cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
+  return new Promise((resolve, reject) => {
+    let headNode = document.head || document.getElementsByTagName('head')[0];
+    let existingScriptNode = document.getElementById(nodeId);
+    if (existingScriptNode) {
+      if (existingScriptNode.src === uri) {
+        return;
+      }
+      existingScriptNode.parentNode.removeChild(existingScriptNode);
+    }
+    let scriptNode = document.createElement('script');
+    scriptNode.id = nodeId;
+    scriptNode.onload = resolve;
+    scriptNode.onerror = reject;
+    headNode.appendChild(scriptNode);
+    scriptNode.src = uri;
+  });
+};
+
+
+/**
  * @param {!goog.net.XhrIo} xhr
  * @param {!Function} reject
  * @param {string=} uri

@@ -217,18 +217,6 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
 
 
 /**
- * @return {Object}
- */
-cwc.utils.Helper.prototype.getI18nData = function() {
-  let i18nInstance = this.getInstance('i18n');
-  if (i18nInstance) {
-    return i18nInstance.getLanguageData();
-  }
-  return {};
-};
-
-
-/**
  * @return {!string}
  */
 cwc.utils.Helper.prototype.getUserLanguage = function() {
@@ -501,7 +489,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
       untranslated: ' ' + filename,
     };
     let content = 'Changes have not been saved. Exit?';
-    let action = i18t('EXIT');
+    let action = i18t('@@GENERAL__EXIT');
     dialogInstance.showActionCancel(title, content, action).then((answer) => {
       if (answer) {
         func();

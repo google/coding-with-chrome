@@ -25,10 +25,10 @@ Locales['eng'] = Locales['eng'] || {};
  * @final
  * @export
  */
-/* eslint-disable max-len */
-Object.assign(Locales['eng'], {
-  'SIDEBAR_LIBRARY': 'Open file library',
-  'SIDEBAR_MEDIA': 'Upload and insert media',
-  'SIDEBAR_FILE_DESCRIPTION': 'Show file description',
-  'SIDEBAR_TUTORIAL': 'Start/restart tutorial',
-});
+Locales['eng']['SIDEBAR'] = {
+  'FILE_DESCRIPTION': 'Show file description',
+  'LIBRARY': 'Open file library',
+  'MEDIA': 'Upload and insert media',
+  'TOUR': 'Start/restart tour',
+  'TUTORIAL': 'Start/restart tutorial',
+};

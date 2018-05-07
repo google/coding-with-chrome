@@ -25,21 +25,28 @@ Locales['deu'] = Locales['deu'] || {};
  * @final
  * @export
  */
-/* eslint-disable max-len */
-Object.assign(Locales['deu'], {
-  'STATUS_BUTTON_COLLAPSE_VIEW': 'Verkleinere die Ansicht',
-  'STATUS_BUTTON_EXPAND_VIEW': 'Vergrößere die Ansicht',
-  'STATUS_BUTTON_OPEN_IN_BROWSER': 'Öffne die Ansicht in einen neuen Browser Fenster',
-  'STATUS_BUTTON_REFRESH_VIEW': 'Ansicht aktualisieren',
-  'STATUS_BUTTON_RUN_CODE': 'Führe denn Code aus und aktualisiere die Ansicht',
-  'STATUS_BUTTON_STOP_VIEW': 'Stoppt oder beendet die Ansicht',
-  'STATUS_BUTTON_TERMINATE_VIEW': 'Beendet die Anischt',
-  'STATUS_LOADED': 'Beendet nach $VAR$ Sekunden.',
-  'STATUS_LOADING': 'Laded ...',
-  'STATUS_PREPARE': 'Vorbereitung',
-  'STATUS_RELOADING': 'Neu laden ...',
-  'STATUS_RUNNING': 'Läuft ...',
-  'STATUS_STOPPED': 'Angehalten',
-  'STATUS_TERMINATED': 'Beended',
-  'STATUS_UNRESPONSIVE': 'Reagiert nicht',
-});
+Locales['deu']['STATUS'] = {
+  'LOADED': 'Beendet nach {$seconds} Sekunden.',
+  'LOADING': 'Laded ...',
+  'PREPARE': 'Vorbereitung',
+  'RELOADING': 'Neu laden ...',
+  'RUNNING': 'Läuft ...',
+  'STOPPED': 'Angehalten',
+  'TERMINATED': 'Beended',
+  'UNRESPONSIVE': 'Reagiert nicht',
+};
+
+
+/**
+ * @final
+ * @export
+ */
+Locales['deu']['STATUS_BUTTON'] = {
+  'COLLAPSE_VIEW': 'Verkleinere die Ansicht',
+  'EXPAND_VIEW': 'Vergrößere die Ansicht',
+  'OPEN_IN_BROWSER': 'Öffne die Ansicht in einen neuen Browser Fenster',
+  'REFRESH_VIEW': 'Ansicht aktualisieren',
+  'RUN_CODE': 'Führe denn Code aus und aktualisiere die Ansicht',
+  'STOP_VIEW': 'Stoppt oder beendet die Ansicht',
+  'TERMINATE_VIEW': 'Beendet die Anischt',
+};

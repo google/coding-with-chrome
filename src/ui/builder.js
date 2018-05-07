@@ -70,6 +70,7 @@ goog.require('cwc.utils.Gamepad');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.Resources');
 goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
@@ -646,7 +647,7 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
           languageFile = '../js/locales/' + language + '.js';
 
           // Blockly language file.
-          cwc.ui.Helper.insertScript(
+          cwc.utils.Resources.getUriAsJavaScriptTag(
             'external/blockly/msg/' +
               cwc.utils.I18n.getISO639_1(language) + '.js',
             'blockly-language'
@@ -662,9 +663,10 @@ cwc.ui.Builder.prototype.loadI18n_ = function() {
   }
 
   this.loadingScreen_.setUserLangauge(language);
-  i18nInstance.loadLanguageFile(languageFile).then(() => {
-    i18nInstance.setLanguage(language);
-    this.loadUI();
+  cwc.utils.Resources.getUriAsJavaScriptTag(
+    languageFile, 'cwc-i18n-language').then(() => {
+      i18nInstance.setLanguage(language);
+      this.loadUI();
   });
 };
 

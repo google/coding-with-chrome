@@ -26,11 +26,13 @@ Locales['deu'] = Locales['deu'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Object.assign(Locales['deu'], {
-  'SETTING_SCREEN_TITLE': 'Einstellungen',
-  'SETTING_SCREEN_GENERAL': 'Allgemein',
-  'SETTING_SCREEN_MODULES': 'Module',
-  'SETTING_SCREEN_EDITOR': 'Editor',
-  'SETTING_SCREEN_MISC': 'Verschiedenes',
-  'SETTING_SCREEN_NOTE_RESTART': 'Die Anwendung muss nach dem aktieren oder deaktivieren einer oder mehrere Optionen neugestartet werden.',
-});
+Locales['deu']['SETTING_SCREEN'] = {
+  'CLOSE': 'Schließe Einstellungen',
+  'EDITOR': 'Editor',
+  'GENERAL': 'Allgemein',
+  'MISC': 'Verschiedenes',
+  'MODULES': 'Module',
+  'NOTE_RESTART': 'Die Anwendung muss nach dem aktieren oder deaktivieren einer oder mehrere Optionen neugestartet werden.',
+  'SECTIONS': 'Bereiche',
+  'TITLE': 'Einstellungen',
+};

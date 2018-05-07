@@ -114,6 +114,11 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
   goog.style.setElementShown(this.nodeTerminate, false);
   goog.style.setElementShown(this.nodeRun, true);
   goog.style.setElementShown(this.nodeStop, false);
+
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
+
   return this;
 };
 

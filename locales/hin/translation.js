@@ -16,6 +16,7 @@
  * limitations under the License.
  *
  * @author rohangoyal1407@gmail.com (Rohan Goyal)
+ * @deprecated
  */
 window['Locales'] = window['Locales'] || {};
 

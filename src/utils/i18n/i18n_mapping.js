@@ -1,7 +1,7 @@
 /**
- * @fileoverview Features tests.
+ * @fileoverview Internationalization and localization (i18n) mapping.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,29 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.utils.Features');
+goog.provide('cwc.utils.I18nMapping');
 
 
-describe('Features', function() {
-  it('constructor', function() {
-    expect(typeof new cwc.utils.Features()).toEqual('object');
-  });
-});
+/**
+ * ISO639-3 mapping table
+ */
+cwc.utils.I18nMapping.ISO639_3 = {
+  'eng': 'en',
+  'deu': 'de',
+  'hin': 'hi',
+  'jpn': 'ja',
+  'kor': 'ko',
+};
+
+
+/**
+ * bcp47 mapping table
+ */
+cwc.utils.I18nMapping.BCP47 = {
+  'de': 'deu',
+  'de-DE': 'deu',
+  'en': 'eng',
+  'en-US': 'eng',
+  'ja': 'jpn',
+  'ja-JP': 'jpn',
+};

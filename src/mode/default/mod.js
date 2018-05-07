@@ -283,12 +283,12 @@ cwc.mode.default.Mod.prototype.showEditor_ = function() {
 cwc.mode.default.Mod.prototype.showBlockly_ = function() {
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showActionCancel('Warning', 'Switching to Blockly mode ' +
-    'will overwrite any manual changes! Continue?', i18t('CONTINUE')).then(
-      (answer)=> {
-        if (answer) {
-          this.switchToEditor_();
-        }
-      });
+    'will overwrite any manual changes! Continue?',
+    i18t('@@GENERAL__CONTINUE')).then((answer) => {
+      if (answer) {
+        this.switchToEditor_();
+      }
+    });
 };
 
 

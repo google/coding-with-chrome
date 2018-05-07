@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.utils.I18n');
 
+goog.require('cwc.utils.I18nMapping');
 goog.require('cwc.utils.Logger');
 
 
@@ -44,15 +45,6 @@ cwc.utils.I18n = function() {
   /** @type {!Object} */
   this.untranslated = {};
 
-  /** @type {!string} */
-  this.blacklistNodeId = 'cwc-i18n-blacklist';
-
-  /** @type {!string} */
-  this.languageNodeId = 'cwc-i18n-language';
-
-  /** @type {!string} */
-  this.supportedLanguagesNodeId = 'cwc.i18n-supported-languages';
-
   /** @type {!Object} */
   this.usage = {};
 
@@ -75,45 +67,10 @@ cwc.utils.I18n.prototype.prepare_ = function() {
 
   // Register global handler
   window['i18t'] = this.translate.bind(this);
-  window['i18v'] = this.translateVariable.bind(this);
-  window['i18soy'] = this.translateSoy.bind(this);
+  window['i18soy'] = this.translate.bind(this);
 
   this.setSupportedLanguages();
-  let language = this.getLanguage();
-  if (language) {
-    this.log_.info('Detected user language', language);
-    this.setLanguage(language);
-  } else {
-    this.log_.info('Using fallback language', this.fallbackLanguage);
-    this.setLanguage(this.fallbackLanguage);
-  }
-};
-
-
-/**
- * @param {!string} file
- * @return {Promise}
- */
-cwc.utils.I18n.prototype.loadSupportedLanguagesFile = function(file) {
-  return this.loadFile_(file, this.supportedLanguagesNodeId);
-};
-
-
-/**
- * @param {!string} file
- * @return {Promise}
- */
-cwc.utils.I18n.prototype.loadBlacklistFile = function(file) {
-  return this.loadFile_(file, this.blacklistNodeId);
-};
-
-
-/**
- * @param {!string} file
- * @return {Promise}
- */
-cwc.utils.I18n.prototype.loadLanguageFile = function(file) {
-  return this.loadFile_(file, this.languageNodeId);
+  this.setLanguage();
 };
 
 
@@ -122,8 +79,9 @@ cwc.utils.I18n.prototype.loadLanguageFile = function(file) {
  * @param {!string} key
  * @param {string=} text
  * @return {!string}
+ * @deprecated
  */
-cwc.utils.I18n.prototype.translate = function(key, text = '') {
+cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
   if (!Locales || !Locales[this.language] ||
       typeof Locales['blacklist'][key] !== 'undefined') {
     return text || key;
@@ -139,36 +97,52 @@ cwc.utils.I18n.prototype.translate = function(key, text = '') {
 
 
 /**
- * Translate the given soy context to the current language.
- * @param {!string} text
- * @param {Object=} optValues
+ * Translate the given translation Key to the current language.
+ * @param {!string} translationKey
+ * @param {Object=} values
  * @return {!string}
  */
-cwc.utils.I18n.prototype.translateSoy = function(text, optValues) {
-  if (!optValues) {
-    return this.translate(text);
+cwc.utils.I18n.prototype.translate = function(translationKey, values) {
+  // Handle soy template specific format
+  if (values && /^\{\$\w+\}$/.test(translationKey)) {
+    let soyKey = translationKey.substr(2, translationKey.length - 3);
+    if (typeof values[soyKey]['content'] !== 'undefined') {
+      translationKey = values[soyKey]['content'];
+      values = null;
+    }
   }
 
-  let indirect = (/^\{\$\w+\}$/.test(text));
-  if (!indirect) {
-    text = this.translate(text);
+  // Handle old translation during migration.
+  if (!translationKey.startsWith('@@')) {
+    return this.translateOld(translationKey, values);
   }
-  text = text.replace(/\{\$([^}]+)}/g, function(match, key) {
-    return (optValues != null && key in optValues) ? optValues[key] : match;
-  });
 
-  return indirect ? this.translate(text) : text;
-};
+  let [group, key] = translationKey.substr(2).split('__', 2);
+  if (!Locales || !Locales[this.language]) {
+    this.log_.error('Language', this.language, 'is unsupported!');
+    return translationKey;
+  }
 
+  if (!Locales[this.language][group]) {
+    this.log_.error('Group', group, 'is unknown!');
+    return translationKey;
+  }
 
-/**
- * Translate the given key and variable.
- * @param {!string} key
- * @param {!string} variable
- * @return {!string}
- */
-cwc.utils.I18n.prototype.translateVariable = function(key, variable) {
-  return this.translate(key).replace('$VAR$', variable);
+  if (!Locales[this.language][group][key]) {
+    this.log_.warn('Untranslated Key', translationKey);
+    return translationKey;
+  }
+
+  // Handle variable macro values
+  if (values) {
+    return Locales[this.language][group][key].replace(/\{\$([^}]+)}/g,
+      function(match, key) {
+        return (values != null && key in values) ? values[key] : match;
+      }
+    );
+  }
+
+  return Locales[this.language][group][key];
 };
 
 
@@ -178,10 +152,13 @@ cwc.utils.I18n.prototype.translateVariable = function(key, variable) {
 cwc.utils.I18n.prototype.getLanguage = function() {
   if (!this.language) {
     if (typeof navigator !== 'undefined' && navigator['language']) {
+      this.log_.info('Detected user language', navigator['language']);
       return cwc.utils.I18n.bcp47ToISO639_3(navigator['language']);
     } else if (typeof chrome !== 'undefined' && chrome.i18n) {
-      return chrome.i18n.getUILanguage();
+      this.log_.info('Detected user language', chrome.i18n.getUILanguage());
+      return cwc.utils.I18n.bcp47ToISO639_3(chrome.i18n.getUILanguage());
     } else if (this.fallbackLanguage) {
+      this.log_.info('Using fallback language', this.fallbackLanguage);
       return this.fallbackLanguage;
     }
   }
@@ -191,6 +168,7 @@ cwc.utils.I18n.prototype.getLanguage = function() {
 
 /**
  * @param {string=} language
+ * @return {!string}
  */
 cwc.utils.I18n.prototype.setLanguage = function(language = '') {
   this.language = language || this.getLanguage();
@@ -203,20 +181,7 @@ cwc.utils.I18n.prototype.setLanguage = function(language = '') {
              !Locales['supportedLanguages'].includes(this.language)) {
     this.log_.error('Language', this.language, 'is untranslated.');
   }
-};
-
-
-/**
- * @param {string=} language
- * @param {string=} text
- * @return {Object}
- */
-cwc.utils.I18n.prototype.getLanguageData = function(
-    language = this.getLanguage(), text = '') {
-  if (text) {
-    return Locales[language][text];
-  }
-  return Locales[language];
+  return this.language;
 };
 
 
@@ -233,56 +198,6 @@ cwc.utils.I18n.prototype.getSupportedLanguages = function() {
  */
 cwc.utils.I18n.prototype.setSupportedLanguages = function(languages) {
   this.supportedLanguages = languages || Locales['supportedLanguages'];
-};
-
-
-/**
- * @return {!string}
- */
-cwc.utils.I18n.prototype.getToDo = function() {
-  let counter = 0;
-  let result = '';
-  for (let textId in this.untranslated) {
-    if (Object.prototype.hasOwnProperty.call(this.untranslated, textId)) {
-      result += '  \'' + textId + '\': \'' + textId + '\',\n';
-      counter += 1;
-    }
-  }
-  if (result) {
-    console.log('Found', counter, 'untranslated text for', this.getLanguage());
-    console.log('File: src/locales/' + this.getLanguage() + '/translation.js');
-    console.log(result);
-  }
-  return result;
-};
-
-
-/**
- * Adding language file.
- * @param {!string} file
- * @param {string} node_id
- * @return {Promise}
- * @private
- */
-cwc.utils.I18n.prototype.loadFile_ = function(file, node_id) {
-  return new Promise((resolve, reject) => {
-    let headNode = document.head || document.getElementsByTagName('head')[0];
-    let oldScriptNode = document.getElementById(node_id || 'cwc-i18n-loader');
-    if (oldScriptNode) {
-      if (oldScriptNode.src === file) {
-        this.log_.warn('File', file, 'was already loaded!');
-        return;
-      }
-      oldScriptNode.parentNode.removeChild(oldScriptNode);
-    }
-    this.log_.info('Loading file:', file);
-    let scriptNode = document.createElement('script');
-    scriptNode.id = node_id;
-    scriptNode.onload = resolve;
-    scriptNode.onerror = reject;
-    headNode.appendChild(scriptNode);
-    scriptNode.src = file;
-  });
 };
 
 
@@ -310,18 +225,6 @@ cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
 
 
 /**
- * ISO639-3 mapping table
- */
-cwc.utils.I18n.ISO639_3 = {
-  'eng': 'en',
-  'deu': 'de',
-  'hin': 'hi',
-  'jpn': 'ja',
-  'kor': 'ko',
-};
-
-
-/**
  * @param {!string} language
  * @return {string}
  */
@@ -330,22 +233,11 @@ cwc.utils.I18n.getISO639_1 = function(language) {
     return language;
   }
 
-  if (cwc.utils.I18n.ISO639_3[language]) {
-    return cwc.utils.I18n.ISO639_3[language];
+  if (cwc.utils.I18nMapping.ISO639_3[language]) {
+    return cwc.utils.I18nMapping.ISO639_3[language];
   }
 
   return '';
-};
-
-
-/**
- * bcp47 mapping table
- */
-cwc.utils.I18n.BCP47 = {
-  'de': 'deu',
-  'de-DE': 'deu',
-  'en': 'eng',
-  'en-US': 'eng',
 };
 
 
@@ -354,5 +246,5 @@ cwc.utils.I18n.BCP47 = {
  * @return {!string}
  */
 cwc.utils.I18n.bcp47ToISO639_3 = function(language) {
-  return cwc.utils.I18n.BCP47[language] || '';
+  return cwc.utils.I18nMapping.BCP47[language] || '';
 };

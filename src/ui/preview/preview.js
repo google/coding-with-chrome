@@ -103,9 +103,6 @@ cwc.ui.Preview = function(helper) {
   /** @private {!string} */
   this.partition_ = 'preview';
 
-  /** @private {!boolean} */
-  this.ran_ = false;
-
   /** @private {!number} */
   this.runThrottleTime_ = 1500;
 
@@ -161,7 +158,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Monitor Changes
   let viewportMonitor = new goog.dom.ViewportSizeMonitor();
   this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.adjustSize, false, this);
+      this.refresh, false, this);
 
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
@@ -182,8 +179,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
       shortcutHandler,
       goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
       this.handleShortcut_, false, this);
-
-  this.adjustSize();
 };
 
 
@@ -217,29 +212,10 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
 
 
 /**
- * Adjusts size after resize or on size change.
- */
-cwc.ui.Preview.prototype.adjustSize = function() {
-  this.delayAutoUpdate();
-};
-
-
-/**
  * Runs the preview.
  */
 cwc.ui.Preview.prototype.run = function() {
   this.runThrottle_.fire();
-};
-
-
-/**
- * Runs the preview only one time.
- * @param {Event=} opt_event
- */
-cwc.ui.Preview.prototype.runOnce = function(opt_event) {
-  if (!this.ran_) {
-    this.run();
-  }
 };
 
 
@@ -429,6 +405,9 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
     }
+    if (!this.helper.getInstance('blockly')) {
+      this.run();
+    }
     window.setTimeout(this.focus.bind(this), 1000);
   } else if (!active && this.autoUpdateEvent) {
     this.log_.info('Deactivate AutoUpdate...');
@@ -481,7 +460,6 @@ cwc.ui.Preview.prototype.run_ = function() {
     this.terminate();
   }
   this.setStatus_(cwc.ui.StatusbarState.RUNNING);
-  this.ran_ = true;
   this.render();
 };
 

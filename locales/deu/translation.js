@@ -16,6 +16,7 @@
  * limitations under the License.
  *
  * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @deprecated
  */
 window['Locales'] = window['Locales'] || {};
 Locales['deu'] = Locales['deu'] || {};

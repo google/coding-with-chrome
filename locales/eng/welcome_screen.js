@@ -26,17 +26,17 @@ Locales['eng'] = Locales['eng'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Object.assign(Locales['eng'], {
-  '@@WELCOME_SCREEN_TITLE': 'Welcome to Coding with Chrome!',
-  '@@WELCOME_SCREEN_DESCRIPTION': 'Coding with Chrome is an educational development environment',
-  '@@WELCOME_SCREEN_HEADER': 'Start coding now ...',
-  '@@WELCOME_SCREEN_CHOOSE': 'First, please select your current coding skill',
-  '@@WELCOME_SCREEN_BEGINNER': 'Beginner',
-  '@@WELCOME_SCREEN_BEGINNER_TEXT': 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.',
-  '@@WELCOME_SCREEN_BEGINNER_ACTION': 'Use Beginner Mode',
-  '@@WELCOME_SCREEN_ADVANCED': 'Advanced',
-  '@@WELCOME_SCREEN_ADVANCED_TEXT': ' Use a high-level programming language like JavaScript or Python to write your code',
-  '@@WELCOME_SCREEN_ADVANCED_ACTION': 'Use Advanced Mode',
-  '@@WECLOME_SCREEN_SHOW_ON_STARTUP': 'Show screen on startup',
-  '@@WECLOME_SCREEN_SHOW_ON_STARTUP_NOTE': 'You can change your choice at any time in the settings menu',
-});
+Locales['eng']['WELCOME_SCREEN'] = {
+  'TITLE': 'Welcome to Coding with Chrome!',
+  'DESCRIPTION': 'Coding with Chrome is an educational development environment',
+  'HEADER': 'Start coding now ...',
+  'CHOOSE': 'First, please select your current coding skill',
+  'BEGINNER': 'Beginner',
+  'BEGINNER_TEXT': 'Begin to learn coding with visual block programming. Put together the program steps by dragging and dropping coding blocks.',
+  'BEGINNER_ACTION': 'Use Beginner Mode',
+  'ADVANCED': 'Advanced',
+  'ADVANCED_TEXT': ' Use a high-level programming language like JavaScript or Python to write your code',
+  'ADVANCED_ACTION': 'Use Advanced Mode',
+  'SHOW_ON_STARTUP': 'Show screen on startup',
+  'SHOW_ON_STARTUP_NOTE': 'You can change your choice at any time in the settings menu',
+};

@@ -16,6 +16,7 @@
  * limitations under the License.
  *
  * @author junji.hashimoto@gmail.com (Junji Hashimoto)
+ * @deprecated
  */
 window['Locales'] = window['Locales'] || {};
 

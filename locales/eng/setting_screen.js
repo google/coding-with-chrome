@@ -26,13 +26,13 @@ Locales['eng'] = Locales['eng'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Object.assign(Locales['eng'], {
-  'SETTING_SCREEN_TITLE': 'Settings',
-  'SETTING_SCREEN_GENERAL': 'General',
-  'SETTING_SCREEN_MODULES': 'Modules',
-  'SETTING_SCREEN_EDITOR': 'Editor',
-  'SETTING_SCREEN_MISC': 'Misc',
-  'SETTING_SCREEN_NOTE_RESTART': 'You need to restart the application after enabling or disabling an options',
-
-  'SETTING_SCREEN_SECTIONS': 'Sections',
-});
+Locales['eng']['SETTING_SCREEN'] = {
+  'CLOSE': 'Close Settings',
+  'EDITOR': 'Editor',
+  'GENERAL': 'General',
+  'MISC': 'Misc',
+  'MODULES': 'Modules',
+  'NOTE_RESTART': 'You need to restart the application after enabling or disabling an options',
+  'SECTIONS': 'Sections',
+  'TITLE': 'Settings',
+};

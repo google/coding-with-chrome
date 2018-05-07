@@ -25,8 +25,7 @@ Locales['deu'] = Locales['deu'] || {};
  * @final
  * @export
  */
-/* eslint-disable max-len */
-Object.assign(Locales['deu'], {
+Locales['deu']['GENERAL'] = {
   'ABOUT': 'Über',
   'BACK': 'Zurück',
   'CANCEL': 'Abbrechen',
@@ -40,4 +39,4 @@ Object.assign(Locales['deu'], {
   'OK': 'Ok',
   'SETTINGS': 'Einstellungen',
   'YES': 'Ja',
-});
+};

@@ -171,12 +171,7 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   let modeConfig = cwc.mode.Config.get(mode);
 
   // Preview Handling
-  if (modeConfig.autoPreview) {
-    this.setAutoUpdate(true);
-  } else if (modeConfig.runPreview) {
-    this.runPreview();
-    this.helper.getInstance('preview').focus();
-  }
+  this.postModePreview(modeConfig);
 
   // Handle file data, if needed.
   this.postModeFileData();
@@ -184,6 +179,24 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   // Event Handling
   this.eventHandler_.dispatchEvent(
     cwc.mode.Modder.Events.changeMode(this.mode, this.filename));
+};
+
+
+/**
+ * @param {!Object} modeConfig
+ */
+cwc.mode.Modder.prototype.postModePreview = function(modeConfig) {
+  let previewInstance = this.helper.getInstance('preview');
+  if (!previewInstance) {
+    return;
+  }
+
+  if (modeConfig.autoPreview) {
+    previewInstance.setAutoUpdate(modeConfig.autoPreview);
+  } else {
+    previewInstance.runPreview();
+    previewInstance.focus();
+  }
 };
 
 
@@ -318,17 +331,6 @@ cwc.mode.Modder.prototype.runPreview = function() {
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.run();
-  }
-};
-
-
-/**
- * @param {boolean} active
- */
-cwc.mode.Modder.prototype.setAutoUpdate = function(active) {
-  let previewInstance = this.helper.getInstance('preview');
-  if (previewInstance) {
-    previewInstance.setAutoUpdate(active);
   }
 };
 

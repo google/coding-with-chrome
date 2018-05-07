@@ -129,21 +129,23 @@ cwc.ui.Statusbar.translateState = function(status, startTime = 0,
     stopTime = 0) {
   switch (status) {
     case cwc.ui.StatusbarState.PREPARE:
-      return i18t('PREPARE');
+      return i18t('@@STATUS__PREPARE');
     case cwc.ui.StatusbarState.STOPPED:
-      return i18t('STATUS_STOPPED');
+      return i18t('@@STATUS__STOPPED');
     case cwc.ui.StatusbarState.RELOADING:
-      return i18t('STATUS_RELOADING');
+      return i18t('@@STATUS__RELOADING');
     case cwc.ui.StatusbarState.RUNNING:
-      return i18t('STATUS_RUNNING');
+      return i18t('@@STATUS__RUNNING');
     case cwc.ui.StatusbarState.LOADING:
-      return i18t('STATUS_LOADING');
+      return i18t('@@STATUS__LOADING');
     case cwc.ui.StatusbarState.LOADED:
-      return i18v('STATUS_LOADED', ((stopTime - startTime) / 1000));
+      return i18t('@@STATUS__LOADED', {
+        'seconds': ((stopTime - startTime) / 1000),
+      });
     case cwc.ui.StatusbarState.TERMINATED:
-      return i18t('STATUS_TERMINATED');
+      return i18t('@@STATUS__TERMINATED');
     case cwc.ui.StatusbarState.UNRESPONSIVE:
-      return i18t('STATUS_UNRESPONSIVE');
+      return i18t('@@STATUS__UNRESPONSIVE');
   }
   return '';
 };

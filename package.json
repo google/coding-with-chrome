@@ -11,7 +11,7 @@
   "devDependencies": {
     "closure-builder": "^2.2.42",
     "closure-templates": "latest",
-    "command-line-usage": "^5.0.4",
+    "command-line-usage": "^5.0.5",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",

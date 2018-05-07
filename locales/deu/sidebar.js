@@ -25,10 +25,10 @@ Locales['deu'] = Locales['deu'] || {};
  * @final
  * @export
  */
-/* eslint-disable max-len */
-Object.assign(Locales['deu'], {
-  'SIDEBAR_LIBRARY': 'Öffne Datei Bibliothek',
-  'SIDEBAR_MEDIA': 'Medien hochladen und einfügen',
-  'SIDEBAR_FILE_DESCRIPTION': 'Dateibeschreibung anzeigen',
-  'SIDEBAR_TUTORIAL': 'Tutorial starten / neustarten',
-});
+Locales['deu']['SIDEBAR'] = {
+  'FILE_DESCRIPTION': 'Dateibeschreibung anzeigen',
+  'LIBRARY': 'Öffne Datei Bibliothek',
+  'MEDIA': 'Medien hochladen und einfügen',
+  'TOUR': 'Tour starten / neustarten',
+  'TUTORIAL': 'Tutorial starten / neustarten',
+};

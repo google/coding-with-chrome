@@ -16,6 +16,7 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
+ * @deprecated
  */
 window['Locales'] = window['Locales'] || {};
 

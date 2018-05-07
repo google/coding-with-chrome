@@ -172,7 +172,7 @@ cwc.ui.Tour.prototype.processButtons_ = function(step) {
   // Back button
   if (step > 0) {
     tourButtons.push({
-      'text': i18t('BACK'),
+      'text': i18t('@@GENERAL__BACK'),
       'action': this.tour_['back'],
       'classes': 'shepherd-button-secondary',
     });
@@ -181,7 +181,7 @@ cwc.ui.Tour.prototype.processButtons_ = function(step) {
   // Exit
   if (step == 0) {
     tourButtons.push({
-      'text': i18t('EXIT'),
+      'text': i18t('@@GENERAL__EXIT'),
       'action': this.cancelTour.bind(this),
       'classes': 'shepherd-button-secondary',
     });
@@ -190,7 +190,7 @@ cwc.ui.Tour.prototype.processButtons_ = function(step) {
   // Done
   if (step == this.tourLength_ - 1) {
     tourButtons.push({
-      'text': i18t('DONE'),
+      'text': i18t('@@GENERAL__DONE'),
       'action': this.cancelTour.bind(this),
       'classes': 'shepherd-button-example-primary',
     });
@@ -198,7 +198,7 @@ cwc.ui.Tour.prototype.processButtons_ = function(step) {
   // Next button
   if (step < this.tourLength_ - 1) {
     tourButtons.push({
-      'text': i18t('NEXT'),
+      'text': i18t('@@GENERAL__NEXT'),
       'action': this.tour_['next'],
       'classes': 'shepherd-button-example-primary',
     });
