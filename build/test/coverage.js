@@ -37,8 +37,8 @@ if (!coverageDir) {
 console.log('Processing coverage folder at', coverageDir);
 let options = {
   files: path.join(coverageDir, 'lcov.info'),
-  from: new RegExp(escapeStringRegexp(appDir), 'g'),
-  to: '..',
+  from: new RegExp(escapeStringRegexp(path.join(appDir, '/')), 'g'),
+  to: '',
 };
 try {
   let changes = replace.sync(options);
