@@ -128,7 +128,7 @@ cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
  * @private
  */
 cwc.framework.Phaser.prepare_ = function() {
-  if (navigator.userAgent == 'CwC sandbox') {
+  if (navigator && navigator.userAgent == 'CwC sandbox') {
     return;
   }
 

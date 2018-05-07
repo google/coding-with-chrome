@@ -243,7 +243,7 @@ cwc.ui.Preview.prototype.refresh = function() {
     if (this.webviewSupport_) {
       this.content.stop();
       this.content.reload();
-    } else {
+    } else if (this.content.contentWindow) {
       this.content.contentWindow.location.reload(true);
     }
   }
