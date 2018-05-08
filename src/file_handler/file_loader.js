@@ -221,7 +221,10 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
       }
     }
   }
-  modeInstance.setEditorView(file.getView());
+  let editorView = file.getView();
+  if (editorView) {
+    modeInstance.setEditorView(file.getView());
+  }
 
   // Handle library files
   let cacheInstance = this.helper.getInstance('cache');

@@ -191,5 +191,6 @@ cwc.ui.EditorInfobar.prototype.handleViewChange_ = function(e) {
   let viewTarget = eventTarget.dataset['editorView'];
   if (viewTarget) {
     this.helper.getInstance('editor').changeView(viewTarget);
+    this.helper.getInstance('file').setView(viewTarget);
   }
 };

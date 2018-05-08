@@ -414,3 +414,19 @@ cwc.fileHandler.File.prototype.isModified = function() {
 
   return false;
 };
+
+
+/**
+ * @param {!cwc.ui.EditorContent} view
+ */
+cwc.fileHandler.File.prototype.setView = function(view) {
+  this.file_.setView(view);
+};
+
+
+/**
+ * @return {cwc.ui.EditorContent}
+ */
+cwc.fileHandler.File.prototype.getView = function() {
+  return this.file_.getView();
+};

@@ -6,7 +6,6 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
-    "markdownlint-cli": "^0.8.1"
   },
   "devDependencies": {
     "closure-builder": "^2.2.42",
@@ -25,6 +24,7 @@
     "karma-jasmine": "^1.1.2",
     "make-dir": "^1.2.0",
     "markdownlint": "^0.8.1",
+    "markdownlint-cli": "^0.8.1",
     "npm-check-updates": "^2.14.2",
     "nw": "^0.30.2",
     "nw-builder": "^3.5.1",

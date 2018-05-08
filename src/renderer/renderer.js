@@ -193,18 +193,23 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
   let fileInstance = this.helper.getInstance('file');
   let libraryFiles = fileInstance ?
     fileInstance.getFiles() : new cwc.file.Files();
-  let editorContent = this.helper.getInstance('editor').getEditorContent();
+  let editorInstance = this.helper.getInstance('editor');
+  let editorContent = editorInstance.getEditorContent();
   if (!editorContent) {
     this.log_.warn('Empty render content!');
   }
+
+  let enviroment = {
+    'baseURL': this.helper.getBaseURL(),
+    'currentView': editorInstance.getCurrentView(),
+  };
 
   let html = this.renderer(
       editorContent,
       libraryFiles,
       this.files,
-      this.rendererHelper, {
-        'baseURL': this.helper.getBaseURL(),
-      }
+      this.rendererHelper,
+      enviroment
   );
 
   if (this.serverMode_) {

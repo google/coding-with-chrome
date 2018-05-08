@@ -466,7 +466,7 @@ cwc.ui.Editor.prototype.insertText = function(text) {
  * @param {!string} name
  */
 cwc.ui.Editor.prototype.changeView = function(name) {
-  if (!name || !this.editor) {
+  if (!name || !this.editor || this.currentEditorView === name) {
     return;
   }
 

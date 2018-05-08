@@ -325,7 +325,7 @@ cwc.ui.Builder.prototype.loadUI = function() {
       this.callback(this);
     }
     this.events_.clear();
-    this.loadingScreen_.hideSecondsAfterStart(4000);
+    this.loadingScreen_.hideSecondsAfterStart(4100);
   });
 };
 

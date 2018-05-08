@@ -61,9 +61,12 @@ cwc.renderer.external.EV3.prototype.render = function(
     frameworks,
     rendererHelper,
     environ = {}) {
-  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.EV3,
-  ], environ['baseURL']);
+  let jsFrameworks = [cwc.framework.Internal.EV3];
+  if (environ['currentView'] === '__python__') {
+    jsFrameworks.push(cwc.framework.External.BRYTHON.CORE);
+  }
+  let header = rendererHelper.getJavaScriptURLs(
+    jsFrameworks, environ['baseURL']);
   let body = '\n<script>' +
       '  let code = function(ev3) {\n' +
       editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
