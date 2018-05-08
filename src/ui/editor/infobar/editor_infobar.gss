@@ -178,6 +178,7 @@
 }
 
 #{$prefix}editor-infobar-terminal {
+  background: transparent;
   border: 0;
   margin-left: 5px;
   z-index: 5;

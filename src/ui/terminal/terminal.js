@@ -18,3 +18,51 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Terminal');
+
+goog.require('cwc.soy.ui.Terminal');
+goog.require('cwc.utils.Logger');
+
+
+/**
+ * Class represents the terminal the UI.
+ * @param {!cwc.utils.Helper} helper
+ * @constructor
+ * @struct
+ * @final
+ */
+cwc.ui.Terminal = function(helper) {
+  /** @type {string} */
+  this.name = 'Terminal';
+
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('terminal');
+
+  /** @type {Element} */
+  this.node = null;
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
+};
+
+
+/**
+ * Decorates the given node and adds the terminal to the ui.
+ * @param {Element} node The target node to add the status bar.
+ */
+cwc.ui.Terminal.prototype.decorate = function(node) {
+  this.node = node || goog.dom.getElement(this.prefix + 'chrome');
+  if (!this.node) {
+    this.log_.error('Invalid Terminal node:', this.node);
+    return;
+  }
+
+  goog.soy.renderElement(
+      this.node,
+      cwc.soy.ui.Terminal.template, {
+        'prefix': this.prefix,
+      }
+  );
+};

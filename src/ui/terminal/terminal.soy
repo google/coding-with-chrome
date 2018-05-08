@@ -17,15 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.Turtle autoescape="strict"}
+{namespace cwc.soy.ui.Terminal autoescape="strict"}
 
 
 /**
- * HTML template for the preview.
+ * Terminal template.
  */
 {template .template}
   {@param prefix: string}
+
   <div id="{$prefix}body">
     <div id="{$prefix}content"></div>
+    <div id="{$prefix}input"></div>
   </div>
 {/template}
