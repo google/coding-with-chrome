@@ -1,7 +1,7 @@
 Build Coding with Chrome
 =========================
 
-<img src="static_files/images/cwc_logo.png" align="left">
+<img src="static_files/images/cwc_logo.png" align="right">
 
 What you need to build the Coding with Chrome App
 --------------------------------------------------
