@@ -55,7 +55,6 @@
   float: left;
   height: 24px;
   line-height: 24px;
-  min-width: 125px;
   padding: 0 5px;
 }
 
@@ -176,4 +175,10 @@
   background: #fff;
   border-left: 1px solid #aaa;
   opacity: 1;
+}
+
+#{$prefix}editor-infobar-terminal {
+  border: 0;
+  margin-left: 5px;
+  z-index: 5;
 }

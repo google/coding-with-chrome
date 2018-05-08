@@ -163,7 +163,7 @@ cwc.mode.default.Mod.prototype.decorate = function() {
  * Decorates standard Editor.
  */
 cwc.mode.default.Mod.prototype.decorateRaw = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout');
   layoutInstance.decorateBlank();
   layoutInstance.renderContent(cwc.soy.mode.default.Layout.editor);
   this.decorateEditor();
@@ -193,13 +193,17 @@ cwc.mode.default.Mod.prototype.decorateEditor = function() {
  * Decorates the Preview / Editor layout.
  */
 cwc.mode.default.Mod.prototype.decorateLayout = function() {
-  let layoutInstance = this.helper.getInstance('layout', true);
+  let layoutInstance = this.helper.getInstance('layout');
   layoutInstance.decorateDefault();
+
+  // Decorates Blockly or Text Editor
   if (this.blockly) {
     layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.blockly);
   } else {
     layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.editor);
   }
+
+  // Decorates Runner or Preview
   if (this.runner) {
     layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
   } else {

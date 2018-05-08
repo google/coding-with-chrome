@@ -62,16 +62,27 @@ cwc.renderer.external.EV3.prototype.render = function(
     rendererHelper,
     environ = {}) {
   let jsFrameworks = [cwc.framework.Internal.EV3];
+  let body = '';
   if (environ['currentView'] === '__python__') {
     jsFrameworks.push(cwc.framework.External.BRYTHON.CORE);
-  }
-  let header = rendererHelper.getJavaScriptURLs(
-    jsFrameworks, environ['baseURL']);
-  let body = '\n<script>' +
+    jsFrameworks.push(cwc.framework.External.BRYTHON.STDLIB);
+    body = '<script type="text/python">\n' +
+      'from browser import window\n' +
+      'ev3 = window.ev3\n' +
+        editorContent[cwc.ui.EditorContent.PYTHON] + '\n' +
+      '</script>' +
+      '<script>' +
+      '  window.ev3 = new cwc.framework.Ev3(function() {brython();});' +
+      '</script>';
+  } else {
+    body = '\n<script>' +
       '  let code = function(ev3) {\n' +
       editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' +
       '  new cwc.framework.Ev3(code);\n' +
       '</script>\n';
+  }
+  let header = rendererHelper.getJavaScriptURLs(
+    jsFrameworks, environ['baseURL']);
   return rendererHelper.getHTMLRunner(body, header, environ);
 };

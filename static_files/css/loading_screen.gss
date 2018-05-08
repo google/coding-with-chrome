@@ -107,35 +107,35 @@
 
 #cwc-loading-screen-logo-screen-symbole,
 #cwc-loading-screen-logo-screen-shadow {
-  animation-duration: 2s;
-  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
 #cwc-loading-screen-logo-keyboard-level_2 {
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeInLeft;
 }
 
 #cwc-loading-screen-logo-keyboard-level_1 {
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeInRight;
 }
 
 #cwc-loading-screen-logo-keyboard-shadow {
-  animation-duration: 2s;
-  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-delay: 1.5s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
 #cwc-loading-screen-logo-keyboard-key {
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-delay: 1s;
   animation-fill-mode: both;
   animation-name: fadeInTop;

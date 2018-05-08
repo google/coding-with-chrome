@@ -157,7 +157,7 @@ cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
  * @return {Function|Promise}
  */
 cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func,
-    steps = 5) {
+    steps = 4) {
   this.current_ += steps;
   this.setProgress(text, this.current_);
   try {
