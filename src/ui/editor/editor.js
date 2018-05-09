@@ -233,8 +233,8 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
  * @param {boolean} visible
  */
 cwc.ui.Editor.prototype.showEditor = function(visible) {
-  this.isVisible_ = visible;
   goog.style.setElementShown(this.node, visible);
+  this.isVisible_ = visible;
 };
 
 

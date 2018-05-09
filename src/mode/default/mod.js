@@ -25,6 +25,7 @@ goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Preview');
+goog.require('cwc.ui.Terminal');
 
 
 /**
@@ -79,15 +80,6 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.ui.Editor} */
-  this.editor = new cwc.ui.Editor(helper);
-
-  /** @type {!cwc.ui.Message} */
-  this.message = new cwc.ui.Message(this.helper);
-
-  /** @type {!cwc.ui.Preview} */
-  this.preview = new cwc.ui.Preview(this.helper);
-
   /** @type {cwc.ui.Blockly} */
   this.blockly = null;
 
@@ -97,14 +89,26 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {cwc.mode.default.ConnectionTypes} */
   this.connection = null;
 
+  /** @type {!cwc.ui.Editor} */
+  this.editor = new cwc.ui.Editor(helper);
+
+  /** @type {!cwc.ui.Message} */
+  this.message = new cwc.ui.Message(this.helper);
+
+  /** @type {cwc.mode.default.MonitorTypes} */
+  this.monitor = null;
+
+  /** @type {!cwc.ui.Preview} */
+  this.preview = new cwc.ui.Preview(this.helper);
+
   /** @type {cwc.mode.default.RendererTypes} */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
 
   /** @type {cwc.mode.default.RunnerTypes} */
   this.runner = null;
 
-  /** @type {cwc.mode.default.MonitorTypes} */
-  this.monitor = null;
+  /** @type {cwc.ui.Terminal} */
+  this.terminal = new cwc.ui.Terminal(this.helper);
 };
 
 
@@ -112,19 +116,17 @@ cwc.mode.default.Mod = function(helper) {
  * Decorates standard Editor.
  */
 cwc.mode.default.Mod.prototype.decorate = function() {
-  // Decorates Layout
   this.decorateLayout();
 
-  // Handle device connections.
   if (this.connection) {
     this.connection.init();
   }
 
-  // Decorates Editor and Blockly Editor.
   if (this.blockly) {
     this.decorateBlockly();
   }
   this.decorateEditor();
+  this.decorateTerminal();
 
   // Add Blockly events if needed.
   if (this.blockly) {
@@ -227,6 +229,15 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
 cwc.mode.default.Mod.prototype.decorateMessage = function() {
   this.helper.setInstance('message', this.message, true);
   this.message.decorate();
+};
+
+
+/**
+ * Decorates terminal
+ */
+cwc.mode.default.Mod.prototype.decorateTerminal = function() {
+  this.helper.setInstance('terminal', this.terminal, true);
+  this.terminal.decorate();
 };
 
 

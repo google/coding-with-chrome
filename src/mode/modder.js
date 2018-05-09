@@ -90,8 +90,10 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   // Remove former instances.
   this.helper.setInstance('blockly', null, true);
   this.helper.setInstance('editor', null, true);
+  this.helper.setInstance('message', null, true);
   this.helper.setInstance('preview', null, true);
   this.helper.setInstance('runner', null, true);
+  this.helper.setInstance('terminal', null, true);
   this.helper.setInstance('turtle', null, true);
 
   // Update navigation view

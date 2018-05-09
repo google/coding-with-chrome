@@ -19,7 +19,8 @@
   height: 30px;
   background: #f5f5f5;
   border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
   display: flex !important;
 }
 

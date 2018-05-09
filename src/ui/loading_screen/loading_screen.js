@@ -96,12 +96,12 @@ cwc.ui.LoadingScreen.prototype.decorate = function() {
 
 
 /**
- * @param {boolean} show
+ * @param {boolean} visible
  */
-cwc.ui.LoadingScreen.prototype.show = function(show) {
+cwc.ui.LoadingScreen.prototype.show = function(visible) {
   let nodeLoadingScreen = goog.dom.getElement('cwc-loading-screen');
   if (nodeLoadingScreen) {
-    goog.style.showElement(nodeLoadingScreen, show);
+    goog.style.showElement(nodeLoadingScreen, visible);
   }
 };
 

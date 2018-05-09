@@ -158,34 +158,34 @@ cwc.ui.RunnerMonitor.prototype.setRunStatus = function(running) {
 
 
 /**
- * @param {!boolean} show
+ * @param {!boolean} visible
  */
-cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(show) {
-  goog.style.setElementShown(this.tabCalibration, show);
+cwc.ui.RunnerMonitor.prototype.showCalibrationTab = function(visible) {
+  goog.style.setElementShown(this.tabCalibration, visible);
 };
 
 
 /**
- * @param {!boolean} show
+ * @param {!boolean} visible
  */
-cwc.ui.RunnerMonitor.prototype.showControlTab = function(show) {
-  goog.style.setElementShown(this.tabControl, show);
+cwc.ui.RunnerMonitor.prototype.showControlTab = function(visible) {
+  goog.style.setElementShown(this.tabControl, visible);
 };
 
 
 /**
- * @param {!boolean} show
+ * @param {!boolean} visible
  */
-cwc.ui.RunnerMonitor.prototype.showIntroTab = function(show) {
-  goog.style.setElementShown(this.tabIntro, show);
+cwc.ui.RunnerMonitor.prototype.showIntroTab = function(visible) {
+  goog.style.setElementShown(this.tabIntro, visible);
 };
 
 
 /**
- * @param {!boolean} show
+ * @param {!boolean} visible
  */
-cwc.ui.RunnerMonitor.prototype.showMonitorTab = function(show) {
-  goog.style.setElementShown(this.tabMonitor, show);
+cwc.ui.RunnerMonitor.prototype.showMonitorTab = function(visible) {
+  goog.style.setElementShown(this.tabMonitor, visible);
 };
 
 

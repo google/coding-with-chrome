@@ -43,6 +43,9 @@ cwc.ui.Terminal = function(helper) {
   /** @type {Element} */
   this.node = null;
 
+  /** @private {boolean} */
+  this.isVisible_ = null;
+
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -65,4 +68,28 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
         'prefix': this.prefix,
       }
   );
+
+  this.showTerminal(false);
+};
+
+
+/**
+ * @return {!boolean}
+ */
+cwc.ui.Terminal.prototype.isVisible = function() {
+  return this.isVisible_;
+};
+
+
+cwc.ui.Terminal.prototype.toggle = function() {
+  this.showTerminal(!this.isVisible_);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Terminal.prototype.showTerminal = function(visible) {
+  goog.style.setElementShown(this.node, visible);
+  this.isVisible_ = visible;
 };
