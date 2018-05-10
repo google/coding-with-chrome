@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-let closureBuilder = require('closure-builder');
+let closureBuilder = require('../../../closure-builder');
 let glob = closureBuilder.globSupport();
 
 

@@ -18,7 +18,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 goog.provide('cwc.framework.Runner');
 
 goog.require('cwc.utils.StackQueue');
