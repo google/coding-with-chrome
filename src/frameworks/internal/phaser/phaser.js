@@ -18,6 +18,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
+
 goog.provide('cwc.framework.Phaser');
 
 

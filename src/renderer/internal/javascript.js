@@ -54,18 +54,11 @@ cwc.renderer.internal.Javascript.prototype.init = function() {
  * @return {!string}
  * @export
  */
-cwc.renderer.internal.Javascript.prototype.render = async function(
+cwc.renderer.internal.Javascript.prototype.render = function(
     editorContent,
     libraryFiles,
     frameworks,
     rendererHelper) {
-  let cacheInstance = this.helper.getInstance('cache');
-  if (cacheInstance) {
-    let content = await cacheInstance.getFile(cwc.framework.Internal.MESSAGE);
-    console.log('content', content);
-  }
-  let header = rendererHelper.getFrameworkHeaders([
-    cwc.framework.Internal.MESSAGE], frameworks);
-  return rendererHelper.getHTML(undefined, header, undefined,
+  return rendererHelper.getHTML(undefined, undefined, undefined,
     editorContent[cwc.ui.EditorContent.DEFAULT]);
 };

@@ -405,6 +405,11 @@ cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
  */
 cwc.ui.Editor.prototype.refreshEditor = function() {
   this.editor.refresh();
+  /**
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    layoutInstance.refresh();
+  }*/
 };
 
 

@@ -128,20 +128,6 @@ closureBuilder.build({
 
 
 /**
- * Message Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.Message',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/message/*.js',
-  ]),
-  externs: [],
-  out: 'genfiles/core/frameworks/internal/message_framework.js',
-});
-
-
-/**
  * Phaser Framework
  */
 closureBuilder.build({
