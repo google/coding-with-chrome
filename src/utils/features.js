@@ -202,6 +202,7 @@ cwc.utils.Features.prototype.detectJavaScripts = function() {
   this.setJavaScriptFeature('htmlhint', typeof window['HTMLHint']);
   this.setJavaScriptFeature('jshint', typeof window['JSHINT']);
   this.setJavaScriptFeature('shepherd', typeof window['Shepherd']);
+  this.setJavaScriptFeature('marked', typeof window['marked']);
 };
 
 

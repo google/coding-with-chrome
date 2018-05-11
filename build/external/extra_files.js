@@ -162,3 +162,17 @@ closureBuilder.build({
   ],
   out: 'genfiles/third_party/external/shepherd',
 });
+
+
+/**
+ * Marked
+ */
+closureBuilder.build({
+  name: 'Marked',
+  resources: [
+    'third_party/marked/marked.min.js',
+  ],
+  out: 'genfiles/third_party/external/marked',
+});
+
+

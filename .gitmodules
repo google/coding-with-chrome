@@ -90,3 +90,6 @@
 [submodule "third_party/phaser-ce"]
 	path = third_party/phaser-ce
 	url = https://github.com/photonstorm/phaser-ce
+[submodule "third_party/marked"]
+	path = third_party/marked
+	url = https://github.com/markedjs/marked.git
