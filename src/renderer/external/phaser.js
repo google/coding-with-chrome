@@ -37,23 +37,26 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.Phaser = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
 };
 
 
 /**
  * Initializes and defines the HTML5 renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.Phaser.prototype.init = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setServerMode(true);
-  rendererInstance.setRenderer(this.render.bind(this));
+  return rendererInstance.setRenderer(this.render.bind(this));
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @param {Object=} environ
  * @return {!string}
@@ -62,7 +65,6 @@ cwc.renderer.external.Phaser.prototype.init = function() {
 cwc.renderer.external.Phaser.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper,
     environ = {}) {
   let body = '';
@@ -81,6 +83,7 @@ cwc.renderer.external.Phaser.prototype.render = function(
   }
 
  let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.MESSAGE,
     cwc.framework.Internal.PHASER,
     cwc.framework.External.PHASER,
   ], environ['baseURL']);

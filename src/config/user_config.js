@@ -21,6 +21,9 @@ goog.provide('cwc.UserConfig');
 goog.provide('cwc.userConfigName');
 goog.provide('cwc.userConfigType');
 
+goog.require('cwc.utils.Database');
+goog.require('cwc.utils.Logger');
+
 
 /**
  * @enum {!string}
@@ -66,17 +69,30 @@ cwc.UserConfig = function(helper) {
   /** @type {string} */
   this.name = 'User Config';
 
-  /** @type {string} */
-  this.prefix = 'user__config__';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @private {!cwc.utils.Storage} */
-  this.storage_ = this.helper.getInstance('storage', true);
+  this.storage_ = this.helper.getInstance('storage');
 
-  /** @type {!boolean} */
-  this.syncChrome = false;
+  /** @private {Object} */
+  this.cache_ = new Map();
+
+  /** @private {!cwc.utils.Database} */
+  this.database_ = new cwc.utils.Database(this.name)
+    .setObjectStoreName('__general__');
+
+  /** @private {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
+};
+
+
+/**
+ * @async
+ */
+cwc.UserConfig.prototype.prepare = async function() {
+  await this.database_.open();
+  await this.syncCache_();
 };
 
 
@@ -87,7 +103,7 @@ cwc.UserConfig = function(helper) {
  * @return {string|boolean|null} Value of the config entry.
  */
 cwc.UserConfig.prototype.get = function(type, name) {
-  return this.storage_.get(name, this.prefix + type);
+  return this.cache_.get(type + '_' + name);
 };
 
 
@@ -97,7 +113,13 @@ cwc.UserConfig.prototype.get = function(type, name) {
  * @return {Object} Values of the config entry.
  */
 cwc.UserConfig.prototype.getAll = function(type) {
-  return this.storage_.getAll(this.prefix + type);
+  let result = new Map();
+  for (let [key, value] of this.cache_) {
+    if (key && String(key).startsWith(type)) {
+      result.set(key, value);
+    }
+  }
+  return result;
 };
 
 
@@ -108,5 +130,21 @@ cwc.UserConfig.prototype.getAll = function(type) {
  * @param {string} value Value of the config entry.
  */
 cwc.UserConfig.prototype.set = function(type, name, value) {
-  this.storage_.set(name, value, this.prefix + type);
+  this.cache_.set(type + '_' + name, value);
+  this.database_.set(type + '_' + name, value);
+};
+
+
+/**
+ * @private
+ * @return {Promise}
+ */
+cwc.UserConfig.prototype.syncCache_ = function() {
+  return new Promise((resolve, reject) => {
+    this.log_.info('Syncing user config ...');
+    this.database_.getAllWithKeys().then((result) => {
+      this.cache_ = result;
+      resolve();
+    }, reject);
+  });
 };

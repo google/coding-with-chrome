@@ -35,21 +35,33 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.PencilCode = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
+
+  /** @private {!Array} */
+  this.frameworks_ = [
+    cwc.framework.External.COFFEESCRIPT,
+    cwc.framework.External.JQUERY.V2_2_4,
+    cwc.framework.External.JQUERY_TURTLE,
+    cwc.framework.Internal.MESSAGE,
+  ];
 };
 
 
 /**
  * Initializes and defines the simple renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.PencilCode.prototype.init = function() {
   this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.cache_.preloadFiles(this.frameworks_);
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
@@ -57,13 +69,9 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
 cwc.renderer.external.PencilCode.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
-  let header = rendererHelper.getFrameworkHeaders([
-    cwc.framework.External.COFFEESCRIPT,
-    cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.JQUERY_TURTLE,
-  ], frameworks);
+  let header = rendererHelper.getCacheFilesHeader(
+    this.frameworks_, this.cache_);
   let body = '\n<script type="text/coffeescript">\n' +
     '$.turtle();\n' + editorContent[cwc.ui.EditorContent.COFFEESCRIPT] +
     '\n</script>\n';

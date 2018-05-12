@@ -56,9 +56,6 @@ cwc.ui.EditorInfobar = function(helper) {
   this.nodeModeText = null;
 
   /** @type {Element} */
-  this.nodeTerminal = null;
-
-  /** @type {Element} */
   this.nodeViews = null;
 
   /** @private {!cwc.utils.Events} */
@@ -98,19 +95,26 @@ cwc.ui.EditorInfobar.prototype.decorate = function(node) {
         modes: modes.sort(),
       }
   );
+
+  // Render Terminal button.
+  let nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
+  if (nodeTerminal) {
+    let terminalInstance = this.helper.getInstance('terminal');
+    if (terminalInstance) {
+      terminalInstance.decorateButton(nodeTerminal);
+    }
+  }
+
   this.nodeLineText = goog.dom.getElement(this.prefix +'line-text');
   this.nodeMode = goog.dom.getElement(this.prefix + 'mode');
   this.nodeModeSelect = goog.dom.getElement(this.prefix + 'mode-select');
   this.nodeModeText = goog.dom.getElement(this.prefix +'mode-text');
   this.nodeModes = goog.dom.getElement(this.prefix + 'modes');
-  this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
   this.nodeViews = goog.dom.getElement(this.prefix + 'views');
 
   // Events.
   this.events_.listen(this.nodeModes, goog.events.EventType.CLICK,
     this.handleModeChange_);
-  this.events_.listen(this.nodeTerminal, goog.events.EventType.CLICK,
-    this.handleToggleTerminal_);
   this.events_.listen(this.nodeViews, goog.events.EventType.CLICK,
     this.handleViewChange_);
 };
@@ -183,17 +187,6 @@ cwc.ui.EditorInfobar.prototype.handleModeChange_ = function(e) {
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
     editorInstance.setEditorMode(e.target.firstChild.data);
-  }
-};
-
-
-/**
- * @private
- */
-cwc.ui.EditorInfobar.prototype.handleToggleTerminal_ = function() {
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.toggle();
   }
 };
 

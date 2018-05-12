@@ -239,6 +239,11 @@ cwc.ui.Preview.prototype.stop = function() {
  */
 cwc.ui.Preview.prototype.refresh = function() {
   if (this.content) {
+    let terminalInstance = this.helper.getInstance('terminal');
+    if (terminalInstance) {
+      terminalInstance.clearErrors();
+    }
+
     this.setStatus_(cwc.ui.StatusbarState.REFRESHING);
     if (this.webviewSupport_) {
       this.content.stop();
@@ -282,6 +287,11 @@ cwc.ui.Preview.prototype.render = function() {
     this.infobar.clear();
   }
 
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.clearErrors();
+  }
+
   this.content = this.webviewSupport_ ?
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
@@ -321,11 +331,12 @@ cwc.ui.Preview.prototype.renderWebview = function() {
   let content = document.createElement('webview');
   content['setAttribute']('partition', this.partition_);
   content['setUserAgentOverride']('CwC sandbox');
-  this.events_.listen(content, 'consolemessage', this.handleConsoleMessage_);
   this.events_.listen(content, 'contentload', this.handleContentLoad_);
   this.events_.listen(content, 'loadstart', this.handleLoadStart_);
   this.events_.listen(content, 'loadstop', this.handleLoadStop_);
   this.events_.listen(content, 'unresponsive', this.handleUnresponsive_);
+  content.addEventListener('consolemessage',
+    this.handleConsoleMessage_.bind(this));
   return content;
 };
 
@@ -453,6 +464,19 @@ cwc.ui.Preview.prototype.focus = function() {
 
 
 /**
+ * Injects and executes the passed code in the preview content.
+ * @param {!(string|Function)} code
+ */
+cwc.ui.Preview.prototype.executeScript = function(code) {
+  if (this.content) {
+    this.content.contentWindow.postMessage({
+      'command': '__exec__',
+      'value': typeof code === 'function' ? code.toString() : code}, '*');
+  }
+};
+
+
+/**
  * @private
  */
 cwc.ui.Preview.prototype.run_ = function() {
@@ -487,6 +511,11 @@ cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
 cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
   if (this.infobar) {
     this.infobar.addMessage(event);
+  }
+
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.writeConsoleMessage(event);
   }
 };
 

@@ -32,7 +32,20 @@
       <i class="material-icons">keyboard_arrow_right</i>
       <div class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" type="text" id="{$prefix}user-input">
+        <label class="mdl-textfield__label" for="{$prefix}user-input"></label>
       </div>
     </div>
   </div>
+{/template}
+
+
+/**
+ * Terminal button template.
+ */
+{template .templateButton}
+  {@param prefix: string}
+
+  <button id="{$prefix}button" class="material-icons mdl-badge mdl-badge--overlap">
+    video_label
+  </button>
 {/template}

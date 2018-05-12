@@ -38,9 +38,10 @@ cwc.mode.python.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.python.Mod.prototype.decorate = function() {
+cwc.mode.python.Mod.prototype.decorate = async function() {
   this.mod.setRenderer(this.renderer);
-  this.mod.decorate();
+  await this.mod.decorate();
   this.mod.preview.showConsole(true);
 };

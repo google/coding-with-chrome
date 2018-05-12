@@ -38,9 +38,10 @@ cwc.mode.phaser.advanced.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.phaser.advanced.Mod.prototype.decorate = function() {
+cwc.mode.phaser.advanced.Mod.prototype.decorate = async function() {
   this.mod.setRenderer(this.renderer);
-  this.mod.decorate();
+  await this.mod.decorate();
   this.mod.editor.showMode(false);
 };

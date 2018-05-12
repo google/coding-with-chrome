@@ -39,11 +39,12 @@ cwc.mode.phaser.blockly.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.phaser.blockly.Mod.prototype.decorate = function() {
+cwc.mode.phaser.blockly.Mod.prototype.decorate = async function() {
   this.mod.enableBlockly(cwc.soy.phaser.Blocks.toolbox);
   this.mod.setRenderer(this.renderer);
-  this.mod.decorate();
+  await this.mod.decorate();
   this.mod.blockly.enableToolboxAutoCollapse(true);
   this.mod.blockly.disableOrphansBlocks(true);
 };

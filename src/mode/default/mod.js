@@ -114,50 +114,59 @@ cwc.mode.default.Mod = function(helper) {
 
 /**
  * Decorates standard Editor.
+ * @return {!Promise}
  */
 cwc.mode.default.Mod.prototype.decorate = function() {
-  this.decorateLayout();
+  return new Promise((resolve) => {
+    this.decorateLayout();
 
-  if (this.connection) {
-    this.connection.init();
-  }
+    if (this.connection) {
+      this.connection.init();
+    }
 
-  if (this.blockly) {
-    this.decorateBlockly();
-  }
-  this.decorateEditor();
-  this.decorateTerminal();
+    // Decorates Blockly or Editor.
+    if (this.blockly) {
+      this.decorateBlockly();
+    } else {
+      this.decorateTerminal();
+    }
+    this.decorateEditor();
 
-  // Add Blockly events if needed.
-  if (this.blockly) {
-    // Switch buttons
-    this.blockly.addOption('Switch to Editor', this.showEditor_.bind(this),
-        'Switch to the raw code editor view');
-    this.editor.addOption('Switch to Blockly', this.showBlockly_.bind(this),
-        'Switch to the Blockly editor mode');
+    // Add Blockly events if needed.
+    if (this.blockly) {
+      // Switch buttons
+      this.blockly.addOption('Switch to Editor', this.showEditor_.bind(this),
+          'Switch to the raw code editor view');
+      this.editor.addOption('Switch to Blockly', this.showBlockly_.bind(this),
+          'Switch to the Blockly editor mode');
 
-    // Custom Events
-    this.blockly.addEditorChangeHandler(
-      this.editor.handleSyncEvent.bind(this.editor));
+      // Custom Events
+      this.blockly.addEditorChangeHandler(
+        this.editor.handleSyncEvent.bind(this.editor));
 
-    // Reset size
-    this.blockly.adjustSize();
-  }
+      // Reset size
+      this.blockly.adjustSize();
+    }
 
-  if (this.runner) {
-    this.runner.decorate();
-  } else {
-    this.decoratePreview();
-  }
+    if (this.runner) {
+      this.runner.decorate();
+    } else {
+      this.decoratePreview();
+    }
 
-  if (this.monitor) {
-    this.monitor.decorate();
-  }
-  this.decorateMessage();
+    if (this.monitor) {
+      this.monitor.decorate();
+    }
+    this.decorateMessage();
 
-  if (this.renderer) {
-    this.renderer.init();
-  }
+    if (this.renderer) {
+      this.renderer.init().then(() => {
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
 };
 
 

@@ -38,8 +38,9 @@ cwc.mode.pencilCode.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.pencilCode.Mod.prototype.decorate = function() {
+cwc.mode.pencilCode.Mod.prototype.decorate = async function() {
   this.mod.setRenderer(this.renderer);
-  this.mod.decorate();
+  await this.mod.decorate();
 };

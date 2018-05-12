@@ -71,7 +71,6 @@ goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
-goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
 
@@ -230,7 +229,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   }, false, this);
 
   // Prepare and load Storage
-  this.loadStorage_();
+  this.loadUserConfig_();
 };
 
 
@@ -551,7 +550,6 @@ cwc.ui.Builder.prototype.loadHelper_ = function(instance, instanceName) {
  * @return {Promise}
  */
 cwc.ui.Builder.prototype.loadCache = function() {
-  this.helper.getInstance('renderer').prepare();
   return this.helper.getInstance('cache').prepare();
 };
 
@@ -596,30 +594,19 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
 
 
 /**
- * Loads the storage instance.
- * @private
- */
-cwc.ui.Builder.prototype.loadStorage_ = function() {
-  let storageInstance = new cwc.utils.Storage();
-  if (!storageInstance) {
-    this.loadI18n_();
-    return;
-  }
-  this.helper.setInstance('storage', storageInstance);
-  storageInstance.prepare(this.loadUserConfig_.bind(this));
-};
-
-
-/**
  * Loads the user config instance.
  * @private
  */
 cwc.ui.Builder.prototype.loadUserConfig_ = function() {
-  let userConfigInstance = new cwc.UserConfig(this.helper);
-  if (userConfigInstance) {
-    this.helper.setInstance('userConfig', userConfigInstance);
+  let userConfig = new cwc.UserConfig(this.helper);
+  if (userConfig) {
+    this.helper.setInstance('userConfig', userConfig);
+    userConfig.prepare().then(() => {
+      this.loadI18n_();
+    });
+  } else {
+    this.loadI18n_();
   }
-  this.loadI18n_();
 };
 
 
@@ -630,44 +617,42 @@ cwc.ui.Builder.prototype.loadUserConfig_ = function() {
 cwc.ui.Builder.prototype.loadI18n_ = function() {
   let i18nInstance = new cwc.utils.I18n();
   this.helper.setInstance('i18n', i18nInstance);
+  let language = i18nInstance.getLanguage() || cwc.config.Default.LANGUAGE;
 
-  let language = cwc.config.Default.LANGUAGE;
-  let languageFile = 'js/locales/eng.js';
+  // Prefer user language settings, otherwise use auto-detected language.
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE);
-    if (userLanguage && userLanguage != language) {
+    if (userLanguage && userLanguage !== language) {
       if (userLanguage.length === 3) {
         this.log_.info('Set user preferred language:', userLanguage);
         language = userLanguage;
-
-        if (language != cwc.config.Default.LANGUAGE) {
-          // Coding with Chrome language file.
-          languageFile = '../js/locales/' + language + '.js';
-
-          // Blockly language file.
-          cwc.utils.Resources.getUriAsJavaScriptTag(
-            'external/blockly/msg/' +
-              cwc.utils.I18n.getISO639_1(language) + '.js',
-            'blockly-language'
-          );
-        }
       } else {
         this.log_.warn('Unsupported language', userLanguage, 'using',
           cwc.config.Default.LANGUAGE, 'instead!');
         userConfigInstance.set(cwc.userConfigType.GENERAL,
           cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
+        language = cwc.config.Default.LANGUAGE;
       }
     }
   }
 
-  this.loadingScreen_.setUserLangauge(language);
+  // Loading Blockly language
   cwc.utils.Resources.getUriAsJavaScriptTag(
-    languageFile, 'cwc-i18n-language').then(() => {
+    'external/blockly/msg/' + cwc.utils.I18n.getISO639_1(language) + '.js',
+    'blockly-language'
+  );
+
+  // Loading UI language
+  cwc.utils.Resources.getUriAsJavaScriptTag(
+    'js/locales/' + language + '.js',
+    'cwc-i18n-language').then(() => {
       i18nInstance.setLanguage(language);
+      this.loadingScreen_.setUserLangauge(language);
       this.loadUI();
-  });
+    }
+  );
 };
 
 

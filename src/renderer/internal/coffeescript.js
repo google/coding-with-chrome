@@ -35,21 +35,31 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.Coffeescript = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
+
+  /** @private {!Array} */
+  this.frameworks_ = [
+    cwc.framework.Internal.MESSAGE,
+    cwc.framework.External.COFFEESCRIPT,
+  ];
 };
 
 
 /**
  * Initializes and defines the Coffeescript renderer.
+ * @return {!Promise}
  */
 cwc.renderer.internal.Coffeescript.prototype.init = function() {
   this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.cache_.preloadFiles(this.frameworks_);
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
@@ -57,11 +67,9 @@ cwc.renderer.internal.Coffeescript.prototype.init = function() {
 cwc.renderer.internal.Coffeescript.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
-  let header = rendererHelper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.External.COFFEESCRIPT), frameworks
-  );
+  let header = rendererHelper.getCacheFilesHeader(
+    this.frameworks_, this.cache_);
   let body = '\n<script type="text/coffeescript">\n' +
     editorContent[cwc.ui.EditorContent.DEFAULT] + '\n</script>\n';
   return rendererHelper.getHTML(body, header);

@@ -42,18 +42,18 @@ cwc.renderer.external.Python = function(helper) {
 
 /**
  * Initializes and defines the simple renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.Python.prototype.init = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
   rendererInstance.setServerMode(true);
-  rendererInstance.setRenderer(this.render.bind(this));
+  return rendererInstance.setRenderer(this.render.bind(this));
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
@@ -61,7 +61,6 @@ cwc.renderer.external.Python.prototype.init = function() {
 cwc.renderer.external.Python.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
   let content = editorContent[cwc.ui.EditorContent.DEFAULT] || '';
 
@@ -69,6 +68,7 @@ cwc.renderer.external.Python.prototype.render = function(
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
     let header = rendererHelper.getJavaScriptURLs([
+      cwc.framework.Internal.MESSAGE,
       cwc.framework.External.JQUERY.V2_2_4,
       cwc.framework.External.SKULPT.CORE,
       cwc.framework.External.SKULPT.STDLIB,
@@ -86,6 +86,7 @@ cwc.renderer.external.Python.prototype.render = function(
 
   // Python 3.x as default
   let header = rendererHelper.getJavaScriptURLs([
+    cwc.framework.Internal.MESSAGE,
     cwc.framework.External.BRYTHON.CORE,
     cwc.framework.External.BRYTHON.STDLIB,
     cwc.framework.Internal.PYTHON3,

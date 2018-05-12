@@ -173,8 +173,9 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 /**
  * @param {!string} data
  * @param {string=} filename
+ * @async
  */
-cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
+cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
     filename = '') {
   let file;
   try {
@@ -194,7 +195,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
   fileInstance.setMimeType(cwc.utils.mime.Type.CWC);
 
   let modeInstance = this.helper.getInstance('mode');
-  modeInstance.setMode(modeType);
+  await modeInstance.setMode(modeType);
   modeInstance.setFilename(filename);
 
   // Handling Blockly and normal Editor content.
@@ -269,8 +270,9 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = function(data,
 /**
  * @param {!string} content
  * @param {string=} filename
+ * @async
  */
-cwc.fileHandler.FileLoader.prototype.loadRawFile = function(content,
+cwc.fileHandler.FileLoader.prototype.loadRawFile = async function(content,
     filename = '') {
   let mimeType = cwc.utils.mime.getTypeByNameAndContent(filename, content);
   let modeType = cwc.mode.Config.getModeByMimeType(mimeType);
@@ -281,7 +283,7 @@ cwc.fileHandler.FileLoader.prototype.loadRawFile = function(content,
   fileInstance.setMimeType(cwc.utils.mime.getByType(mimeType));
 
   let modeInstance = this.helper.getInstance('mode');
-  modeInstance.setMode(modeType);
+  await modeInstance.setMode(modeType);
   modeInstance.setFilename(filename);
   modeInstance.addEditorView(cwc.ui.EditorContent.DEFAULT, content, mimeType);
 

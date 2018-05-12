@@ -24,7 +24,6 @@ goog.require('cwc.framework.External');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
-goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
@@ -50,107 +49,17 @@ cwc.renderer.Renderer = function(helper) {
   /** @type {!cwc.renderer.Helper} */
   this.rendererHelper = new cwc.renderer.Helper();
 
-  /** @type {!cwc.file.Files} */
-  this.files = new cwc.file.Files();
+  /** @type {cwc.ui.Editor} */
+  this.editorInstance_ = null;
 
   /** @type {!boolean} */
   this.serverMode_ = false;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
-};
 
-
-/**
- * @export
- */
-cwc.renderer.Renderer.prototype.prepare = function() {
-  this.log_.info('Loading external frameworks ...');
-  this.loadFiles(cwc.framework.External);
-
-  this.log_.info('Loading internal frameworks ...');
-  this.loadFiles(cwc.framework.Internal);
-
-  this.log_.info('Loading Style Sheets ...');
-  this.loadFiles(cwc.framework.StyleSheet);
-};
-
-
-/**
- * Loads files into cache.
- * @param {!Object} files
- */
-cwc.renderer.Renderer.prototype.loadFiles = function(files) {
-  let fileFiles = [];
-  for (let file of Object.keys(files)) {
-    if (goog.isString(files[file])) {
-      fileFiles.push(files[file]);
-    } else {
-      for (let subFile of Object.keys(files[file])) {
-        fileFiles.push(files[file][subFile]);
-      }
-    }
-  }
-  fileFiles.forEach((file) => {
-    cwc.utils.Resources.getUriAsText('..' + file).then((content) => {
-      this.addFile(file, content);
-    });
-  });
-};
-
-
-/**
- * @param {string!} name
- * @param {string!} content
- * @param {boolean=} optimize
- */
-cwc.renderer.Renderer.prototype.addFile = function(name, content,
-    optimize = false) {
-  if (!content) {
-    this.log_.error('Received empty content for', name);
-    return;
-  }
-
-  if (optimize && !name.includes('.min.') && content.length > 1000) {
-    // Try to optimize unminimized code by removing comments and white-spaces.
-    let originalContentLength = content.length;
-    content = content.replace(/\\n\\n/g, '\\n')
-      .replace(/ {4}/g, '  ')
-      .replace(/[ \t]?\/\/.+?\\n/g, '')
-      .replace(/[ \t]?\/\*.+?\*\/\\n/g, '')
-      .replace(/[ \t]+\\n/g, '\\n')
-      .replace(/(\\n){2,}/g, '\\n');
-    if (originalContentLength > content.length) {
-      let optimized = Math.ceil(((originalContentLength - content.length) /
-          originalContentLength) * 100);
-      if (optimized >= 5) {
-        this.log_.info('Optimized content from', originalContentLength, 'to',
-          content.length, 'by', optimized, '%');
-      }
-    }
-  }
-  let mimeType = cwc.utils.mime.getTypeByExtension(name);
-  let fileContent = this.rendererHelper.getDataURL(content, mimeType);
-  if (!fileContent) {
-    this.log_.error('Received empty file for', name);
-    return;
-  }
-
-  let file = this.files.addFile(name, fileContent);
-  if (!file) {
-    this.log_.error('Was not able to add File', file);
-  } else {
-    this.log_.info('Add framework', name, file.getSize());
-  }
-};
-
-
-/**
- * @return {!cwc.file.Files}
- * @export
- */
-cwc.renderer.Renderer.prototype.getFrameworks = function() {
-  return this.files;
+  /** @private {!cwc.file.Files} */
+  this.libraryFiles_ = new cwc.file.Files();
 };
 
 
@@ -166,13 +75,23 @@ cwc.renderer.Renderer.prototype.getRendererHelper = function() {
 /**
  * Sets the renderer for the content.
  * @param {Function} renderer
+ * @return {Promise}
  * @export
  */
 cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
-  if (!goog.isFunction(renderer)) {
-    this.log_.error('Renderer is not an function !');
-  }
-  this.renderer = renderer;
+  return new Promise((resolve, reject) => {
+    if (!goog.isFunction(renderer)) {
+      this.log_.error('Renderer is not an function !');
+      reject();
+    }
+    let fileInstance = this.helper.getInstance('file');
+    if (fileInstance) {
+      this.libraryFiles_ = fileInstance.getFiles();
+    }
+    this.editorInstance_ = this.helper.getInstance('editor');
+    this.renderer = renderer;
+    resolve();
+  });
 };
 
 
@@ -181,45 +100,6 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
  */
 cwc.renderer.Renderer.prototype.setServerMode = function(enable) {
   this.serverMode_ = enable;
-};
-
-
-/**
- * Renders the JavaScript, CSS and HTML content together with all settings.
- * @return {!string}
- * @export
- */
-cwc.renderer.Renderer.prototype.getRenderedContent = function() {
-  let fileInstance = this.helper.getInstance('file');
-  let libraryFiles = fileInstance ?
-    fileInstance.getFiles() : new cwc.file.Files();
-  let editorInstance = this.helper.getInstance('editor');
-  let editorContent = editorInstance.getEditorContent();
-  if (!editorContent) {
-    this.log_.warn('Empty render content!');
-  }
-
-  let enviroment = {
-    'baseURL': this.helper.getBaseURL(),
-    'currentView': editorInstance.getCurrentView(),
-  };
-
-  let html = this.renderer(
-      editorContent,
-      libraryFiles,
-      this.files,
-      this.rendererHelper,
-      enviroment
-  );
-
-  if (this.serverMode_) {
-    let serverInstance = this.helper.getInstance('server');
-    if (serverInstance) {
-      serverInstance.setPreview(html);
-    }
-  }
-
-  return html || '';
 };
 
 
@@ -239,9 +119,29 @@ cwc.renderer.Renderer.prototype.getContentUrl = function() {
 
 
 /**
- * @return {string} Rendered content as object.
+ * Renders the JavaScript, CSS and HTML content together with all settings.
+ * @return {!string}
  * @export
  */
-cwc.renderer.Renderer.prototype.getObjectTag = function() {
-  return this.rendererHelper.getObjectTag(this.getContentUrl());
+cwc.renderer.Renderer.prototype.getRenderedContent = function() {
+  let enviroment = {
+    'baseURL': this.helper.getBaseURL(),
+    'currentView': this.editorInstance_.getCurrentView(),
+  };
+
+  let html = this.renderer(
+      this.editorInstance_.getEditorContent(),
+      this.libraryFiles_,
+      this.rendererHelper,
+      enviroment
+  );
+
+  if (this.serverMode_) {
+    let serverInstance = this.helper.getInstance('server');
+    if (serverInstance) {
+      serverInstance.setPreview(html);
+    }
+  }
+
+  return html || '';
 };

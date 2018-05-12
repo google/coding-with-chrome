@@ -35,21 +35,28 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.internal.Javascript = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
+
+  /** @private {!Array} */
+  this.frameworks_ = [cwc.framework.Internal.MESSAGE];
 };
 
 
 /**
  * Initializes and defines the JavaScript renderer.
+ * @return {!Promise}
  */
 cwc.renderer.internal.Javascript.prototype.init = function() {
   this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.cache_.preloadFiles(this.frameworks_);
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {!string}
  * @export
@@ -57,8 +64,9 @@ cwc.renderer.internal.Javascript.prototype.init = function() {
 cwc.renderer.internal.Javascript.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
-  return rendererHelper.getHTML(undefined, undefined, undefined,
-    editorContent[cwc.ui.EditorContent.DEFAULT]);
+  let header = rendererHelper.getCacheFilesHeader(
+    this.frameworks_, this.cache_);
+  return rendererHelper.getJavaScript(
+    editorContent[cwc.ui.EditorContent.DEFAULT], header);
 };

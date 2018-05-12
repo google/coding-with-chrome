@@ -42,7 +42,10 @@ cwc.Cache = function(helper) {
   this.helper = helper;
 
   /** @private {!number} */
-  this.version = 5;
+  this.version = 6;
+
+  /** @private {Object} */
+  this.cache_ = {};
 
   /** @private {!cwc.utils.Database} */
   this.database_ = new cwc.utils.Database(this.name, this.version);
@@ -58,14 +61,12 @@ cwc.Cache = function(helper) {
 
 
 /**
- * @return {Promise}
+ * @async
  */
-cwc.Cache.prototype.prepare = function() {
-  return this.database_.open(this.databaseConfig_).then(() => {
-    this.database_.getFile('__version__').then((version) => {
-      this.update(version);
-    });
-  });
+cwc.Cache.prototype.prepare = async function() {
+  await this.database_.open(this.databaseConfig_);
+  let version = await this.database_.get('__version__');
+  await this.update(version);
 };
 
 
@@ -79,7 +80,7 @@ cwc.Cache.prototype.update = function(version) {
   }
 
   this.log_.info('Updating Cache to version', this.version);
-  this.database_.clearFiles();
+  this.database_.clear();
 
   this.log_.info('Loading external frameworks ...');
   this.loadFiles(cwc.framework.External);
@@ -90,7 +91,7 @@ cwc.Cache.prototype.update = function(version) {
   this.log_.info('Loading Style Sheets ...');
   this.loadFiles(cwc.framework.StyleSheet);
 
-  this.database_.addFile('__version__', this.version);
+  this.database_.add('__version__', this.version);
 };
 
 
@@ -126,7 +127,7 @@ cwc.Cache.prototype.addFile = function(name, content) {
     this.log_.error('Received empty content for', name);
     return;
   }
-  this.database_.addFile(name, content);
+  this.database_.add(name, content);
 };
 
 
@@ -135,7 +136,66 @@ cwc.Cache.prototype.addFile = function(name, content) {
  * @return {Promise}
  */
 cwc.Cache.prototype.getFile = function(name) {
-  return this.database_.getFile(name);
+  return this.database_.get(name);
+};
+
+
+/**
+ * @param {!string} name
+ * @return {!string}
+ */
+cwc.Cache.prototype.getPreloadedFile = function(name) {
+  if (this.cache_[name] === undefined) {
+    return '';
+  }
+  return this.cache_[name];
+};
+
+
+/**
+ * @param {!string} name
+ * @return {Promise}
+ */
+cwc.Cache.prototype.preloadFile = function(name) {
+  return new Promise((resolve, reject) => {
+    if (this.cache_[name] === undefined) {
+      this.database_.get(name).then((content) => {
+        let dataType = '';
+        let dataContent = '';
+        if (content) {
+          if (name.endsWith('.js')) {
+            dataType = 'text/javascript';
+          } else if (name.endsWith('.css')) {
+            dataType = 'text/css';
+          } else if (name.endsWith('.html')) {
+            dataType = 'text/html';
+          }
+
+          try {
+            dataContent = 'data:' + dataType + ';base64,' + btoa(content);
+          } catch (err) {
+            dataContent = 'data:' + dataType + ';charset=utf-8,' +
+              encodeURIComponent(content);
+          }
+          this.log_.info('Preloaded file', name);
+        }
+        this.cache_[name] = dataContent;
+        resolve();
+      }, reject);
+    } else {
+      resolve();
+    }
+  });
+};
+
+
+/**
+ * @param {!Array} files
+ * @return {!Promise}
+ */
+cwc.Cache.prototype.preloadFiles = function(files) {
+  let promises = files.map(this.preloadFile.bind(this));
+  return Promise.all(promises);
 };
 
 
@@ -148,7 +208,7 @@ cwc.Cache.prototype.addLibraryFile = function(name, content) {
   if (content.includes('data:')) {
     content = atob(content.split(',')[1]);
   }
-  this.database_.addFile(filename, content, '__library__');
+  this.database_.add(filename, content, '__library__');
 };
 
 
@@ -161,12 +221,12 @@ cwc.Cache.prototype.getLibraryFile = function(name) {
   if (filename.includes('%20')) {
     filename = decodeURI(filename);
   }
-  return this.database_.getFile(filename, '__library__');
+  return this.database_.get(filename, '__library__');
 };
 
 
 cwc.Cache.prototype.clearLibraryFiles = function() {
-  return this.database_.clearFiles('__library__');
+  return this.database_.clear('__library__');
 };
 
 
