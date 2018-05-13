@@ -60,20 +60,13 @@ cwc.userConfigName = {
 
 
 /**
- * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.UserConfig = function(helper) {
+cwc.UserConfig = function() {
   /** @type {string} */
   this.name = 'User Config';
-
-  /** @type {!cwc.utils.Helper} */
-  this.helper = helper;
-
-  /** @private {!cwc.utils.Storage} */
-  this.storage_ = this.helper.getInstance('storage');
 
   /** @private {Object} */
   this.cache_ = new Map();
@@ -116,7 +109,7 @@ cwc.UserConfig.prototype.getAll = function(type) {
   let result = new Map();
   for (let [key, value] of this.cache_) {
     if (key && String(key).startsWith(type)) {
-      result.set(key, value);
+      result.set(key.replace(type + '_', ''), value);
     }
   }
   return result;

@@ -23,22 +23,22 @@ goog.require('cwc.framework.Runner');
 
 
 /**
- * @param {string=} opt_target
- * @param {Object=} opt_options
+ * @param {string=} target
+ * @param {Object=} options
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Turtle = function(opt_target, opt_options) {
+cwc.framework.Turtle = function(target, options) {
   /** @type {string} */
   this.name = 'Turtle Framework';
 
   /** @type {string|undefined} */
-  this.target = opt_target;
+  this.target = target;
 
   /** @type {Object} */
-  this.options = opt_options || {
+  this.options = options || {
     'panel': false,
   };
 
@@ -55,6 +55,15 @@ cwc.framework.Turtle = function(opt_target, opt_options) {
   /** @type {Object} */
   this.turtleTarget = this.turtle(this.target, this.options);
 
+  if (!this.turtle || !this.turtleTarget) {
+    console.error('Turtle library is not ready!');
+  } else {
+    this.addCommands();
+  }
+};
+
+
+cwc.framework.Turtle.prototype.addCommands = function() {
   // Mapping available commands.
   this.runner.addCommand('__reset__', this.reset);
   this.runner.addCommand('fd', this.handleFd_);

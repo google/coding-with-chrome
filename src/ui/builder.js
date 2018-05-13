@@ -228,7 +228,7 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  // Prepare and load Storage
+  // Prepare and UserConfig
   this.loadUserConfig_();
 };
 

@@ -50,6 +50,9 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {Element} */
   this.nodeContent = null;
 
+  /** @type {Object} */
+  this.modules = {};
+
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
@@ -88,8 +91,16 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
   goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
     'prefix': this.prefix,
   });
-
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
+
+  let userConfigInstance = this.helper.getInstance('userConfig');
+  if (userConfigInstance) {
+    let moduleConfig = userConfigInstance.getAll(cwc.userConfigType.MODULE);
+    this.modules = {};
+    moduleConfig.forEach((value, key) => {
+      this.modules[key] = value;
+    });
+  }
 };
 
 
@@ -246,16 +257,11 @@ cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
  * @param {!Function} template
  */
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
-  let modules = {};
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance) {
-    modules = userConfigInstance.getAll(cwc.userConfigType.MODULE);
-  }
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
       debug: this.helper.debugEnabled(),
       experimental: this.helper.experimentalEnabled(),
-      modules: modules,
+      modules: this.modules,
       online: this.helper.checkFeature('online'),
       prefix: this.prefix,
       version: this.helper.getAppVersion(),

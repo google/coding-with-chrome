@@ -40,7 +40,7 @@ cwc.framework.Runner = function() {
   this.appWindow = null;
 
   /** @type {Object} */
-  this.commands = {};
+  this.commands = {'Runner Framework': null};
 
   /** @private {?Function} */
   this.callback_ = null;
@@ -155,7 +155,9 @@ cwc.framework.Runner.prototype.setScope = function(scope) {
   if (this.callback_ || this.monitor_) {
     throw new Error('Scope should be set before callback/monitor!');
   }
-  if (scope && typeof scope === 'function') {
+  if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
+    throw new Error('Invalid runner scope!', scope);
+  } else if (scope) {
     this.scope_ = scope;
   }
   return this;
