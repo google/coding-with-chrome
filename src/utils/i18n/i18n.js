@@ -88,7 +88,6 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
   }
 
   if (typeof Locales[this.language][key] === 'undefined') {
-    this.handleMissingKey_(key, text);
     return text || key;
   }
 
@@ -203,29 +202,6 @@ cwc.utils.I18n.prototype.getSupportedLanguages = function() {
  */
 cwc.utils.I18n.prototype.setSupportedLanguages = function(languages) {
   this.supportedLanguages = languages || Locales['supportedLanguages'];
-};
-
-
-/**
- * @param {!string} key
- * @param {string=} text
- * @private
- */
-cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
-  if (!/[a-zA-Z]{2,}/.test(key)) {
-    return;
-  }
-
-  if (typeof this.untranslated[key] === 'undefined') {
-    if (text) {
-      this.log_.warn('Untranslated Key', key, 'with text:', text);
-    } else {
-      this.log_.warn('Untranslated Key', key);
-    }
-    this.untranslated[key] = 1;
-  } else {
-    this.untranslated[key]++;
-  }
 };
 
 

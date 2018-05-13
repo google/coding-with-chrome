@@ -59,6 +59,7 @@ cwc.ui.BlocklyToolbox = function(helper) {
  * Enables additional DOM manipulations.
  */
 cwc.ui.BlocklyToolbox.prototype.decorate = function() {
+  // Decorates three labels with root class.
   this.decorateThreeLabels(true);
 };
 

@@ -133,12 +133,6 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function() {
     cwc.protocol.lego.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData,
     false, this);
 
-  // Custom events
-  let customEventHandler = this.helper.getEventHandler();
-  this.events_.listen(customEventHandler, 'changeRobotType', function(e) {
-    this.updateRobotType(e.data);
-  }, false, this);
-
   // Monitoring
   this.updateDeviceData();
 

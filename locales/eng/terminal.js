@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for blocks (english).
+ * @fileoverview Translation file for the Terminal (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -25,10 +25,7 @@ Locales['eng'] = Locales['eng'] || {};
  * @final
  * @export
  */
-/* eslint-disable max-len */
-Locales['eng']['BLOCKS'] = {
-  'CHANGE': 'change',
-  'DEFINE': 'define',
-  'DO': 'do',
-  'LISTS': 'Lists',
+Locales['eng']['TERMINAL'] = {
+  'BUTTON_TOOLTIP': 'Terminal',
+  'COMMAND_PLACEHOLDER': 'Type your command here',
 };

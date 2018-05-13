@@ -26,9 +26,9 @@ Blockly.Blocks['phaser_audio_add_bgm'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('BLOCKS_PHASER_AUDIO_ADD_BGM'))
+        .appendField(i18t('@@BLOCKS_PHASER__AUDIO_ADD_BGM'))
         .appendField(new Blockly.FieldTextInput('bgm'), 'audio')
         .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('with volume'))
@@ -54,7 +54,7 @@ Blockly.Blocks['phaser_audio_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as audio'))
         .appendField(new Blockly.FieldTextInput('audio'), 'audio')
@@ -99,7 +99,7 @@ Blockly.Blocks['phaser_audio_pause'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.audio())
-        .appendField(i18t('BLOCKS_PHASER_AUDIO_PAUSE'));
+        .appendField(i18t('@@BLOCKS_PHASER__AUDIO_PAUSE'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(245);

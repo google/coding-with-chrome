@@ -284,19 +284,12 @@ Blockly.JavaScript['ev3_rotate_power'] = function(block) {
  */
 Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
-  let mode = 0;
-  switch (dropdown_mode) {
-    case 'reflection':
-      mode = 0;
-      break;
-    case 'ambient light':
-      mode = 1;
-      break;
-    case 'color':
-      mode = 2;
-      break;
-  }
-  return 'ev3.setColorSensorMode(' + mode + ');\n';
+  let modeMapping = {
+    'reflection': 0,
+    'ambient light': 1,
+    'color': 2,
+  };
+  return 'ev3.setColorSensorMode(' + modeMapping[dropdown_mode] + ');\n';
 };
 
 
@@ -307,19 +300,12 @@ Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
  */
 Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
-  let mode = 0;
-  switch (dropdown_mode) {
-    case 'proximity':
-      mode = 0;
-      break;
-    case 'IR beacon':
-      mode = 1;
-      break;
-    case 'IR remote':
-      mode = 2;
-      break;
-  }
-  return 'ev3.setIrSensorMode(' + mode + ');\n';
+  let modeMapping = {
+    'proximity': 0,
+    'IR beacon': 1,
+    'IR remote': 2,
+  };
+  return 'ev3.setIrSensorMode(' + modeMapping[dropdown_mode] + ');\n';
 };
 
 
@@ -330,19 +316,12 @@ Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
  */
 Blockly.JavaScript['ev3_ultrasonic_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
-  let mode = 0;
-  switch (dropdown_mode) {
-    case 'distance cm':
-      mode = 0;
-      break;
-    case 'distance inch':
-      mode = 1;
-      break;
-    case 'listen':
-      mode = 2;
-      break;
-  }
-  return 'ev3.setUltrasonicSensorMode(' + mode + ');\n';
+  let modeMapping = {
+    'distance cm': 0,
+    'distance inch': 1,
+    'listen': 2,
+  };
+  return 'ev3.setUltrasonicSensorMode(' + modeMapping[dropdown_mode] + ');\n';
 };
 
 
@@ -476,28 +455,17 @@ Blockly.JavaScript['ev3_variable_value'] = function() {
 Blockly.JavaScript['ev3_led'] = function(block) {
   let dropdown_color = block.getFieldValue('color');
   let dropdown_mode = block.getFieldValue('mode');
-  let color = 0;
-  let mode = 0;
-  switch (dropdown_color) {
-    case 'green':
-      color = 1;
-      break;
-    case 'red':
-      color = 2;
-      break;
-    case 'orange':
-      color = 3;
-      break;
-  }
-  switch (dropdown_mode) {
-    case 'flash':
-      mode = 3;
-      break;
-    case 'pulse':
-      mode = 6;
-      break;
-  }
-  return 'ev3.setLed(' + color + ', ' + mode + ', 10);\n';
+  let colorMapping = {
+    'green': 1,
+    'red': 2,
+    'orange': 3,
+  };
+  let modeMapping = {
+    'flash': 3,
+    'pulse': 6,
+  };
+  return 'ev3.setLed(' + colorMapping[dropdown_color] + ', ' +
+    modeMapping[dropdown_mode] + ', 10);\n';
 };
 
 

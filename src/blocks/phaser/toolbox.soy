@@ -29,15 +29,15 @@
   {@param? files: ?}
 
   <xml>
-    <category name="BLOCKS_PHASER_GAME" colour="75">
+    <category name="@@BLOCKS_PHASER__GAME" colour="75">
       {call .gameBlocks /}
     </category>
 
-    <category name="BLOCKS_PHASER_PRELOAD" colour="165">
+    <category name="@@BLOCKS_PHASER__PRELOAD" colour="165">
       {call .preloadBlocks /}
     </category>
 
-    <category name="BLOCKS_PHASER_CREATE" colour="30">
+    <category name="@@BLOCKS_PHASER__CREATE" colour="30">
 
       {call .createBlocks /}
 
@@ -46,11 +46,11 @@
         {param opt_hide_event_blocks: true /}
       {/call}
 
-      <category name="BLOCKS_PHASER_GENERATOR" colour="105">
+      <category name="@@BLOCKS_PHASER__GENERATOR" colour="105">
         {call .generatorBlocks /}
       </category>
 
-      <category name="BLOCKS_PHASER_WORLD" colour="345">
+      <category name="@@BLOCKS_PHASER__WORLD" colour="345">
         {call .worldBlocks}
           {param opt_show_create_blocks: true /}
         {/call}
@@ -58,7 +58,7 @@
 
     </category>
 
-    <category name="BLOCKS_PHASER_INPUT" colour="135">
+    <category name="@@BLOCKS_PHASER__INPUT" colour="135">
 
       {call .inputBlocks /}
 
@@ -68,7 +68,7 @@
 
     </category>
 
-    <category name="BLOCKS_PHASER_UPDATE" colour="315">
+    <category name="@@BLOCKS_PHASER__UPDATE" colour="315">
 
       {call .updateBlocks /}
 
@@ -76,26 +76,26 @@
         {param opt_hide_event_blocks: true /}
       {/call}
 
-      <category name="BLOCKS_PHASER_WORLD" colour="345">
+      <category name="@@BLOCKS_PHASER__WORLD" colour="345">
         {call .worldBlocks /}
       </category>
 
     </category>
 
-    <category name="BLOCKS_PHASER_RENDERER" colour="195">
+    <category name="@@BLOCKS_PHASER__RENDERER" colour="195">
       {call .renderBlocks /}
     </category>
 
     <sep></sep>
 
     {if $files}
-      <category name="BLOCKS_PHASER_FILES" colour="150">
+      <category name="@@BLOCKS_PHASER__FILES" colour="150">
         <button text="{msg desc=""}BLOCKS_PHASER_OPEN_FILE_LIBRARY{/msg}" callbackKey="FILE_LIBRARY_MANAGMENT" />
         {call .files data="all" /}
       </category>
     {/if}
 
-    <category name="BLOCKS_PHASER_EXAMPLE_FILES" colour="150">
+    <category name="@@BLOCKS_PHASER__EXAMPLE_FILES" colour="150">
       {call .sampleFiles data="all" /}
     </category>
 
@@ -206,28 +206,28 @@
   {@param? opt_hide_input_blocks: bool}
   {@param? opt_show_create_blocks: bool}
 
-  <category name="BLOCKS_PHASER_AUDIO" colour="245">
+  <category name="@@BLOCKS_PHASER__AUDIO" colour="245">
     {call .audioBlocks data="all" /}
   </category>
 
-  <category name="BLOCKS_PHASER_SPRITE" colour="225">
+  <category name="@@BLOCKS_PHASER__SPRITE" colour="225">
     {call .spriteBlocks data="all" /}
   </category>
 
-  <category name="BLOCKS_PHASER_TILE_SPRITE" colour="285">
+  <category name="@@BLOCKS_PHASER__TILE_SPRITE" colour="285">
     {call .tileSpriteBlocks data="all" /}
   </category>
 
-  <category name="BLOCKS_PHASER_PHYSICS_SPRITE" colour="0">
+  <category name="@@BLOCKS_PHASER__PHYSICS_SPRITE" colour="0">
     {call .physicsSpriteBlocks data="all" /}
   </category>
 
-  <category name="BLOCKS_PHASER_TEXT" colour="255">
+  <category name="@@BLOCKS_PHASER__TEXT" colour="255">
     {call .textBlocks data="all" /}
   </category>
 
   {if not $opt_hide_input_blocks}
-    <category name="BLOCKS_PHASER_INPUTS" colour="255">
+    <category name="@@BLOCKS_PHASER__INPUTS" colour="255">
       {call .inputBlocks data="all" /}
     </category>
   {/if}

@@ -37,14 +37,14 @@ describe('Prepare Editor', function() {
     '<div id="cwc-editor"></div>'
   );
 
-  let builder = new cwc.ui.Builder();
-
   it('export', function() {
+    let builder = new cwc.ui.Builder();
     expect(typeof builder).toEqual('object');
   });
 
   it('decorate', function(done) {
-    builder.decorate(null, function() {
+    let builder = new cwc.ui.Builder();
+    builder.decorate().then(() => {
       expect(builder.isPrepared()).toEqual(true);
       expect(builder.isLoaded()).toEqual(true);
       expect(builder.isReady()).toEqual(true);

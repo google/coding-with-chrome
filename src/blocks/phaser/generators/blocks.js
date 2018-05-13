@@ -26,7 +26,7 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('BLOCKS_PHASER_GENERATOR_VERTICAL_OBSTACLE'));
+        .appendField(i18t('@@BLOCKS_PHASER__GENERATOR_VERTICAL_OBSTACLE'));
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -94,7 +94,8 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('BLOCKS_PHASER_GENERATOR_RANDOM_VERTICAL_OBSTACLE'));
+        .appendField(i18t(
+          '@@BLOCKS_PHASER__GENERATOR_RANDOM_VERTICAL_OBSTACLE'));
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)

@@ -29,7 +29,7 @@ Blockly.Blocks['phaser_input'] = {
       .appendField(Blockly.BlocksTemplate.mouse())
       .appendField(i18t('on input'));
     this.appendStatementInput('CODE')
-      .appendField(i18t('BLOCKS_DO'))
+      .appendField(i18t('@@BLOCKS__DO'))
       .setAlign(Blockly.ALIGN_CENTRE)
       .setCheck(['Input']);
     this.setPreviousStatement(true, 'Input_');
@@ -48,7 +48,7 @@ Blockly.Blocks['phaser_input_keyboard_cursor_keys_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as capture keyboard cursors keys'))
         .appendField(Blockly.BlocksTemplate.keyboard());
@@ -68,7 +68,7 @@ Blockly.Blocks['phaser_input_keyboard_spacebar_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as capture keyboard spacebar'))
         .appendField(Blockly.BlocksTemplate.keyboard());
@@ -88,7 +88,7 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as capture keyboard key'))
         .appendField(new Blockly.FieldDropdown([
@@ -117,7 +117,7 @@ Blockly.Blocks['phaser_input_mouse_keys_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as capture mouse keys'))
         .appendField(Blockly.BlocksTemplate.mouse());

@@ -50,7 +50,7 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
 
   /** @type {!cwc.mode.lego.ev3.Calibration} */
   this.calibration = new cwc.mode.lego.ev3.Calibration(helper, this.connection,
-    this.runner);
+    this.runner, this.monitor);
 };
 
 

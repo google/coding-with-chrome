@@ -81,11 +81,14 @@ cwc.UserConfig = function() {
 
 
 /**
+ * @return {THIS}
+ * @template THIS
  * @async
  */
 cwc.UserConfig.prototype.prepare = async function() {
   await this.database_.open();
   await this.syncCache_();
+  return this;
 };
 
 
@@ -134,9 +137,10 @@ cwc.UserConfig.prototype.set = function(type, name, value) {
  */
 cwc.UserConfig.prototype.syncCache_ = function() {
   return new Promise((resolve, reject) => {
-    this.log_.info('Syncing user config ...');
+    this.log_.info('Syncing with local cache ...');
     this.database_.getAllWithKeys().then((result) => {
       this.cache_ = result;
+      this.log_.info('Synced', result.size, 'entries');
       resolve();
     }, reject);
   });

@@ -195,7 +195,6 @@ cwc.ui.Terminal.prototype.selectHistoryEntry = function(index) {
   if (index > this.historyIndex_ || index < 0 || !this.nodeUserInput) {
     return;
   }
-  console.log(index, this.historyIndex_);
   if (this.history_[index]) {
     this.nodeUserInput.value = this.history_[index];
   }

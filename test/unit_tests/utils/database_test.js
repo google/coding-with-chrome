@@ -21,9 +21,8 @@ goog.require('cwc.utils.Database');
 
 
 describe('Database', function() {
-  let db = new cwc.utils.Database('test');
-
   it('constructor', function() {
+    let db = new cwc.utils.Database('test');
     expect(typeof db).toEqual('object');
   });
 });

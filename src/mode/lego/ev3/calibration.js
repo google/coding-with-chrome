@@ -32,10 +32,11 @@ goog.require('cwc.utils.Logger');
  * @param {!cwc.utils.Helper} helper
  * @param {!cwc.mode.lego.ev3.Connection} connection
  * @param {!cwc.mode.lego.ev3.Runner} runner
+ * @param {!cwc.mode.lego.ev3.Monitor} monitor
  * @struct
  * @final
  */
-cwc.mode.lego.ev3.Calibration = function(helper, connection, runner) {
+cwc.mode.lego.ev3.Calibration = function(helper, connection, runner, monitor) {
   /** @type {string} */
   this.name = 'EV3 Calibration';
 
@@ -89,6 +90,9 @@ cwc.mode.lego.ev3.Calibration = function(helper, connection, runner) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @orivate {!cwc.mode.lego.ev3.Monitor} */
+  this.monitor_ = monitor;
 
   if (!this.connection) {
     this.log_.error('Missing connection instance !');
@@ -216,9 +220,7 @@ cwc.mode.lego.ev3.Calibration.prototype.setRobotModel = function(model) {
   this.nodeWheelWidth.value = robotConfig.wheelWidth;
   this.nodeWheelbase.value = robotConfig.wheelbase;
   this.nodeRobotType.value = robotConfig.type;
-
-  this.helper.dispatchEvent('changeRobotType',
-    cwc.protocol.lego.ev3.Robots[model].type);
+  this.monitor_.updateRobotType(robotConfig.type);
 };
 
 
