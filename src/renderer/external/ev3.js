@@ -43,8 +43,9 @@ cwc.renderer.external.EV3 = function(helper) {
  * @return {!Promise}
  */
 cwc.renderer.external.EV3.prototype.init = function() {
-  return this.helper.getInstance('renderer')
-    .setRenderer(this.render.bind(this));
+  let rendererInstance = this.helper.getInstance('renderer');
+  rendererInstance.setServerMode(true);
+  return rendererInstance.setRenderer(this.render.bind(this));
 };
 
 

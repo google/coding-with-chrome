@@ -901,7 +901,9 @@ cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_PCT_VALUE:
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_RAW_VALUE:
-      this.updateDeviceData_(port, data[0], this.deviceData[port].getName());
+      if (this.deviceData[port]) {
+        this.updateDeviceData_(port, data[0], this.deviceData[port].getName());
+      }
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_SI_VALUE:
       this.updateDeviceData_(
