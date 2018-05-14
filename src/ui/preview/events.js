@@ -17,7 +17,7 @@
  *
  * @author carheden@google.com (Adam Carheden)
  */
-goog.provide('cwc.ui.preview.Events');
+goog.provide('cwc.ui.PreviewEvents');
 
 goog.require('cwc.utils.EventData');
 
@@ -25,7 +25,7 @@ goog.require('cwc.utils.EventData');
 /**
  * @enum {string}
  */
-cwc.ui.preview.Events.Type = {
+cwc.ui.PreviewEvents.Type = {
   CONTENT_LOAD: 'content_load',
 };
 
@@ -35,9 +35,9 @@ cwc.ui.preview.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.ui.preview.Events.contentLoad = function(preview) {
+cwc.ui.PreviewEvents.contentLoad = function(preview) {
   return new cwc.utils.EventData(
-    cwc.ui.preview.Events.Type.CONTENT_LOAD, {
+    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, {
       'preview': preview,
     });
 };

@@ -111,7 +111,7 @@ cwc.ui.Tutorial.prototype.start = function() {
   this.runValidatePreview(previewInstance.getContent());
 
   goog.events.listen(previewInstance.getEventHandler(),
-    cwc.ui.preview.Events.Type.CONTENT_LOAD, (e) => {
+    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, (e) => {
       this.runValidatePreview(e.data['preview']);
     }, false, this);
 };

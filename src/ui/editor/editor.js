@@ -219,6 +219,8 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
       cm.foldCode(cm.getCursor());
     },
     'Ctrl-J': 'toMatchingTag',
+    'Cmd-Enter': this.runPreview_.bind(this),
+    'Ctrl-Enter': this.runPreview_.bind(this),
     'Cmd-Space': 'autocomplete',
     'Ctrl-Space': 'autocomplete',
   });
@@ -686,4 +688,15 @@ cwc.ui.Editor.prototype.handleLint_ = function(e) {
 cwc.ui.Editor.prototype.cleanUp_ = function() {
   this.events_.clear();
   this.modified = false;
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Editor.prototype.runPreview_ = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    previewInstance.run();
+  }
 };

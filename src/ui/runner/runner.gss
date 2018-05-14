@@ -41,19 +41,13 @@
 
 #{$prefix}runner-runtime webview {
   border: 1px solid #ccc;
-  height: 45px;
+  height: 50px;
+  padding: 1px;
   position: absolute;
   right: 5px;
   top: 5px;
-  width: 45px;
-  z-index: 10;
-}
-
-#{$prefix}runner-runtime webview{
-  position: absolute;
   width: 50px;
-  height: 50px;
-  padding: 1px;
+  z-index: 10;
 }
 
 #{$prefix}runner-content {

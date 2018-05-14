@@ -52,14 +52,42 @@
   height: 100%;
 }
 
-#{$prefix}preview-content iframe,
-#{$prefix}preview-content webview {
+#{$prefix}preview-runtime iframe,
+#{$prefix}preview-runtime webview {
   flex: 1 1 auto;
   min-height: calc(100vh - 26px - 34px);
 }
+
+#{$prefix}preview-runner iframe,
+#{$prefix}preview-runner webview {
+  border: 1px solid #ccc;
+  height: 50px;
+  padding: 1px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 50px;
+  z-index: 10;
+}
+
 
 #{$prefix}preview-infobar {
   flex: 0 1 auto;
   height: 26px;
   min-height: 26px;
+}
+
+#{$prefix}preview-overlay:empty {
+  display: none;
+}
+
+#{$prefix}preview-overlay:not(:empty) {
+  background: #fff;
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9;
 }

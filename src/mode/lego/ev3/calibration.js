@@ -91,7 +91,7 @@ cwc.mode.lego.ev3.Calibration = function(helper, connection, runner, monitor) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @orivate {!cwc.mode.lego.ev3.Monitor} */
+  /** @private {!cwc.mode.lego.ev3.Monitor} */
   this.monitor_ = monitor;
 
   if (!this.connection) {

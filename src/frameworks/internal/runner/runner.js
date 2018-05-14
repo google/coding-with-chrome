@@ -40,7 +40,7 @@ cwc.framework.Runner = function() {
   this.appWindow = null;
 
   /** @type {Object} */
-  this.commands = {'Runner Framework': null};
+  this.commands = {};
 
   /** @private {?Function} */
   this.callback_ = null;

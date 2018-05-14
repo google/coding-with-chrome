@@ -20,8 +20,8 @@
 goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.soy.ui.Preview');
-goog.require('cwc.ui.preview.Events');
 goog.require('cwc.ui.PreviewInfobar');
+goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
@@ -33,10 +33,8 @@ goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
-goog.require('goog.events.KeyCodes');
 goog.require('goog.soy');
 goog.require('goog.ui.Component.EventType');
-goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 /**
@@ -76,19 +74,10 @@ cwc.ui.Preview = function(helper) {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {number} */
-  this.startTime = 0;
+  /** @type {!cwc.ui.Statusbar} */
+  this.statusbar = new cwc.ui.Statusbar(this.helper);
 
-  /** @type {number} */
-  this.stopTime = 0;
-
-  /** @type {cwc.ui.StatusbarState<number>} */
-  this.status = cwc.ui.StatusbarState.INITIALIZED;
-
-  /** @type {cwc.ui.Statusbar} */
-  this.statusbar = null;
-
-  /** @type {cwc.ui.StatusButton} */
+  /** @type {!cwc.ui.StatusButton} */
   this.statusButton = new cwc.ui.StatusButton(this.helper);
 
   /** @type {cwc.ui.PreviewInfobar} */
@@ -99,6 +88,12 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @private {!cwc.ui.PreviewStatus} */
+  this.previewStatus_ = new cwc.ui.PreviewStatus(
+    this.helper, this.eventHandler_)
+    .setStatusbar(this.statusbar)
+    .setStatusButton(this.statusButton);
 
   /** @private {!string} */
   this.partition_ = 'preview';
@@ -141,7 +136,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
   if (nodeStatusbar) {
-    this.statusbar = new cwc.ui.Statusbar(this.helper);
     this.statusbar.decorate(nodeStatusbar);
   }
 
@@ -168,17 +162,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.events_.listen(eventHandler, goog.events.EventType.DRAGEND,
         this.refresh, false, this);
   }
-
-  // HotKeys
-  let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
-  let CTRL = goog.ui.KeyboardShortcutHandler.Modifiers.CTRL;
-  shortcutHandler.registerShortcut('CTRL_ENTER',
-      goog.events.KeyCodes.ENTER, CTRL);
-
-  this.events_.listen(
-      shortcutHandler,
-      goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-      this.handleShortcut_, false, this);
 };
 
 
@@ -223,14 +206,15 @@ cwc.ui.Preview.prototype.run = function() {
  * Stops the preview window.
  */
 cwc.ui.Preview.prototype.stop = function() {
-  if (this.content) {
-    if (this.webviewSupport_) {
-      this.content.stop();
-    } else {
-      this.setContentUrl('about:blank');
-    }
-    this.setStatus_(cwc.ui.StatusbarState.STOPPED);
+  if (!this.content) {
+    return;
   }
+  if (this.webviewSupport_) {
+    this.content.stop();
+  } else {
+    this.setContentUrl('about:blank');
+  }
+  this.previewStatus_.setStatus(cwc.ui.StatusbarState.STOPPED);
 };
 
 
@@ -238,19 +222,20 @@ cwc.ui.Preview.prototype.stop = function() {
  * Refreshes the preview.
  */
 cwc.ui.Preview.prototype.refresh = function() {
-  if (this.content) {
-    let terminalInstance = this.helper.getInstance('terminal');
-    if (terminalInstance) {
-      terminalInstance.clearErrors();
-    }
+  if (!this.content) {
+    return;
+  }
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.clearErrors();
+  }
 
-    this.setStatus_(cwc.ui.StatusbarState.REFRESHING);
-    if (this.webviewSupport_) {
-      this.content.stop();
-      this.content.reload();
-    } else if (this.content.contentWindow) {
-      this.content.contentWindow.location.reload(true);
-    }
+  this.previewStatus_.setStatus(cwc.ui.StatusbarState.REFRESHING);
+  if (this.webviewSupport_) {
+    this.content.stop();
+    this.content.reload();
+  } else if (this.content.contentWindow) {
+    this.content.contentWindow.location.reload(true);
   }
   this.focus();
 };
@@ -261,7 +246,7 @@ cwc.ui.Preview.prototype.refresh = function() {
  */
 cwc.ui.Preview.prototype.reload = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.StatusbarState.RELOADING);
+    this.previewStatus_.setStatus(cwc.ui.StatusbarState.RELOADING);
     this.stop();
     this.run();
   }
@@ -273,7 +258,7 @@ cwc.ui.Preview.prototype.reload = function() {
  */
 cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
-    this.setStatus_(cwc.ui.StatusbarState.TERMINATED);
+    this.previewStatus_.setStatus(cwc.ui.StatusbarState.TERMINATED);
     this.content.terminate();
   }
 };
@@ -295,7 +280,7 @@ cwc.ui.Preview.prototype.render = function() {
   this.content = this.webviewSupport_ ?
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
-  this.setStatus_(cwc.ui.StatusbarState.INITIALIZED);
+  this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
   this.setContentUrl(this.getContentUrl());
 };
 
@@ -319,8 +304,8 @@ cwc.ui.Preview.prototype.renderIframe = function() {
  */
 cwc.ui.Preview.prototype.renderWebview = function() {
   if (this.content) {
-    if (this.status == cwc.ui.StatusbarState.LOADING ||
-        this.status == cwc.ui.StatusbarState.UNRESPONSIVE) {
+    if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING ||
+        this.previewStatus_.getStatus() == cwc.ui.StatusbarState.UNRESPONSIVE) {
       this.terminate();
     } else {
       this.stop();
@@ -331,12 +316,7 @@ cwc.ui.Preview.prototype.renderWebview = function() {
   let content = document.createElement('webview');
   content['setAttribute']('partition', this.partition_);
   content['setUserAgentOverride']('CwC sandbox');
-  this.events_.listen(content, 'contentload', this.handleContentLoad_);
-  this.events_.listen(content, 'loadstart', this.handleLoadStart_);
-  this.events_.listen(content, 'loadstop', this.handleLoadStop_);
-  this.events_.listen(content, 'unresponsive', this.handleUnresponsive_);
-  content.addEventListener('consolemessage',
-    this.handleConsoleMessage_.bind(this));
+  this.previewStatus_.addEventHandler(content);
   return content;
 };
 
@@ -480,109 +460,11 @@ cwc.ui.Preview.prototype.executeScript = function(code) {
  * @private
  */
 cwc.ui.Preview.prototype.run_ = function() {
-  if (this.status == cwc.ui.StatusbarState.LOADING) {
+  if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING) {
     this.terminate();
   }
-  this.setStatus_(cwc.ui.StatusbarState.RUNNING);
+  this.previewStatus_.setStatus(cwc.ui.StatusbarState.RUNNING);
   this.render();
-};
-
-
-/**
- * Handles preview specific keyboard short cuts.
- * @param {Event} event
- * @private
- */
-cwc.ui.Preview.prototype.handleShortcut_ = function(event) {
-  let shortcut = event['identifier'];
-  this.log_.info('Shortcut: ' + shortcut);
-
-  if (shortcut == 'CTRL_ENTER') {
-    this.run();
-  }
-};
-
-
-/**
- * Collects all messages from the preview window for the console.
- * @param {Event} event
- * @private
- */
-cwc.ui.Preview.prototype.handleConsoleMessage_ = function(event) {
-  if (this.infobar) {
-    this.infobar.addMessage(event);
-  }
-
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.writeConsoleMessage(event);
-  }
-};
-
-
-/**
- * Displays the start of load event.
- * @private
- */
-cwc.ui.Preview.prototype.handleLoadStart_ = function() {
-  this.startTime = new Date().getTime();
-  this.setStatus_(cwc.ui.StatusbarState.LOADING);
-};
-
-
-/**
- * Displays the end of the load event.
- * @private
- */
-cwc.ui.Preview.prototype.handleLoadStop_ = function() {
-  this.stopTime = new Date().getTime();
-  this.setStatus_(cwc.ui.StatusbarState.LOADED);
-};
-
-
-/**
- * Shows a unresponsive warning with the options to terminate the preview.
- * @private
- */
-cwc.ui.Preview.prototype.handleUnresponsive_ = function() {
-  this.setStatus_(cwc.ui.StatusbarState.UNRESPONSIVE);
-  let dialogInstance = this.helper.getInstance('dialog');
-  dialogInstance.showActionCancel('Unresponsive Warning',
-    'The preview is unresponsive! Terminate?', 'Terminate').then((answer) => {
-      if (answer) {
-        this.terminate();
-      }
-    });
-};
-
-
-/**
- * Dispatches a CONTENT_LOAD event. Because we destroy and recreate the
- * webview each time content changes, the user can't add an event listener
- * to that directly.
- * @private
- */
-cwc.ui.Preview.prototype.handleContentLoad_ = function() {
-  this.eventHandler_.dispatchEvent(
-    cwc.ui.preview.Events.contentLoad(this.content));
-};
-
-
-/**
- * @param {!cwc.ui.StatusbarState} status
- * @private
- */
-cwc.ui.Preview.prototype.setStatus_ = function(status) {
-  if (this.status === status) {
-    return;
-  }
-  if (this.statusbar) {
-    this.statusbar.setStatus(status, this.startTime, this.stopTime);
-  }
-  if (this.statusButton) {
-    this.statusButton.setStatus(status);
-  }
-  this.status = status;
 };
 
 

@@ -38,31 +38,38 @@ cwc.framework.Message = function() {
   /** @type {Object} */
   this.appWindow = null;
 
+  /** @private {Object} */
+  this.listener_ = {};
+
   // Message handler
   window.addEventListener('message', this.handleMessage_.bind(this), false);
+
+  // External listener
+  this.addListener('__exec__', this.executeCode_);
 };
 
 
 /**
- * Handles the received messages and executes the predefined actions.
- * @param {Event} event
- * @private
+ * Adds the command to the listener.
+ * @param {!string} name
+ * @param {!Function} func
+ * @param {?=} scope
+ * @export
  */
-cwc.framework.Message.prototype.handleMessage_ = function(event) {
-  if (!event) {
-    throw new Error('Was not able to get browser event!');
-  }
-  if (!this.appWindow && 'source' in event) {
-    this.setAppWindow(event['source']);
-  } else if (this.appWindow !== event['source']) {
+cwc.framework.Message.prototype.addListener = function(name, func,
+    scope = this) {
+  if (!name) {
+    console.error('Listener name is undefined!');
+    return;
+  } else if (!func || typeof func !== 'function') {
+    console.error('Listener function ' + name + ' is undefined!');
+    return;
+  } else if (typeof this.listener_[name] !== 'undefined') {
+    console.error('Listener ' + name + ' is already defined!');
     return;
   }
-  if (!this.appOrigin && 'origin' in event) {
-    this.setAppOrigin(event['origin']);
-  } else if (this.appOrigin !== event['origin']) {
-    return;
-  }
-  this.handleCommand_(event['data']['command'], event['data']['value']);
+  this.listener_[name] = scope ? func.bind(scope) : func;
+  console.log('Added message listener ' + name);
 };
 
 
@@ -89,11 +96,37 @@ cwc.framework.Message.prototype.setAppWindow = function(appWindow) {
 
 
 /**
+ * Handles the received messages and executes the predefined actions.
+ * @param {Event} event
+ * @private
+ */
+cwc.framework.Message.prototype.handleMessage_ = function(event) {
+  if (!event) {
+    throw new Error('Was not able to get browser event!');
+  }
+  if (!this.appWindow && 'source' in event) {
+    this.setAppWindow(event['source']);
+  } else if (this.appWindow !== event['source']) {
+    return;
+  }
+  if (!this.appOrigin && 'origin' in event) {
+    this.setAppOrigin(event['origin']);
+  } else if (this.appOrigin !== event['origin']) {
+    return;
+  }
+  if (typeof this.listener_[event['data']['command']] === 'undefined') {
+    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
+  }
+  this.listener_[event['data']['command']](event['data']['value']);
+};
+
+
+/**
  * @param {!string} code
  * @private
  */
 cwc.framework.Message.prototype.executeCode_ = function(code) {
-  if (!code) {
+  if (!code || typeof code !== 'string') {
     return;
   }
   // Remove trailing ";"" to avoid syntax errors for one liner
@@ -108,17 +141,3 @@ cwc.framework.Message.prototype.executeCode_ = function(code) {
   }
 };
 
-
-/**
- * @param {!string} command
- * @param {string|Object} value
- * @private
- */
-cwc.framework.Message.prototype.handleCommand_ = function(command, value) {
-  if (!command) {
-    return;
-  }
-  if (command === '__exec__' && value && typeof value === 'string') {
-    this.executeCode_(value);
-  }
-};
