@@ -47,6 +47,7 @@
     'loadTemplateFile': true,
     'loadTourFile': true,
     'loadTutorialFile': true,
+    'marked': true,
     'soydata': true,
     'var_args': true,
     'window': true,

@@ -138,7 +138,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
       break;
     case cwc.utils.mime.Type.MARKDOWN.type:
       if (this.helper.checkJavaScriptFeature('marked')) {
-        htmlContent = window['marked'](this.content_);
+        htmlContent = marked(this.content_);
       } else {
         this.log_.warn('Markdown not supported, displaying content as text');
         htmlContent = this.content_;
