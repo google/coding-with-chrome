@@ -1,7 +1,7 @@
 /**
- * @fileoverview TTS (Text To Speech) modifications.
+ * @fileoverview Translation file for the Terminal (english).
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.tts.Mod');
-
-goog.require('cwc.mode.default.Mod');
-
-
-/**
- * @constructor
- * @param {!cwc.utils.Helper} helper
- */
-cwc.mode.tts.Mod = function(helper) {
-  /** @type {!cwc.mode.default.Mod} */
-  this.mod = new cwc.mode.default.Mod(helper);
-};
+window['Locales'] = window['Locales'] || {};
+Locales['eng'] = Locales['eng'] || {};
 
 
 /**
- * Decorates the different parts of the modification.
+ * @final
+ * @export
  */
-cwc.mode.tts.Mod.prototype.decorate = function() {
-  this.mod.decorate();
+Locales['eng']['TERMINAL'] = {
+  'BUTTON_TOOLTIP': 'Terminal',
+  'COMMAND_PLACEHOLDER': 'Type your command here',
 };

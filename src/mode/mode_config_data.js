@@ -45,7 +45,6 @@ goog.require('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.blockly.Mod');
 goog.require('cwc.mode.text.Mod');
-goog.require('cwc.mode.tts.Mod');
 
 
 /**
@@ -416,15 +415,4 @@ cwc.mode.ConfigData[cwc.mode.Type.TEXT] = new cwc.mode.Mod({
   mod: cwc.mode.text.Mod,
   name: 'Text',
   template: 'text/blank.txt',
-});
-
-
-/**
- * TTS mode.
- */
-cwc.mode.ConfigData[cwc.mode.Type.TTS] = new cwc.mode.Mod({
-  authors: ['Markus Bordihn'],
-  mod: cwc.mode.tts.Mod,
-  name: 'Text to Speech',
-  template: 'tts/blank.tts',
 });

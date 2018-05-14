@@ -1,6 +1,8 @@
 {
-  'root': true,
   'extends': ['eslint:recommended', 'google'],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   'rules': {
     'no-unused-vars': [2, {
       'args': 'after-used',
@@ -20,36 +22,19 @@
     es6: true
   },
   'globals': {
-    '$': true,
     'Blockly': true,
     'CodeMirror': true,
     'ENABLE_LOGGING': true,
     'Locales': true,
     'Shepherd': true,
     'Sk': true,
-    'afterEach': true,
-    'beforeAll': true,
-    'beforeEach': true,
     'brython': true,
     'chrome': true,
     'cwc': true,
-    'describe': true,
-    'expect': true,
-    'game': true,
-    'getTestBlockCode': true,
-    'getTestBuffer': true,
     'goog': true,
-    'i18soy': true,
     'i18t': true,
-    'i18v': true,
-    'it': true,
-    'loadExampleFile': true,
-    'loadTemplateFile': true,
-    'loadTourFile': true,
-    'loadTutorialFile': true,
     'marked': true,
     'soydata': true,
-    'var_args': true,
     'window': true,
   }
 }

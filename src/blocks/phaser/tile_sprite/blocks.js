@@ -54,7 +54,7 @@ Blockly.Blocks['phaser_tile_sprite_floor_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as floor'))
         .appendField(new Blockly.FieldTextInput('floor'), 'sprite')
@@ -84,7 +84,7 @@ Blockly.Blocks['phaser_tile_sprite_ceiling_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as ceiling'))
         .appendField(new Blockly.FieldTextInput('ceiling'), 'sprite')
@@ -114,7 +114,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('BLOCKS_DEFINE'));
+        .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as tile sprite'))
         .appendField(new Blockly.FieldTextInput('blocks'), 'sprite')

@@ -35,14 +35,24 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.Arduino = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
+
+  /** @private {!Array} */
+  this.frameworks_ = [
+    cwc.framework.Internal.ARDUINO,
+  ];
 };
 
 
 /**
  * Initializes and defines the Arduino renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.Arduino.prototype.init = function() {
   this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.cache_.preloadFiles(this.frameworks_);
 };
 
 
@@ -50,7 +60,6 @@ cwc.renderer.external.Arduino.prototype.init = function() {
  * Arduino render logic.
  * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
@@ -58,10 +67,9 @@ cwc.renderer.external.Arduino.prototype.init = function() {
 cwc.renderer.external.Arduino.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
-  let header = rendererHelper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.Internal.ARDUINO), frameworks);
+  let header = rendererHelper.getCacheFilesHeader(
+    this.frameworks_, this.cache_);
   let body = '\n<script>' +
       '  let customCode = function(arduino) {\n' +
       editorContent[cwc.ui.EditorContent.DEFAULT] +
@@ -69,6 +77,5 @@ cwc.renderer.external.Arduino.prototype.render = function(
       '  let customFramework = new cwc.framework.Arduino(runner);\n' +
       '  customFramework.listen(customCode);\n' +
       '</script>\n';
-
   return rendererHelper.getHTML(body, header);
 };

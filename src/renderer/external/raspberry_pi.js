@@ -35,21 +35,30 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.RaspberryPi = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
+
+  /** @private {!Array} */
+  this.frameworks_ = [
+    cwc.framework.Internal.RASPBERRY_PI,
+  ];
 };
 
 
 /**
  * Initializes and defines the RaspberryPi renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.RaspberryPi.prototype.init = function() {
   this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.cache_.preloadFiles(this.frameworks_);
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @return {string}
  * @export
@@ -57,16 +66,14 @@ cwc.renderer.external.RaspberryPi.prototype.init = function() {
 cwc.renderer.external.RaspberryPi.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper) {
-  let header = rendererHelper.getFrameworkHeader(
-    /** @type {string} */ (cwc.framework.Internal.RASPBERRY_PI), frameworks);
+  let header = rendererHelper.getCacheFilesHeader(
+    this.frameworks_, this.cache_);
   let body = '\n<script>' +
       '  let code = function(pi) {\n' +
       editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '\n};\n' +
       '  new cwc.framework.RaspberryPi(code);\n' +
       '</script>\n';
-
   return rendererHelper.getHTML(body, header);
 };

@@ -3,7 +3,8 @@ src="static_files/resources/external/chrome_webstore.png" align="right"
 alt="Available in the Chrome Web Store">](https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed)
 ==================
 
-[![Code Climate](https://codeclimate.com/github/google/coding-with-chrome/badges/gpa.svg)](https://codeclimate.com/github/google/coding-with-chrome)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c523df13ccc1f326dc65/maintainability)](https://codeclimate.com/github/google/coding-with-chrome/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c523df13ccc1f326dc65/test_coverage)](https://codeclimate.com/github/google/coding-with-chrome/test_coverage)
 [![Build Status](https://travis-ci.org/google/coding-with-chrome.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome)
 <img src="/static_files/images/cwc_logo.png" align="right" alt="Coding with Chrome">
 

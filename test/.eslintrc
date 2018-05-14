@@ -1,0 +1,18 @@
+{
+  'globals': {
+    'afterEach': true,
+    'beforeAll': true,
+    'beforeEach': true,
+    'describe': true,
+    'expect': true,
+    'getTestBlockCode': true,
+    'getTestBuffer': true,
+    'it': true,
+    'loadExampleFile': true,
+    'loadTemplateFile': true,
+    'loadTourFile': true,
+    'loadTutorialFile': true,
+    'var_args': true,
+    'window': true,
+  }
+}

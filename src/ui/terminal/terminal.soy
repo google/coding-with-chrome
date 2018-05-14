@@ -32,7 +32,25 @@
       <i class="material-icons">keyboard_arrow_right</i>
       <div class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" type="text" id="{$prefix}user-input">
+        <label class="mdl-textfield__label" for="{$prefix}user-input">
+          {msg desc=""}@@TERMINAL__COMMAND_PLACEHOLDER{/msg}
+        </label>
       </div>
     </div>
+  </div>
+{/template}
+
+
+/**
+ * Terminal button template.
+ */
+{template .templateButton}
+  {@param prefix: string}
+
+  <button id="{$prefix}button" class="material-icons mdl-badge mdl-badge--overlap">
+    video_label
+  </button>
+  <div class="mdl-tooltip mdl-tooltip--top" data-mdl-for="{$prefix}button">
+    {msg desc=""}@@TERMINAL__BUTTON_TOOLTIP{/msg}
   </div>
 {/template}

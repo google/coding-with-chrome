@@ -40,16 +40,18 @@ cwc.renderer.external.EV3 = function(helper) {
 
 /**
  * Initializes and defines the EV3 renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.EV3.prototype.init = function() {
-  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  let rendererInstance = this.helper.getInstance('renderer');
+  rendererInstance.setServerMode(true);
+  return rendererInstance.setRenderer(this.render.bind(this));
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @param {Object=} environ
  * @return {string}
@@ -58,7 +60,6 @@ cwc.renderer.external.EV3.prototype.init = function() {
 cwc.renderer.external.EV3.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper,
     environ = {}) {
   let jsFrameworks = [cwc.framework.Internal.EV3];

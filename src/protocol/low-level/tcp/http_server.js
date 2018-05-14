@@ -137,7 +137,7 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
   }
 
   this.log_.info('Add file', path, content.length);
-  this.database_.putFile(path, content);
+  this.database_.put(path, content);
 };
 
 
@@ -385,7 +385,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieve_ = function(receiveInfo) {
     }
 
     if (!result) {
-      this.database_.getFile(requestPath).then((content) => {
+      this.database_.get(requestPath).then((content) => {
         if (content !== undefined) {
           // File found handling
           httpResponse(content, {

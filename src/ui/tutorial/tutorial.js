@@ -25,8 +25,6 @@ goog.require('cwc.mode.Type');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Tutorial');
 goog.require('cwc.ui.Helper');
-goog.require('cwc.utils.Database');
-goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.mime.Type');
 goog.require('goog.events');

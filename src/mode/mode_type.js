@@ -50,5 +50,4 @@ cwc.mode.Type = {
   SPHERO_SPRK_PLUS: 'sphero_sprk_plus',
   SPHERO_SPRK_PLUS_BLOCKLY: 'sphero_sprk_plus_blockly',
   TEXT: 'text',
-  TTS: 'tts',
 };

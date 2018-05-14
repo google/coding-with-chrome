@@ -35,8 +35,9 @@ cwc.mode.basic.blockly.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.basic.blockly.Mod.prototype.decorate = function() {
+cwc.mode.basic.blockly.Mod.prototype.decorate = async function() {
   this.mod.enableBlockly(cwc.soy.simple.Blocks.toolbox);
-  this.mod.decorate();
+  await this.mod.decorate();
 };

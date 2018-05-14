@@ -100,22 +100,6 @@ cwc.renderer.Helper.prototype.getCachedURLs = function(urls, baseURL) {
 
 
 /**
- * @param {string} content Content to modify.
- * @param {string} text Text to prepend if not already in content.
- * @return {string}
- * @export
- */
-cwc.renderer.Helper.prototype.prependText = function(content, text) {
-  if (content && text) {
-    if (!content.includes(text)) {
-      return text + '\n' + content;
-    }
-  }
-  return content;
-};
-
-
-/**
  * @param {string=} body
  * @param {string=} header
  * @param {string=} css
@@ -227,24 +211,6 @@ cwc.renderer.Helper.prototype.getJavaScript = function(javascript, header,
     body: body ? this.sanitizedHtml_(body) : '',
     head: header ? this.sanitizedHtml_(header) : '',
     js: javascript ? this.sanitizedJs_(javascript) : '',
-  }).getContent();
-};
-
-
-/**
- * @param {!string} data_url
- * @param {number=} width
- * @param {number=} height
- * @return {string} Rendered content as object.
- * @export
- */
-cwc.renderer.Helper.prototype.getObjectTag = function(data_url, width = 400,
-    height = 400) {
-  return cwc.soy.Renderer.objectTemplate({
-    data_url: this.sanitizedUri_(data_url),
-    type: 'text/html',
-    width: width,
-    height: height,
   }).getContent();
 };
 
@@ -382,44 +348,30 @@ cwc.renderer.Helper.prototype.getStyleSheetDataURL = function(data,
 
 
 /**
- * @param {!string} filename
- * @param {!cwc.file.Files} files
- * @return {string}
- */
-cwc.renderer.Helper.prototype.getFrameworkHeader = function(filename, files) {
-  let file = files.getFile(filename);
-  if (!file) {
-    return '';
-  }
-  return this.getJavaScriptDataURL(file.getContent(), undefined, filename);
-};
-
-
-/**
- * @param {!Array.<string>} filenames
- * @param {!cwc.file.Files} files
+ * @param {!string} name
+ * @param {!cwc.Cache} cache
  * @return {!string}
  */
-cwc.renderer.Helper.prototype.getFrameworkHeaders = function(filenames, files) {
-  let headers = '';
-  for (let filename of filenames) {
-    headers += this.getFrameworkHeader(filename, files);
+cwc.renderer.Helper.prototype.getCacheFileHeader = function(name, cache) {
+  let fileContent = cache.getPreloadedFile(name);
+  if (!fileContent) {
+    return '';
   }
-  return headers;
+  return this.getJavaScriptDataURL(fileContent, undefined, name);
 };
 
 
 /**
- * @param {!string} filename
- * @param {!cwc.file.Files} files
- * @return {string}
+ * @param {!Array} names
+ * @param {!cwc.Cache} cache
+ * @return {!string}
  */
-cwc.renderer.Helper.prototype.getStyleSheetHeader = function(filename, files) {
-  let file = files.getFile(filename);
-  if (!file) {
-    return '';
+cwc.renderer.Helper.prototype.getCacheFilesHeader = function(names, cache) {
+  let headers = '';
+  for (let name of names) {
+    headers += this.getCacheFileHeader(name, cache);
   }
-  return this.getStyleSheetDataURL(file.getContent(), filename);
+  return headers;
 };
 
 

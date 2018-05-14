@@ -41,7 +41,7 @@ let getTestBuffer = function(data) {
 let loadExampleFile = function(file, it) {
   return it('Example:' + file, function(done) {
     let builder = new cwc.ui.Builder();
-    builder.decorate(null, function() {
+    builder.decorate().then(() => {
       builder.loadFile('../resources/examples/' + file).then(() => {
         expect(true).toEqual(true);
         done();
@@ -59,7 +59,7 @@ let loadExampleFile = function(file, it) {
 let loadTemplateFile = function(file, it) {
   return it('Template:' + file, function(done) {
     let builder = new cwc.ui.Builder();
-    builder.decorate(null, function() {
+    builder.decorate().then(() => {
       builder.loadFile('../resources/templates/' + file).then(() => {
         expect(true).toEqual(true);
         done();
@@ -77,7 +77,7 @@ let loadTemplateFile = function(file, it) {
 let loadTourFile = function(file, it) {
   return it('Tour:' + file, function(done) {
     let builder = new cwc.ui.Builder();
-    builder.decorate(null, function() {
+    builder.decorate().then(() => {
       builder.loadFile('../resources/tour/' + file).then(() => {
         expect(true).toEqual(true);
         done();
@@ -95,7 +95,7 @@ let loadTourFile = function(file, it) {
 let loadTutorialFile = function(file, it) {
   return it('Tutorial:' + file, function(done) {
     let builder = new cwc.ui.Builder();
-    builder.decorate(null, function() {
+    builder.decorate().then(() => {
       builder.loadFile('../resources/tutorials/' + file).then(() => {
         expect(true).toEqual(true);
         done();

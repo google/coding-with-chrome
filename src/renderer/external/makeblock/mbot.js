@@ -40,16 +40,17 @@ cwc.renderer.external.makeblock.MBot = function(helper) {
 
 /**
  * Initializes and defines the mbot renderer.
+ * @return {!Promise}
  */
 cwc.renderer.external.makeblock.MBot.prototype.init = function() {
-  this.helper.getInstance('renderer').setRenderer(this.render.bind(this));
+  return this.helper.getInstance('renderer')
+    .setRenderer(this.render.bind(this));
 };
 
 
 /**
  * @param {Object} editorContent
  * @param {cwc.file.Files} libraryFiles
- * @param {!cwc.file.Files} frameworks
  * @param {cwc.renderer.Helper} rendererHelper
  * @param {Object=} environ
  * @return {string}
@@ -58,7 +59,6 @@ cwc.renderer.external.makeblock.MBot.prototype.init = function() {
 cwc.renderer.external.makeblock.MBot.prototype.render = function(
     editorContent,
     libraryFiles,
-    frameworks,
     rendererHelper,
     environ = {}) {
   let header = rendererHelper.getJavaScriptURLs([

@@ -27,7 +27,6 @@ describe('StackType', function() {
     expect(typeof cwc.utils.StackType).toEqual('object');
   });
 
-
   it('CMD', function() {
     expect(cwc.utils.StackType.CMD).toEqual('cmd');
   });

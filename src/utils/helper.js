@@ -97,9 +97,6 @@ cwc.utils.Helper = function() {
   /** @private {string} */
   this.cssPrefix_ = cwc.config.Prefix.CSS || '';
 
-  /** @private {goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
-
   /** @private {Object<string, cwc.utils.HelperInstance>} */
   this.instances_ = {};
 
@@ -111,26 +108,6 @@ cwc.utils.Helper = function() {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
-};
-
-
-/**
- * @return {goog.events.EventTarget}
- */
-cwc.utils.Helper.prototype.getEventHandler = function() {
-  return this.eventHandler_;
-};
-
-
-/**
- * @param {!string} name
- * @param {!Object} data
- */
-cwc.utils.Helper.prototype.dispatchEvent = function(name, data) {
-  this.eventHandler_.dispatchEvent({
-    type: name,
-    data: data,
-  });
 };
 
 
@@ -220,11 +197,30 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
  * @return {!string}
  */
 cwc.utils.Helper.prototype.getUserLanguage = function() {
-  let i18nInstance = this.getInstance('i18n');
-  if (i18nInstance) {
-    return i18nInstance.getLanguage();
+  let language = '';
+
+  let userConfigInstance = this.getInstance('userConfig');
+  if (userConfigInstance) {
+    language = userConfigInstance.get(cwc.userConfigType.GENERAL,
+          cwc.userConfigName.LANGUAGE);
   }
-  return cwc.config.Default.LANGUAGE || 'eng';
+
+  let i18nInstance = this.getInstance('i18n');
+  if (!language && i18nInstance) {
+    language = i18nInstance.getLanguage();
+  }
+
+  if (!language || language.length !== 3) {
+    this.log_.warn('Unsupported language', language, 'using',
+      cwc.config.Default.LANGUAGE, 'instead!');
+    if (userConfigInstance) {
+      userConfigInstance.set(cwc.userConfigType.GENERAL,
+        cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
+    }
+    language = cwc.config.Default.LANGUAGE;
+  }
+
+  return language;
 };
 
 
@@ -308,18 +304,6 @@ cwc.utils.Helper.prototype.removeEventListeners = function(events, name = '') {
 
 /**
  * @param {string} name
- * @param {string|boolean} value
- * @param {string=} group
- * @export
- */
-cwc.utils.Helper.prototype.setFeature = function(name, value,
-    group = undefined) {
-  this.features_.set(name, value, group);
-};
-
-
-/**
- * @param {string} name
  * @return {!boolean}
  * @export
  */
@@ -356,15 +340,6 @@ cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
  */
 cwc.utils.Helper.prototype.checkFeature = function(name, group = undefined) {
   return this.features_.get(name, group) || false;
-};
-
-
-/**
- * @return {*}
- * @export
- */
-cwc.utils.Helper.prototype.detectFeatures = function() {
-  return this.features_.detectFeatures();
 };
 
 
@@ -443,15 +418,6 @@ cwc.utils.Helper.prototype.isGoogleAccountEnabled = function() {
     return accountInstance.isAuthenticated();
   }
   return false;
-};
-
-
-/**
- * @param {string} prefix General Prefix
- * @export
- */
-cwc.utils.Helper.prototype.setPrefix = function(prefix) {
-  this.prefix_ = prefix || '';
 };
 
 

@@ -537,14 +537,13 @@ cwc.ui.Blockly.prototype.cleanUp_ = function() {
 cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
   switch (e.type) {
     case Blockly.Events.UI:
+      this.toolbox.decorateThreeLabels();
       if (e.newValue) {
-        this.toolbox.decorateThreeLabels();
         if (this.toolbox.getAutoCollapse()) {
           this.toolbox.collapse(e.newValue);
         }
       }
       break;
-
     case Blockly.Events.CHANGE:
     case Blockly.Events.CREATE:
     case Blockly.Events.DELETE:

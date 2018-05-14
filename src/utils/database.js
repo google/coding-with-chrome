@@ -25,6 +25,7 @@ goog.require('cwc.utils.Logger');
 /**
  * @param {!string} name
  * @param {number=} version
+ * @param {string=} objectStoreName
  * @constructor
  */
 cwc.utils.Database = function(name, version) {
@@ -41,10 +42,10 @@ cwc.utils.Database = function(name, version) {
   this.name_ = name;
 
   /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name + ':' + this.name_);
+  this.log_ = new cwc.utils.Logger(this.name + '::' + this.name_);
 
   /** @private {!string} */
-  this.defaultObjectStore_ = '__files__';
+  this.defaultObjectStore_ = '__data__';
 
   /** @private {number|undefined} */
   this.version_ = version;
@@ -108,10 +109,9 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
  * @param {!string|number} content
  * @param {string=} group
  */
-cwc.utils.Database.prototype.addFile = function(name, content,
-    group = this.defaultObjectStore_) {
+cwc.utils.Database.prototype.add = function(name, content, group) {
   this.open().then(() => {
-    this.log_.info('Add file', name, 'in group', group);
+    this.log_.info('Add', name, 'in group', group);
     this.getObjectStore_(group)['add'](content, name);
   });
 };
@@ -121,11 +121,11 @@ cwc.utils.Database.prototype.addFile = function(name, content,
  * Updates given record, or inserts a new record if not already exist.
  * @param {string=} group
  */
-cwc.utils.Database.prototype.clearFiles = function(
+cwc.utils.Database.prototype.clear = function(
     group = this.defaultObjectStore_) {
   this.open().then(() => {
     if (this.existObjectStore_(group)) {
-      this.log_.info('Clear files in group', group);
+      this.log_.info('Clear group', group);
       this.getObjectStore_(group)['clear']();
     } else {
       this.log_.warn('ObjectStore', group, 'does not exists!');
@@ -140,13 +140,18 @@ cwc.utils.Database.prototype.clearFiles = function(
  * @param {!string} content
  * @param {string=} group
  */
-cwc.utils.Database.prototype.putFile = function(name, content,
-    group = this.defaultObjectStore_) {
+cwc.utils.Database.prototype.put = function(name, content, group) {
   this.open().then(() => {
-    this.log_.info('Put file', name, 'in group', group);
+    this.log_.info('Put', name, 'in group', group);
     this.getObjectStore_(group)['put'](content, name);
   });
 };
+
+
+/**
+ * Set alias to be align with the Map() object.
+ */
+cwc.utils.Database.prototype.set = cwc.utils.Database.prototype.put;
 
 
 /**
@@ -154,7 +159,7 @@ cwc.utils.Database.prototype.putFile = function(name, content,
  * @param {string=} group
  * @return {Promise}
  */
-cwc.utils.Database.prototype.getFile = function(name, group) {
+cwc.utils.Database.prototype.get = function(name, group) {
   return new Promise((resolve, reject) => {
     let result = this.getObjectStoreReadOnly_(group)['get'](name);
     result['onsuccess'] = (e) => {
@@ -164,6 +169,88 @@ cwc.utils.Database.prototype.getFile = function(name, group) {
       reject(e);
     };
   });
+};
+
+
+/**
+ * @param {string=} group
+ * @param {string=} query
+ * @param {number=} count
+ * @return {Promise}
+ */
+cwc.utils.Database.prototype.getAll = function(group, query, count) {
+  return new Promise((resolve, reject) => {
+    let result = this.getObjectStoreReadOnly_(group)['getAll'](query, count);
+    result['onsuccess'] = (e) => {
+      resolve(e.target.result);
+    };
+    result['onerror'] = (e) => {
+      reject(e);
+    };
+  });
+};
+
+
+/**
+ * @param {string=} group
+ * @param {string=} query
+ * @param {number=} count
+ * @return {Promise}
+ */
+cwc.utils.Database.prototype.getAllKeys = function(group, query, count) {
+  return new Promise((resolve, reject) => {
+    let result = this.getObjectStoreReadOnly_(group)['getAllKeys'](
+      query, count);
+    result['onsuccess'] = (e) => {
+      resolve(e.target.result);
+    };
+    result['onerror'] = (e) => {
+      reject(e);
+    };
+  });
+};
+
+
+/**
+ * @param {string=} group
+ * @param {string=} query
+ * @param {number=} count
+ * @return {Promise}
+ */
+cwc.utils.Database.prototype.getAllWithKeys = async function(group, query,
+    count) {
+  let keys = await this.getAllKeys(group, query, count);
+  let data = await this.getAll(group, query, count);
+  let result = new Map();
+  let dataLength = data.length;
+  for (let i = 0; i < dataLength; i++) {
+    if (keys[i]) {
+      result.set(keys[i], data[i]);
+    }
+  }
+  return result;
+};
+
+
+/**
+ * @param {!string} objectStoreName
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.utils.Database.prototype.setObjectStoreName = function(objectStoreName) {
+  this.defaultObjectStore_ = objectStoreName;
+  return this;
+};
+
+
+/**
+ * @param {number!} version
+ * @return {THIS}
+ * @template THIS
+ */
+cwc.utils.Database.prototype.setVersion = function(version) {
+  this.version_ = version;
+  return this;
 };
 
 

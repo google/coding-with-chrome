@@ -71,7 +71,6 @@ goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
-goog.require('cwc.utils.Storage');
 
 goog.require('goog.dom');
 
@@ -172,9 +171,6 @@ cwc.ui.Builder = function() {
   /** @type {Element} */
   this.node = null;
 
-  /** @type {Function} */
-  this.callback = null;
-
   /** @private {!boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
@@ -198,10 +194,10 @@ cwc.ui.Builder = function() {
 /**
  * Decorates the given node and adds the code editor.
  * @param {Element|string=} node
- * @param {Function=} callback
+ * @return {!Promise}
  * @export
  */
-cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
+cwc.ui.Builder.prototype.decorate = async function(node = null) {
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
@@ -218,19 +214,93 @@ cwc.ui.Builder.prototype.decorate = function(node = null, callback = null) {
   this.loadingScreen_.decorate();
   this.setProgress('Loading ...', 0);
 
-  // Storing callback
-  if (callback && typeof callback === 'function') {
-    this.callback = callback;
-  }
-
   // Register Error handler
   this.events_.listen(window, goog.events.EventType.ERROR, function(e) {
     let browserEvent = e.getBrowserEvent();
     this.raiseError('Runtime Error\n' + browserEvent.message, true);
   }, false, this);
 
-  // Prepare and load Storage
-  this.loadStorage_();
+  this.setProgress('Load and prepare user config ...', 1);
+  let userConfig = await new cwc.UserConfig(this.helper).prepare();
+  this.helper.setInstance('userConfig', userConfig);
+
+  this.setProgress('Load and prepare i18n translations ...', 2);
+  let i18n = this.helper.setInstance('i18n', new cwc.utils.I18n());
+  let language = this.helper.getUserLanguage();
+
+  this.setProgress('Load Blockly and UI translation files ...', 3);
+  await cwc.utils.Resources.getUriAsJavaScriptTag(
+    'external/blockly/msg/' + cwc.utils.I18n.getISO639_1(language) + '.js',
+    'blockly-language'
+  );
+  await cwc.utils.Resources.getUriAsJavaScriptTag(
+    'js/locales/' + language + '.js', 'cwc-i18n-language');
+
+  this.setProgress('Setting user language to ' + language, 4);
+  i18n.setLanguage(language);
+  this.loadingScreen_.setUserLangauge(language);
+
+  // Prepare UI
+  return await this.decorateUI();
+};
+
+
+/**
+ * Loads and construct the main ui screen.
+ * @return {!Promise}
+ */
+cwc.ui.Builder.prototype.decorateUI = function() {
+  return new Promise((resolve, reject) => {
+    if (this.loaded) {
+      this.log_.error('UI was already loaded!');
+      return reject();
+    }
+
+    this.setProgress('Checking requirements ...', 5);
+    this.checkRequirements_('blockly');
+    this.checkRequirements_('codemirror');
+    this.checkRequirements_('coffeelint');
+    this.checkRequirements_('coffeescript');
+    this.checkRequirements_('htmlhint');
+    this.checkRequirements_('jshint');
+
+    // Track progressing status
+    this.setProgressFunc('Prepare debug ...', this.prepareDebug_);
+    this.setProgressFunc('Prepare experimental ...', this.prepareExperimental_);
+    this.setProgressFunc('Prepare dialog ...', this.prepareDialog);
+    this.setProgressFunc('Prepare protocols ...', this.prepareProtocols);
+    if (this.helper.checkChromeFeature('sockets.tcpServer')) {
+      this.setProgressFunc('Prepare internal Server', this.prepareServer);
+    }
+    this.setProgressFunc('Prepare helpers ...', this.prepareHelper);
+    this.setProgressFunc('Gamepad support ...', this.prepareGamepad);
+    this.setProgressFunc('Prepare addons ...', this.prepareAddons);
+    if (this.helper.checkChromeFeature('manifest.oauth2')) {
+      this.setProgressFunc('Prepare OAuth2 Helpers ...',
+        this.prepareOauth2Helper);
+    }
+    this.setProgressFunc('Render editor GUI ...', this.renderGui);
+    this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
+      this.prepareBluetooth);
+    if (this.helper.checkChromeFeature('serial')) {
+      this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
+    }
+    if (this.helper.checkChromeFeature('manifest.oauth2')) {
+      this.setProgressFunc('Prepare account support ...', this.prepareAccount);
+    }
+    this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
+    this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
+      // Done.
+      this.setProgress('Starting Coding with Chrome', 100);
+      this.loaded = true;
+      if (typeof window.componentHandler !== 'undefined') {
+        window.componentHandler.upgradeDom();
+      }
+      this.events_.clear();
+      this.loadingScreen_.hideSecondsAfterStart(3000);
+      resolve();
+    });
+  });
 };
 
 
@@ -272,65 +342,6 @@ cwc.ui.Builder.prototype.loadFile = function(filename) {
 
 
 /**
- * Loads and construct the main ui screen.
- */
-cwc.ui.Builder.prototype.loadUI = function() {
-  if (this.loaded) {
-    this.log_.error('UI was already loaded!');
-    return;
-  }
-
-  this.setProgress('Checking requirements ...', 5);
-  this.checkRequirements_('blockly');
-  this.checkRequirements_('codemirror');
-  this.checkRequirements_('coffeelint');
-  this.checkRequirements_('coffeescript');
-  this.checkRequirements_('htmlhint');
-  this.checkRequirements_('jshint');
-
-  // Track progressing status
-  this.setProgressFunc('Prepare debug ...', this.prepareDebug_);
-  this.setProgressFunc('Prepare experimental ...', this.prepareExperimental_);
-  this.setProgressFunc('Prepare dialog ...', this.prepareDialog);
-  this.setProgressFunc('Prepare protocols ...', this.prepareProtocols);
-  if (this.helper.checkChromeFeature('sockets.tcpServer')) {
-    this.setProgressFunc('Prepare internal Server', this.prepareServer);
-  }
-  this.setProgressFunc('Prepare helpers ...', this.prepareHelper);
-  this.setProgressFunc('Gamepad support ...', this.prepareGamepad);
-  this.setProgressFunc('Prepare addons ...', this.prepareAddons);
-  if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgressFunc('Prepare OAuth2 Helpers ...',
-      this.prepareOauth2Helper);
-  }
-  this.setProgressFunc('Render editor GUI ...', this.renderGui);
-  this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
-    this.prepareBluetooth);
-  if (this.helper.checkChromeFeature('serial')) {
-    this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
-  }
-  if (this.helper.checkChromeFeature('manifest.oauth2')) {
-    this.setProgressFunc('Prepare account support ...', this.prepareAccount);
-  }
-  this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
-  this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
-    // Done.
-    this.setProgress('Starting Coding with Chrome', 100);
-    this.loaded = true;
-    if (typeof window.componentHandler !== 'undefined') {
-      window.componentHandler.upgradeDom();
-    }
-    if (this.callback) {
-      this.log_.info('Executing external callback ...');
-      this.callback(this);
-    }
-    this.events_.clear();
-    this.loadingScreen_.hideSecondsAfterStart(3000);
-  });
-};
-
-
-/**
  * @param {!string} text
  * @param {!number} current
  * @param {number=} total
@@ -356,9 +367,6 @@ cwc.ui.Builder.prototype.setProgressFunc = function(text, func, steps) {
  * @param {boolean=} skipThrow
  */
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
-  if (this.callback) {
-    this.callback(this);
-  }
   if (!skipThrow) {
     throw error;
   }
@@ -551,7 +559,6 @@ cwc.ui.Builder.prototype.loadHelper_ = function(instance, instanceName) {
  * @return {Promise}
  */
 cwc.ui.Builder.prototype.loadCache = function() {
-  this.helper.getInstance('renderer').prepare();
   return this.helper.getInstance('cache').prepare();
 };
 
@@ -593,83 +600,6 @@ cwc.ui.Builder.prototype.showSelectScreen = function() {
     selectScreenInstance.showSelectScreen();
   }
 };
-
-
-/**
- * Loads the storage instance.
- * @private
- */
-cwc.ui.Builder.prototype.loadStorage_ = function() {
-  let storageInstance = new cwc.utils.Storage();
-  if (!storageInstance) {
-    this.loadI18n_();
-    return;
-  }
-  this.helper.setInstance('storage', storageInstance);
-  storageInstance.prepare(this.loadUserConfig_.bind(this));
-};
-
-
-/**
- * Loads the user config instance.
- * @private
- */
-cwc.ui.Builder.prototype.loadUserConfig_ = function() {
-  let userConfigInstance = new cwc.UserConfig(this.helper);
-  if (userConfigInstance) {
-    this.helper.setInstance('userConfig', userConfigInstance);
-  }
-  this.loadI18n_();
-};
-
-
-/**
- * Loads the i18n before the rest of the UI.
- * @private
- */
-cwc.ui.Builder.prototype.loadI18n_ = function() {
-  let i18nInstance = new cwc.utils.I18n();
-  this.helper.setInstance('i18n', i18nInstance);
-
-  let language = cwc.config.Default.LANGUAGE;
-  let languageFile = 'js/locales/eng.js';
-  let userConfigInstance = this.helper.getInstance('userConfig');
-  if (userConfigInstance) {
-    let userLanguage = userConfigInstance.get(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.LANGUAGE);
-    if (userLanguage && userLanguage != language) {
-      if (userLanguage.length === 3) {
-        this.log_.info('Set user preferred language:', userLanguage);
-        language = userLanguage;
-
-        if (language != cwc.config.Default.LANGUAGE) {
-          // Coding with Chrome language file.
-          languageFile = '../js/locales/' + language + '.js';
-
-          // Blockly language file.
-          cwc.utils.Resources.getUriAsJavaScriptTag(
-            'external/blockly/msg/' +
-              cwc.utils.I18n.getISO639_1(language) + '.js',
-            'blockly-language'
-          );
-        }
-      } else {
-        this.log_.warn('Unsupported language', userLanguage, 'using',
-          cwc.config.Default.LANGUAGE, 'instead!');
-        userConfigInstance.set(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
-      }
-    }
-  }
-
-  this.loadingScreen_.setUserLangauge(language);
-  cwc.utils.Resources.getUriAsJavaScriptTag(
-    languageFile, 'cwc-i18n-language').then(() => {
-      i18nInstance.setLanguage(language);
-      this.loadUI();
-  });
-};
-
 
 /**
  * @param {string} name

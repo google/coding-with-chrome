@@ -35,8 +35,9 @@ cwc.mode.basic.simple.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
+ * @async
  */
-cwc.mode.basic.simple.Mod.prototype.decorate = function() {
-  this.mod.decorate();
+cwc.mode.basic.simple.Mod.prototype.decorate = async function() {
+  await this.mod.decorate();
   this.mod.editor.setLocalHints(cwc.mode.basic.Hints);
 };

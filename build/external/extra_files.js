@@ -93,7 +93,6 @@ closureBuilder.build({
     codeMirrorPath + 'addon/scroll/*.js',
     codeMirrorPath + 'addon/search/*.js',
     codeMirrorPath + 'addon/selection/active-line.js',
-    '!' + codeMirrorPath + 'addone/**/test.js',
   ]),
   externs: [
     'build/externs/codemirror.js',
@@ -109,22 +108,26 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'CodeMirror mode',
   srcs: glob([
-    codeMirrorPath + 'mode/xml/!(*test).js',
-    codeMirrorPath + 'mode/actionscript/!(*test).js',
-    codeMirrorPath + 'mode/css/!(*test).js',
     codeMirrorPath + 'mode/coffeescript/!(*test).js',
+    codeMirrorPath + 'mode/css/!(*test).js',
     codeMirrorPath + 'mode/dart/!(*test).js',
     codeMirrorPath + 'mode/go/!(*test).js',
     codeMirrorPath + 'mode/htmlmixed/!(*test).js',
     codeMirrorPath + 'mode/javascript/!(*test).js',
+    codeMirrorPath + 'mode/markdown/!(*test).js',
     codeMirrorPath + 'mode/python/!(*test).js',
     codeMirrorPath + 'mode/schemen/!(*test).js',
+    codeMirrorPath + 'mode/soy/!(*test).js',
+    codeMirrorPath + 'mode/xml/!(*test).js',
   ]),
   externs: [
     'build/externs/codemirror.js',
     'build/externs/global.js',
   ],
   out: 'genfiles/third_party/external/codemirror/modes.js',
+  options: {
+    exclude_test: true,
+  },
   warn: false,
 });
 

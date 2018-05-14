@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for blocks (english).
+ * @fileoverview StreamReader tests.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,18 +17,26 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
+goog.require('cwc.utils.StreamReader');
 
 
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['eng']['BLOCKS'] = {
-  'CHANGE': 'change',
-  'DEFINE': 'define',
-  'DO': 'do',
-  'LISTS': 'Lists',
-};
+describe('Database', function() {
+  it('constructor', function() {
+    let reader = new cwc.utils.StreamReader();
+    expect(typeof reader).toEqual('object');
+  });
+
+  it('setFooter', function() {
+    let reader = new cwc.utils.StreamReader();
+    expect(reader.footer).toEqual(null);
+    reader.setFooter([123]);
+    expect(reader.footer).toEqual([123]);
+  });
+
+  it('addBuffer', function() {
+    let reader = new cwc.utils.StreamReader();
+    expect(reader.buffer_).toEqual(null);
+    reader.addBuffer([123]);
+    expect(reader.buffer_).toEqual([123]);
+  });
+});

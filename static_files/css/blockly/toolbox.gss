@@ -40,6 +40,7 @@
     rgba(200,200,200,0.1) 95%,
     rgba(200,200,200,0.0) 100%
   );
+  min-width: 140px;
 }
 
 .blocklyToolboxDiv::before {
@@ -124,7 +125,7 @@
 /**
  * Default Icons for the toolbox
  */
-.blocklyTreeRowItem_blocks_lists::before {
+.blocklyTreeRowItem_blocks__lists::before {
   content: 'list';
 }
 
@@ -167,67 +168,67 @@
 /**
  * Custom Icons for the toolbox
  */
-.blocklyTreeRowItem_blocks_phaser_game::before {
+.blocklyTreeRowItem_blocks_phaser__game::before {
   content: 'directions_run';
 }
 
-.blocklyTreeRowItem_blocks_phaser_preload::before {
+.blocklyTreeRowItem_blocks_phaser__preload::before {
   content: 'file_download';
 }
 
-.blocklyTreeRowItem_blocks_phaser_create::before {
+.blocklyTreeRowItem_blocks_phaser__create::before {
   content: 'add_circle';
 }
 
-.blocklyTreeRowItem_blocks_phaser_input::before {
+.blocklyTreeRowItem_blocks_phaser__input::before {
   content: 'keyboard';
 }
 
-.blocklyTreeRowItem_blocks_phaser_inputs::before {
+.blocklyTreeRowItem_blocks_phaser__inputs::before {
   content: 'keyboard';
 }
 
-.blocklyTreeRowItem_blocks_phaser_update::before {
+.blocklyTreeRowItem_blocks_phaser__update::before {
   content: 'repeat';
 }
 
-.blocklyTreeRowItem_blocks_phaser_renderer::before {
+.blocklyTreeRowItem_blocks_phaser__renderer::before {
   content: 'computer';
 }
 
-.blocklyTreeRowItem_blocks_phaser_files::before {
+.blocklyTreeRowItem_blocks_phaser__files::before {
   content: 'perm_media';
 }
 
-.blocklyTreeRowItem_blocks_phaser_example_files::before {
+.blocklyTreeRowItem_blocks_phaser__example_files::before {
   content: 'insert_photo';
 }
 
-.blocklyTreeRowItem_blocks_phaser_audio::before {
+.blocklyTreeRowItem_blocks_phaser__audio::before {
   content: 'audiotrack';
 }
 
-.blocklyTreeRowItem_blocks_phaser_sprite::before {
+.blocklyTreeRowItem_blocks_phaser__sprite::before {
   content: 'portrait';
 }
 
-.blocklyTreeRowItem_blocks_phaser_tile_sprite::before {
+.blocklyTreeRowItem_blocks_phaser__tile_sprite::before {
   content: 'burst_mode';
 }
 
-.blocklyTreeRowItem_blocks_phaser_physics_sprite::before {
+.blocklyTreeRowItem_blocks_phaser__physics_sprite::before {
   content: 'rotate_90_degrees_ccw';
 }
 
-.blocklyTreeRowItem_blocks_phaser_text::before {
+.blocklyTreeRowItem_blocks_phaser__text::before {
   content: 'format_shapes';
 }
 
-.blocklyTreeRowItem_blocks_phaser_generator::before {
+.blocklyTreeRowItem_blocks_phaser__generator::before {
   content: 'extension';
 }
 
-.blocklyTreeRowItem_blocks_phaser_world::before {
+.blocklyTreeRowItem_blocks_phaser__world::before {
   content: 'computer';
 }
 

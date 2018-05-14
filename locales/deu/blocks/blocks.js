@@ -26,9 +26,9 @@ Locales['deu'] = Locales['deu'] || {};
  * @export
  */
 /* eslint-disable max-len */
-Object.assign(Locales['deu'], {
-  'BLOCKS_CHANGE': 'ändere',
-  'BLOCKS_DEFINE': 'definiere',
-  'BLOCKS_DO': 'mache',
-  'BLOCKS_LISTS': 'Listen',
-});
+Locales['deu']['BLOCKS'] = {
+  'CHANGE': 'ändere',
+  'DEFINE': 'definiere',
+  'DO': 'mache',
+  'LISTS': 'Listen',
+};

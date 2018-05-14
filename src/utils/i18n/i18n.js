@@ -88,7 +88,6 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
   }
 
   if (typeof Locales[this.language][key] === 'undefined') {
-    this.handleMissingKey_(key, text);
     return text || key;
   }
 
@@ -150,19 +149,21 @@ cwc.utils.I18n.prototype.translate = function(translationKey, values) {
  * @return {!string} language in ISO639_3
  */
 cwc.utils.I18n.prototype.getLanguage = function() {
-  if (!this.language) {
-    if (typeof navigator !== 'undefined' && navigator['language']) {
-      this.log_.info('Detected user language', navigator['language']);
-      return cwc.utils.I18n.bcp47ToISO639_3(navigator['language']);
-    } else if (typeof chrome !== 'undefined' && chrome.i18n) {
-      this.log_.info('Detected user language', chrome.i18n.getUILanguage());
-      return cwc.utils.I18n.bcp47ToISO639_3(chrome.i18n.getUILanguage());
-    } else if (this.fallbackLanguage) {
-      this.log_.info('Using fallback language', this.fallbackLanguage);
-      return this.fallbackLanguage;
-    }
+  if (this.language) {
+    return this.language;
   }
-  return this.language;
+  if (typeof navigator !== 'undefined' && navigator['language']) {
+    this.log_.info('Detected user browser language', navigator['language']);
+    return cwc.utils.I18n.bcp47ToISO639_3(navigator['language']);
+  }
+  if (typeof chrome !== 'undefined' && chrome.i18n) {
+    this.log_.info('Detected chrome language', chrome.i18n.getUILanguage());
+    return cwc.utils.I18n.bcp47ToISO639_3(chrome.i18n.getUILanguage());
+  }
+  if (this.fallbackLanguage) {
+    this.log_.info('Using fallback language', this.fallbackLanguage);
+    return this.fallbackLanguage;
+  }
 };
 
 
@@ -171,6 +172,9 @@ cwc.utils.I18n.prototype.getLanguage = function() {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.setLanguage = function(language = '') {
+  if (this.language === language) {
+    return;
+  }
   this.language = language || this.getLanguage();
   this.log_.info('Set language to', this.language);
   if (!Locales) {
@@ -198,29 +202,6 @@ cwc.utils.I18n.prototype.getSupportedLanguages = function() {
  */
 cwc.utils.I18n.prototype.setSupportedLanguages = function(languages) {
   this.supportedLanguages = languages || Locales['supportedLanguages'];
-};
-
-
-/**
- * @param {!string} key
- * @param {string=} text
- * @private
- */
-cwc.utils.I18n.prototype.handleMissingKey_ = function(key, text = '') {
-  if (!/[a-zA-Z]{2,}/.test(key)) {
-    return;
-  }
-
-  if (typeof this.untranslated[key] === 'undefined') {
-    if (text) {
-      this.log_.warn('Untranslated Key', key, 'with text:', text);
-    } else {
-      this.log_.warn('Untranslated Key', key);
-    }
-    this.untranslated[key] = 1;
-  } else {
-    this.untranslated[key]++;
-  }
 };
 
 
