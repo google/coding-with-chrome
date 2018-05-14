@@ -27,6 +27,7 @@
   margin: 0.5em 0;
   box-shadow: 3px 3px 2px 1px rgba(0,0,0,0.2);
 }
+
 #{$prefix}tutorial-message.solved {
   background-color: #3f51b5;
 }

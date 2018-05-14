@@ -93,36 +93,48 @@ cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
   if (!tutorial['validatePreview']) {
     this.log_.warn('Empty validatePreview');
   }
-
-  this.log_.info('Loading tutorial data', tutorial);
-  let type = typeof tutorial['content'];
-  switch (type) {
-    case 'string':
-      this.content_ = tutorial['content'];
-      this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
-      break;
-    case 'object':
-      if (!('text' in tutorial['content'])) {
-        this.log_.error('Tutorial content missing text key');
-        return;
-      }
-      this.content_ = tutorial['content']['text'];
-      if (!('mime_type' in tutorial['content'])) {
-        this.log_.warn('Tutorial content missing mime_type key, defaulting to',
-          cwc.utils.mime.Type.MARKDOWN.type);
-        this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
-      } else {
-        this.contentType_ = tutorial['content']['mime_type'];
-      }
-      break;
-    default:
-      this.log_.error('Can\'t process tutorial content of unknown type ', type);
-      return;
+  if (!('content' in tutorial)) {
+    this.log_.error('Tutorial has no content');
+    return
   }
+  if (!this.parseTutorialContent(tutorial['content'])) return;
   this.processResults_ = tutorial['processResults'];
   this.validatePreview_ = tutorial['validatePreview'];
 };
 
+
+/**
+ * @param {!string|object} tutorial
+ * @return {bool}
+ */
+cwc.ui.Tutorial.prototype.parseTutorialContent(tutorialContent) {
+  this.log_.info('Loading tutorial data', tutorialContent);
+  let type = typeof tutorialContent;
+  switch (type) {
+    case 'string':
+      this.content_ = tutorialContent;
+      this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
+      break;
+    case 'object':
+      if (!('text' in tutorialContent)) {
+        this.log_.error('Tutorial content missing text key');
+        return;
+      }
+      this.content_ = tutorialContent['text'];
+      if (!('mime_type' in tutorialContent)) {
+        this.log_.warn('Tutorial content missing mime_type key, defaulting to',
+          cwc.utils.mime.Type.MARKDOWN.type);
+        this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
+      } else {
+        this.contentType_ = tutorialContent['mime_type'];
+      }
+      break;
+    default:
+      this.log_.error('Can\'t process tutorial content of unknown type ', type);
+      return false;
+  }
+  return true;
+}
 
 cwc.ui.Tutorial.prototype.startTutorial = function() {
   if (!this.content_) {
@@ -153,7 +165,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
   this.log_.info('Starting tutorial ...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.renderContent('tutorial', 'Tutorial',
+    sidebarInstance.showTemplateContent('tutorial', 'Tutorial',
       cwc.soy.ui.Tutorial.template, {
         prefix: this.prefix,
         webviewSupport: this.webviewSupport_,
@@ -164,6 +176,9 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
     } else {
       this.contentNode_.src = this.rendererHelper.getDataURL(htmlContent);
     }
+    /**
+     * @todo replace this with Message instance when that code is complete
+     */
     this.events_.listen(this.contentNode_, 'consolemessage',
       this.handleConsoleMessage_);
     this.setMessage();

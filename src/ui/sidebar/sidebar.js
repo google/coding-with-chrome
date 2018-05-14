@@ -336,10 +336,8 @@ cwc.ui.Sidebar.prototype.showContent = function(id, title, content = '') {
 cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
   this.showContent(id, title, '__RAW__');
 
-  // TODO(carheden): Add markdown support
-
-  let contentBody = this.getContentBodyNode();
-  if (!contentBody) {
+  let nodeContentBody = this.getContentBodyNode();
+  if (!nodeContentBody) {
     return;
   }
   if (this.webviewSupport_) {
@@ -347,7 +345,7 @@ cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
   } else {
     this.contentNode_ = document.createElement('iframe');
   }
-  goog.dom.appendChild(contentBody, this.contentNode_);
+  goog.dom.appendChild(nodeContentBody, this.contentNode_);
   this.contentNode_.src = this.rendererHelper.getDataURL(content);
 };
 
@@ -358,15 +356,15 @@ cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
  * @param {Function} template
  * @param {Object} params
  */
-cwc.ui.Sidebar.prototype.renderContent = function(id, title, template,
+cwc.ui.Sidebar.prototype.showTemplateContent = function(id, title, template,
   params = {}) {
   this.showContent(id, title, '__RAW__');
 
-  let contentBody = this.getContentBodyNode();
-  if (!contentBody) {
+  let nodeContentBody = this.getContentBodyNode();
+  if (!nodeContentBody) {
     return;
   }
-  goog.soy.renderElement(contentBody, template, params);
+  goog.soy.renderElement(nodeContentBody, template, params);
 };
 
 cwc.ui.Sidebar.prototype.hideContent = function() {

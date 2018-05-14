@@ -2,7 +2,7 @@
  * @fileoverview marked externs.
  * @externs
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author carheden@google.com (Adam Carheden)
  */
 
 
