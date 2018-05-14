@@ -12,7 +12,7 @@ for debugging.
 
 ### Log level
 
-You could adjust the visible log level in the src/config/config.js file:
+You could adjust the visible log level in the `src/config/config.js` file:
 
 ```javascript
 /**
@@ -42,7 +42,7 @@ npm run sync
 
 ### Clean up generated files and remove "extraneous" packages
 
-To clean up the generated files in the genfiles folder and additional to
+To clean up the generated files in the `genfiles` folder and additional to
 remove "extraneous" packages, run:
 
 ```bash
@@ -95,13 +95,13 @@ could directly replace them in the `dist/chrome_os/js/cwc_ui.js` file.
 Please keep in mind that this file contains optimized code, so its not really
 readable but this will also avoid to re-compile the code to test something.
 
-Original dist/chrome_os/js/cwc_ui.js:
+Original `dist/chrome_os/js/cwc_ui.js`:
 
 ```javascript
 cwc.mode.tts.Mod = ...
 ```
 
-Modified dist/chrome_os/js/cwc_ui.js:
+Modified `dist/chrome_os/js/cwc_ui.js`:
 
 ```javascript
 /**
@@ -144,7 +144,7 @@ JavaScript console.
 ### Accessing the core
 
 If you need access to the core of Coding with Chrome, open the JavaScript
-console for the the "html/editor.html" view and run the following command:
+console for the "html/editor.html" view and run the following command:
 
 ```javascript
 var testInstance_ = cwcBuildUi();
