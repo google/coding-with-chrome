@@ -22,10 +22,16 @@ goog.provide('cwc.ui.Tutorial');
 
 goog.require('cwc.mode.Modder.Events');
 goog.require('cwc.mode.Type');
+goog.require('cwc.renderer.Helper');
+goog.require('cwc.soy.ui.Tutorial');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Logger');
-
+goog.require('cwc.utils.mime.Type');
 goog.require('goog.events');
+goog.require('goog.dom');
+goog.require('goog.style');
+
+goog.require('goog.soy');
 
 
 /**
@@ -41,11 +47,26 @@ cwc.ui.Tutorial = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
+  /** @type {!cwc.renderer.Helper} */
+  this.rendererHelper = new cwc.renderer.Helper();
+
+  /** @type {string} */
+  this.prefix = this.helper.getPrefix('tutorial');
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!string} */
   this.content_ = '';
+
+  /** @private {!string} */
+  this.contentType_ = '';
+
+  /** @private {!Element} */
+  this.contentNode;
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
@@ -72,26 +93,110 @@ cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
   if (!tutorial['validatePreview']) {
     this.log_.warn('Empty validatePreview');
   }
-
-  this.log_.info('Loading tutorial data', tutorial);
-  this.content_ = tutorial['content'];
+  if (!('content' in tutorial)) {
+    this.log_.error('Tutorial has no content');
+    return;
+  }
+  if (!this.parseTutorialContent(tutorial['content'])) return;
   this.processResults_ = tutorial['processResults'];
   this.validatePreview_ = tutorial['validatePreview'];
 };
 
 
+/**
+ * @param {!string|object} tutorialContent
+ * @return {!bool}
+ */
+cwc.ui.Tutorial.prototype.parseTutorialContent = function(tutorialContent) {
+  this.log_.info('Loading tutorial data', tutorialContent);
+  let type = typeof tutorialContent;
+  switch (type) {
+    case 'string':
+      this.content_ = tutorialContent;
+      this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
+      break;
+    case 'object':
+      if (!('text' in tutorialContent)) {
+        this.log_.error('Tutorial content missing text key');
+        return;
+      }
+      this.content_ = tutorialContent['text'];
+      if (!('mime_type' in tutorialContent)) {
+        this.log_.warn('Tutorial content missing mime_type key, defaulting to',
+          cwc.utils.mime.Type.MARKDOWN.type);
+        this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
+      } else {
+        this.contentType_ = tutorialContent['mime_type'];
+      }
+      break;
+    default:
+      this.log_.error('Can\'t process tutorial content of unknown type ', type);
+      return false;
+  }
+  return true;
+};
+
 cwc.ui.Tutorial.prototype.startTutorial = function() {
   if (!this.content_) {
     return;
   }
+
+  let htmlContent;
+  switch (this.contentType_) {
+    case cwc.utils.mime.Type.HTML.type:
+      htmlContent = this.content_;
+      break;
+    case cwc.utils.mime.Type.MARKDOWN.type:
+      if (this.helper.checkJavaScriptFeature('marked')) {
+        htmlContent = marked(this.content_);
+      } else {
+        this.log_.warn('Markdown not supported, displaying content as text');
+        htmlContent = this.content_;
+      }
+      break;
+    case cwc.utils.mime.Type.TEXT.type:
+      htmlContent = goog.soy.renderAsFragment(cwc.coy.ui.Tutorial.text,
+        {content: this.content_});
+      break;
+    default:
+      this.log_.error('Unknown or unsupported content type', this.contentType_);
+  }
+
   this.log_.info('Starting tutorial ...');
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
-    sidebarInstance.showRawContent('tutorial', 'Tutorial', this.content_);
+    sidebarInstance.showTemplateContent('tutorial', 'Tutorial',
+      cwc.soy.ui.Tutorial.template, {
+        prefix: this.prefix,
+        webviewSupport: this.webviewSupport_,
+      });
+    this.contentNode_ = goog.dom.getElement(this.prefix+'body');
+    if (!this.contentNode_) {
+      this.log_.error('Failed to render content node');
+    } else {
+      this.contentNode_.src = this.rendererHelper.getDataURL(htmlContent);
+    }
+    /**
+     * @todo replace this with Message instance when that code is complete
+     */
+    this.events_.listen(this.contentNode_, 'consolemessage',
+      this.handleConsoleMessage_);
+    this.setMessage();
   }
+
   this.start();
 };
 
+/**
+ * Logs console messages from the tutorial webview
+ * @param {Event} event
+ * @private
+ */
+cwc.ui.Tutorial.prototype.handleConsoleMessage_ = function(event) {
+  let browserEvent = event.getBrowserEvent();
+  // TODO: Log this to a tutorial developer console once we build one
+  this.log_.info('['+browserEvent.level+']: '+browserEvent.message);
+};
 
 /**
  * @return {!string}
@@ -127,11 +232,66 @@ cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
   if (this.validatePreview_) {
     preview.executeScript({code: this.validatePreview_}, (results) => {
       this.log_.info('validatePreview returned', results);
+      let message = '';
+      let solved = false;
+      if (results.length >= 1) {
+        switch (typeof results[0]) {
+          case 'string':
+            message = results[0];
+            break;
+          case 'boolean':
+            solved = results[0];
+            break;
+          case 'object':
+            if ('message' in results[0]) message = results[0]['message'];
+            if ('solved' in results[0]) solved = results[0]['solved'];
+            break;
+          default:
+            this.log_.warn('validatePreview returned unknown type: ',
+              results[0]);
+        }
+      }
+      this.solved(solved);
+      this.setMessage(message);
       this.processValidatePreviewResults_.bind(this)(results[0]);
      });
     return;
   }
   this.processValidatePreviewResults_(null);
+};
+
+/**
+ * @param {string} message
+ */
+cwc.ui.Tutorial.prototype.setMessage = function(message) {
+  let messageDiv = goog.dom.getElement(this.prefix+'message');
+  if (!messageDiv) {
+    this.log_.error('Failed to get element with id "'+this.prefix+'message"');
+    return;
+  }
+  if (message) {
+    goog.soy.renderElement(messageDiv, cwc.soy.ui.Tutorial.message,
+      {message: message});
+    goog.style.setElementShown(messageDiv, true);
+  } else {
+    goog.style.setElementShown(messageDiv, false);
+  }
+};
+
+/**
+ * @param {!boolean} solved
+ */
+cwc.ui.Tutorial.prototype.solved = function(solved) {
+  let messageDiv = goog.dom.getElement(this.prefix+'message');
+  if (!messageDiv) {
+    this.log_.error('Failed to get element with id "'+this.prefix+'message"');
+    return;
+  }
+  if (solved) {
+    goog.dom.classlist.add(messageDiv, 'solved');
+  } else {
+    goog.dom.classlist.remove(messageDiv, 'solved');
+  }
 };
 
 
@@ -140,17 +300,14 @@ cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
  * @private
  */
 cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
-  let sidebarInstance = this.helper.getInstance('sidebar');
-  if (!sidebarInstance) {
-    this.log_.error('No sidebar, ignoring results of validatePreview');
-    return;
-  }
-  let tutorialNode = sidebarInstance.getContentNode();
-  if (!tutorialNode) {
-    this.log_.warn('No tutorial node, ignore results of validatePreview');
-    return;
-  }
+  if (!this.processResults_) return;
 
+  this.log_.info('Processing results:', results);
+
+  if (!this.contentNode_) {
+    this.log_.warn('No content node, no place to run processResults.');
+    return;
+  }
   let listenForResults = function() {
     window.addEventListener('message', function(e) {
       if (e.data && (typeof e.data) === 'object' &&
@@ -177,7 +334,7 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
     }
     let args = {'cwc-validated-data': {'code': code, 'results': results}};
     this.log_.info('Process results with arguments', args);
-    tutorialNode.contentWindow.postMessage(args, '*');
+    this.contentNode_.contentWindow.postMessage(args, '*');
   }.bind(this);
 
   // We attempt to inject the script twice because webview has no way to check
@@ -186,14 +343,14 @@ cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
   // execute.
   let injectedCode = this.processResults_ +
     '(' + listenForResults.toString() + ')()';
-  tutorialNode.addEventListener('loadstop', () => {
-    tutorialNode.executeScript({code: injectedCode}, postResults);
+  this.contentNode_.addEventListener('loadstop', () => {
+    this.contentNode_.executeScript({code: injectedCode}, postResults);
   });
   try {
-    tutorialNode.executeScript({code: injectedCode}, postResults);
+    this.contentNode_.executeScript({code: injectedCode}, postResults);
   } catch (e) {
     this.log_.info('Failed to inject results.',
-      'but it should run next time the page changes:', e);
+      'but it should run next time the preview changes:', e);
   }
 };
 
@@ -202,4 +359,5 @@ cwc.ui.Tutorial.prototype.clear = function() {
   this.content_ = null;
   this.processResults_ = null;
   this.validatePreview_ = null;
+  this.contentNode_ = null;
 };

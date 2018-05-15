@@ -220,6 +220,11 @@ cwc.utils.mime.Type = {
     ext: ['.avi'],
     type: 'video/x-msvideo',
   },
+  MARKDOWN: {
+    descr: 'Markdown',
+    ext: ['.md'],
+    type: 'text/markdown',
+  },
 };
 
 

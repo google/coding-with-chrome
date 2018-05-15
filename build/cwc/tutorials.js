@@ -16,6 +16,8 @@
  * limitations under the License.
  *
  * @author carheden@google.com (Adam Carheden)
+ * @deprecated This script is a temporary method for creating tutorial files
+ *             until we develop support for editing them.
  */
 let fs = require('fs');
 let path = require('path');

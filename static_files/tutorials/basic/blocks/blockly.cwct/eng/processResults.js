@@ -17,25 +17,34 @@
  */
 
 
-window.top['cwc-validated'] = function(code, res) {
-  console.log({code: code, res: res});
+window.top['cwc-validated'] = function(code) {
   let matches = code.match(
     /draw.circle\(([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+)\)/);
-  let msg = 'No circles yet, keep trying';
-  let color = 'red';
+  let challenge = 'Can you draw a '+
+    '<span style="color: blue; font-weight: bold">blue</span> circle with a '+
+    '<span style="color: green; font-weight: bold">green</span> border?<br/>'+
+    '<br/>';
+  let msg = '';
   if (matches) {
-    msg = 'Great circle. Now can you make it ' +
+    msg = 'Great circle! Now can you make it ' +
       '<span style="color: #3333ff">blue</span>?';
-    color = 'orange';
-    if (matches[4].includes('#3333ff')) {
-      msg = 'Good job. Now make the border ' +
+    if (matches[4].includes('#33ccff') ||
+        matches[4].includes('#3366ff') ||
+        matches[4].includes('#3333ff') ||
+        matches[4].includes('#000099') ||
+        matches[4].includes('#333399')) {
+      msg = 'Wonderful! Now make the border ' +
       '<span style="color: #009900">green</span>.';
     }
-    if (matches[5].includes('#009900')) {
+    if (matches[5].includes('#99ff99') ||
+        matches[5].includes('#66ff99') ||
+        matches[5].includes('#33ff33') ||
+        matches[5].includes('#33cc00') ||
+        matches[5].includes('#009900') ||
+        matches[5].includes('#006600') ||
+        matches[5].includes('#003300')) {
       msg = 'Perfect! Now you\'re ready to program in blockly.';
-      color = 'green';
     }
   }
-  document.getElementById('msg').innerHTML = '<h2 style="color: '+color+'">' +
-    msg + '</h2>';
+  document.getElementById('instructions').innerHTML = challenge+msg;
 };

@@ -14,7 +14,10 @@
   "metadata": {
     "__tutorial__": {
       "eng": {
-        "___TEMPLATE___:content": "eng/content.html",
+        "content": {
+          "___TEMPLATE___:text": "eng/content.md",
+          "mime_type": "text/markdown"
+        },
         "___TEMPLATE___:validatePreview": "eng/validatePreview.js",
         "___TEMPLATE___:processResults": "eng/processResults.js"
       }

@@ -33,6 +33,7 @@
     'cwc': true,
     'goog': true,
     'i18t': true,
+    'marked': true,
     'soydata': true,
     'window': true,
   }

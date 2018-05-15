@@ -166,6 +166,12 @@ cwc.ui.Sidebar.prototype.getContentNode = function() {
   return this.contentNode_;
 };
 
+/**
+ * @return {Element}
+ */
+cwc.ui.Sidebar.prototype.getContentBodyNode = function() {
+  return goog.dom.getElement(this.prefix+'content-body');
+};
 
 /**
  * @param {!string} id
@@ -330,11 +336,8 @@ cwc.ui.Sidebar.prototype.showContent = function(id, title, content = '') {
 cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
   this.showContent(id, title, '__RAW__');
 
-  // TODO(carheden): Add markdown support
-
-  // The content must be non-false or the content-body element isn't created
-  let nodeContent = goog.dom.getElement(this.prefix + 'content-body');
-  if (!nodeContent) {
+  let nodeContentBody = this.getContentBodyNode();
+  if (!nodeContentBody) {
     return;
   }
   if (this.webviewSupport_) {
@@ -342,10 +345,27 @@ cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
   } else {
     this.contentNode_ = document.createElement('iframe');
   }
-  goog.dom.appendChild(nodeContent, this.contentNode_);
+  goog.dom.appendChild(nodeContentBody, this.contentNode_);
   this.contentNode_.src = this.rendererHelper.getDataURL(content);
 };
 
+/**
+ * Render a template to the sidebar
+ * @param {!string} id
+ * @param {!string} title
+ * @param {Function} template
+ * @param {Object} params
+ */
+cwc.ui.Sidebar.prototype.showTemplateContent = function(id, title, template,
+  params = {}) {
+  this.showContent(id, title, '__RAW__');
+
+  let nodeContentBody = this.getContentBodyNode();
+  if (!nodeContentBody) {
+    return;
+  }
+  goog.soy.renderElement(nodeContentBody, template, params);
+};
 
 cwc.ui.Sidebar.prototype.hideContent = function() {
   this.showContent_(false);

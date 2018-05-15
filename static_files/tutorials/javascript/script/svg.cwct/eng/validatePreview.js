@@ -92,7 +92,10 @@ let validatePreview = function() {
     });
     if (found) return;
   });
-  return found;
+  return {
+    solved: found,
+    message: found ? 'Great Job!' : 'No right triangles yet. Keep trying.',
+  };
 };
 
 validatePreview();
