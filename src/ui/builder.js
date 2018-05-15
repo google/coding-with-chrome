@@ -186,7 +186,7 @@ cwc.ui.Builder = function() {
   if (window['CWC_BUILDER']) {
     this.log_.warn('Found an existing CWC Builder instance!');
   } else {
-    window['CWC_BUILDER'] = true;
+    window['CWC_BUILDER'] = this;
   }
 };
 

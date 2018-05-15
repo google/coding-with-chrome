@@ -78,6 +78,11 @@
   padding: 0!important;
 }
 
+#{$prefix}editor-infobar-info {
+  min-width: 130px;
+}
+
+
 #{$prefix}editor-infobar-line-text {
   padding-left: 5px;
 }

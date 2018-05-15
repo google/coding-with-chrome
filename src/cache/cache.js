@@ -100,21 +100,20 @@ cwc.Cache.prototype.update = function(version) {
  * @param {!Object} files
  */
 cwc.Cache.prototype.loadFiles = function(files) {
-  let fileFiles = [];
   for (let file of Object.keys(files)) {
     if (goog.isString(files[file])) {
-      fileFiles.push(files[file]);
+      cwc.utils.Resources.getUriAsText('..' + files[file]).then((content) => {
+        this.addFile(files[file], content);
+      });
     } else {
       for (let subFile of Object.keys(files[file])) {
-        fileFiles.push(files[file][subFile]);
+        cwc.utils.Resources.getUriAsText('..' + files[file][subFile]).then(
+          (content) => {
+            this.addFile(files[file][subFile], content);
+        });
       }
     }
   }
-  fileFiles.forEach((file) => {
-    cwc.utils.Resources.getUriAsText('..' + file).then((content) => {
-      this.addFile(file, content);
-    });
-  });
 };
 
 
@@ -158,33 +157,14 @@ cwc.Cache.prototype.getPreloadedFile = function(name) {
  */
 cwc.Cache.prototype.preloadFile = function(name) {
   return new Promise((resolve, reject) => {
-    if (this.cache_[name] === undefined) {
-      this.database_.get(name).then((content) => {
-        let dataType = '';
-        let dataContent = '';
-        if (content) {
-          if (name.endsWith('.js')) {
-            dataType = 'text/javascript';
-          } else if (name.endsWith('.css')) {
-            dataType = 'text/css';
-          } else if (name.endsWith('.html')) {
-            dataType = 'text/html';
-          }
-
-          try {
-            dataContent = 'data:' + dataType + ';base64,' + btoa(content);
-          } catch (err) {
-            dataContent = 'data:' + dataType + ';charset=utf-8,' +
-              encodeURIComponent(content);
-          }
-          this.log_.info('Preloaded file', name);
-        }
-        this.cache_[name] = dataContent;
-        resolve();
-      }, reject);
-    } else {
+    if (this.cache_[name] !== undefined) {
       resolve();
     }
+
+    this.database_.get(name).then((content) => {
+      this.addContentToCache(name, content);
+      resolve();
+    }, reject);
   });
 };
 
@@ -196,6 +176,36 @@ cwc.Cache.prototype.preloadFile = function(name) {
 cwc.Cache.prototype.preloadFiles = function(files) {
   let promises = files.map(this.preloadFile.bind(this));
   return Promise.all(promises);
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} content
+ */
+cwc.Cache.prototype.addContentToCache = function(name, content) {
+  if (!content) {
+    return;
+  }
+
+  let dataType = 'text/plain';
+  let dataContent = '';
+  if (name.endsWith('.js')) {
+    dataType = 'text/javascript';
+  } else if (name.endsWith('.css')) {
+    dataType = 'text/css';
+  } else if (name.endsWith('.html')) {
+    dataType = 'text/html';
+  }
+
+  try {
+    dataContent = 'data:' + dataType + ';base64,' + btoa(content);
+  } catch (err) {
+    dataContent = 'data:' + dataType + ';charset=utf-8,' +
+      encodeURIComponent(content);
+  }
+  this.log_.info('Preloaded file', name);
+  this.cache_[name] = dataContent;
 };
 
 

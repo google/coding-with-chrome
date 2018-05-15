@@ -144,18 +144,13 @@ JavaScript console.
 ### Accessing the core
 
 If you need access to the core of Coding with Chrome, open the JavaScript
-console for the "html/editor.html" view and run the following command:
+console for the "index.html" view and run the following command:
 
 ```javascript
-var testInstance_ = cwcBuildUi();
-console.log(testInstance_);
+console.log(window['CWC_BUILDER']);
 ```
 
-This will reload and rebuild the hole UI and you could access the core over
-the `testInstance_` variable.
-
-If you loaded an custom mode, you could access the mode over
-`testInstance_.helper.instances_.mode`.
+You could access the core over the `window['CWC_BUILDER']` variable.
 
 **Note: It could be that some functions are not working as expected after an
 reload (reload protection), so please only use this for debugging reasons.**

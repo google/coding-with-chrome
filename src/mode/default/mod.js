@@ -310,16 +310,16 @@ cwc.mode.default.Mod.prototype.showBlockly_ = function() {
     'will overwrite any manual changes! Continue?',
     i18t('@@GENERAL__CONTINUE')).then((answer) => {
       if (answer) {
-        this.switchToEditor_();
+        this.switchToBlockly_();
       }
     });
 };
 
 
 /**
- * Switches from the Blockly ui to the code editor.
+ * Switches from the code editor to the Blockly ui.
  */
-cwc.mode.default.Mod.prototype.switchToEditor_ = function() {
+cwc.mode.default.Mod.prototype.switchToBlockly_ = function() {
   this.editor.showEditor(false);
   this.blockly.showBlockly(true);
   this.helper.getInstance('file').setUi('blockly');

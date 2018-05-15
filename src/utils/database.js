@@ -111,7 +111,7 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
  */
 cwc.utils.Database.prototype.add = function(name, content, group) {
   this.open().then(() => {
-    this.log_.info('Add', name, 'in group', group);
+    this.log_.info('Add', name, group ? ' in group ' + group : '');
     this.getObjectStore_(group)['add'](content, name);
   });
 };
@@ -142,7 +142,7 @@ cwc.utils.Database.prototype.clear = function(
  */
 cwc.utils.Database.prototype.put = function(name, content, group) {
   this.open().then(() => {
-    this.log_.info('Put', name, 'in group', group);
+    this.log_.info('Put', name, group ? ' in group ' + group : '');
     this.getObjectStore_(group)['put'](content, name);
   });
 };

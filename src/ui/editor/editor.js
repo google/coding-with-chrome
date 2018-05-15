@@ -237,6 +237,7 @@ cwc.ui.Editor.prototype.decorateEditor = function(node) {
 cwc.ui.Editor.prototype.showEditor = function(visible) {
   goog.style.setElementShown(this.node, visible);
   this.isVisible_ = visible;
+  this.refreshEditor();
 };
 
 
@@ -479,6 +480,7 @@ cwc.ui.Editor.prototype.changeView = function(name) {
   this.setEditorMode(editorView.getType());
   this.setEditorHints(editorView.getHints());
   this.updateInfobar();
+  this.refreshEditor();
 };
 
 
@@ -503,8 +505,9 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
   this.updateToolbar();
   if (!this.currentEditorView) {
     this.changeView(name);
+  } else {
+    this.updateInfobar();
   }
-  this.updateInfobar();
 };
 
 

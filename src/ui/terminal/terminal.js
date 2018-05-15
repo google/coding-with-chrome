@@ -185,6 +185,12 @@ cwc.ui.Terminal.prototype.toggle = function() {
 cwc.ui.Terminal.prototype.showTerminal = function(visible) {
   goog.style.setElementShown(this.node, visible);
   this.isVisible_ = visible;
+  if (visible) {
+    let editorInstance = this.helper.getInstance('editor');
+    if (editorInstance) {
+      editorInstance.refreshEditor();
+    }
+  }
 };
 
 
