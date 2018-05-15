@@ -95,7 +95,7 @@ cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
   }
   if (!('content' in tutorial)) {
     this.log_.error('Tutorial has no content');
-    return
+    return;
   }
   if (!this.parseTutorialContent(tutorial['content'])) return;
   this.processResults_ = tutorial['processResults'];
@@ -104,10 +104,10 @@ cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
 
 
 /**
- * @param {!string|object} tutorial
- * @return {bool}
+ * @param {!string|object} tutorialContent
+ * @return {!bool}
  */
-cwc.ui.Tutorial.prototype.parseTutorialContent(tutorialContent) {
+cwc.ui.Tutorial.prototype.parseTutorialContent = function(tutorialContent) {
   this.log_.info('Loading tutorial data', tutorialContent);
   let type = typeof tutorialContent;
   switch (type) {
@@ -134,7 +134,7 @@ cwc.ui.Tutorial.prototype.parseTutorialContent(tutorialContent) {
       return false;
   }
   return true;
-}
+};
 
 cwc.ui.Tutorial.prototype.startTutorial = function() {
   if (!this.content_) {
