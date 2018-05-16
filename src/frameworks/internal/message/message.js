@@ -115,7 +115,7 @@ cwc.framework.Message.prototype.setAppWindow = function(appWindow) {
  */
 cwc.framework.Message.prototype.setListenerScope = function(scope) {
   if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
-    throw new Error('Invalid runner scope!', scope);
+    throw new Error('Invalid scope!', scope);
   } else if (scope) {
     this.listenerScope_ = scope;
   }
@@ -150,32 +150,6 @@ cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
 
 
 /**
- * Handles the received messages and executes the predefined actions.
- * @param {Event} event
- * @private
- */
-cwc.framework.Message.prototype.handleMessage_ = function(event) {
-  if (!event) {
-    throw new Error('Was not able to get browser event!');
-  }
-  if (!this.appWindow && 'source' in event) {
-    this.setAppWindow(event['source']);
-  } else if (this.appWindow !== event['source']) {
-    return;
-  }
-  if (!this.appOrigin && 'origin' in event) {
-    this.setAppOrigin(event['origin']);
-  } else if (this.appOrigin !== event['origin']) {
-    return;
-  }
-  if (typeof this.listener_[event['data']['command']] === 'undefined') {
-    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
-  }
-  this.listener_[event['data']['command']](event['data']['value']);
-};
-
-
-/**
  * @param {!string} code
  * @private
  */
@@ -188,11 +162,50 @@ cwc.framework.Message.prototype.executeCode_ = function(code) {
     code = code.slice(0, -1);
   }
   // Skip the return parameter for more complex code
-  if (code.includes(';') || code.includes('{')) {
+  if ((code.includes(';') && !code.includes('let')) || code.includes('{')) {
     console.log('>>' + Function(code)());
   } else {
     console.log('>>' + Function('return (' + code + ');')());
   }
+};
+
+
+/**
+ * Handles the received messages and executes the predefined actions.
+ * @param {Event} event
+ * @private
+ */
+cwc.framework.Message.prototype.handleMessage_ = function(event) {
+  if (!event) {
+    throw new Error('Was not able to get browser event!');
+  }
+
+  // Setting appWindow and appOrigin within the handshake
+  if (!this.appWindow && 'source' in event &&
+      event['data']['command'] === '__handshake__') {
+    this.setAppWindow(event['source']);
+  } else if (this.appWindow !== event['source']) {
+    return;
+  }
+  if (!this.appOrigin && 'origin' in event &&
+      event['data']['command'] === '__handshake__') {
+    this.setAppOrigin(event['origin']);
+  } else if (this.appOrigin !== event['origin']) {
+    return;
+  }
+  if (typeof this.listener_[event['data']['command']] === 'undefined') {
+    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
+  }
+  this.listener_[event['data']['command']](event['data']['value']);
+};
+
+
+/**
+ * @param {!string} token
+ * @private
+ */
+cwc.framework.Message.prototype.handleHandshake_ = function(token) {
+  this.send('__handshake__', token);
 };
 
 
@@ -202,18 +215,6 @@ cwc.framework.Message.prototype.executeCode_ = function(code) {
  */
 cwc.framework.Message.prototype.handleGamepad_ = function(data) {
   console.log('__gamepad__', data);
-};
-
-
-/**
- * Handles the received handshake message.
- * @param {!Object} data
- * @private
- */
-cwc.framework.Message.prototype.handleHandshake_ = function(data) {
-  if (this.isReady_()) {
-    this.send('__handshake__', data);
-  }
 };
 
 
@@ -235,13 +236,9 @@ cwc.framework.Message.prototype.handleStart_ = function() {
 
 /**
  * Handles the received "ping" command.
- * @param {!number} ping_id
  */
-cwc.framework.Message.prototype.handlePing_ = function(ping_id) {
-  this.send('__pong__', {
-    'id': ping_id,
-    'time': new Date().getTime(),
-  });
+cwc.framework.Message.prototype.handlePing_ = function() {
+  this.send('__pong__', new Date().getTime());
 };
 
 
