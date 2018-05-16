@@ -149,7 +149,7 @@ cwc.mode.default.Mod.prototype.decorate = function() {
     }
 
     if (this.runner) {
-      this.runner.decorate();
+      this.decorateRunner();
     } else {
       this.decoratePreview();
     }
@@ -215,11 +215,11 @@ cwc.mode.default.Mod.prototype.decorateLayout = function() {
   }
 
   // Decorates Runner or Preview
-  if (this.runner) {
-    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
-  } else {
+  // if (this.runner) {
+  //   layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
+  // } else {
     layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
-  }
+  // }
 };
 
 
@@ -228,6 +228,16 @@ cwc.mode.default.Mod.prototype.decorateLayout = function() {
  */
 cwc.mode.default.Mod.prototype.decoratePreview = function() {
   this.helper.setInstance('preview', this.preview, true);
+  this.preview.decorate();
+};
+
+
+/**
+ * Decorate runner
+ */
+cwc.mode.default.Mod.prototype.decorateRunner = function() {
+  this.helper.setInstance('preview', this.preview, true);
+  this.preview.enableRunner();
   this.preview.decorate();
 };
 

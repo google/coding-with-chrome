@@ -41,11 +41,19 @@ cwc.framework.Message = function() {
   /** @private {Object} */
   this.listener_ = {};
 
+  /** @private {Object} */
+  this.listenerScope_ = this;
+
   // Message handler
   window.addEventListener('message', this.handleMessage_.bind(this), false);
 
   // External listener
-  this.addListener('__exec__', this.executeCode_);
+  this
+    .addListener('__exec__', this.executeCode_)
+    .addListener('__gamepad__', this.handleGamepad_)
+    .addListener('__handshake__', this.handleHandshake_)
+    .addListener('__ping__', this.handlePing_)
+    .addListener('__start__', this.handleStart_);
 };
 
 
@@ -54,10 +62,12 @@ cwc.framework.Message = function() {
  * @param {!string} name
  * @param {!Function} func
  * @param {?=} scope
+ * @return {THIS}
+ * @template THIS
  * @export
  */
 cwc.framework.Message.prototype.addListener = function(name, func,
-    scope = this) {
+    scope = this.listenerScope_) {
   if (!name) {
     console.error('Listener name is undefined!');
     return;
@@ -70,6 +80,7 @@ cwc.framework.Message.prototype.addListener = function(name, func,
   }
   this.listener_[name] = scope ? func.bind(scope) : func;
   console.log('Added message listener ' + name);
+  return this;
 };
 
 
@@ -91,6 +102,49 @@ cwc.framework.Message.prototype.setAppOrigin = function(appOrigin) {
 cwc.framework.Message.prototype.setAppWindow = function(appWindow) {
   if (appWindow) {
     this.appWindow = appWindow;
+  }
+};
+
+
+/**
+ * Sets the runner scope.
+ * @param {!Function} scope
+ * @return {THIS}
+ * @template THIS
+ * @export
+ */
+cwc.framework.Message.prototype.setListenerScope = function(scope) {
+  if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
+    throw new Error('Invalid runner scope!', scope);
+  } else if (scope) {
+    this.listenerScope_ = scope;
+  }
+  return this;
+};
+
+
+/**
+ * Sends the defined data to the runner.
+ * @param {!string} name
+ * @param {Object|string=} value
+ * @param {number=} delay in msec
+ * @export
+ */
+cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
+  if (!name || !this.isReady_()) {
+    throw Error('Unable so send data!');
+  }
+  let sendCommand = function() {
+    this.appWindow.postMessage({
+      'command': name,
+      'value': value,
+    }, this.appOrigin);
+  }.bind(this);
+  if (delay) {
+    this.senderStack_.addCommand(sendCommand);
+    this.senderStack_.addDelay(delay);
+  } else {
+    sendCommand();
   }
 };
 
@@ -141,3 +195,64 @@ cwc.framework.Message.prototype.executeCode_ = function(code) {
   }
 };
 
+
+/**
+ * @param {!Object} data
+ * @private
+ */
+cwc.framework.Message.prototype.handleGamepad_ = function(data) {
+  console.log('__gamepad__', data);
+};
+
+
+/**
+ * Handles the received handshake message.
+ * @param {!Object} data
+ * @private
+ */
+cwc.framework.Message.prototype.handleHandshake_ = function(data) {
+  if (this.isReady_()) {
+    this.send('__handshake__', data);
+  }
+};
+
+
+/**
+ * Handles the received start message.
+ * @private
+ */
+cwc.framework.Message.prototype.handleStart_ = function() {
+  if (this.monitor_) {
+    console.log('Initialize monitor ...');
+    this.monitor_();
+  }
+  if (this.callback_) {
+    console.log('Starting program ...');
+    this.callback_(this.scope_);
+  }
+};
+
+
+/**
+ * Handles the received "ping" command.
+ * @param {!number} ping_id
+ */
+cwc.framework.Message.prototype.handlePing_ = function(ping_id) {
+  this.send('__pong__', {
+    'id': ping_id,
+    'time': new Date().getTime(),
+  });
+};
+
+
+/**
+ * @return {boolean}
+ * @private
+ */
+cwc.framework.Message.prototype.isReady_ = function() {
+  if (!this.appWindow || !this.appOrigin) {
+    console.error('Communication channel has not yet been opened');
+    return false;
+  }
+  return true;
+};

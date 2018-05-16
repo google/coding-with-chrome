@@ -89,6 +89,9 @@ cwc.ui.Preview = function(helper) {
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
+  /** @private {!boolean} */
+  this.enableRunner_ = false;
+
   /** @private {!cwc.ui.PreviewStatus} */
   this.previewStatus_ = new cwc.ui.PreviewStatus(
     this.helper, this.eventHandler_)
@@ -131,7 +134,11 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   );
 
   // Runtime
-  this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
+  if (this.enableRunner_) {
+    this.nodeRuntime = goog.dom.getElement(this.prefix + 'runner');
+  } else {
+    this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
+  }
 
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
@@ -195,6 +202,14 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
 
 
 /**
+ * @param {boolean=} enable
+ */
+cwc.ui.Preview.prototype.enableRunner = function(enable = true) {
+  this.enableRunner_ = enable ? true : false;
+};
+
+
+/**
  * Runs the preview.
  */
 cwc.ui.Preview.prototype.run = function() {
@@ -211,9 +226,8 @@ cwc.ui.Preview.prototype.stop = function() {
   }
   if (this.webviewSupport_) {
     this.content.stop();
-  } else {
-    this.setContentUrl('about:blank');
   }
+  this.setContentUrl('about:blank');
   this.previewStatus_.setStatus(cwc.ui.StatusbarState.STOPPED);
 };
 
@@ -312,7 +326,6 @@ cwc.ui.Preview.prototype.renderWebview = function() {
     }
     goog.dom.removeChildren(this.nodeRuntime);
   }
-
   let content = document.createElement('webview');
   content['setAttribute']('partition', this.partition_);
   content['setUserAgentOverride']('CwC sandbox');

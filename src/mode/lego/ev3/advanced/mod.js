@@ -59,10 +59,10 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
  */
 cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
-  this.mod.setMonitor(this.monitor);
+  // this.mod.setMonitor(this.monitor);
   this.mod.setRenderer(this.renderer);
   this.mod.setRunner(this.runner);
   this.mod.decorate();
   this.mod.editor.setLocalHints(cwc.mode.lego.ev3.Hints);
-  this.calibration.decorate();
+  // this.calibration.decorate();
 };

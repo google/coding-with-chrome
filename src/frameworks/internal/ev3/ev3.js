@@ -22,7 +22,7 @@
  */
 goog.provide('cwc.framework.Ev3');
 
-goog.require('cwc.framework.Runner');
+goog.require('cwc.framework.Message');
 goog.require('cwc.protocol.lego.ev3.DeviceName');
 goog.require('cwc.protocol.lego.ev3.LedColor');
 goog.require('cwc.protocol.lego.ev3.LedMode');
@@ -104,12 +104,19 @@ cwc.framework.Ev3 = function(code) {
   /** @type {!number} */
   this.mediumMotorSpeed = 250 / 60;
 
-  /** @private {!cwc.framework.Runner} */
-  this.runner_ = new cwc.framework.Runner()
-    .setScope(this)
-    .setCallback(this.code);
-
-  this.addCommandListener();
+  /** @private {!cwc.framework.Message} */
+  this.message_ = new cwc.framework.Message()
+    .setListenerScope(this)
+    .addListener('updateColorSensor', this.handleUpdateColorSensor_)
+    .addListener('updateDeviceInfo', this.handleUpdateDeviceInfo_)
+    .addListener('updateGyroSensor', this.handleUpdateGyroSensor_)
+    .addListener('updateIrSensor', this.handleUpdateIrSensor_)
+    .addListener('updateTouchSensor', this.handleUpdateTouchSensor_)
+    .addListener('updateUltrasonicSensor', this.handleUpdateUltrasonicSensor_)
+    .addListener('updateRobotType', this.handleUpdateRobotType_)
+    .addListener('updateWheelDiameter', this.handleUpdateWheelDiameter_)
+    .addListener('updateWheelWidth', this.handleUpdateWheelWidth_)
+    .addListener('updateWheelbase', this.handleUpdateWheelbase_);
 };
 
 
@@ -117,19 +124,7 @@ cwc.framework.Ev3 = function(code) {
  * Enable external listener
  */
 cwc.framework.Ev3.prototype.addCommandListener = function() {
-  this.runner_.addCommand('updateColorSensor', this.handleUpdateColorSensor_);
-  this.runner_.addCommand('updateDeviceInfo', this.handleUpdateDeviceInfo_);
-  this.runner_.addCommand('updateGyroSensor', this.handleUpdateGyroSensor_);
-  this.runner_.addCommand('updateIrSensor', this.handleUpdateIrSensor_);
-  this.runner_.addCommand('updateTouchSensor', this.handleUpdateTouchSensor_);
-  this.runner_.addCommand('updateUltrasonicSensor',
-      this.handleUpdateUltrasonicSensor_);
-  this.runner_.addCommand('updateRobotType', this.handleUpdateRobotType_);
-  this.runner_.addCommand('updateWheelDiameter',
-      this.handleUpdateWheelDiameter_);
-  this.runner_.addCommand('updateWheelWidth', this.handleUpdateWheelWidth_);
-  this.runner_.addCommand('updateWheelbase', this.handleUpdateWheelbase_);
-  this.runner_.addCommand('__gamepad__', this.handleUpdateGamepad_);
+
 };
 
 
@@ -342,7 +337,7 @@ cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
  * @export
  */
 cwc.framework.Ev3.prototype.drawImage = function(filename, opt_delay) {
-  this.runner_.send('drawImage', {'file': filename}, opt_delay);
+  this.message_.send('drawImage', {'file': filename}, opt_delay);
 };
 
 
@@ -356,7 +351,7 @@ cwc.framework.Ev3.prototype.drawImage = function(filename, opt_delay) {
  */
 cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
     opt_volume, opt_delay) {
-  this.runner_.send('playTone', {
+  this.message_.send('playTone', {
     'frequency': frequency,
     'duration': opt_duration,
     'volume': opt_volume}, opt_delay);
@@ -372,7 +367,7 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
  */
 cwc.framework.Ev3.prototype.playSound = function(filename, opt_volume,
     opt_delay) {
-  this.runner_.send('playSound', {
+  this.message_.send('playSound', {
     'file': filename,
     'volume': opt_volume}, opt_delay);
 };
@@ -386,7 +381,7 @@ cwc.framework.Ev3.prototype.playSound = function(filename, opt_volume,
  * @export
  */
 cwc.framework.Ev3.prototype.moveServo = function(steps, opt_speed, opt_delay) {
-  this.runner_.send('moveServo', {
+  this.message_.send('moveServo', {
     'steps': steps,
     'speed': opt_speed}, opt_delay);
 };
@@ -402,7 +397,7 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, opt_speed, opt_delay) {
  */
 cwc.framework.Ev3.prototype.movePen = function(steps,
     opt_speed, opt_color, opt_delay) {
-  this.runner_.send('movePen', {
+  this.message_.send('movePen', {
     'steps': steps,
     'speed': opt_speed,
     'color': opt_color}, opt_delay);
@@ -423,7 +418,7 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
     let delay = /** @type {number|undefined} */ (
       opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
     let distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
-    this.runner_.send('moveSteps', {
+    this.message_.send('moveSteps', {
       'distance': distance,
       'steps': steps,
       'speed': opt_speed}, delay);
@@ -443,7 +438,7 @@ cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
     opt_speed, opt_delay) {
   let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-  this.runner_.send('customMoveSteps', {
+  this.message_.send('customMoveSteps', {
     'steps': steps,
     'ports': opt_ports,
     'speed': opt_speed}, delay);
@@ -462,7 +457,7 @@ cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
   let steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
   let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-  this.runner_.send('moveSteps', {
+  this.message_.send('moveSteps', {
     'distance': distance,
     'steps': steps,
     'speed': opt_speed}, delay);
@@ -479,7 +474,7 @@ cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
  */
 cwc.framework.Ev3.prototype.rotateSteps = function(steps,
     opt_speed, opt_ratio, opt_delay) {
-  this.runner_.send('rotateSteps', {
+  this.message_.send('rotateSteps', {
     'steps': steps,
     'speed': opt_speed,
     'ratio': opt_ratio}, opt_delay);
@@ -503,7 +498,7 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle,
       (rotateDistance * angle / this.wheelCircumference) * 360);
     let delay = /** @type {number|undefined} */ (
      opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-    this.runner_.send('rotateSteps', {
+    this.message_.send('rotateSteps', {
       'angle': angle,
       'steps': steps,
       'speed': opt_speed}, delay);
@@ -526,7 +521,7 @@ cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
     (rotateDistance * angle / this.wheelCircumference) * 360);
   let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
-  this.runner_.send('customRotateSteps', {
+  this.message_.send('customRotateSteps', {
     'angle': angle,
     'steps': steps,
     'ports': opt_ports,
@@ -541,7 +536,7 @@ cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
  * @export
  */
 cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
-  this.runner_.send('movePower', {'power': power}, opt_delay);
+  this.message_.send('movePower', {'power': power}, opt_delay);
 };
 
 
@@ -554,7 +549,7 @@ cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
  */
 cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
     opt_delay) {
-  this.runner_.send('rotatePower', {
+  this.message_.send('rotatePower', {
     'power': power,
     'opt_power': opt_power}, opt_delay);
 };
@@ -566,7 +561,7 @@ cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
  * @export
  */
 cwc.framework.Ev3.prototype.stop = function(opt_delay) {
-  this.runner_.send('stop', null, opt_delay);
+  this.message_.send('stop', null, opt_delay);
 };
 
 
@@ -576,7 +571,7 @@ cwc.framework.Ev3.prototype.stop = function(opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.wait = function(time) {
-  this.runner_.send('wait', null, time);
+  this.message_.send('wait', null, time);
 };
 
 
@@ -586,7 +581,7 @@ cwc.framework.Ev3.prototype.wait = function(time) {
  * @export
  */
 cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
-  this.runner_.send('setColorSensorMode', {'mode': mode}, opt_delay);
+  this.message_.send('setColorSensorMode', {'mode': mode}, opt_delay);
 };
 
 
@@ -596,7 +591,7 @@ cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
-  this.runner_.send('setIrSensorMode', {'mode': mode}, opt_delay);
+  this.message_.send('setIrSensorMode', {'mode': mode}, opt_delay);
 };
 
 
@@ -607,7 +602,7 @@ cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
  */
 cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode,
     opt_delay) {
-  this.runner_.send('setUltrasonicSensorMode', {'mode': mode}, opt_delay);
+  this.message_.send('setUltrasonicSensorMode', {'mode': mode}, opt_delay);
 };
 
 
@@ -618,7 +613,7 @@ cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode,
  * @export
  */
 cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
-  this.runner_.send('setLed', {
+  this.message_.send('setLed', {
     'color': color,
     'mode': opt_mode}, opt_delay);
 };
@@ -630,7 +625,7 @@ cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
-  this.runner_.send('setStepSpeed', {'speed': speed}, opt_delay);
+  this.message_.send('setStepSpeed', {'speed': speed}, opt_delay);
 };
 
 

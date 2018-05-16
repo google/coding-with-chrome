@@ -157,9 +157,13 @@ cwc.ui.PreviewStatus.prototype.handleConsoleMessage_ = function(event) {
 
 /**
  * Displays the start of load event.
+ * @param {Event} e
  * @private
  */
-cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function() {
+cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function(e) {
+  if (e && e['target'] && e['target']['src'] === 'about:blank') {
+    return;
+  }
   this.startTime = new Date().getTime();
   this.setStatus(cwc.ui.StatusbarState.LOADING);
 };
@@ -167,9 +171,13 @@ cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function() {
 
 /**
  * Displays the end of the load event.
+ * @param {Event} e
  * @private
  */
-cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function() {
+cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
+  if (e && e['target'] && e['target']['src'] === 'about:blank') {
+    return;
+  }
   this.stopTime = new Date().getTime();
   this.setStatus(cwc.ui.StatusbarState.LOADED);
 };

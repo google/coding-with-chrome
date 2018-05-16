@@ -73,17 +73,14 @@ cwc.renderer.external.EV3.prototype.render = function(
         editorContent[cwc.ui.EditorContent.PYTHON] + '\n' +
       '</script>' +
       '<script>' +
-      '  window.ev3 = new cwc.framework.Ev3(function() {brython();});' +
+      '  brython();' +
       '</script>';
   } else {
-    body = '\n<script>' +
-      '  let code = function(ev3) {\n' +
-      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
-      '\n};\n' +
-      '  new cwc.framework.Ev3(code);\n' +
+    body = '\n<script>' + editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
       '</script>\n';
   }
   let header = rendererHelper.getJavaScriptURLs(
     jsFrameworks, environ['baseURL']);
+  header += '<script>window[\'ev3\'] = new cwc.framework.Ev3();</script>';
   return rendererHelper.getHTMLRunner(body, header, environ);
 };

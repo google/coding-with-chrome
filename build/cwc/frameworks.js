@@ -49,7 +49,7 @@ closureBuilder.build({
     'src/frameworks/internal/ev3/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/message/*.js',
     'src/protocol/robots/lego/ev3/*.js',
     'src/utils/stack_queue.js',
   ]),
