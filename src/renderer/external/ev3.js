@@ -35,6 +35,14 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.EV3 = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!Array} */
+  this.pythonMapping = [
+    'ev3 = window.ev3',
+  ];
+
+  /** @private {!Array} */
+  this.frameworks_ = [cwc.framework.Internal.EV3];
 };
 
 
@@ -62,25 +70,12 @@ cwc.renderer.external.EV3.prototype.render = function(
     libraryFiles,
     rendererHelper,
     environ = {}) {
-  let jsFrameworks = [cwc.framework.Internal.EV3];
-  let body = '';
+  let content = '';
   if (environ['currentView'] === '__python__') {
-    jsFrameworks.push(cwc.framework.External.BRYTHON.CORE);
-    jsFrameworks.push(cwc.framework.External.BRYTHON.STDLIB);
-    body = '<script type="text/python">\n' +
-      'from browser import window\n' +
-      'ev3 = window.ev3\n' +
-        editorContent[cwc.ui.EditorContent.PYTHON] + '\n' +
-      '</script>' +
-      '<script>' +
-      '  brython();' +
-      '</script>';
+    content = this.pythonMapping.join('\n') + '\n';
+    content += editorContent[cwc.ui.EditorContent.PYTHON];
   } else {
-    body = '\n<script>' + editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
-      '</script>\n';
+    content = editorContent[cwc.ui.EditorContent.JAVASCRIPT];
   }
-  let header = rendererHelper.getJavaScriptURLs(
-    jsFrameworks, environ['baseURL']);
-  header += '<script>window[\'ev3\'] = new cwc.framework.Ev3();</script>';
-  return rendererHelper.getHTMLRunner(body, header, environ);
+  return rendererHelper.getRunner(content, this.frameworks_, environ);
 };

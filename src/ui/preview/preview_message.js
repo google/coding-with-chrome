@@ -44,9 +44,6 @@ cwc.ui.PreviewMessage = function() {
   /** @type {!string} */
   this.targetOrigin = '*';
 
-  /** @type {!string} */
-  this.token = String(new Date().getTime());
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
@@ -62,12 +59,8 @@ cwc.ui.PreviewMessage = function() {
   /** @type {!string} */
   this.token_ = String(new Date().getTime());
 
-  /** @private {!number} */
-  this.pingTime_ = 0;
-
   // External listener
   this.addListener('__handshake__', this.handleHandshake_);
-  this.addListener('__pong__', this.handlePong_);
 };
 
 
@@ -171,8 +164,11 @@ cwc.ui.PreviewMessage.prototype.setListenerScope = function(scope) {
  * @private
  */
 cwc.ui.PreviewMessage.prototype.handleContentLoad_ = function() {
-  this.log_.info('Sending handshake with token', this.token);
-  this.send('__handshake__', this.token);
+  this.log_.info('Sending handshake with token', this.token_);
+  this.send('__handshake__', {
+    'token': this.token_,
+    'start_time': new Date().getTime(),
+  });
 };
 
 
@@ -203,28 +199,23 @@ cwc.ui.PreviewMessage.prototype.handleMessage_ = function(event) {
 
 
 /**
- * @param {!string} token
+ * @param {!Object} data
  * @private
  */
-cwc.ui.PreviewMessage.prototype.handleHandshake_ = function(token) {
-  if (!token || this.token !== token) {
+cwc.ui.PreviewMessage.prototype.handleHandshake_ = function(data) {
+  let token = data['token'];
+  if (!token || this.token_ !== token) {
     this.log_.error('Received wrong handshake token:', token);
     return;
   }
   this.log_.info('Received handshake with token:', token);
-  this.pingTime_ = new Date().getTime();
-  this.send('__ping__');
-};
-
-
-/**
- * @param {!number} data
- * @private
- */
-cwc.ui.PreviewMessage.prototype.handlePong_ = function(data) {
-  let sendTime = data - this.pingTime_;
-  let responseTime = new Date().getTime() - data;
-  let delay = new Date().getTime() - this.pingTime_;
-  this.log_.info('PONG send=', sendTime + 'ms',
-      'response=', responseTime + 'ms', 'delay=', delay + 'ms');
+  let startTime = data['start_time'];
+  let pingTime = data['ping_time'];
+  if (startTime && pingTime) {
+    let endTime = new Date().getTime();
+    this.log_.info(
+      'send=', pingTime - startTime + 'ms',
+      'response=', endTime - pingTime + 'ms',
+      'delay=', endTime - startTime + 'ms');
+  }
 };

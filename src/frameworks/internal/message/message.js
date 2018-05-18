@@ -21,6 +21,8 @@
  */
 goog.provide('cwc.framework.Message');
 
+goog.require('cwc.utils.StackQueue');
+
 
 /**
  * @constructor
@@ -38,11 +40,17 @@ cwc.framework.Message = function() {
   /** @type {Object} */
   this.appWindow = null;
 
+  /** @private {boolean} */
+  this.ready_ = false;
+
   /** @private {Object} */
   this.listener_ = {};
 
   /** @private {Object} */
   this.listenerScope_ = this;
+
+  /** @private {!cwc.utils.StackQueue} */
+  this.senderStack_ = new cwc.utils.StackQueue();
 
   // Message handler
   window.addEventListener('message', this.handleMessage_.bind(this), false);
@@ -52,7 +60,6 @@ cwc.framework.Message = function() {
     .addListener('__exec__', this.executeCode_)
     .addListener('__gamepad__', this.handleGamepad_)
     .addListener('__handshake__', this.handleHandshake_)
-    .addListener('__ping__', this.handlePing_)
     .addListener('__start__', this.handleStart_);
 };
 
@@ -131,7 +138,7 @@ cwc.framework.Message.prototype.setListenerScope = function(scope) {
  * @export
  */
 cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
-  if (!name || !this.isReady_()) {
+  if (!name) {
     throw Error('Unable so send data!');
   }
   let sendCommand = function() {
@@ -140,7 +147,10 @@ cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
       'value': value,
     }, this.appOrigin);
   }.bind(this);
-  if (delay) {
+  if (!this.ready_) {
+    this.senderStack_.addDelay(50);
+    this.senderStack_.addCommand(sendCommand);
+  } else if (delay) {
     this.senderStack_.addCommand(sendCommand);
     this.senderStack_.addDelay(delay);
   } else {
@@ -201,11 +211,17 @@ cwc.framework.Message.prototype.handleMessage_ = function(event) {
 
 
 /**
- * @param {!string} token
+ * @param {!Object} data
  * @private
  */
-cwc.framework.Message.prototype.handleHandshake_ = function(token) {
-  this.send('__handshake__', token);
+cwc.framework.Message.prototype.handleHandshake_ = function(data) {
+  console.log('Received handshake for token ' + data['token']);
+  this.send('__handshake__', {
+    'token': data['token'],
+    'start_time': data['start_time'],
+    'ping_time': new Date().getTime(),
+  });
+  this.ready_ = this.appWindow && this.appOrigin;
 };
 
 
@@ -231,25 +247,4 @@ cwc.framework.Message.prototype.handleStart_ = function() {
     console.log('Starting program ...');
     this.callback_(this.scope_);
   }
-};
-
-
-/**
- * Handles the received "ping" command.
- */
-cwc.framework.Message.prototype.handlePing_ = function() {
-  this.send('__pong__', new Date().getTime());
-};
-
-
-/**
- * @return {boolean}
- * @private
- */
-cwc.framework.Message.prototype.isReady_ = function() {
-  if (!this.appWindow || !this.appOrigin) {
-    console.error('Communication channel has not yet been opened');
-    return false;
-  }
-  return true;
 };

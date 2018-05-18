@@ -32,17 +32,13 @@ goog.require('cwc.protocol.lego.ev3.Robots');
 
 /**
  * @constructor
- * @param {!Function} code
  * @struct
  * @final
  * @export
  */
-cwc.framework.Ev3 = function(code) {
+cwc.framework.Ev3 = function() {
   /** @type {string} */
   this.name = 'EV3 Framework';
-
-  /** @type {Function} */
-  this.code = code;
 
   /** @type {Object} */
   this.deviceInfo = {};
@@ -117,14 +113,6 @@ cwc.framework.Ev3 = function(code) {
     .addListener('updateWheelDiameter', this.handleUpdateWheelDiameter_)
     .addListener('updateWheelWidth', this.handleUpdateWheelWidth_)
     .addListener('updateWheelbase', this.handleUpdateWheelbase_);
-};
-
-
-/**
- * Enable external listener
- */
-cwc.framework.Ev3.prototype.addCommandListener = function() {
-
 };
 
 
@@ -737,3 +725,7 @@ cwc.framework.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
 cwc.framework.Ev3.prototype.handleUpdateWheelbase_ = function(data) {
   this.setWheelbase(data);
 };
+
+
+// Global mapping
+window['ev3'] = new cwc.framework.Ev3();

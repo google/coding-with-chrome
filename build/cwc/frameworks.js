@@ -135,6 +135,7 @@ closureBuilder.build({
   compress: true,
   srcs: glob([
     'src/frameworks/internal/message/*.js',
+    'src/utils/stack_queue.js',
   ]),
   externs: [],
   out: 'genfiles/core/frameworks/internal/message_framework.js',
