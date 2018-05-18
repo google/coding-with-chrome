@@ -28,6 +28,7 @@ goog.require('cwc.protocol.lego.ev3.Device');
 goog.require('cwc.protocol.lego.ev3.DeviceName');
 goog.require('cwc.protocol.lego.ev3.DeviceType');
 goog.require('cwc.protocol.lego.ev3.Events');
+goog.require('cwc.protocol.lego.ev3.Handler');
 goog.require('cwc.protocol.lego.ev3.InputPort');
 goog.require('cwc.protocol.lego.ev3.IrSensorMode');
 goog.require('cwc.protocol.lego.ev3.LedColor');
@@ -71,6 +72,9 @@ cwc.protocol.lego.ev3.Api = function() {
 
   /** @type {!string} */
   this.firmware = '';
+
+  /** @type {!cwc.protocol.lego.ev3.Handler} */
+  this.handler = new cwc.protocol.lego.ev3.Handler();
 
   /** @type {!cwc.protocol.lego.ev3.Commands} */
   this.commands = new cwc.protocol.lego.ev3.Commands();
@@ -137,8 +141,8 @@ cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
     this.handleOnReceive_.bind(this));
   this.monitoring.init();
   this.playTone(2000, 200, 25);
-  this.getFirmware();
-  this.getBattery();
+  this.exec('getFirmware');
+  this.exec('getBattery');
   this.getDevices();
   this.playTone(3000, 200, 50);
   this.drawClean();
@@ -177,6 +181,37 @@ cwc.protocol.lego.ev3.Api.prototype.reset = function() {
 cwc.protocol.lego.ev3.Api.prototype.cleanUp = function() {
   this.stop();
   this.clear();
+};
+
+
+/**
+ * Executer for the default handler commands.
+ * @param {!string} command
+ * @param {Object=} data
+ * @export
+ */
+cwc.protocol.lego.ev3.Api.prototype.exec = function(command, data = {}) {
+  this.send_(this.handler[command](data));
+};
+
+
+/**
+ * Executer for the runner profiles with parameters in revert order.
+ * @param {!Object} data
+ * @param {!string} command
+ * @export
+ */
+cwc.protocol.lego.ev3.Api.prototype.execRunnerProfile = function(data,
+    command) {
+  this.exec(command, data);
+};
+
+
+/**
+ * @return {!cwc.protocol.sphero.classic.Handler}
+ */
+cwc.protocol.lego.ev3.Api.prototype.getRunnerProfile = function() {
+  return this.handler;
 };
 
 
@@ -323,10 +358,10 @@ cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
     cwc.protocol.lego.ev3.InputPort.TWO;
   this.sensor[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR] =
     cwc.protocol.lego.ev3.InputPort.FOUR;
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.ONE);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.TWO);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.THREE);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.FOUR);
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.ONE});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.TWO});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.THREE});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.FOUR});
 
   // Actor ports
   this.actor = {};
@@ -336,321 +371,10 @@ cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
     cwc.protocol.lego.ev3.OutputPort.B;
   this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT] =
     cwc.protocol.lego.ev3.OutputPort.C;
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.A);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.B);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.C);
-  this.getDeviceType(cwc.protocol.lego.ev3.InputPort.D);
-};
-
-
-/**
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getBattery = function() {
-  this.send_(this.commands.getBattery());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getFirmware = function() {
-  this.send_(this.commands.getFirmware());
-};
-
-
-/**
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getDeviceType = function(port) {
-  this.send_(this.commands.getDeviceType(port));
-};
-
-
-/**
- * Gets the current data of the device.
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getSensorData = function(port) {
-  if (!(port in this.deviceData)) {
-    return;
-  }
-  this.send_(this.commands.getSensorData(port,
-    this.deviceData[port].getMode()));
-};
-
-
-/**
- * Get the current data of the device in Pct.
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getSensorDataPct = function(port) {
-  if (!(port in this.deviceData)) {
-    return;
-  }
-  this.send_(this.commands.getSensorDataPct(port,
-      this.deviceData[port].getMode()));
-};
-
-
-/**
- * Get the current data of the device in Pct.
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getSensorDataSi = function(port) {
-  if (!(port in this.deviceData)) {
-    return;
-  }
-  this.send_(this.commands.getSensorDataSi(port,
-      this.deviceData[port].getMode()));
-};
-
-
-/**
- * Get the current data of the device.
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.getActorData = function(port) {
-  if (!(port in this.deviceData)) {
-    return;
-  }
-  this.send_(this.commands.getActorData(port, this.deviceData[port].getMode()));
-};
-
-
-/**
- * @param {cwc.protocol.lego.ev3.LedColor} color
- * @param {cwc.protocol.lego.ev3.LedMode=} mode
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.setLed = function(color, mode) {
-  this.send_(this.commands.setLed(color, mode));
-};
-
-
-/**
- * @param {!number} power
- */
-cwc.protocol.lego.ev3.Api.prototype.movePower = function(power) {
-  let brake = true;
-  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
-  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  this.send_(this.commands.movePower(motorLeft | motorRight, power, brake));
-};
-
-
-/**
- * @param {!number} power
- */
-cwc.protocol.lego.ev3.Api.prototype.movePowerLeft = function(power) {
-  let brake = true;
-  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
-  this.send_(this.commands.movePower(motorLeft, power, brake));
-};
-
-
-/**
- * @param {!number} power
- */
-cwc.protocol.lego.ev3.Api.prototype.movePowerRight = function(power) {
-  let brake = true;
-  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  this.send_(this.commands.movePower(motorRight, power, brake));
-};
-
-
-/**
- * @param {!number} powerLeft Main power value.
- * @param {number=} powerRight Optional second power value.
- */
-cwc.protocol.lego.ev3.Api.prototype.rotatePower = function(powerLeft,
-    powerRight) {
-  let brake = true;
-  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
-  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  this.send_(this.commands.rotatePower(motorLeft, motorRight, powerLeft,
-      powerRight || powerLeft, brake));
-};
-
-
-/**
- * @param {cwc.protocol.lego.ev3.OutputPort=} port
- */
-cwc.protocol.lego.ev3.Api.prototype.stop = function(port) {
-  let brake = 1;
-  this.send_(this.commands.stop(port, brake));
-  this.reset();
-};
-
-
-/**
- * Clears the EV3 unit.
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.clear = function() {
-  this.send_(this.commands.clear());
-};
-
-
-/**
- * Clears the EV3 display.
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.drawClean = function() {
-  this.send_(this.commands.drawClean());
-};
-
-
-/**
- * Updates the EV3 display.
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.drawUpdate = function() {
-  this.send_(this.commands.drawUpdate());
-};
-
-
-/**
- * Shows the selected image file.
- * @param {!string} filename
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.drawImage = function(filename) {
-  this.send_(this.commands.drawImage(filename));
-};
-
-
-/**
- * Draws a line.
- * @param {!number} x1
- * @param {!number} y1
- * @param {!number} x2
- * @param {!number} y2
- * @param {number=} color
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.drawLine = function(x1, y1, x2, y2,
-    color = 1) {
-  this.send_(this.commands.drawLine(x1, y1, x2, y2, color));
-};
-
-
-/**
- * Plays a tone with the defined volume, frequency and duration.
- * @param {!number} frequency
- * @param {number=} duration
- * @param {number=} volume
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.playTone = function(frequency, duration,
-    volume) {
-  this.send_(this.commands.playTone(frequency, duration, volume));
-};
-
-
-/**
- * Plays the selected sound file.
- * @param {!string} filename
- * @param {number=} volume
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.playSound = function(filename, volume) {
-  this.send_(this.commands.playSound(filename, volume));
-};
-
-
-/**
- * Moves the servo motor for the predefined specific steps.
- * @param {!number} steps
- * @param {number=} speed
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.moveServo = function(steps, speed) {
-  let brake = true;
-  let rampUp = 0;
-  let rampDown = 0;
-  this.send_(this.commands.moveSteps(
-    this.actor[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR], steps, speed,
-    rampUp, rampDown, brake));
-};
-
-
-/**
- * Moves the motors for the predefined specific steps.
- * @param {!number} steps
- * @param {number=} speed
- * @param {boolean=} opt_break
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.moveSteps = function(steps,
-    speed, opt_break) {
-  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
-  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  let brake = opt_break === undefined ? true : opt_break;
-  let rampUp = 0;
-  let rampDown = 0;
-  this.send_(this.commands.moveSteps(motorLeft | motorRight, steps, speed,
-      rampUp, rampDown, brake));
-};
-
-
-/**
- * Moves the motors for the predefined specific steps and ports.
- * @param {!number} steps
- * @param {number=} opt_ports
- * @param {number=} opt_speed
- * @param {boolean=} opt_break
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.customMoveSteps = function(steps,
-    opt_ports, opt_speed, opt_break) {
-  let ports = opt_ports === undefined ?
-    this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR] : opt_ports;
-  let brake = opt_break === undefined ? true : opt_break;
-  let rampUp = 0;
-  let rampDown = 0;
-  this.send_(this.commands.moveSteps(ports, steps, opt_speed,
-      rampUp, rampDown, brake));
-};
-
-
-/**
- * Rotates the motors for the predefined specific steps.
- * @param {!number} steps
- * @param {number=} opt_step_speed
- * @param {boolean=} opt_break
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.rotateSteps = function(steps,
-    opt_step_speed, opt_break) {
-  let brake = opt_break === undefined ? true : opt_break;
-  let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
-  let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
-  this.send_(this.commands.rotateSteps(motorLeft, motorRight, steps,
-      opt_step_speed, opt_step_speed, 0, 0, brake));
-};
-
-
-/**
- * Rotates the motors for the predefined specific steps and ports.
- * @param {!number} steps
- * @param {number=} opt_ports
- * @param {number=} opt_step_speed
- * @param {boolean=} opt_break
- * @export
- */
-cwc.protocol.lego.ev3.Api.prototype.customRotateSteps = function(steps,
-    opt_ports, opt_step_speed, opt_break) {
-  let ports = opt_ports === undefined ?
-    this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT] : opt_ports;
-  let brake = opt_break === undefined ? true : opt_break;
-  this.send_(this.commands.customRotateSteps(ports, steps, opt_step_speed, 0, 0,
-      brake));
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.A});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.B});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.C});
+  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.D});
 };
 
 

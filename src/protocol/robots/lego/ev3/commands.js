@@ -335,17 +335,17 @@ cwc.protocol.lego.ev3.Commands.prototype.moveSteps = function(ports, steps,
  * @param {!cwc.protocol.lego.ev3.OutputPort} port_left
  * @param {!cwc.protocol.lego.ev3.OutputPort} port_right
  * @param {!number} steps
- * @param {number=} opt_speed_left
- * @param {number=} opt_speed_right
- * @param {number=} opt_ramp_up
- * @param {number=} opt_ramp_down
+ * @param {number=} speedLeft
+ * @param {number=} speedRight
+ * @param {number=} rampUp
+ * @param {number=} rampDown
  * @param {boolean=} brake
  * @return {!ArrayBuffer}
  * @export
  */
 cwc.protocol.lego.ev3.Commands.prototype.rotateSteps = function(port_left,
-    port_right, steps, opt_speed_left, opt_speed_right, opt_ramp_up,
-    opt_ramp_down, brake) {
+    port_right, steps, speedLeft, speedRight, rampUp,
+    rampDown, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
 
@@ -355,18 +355,18 @@ cwc.protocol.lego.ev3.Commands.prototype.rotateSteps = function(port_left,
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STEP.SPEED)
     .writePort(port_left)
-    .writeByte(opt_speed_left || 50)
-    .writeInt(opt_ramp_up || 0)
+    .writeByte(speedLeft || 50)
+    .writeInt(rampUp || 0)
     .writeInt(steps)
-    .writeInt(opt_ramp_down || 0)
+    .writeInt(rampDown || 0)
     .writeByte(brake ? 1 : 0)
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STEP.SPEED)
     .writePort(port_right)
-    .writeByte(-opt_speed_right || -50)
-    .writeInt(opt_ramp_up || 0)
+    .writeByte(-speedRight || -50)
+    .writeInt(rampUp || 0)
     .writeInt(steps)
-    .writeInt(opt_ramp_down || 0)
+    .writeInt(rampDown || 0)
     .writeByte(brake ? 1 : 0)
     .readSigned();
 };

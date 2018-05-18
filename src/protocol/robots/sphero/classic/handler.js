@@ -1,5 +1,5 @@
 /**
- * @fileoverview Coammand Handler for Sphero Classic implementation.
+ * @fileoverview Command Handler for Sphero Classic implementation.
  *
  * This api allows to read and control the Sphero sensors and actors over an
  * Bluetooth connection.
@@ -119,6 +119,7 @@ cwc.protocol.sphero.classic.Handler.prototype['rollStop'] = function() {
 
 
 /**
+ * Sets the bridgthness of the back led.
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
