@@ -61,24 +61,6 @@ cwc.mode.default.RendererTypes;
 
 
 /**
- * @typedef {cwc.mode.lego.ev3.Runner|
- *   cwc.mode.makeblock.mbot.Runner|
- *   cwc.mode.makeblock.mbotRanger.Runner|
- *   cwc.mode.sphero.Runner}
- */
-cwc.mode.default.RunnerTypes;
-
-
-/**
- * @typedef {cwc.mode.lego.ev3.Monitor|
- *   cwc.mode.sphero.Monitor|
- *   cwc.mode.makeblock.mbot.Monitor|
- *   cwc.mode.makeblock.mbotRanger.Monitor}
- */
-cwc.mode.default.MonitorTypes;
-
-
-/**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
@@ -98,23 +80,23 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {cwc.mode.default.ConnectionTypes} */
   this.connection = null;
 
+  /** @type {goog.events.EventTarget} */
+  this.connectionEventHandler = null;
+
   /** @type {!cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
 
   /** @type {!cwc.ui.Message} */
   this.message = new cwc.ui.Message(this.helper);
 
-  /** @type {cwc.mode.default.MonitorTypes} */
-  this.monitor = null;
+  /** @type {Object} */
+  this.messengerEvents = null;
 
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 
   /** @type {cwc.mode.default.RendererTypes} */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
-
-  /** @type {cwc.mode.default.RunnerTypes} */
-  this.runner = null;
 
   /** @type {cwc.ui.Terminal} */
   this.terminal = new cwc.ui.Terminal(this.helper);
@@ -129,6 +111,7 @@ cwc.mode.default.Mod.prototype.decorate = function() {
   return new Promise((resolve) => {
     this.decorateLayout();
 
+    // Initialize Connection if available
     if (this.connection) {
       this.connection.init();
     }
@@ -157,17 +140,11 @@ cwc.mode.default.Mod.prototype.decorate = function() {
       this.blockly.adjustSize();
     }
 
-    if (this.runner) {
-      this.decorateRunner();
-    } else {
-      this.decoratePreview();
-    }
-
-    if (this.monitor) {
-      this.monitor.decorate();
-    }
+    // Decorates Preview and Message instance
+    this.decoratePreview();
     this.decorateMessage();
 
+    // Decorates Renderer
     if (this.renderer) {
       this.renderer.init().then(() => {
         resolve();
@@ -223,33 +200,33 @@ cwc.mode.default.Mod.prototype.decorateLayout = function() {
     layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.editor);
   }
 
-  // Decorates Runner or Preview
-  // if (this.runner) {
-  //   layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
-  // } else {
-    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
-  // }
+  // Decorates Preview
+  layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
 };
 
 
 /**
- * Decorates preview
+ * Decorates preview with messenger.
  */
 cwc.mode.default.Mod.prototype.decoratePreview = function() {
   this.helper.setInstance('preview', this.preview, true);
+  this.preview.enableMessenger();
   this.preview.decorate();
-};
 
-
-/**
- * Decorate runner
- */
-cwc.mode.default.Mod.prototype.decorateRunner = function() {
-  this.helper.setInstance('preview', this.preview, true);
-  this.preview.enableRunner();
-  this.preview.decorate();
+  // Added api events.
   if (this.api) {
     this.preview.getMessenger().addApiListener(this.api);
+  }
+
+  // Added messenger events.
+  if (this.messengerEvents && this.connectionEventHandler) {
+    for (let device in cwc.mode.lego.ev3.Events) {
+      if (cwc.mode.lego.ev3.Events.hasOwnProperty(device)) {
+        let event = cwc.mode.lego.ev3.Events[device];
+        this.preview.getMessenger().addEventListener(
+          this.connectionEventHandler, event, '__EVENT__' + event);
+      }
+    }
   }
 };
 
@@ -302,7 +279,16 @@ cwc.mode.default.Mod.prototype.enableBlockly = function(toolbox) {
  */
 cwc.mode.default.Mod.prototype.setConnection = function(connection) {
   this.connection = connection;
-  this.api = this.connection.getApi();
+  this.connectionEventHandler = connection.getEventHandler();
+  this.api = connection.getApi();
+};
+
+
+/**
+ * @param {!Object} events
+ */
+cwc.mode.default.Mod.prototype.setMessengerEvents = function(events) {
+  this.messengerEvents = events;
 };
 
 
@@ -311,22 +297,6 @@ cwc.mode.default.Mod.prototype.setConnection = function(connection) {
  */
 cwc.mode.default.Mod.prototype.setRenderer = function(renderer) {
   this.renderer = renderer;
-};
-
-
-/**
- * @param {!cwc.mode.default.RunnerTypes} runner
- */
-cwc.mode.default.Mod.prototype.setRunner = function(runner) {
-  this.runner = runner;
-};
-
-
-/**
- * @param {!cwc.mode.default.MonitorTypes} monitor
- */
-cwc.mode.default.Mod.prototype.setMonitor = function(monitor) {
-  this.monitor = monitor;
 };
 
 

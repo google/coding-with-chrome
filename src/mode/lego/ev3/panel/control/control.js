@@ -22,6 +22,8 @@ goog.provide('cwc.mode.lego.ev3.Control');
 goog.require('cwc.soy.mode.ev3.Control');
 goog.require('cwc.utils.Events');
 
+goog.require('goog.ui.KeyboardShortcutHandler');
+
 
 /**
  * @constructor
@@ -50,7 +52,10 @@ cwc.mode.lego.ev3.Control = function(helper, connection) {
   this.api = this.connection.getApi();
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name, this.prefix);
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
+
+  /** @private {cwc.ui.Message} */
+  this.messageInstance_ = null;
 };
 
 
@@ -68,6 +73,8 @@ cwc.mode.lego.ev3.Control.prototype.decorate = function(node) {
     }
   );
 
+  this.messageInstance_ = this.helper.getInstance('message');
+
   this.addEventHandler_();
   this.addGamepadHandler_();
   this.addKeyHandler_();
@@ -80,39 +87,40 @@ cwc.mode.lego.ev3.Control.prototype.decorate = function(node) {
 cwc.mode.lego.ev3.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
-    this.api.rotateSteps(45, -50);
-  }, false, this);
+    this.api.exec('rotateSteps', {'steps': 45, 'speed': -50});
+  });
 
   this.events_.listen('move-forward', goog.events.EventType.CLICK, function() {
-    this.api.moveSteps(50);
-  }, false, this);
+    this.api.exec('moveSteps', {'steps': 50});
+  });
 
   this.events_.listen('move-backward', goog.events.EventType.CLICK, function() {
-    this.api.moveSteps(50, -50);
-  }, false, this);
+    this.api.exec('moveSteps', {'steps': 50, 'speed': -50});
+  });
 
   this.events_.listen('move-right', goog.events.EventType.CLICK, function() {
-    this.api.rotateSteps(45);
-  }, false, this);
+    this.api.exec('rotateSteps', {'steps': 45});
+  });
 
   // Servo
   this.events_.listen('servo-up', goog.events.EventType.CLICK, function() {
-    this.api.moveServo(5, 50);
-  }, false, this);
+    this.api.exec('moveServo', {'steps': 5, 'speed': 50});
+  });
 
   this.events_.listen('servo-down', goog.events.EventType.CLICK, function() {
-    this.api.moveServo(5, -50);
-  }, false, this);
+    this.api.exec('moveServo', {'steps': 5, 'speed': -50});
+  });
 
   // Ping
   this.events_.listen('ping', goog.events.EventType.CLICK, function() {
-    this.api.playTone(3000, 200, 50);
-  }, false, this);
+    this.api.exec('playTone', {
+      'frequency': 3000, 'duration': 200, 'volume': 50});
+  });
 
   // Stop
   this.events_.listen('stop', goog.events.EventType.CLICK, function() {
-    this.api.stop();
-  }, false, this);
+    this.api.exec('stop');
+  });
 };
 
 
@@ -123,26 +131,27 @@ cwc.mode.lego.ev3.Control.prototype.addGamepadHandler_ = function() {
   let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
   let rotation = false;
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
-    (e) => {
+    (event) => {
       if (!rotation) {
-        this.api.movePower(e.data * 100);
+        this.api.exec('movePower', {'power': event.data * 100});
       }
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
-    (e) => {
+    (event) => {
       if (!rotation) {
-        this.api.movePower(-e.data * 100);
+        this.api.exec('movePower', {'power': -event.data * 100});
       }
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.AXIS[0],
-    (e) => {
-      rotation = e.data ? true : false;
-      this.api.rotatePower(e.data * 100);
+    (event) => {
+      rotation = event.data ? true : false;
+      this.api.exec('rotatePower', {'power': event.data * 100});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
-    (e) => {
-      if (e.data) {
-        this.api.playTone(3000, 200, 50);
+    (event) => {
+      if (event.data) {
+        this.api.exec('playTone', {
+          'frequency': 3000, 'duration': 200, 'volume': 50});
       }
   });
 };
@@ -167,9 +176,9 @@ cwc.mode.lego.ev3.Control.prototype.addKeyHandler_ = function() {
 
   this.shortcutHandler.registerShortcut('stop', 'space');
 
-  goog.events.listen(this.shortcutHandler,
+  this.events_.listen(this.shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-    this.handleKeyboardShortcut_, false, this);
+    this.handleKeyboardShortcut_);
 };
 
 
@@ -179,8 +188,8 @@ cwc.mode.lego.ev3.Control.prototype.addKeyHandler_ = function() {
  * @private
  */
 cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
-  if (!this.runnerMonitor_.isControlActive() &&
-      !this.runnerMonitor_.isMonitorActive()) {
+  if (!this.messageInstance_.isControlActive() &&
+      !this.messageInstance_.isMonitorActive()) {
     return;
   }
 
@@ -230,10 +239,10 @@ cwc.mode.lego.ev3.Control.prototype.handleArmKeyboardShortcut_ = function(
       this.api.customRotateSteps(steps, undefined, -speed);
       break;
     case 'up':
-      this.api.moveServo(steps, speed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': speed});
       break;
     case 'down':
-      this.api.moveServo(steps, -speed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': -speed});
       break;
   }
 };
@@ -253,42 +262,50 @@ cwc.mode.lego.ev3.Control.prototype.handleVehicleKeyboardShortcut_ = function(
   switch (keys) {
     // Normal speed
     case 'forward':
-      this.api.moveSteps(50, speed, false);
+      this.api.exec('moveSteps', {
+        'steps': 50, 'speed': speed, 'brake': false});
       break;
     case 'right':
-      this.api.rotateSteps(steps, speed, false);
+      this.api.exec('rotateSteps', {
+        'steps': steps, 'speed': speed, 'brake': false});
       break;
     case 'backward':
-      this.api.moveSteps(50, -speed, false);
+      this.api.exec('moveSteps', {
+        'steps': 50, 'speed': -speed, 'brake': false});
       break;
     case 'left':
-      this.api.rotateSteps(steps, -speed, false);
+      this.api.exec('rotateSteps', {
+        'steps': steps, 'speed': -speed, 'brake': false});
       break;
     case 'up':
-      this.api.moveServo(steps, speed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': speed});
       break;
     case 'down':
-      this.api.moveServo(steps, -speed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': -speed});
       break;
 
     // Boosted speed
     case 'boost-forward':
-      this.api.moveSteps(50, boostedSpeed, false);
+      this.api.exec('moveSteps', {
+        'steps': 50, 'speed': boostedSpeed, 'brake': false});
       break;
     case 'boost-right':
-      this.api.rotateSteps(10, boostedSpeed, false);
+      this.api.exec('rotateSteps', {
+        'steps': steps, 'speed': boostedSpeed, 'brake': false});
       break;
     case 'boost-backward':
-      this.api.moveSteps(50, -boostedSpeed, false);
+      this.api.exec('moveSteps', {
+        'steps': 50, 'speed': -boostedSpeed, 'brake': false});
       break;
     case 'boost-left':
-      this.api.rotateSteps(10, -boostedSpeed, false);
+      this.api.exec('rotateSteps', {
+        'steps': steps, 'speed': -boostedSpeed, 'brake': false});
       break;
     case 'boost-up':
-      this.api.moveServo(10, boostedSpeed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': boostedSpeed});
       break;
     case 'boost-down':
-      this.api.moveServo(10, -boostedSpeed);
+      this.api.exec('moveServo', {'steps': steps, 'speed': -boostedSpeed});
       break;
   }
 };

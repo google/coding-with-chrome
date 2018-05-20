@@ -64,6 +64,9 @@ cwc.ui.Message = function(helper) {
   /** @type {!boolean} */
   this.decorated_ = false;
 
+  /** @private {!string} */
+  this.active_ = 'is-active';
+
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -146,6 +149,22 @@ cwc.ui.Message.prototype.decorateMonitor = function(decorator) {
 
 
 /**
+ * @return {boolean}
+ */
+cwc.ui.Message.prototype.isControlActive = function() {
+  return goog.dom.classlist.contains(this.nodeControlTab, this.active_);
+};
+
+
+/**
+ * @return {boolean}
+ */
+cwc.ui.Message.prototype.isMonitorActive = function() {
+  return goog.dom.classlist.contains(this.nodeMonitorTab, this.active_);
+};
+
+
+/**
  * @param {boolean} visible
  */
 cwc.ui.Message.prototype.show = function(visible = true) {
@@ -167,7 +186,7 @@ cwc.ui.Message.prototype.showCalibration = function(visible = true) {
  */
 cwc.ui.Message.prototype.showControl = function(visible = true) {
   goog.style.setElementShown(this.nodeControl, visible);
-  goog.style.setElementShown(this.nodeControl, visible);
+  goog.style.setElementShown(this.nodeControlTab, visible);
 };
 
 

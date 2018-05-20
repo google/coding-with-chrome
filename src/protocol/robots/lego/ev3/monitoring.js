@@ -143,13 +143,13 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
       break;
   }
   let interval = cwc.protocol.lego.ev3.MonitoringIntervals[type];
+  let buffer = this.api.getBuffer(command, {'port': port, 'mode': mode});
+  this.api.send(buffer);
   console.log('Enable monitoring for', type, 'on port', port, 'with interval',
     interval);
   this.monitor_[port] = setInterval(
-    this.api.send.bind(this.api),
-    interval,
-    this.api.getBuffer(command, {'port': port, 'mode': mode})
-  );
+    this.api.send.bind(this.api), interval, buffer);
+  this.api.exec('getDeviceType', {'port': port});
 };
 
 

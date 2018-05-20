@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.lego.ev3.Monitor');
 
+goog.require('cwc.mode.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.RobotType');
@@ -50,6 +51,9 @@ cwc.mode.lego.ev3.Monitor = function(helper, connection) {
   /** @type {Element} */
   this.node = null;
 
+  /** @type {!Object.<Element>} */
+  this.nodeCache = {};
+
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -60,7 +64,7 @@ cwc.mode.lego.ev3.Monitor = function(helper, connection) {
   this.prepared = false;
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name, this.prefix);
+  this.events_ = new cwc.utils.Events(this.name, this.prefi, this);
 };
 
 
@@ -78,19 +82,18 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
     }
   );
 
+  // Event Handler
   let eventHandler = this.connection.getEventHandler();
 
   // Monitor device data
   this.events_.listen(eventHandler,
-    cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES, this.updateDevices,
-    false, this);
+    cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES, this.updateDevices);
 
   // Monitor sensor data
-  for (let device in cwc.protocol.lego.ev3.DeviceType) {
-    if (cwc.protocol.lego.ev3.DeviceType.hasOwnProperty(device)) {
-      this.events_.listen(eventHandler,
-        cwc.protocol.lego.ev3.DeviceType[device], this.updateDeviceData,
-        false, this);
+  for (let device in cwc.mode.lego.ev3.Events) {
+    if (cwc.mode.lego.ev3.Events.hasOwnProperty(device)) {
+      this.events_.listen(
+        eventHandler, cwc.mode.lego.ev3.Events[device], this.updateDeviceData);
     }
   }
 
@@ -98,8 +101,8 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
+    this.events_.listen(
+      eventHandler, goog.events.EventType.UNLOAD, this.cleanUp);
   }
 };
 
@@ -116,6 +119,15 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDevices = function(event) {
       devices: event.data,
     }
   );
+
+  // Cache content divs for value updates
+  for (let entry in cwc.protocol.lego.ev3.InputPort) {
+    if (cwc.protocol.lego.ev3.InputPort.hasOwnProperty(entry)) {
+      let port = cwc.protocol.lego.ev3.InputPort[entry];
+      this.nodeCache[port] = goog.dom.getElement(this.prefix + 'port-' +
+         port + '-value');
+    }
+  }
 };
 
 
@@ -127,8 +139,9 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDeviceData = function(event) {
   if (!event || typeof event.data === 'undefined') {
     return;
   }
-  goog.dom.getElement(this.prefix + 'port-' + event.source + '-value')
-    .textContent = event.data;
+  if (this.nodeCache[event.source]) {
+    this.nodeCache[event.source].firstChild.nodeValue = event.data;
+  }
 };
 
 

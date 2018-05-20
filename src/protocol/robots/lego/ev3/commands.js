@@ -273,8 +273,8 @@ cwc.protocol.lego.ev3.Commands.moveSteps = function(ports, steps,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!cwc.protocol.lego.ev3.OutputPort} port_left
- * @param {!cwc.protocol.lego.ev3.OutputPort} port_right
+ * @param {!cwc.protocol.lego.ev3.OutputPort} portLeft
+ * @param {!cwc.protocol.lego.ev3.OutputPort} portRight
  * @param {!number} steps
  * @param {number=} speedLeft
  * @param {number=} speedRight
@@ -284,27 +284,27 @@ cwc.protocol.lego.ev3.Commands.moveSteps = function(ports, steps,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.rotateSteps = function(port_left,
-    port_right, steps, speedLeft, speedRight, rampUp,
-    rampDown, brake) {
+cwc.protocol.lego.ev3.Commands.rotateSteps = function(
+    portLeft, portRight, steps, speedLeft = 50, speedRight = 50,
+    rampUp, rampDown, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STOP)
-    .writePorts(port_left | port_right)
+    .writePorts(portLeft | portRight)
     .writeByte(brake ? 1 : 0)
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STEP.SPEED)
-    .writePort(port_left)
-    .writeByte(speedLeft || 50)
+    .writePort(portLeft)
+    .writeByte(speedLeft)
     .writeInt(rampUp || 0)
     .writeInt(steps)
     .writeInt(rampDown || 0)
     .writeByte(brake ? 1 : 0)
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STEP.SPEED)
-    .writePort(port_right)
-    .writeByte(-speedRight || -50)
+    .writePort(portRight)
+    .writeByte(-speedRight)
     .writeInt(rampUp || 0)
     .writeInt(steps)
     .writeInt(rampDown || 0)
@@ -325,7 +325,7 @@ cwc.protocol.lego.ev3.Commands.rotateSteps = function(port_left,
  * @export
  */
 cwc.protocol.lego.ev3.Commands.customRotateSteps = function(ports,
-    steps, opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
+    steps, opt_speed = 50, opt_ramp_up, opt_ramp_down, opt_brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
 
@@ -335,7 +335,7 @@ cwc.protocol.lego.ev3.Commands.customRotateSteps = function(ports,
 
     .writeCommand(cwc.protocol.lego.ev3.Command.OUTPUT.STEP.SPEED)
     .writePort(ports)
-    .writeByte(opt_speed || 50)
+    .writeByte(opt_speed)
     .writeInt(opt_ramp_up || 0)
     .writeInt(steps)
     .writeInt(opt_ramp_down || 0)
@@ -383,14 +383,14 @@ cwc.protocol.lego.ev3.Commands.clear = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.playTone = function(frequency,
-    duration, volume) {
+cwc.protocol.lego.ev3.Commands.playTone = function(frequency, duration = 50,
+    volume = 100) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.SOUND.TONE)
-    .writeByte(Math.min(100, Math.max(0, volume || 100)))
+    .writeByte(Math.min(100, Math.max(0, volume)))
     .writeShort(frequency)
-    .writeShort(Math.max(duration || 50, 50))
+    .writeShort(Math.max(duration, 50))
     .readSigned();
 };
 
@@ -402,8 +402,7 @@ cwc.protocol.lego.ev3.Commands.playTone = function(frequency,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.playSound = function(filename,
-    volume) {
+cwc.protocol.lego.ev3.Commands.playSound = function(filename, volume) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.SOUND.PLAY)
@@ -442,21 +441,20 @@ cwc.protocol.lego.ev3.Commands.drawUpdate = function() {
 /**
  * Shows the selected image file.
  * @param {!string} filename
- * @param {number=} opt_x
- * @param {number=} opt_y
- * @param {number=} opt_color
+ * @param {number=} x
+ * @param {number=} y
+ * @param {number=} color
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.drawImage = function(filename,
-    opt_x, opt_y, opt_color) {
+cwc.protocol.lego.ev3.Commands.drawImage = function(filename, x, y, color) {
   let filepath = '/home/root/lms2012/prjs/' + filename.replace('.rgf', '');
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.DRAW.BMPFILE)
-    .writeByte(opt_color == undefined ? 0x01 : opt_color)
-    .writeInt(Math.min(177, Math.max(0, opt_x || 0)))
-    .writeInt(Math.min(127, Math.max(0, opt_y || 0)))
+    .writeByte(color == undefined ? 0x01 : color)
+    .writeInt(Math.min(177, Math.max(0, x || 0)))
+    .writeInt(Math.min(127, Math.max(0, y || 0)))
     .writeString(filepath)
     .readSigned();
 };

@@ -19,9 +19,9 @@
  */
 goog.provide('cwc.ui.Preview');
 
+goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewInfobar');
-goog.require('cwc.ui.PreviewMessenger');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
@@ -91,7 +91,7 @@ cwc.ui.Preview = function(helper) {
   this.eventHandler_ = new goog.events.EventTarget();
 
   /** @private {!boolean} */
-  this.enableRunner_ = false;
+  this.enableMessenger_ = false;
 
   /** @private {!cwc.ui.PreviewStatus} */
   this.previewStatus_ = new cwc.ui.PreviewStatus(
@@ -99,8 +99,8 @@ cwc.ui.Preview = function(helper) {
     .setStatusbar(this.statusbar)
     .setStatusButton(this.statusButton);
 
-  /** @private {!cwc.ui.PreviewMessenger} */
-  this.previewMessenger_ = new cwc.ui.PreviewMessenger();
+  /** @private {!cwc.Messenger} */
+  this.messenger_ = new cwc.Messenger();
 
   /** @private {!string} */
   this.partition_ = 'preview';
@@ -111,9 +111,6 @@ cwc.ui.Preview = function(helper) {
   /** @private {goog.async.Throttle} */
   this.runThrottle_ = new goog.async.Throttle(
     this.run_.bind(this), this.runThrottleTime_);
-
-  /** @type {!string} */
-  this.token_ = String(new Date().getTime());
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
@@ -141,7 +138,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   );
 
   // Runtime
-  if (this.enableRunner_) {
+  if (this.enableMessenger_) {
     this.nodeRuntime = goog.dom.getElement(this.prefix + 'runner');
   } else {
     this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
@@ -226,7 +223,7 @@ cwc.ui.Preview.prototype.render = function() {
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
   this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
-  this.previewMessenger_.setTarget(this.content);
+  this.messenger_.setTarget(this.content);
 };
 
 
@@ -259,8 +256,24 @@ cwc.ui.Preview.prototype.renderWebview = function() {
 /**
  * @param {boolean=} enable
  */
-cwc.ui.Preview.prototype.enableRunner = function(enable = true) {
-  this.enableRunner_ = enable ? true : false;
+cwc.ui.Preview.prototype.enableMessenger = function(enable = true) {
+  this.enableMessenger_ = enable ? true : false;
+};
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.ui.Preview.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+
+
+/**
+ * @return {!cwc.Messenger}
+ */
+cwc.ui.Preview.prototype.getMessenger = function() {
+  return this.messenger_;
 };
 
 
@@ -460,7 +473,7 @@ cwc.ui.Preview.prototype.focus = function() {
  * @param {!(string|Function)} code
  */
 cwc.ui.Preview.prototype.executeScript = function(code) {
-  this.previewMessenger_.send('__exec__',
+  this.messenger_.send('__exec__',
     typeof code === 'function' ? code.toString() : code);
 };
 
@@ -485,20 +498,4 @@ cwc.ui.Preview.prototype.run_ = function() {
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
   this.events_.clear();
-};
-
-
-/**
- * @return {!goog.events.EventTarget}
- */
-cwc.ui.Preview.prototype.getEventHandler = function() {
-  return this.eventHandler_;
-};
-
-
-/**
- * @return {!cwc.ui.PreviewMessenger}
- */
-cwc.ui.Preview.prototype.getMessenger = function() {
-  return this.previewMessenger_;
 };

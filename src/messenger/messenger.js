@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.PreviewMessenger');
+goog.provide('cwc.Messenger');
 
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -28,7 +28,7 @@ goog.require('cwc.utils.Logger');
  * @struct
  * @final
  */
-cwc.ui.PreviewMessenger = function() {
+cwc.Messenger = function() {
   /** @type {string} */
   this.name = 'Preview Messenger';
 
@@ -73,20 +73,20 @@ cwc.ui.PreviewMessenger = function() {
  * @template THIS
  * @export
  */
-cwc.ui.PreviewMessenger.prototype.addListener = function(name, func,
+cwc.Messenger.prototype.addListener = function(name, func,
     scope = this.listenerScope_) {
   if (!name) {
     this.log_.error('Listener name is undefined!');
     return;
   } else if (!func || typeof func !== 'function') {
-    this.log_.error('Listener function ' + name + ' is undefined!');
+    this.log_.error('Listener function', name, 'is undefined!');
     return;
   } else if (typeof this.listener_[name] !== 'undefined') {
-    this.log_.error('Listener ' + name + ' is already defined!');
+    this.log_.error('Listener', name, 'is already defined!');
     return;
   }
   this.listener_[name] = scope ? func.bind(scope) : func;
-  this.log_.info('Added message listener ' + name);
+  this.log_.info('Added message listener', name);
   return this;
 };
 
@@ -96,7 +96,7 @@ cwc.ui.PreviewMessenger.prototype.addListener = function(name, func,
  * @param {!Object} api
  * @export
  */
-cwc.ui.PreviewMessenger.prototype.addApiListener = function(api) {
+cwc.Messenger.prototype.addApiListener = function(api) {
   if (!api) {
     this.log_.error('Invalid api', api);
     return;
@@ -112,7 +112,8 @@ cwc.ui.PreviewMessenger.prototype.addApiListener = function(api) {
   let commandList = Object.getOwnPropertyNames(api.handler.__proto__);
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
-    if (!command.endsWith('_') && command !== 'constructor') {
+    if (!command.endsWith('_') && !command.endsWith('_$') &&
+         command !== 'constructor') {
       this.addListener(command, function(data) {
         api.exec(command, data);
       });
@@ -122,10 +123,28 @@ cwc.ui.PreviewMessenger.prototype.addApiListener = function(api) {
 
 
 /**
+ * @param {EventTarget|goog.events.Listenable} eventHandler
+ * @param {!string} event
+ * @param {!string} command
+ * @export
+ */
+cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
+    command) {
+  this.events_.listen(eventHandler, event, function(e) {
+    this.send(command, {
+      'data': e.data,
+      'source': e.source,
+    });
+  });
+  this.log_.info('Added', event, 'event listener', command);
+};
+
+
+/**
  * @param {string!} command
  * @param {Object|number|string|Array=} value
  */
-cwc.ui.PreviewMessenger.prototype.send = function(command, value = {}) {
+cwc.Messenger.prototype.send = function(command, value = {}) {
   if (!this.target || !this.target.contentWindow) {
     return;
   }
@@ -140,7 +159,7 @@ cwc.ui.PreviewMessenger.prototype.send = function(command, value = {}) {
  * @param {!string} appOrigin
  * @export
  */
-cwc.ui.PreviewMessenger.prototype.setAppOrigin = function(appOrigin) {
+cwc.Messenger.prototype.setAppOrigin = function(appOrigin) {
   if (appOrigin) {
     this.appOrigin = appOrigin;
   }
@@ -151,7 +170,7 @@ cwc.ui.PreviewMessenger.prototype.setAppOrigin = function(appOrigin) {
  * @param {!Object} appWindow
  * @export
  */
-cwc.ui.PreviewMessenger.prototype.setAppWindow = function(appWindow) {
+cwc.Messenger.prototype.setAppWindow = function(appWindow) {
   if (appWindow) {
     this.appWindow = appWindow;
   }
@@ -161,7 +180,7 @@ cwc.ui.PreviewMessenger.prototype.setAppWindow = function(appWindow) {
 /**
  * @param {Object} target
  */
-cwc.ui.PreviewMessenger.prototype.setTarget = function(target) {
+cwc.Messenger.prototype.setTarget = function(target) {
   if (!target) {
     this.log_.error('Was not able to init target', target);
     return;
@@ -180,7 +199,7 @@ cwc.ui.PreviewMessenger.prototype.setTarget = function(target) {
  * @template THIS
  * @export
  */
-cwc.ui.PreviewMessenger.prototype.setListenerScope = function(scope) {
+cwc.Messenger.prototype.setListenerScope = function(scope) {
   if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
     throw new Error('Invalid scope!', scope);
   } else if (scope) {
@@ -193,7 +212,7 @@ cwc.ui.PreviewMessenger.prototype.setListenerScope = function(scope) {
 /**
  * @private
  */
-cwc.ui.PreviewMessenger.prototype.handleContentLoad_ = function() {
+cwc.Messenger.prototype.handleContentLoad_ = function() {
   this.token_ = String(new Date().getTime());
   this.log_.info('Sending handshake with token', this.token_);
   this.send('__handshake__', {
@@ -208,7 +227,7 @@ cwc.ui.PreviewMessenger.prototype.handleContentLoad_ = function() {
  * @param {Event} event
  * @private
  */
-cwc.ui.PreviewMessenger.prototype.handleMessage_ = function(event) {
+cwc.Messenger.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }
@@ -233,7 +252,7 @@ cwc.ui.PreviewMessenger.prototype.handleMessage_ = function(event) {
  * @param {!Object} data
  * @private
  */
-cwc.ui.PreviewMessenger.prototype.handleHandshake_ = function(data) {
+cwc.Messenger.prototype.handleHandshake_ = function(data) {
   let token = data['token'];
   if (!token || this.token_ !== token) {
     this.log_.error('Received wrong handshake token:', token);

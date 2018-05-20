@@ -149,6 +149,7 @@ cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
   this.exec('getBattery');
   this.getDeviceTypes();
   this.exec('playTone', {'frequency': 3000, 'duration': 200, 'volume': 50});
+  this.getDeviceTypes();
   this.drawLogo_();
   this.prepared = true;
 };
@@ -467,20 +468,26 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
     console.warn('Please check re-connect device on port', port, '!');
     return;
   }
-  if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
-    console.log('Found', type, 'on port', port);
-  }
 
   // Store detected sensors changes for automatic mapping.
   if (typeof this.devices_[port] === 'undefined' ||
       this.devices_[port].type !== type) {
+    if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
+      console.log('Found', type, 'on port', port);
+    }
     this.devices_[port] = cwc.protocol.lego.ev3.Device[type];
-
     this.deviceTypeOnPort[port] = type;
-    if (!this.portsForDeviceType[type]) {
-      this.portsForDeviceType[type] = [port];
-    } else if (!this.portsForDeviceType[type].includes(port)) {
-      this.portsForDeviceType[type].push(port);
+
+    if (port >= 16) {
+      let devicePort = Math.pow(2, port - 16);
+      if (!this.portsForDeviceType[type]) {
+        this.portsForDeviceType[type] = [devicePort];
+      } else if (!this.portsForDeviceType[type].includes(devicePort)) {
+        this.portsForDeviceType[type].push(devicePort);
+      }
+      if (this.handler) {
+        this.handler.setDevices_(this.portsForDeviceType);
+      }
     }
 
     this.eventHandler_.dispatchEvent(

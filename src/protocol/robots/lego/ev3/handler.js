@@ -23,6 +23,7 @@
 goog.provide('cwc.protocol.lego.ev3.Handler');
 
 goog.require('cwc.protocol.lego.ev3.Commands');
+goog.require('cwc.protocol.lego.ev3.DeviceType');
 
 
 /**
@@ -30,7 +31,8 @@ goog.require('cwc.protocol.lego.ev3.Commands');
  * @final
  */
 cwc.protocol.lego.ev3.Handler = function() {
-
+  /** @private {!Object} */
+  this.device_ = {};
 };
 
 
@@ -131,8 +133,14 @@ cwc.protocol.lego.ev3.Handler.prototype['setLed'] = function(color, mode) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.lego.ev3.Handler.prototype['movePower'] = function(data = {}) {
+  let ports = data['ports'];
+  if (typeof data['ports'] === 'undefined') {
+    let portLeft = this.getLargeMotorPortLeft_(data['port_left']);
+    let portRight = this.getLargeMotorPortRight_(data['port_right']);
+    ports = portLeft | portRight;
+  }
   return cwc.protocol.lego.ev3.Commands.movePower(
-    data['motorLeft'] | data['motorRight'], data['power'], data['brake']);
+    ports, data['power'], data['brake']);
 };
 
 
@@ -165,9 +173,12 @@ cwc.protocol.lego.ev3.Handler.prototype['movePowerRight'] = function(power) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.lego.ev3.Handler.prototype['rotatePower'] = function(data = {}) {
+  let portLeft = this.getLargeMotorPortLeft_(data['port_left']);
+  let portRight = this.getLargeMotorPortRight_(data['port_right']);
+  let powerLeft = this.getValue_(data['power_left'], data['power']);
+  let powerRight = this.getValue_(data['power_right'], data['power']);
   return cwc.protocol.lego.ev3.Commands.rotatePower(
-    data['motorLeft'], data['motorRight'], data['powerLeft'],
-    data['powerRight'] || data['powerLeft'], data['brake']);
+    portLeft, portRight, powerLeft, powerRight, data['brake']);
 };
 
 
@@ -253,18 +264,14 @@ cwc.protocol.lego.ev3.Handler.prototype['playSound'] = function(data = {}) {
 
 /**
  * Moves the servo motor for the predefined specific steps.
- * @param {!number} steps
- * @param {number=} speed
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype['moveServo'] = function(steps, speed) {
-  let brake = true;
-  let rampUp = 0;
-  let rampDown = 0;
+cwc.protocol.lego.ev3.Handler.prototype['moveServo'] = function(data = {}) {
+  let port = this.getMediumMotorPort_(data['port']);
   return cwc.protocol.lego.ev3.Commands.moveSteps(
-    this.actor[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR], steps, speed,
-    rampUp, rampDown, brake);
+    port, data['steps'], data['speed'],
+    data['rampUp'], data['rampDown'], data['brake']);
 };
 
 
@@ -274,8 +281,14 @@ cwc.protocol.lego.ev3.Handler.prototype['moveServo'] = function(steps, speed) {
  * @return {!ArrayBuffer}
  */
 cwc.protocol.lego.ev3.Handler.prototype['moveSteps'] = function(data = {}) {
+  let ports = data['ports'];
+  if (typeof data['ports'] === 'undefined') {
+    let portLeft = this.getLargeMotorPortLeft_(data['port_left']);
+    let portRight = this.getLargeMotorPortRight_(data['port_right']);
+    ports = portLeft | portRight;
+  }
   return cwc.protocol.lego.ev3.Commands.moveSteps(
-    data['motorLeft'] | data['motorRight'], data['steps'], data['speed'],
+    ports, data['steps'], data['speed'],
     data['rampUp'], data['rampDown'], data['brake']);
 };
 
@@ -307,9 +320,13 @@ cwc.protocol.lego.ev3.Handler.prototype['customMoveSteps'] = function(steps,
  * @return {!ArrayBuffer}
  */
 cwc.protocol.lego.ev3.Handler.prototype['rotateSteps'] = function(data = {}) {
+  let portLeft = this.getLargeMotorPortLeft_(data['port_left']);
+  let portRight = this.getLargeMotorPortRight_(data['port_right']);
+  let speedLeft = this.getValue_(data['speed_left'], data['speed']);
+  let speedRight = this.getValue_(data['speed_right'], data['speed']);
   return cwc.protocol.lego.ev3.Commands.rotateSteps(
-    data['port_left'], data['port_right'], data['steps'], data['speed_left'],
-    data['speed_right'], data['ramp_up'], data['ramp_down'], data['brake']);
+    portLeft, portRight, data['steps'], speedLeft, speedRight,
+    data['ramp_up'], data['ramp_down'], data['brake']);
 };
 
 
@@ -329,4 +346,124 @@ cwc.protocol.lego.ev3.Handler.prototype['customRotateSteps'] = function(steps,
   let brake = opt_break === undefined ? true : opt_break;
   return cwc.protocol.lego.ev3.Commands.customRotateSteps(ports, steps,
     opt_step_speed, 0, 0, brake);
+};
+
+
+/**
+ * @param {!Object} devices
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.setDevices_ = function(devices) {
+  this.device_ = devices;
+};
+
+
+/**
+ * @param {number=} value
+ * @param {number=} fallback
+ * @return {number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getValue_ = function(value, fallback) {
+  if (typeof value === 'undefined') {
+    return fallback;
+  }
+  return value;
+};
+
+
+/**
+ * @param {number=} value
+ * @return {number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getMediumMotorPort_ = function(
+    value) {
+  if (typeof value === 'undefined') {
+    return this.getMediumMotor_(0);
+  }
+  return value;
+};
+
+
+/**
+ * @param {number=} index
+ * @return {!Array|number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getMediumMotor_ = function(index) {
+  let data = [cwc.protocol.lego.ev3.OutputPort.A];
+  if (this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
+      !this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
+    data = this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG];
+  } else if (!this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
+     this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
+    data = this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT];
+  } else if (this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
+   this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
+    data = data.concat(
+      this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG],
+      this.device_[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]
+    ).sort();
+  }
+  if (typeof index === 'undefined') {
+    return data;
+  }
+  return data[index];
+};
+
+
+/**
+ * @param {number=} value
+ * @return {number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortLeft_ = function(
+    value) {
+  if (typeof value === 'undefined') {
+    return this.getLargeMotor_(0);
+  }
+  return value;
+};
+
+
+/**
+ * @param {number=} value
+ * @return {number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortRight_ = function(
+    value) {
+  if (typeof value === 'undefined') {
+    return this.getLargeMotor_(1);
+  }
+  return value;
+};
+
+
+/**
+ * @param {number=} index
+ * @return {!Array|number}
+ * @private
+ */
+cwc.protocol.lego.ev3.Handler.prototype.getLargeMotor_ = function(index) {
+  let data = [cwc.protocol.lego.ev3.OutputPort.B,
+    cwc.protocol.lego.ev3.OutputPort.C];
+  if (this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
+      !this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
+    data = this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG];
+  } else if (!this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
+     this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
+    data = this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT];
+  } else if (this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
+   this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
+    data = data.concat(
+      this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG],
+      this.device_[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]
+    ).sort();
+  }
+  if (typeof index === 'undefined') {
+    return data;
+  }
+  return data[index];
 };

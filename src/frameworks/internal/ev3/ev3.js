@@ -102,13 +102,15 @@ cwc.framework.Ev3 = function() {
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
+    .addListener('__EVENT__COL-REFLECT', this.handleUpdateSensor_)
+    .addListener('__EVENT__IR-PROX', this.handleUpdateSensor_)
     .addListener('updateColorSensor', this.handleUpdateColorSensor_)
     .addListener('updateDeviceInfo', this.handleUpdateDeviceInfo_)
     .addListener('updateGyroSensor', this.handleUpdateGyroSensor_)
     .addListener('updateIrSensor', this.handleUpdateIrSensor_)
+    .addListener('updateRobotType', this.handleUpdateRobotType_)
     .addListener('updateTouchSensor', this.handleUpdateTouchSensor_)
     .addListener('updateUltrasonicSensor', this.handleUpdateUltrasonicSensor_)
-    .addListener('updateRobotType', this.handleUpdateRobotType_)
     .addListener('updateWheelDiameter', this.handleUpdateWheelDiameter_)
     .addListener('updateWheelWidth', this.handleUpdateWheelWidth_)
     .addListener('updateWheelbase', this.handleUpdateWheelbase_);
@@ -529,16 +531,16 @@ cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
 
 /**
  * Rotates left / right with power.
- * @param {!number} power General power value.
- * @param {number=} opt_power Dedicated power value for the second motor.
- * @param {number=} opt_delay in msec
+ * @param {!number} powerLeft General power value.
+ * @param {number=} powerRight Dedicated power value for the second motor.
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotatePower = function(power, opt_power,
-    opt_delay) {
+cwc.framework.Ev3.prototype.rotatePower = function(powerLeft, powerRight,
+    delay) {
   this.messenger_.send('rotatePower', {
-    'power': power,
-    'opt_power': opt_power}, opt_delay);
+    'power_left': powerLeft,
+    'power_right': powerRight || powerLeft}, delay);
 };
 
 
@@ -559,6 +561,16 @@ cwc.framework.Ev3.prototype.stop = function(opt_delay) {
  */
 cwc.framework.Ev3.prototype.wait = function(time) {
   this.messenger_.send('wait', null, time);
+};
+
+
+/**
+ * @param {!number} port
+ * @param {!number} mode
+ * @param {number=} delay
+ */
+cwc.framework.Ev3.prototype.setSensorMode = function(port, mode, delay) {
+  this.messenger_.send('setSensorMode', {'port': port, 'mode': mode}, delay);
 };
 
 
@@ -613,6 +625,15 @@ cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
  */
 cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
   this.messenger_.send('setStepSpeed', {'speed': speed}, opt_delay);
+};
+
+
+/**
+ * @param {!number} data
+ * @private
+ */
+cwc.framework.Ev3.prototype.handleUpdateSensor_ = function(data) {
+  console.log('Sensor Event ' + data.data + ':' + data.source);
 };
 
 

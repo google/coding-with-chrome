@@ -23,9 +23,9 @@ goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.lego.ev3.Calibration');
 goog.require('cwc.mode.lego.ev3.Connection');
 goog.require('cwc.mode.lego.ev3.Control');
+goog.require('cwc.mode.lego.ev3.Events');
 goog.require('cwc.mode.lego.ev3.Hints');
 goog.require('cwc.mode.lego.ev3.Monitor');
-goog.require('cwc.mode.lego.ev3.Runner');
 goog.require('cwc.renderer.external.EV3');
 
 
@@ -36,6 +36,9 @@ goog.require('cwc.renderer.external.EV3');
 cwc.mode.lego.ev3.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = new cwc.mode.lego.ev3.Connection(helper);
+
+  /** @type {!cwc.mode.lego.ev3.Events} */
+  this.events = cwc.mode.lego.ev3.Events;
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
@@ -49,9 +52,6 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
   /** @type {!cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
 
-  /** @type {!cwc.mode.lego.ev3.Runner} */
-  this.runner = new cwc.mode.lego.ev3.Runner(helper, this.connection);
-
   /** @type {!cwc.mode.lego.ev3.Calibration} */
   this.calibration = new cwc.mode.lego.ev3.Calibration(helper, this.connection,
     this.runner, this.monitor);
@@ -63,12 +63,10 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
  */
 cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
-  // this.mod.setMonitor(this.monitor);
+  this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
-  this.mod.setRunner(this.runner);
   this.mod.decorate();
   this.mod.decorateControl(this.control);
   this.mod.decorateMonitor(this.monitor);
   this.mod.editor.setLocalHints(cwc.mode.lego.ev3.Hints);
-  // this.calibration.decorate();
 };
