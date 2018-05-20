@@ -21,7 +21,7 @@ goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewInfobar');
-goog.require('cwc.ui.PreviewMessage');
+goog.require('cwc.ui.PreviewMessenger');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
@@ -99,8 +99,8 @@ cwc.ui.Preview = function(helper) {
     .setStatusbar(this.statusbar)
     .setStatusButton(this.statusButton);
 
-  /** @private {!cwc.ui.PreviewMessage} */
-  this.previewMessage_ = new cwc.ui.PreviewMessage();
+  /** @private {!cwc.ui.PreviewMessenger} */
+  this.previewMessenger_ = new cwc.ui.PreviewMessenger();
 
   /** @private {!string} */
   this.partition_ = 'preview';
@@ -210,16 +210,6 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
 
 
 /**
- * @param {!string} name
- * @param {!Function} func
- * @param {?=} scope
- */
-cwc.ui.Preview.prototype.addMessageListener = function(name, func, scope) {
-  this.previewMessage_.addListener(name, func, scope);
-};
-
-
-/**
  * Renders content for preview window.
  */
 cwc.ui.Preview.prototype.render = function() {
@@ -236,7 +226,7 @@ cwc.ui.Preview.prototype.render = function() {
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
   this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
-  this.previewMessage_.setTarget(this.content);
+  this.previewMessenger_.setTarget(this.content);
 };
 
 
@@ -470,7 +460,7 @@ cwc.ui.Preview.prototype.focus = function() {
  * @param {!(string|Function)} code
  */
 cwc.ui.Preview.prototype.executeScript = function(code) {
-  this.previewMessage_.send('__exec__',
+  this.previewMessenger_.send('__exec__',
     typeof code === 'function' ? code.toString() : code);
 };
 
@@ -503,4 +493,12 @@ cwc.ui.Preview.prototype.cleanUp = function() {
  */
 cwc.ui.Preview.prototype.getEventHandler = function() {
   return this.eventHandler_;
+};
+
+
+/**
+ * @return {!cwc.ui.PreviewMessenger}
+ */
+cwc.ui.Preview.prototype.getMessenger = function() {
+  return this.previewMessenger_;
 };

@@ -37,7 +37,7 @@ cwc.protocol.lego.ev3.Handler = function() {
 /**
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getBattery = function() {
+cwc.protocol.lego.ev3.Handler.prototype['getBattery'] = function() {
   return cwc.protocol.lego.ev3.Commands.getBattery();
 };
 
@@ -45,7 +45,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getBattery = function() {
 /**
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getFirmware = function() {
+cwc.protocol.lego.ev3.Handler.prototype['getFirmware'] = function() {
   return cwc.protocol.lego.ev3.Commands.getFirmware();
 };
 
@@ -54,8 +54,18 @@ cwc.protocol.lego.ev3.Handler.prototype.getFirmware = function() {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getDeviceType = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['getDeviceType'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.getDeviceType(data['port']);
+};
+
+
+/**
+ * @param {Object=} data
+ * @return {!ArrayBuffer}
+ */
+cwc.protocol.lego.ev3.Handler.prototype['getDeviceTypes'] = function(
+    data = {}) {
+  return cwc.protocol.lego.ev3.Commands.getDeviceTypes(data['ports']);
 };
 
 
@@ -64,7 +74,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getDeviceType = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getSensorData = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['getSensorData'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.getSensorData(
     data['port'], data['mode']);
 };
@@ -75,7 +85,8 @@ cwc.protocol.lego.ev3.Handler.prototype.getSensorData = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getSensorDataPct = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['getSensorDataPct'] = function(
+    data = {}) {
   return cwc.protocol.lego.ev3.Commands.getSensorDataPct(
     data['port'], data['mode']);
 };
@@ -86,7 +97,8 @@ cwc.protocol.lego.ev3.Handler.prototype.getSensorDataPct = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getSensorDataSi = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['getSensorDataSi'] = function(
+    data = {}) {
   return cwc.protocol.lego.ev3.Commands.getSensorDataSi(
     data['port'], data['mode']);
 };
@@ -97,7 +109,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getSensorDataSi = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.getActorData = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['getActorData'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.getActorData(
     data['port'], data['mode']);
 };
@@ -109,7 +121,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getActorData = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.setLed = function(color, mode) {
+cwc.protocol.lego.ev3.Handler.prototype['setLed'] = function(color, mode) {
   return cwc.protocol.lego.ev3.Commands.setLed(color, mode);
 };
 
@@ -118,7 +130,7 @@ cwc.protocol.lego.ev3.Handler.prototype.setLed = function(color, mode) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.movePower = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['movePower'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.movePower(
     data['motorLeft'] | data['motorRight'], data['power'], data['brake']);
 };
@@ -129,7 +141,7 @@ cwc.protocol.lego.ev3.Handler.prototype.movePower = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.movePowerLeft = function(power) {
+cwc.protocol.lego.ev3.Handler.prototype['movePowerLeft'] = function(power) {
   let brake = true;
   let motorLeft = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR];
   return cwc.protocol.lego.ev3.Commands.movePower(motorLeft, power, brake);
@@ -141,7 +153,7 @@ cwc.protocol.lego.ev3.Handler.prototype.movePowerLeft = function(power) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.movePowerRight = function(power) {
+cwc.protocol.lego.ev3.Handler.prototype['movePowerRight'] = function(power) {
   let brake = true;
   let motorRight = this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT];
   return cwc.protocol.lego.ev3.Commands.movePower(motorRight, power, brake);
@@ -152,7 +164,7 @@ cwc.protocol.lego.ev3.Handler.prototype.movePowerRight = function(power) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.rotatePower = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['rotatePower'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.rotatePower(
     data['motorLeft'], data['motorRight'], data['powerLeft'],
     data['powerRight'] || data['powerLeft'], data['brake']);
@@ -163,7 +175,7 @@ cwc.protocol.lego.ev3.Handler.prototype.rotatePower = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.stop = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['stop'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.stop(
     data['port'], data['brake']);
 };
@@ -173,7 +185,7 @@ cwc.protocol.lego.ev3.Handler.prototype.stop = function(data = {}) {
  * Clears the EV3 unit.
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.clear = function() {
+cwc.protocol.lego.ev3.Handler.prototype['clear'] = function() {
   return cwc.protocol.lego.ev3.Commands.clear();
 };
 
@@ -182,7 +194,7 @@ cwc.protocol.lego.ev3.Handler.prototype.clear = function() {
  * Clears the EV3 display.
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.drawClean = function() {
+cwc.protocol.lego.ev3.Handler.prototype['drawClean'] = function() {
   return cwc.protocol.lego.ev3.Commands.drawClean();
 };
 
@@ -191,7 +203,7 @@ cwc.protocol.lego.ev3.Handler.prototype.drawClean = function() {
  * Updates the EV3 display.
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.drawUpdate = function() {
+cwc.protocol.lego.ev3.Handler.prototype['drawUpdate'] = function() {
   return cwc.protocol.lego.ev3.Commands.drawUpdate();
 };
 
@@ -201,7 +213,7 @@ cwc.protocol.lego.ev3.Handler.prototype.drawUpdate = function() {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.drawImage = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['drawImage'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.drawImage(data['filename']);
 };
 
@@ -211,7 +223,7 @@ cwc.protocol.lego.ev3.Handler.prototype.drawImage = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.drawLine = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['drawLine'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.drawLine(
     data['x1'], data['y1'], data['x2'], data['y2'], data['color']);
 };
@@ -222,7 +234,7 @@ cwc.protocol.lego.ev3.Handler.prototype.drawLine = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.playTone = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['playTone'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.playTone(
     data['frequency'], data['duration'], data['volume']);
 };
@@ -233,7 +245,7 @@ cwc.protocol.lego.ev3.Handler.prototype.playTone = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.playSound = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['playSound'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.playSound(
     data['filename'], data['volume']);
 };
@@ -246,7 +258,7 @@ cwc.protocol.lego.ev3.Handler.prototype.playSound = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.moveServo = function(steps, speed) {
+cwc.protocol.lego.ev3.Handler.prototype['moveServo'] = function(steps, speed) {
   let brake = true;
   let rampUp = 0;
   let rampDown = 0;
@@ -261,7 +273,7 @@ cwc.protocol.lego.ev3.Handler.prototype.moveServo = function(steps, speed) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.moveSteps = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['moveSteps'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.moveSteps(
     data['motorLeft'] | data['motorRight'], data['steps'], data['speed'],
     data['rampUp'], data['rampDown'], data['brake']);
@@ -277,7 +289,7 @@ cwc.protocol.lego.ev3.Handler.prototype.moveSteps = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.customMoveSteps = function(steps,
+cwc.protocol.lego.ev3.Handler.prototype['customMoveSteps'] = function(steps,
     opt_ports, opt_speed, opt_break) {
   let ports = opt_ports === undefined ?
     this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR] : opt_ports;
@@ -294,7 +306,7 @@ cwc.protocol.lego.ev3.Handler.prototype.customMoveSteps = function(steps,
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.rotateSteps = function(data = {}) {
+cwc.protocol.lego.ev3.Handler.prototype['rotateSteps'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.rotateSteps(
     data['port_left'], data['port_right'], data['steps'], data['speed_left'],
     data['speed_right'], data['ramp_up'], data['ramp_down'], data['brake']);
@@ -310,7 +322,7 @@ cwc.protocol.lego.ev3.Handler.prototype.rotateSteps = function(data = {}) {
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.lego.ev3.Handler.prototype.customRotateSteps = function(steps,
+cwc.protocol.lego.ev3.Handler.prototype['customRotateSteps'] = function(steps,
     opt_ports, opt_step_speed, opt_break) {
   let ports = opt_ports === undefined ?
     this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT] : opt_ports;

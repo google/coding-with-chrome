@@ -1,5 +1,5 @@
 /**
- * @fileoverview Message framework for safe cross communication.
+ * @fileoverview Messenger framework for safe cross communication.
  * Allows communication between the Coding with Chrome Editor and Webview or
  * Iframe Object over postMessage.
  *
@@ -19,7 +19,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Message');
+goog.provide('cwc.framework.Messenger');
 
 goog.require('cwc.utils.StackQueue');
 
@@ -30,7 +30,7 @@ goog.require('cwc.utils.StackQueue');
  * @final
  * @export
  */
-cwc.framework.Message = function() {
+cwc.framework.Messenger = function() {
   /** @type {string} */
   this.name = 'Message Framework';
 
@@ -73,7 +73,7 @@ cwc.framework.Message = function() {
  * @template THIS
  * @export
  */
-cwc.framework.Message.prototype.addListener = function(name, func,
+cwc.framework.Messenger.prototype.addListener = function(name, func,
     scope = this.listenerScope_) {
   if (!name) {
     console.error('Listener name is undefined!');
@@ -95,7 +95,7 @@ cwc.framework.Message.prototype.addListener = function(name, func,
  * @param {!string} appOrigin
  * @export
  */
-cwc.framework.Message.prototype.setAppOrigin = function(appOrigin) {
+cwc.framework.Messenger.prototype.setAppOrigin = function(appOrigin) {
   if (appOrigin) {
     this.appOrigin = appOrigin;
   }
@@ -106,7 +106,7 @@ cwc.framework.Message.prototype.setAppOrigin = function(appOrigin) {
  * @param {!Object} appWindow
  * @export
  */
-cwc.framework.Message.prototype.setAppWindow = function(appWindow) {
+cwc.framework.Messenger.prototype.setAppWindow = function(appWindow) {
   if (appWindow) {
     this.appWindow = appWindow;
   }
@@ -120,7 +120,7 @@ cwc.framework.Message.prototype.setAppWindow = function(appWindow) {
  * @template THIS
  * @export
  */
-cwc.framework.Message.prototype.setListenerScope = function(scope) {
+cwc.framework.Messenger.prototype.setListenerScope = function(scope) {
   if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
     throw new Error('Invalid scope!', scope);
   } else if (scope) {
@@ -137,7 +137,7 @@ cwc.framework.Message.prototype.setListenerScope = function(scope) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
+cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
   if (!name) {
     throw Error('Unable so send data!');
   }
@@ -147,7 +147,7 @@ cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
       'value': value,
     }, this.appOrigin);
   }.bind(this);
-  if (!this.ready_) {
+  if (!this.ready_ && name !== '__handshake__') {
     this.senderStack_.addDelay(50);
     this.senderStack_.addCommand(sendCommand);
   } else if (delay) {
@@ -163,7 +163,7 @@ cwc.framework.Message.prototype.send = function(name, value = {}, delay = 0) {
  * @param {!string} code
  * @private
  */
-cwc.framework.Message.prototype.executeCode_ = function(code) {
+cwc.framework.Messenger.prototype.executeCode_ = function(code) {
   if (!code || typeof code !== 'string') {
     return;
   }
@@ -185,7 +185,7 @@ cwc.framework.Message.prototype.executeCode_ = function(code) {
  * @param {Event} event
  * @private
  */
-cwc.framework.Message.prototype.handleMessage_ = function(event) {
+cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }
@@ -214,7 +214,7 @@ cwc.framework.Message.prototype.handleMessage_ = function(event) {
  * @param {!Object} data
  * @private
  */
-cwc.framework.Message.prototype.handleHandshake_ = function(data) {
+cwc.framework.Messenger.prototype.handleHandshake_ = function(data) {
   console.log('Received handshake for token ' + data['token']);
   this.send('__handshake__', {
     'token': data['token'],
@@ -229,7 +229,7 @@ cwc.framework.Message.prototype.handleHandshake_ = function(data) {
  * @param {!Object} data
  * @private
  */
-cwc.framework.Message.prototype.handleGamepad_ = function(data) {
+cwc.framework.Messenger.prototype.handleGamepad_ = function(data) {
   console.log('__gamepad__', data);
 };
 
@@ -238,7 +238,7 @@ cwc.framework.Message.prototype.handleGamepad_ = function(data) {
  * Handles the received start message.
  * @private
  */
-cwc.framework.Message.prototype.handleStart_ = function() {
+cwc.framework.Messenger.prototype.handleStart_ = function() {
   if (this.monitor_) {
     console.log('Initialize monitor ...');
     this.monitor_();

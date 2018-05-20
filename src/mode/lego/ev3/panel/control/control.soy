@@ -1,0 +1,55 @@
+/**
+ * @fileoverview Control template for the EV3 modification.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.ev3.Control autoescape="strict"}
+
+
+/**
+ * Control template.
+ */
+{template .template}
+  {@param prefix: string}
+
+  <div id="{$prefix}control">
+    Use the buttons belows or the keyboard to control the EV3 manual.<br>
+    <div id="{$prefix}buttons-body">
+      <div id="{$prefix}buttons" class="icon_gamepad" title="Moves the robot.">
+        games
+        <div id="{$prefix}move-left" class="icon_gamepad_button left"></div>
+        <div id="{$prefix}move-forward" class="icon_gamepad_button up"></div>
+        <div id="{$prefix}move-backward" class="icon_gamepad_button down"></div>
+        <div id="{$prefix}move-right" class="icon_gamepad_button right"></div>
+      </div>
+      <div id="{$prefix}buttons-servo">
+        <div id="{$prefix}servo-up" class="icon_36px icon_button" title="Moves servo up.">keyboard_arrow_up</div>
+        <div id="{$prefix}servo-down" class="icon_36px icon_button" title="Moves servo down.">keyboard_arrow_down</div>
+      </div>
+    </div>
+    <div id="{$prefix}commands">
+      <div id="{$prefix}ping" class="icon_36px icon_button">notifications_active</div>
+      <div class="mdl-tooltip" for="{$prefix}ping">
+        Plays a ton on the connected unit.
+      </div>
+      <div id="{$prefix}stop" class="icon_36px icon_button">pan_tool</div>
+      <div class="mdl-tooltip" for="{$prefix}stop">
+        Stops the executing of the code and the connected unit. (Space-key)
+      </div>
+    </div>
+  </div>
+{/template}

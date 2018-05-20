@@ -23,48 +23,24 @@
   position: relative;
 }
 
-#{$prefix}ev3-monitor-control-buttons-body {
-  width: 150px;
-  margin: auto;
-}
-
-#{$prefix}ev3-monitor-control-buttons {
-  position: relative;
-  text-align: center;
-}
-
-#{$prefix}ev3-monitor-control-buttons-servo {
-  height: 75px;
-  width: 36px;
-  margin-top: 8px;
-  float: right;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-#{$prefix}ev3-monitor-control-commands {
-  padding: 5px;
-  margin-left: 50px;
-}
-
 .{$prefix}ev3-monitor-interface-view {
-  width: 85px;
-  height: 60px;
+  width: 80px;
+  height: 65px;
   border: 1px solid #aaa;
   border-radius: 5px;
   background: linear-gradient(to bottom,
     #ffffff 0%,#f3f3f3 65%,#ededed 67%,#ffffff 100%);
   float: left;
-  margin: 5px;
+  margin: 2px;
 }
 
 .{$prefix}ev3-monitor-interface-view-info {
   border-bottom: 1px solid #ccc;
   border-top-left-radius: 5px;
-  height: 15px;
+  height: 20px;
 }
 
-.{$prefix}ev3-monitor-interface-view-info > span {
+.{$prefix}ev3-monitor-interface-view-info > span:first-child {
   color: #000;
   background-color: #ccc;
   border-left: 1px solid #aaa;

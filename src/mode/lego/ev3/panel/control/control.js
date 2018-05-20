@@ -1,7 +1,7 @@
 /**
- * @fileoverview Monitor for the EV3 modification.
+ * @fileoverview Control for the EV3 modification.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.lego.ev3.Monitor');
+goog.provide('cwc.mode.lego.ev3.Control');
 
-goog.require('cwc.protocol.lego.ev3.Api');
-goog.require('cwc.protocol.lego.ev3.Events');
-goog.require('cwc.protocol.lego.ev3.RobotType');
-goog.require('cwc.protocol.lego.ev3.Robots');
-goog.require('cwc.soy.mode.ev3.Monitor');
+goog.require('cwc.soy.mode.ev3.Control');
 goog.require('cwc.utils.Events');
-goog.require('cwc.utils.Gamepad.Events');
-goog.require('cwc.utils.Helper');
-
-goog.require('goog.events');
-goog.require('goog.events.EventType');
-goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 /**
@@ -40,24 +30,15 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  * @struct
  * @final
  */
-cwc.mode.lego.ev3.Monitor = function(helper, connection) {
+cwc.mode.lego.ev3.Control = function(helper, connection) {
   /** @type {string} */
-  this.name = 'EV3 Monitor';
+  this.name = 'EV3 Control';
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('ev3-monitor');
+  this.prefix = helper.getPrefix('ev3-control');
 
   /** @type {Element} */
-  this.nodeControl = null;
-
-  /** @type {Element} */
-  this.nodeIntro = null;
-
-  /** @type {Element} */
-  this.nodeMonitor = null;
-
-  /** @type {Element} */
-  this.nodeMonitorValues = null;
+  this.node = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -68,129 +49,35 @@ cwc.mode.lego.ev3.Monitor = function(helper, connection) {
   /** @type {!cwc.protocol.lego.ev3.Api} */
   this.api = this.connection.getApi();
 
-  /** @type {boolean} */
-  this.prepared = false;
-
-  /** @type {goog.ui.KeyboardShortcutHandler} */
-  this.shortcutHandler = null;
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
-
-  /** @private {cwc.protocol.lego.ev3.RobotType} */
-  this.robotType_ = cwc.protocol.lego.ev3.RobotType.UNKNOWN;
-
-  /** @private {cwc.ui.RunnerMonitor} */
-  this.runnerMonitor_ = null;
-
-  if (!this.connection) {
-    console.error('Missing connection instance !');
-  }
 };
 
 
 /**
- * Decorates the EV3 monitor window.
+ * Decorates the EV3 control window.
+ * @param {!Element} node
  */
-cwc.mode.lego.ev3.Monitor.prototype.decorate = function() {
-  let runnerInstance = this.helper.getInstance('runner', true);
-  this.runnerMonitor_ = runnerInstance.getMonitor();
-  if (!this.runnerMonitor_) {
-    console.error('Runner Monitor is not there!', this.runnerMonitor_);
-    return;
-  }
-
-  this.nodeIntro = this.runnerMonitor_.getIntroNode();
-  this.nodeMonitor = this.runnerMonitor_.getMonitorNode();
-  this.nodeControl = this.runnerMonitor_.getControlNode();
+cwc.mode.lego.ev3.Control.prototype.decorate = function(node) {
+  this.node = node;
 
   goog.soy.renderElement(
-      this.nodeIntro,
-      cwc.soy.mode.ev3.Monitor.intro, {
-        prefix: this.prefix,
-      }
+    this.node,
+    cwc.soy.mode.ev3.Control.template, {
+      prefix: this.prefix,
+    }
   );
-
-  goog.soy.renderElement(
-      this.nodeMonitor,
-      cwc.soy.mode.ev3.Monitor.monitor, {
-        prefix: this.prefix,
-      }
-  );
-
-  goog.soy.renderElement(
-      this.nodeControl,
-      cwc.soy.mode.ev3.Monitor.control, {
-        prefix: this.prefix,
-      }
-  );
-
-  this.nodeMonitorValues = goog.dom.getElement(this.prefix + 'monitor');
-
-  // Update event
-  let eventHandler = this.connection.getEventHandler();
-  this.events_.listen(eventHandler,
-    cwc.protocol.lego.ev3.Events.Type.CHANGED_VALUES, this.updateDeviceData,
-    false, this);
-
-  // Monitoring
-  this.updateDeviceData();
-
-  // Unload event
-  let layoutInstance = this.helper.getInstance('layout');
-  if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
-  }
 
   this.addEventHandler_();
   this.addGamepadHandler_();
   this.addKeyHandler_();
-  runnerInstance.enableMonitor(true);
-  layoutInstance.refresh();
-};
-
-
-/**
- * Updates device Data in monitor tab.
- * @param {Event=} opt_event
- */
-cwc.mode.lego.ev3.Monitor.prototype.updateDeviceData = function(opt_event) {
-  if (this.runnerMonitor_.isMonitorActive()) {
-    goog.soy.renderElement(
-        this.nodeMonitorValues,
-        cwc.soy.mode.ev3.Monitor.monitorValues, {
-          prefix: this.prefix,
-          devices: this.connection.getDeviceData(),
-        }
-    );
-  }
-};
-
-
-/**
- * Updates device Data in monitor tab.
- * @param {!cwc.protocol.lego.ev3.RobotType} type
- */
-cwc.mode.lego.ev3.Monitor.prototype.updateRobotType = function(type) {
-  this.robotType_ = type;
-};
-
-
-/**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.lego.ev3.Monitor.prototype.cleanUp = function() {
-  console.log('Clean up EV3 monitor ...');
-  this.events_.clear();
 };
 
 
 /**
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.addEventHandler_ = function() {
+cwc.mode.lego.ev3.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.rotateSteps(45, -50);
@@ -232,7 +119,7 @@ cwc.mode.lego.ev3.Monitor.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.addGamepadHandler_ = function() {
+cwc.mode.lego.ev3.Control.prototype.addGamepadHandler_ = function() {
   let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
   let rotation = false;
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
@@ -264,7 +151,7 @@ cwc.mode.lego.ev3.Monitor.prototype.addGamepadHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.addKeyHandler_ = function() {
+cwc.mode.lego.ev3.Control.prototype.addKeyHandler_ = function() {
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   this.shortcutHandler.registerShortcut('backward', 'down');
   this.shortcutHandler.registerShortcut('left', 'left');
@@ -291,7 +178,7 @@ cwc.mode.lego.ev3.Monitor.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
+cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
   if (!this.runnerMonitor_.isControlActive() &&
       !this.runnerMonitor_.isMonitorActive()) {
     return;
@@ -323,7 +210,7 @@ cwc.mode.lego.ev3.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
  * @param {!string} keys
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(
+cwc.mode.lego.ev3.Control.prototype.handleArmKeyboardShortcut_ = function(
     keys) {
   let speed = 40;
   let steps = 5;
@@ -357,7 +244,7 @@ cwc.mode.lego.ev3.Monitor.prototype.handleArmKeyboardShortcut_ = function(
  * @param {string} keys
  * @private
  */
-cwc.mode.lego.ev3.Monitor.prototype.handleVehicleKeyboardShortcut_ = function(
+cwc.mode.lego.ev3.Control.prototype.handleVehicleKeyboardShortcut_ = function(
     keys) {
   let steps = 5;
   let speed = 50;

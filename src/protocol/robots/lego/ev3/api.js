@@ -23,9 +23,8 @@
 goog.provide('cwc.protocol.lego.ev3.Api');
 
 goog.require('cwc.protocol.lego.ev3.ColorSensorMode');
-goog.require('cwc.protocol.lego.ev3.Commands');
 goog.require('cwc.protocol.lego.ev3.Device');
-goog.require('cwc.protocol.lego.ev3.DeviceName');
+goog.require('cwc.protocol.lego.ev3.DevicesDefault');
 goog.require('cwc.protocol.lego.ev3.DeviceType');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.Handler');
@@ -70,17 +69,23 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {Object} */
   this.deviceData = {};
 
+  /** @type {Object} */
+  this.deviceTypeOnPort = {};
+
+  /** @type {Object} */
+  this.portsForDeviceType = {};
+
   /** @type {!string} */
   this.firmware = '';
 
   /** @type {!cwc.protocol.lego.ev3.Handler} */
   this.handler = new cwc.protocol.lego.ev3.Handler();
 
-  /** @type {!cwc.protocol.lego.ev3.Commands} */
-  this.commands = new cwc.protocol.lego.ev3.Commands();
-
   /** @type {Object} */
   this.cache_ = {};
+
+  /** @private {Object} */
+  this.devices_ = cwc.protocol.lego.ev3.DevicesDefault;
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -139,16 +144,12 @@ cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
   this.events_.listen(this.device.getEventHandler(),
     cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
-  this.monitoring.init();
-  this.playTone(2000, 200, 25);
+  this.exec('playTone', {'frequency': 2000, 'duration': 200, 'volume': 25});
   this.exec('getFirmware');
   this.exec('getBattery');
-  this.getDevices();
-  this.playTone(3000, 200, 50);
-  this.drawClean();
-  this.drawLine(0, 0, 999, 999);
-  this.drawImage('Test/Smile');
-  this.drawUpdate();
+  this.getDeviceTypes();
+  this.exec('playTone', {'frequency': 3000, 'duration': 200, 'volume': 50});
+  this.drawLogo_();
   this.prepared = true;
 };
 
@@ -179,8 +180,9 @@ cwc.protocol.lego.ev3.Api.prototype.reset = function() {
  * Basic cleanup for the EV3 unit.
  */
 cwc.protocol.lego.ev3.Api.prototype.cleanUp = function() {
-  this.stop();
-  this.clear();
+  this.monitoring.stop();
+  this.exec('stop');
+  this.exec('clear');
 };
 
 
@@ -191,27 +193,29 @@ cwc.protocol.lego.ev3.Api.prototype.cleanUp = function() {
  * @export
  */
 cwc.protocol.lego.ev3.Api.prototype.exec = function(command, data = {}) {
-  this.send_(this.handler[command](data));
+  this.send(this.handler[command](data));
 };
 
 
 /**
- * Executer for the runner profiles with parameters in revert order.
- * @param {!Object} data
+ * @param {!ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.lego.ev3.Api.prototype.send = function(buffer) {
+  if (this.device) {
+    this.device.send(buffer);
+  }
+};
+
+
+/**
  * @param {!string} command
+ * @param {Object=} data
+ * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Api.prototype.execRunnerProfile = function(data,
-    command) {
-  this.exec(command, data);
-};
-
-
-/**
- * @return {!cwc.protocol.sphero.classic.Handler}
- */
-cwc.protocol.lego.ev3.Api.prototype.getRunnerProfile = function() {
-  return this.handler;
+cwc.protocol.lego.ev3.Api.prototype.getBuffer = function(command, data = {}) {
+  return this.handler[command](data);
 };
 
 
@@ -345,242 +349,29 @@ cwc.protocol.lego.ev3.Api.prototype.monitor = function(enable) {
 
 
 /**
- * Detects all connected devices.
+ * @return {!Object}
  */
 cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
+  return this.devices_;
+};
+
+
+/**
+ * Detects all connected devices.
+ */
+cwc.protocol.lego.ev3.Api.prototype.getDeviceTypes = function() {
   this.monitor(false);
-
-  // Sensor ports
-  this.sensor = {};
-  this.sensor[cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR] =
-    cwc.protocol.lego.ev3.InputPort.ONE;
-  this.sensor[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR] =
-    cwc.protocol.lego.ev3.InputPort.TWO;
-  this.sensor[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR] =
-    cwc.protocol.lego.ev3.InputPort.FOUR;
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.ONE});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.TWO});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.THREE});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.FOUR});
-
-  // Actor ports
-  this.actor = {};
-  this.actor[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR] =
-    cwc.protocol.lego.ev3.OutputPort.A;
-  this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR] =
-    cwc.protocol.lego.ev3.OutputPort.B;
-  this.actor[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT] =
-    cwc.protocol.lego.ev3.OutputPort.C;
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.A});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.B});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.C});
-  this.exec('getDeviceType', {'port': cwc.protocol.lego.ev3.InputPort.D});
-};
-
-
-/**
- * @param {!ArrayBuffer} buffer
- * @private
- */
-cwc.protocol.lego.ev3.Api.prototype.send_ = function(buffer) {
-  if (!this.device) {
-    return;
-  }
-  this.device.send(buffer);
-};
-
-
-/**
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @param {!string} type
- * @private
- */
-cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
-  if (type == cwc.protocol.lego.ev3.DeviceType.NONE) {
-    return;
-  }
-  let typeNormalized = type.replace(/-/g, '_').replace(/\s/g, '');
-  if (!(typeNormalized in cwc.protocol.lego.ev3.DeviceType)) {
-    if (type == 'PORT ERROR') {
-      console.error('Received Port Error on port', port, '!');
-      console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
-    } else if (type == 'TERMINAL') {
-      console.warn('Please check connection on port', port, '!');
-    } else {
-      console.warn('Unknown device "' + typeNormalized + '" on port', port);
-      console.warn('Please check re-connect device on port', port, '!');
-    }
-    return;
-  }
-  let deviceTypeName = cwc.protocol.lego.ev3.DeviceType[typeNormalized];
-  let deviceName = deviceTypeName;
-  let deviceMode = 0;
-  let deviceCss = '';
-  switch (deviceTypeName) {
-    case cwc.protocol.lego.ev3.DeviceType.IR_PROX:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.IR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.IrSensorMode.PROXIMITY;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.IR_SEEK:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.IR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.IrSensorMode.SEEK;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.IR_REMOTE:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.IR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.IrSensorMode.REMOTECONTROL;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.TOUCH:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.COL_REFLECT:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.ColorSensorMode.REFLECTIVE;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.COL_AMBIENT:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.ColorSensorMode.AMBIENT;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.COL_COLOR:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.ColorSensorMode.COLOR;
-      deviceCss = 'color';
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.US_DIST_CM:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.UltrasonicSensorMode.DIST_CM;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.US_DIST_IN:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.UltrasonicSensorMode.DIST_INCH;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.US_LISTEN:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.UltrasonicSensorMode.LISTEN;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.GYRO_ANG:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.GyroMode.ANGLE;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.GYRO_RATE:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR;
-      deviceMode = cwc.protocol.lego.ev3.GyroMode.RATE;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR;
-      deviceMode = cwc.protocol.lego.ev3.MotorMode.DEGREE;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR;
-      deviceMode = cwc.protocol.lego.ev3.MotorMode.ROTATION;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR;
-      deviceMode = cwc.protocol.lego.ev3.MotorMode.DEGREE;
-      break;
-    case cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT:
-      deviceName = cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR;
-      deviceMode = cwc.protocol.lego.ev3.MotorMode.ROTATION;
-      break;
-    default:
-      return;
-  }
-
-  // Support of two devices of the same type.
-  if (deviceName in this.deviceInfo && this.deviceInfo[deviceName] != port) {
-    switch (deviceName) {
-      case cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR:
-        deviceName = cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT;
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR:
-        deviceName = cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT;
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR:
-        deviceName = cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT;
-        break;
-    }
-  }
-
-  console.log('Found', deviceName, 'with mode', deviceMode, 'on port', port);
-  this.deviceData[port] = new cwc.protocol.lego.ev3.Device(deviceName,
-      deviceMode, 0, deviceCss);
-  this.eventHandler_.dispatchEvent(
-      cwc.protocol.lego.ev3.Events.changedDevices(this.deviceData));
-  this.deviceInfo[deviceName] = port;
-
-  switch (port) {
-    case cwc.protocol.lego.ev3.InputPort.ONE:
-    case cwc.protocol.lego.ev3.InputPort.TWO:
-    case cwc.protocol.lego.ev3.InputPort.THREE:
-    case cwc.protocol.lego.ev3.InputPort.FOUR:
-      this.sensor[deviceName] = port;
-      this.getSensorData(port);
-      break;
-    case cwc.protocol.lego.ev3.InputPort.A:
-    case cwc.protocol.lego.ev3.InputPort.B:
-    case cwc.protocol.lego.ev3.InputPort.C:
-    case cwc.protocol.lego.ev3.InputPort.D:
-      this.actor[deviceName] = Math.pow(2, (port - 0x10));
-      this.getActorData(port);
-      break;
-  }
-  this.monitoring.start(this.deviceInfo);
-};
-
-
-/**
- * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @param {!number} value
- * @param {cwc.protocol.lego.ev3.DeviceName=} opt_device_name
- * @private
- */
-cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value,
-    opt_device_name) {
-  if (this.deviceData[port] && this.deviceData[port].getValue() != value) {
-    this.deviceData[port].setValue(value);
-    this.monitoring.update();
-    switch (opt_device_name) {
-      case cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.colorSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.gyroSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.IR_SENSOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.irSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.ultrasonicSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.touchSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.touchSensorOptValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.touchSensorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.mediumMotorValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.largeMotorOptValue(value, port));
-        break;
-      case cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT:
-        this.eventHandler_.dispatchEvent(
-            cwc.protocol.lego.ev3.Events.mediumMotorOptValue(value, port));
-        break;
-    }
-  }
+  this.portsForDeviceType = {};
+  this.exec('getDeviceTypes', {'ports': [
+    cwc.protocol.lego.ev3.InputPort.ONE,
+    cwc.protocol.lego.ev3.InputPort.TWO,
+    cwc.protocol.lego.ev3.InputPort.THREE,
+    cwc.protocol.lego.ev3.InputPort.FOUR,
+    cwc.protocol.lego.ev3.InputPort.A,
+    cwc.protocol.lego.ev3.InputPort.B,
+    cwc.protocol.lego.ev3.InputPort.C,
+    cwc.protocol.lego.ev3.InputPort.D,
+  ]});
 };
 
 
@@ -625,19 +416,105 @@ cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_PCT_VALUE:
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_RAW_VALUE:
-      if (this.deviceData[port]) {
-        this.updateDeviceData_(port, data[0], this.deviceData[port].getName());
-      }
+      this.updateDeviceData_(port, data[0]);
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_SI_VALUE:
       this.updateDeviceData_(
-        port, cwc.utils.ByteTools.bytesToFloat32(data).toFixed(1),
-        this.deviceData[port].getName());
+        port, cwc.utils.ByteTools.bytesToFloat32(data).toFixed(1));
       break;
     case cwc.protocol.lego.ev3.CallbackType.ACTOR_VALUE:
       this.updateDeviceData_(
-        port, cwc.utils.ByteTools.bytesToInt32Alternative(data),
-        this.deviceData[port].getName());
+        port, cwc.utils.ByteTools.bytesToInt32Alternative(data));
       break;
   }
+};
+
+
+/**
+ * @param {!cwc.protocol.lego.ev3.InputPort} port
+ * @param {!number} value
+ * @private
+ */
+cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
+  if (typeof this.deviceData[port] !== 'undefined' &&
+      this.deviceData[port] === value) {
+    return;
+  }
+  this.deviceData[port] = value;
+  this.eventHandler_.dispatchEvent(
+    cwc.protocol.lego.ev3.Events.changedSensorValue(
+      port, value, this.deviceTypeOnPort[port]));
+};
+
+
+/**
+ * @param {!cwc.protocol.lego.ev3.InputPort} port
+ * @param {!string} type
+ * @private
+ */
+cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
+  if (type === cwc.protocol.lego.ev3.DeviceType.PORT_ERROR) {
+    console.error('Received Port Error on port', port, '!');
+    console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
+    return;
+  }
+  if (type === cwc.protocol.lego.ev3.DeviceType.TERMINAL) {
+    console.warn('Please check connection on port', port, '!');
+    return;
+  }
+  if (typeof cwc.protocol.lego.ev3.Device[type] === 'undefined') {
+    console.warn('Unknown device "' + type + '" on port', port);
+    console.warn('Please check re-connect device on port', port, '!');
+    return;
+  }
+  if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
+    console.log('Found', type, 'on port', port);
+  }
+
+  // Store detected sensors changes for automatic mapping.
+  if (typeof this.devices_[port] === 'undefined' ||
+      this.devices_[port].type !== type) {
+    this.devices_[port] = cwc.protocol.lego.ev3.Device[type];
+
+    this.deviceTypeOnPort[port] = type;
+    if (!this.portsForDeviceType[type]) {
+      this.portsForDeviceType[type] = [port];
+    } else if (!this.portsForDeviceType[type].includes(port)) {
+      this.portsForDeviceType[type].push(port);
+    }
+
+    this.eventHandler_.dispatchEvent(
+      cwc.protocol.lego.ev3.Events.changedDevices(this.devices_));
+  }
+};
+
+
+/**
+ * Draws CWC logo on the EV3 unit.
+ * @private
+ */
+cwc.protocol.lego.ev3.Api.prototype.drawLogo_ = function() {
+  this.exec('drawClean');
+
+  this.exec('drawLine', {'x1': 33, 'y1': 108, 'x2': 143, 'y2': 108});
+  this.exec('drawLine', {'x1': 148, 'y1': 108, 'x2': 148, 'y2': 128});
+  this.exec('drawLine', {'x1': 28, 'y1': 128, 'x2': 148, 'y2': 128});
+  this.exec('drawLine', {'x1': 33, 'y1': 108, 'x2': 28, 'y2': 128});
+
+  this.exec('drawLine', {'x1': 38, 'y1': 28, 'x2': 148, 'y2': 28});
+  this.exec('drawLine', {'x1': 148, 'y1': 28, 'x2': 143, 'y2': 100});
+  this.exec('drawLine', {'x1': 33, 'y1': 100, 'x2': 143, 'y2': 100});
+  this.exec('drawLine', {'x1': 28, 'y1': 28, 'x2': 33, 'y2': 100});
+
+  this.exec('drawLine', {'x1': 48, 'y1': 48, 'x2': 128, 'y2': 48});
+  this.exec('drawLine', {'x1': 128, 'y1': 48, 'x2': 125, 'y2': 80});
+  this.exec('drawLine', {'x1': 51, 'y1': 80, 'x2': 125, 'y2': 80});
+  this.exec('drawLine', {'x1': 48, 'y1': 48, 'x2': 51, 'y2': 80});
+
+  this.exec('drawLine', {'x1': 38, 'y1': 38, 'x2': 138, 'y2': 38});
+  this.exec('drawLine', {'x1': 138, 'y1': 38, 'x2': 134, 'y2': 90});
+  this.exec('drawLine', {'x1': 43, 'y1': 90, 'x2': 133, 'y2': 90});
+  this.exec('drawLine', {'x1': 38, 'y1': 38, 'x2': 42, 'y2': 90});
+
+  this.exec('drawUpdate');
 };

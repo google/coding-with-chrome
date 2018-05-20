@@ -75,6 +75,13 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
         this.connect.bind(this));
   }
+
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.api_.cleanUp, false, this.api_);
+  }
+
   this.connectMonitor.start();
   this.connect();
 };

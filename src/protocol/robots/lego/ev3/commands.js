@@ -22,56 +22,7 @@ goog.provide('cwc.protocol.lego.ev3.Commands');
 goog.require('cwc.protocol.lego.ev3.Buffer');
 goog.require('cwc.protocol.lego.ev3.CallbackType');
 goog.require('cwc.protocol.lego.ev3.Command');
-
-
-/**
- * @constructor
- * @struct
- * @final
- */
-cwc.protocol.lego.ev3.Commands = function() {
-  /** @private {Object} */
-  this.cache_ = {};
-};
-
-
-/**
- * @param {!string} name
- * @param {...Object|number} args
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Commands.prototype.getCache = function(name, ...args) {
-  let key = this.getCacheName(name, args);
-  if (key in this.cache_) {
-    return this.cache_[key];
-  }
-  return null;
-};
-
-
-/**
- * @param {!string} name
- * @param {!Object} data
- * @param {...Object|number} args
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Commands.prototype.setCache = function(name, data,
-    ...args) {
-  let key = this.getCacheName(name, args);
-  this.cache_[key] = data;
-  return data;
-};
-
-
-/**
- * @param {!string} name
- * @param {!Object} args
- * @return {!string}
- */
-cwc.protocol.lego.ev3.Commands.prototype.getCacheName = function(name, args) {
-  return name + ':' + JSON.stringify(
-    Array.prototype.slice.call(/** @type {IArrayLike} */ (args)));
-};
+goog.require('cwc.utils.ByteArray');
 
 
 /**
@@ -79,7 +30,7 @@ cwc.protocol.lego.ev3.Commands.prototype.getCacheName = function(name, args) {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getBattery = function() {
+cwc.protocol.lego.ev3.Commands.getBattery = function() {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.BATTERY, 0)
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.READ.BATTERY)
@@ -94,7 +45,7 @@ cwc.protocol.lego.ev3.Commands.prototype.getBattery = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getDeviceType = function(port) {
+cwc.protocol.lego.ev3.Commands.getDeviceType = function(port) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.DEVICE_NAME, 0x7F)
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.GETDEVICENAME)
@@ -106,11 +57,26 @@ cwc.protocol.lego.ev3.Commands.prototype.getDeviceType = function(port) {
 
 
 /**
+ * Reads the device type of the list of devices
+ * @param {!Array} ports
+ * @return {!Array.<ArrayBuffer>}
+ * @export
+ */
+cwc.protocol.lego.ev3.Commands.getDeviceTypes = function(ports) {
+  let buffer = [];
+  for (let port of ports) {
+    buffer.push(cwc.protocol.lego.ev3.Commands.getDeviceType(port));
+  }
+  return buffer;
+};
+
+
+/**
  * Reads current EV3 firmware.
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getFirmware = function() {
+cwc.protocol.lego.ev3.Commands.getFirmware = function() {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.FIRMWARE, 0x10)
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.READ.FIRMWARE)
@@ -127,22 +93,16 @@ cwc.protocol.lego.ev3.Commands.prototype.getFirmware = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getActorData = function(port,
-    mode = 0) {
-  let cache = this.getCache('getActorData', port, mode);
-  if (cache) {
-    return /** @type {!ArrayBuffer} */ (cache);
-  }
-  let buffer = new cwc.protocol.lego.ev3.Buffer()
+cwc.protocol.lego.ev3.Commands.getActorData = function(port, mode = 0) {
+  return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.ACTOR_VALUE)
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.READRAW)
     .writePort(port)
     .writeNullByte()
     .writeByte(mode)
     .writeSingleByte()
-    .writeIndex();
-  return /** @type {!ArrayBuffer} */ (this.setCache('getActorData',
-    buffer.readSigned(), port, mode));
+    .writeIndex()
+    .readSigned();
 };
 
 
@@ -153,22 +113,16 @@ cwc.protocol.lego.ev3.Commands.prototype.getActorData = function(port,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getSensorData = function(port,
-    mode = 0) {
-  let cache = this.getCache('getSensorData', port, mode);
-  if (cache) {
-    return /** @type {!ArrayBuffer} */ (cache);
-  }
-  let buffer = new cwc.protocol.lego.ev3.Buffer()
+cwc.protocol.lego.ev3.Commands.getSensorData = function(port, mode = 0) {
+  return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.DEVICE_RAW_VALUE)
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.READRAW)
     .writePort(port)
     .writeNullByte()
     .writeByte(mode)
     .writeSingleByte()
-    .writeIndex();
-  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorData',
-    buffer.readSigned(), port, mode));
+    .writeIndex()
+    .readSigned();
 };
 
 
@@ -179,22 +133,16 @@ cwc.protocol.lego.ev3.Commands.prototype.getSensorData = function(port,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getSensorDataPct = function(port,
-    mode = 0) {
-  let cache = this.getCache('getSensorDataPct', port, mode);
-  if (cache) {
-    return /** @type {!ArrayBuffer} */ (cache);
-  }
-  let buffer = new cwc.protocol.lego.ev3.Buffer()
+cwc.protocol.lego.ev3.Commands.getSensorDataPct = function(port, mode = 0) {
+  return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.DEVICE_PCT_VALUE)
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.READPCT)
     .writePort(port)
     .writeNullByte()
     .writeByte(mode)
     .writeSingleByte()
-    .writeIndex();
-  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorDataPct',
-    buffer.readSigned(), port, mode));
+    .writeIndex()
+    .readSigned();
 };
 
 
@@ -205,22 +153,16 @@ cwc.protocol.lego.ev3.Commands.prototype.getSensorDataPct = function(port,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.getSensorDataSi = function(port,
-    mode = 0) {
-  let cache = this.getCache('getSensorDataSi', port, mode);
-  if (cache) {
-    return /** @type {!ArrayBuffer} */ (cache);
-  }
-  let buffer = new cwc.protocol.lego.ev3.Buffer()
+cwc.protocol.lego.ev3.Commands.getSensorDataSi = function(port, mode = 0) {
+  return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader(cwc.protocol.lego.ev3.CallbackType.DEVICE_SI_VALUE)
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.READSI)
     .writePort(port)
     .writeNullByte()
     .writeByte(mode)
     .writeSingleByte()
-    .writeIndex();
-  return /** @type {!ArrayBuffer} */ (this.setCache('getSensorDataSi',
-    buffer.readSigned(), port, mode));
+    .writeIndex()
+    .readSigned();
 };
 
 
@@ -230,7 +172,7 @@ cwc.protocol.lego.ev3.Commands.prototype.getSensorDataSi = function(port,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.setLed = function(color,
+cwc.protocol.lego.ev3.Commands.setLed = function(color,
     mode = cwc.protocol.lego.ev3.LedMode.NORMAL) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -247,8 +189,7 @@ cwc.protocol.lego.ev3.Commands.prototype.setLed = function(color,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.movePower = function(ports, power,
-    brake) {
+cwc.protocol.lego.ev3.Commands.movePower = function(ports, power, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
 
@@ -276,7 +217,7 @@ cwc.protocol.lego.ev3.Commands.prototype.movePower = function(ports, power,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.rotatePower = function(port_left,
+cwc.protocol.lego.ev3.Commands.rotatePower = function(port_left,
     port_right, power_left, power_right, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -310,7 +251,7 @@ cwc.protocol.lego.ev3.Commands.prototype.rotatePower = function(port_left,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.moveSteps = function(ports, steps,
+cwc.protocol.lego.ev3.Commands.moveSteps = function(ports, steps,
     opt_speed, opt_ramp_up, opt_ramp_down, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -343,7 +284,7 @@ cwc.protocol.lego.ev3.Commands.prototype.moveSteps = function(ports, steps,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.rotateSteps = function(port_left,
+cwc.protocol.lego.ev3.Commands.rotateSteps = function(port_left,
     port_right, steps, speedLeft, speedRight, rampUp,
     rampDown, brake) {
   return new cwc.protocol.lego.ev3.Buffer()
@@ -383,7 +324,7 @@ cwc.protocol.lego.ev3.Commands.prototype.rotateSteps = function(port_left,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.customRotateSteps = function(ports,
+cwc.protocol.lego.ev3.Commands.customRotateSteps = function(ports,
     steps, opt_speed, opt_ramp_up, opt_ramp_down, opt_brake) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -409,7 +350,7 @@ cwc.protocol.lego.ev3.Commands.prototype.customRotateSteps = function(ports,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.stop = function(
+cwc.protocol.lego.ev3.Commands.stop = function(
     port = cwc.protocol.lego.ev3.OutputPort.ALL, brake = 0) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -425,7 +366,7 @@ cwc.protocol.lego.ev3.Commands.prototype.stop = function(
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.clear = function() {
+cwc.protocol.lego.ev3.Commands.clear = function() {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.INPUT.DEVICE.CLEARALL)
@@ -442,7 +383,7 @@ cwc.protocol.lego.ev3.Commands.prototype.clear = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.playTone = function(frequency,
+cwc.protocol.lego.ev3.Commands.playTone = function(frequency,
     duration, volume) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -461,7 +402,7 @@ cwc.protocol.lego.ev3.Commands.prototype.playTone = function(frequency,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.playSound = function(filename,
+cwc.protocol.lego.ev3.Commands.playSound = function(filename,
     volume) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
@@ -477,7 +418,7 @@ cwc.protocol.lego.ev3.Commands.prototype.playSound = function(filename,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.drawClean = function() {
+cwc.protocol.lego.ev3.Commands.drawClean = function() {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.DRAW.CLEAN)
@@ -490,7 +431,7 @@ cwc.protocol.lego.ev3.Commands.prototype.drawClean = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.drawUpdate = function() {
+cwc.protocol.lego.ev3.Commands.drawUpdate = function() {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.DRAW.UPDATE)
@@ -507,7 +448,7 @@ cwc.protocol.lego.ev3.Commands.prototype.drawUpdate = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.drawImage = function(filename,
+cwc.protocol.lego.ev3.Commands.drawImage = function(filename,
     opt_x, opt_y, opt_color) {
   let filepath = '/home/root/lms2012/prjs/' + filename.replace('.rgf', '');
   return new cwc.protocol.lego.ev3.Buffer()
@@ -531,8 +472,7 @@ cwc.protocol.lego.ev3.Commands.prototype.drawImage = function(filename,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.lego.ev3.Commands.prototype.drawLine = function(x1, y1, x2, y2,
-    color) {
+cwc.protocol.lego.ev3.Commands.drawLine = function(x1, y1, x2, y2, color) {
   return new cwc.protocol.lego.ev3.Buffer()
     .writeHeader()
     .writeCommand(cwc.protocol.lego.ev3.Command.UI.DRAW.LINE)

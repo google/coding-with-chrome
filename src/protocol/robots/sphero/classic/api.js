@@ -174,7 +174,7 @@ cwc.protocol.sphero.classic.Api.prototype.exec = function(command, data = {}) {
  */
 cwc.protocol.sphero.classic.Api.prototype.execRunnerProfile = function(data,
     command) {
-  this.exec(command, data);
+  this.send_(this.handler[command](data));
 };
 
 

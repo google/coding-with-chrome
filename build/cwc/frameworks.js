@@ -49,7 +49,7 @@ closureBuilder.build({
     'src/frameworks/internal/ev3/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/message/*.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/protocol/robots/lego/ev3/*.js',
     'src/utils/stack_queue.js',
   ]),
@@ -128,17 +128,17 @@ closureBuilder.build({
 
 
 /**
- * Message Framework
+ * Messenger Framework
  */
 closureBuilder.build({
-  name: 'cwc.framework.Message',
+  name: 'cwc.framework.Messenger',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/message/*.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
   ]),
   externs: [],
-  out: 'genfiles/core/frameworks/internal/message_framework.js',
+  out: 'genfiles/core/frameworks/internal/messenger_framework.js',
 });
 
 

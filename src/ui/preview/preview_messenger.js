@@ -1,5 +1,5 @@
 /**
- * @fileoverview Preview Message for the Coding with Chrome editor.
+ * @fileoverview Preview Messenger for the Coding with Chrome editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.PreviewMessage');
+goog.provide('cwc.ui.PreviewMessenger');
 
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -28,9 +28,9 @@ goog.require('cwc.utils.Logger');
  * @struct
  * @final
  */
-cwc.ui.PreviewMessage = function() {
+cwc.ui.PreviewMessenger = function() {
   /** @type {string} */
-  this.name = 'Preview Message Handler';
+  this.name = 'Preview Messenger';
 
   /** @type {string} */
   this.appOrigin = '';
@@ -73,7 +73,7 @@ cwc.ui.PreviewMessage = function() {
  * @template THIS
  * @export
  */
-cwc.ui.PreviewMessage.prototype.addListener = function(name, func,
+cwc.ui.PreviewMessenger.prototype.addListener = function(name, func,
     scope = this.listenerScope_) {
   if (!name) {
     this.log_.error('Listener name is undefined!');
@@ -92,10 +92,40 @@ cwc.ui.PreviewMessage.prototype.addListener = function(name, func,
 
 
 /**
+ * Adds listener commands provided by api implementations.
+ * @param {!Object} api
+ * @export
+ */
+cwc.ui.PreviewMessenger.prototype.addApiListener = function(api) {
+  if (!api) {
+    this.log_.error('Invalid api', api);
+    return;
+  }
+  if (!api.handler) {
+    this.log_.error('Unable to get api handler for', api);
+    return;
+  }
+  if (!api.handler.__proto__) {
+    this.log_.error('Unable to detect api any commands', api.handler);
+    return;
+  }
+  let commandList = Object.getOwnPropertyNames(api.handler.__proto__);
+  for (let i = 0; i < commandList.length; i++) {
+    let command = commandList[i];
+    if (!command.endsWith('_') && command !== 'constructor') {
+      this.addListener(command, function(data) {
+        api.exec(command, data);
+      });
+    }
+  }
+};
+
+
+/**
  * @param {string!} command
  * @param {Object|number|string|Array=} value
  */
-cwc.ui.PreviewMessage.prototype.send = function(command, value = {}) {
+cwc.ui.PreviewMessenger.prototype.send = function(command, value = {}) {
   if (!this.target || !this.target.contentWindow) {
     return;
   }
@@ -110,7 +140,7 @@ cwc.ui.PreviewMessage.prototype.send = function(command, value = {}) {
  * @param {!string} appOrigin
  * @export
  */
-cwc.ui.PreviewMessage.prototype.setAppOrigin = function(appOrigin) {
+cwc.ui.PreviewMessenger.prototype.setAppOrigin = function(appOrigin) {
   if (appOrigin) {
     this.appOrigin = appOrigin;
   }
@@ -121,7 +151,7 @@ cwc.ui.PreviewMessage.prototype.setAppOrigin = function(appOrigin) {
  * @param {!Object} appWindow
  * @export
  */
-cwc.ui.PreviewMessage.prototype.setAppWindow = function(appWindow) {
+cwc.ui.PreviewMessenger.prototype.setAppWindow = function(appWindow) {
   if (appWindow) {
     this.appWindow = appWindow;
   }
@@ -131,7 +161,7 @@ cwc.ui.PreviewMessage.prototype.setAppWindow = function(appWindow) {
 /**
  * @param {Object} target
  */
-cwc.ui.PreviewMessage.prototype.setTarget = function(target) {
+cwc.ui.PreviewMessenger.prototype.setTarget = function(target) {
   if (!target) {
     this.log_.error('Was not able to init target', target);
     return;
@@ -150,7 +180,7 @@ cwc.ui.PreviewMessage.prototype.setTarget = function(target) {
  * @template THIS
  * @export
  */
-cwc.ui.PreviewMessage.prototype.setListenerScope = function(scope) {
+cwc.ui.PreviewMessenger.prototype.setListenerScope = function(scope) {
   if (scope && typeof scope !== 'function' && typeof scope !== 'object') {
     throw new Error('Invalid scope!', scope);
   } else if (scope) {
@@ -163,7 +193,8 @@ cwc.ui.PreviewMessage.prototype.setListenerScope = function(scope) {
 /**
  * @private
  */
-cwc.ui.PreviewMessage.prototype.handleContentLoad_ = function() {
+cwc.ui.PreviewMessenger.prototype.handleContentLoad_ = function() {
+  this.token_ = String(new Date().getTime());
   this.log_.info('Sending handshake with token', this.token_);
   this.send('__handshake__', {
     'token': this.token_,
@@ -177,7 +208,7 @@ cwc.ui.PreviewMessage.prototype.handleContentLoad_ = function() {
  * @param {Event} event
  * @private
  */
-cwc.ui.PreviewMessage.prototype.handleMessage_ = function(event) {
+cwc.ui.PreviewMessenger.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }
@@ -202,7 +233,7 @@ cwc.ui.PreviewMessage.prototype.handleMessage_ = function(event) {
  * @param {!Object} data
  * @private
  */
-cwc.ui.PreviewMessage.prototype.handleHandshake_ = function(data) {
+cwc.ui.PreviewMessenger.prototype.handleHandshake_ = function(data) {
   let token = data['token'];
   if (!token || this.token_ !== token) {
     this.log_.error('Received wrong handshake token:', token);

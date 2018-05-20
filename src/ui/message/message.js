@@ -49,6 +49,21 @@ cwc.ui.Message = function(helper) {
   /** @type {Element} */
   this.nodeHelp = null;
 
+  /** @type {Element} */
+  this.nodeCalibration = null;
+
+  /** @type {Element} */
+  this.nodeCalibrationTab = null;
+
+  /** @type {Element} */
+  this.nodeMonitor = null;
+
+  /** @type {Element} */
+  this.nodeMonitorTab = null;
+
+  /** @type {!boolean} */
+  this.decorated_ = false;
+
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -58,6 +73,10 @@ cwc.ui.Message = function(helper) {
  * @param {Element=} node
  */
 cwc.ui.Message.prototype.decorate = function(node) {
+  if (this.decorated_) {
+    return;
+  }
+
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     this.log_.error('Invalid Status node:', this.node);
@@ -71,15 +90,93 @@ cwc.ui.Message.prototype.decorate = function(node) {
       }
   );
 
+  this.nodeCalibration = goog.dom.getElement(this.prefix + 'calibration');
+  this.nodeCalibrationTab = goog.dom.getElement(
+    this.prefix + 'tab-calibration');
+  this.nodeControl = goog.dom.getElement(this.prefix + 'control');
+  this.nodeControlTab = goog.dom.getElement(this.prefix + 'tab-control');
+  this.nodeMonitor = goog.dom.getElement(this.prefix + 'monitor');
+  this.nodeMonitorTab = goog.dom.getElement(this.prefix + 'tab-monitor');
+
   this.show(false);
+  this.showCalibration(false);
+  this.showControl(false);
+  this.showMonitor(false);
+  this.decorated_ = true;
+};
+
+
+/**
+ * @param {Function=} decorator
+ */
+cwc.ui.Message.prototype.decorateCalibration = function(decorator) {
+  this.decorate();
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(this.nodeCalibration);
+  }
+  this.showCalibration();
+  this.show();
+};
+
+
+/**
+ * @param {Function=} decorator
+ */
+cwc.ui.Message.prototype.decorateControl = function(decorator) {
+  this.decorate();
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(this.nodeControl);
+  }
+  this.showControl();
+  this.show();
+};
+
+
+/**
+ * @param {Function=} decorator
+ */
+cwc.ui.Message.prototype.decorateMonitor = function(decorator) {
+  this.decorate();
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(this.nodeMonitor);
+  }
+  this.showMonitor();
+  this.show();
 };
 
 
 /**
  * @param {boolean} visible
  */
-cwc.ui.Message.prototype.show = function(visible) {
+cwc.ui.Message.prototype.show = function(visible = true) {
   goog.style.setElementShown(this.node, visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Message.prototype.showCalibration = function(visible = true) {
+  goog.style.setElementShown(this.nodeCalibration, visible);
+  goog.style.setElementShown(this.nodeCalibrationTab, visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Message.prototype.showControl = function(visible = true) {
+  goog.style.setElementShown(this.nodeControl, visible);
+  goog.style.setElementShown(this.nodeControl, visible);
+};
+
+
+/**
+ * @param {boolean} visible
+ */
+cwc.ui.Message.prototype.showMonitor = function(visible = true) {
+  goog.style.setElementShown(this.nodeMonitor, visible);
+  goog.style.setElementShown(this.nodeMonitorTab, visible);
 };
 
 
@@ -100,3 +197,5 @@ cwc.ui.Message.prototype.renderHelp = function(template, values) {
   goog.soy.renderElement(
     goog.dom.getElement(this.prefix + 'help'), template, values);
 };
+
+

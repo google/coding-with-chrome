@@ -29,6 +29,12 @@ goog.require('cwc.ui.Terminal');
 
 
 /**
+ * @typedef {cwc.protocol.lego.ev3.Api}
+ */
+cwc.mode.default.ApiTypes;
+
+
+/**
  * @typedef {cwc.mode.lego.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
@@ -79,6 +85,9 @@ cwc.mode.default.MonitorTypes;
 cwc.mode.default.Mod = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {cwc.mode.default.ApiTypes} */
+  this.api = null;
 
   /** @type {cwc.ui.Blockly} */
   this.blockly = null;
@@ -239,6 +248,25 @@ cwc.mode.default.Mod.prototype.decorateRunner = function() {
   this.helper.setInstance('preview', this.preview, true);
   this.preview.enableRunner();
   this.preview.decorate();
+  if (this.api) {
+    this.preview.getMessenger().addApiListener(this.api);
+  }
+};
+
+
+/**
+ * @param {Function=} decorator
+ */
+cwc.mode.default.Mod.prototype.decorateControl = function(decorator) {
+  this.message.decorateControl(decorator);
+};
+
+
+/**
+ * @param {Function=} decorator
+ */
+cwc.mode.default.Mod.prototype.decorateMonitor = function(decorator) {
+  this.message.decorateMonitor(decorator);
 };
 
 
@@ -274,6 +302,7 @@ cwc.mode.default.Mod.prototype.enableBlockly = function(toolbox) {
  */
 cwc.mode.default.Mod.prototype.setConnection = function(connection) {
   this.connection = connection;
+  this.api = this.connection.getApi();
 };
 
 
