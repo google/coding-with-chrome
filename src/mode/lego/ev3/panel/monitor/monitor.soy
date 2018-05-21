@@ -27,14 +27,20 @@
   {@param devices: ?}
   {@param prefix: string}
 
-  {foreach $device in keys($devices)}
-    {call .interfacePort_}
-      {param prefix: $prefix /}
-      {param mode: $devices[$device]['mode'] /}
-      {param port: $device /}
-      {param type: $devices[$device]['type'] /}
-    {/call}
-  {/foreach}
+  <div id="{$prefix}body">
+    {foreach $device in keys($devices)}
+      {call .interfacePort_}
+        {param prefix: $prefix /}
+        {param mode: $devices[$device]['mode'] /}
+        {param port: $device /}
+        {param type: $devices[$device]['type'] /}
+      {/call}
+    {/foreach}
+
+    <button id="{$prefix}refresh" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+      <i class="material-icons">update</i>
+    </button>
+  </div>
 {/template}
 
 

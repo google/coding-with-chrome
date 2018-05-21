@@ -30,7 +30,7 @@ goog.require('cwc.utils.Logger');
  */
 cwc.Messenger = function() {
   /** @type {string} */
-  this.name = 'Preview Messenger';
+  this.name = 'Messenger';
 
   /** @type {string} */
   this.appOrigin = '';

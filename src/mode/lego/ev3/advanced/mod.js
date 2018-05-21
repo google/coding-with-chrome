@@ -23,7 +23,8 @@ goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.lego.ev3.Calibration');
 goog.require('cwc.mode.lego.ev3.Connection');
 goog.require('cwc.mode.lego.ev3.Control');
-goog.require('cwc.mode.lego.ev3.Events');
+goog.require('cwc.mode.lego.ev3.SensorEvents');
+goog.require('cwc.mode.lego.ev3.DeviceEvents');
 goog.require('cwc.mode.lego.ev3.Hints');
 goog.require('cwc.mode.lego.ev3.Monitor');
 goog.require('cwc.renderer.external.EV3');
@@ -37,8 +38,10 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = new cwc.mode.lego.ev3.Connection(helper);
 
-  /** @type {!cwc.mode.lego.ev3.Events} */
-  this.events = cwc.mode.lego.ev3.Events;
+  /** @type {!cwc.mode.lego.ev3.SensorEvents} */
+  this.events = Object.assign(
+    cwc.mode.lego.ev3.DeviceEvents, cwc.mode.lego.ev3.SensorEvents,
+  );
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
@@ -62,6 +65,7 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
+  console.log(this.events);
   this.mod.setConnection(this.connection);
   this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);

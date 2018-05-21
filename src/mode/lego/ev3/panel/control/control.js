@@ -189,10 +189,11 @@ cwc.mode.lego.ev3.Control.prototype.addKeyHandler_ = function() {
  */
 cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
   if (!this.messageInstance_.isControlActive() &&
-      !this.messageInstance_.isMonitorActive()) {
+      !this.messageInstance_.isMonitorActive() ||
+      event.target.tagName === 'INPUT') {
     return;
   }
-
+  console.log(event);
   // Motor control commands
   switch (this.robotType_) {
     case cwc.protocol.lego.ev3.RobotType.ARM:

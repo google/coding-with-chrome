@@ -220,11 +220,11 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
 
   // Added messenger events.
   if (this.messengerEvents && this.connectionEventHandler) {
-    for (let device in cwc.mode.lego.ev3.Events) {
-      if (cwc.mode.lego.ev3.Events.hasOwnProperty(device)) {
-        let event = cwc.mode.lego.ev3.Events[device];
+    for (let event in this.messengerEvents) {
+      if (this.messengerEvents.hasOwnProperty(event)) {
+        let eventName = this.messengerEvents[event];
         this.preview.getMessenger().addEventListener(
-          this.connectionEventHandler, event, '__EVENT__' + event);
+          this.connectionEventHandler, eventName, '__EVENT__' + eventName);
       }
     }
   }

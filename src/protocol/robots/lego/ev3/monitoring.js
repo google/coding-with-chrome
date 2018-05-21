@@ -83,25 +83,46 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
   /** @private {!Object} */
   this.monitor_ = {};
 
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
+
   this.events_.listen(this.api.getEventHandler(),
     cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
-    this.updateMonitoring, false, this);
+    this.handleDeviceChanges_, false, this);
 };
 
 
-cwc.protocol.lego.ev3.Monitoring.prototype.updateMonitoring = function(e) {
-  if (!e.data) {
+/**
+ * Starts the port monitoring.
+ */
+cwc.protocol.lego.ev3.Monitoring.prototype.start = function() {
+  if (this.started) {
     return;
   }
-
-  for (let port in e.data) {
-    if (typeof this.devices_[port] === 'undefined' ||
-        this.devices_[port].type !== e.data[port].type ||
-        this.devices_[port].mode !== e.data[port].mode) {
-      this.enableMonitor(port, e.data[port].type, e.data[port].mode);
-      this.devices_[port] = e.data[port];
+  this.log_.info('Starting...');
+  Object.keys(this.devices_).forEach(function(port) {
+    if (this.devices_[port] && !this.monitor[port]) {
+      this.enableMonitor(
+        port, this.devices_[port].type, this.devices_[port].mode);
     }
+  }.bind(this));
+  this.started = true;
+};
+
+
+/**
+ * Stops the port monitoring.
+ */
+cwc.protocol.lego.ev3.Monitoring.prototype.stop = function() {
+  if (!this.started) {
+    return;
   }
+  this.log_.info('Stopping...');
+  Object.keys(this.monitor_).forEach(function(port) {
+    clearInterval(this.monitor_[port]);
+    this.monitor_[port] = undefined;
+  }.bind(this));
+  this.started = false;
 };
 
 
@@ -145,8 +166,8 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
   let interval = cwc.protocol.lego.ev3.MonitoringIntervals[type];
   let buffer = this.api.getBuffer(command, {'port': port, 'mode': mode});
   this.api.send(buffer);
-  console.log('Enable monitoring for', type, 'on port', port, 'with interval',
-    interval);
+  this.log_.info('Enable monitoring for', type, 'on port', port,
+    'with interval', interval);
   this.monitor_[port] = setInterval(
     this.api.send.bind(this.api), interval, buffer);
   this.api.exec('getDeviceType', {'port': port});
@@ -154,26 +175,26 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
 
 
 /**
- * Starts the port monitoring.
+ * @param {Event} event
+ * @private
  */
-cwc.protocol.lego.ev3.Monitoring.prototype.start = function() {
-  if (!this.started) {
-    console.log('Preparing...');
+cwc.protocol.lego.ev3.Monitoring.prototype.handleDeviceChanges_ = function(
+  event) {
+  if (!event.data) {
+    return;
   }
-  this.started = true;
-};
 
-
-/**
- * Stops the port monitoring.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.stop = function() {
-  if (this.started) {
-    console.log('Stopping...');
-    Object.keys(this.monitor_).forEach(function(value) {
-      clearInterval(this.monitor_[value]);
-      this.monitor_[value] = undefined;
-    }.bind(this));
-    this.started = false;
+  let changedDevices = false;
+  for (let port in event.data) {
+    if (typeof this.devices_[port] === 'undefined' ||
+        this.devices_[port].type !== event.data[port].type ||
+        this.devices_[port].mode !== event.data[port].mode) {
+      this.devices_[port] = event.data[port];
+      changedDevices = true;
+    }
+  }
+  if (changedDevices) {
+    this.stop();
+    this.start();
   }
 };

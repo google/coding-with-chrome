@@ -15,23 +15,29 @@
  */
 
 
-#{$prefix}ev3-monitor-intro,
-#{$prefix}ev3-monitor-control,
-#{$prefix}ev3-monitor-calibration,
-#{$prefix}ev3-monitor-monitor {
+#cwc-ev3-monitor-body {
   padding: 5px;
-  position: relative;
+}
+
+#{$prefix}ev3-monitor-refresh {
+  bottom: 10px;
+  position: absolute;
+  right: 10px;
 }
 
 .{$prefix}ev3-monitor-interface-view {
-  width: 80px;
-  height: 65px;
-  border: 1px solid #aaa;
+  background: linear-gradient(
+    to bottom, 
+    #ffffff 0%,#f3f3f3 65%,
+    #ededed 67%,#ffffff 100%
+  );
   border-radius: 5px;
-  background: linear-gradient(to bottom,
-    #ffffff 0%,#f3f3f3 65%,#ededed 67%,#ffffff 100%);
+  border: 1px solid #aaa;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
   float: left;
+  height: 70px;
   margin: 2px;
+  width: 90px;
 }
 
 .{$prefix}ev3-monitor-interface-view-info {
@@ -47,10 +53,12 @@
   border-top-left-radius: 5px;
   font-size: 12px;
   width: 15px;
-  padding-left: 5px;
+  padding-left: 3px;
   margin-right: 5px;
+  padding-right: 5px;
   display: block;
   float: left;
+  text-align: right;
 }
 
 .{$prefix}ev3-monitor-interface-view-type {

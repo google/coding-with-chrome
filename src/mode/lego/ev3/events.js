@@ -17,13 +17,22 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.lego.ev3.Events');
+goog.provide('cwc.mode.lego.ev3.DeviceEvents');
+goog.provide('cwc.mode.lego.ev3.SensorEvents');
 
 
 /**
  * @enum {!String}
  */
-cwc.mode.lego.ev3.Events = {
+cwc.mode.lego.ev3.DeviceEvents = {
+  CHANGED_DEVICES: 'CHANGED_DEVICES',
+};
+
+
+/**
+ * @enum {!String}
+ */
+cwc.mode.lego.ev3.SensorEvents = {
   COL_AMBIENT: 'COL-AMBIENT',
   COL_COLOR: 'COL-COLOR',
   COL_REFLECT: 'COL-REFLECT',

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.lego.ev3.Monitor');
 
-goog.require('cwc.mode.lego.ev3.Events');
+goog.require('cwc.mode.lego.ev3.SensorEvents');
 goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.RobotType');
@@ -63,8 +63,11 @@ cwc.mode.lego.ev3.Monitor = function(helper, connection) {
   /** @type {boolean} */
   this.prepared = false;
 
+  /** @private {!cwc.protocol.lego.ev3.Api} */
+  this.api_ = this.connection.getApi();
+
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name, this.prefi, this);
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
 
 
@@ -90,10 +93,10 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
     cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES, this.updateDevices);
 
   // Monitor sensor data
-  for (let device in cwc.mode.lego.ev3.Events) {
-    if (cwc.mode.lego.ev3.Events.hasOwnProperty(device)) {
-      this.events_.listen(
-        eventHandler, cwc.mode.lego.ev3.Events[device], this.updateDeviceData);
+  for (let device in cwc.mode.lego.ev3.SensorEvents) {
+    if (cwc.mode.lego.ev3.SensorEvents.hasOwnProperty(device)) {
+      this.events_.listen(eventHandler, cwc.mode.lego.ev3.SensorEvents[device],
+        this.updateDeviceData);
     }
   }
 
@@ -120,7 +123,7 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDevices = function(event) {
     }
   );
 
-  // Cache content divs for value updates
+  // Cache content divs for faster value updates
   for (let entry in cwc.protocol.lego.ev3.InputPort) {
     if (cwc.protocol.lego.ev3.InputPort.hasOwnProperty(entry)) {
       let port = cwc.protocol.lego.ev3.InputPort[entry];
@@ -128,6 +131,10 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDevices = function(event) {
          port + '-value');
     }
   }
+
+  // Refresh button
+  this.events_.listen('refresh', goog.events.EventType.CLICK,
+    this.api_.getDeviceTypes.bind(this.api_));
 };
 
 

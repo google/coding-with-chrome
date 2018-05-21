@@ -27,7 +27,7 @@
 {template .template}
   {@param prefix: string}
 
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+  <div id={$prefix}body class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
     <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
         <a href="#{$prefix}monitor" id="{$prefix}tab-monitor" class="mdl-layout__tab">

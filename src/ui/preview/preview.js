@@ -21,7 +21,6 @@ goog.provide('cwc.ui.Preview');
 
 goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
-goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
@@ -81,9 +80,6 @@ cwc.ui.Preview = function(helper) {
   /** @type {!cwc.ui.StatusButton} */
   this.statusButton = new cwc.ui.StatusButton(this.helper);
 
-  /** @type {cwc.ui.PreviewInfobar} */
-  this.infobar = null;
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
@@ -137,12 +133,9 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.node, cwc.soy.ui.Preview.template, {prefix: this.prefix}
   );
 
-  // Runtime
-  if (this.enableMessenger_) {
-    this.nodeRuntime = goog.dom.getElement(this.prefix + 'runner');
-  } else {
-    this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
-  }
+  // Render Runtime
+  this.nodeRuntime = goog.dom.getElement(
+    this.prefix + (this.enableMessenger_ ? 'runner' : 'runtime'));
   this.render();
 
   // Statusbar
@@ -154,25 +147,22 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Status Button and actions buttons
   this.decorateStatusButton(goog.dom.getElement(this.prefix + 'statusbutton'));
 
-  // Infobar
-  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  if (nodeInfobar) {
-    this.infobar = new cwc.ui.PreviewInfobar(this.helper);
-    this.infobar.decorate(nodeInfobar);
-  }
-
-  // Monitor Changes
-  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.refresh, false, this);
-
+  // Adding cleanup handler event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
-    this.events_.listen(eventHandler, goog.events.EventType.DRAGEND,
-        this.refresh, false, this);
+    this.events_.listen(layoutInstance.getEventHandler(),
+      goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  // Monitor Changes expect for messenger mode
+  if (!this.enableMessenger_) {
+    let viewportMonitor = new goog.dom.ViewportSizeMonitor();
+    this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
+      this.refresh, false, this);
+    if (layoutInstance) {
+      this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.DRAGEND, this.refresh, false, this);
+    }
   }
 };
 
@@ -210,10 +200,6 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
  * Renders content for preview window.
  */
 cwc.ui.Preview.prototype.render = function() {
-  if (this.infobar) {
-    this.infobar.clear();
-  }
-
   let terminalInstance = this.helper.getInstance('terminal');
   if (terminalInstance) {
     terminalInstance.clearErrors();
@@ -342,21 +328,6 @@ cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
     this.previewStatus_.setStatus(cwc.ui.StatusbarState.TERMINATED);
     this.content.terminate();
-  }
-};
-
-
-/**
- * Shows or hides the built in console.
- * @param {boolean} visible
- */
-cwc.ui.Preview.prototype.showConsole = function(visible) {
-  if (this.infobar) {
-    if (visible) {
-      this.infobar.showConsole();
-    } else {
-      this.infobar.hideConsole();
-    }
   }
 };
 

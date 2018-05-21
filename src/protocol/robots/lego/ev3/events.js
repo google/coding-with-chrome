@@ -28,7 +28,7 @@ goog.require('cwc.utils.EventData');
  * @enum {string}
  */
 cwc.protocol.lego.ev3.Events.Type = Object.assign({
-  CHANGED_DEVICES: 'changed_devices',
+  CHANGED_DEVICES: 'CHANGED_DEVICES',
   CONNECT: 'connect',
 }, cwc.protocol.lego.ev3.DeviceType);
 
