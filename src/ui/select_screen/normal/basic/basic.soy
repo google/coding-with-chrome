@@ -84,12 +84,12 @@
   {/call}
 
   {if $experimental}
-    <div id="tutorial-basic-content">
+    <div id="tour-basic-content">
       {call cwc.soy.SelectScreenTemplate.titleGrid data="all"}
         {param text: 'Select a Tour ...' /}
         {param opt_icon: 'library_books' /}
       {/call}
-  
+
       <div class="mdl-grid">
         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Coding with Chrome Basics' /}
@@ -117,7 +117,7 @@
         {param opt_icon: 'school' /}
       {/call}
 
-      <div class="mdl-grid">
+      <div class="mdl-grid cwc-tutorial-list">
         {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
           {param title: 'Blockly Basics' /}
           {param text: 'Learn drag-and-drop programming' /}
