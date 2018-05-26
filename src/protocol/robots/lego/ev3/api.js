@@ -24,6 +24,7 @@ goog.provide('cwc.protocol.lego.ev3.Api');
 
 goog.require('cwc.protocol.lego.ev3.ColorSensorMode');
 goog.require('cwc.protocol.lego.ev3.Device');
+goog.require('cwc.protocol.lego.ev3.Devices');
 goog.require('cwc.protocol.lego.ev3.DevicesDefault');
 goog.require('cwc.protocol.lego.ev3.DeviceType');
 goog.require('cwc.protocol.lego.ev3.Events');
@@ -70,9 +71,6 @@ cwc.protocol.lego.ev3.Api = function() {
   this.deviceData = {};
 
   /** @type {Object} */
-  this.deviceTypeOnPort = {};
-
-  /** @type {Object} */
   this.portsForDeviceType = {};
 
   /** @type {!string} */
@@ -84,14 +82,17 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {Object} */
   this.cache_ = {};
 
-  /** @private {Object} */
-  this.devices_ = cwc.protocol.lego.ev3.DevicesDefault;
+  /** @private {!cwc.protocol.lego.ev3.Devices} */
+  this.devices_ = new cwc.protocol.lego.ev3.Devices();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
+
+  /** @private {number} */
+  this.eventTimerUpdatedDevices = null;
 
   /** @type {!cwc.protocol.lego.ev3.Monitoring} */
   this.monitoring = new cwc.protocol.lego.ev3.Monitoring(this);
@@ -350,7 +351,7 @@ cwc.protocol.lego.ev3.Api.prototype.monitor = function(enable) {
 
 
 /**
- * @return {!Object}
+ * @return {!cwc.protocol.lego.ev3.Devices}
  */
 cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
   return this.devices_;
@@ -444,7 +445,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
   this.deviceData[port] = value;
   this.eventHandler_.dispatchEvent(
     cwc.protocol.lego.ev3.Events.changedSensorValue(
-      port, value, this.deviceTypeOnPort[port]));
+      port, value, this.devices_[port].type));
 };
 
 
@@ -470,28 +471,45 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   }
 
   // Store detected sensors changes for automatic mapping.
-  if (typeof this.devices_[port] === 'undefined' ||
-      this.devices_[port].type !== type) {
+  if (typeof this.devices_.port[port] === 'undefined' ||
+      this.devices_.port[port].type !== type) {
     if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
       console.log('Found', type, 'on port', port);
     }
-    this.devices_[port] = cwc.protocol.lego.ev3.Device[type];
-    this.deviceTypeOnPort[port] = type;
+    this.devices_.port[port] = cwc.protocol.lego.ev3.Device[type];
 
-    if (port >= 16) {
-      let devicePort = Math.pow(2, port - 16);
-      if (!this.portsForDeviceType[type]) {
-        this.portsForDeviceType[type] = [devicePort];
-      } else if (!this.portsForDeviceType[type].includes(devicePort)) {
-        this.portsForDeviceType[type].push(devicePort);
-      }
-      if (this.handler) {
-        this.handler.setDevices_(this.portsForDeviceType);
+    // Sensor Mapping
+    if (port < 16) {
+      if (!this.devices_.sensor[type]) {
+        this.devices_.sensor[type] = [port];
+      } else if (!this.devices_.sensor[type].includes(port)) {
+        this.devices_.sensor[type].push(port);
       }
     }
 
-    this.eventHandler_.dispatchEvent(
-      cwc.protocol.lego.ev3.Events.changedDevices(this.devices_));
+    // Actor Mapping
+    if (port >= 16) {
+      let devicePort = Math.pow(2, port - 16);
+      if (!this.devices_.actor[type]) {
+        this.devices_.actor[type] = [devicePort];
+      } else if (!this.devices_.actor[type].includes(devicePort)) {
+        this.devices_.actor[type].push(devicePort);
+      }
+    }
+
+    // Combine repeating device changed events.
+    if (this.eventTimerUpdatedDevices !== null) {
+      clearTimeout(this.eventTimerUpdatedDevices);
+      this.eventTimerUpdatedDevices = null;
+    }
+    this.eventTimerUpdatedDevices = setTimeout(() => {
+      if (this.handler) {
+        this.handler.setDevices_(this.devices_);
+      }
+
+      this.eventHandler_.dispatchEvent(
+        cwc.protocol.lego.ev3.Events.changedDevices(this.devices_));
+    }, 50);
   }
 };
 

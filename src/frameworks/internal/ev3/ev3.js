@@ -66,7 +66,7 @@ cwc.framework.Ev3 = function() {
   /** @type {!number} */
   this.mediumMotorSpeed = 250 / 60;
 
-  /** @private {Object} */
+  /** @private {!cwc.protocol.lego.ev3.Devices} */
   this.deviceData_ = {};
 
   /** @private {Object} */

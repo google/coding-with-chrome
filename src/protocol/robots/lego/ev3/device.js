@@ -18,6 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.lego.ev3.Device');
+goog.provide('cwc.protocol.lego.ev3.Devices');
 goog.provide('cwc.protocol.lego.ev3.DevicesDefault');
 
 goog.require('cwc.protocol.lego.ev3.ColorSensorMode');
@@ -26,6 +27,22 @@ goog.require('cwc.protocol.lego.ev3.GyroMode');
 goog.require('cwc.protocol.lego.ev3.IrSensorMode');
 goog.require('cwc.protocol.lego.ev3.MotorMode');
 goog.require('cwc.protocol.lego.ev3.UltrasonicSensorMode');
+
+
+/**
+ * @constructor
+ * @struct 
+ */
+cwc.protocol.lego.ev3.Devices = function() {
+  /** @type {Object} */
+  this.port = cwc.protocol.lego.ev3.DevicesDefault;
+
+  /** @type {Object.<Array>} */
+  this.actor = {};
+
+  /**@type {Object.<Array>} */
+  this.sensor = {};
+};
 
 
 /**
