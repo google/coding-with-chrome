@@ -49,10 +49,13 @@ cwc.renderer.Renderer = function(helper) {
   /** @type {!cwc.renderer.Helper} */
   this.rendererHelper = new cwc.renderer.Helper();
 
-  /** @type {cwc.ui.Editor} */
+  /** @private {!Object} */
+  this.devices_ = {};
+
+  /** @private {cwc.ui.Editor} */
   this.editorInstance_ = null;
 
-  /** @type {!boolean} */
+  /** @private {!boolean} */
   this.serverMode_ = false;
 
   /** @private {!cwc.utils.Logger} */
@@ -69,6 +72,14 @@ cwc.renderer.Renderer = function(helper) {
  */
 cwc.renderer.Renderer.prototype.getRendererHelper = function() {
   return this.rendererHelper;
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.renderer.Renderer.prototype.setDevices = function(data) {
+  this.devices_ = data;
 };
 
 
@@ -127,6 +138,7 @@ cwc.renderer.Renderer.prototype.getRenderedContent = function() {
   let enviroment = {
     'baseURL': this.helper.getBaseURL(),
     'currentView': this.editorInstance_.getCurrentView(),
+    'devices': this.devices_,
   };
 
   let html = this.renderer(

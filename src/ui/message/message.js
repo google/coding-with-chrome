@@ -169,6 +169,9 @@ cwc.ui.Message.prototype.isMonitorActive = function() {
  */
 cwc.ui.Message.prototype.show = function(visible = true) {
   goog.style.setElementShown(this.node, visible);
+  if (visible) {
+    this.refresh();
+  }
 };
 
 
@@ -178,6 +181,7 @@ cwc.ui.Message.prototype.show = function(visible = true) {
 cwc.ui.Message.prototype.showCalibration = function(visible = true) {
   goog.style.setElementShown(this.nodeCalibration, visible);
   goog.style.setElementShown(this.nodeCalibrationTab, visible);
+  this.nodeCalibrationTab.click();
 };
 
 
@@ -218,3 +222,8 @@ cwc.ui.Message.prototype.renderHelp = function(template, values) {
 };
 
 
+cwc.ui.Message.prototype.refresh = function() {
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
+};

@@ -68,6 +68,11 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(this.apiEvents_,
       cwc.protocol.sphero.v1.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
+
+    // Monitor device data
+    this.events_.listen(this.apiEvents_,
+      cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
+      this.handleUpdateDevices_.bind(this));
   }
 
   if (!this.connectMonitor) {
@@ -139,6 +144,14 @@ cwc.mode.lego.ev3.Connection.prototype.getDevices = function() {
 
 
 /**
+ * @param {Object} data
+ */
+cwc.mode.lego.ev3.Connection.prototype.setSensorMode = function(data) {
+  this.api_.setSensorMode(data);
+};
+
+
+/**
  * @return {!cwc.protocol.lego.ev3.Api}
  * @export
  */
@@ -169,6 +182,18 @@ cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {
   let title = 'Connecting EV3';
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.lego.ev3.Connection.prototype.handleUpdateDevices_ = function(e) {
+  let rendererInstance = this.helper.getInstance('renderer');
+  if (rendererInstance && e.data) {
+    rendererInstance.setDevices(e.data);
+  }
 };
 
 

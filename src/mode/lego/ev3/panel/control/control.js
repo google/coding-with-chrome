@@ -193,7 +193,7 @@ cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
       event.target.tagName === 'INPUT') {
     return;
   }
-  console.log(event);
+
   // Motor control commands
   switch (this.robotType_) {
     case cwc.protocol.lego.ev3.RobotType.ARM:

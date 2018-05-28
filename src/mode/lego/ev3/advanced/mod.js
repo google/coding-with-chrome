@@ -65,11 +65,12 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
  * Decorates the different parts of the modification.
  */
 cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
-  console.log(this.events);
   this.mod.setConnection(this.connection);
   this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
   this.mod.decorate();
+  this.mod.preview.getMessenger().addListener('setSensorMode',
+    this.connection.setSensorMode, this.connection);
   this.mod.decorateControl(this.control);
   this.mod.decorateMonitor(this.monitor);
   this.mod.editor.setLocalHints(cwc.mode.lego.ev3.Hints);

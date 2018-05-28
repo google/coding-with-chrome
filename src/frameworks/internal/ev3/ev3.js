@@ -1,7 +1,7 @@
 /**
  * @fileoverview EV3 framework for the runner instance.
- * This EV3 framework will be used by the runner instance, inside the webview
- * sandbox, to access the EV3 over the runner instance and the Bluetooth
+ * This EV3 framework will be used inside the webview / iframe sandbox,
+ * to access the EV3 over the Bluetooth instance.
  * interface.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
@@ -23,6 +23,8 @@
 goog.provide('cwc.framework.Ev3');
 
 goog.require('cwc.framework.Messenger');
+goog.require('cwc.protocol.lego.ev3.DeviceGroup');
+goog.require('cwc.protocol.lego.ev3.Devices');
 goog.require('cwc.protocol.lego.ev3.LedColor');
 goog.require('cwc.protocol.lego.ev3.LedMode');
 goog.require('cwc.protocol.lego.ev3.RobotType');
@@ -38,9 +40,6 @@ goog.require('cwc.protocol.lego.ev3.Robots');
 cwc.framework.Ev3 = function() {
   /** @type {string} */
   this.name = 'EV3 Framework';
-
-  /** @type {Object} */
-  this.deviceInfo = {};
 
   /** @type {cwc.protocol.lego.ev3.RobotType} */
   this.robotType = cwc.protocol.lego.ev3.RobotType.UNKNOWN;
@@ -67,7 +66,7 @@ cwc.framework.Ev3 = function() {
   this.mediumMotorSpeed = 250 / 60;
 
   /** @private {!cwc.protocol.lego.ev3.Devices} */
-  this.deviceData_ = {};
+  this.devices_ = window['__DEVICES__'] || new cwc.protocol.lego.ev3.Devices();
 
   /** @private {Object} */
   this.sensorData_ = {};
@@ -104,7 +103,6 @@ cwc.framework.Ev3 = function() {
     .addListener('__EVENT__US-DIST-CM', this.handleSensorEvent_)
     .addListener('__EVENT__US-DIST-IN', this.handleSensorEvent_)
     .addListener('__EVENT__US-LISTEN', this.handleSensorEvent_)
-    .addListener('updateDeviceInfo', this.handleUpdateDeviceInfo_)
     .addListener('updateRobotType', this.handleUpdateRobotType_)
     .addListener('updateWheelDiameter', this.handleUpdateWheelDiameter_)
     .addListener('updateWheelWidth', this.handleUpdateWheelWidth_)
@@ -202,12 +200,24 @@ cwc.framework.Ev3.prototype.getDelay = function(steps, speed = 50) {
 
 
 /**
+ * Returns the sensor value.
+ * @param {!number} port
+ * @return {number}
+ * @export
+ */
+cwc.framework.Ev3.prototype.getSensorValue = function(port = 0) {
+  return this.sensorData_[port] || 0;
+};
+
+
+/**
  * Returns the Color Sensor value.
  * @return {number}
  * @export
  */
 cwc.framework.Ev3.prototype.getColorSensorValue = function() {
-  return this.colorSensorValue;
+  return this.getSensorValue(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0]);
 };
 
 
@@ -217,7 +227,8 @@ cwc.framework.Ev3.prototype.getColorSensorValue = function() {
  * @export
  */
 cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
-  return this.gyroSensorValue;
+  return this.getSensorValue(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE][0]);
 };
 
 
@@ -227,7 +238,8 @@ cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
  * @export
  */
 cwc.framework.Ev3.prototype.getIrSensorValue = function() {
-  return this.irSensorValue;
+  return this.getSensorValue(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0]);
 };
 
 
@@ -237,7 +249,8 @@ cwc.framework.Ev3.prototype.getIrSensorValue = function() {
  * @export
  */
 cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
-  return this.touchSensorValue;
+  return this.getSensorValue(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.TOUCH][0]);
 };
 
 
@@ -247,7 +260,8 @@ cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
  * @export
  */
 cwc.framework.Ev3.prototype.getUltrasonicSensorValue = function() {
-  return this.ultrasonicSensorValue;
+  return this.getSensorValue(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0]);
 };
 
 
@@ -268,9 +282,8 @@ cwc.framework.Ev3.prototype.onSensorChange = function(port, func) {
  * @export
  */
 cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
-  if (goog.isFunction(func)) {
-    this.colorSensorEvent = func;
-  }
+  this.onSensorChange(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0], func);
 };
 
 
@@ -279,9 +292,9 @@ cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.onGyroSensorChange = function(func) {
-  if (goog.isFunction(func)) {
-    this.gyroSensorEvent = func;
-  }
+  this.onSensorChange(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE][0],
+    func);
 };
 
 
@@ -290,9 +303,9 @@ cwc.framework.Ev3.prototype.onGyroSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
-  if (goog.isFunction(func)) {
-    this.irSensorEvent = func;
-  }
+  this.onSensorChange(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0],
+    func);
 };
 
 
@@ -301,9 +314,9 @@ cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.onTouchSensorChange = function(func) {
-  if (goog.isFunction(func)) {
-    this.touchSensorEvent = func;
-  }
+  this.onSensorChange(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.TOUCH][0],
+    func);
 };
 
 
@@ -312,9 +325,9 @@ cwc.framework.Ev3.prototype.onTouchSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
-  if (goog.isFunction(func)) {
-    this.ultrasonicSensorEvent = func;
-  }
+  this.onSensorChange(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0],
+    func);
 };
 
 
@@ -322,7 +335,7 @@ cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
  * @export
  */
 cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
-  this.ultrasonicSensorEvent = this.emptyFunction_;
+  this.onUltrasonicSensorChange(function() {});
 };
 
 
@@ -575,6 +588,7 @@ cwc.framework.Ev3.prototype.wait = function(time) {
  * @param {!number} port
  * @param {!number} mode
  * @param {number=} delay
+ * @export
  */
 cwc.framework.Ev3.prototype.setSensorMode = function(port, mode, delay) {
   this.messenger_.send('setSensorMode', {'port': port, 'mode': mode}, delay);
@@ -597,7 +611,9 @@ cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
  * @export
  */
 cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
-  this.messenger_.send('setIrSensorMode', {'mode': mode}, opt_delay);
+  this.setSensorMode(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0],
+    mode, opt_delay);
 };
 
 
@@ -641,7 +657,7 @@ cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
  */
 cwc.framework.Ev3.prototype.handleDeviceEvent_ = function(event) {
   console.log('Device Event ' + event.data);
-  this.deviceData_ = event.data;
+  this.devices_ = event.data;
 };
 
 
@@ -652,16 +668,6 @@ cwc.framework.Ev3.prototype.handleDeviceEvent_ = function(event) {
 cwc.framework.Ev3.prototype.handleSensorEvent_ = function(event) {
   this.sensorData_[event.source] = event.data;
   this.events_[event.source](event.data);
-};
-
-
-/**
- * Updates the current sensor / actor states with the received data.
- * @param {Object} data
- * @private
- */
-cwc.framework.Ev3.prototype.handleUpdateDeviceInfo_ = function(data) {
-  this.deviceInfo = data;
 };
 
 

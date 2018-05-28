@@ -78,12 +78,12 @@ cwc.mode.lego.ev3.Monitor = function(helper, connection) {
 cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
   this.node = node;
 
-  goog.soy.renderElement(
-    this.node,
-    cwc.soy.mode.ev3.Monitor.waitingForData, {
-      prefix: this.prefix,
-    }
-  );
+  // Refresh devices
+  this.updateDevices({
+    'data': {
+      'port': this.api_.getDevices()['port'],
+    },
+  });
 
   // Event Handler
   let eventHandler = this.connection.getEventHandler();
@@ -119,7 +119,7 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDevices = function(event) {
     this.node,
     cwc.soy.mode.ev3.Monitor.template, {
       prefix: this.prefix,
-      devices: event.data,
+      devices: event.data['port'],
     }
   );
 
@@ -156,6 +156,6 @@ cwc.mode.lego.ev3.Monitor.prototype.updateDeviceData = function(event) {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.lego.ev3.Monitor.prototype.cleanUp = function() {
-  console.log('Clean up EV3 monitor ...');
+  console.log('Clean up EV3 monitor panel...');
   this.events_.clear();
 };

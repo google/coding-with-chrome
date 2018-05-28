@@ -28,27 +28,27 @@
   {@param prefix: string}
 
   <div id="{$prefix}body">
-    {foreach $device in keys($devices)}
-      {call .interfacePort_}
-        {param prefix: $prefix /}
-        {param mode: $devices[$device]['mode'] /}
-        {param port: $device /}
-        {param type: $devices[$device]['type'] /}
-      {/call}
-    {/foreach}
+
+    {if $devices}
+      {foreach $device in keys($devices)}
+        {if $devices[$device]}
+          {call .interfacePort_}
+            {param prefix: $prefix /}
+            {param mode: $devices[$device]['mode'] /}
+            {param port: $device /}
+            {param type: $devices[$device]['type'] /}
+          {/call}
+        {/if}
+      {/foreach}
+    {else}
+      <div class="mdl-spinner mdl-js-spinner is-active"></div>
+      Waiting for data ...
+    {/if}
 
     <button id="{$prefix}refresh" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
       <i class="material-icons">update</i>
     </button>
   </div>
-{/template}
-
-
-/**
- * Runner monitor template.
- */
-{template .waitingForData}
-  <div class="mdl-spinner mdl-js-spinner is-active"></div>Waiting for data ...
 {/template}
 
 

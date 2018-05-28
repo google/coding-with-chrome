@@ -24,11 +24,11 @@ goog.provide('cwc.protocol.lego.ev3.Api');
 
 goog.require('cwc.protocol.lego.ev3.ColorSensorMode');
 goog.require('cwc.protocol.lego.ev3.Device');
-goog.require('cwc.protocol.lego.ev3.Devices');
-goog.require('cwc.protocol.lego.ev3.DevicesDefault');
 goog.require('cwc.protocol.lego.ev3.DeviceType');
+goog.require('cwc.protocol.lego.ev3.Devices');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.protocol.lego.ev3.Handler');
+goog.require('cwc.protocol.lego.ev3.InputPort');
 goog.require('cwc.protocol.lego.ev3.InputPort');
 goog.require('cwc.protocol.lego.ev3.IrSensorMode');
 goog.require('cwc.protocol.lego.ev3.LedColor');
@@ -59,28 +59,13 @@ cwc.protocol.lego.ev3.Api = function() {
   this.device = null;
 
   /** @type {Object} */
-  this.actor = {};
-
-  /** @type {Object} */
-  this.sensor = {};
-
-  /** @type {Object} */
-  this.deviceInfo = {};
-
-  /** @type {Object} */
   this.deviceData = {};
-
-  /** @type {Object} */
-  this.portsForDeviceType = {};
 
   /** @type {!string} */
   this.firmware = '';
 
   /** @type {!cwc.protocol.lego.ev3.Handler} */
   this.handler = new cwc.protocol.lego.ev3.Handler();
-
-  /** @type {Object} */
-  this.cache_ = {};
 
   /** @private {!cwc.protocol.lego.ev3.Devices} */
   this.devices_ = new cwc.protocol.lego.ev3.Devices();
@@ -150,7 +135,6 @@ cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
   this.exec('getBattery');
   this.getDeviceTypes();
   this.exec('playTone', {'frequency': 3000, 'duration': 200, 'volume': 50});
-  this.getDeviceTypes();
   this.drawLogo_();
   this.prepared = true;
 };
@@ -230,68 +214,6 @@ cwc.protocol.lego.ev3.Api.prototype.getDeviceData = function() {
 
 
 /**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getDeviceInfo = function() {
-  return this.deviceInfo;
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getColorSensorData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR]];
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getIrSensorData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR]];
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getTouchSensorData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR]];
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getTouchSensorOptData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT]];
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getUltraSonicSensorData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR]];
-};
-
-
-/**
- * @return {Object}
- */
-cwc.protocol.lego.ev3.Api.prototype.getGyroSensorData = function() {
-  return this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR]];
-};
-
-
-/**
  * @return {!goog.events.EventTarget}
  */
 cwc.protocol.lego.ev3.Api.prototype.getEventHandler = function() {
@@ -300,39 +222,13 @@ cwc.protocol.lego.ev3.Api.prototype.getEventHandler = function() {
 
 
 /**
- * @param {cwc.protocol.lego.ev3.ColorSensorMode} mode
+ * @param {!Object} data
  */
-cwc.protocol.lego.ev3.Api.prototype.setColorSensorMode = function(mode) {
-  let sensor = this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR]];
-  if (sensor) {
-    sensor.setMode(mode);
-    sensor.setCss((mode == cwc.protocol.lego.ev3.ColorSensorMode.COLOR) ?
-      'color' : 'default');
-  }
-};
-
-
-/**
- * @param {cwc.protocol.lego.ev3.IrSensorMode} mode
- */
-cwc.protocol.lego.ev3.Api.prototype.setIrSensorMode = function(mode) {
-  let sensor = this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR]];
-  if (sensor) {
-    sensor.setMode(mode);
-  }
-};
-
-
-/**
- * @param {cwc.protocol.lego.ev3.UltrasonicSensorMode} mode
- */
-cwc.protocol.lego.ev3.Api.prototype.setUltrasonicSensorMode = function(mode) {
-  let sensor = this.deviceData[
-    this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR]];
-  if (sensor) {
-    sensor.setMode(mode);
+cwc.protocol.lego.ev3.Api.prototype.setSensorMode = function(data) {
+  if (this.devices_['port'][data['port']].mode !== data['mode']) {
+    this.monitoring.stop();
+    this.exec('getSensorData', data);
+    this.exec('getDeviceType', {'port': data['port']});
   }
 };
 
@@ -362,18 +258,15 @@ cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
  * Detects all connected devices.
  */
 cwc.protocol.lego.ev3.Api.prototype.getDeviceTypes = function() {
-  this.monitor(false);
-  this.portsForDeviceType = {};
-  this.exec('getDeviceTypes', {'ports': [
-    cwc.protocol.lego.ev3.InputPort.ONE,
-    cwc.protocol.lego.ev3.InputPort.TWO,
-    cwc.protocol.lego.ev3.InputPort.THREE,
-    cwc.protocol.lego.ev3.InputPort.FOUR,
-    cwc.protocol.lego.ev3.InputPort.A,
-    cwc.protocol.lego.ev3.InputPort.B,
-    cwc.protocol.lego.ev3.InputPort.C,
-    cwc.protocol.lego.ev3.InputPort.D,
-  ]});
+  this.monitoring.stop();
+  this.devices_['actor'] = {};
+  this.devices_['sensor'] = {};
+  for (let port in cwc.protocol.lego.ev3.InputPort) {
+    if (cwc.protocol.lego.ev3.InputPort.hasOwnProperty(port)) {
+      this.exec('getDeviceType', {
+        'port': cwc.protocol.lego.ev3.InputPort[port]});
+    }
+  }
 };
 
 
@@ -445,7 +338,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
   this.deviceData[port] = value;
   this.eventHandler_.dispatchEvent(
     cwc.protocol.lego.ev3.Events.changedSensorValue(
-      port, value, this.devices_[port].type));
+      port, value, this.devices_['port'][port].type));
 };
 
 
@@ -464,6 +357,11 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
     console.warn('Please check connection on port', port, '!');
     return;
   }
+  if (type === cwc.protocol.lego.ev3.DeviceType.UNKNOWN) {
+    console.error('Unknown device on port', port, '!');
+    console.error('Please re-connect device on port', port, '!');
+    return;
+  }
   if (typeof cwc.protocol.lego.ev3.Device[type] === 'undefined') {
     console.warn('Unknown device "' + type + '" on port', port);
     console.warn('Please check re-connect device on port', port, '!');
@@ -471,36 +369,48 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   }
 
   // Store detected sensors changes for automatic mapping.
-  if (typeof this.devices_.port[port] === 'undefined' ||
-      this.devices_.port[port].type !== type) {
+  let device = cwc.protocol.lego.ev3.Device[type];
+  if (typeof this.devices_['port'][port] === 'undefined' ||
+      this.devices_['port'][port].type !== type ||
+      this.devices_['port'][port].mode !== device.mode) {
     if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
       console.log('Found', type, 'on port', port);
     }
-    this.devices_.port[port] = cwc.protocol.lego.ev3.Device[type];
+    this.devices_['port'][port] = device;
+    let group = this.devices_['port'][port].group;
 
     // Sensor Mapping
-    if (port < 16) {
-      if (!this.devices_.sensor[type]) {
-        this.devices_.sensor[type] = [port];
-      } else if (!this.devices_.sensor[type].includes(port)) {
-        this.devices_.sensor[type].push(port);
+    if (port) {
+      if (!this.devices_['sensor'][type]) {
+        this.devices_['sensor'][type] = [port];
+      } else if (!this.devices_['sensor'][type].includes(port)) {
+        this.devices_['sensor'][type].push(port);
+      }
+      if (!this.devices_['sensor'][group]) {
+        this.devices_['sensor'][group] = [port];
+      } else if (!this.devices_['sensor'][group].includes(port)) {
+        this.devices_['sensor'][group].push(port);
       }
     }
 
     // Actor Mapping
     if (port >= 16) {
       let devicePort = Math.pow(2, port - 16);
-      if (!this.devices_.actor[type]) {
-        this.devices_.actor[type] = [devicePort];
-      } else if (!this.devices_.actor[type].includes(devicePort)) {
-        this.devices_.actor[type].push(devicePort);
+      if (!this.devices_['actor'][type]) {
+        this.devices_['actor'][type] = [devicePort];
+      } else if (!this.devices_['actor'][type].includes(devicePort)) {
+        this.devices_['actor'][type].push(devicePort);
+      }
+      if (!this.devices_['actor'][group]) {
+        this.devices_['actor'][group] = [devicePort];
+      } else if (!this.devices_['actor'][group].includes(devicePort)) {
+        this.devices_['actor'][group].push(devicePort);
       }
     }
 
     // Combine repeating device changed events.
     if (this.eventTimerUpdatedDevices !== null) {
       clearTimeout(this.eventTimerUpdatedDevices);
-      this.eventTimerUpdatedDevices = null;
     }
     this.eventTimerUpdatedDevices = setTimeout(() => {
       if (this.handler) {

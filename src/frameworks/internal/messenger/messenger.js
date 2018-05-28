@@ -142,10 +142,7 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
     throw Error('Unable so send data!');
   }
   let sendCommand = function() {
-    this.appWindow.postMessage({
-      'command': name,
-      'value': value,
-    }, this.appOrigin);
+    this.postMessage(name, value);
   }.bind(this);
   if (!this.ready_ && name !== '__handshake__') {
     this.senderStack_.addDelay(50);
@@ -156,6 +153,22 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
   } else {
     sendCommand();
   }
+};
+
+
+/**
+ * @param {!string} name
+ * @param {Object|string=} value
+ */
+cwc.framework.Messenger.prototype.postMessage = function(name, value) {
+  if (!this.appWindow) {
+    console.error('App window is not ready, for' + name);
+    return;
+  }
+  this.appWindow.postMessage({
+    'command': name,
+    'value': value,
+  }, this.appOrigin);
 };
 
 

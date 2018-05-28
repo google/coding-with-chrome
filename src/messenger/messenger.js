@@ -255,7 +255,7 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
 cwc.Messenger.prototype.handleHandshake_ = function(data) {
   let token = data['token'];
   if (!token || this.token_ !== token) {
-    this.log_.error('Received wrong handshake token:', token);
+    this.log_.error('Received wrong handshake token:', token, this.token_);
     return;
   }
   this.log_.info('Received handshake with token:', token);

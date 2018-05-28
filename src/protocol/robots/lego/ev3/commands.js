@@ -57,21 +57,6 @@ cwc.protocol.lego.ev3.Commands.getDeviceType = function(port) {
 
 
 /**
- * Reads the device type of the list of devices
- * @param {!Array} ports
- * @return {!Array.<ArrayBuffer>}
- * @export
- */
-cwc.protocol.lego.ev3.Commands.getDeviceTypes = function(ports) {
-  let buffer = [];
-  for (let port of ports) {
-    buffer.push(cwc.protocol.lego.ev3.Commands.getDeviceType(port));
-  }
-  return buffer;
-};
-
-
-/**
  * Reads current EV3 firmware.
  * @return {!ArrayBuffer}
  * @export

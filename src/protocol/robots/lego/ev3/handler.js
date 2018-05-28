@@ -23,7 +23,9 @@
 goog.provide('cwc.protocol.lego.ev3.Handler');
 
 goog.require('cwc.protocol.lego.ev3.Commands');
+goog.require('cwc.protocol.lego.ev3.DeviceGroup');
 goog.require('cwc.protocol.lego.ev3.DeviceType');
+goog.require('cwc.protocol.lego.ev3.Devices');
 
 
 /**
@@ -32,7 +34,7 @@ goog.require('cwc.protocol.lego.ev3.DeviceType');
  */
 cwc.protocol.lego.ev3.Handler = function() {
   /** @private {!cwc.protocol.lego.ev3.Devices} */
-  this.device_ = new cwc.protocol.lego.ev3.Devices();
+  this.devices_ = new cwc.protocol.lego.ev3.Devices();
 };
 
 
@@ -58,16 +60,6 @@ cwc.protocol.lego.ev3.Handler.prototype['getFirmware'] = function() {
  */
 cwc.protocol.lego.ev3.Handler.prototype['getDeviceType'] = function(data = {}) {
   return cwc.protocol.lego.ev3.Commands.getDeviceType(data['port']);
-};
-
-
-/**
- * @param {Object=} data
- * @return {!ArrayBuffer}
- */
-cwc.protocol.lego.ev3.Handler.prototype['getDeviceTypes'] = function(
-    data = {}) {
-  return cwc.protocol.lego.ev3.Commands.getDeviceTypes(data['ports']);
 };
 
 
@@ -354,7 +346,7 @@ cwc.protocol.lego.ev3.Handler.prototype['customRotateSteps'] = function(steps,
  * @private
  */
 cwc.protocol.lego.ev3.Handler.prototype.setDevices_ = function(devices) {
-  this.device_ = devices;
+  this.devices_ = devices;
 };
 
 
@@ -380,36 +372,9 @@ cwc.protocol.lego.ev3.Handler.prototype.getValue_ = function(value, fallback) {
 cwc.protocol.lego.ev3.Handler.prototype.getMediumMotorPort_ = function(
     value) {
   if (typeof value === 'undefined') {
-    return this.getMediumMotor_(0);
+    return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.M_MOTOR][0];
   }
   return value;
-};
-
-
-/**
- * @param {number=} index
- * @return {!Array|number}
- * @private
- */
-cwc.protocol.lego.ev3.Handler.prototype.getMediumMotor_ = function(index) {
-  let data = [cwc.protocol.lego.ev3.OutputPort.A];
-  if (this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
-      !this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
-    data = this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG];
-  } else if (!this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
-     this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
-    data = this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT];
-  } else if (this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG] &&
-   this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]) {
-    data = data.concat(
-      this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG],
-      this.device_.actor[cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT]
-    ).sort();
-  }
-  if (typeof index === 'undefined') {
-    return data;
-  }
-  return data[index];
 };
 
 
@@ -421,7 +386,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getMediumMotor_ = function(index) {
 cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortLeft_ = function(
     value) {
   if (typeof value === 'undefined') {
-    return this.getLargeMotor_(0);
+    return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR][0];
   }
   return value;
 };
@@ -435,35 +400,7 @@ cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortLeft_ = function(
 cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortRight_ = function(
     value) {
   if (typeof value === 'undefined') {
-    return this.getLargeMotor_(1);
+    return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR][1];
   }
   return value;
-};
-
-
-/**
- * @param {number=} index
- * @return {!Array|number}
- * @private
- */
-cwc.protocol.lego.ev3.Handler.prototype.getLargeMotor_ = function(index) {
-  let data = [cwc.protocol.lego.ev3.OutputPort.B,
-    cwc.protocol.lego.ev3.OutputPort.C];
-  if (this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
-      !this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
-    data = this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG];
-  } else if (!this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
-     this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
-    data = this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT];
-  } else if (this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG] &&
-   this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]) {
-    data = data.concat(
-      this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG],
-      this.device_.actor[cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT]
-    ).sort();
-  }
-  if (typeof index === 'undefined') {
-    return data;
-  }
-  return data[index];
 };

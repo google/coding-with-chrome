@@ -60,6 +60,9 @@ cwc.mode.Mod = function(config_data) {
   /** @type {!boolean} */
   this.autoPreview = config_data.auto_preview || false;
 
+  /** @type {!boolean} */
+  this.runPreview = config_data.run_preview || false;
+
   /** @type {!string} */
   this.name = config_data.name || '';
 

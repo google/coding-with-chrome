@@ -196,7 +196,7 @@ cwc.mode.Modder.prototype.postModePreview = function(modeConfig) {
 
   if (modeConfig.autoPreview) {
     previewInstance.setAutoUpdate(modeConfig.autoPreview);
-  } else {
+  } else if (modeConfig.runPreview) {
     previewInstance.run();
     previewInstance.focus();
   }

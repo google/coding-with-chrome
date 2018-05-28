@@ -23,6 +23,7 @@ goog.require('cwc.protocol.lego.ev3.Device');
 goog.require('cwc.protocol.lego.ev3.DevicesDefault');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 goog.require('goog.events');
@@ -96,7 +97,7 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
  * Starts the port monitoring.
  */
 cwc.protocol.lego.ev3.Monitoring.prototype.start = function() {
-  if (this.started) {
+  if (this.started || !this.devices_ || this.devices_ === {}) {
     return;
   }
   this.log_.info('Starting...');
@@ -170,7 +171,6 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
     'with interval', interval);
   this.monitor_[port] = setInterval(
     this.api.send.bind(this.api), interval, buffer);
-  this.api.exec('getDeviceType', {'port': port});
 };
 
 
@@ -185,11 +185,12 @@ cwc.protocol.lego.ev3.Monitoring.prototype.handleDeviceChanges_ = function(
   }
 
   let changedDevices = false;
-  for (let port in event.data) {
+  let eventData = event.data['port'];
+  for (let port in eventData) {
     if (typeof this.devices_[port] === 'undefined' ||
-        this.devices_[port].type !== event.data[port].type ||
-        this.devices_[port].mode !== event.data[port].mode) {
-      this.devices_[port] = event.data[port];
+        this.devices_[port].type !== eventData[port].type ||
+        this.devices_[port].mode !== eventData[port].mode) {
+      this.devices_[port] = eventData[port];
       changedDevices = true;
     }
   }
