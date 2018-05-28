@@ -597,34 +597,37 @@ cwc.framework.Ev3.prototype.setSensorMode = function(port, mode, delay) {
 
 /**
  * @param {!number} mode
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, opt_delay) {
-  this.messenger_.send('setColorSensorMode', {'mode': mode}, opt_delay);
+cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, delay) {
+  this.setSensorMode(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0],
+    mode, delay);
 };
 
 
 /**
  * @param {!number} mode
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, opt_delay) {
+cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, delay) {
   this.setSensorMode(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0],
-    mode, opt_delay);
+    mode, delay);
 };
 
 
 /**
  * @param {!number} mode
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode,
-    opt_delay) {
-  this.messenger_.send('setUltrasonicSensorMode', {'mode': mode}, opt_delay);
+cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode, delay) {
+  this.setSensorMode(
+    this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0],
+    mode, delay);
 };
 
 

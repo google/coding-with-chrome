@@ -20,7 +20,6 @@
 goog.provide('cwc.protocol.lego.ev3.Monitoring');
 
 goog.require('cwc.protocol.lego.ev3.Device');
-goog.require('cwc.protocol.lego.ev3.DevicesDefault');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -171,6 +170,14 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
     'with interval', interval);
   this.monitor_[port] = setInterval(
     this.api.send.bind(this.api), interval, buffer);
+};
+
+
+cwc.protocol.lego.ev3.Monitoring.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.stop();
+  this.events_.clear();
+  this.devices_ = {};
 };
 
 

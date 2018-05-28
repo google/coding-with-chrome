@@ -186,7 +186,7 @@ cwc.Messenger.prototype.setTarget = function(target) {
     return;
   }
   this.target = target;
-  window.addEventListener('message', this.handleMessage_.bind(this), false);
+  this.events_.listen(window, 'message', this.handleMessage_);
   this.target.addEventListener('contentload',
       this.handleContentLoad_.bind(this), false);
 };
@@ -209,6 +209,12 @@ cwc.Messenger.prototype.setListenerScope = function(scope) {
 };
 
 
+cwc.Messenger.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.events_.clear();
+};
+
+
 /**
  * @private
  */
@@ -228,6 +234,7 @@ cwc.Messenger.prototype.handleContentLoad_ = function() {
  * @private
  */
 cwc.Messenger.prototype.handleMessage_ = function(event) {
+  event = event.getBrowserEvent();
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }

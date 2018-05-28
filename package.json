@@ -130,7 +130,7 @@
     "show-updates": "ncu",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",
     "preupdate": "npm run clean",
-    "update": "npm install && npm update -a && npm dedupe",
+    "update": "npm install && npm update -a && npm audit fix && npm dedupe",
     "postupdate": "npm run build-third_party && npm test"
   }
 }

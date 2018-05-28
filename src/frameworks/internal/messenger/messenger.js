@@ -162,7 +162,7 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
  */
 cwc.framework.Messenger.prototype.postMessage = function(name, value) {
   if (!this.appWindow) {
-    console.error('App window is not ready, for' + name);
+    console.error('App window is not ready, for ' + name);
     return;
   }
   this.appWindow.postMessage({

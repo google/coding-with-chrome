@@ -468,5 +468,7 @@ cwc.ui.Preview.prototype.run_ = function() {
  * Clears all object based events.
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
   this.events_.clear();
+  this.messenger_.cleanUp();
 };

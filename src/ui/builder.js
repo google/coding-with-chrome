@@ -34,7 +34,6 @@ goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.bluetooth.classic.Api');
 goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
-goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.makeblock.mbot.Api');
 goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');

@@ -210,7 +210,7 @@ cwc.mode.default.Mod.prototype.decorateLayout = function() {
  */
 cwc.mode.default.Mod.prototype.decoratePreview = function() {
   this.helper.setInstance('preview', this.preview, true);
-  this.preview.enableMessenger();
+  this.preview.enableMessenger(this.connection);
   this.preview.decorate();
 
   // Added api events.

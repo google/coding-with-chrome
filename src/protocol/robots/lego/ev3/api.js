@@ -37,6 +37,7 @@ goog.require('cwc.protocol.lego.ev3.Monitoring');
 goog.require('cwc.protocol.lego.ev3.MotorMode');
 goog.require('cwc.protocol.lego.ev3.OutputPort');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events');
@@ -50,7 +51,7 @@ goog.require('goog.events.EventTarget');
  */
 cwc.protocol.lego.ev3.Api = function() {
   /** @type {string} */
-  this.name = 'EV3';
+  this.name = 'EV3 API';
 
   /** @type {boolean} */
   this.prepared = false;
@@ -67,8 +68,8 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {!cwc.protocol.lego.ev3.Handler} */
   this.handler = new cwc.protocol.lego.ev3.Handler();
 
-  /** @private {!cwc.protocol.lego.ev3.Devices} */
-  this.devices_ = new cwc.protocol.lego.ev3.Devices();
+  /** @private {!Object} */
+  this.devices_ = {};
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -84,6 +85,9 @@ cwc.protocol.lego.ev3.Api = function() {
 
   /** @private {!cwc.utils.StreamReader} */
   this.streamReader_ = new cwc.utils.StreamReader().setMinimumSize(5);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -97,12 +101,13 @@ cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
   if (!device) {
     return false;
   } else if (!device.isConnected()) {
-    console.error('EV3 unit is not ready yet...');
+    this.log_.error('EV3 unit is not ready yet...');
     return false;
   }
 
   if (!this.prepared) {
-    console.log('Prepare EV3 bluetooth api for', device.getAddress());
+    this.log_.info('Prepare EV3 bluetooth api for', device.getAddress());
+    this.log_.info(this.devices_);
     this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
       'Prepare EV3 api for' + device.getAddress(), 2));
     this.device = device;
@@ -159,16 +164,6 @@ cwc.protocol.lego.ev3.Api.prototype.reset = function() {
   if (this.device) {
     this.device.reset();
   }
-};
-
-
-/**
- * Basic cleanup for the EV3 unit.
- */
-cwc.protocol.lego.ev3.Api.prototype.cleanUp = function() {
-  this.monitoring.stop();
-  this.exec('stop');
-  this.exec('clear');
 };
 
 
@@ -258,8 +253,10 @@ cwc.protocol.lego.ev3.Api.prototype.getDevices = function() {
  * Detects all connected devices.
  */
 cwc.protocol.lego.ev3.Api.prototype.getDeviceTypes = function() {
+  this.log_.info('Get device types ...');
   this.monitoring.stop();
   this.devices_['actor'] = {};
+  this.devices_['port'] = {};
   this.devices_['sensor'] = {};
   for (let port in cwc.protocol.lego.ev3.InputPort) {
     if (cwc.protocol.lego.ev3.InputPort.hasOwnProperty(port)) {
@@ -267,6 +264,18 @@ cwc.protocol.lego.ev3.Api.prototype.getDeviceTypes = function() {
         'port': cwc.protocol.lego.ev3.InputPort[port]});
     }
   }
+};
+
+
+/**
+ * Basic cleanup for the EV3 unit.
+ */
+cwc.protocol.lego.ev3.Api.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.exec('stop');
+  this.exec('clear');
+  this.events_.clear();
+  this.monitoring.cleanUp();
 };
 
 
@@ -301,10 +310,10 @@ cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
   switch (callback) {
     case cwc.protocol.lego.ev3.CallbackType.FIRMWARE:
       this.firmware = cwc.utils.ByteTools.toUTF8(data);
-      console.log('EV3 Firmware Version', this.firmware);
+      this.log_.info('EV3 Firmware Version', this.firmware);
       break;
     case cwc.protocol.lego.ev3.CallbackType.BATTERY:
-      console.log('EV3 Battery level', data);
+      this.log_.info('EV3 Battery level', data);
       break;
     case cwc.protocol.lego.ev3.CallbackType.DEVICE_NAME:
       this.updateDeviceType_(port, cwc.utils.ByteTools.toString(data));
@@ -349,22 +358,22 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
  */
 cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
   if (type === cwc.protocol.lego.ev3.DeviceType.PORT_ERROR) {
-    console.error('Received Port Error on port', port, '!');
-    console.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
+    this.log_.error('Received Port Error on port', port, '!');
+    this.log_.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
+    return;
+  }
+  if (!type || type === cwc.protocol.lego.ev3.DeviceType.UNKNOWN) {
+    this.log_.error('Unknown device on port', port, '!');
+    this.log_.error('Please re-connect device on port', port, '!');
     return;
   }
   if (type === cwc.protocol.lego.ev3.DeviceType.TERMINAL) {
-    console.warn('Please check connection on port', port, '!');
-    return;
-  }
-  if (type === cwc.protocol.lego.ev3.DeviceType.UNKNOWN) {
-    console.error('Unknown device on port', port, '!');
-    console.error('Please re-connect device on port', port, '!');
+    this.log_.warn('Please check connection on port', port, '!');
     return;
   }
   if (typeof cwc.protocol.lego.ev3.Device[type] === 'undefined') {
-    console.warn('Unknown device "' + type + '" on port', port);
-    console.warn('Please check re-connect device on port', port, '!');
+    this.log_.warn('Unknown device "' + type + '" on port', port);
+    this.log_.warn('Please check re-connect device on port', port, '!');
     return;
   }
 
@@ -374,23 +383,21 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
       this.devices_['port'][port].type !== type ||
       this.devices_['port'][port].mode !== device.mode) {
     if (type !== cwc.protocol.lego.ev3.Device.NONE.type) {
-      console.log('Found', type, 'on port', port);
+      this.log_.info('Found', type, 'on port', port);
     }
     this.devices_['port'][port] = device;
     let group = this.devices_['port'][port].group;
 
     // Sensor Mapping
-    if (port) {
-      if (!this.devices_['sensor'][type]) {
-        this.devices_['sensor'][type] = [port];
-      } else if (!this.devices_['sensor'][type].includes(port)) {
-        this.devices_['sensor'][type].push(port);
-      }
-      if (!this.devices_['sensor'][group]) {
-        this.devices_['sensor'][group] = [port];
-      } else if (!this.devices_['sensor'][group].includes(port)) {
-        this.devices_['sensor'][group].push(port);
-      }
+    if (!this.devices_['sensor'][type]) {
+      this.devices_['sensor'][type] = [port];
+    } else if (!this.devices_['sensor'][type].includes(port)) {
+      this.devices_['sensor'][type].push(port);
+    }
+    if (!this.devices_['sensor'][group]) {
+      this.devices_['sensor'][group] = [port];
+    } else if (!this.devices_['sensor'][group].includes(port)) {
+      this.devices_['sensor'][group].push(port);
     }
 
     // Actor Mapping

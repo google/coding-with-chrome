@@ -46,11 +46,11 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.lego.ev3.Monitor} */
-  this.monitor = new cwc.mode.lego.ev3.Monitor(helper, this.connection);
-
   /** @type {!cwc.mode.lego.ev3.Control} */
   this.control = new cwc.mode.lego.ev3.Control(helper, this.connection);
+
+  /** @type {!cwc.mode.lego.ev3.Monitor} */
+  this.monitor = new cwc.mode.lego.ev3.Monitor(helper, this.connection);
 
   /** @type {!cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
