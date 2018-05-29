@@ -25,6 +25,7 @@ goog.provide('cwc.ui.BuilderHelpers');
 goog.require('cwc.Cache');
 goog.require('cwc.UserConfig');
 goog.require('cwc.addon.Message');
+goog.require('cwc.addon.Workbench');
 goog.require('cwc.config');
 goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileExporter');
@@ -81,6 +82,7 @@ goog.require('goog.dom');
  */
 cwc.ui.Addons = {
   'message': cwc.addon.Message,
+  'workbench': cwc.addon.Workbench,
 };
 
 

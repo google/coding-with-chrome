@@ -156,6 +156,8 @@ cwc.ui.SettingScreen.prototype.setUserConfig = function() {
     cwc.userConfigName.EXPERIMENTAL_MODE);
   this.setConfig_('debug-mode', cwc.userConfigType.GENERAL,
     cwc.userConfigName.DEBUG_MODE);
+  this.setConfig_('workbench-fetch', cwc.userConfigType.GENERAL,
+    cwc.userConfigName.WORKBENCH_FETCH);
 };
 
 
