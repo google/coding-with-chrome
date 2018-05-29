@@ -107,6 +107,24 @@ cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
 
 
 /**
+ * @param {!string} uri
+ * @return {Promise}
+ * @private
+ */
+cwc.utils.Resources.getUriAsJson = function(uri) {
+  return new Promise((resolve, reject) => {
+    let xhr = new goog.net.XhrIo();
+    goog.events.listen(xhr, goog.net.EventType.SUCCESS, function(e) {
+      let xhrResponse = /** @type {!goog.net.XhrIo} */ (e.target);
+      resolve(xhrResponse.getResponseJson() || {});
+    });
+    cwc.utils.Resources.addXhrErrorEvents_(xhr, reject, uri);
+    xhr.send(uri);
+  });
+};
+
+
+/**
  * @param {!goog.net.XhrIo} xhr
  * @param {!Function} reject
  * @param {string=} uri

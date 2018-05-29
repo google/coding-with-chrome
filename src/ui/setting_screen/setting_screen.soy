@@ -349,6 +349,14 @@
           {param id: 'experimental-mode' /}
           {param opt_restart: true /}
         {/call}
+
+        {call .setting_ data="all"}
+          {param title: 'Fetch new tutorials from Workbench' /}
+          {param text: 'New projects that are available from Workbench will be downloaded every time the application is restarted.' /}
+          {param type: 'switch' /}
+          {param id: 'workbench-fetch' /}
+          {param opt_restart: true /}
+        {/call}
       </ul>
 
       <div class="mdl-card__supporting-text">

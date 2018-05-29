@@ -236,6 +236,24 @@ cwc.utils.Database.prototype.getAllWithKeys = async function(group, query,
 
 
 /**
+ * @param {!string} name
+ * @param {string=} group
+ * @return {Promise}
+ */
+cwc.utils.Database.prototype.delete = function(name, group) {
+  return new Promise((resolve, reject) => {
+    let result = this.getObjectStore_(group)['delete'](name);
+    result['onsuccess'] = (e) => {
+      resolve(e.target.result);
+    };
+    result['onerror'] = (e) => {
+      reject(e);
+    };
+  });
+};
+
+
+/**
  * @param {!string} objectStoreName
  * @return {THIS}
  * @template THIS

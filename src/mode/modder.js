@@ -64,11 +64,12 @@ cwc.mode.Modder = function(helper) {
 
 /**
  * @param {cwc.mode.Type} mode
+ * @return {!Promise}
  */
 cwc.mode.Modder.prototype.loadMode = function(mode) {
   let modeConfig = cwc.mode.Config.get(mode);
   let loaderInstance = this.helper.getInstance('fileLoader', true);
-  loaderInstance.loadLocalFile(this.templatePath_ + modeConfig.template);
+  return loaderInstance.loadLocalFile(this.templatePath_ + modeConfig.template);
 };
 
 
