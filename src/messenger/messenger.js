@@ -19,16 +19,18 @@
  */
 goog.provide('cwc.Messenger');
 
+goog.require('cwc.MessengerEvents');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 
 /**
+ * @param {goog.events.EventTarget=} eventHandler
  * @constructor
  * @struct
  * @final
  */
-cwc.Messenger = function() {
+cwc.Messenger = function(eventHandler) {
   /** @type {string} */
   this.name = 'Messenger';
 
@@ -46,6 +48,9 @@ cwc.Messenger = function() {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
+
+  /** @private {!goog.events.EventTarget} */
+  this.eventHandler_ = eventHandler || new goog.events.EventTarget();
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);

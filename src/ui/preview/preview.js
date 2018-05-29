@@ -96,7 +96,7 @@ cwc.ui.Preview = function(helper) {
     .setStatusButton(this.statusButton);
 
   /** @private {!cwc.Messenger} */
-  this.messenger_ = new cwc.Messenger();
+  this.messenger_ = new cwc.Messenger(this.eventHandler_);
 
   /** @private {!string} */
   this.partition_ = 'preview';

@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.lego.ev3.blockly.Mod');
 
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.mode.lego.ev3.Calibration');
 goog.require('cwc.mode.lego.ev3.Connection');
 goog.require('cwc.mode.lego.ev3.Control');
 goog.require('cwc.mode.lego.ev3.DeviceEvents');
@@ -55,10 +54,6 @@ cwc.mode.lego.ev3.blockly.Mod = function(helper) {
 
   /** @type {!cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
-
-  /** @type {!cwc.mode.lego.ev3.Calibration} */
-  this.calibration = new cwc.mode.lego.ev3.Calibration(helper, this.connection,
-    this.runner, this.monitor);
 };
 
 
