@@ -104,10 +104,21 @@ cwc.addon.WorkbenchLoader.prototype.loadProjects = function() {
  */
 cwc.addon.WorkbenchLoader.prototype.loadSingleProject_ = function(projectID,
     callback) {
+  const isDataCorrupt = (data = {}) => !(
+    data['name'] &&
+    data['steps'] &&
+    data['steps'].length &&
+    data['steps'].every((step) => step['description'])
+  );
+
   cwc.utils.Resources.getUriAsJson(this.projectsApiBase_ + projectID)
     .then((json) => {
-      callback(null, json);
-      this.downloadProjectMedia_(json);
+      if (isDataCorrupt(json)) {
+        callback(`project data for project with ID ${projectID} is corrupt`);
+      } else {
+        callback(null, json);
+        this.downloadProjectMedia_(json);
+      }
     })
     .catch(callback);
 };
