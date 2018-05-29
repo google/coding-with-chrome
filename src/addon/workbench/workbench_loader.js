@@ -62,7 +62,11 @@ cwc.addon.WorkbenchLoader = function(helper, projectsDb, imagesDb) {
  * Loads projects from Workbench
  */
 cwc.addon.WorkbenchLoader.prototype.loadProjects = function() {
-  if (!this.helper.checkFeature('online')) return;
+  const userConfigInstance = this.helper.getInstance('userConfig') || {};
+  const isFetchEnabled = userConfigInstance.get(cwc.userConfigType.GENERAL,
+    cwc.userConfigName.WORKBENCH_FETCH);
+
+  if (!this.helper.checkFeature('online') || !isFetchEnabled) return;
 
   cwc.utils.Resources.getUriAsJson(this.projectsApiAll_)
     .then((json) => {

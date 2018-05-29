@@ -55,6 +55,7 @@ cwc.userConfigName = {
   PYTHON: 'python',
   SKIP_WELCOME: 'skip_welcome',
   SPHERO: 'sphero',
+  WORKBENCH_FETCH: 'workbench_fetch',
   ZOOM: 'zoom',
 };
 
