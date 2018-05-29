@@ -129,12 +129,17 @@ cwc.addon.Workbench = function(helper) {
   this.helper = helper;
 
   /** @private {!cwc.utils.Database} */
-  this.projectsDb_ = new cwc.utils.Database('Workbench Projects')
+  this.projectsDb_ = new cwc.utils.Database('Workbench')
     .setObjectStoreName('__workbench_projects__');
 
   /** @private {!cwc.utils.Database} */
-  this.imagesDb_ = new cwc.utils.Database('Workbench Images')
+  this.imagesDb_ = new cwc.utils.Database('Workbench')
     .setObjectStoreName('__workbench_images__');
+
+  /** @private {!Object} */
+  this.databaseConfig_ = {
+    'objectStoreNames': ['__workbench_projects__', '__workbench_images__'],
+  };
 
   /** @private {!cwc.utils.Helper} */
   this.loader_ = new cwc.addon.WorkbenchLoader(
@@ -157,8 +162,8 @@ cwc.addon.Workbench.prototype.prepare = async function() {
 
   this.log_.info('Preparing Workbench addon...');
 
-  await this.projectsDb_.open();
-  await this.imagesDb_.open();
+  await this.projectsDb_.open(this.databaseConfig_);
+  await this.imagesDb_.open(this.databaseConfig_);
   this.loader_.loadProjects();
   this.loader_.onLoadComplete(() => this.showRelevantProjects_());
 

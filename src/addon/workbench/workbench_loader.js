@@ -70,7 +70,7 @@ cwc.addon.WorkbenchLoader.prototype.loadProjects = function() {
 
       if (projects && projects.length) {
         projects.forEach((project) => {
-          const dbKey = `project-${project.id}`;
+          const dbKey = project.id;
 
           this.projectsDb_.get(dbKey).then((storedProject) => {
             if (storedProject) {
