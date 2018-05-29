@@ -23,10 +23,10 @@ goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.lego.ev3.Calibration');
 goog.require('cwc.mode.lego.ev3.Connection');
 goog.require('cwc.mode.lego.ev3.Control');
-goog.require('cwc.mode.lego.ev3.SensorEvents');
 goog.require('cwc.mode.lego.ev3.DeviceEvents');
 goog.require('cwc.mode.lego.ev3.Hints');
 goog.require('cwc.mode.lego.ev3.Monitor');
+goog.require('cwc.mode.lego.ev3.SensorEvents');
 goog.require('cwc.renderer.external.EV3');
 
 

@@ -92,6 +92,7 @@ cwc.ui.PreviewStatus.prototype.setStatus = function(status) {
   if (this.statusButton) {
     this.statusButton.setStatus(status);
   }
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.statusChange(status));
   this.status = status;
 };
 

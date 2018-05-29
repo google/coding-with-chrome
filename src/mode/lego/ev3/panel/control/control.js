@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.mode.lego.ev3.Control');
 
+goog.require('cwc.protocol.lego.ev3.RobotType');
 goog.require('cwc.soy.mode.ev3.Control');
 goog.require('cwc.utils.Events');
 

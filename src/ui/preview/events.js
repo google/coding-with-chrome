@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.PreviewEvents');
 
+goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.EventData');
 
 
@@ -27,6 +28,7 @@ goog.require('cwc.utils.EventData');
  */
 cwc.ui.PreviewEvents.Type = {
   CONTENT_LOAD: 'content_load',
+  STATUS_CHANGE: 'status_change',
 };
 
 
@@ -40,4 +42,15 @@ cwc.ui.PreviewEvents.contentLoad = function(preview) {
     cwc.ui.PreviewEvents.Type.CONTENT_LOAD, {
       'preview': preview,
     });
+};
+
+
+/**
+ * @param {!cwc.ui.StatusbarState} status
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.ui.PreviewEvents.statusChange = function(status) {
+  return new cwc.utils.EventData(
+    cwc.ui.PreviewEvents.Type.STATUS_CHANGE, status);
 };

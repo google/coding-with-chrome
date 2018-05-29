@@ -20,6 +20,7 @@
 goog.provide('cwc.mode.lego.ev3.Connection');
 
 goog.require('cwc.protocol.lego.ev3.Api');
+goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -89,6 +90,13 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventHandler(),
         goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+      cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
+      false, this);
   }
 
   this.connectMonitor.start();
@@ -168,10 +176,6 @@ cwc.mode.lego.ev3.Connection.prototype.getApi = function() {
  * Stops the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
   this.api_.exec('stop');
 };
 
@@ -186,6 +190,17 @@ cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {
   let title = 'Connecting EV3';
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.lego.ev3.Connection.prototype.handlePreviewStatus_ = function(e) {
+  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+    this.stop();
+  }
 };
 
 

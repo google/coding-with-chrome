@@ -79,6 +79,7 @@ cwc.ui.Message.prototype.decorate = function(node) {
   if (this.decorated_) {
     return;
   }
+  this.decorated_ = true;
 
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
@@ -105,7 +106,6 @@ cwc.ui.Message.prototype.decorate = function(node) {
   this.showCalibration(false);
   this.showControl(false);
   this.showMonitor(false);
-  this.decorated_ = true;
 };
 
 
@@ -114,11 +114,8 @@ cwc.ui.Message.prototype.decorate = function(node) {
  */
 cwc.ui.Message.prototype.decorateCalibration = function(decorator) {
   this.decorate();
-  if (decorator && typeof decorator.decorate === 'function') {
-    decorator.decorate(this.nodeCalibration);
-  }
-  this.showCalibration();
-  this.show();
+  this.decorateContent_(
+    decorator, this.nodeCalibration, this.nodeCalibrationTab);
 };
 
 
@@ -127,11 +124,7 @@ cwc.ui.Message.prototype.decorateCalibration = function(decorator) {
  */
 cwc.ui.Message.prototype.decorateControl = function(decorator) {
   this.decorate();
-  if (decorator && typeof decorator.decorate === 'function') {
-    decorator.decorate(this.nodeControl);
-  }
-  this.showControl();
-  this.show();
+  this.decorateContent_(decorator, this.nodeControl, this.nodeControlTab);
 };
 
 
@@ -140,13 +133,16 @@ cwc.ui.Message.prototype.decorateControl = function(decorator) {
  */
 cwc.ui.Message.prototype.decorateMonitor = function(decorator) {
   this.decorate();
-  if (decorator && typeof decorator.decorate === 'function') {
-    decorator.decorate(this.nodeMonitor);
-  }
-  this.showMonitor();
-  this.show();
+  this.decorateContent_(decorator, this.nodeMonitor, this.nodeMonitorTab);
 };
 
+
+/**
+ * @return {boolean}
+ */
+cwc.ui.Message.prototype.isCalibrationActive = function() {
+  return goog.dom.classlist.contains(this.nodeCalibrationTab, this.active_);
+};
 
 /**
  * @return {boolean}
@@ -170,7 +166,7 @@ cwc.ui.Message.prototype.isMonitorActive = function() {
 cwc.ui.Message.prototype.show = function(visible = true) {
   goog.style.setElementShown(this.node, visible);
   if (visible) {
-    this.refresh();
+    this.refresh_();
   }
 };
 
@@ -179,9 +175,7 @@ cwc.ui.Message.prototype.show = function(visible = true) {
  * @param {boolean} visible
  */
 cwc.ui.Message.prototype.showCalibration = function(visible = true) {
-  goog.style.setElementShown(this.nodeCalibration, visible);
-  goog.style.setElementShown(this.nodeCalibrationTab, visible);
-  this.nodeCalibrationTab.click();
+  this.showTab_(this.nodeCalibration, this.nodeCalibrationTab, visible);
 };
 
 
@@ -189,8 +183,7 @@ cwc.ui.Message.prototype.showCalibration = function(visible = true) {
  * @param {boolean} visible
  */
 cwc.ui.Message.prototype.showControl = function(visible = true) {
-  goog.style.setElementShown(this.nodeControl, visible);
-  goog.style.setElementShown(this.nodeControlTab, visible);
+  this.showTab_(this.nodeControl, this.nodeControlTab, visible);
 };
 
 
@@ -198,32 +191,46 @@ cwc.ui.Message.prototype.showControl = function(visible = true) {
  * @param {boolean} visible
  */
 cwc.ui.Message.prototype.showMonitor = function(visible = true) {
-  goog.style.setElementShown(this.nodeMonitor, visible);
-  goog.style.setElementShown(this.nodeMonitorTab, visible);
+  this.showTab_(this.nodeMonitor, this.nodeMonitorTab, visible);
 };
 
 
 /**
- * @param {!function (Object, null=, (Object<string,*>|null)=)} template
- * @param {!Object} values
+ * @private
  */
-cwc.ui.Message.prototype.renderContent = function(template, values) {
-  goog.soy.renderElement(
-    goog.dom.getElement(this.prefix + 'main'), template, values);
-};
-
-/**
- * @param {!function (Object, null=, (Object<string,*>|null)=)} template
- * @param {!Object} values
- */
-cwc.ui.Message.prototype.renderHelp = function(template, values) {
-  goog.soy.renderElement(
-    goog.dom.getElement(this.prefix + 'help'), template, values);
-};
-
-
-cwc.ui.Message.prototype.refresh = function() {
+cwc.ui.Message.prototype.refresh_ = function() {
   if (typeof window.componentHandler !== 'undefined') {
     window.componentHandler.upgradeDom();
+  }
+};
+
+
+/**
+ * @param {Function=} decorator
+ * @param {!Element} nodeContent
+ * @param {!Element} nodeTab
+ * @private
+ */
+cwc.ui.Message.prototype.decorateContent_ = function(
+    decorator, nodeContent, nodeTab) {
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(nodeContent);
+  }
+  this.showTab_(nodeContent, nodeTab, true);
+  this.show();
+};
+
+
+/**
+ * @param {!Element} nodeContent
+ * @param {!Element} nodeTab
+ * @param {!boolean} visible
+ * @private
+ */
+cwc.ui.Message.prototype.showTab_ = function(nodeContent, nodeTab, visible) {
+  goog.style.setElementShown(nodeContent, visible);
+  goog.style.setElementShown(nodeTab, visible);
+  if (visible) {
+    nodeTab.click();
   }
 };

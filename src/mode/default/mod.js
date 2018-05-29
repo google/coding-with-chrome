@@ -111,6 +111,10 @@ cwc.mode.default.Mod.prototype.decorate = function() {
   return new Promise((resolve) => {
     this.decorateLayout();
 
+    // Decorates Preview and Message instance
+    this.decoratePreview();
+    this.decorateMessage();
+
     // Initialize Connection if available
     if (this.connection) {
       this.connection.init();
@@ -139,10 +143,6 @@ cwc.mode.default.Mod.prototype.decorate = function() {
       // Reset size
       this.blockly.adjustSize();
     }
-
-    // Decorates Preview and Message instance
-    this.decoratePreview();
-    this.decorateMessage();
 
     // Decorates Renderer
     if (this.renderer) {

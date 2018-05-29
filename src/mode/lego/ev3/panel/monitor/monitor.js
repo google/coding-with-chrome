@@ -22,8 +22,6 @@ goog.provide('cwc.mode.lego.ev3.Monitor');
 goog.require('cwc.mode.lego.ev3.SensorEvents');
 goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.lego.ev3.Events');
-goog.require('cwc.protocol.lego.ev3.RobotType');
-goog.require('cwc.protocol.lego.ev3.Robots');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');

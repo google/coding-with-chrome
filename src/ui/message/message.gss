@@ -18,7 +18,7 @@
 
 #{$prefix}message-chrome {
   flex: 0 0 auto;
-  height: 234px;
+  height: 250px;
   z-index: 1;
 }
 
@@ -42,7 +42,7 @@
 
 #{$prefix}message-content {
   background: #eee;
-  min-height: 200px;
+  min-height: 216px;
 }
 
 #{$prefix}message-chrome .mdl-layout__container {
