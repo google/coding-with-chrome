@@ -51,7 +51,7 @@ cwc.addon.WorkbenchLoader = function(helper, projectsDb, imagesDb) {
   this.loadCompleteListeners_ = [];
 
   /** @private {string} */
-  this.projectsApiBase_ = 'https://staging.cwist.com/api/v1/activities/';
+  this.projectsApiBase_ = 'https://edu.workbencheducation.com/api/v1/activities/';
 
   /** @private {string} */
   this.projectsApiAll_ = `${this.projectsApiBase_}?content_channels=1`;
