@@ -68,6 +68,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param videos: list<string>}
+  {@param youtube_videos: list<string>}
 
   <li id="{$prefix}{$id}" class="{$prefix}container js-project-step">
     <div class="{$prefix}header js-project-step-header">
@@ -88,8 +89,15 @@
             <i class="material-icons">fullscreen</i>
           </button>
         {/foreach}
+        {foreach $video in $videos}
+          <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="video" data-video-url="{$video}">
+            <div class="{$prefix}media-item-video">
+              <i class="material-icons">play_circle_outline</i>
+            </div>
+          </button>
+        {/foreach}
         {if $online}
-          {foreach $video in $videos}
+          {foreach $video in $youtube_videos}
             <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="youtube" data-youtube-id="{$video}">
               <div class="{$prefix}media-item-video">
                 <i class="material-icons">play_circle_outline</i>

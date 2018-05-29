@@ -148,9 +148,9 @@ cwc.addon.WorkbenchLoader.prototype.downloadProjectMedia_ = function(
  * @param {string} url
  */
 cwc.addon.WorkbenchLoader.prototype.saveMediaLocal_ = function(url) {
-  cwc.utils.Resources.getUriAsBase64(url)
-    .then((dataUrl) => {
-      this.imagesDb_.set(url, dataUrl);
+  cwc.utils.Resources.getUriAsBlob(url)
+    .then((blob) => {
+      this.imagesDb_.set(url, blob);
     });
 };
 

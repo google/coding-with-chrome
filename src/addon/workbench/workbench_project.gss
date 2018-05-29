@@ -218,11 +218,17 @@
 }
 
 #{$prefix}wb-media-overlay-content img,
+#{$prefix}wb-media-overlay-content video,
 #{$prefix}wb-media-overlay-content webview {
   max-height: 90vh;
   max-width: 90vw;
 }
 
+#{$prefix}wb-media-overlay video::-webkit-media-controls-fullscreen-button {
+  display: none;
+}
+
+#{$prefix}wb-media-overlay video,
 #{$prefix}wb-media-overlay webview {
   height: 750px;
   width: 1000px;

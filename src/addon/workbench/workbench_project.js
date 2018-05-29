@@ -86,6 +86,7 @@ cwc.addon.WorkbenchProject.prototype.decorate = function() {
 
   const sanitizer = new goog.html.sanitizer.HtmlSanitizer();
   const sidebarInstance = this.helper.getInstance('sidebar');
+  const videoExtensions = ['mp4', 'webm', 'ogg'];
   const templateData = {
     prefix: this.prefix,
     description: this.project.description,
@@ -98,10 +99,17 @@ cwc.addon.WorkbenchProject.prototype.decorate = function() {
           sanitizer.sanitize(step.description)
         )
       ),
-      images: step.images,
+      images: step['images'].filter(
+        (url = '') => !videoExtensions.some((ext) => url.endsWith(ext))
+      ),
       number: index + 1,
       title: step.title || `Step ${index + 1}`,
-      videos: (step['videos'] || []).map((video) => video['youtube_id']),
+      videos: step['images'].filter(
+        (url = '') => videoExtensions.some((ext) => url.endsWith(ext))
+      ),
+      youtube_videos: (step['videos'] || []).map(
+        (video) => video['youtube_id']
+      ),
     })),
   };
 
@@ -174,9 +182,9 @@ cwc.addon.WorkbenchProject.prototype.initUI_ = function() {
 
   [].forEach.call(nodeListImages, (image) => {
     let imageSrc = image.getAttribute('data-src');
-    this.imagesDb_.get(imageSrc).then((imageData) => {
-      if (imageData) {
-        image.setAttribute('src', imageData);
+    this.imagesDb_.get(imageSrc).then((blob) => {
+      if (blob) {
+        image.src = URL.createObjectURL(blob);
       } else {
         image.remove();
       }
@@ -245,6 +253,7 @@ cwc.addon.WorkbenchProject.prototype.onMediaClick_ = function(button) {
   let mediaType = button.getAttribute('data-media-type');
   let mediaImg = button.querySelector('img');
   let youtubeId = button.getAttribute('data-youtube-id');
+  let videoUrl = button.getAttribute('data-video-url');
 
   if (mediaType === 'image' && mediaImg) {
     let clone = mediaImg.cloneNode(true);
@@ -259,6 +268,19 @@ cwc.addon.WorkbenchProject.prototype.onMediaClick_ = function(button) {
 
     this.setState_({
       expandedMedia: content,
+    });
+  } else if (mediaType === 'video') {
+    let video = document.createElement('video');
+    this.imagesDb_.get(videoUrl).then((blob) => {
+      if (blob) {
+        video.src = URL.createObjectURL(blob);
+        video.controls = true;
+        this.setState_({
+          expandedMedia: video,
+        });
+      } else {
+        video.remove();
+      }
     });
   }
 };
