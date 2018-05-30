@@ -59,6 +59,9 @@ cwc.ui.Preview = function(helper) {
   /** @type {Element} */
   this.nodeRuntime = null;
 
+  /** @type {Element} */
+  this.nodeOverlay = null;
+
   /** @type {boolean} */
   this.autoUpdate = false;
 
@@ -137,6 +140,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.nodeRuntime = goog.dom.getElement(
     this.prefix + (this.enableMessenger_ ? 'runner' : 'runtime'));
   this.render();
+  this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
 
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
@@ -193,6 +197,16 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
       this.focus();
     })
     .setStopAction(this.stop.bind(this));
+};
+
+
+/**
+ * @param {!Function} decorator
+ */
+cwc.ui.Preview.prototype.decorateOverlay = function(decorator) {
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(this.nodeOverlay);
+  }
 };
 
 

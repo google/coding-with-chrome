@@ -92,6 +92,9 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {Object} */
   this.messengerEvents = null;
 
+  /** {Function} */
+  this.simulation = null;
+
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 
@@ -114,6 +117,11 @@ cwc.mode.default.Mod.prototype.decorate = function() {
     // Decorates Preview and Message instance
     this.decoratePreview();
     this.decorateMessage();
+
+    // Decorates simulation if needed.
+    if (this.simulation) {
+      this.preview.decorateOverlay(this.simulation);
+    }
 
     // Initialize Connection if available
     if (this.connection) {
@@ -289,6 +297,14 @@ cwc.mode.default.Mod.prototype.setConnection = function(connection) {
  */
 cwc.mode.default.Mod.prototype.setMessengerEvents = function(events) {
   this.messengerEvents = events;
+};
+
+
+/**
+ * @param {!Function} simulation
+ */
+cwc.mode.default.Mod.prototype.setSimulation = function(simulation) {
+  this.simulation = simulation;
 };
 
 

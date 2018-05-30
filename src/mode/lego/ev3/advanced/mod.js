@@ -26,6 +26,7 @@ goog.require('cwc.mode.lego.ev3.DeviceEvents');
 goog.require('cwc.mode.lego.ev3.Hints');
 goog.require('cwc.mode.lego.ev3.Monitor');
 goog.require('cwc.mode.lego.ev3.SensorEvents');
+goog.require('cwc.mode.lego.ev3.Simulation');
 goog.require('cwc.renderer.external.EV3');
 
 
@@ -51,6 +52,9 @@ cwc.mode.lego.ev3.advanced.Mod = function(helper) {
   /** @type {!cwc.mode.lego.ev3.Monitor} */
   this.monitor = new cwc.mode.lego.ev3.Monitor(helper, this.connection);
 
+  /** @type {!cwc.mode.lego.ev3.Simulation} */
+  this.simulation = new cwc.mode.lego.ev3.Simulation(helper);
+
   /** @type {!cwc.renderer.external.EV3} */
   this.renderer = new cwc.renderer.external.EV3(helper);
 };
@@ -63,6 +67,7 @@ cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
   this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
+  this.mod.setSimulation(this.simulation);
   this.mod.decorate();
   this.mod.preview.getMessenger().addListener('setSensorMode',
     this.connection.setSensorMode, this.connection);

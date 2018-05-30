@@ -65,7 +65,7 @@ cwc.framework.Messenger = function() {
 
 
 /**
- * Adds the command to the listener.
+ * Adds the named listener.
  * @param {!string} name
  * @param {!Function} func
  * @param {?=} scope
@@ -166,7 +166,7 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
     return;
   }
   this.appWindow.postMessage({
-    'command': name,
+    'name': name,
     'value': value,
   }, this.appOrigin);
 };
@@ -180,7 +180,7 @@ cwc.framework.Messenger.prototype.executeCode_ = function(code) {
   if (!code || typeof code !== 'string') {
     return;
   }
-  // Remove trailing ";"" to avoid syntax errors for one liner
+  // Remove trailing ";"" to avoid syntax errors for simple one liner
   if (code.endsWith(';')) {
     code = code.slice(0, -1);
   }
@@ -205,21 +205,21 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
 
   // Setting appWindow and appOrigin within the handshake
   if (!this.appWindow && 'source' in event &&
-      event['data']['command'] === '__handshake__') {
+      event['data']['name'] === '__handshake__') {
     this.setAppWindow(event['source']);
   } else if (this.appWindow !== event['source']) {
     return;
   }
   if (!this.appOrigin && 'origin' in event &&
-      event['data']['command'] === '__handshake__') {
+      event['data']['name'] === '__handshake__') {
     this.setAppOrigin(event['origin']);
   } else if (this.appOrigin !== event['origin']) {
     return;
   }
-  if (typeof this.listener_[event['data']['command']] === 'undefined') {
-    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
+  if (typeof this.listener_[event['data']['name']] === 'undefined') {
+    throw new Error('Name ' + event['data']['name'] + ' is not defined!');
   }
-  this.listener_[event['data']['command']](event['data']['value']);
+  this.listener_[event['data']['name']](event['data']['value']);
 };
 
 

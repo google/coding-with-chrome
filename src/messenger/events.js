@@ -26,5 +26,21 @@ goog.require('cwc.utils.EventData');
  * @enum {string}
  */
 cwc.MessengerEvents.Type = {
-  EXEC: 'exec',
+  COMMAND: 'command',
 };
+
+
+/**
+ * @param {!string} name
+ * @param {!string} value
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.MessengerEvents.execCommand = function(name, value) {
+  return new cwc.utils.EventData(
+    cwc.MessengerEvents.Type.COMMAND, {
+      'name': name,
+      'value': value,
+    });
+};
+

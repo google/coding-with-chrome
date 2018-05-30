@@ -150,11 +150,12 @@ cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
  * @param {Object|number|string|Array=} value
  */
 cwc.Messenger.prototype.send = function(command, value = {}) {
-  if (!this.target || !this.target.contentWindow) {
+  if (typeof this.target.contentWindow === 'undefined') {
+    console.error('App window is not ready, for ' + name);
     return;
   }
   this.target.contentWindow.postMessage({
-    'command': command,
+    'name': command,
     'value': value,
   }, this.targetOrigin);
 };
@@ -221,9 +222,13 @@ cwc.Messenger.prototype.cleanUp = function() {
 
 
 /**
+ * @param {Event} event
  * @private
  */
-cwc.Messenger.prototype.handleContentLoad_ = function() {
+cwc.Messenger.prototype.handleContentLoad_ = function(event) {
+  if (event && event['target'] && event['target']['src'] === 'about:blank') {
+    return;
+  }
   this.token_ = String(new Date().getTime());
   this.log_.info('Sending handshake with token', this.token_);
   this.send('__handshake__', {
@@ -246,17 +251,21 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
   if (!this.appWindow && 'source' in event) {
     this.setAppWindow(event['source']);
   } else if (this.appWindow !== event['source']) {
+    this.log_.error('App window is not matching!');
     return;
   }
   if (!this.appOrigin && 'origin' in event) {
     this.setAppOrigin(event['origin']);
   } else if (this.appOrigin !== event['origin']) {
+    this.log_.error('App origin is not matching!');
     return;
   }
-  if (typeof this.listener_[event['data']['command']] === 'undefined') {
-    throw new Error('Command ' + event['data']['command'] + ' is not defined!');
+  if (typeof this.listener_[event['data']['name']] === 'undefined') {
+    throw new Error('Name ' + event['data']['name'] + ' is not defined!');
   }
-  this.listener_[event['data']['command']](event['data']['value']);
+  this.listener_[event['data']['name']](event['data']['value']);
+  this.eventHandler_.dispatchEvent(cwc.MessengerEvents.execCommand(
+    event['data']['name'], event['data']['value']));
 };
 
 
