@@ -1,5 +1,5 @@
 /**
- * @fileoverview Control for the EV3 modification.
+ * @fileoverview Control pane for the EV3 modification.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -162,22 +162,22 @@ cwc.mode.lego.ev3.Control.prototype.addGamepadHandler_ = function() {
  * @private
  */
 cwc.mode.lego.ev3.Control.prototype.addKeyHandler_ = function() {
-  this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
-  this.shortcutHandler.registerShortcut('backward', 'down');
-  this.shortcutHandler.registerShortcut('left', 'left');
-  this.shortcutHandler.registerShortcut('right', 'right');
-  this.shortcutHandler.registerShortcut('forward', 'up');
-  this.shortcutHandler.registerShortcut('up', 33);
-  this.shortcutHandler.registerShortcut('down', 34);
+  let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
+  shortcutHandler.registerShortcut('backward', 'down');
+  shortcutHandler.registerShortcut('left', 'left');
+  shortcutHandler.registerShortcut('right', 'right');
+  shortcutHandler.registerShortcut('forward', 'up');
+  shortcutHandler.registerShortcut('up', 33);
+  shortcutHandler.registerShortcut('down', 34);
 
-  this.shortcutHandler.registerShortcut('boost-backward', 'shift+down');
-  this.shortcutHandler.registerShortcut('boost-left', 'shift+left');
-  this.shortcutHandler.registerShortcut('boost-right', 'shift+right');
-  this.shortcutHandler.registerShortcut('boost-forward', 'shift+up');
+  shortcutHandler.registerShortcut('boost-backward', 'shift+down');
+  shortcutHandler.registerShortcut('boost-left', 'shift+left');
+  shortcutHandler.registerShortcut('boost-right', 'shift+right');
+  shortcutHandler.registerShortcut('boost-forward', 'shift+up');
 
-  this.shortcutHandler.registerShortcut('stop', 'space');
+  shortcutHandler.registerShortcut('stop', 'space');
 
-  this.events_.listen(this.shortcutHandler,
+  this.events_.listen(shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKeyboardShortcut_);
 };

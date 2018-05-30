@@ -24,7 +24,9 @@ goog.require('cwc.addon.WorkbenchProject');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.SelectScreenTemplate');
 goog.require('cwc.ui.SelectScreen.Events');
+goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
+
 
 // tagMap keys are tags on Workbench
 const tagMap = {
@@ -155,6 +157,10 @@ cwc.addon.Workbench = function(helper) {
 };
 
 
+/**
+ * @private
+ * @async
+ */
 cwc.addon.Workbench.prototype.prepare = async function() {
   if (!this.helper.experimentalEnabled()) {
     return;
@@ -176,6 +182,10 @@ cwc.addon.Workbench.prototype.prepare = async function() {
 };
 
 
+/**
+ * @return {Promise}
+ * @private
+ */
 cwc.addon.Workbench.prototype.getAllProjects_ = function() {
   return new Promise((resolve) => {
     this.projectsDb_.getAll().then((results) => {
@@ -186,8 +196,14 @@ cwc.addon.Workbench.prototype.getAllProjects_ = function() {
 };
 
 
+/**
+ * @param {Object} projects
+ * @param {string=} filterTag
+ * @return {Object}
+ * @private
+ */
 cwc.addon.Workbench.prototype.filterProjectsByTag_ = function(
-  projects, filterTag) {
+    projects, filterTag) {
   return projects.filter((project) => (
     project['theme_tags'].find((tag) => (
       (tag.title || '').toLowerCase() === (filterTag || '').toLowerCase())
@@ -196,6 +212,10 @@ cwc.addon.Workbench.prototype.filterProjectsByTag_ = function(
 };
 
 
+/**
+ * @private
+ * @async
+ */
 cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
   const allProjects = await this.getAllProjects_();
   this.clearCards_();
@@ -237,6 +257,9 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
 };
 
 
+/**
+ * @private
+ */
 cwc.addon.Workbench.prototype.clearCards_ = function() {
   this.cards_.forEach((card) => card.remove());
   this.cards_ = [];

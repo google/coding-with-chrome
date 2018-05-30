@@ -20,9 +20,10 @@
 goog.provide('cwc.mode.sphero.classic.blockly.Mod');
 
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.mode.sphero.Monitor');
-goog.require('cwc.mode.sphero.Runner');
+goog.require('cwc.mode.sphero.Control');
+goog.require('cwc.mode.sphero.Hints');
 goog.require('cwc.mode.sphero.classic.Connection');
+goog.require('cwc.mode.sphero.classic.SensorEvents');
 goog.require('cwc.renderer.external.Sphero');
 goog.require('cwc.soy.sphero.Blocks');
 
@@ -32,20 +33,23 @@ goog.require('cwc.soy.sphero.Blocks');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.sphero.classic.blockly.Mod = function(helper) {
-  /** @type {!cwc.mode.default.Mod} */
-  this.mod = new cwc.mode.default.Mod(helper);
-
   /** @type {!cwc.mode.sphero.classic.Connection} */
   this.connection = new cwc.mode.sphero.classic.Connection(helper);
 
+  /** @type {!cwc.mode.sphero.classic.SensorEvents} */
+  this.events = Object.assign(cwc.mode.sphero.classic.SensorEvents);
+
+  /** @type {!cwc.mode.default.Mod} */
+  this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.mode.sphero.Control} */
+  this.control = new cwc.mode.sphero.Control(helper, this.connection);
+
   /** @type {!cwc.mode.sphero.Monitor} */
-  this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
+  //this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 
   /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
-
-  /** @type {!cwc.mode.sphero.Runner} */
-  this.runner = new cwc.mode.sphero.Runner(helper, this.connection);
 };
 
 
@@ -55,8 +59,9 @@ cwc.mode.sphero.classic.blockly.Mod = function(helper) {
 cwc.mode.sphero.classic.blockly.Mod.prototype.decorate = function() {
   this.mod.enableBlockly(cwc.soy.sphero.Blocks.toolbox);
   this.mod.setConnection(this.connection);
-  this.mod.setMonitor(this.monitor);
+  this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
-  this.mod.setRunner(this.runner);
   this.mod.decorate();
+  this.mod.decorateControl(this.control);
+  this.mod.editor.setLocalHints(cwc.mode.sphero.Hints);
 };

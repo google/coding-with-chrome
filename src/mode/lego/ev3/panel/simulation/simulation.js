@@ -21,6 +21,8 @@ goog.provide('cwc.mode.lego.ev3.Simulation');
 
 goog.require('cwc.MessengerEvents');
 goog.require('cwc.mode.lego.ev3.SimulationCommand');
+goog.require('cwc.ui.Turtle');
+goog.require('cwc.utils.Events');
 
 
 /**

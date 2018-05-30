@@ -23,6 +23,8 @@ goog.require('cwc.MessengerEvents');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.events.EventTarget');
+
 
 /**
  * @param {goog.events.EventTarget=} eventHandler
@@ -146,16 +148,16 @@ cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
 
 
 /**
- * @param {string!} command
+ * @param {string!} name
  * @param {Object|number|string|Array=} value
  */
-cwc.Messenger.prototype.send = function(command, value = {}) {
+cwc.Messenger.prototype.send = function(name, value = {}) {
   if (typeof this.target.contentWindow === 'undefined') {
     console.error('App window is not ready, for ' + name);
     return;
   }
   this.target.contentWindow.postMessage({
-    'name': command,
+    'name': name,
     'value': value,
   }, this.targetOrigin);
 };
