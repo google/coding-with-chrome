@@ -137,8 +137,13 @@ cwc.ui.PreviewStatus.prototype.setStatusButton = function(statusButton) {
  * @private
  */
 cwc.ui.PreviewStatus.prototype.handleContentLoad_ = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  let preview = null;
+  if (previewInstance) {
+    preview = previewInstance.content;
+  }
   this.eventHandler_.dispatchEvent(
-    cwc.ui.PreviewEvents.contentLoad(this.content));
+    cwc.ui.PreviewEvents.contentLoad(preview));
 };
 
 
