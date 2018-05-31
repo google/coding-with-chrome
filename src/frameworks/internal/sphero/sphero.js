@@ -22,40 +22,25 @@
  */
 goog.provide('cwc.framework.Sphero');
 
-goog.require('cwc.framework.Runner');
+goog.require('cwc.framework.Messenger');
 
 
 /**
  * @constructor
- * @param {!Function} code
  * @struct
  * @final
  * @export
  */
-cwc.framework.Sphero = function(code) {
+cwc.framework.Sphero = function() {
   /** @type {string} */
   this.name = 'Sphero Framework';
-
-  /** @type {Function} */
-  this.code = code;
-
-  /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner()
-    .setScope(this)
-    .setCallback(this.code);
 
   /** @type {!function(?)} */
   this.collisionEvent = function() {};
 
-  this.addCommandListener();
-};
-
-
-/**
- * Enable external listener
- */
-cwc.framework.Sphero.prototype.addCommandListener = function() {
-  this.runner.addCommand('collision', this.handleCollision_);
+  this.messenger_ = new cwc.framework.Messenger()
+    .setListenerScope(this)
+    .addListener('__EVENT__COLLISION', this.handleCollision_);
 };
 
 
@@ -69,7 +54,7 @@ cwc.framework.Sphero.prototype.addCommandListener = function() {
  */
 cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
     persistent, delay) {
-  this.runner.send('setRGB', {
+  this.messenger_.send('setRGB', {
     'red': red,
     'green': green,
     'blue': blue,
@@ -83,7 +68,7 @@ cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
  * @export
  */
 cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
-  this.runner.send('setBackLed', {'brightness': brightness}, delay);
+  this.messenger_.send('setBackLed', {'brightness': brightness}, delay);
 };
 
 
@@ -93,7 +78,7 @@ cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, delay) {
-  this.runner.send('setMotionTimeout', {'timeout': timeout}, delay);
+  this.messenger_.send('setMotionTimeout', {'timeout': timeout}, delay);
 };
 
 
@@ -105,7 +90,7 @@ cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.roll = function(speed, heading, state, delay) {
-  this.runner.send('roll', {
+  this.messenger_.send('roll', {
     'speed': speed,
     'heading': heading,
     'state': state}, delay);
@@ -121,7 +106,7 @@ cwc.framework.Sphero.prototype.roll = function(speed, heading, state, delay) {
  */
 cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20, heading,
     stop) {
-  let rollTime = Math.floor(time*2) || 0;
+  let rollTime = Math.floor(time * 2) || 0;
   for (let num = 0; num < rollTime; num++) {
     this.roll(speed, heading, true, 500);
   }
@@ -137,7 +122,7 @@ cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20, heading,
  * @export
  */
 cwc.framework.Sphero.prototype.boost = function(enable, delay) {
-  this.runner.send('boost', {'enable': enable}, delay);
+  this.messenger_.send('boost', {'enable': enable}, delay);
 };
 
 
@@ -146,7 +131,7 @@ cwc.framework.Sphero.prototype.boost = function(enable, delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.stop = function(delay) {
-  this.runner.send('stop', null, delay);
+  this.messenger_.send('stop', null, delay);
 };
 
 
@@ -155,7 +140,7 @@ cwc.framework.Sphero.prototype.stop = function(delay) {
  * @export
  */
 cwc.framework.Sphero.prototype.calibrate = function(heading) {
-  this.runner.send('calibrate', {'heading': heading});
+  this.messenger_.send('calibrate', {'heading': heading});
 };
 
 
@@ -163,7 +148,7 @@ cwc.framework.Sphero.prototype.calibrate = function(heading) {
  * @export
  */
 cwc.framework.Sphero.prototype.sleep = function() {
-  this.runner.send('sleep');
+  this.messenger_.send('sleep');
 };
 
 
@@ -185,3 +170,8 @@ cwc.framework.Sphero.prototype.onCollision = function(func) {
 cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
   this.collisionEvent(data);
 };
+
+
+// Global mapping
+window['sphero'] = new cwc.framework.Sphero();
+

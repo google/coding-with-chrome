@@ -38,9 +38,8 @@ goog.require('cwc.mode.phaser.advanced.Mod');
 goog.require('cwc.mode.phaser.blockly.Mod');
 goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.raspberryPi.advanced.Mod');
-goog.require('cwc.mode.sphero.classic.advanced.Mod');
+goog.require('cwc.mode.sphero.classic.Mod');
 goog.require('cwc.mode.sphero.bb8.blockly.Mod');
-goog.require('cwc.mode.sphero.classic.blockly.Mod');
 goog.require('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.blockly.Mod');
@@ -59,6 +58,9 @@ cwc.mode.Mod = function(config_data) {
 
   /** @type {!boolean} */
   this.autoPreview = config_data.auto_preview || false;
+
+  /** @type {!boolean} */
+  this.showBlockly = config_data.show_blockly || false;
 
   /** @type {!boolean} */
   this.runPreview = config_data.run_preview || false;
@@ -89,7 +91,7 @@ cwc.mode.Mod.prototype.getMod = function(helper) {
     console.error('Mod for', this.name, 'is not a function!');
   }
   let Mod = this.mod;
-  return new Mod(helper);
+  return new Mod(helper, this.showBlockly);
 };
 
 
@@ -348,7 +350,7 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.sphero.classic.advanced.Mod,
+  mod: cwc.mode.sphero.classic.Mod,
   name: 'Sphero 2.0',
   template: 'sphero/classic/blank.cwc',
 });
@@ -361,7 +363,8 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.sphero.classic.blockly.Mod,
+  mod: cwc.mode.sphero.classic.Mod,
+  show_blockly: true,
   name: 'Sphero 2.0 blockly',
   template: 'sphero/classic/blank-blocks.cwc',
 });

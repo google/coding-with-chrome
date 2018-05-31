@@ -342,11 +342,11 @@ cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
 /**
  * Displays the selected file name on the EV3 display.
  * @param {!string} filename
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.drawImage = function(filename, opt_delay) {
-  this.messenger_.send('drawImage', {'file': filename}, opt_delay);
+cwc.framework.Ev3.prototype.drawImage = function(filename, delay) {
+  this.messenger_.send('drawImage', {'file': filename}, delay);
 };
 
 
@@ -370,67 +370,65 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
 /**
  * Plays a sound file.
  * @param {!string} filename
- * @param {number=} opt_volume
- * @param {number=} opt_delay in msec
+ * @param {number=} volume
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.playSound = function(filename, opt_volume,
-    opt_delay) {
+cwc.framework.Ev3.prototype.playSound = function(filename, volume, delay) {
   this.messenger_.send('playSound', {
     'file': filename,
-    'volume': opt_volume}, opt_delay);
+    'volume': volume}, delay);
 };
 
 
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {number=} opt_speed
- * @param {number=} opt_delay in msec
+ * @param {number=} speed
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.moveServo = function(steps, opt_speed, opt_delay) {
+cwc.framework.Ev3.prototype.moveServo = function(steps, speed, delay) {
   this.messenger_.send('moveServo', {
     'steps': steps,
-    'speed': opt_speed}, opt_delay);
+    'speed': speed}, delay);
 };
 
 
 /**
  * Moves the servo motor for the predefined specific steps.
  * @param {!number} steps
- * @param {number=} opt_speed
- * @param {string=} opt_color
- * @param {number=} opt_delay in msec
+ * @param {number=} speed
+ * @param {string=} color
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePen = function(steps,
-    opt_speed, opt_color, opt_delay) {
+cwc.framework.Ev3.prototype.movePen = function(steps, speed, color, delay) {
   this.messenger_.send('movePen', {
     'steps': steps,
-    'speed': opt_speed,
-    'color': opt_color}, opt_delay);
+    'speed': speed,
+    'color': color}, delay);
 };
 
 
 /**
  * Moves the motors for the specific steps.
  * @param {!number} steps
- * @param {number=} opt_speed
+ * @param {number=} speed
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.moveSteps = function(steps, opt_speed, opt_delay) {
+cwc.framework.Ev3.prototype.moveSteps = function(steps, speed, opt_delay) {
   if (this.robotType == cwc.protocol.lego.ev3.RobotType.ARM) {
-    this.customMoveSteps(steps, undefined, opt_speed, opt_delay);
+    this.customMoveSteps(steps, undefined, speed, opt_delay);
   } else {
     let delay = /** @type {number|undefined} */ (
-      opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
+      opt_delay === true ? this.getDelay(steps, speed) : opt_delay);
     let distance = Math.round((this.wheelCircumference * (steps/360)) / 10);
     this.messenger_.send('moveSteps', {
       'distance': distance,
       'steps': steps,
-      'speed': opt_speed}, delay);
+      'speed': speed}, delay);
   }
 };
 

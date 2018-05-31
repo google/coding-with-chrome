@@ -71,7 +71,7 @@ cwc.mode.lego.ev3.advanced.Mod.prototype.decorate = function() {
   this.mod.decorate();
   this.mod.preview.getMessenger().addListener('setSensorMode',
     this.connection.setSensorMode, this.connection);
-  this.mod.decorateControl(this.control);
-  this.mod.decorateMonitor(this.monitor);
+  this.mod.message.decorateControl(this.control);
+  this.mod.message.decorateMonitor(this.monitor);
   this.mod.editor.setLocalHints(cwc.mode.lego.ev3.Hints);
 };

@@ -240,22 +240,6 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
 
 
 /**
- * @param {Function=} decorator
- */
-cwc.mode.default.Mod.prototype.decorateControl = function(decorator) {
-  this.message.decorateControl(decorator);
-};
-
-
-/**
- * @param {Function=} decorator
- */
-cwc.mode.default.Mod.prototype.decorateMonitor = function(decorator) {
-  this.message.decorateMonitor(decorator);
-};
-
-
-/**
  * Decorates the message.
  */
 cwc.mode.default.Mod.prototype.decorateMessage = function() {

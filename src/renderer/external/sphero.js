@@ -35,6 +35,14 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.Sphero = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!Array} */
+  this.pythonMapping = [
+    'sphero = window.sphero',
+  ];
+
+  /** @private {!Array} */
+  this.frameworks_ = [cwc.framework.Internal.SPHERO];
 };
 
 
@@ -43,8 +51,9 @@ cwc.renderer.external.Sphero = function(helper) {
  * @return {!Promise}
  */
 cwc.renderer.external.Sphero.prototype.init = function() {
-  return this.helper.getInstance('renderer')
-    .setRenderer(this.render.bind(this));
+  let rendererInstance = this.helper.getInstance('renderer');
+  rendererInstance.setServerMode(true);
+  return rendererInstance.setRenderer(this.render.bind(this));
 };
 
 
@@ -61,14 +70,12 @@ cwc.renderer.external.Sphero.prototype.render = function(
     libraryFiles,
     rendererHelper,
     environ = {}) {
-  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.SPHERO,
-  ], environ['baseURL']);
-  let body = '\n<script>' +
-      '  let code = function(sphero) {\n' +
-      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
-      '\n};\n'+
-      '  new cwc.framework.Sphero(code);\n' +
-      '</script>\n';
-  return rendererHelper.getHTMLRunner(body, header, environ);
+  let content = '';
+  if (environ['currentView'] === '__python__') {
+    content = this.pythonMapping.join('\n') + '\n';
+    content += editorContent[cwc.ui.EditorContent.PYTHON];
+  } else {
+    content = editorContent[cwc.ui.EditorContent.JAVASCRIPT];
+  }
+  return rendererHelper.getRunner(content, this.frameworks_, environ);
 };

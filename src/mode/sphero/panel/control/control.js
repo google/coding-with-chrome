@@ -19,7 +19,6 @@
  */
 goog.provide('cwc.mode.sphero.Control');
 
-goog.require('cwc.protocol.sphero.classic.Events');
 goog.require('cwc.soy.mode.sphero.Control');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
@@ -178,7 +177,7 @@ cwc.mode.sphero.Control.prototype.addKeyHandler_ = function() {
 
   shortcutHandler.registerShortcut('stop', 'space');
 
-  goog.events.listen(shortcutHandler,
+  this.events_.listen(shortcutHandler,
     goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKeyboardShortcut_);
 };

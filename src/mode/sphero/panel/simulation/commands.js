@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner command profile for Sphero ball.
+ * @fileoverview Runner monitor profile for EV3 unit.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.runner.profile.sphero.Monitor');
+goog.provide('cwc.mode.sphero.SimulationCommand');
 
 
 /**
@@ -25,7 +25,7 @@ goog.provide('cwc.runner.profile.sphero.Monitor');
  * @constructor
  * @final
  */
-cwc.runner.profile.sphero.Monitor = function(turtle) {
+cwc.mode.sphero.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
@@ -43,17 +43,18 @@ cwc.runner.profile.sphero.Monitor = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.runner.profile.sphero.Monitor.prototype.reset = function() {
-  this.angle_ = 0;
-  this.heading_ = 0;
+cwc.mode.sphero.SimulationCommand.prototype['__handshake__'] = function() {
   this.speed_ = 0;
+  this.turtle.action('speed', 1);
+  this.turtle.action('scale', 1);
+  this.turtle.reset();
 };
 
 
 /**
  * @param {!Object} data
  */
-cwc.runner.profile.sphero.Monitor.prototype.roll = function(data) {
+cwc.mode.sphero.SimulationCommand.prototype['roll'] = function(data) {
   let speed = this.speed_ = data['speed'] === undefined ?
     this.speed_ : data['speed'];
   let heading = this.heading_ = data['heading'] === undefined ?

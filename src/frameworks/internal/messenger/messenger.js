@@ -61,6 +61,8 @@ cwc.framework.Messenger = function() {
     .addListener('__gamepad__', this.handleGamepad_)
     .addListener('__handshake__', this.handleHandshake_)
     .addListener('__start__', this.handleStart_);
+
+  this.senderStack_.addDelay(50);
 };
 
 
@@ -144,8 +146,7 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
   let sendCommand = function() {
     this.postMessage(name, value);
   }.bind(this);
-  if (!this.ready_ && name !== '__handshake__') {
-    this.senderStack_.addDelay(50);
+  if (!this.ready_ && !delay && name !== '__handshake__') {
     this.senderStack_.addCommand(sendCommand);
   } else if (delay) {
     this.senderStack_.addCommand(sendCommand);

@@ -219,28 +219,11 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/sphero/*.js',
   ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
+  deps: glob([
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
-});
-
-
-/**
- * TTS Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.TTS',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/tts/*.js',
   ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/tts_framework.js',
+  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
 });
 
 

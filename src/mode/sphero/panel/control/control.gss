@@ -15,11 +15,8 @@
  */
 
 
-#{$prefix}sphero-monitor-intro,
-#{$prefix}sphero-monitor-control,
-#{$prefix}sphero-monitor-calibration {
+#{$prefix}sphero-control-body {
   padding: 5px;
-  position: relative;
 }
 
 #{$prefix}sphero-control-buttons {
@@ -28,10 +25,10 @@
   padding-bottom: 10px;
 }
 
-#{$prefix}sphero-monitor-control-buttons:first-child {
+#{$prefix}sphero-control-buttons:first-child {
   padding-left: 3px;
 }
 
-#{$prefix}sphero-monitor-system-buttons > div {
+#{$prefix}sphero-control-system-buttons > div {
   padding: 10px;
 }
