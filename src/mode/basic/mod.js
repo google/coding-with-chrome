@@ -1,5 +1,5 @@
 /**
- * @fileoverview Simple Blockly modifications.
+ * @fileoverview Basic modifications.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,8 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.blockly.Mod');
+goog.provide('cwc.mode.basic.Mod');
 
+goog.require('cwc.mode.basic.Hints');
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.soy.simple.Blocks');
 
@@ -26,8 +27,12 @@ goog.require('cwc.soy.simple.Blocks');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {boolean=} enableBlockly
  */
-cwc.mode.basic.blockly.Mod = function(helper) {
+cwc.mode.basic.Mod = function(helper, enableBlockly = false) {
+  /** @type {!boolean} */
+  this.enableBlockly = enableBlockly;
+
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 };
@@ -37,7 +42,10 @@ cwc.mode.basic.blockly.Mod = function(helper) {
  * Decorates the different parts of the modification.
  * @async
  */
-cwc.mode.basic.blockly.Mod.prototype.decorate = async function() {
-  this.mod.enableBlockly(cwc.soy.simple.Blocks.toolbox);
+cwc.mode.basic.Mod.prototype.decorate = async function() {
+  if (this.enableBlockly) {
+    this.mod.enableBlockly(cwc.soy.simple.Blocks.toolbox);
+  }
   await this.mod.decorate();
+  this.mod.editor.setLocalHints(cwc.mode.basic.Hints);
 };

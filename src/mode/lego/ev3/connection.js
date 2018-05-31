@@ -86,6 +86,7 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
         this.connect.bind(this));
   }
 
+  // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventHandler(),

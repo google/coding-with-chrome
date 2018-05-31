@@ -23,19 +23,16 @@ goog.provide('cwc.mode.Mod');
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Type');
 goog.require('cwc.mode.arduino.Mod');
-goog.require('cwc.mode.basic.blockly.Mod');
-goog.require('cwc.mode.basic.simple.Mod');
+goog.require('cwc.mode.basic.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
-goog.require('cwc.mode.lego.ev3.advanced.Mod');
-goog.require('cwc.mode.lego.ev3.blockly.Mod');
+goog.require('cwc.mode.lego.ev3.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.javascript.Mod');
 goog.require('cwc.mode.json.Mod');
 goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
 goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
 goog.require('cwc.mode.pencilCode.Mod');
-goog.require('cwc.mode.phaser.advanced.Mod');
-goog.require('cwc.mode.phaser.blockly.Mod');
+goog.require('cwc.mode.phaser.Mod');
 goog.require('cwc.mode.python.Mod');
 goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.mode.sphero.classic.Mod');
@@ -121,7 +118,7 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC] = new cwc.mode.Mod({
   auto_preview: true,
   icon: 'school',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.basic.simple.Mod,
+  mod: cwc.mode.basic.Mod,
   name: 'Basic',
   template: 'basic/blank.cwc',
 });
@@ -135,7 +132,8 @@ cwc.mode.ConfigData[cwc.mode.Type.BASIC_BLOCKLY] = new cwc.mode.Mod({
   auto_preview: true,
   icon: 'school',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.basic.blockly.Mod,
+  mod: cwc.mode.basic.Mod,
+  show_blockly: true,
   name: 'Basic Blockly',
   template: 'basic/blank-blocks.cwc',
 });
@@ -162,7 +160,7 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3] = new cwc.mode.Mod({
   authors: ['Markus Bordihn, Stefan Sauer'],
   icon: 'adb',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.lego.ev3.advanced.Mod,
+  mod: cwc.mode.lego.ev3.Mod,
   name: 'EV3',
   template: 'lego/ev3/blank.cwc',
 });
@@ -175,7 +173,8 @@ cwc.mode.ConfigData[cwc.mode.Type.EV3_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn, Stefan Sauer'],
   icon: 'adb',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.lego.ev3.blockly.Mod,
+  mod: cwc.mode.lego.ev3.Mod,
+  show_blockly: true,
   name: 'EV3 blockly',
   template: 'lego/ev3/blank-blocks.cwc',
 });
@@ -269,7 +268,7 @@ cwc.mode.ConfigData[cwc.mode.Type.PHASER] = new cwc.mode.Mod({
   auto_preview: true,
   icon: 'mode_edit',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.phaser.advanced.Mod,
+  mod: cwc.mode.phaser.Mod,
   name: 'Phaser',
   template: 'phaser/blank.cwc',
 });
@@ -283,7 +282,8 @@ cwc.mode.ConfigData[cwc.mode.Type.PHASER_BLOCKLY] = new cwc.mode.Mod({
   auto_preview: true,
   icon: 'mode_edit',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.phaser.blockly.Mod,
+  mod: cwc.mode.phaser.Mod,
+  show_blockly: true,
   name: 'Phaser blockly',
   template: 'phaser/blank-blocks.cwc',
 });

@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.sphero.classic.Monitoring');
 
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
@@ -51,6 +52,9 @@ cwc.protocol.sphero.classic.Monitoring = function(api) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 
   // Monitor Events
   this.events_.listen(this.monitorLocation, goog.Timer.TICK,
@@ -85,8 +89,9 @@ cwc.protocol.sphero.classic.Monitoring.prototype.stop = function() {
 
 
 cwc.protocol.sphero.classic.Monitoring.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
   this.stop();
-  // this.events_.clear();
+  this.events_.clear();
 };
 
 

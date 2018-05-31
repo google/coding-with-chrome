@@ -21,6 +21,7 @@ goog.provide('cwc.mode.sphero.classic.Connection');
 
 goog.require('cwc.protocol.sphero.classic.Api');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
@@ -53,6 +54,9 @@ cwc.mode.sphero.classic.Connection = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -69,6 +73,19 @@ cwc.mode.sphero.classic.Connection.prototype.init = function() {
     this.events_.listen(this.apiEvents_,
       cwc.protocol.sphero.v1.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
+  }
+
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+      cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
+      false, this);
   }
 
   if (!this.connectMonitor) {
@@ -138,12 +155,12 @@ cwc.mode.sphero.classic.Connection.prototype.getApi = function() {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
-  console.log('Clean up Sphero connection ...');
+  this.log_.info('Clean up ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.stop();
   this.api_.cleanUp();
+  this.stop();
   this.events_.clear();
 };
 
@@ -158,4 +175,16 @@ cwc.mode.sphero.classic.Connection.prototype.handleConnecting_ = function(e) {
   let title = 'Connecting Sphero 2.0';
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.sphero.classic.Connection.prototype.handlePreviewStatus_ = function(
+    e) {
+  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+    this.stop();
+  }
 };

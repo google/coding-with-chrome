@@ -152,7 +152,7 @@ cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
  * @param {Object|number|string|Array=} value
  */
 cwc.Messenger.prototype.send = function(name, value = {}) {
-  if (typeof this.target.contentWindow === 'undefined') {
+  if (!this.target || !this.target.contentWindow) {
     console.error('App window is not ready, for ' + name);
     return;
   }

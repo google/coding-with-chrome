@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 Blockly modifications.
+ * @fileoverview EV3 modifications.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.lego.ev3.blockly.Mod');
+goog.provide('cwc.mode.lego.ev3.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.lego.ev3.Connection');
@@ -34,8 +34,12 @@ goog.require('cwc.soy.ev3.Blocks');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {boolean=} enableBlockly
  */
-cwc.mode.lego.ev3.blockly.Mod = function(helper) {
+cwc.mode.lego.ev3.Mod = function(helper, enableBlockly = false) {
+  /** @type {!boolean} */
+  this.enableBlockly = enableBlockly;
+
   /** @type {!cwc.mode.lego.ev3.Connection} */
   this.connection = new cwc.mode.lego.ev3.Connection(helper);
 
@@ -64,8 +68,10 @@ cwc.mode.lego.ev3.blockly.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.lego.ev3.blockly.Mod.prototype.decorate = function() {
-  this.mod.enableBlockly(cwc.soy.ev3.Blocks.toolbox);
+cwc.mode.lego.ev3.Mod.prototype.decorate = function() {
+  if (this.enableBlockly) {
+    this.mod.enableBlockly(cwc.soy.ev3.Blocks.toolbox);
+  }
   this.mod.setConnection(this.connection);
   this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);

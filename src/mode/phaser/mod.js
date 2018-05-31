@@ -1,7 +1,7 @@
 /**
- * @fileoverview Basic modifications.
+ * @fileoverview Phaser modifications.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,27 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.basic.simple.Mod');
+goog.provide('cwc.mode.phaser.Mod');
 
-goog.require('cwc.mode.basic.Hints');
 goog.require('cwc.mode.default.Mod');
+goog.require('cwc.renderer.external.Phaser');
+goog.require('cwc.soy.phaser.Blocks');
 
 
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {boolean=} enableBlockly
  */
-cwc.mode.basic.simple.Mod = function(helper) {
+cwc.mode.phaser.Mod = function(helper, enableBlockly = false) {
+  /** @type {!boolean} */
+  this.enableBlockly = enableBlockly;
+
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.renderer.external.Phaser} */
+  this.renderer = new cwc.renderer.external.Phaser(helper);
 };
 
 
@@ -37,7 +45,14 @@ cwc.mode.basic.simple.Mod = function(helper) {
  * Decorates the different parts of the modification.
  * @async
  */
-cwc.mode.basic.simple.Mod.prototype.decorate = async function() {
+cwc.mode.phaser.Mod.prototype.decorate = async function() {
+  if (this.enableBlockly) {
+    this.mod.enableBlockly(cwc.soy.phaser.Blocks.toolbox);
+  }
+  this.mod.setRenderer(this.renderer);
   await this.mod.decorate();
-  this.mod.editor.setLocalHints(cwc.mode.basic.Hints);
+  if (this.enableBlockly) {
+    this.mod.blockly.enableToolboxAutoCollapse(true);
+    this.mod.blockly.disableOrphansBlocks(true);
+  }
 };
