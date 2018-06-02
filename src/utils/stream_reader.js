@@ -102,30 +102,35 @@ cwc.utils.StreamReader.prototype.addBuffer = function(buffer) {
 /**
  * Read stream by header and footer.
  * @param {!Uint8Array} data
- * @return {Uint8Array}
+ * @return {Array.<Uint8Array>}
  */
 cwc.utils.StreamReader.prototype.readByHeaderAndFooter = function(data) {
+  let result = [];
   let dataBuffer = this.readByHeader(data);
 
   // Validate packet by footer to avoid fragments
   let endPosition = cwc.utils.ByteTools.getBytePositions(
     dataBuffer, this.footer);
   if (endPosition) {
-    if (endPosition.length > 1) {
-      this.addBuffer(dataBuffer.slice(endPosition[0] + 2, endPosition[1] + 2));
-    } else {
-      this.addBuffer(dataBuffer.slice(endPosition[0] + 2));
-    }
-    dataBuffer = dataBuffer.slice(0, endPosition[0]);
-    if (dataBuffer.length < this.minSize) {
-      this.addBuffer(dataBuffer);
-      return null;
+    for (let i = 0, len = endPosition.length; i < len; i++) {
+      let fragment = dataBuffer.slice(
+        i === 0 ? 0 : endPosition[i-1] + 2,
+        endPosition[i] + 2
+      );
+
+      if (fragment.length >= this.minSize) {
+        result.push(fragment);
+
+      // Only add last fragment to buffer.
+      } else if (i+1 === len) {
+        this.addBuffer(fragment);
+      }
     }
   } else {
     this.addBuffer(dataBuffer);
     return null;
   }
-  return dataBuffer;
+  return result;
 };
 
 

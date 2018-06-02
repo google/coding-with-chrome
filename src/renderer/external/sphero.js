@@ -51,9 +51,9 @@ cwc.renderer.external.Sphero = function(helper) {
  * @return {!Promise}
  */
 cwc.renderer.external.Sphero.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer');
-  rendererInstance.setServerMode(true);
-  return rendererInstance.setRenderer(this.render.bind(this));
+  return this.helper.getInstance('renderer')
+    .setServerMode(true)
+    .setRenderer(this.render.bind(this));
 };
 
 

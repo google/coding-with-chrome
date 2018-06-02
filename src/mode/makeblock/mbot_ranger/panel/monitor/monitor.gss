@@ -15,29 +15,6 @@
  */
 
 
-#{$prefix}mbot-ranger-monitor-intro,
-#{$prefix}mbot-ranger-monitor-control,
-#{$prefix}mbot-ranger-monitor-calibration {
+#cwc-mbot-ranger-monitor-body {
   padding: 5px;
-  position: relative;
-}
-
-#{$prefix}mbot-ranger-monitor-control-buttons {
-  width: 150px;
-  margin: auto;
-  padding-bottom: 10px;
-}
-
-#{$prefix}mbot-ranger-monitor-calibration-buttons {
-  width: 200px;
-  margin: auto;
-  padding-bottom: 10px;
-}
-
-#{$prefix}mbot-ranger-monitor-control-buttons:first-child {
-  padding-left: 3px;
-}
-
-#{$prefix}mbot-ranger-monitor-system-buttons > div {
-  padding: 10px;
 }

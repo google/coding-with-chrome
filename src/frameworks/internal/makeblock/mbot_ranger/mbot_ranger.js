@@ -18,9 +18,9 @@
  * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.makeblock.mBotRanger');
+goog.provide('cwc.framework.makeblock.MBotRanger');
 
-goog.require('cwc.framework.Runner');
+goog.require('cwc.framework.Messenger');
 
 
 /**
@@ -30,7 +30,7 @@ goog.require('cwc.framework.Runner');
  * @final
  * @export
  */
-cwc.framework.makeblock.mBotRanger = function(code) {
+cwc.framework.makeblock.MBotRanger = function() {
   /** @type {string} */
   this.name = 'mBot Ranger Framework';
 
@@ -52,15 +52,6 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   /** @type {!function(?)} */
   this.ultrasonicSensorEvent = this.emptyFunction_;
 
-  /** @type {Function} */
-  this.code = code;
-
-  /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner()
-    .setScope(this)
-    .setCallback(this.code)
-    .setMonitor(this.monitor_);
-
   /** @type {!number} */
   this.buttonValue = 0;
 
@@ -79,22 +70,14 @@ cwc.framework.makeblock.mBotRanger = function(code) {
   /** @type {!number} */
   this.motorSpeed = 60 / 60;
 
-  this.addCommandListener();
-};
-
-
-/**
- * Enable external listener
- */
-cwc.framework.makeblock.mBotRanger.prototype.addCommandListener = function() {
-  this.runner.addCommand('updateTemperatureSensor',
-    this.updateTemperatureSensor_);
-  this.runner.addCommand('updateLightnessSensor',
-    this.updateLightnessSensor_);
-  this.runner.addCommand('updateLineFollowerSensor',
-    this.updateLineFollowerSensor_);
-  this.runner.addCommand('updateUltrasonicSensor',
-    this.updateUltrasonicSensor_);
+  /** @private {!cwc.framework.Messenger} */
+  this.messenger_ = new cwc.framework.Messenger()
+    .setListenerScope(this)
+    .addListener('__EVENT__CHANGED_LIGHTNESS', this.handleLightnessSensor_)
+    .addListener('__EVENT__CHANGED_LINEFOLLOWER',
+      this.handleLineFollowerSensor_)
+    .addListener('__EVENT__CHANGED_TEMPERATURE', this.handleTemperatureSensor_)
+    .addListener('__EVENT__CHANGED_ULTRASONIC', this.handleUltrasonicSensor_);
 };
 
 
@@ -103,17 +86,17 @@ cwc.framework.makeblock.mBotRanger.prototype.addCommandListener = function() {
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {string=} opt_index 1-14
- * @param {number=} opt_delay
+ * @param {string=} index 1-14
+ * @param {number=} delay
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.setRGBLED = function(red, green,
-    blue, opt_index, opt_delay) {
-  this.runner.send('setRGBLED', {
+cwc.framework.makeblock.MBotRanger.prototype.setRGBLED = function(red, green,
+    blue, index, delay) {
+  this.messenger_.send('setRGBLED', {
     'red': red,
     'green': green,
     'blue': blue,
-    'index': opt_index || 0}, opt_delay);
+    'index': index || 0}, delay);
 };
 
 
@@ -121,13 +104,13 @@ cwc.framework.makeblock.mBotRanger.prototype.setRGBLED = function(red, green,
  * Plays a tone through the buzzer.
  * @param  {!number} frequency frequency of the note
  * @param  {!number} duration  duration in milliseconds
- * @param  {number=} opt_delay
+ * @param  {number=} delay
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.playTone = function(frequency,
-    duration, opt_delay) {
-  this.runner.send('playTone', {
-    'frequency': frequency, 'duration': duration}, opt_delay);
+cwc.framework.makeblock.MBotRanger.prototype.playTone = function(frequency,
+    duration, delay) {
+  this.messenger_.send('playTone', {
+    'frequency': frequency, 'duration': duration}, delay);
 };
 
 
@@ -136,7 +119,7 @@ cwc.framework.makeblock.mBotRanger.prototype.playTone = function(frequency,
  * @return {number}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getButtonValue = function() {
+cwc.framework.makeblock.MBotRanger.prototype.getButtonValue = function() {
   return this.buttonValue;
 };
 
@@ -146,7 +129,7 @@ cwc.framework.makeblock.mBotRanger.prototype.getButtonValue = function() {
  * @return {number}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getTemperatureSensorValue =
+cwc.framework.makeblock.MBotRanger.prototype.getTemperatureSensorValue =
 function() {
   return this.temperatureSensorValue;
 };
@@ -157,7 +140,7 @@ function() {
  * @return {number}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getLightnessSensorValue =
+cwc.framework.makeblock.MBotRanger.prototype.getLightnessSensorValue =
 function() {
   return this.lightnessSensorValue;
 };
@@ -168,7 +151,7 @@ function() {
  * @return {number}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getLineFollowerSensorValue =
+cwc.framework.makeblock.MBotRanger.prototype.getLineFollowerSensorValue =
 function() {
   return this.lineFollowerSensorValue;
 };
@@ -179,7 +162,7 @@ function() {
  * @return {number}
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getUltrasonicSensorValue =
+cwc.framework.makeblock.MBotRanger.prototype.getUltrasonicSensorValue =
 function() {
   return this.ultrasonicSensorValue;
 };
@@ -190,7 +173,7 @@ function() {
  * @return {!number} Calculated delay + buffer.
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.getDelay = function(speed) {
+cwc.framework.makeblock.MBotRanger.prototype.getDelay = function(speed) {
   let buffer = 250;
   let motorSpeed = this.motorSpeed;
   let delay = Math.floor(
@@ -205,9 +188,9 @@ cwc.framework.makeblock.mBotRanger.prototype.getDelay = function(speed) {
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.rotatePower = function(power,
+cwc.framework.makeblock.MBotRanger.prototype.rotatePower = function(power,
     opt_delay) {
-  this.runner.send('rotatePower', {
+  this.messenger_.send('rotatePower', {
     'power': power});
 };
 
@@ -218,11 +201,11 @@ cwc.framework.makeblock.mBotRanger.prototype.rotatePower = function(power,
  * @param {!number} power -255 - 255
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.rotatePowerTime = function(time,
+cwc.framework.makeblock.MBotRanger.prototype.rotatePowerTime = function(time,
     power) {
-  this.runner.send('rotatePower', {
+  this.messenger_.send('rotatePower', {
     'power': power}, time);
-  this.runner.send('rotatePower', {
+  this.messenger_.send('rotatePower', {
     'power': 0}, 100);
 };
 
@@ -234,9 +217,9 @@ cwc.framework.makeblock.mBotRanger.prototype.rotatePowerTime = function(time,
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.movePower = function(power,
+cwc.framework.makeblock.MBotRanger.prototype.movePower = function(power,
     opt_slot, opt_delay) {
-  this.runner.send('movePower', {
+  this.messenger_.send('movePower', {
     'power': power,
     'slot': opt_slot});
 };
@@ -248,11 +231,11 @@ cwc.framework.makeblock.mBotRanger.prototype.movePower = function(power,
  * @param {!number} power -255 - 255
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.movePowerTime = function(time,
+cwc.framework.makeblock.MBotRanger.prototype.movePowerTime = function(time,
     power) {
-  this.runner.send('movePower', {
+  this.messenger_.send('movePower', {
     'power': power}, time);
-  this.runner.send('movePower', {
+  this.messenger_.send('movePower', {
     'power': 0}, 100);
 };
 
@@ -264,9 +247,9 @@ cwc.framework.makeblock.mBotRanger.prototype.movePowerTime = function(time,
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.moveSteps = function(steps,
+cwc.framework.makeblock.MBotRanger.prototype.moveSteps = function(steps,
     opt_speed, opt_delay) {
-  this.runner.send('moveSteps', {
+  this.messenger_.send('moveSteps', {
     'steps': steps,
     'power': opt_speed}, 200);
 };
@@ -277,8 +260,8 @@ cwc.framework.makeblock.mBotRanger.prototype.moveSteps = function(steps,
  * @param {!number} time in msec
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.wait = function(time) {
-  this.runner.send('wait', null, time);
+cwc.framework.makeblock.MBotRanger.prototype.wait = function(time) {
+  this.messenger_.send('wait', null, time);
 };
 
 
@@ -287,8 +270,8 @@ cwc.framework.makeblock.mBotRanger.prototype.wait = function(time) {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.stop = function(opt_delay) {
-  this.runner.send('stop', null, opt_delay);
+cwc.framework.makeblock.MBotRanger.prototype.stop = function(opt_delay) {
+  this.messenger_.send('stop', null, opt_delay);
 };
 
 
@@ -296,7 +279,7 @@ cwc.framework.makeblock.mBotRanger.prototype.stop = function(opt_delay) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onButtonChange = function(func) {
+cwc.framework.makeblock.MBotRanger.prototype.onButtonChange = function(func) {
   if (goog.isFunction(func)) {
     this.buttonEvent = func;
   }
@@ -307,7 +290,7 @@ cwc.framework.makeblock.mBotRanger.prototype.onButtonChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onTemperatureSensorChange =
+cwc.framework.makeblock.MBotRanger.prototype.onTemperatureSensorChange =
 function(func) {
   if (goog.isFunction(func)) {
     this.temperatureSensorEvent = func;
@@ -319,8 +302,8 @@ function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onLightnessSensorChange = function(
-    func) {
+cwc.framework.makeblock.MBotRanger.prototype.onLightnessSensorChange =
+function(func) {
   if (goog.isFunction(func)) {
     this.lightnessSensorEvent = func;
   }
@@ -331,7 +314,7 @@ cwc.framework.makeblock.mBotRanger.prototype.onLightnessSensorChange = function(
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onLineFollowerSensorChange =
+cwc.framework.makeblock.MBotRanger.prototype.onLineFollowerSensorChange =
 function(func) {
   if (goog.isFunction(func)) {
     this.lineFollowerSensorEvent = func;
@@ -343,7 +326,7 @@ function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.makeblock.mBotRanger.prototype.onUltrasonicSensorChange =
+cwc.framework.makeblock.MBotRanger.prototype.onUltrasonicSensorChange =
 function(func) {
   if (goog.isFunction(func)) {
     this.ultrasonicSensorEvent = func;
@@ -352,59 +335,49 @@ function(func) {
 
 
 /**
- * @param {!number} data
+ * @param {!Event} event
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateTemperatureSensor_ =
-function(data) {
-  this.temperatureSensorValue = data;
-  this.temperatureSensorEvent(data);
+cwc.framework.makeblock.MBotRanger.prototype.handleTemperatureSensor_ =
+function(event) {
+  this.temperatureSensorValue = event.data;
+  this.temperatureSensorEvent(event.data);
 };
 
 
 /**
- * @param {!number} data
+ * @param {!Event} event
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateLightnessSensor_ =
-function(data) {
-  this.lightnessSensorValue = data;
-  this.lightnessSensorEvent(data['sensor_1'], data['sensor_2']);
+cwc.framework.makeblock.MBotRanger.prototype.handleLightnessSensor_ =
+function(event) {
+  this.lightnessSensorValue = event.data;
+  this.lightnessSensorEvent(event.data['sensor_1'], event.data['sensor_2']);
 };
 
 
 /**
- * @param {!number} data
+ * @param {!Event} event
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateLineFollowerSensor_ =
-function(data) {
-  this.lineFollowerSensorValue = data;
-  this.lineFollowerSensorEvent(data['left'], data['right'], data['raw']);
+cwc.framework.makeblock.MBotRanger.prototype.handleLineFollowerSensor_ =
+function(event) {
+  this.lineFollowerSensorValue = event.data;
+  this.lineFollowerSensorEvent(
+    event.data['left'], event.data['right'], event.data['raw']);
 };
 
 
 /**
- * @param {!number} data
+ * @param {!Event} event
  * @private
  */
-cwc.framework.makeblock.mBotRanger.prototype.updateUltrasonicSensor_ =
-function(data) {
-  this.ultrasonicSensorValue = data;
-  this.ultrasonicSensorEvent(data);
+cwc.framework.makeblock.MBotRanger.prototype.handleUltrasonicSensor_ =
+function(event) {
+  this.ultrasonicSensorValue = event.data;
+  this.ultrasonicSensorEvent(event.data);
 };
 
 
-/**
- * @private
- */
-cwc.framework.makeblock.mBotRanger.prototype.monitor_ = function() {
-  this.runner.enableMonitor(this.code, 'mBotRanger.onLineFollowerSensorChange',
-    'setLineFollowerMonitor');
-  this.runner.enableMonitor(this.code, 'mBotRanger.onLightnessSensorChange',
-    'setLightnessMonitor');
-  this.runner.enableMonitor(this.code, 'mBotRanger.onTemperatureSensorChange',
-    'setTemperatureMonitor');
-  this.runner.enableMonitor(this.code, 'mBotRanger.onUltrasonicSensorChange',
-    'setUltrasonicMonitor');
-};
+// Global mapping
+window['mBotRanger'] = new cwc.framework.makeblock.MBotRanger();

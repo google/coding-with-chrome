@@ -248,6 +248,9 @@ cwc.utils.ByteTools.getUint8Data = function(data, headers, size, buffer) {
  * @return {Array|null}
  */
 cwc.utils.ByteTools.getBytePositions = function(data, bytes) {
+  if (!data || !bytes) {
+    return null;
+  }
   let dataLength = data.length;
   let byteLength = bytes.length;
   let result = [];

@@ -30,10 +30,10 @@ goog.require('cwc.utils.EventData');
  * @enum {string}
  */
 cwc.protocol.makeblock.mbotRanger.Events.Type = {
-  LIGHTNESS_SENSOR: 'lightness_sensor_value_changed',
-  LINEFOLLOWER_SENSOR: 'linefollower_sensor_value_changed',
-  TEMPERATURE_SENSOR: 'temperature_sensor_value_changed',
-  ULTRASONIC_SENSOR: 'ultrasonic_sensor_value_changed',
+  LIGHTNESS_SENSOR: 'CHANGED_LIGHTNESS',
+  LINEFOLLOWER_SENSOR: 'CHANGED_LINEFOLLOWER',
+  TEMPERATURE_SENSOR: 'CHANGED_TEMPERATURE',
+  ULTRASONIC_SENSOR: 'CHANGED_ULTRASONIC',
 };
 
 

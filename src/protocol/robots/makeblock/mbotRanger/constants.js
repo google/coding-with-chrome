@@ -115,18 +115,18 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
  * @enum {!number}
  */
 cwc.protocol.makeblock.mbotRanger.Port = {
-  AUTO: 0,
-  ENCODER_BOARD_POS: 1,
-  ENCODER_BOARD_SPEED: 2,
+  AUTO: 0x00,
+  ENCODER_BOARD_POS: 0x01,
+  ENCODER_BOARD_SPEED: 0x02,
   ULTRASONIC: 0x0a,
   LINEFOLLOWER: 0x09,
   LIGHTSENSOR_1: 0x0c,
   LIGHTSENSOR_2: 0x0d,
-  RGBLED: 44,
-  TEMPERATURE: 0x0d,
   LEFT_MOTOR: 0x22,
   RIGHT_MOTOR: 0x11,
-  TONE: 45,
+  RGBLED: 0x2c,
+  TONE: 0x2d,
+  TEMPERATURE: 0x0d,
 };
 
 

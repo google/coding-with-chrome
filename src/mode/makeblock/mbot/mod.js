@@ -17,7 +17,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.makeblock.mbot.blockly.Mod');
+goog.provide('cwc.mode.makeblock.mbot.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.makeblock.mbot.Connection');
@@ -30,8 +30,12 @@ goog.require('cwc.soy.mbot.Blocks');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
+ * @param {boolean=} enableBlockly
  */
-cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
+cwc.mode.makeblock.mbot.Mod = function(helper, enableBlockly = false) {
+  /** @type {!boolean} */
+  this.enableBlockly = enableBlockly;
+
   /** @type {!cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
 
@@ -52,8 +56,10 @@ cwc.mode.makeblock.mbot.blockly.Mod = function(helper) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.makeblock.mbot.blockly.Mod.prototype.decorate = function() {
-  this.mod.enableBlockly(cwc.soy.mbot.Blocks.toolbox);
+cwc.mode.makeblock.mbot.Mod.prototype.decorate = function() {
+  if (this.enableBlockly) {
+    this.mod.enableBlockly(cwc.soy.mbot.Blocks.toolbox);
+  }
   this.mod.setConnection(this.connection);
   this.mod.setMonitor(this.monitor);
   this.mod.setRenderer(this.renderer);

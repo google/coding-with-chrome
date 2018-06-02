@@ -108,9 +108,12 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
 
 /**
  * @param {!boolean} enable
+ * @return {THIS}
+ * @template THIS
  */
 cwc.renderer.Renderer.prototype.setServerMode = function(enable) {
   this.serverMode_ = enable;
+  return this;
 };
 
 

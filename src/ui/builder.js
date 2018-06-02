@@ -35,11 +35,8 @@ goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.bluetooth.classic.Api');
 goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
-goog.require('cwc.protocol.makeblock.mbot.Api');
-goog.require('cwc.protocol.makeblock.mbotRanger.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
-goog.require('cwc.protocol.sphero.classic.Api');
 goog.require('cwc.protocol.tcp.HTTPServer');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.server.Server');
@@ -127,11 +124,6 @@ cwc.ui.supportedProtocols = {
   // Boards
   'arduino': cwc.protocol.arduino.Api,
   'raspberryPi': cwc.protocol.raspberryPi.Api,
-
-  // Robots
-  'mbot': cwc.protocol.makeblock.mbot.Api,
-  'mbotRanger': cwc.protocol.makeblock.mbotRanger.Api,
-  'sphero': cwc.protocol.sphero.classic.Api,
 };
 
 

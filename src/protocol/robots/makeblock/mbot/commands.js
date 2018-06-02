@@ -29,17 +29,6 @@ goog.require('cwc.protocol.makeblock.mbot.Slot');
 
 
 /**
- * @constructor
- * @struct
- * @final
- */
-cwc.protocol.makeblock.mbot.Commands = function() {
-  /** @private {Object} */
-  this.cache_ = {};
-};
-
-
-/**
  * Sets RGB LED color on the top of the mbot.
  * @param {!number} red 0-255
  * @param {!number} green 0-255
@@ -48,7 +37,7 @@ cwc.protocol.makeblock.mbot.Commands = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
+cwc.protocol.makeblock.mbot.Commands.setRGBLED = function(red, green,
     blue, index = 0x00) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
@@ -71,7 +60,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setRGBLED = function(red, green,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
+cwc.protocol.makeblock.mbot.Commands.playTone = function(frequency,
     duration) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
@@ -90,7 +79,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.playTone = function(frequency,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
+cwc.protocol.makeblock.mbot.Commands.setMotorPower = function(power,
     port = cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
@@ -107,7 +96,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.setMotorPower = function(power,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.readUltrasonicSensor = function(
+cwc.protocol.makeblock.mbot.Commands.readUltrasonicSensor = function(
 ) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC)
@@ -123,7 +112,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.readUltrasonicSensor = function(
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.readLightSensor = function() {
+cwc.protocol.makeblock.mbot.Commands.readLightSensor = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
@@ -138,7 +127,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.readLightSensor = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.readLineFollowerSensor =
+cwc.protocol.makeblock.mbot.Commands.readLineFollowerSensor =
 function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER)
@@ -154,7 +143,7 @@ function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.getVersion = function() {
+cwc.protocol.makeblock.mbot.Commands.getVersion = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.VERSION)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
@@ -168,7 +157,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.getVersion = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.reset = function() {
+cwc.protocol.makeblock.mbot.Commands.reset = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RESET)
@@ -181,7 +170,7 @@ cwc.protocol.makeblock.mbot.Commands.prototype.reset = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.prototype.start = function() {
+cwc.protocol.makeblock.mbot.Commands.start = function() {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.START)

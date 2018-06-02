@@ -40,7 +40,7 @@ cwc.mode.makeblock.mbot.Connection = function(helper) {
   this.helper = helper;
 
   /** @type {!cwc.protocol.makeblock.mbot.Api} */
-  this.api = helper.getInstance('mbot', true);
+  this.api_ = new cwc.protocol.makeblock.mbot.Api();
 
   /** @type {goog.Timer} */
   this.connectMonitor = null;
@@ -78,11 +78,11 @@ cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
       if (device) {
-        this.api.connect(device);
+        this.api_.connect(device);
       }
     }.bind(this));
   }
-  this.api.monitor(true);
+  this.api_.monitor(true);
 };
 
 
@@ -95,7 +95,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api.stop();
+  this.api_.stop();
 };
 
 
@@ -106,7 +106,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
  */
 cwc.mode.makeblock.mbot.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
-    this.api.reset();
+    this.api_.reset();
   }
 };
 
@@ -116,7 +116,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.reset = function(opt_event) {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.isConnected = function() {
-  return this.api.isConnected();
+  return this.api_.isConnected();
 };
 
 
@@ -125,7 +125,15 @@ cwc.mode.makeblock.mbot.Connection.prototype.isConnected = function() {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.getApi = function() {
-  return this.api;
+  return this.api_;
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ */
+cwc.mode.makeblock.mbot.Connection.prototype.getEventHandler = function() {
+  return this.api_.getEventHandler();
 };
 
 
@@ -136,7 +144,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.api.monitor(false);
+  this.api_.monitor(false);
   this.stop();
   this.events_.clear();
 };

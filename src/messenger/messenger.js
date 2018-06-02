@@ -153,7 +153,6 @@ cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
  */
 cwc.Messenger.prototype.send = function(name, value = {}) {
   if (!this.target || !this.target.contentWindow) {
-    console.error('App window is not ready, for ' + name);
     return;
   }
   this.target.contentWindow.postMessage({

@@ -23,7 +23,6 @@
 goog.provide('cwc.protocol.makeblock.mbot.Api');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
-goog.require('cwc.protocol.makeblock.mbot.Commands');
 goog.require('cwc.protocol.makeblock.mbot.CallbackType');
 goog.require('cwc.protocol.makeblock.mbot.Monitoring');
 goog.require('cwc.protocol.makeblock.mbot.Port');
@@ -40,9 +39,6 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.makeblock.mbot.Api = function() {
-  /** @type {!cwc.protocol.makeblock.mbot.Commands} */
-  this.commands = new cwc.protocol.makeblock.mbot.Commands();
-
   /** @type {string} */
   this.name = 'mBot';
 

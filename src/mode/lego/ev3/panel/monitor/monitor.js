@@ -24,12 +24,10 @@ goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.soy.mode.ev3.Monitor');
 goog.require('cwc.utils.Events');
-goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.events');
 goog.require('goog.events.EventType');
-goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 /**

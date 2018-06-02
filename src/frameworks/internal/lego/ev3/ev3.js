@@ -20,7 +20,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Ev3');
+goog.provide('cwc.framework.lego.Ev3');
 
 goog.require('cwc.framework.Messenger');
 goog.require('cwc.protocol.lego.ev3.DeviceGroup');
@@ -37,7 +37,7 @@ goog.require('cwc.protocol.lego.ev3.Robots');
  * @final
  * @export
  */
-cwc.framework.Ev3 = function() {
+cwc.framework.lego.Ev3 = function() {
   /** @type {string} */
   this.name = 'EV3 Framework';
 
@@ -115,7 +115,7 @@ cwc.framework.Ev3 = function() {
  * @param {!string} model
  * @export
  */
-cwc.framework.Ev3.prototype.setRobotModel = function(model) {
+cwc.framework.lego.Ev3.prototype.setRobotModel = function(model) {
   if (model == 'custom') {
     return;
   }
@@ -136,7 +136,7 @@ cwc.framework.Ev3.prototype.setRobotModel = function(model) {
  * @param {!cwc.protocol.lego.ev3.RobotType<string>} type
  * @export
  */
-cwc.framework.Ev3.prototype.setRobotType = function(type) {
+cwc.framework.lego.Ev3.prototype.setRobotType = function(type) {
   this.robotType = type;
   console.log('Set robot type to ' + this.robotType);
 };
@@ -146,7 +146,7 @@ cwc.framework.Ev3.prototype.setRobotType = function(type) {
  * @param {!number} diameter in millimeter
  * @export
  */
-cwc.framework.Ev3.prototype.setWheelDiameter = function(diameter) {
+cwc.framework.lego.Ev3.prototype.setWheelDiameter = function(diameter) {
   this.wheelDiameter = Number(diameter);
   this.wheelCircumference = this.wheelDiameter * Math.PI;
 };
@@ -156,7 +156,7 @@ cwc.framework.Ev3.prototype.setWheelDiameter = function(diameter) {
  * @param {!number} wheel_width in millimeter
  * @export
  */
-cwc.framework.Ev3.prototype.setWheelWidth = function(wheel_width) {
+cwc.framework.lego.Ev3.prototype.setWheelWidth = function(wheel_width) {
   this.wheelWidth = Number(wheel_width);
   this.setRotateCircumference_();
 };
@@ -166,7 +166,7 @@ cwc.framework.Ev3.prototype.setWheelWidth = function(wheel_width) {
  * @param {!number} distance in millimeter
  * @export
  */
-cwc.framework.Ev3.prototype.setWheelbase = function(distance) {
+cwc.framework.lego.Ev3.prototype.setWheelbase = function(distance) {
   this.wheelbase = Number(distance);
   this.setRotateCircumference_();
 };
@@ -175,7 +175,7 @@ cwc.framework.Ev3.prototype.setWheelbase = function(distance) {
 /**
  * @private
  */
-cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
+cwc.framework.lego.Ev3.prototype.setRotateCircumference_ = function() {
   if (this.wheelbase) {
     this.rotateCircumference = (this.wheelbase + this.wheelWidth) * Math.PI;
   } else {
@@ -190,7 +190,7 @@ cwc.framework.Ev3.prototype.setRotateCircumference_ = function() {
  * @return {!number} Calculated delay + buffer.
  * @export
  */
-cwc.framework.Ev3.prototype.getDelay = function(steps, speed = 50) {
+cwc.framework.lego.Ev3.prototype.getDelay = function(steps, speed = 50) {
   let buffer = 250;
   let motorSpeed = this.largeMotorSpeed;
   let delay = Math.floor(
@@ -205,7 +205,7 @@ cwc.framework.Ev3.prototype.getDelay = function(steps, speed = 50) {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getSensorValue = function(port = 0) {
+cwc.framework.lego.Ev3.prototype.getSensorValue = function(port = 0) {
   return this.sensorData_[port] || 0;
 };
 
@@ -215,7 +215,7 @@ cwc.framework.Ev3.prototype.getSensorValue = function(port = 0) {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getColorSensorValue = function() {
+cwc.framework.lego.Ev3.prototype.getColorSensorValue = function() {
   return this.getSensorValue(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0]);
 };
@@ -226,7 +226,7 @@ cwc.framework.Ev3.prototype.getColorSensorValue = function() {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
+cwc.framework.lego.Ev3.prototype.getGyroSensorValue = function() {
   return this.getSensorValue(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE][0]);
 };
@@ -237,7 +237,7 @@ cwc.framework.Ev3.prototype.getGyroSensorValue = function() {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getIrSensorValue = function() {
+cwc.framework.lego.Ev3.prototype.getIrSensorValue = function() {
   return this.getSensorValue(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0]);
 };
@@ -248,7 +248,7 @@ cwc.framework.Ev3.prototype.getIrSensorValue = function() {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
+cwc.framework.lego.Ev3.prototype.getTouchSensorValue = function() {
   return this.getSensorValue(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.TOUCH][0]);
 };
@@ -259,7 +259,7 @@ cwc.framework.Ev3.prototype.getTouchSensorValue = function() {
  * @return {number}
  * @export
  */
-cwc.framework.Ev3.prototype.getUltrasonicSensorValue = function() {
+cwc.framework.lego.Ev3.prototype.getUltrasonicSensorValue = function() {
   return this.getSensorValue(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0]);
 };
@@ -270,7 +270,7 @@ cwc.framework.Ev3.prototype.getUltrasonicSensorValue = function() {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onSensorChange = function(port, func) {
+cwc.framework.lego.Ev3.prototype.onSensorChange = function(port, func) {
   if (goog.isFunction(func)) {
     this.events_[port] = func;
   }
@@ -281,7 +281,7 @@ cwc.framework.Ev3.prototype.onSensorChange = function(port, func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
+cwc.framework.lego.Ev3.prototype.onColorSensorChange = function(func) {
   this.onSensorChange(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0], func);
 };
@@ -291,7 +291,7 @@ cwc.framework.Ev3.prototype.onColorSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onGyroSensorChange = function(func) {
+cwc.framework.lego.Ev3.prototype.onGyroSensorChange = function(func) {
   this.onSensorChange(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE][0],
     func);
@@ -302,7 +302,7 @@ cwc.framework.Ev3.prototype.onGyroSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
+cwc.framework.lego.Ev3.prototype.onIrSensorChange = function(func) {
   this.onSensorChange(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0],
     func);
@@ -313,7 +313,7 @@ cwc.framework.Ev3.prototype.onIrSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onTouchSensorChange = function(func) {
+cwc.framework.lego.Ev3.prototype.onTouchSensorChange = function(func) {
   this.onSensorChange(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.TOUCH][0],
     func);
@@ -324,7 +324,7 @@ cwc.framework.Ev3.prototype.onTouchSensorChange = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
+cwc.framework.lego.Ev3.prototype.onUltrasonicSensorChange = function(func) {
   this.onSensorChange(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0],
     func);
@@ -334,7 +334,7 @@ cwc.framework.Ev3.prototype.onUltrasonicSensorChange = function(func) {
 /**
  * @export
  */
-cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
+cwc.framework.lego.Ev3.prototype.stopUltrasonicSensorEvent = function() {
   this.onUltrasonicSensorChange(function() {});
 };
 
@@ -345,7 +345,7 @@ cwc.framework.Ev3.prototype.stopUltrasonicSensorEvent = function() {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.drawImage = function(filename, delay) {
+cwc.framework.lego.Ev3.prototype.drawImage = function(filename, delay) {
   this.messenger_.send('drawImage', {'file': filename}, delay);
 };
 
@@ -358,7 +358,7 @@ cwc.framework.Ev3.prototype.drawImage = function(filename, delay) {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
+cwc.framework.lego.Ev3.prototype.playTone = function(frequency, opt_duration,
     opt_volume, opt_delay) {
   this.messenger_.send('playTone', {
     'frequency': frequency,
@@ -374,7 +374,7 @@ cwc.framework.Ev3.prototype.playTone = function(frequency, opt_duration,
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.playSound = function(filename, volume, delay) {
+cwc.framework.lego.Ev3.prototype.playSound = function(filename, volume, delay) {
   this.messenger_.send('playSound', {
     'file': filename,
     'volume': volume}, delay);
@@ -388,7 +388,7 @@ cwc.framework.Ev3.prototype.playSound = function(filename, volume, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.moveServo = function(steps, speed, delay) {
+cwc.framework.lego.Ev3.prototype.moveServo = function(steps, speed, delay) {
   this.messenger_.send('moveServo', {
     'steps': steps,
     'speed': speed}, delay);
@@ -403,7 +403,8 @@ cwc.framework.Ev3.prototype.moveServo = function(steps, speed, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePen = function(steps, speed, color, delay) {
+cwc.framework.lego.Ev3.prototype.movePen = function(steps, speed, color,
+    delay) {
   this.messenger_.send('movePen', {
     'steps': steps,
     'speed': speed,
@@ -418,7 +419,7 @@ cwc.framework.Ev3.prototype.movePen = function(steps, speed, color, delay) {
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.moveSteps = function(steps, speed, opt_delay) {
+cwc.framework.lego.Ev3.prototype.moveSteps = function(steps, speed, opt_delay) {
   if (this.robotType == cwc.protocol.lego.ev3.RobotType.ARM) {
     this.customMoveSteps(steps, undefined, speed, opt_delay);
   } else {
@@ -441,7 +442,7 @@ cwc.framework.Ev3.prototype.moveSteps = function(steps, speed, opt_delay) {
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
+cwc.framework.lego.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
     opt_speed, opt_delay) {
   let delay = /** @type {number|undefined} */ (
     opt_delay === true ? this.getDelay(steps, opt_speed) : opt_delay);
@@ -459,7 +460,7 @@ cwc.framework.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
+cwc.framework.lego.Ev3.prototype.moveDistance = function(distance, opt_speed,
     opt_delay) {
   let steps = Math.round((distance * 10 / this.wheelCircumference) * 360);
   let delay = /** @type {number|undefined} */ (
@@ -479,7 +480,7 @@ cwc.framework.Ev3.prototype.moveDistance = function(distance, opt_speed,
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotateSteps = function(steps,
+cwc.framework.lego.Ev3.prototype.rotateSteps = function(steps,
     opt_speed, opt_ratio, opt_delay) {
   this.messenger_.send('rotateSteps', {
     'steps': steps,
@@ -495,7 +496,7 @@ cwc.framework.Ev3.prototype.rotateSteps = function(steps,
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.rotateAngle = function(angle,
+cwc.framework.lego.Ev3.prototype.rotateAngle = function(angle,
     opt_speed, opt_delay) {
   if (this.robotType == cwc.protocol.lego.ev3.RobotType.ARM) {
     this.customRotateAngle(angle, undefined, opt_speed, opt_delay);
@@ -521,7 +522,7 @@ cwc.framework.Ev3.prototype.rotateAngle = function(angle,
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
  */
-cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
+cwc.framework.lego.Ev3.prototype.customRotateAngle = function(angle,
     opt_ports, opt_speed, opt_delay) {
   let rotateDistance = this.rotateCircumference / 360;
   let steps = Math.round(
@@ -542,7 +543,7 @@ cwc.framework.Ev3.prototype.customRotateAngle = function(angle,
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
+cwc.framework.lego.Ev3.prototype.movePower = function(power, opt_delay) {
   this.messenger_.send('movePower', {'power': power}, opt_delay);
 };
 
@@ -554,7 +555,7 @@ cwc.framework.Ev3.prototype.movePower = function(power, opt_delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.rotatePower = function(powerLeft, powerRight,
+cwc.framework.lego.Ev3.prototype.rotatePower = function(powerLeft, powerRight,
     delay) {
   this.messenger_.send('rotatePower', {
     'power_left': powerLeft,
@@ -567,7 +568,7 @@ cwc.framework.Ev3.prototype.rotatePower = function(powerLeft, powerRight,
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.stop = function(opt_delay) {
+cwc.framework.lego.Ev3.prototype.stop = function(opt_delay) {
   this.messenger_.send('stop', null, opt_delay);
 };
 
@@ -577,7 +578,7 @@ cwc.framework.Ev3.prototype.stop = function(opt_delay) {
  * @param {!number} time in msec
  * @export
  */
-cwc.framework.Ev3.prototype.wait = function(time) {
+cwc.framework.lego.Ev3.prototype.wait = function(time) {
   this.messenger_.send('wait', null, time);
 };
 
@@ -588,7 +589,7 @@ cwc.framework.Ev3.prototype.wait = function(time) {
  * @param {number=} delay
  * @export
  */
-cwc.framework.Ev3.prototype.setSensorMode = function(port, mode, delay) {
+cwc.framework.lego.Ev3.prototype.setSensorMode = function(port, mode, delay) {
   this.messenger_.send('setSensorMode', {'port': port, 'mode': mode}, delay);
 };
 
@@ -598,7 +599,7 @@ cwc.framework.Ev3.prototype.setSensorMode = function(port, mode, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, delay) {
+cwc.framework.lego.Ev3.prototype.setColorSensorMode = function(mode, delay) {
   this.setSensorMode(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.COLOR][0],
     mode, delay);
@@ -610,7 +611,7 @@ cwc.framework.Ev3.prototype.setColorSensorMode = function(mode, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, delay) {
+cwc.framework.lego.Ev3.prototype.setIrSensorMode = function(mode, delay) {
   this.setSensorMode(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.INFRARED][0],
     mode, delay);
@@ -622,7 +623,8 @@ cwc.framework.Ev3.prototype.setIrSensorMode = function(mode, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode, delay) {
+cwc.framework.lego.Ev3.prototype.setUltrasonicSensorMode = function(mode,
+    delay) {
   this.setSensorMode(
     this.devices_['sensor'][cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC][0],
     mode, delay);
@@ -635,7 +637,7 @@ cwc.framework.Ev3.prototype.setUltrasonicSensorMode = function(mode, delay) {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
+cwc.framework.lego.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
   this.messenger_.send('setLed', {
     'color': color,
     'mode': opt_mode}, opt_delay);
@@ -647,26 +649,26 @@ cwc.framework.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
  * @param {number=} opt_delay in msec
  * @export
  */
-cwc.framework.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
+cwc.framework.lego.Ev3.prototype.setStepSpeed = function(speed, opt_delay) {
   this.messenger_.send('setStepSpeed', {'speed': speed}, opt_delay);
 };
 
 
 /**
- * @param {!number} event
+ * @param {!Event} event
  * @private
  */
-cwc.framework.Ev3.prototype.handleDeviceEvent_ = function(event) {
+cwc.framework.lego.Ev3.prototype.handleDeviceEvent_ = function(event) {
   console.log('Device Event ' + event.data);
   this.devices_ = event.data;
 };
 
 
 /**
- * @param {!number} event
+ * @param {!Event} event
  * @private
  */
-cwc.framework.Ev3.prototype.handleSensorEvent_ = function(event) {
+cwc.framework.lego.Ev3.prototype.handleSensorEvent_ = function(event) {
   this.sensorData_[event.source] = event.data;
   this.events_[event.source](event.data);
 };
@@ -677,7 +679,7 @@ cwc.framework.Ev3.prototype.handleSensorEvent_ = function(event) {
  * @param {!cwc.protocol.lego.ev3.RobotType<string>} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateRobotType_ = function(data) {
+cwc.framework.lego.Ev3.prototype.handleUpdateRobotType_ = function(data) {
   this.setRobotType(data);
 };
 
@@ -687,7 +689,7 @@ cwc.framework.Ev3.prototype.handleUpdateRobotType_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
+cwc.framework.lego.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
   this.setWheelDiameter(data);
 };
 
@@ -696,7 +698,7 @@ cwc.framework.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
  * @param {Object} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateGamepad_ = function(data) {
+cwc.framework.lego.Ev3.prototype.handleUpdateGamepad_ = function(data) {
   console.log(data);
   console.log(data['buttons']);
 };
@@ -707,7 +709,7 @@ cwc.framework.Ev3.prototype.handleUpdateGamepad_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
+cwc.framework.lego.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
   this.setWheelWidth(data);
 };
 
@@ -717,10 +719,10 @@ cwc.framework.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
  * @param {!number} data
  * @private
  */
-cwc.framework.Ev3.prototype.handleUpdateWheelbase_ = function(data) {
+cwc.framework.lego.Ev3.prototype.handleUpdateWheelbase_ = function(data) {
   this.setWheelbase(data);
 };
 
 
 // Global mapping
-window['ev3'] = new cwc.framework.Ev3();
+window['ev3'] = new cwc.framework.lego.Ev3();

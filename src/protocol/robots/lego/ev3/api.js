@@ -107,7 +107,6 @@ cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     this.log_.info('Prepare EV3 bluetooth api for', device.getAddress());
-    this.log_.info(this.devices_);
     this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
       'Prepare EV3 api for' + device.getAddress(), 2));
     this.device = device;

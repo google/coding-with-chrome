@@ -65,9 +65,6 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
   /** @type {string} */
   this.name = 'EV3 Monitoring';
 
-  /** @type {boolean} */
-  this.monitor = false;
-
   /** @type {goog.events.EventTarget} */
   this.eventHandler = api.getEventHandler();
 

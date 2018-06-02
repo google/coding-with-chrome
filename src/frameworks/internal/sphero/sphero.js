@@ -38,6 +38,7 @@ cwc.framework.Sphero = function() {
   /** @type {!function(?)} */
   this.collisionEvent = function() {};
 
+  /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
     .addListener('__EVENT__COLLISION', this.handleCollision_);

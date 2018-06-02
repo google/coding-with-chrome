@@ -29,8 +29,8 @@ goog.require('cwc.mode.lego.ev3.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.javascript.Mod');
 goog.require('cwc.mode.json.Mod');
-goog.require('cwc.mode.makeblock.mbot.blockly.Mod');
-goog.require('cwc.mode.makeblock.mbotRanger.blockly.Mod');
+goog.require('cwc.mode.makeblock.mbot.Mod');
+goog.require('cwc.mode.makeblock.mbotRanger.Mod');
 goog.require('cwc.mode.pencilCode.Mod');
 goog.require('cwc.mode.phaser.Mod');
 goog.require('cwc.mode.python.Mod');
@@ -227,7 +227,8 @@ cwc.mode.ConfigData[cwc.mode.Type.MBOT_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Yu Wang', 'Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.makeblock.mbot.blockly.Mod,
+  mod: cwc.mode.makeblock.mbot.Mod,
+  show_blockly: true,
   name: 'mBot blockly',
   template: 'makeblock/mbot/blank-blocks.cwc',
 });
@@ -240,7 +241,8 @@ cwc.mode.ConfigData[cwc.mode.Type.MBOT_RANGER_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Yu Wang', 'Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.makeblock.mbotRanger.blockly.Mod,
+  mod: cwc.mode.makeblock.mbotRanger.Mod,
+  show_blockly: true,
   name: 'mBot Ranger blockly',
   template: 'makeblock/mbot_ranger/blank-blocks.cwc',
 });
