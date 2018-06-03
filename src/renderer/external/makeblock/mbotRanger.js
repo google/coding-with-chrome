@@ -35,6 +35,14 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.makeblock.MBotRanger = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {!Array} */
+  this.pythonMapping = [
+    'mBotRanger = window.mBotRanger',
+  ];
+
+  /** @private {!Array} */
+  this.frameworks_ = [cwc.framework.Internal.MBOT_RANGER];
 };
 
 
@@ -44,6 +52,7 @@ cwc.renderer.external.makeblock.MBotRanger = function(helper) {
  */
 cwc.renderer.external.makeblock.MBotRanger.prototype.init = function() {
   return this.helper.getInstance('renderer')
+    .setServerMode(true)
     .setRenderer(this.render.bind(this));
 };
 
@@ -61,14 +70,12 @@ cwc.renderer.external.makeblock.MBotRanger.prototype.render = function(
     libraryFiles,
     rendererHelper,
     environ = {}) {
-  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.MBOT_RANGER,
-  ], environ['baseURL']);
-  let body = '\n<script>' +
-      '  let code = function(mBotRanger) {\n' +
-      editorContent[cwc.ui.EditorContent.JAVASCRIPT] +
-      '\n};\n'+
-      '  new cwc.framework.makeblock.mBotRanger(code);\n' +
-      '</script>\n';
-  return rendererHelper.getHTMLRunner(body, header, environ);
+  let content = '';
+  if (environ['currentView'] === '__python__') {
+    content = this.pythonMapping.join('\n') + '\n';
+    content += editorContent[cwc.ui.EditorContent.PYTHON];
+  } else {
+    content = editorContent[cwc.ui.EditorContent.JAVASCRIPT];
+  }
+  return rendererHelper.getRunner(content, this.frameworks_, environ);
 };

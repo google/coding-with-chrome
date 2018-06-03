@@ -43,13 +43,13 @@ closureBuilder.build({
  * EV3 Framework
  */
 closureBuilder.build({
-  name: 'cwc.framework.Ev3',
+  name: 'cwc.framework.lego.Ev3',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/ev3/*.js',
+    'src/frameworks/internal/lego/ev3/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/protocol/robots/lego/ev3/*.js',
     'src/utils/stack_queue.js',
   ]),
@@ -103,7 +103,7 @@ closureBuilder.build({
     'src/frameworks/internal/makeblock/mbot/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/mbot_framework.js',
@@ -120,7 +120,7 @@ closureBuilder.build({
     'src/frameworks/internal/makeblock/mbot_ranger/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/mbot_ranger_framework.js',
@@ -128,16 +128,17 @@ closureBuilder.build({
 
 
 /**
- * Message Framework
+ * Messenger Framework
  */
 closureBuilder.build({
-  name: 'cwc.framework.Message',
+  name: 'cwc.framework.Messenger',
   compress: true,
   srcs: glob([
-    'src/frameworks/internal/message/*.js',
+    'src/frameworks/internal/messenger/*.js',
+    'src/utils/stack_queue.js',
   ]),
   externs: [],
-  out: 'genfiles/core/frameworks/internal/message_framework.js',
+  out: 'genfiles/core/frameworks/internal/messenger_framework.js',
 });
 
 
@@ -218,28 +219,11 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/sphero/*.js',
   ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
+  deps: glob([
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
-});
-
-
-/**
- * TTS Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.TTS',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/tts/*.js',
   ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/tts_framework.js',
+  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
 });
 
 

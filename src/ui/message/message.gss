@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+
+
 #{$prefix}message-chrome {
   flex: 0 0 auto;
-  height: 234px;
+  height: 250px;
   z-index: 1;
 }
 
@@ -27,13 +29,20 @@
   height: 34px;
 }
 
+#{$prefix}message-body {
+  background: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
 #{$prefix}message-toolbar {
   min-height: 34px;
 }
 
 #{$prefix}message-content {
   background: #eee;
-  min-height: 200px;
+  min-height: 216px;
 }
 
 #{$prefix}message-chrome .mdl-layout__container {

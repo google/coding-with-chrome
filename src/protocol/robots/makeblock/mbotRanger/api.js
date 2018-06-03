@@ -23,13 +23,14 @@
 goog.provide('cwc.protocol.makeblock.mbotRanger.Api');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
-goog.require('cwc.protocol.makeblock.mbotRanger.Commands');
+goog.require('cwc.protocol.makeblock.mbotRanger.Handler');
 goog.require('cwc.protocol.makeblock.mbotRanger.IndexType');
 goog.require('cwc.protocol.makeblock.mbotRanger.Monitoring');
 goog.require('cwc.protocol.makeblock.mbotRanger.Port');
 goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.NumberTools');
 goog.require('cwc.utils.StreamReader');
 
@@ -42,20 +43,17 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.makeblock.mbotRanger.Api = function() {
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Commands} */
-  this.commands = new cwc.protocol.makeblock.mbotRanger.Commands();
-
   /** @type {string} */
   this.name = 'mBot Ranger';
 
   /** @type {Object} */
   this.device = null;
 
+  /** @type {!cwc.protocol.makeblock.mbotRanger.Handler} */
+  this.handler = new cwc.protocol.makeblock.mbotRanger.Handler();
+
   /** @type {boolean} */
   this.prepared = false;
-
-  /** @type {Object} */
-  this.sensorData = {};
 
   /** @type {!cwc.protocol.makeblock.mbotRanger.Monitoring} */
   this.monitoring = new cwc.protocol.makeblock.mbotRanger.Monitoring(this);
@@ -74,6 +72,9 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
     .setHeaders([0xff, 0x55])
     .setFooter([0x0d, 0x0a])
     .setMinimumSize(4);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -85,15 +86,14 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(device) {
   if (!device) {
-    console.error('mBot Ranger is not ready yet...');
+    this.log_.error('mBot Ranger is not ready yet...');
     return false;
   }
 
   if (!this.prepared && device.isConnected()) {
-    console.log('Preparing bluetooth api for', device.getAddress());
+    this.log_.info('Preparing bluetooth api for', device.getAddress());
     this.device = device;
     this.prepare();
-    // this.runTest();
   }
 
   return true;
@@ -116,16 +116,17 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
   this.events_.listen(this.device.getEventHandler(),
     cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
-  this.playTone(524, 240);
-  this.playTone(584, 240);
-  this.setRGBLED(0, 0, 0, 0);
-  this.getVersion();
+  this.exec('playTone', {'frequency': 524, 'duration': 240});
+  this.exec('playTone', {'frequency': 584, 'duration': 240});
+  this.exec('setRGBLED', {'red': 0, 'green': 0, 'blue': 0, 'index': 0});
+  this.exec('getVersion');
+  this.monitoring.start();
   this.prepared = true;
 };
 
 
 /**
- * Disconnects the mBot.
+ * Disconnects the mBot Ranger.
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
@@ -137,28 +138,47 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
 
 
 /**
- * Basic cleanup for the mBot.
- * apparently this method is called by runner
- * @export
+ * Resets the mBot Ranger connection.
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
-  console.log('Clean up mBot Ranger...');
-  this.reset();
-  this.monitoring.stop();
+cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
+  if (this.device) {
+    this.device.reset();
+  }
 };
 
 
 /**
- * Resets the mBot connection and cache.
+ * Executer for the default handler commands.
+ * @param {!string} command
+ * @param {Object=} data
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
-  this.sensorData = {};
-  this.sensorDataCache_ = {};
+cwc.protocol.makeblock.mbotRanger.Api.prototype.exec = function(command,
+    data = {}) {
+  this.send(this.handler[command](data));
+};
+
+
+/**
+ * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.send = function(buffer) {
   if (this.device) {
-    this.stop();
-    this.device.reset();
+    this.device.send(buffer);
   }
+};
+
+
+/**
+ * @param {!string} command
+ * @param {Object=} data
+ * @return {!ArrayBuffer}
+ * @export
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.getBuffer = function(
+    command, data = {}) {
+  return this.handler[command](data);
 };
 
 
@@ -172,185 +192,59 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventHandler = function() {
 
 
 /**
- * @return {!cwc.protocol.makeblock.mbotRanger.Monitoring}
+ * Executer for the runner profiles with parameters in revert order.
+ * @param {!Object} data
+ * @param {!string} command
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.getMonitoring = function() {
-  return this.monitoring;
+cwc.protocol.makeblock.mbotRanger.Api.prototype.execRunnerProfile = function(
+    data, command) {
+  this.send(this.handler[command](data));
 };
 
 
 /**
- * Powers the motor.
- * @param {!number} power (-255 - 255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
+ * @return {!cwc.protocol.sphero.classic.Handler}
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.getRunnerProfile = function() {
+  return this.handler;
+};
+
+
+/**
+ * Basic cleanup for the mBot Ranger unit.
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.reset();
+  this.events_.clear();
+  this.monitoring.cleanUp();
+};
+
+
+/**
+ * Resets the mBot connection and cache.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.movePower = function(power,
-    opt_slot) {
-  if (opt_slot === undefined) {
-    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
-    this.send_(this.commands.movePower(-motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
-    this.send_(this.commands.movePower(motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
-  } else {
-    this.send_(this.commands.movePower(power, opt_slot));
+cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
+  this.sensorDataCache_ = {};
+  if (this.device) {
+    this.exec('stop');
+    this.device.reset();
   }
 };
 
 
 /**
- * Sets left motor power
- * @param  {!number} power 0-255
+ * @param {!boolean} enable
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setLeftMotorPower = function(
-    power) {
-  this.send_(this.commands.movePower(power,
-    cwc.protocol.makeblock.mbotRanger.Slot.ONE));
-};
-
-
-/**
- * Sets right motor power
- * @param  {!number} power 0-255
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setRightMotorPower = function(
-    power) {
-  this.send_(this.commands.movePower(power,
-    cwc.protocol.makeblock.mbotRanger.Slot.TWO));
-};
-
-
-/**
- * Powers the motor.
- * @param {!number} power (-255 - 255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} opt_slot
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.rotatePower = function(power,
-    opt_slot) {
-  if (opt_slot === undefined) {
-    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
-    this.send_(this.commands.movePower(motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
-    this.send_(this.commands.movePower(motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
-  } else {
-    this.send_(this.commands.movePower(power, opt_slot));
+cwc.protocol.makeblock.mbotRanger.Api.prototype.monitor = function(enable) {
+  if (enable && this.isConnected()) {
+    this.monitoring.start();
+  } else if (!enable) {
+    this.monitoring.stop();
   }
-};
-
-
-/**
- * Rotates the motor for the given steps.
- * @param {!number} steps (−32768 - 32.767)
- * @param {number=} power (0-180)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.moveSteps = function(steps,
-    power = 90, slot) {
-  if (slot === undefined) {
-    let motorPower = cwc.utils.NumberTools.minMax(power, -130, 130);
-    this.send_(this.commands.moveSteps(-steps, motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.ONE));
-    this.send_(this.commands.moveSteps(steps, motorPower,
-      cwc.protocol.makeblock.mbotRanger.Slot.TWO));
-  } else {
-    this.send_(this.commands.moveSteps(steps, power, slot));
-  }
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.readUltrasonicSensor = function(
-) {
-  this.send_(this.commands.readUltrasonicSensor());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.readLineFollowerSensor =
-function() {
-  this.send_(this.commands.readLineFollowerSensor());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.readLightSensor1 = function() {
-  this.send_(this.commands.readLightSensor1());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.readLightSensor2 = function() {
-  this.send_(this.commands.readLightSensor2());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.readTemperatureSensor =
-function() {
-  this.send_(this.commands.readTemperatureSensor());
-};
-
-
-/**
- * Sets led light on the top of the mbot
- * @param {!number} red           red value (0-255)
- * @param {!number} green         green value (0-255)
- * @param {!number} blue          blue value (0-255)
- * @param {number=} opt_index   0 for all lights; 1 for left, 2 for right
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.setRGBLED = function(red,
-    green, blue, opt_index) {
-  this.send_(this.commands.setRGBLED(red, green, blue, opt_index));
-};
-
-
-/**
- * Plays a tone through mBot's buzzer
- * @param {!number} frequency frequency of the tone to play
- * @param {!number} duration duration of the tone, in ms
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.playTone = function(frequency,
-    duration) {
-  this.send_(this.commands.playTone(frequency, duration));
-};
-
-
-/**
- * Stops the mBot.
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.stop = function() {
-  this.setRGBLED(0, 0, 0, 0);
-  this.movePower(0);
-  this.rotatePower(0);
-};
-
-
-/**
- * Device version
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.getVersion = function() {
-  this.send_(this.commands.getVersion());
 };
 
 
@@ -405,25 +299,40 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
 
 
 /**
- * Handles async packets from the Bluetooth socket.
+ * Handles packets from the Bluetooth socket.
  * @param {Event} e
  * @private
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.handleOnReceive_ = function(e) {
-  let dataBuffer = this.streamReader_.readByHeaderAndFooter(e.data);
-
-  // Ignore empty and OK packages with 0xff, 0x55, 0x0d, 0x0a
-  if (!dataBuffer || dataBuffer.length === 4) {
+  let data = this.streamReader_.readByHeaderAndFooter(e.data);
+  if (!data) {
     return;
   }
+  for (let i = 0, len = data.length; i < len; i++) {
+    let dataBuffer = data[i];
 
+    // Ignore empty and OK packages with 0xff, 0x55, 0x0d, 0x0a
+    if (dataBuffer.length > 4) {
+      this.handleData_(dataBuffer);
+    }
+  }
+};
+
+
+/**
+ * Handles the single data packages.
+ * @param {!Uint8Array} dataBuffer
+ */
+cwc.protocol.makeblock.mbotRanger.Api.prototype.handleData_ = function(
+    dataBuffer) {
   let len = dataBuffer[1];
   let indexType = dataBuffer[2];
   let dataType = dataBuffer[3];
   let data = dataBuffer.slice(4);
   switch (indexType) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.VERSION:
-      console.log('mBot Firmware', new TextDecoder('utf-8').decode(data));
+      this.log_.info('mBot Ranger Firmware',
+        new TextDecoder('utf-8').decode(data));
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
@@ -435,7 +344,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleOnReceive_ = function(e) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.ACK:
       break;
     default:
-      console.log('UNKNOWN index', len, indexType, dataType, dataBuffer);
+      this.log_.info('UNKNOWN index', len, indexType, dataType, dataBuffer);
   }
 };
 
@@ -504,18 +413,5 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.dispatchSensorEvent_ = function(
     index, event, data) {
-  this.sensorData[index] = data;
   this.eventHandler.dispatchEvent(event(data));
-};
-
-
-/**
- * @param {!ArrayBuffer} buffer
- * @private
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.send_ = function(buffer) {
-  if (!this.device) {
-    return;
-  }
-  this.device.send(buffer);
 };

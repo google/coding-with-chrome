@@ -83,7 +83,7 @@ cwc.renderer.external.Phaser.prototype.render = function(
   }
 
  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.MESSAGE,
+    cwc.framework.Internal.MESSENGER,
     cwc.framework.Internal.PHASER,
     cwc.framework.External.PHASER,
   ], environ['baseURL']);

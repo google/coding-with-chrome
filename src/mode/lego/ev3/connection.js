@@ -20,7 +20,9 @@
 goog.provide('cwc.mode.lego.ev3.Connection');
 
 goog.require('cwc.protocol.lego.ev3.Api');
+goog.require('cwc.ui.StatusbarState');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
@@ -53,6 +55,9 @@ cwc.mode.lego.ev3.Connection = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -68,6 +73,11 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(this.apiEvents_,
       cwc.protocol.sphero.v1.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
+
+    // Monitor device data
+    this.events_.listen(this.apiEvents_,
+      cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
+      this.handleUpdateDevices_.bind(this));
   }
 
   if (!this.connectMonitor) {
@@ -75,6 +85,21 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
         this.connect.bind(this));
   }
+
+  // Unload event
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+      cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
+      false, this);
+  }
+
   this.connectMonitor.start();
   this.connect();
 };
@@ -97,7 +122,7 @@ cwc.mode.lego.ev3.Connection.prototype.connect = function() {
  * Connects the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.disconnect = function() {
-  console.log('Disconnect the EV3 unit...');
+  this.log_.info('Disconnect the EV3 unit...');
   this.api_.disconnect();
 };
 
@@ -132,6 +157,14 @@ cwc.mode.lego.ev3.Connection.prototype.getDevices = function() {
 
 
 /**
+ * @param {Object} data
+ */
+cwc.mode.lego.ev3.Connection.prototype.setSensorMode = function(data) {
+  this.api_.setSensorMode(data);
+};
+
+
+/**
  * @return {!cwc.protocol.lego.ev3.Api}
  * @export
  */
@@ -144,11 +177,7 @@ cwc.mode.lego.ev3.Connection.prototype.getApi = function() {
  * Stops the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
-  this.api_.stop();
+  this.api_.exec('stop');
 };
 
 
@@ -166,14 +195,37 @@ cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {
 
 
 /**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.lego.ev3.Connection.prototype.handlePreviewStatus_ = function(e) {
+  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+    this.stop();
+  }
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.lego.ev3.Connection.prototype.handleUpdateDevices_ = function(e) {
+  let rendererInstance = this.helper.getInstance('renderer');
+  if (rendererInstance && e.data) {
+    rendererInstance.setDevices(e.data);
+  }
+};
+
+
+/**
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.lego.ev3.Connection.prototype.cleanUp = function() {
-  console.log('Clean up EV3 connection ...');
+  this.log_.info('Clean up ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
-  this.api_.monitor(false);
+  this.api_.cleanUp();
   this.stop();
   this.events_.clear();
 };

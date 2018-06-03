@@ -1,0 +1,107 @@
+/**
+ * Copyright 2017 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+#cwc-ev3-monitor-body {
+  padding: 5px;
+}
+
+#{$prefix}ev3-monitor-refresh {
+  bottom: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.{$prefix}ev3-monitor-interface-view {
+  background: linear-gradient(
+    to bottom, 
+    #ffffff 0%,#f3f3f3 65%,
+    #ededed 67%,#ffffff 100%
+  );
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  float: left;
+  height: 70px;
+  margin: 2px;
+  width: 90px;
+}
+
+.{$prefix}ev3-monitor-interface-view-info {
+  border-bottom: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  height: 20px;
+}
+
+.{$prefix}ev3-monitor-interface-view-info > span:first-child {
+  color: #000;
+  background-color: #ccc;
+  border-left: 1px solid #aaa;
+  border-top-left-radius: 5px;
+  font-size: 12px;
+  width: 15px;
+  padding-left: 3px;
+  margin-right: 5px;
+  padding-right: 5px;
+  display: block;
+  float: left;
+  text-align: right;
+}
+
+.{$prefix}ev3-monitor-interface-view-type {
+  clear: left;
+  height: 44px;
+}
+
+.{$prefix}ev3-monitor-color_0 {
+  color: #000;
+  background: #fff;
+}
+
+.{$prefix}ev3-monitor-color_1 {
+  color: #fff;
+  background: #404040;
+}
+
+.{$prefix}ev3-monitor-color_2 {
+  color: #000;
+  background: #4040ff;
+}
+
+.{$prefix}ev3-monitor-color_3 {
+  color: #000;
+  background: #40ff40;
+}
+
+.{$prefix}ev3-monitor-color_4 {
+  color: #000;
+  background: #ffff40;
+}
+
+.{$prefix}ev3-monitor-color_5 {
+  color: #000;
+  background: #ff4040;
+}
+
+.{$prefix}ev3-monitor-color_6 {
+  color: #000;
+  background: #fff;
+}
+
+.{$prefix}ev3-monitor-color_7 {
+  color: #000;
+  background: #896040;
+}

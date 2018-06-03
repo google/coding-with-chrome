@@ -29,27 +29,16 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 
 
 /**
- * @constructor
- * @struct
- * @final
- */
-cwc.protocol.makeblock.mbotRanger.Commands = function() {
-  /** @private {Object} */
-  this.cache_ = {};
-};
-
-
-/**
  * Sets RGB LED color on the top of the mbot.
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {!number} index 0 or 1 - 12
+ * @param {number=} index 0 or 1 - 12
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.setRGBLED = function(red,
-    green, blue, index = 0x00) {
+cwc.protocol.makeblock.mbotRanger.Commands.setRGBLED = function(red = 0,
+    green = 0, blue = 0, index = 0x00) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
@@ -71,7 +60,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.setRGBLED = function(red,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
+cwc.protocol.makeblock.mbotRanger.Commands.playTone = function(
     frequency, duration) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
@@ -91,7 +80,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.playTone = function(
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
+cwc.protocol.makeblock.mbotRanger.Commands.movePower = function(
     power, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
@@ -112,7 +101,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.movePower = function(
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
+cwc.protocol.makeblock.mbotRanger.Commands.moveSteps = function(steps,
     power = 130, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
@@ -127,81 +116,20 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.moveSteps = function(steps,
 
 
 /**
- * Reads out the current ultrasonic sensor value.
+ * Reads out the sensor value.
+ * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} indexType
+ * @param {!cwc.protocol.makeblock.mbotRanger.Device} device
+ * @param {!cwc.protocol.makeblock.mbotRanger.Port} port
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readUltrasonicSensor =
-function() {
+cwc.protocol.makeblock.mbotRanger.Commands.getSensorData = function(indexType,
+    device, port) {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC);
+  buffer.writeIndex(indexType);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ULTRASONIC);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ULTRASONIC);
-  return buffer.readSigned();
-};
-
-
-/**
- * Reads out the current light sensor 1 value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor1 =
-function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_1);
-  return buffer.readSigned();
-};
-
-
-/**
- * Reads out the current light sensor 2 value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLightSensor2 =
-function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_2);
-  return buffer.readSigned();
-};
-
-
-/**
- * Reads out the current line follower sensor value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readLineFollowerSensor =
-function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.LINEFOLLOWER);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.LINEFOLLOWER);
-  return buffer.readSigned();
-};
-
-
-/**
- * Reads out the current temperature sensor value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.readTemperatureSensor =
-function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TEMPERATURE);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.TEMPERATURE);
+  buffer.writeDevice(device);
+  buffer.writePort(port);
   return buffer.readSigned();
 };
 
@@ -211,7 +139,7 @@ function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.getVersion = function() {
+cwc.protocol.makeblock.mbotRanger.Commands.getVersion = function() {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.VERSION);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
@@ -225,7 +153,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.getVersion = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.reset = function() {
+cwc.protocol.makeblock.mbotRanger.Commands.reset = function() {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RESET);
@@ -238,7 +166,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.prototype.reset = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.prototype.start = function() {
+cwc.protocol.makeblock.mbotRanger.Commands.start = function() {
   let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
   buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
   buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.START);

@@ -19,14 +19,14 @@
  */
 goog.provide('cwc.ui.Preview');
 
+goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
-goog.require('cwc.ui.PreviewInfobar');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.StatusButton');
 goog.require('cwc.ui.Statusbar');
 goog.require('cwc.ui.StatusbarState');
-goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.async.Throttle');
 goog.require('goog.dom');
@@ -59,6 +59,9 @@ cwc.ui.Preview = function(helper) {
   /** @type {Element} */
   this.nodeRuntime = null;
 
+  /** @type {Element} */
+  this.nodeOverlay = null;
+
   /** @type {boolean} */
   this.autoUpdate = false;
 
@@ -80,20 +83,23 @@ cwc.ui.Preview = function(helper) {
   /** @type {!cwc.ui.StatusButton} */
   this.statusButton = new cwc.ui.StatusButton(this.helper);
 
-  /** @type {cwc.ui.PreviewInfobar} */
-  this.infobar = null;
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
+  /** @private {!boolean} */
+  this.enableMessenger_ = false;
+
   /** @private {!cwc.ui.PreviewStatus} */
   this.previewStatus_ = new cwc.ui.PreviewStatus(
     this.helper, this.eventHandler_)
     .setStatusbar(this.statusbar)
     .setStatusButton(this.statusButton);
+
+  /** @private {!cwc.Messenger} */
+  this.messenger_ = new cwc.Messenger(this.eventHandler_);
 
   /** @private {!string} */
   this.partition_ = 'preview';
@@ -130,8 +136,11 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.node, cwc.soy.ui.Preview.template, {prefix: this.prefix}
   );
 
-  // Runtime
-  this.nodeRuntime = goog.dom.getElement(this.prefix + 'runtime');
+  // Render Runtime
+  this.nodeRuntime = goog.dom.getElement(
+    this.prefix + (this.enableMessenger_ ? 'runner' : 'runtime'));
+  this.render();
+  this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
 
   // Statusbar
   let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
@@ -142,25 +151,22 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Status Button and actions buttons
   this.decorateStatusButton(goog.dom.getElement(this.prefix + 'statusbutton'));
 
-  // Infobar
-  let nodeInfobar = goog.dom.getElement(this.prefix + 'infobar');
-  if (nodeInfobar) {
-    this.infobar = new cwc.ui.PreviewInfobar(this.helper);
-    this.infobar.decorate(nodeInfobar);
-  }
-
-  // Monitor Changes
-  let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-  this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.refresh, false, this);
-
+  // Adding cleanup handler event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
-    this.events_.listen(eventHandler, goog.events.EventType.DRAGEND,
-        this.refresh, false, this);
+    this.events_.listen(layoutInstance.getEventHandler(),
+      goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  // Monitor Changes expect for messenger mode
+  if (!this.enableMessenger_) {
+    let viewportMonitor = new goog.dom.ViewportSizeMonitor();
+    this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
+      this.refresh, false, this);
+    if (layoutInstance) {
+      this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.DRAGEND, this.refresh, false, this);
+    }
   }
 };
 
@@ -195,6 +201,83 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
 
 
 /**
+ * @param {!Function} decorator
+ */
+cwc.ui.Preview.prototype.decorateOverlay = function(decorator) {
+  if (decorator && typeof decorator.decorate === 'function') {
+    decorator.decorate(this.nodeOverlay);
+  }
+};
+
+
+/**
+ * Renders content for preview window.
+ */
+cwc.ui.Preview.prototype.render = function() {
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.clearErrors();
+  }
+
+  this.content = this.webviewSupport_ ?
+    this.renderWebview() : this.renderIframe();
+  goog.dom.appendChild(this.nodeRuntime, this.content);
+  this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
+  this.messenger_.setTarget(this.content);
+};
+
+
+/**
+ * Prepare content to be rendered in iframe element.
+ * @return {!Object}
+ */
+cwc.ui.Preview.prototype.renderIframe = function() {
+  if (this.content) {
+    goog.dom.removeChildren(this.nodeRuntime);
+  }
+  let content = document.createElement('iframe');
+  return content;
+};
+
+
+/**
+ * Prepare content to be rendered in WebView element.
+ * @return {!Object}
+ */
+cwc.ui.Preview.prototype.renderWebview = function() {
+  let content = document.createElement('webview');
+  content['setAttribute']('partition', this.partition_);
+  content['setUserAgentOverride']('CwC sandbox');
+  this.previewStatus_.addEventHandler(content);
+  return content;
+};
+
+
+/**
+ * @param {boolean=} enable
+ */
+cwc.ui.Preview.prototype.enableMessenger = function(enable = true) {
+  this.enableMessenger_ = enable ? true : false;
+};
+
+
+/**
+ * @return {!goog.events.EventTarget}
+ */
+cwc.ui.Preview.prototype.getEventHandler = function() {
+  return this.eventHandler_;
+};
+
+
+/**
+ * @return {!cwc.Messenger}
+ */
+cwc.ui.Preview.prototype.getMessenger = function() {
+  return this.messenger_;
+};
+
+
+/**
  * Runs the preview.
  */
 cwc.ui.Preview.prototype.run = function() {
@@ -211,9 +294,8 @@ cwc.ui.Preview.prototype.stop = function() {
   }
   if (this.webviewSupport_) {
     this.content.stop();
-  } else {
-    this.setContentUrl('about:blank');
   }
+  this.setContentUrl('about:blank');
   this.previewStatus_.setStatus(cwc.ui.StatusbarState.STOPPED);
 };
 
@@ -260,78 +342,6 @@ cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
     this.previewStatus_.setStatus(cwc.ui.StatusbarState.TERMINATED);
     this.content.terminate();
-  }
-};
-
-
-/**
- * Renders content for preview window.
- */
-cwc.ui.Preview.prototype.render = function() {
-  if (this.infobar) {
-    this.infobar.clear();
-  }
-
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.clearErrors();
-  }
-
-  this.content = this.webviewSupport_ ?
-    this.renderWebview() : this.renderIframe();
-  goog.dom.appendChild(this.nodeRuntime, this.content);
-  this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
-  this.setContentUrl(this.getContentUrl());
-};
-
-
-/**
- * Prepare content to be rendered in iframe element.
- * @return {!Object}
- */
-cwc.ui.Preview.prototype.renderIframe = function() {
-  if (this.content) {
-    goog.dom.removeChildren(this.nodeRuntime);
-  }
-  let content = document.createElement('iframe');
-  return content;
-};
-
-
-/**
- * Prepare content to be rendered in WebView element.
- * @return {!Object}
- */
-cwc.ui.Preview.prototype.renderWebview = function() {
-  if (this.content) {
-    if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING ||
-        this.previewStatus_.getStatus() == cwc.ui.StatusbarState.UNRESPONSIVE) {
-      this.terminate();
-    } else {
-      this.stop();
-    }
-    goog.dom.removeChildren(this.nodeRuntime);
-  }
-
-  let content = document.createElement('webview');
-  content['setAttribute']('partition', this.partition_);
-  content['setUserAgentOverride']('CwC sandbox');
-  this.previewStatus_.addEventHandler(content);
-  return content;
-};
-
-
-/**
- * Shows or hides the built in console.
- * @param {boolean} visible
- */
-cwc.ui.Preview.prototype.showConsole = function(visible) {
-  if (this.infobar) {
-    if (visible) {
-      this.infobar.showConsole();
-    } else {
-      this.infobar.hideConsole();
-    }
   }
 };
 
@@ -448,11 +458,8 @@ cwc.ui.Preview.prototype.focus = function() {
  * @param {!(string|Function)} code
  */
 cwc.ui.Preview.prototype.executeScript = function(code) {
-  if (this.content) {
-    this.content.contentWindow.postMessage({
-      'command': '__exec__',
-      'value': typeof code === 'function' ? code.toString() : code}, '*');
-  }
+  this.messenger_.send('__exec__',
+    typeof code === 'function' ? code.toString() : code);
 };
 
 
@@ -460,11 +467,14 @@ cwc.ui.Preview.prototype.executeScript = function(code) {
  * @private
  */
 cwc.ui.Preview.prototype.run_ = function() {
-  if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING) {
+  if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING ||
+      this.previewStatus_.getStatus() == cwc.ui.StatusbarState.UNRESPONSIVE) {
     this.terminate();
+  } else {
+    this.stop();
   }
   this.previewStatus_.setStatus(cwc.ui.StatusbarState.RUNNING);
-  this.render();
+  this.setContentUrl(this.getContentUrl());
 };
 
 
@@ -472,13 +482,7 @@ cwc.ui.Preview.prototype.run_ = function() {
  * Clears all object based events.
  */
 cwc.ui.Preview.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
   this.events_.clear();
-};
-
-
-/**
- * @return {!goog.events.EventTarget}
- */
-cwc.ui.Preview.prototype.getEventHandler = function() {
-  return this.eventHandler_;
+  this.messenger_.cleanUp();
 };

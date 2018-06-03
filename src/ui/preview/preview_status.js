@@ -1,7 +1,7 @@
 /**
- * @fileoverview Preview for the Coding with Chrome editor.
+ * @fileoverview Preview Status for the Coding with Chrome editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,6 +92,7 @@ cwc.ui.PreviewStatus.prototype.setStatus = function(status) {
   if (this.statusButton) {
     this.statusButton.setStatus(status);
   }
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.statusChange(status));
   this.status = status;
 };
 
@@ -157,9 +158,13 @@ cwc.ui.PreviewStatus.prototype.handleConsoleMessage_ = function(event) {
 
 /**
  * Displays the start of load event.
+ * @param {Event} e
  * @private
  */
-cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function() {
+cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function(e) {
+  if (e && e['target'] && e['target']['src'] === 'about:blank') {
+    return;
+  }
   this.startTime = new Date().getTime();
   this.setStatus(cwc.ui.StatusbarState.LOADING);
 };
@@ -167,9 +172,13 @@ cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function() {
 
 /**
  * Displays the end of the load event.
+ * @param {Event} e
  * @private
  */
-cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function() {
+cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
+  if (e && e['target'] && e['target']['src'] === 'about:blank') {
+    return;
+  }
   this.stopTime = new Date().getTime();
   this.setStatus(cwc.ui.StatusbarState.LOADED);
 };

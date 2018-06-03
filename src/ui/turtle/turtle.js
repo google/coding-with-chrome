@@ -20,7 +20,6 @@
 goog.provide('cwc.ui.Turtle');
 
 goog.require('cwc.renderer.Helper');
-goog.require('cwc.runner.Connector');
 goog.require('cwc.soy.Turtle');
 goog.require('cwc.utils.Logger');
 
@@ -42,9 +41,6 @@ cwc.ui.Turtle = function(helper, image = '') {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('turtle');
 
-  /** @type {!cwc.runner.Connector} */
-  this.connector = new cwc.runner.Connector(helper, 'Turtle Runner Connector');
-
   /** @type {Element} */
   this.node = null;
 
@@ -53,6 +49,9 @@ cwc.ui.Turtle = function(helper, image = '') {
 
   /** @type {Object} */
   this.content = null;
+
+  /** @type {!string} */
+  this.targetOrigin = '*';
 
   /** @type {boolean} */
   this.ready = false;
@@ -79,9 +78,6 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
   goog.soy.renderElement(
       this.node, cwc.soy.Turtle.template, {'prefix': this.prefix});
 
-  // Runner
-  this.connector.init();
-
   // Content
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.content = document.createElement('webview');
@@ -91,21 +87,23 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
   this.content.addEventListener('loadstop',
       this.handleLoadStop_.bind(this), false);
   goog.dom.appendChild(this.nodeContent, this.content);
-  this.connector.setTarget(this.content);
   this.content.src = this.renderContent_();
 };
 
 
 /**
- * @param {!string} action
- * @param {Object|number=} optValue
+ * @param {!string} name
+ * @param {Object|number=} value
  * @export
  */
-cwc.ui.Turtle.prototype.action = function(action, optValue) {
-  if (!this.ready) {
+cwc.ui.Turtle.prototype.action = function(name, value) {
+  if (!this.content || !this.content.contentWindow) {
     return;
   }
-  this.connector.send(action, optValue);
+
+  this.content.contentWindow.postMessage({
+    'name': name, 'value': value},
+    this.targetOrigin);
 };
 
 
@@ -113,7 +111,7 @@ cwc.ui.Turtle.prototype.action = function(action, optValue) {
  * @export
  */
 cwc.ui.Turtle.prototype.reset = function() {
-  this.action('__reset__');
+  this.action('reset');
 };
 
 
@@ -131,8 +129,7 @@ cwc.ui.Turtle.prototype.renderContent_ = function() {
   let body = this.image ? '<img id="turtle" src="' + this.image + '" ' +
       'style="display: none;">\n' : '';
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
-  let css = '';
-  let html = helper.getHTMLGrid(body, header, css);
+  let html = helper.getHTMLGrid(body, header);
   return helper.getDataURL(html);
 };
 
@@ -143,7 +140,6 @@ cwc.ui.Turtle.prototype.renderContent_ = function() {
  */
 cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
   this.log_.info('Turtle graphic loaded ...');
-  this.connector.start();
   this.ready = true;
 };
 

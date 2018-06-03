@@ -84,6 +84,7 @@ cwc.protocol.bluetooth.classic.Adapter.prototype.updateAdapterState = function(
  */
 cwc.protocol.bluetooth.classic.Adapter.prototype.handleAdapterState_ = function(
     info) {
+  console.log('Adapter', info);
   if (!info) {
     this.log_.error('Error receiving adapter state.');
     return;

@@ -1,7 +1,7 @@
 /**
- * @fileoverview EV3 device constructor.
+ * @fileoverview EV3 Device definitions.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,85 +18,162 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.protocol.lego.ev3.Device');
-goog.provide('cwc.protocol.lego.ev3.DeviceName');
+goog.provide('cwc.protocol.lego.ev3.DeviceGroup');
+goog.provide('cwc.protocol.lego.ev3.Devices');
+goog.provide('cwc.protocol.lego.ev3.DevicesDefault');
+
+goog.require('cwc.protocol.lego.ev3.ColorSensorMode');
+goog.require('cwc.protocol.lego.ev3.DeviceType');
+goog.require('cwc.protocol.lego.ev3.GyroMode');
+goog.require('cwc.protocol.lego.ev3.IrSensorMode');
+goog.require('cwc.protocol.lego.ev3.MotorMode');
+goog.require('cwc.protocol.lego.ev3.UltrasonicSensorMode');
 
 
 /**
- * @enum {!Object.<string>|string}
+ * Sensor and Actors device groups.
+ * @enum {!Object.<string>}
  */
-cwc.protocol.lego.ev3.DeviceName = {
-  COLOR_SENSOR: 'Color Sensor',
-  GYRO_SENSOR: 'Gyro Sensor',
-  IR_SENSOR: 'IR Sensor',
-  LARGE_MOTOR: 'Large Servo Motor',
-  LARGE_MOTOR_OPT: 'Opt Large Servo Motor',
-  MEDIUM_MOTOR: 'Medium Servo Motor',
-  MEDIUM_MOTOR_OPT: 'Opt Medium Servo Motor',
-  TOUCH_SENSOR: 'Touch Sensor',
-  TOUCH_SENSOR_OPT: 'Opt Touch Sensor',
-  ULTRASONIC_SENSOR: 'Ultrasonic Sensor',
-  NONE: '',
+cwc.protocol.lego.ev3.DeviceGroup = {
+  COLOR: 'COL',
+  GYROSCOPE: 'GYRO',
+  INFRARED: 'IR',
+  L_MOTOR: 'L_MOTOR',
+  M_MOTOR: 'M_MOTOR',
+  TOUCH: 'TOUCH',
+  ULTRASONIC: 'US',
 };
 
 
 /**
- * @param {!cwc.protocol.lego.ev3.DeviceName} name
- * @param {number=} opt_mode
- * @param {number=} optValue
- * @param {string=} opt_css
+ * Sensor and Actors device types.
+ * @enum {!Object.<string>}
+ */
+cwc.protocol.lego.ev3.Device = {
+  'NONE': {
+    type: cwc.protocol.lego.ev3.DeviceType.NONE,
+    mode: 0,
+  },
+  'COL-REFLECT': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.COLOR,
+    type: cwc.protocol.lego.ev3.DeviceType.COL_REFLECT,
+    mode: cwc.protocol.lego.ev3.ColorSensorMode.REFLECTIVE,
+  },
+  'COL-AMBIENT': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.COLOR,
+    type: cwc.protocol.lego.ev3.DeviceType.COL_AMBIENT,
+    mode: cwc.protocol.lego.ev3.ColorSensorMode.AMBIENT,
+  },
+  'COL-COLOR': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.COLOR,
+    type: cwc.protocol.lego.ev3.DeviceType.COL_COLOR,
+    mode: cwc.protocol.lego.ev3.ColorSensorMode.COLOR,
+  },
+  'GYRO-ANG': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE,
+    type: cwc.protocol.lego.ev3.DeviceType.GYRO_ANG,
+    mode: cwc.protocol.lego.ev3.GyroMode.ANGLE,
+  },
+  'GYRO-RATE': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.GYROSCOPE,
+    type: cwc.protocol.lego.ev3.DeviceType.GYRO_RATE,
+    mode: cwc.protocol.lego.ev3.GyroMode.RATE,
+  },
+  'IR-PROX': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.INFRARED,
+    type: cwc.protocol.lego.ev3.DeviceType.IR_PROX,
+    mode: cwc.protocol.lego.ev3.IrSensorMode.PROXIMITY,
+  },
+  'IR-SEEK': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.INFRARED,
+    type: cwc.protocol.lego.ev3.DeviceType.IR_SEEK,
+    mode: cwc.protocol.lego.ev3.IrSensorMode.SEEK,
+  },
+  'IR-REMOTE': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.INFRARED,
+    type: cwc.protocol.lego.ev3.DeviceType.IR_REMOTE,
+    mode: cwc.protocol.lego.ev3.IrSensorMode.REMOTECONTROL,
+  },
+  'L-MOTOR-DEG': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR,
+    type: cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG,
+    mode: cwc.protocol.lego.ev3.MotorMode.DEGREE,
+  },
+  'L-MOTOR-ROT': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR,
+    type: cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT,
+    mode: cwc.protocol.lego.ev3.MotorMode.ROTATION,
+  },
+  'M-MOTOR-DEG': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.M_MOTOR,
+    type: cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG,
+    mode: cwc.protocol.lego.ev3.MotorMode.DEGREE,
+  },
+  'M-MOTOR-ROT': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.M_MOTOR,
+    type: cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT,
+    mode: cwc.protocol.lego.ev3.MotorMode.ROTATION,
+  },
+  'TOUCH': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.TOUCH,
+    type: cwc.protocol.lego.ev3.DeviceType.TOUCH,
+    mode: 0,
+  },
+  'US-DIST-CM': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC,
+    type: cwc.protocol.lego.ev3.DeviceType.US_DIST_CM,
+    mode: cwc.protocol.lego.ev3.UltrasonicSensorMode.DIST_CM,
+  },
+  'US-DIST-IN': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC,
+    type: cwc.protocol.lego.ev3.DeviceType.US_DIST_IN,
+    mode: cwc.protocol.lego.ev3.UltrasonicSensorMode.DIST_INCH,
+  },
+  'US-LISTEN': {
+    group: cwc.protocol.lego.ev3.DeviceGroup.ULTRASONIC,
+    mode: cwc.protocol.lego.ev3.UltrasonicSensorMode.LISTEN,
+    type: cwc.protocol.lego.ev3.DeviceType.US_LISTEN,
+  },
+};
+
+
+/**
  * @constructor
+ * @struct
  */
-cwc.protocol.lego.ev3.Device = function(name, opt_mode, optValue, opt_css) {
-  this.name = name;
-  this.mode = opt_mode || 0;
-  this.css = opt_css || 'default';
-  this.value = optValue || 0;
+cwc.protocol.lego.ev3.Devices = function() {
+  /** @type {Object} */
+  this['port'] = cwc.protocol.lego.ev3.DevicesDefault;
+
+  /** @type {Object.<Array>} */
+  this['actor'] = {
+    'L_MOTOR': [],
+    'M_MOTOR': [],
+  };
+
+  /** @type {Object.<Array>} */
+  this['sensor'] = {
+    'COL': [],
+    'GYRO': [],
+    'IR': [],
+    'L_MOTOR': [],
+    'M_MOTOR': [],
+    'TOUCH': [],
+    'US': [],
+  };
 };
 
 
 /**
- * @param {number} value
+ * @enum {!Object.<string>}
  */
-cwc.protocol.lego.ev3.Device.prototype.setValue = function(value) {
-  this.value = value;
-};
-
-
-/**
- * @return {number}
- */
-cwc.protocol.lego.ev3.Device.prototype.getValue = function() {
-  return this.value;
-};
-
-
-/**
- * @return {!cwc.protocol.lego.ev3.DeviceName}
- */
-cwc.protocol.lego.ev3.Device.prototype.getName = function() {
-  return this.name;
-};
-
-
-/**
- * @return {number}
- */
-cwc.protocol.lego.ev3.Device.prototype.getMode = function() {
-  return this.mode;
-};
-
-
-/**
- * @param {!number} mode
- */
-cwc.protocol.lego.ev3.Device.prototype.setMode = function(mode) {
-  this.mode = mode;
-};
-
-
-/**
- * @param {!string} css
- */
-cwc.protocol.lego.ev3.Device.prototype.setCss = function(css) {
-  this.css = css;
+cwc.protocol.lego.ev3.DevicesDefault = {
+ 0: cwc.protocol.lego.ev3.Device.NONE,
+ 1: cwc.protocol.lego.ev3.Device.NONE,
+ 2: cwc.protocol.lego.ev3.Device.NONE,
+ 3: cwc.protocol.lego.ev3.Device.NONE,
+ 16: cwc.protocol.lego.ev3.Device.NONE,
+ 17: cwc.protocol.lego.ev3.Device.NONE,
+ 18: cwc.protocol.lego.ev3.Device.NONE,
+ 19: cwc.protocol.lego.ev3.Device.NONE,
 };

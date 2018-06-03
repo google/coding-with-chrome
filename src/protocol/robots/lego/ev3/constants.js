@@ -23,6 +23,7 @@ goog.provide('cwc.protocol.lego.ev3.ColorSensorValues');
 goog.provide('cwc.protocol.lego.ev3.Command');
 goog.provide('cwc.protocol.lego.ev3.CommandType');
 goog.provide('cwc.protocol.lego.ev3.DeviceType');
+goog.provide('cwc.protocol.lego.ev3.GyroMode');
 goog.provide('cwc.protocol.lego.ev3.InputPort');
 goog.provide('cwc.protocol.lego.ev3.IrSensorMode');
 goog.provide('cwc.protocol.lego.ev3.LedColor');
@@ -32,6 +33,7 @@ goog.provide('cwc.protocol.lego.ev3.MotorMode');
 goog.provide('cwc.protocol.lego.ev3.OutputPort');
 goog.provide('cwc.protocol.lego.ev3.ParameterSize');
 goog.provide('cwc.protocol.lego.ev3.Polarity');
+goog.provide('cwc.protocol.lego.ev3.UltrasonicSensorMode');
 
 
 /**
@@ -134,12 +136,13 @@ cwc.protocol.lego.ev3.Command = {
       CLEARCHANGES: [0x99, 0x1A],
     },
     READ: 0x9A,
-    TEST: 0x9B,
-    READY: 0x9C,
-    READSI: 0x9D,
     READEXT: 0x9E,
+    READSI: 0x9D,
+    READY: 0x9C,
+    TEST: 0x9B,
   },
   OUTPUT: {
+    SETTYPE: 0xA1,
     RESET: 0xA2,
     STOP: 0xA3,
     POWER: 0xA4,
@@ -147,6 +150,9 @@ cwc.protocol.lego.ev3.Command = {
     START: 0xA6,
     POLARITY: 0xA7,
     POSITION: 0xAB,
+    READY: 0xAA,
+    CLEARCOUNT: 0xB2,
+    GETCOUNT: 0xB3,
     STEP: {
       POWER: 0xAC,
       SPEED: 0XAE,
@@ -180,25 +186,29 @@ cwc.protocol.lego.ev3.CommandType = {
 /**
  * Sensor and Actors device types.
  * @enum {!string}
+ * @final
  */
 cwc.protocol.lego.ev3.DeviceType = {
-  'COL_AMBIENT': 'col-ambient',
-  'COL_COLOR': 'col-color',
-  'COL_REFLECT': 'col-reflect',
-  'GYRO_ANG': 'gyro-ang',
-  'GYRO_RATE': 'gyro-rate',
-  'IR_PROX': 'ir-prox',
-  'IR_REMOTE': 'ir-remote',
-  'IR_SEEK': 'ir-seek',
-  'L_MOTOR_DEG': 'l-motor-deg',
-  'L_MOTOR_ROT': 'l-motor-rot',
-  'M_MOTOR_DEG': 'm-motor-deg',
-  'M_MOTOR_ROT': 'm-motor-rot',
-  'NONE': 'none',
-  'TOUCH': 'touch',
-  'US_DIST_CM': 'us-dist-cm',
-  'US_DIST_IN': 'us-dist-in',
-  'US_LISTEN': 'us-listen',
+  COL_AMBIENT: 'COL-AMBIENT',
+  COL_COLOR: 'COL-COLOR',
+  COL_REFLECT: 'COL-REFLECT',
+  GYRO_ANG: 'GYRO-ANG',
+  GYRO_RATE: 'GYRO-RATE',
+  IR_PROX: 'IR-PROX',
+  IR_REMOTE: 'IR-REMOTE',
+  IR_SEEK: 'IR-SEEK',
+  L_MOTOR_DEG: 'L-MOTOR-DEG',
+  L_MOTOR_ROT: 'L-MOTOR-ROT',
+  M_MOTOR_DEG: 'M-MOTOR-DEG',
+  M_MOTOR_ROT: 'M-MOTOR-ROT',
+  NONE: 'NONE',
+  PORT_ERROR: 'PORT ERROR',
+  TERMINAL: 'TERMINAL',
+  TOUCH: 'TOUCH',
+  UNKNOWN: 'UNKNOWN',
+  US_DIST_CM: 'US-DIST-CM',
+  US_DIST_IN: 'US-DIST-IN',
+  US_LISTEN: 'US-LISTEN',
 };
 
 

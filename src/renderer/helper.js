@@ -156,6 +156,38 @@ cwc.renderer.Helper.prototype.getHTMLGrid = function(body, header, css,
 
 
 /**
+ * @param {string=} content
+ * @param {string=} headers
+ * @param {Object=} environ
+ * @return {!string}
+ */
+cwc.renderer.Helper.prototype.getRunner = function(content, headers = [],
+    environ = {}) {
+  let body = '';
+  let header = '';
+  if (environ['currentView'] === '__python__') {
+    headers.push(cwc.framework.External.BRYTHON.CORE);
+    headers.push(cwc.framework.External.BRYTHON.STDLIB);
+    body = '<script type="text/python">\n' +
+      'from browser import window\n' +
+        content + '\n' +
+      '</script>' +
+      '<script>' +
+      '  brython();' +
+      '</script>';
+  } else {
+    body = '\n<script>' + content + '</script>\n';
+  }
+  if (environ['devices']) {
+    header += '<script>window[\'__DEVICES__\'] = ' +
+      JSON.stringify(environ['devices']) + ';</script>\n';
+  }
+  header += this.getJavaScriptURLs(headers, environ['baseURL']);
+  return this.getHTMLRunner(body, header, environ);
+};
+
+
+/**
  * @param {string=} body
  * @param {string=} header
  * @param {Object=} environ

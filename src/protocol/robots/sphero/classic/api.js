@@ -31,6 +31,7 @@ goog.require('cwc.protocol.sphero.classic.Monitoring');
 goog.require('cwc.protocol.sphero.classic.ResponseType');
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
@@ -86,6 +87,9 @@ cwc.protocol.sphero.classic.Api = function() {
     .setChecksum(this.verifiyChecksum_)
     .setHeaders([[0xff, 0xff], [0xff, 0xfe]])
     .setMinimumSize(7);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -174,7 +178,7 @@ cwc.protocol.sphero.classic.Api.prototype.exec = function(command, data = {}) {
  */
 cwc.protocol.sphero.classic.Api.prototype.execRunnerProfile = function(data,
     command) {
-  this.exec(command, data);
+  this.send_(this.handler[command](data));
 };
 
 
@@ -230,7 +234,8 @@ cwc.protocol.sphero.classic.Api.prototype.runTest = function() {
  * Basic cleanup for the Sphero device.
  */
 cwc.protocol.sphero.classic.Api.prototype.cleanUp = function() {
-  console.log('Clean up Sphero API …');
+  this.log_.info('Clean up ...');
+  this.exec('stop');
   this.events_.clear();
   this.monitoring.cleanUp();
 };

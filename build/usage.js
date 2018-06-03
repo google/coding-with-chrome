@@ -21,7 +21,7 @@ const commandLineUsage = require('command-line-usage');
 
 const sections = [{
     header: 'Coding with Chrome',
-    content: 'An [italic]{Educational Development Environment}.',
+    content: 'An Educational Development Environment.',
   }, {
     header: 'Synopsis',
     content: '$ npm run <command>',

@@ -160,6 +160,9 @@ cwc.utils.Database.prototype.set = cwc.utils.Database.prototype.put;
  * @return {Promise}
  */
 cwc.utils.Database.prototype.get = function(name, group) {
+  if (!name) {
+    this.log_.error('Invalid name', name, '!');
+  }
   return new Promise((resolve, reject) => {
     let result = this.getObjectStoreReadOnly_(group)['get'](name);
     result['onsuccess'] = (e) => {

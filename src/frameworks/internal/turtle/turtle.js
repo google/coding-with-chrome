@@ -19,8 +19,6 @@
  */
 goog.provide('cwc.framework.Turtle');
 
-goog.require('cwc.framework.Runner');
-
 
 /**
  * @param {string=} target
@@ -42,10 +40,6 @@ cwc.framework.Turtle = function(target, options) {
     'panel': false,
   };
 
-  /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner()
-    .setScope(this);
-
   /** @type {number} */
   this.scale = 1/10;
 
@@ -55,67 +49,92 @@ cwc.framework.Turtle = function(target, options) {
   /** @type {Object} */
   this.turtleTarget = this.turtle(this.target, this.options);
 
+  /** @private {Object} */
+  this.listener_ = {};
+
+  // Global mapping
+  window['turtleTarget'] = this.turtleTarget;
+
   if (!this.turtle || !this.turtleTarget) {
     console.error('Turtle library is not ready!');
-  } else {
-    this.addCommands();
   }
+
+  // Add turtle command listener
+  this.addListener();
+
+  // Message handler
+  window.addEventListener('message', this.handleMessage_.bind(this), false);
+
+  this.reset();
 };
 
 
-cwc.framework.Turtle.prototype.addCommands = function() {
+/**
+ * Handles the received messages and executes the predefined actions.
+ * @param {Event} event
+ * @private
+ */
+cwc.framework.Turtle.prototype.handleMessage_ = function(event) {
+  if (!event) {
+    throw new Error('Was not able to get browser event!');
+  }
+  this.listener_[event['data']['name']](event['data']['value']);
+};
+
+
+cwc.framework.Turtle.prototype.addListener = function() {
   // Mapping available commands.
-  this.runner.addCommand('__reset__', this.reset);
-  this.runner.addCommand('fd', this.handleFd_);
-  this.runner.addCommand('bk', this.handleBk_);
-  this.runner.addCommand('rt', this.handleRt_);
-  this.runner.addCommand('lt', this.handleLt_);
-  this.runner.addCommand('slide', this.handleSlide_);
-  this.runner.addCommand('jump', this.handleJump_);
-  this.runner.addCommand('moveto', this.handleMoveto_);
-  this.runner.addCommand('jumpto', this.handleJumpto_);
-  this.runner.addCommand('turnto', this.handleTurnto_);
-  this.runner.addCommand('play', this.handlePlay_);
+  this.listener_['reset'] = this.reset.bind(this);
+  this.listener_['fd'] = this.handleFd_.bind(this);
+  this.listener_['bk'] = this.handleBk_.bind(this);
+  this.listener_['rt'] = this.handleRt_.bind(this);
+  this.listener_['lt'] = this.handleLt_.bind(this);
+  this.listener_['slide'] = this.handleSlide_.bind(this);
+  this.listener_['jump'] = this.handleJump_.bind(this);
+  this.listener_['moveto'] = this.handleMoveto_.bind(this);
+  this.listener_['jumpto'] = this.handleJumpto_.bind(this);
+  this.listener_['turnto'] = this.handleTurnto_.bind(this);
+  this.listener_['play'] = this.handlePlay_.bind(this);
 
   // Methods below happen in an instant, but line up in the animation queue.
-  this.runner.addCommand('home', this.handleHome_);
-  this.runner.addCommand('pen', this.handlePen_);
-  this.runner.addCommand('pu', this.handlePu_);
-  this.runner.addCommand('pd', this.handlePd_);
-  this.runner.addCommand('pe', this.handlePe_);
-  this.runner.addCommand('fill', this.handleFill_);
-  this.runner.addCommand('dot', this.handleDot_);
-  this.runner.addCommand('label', this.handleLabel_);
-  this.runner.addCommand('speed', this.handleSpeed_);
-  this.runner.addCommand('ht', this.handleHt_);
-  this.runner.addCommand('st', this.handleSt_);
-  this.runner.addCommand('wear', this.handleWear_);
-  this.runner.addCommand('scale', this.handleScale_);
-  this.runner.addCommand('twist', this.handleTwist_);
-  this.runner.addCommand('mirror', this.handleMirror_);
-  this.runner.addCommand('reload', this.handleReload_);
-  this.runner.addCommand('done', this.handleDone_);
-  this.runner.addCommand('plan', this.handlePlan_);
+  this.listener_['home'] = this.handleHome_.bind(this);
+  this.listener_['pen'] = this.handlePen_.bind(this);
+  this.listener_['pu'] = this.handlePu_.bind(this);
+  this.listener_['pd'] = this.handlePd_.bind(this);
+  this.listener_['pe'] = this.handlePe_.bind(this);
+  this.listener_['fill'] = this.handleFill_.bind(this);
+  this.listener_['dot'] = this.handleDot_.bind(this);
+  this.listener_['label'] = this.handleLabel_.bind(this);
+  this.listener_['speed'] = this.handleSpeed_.bind(this);
+  this.listener_['ht'] = this.handleHt_.bind(this);
+  this.listener_['st'] = this.handleSt_.bind(this);
+  this.listener_['wear'] = this.handleWear_.bind(this);
+  this.listener_['scale'] = this.handleScale_.bind(this);
+  this.listener_['twist'] = this.handleTwist_.bind(this);
+  this.listener_['mirror'] = this.handleMirror_.bind(this);
+  this.listener_['reload'] = this.handleReload_.bind(this);
+  this.listener_['done'] = this.handleDone_.bind(this);
+  this.listener_['plan'] = this.handlePlan_.bind(this);
 
   // Methods below this line do not queue for animation.
-  this.runner.addCommand('getxy', this.handleGetxy_);
-  this.runner.addCommand('pagexy', this.handleFd_);
-  this.runner.addCommand('bearing', this.handleBearing_);
-  this.runner.addCommand('distance', this.handleDistance_);
-  this.runner.addCommand('shown', this.handleShown_);
-  this.runner.addCommand('hidden', this.handleHidden_);
-  this.runner.addCommand('touches', this.handleTouches_);
-  this.runner.addCommand('inside', this.handleInside_);
-  this.runner.addCommand('nearest', this.handleNearest_);
-  this.runner.addCommand('within', this.handleWithin_);
-  this.runner.addCommand('notwithin', this.handleNotwithin_);
-  this.runner.addCommand('cell', this.handleCell_);
-  this.runner.addCommand('hatch', this.handleHatch_);
+  this.listener_['getxy'] = this.handleGetxy_.bind(this);
+  this.listener_['pagexy'] = this.handleFd_.bind(this);
+  this.listener_['bearing'] = this.handleBearing_.bind(this);
+  this.listener_['distance'] = this.handleDistance_.bind(this);
+  this.listener_['shown'] = this.handleShown_.bind(this);
+  this.listener_['hidden'] = this.handleHidden_.bind(this);
+  this.listener_['touches'] = this.handleTouches_.bind(this);
+  this.listener_['inside'] = this.handleInside_.bind(this);
+  this.listener_['nearest'] = this.handleNearest_.bind(this);
+  this.listener_['within'] = this.handleWithin_.bind(this);
+  this.listener_['notwithin'] = this.handleNotwithin_.bind(this);
+  this.listener_['cell'] = this.handleCell_.bind(this);
+  this.listener_['hatch'] = this.handleHatch_.bind(this);
 
   // Global Methods
-  this.runner.addCommand('cs', this.handleCs_);
-  this.runner.addCommand('cg', this.handleCg_);
-  this.runner.addCommand('ct', this.handleCt_);
+  this.listener_['cs'] = this.handleCs_.bind(this);
+  this.listener_['cg'] = this.handleCg_.bind(this);
+  this.listener_['ct'] = this.handleCt_.bind(this);
 };
 
 

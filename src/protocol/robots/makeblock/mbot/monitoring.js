@@ -22,8 +22,19 @@
 goog.provide('cwc.protocol.makeblock.mbot.Monitoring');
 
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
+
+
+/**
+ * @enum {!numbers}
+ */
+cwc.protocol.makeblock.mbot.MonitoringIntervals = {
+  'LIGHTSENSOR': 1500,
+  'LINEFOLLOWER': 200,
+  'ULTRASONIC': 200,
+};
 
 
 /**
@@ -39,42 +50,17 @@ cwc.protocol.makeblock.mbot.Monitoring = function(api) {
   /** @type {string} */
   this.name = 'mBot Monitoring';
 
-  /** @type {!number} */
-  this.monitorSensorLineFollowerInterval = 100; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorLightInterval = 1000; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorUltrasonicInterval = 200; // Duration in ms.
-
-  /** @type {goog.Timer} */
-  this.monitorSensorLineFollower = new goog.Timer(
-    this.monitorSensorLineFollowerInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorLight = new goog.Timer(
-    this.monitorSensorLightInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorUltrasonic = new goog.Timer(
-    this.monitorSensorUltrasonicInterval);
-
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.started = false;
+
+  /** @private {!Object} */
+  this.monitor_ = {};
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
-
-  // Monitor Events
-  this.events_.listen(this.monitorSensorLineFollower, goog.Timer.TICK,
-      this.api.readLineFollowerSensor, false, this.api);
-
-  this.events_.listen(this.monitorSensorLight, goog.Timer.TICK,
-      this.api.readLightSensor, false, this.api);
-
-  this.events_.listen(this.monitorSensorUltrasonic, goog.Timer.TICK,
-      this.api.readUltrasonicSensor, false, this.api);
 };
 
 
@@ -86,10 +72,22 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
-  console.log('Starting...');
-  this.monitorSensorLineFollower.start();
-  this.monitorSensorLight.start();
-  this.monitorSensorUltrasonic.start();
+  this.log_.info('Starting...');
+  this.enableMonitor('LIGHTSENSOR',
+    cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR,
+    cwc.protocol.makeblock.mbot.Device.LIGHTSENSOR,
+    cwc.protocol.makeblock.mbot.Port.LIGHTSENSOR,
+  );
+  this.enableMonitor('LINEFOLLOWER',
+    cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER,
+    cwc.protocol.makeblock.mbot.Device.LINEFOLLOWER,
+    cwc.protocol.makeblock.mbot.Port.LINEFOLLOWER,
+  );
+  this.enableMonitor('ULTRASONIC',
+    cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC,
+    cwc.protocol.makeblock.mbot.Device.ULTRASONIC,
+    cwc.protocol.makeblock.mbot.Port.ULTRASONIC,
+  );
   this.started = true;
 };
 
@@ -102,9 +100,40 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
-  console.log('Stopping...');
-  this.monitorSensorLineFollower.stop();
-  this.monitorSensorLight.stop();
-  this.monitorSensorUltrasonic.stop();
+  this.log_.info('Stopping...');
+  Object.keys(this.monitor_).forEach(function(port) {
+    clearInterval(this.monitor_[port]);
+    this.monitor_[port] = undefined;
+  }.bind(this));
   this.started = false;
+};
+
+
+/**
+ * @param {!cwc.protocol.makeblock.mbot.MonitoringIntervals} name
+ * @param {!cwc.protocol.makeblock.mbot.IndexType} index
+ * @param {!cwc.protocol.makeblock.mbot.Device} device
+ * @param {!cwc.protocol.makeblock.mbot.Port} port
+ */
+cwc.protocol.makeblock.mbot.Monitoring.prototype.enableMonitor = function(
+    name, index, device, port) {
+  if (typeof this.monitor_[name] !== 'undefined') {
+    clearInterval(this.monitor_[name]);
+    this.monitor_[name] = undefined;
+  }
+  let interval = cwc.protocol.makeblock.mbot.MonitoringIntervals[name];
+  let buffer = this.api.getBuffer('getSensorData', {
+    'index': index, 'device': device, 'port': port,
+  });
+  this.api.send(buffer);
+  this.log_.info('Enable monitoring for', name, 'with interval', interval);
+  this.monitor_[name] = setInterval(
+    this.api.send.bind(this.api), interval, buffer);
+};
+
+
+cwc.protocol.makeblock.mbot.Monitoring.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.stop();
+  this.events_.clear();
 };

@@ -29,6 +29,12 @@ goog.require('cwc.ui.Terminal');
 
 
 /**
+ * @typedef {cwc.protocol.lego.ev3.Api}
+ */
+cwc.mode.default.ApiTypes;
+
+
+/**
  * @typedef {cwc.mode.lego.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
@@ -55,30 +61,15 @@ cwc.mode.default.RendererTypes;
 
 
 /**
- * @typedef {cwc.mode.lego.ev3.Runner|
- *   cwc.mode.makeblock.mbot.Runner|
- *   cwc.mode.makeblock.mbotRanger.Runner|
- *   cwc.mode.sphero.Runner}
- */
-cwc.mode.default.RunnerTypes;
-
-
-/**
- * @typedef {cwc.mode.lego.ev3.Monitor|
- *   cwc.mode.sphero.Monitor|
- *   cwc.mode.makeblock.mbot.Monitor|
- *   cwc.mode.makeblock.mbotRanger.Monitor}
- */
-cwc.mode.default.MonitorTypes;
-
-
-/**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.default.Mod = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @type {cwc.mode.default.ApiTypes} */
+  this.api = null;
 
   /** @type {cwc.ui.Blockly} */
   this.blockly = null;
@@ -89,23 +80,26 @@ cwc.mode.default.Mod = function(helper) {
   /** @type {cwc.mode.default.ConnectionTypes} */
   this.connection = null;
 
+  /** @type {goog.events.EventTarget} */
+  this.connectionEventHandler = null;
+
   /** @type {!cwc.ui.Editor} */
   this.editor = new cwc.ui.Editor(helper);
 
   /** @type {!cwc.ui.Message} */
   this.message = new cwc.ui.Message(this.helper);
 
-  /** @type {cwc.mode.default.MonitorTypes} */
-  this.monitor = null;
+  /** @type {Object} */
+  this.messengerEvents = null;
+
+  /** {Function} */
+  this.simulation = null;
 
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 
   /** @type {cwc.mode.default.RendererTypes} */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
-
-  /** @type {cwc.mode.default.RunnerTypes} */
-  this.runner = null;
 
   /** @type {cwc.ui.Terminal} */
   this.terminal = new cwc.ui.Terminal(this.helper);
@@ -120,6 +114,16 @@ cwc.mode.default.Mod.prototype.decorate = function() {
   return new Promise((resolve) => {
     this.decorateLayout();
 
+    // Decorates Preview and Message instance
+    this.decoratePreview();
+    this.decorateMessage();
+
+    // Decorates simulation if needed.
+    if (this.simulation) {
+      this.preview.decorateOverlay(this.simulation);
+    }
+
+    // Initialize Connection if available
     if (this.connection) {
       this.connection.init();
     }
@@ -148,17 +152,7 @@ cwc.mode.default.Mod.prototype.decorate = function() {
       this.blockly.adjustSize();
     }
 
-    if (this.runner) {
-      this.runner.decorate();
-    } else {
-      this.decoratePreview();
-    }
-
-    if (this.monitor) {
-      this.monitor.decorate();
-    }
-    this.decorateMessage();
-
+    // Decorates Renderer
     if (this.renderer) {
       this.renderer.init().then(() => {
         resolve();
@@ -214,21 +208,34 @@ cwc.mode.default.Mod.prototype.decorateLayout = function() {
     layoutInstance.renderEditorContent(cwc.soy.mode.default.Layout.editor);
   }
 
-  // Decorates Runner or Preview
-  if (this.runner) {
-    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.runner);
-  } else {
-    layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
-  }
+  // Decorates Preview
+  layoutInstance.renderPreviewContent(cwc.soy.mode.default.Layout.preview);
 };
 
 
 /**
- * Decorates preview
+ * Decorates preview with messenger.
  */
 cwc.mode.default.Mod.prototype.decoratePreview = function() {
   this.helper.setInstance('preview', this.preview, true);
+  this.preview.enableMessenger(this.connection);
   this.preview.decorate();
+
+  // Added api events.
+  if (this.api) {
+    this.preview.getMessenger().addApiListener(this.api);
+  }
+
+  // Added messenger events.
+  if (this.messengerEvents && this.connectionEventHandler) {
+    for (let event in this.messengerEvents) {
+      if (this.messengerEvents.hasOwnProperty(event)) {
+        let eventName = this.messengerEvents[event];
+        this.preview.getMessenger().addEventListener(
+          this.connectionEventHandler, eventName, '__EVENT__' + eventName);
+      }
+    }
+  }
 };
 
 
@@ -264,6 +271,24 @@ cwc.mode.default.Mod.prototype.enableBlockly = function(toolbox) {
  */
 cwc.mode.default.Mod.prototype.setConnection = function(connection) {
   this.connection = connection;
+  this.connectionEventHandler = connection.getEventHandler();
+  this.api = connection.getApi();
+};
+
+
+/**
+ * @param {!Object} events
+ */
+cwc.mode.default.Mod.prototype.setMessengerEvents = function(events) {
+  this.messengerEvents = events;
+};
+
+
+/**
+ * @param {!Function} simulation
+ */
+cwc.mode.default.Mod.prototype.setSimulation = function(simulation) {
+  this.simulation = simulation;
 };
 
 
@@ -272,22 +297,6 @@ cwc.mode.default.Mod.prototype.setConnection = function(connection) {
  */
 cwc.mode.default.Mod.prototype.setRenderer = function(renderer) {
   this.renderer = renderer;
-};
-
-
-/**
- * @param {!cwc.mode.default.RunnerTypes} runner
- */
-cwc.mode.default.Mod.prototype.setRunner = function(runner) {
-  this.runner = runner;
-};
-
-
-/**
- * @param {!cwc.mode.default.MonitorTypes} monitor
- */
-cwc.mode.default.Mod.prototype.setMonitor = function(monitor) {
-  this.monitor = monitor;
 };
 
 

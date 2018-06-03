@@ -44,7 +44,7 @@ cwc.renderer.external.PencilCode = function(helper) {
     cwc.framework.External.COFFEESCRIPT,
     cwc.framework.External.JQUERY.V2_2_4,
     cwc.framework.External.JQUERY_TURTLE,
-    cwc.framework.Internal.MESSAGE,
+    cwc.framework.Internal.MESSENGER,
   ];
 };
 

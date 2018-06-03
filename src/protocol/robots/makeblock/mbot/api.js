@@ -23,12 +23,13 @@
 goog.provide('cwc.protocol.makeblock.mbot.Api');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
-goog.require('cwc.protocol.makeblock.mbot.Commands');
 goog.require('cwc.protocol.makeblock.mbot.CallbackType');
+goog.require('cwc.protocol.makeblock.mbot.Handler');
 goog.require('cwc.protocol.makeblock.mbot.Monitoring');
 goog.require('cwc.protocol.makeblock.mbot.Port');
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
@@ -40,20 +41,17 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.protocol.makeblock.mbot.Api = function() {
-  /** @type {!cwc.protocol.makeblock.mbot.Commands} */
-  this.commands = new cwc.protocol.makeblock.mbot.Commands();
-
   /** @type {string} */
   this.name = 'mBot';
 
   /** @type {Object} */
   this.device = null;
 
+  /** @type {!cwc.protocol.makeblock.mbot.Handler} */
+  this.handler = new cwc.protocol.makeblock.mbot.Handler();
+
   /** @type {boolean} */
   this.prepared = false;
-
-  /** @type {Object} */
-  this.sensorData = {};
 
   /** @type {!cwc.protocol.makeblock.mbot.Monitoring} */
   this.monitoring = new cwc.protocol.makeblock.mbot.Monitoring(this);
@@ -72,6 +70,9 @@ cwc.protocol.makeblock.mbot.Api = function() {
     .setHeaders([0xff, 0x55])
     .setFooter([0x0d, 0x0a])
     .setMinimumSize(4);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -83,15 +84,14 @@ cwc.protocol.makeblock.mbot.Api = function() {
  */
 cwc.protocol.makeblock.mbot.Api.prototype.connect = function(device) {
   if (!device) {
-    console.error('mBot is not ready yet...');
+    this.log_.error('mBot is not ready yet...');
     return false;
   }
 
   if (!this.prepared && device.isConnected()) {
-    console.log('Preparing bluetooth api for', device.getAddress());
+    this.log_.info('Preparing bluetooth api for', device.getAddress());
     this.device = device;
     this.prepare();
-    // this.runTest();
   }
 
   return true;
@@ -114,9 +114,9 @@ cwc.protocol.makeblock.mbot.Api.prototype.prepare = function() {
   this.events_.listen(this.device.getEventHandler(),
     cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
-  this.playTone(524, 240);
-  this.playTone(584, 240);
-  this.getVersion();
+  this.exec('playTone', {'frequency': 524, 'duration': 240});
+  this.exec('playTone', {'frequency': 584, 'duration': 240});
+  this.exec('getVersion');
   this.prepared = true;
 };
 
@@ -134,25 +134,76 @@ cwc.protocol.makeblock.mbot.Api.prototype.disconnect = function() {
 
 
 /**
- * When blockly/js program is about to run.
- * setup monitor to constantly monitor sensors.
- * @return {void}
+ * Executer for the default handler commands.
+ * @param {!string} command
+ * @param {Object=} data
  * @export
  */
-cwc.protocol.makeblock.mbot.Api.prototype.start = function() {
-  this.monitoring.start();
+cwc.protocol.makeblock.mbot.Api.prototype.exec = function(command, data = {}) {
+  this.send(this.handler[command](data));
 };
 
 
 /**
- * Basic cleanup for the mbot.
- * apparently this method is called by runner
+ * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.send = function(buffer) {
+  if (this.device) {
+    this.device.send(buffer);
+  }
+};
+
+
+/**
+ * @param {!string} command
+ * @param {Object=} data
+ * @return {!ArrayBuffer}
  * @export
  */
+cwc.protocol.makeblock.mbot.Api.prototype.getBuffer = function(
+    command, data = {}) {
+  return this.handler[command](data);
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.getEventHandler = function() {
+  return this.eventHandler;
+};
+
+
+/**
+ * Executer for the runner profiles with parameters in revert order.
+ * @param {!Object} data
+ * @param {!string} command
+ * @export
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.execRunnerProfile = function(
+    data, command) {
+  this.send(this.handler[command](data));
+};
+
+
+/**
+ * @return {!cwc.protocol.sphero.classic.Handler}
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.getRunnerProfile = function() {
+  return this.handler;
+};
+
+
+/**
+ * Basic cleanup for the mBot unit.
+ */
 cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
-  console.log('Clean up mBot...');
+  this.log_.info('Clean up ...');
   this.reset();
-  this.monitoring.stop();
+  this.events_.clear();
+  this.monitoring.cleanUp();
 };
 
 
@@ -161,13 +212,9 @@ cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.reset = function() {
-  this.sensorData = {};
   this.sensorDataCache_ = {};
   if (this.device) {
-    this.setLeftMotorPower(0);
-    this.setRightMotorPower(0);
-    this.setLEDColor(0, 0, 0, 0);
-    this.send_(this.commands.reset());
+    this.exec('stop');
     this.device.reset();
   }
 };
@@ -183,106 +230,6 @@ cwc.protocol.makeblock.mbot.Api.prototype.monitor = function(enable) {
   } else if (!enable) {
     this.monitoring.stop();
   }
-};
-
-
-/**
- * @return {goog.events.EventTarget}
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.getEventHandler = function() {
-  return this.eventHandler;
-};
-
-
-/**
- * Sets left motor power
- * @param  {!number} power 0-255
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.setLeftMotorPower = function(power) {
-  this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbot.Port.LEFT_MOTOR));
-};
-
-
-/**
- * Sets right motor power
- * @param  {!number} power 0-255
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.setRightMotorPower = function(power) {
-  this.send_(this.commands.setMotorPower(
-    power, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR));
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.readUltrasonicSensor = function() {
-  this.send_(this.commands.readUltrasonicSensor());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.readLineFollowerSensor = function() {
-  this.send_(this.commands.readLineFollowerSensor());
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.readLightSensor = function() {
-  this.send_(this.commands.readLightSensor());
-};
-
-
-/**
- * Sets led light on the top of the mbot
- * @param {!number} red           red value (0-255)
- * @param {!number} green         green value (0-255)
- * @param {!number} blue          blue value (0-255)
- * @param {number=} opt_index   0 for all lights; 1 for left, 2 for right
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.setLEDColor = function(red, green,
-    blue, opt_index) {
-  this.send_(this.commands.setRGBLED(red, green, blue, opt_index));
-};
-
-
-/**
- * Plays a tone through mbot's buzzer
- * @param {!number} frequency frequency of the tone to play
- * @param {!number} duration duration of the tone, in ms
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.playTone = function(frequency,
-    duration) {
-  this.send_(this.commands.playTone(frequency, duration));
-};
-
-
-/**
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.stop = function() {
-  this.setLeftMotorPower(0);
-  this.setRightMotorPower(0);
-  this.reset();
-};
-
-
-/**
- * Device version
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.getVersion = function() {
-  this.send_(this.commands.getVersion());
 };
 
 
@@ -333,25 +280,39 @@ cwc.protocol.makeblock.mbot.Api.prototype.intBitsToFloat_ = function(num) {
 
 
 /**
- * Handles async packets from the Bluetooth socket.
+ * Handles packets from the Bluetooth socket.
  * @param {Event} e
  * @private
  */
 cwc.protocol.makeblock.mbot.Api.prototype.handleOnReceive_ = function(e) {
-  let dataBuffer = this.streamReader_.readByHeaderAndFooter(e.data);
-
-  // Ignore empty and OK packages with 0xff, 0x55, 0x0d, 0x0a
-  if (!dataBuffer || dataBuffer.length === 4) {
+  let data = this.streamReader_.readByHeaderAndFooter(e.data);
+  if (!data) {
     return;
   }
+  for (let i = 0, len = data.length; i < len; i++) {
+    let dataBuffer = data[i];
 
+    // Ignore empty and OK packages with 0xff, 0x55, 0x0d, 0x0a
+    if (dataBuffer.length > 4) {
+      this.handleData_(dataBuffer);
+    }
+  }
+};
+
+
+/**
+ * Handles the single data packages.
+ * @param {!Uint8Array} dataBuffer
+ * @private
+ */
+cwc.protocol.makeblock.mbot.Api.prototype.handleData_ = function(dataBuffer) {
   let len = dataBuffer[1];
   let indexType = dataBuffer[2];
   let dataType = dataBuffer[3];
   let data = dataBuffer.slice(4, dataBuffer.length);
   switch (indexType) {
     case cwc.protocol.makeblock.mbot.CallbackType.VERSION:
-      console.log('mBot Firmware', new TextDecoder('utf-8').decode(data));
+      this.log_.info('mBot Firmware', new TextDecoder('utf-8').decode(data));
       break;
     case cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC:
     case cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER:
@@ -362,7 +323,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleOnReceive_ = function(e) {
       this.handleSensorData_(indexType, data);
       break;
     default:
-      console.log('UNKNOWN', len, indexType, dataType, dataBuffer);
+      this.log_.info('UNKNOWN index', len, indexType, dataType, dataBuffer);
   }
 };
 
@@ -423,18 +384,5 @@ cwc.protocol.makeblock.mbot.Api.prototype.handleSensorData_ = function(
  */
 cwc.protocol.makeblock.mbot.Api.prototype.dispatchSensorEvent_ = function(
     index, event, data) {
-  this.sensorData[index] = data;
   this.eventHandler.dispatchEvent(event(data));
-};
-
-
-/**
- * @param {!ArrayBuffer} buffer
- * @private
- */
-cwc.protocol.makeblock.mbot.Api.prototype.send_ = function(buffer) {
-  if (!this.device) {
-    return;
-  }
-  this.device.send(buffer);
 };

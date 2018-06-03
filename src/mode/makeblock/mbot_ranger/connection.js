@@ -40,7 +40,7 @@ cwc.mode.makeblock.mbotRanger.Connection = function(helper) {
   this.helper = helper;
 
   /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
-  this.api = helper.getInstance('mbotRanger', true);
+  this.api_ = new cwc.protocol.makeblock.mbotRanger.Api();
 
   /** @type {goog.Timer} */
   this.connectMonitor = null;
@@ -63,6 +63,21 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
+
+  // Unload event
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+      cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
+      false, this);
+  }
+
   this.connectMonitor.start();
   this.connect();
 };
@@ -79,7 +94,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
     let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
       if (device) {
-        this.api.connect(device);
+        this.api_.connect(device);
       }
     }.bind(this));
   }
@@ -95,7 +110,8 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api.stop();
+  this.api_.exec('stop');
+  this.api_.exec('stop');
 };
 
 
@@ -106,7 +122,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
-    this.api.reset();
+    this.api_.reset();
   }
 };
 
@@ -116,7 +132,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.reset = function(opt_event) {
  * @export
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.isConnected = function() {
-  return this.api.isConnected();
+  return this.api_.isConnected();
 };
 
 
@@ -125,7 +141,16 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.isConnected = function() {
  * @export
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.getApi = function() {
-  return this.api;
+  return this.api_;
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ */
+cwc.mode.makeblock.mbotRanger.Connection.prototype.getEventHandler = function(
+    ) {
+  return this.api_.getEventHandler();
 };
 
 
@@ -136,6 +161,19 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
+  this.api_.cleanUp();
   this.stop();
   this.events_.clear();
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.makeblock.mbotRanger.Connection.prototype.handlePreviewStatus_ =
+    function(e) {
+  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+    this.stop();
+  }
 };

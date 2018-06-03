@@ -11,7 +11,7 @@
     "babel-plugin-istanbul": "^4.1.6",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
-    "closure-builder": "^2.2.45",
+    "closure-builder": "^2.2.46",
     "closure-templates": "latest",
     "command-line-usage": "^5.0.5",
     "escape-string-regexp": "^1.0.5",
@@ -130,7 +130,7 @@
     "show-updates": "ncu",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",
     "preupdate": "npm run clean",
-    "update": "npm install && npm update -a && npm dedupe",
+    "update": "npm install && npm update -a && npm audit fix && npm dedupe",
     "postupdate": "npm run build-third_party && npm test"
   }
 }

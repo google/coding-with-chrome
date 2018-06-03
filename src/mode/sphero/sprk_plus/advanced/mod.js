@@ -22,7 +22,6 @@ goog.provide('cwc.mode.sphero.sprkPlus.advanced.Mod');
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.Connection');
 goog.require('cwc.mode.sphero.Monitor');
-goog.require('cwc.mode.sphero.Runner');
 goog.require('cwc.renderer.external.Sphero');
 
 
@@ -42,9 +41,6 @@ cwc.mode.sphero.sprkPlus.advanced.Mod = function(helper) {
 
   /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
-
-  /** @type {!cwc.mode.sphero.Runner} */
-  this.runner = new cwc.mode.sphero.Runner(helper, this.connection);
 };
 
 
@@ -55,6 +51,5 @@ cwc.mode.sphero.sprkPlus.advanced.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
   this.mod.setMonitor(this.monitor);
   this.mod.setRenderer(this.renderer);
-  this.mod.setRunner(this.runner);
   this.mod.decorate();
 };

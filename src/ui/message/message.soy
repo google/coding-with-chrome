@@ -27,24 +27,24 @@
 {template .template}
   {@param prefix: string}
 
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+  <div id={$prefix}body class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
     <header id="{$prefix}toolbar" class="mdl-layout__header bg_10_pct_black">
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#{$prefix}main" class="mdl-layout__tab is-active">
-          <span class="icon_24px icon_button">library_books</span>
+        <a href="#{$prefix}monitor" id="{$prefix}tab-monitor" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">equalizer</span>
         </a>
-        <a href="#{$prefix}help" class="mdl-layout__tab">
-          <span class="icon_24px icon_button">help</span>
+        <a href="#{$prefix}control" id="{$prefix}tab-control" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">gamepad</span>
+        </a>
+        <a href="#{$prefix}calibration" id="{$prefix}tab-calibration" class="mdl-layout__tab">
+          <span class="icon_24px icon_button">tune</span>
         </a>
       </div>
     </header>
     <div id="{$prefix}content" class="mdl-layout__content">
-      <section id="{$prefix}main" class="mdl-layout__tab-panel is-active">
-        Main
-      </section>
-      <section id="{$prefix}help" class="mdl-layout__tab-panel">
-        Help
-      </section>
+      <section id="{$prefix}monitor" class="mdl-layout__tab-panel"></section>
+      <section id="{$prefix}control" class="mdl-layout__tab-panel"></section>
+      <section id="{$prefix}calibration" class="mdl-layout__tab-panel"></section>
     </div>
   </div>
 {/template}

@@ -19,13 +19,37 @@
  */
 goog.provide('cwc.protocol.lego.ev3.Monitoring');
 
-goog.require('cwc.protocol.lego.ev3.DeviceName');
+goog.require('cwc.protocol.lego.ev3.Device');
 goog.require('cwc.protocol.lego.ev3.Events');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
+
+
+/**
+ * @enum {!numbers}
+ */
+cwc.protocol.lego.ev3.MonitoringIntervals = {
+  'COL-AMBIENT': 200,
+  'COL-COLOR': 200,
+  'COL-REFLECT': 200,
+  'GYRO-ANG': 150,
+  'GYRO-RATE': 150,
+  'IR-PROX': 200,
+  'IR-REMOTE': 200,
+  'IR-SEEK': 200,
+  'L-MOTOR-DEG': 2000,
+  'L-MOTOR-ROT': 2000,
+  'M-MOTOR-DEG': 2000,
+  'M-MOTOR-ROT': 2000,
+  'TOUCH': 500,
+  'US-DIST-CM': 200,
+  'US-DIST-IN': 200,
+  'US-LISTEN': 200,
+};
 
 
 /**
@@ -41,200 +65,45 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
   /** @type {string} */
   this.name = 'EV3 Monitoring';
 
-  /** @type {boolean} */
-  this.monitor = false;
-
-  /** @type {!number} */
-  this.monitorMotorInterval = 2000; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorTouchInterval = 500; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorColorInterval = 200; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorGyroInterval = 150; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorIrInterval = 200; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorSensorUltrasonicInterval = 200; // Duration in ms.
-
-  /** @type {!number} */
-  this.monitorUpdateInterval = Math.min(this.monitorMotorInterval,
-      this.monitorSensorTouchInterval, this.monitorSensorColorInterval,
-      this.monitorSensorGyroInterval, this.monitorSensorIrInterval,
-      this.monitorSensorUltrasonic, 1000);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorTouch = new goog.Timer(this.monitorSensorTouchInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorTouchOpt = new goog.Timer(this.monitorSensorTouchInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorColor = new goog.Timer(this.monitorSensorColorInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorGyro = new goog.Timer(this.monitorSensorGyroInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorIr = new goog.Timer(this.monitorSensorIrInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorSensorUltrasonic = new goog.Timer(
-    this.monitorSensorUltrasonicInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorLargeMotor = new goog.Timer(this.monitorMotorInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorMediumMotor = new goog.Timer(this.monitorMotorInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorLargeMotorOpt = new goog.Timer(this.monitorMotorInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorMediumMotorOpt = new goog.Timer(this.monitorMotorInterval);
-
-  /** @type {goog.Timer} */
-  this.monitorUpdate = new goog.Timer(this.monitorUpdateInterval);
-
   /** @type {goog.events.EventTarget} */
   this.eventHandler = api.getEventHandler();
-
-  /** @type {Object} */
-  this.deviceInfo = {};
-
-  /** @type {boolean} */
-  this.detectChangedValues = false;
 
   /** @type {boolean} */
   this.started = false;
 
+  /** @type {Object} */
+  this.devices_ = {};
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
-};
 
+  /** @private {!Object} */
+  this.monitor_ = {};
 
-/**
- * Prepares events for port monitoring.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.init = function() {
-  if (this.monitor) {
-    return;
-  }
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 
-  console.log('Init sensor and actor monitoring ...');
-
-  this.events_.listen(this.monitorSensorColor, goog.Timer.TICK,
-      this.updateColorSensor, false, this);
-
-  this.events_.listen(this.monitorSensorGyro, goog.Timer.TICK,
-      this.updateGyroSensor, false, this);
-
-  this.events_.listen(this.monitorSensorIr, goog.Timer.TICK,
-      this.updateIrSensor, false, this);
-
-  this.events_.listen(this.monitorSensorUltrasonic, goog.Timer.TICK,
-      this.updateUltrasonicSensor, false, this);
-
-  this.events_.listen(this.monitorSensorTouch, goog.Timer.TICK,
-      this.updateTouchSensor, false, this);
-
-  this.events_.listen(this.monitorLargeMotor, goog.Timer.TICK,
-      this.updateLargeMotor, false, this);
-
-  this.events_.listen(this.monitorMediumMotor, goog.Timer.TICK,
-      this.updateMediumMotor, false, this);
-
-  this.events_.listen(this.monitorLargeMotorOpt, goog.Timer.TICK,
-      this.updateLargeMotorOpt, false, this);
-
-  this.events_.listen(this.monitorMediumMotorOpt, goog.Timer.TICK,
-      this.updateMediumMotorOpt, false, this);
-
-  this.events_.listen(this.monitorUpdate, goog.Timer.TICK,
-      this.updateData, false, this);
-
-  this.monitor = true;
+  this.events_.listen(this.api.getEventHandler(),
+    cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
+    this.handleDeviceChanges_, false, this);
 };
 
 
 /**
  * Starts the port monitoring.
- * @param {Object=} opt_device_info
  */
-cwc.protocol.lego.ev3.Monitoring.prototype.start = function(opt_device_info) {
-  if (opt_device_info) {
-    this.deviceInfo = opt_device_info;
-  }
-  if (!this.deviceInfo ||
-      !Object.getOwnPropertyNames(this.deviceInfo).length > 0) {
+cwc.protocol.lego.ev3.Monitoring.prototype.start = function() {
+  if (this.started || !this.devices_ || this.devices_ === {}) {
     return;
   }
-  if (!this.started) {
-    console.log('Preparing...');
-  }
-  let monitoring = false;
-
-  if (cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR in this.deviceInfo) {
-    this.monitorSensorColor.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR in this.deviceInfo) {
-    this.monitorSensorGyro.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.IR_SENSOR in this.deviceInfo) {
-    this.monitorSensorIr.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR in this.deviceInfo) {
-    this.monitorSensorUltrasonic.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR in this.deviceInfo) {
-    this.monitorSensorTouch.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT in this.deviceInfo) {
-    this.monitorSensorTouchOpt.start();
-    monitoring = true;
-  }
-
-
-  if (cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR in this.deviceInfo) {
-    this.monitorLargeMotor.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR in this.deviceInfo) {
-    this.monitorMediumMotor.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT in this.deviceInfo) {
-    this.monitorLargeMotorOpt.start();
-    monitoring = true;
-  }
-
-  if (cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT in this.deviceInfo) {
-    this.monitorMediumMotorOpt.start();
-    monitoring = true;
-  }
-
-  if (monitoring) {
-    this.monitorUpdate.start();
-    this.started = true;
-  }
+  this.log_.info('Starting...');
+  Object.keys(this.devices_).forEach(function(port) {
+    if (this.devices_[port] && !this.monitor[port]) {
+      this.enableMonitor(
+        port, this.devices_[port].type, this.devices_[port].mode);
+    }
+  }.bind(this));
+  this.started = true;
 };
 
 
@@ -242,132 +111,95 @@ cwc.protocol.lego.ev3.Monitoring.prototype.start = function(opt_device_info) {
  * Stops the port monitoring.
  */
 cwc.protocol.lego.ev3.Monitoring.prototype.stop = function() {
-  if (this.started) {
-    console.log('Stopping...');
-    this.monitorSensorColor.stop();
-    this.monitorSensorGyro.stop();
-    this.monitorSensorIr.stop();
-    this.monitorSensorTouch.stop();
-    this.monitorSensorTouchOpt.stop();
-    this.monitorLargeMotor.stop();
-    this.monitorMediumMotor.stop();
-    this.monitorLargeMotorOpt.stop();
-    this.monitorMediumMotorOpt.stop();
-    this.monitorUpdate.stop();
-    this.started = false;
+  if (!this.started) {
+    return;
   }
+  this.log_.info('Stopping...');
+  Object.keys(this.monitor_).forEach(function(port) {
+    clearInterval(this.monitor_[port]);
+    this.monitor_[port] = undefined;
+  }.bind(this));
+  this.started = false;
 };
 
 
 /**
- * Informs monitoring that an update is needed.
+ * @param {!number} port
+ * @param {!string} type
+ * @param {number=} mode
  */
-cwc.protocol.lego.ev3.Monitoring.prototype.update = function() {
-  this.detectChangedValues = true;
+cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
+    port, type, mode = 0) {
+  if (!port || !type) {
+    return;
+  }
+  if (typeof this.monitor_[port] !== 'undefined') {
+    clearInterval(this.monitor_[port]);
+    this.monitor_[port] = undefined;
+  }
+  if (type === cwc.protocol.lego.ev3.Device.NONE.type) {
+    return;
+  }
+
+  let command = 'getSensorData';
+  switch (type) {
+    case cwc.protocol.lego.ev3.DeviceType.TOUCH:
+      command = 'getSensorDataPct';
+      break;
+    case cwc.protocol.lego.ev3.DeviceType.GYRO_ANG:
+    case cwc.protocol.lego.ev3.DeviceType.GYRO_RATE:
+    case cwc.protocol.lego.ev3.DeviceType.US_DIST_CM:
+    case cwc.protocol.lego.ev3.DeviceType.US_DIST_IN:
+    case cwc.protocol.lego.ev3.DeviceType.US_LISTEN:
+      command = 'getSensorDataSi';
+      break;
+    case cwc.protocol.lego.ev3.DeviceType.L_MOTOR_DEG:
+    case cwc.protocol.lego.ev3.DeviceType.L_MOTOR_ROT:
+    case cwc.protocol.lego.ev3.DeviceType.M_MOTOR_DEG:
+    case cwc.protocol.lego.ev3.DeviceType.M_MOTOR_ROT:
+      command = 'getActorData';
+      break;
+  }
+  let interval = cwc.protocol.lego.ev3.MonitoringIntervals[type];
+  let buffer = this.api.getBuffer(command, {'port': port, 'mode': mode});
+  this.api.send(buffer);
+  this.log_.info('Enable monitoring for', type, 'on port', port,
+    'with interval', interval);
+  this.monitor_[port] = setInterval(
+    this.api.send.bind(this.api), interval, buffer);
+};
+
+
+cwc.protocol.lego.ev3.Monitoring.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.stop();
+  this.events_.clear();
+  this.devices_ = {};
 };
 
 
 /**
- * Requests updated color sensor device data.
+ * @param {Event} event
+ * @private
  */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateColorSensor = function() {
-  this.api.getSensorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.COLOR_SENSOR]);
-};
+cwc.protocol.lego.ev3.Monitoring.prototype.handleDeviceChanges_ = function(
+  event) {
+  if (!event.data) {
+    return;
+  }
 
-
-/**
- * Requests updated gyro sensor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateGyroSensor = function() {
-  this.api.getSensorDataSi(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.GYRO_SENSOR]);
-};
-
-
-/**
- * Request updated ir sensor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateIrSensor = function() {
-  this.api.getSensorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.IR_SENSOR]);
-};
-
-
-/**
- * Request updated ultrasonic sensor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateUltrasonicSensor = function() {
-  this.api.getSensorDataSi(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.ULTRASONIC_SENSOR]);
-};
-
-
-/**
- * Request updated touch sensor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateTouchSensor = function() {
-  this.api.getSensorDataPct(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR]);
-};
-
-
-/**
- * Request updated touch sensor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateTouchSensorOpt = function() {
-  this.api.getSensorDataPct(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.TOUCH_SENSOR_OPT]);
-};
-
-
-/**
- * Request updated large motor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateLargeMotor = function() {
-  this.api.getActorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR]);
-};
-
-
-/**
- * Request updated medium motor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateMediumMotor = function() {
-  this.api.getActorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR]);
-};
-
-
-/**
- * Request updated opt large motor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateLargeMotorOpt = function() {
-  this.api.getActorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.LARGE_MOTOR_OPT]);
-};
-
-
-/**
- * Request updated opt medium motor device data.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateMediumMotorOpt = function() {
-  this.api.getActorData(
-      this.deviceInfo[cwc.protocol.lego.ev3.DeviceName.MEDIUM_MOTOR_OPT]);
-};
-
-
-/**
- * Triggers event handler that updates values are available.
- */
-cwc.protocol.lego.ev3.Monitoring.prototype.updateData = function() {
-  if (this.api.isConnected()) {
-    if (this.detectChangedValues) {
-      this.eventHandler.dispatchEvent(
-          cwc.protocol.lego.ev3.Events.Type.CHANGED_VALUES);
-      this.detectChangedValues = false;
+  let changedDevices = false;
+  let eventData = event.data['port'];
+  for (let port in eventData) {
+    if (typeof this.devices_[port] === 'undefined' ||
+        this.devices_[port].type !== eventData[port].type ||
+        this.devices_[port].mode !== eventData[port].mode) {
+      this.devices_[port] = eventData[port];
+      changedDevices = true;
     }
-  } else {
+  }
+  if (changedDevices) {
     this.stop();
+    this.start();
   }
 };
