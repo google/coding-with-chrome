@@ -103,7 +103,7 @@ closureBuilder.build({
     'src/frameworks/internal/makeblock/mbot/*.js',
   ]),
   deps: glob([
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/mbot_framework.js',

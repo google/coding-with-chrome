@@ -15,29 +15,18 @@
  */
 
 
-#{$prefix}mbot-monitor-intro,
-#{$prefix}mbot-monitor-control,
-#{$prefix}mbot-monitor-calibration {
-  padding: 5px;
-  position: relative;
+#{$prefix}mbot-monitor-body,
+#{$prefix}mbot-monitor-body .mdl-list {
+  padding: 0;
 }
 
-#{$prefix}mbot-monitor-control-buttons {
-  width: 150px;
-  margin: auto;
-  padding-bottom: 10px;
+#{$prefix}mbot-monitor-body .mdl-list__item {
+  font-size: 14px;
+  padding: 6px 10px;
+  min-height: 36px;
+  box-shadow: 1px 0px 1px rgba(0,0,0,0.1);
 }
 
-#{$prefix}mbot-monitor-calibration-buttons {
-  width: 200px;
-  margin: auto;
-  padding-bottom: 10px;
-}
-
-#{$prefix}mbot-monitor-control-buttons:first-child {
-  padding-left: 3px;
-}
-
-#{$prefix}mbot-monitor-system-buttons > div {
-  padding: 10px;
+#{$prefix}mbot-monitor-body .mdl-list__item .mdl-list__item-primary-content .mdl-list__item-icon {
+    margin-right: 16px;
 }

@@ -1,7 +1,7 @@
 /**
- * @fileoverview runner for mBot instances.
+ * @fileoverview Simulation for the mbot modification.
  *
- * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,44 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author wangyu@makeblock.cc (Yu Wang)
+ * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.Runner');
+goog.provide('cwc.mode.makeblock.mbot.Simulation');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Events');
-goog.require('cwc.runner.profile.makeblock.mbotRanger.Command');
-goog.require('cwc.runner.profile.makeblock.mbotRanger.Monitor');
-goog.require('cwc.ui.Runner');
+goog.require('cwc.MessengerEvents');
+goog.require('cwc.mode.makeblock.mbot.SimulationCommand');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
-goog.require('cwc.utils.Helper');
-
-goog.require('goog.dom');
 
 
 /**
- * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.makeblock.mbotRanger.Connection} connection
- * @struct
- * @final
+ * @constructor
  */
-cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
+cwc.mode.makeblock.mbot.Simulation = function(helper) {
   /** @type {string} */
-  this.name = 'mBot Ranger Runner';
+  this.name = 'mBot Simulation';
+
+  /** @type {string} */
+  this.prefix = helper.getPrefix('mbot-simulation');
+
+  /** @type {Element} */
+  this.node = null;
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {string} */
-  this.prefix = helper.getPrefix('mbot-ranger-runner');
-
-  /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
-  this.connection = connection;
-
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
-  this.api = this.connection.getApi();
-
+  /** @type {!string} */
   /** @type {!string} */
   this.sprite = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAA' +
     'BXAvmHAAABG2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu7' +
@@ -109,78 +99,59 @@ cwc.mode.makeblock.mbotRanger.Runner = function(helper, connection) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {Element} */
-  this.node = null;
+  /** @type {!cwc.mode.makeblock.mbot.SimulationCommand} */
+  this.commands_ = new cwc.mode.makeblock.mbot.SimulationCommand(
+    this.turtle);
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name);
-
-  /** @type {!cwc.ui.Runner} */
-  this.runner = new cwc.ui.Runner(helper);
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
 
 
 /**
- * Decorates the runner object for the mbot modification.
+ * Decorates the simulation for the mBot modification.
+ * @param {!Element} node
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.decorate = function() {
-  this.node = goog.dom.getElement(this.prefix + 'runner-chrome');
-  this.helper.setInstance('runner', this.runner, true);
-  this.helper.setInstance('turtle', this.turtle, true);
+cwc.mode.makeblock.mbot.Simulation.prototype.decorate = function(node) {
+  this.node = node;
 
-  // Commands
-  this.runner.addCommandProfile(
-    new cwc.runner.profile.makeblock.mbotRanger.Command(this.api));
-
-  // Monitors
-  this.runner.addMonitorProfile(
-    new cwc.runner.profile.makeblock.mbotRanger.Monitor(this.turtle));
-
-  // Events
-  let apiEventHandler = this.api.getEventHandler();
-  this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR,
-      'updateTemperatureSensor');
-  this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
-      'updateLightnessSensor');
-  this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
-      'updateLineFollowerSensor');
-  this.runner.addEvent(apiEventHandler,
-      cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
-      'updateUltrasonicSensor');
-
-  this.runner.setCleanUpFunction(this.handleCleanUp.bind(this));
-  this.runner.decorate(this.node);
-
-  // Preview output
-  let turtleNode = this.runner.getTurtleNode();
-  this.turtle.decorate(turtleNode);
+  // Decorate turtle
+  this.turtle.decorate(node);
 
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp, false, this);
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp);
   }
-};
 
-
-/**
- * Handles the cleanup and make sure that the mbot stops.
- */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.handleCleanUp = function() {
-  this.api.cleanUp();
+  // Command event
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+        cwc.MessengerEvents.Type.COMMAND, this.handleCommand_);
+  }
 };
 
 
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbotRanger.Runner.prototype.cleanUp = function() {
-  this.connection.cleanUp();
+cwc.mode.makeblock.mbot.Simulation.prototype.cleanUp = function() {
+  console.log('Clean up EV3 simulation ...');
   this.events_.clear();
+};
+
+
+/**
+ * @param {!Event} e
+ * @private
+ */
+cwc.mode.makeblock.mbot.Simulation.prototype.handleCommand_ = function(
+    e) {
+  if (typeof this.commands_[e.data['name']] === 'undefined') {
+    return;
+  }
+  this.commands_[e.data['name']](e.data['value']);
 };

@@ -63,6 +63,21 @@ cwc.mode.makeblock.mbot.Connection.prototype.init = function() {
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
+
+  // Unload event
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    this.events_.listen(layoutInstance.getEventHandler(),
+        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+  }
+
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    this.events_.listen(previewInstance.getEventHandler(),
+      cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
+      false, this);
+  }
+
   this.connectMonitor.start();
   this.connect();
 };
@@ -95,7 +110,8 @@ cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
   if (runnerInstance) {
     runnerInstance.terminate();
   }
-  this.api_.stop();
+  this.api_.exec('stop');
+  this.api_.exec('stop');
 };
 
 
@@ -147,4 +163,16 @@ cwc.mode.makeblock.mbot.Connection.prototype.cleanUp = function() {
   this.api_.monitor(false);
   this.stop();
   this.events_.clear();
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
+cwc.mode.makeblock.mbot.Connection.prototype.handlePreviewStatus_ = function(
+    e) {
+  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+    this.stop();
+  }
 };

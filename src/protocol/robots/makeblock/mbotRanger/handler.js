@@ -144,8 +144,11 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['getSensorData'] = function(
  * @return {!ArrayBuffer}
  */
 cwc.protocol.makeblock.mbotRanger.Handler.prototype['stop'] = function() {
-  return [this['setRGBLED']({})].concat(
-    this['movePower']({'power': 0}),
-    this['rotatePower']({'power': 0})
-  );
+  return [
+    this['setRGBLED']({}),
+    cwc.protocol.makeblock.mbot.Commands.movePower(
+      0, cwc.protocol.makeblock.mbot.Port.LEFT_MOTOR),
+    cwc.protocol.makeblock.mbot.Commands.movePower(
+      0, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR),
+  ];
 };

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Runner monitor profile for EV3 unit.
+ * @fileoverview Simulation Commands for EV3 unit.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

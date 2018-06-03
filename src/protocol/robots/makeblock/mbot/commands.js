@@ -33,12 +33,12 @@ goog.require('cwc.protocol.makeblock.mbot.Slot');
  * @param {!number} red 0-255
  * @param {!number} green 0-255
  * @param {!number} blue 0-255
- * @param {!number} index 0 for all lights; 1 for left, 2 for right
+ * @param {number=} index 0 for all lights; 1 for left, 2 for right
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.setRGBLED = function(red, green,
-    blue, index = 0x00) {
+cwc.protocol.makeblock.mbot.Commands.setRGBLED = function(red = 0, green = 0,
+    blue = 0, index = 0x00) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.RUN)
@@ -79,7 +79,7 @@ cwc.protocol.makeblock.mbot.Commands.playTone = function(frequency,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.setMotorPower = function(power,
+cwc.protocol.makeblock.mbot.Commands.movePower = function(power,
     port = cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR) {
   return new cwc.protocol.makeblock.mbot.Buffer()
     .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.NONE)
@@ -92,48 +92,20 @@ cwc.protocol.makeblock.mbot.Commands.setMotorPower = function(power,
 
 
 /**
- * Reads out the current ultrasonic sensor value.
+ * Reads out the sensor value.
+ * @param {!cwc.protocol.makeblock.mbot.CallbackType} callbackType
+ * @param {!cwc.protocol.makeblock.mbot.Device} device
+ * @param {!cwc.protocol.makeblock.mbot.Port} port
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbot.Commands.readUltrasonicSensor = function(
-) {
+cwc.protocol.makeblock.mbot.Commands.getSensorData = function(callbackType,
+    device, port) {
   return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.ULTRASONIC)
+    .writeCallback(callbackType)
     .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
-    .writeDevice(cwc.protocol.makeblock.mbot.Device.ULTRASONIC)
-    .writePort(cwc.protocol.makeblock.mbot.Port.ULTRASONIC)
-    .readSigned();
-};
-
-
-/**
- * Reads out the current light sensor value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbot.Commands.readLightSensor = function() {
-  return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LIGHTSENSOR)
-    .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
-    .writeDevice(cwc.protocol.makeblock.mbot.Device.LIGHTSENSOR)
-    .writePort(cwc.protocol.makeblock.mbot.Port.LIGHTSENSOR)
-    .readSigned();
-};
-
-
-/**
- * Reads out the current line follower sensor value.
- * @return {!ArrayBuffer}
- * @export
- */
-cwc.protocol.makeblock.mbot.Commands.readLineFollowerSensor =
-function() {
-  return new cwc.protocol.makeblock.mbot.Buffer()
-    .writeCallback(cwc.protocol.makeblock.mbot.CallbackType.LINEFOLLOWER)
-    .writeType(cwc.protocol.makeblock.mbot.CommandType.GET)
-    .writeDevice(cwc.protocol.makeblock.mbot.Device.LINEFOLLOWER)
-    .writePort(cwc.protocol.makeblock.mbot.Port.LINEFOLLOWER)
+    .writeDevice(device)
+    .writePort(port)
     .readSigned();
 };
 

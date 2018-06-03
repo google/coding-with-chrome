@@ -1,5 +1,5 @@
 /**
- * @fileoverview mBot framework for runner instances.
+ * @fileoverview mBot Ranger framework.
  *
  * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
  *
@@ -34,23 +34,20 @@ cwc.framework.makeblock.MBotRanger = function() {
   /** @type {string} */
   this.name = 'mBot Ranger Framework';
 
-  /** @private {!function(?)} */
-  this.emptyFunction_ = function() {};
+  /** @type {!function(?)} */
+  this.buttonEvent = function() {};
 
   /** @type {!function(?)} */
-  this.buttonEvent = this.emptyFunction_;
-
-  /** @type {!function(?)} */
-  this.temperatureSensorEvent = this.emptyFunction_;
+  this.temperatureSensorEvent = function() {};
 
   /** @type {!function(?, ?)} */
-  this.lightnessSensorEvent = this.emptyFunction_;
+  this.lightnessSensorEvent = function() {};
 
   /** @type {!function(?, ?, ?)} */
-  this.lineFollowerSensorEvent = this.emptyFunction_;
+  this.lineFollowerSensorEvent = function() {};
 
   /** @type {!function(?)} */
-  this.ultrasonicSensorEvent = this.emptyFunction_;
+  this.ultrasonicSensorEvent = function() {};
 
   /** @type {!number} */
   this.buttonValue = 0;
@@ -169,20 +166,6 @@ function() {
 
 
 /**
- * @param {!number} speed
- * @return {!number} Calculated delay + buffer.
- * @export
- */
-cwc.framework.makeblock.MBotRanger.prototype.getDelay = function(speed) {
-  let buffer = 250;
-  let motorSpeed = this.motorSpeed;
-  let delay = Math.floor(
-    ((Math.abs(100 / speed)) / motorSpeed) * 1000 + buffer);
-  return delay;
-};
-
-
-/**
  * Turn mBot at a speed
  * @param {!number} power -255 - 255
  * @param {number=} opt_delay in msec or true for auto
@@ -190,8 +173,7 @@ cwc.framework.makeblock.MBotRanger.prototype.getDelay = function(speed) {
  */
 cwc.framework.makeblock.MBotRanger.prototype.rotatePower = function(power,
     opt_delay) {
-  this.messenger_.send('rotatePower', {
-    'power': power});
+  this.messenger_.send('rotatePower', {'power': power});
 };
 
 
@@ -203,25 +185,23 @@ cwc.framework.makeblock.MBotRanger.prototype.rotatePower = function(power,
  */
 cwc.framework.makeblock.MBotRanger.prototype.rotatePowerTime = function(time,
     power) {
-  this.messenger_.send('rotatePower', {
-    'power': power}, time);
-  this.messenger_.send('rotatePower', {
-    'power': 0}, 100);
+  this.messenger_.send('rotatePower', {'power': power}, time);
+  this.messenger_.send('rotatePower', {'power': 0}, 10);
 };
 
 
 /**
  * Move mBot for certain speeds
  * @param {!number} power -255 - 255
- * @param {number=} opt_slot
- * @param {number=} opt_delay in msec
+ * @param {number=} slot
+ * @param {number=} delay in msec
  * @export
  */
 cwc.framework.makeblock.MBotRanger.prototype.movePower = function(power,
-    opt_slot, opt_delay) {
+    slot, delay) {
   this.messenger_.send('movePower', {
     'power': power,
-    'slot': opt_slot});
+    'slot': slot}, delay);
 };
 
 
@@ -233,25 +213,23 @@ cwc.framework.makeblock.MBotRanger.prototype.movePower = function(power,
  */
 cwc.framework.makeblock.MBotRanger.prototype.movePowerTime = function(time,
     power) {
-  this.messenger_.send('movePower', {
-    'power': power}, time);
-  this.messenger_.send('movePower', {
-    'power': 0}, 100);
+  this.messenger_.send('movePower', {'power': power}, time);
+  this.messenger_.send('movePower', {'power': 0}, 10);
 };
 
 
 /**
  * Move mBot for certain speeds
  * @param {!number} steps 0 - 255
- * @param {number=} opt_speed 0 - 255
- * @param {number=} opt_delay in msec or true for auto
+ * @param {number=} speed 0 - 255
+ * @param {number=} delay in msec or true for auto
  * @export
  */
 cwc.framework.makeblock.MBotRanger.prototype.moveSteps = function(steps,
-    opt_speed, opt_delay) {
+    speed, delay) {
   this.messenger_.send('moveSteps', {
     'steps': steps,
-    'power': opt_speed}, 200);
+    'power': speed}, delay || 200);
 };
 
 
@@ -267,11 +245,11 @@ cwc.framework.makeblock.MBotRanger.prototype.wait = function(time) {
 
 /**
  * Stop the mBot
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.makeblock.MBotRanger.prototype.stop = function(opt_delay) {
-  this.messenger_.send('stop', null, opt_delay);
+cwc.framework.makeblock.MBotRanger.prototype.stop = function(delay) {
+  this.messenger_.send('stop', null, delay);
 };
 
 

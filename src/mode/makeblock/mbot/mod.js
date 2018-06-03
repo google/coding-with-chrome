@@ -21,8 +21,10 @@ goog.provide('cwc.mode.makeblock.mbot.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.makeblock.mbot.Connection');
+goog.require('cwc.mode.makeblock.mbot.Control');
 goog.require('cwc.mode.makeblock.mbot.Monitor');
-goog.require('cwc.mode.makeblock.mbot.Runner');
+goog.require('cwc.mode.makeblock.mbot.SensorEvents');
+goog.require('cwc.mode.makeblock.mbot.Simulation');
 goog.require('cwc.renderer.external.makeblock.MBot');
 goog.require('cwc.soy.mbot.Blocks');
 
@@ -39,17 +41,23 @@ cwc.mode.makeblock.mbot.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.makeblock.mbot.Connection} */
   this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
 
+  /** @type {!cwc.mode.makeblock.mbot.SensorEvents} */
+  this.events = cwc.mode.makeblock.mbot.SensorEvents;
+
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
+
+  /** @type {!cwc.mode.makeblock.mbot.Control} */
+  this.control = new cwc.mode.makeblock.mbot.Control(helper, this.connection);
 
   /** @type {!cwc.mode.makeblock.mbot.Monitor} */
   this.monitor = new cwc.mode.makeblock.mbot.Monitor(helper, this.connection);
 
+  /** @type {!cwc.mode.lego.ev3.Simulation} */
+  this.simulation = new cwc.mode.makeblock.mbot.Simulation(helper);
+
   /** @type {!cwc.renderer.external.makeblock.MBot} */
   this.renderer = new cwc.renderer.external.makeblock.MBot(helper);
-
-  /** @type {!cwc.mode.makeblock.mbot.Runner} */
-  this.runner = new cwc.mode.makeblock.mbot.Runner(helper, this.connection);
 };
 
 
@@ -61,8 +69,10 @@ cwc.mode.makeblock.mbot.Mod.prototype.decorate = function() {
     this.mod.enableBlockly(cwc.soy.mbot.Blocks.toolbox);
   }
   this.mod.setConnection(this.connection);
-  this.mod.setMonitor(this.monitor);
+  this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
-  this.mod.setRunner(this.runner);
+  this.mod.setSimulation(this.simulation);
   this.mod.decorate();
+  this.mod.message.decorateControl(this.control);
+  this.mod.message.decorateMonitor(this.monitor);
 };

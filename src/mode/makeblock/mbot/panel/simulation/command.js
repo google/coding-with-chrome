@@ -1,7 +1,7 @@
 /**
- * @fileoverview Runner monitor profile for Makeblock mBots.
+ * @fileoverview Simulation Commands for mBot unit.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.runner.profile.makeblock.mbotRanger.Monitor');
+goog.provide('cwc.mode.makeblock.mbot.SimulationCommand');
 
 
 /**
@@ -25,7 +25,7 @@ goog.provide('cwc.runner.profile.makeblock.mbotRanger.Monitor');
  * @constructor
  * @final
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor = function(turtle) {
+cwc.mode.makeblock.mbot.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
@@ -37,8 +37,8 @@ cwc.runner.profile.makeblock.mbotRanger.Monitor = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['reset'] =
-function() {
+cwc.mode.makeblock.mbot.SimulationCommand.prototype['__handshake__'] = function(
+    ) {
   this.speed_ = 0;
   this.turtle.action('speed', 3);
   this.turtle.reset();
@@ -49,13 +49,9 @@ function() {
  * Move mBot forward or backward
  * @param  {Object} data data package
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['movePower'] =
-function(data) {
-  if (data['speed'] > 0) {
-    this.turtle.action('fd', data['speed']);
-  } else {
-    this.turtle.action('bk', data['speed']);
-  }
+cwc.mode.makeblock.mbot.SimulationCommand.prototype['movePower'] = function(
+    data) {
+  this.turtle.action('fd', data['power']);
 };
 
 
@@ -63,11 +59,7 @@ function(data) {
  * Turn mBot to a direction
  * @param  {Object} data   data package
  */
-cwc.runner.profile.makeblock.mbotRanger.Monitor.prototype['rotatePower'] =
-function(data) {
-  if (data['speed'] > 0) {
-    this.turtle.action('rt', data['speed']);
-  } else {
-    this.turtle.action('lt', data['speed']);
-  }
+cwc.mode.makeblock.mbot.SimulationCommand.prototype['rotatePower'] = function(
+    data) {
+  this.turtle.action('rt', data['power']);
 };

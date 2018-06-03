@@ -24,6 +24,7 @@ goog.require('cwc.mode.makeblock.mbotRanger.Connection');
 goog.require('cwc.mode.makeblock.mbotRanger.Control');
 goog.require('cwc.mode.makeblock.mbotRanger.Monitor');
 goog.require('cwc.mode.makeblock.mbotRanger.SensorEvents');
+goog.require('cwc.mode.makeblock.mbotRanger.Simulation');
 goog.require('cwc.renderer.external.makeblock.MBotRanger');
 goog.require('cwc.soy.mbotRanger.Blocks');
 
@@ -54,6 +55,9 @@ cwc.mode.makeblock.mbotRanger.Mod = function(helper, enableBlockly = false) {
   this.monitor = new cwc.mode.makeblock.mbotRanger.Monitor(helper,
     this.connection);
 
+  /** @type {!cwc.mode.lego.ev3.Simulation} */
+  this.simulation = new cwc.mode.makeblock.mbotRanger.Simulation(helper);
+
   /** @type {!cwc.renderer.external.makeblock.MBotRanger} */
   this.renderer = new cwc.renderer.external.makeblock.MBotRanger(helper);
 };
@@ -69,6 +73,7 @@ cwc.mode.makeblock.mbotRanger.Mod.prototype.decorate = function() {
   this.mod.setConnection(this.connection);
   this.mod.setMessengerEvents(this.events);
   this.mod.setRenderer(this.renderer);
+  this.mod.setSimulation(this.simulation);
   this.mod.decorate();
   this.mod.message.decorateControl(this.control);
   this.mod.message.decorateMonitor(this.monitor);

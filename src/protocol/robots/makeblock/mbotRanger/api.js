@@ -49,7 +49,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
   /** @type {Object} */
   this.device = null;
 
-  /** @type {!cwc.protocol.sphero.classic.Handler} */
+  /** @type {!cwc.protocol.makeblock.mbotRanger.Handler} */
   this.handler = new cwc.protocol.makeblock.mbotRanger.Handler();
 
   /** @type {boolean} */
@@ -212,14 +212,13 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getRunnerProfile = function() {
 
 
 /**
- * Basic cleanup for the mBot.
- * apparently this method is called by runner
- * @export
+ * Basic cleanup for the mBot Ranger unit.
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.reset();
-  this.monitoring.stop();
+  this.events_.clear();
+  this.monitoring.cleanUp();
 };
 
 
@@ -246,17 +245,6 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.monitor = function(enable) {
   } else if (!enable) {
     this.monitoring.stop();
   }
-};
-
-
-/**
- * Basic cleanup for the mBot Ranger unit.
- */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
-  this.log_.info('Clean up ...');
-  this.exec('stop');
-  this.events_.clear();
-  this.monitoring.cleanUp();
 };
 
 
@@ -343,7 +331,8 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleData_ = function(
   let data = dataBuffer.slice(4);
   switch (indexType) {
     case cwc.protocol.makeblock.mbotRanger.IndexType.VERSION:
-      this.log_.info('mBot Firmware', new TextDecoder('utf-8').decode(data));
+      this.log_.info('mBot Ranger Firmware',
+        new TextDecoder('utf-8').decode(data));
       break;
     case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:
     case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:

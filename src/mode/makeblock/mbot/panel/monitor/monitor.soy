@@ -1,5 +1,5 @@
 /**
- * @fileoverview Monitor template for the mBot Ranger modification.
+ * @fileoverview Monitor template for the mBot modification.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.makeblock.mbotRanger.Monitor autoescape="strict"}
+{namespace cwc.soy.mode.makeblock.mbot.Monitor autoescape="strict"}
 
 
 /**
@@ -42,9 +42,8 @@
       {/call}
 
       {call .listEntry_ data="all"}
-        {param id: 'temperature' /}
-        {param name: 'Temperature sensor' /}
-        {param icon: 'whatshot' /}
+        {param id: 'button' /}
+        {param name: 'Onboard Button' /}
       {/call}
 
       {call .listEntry_ data="all"}

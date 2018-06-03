@@ -28,7 +28,7 @@
 Blockly.JavaScript['mbot_move_forward'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.movePower(' + speed + ');\n';
+  return 'mBot.movePower(' + speed + ');\n';
 };
 
 
@@ -43,7 +43,7 @@ Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbot.movePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
+  return 'mBot.movePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
 };
 
 
@@ -55,7 +55,7 @@ Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.movePower(' + (-speed) + ');\n';
+  return 'mBot.movePower(' + (-speed) + ');\n';
 };
 
 
@@ -70,7 +70,7 @@ Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbot.movePowerTime(' + (time * 1000) + ', ' + (-speed) + ', true);\n';
+  return 'mBot.movePowerTime(' + (time * 1000) + ', ' + (-speed) + ', true);\n';
 };
 
 
@@ -82,7 +82,7 @@ Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
 Blockly.JavaScript['mbot_rotate_left'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.rotatePower(' + speed + ');\n';
+  return 'mBot.rotatePower(' + speed + ');\n';
 };
 
 
@@ -97,7 +97,7 @@ Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
+  return 'mBot.rotatePowerTime(' + (time * 1000) + ', ' + speed + ', true);\n';
 };
 
 
@@ -109,7 +109,7 @@ Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
 Blockly.JavaScript['mbot_rotate_right'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  return 'mbot.rotatePower(' + (-speed) + ');\n';
+  return 'mBot.rotatePower(' + (-speed) + ');\n';
 };
 
 
@@ -124,7 +124,7 @@ Blockly.JavaScript['mbot_rotate_right_time'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
 
-  return 'mbot.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
+  return 'mBot.rotatePowerTime(' + (time * 1000) + ', ' + (-speed) +
     ', true);\n';
 };
 
@@ -134,7 +134,7 @@ Blockly.JavaScript['mbot_rotate_right_time'] = function(block) {
  * @return {!string}
  */
 Blockly.JavaScript['mbot_stop_moving'] = function() {
-  return 'mbot.stop(true);\n';
+  return 'mBot.stop(true);\n';
 };
 
 
@@ -147,7 +147,7 @@ Blockly.JavaScript['mbot_button_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var buttonEvent = function(pressed) {\n' +
       statements_code +
-    '};\nmbot.onButtonChange(buttonEvent);\n';
+    '};\nmBot.onButtonChange(buttonEvent);\n';
 };
 
 
@@ -160,7 +160,7 @@ Blockly.JavaScript['mbot_lightness_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var lightnessSensorEvent = function(lightness) {\n' +
       statements_code +
-    '};\nmbot.onLightnessSensorChange(lightnessSensorEvent);\n';
+    '};\nmBot.onLightnessSensorChange(lightnessSensorEvent);\n';
 };
 
 
@@ -173,7 +173,7 @@ Blockly.JavaScript['mbot_linefollower_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var linefollowerSensorEvent = function(left, right, raw) {\n' +
       statements_code +
-    '};\nmbot.onLinefollowerSensorChange(linefollowerSensorEvent);\n';
+    '};\nmBot.onLinefollowerSensorChange(linefollowerSensorEvent);\n';
 };
 
 
@@ -186,14 +186,14 @@ Blockly.JavaScript['mbot_ultrasonic_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var ultrasonicSensorEvent = function(distance) {\n' +
       statements_code +
-    '};\nmbot.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
+    '};\nmBot.onUltrasonicSensorChange(ultrasonicSensorEvent);\n';
 };
 
 
 Blockly.JavaScript['mbot_play_tone'] = function(block) {
   let text_frequency = block.getFieldValue('frequency');
   let text_duration = block.getFieldValue('duration');
-  return 'mbot.playTone(' + text_frequency + ', ' + text_duration + ', ' +
+  return 'mBot.playTone(' + text_frequency + ', ' + text_duration + ', ' +
        Number(text_duration) + ');\n';
 };
 
@@ -203,7 +203,7 @@ Blockly.JavaScript['mbot_play_tone'] = function(block) {
  * @return {!string}
  */
 Blockly.JavaScript['mbot_beep_buzzer'] = function() {
-  return 'mbot.playTone(524, 240, 240);';
+  return 'mBot.playTone(524, 240, 240);';
 };
 
 
@@ -221,7 +221,7 @@ Blockly.JavaScript['mbot_rgb'] = function(block) {
   let red = colour >> 16;
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
-  return 'mbot.setLEDColor(' + red + ', ' + green + ', ' + blue + ', ' +
+  return 'mBot.setRGBLED(' + red + ', ' + green + ', ' + blue + ', ' +
     position + ', 100);\n';
 };
 
@@ -230,7 +230,7 @@ Blockly.JavaScript['mbot_rgb'] = function(block) {
  * @return {!array}
  */
 Blockly.JavaScript['mbot_ultrasonic_sensor_value'] = function() {
-  let code = 'mbot.getUltrasonicSensorValue()';
+  let code = 'mBot.getUltrasonicSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -239,7 +239,7 @@ Blockly.JavaScript['mbot_ultrasonic_sensor_value'] = function() {
  * @return {!array}
  */
 Blockly.JavaScript['mbot_lightness_sensor_value'] = function() {
-  let code = 'mbot.getLightnessSensorValue()';
+  let code = 'mBot.getLightnessSensorValue()';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -251,5 +251,5 @@ Blockly.JavaScript['mbot_lightness_sensor_value'] = function() {
  */
 Blockly.JavaScript['mbot_wait'] = function(block) {
   let time = block.getFieldValue('time');
-  return 'mbot.wait(' + time + ');\n';
+  return 'mBot.wait(' + time + ');\n';
 };
