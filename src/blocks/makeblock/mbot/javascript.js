@@ -26,8 +26,8 @@
  * @return {!string}
  */
 Blockly.JavaScript['mbot_move_forward'] = function(block) {
-  let speed = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
   return 'mBot.movePower(' + speed + ');\n';
 };
 
@@ -53,8 +53,8 @@ Blockly.JavaScript['mbot_move_forward_time'] = function(block) {
  * @return {!string}
  */
 Blockly.JavaScript['mbot_move_backward'] = function(block) {
-  let speed = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
   return 'mBot.movePower(' + (-speed) + ');\n';
 };
 
@@ -80,8 +80,8 @@ Blockly.JavaScript['mbot_move_backward_time'] = function(block) {
  * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_left'] = function(block) {
-  let speed = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
   return 'mBot.rotatePower(' + speed + ');\n';
 };
 
@@ -107,8 +107,8 @@ Blockly.JavaScript['mbot_rotate_left_time'] = function(block) {
  * @return {!string}
  */
 Blockly.JavaScript['mbot_rotate_right'] = function(block) {
-  let speed = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
   return 'mBot.rotatePower(' + (-speed) + ');\n';
 };
 

@@ -39,6 +39,33 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
 
 
 /**
+ * Add ball sprite with bounce.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_pyhsics_ball_sprite_add'] = function(block) {
+  let text_sprite = block.getFieldValue('sprite');
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  let value_x = Blockly.JavaScript.valueToCode(
+    block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let value_y = Blockly.JavaScript.valueToCode(
+    block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let value_speed_x = Blockly.JavaScript.valueToCode(
+    block, 'speed_x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let value_speed_y = Blockly.JavaScript.valueToCode(
+    block, 'speed_y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
+    ', \'' + text_sprite + '\');\n' +
+    'game.physics.arcade.enable(' + variable + ');\n' +
+    variable + '.body.collideWorldBounds = true;\n' +
+    variable + '.body.bounce.set(1);\n' +
+    variable + '.body.velocity.x = ' + value_speed_x + ';\n' +
+    variable + '.body.velocity.y = ' + value_speed_y + ';\n';
+};
+
+
+/**
  * Adjust arcade sprite.
  * @param {Blockly.Block} block
  * @return {!string}

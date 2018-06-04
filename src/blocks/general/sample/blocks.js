@@ -88,6 +88,57 @@ Blockly.Blocks['general_sample_image_ball_red'] = {
 
 
 /**
+ * Sample image: ball_green.png
+ */
+Blockly.Blocks['general_sample_image_ball_green'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/ball_green.png',
+          50, 50, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Sample image: ball_blue.png
+ */
+Blockly.Blocks['general_sample_image_ball_blue'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/ball_blue.png',
+          50, 50, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Sample image: paddle.png
+ */
+Blockly.Blocks['general_sample_image_paddle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage('../images/samples/paddle.png',
+          100, 30, ''));
+    this.setInputsInline(false);
+    this.setOutput(true, 'Image');
+    this.setColour(150);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Sample image: bg/bg_01.png
  */
 Blockly.Blocks['general_sample_image_bg_01'] = {

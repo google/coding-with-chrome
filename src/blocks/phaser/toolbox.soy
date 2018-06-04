@@ -183,6 +183,27 @@
   </block>
 
   <block type="phaser_load_image">
+    <field name="name">ball_green</field>
+      <value name="image">
+        <block type="general_sample_image_ball_green"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
+    <field name="name">ball_blue</field>
+      <value name="image">
+        <block type="general_sample_image_ball_blue"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
+    <field name="name">paddle</field>
+      <value name="image">
+        <block type="general_sample_image_paddle"></block>
+    </value>
+  </block>
+
+  <block type="phaser_load_image">
     <field name="name">bg_01</field>
       <value name="image">
         <block type="general_sample_image_bg_01"></block>
@@ -862,6 +883,26 @@
         <block type="math_number"><field name="NUM">50</field></block>
       </value>
       <value name="y">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_pyhsics_ball_sprite_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+      <value name="speed_x">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+      <value name="speed_y">
         <block type="math_number"><field name="NUM">100</field></block>
       </value>
     </block>

@@ -179,7 +179,6 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
     return;
   }
   this.statusButton.decorate(node)
-    .setBrowserAction(this.openInBrowser.bind(this))
     .setFullscreenAction(() => {
       this.helper.getInstance('layout').setFullscreenPreview(true);
       this.refresh();
@@ -197,6 +196,9 @@ cwc.ui.Preview.prototype.decorateStatusButton = function(node) {
       this.focus();
     })
     .setStopAction(this.stop.bind(this));
+  if (!this.enableMessenger_) {
+    this.statusButton.setBrowserAction(this.openInBrowser.bind(this));
+  }
 };
 
 

@@ -115,7 +115,7 @@ cwc.utils.StreamReader.prototype.readByHeaderAndFooter = function(data) {
     for (let i = 0, len = endPosition.length; i < len; i++) {
       let fragment = dataBuffer.slice(
         i === 0 ? 0 : endPosition[i-1] + 2,
-        endPosition[i] + 2
+        endPosition[i]
       );
 
       if (fragment.length >= this.minSize) {

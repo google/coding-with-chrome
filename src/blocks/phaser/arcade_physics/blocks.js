@@ -49,6 +49,68 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
 
 
 /**
+ * JavaScript to get all sprites in the workspace.
+ * @return {Array}
+ */
+Blockly.JavaScript['phaser_images'] = function() {
+  let spriteList = [];
+  let blocks = Blockly.getMainWorkspace().getAllBlocks();
+  for (let i = 0; i < blocks.length; i++) {
+    if (blocks[i]['type'] === 'phaser_load_image') {
+      let imageName = blocks[i]['inputList'][0]['fieldRow'][2]['text_'];
+      let childInputList = blocks[i]['childBlocks_'][0]['inputList'];
+      let imageSrc = childInputList [0]['fieldRow'][0]['src_'] ||
+        childInputList [1]['fieldRow'][0]['src_'];
+      spriteList.push([
+        imageSrc ? {'src': imageSrc, 'width': 50, 'height': 50} : imageName,
+        imageName,
+      ]);
+    }
+  }
+  console.log(spriteList);
+  return spriteList;
+};
+
+
+/**
+ * Add ball sprite with bounce.
+ */
+Blockly.Blocks['phaser_pyhsics_ball_sprite_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('@@BLOCKS__DEFINE'));
+    this.appendDummyInput()
+        .appendField(i18t('as ball sprite'))
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.JavaScript['phaser_images']), 'sprite')
+        .appendField(Blockly.BlocksTemplate.image())
+        .appendField(i18t('position'));
+    this.appendValueInput('x')
+        .setCheck('Number');
+    this.appendValueInput('y')
+        .appendField('x')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('y')
+        .appendField(i18t('with speed'));
+    this.appendValueInput('speed_x')
+        .setCheck('Number');
+    this.appendValueInput('speed_y')
+        .appendField('x')
+        .setCheck('Number');
+    this.appendDummyInput()
+        .appendField('y');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(5);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Adjust arcade sprite.
  */
 Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {

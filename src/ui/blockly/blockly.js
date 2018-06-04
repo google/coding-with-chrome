@@ -535,6 +535,7 @@ cwc.ui.Blockly.prototype.cleanUp_ = function() {
  * @private
  */
 cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
+  console.log(e);
   switch (e.type) {
     case Blockly.Events.UI:
       this.toolbox.decorateThreeLabels();
