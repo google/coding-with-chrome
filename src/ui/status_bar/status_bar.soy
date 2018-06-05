@@ -1,5 +1,5 @@
 /**
- * @fileoverview Statusbar.
+ * @fileoverview Status Bar for Coding in Chrome editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,14 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.ui.Statusbar autoescape="strict"}
+
+{namespace cwc.soy.StatusBar autoescape="strict"}
 
 
 /**
- * HTML template for the statusbar.
+ * HTML template for the menu bar.
  */
 {template .template}
   {@param prefix: string}
 
-  <div id="{$prefix}status"></div>
+  <div id="{$prefix}body">
+
+  </div>
 {/template}

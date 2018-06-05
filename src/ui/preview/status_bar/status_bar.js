@@ -1,5 +1,5 @@
 /**
- * @fileoverview Statusbar.
+ * @fileoverview Status bar.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Statusbar');
+goog.provide('cwc.ui.PreviewStatusBar');
 
-goog.require('cwc.soy.ui.Statusbar');
+goog.require('cwc.soy.ui.PreviewStatusBar');
 goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Logger');
 
@@ -35,15 +35,15 @@ goog.require('goog.style');
  * @struct
  * @final
  */
-cwc.ui.Statusbar = function(helper) {
+cwc.ui.PreviewStatusBar = function(helper) {
   /** @type {string} */
-  this.name = 'Statusbar';
+  this.name = 'Preview Status Bar';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('statusbar');
+  this.prefix = this.helper.getPrefix('preview-status-bar');
 
   /** @type {Element} */
   this.node = null;
@@ -60,7 +60,7 @@ cwc.ui.Statusbar = function(helper) {
  * Decorates the given node and adds the editor status to the ui.
  * @param {Element=} node The target node to add the status bar.
  */
-cwc.ui.Statusbar.prototype.decorate = function(node) {
+cwc.ui.PreviewStatusBar.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     this.log_.error('Invalid Status node:', this.node);
@@ -69,7 +69,7 @@ cwc.ui.Statusbar.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.Statusbar.template, {
+      cwc.soy.ui.PreviewStatusBar.template, {
         'prefix': this.prefix,
       }
   );
@@ -88,9 +88,10 @@ cwc.ui.Statusbar.prototype.decorate = function(node) {
  * @param {number=} startTime
  * @param {number=} stopTime
  */
-cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
+cwc.ui.PreviewStatusBar.prototype.setStatus = function(status, startTime = 0,
     stopTime = 0) {
-  let statusText = cwc.ui.Statusbar.translateState(status, startTime, stopTime);
+  let statusText = cwc.ui.PreviewStatusBar.translateState(
+    status, startTime, stopTime);
   if (!statusText) return;
   if (this.nodeStatus) {
     this.show();
@@ -104,7 +105,7 @@ cwc.ui.Statusbar.prototype.setStatus = function(status, startTime = 0,
 /**
  * Shows status bar.
  */
-cwc.ui.Statusbar.prototype.hide = function() {
+cwc.ui.PreviewStatusBar.prototype.hide = function() {
   goog.Timer.callOnce(function() {
     goog.style.setElementShown(this.node, false);
   }.bind(this), 2000);
@@ -114,7 +115,7 @@ cwc.ui.Statusbar.prototype.hide = function() {
 /**
  * Hides status bar.
  */
-cwc.ui.Statusbar.prototype.show = function() {
+cwc.ui.PreviewStatusBar.prototype.show = function() {
   goog.style.setElementShown(this.node, true);
 };
 
@@ -125,7 +126,7 @@ cwc.ui.Statusbar.prototype.show = function() {
  * @param {number=} stopTime
  * @return {string}
  */
-cwc.ui.Statusbar.translateState = function(status, startTime = 0,
+cwc.ui.PreviewStatusBar.translateState = function(status, startTime = 0,
     stopTime = 0) {
   switch (status) {
     case cwc.ui.PreviewState.PREPARE:

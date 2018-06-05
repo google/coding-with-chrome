@@ -34,13 +34,13 @@ goog.require('cwc.utils.Events');
  */
 cwc.ui.PreviewStatusButton = function(helper) {
   /** @type {string} */
-  this.name = 'Status Button';
+  this.name = 'Preview Status Button';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('status-button');
+  this.prefix = this.helper.getPrefix('preview-status-button');
 
   /** @type {Element} */
   this.node = null;

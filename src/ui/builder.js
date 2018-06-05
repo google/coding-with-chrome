@@ -52,12 +52,13 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.LoadingScreen');
-goog.require('cwc.ui.Menubar');
+goog.require('cwc.ui.MenuBar');
 goog.require('cwc.ui.Navigation');
 goog.require('cwc.ui.Notification');
 goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Sidebar');
+goog.require('cwc.ui.StatusBar');
 goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
@@ -98,7 +99,7 @@ cwc.ui.BuilderHelpers = {
   'help': cwc.ui.Help,
   'layout': cwc.ui.Layout,
   'library': cwc.ui.Library,
-  'menubar': cwc.ui.Menubar,
+  'menuBar': cwc.ui.MenuBar,
   'mode': cwc.mode.Modder,
   'navigation': cwc.ui.Navigation,
   'notification': cwc.ui.Notification,
@@ -106,6 +107,7 @@ cwc.ui.BuilderHelpers = {
   'selectScreen': cwc.ui.SelectScreen,
   'settingScreen': cwc.ui.SettingScreen,
   'sidebar': cwc.ui.Sidebar,
+  'statusBar': cwc.ui.StatusBar,
   'tour': cwc.ui.Tour,
   'tutorial': cwc.ui.Tutorial,
 };
@@ -374,7 +376,7 @@ cwc.ui.Builder.prototype.prepareAccount = function() {
   if (accountInstance) {
     accountInstance.prepare();
   } else {
-    let menubarInstance = this.helper.getInstance('menubar');
+    let menubarInstance = this.helper.getInstance('menuBar');
     if (menubarInstance) {
       menubarInstance.setAuthenticated(false);
     }

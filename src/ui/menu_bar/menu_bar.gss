@@ -15,32 +15,32 @@
  */
 
 
-#{$prefix}menubar-menu {
+#{$prefix}menu-bar-menu {
   margin: 5px;
   float: left;
 }
 
-#{$prefix}menubar-account-body,
-#{$prefix}menubar-bluetooth-body,
-#{$prefix}menubar-close,
-#{$prefix}menubar-gamepad-body,
-#{$prefix}menubar-help,
-#{$prefix}menubar-maximize-body,
-#{$prefix}menubar-minimize,
-#{$prefix}menubar-settings,
-#{$prefix}menubar-serial-body {
+#{$prefix}menu-bar-account-body,
+#{$prefix}menu-bar-bluetooth-body,
+#{$prefix}menu-bar-close,
+#{$prefix}menu-bar-gamepad-body,
+#{$prefix}menu-bar-help,
+#{$prefix}menu-bar-maximize-body,
+#{$prefix}menu-bar-minimize,
+#{$prefix}menu-bar-settings,
+#{$prefix}menu-bar-serial-body {
   float: right;
   margin: 5px;
   z-index: 1;
 }
 
-#{$prefix}menubar-window-body {
+#{$prefix}menu-bar-window-body {
   float: right;
   padding-left: 5px;
 }
 
-#{$prefix}menubar-account-logout-disabled,
-#{$prefix}menubar-bluetooth-disabled,
-#{$prefix}menubar-gamepad {
+#{$prefix}menu-bar-account-logout-disabled,
+#{$prefix}menu-bar-bluetooth-disabled,
+#{$prefix}menu-bar-gamepad {
   opacity: 0.5;
 }

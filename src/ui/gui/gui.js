@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Gui');
 
 goog.require('cwc.soy.ui.Gui');
 goog.require('cwc.utils.Helper');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -68,6 +69,9 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {Element} */
   this.nodeTitle = null;
+
+  /** @type {!cwc.utils.Logger} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -77,16 +81,16 @@ cwc.ui.Gui = function(helper) {
  */
 cwc.ui.Gui.prototype.decorate = function(node) {
   if (!node) {
-    console.error('Not able to render GUI with node:', node);
+    this.log_.error('Not able to render GUI with node:', node);
     return;
   }
   this.node = node;
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.ui.Gui.guiTemplate, {
-        'prefix': this.prefix,
-      });
+    this.node,
+    cwc.soy.ui.Gui.guiTemplate, {
+      'prefix': this.prefix,
+    });
 
   // Main nodes
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -100,28 +104,35 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.showOverlay(false);
   this.showSettings(false);
 
-  // Decorates menubar
-  let menubarInstance = this.helper.getInstance('menubar');
-  let nodeMenubar = goog.dom.getElement(this.prefix + 'menubar');
-  if (menubarInstance && nodeMenubar) {
-    menubarInstance.decorate(nodeMenubar);
+  // Decorates Menu Bar
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  let nodeMenuBar = goog.dom.getElement(this.prefix + 'menu-bar');
+  if (menuBarInstance && nodeMenuBar) {
+    menuBarInstance.decorate(nodeMenuBar);
   }
 
-  // Decorates notification
+  // Decorates Status Bar
+  let statusBarInstance = this.helper.getInstance('statusBar');
+  let nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
+  if (statusBarInstance && nodeStatusBar) {
+    statusBarInstance.decorate(nodeStatusBar);
+  }
+
+  // Decorates Notification
   let notificationInstance = this.helper.getInstance('notification');
   let nodeNotification = goog.dom.getElement(this.prefix + 'notification');
   if (notificationInstance && nodeNotification) {
     notificationInstance.decorate(nodeNotification);
   }
 
-  // Decorates navigation
+  // Decorates Navigation
   let navigationInstance = this.helper.getInstance('navigation');
   let nodeNavigation = goog.dom.getElement(this.prefix + 'navigation');
   if (navigationInstance && nodeNavigation) {
     navigationInstance.decorate(nodeNavigation);
   }
 
-  // Decorates sidebar
+  // Decorates Sidebar
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance && this.nodeSidebar) {
     sidebarInstance.decorate(this.nodeSidebar);

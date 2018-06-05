@@ -164,7 +164,7 @@ cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
   this.connectionIds[connection_id] = this.devices[device_path];
   this.connectedDevice_ = this.devices[device_path];
 
-  let menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menuBar');
   if (menubarInstance) {
     menubarInstance.setSerialConnected(true);
   }
@@ -182,7 +182,7 @@ cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(
   this.connectionIds[connection_id] = null;
   this.connectedDevice_ = null;
 
-  let menubarInstance = this.helper.getInstance('menubar');
+  let menubarInstance = this.helper.getInstance('menuBar');
   if (menubarInstance) {
     menubarInstance.setSerialConnected(false);
   }

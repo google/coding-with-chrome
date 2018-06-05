@@ -48,7 +48,7 @@ cwc.ui.PreviewStatus = function(helper, eventHandler) {
   /** @type {number} */
   this.stopTime = 0;
 
-  /** @type {cwc.ui.Statusbar} */
+  /** @type {cwc.ui.PreviewStatusBar} */
   this.statusbar = null;
 
   /** @type {cwc.ui.PreviewStatusButton} */
@@ -110,7 +110,7 @@ cwc.ui.PreviewStatus.prototype.getStatus = function(status) {
 
 
 /**
- * @param {!cwc.ui.Statusbar} statusbar
+ * @param {!cwc.ui.PreviewStatusBar} statusbar
  * @return {THIS}
  * @template THIS
  */

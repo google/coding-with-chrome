@@ -171,9 +171,9 @@ cwc.ui.Account.prototype.setUnauthenticated = function() {
  * @param {!boolean} authenticated
  */
 cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
-  let menubarInstance = this.helper.getInstance('menubar');
-  if (menubarInstance) {
-    menubarInstance.setAuthenticated(authenticated);
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setAuthenticated(authenticated);
   }
 
   let navigationInstance = this.helper.getInstance('navigation');

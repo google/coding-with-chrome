@@ -151,8 +151,8 @@ cwc.ui.SelectScreenWelcome.prototype.prepareTour_ = function() {
       'classes': 'shepherd-button-example-primary',
     }],
   });
-  this.tour_.addStep('menubar', {
-    'title': i18t('Menubar'),
+  this.tour_.addStep('menuBar', {
+    'title': i18t('menuBar'),
     'text': i18t('...'),
     'attachTo': '#cwc-gui-bar bottom',
   });

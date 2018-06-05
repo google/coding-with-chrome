@@ -23,7 +23,7 @@ goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewStatus');
 goog.require('cwc.ui.PreviewStatusButton');
-goog.require('cwc.ui.Statusbar');
+goog.require('cwc.ui.PreviewStatusBar');
 goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -77,8 +77,8 @@ cwc.ui.Preview = function(helper) {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {!cwc.ui.Statusbar} */
-  this.statusbar = new cwc.ui.Statusbar(this.helper);
+  /** @type {!cwc.ui.PreviewStatusBar} */
+  this.statusbar = new cwc.ui.PreviewStatusBar(this.helper);
 
   /** @type {!cwc.ui.PreviewStatusButton} */
   this.statusButton = new cwc.ui.PreviewStatusButton(this.helper);

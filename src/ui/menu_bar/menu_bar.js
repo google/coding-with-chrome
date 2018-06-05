@@ -1,5 +1,5 @@
 /**
- * @fileoverview Menubar for the Coding with Chrome editor.
+ * @fileoverview Menu Bar for the Coding with Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Menubar');
+goog.provide('cwc.ui.MenuBar');
 
 goog.require('cwc.protocol.bluetooth.classic.Events');
-goog.require('cwc.soy.Menubar');
+goog.require('cwc.soy.MenuBar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
@@ -36,15 +36,15 @@ goog.require('goog.soy');
  * @struct
  * @final
  */
-cwc.ui.Menubar = function(helper) {
+cwc.ui.MenuBar = function(helper) {
   /** @type {string} */
-  this.name = 'Menubar';
+  this.name = 'Menu Bar';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('menubar');
+  this.prefix = this.helper.getPrefix('menu-bar');
 
   /** @type {Element} */
   this.node = null;
@@ -118,16 +118,18 @@ cwc.ui.Menubar = function(helper) {
  * Decorates the given node and adds the menu bar.
  * @param {Element} node The target node to add the menu bar.
  */
-cwc.ui.Menubar.prototype.decorate = function(node) {
-  let dialogInstance = this.helper.getInstance('dialog');
+cwc.ui.MenuBar.prototype.decorate = function(node) {
+  this.log_.info('Derocate into', node);
   this.node = node;
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.Menubar.menubarTemplate, {
-        'prefix': this.prefix,
-      }
+    this.node,
+    cwc.soy.MenuBar.template, {
+      'prefix': this.prefix,
+    }
   );
+
+  let dialogInstance = this.helper.getInstance('dialog');
 
   // Account body
   goog.style.setElementShown(goog.dom.getElement(this.prefix + 'account-body'),
@@ -270,7 +272,7 @@ cwc.ui.Menubar.prototype.decorate = function(node) {
  * Sets authentication for the current view.
  * @param {boolean} auth Determinate if user is authenticated.
  */
-cwc.ui.Menubar.prototype.setAuthenticated = function(auth) {
+cwc.ui.MenuBar.prototype.setAuthenticated = function(auth) {
   goog.style.setElementShown(this.nodeAccountLogin, !auth);
   goog.style.setElementShown(this.nodeAccountLogout, auth);
 };
@@ -279,7 +281,7 @@ cwc.ui.Menubar.prototype.setAuthenticated = function(auth) {
 /**
  * Logs in into Google Account for gDrive integration.
  */
-cwc.ui.Menubar.prototype.loginAccount = function() {
+cwc.ui.MenuBar.prototype.loginAccount = function() {
   let accountInstance = this.helper.getInstance('account', true);
   accountInstance.authenticate();
 };
@@ -288,7 +290,7 @@ cwc.ui.Menubar.prototype.loginAccount = function() {
 /**
  * Logs out of current Google Account.
  */
-cwc.ui.Menubar.prototype.logoutAccount = function() {
+cwc.ui.MenuBar.prototype.logoutAccount = function() {
   let accountInstance = this.helper.getInstance('account', true);
   accountInstance.deauthenticate();
 };
@@ -297,7 +299,7 @@ cwc.ui.Menubar.prototype.logoutAccount = function() {
 /**
  * Shows new file dialog.
  */
-cwc.ui.Menubar.prototype.requestShowSelectScreen = function() {
+cwc.ui.MenuBar.prototype.requestShowSelectScreen = function() {
   let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.requestShowSelectScreen();
@@ -308,7 +310,7 @@ cwc.ui.Menubar.prototype.requestShowSelectScreen = function() {
 /**
  * Request to close the editor window.
  */
-cwc.ui.Menubar.prototype.requestCloseWindow = function() {
+cwc.ui.MenuBar.prototype.requestCloseWindow = function() {
   this.helper.handleUnsavedChanges(this.closeWindow.bind(this));
 };
 
@@ -316,7 +318,7 @@ cwc.ui.Menubar.prototype.requestCloseWindow = function() {
 /**
  * Close editor window.
  */
-cwc.ui.Menubar.prototype.closeWindow = function() {
+cwc.ui.MenuBar.prototype.closeWindow = function() {
   this.log_.info('Close Coding with Chrome editor ...');
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
@@ -337,7 +339,7 @@ cwc.ui.Menubar.prototype.closeWindow = function() {
 /**
  * Minimize editor window.
  */
-cwc.ui.Menubar.prototype.minimizeWindow = function() {
+cwc.ui.MenuBar.prototype.minimizeWindow = function() {
   this.currentWindow['minimize']();
   let editorWindow = chrome.app.window.get('editor');
   if (editorWindow) {
@@ -349,7 +351,7 @@ cwc.ui.Menubar.prototype.minimizeWindow = function() {
 /**
  * Maximize editor window.
  */
-cwc.ui.Menubar.prototype.maximizeWindow = function() {
+cwc.ui.MenuBar.prototype.maximizeWindow = function() {
   this.currentWindow['maximize']();
   goog.style.setElementShown(this.nodeMaximizeButton, false);
   goog.style.setElementShown(this.nodeRestoreButton, true);
@@ -359,7 +361,7 @@ cwc.ui.Menubar.prototype.maximizeWindow = function() {
 /**
  * Restore editor window.
  */
-cwc.ui.Menubar.prototype.restoreWindow = function() {
+cwc.ui.MenuBar.prototype.restoreWindow = function() {
   this.currentWindow['restore']();
   goog.style.setElementShown(this.nodeMaximizeButton, true);
   goog.style.setElementShown(this.nodeRestoreButton, false);
@@ -370,7 +372,7 @@ cwc.ui.Menubar.prototype.restoreWindow = function() {
  * @param {Event=} opt_event
  * @private
  */
-cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
+cwc.ui.MenuBar.prototype.checkBluetoothState_ = function(opt_event) {
   this.helper.showInfo('Checking bluetooth state ...');
   let bluetoothInstance = this.helper.getInstance('bluetooth');
   if (bluetoothInstance) {
@@ -382,7 +384,7 @@ cwc.ui.Menubar.prototype.checkBluetoothState_ = function(opt_event) {
 /**
  * @param {boolean} enabled
  */
-cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
+cwc.ui.MenuBar.prototype.setSerialEnabled = function(enabled) {
   if (this.helper.checkChromeFeature('serial')) {
     if (this.serial != enabled) {
       this.log_.info('Set Serial to', enabled ? 'enabled' : 'disabled');
@@ -398,7 +400,7 @@ cwc.ui.Menubar.prototype.setSerialEnabled = function(enabled) {
 /**
  * @param {boolean} connected
  */
-cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
+cwc.ui.MenuBar.prototype.setSerialConnected = function(connected) {
   if (this.helper.checkChromeFeature('serial') && this.serial) {
     if (this.serialConnectStatus != connected) {
       this.log_.info('Set Serial status to',
@@ -417,7 +419,7 @@ cwc.ui.Menubar.prototype.setSerialConnected = function(connected) {
 /**
  * @param {boolean} connected
  */
-cwc.ui.Menubar.prototype.setGamepad = function(connected) {
+cwc.ui.MenuBar.prototype.setGamepad = function(connected) {
   goog.style.setElementShown(this.nodeGamepad, !connected);
   goog.style.setElementShown(this.nodeGamepadConnected, connected);
 };
@@ -427,7 +429,7 @@ cwc.ui.Menubar.prototype.setGamepad = function(connected) {
  * @param {?} e
  * @private
  */
-cwc.ui.Menubar.prototype.handleBluetoothAdapterChange_ = function(e) {
+cwc.ui.MenuBar.prototype.handleBluetoothAdapterChange_ = function(e) {
   if (this.bluetooth === e.data.enabled) {
     return;
   }
@@ -442,7 +444,7 @@ cwc.ui.Menubar.prototype.handleBluetoothAdapterChange_ = function(e) {
  * @param {?} e
  * @private
  */
-cwc.ui.Menubar.prototype.handleBluetoothDeviceChange_ = function(e) {
+cwc.ui.MenuBar.prototype.handleBluetoothDeviceChange_ = function(e) {
   if (this.bluetoothConnectStatus === e.data.connected) {
     return;
   }
@@ -457,6 +459,6 @@ cwc.ui.Menubar.prototype.handleBluetoothDeviceChange_ = function(e) {
  * Cleans up the event listener and any other modification.
  * @private
  */
-cwc.ui.Menubar.prototype.cleanUp_ = function() {
+cwc.ui.MenuBar.prototype.cleanUp_ = function() {
   this.events_.clear();
 };

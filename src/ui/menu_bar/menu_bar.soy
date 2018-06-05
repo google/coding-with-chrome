@@ -1,5 +1,5 @@
 /**
- * @fileoverview Menubar for Coding in Chrome editor.
+ * @fileoverview Menu Bar for Coding in Chrome editor.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -18,35 +18,34 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-{namespace cwc.soy.Menubar autoescape="strict"}
+{namespace cwc.soy.MenuBar autoescape="strict"}
 
 
 /**
- * HTML template for the file library.
+ * HTML template for the menu bar.
  */
-{template .menubarTemplate}
+{template .template}
   {@param prefix: string}
 
   <div id="{$prefix}window-body">
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'close' /}
       {param icon: 'close' /}
       {param title: 'close' /}
     {/call}
-
     <div id="{$prefix}maximize-body">
-      {call .menubarButton_ data="all"}
+      {call .button_ data="all"}
         {param id: 'maximize' /}
         {param icon: 'fullscreen' /}
         {param title: 'maximize' /}
       {/call}
-      {call .menubarButton_ data="all"}
+      {call .button_ data="all"}
         {param id: 'restore' /}
         {param icon: 'fullscreen_exit' /}
         {param title: 'restore' /}
       {/call}
     </div>
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'minimize' /}
       {param icon: 'photo_size_select_small' /}
       {param title: 'minimize' /}
@@ -54,12 +53,12 @@
   </div>
 
   <div id="{$prefix}account-body">
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'account' /}
       {param icon: 'perm_identity' /}
       {param title: 'Login' /}
     {/call}
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'account-logout' /}
       {param icon: 'person' /}
       {param title: 'Logout' /}
@@ -67,17 +66,17 @@
   </div>
 
   <div id="{$prefix}bluetooth-body">
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'bluetooth' /}
       {param icon: 'bluetooth' /}
       {param title: 'Connect Bluetooth device...' /}
     {/call}
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'bluetooth-connected' /}
       {param icon: 'bluetooth_connected' /}
       {param title: 'Disconnect Bluetooth device...' /}
     {/call}
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'bluetooth-disabled' /}
       {param icon: 'bluetooth_disabled' /}
       {param title: 'Bluetooth is disabled!' /}
@@ -85,7 +84,7 @@
   </div>
 
   <div id="{$prefix}serial-body">
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'serial' /}
       {param icon: 'usb' /}
       {param title: 'Connect serial device...' /}
@@ -102,12 +101,12 @@
   </div>
 
   <div id="{$prefix}gamepad-body">
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'gamepad' /}
       {param icon: 'videogame_asset' /}
       {param title: 'Enable Gamepad support' /}
     {/call}
-    {call .menubarButton_ data="all"}
+    {call .button_ data="all"}
       {param id: 'gamepad-connected' /}
       {param icon: 'videogame_asset' /}
       {param title: 'Gamepad' /}
@@ -119,7 +118,7 @@
 /**
  * Menubar button.
  */
-{template .menubarButton_}
+{template .button_ private="true"}
   {@param id: string}
   {@param icon: string}
   {@param title: string}

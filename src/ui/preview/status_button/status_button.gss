@@ -15,14 +15,14 @@
  */
 
 
-#{$prefix}status-button-body {
+#{$prefix}preview-status-button-body {
   position: absolute;
   right: 20px;
   bottom: 20px;
   z-index: 100;
 }
 
-#{$prefix}status-button-body .mdl-button--fab {
+#{$prefix}preview-status-button-body .mdl-button--fab {
   background: rgba(255,64,129,0.9);
   box-shadow: 
     0 3px 5px -1px rgba(0, 0, 0, 0.2),
@@ -30,37 +30,37 @@
     0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 
-#{$prefix}status-button-body .mdl-button--fab:hover {
+#{$prefix}preview-status-button-body .mdl-button--fab:hover {
   background: rgb(255,64,129);
 }
 
-#{$prefix}status-button-body .material-icons {
+#{$prefix}preview-status-button-body .material-icons {
   color: #fff;
 }
 
-#{$prefix}status-button-body .mdl-button--mini-fab {
+#{$prefix}preview-status-button-body .mdl-button--mini-fab {
   background: rgba(158,158,158,0.4);
   margin: 8px;
 }
 
-#{$prefix}status-button-body .mdl-button--mini-fab:hover {
+#{$prefix}preview-status-button-body .mdl-button--mini-fab:hover {
   background: rgba(158,158,158,0.6);
 }
 
-#{$prefix}status-button-body .mdl-button--mini-fab .material-icons {
+#{$prefix}preview-status-button-body .mdl-button--mini-fab .material-icons {
   color: #000;
 }
 
-#{$prefix}status-button-body .mdl-button--mini-fab:disabled {
+#{$prefix}preview-status-button-body .mdl-button--mini-fab:disabled {
   cursor: default;
   background: rgba(158,158,158,0.2);
 }
 
-#{$prefix}status-button-body .mdl-button--mini-fab:disabled .material-icons {
+#{$prefix}preview-status-button-body .mdl-button--mini-fab:disabled .material-icons {
   color: rgba(0,0,0,.26)!important;
 }
 
-#{$prefix}status-button-run,
-#{$prefix}status-button-stop {
+#{$prefix}preview-status-button-run,
+#{$prefix}preview-status-button-stop {
   margin-top: 5px;
 }
