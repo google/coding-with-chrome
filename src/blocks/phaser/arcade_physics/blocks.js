@@ -28,7 +28,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as physics sprite'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('physics sprite'))
         .appendField(new Blockly.FieldDropdown(
           Blockly.BlocksHelper['phaser_image']('player')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
@@ -58,7 +59,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_ball_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as ball'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('ball'))
         .appendField(new Blockly.FieldDropdown(
           Blockly.BlocksHelper['phaser_image']('ball')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
@@ -69,15 +71,9 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_ball_add'] = {
         .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
-        .appendField('y')
-        .appendField(i18t('with velocity'));
-    this.appendValueInput('velocity_x')
-        .setCheck('Number');
-    this.appendValueInput('velocity_y')
-        .appendField('x')
-        .setCheck('Number');
-    this.appendDummyInput()
         .appendField('y');
+    this.appendStatementInput('CODE')
+        .setCheck('PhysicsArcadeAttribute');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(5);
@@ -96,7 +92,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_player_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as player'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('player'))
         .appendField(new Blockly.FieldDropdown(
           Blockly.BlocksHelper['phaser_image']('player')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
@@ -107,13 +104,9 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_player_add'] = {
         .appendField('x')
         .setCheck('Number');
     this.appendDummyInput()
-        .appendField('y')
-        .appendField(i18t('with dimension'));
-    this.appendValueInput('width')
-        .setCheck('Number');
-    this.appendValueInput('height')
-        .appendField('x')
-        .setCheck('Number');
+        .appendField('y');
+    this.appendStatementInput('CODE')
+        .setCheck('PhysicsArcadeAttribute');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(5);
@@ -132,7 +125,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_paddle_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as player'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('paddle'))
         .appendField(new Blockly.FieldDropdown(
           Blockly.BlocksHelper['phaser_image']('paddle')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
@@ -144,6 +138,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_paddle_add'] = {
         .setCheck('Number');
     this.appendDummyInput()
         .appendField('y');
+    this.appendStatementInput('CODE')
+        .setCheck('PhysicsArcadeAttribute');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(5);
@@ -160,7 +156,8 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
-        .appendField(i18t('set physics sprite'));
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(i18t('physics sprite'));
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
           [i18t('acceleration'), 'acceleration.set'],
@@ -193,13 +190,52 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
 
 
 /**
+ * Adjust arcade sprite.
+ */
+Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_custom'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'acceleration.set'],
+          [i18t('angle'), 'angle'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('allow gravity'), 'allowGravity'],
+          [i18t('checkCollision down'), 'checkCollision.down'],
+          [i18t('checkCollision up'), 'checkCollision.up'],
+          [i18t('collide world bounds'), 'collideWorldBounds'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('immovable'), 'immovable'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('to'));
+    this.setPreviousStatement(true, ['PhysicsArcadeAttribute']);
+    this.setNextStatement(true, ['PhysicsArcadeAttribute']);
+    this.setInputsInline(true);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Adjust arcade sprite dimension.
  */
 Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
-        .appendField(i18t('set physics sprite'));
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(i18t('physics sprite'));
     this.appendDummyInput()
         .appendField(i18t('dimension to'));
     this.appendValueInput('width')

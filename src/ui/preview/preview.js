@@ -111,6 +111,9 @@ cwc.ui.Preview = function(helper) {
   this.runThrottle_ = new goog.async.Throttle(
     this.run_.bind(this), this.runThrottleTime_);
 
+  /** @private {Object} */
+  this.refreshThrottle_ = null;
+
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
@@ -162,10 +165,10 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   if (!this.enableMessenger_) {
     let viewportMonitor = new goog.dom.ViewportSizeMonitor();
     this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.refresh, false, this);
+      this.handleRefresh_, false, this);
     if (layoutInstance) {
       this.events_.listen(layoutInstance.getEventHandler(),
-        goog.events.EventType.DRAGEND, this.refresh, false, this);
+        goog.events.EventType.DRAGEND, this.handleRefresh_, false, this);
     }
   }
 };
@@ -487,4 +490,20 @@ cwc.ui.Preview.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.events_.clear();
   this.messenger_.cleanUp();
+};
+
+
+/**
+ * Performs an refresh, if needed.
+ * @private
+ */
+cwc.ui.Preview.prototype.handleRefresh_ = function() {
+  if (this.enableMessenger_) {
+    return;
+  }
+  if (this.refreshThrottle_ !== null) {
+    clearTimeout(this.refreshThrottle_);
+    this.refreshThrottle_ = null;
+  }
+  this.refreshThrottle_ = setTimeout(this.refresh.bind(this), 100);
 };

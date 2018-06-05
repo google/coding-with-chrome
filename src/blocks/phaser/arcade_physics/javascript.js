@@ -32,17 +32,12 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_ball_add'] = function(block) {
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  let value_velocity_x = Blockly.JavaScript.valueToCode(
-    block, 'velocity_x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  let value_velocity_y = Blockly.JavaScript.valueToCode(
-    block, 'velocity_y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
     ', \'' + text_sprite + '\');\n' +
     'game.physics.arcade.enable(' + variable + ');\n' +
-    variable + '.body.bounce.set(1);\n' +
-    variable + '.body.collideWorldBounds = true;\n' +
-    variable + '.body.velocity.x = ' + value_velocity_x + ';\n' +
-    variable + '.body.velocity.y = ' + value_velocity_y + ';\n';
+    '(function(arcadeSpriteCustom) {\n' + statements_code + '}(' +
+    variable + '));\n';
 };
 
 
@@ -60,15 +55,12 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_player_add'] = function(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  let value_width = Blockly.JavaScript.valueToCode(
-    block, 'width', Blockly.JavaScript.ORDER_ATOMIC) || 50;
-  let value_height = Blockly.JavaScript.valueToCode(
-    block, 'height', Blockly.JavaScript.ORDER_ATOMIC) || 50;
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
     ', \'' + text_sprite + '\');\n' +
     'game.physics.arcade.enable(' + variable + ');\n' +
-    variable + '.width = ' + value_width + ';\n' +
-    variable + '.height = ' + value_height + ';\n';
+    '(function(arcadeSpriteCustom) {\n' + statements_code + '}(' +
+    variable + '));\n';
 };
 
 
@@ -86,18 +78,12 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_paddle_add'] = function(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  let value_width = Blockly.JavaScript.valueToCode(
-    block, 'width', Blockly.JavaScript.ORDER_ATOMIC) || 0;
-  let value_height = Blockly.JavaScript.valueToCode(
-    block, 'height', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return variable + ' = game.add.sprite(' + value_x + ', ' + value_y +
     ', \'' + text_sprite + '\');\n' +
     'game.physics.arcade.enable(' + variable + ');\n' +
-    variable + '.body.bounce.set(1);\n' +
-    variable + '.body.collideWorldBounds = true;\n' +
-    variable + '.body.immovable = true;\n' +
-    (value_width ? variable + '.width = ' + value_width + ';\n' : '') +
-    (value_height ? variable + '.height = ' + value_height + ';\n' : '');
+    '(function(arcadeSpriteCustom) {\n' + statements_code + '}(' +
+    variable + '));\n';
 };
 
 
@@ -144,7 +130,48 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
     case 'collideWorldBounds':
     case 'immovable':
       return variable + '.body.' + dropdown_property + ' = ' +
-        ((value_value) ? true : false) + ';\n';
+        ((value_value && value_value !== '0') ? true : false) + ';\n';
+    case 'moveUp':
+      return variable + '.y -= ' + value_value + ';\n';
+    case 'moveDown':
+      return variable + '.y += ' + value_value + ';\n';
+    case 'moveLeft':
+      return variable + '.x -= ' + value_value + ';\n';
+    case 'moveRight':
+      return variable + '.x += ' + value_value + ';\n';
+    default:
+      return variable + '.body.' + dropdown_property +
+       ' = ' + value_value + ';\n';
+  }
+};
+
+
+/**
+ * Adjust arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_custom'] = function(
+    block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC) || 'arcadeSpriteCustom';
+  let dropdown_property = block.getFieldValue('property');
+  let value_value = Blockly.JavaScript.valueToCode(block,
+    'value', Blockly.JavaScript.ORDER_ATOMIC);
+  switch (dropdown_property) {
+    case 'angle':
+      return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
+    case 'acceleration.set':
+    case 'bounce.set':
+      return variable + '.body.' + dropdown_property +
+        '(' + value_value + ');\n';
+    case 'allowGravity':
+    case 'checkCollision.down':
+    case 'checkCollision.up':
+    case 'collideWorldBounds':
+    case 'immovable':
+      return variable + '.body.' + dropdown_property + ' = ' +
+        ((value_value && value_value !== '0') ? true : false) + ';\n';
     case 'moveUp':
       return variable + '.y -= ' + value_value + ';\n';
     case 'moveDown':

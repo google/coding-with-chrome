@@ -21,7 +21,6 @@
 {namespace cwc.soy.phaser.Blocks autoescape="strict"}
 
 
-
 /**
  * Blockly blocks.
  */
@@ -873,63 +872,12 @@
   {@param? opt_show_create_blocks: bool}
 
   {if $opt_show_create_blocks}
-    <block type="phaser_pyhsics_arcade_sprite_ball_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">ball</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">100</field></block>
-      </value>
-      <value name="velocity_x">
-        <block type="math_number"><field name="NUM">100</field></block>
-      </value>
-      <value name="velocity_y">
-        <block type="math_number"><field name="NUM">100</field></block>
-      </value>
-    </block>
 
-    <block type="phaser_pyhsics_arcade_sprite_player_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">player</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">200</field></block>
-      </value>
-      <value name="width">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-      <value name="height">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-    </block>
+    {call cwc.soy.phaser.ArcadePhysicsBlocks.toolbox /}
 
-    <block type="phaser_pyhsics_arcade_sprite_paddle_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">paddle</field>
-        </block>
-      </value>
-      <value name="x">
-        <block type="math_number"><field name="NUM">50</field></block>
-      </value>
-      <value name="y">
-        <block type="math_number"><field name="NUM">400</field></block>
-      </value>
-      <value name="width">
-        <block type="math_number"><field name="NUM">0</field></block>
-      </value>
-      <value name="height">
-        <block type="math_number"><field name="NUM">0</field></block>
+    <block type="phaser_pyhsics_arcade_sprite_adjust_custom">
+      <value name="value">
+        <block type="math_number"></block>
       </value>
     </block>
 
