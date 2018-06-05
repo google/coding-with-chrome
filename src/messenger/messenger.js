@@ -200,7 +200,7 @@ cwc.Messenger.prototype.setTarget = function(target) {
 
 
 /**
- * Sets the runner scope.
+ * Sets the listener scope.
  * @param {!Function} scope
  * @return {THIS}
  * @template THIS

@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.PreviewEvents');
 
-goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.EventData');
 
 
@@ -46,7 +46,7 @@ cwc.ui.PreviewEvents.contentLoad = function(preview) {
 
 
 /**
- * @param {!cwc.ui.StatusbarState} status
+ * @param {!cwc.ui.PreviewState} status
  * @return {!cwc.utils.EventData}
  * @final
  */

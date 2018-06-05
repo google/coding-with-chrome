@@ -1,5 +1,5 @@
 /**
- * @fileoverview Python 3.x framework for the runner instance.
+ * @fileoverview Python 3.x framework for the messenger instance.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *

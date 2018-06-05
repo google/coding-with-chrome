@@ -117,10 +117,6 @@ cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.sphero.classic.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
   this.api_.exec('stop');
 };
 
@@ -184,7 +180,7 @@ cwc.mode.sphero.classic.Connection.prototype.handleConnecting_ = function(e) {
  */
 cwc.mode.sphero.classic.Connection.prototype.handlePreviewStatus_ = function(
     e) {
-  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+  if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();
   }
 };

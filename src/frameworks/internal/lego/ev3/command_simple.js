@@ -1,7 +1,7 @@
 /**
- * @fileoverview EV3 framework for the runner instance.
- * This EV3 framework will be used by the runner instance, inside the webview
- * sandbox, to access the EV3 over the runner instance and the Bluetooth
+ * @fileoverview EV3 framework for the messenger instance.
+ * This EV3 framework will be used by the messenger instance, inside the webview
+ * sandbox, to access the EV3 over the messenger instance and the Bluetooth
  * interface.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.

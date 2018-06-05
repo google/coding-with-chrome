@@ -1,5 +1,5 @@
 /**
- * @fileoverview Turtle framework for the runner instance.
+ * @fileoverview Turtle framework for the messenger instance.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

@@ -171,26 +171,6 @@ cwc.protocol.sphero.classic.Api.prototype.exec = function(command, data = {}) {
 
 
 /**
- * Executer for the runner profiles with parameters in revert order.
- * @param {!Object} data
- * @param {!string} command
- * @export
- */
-cwc.protocol.sphero.classic.Api.prototype.execRunnerProfile = function(data,
-    command) {
-  this.send_(this.handler[command](data));
-};
-
-
-/**
- * @return {!cwc.protocol.sphero.classic.Handler}
- */
-cwc.protocol.sphero.classic.Api.prototype.getRunnerProfile = function() {
-  return this.handler;
-};
-
-
-/**
  * @param {!boolean} enable
  * @export
  */

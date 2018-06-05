@@ -109,10 +109,6 @@ cwc.mode.sphero.bb8.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.sphero.bb8.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
   this.api_.stop();
 };
 

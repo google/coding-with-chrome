@@ -110,10 +110,11 @@ cwc.ui.Blockly = function(helper) {
     },
     'zoom': {
       'controls': true,
+      'wheel': true,
       'startScale': 1.0,
       'maxScale': 3,
-      'minScale': 0.3,
-      'scaleSpeed': 1.2,
+      'minScale': 0.5,
+      'scaleSpeed': 1.1,
     },
   };
 
@@ -535,7 +536,6 @@ cwc.ui.Blockly.prototype.cleanUp_ = function() {
  * @private
  */
 cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
-  console.log(e);
   switch (e.type) {
     case Blockly.Events.UI:
       this.toolbox.decorateThreeLabels();

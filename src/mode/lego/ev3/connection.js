@@ -20,7 +20,7 @@
 goog.provide('cwc.mode.lego.ev3.Connection');
 
 goog.require('cwc.protocol.lego.ev3.Api');
-goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -199,7 +199,7 @@ cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {
  * @private
  */
 cwc.mode.lego.ev3.Connection.prototype.handlePreviewStatus_ = function(e) {
-  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+  if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();
   }
 };

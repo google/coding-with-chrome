@@ -177,26 +177,6 @@ cwc.protocol.makeblock.mbot.Api.prototype.getEventHandler = function() {
 
 
 /**
- * Executer for the runner profiles with parameters in revert order.
- * @param {!Object} data
- * @param {!string} command
- * @export
- */
-cwc.protocol.makeblock.mbot.Api.prototype.execRunnerProfile = function(
-    data, command) {
-  this.send(this.handler[command](data));
-};
-
-
-/**
- * @return {!cwc.protocol.sphero.classic.Handler}
- */
-cwc.protocol.makeblock.mbot.Api.prototype.getRunnerProfile = function() {
-  return this.handler;
-};
-
-
-/**
  * Basic cleanup for the mBot unit.
  */
 cwc.protocol.makeblock.mbot.Api.prototype.cleanUp = function() {

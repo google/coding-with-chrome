@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 framework for the runner instance.
+ * @fileoverview EV3 framework for the messenger instance.
  * This EV3 framework will be used inside the webview / iframe sandbox,
  * to access the EV3 over the Bluetooth instance.
  * interface.

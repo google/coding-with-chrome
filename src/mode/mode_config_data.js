@@ -22,7 +22,6 @@ goog.provide('cwc.mode.Mod');
 
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Type');
-goog.require('cwc.mode.arduino.Mod');
 goog.require('cwc.mode.basic.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
 goog.require('cwc.mode.lego.ev3.Mod');
@@ -34,7 +33,7 @@ goog.require('cwc.mode.makeblock.mbotRanger.Mod');
 goog.require('cwc.mode.pencilCode.Mod');
 goog.require('cwc.mode.phaser.Mod');
 goog.require('cwc.mode.python.Mod');
-goog.require('cwc.mode.raspberryPi.advanced.Mod');
+// goog.require('cwc.mode.raspberryPi.advanced.Mod');
 goog.require('cwc.mode.sphero.classic.Mod');
 goog.require('cwc.mode.sphero.bb8.blockly.Mod');
 goog.require('cwc.mode.sphero.ollie.blockly.Mod');
@@ -96,19 +95,6 @@ cwc.mode.Mod.prototype.getMod = function(helper) {
  * enum {Object}
  */
 cwc.mode.ConfigData = {};
-
-
-/**
- * Arduino mode.
- */
-cwc.mode.ConfigData[cwc.mode.Type.ARDUINO] = new cwc.mode.Mod({
-  authors: ['Markus Bordihn'],
-  mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.arduino.Mod,
-  name: 'Arduino',
-  template: '',
-});
-
 
 /**
  * Basic mode.
@@ -322,14 +308,16 @@ cwc.mode.ConfigData[cwc.mode.Type.PYTHON27] = new cwc.mode.Mod({
 /**
  * Raspberry Pi mode.
  */
-cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
-  authors: ['Markus Bordihn'],
-  icon: 'mode_edit',
-  mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.raspberryPi.advanced.Mod,
-  name: 'Raspberry Pi',
-  template: 'raspberry_pi/blank.cwc',
-});
+// Disabled because needs re-implementation and used less than 0.1%.
+//
+// cwc.mode.ConfigData[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
+//  authors: ['Markus Bordihn'],
+//  icon: 'mode_edit',
+//  mime_types: [cwc.utils.mime.Type.CWC.type],
+//  mod: cwc.mode.raspberryPi.advanced.Mod,
+//  name: 'Raspberry Pi',
+//  template: 'raspberry_pi/blank.cwc',
+// });
 
 
 /**

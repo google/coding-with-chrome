@@ -101,10 +101,6 @@ cwc.mode.sphero.ollie.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.sphero.ollie.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
   this.api_.stop();
 };
 

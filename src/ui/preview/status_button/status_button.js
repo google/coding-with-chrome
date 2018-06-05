@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.StatusButton');
+goog.provide('cwc.ui.PreviewStatusButton');
 
-goog.require('cwc.soy.ui.StatusButton');
-goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.soy.ui.PreviewStatusButton');
+goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Events');
 
@@ -32,7 +32,7 @@ goog.require('cwc.utils.Events');
  * @struct
  * @final
  */
-cwc.ui.StatusButton = function(helper) {
+cwc.ui.PreviewStatusButton = function(helper) {
   /** @type {string} */
   this.name = 'Status Button';
 
@@ -83,7 +83,7 @@ cwc.ui.StatusButton = function(helper) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.decorate = function(node) {
+cwc.ui.PreviewStatusButton.prototype.decorate = function(node) {
   this.node = node;
   if (!this.node) {
     this.log_.error('Invalid Status node:', this.node);
@@ -92,7 +92,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
       this.node,
-      cwc.soy.ui.StatusButton.template, {
+      cwc.soy.ui.PreviewStatusButton.template, {
         'prefix': this.prefix,
       }
   );
@@ -128,7 +128,7 @@ cwc.ui.StatusButton.prototype.decorate = function(node) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setBrowserAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setBrowserAction = function(func) {
   goog.style.setElementShown(this.nodeBrowser, true);
   this.events_.listen('browser-action', goog.events.EventType.CLICK, func);
   return this;
@@ -140,7 +140,7 @@ cwc.ui.StatusButton.prototype.setBrowserAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setFullscreenAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setFullscreenAction = function(func) {
   goog.style.setElementShown(this.nodeFullscreen, true);
   this.events_.listen('fullscreen-action', goog.events.EventType.CLICK, func);
   this.events_.listen('fullscreen-action', goog.events.EventType.CLICK, () => {
@@ -156,7 +156,7 @@ cwc.ui.StatusButton.prototype.setFullscreenAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setFullscreenExitAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setFullscreenExitAction = function(func) {
   this.events_.listen('fullscreen_exit-action', goog.events.EventType.CLICK,
     func);
   this.events_.listen('fullscreen_exit-action', goog.events.EventType.CLICK,
@@ -173,7 +173,7 @@ cwc.ui.StatusButton.prototype.setFullscreenExitAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setReloadAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setReloadAction = function(func) {
   goog.style.setElementShown(this.nodeReload, true);
   this.events_.listen('reload-action', goog.events.EventType.CLICK, func);
   return this;
@@ -185,7 +185,7 @@ cwc.ui.StatusButton.prototype.setReloadAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setTerminateAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setTerminateAction = function(func) {
   goog.style.setElementShown(this.nodeTerminate, true);
   this.events_.listen('terminate-action', goog.events.EventType.CLICK, func);
   return this;
@@ -197,7 +197,7 @@ cwc.ui.StatusButton.prototype.setTerminateAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setRunAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setRunAction = function(func) {
   this.events_.listen('run-button', goog.events.EventType.CLICK, func);
   return this;
 };
@@ -208,7 +208,7 @@ cwc.ui.StatusButton.prototype.setRunAction = function(func) {
  * @return {THIS}
  * @template THIS
  */
-cwc.ui.StatusButton.prototype.setStopAction = function(func) {
+cwc.ui.PreviewStatusButton.prototype.setStopAction = function(func) {
   this.events_.listen('stop-button', goog.events.EventType.CLICK, func);
   return this;
 };
@@ -216,47 +216,47 @@ cwc.ui.StatusButton.prototype.setStopAction = function(func) {
 
 /**
  * Sets the status message.
- * @param {!cwc.ui.StatusbarState} status
+ * @param {!cwc.ui.PreviewState} status
  */
-cwc.ui.StatusButton.prototype.setStatus = function(status) {
+cwc.ui.PreviewStatusButton.prototype.setStatus = function(status) {
   // Terminate button
   switch (status) {
-    case cwc.ui.StatusbarState.TERMINATED:
+    case cwc.ui.PreviewState.TERMINATED:
       this.enableButton('terminate-action', false);
       break;
-    case cwc.ui.StatusbarState.LOADED:
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
-    case cwc.ui.StatusbarState.REFRESHING:
-    case cwc.ui.StatusbarState.STOPPED:
+    case cwc.ui.PreviewState.LOADED:
+    case cwc.ui.PreviewState.LOADING:
+    case cwc.ui.PreviewState.PREPARE:
+    case cwc.ui.PreviewState.REFRESHING:
+    case cwc.ui.PreviewState.STOPPED:
       this.enableButton('terminate-action', true);
       break;
   }
 
   // Reload button
   switch (status) {
-    case cwc.ui.StatusbarState.LOADED:
-    case cwc.ui.StatusbarState.STOPPED:
+    case cwc.ui.PreviewState.LOADED:
+    case cwc.ui.PreviewState.STOPPED:
       this.enableButton('reload-action', true);
       break;
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
-    case cwc.ui.StatusbarState.REFRESHING:
-    case cwc.ui.StatusbarState.TERMINATED:
+    case cwc.ui.PreviewState.LOADING:
+    case cwc.ui.PreviewState.PREPARE:
+    case cwc.ui.PreviewState.REFRESHING:
+    case cwc.ui.PreviewState.TERMINATED:
       this.enableButton('reload-action', false);
       break;
   }
 
   // Run and Stop button
   switch (status) {
-    case cwc.ui.StatusbarState.STOPPED:
-    case cwc.ui.StatusbarState.TERMINATED:
+    case cwc.ui.PreviewState.STOPPED:
+    case cwc.ui.PreviewState.TERMINATED:
       goog.style.setElementShown(this.nodeRun, true);
       goog.style.setElementShown(this.nodeStop, false);
       break;
-    case cwc.ui.StatusbarState.LOADING:
-    case cwc.ui.StatusbarState.PREPARE:
-    case cwc.ui.StatusbarState.REFRESHING:
+    case cwc.ui.PreviewState.LOADING:
+    case cwc.ui.PreviewState.PREPARE:
+    case cwc.ui.PreviewState.REFRESHING:
       goog.style.setElementShown(this.nodeRun, false);
       goog.style.setElementShown(this.nodeStop, true);
       break;
@@ -268,6 +268,6 @@ cwc.ui.StatusButton.prototype.setStatus = function(status) {
  * @param {!string} id
  * @param {boolean} enabled
  */
-cwc.ui.StatusButton.prototype.enableButton = function(id, enabled) {
+cwc.ui.PreviewStatusButton.prototype.enableButton = function(id, enabled) {
   cwc.ui.Helper.enableElement(this.prefix + id, enabled);
 };

@@ -116,7 +116,7 @@ cwc.framework.Messenger.prototype.setAppWindow = function(appWindow) {
 
 
 /**
- * Sets the runner scope.
+ * Sets the listener scope.
  * @param {!Function} scope
  * @return {THIS}
  * @template THIS
@@ -133,7 +133,7 @@ cwc.framework.Messenger.prototype.setListenerScope = function(scope) {
 
 
 /**
- * Sends the defined data to the runner.
+ * Sends the defined data to the target window.
  * @param {!string} name
  * @param {Object|string=} value
  * @param {number=} delay in msec

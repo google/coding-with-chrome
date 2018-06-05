@@ -20,7 +20,7 @@
 goog.provide('cwc.ui.Statusbar');
 
 goog.require('cwc.soy.ui.Statusbar');
-goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
@@ -84,7 +84,7 @@ cwc.ui.Statusbar.prototype.decorate = function(node) {
 
 /**
  * Sets the status message.
- * @param {!cwc.ui.StatusbarState} status
+ * @param {!cwc.ui.PreviewState} status
  * @param {number=} startTime
  * @param {number=} stopTime
  */
@@ -120,7 +120,7 @@ cwc.ui.Statusbar.prototype.show = function() {
 
 
 /**
- * @param {!cwc.ui.StatusbarState} status
+ * @param {!cwc.ui.PreviewState} status
  * @param {number=} startTime
  * @param {number=} stopTime
  * @return {string}
@@ -128,23 +128,23 @@ cwc.ui.Statusbar.prototype.show = function() {
 cwc.ui.Statusbar.translateState = function(status, startTime = 0,
     stopTime = 0) {
   switch (status) {
-    case cwc.ui.StatusbarState.PREPARE:
+    case cwc.ui.PreviewState.PREPARE:
       return i18t('@@STATUS__PREPARE');
-    case cwc.ui.StatusbarState.STOPPED:
+    case cwc.ui.PreviewState.STOPPED:
       return i18t('@@STATUS__STOPPED');
-    case cwc.ui.StatusbarState.RELOADING:
+    case cwc.ui.PreviewState.RELOADING:
       return i18t('@@STATUS__RELOADING');
-    case cwc.ui.StatusbarState.RUNNING:
+    case cwc.ui.PreviewState.RUNNING:
       return i18t('@@STATUS__RUNNING');
-    case cwc.ui.StatusbarState.LOADING:
+    case cwc.ui.PreviewState.LOADING:
       return i18t('@@STATUS__LOADING');
-    case cwc.ui.StatusbarState.LOADED:
+    case cwc.ui.PreviewState.LOADED:
       return i18t('@@STATUS__LOADED', {
         'seconds': ((stopTime - startTime) / 1000),
       });
-    case cwc.ui.StatusbarState.TERMINATED:
+    case cwc.ui.PreviewState.TERMINATED:
       return i18t('@@STATUS__TERMINATED');
-    case cwc.ui.StatusbarState.UNRESPONSIVE:
+    case cwc.ui.PreviewState.UNRESPONSIVE:
       return i18t('@@STATUS__UNRESPONSIVE');
   }
   return '';

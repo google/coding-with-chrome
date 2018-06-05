@@ -29,7 +29,8 @@ Blockly.Blocks['phaser_sprite_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as sprite'))
-        .appendField(new Blockly.FieldTextInput('sprite'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('sprite')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('with'))
         .appendField(i18t('position'));

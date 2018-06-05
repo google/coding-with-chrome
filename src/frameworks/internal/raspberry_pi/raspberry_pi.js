@@ -1,5 +1,5 @@
 /**
- * @fileoverview Raspberry Pi framework for the runner instance.
+ * @fileoverview Raspberry Pi framework for the messenger instance.
  *
  * @license Copyright 2017 The Coding with Chrome Authors.
  *
@@ -19,33 +19,26 @@
  */
 goog.provide('cwc.framework.RaspberryPi');
 
-goog.require('cwc.framework.Runner');
+goog.require('cwc.framework.Messenger');
 
 
 /**
  * @constructor
- * @param {!Function} code
  * @struct
  * @final
  * @export
  */
-cwc.framework.RaspberryPi = function(code) {
+cwc.framework.RaspberryPi = function() {
   /** @type {string} */
   this.name = 'Raspberry Pi Framework';
-
-  /** @type {Function} */
-  this.code = code;
-
-  /** @type {!cwc.framework.Runner} */
-  this.runner = new cwc.framework.Runner()
-    .setScope(this)
-    .setCallback(this.code);
 
   /** @type {!function(?)} */
   this.dataEvent = function() {};
 
-  // External commands
-  this.runner.addCommand('recievedData', this.handleData_);
+  /** @private {!cwc.framework.Messenger} */
+  this.messenger_ = new cwc.framework.Messenger()
+    .setListenerScope(this)
+    .addListener('recievedData', this.handleData_);
 };
 
 
@@ -56,7 +49,7 @@ cwc.framework.RaspberryPi = function(code) {
  * @export
  */
 cwc.framework.RaspberryPi.prototype.sendSerial = function(data, opt_delay) {
-  this.runner.send('sendSerial', {'data': data}, opt_delay);
+  this.messenger_.send('sendSerial', {'data': data}, opt_delay);
 };
 
 
@@ -67,7 +60,7 @@ cwc.framework.RaspberryPi.prototype.sendSerial = function(data, opt_delay) {
  * @export
  */
 cwc.framework.RaspberryPi.prototype.sendSerialText = function(text, opt_delay) {
-  this.runner.send('sendSerialText', {'text': text}, opt_delay);
+  this.messenger_.send('sendSerialText', {'text': text}, opt_delay);
 };
 
 

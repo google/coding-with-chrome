@@ -1,7 +1,7 @@
 /**
- * @fileoverview Layout template for the Arduino modification.
+ * @fileoverview General Blocks helper definition.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,4 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.Arduino autoescape="strict"}
-
-
-/**
- * Editor template.
- */
-{template .editor}
-  {@param prefix: string}
-  <div id="{$prefix}editor-chrome"></div>
-{/template}
-
-
-/**
- * Runner template.
- */
-{template .runner}
-  {@param prefix: string}
-  <div id="{$prefix}runner-chrome">Runner</div>
-{/template}
+Blockly.BlocksHelper = {};

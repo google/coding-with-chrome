@@ -66,7 +66,8 @@ Blockly.Blocks['phaser_add_background'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('add background image'))
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('bg_01')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -85,7 +86,8 @@ Blockly.Blocks['phaser_add_background_scaled'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('add background image'))
-        .appendField(new Blockly.FieldTextInput('name'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('bg_01')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('with size'))
         .appendField(new Blockly.FieldNumber(0, 0, 5760), 'width')

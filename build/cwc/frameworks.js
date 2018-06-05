@@ -22,24 +22,6 @@ let glob = closureBuilder.globSupport();
 
 
 /**
- * Arduino Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.Arduino',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/arduino/*.js',
-  ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
-    'src/utils/logger.js',
-    'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/arduino_framework.js',
-});
-
-
-/**
  * EV3 Framework
  */
 closureBuilder.build({
@@ -167,27 +149,11 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/raspberry_pi/*.js',
   ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
+  deps: glob([
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/raspberry_pi_framework.js',
-});
-
-
-/**
- * Runner Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.Runner',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/runner/*.js',
   ]),
-  deps: [
-    'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/runner_framework.js',
+  out: 'genfiles/core/frameworks/internal/raspberry_pi_framework.js',
 });
 
 
@@ -202,7 +168,7 @@ closureBuilder.build({
   ]),
   deps: glob([
     'src/config/config.js',
-    'src/frameworks/internal/runner/runner.js',
+    'src/frameworks/internal/messenger/*.js',
     'src/utils/dialog/*',
     'src/utils/logger.js',
   ]),
@@ -236,10 +202,7 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/turtle/*.js',
   ]),
-  deps: glob([
-    'src/frameworks/internal/runner/runner.js',
-    'src/utils/stack_queue.js',
-  ]),
+  deps: [],
   externs: [
     'build/externs/jquery.js',
   ],

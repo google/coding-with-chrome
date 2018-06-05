@@ -1,8 +1,5 @@
 /**
  * @fileoverview General frameworks files.
- * This Arduino framework will be used by the runner instance, inside the
- * webview sandbox, to access the Arduino over the runner instance and
- * the serial interface.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -26,7 +23,7 @@ goog.provide('cwc.framework.StyleSheet');
 
 
 /**
- * External frameworks for the preview window or runner framework.
+ * External frameworks used for the preview.
  * @enum {!Object.<string>|string}
  */
 cwc.framework.External = {
@@ -52,11 +49,10 @@ cwc.framework.External = {
 
 
 /**
- * Internal frameworks for the preview window or runner framework.
+ * Internal frameworks used for the preview.
  * @enum {!Object.<string>|string}
  */
 cwc.framework.Internal = {
-  ARDUINO: '/frameworks/internal/arduino_framework.js',
   EV3: '/frameworks/internal/ev3_framework.js',
   MBOT: '/frameworks/internal/mbot_framework.js',
   MBOT_RANGER: '/frameworks/internal/mbot_ranger_framework.js',
@@ -65,7 +61,6 @@ cwc.framework.Internal = {
   PYTHON2: '/frameworks/internal/python2_framework.js',
   PYTHON3: '/frameworks/internal/python3_framework.js',
   RASPBERRY_PI: '/frameworks/internal/raspberry_pi_framework.js',
-  RUNNER: '/frameworks/internal/runner_framework.js',
   SIMPLE: '/frameworks/internal/simple_framework.js',
   SPHERO: '/frameworks/internal/sphero_framework.js',
   TURTLE: '/frameworks/internal/turtle_framework.js',
@@ -73,7 +68,7 @@ cwc.framework.Internal = {
 
 
 /**
- * Style Sheet files for the preview window or runner framework.
+ * Style Sheet files for the preview window.
  * @enum {!Object.<string>|string}
  */
 cwc.framework.StyleSheet = {

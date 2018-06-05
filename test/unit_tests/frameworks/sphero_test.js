@@ -28,11 +28,11 @@ describe('Framework: Sphero', function() {
     return 123;
   };
   let framework = new cwc.framework.Sphero(code);
-  let runnerBuffer = {};
+  let messengerBuffer = {};
 
   // Overwrite messenger send func for testing.
   framework.messenger_.send = function(name, value, delay) {
-    runnerBuffer = {
+    messengerBuffer = {
       'name': name,
       'value': value,
       'delay': delay,
@@ -50,11 +50,11 @@ describe('Framework: Sphero', function() {
 
   it('Command: setRGB', function() {
     framework.setRGB(1, 2, 3, false, 4);
-    expect(runnerBuffer.name).toEqual('setRGB');
-    expect(runnerBuffer.value.red).toEqual(1);
-    expect(runnerBuffer.value.green).toEqual(2);
-    expect(runnerBuffer.value.blue).toEqual(3);
-    expect(runnerBuffer.value.persistent).toEqual(false);
-    expect(runnerBuffer.delay).toEqual(4);
+    expect(messengerBuffer.name).toEqual('setRGB');
+    expect(messengerBuffer.value.red).toEqual(1);
+    expect(messengerBuffer.value.green).toEqual(2);
+    expect(messengerBuffer.value.blue).toEqual(3);
+    expect(messengerBuffer.value.persistent).toEqual(false);
+    expect(messengerBuffer.delay).toEqual(4);
   });
 });

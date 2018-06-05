@@ -106,11 +106,6 @@ cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
-  this.api_.exec('stop');
   this.api_.exec('stop');
 };
 
@@ -172,7 +167,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.cleanUp = function() {
  */
 cwc.mode.makeblock.mbot.Connection.prototype.handlePreviewStatus_ = function(
     e) {
-  if (e.data === cwc.ui.StatusbarState.STOPPED) {
+  if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();
   }
 };

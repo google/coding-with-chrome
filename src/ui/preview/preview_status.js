@@ -39,8 +39,8 @@ cwc.ui.PreviewStatus = function(helper, eventHandler) {
   /** @type {string} */
   this.name = 'Preview Status Handler';
 
-  /** @type {cwc.ui.StatusbarState<number>} */
-  this.status = cwc.ui.StatusbarState.INITIALIZED;
+  /** @type {cwc.ui.PreviewState<number>} */
+  this.status = cwc.ui.PreviewState.INITIALIZED;
 
   /** @type {number} */
   this.startTime = 0;
@@ -51,7 +51,7 @@ cwc.ui.PreviewStatus = function(helper, eventHandler) {
   /** @type {cwc.ui.Statusbar} */
   this.statusbar = null;
 
-  /** @type {cwc.ui.StatusButton} */
+  /** @type {cwc.ui.PreviewStatusButton} */
   this.statusButton = null;
 
   /** @private {!cwc.utils.Events} */
@@ -80,7 +80,7 @@ cwc.ui.PreviewStatus.prototype.addEventHandler = function(content) {
 
 
 /**
- * @param {!cwc.ui.StatusbarState} status
+ * @param {!cwc.ui.PreviewState} status
  */
 cwc.ui.PreviewStatus.prototype.setStatus = function(status) {
   if (this.status === status) {
@@ -98,8 +98,8 @@ cwc.ui.PreviewStatus.prototype.setStatus = function(status) {
 
 
 /**
- * @param {cwc.ui.StatusbarState=} status
- * @return {!cwc.ui.StatusbarState|boolean}
+ * @param {cwc.ui.PreviewState=} status
+ * @return {!cwc.ui.PreviewState|boolean}
  */
 cwc.ui.PreviewStatus.prototype.getStatus = function(status) {
   if (!status) {
@@ -121,7 +121,7 @@ cwc.ui.PreviewStatus.prototype.setStatusbar = function(statusbar) {
 
 
 /**
- * @param {!cwc.ui.StatusButton} statusButton
+ * @param {!cwc.ui.PreviewStatusButton} statusButton
  * @return {THIS}
  * @template THIS
  */
@@ -166,7 +166,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function(e) {
     return;
   }
   this.startTime = new Date().getTime();
-  this.setStatus(cwc.ui.StatusbarState.LOADING);
+  this.setStatus(cwc.ui.PreviewState.LOADING);
 };
 
 
@@ -180,7 +180,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
     return;
   }
   this.stopTime = new Date().getTime();
-  this.setStatus(cwc.ui.StatusbarState.LOADED);
+  this.setStatus(cwc.ui.PreviewState.LOADED);
 };
 
 
@@ -189,7 +189,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
  * @private
  */
 cwc.ui.PreviewStatus.prototype.handleUnresponsive_ = function() {
-  this.setStatus(cwc.ui.StatusbarState.UNRESPONSIVE);
+  this.setStatus(cwc.ui.PreviewState.UNRESPONSIVE);
   let dialogInstance = this.helper.getInstance('dialog');
   dialogInstance.showActionCancel('Unresponsive Warning',
     'The preview is unresponsive! Terminate?', 'Terminate').then((answer) => {

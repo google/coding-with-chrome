@@ -1,8 +1,7 @@
 /**
- * @fileoverview Sphero framework for the runner instance.
- * This Sphero framework will be used by the runner instance, inside the webview
- * sandbox, to access the Sphero over the runner instance and the Bluetooth
- * interface.
+ * @fileoverview Sphero framework for the messenger instance.
+ * This Sphero framework will be used by the messenger instance to access the
+ * Sphero over the messenger instance and the Bluetooth interface.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

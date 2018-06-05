@@ -109,10 +109,6 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.stop = function() {
-  let runnerInstance = this.helper.getInstance('runner');
-  if (runnerInstance) {
-    runnerInstance.terminate();
-  }
   this.api_.stop();
 };
 

@@ -22,9 +22,9 @@ goog.provide('cwc.ui.Preview');
 goog.require('cwc.Messenger');
 goog.require('cwc.soy.ui.Preview');
 goog.require('cwc.ui.PreviewStatus');
-goog.require('cwc.ui.StatusButton');
+goog.require('cwc.ui.PreviewStatusButton');
 goog.require('cwc.ui.Statusbar');
-goog.require('cwc.ui.StatusbarState');
+goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -80,8 +80,8 @@ cwc.ui.Preview = function(helper) {
   /** @type {!cwc.ui.Statusbar} */
   this.statusbar = new cwc.ui.Statusbar(this.helper);
 
-  /** @type {!cwc.ui.StatusButton} */
-  this.statusButton = new cwc.ui.StatusButton(this.helper);
+  /** @type {!cwc.ui.PreviewStatusButton} */
+  this.statusButton = new cwc.ui.PreviewStatusButton(this.helper);
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
@@ -224,7 +224,7 @@ cwc.ui.Preview.prototype.render = function() {
   this.content = this.webviewSupport_ ?
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
-  this.previewStatus_.setStatus(cwc.ui.StatusbarState.INITIALIZED);
+  this.previewStatus_.setStatus(cwc.ui.PreviewState.INITIALIZED);
   this.messenger_.setTarget(this.content);
 };
 
@@ -298,7 +298,7 @@ cwc.ui.Preview.prototype.stop = function() {
     this.content.stop();
   }
   this.setContentUrl('about:blank');
-  this.previewStatus_.setStatus(cwc.ui.StatusbarState.STOPPED);
+  this.previewStatus_.setStatus(cwc.ui.PreviewState.STOPPED);
 };
 
 
@@ -314,7 +314,7 @@ cwc.ui.Preview.prototype.refresh = function() {
     terminalInstance.clearErrors();
   }
 
-  this.previewStatus_.setStatus(cwc.ui.StatusbarState.REFRESHING);
+  this.previewStatus_.setStatus(cwc.ui.PreviewState.REFRESHING);
   if (this.webviewSupport_) {
     this.content.stop();
     this.content.reload();
@@ -330,7 +330,7 @@ cwc.ui.Preview.prototype.refresh = function() {
  */
 cwc.ui.Preview.prototype.reload = function() {
   if (this.content) {
-    this.previewStatus_.setStatus(cwc.ui.StatusbarState.RELOADING);
+    this.previewStatus_.setStatus(cwc.ui.PreviewState.RELOADING);
     this.stop();
     this.run();
   }
@@ -342,7 +342,7 @@ cwc.ui.Preview.prototype.reload = function() {
  */
 cwc.ui.Preview.prototype.terminate = function() {
   if (this.content) {
-    this.previewStatus_.setStatus(cwc.ui.StatusbarState.TERMINATED);
+    this.previewStatus_.setStatus(cwc.ui.PreviewState.TERMINATED);
     this.content.terminate();
   }
 };
@@ -469,13 +469,13 @@ cwc.ui.Preview.prototype.executeScript = function(code) {
  * @private
  */
 cwc.ui.Preview.prototype.run_ = function() {
-  if (this.previewStatus_.getStatus() == cwc.ui.StatusbarState.LOADING ||
-      this.previewStatus_.getStatus() == cwc.ui.StatusbarState.UNRESPONSIVE) {
+  if (this.previewStatus_.getStatus() == cwc.ui.PreviewState.LOADING ||
+      this.previewStatus_.getStatus() == cwc.ui.PreviewState.UNRESPONSIVE) {
     this.terminate();
   } else {
     this.stop();
   }
-  this.previewStatus_.setStatus(cwc.ui.StatusbarState.RUNNING);
+  this.previewStatus_.setStatus(cwc.ui.PreviewState.RUNNING);
   this.setContentUrl(this.getContentUrl());
 };
 

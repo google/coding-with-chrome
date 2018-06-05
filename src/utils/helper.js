@@ -67,7 +67,6 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Notification|
  *   cwc.ui.Notification|
  *   cwc.ui.Preview|
- *   cwc.ui.Runner|
  *   cwc.ui.SelectScreen|
  *   cwc.ui.SettingScreen|
  *   cwc.ui.Turtle|

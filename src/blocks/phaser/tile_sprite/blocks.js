@@ -27,7 +27,8 @@ Blockly.Blocks['phaser_tile_sprite_background'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('add background image'))
-        .appendField(new Blockly.FieldTextInput('bg_01'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('bg_01')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image());
     this.appendValueInput('x')
         .setCheck('Number')
@@ -57,7 +58,8 @@ Blockly.Blocks['phaser_tile_sprite_floor_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as floor'))
-        .appendField(new Blockly.FieldTextInput('floor'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('floor')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image());
     this.appendValueInput('x')
         .setCheck('Number')
@@ -87,7 +89,8 @@ Blockly.Blocks['phaser_tile_sprite_ceiling_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as ceiling'))
-        .appendField(new Blockly.FieldTextInput('ceiling'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('ceiling')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image());
     this.appendValueInput('x')
         .setCheck('Number')
@@ -117,7 +120,8 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as tile sprite'))
-        .appendField(new Blockly.FieldTextInput('blocks'), 'sprite')
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('tile_sprite')), 'sprite')
         .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('on position'));
     this.appendValueInput('x')
