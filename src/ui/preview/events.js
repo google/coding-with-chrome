@@ -24,7 +24,7 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {number}
+ * @enum {!number}
  */
 cwc.ui.PreviewEvents.Type = {
   CONTENT_LOADED: 1,

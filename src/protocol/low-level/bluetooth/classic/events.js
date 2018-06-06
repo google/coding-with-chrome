@@ -23,12 +23,12 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {string}
+ * @enum {!number}
  */
 cwc.protocol.bluetooth.classic.Events.Type = {
-  ADAPTER_STATE_CHANGE: 'adapter_state_change',
-  DEVICE_STATE_CHANGE: 'device_stage_change',
-  ON_RECEIVE: 'on_receive',
+  ADAPTER_STATE_CHANGE: 1,
+  DEVICE_STATE_CHANGE: 2,
+  ON_RECEIVE: 3,
 };
 
 

@@ -18,23 +18,12 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.utils.Dialog');
-goog.provide('cwc.utils.DialogType');
 
 goog.require('cwc.soy.Dialog');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
 goog.require('goog.soy');
-
-
-/**
- * @enum {string}
- */
-cwc.utils.DialogType = {
-  CONFIRM: 'confirm',
-  ERROR: 'error',
-  PROMPT: 'info',
-};
 
 
 /**
