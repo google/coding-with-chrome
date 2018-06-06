@@ -459,7 +459,7 @@ cwc.ui.Preview.prototype.focus = function() {
 
 
 /**
- * Injects and executes the passed code in the preview content.
+ * Injects and executes the passed code in the preview content, if supported.
  * @param {!(string|Function)} code
  */
 cwc.ui.Preview.prototype.executeScript = function(code) {

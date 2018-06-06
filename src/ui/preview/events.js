@@ -24,24 +24,41 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {string}
+ * @enum {number}
  */
 cwc.ui.PreviewEvents.Type = {
-  CONTENT_LOAD: 'content_load',
-  STATUS_CHANGE: 'status_change',
+  CONTENT_LOADED: 1,
+  CONTENT_LOAD_START: 2,
+  CONTENT_LOAD_STOP: 3,
+  STATUS_CHANGE: 4,
+  UNRESPONSIVE: 5,
 };
 
 
 /**
- * @param {!string} preview
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.ui.PreviewEvents.contentLoad = function(preview) {
-  return new cwc.utils.EventData(
-    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, {
-      'preview': preview,
-    });
+cwc.ui.PreviewEvents.contentLoaded = function() {
+  return new cwc.utils.EventData(cwc.ui.PreviewEvents.Type.CONTENT_LOADED);
+};
+
+
+/**
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.ui.PreviewEvents.contentLoadStart = function() {
+  return new cwc.utils.EventData(cwc.ui.PreviewEvents.Type.CONTENT_LOAD_START);
+};
+
+
+/**
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.ui.PreviewEvents.contentLoadStop = function() {
+  return new cwc.utils.EventData(cwc.ui.PreviewEvents.Type.CONTENT_LOAD_STOP);
 };
 
 
@@ -53,4 +70,13 @@ cwc.ui.PreviewEvents.contentLoad = function(preview) {
 cwc.ui.PreviewEvents.statusChange = function(status) {
   return new cwc.utils.EventData(
     cwc.ui.PreviewEvents.Type.STATUS_CHANGE, status);
+};
+
+
+/**
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.ui.PreviewEvents.unresponsive = function() {
+  return new cwc.utils.EventData(cwc.ui.PreviewEvents.Type.UNRESPONSIVE);
 };
