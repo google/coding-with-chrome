@@ -20,10 +20,6 @@
 window.top['cwc-validated'] = function(code) {
   let matches = code.match(
     /draw.circle\(([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+)\)/);
-  let challenge = 'Can you draw a '+
-    '<span style="color: blue; font-weight: bold">blue</span> circle with a '+
-    '<span style="color: green; font-weight: bold">green</span> border?<br/>'+
-    '<br/>';
   let msg = '';
   if (matches) {
     msg = 'Great circle! Now can you make it ' +
@@ -46,5 +42,5 @@ window.top['cwc-validated'] = function(code) {
       msg = 'Perfect! Now you\'re ready to program in blockly.';
     }
   }
-  document.getElementById('instructions').innerHTML = challenge+msg;
+  document.getElementById('instructions').innerHTML = msg;
 };
