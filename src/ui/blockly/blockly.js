@@ -225,6 +225,14 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
 };
 
 
+cwc.ui.Blockly.prototype.refresh = function() {
+  let workspace = this.getWorkspace();
+  if (workspace) {
+    workspace.updateToolbox();
+  }
+};
+
+
 /**
  * @param {!function(?)} func
  */

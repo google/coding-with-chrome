@@ -196,30 +196,11 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
  * @return {!string}
  */
 cwc.utils.Helper.prototype.getUserLanguage = function() {
-  let language = '';
-
-  let userConfigInstance = this.getInstance('userConfig');
-  if (userConfigInstance) {
-    language = userConfigInstance.get(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.LANGUAGE);
+  let languageInstance = this.getInstance('language');
+  if (languageInstance) {
+    return languageInstance.getUserLanguage();
   }
-
-  let i18nInstance = this.getInstance('i18n');
-  if (!language && i18nInstance) {
-    language = i18nInstance.getLanguage();
-  }
-
-  if (!language || language.length !== 3) {
-    this.log_.warn('Unsupported language', language, 'using',
-      cwc.config.Default.LANGUAGE, 'instead!');
-    if (userConfigInstance) {
-      userConfigInstance.set(cwc.userConfigType.GENERAL,
-        cwc.userConfigName.LANGUAGE, cwc.config.Default.LANGUAGE);
-    }
-    language = cwc.config.Default.LANGUAGE;
-  }
-
-  return language;
+  return cwc.config.Default.LANGUAGE || '';
 };
 
 

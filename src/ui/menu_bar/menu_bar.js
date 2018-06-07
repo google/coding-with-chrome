@@ -126,6 +126,7 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
     this.node,
     cwc.soy.MenuBar.template, {
       'prefix': this.prefix,
+      'language': this.helper.getUserLanguage(),
     }
   );
 
@@ -229,6 +230,10 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
     this.prefix + 'gamepad-connected');
   this.setGamepad(false);
 
+  // Language icon
+  this.events_.listen(
+    'language', goog.events.EventType.CLICK, this.changeLanguage);
+
   // Minimize icon
   this.events_.listen(
     'minimize', goog.events.EventType.CLICK, this.minimizeWindow);
@@ -269,6 +274,14 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
 
 
 /**
+ * Changes the language.
+ */
+cwc.ui.MenuBar.prototype.changeLanguage = function() {
+  this.helper.getInstance('language').selectLanguage();
+};
+
+
+/**
  * Sets authentication for the current view.
  * @param {boolean} auth Determinate if user is authenticated.
  */
@@ -282,8 +295,7 @@ cwc.ui.MenuBar.prototype.setAuthenticated = function(auth) {
  * Logs in into Google Account for gDrive integration.
  */
 cwc.ui.MenuBar.prototype.loginAccount = function() {
-  let accountInstance = this.helper.getInstance('account', true);
-  accountInstance.authenticate();
+  this.helper.getInstance('account').authenticate();
 };
 
 
@@ -291,8 +303,7 @@ cwc.ui.MenuBar.prototype.loginAccount = function() {
  * Logs out of current Google Account.
  */
 cwc.ui.MenuBar.prototype.logoutAccount = function() {
-  let accountInstance = this.helper.getInstance('account', true);
-  accountInstance.deauthenticate();
+  this.helper.getInstance('account').deauthenticate();
 };
 
 
@@ -422,6 +433,14 @@ cwc.ui.MenuBar.prototype.setSerialConnected = function(connected) {
 cwc.ui.MenuBar.prototype.setGamepad = function(connected) {
   goog.style.setElementShown(this.nodeGamepad, !connected);
   goog.style.setElementShown(this.nodeGamepadConnected, connected);
+};
+
+
+/**
+ * @param {string} language
+ */
+cwc.ui.MenuBar.prototype.setLanguage = function(language) {
+  goog.dom.getElement(this.prefix + 'badge-language').dataset.badge = language;
 };
 
 

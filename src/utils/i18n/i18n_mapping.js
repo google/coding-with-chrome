@@ -21,7 +21,31 @@ goog.provide('cwc.utils.I18nMapping');
 
 
 /**
- * ISO639-3 mapping table
+ * ISO639-3 english names.
+ */
+cwc.utils.I18nMapping.englishName = {
+  'eng': 'English',
+  'deu': 'German',
+  'hin': 'Hindi',
+  'jpn': 'Japanese',
+  'kor': 'Korean',
+};
+
+
+/**
+ * ISO639-3 native names.
+ */
+cwc.utils.I18nMapping.nativeName = {
+  'eng': 'English',
+  'deu': 'Deutsch',
+  'hin': 'हिन्दी',
+  'jpn': '日本語',
+  'kor': '한국어',
+};
+
+
+/**
+ * ISO639-3 to ISO639-2 mapping table.
  */
 cwc.utils.I18nMapping.ISO639_3 = {
   'eng': 'en',

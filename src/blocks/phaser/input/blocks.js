@@ -42,6 +42,23 @@ Blockly.Blocks['phaser_input'] = {
 
 
 /**
+ * Input body block to seperate input statements from normal statements.
+ */
+Blockly.Blocks['phaser_input_body'] = {
+  init: function() {
+    this.appendStatementInput('CODE')
+        .setCheck(['controls_if'])
+        .appendField(Blockly.BlocksTemplate.keyboard());
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+    this.setPreviousStatement(true, 'Input');
+    this.setNextStatement(true, 'Input');
+  },
+};
+
+
+/**
  * Add keyboard cursor keys.
  */
 Blockly.Blocks['phaser_input_keyboard_cursor_keys_add'] = {

@@ -56,9 +56,9 @@ cwc.ui.SettingScreen.prototype.decorate = function(node) {
 
   // Supported languages
   let languages = ['eng'];
-  let i18nInstance = this.helper.getInstance('i18n');
-  if (i18nInstance) {
-    languages = i18nInstance.getSupportedLanguages();
+  let languageInstance = this.helper.getInstance('i18n');
+  if (languageInstance) {
+    languages = languageInstance.getSupportedLanguages();
   }
 
   goog.soy.renderElement(

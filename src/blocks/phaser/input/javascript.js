@@ -31,6 +31,17 @@ Blockly.JavaScript['phaser_input'] = function(block) {
 
 
 /**
+ * Input body block.
+* @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_input_body'] = function(block) {
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return statements_code;
+};
+
+
+/**
  * Add keyboard cursor keys.
  * @param {Blockly.Block} block
  * @return {!string}

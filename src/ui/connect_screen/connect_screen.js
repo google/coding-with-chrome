@@ -80,8 +80,7 @@ cwc.ui.connectScreen.Screens.prototype.showSerialDevices = function() {
  */
 cwc.ui.connectScreen.Screens.prototype.showConnectingStep = function(
     title, text, step) {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate(title,
+  this.helper.getInstance('dialog').showTemplate(title,
     cwc.soy.connectScreen.Screens.connectingSteps, {
       step: step,
       text: text,

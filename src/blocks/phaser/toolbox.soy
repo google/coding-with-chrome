@@ -59,7 +59,7 @@
 
     <category name="@@BLOCKS_PHASER__INPUT" colour="135">
 
-      {call .inputBlocks /}
+      {call cwc.soy.phaser.InputBlocks.toolbox /}
 
       {call .defaultPhaserBlocks}
         {param opt_hide_input_blocks: true /}
@@ -248,7 +248,7 @@
 
   {if not $opt_hide_input_blocks}
     <category name="@@BLOCKS_PHASER__INPUTS" colour="255">
-      {call .inputBlocks data="all" /}
+      {call cwc.soy.phaser.InputBlocks.toolbox data="all" /}
     </category>
   {/if}
 {/template}
@@ -693,179 +693,6 @@
 
 
 /**
- * Input blocks.
- */
-{template .inputBlocks}
-  {@param? opt_show_create_blocks: bool}
-  {@param? opt_hide_event_blocks: bool}
-
-  {if $opt_show_create_blocks}
-    <block type="phaser_input_keyboard_cursor_keys_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">cursor_keys</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_keyboard_spacebar_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">spacebar</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_keyboard_key_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">keyboard_key</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_mouse_keys_add">
-      <value name="variable">
-        <block type="variables_get">
-          <field name="VAR">mouse_keys</field>
-        </block>
-      </value>
-    </block>
-  {/if}
-
-  {if not $opt_hide_event_blocks and not $opt_show_create_blocks}
-    <block type="phaser_input"></block>
-  {/if}
-
-  {if not $opt_show_create_blocks}
-
-    <block type="phaser_input_keyboard_cursor_is_pressed">
-      <field name="direction">up.isDown</field>
-      <value name="cursors">
-        <block type="variables_get">
-          <field name="VAR">cursor_keys</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-      <field name="direction">up.isDown</field>
-      <value name="cursors">
-        <block type="variables_get">
-          <field name="VAR">cursor_keys</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_keyboard_key_is_pressed">
-      <value name="key">
-        <block type="variables_get">
-          <field name="VAR">spacebar</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_keyboard_key_is_hold_pressed">
-      <value name="key">
-        <block type="variables_get">
-          <field name="VAR">spacebar</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_mouse_key_is_pressed">
-      <field name="direction">leftButton.isDown</field>
-      <value name="mouse">
-        <block type="variables_get">
-          <field name="VAR">mouse_keys</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="phaser_input_mouse_key_is_hold_pressed">
-      <field name="direction">leftButton.isDown</field>
-      <value name="mouse">
-        <block type="variables_get">
-          <field name="VAR">mouse_keys</field>
-        </block>
-      </value>
-    </block>
-
-    <block type="controls_if">
-      <mutation elseif="0"></mutation>
-      <value name="IF0">
-        <block type="phaser_input_keyboard_key_is_pressed">
-          <value name="key">
-            <block type="variables_get">
-              <field name="VAR">spacebar</field>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-
-    <block type="controls_if">
-      <mutation elseif="3"></mutation>
-      <value name="IF0">
-        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-          <field name="direction">.up</field>
-          <value name="cursors">
-            <block type="variables_get">
-              <field name="VAR">cursor_keys</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <value name="IF1">
-        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-          <field name="direction">.down</field>
-          <value name="cursors">
-            <block type="variables_get">
-              <field name="VAR">cursor_keys</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <value name="IF2">
-        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-          <field name="direction">.left</field>
-          <value name="cursors">
-            <block type="variables_get">
-              <field name="VAR">cursor_keys</field>
-            </block>
-          </value>
-        </block>
-      </value>
-      <value name="IF3">
-        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
-          <field name="direction">.right</field>
-          <value name="cursors">
-            <block type="variables_get">
-              <field name="VAR">cursor_keys</field>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-
-    <block type="controls_if">
-      <mutation elseif="0"></mutation>
-      <value name="IF0">
-        <block type="phaser_input_mouse_key_is_pressed">
-          <field name="direction">leftButton.isDown</field>
-          <value name="mouse">
-            <block type="variables_get">
-              <field name="VAR">mouse_keys</field>
-            </block>
-          </value>
-        </block>
-      </value>
-    </block>
-  {/if}
-{/template}
-
-
-/**
  * Arcade sprite blocks.
  */
 {template .physicsSpriteBlocks}
@@ -939,6 +766,19 @@
       <value name="object2">
         <block type="variables_get">
           <field name="VAR">obstacle_group</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_physics_arcade_collide">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">paddle</field>
         </block>
       </value>
     </block>

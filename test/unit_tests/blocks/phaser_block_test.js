@@ -57,7 +57,11 @@ return msg;
   blocks.forEach(function(block) {
     it('Block ' + block + ' to workspace', function() {
       let code = getTestBlockCode(block);
-      expect(code && code.length > 1).toBe(true);
+      if (block.includes('_body')) {
+        expect(code === '').toBe(true);
+      } else {
+        expect(code && code.length > 1).toBe(true);
+      }
     });
   });
 });

@@ -49,6 +49,7 @@ goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
 goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Helper');
+goog.require('cwc.ui.Language');
 goog.require('cwc.ui.Layout');
 goog.require('cwc.ui.Library');
 goog.require('cwc.ui.LoadingScreen');
@@ -68,7 +69,6 @@ goog.require('cwc.utils.Gamepad');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
-goog.require('cwc.utils.Resources');
 
 goog.require('goog.dom');
 
@@ -190,6 +190,7 @@ cwc.ui.Builder = function() {
  * Decorates the given node and adds the code editor.
  * @param {Element|string=} node
  * @return {!Promise}
+ * @async
  * @export
  */
 cwc.ui.Builder.prototype.decorate = async function(node = null) {
@@ -220,19 +221,15 @@ cwc.ui.Builder.prototype.decorate = async function(node = null) {
   this.helper.setInstance('userConfig', userConfig);
 
   this.setProgress('Load and prepare i18n translations ...', 2);
-  let i18n = this.helper.setInstance('i18n', new cwc.utils.I18n());
-  let language = this.helper.getUserLanguage();
+  this.helper.setInstance('i18n', new cwc.utils.I18n());
 
-  this.setProgress('Load Blockly and UI translation files ...', 3);
-  await cwc.utils.Resources.getUriAsJavaScriptTag(
-    'external/blockly/msg/' + cwc.utils.I18n.getISO639_1(language) + '.js',
-    'blockly-language'
-  );
-  await cwc.utils.Resources.getUriAsJavaScriptTag(
-    'js/locales/' + language + '.js', 'cwc-i18n-language');
+  this.setProgress('Load language support ...', 3);
+  let languageInstance = this.helper.setInstance(
+    'language', new cwc.ui.Language(this.helper));
+  let language = languageInstance.getUserLanguage();
 
-  this.setProgress('Setting user language to ' + language, 4);
-  i18n.setLanguage(language);
+  this.setProgress('Load Blockly and UI translation files ...', 4);
+  await languageInstance.setLanguage(language);
   this.loadingScreen_.setUserLangauge(language);
 
   // Prepare UI

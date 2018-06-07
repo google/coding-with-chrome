@@ -97,8 +97,7 @@ cwc.ui.connectScreen.Serial.prototype.handleAction_ = function(e) {
  * @private
  */
 cwc.ui.connectScreen.Serial.prototype.close_ = function() {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.close();
+  this.helper.getInstance('dialog').close();
 };
 
 
@@ -133,13 +132,12 @@ cwc.ui.connectScreen.Serial.prototype.disconnectDevice_ = function(device) {
 /**
  * @param {!string} title
  * @param {Object} template
- * @param {Object} opt_context
+ * @param {Object} context
  * @private
  */
 cwc.ui.connectScreen.Serial.prototype.showTemplate_ = function(title,
-    template, opt_context) {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate(title, template, opt_context);
+    template, context) {
+  this.helper.getInstance('dialog').showTemplate(title, template, context);
 };
 
 

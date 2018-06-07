@@ -131,16 +131,15 @@ cwc.ui.Library.prototype.decorate = function() {
  * Shows the library.
  */
 cwc.ui.Library.prototype.showLibrary = function() {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  dialogInstance.showTemplate({
+  this.helper.getInstance('dialog').showTemplate(
+    {
       title: 'File library',
       icon: 'perm_media',
     },
     cwc.soy.ui.Library.fileLibrary, {
       prefix: this.prefix,
       files: this.getFiles(),
-    }
-  );
+    });
   this.decorate();
   this.syncFiles();
 
@@ -159,8 +158,7 @@ cwc.ui.Library.prototype.showLibrary = function() {
  * Insert a media.
  */
 cwc.ui.Library.prototype.showMediaUpload = function() {
-  let dialogInstance = this.helper.getInstance('dialog', true);
-  this.dialog_ = dialogInstance.showTemplate({
+  this.dialog_ = this.helper.getInstance('dialog').showTemplate({
       title: 'Insert media file',
       icon: 'image',
     },

@@ -1,0 +1,264 @@
+/**
+ * @fileoverview Blocks for the Phaser Blockly modification.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+ 
+{namespace cwc.soy.phaser.InputBlocks autoescape="strict"}
+
+
+/**
+ * Input blocks.
+ */
+{template .toolbox}
+  {@param? opt_show_create_blocks: bool}
+  {@param? opt_hide_event_blocks: bool}
+
+  {if $opt_show_create_blocks}
+    <block type="phaser_input_keyboard_cursor_keys_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_spacebar_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">spacebar</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_key_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">keyboard_key</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_mouse_keys_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">mouse_keys</field>
+        </block>
+      </value>
+    </block>
+  {/if}
+
+  {if not $opt_hide_event_blocks and not $opt_show_create_blocks}
+    <block type="phaser_input"></block>
+
+    <block type="phaser_input_body">
+      <statement name="CODE">
+        <block type="controls_if">
+          <mutation elseif="1"></mutation>
+          <value name="IF0">
+            <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+              <field name="direction">.left</field>
+              <value name="cursors">
+                <block type="variables_get">
+                  <field name="VAR">cursor_keys</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <statement name="DO0">
+            <block type="phaser_pyhsics_arcade_sprite_adjust">
+              <value name="variable">
+                <block type="variables_get">
+                  <field name="VAR">paddle</field>
+                </block>
+              </value>
+              <value name="value">
+                <block type="math_number">
+                  <field name="NUM"></field>
+                </block>
+              </value>
+            </block>
+          </statement>
+          <value name="IF1">
+            <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+              <field name="direction">.right</field>
+              <value name="cursors">
+                <block type="variables_get">
+                  <field name="VAR">cursor_keys</field>
+                </block>
+              </value>
+            </block>
+          </value>
+          <statement name="DO1">
+            <block type="phaser_pyhsics_arcade_sprite_adjust">
+              <value name="variable">
+                <block type="variables_get">
+                  <field name="VAR">paddle</field>
+                </block>
+              </value>
+              <value name="value">
+                <block type="math_number">
+                  <field name="NUM"></field>
+                </block>
+              </value>
+            </block>
+          </statement>
+          <statement name="ELSE">
+            <block type="phaser_pyhsics_arcade_sprite_adjust">
+              <value name="variable">
+                <block type="variables_get">
+                  <field name="VAR">paddle</field>
+                </block>
+              </value>
+              <value name="value">
+                <block type="math_number">
+                  <field name="NUM"></field>
+                </block>
+              </value>
+            </block>
+          </statement>
+        </block>
+    </statement>
+  </block>
+  {/if}
+
+  {if not $opt_show_create_blocks}
+
+    <block type="phaser_input_keyboard_cursor_is_pressed">
+      <field name="direction">up.isDown</field>
+      <value name="cursors">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+      <field name="direction">up.isDown</field>
+      <value name="cursors">
+        <block type="variables_get">
+          <field name="VAR">cursor_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_key_is_pressed">
+      <value name="key">
+        <block type="variables_get">
+          <field name="VAR">spacebar</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_keyboard_key_is_hold_pressed">
+      <value name="key">
+        <block type="variables_get">
+          <field name="VAR">spacebar</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_mouse_key_is_pressed">
+      <field name="direction">leftButton.isDown</field>
+      <value name="mouse">
+        <block type="variables_get">
+          <field name="VAR">mouse_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_input_mouse_key_is_hold_pressed">
+      <field name="direction">leftButton.isDown</field>
+      <value name="mouse">
+        <block type="variables_get">
+          <field name="VAR">mouse_keys</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="controls_if">
+      <mutation elseif="0"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_keyboard_key_is_pressed">
+          <value name="key">
+            <block type="variables_get">
+              <field name="VAR">spacebar</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+
+    <block type="controls_if">
+      <mutation elseif="3"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.up</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF1">
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.down</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF2">
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.left</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+      <value name="IF3">
+        <block type="phaser_input_keyboard_cursor_is_hold_pressed">
+          <field name="direction">.right</field>
+          <value name="cursors">
+            <block type="variables_get">
+              <field name="VAR">cursor_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+
+    <block type="controls_if">
+      <mutation elseif="0"></mutation>
+      <value name="IF0">
+        <block type="phaser_input_mouse_key_is_pressed">
+          <field name="direction">leftButton.isDown</field>
+          <value name="mouse">
+            <block type="variables_get">
+              <field name="VAR">mouse_keys</field>
+            </block>
+          </value>
+        </block>
+      </value>
+    </block>
+  {/if}
+{/template}

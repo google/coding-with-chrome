@@ -17,7 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
 {namespace cwc.soy.MenuBar autoescape="strict"}
 
 
@@ -26,14 +25,16 @@
  */
 {template .template}
   {@param prefix: string}
+  {@param language: string}
 
-  <div id="{$prefix}window-body">
-    {call .button_ data="all"}
-      {param id: 'close' /}
-      {param icon: 'close' /}
-      {param title: 'close' /}
-    {/call}
-    <div id="{$prefix}maximize-body">
+  <div id="{$prefix}body">
+
+    <div id="{$prefix}window-body">
+      {call .button_ data="all"}
+        {param id: 'minimize' /}
+        {param icon: 'photo_size_select_small' /}
+        {param title: 'minimize' /}
+      {/call}
       {call .button_ data="all"}
         {param id: 'maximize' /}
         {param icon: 'fullscreen' /}
@@ -44,73 +45,83 @@
         {param icon: 'fullscreen_exit' /}
         {param title: 'restore' /}
       {/call}
+      {call .button_ data="all"}
+        {param id: 'close' /}
+        {param icon: 'close' /}
+        {param title: 'close' /}
+      {/call}
     </div>
-    {call .button_ data="all"}
-      {param id: 'minimize' /}
-      {param icon: 'photo_size_select_small' /}
-      {param title: 'minimize' /}
-    {/call}
-  </div>
 
-  <div id="{$prefix}account-body">
-    {call .button_ data="all"}
-      {param id: 'account' /}
-      {param icon: 'perm_identity' /}
-      {param title: 'Login' /}
-    {/call}
-    {call .button_ data="all"}
-      {param id: 'account-logout' /}
-      {param icon: 'person' /}
-      {param title: 'Logout' /}
-    {/call}
-  </div>
+    <div id="{$prefix}language-body">
+      {call .button_ data="all"}
+        {param id: 'language' /}
+        {param icon: 'language' /}
+        {param title: 'Change language ...' /}
+        {param badge: $language /}
+      {/call}
+    </div>
 
-  <div id="{$prefix}bluetooth-body">
-    {call .button_ data="all"}
-      {param id: 'bluetooth' /}
-      {param icon: 'bluetooth' /}
-      {param title: 'Connect Bluetooth device...' /}
-    {/call}
-    {call .button_ data="all"}
-      {param id: 'bluetooth-connected' /}
-      {param icon: 'bluetooth_connected' /}
-      {param title: 'Disconnect Bluetooth device...' /}
-    {/call}
-    {call .button_ data="all"}
-      {param id: 'bluetooth-disabled' /}
-      {param icon: 'bluetooth_disabled' /}
-      {param title: 'Bluetooth is disabled!' /}
-    {/call}
-  </div>
+    <div id="{$prefix}account-body">
+      {call .button_ data="all"}
+        {param id: 'account' /}
+        {param icon: 'perm_identity' /}
+        {param title: 'Login' /}
+      {/call}
+      {call .button_ data="all"}
+        {param id: 'account-logout' /}
+        {param icon: 'person' /}
+        {param title: 'Logout' /}
+      {/call}
+    </div>
 
-  <div id="{$prefix}serial-body">
-    {call .button_ data="all"}
-      {param id: 'serial' /}
-      {param icon: 'usb' /}
-      {param title: 'Connect serial device...' /}
-    {/call}
-    <button id="{$prefix}serial-connected" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
-      <i class="material-icons">usb</i>
-    </button>
-    <button id="{$prefix}serial-disabled"
-            class="mdl-button mdl-js-button mdl-button--icon" 
-            title="{msg desc=""}Serial is disabled!{/msg}"
-            disabled>
-      <i class="material-icons">usb</i>
-    </button>
-  </div>
+    <div id="{$prefix}bluetooth-body">
+      {call .button_ data="all"}
+        {param id: 'bluetooth' /}
+        {param icon: 'bluetooth' /}
+        {param title: 'Connect Bluetooth device...' /}
+      {/call}
+      {call .button_ data="all"}
+        {param id: 'bluetooth-connected' /}
+        {param icon: 'bluetooth_connected' /}
+        {param title: 'Disconnect Bluetooth device...' /}
+      {/call}
+      {call .button_ data="all"}
+        {param id: 'bluetooth-disabled' /}
+        {param icon: 'bluetooth_disabled' /}
+        {param title: 'Bluetooth is disabled!' /}
+      {/call}
+    </div>
 
-  <div id="{$prefix}gamepad-body">
-    {call .button_ data="all"}
-      {param id: 'gamepad' /}
-      {param icon: 'videogame_asset' /}
-      {param title: 'Enable Gamepad support' /}
-    {/call}
-    {call .button_ data="all"}
-      {param id: 'gamepad-connected' /}
-      {param icon: 'videogame_asset' /}
-      {param title: 'Gamepad' /}
-    {/call}
+    <div id="{$prefix}serial-body">
+      {call .button_ data="all"}
+        {param id: 'serial' /}
+        {param icon: 'usb' /}
+        {param title: 'Connect serial device...' /}
+      {/call}
+      <button id="{$prefix}serial-connected" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+        <i class="material-icons">usb</i>
+      </button>
+      <button id="{$prefix}serial-disabled"
+              class="mdl-button mdl-js-button mdl-button--icon" 
+              title="{msg desc=""}Serial is disabled!{/msg}"
+              disabled>
+        <i class="material-icons">usb</i>
+      </button>
+    </div>
+
+    <div id="{$prefix}gamepad-body">
+      {call .button_ data="all"}
+        {param id: 'gamepad' /}
+        {param icon: 'videogame_asset' /}
+        {param title: 'Enable Gamepad support' /}
+      {/call}
+      {call .button_ data="all"}
+        {param id: 'gamepad-connected' /}
+        {param icon: 'videogame_asset' /}
+        {param title: 'Gamepad' /}
+      {/call}
+    </div>
+
   </div>
 {/template}
 
@@ -123,10 +134,14 @@
   {@param icon: string}
   {@param title: string}
   {@param prefix: string}
+  {@param? badge: string}
 
   <button id="{$prefix}{$id}"
           class="mdl-button mdl-js-button mdl-button--icon"
           title="{msg desc=""}{$title}{/msg}">
-    <i class="material-icons">{$icon}</i>
+    <i class="material-icons{if $badge} mdl-badge mdl-badge--overlap{/if}"
+      {if $badge}id="{$prefix}badge-{$id}" data-badge="{$badge}"{/if}>
+      {$icon}
+    </i>
   </button>
 {/template}

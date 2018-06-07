@@ -79,6 +79,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @private {!string} */
   this.tutorialPath_ = '../resources/tutorials/';
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
 
 
@@ -86,8 +89,11 @@ cwc.ui.SelectScreen = function(helper) {
  * Decorates the given node and adds the start screen.
  * @param {Element} node
  */
-cwc.ui.SelectScreen.prototype.decorate = function(node) {
-  this.node = node;
+cwc.ui.SelectScreen.prototype.decorate = function(node = this.node) {
+  if (this.node !== node) {
+    this.node = node;
+  }
+  this.events_.clear();
   goog.soy.renderElement(this.node, cwc.soy.SelectScreen.template, {
     'prefix': this.prefix,
   });
@@ -106,15 +112,15 @@ cwc.ui.SelectScreen.prototype.decorate = function(node) {
 
 /**
  * Creates a request to show the select screen.
- * @param {Function=} optCallback
+ * @param {Function=} callback
  * @param {boolean=} forceOverview
  */
-cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(optCallback,
+cwc.ui.SelectScreen.prototype.requestShowSelectScreen = function(callback,
     forceOverview = false) {
   let showSelectScreen = function() {
     this.showSelectScreen(forceOverview);
-    if (optCallback) {
-      optCallback();
+    if (callback) {
+      callback();
     }
   }.bind(this);
   this.helper.handleUnsavedChanges(showSelectScreen);
@@ -248,7 +254,8 @@ cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
 cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
   let elements = document.querySelectorAll('[data-select-screen-action]');
   Array.from(elements).forEach((element) => {
-    element.addEventListener('click', this.handleFileClick_.bind(this));
+    this.events_.listen(element, goog.events.EventType.CLICK,
+      this.handleFileClick_);
   });
 };
 

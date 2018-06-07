@@ -50,8 +50,8 @@
   -webkit-app-region: drag;
 }
 
-#{$prefix}gui-bar *,
 #{$prefix}gui-body *,
+#{$prefix}gui-menu-bar *,
 #{$prefix}gui-message *,
 #{$prefix}gui-titlebar *,
 #{$prefix}gui-header .mdl-layout-title * {

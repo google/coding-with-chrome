@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 The Coding with Chrome Authors.
+ * Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,6 @@
  */
 
 
-#{$prefix}menu-bar-menu {
-  margin: 5px;
-  float: left;
-}
-
-#{$prefix}menu-bar-body > div,
-#{$prefix}menu-bar-window-body > div {
-  float: right;
-  margin: 0 5px;
-  z-index: 1;
-}
-
-#{$prefix}menu-bar-account-logout-disabled,
-#{$prefix}menu-bar-bluetooth-disabled,
-#{$prefix}menu-bar-gamepad {
-  opacity: 0.5;
-}
-
-#{$prefix}menu-bar-language {
-  overflow: visible;
+#{$prefix}language-list > mdl-list__item.active {
+  background: #eee;
 }

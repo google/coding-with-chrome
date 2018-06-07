@@ -229,3 +229,19 @@ cwc.utils.I18n.getISO639_1 = function(language) {
 cwc.utils.I18n.bcp47ToISO639_3 = function(language) {
   return cwc.utils.I18nMapping.BCP47[language] || '';
 };
+
+
+/**
+ * @return {!Object}
+ */
+cwc.utils.I18n.getEnglishName = function() {
+  return cwc.utils.I18nMapping.englishName;
+};
+
+
+/**
+ * @return {!Object}
+ */
+cwc.utils.I18n.getNativeName = function() {
+  return cwc.utils.I18nMapping.nativeName;
+};
