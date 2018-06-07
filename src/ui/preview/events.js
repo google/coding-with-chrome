@@ -37,11 +37,9 @@ cwc.ui.PreviewEvents.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.ui.PreviewEvents.contentLoad = function(preview) {
+cwc.ui.PreviewEvents.contentLoad = function() {
   return new cwc.utils.EventData(
-    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, {
-      'preview': preview,
-    });
+    cwc.ui.PreviewEvents.Type.CONTENT_LOAD);
 };
 
 
