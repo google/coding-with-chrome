@@ -127,7 +127,6 @@ cwc.ui.Notification.prototype.warning = function(message) {
  */
 cwc.ui.Notification.prototype.showMessage = function(message,
     type = cwc.ui.NotificationType.INFO) {
-  
   // Console logging
   let prefix = '[' + type + ' notification]';
   switch (type) {
@@ -163,7 +162,7 @@ cwc.ui.Notification.prototype.showMessage = function(message,
 /**
  * Renders content and shows defined message snackbar.
  * @param {string} message
- * @param {cwc.ui.NotificationType=} optType
+ * @param {cwc.ui.NotificationType=} type
  */
 cwc.ui.Notification.prototype.showSnackbarMessage = function(message,
     type = cwc.ui.NotificationType.INFO) {

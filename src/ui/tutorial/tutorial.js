@@ -213,12 +213,13 @@ cwc.ui.Tutorial.prototype.start = function() {
      return;
   } // TODO(carheden): support iframe
 
+  // This attempts to run in case CONTENT_LOADED has already fired
+  this.runValidatePreview();
+  // This runs on future CONTENT_LOADED events
   let previewInstance = this.helper.getInstance('preview');
-  this.runValidatePreview(previewInstance.getContent());
-
   goog.events.listen(previewInstance.getEventHandler(),
-    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, (e) => {
-      this.runValidatePreview(e.data['preview']);
+    cwc.ui.PreviewEvents.Type.CONTENT_LOADED, () => {
+      this.runValidatePreview();
     }, false, this);
 };
 
@@ -226,11 +227,18 @@ cwc.ui.Tutorial.prototype.start = function() {
 /**
  * @param {Object} preview
  */
-cwc.ui.Tutorial.prototype.runValidatePreview = function(preview) {
-  if (!preview || !this.content_) {
+cwc.ui.Tutorial.prototype.runValidatePreview = function() {
+  if (!this.content_) {
+    this.log_.warn('runValidatePreview: No tutorial content');
     return;
   }
   if (this.validatePreview_) {
+    let previewInstance = this.helper.getInstance('preview');
+    let preview = previewInstance.getContent();
+    if (!preview) {
+      this.log_.warn('runValidatePreview: No preview submitted');
+        return;
+    }
     preview.executeScript({code: this.validatePreview_}, (results) => {
       this.log_.info('validatePreview returned', results);
       let message = '';
