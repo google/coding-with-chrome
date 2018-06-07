@@ -39,24 +39,12 @@ goog.require('goog.ui.SplitPane.Orientation');
 
 /**
  * Supported layout types.
- * @enum {!string}
+ * @enum {!number}
  */
 cwc.ui.LayoutType = {
-  DEFAULT: 'default',
-  BLANK: 'blank',
-  NONE: 'none',
-};
-
-
-/**
- * Supported layout nodes.
- * @enum {!string}
- */
-cwc.ui.LayoutNode = {
-  CONTENT: 'content',
-  CONTENT_EDITOR: 'content-editor',
-  CONTENT_PREVIEW: 'content-preview',
-  OVERLAY: 'overlay',
+  NONE: 0,
+  BLANK: 1,
+  DEFAULT: 2,
 };
 
 

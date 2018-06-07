@@ -23,10 +23,10 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {string}
+ * @enum {number}
  */
 cwc.mode.Modder.Events.Type = {
-  MODE_CHANGE: 'mode_change',
+  MODE_CHANGE: 1,
 };
 
 

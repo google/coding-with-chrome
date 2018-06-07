@@ -29,15 +29,15 @@ goog.require('goog.soy');
 
 
 /**
- * @enum {string}
+ * @enum {!number}
  */
 cwc.ui.NotificationType = {
-  CONFIRM: 'confirm',
-  DEBUG: 'debug',
-  ERROR: 'error',
-  INFO: 'info',
-  SUCCESS: 'success',
-  WARNING: 'warning',
+  CONFIRM: 1,
+  DEBUG: 2,
+  ERROR: 3,
+  INFO: 4,
+  SUCCESS: 5,
+  WARNING: 6,
 };
 
 
@@ -123,13 +123,12 @@ cwc.ui.Notification.prototype.warning = function(message) {
 /**
  * Renders content and shows defined message window.
  * @param {string} message
- * @param {cwc.ui.NotificationType=} optType
+ * @param {cwc.ui.NotificationType=} type
  */
-cwc.ui.Notification.prototype.showMessage = function(message, optType) {
-  let type = optType || cwc.ui.NotificationType.INFO;
-  let prefix = '[' + type + ' notification]';
-
+cwc.ui.Notification.prototype.showMessage = function(message,
+    type = cwc.ui.NotificationType.INFO) {
   // Console logging
+  let prefix = '[' + type + ' notification]';
   switch (type) {
     case cwc.ui.NotificationType.INFO:
     case cwc.ui.NotificationType.SUCCESS:
@@ -163,15 +162,16 @@ cwc.ui.Notification.prototype.showMessage = function(message, optType) {
 /**
  * Renders content and shows defined message snackbar.
  * @param {string} message
- * @param {cwc.ui.NotificationType=} optType
+ * @param {cwc.ui.NotificationType=} type
  */
-cwc.ui.Notification.prototype.showSnackbarMessage = function(message, optType) {
+cwc.ui.Notification.prototype.showSnackbarMessage = function(message,
+    type = cwc.ui.NotificationType.INFO) {
   let snackbarData = {
     message: message,
     timeout: null,
   };
 
-  switch (optType || cwc.ui.NotificationType.INFO) {
+  switch (type) {
     case cwc.ui.NotificationType.INFO:
     case cwc.ui.NotificationType.SUCCESS:
       snackbarData['timeout'] = 3000;

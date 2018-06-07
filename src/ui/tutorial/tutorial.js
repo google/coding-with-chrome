@@ -213,12 +213,12 @@ cwc.ui.Tutorial.prototype.start = function() {
      return;
   } // TODO(carheden): support iframe
 
-  // This attempts to run in case CONTENT_LOAD has already fired
+  // This attempts to run in case CONTENT_LOADED has already fired
   this.runValidatePreview();
-  // This runs on future CONTENT_LOAD events
+  // This runs on future CONTENT_LOADED events
   let previewInstance = this.helper.getInstance('preview');
   goog.events.listen(previewInstance.getEventHandler(),
-    cwc.ui.PreviewEvents.Type.CONTENT_LOAD, () => {
+    cwc.ui.PreviewEvents.Type.CONTENT_LOADED, () => {
       this.runValidatePreview();
     }, false, this);
 };

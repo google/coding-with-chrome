@@ -109,11 +109,13 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
 /**
  * Adjust arcade sprite.
  * @param {Blockly.Block} block
+ * @param {string=} variableName
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block,
+    variableName = '') {
   let variable = Blockly.JavaScript.valueToCode(block,
-    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+    'variable', Blockly.JavaScript.ORDER_ATOMIC) || variableName;
   let dropdown_property = block.getFieldValue('property');
   let value_value = Blockly.JavaScript.valueToCode(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
@@ -153,37 +155,8 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block) {
  */
 Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_custom'] = function(
     block) {
-  let variable = Blockly.JavaScript.valueToCode(block,
-    'variable', Blockly.JavaScript.ORDER_ATOMIC) || 'arcadeSpriteCustom';
-  let dropdown_property = block.getFieldValue('property');
-  let value_value = Blockly.JavaScript.valueToCode(block,
-    'value', Blockly.JavaScript.ORDER_ATOMIC);
-  switch (dropdown_property) {
-    case 'angle':
-      return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
-    case 'acceleration.set':
-    case 'bounce.set':
-      return variable + '.body.' + dropdown_property +
-        '(' + value_value + ');\n';
-    case 'allowGravity':
-    case 'checkCollision.down':
-    case 'checkCollision.up':
-    case 'collideWorldBounds':
-    case 'immovable':
-      return variable + '.body.' + dropdown_property + ' = ' +
-        ((value_value && value_value !== '0') ? true : false) + ';\n';
-    case 'moveUp':
-      return variable + '.y -= ' + value_value + ';\n';
-    case 'moveDown':
-      return variable + '.y += ' + value_value + ';\n';
-    case 'moveLeft':
-      return variable + '.x -= ' + value_value + ';\n';
-    case 'moveRight':
-      return variable + '.x += ' + value_value + ';\n';
-    default:
-      return variable + '.body.' + dropdown_property +
-       ' = ' + value_value + ';\n';
-  }
+  return Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'](
+    block, 'arcadeSpriteCustom');
 };
 
 

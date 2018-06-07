@@ -138,7 +138,7 @@ cwc.ui.PreviewStatus.prototype.setStatusButton = function(statusButton) {
  * @private
  */
 cwc.ui.PreviewStatus.prototype.handleContentLoad_ = function() {
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoad());
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoaded());
 };
 
 
@@ -166,6 +166,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function(e) {
   }
   this.startTime = new Date().getTime();
   this.setStatus(cwc.ui.PreviewState.LOADING);
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStart());
 };
 
 
@@ -180,6 +181,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
   }
   this.stopTime = new Date().getTime();
   this.setStatus(cwc.ui.PreviewState.LOADED);
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStop());
 };
 
 
@@ -196,4 +198,5 @@ cwc.ui.PreviewStatus.prototype.handleUnresponsive_ = function() {
         this.terminate();
       }
     });
+  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.unresponsive());
 };

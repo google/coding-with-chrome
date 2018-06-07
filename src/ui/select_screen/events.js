@@ -23,10 +23,10 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {string}
+ * @enum {!number}
  */
 cwc.ui.SelectScreen.Events.Type = {
-  VIEW_CHANGE: 'view_change',
+  VIEW_CHANGE: 1,
 };
 
 
