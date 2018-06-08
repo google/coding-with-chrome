@@ -1,0 +1,71 @@
+/**
+ * @fileoverview Advanced screen: AIY
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author fstanis@google.com (Filip Stanis)
+ */
+{namespace cwc.soy.SelectScreenAdvanced.aiy autoescape="strict"}
+
+
+/** Default icon. */
+{template .icon}
+  memory
+{/template}
+
+
+/**
+ * Normal overview page.
+ */
+{template .overview}
+
+  {call cwc.soy.SelectScreenTemplate.container}
+    {param header kind="html"}
+      {call cwc.soy.SelectScreenTemplate.header}
+        {param title: 'Google AIY' /}
+        {param opt_text: 'Create projects for the Google AIY kits - Vision Kit and Voice Kit' /}
+        {param opt_icon kind="html"}{call .icon /}{/param}
+      {/call}
+    {/param}
+
+    {param content kind="html"}
+      {call cwc.soy.SelectScreenTemplate.fileCardList}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Voice Kit' /}
+            {param text: 'Start building for the AIY Voice Kit' /}
+            {param opt_link_text: 'Create new project' /}
+            {param mode: 'aiy' /}
+            {param file: 'aiy/voice.py' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'record_voice_over' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Vision Kit' /}
+            {param text: 'Start building for the AIY Voice Kit' /}
+            {param opt_link_text: 'Create new project' /}
+            {param mode: 'aiy' /}
+            {param file: 'aiy/vision.py' /}
+            {param opt_color_class: 'bg-orange' /}
+            {param opt_icon: 'videocam' /}
+          {/call}
+        {/param}
+      {/call}
+
+    {/param}
+  {/call}
+
+{/template}

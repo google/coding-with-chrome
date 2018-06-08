@@ -22,6 +22,7 @@ goog.provide('cwc.mode.Mod');
 
 goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Type');
+goog.require('cwc.mode.aiy.Mod');
 goog.require('cwc.mode.basic.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
 goog.require('cwc.mode.lego.ev3.Mod');
@@ -95,6 +96,19 @@ cwc.mode.Mod.prototype.getMod = function(helper) {
  * enum {Object}
  */
 cwc.mode.ConfigData = {};
+
+
+/**
+ * AIY mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.AIY] = new cwc.mode.Mod({
+  authors: ['Filip Stanis'],
+  mime_types: [cwc.utils.mime.Type.PYTHON.type],
+  mod: cwc.mode.aiy.Mod,
+  name: 'AIY',
+  template: '',
+});
+
 
 /**
  * Basic mode.

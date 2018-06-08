@@ -104,6 +104,7 @@ cwc.Cache.prototype.update = async function(version) {
 cwc.Cache.prototype.loadFiles = async function(files) {
   let promises = [];
   for (let file of Object.keys(files)) {
+    console.log(file);
     if (goog.isString(files[file])) {
         promises.push(cwc.utils.Resources.getUriAsText('..' + files[file])
           .then((content) => {
@@ -161,6 +162,7 @@ cwc.Cache.prototype.getPreloadedFile = function(name) {
  * @return {Promise}
  */
 cwc.Cache.prototype.preloadFile = function(name) {
+  console.log(name);
   return new Promise((resolve, reject) => {
     if (this.cache_[name] !== undefined) {
       resolve();

@@ -74,6 +74,12 @@
           {param name: 'Graphic' /}
           {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.graphic.icon /}{/param}
         {/call}
+
+        {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
+          {param id: 'aiy' /}
+          {param name: 'AIY' /}
+          {param icon kind="html"}{call cwc.soy.SelectScreenAdvanced.aiy.icon /}{/param}
+        {/call}
       </nav>
     </header>
 
@@ -126,6 +132,13 @@
         {param id: 'graphic' /}
         {param content kind="html"}
           {call cwc.soy.SelectScreenAdvanced.graphic.overview data="all" /}
+        {/param}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
+        {param id: 'aiy' /}
+        {param content kind="html"}
+          {call cwc.soy.SelectScreenAdvanced.aiy.overview data="all" /}
         {/param}
       {/call}
 
@@ -203,6 +216,15 @@
         {param tab: 'graphic' /}
         {param opt_color_class: 'bg-blue' /}
         {param opt_icon: '3d_rotation' /}
+      {/call}
+
+      {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
+        {param title: 'AIY' /}
+        {param text: 'Build for one of the Google AIY kits' /}
+        {param link_text: 'Start with AIY' /}
+        {param tab: 'aiy' /}
+        {param opt_color_class: 'bg-orange' /}
+        {param opt_icon: 'build' /}
       {/call}
 
     {/param}

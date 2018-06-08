@@ -53,6 +53,7 @@ cwc.config.framework.External = {
  * @enum {!Object.<string>|string}
  */
 cwc.config.framework.Internal = {
+  AIY: '/frameworks/internal/aiy_framework.js',
   EV3: '/frameworks/internal/ev3_framework.js',
   JAVASCRIPT: '/frameworks/internal/javascript_framework.js',
   MBOT: '/frameworks/internal/mbot_framework.js',

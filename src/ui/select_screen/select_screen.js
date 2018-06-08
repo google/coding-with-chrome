@@ -180,9 +180,9 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
     skipWelcomeScreen = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.SKIP_WELCOME);
+      cwc.userConfigName.SKIP_WELCOME);
     advancedMode = userConfigInstance.get(cwc.userConfigType.GENERAL,
-            cwc.userConfigName.ADVANCED_MODE);
+      cwc.userConfigName.ADVANCED_MODE);
   }
   if (this.lockBasicMode && !forceOverview) {
     this.showOverview();
@@ -221,7 +221,7 @@ cwc.ui.SelectScreen.prototype.showOverview = function(advanced = false) {
     let userConfigInstance = this.helper.getInstance('userConfig');
     if (userConfigInstance) {
       userConfigInstance.set(cwc.userConfigType.GENERAL,
-          cwc.userConfigName.ADVANCED_MODE, advanced);
+        cwc.userConfigName.ADVANCED_MODE, advanced);
     }
     this.updateMode = false;
   }
@@ -346,6 +346,7 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
         break;
       }
       case 'switchTab': {
+        console.log(filename);
         document.getElementById(filename)['click']();
         break;
       }
