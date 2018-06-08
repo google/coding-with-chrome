@@ -167,8 +167,13 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
           [i18t('bounce y'), 'bounce.y'],
           [i18t('bounce'), 'bounce.set'],
           [i18t('allow gravity'), 'allowGravity'],
-          [i18t('checkCollision down'), 'checkCollision.down'],
-          [i18t('checkCollision up'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+            'checkCollision.down'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+            'checkCollision.left'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+            'checkCollision.right'],
           [i18t('collide world bounds'), 'collideWorldBounds'],
           [i18t('gravity x'), 'gravity.x'],
           [i18t('gravity y'), 'gravity.y'],
@@ -204,8 +209,13 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_custom'] = {
           [i18t('bounce y'), 'bounce.y'],
           [i18t('bounce'), 'bounce.set'],
           [i18t('allow gravity'), 'allowGravity'],
-          [i18t('checkCollision down'), 'checkCollision.down'],
-          [i18t('checkCollision up'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+            'checkCollision.down'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+            'checkCollision.left'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+            'checkCollision.right'],
           [i18t('collide world bounds'), 'collideWorldBounds'],
           [i18t('gravity x'), 'gravity.x'],
           [i18t('gravity y'), 'gravity.y'],
@@ -253,6 +263,25 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
 
 
 /**
+ * Destroy arcade sprite.
+ */
+Blockly.Blocks['phaser_pyhsics_arcade_sprite_destroy'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('destroy tile sprite'));
+    this.appendValueInput('variable');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Physics arcade enable.
  */
 Blockly.Blocks['phaser_physics_arcade_enable'] = {
@@ -281,7 +310,7 @@ Blockly.Blocks['phaser_physics_arcade_overlap'] = {
     this.appendDummyInput()
         .appendField(i18t('and'));
     this.appendValueInput('object2');
-    this.appendStatementInput('func')
+    this.appendStatementInput('CODE')
         .appendField(i18t('@@BLOCKS__DO'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Update');

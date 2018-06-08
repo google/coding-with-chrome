@@ -56,3 +56,28 @@ Blockly.JavaScript['phaser_world_attributes'] = function(block) {
   let code = 'game.world.' + dropdown_attribute;
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+
+/**
+ * World Arcade Physics.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_world_arcade_physics'] = function(block) {
+  let dropdown_property = block.getFieldValue('property');
+  let value_value = Blockly.JavaScript.valueToCode(block,
+    'value', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'game.physics.arcade.' + dropdown_property + ' = ' + value_value +
+    ';\n';
+};
+
+
+/**
+ * World sort direction.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_world_sort_direction'] = function(block) {
+  let dropdown_property = block.getFieldValue('property');
+  return 'game.physics.arcade.sortDirection = ' + dropdown_property + ';\n';
+};

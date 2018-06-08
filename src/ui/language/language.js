@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.Language');
 
 goog.require('cwc.soy.ui.Language');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');

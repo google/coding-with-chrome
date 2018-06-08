@@ -62,6 +62,5 @@ Blockly.BlocksHelper['phaser_images'] = function(name = '') {
   if (!spriteList.length) {
     spriteList.push(['none', 'none']);
   }
-  console.log(spriteList);
   return spriteList;
 };

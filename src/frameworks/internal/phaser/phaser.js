@@ -25,16 +25,16 @@ goog.provide('cwc.framework.Phaser');
  * @param {!number} x
  * @param {!number} y
  * @param {!string} sprite_name
- * @param {Object=} opt_group
+ * @param {Object=} group
  * @param {string=} opt_manipulation
  * @param {string=} opt_manipulation_value
  * @export
  */
 cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name,
-    opt_group, opt_manipulation, opt_manipulation_value) {
+    group, opt_manipulation, opt_manipulation_value) {
   let sprite = game.add.sprite(x, y, sprite_name);
-  if (opt_group) {
-    opt_group.add(sprite);
+  if (group) {
+    group.add(sprite);
   }
   game.physics.arcade.enable(sprite);
   sprite['checkWorldBounds'] = true;
@@ -117,6 +117,33 @@ cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
         (opt_sprite && i === numBlocks) ? opt_sprite : sprite,
         opt_group, opt_manipulation,
         opt_manipulation_value);
+    }
+  }
+};
+
+
+/**
+ * @param {!string} sprite
+ * @param {!Array} data
+ * @param {number=} x
+ * @param {number=} y
+ * @param {number=} padding
+ * @param {Object=} group
+ * @export
+ */
+cwc.framework.Phaser.MatrixBlockGenerator = function(sprite, data,
+    x = 0, y = 0, padding = 10, group) {
+  let index = 0;
+  let spriteWidth = game.cache.getImage(sprite).width;
+  let spriteHeight = game.cache.getImage(sprite).height;
+  for (let row = 0; row <= 7; row++) {
+    for (let column = 0; column <= 7; column++) {
+      if (data[index]) {
+        let block_x = (column * (spriteWidth + padding)) + x;
+        let block_y = (row * (spriteHeight + padding)) + y;
+        cwc.framework.Phaser.addGroupSprite(block_x, block_y, sprite, group);
+      }
+      index++;
     }
   }
 };

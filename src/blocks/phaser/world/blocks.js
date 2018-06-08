@@ -79,3 +79,63 @@ Blockly.Blocks['phaser_world_attributes'] = {
     this.setHelpUrl('');
   },
 };
+
+
+/**
+ * World Arcade Physics.
+ */
+Blockly.Blocks['phaser_world_arcade_physics'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(i18t('world arcade physics'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+            'checkCollision.down'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+            'checkCollision.left'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+            'checkCollision.right'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('pause'), 'isPaused'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('to'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setInputsInline(true);
+    this.setColour(345);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * World sort direction.
+ */
+Blockly.Blocks['phaser_world_sort_direction'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.adjust())
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(i18t('world sort direction'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('none'), 0],
+          [i18t('left to right'), 1],
+          [i18t('right to left'), 2],
+          [i18t('top to bottom'), 3],
+          [i18t('bottom to top'), 4],
+        ]), 'property');
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setInputsInline(true);
+    this.setColour(345);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};

@@ -30,8 +30,7 @@ Blockly.JavaScript['phaser_game'] = function(block) {
     Number(block.getFieldValue('width')) || 'window.innerWidth';
   let number_height =
     Number(block.getFieldValue('height')) || 'window.innerHeight';
-  return 'var obstacle_group;\n' +
-    'var game = new Phaser.Game(' + number_width + ', ' + number_height +
+  return 'let game = new Phaser.Game(' + number_width + ', ' + number_height +
       ', Phaser.AUTO, \'' + text_name + '\');\n';
 };
 

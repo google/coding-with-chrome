@@ -23,6 +23,7 @@ goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');
 goog.require('cwc.ui.SelectScreenWelcome');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
 goog.require('goog.dom');

@@ -40,20 +40,20 @@
     </value>
     <statement name="CODE">
       {call .attribute_}
-        {param property: 'bounce.set' /}
-        {param value: 1 /}
+        {param property: 'velocity.x' /}
+        {param value: 50 /}
         {param content kind="html"}
           {call .attribute_}
-            {param property: 'collideWorldBounds' /}
-            {param value: 1 /}
+            {param property: 'velocity.y' /}
+            {param value: 100 /}
             {param content kind="html"}
               {call .attribute_}
-                {param property: 'velocity.x' /}
-                {param value: 50 /}
+                {param property: 'bounce.set' /}
+                {param value: 1 /}
                 {param content kind="html"}
                   {call .attribute_}
-                    {param property: 'velocity.y' /}
-                    {param value: 100 /}
+                    {param property: 'collideWorldBounds' /}
+                    {param value: 1 /}
                   {/call}
                 {/param}
               {/call}
@@ -88,7 +88,7 @@
       <block type="math_number"><field name="NUM">50</field></block>
     </value>
     <value name="y">
-      <block type="math_number"><field name="NUM">400</field></block>
+      <block type="math_number"><field name="NUM">500</field></block>
     </value>
     <statement name="CODE">
       {call .attribute_}

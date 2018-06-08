@@ -46,7 +46,7 @@
       {/call}
 
       <category name="@@BLOCKS_PHASER__GENERATOR" colour="105">
-        {call .generatorBlocks /}
+        {call cwc.soy.phaser.GeneratorBlocks.toolbox /}
       </category>
 
       <category name="@@BLOCKS_PHASER__WORLD" colour="345">
@@ -320,6 +320,16 @@
 
   {if $opt_show_create_blocks}
     <block type="phaser_world_resize"></block>
+
+    <block type="phaser_world_arcade_physics">
+      <value name="value">
+        <block type="math_number"><field name="NUM">0</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_world_sort_direction">
+      <field name="property">1</field>
+    </block>
   {/if}
 
   {if not $opt_show_create_blocks}
@@ -540,97 +550,6 @@
 
 
 /**
- * Generator blocks.
- */
-{template .generatorBlocks}
-  <block type="phaser_generator_vertical_obstacle">
-    <value name="obstacles">
-      <block type="math_number">
-        <field name="NUM">12</field>
-      </block>
-    </value>
-    <value name="spaces">
-      <block type="math_number">
-        <field name="NUM">5</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="phaser_world_attributes">
-        <field name="attribute">width</field>
-      </block>
-    </value>
-    <value name="y">
-      <block type="math_number">
-        <field name="NUM">0</field>
-      </block>
-    </value>
-    <value name="sprite">
-      <block type="text">
-        <field name="TEXT">obstacles</field>
-      </block>
-    </value>
-    <value name="sprite_top">
-      <block type="text"></block>
-    </value>
-    <value name="sprite_bottom">
-      <block type="text"></block>
-    </value>
-    <value name="group">
-      <block type="variables_get">
-        <field name="VAR">obstacle_group</field>
-      </block>
-    </value>
-    <field name="property">velocity.x</field>
-    <value name="value">
-      <block type="math_number">
-        <field name="NUM">-200</field>
-      </block>
-    </value>
-  </block>
-
-  <block type="phaser_generator_random_vertical_obstacle">
-    <value name="obstacles">
-      <block type="math_number">
-        <field name="NUM">3</field>
-      </block>
-    </value>
-    <value name="x">
-      <block type="phaser_world_attributes">
-        <field name="attribute">width</field>
-      </block>
-    </value>
-    <value name="y">
-      <block type="phaser_world_attributes">
-        <field name="attribute">height</field>
-      </block>
-    </value>
-    <value name="sprite">
-      <block type="text">
-        <field name="TEXT">obstacles</field>
-      </block>
-    </value>
-    <value name="sprite_optional">
-      <block type="text">
-        <field name="TEXT"></field>
-      </block>
-    </value>
-    <field name="direction">bottom</field>
-    <value name="group">
-      <block type="variables_get">
-        <field name="VAR">obstacle_group</field>
-      </block>
-    </value>
-    <field name="property">velocity.x</field>
-    <value name="value">
-      <block type="math_number">
-        <field name="NUM">-200</field>
-      </block>
-    </value>
-  </block>
-{/template}
-
-
-/**
  * Game blocks.
  */
 {template .gameBlocks}
@@ -757,6 +676,29 @@
   </block>
 
   {if not $opt_show_create_blocks}
+
+    <block type="phaser_physics_arcade_overlap">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">block_group</field>
+        </block>
+      </value>
+      <statement name="CODE">
+        <block type="phaser_pyhsics_arcade_sprite_destroy">
+          <value name="variable">
+            <block type="variables_get">
+              <field name="VAR">object2</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+
     <block type="phaser_physics_arcade_overlap">
       <value name="object1">
         <block type="variables_get">

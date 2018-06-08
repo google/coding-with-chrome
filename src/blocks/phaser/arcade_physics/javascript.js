@@ -179,6 +179,18 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
 
 
 /**
+ * Destroy arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_pyhsics_arcade_sprite_destroy'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + '.kill();\n';
+};
+
+
+/**
  * Physics arcade enable.
  * @param {Blockly.Block} block
  * @return {!string}
@@ -200,9 +212,9 @@ Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
     block, 'object1', Blockly.JavaScript.ORDER_ATOMIC);
   let value_object2 = Blockly.JavaScript.valueToCode(
     block, 'object2', Blockly.JavaScript.ORDER_ATOMIC);
-  let statements_func = Blockly.JavaScript.statementToCode(block, 'func');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'game.physics.arcade.overlap(' + value_object1 + ', ' +
-    value_object2 + ', function() {\n' + statements_func +
+    value_object2 + ', function(object1, object2) {\n' + statements_code +
     '}, null, this);\n';
 };
 
