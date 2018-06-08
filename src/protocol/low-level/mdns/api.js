@@ -20,6 +20,8 @@
 goog.provide('cwc.protocol.mDNS.Api');
 
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.EventData');
+goog.require('goog.events.EventTarget');
 
 
 /**
@@ -31,8 +33,12 @@ cwc.protocol.mDNS.Api = function() {
   /** @type {string} */
   this.name = 'mDNS';
 
-  /** @type {!Object} */
-  this.services = {
+  /** @type {goog.events.EventTarget} */
+  this.eventHandler = new goog.events.EventTarget();
+
+  /** @private {!Object} */
+  this.services_ = {
+    '_aiy_cwc._tcp.local': [],
     '_cros_p2p._tcp.local': [],
     '_ssh._tcp.local': [],
   };
@@ -47,8 +53,34 @@ cwc.protocol.mDNS.Api = function() {
  * @param {Array} data
  */
 cwc.protocol.mDNS.Api.prototype.updateService = function(service, data = []) {
-  this.services[service] = data;
+  this.services_[service] = data;
+  this.eventHandler.dispatchEvent(new cwc.utils.EventData(service, data));
   if (data && data.length >= 1) {
     this.log_.info(service, data);
   }
+};
+
+
+/**
+ * @param {string} service
+ * @return {Array}
+ */
+cwc.protocol.mDNS.Api.prototype.getServiceList = function(service) {
+  return this.services_[service];
+};
+
+
+cwc.protocol.mDNS.Api.prototype.forceDiscovery = function() {
+  if (chrome.mdns) {
+    chrome.mdns.forceDiscovery();
+  }
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ * @export
+ */
+cwc.protocol.aiy.Api.prototype.getEventHandler = function() {
+  return this.eventHandler;
 };

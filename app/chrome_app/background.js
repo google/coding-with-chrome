@@ -56,6 +56,9 @@ chrome.app.runtime.onLaunched.addListener(
             let mDNS = editor.contentWindow.CWC_BUILDER.mDNS.bind(
               editor.contentWindow.CWC_BUILDER);
             chrome.mdns.onServiceList.addListener((data) => {
+              mDNS('_aiy_cwc._tcp.local', data);
+            }, {serviceType: '_aiy_cwc._tcp.local'});
+            chrome.mdns.onServiceList.addListener((data) => {
                 mDNS('_cros_p2p._tcp.local', data);
               }, {serviceType: '_cros_p2p._tcp.local'});
             chrome.mdns.onServiceList.addListener((data) => {

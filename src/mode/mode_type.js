@@ -25,6 +25,7 @@ goog.provide('cwc.mode.Type');
  * @enum {string}
  */
 cwc.mode.Type = {
+  AIY: 'aiy',
   ARDUINO: 'arduino',
   BASIC: 'basic',
   BASIC_BLOCKLY: 'basic_blockly',

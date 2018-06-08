@@ -34,6 +34,10 @@ const tagMap = {
     appendNode: '#select-screen-tab-graphic .cwc-tutorial-list',
     mode: cwc.mode.Type.BASIC,
   },
+  'CWC Advanced - AIY': {
+    appendNode: '#select-screen-tab-aiy .cwc-tutorial-list',
+    mode: cwc.mode.Type.AIY,
+  },
   'CWC Advanced - CoffeeScript': {
     appendNode: '#select-screen-tab-coffeescript .cwc-tutorial-list',
     mode: cwc.mode.Type.COFFEESCRIPT,
