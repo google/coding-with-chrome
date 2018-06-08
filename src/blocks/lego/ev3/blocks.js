@@ -306,8 +306,8 @@ Blockly.Blocks['ev3_move_pen'] = {
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('move pen('))
       .appendField(new Blockly.FieldDropdown([
-        [i18t('down'), 'down'],
-        [i18t('up'), 'up'],
+        [i18t('@@BLOCKS__DOWN'), 'down'],
+        [i18t('@@BLOCKS__UP'), 'up'],
       ]), 'direction')
       .appendField(', ')
       .appendField(new Blockly.FieldTextInput('300'), 'steps')

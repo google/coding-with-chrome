@@ -22,11 +22,149 @@
 
 
 /**
- * Toolbox
+ * Arcade Physics sprite Toolbox
  */
 {template .toolbox}
+  {@param? opt_show_create_blocks: bool}
 
-  <block type="phaser_pyhsics_arcade_sprite_ball_add">
+  {if $opt_show_create_blocks}
+
+    {call .predefinedBlocks_ /}
+
+    <block type="phaser_physics_arcade_sprite_adjust_custom">
+      <value name="value">
+        <block type="math_number"></block>
+      </value>
+    </block>
+
+    <block type="phaser_physics_arcade_sprite_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="x">
+        <block type="math_number"><field name="NUM">50</field></block>
+      </value>
+      <value name="y">
+        <block type="math_number"><field name="NUM">100</field></block>
+      </value>
+    </block>
+
+    <block type="phaser_physics_arcade_out_of_bounds">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+    </block>
+  {/if}
+
+  <block type="phaser_physics_arcade_sprite_adjust">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
+
+  <block type="phaser_physics_arcade_sprite_adjust_dimension">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">player</field>
+      </block>
+    </value>
+    <value name="width">
+      <block type="math_number"><field name="NUM">50</field></block>
+    </value>
+    <value name="height">
+      <block type="math_number"><field name="NUM">50</field></block>
+    </value>
+  </block>
+
+  <block type="phaser_physics_arcade_enable">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+
+  {if not $opt_show_create_blocks}
+
+    <block type="phaser_physics_arcade_overlap">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">block_group</field>
+        </block>
+      </value>
+      <statement name="CODE">
+        <block type="phaser_physics_arcade_sprite_destroy">
+          <value name="variable">
+            <block type="variables_get">
+              <field name="VAR">object2</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+
+    <block type="phaser_physics_arcade_overlap">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">obstacle_group</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_physics_arcade_collide">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">ball</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">paddle</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="phaser_physics_arcade_collide">
+      <value name="object1">
+        <block type="variables_get">
+          <field name="VAR">player</field>
+        </block>
+      </value>
+      <value name="object2">
+        <block type="variables_get">
+          <field name="VAR">floor</field>
+        </block>
+      </value>
+    </block>
+
+  {/if}
+{/template}
+
+
+/**
+ * Predefined arcade physics arcade sprite
+ */
+{template .predefinedBlocks_ private="true"}
+  <block type="phaser_physics_arcade_sprite_ball_add">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">ball</field>
@@ -64,7 +202,7 @@
     </statement>
   </block>
 
-  <block type="phaser_pyhsics_arcade_sprite_player_add">
+  <block type="phaser_physics_arcade_sprite_player_add">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">player</field>
@@ -78,7 +216,7 @@
     </value>
   </block>
 
-  <block type="phaser_pyhsics_arcade_sprite_paddle_add">
+  <block type="phaser_physics_arcade_sprite_paddle_add">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">paddle</field>
@@ -121,7 +259,7 @@
   {@param? value: number}
   {@param? content: ?}
 
-  <block type="phaser_pyhsics_arcade_sprite_adjust_custom">
+  <block type="phaser_physics_arcade_sprite_adjust_custom">
     <field name="property">{$property}</field>
     <value name="value">
       <block type="math_number">

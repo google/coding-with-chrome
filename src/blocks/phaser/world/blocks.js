@@ -49,7 +49,7 @@ Blockly.Blocks['phaser_world_wrap'] = {
         .appendField(i18t('World wrap sprite'));
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('padding'));
+        .appendField(i18t('@@BLOCKS__PADDING'));
     this.setInputsInline(true);
     this.setPreviousStatement(true, 'Update');
     this.setNextStatement(true, 'Update');

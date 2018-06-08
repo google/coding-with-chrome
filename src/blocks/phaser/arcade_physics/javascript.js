@@ -24,7 +24,7 @@
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_ball_add'] = function(block) {
+Blockly.JavaScript['phaser_physics_arcade_sprite_ball_add'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
@@ -46,7 +46,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_ball_add'] = function(block) {
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_player_add'] = function(
+Blockly.JavaScript['phaser_physics_arcade_sprite_player_add'] = function(
     block) {
   let text_sprite = block.getFieldValue('sprite');
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -69,7 +69,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_player_add'] = function(
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_paddle_add'] = function(
+Blockly.JavaScript['phaser_physics_arcade_sprite_paddle_add'] = function(
     block) {
   let text_sprite = block.getFieldValue('sprite');
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -92,7 +92,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_paddle_add'] = function(
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
+Blockly.JavaScript['phaser_physics_arcade_sprite_add'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
@@ -112,7 +112,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_add'] = function(block) {
  * @param {string=} variableName
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block,
+Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
     variableName = '') {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC) || variableName;
@@ -153,9 +153,9 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'] = function(block,
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_custom'] = function(
+Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_custom'] = function(
     block) {
-  return Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust'](
+  return Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'](
     block, 'arcadeSpriteCustom');
 };
 
@@ -165,7 +165,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_custom'] = function(
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
+Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'] = function(
     block) {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
@@ -183,7 +183,7 @@ Blockly.JavaScript['phaser_pyhsics_arcade_sprite_adjust_dimension'] = function(
  * @param {Blockly.Block} block
  * @return {!string}
  */
-Blockly.JavaScript['phaser_pyhsics_arcade_sprite_destroy'] = function(block) {
+Blockly.JavaScript['phaser_physics_arcade_sprite_destroy'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.kill();\n';
@@ -232,3 +232,19 @@ Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
   return 'game.physics.arcade.collide(' + value_object1 + ', ' +
     value_object2 + ');\n';
 };
+
+
+/**
+ * Physics arcade out of bounds.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_physics_arcade_out_of_bounds'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return variable + '.checkWorldBounds = true;\n' +
+    variable + '.events.onOutOfBounds.add(function() {\n' + statements_code +
+    '}, this);\n';
+};
+

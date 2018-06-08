@@ -45,6 +45,14 @@
       </value>
     </block>
 
+    <block type="phaser_input_keyboard_wasd_keys_add">
+      <value name="variable">
+        <block type="variables_get">
+          <field name="VAR">wasd_keys</field>
+        </block>
+      </value>
+    </block>
+
     <block type="phaser_input_keyboard_key_add">
       <value name="variable">
         <block type="variables_get">
@@ -80,7 +88,7 @@
             </block>
           </value>
           <statement name="DO0">
-            <block type="phaser_pyhsics_arcade_sprite_adjust">
+            <block type="phaser_physics_arcade_sprite_adjust">
               <value name="variable">
                 <block type="variables_get">
                   <field name="VAR">paddle</field>
@@ -104,7 +112,7 @@
             </block>
           </value>
           <statement name="DO1">
-            <block type="phaser_pyhsics_arcade_sprite_adjust">
+            <block type="phaser_physics_arcade_sprite_adjust">
               <value name="variable">
                 <block type="variables_get">
                   <field name="VAR">paddle</field>
@@ -118,7 +126,7 @@
             </block>
           </statement>
           <statement name="ELSE">
-            <block type="phaser_pyhsics_arcade_sprite_adjust">
+            <block type="phaser_physics_arcade_sprite_adjust">
               <value name="variable">
                 <block type="variables_get">
                   <field name="VAR">paddle</field>

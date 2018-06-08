@@ -67,7 +67,29 @@ Blockly.Blocks['phaser_input_keyboard_cursor_keys_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as capture keyboard cursors keys'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_CURSOR_KEYS'))
+        .appendField(Blockly.BlocksTemplate.keyboard());
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(135);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Add keyboard WASD keys.
+ */
+Blockly.Blocks['phaser_input_keyboard_wasd_keys_add'] = {
+  init: function() {
+    this.appendValueInput('variable')
+        .appendField(Blockly.BlocksTemplate.addCircle())
+        .appendField(i18t('@@BLOCKS__DEFINE'));
+    this.appendDummyInput()
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_WASD_KEYS'))
         .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -87,7 +109,8 @@ Blockly.Blocks['phaser_input_keyboard_spacebar_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as capture keyboard spacebar'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_SPACEBAR'))
         .appendField(Blockly.BlocksTemplate.keyboard());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -107,7 +130,8 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as capture keyboard key'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_KEYS'))
         .appendField(new Blockly.FieldDropdown([
           [i18t('shift key'), 'Phaser.KeyCode.SHIFT'],
           [i18t('control key'), 'Phaser.KeyCode.CONTROL'],
@@ -157,10 +181,10 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_pressed'] = {
     this.appendDummyInput()
         .appendField(i18t('is pressed'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('up'), '.up'],
-          [i18t('down'), '.down'],
-          [i18t('left'), '.left'],
-          [i18t('right'), '.right'],
+          [i18t('@@BLOCKS__UP'), '.up'],
+          [i18t('@@BLOCKS__DOWN'), '.down'],
+          [i18t('@@BLOCKS__LEFT'), '.left'],
+          [i18t('@@BLOCKS__RIGHT'), '.right'],
           [i18t('key pressed'), ''],
         ]), 'direction');
     this.setInputsInline(true);
@@ -182,10 +206,10 @@ Blockly.Blocks['phaser_input_keyboard_cursor_is_hold_pressed'] = {
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('up'), '.up'],
-          [i18t('down'), '.down'],
-          [i18t('left'), '.left'],
-          [i18t('right'), '.right'],
+          [i18t('@@BLOCKS__UP'), '.up'],
+          [i18t('@@BLOCKS__DOWN'), '.down'],
+          [i18t('@@BLOCKS__LEFT'), '.left'],
+          [i18t('@@BLOCKS__RIGHT'), '.right'],
           [i18t('key pressed'), ''],
         ]), 'direction');
     this.setInputsInline(true);
@@ -243,9 +267,9 @@ Blockly.Blocks['phaser_input_mouse_key_is_pressed'] = {
     this.appendDummyInput()
         .appendField(i18t('is pressed'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('left'), 'leftButton.isDown'],
-          [i18t('right'), 'rightButton.isDown'],
-          [i18t('all'), 'isDown'],
+          [i18t('@@BLOCKS__LEFT'), 'leftButton.isDown'],
+          [i18t('@@BLOCKS__RIGHT'), 'rightButton.isDown'],
+          [i18t('@@BLOCKS__ALL'), 'isDown'],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);
@@ -266,9 +290,9 @@ Blockly.Blocks['phaser_input_mouse_key_is_hold_pressed'] = {
     this.appendDummyInput()
         .appendField(i18t('is hold pressed'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('left'), 'leftButton.isDown'],
-          [i18t('right'), 'rightButton.isDown'],
-          [i18t('all'), 'isDown'],
+          [i18t('@@BLOCKS__LEFT'), 'leftButton.isDown'],
+          [i18t('@@BLOCKS__RIGHT'), 'rightButton.isDown'],
+          [i18t('@@BLOCKS__ALL'), 'isDown'],
         ]), 'direction');
     this.setInputsInline(true);
     this.setOutput(true, null);

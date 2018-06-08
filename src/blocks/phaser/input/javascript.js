@@ -58,6 +58,23 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
 
 
 /**
+ * Add keyboard WASD keys.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_input_keyboard_wasd_keys_add'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + ' = {\n' +
+    '  up: this.input.keyboard.addKey(Phaser.Keyboard.W),\n' +
+    '  down: this.input.keyboard.addKey(Phaser.Keyboard.S),\n' +
+    '  left: this.input.keyboard.addKey(Phaser.Keyboard.A),\n' +
+    '  right: this.input.keyboard.addKey(Phaser.Keyboard.D),\n' +
+    '}\n';
+};
+
+
+/**
  * Add keyboard spacebar.
  * @param {Blockly.Block} block
  * @return {!string}

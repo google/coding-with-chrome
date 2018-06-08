@@ -57,7 +57,7 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
         .appendField(i18t('bottom sprite'));
     this.appendValueInput('group')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('group'));
+        .appendField(i18t('@@BLOCKS__GROUP'));
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('property'))
@@ -118,7 +118,7 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
         .appendField(i18t('optional sprite'));
     this.appendValueInput('group')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('group'));
+        .appendField(i18t('@@BLOCKS__GROUP'));
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('direction'))
@@ -176,10 +176,10 @@ Blockly.Blocks['phaser_generator_matrix_block'] = {
     this.appendValueInput('padding')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField('padding');
+        .appendField(i18t('@@BLOCKS__PADDING'));
     this.appendValueInput('group')
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('group'));
+        .appendField(i18t('@@BLOCKS__GROUP'));
     this.appendDummyInput()
         .appendField('  ')
         .appendField(' 0')

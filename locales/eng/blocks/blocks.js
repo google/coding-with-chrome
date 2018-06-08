@@ -27,10 +27,17 @@ Locales['eng'] = Locales['eng'] || {};
  */
 /* eslint-disable max-len */
 Locales['eng']['BLOCKS'] = {
+  'ALL': 'all',
   'AS': 'as',
   'CHANGE': 'change',
   'DEFINE': 'define',
   'DO': 'do',
+  'DOWN': 'down',
+  'GROUP': 'group',
+  'LEFT': 'left',
   'LISTS': 'Lists',
+  'PADDING': 'padding',
+  'RIGHT': 'right',
   'SET': 'set',
+  'UP': 'up',
 };

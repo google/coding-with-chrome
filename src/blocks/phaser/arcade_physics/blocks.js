@@ -22,7 +22,7 @@
 /**
  * Add arcade sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
@@ -53,7 +53,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_add'] = {
 /**
  * Add ball sprite with bounce.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_ball_add'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_ball_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
@@ -86,7 +86,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_ball_add'] = {
 /**
  * Add player sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_player_add'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_player_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
@@ -119,7 +119,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_player_add'] = {
 /**
  * Add paddle sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_paddle_add'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_paddle_add'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.addCircle())
@@ -152,7 +152,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_paddle_add'] = {
 /**
  * Adjust arcade sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_adjust'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
@@ -197,7 +197,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust'] = {
 /**
  * Adjust arcade sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_custom'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(i18t('@@BLOCKS__SET'))
@@ -240,7 +240,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_custom'] = {
 /**
  * Adjust arcade sprite dimension.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
   init: function() {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.adjust())
@@ -265,7 +265,7 @@ Blockly.Blocks['phaser_pyhsics_arcade_sprite_adjust_dimension'] = {
 /**
  * Destroy arcade sprite.
  */
-Blockly.Blocks['phaser_pyhsics_arcade_sprite_destroy'] = {
+Blockly.Blocks['phaser_physics_arcade_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
@@ -289,6 +289,27 @@ Blockly.Blocks['phaser_physics_arcade_enable'] = {
     this.appendValueInput('variable')
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('@@BLOCKS_PHASER__PHYSICS_ARCADE_ENABLE'));
+    this.setPreviousStatement(true, 'Create');
+    this.setNextStatement(true, 'Create');
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Physics arcade out of bounds.
+ */
+Blockly.Blocks['phaser_physics_arcade_out_of_bounds'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.collide())
+        .appendField(i18t('on out of bounds'));
+    this.appendValueInput('variable');
+    this.appendStatementInput('CODE')
+        .appendField(i18t('@@BLOCKS__DO'));
+    this.setInputsInline(true);
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(0);
