@@ -298,7 +298,7 @@ cwc.ui.Preview.prototype.run = function() {
  * Stops the preview window.
  */
 cwc.ui.Preview.prototype.stop = function() {
-  if (!this.content) {
+  if (!this.content || this.content['src'] === 'about:blank') {
     return;
   }
   if (this.webviewSupport_) {

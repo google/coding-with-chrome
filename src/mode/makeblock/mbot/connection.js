@@ -97,7 +97,6 @@ cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
       }
     }.bind(this));
   }
-  this.api_.monitor(true);
 };
 
 
@@ -106,6 +105,10 @@ cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.stop = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    previewInstance.stop();
+  }
   this.api_.exec('stop');
 };
 

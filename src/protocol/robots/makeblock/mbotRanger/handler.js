@@ -95,7 +95,7 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['moveSteps'] = function(
 
 
 /**
- * Sets led light on the top of the mbot
+ * Sets led light on the top of the mBot Ranger
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
@@ -107,7 +107,7 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['setRGBLED'] = function(
 
 
 /**
- * Plays a tone through mBot's buzzer
+ * Plays a tone through mBot Ranger's buzzer
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
@@ -140,15 +140,29 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['getSensorData'] = function(
 
 
 /**
- * Stops mBot.
+ * Resets the mBot Ranger.
+ * @return {!ArrayBuffer}
+ */
+cwc.protocol.makeblock.mbotRanger.Handler.prototype['reset'] = function() {
+  return cwc.protocol.makeblock.mbotRanger.Commands.reset();
+};
+
+
+/**
+ * Stops mBot Ranger.
  * @return {!ArrayBuffer}
  */
 cwc.protocol.makeblock.mbotRanger.Handler.prototype['stop'] = function() {
   return [
     this['setRGBLED']({}),
-    cwc.protocol.makeblock.mbot.Commands.movePower(
-      0, cwc.protocol.makeblock.mbot.Port.LEFT_MOTOR),
-    cwc.protocol.makeblock.mbot.Commands.movePower(
-      0, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR),
+      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+        1, cwc.protocol.makeblock.mbotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+        1, cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+        0, cwc.protocol.makeblock.mbotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+        0, cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+    this['reset'](),
   ];
 };

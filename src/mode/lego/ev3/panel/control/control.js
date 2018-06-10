@@ -210,7 +210,7 @@ cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
   // General commands
   switch (event.identifier) {
     case 'stop':
-      this.api.stop();
+      this.api.exec('stop');
       break;
   }
 };

@@ -117,6 +117,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.prepare = function() {
   this.exec('playTone', {'frequency': 524, 'duration': 240});
   this.exec('playTone', {'frequency': 584, 'duration': 240});
   this.exec('getVersion');
+  this.monitor(true);
   this.prepared = true;
 };
 

@@ -177,6 +177,10 @@ cwc.mode.lego.ev3.Connection.prototype.getApi = function() {
  * Stops the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.stop = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    previewInstance.stop();
+  }
   this.api_.exec('stop');
 };
 

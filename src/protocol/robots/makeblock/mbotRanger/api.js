@@ -79,9 +79,9 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
 
 
 /**
- * Connects the mbot.
+ * Connects the mBot Ranger.
  * @param {!cwc.protocol.bluetooth.classic.Device} device
- * @return {boolean} Was able to prepare and connect to the mbot.
+ * @return {boolean} Was able to prepare and connect to the mBot.
  * @export
  */
 cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(device) {
@@ -120,7 +120,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
   this.exec('playTone', {'frequency': 584, 'duration': 240});
   this.exec('setRGBLED', {'red': 0, 'green': 0, 'blue': 0, 'index': 0});
   this.exec('getVersion');
-  this.monitoring.start();
+  this.monitor(true);
   this.prepared = true;
 };
 

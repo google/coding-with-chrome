@@ -21,19 +21,41 @@
 
 
 /**
- * Navigation link button.
+ * Navigation icon button.
  */
 {template .navigationIcon}
   {@param prefix: string}
   {@param id: string}
   {@param icon: string}
-  {@param? opt_title: string}
+  {@param? title: string}
 
   <span class="mdl-navigation__link">
     <button id="{$prefix}{$id}"
             class="mdl-button mdl-js-button mdl-button--icon"
-            {if $opt_title}title="{msg desc=""}{$opt_title}{/msg}"{/if}>
+            {if $title}title="{msg desc=""}{$title}{/msg}"{/if}>
       <i class="material-icons">{$icon}</i>
+    </button>
+  </span>
+
+{/template}
+
+
+/**
+ * Navigation icon and text button.
+ */
+{template .navigationIconText}
+  {@param prefix: string}
+  {@param id: string}
+  {@param icon: string}
+  {@param text: string}
+  {@param? title: string}
+
+  <span class="mdl-navigation__link">
+    <button id="{$prefix}{$id}"
+            class="mdl-button mdl-js-button"
+            {if $title}title="{msg desc=""}{$title}{/msg}"{/if}>
+      <i class="material-icons">{$icon}</i>
+      {msg desc=""}{$text}{/msg}
     </button>
   </span>
 

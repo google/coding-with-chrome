@@ -33,9 +33,9 @@ goog.require('goog.Timer');
 cwc.protocol.makeblock.mbotRanger.MonitoringIntervals = {
   'LIGHTSENSOR_1': 1500,
   'LIGHTSENSOR_2': 1750,
-  'LINEFOLLOWER': 200,
+  'LINEFOLLOWER': 250,
   'TEMPERATUR': 1500,
-  'ULTRASONIC': 200,
+  'ULTRASONIC': 250,
 };
 
 

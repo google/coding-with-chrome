@@ -118,6 +118,15 @@ cwc.protocol.makeblock.mbot.Handler.prototype['getSensorData'] = function(
 
 
 /**
+ * Resets the mBot.
+ * @return {!ArrayBuffer}
+ */
+cwc.protocol.makeblock.mbot.Handler.prototype['reset'] = function() {
+  return cwc.protocol.makeblock.mbot.Commands.reset();
+};
+
+
+/**
  * Stops mBot.
  * @return {!ArrayBuffer}
  */
@@ -128,5 +137,6 @@ cwc.protocol.makeblock.mbot.Handler.prototype['stop'] = function() {
       0, cwc.protocol.makeblock.mbot.Port.LEFT_MOTOR),
     cwc.protocol.makeblock.mbot.Commands.movePower(
       0, cwc.protocol.makeblock.mbot.Port.RIGHT_MOTOR),
+    this['reset'](),
   ];
 };

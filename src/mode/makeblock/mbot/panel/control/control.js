@@ -106,7 +106,7 @@ cwc.mode.makeblock.mbot.Control.prototype.cleanUp = function() {
 cwc.mode.makeblock.mbot.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
-    this.api.exec('rotatePower', {'power': -this.normalSpeed_});
+    this.api.exec('rotatePower', {'power': this.normalSpeed_});
   }, false, this);
 
   this.events_.listen('move-forward', goog.events.EventType.CLICK, function() {
@@ -118,7 +118,7 @@ cwc.mode.makeblock.mbot.Control.prototype.addEventHandler_ = function() {
   }, false, this);
 
   this.events_.listen('move-right', goog.events.EventType.CLICK, function() {
-    this.api.exec('rotatePower', {'power': this.normalSpeed_});
+    this.api.exec('rotatePower', {'power': -this.normalSpeed_});
   }, false, this);
 
   // Ping
@@ -155,7 +155,7 @@ cwc.mode.makeblock.mbot.Control.prototype.addGamepadHandler_ = function(
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.AXIS[0],
     (event) => {
       rotation = event.data ? true : false;
-      this.api.exec('rotatePower', {'power': event.data * 255});
+      this.api.exec('rotatePower', {'power': event.data * -255});
   });
   this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
     (event) => {
@@ -208,13 +208,13 @@ function(event) {
       this.api.exec('movePower', {'power': this.normalSpeed_});
       break;
     case 'right':
-      this.api.exec('rotatePower', {'power': this.normalSpeed_});
+      this.api.exec('rotatePower', {'power': -this.normalSpeed_});
       break;
     case 'backward':
       this.api.exec('movePower', {'power': -this.normalSpeed_});
       break;
     case 'left':
-      this.api.exec('rotatePower', {'power': -this.normalSpeed_});
+      this.api.exec('rotatePower', {'power': this.normalSpeed_});
       break;
 
     // Boosted speed
@@ -222,13 +222,13 @@ function(event) {
       this.api.exec('movePower', {'power': this.boostedSpeed_});
       break;
     case 'boost-right':
-      this.api.exec('rotatePower', {'power': this.boostedSpeed_});
+      this.api.exec('rotatePower', {'power': -this.boostedSpeed_});
       break;
     case 'boost-backward':
       this.api.exec('movePower', {'power': -this.boostedSpeed_});
       break;
     case 'boost-left':
-      this.api.exec('rotatePower', {'power': -this.boostedSpeed_});
+      this.api.exec('rotatePower', {'power': this.boostedSpeed_});
       break;
 
     case 'stop':

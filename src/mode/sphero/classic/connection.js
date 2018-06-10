@@ -117,6 +117,10 @@ cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
  * Stops the current executions.
  */
 cwc.mode.sphero.classic.Connection.prototype.stop = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    previewInstance.stop();
+  }
   this.api_.exec('stop');
 };
 

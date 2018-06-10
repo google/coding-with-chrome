@@ -106,6 +106,10 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
  * @export
  */
 cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
+  let previewInstance = this.helper.getInstance('preview');
+  if (previewInstance) {
+    previewInstance.stop();
+  }
   this.api_.exec('stop');
 };
 

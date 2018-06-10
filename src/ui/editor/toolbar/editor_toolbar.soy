@@ -34,28 +34,28 @@
         {param prefix: $prefix /}
         {param id: 'save' /}
         {param icon: 'save' /}
-        {param opt_title: 'Save the project' /}
+        {param title: 'Save the project' /}
       {/call}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'undo' /}
         {param icon: 'undo' /}
-        {param opt_title: 'Undo last change' /}
+        {param title: 'Undo last change' /}
       {/call}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'redo' /}
         {param icon: 'redo' /}
-        {param opt_title: 'Redo last change' /}
+        {param title: 'Redo last change' /}
       {/call}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'debug' /}
         {param icon: 'bug_report' /}
-        {param opt_title: 'Check Syntax...' /}
+        {param title: 'Check Syntax...' /}
       {/call}
 
       {if $experimental}
@@ -63,7 +63,7 @@
           {param prefix: $prefix /}
           {param id: 'publish' /}
           {param icon: 'cloud_upload' /}
-          {param opt_title: 'Publish to Google Cloud...' /}
+          {param title: 'Publish to Google Cloud...' /}
         {/call}
       {/if}
 
@@ -75,21 +75,21 @@
         {param prefix: $prefix /}
         {param id: 'expand' /}
         {param icon: 'fullscreen' /}
-        {param opt_title: 'Expand Text editor' /}
+        {param title: 'Expand Text editor' /}
       {/call}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'expand-exit' /}
         {param icon: 'fullscreen_exit' /}
-        {param opt_title: 'Collapse Text editor.' /}
+        {param title: 'Collapse Text editor.' /}
       {/call}
 
       {call cwc.soy.ui.Template.navigationIcon}
         {param prefix: $prefix /}
         {param id: 'menu-more' /}
         {param icon: 'more_vert' /}
-        {param opt_title: 'More options...' /}
+        {param title: 'More options...' /}
       {/call}
 
     </nav>
