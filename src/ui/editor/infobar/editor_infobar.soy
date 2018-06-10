@@ -26,26 +26,14 @@
  */
 {template .template}
   {@param prefix: string}
-  {@param modes: ?}
 
   <ul id="{$prefix}body">
-    <li id="{$prefix}terminal"></li>
     <li id="{$prefix}info">
       <i class="material-icons">short_text</i>
       <span id="{$prefix}line-text"></span>
     </li>
     <li id="{$prefix}views"></li>
     <li id="{$prefix}space"></li>
-    <li id="{$prefix}mode">
-      <button id="{$prefix}mode-select" class="mdl-button mdl-js-button" disabled>
-        <span id="{$prefix}mode-text">unknown</span>
-      </button>
-      <ul id="{$prefix}modes" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}mode-select">
-        {foreach $mode in $modes}
-          <li class="mdl-menu__item">{$mode}</li>
-        {/foreach}
-      </ul>
-    </li>
   </ul>
 
 {/template}

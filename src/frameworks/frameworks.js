@@ -73,5 +73,5 @@ cwc.framework.Internal = {
  */
 cwc.framework.StyleSheet = {
   DIALOG: '/css/dialog.css',
-  RUNNER: '/css/runner.css',
+  MESSENGER: '/css/messenger.css',
 };

@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.Terminal');
 
 goog.require('cwc.soy.ui.Terminal');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom.classlist');
@@ -76,6 +77,9 @@ cwc.ui.Terminal = function(helper) {
   /** @private {!number} */
   this.numWarnings_ = 0;
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
+
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -93,10 +97,10 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
   }
 
   goog.soy.renderElement(
-      this.node,
-      cwc.soy.ui.Terminal.template, {
-        'prefix': this.prefix,
-      }
+    this.node,
+    cwc.soy.ui.Terminal.template, {
+      'prefix': this.prefix,
+    }
   );
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
@@ -113,6 +117,11 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
   goog.events.listen(
     keyHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKey_, false, this);
+
+  // Close Button
+  this.events_.listen('close', goog.events.EventType.CLICK, function() {
+    this.showTerminal(false);
+  });
   this.showTerminal(false);
 };
 
@@ -127,20 +136,20 @@ cwc.ui.Terminal.prototype.decorateButton = function(node) {
   }
 
   goog.soy.renderElement(
-      node,
-      cwc.soy.ui.Terminal.templateButton, {
-        'prefix': this.prefix,
-      }
+    node,
+    cwc.soy.ui.Terminal.templateButton, {
+      'prefix': this.prefix,
+    }
   );
 
   this.nodeButton = goog.dom.getElement(this.prefix + 'button');
-
-  goog.events.listen(this.nodeButton, goog.events.EventType.CLICK,
-    this.toggle, false, this);
+  this.events_.listen(this.nodeButton, goog.events.EventType.CLICK,
+    this.toggle);
 };
 
 
 cwc.ui.Terminal.prototype.clear = function() {
+  this.log_.info('Clear console');
   this.clearConsole();
   this.clearHistory();
 };
@@ -191,6 +200,7 @@ cwc.ui.Terminal.prototype.showTerminal = function(visible) {
       editorInstance.refreshEditor();
     }
   }
+  window.dispatchEvent(new Event('resize'));
 };
 
 

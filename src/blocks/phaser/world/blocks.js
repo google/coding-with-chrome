@@ -68,10 +68,10 @@ Blockly.Blocks['phaser_world_attributes'] = {
     this.appendDummyInput()
         .appendField(i18t('get world'))
         .appendField(new Blockly.FieldDropdown([
-          ['center x', 'centerX'],
-          ['center y', 'centerY'],
-          ['width', 'width'],
-          ['height', 'height'],
+          [i18t('center x'), 'centerX'],
+          [i18t('center y'), 'centerY'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
         ]), 'attribute');
     this.setOutput(true, null);
     this.setColour(345);
@@ -89,7 +89,7 @@ Blockly.Blocks['phaser_world_arcade_physics'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('@@BLOCKS__SET'))
-        .appendField(i18t('world arcade physics'))
+        .appendField(i18t('@@BLOCKS_PHASER__WORLD_ARCADE_PHYSICS'))
         .appendField(new Blockly.FieldDropdown([
           [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
             'checkCollision.down'],
@@ -104,7 +104,7 @@ Blockly.Blocks['phaser_world_arcade_physics'] = {
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('to'));
+        .appendField(i18t('@@BLOCKS__TO'));
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setInputsInline(true);
@@ -123,7 +123,7 @@ Blockly.Blocks['phaser_world_sort_direction'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.adjust())
         .appendField(i18t('@@BLOCKS__SET'))
-        .appendField(i18t('world sort direction'))
+        .appendField(i18t('@@BLOCKS_PHASER__WORLD_SORT_DIRECTION'))
         .appendField(new Blockly.FieldDropdown([
           [i18t('none'), 0],
           [i18t('left to right'), 1],

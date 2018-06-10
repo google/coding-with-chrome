@@ -132,7 +132,7 @@ cwc.ui.PreviewStatus.prototype.setStatusButton = function(statusButton) {
 
 
 /**
- * Dispatches a CONTENT_LOAD event. Because we destroy and recreate the
+ * Dispatches a CONTENT_LOADED event. Because we destroy and recreate the
  * webview each time content changes, the user can't add an event listener
  * to that directly.
  * @private

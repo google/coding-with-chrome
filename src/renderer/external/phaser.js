@@ -77,13 +77,11 @@ cwc.renderer.external.Phaser.prototype.render = function(
 
     // Cache and inject Library urls.
     if (javascript.includes('{{ url:')) {
-      // body = rendererHelper.cacheURLs(javascript);
       javascript = rendererHelper.injectURLs(javascript);
     }
   }
 
  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.MESSENGER,
     cwc.framework.Internal.PHASER,
     cwc.framework.External.PHASER,
   ], environ['baseURL']);

@@ -50,8 +50,8 @@ Blockly.Blocks['phaser_game_state'] = {
         .appendField(i18t('game state'))
         .appendField(new Blockly.FieldTextInput('main'), 'name')
         .appendField(new Blockly.FieldDropdown([
-            [i18t('no autostart'), 'false'],
-            [i18t('autostart'), 'true'],
+            [i18t('@BLOCKS_PHASER__NO_AUTOSTART'), 'false'],
+            [i18t('@BLOCKS_PHASER__AUTOSTART'), 'true'],
         ]), 'autostart');
     this.appendStatementInput('state')
         .setCheck(['Preload_']);

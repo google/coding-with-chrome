@@ -25,12 +25,11 @@
  * @return {!string}
  */
 Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
+  let text_sprite = block.getFieldValue('sprite');
   let value_obstacles = Blockly.JavaScript.valueToCode(
     block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
   let value_spaces = Blockly.JavaScript.valueToCode(
     block, 'spaces', Blockly.JavaScript.ORDER_ATOMIC);
-  let value_sprite = Blockly.JavaScript.valueToCode(
-    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   let value_sprite_top = Blockly.JavaScript.valueToCode(
     block, 'sprite_top', Blockly.JavaScript.ORDER_ATOMIC);
   let value_sprite_bottom = Blockly.JavaScript.valueToCode(
@@ -41,18 +40,16 @@ Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  let value_value = Blockly.JavaScript.valueToCode(
-    block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
-  let dropdown_property = block.getFieldValue('property');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
 
-  return 'if (typeof ' + value_group + ' === \'undefined\') {\n' +
-    '  ' + value_group + ' = game.add.group(undefined, \'obstacle_group\');\n' +
-    '}\n' +
-    'cwc.framework.Phaser.VerticalObstacleGenerator(\n' +
+  return 'if (typeof ' + value_group + ' === \'undefined\' || !' + value_group +
+    ') {\n  ' + value_group + ' = game.add.group(undefined, ' +
+    '\'obstacle_group\');\n' + '}\n' +
+    'cwc.framework.Phaser.VerticalObstacleGenerator(\n  ' +
     value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
-    value_spaces + ', ' + value_sprite + ', ' + value_sprite_top + ', ' +
-    value_sprite_bottom + ', ' + value_group + ', \'' + dropdown_property +
-    '\', ' + value_value + ');\n';
+    value_spaces + ', \'' + text_sprite + '\', ' + value_sprite_top + ', ' +
+    value_sprite_bottom + ', ' + value_group + ', ' + (statements_code ?
+      'function(arcadeSpriteCustom) {\n' + statements_code + '}' : '') + ');\n';
 };
 
 
@@ -63,10 +60,9 @@ Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
  */
 Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
     block) {
+  let text_sprite = block.getFieldValue('sprite');
   let value_obstacles = Blockly.JavaScript.valueToCode(
     block, 'obstacles', Blockly.JavaScript.ORDER_ATOMIC);
-  let value_sprite = Blockly.JavaScript.valueToCode(
-    block, 'sprite', Blockly.JavaScript.ORDER_ATOMIC);
   let value_sprite_optional = Blockly.JavaScript.valueToCode(
     block, 'sprite_optional', Blockly.JavaScript.ORDER_ATOMIC);
   let value_group = Blockly.JavaScript.valueToCode(
@@ -75,19 +71,17 @@ Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
     block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   let value_y = Blockly.JavaScript.valueToCode(
     block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
-  let value_value = Blockly.JavaScript.valueToCode(
-    block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
   let dropdown_direction = block.getFieldValue('direction');
-  let dropdown_property = block.getFieldValue('property');
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
 
-  return 'if (typeof ' + value_group + ' === \'undefined\') {\n' +
-    '  ' + value_group + ' = game.add.group(undefined, \'obstacle_group\');\n' +
-    '}\n' +
-    'cwc.framework.Phaser.RandomVerticalObstacleGenerator(\n' +
-    value_x + ', ' + value_y + ', ' + value_obstacles + ', ' +
-    value_sprite + ', ' + value_sprite_optional + ', ' +
-    value_group + ', \'' + dropdown_direction + '\', \'' + dropdown_property +
-    '\', ' + value_value + ');\n';
+  return 'if (typeof ' + value_group + ' === \'undefined\' || !' + value_group +
+    ') {\n  ' + value_group + ' = game.add.group(undefined, ' +
+    '\'obstacle_group\');\n' + '}\n' +
+    'cwc.framework.Phaser.RandomVerticalObstacleGenerator(\n  ' +
+    value_x + ', ' + value_y + ', ' + value_obstacles + ', \'' +
+    text_sprite + '\', ' + value_sprite_optional + ', ' +
+    value_group + ', \'' + dropdown_direction + '\', ' + (statements_code ?
+      'function(arcadeSpriteCustom) {\n' + statements_code + '}' : '') + ');\n';
 };
 
 
@@ -107,15 +101,29 @@ Blockly.JavaScript['phaser_generator_matrix_block'] = function(
     block, 'padding', Blockly.JavaScript.ORDER_ATOMIC);
   let value_group = Blockly.JavaScript.valueToCode(
     block, 'group', Blockly.JavaScript.ORDER_ATOMIC);
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   let data = [];
   for (let i = 0; i < 63; i++) {
-    data.push(block.getFieldValue('Block' + i) == 'TRUE');
+    data.push(block.getFieldValue('Block' + i) == 'TRUE' ? 1 : 0);
   }
-  return 'if (typeof ' + value_group + ' === \'undefined\') {\n' +
-    '  ' + value_group + ' = game.add.group(undefined, \'block_group\');\n' +
-    '}\n' +
-    'cwc.framework.Phaser.MatrixBlockGenerator(\n' + '\'' +
+  return 'if (typeof ' + value_group + ' === \'undefined\' || !' + value_group +
+    ') {\n  ' + value_group + ' = game.add.group(undefined, ' +
+    '\'block_group\');\n' + '}\n' +
+    'cwc.framework.Phaser.MatrixBlockGenerator(\n  ' + '\'' +
     text_sprite + '\', ' + '[' + data.toString() + '], ' +
-    value_x + ', ' + value_y + ', ' + value_padding + ', ' + value_group
-      +');\n';
+    value_x + ', ' + value_y + ', ' + value_padding + ', ' + value_group +
+    ', ' + (statements_code ?
+      'function(arcadeSpriteCustom) {\n' + statements_code + '}' : '') + ');\n';
+};
+
+
+/**
+ * Adjust arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_generator_physics_arcade_attributes'] = function(
+    block) {
+  return Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'](
+    block, 'arcadeSpriteCustom');
 };

@@ -181,10 +181,12 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust'] = {
           [i18t('velocity x'), 'velocity.x'],
           [i18t('velocity y'), 'velocity.y'],
           [i18t('velocity'), 'velocity'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('to'));
+        .appendField(i18t('@@BLOCKS__TO'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(0);
@@ -223,10 +225,12 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           [i18t('velocity x'), 'velocity.x'],
           [i18t('velocity y'), 'velocity.y'],
           [i18t('velocity'), 'velocity'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('to'));
+        .appendField(i18t('@@BLOCKS__TO'));
     this.setPreviousStatement(true, ['PhysicsArcadeAttribute']);
     this.setNextStatement(true, ['PhysicsArcadeAttribute']);
     this.setInputsInline(true);
@@ -263,13 +267,34 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust_dimension'] = {
 
 
 /**
- * Destroy arcade sprite.
+ * Destroys arcade sprite.
  */
 Blockly.Blocks['phaser_physics_arcade_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('destroy tile sprite'));
+        .appendField(i18t('@@BLOCKS__DESTROY'))
+        .appendField(i18t('tile sprite'));
+    this.appendValueInput('variable');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
+    this.setNextStatement(true, ['Create', 'Update', 'Input']);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Kills arcade sprite.
+ */
+Blockly.Blocks['phaser_physics_arcade_sprite_kill'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.BlocksTemplate.point())
+        .appendField(i18t('@@BLOCKS__KILL'))
+        .appendField(i18t('tile sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
@@ -305,7 +330,7 @@ Blockly.Blocks['phaser_physics_arcade_out_of_bounds'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.collide())
-        .appendField(i18t('on out of bounds'));
+        .appendField(i18t('@@BLOCKS_PHASER__ON_OUT_OF_BOUNDS'));
     this.appendValueInput('variable');
     this.appendStatementInput('CODE')
         .appendField(i18t('@@BLOCKS__DO'));

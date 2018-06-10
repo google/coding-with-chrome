@@ -25,12 +25,13 @@ goog.require('cwc.utils.StackQueue');
 
 
 /**
+ * @param {boolean=} liteMode
  * @constructor
  * @struct
  * @final
  * @export
  */
-cwc.framework.Messenger = function() {
+cwc.framework.Messenger = function(liteMode = false) {
   /** @type {string} */
   this.name = 'Message Framework';
 
@@ -39,6 +40,9 @@ cwc.framework.Messenger = function() {
 
   /** @type {Object} */
   this.appWindow = null;
+
+  /** @type {boolean} */
+  this.liteMode = liteMode;
 
   /** @private {boolean} */
   this.ready_ = false;
@@ -56,11 +60,15 @@ cwc.framework.Messenger = function() {
   window.addEventListener('message', this.handleMessage_.bind(this), false);
 
   // External listener
-  this
-    .addListener('__exec__', this.executeCode_)
-    .addListener('__gamepad__', this.handleGamepad_)
-    .addListener('__handshake__', this.handleHandshake_)
-    .addListener('__start__', this.handleStart_);
+  this.addListener('__exec__', this.executeCode_);
+  this.addListener('__handshake__', this.handleHandshake_);
+
+  if (this.liteMode) {
+    console.log('Adding cwc messenger lite ...');
+  } else {
+    this.addListener('__gamepad__', this.handleGamepad_);
+    this.addListener('__start__', this.handleStart_);
+  }
 
   this.senderStack_.addDelay(50);
 };
@@ -88,7 +96,9 @@ cwc.framework.Messenger.prototype.addListener = function(name, func,
     return;
   }
   this.listener_[name] = scope ? func.bind(scope) : func;
-  console.log('Added message listener ' + name);
+  if (!this.liteMode) {
+    console.log('Added message listener ' + name);
+  }
   return this;
 };
 

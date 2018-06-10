@@ -121,6 +121,8 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'angle':
+    case 'width':
+    case 'height':
       return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
     case 'acceleration.set':
     case 'bounce.set':
@@ -179,11 +181,23 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'] = function(
 
 
 /**
- * Destroy arcade sprite.
+ * Destroys arcade sprite.
  * @param {Blockly.Block} block
  * @return {!string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_destroy'] = function(block) {
+  let variable = Blockly.JavaScript.valueToCode(block,
+    'variable', Blockly.JavaScript.ORDER_ATOMIC);
+  return variable + '.destroy();\n';
+};
+
+
+/**
+ * Kills arcade sprite.
+ * @param {Blockly.Block} block
+ * @return {!string}
+ */
+Blockly.JavaScript['phaser_physics_arcade_sprite_kill'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + '.kill();\n';

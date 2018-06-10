@@ -26,8 +26,23 @@
  */
 {template .template}
   {@param prefix: string}
+  {@param editor_modes: ?}
 
   <div id="{$prefix}body">
+    <div id="{$prefix}terminal-button"></div>
+
+    <ul id="{$prefix}editor">
+      <li id="{$prefix}editor-mode">
+        <button id="{$prefix}editor-mode-select" class="mdl-button mdl-js-button" disabled>
+          <span id="{$prefix}editor-mode-text">unknown</span>
+        </button>
+        <ul id="{$prefix}editor-modes" class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="{$prefix}editor-mode-select">
+          {foreach $editor_mode in $editor_modes}
+            <li class="mdl-menu__item">{$editor_mode}</li>
+          {/foreach}
+        </ul>
+      </li>
+    </ul>
 
   </div>
 {/template}

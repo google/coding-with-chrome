@@ -161,10 +161,10 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
           [i18t('anchor'), 'anchor.set'],
           [i18t('buttonMode'), 'buttonMode'],
           [i18t('frame'), 'frame'],
-          [i18t('height'), 'height'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
           [i18t('rotation'), 'rotation'],
           [i18t('visible'), 'visible'],
-          [i18t('width'), 'width'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
           [i18t('tile position x'), 'tilePosition.y'],
           [i18t('tile position y'), 'tilePosition.y'],
           [i18t('x'), 'x'],
@@ -173,7 +173,7 @@ Blockly.Blocks['phaser_tile_sprite_adjust'] = {
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('to'));
+        .appendField(i18t('@@BLOCKS__TO'));
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(285);
@@ -223,7 +223,8 @@ Blockly.Blocks['phaser_tile_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('destroy tile sprite'));
+        .appendField(i18t('@@BLOCKS__DESTROY'))
+        .appendField(i18t('tile sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);

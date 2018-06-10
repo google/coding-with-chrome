@@ -60,6 +60,7 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Sidebar');
 goog.require('cwc.ui.StatusBar');
+goog.require('cwc.ui.Terminal');
 goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
@@ -108,6 +109,7 @@ cwc.ui.BuilderHelpers = {
   'settingScreen': cwc.ui.SettingScreen,
   'sidebar': cwc.ui.Sidebar,
   'statusBar': cwc.ui.StatusBar,
+  'terminal': cwc.ui.Terminal,
   'tour': cwc.ui.Tour,
   'tutorial': cwc.ui.Tutorial,
 };

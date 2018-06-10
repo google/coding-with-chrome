@@ -26,7 +26,9 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('@@BLOCKS_PHASER__GENERATOR_VERTICAL_OBSTACLE'));
+        .appendField(i18t('@@BLOCKS_PHASER__GENERATOR_VERTICAL_OBSTACLE'))
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('block')), 'sprite');
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -43,10 +45,6 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField('y');
-    this.appendValueInput('sprite')
-        .setCheck('String')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('sprite'));
     this.appendValueInput('sprite_top')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -58,25 +56,8 @@ Blockly.Blocks['phaser_generator_vertical_obstacle'] = {
     this.appendValueInput('group')
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(i18t('@@BLOCKS__GROUP'));
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('property'))
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'acceleration.set'],
-          [i18t('angular velocity'), 'angularVelocity'],
-          [i18t('bounce x'), 'bounce.x'],
-          [i18t('bounce y'), 'bounce.y'],
-          [i18t('bounce'), 'bounce.set'],
-          [i18t('gravity x'), 'gravity.x'],
-          [i18t('gravity y'), 'gravity.y'],
-          [i18t('velocity x'), 'velocity.x'],
-          [i18t('velocity y'), 'velocity.y'],
-          [i18t('velocity'), 'velocity'],
-        ]), 'property');
-    this.appendValueInput('value')
-        .setCheck('Number')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('value'));
+    this.appendStatementInput('CODE')
+        .setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
     this.setPreviousStatement(true, ['Create']);
     this.setNextStatement(true, ['Create']);
@@ -95,7 +76,9 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t(
-          '@@BLOCKS_PHASER__GENERATOR_RANDOM_VERTICAL_OBSTACLE'));
+          '@@BLOCKS_PHASER__GENERATOR_RANDOM_VERTICAL_OBSTACLE'))
+        .appendField(new Blockly.FieldDropdown(
+          Blockly.BlocksHelper['phaser_image']('block')), 'sprite');
     this.appendValueInput('obstacles')
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -108,10 +91,6 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
         .setCheck('Number')
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField('y');
-    this.appendValueInput('sprite')
-        .setCheck('String')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('sprite'));
     this.appendValueInput('sprite_optional')
         .setCheck('String')
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -126,25 +105,8 @@ Blockly.Blocks['phaser_generator_random_vertical_obstacle'] = {
           [i18t('start from top'), 'top'],
           [i18t('start from bottom'), 'bottom'],
         ]), 'direction');
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('property'))
-        .appendField(new Blockly.FieldDropdown([
-          [i18t('acceleration'), 'acceleration.set'],
-          [i18t('angular velocity'), 'angularVelocity'],
-          [i18t('bounce x'), 'bounce.x'],
-          [i18t('bounce y'), 'bounce.y'],
-          [i18t('bounce'), 'bounce.set'],
-          [i18t('gravity x'), 'gravity.x'],
-          [i18t('gravity y'), 'gravity.y'],
-          [i18t('velocity x'), 'velocity.x'],
-          [i18t('velocity y'), 'velocity.y'],
-          [i18t('velocity'), 'velocity'],
-        ]), 'property');
-    this.appendValueInput('value')
-        .setCheck('Number')
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField(i18t('value'));
+    this.appendStatementInput('CODE')
+        .setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
     this.setPreviousStatement(true, ['Create']);
     this.setNextStatement(true, ['Create']);
@@ -162,7 +124,7 @@ Blockly.Blocks['phaser_generator_matrix_block'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('erzeuge Hindernisse'))
+        .appendField(i18t('@@BLOCKS_PHASER__GENERATOR_OBSTACLE'))
         .appendField(new Blockly.FieldDropdown(
           Blockly.BlocksHelper['phaser_image']('block')), 'sprite');
     this.appendValueInput('x')
@@ -270,9 +232,56 @@ Blockly.Blocks['phaser_generator_matrix_block'] = {
         .appendField(new Blockly.FieldCheckbox('FALSE'), 'Block61')
         .appendField(new Blockly.FieldCheckbox('FALSE'), 'Block62')
         .appendField(new Blockly.FieldCheckbox('FALSE'), 'Block63');
+    this.appendStatementInput('CODE')
+        .setCheck('GeneratorArcadeAttribute');
     this.setInputsInline(false);
     this.setPreviousStatement(true, ['Create']);
     this.setNextStatement(true, ['Create']);
+    this.setColour(105);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Adjust arcade sprite.
+ */
+Blockly.Blocks['phaser_generator_physics_arcade_attributes'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(i18t('@@BLOCKS__SET'))
+        .appendField(new Blockly.FieldDropdown([
+          [i18t('acceleration'), 'acceleration.set'],
+          [i18t('angle'), 'angle'],
+          [i18t('angular velocity'), 'angularVelocity'],
+          [i18t('bounce x'), 'bounce.x'],
+          [i18t('bounce y'), 'bounce.y'],
+          [i18t('bounce'), 'bounce.set'],
+          [i18t('allow gravity'), 'allowGravity'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_DOWN'),
+            'checkCollision.down'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_UP'), 'checkCollision.up'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_LEFT'),
+            'checkCollision.left'],
+          [i18t('@@BLOCKS_PHASER__CHECK_COLLISION_RIGHT'),
+            'checkCollision.right'],
+          [i18t('collide world bounds'), 'collideWorldBounds'],
+          [i18t('gravity x'), 'gravity.x'],
+          [i18t('gravity y'), 'gravity.y'],
+          [i18t('immovable'), 'immovable'],
+          [i18t('velocity x'), 'velocity.x'],
+          [i18t('velocity y'), 'velocity.y'],
+          [i18t('velocity'), 'velocity'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
+        ]), 'property');
+    this.appendValueInput('value')
+        .setCheck('Number')
+        .appendField(i18t('@@BLOCKS__TO'));
+    this.setPreviousStatement(true, ['GeneratorArcadeAttribute']);
+    this.setNextStatement(true, ['GeneratorArcadeAttribute']);
+    this.setInputsInline(true);
     this.setColour(105);
     this.setTooltip('');
     this.setHelpUrl('');

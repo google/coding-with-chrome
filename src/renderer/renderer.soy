@@ -98,15 +98,15 @@
 
 
 /**
- * HTML runner template.
+ * HTML messenger template.
  */
-{template .htmlRunner}
+{template .htmlMessenger}
   {@param body: string}
   {@param head: string}
 
   {call .html data="all"}
     {param body kind="html"}
-      <div id="runner"></div>
+      <div id="messenger"></div>
       {$body}
     {/param}
   {/call}

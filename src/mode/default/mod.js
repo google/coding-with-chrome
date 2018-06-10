@@ -25,7 +25,6 @@ goog.require('cwc.ui.Blockly');
 goog.require('cwc.ui.Editor');
 goog.require('cwc.ui.Message');
 goog.require('cwc.ui.Preview');
-goog.require('cwc.ui.Terminal');
 
 
 /**
@@ -100,9 +99,6 @@ cwc.mode.default.Mod = function(helper) {
 
   /** @type {cwc.mode.default.RendererTypes} */
   this.renderer = new cwc.renderer.internal.HTML5(this.helper);
-
-  /** @type {cwc.ui.Terminal} */
-  this.terminal = new cwc.ui.Terminal(this.helper);
 };
 
 
@@ -131,8 +127,6 @@ cwc.mode.default.Mod.prototype.decorate = function() {
     // Decorates Blockly or Editor.
     if (this.blockly) {
       this.decorateBlockly();
-    } else {
-      this.decorateTerminal();
     }
     this.decorateEditor();
 
@@ -245,15 +239,6 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
 cwc.mode.default.Mod.prototype.decorateMessage = function() {
   this.helper.setInstance('message', this.message, true);
   this.message.decorate();
-};
-
-
-/**
- * Decorates terminal
- */
-cwc.mode.default.Mod.prototype.decorateTerminal = function() {
-  this.helper.setInstance('terminal', this.terminal, true);
-  this.terminal.decorate();
 };
 
 

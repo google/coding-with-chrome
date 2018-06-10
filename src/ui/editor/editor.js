@@ -93,6 +93,9 @@ cwc.ui.Editor = function(helper) {
   /** @type {!string} */
   this.theme = 'default';
 
+  /** @type {cwc.ui.StatusBar} */
+  this.statusBar = null;
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
@@ -205,6 +208,9 @@ cwc.ui.Editor.prototype.decorate = function(node) {
     this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
       this.cleanUp_);
   }
+
+  // Cache Status bar
+  this.statusBar = this.helper.getInstance('statusBar');
 };
 
 
@@ -264,17 +270,6 @@ cwc.ui.Editor.prototype.showMode = function(visible) {
 
 
 /**
- * Enables/Disables the editor type like "text/javascript" inside the info bar.
- * @param {boolean} enable
- */
-cwc.ui.Editor.prototype.enableModeSelect = function(enable) {
-  if (this.infobar) {
-    this.infobar.enableModeSelect(enable);
-  }
-};
-
-
-/**
  * @param {!string} name
  * @param {!function()} func
  * @param {string=} tooltip
@@ -304,6 +299,7 @@ cwc.ui.Editor.prototype.setEditorMode = function(mode) {
     this.log_.info('Set editor mode to', mode);
     this.editor.setOption('mode', mode);
     this.updateInfobar();
+    this.updateStatusBar();
     this.updateToolbar();
     this.refreshEditor();
     this.editorType_ = mode;
@@ -600,12 +596,22 @@ cwc.ui.Editor.prototype.updateInfobar = function() {
     return;
   }
   this.log_.info('Update Infobar...');
-  this.infobar.setMode(this.getEditorMode());
   this.infobar.setLineInfo({
     'line': 0,
     'ch': 0,
   });
   this.infobar.setViews(Object.keys(this.editorView), this.currentEditorView);
+};
+
+
+/**
+ * Updates the status bar.
+ */
+cwc.ui.Editor.prototype.updateStatusBar = function() {
+  if (!this.statusBar) {
+    return;
+  }
+  this.statusBar.setEditorMode(this.getEditorMode());
 };
 
 

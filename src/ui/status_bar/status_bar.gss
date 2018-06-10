@@ -16,5 +16,67 @@
 
 
 #{$prefix}status-bar-body {
-  background: #ccc;
+  height: 25px;
+  background: #b0bec5;
+  padding: 0 10px;
+}
+
+#{$prefix}status-bar-body,
+#{$prefix}status-bar-body .material-icons {
+  color: #263238x ;
+}
+
+#{$prefix}status-bar-editor {
+  display: flex !important;
+}
+
+#{$prefix}status-bar-editor {
+  float: right;
+  align-items: center;
+  display: flex;
+  font-size: 11px;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#{$prefix}status-bar-editor > li {
+  float: left;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 5px;
+}
+
+#{$prefix}status-bar-editor .material-icons {
+  vertical-align: middle;
+}
+
+#{$prefix}status-bar-editor .mdl-button {
+  color: rgba(0,0,0,.87);
+  font-size: 12px;
+  height: 24px;
+  line-height: 24px;
+  text-transform: none;
+}
+
+#{$prefix}status-bar-editor-mode {
+  text-align: center;
+}
+
+#{$prefix}status-bar-editor-mode-select {
+  min-width: 125px;
+}
+
+#{$prefix}status-bar-editor-modes {
+  border-top: 1px solid #eee;
+}
+
+#{$prefix}status-bar-editor-modes .mdl-menu__item {
+  height: 28px;
+  line-height: 28px;
+}
+
+#{$prefix}status-bar-terminal-button {
+  display: inline;
 }

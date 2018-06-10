@@ -131,7 +131,7 @@ Blockly.Blocks['phaser_input_keyboard_key_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('@@BLOCKS__AS'))
-        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_KEYS'))
+        .appendField(i18t('@@BLOCKS_PHASER__KEYBOARD_KEY'))
         .appendField(new Blockly.FieldDropdown([
           [i18t('shift key'), 'Phaser.KeyCode.SHIFT'],
           [i18t('control key'), 'Phaser.KeyCode.CONTROL'],
@@ -160,7 +160,9 @@ Blockly.Blocks['phaser_input_mouse_keys_add'] = {
         .appendField(Blockly.BlocksTemplate.addCircle())
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
-        .appendField(i18t('as capture mouse keys'))
+        .appendField(i18t('@@BLOCKS__AS'))
+        .appendField(i18t('@@BLOCKS_PHASER__MOUSE_KEYS'))
+        .appendField(i18t('capture mouse keys'))
         .appendField(Blockly.BlocksTemplate.mouse());
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

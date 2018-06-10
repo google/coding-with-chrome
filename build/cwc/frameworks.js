@@ -133,6 +133,10 @@ closureBuilder.build({
   srcs: glob([
     'src/frameworks/internal/phaser/*.js',
   ]),
+  deps: glob([
+    'src/frameworks/internal/messenger/*.js',
+    'src/utils/stack_queue.js',
+  ]),
   externs: [
     'build/externs/phaser.js',
   ],
@@ -171,6 +175,7 @@ closureBuilder.build({
     'src/frameworks/internal/messenger/*.js',
     'src/utils/dialog/*',
     'src/utils/logger.js',
+    'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/simple_framework.js',
 });

@@ -129,7 +129,7 @@ cwc.ui.Preview = function(helper) {
 cwc.ui.Preview.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
-    console.error('Invalid Preview node:', this.node);
+    this.log_.error('Invalid Preview node:', this.node);
     return;
   }
 
@@ -221,7 +221,7 @@ cwc.ui.Preview.prototype.decorateOverlay = function(decorator) {
 cwc.ui.Preview.prototype.render = function() {
   let terminalInstance = this.helper.getInstance('terminal');
   if (terminalInstance) {
-    terminalInstance.clearErrors();
+    terminalInstance.clear();
   }
 
   this.content = this.webviewSupport_ ?
@@ -377,6 +377,11 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  * @param {!string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance && url !== 'about:blank') {
+    terminalInstance.clear();
+  }
+
   if (url && this.content) {
     this.log_.info('Update preview with', url.substring(0, 32), '...');
     if (url.length >= 1600000) {
@@ -463,6 +468,7 @@ cwc.ui.Preview.prototype.focus = function() {
  * @param {!(string|Function)} code
  */
 cwc.ui.Preview.prototype.executeScript = function(code) {
+  this.log_.info('Execute script', code);
   this.messenger_.send('__exec__',
     typeof code === 'function' ? code.toString() : code);
 };

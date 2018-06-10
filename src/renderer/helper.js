@@ -196,9 +196,9 @@ cwc.renderer.Helper.prototype.getRunner = function(content, headers = [],
 cwc.renderer.Helper.prototype.getHTMLRunner = function(body, header,
     environ = {}) {
   header += this.getStyleSheetURL(
-    /** @type {string} */ (cwc.framework.StyleSheet.RUNNER), 'Runner CSS',
+    /** @type {string} */ (cwc.framework.StyleSheet.MESSENGER), 'Messenger CSS',
     environ['baseURL']);
-  return cwc.soy.Renderer.htmlRunner({
+  return cwc.soy.Renderer.htmlMessenger({
     body: body ? this.sanitizedHtml_(body) : '',
     head: header ? this.sanitizedHtml_(header) : '',
   }).getContent();

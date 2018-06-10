@@ -204,9 +204,9 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   if (layoutInstance) {
     let eventHandler = layoutInstance.getEventHandler();
     this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
-        this.adjustSize, false, this);
+      this.adjustSize, false, this);
     this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
-        this.cleanUp_, false, this);
+      this.cleanUp_, false, this);
   }
 
   // Event Handling

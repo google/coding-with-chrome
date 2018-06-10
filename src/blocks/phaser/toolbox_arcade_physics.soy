@@ -31,12 +31,6 @@
 
     {call .predefinedBlocks_ /}
 
-    <block type="phaser_physics_arcade_sprite_adjust_custom">
-      <value name="value">
-        <block type="math_number"></block>
-      </value>
-    </block>
-
     <block type="phaser_physics_arcade_sprite_add">
       <value name="variable">
         <block type="variables_get">
@@ -86,6 +80,22 @@
   </block>
 
   <block type="phaser_physics_arcade_enable">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_physics_arcade_sprite_destroy">
+    <value name="variable">
+      <block type="variables_get">
+        <field name="VAR">sprite</field>
+      </block>
+    </value>
+  </block>
+
+  <block type="phaser_physics_arcade_sprite_kill">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">sprite</field>
@@ -248,6 +258,11 @@
     </statement>
   </block>
 
+  <block type="phaser_physics_arcade_sprite_adjust_custom">
+    <value name="value">
+      <block type="math_number"></block>
+    </value>
+  </block>
 {/template}
 
 

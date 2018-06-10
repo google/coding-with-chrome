@@ -39,11 +39,9 @@
   line-height: 32px;
 }
 
-#{$prefix}gui-chrome > footer {
-  display: flex;
-  background: #CFD8DC;
-  padding-right: 5px;
-  padding-left: 5px;
+#{$prefix}gui-status-bar,
+#{$prefix}gui-terminal {
+  z-index: 1
 }
 
 #{$prefix}gui-header {
@@ -101,4 +99,8 @@
 
 #{$prefix}gui-settings {
   z-index: 10;
+}
+
+#{$prefix}gui-overlay {
+  z-index: 2;
 }

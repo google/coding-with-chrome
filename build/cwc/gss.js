@@ -64,13 +64,13 @@ closureBuilder.build({
 
 
 /**
- * Runner Style Sheets files
+ * Messenger Style Sheets files
  */
 closureBuilder.build({
-  name: 'CwC runner Style Sheet',
+  name: 'CwC messenger Style Sheet',
   prefix: 'cwc-',
   srcs: glob([
-    'src/frameworks/internal/runner/runner.gss',
+    'src/frameworks/internal/messenger/messenger.gss',
   ]),
-  out: 'genfiles/core/css/runner.css',
+  out: 'genfiles/core/css/messenger.css',
 });

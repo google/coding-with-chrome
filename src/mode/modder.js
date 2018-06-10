@@ -94,7 +94,6 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   this.helper.setInstance('editor', null, true);
   this.helper.setInstance('message', null, true);
   this.helper.setInstance('preview', null, true);
-  this.helper.setInstance('terminal', null, true);
   this.helper.setInstance('turtle', null, true);
 
   // Update navigation view
@@ -106,7 +105,7 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     navigationInstance.enableSaveFile(true);
   }
 
-  // End existing tours
+  // End existing tours.
   this.helper.endTour();
 
   // Clear Google Cloud publish settings.
@@ -133,22 +132,28 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     sidebarInstance.clear();
   }
 
-  // Reset Render instance
+  // Reset Render instance.
   let rendererInstance = this.helper.getInstance('renderer');
   if (rendererInstance) {
     rendererInstance.setServerMode(false);
   }
 
-  // Clear existing Tour
+  // Clear existing Tour.
   let tourInstance = this.helper.getInstance('tour');
   if (tourInstance) {
     tourInstance.clear();
   }
 
-  // Clear existing tutorial
+  // Clear existing tutorial.
   let tutorialInstance = this.helper.getInstance('tutorial');
   if (tutorialInstance) {
     tutorialInstance.clear();
+  }
+
+  // Set status bar defaults.
+  let statusInstance = this.helper.getInstance('statusBar');
+  if (statusInstance) {
+    statusInstance.enableEditorModeSelect(false);
   }
 
   this.log_.info('Initialize mode and decorate UI for', mode, '…');

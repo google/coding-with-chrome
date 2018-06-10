@@ -68,6 +68,16 @@
         <field name="NUM">-200</field>
       </block>
     </value>
+    <statement name="CODE">
+      <block type="phaser_generator_physics_arcade_attributes">
+        <field name="property">velocity.x</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">-200</field>
+          </block>
+        </value>
+      </block>
+    </statement>
   </block>
 
   <block type="phaser_generator_random_vertical_obstacle">
@@ -108,6 +118,16 @@
         <field name="NUM">-200</field>
       </block>
     </value>
+    <statement name="CODE">
+      <block type="phaser_generator_physics_arcade_attributes">
+        <field name="property">velocity.x</field>
+        <value name="value">
+          <block type="math_number">
+            <field name="NUM">-200</field>
+          </block>
+        </value>
+      </block>
+    </statement>
   </block>
 
   <block type="phaser_generator_matrix_block">
@@ -130,6 +150,12 @@
       <block type="variables_get">
         <field name="VAR">block_group</field>
       </block>
+    </value>
+  </block>
+
+  <block type="phaser_generator_physics_arcade_attributes">
+    <value name="value">
+      <block type="math_number"></block>
     </value>
   </block>
 {/template}

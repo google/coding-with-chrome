@@ -64,21 +64,21 @@ Blockly.Blocks['phaser_sprite_adjust'] = {
           [i18t('angle'), 'angle'],
           [i18t('anchor'), 'anchor.set'],
           [i18t('buttonMode'), 'buttonMode'],
-          [i18t('height'), 'height'],
+          [i18t('@@BLOCKS__HEIGHT'), 'height'],
           [i18t('move down'), 'moveDown'],
           [i18t('move left'), 'moveLeft'],
           [i18t('move right'), 'moveRight'],
           [i18t('move up'), 'moveUp'],
           [i18t('rotation'), 'rotation'],
           [i18t('visible'), 'visible'],
-          [i18t('width'), 'width'],
+          [i18t('@@BLOCKS__WIDTH'), 'width'],
           [i18t('x'), 'x'],
           [i18t('y'), 'y'],
           [i18t('z'), 'y'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
-        .appendField(i18t('to'));
+        .appendField(i18t('@@BLOCKS__TO'));
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);
     this.setNextStatement(true, ['Create', 'Input', 'Update']);
     this.setColour(225);
@@ -140,7 +140,8 @@ Blockly.Blocks['phaser_sprite_destroy'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.point())
-        .appendField(i18t('destroy sprite'));
+        .appendField(i18t('@@BLOCKS__DESTROY'))
+        .appendField(i18t('sprite'));
     this.appendValueInput('variable');
     this.setInputsInline(true);
     this.setPreviousStatement(true, ['Create', 'Input', 'Update']);

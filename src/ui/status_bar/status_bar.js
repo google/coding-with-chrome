@@ -42,7 +42,7 @@ cwc.ui.StatusBar = function(helper) {
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('statur-bar');
+  this.prefix = this.helper.getPrefix('status-bar');
 
   /** @type {Element} */
   this.node = null;
@@ -60,12 +60,127 @@ cwc.ui.StatusBar = function(helper) {
  * @param {Element} node The target node to add the status bar.
  */
 cwc.ui.StatusBar.prototype.decorate = function(node) {
+  this.log_.info('Decorate into', node);
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
     cwc.soy.StatusBar.template, {
-      'prefix': this.prefix,
+      prefix: this.prefix,
+      editor_modes: this.getEditorModes_(),
     }
   );
+
+  // Render Terminal button
+  let terminalInstance = this.helper.getInstance('terminal');
+  let nodeTerminalButton = goog.dom.getElement(this.prefix + 'terminal-button');
+  if (nodeTerminalButton && terminalInstance) {
+    terminalInstance.decorateButton(nodeTerminalButton);
+  }
+
+  // Events.
+  this.events_.listen('editor-modes', goog.events.EventType.CLICK,
+    this.handleEditorModeChange_);
+};
+
+
+/**
+ * Enables/Disables the editor type like "text/javascript" inside the info bar.
+ * @param {boolean} enable
+ */
+cwc.ui.StatusBar.prototype.enableEditorModeSelect = function(enable) {
+  this.enable_('editor-modes', enable);
+};
+
+
+/**
+ * Shows/Hide the editor type like "text/javascript" inside the info bar.
+ * @param {boolean} visible
+ */
+cwc.ui.StatusBar.prototype.showEditorMode = function(visible) {
+  this.show_('editor-mode', visible);
+};
+
+
+/**
+ * @param {!string} text
+ */
+cwc.ui.StatusBar.prototype.setEditorMode = function(text) {
+  this.setText_('editor-mode-text', text);
+};
+
+
+/**
+ * @return {!Array}
+ * @private
+ */
+cwc.ui.StatusBar.prototype.getEditorModes_ = function() {
+  let modeBlacklist = {
+    'application/x-javascript': true,
+    'application/x-json': true,
+    'text/javascript': true,
+    'text/x-coffeescript': true,
+    'text-xml': true,
+  };
+
+  // Filter valid modes.
+  let modes = [];
+  for (let mode in CodeMirror.mimeModes) {
+    if (Object.prototype.hasOwnProperty.call(CodeMirror.mimeModes, mode) &&
+        !modeBlacklist[mode]) {
+      modes.push(mode);
+    }
+  }
+  return modes.sort();
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!string} text
+ * @private
+ */
+cwc.ui.StatusBar.prototype.setText_ = function(name, text) {
+  let node = goog.dom.getElement(this.prefix + name);
+  if (node) {
+    node.firstChild.nodeValue = text;
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!boolean} visible
+ * @private
+ */
+cwc.ui.StatusBar.prototype.show_ = function(name, visible) {
+  let node = goog.dom.getElement(this.prefix + name);
+  if (node) {
+    goog.style.setElementShown(node, visible);
+  }
+};
+
+
+/**
+ * @param {!string} name
+ * @param {!boolean} enable
+ * @private
+ */
+cwc.ui.StatusBar.prototype.enable_ = function(name, enable) {
+  let node = goog.dom.getElement(this.prefix + name);
+  if (node) {
+    cwc.ui.Helper.enableElement(node, enable);
+  }
+};
+
+
+/**
+ * @param {Object} e
+ * @private
+ */
+cwc.ui.StatusBar.prototype.handleEditorModeChange_ = function(e) {
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.setEditorMode(e.target.firstChild.data);
+  }
 };

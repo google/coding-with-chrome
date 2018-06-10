@@ -65,6 +65,9 @@ cwc.ui.Gui = function(helper) {
   this.nodeStatus = null;
 
   /** @type {Element} */
+  this.nodeStatusBar = null;
+
+  /** @type {Element} */
   this.nodeSidebar = null;
 
   /** @type {Element} */
@@ -99,6 +102,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeSettings = goog.dom.getElement(this.prefix + 'settings');
   this.nodeSidebar = goog.dom.getElement(this.prefix + 'sidebar');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
+  this.nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.nodeTitleBody = goog.dom.getElement(this.prefix + 'title-body');
   this.showOverlay(false);
@@ -111,11 +115,17 @@ cwc.ui.Gui.prototype.decorate = function(node) {
     menuBarInstance.decorate(nodeMenuBar);
   }
 
+  // Decorates Terminal
+  let terminalInstance = this.helper.getInstance('terminal');
+  let nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
+  if (nodeTerminal && terminalInstance) {
+    terminalInstance.decorate(nodeTerminal);
+  }
+
   // Decorates Status Bar
   let statusBarInstance = this.helper.getInstance('statusBar');
-  let nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
-  if (statusBarInstance && nodeStatusBar) {
-    statusBarInstance.decorate(nodeStatusBar);
+  if (statusBarInstance && this.nodeStatusBar) {
+    statusBarInstance.decorate(this.nodeStatusBar);
   }
 
   // Decorates Notification
@@ -248,6 +258,14 @@ cwc.ui.Gui.prototype.getSettingsNode = function() {
  */
 cwc.ui.Gui.prototype.getHeaderSize = function() {
   return goog.style.getSize(this.nodeHeader);
+};
+
+
+/**
+ * @return {!goog.math.Size}
+ */
+cwc.ui.Gui.prototype.getStatusBarSize = function() {
+  return goog.style.getSize(this.nodeStatusBar);
 };
 
 
