@@ -134,6 +134,6 @@ cwc.protocol.makeblock.mbot.Monitoring.prototype.enableMonitor = function(
 
 cwc.protocol.makeblock.mbot.Monitoring.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
-  this.stop();
   this.events_.clear();
+  this.stop();
 };

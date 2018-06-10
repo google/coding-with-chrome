@@ -402,7 +402,8 @@ cwc.ui.Library.prototype.addFile = function(name, content, optType) {
 cwc.ui.Library.prototype.handleDragLeave_ = function(e) {
   e.stopPropagation();
   e.preventDefault();
-  goog.dom.classlist.enable(e.target, 'active', false);
+  let dropZone = e.target.closest('.drop-zone') || e.target;
+  goog.dom.classlist.enable(dropZone, 'active', false);
 };
 
 
@@ -413,7 +414,8 @@ cwc.ui.Library.prototype.handleDragLeave_ = function(e) {
 cwc.ui.Library.prototype.handleDragOver_ = function(e) {
   e.stopPropagation();
   e.preventDefault();
-  goog.dom.classlist.enable(e.target, 'active', true);
+  let dropZone = e.target.closest('.drop-zone') || e.target;
+  goog.dom.classlist.enable(dropZone, 'active', true);
   goog.dom.classlist.enable(this.nodeSearchError, 'active', false);
 };
 

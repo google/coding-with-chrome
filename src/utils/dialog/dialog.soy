@@ -37,6 +37,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param i18n: bool}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
 
@@ -46,7 +47,10 @@
   </div>
   <div id="{$prefix}buttons" class="_actions">
     <button id="{$prefix}close" type="button" class="_button _button--raised close">
-      {msg desc=""}@@GENERAL__CLOSE{/msg}
+      {call .text_ data="all"}
+        {param text: 'Close' /}
+        {param text_id: '@@GENERAL__CLOSE' /}
+      {/call}
     </button>
   </div>
 {/template}
@@ -59,6 +63,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param i18n: bool}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
 
@@ -68,7 +73,10 @@
   </div>
   <div class="_actions">
     <button id="{$prefix}ok" type="button" class="_button _button--raised _button--colored">
-      {msg desc=""}@@GENERAL__OK{/msg}
+      {call .text_ data="all"}
+        {param text: 'Ok' /}
+        {param text_id: '@@GENERAL__OK' /}
+      {/call}
     </button>
   </div>
 {/template}
@@ -81,6 +89,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param i18n: bool}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
   {@param? opt_values: string}
@@ -94,7 +103,10 @@
       {msg desc=""}{$opt_values}{/msg}
     </button>
     <button id="{$prefix}cancel" type="button" class="_button _button--raised close">
-      {msg desc=""}@@GENERAL__CANCEL{/msg}
+      {call .text_ data="all"}
+        {param text: 'Cancel' /}
+        {param text_id: '@@GENERAL__CANCEL' /}
+      {/call}
     </button>
   </div>
 {/template}
@@ -106,6 +118,7 @@
   {@param prefix: string}
   {@param title: string}
   {@param content: string}
+  {@param i18n: bool}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
   {@param? opt_values: string}
@@ -120,10 +133,16 @@
   </div>
   <div class="_actions">
     <button id="{$prefix}ok" type="button" class="_button _button--raised _button--colored">
-      {msg desc=""}@@GENERAL__OK{/msg}
+      {call .text_ data="all"}
+        {param text: 'Ok' /}
+        {param text_id: '@@GENERAL__OK' /}
+      {/call}
     </button>
     <button id="{$prefix}cancel" type="button" class="_button _button--raised close">
-      {msg desc=""}@@GENERAL__CANCEL{/msg}
+      {call .text_ data="all"}
+        {param text: 'Cancel' /}
+        {param text_id: '@@GENERAL__CANCEL' /}
+      {/call}
     </button>
   </div>
 {/template}
@@ -132,7 +151,7 @@
 /**
  * Dialog title
  */
-{template .dialogTitle_}
+{template .dialogTitle_ private="true"}
   {@param title: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
@@ -142,4 +161,20 @@
     {msg desc=""}{$title}{/msg}
     {$opt_title_untranslated}
   </h3>
+{/template}
+
+
+/**
+ * Return translated text or fallback. 
+ */
+{template .text_ private="true"}
+  {@param i18n: bool}
+  {@param text: string}
+  {@param text_id: string}
+
+  {if $i18n and $text_id}
+    {msg desc=""}{$text_id}{/msg}
+  {else}
+    {$text}
+  {/if}
 {/template}

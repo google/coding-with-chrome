@@ -133,7 +133,6 @@ cwc.protocol.sphero.classic.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.sphero.classic.Api.prototype.prepare = function() {
-  console.log(this.device);
   this.events_.listen(this.device.getEventHandler(),
     cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));

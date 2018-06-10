@@ -93,12 +93,17 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
  * Starts the port monitoring.
  */
 cwc.protocol.lego.ev3.Monitoring.prototype.start = function() {
-  if (this.started || !this.devices_ || this.devices_ === {}) {
+  if (this.started || !this.devices_) {
     return;
   }
-  this.log_.info('Starting...');
+  if (Object.keys(this.devices_).length > 0) {
+    this.log_.info('Starting...');
+  } else {
+    this.log_.warn('Unable to find any devices for monitoring!');
+    return;
+  }
   Object.keys(this.devices_).forEach(function(port) {
-    if (this.devices_[port] && !this.monitor[port]) {
+    if (this.devices_[port] && !this.monitor_[port]) {
       this.enableMonitor(
         port, this.devices_[port].type, this.devices_[port].mode);
     }
@@ -172,8 +177,8 @@ cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(
 
 cwc.protocol.lego.ev3.Monitoring.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
-  this.stop();
   this.events_.clear();
+  this.stop();
   this.devices_ = {};
 };
 

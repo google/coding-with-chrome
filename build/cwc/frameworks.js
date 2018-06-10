@@ -53,6 +53,7 @@ closureBuilder.build({
     'src/utils/logger.js',
   ]),
   externs: [
+    'build/externs/i18n.js',
     'build/externs/skulpt.js',
   ],
   out: 'genfiles/core/frameworks/internal/python2_framework.js',

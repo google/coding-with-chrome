@@ -216,6 +216,7 @@ cwc.ui.Layout.prototype.updateSizeInformation = function() {
     this.chromeSize = new goog.math.Size(
       this.viewportSize.width - guiInstance.getSidebarSize().width,
       this.viewportSize.height - guiInstance.getHeaderSize().height -
+      guiInstance.getTerminalSize().height -
       guiInstance.getStatusBarSize().height
     );
   } else {
@@ -236,32 +237,21 @@ cwc.ui.Layout.prototype.refresh = function() {
 
 
 /**
- * Adjusts the UI to the correct size after an resize.
+ * Adjusts the UI to the correct size after an layout change.
+ */
+cwc.ui.Layout.prototype.refreshLayout = function() {
+  this.refresh_();
+  if (typeof window.componentHandler !== 'undefined') {
+    window.componentHandler.upgradeDom();
+  }
+};
+
+
+/**
+ * Adjusts the UI to the correct size after an resize, force UI parts to reload.
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
-  this.updateSizeInformation();
-
-  switch (this.layout) {
-    case cwc.ui.LayoutType.BLANK:
-      goog.style.setSize(this.nodes['content'], this.chromeSize);
-      break;
-
-    case cwc.ui.LayoutType.DEFAULT:
-      if (this.fullscreen && !this.editorFullscreen) {
-        this.splitpane.setFirstComponentSize(
-          this.chromeSize.width - this.handleSize);
-      } else {
-        this.splitpane.setSize(this.chromeSize);
-      }
-      break;
-
-    case cwc.ui.LayoutType.NONE:
-      break;
-
-    default:
-      console.error('Unknown layout:', this.layout);
-      break;
-  }
+  this.refresh_();
   this.eventHandler.dispatchEvent(goog.events.EventType.RESIZE);
 };
 
@@ -333,6 +323,36 @@ cwc.ui.Layout.prototype.cleanUp = function() {
  */
 cwc.ui.Layout.prototype.getEventHandler = function() {
   return this.eventHandler;
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Layout.prototype.refresh_ = function() {
+  this.updateSizeInformation();
+
+  switch (this.layout) {
+    case cwc.ui.LayoutType.BLANK:
+      goog.style.setSize(this.nodes['content'], this.chromeSize);
+      break;
+
+    case cwc.ui.LayoutType.DEFAULT:
+      if (this.fullscreen && !this.editorFullscreen) {
+        this.splitpane.setFirstComponentSize(
+          this.chromeSize.width - this.handleSize);
+      } else {
+        this.splitpane.setSize(this.chromeSize);
+      }
+      break;
+
+    case cwc.ui.LayoutType.NONE:
+      break;
+
+    default:
+      console.error('Unknown layout:', this.layout);
+      break;
+  }
 };
 
 

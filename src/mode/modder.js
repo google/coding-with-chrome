@@ -150,6 +150,11 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     tutorialInstance.clear();
   }
 
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.showTerminal(false);
+  }
+
   // Set status bar defaults.
   let statusInstance = this.helper.getInstance('statusBar');
   if (statusInstance) {

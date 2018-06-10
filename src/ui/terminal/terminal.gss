@@ -55,16 +55,20 @@
   bottom: 0;
 }
 
-#{$prefix}terminal-close {
+#{$prefix}terminal-close,
+#{$prefix}terminal-clear {
   float: right;
   height: 22px;
   width: 22px;
   min-width: 22px;
 }
 
-#{$prefix}terminal-close .material-icons {
+#{$prefix}terminal-close .material-icons,
+#{$prefix}terminal-clear .material-icons {
   font-size: 20px;
 }
+
+
 
 #{$prefix}terminal-header {
   height: 25px;
@@ -73,6 +77,11 @@
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
   padding: 0 10px;
 }
+
+
+/**
+ * Terminal button styling.
+ */
 
 #{$prefix}terminal-button {
   background: transparent;
@@ -102,11 +111,11 @@
 
 
 /**
- * Terminal entry classes.
+ * Terminal entry classes for info, warn, error.
  */
 
 .{$prefix}terminal-content-entry {
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid #f0f0f0;
   padding: 0 5px;
 }
 
@@ -117,9 +126,9 @@
 }
 
 .{$prefix}terminal-content-entry-error {
-  color: #E81D20;
-  background: rgba(255,0,0,0.05);
-  border-bottom: 1px solid rgba(255,0,0,0.2);
+  color: #e81d20;
+  background: #fff0f0;
+  border-bottom: 1px solid #ffd6d6;
 }
 
 .{$prefix}terminal-content-entry-input {
@@ -131,10 +140,10 @@
 }
 
 .{$prefix}terminal-content-entry-warn {
-  background: rgba(255,250,250,0.05);
-  border-bottom: 1px solid rgba(255,250,250,0.2);
+  background: #fffbe5;
+  border-bottom: 1px solid #fff5c2;
 }
 
 .{$prefix}terminal-content-entry-warn .material-icons {
-  color: #fafa00;
+  color: #ffa500;
 }

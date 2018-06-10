@@ -28,7 +28,6 @@ goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
-goog.require('goog.async.Throttle');
 goog.require('goog.dom');
 goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
@@ -68,11 +67,11 @@ cwc.ui.Preview = function(helper) {
   /** @type {number} */
   this.autoUpdateDelay = 750;
 
-  /** @type {number|null} */
-  this.autoUpdateDelayer = null;
-
   /** @type {goog.events.ListenableKey|number} */
   this.autoUpdateEvent = null;
+
+  /** @type {boolean} */
+  this.autoUpdateRun = false;
 
   /** @type {Object} */
   this.content = null;
@@ -89,6 +88,15 @@ cwc.ui.Preview = function(helper) {
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
+  /** @private {number} */
+  this.eventTimerAutoUpdate_ = null;
+
+  /** @private {number} */
+  this.eventTimerRefresh_ = null;
+
+  /** @private {number} */
+  this.eventTimerRun_ = null;
+
   /** @private {!boolean} */
   this.enableMessenger_ = false;
 
@@ -103,16 +111,6 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!string} */
   this.partition_ = 'preview';
-
-  /** @private {!number} */
-  this.runThrottleTime_ = 1500;
-
-  /** @private {goog.async.Throttle} */
-  this.runThrottle_ = new goog.async.Throttle(
-    this.run_.bind(this), this.runThrottleTime_);
-
-  /** @private {Object} */
-  this.refreshThrottle_ = null;
 
   /** @private {!boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
@@ -286,7 +284,13 @@ cwc.ui.Preview.prototype.getMessenger = function() {
  * Runs the preview.
  */
 cwc.ui.Preview.prototype.run = function() {
-  this.runThrottle_.fire();
+  if (this.eventTimerRun_ !== null) {
+    clearTimeout(this.eventTimerRun_);
+  }
+  this.eventTimerRun_ = setTimeout(() => {
+    this.run_();
+    this.eventTimerRun_ = null;
+  }, 100);
 };
 
 
@@ -416,10 +420,17 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
           goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
           this);
     }
-    if (!this.helper.getInstance('blockly')) {
+    // Make sure to execute the preview once after 250msec.
+    if (this.helper.getInstance('blockly')) {
+      window.setTimeout(() => {
+        if (!this.autoUpdateRun) {
+          this.delayAutoUpdate();
+        }
+      }, 250);
+    } else {
       this.run();
     }
-    window.setTimeout(this.focus.bind(this), 1000);
+    window.setTimeout(this.focus.bind(this), 800);
   } else if (!active && this.autoUpdateEvent) {
     this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
@@ -433,23 +444,13 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
  * Delays the auto update by the defined time range.
  */
 cwc.ui.Preview.prototype.delayAutoUpdate = function() {
-  if (this.autoUpdateDelayer) {
-    window.clearTimeout(this.autoUpdateDelayer);
+  if (this.eventTimerAutoUpdate_) {
+    window.clearTimeout(this.eventTimerAutoUpdate_);
   }
-  this.autoUpdateDelayer = window.setTimeout(this.doAutoUpdate.bind(this),
-      this.autoUpdateDelay);
-};
-
-
-/**
- * Perform the auto update.
- */
-cwc.ui.Preview.prototype.doAutoUpdate = function() {
-  if (!this.autoUpdate) {
-    return;
-  }
-  this.log_.info('Perform auto update ...');
-  this.run();
+  this.eventTimerAutoUpdate_ = window.setTimeout(() => {
+    this.autoUpdate_();
+    this.eventTimerAutoUpdate_ = null;
+  }, this.autoUpdateDelay);
 };
 
 
@@ -471,6 +472,20 @@ cwc.ui.Preview.prototype.executeScript = function(code) {
   this.log_.info('Execute script', code);
   this.messenger_.send('__exec__',
     typeof code === 'function' ? code.toString() : code);
+};
+
+
+/**
+ * Perform the auto update.
+ * @private
+ */
+cwc.ui.Preview.prototype.autoUpdate_ = function() {
+  if (!this.autoUpdate) {
+    return;
+  }
+  this.log_.info('Perform auto update ...');
+  this.run();
+  this.autoUpdateRun = true;
 };
 
 
@@ -507,9 +522,11 @@ cwc.ui.Preview.prototype.handleRefresh_ = function() {
   if (this.enableMessenger_) {
     return;
   }
-  if (this.refreshThrottle_ !== null) {
-    clearTimeout(this.refreshThrottle_);
-    this.refreshThrottle_ = null;
+  if (this.eventTimerRefresh_ !== null) {
+    clearTimeout(this.eventTimerRefresh_);
   }
-  this.refreshThrottle_ = setTimeout(this.refresh.bind(this), 100);
+  this.eventTimerRefresh_ = setTimeout(() => {
+    this.refresh();
+    this.eventTimerRefresh_ = null;
+  }, 100);
 };

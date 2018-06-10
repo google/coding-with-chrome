@@ -371,7 +371,8 @@ cwc.protocol.lego.ev3.Handler.prototype.getValue_ = function(value, fallback) {
  */
 cwc.protocol.lego.ev3.Handler.prototype.getMediumMotorPort_ = function(
     value) {
-  if (typeof value === 'undefined') {
+  if (typeof value === 'undefined' &&
+      this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.M_MOTOR]) {
     return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.M_MOTOR][0];
   }
   return value;
@@ -385,7 +386,8 @@ cwc.protocol.lego.ev3.Handler.prototype.getMediumMotorPort_ = function(
  */
 cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortLeft_ = function(
     value) {
-  if (typeof value === 'undefined') {
+  if (typeof value === 'undefined' &&
+      this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR]) {
     return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR][0];
   }
   return value;
@@ -399,7 +401,8 @@ cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortLeft_ = function(
  */
 cwc.protocol.lego.ev3.Handler.prototype.getLargeMotorPortRight_ = function(
     value) {
-  if (typeof value === 'undefined') {
+  if (typeof value === 'undefined' &&
+      this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR]) {
     return this.devices_['actor'][cwc.protocol.lego.ev3.DeviceGroup.L_MOTOR][1];
   }
   return value;

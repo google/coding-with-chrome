@@ -29,9 +29,6 @@ goog.require('cwc.mode.default.Mod');
 cwc.mode.text.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
-
-  /** @type {!cwc.ui.StatusBar} */
-  this.statusBar = this.helper.getInstance('statusBar');
 };
 
 
@@ -41,6 +38,6 @@ cwc.mode.text.Mod = function(helper) {
  */
 cwc.mode.text.Mod.prototype.decorate = async function() {
   await this.mod.decorateRaw();
-  this.statusBar.enableEditorModeSelect(true);
+  this.mod.statusBar.enableEditorModeSelect(true);
   this.mod.editor.showExpandButton(false);
 };

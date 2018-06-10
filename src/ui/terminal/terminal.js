@@ -118,10 +118,14 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
     keyHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKey_, false, this);
 
-  // Close Button
+  // Terminal Buttons
   this.events_.listen('close', goog.events.EventType.CLICK, function() {
     this.showTerminal(false);
   });
+  this.events_.listen('clear', goog.events.EventType.CLICK, function() {
+    this.clearConsole();
+  });
+
   this.showTerminal(false);
 };
 
@@ -148,6 +152,9 @@ cwc.ui.Terminal.prototype.decorateButton = function(node) {
 };
 
 
+/**
+ * Clears console including the history.
+ */
 cwc.ui.Terminal.prototype.clear = function() {
   this.log_.info('Clear console');
   this.clearConsole();
@@ -155,6 +162,9 @@ cwc.ui.Terminal.prototype.clear = function() {
 };
 
 
+/**
+ * Clears console output only.
+ */
 cwc.ui.Terminal.prototype.clearConsole = function() {
   goog.dom.removeChildren(this.nodeContent);
   this.clearErrors();
@@ -189,18 +199,28 @@ cwc.ui.Terminal.prototype.toggle = function() {
 
 
 /**
+ * Shows terminal window and refresh possible affected instances.
  * @param {boolean} visible
  */
 cwc.ui.Terminal.prototype.showTerminal = function(visible) {
   goog.style.setElementShown(this.node, visible);
+  goog.dom.classlist.enable(this.node, 'active', visible);
   this.isVisible_ = visible;
-  if (visible) {
-    let editorInstance = this.helper.getInstance('editor');
-    if (editorInstance) {
-      editorInstance.refreshEditor();
-    }
+
+  let layoutInstance = this.helper.getInstance('layout');
+  if (layoutInstance) {
+    layoutInstance.refreshLayout();
   }
-  window.dispatchEvent(new Event('resize'));
+
+  let blocklyInstance = this.helper.getInstance('blockly');
+  if (blocklyInstance) {
+    blocklyInstance.adjustSize();
+  }
+
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    editorInstance.refreshEditor();
+  }
 };
 
 
@@ -218,6 +238,7 @@ cwc.ui.Terminal.prototype.selectHistoryEntry = function(index) {
 
 
 /**
+ * Write text content into terminal content.
  * @param {!string} content
  * @param {string=} type
  * @param {string=} icon

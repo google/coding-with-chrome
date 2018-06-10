@@ -106,13 +106,11 @@ cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
   }
 
   if (!this.prepared) {
-    this.log_.info('Prepare EV3 bluetooth api for', device.getAddress());
+    this.log_.info('Prepare bluetooth api for', device.getAddress());
     this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
       'Prepare EV3 api for' + device.getAddress(), 2));
     this.device = device;
     this.prepare();
-    this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
-      'Ready ...', 3));
   }
 
   return true;
@@ -141,6 +139,9 @@ cwc.protocol.lego.ev3.Api.prototype.prepare = function() {
   this.exec('playTone', {'frequency': 3000, 'duration': 200, 'volume': 50});
   this.drawLogo_();
   this.prepared = true;
+  this.log_.info('Bluetooth API prepared for', this.device.getAddress());
+  this.eventHandler_.dispatchEvent(cwc.protocol.lego.ev3.Events.connect(
+    'Ready ...', 3));
 };
 
 
@@ -329,6 +330,8 @@ cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
       this.updateDeviceData_(
         port, cwc.utils.ByteTools.bytesToInt32Alternative(data));
       break;
+    default:
+      this.log_.info('Unknown callback type', callback, 'with data', data);
   }
 };
 

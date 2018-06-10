@@ -53,7 +53,7 @@
 
 #{$prefix}library-add-file-text {
   bottom: 0;
-  height: 50px;
+  height: 200px;
   left: 0;
   margin: auto;
   position: absolute;
@@ -61,10 +61,19 @@
   top: 0;
 }
 
+#{$prefix}library-add-file-text > .material-icons:first-child {
+  display: block;
+  font-size: 100px;
+}
+
 #{$prefix}library-all,
 #{$prefix}library-audio,
 #{$prefix}library-images {
   padding: 5px;
+}
+
+#{$prefix}library-upload {
+  height: 1px;
 }
 
 .{$prefix}library-all-entry {

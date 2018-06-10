@@ -104,3 +104,14 @@
 #{$prefix}gui-overlay {
   z-index: 2;
 }
+
+
+#{$prefix}gui-terminal.active {
+  height: 200px;
+  width: 100%;
+}
+
+#{$prefix}gui-terminal {
+  height: 0;
+  width: 100%;
+}

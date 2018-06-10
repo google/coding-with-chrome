@@ -165,9 +165,8 @@ cwc.framework.Phaser.getSpriteSize = function(sprite, manipulation) {
 
 /**
  * @private
- * @export
  */
-cwc.framework.Phaser.init = function() {
+cwc.framework.Phaser.init_ = function() {
   new cwc.framework.Messenger(true);
   document.addEventListener('DOMContentLoaded', cwc.framework.Phaser.prepare_);
 };
@@ -214,4 +213,4 @@ cwc.framework.Phaser.prepare_ = function() {
 };
 
 
-cwc.framework.Phaser.init();
+cwc.framework.Phaser.init_();

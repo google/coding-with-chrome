@@ -94,6 +94,12 @@ cwc.mode.default.Mod = function(helper) {
   /** {Function} */
   this.simulation = null;
 
+  /** @type {!cwc.ui.StatusBar} */
+  this.statusBar = this.helper.getInstance('statusBar');
+
+  /** @type {!cwc.ui.Terminal} */
+  this.terminal = this.helper.getInstance('terminal');
+
   /** @type {!cwc.ui.Preview} */
   this.preview = new cwc.ui.Preview(this.helper);
 

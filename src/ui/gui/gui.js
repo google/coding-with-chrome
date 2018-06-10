@@ -71,6 +71,9 @@ cwc.ui.Gui = function(helper) {
   this.nodeSidebar = null;
 
   /** @type {Element} */
+  this.nodeTerminal = null;
+
+  /** @type {Element} */
   this.nodeTitle = null;
 
   /** @type {!cwc.utils.Logger} */
@@ -103,6 +106,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeSidebar = goog.dom.getElement(this.prefix + 'sidebar');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
+  this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.nodeTitleBody = goog.dom.getElement(this.prefix + 'title-body');
   this.showOverlay(false);
@@ -117,9 +121,8 @@ cwc.ui.Gui.prototype.decorate = function(node) {
 
   // Decorates Terminal
   let terminalInstance = this.helper.getInstance('terminal');
-  let nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
-  if (nodeTerminal && terminalInstance) {
-    terminalInstance.decorate(nodeTerminal);
+  if (terminalInstance && this.nodeTerminal) {
+    terminalInstance.decorate(this.nodeTerminal);
   }
 
   // Decorates Status Bar
@@ -266,6 +269,14 @@ cwc.ui.Gui.prototype.getHeaderSize = function() {
  */
 cwc.ui.Gui.prototype.getStatusBarSize = function() {
   return goog.style.getSize(this.nodeStatusBar);
+};
+
+
+/**
+ * @return {!goog.math.Size}
+ */
+cwc.ui.Gui.prototype.getTerminalSize = function() {
+  return goog.style.getSize(this.nodeTerminal);
 };
 
 
