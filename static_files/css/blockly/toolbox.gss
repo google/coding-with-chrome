@@ -212,6 +212,10 @@
   content: 'portrait';
 }
 
+.blocklyTreeRowItem_blocks_phaser__group::before {
+  content: 'group_work';
+}
+
 .blocklyTreeRowItem_blocks_phaser__tile_sprite::before {
   content: 'burst_mode';
 }

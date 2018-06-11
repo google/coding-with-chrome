@@ -75,6 +75,10 @@
         {param opt_hide_event_blocks: true /}
       {/call}
 
+      <category name="@@BLOCKS_PHASER__GROUP" colour="260">
+        {call cwc.soy.phaser.GroupBlocks.toolbox data="all" /}
+      </category>
+
       <category name="@@BLOCKS_PHASER__WORLD" colour="345">
         {call .worldBlocks /}
       </category>
@@ -266,7 +270,7 @@
 
   <block type="phaser_add_background_scaled"></block>
 
-  <block type="phaser_add_group">
+  <block type="phaser_group_add">
     <value name="variable">
       <block type="variables_get">
         <field name="VAR">obstacle_group</field>

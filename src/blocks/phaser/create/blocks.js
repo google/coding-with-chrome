@@ -103,26 +103,6 @@ Blockly.Blocks['phaser_add_background_scaled'] = {
 
 
 /**
- * Add group.
- */
-Blockly.Blocks['phaser_add_group'] = {
-  init: function() {
-    this.appendValueInput('variable')
-        .appendField(Blockly.BlocksTemplate.addCircle())
-        .appendField(i18t('@@BLOCKS__DEFINE'));
-    this.appendDummyInput()
-        .appendField(i18t('as group'))
-        .appendField(new Blockly.FieldTextInput('group_name'), 'name');
-    this.setPreviousStatement(true, 'Create');
-    this.setNextStatement(true, 'Create');
-    this.setColour(30);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  },
-};
-
-
-/**
  * Timer Loop Event
  */
 Blockly.Blocks['phaser_time_loop_event'] = {

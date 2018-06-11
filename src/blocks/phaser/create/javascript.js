@@ -77,19 +77,6 @@ Blockly.JavaScript['phaser_add_background_scaled'] = function(block) {
 
 
 /**
- * Add group.
- * @param {Blockly.Block} block
- * @return {!string}
- */
-Blockly.JavaScript['phaser_add_group'] = function(block) {
-  let text_name = block.getFieldValue('name');
-  let variable = Blockly.JavaScript.valueToCode(block,
-    'variable', Blockly.JavaScript.ORDER_ATOMIC);
-  return variable + ' = game.add.group(undefined, \'' + text_name + '\');\n';
-};
-
-
-/**
  * Timer Loop Event
  * @param {Blockly.Block} block
  * @return {!string}

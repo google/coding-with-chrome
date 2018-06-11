@@ -33,6 +33,7 @@ closureBuilder.build({
     BlocklyPath + 'blockly_compressed.js',
     BlocklyPath + 'blocks_compressed.js',
     BlocklyPath + 'javascript_compressed.js',
+    'patches/blockly/audio_preload_patch.js',
   ],
   out: 'genfiles/third_party/external/blockly/',
 });

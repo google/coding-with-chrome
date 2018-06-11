@@ -36,6 +36,7 @@ Locales['deu']['BLOCKS'] = {
   'DOWN': 'runter',
   'GROUP': 'Gruppe',
   'HEIGHT': 'Höhe',
+  'IN': 'in',
   'KILL': 'töte',
   'LEFT': 'links',
   'LISTS': 'Listen',
