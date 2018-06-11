@@ -183,6 +183,9 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust'] = {
           [i18t('velocity'), 'velocity'],
           [i18t('@@BLOCKS__WIDTH'), 'width'],
           [i18t('@@BLOCKS__HEIGHT'), 'height'],
+          [i18t('x'), 'x'],
+          [i18t('y'), 'y'],
+          [i18t('z'), 'z'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')
@@ -227,6 +230,9 @@ Blockly.Blocks['phaser_physics_arcade_sprite_adjust_custom'] = {
           [i18t('velocity'), 'velocity'],
           [i18t('@@BLOCKS__WIDTH'), 'width'],
           [i18t('@@BLOCKS__HEIGHT'), 'height'],
+          [i18t('x'), 'x'],
+          [i18t('y'), 'y'],
+          [i18t('z'), 'z'],
         ]), 'property');
     this.appendValueInput('value')
         .setCheck('Number')

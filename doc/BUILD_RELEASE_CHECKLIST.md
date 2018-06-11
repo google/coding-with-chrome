@@ -68,3 +68,15 @@ from the robot vendor side.
 - [] If available check JavaScript / Python mode
 
 - [] If available send the robot to sleep over the sleep button
+
+Build Release version
+----------------------
+
+### Chrome App
+
+```bash
+npm run publish-chrome_app
+```
+
+Use the generated **dist/chrome_app.zip** file for the upload to the
+Chrome Store or to share over other ways.

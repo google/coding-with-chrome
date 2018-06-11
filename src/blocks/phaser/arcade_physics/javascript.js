@@ -121,8 +121,11 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
     'value', Blockly.JavaScript.ORDER_ATOMIC);
   switch (dropdown_property) {
     case 'angle':
-    case 'width':
     case 'height':
+    case 'width':
+    case 'x':
+    case 'y':
+    case 'z':
       return variable + '.' + dropdown_property + ' = ' + value_value + ';\n';
     case 'acceleration.set':
     case 'bounce.set':
