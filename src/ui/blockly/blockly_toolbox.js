@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.BlocklyToolbox');
 
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 
@@ -50,6 +51,9 @@ cwc.ui.BlocklyToolbox = function(helper) {
   /** @private {!string} */
   this.rootRowItemClass_ = 'blocklyRootTreeRowItem';
 
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, '', this);
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -61,6 +65,10 @@ cwc.ui.BlocklyToolbox = function(helper) {
 cwc.ui.BlocklyToolbox.prototype.decorate = function() {
   // Decorates three labels with root class.
   this.decorateThreeLabels(true);
+
+  // Adds toolbox event listener.
+  this.events_.clear();
+  this.addEventListener();
 };
 
 
@@ -95,6 +103,19 @@ cwc.ui.BlocklyToolbox.prototype.decorateThreeLabels = function(root = false) {
       }
     }
   }
+};
+
+
+/**
+ * Add toolbox specific event listener.
+ */
+cwc.ui.BlocklyToolbox.prototype.addEventListener = function() {
+  let expandableCategories = document.body.querySelectorAll(
+    '.blocklyRootTreeRowItem');
+  expandableCategories.forEach((element) => {
+    this.events_.listen(
+      element, goog.events.EventType.CLICK, this.handleAutoCollapse_);
+  });
 };
 
 
@@ -201,28 +222,22 @@ cwc.ui.BlocklyToolbox.prototype.clearSelection = function() {
 
 /**
  * Collapse Toolbox without the optional label.
- * @param {string=} ignoreLabel
+ * @param {event=} e
  */
-cwc.ui.BlocklyToolbox.prototype.collapse = function(ignoreLabel = '') {
+cwc.ui.BlocklyToolbox.prototype.collapse = function(e) {
   let treeRoot = document.getElementsByClassName('blocklyTreeRoot')[0];
   if (!treeRoot) {
     return;
   }
-  let itemClassName = this.rowItemClass_ + '_' + ignoreLabel
-    .replace(/([^a-z0-9_ ]+)/gi, '')
-    .replace(/( )+/g, '_')
-    .toLowerCase();
-  let skipItem = treeRoot.getElementsByClassName(itemClassName)[0];
-
-  if ((ignoreLabel && !skipItem) ||
-      !goog.dom.classlist.contains(skipItem, this.rootRowItemClass_)) {
+  let target = e ? e.currentTarget : null;
+  if (target && !goog.dom.classlist.contains(target, this.rootRowItemClass_)) {
     return;
   }
   let items = treeRoot.getElementsByClassName(this.rowItemClass_);
   for (let name in items) {
     if (Object.prototype.hasOwnProperty.call(items, name)) {
       let item = items[name];
-      if (item !== skipItem) {
+      if (item !== target) {
         if (item.getAttribute && item.getAttribute('aria-expanded') == 'true') {
           if (item.id && this.getToolboxTree_()) {
             this.getToolboxTree_().childIndex_[item.id].collapse();
@@ -259,4 +274,15 @@ cwc.ui.BlocklyToolbox.prototype.getToolboxTree_ = function() {
     return toolbox.tree_;
   }
   return null;
+};
+
+
+/**
+ * @param {event} e
+ * @private
+ */
+cwc.ui.BlocklyToolbox.prototype.handleAutoCollapse_ = function(e) {
+  if (this.autoCollapse) {
+    this.collapse(e);
+  }
 };

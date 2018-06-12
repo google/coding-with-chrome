@@ -547,11 +547,6 @@ cwc.ui.Blockly.prototype.handleChangeEvent_ = function(e) {
   switch (e.type) {
     case Blockly.Events.UI:
       this.toolbox.decorateThreeLabels();
-      if (e.newValue) {
-        if (this.toolbox.getAutoCollapse()) {
-          this.toolbox.collapse(e.newValue);
-        }
-      }
       break;
     case Blockly.Events.CHANGE:
     case Blockly.Events.CREATE:
