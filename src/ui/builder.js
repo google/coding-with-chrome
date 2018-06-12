@@ -41,6 +41,7 @@ goog.require('cwc.protocol.tcp.HTTPServer');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.server.Server');
 goog.require('cwc.ui.Account');
+goog.require('cwc.ui.Console');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Experimental');
@@ -60,7 +61,6 @@ goog.require('cwc.ui.SelectScreen');
 goog.require('cwc.ui.SettingScreen');
 goog.require('cwc.ui.Sidebar');
 goog.require('cwc.ui.StatusBar');
-goog.require('cwc.ui.Terminal');
 goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
@@ -91,6 +91,7 @@ cwc.ui.Addons = {
 cwc.ui.BuilderHelpers = {
   'cache': cwc.Cache,
   'connectScreen': cwc.ui.connectScreen.Screens,
+  'console': cwc.ui.Console,
   'documentation': cwc.ui.Documentation,
   'file': cwc.fileHandler.File,
   'fileExporter': cwc.fileHandler.FileExporter,
@@ -109,7 +110,6 @@ cwc.ui.BuilderHelpers = {
   'settingScreen': cwc.ui.SettingScreen,
   'sidebar': cwc.ui.Sidebar,
   'statusBar': cwc.ui.StatusBar,
-  'terminal': cwc.ui.Terminal,
   'tour': cwc.ui.Tour,
   'tutorial': cwc.ui.Tutorial,
 };

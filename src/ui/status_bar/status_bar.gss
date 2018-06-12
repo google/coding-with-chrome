@@ -77,6 +77,6 @@
   line-height: 28px;
 }
 
-#{$prefix}status-bar-terminal-button {
+#{$prefix}status-bar-console-button {
   display: inline;
 }

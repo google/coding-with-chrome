@@ -71,11 +71,11 @@ cwc.ui.StatusBar.prototype.decorate = function(node) {
     }
   );
 
-  // Render Terminal button
-  let terminalInstance = this.helper.getInstance('terminal');
-  let nodeTerminalButton = goog.dom.getElement(this.prefix + 'terminal-button');
-  if (nodeTerminalButton && terminalInstance) {
-    terminalInstance.decorateButton(nodeTerminalButton);
+  // Render Console button
+  let consoleInstance = this.helper.getInstance('console');
+  let nodeConsoleButton = goog.dom.getElement(this.prefix + 'console-button');
+  if (nodeConsoleButton && consoleInstance) {
+    consoleInstance.decorateButton(nodeConsoleButton);
   }
 
   // Events.

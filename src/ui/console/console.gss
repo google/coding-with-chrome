@@ -15,7 +15,7 @@
  */
 
 
-#{$prefix}terminal-body {
+#{$prefix}console-body {
   background: #eee;
   display: flex;
   flex-direction: column;
@@ -23,54 +23,54 @@
   width: 100%;
 }
 
-#{$prefix}terminal-content {
+#{$prefix}console-content {
   background: #f7f7f7;
   flex: 1;
   font-family: "Courier new", "Courier", monospace;
   overflow-y: scroll;
 }
 
-#{$prefix}terminal-input {
+#{$prefix}console-input {
   height: 24px;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #ebebeb;
   padding: 1px 5px;
 }
 
-#{$prefix}terminal-input .mdl-textfield {
+#{$prefix}console-input .mdl-textfield {
   min-width: 90%;
   padding: 0;
 }
 
-#{$prefix}terminal-input .mdl-textfield__input {
+#{$prefix}console-input .mdl-textfield__input {
  font-size: 14px;
 }
 
-#{$prefix}terminal-input .material-icons {
+#{$prefix}console-input .material-icons {
   color: #2B78FE;
   vertical-align: middle;
 }
 
-#{$prefix}terminal-input .mdl-textfield__label:after {
+#{$prefix}console-input .mdl-textfield__label:after {
   bottom: 0;
 }
 
-#{$prefix}terminal-close,
-#{$prefix}terminal-clear {
+#{$prefix}console-close,
+#{$prefix}console-clear {
   float: right;
   height: 22px;
   width: 22px;
   min-width: 22px;
 }
 
-#{$prefix}terminal-close .material-icons,
-#{$prefix}terminal-clear .material-icons {
+#{$prefix}console-close .material-icons,
+#{$prefix}console-clear .material-icons {
   font-size: 20px;
 }
 
 
 
-#{$prefix}terminal-header {
+#{$prefix}console-header {
   height: 25px;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
@@ -80,10 +80,10 @@
 
 
 /**
- * Terminal button styling.
+ * Console button styling.
  */
 
-#{$prefix}terminal-button {
+#{$prefix}console-button {
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -93,57 +93,57 @@
   vertical-align: middle;
 }
 
-#{$prefix}terminal-button:hover {
+#{$prefix}console-button:hover {
   opacity: 0.9;
 }
 
-#{$prefix}terminal-button.error:after {
+#{$prefix}console-button.error:after {
   background: #f00;
 }
 
-#{$prefix}terminal-button.warning:after {
+#{$prefix}console-button.warning:after {
   background: #ffa500;
 }
 
-#{$prefix}terminal-button.info:after {
+#{$prefix}console-button.info:after {
   background: #aaa;
 }
 
 
 /**
- * Terminal entry classes for info, warn, error.
+ * Console entry classes for info, warn, error.
  */
 
-.{$prefix}terminal-content-entry {
+.{$prefix}console-content-entry {
   border-bottom: 1px solid #f0f0f0;
   padding: 0 5px;
 }
 
-.{$prefix}terminal-content-entry > .material-icons {
+.{$prefix}console-content-entry > .material-icons {
   font-size: 14px;
   width: 20px;
   vertical-align: middle;
 }
 
-.{$prefix}terminal-content-entry-error {
+.{$prefix}console-content-entry-error {
   color: #e81d20;
   background: #fff0f0;
   border-bottom: 1px solid #ffd6d6;
 }
 
-.{$prefix}terminal-content-entry-input {
+.{$prefix}console-content-entry-input {
   color: #000;
 }
 
-.{$prefix}terminal-content-entry-output {
+.{$prefix}console-content-entry-output {
   color: #888;
 }
 
-.{$prefix}terminal-content-entry-warn {
+.{$prefix}console-content-entry-warn {
   background: #fffbe5;
   border-bottom: 1px solid #fff5c2;
 }
 
-.{$prefix}terminal-content-entry-warn .material-icons {
+.{$prefix}console-content-entry-warn .material-icons {
   color: #ffa500;
 }

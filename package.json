@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "5.6.4",
+  "version": "5.6.12",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -94,7 +94,8 @@
     "build-nw_app_debug": "npm run build-cwc-main-debug && node build/app/nw_app_debug.js",
     "build-third_party": "npm run build-external-frameworks && npm run build-external-extra && npm run build-external-static",
     "build-web_app": "node build/app/web_app.js",
-    "publish-chrome_app": "npm run test && npm run clean && npm run build && npm run build-cwc-main && npm run build-chrome_app && bestzip dist/cwc-chrome_app.zip dist/chrome_os/",
+    "publish-prepare": "npm run test && npm run clean && npm run build && npm run build-cwc-main",
+    "publish-chrome_app": "npm run publish-prepare && npm run build-chrome_app && bestzip dist/cwc-chrome_app.zip dist/chrome_os/",
     "publish-nw_app": "npm run publish-nw_app-win && npm run publish-nw_app-mac && npm run publish-nw_app-linux",
     "publish-nw_app-linux": "nwbuild --platforms linux --buildDir dist/ dist/nw_app/",
     "publish-nw_app-mac": "nwbuild --platforms osx64 --buildDir dist/ dist/nw_app/",

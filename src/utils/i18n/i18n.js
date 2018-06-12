@@ -51,6 +51,9 @@ cwc.utils.I18n = function() {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
+  /** @private {!Object} */
+  this.soyRegExp_ = /^\{\$\w+\}$/;
+
   this.prepare_();
 };
 
@@ -102,13 +105,20 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(translationKey, values) {
+  // Precheck strings
+  if (!translationKey || translationKey.length === 1) {
+    return translationKey;
+  }
+
   // Handle soy template specific format
-  if (values && /^\{\$\w+\}$/.test(translationKey)) {
+  if (values && this.soyRegExp_.test(translationKey)) {
     let soyKey = translationKey.substr(2, translationKey.length - 3);
     if (typeof values[soyKey]['content'] !== 'undefined') {
       translationKey = values[soyKey]['content'];
-      values = null;
+    } else if (typeof values[soyKey] === 'string') {
+      translationKey = values[soyKey];
     }
+    values = null;
   }
 
   // Handle old translation during migration.

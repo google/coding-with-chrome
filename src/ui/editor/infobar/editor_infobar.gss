@@ -87,11 +87,6 @@
   padding-left: 5px;
 }
 
-#{$prefix}editor-infobar-terminal {
-  margin-left: 10px;
-  z-index: 5;
-}
-
 #{$prefix}editor-infobar-mode {
   text-align: center;
 }

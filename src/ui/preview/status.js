@@ -148,9 +148,9 @@ cwc.ui.PreviewStatus.prototype.handleContentLoad_ = function() {
  * @private
  */
 cwc.ui.PreviewStatus.prototype.handleConsoleMessage_ = function(event) {
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.writeConsoleMessage(event);
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance) {
+    consoleInstance.writeConsoleMessage(event);
   }
 };
 

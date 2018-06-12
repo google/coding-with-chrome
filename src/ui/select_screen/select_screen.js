@@ -144,6 +144,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
     sidebarInstance.clear();
   }
 
+  let settingScreenInstance = this.helper.getInstance('settingScreen');
+  if (settingScreenInstance) {
+    settingScreenInstance.hide();
+  }
+
   let guiInstance = this.helper.getInstance('gui', true);
   guiInstance.setTitle('');
   guiInstance.setStatus('');

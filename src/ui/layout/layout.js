@@ -216,7 +216,7 @@ cwc.ui.Layout.prototype.updateSizeInformation = function() {
     this.chromeSize = new goog.math.Size(
       this.viewportSize.width - guiInstance.getSidebarSize().width,
       this.viewportSize.height - guiInstance.getHeaderSize().height -
-      guiInstance.getTerminalSize().height -
+      guiInstance.getConsoleSize().height -
       guiInstance.getStatusBarSize().height
     );
   } else {

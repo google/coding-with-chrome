@@ -126,6 +126,12 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     dialogInstance.close();
   }
 
+  // Hide setting screen.
+  let settingScreenInstance = this.helper.getInstance('settingScreen');
+  if (settingScreenInstance) {
+    settingScreenInstance.hide();
+  }
+
   // Remove custom sidebar button.
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
@@ -150,9 +156,11 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
     tutorialInstance.clear();
   }
 
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.showTerminal(false);
+  // Clear existing console
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance) {
+    consoleInstance.clear();
+    consoleInstance.showConsole(false);
   }
 
   // Set status bar defaults.

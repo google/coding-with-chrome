@@ -1,5 +1,5 @@
 /**
- * @fileoverview Terminal
+ * @fileoverview Console
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Terminal');
+goog.provide('cwc.ui.Console');
 
-goog.require('cwc.soy.ui.Terminal');
+goog.require('cwc.soy.ui.Console');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -28,21 +28,21 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 
 
 /**
- * Class represents the terminal the UI.
+ * Class represents the console the UI.
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.Terminal = function(helper) {
+cwc.ui.Console = function(helper) {
   /** @type {string} */
-  this.name = 'Terminal';
+  this.name = 'Console';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {string} */
-  this.prefix = this.helper.getPrefix('terminal');
+  this.prefix = this.helper.getPrefix('console');
 
   /** @type {Element} */
   this.node = null;
@@ -86,19 +86,19 @@ cwc.ui.Terminal = function(helper) {
 
 
 /**
- * Decorates the given node and adds the terminal to the ui.
+ * Decorates the given node and adds the console to the ui.
  * @param {Element} node The target node to add the status bar.
  */
-cwc.ui.Terminal.prototype.decorate = function(node) {
+cwc.ui.Console.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
-    this.log_.error('Invalid Terminal node:', this.node);
+    this.log_.error('Invalid Console node:', this.node);
     return;
   }
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.ui.Terminal.template, {
+    cwc.soy.ui.Console.template, {
       'prefix': this.prefix,
     }
   );
@@ -118,30 +118,30 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
     keyHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
     this.handleKey_, false, this);
 
-  // Terminal Buttons
+  // Console Buttons
   this.events_.listen('close', goog.events.EventType.CLICK, function() {
-    this.showTerminal(false);
+    this.showConsole(false);
   });
   this.events_.listen('clear', goog.events.EventType.CLICK, function() {
     this.clearConsole();
   });
 
-  this.showTerminal(false);
+  this.showConsole(false);
 };
 
 
 /**
  * @param {Element} node
  */
-cwc.ui.Terminal.prototype.decorateButton = function(node) {
+cwc.ui.Console.prototype.decorateButton = function(node) {
   if (!node) {
-    this.log_.error('Invalid Terminal Button node:', node);
+    this.log_.error('Invalid Console Button node:', node);
     return;
   }
 
   goog.soy.renderElement(
     node,
-    cwc.soy.ui.Terminal.templateButton, {
+    cwc.soy.ui.Console.templateButton, {
       'prefix': this.prefix,
     }
   );
@@ -155,7 +155,7 @@ cwc.ui.Terminal.prototype.decorateButton = function(node) {
 /**
  * Clears console including the history.
  */
-cwc.ui.Terminal.prototype.clear = function() {
+cwc.ui.Console.prototype.clear = function() {
   this.log_.info('Clear console');
   this.clearConsole();
   this.clearHistory();
@@ -165,13 +165,13 @@ cwc.ui.Terminal.prototype.clear = function() {
 /**
  * Clears console output only.
  */
-cwc.ui.Terminal.prototype.clearConsole = function() {
+cwc.ui.Console.prototype.clearConsole = function() {
   goog.dom.removeChildren(this.nodeContent);
   this.clearErrors();
 };
 
 
-cwc.ui.Terminal.prototype.clearErrors = function() {
+cwc.ui.Console.prototype.clearErrors = function() {
   this.numErrors_ = 0;
   this.numInfos_ = 0;
   this.numWarnings_ = 0;
@@ -179,7 +179,7 @@ cwc.ui.Terminal.prototype.clearErrors = function() {
 };
 
 
-cwc.ui.Terminal.prototype.clearHistory = function() {
+cwc.ui.Console.prototype.clearHistory = function() {
   this.history_ = [];
   this.historyIndex_ = 0;
 };
@@ -188,21 +188,21 @@ cwc.ui.Terminal.prototype.clearHistory = function() {
 /**
  * @return {!boolean}
  */
-cwc.ui.Terminal.prototype.isVisible = function() {
+cwc.ui.Console.prototype.isVisible = function() {
   return this.isVisible_;
 };
 
 
-cwc.ui.Terminal.prototype.toggle = function() {
-  this.showTerminal(!this.isVisible_);
+cwc.ui.Console.prototype.toggle = function() {
+  this.showConsole(!this.isVisible_);
 };
 
 
 /**
- * Shows terminal window and refresh possible affected instances.
+ * Shows console window and refresh possible affected instances.
  * @param {boolean} visible
  */
-cwc.ui.Terminal.prototype.showTerminal = function(visible) {
+cwc.ui.Console.prototype.showConsole = function(visible) {
   goog.style.setElementShown(this.node, visible);
   goog.dom.classlist.enable(this.node, 'active', visible);
   this.isVisible_ = visible;
@@ -227,7 +227,7 @@ cwc.ui.Terminal.prototype.showTerminal = function(visible) {
 /**
  * @param {!number} index
  */
-cwc.ui.Terminal.prototype.selectHistoryEntry = function(index) {
+cwc.ui.Console.prototype.selectHistoryEntry = function(index) {
   if (index > this.historyIndex_ || index < 0 || !this.nodeUserInput) {
     return;
   }
@@ -238,12 +238,12 @@ cwc.ui.Terminal.prototype.selectHistoryEntry = function(index) {
 
 
 /**
- * Write text content into terminal content.
+ * Write text content into console content.
  * @param {!string} content
  * @param {string=} type
  * @param {string=} icon
  */
-cwc.ui.Terminal.prototype.write = function(content, type = '', icon = '') {
+cwc.ui.Console.prototype.write = function(content, type = '', icon = '') {
   if (!content) {
     return;
   }
@@ -268,7 +268,7 @@ cwc.ui.Terminal.prototype.write = function(content, type = '', icon = '') {
  * @param {string=} type
  * @param {string=} icon
  */
-cwc.ui.Terminal.prototype.writeln = function(content, type, icon) {
+cwc.ui.Console.prototype.writeln = function(content, type, icon) {
   this.write(content + '\n', type, icon);
 };
 
@@ -276,7 +276,7 @@ cwc.ui.Terminal.prototype.writeln = function(content, type, icon) {
 /**
  * @param {!string} content
  */
-cwc.ui.Terminal.prototype.writeError = function(content) {
+cwc.ui.Console.prototype.writeError = function(content) {
   this.numErrors_++;
   this.writeln(content, 'error', 'cancel');
 };
@@ -285,7 +285,7 @@ cwc.ui.Terminal.prototype.writeError = function(content) {
 /**
  * @param {!string} content
  */
-cwc.ui.Terminal.prototype.writeWarn = function(content) {
+cwc.ui.Console.prototype.writeWarn = function(content) {
   this.numWarnings_++;
   this.writeln(content, 'warn', 'warning');
 };
@@ -294,7 +294,7 @@ cwc.ui.Terminal.prototype.writeWarn = function(content) {
 /**
  * @param {!string} content
  */
-cwc.ui.Terminal.prototype.writeInfo = function(content) {
+cwc.ui.Console.prototype.writeInfo = function(content) {
   this.numInfos_++;
   this.writeln(content, 'info');
 };
@@ -303,7 +303,7 @@ cwc.ui.Terminal.prototype.writeInfo = function(content) {
 /**
  * @param {!string} content
  */
-cwc.ui.Terminal.prototype.writeOutput = function(content) {
+cwc.ui.Console.prototype.writeOutput = function(content) {
   this.writeln(content, 'output', 'keyboard_arrow_left');
 };
 
@@ -311,7 +311,7 @@ cwc.ui.Terminal.prototype.writeOutput = function(content) {
 /**
  * @param {Object} event
  */
-cwc.ui.Terminal.prototype.writeConsoleMessage = function(event) {
+cwc.ui.Console.prototype.writeConsoleMessage = function(event) {
   let level = event['level'];
   let message = event['message'] || '';
   switch (level) {
@@ -337,7 +337,7 @@ cwc.ui.Terminal.prototype.writeConsoleMessage = function(event) {
 /**
  * @param {Object} event
  */
-cwc.ui.Terminal.prototype.handleCommand_ = function(event) {
+cwc.ui.Console.prototype.handleCommand_ = function(event) {
   let command = event.target.value;
   if (!command) {
     return;
@@ -358,7 +358,7 @@ cwc.ui.Terminal.prototype.handleCommand_ = function(event) {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.ui.Terminal.prototype.handleKey_ = function(event) {
+cwc.ui.Console.prototype.handleKey_ = function(event) {
   switch (event.identifier) {
     case 'enter':
       this.handleCommand_(event);
@@ -386,7 +386,7 @@ cwc.ui.Terminal.prototype.handleKey_ = function(event) {
 /**
  * @private
  */
-cwc.ui.Terminal.prototype.updateButton_ = function() {
+cwc.ui.Console.prototype.updateButton_ = function() {
   if (!this.nodeButton) {
     return;
   }

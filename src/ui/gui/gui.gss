@@ -40,7 +40,7 @@
 }
 
 #{$prefix}gui-status-bar,
-#{$prefix}gui-terminal {
+#{$prefix}gui-console {
   z-index: 1
 }
 
@@ -106,12 +106,12 @@
 }
 
 
-#{$prefix}gui-terminal.active {
+#{$prefix}gui-console.active {
   height: 200px;
   width: 100%;
 }
 
-#{$prefix}gui-terminal {
+#{$prefix}gui-console {
   height: 0;
   width: 100%;
 }

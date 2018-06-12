@@ -71,7 +71,7 @@ cwc.ui.Gui = function(helper) {
   this.nodeSidebar = null;
 
   /** @type {Element} */
-  this.nodeTerminal = null;
+  this.nodeConsole = null;
 
   /** @type {Element} */
   this.nodeTitle = null;
@@ -99,6 +99,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
     });
 
   // Main nodes
+  this.nodeConsole = goog.dom.getElement(this.prefix + 'console');
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
   this.nodeHeader = goog.dom.getElement(this.prefix + 'header');
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
@@ -106,7 +107,6 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeSidebar = goog.dom.getElement(this.prefix + 'sidebar');
   this.nodeStatus = goog.dom.getElement(this.prefix + 'status');
   this.nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
-  this.nodeTerminal = goog.dom.getElement(this.prefix + 'terminal');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.nodeTitleBody = goog.dom.getElement(this.prefix + 'title-body');
   this.showOverlay(false);
@@ -119,10 +119,10 @@ cwc.ui.Gui.prototype.decorate = function(node) {
     menuBarInstance.decorate(nodeMenuBar);
   }
 
-  // Decorates Terminal
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance && this.nodeTerminal) {
-    terminalInstance.decorate(this.nodeTerminal);
+  // Decorates Console
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance && this.nodeConsole) {
+    consoleInstance.decorate(this.nodeConsole);
   }
 
   // Decorates Status Bar
@@ -275,8 +275,8 @@ cwc.ui.Gui.prototype.getStatusBarSize = function() {
 /**
  * @return {!goog.math.Size}
  */
-cwc.ui.Gui.prototype.getTerminalSize = function() {
-  return goog.style.getSize(this.nodeTerminal);
+cwc.ui.Gui.prototype.getConsoleSize = function() {
+  return goog.style.getSize(this.nodeConsole);
 };
 
 

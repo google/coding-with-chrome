@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Terminal (german).
+ * @fileoverview Translation file for the Console (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -18,14 +18,15 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
+Locales['eng'] = Locales['eng'] || {};
 
 
 /**
  * @final
  * @export
  */
-Locales['deu']['TERMINAL'] = {
-  'BUTTON_TOOLTIP': 'Terminal',
-  'COMMAND_PLACEHOLDER': 'Befehl hier eingeben',
+Locales['eng']['CONSOLE'] = {
+  'BUTTON_TOOLTIP': 'Show/hide Console',
+  'CLEAR': 'Clear console (CTRL + L)',
+  'COMMAND_PLACEHOLDER': 'Type your command here',
 };

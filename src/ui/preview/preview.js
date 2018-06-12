@@ -217,9 +217,9 @@ cwc.ui.Preview.prototype.decorateOverlay = function(decorator) {
  * Renders content for preview window.
  */
 cwc.ui.Preview.prototype.render = function() {
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.clear();
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance) {
+    consoleInstance.clear();
   }
 
   this.content = this.webviewSupport_ ?
@@ -316,9 +316,9 @@ cwc.ui.Preview.prototype.refresh = function() {
   if (!this.content) {
     return;
   }
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.clearErrors();
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance) {
+    consoleInstance.clearErrors();
   }
 
   this.previewStatus_.setStatus(cwc.ui.PreviewState.REFRESHING);
@@ -381,9 +381,9 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  * @param {!string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance && url !== 'about:blank') {
-    terminalInstance.clear();
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance && url !== 'about:blank') {
+    consoleInstance.clear();
   }
 
   if (url && this.content) {

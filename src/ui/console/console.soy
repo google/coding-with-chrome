@@ -17,11 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.ui.Terminal autoescape="strict"}
+{namespace cwc.soy.ui.Console autoescape="strict"}
 
 
 /**
- * Terminal template.
+ * Console template.
  */
 {template .template}
   {@param prefix: string}
@@ -38,10 +38,11 @@
       <div class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" type="text" id="{$prefix}user-input">
         <label class="mdl-textfield__label" for="{$prefix}user-input">
-          {msg desc=""}@@TERMINAL__COMMAND_PLACEHOLDER{/msg}
+          {msg desc=""}@@CONSOLE__COMMAND_PLACEHOLDER{/msg}
         </label>
       </div>
-      <button id="{$prefix}clear" class="mdl-button mdl-js-button mdl-button--icon">
+      <button id="{$prefix}clear" class="mdl-button mdl-js-button mdl-button--icon"
+        title="{msg desc=""}@@CONSOLE__CLEAR{/msg}">
         <i class="material-icons">not_interested</i>
       </button>
     </div>
@@ -50,7 +51,7 @@
 
 
 /**
- * Terminal button template.
+ * Console button template.
  */
 {template .templateButton}
   {@param prefix: string}
@@ -59,6 +60,6 @@
     video_label
   </button>
   <div class="mdl-tooltip mdl-tooltip--top" data-mdl-for="{$prefix}button">
-    {msg desc=""}@@TERMINAL__BUTTON_TOOLTIP{/msg}
+    {msg desc=""}@@CONSOLE__BUTTON_TOOLTIP{/msg}
   </div>
 {/template}

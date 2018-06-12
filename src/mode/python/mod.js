@@ -43,5 +43,5 @@ cwc.mode.python.Mod = function(helper) {
 cwc.mode.python.Mod.prototype.decorate = async function() {
   this.mod.setRenderer(this.renderer);
   await this.mod.decorate();
-  this.mod.terminal.showTerminal(true);
+  this.mod.console.showConsole(true);
 };
