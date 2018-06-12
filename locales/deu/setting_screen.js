@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
-
-
-/**
- * @final
- * @export
- */
 /* eslint-disable max-len */
 Locales['deu']['SETTING_SCREEN'] = {
   'CLOSE': 'Schließe Einstellungen',

@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
-
-
-/**
- * @final
- * @export
- */
 Locales['deu']['GENERAL'] = {
   'ABOUT': 'Über',
   'BACK': 'Zurück',

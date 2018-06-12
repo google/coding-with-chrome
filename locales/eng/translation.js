@@ -18,14 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  * @deprecated
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
-
-
-/**
- * @final
- * @export
- */
 /* eslint-disable max-len */
 Object.assign(Locales['eng'], {
   ' steps)': ' steps)',

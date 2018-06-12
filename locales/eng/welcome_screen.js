@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
-
-
-/**
- * @final
- * @export
- */
 /* eslint-disable max-len */
 Locales['eng']['WELCOME_SCREEN'] = {
   'TITLE': 'Welcome to Coding with Chrome!',

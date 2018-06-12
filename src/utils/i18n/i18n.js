@@ -105,11 +105,6 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
  * @return {!string}
  */
 cwc.utils.I18n.prototype.translate = function(translationKey, values) {
-  // Precheck strings
-  if (!translationKey || translationKey.length === 1) {
-    return translationKey;
-  }
-
   // Handle soy template specific format
   if (values && this.soyRegExp_.test(translationKey)) {
     let soyKey = translationKey.substr(2, translationKey.length - 3);

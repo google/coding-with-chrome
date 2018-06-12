@@ -18,19 +18,10 @@
  * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
  * @deprecated
  */
-window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
-
-
-/**
- * @final
- * @export
- */
 /* eslint-disable max-len */
 Object.assign(Locales['deu'], {
   'All': 'Alle',
   'Audio': 'Audio',
-  'Automatically reloads the preview after a change on the editor content': 'Automatisches Neuladen der Vorschau nach einer Änderung des Editorinhalts',
   'Block Coding': 'Block basierte Programmierung',
   'Blockly Prompt': 'Blockly Aufforderung',
   'Blockly file': 'Blockly Datei',
@@ -74,13 +65,6 @@ Object.assign(Locales['deu'], {
   'Insert Image...': 'Bild einfügen...',
   'Learn more about Coding with Chrome': 'Lerne mehr über Coding with Chrome',
   'Learn more': 'Weitere Informationen',
-  'Library__all_tab': 'Hier findest du all deine Dateien.',
-  'Library__audio_tab': 'Hier findest du deine Audiodateien.',
-  'Library__close_dialog': 'Um das Fenster zu schließen, klicke auf Schließen.',
-  'Library__image_tab': 'Hier findest du deine Bilder.',
-  'Library__intro': 'Mit der Dateien Bibliothek hast du alle deine Datein auf einen Blick.',
-  'Library__search_tab': 'Diese Suche hilft dir weitere Bilder für dein Projekt zu finden.',
-  'Library__upload_button': 'Klicke hier, um eine Datei in deiner Bibliothek hochladen.',
   'Load': 'Lade',
   'Logic': 'Logik',
   'Loops': 'Schleifen',

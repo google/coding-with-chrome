@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
-
-
-/**
- * @final
- * @export
- */
 Locales['eng']['STATUS'] = {
   'LOADED': 'Finished after {$seconds} seconds.',
   'LOADING': 'Loading ...',
@@ -36,10 +28,6 @@ Locales['eng']['STATUS'] = {
   'UNRESPONSIVE': 'Unresponsive',
 };
 
-/**
- * @final
- * @export
- */
 Locales['eng']['STATUS_BUTTON'] = {
   'COLLAPSE_VIEW': 'Collapse view',
   'EXPAND_VIEW': 'Expand view',
@@ -49,5 +37,3 @@ Locales['eng']['STATUS_BUTTON'] = {
   'STOP_VIEW': 'Stops or terminates the view',
   'TERMINATE_VIEW': 'Terminate view',
 };
-
-

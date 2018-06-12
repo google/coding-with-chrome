@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Console (english).
+ * @fileoverview Library Translation file (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,8 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-Locales['eng']['CONSOLE'] = {
-  'BUTTON_TOOLTIP': 'Show/hide Console',
-  'CLEAR': 'Clear console (CTRL + L)',
-  'COMMAND_PLACEHOLDER': 'Type your command here',
+/* eslint-disable max-len */
+Locales['eng']['LIBRARY'] = {
+  'TOUR_ALL_TAB': 'Here you can find all your files.',
+  'TOUR_AUDIO_TAB': 'Here you can find your audio files.',
+  'TOUR_CLOSE_DIALOG': 'To close the window, click Close.',
+  'TOUR_IMAGE_TAB': 'Here you can find your pictures.',
+  'TOUR_INTRO': 'With the Files library you have all your files at a glance.',
+  'TOUR_SEARCH_TAB': 'This search helps you to find more pictures for your project.',
+  'TOUR_UPLOAD_BUTTON': 'Click here to upload a file to your library.',
 };

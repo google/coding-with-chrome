@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['eng'] = Locales['eng'] || {};
-
-
-/**
- * @final
- * @export
- */
 Locales['eng']['SIDEBAR'] = {
   'FILE_DESCRIPTION': 'Show file description',
   'LIBRARY': 'Open file library',

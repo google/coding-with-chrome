@@ -67,13 +67,15 @@ cwc.utils.Events.prototype.listen = function(src, type, listener,
   if (typeof src === 'string' || src instanceof String) {
     eventTarget = document.getElementById(this.prefix + src);
     if (!eventTarget) {
-      this.log_.error('Unable to find element', this.prefix + src);
+      this.log_.error('Unable to find listener element', this.prefix + src);
+      return;
     }
   } else {
     eventTarget = src;
   }
   if (!eventTarget) {
-    this.log_.error('Undefined event target!', eventTarget);
+    this.log_.error('Undefined listener event target!', eventTarget);
+    return;
   }
   this.listener_.push(
     goog.events.listen(eventTarget, type, listener, capture,

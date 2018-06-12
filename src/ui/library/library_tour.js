@@ -33,7 +33,7 @@ cwc.ui.LibraryTour.get = function(prefix = '') {
   });
   tour.addStep('intro', {
     'title': i18t('File library'),
-    'text': i18t('Library__intro'),
+    'text': i18t('@@LIBRARY__TOUR_INTRO'),
     'attachTo': '#' + prefix + 'chrome center',
     'buttons': [{
       'text': i18t('@@GENERAL__EXIT'),
@@ -47,32 +47,32 @@ cwc.ui.LibraryTour.get = function(prefix = '') {
   });
   tour.addStep('upload', {
     'title': i18t('File library'),
-    'text': i18t('Library__upload_button'),
+    'text': i18t('@@LIBRARY__TOUR_UPLOAD_BUTTON'),
     'attachTo': '#' + prefix + 'upload-button left',
     'advanceOn': '#' + prefix + 'upload-button click',
   });
   tour.addStep('images', {
-    'text': i18t('Library__image_tab'),
+    'text': i18t('@@LIBRARY__TOUR_IMAGE_TAB'),
     'attachTo': '#' + prefix + 'images_tab bottom',
     'advanceOn': '#' + prefix + 'images_tab click',
   });
   tour.addStep('audio', {
-    'text': i18t('Library__audio_tab'),
+    'text': i18t('@@LIBRARY__TOUR_AUDIO_TAB'),
     'attachTo': '#' + prefix + 'audio_tab bottom',
     'advanceOn': '#' + prefix + 'audio_tab click',
   });
   tour.addStep('all', {
-    'text': i18t('Library__all_tab'),
+    'text': i18t('@@LIBRARY__TOUR_ALL_TAB'),
     'attachTo': '#' + prefix + 'all_tab bottom',
     'advanceOn': '#' + prefix + 'all_tab click',
   });
   tour.addStep('search', {
-    'text': i18t('Library__search_tab'),
+    'text': i18t('@@LIBRARY__TOUR_SEARCH_TAB'),
     'attachTo': '#' + prefix + 'search_tab bottom',
     'advanceOn': '#' + prefix + 'search_tab click',
   });
   tour.addStep('close', {
-    'text': i18t('Library__close_dialog'),
+    'text': i18t('@@LIBRARY__TOUR_CLOSE_DIALOG'),
     'attachTo': '#cwc-dialog-close left',
     'buttons': [{
       'text': i18t('@@GENERAL__EXIT'),

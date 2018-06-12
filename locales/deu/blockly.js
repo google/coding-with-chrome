@@ -17,14 +17,6 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-window['Locales'] = window['Locales'] || {};
-Locales['deu'] = Locales['deu'] || {};
-
-
-/**
- * @final
- * @export
- */
 Locales['deu']['BLOCKLY'] = {
   'CREATE_NEW_VARIABLE': 'Erstelle neue Variable',
 };

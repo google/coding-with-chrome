@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Console (english).
+ * @fileoverview Library Translation file (german).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,8 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-Locales['eng']['CONSOLE'] = {
-  'BUTTON_TOOLTIP': 'Show/hide Console',
-  'CLEAR': 'Clear console (CTRL + L)',
-  'COMMAND_PLACEHOLDER': 'Type your command here',
+/* eslint-disable max-len */
+Locales['deu']['LIBRARY'] = {
+  'TOUR_ALL_TAB': 'Hier findest du all deine Dateien.',
+  'TOUR_AUDIO_TAB': 'Hier findest du deine Audiodateien.',
+  'TOUR_CLOSE_DIALOG': 'Um das Fenster zu schließen, klicke auf Schließen.',
+  'TOUR_IMAGE_TAB': 'Hier findest du deine Bilder.',
+  'TOUR_INTRO': 'Mit der Dateien Bibliothek hast du alle deine Datein auf einen Blick.',
+  'TOUR_SEARCH_TAB': 'Diese Suche hilft dir weitere Bilder für dein Projekt zu finden.',
+  'TOUR_UPLOAD_BUTTON': 'Klicke hier, um eine Datei in deiner Bibliothek hochladen.',
 };

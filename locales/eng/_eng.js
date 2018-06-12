@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for the Console (english).
+ * @fileoverview Translation file (english).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,8 +17,5 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-Locales['eng']['CONSOLE'] = {
-  'BUTTON_TOOLTIP': 'Show/hide Console',
-  'CLEAR': 'Clear console (CTRL + L)',
-  'COMMAND_PLACEHOLDER': 'Type your command here',
-};
+window['Locales'] = window['Locales'] || {};
+Locales['eng'] = Locales['eng'] || {};
