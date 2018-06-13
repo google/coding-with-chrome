@@ -34,6 +34,7 @@ goog.require('cwc.fileHandler.FileSaver');
 goog.require('cwc.lib.protocol.bluetoothChrome.Api');
 goog.require('cwc.lib.protocol.bluetoothWeb.Api');
 goog.require('cwc.mode.Modder');
+goog.require('cwc.protocol.aiy.Api');
 goog.require('cwc.protocol.arduino.Api');
 goog.require('cwc.protocol.mDNS.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
@@ -126,6 +127,7 @@ cwc.ui.supportedProtocols = {
   'serial': cwc.protocol.serial.Api,
 
   // Boards
+  'aiy': cwc.protocol.aiy.Api,
   'arduino': cwc.protocol.arduino.Api,
   'raspberryPi': cwc.protocol.raspberryPi.Api,
 };

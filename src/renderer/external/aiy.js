@@ -23,6 +23,7 @@ goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.ui.EditorContent');
+goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Helper');
 
 /**
@@ -39,8 +40,13 @@ cwc.renderer.external.AIY = function(helper) {
   this.frameworks_ = [
     cwc.framework.Internal.AIY,
   ];
-};
 
+  /** @private {?WebSocket} */
+  this.socket_ = null;
+
+  /** @private {cwc.utils.Dialog} */
+  this.dialog_ = new cwc.utils.Dialog();
+};
 
 /**
  * Initializes and defines the AIY renderer.
@@ -51,6 +57,63 @@ cwc.renderer.external.AIY.prototype.init = function() {
   return rendererInstance.setRenderer(this.render.bind(this));
 };
 
+/**
+ * Handles the received messages on the WebSocket.
+ * @param {string} data
+ * @private
+ */
+cwc.renderer.external.AIY.prototype.handleMessage_ = function(data) {
+  let terminalInstance = this.helper.getInstance('terminal');
+  if (terminalInstance) {
+    terminalInstance.writeOutput(data);
+  }
+};
+
+/**
+ * Sends a message to the AIY WebSocket.
+ * @param {string} message
+ * @private
+ */
+cwc.renderer.external.AIY.prototype.sendMessage_ = function(message) {
+  let blocker = Promise.resolve();
+  if (!this.socket_) {
+    blocker = this.dialog_.showPrompt(
+      'Socket URL',
+      'Please type in the URL of the Raspberry Pi',
+      'ws://raspberrypi.local:8765'
+    ).then((url) => {
+      return this.openSocket_(url);
+    }).catch((error) => {
+      this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
+    });
+  }
+  blocker.then(() => this.socket_.send(message));
+};
+
+/**
+ * Handles the received messages on the WebSocket.
+ * @param {!string} url
+ * @return {Promise}
+ * @private
+ */
+cwc.renderer.external.AIY.prototype.openSocket_ = function(url) {
+  return new Promise((resolve, reject) => {
+    const socket = new WebSocket(url);
+    socket.addEventListener('open', () => {
+      this.socket_ = socket;
+      resolve();
+    }, false);
+    socket.addEventListener('close', (event) => {
+      this.socket_ = null;
+      if (event.code !== 1000) {
+        reject(new Error(`WebSocket closed with code ${event.code}`));
+      }
+    }, false);
+    socket.addEventListener('message', (event) => {
+      this.handleMessage_(event.data);
+    }, false);
+  });
+};
 
 /**
  * AIY render logic.
@@ -60,17 +123,8 @@ cwc.renderer.external.AIY.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.AIY.prototype.render = function(
-  editorContent,
-  libraryFiles,
-  rendererHelper) {
-    let header = rendererHelper.getJavaScriptURLs(this.frameworks_);
-    let body = '\n<script>' +
-        '  let customCode = function(aiy) {\n' +
-        editorContent[cwc.ui.EditorContent.DEFAULT] +
-        '\n};\n' + '  let runner = new cwc.framework.Runner();\n' +
-        '  let customFramework = new cwc.framework.AIY(runner);\n' +
-        '  customFramework.listen(customCode);\n' +
-        '</script>\n';
-    return rendererHelper.getHTML(body, header);
+cwc.renderer.external.AIY.prototype.render = function(editorContent) {
+    let pythonCode = editorContent[cwc.ui.EditorContent.DEFAULT];
+    this.sendMessage_(pythonCode);
+    return '';
 };
