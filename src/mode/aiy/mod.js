@@ -21,6 +21,7 @@ goog.provide('cwc.mode.aiy.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.renderer.external.AIY');
+goog.require('cwc.mode.aiy.Connection');
 
 
 /**
@@ -31,8 +32,11 @@ cwc.mode.aiy.Mod = function(helper) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
+  /** @type {!cwc.mode.aiy.Connection} */
+  this.connection = new cwc.mode.aiy.Connection(helper);
+
   /** @type {!cwc.renderer.external.AIY} */
-  this.renderer = new cwc.renderer.external.AIY(helper);
+  this.renderer = new cwc.renderer.external.AIY(helper, this.connection);
 };
 
 
@@ -41,7 +45,8 @@ cwc.mode.aiy.Mod = function(helper) {
  * @async
  */
 cwc.mode.aiy.Mod.prototype.decorate = async function() {
-  this.mod.setRenderer(this.renderer);
+  this.connection.init();
+  this.mod.setRenderer(this.renderer, this.connection);
   await this.mod.decorate();
   this.mod.terminal.showTerminal(true);
 };

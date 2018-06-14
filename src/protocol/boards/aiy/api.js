@@ -35,11 +35,11 @@ cwc.protocol.aiy.Api = function() {
   /** @type {goog.events.EventTarget} */
   this.eventHandler = new goog.events.EventTarget();
 
-  /** @type {WebSocket} */
-  this.socket = null;
+  /** @private {WebSocket} */
+  this.socket_ = null;
 
-  /** @type {!boolean} */
-  this.connected = false;
+  /** @private {!boolean} */
+  this.connected_ = false;
 };
 
 
@@ -51,25 +51,26 @@ cwc.protocol.aiy.NORMAL_CLOSURE = 1000;
 
 
 /**
- * Connects the AIY device.
+ * Connects to the AIY device.
  * @param {!string} url
- * @return {Promise}
- * @export
+ * @return {!Promise}
  */
 cwc.protocol.aiy.Api.prototype.connect = function(url) {
+  if (this.connected_) {
+    console.warn('Already connected to AIY, disconnect first!');
+    return;
+  }
   return new Promise((resolve, reject) => {
     const socket = new WebSocket(url);
     socket.addEventListener('open', () => {
-      this.socket = socket;
-      this.connected = true;
+      this.connected_ = true;
+      this.socket_ = socket;
       resolve();
     }, false);
     socket.addEventListener('close', (event) => {
-      this.connected = false;
+      this.connected_ = false;
       if (event.code !== cwc.protocol.aiy.NORMAL_CLOSURE) {
         reject(new Error(`WebSocket closed with code ${event.code}`));
-      } else {
-        this.handleClose_();
       }
     }, false);
     socket.addEventListener('message', (event) => {
@@ -83,12 +84,12 @@ cwc.protocol.aiy.Api.prototype.connect = function(url) {
  * Disconnects the AIY.
  */
 cwc.protocol.aiy.Api.prototype.disconnect = function() {
-  if (!this.connected) {
+  if (!this.connected_) {
     console.warn('AIY is not connected, no need to disconnect!');
     return;
   }
-  this.socket.close();
-  this.connected = false;
+  this.connected_ = false;
+  this.socket_.close();
 };
 
 
@@ -96,7 +97,7 @@ cwc.protocol.aiy.Api.prototype.disconnect = function() {
  * @return {!boolean}
  */
 cwc.protocol.aiy.Api.prototype.isConnected = function() {
-  return this.connected;
+  return this.connected_;
 };
 
 
@@ -105,11 +106,11 @@ cwc.protocol.aiy.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.aiy.Api.prototype.send = function(data) {
-  if (!this.connected) {
+  if (!this.connected_) {
     console.warn('AIY is not connected, unable to send data!');
     return;
   }
-  this.socket.send(data);
+  this.socket_.send(data);
 };
 
 
