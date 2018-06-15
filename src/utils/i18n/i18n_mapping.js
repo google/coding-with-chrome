@@ -26,6 +26,7 @@ goog.provide('cwc.utils.I18nMapping');
 cwc.utils.I18nMapping.englishName = {
   'eng': 'English',
   'deu': 'German',
+  'fra': 'French',
   'hin': 'Hindi',
   'jpn': 'Japanese',
   'kor': 'Korean',
@@ -38,6 +39,7 @@ cwc.utils.I18nMapping.englishName = {
 cwc.utils.I18nMapping.nativeName = {
   'eng': 'English',
   'deu': 'Deutsch',
+  'fra': 'Français',
   'hin': 'हिन्दी',
   'jpn': '日本語',
   'kor': '한국어',
@@ -50,6 +52,7 @@ cwc.utils.I18nMapping.nativeName = {
 cwc.utils.I18nMapping.ISO639_3 = {
   'eng': 'en',
   'deu': 'de',
+  'fra': 'fr',
   'hin': 'hi',
   'jpn': 'ja',
   'kor': 'ko',
@@ -62,6 +65,8 @@ cwc.utils.I18nMapping.ISO639_3 = {
 cwc.utils.I18nMapping.BCP47 = {
   'de': 'deu',
   'de-DE': 'deu',
+  'fr-FR': 'fra',
+  'fr': 'fra',
   'en': 'eng',
   'en-US': 'eng',
   'ja': 'jpn',

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Library Translation file (french).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,20 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author christophen@google.com (Christophe Nau)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-];
+Locales['fra']['LIBRARY'] = {
+  'TOUR_ALL_TAB': 'Tu trouveras tous tes fichiers ici.',
+  'TOUR_AUDIO_TAB': 'Tu trouveras tes fichiers audio ici.',
+  'TOUR_CLOSE_DIALOG': 'Pour fermer la fenêtre, clique sur Fermer.',
+  'TOUR_IMAGE_TAB': 'Tutrouveras tes images ici.',
+  'TOUR_INTRO': 'Avec la Bibliothèque de fichiers, tu as accès à tous tes fichiers en un coup d\'oeil.',
+  'TOUR_SEARCH_TAB': 'Cette recherche t\'aide à trouver davantage d\'images pour ton projet',
+  'TOUR_UPLOAD_BUTTON': 'Clique ici pour ajouter un fichier à ta librairie.',
+};

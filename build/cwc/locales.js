@@ -168,3 +168,24 @@ closureBuilder.build({
   },
   out: 'genfiles/core/js/locales/hin.js',
 });
+
+/**
+ * FRA Translation.
+ */
+closureBuilder.build({
+  name: 'Locales.fra',
+  srcs: glob([
+    'locales/_fra.js',
+    'locales/fra/**/*.js',
+  ]),
+  externs: [
+    'build/externs/locales.js',
+  ],
+  compress: true,
+  options: {
+    closure: {
+      rewrite_polyfills: false,
+    },
+  },
+  out: 'genfiles/core/js/locales/fra.js',
+});
