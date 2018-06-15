@@ -44,6 +44,7 @@ closureBuilder.build({
   resources: [
     BlocklyPath + 'msg/js/de.js',
     BlocklyPath + 'msg/js/en.js',
+    BlocklyPath + 'msg/js/fr.js',
     BlocklyPath + 'msg/js/hi.js',
     BlocklyPath + 'msg/js/ja.js',
     BlocklyPath + 'msg/js/ko.js',
