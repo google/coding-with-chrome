@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file for the Setting screen (french).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,20 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
- */
-window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
+ * @author christophen@google.com (Christophe Nau)
  */
 /* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-];
+Locales['fra']['SETTING_SCREEN'] = {
+  'CLOSE': 'Fermer les propriétés',
+  'EDITOR': 'Editeur',
+  'GENERAL': 'Général',
+  'MISC': 'Divers',
+  'MODULES': 'Module',
+  'NOTE_RESTART': 'Tu dois redémarrer l\'application après avoir activé ou désactivé une ou plusieurs options.',
+  'SECTIONS': 'Sections',
+  'TITLE': 'Propriétés',
+};

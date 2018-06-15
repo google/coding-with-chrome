@@ -1,5 +1,5 @@
 /**
- * @fileoverview Supported languages for translations.
+ * @fileoverview Translation file (french).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -15,20 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author Stephanie.Bordihn@gmail.com (Stephanie Bordihn)
+ * @author christophen@google.com (Christophe Nau)
  */
 window['Locales'] = window['Locales'] || {};
-
-
-/**
- * @final
- * @export
- */
-/* eslint-disable max-len */
-Locales['supportedLanguages'] = [
-  'deu',
-  'eng',
-  'fra',
-  'hin',
-  'jpn',
-];
+Locales['fra'] = Locales['fra'] || {};
