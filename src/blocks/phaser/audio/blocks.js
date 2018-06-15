@@ -29,7 +29,8 @@ Blockly.Blocks['phaser_audio_add_bgm'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('@@BLOCKS_PHASER__AUDIO_ADD_BGM'))
-        .appendField(new Blockly.FieldTextInput('bgm'), 'audio')
+        .appendField(new Blockly.FieldTextInput(
+            'bgm', Blockly.BlocksHelper['phaser_validate_text']), 'audio')
         .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('with volume'))
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
@@ -57,7 +58,8 @@ Blockly.Blocks['phaser_audio_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as audio'))
-        .appendField(new Blockly.FieldTextInput('audio'), 'audio')
+        .appendField(new Blockly.FieldTextInput(
+            'audio', Blockly.BlocksHelper['phaser_validate_text']), 'audio')
         .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('with volume'))
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')

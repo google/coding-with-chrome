@@ -24,6 +24,7 @@ goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
+goog.require('goog.dom.fullscreen');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.soy');
@@ -78,6 +79,9 @@ cwc.ui.Gui = function(helper) {
 
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!boolean} */
+  this.isChromeApp_ = this.helper.checkChromeFeature('app');
 };
 
 
@@ -109,6 +113,7 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   this.nodeStatusBar = goog.dom.getElement(this.prefix + 'status-bar');
   this.nodeTitle = goog.dom.getElement(this.prefix + 'title');
   this.nodeTitleBody = goog.dom.getElement(this.prefix + 'title-body');
+  this.setFullscreen(false);
   this.showOverlay(false);
   this.showSettings(false);
 
@@ -160,7 +165,30 @@ cwc.ui.Gui.prototype.decorate = function(node) {
   if (userConfigInstance) {
     if (userConfigInstance.get(
         cwc.userConfigType.GENERAL, cwc.userConfigName.FULLSCREEN)) {
-      chrome.app.window.current()['maximize']();
+      this.setFullscreen(true);
+    }
+  }
+};
+
+
+/**
+ * @param {boolean} fullscreen
+ */
+cwc.ui.Gui.prototype.setFullscreen = function(fullscreen = true) {
+  if (fullscreen) {
+    if (this.isChromeApp_ && chrome.app.window.current()) {
+      chrome.app.window.current()['fullscreen']();
+    } else if (goog.dom.fullscreen.isSupported()) {
+      goog.dom.fullscreen.requestFullScreen(document.documentElement);
+    }
+  } else {
+    // Make sure to end Chrome window mode, to avoid any user confusions.
+    if (this.isChromeApp_ && chrome.app.window.current() &&
+       (chrome.app.window.current()['isFullscreen']() ||
+        chrome.app.window.current()['isMaximized']())) {
+      chrome.app.window.current()['restore']();
+    } else if (goog.dom.fullscreen.isSupported()) {
+      goog.dom.fullscreen.exitFullScreen();
     }
   }
 };
@@ -285,6 +313,36 @@ cwc.ui.Gui.prototype.getConsoleSize = function() {
  */
 cwc.ui.Gui.prototype.getSidebarSize = function() {
   return goog.style.getSize(this.nodeSidebar);
+};
+
+
+cwc.ui.Gui.prototype.close = function() {
+  this.log_.info('Close Coding with Chrome editor ...');
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    let featuresInstance = this.helper.getInstance('features');
+    if (featuresInstance) {
+      if (featuresInstance.getChromeFeature('bluetoothSocket')) {
+        bluetoothInstance.closeSockets();
+      }
+    } else {
+      this.log_.warn('Failed to get Features helper.'+
+        'Can\'t check if bluetoothSocket is supported');
+    }
+  }
+  chrome.app.window.current()['close']();
+};
+
+
+cwc.ui.Gui.prototype.minimize = function() {
+  if (this.isChromeApp_ && chrome.app.window.current()) {
+    chrome.app.window.current()['minimize']();
+  }
+};
+
+
+cwc.ui.Gui.prototype.requestClose = function() {
+  this.helper.handleUnsavedChanges(this.close.bind(this));
 };
 
 

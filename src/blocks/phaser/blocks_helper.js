@@ -64,3 +64,14 @@ Blockly.BlocksHelper['phaser_images'] = function(name = '') {
   }
   return spriteList;
 };
+
+
+/**
+ * @param {!string} name
+ * @return {!string}
+ */
+Blockly.BlocksHelper['phaser_validate_text'] = function(name) {
+  return name
+    .replace(/'/g, '')
+    .replace(/\\/g, '');
+};

@@ -29,7 +29,8 @@ Blockly.Blocks['phaser_group_add'] = {
         .appendField(i18t('@@BLOCKS__DEFINE'));
     this.appendDummyInput()
         .appendField(i18t('as group'))
-        .appendField(new Blockly.FieldTextInput('group_name'), 'name');
+        .appendField(new Blockly.FieldTextInput('group_name',
+          Blockly.BlocksHelper['phaser_validate_text']), 'name');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

@@ -98,9 +98,6 @@ cwc.ui.MenuBar = function(helper) {
   /** @type {boolean|undefined} */
   this.serialConnectStatus = undefined;
 
-  /** @type {AppWindow|null} */
-  this.currentWindow = null;
-
   /** @private {!boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
@@ -131,8 +128,13 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
     }
   );
 
-  let dialogInstance = this.helper.getInstance('dialog');
+  this.decorateApiButton();
+  this.decorateHardwareButton();
+  this.decorateGuiButton();
+};
 
+
+cwc.ui.MenuBar.prototype.decorateApiButton = function() {
   // Account body
   goog.style.setElementShown(goog.dom.getElement(this.prefix + 'account-body'),
     !this.isChromeOS_ && this.helper.checkChromeFeature('manifest.oauth2'));
@@ -146,6 +148,11 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
   this.nodeAccountLogout = goog.dom.getElement(this.prefix + 'account-logout');
   this.events_.listen(this.nodeAccountLogout, goog.events.EventType.CLICK,
     this.logoutAccount);
+};
+
+
+cwc.ui.MenuBar.prototype.decorateHardwareButton = function() {
+  let dialogInstance = this.helper.getInstance('dialog');
 
   // Bluetooth body
   goog.style.setElementShown(
@@ -174,11 +181,6 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
     this.prefix + 'bluetooth-disabled');
   this.events_.listen(this.nodeBluetoothDisabled, goog.events.EventType.CLICK,
     this.checkBluetoothState_);
-
-  // Close button
-  let nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
-  this.events_.listen(nodeCloseButton, goog.events.EventType.CLICK,
-    this.requestCloseWindow);
 
   // Serial body
   goog.style.setElementShown(goog.dom.getElement(this.prefix + 'serial-body'),
@@ -231,6 +233,25 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
     this.prefix + 'gamepad-connected');
   this.setGamepad(false);
 
+  // Event Handling
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    this.events_.listen(bluetoothInstance.getEventHandler(),
+      cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
+      this.handleBluetoothAdapterChange_);
+    this.events_.listen(bluetoothInstance.getEventHandler(),
+      cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE,
+      this.handleBluetoothDeviceChange_);
+  }
+};
+
+
+cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
+  // Close button
+  let nodeCloseButton = goog.dom.getElement(this.prefix + 'close');
+  this.events_.listen(nodeCloseButton, goog.events.EventType.CLICK,
+    this.closeWindow);
+
   // Language icon
   this.events_.listen(
     'language', goog.events.EventType.CLICK, this.changeLanguage);
@@ -242,40 +263,49 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
   // Maximize icon
   this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
   this.events_.listen(
-    this.nodeMaximizeButton, goog.events.EventType.CLICK, this.maximizeWindow);
+    this.nodeMaximizeButton, goog.events.EventType.CLICK, () => {
+      let guiInstance = this.helper.getInstance('gui');
+      if (guiInstance) {
+        guiInstance.setFullscreen(true);
+      }
+    });
 
   // Restore icon
   this.nodeRestoreButton = goog.dom.getElement(this.prefix + 'restore');
   this.events_.listen(
-    this.nodeRestoreButton, goog.events.EventType.CLICK, this.restoreWindow);
+    this.nodeRestoreButton, goog.events.EventType.CLICK, () => {
+      let guiInstance = this.helper.getInstance('gui');
+      if (guiInstance) {
+        guiInstance.setFullscreen(false);
+      }
+    });
 
   // Shows maximize / restore icon based on available fullscreen support.
   if (this.isChromeApp_) {
-    this.currentWindow = chrome.app.window.current();
-    goog.style.setElementShown(this.nodeMaximizeButton,
-      !this.currentWindow['isMaximized']());
-    goog.style.setElementShown(this.nodeRestoreButton,
-      this.currentWindow['isMaximized']());
+    this.setFullscreen(chrome.app.window.current()['isFullscreen']());
   } else if (goog.dom.fullscreen.isSupported()) {
-    goog.style.setElementShown(this.nodeMaximizeButton,
-      !goog.dom.fullscreen.isFullScreen());
-    goog.style.setElementShown(this.nodeRestoreButton,
-      goog.dom.fullscreen.isFullScreen());
+    this.setFullscreen(goog.dom.fullscreen.isFullScreen());
   } else {
-    goog.style.setElementShown(nodeCloseButton, false);
     goog.style.setElementShown(this.nodeMaximizeButton, false);
     goog.style.setElementShown(this.nodeRestoreButton, false);
   }
 
-  // Event Handling
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
-  if (bluetoothInstance) {
-    this.events_.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
-      this.handleBluetoothAdapterChange_);
-    this.events_.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE,
-      this.handleBluetoothDeviceChange_);
+  // Shows close button for Chrome Apps only!
+  if (!this.isChromeApp_) {
+    goog.style.setElementShown(nodeCloseButton, false);
+  }
+
+  if (this.isChromeApp_) {
+    chrome.app.window.current().onFullscreened.addListener(() => {
+      this.setFullscreen(true);
+    });
+    chrome.app.window.current().onRestored.addListener(() => {
+      this.setFullscreen(false);
+    });
+  } else if (goog.dom.fullscreen.isSupported()) {
+    this.events_.listen(window, goog.dom.fullscreen.EventType.CHANGE, () => {
+      this.setFullscreen(goog.dom.fullscreen.isFullScreen());
+    });
   }
 };
 
@@ -328,29 +358,11 @@ cwc.ui.MenuBar.prototype.requestShowSelectScreen = function() {
 /**
  * Request to close the editor window.
  */
-cwc.ui.MenuBar.prototype.requestCloseWindow = function() {
-  this.helper.handleUnsavedChanges(this.closeWindow.bind(this));
-};
-
-
-/**
- * Close editor window.
- */
 cwc.ui.MenuBar.prototype.closeWindow = function() {
-  this.log_.info('Close Coding with Chrome editor ...');
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
-  if (bluetoothInstance) {
-    let featuresInstance = this.helper.getInstance('features');
-    if (featuresInstance) {
-      if (featuresInstance.getChromeFeature('bluetoothSocket')) {
-        bluetoothInstance.closeSockets();
-      }
-    } else {
-      this.log_.warn('Failed to get Features helper.'+
-        'Can\'t check if bluetoothSocket is supported');
-    }
+  let guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.requestClose();
   }
-  this.currentWindow['close']();
 };
 
 
@@ -358,39 +370,19 @@ cwc.ui.MenuBar.prototype.closeWindow = function() {
  * Minimize editor window.
  */
 cwc.ui.MenuBar.prototype.minimizeWindow = function() {
-  this.currentWindow['minimize']();
-  let editorWindow = chrome.app.window.get('editor');
-  if (editorWindow) {
-    editorWindow['drawAttention']();
+  let guiInstance = this.helper.getInstance('gui');
+  if (guiInstance) {
+    guiInstance.minimize();
   }
 };
 
 
 /**
- * Maximize / fullscreen the editor window.
+ * @param {!boolean} fullscreen
  */
-cwc.ui.MenuBar.prototype.maximizeWindow = function() {
-  if (goog.dom.fullscreen.isSupported()) {
-    goog.dom.fullscreen.requestFullScreen(document.documentElement);
-  } else if (this.isChromeApp_) {
-    this.currentWindow['maximize']();
-  }
-  goog.style.setElementShown(this.nodeMaximizeButton, false);
-  goog.style.setElementShown(this.nodeRestoreButton, true);
-};
-
-
-/**
- * Restore / exist fullscreen the editor window.
- */
-cwc.ui.MenuBar.prototype.restoreWindow = function() {
-  if (goog.dom.fullscreen.isSupported()) {
-    goog.dom.fullscreen.exitFullScreen();
-  } else if (this.isChromeApp_) {
-    this.currentWindow['restore']();
-  }
-  goog.style.setElementShown(this.nodeMaximizeButton, true);
-  goog.style.setElementShown(this.nodeRestoreButton, false);
+cwc.ui.MenuBar.prototype.setFullscreen = function(fullscreen) {
+  goog.style.setElementShown(this.nodeMaximizeButton, !fullscreen);
+  goog.style.setElementShown(this.nodeRestoreButton, fullscreen);
 };
 
 

@@ -56,10 +56,11 @@ cwc.utils.Events = function(name = 'Events', prefix = '', scope = undefined) {
  * {@link goog.events.Listenable}.
  *
  * @param {EventTarget|goog.events.Listenable|string} src
- * @param {string} type
- * @param {function(?)} listener
+ * @param {string} type Event type or array of event types.
+ * @param {function(?)} listener Callback method
  * @param {boolean=} capture
- * @param {Object=} scope
+ * @param {Object=} scope Object in whose scope to call the listener.
+ * @return {number|goog.events.ListenableKey|null} Unique key for the listener.
  */
 cwc.utils.Events.prototype.listen = function(src, type, listener,
     capture = false, scope = undefined) {
@@ -77,10 +78,10 @@ cwc.utils.Events.prototype.listen = function(src, type, listener,
     this.log_.error('Undefined listener event target!', eventTarget);
     return;
   }
-  this.listener_.push(
-    goog.events.listen(eventTarget, type, listener, capture,
-      scope || this.scope)
-  );
+  let listenerKey = goog.events.listen(eventTarget, type, listener, capture,
+      scope || this.scope);
+  this.listener_.push(listenerKey);
+  return listenerKey;
 };
 
 

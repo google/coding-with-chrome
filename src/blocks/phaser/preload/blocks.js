@@ -48,7 +48,8 @@ Blockly.Blocks['phaser_load_image'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.image())
         .appendField(i18t('@@BLOCKS_PHASER__LOAD_IMAGE'))
-        .appendField(new Blockly.FieldTextInput('image'), 'name');
+        .appendField(new Blockly.FieldTextInput(
+          'image', Blockly.BlocksHelper['phaser_validate_text']), 'name');
     this.appendValueInput('image')
         .setCheck('Image');
     this.setInputsInline(true);
@@ -69,7 +70,8 @@ Blockly.Blocks['phaser_load_audio'] = {
     this.appendDummyInput()
         .appendField(Blockly.BlocksTemplate.audio())
         .appendField(i18t('@@BLOCKS_PHASER__LOAD_AUDIO'))
-        .appendField(new Blockly.FieldTextInput('sound'), 'name');
+        .appendField(new Blockly.FieldTextInput(
+          'sound', Blockly.BlocksHelper['phaser_validate_text']), 'name');
     this.appendValueInput('audio')
         .setCheck('Audio');
     this.setInputsInline(true);

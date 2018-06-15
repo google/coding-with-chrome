@@ -23,6 +23,7 @@
 /** @type {Function} */
 let chrome = function() {};
 
+
 /** @type {Function} */
 chrome.storage = function() {};
 
@@ -34,6 +35,7 @@ chrome.storage.local.get = function() {};
 
 /** @type {Function} */
 chrome.storage.local.set = function() {};
+
 
 /** @type {Function} */
 chrome.runtime = function() {};
@@ -50,6 +52,7 @@ chrome.runtime.onInstalled = function() {};
 /** @type {Object} */
 chrome.runtime.lastError = {};
 
+
 /** @type {Function} */
 chrome.app = function() {};
 
@@ -59,8 +62,18 @@ chrome.app.window = {};
 /** @type {Function} */
 chrome.app.window.get = function() {};
 
+/** @type {chrome.app.window} */
+chrome.app.window.current = function() {};
+
 /** @type {Function} */
 chrome.app.window.AppWindow = function() {};
+
+/** @type {Function} */
+chrome.app.window.onFullscreened = function() {};
+
+/** @type {Function} */
+chrome.app.window.onRestored = function() {};
+
 
 /** @type {Function} */
 chrome.browser = function() {};
@@ -184,9 +197,9 @@ chrome.serial.onReceiveError.addListener= function() {};
 /** @const */
 chrome.sockets = {};
 
+
 /** @type {Object} */
 chrome.sockets.tcp = {};
-
 
 /** @type {Function} */
 chrome.sockets.tcp.onReceive = function() {};
@@ -208,6 +221,7 @@ chrome.sockets.tcp.onReceiveError.removeListener = function() {};
 
 /** @type {Function} */
 chrome.sockets.tcp.setKeepAlive = function() {};
+
 
 /** @type {Object} */
 chrome.sockets.tcpServer = {};
