@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author mbordihn@google.com (Markus Bordihn)
+ * @author christophen@google.com (Christophe Nau)
  */
 Locales['fra']['BLOCKS'] = {
   'ALL': 'tout',
