@@ -73,6 +73,7 @@
     "clipboardRead",
     "clipboardWrite",
     "contextMenus",
+    "fullscreen",
     "storage", {
       "fileSystem": ["write"]
     },

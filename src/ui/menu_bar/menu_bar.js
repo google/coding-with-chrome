@@ -27,6 +27,7 @@ goog.require('cwc.utils.Gamepad.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom');
+goog.require('goog.dom.fullscreen');
 goog.require('goog.soy');
 
 
@@ -248,12 +249,18 @@ cwc.ui.MenuBar.prototype.decorate = function(node) {
   this.events_.listen(
     this.nodeRestoreButton, goog.events.EventType.CLICK, this.restoreWindow);
 
+  // Shows maximize / restore icon based on available fullscreen support.
   if (this.isChromeApp_) {
     this.currentWindow = chrome.app.window.current();
     goog.style.setElementShown(this.nodeMaximizeButton,
       !this.currentWindow['isMaximized']());
     goog.style.setElementShown(this.nodeRestoreButton,
       this.currentWindow['isMaximized']());
+  } else if (goog.dom.fullscreen.isSupported()) {
+    goog.style.setElementShown(this.nodeMaximizeButton,
+      !goog.dom.fullscreen.isFullScreen());
+    goog.style.setElementShown(this.nodeRestoreButton,
+      goog.dom.fullscreen.isFullScreen());
   } else {
     goog.style.setElementShown(nodeCloseButton, false);
     goog.style.setElementShown(this.nodeMaximizeButton, false);
@@ -360,20 +367,28 @@ cwc.ui.MenuBar.prototype.minimizeWindow = function() {
 
 
 /**
- * Maximize editor window.
+ * Maximize / fullscreen the editor window.
  */
 cwc.ui.MenuBar.prototype.maximizeWindow = function() {
-  this.currentWindow['maximize']();
+  if (goog.dom.fullscreen.isSupported()) {
+    goog.dom.fullscreen.requestFullScreen(document.documentElement);
+  } else if (this.isChromeApp_) {
+    this.currentWindow['maximize']();
+  }
   goog.style.setElementShown(this.nodeMaximizeButton, false);
   goog.style.setElementShown(this.nodeRestoreButton, true);
 };
 
 
 /**
- * Restore editor window.
+ * Restore / exist fullscreen the editor window.
  */
 cwc.ui.MenuBar.prototype.restoreWindow = function() {
-  this.currentWindow['restore']();
+  if (goog.dom.fullscreen.isSupported()) {
+    goog.dom.fullscreen.exitFullScreen();
+  } else if (this.isChromeApp_) {
+    this.currentWindow['restore']();
+  }
   goog.style.setElementShown(this.nodeMaximizeButton, true);
   goog.style.setElementShown(this.nodeRestoreButton, false);
 };
