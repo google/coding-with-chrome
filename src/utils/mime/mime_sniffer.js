@@ -139,12 +139,9 @@ cwc.utils.mime.isXMLContent = function(content) {
        content.startsWith('<?xml version="1.0"')) {
     if (content.includes('//W3C//DTD XHTML')) {
       return cwc.utils.mime.Type.XHTML.type;
-    } else if (content.includes('<block type=') &&
-        content.includes(' x=') &&
-        content.includes(' y=') &&
-        content.includes('</block>') &&
-        content.includes('<field name=') &&
-        content.includes('</field>')) {
+    } else if (cwc.utils.mime.contentIncludes_(content, [
+        '<block type=', ' x=', ' y=', '</block>', '<field name=', '</field>',
+      ])) {
       return cwc.utils.mime.Type.BLOCKLY.type;
     }
     return cwc.utils.mime.Type.XML.type;
@@ -158,30 +155,24 @@ cwc.utils.mime.isXMLContent = function(content) {
  * @return {!string}
  */
 cwc.utils.mime.isJavaScriptContent = function(content) {
-  if (
-      // ES6 class definition
-      (
-        content.includes('class ') && content.includes('constructor') &&
-        content.includes('(') && content.includes(')') &&
-        content.includes('{') && content.includes('}')
-      ) ||
-
-      // Prototype definition
-      (
-        content.includes('.prototype.') && content.includes('function') &&
-        content.includes('(') && content.includes(')') &&
-        content.includes('{') && content.includes('}')
-      ) ||
-
-      // Variable declarations
-      (
-        (
-          content.includes('let ') || content.includes('const ') ||
-          content.includes('var ')
-        ) && content.includes('=') && content.includes(';'))
-      ) {
+  // ES6 class definition
+  if (cwc.utils.mime.contentIncludes_(content, ['(', ')', '{', '}']) &&
+      cwc.utils.mime.contentIncludes_(content, ['class', 'constructor'])) {
     return cwc.utils.mime.Type.JAVASCRIPT.type;
   }
+
+  // Prototype definition
+  if (cwc.utils.mime.contentIncludes_(content, ['(', ')', '{', '}']) &&
+      cwc.utils.mime.contentIncludes_(content, ['.prototype.', 'function'])) {
+    return cwc.utils.mime.Type.JAVASCRIPT.type;
+  }
+
+  // Variable declarations
+  if ((content.includes('let ') || content.includes('const ') ||
+       content.includes('var ')) && content.includes('=')) {
+     return cwc.utils.mime.Type.JAVASCRIPT.type;
+  }
+
   return '';
 };
 
@@ -263,4 +254,23 @@ cwc.utils.mime.getTypeByNameAndContent = function(name, content) {
   }
 
   return '';
+};
+
+
+/**
+ * @param {!string} content
+ * @param {!array} searchTerms
+ * @return {!boolean}
+ * @private
+ */
+cwc.utils.mime.contentIncludes_ = function(content, searchTerms) {
+  if (!content || !searchTerms) {
+    return false;
+  }
+  for (let searchTerm of searchTerms) {
+    if (!content.includes(searchTerm)) {
+      return false;
+    }
+  }
+  return true;
 };

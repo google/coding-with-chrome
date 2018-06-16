@@ -257,8 +257,9 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
     'language', goog.events.EventType.CLICK, this.changeLanguage);
 
   // Minimize icon
+  let nodeMinimizeButton = goog.dom.getElement(this.prefix + 'minimize');
   this.events_.listen(
-    'minimize', goog.events.EventType.CLICK, this.minimizeWindow);
+    nodeMinimizeButton, goog.events.EventType.CLICK, this.minimizeWindow);
 
   // Maximize icon
   this.nodeMaximizeButton = goog.dom.getElement(this.prefix + 'maximize');
@@ -290,11 +291,6 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
     goog.style.setElementShown(this.nodeRestoreButton, false);
   }
 
-  // Shows close button for Chrome Apps only!
-  if (!this.isChromeApp_) {
-    goog.style.setElementShown(nodeCloseButton, false);
-  }
-
   if (this.isChromeApp_) {
     chrome.app.window.current().onFullscreened.addListener(() => {
       this.setFullscreen(true);
@@ -306,6 +302,12 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
     this.events_.listen(window, goog.dom.fullscreen.EventType.CHANGE, () => {
       this.setFullscreen(goog.dom.fullscreen.isFullScreen());
     });
+  }
+
+  // Show specific buttons for Chrome Apps only!
+  if (!this.isChromeApp_) {
+    goog.style.setElementShown(nodeCloseButton, false);
+    goog.style.setElementShown(nodeMinimizeButton, false);
   }
 };
 

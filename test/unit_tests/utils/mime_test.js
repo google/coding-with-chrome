@@ -92,4 +92,15 @@ describe('File Mime Type', function() {
     expect(cwc.utils.mime.isXMLContent(blocklyData))
       .toEqual(cwc.utils.mime.Type.BLOCKLY.type);
   });
+
+  it('contentIncludes_', function() {
+    expect(cwc.utils.mime.contentIncludes_('test123', ['test', '1', '2', '3']))
+      .toEqual(true);
+    expect(cwc.utils.mime.contentIncludes_('test123', ['test', '3', '2', '1']))
+      .toEqual(true);
+    expect(cwc.utils.mime.contentIncludes_('test123', ['test', '4', '2', '1']))
+      .toEqual(false);
+    expect(cwc.utils.mime.contentIncludes_('', ['test', '4', '2', '1']))
+      .toEqual(false);
+  });
 });

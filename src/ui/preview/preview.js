@@ -77,7 +77,7 @@ cwc.ui.Preview = function(helper) {
   this.content = null;
 
   /** @type {!cwc.ui.PreviewStatusBar} */
-  this.statusbar = new cwc.ui.PreviewStatusBar(this.helper);
+  this.statusBar = new cwc.ui.PreviewStatusBar(this.helper);
 
   /** @type {!cwc.ui.PreviewStatusButton} */
   this.statusButton = new cwc.ui.PreviewStatusButton(this.helper);
@@ -88,22 +88,16 @@ cwc.ui.Preview = function(helper) {
   /** @private {!goog.events.EventTarget} */
   this.eventHandler_ = new goog.events.EventTarget();
 
-  /** @private {number} */
-  this.eventTimerAutoUpdate_ = null;
-
-  /** @private {number} */
-  this.eventTimerRefresh_ = null;
-
-  /** @private {number} */
-  this.eventTimerRun_ = null;
+  /** @private {!Object.<number>} */
+  this.eventTimer_ = {};
 
   /** @private {!boolean} */
   this.enableMessenger_ = false;
 
   /** @private {!cwc.ui.PreviewStatus} */
   this.previewStatus_ = new cwc.ui.PreviewStatus(
-    this.helper, this.eventHandler_)
-    .setStatusbar(this.statusbar)
+      this.helper, this.eventHandler_)
+    .setStatusbar(this.statusBar)
     .setStatusButton(this.statusButton);
 
   /** @private {!cwc.Messenger} */
@@ -144,10 +138,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
 
   // Statusbar
-  let nodeStatusbar = goog.dom.getElement(this.prefix + 'statusbar');
-  if (nodeStatusbar) {
-    this.statusbar.decorate(nodeStatusbar);
-  }
+  this.statusBar.decorate();
 
   // Status Button and actions buttons
   this.decorateStatusButton(goog.dom.getElement(this.prefix + 'statusbutton'));
@@ -156,17 +147,16 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventHandler(),
-      goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+      goog.events.EventType.UNLOAD, this.cleanUp);
   }
 
   // Monitor Changes expect for messenger mode
   if (!this.enableMessenger_) {
-    let viewportMonitor = new goog.dom.ViewportSizeMonitor();
-    this.events_.listen(viewportMonitor, goog.events.EventType.RESIZE,
-      this.handleRefresh_, false, this);
+    this.events_.listen(new goog.dom.ViewportSizeMonitor(),
+      goog.events.EventType.RESIZE, this.handleRefresh_);
     if (layoutInstance) {
       this.events_.listen(layoutInstance.getEventHandler(),
-        goog.events.EventType.DRAGEND, this.handleRefresh_, false, this);
+        goog.events.EventType.DRAGEND, this.handleRefresh_);
     }
   }
 };
@@ -284,12 +274,12 @@ cwc.ui.Preview.prototype.getMessenger = function() {
  * Runs the preview.
  */
 cwc.ui.Preview.prototype.run = function() {
-  if (this.eventTimerRun_ !== null) {
-    clearTimeout(this.eventTimerRun_);
+  if (this.eventTimer_['run'] !== null) {
+    clearTimeout(this.eventTimer_['run']);
   }
-  this.eventTimerRun_ = setTimeout(() => {
+  this.eventTimer_['run'] = setTimeout(() => {
     this.run_();
-    this.eventTimerRun_ = null;
+    this.eventTimer_['run'] = null;
   }, 100);
 };
 
@@ -381,20 +371,19 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
  * @param {!string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
+  if (!url || !this.content) {
+    this.log_.error('Was unable to set content url!');
+    return;
+  } else if (url.length >= 1600000) {
+    this.log_.warn('Content URL exceed char limit with', url.length, '!');
+  }
+
   let consoleInstance = this.helper.getInstance('console');
   if (consoleInstance && url !== 'about:blank') {
     consoleInstance.clear();
   }
-
-  if (url && this.content) {
-    this.log_.info('Update preview with', url.substring(0, 32), '...');
-    if (url.length >= 1600000) {
-      this.log_.warn('Content URL exceed char limit with', url.length, '!');
-    }
-    this.content['src'] = url;
-  } else {
-    this.log_.error('Was unable to set content url!');
-  }
+  this.log_.info('Update preview with', url.substring(0, 32), '...');
+  this.content['src'] = url;
 };
 
 
@@ -411,32 +400,41 @@ cwc.ui.Preview.prototype.openInBrowser = function() {
  * @param {boolean} active
  */
 cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
-  if (active && !this.autoUpdateEvent) {
-    this.log_.info('Activate AutoUpdate...');
-    let editorInstance = this.helper.getInstance('editor');
-    if (editorInstance) {
-      let editorEventHandler = editorInstance.getEventHandler();
-      this.autoUpdateEvent = goog.events.listen(editorEventHandler,
-          goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
-          this);
-    }
-    // Make sure to execute the preview once after 250msec.
-    if (this.helper.getInstance('blockly')) {
-      window.setTimeout(() => {
-        if (!this.autoUpdateRun) {
-          this.delayAutoUpdate();
-        }
-      }, 250);
-    } else {
-      this.run();
-    }
-    window.setTimeout(this.focus.bind(this), 800);
-  } else if (!active && this.autoUpdateEvent) {
+  if (active && this.autoUpdateEvent || !active && !this.autoUpdateEvent) {
+    return;
+  }
+
+  // Deactivate existing Auto Update
+  if (!active) {
     this.log_.info('Deactivate AutoUpdate...');
     goog.events.unlistenByKey(this.autoUpdateEvent);
     this.autoUpdateEvent = null;
+    this.autoUpdate = false;
+    return;
   }
-  this.autoUpdate = active;
+
+  // Activate existing AutoUpdate
+  this.log_.info('Activate AutoUpdate...');
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    let editorEventHandler = editorInstance.getEventHandler();
+    this.autoUpdateEvent = goog.events.listen(editorEventHandler,
+        goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
+        this);
+  }
+  // Make sure to execute the preview once after 250msec for Blockly mode.
+  if (this.helper.getInstance('blockly')) {
+    window.setTimeout(() => {
+      if (!this.autoUpdateRun) {
+        this.delayAutoUpdate();
+      }
+    }, 250);
+  } else {
+    this.run();
+  }
+  // Auto focus preview to make sure key inputs works for games.
+  window.setTimeout(this.focus.bind(this), 800);
+  this.autoUpdate = true;
 };
 
 
@@ -444,12 +442,12 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
  * Delays the auto update by the defined time range.
  */
 cwc.ui.Preview.prototype.delayAutoUpdate = function() {
-  if (this.eventTimerAutoUpdate_) {
-    window.clearTimeout(this.eventTimerAutoUpdate_);
+  if (this.eventTimer_['autoUpdate']) {
+    window.clearTimeout(this.eventTimer_['autoUpdate']);
   }
-  this.eventTimerAutoUpdate_ = window.setTimeout(() => {
+  this.eventTimer_['autoUpdate'] = window.setTimeout(() => {
     this.autoUpdate_();
-    this.eventTimerAutoUpdate_ = null;
+    this.eventTimer_['autoUpdate'] = null;
   }, this.autoUpdateDelay);
 };
 
@@ -522,11 +520,11 @@ cwc.ui.Preview.prototype.handleRefresh_ = function() {
   if (this.enableMessenger_) {
     return;
   }
-  if (this.eventTimerRefresh_ !== null) {
-    clearTimeout(this.eventTimerRefresh_);
+  if (this.eventTimer_['refresh'] !== null) {
+    clearTimeout(this.eventTimer_['refresh']);
   }
-  this.eventTimerRefresh_ = setTimeout(() => {
+  this.eventTimer_['refresh'] = setTimeout(() => {
     this.refresh();
-    this.eventTimerRefresh_ = null;
+    this.eventTimer_['refresh'] = null;
   }, 100);
 };

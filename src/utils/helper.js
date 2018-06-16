@@ -30,6 +30,7 @@ goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Features');
 goog.require('cwc.utils.Logger');
 
+goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 
@@ -189,6 +190,19 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
     }
   }
   return this.instances_[name] || null;
+};
+
+
+/**
+ * @param {!string} name
+ * @param {Element|string} element
+ */
+cwc.utils.Helper.prototype.decorateInstance = function(name, element) {
+  let node = goog.dom.getElement(element);
+  let instance = this.getInstance(name);
+  if (node && instance && typeof instance.decorate === 'function') {
+    instance.decorate(node);
+  }
 };
 
 

@@ -81,8 +81,7 @@ cwc.ui.Helper.mdlRefresh = function() {
  * @param {boolean} enabled
  */
 cwc.ui.Helper.enableElement = function(element, enabled) {
-  let node = typeof element === 'string' ?
-    goog.dom.getElement(element) : element;
+  let node = goog.dom.getElement(element);
   if (!node) {
     console.error('Unable to find element', element);
     return;
