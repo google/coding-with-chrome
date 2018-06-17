@@ -94,3 +94,7 @@
 [submodule "third_party/marked"]
 	path = third_party/marked
 	url = https://github.com/markedjs/marked.git
+
+[submodule "third_party/coding-with-chrome-libraries"]
+	path = third_party/coding-with-chrome-libraries
+	url = https://github.com/google/coding-with-chrome-libraries.git

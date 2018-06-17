@@ -69,7 +69,7 @@ git submodule init
 git submodule update
 ```
 
-### Get required packages
+### Get required npm packages
 
 Enter the "coding-with-chrome" directory and get the required packages by:
 

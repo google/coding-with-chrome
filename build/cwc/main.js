@@ -31,6 +31,7 @@ closureBuilder.build({
     'gensoyfiles/**/*.js',
     '!src/{blocks,blocks/**.js}',
     '!src/frameworks/{internal,internal/**.js}',
+    'third_party/coding-with-chrome-libraries/src/**/*.js',
   ]),
   externs: [
     'build/externs/addons.js',
