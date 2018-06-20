@@ -58,6 +58,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.Experimental|
+ *   cwc.ui.GClassroom|
  *   cwc.ui.GDrive|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|

@@ -78,6 +78,9 @@ cwc.ui.Navigation = function(helper) {
   /** @type {Element} */
   this.nodeSaveGoogleDriveFile = null;
 
+  /** @type {Element} */
+  this.nodeOpenGoogleClassroom = null;
+
   /** @type {!goog.ui.KeyboardShortcutHandler} */
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
 };
@@ -277,12 +280,12 @@ cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
 
 
 cwc.ui.Navigation.prototype.requestShowGoogleClassroomOverview = function() {
-  alert('clicked classroom');
-  /*let gclassroomInstance = this.helper.getInstance('gclassroom');
+  console.log('clicked classroom');
+  let gclassroomInstance = this.helper.getInstance('gclassroom');
   if (gclassroomInstance) {
-    gclassroomInstance.open();
+    gclassroomInstance.openDialog();
     this.hide();
-  }*/
+  }
 };
 
 

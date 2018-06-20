@@ -180,6 +180,7 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   if (navigationInstance) {
     navigationInstance.enableOpenGoogleDriveFile(authenticated);
     navigationInstance.enableSaveGoogleDriveFile(authenticated);
+    navigationInstance.enableOpenGoogleClassroom(authenticated);
   }
 
   if (!authenticated) {
@@ -190,7 +191,6 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   //Need to make classroom call after authentication is set.
   if (navigationInstance) {
     if(authenticated) {
-      console.log('Check classroom');
       this.request({
         subdomain: 'classroom',
         path: '/v1/courses',
@@ -198,8 +198,6 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
           'studentId': 'me'
         }
       }, function(response) {
-        console.log('response');
-        console.log(response);
         if(Object.keys(response).length > 0) {
           navigationInstance.enableOpenGoogleClassroom(true);
         }
