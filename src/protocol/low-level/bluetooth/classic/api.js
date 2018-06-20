@@ -19,14 +19,15 @@
  */
 goog.provide('cwc.protocol.bluetooth.classic.Api');
 
-goog.require('cwc.protocol.bluetooth.classic.Adapter');
+goog.require('cwc.lib.protocol.bluetoothChrome.Adapter');
 goog.require('cwc.protocol.bluetooth.classic.Devices');
 goog.require('cwc.protocol.bluetooth.classic.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.events.EventTarget');
 
-
+goog.scope(function() {
+  let Adapter = goog.module.get('cwc.lib.protocol.bluetoothChrome.Adapter');
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -56,8 +57,7 @@ cwc.protocol.bluetooth.classic.Api = function(helper) {
   this.eventHandler_ = new goog.events.EventTarget();
 
   /** @private {cwc.protocol.bluetooth.classic.Adapter} */
-  this.adapter_ = new cwc.protocol.bluetooth.classic.Adapter(
-    this.eventHandler_);
+  this.adapter_ = new Adapter(this.eventHandler_);
 
   /** @private {cwc.protocol.bluetooth.classic.Devices} */
   this.devices_ = new cwc.protocol.bluetooth.classic.Devices(
@@ -176,3 +176,5 @@ cwc.protocol.bluetooth.classic.Api.prototype.handleOnReceiveError_ = function(
     info) {
   this.devices_.receiveError(info['socketId'], info['error']);
 };
+
+});

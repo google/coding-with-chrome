@@ -31,7 +31,7 @@ const ENABLE_LOGGING = true;
  * 1 (ALERT)     action must be taken immediately
  * 2 (CRITICAL)  critical conditions
  * 3 (ERROR)     error conditions
- * 4 (WARNING)   warning conditions
+ * 4 (WARN)      warning conditions
  * 5 (NOTICE)    normal but significant condition
  * 6 (INFO)      informational
  * 7 (DEBUG)     debug-level messages
@@ -43,7 +43,7 @@ cwc.utils.LogLevel = {
   ALERT: 1,
   CRITICAL: 2,
   ERROR: 3,
-  WARNING: 4,
+  WARN: 4,
   NOTICE: 5,
   INFO: 6,
   DEBUG: 7,
