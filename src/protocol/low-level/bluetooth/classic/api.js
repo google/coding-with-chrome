@@ -27,7 +27,8 @@ goog.require('cwc.utils.Logger');
 goog.require('goog.events.EventTarget');
 
 goog.scope(function() {
-  let Adapter = goog.module.get('cwc.lib.protocol.bluetoothChrome.Adapter');
+let Adapter = goog.module.get('cwc.lib.protocol.bluetoothChrome.Adapter');
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -176,5 +177,4 @@ cwc.protocol.bluetooth.classic.Api.prototype.handleOnReceiveError_ = function(
     info) {
   this.devices_.receiveError(info['socketId'], info['error']);
 };
-
 });

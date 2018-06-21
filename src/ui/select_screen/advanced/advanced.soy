@@ -30,10 +30,13 @@
 
     <header class="{$prefix}navigation-overview mdl-layout__header bg_10_pct_black">
       <nav class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        {call cwc.soy.SelectScreenTemplate.mainTabBarHome data="all" /}
+
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
           {param active: true /}
-          {param icon: 'home' /}
-          {param id: 'home' /}
+          {param id: 'overview' /}
+          {param name: 'Overview' /}
+          {param icon: 'apps' /}
         {/call}
 
         {call cwc.soy.SelectScreenTemplate.mainTabBarLink}
@@ -78,7 +81,7 @@
 
       {call cwc.soy.SelectScreenTemplate.mainTabBarContent}
         {param active: true /}
-        {param id: 'home' /}
+        {param id: 'overview' /}
         {param content kind="html"}
           {call .overview data="all" /}
         {/param}

@@ -23,7 +23,7 @@
 #{$prefix}navigation-header .mdl-layout__header > i{
   position: absolute;
   left: 10px;
-  top: 13px;
+  top: 18px;
   font-size: 24px;
 }
 

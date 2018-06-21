@@ -149,6 +149,14 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
     settingScreenInstance.hide();
   }
 
+  let navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.enableOverview(false);
+    navigationInstance.enableNewFile(false);
+    navigationInstance.enableSaveFile(false);
+    navigationInstance.setHeader('Coding with Chrome', 'turned_in');
+  }
+
   let guiInstance = this.helper.getInstance('gui', true);
   guiInstance.setTitle('');
   guiInstance.setStatus('');
@@ -173,16 +181,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
   } else if (this.lockAdvancedMode && !forceOverview) {
     this.showOverview(true);
   } else if (!skipWelcomeScreen) {
-    this.setNavHeader_('Coding with Chrome');
     this.showWelcome();
   } else {
     this.showOverview(advancedMode);
   }
 
-  let navigationInstance = this.helper.getInstance('navigation');
-  if (navigationInstance) {
-    navigationInstance.enableSaveFile(false);
-  }
   this.prepared_ = true;
 };
 
@@ -219,6 +222,10 @@ cwc.ui.SelectScreen.prototype.showOverview = function(advanced = false) {
   } else {
     this.showTemplate_(cwc.soy.SelectScreenNormal.template);
   }
+
+  this.events_.listen('tab-home', goog.events.EventType.CLICK, () => {
+    this.showSelectScreen(true);
+  });
 };
 
 
@@ -235,21 +242,6 @@ cwc.ui.SelectScreen.prototype.showIntro = function() {
  */
 cwc.ui.SelectScreen.prototype.getEventHandler = function() {
   return this.eventHandler_;
-};
-
-
-/**
- * @param {!string} title
- * @param {string=} opt_icon
- * @param {string=} opt_color_class
- * @private
- */
-cwc.ui.SelectScreen.prototype.setNavHeader_ = function(title,
-    opt_icon, opt_color_class) {
-  let navigationInstance = this.helper.getInstance('navigation');
-  if (navigationInstance) {
-    navigationInstance.setHeader(title, opt_icon, opt_color_class);
-  }
 };
 
 

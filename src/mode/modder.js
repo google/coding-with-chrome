@@ -89,20 +89,21 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   // Remove former informations.
   this.setFilename();
 
-  // Remove former instances.
-  this.helper.setInstance('blockly', null, true);
-  this.helper.setInstance('editor', null, true);
-  this.helper.setInstance('message', null, true);
-  this.helper.setInstance('preview', null, true);
-  this.helper.setInstance('turtle', null, true);
+  // Clear former instances.
+  this.helper.clearInstance('blockly');
+  this.helper.clearInstance('editor');
+  this.helper.clearInstance('message');
+  this.helper.clearInstance('preview');
+  this.helper.clearInstance('turtle');
 
   // Update navigation view
   let navigationInstance = this.helper.getInstance('navigation');
   if (navigationInstance) {
-    if (modeConfig.title) {
-      navigationInstance.setHeader(modeConfig.title, modeConfig.icon);
-    }
+    navigationInstance.enableOverview(true);
     navigationInstance.enableSaveFile(true);
+    if (modeConfig.name) {
+      navigationInstance.setHeader(modeConfig.name, modeConfig.icon);
+    }
   }
 
   // End existing tours.

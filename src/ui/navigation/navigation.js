@@ -46,7 +46,10 @@ cwc.ui.Navigation = function(helper) {
   this.node = null;
 
   /** @type {Element} */
-  this.nodeNewProject = null;
+  this.nodeHome = null;
+
+  /** @type {Element} */
+  this.nodeOverview = null;
 
   /** @type {Element} */
   this.nodeNewFile = null;
@@ -92,7 +95,8 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
   });
 
   // Navigation Items
-  this.nodeNewProject = goog.dom.getElement(this.prefix + 'new-project');
+  this.nodeHome = goog.dom.getElement(this.prefix + 'home');
+  this.nodeOverview = goog.dom.getElement(this.prefix + 'overview');
   this.nodeNewFile = goog.dom.getElement(this.prefix + 'new-file');
   this.nodeOpenFile = goog.dom.getElement(this.prefix + 'open-file');
   this.nodeOpenGoogleDriveFile = goog.dom.getElement(
@@ -113,7 +117,9 @@ cwc.ui.Navigation.prototype.decorate = function(node) {
   this.enableSaveGoogleDriveFile(false);
 
   // Events
-  goog.events.listen(this.nodeNewProject, goog.events.EventType.CLICK,
+  goog.events.listen(this.nodeHome, goog.events.EventType.CLICK,
+    this.requestShowSelectScreenHome.bind(this));
+  goog.events.listen(this.nodeOverview, goog.events.EventType.CLICK,
     this.requestShowSelectScreenOverview.bind(this));
   goog.events.listen(this.nodeNewFile, goog.events.EventType.CLICK,
     this.requestShowSelectScreen.bind(this));
@@ -192,26 +198,26 @@ cwc.ui.Navigation.prototype.hide = function() {
 
 /**
  * @param {!string} title
- * @param {string=} opt_icon
- * @param {string=} opt_color_class
+ * @param {string=} icon
+ * @param {string=} color_class
  */
-cwc.ui.Navigation.prototype.setHeader = function(title,
-    opt_icon, opt_color_class) {
+cwc.ui.Navigation.prototype.setHeader = function(title, icon, color_class) {
   let headerNode = goog.dom.getElement(this.prefix + 'header');
   if (headerNode) {
     goog.soy.renderElement(
       headerNode, cwc.soy.ui.Navigation.header, {
+        'color_class': color_class,
+        'icon': icon,
         'title': title,
-        'opt_icon': opt_icon,
-        'opt_color_class': opt_color_class});
+      });
   }
 };
 
 
 /**
- * Shows new file dialog.
+ * Shows home sceen.
  */
-cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
+cwc.ui.Navigation.prototype.requestShowSelectScreenHome = function() {
   let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
     selectScreenInstance.requestShowSelectScreen(this.hide.bind(this), true);
@@ -220,7 +226,18 @@ cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
 
 
 /**
- * Shows new file dialog.
+ * Shows last overview.
+ */
+cwc.ui.Navigation.prototype.requestShowSelectScreenOverview = function() {
+  let selectScreenInstance = this.helper.getInstance('selectScreen');
+  if (selectScreenInstance) {
+    selectScreenInstance.requestShowSelectScreen(this.hide.bind(this));
+  }
+};
+
+
+/**
+ * Reload last used file type.
  */
 cwc.ui.Navigation.prototype.requestShowSelectScreen = function() {
   let selectScreenInstance = this.helper.getInstance('selectScreen');
@@ -318,6 +335,26 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
   if (fileSaverInstance) {
     fileSaverInstance.saveFileAs();
     this.hide();
+  }
+};
+
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableOverview = function(enable) {
+  if (this.nodeOverview) {
+    goog.style.setElementShown(this.nodeOverview, enable);
+  }
+};
+
+
+/**
+ * @param {!boolean} enable
+ */
+cwc.ui.Navigation.prototype.enableNewFile = function(enable) {
+  if (this.nodeNewFile) {
+    goog.style.setElementShown(this.nodeNewFile, enable);
   }
 };
 

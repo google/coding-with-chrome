@@ -159,6 +159,20 @@ cwc.utils.Helper.prototype.prepareAddon = function(name) {
 
 /**
  * @param {!string} name
+ * @export
+ */
+cwc.utils.Helper.prototype.clearInstance = function(name) {
+  if (!(name in this.instances_)) {
+    return;
+  }
+  this.log_.debug('Clear', name, 'instance');
+  this.instances_[name] = null;
+  delete this.instances_[name];
+};
+
+
+/**
+ * @param {!string} name
  * @param {!cwc.utils.HelperInstance} instance
  * @param {boolean=} overwrite
  * @return {!cwc.utils.HelperInstance}

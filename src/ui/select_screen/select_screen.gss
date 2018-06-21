@@ -185,6 +185,27 @@
   vertical-align: middle;
 }
 
+#{$prefix}select-screen-tab-home {
+  border: none;
+  color: rgba(255,255,255,.6);
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  float: left;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  line-height: 48px;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+
 /** 
  * File Card
  */
@@ -296,9 +317,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
 
-.{$prefix}select-screen-overview .mdl-layout__tab > .icon_24px {
+
+.{$prefix}select-screen-overview .mdl-layout__tab > .icon_24px,
+#{$prefix}select-screen-tab-home > .icon_24px {
   margin: -4px 10px 0px 0px;
-  padding: 0 5px;
+  padding: 0;
   vertical-align: middle;
 }
 

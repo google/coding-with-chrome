@@ -57,6 +57,7 @@
 }
 
 #{$prefix}gui-navigation {
+  border: 0;
   overflow: hidden;
   z-index: 20;
 }

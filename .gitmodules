@@ -74,27 +74,34 @@
 [submodule "third_party/closure-library"]
 	path = third_party/closure-library
 	url = https://github.com/google/closure-library.git
+	ignore = dirty
 
 [submodule "third_party/shepherd"]
 	path = third_party/shepherd
 	url = https://github.com/HubSpot/shepherd.git
+	ignore = dirty
 
 [submodule "third_party/tether"]
 	path = third_party/tether
 	url = https://github.com/HubSpot/tether.git
+	ignore = dirty
 
 [submodule "third_party/brython"]
 	path = third_party/brython
 	url = https://github.com/brython-dev/brython.git
+	ignore = dirty
 
 [submodule "third_party/phaser-ce"]
 	path = third_party/phaser-ce
 	url = https://github.com/photonstorm/phaser-ce
+	ignore = dirty
 
 [submodule "third_party/marked"]
 	path = third_party/marked
 	url = https://github.com/markedjs/marked.git
+	ignore = dirty
 
 [submodule "third_party/coding-with-chrome-libraries"]
 	path = third_party/coding-with-chrome-libraries
 	url = https://github.com/google/coding-with-chrome-libraries.git
+	ignore = dirty

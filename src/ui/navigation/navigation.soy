@@ -36,9 +36,16 @@
   <nav id="{$prefix}items" class="mdl-navigation">
 
     {call .navigationLink_ data="all"}
-      {param text: 'New project' /}
-      {param title: 'Start a new project' /}
-      {param id: 'new-project' /}
+      {param text: 'Home' /}
+      {param title: 'Go Home' /}
+      {param id: 'home' /}
+      {param opt_icon: 'home' /}
+    {/call}
+
+    {call .navigationLink_ data="all"}
+      {param text: 'Overview' /}
+      {param title: 'Go to Overview' /}
+      {param id: 'overview' /}
       {param opt_icon: 'apps' /}
     {/call}
 
@@ -120,12 +127,12 @@
  */
 {template .header}
   {@param title: string}
-  {@param? opt_icon: string}
-  {@param? opt_color_class: string}
+  {@param? icon: string}
+  {@param? color_class: string}
 
-  <header class="mdl-layout__header{if $opt_color_class} {$opt_color_class}{/if}">
+  <header class="mdl-layout__header{if $color_class} {$color_class}{/if}">
     {msg desc=""}{$title}{/msg}
-    {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+    {if $icon}<i class="icon_auto">{$icon}</i>{/if}
   </header>
 
 {/template}
