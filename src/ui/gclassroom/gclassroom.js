@@ -64,10 +64,9 @@ cwc.ui.GClassroom.prototype.openDialog = function() {
 }
 
 /**
- * @param {Object} data List of.
+ * @param {Object} data List of courses.
  */
 cwc.ui.GClassroom.prototype.handleCourses = function(data) {
-    console.log('Open Classroom Dialog');
     let courses = data['courses'];
     console.log(courses);
     let courseList = goog.dom.getElement(this.prefix + 'course_list');
@@ -95,16 +94,24 @@ cwc.ui.GClassroom.prototype.decorate = function() {
 cwc.ui.GClassroom.prototype.prepareDialog = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
-    title: 'Google Classroom',
-    icon: 'folder_open',
+    title: 'Select course',
   };
   dialogInstance.showTemplate(title, cwc.soy.GClassroom.gClassroomTemplate, {
     prefix: this.prefix
   });
   this.decorate();
 }
-
+/**
+ * Updates the GClassroom course list with the new courses.
+ * @param {Object} files Course list with the result of the search.
+ */
 cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
+  let courseList = goog.dom.getElement(this.prefix + 'course_list');
+  goog.soy.renderElement(
+    courseList,
+    cwc.soy.GClassroom.gClassroomCourseListTemplate,
+    {prefix: this.prefix, courses: courses}
+  );
 }
 
 /**
@@ -124,7 +131,7 @@ cwc.ui.GClassroom.prototype.getMyCourses_ = function(callback) {
     };
     accountInstance.request(opts, callback);
   } else {
-      console.error('GClassroom.getMyCourses missing account');
+    console.error('GClassroom.getMyCourses missing account');
   }
 };
 

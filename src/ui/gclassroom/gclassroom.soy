@@ -33,3 +33,21 @@
     </div>
   </div>
 {/template}
+
+/**
+ * Google Classroom course list template.
+ */
+{template .gClassroomCourseListTemplate}
+  {@param courses: ?}
+  <div>
+    <ul class="mdl-list">
+      {foreach $course in $courses}
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content">
+          {$course['descriptionHeading']}
+        </span>
+      </li>
+      {/foreach}
+    </ul>
+  </div>
+{/template}
