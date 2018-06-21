@@ -42,7 +42,7 @@ cwc.mode.aiy.Connection = function(helper) {
 
   /** @private {cwc.utils.Dialog} */
   this.dialog_ = new cwc.utils.Dialog();
-}
+};
 
 
 /**
