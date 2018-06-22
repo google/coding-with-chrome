@@ -48,13 +48,15 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
 cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
   let devices = {};
 
-  // Bluetooth 2.x devices
-  let bluetoothInstance = this.helper.getInstance('bluetooth', true);
-  let bluetoothDevices = bluetoothInstance.getDevices();
-  for (let bluetoothDevice in bluetoothDevices) {
-    if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
-      let device = bluetoothDevices[bluetoothDevice];
-      devices[device.getAddress()] = this.parseDeviceData_(device);
+  // Chrome Bluetooth devices
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (bluetoothInstance) {
+    let bluetoothDevices = bluetoothInstance.getDevices();
+    for (let bluetoothDevice in bluetoothDevices) {
+      if (bluetoothDevices.hasOwnProperty(bluetoothDevice)) {
+        let device = bluetoothDevices[bluetoothDevice];
+        devices[device.getAddress()] = this.parseDeviceData_(device);
+      }
     }
   }
 
@@ -178,7 +180,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.close_ = function() {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
@@ -192,7 +194,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
 
 
 /**
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {

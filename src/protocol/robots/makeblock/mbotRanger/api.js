@@ -80,7 +80,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
 
 /**
  * Connects the mBot Ranger.
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
  * @return {boolean} Was able to prepare and connect to the mBot.
  * @export
  */

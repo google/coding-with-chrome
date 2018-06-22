@@ -89,8 +89,11 @@ cwc.mode.makeblock.mbot.Connection.prototype.init = function() {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (!bluetoothInstance) {
+    return;
+  }
   if (!this.isConnected()) {
-    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
       if (device) {
         this.api_.connect(device);

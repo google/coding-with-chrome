@@ -104,8 +104,11 @@ cwc.mode.sphero.classic.Connection.prototype.init = function() {
  * @export
  */
 cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (!bluetoothInstance) {
+    return;
+  }
   if (!this.isConnected()) {
-    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.api_.connect.bind(this.api_));
   }

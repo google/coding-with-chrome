@@ -56,7 +56,7 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {cwc.protocol.bluetooth.classic.Device} */
+  /** @type {cwc.lib.protocol.bluetoothChrome.Device} */
   this.device = null;
 
   /** @type {Object} */
@@ -93,7 +93,7 @@ cwc.protocol.lego.ev3.Api = function() {
 
 /**
  * Connects the EV3 unit.
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
  * @return {boolean} Was able to prepare and connect to the EV3.
  * @export
  */
@@ -364,7 +364,8 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {
     this.log_.error('PLEASE RESTART THE EV3 TO FIX THIS ERROR !');
     return;
   }
-  if (!type || type === cwc.protocol.lego.ev3.DeviceType.UNKNOWN) {
+  if (!type || type === cwc.protocol.lego.ev3.DeviceType.UNKNOWN ||
+       type === cwc.protocol.lego.ev3.DeviceType.FREE) {
     this.log_.error('Unknown device on port', port, '!');
     this.log_.error('Please re-connect device on port', port, '!');
     return;

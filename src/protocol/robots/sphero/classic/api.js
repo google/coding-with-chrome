@@ -49,7 +49,7 @@ cwc.protocol.sphero.classic.Api = function() {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {cwc.protocol.bluetooth.classic.Device} */
+  /** @type {cwc.lib.protocol.bluetoothChrome.Device} */
   this.device = null;
 
   /** @type {!cwc.protocol.sphero.classic.Handler} */
@@ -95,7 +95,7 @@ cwc.protocol.sphero.classic.Api = function() {
 
 /**
  * Connects the Sphero device.
- * @param {!cwc.protocol.bluetooth.classic.Device} device
+ * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
  * @return {boolean} Was able to prepare and connect to the Sphero.
  * @export
  */

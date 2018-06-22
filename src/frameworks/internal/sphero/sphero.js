@@ -40,7 +40,13 @@ cwc.framework.Sphero = function() {
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
-    .addListener('__EVENT__COLLISION', this.handleCollision_);
+    .addListener('__EVENT__COLLISION', this.handleCollision_)
+    .addListener('__EVENT__changed_values', function(e) {
+      console.log('Changed values event', e);
+    })
+    .addListener('__EVENT__changed_speed', function(e) {
+      console.log('Changed speed event', e);
+    });
 };
 
 

@@ -109,8 +109,11 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
  * Connects the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.connect = function() {
+  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  if (!bluetoothInstance) {
+    return;
+  }
   if (!this.isConnected()) {
-    let bluetoothInstance = this.helper.getInstance('bluetooth', true);
     bluetoothInstance.autoConnectDevice(this.autoConnectName,
       this.api_.connect.bind(this.api_));
   }

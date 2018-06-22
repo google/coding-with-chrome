@@ -192,6 +192,7 @@ cwc.protocol.lego.ev3.DeviceType = {
   COL_AMBIENT: 'COL-AMBIENT',
   COL_COLOR: 'COL-COLOR',
   COL_REFLECT: 'COL-REFLECT',
+  FREE: 'FREE',
   GYRO_ANG: 'GYRO-ANG',
   GYRO_RATE: 'GYRO-RATE',
   IR_PROX: 'IR-PROX',

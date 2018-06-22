@@ -31,9 +31,9 @@ goog.require('cwc.fileHandler.File');
 goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
+goog.require('cwc.lib.protocol.bluetoothChrome.Api');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
-goog.require('cwc.protocol.bluetooth.classic.Api');
 goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
@@ -74,6 +74,7 @@ goog.require('cwc.utils.Logger');
 goog.require('goog.dom');
 
 
+goog.scope(function() {
 /**
  * Addons.
  * @enum {!Function}
@@ -121,7 +122,6 @@ cwc.ui.BuilderHelpers = {
  */
 cwc.ui.supportedProtocols = {
   // Low-level
-  'bluetooth': cwc.protocol.bluetooth.classic.Api,
   'bluetoothLE': cwc.protocol.bluetooth.lowEnergy.Api,
   'serial': cwc.protocol.serial.Api,
 
@@ -263,6 +263,8 @@ cwc.ui.Builder.prototype.decorateUI = function() {
     this.setProgressFunc('Prepare experimental ...', this.prepareExperimental_);
     this.setProgressFunc('Prepare dialog ...', this.prepareDialog);
     this.setProgressFunc('Prepare protocols ...', this.prepareProtocols);
+    this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
+      this.prepareBluetooth);
     if (this.helper.checkChromeFeature('sockets.tcpServer')) {
       this.setProgressFunc('Prepare internal Server', this.prepareServer);
     }
@@ -274,8 +276,6 @@ cwc.ui.Builder.prototype.decorateUI = function() {
         this.prepareOauth2Helper);
     }
     this.setProgressFunc('Render editor GUI ...', this.renderGui);
-    this.setProgressFunc('Prepare Bluetooth / Bluetooth LE support ...',
-      this.prepareBluetooth);
     if (this.helper.checkChromeFeature('serial')) {
       this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
     }
@@ -401,8 +401,11 @@ cwc.ui.Builder.prototype.prepareAddons = function() {
  * Prepare Bluetooth / Bluetooth LE interface if needed.
  */
 cwc.ui.Builder.prototype.prepareBluetooth = function() {
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
-  if (this.helper.checkChromeFeature('bluetooth') && bluetoothInstance) {
+  if (this.helper.checkChromeFeature('bluetooth')) {
+    let BluetoothChromeApi =
+      goog.module.get('cwc.lib.protocol.bluetoothChrome.Api');
+    let bluetoothInstance =
+      this.helper.setInstance('bluetooth', new BluetoothChromeApi());
     bluetoothInstance.prepare();
   }
 
@@ -605,3 +608,4 @@ cwc.ui.Builder.prototype.checkRequirements_ = function(name) {
         'Please check if you have included the ' + name + ' files.');
   }
 };
+});
