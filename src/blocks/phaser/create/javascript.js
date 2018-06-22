@@ -22,7 +22,7 @@
 /**
  * Phaser create section.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_create'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -40,7 +40,7 @@ Blockly.JavaScript['phaser_create'] = function(block) {
 /**
  * Stage background color.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
   let colour_color = block.getFieldValue('color');
@@ -51,7 +51,7 @@ Blockly.JavaScript['phaser_stage_background_color'] = function(block) {
 /**
  * Add background.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_add_background'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -62,7 +62,7 @@ Blockly.JavaScript['phaser_add_background'] = function(block) {
 /**
  * Add background with specific size.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_add_background_scaled'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -79,7 +79,7 @@ Blockly.JavaScript['phaser_add_background_scaled'] = function(block) {
 /**
  * Timer Loop Event
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_time_loop_event'] = function(block) {
   let value_time = Blockly.JavaScript.valueToCode(

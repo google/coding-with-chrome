@@ -37,7 +37,7 @@ cwc.mode.makeblock.mbotRanger.Control = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Ranger Control';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = helper.getPrefix('mbot-ranger-control');
 
   /** @type {Element} */
@@ -58,10 +58,10 @@ cwc.mode.makeblock.mbotRanger.Control = function(helper, connection) {
   /** @private {cwc.ui.Message} */
   this.messageInstance_ = null;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.normalSpeed_ = 85;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.boostedSpeed_ = 130;
 };
 

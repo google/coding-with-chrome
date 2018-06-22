@@ -29,13 +29,13 @@ goog.require('cwc.utils.Logger');
  * @final
  */
 cwc.file.Files = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Files';
 
   /** @private {!Object} */
   this.data_ = {};
 
-  /** @private {!number} */
+  /** @private {number} */
   this.size_ = 0;
 
   /** @private {!cwc.utils.Logger} */
@@ -44,8 +44,8 @@ cwc.file.Files = function() {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {string=} type
  * @param {number=} size
  * @return {!cwc.file.File}
@@ -65,7 +65,7 @@ cwc.file.Files.prototype.addFile = function(name, content, type, size) {
 
 
 /**
- * @param {!string} filename
+ * @param {string} filename
  * @return {boolean}
  */
 cwc.file.Files.prototype.existFileName = function(filename) {
@@ -74,7 +74,7 @@ cwc.file.Files.prototype.existFileName = function(filename) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} group
  * @return {cwc.file.File}
  */
@@ -89,7 +89,7 @@ cwc.file.Files.prototype.getFile = function(name, group) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} opt_group
  * @return {string}
  */
@@ -145,7 +145,7 @@ cwc.file.Files.prototype.getSize = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} group
  * @return {boolean} Whether we have this file.
  */
@@ -181,9 +181,9 @@ cwc.file.Files.prototype.clear = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} group
- * @return {!string}
+ * @return {string}
  * @private
  */
 cwc.file.Files.prototype.getFilename_ = function(name, group) {

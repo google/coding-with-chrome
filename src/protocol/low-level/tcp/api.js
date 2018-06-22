@@ -41,7 +41,7 @@ cwc.protocol.tcp.Api = function(helper) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!goog.events.EventTarget} */

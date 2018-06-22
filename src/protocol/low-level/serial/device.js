@@ -21,32 +21,32 @@ goog.provide('cwc.protocol.serial.Device');
 
 
 /**
- * @param {!string} path
- * @param {!number} vendor_id
- * @param {!number} product_id
+ * @param {string} path
+ * @param {number} vendor_id
+ * @param {number} product_id
  * @param {string=} optName
  * @constructor
  */
 cwc.protocol.serial.Device = function(path, vendor_id, product_id, optName) {
-  /** @type {!string} */
+  /** @type {string} */
   this.path = path || '';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connected = false;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connecting = false;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.vendorId = vendor_id || 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.productId = product_id || 0;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.name = optName || '';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.supportedDevice = false;
 
   /** @type {!Object} */
@@ -55,13 +55,13 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id, optName) {
   /** @type {!Object} */
   this.connectionInfos = {};
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectionId = 0;
 
   /** @type {Function} */
   this.connectCallback = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectErrors = 0;
 
   /** @type {Function} */
@@ -79,7 +79,7 @@ cwc.protocol.serial.Device = function(path, vendor_id, product_id, optName) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.protocol.serial.Device.prototype.isConnected = function() {
@@ -88,7 +88,7 @@ cwc.protocol.serial.Device.prototype.isConnected = function() {
 
 
 /**
- * @param {!boolean} supported
+ * @param {boolean} supported
  * @export
  */
 cwc.protocol.serial.Device.prototype.setSupported = function(supported) {
@@ -97,7 +97,7 @@ cwc.protocol.serial.Device.prototype.setSupported = function(supported) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.protocol.serial.Device.prototype.isSupported = function() {
@@ -106,7 +106,7 @@ cwc.protocol.serial.Device.prototype.isSupported = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.protocol.serial.Device.prototype.getName = function() {
@@ -115,7 +115,7 @@ cwc.protocol.serial.Device.prototype.getName = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @export
  */
 cwc.protocol.serial.Device.prototype.setName = function(name) {
@@ -124,7 +124,7 @@ cwc.protocol.serial.Device.prototype.setName = function(name) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.protocol.serial.Device.prototype.getPath = function() {
@@ -225,7 +225,7 @@ cwc.protocol.serial.Device.prototype.send = function(data) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  * @export
  */
 cwc.protocol.serial.Device.prototype.sendText = function(text) {

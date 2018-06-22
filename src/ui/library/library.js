@@ -294,7 +294,7 @@ cwc.ui.Library.prototype.readFile = function(file) {
 
 /**
  * Reads url content as data URL and adds content to library.
- * @param {!string} url
+ * @param {string} url
  */
 cwc.ui.Library.prototype.readUrl = function(url) {
   let urlContent = url;
@@ -318,7 +318,7 @@ cwc.ui.Library.prototype.readUrl = function(url) {
 
 /**
  * Inserts file macro at the current cursor position into the editor.
- * @param {!string} name
+ * @param {string} name
  */
 cwc.ui.Library.prototype.insertFileMacro = function(name) {
   let file = this.getFile(name);
@@ -330,7 +330,7 @@ cwc.ui.Library.prototype.insertFileMacro = function(name) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {cwc.file.File}
  */
 cwc.ui.Library.prototype.getFile = function(name) {

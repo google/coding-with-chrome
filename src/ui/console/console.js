@@ -65,16 +65,16 @@ cwc.ui.Console = function(helper) {
   /** @private {!Array} */
   this.history_ = [];
 
-  /** @private {!number} */
+  /** @private {number} */
   this.historyIndex_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.numErrors_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.numInfos_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.numWarnings_ = 0;
 
   /** @private {!cwc.utils.Events} */
@@ -186,7 +186,7 @@ cwc.ui.Console.prototype.clearHistory = function() {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.ui.Console.prototype.isVisible = function() {
   return this.isVisible_;
@@ -225,7 +225,7 @@ cwc.ui.Console.prototype.showConsole = function(visible) {
 
 
 /**
- * @param {!number} index
+ * @param {number} index
  */
 cwc.ui.Console.prototype.selectHistoryEntry = function(index) {
   if (index > this.historyIndex_ || index < 0 || !this.nodeUserInput) {
@@ -239,7 +239,7 @@ cwc.ui.Console.prototype.selectHistoryEntry = function(index) {
 
 /**
  * Write text content into console content.
- * @param {!string} content
+ * @param {string} content
  * @param {string=} type
  * @param {string=} icon
  */
@@ -264,7 +264,7 @@ cwc.ui.Console.prototype.write = function(content, type = '', icon = '') {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  * @param {string=} type
  * @param {string=} icon
  */
@@ -274,7 +274,7 @@ cwc.ui.Console.prototype.writeln = function(content, type, icon) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.ui.Console.prototype.writeError = function(content) {
   this.numErrors_++;
@@ -283,7 +283,7 @@ cwc.ui.Console.prototype.writeError = function(content) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.ui.Console.prototype.writeWarn = function(content) {
   this.numWarnings_++;
@@ -292,7 +292,7 @@ cwc.ui.Console.prototype.writeWarn = function(content) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.ui.Console.prototype.writeInfo = function(content) {
   this.numInfos_++;
@@ -301,7 +301,7 @@ cwc.ui.Console.prototype.writeInfo = function(content) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.ui.Console.prototype.writeOutput = function(content) {
   this.writeln(content, 'output', 'keyboard_arrow_left');

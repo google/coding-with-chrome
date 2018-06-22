@@ -41,7 +41,7 @@ cwc.Cache = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.version = 7;
 
   /** @private {Object} */
@@ -140,8 +140,8 @@ cwc.Cache.prototype.getFile = function(name) {
 
 
 /**
- * @param {!string} name
- * @return {!string}
+ * @param {string} name
+ * @return {string}
  */
 cwc.Cache.prototype.getPreloadedFile = function(name) {
   if (this.cache_[name] === undefined) {
@@ -152,7 +152,7 @@ cwc.Cache.prototype.getPreloadedFile = function(name) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {Promise}
  */
 cwc.Cache.prototype.preloadFile = function(name) {
@@ -180,8 +180,8 @@ cwc.Cache.prototype.preloadFiles = function(files) {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  */
 cwc.Cache.prototype.addContentToCache = function(name, content) {
   if (!content) {
@@ -241,8 +241,8 @@ cwc.Cache.prototype.clearLibraryFiles = function() {
 
 
 /**
- * @param {!string} content
- * @return {!string}
+ * @param {string} content
+ * @return {string}
  */
 cwc.Cache.optimizeContent = function(content) {
   if (content && content instanceof String) {

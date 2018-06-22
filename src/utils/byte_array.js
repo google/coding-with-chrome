@@ -22,7 +22,7 @@ goog.provide('cwc.utils.ByteArrayTypes');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 cwc.utils.ByteArrayTypes = {
   BYTE: 1,

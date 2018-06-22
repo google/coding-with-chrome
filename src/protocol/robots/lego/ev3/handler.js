@@ -137,7 +137,7 @@ cwc.protocol.lego.ev3.Handler.prototype['movePower'] = function(data = {}) {
 
 
 /**
- * @param {!number} power
+ * @param {number} power
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
@@ -149,7 +149,7 @@ cwc.protocol.lego.ev3.Handler.prototype['movePowerLeft'] = function(power) {
 
 
 /**
- * @param {!number} power
+ * @param {number} power
  * @param {Object=} data
  * @return {!ArrayBuffer}
  */
@@ -287,7 +287,7 @@ cwc.protocol.lego.ev3.Handler.prototype['moveSteps'] = function(data = {}) {
 
 /**
  * Moves the motors for the predefined specific steps and ports.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_ports
  * @param {number=} opt_speed
  * @param {boolean=} opt_break
@@ -324,7 +324,7 @@ cwc.protocol.lego.ev3.Handler.prototype['rotateSteps'] = function(data = {}) {
 
 /**
  * Rotates the motors for the predefined specific steps and ports.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_ports
  * @param {number=} opt_step_speed
  * @param {boolean=} opt_break

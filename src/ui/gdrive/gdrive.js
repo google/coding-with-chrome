@@ -51,7 +51,7 @@ cwc.ui.GDrive = function(helper) {
   /** @type {string} */
   this.dialogType = '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.mimeType = 'application/cwc';
 
   /** @type {Element} */
@@ -231,7 +231,7 @@ cwc.ui.GDrive.prototype.getFile = function() {
 
 /**
  * Navigate down a sub-folder in the Google Drive file browser.
- * @param {!string} file
+ * @param {string} file
  * @param {boolean=} trashed
  */
 cwc.ui.GDrive.prototype.getFolder = function(file, trashed = false) {
@@ -429,8 +429,8 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {string=} opt_id
  * @param {string=} parent_id
  */

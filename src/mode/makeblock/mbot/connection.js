@@ -45,7 +45,7 @@ cwc.mode.makeblock.mbot.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectMonitorInterval = 5000;
 
   /** @private {!cwc.utils.Events} */
@@ -126,7 +126,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.reset = function(opt_event) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.isConnected = function() {

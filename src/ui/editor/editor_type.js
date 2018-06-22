@@ -36,7 +36,7 @@ cwc.ui.EditorType = {
 
 /**
  * Guesses the editor type on the given content.
- * @param {!string} content
+ * @param {string} content
  * @return {cwc.ui.EditorType}
  */
 cwc.ui.guessEditorType = function(content) {

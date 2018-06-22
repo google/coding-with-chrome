@@ -42,7 +42,7 @@ cwc.server.Server = function(helper) {
   /** @type {cwc.protocol.tcp.HTTPServer} */
   this.httpServer = null;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.previewFile = '/preview.html';
 
   /** @private {!cwc.utils.Logger} */
@@ -95,8 +95,8 @@ cwc.server.Server.prototype.prepare = function() {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  */
 cwc.server.Server.prototype.addFile = function(name, content) {
   if (this.httpServer) {
@@ -106,8 +106,8 @@ cwc.server.Server.prototype.addFile = function(name, content) {
 
 
 /**
- * @param {!string} name
- * @param {!string} path
+ * @param {string} name
+ * @param {string} path
  */
 cwc.server.Server.prototype.addRedirect = function(name, path) {
   if (this.httpServer) {
@@ -117,7 +117,7 @@ cwc.server.Server.prototype.addRedirect = function(name, path) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.server.Server.prototype.setPreview = function(content) {
   if (this.httpServer) {
@@ -139,8 +139,8 @@ cwc.server.Server.prototype.setPreview = function(content) {
 
 
 /**
- * @param {!string} name
- * @return {!string}
+ * @param {string} name
+ * @return {string}
  */
 cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
   return this.getRootURL() + name;
@@ -148,7 +148,7 @@ cwc.server.Server.prototype.getFrameworkFileURL = function(name) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.server.Server.prototype.getRootURL = function() {
   return this.httpServer ? this.httpServer.getRootURL() : '/';
@@ -156,7 +156,7 @@ cwc.server.Server.prototype.getRootURL = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.server.Server.prototype.getPreviewURL = function() {
   return this.getRootURL() + this.previewFile + '?' +

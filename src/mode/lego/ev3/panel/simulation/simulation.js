@@ -42,7 +42,7 @@ cwc.mode.lego.ev3.Simulation = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.sprite = ' data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAWCAMAA' +
     'AACYceEAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAAEVAAABFQEpfgIbAAAAGXRFWHRTb2Z0d' +
     '2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAMxQTFRFAAAAAAAAYGBgcXFxZmZmdHR0iXZ2j' +

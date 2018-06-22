@@ -35,7 +35,7 @@ goog.require('cwc.soy.mbot.Blocks');
  * @param {boolean=} enableBlockly
  */
 cwc.mode.makeblock.mbot.Mod = function(helper, enableBlockly = false) {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
   /** @type {!cwc.mode.makeblock.mbot.Connection} */

@@ -129,8 +129,8 @@ cwc.protocol.lego.ev3.Monitoring.prototype.stop = function() {
 
 
 /**
- * @param {!number} port
- * @param {!string} type
+ * @param {number} port
+ * @param {string} type
  * @param {number=} mode
  */
 cwc.protocol.lego.ev3.Monitoring.prototype.enableMonitor = function(

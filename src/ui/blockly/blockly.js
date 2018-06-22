@@ -70,7 +70,7 @@ cwc.ui.Blockly = function(helper) {
   /** @type {boolean} */
   this.modified = false;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.zoomControl = true;
 
   /** @type {Blockly.WorkspaceSvg} */
@@ -85,16 +85,16 @@ cwc.ui.Blockly = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isVisible_ = true;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.disableOrphansBlocks_ = false;
 
   /** @private {Function} */
   this.editorChangeHandler_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.viewName_ = '';
 
   /** @private {Object} */
@@ -253,7 +253,7 @@ cwc.ui.Blockly.prototype.addEditorChangeHandler = function(func) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!function()} func
  * @param {string=} tooltip
  */
@@ -265,7 +265,7 @@ cwc.ui.Blockly.prototype.addOption = function(name, func, tooltip) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} xml
  */
 cwc.ui.Blockly.prototype.addView = function(name, xml) {
@@ -327,7 +327,7 @@ cwc.ui.Blockly.prototype.createVariable = function() {
 
 /**
  * Disabled blocks not attached to base block.
- * @param {!boolean} enabled
+ * @param {boolean} enabled
  */
 cwc.ui.Blockly.prototype.disableOrphansBlocks = function(enabled) {
   this.disableOrphansBlocks_ = enabled;
@@ -346,7 +346,7 @@ cwc.ui.Blockly.prototype.getWorkspace = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Blockly.prototype.getViewName = function() {
   return this.viewName_;
@@ -354,7 +354,7 @@ cwc.ui.Blockly.prototype.getViewName = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Blockly.prototype.getJavaScript = function() {
   let workspace = this.getWorkspace();
@@ -370,7 +370,7 @@ cwc.ui.Blockly.prototype.getJavaScript = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Blockly.prototype.getXML = function() {
   let workspace = this.getWorkspace();
@@ -443,7 +443,7 @@ cwc.ui.Blockly.prototype.redoChange = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!string|Object} value
  */
 cwc.ui.Blockly.prototype.setWorkspaceOption = function(name, value) {
@@ -455,7 +455,7 @@ cwc.ui.Blockly.prototype.setWorkspaceOption = function(name, value) {
 
 
 /**
- * @param {!boolean} modified
+ * @param {boolean} modified
  */
 cwc.ui.Blockly.prototype.setModified = function(modified) {
   this.modified = modified;

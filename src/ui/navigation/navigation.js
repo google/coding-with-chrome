@@ -197,7 +197,7 @@ cwc.ui.Navigation.prototype.hide = function() {
 
 
 /**
- * @param {!string} title
+ * @param {string} title
  * @param {string=} icon
  * @param {string=} color_class
  */
@@ -340,7 +340,7 @@ cwc.ui.Navigation.prototype.saveFileAs = function() {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  */
 cwc.ui.Navigation.prototype.enableOverview = function(enable) {
   if (this.nodeOverview) {
@@ -350,7 +350,7 @@ cwc.ui.Navigation.prototype.enableOverview = function(enable) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  */
 cwc.ui.Navigation.prototype.enableNewFile = function(enable) {
   if (this.nodeNewFile) {
@@ -360,7 +360,7 @@ cwc.ui.Navigation.prototype.enableNewFile = function(enable) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  */
 cwc.ui.Navigation.prototype.enableOpenGoogleDriveFile = function(enable) {
   if (this.nodeOpenGoogleDriveFile) {
@@ -370,7 +370,7 @@ cwc.ui.Navigation.prototype.enableOpenGoogleDriveFile = function(enable) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  */
 cwc.ui.Navigation.prototype.enableSaveGoogleDriveFile = function(enable) {
   if (this.nodeSaveGoogleDriveFile) {

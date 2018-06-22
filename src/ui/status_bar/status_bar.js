@@ -103,7 +103,7 @@ cwc.ui.StatusBar.prototype.showEditorMode = function(visible) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  */
 cwc.ui.StatusBar.prototype.setEditorMode = function(text) {
   this.setText_('editor-mode-text', text);
@@ -136,8 +136,8 @@ cwc.ui.StatusBar.prototype.getEditorModes_ = function() {
 
 
 /**
- * @param {!string} name
- * @param {!string} text
+ * @param {string} name
+ * @param {string} text
  * @private
  */
 cwc.ui.StatusBar.prototype.setText_ = function(name, text) {
@@ -149,8 +149,8 @@ cwc.ui.StatusBar.prototype.setText_ = function(name, text) {
 
 
 /**
- * @param {!string} name
- * @param {!boolean} visible
+ * @param {string} name
+ * @param {boolean} visible
  * @private
  */
 cwc.ui.StatusBar.prototype.show_ = function(name, visible) {
@@ -162,8 +162,8 @@ cwc.ui.StatusBar.prototype.show_ = function(name, visible) {
 
 
 /**
- * @param {!string} name
- * @param {!boolean} enable
+ * @param {string} name
+ * @param {boolean} enable
  * @private
  */
 cwc.ui.StatusBar.prototype.enable_ = function(name, enable) {

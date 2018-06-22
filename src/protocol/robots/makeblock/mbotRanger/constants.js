@@ -32,7 +32,7 @@ goog.provide('cwc.protocol.makeblock.mbotRanger.Slot');
 
 /**
  * In future developments, this should be replaced by a state machine.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.ByteType = {
   INDEX: 2,
@@ -43,7 +43,7 @@ cwc.protocol.makeblock.mbotRanger.ByteType = {
 
 /**
  * Enum of command types for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.Action = {
   GET: 0x01,
@@ -55,7 +55,7 @@ cwc.protocol.makeblock.mbotRanger.Action = {
 
 /**
  * Enum of data types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.DataType = {
   BYTE: 1,
@@ -67,7 +67,7 @@ cwc.protocol.makeblock.mbotRanger.DataType = {
 
 /**
  * Enum of devices for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.Device = {
   ENCODER: 12,
@@ -96,7 +96,7 @@ cwc.protocol.makeblock.mbotRanger.Header = [0xff, 0x55];
 
 /**
  * Enum of implemented callback types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.IndexType = {
   NONE: 0x00,
@@ -112,7 +112,7 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
 
 /**
  * Enum of ports for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.Port = {
   AUTO: 0x00,
@@ -132,7 +132,7 @@ cwc.protocol.makeblock.mbotRanger.Port = {
 
 /**
  * Enum of commands for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbotRanger.Slot = {
   AUTO: 0,

@@ -36,7 +36,7 @@ goog.require('cwc.soy.sphero.Blocks');
  * @param {boolean=} enableBlockly
  */
 cwc.mode.sphero.classic.Mod = function(helper, enableBlockly = false) {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
   /** @type {!cwc.mode.sphero.classic.Connection} */

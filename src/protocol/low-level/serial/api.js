@@ -48,7 +48,7 @@ cwc.protocol.serial.Api = function(helper) {
   /** @type {Object} */
   this.connectionIds = {};
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.utils.Logger} */
@@ -97,7 +97,7 @@ cwc.protocol.serial.Api.prototype.updateDevices = function() {
 
 
 /**
- * @param {!string} device_id
+ * @param {string} device_id
  * @return {cwc.protocol.serial.Device}
  * @export
  */

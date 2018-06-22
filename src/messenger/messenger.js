@@ -45,7 +45,7 @@ cwc.Messenger = function(eventHandler) {
   /** @type {Object} */
   this.target = null;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.targetOrigin = '*';
 
   /** @private {!cwc.utils.Events} */
@@ -63,7 +63,7 @@ cwc.Messenger = function(eventHandler) {
   /** @private {Object} */
   this.listenerScope_ = this;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.token_ = String(new Date().getTime());
 
   // External listener
@@ -73,7 +73,7 @@ cwc.Messenger = function(eventHandler) {
 
 /**
  * Adds the command to the listener.
- * @param {!string} name
+ * @param {string} name
  * @param {!Function} func
  * @param {?=} scope
  * @return {THIS}
@@ -131,8 +131,8 @@ cwc.Messenger.prototype.addApiListener = function(api) {
 
 /**
  * @param {EventTarget|goog.events.Listenable} eventHandler
- * @param {!string} event
- * @param {!string} command
+ * @param {string} event
+ * @param {string} command
  * @export
  */
 cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
@@ -163,7 +163,7 @@ cwc.Messenger.prototype.send = function(name, value = {}) {
 
 
 /**
- * @param {!string} appOrigin
+ * @param {string} appOrigin
  * @export
  */
 cwc.Messenger.prototype.setAppOrigin = function(appOrigin) {

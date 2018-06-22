@@ -32,7 +32,7 @@ cwc.ui.Debug = function(helper) {
   /** @type {string} */
   this.name = 'Debug';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enabled = false;
 
   /** @type {!cwc.utils.Helper} */
@@ -68,7 +68,7 @@ cwc.ui.Debug.prototype.prepare = function() {
 
 /**
  * @param {string=} optName
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.ui.Debug.prototype.isEnabled = function(optName) {

@@ -38,7 +38,7 @@ cwc.protocol.raspberryPi.Api = function() {
   /** @type {cwc.protocol.serial.Device} */
   this.device = null;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connected = false;
 
   /** @type {goog.events.EventTarget} */
@@ -104,7 +104,7 @@ cwc.protocol.raspberryPi.Api.prototype.reset = function() {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.raspberryPi.Api.prototype.isConnected = function() {
   return this.connected;
@@ -129,7 +129,7 @@ cwc.protocol.raspberryPi.Api.prototype.send = function(data) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  * @export
  */
 cwc.protocol.raspberryPi.Api.prototype.sendText = function(text) {

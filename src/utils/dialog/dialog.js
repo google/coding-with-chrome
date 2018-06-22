@@ -33,10 +33,10 @@ goog.require('goog.soy');
  * @export
  */
 cwc.utils.Dialog = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Dialog';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = 'cwc-dialog-';
 
   /** @type {Element} */
@@ -51,10 +51,10 @@ cwc.utils.Dialog = function() {
   /** @private {Function} */
   this.defaultCloseHandler_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.prefixDialog_ = this.prefix + 'chrome';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.title_ = '';
 
   /** @private {!cwc.utils.Logger} */
@@ -143,7 +143,7 @@ cwc.utils.Dialog.prototype.close = function(title) {
 /**
  * Render the dialog template with the passed options.
  * @param {!string|Object} title
- * @param {!string} content
+ * @param {string} content
  * @param {function ({
  *   content: string,
  *   prefix: string,
@@ -186,7 +186,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
 
 /**
  * @param {!string|Object} title
- * @param {!string} content
+ * @param {string} content
  * @export
  */
 cwc.utils.Dialog.prototype.showContent = function(title, content) {
@@ -240,8 +240,8 @@ cwc.utils.Dialog.prototype.updateTemplate = function(template, values) {
 
 
 /**
- * @param {!string} id
- * @param {!string} text
+ * @param {string} id
+ * @param {string} text
  * @param {Function} optCallback
  * @export
  */
@@ -274,7 +274,7 @@ cwc.utils.Dialog.prototype.setButtonText = function(id, text) {
 
 /**
  * @param {!string|Object} title
- * @param {!string} content
+ * @param {string} content
  * @return {!Promise}
  * @export
  */
@@ -302,7 +302,7 @@ cwc.utils.Dialog.prototype.showAlert = function(title, content) {
 
 /**
  * @param {!string|Object} title
- * @param {!string} content
+ * @param {string} content
  * @param {string=} optValue
  * @return {!Promise}
  * @export
@@ -344,8 +344,8 @@ cwc.utils.Dialog.prototype.showPrompt = function(title, content, optValue) {
 
 /**
  * @param {!string|Object} title
- * @param {!string} content
- * @param {!string} action
+ * @param {string} content
+ * @param {string} action
  * @return {!Promise}
  * @export
  */

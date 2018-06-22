@@ -57,7 +57,7 @@ cwc.protocol.lego.ev3.Events.changedDevices = function(data) {
 
 
 /**
- * @param {!number} port
+ * @param {number} port
  * @param {!Object|number} data
  * @param {!cwc.protocol.lego.ev3.DeviceType} type
  * @return {!cwc.utils.EventData}

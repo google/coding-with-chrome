@@ -44,7 +44,7 @@ cwc.mode.lego.ev3.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectMonitorInterval = 5000;
 
   /** @private {!cwc.protocol.lego.ev3.Api} */
@@ -128,7 +128,7 @@ cwc.mode.lego.ev3.Connection.prototype.disconnect = function() {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.mode.lego.ev3.Connection.prototype.isConnected = function() {
   return this.api_.isConnected();

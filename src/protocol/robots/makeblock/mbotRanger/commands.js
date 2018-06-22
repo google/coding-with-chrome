@@ -30,9 +30,9 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
 
 /**
  * Sets RGB LED color on the top of the mbot.
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
+ * @param {number} red 0-255
+ * @param {number} green 0-255
+ * @param {number} blue 0-255
  * @param {number=} index 0 or 1 - 12
  * @return {!ArrayBuffer}
  * @export
@@ -55,8 +55,8 @@ cwc.protocol.makeblock.mbotRanger.Commands.setRGBLED = function(red = 0,
 
 /**
  * Plays a tone through mBot's buzzer
- * @param {!number} frequency Frequency of the tone to play
- * @param {!number} duration Duration of the tone, in ms
+ * @param {number} frequency Frequency of the tone to play
+ * @param {number} duration Duration of the tone, in ms
  * @return {!ArrayBuffer}
  * @export
  */
@@ -75,7 +75,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.playTone = function(
 
 /**
  * Sets motor power
- * @param {!number} power (0-255)
+ * @param {number} power (0-255)
  * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
  * @return {!ArrayBuffer}
  * @export
@@ -95,7 +95,7 @@ cwc.protocol.makeblock.mbotRanger.Commands.movePower = function(
 
 /**
  * Rotates the motor for the given steps.
- * @param {!number} steps (−32768 - 32.767)
+ * @param {number} steps (−32768 - 32.767)
  * @param {number=} power (0-255)
  * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
  * @return {!ArrayBuffer}

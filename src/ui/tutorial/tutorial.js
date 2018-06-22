@@ -42,7 +42,7 @@ goog.require('goog.style');
  * @final
  */
 cwc.ui.Tutorial = function(helper) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Tutorial';
 
   /** @type {!cwc.utils.Helper} */
@@ -57,10 +57,10 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {!string} */
+  /** @private {string} */
   this.content_ = '';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.contentType_ = '';
 
   /** @private {!Element} */
@@ -69,13 +69,13 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
-  /** @private {!string} */
+  /** @private {string} */
   this.validatePreview_ = '';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.processResults_ = '';
 };
 
@@ -200,7 +200,7 @@ cwc.ui.Tutorial.prototype.handleConsoleMessage_ = function(event) {
 };
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Tutorial.prototype.getContent = function() {
   return this.content_;
@@ -288,7 +288,7 @@ cwc.ui.Tutorial.prototype.setMessage = function(message) {
 };
 
 /**
- * @param {!boolean} solved
+ * @param {boolean} solved
  */
 cwc.ui.Tutorial.prototype.solved = function(solved) {
   let messageDiv = goog.dom.getElement(this.prefix+'message');

@@ -45,10 +45,10 @@ cwc.ui.BlocklyToolbox = function(helper) {
   /** @type {boolean} */
   this.autoCollapse = false;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.rowItemClass_ = 'blocklyTreeRowItem';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.rootRowItemClass_ = 'blocklyRootTreeRowItem';
 
   /** @private {!cwc.utils.Events} */

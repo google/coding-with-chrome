@@ -38,7 +38,7 @@ cwc.mode.raspberryPi.Connection = function(helper) {
   /** @type {!cwc.protocol.raspberryPi.Api} */
   this.api = helper.getInstance('raspberryPi', true);
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectMonitorInterval = 5000;
 
   /** @type {goog.Timer} */
@@ -102,7 +102,7 @@ cwc.mode.raspberryPi.Connection.prototype.reset = function(opt_event) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.mode.raspberryPi.Connection.prototype.isConnected = function() {

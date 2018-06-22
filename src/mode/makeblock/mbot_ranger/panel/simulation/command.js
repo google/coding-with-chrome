@@ -29,7 +29,7 @@ cwc.mode.makeblock.mbotRanger.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.speed_ = 40;
 };
 

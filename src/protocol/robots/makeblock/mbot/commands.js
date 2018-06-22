@@ -30,9 +30,9 @@ goog.require('cwc.protocol.makeblock.mbot.Slot');
 
 /**
  * Sets RGB LED color on the top of the mbot.
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
+ * @param {number} red 0-255
+ * @param {number} green 0-255
+ * @param {number} blue 0-255
  * @param {number=} index 0 for all lights; 1 for left, 2 for right
  * @return {!ArrayBuffer}
  * @export
@@ -55,8 +55,8 @@ cwc.protocol.makeblock.mbot.Commands.setRGBLED = function(red = 0, green = 0,
 
 /**
  * Plays a tone through mBot's buzzer
- * @param {!number} frequency Frequency of the tone to play
- * @param {!number} duration Duration of the tone, in ms
+ * @param {number} frequency Frequency of the tone to play
+ * @param {number} duration Duration of the tone, in ms
  * @return {!ArrayBuffer}
  * @export
  */
@@ -74,7 +74,7 @@ cwc.protocol.makeblock.mbot.Commands.playTone = function(frequency,
 
 /**
  * Sets motor power
- * @param {!number} power (0-255)
+ * @param {number} power (0-255)
  * @param {cwc.protocol.makeblock.mbot.Port=} port
  * @return {!ArrayBuffer}
  * @export

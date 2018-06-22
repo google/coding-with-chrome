@@ -22,7 +22,7 @@
 /**
  * Add text.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_text_add'] = function(block) {
   let text_color = block.getFieldValue('color');
@@ -46,7 +46,7 @@ Blockly.JavaScript['phaser_text_add'] = function(block) {
 /**
  * Add dynamic text.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_dynamic_text_add'] = function(block) {
   let text_color = block.getFieldValue('color');
@@ -72,7 +72,7 @@ Blockly.JavaScript['phaser_dynamic_text_add'] = function(block) {
 /**
  * Add action text.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_action_text_add'] = function(block) {
   let text_color = block.getFieldValue('color');
@@ -100,7 +100,7 @@ Blockly.JavaScript['phaser_action_text_add'] = function(block) {
 /**
  * Adjust text.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_text_change'] = function(block) {
   let value_text = Blockly.JavaScript.valueToCode(
@@ -114,7 +114,7 @@ Blockly.JavaScript['phaser_text_change'] = function(block) {
 /**
  * Get text.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_text_get'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -128,7 +128,7 @@ Blockly.JavaScript['phaser_text_get'] = function(block) {
 /**
  * Text clicked.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_text_clicked'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

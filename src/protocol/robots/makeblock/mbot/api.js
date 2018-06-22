@@ -99,7 +99,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.connect = function(device) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.isConnected = function() {
@@ -136,7 +136,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.disconnect = function() {
 
 /**
  * Executer for the default handler commands.
- * @param {!string} command
+ * @param {string} command
  * @param {Object=} data
  * @export
  */
@@ -157,7 +157,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.send = function(buffer) {
 
 
 /**
- * @param {!string} command
+ * @param {string} command
  * @param {Object=} data
  * @return {!ArrayBuffer}
  * @export
@@ -202,7 +202,7 @@ cwc.protocol.makeblock.mbot.Api.prototype.reset = function() {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  * @export
  */
 cwc.protocol.makeblock.mbot.Api.prototype.monitor = function(enable) {

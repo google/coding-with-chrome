@@ -22,7 +22,7 @@ goog.provide('cwc.mode.lego.ev3.SensorEvents');
 
 
 /**
- * @enum {!String}
+ * @enum {string}
  */
 cwc.mode.lego.ev3.DeviceEvents = {
   CHANGED_DEVICES: 'CHANGED_DEVICES',
@@ -30,7 +30,7 @@ cwc.mode.lego.ev3.DeviceEvents = {
 
 
 /**
- * @enum {!String}
+ * @enum {string}
  */
 cwc.mode.lego.ev3.SensorEvents = {
   COL_AMBIENT: 'COL-AMBIENT',

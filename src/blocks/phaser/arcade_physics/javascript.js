@@ -22,7 +22,7 @@
 /**
  * Add ball sprite with bounce.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_ball_add'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -44,7 +44,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_ball_add'] = function(block) {
 /**
  * Add player sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_player_add'] = function(
     block) {
@@ -67,7 +67,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_player_add'] = function(
 /**
  * Add paddle sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_paddle_add'] = function(
     block) {
@@ -90,7 +90,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_paddle_add'] = function(
 /**
  * Add arcade sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_add'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -110,7 +110,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_add'] = function(block) {
  * Adjust arcade sprite.
  * @param {Blockly.Block} block
  * @param {string=} variableName
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
     variableName = '') {
@@ -156,7 +156,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust'] = function(block,
 /**
  * Adjust arcade sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_custom'] = function(
     block) {
@@ -168,7 +168,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_custom'] = function(
 /**
  * Adjust arcade sprite dimension.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'] = function(
     block) {
@@ -186,7 +186,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_adjust_dimension'] = function(
 /**
  * Destroys arcade sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_destroy'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -198,7 +198,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_destroy'] = function(block) {
 /**
  * Kills arcade sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_sprite_kill'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -210,7 +210,7 @@ Blockly.JavaScript['phaser_physics_arcade_sprite_kill'] = function(block) {
 /**
  * Physics arcade enable.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
   let value_variable = Blockly.JavaScript.valueToCode(
@@ -222,7 +222,7 @@ Blockly.JavaScript['phaser_physics_arcade_enable'] = function(block) {
 /**
  * Physics arcade overlap.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
   let value_object1 = Blockly.JavaScript.valueToCode(
@@ -239,7 +239,7 @@ Blockly.JavaScript['phaser_physics_arcade_overlap'] = function(block) {
 /**
  * Physics arcade collide.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
   let value_object1 = Blockly.JavaScript.valueToCode(
@@ -254,7 +254,7 @@ Blockly.JavaScript['phaser_physics_arcade_collide'] = function(block) {
 /**
  * Physics arcade out of bounds.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_physics_arcade_out_of_bounds'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

@@ -56,37 +56,37 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @private {!Array} */
   this.headerAsync_ = [0xff, 0xfe];
 
-  /** @private {!number} */
+  /** @private {number} */
   this.headerMinSize_ = 7;
 
   /** @type {cwc.protocol.bluetooth.lowEnergy.Device} */
   this.device = null;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.calibrate_ = false;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationPosX_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationPosY_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationVelX_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationVelY_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationSog_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationSpeed_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.heading_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.speed_ = 20;
 
   /** @private {!goog.events.EventTarget} */
@@ -141,7 +141,7 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.sphero.v1.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected()) ? true : false;
@@ -187,7 +187,7 @@ cwc.protocol.sphero.v1.Api.prototype.reset = function() {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  * @export
  */
 cwc.protocol.sphero.v1.Api.prototype.monitor = function(enable) {
@@ -217,9 +217,9 @@ cwc.protocol.sphero.v1.Api.prototype.setCollisionDetection = function() {
 
 /**
  * Sets the RGB color.
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
+ * @param {number} red 0-255
+ * @param {number} green 0-255
+ * @param {number} blue 0-255
  * @param {boolean=} opt_persistent
  */
 cwc.protocol.sphero.v1.Api.prototype.setRGB = function(red, green, blue,
@@ -237,7 +237,7 @@ cwc.protocol.sphero.v1.Api.prototype.getRGB = function() {
 
 
 /**
- * @param {!number} brightness 0-255
+ * @param {number} brightness 0-255
  */
 cwc.protocol.sphero.v1.Api.prototype.setBackLed = function(brightness) {
   this.send_(this.commands.setBackLed(brightness));
@@ -245,7 +245,7 @@ cwc.protocol.sphero.v1.Api.prototype.setBackLed = function(brightness) {
 
 
 /**
- * @param {!number} heading 0-359
+ * @param {number} heading 0-359
  */
 cwc.protocol.sphero.v1.Api.prototype.setHeading = function(heading) {
   this.send_(this.commands.setHeading(heading));
@@ -268,7 +268,7 @@ cwc.protocol.sphero.v1.Api.prototype.roll = function(opt_speed, opt_heading,
 
 
 /**
- * @param {!number} timeout in msec
+ * @param {number} timeout in msec
  */
 cwc.protocol.sphero.v1.Api.prototype.setMotionTimeout = function(timeout) {
   this.send_(this.commands.setMotionTimeout(timeout));
@@ -276,7 +276,7 @@ cwc.protocol.sphero.v1.Api.prototype.setMotionTimeout = function(timeout) {
 
 
 /**
- * @param {!boolean} enabled
+ * @param {boolean} enabled
  */
 cwc.protocol.sphero.v1.Api.prototype.boost = function(enabled) {
   this.send_(this.commands.boost(enabled));
@@ -297,7 +297,7 @@ cwc.protocol.sphero.v1.Api.prototype.stop = function() {
 
 /**
  * Starts the calibration to calibrate the Sphero.
- * @param {!number} heading
+ * @param {number} heading
  */
 cwc.protocol.sphero.v1.Api.prototype.calibrate = function(heading) {
   if (!this.calibrate_) {
@@ -509,7 +509,7 @@ cwc.protocol.sphero.v1.Api.prototype.handleAsync_ = function(buffer) {
 /**
  * @param {!Array} buffer
  * @param {Number=} checksum
- * @return {!boolean}
+ * @return {boolean}
  * @private
  */
 cwc.protocol.sphero.v1.Api.prototype.verifiyChecksum_ = function(buffer,

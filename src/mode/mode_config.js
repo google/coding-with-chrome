@@ -48,7 +48,7 @@ cwc.mode.Config.get = function(type) {
 
 /**
  * @param {!cwc.mode.Type} modeType
- * @return {!string}
+ * @return {string}
  */
 cwc.mode.Config.getMode = function(modeType) {
   if (cwc.mode.Config.get(modeType)) {
@@ -59,8 +59,8 @@ cwc.mode.Config.getMode = function(modeType) {
 
 
 /**
- * @param {!string} mimeType
- * @return {!string}
+ * @param {string} mimeType
+ * @return {string}
  */
 cwc.mode.Config.getModeByMimeType = function(mimeType) {
   for (let mod in cwc.mode.ConfigData) {

@@ -61,10 +61,10 @@ cwc.ui.Message = function(helper) {
   /** @type {Element} */
   this.nodeMonitorTab = null;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.decorated_ = false;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.active_ = 'is-active';
 
   /** @private {!cwc.utils.Logger|null} */
@@ -224,7 +224,7 @@ cwc.ui.Message.prototype.decorateContent_ = function(
 /**
  * @param {!Element} nodeContent
  * @param {!Element} nodeTab
- * @param {!boolean} visible
+ * @param {boolean} visible
  * @private
  */
 cwc.ui.Message.prototype.showTab_ = function(nodeContent, nodeTab, visible) {

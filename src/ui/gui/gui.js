@@ -80,7 +80,7 @@ cwc.ui.Gui = function(helper) {
   /** @type {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 };
 

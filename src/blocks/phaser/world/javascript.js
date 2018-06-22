@@ -22,7 +22,7 @@
 /**
  * World resize.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_world_resize'] = function(block) {
   let number_width = block.getFieldValue('width');
@@ -34,7 +34,7 @@ Blockly.JavaScript['phaser_world_resize'] = function(block) {
 /**
  * World wrap.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_world_wrap'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -49,7 +49,7 @@ Blockly.JavaScript['phaser_world_wrap'] = function(block) {
 /**
  * World attributes.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_world_attributes'] = function(block) {
   let dropdown_attribute = block.getFieldValue('attribute');
@@ -61,7 +61,7 @@ Blockly.JavaScript['phaser_world_attributes'] = function(block) {
 /**
  * World Arcade Physics.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_world_arcade_physics'] = function(block) {
   let dropdown_property = block.getFieldValue('property');
@@ -75,7 +75,7 @@ Blockly.JavaScript['phaser_world_arcade_physics'] = function(block) {
 /**
  * World sort direction.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_world_sort_direction'] = function(block) {
   let dropdown_property = block.getFieldValue('property');

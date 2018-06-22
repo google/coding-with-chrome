@@ -98,7 +98,7 @@ cwc.protocol.lego.ev3.Buffer.prototype.writePort = function(port) {
 
 
 /**
- * @param {!number} ports
+ * @param {number} ports
  * @return {THIS}
  * @template THIS
  */

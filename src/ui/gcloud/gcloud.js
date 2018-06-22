@@ -73,9 +73,9 @@ cwc.ui.GCloud = function(helper) {
 
 /**
  * Displays a Google Cloud publish dialog.
- * @param {!string} name
- * @param {!string} content
- * @param {!string} type
+ * @param {string} name
+ * @param {string} content
+ * @param {string} type
  */
 cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
   let accountInstance = this.helper.getInstance('account', true);

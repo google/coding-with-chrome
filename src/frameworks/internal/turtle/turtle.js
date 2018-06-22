@@ -151,7 +151,7 @@ cwc.framework.Turtle.prototype.reset = function() {
 
 /**
  * Forward relative in local coordinates.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleFd_ = function(distance) {
@@ -161,7 +161,7 @@ cwc.framework.Turtle.prototype.handleFd_ = function(distance) {
 
 /**
  * Backward relative in local coordinates.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleBk_ = function(distance) {
@@ -171,7 +171,7 @@ cwc.framework.Turtle.prototype.handleBk_ = function(distance) {
 
 /**
  * Right turn  relative in local coordinates.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleRt_ = function(distance) {
@@ -181,7 +181,7 @@ cwc.framework.Turtle.prototype.handleRt_ = function(distance) {
 
 /**
  * Left turn relative in local coordinates.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleLt_ = function(distance) {
@@ -191,8 +191,8 @@ cwc.framework.Turtle.prototype.handleLt_ = function(distance) {
 
 /**
  * Slide right by x while sliding forward by y.
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleSlide_ = function(x, y) {
@@ -202,8 +202,8 @@ cwc.framework.Turtle.prototype.handleSlide_ = function(x, y) {
 
 /**
  * Like slide, but without drawing.
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleJump_ = function(x, y) {
@@ -213,8 +213,8 @@ cwc.framework.Turtle.prototype.handleJump_ = function(x, y) {
 
 /**
  * Absolute motion on page.
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleMoveto_ = function(x, y) {
@@ -224,8 +224,8 @@ cwc.framework.Turtle.prototype.handleMoveto_ = function(x, y) {
 
 /**
  * Like moveto, without drawing.
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleJumpto_ = function(x, y) {
@@ -245,7 +245,7 @@ cwc.framework.Turtle.prototype.handleTurnto_ = function(target) {
 
 /**
  * Plays notes using ABC notation and waits until done.
- * @param {!string} notes
+ * @param {string} notes
  * @private
  */
 cwc.framework.Turtle.prototype.handlePlay_ = function(notes) {
@@ -264,7 +264,7 @@ cwc.framework.Turtle.prototype.handleHome_ = function() {
 
 /**
  * Sets a pen style, or `none` for no drawing.
- * @param {!string} color
+ * @param {string} color
  * @private
  */
 cwc.framework.Turtle.prototype.handlePen_ = function(color) {
@@ -301,7 +301,7 @@ cwc.framework.Turtle.prototype.handlePe_ = function() {
 
 /**
  * Fills a shape previously outlines using pen (`path`).
- * @param {!string} color
+ * @param {string} color
  * @private
  */
 cwc.framework.Turtle.prototype.handleFill_ = function(color) {
@@ -311,7 +311,7 @@ cwc.framework.Turtle.prototype.handleFill_ = function(color) {
 
 /**
  * Draws a circular dot of diameter 12. Color second arg.
- * @param {!number} diameter
+ * @param {number} diameter
  * @param {string=} color
  * @private
  */
@@ -322,7 +322,7 @@ cwc.framework.Turtle.prototype.handleDot_ = function(diameter, color) {
 
 /**
  * Prints an HRML label at the turtle location.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleLabel_ = function(distance) {
@@ -332,7 +332,7 @@ cwc.framework.Turtle.prototype.handleLabel_ = function(distance) {
 
 /**
  * Sets turtle animation speed to 10 moves per sec.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleSpeed_ = function(distance) {
@@ -360,7 +360,7 @@ cwc.framework.Turtle.prototype.handleSt_ = function() {
 
 /**
  * Switches to a blue shell. Use any image or color.
- * @param {!string} color
+ * @param {string} color
  * @private
  */
 cwc.framework.Turtle.prototype.handleWear_ = function(color) {
@@ -370,7 +370,7 @@ cwc.framework.Turtle.prototype.handleWear_ = function(color) {
 
 /**
  * Scales turtle size and motion by scale.
- * @param {!number} scale e.g. 1.5 for 150%
+ * @param {number} scale e.g. 1.5 for 150%
  * @private
  */
 cwc.framework.Turtle.prototype.handleScale_ = function(scale) {
@@ -380,7 +380,7 @@ cwc.framework.Turtle.prototype.handleScale_ = function(scale) {
 
 /**
  * Changes which direction is considered "forward".
- * @param {!number} angle
+ * @param {number} angle
  * @private
  */
 cwc.framework.Turtle.prototype.handleTwist_ = function(angle) {
@@ -408,7 +408,7 @@ cwc.framework.Turtle.prototype.handleReload_ = function() {
 
 /**
  * Like $(q).promise().done(fn). Calls after all animation.
- * @param {!string} distance
+ * @param {string} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleDone_ = function(distance) {
@@ -419,7 +419,7 @@ cwc.framework.Turtle.prototype.handleDone_ = function(distance) {
 /**
  * Like each, but this is set to $(elt) instead of alt,
  * and the callback fn can insert into the animation queue.
- * @param {!string} distance
+ * @param {string} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handlePlan_ = function(distance) {
@@ -447,7 +447,7 @@ cwc.framework.Turtle.prototype.handlePafexy_ = function() {
 
 /**
  * The turtles absolute direction (or direction toward p).
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleBearing_ = function(distance) {
@@ -486,7 +486,7 @@ cwc.framework.Turtle.prototype.handleHidden_ = function() {
 
 /**
  * Collision tests elements (uses turleHull if present).
- * @param {!number} y
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleTouches_ = function(y) {
@@ -496,7 +496,7 @@ cwc.framework.Turtle.prototype.handleTouches_ = function(y) {
 
 /**
  * Containment collision test.
- * @param {!number} y
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleInside_ = function(y) {
@@ -506,7 +506,7 @@ cwc.framework.Turtle.prototype.handleInside_ = function(y) {
 
 /**
  * Filters to item (or items if tied) nearest pos.
- * @param {!number} distance
+ * @param {number} distance
  * @return {number}
  * @private
  */
@@ -517,8 +517,8 @@ cwc.framework.Turtle.prototype.handleNearest_ = function(distance) {
 
 /**
  * Filters to item with centers within d of t.pagexy().
- * @param {!number} d
- * @param {!number} t
+ * @param {number} d
+ * @param {number} t
  * @private
  */
 cwc.framework.Turtle.prototype.handleWithin_ = function(d, t) {
@@ -528,8 +528,8 @@ cwc.framework.Turtle.prototype.handleWithin_ = function(d, t) {
 
 /**
  * The negation of within.
- * @param {!number} d
- * @param {!number} t
+ * @param {number} d
+ * @param {number} t
  * @private
  */
 cwc.framework.Turtle.prototype.handleNotwithin_ = function(d, t) {
@@ -539,8 +539,8 @@ cwc.framework.Turtle.prototype.handleNotwithin_ = function(d, t) {
 
 /**
  * Selects the yth row and xth column cell in a table.
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @private
  */
 cwc.framework.Turtle.prototype.handleCell_ = function(x, y) {
@@ -550,7 +550,7 @@ cwc.framework.Turtle.prototype.handleCell_ = function(x, y) {
 
 /**
  * Creates and returns n turtles with the given img.
- * @param {!number} distance
+ * @param {number} distance
  * @private
  */
 cwc.framework.Turtle.prototype.handleHatch_ = function(distance) {

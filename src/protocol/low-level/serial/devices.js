@@ -34,7 +34,7 @@ goog.require('goog.Timer');
  * @constructor
  */
 cwc.protocol.serial.Devices = function(helper) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Serial Devices';
 
   /** @type {!cwc.utils.Helper} */
@@ -46,7 +46,7 @@ cwc.protocol.serial.Devices = function(helper) {
   /** @type {Object} */
   this.connectionIds = {};
 
-  /** @type {!number} */
+  /** @type {number} */
   this.updateDevicesInterval = 5000;
 
   /** @type {!goog.Timer} */
@@ -92,7 +92,7 @@ cwc.protocol.serial.Devices.prototype.updateDevices = function() {
 
 
 /**
- * @param {!string} device_path
+ * @param {string} device_path
  * @return {cwc.protocol.serial.Device}
  * @export
  */
@@ -128,7 +128,7 @@ cwc.protocol.serial.Devices.prototype.getDevices = function() {
 
 
 /**
- * @param {!string} connection_id
+ * @param {string} connection_id
  * @param {ArrayBuffer} data
  * @export
  */
@@ -141,8 +141,8 @@ cwc.protocol.serial.Devices.prototype.receiveData = function(
 
 
 /**
- * @param {!string} connection_id
- * @param {!string} error
+ * @param {string} connection_id
+ * @param {string} error
  * @export
  */
 cwc.protocol.serial.Devices.prototype.receiveError = function(
@@ -154,8 +154,8 @@ cwc.protocol.serial.Devices.prototype.receiveError = function(
 
 
 /**
- * @param {!string} device_path
- * @param {!number} connection_id
+ * @param {string} device_path
+ * @param {number} connection_id
  * @private
  */
 cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
@@ -172,8 +172,8 @@ cwc.protocol.serial.Devices.prototype.handleConnect_ = function(
 
 
 /**
- * @param {!string} device_path
- * @param {!number} connection_id
+ * @param {string} device_path
+ * @param {number} connection_id
  * @private
  */
 cwc.protocol.serial.Devices.prototype.handleDisconnect_ = function(

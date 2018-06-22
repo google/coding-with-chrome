@@ -29,13 +29,13 @@ cwc.mode.sphero.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.angle_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.heading_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.speed_ = 40;
 };
 

@@ -22,7 +22,7 @@
 /**
  * Set robot model.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_set_robot_model'] = function(block) {
   let dropdown_robot = block.getFieldValue('robot');
@@ -33,7 +33,7 @@ Blockly.JavaScript['ev3_set_robot_model'] = function(block) {
 /**
  * Set wheel diameter.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_set_wheel_diameter'] = function(block) {
   let diameter = Number(block.getFieldValue('diameter') || 0);
@@ -44,7 +44,7 @@ Blockly.JavaScript['ev3_set_wheel_diameter'] = function(block) {
 /**
  * Set wheel width.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_set_wheel_width'] = function(block) {
   let width = Number(block.getFieldValue('width') || 0);
@@ -55,7 +55,7 @@ Blockly.JavaScript['ev3_set_wheel_width'] = function(block) {
 /**
  * Set wheelbase.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_set_wheelbase'] = function(block) {
   let wheelbase = Number(block.getFieldValue('wheelbase') || 0);
@@ -66,7 +66,7 @@ Blockly.JavaScript['ev3_set_wheelbase'] = function(block) {
 /**
  * Play tone.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_play_tone'] = function(block) {
   let frequency = block.getFieldValue('frequency');
@@ -80,7 +80,7 @@ Blockly.JavaScript['ev3_play_tone'] = function(block) {
 /**
  * Move.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move'] = function(block) {
   let dropdown_direction = block.getFieldValue('direction');
@@ -94,7 +94,7 @@ Blockly.JavaScript['ev3_move'] = function(block) {
 /**
  * Move distance.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_distance'] = function(block) {
   let dropdown_direction = block.getFieldValue('direction');
@@ -108,7 +108,7 @@ Blockly.JavaScript['ev3_move_distance'] = function(block) {
 /**
  * Move forward.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_forward'] = function(block) {
   let text_steps = block.getFieldValue('steps');
@@ -119,7 +119,7 @@ Blockly.JavaScript['ev3_move_forward'] = function(block) {
 /**
  * Move backward.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_backward'] = function(block) {
   let text_steps = block.getFieldValue('steps');
@@ -130,7 +130,7 @@ Blockly.JavaScript['ev3_move_backward'] = function(block) {
 /**
  * Move up.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_up'] = function(block) {
   let text_steps = block.getFieldValue('steps');
@@ -141,7 +141,7 @@ Blockly.JavaScript['ev3_move_up'] = function(block) {
 /**
  * Move down.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_down'] = function(block) {
   let text_steps = block.getFieldValue('steps');
@@ -152,7 +152,7 @@ Blockly.JavaScript['ev3_move_down'] = function(block) {
 /**
  * Move pen.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_pen'] = function(block) {
   let colour = block.getFieldValue('colour');
@@ -168,7 +168,7 @@ Blockly.JavaScript['ev3_move_pen'] = function(block) {
 /**
  * Move servo.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_servo'] = function(block) {
   let dropdown_direction = block.getFieldValue('direction');
@@ -183,7 +183,7 @@ Blockly.JavaScript['ev3_move_servo'] = function(block) {
 /**
  * Rotate.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_rotate'] = function(block) {
   let angle_value = block.getFieldValue('angle');
@@ -197,7 +197,7 @@ Blockly.JavaScript['ev3_rotate'] = function(block) {
 /**
  * Rotate left.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_rotate_left'] = function(block) {
   let angle_value = block.getFieldValue('angle');
@@ -208,7 +208,7 @@ Blockly.JavaScript['ev3_rotate_left'] = function(block) {
 /**
  * Rotate right.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_rotate_right'] = function(block) {
   let angle_value = block.getFieldValue('angle');
@@ -219,7 +219,7 @@ Blockly.JavaScript['ev3_rotate_right'] = function(block) {
 /**
  * Stop.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_stop'] = function(block) {
   let dropdown_immediately = block.getFieldValue('immediately');
@@ -232,7 +232,7 @@ Blockly.JavaScript['ev3_stop'] = function(block) {
 
 /**
  * Stop immediately.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_stop_immediately'] = function() {
   return 'ev3.stop();\n';
@@ -242,7 +242,7 @@ Blockly.JavaScript['ev3_stop_immediately'] = function() {
 /**
  * Wait.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_wait'] = function(block) {
   let time = block.getFieldValue('time');
@@ -253,7 +253,7 @@ Blockly.JavaScript['ev3_wait'] = function(block) {
 /**
  * Move power.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_move_power'] = function(block) {
   let dropdown_direction = block.getFieldValue('direction');
@@ -266,7 +266,7 @@ Blockly.JavaScript['ev3_move_power'] = function(block) {
 /**
  * Rotate power.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_rotate_power'] = function(block) {
   let dropdown_direction = block.getFieldValue('direction');
@@ -280,7 +280,7 @@ Blockly.JavaScript['ev3_rotate_power'] = function(block) {
 /**
  * Color sensor mode.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
@@ -296,7 +296,7 @@ Blockly.JavaScript['ev3_color_sensor_mode'] = function(block) {
 /**
  * Ir sensor mode.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
@@ -312,7 +312,7 @@ Blockly.JavaScript['ev3_ir_sensor_mode'] = function(block) {
 /**
  * Ultrasonic sensor mode.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ultrasonic_sensor_mode'] = function(block) {
   let dropdown_mode = block.getFieldValue('mode');
@@ -327,7 +327,7 @@ Blockly.JavaScript['ev3_ultrasonic_sensor_mode'] = function(block) {
 
 /**
  * Color sensor value.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_color_sensor_value'] = function() {
   let code = 'ev3.getColorSensorValue()';
@@ -337,7 +337,7 @@ Blockly.JavaScript['ev3_color_sensor_value'] = function() {
 
 /**
  * Touch sensor value.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_touch_sensor_value'] = function() {
   let code = 'ev3.getTouchSensorValue()';
@@ -347,7 +347,7 @@ Blockly.JavaScript['ev3_touch_sensor_value'] = function() {
 
 /**
  * Ir sensor value.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ir_sensor_value'] = function() {
   let code = 'ev3.getIrSensorValue()';
@@ -357,7 +357,7 @@ Blockly.JavaScript['ev3_ir_sensor_value'] = function() {
 
 /**
  * Ultrasonic sensor value.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ultrasonic_sensor_value'] = function() {
   let code = 'distance === undefined ?' +
@@ -369,7 +369,7 @@ Blockly.JavaScript['ev3_ultrasonic_sensor_value'] = function() {
 /**
  * Color sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_color_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -381,7 +381,7 @@ Blockly.JavaScript['ev3_color_sensor_change'] = function(block) {
 /**
  * Gyro sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_gyro_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -393,7 +393,7 @@ Blockly.JavaScript['ev3_gyro_sensor_change'] = function(block) {
 /**
  * Ir sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ir_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -405,7 +405,7 @@ Blockly.JavaScript['ev3_ir_sensor_change'] = function(block) {
 /**
  * Touch sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_touch_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -418,7 +418,7 @@ Blockly.JavaScript['ev3_touch_sensor_change'] = function(block) {
 /**
  * Ultrasonic sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_ultrasonic_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -430,7 +430,7 @@ Blockly.JavaScript['ev3_ultrasonic_sensor_change'] = function(block) {
 
 /**
  * Stops the ultrasonic sensor event
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_stop_ultrasonic_sensor_event'] = function() {
   return 'ev3.stopUltrasonicSensorEvent();\n';
@@ -439,7 +439,7 @@ Blockly.JavaScript['ev3_stop_ultrasonic_sensor_event'] = function() {
 
 /**
  * Variable.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_variable_value'] = function() {
   let code = 'value';
@@ -450,7 +450,7 @@ Blockly.JavaScript['ev3_variable_value'] = function() {
 /**
  * Led.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_led'] = function(block) {
   let dropdown_color = block.getFieldValue('color');
@@ -472,7 +472,7 @@ Blockly.JavaScript['ev3_led'] = function(block) {
 /**
  * Colors block.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['ev3_colors'] = function(block) {
   let color = block.getFieldValue('color');

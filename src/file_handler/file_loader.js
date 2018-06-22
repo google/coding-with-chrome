@@ -90,7 +90,7 @@ cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(optCallback) {
 /**
  * @param {!Object} file
  * @param {!Object} file_entry
- * @param {!string} data
+ * @param {string} data
  */
 cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
     file_entry, data) {
@@ -99,7 +99,7 @@ cwc.fileHandler.FileLoader.prototype.loadFileData = function(file,
 
 
 /**
- * @param {!string} file
+ * @param {string} file
  * @return {Promise}
  * @export
  */
@@ -119,9 +119,9 @@ cwc.fileHandler.FileLoader.prototype.loadLocalFile = function(file) {
 
 
 /**
- * @param {!string} id
- * @param {!string} filename
- * @param {!string} data
+ * @param {string} id
+ * @param {string} filename
+ * @param {string} data
  * @export
  */
 cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
@@ -133,7 +133,7 @@ cwc.fileHandler.FileLoader.prototype.loadGDriveFileData = function(id,
 
 /**
  * Handles the file data and sets the file instance accordingly.
- * @param {!string} data
+ * @param {string} data
  * @param {string=} filename
  * @param {Object=} fileHandler
  * @param {string=} gDriveId
@@ -171,7 +171,7 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 
 
 /**
- * @param {!string} data
+ * @param {string} data
  * @param {string=} filename
  * @async
  */
@@ -268,7 +268,7 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  * @param {string=} filename
  * @async
  */

@@ -22,7 +22,7 @@
 /**
  * Phaser update section.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_update'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');

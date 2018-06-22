@@ -229,8 +229,8 @@ cwc.utils.mime.Type = {
 
 
 /**
- * @param {!string} type
- * @return {!string}
+ * @param {string} type
+ * @return {string}
  */
 cwc.utils.mime.getByType = function(type) {
   for (let entry in cwc.utils.mime.Type) {

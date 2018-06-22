@@ -91,7 +91,7 @@ cwc.ui.Preview = function(helper) {
   /** @private {!Object.<number>} */
   this.eventTimer_ = {};
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.enableMessenger_ = false;
 
   /** @private {!cwc.ui.PreviewStatus} */
@@ -103,10 +103,10 @@ cwc.ui.Preview = function(helper) {
   /** @private {!cwc.Messenger} */
   this.messenger_ = new cwc.Messenger(this.eventHandler_);
 
-  /** @private {!string} */
+  /** @private {string} */
   this.partition_ = 'preview';
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!cwc.utils.Logger|null} */
@@ -355,7 +355,7 @@ cwc.ui.Preview.prototype.getContent = function() {
 
 /**
  * Gets the content url from the renderer.
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Preview.prototype.getContentUrl = function() {
   let rendererInstance = this.helper.getInstance('renderer', true);
@@ -368,7 +368,7 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
 
 
 /**
- * @param {!string} url
+ * @param {string} url
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
   if (!url || !this.content) {

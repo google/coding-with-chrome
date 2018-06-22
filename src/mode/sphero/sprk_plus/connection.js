@@ -40,7 +40,7 @@ cwc.mode.sphero.sprkPlus.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectMonitorInterval = 5000;
 
   /** @private {!cwc.protocol.sphero.v1.Api} */
@@ -126,7 +126,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.reset = function(opt_event) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.isConnected = function() {

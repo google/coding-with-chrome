@@ -22,7 +22,7 @@
 /**
  * Sphero roll.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_roll'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -36,7 +36,7 @@ Blockly.JavaScript['sphero_roll'] = function(block) {
 /**
  * Sphero roll step.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_roll_step'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -51,7 +51,7 @@ Blockly.JavaScript['sphero_roll_step'] = function(block) {
 /**
  * Sphero roll time.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_roll_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
@@ -67,7 +67,7 @@ Blockly.JavaScript['sphero_roll_time'] = function(block) {
 /**
  * Sphero heading.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_heading'] = function(block) {
   let angle_heading = parseInt(block.getFieldValue('heading'));
@@ -82,7 +82,7 @@ Blockly.JavaScript['sphero_heading'] = function(block) {
 /**
  * Sphero RGB.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_rgb'] = function(block) {
   let colour = parseInt(Blockly.JavaScript.valueToCode(
@@ -101,7 +101,7 @@ Blockly.JavaScript['sphero_rgb'] = function(block) {
 /**
  * Sphero backlight.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_backlight'] = function(block) {
   let brightness = Math.min(Math.max(
@@ -113,7 +113,7 @@ Blockly.JavaScript['sphero_backlight'] = function(block) {
 /**
  * Sphero stop.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_stop'] = function(block) {
   let dropdown_immediately = block.getFieldValue('immediately');
@@ -127,7 +127,7 @@ Blockly.JavaScript['sphero_stop'] = function(block) {
 /**
  * Gyro sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['sphero_collision'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');

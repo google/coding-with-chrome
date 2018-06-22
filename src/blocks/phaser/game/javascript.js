@@ -22,7 +22,7 @@
 /**
  * Phaser Game block.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_game'] = function(block) {
   let text_name = block.getFieldValue('name');
@@ -38,7 +38,7 @@ Blockly.JavaScript['phaser_game'] = function(block) {
 /**
  * Phaser Game state.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_game_state'] = function(block) {
   let text_name = block.getFieldValue('name');
@@ -53,7 +53,7 @@ Blockly.JavaScript['phaser_game_state'] = function(block) {
 /**
  * Phaser Game start.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_game_start'] = function(block) {
   let text_name = block.getFieldValue('name');
@@ -63,7 +63,7 @@ Blockly.JavaScript['phaser_game_start'] = function(block) {
 
 /**
  * Phaser Game block.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_game_restart'] = function() {
   return 'game.state.start(game.state.current);\n';

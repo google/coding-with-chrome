@@ -22,7 +22,7 @@
 /**
  * Add background music.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_add_bgm'] = function(block) {
   let text_audio = block.getFieldValue('audio');
@@ -41,7 +41,7 @@ Blockly.JavaScript['phaser_audio_add_bgm'] = function(block) {
 /**
  * Add audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_add'] = function(block) {
   let text_audio = block.getFieldValue('audio');
@@ -57,7 +57,7 @@ Blockly.JavaScript['phaser_audio_add'] = function(block) {
 /**
  * Play audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_play'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -69,7 +69,7 @@ Blockly.JavaScript['phaser_audio_play'] = function(block) {
 /**
  * Pause audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_pause'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -81,7 +81,7 @@ Blockly.JavaScript['phaser_audio_pause'] = function(block) {
 /**
  * Resume audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_resume'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -93,7 +93,7 @@ Blockly.JavaScript['phaser_audio_resume'] = function(block) {
 /**
  * Stop audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_audio_stop'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

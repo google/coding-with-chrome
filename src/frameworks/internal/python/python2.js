@@ -35,7 +35,7 @@ cwc.framework.Python2 = function() {
   /** @type {!cwc.utils.Dialog} */
   this.dialog = new cwc.utils.Dialog();
 
-  /** @type {!string} */
+  /** @type {string} */
   this.lastMsg = '';
 };
 
@@ -99,7 +99,7 @@ cwc.framework.Python2.prototype.run = function() {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  */
 cwc.framework.Python2.prototype.showDebug = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
@@ -110,7 +110,7 @@ cwc.framework.Python2.prototype.showDebug = function(text) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  */
 cwc.framework.Python2.prototype.showError = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
@@ -121,7 +121,7 @@ cwc.framework.Python2.prototype.showError = function(text) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  */
 cwc.framework.Python2.prototype.showOutput = function(text) {
   if (text && ! /^\s+$/g.test(text)) {
@@ -144,7 +144,7 @@ cwc.framework.Python2.prototype.showInput = function(opt_msg) {
 
 
 /**
- * @param {!string} filename
+ * @param {string} filename
  * @return {Object}
  */
 cwc.framework.Python2.prototype.builtinRead = function(filename) {

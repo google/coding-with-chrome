@@ -55,7 +55,7 @@ cwc.renderer.Renderer = function(helper) {
   /** @private {cwc.ui.Editor} */
   this.editorInstance_ = null;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.serverMode_ = false;
 
   /** @private {!cwc.utils.Logger} */
@@ -107,7 +107,7 @@ cwc.renderer.Renderer.prototype.setRenderer = function(renderer) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  * @return {THIS}
  * @template THIS
  */
@@ -134,7 +134,7 @@ cwc.renderer.Renderer.prototype.getContentUrl = function() {
 
 /**
  * Renders the JavaScript, CSS and HTML content together with all settings.
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.renderer.Renderer.prototype.getRenderedContent = function() {

@@ -24,9 +24,9 @@ goog.require('cwc.framework.Messenger');
 
 
 /**
- * @param {!number} x
- * @param {!number} y
- * @param {!string} sprite_name
+ * @param {number} x
+ * @param {number} y
+ * @param {string} sprite_name
  * @param {Object=} group
  * @param {string=} manipulation
  * @export
@@ -48,11 +48,11 @@ cwc.framework.Phaser.addGroupSprite = function(x, y, sprite_name, group,
 
 
 /**
- * @param {!number} x
- * @param {!number} y
- * @param {!number} num_blocks
- * @param {!number} space
- * @param {!string} sprite
+ * @param {number} x
+ * @param {number} y
+ * @param {number} num_blocks
+ * @param {number} space
+ * @param {string} sprite
  * @param {string=} opt_sprite_top
  * @param {string=} opt_sprite_bottom
  * @param {Object=} group
@@ -79,10 +79,10 @@ cwc.framework.Phaser.VerticalObstacleGenerator = function(x, y, num_blocks,
 
 
 /**
- * @param {!number} x
- * @param {!number} y
- * @param {!number} num_blocks
- * @param {!string} sprite
+ * @param {number} x
+ * @param {number} y
+ * @param {number} num_blocks
+ * @param {string} sprite
  * @param {string=} opt_sprite
  * @param {Object=} group
  * @param {string=} direction
@@ -112,7 +112,7 @@ cwc.framework.Phaser.RandomVerticalObstacleGenerator = function(x, y,
 
 /**
  * Generates sprite blocks based on the passed data.
- * @param {!string} sprite
+ * @param {string} sprite
  * @param {!Array} data 8 x 8 matrix
  * @param {number=} x
  * @param {number=} y
@@ -140,7 +140,7 @@ cwc.framework.Phaser.MatrixBlockGenerator = function(sprite, data,
 
 /**
  * Gets the sprite size after possible manipulations.
- * @param {!string} sprite
+ * @param {string} sprite
  * @param {Function=} manipulation
  * @return {Object}
  */

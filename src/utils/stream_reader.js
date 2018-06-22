@@ -80,7 +80,7 @@ cwc.utils.StreamReader.prototype.setHeaders = function(headers) {
 
 
 /**
- * @param {!number} size
+ * @param {number} size
  * @return {THIS}
  * @template THIS
  * @export

@@ -22,7 +22,7 @@ goog.provide('cwc.protocol.lego.ev3.Robots');
 
 
 /**
- * @enum {!string}
+ * @enum {string}
  */
 cwc.protocol.lego.ev3.RobotType = {
   ARM: 'arm',

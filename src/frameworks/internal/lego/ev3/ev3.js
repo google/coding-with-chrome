@@ -50,7 +50,7 @@ cwc.framework.lego.Ev3 = function() {
   /** @type {number} */
   this.wheelCircumference = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.wheelWidth = 0;
 
   /** @type {number} */
@@ -59,10 +59,10 @@ cwc.framework.lego.Ev3 = function() {
   /** @type {number} */
   this.rotateCircumference = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.largeMotorSpeed = 170 / 60;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.mediumMotorSpeed = 250 / 60;
 
   /** @private {!cwc.protocol.lego.ev3.Devices} */
@@ -112,7 +112,7 @@ cwc.framework.lego.Ev3 = function() {
 
 /**
  * Sets the EV3 robot model
- * @param {!string} model
+ * @param {string} model
  * @export
  */
 cwc.framework.lego.Ev3.prototype.setRobotModel = function(model) {
@@ -143,7 +143,7 @@ cwc.framework.lego.Ev3.prototype.setRobotType = function(type) {
 
 
 /**
- * @param {!number} diameter in millimeter
+ * @param {number} diameter in millimeter
  * @export
  */
 cwc.framework.lego.Ev3.prototype.setWheelDiameter = function(diameter) {
@@ -153,7 +153,7 @@ cwc.framework.lego.Ev3.prototype.setWheelDiameter = function(diameter) {
 
 
 /**
- * @param {!number} wheel_width in millimeter
+ * @param {number} wheel_width in millimeter
  * @export
  */
 cwc.framework.lego.Ev3.prototype.setWheelWidth = function(wheel_width) {
@@ -163,7 +163,7 @@ cwc.framework.lego.Ev3.prototype.setWheelWidth = function(wheel_width) {
 
 
 /**
- * @param {!number} distance in millimeter
+ * @param {number} distance in millimeter
  * @export
  */
 cwc.framework.lego.Ev3.prototype.setWheelbase = function(distance) {
@@ -185,9 +185,9 @@ cwc.framework.lego.Ev3.prototype.setRotateCircumference_ = function() {
 
 
 /**
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} speed
- * @return {!number} Calculated delay + buffer.
+ * @return {number} Calculated delay + buffer.
  * @export
  */
 cwc.framework.lego.Ev3.prototype.getDelay = function(steps, speed = 50) {
@@ -201,7 +201,7 @@ cwc.framework.lego.Ev3.prototype.getDelay = function(steps, speed = 50) {
 
 /**
  * Returns the sensor value.
- * @param {!number} port
+ * @param {number} port
  * @return {number}
  * @export
  */
@@ -266,7 +266,7 @@ cwc.framework.lego.Ev3.prototype.getUltrasonicSensorValue = function() {
 
 
 /**
- * @param {!number} port
+ * @param {number} port
  * @param {!Function} func
  * @export
  */
@@ -341,7 +341,7 @@ cwc.framework.lego.Ev3.prototype.stopUltrasonicSensorEvent = function() {
 
 /**
  * Displays the selected file name on the EV3 display.
- * @param {!string} filename
+ * @param {string} filename
  * @param {number=} delay in msec
  * @export
  */
@@ -352,7 +352,7 @@ cwc.framework.lego.Ev3.prototype.drawImage = function(filename, delay) {
 
 /**
  * Plays tone.
- * @param {!number} frequency
+ * @param {number} frequency
  * @param {number=} opt_duration
  * @param {number=} opt_volume
  * @param {number=} opt_delay in msec
@@ -369,7 +369,7 @@ cwc.framework.lego.Ev3.prototype.playTone = function(frequency, opt_duration,
 
 /**
  * Plays a sound file.
- * @param {!string} filename
+ * @param {string} filename
  * @param {number=} volume
  * @param {number=} delay in msec
  * @export
@@ -383,7 +383,7 @@ cwc.framework.lego.Ev3.prototype.playSound = function(filename, volume, delay) {
 
 /**
  * Moves the servo motor for the predefined specific steps.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} speed
  * @param {number=} delay in msec
  * @export
@@ -397,7 +397,7 @@ cwc.framework.lego.Ev3.prototype.moveServo = function(steps, speed, delay) {
 
 /**
  * Moves the servo motor for the predefined specific steps.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} speed
  * @param {string=} color
  * @param {number=} delay in msec
@@ -414,7 +414,7 @@ cwc.framework.lego.Ev3.prototype.movePen = function(steps, speed, color,
 
 /**
  * Moves the motors for the specific steps.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} speed
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
@@ -436,7 +436,7 @@ cwc.framework.lego.Ev3.prototype.moveSteps = function(steps, speed, opt_delay) {
 
 /**
  * Moves the motors for the specific steps.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_ports
  * @param {number=} opt_speed
  * @param {number|boolean=} opt_delay in msec or true for auto
@@ -455,7 +455,7 @@ cwc.framework.lego.Ev3.prototype.customMoveSteps = function(steps, opt_ports,
 
 /**
  * Moves the motors for the specific distance.
- * @param {!number} distance in cm
+ * @param {number} distance in cm
  * @param {number=} opt_speed
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
@@ -474,7 +474,7 @@ cwc.framework.lego.Ev3.prototype.moveDistance = function(distance, opt_speed,
 
 /**
  * Rotates the motors for the predefined specific steps.
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_speed
  * @param {number=} opt_ratio
  * @param {number=} opt_delay in msec
@@ -491,7 +491,7 @@ cwc.framework.lego.Ev3.prototype.rotateSteps = function(steps,
 
 /**
  * Rotates the motors for the predefined angle steps.
- * @param {!number} angle
+ * @param {number} angle
  * @param {number=} opt_speed
  * @param {number|boolean=} opt_delay in msec or true for auto
  * @export
@@ -516,7 +516,7 @@ cwc.framework.lego.Ev3.prototype.rotateAngle = function(angle,
 
 /**
  * Rotates the motors for the predefined angle steps.
- * @param {!number} angle
+ * @param {number} angle
  * @param {number=} opt_ports
  * @param {number=} opt_speed
  * @param {number|boolean=} opt_delay in msec or true for auto
@@ -539,7 +539,7 @@ cwc.framework.lego.Ev3.prototype.customRotateAngle = function(angle,
 
 /**
  * Moves forward / backward with power.
- * @param {!number} power
+ * @param {number} power
  * @param {number=} opt_delay in msec
  * @export
  */
@@ -550,7 +550,7 @@ cwc.framework.lego.Ev3.prototype.movePower = function(power, opt_delay) {
 
 /**
  * Rotates left / right with power.
- * @param {!number} powerLeft General power value.
+ * @param {number} powerLeft General power value.
  * @param {number=} powerRight Dedicated power value for the second motor.
  * @param {number=} delay in msec
  * @export
@@ -575,7 +575,7 @@ cwc.framework.lego.Ev3.prototype.stop = function(opt_delay) {
 
 /**
  * Waits for the given time.
- * @param {!number} time in msec
+ * @param {number} time in msec
  * @export
  */
 cwc.framework.lego.Ev3.prototype.wait = function(time) {
@@ -584,8 +584,8 @@ cwc.framework.lego.Ev3.prototype.wait = function(time) {
 
 
 /**
- * @param {!number} port
- * @param {!number} mode
+ * @param {number} port
+ * @param {number} mode
  * @param {number=} delay
  * @export
  */
@@ -595,7 +595,7 @@ cwc.framework.lego.Ev3.prototype.setSensorMode = function(port, mode, delay) {
 
 
 /**
- * @param {!number} mode
+ * @param {number} mode
  * @param {number=} delay in msec
  * @export
  */
@@ -607,7 +607,7 @@ cwc.framework.lego.Ev3.prototype.setColorSensorMode = function(mode, delay) {
 
 
 /**
- * @param {!number} mode
+ * @param {number} mode
  * @param {number=} delay in msec
  * @export
  */
@@ -619,7 +619,7 @@ cwc.framework.lego.Ev3.prototype.setIrSensorMode = function(mode, delay) {
 
 
 /**
- * @param {!number} mode
+ * @param {number} mode
  * @param {number=} delay in msec
  * @export
  */
@@ -645,7 +645,7 @@ cwc.framework.lego.Ev3.prototype.setLed = function(color, opt_mode, opt_delay) {
 
 
 /**
- * @param {!number} speed
+ * @param {number} speed
  * @param {number=} opt_delay in msec
  * @export
  */
@@ -686,7 +686,7 @@ cwc.framework.lego.Ev3.prototype.handleUpdateRobotType_ = function(data) {
 
 /**
  * Sets the wheel diameter
- * @param {!number} data
+ * @param {number} data
  * @private
  */
 cwc.framework.lego.Ev3.prototype.handleUpdateWheelDiameter_ = function(data) {
@@ -706,7 +706,7 @@ cwc.framework.lego.Ev3.prototype.handleUpdateGamepad_ = function(data) {
 
 /**
  * Sets the wheel diameter
- * @param {!number} data
+ * @param {number} data
  * @private
  */
 cwc.framework.lego.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
@@ -716,7 +716,7 @@ cwc.framework.lego.Ev3.prototype.handleUpdateWheelWidth_ = function(data) {
 
 /**
  * Sets the wheelbase.
- * @param {!number} data
+ * @param {number} data
  * @private
  */
 cwc.framework.lego.Ev3.prototype.handleUpdateWheelbase_ = function(data) {

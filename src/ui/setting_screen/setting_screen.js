@@ -162,7 +162,7 @@ cwc.ui.SettingScreen.prototype.setUserConfig = function() {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @param {!cwc.userConfigType|string} type
  * @param {!cwc.userConfigName|string} name
  * @param {string=} optType

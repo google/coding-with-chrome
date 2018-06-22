@@ -45,7 +45,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = this.helper.getPrefix('sphero-monitor');
 
   /**

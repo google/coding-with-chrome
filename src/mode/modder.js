@@ -267,8 +267,8 @@ cwc.mode.Modder.prototype.postModeFileData = function() {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  */
 cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
   let blocklyInstance = this.helper.getInstance('blockly');
@@ -279,7 +279,7 @@ cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
@@ -293,7 +293,7 @@ cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  */
 cwc.mode.Modder.prototype.setEditorView = function(name) {
   let editorInstance = this.helper.getInstance('editor');

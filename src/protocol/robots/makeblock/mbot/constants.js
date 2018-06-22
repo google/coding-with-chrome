@@ -32,7 +32,7 @@ goog.provide('cwc.protocol.makeblock.mbot.Slot');
 
 /**
  * In future developments, this should be replaced by a state machine.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.ByteType = {
   INDEX: 2,
@@ -43,7 +43,7 @@ cwc.protocol.makeblock.mbot.ByteType = {
 
 /**
  * Enum of command types for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.CommandType = {
   GET: 0x01,
@@ -55,7 +55,7 @@ cwc.protocol.makeblock.mbot.CommandType = {
 
 /**
  * Enum of data types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.DataType = {
   BYTE: 1,
@@ -67,7 +67,7 @@ cwc.protocol.makeblock.mbot.DataType = {
 
 /**
  * Enum of devices for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.Device = {
   VERSION: 0,
@@ -92,7 +92,7 @@ cwc.protocol.makeblock.mbot.Header = [0xff, 0x55];
 
 /**
  * Enum of implemented callback types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.CallbackType = {
   NONE: 0x00,
@@ -106,7 +106,7 @@ cwc.protocol.makeblock.mbot.CallbackType = {
 
 /**
  * Enum of ports for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.Port = {
   ULTRASONIC: 0x03,
@@ -120,7 +120,7 @@ cwc.protocol.makeblock.mbot.Port = {
 
 /**
  * Enum of commands for the communication protocol.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.makeblock.mbot.Slot = {
   LED_LIGHT: 0x02,

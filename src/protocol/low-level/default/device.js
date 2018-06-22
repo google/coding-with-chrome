@@ -28,25 +28,25 @@ goog.require('goog.events.EventTarget');
  * @constructor
  */
 cwc.protocol.default.Device = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.address = '';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connected = false;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.name = '';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.paired = false;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.id = '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.type = '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.icon = '';
 
   /** @type {!cwc.protocol.bluetooth.classic.supportedDevices|
@@ -64,7 +64,7 @@ cwc.protocol.default.Device = function() {
 
 
 /**
- * @param {!string} address
+ * @param {string} address
  * @return {THIS}
  * @template THIS
  */
@@ -75,7 +75,7 @@ cwc.protocol.default.Device.prototype.setAddress = function(address) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.default.Device.prototype.getAddress = function() {
   return this.address || '';
@@ -83,7 +83,7 @@ cwc.protocol.default.Device.prototype.getAddress = function() {
 
 
 /**
- * @param {!boolean} connected
+ * @param {boolean} connected
  * @return {THIS}
  * @template THIS
  */
@@ -94,7 +94,7 @@ cwc.protocol.default.Device.prototype.setConnected = function(connected) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.default.Device.prototype.isConnected = function() {
   return this.connected;
@@ -124,7 +124,7 @@ cwc.protocol.default.Device.prototype.getEventHandler = function() {
 
 
 /**
- * @param {!boolean} paired
+ * @param {boolean} paired
  * @return {THIS}
  * @template THIS
  */
@@ -135,7 +135,7 @@ cwc.protocol.default.Device.prototype.setPaired = function(paired) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.default.Device.prototype.isPaired = function() {
   return this.paired;
@@ -143,7 +143,7 @@ cwc.protocol.default.Device.prototype.isPaired = function() {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @return {THIS}
  * @template THIS
  */
@@ -154,7 +154,7 @@ cwc.protocol.default.Device.prototype.setId = function(id) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.default.Device.prototype.getId = function() {
   return this.id || '';
@@ -162,7 +162,7 @@ cwc.protocol.default.Device.prototype.getId = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {THIS}
  * @template THIS
  */
@@ -173,7 +173,7 @@ cwc.protocol.default.Device.prototype.setName = function(name) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.default.Device.prototype.getName = function() {
   return this.name || '';
@@ -181,7 +181,7 @@ cwc.protocol.default.Device.prototype.getName = function() {
 
 
 /**
- * @param {!string} type
+ * @param {string} type
  * @return {THIS}
  * @template THIS
  */
@@ -192,7 +192,7 @@ cwc.protocol.default.Device.prototype.setType = function(type) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.default.Device.prototype.getType = function() {
   return this.type || '';
@@ -225,7 +225,7 @@ cwc.protocol.default.Device.prototype.getProfile = function() {
 
 
 /**
- * @param {!string} icon
+ * @param {string} icon
  * @return {THIS}
  * @template THIS
  */
@@ -236,7 +236,7 @@ cwc.protocol.default.Device.prototype.setIcon = function(icon) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.default.Device.prototype.getIcon = function() {
   return this.icon || '';
@@ -244,7 +244,7 @@ cwc.protocol.default.Device.prototype.getIcon = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {THIS}
  * @template THIS
  */

@@ -107,7 +107,7 @@ cwc.ui.LoadingScreen.prototype.show = function(visible) {
 
 
 /**
- * @param {!number} msec
+ * @param {number} msec
  */
 cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(msec) {
   let startTime = Math.floor(performance.now());
@@ -122,7 +122,7 @@ cwc.ui.LoadingScreen.prototype.hideSecondsAfterStart = function(msec) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  */
 cwc.ui.LoadingScreen.prototype.setError = function(text) {
   if (this.nodeProgressError) {
@@ -132,8 +132,8 @@ cwc.ui.LoadingScreen.prototype.setError = function(text) {
 
 
 /**
- * @param {!string} text
- * @param {!number} current
+ * @param {string} text
+ * @param {number} current
  * @param {number?} total
  */
 cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
@@ -151,7 +151,7 @@ cwc.ui.LoadingScreen.prototype.setProgress = function(text, current,
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  * @param {!Function} func
  * @param {number=} steps
  * @return {Function|Promise}
@@ -174,7 +174,7 @@ cwc.ui.LoadingScreen.prototype.setProgressFunc = function(text, func,
 
 
 /**
- * @param {!string} language
+ * @param {string} language
  */
 cwc.ui.LoadingScreen.prototype.setUserLangauge = function(language) {
   let nodeLanguage = goog.dom.getElement(this.prefix + 'info-language');

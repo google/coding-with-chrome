@@ -44,7 +44,7 @@ cwc.framework.RaspberryPi = function() {
 
 /**
  * Sends serial data.
- * @param {!string} data
+ * @param {string} data
  * @param {number=} opt_delay in msec
  * @export
  */
@@ -55,7 +55,7 @@ cwc.framework.RaspberryPi.prototype.sendSerial = function(data, opt_delay) {
 
 /**
  * Sends serial text.
- * @param {!string} text
+ * @param {string} text
  * @param {number=} opt_delay in msec
  * @export
  */
@@ -76,7 +76,7 @@ cwc.framework.RaspberryPi.prototype.onData = function(func) {
 
 
 /**
- * @param {!number} data
+ * @param {number} data
  * @private
  */
 cwc.framework.RaspberryPi.prototype.handleData_ = function(data) {

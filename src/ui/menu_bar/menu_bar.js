@@ -98,10 +98,10 @@ cwc.ui.MenuBar = function(helper) {
   /** @type {boolean|undefined} */
   this.serialConnectStatus = undefined;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeOS_ = this.helper.checkChromeFeature('os');
 
   /** @private {!cwc.utils.Events} */
@@ -380,7 +380,7 @@ cwc.ui.MenuBar.prototype.minimizeWindow = function() {
 
 
 /**
- * @param {!boolean} fullscreen
+ * @param {boolean} fullscreen
  */
 cwc.ui.MenuBar.prototype.setFullscreen = function(fullscreen) {
   goog.style.setElementShown(this.nodeMaximizeButton, !fullscreen);

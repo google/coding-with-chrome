@@ -21,7 +21,7 @@
 
 /**
  * JavaScript to get all sprites in the workspace.
- * @param {!string} name
+ * @param {string} name
  * @return {!Array}
  */
 Blockly.BlocksHelper['phaser_image'] = function(name) {
@@ -67,8 +67,8 @@ Blockly.BlocksHelper['phaser_images'] = function(name = '') {
 
 
 /**
- * @param {!string} name
- * @return {!string}
+ * @param {string} name
+ * @return {string}
  */
 Blockly.BlocksHelper['phaser_validate_text'] = function(name) {
   return name

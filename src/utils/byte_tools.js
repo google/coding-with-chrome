@@ -70,7 +70,7 @@ cwc.utils.ByteTools.bytesToFloat32 = function(data) {
 /**
   * @param {!ArrayBuffer|Array} data1
   * @param {!ArrayBuffer|Array} data2
-  * @return {!boolean}
+  * @return {boolean}
   */
 cwc.utils.ByteTools.isArrayBufferEqual = function(data1, data2) {
   if (data1.length != data2.length) {
@@ -109,7 +109,7 @@ cwc.utils.ByteTools.toUint8Array = function(data) {
 
 /**
  * @param {!ArrayBuffer|Uint8Array} data
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.ByteTools.toString = function(data) {
   return (String.fromCharCode.apply(null, data)).replace(/\0/g, '').trim();
@@ -118,7 +118,7 @@ cwc.utils.ByteTools.toString = function(data) {
 
 /**
  * @param {!ArrayBuffer|ArrayBufferView|Uint8Array} data
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.ByteTools.toUTF8 = function(data) {
   if (data) {

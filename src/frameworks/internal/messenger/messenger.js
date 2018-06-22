@@ -76,7 +76,7 @@ cwc.framework.Messenger = function(liteMode = false) {
 
 /**
  * Adds the named listener.
- * @param {!string} name
+ * @param {string} name
  * @param {!Function} func
  * @param {?=} scope
  * @return {THIS}
@@ -104,7 +104,7 @@ cwc.framework.Messenger.prototype.addListener = function(name, func,
 
 
 /**
- * @param {!string} appOrigin
+ * @param {string} appOrigin
  * @export
  */
 cwc.framework.Messenger.prototype.setAppOrigin = function(appOrigin) {
@@ -144,7 +144,7 @@ cwc.framework.Messenger.prototype.setListenerScope = function(scope) {
 
 /**
  * Sends the defined data to the target window.
- * @param {!string} name
+ * @param {string} name
  * @param {Object|string=} value
  * @param {number=} delay in msec
  * @export
@@ -168,7 +168,7 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Object|string=} value
  */
 cwc.framework.Messenger.prototype.postMessage = function(name, value) {
@@ -184,7 +184,7 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
 
 
 /**
- * @param {!string} code
+ * @param {string} code
  * @private
  */
 cwc.framework.Messenger.prototype.executeCode_ = function(code) {

@@ -29,7 +29,7 @@ goog.require('cwc.utils.ByteTools');
  * @extends {cwc.protocol.default.Device}
  */
 cwc.protocol.bluetooth.classic.Device = function() {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connecting = false;
 
   /** @type {number|null} */
@@ -57,7 +57,7 @@ cwc.protocol.bluetooth.classic.Device = function() {
     'bufferSize': 4096,
   };
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.paused_ = false;
 };
 goog.inherits(
@@ -89,7 +89,7 @@ cwc.protocol.bluetooth.classic.Device.prototype.setDisconnectEvent = function(
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.bluetooth.classic.Device.prototype.hasSocket = function() {
   return this.socketId === null ? false : true;
@@ -97,7 +97,7 @@ cwc.protocol.bluetooth.classic.Device.prototype.hasSocket = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.bluetooth.classic.Device.prototype.getNamePrefix = function() {
   if (this.profile) {

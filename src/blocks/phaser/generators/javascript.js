@@ -22,7 +22,7 @@
 /**
  * Vertical obstacle generator.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -56,7 +56,7 @@ Blockly.JavaScript['phaser_generator_vertical_obstacle'] = function(block) {
 /**
  * Random vertical obstacle generator.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
     block) {
@@ -88,7 +88,7 @@ Blockly.JavaScript['phaser_generator_random_vertical_obstacle'] = function(
 /**
  * Obstacle generator matrix.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_generator_matrix_block'] = function(
   block) {
@@ -120,7 +120,7 @@ Blockly.JavaScript['phaser_generator_matrix_block'] = function(
 /**
  * Adjust arcade sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_generator_physics_arcade_attributes'] = function(
     block) {

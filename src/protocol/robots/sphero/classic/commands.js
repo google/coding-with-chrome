@@ -26,9 +26,9 @@ goog.require('cwc.protocol.sphero.classic.Command');
 
 /**
  * Sets RGB LED color.
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
+ * @param {number} red 0-255
+ * @param {number} green 0-255
+ * @param {number} blue 0-255
  * @param {boolean=} persistent
  * @return {!ArrayBuffer}
  * @export
@@ -60,7 +60,7 @@ cwc.protocol.sphero.classic.Commands.getRGB = function() {
 
 /**
  * Sets back-light LED brightness.
- * @param {!number} brightness 0-255
+ * @param {number} brightness 0-255
  * @return {!ArrayBuffer}
  * @export
  */
@@ -74,7 +74,7 @@ cwc.protocol.sphero.classic.Commands.setBackLed = function(brightness = 0) {
 
 /**
  * Sets heading.
- * @param {!number} heading 0-359
+ * @param {number} heading 0-359
  * @return {!ArrayBuffer}
  * @export
  */
@@ -133,7 +133,7 @@ cwc.protocol.sphero.classic.Commands.setCollisionDetection = function(
 
 /**
  * Sets montion timeout.
- * @param {!number} timeout in msec
+ * @param {number} timeout in msec
  * @return {!ArrayBuffer}
  * @export
  */
@@ -146,7 +146,7 @@ cwc.protocol.sphero.classic.Commands.setMotionTimeout = function(timeout) {
 
 
 /**
- * @param {!boolean} enabled
+ * @param {boolean} enabled
  * @return {!ArrayBuffer}
  * @export
  */

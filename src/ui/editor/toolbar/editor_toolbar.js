@@ -137,7 +137,7 @@ cwc.ui.EditorToolbar.prototype.decorate = function(node, node_select_view) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */

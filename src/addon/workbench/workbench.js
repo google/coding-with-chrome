@@ -124,7 +124,7 @@ const tagMap = {
  * @final
  */
 cwc.addon.Workbench = function(helper) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Workbench';
 
   /** @type {!cwc.utils.Helper} */

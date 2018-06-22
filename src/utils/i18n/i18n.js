@@ -30,13 +30,13 @@ goog.require('cwc.utils.Logger');
  * @export
  */
 cwc.utils.I18n = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'i18n';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.language = '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.fallbackLanguage = 'eng';
 
   /** @type {!Array} */
@@ -79,9 +79,9 @@ cwc.utils.I18n.prototype.prepare_ = function() {
 
 /**
  * Translate the given text to the current language.
- * @param {!string} key
+ * @param {string} key
  * @param {string=} text
- * @return {!string}
+ * @return {string}
  * @deprecated
  */
 cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
@@ -100,9 +100,9 @@ cwc.utils.I18n.prototype.translateOld = function(key, text = '') {
 
 /**
  * Translate the given translation Key to the current language.
- * @param {!string} translationKey
+ * @param {string} translationKey
  * @param {Object=} values
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.I18n.prototype.translate = function(translationKey, values) {
   // Handle soy template specific format
@@ -151,7 +151,7 @@ cwc.utils.I18n.prototype.translate = function(translationKey, values) {
 
 
 /**
- * @return {!string} language in ISO639_3
+ * @return {string} language in ISO639_3
  */
 cwc.utils.I18n.prototype.getLanguage = function() {
   if (this.language) {
@@ -174,7 +174,7 @@ cwc.utils.I18n.prototype.getLanguage = function() {
 
 /**
  * @param {string=} language
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.I18n.prototype.setLanguage = function(language = '') {
   if (this.language === language) {
@@ -211,7 +211,7 @@ cwc.utils.I18n.prototype.setSupportedLanguages = function(languages) {
 
 
 /**
- * @param {!string} language
+ * @param {string} language
  * @return {string}
  */
 cwc.utils.I18n.getISO639_1 = function(language) {
@@ -228,8 +228,8 @@ cwc.utils.I18n.getISO639_1 = function(language) {
 
 
 /**
- * @param {!string} language
- * @return {!string}
+ * @param {string} language
+ * @return {string}
  */
 cwc.utils.I18n.bcp47ToISO639_3 = function(language) {
   return cwc.utils.I18nMapping.BCP47[language] || '';

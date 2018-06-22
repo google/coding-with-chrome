@@ -35,7 +35,7 @@ goog.require('goog.events');
  * @final
  */
 cwc.ui.Tour = function(helper) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Tour';
 
   /** @type {!cwc.utils.Helper} */
@@ -44,16 +44,16 @@ cwc.ui.Tour = function(helper) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {!string} */
+  /** @private {string} */
   this.content_ = '';
 
   /** @private {Shepherd.Tour} */
   this.tour_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.tourDescription_ = '';
 
-  /** @private {!number} */
+  /** @private {number} */
   this.tourLength_ = 0;
 };
 
@@ -122,7 +122,7 @@ cwc.ui.Tour.prototype.setTour = function(tour) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Tour.prototype.getTourDescription = function() {
   return this.tourDescription_ || '';
@@ -162,7 +162,7 @@ cwc.ui.Tour.prototype.clear = function() {
 
 
 /**
- * @param {!number} step
+ * @param {number} step
  * @return {!array}
  * @private
  */

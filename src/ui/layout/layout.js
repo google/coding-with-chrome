@@ -39,7 +39,7 @@ goog.require('goog.ui.SplitPane.Orientation');
 
 /**
  * Supported layout types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.ui.LayoutType = {
   NONE: 0,
@@ -73,7 +73,7 @@ cwc.ui.Layout = function(helper) {
   /** @type {!Object.<Element>} */
   this.nodes = {};
 
-  /** @type {!number} */
+  /** @type {number} */
   this.handleSize = 2;
 
   /** @type {cwc.ui.LayoutType} */
@@ -173,7 +173,7 @@ cwc.ui.Layout.prototype.getNodes = function() {
 
 /**
  * Returns the named node of the current layout.
- * @param {!string} name
+ * @param {string} name
  * @return {Element}
  */
 cwc.ui.Layout.prototype.getNode = function(name) {
@@ -257,7 +257,7 @@ cwc.ui.Layout.prototype.adjustSize = function() {
 
 
 /**
- * @param {!number} size
+ * @param {number} size
  */
 cwc.ui.Layout.prototype.setHandleSize = function(size) {
   this.handleSize = size;
@@ -267,7 +267,7 @@ cwc.ui.Layout.prototype.setHandleSize = function(size) {
 
 
 /**
- * @param {!boolean} fullscreen
+ * @param {boolean} fullscreen
  */
 cwc.ui.Layout.prototype.setFullscreenEditor = function(fullscreen) {
   this.setFullscreen_(fullscreen, true);
@@ -275,7 +275,7 @@ cwc.ui.Layout.prototype.setFullscreenEditor = function(fullscreen) {
 
 
 /**
- * @param {!boolean} fullscreen
+ * @param {boolean} fullscreen
  */
 cwc.ui.Layout.prototype.setFullscreenPreview = function(fullscreen) {
   this.setFullscreen_(fullscreen, false);
@@ -358,8 +358,8 @@ cwc.ui.Layout.prototype.refresh_ = function() {
 
 /**
  * Adjusts the main UI element to fullscreen.
- * @param {!boolean} fullscreen
- * @param {!boolean} editorMode
+ * @param {boolean} fullscreen
+ * @param {boolean} editorMode
  */
 cwc.ui.Layout.prototype.setFullscreen_ = function(fullscreen,
     editorMode = false) {

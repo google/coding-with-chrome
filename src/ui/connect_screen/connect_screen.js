@@ -74,9 +74,9 @@ cwc.ui.connectScreen.Screens.prototype.showSerialDevices = function() {
 
 
 /**
- * @param {!string} title
- * @param {!string} text
- * @param {!number} step
+ * @param {string} title
+ * @param {string} text
+ * @param {number} step
  */
 cwc.ui.connectScreen.Screens.prototype.showConnectingStep = function(
     title, text, step) {

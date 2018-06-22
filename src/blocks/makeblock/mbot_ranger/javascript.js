@@ -23,7 +23,7 @@
 /**
  * mBot move forward.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_forward'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -35,7 +35,7 @@ Blockly.JavaScript['mbot_ranger_move_forward'] = function(block) {
 /**
  * mBot move forward time.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_forward_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
@@ -51,7 +51,7 @@ Blockly.JavaScript['mbot_ranger_move_forward_time'] = function(block) {
 /**
  * mBot move forward steps.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_forward_steps'] = function(block) {
   let steps = parseInt(Blockly.JavaScript.valueToCode(
@@ -66,7 +66,7 @@ Blockly.JavaScript['mbot_ranger_move_forward_steps'] = function(block) {
 /**
  * mBot move backwards.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_backward'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -78,7 +78,7 @@ Blockly.JavaScript['mbot_ranger_move_backward'] = function(block) {
 /**
  * mBot move forward time.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_backward_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
@@ -94,7 +94,7 @@ Blockly.JavaScript['mbot_ranger_move_backward_time'] = function(block) {
 /**
  * mBot move backward steps.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_move_backward_steps'] = function(block) {
   let steps = parseInt(Blockly.JavaScript.valueToCode(
@@ -109,7 +109,7 @@ Blockly.JavaScript['mbot_ranger_move_backward_steps'] = function(block) {
 /**
  * Rotate left.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_rotate_left'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -121,7 +121,7 @@ Blockly.JavaScript['mbot_ranger_rotate_left'] = function(block) {
 /**
  * Rotate left time.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_rotate_left_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
@@ -137,7 +137,7 @@ Blockly.JavaScript['mbot_ranger_rotate_left_time'] = function(block) {
 /**
  * Rotate right.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_rotate_right'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
@@ -149,7 +149,7 @@ Blockly.JavaScript['mbot_ranger_rotate_right'] = function(block) {
 /**
  * Rotate right time.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_rotate_right_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
@@ -164,7 +164,7 @@ Blockly.JavaScript['mbot_ranger_rotate_right_time'] = function(block) {
 
 /**
  * Stop Moving.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_stop_moving'] = function() {
   return 'mBotRanger.stop(true);\n';
@@ -174,7 +174,7 @@ Blockly.JavaScript['mbot_ranger_stop_moving'] = function() {
 /**
  * Lightness sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_lightness_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -187,7 +187,7 @@ Blockly.JavaScript['mbot_ranger_lightness_sensor_change'] = function(block) {
 /**
  * Linefollower sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_linefollower_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -200,7 +200,7 @@ Blockly.JavaScript['mbot_ranger_linefollower_sensor_change'] = function(block) {
 /**
  * Temperature sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_temperature_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -213,7 +213,7 @@ Blockly.JavaScript['mbot_ranger_temperature_sensor_change'] = function(block) {
 /**
  * Ultrasonic sensor change.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_ultrasonic_sensor_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -225,7 +225,7 @@ Blockly.JavaScript['mbot_ranger_ultrasonic_sensor_change'] = function(block) {
 
 /**
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_play_tone'] = function(block) {
   let text_frequency = block.getFieldValue('frequency');
@@ -237,7 +237,7 @@ Blockly.JavaScript['mbot_ranger_play_tone'] = function(block) {
 
 /**
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_rgb'] = function(block) {
   let index = parseInt(block.getFieldValue('position') || 0);
@@ -255,7 +255,7 @@ Blockly.JavaScript['mbot_ranger_rgb'] = function(block) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_ultrasonic_sensor_value'] = function() {
   let code = 'mBotRanger.getUltrasonicSensorValue()';
@@ -275,7 +275,7 @@ Blockly.JavaScript['mbot_ranger_lightness_sensor_value'] = function() {
 /**
  * Wait.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['mbot_ranger_wait'] = function(block) {
   let time = block.getFieldValue('time');

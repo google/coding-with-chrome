@@ -49,22 +49,22 @@ cwc.framework.makeblock.MBotRanger = function() {
   /** @type {!function(?)} */
   this.ultrasonicSensorEvent = function() {};
 
-  /** @type {!number} */
+  /** @type {number} */
   this.buttonValue = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.temperatureSensorValue = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.lightnessSensorValue = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.lineFollowerSensorValue = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.ultrasonicSensorValue = 0;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.motorSpeed = 60 / 60;
 
   /** @private {!cwc.framework.Messenger} */
@@ -80,9 +80,9 @@ cwc.framework.makeblock.MBotRanger = function() {
 
 /**
  * Set the on-board LED color of the mBOt
- * @param {!number} red 0-255
- * @param {!number} green 0-255
- * @param {!number} blue 0-255
+ * @param {number} red 0-255
+ * @param {number} green 0-255
+ * @param {number} blue 0-255
  * @param {string=} index 1-14
  * @param {number=} delay
  * @export
@@ -99,8 +99,8 @@ cwc.framework.makeblock.MBotRanger.prototype.setRGBLED = function(red, green,
 
 /**
  * Plays a tone through the buzzer.
- * @param  {!number} frequency frequency of the note
- * @param  {!number} duration  duration in milliseconds
+ * @param  {number} frequency frequency of the note
+ * @param  {number} duration  duration in milliseconds
  * @param  {number=} delay
  * @export
  */
@@ -167,7 +167,7 @@ function() {
 
 /**
  * Turn mBot at a speed
- * @param {!number} power -255 - 255
+ * @param {number} power -255 - 255
  * @param {number=} opt_delay in msec or true for auto
  * @export
  */
@@ -179,8 +179,8 @@ cwc.framework.makeblock.MBotRanger.prototype.rotatePower = function(power,
 
 /**
  * Rotates mBot for certain time and speeds
- * @param {!number} time in msec
- * @param {!number} power -255 - 255
+ * @param {number} time in msec
+ * @param {number} power -255 - 255
  * @export
  */
 cwc.framework.makeblock.MBotRanger.prototype.rotatePowerTime = function(time,
@@ -192,7 +192,7 @@ cwc.framework.makeblock.MBotRanger.prototype.rotatePowerTime = function(time,
 
 /**
  * Move mBot for certain speeds
- * @param {!number} power -255 - 255
+ * @param {number} power -255 - 255
  * @param {number=} slot
  * @param {number=} delay in msec
  * @export
@@ -207,8 +207,8 @@ cwc.framework.makeblock.MBotRanger.prototype.movePower = function(power,
 
 /**
  * Move mBot for certain time and speeds
- * @param {!number} time in msec
- * @param {!number} power -255 - 255
+ * @param {number} time in msec
+ * @param {number} power -255 - 255
  * @export
  */
 cwc.framework.makeblock.MBotRanger.prototype.movePowerTime = function(time,
@@ -220,7 +220,7 @@ cwc.framework.makeblock.MBotRanger.prototype.movePowerTime = function(time,
 
 /**
  * Move mBot for certain speeds
- * @param {!number} steps 0 - 255
+ * @param {number} steps 0 - 255
  * @param {number=} speed 0 - 255
  * @param {number=} delay in msec or true for auto
  * @export
@@ -235,7 +235,7 @@ cwc.framework.makeblock.MBotRanger.prototype.moveSteps = function(steps,
 
 /**
  * Waits for the given time.
- * @param {!number} time in msec
+ * @param {number} time in msec
  * @export
  */
 cwc.framework.makeblock.MBotRanger.prototype.wait = function(time) {

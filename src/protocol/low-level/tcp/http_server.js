@@ -38,16 +38,16 @@ cwc.protocol.tcp.HTTPServer = function(address, port) {
   /** @type {string} */
   this.name = 'HTTP Server';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.address = address || '127.0.0.1';
 
-  /** @type {!number} */
+  /** @type {number} */
   this.port = port || 8090;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.backlog = 10;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = typeof chrome.app !== 'undefined' &&
       typeof chrome.app.window !== 'undefined';
 
@@ -114,7 +114,7 @@ cwc.protocol.tcp.HTTPServer.prototype.unlisten = function() {
 
 
 /**
- * @param {!string} path
+ * @param {string} path
  * @param {!Function} handler
  */
 cwc.protocol.tcp.HTTPServer.prototype.addCustomHandler = function(path,
@@ -125,8 +125,8 @@ cwc.protocol.tcp.HTTPServer.prototype.addCustomHandler = function(path,
 
 
 /**
- * @param {!string} path
- * @param {!string} content
+ * @param {string} path
+ * @param {string} content
  */
 cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
   if (!content) {
@@ -142,8 +142,8 @@ cwc.protocol.tcp.HTTPServer.prototype.addFile = function(path, content) {
 
 
 /**
- * @param {!string} path
- * @param {!string} redirect
+ * @param {string} path
+ * @param {string} redirect
  */
 cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
   if (!path.startsWith('/')) {
@@ -162,7 +162,7 @@ cwc.protocol.tcp.HTTPServer.prototype.addRedirect = function(path, redirect) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.protocol.tcp.HTTPServer.prototype.getRootURL = function() {
   return 'http://' + this.address + ':' + this.port;
@@ -182,8 +182,8 @@ cwc.protocol.tcp.HTTPServer.prototype.close = function() {
 
 /**
  * HTTP response handler
- * @param {!string} content
- * @param {!number} clientSocketId
+ * @param {string} content
+ * @param {number} clientSocketId
  * @param {string=} requestPath
  * @param {Object=} options
  * @private
@@ -418,7 +418,7 @@ cwc.protocol.tcp.HTTPServer.prototype.handleRecieveError_ = function(error) {
 
 
 /**
- * @param {!number} socketId
+ * @param {number} socketId
  */
 cwc.protocol.tcp.HTTPServer.prototype.closeSocket_ = function(socketId) {
   if (chrome.runtime.lastError) {
@@ -431,7 +431,7 @@ cwc.protocol.tcp.HTTPServer.prototype.closeSocket_ = function(socketId) {
 
 
 /**
- * @param {!number} socketId
+ * @param {number} socketId
  */
 cwc.protocol.tcp.HTTPServer.prototype.disconnectSocket_ = function(socketId) {
   chrome.sockets.tcp.disconnect(socketId, function() {

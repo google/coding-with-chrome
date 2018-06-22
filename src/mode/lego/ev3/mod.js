@@ -37,7 +37,7 @@ goog.require('cwc.soy.ev3.Blocks');
  * @param {boolean=} enableBlockly
  */
 cwc.mode.lego.ev3.Mod = function(helper, enableBlockly = false) {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
   /** @type {!cwc.mode.lego.ev3.Connection} */

@@ -65,7 +65,7 @@ cwc.ui.EditorView.prototype.isClean = function() {
 
 /**
  * Sets the current editor content.
- * @param {!string} content
+ * @param {string} content
  */
 cwc.ui.EditorView.prototype.setContent = function(content) {
   this.doc.setValue(content);

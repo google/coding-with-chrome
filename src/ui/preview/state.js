@@ -21,7 +21,7 @@ goog.provide('cwc.ui.PreviewState');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  * @export
  */
 cwc.ui.PreviewState = {

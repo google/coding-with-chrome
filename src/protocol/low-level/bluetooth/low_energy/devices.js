@@ -33,7 +33,7 @@ goog.require('goog.async.Throttle');
  * @constructor
  */
 cwc.protocol.bluetooth.lowEnergy.Devices = function(eventHandler) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Bluetooth LE Devices';
 
   /** @type {Object} */
@@ -130,7 +130,7 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDeviceFilter_ =
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @return {cwc.protocol.bluetooth.lowEnergy.Device}
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevice = function(id) {
@@ -172,7 +172,7 @@ cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevices = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {Array.<cwc.protocol.bluetooth.lowEnergy.Device>}
  */
 cwc.protocol.bluetooth.lowEnergy.Devices.prototype.getDevicesByName = function(

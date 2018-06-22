@@ -57,7 +57,7 @@ cwc.ui.Editor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = this.helper.getPrefix('editor');
 
   /** @type {CodeMirror} */
@@ -69,7 +69,7 @@ cwc.ui.Editor = function(helper) {
   /** @type {string} */
   this.currentEditorView = '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.cursorPosition = '';
 
   /** @type {boolean} */
@@ -90,7 +90,7 @@ cwc.ui.Editor = function(helper) {
   /** @type {!Array} */
   this.rulers = [{'color': '#ccc', 'column': 80, 'lineStyle': 'dashed'}];
 
-  /** @type {!string} */
+  /** @type {string} */
   this.theme = 'default';
 
   /** @type {cwc.ui.StatusBar} */
@@ -102,7 +102,7 @@ cwc.ui.Editor = function(helper) {
   /** @private {cwc.ui.EditorHint|string} */
   this.editorHint_ = cwc.ui.EditorHint.UNKNOWN;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.editorHintEnable_ = true;
 
   /** @private {!Object} */
@@ -138,10 +138,10 @@ cwc.ui.Editor = function(helper) {
     'onUpdateLinting': this.handleLint_.bind(this),
   };
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isVisible_ = true;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.syncThrottleTime_ = 2000;
 
   /** @private {goog.async.Throttle} */
@@ -270,7 +270,7 @@ cwc.ui.Editor.prototype.showMode = function(visible) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!function()} func
  * @param {string=} tooltip
  */
@@ -357,7 +357,7 @@ cwc.ui.Editor.prototype.getEditorContent = function(name) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  * @param {string=} view
  */
 cwc.ui.Editor.prototype.setEditorContent = function(content,
@@ -392,7 +392,7 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
 
 /**
  * Syntax checks for supported formats.
- * @param {!boolean} active
+ * @param {boolean} active
  */
 cwc.ui.Editor.prototype.setSyntaxCheck = function(active) {
   this.editor.setOption('lint', active);
@@ -447,7 +447,7 @@ cwc.ui.Editor.prototype.selectNone = function() {
 
 /**
  * Insert the text at the current cursor position.
- * @param {!string} text
+ * @param {string} text
  */
 cwc.ui.Editor.prototype.insertText = function(text) {
   this.editor.replaceSelection(text);
@@ -457,7 +457,7 @@ cwc.ui.Editor.prototype.insertText = function(text) {
 
 /**
  * Change editor view to the given name.
- * @param {!string} name
+ * @param {string} name
  */
 cwc.ui.Editor.prototype.changeView = function(name) {
   if (!name || !this.editor || this.currentEditorView === name) {
@@ -482,7 +482,7 @@ cwc.ui.Editor.prototype.changeView = function(name) {
 
 /**
  * Adds a new editor view with the given name.
- * @param {!string} name
+ * @param {string} name
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
@@ -508,7 +508,7 @@ cwc.ui.Editor.prototype.addView = function(name, content = '', type, hints) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {cwc.ui.EditorView}
  */
 cwc.ui.Editor.prototype.getView = function(name) {
@@ -581,7 +581,7 @@ cwc.ui.Editor.prototype.isVisible = function() {
 
 
 /**
- * @param {!boolean} modified
+ * @param {boolean} modified
  */
 cwc.ui.Editor.prototype.setModified = function(modified) {
   this.modified = modified;

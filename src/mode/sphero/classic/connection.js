@@ -43,7 +43,7 @@ cwc.mode.sphero.classic.Connection = function(helper) {
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.connectMonitorInterval = 5000;
 
   /** @private {!cwc.protocol.sphero.classic.Api} */
@@ -126,7 +126,7 @@ cwc.mode.sphero.classic.Connection.prototype.stop = function() {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.mode.sphero.classic.Connection.prototype.isConnected = function() {

@@ -31,7 +31,7 @@ cwc.mode.Modder.Events.Type = {
 
 
 /**
- * @param {!string} mode
+ * @param {string} mode
  * @param {string=} file
  * @return {!cwc.utils.EventData}
  * @final

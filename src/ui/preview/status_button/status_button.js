@@ -265,7 +265,7 @@ cwc.ui.PreviewStatusButton.prototype.setStatus = function(status) {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @param {boolean} enabled
  */
 cwc.ui.PreviewStatusButton.prototype.enableButton = function(id, enabled) {

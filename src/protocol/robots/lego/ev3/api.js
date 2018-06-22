@@ -62,7 +62,7 @@ cwc.protocol.lego.ev3.Api = function() {
   /** @type {Object} */
   this.deviceData = {};
 
-  /** @type {!string} */
+  /** @type {string} */
   this.firmware = '';
 
   /** @type {!cwc.protocol.lego.ev3.Handler} */
@@ -118,7 +118,7 @@ cwc.protocol.lego.ev3.Api.prototype.connect = function(device) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.lego.ev3.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected()) ? true : false;
@@ -169,7 +169,7 @@ cwc.protocol.lego.ev3.Api.prototype.reset = function() {
 
 /**
  * Executer for the default handler commands.
- * @param {!string} command
+ * @param {string} command
  * @param {Object=} data
  * @export
  */
@@ -190,7 +190,7 @@ cwc.protocol.lego.ev3.Api.prototype.send = function(buffer) {
 
 
 /**
- * @param {!string} command
+ * @param {string} command
  * @param {Object=} data
  * @return {!ArrayBuffer}
  * @export
@@ -229,7 +229,7 @@ cwc.protocol.lego.ev3.Api.prototype.setSensorMode = function(data) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  * @export
  */
 cwc.protocol.lego.ev3.Api.prototype.monitor = function(enable) {
@@ -338,7 +338,7 @@ cwc.protocol.lego.ev3.Api.prototype.handleOnReceive_ = function(e) {
 
 /**
  * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @param {!number} value
+ * @param {number} value
  * @private
  */
 cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
@@ -355,7 +355,7 @@ cwc.protocol.lego.ev3.Api.prototype.updateDeviceData_ = function(port, value) {
 
 /**
  * @param {!cwc.protocol.lego.ev3.InputPort} port
- * @param {!string} type
+ * @param {string} type
  * @private
  */
 cwc.protocol.lego.ev3.Api.prototype.updateDeviceType_ = function(port, type) {

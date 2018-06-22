@@ -31,7 +31,7 @@ cwc.mode.raspberryPi.Monitor = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = this.helper.getPrefix('raspberry_pi-monitor');
 
   /** @private {cwc.ui.RunnerMonitor} */

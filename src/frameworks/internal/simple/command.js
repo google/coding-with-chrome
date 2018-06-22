@@ -52,7 +52,7 @@ cwc.framework.simple.Command.prototype.getTarget = function() {
 
 /**
  * Writes a text on screen.
- * @param {!string} text
+ * @param {string} text
  * @export
  */
 cwc.framework.simple.Command.prototype.write = function(text) {
@@ -61,8 +61,8 @@ cwc.framework.simple.Command.prototype.write = function(text) {
 
 
 /**
- * @param {!string} title
- * @param {!string} content
+ * @param {string} title
+ * @param {string} content
  * @export
  */
 cwc.framework.simple.Command.prototype.showAlert = function(title, content) {
@@ -71,8 +71,8 @@ cwc.framework.simple.Command.prototype.showAlert = function(title, content) {
 
 
 /**
- * @param {!string} title
- * @param {!string} content
+ * @param {string} title
+ * @param {string} content
  * @param {string=} optValue
  * @return {!Promise}
  * @export
@@ -84,9 +84,9 @@ cwc.framework.simple.Command.prototype.showPrompt = function(title, content,
 
 
 /**
- * @param {!string} title
- * @param {!string} content
- * @param {!string} action
+ * @param {string} title
+ * @param {string} content
+ * @param {string} action
  * @return {!Promise}
  * @export
  */

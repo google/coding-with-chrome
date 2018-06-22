@@ -46,13 +46,13 @@ cwc.addon.WorkbenchProject = function(helper, project, imagesDb) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('wb');
 
-  /** @private {!string} */
+  /** @private {string} */
   this.projectDetailLinkBase_ = 'https://edu.workbencheducation.com/cwists/preview/';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.activeStepClass_ = this.prefix + 'step-container--active';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.completedStepClass_ = this.prefix + 'step-container--complete';
 
   /** @private {!Element} */
@@ -73,7 +73,7 @@ cwc.addon.WorkbenchProject = function(helper, project, imagesDb) {
   /** @private {!Object} */
   this.state_ = {};
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 };
 
@@ -232,7 +232,7 @@ cwc.addon.WorkbenchProject.prototype.completeCurrentStep_ = function() {
 
 /**
  * Opens a step, but only if it is complete or next
- * @param {!number} stepID
+ * @param {number} stepID
  */
 cwc.addon.WorkbenchProject.prototype.jumpToStep_ = function(stepID) {
   let canOpen = stepID === this.state_.inProgressStepID ||

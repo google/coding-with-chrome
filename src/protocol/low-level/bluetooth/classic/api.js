@@ -51,7 +51,7 @@ cwc.protocol.bluetooth.classic.Api = function(helper) {
   /** @type {Object} */
   this.connectionIds = {};
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.isChromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!goog.events.EventTarget} */
@@ -107,7 +107,7 @@ cwc.protocol.bluetooth.classic.Api.prototype.updateDevices = function() {
 
 
 /**
- * @param {!string} address
+ * @param {string} address
  * @return {cwc.protocol.bluetooth.classic.Device}
  */
 cwc.protocol.bluetooth.classic.Api.prototype.getDevice = function(address) {
@@ -116,7 +116,7 @@ cwc.protocol.bluetooth.classic.Api.prototype.getDevice = function(address) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {cwc.protocol.bluetooth.classic.Device}
  */
 cwc.protocol.bluetooth.classic.Api.prototype.getDeviceByName = function(name) {
@@ -141,7 +141,7 @@ cwc.protocol.bluetooth.classic.Api.prototype.getEventHandler = function() {
 
 
 /**
- * @param {!string} deviceName
+ * @param {string} deviceName
  * @param {Function} callback
  */
 cwc.protocol.bluetooth.classic.Api.prototype.autoConnectDevice = function(

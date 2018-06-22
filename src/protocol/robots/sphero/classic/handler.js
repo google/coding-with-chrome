@@ -30,13 +30,13 @@ goog.require('cwc.protocol.sphero.classic.Commands');
  * @final
  */
 cwc.protocol.sphero.classic.Handler = function() {
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.calibrate_ = false;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.heading_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.speed_ = 20;
 };
 

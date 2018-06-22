@@ -33,7 +33,7 @@ goog.require('goog.async.Throttle');
  * @constructor
  */
 cwc.protocol.bluetooth.classic.Devices = function(eventHandler) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Bluetooth Devices';
 
   /** @type {Object} */
@@ -48,7 +48,7 @@ cwc.protocol.bluetooth.classic.Devices = function(eventHandler) {
   /** @type {goog.async.Throttle} */
   this.throttledUpdateDevices = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.updateDevicesInterval = 5000;
 
   /** @private {!cwc.utils.Events} */
@@ -109,7 +109,7 @@ cwc.protocol.bluetooth.classic.Devices.prototype.closeSockets = function() {
 
 
 /**
- * @param {!string} socket_id
+ * @param {string} socket_id
  * @param {ArrayBuffer} data
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.receiveData = function(
@@ -121,8 +121,8 @@ cwc.protocol.bluetooth.classic.Devices.prototype.receiveData = function(
 
 
 /**
- * @param {!string} socket_id
- * @param {!string} error
+ * @param {string} socket_id
+ * @param {string} error
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.receiveError = function(
     socket_id, error) {
@@ -154,7 +154,7 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDeviceProfile = function(
 
 
 /**
- * @param {!string} address
+ * @param {string} address
  * @return {cwc.protocol.bluetooth.classic.Device}
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.getDevice = function(address) {
@@ -167,7 +167,7 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDevice = function(address) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {cwc.protocol.bluetooth.classic.Device}
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.getDeviceByName = function(
@@ -220,7 +220,7 @@ cwc.protocol.bluetooth.classic.Devices.prototype.getDevices = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Function} callback
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.autoConnectDevice = function(
@@ -323,8 +323,8 @@ cwc.protocol.bluetooth.classic.Devices.prototype.handleGetDevices_ = function(
 
 
 /**
- * @param {!number} socket_id
- * @param {!string} address
+ * @param {number} socket_id
+ * @param {string} address
  * @private
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.handleConnect_ = function(
@@ -340,8 +340,8 @@ cwc.protocol.bluetooth.classic.Devices.prototype.handleConnect_ = function(
 
 
 /**
- * @param {!number} socket_id
- * @param {!string} address
+ * @param {number} socket_id
+ * @param {string} address
  * @private
  */
 cwc.protocol.bluetooth.classic.Devices.prototype.handleDisconnect_ = function(

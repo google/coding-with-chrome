@@ -27,7 +27,7 @@ goog.require('cwc.utils.Logger');
  * @constructor
  */
 cwc.protocol.bluetooth.lowEnergy.Adapter = function(eventHandler) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Bluetooth LE Adapter';
 
   /** @type {boolean} */

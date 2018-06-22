@@ -73,7 +73,7 @@ cwc.ui.Language.prototype.selectLanguage = function() {
 
 
 /**
- * @param {!string} language
+ * @param {string} language
  * @async
  */
 cwc.ui.Language.prototype.setLanguage = async function(language) {
@@ -132,7 +132,7 @@ cwc.ui.Language.prototype.setLanguage = async function(language) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.ui.Language.prototype.getUserLanguage = function() {
   let language = '';

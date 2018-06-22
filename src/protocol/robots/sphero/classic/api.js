@@ -58,22 +58,22 @@ cwc.protocol.sphero.classic.Api = function() {
   /** @type {cwc.protocol.sphero.classic.Monitoring} */
   this.monitoring = new cwc.protocol.sphero.classic.Monitoring(this);
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationPosX_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationPosY_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationVelX_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationVelY_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationSog_ = 0;
 
-  /** @private {!number} */
+  /** @private {number} */
   this.locationSpeed_ = 0;
 
   /** @type {!goog.events.EventTarget} */
@@ -122,7 +122,7 @@ cwc.protocol.sphero.classic.Api.prototype.connect = function(device) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.protocol.sphero.classic.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected()) ? true : false;
@@ -160,7 +160,7 @@ cwc.protocol.sphero.classic.Api.prototype.disconnect = function() {
 
 /**
  * Executer for the default handler commands.
- * @param {!string} command
+ * @param {string} command
  * @param {Object=} data
  * @export
  */
@@ -170,7 +170,7 @@ cwc.protocol.sphero.classic.Api.prototype.exec = function(command, data = {}) {
 
 
 /**
- * @param {!boolean} enable
+ * @param {boolean} enable
  * @export
  */
 cwc.protocol.sphero.classic.Api.prototype.monitor = function(enable) {
@@ -358,7 +358,7 @@ cwc.protocol.sphero.classic.Api.prototype.handleOnReceive_ = function(e) {
 /**
  * @param {!Array} buffer
  * @param {Number=} checksum
- * @return {!boolean}
+ * @return {boolean}
  * @private
  */
 cwc.protocol.sphero.classic.Api.prototype.verifiyChecksum_ = function(buffer,

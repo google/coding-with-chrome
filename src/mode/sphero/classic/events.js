@@ -21,7 +21,7 @@
 
 
 /**
- * @enum {!String}
+ * @enum {string}
  */
 cwc.mode.sphero.classic.SensorEvents = {
   CHANGED_SPEED: 'changed_speed',

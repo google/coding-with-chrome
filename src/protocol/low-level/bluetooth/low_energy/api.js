@@ -97,7 +97,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.requestDevices = function(
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @return {cwc.protocol.bluetooth.lowEnergy.Device}
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevice = function(id) {
@@ -114,7 +114,7 @@ cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevices = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {Object}
  */
 cwc.protocol.bluetooth.lowEnergy.Api.prototype.getDevicesByName = function(

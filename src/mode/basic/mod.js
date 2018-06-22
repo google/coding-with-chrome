@@ -30,7 +30,7 @@ goog.require('cwc.soy.simple.Blocks');
  * @param {boolean=} enableBlockly
  */
 cwc.mode.basic.Mod = function(helper, enableBlockly = false) {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
   /** @type {!cwc.mode.default.Mod} */

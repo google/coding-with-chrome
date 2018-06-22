@@ -63,7 +63,7 @@ cwc.renderer.external.PencilCode.prototype.init = function() {
  * @param {Object} editorContent
  * @param {!cwc.file.Files} libraryFiles
  * @param {cwc.renderer.Helper} rendererHelper
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.renderer.external.PencilCode.prototype.render = function(

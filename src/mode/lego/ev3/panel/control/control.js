@@ -218,7 +218,7 @@ cwc.mode.lego.ev3.Control.prototype.handleKeyboardShortcut_ = function(event) {
 
 /**
  * Handles arm keyboard shortcuts.
- * @param {!string} keys
+ * @param {string} keys
  * @private
  */
 cwc.mode.lego.ev3.Control.prototype.handleArmKeyboardShortcut_ = function(

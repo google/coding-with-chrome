@@ -22,8 +22,8 @@ goog.provide('cwc.utils.NumberTools');
 
 /**
  * @param {!number|undefined} data
- * @param {!number} min
- * @param {!number} max
+ * @param {number} min
+ * @param {number} max
  * @param {number=} defaultValue
  * @return {number}
  */

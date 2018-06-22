@@ -38,10 +38,10 @@ cwc.fileHandler.File = function(helper) {
   /** @private {string|null} */
   this.rawFile_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.filename_ = '';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.fileContent_ = '';
 
   /** @private {cwc.utils.mime.Type|null} */
@@ -50,10 +50,10 @@ cwc.fileHandler.File = function(helper) {
   /** @private {Object} */
   this.fileHandler_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.gDriveId_ = '';
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.hasUnsavedChange_ = false;
 
   /** @type {!cwc.utils.Helper} */
@@ -92,7 +92,7 @@ cwc.fileHandler.File.prototype.setFile = function(file) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  * @param {string=} filename
  */
 cwc.fileHandler.File.prototype.setRawFile = function(content, filename) {
@@ -138,7 +138,7 @@ cwc.fileHandler.File.prototype.setMimeType = function(mimeType) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {cwc.file.File}
  */
 cwc.fileHandler.File.prototype.getLibraryFile = function(name) {
@@ -150,8 +150,8 @@ cwc.fileHandler.File.prototype.getLibraryFile = function(name) {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {string=} type
  * @param {number=} size
  * @return {cwc.file.File}
@@ -166,7 +166,7 @@ cwc.fileHandler.File.prototype.addLibraryFile = function(name, content, type,
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.fileHandler.File.prototype.hasLibraryFiles = function() {
   if (this.file_) {
@@ -193,7 +193,7 @@ cwc.fileHandler.File.prototype.getFileContent = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.fileHandler.File.prototype.getFileDescription = function() {
   if (this.file_) {
@@ -240,7 +240,7 @@ cwc.fileHandler.File.prototype.getSafeFilename = function() {
 
 
 /**
- * @param {!string} ui
+ * @param {string} ui
  */
 cwc.fileHandler.File.prototype.setUi = function(ui) {
   if (this.file_) {
@@ -250,7 +250,7 @@ cwc.fileHandler.File.prototype.setUi = function(ui) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.fileHandler.File.prototype.getUi = function() {
   if (this.file_) {
@@ -261,7 +261,7 @@ cwc.fileHandler.File.prototype.getUi = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Object.<string>|string} value
  */
 cwc.fileHandler.File.prototype.setFlag = function(name, value) {
@@ -270,7 +270,7 @@ cwc.fileHandler.File.prototype.setFlag = function(name, value) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {Object.<string>|string}
  */
 cwc.fileHandler.File.prototype.getFlag = function(name) {
@@ -330,7 +330,7 @@ cwc.fileHandler.File.prototype.getFileHandler = function() {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  */
 cwc.fileHandler.File.prototype.setGDriveId = function(id) {
   this.gDriveId_ = id;

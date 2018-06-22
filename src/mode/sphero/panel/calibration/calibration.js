@@ -39,7 +39,7 @@ cwc.mode.sphero.Calibration = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero Calibration';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = helper.getPrefix('sphero-calibration');
 
   /** @type {Element} */

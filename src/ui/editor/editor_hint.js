@@ -21,7 +21,7 @@ goog.provide('cwc.ui.EditorHint');
 
 
 /**
- * @enum {!string}
+ * @enum {string}
  */
 cwc.ui.EditorHint = {
   COFFEESCRIPT: 'coffeescript',

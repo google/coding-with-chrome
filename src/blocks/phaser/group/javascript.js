@@ -21,7 +21,7 @@
 /**
  * Add group.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_group_add'] = function(block) {
   let text_name = block.getFieldValue('name');
@@ -34,7 +34,7 @@ Blockly.JavaScript['phaser_group_add'] = function(block) {
 /**
  * Get living objects.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_group_count_living'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

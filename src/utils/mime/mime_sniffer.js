@@ -27,7 +27,7 @@ goog.require('cwc.utils.mime.Type');
 
 /**
  * @param {!string|Object} content
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.mime.getTypeByContent = function(content) {
   let cwcHeader = 'Coding with Chrome File Format';
@@ -43,7 +43,7 @@ cwc.utils.mime.getTypeByContent = function(content) {
     return '';
   }
 
-  let text = /** @type {!string} */ (content);
+  let text = /** @type {string} */ (content);
 
   // Data-URL scheme
   let dataURLContent = cwc.utils.mime.isDataURLContent(text);
@@ -88,8 +88,8 @@ cwc.utils.mime.getTypeByContent = function(content) {
 
 
 /**
- * @param {!string} content
- * @return {!string}
+ * @param {string} content
+ * @return {string}
  */
 cwc.utils.mime.isDataURLContent = function(content) {
   if (content.startsWith('data:') &&
@@ -105,8 +105,8 @@ cwc.utils.mime.isDataURLContent = function(content) {
 
 
 /**
- * @param {!string} content
- * @return {!string}
+ * @param {string} content
+ * @return {string}
  */
 cwc.utils.mime.isJSONContent = function(content) {
   if (content.startsWith('{') && content.includes('}') &&
@@ -131,8 +131,8 @@ cwc.utils.mime.isJSONContent = function(content) {
 
 
 /**
- * @param {!string} content
- * @return {!string}
+ * @param {string} content
+ * @return {string}
  */
 cwc.utils.mime.isXMLContent = function(content) {
   if ((content.startsWith('<xml') && content.includes('</xml>')) ||
@@ -151,8 +151,8 @@ cwc.utils.mime.isXMLContent = function(content) {
 
 
 /**
- * @param {!string} content
- * @return {!string}
+ * @param {string} content
+ * @return {string}
  */
 cwc.utils.mime.isJavaScriptContent = function(content) {
   // ES6 class definition
@@ -178,8 +178,8 @@ cwc.utils.mime.isJavaScriptContent = function(content) {
 
 
 /**
- * @param {!string} extension
- * @return {!string}
+ * @param {string} extension
+ * @return {string}
  */
 cwc.utils.mime.getTypeByExtension = function(extension) {
   let mimeExtension = extension;
@@ -201,8 +201,8 @@ cwc.utils.mime.getTypeByExtension = function(extension) {
 
 
 /**
- * @param {!string} name
- * @return {!string}
+ * @param {string} name
+ * @return {string}
  */
 cwc.utils.mime.getTypeByName = function(name) {
   switch (name) {
@@ -229,9 +229,9 @@ cwc.utils.mime.getTypeByName = function(name) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string} content
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.mime.getTypeByNameAndContent = function(name, content) {
   if (name) {
@@ -258,9 +258,9 @@ cwc.utils.mime.getTypeByNameAndContent = function(name, content) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  * @param {!array} searchTerms
- * @return {!boolean}
+ * @return {boolean}
  * @private
  */
 cwc.utils.mime.contentIncludes_ = function(content, searchTerms) {

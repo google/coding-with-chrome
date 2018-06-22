@@ -35,7 +35,7 @@ goog.require('cwc.soy.mbotRanger.Blocks');
  * @param {boolean=} enableBlockly
  */
 cwc.mode.makeblock.mbotRanger.Mod = function(helper, enableBlockly = false) {
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
   /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */

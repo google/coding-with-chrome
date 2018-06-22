@@ -40,7 +40,7 @@ cwc.mode.sphero.Control = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero Control';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.prefix = helper.getPrefix('sphero-control');
 
   /** @type {Element} */

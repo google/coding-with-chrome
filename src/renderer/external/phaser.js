@@ -59,7 +59,7 @@ cwc.renderer.external.Phaser.prototype.init = function() {
  * @param {!cwc.file.Files} libraryFiles
  * @param {cwc.renderer.Helper} rendererHelper
  * @param {Object=} environ
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.renderer.external.Phaser.prototype.render = function(

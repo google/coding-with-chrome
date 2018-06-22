@@ -23,13 +23,13 @@ goog.require('cwc.utils.Logger');
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {number=} version
  * @param {string=} objectStoreName
  * @constructor
  */
 cwc.utils.Database = function(name, version) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Database';
 
   /** @private {!Object} */
@@ -38,13 +38,13 @@ cwc.utils.Database = function(name, version) {
   /** @private {*} */
   this.database_ = null;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.name_ = name;
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name + '::' + this.name_);
 
-  /** @private {!string} */
+  /** @private {string} */
   this.defaultObjectStore_ = '__data__';
 
   /** @private {number|undefined} */
@@ -105,7 +105,7 @@ cwc.utils.Database.prototype.open = function(config = this.config_) {
 
 /**
  * Adds a new record, if not already exists.
- * @param {!string} name
+ * @param {string} name
  * @param {!string|number} content
  * @param {string=} group
  */
@@ -136,8 +136,8 @@ cwc.utils.Database.prototype.clear = function(
 
 /**
  * Updates given record, or inserts a new record if not already exist.
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {string=} group
  */
 cwc.utils.Database.prototype.put = function(name, content, group) {
@@ -155,7 +155,7 @@ cwc.utils.Database.prototype.set = cwc.utils.Database.prototype.put;
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} group
  * @return {Promise}
  */
@@ -236,7 +236,7 @@ cwc.utils.Database.prototype.getAllWithKeys = async function(group, query,
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} group
  * @return {Promise}
  */
@@ -254,7 +254,7 @@ cwc.utils.Database.prototype.delete = function(name, group) {
 
 
 /**
- * @param {!string} objectStoreName
+ * @param {string} objectStoreName
  * @return {THIS}
  * @template THIS
  */

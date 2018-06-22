@@ -98,7 +98,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.disconnect = function() {
 
 
 /**
- * @param {!string} characteristicId
+ * @param {string} characteristicId
  * @param {!Function} func
  */
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.listen = function(
@@ -133,7 +133,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.send = function(buffer) {
 /**
  * Sends the buffer to the socket.
  * @param {!Array|ArrayBuffer|Uint8Array} buffer
- * @param {!string} characteristicId
+ * @param {string} characteristicId
  * @param {Function=} callback
  */
 cwc.protocol.bluetooth.lowEnergy.Device.prototype.sendRaw = function(buffer,
@@ -181,7 +181,7 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.handleDisconnect_ = function(
 
 
 /**
- * @param {!string} serviceId
+ * @param {string} serviceId
  * @param {string=} characteristic
  * @return {Promise}
  * @private
@@ -209,8 +209,8 @@ cwc.protocol.bluetooth.lowEnergy.Device.prototype.connectService_ = function(
 
 
 /**
- * @param {!string} characteristicId
- * @param {!string} serviceId
+ * @param {string} characteristicId
+ * @param {string} serviceId
  * @return {Promise}
  * @private
  */

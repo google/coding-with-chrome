@@ -33,7 +33,7 @@ goog.require('cwc.utils.Logger');
  * @final
  */
 cwc.addon.Message = function(helper) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Message';
 
   /** @type {!cwc.utils.Helper} */
@@ -42,7 +42,7 @@ cwc.addon.Message = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('addon-message');
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.utils.Logger} */

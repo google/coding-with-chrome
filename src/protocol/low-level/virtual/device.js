@@ -27,10 +27,10 @@ goog.require('cwc.protocol.default.Device');
  * @extends {cwc.protocol.default.Device}
  */
 cwc.protocol.virtual.Device = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.address = 'virtual::localhost';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.connected = false;
 };
 goog.inherits(cwc.protocol.virtual.Device, cwc.protocol.default.Device);

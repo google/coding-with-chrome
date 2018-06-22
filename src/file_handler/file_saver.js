@@ -162,9 +162,9 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
 
 
 /**
- * @param {!string} filename
+ * @param {string} filename
  * @param {string=} extension
- * @return {!string}
+ * @return {string}
  */
 cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
     filename, extension = cwc.utils.mime.Type.CWC.ext[0]) {
@@ -176,8 +176,8 @@ cwc.fileHandler.FileSaver.prototype.addFileExtension = function(
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  */
 cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
   let prepareSaveFile = function(file_entry, opt_file_entries) {
@@ -200,8 +200,8 @@ cwc.fileHandler.FileSaver.prototype.selectFileToSave = function(name, content) {
 
 /**
  * @param {Object} file_entry
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  */
 cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
     file_entry, name, content) {
@@ -221,8 +221,8 @@ cwc.fileHandler.FileSaver.prototype.prepareSaveFile = function(
 /**
  * Saves a file.
  * @param {Object} writer
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {Object} file_entry
  */
 cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
@@ -254,8 +254,8 @@ cwc.fileHandler.FileSaver.prototype.fileWriterHandler = function(
 
 /**
  * Returns an OS safe filename.
- * @param {!string} name
- * @return {!string}
+ * @param {string} name
+ * @return {string}
  * @private
  */
 cwc.fileHandler.FileSaver.prototype.getSafeFilename_ = function(name) {

@@ -114,7 +114,7 @@ cwc.ui.BlocklyToolbar.prototype.decorate = function(node) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!function()} func
  * @param {string=} opt_tooltip
  */

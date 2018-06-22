@@ -85,7 +85,7 @@ cwc.utils.HelperInstance;
  * @export
  */
 cwc.utils.Helper = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Helper';
 
   /** @private {!cwc.utils.Features} */
@@ -112,7 +112,7 @@ cwc.utils.Helper = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!cwc.utils.AddonInstance} instance
  * @param {boolean=} overwrite
  * @export
@@ -128,7 +128,7 @@ cwc.utils.Helper.prototype.setAddon = function(name, instance,
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {boolean=} required
  * @return {cwc.utils.AddonInstance}
  * @export
@@ -146,7 +146,7 @@ cwc.utils.Helper.prototype.getAddon = function(name, required = false) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @export
  */
 cwc.utils.Helper.prototype.prepareAddon = function(name) {
@@ -158,7 +158,7 @@ cwc.utils.Helper.prototype.prepareAddon = function(name) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @export
  */
 cwc.utils.Helper.prototype.clearInstance = function(name) {
@@ -172,7 +172,7 @@ cwc.utils.Helper.prototype.clearInstance = function(name) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!cwc.utils.HelperInstance} instance
  * @param {boolean=} overwrite
  * @return {!cwc.utils.HelperInstance}
@@ -190,7 +190,7 @@ cwc.utils.Helper.prototype.setInstance = function(name, instance,
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {boolean=} required
  * @return {cwc.utils.HelperInstance}
  * @export
@@ -208,7 +208,7 @@ cwc.utils.Helper.prototype.getInstance = function(name, required = false) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Element|string} element
  */
 cwc.utils.Helper.prototype.decorateInstance = function(name, element) {
@@ -221,7 +221,7 @@ cwc.utils.Helper.prototype.decorateInstance = function(name, element) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.utils.Helper.prototype.getUserLanguage = function() {
   let languageInstance = this.getInstance('language');
@@ -234,7 +234,7 @@ cwc.utils.Helper.prototype.getUserLanguage = function() {
 
 /**
  * Shows an error message over the notification instance.
- * @param {!string} msg
+ * @param {string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showError = function(msg) {
@@ -249,7 +249,7 @@ cwc.utils.Helper.prototype.showError = function(msg) {
 
 /**
  * Shows a warning message over the notification instance.
- * @param {!string} msg
+ * @param {string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showWarning = function(msg) {
@@ -264,7 +264,7 @@ cwc.utils.Helper.prototype.showWarning = function(msg) {
 
 /**
  * Shows an info message over the notification instance.
- * @param {!string} msg
+ * @param {string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showInfo = function(msg) {
@@ -279,7 +279,7 @@ cwc.utils.Helper.prototype.showInfo = function(msg) {
 
 /**
  * Shows an success message over the notification instance.
- * @param {!string} msg
+ * @param {string} msg
  * @export
  */
 cwc.utils.Helper.prototype.showSuccess = function(msg) {
@@ -312,7 +312,7 @@ cwc.utils.Helper.prototype.removeEventListeners = function(events, name = '') {
 
 /**
  * @param {string} name
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
@@ -322,7 +322,7 @@ cwc.utils.Helper.prototype.checkBrowserFeature = function(name) {
 
 /**
  * @param {string} name
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
@@ -332,7 +332,7 @@ cwc.utils.Helper.prototype.checkChromeFeature = function(name) {
 
 /**
  * @param {string} name
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
@@ -343,7 +343,7 @@ cwc.utils.Helper.prototype.checkJavaScriptFeature = function(name) {
 /**
  * @param {string} name
  * @param {string=} group
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.checkFeature = function(name, group = undefined) {
@@ -352,7 +352,7 @@ cwc.utils.Helper.prototype.checkFeature = function(name, group = undefined) {
 
 
 /**
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.utils.Helper.prototype.getBaseURL = function() {
@@ -376,7 +376,7 @@ cwc.utils.Helper.prototype.getManifest = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  * @export
  */
 cwc.utils.Helper.prototype.getAppVersion = function() {
@@ -390,7 +390,7 @@ cwc.utils.Helper.prototype.getAppVersion = function() {
 
 /**
  * @param {string=} optName
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.debugEnabled = function(optName) {
@@ -404,7 +404,7 @@ cwc.utils.Helper.prototype.debugEnabled = function(optName) {
 
 /**
  * @param {string=} optName
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.experimentalEnabled = function(optName) {
@@ -417,7 +417,7 @@ cwc.utils.Helper.prototype.experimentalEnabled = function(optName) {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.utils.Helper.prototype.isGoogleAccountEnabled = function() {
@@ -476,7 +476,7 @@ cwc.utils.Helper.prototype.handleUnsavedChanges = function(func) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  */
 cwc.utils.Helper.prototype.tourEvent = function(name) {
   if (this.checkJavaScriptFeature('shepherd')) {
@@ -498,9 +498,9 @@ cwc.utils.Helper.prototype.endTour = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} feature
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.utils.Helper.prototype.isFirstRun = function(name, feature = 'general') {
   let firstRun = !this.hadFirstRun_[name + '__' + feature];
@@ -513,8 +513,8 @@ cwc.utils.Helper.prototype.isFirstRun = function(name, feature = 'general') {
 
 
 /**
- * @param {!string} name
- * @param {!boolean} firstRun
+ * @param {string} name
+ * @param {boolean} firstRun
  * @param {string=} feature
  */
 cwc.utils.Helper.prototype.setFirstRun = function(name, firstRun,
@@ -524,10 +524,10 @@ cwc.utils.Helper.prototype.setFirstRun = function(name, firstRun,
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} feature
  * @param {boolean=} optFirstRun
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
     feature = 'general', optFirstRun = false) {
@@ -538,7 +538,7 @@ cwc.utils.Helper.prototype.getAndSetFirstRun = function(name,
 
 
 /**
- * @param {!string} url
+ * @param {string} url
  */
 cwc.utils.Helper.prototype.openUrl = function(url) {
   if (this.checkChromeFeature('browser')) {

@@ -168,7 +168,7 @@ cwc.ui.Builder = function() {
   /** @type {Element} */
   this.node = null;
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.chromeApp_ = this.helper.checkChromeFeature('app');
 
   /** @private {!cwc.utils.Events} */
@@ -326,7 +326,7 @@ cwc.ui.Builder.prototype.isReady = function() {
 
 
 /**
- * @param {!string} filename
+ * @param {string} filename
  * @return {Promise}
  * @export
  */
@@ -336,8 +336,8 @@ cwc.ui.Builder.prototype.loadFile = function(filename) {
 
 
 /**
- * @param {!string} text
- * @param {!number} current
+ * @param {string} text
+ * @param {number} current
  * @param {number=} total
  */
 cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
@@ -346,7 +346,7 @@ cwc.ui.Builder.prototype.setProgress = function(text, current, total = 100) {
 
 
 /**
- * @param {!string} text
+ * @param {string} text
  * @param {!Function} func
  * @param {number=} steps
  * @return {Function|Promise}
@@ -357,7 +357,7 @@ cwc.ui.Builder.prototype.setProgressFunc = function(text, func, steps) {
 
 
 /**
- * @param {!string} error
+ * @param {string} error
  * @param {boolean=} skipThrow
  */
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
@@ -523,7 +523,7 @@ cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
 
 /**
  * @param {!cwc.utils.AddonInstance} instance
- * @param {!string} instanceName
+ * @param {string} instanceName
  * @private
  */
 cwc.ui.Builder.prototype.loadAddon_ = function(instance, instanceName) {
@@ -537,7 +537,7 @@ cwc.ui.Builder.prototype.loadAddon_ = function(instance, instanceName) {
 
 /**
  * @param {!cwc.utils.HelperInstance} instance
- * @param {!string} instanceName
+ * @param {string} instanceName
  * @private
  */
 cwc.ui.Builder.prototype.loadHelper_ = function(instance, instanceName) {

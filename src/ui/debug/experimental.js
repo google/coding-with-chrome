@@ -32,7 +32,7 @@ cwc.ui.Experimental = function(helper) {
   /** @type {string} */
   this.name = 'Experimental';
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enabled = false;
 
   /** @type {!cwc.utils.Helper} */
@@ -58,7 +58,7 @@ cwc.ui.Experimental.prototype.prepare = function() {
 
 /**
  * @param {string=} optName
- * @return {!boolean}
+ * @return {boolean}
  * @export
  */
 cwc.ui.Experimental.prototype.isEnabled = function(optName) {

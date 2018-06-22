@@ -22,7 +22,7 @@
 /**
  * Phaser input section.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -33,7 +33,7 @@ Blockly.JavaScript['phaser_input'] = function(block) {
 /**
  * Input body block.
 * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_body'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -44,7 +44,7 @@ Blockly.JavaScript['phaser_input_body'] = function(block) {
 /**
  * Add keyboard cursor keys.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -60,7 +60,7 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_keys_add'] = function(block) {
 /**
  * Add keyboard WASD keys.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_wasd_keys_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -77,7 +77,7 @@ Blockly.JavaScript['phaser_input_keyboard_wasd_keys_add'] = function(block) {
 /**
  * Add keyboard spacebar.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -91,7 +91,7 @@ Blockly.JavaScript['phaser_input_keyboard_spacebar_add'] = function(block) {
 /**
  * Add keyboard key.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
   let dropdown_keycode = block.getFieldValue('keycode');
@@ -106,7 +106,7 @@ Blockly.JavaScript['phaser_input_keyboard_key_add'] = function(block) {
 /**
  * Add mouse keys.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_mouse_keys_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -119,7 +119,7 @@ Blockly.JavaScript['phaser_input_mouse_keys_add'] = function(block) {
 /**
  * Keyboard cursor is pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
     block) {
@@ -135,7 +135,7 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_pressed'] = function(
 /**
  * Keyboard cursor is hold pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_cursor_is_hold_pressed'] = function(
     block) {
@@ -151,7 +151,7 @@ Blockly.JavaScript['phaser_input_keyboard_cursor_is_hold_pressed'] = function(
 /**
  * Keyboard key is pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_is_pressed'] = function(block) {
   let value_key = Blockly.JavaScript.valueToCode(
@@ -164,7 +164,7 @@ Blockly.JavaScript['phaser_input_keyboard_key_is_pressed'] = function(block) {
 /**
  * Keyboard key is hold pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_keyboard_key_is_hold_pressed'] = function(
     block) {
@@ -178,7 +178,7 @@ Blockly.JavaScript['phaser_input_keyboard_key_is_hold_pressed'] = function(
 /**
  * Mouse button is pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_mouse_key_is_pressed'] = function(
     block) {
@@ -194,7 +194,7 @@ Blockly.JavaScript['phaser_input_mouse_key_is_pressed'] = function(
 /**
  * Mouse button is hold pressed.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_input_mouse_key_is_hold_pressed'] = function(
     block) {

@@ -29,7 +29,7 @@ goog.require('goog.soy');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 cwc.ui.NotificationType = {
   CONFIRM: 1,
@@ -63,7 +63,7 @@ cwc.ui.Notification = function(helper) {
   /** @type {Element} */
   this.snackbar = null;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.snackbarTextLimit = 255;
 
   /** @type {!cwc.utils.Logger} */
@@ -89,7 +89,7 @@ cwc.ui.Notification.prototype.decorate = function(node) {
 
 
 /**
- * @param {!string} message Shows info message.
+ * @param {string} message Shows info message.
  */
 cwc.ui.Notification.prototype.info = function(message) {
   this.showMessage(message, cwc.ui.NotificationType.INFO);
@@ -97,7 +97,7 @@ cwc.ui.Notification.prototype.info = function(message) {
 
 
 /**
- * @param {!string} message Shows promotion message.
+ * @param {string} message Shows promotion message.
  */
 cwc.ui.Notification.prototype.success = function(message) {
   this.showMessage(message, cwc.ui.NotificationType.SUCCESS);
@@ -105,7 +105,7 @@ cwc.ui.Notification.prototype.success = function(message) {
 
 
 /**
- * @param {!string} message Shows error message.
+ * @param {string} message Shows error message.
  */
 cwc.ui.Notification.prototype.error = function(message) {
   this.showMessage(message, cwc.ui.NotificationType.ERROR);
@@ -113,7 +113,7 @@ cwc.ui.Notification.prototype.error = function(message) {
 
 
 /**
- * @param {!string} message Shows warning message.
+ * @param {string} message Shows warning message.
  */
 cwc.ui.Notification.prototype.warning = function(message) {
   this.showMessage(message, cwc.ui.NotificationType.WARNING);

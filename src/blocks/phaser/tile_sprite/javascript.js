@@ -22,7 +22,7 @@
 /**
  * Add background tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_background'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -38,7 +38,7 @@ Blockly.JavaScript['phaser_tile_sprite_background'] = function(block) {
 /**
  * Add floor tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_floor_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -59,7 +59,7 @@ Blockly.JavaScript['phaser_tile_sprite_floor_add'] = function(block) {
 /**
  * Add ceiling tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_ceiling_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -80,7 +80,7 @@ Blockly.JavaScript['phaser_tile_sprite_ceiling_add'] = function(block) {
 /**
  * Add tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
   let number_width = block.getFieldValue('width');
@@ -101,7 +101,7 @@ Blockly.JavaScript['phaser_tile_sprite_add'] = function(block) {
 /**
  * Adjust tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -124,7 +124,7 @@ Blockly.JavaScript['phaser_tile_sprite_adjust'] = function(block) {
 /**
  * Crop tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_crop'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -146,7 +146,7 @@ Blockly.JavaScript['phaser_tile_sprite_crop'] = function(block) {
 /**
  * Destroy tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_destroy'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -158,7 +158,7 @@ Blockly.JavaScript['phaser_tile_sprite_destroy'] = function(block) {
 /**
  * Auto scroll tile sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_autoScroll'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -174,7 +174,7 @@ Blockly.JavaScript['phaser_tile_sprite_autoScroll'] = function(block) {
 /**
  * Immovable title sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_tile_sprite_immovable'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

@@ -31,7 +31,7 @@ goog.require('goog.events.EventTarget');
  * @final
  */
 cwc.utils.Gamepad = function() {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'Gamepad';
 
   /** @type {number} */
@@ -67,7 +67,7 @@ cwc.utils.Gamepad.prototype.prepare = function() {
 
 
 /**
- * @param {!number} index
+ * @param {number} index
  */
 cwc.utils.Gamepad.prototype.setGamepad = function(index) {
   this.index = index;
@@ -97,7 +97,7 @@ cwc.utils.Gamepad.prototype.getGamepad = function(index = this.index) {
 
 /**
  * @param {number=} shift
- * @return {!number}
+ * @return {number}
  */
 cwc.utils.Gamepad.prototype.getLeftAxisAngle = function(shift) {
   return cwc.utils.Gamepad.getAngle(
@@ -191,10 +191,10 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
 
 
 /**
- * @param {!number} x
- * @param {!number} y
+ * @param {number} x
+ * @param {number} y
  * @param {number=} shift (default: 90)
- * @return {!number}
+ * @return {number}
  */
 cwc.utils.Gamepad.getAngle = function(x, y, shift = 90) {
   let angle = 0;
@@ -210,10 +210,10 @@ cwc.utils.Gamepad.getAngle = function(x, y, shift = 90) {
 
 /**
  * Return's mapped index for supported controllers.
- * @param {!number} index
- * @param {!string} type
+ * @param {number} index
+ * @param {string} type
  * @param {!Object} gamepad
- * @return {!number}
+ * @return {number}
  */
 cwc.utils.Gamepad.getIndex = function(index, type, gamepad) {
   if (gamepad['mapping'] === 'standard') {

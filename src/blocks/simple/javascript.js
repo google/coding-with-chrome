@@ -22,7 +22,7 @@
 /**
  * Write text.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_text_write'] = function(block) {
   let text = Blockly.JavaScript.valueToCode(block, 'text',
@@ -34,7 +34,7 @@ Blockly.JavaScript['simple_text_write'] = function(block) {
 /**
  * Draw circle.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_circle'] = function(block) {
   let x = Blockly.JavaScript.valueToCode(block, 'x',
@@ -56,7 +56,7 @@ Blockly.JavaScript['simple_draw_circle'] = function(block) {
 
 /**
  * Clear screen.
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_clear'] = function() {
   return 'draw.clear();\n';
@@ -66,7 +66,7 @@ Blockly.JavaScript['simple_draw_clear'] = function() {
 /**
  * Draw rectangle.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_rectangle'] = function(block) {
   let x = Blockly.JavaScript.valueToCode(block, 'x',
@@ -92,7 +92,7 @@ Blockly.JavaScript['simple_draw_rectangle'] = function(block) {
 /**
  * Draw line.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_line'] = function(block) {
   let startX = Blockly.JavaScript.valueToCode(block, 'start_x',
@@ -115,7 +115,7 @@ Blockly.JavaScript['simple_draw_line'] = function(block) {
 /**
  * Draw point.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_point'] = function(block) {
   let x = Blockly.JavaScript.valueToCode(block, 'x',
@@ -134,7 +134,7 @@ Blockly.JavaScript['simple_draw_point'] = function(block) {
 /**
  * Draw ellipse.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_ellipse'] = function(block) {
   let x = Blockly.JavaScript.valueToCode(block, 'x',
@@ -159,7 +159,7 @@ Blockly.JavaScript['simple_draw_ellipse'] = function(block) {
 /**
  * Draw triangle.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_triangle'] = function(block) {
   let x1 = Blockly.JavaScript.valueToCode(block, 'x1',
@@ -189,7 +189,7 @@ Blockly.JavaScript['simple_draw_triangle'] = function(block) {
 /**
  * Draw text.
  * @param {!Blockly.block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['simple_draw_text'] = function(block) {
   let text = Blockly.JavaScript.valueToCode(block, 'text',

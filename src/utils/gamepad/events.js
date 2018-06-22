@@ -80,8 +80,8 @@ cwc.utils.Gamepad.Events.disconnected = function() {
 
 
 /**
- * @param {!number} index
- * @param {!number} value
+ * @param {number} index
+ * @param {number} value
  * @return {!cwc.utils.EventData}
  */
 cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
@@ -92,8 +92,8 @@ cwc.utils.Gamepad.Events.axisMoved = function(index, value) {
 
 
 /**
- * @param {!number} index
- * @param {!number} value
+ * @param {number} index
+ * @param {number} value
  * @return {!cwc.utils.EventData}
  */
 cwc.utils.Gamepad.Events.buttonPressed = function(index, value) {

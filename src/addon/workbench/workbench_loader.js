@@ -32,7 +32,7 @@ goog.require('cwc.utils.Resources');
  * @final
  */
 cwc.addon.WorkbenchLoader = function(helper, projectsDb, imagesDb) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = 'WorkbenchLoader';
 
   /** @private {!cwc.utils.Database} */

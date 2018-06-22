@@ -53,7 +53,7 @@ cwc.file.File = function(name, content, type, size) {
 
 
 /**
- * @param {!string} content
+ * @param {string} content
  */
 cwc.file.File.prototype.setContent = function(content) {
   this.content_ = content;
@@ -104,7 +104,7 @@ cwc.file.File.prototype.getType = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.file.File.prototype.getMediaType = function() {
   return this.mediaType_;
@@ -142,8 +142,8 @@ cwc.file.File.prototype.getJSON = function() {
 
 
 /**
- * @param {!string} mimeType
- * @return {!string}
+ * @param {string} mimeType
+ * @return {string}
  */
 cwc.file.File.getMediaType = function(mimeType) {
   let type = mimeType.split('/')[0];

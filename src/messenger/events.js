@@ -23,7 +23,7 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 cwc.MessengerEvents.Type = {
   COMMAND: 1,
@@ -31,8 +31,8 @@ cwc.MessengerEvents.Type = {
 
 
 /**
- * @param {!string} name
- * @param {!string} value
+ * @param {string} name
+ * @param {string} value
  * @return {!cwc.utils.EventData}
  * @final
  */

@@ -23,7 +23,7 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Events');
 
 
 /**
- * @enum {!String}
+ * @enum {string}
  */
 cwc.mode.makeblock.mbotRanger.SensorEvents =
   cwc.protocol.makeblock.mbotRanger.Events.Type;

@@ -130,7 +130,7 @@ cwc.ui.connectScreen.Serial.prototype.disconnectDevice_ = function(device) {
 
 
 /**
- * @param {!string} title
+ * @param {string} title
  * @param {Object} template
  * @param {Object} context
  * @private

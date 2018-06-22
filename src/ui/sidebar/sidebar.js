@@ -56,7 +56,7 @@ cwc.ui.Sidebar = function(helper) {
   /** @type {Element} */
   this.nodeCustomIcons = null;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.contentName = '';
 
   /** @type {Array} */
@@ -65,7 +65,7 @@ cwc.ui.Sidebar = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
-  /** @private {!boolean} */
+  /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!cwc.utils.Logger|null} */
@@ -174,8 +174,8 @@ cwc.ui.Sidebar.prototype.getContentBodyNode = function() {
 };
 
 /**
- * @param {!string} id
- * @param {!string} icon
+ * @param {string} id
+ * @param {string} icon
  * @param {string=} tooltip
  * @param {Function=} func
  * @return {Element}
@@ -216,7 +216,7 @@ cwc.ui.Sidebar.prototype.addCustomButton = function(id, icon, tooltip = '',
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @param {boolean} enabled
  */
 cwc.ui.Sidebar.prototype.enableButton = function(id, enabled) {
@@ -256,7 +256,7 @@ cwc.ui.Sidebar.prototype.enableLibrary = function(enabled) {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @param {boolean} visible
  */
 cwc.ui.Sidebar.prototype.showButton = function(id, visible) {
@@ -282,7 +282,7 @@ cwc.ui.Sidebar.prototype.showMedia = function(visible) {
 
 
 /**
- * @param {!string} id
+ * @param {string} id
  * @param {boolean} active
  */
 cwc.ui.Sidebar.prototype.setActive = function(id, active) {
@@ -298,7 +298,7 @@ cwc.ui.Sidebar.prototype.setActive = function(id, active) {
 
 /**
  * Show normal sidebar content.
- * @param {!string} id
+ * @param {string} id
  * @param {string=} title
  * @param {string=} content
  */
@@ -329,8 +329,8 @@ cwc.ui.Sidebar.prototype.showContent = function(id, title, content = '') {
 
 /**
  * Show raw sidebar content.
- * @param {!string} id
- * @param {!string} title
+ * @param {string} id
+ * @param {string} title
  * @param {string} content
  */
 cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
@@ -351,8 +351,8 @@ cwc.ui.Sidebar.prototype.showRawContent = function(id, title, content = '') {
 
 /**
  * Render a template to the sidebar
- * @param {!string} id
- * @param {!string} title
+ * @param {string} id
+ * @param {string} title
  * @param {Function} template
  * @param {Object} params
  */
@@ -375,7 +375,7 @@ cwc.ui.Sidebar.prototype.hideContent = function() {
 
 
 /**
- * @param {!string} contentName
+ * @param {string} contentName
  * @return {boolean}
  */
 cwc.ui.Sidebar.prototype.isContentActive = function(contentName) {

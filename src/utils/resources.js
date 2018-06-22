@@ -23,7 +23,7 @@ goog.require('goog.net.XhrIo');
 
 
 /**
- * @param {!string} uri
+ * @param {string} uri
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsText = function(uri) {
@@ -40,7 +40,7 @@ cwc.utils.Resources.getUriAsText = function(uri) {
 
 
 /**
- * @param {!string} uri
+ * @param {string} uri
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsBlob = function(uri) {
@@ -58,7 +58,7 @@ cwc.utils.Resources.getUriAsBlob = function(uri) {
 
 
 /**
- * @param {!string} uri
+ * @param {string} uri
  * @return {Promise}
  */
 cwc.utils.Resources.getUriAsBase64 = function(uri) {
@@ -81,8 +81,8 @@ cwc.utils.Resources.getUriAsBase64 = function(uri) {
 
 
 /**
- * @param {!string} uri
- * @param {!string} nodeId
+ * @param {string} uri
+ * @param {string} nodeId
  * @return {Promise}
  * @private
  */
@@ -107,7 +107,7 @@ cwc.utils.Resources.getUriAsJavaScriptTag = function(uri, nodeId) {
 
 
 /**
- * @param {!string} uri
+ * @param {string} uri
  * @return {Promise}
  * @private
  */

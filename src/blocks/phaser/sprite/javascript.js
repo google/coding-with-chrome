@@ -22,7 +22,7 @@
 /**
  * Add sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_add'] = function(block) {
   let text_sprite = block.getFieldValue('sprite');
@@ -40,7 +40,7 @@ Blockly.JavaScript['phaser_sprite_add'] = function(block) {
 /**
  * Adjust sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -68,7 +68,7 @@ Blockly.JavaScript['phaser_sprite_adjust'] = function(block) {
 /**
  * Adjust sprite dimension.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_adjust_dimension'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -85,7 +85,7 @@ Blockly.JavaScript['phaser_sprite_adjust_dimension'] = function(block) {
 /**
  * Get sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_get'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -99,7 +99,7 @@ Blockly.JavaScript['phaser_sprite_get'] = function(block) {
 /**
  * Destroy sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_destroy'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
@@ -111,7 +111,7 @@ Blockly.JavaScript['phaser_sprite_destroy'] = function(block) {
 /**
  * Immovable sprite.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_sprite_immovable'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,

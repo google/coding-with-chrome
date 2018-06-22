@@ -40,10 +40,10 @@ cwc.protocol.sphero.v1.Buffer = function(optCallback) {
   /** @type {!cwc.protocol.sphero.v1.Command|Array} */
   this.command = cwc.protocol.sphero.v1.Command.SYSTEM.PING;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.header = 0xFF;
 
-  /** @type {!number} */
+  /** @type {number} */
   this.type = (optCallback) ?
       cwc.protocol.sphero.v1.CommandType.DIRECT.REPLY :
       cwc.protocol.sphero.v1.CommandType.DIRECT.NOREPLY;

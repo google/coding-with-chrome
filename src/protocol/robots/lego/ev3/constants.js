@@ -38,7 +38,7 @@ goog.provide('cwc.protocol.lego.ev3.UltrasonicSensorMode');
 
 /**
  * Enum of implemented callback types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.CallbackType = {
   NONE: 0x00,
@@ -55,7 +55,7 @@ cwc.protocol.lego.ev3.CallbackType = {
 
 /**
  * Color sensor modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.ColorSensorMode = {
   REFLECTIVE: 0,
@@ -66,7 +66,7 @@ cwc.protocol.lego.ev3.ColorSensorMode = {
 
 /**
  * Color sensor values.
- * @enum {!string}
+ * @enum {string}
  */
 cwc.protocol.lego.ev3.ColorSensorValues = {
   0: 'transparent',
@@ -185,7 +185,7 @@ cwc.protocol.lego.ev3.CommandType = {
 
 /**
  * Sensor and Actors device types.
- * @enum {!string}
+ * @enum {string}
  * @final
  */
 cwc.protocol.lego.ev3.DeviceType = {
@@ -214,7 +214,7 @@ cwc.protocol.lego.ev3.DeviceType = {
 
 /**
  * Input ports.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.InputPort = {
   ONE: 0x00,
@@ -230,7 +230,7 @@ cwc.protocol.lego.ev3.InputPort = {
 
 /**
  * Output ports.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.OutputPort = {
   A: 0x01,
@@ -243,7 +243,7 @@ cwc.protocol.lego.ev3.OutputPort = {
 
 /**
  * IR sensor modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.IrSensorMode = {
   PROXIMITY: 0,
@@ -254,7 +254,7 @@ cwc.protocol.lego.ev3.IrSensorMode = {
 
 /**
  * Ultrasonic sensor modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.UltrasonicSensorMode = {
   DIST_CM: 0,
@@ -265,7 +265,7 @@ cwc.protocol.lego.ev3.UltrasonicSensorMode = {
 
 /**
  * Led colors.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.LedColor = {
   OFF: 0,
@@ -277,7 +277,7 @@ cwc.protocol.lego.ev3.LedColor = {
 
 /**
  * Led modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.LedMode = {
   NORMAL: 0,
@@ -305,7 +305,7 @@ cwc.protocol.lego.ev3.LedType = {
 
 /**
  * Motor modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.MotorMode = {
   DEGREE: 0,
@@ -316,7 +316,7 @@ cwc.protocol.lego.ev3.MotorMode = {
 
 /**
  * Motor modes.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.GyroMode = {
   ANGLE: 0,
@@ -328,7 +328,7 @@ cwc.protocol.lego.ev3.GyroMode = {
 
 /**
  * Parameter sizes for the different types.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.ParameterSize = {
   BYTE: 0x81, // 1 byte
@@ -341,7 +341,7 @@ cwc.protocol.lego.ev3.ParameterSize = {
 
 /**
  * Motor polarity.
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.lego.ev3.Polarity = {
   BACKWARD: -1,

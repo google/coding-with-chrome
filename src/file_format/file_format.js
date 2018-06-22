@@ -29,14 +29,14 @@ goog.require('cwc.utils.Logger');
 
 /**
  * The cwc format header for identification.
- * @const {!string}
+ * @const {string}
  */
 cwc.fileFormat.FILE_HEADER = 'Coding with Chrome File Format';
 
 
 /**
  * The cwc format header for identification.
- * @const {!number}
+ * @const {number}
  */
 cwc.fileFormat.FILE_VERSION = 3.0;
 
@@ -84,7 +84,7 @@ cwc.fileFormat.File = function(content = '') {
   /** @private {!cwc.ui.EditorContent} */
   this.view_ = cwc.ui.EditorContent.NONE;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.metedataNamespace_ = '__default__';
 
   if (content) {
@@ -114,7 +114,7 @@ cwc.fileFormat.File.prototype.init = function(silent = false) {
 
 
 /**
- * @param {!string} author
+ * @param {string} author
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setAuthor = function(author) {
@@ -154,8 +154,8 @@ cwc.fileFormat.File.prototype.getContent = function(name, group) {
 
 
 /**
- * @param {!string} name
- * @param {!string} content
+ * @param {string} name
+ * @param {string} content
  * @param {string=} type
  * @return {!cwc.fileFormat.File}
  */
@@ -183,7 +183,7 @@ cwc.fileFormat.File.prototype.getContentData = function() {
 
 
 /**
- * @param {!string} description
+ * @param {string} description
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setDescription = function(description) {
@@ -244,7 +244,7 @@ cwc.fileFormat.File.prototype.getFiles = function() {
 
 
 /**
- * @return {!boolean}
+ * @return {boolean}
  */
 cwc.fileFormat.File.prototype.hasFiles = function() {
   return this.files_.hasFiles();
@@ -252,7 +252,7 @@ cwc.fileFormat.File.prototype.hasFiles = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @return {Object.<string>|string}
  */
 cwc.fileFormat.File.prototype.getFlag = function(name) {
@@ -269,7 +269,7 @@ cwc.fileFormat.File.prototype.getFlags = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Object.<string>|string} value
  */
 cwc.fileFormat.File.prototype.setFlag = function(name, value) {
@@ -295,7 +295,7 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} namespace
  * @return {!string|Array}
  */
@@ -315,8 +315,8 @@ cwc.fileFormat.File.prototype.getMetadata = function(
 
 
 /**
- * @param {!string} name
- * @param {!string} value
+ * @param {string} name
+ * @param {string} value
  * @param {string=} namespace
  * @return {!cwc.fileFormat.File}
  */
@@ -349,7 +349,7 @@ cwc.fileFormat.File.prototype.getMode = function() {
 
 
 /**
- * @param {!string} model
+ * @param {string} model
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setModel = function(model) {
@@ -366,7 +366,7 @@ cwc.fileFormat.File.prototype.getModel = function() {
 
 
 /**
- * @param {!string} ui
+ * @param {string} ui
  * @param {boolean=} opt_no_overwrite
  * @return {!cwc.fileFormat.File}
  */
@@ -388,7 +388,7 @@ cwc.fileFormat.File.prototype.getUi = function() {
 
 
 /**
- * @param {!string} title
+ * @param {string} title
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setTitle = function(title) {
@@ -445,7 +445,7 @@ cwc.fileFormat.File.prototype.getTutorial = function(language = 'eng') {
 
 
 /**
- * @param {!string} version
+ * @param {string} version
  * @return {cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setVersion = function(version) {
@@ -462,7 +462,7 @@ cwc.fileFormat.File.prototype.getVersion = function() {
 
 
 /**
- * @param {!string} history
+ * @param {string} history
  * @return {!cwc.fileFormat.File}
  */
 cwc.fileFormat.File.prototype.setHistory = function(history) {
@@ -516,7 +516,7 @@ cwc.fileFormat.File.prototype.toJSON = function() {
 
 
 /**
- * @return {!string}
+ * @return {string}
  */
 cwc.fileFormat.File.prototype.getJSON = function() {
   return JSON.stringify(this.toJSON(), null, 2) || '';
@@ -524,7 +524,7 @@ cwc.fileFormat.File.prototype.getJSON = function() {
 
 
 /**
- * @return {!number}
+ * @return {number}
  */
 cwc.fileFormat.File.prototype.getFileFormatVersion = function() {
   return cwc.fileFormat.File.getFileHeaderVersion(this.format_);
@@ -532,7 +532,7 @@ cwc.fileFormat.File.prototype.getFileFormatVersion = function() {
 
 
 /**
- * @param {!string} header
+ * @param {string} header
  * @return {boolean}
  */
 cwc.fileFormat.File.hasFileHeader = function(header) {
@@ -544,7 +544,7 @@ cwc.fileFormat.File.hasFileHeader = function(header) {
 
 
 /**
- * @param {!string} header
+ * @param {string} header
  * @param {!cwc.fileFormat.File=} file
  * @return {number}
  */
@@ -568,7 +568,7 @@ cwc.fileFormat.File.getFileHeaderVersion = function(header, file) {
 /**
  * Loads the defined JSON data and sets the supported options.
  * @param {!cwc.fileFormat.File} file
- * @param {!string} data
+ * @param {string} data
  */
 cwc.fileFormat.File.loadJSON = function(file, data) {
   let jsonData = data;

@@ -23,7 +23,7 @@ goog.provide('cwc.utils.StackType');
 
 
 /**
- * @enum {!string}
+ * @enum {string}
  */
 cwc.utils.StackType = {
   CMD: 'cmd',

@@ -52,22 +52,22 @@ cwc.mode.Mod = function(config_data) {
   /** @type {!Array} */
   this.authors = config_data.authors || [];
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.autoPreview = config_data.auto_preview || false;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.showBlockly = config_data.show_blockly || false;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.runPreview = config_data.run_preview || false;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.name = config_data.name || '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.template = config_data.template || '';
 
-  /** @type {!string} */
+  /** @type {string} */
   this.icon = config_data.icon || '';
 
   /** @type {!Object} */

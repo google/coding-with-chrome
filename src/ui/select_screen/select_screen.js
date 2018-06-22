@@ -72,13 +72,13 @@ cwc.ui.SelectScreen = function(helper) {
   /** @type {boolean} */
   this.prepared_ = false;
 
-  /** @private {!string} */
+  /** @private {string} */
   this.resourcesPath_ = '../resources/examples/';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.tourPath_ = '../resources/tour/';
 
-  /** @private {!string} */
+  /** @private {string} */
   this.tutorialPath_ = '../resources/tutorials/';
 
   /** @private {!cwc.utils.Events} */
@@ -284,7 +284,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
 
 
 /**
- * @param {!string} title
+ * @param {string} title
  * @param {!Object} template
  * @param {string=} text
  */

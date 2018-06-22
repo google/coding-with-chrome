@@ -27,7 +27,7 @@ goog.require('goog.style');
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {string=} title
  * @param {Function=} func
  * @return {!Element}
@@ -47,7 +47,7 @@ cwc.ui.Helper.getMenuItem = function(name, title, func) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {function()=} optFunc
  * @return {!Element}
  */

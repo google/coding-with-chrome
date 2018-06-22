@@ -169,7 +169,7 @@ cwc.protocol.lego.ev3.Commands.setLed = function(color,
 
 /**
  * @param {!cwc.protocol.lego.ev3.OutputPort|number} ports
- * @param {!number} power (-100 - 100)
+ * @param {number} power (-100 - 100)
  * @param {boolean=} brake Stop current movements.
  * @return {!ArrayBuffer}
  * @export
@@ -196,8 +196,8 @@ cwc.protocol.lego.ev3.Commands.movePower = function(ports, power, brake) {
 /**
  * @param {!cwc.protocol.lego.ev3.OutputPort} port_left Left motor port.
  * @param {!cwc.protocol.lego.ev3.OutputPort} port_right Right motor port.
- * @param {!number} power_left Power value for left motor. (-100 - 100)
- * @param {!number} power_right Power value for right motor. (-100 - 100)
+ * @param {number} power_left Power value for left motor. (-100 - 100)
+ * @param {number} power_right Power value for right motor. (-100 - 100)
  * @param {boolean=} brake Stop current movements.
  * @return {!ArrayBuffer}
  * @export
@@ -228,7 +228,7 @@ cwc.protocol.lego.ev3.Commands.rotatePower = function(port_left,
 /**
  * Moves the motors for the predefined specific steps.
  * @param {!cwc.protocol.lego.ev3.OutputPort|number} ports
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_speed (-100 - 100)
  * @param {number=} opt_ramp_up (-100 - 100)
  * @param {number=} opt_ramp_down (-100 - 100)
@@ -260,7 +260,7 @@ cwc.protocol.lego.ev3.Commands.moveSteps = function(ports, steps,
  * Rotates the motors for the predefined specific steps.
  * @param {!cwc.protocol.lego.ev3.OutputPort} portLeft
  * @param {!cwc.protocol.lego.ev3.OutputPort} portRight
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} speedLeft
  * @param {number=} speedRight
  * @param {number=} rampUp
@@ -301,7 +301,7 @@ cwc.protocol.lego.ev3.Commands.rotateSteps = function(
 /**
  * Rotates the defined motors for the predefined specific steps.
  * @param {!cwc.protocol.lego.ev3.OutputPort} ports
- * @param {!number} steps
+ * @param {number} steps
  * @param {number=} opt_speed
  * @param {number=} opt_ramp_up
  * @param {number=} opt_ramp_down
@@ -362,7 +362,7 @@ cwc.protocol.lego.ev3.Commands.clear = function() {
 
 /**
  * Plays a tone with the defined volume, frequency and duration.
- * @param {!number} frequency
+ * @param {number} frequency
  * @param {number=} duration
  * @param {number=} volume
  * @return {!ArrayBuffer}
@@ -382,7 +382,7 @@ cwc.protocol.lego.ev3.Commands.playTone = function(frequency, duration = 50,
 
 /**
  * Plays the selected sound file.
- * @param {!string} filename
+ * @param {string} filename
  * @param {number=} volume
  * @return {!ArrayBuffer}
  * @export
@@ -425,7 +425,7 @@ cwc.protocol.lego.ev3.Commands.drawUpdate = function() {
 
 /**
  * Shows the selected image file.
- * @param {!string} filename
+ * @param {string} filename
  * @param {number=} x
  * @param {number=} y
  * @param {number=} color
@@ -447,10 +447,10 @@ cwc.protocol.lego.ev3.Commands.drawImage = function(filename, x, y, color) {
 
 /**
  * Draws a line.
- * @param {!number} x1 (0-177)
- * @param {!number} y1 (0-127)
- * @param {!number} x2 (0-177)
- * @param {!number} y2 (0-127)
+ * @param {number} x1 (0-177)
+ * @param {number} y1 (0-127)
+ * @param {number} x2 (0-177)
+ * @param {number} y2 (0-127)
  * @param {number=} color (0 = white, 1 = black)
  * @return {!ArrayBuffer}
  * @export

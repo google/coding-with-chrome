@@ -50,7 +50,7 @@ cwc.ui.Turtle = function(helper, image = '') {
   /** @type {Object} */
   this.content = null;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.targetOrigin = '*';
 
   /** @type {boolean} */
@@ -92,7 +92,7 @@ cwc.ui.Turtle.prototype.decorate = function(node) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {Object|number=} value
  * @export
  */

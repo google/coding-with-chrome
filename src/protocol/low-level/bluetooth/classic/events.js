@@ -23,7 +23,7 @@ goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 cwc.protocol.bluetooth.classic.Events.Type = {
   ADAPTER_STATE_CHANGE: 1,

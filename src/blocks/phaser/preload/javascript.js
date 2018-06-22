@@ -22,7 +22,7 @@
 /**
  * Phaser preload section.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_preload'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
@@ -33,7 +33,7 @@ Blockly.JavaScript['phaser_preload'] = function(block) {
 /**
  * Load Audio.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_load_audio'] = function(block) {
   let text_name = block.getFieldValue('name');
@@ -46,7 +46,7 @@ Blockly.JavaScript['phaser_load_audio'] = function(block) {
 /**
  * Load Image.
  * @param {Blockly.Block} block
- * @return {!string}
+ * @return {string}
  */
 Blockly.JavaScript['phaser_load_image'] = function(block) {
   let text_name = block.getFieldValue('name');
