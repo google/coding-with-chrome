@@ -22,6 +22,7 @@
  */
 goog.provide('cwc.protocol.sphero.v1.Api');
 
+goog.require('cwc.lib.protocol.bluetoothWeb.Profile');
 goog.require('cwc.protocol.sphero.v1.CallbackType');
 goog.require('cwc.protocol.sphero.v1.Events');
 goog.require('cwc.protocol.sphero.v1.Handler');
@@ -34,6 +35,10 @@ goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
 
+
+goog.scope(function() {
+const BluetoothProfile =
+  goog.module.get('cwc.lib.protocol.bluetoothWeb.Profile');
 
 /**
  * @constructor
@@ -74,6 +79,9 @@ cwc.protocol.sphero.v1.Api = function() {
   /** @private {number} */
   this.locationSpeed_ = 0;
 
+  /** @private {!Object} */
+  this.profile_ = BluetoothProfile.Characteristic.SPHERO.spheroBLE;
+
   /** @private {!goog.events.EventTarget} */
   this.eventTarget_ = new goog.events.EventTarget();
 
@@ -108,22 +116,21 @@ cwc.protocol.sphero.v1.Api.prototype.connect = function(device) {
 
     // Enable Developer mode.
     this.device.sendRaw(
-      new TextEncoder('utf-8').encode('011i3'),
-      '22bb746f-2bbd-7554-2d6f-726568705327', () => {
+      new TextEncoder('utf-8').encode('011i3'), this.profile_.antiDOS, () => {
         this.eventTarget_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Enable developer mode ...', 2));
     });
 
     // Power on device.
     this.device.sendRaw(
-      new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
+      new Uint8Array([0x07]), this.profile_.txPower, () => {
         this.eventTarget_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
             'Power on device. Waiting until device wakes up ...', 2));
     });
 
     // Wakeup device.
     this.device.sendRaw(
-      new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
+      new Uint8Array([0x01]), this.profile_.wake, () => {
         this.prepare();
         this.runTest();
         this.eventTarget_.dispatchEvent(cwc.protocol.sphero.v1.Events.connect(
@@ -397,3 +404,4 @@ cwc.protocol.sphero.v1.Api.prototype.verifiyChecksum_ = function(buffer,
 
   return (checksum === (bufferChecksum % 256) ^ 0xFF) ? true : false;
 };
+});

@@ -25,10 +25,11 @@
   padding-bottom: 10px;
 }
 
-#{$prefix}sphero-classic-control-buttons:first-child {
-  padding-left: 3px;
+#{$prefix}sphero-classic-control-commands { 
+  padding: 5px;
+  margin-left: 50px;
 }
 
-#{$prefix}sphero-classic-control-system-buttons > div {
-  padding: 10px;
+#{$prefix}sphero-classic-control-commands > .icon_button {
+  padding: 5px;
 }

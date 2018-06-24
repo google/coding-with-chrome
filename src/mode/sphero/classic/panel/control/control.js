@@ -112,6 +112,16 @@ cwc.mode.sphero.classic.Control.prototype.addEventHandler_ = function() {
     this.api.exec('roll', {'speed': 50, 'heading': 90});
   });
 
+  // Flash
+  this.events_.listen('flash', goog.events.EventType.CLICK, function() {
+    this.api.exec('setRGB', {'blue': 255});
+    this.api.exec('setRGB', {'red': 255});
+    this.api.exec('setRGB', {'blue': 255});
+    this.api.exec('setRGB', {'red': 255});
+    this.api.exec('setRGB', {'blue': 255});
+    this.api.exec('setRGB');
+  });
+
   // Stop
   this.events_.listen('stop', goog.events.EventType.CLICK, function() {
     this.connection.stop();
