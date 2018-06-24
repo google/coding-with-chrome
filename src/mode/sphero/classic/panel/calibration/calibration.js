@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Calibration');
+goog.provide('cwc.mode.sphero.classic.Calibration');
 
-goog.require('cwc.soy.mode.sphero.Calibration');
+goog.require('cwc.soy.mode.sphero.classic.Calibration');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.events');
@@ -35,12 +35,12 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
  */
-cwc.mode.sphero.Calibration = function(helper, connection) {
+cwc.mode.sphero.classic.Calibration = function(helper, connection) {
   /** @type {string} */
-  this.name = 'Sphero Calibration';
+  this.name = 'Sphero 2.0 Calibration';
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('sphero-calibration');
+  this.prefix = helper.getPrefix('sphero-classic-calibration');
 
   /** @type {Element} */
   this.node = null;
@@ -75,12 +75,12 @@ cwc.mode.sphero.Calibration = function(helper, connection) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.Calibration.prototype.decorate = function(node) {
+cwc.mode.sphero.classic.Calibration.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.sphero.Calibration.template, {
+    cwc.soy.mode.sphero.classic.Calibration.template, {
       prefix: this.prefix,
     }
   );
@@ -96,7 +96,7 @@ cwc.mode.sphero.Calibration.prototype.decorate = function(node) {
 /**
  * @private
  */
-cwc.mode.sphero.Calibration.prototype.addEventHandler_ = function() {
+cwc.mode.sphero.classic.Calibration.prototype.addEventHandler_ = function() {
   this.events_.listen(
     this.nodeSlider, goog.events.EventType.INPUT, function(e) {
       this.api.exec('calibrate', {'heading': e.target.value});
@@ -112,7 +112,7 @@ cwc.mode.sphero.Calibration.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.Calibration.prototype.addKeyHandler_ = function() {
+cwc.mode.sphero.classic.Calibration.prototype.addKeyHandler_ = function() {
   let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   shortcutHandler.registerShortcut('left', 'left');
   shortcutHandler.registerShortcut('right', 'right');
@@ -128,8 +128,8 @@ cwc.mode.sphero.Calibration.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.sphero.Calibration.prototype.handleKeyboardShortcut_ = function(
-    event) {
+cwc.mode.sphero.classic.Calibration.prototype.handleKeyboardShortcut_ =
+    function(event) {
   if (!this.messageInstance_.isCalibrationActive() ||
       event.target.tagName === 'INPUT') {
     return;

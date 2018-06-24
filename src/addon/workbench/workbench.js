@@ -175,7 +175,7 @@ cwc.addon.Workbench.prototype.prepare = async function() {
 
   let selectScreenInstance = this.helper.getInstance('selectScreen');
   if (selectScreenInstance) {
-    goog.events.listen(selectScreenInstance.getEventHandler(),
+    goog.events.listen(selectScreenInstance.getEventTarget(),
       cwc.ui.SelectScreen.Events.Type.VIEW_CHANGE,
       this.showRelevantProjects_, false, this);
   }

@@ -129,26 +129,26 @@ cwc.mode.lego.ev3.Control.prototype.addEventHandler_ = function() {
  * @private
  */
 cwc.mode.lego.ev3.Control.prototype.addGamepadHandler_ = function() {
-  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
+  let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let rotation = false;
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[7],
     (event) => {
       if (!rotation) {
         this.api.exec('movePower', {'power': event.data * 100});
       }
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[6],
     (event) => {
       if (!rotation) {
         this.api.exec('movePower', {'power': -event.data * 100});
       }
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.AXIS[0],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.AXIS[0],
     (event) => {
       rotation = event.data ? true : false;
       this.api.exec('rotatePower', {'power': event.data * 100});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[0],
     (event) => {
       if (event.data) {
         this.api.exec('playTone', {

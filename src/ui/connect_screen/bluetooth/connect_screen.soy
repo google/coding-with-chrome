@@ -78,7 +78,7 @@
   {@param device: ?}
 
   {msg desc=""}Connecting device{/msg} {$device['name']} ({$device['type']})
-  {msg desc=""}at{/msg}
+  {sp}{msg desc=""}at{/msg}{sp}
     {if $device['address']}
       {$device['address']}
     {elseif $device['id']}
@@ -96,7 +96,7 @@
   {@param device: ?}
 
   {msg desc=""}Disconnecting device{/msg} {$device['name']} ({$device['type']})
-  {msg desc=""}at{/msg} 
+  {sp}{msg desc=""}at{/msg}{sp}
     {if $device['address']}
       {$device['address']}
     {elseif $device['id']}

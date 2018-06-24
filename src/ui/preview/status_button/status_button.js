@@ -69,6 +69,9 @@ cwc.ui.PreviewStatusButton = function(helper) {
   /** @type {Element} */
   this.nodeFullscreenExit = null;
 
+  /** @type {boolean} */
+  this.prepared = false;
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
@@ -119,6 +122,7 @@ cwc.ui.PreviewStatusButton.prototype.decorate = function(node) {
     window.componentHandler.upgradeDom();
   }
 
+  this.prepared = true;
   return this;
 };
 
@@ -219,6 +223,10 @@ cwc.ui.PreviewStatusButton.prototype.setStopAction = function(func) {
  * @param {!cwc.ui.PreviewState} status
  */
 cwc.ui.PreviewStatusButton.prototype.setStatus = function(status) {
+  if (!this.prepared) {
+    return;
+  }
+
   // Terminate button
   switch (status) {
     case cwc.ui.PreviewState.TERMINATED:

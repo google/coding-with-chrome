@@ -51,7 +51,7 @@ cwc.mode.lego.ev3.Connection = function(helper) {
   this.api_ = new cwc.protocol.lego.ev3.Api();
 
   /** @private {!goog.events.EventTarget} */
-  this.apiEvents_ = this.api_.getEventHandler();
+  this.apiEvents_ = this.api_.getEventTarget();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -89,13 +89,13 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.events_.listen(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventTarget(),
         goog.events.EventType.UNLOAD, this.cleanUp, false, this);
   }
 
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
-    this.events_.listen(previewInstance.getEventHandler(),
+    this.events_.listen(previewInstance.getEventTarget(),
       cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
       false, this);
   }
@@ -109,7 +109,7 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
  * Connects the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.connect = function() {
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (!bluetoothInstance) {
     return;
   }
@@ -141,8 +141,8 @@ cwc.mode.lego.ev3.Connection.prototype.isConnected = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.lego.ev3.Connection.prototype.getEventHandler = function() {
-  return this.api_.getEventHandler();
+cwc.mode.lego.ev3.Connection.prototype.getEventTarget = function() {
+  return this.api_.getEventTarget();
 };
 
 

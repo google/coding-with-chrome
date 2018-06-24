@@ -45,7 +45,7 @@ cwc.utils.Gamepad = function() {
   };
 
   /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
+  this.eventTarget_ = new goog.events.EventTarget();
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -78,8 +78,8 @@ cwc.utils.Gamepad.prototype.setGamepad = function(index) {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.utils.Gamepad.prototype.getEventHandler = function() {
-  return this.eventHandler_;
+cwc.utils.Gamepad.prototype.getEventTarget = function() {
+  return this.eventTarget_;
 };
 
 
@@ -112,7 +112,7 @@ cwc.utils.Gamepad.prototype.getLeftAxisAngle = function(shift) {
 cwc.utils.Gamepad.prototype.handleConnect_ = function(e) {
   this.log_.info('Gamepad connected', e['gamepad']);
   this.setGamepad(e['gamepad']['index']);
-  this.eventHandler_.dispatchEvent(
+  this.eventTarget_.dispatchEvent(
     cwc.utils.Gamepad.Events.connected(this.getGamepad()));
   this.handleTick_();
 };
@@ -127,7 +127,7 @@ cwc.utils.Gamepad.prototype.handleDisconnect_ = function(e) {
   if (this.index === e['gamepad']['index']) {
     this.index = -1;
     this.cache_['timestamp'] = -1;
-    this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.disconnected());
+    this.eventTarget_.dispatchEvent(cwc.utils.Gamepad.Events.disconnected());
   }
 };
 
@@ -163,7 +163,7 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
     }
     if (axis !== this.cache_['axes'][mappedIndex]) {
       this.cache_['axes'][mappedIndex] = axis;
-      this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.axisMoved(
+      this.eventTarget_.dispatchEvent(cwc.utils.Gamepad.Events.axisMoved(
         mappedIndex, axis
       ));
       changed = true;
@@ -175,7 +175,7 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
     let mappedIndex = cwc.utils.Gamepad.getIndex(index, 'buttons', gamepad);
     if (this.cache_['buttons'][mappedIndex] !== button['value']) {
       this.cache_['buttons'][mappedIndex] = button['value'];
-      this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.buttonPressed(
+      this.eventTarget_.dispatchEvent(cwc.utils.Gamepad.Events.buttonPressed(
         mappedIndex, button['value']
       ));
       changed = true;
@@ -184,7 +184,7 @@ cwc.utils.Gamepad.prototype.handleEvent_ = function(gamepad) {
 
   if (changed) {
     // Create an immutable version of the current cache for the event.
-    this.eventHandler_.dispatchEvent(cwc.utils.Gamepad.Events.update(
+    this.eventTarget_.dispatchEvent(cwc.utils.Gamepad.Events.update(
       /** @type {Object} */ (JSON.parse(JSON.stringify(this.cache_)))));
   }
 };

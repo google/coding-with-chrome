@@ -297,7 +297,7 @@ cwc.ui.Gui.prototype.getSidebarSize = function() {
 
 cwc.ui.Gui.prototype.close = function() {
   this.log_.info('Close Coding with Chrome editor ...');
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
     let featuresInstance = this.helper.getInstance('features');
     if (featuresInstance) {

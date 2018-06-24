@@ -97,6 +97,7 @@ cwc.utils.Features.prototype.detectBrowserFeatures = function() {
 
   // Communication features
   this.setBrowserFeature('bluetooth', typeof navigator.bluetooth);
+  this.setBrowserFeature('usb', typeof navigator.usb);
 
   // IndexedDB
   this.setBrowserFeature('indexedDB', typeof window.indexedDB);

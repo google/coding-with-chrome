@@ -221,12 +221,12 @@ cwc.mode.default.Mod.prototype.decoratePreview = function() {
   this.preview.enableMessenger(this.connection);
   this.preview.decorate();
 
-  // Added api events.
+  // Add api events.
   if (this.api) {
     this.preview.getMessenger().addApiListener(this.api);
   }
 
-  // Added messenger events.
+  // Add messenger events.
   if (this.messengerEvents && this.connectionEventHandler) {
     for (let event in this.messengerEvents) {
       if (this.messengerEvents.hasOwnProperty(event)) {
@@ -262,7 +262,7 @@ cwc.mode.default.Mod.prototype.enableBlockly = function(toolbox) {
  */
 cwc.mode.default.Mod.prototype.setConnection = function(connection) {
   this.connection = connection;
-  this.connectionEventHandler = connection.getEventHandler();
+  this.connectionEventHandler = connection.getEventTarget();
   this.api = connection.getApi();
 };
 

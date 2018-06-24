@@ -42,7 +42,7 @@ cwc.Cache = function(helper) {
   this.helper = helper;
 
   /** @private {number} */
-  this.version = 7;
+  this.version = 8;
 
   /** @private {Object} */
   this.cache_ = {};

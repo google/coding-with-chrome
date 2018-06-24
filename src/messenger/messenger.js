@@ -27,12 +27,12 @@ goog.require('goog.events.EventTarget');
 
 
 /**
- * @param {goog.events.EventTarget=} eventHandler
+ * @param {goog.events.EventTarget=} eventTarget
  * @constructor
  * @struct
  * @final
  */
-cwc.Messenger = function(eventHandler) {
+cwc.Messenger = function(eventTarget) {
   /** @type {string} */
   this.name = 'Messenger';
 
@@ -52,7 +52,7 @@ cwc.Messenger = function(eventHandler) {
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = eventHandler || new goog.events.EventTarget();
+  this.eventTarget_ = eventTarget || new goog.events.EventTarget();
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -130,14 +130,14 @@ cwc.Messenger.prototype.addApiListener = function(api) {
 
 
 /**
- * @param {EventTarget|goog.events.Listenable} eventHandler
+ * @param {EventTarget|goog.events.Listenable} eventTarget
  * @param {string} event
  * @param {string} command
  * @export
  */
-cwc.Messenger.prototype.addEventListener = function(eventHandler, event,
+cwc.Messenger.prototype.addEventListener = function(eventTarget, event,
     command) {
-  this.events_.listen(eventHandler, event, function(e) {
+  this.events_.listen(eventTarget, event, function(e) {
     this.send(command, {
       'data': e.data,
       'source': e.source,
@@ -194,8 +194,14 @@ cwc.Messenger.prototype.setTarget = function(target) {
   }
   this.target = target;
   this.events_.listen(window, 'message', this.handleMessage_);
-  this.target.addEventListener('contentload',
+
+  // Detected when target is possible loaded and ready.
+  if (target.nodeName === 'IFRAME') {
+    this.target['onload'] = this.handleContentLoad_.bind(this);
+  } else {
+    this.target.addEventListener('contentload',
       this.handleContentLoad_.bind(this), false);
+  }
 };
 
 
@@ -265,7 +271,7 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
     throw new Error('Name ' + event['data']['name'] + ' is not defined!');
   }
   this.listener_[event['data']['name']](event['data']['value']);
-  this.eventHandler_.dispatchEvent(cwc.MessengerEvents.execCommand(
+  this.eventTarget_.dispatchEvent(cwc.MessengerEvents.execCommand(
     event['data']['name'], event['data']['value']));
 };
 

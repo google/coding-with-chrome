@@ -70,7 +70,7 @@ cwc.mode.raspberryPi.Runner.prototype.decorate = function() {
     new cwc.runner.profile.raspberryPi.Command(this.api));
 
   // Events
-  let apiEventHandler = this.api.getEventHandler();
+  let apiEventHandler = this.api.getEventTarget();
   if (!apiEventHandler) {
     console.error('Raspberry Pi API event handler is not defined!');
   }

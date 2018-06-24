@@ -114,7 +114,7 @@ cwc.protocol.raspberryPi.Api.prototype.isConnected = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.protocol.raspberryPi.Api.prototype.getEventHandler = function() {
+cwc.protocol.raspberryPi.Api.prototype.getEventTarget = function() {
   return this.eventHandler;
 };
 

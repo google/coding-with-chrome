@@ -89,24 +89,24 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function(node) {
     this.prefix + 'ultrasonic-value');
 
   // Event Handler
-  let eventHandler = this.connection.getEventHandler();
+  let eventTarget = this.connection.getEventTarget();
 
   // Monitor sensor data
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
     cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR, (e) => {
       this.nodeCache['lightness'].firstChild.nodeValue= e.data['sensor_1'] +
       ', ' + e.data['sensor_2'];
     });
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
     cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR, (e) => {
       this.nodeCache['linefollower'].firstChild.nodeValue = e.data['left'] +
       ', ' + e.data['right'] + ', ' + e.data['raw'];
     });
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
     cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR, (e) => {
       this.nodeCache['temperature'].firstChild.nodeValue = e.data;
     });
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
     cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR, (e) => {
       this.nodeCache['ultrasonic'].firstChild.nodeValue = e.data;
     });
@@ -114,9 +114,9 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function(node) {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
+    let eventTargetLayout = layoutInstance.getEventTarget();
     this.events_.listen(
-      eventHandler, goog.events.EventType.UNLOAD, this.cleanUp);
+      eventTargetLayout, goog.events.EventType.UNLOAD, this.cleanUp);
   }
 };
 

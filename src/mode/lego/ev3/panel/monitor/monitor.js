@@ -82,16 +82,16 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
   });
 
   // Event Handler
-  let eventHandler = this.connection.getEventHandler();
+  let eventTarget = this.connection.getEventTarget();
 
   // Monitor device data
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
     cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES, this.updateDevices);
 
   // Monitor sensor data
   for (let device in cwc.mode.lego.ev3.SensorEvents) {
     if (cwc.mode.lego.ev3.SensorEvents.hasOwnProperty(device)) {
-      this.events_.listen(eventHandler, cwc.mode.lego.ev3.SensorEvents[device],
+      this.events_.listen(eventTarget, cwc.mode.lego.ev3.SensorEvents[device],
         this.updateDeviceData);
     }
   }
@@ -99,9 +99,9 @@ cwc.mode.lego.ev3.Monitor.prototype.decorate = function(node) {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
+    let eventTargetLayout = layoutInstance.getEventTarget();
     this.events_.listen(
-      eventHandler, goog.events.EventType.UNLOAD, this.cleanUp);
+      eventTargetLayout, goog.events.EventType.UNLOAD, this.cleanUp);
   }
 };
 

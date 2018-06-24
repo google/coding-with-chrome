@@ -116,12 +116,10 @@ cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
  * Prepares file and ensures we have the latest editor content.
  */
 cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
-  let editorInstance = this.helper.getInstance('editor', true);
-  let fileInstance = this.helper.getInstance('file', true);
-  let fileHandler = fileInstance.getFileHandler();
+  let editorInstance = this.helper.getInstance('editor');
+  let fileInstance = this.helper.getInstance('file');
   let fileTitle = fileInstance.getFileTitle();
   let filename = fileInstance.getFilename();
-  let gDriveId = fileInstance.getGDriveId();
   let mimeType = fileInstance.getMimeType();
 
   if (mimeType.type === cwc.utils.mime.Type.CWC.type) {
@@ -155,8 +153,8 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
       filename || 'unnamed', mimeType.ext[0]);
   }
 
-  this.fileHandler = fileHandler;
-  this.gDriveId = gDriveId;
+  this.fileHandler = fileInstance.getFileHandler();
+  this.gDriveId = fileInstance.getGDriveId();
   this.mimeType = mimeType.type;
 };
 

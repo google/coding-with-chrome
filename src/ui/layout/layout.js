@@ -80,7 +80,7 @@ cwc.ui.Layout = function(helper) {
   this.layout = cwc.ui.LayoutType.NONE;
 
   /** @type {goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
+  this.eventTarget = new goog.events.EventTarget();
 
   /** @type {!goog.math.Size} */
   this.chromeSize = new goog.math.Size(400, 400);
@@ -152,12 +152,12 @@ cwc.ui.Layout.prototype.decorateDefault = function(splitpaneSize = 400) {
   this.events_.listen(
     this.splitpane, goog.ui.SplitPane.EventType.HANDLE_DRAG_END, () => {
       this.adjustSize();
-      this.eventHandler.dispatchEvent(goog.events.EventType.DRAGEND);
+      this.eventTarget.dispatchEvent(goog.events.EventType.DRAGEND);
     });
   this.events_.listen(
     this.splitpane, goog.ui.SplitPane.EventType.HANDLE_SNAP, () => {
       this.adjustSize();
-      this.eventHandler.dispatchEvent(goog.events.EventType.DRAGEND);
+      this.eventTarget.dispatchEvent(goog.events.EventType.DRAGEND);
     });
 };
 
@@ -252,7 +252,7 @@ cwc.ui.Layout.prototype.refreshLayout = function() {
  */
 cwc.ui.Layout.prototype.adjustSize = function() {
   this.refresh_();
-  this.eventHandler.dispatchEvent(goog.events.EventType.RESIZE);
+  this.eventTarget.dispatchEvent(goog.events.EventType.RESIZE);
 };
 
 
@@ -321,8 +321,8 @@ cwc.ui.Layout.prototype.cleanUp = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.ui.Layout.prototype.getEventHandler = function() {
-  return this.eventHandler;
+cwc.ui.Layout.prototype.getEventTarget = function() {
+  return this.eventTarget;
 };
 
 
@@ -424,7 +424,7 @@ cwc.ui.Layout.prototype.renderTemplate_ = function(template, type) {
  * @private
  */
 cwc.ui.Layout.prototype.resetLayout_ = function() {
-  this.eventHandler.dispatchEvent(goog.events.EventType.UNLOAD);
+  this.eventTarget.dispatchEvent(goog.events.EventType.UNLOAD);
   this.setFullscreen_(false);
   this.splitpane = null;
   this.splitpaneCachedSize = null;

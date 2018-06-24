@@ -36,7 +36,7 @@ cwc.protocol.sphero.classic.Monitoring = function(api) {
   this.api = api;
 
   /** @type {string} */
-  this.name = 'Sphero Monitoring';
+  this.name = 'Sphero classic Monitoring';
 
   /** @type {boolean} */
   this.monitor = false;
@@ -53,12 +53,12 @@ cwc.protocol.sphero.classic.Monitoring = function(api) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!cwc.utils.Logger|null} */
-  this.log_ = new cwc.utils.Logger(this.name);
-
   // Monitor Events
   this.events_.listen(this.monitorLocation, goog.Timer.TICK,
     this.updateLocation.bind(this));
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -69,7 +69,7 @@ cwc.protocol.sphero.classic.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
-  console.log('Starting...');
+  this.log_.info('Starting...');
   this.monitorLocation.start();
   this.started = true;
 };
@@ -82,7 +82,7 @@ cwc.protocol.sphero.classic.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
-  console.log('Stopping...');
+  this.log_.info('Stopping...');
   this.monitorLocation.stop();
   this.started = false;
 };

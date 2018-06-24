@@ -67,13 +67,13 @@ cwc.mode.makeblock.mbot.Connection.prototype.init = function() {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.events_.listen(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventTarget(),
         goog.events.EventType.UNLOAD, this.cleanUp, false, this);
   }
 
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
-    this.events_.listen(previewInstance.getEventHandler(),
+    this.events_.listen(previewInstance.getEventTarget(),
       cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
       false, this);
   }
@@ -89,7 +89,7 @@ cwc.mode.makeblock.mbot.Connection.prototype.init = function() {
  * @export
  */
 cwc.mode.makeblock.mbot.Connection.prototype.connect = function(opt_event) {
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (!bluetoothInstance) {
     return;
   }
@@ -149,8 +149,8 @@ cwc.mode.makeblock.mbot.Connection.prototype.getApi = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.makeblock.mbot.Connection.prototype.getEventHandler = function() {
-  return this.api_.getEventHandler();
+cwc.mode.makeblock.mbot.Connection.prototype.getEventTarget = function() {
+  return this.api_.getEventTarget();
 };
 
 

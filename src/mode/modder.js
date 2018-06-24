@@ -55,7 +55,7 @@ cwc.mode.Modder = function(helper) {
   this.log_ = new cwc.utils.Logger(this.name);
 
   /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
+  this.eventTarget_ = new goog.events.EventTarget();
 
   /** @private {string} */
   this.templatePath_ = '../resources/templates/';
@@ -199,7 +199,7 @@ cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   this.postModeFileData();
 
   // Event Handling
-  this.eventHandler_.dispatchEvent(
+  this.eventTarget_.dispatchEvent(
     cwc.mode.Modder.Events.changeMode(this.mode, this.filename));
 };
 
@@ -371,6 +371,6 @@ cwc.mode.Modder.prototype.setTitle = function(title) {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.mode.Modder.prototype.getEventHandler = function() {
-  return this.eventHandler_;
+cwc.mode.Modder.prototype.getEventTarget = function() {
+  return this.eventTarget_;
 };

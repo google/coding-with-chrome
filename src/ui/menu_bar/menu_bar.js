@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.ui.MenuBar');
 
-goog.require('cwc.protocol.bluetooth.classic.Events');
+goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 goog.require('cwc.soy.MenuBar');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
@@ -30,6 +30,10 @@ goog.require('goog.dom');
 goog.require('goog.dom.fullscreen');
 goog.require('goog.soy');
 
+
+goog.scope(function() {
+const BluetoothEvents =
+  goog.module.get('cwc.lib.protocol.bluetoothChrome.Events');
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -220,12 +224,12 @@ cwc.ui.MenuBar.prototype.decorateHardwareButton = function() {
       dialogInstance.showAlert('Enable Gamepad support',
         'Please turn on the Gamepad and press any of the buttons.');
     });
-  this.events_.listen(gamepadInstance.getEventHandler(),
+  this.events_.listen(gamepadInstance.getEventTarget(),
     /** @type {string} */ (cwc.utils.Gamepad.Events.Type.CONNECTED), () => {
       dialogInstance.close('Enable Gamepad support');
       this.setGamepad(true);
     });
-  this.events_.listen(gamepadInstance.getEventHandler(),
+  this.events_.listen(gamepadInstance.getEventTarget(),
     /** @type {string} */ (cwc.utils.Gamepad.Events.Type.DISCONNECTED), () => {
       this.setGamepad(false);
     });
@@ -234,13 +238,13 @@ cwc.ui.MenuBar.prototype.decorateHardwareButton = function() {
   this.setGamepad(false);
 
   // Event Handling
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
-    this.events_.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.classic.Events.Type.ADAPTER_STATE_CHANGE,
+    this.events_.listen(bluetoothInstance.getEventTarget(),
+      BluetoothEvents.Type.ADAPTER_STATE_CHANGE,
       this.handleBluetoothAdapterChange_);
-    this.events_.listen(bluetoothInstance.getEventHandler(),
-      cwc.protocol.bluetooth.classic.Events.Type.DEVICE_STATE_CHANGE,
+    this.events_.listen(bluetoothInstance.getEventTarget(),
+      BluetoothEvents.Type.DEVICE_STATE_CHANGE,
       this.handleBluetoothDeviceChange_);
   }
 };
@@ -394,7 +398,7 @@ cwc.ui.MenuBar.prototype.setFullscreen = function(fullscreen) {
  */
 cwc.ui.MenuBar.prototype.checkBluetoothState_ = function(opt_event) {
   this.helper.showInfo('Checking bluetooth state ...');
-  let bluetoothInstance = this.helper.getInstance('bluetooth');
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
     bluetoothInstance.updateAdapterState();
   }
@@ -490,3 +494,4 @@ cwc.ui.MenuBar.prototype.handleBluetoothDeviceChange_ = function(e) {
 cwc.ui.MenuBar.prototype.cleanUp_ = function() {
   this.events_.clear();
 };
+});

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Control pane for the Sphero modification.
+ * @fileoverview Control pane for the Sphero 2.0 modification.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Control');
+goog.provide('cwc.mode.sphero.classic.Control');
 
-goog.require('cwc.soy.mode.sphero.Control');
+goog.require('cwc.soy.mode.sphero.classic.Control');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
 
@@ -36,12 +36,12 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
  */
-cwc.mode.sphero.Control = function(helper, connection) {
+cwc.mode.sphero.classic.Control = function(helper, connection) {
   /** @type {string} */
-  this.name = 'Sphero Control';
+  this.name = 'Sphero 2.0 Control';
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('sphero-control');
+  this.prefix = helper.getPrefix('sphero-classic-control');
 
   /** @type {Element} */
   this.node = null;
@@ -51,9 +51,7 @@ cwc.mode.sphero.Control = function(helper, connection) {
 
   /**
    * @type {!cwc.mode.sphero.classic.Connection|
-   *   cwc.mode.sphero.bb8.Connection|
-   *   cwc.mode.sphero.sprkPlus.Connection|
-   *   cwc.mode.sphero.ollie.Connection}
+   *   cwc.mode.sphero.sprkPlus.Connection}
    */
   this.connection = connection;
 
@@ -69,16 +67,16 @@ cwc.mode.sphero.Control = function(helper, connection) {
 
 
 /**
- * Decorates the Sphero Control window.
+ * Decorates the Sphero Classic Control window.
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.Control.prototype.decorate = function(node) {
+cwc.mode.sphero.classic.Control.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.sphero.Control.template, {
+    cwc.soy.mode.sphero.classic.Control.template, {
       prefix: this.prefix,
     }
   );
@@ -94,7 +92,7 @@ cwc.mode.sphero.Control.prototype.decorate = function(node) {
 /**
  * @private
  */
-cwc.mode.sphero.Control.prototype.addEventHandler_ = function() {
+cwc.mode.sphero.classic.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.exec('roll', {'speed': 50, 'heading': 270});
@@ -129,31 +127,31 @@ cwc.mode.sphero.Control.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.Control.prototype.addGamepadHandler_ = function() {
-  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
+cwc.mode.sphero.classic.Control.prototype.addGamepadHandler_ = function() {
+  let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let gamepad = this.helper.getInstance('gamepad');
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[7],
     (event) => {
       this.api.exec('roll', {
         'speed': event.data * 255, 'heading': gamepad.getLeftAxisAngle()});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[6],
     () => {
       this.api.exec('rollStop');
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[0],
     () => {
       this.api.exec('setRGB', {'green': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[1],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[1],
     () => {
       this.api.exec('setRGB', {'red': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[2],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[2],
     () => {
       this.api.exec('setRGB', {'blue': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[3],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[3],
     () => {
       this.api.exec('setRGB');
   });
@@ -163,7 +161,7 @@ cwc.mode.sphero.Control.prototype.addGamepadHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.Control.prototype.addKeyHandler_ = function() {
+cwc.mode.sphero.classic.Control.prototype.addKeyHandler_ = function() {
   let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   shortcutHandler.registerShortcut('backward', 'down');
   shortcutHandler.registerShortcut('left', 'left');
@@ -188,7 +186,8 @@ cwc.mode.sphero.Control.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.sphero.Control.prototype.handleKeyboardShortcut_ = function(event) {
+cwc.mode.sphero.classic.Control.prototype.handleKeyboardShortcut_ = function(
+    event) {
   if (!this.messageInstance_.isControlActive() &&
       !this.messageInstance_.isMonitorActive() ||
       event.target.tagName === 'INPUT') {

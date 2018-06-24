@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.SimulationCommand');
+goog.provide('cwc.mode.sphero.classic.SimulationCommand');
 
 
 /**
@@ -25,7 +25,7 @@ goog.provide('cwc.mode.sphero.SimulationCommand');
  * @constructor
  * @final
  */
-cwc.mode.sphero.SimulationCommand = function(turtle) {
+cwc.mode.sphero.classic.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
@@ -43,8 +43,9 @@ cwc.mode.sphero.SimulationCommand = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.mode.sphero.SimulationCommand.prototype['__handshake__'] = function() {
-  this.speed_ = 0;
+cwc.mode.sphero.classic.SimulationCommand.prototype['__handshake__'] = function(
+    ) {
+  this.speed_ = 40;
   this.turtle.action('speed', 1);
   this.turtle.action('scale', 1);
   this.turtle.reset();
@@ -54,7 +55,7 @@ cwc.mode.sphero.SimulationCommand.prototype['__handshake__'] = function() {
 /**
  * @param {!Object} data
  */
-cwc.mode.sphero.SimulationCommand.prototype['roll'] = function(data) {
+cwc.mode.sphero.classic.SimulationCommand.prototype['roll'] = function(data) {
   let speed = this.speed_ = data['speed'] === undefined ?
     this.speed_ : data['speed'];
   let heading = this.heading_ = data['heading'] === undefined ?

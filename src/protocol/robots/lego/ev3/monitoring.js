@@ -26,7 +26,6 @@ goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 goog.require('goog.events');
-goog.require('goog.events.EventTarget');
 
 
 /**
@@ -65,9 +64,6 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
   /** @type {string} */
   this.name = 'EV3 Monitoring';
 
-  /** @type {goog.events.EventTarget} */
-  this.eventHandler = api.getEventHandler();
-
   /** @type {boolean} */
   this.started = false;
 
@@ -83,7 +79,7 @@ cwc.protocol.lego.ev3.Monitoring = function(api) {
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  this.events_.listen(this.api.getEventHandler(),
+  this.events_.listen(this.api.getEventTarget(),
     cwc.protocol.lego.ev3.Events.Type.CHANGED_DEVICES,
     this.handleDeviceChanges_, false, this);
 };

@@ -27,12 +27,12 @@ goog.require('goog.events.EventTarget');
 
 /**
  * @param {!cwc.utils.Helper} helper
- * @param {goog.events.EventTarget=} eventHandler
+ * @param {goog.events.EventTarget=} eventTarget
  * @constructor
  * @struct
  * @final
  */
-cwc.ui.PreviewStatus = function(helper, eventHandler) {
+cwc.ui.PreviewStatus = function(helper, eventTarget) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -58,14 +58,28 @@ cwc.ui.PreviewStatus = function(helper, eventHandler) {
   this.events_ = new cwc.utils.Events(this.name, '', this);
 
   /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = eventHandler || new goog.events.EventTarget();
+  this.eventTarget_ = eventTarget || new goog.events.EventTarget();
 };
 
 
 /**
+ * Added basic status event handler for Iframes.
  * @param {Element=} content
  */
-cwc.ui.PreviewStatus.prototype.addEventHandler = function(content) {
+cwc.ui.PreviewStatus.prototype.addEventHandlerIframe = function(content) {
+  if (!content) {
+    return;
+  }
+  this.events_.clear();
+  content['onload'] = this.handleLoadStop_.bind(this);
+};
+
+
+/**
+ * Added advanced status event handler for WebView.
+ * @param {Element=} content
+ */
+cwc.ui.PreviewStatus.prototype.addEventHandlerWebview = function(content) {
   if (!content) {
     return;
   }
@@ -92,7 +106,7 @@ cwc.ui.PreviewStatus.prototype.setStatus = function(status) {
   if (this.statusButton) {
     this.statusButton.setStatus(status);
   }
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.statusChange(status));
+  this.eventTarget_.dispatchEvent(cwc.ui.PreviewEvents.statusChange(status));
   this.status = status;
 };
 
@@ -138,7 +152,7 @@ cwc.ui.PreviewStatus.prototype.setStatusButton = function(statusButton) {
  * @private
  */
 cwc.ui.PreviewStatus.prototype.handleContentLoad_ = function() {
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoaded());
+  this.eventTarget_.dispatchEvent(cwc.ui.PreviewEvents.contentLoaded());
 };
 
 
@@ -166,7 +180,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStart_ = function(e) {
   }
   this.startTime = new Date().getTime();
   this.setStatus(cwc.ui.PreviewState.LOADING);
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStart());
+  this.eventTarget_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStart());
 };
 
 
@@ -181,7 +195,7 @@ cwc.ui.PreviewStatus.prototype.handleLoadStop_ = function(e) {
   }
   this.stopTime = new Date().getTime();
   this.setStatus(cwc.ui.PreviewState.LOADED);
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStop());
+  this.eventTarget_.dispatchEvent(cwc.ui.PreviewEvents.contentLoadStop());
 };
 
 
@@ -198,5 +212,5 @@ cwc.ui.PreviewStatus.prototype.handleUnresponsive_ = function() {
         this.terminate();
       }
     });
-  this.eventHandler_.dispatchEvent(cwc.ui.PreviewEvents.unresponsive());
+  this.eventTarget_.dispatchEvent(cwc.ui.PreviewEvents.unresponsive());
 };

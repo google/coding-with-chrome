@@ -30,7 +30,7 @@ cwc.protocol.sphero.v1.Events.Type = {
   CHANGED_LOCATION: 'changed_devices',
   CHANGED_SPEED: 'changed_speed',
   CHANGED_VELOCITY: 'changed_values',
-  COLLISION: 'collision',
+  COLLISION: 'COLLISION',
   CONNECT: 'connect',
 };
 

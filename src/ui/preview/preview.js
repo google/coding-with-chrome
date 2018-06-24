@@ -146,7 +146,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   // Adding cleanup handler event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.events_.listen(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventTarget(),
       goog.events.EventType.UNLOAD, this.cleanUp);
   }
 
@@ -155,7 +155,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     this.events_.listen(new goog.dom.ViewportSizeMonitor(),
       goog.events.EventType.RESIZE, this.handleRefresh_);
     if (layoutInstance) {
-      this.events_.listen(layoutInstance.getEventHandler(),
+      this.events_.listen(layoutInstance.getEventTarget(),
         goog.events.EventType.DRAGEND, this.handleRefresh_);
     }
   }
@@ -225,10 +225,8 @@ cwc.ui.Preview.prototype.render = function() {
  * @return {!Object}
  */
 cwc.ui.Preview.prototype.renderIframe = function() {
-  if (this.content) {
-    goog.dom.removeChildren(this.nodeRuntime);
-  }
   let content = document.createElement('iframe');
+  this.previewStatus_.addEventHandlerIframe(content);
   return content;
 };
 
@@ -241,7 +239,7 @@ cwc.ui.Preview.prototype.renderWebview = function() {
   let content = document.createElement('webview');
   content['setAttribute']('partition', this.partition_);
   content['setUserAgentOverride']('CwC sandbox');
-  this.previewStatus_.addEventHandler(content);
+  this.previewStatus_.addEventHandlerWebview(content);
   return content;
 };
 
@@ -257,7 +255,7 @@ cwc.ui.Preview.prototype.enableMessenger = function(enable = true) {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.ui.Preview.prototype.getEventHandler = function() {
+cwc.ui.Preview.prototype.getEventTarget = function() {
   return this.eventHandler_;
 };
 
@@ -417,7 +415,7 @@ cwc.ui.Preview.prototype.setAutoUpdate = function(active) {
   this.log_.info('Activate AutoUpdate...');
   let editorInstance = this.helper.getInstance('editor');
   if (editorInstance) {
-    let editorEventHandler = editorInstance.getEventHandler();
+    let editorEventHandler = editorInstance.getEventTarget();
     this.autoUpdateEvent = goog.events.listen(editorEventHandler,
         goog.ui.Component.EventType.CHANGE, this.delayAutoUpdate, false,
         this);

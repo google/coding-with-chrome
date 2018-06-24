@@ -81,14 +81,14 @@ cwc.mode.lego.ev3.Simulation.prototype.decorate = function(node) {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.events_.listen(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventTarget(),
         goog.events.EventType.UNLOAD, this.cleanUp);
   }
 
   // Command event
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
-    this.events_.listen(previewInstance.getEventHandler(),
+    this.events_.listen(previewInstance.getEventTarget(),
         cwc.MessengerEvents.Type.COMMAND, this.handleCommand_);
   }
 };

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero 2.0 modifications.
+ * @fileoverview Sphero SPRK+ modifications.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,15 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Mod');
+goog.provide('cwc.mode.sphero.sprkPlus.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Hints');
 goog.require('cwc.mode.sphero.classic.Calibration');
-goog.require('cwc.mode.sphero.classic.Connection');
 goog.require('cwc.mode.sphero.classic.Control');
-goog.require('cwc.mode.sphero.classic.SensorEvents');
 goog.require('cwc.mode.sphero.classic.Simulation');
+goog.require('cwc.mode.sphero.sprkPlus.Connection');
+goog.require('cwc.mode.sphero.sprkPlus.SensorEvents');
 goog.require('cwc.renderer.external.Sphero');
 goog.require('cwc.soy.sphero.Blocks');
 
@@ -35,20 +35,20 @@ goog.require('cwc.soy.sphero.Blocks');
  * @param {!cwc.utils.Helper} helper
  * @param {boolean=} enableBlockly
  */
-cwc.mode.sphero.classic.Mod = function(helper, enableBlockly = false) {
+cwc.mode.sphero.sprkPlus.Mod = function(helper, enableBlockly = false) {
   /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
-  /** @type {!cwc.mode.sphero.classic.Connection} */
-  this.connection = new cwc.mode.sphero.classic.Connection(helper);
+  /** @type {!cwc.mode.sphero.sprkPlus.Connection} */
+  this.connection = new cwc.mode.sphero.sprkPlus.Connection(helper);
 
-  /** @type {!cwc.mode.sphero.classic.SensorEvents} */
-  this.events = Object.assign(cwc.mode.sphero.classic.SensorEvents);
+  /** @type {!cwc.mode.sphero.sprkPlus.SensorEvents} */
+  this.events = Object.assign(cwc.mode.sphero.sprkPlus.SensorEvents);
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.sphero.Calibration} */
+  /** @type {!cwc.mode.sphero.classic.Calibration} */
   this.calibration = new cwc.mode.sphero.classic.Calibration(
     helper, this.connection);
 
@@ -66,7 +66,7 @@ cwc.mode.sphero.classic.Mod = function(helper, enableBlockly = false) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.sphero.classic.Mod.prototype.decorate = function() {
+cwc.mode.sphero.sprkPlus.Mod.prototype.decorate = function() {
   if (this.enableBlockly) {
     this.mod.enableBlockly(cwc.soy.sphero.Blocks.toolbox);
   }

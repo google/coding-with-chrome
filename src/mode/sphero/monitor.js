@@ -114,22 +114,22 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   this.nodeMonitorSpeed = goog.dom.getElement(this.prefix + 'speed');
 
   // Update events
-  let eventHandler = this.connection.getEventHandler();
-  this.events_.listen(eventHandler,
+  let eventTarget = this.connection.getEventTarget();
+  this.events_.listen(eventTarget,
       cwc.protocol.sphero.classic.Events.Type.CHANGED_LOCATION,
       this.updateLocationData_, false, this);
 
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
       cwc.protocol.sphero.classic.Events.Type.CHANGED_VELOCITY,
       this.updateVelocityData_, false, this);
 
-  this.events_.listen(eventHandler,
+  this.events_.listen(eventTarget,
       cwc.protocol.sphero.classic.Events.Type.CHANGED_SPEED,
       this.updateSpeedData_, false, this);
 
   // Unload event
   let layoutInstance = this.helper.getInstance('layout', true);
-  let layoutEventHandler = layoutInstance.getEventHandler();
+  let layoutEventHandler = layoutInstance.getEventTarget();
   this.events_.listen(layoutEventHandler, goog.events.EventType.UNLOAD,
     this.cleanUp, false, this);
 
@@ -203,30 +203,30 @@ cwc.mode.sphero.Monitor.prototype.addEventHandler_ = function() {
  * @private
  */
 cwc.mode.sphero.Monitor.prototype.addGamepadHandler_ = function() {
-  let eventHandler = this.helper.getInstance('gamepad').getEventHandler();
+  let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let gamepad = this.helper.getInstance('gamepad');
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[7],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[7],
     (e) => {
       this.api.exec('roll', {
         'speed': e.data * 255, 'heading': gamepad.getLeftAxisAngle()});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[6],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[6],
     () => {
       this.api.exec('rollStop');
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[0],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[0],
     () => {
       this.api.exec('setRGB', {'green': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[1],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[1],
     () => {
       this.api.exec('setRGB', {'red': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[2],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[2],
     () => {
       this.api.exec('setRGB', {'blue': 255});
   });
-  this.events_.listen(eventHandler, cwc.utils.Gamepad.Events.Type.BUTTON[3],
+  this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[3],
     () => {
       this.api.exec('setRGB');
   });

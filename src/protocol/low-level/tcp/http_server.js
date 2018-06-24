@@ -60,9 +60,6 @@ cwc.protocol.tcp.HTTPServer = function(address, port) {
   /** @private {!Object} */
   this.customHandlers_ = {};
 
-  /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
-
   /** @private {number|null} */
   this.socketId_ = null;
 

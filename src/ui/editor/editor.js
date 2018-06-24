@@ -76,7 +76,7 @@ cwc.ui.Editor = function(helper) {
   this.modified = false;
 
   /** @type {goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
+  this.eventTarget = new goog.events.EventTarget();
 
   /** @type {Element} */
   this.node = null;
@@ -202,10 +202,10 @@ cwc.ui.Editor.prototype.decorate = function(node) {
   // Add event listener to monitor changes like resize and unload.
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.RESIZE,
+    let eventTarget = layoutInstance.getEventTarget();
+    this.events_.listen(eventTarget, goog.events.EventType.RESIZE,
       this.refreshEditor);
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
+    this.events_.listen(eventTarget, goog.events.EventType.UNLOAD,
       this.cleanUp_);
   }
 
@@ -559,8 +559,8 @@ cwc.ui.Editor.prototype.handleSyncEvent = function(opt_event) {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.ui.Editor.prototype.getEventHandler = function() {
-  return this.eventHandler;
+cwc.ui.Editor.prototype.getEventTarget = function() {
+  return this.eventTarget;
 };
 
 
@@ -656,7 +656,7 @@ cwc.ui.Editor.prototype.handleChange_ = function() {
   if (guiInstance) {
     guiInstance.setStatus(this.modified ? '*' : '');
   }
-  this.eventHandler.dispatchEvent(goog.ui.Component.EventType.CHANGE);
+  this.eventTarget.dispatchEvent(goog.ui.Component.EventType.CHANGE);
 };
 
 

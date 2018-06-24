@@ -97,5 +97,6 @@ cwc.protocol.sphero.v1.ResponseType = {
  * @enum {number}
  */
 cwc.protocol.sphero.v1.MessageType = {
+  PRE_SLEEP: 0x05,
   COLLISION_DETECTED: 0x07,
 };

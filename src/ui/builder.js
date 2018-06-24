@@ -32,9 +32,9 @@ goog.require('cwc.fileHandler.FileExporter');
 goog.require('cwc.fileHandler.FileLoader');
 goog.require('cwc.fileHandler.FileSaver');
 goog.require('cwc.lib.protocol.bluetoothChrome.Api');
+goog.require('cwc.lib.protocol.bluetoothWeb.Api');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
-goog.require('cwc.protocol.bluetooth.lowEnergy.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.tcp.HTTPServer');
@@ -122,7 +122,6 @@ cwc.ui.BuilderHelpers = {
  */
 cwc.ui.supportedProtocols = {
   // Low-level
-  'bluetoothLE': cwc.protocol.bluetooth.lowEnergy.Api,
   'serial': cwc.protocol.serial.Api,
 
   // Boards
@@ -404,14 +403,17 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
   if (this.helper.checkChromeFeature('bluetooth')) {
     let BluetoothChromeApi =
       goog.module.get('cwc.lib.protocol.bluetoothChrome.Api');
-    let bluetoothInstance =
-      this.helper.setInstance('bluetooth', new BluetoothChromeApi());
-    bluetoothInstance.prepare();
+    let bluetoothChromeInstance =
+      this.helper.setInstance('bluetoothChrome', new BluetoothChromeApi());
+    bluetoothChromeInstance.prepare();
   }
 
-  let bluetoothLEInstance = this.helper.getInstance('bluetoothLE');
-  if (this.helper.checkBrowserFeature('bluetooth') && bluetoothLEInstance) {
-    bluetoothLEInstance.prepare();
+  if (this.helper.checkBrowserFeature('bluetooth')) {
+    let BluetoothWebApi =
+      goog.module.get('cwc.lib.protocol.bluetoothWeb.Api');
+    let bluetoothWebInstance =
+      this.helper.setInstance('bluetoothWeb', new BluetoothWebApi());
+    bluetoothWebInstance.prepare();
   }
 };
 

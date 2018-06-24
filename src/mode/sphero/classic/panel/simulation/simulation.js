@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.Simulation');
+goog.provide('cwc.mode.sphero.classic.Simulation');
 
 goog.require('cwc.MessengerEvents');
-goog.require('cwc.mode.sphero.SimulationCommand');
+goog.require('cwc.mode.sphero.classic.SimulationCommand');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
 
@@ -29,12 +29,12 @@ goog.require('cwc.utils.Events');
  * @param {!cwc.utils.Helper} helper
  * @constructor
  */
-cwc.mode.sphero.Simulation = function(helper) {
+cwc.mode.sphero.classic.Simulation = function(helper) {
   /** @type {string} */
   this.name = 'Sphero Simulation';
 
   /** @type {string} */
-  this.prefix = helper.getPrefix('sphero-simulation');
+  this.prefix = helper.getPrefix('sphero-classic-simulation');
 
   /** @type {Element} */
   this.node = null;
@@ -64,7 +64,7 @@ cwc.mode.sphero.Simulation = function(helper) {
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
   /** @type {!cwc.mode.sphero.SimulationCommand} */
-  this.commands_ = new cwc.mode.sphero.SimulationCommand(this.turtle);
+  this.commands_ = new cwc.mode.sphero.classic.SimulationCommand(this.turtle);
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
@@ -76,7 +76,7 @@ cwc.mode.sphero.Simulation = function(helper) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.Simulation.prototype.decorate = function(node) {
+cwc.mode.sphero.classic.Simulation.prototype.decorate = function(node) {
   this.node = node;
 
   // Decorate turtle
@@ -85,14 +85,14 @@ cwc.mode.sphero.Simulation.prototype.decorate = function(node) {
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    this.events_.listen(layoutInstance.getEventHandler(),
+    this.events_.listen(layoutInstance.getEventTarget(),
         goog.events.EventType.UNLOAD, this.cleanUp);
   }
 
   // Command event
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
-    this.events_.listen(previewInstance.getEventHandler(),
+    this.events_.listen(previewInstance.getEventTarget(),
         cwc.MessengerEvents.Type.COMMAND, this.handleCommand_);
   }
 };
@@ -101,7 +101,7 @@ cwc.mode.sphero.Simulation.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.Simulation.prototype.cleanUp = function() {
+cwc.mode.sphero.classic.Simulation.prototype.cleanUp = function() {
   console.log('Clean up Sphero simulation ...');
   this.events_.clear();
 };
@@ -111,7 +111,7 @@ cwc.mode.sphero.Simulation.prototype.cleanUp = function() {
  * @param {!Event} e
  * @private
  */
-cwc.mode.sphero.Simulation.prototype.handleCommand_ = function(e) {
+cwc.mode.sphero.classic.Simulation.prototype.handleCommand_ = function(e) {
   if (typeof this.commands_[e.data['name']] === 'undefined') {
     return;
   }

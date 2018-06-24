@@ -15,20 +15,12 @@
  */
 
 
-#{$prefix}sphero-control-body {
+#{$prefix}sphero-classic-calibration-body {
   padding: 5px;
 }
 
-#{$prefix}sphero-control-buttons {
-  width: 150px;
+#{$prefix}sphero-classic-calibration-buttons {
+  width: 200px;
   margin: auto;
   padding-bottom: 10px;
-}
-
-#{$prefix}sphero-control-buttons:first-child {
-  padding-left: 3px;
-}
-
-#{$prefix}sphero-control-system-buttons > div {
-  padding: 10px;
 }

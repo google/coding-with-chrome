@@ -20,6 +20,7 @@
 goog.provide('cwc.protocol.sphero.v1.Monitoring');
 
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
@@ -35,7 +36,7 @@ cwc.protocol.sphero.v1.Monitoring = function(api) {
   this.api = api;
 
   /** @type {string} */
-  this.name = 'Sphero Monitoring';
+  this.name = 'Sphero v1 Monitoring';
 
   /** @type {boolean} */
   this.monitor = false;
@@ -52,9 +53,12 @@ cwc.protocol.sphero.v1.Monitoring = function(api) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  // Monitor Events
+ // Monitor Events
   this.events_.listen(this.monitorLocation, goog.Timer.TICK,
-    this.api.getLocation, false, this.api);
+    this.updateLocation.bind(this));
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -65,7 +69,7 @@ cwc.protocol.sphero.v1.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
-  console.log('Starting...');
+  this.log_.info('Starting...');
   this.monitorLocation.start();
   this.started = true;
 };
@@ -78,7 +82,22 @@ cwc.protocol.sphero.v1.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
-  console.log('Stopping...');
+  this.log_.info('Stopping...');
   this.monitorLocation.stop();
   this.started = false;
+};
+
+
+cwc.protocol.sphero.v1.Monitoring.prototype.cleanUp = function() {
+  this.log_.info('Clean up ...');
+  this.stop();
+  this.events_.clear();
+};
+
+
+/**
+ * Updates the current location of the Sphero device.
+ */
+cwc.protocol.sphero.v1.Monitoring.prototype.updateLocation = function() {
+  this.api.exec('getLocation');
 };

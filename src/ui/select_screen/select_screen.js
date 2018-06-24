@@ -55,7 +55,7 @@ cwc.ui.SelectScreen = function(helper) {
   this.modules = {};
 
   /** @private {!goog.events.EventTarget} */
-  this.eventHandler_ = new goog.events.EventTarget();
+  this.eventTarget_ = new goog.events.EventTarget();
 
   /** @type {!cwc.ui.SelectScreenWelcome} */
   this.selectScreenWelcome = new cwc.ui.SelectScreenWelcome(this);
@@ -240,8 +240,8 @@ cwc.ui.SelectScreen.prototype.showIntro = function() {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.ui.SelectScreen.prototype.getEventHandler = function() {
-  return this.eventHandler_;
+cwc.ui.SelectScreen.prototype.getEventTarget = function() {
+  return this.eventTarget_;
 };
 
 
@@ -275,7 +275,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     cwc.ui.Helper.mdlRefresh();
 
     // Event Handling
-    this.eventHandler_.dispatchEvent(
+    this.eventTarget_.dispatchEvent(
       cwc.ui.SelectScreen.Events.changeView(this.nodeContent));
   } else {
     console.error('Unable to render template', template);

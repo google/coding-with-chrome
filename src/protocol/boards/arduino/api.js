@@ -123,7 +123,7 @@ cwc.protocol.arduino.Api.prototype.handleOnReceive = function(
  * @return {goog.events.EventTarget}
  * @export
  */
-cwc.protocol.arduino.Api.prototype.getEventHandler = function() {
+cwc.protocol.arduino.Api.prototype.getEventTarget = function() {
   return this.eventHandler;
 };
 

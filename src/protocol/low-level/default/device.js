@@ -49,9 +49,9 @@ cwc.protocol.default.Device = function() {
   /** @type {string} */
   this.icon = '';
 
-  /** @type {!cwc.protocol.bluetooth.classic.supportedDevices|
-   *         !cwc.protocol.bluetooth.lowEnergy.supportedDevices|
-   *         !Object}
+  /** @type {!cwc.lib.protocol.bluetoothChrome.Profile.Device|
+   *         cwc.lib.protocol.bluetoothWeb.Profile.Device|
+   *         Object}
    */
   this.profile = {};
 
@@ -115,7 +115,7 @@ cwc.protocol.default.Device.prototype.setEventHandler = function(eventHandler) {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.protocol.default.Device.prototype.getEventHandler = function() {
+cwc.protocol.default.Device.prototype.getEventTarget = function() {
   if (!this.eventHandler) {
     this.eventHandler = new goog.events.EventTarget();
   }

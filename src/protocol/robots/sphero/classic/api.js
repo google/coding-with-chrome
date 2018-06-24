@@ -22,7 +22,7 @@
  */
 goog.provide('cwc.protocol.sphero.classic.Api');
 
-goog.require('cwc.protocol.bluetooth.classic.Events');
+goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 goog.require('cwc.protocol.sphero.classic.CallbackType');
 goog.require('cwc.protocol.sphero.classic.Events');
 goog.require('cwc.protocol.sphero.classic.Handler');
@@ -36,6 +36,10 @@ goog.require('cwc.utils.StreamReader');
 
 goog.require('goog.events.EventTarget');
 
+
+goog.scope(function() {
+const BluetoothEvents =
+  goog.module.get('cwc.lib.protocol.bluetoothChrome.Events');
 
 /**
  * @constructor
@@ -77,7 +81,7 @@ cwc.protocol.sphero.classic.Api = function() {
   this.locationSpeed_ = 0;
 
   /** @type {!goog.events.EventTarget} */
-  this.eventHandler = new goog.events.EventTarget();
+  this.eventTarget = new goog.events.EventTarget();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
@@ -109,12 +113,12 @@ cwc.protocol.sphero.classic.Api.prototype.connect = function(device) {
 
   if (!this.prepared) {
     console.log('Preparing Sphero classic api for', device.getAddress());
-    this.eventHandler.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
+    this.eventTarget.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
       'Prepare Sphero Classic api for' + device.getAddress(), 2));
     this.device = device;
     this.prepare();
     this.runTest();
-    this.eventHandler.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
+    this.eventTarget.dispatchEvent(cwc.protocol.sphero.classic.Events.connect(
       'Ready ...', 3));
   }
   return true;
@@ -133,8 +137,8 @@ cwc.protocol.sphero.classic.Api.prototype.isConnected = function() {
  * @export
  */
 cwc.protocol.sphero.classic.Api.prototype.prepare = function() {
-  this.events_.listen(this.device.getEventHandler(),
-    cwc.protocol.bluetooth.classic.Events.Type.ON_RECEIVE,
+  this.events_.listen(this.device.getEventTarget(),
+    BluetoothEvents.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
   this.exec('setRGB', {'red': 255, 'persistent': true});
   this.exec('getRGB');
@@ -185,8 +189,8 @@ cwc.protocol.sphero.classic.Api.prototype.monitor = function(enable) {
 /**
  * @return {!goog.events.EventTarget}
  */
-cwc.protocol.sphero.classic.Api.prototype.getEventHandler = function() {
-  return this.eventHandler;
+cwc.protocol.sphero.classic.Api.prototype.getEventTarget = function() {
+  return this.eventTarget;
 };
 
 
@@ -245,20 +249,20 @@ cwc.protocol.sphero.classic.Api.prototype.updateLocationData_ = function(data) {
   if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
     this.locationPosX_ = xpos;
     this.locationPosY_ = ypos;
-    this.eventHandler.dispatchEvent(
+    this.eventTarget.dispatchEvent(
       cwc.protocol.sphero.classic.Events.locationData({x: xpos, y: ypos}));
   }
 
   if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
     this.locationVelX_ = xvel;
     this.locationVelY_ = yvel;
-    this.eventHandler.dispatchEvent(
+    this.eventTarget.dispatchEvent(
       cwc.protocol.sphero.classic.Events.velocityData({x: xvel, y: yvel}));
   }
 
   if (speed != this.locationSpeed_) {
     this.locationSpeed_ = speed;
-    this.eventHandler.dispatchEvent(
+    this.eventTarget.dispatchEvent(
       cwc.protocol.sphero.classic.Events.speedValue(speed));
   }
 };
@@ -276,7 +280,7 @@ cwc.protocol.sphero.classic.Api.prototype.parseCollisionData_ = function(data) {
   let xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
   let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
   let speed = data[11];
-  this.eventHandler.dispatchEvent(
+  this.eventTarget.dispatchEvent(
     cwc.protocol.sphero.classic.Events.collision({
       x: x,
       y: y,
@@ -337,12 +341,10 @@ cwc.protocol.sphero.classic.Api.prototype.handleOnReceive_ = function(e) {
         console.log('Received type', seq, 'with', len,
           ' bytes of unknown data:', data);
     }
-  } else if (messageType ===
-      cwc.protocol.sphero.v1.ResponseType.ASYNCHRONOUS) {
+  } else if (messageType === cwc.protocol.sphero.v1.ResponseType.ASYNCHRONOUS) {
     // Handles async packets from the Bluetooth socket.
     switch (messageResponse) {
       case cwc.protocol.sphero.classic.MessageType.COLLISION_DETECTED:
-        console.log('Collision', data);
         this.parseCollisionData_(data);
         break;
       default:
@@ -378,3 +380,4 @@ cwc.protocol.sphero.classic.Api.prototype.verifiyChecksum_ = function(buffer,
 
   return (checksum === (bufferChecksum % 256) ^ 0xFF) ? true : false;
 };
+});
