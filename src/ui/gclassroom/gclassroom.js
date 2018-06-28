@@ -82,8 +82,8 @@ cwc.ui.GClassroom.prototype.handleCourses = function(data) {
 cwc.ui.GClassroom.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
-    let eventHandler = layoutInstance.getEventHandler();
-    this.events_.listen(eventHandler, goog.events.EventType.UNLOAD,
+    let eventTarget = layoutInstance.getEventTarget();
+    this.events_.listen(eventTarget, goog.events.EventType.UNLOAD,
         this.cleanUp_, false, this);
   }
 
