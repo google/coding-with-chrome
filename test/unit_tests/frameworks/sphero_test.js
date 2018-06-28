@@ -21,13 +21,10 @@ goog.require('cwc.framework.Sphero');
 
 
 describe('Framework: Sphero', function() {
-  let code = function() {
-    console.log('Sphero ...');
-  };
   let testFunction = function() {
     return 123;
   };
-  let framework = new cwc.framework.Sphero(code);
+  let framework = window['sphero'];
   let messengerBuffer = {};
 
   // Overwrite messenger send func for testing.
@@ -56,5 +53,9 @@ describe('Framework: Sphero', function() {
     expect(messengerBuffer.value.blue).toEqual(3);
     expect(messengerBuffer.value.persistent).toEqual(false);
     expect(messengerBuffer.delay).toEqual(4);
+  });
+
+  afterAll(function() {
+    framework.messenger_.cleanup();
   });
 });

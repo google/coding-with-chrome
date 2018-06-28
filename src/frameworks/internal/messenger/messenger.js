@@ -56,8 +56,9 @@ cwc.framework.Messenger = function(liteMode = false) {
   /** @private {!cwc.utils.StackQueue} */
   this.senderStack_ = new cwc.utils.StackQueue();
 
-  // Message handler
-  window.addEventListener('message', this.handleMessage_.bind(this), false);
+  /** @private {!Function} */
+  this.messageListener_ = this.handleMessage_.bind(this);
+  window.addEventListener('message', this.messageListener_, false);
 
   // External listener
   this.addListener('__exec__', this.executeCode_);
@@ -69,6 +70,9 @@ cwc.framework.Messenger = function(liteMode = false) {
     this.addListener('__gamepad__', this.handleGamepad_);
     this.addListener('__start__', this.handleStart_);
   }
+
+  /** @private {string} */
+  this.token_;
 
   this.senderStack_.addDelay(50);
 };
@@ -179,6 +183,7 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
   this.appWindow.postMessage({
     'name': name,
     'value': value,
+    'token': this.token_,
   }, this.appOrigin);
 };
 
@@ -188,18 +193,43 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
  * @private
  */
 cwc.framework.Messenger.prototype.executeCode_ = function(code) {
-  if (!code || typeof code !== 'string') {
-    return;
+  let id = false;
+  switch (typeof code) {
+    case 'string':
+      break;
+    case 'object':
+      if (!code.hasOwnProperty('code')) {
+        console.error('Argument to executeCode_ missing property \'code\':',
+          code);
+        return;
+      }
+      if ((typeof code['code']) !== 'string') {
+        console.error('\'code\' property of argument to executeCode_ is not a'
+          + ' string:', code);
+        return;
+      }
+      if (code.hasOwnProperty('id') && (typeof code['id']) === 'string') {
+        id = code['id'];
+      }
+      code = code['code'];
+      break;
+    default:
+      return;
   }
   // Remove trailing ";"" to avoid syntax errors for simple one liner
   if (code.endsWith(';')) {
     code = code.slice(0, -1);
   }
   // Skip the return parameter for more complex code
-  if ((code.includes(';') && !code.includes('let')) || code.includes('{')) {
-    console.log('>>' + Function(code)());
-  } else {
-    console.log('>>' + Function('return (' + code + ');')());
+  let result = ((code.includes(';') && !code.includes('let')) ||
+    code.includes('{')) ? Function(code)() :
+    Function('return (' + code + ');')();
+  console.log('>>' + result);
+  if (id) {
+    this.send('__exec_result__', {
+      'id': id,
+      'result': result,
+    });
   }
 };
 
@@ -212,6 +242,21 @@ cwc.framework.Messenger.prototype.executeCode_ = function(code) {
 cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
+  }
+
+  if (!('token' in event['data'])) {
+    console.warn('ignoring message without token', event['data']);
+    return;
+  }
+
+  if (!this.token_ && 'token' in event['data'] &&
+    event['data']['name'] === '__handshake__') {
+    this.token_ = event['data']['token'];
+  }
+
+  if (event['data']['token'] != this.token_) {
+    console.warn('ignoring message with wrong token', event['data']);
+    return;
   }
 
   // Setting appWindow and appOrigin within the handshake
@@ -228,7 +273,8 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
     return;
   }
   if (typeof this.listener_[event['data']['name']] === 'undefined') {
-    throw new Error('Name ' + event['data']['name'] + ' is not defined!');
+    console.error('No listener for event', event['data']['name']);
+    return;
   }
   this.listener_[event['data']['name']](event['data']['value']);
 };
@@ -239,9 +285,8 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
  * @private
  */
 cwc.framework.Messenger.prototype.handleHandshake_ = function(data) {
-  console.log('Received handshake for token ' + data['token']);
+  console.log('Received handshake for token ' + this.token_);
   this.send('__handshake__', {
-    'token': data['token'],
     'start_time': data['start_time'],
     'ping_time': new Date().getTime(),
   });
@@ -271,4 +316,11 @@ cwc.framework.Messenger.prototype.handleStart_ = function() {
     console.log('Starting program ...');
     this.callback_(this.scope_);
   }
+};
+
+/**
+ * Removes the message event handler from the window
+ */
+cwc.framework.Messenger.prototype.cleanup = function() {
+  window.removeEventListener('message', this.messageListener_, false);
 };

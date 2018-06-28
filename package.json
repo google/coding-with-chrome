@@ -46,7 +46,7 @@
     "test-soy": "echo Starting soy tests ... && karma start test/soy_tests.conf",
     "pretest-core-mode": "npm run build && npm run build-cwc-main",
     "test-core-mode": "karma start test/core_tests.conf && karma start test/mode_tests.conf",
-    "pretest-units": "node build/test/unit_files.js",
+    "pretest-units": "node build/test/unit_files.js && npm run build-cwc-frameworks",
     "test-units": "echo Starting unit tests ... && karma start test/unit_tests.conf",
     "posttest-units": "npm run coverage",
     "pretest-core": "npm run build && npm run build-cwc-main",

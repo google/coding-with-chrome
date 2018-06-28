@@ -45,9 +45,12 @@ describe('Prepare Editor', function() {
   it('decorate', function(done) {
     let builder = new cwc.ui.Builder();
     builder.decorate().then(() => {
-      expect(builder.isPrepared()).toEqual(true);
-      expect(builder.isLoaded()).toEqual(true);
-      expect(builder.isReady()).toEqual(true);
+      expect(builder.isPrepared()).toEqual(true, 'Builder not prepared');
+      expect(builder.isLoaded()).toEqual(true, 'Builder not loaded');
+      expect(builder.isReady()).toEqual(true, 'Builder not ready');
+      done();
+    }).catch((error) => {
+      expect(true).toBe(false, `Decorate failed, error was [${error}]`);
       done();
     });
   });

@@ -33,6 +33,7 @@ goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 goog.require('goog.soy');
+goog.require('goog.string');
 goog.require('goog.ui.Component.EventType');
 
 
@@ -102,6 +103,8 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.Messenger} */
   this.messenger_ = new cwc.Messenger(this.eventHandler_);
+  this.messenger_.addListener('__exec_result__', this.handleExecResponse_,
+    this);
 
   /** @private {string} */
   this.partition_ = 'preview';
@@ -111,6 +114,9 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!Object<string, Function>} */
+  this.pendingExecCallbacks = {};
 };
 
 
@@ -463,11 +469,56 @@ cwc.ui.Preview.prototype.focus = function() {
 /**
  * Injects and executes the passed code in the preview content, if supported.
  * @param {!(string|Function)} code
+ * @param {Function=} callback
  */
-cwc.ui.Preview.prototype.executeScript = function(code) {
+cwc.ui.Preview.prototype.executeScript = function(code, callback) {
   this.log_.info('Execute script', code);
-  this.messenger_.send('__exec__',
-    typeof code === 'function' ? code.toString() : code);
+  let execSpec = {
+    'code': typeof code === 'function' ? code.toString() : code,
+    'id': false,
+  };
+  if (typeof callback === 'function') {
+    let id = goog.string.createUniqueString();
+    this.pendingExecCallbacks[id] = callback;
+    execSpec['id'] = id;
+  }
+  this.messenger_.send('__exec__', execSpec);
+};
+
+/**
+ * Calls the callback registered for the script execution
+ * @param {Object} response
+ * @private
+ */
+cwc.ui.Preview.prototype.handleExecResponse_ = function(response) {
+  if ((typeof response) !== 'object') {
+    this.log_.warn('Received non-object as response from script execution',
+      response);
+    return;
+  }
+  if (!response.hasOwnProperty('id')) {
+    this.log_.warn('executeScript response has no \'id\', can\'t match to a '+
+      'callback');
+    return;
+  }
+  if ((typeof response['id']) !== 'string') {
+    this.log_.warn('Ignorning executeScript response with non-string id',
+      response);
+    return;
+  }
+  if (!this.pendingExecCallbacks.hasOwnProperty(response['id'])) {
+    this.log_.warn('Callback for executeScript response', response['id'],
+      'missing. Response was', response);
+    return;
+  }
+  let callback = this.pendingExecCallbacks[response['id']];
+  delete this.pendingExecCallbacks[response['id']];
+  let result;
+  if (response.hasOwnProperty('result')) {
+    result = response['result'];
+  }
+  this.log_.info('Executing callback ', response['id'], 'with result', result);
+  callback(result);
 };
 
 

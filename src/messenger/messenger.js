@@ -159,6 +159,7 @@ cwc.Messenger.prototype.send = function(name, value = {}) {
   this.target.contentWindow.postMessage({
     'name': name,
     'value': value,
+    'token': this.token_,
   }, this.targetOrigin);
 };
 
@@ -256,6 +257,14 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
   if (!event) {
     throw new Error('Was not able to get browser event!');
   }
+  if (!('token' in event['data'])) {
+    this.log_.warn('ignoring message without token', event['data']);
+    return;
+  }
+  if (event['data']['token'] != this.token_) {
+    this.log_.warn('ignoring message with wrong token', event['data']);
+    return;
+  }
   if (!this.appWindow && 'source' in event) {
     this.setAppWindow(event['source']);
   } else if (this.appWindow !== event['source']) {
@@ -282,12 +291,7 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
  * @private
  */
 cwc.Messenger.prototype.handleHandshake_ = function(data) {
-  let token = data['token'];
-  if (!token || this.token_ !== token) {
-    this.log_.error('Received wrong handshake token:', token, this.token_);
-    return;
-  }
-  this.log_.info('Received handshake with token:', token);
+  this.log_.info('Received handshake with token:', this.token_);
   let startTime = data['start_time'];
   let pingTime = data['ping_time'];
   if (startTime && pingTime) {
