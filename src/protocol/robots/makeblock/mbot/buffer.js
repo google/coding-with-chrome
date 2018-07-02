@@ -75,7 +75,7 @@ cwc.protocol.makeblock.mbot.Buffer.prototype.writePort = function(port) {
  * @template THIS
  */
 cwc.protocol.makeblock.mbot.Buffer.prototype.writeCallback = function(index) {
-  return this.writeUInt(index);
+  return this.writeByte(index);
 };
 
 

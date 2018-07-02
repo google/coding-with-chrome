@@ -22,7 +22,7 @@
  */
 goog.provide('cwc.protocol.sphero.v1.Api');
 
-goog.require('cwc.lib.protocol.bluetoothWeb.Profile');
+goog.require('cwc.lib.protocol.bluetoothWeb.profile.Device');
 goog.require('cwc.protocol.sphero.v1.CallbackType');
 goog.require('cwc.protocol.sphero.v1.Events');
 goog.require('cwc.protocol.sphero.v1.Handler');
@@ -38,7 +38,7 @@ goog.require('goog.events.EventTarget');
 
 goog.scope(function() {
 const BluetoothProfile =
-  goog.module.get('cwc.lib.protocol.bluetoothWeb.Profile');
+  goog.module.get('cwc.lib.protocol.bluetoothWeb.profile.Device');
 
 /**
  * @constructor

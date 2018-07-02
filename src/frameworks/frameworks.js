@@ -64,6 +64,7 @@ cwc.framework.Internal = {
   SIMPLE: '/frameworks/internal/simple_framework.js',
   SPHERO: '/frameworks/internal/sphero_framework.js',
   TURTLE: '/frameworks/internal/turtle_framework.js',
+  WEDO2: '/frameworks/internal/wedo2_framework.js',
 };
 
 

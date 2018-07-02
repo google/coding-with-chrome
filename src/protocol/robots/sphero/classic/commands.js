@@ -1,5 +1,5 @@
 /**
- * @fileoverview Byte commands for the Sphero Classic communication.
+ * @fileoverview Byte commands for the Sphero Classic communication (MSB).
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *

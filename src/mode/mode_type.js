@@ -34,6 +34,8 @@ cwc.mode.Type = {
   HTML5: 'html5',
   JAVASCRIPT: 'javascript',
   JSON: 'json',
+  LEGO_WEDO2: 'lego_wedo2',
+  LEGO_WEDO2_BLOCKLY: 'lego_wedo2_blockly',
   MBOT_BLOCKLY: 'mbot_blockly',
   MBOT_RANGER_BLOCKLY: 'mbot_ranger_blockly',
   NONE: 'none',

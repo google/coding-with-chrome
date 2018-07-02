@@ -108,15 +108,16 @@ cwc.Messenger.prototype.addApiListener = function(api) {
     this.log_.error('Invalid api', api);
     return;
   }
-  if (!api.handler) {
+  let apiHandler = api.handler || api.getHandler();
+  if (!apiHandler) {
     this.log_.error('Unable to get api handler for', api);
     return;
   }
-  if (!api.handler.__proto__) {
-    this.log_.error('Unable to detect api any commands', api.handler);
+  if (!apiHandler.__proto__) {
+    this.log_.error('Unable to detect api any commands', apiHandler);
     return;
   }
-  let commandList = Object.getOwnPropertyNames(api.handler.__proto__);
+  let commandList = Object.getOwnPropertyNames(apiHandler.__proto__);
   for (let i = 0; i < commandList.length; i++) {
     let command = commandList[i];
     if (!command.endsWith('_') && !command.endsWith('_$') &&

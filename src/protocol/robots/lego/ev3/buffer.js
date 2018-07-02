@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 Communication buffer
+ * @fileoverview Lego EV3 Communication buffer
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

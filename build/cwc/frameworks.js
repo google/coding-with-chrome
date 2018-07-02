@@ -22,7 +22,7 @@ let glob = closureBuilder.globSupport();
 
 
 /**
- * EV3 Framework
+ * Lego EV3 Framework
  */
 closureBuilder.build({
   name: 'cwc.framework.lego.Ev3',
@@ -36,6 +36,24 @@ closureBuilder.build({
     'src/utils/stack_queue.js',
   ]),
   out: 'genfiles/core/frameworks/internal/ev3_framework.js',
+});
+
+
+/**
+ * Lego WeDo 2.0 Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.lego.WeDo2',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/internal/lego/wedo2/*.js',
+  ]),
+  deps: glob([
+    'src/frameworks/internal/messenger/*.js',
+    'src/protocol/robots/lego/wedo2/*.js',
+    'src/utils/stack_queue.js',
+  ]),
+  out: 'genfiles/core/frameworks/internal/wedo2_framework.js',
 });
 
 

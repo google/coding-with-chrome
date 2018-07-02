@@ -57,7 +57,7 @@ cwc.utils.ByteArray = function() {
  */
 cwc.utils.ByteArray.prototype.writeByte = function(value, defaultValue = 0x00) {
   this.addHeader(cwc.utils.ByteArrayTypes.BYTE);
-  this.write(value === undefined ? defaultValue : value);
+  this.write(value === undefined ? defaultValue : value & 0xFF);
   return this;
 };
 
@@ -95,8 +95,8 @@ cwc.utils.ByteArray.prototype.writeSingleByte = function() {
  */
 cwc.utils.ByteArray.prototype.writeShort = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.SHORT);
-  this.write(value);
-  this.write(value >> 8);
+  this.write(value & 0xFF);
+  this.write(value >> 8 & 0xFF);
   return this;
 };
 
@@ -110,10 +110,10 @@ cwc.utils.ByteArray.prototype.writeShort = function(value) {
  */
 cwc.utils.ByteArray.prototype.writeInt = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.INT);
-  this.write(value);
-  this.write(value >> 8);
-  this.write(value >> 16);
-  this.write(value >> 24);
+  this.write(value & 0xFF);
+  this.write(value >> 8 & 0xFF);
+  this.write(value >> 16 & 0xFF);
+  this.write(value >> 24 & 0xFF);
   return this;
 };
 
@@ -141,7 +141,7 @@ cwc.utils.ByteArray.prototype.writeUInt = function(value) {
  */
 cwc.utils.ByteArray.prototype.writeUInt16 = function(value) {
   this.addHeader(cwc.utils.ByteArrayTypes.UINT16);
-  this.write(value >> 8);
+  this.write(value >> 8 & 0xFF);
   this.write(value & 0xFF);
   return this;
 };

@@ -48,7 +48,7 @@ cwc.ui.connectScreen.Screens = function(helper) {
 
 /**
  * Request user to connect the specific device, if not already connected.
- * @param {cwc.lib.protocol.bluetoothWeb.Profile.Device} device
+ * @param {cwc.lib.protocol.bluetoothWeb.profile.Device} device
  * @return {Promise}
  */
 cwc.ui.connectScreen.Screens.prototype.requestBluetoothDevice = function(

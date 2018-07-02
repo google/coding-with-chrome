@@ -25,6 +25,7 @@ goog.require('cwc.mode.Type');
 goog.require('cwc.mode.basic.Mod');
 goog.require('cwc.mode.coffeescript.Mod');
 goog.require('cwc.mode.lego.ev3.Mod');
+goog.require('cwc.mode.lego.weDo2.Mod');
 goog.require('cwc.mode.html5.Mod');
 goog.require('cwc.mode.javascript.Mod');
 goog.require('cwc.mode.json.Mod');
@@ -202,6 +203,20 @@ cwc.mode.ConfigData[cwc.mode.Type.JSON] = new cwc.mode.Mod({
   mod: cwc.mode.json.Mod,
   name: 'JSON',
   template: 'json/blank.json',
+});
+
+
+/**
+ * Lego WeDo 2.0 blockly mode.
+ */
+cwc.mode.ConfigData[cwc.mode.Type.LEGO_WEDO2_BLOCKLY] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  icon: 'adb',
+  mime_types: [cwc.utils.mime.Type.CWC.type],
+  mod: cwc.mode.lego.weDo2.Mod,
+  show_blockly: true,
+  name: 'Lego WeDo 2.0 blockly',
+  template: 'lego/wedo2/blank-blocks.cwc',
 });
 
 

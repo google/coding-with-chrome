@@ -21,6 +21,7 @@ goog.provide('cwc.ui.connectScreen.Bluetooth');
 
 goog.require('cwc.soy.connectScreen.Bluetooth');
 goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 
 /**
@@ -29,7 +30,7 @@ goog.require('cwc.utils.Events');
  */
 cwc.ui.connectScreen.Bluetooth = function(helper) {
   /** @type {string} */
-  this.name = 'ConnectScreenBluetooth';
+  this.name = 'Connect screen Bluetooth';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -39,6 +40,9 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
+
+  /** @private {!cwc.utils.Logger|null} */
+  this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
@@ -93,18 +97,18 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
 
 
 /**
- * @param {cwc.lib.protocol.bluetoothWeb.Profile.Device} device
+ * @param {cwc.lib.protocol.bluetoothWeb.profile.Device} device
  * @return {Promise}
  */
 cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
-  console.log('Request device ....', device);
+  this.log_.info('Request device ....', device);
   return new Promise((resolve) => {
     let bluetoothInstance = this.helper.getInstance('bluetoothWeb', true);
     let devices = bluetoothInstance.getDevicesByName(device.name);
     if (devices && devices[0]) {
       return resolve(devices[0]);
     }
-    console.log('Asked user to connect device', device.name);
+    this.log_.info('Asked user to connect device', device.name);
     this.showTemplate_('Connect ' + device.name,
       cwc.soy.connectScreen.Bluetooth.requestDevice, {
         ble: this.helper.checkBrowserFeature('bluetooth'),
@@ -113,12 +117,13 @@ cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
         prefix: this.prefix,
     });
     this.events_.listen('search-button', goog.events.EventType.CLICK, () => {
+      this.log_.info('Waiting for device', device.name);
       bluetoothInstance.requestDevice(device).then((bluetoothDevice) => {
-        this.helper.getInstance('connectScreen')
-          .showConnectingStep(
+        this.helper.getInstance('connectScreen').showConnectingStep(
             'Pairing Device', 'Pairing device' + device.name, 1);
         resolve(bluetoothDevice);
-      }).catch(() => {
+      }).catch((error) => {
+        this.log_.error(error);
         this.close_();
       });
     });
@@ -157,7 +162,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
       this.disconnectDevice_(device);
       break;
     default:
-      console.log(target.dataset);
+      this.log_.info(target.dataset);
   }
 };
 
@@ -223,7 +228,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.refresh_ = function() {
-  console.log('Refreshing ...');
+  this.log_.info('Refreshing ...');
   this.showDevices();
 };
 

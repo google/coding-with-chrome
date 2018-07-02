@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.ollie.Connection');
 
-goog.require('cwc.lib.protocol.bluetoothWeb.Profile');
+goog.require('cwc.lib.protocol.bluetoothWeb.profile.Device');
 goog.require('cwc.protocol.sphero.v1.Api');
 goog.require('cwc.utils.Events');
 
@@ -28,7 +28,7 @@ goog.require('goog.Timer');
 
 goog.scope(function() {
 const BluetoothProfile =
-  goog.module.get('cwc.lib.protocol.bluetoothWeb.Profile');
+  goog.module.get('cwc.lib.protocol.bluetoothWeb.profile.Device');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -55,8 +55,8 @@ cwc.mode.sphero.ollie.Connection = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!cwc.lib.protocol.bluetoothWeb.Profile.Device} */
-  this.device_ = BluetoothProfile.Device.SPHERO_OLLIE;
+  /** @private {!cwc.lib.protocol.bluetoothWeb.profile.Device.Device} */
+  this.device_ = BluetoothProfile.SPHERO_OLLIE;
 };
 
 

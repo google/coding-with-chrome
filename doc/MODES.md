@@ -19,23 +19,11 @@ Workflow
 Add a new file_type
 --------------------
 
-### Define a file_type
-
-src/file/file_type.js
-
 ### Add file extension
 
 Add the official file extension if you don't want to use the .cwc file format.
 
-src/file/file_extension.js
-
-### Define a file_content_type
-
-src/file/file_content_type.js
-
-### Setup file_config
-
-src/file_handler/file_config.js
+utils/mine/mime_type.js
 
 Add a new mode
 ---------------
@@ -45,3 +33,11 @@ Add a new mode
 ### Add your mode to the mode_type.js
 
 ### Add your mode to the mode_config_data.js
+
+### Add blank template file
+
+static_files/resources/templates/...
+
+### Add mode to select screen
+
+ui/select_screen/...

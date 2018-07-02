@@ -93,7 +93,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeString = function(
  */
 cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeIndex = function(
     index) {
-  this.data.writeUInt(index);
+  this.data.writeByte(index);
 };
 
 

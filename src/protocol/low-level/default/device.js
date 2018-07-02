@@ -50,7 +50,7 @@ cwc.protocol.default.Device = function() {
   this.icon = '';
 
   /** @type {!cwc.lib.protocol.bluetoothChrome.Profile.Device|
-   *         cwc.lib.protocol.bluetoothWeb.Profile.Device|
+   *         cwc.lib.protocol.bluetoothWeb.profile.Device|
    *         Object}
    */
   this.profile = {};
