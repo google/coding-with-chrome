@@ -113,7 +113,8 @@ closureBuilder.build({
 closureBuilder.build({
   name: 'Locales.jpn',
   srcs: glob([
-    'locales/jpn/translation.js',
+    'locales/_jpn.js',
+    'locales/jpn/**/*.js',
   ]),
   externs: [
     'build/externs/locales.js',
