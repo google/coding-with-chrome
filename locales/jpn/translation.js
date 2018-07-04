@@ -18,15 +18,13 @@
  * @author junji.hashimoto@gmail.com (Junji Hashimoto)
  * @deprecated
  */
-window['Locales'] = window['Locales'] || {};
-
 
 /**
  * @final
  * @export
  */
 /* eslint-disable max-len */
-Locales['jpn'] = {
+Object.assign(Locales['jpn'], {
   '(0 - 254)': '(0 - 254)',
   '* You need to restart the application after enabling or disabling these options.': '* このオプションを変更した後、アプリの再起動が必要です。',
   'About Coding with Chrome': 'コーディング ウィズ クロームについて',
@@ -242,4 +240,4 @@ Locales['jpn'] = {
   'stop motors(': 'モーターを止める(',
   'when finished': '終わったとき',
   '{$startSpan}Click here{$endSpan} to see our short introduction to Coding with Chrome.': 'コーディング ウィズ クロームの紹介をみる場合、{$startSpan}ここをクリック{$endSpan}してしてください。',
-};
+});
