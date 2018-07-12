@@ -122,14 +122,14 @@ cwc.Cache.prototype.loadFiles = async function(files) {
 
 /**
  * @param {string!} name
- * @param {string!} content
+ * @param {string=} content
+ * @return {Promise}
  */
-cwc.Cache.prototype.addFile = async function(name, content) {
+cwc.Cache.prototype.addFile = function(name, content = '') {
   if (!content) {
-    this.log_.error('Received empty content for', name);
-    return;
+    this.log_.warn('Received empty content for', name);
   }
-  await this.database_.add(name, content);
+  return this.database_.add(name, content);
 };
 
 
