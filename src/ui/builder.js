@@ -282,7 +282,7 @@ cwc.ui.Builder.prototype.decorateUI = function() {
       this.setProgressFunc('Prepare account support ...', this.prepareAccount);
     }
     this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
-    this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
+    let startCwC = () => {
       // Done.
       this.setProgress('Starting Coding with Chrome', 100);
       this.loaded = true;
@@ -292,6 +292,12 @@ cwc.ui.Builder.prototype.decorateUI = function() {
       this.events_.clear();
       this.loadingScreen_.hideSecondsAfterStart(3000);
       resolve();
+    };
+    this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
+      startCwC();
+    }).catch((error) => {
+      this.log_.error('Failed to load cache', error);
+      startCwC();
     });
   });
 };
