@@ -292,6 +292,8 @@ cwc.ui.Builder.prototype.decorateUI = function() {
       this.events_.clear();
       this.loadingScreen_.hideSecondsAfterStart(3000);
       resolve();
+    }).catch((error) => {
+      this.log_.error('Failed to load cache', error);
     });
   });
 };

@@ -73,25 +73,25 @@ cwc.Cache.prototype.prepare = async function() {
 /**
  * @param {!string|number} version
  */
-cwc.Cache.prototype.update = function(version) {
+cwc.Cache.prototype.update = async function(version) {
   if (version && this.version <= version) {
     this.log_.info('No updates needed', version, '>=', this.version);
     return;
   }
 
   this.log_.info('Updating Cache to version', this.version);
-  this.database_.clear();
+  await this.database_.clear();
 
   this.log_.info('Loading external frameworks ...');
-  this.loadFiles(cwc.framework.External);
+  await this.loadFiles(cwc.framework.External);
 
   this.log_.info('Loading internal frameworks ...');
-  this.loadFiles(cwc.framework.Internal);
+  await this.loadFiles(cwc.framework.Internal);
 
   this.log_.info('Loading Style Sheets ...');
-  this.loadFiles(cwc.framework.StyleSheet);
+  await this.loadFiles(cwc.framework.StyleSheet);
 
-  this.database_.add('__version__', this.version);
+  await this.database_.add('__version__', this.version);
 };
 
 
@@ -99,21 +99,24 @@ cwc.Cache.prototype.update = function(version) {
  * Loads files into cache.
  * @param {!Object} files
  */
-cwc.Cache.prototype.loadFiles = function(files) {
+cwc.Cache.prototype.loadFiles = async function(files) {
+  let promises = [];
   for (let file of Object.keys(files)) {
     if (goog.isString(files[file])) {
-      cwc.utils.Resources.getUriAsText('..' + files[file]).then((content) => {
-        this.addFile(files[file], content);
-      });
+        promises.push(cwc.utils.Resources.getUriAsText('..' + files[file])
+          .then((content) => {
+            return this.addFile(files[file], content);
+          }));
     } else {
       for (let subFile of Object.keys(files[file])) {
-        cwc.utils.Resources.getUriAsText('..' + files[file][subFile]).then(
-          (content) => {
-            this.addFile(files[file][subFile], content);
-        });
+        promises.push(cwc.utils.Resources.getUriAsText('..' +
+          files[file][subFile]).then((content) => {
+            return this.addFile(files[file][subFile], content);
+          }));
       }
     }
   }
+  await Promise.all(promises);
 };
 
 
@@ -121,12 +124,12 @@ cwc.Cache.prototype.loadFiles = function(files) {
  * @param {string!} name
  * @param {string!} content
  */
-cwc.Cache.prototype.addFile = function(name, content) {
+cwc.Cache.prototype.addFile = async function(name, content) {
   if (!content) {
     this.log_.error('Received empty content for', name);
     return;
   }
-  this.database_.add(name, content);
+  await this.database_.add(name, content);
 };
 
 
