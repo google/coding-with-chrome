@@ -82,19 +82,16 @@ cwc.Cache.prototype.update = async function(version) {
   this.log_.info('Updating Cache to version', this.version);
   await this.database_.clear();
 
-  let promises = [];
   this.log_.info('Loading external frameworks ...');
-  promises.push(this.loadFiles(cwc.framework.External));
+  await this.loadFiles(cwc.framework.External);
 
   this.log_.info('Loading internal frameworks ...');
-  promises.push(this.loadFiles(cwc.framework.Internal));
+  await this.loadFiles(cwc.framework.Internal);
 
   this.log_.info('Loading Style Sheets ...');
-  promises.push(this.loadFiles(cwc.framework.StyleSheet));
+  await this.loadFiles(cwc.framework.StyleSheet);
 
-  promises.push(this.database_.add('__version__', this.version));
-
-  await Promise.all(promises);
+  await this.database_.add('__version__', this.version);
 };
 
 
