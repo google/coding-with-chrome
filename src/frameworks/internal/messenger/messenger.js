@@ -56,9 +56,8 @@ cwc.framework.Messenger = function(liteMode = false) {
   /** @private {!cwc.utils.StackQueue} */
   this.senderStack_ = new cwc.utils.StackQueue();
 
-  /** @private {!Function} */
-  this.messageListener_ = this.handleMessage_.bind(this);
-  window.addEventListener('message', this.messageListener_, false);
+  // Message handler
+  window.addEventListener('message', this.handleMessage_.bind(this), false);
 
   // External listener
   this.addListener('__exec__', this.executeCode_);
@@ -70,9 +69,6 @@ cwc.framework.Messenger = function(liteMode = false) {
     this.addListener('__gamepad__', this.handleGamepad_);
     this.addListener('__start__', this.handleStart_);
   }
-
-  /** @private {string} */
-  this.token_;
 
   this.senderStack_.addDelay(50);
 };
@@ -183,7 +179,6 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
   this.appWindow.postMessage({
     'name': name,
     'value': value,
-    'token': this.token_,
   }, this.appOrigin);
 };
 
@@ -244,21 +239,6 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
     throw new Error('Was not able to get browser event!');
   }
 
-  if (!('token' in event['data'])) {
-    console.warn('ignoring message without token', event['data']);
-    return;
-  }
-
-  if (!this.token_ && 'token' in event['data'] &&
-    event['data']['name'] === '__handshake__') {
-    this.token_ = event['data']['token'];
-  }
-
-  if (event['data']['token'] != this.token_) {
-    console.warn('ignoring message with wrong token', event['data']);
-    return;
-  }
-
   // Setting appWindow and appOrigin within the handshake
   if (!this.appWindow && 'source' in event &&
       event['data']['name'] === '__handshake__') {
@@ -273,8 +253,7 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
     return;
   }
   if (typeof this.listener_[event['data']['name']] === 'undefined') {
-    console.error('No listener for event', event['data']['name']);
-    return;
+    throw new Error('Name ' + event['data']['name'] + ' is not defined!');
   }
   this.listener_[event['data']['name']](event['data']['value']);
 };
@@ -285,8 +264,9 @@ cwc.framework.Messenger.prototype.handleMessage_ = function(event) {
  * @private
  */
 cwc.framework.Messenger.prototype.handleHandshake_ = function(data) {
-  console.log('Received handshake for token ' + this.token_);
+  console.log('Received handshake for token ' + data['token']);
   this.send('__handshake__', {
+    'token': data['token'],
     'start_time': data['start_time'],
     'ping_time': new Date().getTime(),
   });
@@ -316,11 +296,4 @@ cwc.framework.Messenger.prototype.handleStart_ = function() {
     console.log('Starting program ...');
     this.callback_(this.scope_);
   }
-};
-
-/**
- * Removes the message event handler from the window
- */
-cwc.framework.Messenger.prototype.cleanup = function() {
-  window.removeEventListener('message', this.messageListener_, false);
 };

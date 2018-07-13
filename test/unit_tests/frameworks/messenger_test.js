@@ -28,12 +28,8 @@ describe('Framework: Messenger', function() {
     'postMessage': function() {},
   };
 
-  let framework;
-  beforeEach(function() {
-    framework = new cwc.framework.Messenger();
-  });
-
   it('constructor', function() {
+    let framework = new cwc.framework.Messenger();
     expect(typeof framework).toEqual('object');
     expect(framework.appOrigin).toEqual('');
     expect(framework.appWindow).toEqual(null);
@@ -44,11 +40,13 @@ describe('Framework: Messenger', function() {
   });
 
   it('setListenerScope', function() {
-      framework.setListenerScope(testFunction);
+    let framework = new cwc.framework.Messenger()
+      .setListenerScope(testFunction);
     expect(framework.listenerScope_).toEqual(testFunction);
   });
 
   it('addListener', function() {
+    let framework = new cwc.framework.Messenger();
     framework.addListener('test', testFunction, null);
     framework.addListener('test2', testFunction, null);
     framework.addListener('test3', null, null);
@@ -60,6 +58,7 @@ describe('Framework: Messenger', function() {
   });
 
   it('postMessage', function() {
+    let framework = new cwc.framework.Messenger();
     let messageCache = null;
     framework.setAppOrigin('local');
     framework.setAppWindow({
@@ -75,6 +74,7 @@ describe('Framework: Messenger', function() {
   });
 
   it('handleMessage_', function() {
+    let framework = new cwc.framework.Messenger();
     let testEvent = {
       'source': {
         'postMessage': function() {},
@@ -82,8 +82,9 @@ describe('Framework: Messenger', function() {
       'origin': 'appOrigin',
       'data': {
         'name': '__handshake__',
-        'value': {},
-        'token': 'Hello World.',
+        'value': {
+          'token': 'Hello World.',
+        },
       },
     };
     expect(framework.handleMessage_).toThrow(
@@ -95,10 +96,10 @@ describe('Framework: Messenger', function() {
     expect(framework.handleMessage_(testEvent));
     expect(framework.appWindow).toEqual(testEvent.source);
     expect(framework.appOrigin).toEqual('appOrigin');
-    expect(framework.token_).toEqual('Hello World.');
   });
 
   it('handleHandshake_', function() {
+    let framework = new cwc.framework.Messenger();
     framework.setAppOrigin('local');
     framework.setAppWindow(testAppWindow);
     let sendCache = null;
@@ -108,11 +109,13 @@ describe('Framework: Messenger', function() {
         'data': data,
       };
     };
-    expect(framework.handleHandshake_({}));
+    expect(framework.handleHandshake_({'token': '123'}));
     expect(sendCache.name).toEqual('__handshake__');
+    expect(sendCache.data.token).toEqual('123');
   });
 
   it('executeCode_', function() {
+    let framework = new cwc.framework.Messenger();
     let keyName = 'cwc-executeCode_-test';
     let keyValue = 'Hello, World';
     delete window.top[keyName];
@@ -135,9 +138,5 @@ describe('Framework: Messenger', function() {
     expect(sendCache.name).toEqual('__exec_result__');
     expect(sendCache.data['id']).toEqual(testId);
     expect(sendCache.data['result']).toEqual(64);
-  });
-
-  afterEach(function() {
-    framework.cleanup();
   });
 });

@@ -28,6 +28,7 @@ goog.require('soydata');
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.renderer.Helper = function() {};
 
@@ -209,6 +210,7 @@ cwc.renderer.Helper.prototype.getHTMLRunner = function(body, header,
  * @param {string} html
  * @param {string=} header
  * @return {string}
+ * @export
  */
 cwc.renderer.Helper.prototype.getRawHTML = function(html, header) {
   if (!html) {
@@ -397,6 +399,7 @@ cwc.renderer.Helper.prototype.getCacheFileHeader = function(name, cache) {
  * @param {!Array} names
  * @param {!cwc.Cache} cache
  * @return {string}
+ * @export
  */
 cwc.renderer.Helper.prototype.getCacheFilesHeader = function(names, cache) {
   let headers = '';
