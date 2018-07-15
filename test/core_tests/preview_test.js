@@ -33,7 +33,7 @@ let i18soy = i18t;
 describe('Preview', function() {
   let helper = new cwc.utils.Helper();
   let rendererHelper = new cwc.renderer.Helper();
-  let frameworks = [cwc.framework.Internal.MESSENGER];
+  let frameworks = ['/frameworks/internal/messenger_framework.js'];
   let cache = new cwc.Cache(new cwc.utils.Helper());
 
   beforeAll(async function() {

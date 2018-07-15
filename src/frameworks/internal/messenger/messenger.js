@@ -188,9 +188,19 @@ cwc.framework.Messenger.prototype.postMessage = function(name, value) {
  * @private
  */
 cwc.framework.Messenger.prototype.executeCode_ = function(code) {
-  let id = false;
+  let runCode = function(codeString) {
+    // Skip the return parameter for more complex code
+    let result = ((codeString.includes(';') && !codeString.includes('let')) ||
+      codeString.includes('{')) ? Function(codeString)() :
+      Function('return (' + codeString + ');')();
+    console.log('>>' + result);
+    return result;
+  };
+
+  let result; // Declared here to apease jslint
   switch (typeof code) {
     case 'string':
+      runCode(code);
       break;
     case 'object':
       if (!code.hasOwnProperty('code')) {
@@ -203,28 +213,16 @@ cwc.framework.Messenger.prototype.executeCode_ = function(code) {
           + ' string:', code);
         return;
       }
+      result = runCode(code['code']);
       if (code.hasOwnProperty('id') && (typeof code['id']) === 'string') {
-        id = code['id'];
+        this.send('__exec_result__', {
+          'id': code['id'],
+          'result': result,
+        });
       }
-      code = code['code'];
       break;
     default:
-      return;
-  }
-  // Remove trailing ";"" to avoid syntax errors for simple one liner
-  if (code.endsWith(';')) {
-    code = code.slice(0, -1);
-  }
-  // Skip the return parameter for more complex code
-  let result = ((code.includes(';') && !code.includes('let')) ||
-    code.includes('{')) ? Function(code)() :
-    Function('return (' + code + ');')();
-  console.log('>>' + result);
-  if (id) {
-    this.send('__exec_result__', {
-      'id': id,
-      'result': result,
-    });
+      console.warn('Ignoring code due to unknown type', code);
   }
 };
 

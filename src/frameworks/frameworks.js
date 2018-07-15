@@ -51,15 +51,12 @@ cwc.framework.External = {
 /**
  * Internal frameworks used for the preview.
  * @enum {!Object.<string>|string}
- * @export
  */
 cwc.framework.Internal = {
   EV3: '/frameworks/internal/ev3_framework.js',
   MBOT: '/frameworks/internal/mbot_framework.js',
   MBOT_RANGER: '/frameworks/internal/mbot_ranger_framework.js',
-  // MESSENGER is used in tests and needs to be exported.
-  // The single quotes are the equivalent of @export for keys in a hash literal
-  'MESSENGER': '/frameworks/internal/messenger_framework.js',
+  MESSENGER: '/frameworks/internal/messenger_framework.js',
   PHASER: '/frameworks/internal/phaser_framework.js',
   PYTHON2: '/frameworks/internal/python2_framework.js',
   PYTHON3: '/frameworks/internal/python3_framework.js',
