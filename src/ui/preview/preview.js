@@ -33,6 +33,7 @@ goog.require('goog.dom.ViewportSizeMonitor');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 goog.require('goog.soy');
+goog.require('goog.string');
 goog.require('goog.ui.Component.EventType');
 
 
@@ -41,6 +42,7 @@ goog.require('goog.ui.Component.EventType');
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.ui.Preview = function(helper) {
   /** @type {string} */
@@ -102,6 +104,8 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.Messenger} */
   this.messenger_ = new cwc.Messenger(this.eventHandler_);
+  this.messenger_.addListener('__exec_result__', this.handleExecResponse_,
+    this);
 
   /** @private {string} */
   this.partition_ = 'preview';
@@ -111,12 +115,16 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!Object<string, Function>} */
+  this.pendingExecCallbacks = {};
 };
 
 
 /**
  * Decorates the given node and adds the preview window.
  * @param {Element=} node The target node to add the preview window.
+ * @export
  */
 cwc.ui.Preview.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
@@ -345,6 +353,7 @@ cwc.ui.Preview.prototype.terminate = function() {
 
 /**
  * @return {Object}
+ * @export
  */
 cwc.ui.Preview.prototype.getContent = function() {
   return this.content;
@@ -367,6 +376,7 @@ cwc.ui.Preview.prototype.getContentUrl = function() {
 
 /**
  * @param {string} url
+ * @export
  */
 cwc.ui.Preview.prototype.setContentUrl = function(url) {
   if (!url || !this.content) {
@@ -463,11 +473,83 @@ cwc.ui.Preview.prototype.focus = function() {
 /**
  * Injects and executes the passed code in the preview content, if supported.
  * @param {!(string|Function)} code
+ * @param {Number} timeout
+ * @return {!Promise}
+ * @export
+ * @TODO(carheden@google.com): Move logic to messenger instance.
  */
-cwc.ui.Preview.prototype.executeScript = function(code) {
+cwc.ui.Preview.prototype.executeScript = function(code, timeout = 250) {
   this.log_.info('Execute script', code);
-  this.messenger_.send('__exec__',
-    typeof code === 'function' ? code.toString() : code);
+  let execSpec = {
+    'code': typeof code === 'function' ? code.toString() : code,
+    'id': false,
+  };
+  let id = goog.string.createUniqueString();
+  let promise = new Promise(function(resolve, reject) {
+    this.pendingExecCallbacks[id] = resolve;
+    setTimeout(function() {
+      if (this.pendingExecCallbacks.hasOwnProperty(id)) {
+        this.pendingExecCallbacks[id] = false;
+        reject(`Preview script timed out after ${timeout}ms`);
+      }
+    }.bind(this), timeout);
+  }.bind(this));
+  execSpec['id'] = id;
+  this.messenger_.send('__exec__', execSpec);
+  return promise;
+};
+
+/**
+ * Calls the callback registered for the script execution
+ * @param {Object} response
+ * @private
+ * @TODO(carheden@google.com): Move logic to messenger instance.
+ */
+cwc.ui.Preview.prototype.handleExecResponse_ = function(response) {
+  if ((typeof response) !== 'object') {
+    this.log_.warn('Received non-object as response from script execution',
+      response);
+    return;
+  }
+  if (!response.hasOwnProperty('id')) {
+    this.log_.warn('executeScript response has no \'id\', can\'t match to a '+
+      'callback');
+    return;
+  }
+  if ((typeof response['id']) !== 'string') {
+    this.log_.warn('Ignorning executeScript response with non-string id',
+      response);
+    return;
+  }
+  // The callback is called from setTimeout() to give the executeScript timeout
+  // a chance to run first. When run in a WebView, the preview runs in a
+  // separate thread and the executeScript timeout will have already triggered
+  // if the user's functon exceeded the timeout. However, iframes run in the
+  // same thread, so a long-running script will prevent the executeScript
+  // timeout from firing until the it completes.
+  // This does make timeouts ineffective for iframes, but ensuring the correct
+  // order allows test logic to execute correctly in karma/chrome (which only
+  // supports iframes).
+  setTimeout(() => {
+    if (!this.pendingExecCallbacks.hasOwnProperty(response['id'])) {
+      this.log_.warn('Callback for executeScript response', response['id'],
+        'missing. Response was', response);
+      return;
+    }
+    let callback = this.pendingExecCallbacks[response['id']];
+    delete this.pendingExecCallbacks[response['id']];
+    if (callback === false) {
+      this.log_.info('executeScript ', response['id'], 'timed out');
+      return;
+    }
+    let result;
+    if (response.hasOwnProperty('result')) {
+      result = response['result'];
+    }
+    this.log_.info('Executing callback ', response['id'], 'with result',
+      result);
+    callback(result);
+  }, 0);
 };
 
 

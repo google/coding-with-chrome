@@ -33,6 +33,7 @@ goog.require('cwc.utils.mime.getTypeByExtension');
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.Cache = function(helper) {
   /** @type {string} */
@@ -62,6 +63,7 @@ cwc.Cache = function(helper) {
 
 /**
  * @async
+ * @export
  */
 cwc.Cache.prototype.prepare = async function() {
   await this.database_.open(this.databaseConfig_);
@@ -175,6 +177,7 @@ cwc.Cache.prototype.preloadFile = function(name) {
 /**
  * @param {!Array} files
  * @return {!Promise}
+ * @export
  */
 cwc.Cache.prototype.preloadFiles = function(files) {
   let promises = files.map(this.preloadFile.bind(this));

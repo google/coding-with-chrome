@@ -113,4 +113,30 @@ describe('Framework: Messenger', function() {
     expect(sendCache.name).toEqual('__handshake__');
     expect(sendCache.data.token).toEqual('123');
   });
+
+  it('executeCode_', function() {
+    let framework = new cwc.framework.Messenger();
+    let keyName = 'cwc-executeCode_-test';
+    let keyValue = 'Hello, World';
+    delete window.top[keyName];
+    expect(keyName in window.top).toEqual(false);
+    framework.executeCode_(`window.top["${keyName}"] = "${keyValue}";`);
+    expect(window.top[keyName]).toEqual(keyValue);
+
+    let sendCache = null;
+    framework.send = function(name, data) {
+      sendCache = {
+        'name': name,
+        'data': data,
+      };
+    };
+    let testId = 'test-id';
+    framework.executeCode_({
+      'id': 'test-id',
+      'code': '8 * 8',
+    });
+    expect(sendCache.name).toEqual('__exec_result__');
+    expect(sendCache.data['id']).toEqual(testId);
+    expect(sendCache.data['result']).toEqual(64);
+  });
 });
