@@ -47,10 +47,11 @@ cwc.mode.aiy.Connection = function(helper) {
 
 /**
  * Connects the AIY device.
+ * @return {Promise}
  * @export
  */
 cwc.mode.aiy.Connection.prototype.init = function() {
-  this.connectInteractive();
+  return this.connectInteractive();
 };
 
 
@@ -89,6 +90,9 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = function() {
   ).then((url) => {
     return this.api_.connect(url);
   }).catch((error) => {
+    if (error instanceof MouseEvent) {
+      return;
+    }
     this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
   });
 };

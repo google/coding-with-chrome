@@ -21,10 +21,6 @@
   flex-direction: column;
 }
 
-#{$prefix}editor-toolbar {
-  min-height: 34px;
-}
-
 #{$prefix}editor-view {
   bottom: 20px;
   position: absolute;
@@ -72,4 +68,11 @@
 
 #{$prefix}editor-code-custom {
   box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+#{$prefix}aiy-container {
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
 }

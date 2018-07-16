@@ -1,5 +1,5 @@
 /**
- * @fileoverview AIY renderer.
+ * @fileoverview AIY runner.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author fstanis@google.com (Filip Stanis)
  */
-goog.provide('cwc.renderer.external.AIY');
+goog.provide('cwc.mode.aiy.Runner');
 
 goog.require('cwc.file.Files');
 goog.require('cwc.framework.Internal');
@@ -36,14 +36,9 @@ goog.require('cwc.utils.Events');
  * @struct
  * @final
  */
-cwc.renderer.external.AIY = function(helper, connection) {
+cwc.mode.aiy.Runner = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
-
-  /** @private {!Array} */
-  this.frameworks_ = [
-    cwc.framework.Internal.AIY,
-  ];
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events('AIY', '', this);
@@ -52,26 +47,25 @@ cwc.renderer.external.AIY = function(helper, connection) {
   this.connection_ = connection;
 };
 
+
 /**
- * Initializes and defines the AIY renderer.
- * @return {!Promise}
+ * Initializes and defines the AIY runner.
  */
-cwc.renderer.external.AIY.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
+cwc.mode.aiy.Runner.prototype.init = function() {
   this.events_.listen(
     this.connection_.getEventHandler(),
     cwc.protocol.aiy.Events.Type.RECEIVED_DATA,
     this.receivedData.bind(this)
   );
-  return rendererInstance.setRenderer(this.render.bind(this));
 };
+
 
 /**
  * Handles the received data event from AIY.
  * @param {Event} event
  * @private
  */
-cwc.renderer.external.AIY.prototype.receivedData = function(event) {
+cwc.mode.aiy.Runner.prototype.receivedData = function(event) {
   let terminalInstance = this.helper.getInstance('terminal');
   if (terminalInstance) {
     terminalInstance.writeOutput(event.data);
@@ -80,15 +74,14 @@ cwc.renderer.external.AIY.prototype.receivedData = function(event) {
 
 
 /**
- * AIY render logic.
- * @param {Object} editorContent
- * @param {cwc.file.Files} libraryFiles
- * @param {cwc.renderer.Helper} rendererHelper
- * @return {string}
+ * AIY run logic.
  * @export
  */
-cwc.renderer.external.AIY.prototype.render = function(editorContent) {
-  let pythonCode = editorContent[cwc.ui.EditorContent.DEFAULT];
-  this.connection_.connectAndSend(pythonCode);
-  return '';
+cwc.mode.aiy.Runner.prototype.run = function() {
+  let editorInstance = this.helper.getInstance('editor');
+  if (editorInstance) {
+    let pythonCode = editorInstance.getEditorContent(
+      cwc.ui.EditorContent.DEFAULT);
+    this.connection_.connectAndSend(pythonCode);
+  }
 };

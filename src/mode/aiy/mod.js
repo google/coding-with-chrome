@@ -19,9 +19,14 @@
  */
 goog.provide('cwc.mode.aiy.Mod');
 
-goog.require('cwc.mode.default.Mod');
-goog.require('cwc.renderer.external.AIY');
 goog.require('cwc.mode.aiy.Connection');
+goog.require('cwc.mode.aiy.Toolbar');
+goog.require('cwc.mode.aiy.Editor');
+goog.require('cwc.mode.aiy.Layout');
+goog.require('cwc.mode.default.Mod');
+goog.require('cwc.mode.aiy.Runner');
+goog.require('cwc.ui.Terminal');
+goog.require('cwc.utils.Helper');
 
 
 /**
@@ -29,14 +34,26 @@ goog.require('cwc.mode.aiy.Connection');
  * @param {!cwc.utils.Helper} helper
  */
 cwc.mode.aiy.Mod = function(helper) {
-  /** @type {!cwc.mode.default.Mod} */
-  this.mod = new cwc.mode.default.Mod(helper);
+  /** @type {!cwc.utils.Helper} */
+  this.helper = helper;
+
+  /** @type {!cwc.mode.aiy.Layout} */
+  this.layout = new cwc.mode.aiy.Layout(helper);
+
+  /** @type {!cwc.mode.aiy.Editor} */
+  this.editor = new cwc.mode.aiy.Editor(helper);
+
+  /** @type {!cwc.ui.Terminal} */
+  this.terminal = new cwc.ui.Terminal(helper);
 
   /** @type {!cwc.mode.aiy.Connection} */
   this.connection = new cwc.mode.aiy.Connection(helper);
 
-  /** @type {!cwc.renderer.external.AIY} */
-  this.renderer = new cwc.renderer.external.AIY(helper, this.connection);
+  /** @type {!cwc.mode.aiy.Toolbar} */
+  this.toolbar = new cwc.mode.aiy.Toolbar(helper);
+
+  /** @type {!cwc.mode.aiy.Runner} */
+  this.runner = new cwc.mode.aiy.Runner(helper, this.connection);
 };
 
 
@@ -44,9 +61,29 @@ cwc.mode.aiy.Mod = function(helper) {
  * Decorates the different parts of the modification.
  * @async
  */
-cwc.mode.aiy.Mod.prototype.decorate = async function() {
-  this.connection.init();
-  this.mod.setRenderer(this.renderer, this.connection);
-  await this.mod.decorate();
-  this.mod.terminal.showTerminal(true);
+cwc.mode.aiy.Mod.prototype.decorate = function() {
+  this.layout.decorate();
+  this.editor.decorate();
+  this.decorateTerminal();
+  this.runner.init();
+
+  this.toolbar.on('run', this.run.bind(this));
+};
+
+
+/**
+ * Decorates terminal
+ */
+cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
+  this.helper.setInstance('terminal', this.terminal, true);
+  await this.terminal.decorate();
+  this.terminal.showTerminal(true);
+};
+
+
+/**
+ * Decorates terminal
+ */
+cwc.mode.aiy.Mod.prototype.run = function() {
+  this.runner.run();
 };
