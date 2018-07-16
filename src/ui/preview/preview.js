@@ -476,9 +476,9 @@ cwc.ui.Preview.prototype.focus = function() {
  * @param {Number} timeout
  * @return {!Promise}
  * @export
- * @TODO (carheden@google.com) Move logic to messenger instance.
+ * @TODO(carheden@google.com): Move logic to messenger instance.
  */
-cwc.ui.Preview.prototype.executeScript = function(code, timeout = 500) {
+cwc.ui.Preview.prototype.executeScript = function(code, timeout = 250) {
   this.log_.info('Execute script', code);
   let execSpec = {
     'code': typeof code === 'function' ? code.toString() : code,
@@ -503,7 +503,7 @@ cwc.ui.Preview.prototype.executeScript = function(code, timeout = 500) {
  * Calls the callback registered for the script execution
  * @param {Object} response
  * @private
- * @TODO (carheden@google.com) Move logic to messenger instance.
+ * @TODO(carheden@google.com): Move logic to messenger instance.
  */
 cwc.ui.Preview.prototype.handleExecResponse_ = function(response) {
   if ((typeof response) !== 'object') {
