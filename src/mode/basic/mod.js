@@ -40,7 +40,6 @@ cwc.mode.basic.Mod = function(helper, enableBlockly = false) {
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.basic.Mod.prototype.decorate = async function() {
   if (this.enableBlockly) {

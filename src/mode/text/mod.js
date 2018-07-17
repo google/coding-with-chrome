@@ -34,7 +34,6 @@ cwc.mode.text.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.text.Mod.prototype.decorate = async function() {
   await this.mod.decorateRaw();

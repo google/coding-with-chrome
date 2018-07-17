@@ -84,7 +84,6 @@ cwc.UserConfig = function() {
 /**
  * @return {THIS}
  * @template THIS
- * @async
  */
 cwc.UserConfig.prototype.prepare = async function() {
   await this.database_.open();

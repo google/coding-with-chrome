@@ -43,7 +43,6 @@ cwc.mode.phaser.Mod = function(helper, enableBlockly = false) {
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.phaser.Mod.prototype.decorate = async function() {
   if (this.enableBlockly) {

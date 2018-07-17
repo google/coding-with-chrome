@@ -74,7 +74,6 @@ cwc.ui.Language.prototype.selectLanguage = function() {
 
 /**
  * @param {string} language
- * @async
  */
 cwc.ui.Language.prototype.setLanguage = async function(language) {
   if (!language) {

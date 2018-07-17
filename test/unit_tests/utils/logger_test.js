@@ -23,9 +23,9 @@ goog.require('cwc.utils.Logger');
 describe('Logger', function() {
   let logLevel = 5;
   let logName = 'test';
-  let logger = new cwc.utils.Logger(logLevel, logName);
 
   it('constructor', function() {
+    let logger = new cwc.utils.Logger(logLevel, logName);
     expect(typeof logger).toEqual('object');
   });
 });

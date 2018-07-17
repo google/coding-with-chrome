@@ -24,6 +24,11 @@ describe('Renderer Helper', function() {
   let defaultCss = '* { margin:0; padding:0; }html, body { width:100%; ' +
     'height:100%; overflow: hidden;}';
 
+  let helper;
+  beforeEach(() => {
+    helper = new cwc.renderer.Helper();
+  });
+
   it('constructor', function() {
     let helper = new cwc.renderer.Helper();
     expect(typeof helper).toEqual('object');
@@ -31,7 +36,6 @@ describe('Renderer Helper', function() {
 
   describe('getHTML', function() {
     it('getHTML - raw', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '</head>\n<body>\n</body>\n</html>\n';
@@ -39,7 +43,6 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - html', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '</head>\n<body>\n<h1>test</h1>\n' +
@@ -48,7 +51,6 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - head', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '<script src="http://example.org"></script>\n' +
@@ -59,7 +61,6 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - css', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '<style>\nbody { background: #f00;}\n</style>\n' +
@@ -69,7 +70,6 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML - javascript', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '</head>\n<body>\n' +
@@ -80,7 +80,6 @@ describe('Renderer Helper', function() {
     });
 
     it('getHTML', function() {
-      let helper = new cwc.renderer.Helper();
       let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
         'canvas { display:block; }</style>\n' +
         '<style>\nbody { background: #f00;}\n</style>\n' +
@@ -97,7 +96,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getHTMLGrid', function() {
-    let helper = new cwc.renderer.Helper();
     let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
       'canvas { display:block; }' +
       'body {background-size: 25px 25px; background-image: linear-gradient' +
@@ -116,7 +114,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getHTMLCanvas', function() {
-    let helper = new cwc.renderer.Helper();
     let htmlCode = '<!DOCTYPE html>\n<html>\n<head>\n<style>' + defaultCss +
       'canvas { display:block; }</style>\n' +
       '<style>\nbody { background: #f00;}\n</style>\n' +
@@ -133,7 +130,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getRawHTML', function() {
-    let helper = new cwc.renderer.Helper();
     let html1 = helper.getRawHTML('Hello World');
     let html2 = helper.getRawHTML('<html></html>', '<test>');
     let html3 = helper.getRawHTML('<head></head>', '<test>');
@@ -147,7 +143,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getJavaScript', function() {
-    let helper = new cwc.renderer.Helper();
     let js1 = helper.getJavaScript('test();');
     let js2 = helper.getJavaScript('let 123;\n' +
       'function test(a) {return a+1;};');
@@ -168,7 +163,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getDataUrl', function() {
-    let helper = new cwc.renderer.Helper();
     let js1 = helper.getDataURL('Hello World');
     let js2 = helper.getDataURL('Hello World', 'text/javascript');
     let js3 = helper.getDataURL('data:text/javascript;base64,SGVsbG9Xb3JsZA==');
@@ -178,7 +172,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getJavaScriptDataURL', function() {
-    let helper = new cwc.renderer.Helper();
     let js1 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==');
     let js2 = helper.getJavaScriptDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');
@@ -193,7 +186,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getJavaScriptContent', function() {
-    let helper = new cwc.renderer.Helper();
     let js1 = helper.getJavaScriptContent('test();');
     let js2 = helper.getJavaScriptContent('let 123;\n' +
       'function test(a) {return a+1;};');
@@ -203,7 +195,6 @@ describe('Renderer Helper', function() {
   });
 
   it('getStyleSheetDataUrl', function() {
-    let helper = new cwc.renderer.Helper();
     let js1 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==');
     let js2 = helper.getStyleSheetDataURL('SGVsbG9Xb3JsZA==', undefined,
       'test-file');

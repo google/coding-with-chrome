@@ -73,9 +73,11 @@ describe('File format', function() {
   let metadataValue2 = {};
   metadataValue2[metadataInnerKey] = Math.random().toString(36);
   let defaultLanguage = 'eng';
-
+  let fileFormat;
+  beforeEach(() => {
+    fileFormat = new cwc.fileFormat.File();
+  });
   it('constructor', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(typeof fileFormat).toEqual('object');
   });
 
@@ -85,26 +87,22 @@ describe('File format', function() {
   });
 
   it('setAuthor', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.setAuthor('Markus Bordihn').getAuthor())
       .toEqual('Markus Bordihn');
   });
 
   it('getAuthor', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setAuthor('Markus Bordihn');
     expect(fileFormat.getAuthor()).toEqual('Markus Bordihn');
   });
 
   it('setContent', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.setContent('test1', 3).hasContent('test1')).toEqual(true);
     expect(fileFormat.setContent('test2', 2).hasContent('test2')).toEqual(true);
     expect(fileFormat.setContent('test3', 1).hasContent('test3')).toEqual(true);
   });
 
   it('hasContent', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setContent('test1', 1);
     fileFormat.setContent('test2', 2);
     fileFormat.setContent('test3', 3);
@@ -117,7 +115,6 @@ describe('File format', function() {
   });
 
   it('getContent', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setContent('test1', content1);
     fileFormat.setContent('test2', content2);
     fileFormat.setContent('test3', content3);
@@ -128,23 +125,19 @@ describe('File format', function() {
 
 
   it('setDescription', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setDescription('This is a test!');
   });
 
   it('getDescription', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setDescription('This is a test!');
     expect(fileFormat.getDescription()).toEqual('This is a test!');
   });
 
   it('setTitle', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setTitle('This is a title!');
   });
 
   it('getTitle', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setTitle('This is a title!');
     expect(fileFormat.getTitle()).toEqual('This is a title!');
   });
@@ -155,55 +148,46 @@ describe('File format', function() {
   });
 
   it('getVersion', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setVersion(version);
     expect(fileFormat.getVersion()).toEqual(version);
   });
 
   it('hasFiles', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.hasFiles()).toEqual(false);
   });
 
   it('getMetadata (unset, default namespace)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.getMetadata(metadataKeyRandom)).toEqual('');
   });
 
   it('getMetadata (unset, non-default namespace)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.getMetadata(metadataKeyRandom,
       metadataNamespace)).toEqual('');
   });
 
   it('setMetadata (default namespace, value)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(() => {
       fileFormat.setMetadata(metadataKey1, metadataValue1);
     }).not.toThrow();
   });
 
   it('getMetadata (default namespace, set)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setMetadata(metadataKey1, metadataValue1);
     expect(fileFormat.getMetadata(metadataKey1)).toEqual(metadataValue1);
   });
 
   it('setMetadata (non-default namespace)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(() => {
       fileFormat.setMetadata(metadataKey2, metadataValue2, metadataNamespace);
     }).not.toThrow();
   });
 
   it('getMetadata (non-default namespace, wrong key)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.getMetadata(metadataKey1,
       metadataNamespace)).toEqual('');
   });
 
   it('getMetadata (non-default namespace, correct key)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setMetadata(metadataKey2, metadataValue2, metadataNamespace);
     expect(fileFormat.getMetadata(metadataKey2,
       metadataNamespace)).toEqual(metadataValue2);
@@ -215,12 +199,10 @@ describe('File format', function() {
   });
 
   it('getTutorial (no tutorial)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect((new cwc.fileFormat.File()).getTutorial()).toBe(null);
   });
 
   it('getTutorial (default language)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     let tutorial = {
       'content': 'Hello, world!',
     };
@@ -231,7 +213,6 @@ describe('File format', function() {
   });
 
   it('getTutorial (non-default language)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     let otherLanguage = 'deu';
     let tutorialDefaultLanguage = {
       'content': 'Hello, world!',
@@ -255,12 +236,10 @@ describe('File format', function() {
   });
 
   it('getTour (no tour)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     expect((new cwc.fileFormat.File()).getTour()).toBe(null);
   });
 
   it('getTour (default language)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     let tour = {
       'description': 'Test tour',
       'data': [{
@@ -275,7 +254,6 @@ describe('File format', function() {
   });
 
   it('getTour (non-default language)', function() {
-    let fileFormat = new cwc.fileFormat.File();
     let otherLanguage = 'swe';
     let tourDefaultLanguage = {
       'description': 'Test tour',
@@ -305,7 +283,6 @@ describe('File format', function() {
 
   describe('Legacy format', function() {
     it('loadJSON', function() {
-      let fileFormat = new cwc.fileFormat.File();
       fileFormat.loadJSON(legacyFormat);
       expect(fileFormat.getAuthor()).toEqual('Markus Bordihn');
       expect(fileFormat.hasFiles()).toEqual(true);

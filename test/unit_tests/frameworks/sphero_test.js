@@ -30,7 +30,7 @@ describe('Framework: Sphero', function() {
   let messengerBuffer = {};
 
   // Overwrite messenger send func for testing.
-  messengerMock = function(name, value, delay) {
+  let messengerMock = function(name, value, delay) {
     messengerBuffer = {
       'name': name,
       'value': value,

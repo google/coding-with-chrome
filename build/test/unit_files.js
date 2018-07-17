@@ -24,7 +24,7 @@ let glob = closureBuilder.globSupport();
 closureBuilder.build({
   name: 'Unit test - Soy files',
   srcs: glob([
-    'src/renderer/renderer.soy',
+    'src/**/*.soy',
   ]),
   out: 'test/genfiles/soy',
 });
