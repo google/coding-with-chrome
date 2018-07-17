@@ -1,5 +1,6 @@
 build/externs
 coverage
+deps.js
 dist
 doc
 genfiles

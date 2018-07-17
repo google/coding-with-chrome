@@ -173,7 +173,6 @@ cwc.fileHandler.FileLoader.prototype.handleFileData = function(data,
 /**
  * @param {string} data
  * @param {string=} filename
- * @async
  */
 cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
     filename = '') {
@@ -270,7 +269,6 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
 /**
  * @param {string} content
  * @param {string=} filename
- * @async
  */
 cwc.fileHandler.FileLoader.prototype.loadRawFile = async function(content,
     filename = '') {

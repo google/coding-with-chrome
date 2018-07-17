@@ -36,7 +36,6 @@ cwc.mode.html5.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.html5.Mod.prototype.decorate = async function() {
   await this.mod.decorate();

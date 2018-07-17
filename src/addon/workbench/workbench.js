@@ -159,7 +159,6 @@ cwc.addon.Workbench = function(helper) {
 
 /**
  * @private
- * @async
  */
 cwc.addon.Workbench.prototype.prepare = async function() {
   if (!this.helper.experimentalEnabled()) {
@@ -214,7 +213,6 @@ cwc.addon.Workbench.prototype.filterProjectsByTag_ = function(
 
 /**
  * @private
- * @async
  */
 cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
   const allProjects = await this.getAllProjects_();

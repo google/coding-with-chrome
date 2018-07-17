@@ -34,7 +34,6 @@ cwc.mode.json.Mod = function(helper) {
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.json.Mod.prototype.decorate = async function() {
   await this.mod.decorate();

@@ -27,11 +27,10 @@ describe('Framework: Sphero', function() {
   let testFunction = function() {
     return 123;
   };
-  let framework = new cwc.framework.Sphero(code);
   let messengerBuffer = {};
 
   // Overwrite messenger send func for testing.
-  framework.messenger_.send = function(name, value, delay) {
+  let messengerMock = function(name, value, delay) {
     messengerBuffer = {
       'name': name,
       'value': value,
@@ -40,15 +39,19 @@ describe('Framework: Sphero', function() {
   };
 
   it('constructor', function() {
+    let framework = new cwc.framework.Sphero(code);
     expect(typeof framework).toEqual('object');
   });
 
   it('onCollision', function() {
+    let framework = new cwc.framework.Sphero(code);
     framework.onCollision(testFunction);
     expect(framework.collisionEvent).toEqual(testFunction);
   });
 
   it('Command: setRGB', function() {
+    let framework = new cwc.framework.Sphero(code);
+    framework.messenger_.send = messengerMock;
     framework.setRGB(1, 2, 3, false, 4);
     expect(messengerBuffer.name).toEqual('setRGB');
     expect(messengerBuffer.value.red).toEqual(1);

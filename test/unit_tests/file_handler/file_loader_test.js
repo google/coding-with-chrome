@@ -22,10 +22,9 @@ goog.require('cwc.utils.Helper');
 
 
 describe('File Loader', function() {
-  let helper = new cwc.utils.Helper();
-  let fileLoader = new cwc.fileHandler.FileLoader(helper);
-
   it('constructor', function() {
+    let helper = new cwc.utils.Helper();
+    let fileLoader = new cwc.fileHandler.FileLoader(helper);
     expect(typeof fileLoader).toEqual('object');
   });
 });

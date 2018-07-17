@@ -21,11 +21,16 @@ goog.require('cwc.renderer.Helper');
 
 
 describe('Renderer Helper', function() {
-  let helper = new cwc.renderer.Helper();
   let defaultCss = '* { margin:0; padding:0; }html, body { width:100%; ' +
     'height:100%; overflow: hidden;}';
 
+  let helper;
+  beforeEach(() => {
+    helper = new cwc.renderer.Helper();
+  });
+
   it('constructor', function() {
+    let helper = new cwc.renderer.Helper();
     expect(typeof helper).toEqual('object');
   });
 

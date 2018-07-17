@@ -21,7 +21,6 @@ goog.require('cwc.fileFormat.File');
 
 
 describe('File format', function() {
-  let fileFormat = new cwc.fileFormat.File();
   let content1 = Math.random().toString(36);
   let content2 = Math.random().toString(36);
   let content3 = Math.random().toString(36);
@@ -74,7 +73,10 @@ describe('File format', function() {
   let metadataValue2 = {};
   metadataValue2[metadataInnerKey] = Math.random().toString(36);
   let defaultLanguage = 'eng';
-
+  let fileFormat;
+  beforeEach(() => {
+    fileFormat = new cwc.fileFormat.File();
+  });
   it('constructor', function() {
     expect(typeof fileFormat).toEqual('object');
   });
@@ -141,6 +143,7 @@ describe('File format', function() {
   });
 
   it('setVersion', function() {
+    let fileFormat = new cwc.fileFormat.File();
     fileFormat.setVersion(version);
   });
 
@@ -191,6 +194,7 @@ describe('File format', function() {
   });
 
   it('getMetadata (default namespace, wrong key)', function() {
+    let fileFormat = new cwc.fileFormat.File();
     expect(fileFormat.getMetadata(metadataKey2)).toEqual('');
   });
 
@@ -278,17 +282,15 @@ describe('File format', function() {
   });
 
   describe('Legacy format', function() {
-    let file = new cwc.fileFormat.File();
-
     it('loadJSON', function() {
-      file.loadJSON(legacyFormat);
-      expect(file.getAuthor()).toEqual('Markus Bordihn');
-      expect(file.hasFiles()).toEqual(true);
-      expect(file.getContent('__javascript__')).toEqual(
+      fileFormat.loadJSON(legacyFormat);
+      expect(fileFormat.getAuthor()).toEqual('Markus Bordihn');
+      expect(fileFormat.hasFiles()).toEqual(true);
+      expect(fileFormat.getContent('__javascript__')).toEqual(
         legacyFormat['content']['javascript']);
-      expect(file.getFileContent('image.jpg')).toEqual(
+      expect(fileFormat.getFileContent('image.jpg')).toEqual(
         legacyFormat['files']['image.jpg']['content']);
-      expect(file.getFileContent('text.txt')).toEqual(
+      expect(fileFormat.getFileContent('text.txt')).toEqual(
         legacyFormat['files']['text.txt']['content']);
     });
   });
