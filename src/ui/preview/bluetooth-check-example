@@ -1,0 +1,26 @@
+navigator.bluetooth.requestDevice({
+  filters: [{
+    services: ['00001523-1212-efde-1523-785feabcd123']
+  }],
+  optionalServices: ['00004f0e-1212-efde-1523-785feabcd123'],
+})
+.then(device => {
+  console.log('Device:', device);
+  return device.gatt.connect();
+})
+.then(server => {
+  console.log('Server:', server);
+  return server.getPrimaryService('00004f0e-1212-efde-1523-785feabcd123');
+})
+.then(service => {
+  console.log('Service:', service);
+  return service.getCharacteristic('00001565-1212-efde-1523-785feabcd123');
+})
+.then(characteristic => {
+  console.log('Characteristic', characteristic);
+  let i = 128;
+  let value = new Uint8Array([0x01, 0x01, 0x01, i]);
+  console.log(value);
+  characteristic.writeValue(value);
+})
+.catch(error => { console.log(error); });

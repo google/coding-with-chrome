@@ -16,6 +16,8 @@
  * limitations under the License.
  *
  * @author mbordihn@google.com (Markus Bordihn)
+ *
+ * @deprecated due to coding-with-chrome-libraries
  */
 goog.provide('cwc.utils.ByteTools');
 

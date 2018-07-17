@@ -21,8 +21,11 @@
  */
 goog.provide('cwc.framework.Messenger');
 
-goog.require('cwc.utils.StackQueue');
+goog.require('cwc.lib.utils.Stack');
 
+
+goog.scope(function() {
+const StackQueue = goog.module.get('cwc.lib.utils.Stack').Queue;
 
 /**
  * @param {boolean=} liteMode
@@ -54,7 +57,7 @@ cwc.framework.Messenger = function(liteMode = false) {
   this.listenerScope_ = this;
 
   /** @private {!cwc.utils.StackQueue} */
-  this.senderStack_ = new cwc.utils.StackQueue();
+  this.senderStack_ = new StackQueue();
 
   // Message handler
   window.addEventListener('message', this.handleMessage_.bind(this), false);
@@ -295,3 +298,4 @@ cwc.framework.Messenger.prototype.handleStart_ = function() {
     this.callback_(this.scope_);
   }
 };
+});
