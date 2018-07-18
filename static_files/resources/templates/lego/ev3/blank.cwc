@@ -10,7 +10,7 @@
     "__python__": {
       "content": "#!/usr/bin/python\n",
       "name": "__python__",
-      "size": 0,
+      "size": 18,
       "type": "text/x-python",
       "version": 1
     }
@@ -28,7 +28,7 @@
       "version": "1.0"
     }
   },
-  "view": "__javascript__",
   "mode": "ev3",
-  "ui": "default"
+  "ui": "default",
+  "view": "__javascript__"
 }

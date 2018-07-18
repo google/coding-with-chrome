@@ -57,7 +57,7 @@ cwc.framework.Messenger = function(liteMode = false) {
   this.listenerScope_ = this;
 
   /** @private {!cwc.utils.StackQueue} */
-  this.senderStack_ = new StackQueue();
+  this.senderStack_ = new StackQueue(false);
 
   // Message handler
   window.addEventListener('message', this.handleMessage_.bind(this), false);
@@ -72,8 +72,6 @@ cwc.framework.Messenger = function(liteMode = false) {
     this.addListener('__gamepad__', this.handleGamepad_);
     this.addListener('__start__', this.handleStart_);
   }
-
-  this.senderStack_.addDelay(50);
 };
 
 
@@ -159,13 +157,13 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
   let sendCommand = function() {
     this.postMessage(name, value);
   }.bind(this);
-  if (!this.ready_ && !delay && name !== '__handshake__') {
-    this.senderStack_.addCommand(sendCommand);
-  } else if (delay) {
+  if (delay) {
     this.senderStack_.addCommand(sendCommand);
     this.senderStack_.addDelay(delay);
-  } else {
+  } else if (this.ready_ || name === '__handshake__') {
     sendCommand();
+  } else {
+    this.senderStack_.addCommand(sendCommand);
   }
 };
 
@@ -272,6 +270,9 @@ cwc.framework.Messenger.prototype.handleHandshake_ = function(data) {
     'ping_time': new Date().getTime(),
   });
   this.ready_ = this.appWindow && this.appOrigin;
+  if (this.ready_) {
+    this.senderStack_.start();
+  }
 };
 
 

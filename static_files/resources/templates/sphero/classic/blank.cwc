@@ -1,22 +1,33 @@
 {
-  "author": "Unknown",
   "content": {
     "__javascript__": {
-      "name": "__javascript__",
-      "type": "application/javascript",
-      "size": 0,
       "content": "",
+      "name": "__javascript__",
+      "size": 0,
+      "type": "application/javascript",
+      "version": 1
+    },
+    "__python__": {
+      "content": "#!/usr/bin/python\n",
+      "name": "__python__",
+      "size": 18,
+      "type": "text/x-python",
       "version": 1
     }
   },
-  "description": "",
   "files": {},
   "flags": {},
-  "format": "Coding with Chrome File Format 2",
+  "format": "Coding with Chrome File Format 3",
   "frameworks": {},
   "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Unknown",
+      "title": "Untitled Sphero file",
+      "version": "1.0"
+    }
+  },
   "mode": "sphero",
-  "title": "Untitled Sphero file",
   "ui": "default",
-  "version": "1.0"
+  "view": "__javascript__"
 }

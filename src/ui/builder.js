@@ -119,6 +119,7 @@ cwc.ui.BuilderHelpers = {
 /**
  * General protocols.
  * @enum {!Function}
+ * @deprecated
  */
 cwc.ui.supportedProtocols = {
   // Low-level
@@ -191,18 +192,14 @@ cwc.ui.Builder = function() {
  * Decorates the given node and adds the code editor.
  * @param {Element|string=} node
  * @return {!Promise}
- * @async
  * @export
  */
-cwc.ui.Builder.prototype.decorate = async function(node = null) {
+cwc.ui.Builder.prototype.decorate = async function(node = 'cwc-editor') {
   if (goog.isString(node)) {
     this.node = goog.dom.getElement(node);
   } else if (goog.isObject(node)) {
     this.node = node;
-  } else if (goog.dom.getElement('cwc-editor')) {
-    this.node = goog.dom.getElement('cwc-editor');
   }
-
   if (!this.node) {
     this.raiseError('Required node is neither a string or an object!');
   }
@@ -249,6 +246,7 @@ cwc.ui.Builder.prototype.decorateUI = function() {
       return reject();
     }
 
+    // Checking requirements
     this.setProgress('Checking requirements ...', 5);
     this.checkRequirements_('blockly');
     this.checkRequirements_('codemirror');

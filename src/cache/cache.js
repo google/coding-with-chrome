@@ -62,7 +62,6 @@ cwc.Cache = function(helper) {
 
 
 /**
- * @async
  * @export
  */
 cwc.Cache.prototype.prepare = async function() {
