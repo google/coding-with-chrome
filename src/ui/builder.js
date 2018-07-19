@@ -35,6 +35,7 @@ goog.require('cwc.lib.protocol.bluetoothChrome.Api');
 goog.require('cwc.lib.protocol.bluetoothWeb.Api');
 goog.require('cwc.mode.Modder');
 goog.require('cwc.protocol.arduino.Api');
+goog.require('cwc.protocol.mDNS.Api');
 goog.require('cwc.protocol.raspberryPi.Api');
 goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.tcp.HTTPServer');
@@ -124,6 +125,7 @@ cwc.ui.BuilderHelpers = {
 cwc.ui.supportedProtocols = {
   // Low-level
   'serial': cwc.protocol.serial.Api,
+  'mdns': cwc.protocol.mDNS.Api,
 
   // Boards
   'arduino': cwc.protocol.arduino.Api,
@@ -273,9 +275,6 @@ cwc.ui.Builder.prototype.decorateUI = function() {
         this.prepareOauth2Helper);
     }
     this.setProgressFunc('Render editor GUI ...', this.renderGui);
-    if (this.helper.checkChromeFeature('serial')) {
-      this.setProgressFunc('Prepare Serial support ...', this.prepareSerial);
-    }
     if (this.helper.checkChromeFeature('manifest.oauth2')) {
       this.setProgressFunc('Prepare account support ...', this.prepareAccount);
     }
@@ -414,17 +413,6 @@ cwc.ui.Builder.prototype.prepareBluetooth = function() {
     let bluetoothWebInstance =
       this.helper.setInstance('bluetoothWeb', new BluetoothWebApi());
     bluetoothWebInstance.prepare();
-  }
-};
-
-
-/**
- * Prepare Serial interface if needed.
- */
-cwc.ui.Builder.prototype.prepareSerial = function() {
-  let serialInstance = this.helper.getInstance('serial');
-  if (serialInstance) {
-    serialInstance.prepare();
   }
 };
 

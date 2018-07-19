@@ -45,14 +45,21 @@ chrome.app.runtime.onLaunched.addListener(
       hidden: false,
     };
 
-    chrome.app.window.create('index.html', editorConfig, function(
-        editorWindow) {
-      if (editorWindow) {
-        editorWindow.outerBounds.setPosition(
+    chrome.app.window.create('index.html', editorConfig, function(editor) {
+      if (editor) {
+        editor.outerBounds.setPosition(
           Math.round((screenWidth - editorWidth) / 2),
           Math.round((screenHeight - editorHeight) / 2)
         );
-        editorWindow.drawAttention();
+        editor.drawAttention();
+        editor.contentWindow.addEventListener('load', function() {
+          console.log('Looking for p2p devices ...');
+          chrome.mdns.onServiceList.addListener((data) => {
+              console.log('Found p2p device', data);
+            }, {
+              serviceType: '_cros_p2p._tcp.local',
+            });
+        });
       } else {
         console.warn('Loaded inside sand-boxed window!');
       }

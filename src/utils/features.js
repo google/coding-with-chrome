@@ -74,7 +74,6 @@ cwc.utils.Features.prototype.detectFeatures = function() {
   this.detectOnlineStatus();
   this.detectJavaScripts();
   this.monitorOnlineStatus();
-  this.log();
 };
 
 
@@ -139,6 +138,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function() {
   this.setChromeFeature('bluetoothLowEnergy', typeof chrome.bluetoothLowEnergy);
   this.setChromeFeature('browser', typeof chrome.browser);
   this.setChromeFeature('serial', typeof chrome.serial);
+  this.setChromeFeature('mdns', typeof chrome.mdns);
   this.setChromeFeature('webview', 'src' in document.createElement('webview'));
 
   // System features.

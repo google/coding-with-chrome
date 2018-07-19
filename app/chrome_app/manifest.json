@@ -77,12 +77,13 @@
     "storage", {
       "fileSystem": ["write"]
     },
-    "system.network",
-    "serial",
     "identity",
+    "mdns",
+    "serial",
+    "system.network",
     "tts",
-    "usb",
     "unlimitedStorage",
+    "usb",
     "webview"
   ],
   "sockets": {
