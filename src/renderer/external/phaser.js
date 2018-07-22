@@ -21,8 +21,8 @@ goog.provide('cwc.renderer.external.Phaser');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.External');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
@@ -82,8 +82,8 @@ cwc.renderer.external.Phaser.prototype.render = function(
   }
 
  let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.PHASER,
-    cwc.framework.External.PHASER,
+    cwc.config.framework.Internal.PHASER,
+    cwc.config.framework.External.PHASER,
   ], environ['baseURL']);
 
   return rendererHelper.getJavaScript(javascript, header, body);

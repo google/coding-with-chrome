@@ -32,33 +32,23 @@ cwc.protocol.mDNS.Api = function() {
   this.name = 'mDNS';
 
   /** @type {!Object} */
-  this.services = {};
-
-  /** @type {boolean} */
-  this.prepared = false;
+  this.services = {
+    '_cros_p2p._tcp.local': [],
+    '_ssh._tcp.local': [],
+  };
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
 
 
-cwc.protocol.mDNS.Api.prototype.prepare = function() {
-  if (!chrome.mdns) {
-    this.log_.warn('mDNS support is not available!');
-    this.log_.warn(chrome.mdns);
-    return;
+/**
+ * @param {string} service
+ * @param {Array} data
+ */
+cwc.protocol.mDNS.Api.prototype.updateService = function(service, data = []) {
+  this.services[service] = data;
+  if (data && data.length >= 1) {
+    this.log_.info(service, data);
   }
-  if (this.prepared) {
-    return;
-  }
-  this.log_.info('Preparing mDNS support...');
-
-  // Monitor P2P devices
-  chrome.mdns.onServiceList.addListener((data) => {
-    this.log('Found p2p device', data);
-    this.services['_cros_p2p._tcp.local'] = data;
-  }, {
-    serviceType: '_cros_p2p._tcp.local',
-  });
-  this.prepared = true;
 };

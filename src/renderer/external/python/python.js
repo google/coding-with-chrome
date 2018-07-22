@@ -20,9 +20,9 @@
 goog.provide('cwc.renderer.external.Python');
 
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
-goog.require('cwc.framework.Internal');
-goog.require('cwc.framework.StyleSheet');
+goog.require('cwc.config.framework.External');
+goog.require('cwc.config.framework.Internal');
+goog.require('cwc.config.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
@@ -68,14 +68,14 @@ cwc.renderer.external.Python.prototype.render = function(
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
     let header = rendererHelper.getJavaScriptURLs([
-      cwc.framework.Internal.MESSENGER,
-      cwc.framework.External.JQUERY.V2_2_4,
-      cwc.framework.External.SKULPT.CORE,
-      cwc.framework.External.SKULPT.STDLIB,
-      cwc.framework.Internal.PYTHON2,
+      cwc.config.framework.Internal.MESSENGER,
+      cwc.config.framework.External.JQUERY.V2_2_4,
+      cwc.config.framework.External.SKULPT.CORE,
+      cwc.config.framework.External.SKULPT.STDLIB,
+      cwc.config.framework.Internal.PYTHON2,
     ]);
     header += rendererHelper.getStyleSheetURL(
-      /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
+      /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
     let body = '<div id="content"></div>' +
     '<script id="code" type="text/python">\n' +
       content +
@@ -86,13 +86,13 @@ cwc.renderer.external.Python.prototype.render = function(
 
   // Python 3.x as default
   let header = rendererHelper.getJavaScriptURLs([
-    cwc.framework.Internal.MESSENGER,
-    cwc.framework.External.BRYTHON.CORE,
-    cwc.framework.External.BRYTHON.STDLIB,
-    cwc.framework.Internal.PYTHON3,
+    cwc.config.framework.Internal.MESSENGER,
+    cwc.config.framework.External.BRYTHON.CORE,
+    cwc.config.framework.External.BRYTHON.STDLIB,
+    cwc.config.framework.Internal.PYTHON3,
   ]);
   header += rendererHelper.getStyleSheetURL(
-    /** @type {string} */ (cwc.framework.StyleSheet.DIALOG));
+    /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
   let body = '<div id="container"></div>' +
   '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
   '<script>new cwc.framework.Python3().run();</script>';

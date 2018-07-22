@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Control');
+goog.provide('cwc.mode.sphero.sphero2.Control');
 
-goog.require('cwc.soy.mode.sphero.classic.Control');
+goog.require('cwc.soy.mode.sphero.sphero2.Control');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
 
@@ -31,12 +31,12 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.classic.Connection|
+ * @param {!cwc.mode.sphero.sphero2.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
  */
-cwc.mode.sphero.classic.Control = function(helper, connection) {
+cwc.mode.sphero.sphero2.Control = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero 2.0 Control';
 
@@ -50,7 +50,7 @@ cwc.mode.sphero.classic.Control = function(helper, connection) {
   this.helper = helper;
 
   /**
-   * @type {!cwc.mode.sphero.classic.Connection|
+   * @type {!cwc.mode.sphero.sphero2.Connection|
    *   cwc.mode.sphero.sprkPlus.Connection}
    */
   this.connection = connection;
@@ -71,12 +71,12 @@ cwc.mode.sphero.classic.Control = function(helper, connection) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.classic.Control.prototype.decorate = function(node) {
+cwc.mode.sphero.sphero2.Control.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.sphero.classic.Control.template, {
+    cwc.soy.mode.sphero.sphero2.Control.template, {
       prefix: this.prefix,
     }
   );
@@ -92,7 +92,7 @@ cwc.mode.sphero.classic.Control.prototype.decorate = function(node) {
 /**
  * @private
  */
-cwc.mode.sphero.classic.Control.prototype.addEventHandler_ = function() {
+cwc.mode.sphero.sphero2.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.exec('roll', {'speed': 50, 'heading': 270});
@@ -137,7 +137,7 @@ cwc.mode.sphero.classic.Control.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.classic.Control.prototype.addGamepadHandler_ = function() {
+cwc.mode.sphero.sphero2.Control.prototype.addGamepadHandler_ = function() {
   let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let gamepad = this.helper.getInstance('gamepad');
   this.events_.listen(eventTarget, cwc.utils.Gamepad.Events.Type.BUTTON[7],
@@ -171,7 +171,7 @@ cwc.mode.sphero.classic.Control.prototype.addGamepadHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.classic.Control.prototype.addKeyHandler_ = function() {
+cwc.mode.sphero.sphero2.Control.prototype.addKeyHandler_ = function() {
   let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   shortcutHandler.registerShortcut('backward', 'down');
   shortcutHandler.registerShortcut('left', 'left');
@@ -196,7 +196,7 @@ cwc.mode.sphero.classic.Control.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.sphero.classic.Control.prototype.handleKeyboardShortcut_ = function(
+cwc.mode.sphero.sphero2.Control.prototype.handleKeyboardShortcut_ = function(
     event) {
   if (!this.messageInstance_.isControlActive() &&
       !this.messageInstance_.isMonitorActive() ||

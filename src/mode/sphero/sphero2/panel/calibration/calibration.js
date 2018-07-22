@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Calibration');
+goog.provide('cwc.mode.sphero.sphero2.Calibration');
 
-goog.require('cwc.soy.mode.sphero.classic.Calibration');
+goog.require('cwc.soy.mode.sphero.sphero2.Calibration');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.events');
@@ -30,12 +30,12 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.classic.Connection|
+ * @param {!cwc.mode.sphero.sphero2.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
  */
-cwc.mode.sphero.classic.Calibration = function(helper, connection) {
+cwc.mode.sphero.sphero2.Calibration = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero 2.0 Calibration';
 
@@ -52,7 +52,7 @@ cwc.mode.sphero.classic.Calibration = function(helper, connection) {
   this.helper = helper;
 
   /**
-   * @type {!cwc.mode.sphero.classic.Connection|
+   * @type {!cwc.mode.sphero.sphero2.Connection|
    *   cwc.mode.sphero.bb8.Connection|
    *   cwc.mode.sphero.sprkPlus.Connection|
    *   cwc.mode.sphero.ollie.Connection}
@@ -75,12 +75,12 @@ cwc.mode.sphero.classic.Calibration = function(helper, connection) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.classic.Calibration.prototype.decorate = function(node) {
+cwc.mode.sphero.sphero2.Calibration.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.sphero.classic.Calibration.template, {
+    cwc.soy.mode.sphero.sphero2.Calibration.template, {
       prefix: this.prefix,
     }
   );
@@ -96,7 +96,7 @@ cwc.mode.sphero.classic.Calibration.prototype.decorate = function(node) {
 /**
  * @private
  */
-cwc.mode.sphero.classic.Calibration.prototype.addEventHandler_ = function() {
+cwc.mode.sphero.sphero2.Calibration.prototype.addEventHandler_ = function() {
   this.events_.listen(
     this.nodeSlider, goog.events.EventType.INPUT, function(e) {
       this.api.exec('calibrate', {'heading': e.target.value});
@@ -112,7 +112,7 @@ cwc.mode.sphero.classic.Calibration.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.sphero.classic.Calibration.prototype.addKeyHandler_ = function() {
+cwc.mode.sphero.sphero2.Calibration.prototype.addKeyHandler_ = function() {
   let shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   shortcutHandler.registerShortcut('left', 'left');
   shortcutHandler.registerShortcut('right', 'right');
@@ -128,7 +128,7 @@ cwc.mode.sphero.classic.Calibration.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.sphero.classic.Calibration.prototype.handleKeyboardShortcut_ =
+cwc.mode.sphero.sphero2.Calibration.prototype.handleKeyboardShortcut_ =
     function(event) {
   if (!this.messageInstance_.isCalibrationActive() ||
       event.target.tagName === 'INPUT') {

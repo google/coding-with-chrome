@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.EV3');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -42,7 +42,7 @@ cwc.renderer.external.EV3 = function(helper) {
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.framework.Internal.EV3];
+  this.frameworks_ = [cwc.config.framework.Internal.EV3];
 };
 
 

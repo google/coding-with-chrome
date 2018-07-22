@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.PencilCode');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
+goog.require('cwc.config.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -41,10 +41,9 @@ cwc.renderer.external.PencilCode = function(helper) {
 
   /** @private {!Array} */
   this.frameworks_ = [
-    cwc.framework.External.COFFEESCRIPT,
-    cwc.framework.External.JQUERY.V2_2_4,
-    cwc.framework.External.JQUERY_TURTLE,
-    cwc.framework.Internal.MESSENGER,
+    cwc.config.framework.External.COFFEESCRIPT,
+    cwc.config.framework.External.JQUERY.V2_2_4,
+    cwc.config.framework.External.JQUERY_TURTLE,
   ];
 };
 

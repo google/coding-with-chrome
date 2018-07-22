@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.makeblock.MBotRanger');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -42,7 +42,7 @@ cwc.renderer.external.makeblock.MBotRanger = function(helper) {
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.framework.Internal.MBOT_RANGER];
+  this.frameworks_ = [cwc.config.framework.Internal.MBOT_RANGER];
 };
 
 

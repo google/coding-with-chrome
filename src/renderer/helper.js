@@ -167,8 +167,8 @@ cwc.renderer.Helper.prototype.getRunner = function(content, headers = [],
   let body = '';
   let header = '';
   if (environ['currentView'] === '__python__') {
-    headers.push(cwc.framework.External.BRYTHON.CORE);
-    headers.push(cwc.framework.External.BRYTHON.STDLIB);
+    headers.push(cwc.config.framework.External.BRYTHON.CORE);
+    headers.push(cwc.config.framework.External.BRYTHON.STDLIB);
     body = '<script type="text/python">\n' +
       'from browser import window\n' +
         content + '\n' +
@@ -197,8 +197,8 @@ cwc.renderer.Helper.prototype.getRunner = function(content, headers = [],
 cwc.renderer.Helper.prototype.getHTMLRunner = function(body, header,
     environ = {}) {
   header += this.getStyleSheetURL(
-    /** @type {string} */ (cwc.framework.StyleSheet.MESSENGER), 'Messenger CSS',
-    environ['baseURL']);
+    /** @type {string} */ (cwc.config.framework.StyleSheet.MESSENGER),
+    'Messenger CSS', environ['baseURL']);
   return cwc.soy.Renderer.htmlMessenger({
     body: body ? this.sanitizedHtml_(body) : '',
     head: header ? this.sanitizedHtml_(header) : '',

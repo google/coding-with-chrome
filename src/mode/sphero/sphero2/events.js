@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
- goog.provide('cwc.mode.sphero.classic.SensorEvents');
+ goog.provide('cwc.mode.sphero.sphero2.SensorEvents');
 
 
 /**
  * @enum {string}
  */
-cwc.mode.sphero.classic.SensorEvents = {
+cwc.mode.sphero.sphero2.SensorEvents = {
   CHANGED_SPEED: 'changed_speed',
   CHANGED_VELOCITY: 'changed_values',
   COLLISION: 'COLLISION',

@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.RaspberryPi');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -41,7 +41,7 @@ cwc.renderer.external.RaspberryPi = function(helper) {
 
   /** @private {!Array} */
   this.frameworks_ = [
-    cwc.framework.Internal.RASPBERRY_PI,
+    cwc.config.framework.Internal.RASPBERRY_PI,
   ];
 };
 

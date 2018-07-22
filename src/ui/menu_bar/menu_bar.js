@@ -286,7 +286,7 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
     });
 
   // Shows maximize / restore icon based on available fullscreen support.
-  if (this.isChromeApp_) {
+  if (this.isChromeApp_ && chrome.app.window) {
     this.setFullscreen(chrome.app.window.current()['isFullscreen']());
   } else if (goog.dom.fullscreen.isSupported()) {
     this.setFullscreen(goog.dom.fullscreen.isFullScreen());
@@ -295,7 +295,8 @@ cwc.ui.MenuBar.prototype.decorateGuiButton = function() {
     goog.style.setElementShown(this.nodeRestoreButton, false);
   }
 
-  if (this.isChromeApp_) {
+  // Fullscreen listener.
+  if (this.isChromeApp_ && chrome.app.window) {
     chrome.app.window.current().onFullscreened.addListener(() => {
       this.setFullscreen(true);
     });

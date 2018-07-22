@@ -56,7 +56,7 @@ cwc.framework.Messenger = function(liteMode = false) {
   /** @private {Object} */
   this.listenerScope_ = this;
 
-  /** @private {!cwc.utils.StackQueue} */
+  /** @private {!cwc.lib.utils.Stack.Queue} */
   this.senderStack_ = new StackQueue(false);
 
   // Message handler

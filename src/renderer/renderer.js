@@ -20,9 +20,9 @@
 goog.provide('cwc.renderer.Renderer');
 
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
-goog.require('cwc.framework.Internal');
-goog.require('cwc.framework.StyleSheet');
+goog.require('cwc.config.framework.External');
+goog.require('cwc.config.framework.Internal');
+goog.require('cwc.config.framework.StyleSheet');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');

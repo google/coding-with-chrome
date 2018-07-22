@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.lego.WeDo2');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -42,7 +42,7 @@ cwc.renderer.external.lego.WeDo2 = function(helper) {
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.framework.Internal.WEDO2];
+  this.frameworks_ = [cwc.config.framework.Internal.WEDO2];
 };
 
 

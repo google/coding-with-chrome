@@ -70,7 +70,7 @@ closureBuilder.build({
   name: 'CwC messenger Style Sheet',
   prefix: 'cwc-',
   srcs: glob([
-    'src/frameworks/internal/messenger/messenger.gss',
+    'src/frameworks/messenger/messenger.gss',
   ]),
   out: 'genfiles/core/css/messenger.css',
 });

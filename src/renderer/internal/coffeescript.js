@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.internal.Coffeescript');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
+goog.require('cwc.config.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -41,8 +41,8 @@ cwc.renderer.internal.Coffeescript = function(helper) {
 
   /** @private {!Array} */
   this.frameworks_ = [
-    cwc.framework.Internal.MESSENGER,
-    cwc.framework.External.COFFEESCRIPT,
+    cwc.config.framework.Internal.MESSENGER,
+    cwc.config.framework.External.COFFEESCRIPT,
   ];
 };
 

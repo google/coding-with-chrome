@@ -91,7 +91,7 @@ const sections = [{
         name: 'test-soy',
         summary: 'Test all soy files for compilation errors.',
     }, {
-        name: 'test-units',
+        name: 'test:units',
         summary: 'Perform general unit tests.',
     }, {
         name: 'test-core',

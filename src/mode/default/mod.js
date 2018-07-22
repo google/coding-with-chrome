@@ -37,7 +37,7 @@ cwc.mode.default.ApiTypes;
  * @typedef {cwc.mode.lego.ev3.Connection|
  *   cwc.mode.makeblock.mbot.Connection|
  *   cwc.mode.makeblock.mbotRanger.Connection|
- *   cwc.mode.sphero.classic.Connection|
+ *   cwc.mode.sphero.sphero2.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection}

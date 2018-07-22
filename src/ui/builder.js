@@ -125,7 +125,6 @@ cwc.ui.BuilderHelpers = {
 cwc.ui.supportedProtocols = {
   // Low-level
   'serial': cwc.protocol.serial.Api,
-  'mdns': cwc.protocol.mDNS.Api,
 
   // Boards
   'arduino': cwc.protocol.arduino.Api,
@@ -182,11 +181,8 @@ cwc.ui.Builder = function() {
   /** @private {!cwc.ui.LoadingScreen} */
   this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);
 
-  if (window['CWC_BUILDER']) {
-    this.log_.warn('Found an existing CWC Builder instance!');
-  } else {
-    window['CWC_BUILDER'] = this;
-  }
+  /** Pre-instance mDNS */
+  this.helper.setInstance('mdns', new cwc.protocol.mDNS.Api());
 };
 
 
@@ -574,6 +570,19 @@ cwc.ui.Builder.prototype.renderGui = function() {
     layoutInstance.prepare();
   } else {
     this.raiseError('The layout instance was not loaded!');
+  }
+};
+
+
+/**
+ * @param {string} service
+ * @param {Object} data
+ * @export
+ */
+cwc.ui.Builder.prototype.mDNS = function(service, data) {
+  let mDNSInstance = this.helper.getInstance('mdns');
+  if (mDNSInstance && service && data) {
+    mDNSInstance.updateService(service, data);
   }
 };
 

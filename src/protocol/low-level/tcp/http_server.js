@@ -66,6 +66,9 @@ cwc.protocol.tcp.HTTPServer = function(address, port) {
   /** @private {boolean} */
   this.isConnected_ = false;
 
+  /** @private {string} */
+  this.contentSecurityPolicy_ = '';
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -231,6 +234,9 @@ cwc.protocol.tcp.HTTPServer.prototype.httpResponse_ = function(content,
     }
     output.push('Content-type: ' + options['content_type'] || 'text/plain');
     output.push('Content-length: ' + content.length);
+    if (this.contentSecurityPolicy_) {
+      output.push('Content-Security-Policy: ' + this.contentSecurityPolicy_);
+    }
     output.push('');
     output.push(content);
     output.push('\n');

@@ -19,9 +19,9 @@
  */
 goog.provide('cwc.Cache');
 
-goog.require('cwc.framework.External');
-goog.require('cwc.framework.Internal');
-goog.require('cwc.framework.StyleSheet');
+goog.require('cwc.config.framework.External');
+goog.require('cwc.config.framework.Internal');
+goog.require('cwc.config.framework.StyleSheet');
 goog.require('cwc.utils.Database');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.Resources');
@@ -84,13 +84,13 @@ cwc.Cache.prototype.update = async function(version) {
   await this.database_.clear();
 
   this.log_.info('Loading external frameworks ...');
-  await this.loadFiles(cwc.framework.External);
+  await this.loadFiles(cwc.config.framework.External);
 
   this.log_.info('Loading internal frameworks ...');
-  await this.loadFiles(cwc.framework.Internal);
+  await this.loadFiles(cwc.config.framework.Internal);
 
   this.log_.info('Loading Style Sheets ...');
-  await this.loadFiles(cwc.framework.StyleSheet);
+  await this.loadFiles(cwc.config.framework.StyleSheet);
 
   await this.database_.add('__version__', this.version);
 };
@@ -166,8 +166,11 @@ cwc.Cache.prototype.preloadFile = function(name) {
     }
 
     this.database_.get(name).then((content) => {
-      this.addContentToCache(name, content);
-      resolve();
+      if (content) {
+        this.addContentToCache(name, content);
+        resolve();
+      }
+      reject(`File ${name} does not exists or is empty !`);
     }, reject);
   });
 };

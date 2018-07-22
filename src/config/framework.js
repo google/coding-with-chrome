@@ -1,7 +1,7 @@
 /**
- * @fileoverview General frameworks files.
+ * @fileoverview General framework files.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,16 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.External');
-goog.provide('cwc.framework.Internal');
-goog.provide('cwc.framework.StyleSheet');
+goog.provide('cwc.config.framework.External');
+goog.provide('cwc.config.framework.Internal');
+goog.provide('cwc.config.framework.StyleSheet');
 
 
 /**
  * External frameworks used for the preview.
  * @enum {!Object.<string>|string}
  */
-cwc.framework.External = {
+cwc.config.framework.External = {
   BRYTHON: {
     CORE: '/frameworks/external/brython.js',
     STDLIB: '/frameworks/external/brython_stdlib.js',
@@ -52,7 +52,7 @@ cwc.framework.External = {
  * Internal frameworks used for the preview.
  * @enum {!Object.<string>|string}
  */
-cwc.framework.Internal = {
+cwc.config.framework.Internal = {
   EV3: '/frameworks/internal/ev3_framework.js',
   MBOT: '/frameworks/internal/mbot_framework.js',
   MBOT_RANGER: '/frameworks/internal/mbot_ranger_framework.js',
@@ -72,7 +72,7 @@ cwc.framework.Internal = {
  * Style Sheet files for the preview window.
  * @enum {!Object.<string>|string}
  */
-cwc.framework.StyleSheet = {
+cwc.config.framework.StyleSheet = {
   DIALOG: '/css/dialog.css',
   MESSENGER: '/css/messenger.css',
 };

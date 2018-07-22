@@ -17,15 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Mod');
+goog.provide('cwc.mode.sphero.sphero2.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Hints');
-goog.require('cwc.mode.sphero.classic.Calibration');
-goog.require('cwc.mode.sphero.classic.Connection');
-goog.require('cwc.mode.sphero.classic.Control');
-goog.require('cwc.mode.sphero.classic.SensorEvents');
-goog.require('cwc.mode.sphero.classic.Simulation');
+goog.require('cwc.mode.sphero.sphero2.Calibration');
+goog.require('cwc.mode.sphero.sphero2.Connection');
+goog.require('cwc.mode.sphero.sphero2.Control');
+goog.require('cwc.mode.sphero.sphero2.SensorEvents');
+goog.require('cwc.mode.sphero.sphero2.Simulation');
 goog.require('cwc.renderer.external.Sphero');
 goog.require('cwc.soy.sphero.Blocks');
 
@@ -35,28 +35,28 @@ goog.require('cwc.soy.sphero.Blocks');
  * @param {!cwc.utils.Helper} helper
  * @param {boolean=} enableBlockly
  */
-cwc.mode.sphero.classic.Mod = function(helper, enableBlockly = false) {
+cwc.mode.sphero.sphero2.Mod = function(helper, enableBlockly = false) {
   /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
-  /** @type {!cwc.mode.sphero.classic.Connection} */
-  this.connection = new cwc.mode.sphero.classic.Connection(helper);
+  /** @type {!cwc.mode.sphero.sphero2.Connection} */
+  this.connection = new cwc.mode.sphero.sphero2.Connection(helper);
 
-  /** @type {!cwc.mode.sphero.classic.SensorEvents} */
-  this.events = Object.assign(cwc.mode.sphero.classic.SensorEvents);
+  /** @type {!cwc.mode.sphero.sphero2.SensorEvents} */
+  this.events = Object.assign(cwc.mode.sphero.sphero2.SensorEvents);
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
   /** @type {!cwc.mode.sphero.Calibration} */
-  this.calibration = new cwc.mode.sphero.classic.Calibration(
+  this.calibration = new cwc.mode.sphero.sphero2.Calibration(
     helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.classic.Control} */
-  this.control = new cwc.mode.sphero.classic.Control(helper, this.connection);
+  /** @type {!cwc.mode.sphero.sphero2.Control} */
+  this.control = new cwc.mode.sphero.sphero2.Control(helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.classic.Simulation} */
-  this.simulation = new cwc.mode.sphero.classic.Simulation(helper);
+  /** @type {!cwc.mode.sphero.sphero2.Simulation} */
+  this.simulation = new cwc.mode.sphero.sphero2.Simulation(helper);
 
   /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
@@ -66,7 +66,7 @@ cwc.mode.sphero.classic.Mod = function(helper, enableBlockly = false) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.sphero.classic.Mod.prototype.decorate = function() {
+cwc.mode.sphero.sphero2.Mod.prototype.decorate = function() {
   if (this.enableBlockly) {
     this.mod.enableBlockly(cwc.soy.sphero.Blocks.toolbox);
   }

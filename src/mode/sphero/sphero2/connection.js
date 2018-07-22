@@ -17,20 +17,28 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Connection');
+goog.provide('cwc.mode.sphero.sphero2.Connection');
 
-goog.require('cwc.protocol.sphero.classic.Api');
+goog.require('cwc.lib.protocol.bluetoothChrome.profile.Device');
+goog.require('cwc.lib.protocol.sphero.sphero2.Api');
+goog.require('cwc.lib.protocol.sphero.sphero2.Events');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
 
+goog.scope(function() {
+const Api = goog.module.get('cwc.lib.protocol.sphero.sphero2.Api');
+const BluetoothProfile =
+  goog.module.get('cwc.lib.protocol.bluetoothChrome.profile.Device');
+const Events = goog.require('cwc.lib.protocol.sphero.sphero2.Events');
+
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.sphero.classic.Connection = function(helper) {
+cwc.mode.sphero.sphero2.Connection = function(helper) {
   /** @type {string} */
   this.name = 'Sphero 2.0 Connection';
 
@@ -47,13 +55,16 @@ cwc.mode.sphero.classic.Connection = function(helper) {
   this.connectMonitorInterval = 5000;
 
   /** @private {!cwc.protocol.sphero.classic.Api} */
-  this.api_ = new cwc.protocol.sphero.classic.Api();
+  this.api_ = new Api();
 
   /** @private {!goog.events.EventTarget} */
   this.apiEvents_ = this.api_.getEventTarget();
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.lib.protocol.bluetoothChrome.profile.Device} */
+  this.device_ = BluetoothProfile.SPHERO_SPHERO2;
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -64,15 +75,14 @@ cwc.mode.sphero.classic.Connection = function(helper) {
  * Connects the Sphero unit.
  * @export
  */
-cwc.mode.sphero.classic.Connection.prototype.init = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.init = function() {
   this.handleConnecting_({
     'data': 'Connecting Sphero 2.0',
     'source': 1,
   });
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECT,
-      this.handleConnecting_.bind(this));
+      Events.Type.CONNECT, this.handleConnecting_.bind(this));
   }
 
   let layoutInstance = this.helper.getInstance('layout');
@@ -103,7 +113,7 @@ cwc.mode.sphero.classic.Connection.prototype.init = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
+cwc.mode.sphero.sphero2.Connection.prototype.connect = function(opt_event) {
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (!bluetoothInstance) {
     return;
@@ -119,7 +129,7 @@ cwc.mode.sphero.classic.Connection.prototype.connect = function(opt_event) {
 /**
  * Stops the current executions.
  */
-cwc.mode.sphero.classic.Connection.prototype.stop = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.stop = function() {
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.stop();
@@ -129,10 +139,22 @@ cwc.mode.sphero.classic.Connection.prototype.stop = function() {
 
 
 /**
+ * Resets the connection.
+ * @param {Event=} opt_event
+ * @export
+ */
+cwc.mode.sphero.sphero2.Connection.prototype.reset = function(opt_event) {
+  if (this.isConnected()) {
+    this.api_.reset();
+  }
+};
+
+
+/**
  * @return {boolean}
  * @export
  */
-cwc.mode.sphero.classic.Connection.prototype.isConnected = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.isConnected = function() {
   return this.api_.isConnected();
 };
 
@@ -140,7 +162,7 @@ cwc.mode.sphero.classic.Connection.prototype.isConnected = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.sphero.classic.Connection.prototype.getEventTarget = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.getEventTarget = function() {
   return this.apiEvents_;
 };
 
@@ -149,7 +171,7 @@ cwc.mode.sphero.classic.Connection.prototype.getEventTarget = function() {
  * @return {!cwc.protocol.sphero.classic.Api}
  * @export
  */
-cwc.mode.sphero.classic.Connection.prototype.getApi = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.getApi = function() {
   return this.api_;
 };
 
@@ -157,7 +179,7 @@ cwc.mode.sphero.classic.Connection.prototype.getApi = function() {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
+cwc.mode.sphero.sphero2.Connection.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   if (this.connectMonitor) {
     this.connectMonitor.stop();
@@ -172,10 +194,10 @@ cwc.mode.sphero.classic.Connection.prototype.cleanUp = function() {
  * @param {Event|Object} e
  * @private
  */
-cwc.mode.sphero.classic.Connection.prototype.handleConnecting_ = function(e) {
+cwc.mode.sphero.sphero2.Connection.prototype.handleConnecting_ = function(e) {
   let message = e.data;
   let step = e.source;
-  let title = 'Connecting Sphero 2.0';
+  let title = 'Connecting' + this.device_.name;
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
 };
@@ -185,9 +207,10 @@ cwc.mode.sphero.classic.Connection.prototype.handleConnecting_ = function(e) {
  * @param {Event|Object} e
  * @private
  */
-cwc.mode.sphero.classic.Connection.prototype.handlePreviewStatus_ = function(
+cwc.mode.sphero.sphero2.Connection.prototype.handlePreviewStatus_ = function(
     e) {
   if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();
   }
 };
+});

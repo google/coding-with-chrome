@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.external.Sphero');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -42,7 +42,7 @@ cwc.renderer.external.Sphero = function(helper) {
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.framework.Internal.SPHERO];
+  this.frameworks_ = [cwc.config.framework.Internal.SPHERO];
 };
 
 

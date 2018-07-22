@@ -21,7 +21,7 @@ goog.provide('cwc.renderer.internal.Javascript');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
+goog.require('cwc.config.framework.External');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.utils.Helper');
 
@@ -40,7 +40,7 @@ cwc.renderer.internal.Javascript = function(helper) {
   this.cache_ = this.helper.getInstance('cache');
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.framework.Internal.MESSENGER];
+  this.frameworks_ = [cwc.config.framework.Internal.MESSENGER];
 };
 
 

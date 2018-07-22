@@ -21,9 +21,9 @@ goog.provide('cwc.mode.sphero.sprkPlus.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Hints');
-goog.require('cwc.mode.sphero.classic.Calibration');
-goog.require('cwc.mode.sphero.classic.Control');
-goog.require('cwc.mode.sphero.classic.Simulation');
+goog.require('cwc.mode.sphero.sphero2.Calibration');
+goog.require('cwc.mode.sphero.sphero2.Control');
+goog.require('cwc.mode.sphero.sphero2.Simulation');
 goog.require('cwc.mode.sphero.sprkPlus.Connection');
 goog.require('cwc.mode.sphero.sprkPlus.SensorEvents');
 goog.require('cwc.renderer.external.Sphero');
@@ -48,15 +48,15 @@ cwc.mode.sphero.sprkPlus.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.sphero.classic.Calibration} */
-  this.calibration = new cwc.mode.sphero.classic.Calibration(
+  /** @type {!cwc.mode.sphero.sphero2.Calibration} */
+  this.calibration = new cwc.mode.sphero.sphero2.Calibration(
     helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.classic.Control} */
-  this.control = new cwc.mode.sphero.classic.Control(helper, this.connection);
+  /** @type {!cwc.mode.sphero.sphero2.Control} */
+  this.control = new cwc.mode.sphero.sphero2.Control(helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.classic.Simulation} */
-  this.simulation = new cwc.mode.sphero.classic.Simulation(helper);
+  /** @type {!cwc.mode.sphero.sphero2.Simulation} */
+  this.simulation = new cwc.mode.sphero.sphero2.Simulation(helper);
 
   /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);

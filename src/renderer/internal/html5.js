@@ -21,8 +21,8 @@ goog.provide('cwc.renderer.internal.HTML5');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.External');
-goog.require('cwc.framework.Internal');
+goog.require('cwc.config.framework.External');
+goog.require('cwc.config.framework.Internal');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.utils.Helper');
@@ -43,13 +43,13 @@ cwc.renderer.internal.HTML5 = function(helper) {
 
   /** @private {!Array} */
   this.frameworks_ = [
-    cwc.framework.External.COFFEESCRIPT,
-    cwc.framework.External.JQUERY.V3_X,
-    cwc.framework.External.PHASER,
-    cwc.framework.External.THREE_JS.CORE,
-    cwc.framework.Internal.MESSENGER,
-    cwc.framework.Internal.PHASER,
-    cwc.framework.Internal.SIMPLE,
+    cwc.config.framework.External.COFFEESCRIPT,
+    cwc.config.framework.External.JQUERY.V3_X,
+    cwc.config.framework.External.PHASER,
+    cwc.config.framework.External.THREE_JS.CORE,
+    cwc.config.framework.Internal.MESSENGER,
+    cwc.config.framework.Internal.PHASER,
+    cwc.config.framework.Internal.SIMPLE,
   ];
 };
 
@@ -81,7 +81,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   let html = editorContent[cwc.ui.EditorContent.HTML] ||
     editorContent[cwc.ui.EditorContent.DEFAULT] || '';
   let javascript = editorContent[cwc.ui.EditorContent.JAVASCRIPT] || '';
-  let frameworks = [cwc.framework.Internal.MESSENGER];
+  let frameworks = [cwc.config.framework.Internal.MESSENGER];
 
   if (html) {
     // Library files.
@@ -97,7 +97,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
     // Coffeescript framework.
     if (html.includes('text/coffeescript') ||
         html.includes('application/coffeescript')) {
-      frameworks.push(cwc.framework.External.COFFEESCRIPT);
+      frameworks.push(cwc.config.framework.External.COFFEESCRIPT);
     }
   }
 
@@ -128,27 +128,27 @@ cwc.renderer.internal.HTML5.prototype.render = function(
 
     // Simple framework.
     if (script.includes('draw.') || script.includes('command.')) {
-      frameworks.push(cwc.framework.Internal.SIMPLE);
+      frameworks.push(cwc.config.framework.Internal.SIMPLE);
     }
 
     // jQuery framework.
     if (script.includes('jQuery.') ||
         script.includes('jQuery(') ||
         script.includes('$(document).ready')) {
-      frameworks.push(cwc.framework.External.JQUERY.V3_X);
+      frameworks.push(cwc.config.framework.External.JQUERY.V3_X);
     }
 
     // phaser.js
     if (script.includes('new Phaser.Game(')) {
-      frameworks.push(cwc.framework.External.PHASER);
+      frameworks.push(cwc.config.framework.External.PHASER);
       if (script.includes('cwc.framework.Phaser.')) {
-        frameworks.push(cwc.framework.Internal.PHASER);
+        frameworks.push(cwc.config.framework.Internal.PHASER);
       }
     }
 
     // three.js
     if (script.includes('new THREE.')) {
-      frameworks.push(cwc.framework.External.THREE_JS.CORE);
+      frameworks.push(cwc.config.framework.External.THREE_JS.CORE);
     }
   }
 

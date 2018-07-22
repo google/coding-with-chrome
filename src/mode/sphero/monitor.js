@@ -19,7 +19,7 @@
  */
 goog.provide('cwc.mode.sphero.Monitor');
 
-goog.require('cwc.protocol.sphero.classic.Events');
+goog.require('cwc.lib.protocol.sphero.sphero2.Events');
 goog.require('cwc.soy.mode.sphero.Monitor');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
@@ -30,10 +30,13 @@ goog.require('goog.events.EventType');
 goog.require('goog.ui.KeyboardShortcutHandler');
 
 
+goog.scope(function() {
+const Events = goog.require('cwc.lib.protocol.sphero.sphero2.Events');
+
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.sphero.classic.Connection|
+ * @param {!cwc.mode.sphero.sphero2.Connection|
  *   cwc.mode.sphero.bb8.Connection|
  *   cwc.mode.sphero.sprkPlus.Connection|
  *   cwc.mode.sphero.ollie.Connection} connection
@@ -49,7 +52,7 @@ cwc.mode.sphero.Monitor = function(helper, connection) {
   this.prefix = this.helper.getPrefix('sphero-monitor');
 
   /**
-   * @type {!cwc.mode.sphero.classic.Connection|
+   * @type {!cwc.mode.sphero.sphero2.Connection|
    *   cwc.mode.sphero.bb8.Connection|
    *   cwc.mode.sphero.sprkPlus.Connection|
    *   cwc.mode.sphero.ollie.Connection}
@@ -116,16 +119,13 @@ cwc.mode.sphero.Monitor.prototype.decorate = function() {
   // Update events
   let eventTarget = this.connection.getEventTarget();
   this.events_.listen(eventTarget,
-      cwc.protocol.sphero.classic.Events.Type.CHANGED_LOCATION,
-      this.updateLocationData_, false, this);
+      Events.Type.CHANGED_LOCATION, this.updateLocationData_, false, this);
 
   this.events_.listen(eventTarget,
-      cwc.protocol.sphero.classic.Events.Type.CHANGED_VELOCITY,
-      this.updateVelocityData_, false, this);
+      Events.Type.CHANGED_VELOCITY, this.updateVelocityData_, false, this);
 
   this.events_.listen(eventTarget,
-      cwc.protocol.sphero.classic.Events.Type.CHANGED_SPEED,
-      this.updateSpeedData_, false, this);
+      Events.Type.CHANGED_SPEED, this.updateSpeedData_, false, this);
 
   // Unload event
   let layoutInstance = this.helper.getInstance('layout', true);
@@ -354,3 +354,4 @@ cwc.mode.sphero.Monitor.prototype.handleKeyboardShortcut_ = function(event) {
       console.info(event.identifier);
   }
 };
+});

@@ -51,15 +51,19 @@ chrome.app.runtime.onLaunched.addListener(
           Math.round((screenWidth - editorWidth) / 2),
           Math.round((screenHeight - editorHeight) / 2)
         );
-        editor.drawAttention();
-        editor.contentWindow.addEventListener('load', function() {
-          console.log('Looking for p2p devices ...');
-          chrome.mdns.onServiceList.addListener((data) => {
-              console.log('Found p2p device', data);
-            }, {
-              serviceType: '_cros_p2p._tcp.local',
-            });
+        editor.contentWindow.addEventListener('load', () => {
+          if (chrome.mdns) {
+            let mDNS = editor.contentWindow.CWC_BUILDER.mDNS.bind(
+              editor.contentWindow.CWC_BUILDER);
+            chrome.mdns.onServiceList.addListener((data) => {
+                mDNS('_cros_p2p._tcp.local', data);
+              }, {serviceType: '_cros_p2p._tcp.local'});
+            chrome.mdns.onServiceList.addListener((data) => {
+                mDNS('_ssh._tcp.local', data);
+              }, {serviceType: '_ssh._tcp.local'});
+          }
         });
+        editor.drawAttention();
       } else {
         console.warn('Loaded inside sand-boxed window!');
       }

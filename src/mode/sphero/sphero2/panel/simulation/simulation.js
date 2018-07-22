@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.sphero.classic.Simulation');
+goog.provide('cwc.mode.sphero.sphero2.Simulation');
 
 goog.require('cwc.MessengerEvents');
-goog.require('cwc.mode.sphero.classic.SimulationCommand');
+goog.require('cwc.mode.sphero.sphero2.SimulationCommand');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
 
@@ -29,7 +29,7 @@ goog.require('cwc.utils.Events');
  * @param {!cwc.utils.Helper} helper
  * @constructor
  */
-cwc.mode.sphero.classic.Simulation = function(helper) {
+cwc.mode.sphero.sphero2.Simulation = function(helper) {
   /** @type {string} */
   this.name = 'Sphero Simulation';
 
@@ -64,7 +64,7 @@ cwc.mode.sphero.classic.Simulation = function(helper) {
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
   /** @type {!cwc.mode.sphero.SimulationCommand} */
-  this.commands_ = new cwc.mode.sphero.classic.SimulationCommand(this.turtle);
+  this.commands_ = new cwc.mode.sphero.sphero2.SimulationCommand(this.turtle);
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
@@ -76,7 +76,7 @@ cwc.mode.sphero.classic.Simulation = function(helper) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.sphero.classic.Simulation.prototype.decorate = function(node) {
+cwc.mode.sphero.sphero2.Simulation.prototype.decorate = function(node) {
   this.node = node;
 
   // Decorate turtle
@@ -101,7 +101,7 @@ cwc.mode.sphero.classic.Simulation.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.sphero.classic.Simulation.prototype.cleanUp = function() {
+cwc.mode.sphero.sphero2.Simulation.prototype.cleanUp = function() {
   console.log('Clean up Sphero simulation ...');
   this.events_.clear();
 };
@@ -111,7 +111,7 @@ cwc.mode.sphero.classic.Simulation.prototype.cleanUp = function() {
  * @param {!Event} e
  * @private
  */
-cwc.mode.sphero.classic.Simulation.prototype.handleCommand_ = function(e) {
+cwc.mode.sphero.sphero2.Simulation.prototype.handleCommand_ = function(e) {
   if (typeof this.commands_[e.data['name']] === 'undefined') {
     return;
   }

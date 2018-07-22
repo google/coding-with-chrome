@@ -110,9 +110,6 @@ cwc.ui.Preview = function(helper) {
 
   /** @private {!cwc.utils.Logger|null} */
   this.log_ = new cwc.utils.Logger(this.name);
-
-  /** @private {!Object<string, Function>} */
-  this.pendingExecCallbacks = {};
 };
 
 
@@ -140,7 +137,7 @@ cwc.ui.Preview.prototype.decorate = function(node) {
   this.render();
   this.nodeOverlay = goog.dom.getElement(this.prefix + 'overlay');
 
-  // Statusbar
+  // Status Bar
   this.statusBar.decorate();
 
   // Status Button and actions buttons
@@ -162,10 +159,6 @@ cwc.ui.Preview.prototype.decorate = function(node) {
         goog.events.EventType.DRAGEND, this.handleRefresh_);
     }
   }
-
-  // Adding Messenger listener
-  this.messenger_.addListener(
-    '__exec_result__', this.handleExecResponse_, this);
 };
 
 
@@ -212,11 +205,12 @@ cwc.ui.Preview.prototype.decorateOverlay = function(decorator) {
  * Renders content for preview window.
  */
 cwc.ui.Preview.prototype.render = function() {
+  this.log_.info('Render', this.webviewSupport_ ? 'webview' : 'iframe',
+    'content ...');
   let consoleInstance = this.helper.getInstance('console');
   if (consoleInstance) {
     consoleInstance.clear();
   }
-
   this.content = this.webviewSupport_ ?
     this.renderWebview() : this.renderIframe();
   goog.dom.appendChild(this.nodeRuntime, this.content);
@@ -470,73 +464,14 @@ cwc.ui.Preview.prototype.focus = function() {
 /**
  * Injects and executes the passed code in the preview content, if supported.
  * @param {!(string|Function)} code
- * @param {Number=} timeout
- * @return {!Promise}
  * @export
- * @todo(carheden@google.com): Move logic to messenger instance.
+ * @todo(carheden@google.com): Create separate executeScript with Callback
+ * for tutorial.
  */
-cwc.ui.Preview.prototype.executeScript = function(code, timeout = 250) {
+cwc.ui.Preview.prototype.executeScript = function(code) {
   this.log_.info('Execute script', code);
-  let execSpec = {
-    'code': typeof code === 'function' ? code.toString() : code,
-    'id': goog.string.createUniqueString(),
-  };
-  return new Promise((resolve, reject) => {
-    this.pendingExecCallbacks[execSpec['id']] = resolve;
-    setTimeout(function() {
-      if (this.pendingExecCallbacks.hasOwnProperty(execSpec['id'])) {
-        this.pendingExecCallbacks[execSpec['id']] = false;
-        reject(`Preview script timed out after ${timeout}ms`);
-      }
-    }.bind(this), timeout);
-    this.messenger_.send('__exec__', execSpec);
-  });
-};
-
-
-/**
- * Calls the callback registered for the script execution
- * @param {Object} response
- * @private
- * @todo(carheden@google.com): Move logic to messenger instance.
- */
-cwc.ui.Preview.prototype.handleExecResponse_ = function(response) {
-  if ((typeof response) !== 'object') {
-    this.log_.warn('Received non-object as response from script execution',
-      response);
-    return;
-  }
-  if (!response.hasOwnProperty('id') || typeof response['id'] !== 'string') {
-    this.log_.warn('ExecuteScript received a none valid id', response['id']);
-    return;
-  }
-  // The callback is called from setTimeout() to give the executeScript timeout
-  // a chance to run first. When run in a WebView, the preview runs in a
-  // separate thread and the executeScript timeout will have already triggered
-  // if the user's functon exceeded the timeout. However, iframes run in the
-  // same thread, so a long-running script will prevent the executeScript
-  // timeout from firing until the it completes.
-  // This does make timeouts ineffective for iframes, but ensuring the correct
-  // order allows test logic to execute correctly in karma/chrome (which only
-  // supports iframes).
-  setTimeout(() => {
-    if (!this.pendingExecCallbacks.hasOwnProperty(response['id'])) {
-      this.log_.warn('Callback for executeScript response', response['id'],
-        'missing. Response was', response);
-      return;
-    }
-    let callback = this.pendingExecCallbacks[response['id']];
-    delete this.pendingExecCallbacks[response['id']];
-    if (callback === false) {
-      this.log_.info('executeScript ', response['id'], 'timed out');
-      return;
-    }
-    if (response.hasOwnProperty('result')) {
-      this.log_.info('Executing callback ', response['id'], 'with result',
-        response['result']);
-      callback(response['result']);
-    }
-  }, 0);
+  this.messenger_.send('__exec__',
+    typeof code === 'function' ? code.toString() : code);
 };
 
 

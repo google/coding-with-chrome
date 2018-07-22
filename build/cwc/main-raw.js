@@ -27,11 +27,11 @@ let glob = closureBuilder.globSupport();
 closureBuilder.build({
   name: 'cwc.ui.Builder',
   srcs: glob([
-    'src/**/*.js',
-    'gensoyfiles/**/*.js',
+    'src/**/!(*_test).js',
+    'gensoyfiles/**/!(*_test).js',
     '!src/{blocks,blocks/**.js}',
-    '!src/frameworks/{internal,internal/**.js}',
-    'third_party/coding-with-chrome-libraries/src/**/*.js',
+    '!src/{frameworks,frameworks/**.js}',
+    'third_party/coding-with-chrome-libraries/src/**/!(*_test).js',
   ]),
   externs: [
     'build/externs/blockly.js',
