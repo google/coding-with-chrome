@@ -17,12 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbot.SensorEvents');
-
-goog.require('cwc.protocol.makeblock.mbot.Events');
+goog.provide('cwc.mode.makeblock.mBot.SensorEvents');
 
 
 /**
  * @enum {string}
  */
-cwc.mode.makeblock.mbot.SensorEvents = cwc.protocol.makeblock.mbot.Events.Type;
+cwc.mode.makeblock.mBot.SensorEvents = {
+  BUTTON_PRESSED: 'BUTTON_PRESSED',
+  LIGHTNESS_SENSOR: 'CHANGED_LIGHTNESS',
+  LINEFOLLOWER_SENSOR: 'CHANGED_LINEFOLLOWER',
+  ULTRASONIC_SENSOR: 'CHANGED_ULTRASONIC',
+};

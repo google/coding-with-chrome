@@ -38,6 +38,9 @@ cwc.ui.connectScreen.Bluetooth = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('connectScreenBluetooth');
 
+  /** @type {number} */
+  this.timeout = 20000; // Connection timeout.
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix);
 
@@ -64,13 +67,15 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
     }
   }
 
-  // Bluetooth LE devices
-  let bluetoothWebInstance = this.helper.getInstance('bluetoothWeb', true);
-  let bluetoothWebDevices = bluetoothWebInstance.getDevices();
-  for (let bluetoothWebDevice in bluetoothWebDevices) {
-    if (bluetoothWebDevices.hasOwnProperty(bluetoothWebDevice)) {
-      let device = bluetoothWebDevices[bluetoothWebDevice];
-      devices[device.getId()] = this.parseDeviceData_(device);
+  // Bluetooth Web devices
+  let bluetoothWebInstance = this.helper.getInstance('bluetoothWeb');
+  if (bluetoothWebInstance) {
+    let bluetoothWebDevices = bluetoothWebInstance.getDevices();
+    for (let bluetoothWebDevice in bluetoothWebDevices) {
+      if (bluetoothWebDevices.hasOwnProperty(bluetoothWebDevice)) {
+        let device = bluetoothWebDevices[bluetoothWebDevice];
+        devices[device.getId()] = this.parseDeviceData_(device);
+      }
     }
   }
 
@@ -103,7 +108,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showDevices = function() {
 cwc.ui.connectScreen.Bluetooth.prototype.requestDevice = function(device) {
   this.log_.info('Request device ....', device);
   return new Promise((resolve) => {
-    let bluetoothInstance = this.helper.getInstance('bluetoothWeb', true);
+    let bluetoothInstance = this.helper.getInstance('bluetoothWeb');
     let devices = bluetoothInstance.getDevicesByName(device.name);
     if (devices && devices[0]) {
       return resolve(devices[0]);
@@ -193,8 +198,20 @@ cwc.ui.connectScreen.Bluetooth.prototype.connectDevice_ = function(device) {
   this.showTemplate_('Connecting Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.connect, {
       device: this.parseDeviceData_(device),
+      prefix: this.prefix,
     });
   device.connect(this.close_.bind(this));
+  setTimeout(() => {
+    let active = goog.dom.getElement(this.prefix + 'connect-progress');
+    if (active) {
+      this.showTemplate_('Connecting Bluetooth device',
+      cwc.soy.connectScreen.Bluetooth.connect, {
+        device: this.parseDeviceData_(device),
+        error: true,
+        prefix: this.prefix,
+      });
+    }
+  }, 20000);
 };
 
 
@@ -207,6 +224,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.disconnectDevice_ = function(device) {
   this.showTemplate_('Disconnecting Bluetooth device',
     cwc.soy.connectScreen.Bluetooth.disconnect, {
       device: this.parseDeviceData_(device),
+      prefix: this.prefix,
     });
   device.disconnect(true, this.close_.bind(this));
 };

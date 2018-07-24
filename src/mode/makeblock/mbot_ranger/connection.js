@@ -17,9 +17,9 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.Connection');
+goog.provide('cwc.mode.makeblock.mBotRanger.Connection');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Api');
+goog.require('cwc.protocol.makeblock.mBotRanger.Api');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.Timer');
@@ -29,7 +29,7 @@ goog.require('goog.Timer');
  * @constructor
  * @param {!cwc.utils.Helper} helper
  */
-cwc.mode.makeblock.mbotRanger.Connection = function(helper) {
+cwc.mode.makeblock.mBotRanger.Connection = function(helper) {
   /** @type {string} */
   this.name = 'mBot Ranger Connection';
 
@@ -39,8 +39,8 @@ cwc.mode.makeblock.mbotRanger.Connection = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
-  this.api_ = new cwc.protocol.makeblock.mbotRanger.Api();
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Api} */
+  this.api_ = new cwc.protocol.makeblock.mBotRanger.Api();
 
   /** @type {goog.Timer} */
   this.connectMonitor = null;
@@ -57,7 +57,7 @@ cwc.mode.makeblock.mbotRanger.Connection = function(helper) {
  * Connects the mbot unit.
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.init = function() {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
@@ -88,7 +88,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.init = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
+cwc.mode.makeblock.mBotRanger.Connection.prototype.connect = function(
     opt_event) {
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (!bluetoothInstance) {
@@ -108,7 +108,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.connect = function(
  * Stops the current executions.
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.stop = function() {
   let previewInstance = this.helper.getInstance('preview');
   if (previewInstance) {
     previewInstance.stop();
@@ -122,7 +122,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.stop = function() {
  * @param {Event=} opt_event
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.reset = function(opt_event) {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
@@ -133,16 +133,16 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.reset = function(opt_event) {
  * @return {boolean}
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.isConnected = function() {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.isConnected = function() {
   return this.api_.isConnected();
 };
 
 
 /**
- * @return {!cwc.protocol.makeblock.mbotRanger.Api}
+ * @return {!cwc.protocol.makeblock.mBotRanger.Api}
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.getApi = function() {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.getApi = function() {
   return this.api_;
 };
 
@@ -150,7 +150,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.getApi = function() {
 /**
  * @return {goog.events.EventTarget}
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.getEventTarget = function(
+cwc.mode.makeblock.mBotRanger.Connection.prototype.getEventTarget = function(
     ) {
   return this.api_.getEventTarget();
 };
@@ -159,7 +159,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.getEventTarget = function(
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBotRanger.Connection.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -173,7 +173,7 @@ cwc.mode.makeblock.mbotRanger.Connection.prototype.cleanUp = function() {
  * @param {Event|Object} e
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Connection.prototype.handlePreviewStatus_ =
+cwc.mode.makeblock.mBotRanger.Connection.prototype.handlePreviewStatus_ =
     function(e) {
   if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();

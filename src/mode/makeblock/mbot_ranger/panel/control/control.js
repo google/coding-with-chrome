@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.Control');
+goog.provide('cwc.mode.makeblock.mBotRanger.Control');
 
-goog.require('cwc.soy.mode.makeblock.mbotRanger.Control');
+goog.require('cwc.soy.mode.makeblock.mBotRanger.Control');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
 
@@ -31,9 +31,9 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.makeblock.mbotRanger.Connection} connection
+ * @param {!cwc.mode.makeblock.mBotRanger.Connection} connection
  */
-cwc.mode.makeblock.mbotRanger.Control = function(helper, connection) {
+cwc.mode.makeblock.mBotRanger.Control = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Ranger Control';
 
@@ -46,10 +46,10 @@ cwc.mode.makeblock.mbotRanger.Control = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
+  /** @type {!cwc.mode.makeblock.mBotRanger.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Api} */
   this.api = this.connection.getApi();
 
   /** @private {!cwc.utils.Events} */
@@ -71,12 +71,12 @@ cwc.mode.makeblock.mbotRanger.Control = function(helper, connection) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBotRanger.Control.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.makeblock.mbotRanger.Control.template, {
+    cwc.soy.mode.makeblock.mBotRanger.Control.template, {
       prefix: this.prefix,
     }
   );
@@ -92,7 +92,7 @@ cwc.mode.makeblock.mbotRanger.Control.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBotRanger.Control.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -103,7 +103,7 @@ cwc.mode.makeblock.mbotRanger.Control.prototype.cleanUp = function() {
 /**
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.addEventHandler_ = function() {
+cwc.mode.makeblock.mBotRanger.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.exec('rotatePower', {'power': -this.normalSpeed_});
@@ -136,7 +136,7 @@ cwc.mode.makeblock.mbotRanger.Control.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.addGamepadHandler_ = function(
+cwc.mode.makeblock.mBotRanger.Control.prototype.addGamepadHandler_ = function(
     ) {
   let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let rotation = false;
@@ -169,7 +169,7 @@ cwc.mode.makeblock.mbotRanger.Control.prototype.addGamepadHandler_ = function(
 /**
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.addKeyHandler_ = function() {
+cwc.mode.makeblock.mBotRanger.Control.prototype.addKeyHandler_ = function() {
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   this.shortcutHandler.registerShortcut('backward', 'down');
   this.shortcutHandler.registerShortcut('left', 'left');
@@ -194,7 +194,7 @@ cwc.mode.makeblock.mbotRanger.Control.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Control.prototype.handleKeyboardShortcut_ =
+cwc.mode.makeblock.mBotRanger.Control.prototype.handleKeyboardShortcut_ =
 function(event) {
   if (!this.messageInstance_.isControlActive() &&
       !this.messageInstance_.isMonitorActive() ||

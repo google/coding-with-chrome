@@ -20,21 +20,21 @@
  * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Action');
-goog.provide('cwc.protocol.makeblock.mbotRanger.ByteType');
-goog.provide('cwc.protocol.makeblock.mbotRanger.DataType');
-goog.provide('cwc.protocol.makeblock.mbotRanger.Device');
-goog.provide('cwc.protocol.makeblock.mbotRanger.Header');
-goog.provide('cwc.protocol.makeblock.mbotRanger.IndexType');
-goog.provide('cwc.protocol.makeblock.mbotRanger.Port');
-goog.provide('cwc.protocol.makeblock.mbotRanger.Slot');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Action');
+goog.provide('cwc.protocol.makeblock.mBotRanger.ByteType');
+goog.provide('cwc.protocol.makeblock.mBotRanger.DataType');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Device');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Header');
+goog.provide('cwc.protocol.makeblock.mBotRanger.IndexType');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Port');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Slot');
 
 
 /**
  * In future developments, this should be replaced by a state machine.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.ByteType = {
+cwc.protocol.makeblock.mBotRanger.ByteType = {
   INDEX: 2,
   DATATYPE: 3,
   PAYLOAD: 4,
@@ -45,7 +45,7 @@ cwc.protocol.makeblock.mbotRanger.ByteType = {
  * Enum of command types for the communication protocol.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.Action = {
+cwc.protocol.makeblock.mBotRanger.Action = {
   GET: 0x01,
   RUN: 0x02,
   RESET: 0x04,
@@ -57,7 +57,7 @@ cwc.protocol.makeblock.mbotRanger.Action = {
  * Enum of data types.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.DataType = {
+cwc.protocol.makeblock.mBotRanger.DataType = {
   BYTE: 1,
   FLOAT: 2,
   SHORT: 3,
@@ -69,7 +69,7 @@ cwc.protocol.makeblock.mbotRanger.DataType = {
  * Enum of devices for the communication protocol.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.Device = {
+cwc.protocol.makeblock.mBotRanger.Device = {
   ENCODER: 12,
   ENCODER_BOARD: 62,
   GYRO: 6,
@@ -91,14 +91,14 @@ cwc.protocol.makeblock.mbotRanger.Device = {
  * Header for the communication protocol.
  * @type {!Array}
  */
-cwc.protocol.makeblock.mbotRanger.Header = [0xff, 0x55];
+cwc.protocol.makeblock.mBotRanger.Header = [0xff, 0x55];
 
 
 /**
  * Enum of implemented callback types.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.IndexType = {
+cwc.protocol.makeblock.mBotRanger.IndexType = {
   NONE: 0x00,
   ACK: 0x0d,
   ULTRASONIC: 0x10,
@@ -114,7 +114,7 @@ cwc.protocol.makeblock.mbotRanger.IndexType = {
  * Enum of ports for the communication protocol.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.Port = {
+cwc.protocol.makeblock.mBotRanger.Port = {
   AUTO: 0x00,
   ENCODER_BOARD_POS: 0x01,
   ENCODER_BOARD_SPEED: 0x02,
@@ -134,7 +134,7 @@ cwc.protocol.makeblock.mbotRanger.Port = {
  * Enum of commands for the communication protocol.
  * @enum {number}
  */
-cwc.protocol.makeblock.mbotRanger.Slot = {
+cwc.protocol.makeblock.mBotRanger.Slot = {
   AUTO: 0,
   ONE: 1,
   TWO: 2,

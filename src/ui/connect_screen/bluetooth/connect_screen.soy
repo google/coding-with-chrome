@@ -51,8 +51,8 @@
  * Devices template.
  */
 {template .devices}
-  {@param prefix: string}
   {@param devices: ?}
+  {@param prefix: string}
 
   <ul id="{$prefix}device-list" class="mdl-list">
     {foreach $device in keys($devices)}
@@ -76,16 +76,27 @@
  */
 {template .connect}
   {@param device: ?}
+  {@param? error: bool}
+  {@param prefix: string}
 
-  {msg desc=""}Connecting device{/msg} {$device['name']} ({$device['type']})
-  {sp}{msg desc=""}at{/msg}{sp}
-    {if $device['address']}
-      {$device['address']}
-    {elseif $device['id']}
-      {$device['id']}
-    {/if}
-  ...
-  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+
+  {if $error}
+    <i class="material-icons" style="color: #f00; vertical-align: middle;">error</i>
+    Unable to connect device {$device['name']} ({$device['type']}), 
+    please check device and Bluetooth paring in your Operation System. 
+  {else}
+    {msg desc=""}Connecting device{/msg} {$device['name']} ({$device['type']})
+    {sp}{msg desc=""}at{/msg}{sp}
+      {if $device['address']}
+        {$device['address']}
+      {elseif $device['id']}
+        {$device['id']}
+      {/if}
+    ...
+    <div id="{$prefix}connect-progress">
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    </div>
+  {/if}
 {/template}
 
 
@@ -94,6 +105,7 @@
  */
 {template .disconnect}
   {@param device: ?}
+  {@param prefix: string}
 
   {msg desc=""}Disconnecting device{/msg} {$device['name']} ({$device['type']})
   {sp}{msg desc=""}at{/msg}{sp}
@@ -103,7 +115,9 @@
       {$device['id']}
     {/if}
   ...
-  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+  <div id="{$prefix}disconnect-progress">
+    <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+  </div>
 {/template}
 
 

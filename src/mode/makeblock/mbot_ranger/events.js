@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.SensorEvents');
+goog.provide('cwc.mode.makeblock.mBotRanger.SensorEvents');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Events');
+goog.require('cwc.protocol.makeblock.mBotRanger.Events');
 
 
 /**
  * @enum {string}
  */
-cwc.mode.makeblock.mbotRanger.SensorEvents =
-  cwc.protocol.makeblock.mbotRanger.Events.Type;
+cwc.mode.makeblock.mBotRanger.SensorEvents =
+  cwc.protocol.makeblock.mBotRanger.Events.Type;

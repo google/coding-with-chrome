@@ -17,28 +17,28 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Buffer');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Buffer');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Header');
+goog.require('cwc.protocol.makeblock.mBotRanger.Header');
 goog.require('cwc.utils.ByteArray');
 
 
 /**
  * @constructor
  */
-cwc.protocol.makeblock.mbotRanger.Buffer = function() {
+cwc.protocol.makeblock.mBotRanger.Buffer = function() {
   /** @type {!cwc.utils.ByteArray} */
   this.data = new cwc.utils.ByteArray();
 
   /** @type {!Array} */
-  this.header = cwc.protocol.makeblock.mbotRanger.Header;
+  this.header = cwc.protocol.makeblock.mBotRanger.Header;
 };
 
 
 /**
  * Writes null byte with 0x00.
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeNullByte = function() {
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeNullByte = function() {
   this.data.writeByte(0x00);
 };
 
@@ -46,7 +46,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeNullByte = function() {
 /**
  * Writes single byte with 0x01.
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSingleByte = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeSingleByte = function(
 ) {
   this.data.writeByte(0x01);
 };
@@ -56,7 +56,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSingleByte = function(
  * @param {number} value
  * @param {number=} opt_default
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeByte = function(value,
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeByte = function(value,
     opt_default) {
   this.data.writeByte(value, opt_default);
 };
@@ -65,7 +65,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeByte = function(value,
 /**
  * @param {number} value
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeInt = function(value) {
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeInt = function(value) {
   this.data.writeInt(value);
 };
 
@@ -73,7 +73,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeInt = function(value) {
 /**
  * @param {number} value
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeShort = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeShort = function(
     value) {
   this.data.writeShort(value);
 };
@@ -82,51 +82,51 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeShort = function(
 /**
  * @param {string} value
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeString = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeString = function(
     value) {
   this.data.writeString(value);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index
+ * @param {!cwc.protocol.makeblock.mBotRanger.IndexType} index
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeIndex = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeIndex = function(
     index) {
   this.data.writeByte(index);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.Action} action
+ * @param {!cwc.protocol.makeblock.mBotRanger.Action} action
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeAction = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeAction = function(
     action) {
   this.data.writeByte(action);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.Device} device
+ * @param {!cwc.protocol.makeblock.mBotRanger.Device} device
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeDevice = function(
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeDevice = function(
     device) {
   this.data.writeByte(device);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.Port} port
+ * @param {!cwc.protocol.makeblock.mBotRanger.Port} port
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writePort = function(port) {
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writePort = function(port) {
   this.data.writeByte(port);
 };
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.Slot} slot
+ * @param {!cwc.protocol.makeblock.mBotRanger.Slot} slot
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSlot = function(slot) {
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.writeSlot = function(slot) {
   this.data.writeByte(slot);
 };
 
@@ -136,7 +136,7 @@ cwc.protocol.makeblock.mbotRanger.Buffer.prototype.writeSlot = function(slot) {
  * 0  1  2   3   4      5      6     7     8
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Buffer.prototype.readSigned = function() {
+cwc.protocol.makeblock.mBotRanger.Buffer.prototype.readSigned = function() {
   let buffer = this.data.getData();
   let checkSum = buffer.length;
   let dataLength = buffer.length;

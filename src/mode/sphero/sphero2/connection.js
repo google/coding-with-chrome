@@ -80,6 +80,7 @@ cwc.mode.sphero.sphero2.Connection.prototype.init = function() {
     'data': 'Connecting Sphero 2.0',
     'source': 1,
   });
+
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
       Events.Type.CONNECT, this.handleConnecting_.bind(this));
@@ -140,10 +141,9 @@ cwc.mode.sphero.sphero2.Connection.prototype.stop = function() {
 
 /**
  * Resets the connection.
- * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.sphero2.Connection.prototype.reset = function(opt_event) {
+cwc.mode.sphero.sphero2.Connection.prototype.reset = function() {
   if (this.isConnected()) {
     this.api_.reset();
   }
@@ -160,19 +160,19 @@ cwc.mode.sphero.sphero2.Connection.prototype.isConnected = function() {
 
 
 /**
- * @return {goog.events.EventTarget}
- */
-cwc.mode.sphero.sphero2.Connection.prototype.getEventTarget = function() {
-  return this.apiEvents_;
-};
-
-
-/**
  * @return {!cwc.protocol.sphero.classic.Api}
  * @export
  */
 cwc.mode.sphero.sphero2.Connection.prototype.getApi = function() {
   return this.api_;
+};
+
+
+/**
+ * @return {goog.events.EventTarget}
+ */
+cwc.mode.sphero.sphero2.Connection.prototype.getEventTarget = function() {
+  return this.apiEvents_;
 };
 
 

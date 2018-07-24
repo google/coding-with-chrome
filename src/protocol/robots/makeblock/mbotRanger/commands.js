@@ -17,15 +17,15 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Commands');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Commands');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Buffer');
-goog.require('cwc.protocol.makeblock.mbotRanger.Action');
-goog.require('cwc.protocol.makeblock.mbotRanger.Device');
-goog.require('cwc.protocol.makeblock.mbotRanger.Header');
-goog.require('cwc.protocol.makeblock.mbotRanger.IndexType');
-goog.require('cwc.protocol.makeblock.mbotRanger.Port');
-goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
+goog.require('cwc.protocol.makeblock.mBotRanger.Buffer');
+goog.require('cwc.protocol.makeblock.mBotRanger.Action');
+goog.require('cwc.protocol.makeblock.mBotRanger.Device');
+goog.require('cwc.protocol.makeblock.mBotRanger.Header');
+goog.require('cwc.protocol.makeblock.mBotRanger.IndexType');
+goog.require('cwc.protocol.makeblock.mBotRanger.Port');
+goog.require('cwc.protocol.makeblock.mBotRanger.Slot');
 
 
 /**
@@ -37,14 +37,14 @@ goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.setRGBLED = function(red = 0,
+cwc.protocol.makeblock.mBotRanger.Commands.setRGBLED = function(red = 0,
     green = 0, blue = 0, index = 0x00) {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.RGBLED);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.AUTO);
-  buffer.writeSlot(cwc.protocol.makeblock.mbotRanger.Slot.AUTO);
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mBotRanger.Device.RGBLED);
+  buffer.writePort(cwc.protocol.makeblock.mBotRanger.Port.AUTO);
+  buffer.writeSlot(cwc.protocol.makeblock.mBotRanger.Slot.AUTO);
   buffer.writeByte(index);
   buffer.writeByte(red);
   buffer.writeByte(green);
@@ -60,13 +60,13 @@ cwc.protocol.makeblock.mbotRanger.Commands.setRGBLED = function(red = 0,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.playTone = function(
+cwc.protocol.makeblock.mBotRanger.Commands.playTone = function(
     frequency, duration) {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.TONE);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.TONE);
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mBotRanger.Device.TONE);
+  buffer.writePort(cwc.protocol.makeblock.mBotRanger.Port.TONE);
   buffer.writeShort(frequency);
   buffer.writeShort(duration);
   return buffer.readSigned();
@@ -76,17 +76,17 @@ cwc.protocol.makeblock.mbotRanger.Commands.playTone = function(
 /**
  * Sets motor power
  * @param {number} power (0-255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
+ * @param {cwc.protocol.makeblock.mBotRanger.Slot=} slot
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.movePower = function(
-    power, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_SPEED);
+cwc.protocol.makeblock.mBotRanger.Commands.movePower = function(
+    power, slot = cwc.protocol.makeblock.mBotRanger.Slot.ONE) {
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mBotRanger.Device.ENCODER_BOARD);
+  buffer.writePort(cwc.protocol.makeblock.mBotRanger.Port.ENCODER_BOARD_SPEED);
   buffer.writeSlot(slot);
   buffer.writeShort(power);
   return buffer.readSigned();
@@ -97,17 +97,17 @@ cwc.protocol.makeblock.mbotRanger.Commands.movePower = function(
  * Rotates the motor for the given steps.
  * @param {number} steps (−32768 - 32.767)
  * @param {number=} power (0-255)
- * @param {cwc.protocol.makeblock.mbotRanger.Slot=} slot
+ * @param {cwc.protocol.makeblock.mBotRanger.Slot=} slot
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.moveSteps = function(steps,
-    power = 130, slot = cwc.protocol.makeblock.mbotRanger.Slot.ONE) {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RUN);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.ENCODER_BOARD);
-  buffer.writePort(cwc.protocol.makeblock.mbotRanger.Port.ENCODER_BOARD_POS);
+cwc.protocol.makeblock.mBotRanger.Commands.moveSteps = function(steps,
+    power = 130, slot = cwc.protocol.makeblock.mBotRanger.Slot.ONE) {
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.RUN);
+  buffer.writeDevice(cwc.protocol.makeblock.mBotRanger.Device.ENCODER_BOARD);
+  buffer.writePort(cwc.protocol.makeblock.mBotRanger.Port.ENCODER_BOARD_POS);
   buffer.writeSlot(slot);
   buffer.writeInt(steps);
   buffer.writeShort(power);
@@ -117,17 +117,17 @@ cwc.protocol.makeblock.mbotRanger.Commands.moveSteps = function(steps,
 
 /**
  * Reads out the sensor value.
- * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} indexType
- * @param {!cwc.protocol.makeblock.mbotRanger.Device} device
- * @param {!cwc.protocol.makeblock.mbotRanger.Port} port
+ * @param {!cwc.protocol.makeblock.mBotRanger.IndexType} indexType
+ * @param {!cwc.protocol.makeblock.mBotRanger.Device} device
+ * @param {!cwc.protocol.makeblock.mBotRanger.Port} port
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.getSensorData = function(indexType,
+cwc.protocol.makeblock.mBotRanger.Commands.getSensorData = function(indexType,
     device, port) {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
   buffer.writeIndex(indexType);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.GET);
   buffer.writeDevice(device);
   buffer.writePort(port);
   return buffer.readSigned();
@@ -139,11 +139,11 @@ cwc.protocol.makeblock.mbotRanger.Commands.getSensorData = function(indexType,
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.getVersion = function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.VERSION);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.GET);
-  buffer.writeDevice(cwc.protocol.makeblock.mbotRanger.Device.VERSION);
+cwc.protocol.makeblock.mBotRanger.Commands.getVersion = function() {
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.VERSION);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.GET);
+  buffer.writeDevice(cwc.protocol.makeblock.mBotRanger.Device.VERSION);
   return buffer.readSigned();
 };
 
@@ -153,10 +153,10 @@ cwc.protocol.makeblock.mbotRanger.Commands.getVersion = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.reset = function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.RESET);
+cwc.protocol.makeblock.mBotRanger.Commands.reset = function() {
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.RESET);
   return buffer.readSigned();
 };
 
@@ -166,9 +166,9 @@ cwc.protocol.makeblock.mbotRanger.Commands.reset = function() {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Commands.start = function() {
-  let buffer = new cwc.protocol.makeblock.mbotRanger.Buffer();
-  buffer.writeIndex(cwc.protocol.makeblock.mbotRanger.IndexType.NONE);
-  buffer.writeAction(cwc.protocol.makeblock.mbotRanger.Action.START);
+cwc.protocol.makeblock.mBotRanger.Commands.start = function() {
+  let buffer = new cwc.protocol.makeblock.mBotRanger.Buffer();
+  buffer.writeIndex(cwc.protocol.makeblock.mBotRanger.IndexType.NONE);
+  buffer.writeAction(cwc.protocol.makeblock.mBotRanger.Action.START);
   return buffer.readSigned();
 };

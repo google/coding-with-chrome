@@ -19,7 +19,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Monitoring');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Monitoring');
 
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -30,7 +30,7 @@ goog.require('goog.Timer');
 /**
  * @enum {!numbers}
  */
-cwc.protocol.makeblock.mbotRanger.MonitoringIntervals = {
+cwc.protocol.makeblock.mBotRanger.MonitoringIntervals = {
   'LIGHTSENSOR_1': 1500,
   'LIGHTSENSOR_2': 1750,
   'LINEFOLLOWER': 250,
@@ -41,12 +41,12 @@ cwc.protocol.makeblock.mbotRanger.MonitoringIntervals = {
 
 /**
  * @constructor
- * @param {!cwc.protocol.makeblock.mbotRanger.Api} api
+ * @param {!cwc.protocol.makeblock.mBotRanger.Api} api
  * @struct
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Api} */
+cwc.protocol.makeblock.mBotRanger.Monitoring = function(api) {
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Api} */
   this.api = api;
 
   /** @type {string} */
@@ -70,35 +70,35 @@ cwc.protocol.makeblock.mbotRanger.Monitoring = function(api) {
  * start sending reading sensor signals.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
+cwc.protocol.makeblock.mBotRanger.Monitoring.prototype.start = function() {
   if (this.started) {
     return;
   }
   this.log_.info('Starting...');
   this.enableMonitor('LIGHTSENSOR_1',
-    cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1,
-    cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR,
-    cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_1
+    cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_1,
+    cwc.protocol.makeblock.mBotRanger.Device.LIGHTSENSOR,
+    cwc.protocol.makeblock.mBotRanger.Port.LIGHTSENSOR_1
   );
   this.enableMonitor('LIGHTSENSOR_2',
-    cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2,
-    cwc.protocol.makeblock.mbotRanger.Device.LIGHTSENSOR,
-    cwc.protocol.makeblock.mbotRanger.Port.LIGHTSENSOR_2
+    cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_2,
+    cwc.protocol.makeblock.mBotRanger.Device.LIGHTSENSOR,
+    cwc.protocol.makeblock.mBotRanger.Port.LIGHTSENSOR_2
   );
   this.enableMonitor('LINEFOLLOWER',
-    cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER,
-    cwc.protocol.makeblock.mbotRanger.Device.LINEFOLLOWER,
-    cwc.protocol.makeblock.mbotRanger.Port.LINEFOLLOWER,
+    cwc.protocol.makeblock.mBotRanger.IndexType.LINEFOLLOWER,
+    cwc.protocol.makeblock.mBotRanger.Device.LINEFOLLOWER,
+    cwc.protocol.makeblock.mBotRanger.Port.LINEFOLLOWER,
   );
   this.enableMonitor('TEMPERATUR',
-    cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE,
-    cwc.protocol.makeblock.mbotRanger.Device.TEMPERATURE,
-    cwc.protocol.makeblock.mbotRanger.Port.TEMPERATURE
+    cwc.protocol.makeblock.mBotRanger.IndexType.TEMPERATURE,
+    cwc.protocol.makeblock.mBotRanger.Device.TEMPERATURE,
+    cwc.protocol.makeblock.mBotRanger.Port.TEMPERATURE
   );
   this.enableMonitor('ULTRASONIC',
-    cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC,
-    cwc.protocol.makeblock.mbotRanger.Device.ULTRASONIC,
-    cwc.protocol.makeblock.mbotRanger.Port.ULTRASONIC
+    cwc.protocol.makeblock.mBotRanger.IndexType.ULTRASONIC,
+    cwc.protocol.makeblock.mBotRanger.Device.ULTRASONIC,
+    cwc.protocol.makeblock.mBotRanger.Port.ULTRASONIC
   );
   this.started = true;
 };
@@ -108,7 +108,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.start = function() {
  * stop sending reading sensor signals.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop = function() {
+cwc.protocol.makeblock.mBotRanger.Monitoring.prototype.stop = function() {
   if (!this.started) {
     return;
   }
@@ -122,18 +122,18 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.stop = function() {
 
 
 /**
- * @param {!cwc.protocol.makeblock.mbotRanger.MonitoringIntervals} name
- * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index
- * @param {!cwc.protocol.makeblock.mbotRanger.Device} device
- * @param {!cwc.protocol.makeblock.mbotRanger.Port} port
+ * @param {!cwc.protocol.makeblock.mBotRanger.MonitoringIntervals} name
+ * @param {!cwc.protocol.makeblock.mBotRanger.IndexType} index
+ * @param {!cwc.protocol.makeblock.mBotRanger.Device} device
+ * @param {!cwc.protocol.makeblock.mBotRanger.Port} port
  */
-cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enableMonitor = function(
+cwc.protocol.makeblock.mBotRanger.Monitoring.prototype.enableMonitor = function(
     name, index, device, port) {
   if (typeof this.monitor_[name] !== 'undefined') {
     clearInterval(this.monitor_[name]);
     this.monitor_[name] = undefined;
   }
-  let interval = cwc.protocol.makeblock.mbotRanger.MonitoringIntervals[name];
+  let interval = cwc.protocol.makeblock.mBotRanger.MonitoringIntervals[name];
   let buffer = this.api.getBuffer('getSensorData', {
     'index': index, 'device': device, 'port': port,
   });
@@ -144,7 +144,7 @@ cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.enableMonitor = function(
 };
 
 
-cwc.protocol.makeblock.mbotRanger.Monitoring.prototype.cleanUp = function() {
+cwc.protocol.makeblock.mBotRanger.Monitoring.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.events_.clear();
   this.stop();

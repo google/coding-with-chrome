@@ -20,16 +20,16 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Handler');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Handler');
 
-goog.require('cwc.protocol.makeblock.mbotRanger.Commands');
+goog.require('cwc.protocol.makeblock.mBotRanger.Commands');
 
 
 /**
  * @constructor
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Handler = function() {};
+cwc.protocol.makeblock.mBotRanger.Handler = function() {};
 
 
 /**
@@ -37,17 +37,17 @@ cwc.protocol.makeblock.mbotRanger.Handler = function() {};
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['movePower'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['movePower'] = function(
     data) {
   if (data['slot'] === undefined) {
     return [
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(-data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.ONE),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(-data['power'],
+        cwc.protocol.makeblock.mBotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(data['power'],
+        cwc.protocol.makeblock.mBotRanger.Slot.TWO),
     ];
   }
-  return cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+  return cwc.protocol.makeblock.mBotRanger.Commands.movePower(
     data['power'], data['slot']);
 };
 
@@ -57,17 +57,17 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['movePower'] = function(
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['rotatePower'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['rotatePower'] = function(
     data) {
   if (data['slot'] === undefined) {
     return [
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.ONE),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(data['power'],
+        cwc.protocol.makeblock.mBotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(data['power'],
+        cwc.protocol.makeblock.mBotRanger.Slot.TWO),
     ];
   }
-  return cwc.protocol.makeblock.mbotRanger.Commands.movePower(
+  return cwc.protocol.makeblock.mBotRanger.Commands.movePower(
     data['power'], data['slot']);
 };
 
@@ -77,19 +77,19 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['rotatePower'] = function(
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['moveSteps'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['moveSteps'] = function(
     data) {
   if (data['slot'] === undefined) {
     return [
-      cwc.protocol.makeblock.mbotRanger.Commands.moveSteps(
+      cwc.protocol.makeblock.mBotRanger.Commands.moveSteps(
         -data['steps'], data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.ONE),
-      cwc.protocol.makeblock.mbotRanger.Commands.moveSteps(
+        cwc.protocol.makeblock.mBotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mBotRanger.Commands.moveSteps(
         data['steps'], data['power'],
-        cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+        cwc.protocol.makeblock.mBotRanger.Slot.TWO),
     ];
   }
-  return cwc.protocol.makeblock.mbotRanger.Commands.moveSteps(
+  return cwc.protocol.makeblock.mBotRanger.Commands.moveSteps(
     data['steps'], data['power'], data['slot']);
 };
 
@@ -99,9 +99,9 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['moveSteps'] = function(
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['setRGBLED'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['setRGBLED'] = function(
     data) {
-  return cwc.protocol.makeblock.mbotRanger.Commands.setRGBLED(
+  return cwc.protocol.makeblock.mBotRanger.Commands.setRGBLED(
     data['red'], data['green'], data['blue'], data['index']);
 };
 
@@ -111,9 +111,9 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['setRGBLED'] = function(
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['playTone'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['playTone'] = function(
     data) {
-  return cwc.protocol.makeblock.mbotRanger.Commands.playTone(
+  return cwc.protocol.makeblock.mBotRanger.Commands.playTone(
     data['frequency'], data['duration']);
 };
 
@@ -122,8 +122,8 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['playTone'] = function(
  * Device version
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['getVersion'] = function() {
-  return cwc.protocol.makeblock.mbotRanger.Commands.getVersion();
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['getVersion'] = function() {
+  return cwc.protocol.makeblock.mBotRanger.Commands.getVersion();
 };
 
 
@@ -132,9 +132,9 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['getVersion'] = function() {
  * @param {!Object} data
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['getSensorData'] = function(
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['getSensorData'] = function(
     data) {
-  return cwc.protocol.makeblock.mbotRanger.Commands.getSensorData(
+  return cwc.protocol.makeblock.mBotRanger.Commands.getSensorData(
     data['index'], data['device'], data['port']);
 };
 
@@ -143,8 +143,8 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['getSensorData'] = function(
  * Resets the mBot Ranger.
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['reset'] = function() {
-  return cwc.protocol.makeblock.mbotRanger.Commands.reset();
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['reset'] = function() {
+  return cwc.protocol.makeblock.mBotRanger.Commands.reset();
 };
 
 
@@ -152,17 +152,17 @@ cwc.protocol.makeblock.mbotRanger.Handler.prototype['reset'] = function() {
  * Stops mBot Ranger.
  * @return {!ArrayBuffer}
  */
-cwc.protocol.makeblock.mbotRanger.Handler.prototype['stop'] = function() {
+cwc.protocol.makeblock.mBotRanger.Handler.prototype['stop'] = function() {
   return [
     this['setRGBLED']({}),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
-        1, cwc.protocol.makeblock.mbotRanger.Slot.ONE),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
-        1, cwc.protocol.makeblock.mbotRanger.Slot.TWO),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
-        0, cwc.protocol.makeblock.mbotRanger.Slot.ONE),
-      cwc.protocol.makeblock.mbotRanger.Commands.movePower(
-        0, cwc.protocol.makeblock.mbotRanger.Slot.TWO),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(
+        1, cwc.protocol.makeblock.mBotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(
+        1, cwc.protocol.makeblock.mBotRanger.Slot.TWO),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(
+        0, cwc.protocol.makeblock.mBotRanger.Slot.ONE),
+      cwc.protocol.makeblock.mBotRanger.Commands.movePower(
+        0, cwc.protocol.makeblock.mBotRanger.Slot.TWO),
     this['reset'](),
   ];
 };

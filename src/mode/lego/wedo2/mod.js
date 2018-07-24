@@ -41,7 +41,7 @@ cwc.mode.lego.weDo2.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.makeblock.mbot.Monitor} */
+  /** @type {!cwc.mode.lego.weDo2.Monitor} */
   this.monitor = new cwc.mode.lego.weDo2.Monitor(helper, this.connection);
 
   /** @type {!cwc.renderer.external.WEDO2} */

@@ -17,9 +17,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbot.Control');
+goog.provide('cwc.mode.makeblock.mBot.Control');
 
-goog.require('cwc.soy.mode.makeblock.mbot.Control');
+goog.require('cwc.soy.mode.makeblock.mBot.Control');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad.Events');
 
@@ -31,9 +31,9 @@ goog.require('goog.ui.KeyboardShortcutHandler');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.makeblock.mbot.Connection} connection
+ * @param {!cwc.mode.makeblock.mBot.Connection} connection
  */
-cwc.mode.makeblock.mbot.Control = function(helper, connection) {
+cwc.mode.makeblock.mBot.Control = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Control';
 
@@ -46,10 +46,10 @@ cwc.mode.makeblock.mbot.Control = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.mode.makeblock.mbot.Connection} */
+  /** @type {!cwc.mode.makeblock.mBot.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.makeblock.mbot.Api} */
+  /** @type {!cwc.protocol.makeblock.mBot.Api} */
   this.api = this.connection.getApi();
 
   /** @private {!cwc.utils.Events} */
@@ -71,12 +71,12 @@ cwc.mode.makeblock.mbot.Control = function(helper, connection) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.makeblock.mbot.Control.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBot.Control.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.makeblock.mbot.Control.template, {
+    cwc.soy.mode.makeblock.mBot.Control.template, {
       prefix: this.prefix,
     }
   );
@@ -92,7 +92,7 @@ cwc.mode.makeblock.mbot.Control.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbot.Control.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBot.Control.prototype.cleanUp = function() {
   if (this.connectMonitor) {
     this.connectMonitor.stop();
   }
@@ -103,7 +103,7 @@ cwc.mode.makeblock.mbot.Control.prototype.cleanUp = function() {
 /**
  * @private
  */
-cwc.mode.makeblock.mbot.Control.prototype.addEventHandler_ = function() {
+cwc.mode.makeblock.mBot.Control.prototype.addEventHandler_ = function() {
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.exec('rotatePower', {'power': this.normalSpeed_});
@@ -136,7 +136,7 @@ cwc.mode.makeblock.mbot.Control.prototype.addEventHandler_ = function() {
 /**
  * @private
  */
-cwc.mode.makeblock.mbot.Control.prototype.addGamepadHandler_ = function(
+cwc.mode.makeblock.mBot.Control.prototype.addGamepadHandler_ = function(
     ) {
   let eventTarget = this.helper.getInstance('gamepad').getEventTarget();
   let rotation = false;
@@ -169,7 +169,7 @@ cwc.mode.makeblock.mbot.Control.prototype.addGamepadHandler_ = function(
 /**
  * @private
  */
-cwc.mode.makeblock.mbot.Control.prototype.addKeyHandler_ = function() {
+cwc.mode.makeblock.mBot.Control.prototype.addKeyHandler_ = function() {
   this.shortcutHandler = new goog.ui.KeyboardShortcutHandler(document);
   this.shortcutHandler.registerShortcut('backward', 'down');
   this.shortcutHandler.registerShortcut('left', 'left');
@@ -194,7 +194,7 @@ cwc.mode.makeblock.mbot.Control.prototype.addKeyHandler_ = function() {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.mode.makeblock.mbot.Control.prototype.handleKeyboardShortcut_ =
+cwc.mode.makeblock.mBot.Control.prototype.handleKeyboardShortcut_ =
 function(event) {
   if (!this.messageInstance_.isControlActive() &&
       !this.messageInstance_.isMonitorActive() ||

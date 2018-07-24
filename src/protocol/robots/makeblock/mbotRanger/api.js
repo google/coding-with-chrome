@@ -20,14 +20,14 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Api');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Api');
 
 goog.require('cwc.lib.protocol.bluetoothChrome.Events');
-goog.require('cwc.protocol.makeblock.mbotRanger.Handler');
-goog.require('cwc.protocol.makeblock.mbotRanger.IndexType');
-goog.require('cwc.protocol.makeblock.mbotRanger.Monitoring');
-goog.require('cwc.protocol.makeblock.mbotRanger.Port');
-goog.require('cwc.protocol.makeblock.mbotRanger.Slot');
+goog.require('cwc.protocol.makeblock.mBotRanger.Handler');
+goog.require('cwc.protocol.makeblock.mBotRanger.IndexType');
+goog.require('cwc.protocol.makeblock.mBotRanger.Monitoring');
+goog.require('cwc.protocol.makeblock.mBotRanger.Port');
+goog.require('cwc.protocol.makeblock.mBotRanger.Slot');
 goog.require('cwc.utils.ByteTools');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
@@ -46,21 +46,21 @@ const BluetoothEvents =
  * @struct
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Api = function() {
+cwc.protocol.makeblock.mBotRanger.Api = function() {
   /** @type {string} */
   this.name = 'mBot Ranger';
 
   /** @type {Object} */
   this.device = null;
 
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Handler} */
-  this.handler = new cwc.protocol.makeblock.mbotRanger.Handler();
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Handler} */
+  this.handler = new cwc.protocol.makeblock.mBotRanger.Handler();
 
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @type {!cwc.protocol.makeblock.mbotRanger.Monitoring} */
-  this.monitoring = new cwc.protocol.makeblock.mbotRanger.Monitoring(this);
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Monitoring} */
+  this.monitoring = new cwc.protocol.makeblock.mBotRanger.Monitoring(this);
 
   /** @type {goog.events.EventTarget} */
   this.eventTarget = new goog.events.EventTarget();
@@ -88,7 +88,7 @@ cwc.protocol.makeblock.mbotRanger.Api = function() {
  * @return {boolean} Was able to prepare and connect to the mBot.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(device) {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.connect = function(device) {
   if (!device) {
     this.log_.error('mBot Ranger is not ready yet...');
     return false;
@@ -108,7 +108,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.connect = function(device) {
  * @return {boolean}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.isConnected = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.isConnected = function() {
   return (this.device && this.device.isConnected()) ? true : false;
 };
 
@@ -116,7 +116,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.isConnected = function() {
 /**
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.prepare = function() {
   this.events_.listen(this.device.getEventTarget(),
     BluetoothEvents.Type.ON_RECEIVE,
     this.handleOnReceive_.bind(this));
@@ -133,7 +133,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.prepare = function() {
  * Disconnects the mBot Ranger.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.disconnect = function() {
   if (this.device) {
     this.device.disconnect();
   }
@@ -144,7 +144,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.disconnect = function() {
 /**
  * Resets the mBot Ranger connection.
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.reset = function() {
   if (this.device) {
     this.device.reset();
   }
@@ -157,7 +157,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
  * @param {Object=} data
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.exec = function(command,
+cwc.protocol.makeblock.mBotRanger.Api.prototype.exec = function(command,
     data = {}) {
   this.send(this.handler[command](data));
 };
@@ -167,7 +167,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.exec = function(command,
  * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.send = function(buffer) {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.send = function(buffer) {
   if (this.device) {
     this.device.send(buffer);
   }
@@ -180,7 +180,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.send = function(buffer) {
  * @return {!ArrayBuffer}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.getBuffer = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.getBuffer = function(
     command, data = {}) {
   return this.handler[command](data);
 };
@@ -190,7 +190,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getBuffer = function(
  * @return {goog.events.EventTarget}
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventTarget = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.getEventTarget = function() {
   return this.eventTarget;
 };
 
@@ -198,7 +198,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.getEventTarget = function() {
 /**
  * Basic cleanup for the mBot Ranger unit.
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.reset();
   this.events_.clear();
@@ -210,7 +210,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.cleanUp = function() {
  * Resets the mBot connection and cache.
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.reset = function() {
   this.sensorDataCache_ = {};
   if (this.device) {
     this.exec('stop');
@@ -223,7 +223,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.reset = function() {
  * @param {boolean} enable
  * @export
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.monitor = function(enable) {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.monitor = function(enable) {
   if (enable && this.isConnected()) {
     this.monitoring.start();
   } else if (!enable) {
@@ -238,7 +238,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.monitor = function(enable) {
  * @return {number} float value
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.parseFloatBytes_ = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.parseFloatBytes_ = function(
     dataBytes) {
   if (!dataBytes) {
     return 0;
@@ -259,7 +259,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.parseFloatBytes_ = function(
  * @return {number} the result int
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.fourBytesToInt_ = function(b1,
+cwc.protocol.makeblock.mBotRanger.Api.prototype.fourBytesToInt_ = function(b1,
     b2, b3, b4) {
   return ( b1 << 24 ) + ( b2 << 16 ) + ( b3 << 8 ) + b4;
 };
@@ -271,7 +271,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.fourBytesToInt_ = function(b1,
  * @return {number}     the result as float
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.intBitsToFloat_ = function(
     num) {
   /* s 为符号（sign）；e 为指数（exponent）；m 为有效位数（mantissa）*/
   let sign = ( num >> 31 ) == 0 ? 1 : -1;
@@ -287,7 +287,7 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.intBitsToFloat_ = function(
  * @param {Event} e
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.handleOnReceive_ = function(e) {
+cwc.protocol.makeblock.mBotRanger.Api.prototype.handleOnReceive_ = function(e) {
   let data = this.streamReader_.readByHeaderAndFooter(e.data);
   if (!data) {
     return;
@@ -307,25 +307,25 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleOnReceive_ = function(e) {
  * Handles the single data packages.
  * @param {!Uint8Array} dataBuffer
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.handleData_ = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.handleData_ = function(
     dataBuffer) {
   let len = dataBuffer[1];
   let indexType = dataBuffer[2];
   let dataType = dataBuffer[3];
   let data = dataBuffer.slice(4);
   switch (indexType) {
-    case cwc.protocol.makeblock.mbotRanger.IndexType.VERSION:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.VERSION:
       this.log_.info('mBot Ranger Firmware',
         new TextDecoder('utf-8').decode(data));
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.ULTRASONIC:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LINEFOLLOWER:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_1:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_2:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.TEMPERATURE:
       this.handleSensorData_(indexType, data, 4);
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.ACK:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.ACK:
       break;
     default:
       this.log_.info('UNKNOWN index', len, indexType, dataType, dataBuffer);
@@ -335,12 +335,12 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleData_ = function(
 
 /**
  * Handles the different type of sensor data.
- * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index_type
+ * @param {!cwc.protocol.makeblock.mBotRanger.IndexType} index_type
  * @param {Array} data
  * @param {number=} opt_data_size
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.handleSensorData_ = function(
     index_type, data, opt_data_size) {
   if (opt_data_size && data.length < opt_data_size) {
     return;
@@ -354,34 +354,34 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
   this.sensorDataCache_[index_type] = data;
 
   switch (index_type) {
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1:
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_1:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_2:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue, {
+        cwc.protocol.makeblock.mBotRanger.Events.LightnessSensorValue, {
           'sensor_1': this.parseFloatBytes_(
             this.sensorDataCache_[
-              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_1]),
+              cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_1]),
           'sensor_2': this.parseFloatBytes_(
             this.sensorDataCache_[
-              cwc.protocol.makeblock.mbotRanger.IndexType.LIGHTSENSOR_2]),
+              cwc.protocol.makeblock.mBotRanger.IndexType.LIGHTSENSOR_2]),
         });
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.LINEFOLLOWER:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.LINEFOLLOWER:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue, {
+        cwc.protocol.makeblock.mBotRanger.Events.LinefollowerSensorValue, {
           'left': data[3] >= 64,
           'right': data[2] >= 64,
           'raw': data,
         });
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.TEMPERATURE:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.TEMPERATURE:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue,
+        cwc.protocol.makeblock.mBotRanger.Events.TemperatureSensorValue,
         this.parseFloatBytes_(data));
       break;
-    case cwc.protocol.makeblock.mbotRanger.IndexType.ULTRASONIC:
+    case cwc.protocol.makeblock.mBotRanger.IndexType.ULTRASONIC:
       this.dispatchSensorEvent_(index_type,
-        cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue,
+        cwc.protocol.makeblock.mBotRanger.Events.UltrasonicSensorValue,
         this.parseFloatBytes_(data));
       break;
   }
@@ -390,12 +390,12 @@ cwc.protocol.makeblock.mbotRanger.Api.prototype.handleSensorData_ = function(
 
 /**
  * Dispatch event for sensor data change.
- * @param {!cwc.protocol.makeblock.mbotRanger.IndexType} index
+ * @param {!cwc.protocol.makeblock.mBotRanger.IndexType} index
  * @param {!Function} event
  * @param {Object|number} data
  * @private
  */
-cwc.protocol.makeblock.mbotRanger.Api.prototype.dispatchSensorEvent_ = function(
+cwc.protocol.makeblock.mBotRanger.Api.prototype.dispatchSensorEvent_ = function(
     index, event, data) {
   this.eventTarget.dispatchEvent(event(data));
 };

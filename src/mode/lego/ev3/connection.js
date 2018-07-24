@@ -80,13 +80,6 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
       this.handleUpdateDevices_.bind(this));
   }
 
-  if (!this.connectMonitor) {
-    this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
-    this.events_.listen(this.connectMonitor, goog.Timer.TICK,
-        this.connect.bind(this));
-  }
-
-  // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventTarget(),
@@ -98,6 +91,12 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(previewInstance.getEventTarget(),
       cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
       false, this);
+  }
+
+  if (!this.connectMonitor) {
+    this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
+    this.events_.listen(this.connectMonitor, goog.Timer.TICK,
+        this.connect.bind(this));
   }
 
   this.connectMonitor.start();

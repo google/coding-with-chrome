@@ -17,14 +17,14 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.mode.makeblock.mbot.Mod');
+goog.provide('cwc.mode.makeblock.mBot.Mod');
 
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.mode.makeblock.mbot.Connection');
-goog.require('cwc.mode.makeblock.mbot.Control');
-goog.require('cwc.mode.makeblock.mbot.Monitor');
-goog.require('cwc.mode.makeblock.mbot.SensorEvents');
-goog.require('cwc.mode.makeblock.mbot.Simulation');
+goog.require('cwc.mode.makeblock.mBot.Connection');
+goog.require('cwc.mode.makeblock.mBot.Control');
+goog.require('cwc.mode.makeblock.mBot.Monitor');
+goog.require('cwc.mode.makeblock.mBot.SensorEvents');
+goog.require('cwc.mode.makeblock.mBot.Simulation');
 goog.require('cwc.renderer.external.makeblock.MBot');
 goog.require('cwc.soy.mbot.Blocks');
 
@@ -34,27 +34,27 @@ goog.require('cwc.soy.mbot.Blocks');
  * @param {!cwc.utils.Helper} helper
  * @param {boolean=} enableBlockly
  */
-cwc.mode.makeblock.mbot.Mod = function(helper, enableBlockly = false) {
+cwc.mode.makeblock.mBot.Mod = function(helper, enableBlockly = false) {
   /** @type {boolean} */
   this.enableBlockly = enableBlockly;
 
-  /** @type {!cwc.mode.makeblock.mbot.Connection} */
-  this.connection = new cwc.mode.makeblock.mbot.Connection(helper);
+  /** @type {!cwc.mode.makeblock.mBot.Connection} */
+  this.connection = new cwc.mode.makeblock.mBot.Connection(helper);
 
-  /** @type {!cwc.mode.makeblock.mbot.SensorEvents} */
-  this.events = cwc.mode.makeblock.mbot.SensorEvents;
+  /** @type {!cwc.mode.makeblock.mBot.SensorEvents} */
+  this.events = cwc.mode.makeblock.mBot.SensorEvents;
 
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.makeblock.mbot.Control} */
-  this.control = new cwc.mode.makeblock.mbot.Control(helper, this.connection);
+  /** @type {!cwc.mode.makeblock.mBot.Control} */
+  this.control = new cwc.mode.makeblock.mBot.Control(helper, this.connection);
 
-  /** @type {!cwc.mode.makeblock.mbot.Monitor} */
-  this.monitor = new cwc.mode.makeblock.mbot.Monitor(helper, this.connection);
+  /** @type {!cwc.mode.makeblock.mBot.Monitor} */
+  this.monitor = new cwc.mode.makeblock.mBot.Monitor(helper, this.connection);
 
   /** @type {!cwc.mode.lego.ev3.Simulation} */
-  this.simulation = new cwc.mode.makeblock.mbot.Simulation(helper);
+  this.simulation = new cwc.mode.makeblock.mBot.Simulation(helper);
 
   /** @type {!cwc.renderer.external.makeblock.MBot} */
   this.renderer = new cwc.renderer.external.makeblock.MBot(helper);
@@ -64,7 +64,7 @@ cwc.mode.makeblock.mbot.Mod = function(helper, enableBlockly = false) {
 /**
  * Decorates the different parts of the modification.
  */
-cwc.mode.makeblock.mbot.Mod.prototype.decorate = function() {
+cwc.mode.makeblock.mBot.Mod.prototype.decorate = function() {
   if (this.enableBlockly) {
     this.mod.enableBlockly(cwc.soy.mbot.Blocks.toolbox);
   }

@@ -20,7 +20,7 @@
  *
  * @author wangyu@makeblock.cc (Yu Wang)
  */
-goog.provide('cwc.protocol.makeblock.mbotRanger.Events');
+goog.provide('cwc.protocol.makeblock.mBotRanger.Events');
 
 goog.require('cwc.utils.EventData');
 
@@ -29,7 +29,7 @@ goog.require('cwc.utils.EventData');
  * Custom events.
  * @enum {string}
  */
-cwc.protocol.makeblock.mbotRanger.Events.Type = {
+cwc.protocol.makeblock.mBotRanger.Events.Type = {
   LIGHTNESS_SENSOR: 'CHANGED_LIGHTNESS',
   LINEFOLLOWER_SENSOR: 'CHANGED_LINEFOLLOWER',
   TEMPERATURE_SENSOR: 'CHANGED_TEMPERATURE',
@@ -43,10 +43,10 @@ cwc.protocol.makeblock.mbotRanger.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
+cwc.protocol.makeblock.mBotRanger.Events.LightnessSensorValue = function(data,
     port) {
   return new cwc.utils.EventData(
-      cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR,
+      cwc.protocol.makeblock.mBotRanger.Events.Type.LIGHTNESS_SENSOR,
       data, port);
 };
 
@@ -57,10 +57,10 @@ cwc.protocol.makeblock.mbotRanger.Events.LightnessSensorValue = function(data,
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
+cwc.protocol.makeblock.mBotRanger.Events.LinefollowerSensorValue = function(
     data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR,
+      cwc.protocol.makeblock.mBotRanger.Events.Type.LINEFOLLOWER_SENSOR,
       data, port);
 };
 
@@ -71,10 +71,10 @@ cwc.protocol.makeblock.mbotRanger.Events.LinefollowerSensorValue = function(
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
+cwc.protocol.makeblock.mBotRanger.Events.TemperatureSensorValue = function(
     data, port) {
   return new cwc.utils.EventData(
-      cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR,
+      cwc.protocol.makeblock.mBotRanger.Events.Type.TEMPERATURE_SENSOR,
       data, port);
 };
 
@@ -85,9 +85,9 @@ cwc.protocol.makeblock.mbotRanger.Events.TemperatureSensorValue = function(
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.makeblock.mbotRanger.Events.UltrasonicSensorValue = function(data,
+cwc.protocol.makeblock.mBotRanger.Events.UltrasonicSensorValue = function(data,
     port) {
   return new cwc.utils.EventData(
-      cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR,
+      cwc.protocol.makeblock.mBotRanger.Events.Type.ULTRASONIC_SENSOR,
       data, port);
 };

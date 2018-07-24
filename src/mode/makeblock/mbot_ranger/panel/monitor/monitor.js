@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.Monitor');
+goog.provide('cwc.mode.makeblock.mBotRanger.Monitor');
 
-goog.require('cwc.mode.makeblock.mbotRanger.SensorEvents');
-goog.require('cwc.soy.mode.makeblock.mbotRanger.Monitor');
+goog.require('cwc.mode.makeblock.mBotRanger.SensorEvents');
+goog.require('cwc.soy.mode.makeblock.mBotRanger.Monitor');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
@@ -31,11 +31,11 @@ goog.require('goog.events.EventType');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.makeblock.mbotRanger.Connection} connection
+ * @param {!cwc.mode.makeblock.mBotRanger.Connection} connection
  * @struct
  * @final
  */
-cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
+cwc.mode.makeblock.mBotRanger.Monitor = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Ranger Monitor';
 
@@ -51,7 +51,7 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.mode.makeblock.mbotRanger.Connection} */
+  /** @type {!cwc.mode.makeblock.mBotRanger.Connection} */
   this.connection = connection;
 
   /** @type {boolean} */
@@ -69,12 +69,12 @@ cwc.mode.makeblock.mbotRanger.Monitor = function(helper, connection) {
  * Decorates the EV3 monitor window.
  * @param {!Element} node
  */
-cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBotRanger.Monitor.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.makeblock.mbotRanger.Monitor.template, {
+    cwc.soy.mode.makeblock.mBotRanger.Monitor.template, {
       prefix: this.prefix,
     }
   );
@@ -93,21 +93,21 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function(node) {
 
   // Monitor sensor data
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbotRanger.Events.Type.LIGHTNESS_SENSOR, (e) => {
+    cwc.protocol.makeblock.mBotRanger.Events.Type.LIGHTNESS_SENSOR, (e) => {
       this.nodeCache['lightness'].firstChild.nodeValue= e.data['sensor_1'] +
       ', ' + e.data['sensor_2'];
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbotRanger.Events.Type.LINEFOLLOWER_SENSOR, (e) => {
+    cwc.protocol.makeblock.mBotRanger.Events.Type.LINEFOLLOWER_SENSOR, (e) => {
       this.nodeCache['linefollower'].firstChild.nodeValue = e.data['left'] +
       ', ' + e.data['right'] + ', ' + e.data['raw'];
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbotRanger.Events.Type.TEMPERATURE_SENSOR, (e) => {
+    cwc.protocol.makeblock.mBotRanger.Events.Type.TEMPERATURE_SENSOR, (e) => {
       this.nodeCache['temperature'].firstChild.nodeValue = e.data;
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbotRanger.Events.Type.ULTRASONIC_SENSOR, (e) => {
+    cwc.protocol.makeblock.mBotRanger.Events.Type.ULTRASONIC_SENSOR, (e) => {
       this.nodeCache['ultrasonic'].firstChild.nodeValue = e.data;
     });
 
@@ -124,7 +124,7 @@ cwc.mode.makeblock.mbotRanger.Monitor.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbotRanger.Monitor.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBotRanger.Monitor.prototype.cleanUp = function() {
   console.log('Clean up EV3 monitor panel...');
   this.events_.clear();
 };

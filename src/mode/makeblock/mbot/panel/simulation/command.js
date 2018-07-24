@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbot.SimulationCommand');
+goog.provide('cwc.mode.makeblock.mBot.SimulationCommand');
 
 
 /**
@@ -25,7 +25,7 @@ goog.provide('cwc.mode.makeblock.mbot.SimulationCommand');
  * @constructor
  * @final
  */
-cwc.mode.makeblock.mbot.SimulationCommand = function(turtle) {
+cwc.mode.makeblock.mBot.SimulationCommand = function(turtle) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = turtle;
 
@@ -37,7 +37,7 @@ cwc.mode.makeblock.mbot.SimulationCommand = function(turtle) {
 /**
  * Resets the monitor.
  */
-cwc.mode.makeblock.mbot.SimulationCommand.prototype['__handshake__'] = function(
+cwc.mode.makeblock.mBot.SimulationCommand.prototype['__handshake__'] = function(
     ) {
   this.speed_ = 0;
   this.turtle.action('speed', 3);
@@ -49,7 +49,7 @@ cwc.mode.makeblock.mbot.SimulationCommand.prototype['__handshake__'] = function(
  * Move mBot forward or backward
  * @param  {Object} data data package
  */
-cwc.mode.makeblock.mbot.SimulationCommand.prototype['movePower'] = function(
+cwc.mode.makeblock.mBot.SimulationCommand.prototype['movePower'] = function(
     data) {
   this.turtle.action('fd', data['power']);
 };
@@ -59,7 +59,7 @@ cwc.mode.makeblock.mbot.SimulationCommand.prototype['movePower'] = function(
  * Turn mBot to a direction
  * @param  {Object} data   data package
  */
-cwc.mode.makeblock.mbot.SimulationCommand.prototype['rotatePower'] = function(
+cwc.mode.makeblock.mBot.SimulationCommand.prototype['rotatePower'] = function(
     data) {
   this.turtle.action('rt', data['power']);
 };

@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbotRanger.Simulation');
+goog.provide('cwc.mode.makeblock.mBotRanger.Simulation');
 
 goog.require('cwc.MessengerEvents');
-goog.require('cwc.mode.makeblock.mbotRanger.SimulationCommand');
+goog.require('cwc.mode.makeblock.mBotRanger.SimulationCommand');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
 
@@ -29,7 +29,7 @@ goog.require('cwc.utils.Events');
  * @param {!cwc.utils.Helper} helper
  * @constructor
  */
-cwc.mode.makeblock.mbotRanger.Simulation = function(helper) {
+cwc.mode.makeblock.mBotRanger.Simulation = function(helper) {
   /** @type {string} */
   this.name = 'mBot Ranger Simulation';
 
@@ -99,8 +99,8 @@ cwc.mode.makeblock.mbotRanger.Simulation = function(helper) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.mode.makeblock.mbotRanger.SimulationCommand} */
-  this.commands_ = new cwc.mode.makeblock.mbotRanger.SimulationCommand(
+  /** @type {!cwc.mode.makeblock.mBotRanger.SimulationCommand} */
+  this.commands_ = new cwc.mode.makeblock.mBotRanger.SimulationCommand(
     this.turtle);
 
   /** @private {!cwc.utils.Events} */
@@ -113,7 +113,7 @@ cwc.mode.makeblock.mbotRanger.Simulation = function(helper) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.makeblock.mbotRanger.Simulation.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBotRanger.Simulation.prototype.decorate = function(node) {
   this.node = node;
 
   // Decorate turtle
@@ -138,7 +138,7 @@ cwc.mode.makeblock.mbotRanger.Simulation.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbotRanger.Simulation.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBotRanger.Simulation.prototype.cleanUp = function() {
   console.log('Clean up EV3 simulation ...');
   this.events_.clear();
 };
@@ -148,7 +148,7 @@ cwc.mode.makeblock.mbotRanger.Simulation.prototype.cleanUp = function() {
  * @param {!Event} e
  * @private
  */
-cwc.mode.makeblock.mbotRanger.Simulation.prototype.handleCommand_ = function(
+cwc.mode.makeblock.mBotRanger.Simulation.prototype.handleCommand_ = function(
     e) {
   if (typeof this.commands_[e.data['name']] === 'undefined') {
     return;

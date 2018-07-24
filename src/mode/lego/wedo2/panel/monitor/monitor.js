@@ -29,7 +29,7 @@ goog.require('goog.events.EventType');
 
 
 goog.scope(function() {
-const Events = goog.require('cwc.lib.protocol.lego.weDo2.Events');
+const Events = goog.module.get('cwc.lib.protocol.lego.weDo2.Events');
 
 /**
  * @constructor

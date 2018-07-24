@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbot.Monitor');
+goog.provide('cwc.mode.makeblock.mBot.Monitor');
 
-goog.require('cwc.mode.makeblock.mbot.SensorEvents');
-goog.require('cwc.soy.mode.makeblock.mbot.Monitor');
+goog.require('cwc.mode.makeblock.mBot.SensorEvents');
+goog.require('cwc.soy.mode.makeblock.mBot.Monitor');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
 
@@ -31,11 +31,11 @@ goog.require('goog.events.EventType');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
- * @param {!cwc.mode.makeblock.mbot.Connection} connection
+ * @param {!cwc.mode.makeblock.mBot.Connection} connection
  * @struct
  * @final
  */
-cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
+cwc.mode.makeblock.mBot.Monitor = function(helper, connection) {
   /** @type {string} */
   this.name = 'mBot Monitor';
 
@@ -51,13 +51,13 @@ cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.mode.makeblock.mbot.Connection} */
+  /** @type {!cwc.mode.makeblock.mBot.Connection} */
   this.connection = connection;
 
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {!cwc.protocol.lego.ev3.Api} */
+  /** @private {!cwc.lib.protocol.makeblock.mBot.Api} */
   this.api_ = this.connection.getApi();
 
   /** @private {!cwc.utils.Events} */
@@ -69,12 +69,12 @@ cwc.mode.makeblock.mbot.Monitor = function(helper, connection) {
  * Decorates the EV3 monitor window.
  * @param {!Element} node
  */
-cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBot.Monitor.prototype.decorate = function(node) {
   this.node = node;
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.mode.makeblock.mbot.Monitor.template, {
+    cwc.soy.mode.makeblock.mBot.Monitor.template, {
       prefix: this.prefix,
     }
   );
@@ -93,20 +93,20 @@ cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function(node) {
 
   // Monitor sensor data
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbot.Events.Type.LIGHTNESS_SENSOR, (e) => {
+    cwc.mode.makeblock.mBot.SensorEvents.LIGHTNESS_SENSOR, (e) => {
       this.nodeCache['lightness'].firstChild.nodeValue= e.data;
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbot.Events.Type.LINEFOLLOWER_SENSOR, (e) => {
+    cwc.mode.makeblock.mBot.SensorEvents.LINEFOLLOWER_SENSOR, (e) => {
       this.nodeCache['linefollower'].firstChild.nodeValue = e.data['left'] +
       ', ' + e.data['right'] + ', ' + e.data['raw'];
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbot.Events.Type.BUTTON_PRESSED, (e) => {
+    cwc.mode.makeblock.mBot.SensorEvents.BUTTON_PRESSED, (e) => {
       this.nodeCache['button'].firstChild.nodeValue = e.data;
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mbot.Events.Type.ULTRASONIC_SENSOR, (e) => {
+    cwc.mode.makeblock.mBot.SensorEvents.ULTRASONIC_SENSOR, (e) => {
       this.nodeCache['ultrasonic'].firstChild.nodeValue = e.data;
     });
 
@@ -123,7 +123,7 @@ cwc.mode.makeblock.mbot.Monitor.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbot.Monitor.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBot.Monitor.prototype.cleanUp = function() {
   console.log('Clean up mBot monitor panel...');
   this.events_.clear();
 };

@@ -17,10 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.makeblock.mbot.Simulation');
+goog.provide('cwc.mode.makeblock.mBot.Simulation');
 
 goog.require('cwc.MessengerEvents');
-goog.require('cwc.mode.makeblock.mbot.SimulationCommand');
+goog.require('cwc.mode.makeblock.mBot.SimulationCommand');
 goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
 
@@ -29,7 +29,7 @@ goog.require('cwc.utils.Events');
  * @param {!cwc.utils.Helper} helper
  * @constructor
  */
-cwc.mode.makeblock.mbot.Simulation = function(helper) {
+cwc.mode.makeblock.mBot.Simulation = function(helper) {
   /** @type {string} */
   this.name = 'mBot Simulation';
 
@@ -99,8 +99,8 @@ cwc.mode.makeblock.mbot.Simulation = function(helper) {
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
 
-  /** @type {!cwc.mode.makeblock.mbot.SimulationCommand} */
-  this.commands_ = new cwc.mode.makeblock.mbot.SimulationCommand(
+  /** @type {!cwc.mode.makeblock.mBot.SimulationCommand} */
+  this.commands_ = new cwc.mode.makeblock.mBot.SimulationCommand(
     this.turtle);
 
   /** @private {!cwc.utils.Events} */
@@ -113,7 +113,7 @@ cwc.mode.makeblock.mbot.Simulation = function(helper) {
  * @param {!Element} node
  * @export
  */
-cwc.mode.makeblock.mbot.Simulation.prototype.decorate = function(node) {
+cwc.mode.makeblock.mBot.Simulation.prototype.decorate = function(node) {
   this.node = node;
 
   // Decorate turtle
@@ -138,7 +138,7 @@ cwc.mode.makeblock.mbot.Simulation.prototype.decorate = function(node) {
 /**
  * Cleans up the event listener and any other modification.
  */
-cwc.mode.makeblock.mbot.Simulation.prototype.cleanUp = function() {
+cwc.mode.makeblock.mBot.Simulation.prototype.cleanUp = function() {
   console.log('Clean up EV3 simulation ...');
   this.events_.clear();
 };
@@ -148,7 +148,7 @@ cwc.mode.makeblock.mbot.Simulation.prototype.cleanUp = function() {
  * @param {!Event} e
  * @private
  */
-cwc.mode.makeblock.mbot.Simulation.prototype.handleCommand_ = function(
+cwc.mode.makeblock.mBot.Simulation.prototype.handleCommand_ = function(
     e) {
   if (typeof this.commands_[e.data['name']] === 'undefined') {
     return;
