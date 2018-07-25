@@ -60,8 +60,8 @@ cwc.ui.GClassroom = function(helper) {
 
 cwc.ui.GClassroom.prototype.openDialog = function() {
     this.dialogType = 'open';
-    this.getMyCourses_(this.handleCourses.bind(this))
-}
+    this.getMyCourses_(this.handleCourses.bind(this));
+};
 
 /**
  * @param {Object} data List of courses.
@@ -74,7 +74,21 @@ cwc.ui.GClassroom.prototype.handleCourses = function(data) {
         this.prepareDialog();
     }
     this.updateCourseList(courses);
-}
+};
+
+cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
+  let gdriveInstance = this.helper.getInstance('gdrive');
+  if(gdriveInstance) {
+    let getFileCallback = (function(file) {
+      console.log('got gDrive file');
+      console.log(file);
+      gdriveInstance.downloadFile(file);
+    }).bind(this);
+    gdriveInstance.getFile(fileId, getFileCallback);
+  } else {
+    console.error('GClassroom.openGDriveFile has no gdrive instance.');
+  }
+};
 
 cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   let courseWorks = data['courseWork'];
@@ -84,7 +98,8 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   }
 
   let courseWorkList = goog.dom.getElement(this.prefix + 'course_work_list');
-  goog.style.showElement(goog.dom.getElement(this.prefix + 'course_list'), false);
+  goog.style.showElement(goog.dom.getElement(
+    this.prefix + 'course_list'), false);
   goog.soy.renderElement(
     courseWorkList,
     cwc.soy.GClassroom.gClassroomCourseWorkListTemplate,
@@ -95,23 +110,27 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   for (let i = 0; i < elements.length; i++) {
     (function() {
       let element = elements[i];
-      let loaderEvent = function() {
+      let loaderEvent = (function() {
         let courseWorkId = goog.dom.dataset.get(element, 'id');
         let courseWork = idToCourseWork[courseWorkId];
         let studentCopyDriveFiles = [];
         for(let i = 0; i < courseWork['materials'].length; i++) {
           let material = courseWork['materials'][i];
           if('driveFile' in material && material['driveFile']['shareMode'] === 'STUDENT_COPY') {
+            let driveFile = material['driveFile']['driveFile'];
             console.log('Student copy drive file:');
-            console.log(material['driveFile']['driveFile']);
+            console.log(driveFile);
+            let fileId = driveFile['alternateLink'].match('^.*?id=(.*)$')[1];
+            console.log(fileId);
+            this.openGDriveFile(fileId);
           }
         }
-      };
+      }).bind(this);
       this.events_.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
     }).bind(this)();
   }
-}
+};
 
 /**
  * Decorates the classroom library.
@@ -125,7 +144,7 @@ cwc.ui.GClassroom.prototype.decorate = function() {
   }
 
   cwc.ui.Helper.mdlRefresh();
-}
+};
 
 
 cwc.ui.GClassroom.prototype.prepareDialog = function() {

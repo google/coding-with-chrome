@@ -544,13 +544,28 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
  */
 cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
   let accountInstance = this.helper.getInstance('account');
-  console.log('Requesting Google Drive files: ' + params['q']);
   if (accountInstance) {
     let opts = {
       path: '/drive/v3/files',
       params: params,
     };
     accountInstance.request(opts, callback);
+  }
+};
+
+/**
+ * @param {string} fileId
+ * @param {function(?)} callback
+ */
+cwc.ui.GDrive.prototype.getFile = function(fileId, callback) {
+  let accountInstance = this.helper.getInstance('account');
+  if (accountInstance) {
+    let opts = {
+      path: '/drive/v3/files/' + fileId,
+    };
+    accountInstance.request(opts, callback);
+  } else {
+    console.error('GDrive.getFile missing account');
   }
 };
 
