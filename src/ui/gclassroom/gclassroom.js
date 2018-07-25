@@ -76,6 +76,43 @@ cwc.ui.GClassroom.prototype.handleCourses = function(data) {
     this.updateCourseList(courses);
 }
 
+cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
+  let courseWorks = data['courseWork'];
+  let idToCourseWork = {};
+  for (let i = 0; i < courseWorks.length; i++) {
+    idToCourseWork[courseWorks[i]['id']] = courseWorks[i];
+  }
+
+  let courseWorkList = goog.dom.getElement(this.prefix + 'course_work_list');
+  goog.style.showElement(goog.dom.getElement(this.prefix + 'course_list'), false);
+  goog.soy.renderElement(
+    courseWorkList,
+    cwc.soy.GClassroom.gClassroomCourseWorkListTemplate,
+    {prefix: this.prefix, courseWorks: courseWorks}
+  );
+
+  let elements = goog.dom.getElementsByClass(this.prefix + 'course_work');
+  for (let i = 0; i < elements.length; i++) {
+    (function() {
+      let element = elements[i];
+      let loaderEvent = function() {
+        let courseWorkId = goog.dom.dataset.get(element, 'id');
+        let courseWork = idToCourseWork[courseWorkId];
+        let studentCopyDriveFiles = [];
+        for(let i = 0; i < courseWork['materials'].length; i++) {
+          let material = courseWork['materials'][i];
+          if('driveFile' in material && material['driveFile']['shareMode'] === 'STUDENT_COPY') {
+            console.log('Student copy drive file:');
+            console.log(material['driveFile']['driveFile']);
+          }
+        }
+      };
+      this.events_.listen(element, goog.events.EventType.CLICK,
+        loaderEvent, false, this);
+    }).bind(this)();
+  }
+}
+
 /**
  * Decorates the classroom library.
  */
@@ -94,7 +131,7 @@ cwc.ui.GClassroom.prototype.decorate = function() {
 cwc.ui.GClassroom.prototype.prepareDialog = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
-    title: 'Select course',
+    title: 'Google Classroom',
   };
   dialogInstance.showTemplate(title, cwc.soy.GClassroom.gClassroomTemplate, {
     prefix: this.prefix
@@ -112,10 +149,22 @@ cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
     cwc.soy.GClassroom.gClassroomCourseListTemplate,
     {prefix: this.prefix, courses: courses}
   );
+
+  let elements = goog.dom.getElementsByClass(this.prefix + 'course');
+  for (let i = 0; i < elements.length; ++i) {
+    (function() {
+      let element = elements[i];
+      let loaderEvent = function() {
+        let courseId = goog.dom.dataset.get(element, 'id');
+        this.getMyCourseWork(courseId, this.handleCourseWorks.bind(this));
+      };
+      this.events_.listen(element, goog.events.EventType.CLICK,
+        loaderEvent, false, this);
+    }).bind(this)();
+  }
 }
 
 /**
- * @param {Object} params
  * @param {function(?)} callback
  * @private
  */
@@ -132,6 +181,24 @@ cwc.ui.GClassroom.prototype.getMyCourses_ = function(callback) {
     accountInstance.request(opts, callback);
   } else {
     console.error('GClassroom.getMyCourses missing account');
+  }
+};
+
+/**
+ * @param {int} courseId
+ * @param {function(?)} callback
+ * @private
+ */
+cwc.ui.GClassroom.prototype.getMyCourseWork = function(courseId, callback) {
+  let accountInstance = this.helper.getInstance('account');
+  if (accountInstance) {
+    let opts = {
+      subdomain: 'classroom',
+      path: '/v1/courses/' + courseId + '/courseWork',
+    };
+    accountInstance.request(opts, callback);
+  } else {
+    console.error('GClassroom.getMyCourseWork missing account');
   }
 };
 
