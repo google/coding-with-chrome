@@ -19,6 +19,9 @@
  */
 goog.provide('cwc.ui.Infobar');
 
+goog.require('cwc.utils.Events');
+goog.require('cwc.ui.Helper');
+
 
 /**
  * @constructor
@@ -28,12 +31,34 @@ goog.provide('cwc.ui.Infobar');
 cwc.ui.Infobar = function() {
   /** @type {string} */
   this.name = 'Notification';
+
+  /** @type {string} */
+  this.prefix = 'cwc_infobar_close';
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
 
 
 /**
- * @param {node} node
+ * @export
  */
 cwc.ui.Infobar.prototype.refresh = function() {
+  let infobars = cwc.ui.Helper.getElements('cwc_infobar_close', 'span');
+  infobars.forEach((infobar) => {
+    this.events_.listen(infobar, goog.events.EventType.CLICK, this.hideInfobar);
+  });
+};
 
+
+/**
+ * @param {Event} e
+ */
+cwc.ui.Infobar.prototype.hideInfobar = function(e) {
+  console.log('Infobar', e);
+  let infobar = e.target.parentElement;
+  infobar.style.opacity = 0;
+  setTimeout(() => {
+    infobar.parentNode.removeChild(infobar);
+  }, 600);
 };

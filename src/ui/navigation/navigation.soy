@@ -36,52 +36,52 @@
   <nav id="{$prefix}items" class="mdl-navigation">
 
     {call .navigationLink_ data="all"}
-      {param text: 'Home' /}
-      {param title: 'Go Home' /}
+      {param text: '@@NAVIGATION__HOME' /}
+      {param title: '@@NAVIGATION__HOME_TEXT' /}
       {param id: 'home' /}
-      {param opt_icon: 'home' /}
+      {param icon: 'home' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'Overview' /}
-      {param title: 'Go to Overview' /}
+      {param text: '@@NAVIGATION__OVERVIEW' /}
+      {param title: '@@NAVIGATION__OVERVIEW_TEXT' /}
       {param id: 'overview' /}
-      {param opt_icon: 'apps' /}
+      {param icon: 'apps' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'New file' /}
-      {param title: 'Start a file' /}
+      {param text: '@@NAVIGATION__NEW_FILE' /}
+      {param title: '@@NAVIGATION__NEW_FILE_TEXT' /}
       {param id: 'new-file' /}
-      {param opt_icon: 'add' /}
+      {param icon: 'add' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'Open file' /}
-      {param title: 'Open a local file...' /}
+      {param text: '@@NAVIGATION__OPEN_FILE' /}
+      {param title: '@@NAVIGATION__OPEN_FILE_TEXT' /}
       {param id: 'open-file' /}
-      {param opt_icon: 'open_in_browser' /}
+      {param icon: 'open_in_browser' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'Save as new file' /}
-      {param title: 'Save as new file...' /}
+      {param text: '@@NAVIGATION__SAVE_AS' /}
+      {param title: '@@NAVIGATION__SAVE_AS_TEXT' /}
       {param id: 'save-file' /}
-      {param opt_icon: 'save' /}
+      {param icon: 'save' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'Open Google Drive file' /}
-      {param title: 'Open a Google Drive file...' /}
+      {param text: '@@NAVIGATION__OPEN_GDRIVE_FILE' /}
+      {param title: '@@NAVIGATION__OPEN_GDRIVE_FILE_TEXT' /}
       {param id: 'open-google-drive' /}
-      {param opt_icon: 'open_in_browser' /}
+      {param icon: 'open_in_browser' /}
     {/call}
 
     {call .navigationLink_ data="all"}
-      {param text: 'Save as Google Drive file' /}
-      {param title: 'Save as Google Drive file...' /}
+      {param text: '@@NAVIGATION__SAVE_GDRIVE_FILE' /}
+      {param title: '@@NAVIGATION__SAVE_GDRIVE_FILE_TEXT' /}
       {param id: 'save-google-drive' /}
-      {param opt_icon: 'save' /}
+      {param icon: 'save' /}
     {/call}
 
   </nav>
@@ -90,8 +90,8 @@
     <div id="{$prefix}footer_left" class="mdl-mini-footer__left-section">
 
       {call .linkButton_ data="all"}
-        {param text: '@@GENERAL__ABOUT' /}
-        {param title: 'Learn more about Coding with Chrome' /}
+        {param text: '@@NAVIGATION__ABOUT' /}
+        {param title: '@@NAVIGATION__ABOUT_TEXT' /}
         {param id: 'about' /}
       {/call}
 
@@ -100,19 +100,19 @@
 
       {call .iconButton_ data="all"}
         {param icon: 'build' /}
-        {param title: 'Open Debug' /}
+        {param title: '@@NAVIGATION__DEBUG_TEXT' /}
         {param id: 'debug' /}
       {/call}
 
       {call .iconButton_ data="all"}
         {param icon: 'settings' /}
-        {param title: 'Open Settings' /}
+        {param title: '@@NAVIGATION__SETTINGS_TEXT' /}
         {param id: 'settings' /}
       {/call}
 
       {call .iconButton_ data="all"}
         {param icon: 'help' /}
-        {param title: '@@GENERAL__HELP' /}
+        {param title: '@@NAVIGATION__HELP_TEXT' /}
         {param id: 'help' /}
       {/call}
 
@@ -146,11 +146,11 @@
   {@param text: string}
   {@param title: string}
   {@param id: string}
-  {@param? opt_icon: string}
+  {@param icon: string}
 
   <div id="{$prefix}{$id}" class="link_button mdl-navigation__link" title="{msg desc=""}{$title}{/msg}" role="button" tabindex="0">
     {msg desc=""}{$text}{/msg}
-    {if $opt_icon}<i class="icon_auto">{$opt_icon}</i>{/if}
+    <i class="icon_auto">{$icon}</i>
   </div>
 {/template}
 

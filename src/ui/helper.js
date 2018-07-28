@@ -138,15 +138,15 @@ cwc.ui.Helper.showElements = function(class_names, optType) {
 /**
  * Returns all elements with the provided class names.
  * @param {Array|string} class_names
- * @param {string=} optType
+ * @param {string=} type
  * @return {Array} List of elements
  */
-cwc.ui.Helper.getElements = function(class_names, optType) {
+cwc.ui.Helper.getElements = function(class_names, type) {
   let classes = (typeof class_names === 'string') ? [class_names] : class_names;
   let result = [];
   for (let i = 0; i < classes.length; i++) {
     let elements = goog.dom.getElementsByTagNameAndClass(
-      optType || goog.dom.TagName.DIV, classes[i]);
+      type || goog.dom.TagName.DIV, classes[i]);
     if (elements) {
       for (let i2 = 0; i2 < elements.length; i2++) {
         result.push(elements[i2]);

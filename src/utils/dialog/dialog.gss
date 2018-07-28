@@ -38,6 +38,13 @@
   width: -webkit-fit-content;
 }
 
+#{$prefix}dialog-chrome h4 {
+  color: rgba(0,0,0,0.8);
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0 0 12px 0;
+}
+
 #{$prefix}dialog-chrome ._title {
   padding: 24px 24px 0;
   margin: 0;

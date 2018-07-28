@@ -41,9 +41,6 @@ cwc.mode.makeblock.mBotRanger.Connection = function(helper) {
   /** @type {string} */
   this.name = 'mBot Ranger Connection';
 
-  /** @type {string} */
-  this.autoConnectName = 'Makeblock';
-
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
@@ -72,11 +69,6 @@ cwc.mode.makeblock.mBotRanger.Connection = function(helper) {
  * @export
  */
 cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
-  this.handleConnecting_({
-    'data': 'Searching for ' + this.device_.name,
-    'source': 1,
-  });
-
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
       Events.Type.CONNECT, this.handleConnecting_.bind(this));
@@ -93,6 +85,21 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
     this.events_.listen(previewInstance.getEventTarget(),
       cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
       false, this);
+  }
+
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
+  if (bluetoothInstance) {
+    if (bluetoothInstance.getDeviceByName(this.device_.namePrefix)) {
+      this.handleConnecting_({
+        'data': 'Searching for ' + this.device_.name,
+        'source': 1,
+      });
+    } else {
+      this.handleConnecting_({
+        'data': 'Unable to find any valid ' + this.device_.name + ' device!',
+        'source': -1,
+      });
+    }
   }
 
   if (!this.connectMonitor) {
@@ -118,8 +125,8 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.connect = function(
     return;
   }
   if (!this.isConnected()) {
-    bluetoothInstance.autoConnectDevice(this.autoConnectName,
-      this.api_.connect.bind(this.api_));
+    bluetoothInstance.autoConnectDevice(
+        this.device_.namePrefix, this.api_.connect.bind(this.api_));
   }
   this.api_.monitor(true);
 };

@@ -28,25 +28,33 @@
   {@param step: number}
   {@param text: string}
 
-  <ol class="mdl-steps" style="width: 400px;">
-    <li data-step="1"
-        class="{if $step == 1}is-active{else}is-complete{/if}">
-      {msg desc=""}Connect{/msg}
-    </li>
-    <li data-step="2"
-        class="{if $step == 2}is-active{elseif $step > 2}is-complete{/if}">
-      {msg desc=""}Prepare{/msg}
-    </li>
-    <li data-step="3"
-        class="{if $step == 3}is-active{/if}">
-      {msg desc=""}Ready{/msg}
-    </li>
-  </ol>
-
-  <p>
-    {msg desc=""}{$text}{/msg}
-  </p>
-  {if $step < 3}
-    <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+  {if $step == -1}
+    <h4>{msg desc=""}{$text}{/msg}</h4>
+    <p>
+      Please make sure that the device is paired with your OS, before starting Coding with Chrome.<br>
+      It's best to consult your device's user manual or website for specific instructions.<br>
+      Once successfully paired, Coding with Chrome will automatically recognize the device.<br>
+    </p>
+  {elseif $step > 0}
+    <ol class="mdl-steps" style="width: 400px;">
+      <li data-step="1"
+          class="{if $step == 1}is-active{else}is-complete{/if}">
+        {msg desc=""}Connect{/msg}
+      </li>
+      <li data-step="2"
+          class="{if $step == 2}is-active{elseif $step > 2}is-complete{/if}">
+        {msg desc=""}Prepare{/msg}
+      </li>
+      <li data-step="3"
+          class="{if $step == 3}is-active{/if}">
+        {msg desc=""}Ready{/msg}
+      </li>
+    </ol>
+    <p>
+      {msg desc=""}{$text}{/msg}
+    </p>
+    {if $step > 0 and $step < 3}
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    {/if}
   {/if}
 {/template}

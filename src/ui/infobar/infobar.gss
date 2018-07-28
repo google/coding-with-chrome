@@ -16,12 +16,14 @@
 
 
 .cwc_infobar {
-  padding: 15px;
-  position: relative;
   box-shadow: 
     0 2px 2px 0 rgba(0,0,0,.1),
     0 3px 1px -2px rgba(0,0,0,.1),
     0 1px 5px 0 rgba(0,0,0,.1);
+  opacity: 1;
+  padding: 15px;
+  position: relative;
+  transition: opacity 0.6s;
 }
 
 .cwc_infobar::before {
@@ -31,6 +33,14 @@
   font-style: normal;
   margin-right: 5px;
   vertical-align: middle;
+}
+
+.cwc_infobar_close {
+  cursor: pointer;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 15px;
 }
 
 .cwc_infobar_error {

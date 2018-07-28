@@ -19,14 +19,17 @@
  */
 goog.provide('cwc.mode.lego.ev3.Connection');
 
+goog.require('cwc.lib.protocol.bluetoothChrome.profile.Device');
 goog.require('cwc.protocol.lego.ev3.Api');
 goog.require('cwc.ui.PreviewState');
 goog.require('cwc.utils.Events');
-goog.require('cwc.utils.Logger');
 
 goog.require('goog.Timer');
 
 
+goog.scope(function() {
+const BluetoothProfile =
+  goog.module.get('cwc.lib.protocol.bluetoothChrome.profile.Device');
 /**
  * @constructor
  * @param {!cwc.utils.Helper} helper
@@ -34,9 +37,6 @@ goog.require('goog.Timer');
 cwc.mode.lego.ev3.Connection = function(helper) {
   /** @type {string} */
   this.name = 'EV3 Connection';
-
-  /** @type {string} */
-  this.autoConnectName = 'EV3';
 
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
@@ -56,8 +56,8 @@ cwc.mode.lego.ev3.Connection = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!cwc.utils.Logger|null} */
-  this.log_ = new cwc.utils.Logger(this.name);
+  /** @private {!cwc.lib.protocol.bluetoothChrome.profile.Device} */
+  this.device_ = BluetoothProfile.LEGO_EV3;
 };
 
 
@@ -65,13 +65,9 @@ cwc.mode.lego.ev3.Connection = function(helper) {
  * Connects the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.init = function() {
-  this.handleConnecting_({
-    'data': 'Connecting EV3',
-    'source': 1,
-  });
   if (this.apiEvents_) {
     this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECT,
+      cwc.protocol.lego.ev3.Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
 
     // Monitor device data
@@ -91,6 +87,21 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
     this.events_.listen(previewInstance.getEventTarget(),
       cwc.ui.PreviewEvents.Type.STATUS_CHANGE, this.handlePreviewStatus_,
       false, this);
+  }
+
+  let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
+  if (bluetoothInstance) {
+    if (bluetoothInstance.getDeviceByName(this.device_.namePrefix)) {
+      this.handleConnecting_({
+        'data': 'Searching for ' + this.device_.name,
+        'source': 1,
+      });
+    } else {
+      this.handleConnecting_({
+        'data': 'Unable to find any valid ' + this.device_.name + ' device!',
+        'source': -1,
+      });
+    }
   }
 
   if (!this.connectMonitor) {
@@ -113,7 +124,7 @@ cwc.mode.lego.ev3.Connection.prototype.connect = function() {
     return;
   }
   if (!this.isConnected()) {
-    bluetoothInstance.autoConnectDevice(this.autoConnectName,
+    bluetoothInstance.autoConnectDevice(this.device_.namePrefix,
       this.api_.connect.bind(this.api_));
   }
   this.api_.monitor(true);
@@ -124,7 +135,6 @@ cwc.mode.lego.ev3.Connection.prototype.connect = function() {
  * Connects the EV3 unit.
  */
 cwc.mode.lego.ev3.Connection.prototype.disconnect = function() {
-  this.log_.info('Disconnect the EV3 unit...');
   this.api_.disconnect();
 };
 
@@ -191,6 +201,31 @@ cwc.mode.lego.ev3.Connection.prototype.stop = function() {
  * @param {Event|Object} e
  * @private
  */
+cwc.mode.lego.ev3.Connection.prototype.handleUpdateDevices_ = function(e) {
+  let rendererInstance = this.helper.getInstance('renderer');
+  if (rendererInstance && e.data) {
+    rendererInstance.setDevices(e.data);
+  }
+};
+
+
+/**
+ * Cleans up the event listener and any other modification.
+ */
+cwc.mode.lego.ev3.Connection.prototype.cleanUp = function() {
+  if (this.connectMonitor) {
+    this.connectMonitor.stop();
+  }
+  this.api_.cleanUp();
+  this.stop();
+  this.events_.clear();
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
 cwc.mode.lego.ev3.Connection.prototype.handleConnecting_ = function(e) {
   let message = e.data;
   let step = e.source;
@@ -209,29 +244,4 @@ cwc.mode.lego.ev3.Connection.prototype.handlePreviewStatus_ = function(e) {
     this.stop();
   }
 };
-
-
-/**
- * @param {Event|Object} e
- * @private
- */
-cwc.mode.lego.ev3.Connection.prototype.handleUpdateDevices_ = function(e) {
-  let rendererInstance = this.helper.getInstance('renderer');
-  if (rendererInstance && e.data) {
-    rendererInstance.setDevices(e.data);
-  }
-};
-
-
-/**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.lego.ev3.Connection.prototype.cleanUp = function() {
-  this.log_.info('Clean up ...');
-  if (this.connectMonitor) {
-    this.connectMonitor.stop();
-  }
-  this.api_.cleanUp();
-  this.stop();
-  this.events_.clear();
-};
+});

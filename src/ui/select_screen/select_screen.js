@@ -23,6 +23,7 @@ goog.require('cwc.lib.utils.Feature');
 goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');
+goog.require('cwc.ui.Infobar');
 goog.require('cwc.ui.SelectScreenWelcome');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Helper');
@@ -75,6 +76,9 @@ cwc.ui.SelectScreen = function(helper) {
 
   /** @type {boolean} */
   this.prepared_ = false;
+
+  /** @type {!cwc.ui.Infobar} */
+  this.infobar_ = new cwc.ui.Infobar();
 
   /** @private {string} */
   this.resourcesPath_ = '../resources/examples/';
@@ -279,6 +283,7 @@ cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
     });
     this.addFileHandler_();
     cwc.ui.Helper.mdlRefresh();
+    this.infobar_.refresh();
 
     // Event Handling
     this.eventTarget_.dispatchEvent(
