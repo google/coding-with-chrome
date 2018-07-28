@@ -19,11 +19,13 @@
  */
 goog.provide('cwc.mode.makeblock.mBotRanger.SensorEvents');
 
-goog.require('cwc.protocol.makeblock.mBotRanger.Events');
-
 
 /**
  * @enum {string}
  */
-cwc.mode.makeblock.mBotRanger.SensorEvents =
-  cwc.protocol.makeblock.mBotRanger.Events.Type;
+cwc.mode.makeblock.mBotRanger.SensorEvents = {
+  LIGHTNESS_SENSOR: 'CHANGED_LIGHTNESS',
+  LINEFOLLOWER_SENSOR: 'CHANGED_LINEFOLLOWER',
+  TEMPERATURE_SENSOR: 'CHANGED_TEMPERATURE',
+  ULTRASONIC_SENSOR: 'CHANGED_ULTRASONIC',
+};

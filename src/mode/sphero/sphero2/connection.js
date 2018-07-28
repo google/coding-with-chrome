@@ -197,7 +197,7 @@ cwc.mode.sphero.sphero2.Connection.prototype.cleanUp = function() {
 cwc.mode.sphero.sphero2.Connection.prototype.handleConnecting_ = function(e) {
   let message = e.data;
   let step = e.source;
-  let title = 'Connecting' + this.device_.name;
+  let title = 'Connecting ' + this.device_.name;
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
 };

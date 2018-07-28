@@ -93,21 +93,21 @@ cwc.mode.makeblock.mBotRanger.Monitor.prototype.decorate = function(node) {
 
   // Monitor sensor data
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mBotRanger.Events.Type.LIGHTNESS_SENSOR, (e) => {
+    cwc.mode.makeblock.mBotRanger.SensorEvents.LIGHTNESS_SENSOR, (e) => {
       this.nodeCache['lightness'].firstChild.nodeValue= e.data['sensor_1'] +
       ', ' + e.data['sensor_2'];
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mBotRanger.Events.Type.LINEFOLLOWER_SENSOR, (e) => {
+    cwc.mode.makeblock.mBotRanger.SensorEvents.LINEFOLLOWER_SENSOR, (e) => {
       this.nodeCache['linefollower'].firstChild.nodeValue = e.data['left'] +
       ', ' + e.data['right'] + ', ' + e.data['raw'];
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mBotRanger.Events.Type.TEMPERATURE_SENSOR, (e) => {
+    cwc.mode.makeblock.mBotRanger.SensorEvents.TEMPERATURE_SENSOR, (e) => {
       this.nodeCache['temperature'].firstChild.nodeValue = e.data;
     });
   this.events_.listen(eventTarget,
-    cwc.protocol.makeblock.mBotRanger.Events.Type.ULTRASONIC_SENSOR, (e) => {
+    cwc.mode.makeblock.mBotRanger.SensorEvents.ULTRASONIC_SENSOR, (e) => {
       this.nodeCache['ultrasonic'].firstChild.nodeValue = e.data;
     });
 
@@ -125,6 +125,6 @@ cwc.mode.makeblock.mBotRanger.Monitor.prototype.decorate = function(node) {
  * Cleans up the event listener and any other modification.
  */
 cwc.mode.makeblock.mBotRanger.Monitor.prototype.cleanUp = function() {
-  console.log('Clean up EV3 monitor panel...');
+  console.log('Clean up mBot Rannger monitor panel...');
   this.events_.clear();
 };

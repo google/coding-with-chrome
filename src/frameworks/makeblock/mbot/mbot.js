@@ -84,18 +84,17 @@ cwc.framework.makeblock.MBot.prototype.setLEDColor =
  * @param {number} red 0-255
  * @param {number} green 0-255
  * @param {number} blue 0-255
- * @param {string=} opt_position
- *   position of the on-board LED: 0-both, 1-left, 2-right
- * @param {void=} opt_delay
+ * @param {string=} index On-board LED: 0-both, 1-left, 2-right
+ * @param {void=} delay
  * @export
  */
-cwc.framework.makeblock.MBot.prototype.setRGBLED = function(red, green, blue,
-    opt_position, opt_delay) {
+cwc.framework.makeblock.MBot.prototype.setRGBLED = function(
+    red, green, blue, index, delay) {
   this.messenger_.send('setRGBLED', {
     'red': red,
     'green': green,
     'blue': blue,
-    'position': opt_position || 0}, opt_delay);
+    'index': index || 0}, delay);
 };
 
 
@@ -103,13 +102,13 @@ cwc.framework.makeblock.MBot.prototype.setRGBLED = function(red, green, blue,
  * Plays a tone through the buzzer.
  * @param  {number} frequency frequency of the note
  * @param  {number} duration  duration in milliseconds
- * @param  {number=} opt_delay
+ * @param  {number=} delay
  * @export
  */
 cwc.framework.makeblock.MBot.prototype.playTone = function(frequency, duration,
-    opt_delay) {
+    delay) {
   this.messenger_.send('playTone', {
-    'frequency': frequency, 'duration': duration}, opt_delay);
+    'frequency': frequency, 'duration': duration}, delay);
 };
 
 
@@ -231,11 +230,11 @@ cwc.framework.makeblock.MBot.prototype.wait = function(time) {
 
 /**
  * Stop the mBot
- * @param {number=} opt_delay in msec
+ * @param {number=} delay in msec
  * @export
  */
-cwc.framework.makeblock.MBot.prototype.stop = function(opt_delay) {
-  this.messenger_.send('stop', null, opt_delay);
+cwc.framework.makeblock.MBot.prototype.stop = function(delay) {
+  this.messenger_.send('stop', null, delay);
 };
 
 

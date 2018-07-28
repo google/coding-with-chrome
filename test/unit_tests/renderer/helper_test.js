@@ -30,7 +30,6 @@ describe('Renderer Helper', function() {
   });
 
   it('constructor', function() {
-    let helper = new cwc.renderer.Helper();
     expect(typeof helper).toEqual('object');
   });
 

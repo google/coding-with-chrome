@@ -19,11 +19,19 @@
  */
 goog.provide('cwc.mode.makeblock.mBotRanger.Connection');
 
-goog.require('cwc.protocol.makeblock.mBotRanger.Api');
+goog.require('cwc.lib.protocol.makeblock.mBotRanger.Api');
+goog.require('cwc.lib.protocol.bluetoothChrome.profile.Device');
+goog.require('cwc.lib.protocol.makeblock.mBotRanger.Events');
 goog.require('cwc.utils.Events');
 
 goog.require('goog.Timer');
 
+
+goog.scope(function() {
+const Api = goog.module.get('cwc.lib.protocol.makeblock.mBotRanger.Api');
+const BluetoothProfile =
+  goog.module.get('cwc.lib.protocol.bluetoothChrome.profile.Device');
+const Events = goog.module.get('cwc.lib.protocol.makeblock.mBotRanger.Events');
 
 /**
  * @constructor
@@ -39,32 +47,41 @@ cwc.mode.makeblock.mBotRanger.Connection = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /** @type {!cwc.protocol.makeblock.mBotRanger.Api} */
-  this.api_ = new cwc.protocol.makeblock.mBotRanger.Api();
-
   /** @type {goog.Timer} */
   this.connectMonitor = null;
 
   /** @type {number} */
   this.connectMonitorInterval = 5000;
 
+  /** @type {!cwc.protocol.makeblock.mBotRanger.Api} */
+  this.api_ = new Api();
+
+  /** @private {!goog.events.EventTarget} */
+  this.apiEvents_ = this.api_.getEventTarget();
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  /** @private {!cwc.lib.protocol.bluetoothChrome.profile.Device} */
+  this.device_ = BluetoothProfile.MAKEBLOCK_MBOT_RANGER;
 };
 
 
 /**
- * Connects the mbot unit.
+ * Connects the mBot Ranger unit.
  * @export
  */
 cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
-  if (!this.connectMonitor) {
-    this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
-    this.events_.listen(this.connectMonitor, goog.Timer.TICK,
-      this.connect.bind(this));
+  this.handleConnecting_({
+    'data': 'Searching for ' + this.device_.name,
+    'source': 1,
+  });
+
+  if (this.apiEvents_) {
+    this.events_.listen(this.apiEvents_,
+      Events.Type.CONNECT, this.handleConnecting_.bind(this));
   }
 
-  // Unload event
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventTarget(),
@@ -78,13 +95,19 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
       false, this);
   }
 
+  if (!this.connectMonitor) {
+    this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
+    this.events_.listen(this.connectMonitor, goog.Timer.TICK,
+      this.connect.bind(this));
+  }
+
   this.connectMonitor.start();
   this.connect();
 };
 
 
 /**
- * Connects the mbot ball.
+ * Connects the mBot Ranger robot.
  * @param {Event=} opt_event
  * @export
  */
@@ -95,12 +118,10 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.connect = function(
     return;
   }
   if (!this.isConnected()) {
-    bluetoothInstance.autoConnectDevice(this.autoConnectName, function(device) {
-      if (device) {
-        this.api_.connect(device);
-      }
-    }.bind(this));
+    bluetoothInstance.autoConnectDevice(this.autoConnectName,
+      this.api_.connect.bind(this.api_));
   }
+  this.api_.monitor(true);
 };
 
 
@@ -173,9 +194,24 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.cleanUp = function() {
  * @param {Event|Object} e
  * @private
  */
+cwc.mode.makeblock.mBotRanger.Connection.prototype.handleConnecting_ =
+    function(e) {
+  let message = e.data;
+  let step = e.source;
+  let title = 'Connecting ' + this.device_.name;
+  let connectScreenInstance = this.helper.getInstance('connectScreen');
+  connectScreenInstance.showConnectingStep(title, message, step);
+};
+
+
+/**
+ * @param {Event|Object} e
+ * @private
+ */
 cwc.mode.makeblock.mBotRanger.Connection.prototype.handlePreviewStatus_ =
     function(e) {
   if (e.data === cwc.ui.PreviewState.STOPPED) {
     this.stop();
   }
 };
+});

@@ -1,7 +1,7 @@
 /**
- * @fileoverview Notification for Coding in Chrome editor.
+ * @fileoverview UI Infobar for the Coding with Chrome editor.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-
-{namespace cwc.soy.ui.Notification autoescape="strict"}
+goog.provide('cwc.ui.Infobar');
 
 
 /**
- * Main HTML template for the messages.
+ * @constructor
+ * @struct
+ * @final
  */
-{template .template}
-  {@param prefix: string}
-  <div id="{$prefix}snackbar" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
-{/template}
+cwc.ui.Infobar = function() {
+  /** @type {string} */
+  this.name = 'Notification';
+};
+
+
+/**
+ * @param {node} node
+ */
+cwc.ui.Infobar.prototype.refresh = function() {
+
+};

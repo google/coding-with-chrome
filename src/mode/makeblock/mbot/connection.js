@@ -63,17 +63,17 @@ cwc.mode.makeblock.mBot.Connection = function(helper) {
   this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!cwc.lib.protocol.bluetoothChrome.profile.Device} */
-  this.device_ = BluetoothProfile.MAKEBLOCK_MBOT_RANGER;
+  this.device_ = BluetoothProfile.MAKEBLOCK_MBOT;
 };
 
 
 /**
- * Connects the mbot unit.
+ * Connects the mBot unit.
  * @export
  */
 cwc.mode.makeblock.mBot.Connection.prototype.init = function() {
   this.handleConnecting_({
-    'data': 'Connecting Sphero 2.0',
+    'data': 'Searching for ' + this.device_.name,
     'source': 1,
   });
 
@@ -194,7 +194,7 @@ cwc.mode.makeblock.mBot.Connection.prototype.cleanUp = function() {
 cwc.mode.makeblock.mBot.Connection.prototype.handleConnecting_ = function(e) {
   let message = e.data;
   let step = e.source;
-  let title = 'Connecting' + this.device_.name;
+  let title = 'Connecting ' + this.device_.name;
   let connectScreenInstance = this.helper.getInstance('connectScreen');
   connectScreenInstance.showConnectingStep(title, message, step);
 };

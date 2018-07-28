@@ -25,11 +25,13 @@
  */
 {template .container}
   {@param content: ?}
+  {@param? infobar: ?}
   {@param? header: ?}
   {@param? id: string}
   {@param? prefix: string}
 
   <div{if $id} id="{$prefix}{$id}"{/if}>
+    {if $infobar}{$infobar}{/if}
     {if $header}{$header}{/if}
     <div class="mdl-grid">
       {$content}
@@ -374,6 +376,33 @@
       {$text}{if $opt_text}<br>{$opt_text}{/if}
     </div>
   </footer>
+{/template}
+
+
+/**
+ * Bluetooth web notification
+ */
+{template .bluetoothWeb}
+  {@param bluetoothWeb: bool}
+  {@param bluetoothWebLight: bool}
+
+  {if $bluetoothWebLight}
+    {call cwc.soy.ui.Infobar.template}
+      {param type: 'warn' /}
+      {param content kind="html"}
+        {msg desc=""}@@SELECT_SCREEN__BLUETOOTH_WEB_LIGHT{/msg}
+        (<a href="https://github.com/WebBluetoothCG/web-bluetooth/blob/master/implementation-status.md" target="_blank">Status</a>)
+      {/param}
+    {/call}
+  {elseif not $bluetoothWeb}
+    {call cwc.soy.ui.Infobar.template}
+      {param type: 'error' /}
+      {param content kind="html"}
+        {msg desc=""}@@SELECT_SCREEN__BLUETOOTH_WEB_NOT_AVAILABLE{/msg}
+        (<a href="https://github.com/WebBluetoothCG/web-bluetooth/blob/master/implementation-status.md" target="_blank">Status</a>)
+      {/param}
+    {/call}
+  {/if}
 {/template}
 
 

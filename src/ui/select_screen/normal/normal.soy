@@ -104,8 +104,8 @@
   {call cwc.soy.SelectScreenTemplate.container data="all"}
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
-        {param title: 'Block Coding' /}
-        {param opt_text: 'Block-based programming' /}
+        {param title: '@@SELECT_SCREEN_NORMAL__TITLE' /}
+        {param opt_text: '@@SELECT_SCREEN_NORMAL__DESCRIPTION' /}
         {param opt_icon: 'extension' /}
       {/call}
     {/param}
@@ -114,27 +114,27 @@
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param tab: 'blocks' /}
-        {param link_text: 'Go Blockly' /}
-        {param text: 'Use Blockly to build code by dragging and dropping code blocks' /}
-        {param title: 'Blockly' /}
+        {param link_text: '@@SELECT_SCREEN_NORMAL__BLOCKLY_ACTION' /}
+        {param text: '@@SELECT_SCREEN_NORMAL__BLOCKLY_TEXT' /}
+        {param title: '@@SELECT_SCREEN_NORMAL__BLOCKLY' /}
         {param opt_color_class: 'bg-light-blue' /}
         {param opt_icon: 'school' /}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param tab: 'games' /}
-        {param link_text: 'Start creating games' /}
-        {param text: 'Create simple games by dragging and dropping code blocks' /}
-        {param title: 'Games' /}
+        {param link_text: '@@SELECT_SCREEN_NORMAL__GAME_ACTION' /}
+        {param text: '@@SELECT_SCREEN_NORMAL__GAME_TEXT' /}
+        {param title: '@@SELECT_SCREEN_NORMAL__GAME' /}
         {param opt_color_class: 'bg-lime' /}
         {param opt_icon: 'videogame_asset' /}
       {/call}
 
       {call cwc.soy.SelectScreenTemplate.selectCard data="all"}
         {param tab: 'robots' /}
-        {param link_text: 'Go Robots' /}
-        {param text: 'Control real or on-screen robots with Blockly' /}
-        {param title: 'Robots' /}
+        {param link_text: '@@SELECT_SCREEN_NORMAL__ROBOTS_ACTION' /}
+        {param text: '@@SELECT_SCREEN_NORMAL__ROBOTS_TEXT' /}
+        {param title: '@@SELECT_SCREEN_NORMAL__ROBOTS' /}
         {param opt_color_class: 'bg-orange' /}
         {param opt_icon: 'memory' /}
       {/call}

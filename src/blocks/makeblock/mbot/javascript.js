@@ -222,7 +222,7 @@ Blockly.JavaScript['mbot_rgb'] = function(block) {
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
   return 'mBot.setRGBLED(' + red + ', ' + green + ', ' + blue + ', ' +
-    position + ', 100);\n';
+    position + ', 50);\n';
 };
 
 

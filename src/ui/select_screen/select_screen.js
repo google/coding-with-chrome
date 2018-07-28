@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.ui.SelectScreen');
 
+goog.require('cwc.lib.utils.Feature');
 goog.require('cwc.soy.SelectScreen');
 goog.require('cwc.soy.SelectScreenAdvanced');
 goog.require('cwc.soy.SelectScreenNormal');
@@ -29,6 +30,9 @@ goog.require('cwc.utils.Helper');
 goog.require('goog.dom');
 goog.require('goog.events.EventTarget');
 
+
+goog.scope(function() {
+const Feature = goog.module.get('cwc.lib.utils.Feature');
 
 /**
  * @param {!cwc.utils.Helper} helper
@@ -264,6 +268,8 @@ cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
+      bluetoothWeb: Feature.hasBluetoothWeb(),
+      bluetoothWebLight: Feature.hasBluetoothWebLight(),
       debug: this.helper.debugEnabled(),
       experimental: this.helper.experimentalEnabled(),
       modules: this.modules,
@@ -346,3 +352,4 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
     }
   }
 };
+});

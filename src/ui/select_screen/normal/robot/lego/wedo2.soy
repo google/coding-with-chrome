@@ -26,6 +26,11 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
+
+    {param infobar kind="html"}
+      {call cwc.soy.SelectScreenTemplate.bluetoothWeb data="all" /}
+    {/param}
+
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: WeDo 2.0' /}
@@ -47,8 +52,8 @@
           {/call}
         {/param}
       {/call}
-
     {/param}
+
   {/call}
 
   {call cwc.soy.SelectScreenTemplate.footer}

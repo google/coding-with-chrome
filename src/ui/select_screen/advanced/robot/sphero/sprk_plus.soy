@@ -26,6 +26,11 @@
 {template .overview}
 
   {call cwc.soy.SelectScreenTemplate.container}
+
+    {param infobar kind="html"}
+      {call cwc.soy.SelectScreenTemplate.bluetoothWeb data="all" /}
+    {/param}
+
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: Sphero SPRK+' /}
@@ -35,7 +40,6 @@
     {/param}
 
     {param content kind="html"}
-
       {call cwc.soy.SelectScreenTemplate.fileCardList}
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
@@ -49,8 +53,8 @@
           {/call}
         {/param}
       {/call}
-
     {/param}
+
   {/call}
 
   {call cwc.soy.SelectScreenTemplate.footer}
