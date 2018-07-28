@@ -35,7 +35,7 @@ goog.require('cwc.mode.pencilCode.Mod');
 goog.require('cwc.mode.phaser.Mod');
 goog.require('cwc.mode.python.Mod');
 // goog.require('cwc.mode.raspberryPi.advanced.Mod');
-goog.require('cwc.mode.sphero.bb8.blockly.Mod');
+goog.require('cwc.mode.sphero.bb8.Mod');
 goog.require('cwc.mode.sphero.sphero2.Mod');
 goog.require('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.sphero.sprkPlus.Mod');
@@ -341,7 +341,8 @@ cwc.mode.ConfigData[cwc.mode.Type.SPHERO_BB8_BLOCKLY] = new cwc.mode.Mod({
   authors: ['Markus Bordihn'],
   icon: 'adjust',
   mime_types: [cwc.utils.mime.Type.CWC.type],
-  mod: cwc.mode.sphero.bb8.blockly.Mod,
+  mod: cwc.mode.sphero.bb8.Mod,
+  show_blockly: true,
   name: 'Sphero BB-8 blockly',
   template: 'sphero/bb_8/blank-blocks.cwc',
 });

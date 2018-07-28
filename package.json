@@ -1,7 +1,7 @@
 {
   "name": "coding-with-chrome",
   "description": "Coding with Chrome",
-  "version": "5.6.28",
+  "version": "5.7.28",
   "author": "Markus Bordihn (mbordihn@google.com)",
   "license": "Apache-2.0",
   "private": true,
@@ -17,7 +17,7 @@
     "http-server": "latest",
     "jasmine-core": "latest",
     "jsdoc": "^3.5.5",
-    "karma": "^2.0.4",
+    "karma": "^2.0.5",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",

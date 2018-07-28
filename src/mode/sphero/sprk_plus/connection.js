@@ -21,6 +21,7 @@ goog.provide('cwc.mode.sphero.sprkPlus.Connection');
 
 goog.require('cwc.lib.protocol.bluetoothWeb.profile.Device');
 goog.require('cwc.lib.protocol.sphero.sprkPlus.Api');
+goog.require('cwc.lib.protocol.sphero.sprkPlus.Events');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -31,6 +32,7 @@ goog.scope(function() {
 const Api = goog.module.get('cwc.lib.protocol.sphero.sprkPlus.Api');
 const BluetoothProfile =
   goog.module.get('cwc.lib.protocol.bluetoothWeb.profile.Device');
+const Events = goog.module.get('cwc.lib.protocol.sphero.sprkPlus.Events');
 
 /**
  * @constructor
@@ -72,8 +74,7 @@ cwc.mode.sphero.sprkPlus.Connection = function(helper) {
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
   if (this.apiEvents_) {
-    this.events_.listen(this.apiEvents_,
-      cwc.protocol.sphero.v1.Events.Type.CONNECT,
+    this.events_.listen(this.apiEvents_, Events.Type.CONNECT,
       this.handleConnecting_.bind(this));
   }
 
@@ -171,7 +172,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.getEventTarget = function() {
 
 
 /**
- * @return {!cwc.protocol.sphero.v1.Api}
+ * @return {!cwc.protocol.sphero.sprkPlus.Api}
  * @export
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.getApi = function() {

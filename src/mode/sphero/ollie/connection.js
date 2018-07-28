@@ -140,7 +140,7 @@ cwc.mode.sphero.ollie.Connection.prototype.getEventTarget = function() {
 
 
 /**
- * @return {!cwc.protocol.sphero.v1.Api}
+ * @return {!cwc.protocol.sphero.ollie.Api}
  * @export
  */
 cwc.mode.sphero.ollie.Connection.prototype.getApi = function() {
