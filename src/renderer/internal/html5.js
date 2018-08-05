@@ -47,7 +47,7 @@ cwc.renderer.internal.HTML5 = function(helper) {
     cwc.config.framework.External.JQUERY.V3_X,
     cwc.config.framework.External.PHASER,
     cwc.config.framework.External.THREE_JS.CORE,
-    cwc.config.framework.Internal.MESSENGER,
+    cwc.config.framework.Internal.JAVASCRIPT,
     cwc.config.framework.Internal.PHASER,
     cwc.config.framework.Internal.SIMPLE,
   ];
@@ -81,7 +81,7 @@ cwc.renderer.internal.HTML5.prototype.render = function(
   let html = editorContent[cwc.ui.EditorContent.HTML] ||
     editorContent[cwc.ui.EditorContent.DEFAULT] || '';
   let javascript = editorContent[cwc.ui.EditorContent.JAVASCRIPT] || '';
-  let frameworks = [cwc.config.framework.Internal.MESSENGER];
+  let frameworks = [cwc.config.framework.Internal.JAVASCRIPT];
 
   if (html) {
     // Library files.

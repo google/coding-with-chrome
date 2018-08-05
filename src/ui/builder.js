@@ -70,7 +70,7 @@ goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.I18n');
-goog.require('cwc.utils.Logger');
+goog.require('cwc.lib.utils.log.Logger');
 
 goog.require('goog.dom');
 
@@ -143,6 +143,8 @@ cwc.ui.oauth2Helpers = {
 
 
 goog.scope(function() {
+const Logger = goog.module.get('cwc.lib.utils.log.Logger');
+
 /**
  * Default construction of the Coding with Chrome editor.
  * @constructor
@@ -175,8 +177,8 @@ cwc.ui.Builder = function() {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
-  /** @private {!cwc.utils.Logger} */
-  this.log_ = new cwc.utils.Logger(this.name);
+  /** @private {!cwc.lib.utils.log.Logger} */
+  this.log_ = new Logger(this.name);
 
   /** @private {!cwc.ui.LoadingScreen} */
   this.loadingScreen_ = new cwc.ui.LoadingScreen(this.helper, this);

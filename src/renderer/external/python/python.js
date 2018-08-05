@@ -68,7 +68,6 @@ cwc.renderer.external.Python.prototype.render = function(
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
     let header = rendererHelper.getJavaScriptURLs([
-      cwc.config.framework.Internal.MESSENGER,
       cwc.config.framework.External.JQUERY.V2_2_4,
       cwc.config.framework.External.SKULPT.CORE,
       cwc.config.framework.External.SKULPT.STDLIB,
@@ -86,7 +85,6 @@ cwc.renderer.external.Python.prototype.render = function(
 
   // Python 3.x as default
   let header = rendererHelper.getJavaScriptURLs([
-    cwc.config.framework.Internal.MESSENGER,
     cwc.config.framework.External.BRYTHON.CORE,
     cwc.config.framework.External.BRYTHON.STDLIB,
     cwc.config.framework.Internal.PYTHON3,

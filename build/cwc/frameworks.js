@@ -92,6 +92,23 @@ closureBuilder.build({
 
 
 /**
+ * JavaScript Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.JavaScript',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/javascript/*.js',
+  ]),
+  deps: glob([
+    'src/frameworks/messenger/*.js',
+    'third_party/coding-with-chrome-libraries/src/utils/stack/stack.js',
+  ]),
+  out: 'genfiles/core/frameworks/internal/javascript_framework.js',
+});
+
+
+/**
  * Messenger Framework
  */
 closureBuilder.build({

@@ -40,7 +40,7 @@ cwc.renderer.internal.Javascript = function(helper) {
   this.cache_ = this.helper.getInstance('cache');
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.config.framework.Internal.MESSENGER];
+  this.frameworks_ = [cwc.config.framework.Internal.JAVASCRIPT];
 };
 
 

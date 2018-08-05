@@ -19,6 +19,7 @@
  */
 goog.provide('cwc.Cache');
 
+goog.require('cwc.config.Version');
 goog.require('cwc.config.framework.External');
 goog.require('cwc.config.framework.Internal');
 goog.require('cwc.config.framework.StyleSheet');
@@ -43,7 +44,7 @@ cwc.Cache = function(helper) {
   this.helper = helper;
 
   /** @private {number} */
-  this.version = 8;
+  this.version = Number(cwc.config.Version.replace(/\./m, '00'));
 
   /** @private {Object} */
   this.cache_ = {};

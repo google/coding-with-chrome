@@ -25,6 +25,7 @@ goog.provide('cwc.config.Logging');
 goog.provide('cwc.config.Number');
 goog.provide('cwc.config.Prefix');
 goog.provide('cwc.config.Sample');
+goog.provide('cwc.config.Version');
 
 goog.require('cwc.utils.LogLevel');
 
@@ -113,3 +114,9 @@ cwc.config.Sample = {
       'expertus. Experientiarum fecisti. Quod est tibi. In ' +
       'casu, cursus ut,',
 };
+
+
+/**
+ * @return {string}
+ */
+cwc.config.Version = '5.7.28';
