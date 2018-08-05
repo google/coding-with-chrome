@@ -150,8 +150,12 @@ cwc.ui.Preview.prototype.decorate = function(node) {
       goog.events.EventType.UNLOAD, this.cleanUp);
   }
 
-  // Monitor Changes expect for messenger mode
-  if (!this.enableMessenger_) {
+  if (this.enableMessenger_) {
+    // Added messenger display for displaying user text.
+    this.messenger_.addListener('__displayText__',
+      this.handleDisplayText_.bind(this));
+  } else {
+    // Monitor viewport and layout changes expect for messenger mode
     this.events_.listen(new goog.dom.ViewportSizeMonitor(),
       goog.events.EventType.RESIZE, this.handleRefresh_);
     if (layoutInstance) {
@@ -511,6 +515,20 @@ cwc.ui.Preview.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.events_.clear();
   this.messenger_.cleanUp();
+};
+
+
+/**
+ * @param {!Object} data
+ * @private
+ */
+cwc.ui.Preview.prototype.handleDisplayText_ = function(data) {
+  let text = data['text'];
+  let dialogInstance = this.helper.getInstance('dialog');
+  if (dialogInstance && text) {
+    dialogInstance.showContent(
+      'Preview Output', text, this.prefix + 'message-text');
+  }
 };
 
 

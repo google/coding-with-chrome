@@ -38,11 +38,12 @@
   {@param title: string}
   {@param content: string}
   {@param i18n: bool}
+  {@param? opt_css_class: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
 
   {call .dialogTitle_ data="all" /}
-  <div id="{$prefix}content" class="_content">
+  <div id="{$prefix}content" class="_content{if $opt_css_class} {$opt_css_class}{/if}">
     {$content}
   </div>
   <div id="{$prefix}buttons" class="_actions">
@@ -64,11 +65,12 @@
   {@param title: string}
   {@param content: string}
   {@param i18n: bool}
+  {@param? opt_css_class: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="_content">
+  <div class="_content{if $opt_css_class} {$opt_css_class}{/if}">
     {$content}
   </div>
   <div class="_actions">
@@ -90,12 +92,13 @@
   {@param title: string}
   {@param content: string}
   {@param i18n: bool}
+  {@param? opt_css_class: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
   {@param? opt_values: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="_content">
+  <div class="_content{if $opt_css_class} {$opt_css_class}{/if}">
     {$content}
   </div>
   <div class="_actions">
@@ -119,12 +122,13 @@
   {@param title: string}
   {@param content: string}
   {@param i18n: bool}
+  {@param? opt_css_class: string}
   {@param? opt_title_icon: string}
   {@param? opt_title_untranslated: string}
   {@param? opt_values: string}
 
   {call .dialogTitle_ data="all" /}
-  <div class="_content {$prefix}prompt">
+  <div class="_content {$prefix}prompt{if $opt_css_class} {$opt_css_class}{/if}">
     {if $content}<span class="{$prefix}prompt-content">{$content}</span>{/if}
     <div class="_textfield">
       <input class="_textfield__input" type="text" id="{$prefix}input" value="{if $opt_values}{$opt_values}{/if}">

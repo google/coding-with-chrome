@@ -137,7 +137,7 @@ Blockly.Blocks['phaser_tile_sprite_add'] = {
         .appendField(new Blockly.FieldNumber(50), 'height')
         .appendField(i18t('and group'))
         .appendField(new Blockly.FieldTextInput(
-          '', Blockly.BlocksHelper['phaser_validate_text']), 'group');
+          '', Blockly.BlocksHelper['validate_text']), 'group');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(290);

@@ -28,7 +28,7 @@ Blockly.Blocks['phaser_game'] = {
         .appendField(Blockly.BlocksTemplate.runningMan())
         .appendField(i18t('Create Game with name'))
         .appendField(new Blockly.FieldTextInput(i18t('Unnamed Game'),
-            Blockly.BlocksHelper['phaser_validate_text']), 'name')
+            Blockly.BlocksHelper['validate_text']), 'name')
         .appendField(i18t('and size'))
         .appendField(new Blockly.FieldNumber(400, 0, 5760), 'width')
         .appendField('x')
@@ -50,7 +50,7 @@ Blockly.Blocks['phaser_game_state'] = {
         .appendField(Blockly.BlocksTemplate.storage())
         .appendField(i18t('game state'))
         .appendField(new Blockly.FieldTextInput(
-            'main', Blockly.BlocksHelper['phaser_validate_text']), 'name')
+            'main', Blockly.BlocksHelper['validate_text']), 'name')
         .appendField(new Blockly.FieldDropdown([
             [i18t('@@BLOCKS_PHASER__NO_AUTOSTART'), 'false'],
             [i18t('@@BLOCKS_PHASER__AUTOSTART'), 'true'],
@@ -75,7 +75,7 @@ Blockly.Blocks['phaser_game_start'] = {
         .appendField(Blockly.BlocksTemplate.point())
         .appendField(i18t('@@BLOCKS_PHASER__GAME_START'))
         .appendField(new Blockly.FieldTextInput(
-            'main', Blockly.BlocksHelper['phaser_validate_text']), 'name');
+            'main', Blockly.BlocksHelper['validate_text']), 'name');
     this.setPreviousStatement(true, ['Create', 'Update', 'Input']);
     this.setNextStatement(true, ['Create', 'Update', 'Input']);
     this.setColour(75);

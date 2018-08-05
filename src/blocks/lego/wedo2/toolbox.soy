@@ -27,13 +27,33 @@
 {template .toolbox}
   <xml>
 
+    <category name="Movements" colour="120">
+      <block type="lego_wedo2_rotate_power">
+        <value name="power">
+          <block type="math_number"><field name="NUM">8</field></block>
+        </value>
+      </block>
+    </category>
+
+    <category name="Sounds" colour="120">
+      <block type="lego_wedo2_play_tone"></block>
+    </category>
+
+    <category name="Lights" colour="120">
+      <block type="lego_wedo2_led"></block>
+    </category>
+
     <sep></sep>
 
-    {call cwc.soy.mode.Blocks.defaultBlocks /}
+    {call cwc.soy.Blocks.defaultDisplayBlocks /}
 
     <sep></sep>
 
-    {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
+    {call cwc.soy.Blocks.defaultBlocksWithoutColors /}
+
+    <sep></sep>
+
+    {call cwc.soy.Blocks.defaultAdvancedBlocks /}
 
   </xml>
 {/template}

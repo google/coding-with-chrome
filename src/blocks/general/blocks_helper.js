@@ -18,3 +18,14 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 Blockly.BlocksHelper = {};
+
+
+/**
+ * @param {string} text
+ * @return {string}
+ */
+Blockly.BlocksHelper['validate_text'] = function(text) {
+  return text
+    .replace(/'/g, '')
+    .replace(/\\/g, '');
+};

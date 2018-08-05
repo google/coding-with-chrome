@@ -21,11 +21,12 @@ goog.provide('cwc.mode.sphero.sprkPlus.Mod');
 
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.Hints');
-goog.require('cwc.mode.sphero.sphero2.Calibration');
-goog.require('cwc.mode.sphero.sphero2.Control');
-goog.require('cwc.mode.sphero.sphero2.Simulation');
+goog.require('cwc.mode.sphero.sprkPlus.Calibration');
 goog.require('cwc.mode.sphero.sprkPlus.Connection');
+goog.require('cwc.mode.sphero.sprkPlus.Control');
+goog.require('cwc.mode.sphero.sprkPlus.Monitor');
 goog.require('cwc.mode.sphero.sprkPlus.SensorEvents');
+goog.require('cwc.mode.sphero.sprkPlus.Simulation');
 goog.require('cwc.renderer.external.Sphero');
 goog.require('cwc.soy.sphero.Blocks');
 
@@ -48,15 +49,18 @@ cwc.mode.sphero.sprkPlus.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.default.Mod} */
   this.mod = new cwc.mode.default.Mod(helper);
 
-  /** @type {!cwc.mode.sphero.sphero2.Calibration} */
-  this.calibration = new cwc.mode.sphero.sphero2.Calibration(
+  /** @type {!cwc.mode.sphero.sprkPlus.Calibration} */
+  this.calibration = new cwc.mode.sphero.sprkPlus.Calibration(
     helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.sphero2.Control} */
-  this.control = new cwc.mode.sphero.sphero2.Control(helper, this.connection);
+  /** @type {!cwc.mode.sphero.sprkPlus.Control} */
+  this.control = new cwc.mode.sphero.sprkPlus.Control(helper, this.connection);
 
-  /** @type {!cwc.mode.sphero.sphero2.Simulation} */
-  this.simulation = new cwc.mode.sphero.sphero2.Simulation(helper);
+  /** @type {!cwc.mode.sphero.sprkPlus.Monitor} */
+  this.monitor = new cwc.mode.sphero.sprkPlus.Monitor(helper, this.connection);
+
+  /** @type {!cwc.mode.sphero.sprkPlus.Simulation} */
+  this.simulation = new cwc.mode.sphero.sprkPlus.Simulation(helper);
 
   /** @type {!cwc.renderer.external.Sphero} */
   this.renderer = new cwc.renderer.external.Sphero(helper);
@@ -75,7 +79,8 @@ cwc.mode.sphero.sprkPlus.Mod.prototype.decorate = function() {
   this.mod.setRenderer(this.renderer);
   this.mod.setSimulation(this.simulation);
   this.mod.decorate();
-  this.mod.message.decorateControl(this.control);
   this.mod.message.decorateCalibration(this.calibration);
+  this.mod.message.decorateControl(this.control);
+  this.mod.message.decorateMonitor(this.monitor);
   this.mod.editor.setLocalHints(cwc.mode.sphero.Hints);
 };

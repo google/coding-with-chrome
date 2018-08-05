@@ -148,15 +148,17 @@ cwc.utils.Dialog.prototype.close = function(title) {
  *   content: string,
  *   prefix: string,
  *   title: string,
+ *   opt_css_class: (string|undefined),
  *   opt_title_icon: (string|undefined),
  *   opt_title_untranslated: (string|undefined),
  *   opt_values: (string|undefined)
  * })=} template
  * @param {string=} values
+ * @param {string=} css_class
  * @export
  */
 cwc.utils.Dialog.prototype.render = function(title, content,
-    template = cwc.soy.Dialog.contentTemplate, values) {
+    template = cwc.soy.Dialog.contentTemplate, values, css_class) {
   let dialog = this.getDialog_();
   let dialogTitle = title;
   let dialogTitleIcon = '';
@@ -175,6 +177,7 @@ cwc.utils.Dialog.prototype.render = function(title, content,
           prefix: this.prefix,
           title: dialogTitle,
           i18n: typeof i18t !== 'undefined',
+          opt_css_class: css_class,
           opt_title_icon: dialogTitleIcon,
           opt_title_untranslated: dialogTitleUntranslated,
           opt_values: values,
@@ -187,11 +190,13 @@ cwc.utils.Dialog.prototype.render = function(title, content,
 /**
  * @param {!string|Object} title
  * @param {string} content
+ * @param {string=} css_class
  * @export
  */
-cwc.utils.Dialog.prototype.showContent = function(title, content) {
+cwc.utils.Dialog.prototype.showContent = function(title, content, css_class) {
   if (this.getDialog_()) {
-    this.render(title, content, cwc.soy.Dialog.contentTemplate);
+    this.render(
+      title, content, cwc.soy.Dialog.contentTemplate, null, css_class);
     this.getCloseButton().addEventListener('click', () => {
         this.close();
       });

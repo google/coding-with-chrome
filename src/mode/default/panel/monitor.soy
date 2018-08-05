@@ -1,0 +1,43 @@
+/**
+ * @fileoverview Default Monitor template for modification.
+ *
+ * @license Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author mbordihn@google.com (Markus Bordihn)
+ */
+{namespace cwc.soy.mode.default.Monitor autoescape="strict"}
+
+
+/**
+ * List entry
+ */
+{template .listEntry_}
+  {@param prefix: string}
+  {@param id: string}
+  {@param name: string}
+  {@param? icon: string}
+
+  <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons mdl-list__item-icon">
+        {if $icon}{$icon}{else}input{/if}
+      </i>
+      <span>{$name}</span>
+    </span>
+    <span id="{$prefix}{$id}-value" class="mdl-list__item-secondary-action">
+      ...
+    </span>
+  </li>
+{/template}

@@ -26,6 +26,10 @@
  */
 {template .toolbox}
   <xml>
+    <category name="General" colour="110">
+      <block type="sphero_start"></block>
+    </category>
+
     <category name="Movements" colour="120">
       <block type="sphero_roll">
         <value name="speed">
@@ -52,7 +56,7 @@
       </block>
     </category>
 
-    <category name="Lights" colour="120">
+    <category name="Lights" colour="130">
       <block type="sphero_rgb">
         <value name="colour">
           <block type="colour_picker">
@@ -69,11 +73,11 @@
 
     <sep></sep>
 
-    {call cwc.soy.mode.Blocks.defaultBlocks /}
+    {call cwc.soy.Blocks.defaultBlocks /}
 
     <sep></sep>
 
-    {call cwc.soy.mode.Blocks.defaultAdvancedBlocks /}
+    {call cwc.soy.Blocks.defaultAdvancedBlocks /}
 
   </xml>
 {/template}

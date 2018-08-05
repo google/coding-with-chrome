@@ -1,5 +1,5 @@
 /**
- * @fileoverview JavaScript for the EV3 blocks.
+ * @fileoverview JavaScript for the Lego EV3 blocks.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

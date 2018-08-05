@@ -30,7 +30,7 @@ Blockly.Blocks['phaser_group_add'] = {
     this.appendDummyInput()
         .appendField(i18t('as group'))
         .appendField(new Blockly.FieldTextInput('group_name',
-          Blockly.BlocksHelper['phaser_validate_text']), 'name');
+          Blockly.BlocksHelper['validate_text']), 'name');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
     this.setColour(30);

@@ -20,6 +20,22 @@
 
 
 /**
+ * Sphero start Block.
+ */
+Blockly.Blocks['sphero_start'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(65);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.runningMan())
+      .appendField(i18t('Programm Start'));
+    this.setNextStatement(true);
+    this.setTooltip(i18t('Defines the start of the program'));
+  },
+};
+
+
+/**
  * Sphero roll.
  */
 Blockly.Blocks['sphero_roll'] = {

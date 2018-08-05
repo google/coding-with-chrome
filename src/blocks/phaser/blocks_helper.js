@@ -70,7 +70,7 @@ Blockly.BlocksHelper['phaser_images'] = function(name = '') {
  * @param {string} name
  * @return {string}
  */
-Blockly.BlocksHelper['phaser_validate_text'] = function(name) {
+Blockly.BlocksHelper['validate_text'] = function(name) {
   return name
     .replace(/'/g, '')
     .replace(/\\/g, '');

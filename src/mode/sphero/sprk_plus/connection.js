@@ -81,7 +81,7 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     this.events_.listen(layoutInstance.getEventTarget(),
-        goog.events.EventType.UNLOAD, this.cleanUp, false, this);
+        goog.events.EventType.UNLOAD, this.disconnect, false, this);
   }
 
   let previewInstance = this.helper.getInstance('preview');
@@ -101,6 +101,8 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
     (bluetoothDevice) => {
       bluetoothDevice.connect().then((device) => {
         this.api_.connect(device);
+      }).catch((error) => {
+        this.helper.showError(error);
       });
   }).catch(() => {
     this.connectMonitor.start();
@@ -114,11 +116,12 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
  * @export
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
-  let bluetoothInstance = this.helper.getInstance('bluetoothWeb');
-  if (!bluetoothInstance) {
-    return;
-  }
   if (!this.isConnected()) {
+    let bluetoothInstance = this.helper.getInstance('bluetoothWeb');
+    if (!bluetoothInstance) {
+      return;
+    }
+
     let devices = bluetoothInstance.getDevicesByName(this.device_.name);
     if (devices) {
       devices[0].connect().then((device) => {
@@ -126,7 +129,20 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
       });
     }
   }
-  this.api_.monitor(true);
+};
+
+
+/**
+ * Disconnects the Sphero SPRK+.
+ */
+cwc.mode.sphero.sprkPlus.Connection.prototype.disconnect = function() {
+  this.log_.info('Disconnect ...');
+  if (this.connectMonitor) {
+    this.connectMonitor.stop();
+  }
+  this.stop();
+  this.events_.clear();
+  this.api_.disconnect();
 };
 
 
@@ -177,20 +193,6 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.getEventTarget = function() {
  */
 cwc.mode.sphero.sprkPlus.Connection.prototype.getApi = function() {
   return this.api_;
-};
-
-
-/**
- * Cleans up the event listener and any other modification.
- */
-cwc.mode.sphero.sprkPlus.Connection.prototype.cleanUp = function() {
-  this.log_.info('Clean up ...');
-  if (this.connectMonitor) {
-    this.connectMonitor.stop();
-  }
-  this.api_.cleanUp();
-  this.stop();
-  this.events_.clear();
 };
 
 

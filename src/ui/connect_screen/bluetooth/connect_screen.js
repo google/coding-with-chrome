@@ -176,8 +176,8 @@ cwc.ui.connectScreen.Bluetooth.prototype.handleAction_ = function(e) {
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.handleSearch_ = function() {
-  this.helper.getInstance('bluetoothWeb')
-    .requestDevices(this.refresh_.bind(this));
+  this.helper.getInstance('bluetoothWeb').requestDevices().then(
+    this.refresh_.bind(this));
 };
 
 
@@ -246,7 +246,7 @@ cwc.ui.connectScreen.Bluetooth.prototype.showTemplate_ = function(title,
  * @private
  */
 cwc.ui.connectScreen.Bluetooth.prototype.refresh_ = function() {
-  this.log_.info('Refreshing ...');
+  this.log_.info('Refreshing device overview.');
   this.showDevices();
 };
 

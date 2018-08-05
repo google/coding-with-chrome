@@ -5,7 +5,7 @@
       "name": "blockly",
       "type": "application/blockly+xml",
       "size": 48,
-      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"></xml>",
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"sphero_start\"></block>\n</xml>",
       "version": 1
     },
     "__javascript__": {

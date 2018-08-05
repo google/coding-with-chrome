@@ -6,13 +6,6 @@
       "size": 0,
       "type": "application/javascript",
       "version": 1
-    },
-    "__python__": {
-      "content": "#!/usr/bin/python\n",
-      "name": "__python__",
-      "size": 0,
-      "type": "text/x-python",
-      "version": 1
     }
   },
   "files": {},
@@ -30,5 +23,5 @@
   },
   "view": "__javascript__",
   "mode": "lego_wedo2_blockly",
-  "ui": "default"
+  "ui": "blockly"
 }

@@ -1,3 +1,4 @@
+*.profraw
 *.stackdump
 .DS_Store
 .c9

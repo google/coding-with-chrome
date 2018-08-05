@@ -91,3 +91,7 @@
   width: 100%;
   z-index: 9;
 }
+
+.{$prefix}preview-message-text {
+ font-size: 24px; 
+}

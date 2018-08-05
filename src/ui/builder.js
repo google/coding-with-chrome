@@ -75,7 +75,6 @@ goog.require('cwc.utils.Logger');
 goog.require('goog.dom');
 
 
-goog.scope(function() {
 /**
  * Addons.
  * @enum {!Function}
@@ -143,6 +142,7 @@ cwc.ui.oauth2Helpers = {
 };
 
 
+goog.scope(function() {
 /**
  * Default construction of the Coding with Chrome editor.
  * @constructor

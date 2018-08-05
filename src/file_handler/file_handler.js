@@ -348,6 +348,14 @@ cwc.fileHandler.File.prototype.getGDriveId = function() {
 
 
 /**
+ * @return {string}
+ */
+cwc.fileHandler.File.prototype.getMode = function() {
+  return this.file_.getMode();
+};
+
+
+/**
  * @param {string} model
  */
 cwc.fileHandler.File.prototype.setModel = function(model) {

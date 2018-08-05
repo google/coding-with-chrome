@@ -29,31 +29,31 @@
   <div id="{$prefix}body">
 
     <ul class="mdl-list">
-      {call .listEntry_ data="all"}
+      {call cwc.soy.mode.default.Monitor.listEntry_ data="all"}
         {param id: 'button' /}
         {param name: 'Onboard Button' /}
         {param icon: 'crop_square' /}
       {/call}
 
-      {call .listEntry_ data="all"}
+      {call cwc.soy.mode.default.Monitor.listEntry_ data="all"}
         {param id: 'port_1' /}
         {param name: 'Port 1' /}
         {param icon: 'usb' /}
       {/call}
 
-      {call .listEntry_ data="all"}
+      {call cwc.soy.mode.default.Monitor.listEntry_ data="all"}
         {param id: 'port_2' /}
         {param name: 'Port 2' /}
         {param icon: 'usb' /}
       {/call}
 
-      {call .listEntry_ data="all"}
+      {call cwc.soy.mode.default.Monitor.listEntry_ data="all"}
         {param id: 'gyroscope' /}
         {param name: 'Gyroscope' /}
         {param icon: 'usb' /}
       {/call}
 
-      {call .listEntry_ data="all"}
+      {call cwc.soy.mode.default.Monitor.listEntry_ data="all"}
         {param id: 'motion_sensor' /}
         {param name: 'Motion sensor' /}
         {param icon: 'usb' /}
@@ -61,27 +61,4 @@
     </ul>
 
   </div>
-{/template}
-
-
-/**
- * List entry
- */
-{template .listEntry_ private="true"}
-  {@param prefix: string}
-  {@param id: string}
-  {@param name: string}
-  {@param? icon: string}
-
-  <li class="mdl-list__item">
-    <span class="mdl-list__item-primary-content">
-      <i class="material-icons mdl-list__item-icon">
-        {if $icon}{$icon}{else}input{/if}
-      </i>
-      <span>{$name}</span>
-    </span>
-    <span id="{$prefix}{$id}-value" class="mdl-list__item-secondary-action">
-      ...
-    </span>
-  </li>
 {/template}

@@ -386,7 +386,7 @@ cwc.ui.Editor.prototype.syncJavaScript = function() {
       }
       break;
     default:
-      this.log_.info('Unsynced UI mode', fileUi);
+      this.log_.warn('Unsynced UI mode', fileUi);
   }
 };
 

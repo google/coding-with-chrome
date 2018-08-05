@@ -23,6 +23,7 @@
 goog.provide('cwc.framework.lego.WeDo2');
 
 goog.require('cwc.framework.Messenger');
+goog.require('cwc.framework.MessengerDisplay');
 
 
 /**
@@ -38,6 +39,9 @@ cwc.framework.lego.WeDo2 = function() {
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this);
+
+  /** @private {!cwc.framework.MessengerDisplay} */
+  this.messengerDisplay_ = new cwc.framework.MessengerDisplay(this.messenger_);
 };
 
 
@@ -72,7 +76,7 @@ cwc.framework.lego.WeDo2.prototype.playTone = function(frequency, duration,
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.lego.WeDo2.prototype.setRGB = function(color, delay) {
+cwc.framework.lego.WeDo2.prototype.setLED = function(color, delay) {
   this.messenger_.send('setRGB', {
     'color': color}, delay);
 };

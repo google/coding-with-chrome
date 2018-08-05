@@ -20,6 +20,15 @@
 
 
 /**
+ * Sphero start Block.
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_start'] = function() {
+  return '';
+};
+
+
+/**
  * Sphero roll.
  * @param {!Blockly.block} block
  * @return {string}

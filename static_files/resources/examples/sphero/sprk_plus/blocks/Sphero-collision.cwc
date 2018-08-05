@@ -1,9 +1,9 @@
 {
   "content": {
     "blockly": {
-      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"sphero_rgb\" x=\"130\" y=\"90\">\n    <value name=\"colour\">\n      <block type=\"colour_picker\">\n        <field name=\"COLOUR\">#33ff33</field>\n      </block>\n    </value>\n    <next>\n      <block type=\"sphero_collision\">\n        <statement name=\"CODE\">\n          <block type=\"sphero_rgb\">\n            <value name=\"colour\">\n              <block type=\"colour_picker\">\n                <field name=\"COLOUR\">#ff0000</field>\n              </block>\n            </value>\n            <next>\n              <block type=\"sphero_rgb\">\n                <value name=\"colour\">\n                  <block type=\"colour_picker\">\n                    <field name=\"COLOUR\">#33ff33</field>\n                  </block>\n                </value>\n              </block>\n            </next>\n          </block>\n        </statement>\n      </block>\n    </next>\n  </block>\n</xml>",
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <block type=\"sphero_start\">\n    <next>\n      <block type=\"sphero_rgb\">\n        <value name=\"colour\">\n          <block type=\"colour_picker\">\n            <field name=\"COLOUR\">#33ff33</field>\n          </block>\n        </value>\n        <next>\n          <block type=\"sphero_collision\">\n            <statement name=\"CODE\">\n              <block type=\"sphero_rgb\">\n                <value name=\"colour\">\n                  <block type=\"colour_picker\">\n                    <field name=\"COLOUR\">#ff0000</field>\n                  </block>\n                </value>\n                <next>\n                  <block type=\"sphero_rgb\">\n                    <value name=\"colour\">\n                      <block type=\"colour_picker\">\n                        <field name=\"COLOUR\">#33ff33</field>\n                      </block>\n                    </value>\n                  </block>\n                </next>\n              </block>\n            </statement>\n          </block>\n        </next>\n      </block>\n    </next>\n  </block>\n</xml>",
       "name": "blockly",
-      "size": 891,
+      "size": 1071,
       "type": "application/blockly+xml",
       "version": 1
     },

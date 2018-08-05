@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.Blocks autoescape="strict"}
+{namespace cwc.soy.Blocks autoescape="strict"}
 
 
 /**
@@ -79,9 +79,64 @@
 
 
 /**
+ * Blockly default display blocks.
+ */
+{template .defaultDisplayBlocks}
+  <category name="{msg desc="Display Blocks"}Display{/msg}" colour="120">
+
+    <block type="general_messenger_display_text">
+      <value name="text">
+        <block type="text">
+          <field name="TEXT">Hello World</field>
+        </block>
+      </value>
+    </block>
+
+    <block type="controls_for">
+      <field name="VAR">countdown</field>
+      <value name="FROM">
+        <block type="math_number">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+      <value name="TO">
+        <block type="math_number">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+      <value name="BY">
+        <block type="math_number">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+      <statement name="DO">
+        <block type="general_messenger_display_text">
+          <value name="text">
+            <block type="variables_get">
+              <field name="VAR">countdown</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+      <next>
+        <block type="general_messenger_display_text">
+          <value name="text">
+            <block type="text">
+              <field name="TEXT">Go</field>
+            </block>
+          </value>
+        </block>
+      </next>
+    </block>
+
+  </category>
+{/template}
+
+
+/**
  * Blockly default blocks.
  */
-{template .defaultBlocks_}
+{template .defaultBlocks_ private="true"}
   <category name="{msg desc="Logic Blocks"}Logic{/msg}" colour="210">
     <block type="controls_if"></block>
     <block type="logic_compare"></block>
@@ -356,7 +411,7 @@
 /**
  * Blockly default color blocks.
  */
-{template .defaultColorBlocks_}
+{template .defaultColorBlocks_ private="true"}
   <category name="{msg desc="Colour Blocks"}Colour{/msg}" colour="20">
     <block type="colour_picker"></block>
     <block type="colour_random"></block>

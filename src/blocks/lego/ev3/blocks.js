@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 blocks for Blockly.
+ * @fileoverview Lego EV3 blocks for Blockly.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *

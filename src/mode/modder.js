@@ -244,6 +244,13 @@ cwc.mode.Modder.prototype.postModeFileData = function() {
     case 'editor':
       this.showEditor();
       break;
+    default:
+      if (fileInstance.getMode().includes('blockly')) {
+        fileInstance.setUi('blockly');
+        this.showBlockly();
+      } else {
+        this.showEditor();
+      }
   }
 
   // Sync Library files

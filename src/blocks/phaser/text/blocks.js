@@ -39,7 +39,7 @@ Blockly.Blocks['phaser_text_add'] = {
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput(
-          '16px', Blockly.BlocksHelper['phaser_validate_text']), 'size')
+          '16px', Blockly.BlocksHelper['validate_text']), 'size')
         .appendField(new Blockly.FieldDropdown([
           ['Arial Black', 'Arial Black'],
           ['Arial Narrow', 'Arial Narrow'],
@@ -89,7 +89,7 @@ Blockly.Blocks['phaser_dynamic_text_add'] = {
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput(
-          '16px', Blockly.BlocksHelper['phaser_validate_text']), 'size')
+          '16px', Blockly.BlocksHelper['validate_text']), 'size')
         .appendField(new Blockly.FieldDropdown([
           ['Arial Black', 'Arial Black'],
           ['Arial Narrow', 'Arial Narrow'],
@@ -139,7 +139,7 @@ Blockly.Blocks['phaser_action_text_add'] = {
         .appendField(i18t('with style'))
         .appendField(new Blockly.FieldColour('#AAAAAA'), 'color')
         .appendField(new Blockly.FieldTextInput(
-          '16px', Blockly.BlocksHelper['phaser_validate_text']), 'size')
+          '16px', Blockly.BlocksHelper['validate_text']), 'size')
         .appendField(new Blockly.FieldDropdown([
           ['Arial Black', 'Arial Black'],
           ['Arial Narrow', 'Arial Narrow'],

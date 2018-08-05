@@ -129,9 +129,10 @@ cwc.fileHandler.FileSaver.prototype.prepareContent = function() {
     let blocklyInstance = this.helper.getInstance('blockly');
     if (blocklyInstance) {
       let viewName = blocklyInstance.getViewName();
-      if (viewName) {
-        file.setContent(viewName, blocklyInstance.getXML());
+      if (!viewName) {
+        this.log_.warn('Found Blockly instance without valid name:', viewName);
       }
+      file.setContent(viewName || 'blockly', blocklyInstance.getXML());
     }
 
     if (editorInstance) {
