@@ -63,6 +63,14 @@
   content: 'functions';
 }
 
+.blocklyTreeRowItem_control::before {
+  content: 'low_priority';
+}
+
+.blocklyTreeRowItem_display::before {
+  content: 'desktop_windows';
+}
+
 
 /**
  * Icons for specific categories inside the toolbox.

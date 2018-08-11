@@ -22,6 +22,8 @@
 goog.provide('cwc.framework.Sphero');
 
 goog.require('cwc.framework.Messenger');
+goog.require('cwc.framework.MessengerCommand');
+goog.require('cwc.framework.MessengerDisplay');
 
 
 /**
@@ -47,6 +49,31 @@ cwc.framework.Sphero = function() {
     .addListener('__EVENT__changed_speed', function(e) {
       console.log('Changed speed event', e);
     });
+
+  /** @private {!cwc.framework.MessengerCommand} */
+  this.messengerCommand_ = new cwc.framework.MessengerCommand(this.messenger_);
+
+    /** @private {!cwc.framework.MessengerDisplay} */
+  this.messengerDisplay_ = new cwc.framework.MessengerDisplay(this.messenger_);
+};
+
+
+/**
+ * @param {boolean=} enable
+ * @export
+ */
+cwc.framwork.Sphero.prototype.setStabilization = function(enable) {
+  this.messenger_.send('setStabilization', {'enable': enable});
+};
+
+
+/**
+ * @param {number} brightness 0-100
+ * @param {number=} delay in msec
+ * @export
+ */
+cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
+  this.messenger_.send('setBackLed', {'brightness': brightness}, delay);
 };
 
 
@@ -65,16 +92,6 @@ cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
     'green': green,
     'blue': blue,
     'persistent': persistent}, delay);
-};
-
-
-/**
- * @param {number} brightness 0-100
- * @param {number=} delay in msec
- * @export
- */
-cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
-  this.messenger_.send('setBackLed', {'brightness': brightness}, delay);
 };
 
 

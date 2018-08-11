@@ -81,9 +81,18 @@
 /**
  * Blockly default display blocks.
  */
-{template .defaultDisplayBlocks}
-  <category name="{msg desc="Display Blocks"}Display{/msg}" colour="120">
+{template .defaultMessengerBlocks}
+  <category name="{msg desc="Display Blocks"}Control{/msg}" colour="120">
+    <block type="general_messenger_delay">
+      <value name="time">
+        <block type="math_number">
+          <field name="NUM">5</field>
+        </block>
+      </value>
+    </block>
+  </category>
 
+  <category name="{msg desc="Display Blocks"}Display{/msg}" colour="120">
     <block type="general_messenger_display_text">
       <value name="text">
         <block type="text">
@@ -127,6 +136,9 @@
           </value>
         </block>
       </next>
+    </block>
+
+    <block type="general_messenger_display_clear">
     </block>
 
   </category>

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Blocks for the Sphero Blockly modification.
+ * @fileoverview Blocks for the Sphero SPRK+ Blockly modification.
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.sphero.Blocks autoescape="strict"}
+{namespace cwc.soy.sphero.sprkPlus.Blocks autoescape="strict"}
 
 
 
@@ -27,22 +27,23 @@
 {template .toolbox}
   <xml>
     <category name="Movements" colour="120">
-      <block type="sphero_roll">
+      <block type="sphero_sprk_plus_roll">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
-      <block type="sphero_heading"></block>
-      <block type="sphero_stop"></block>
+      <block type="sphero_sprk_plus_heading"></block>
+      <block type="sphero_sprk_plus_speed"></block>
+      <block type="sphero_sprk_plus_stop"></block>
     </category>
 
     <category name="Movements (Advance)" colour="120">
-      <block type="sphero_roll_step">
+      <block type="sphero_sprk_plus_roll_step">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
-      <block type="sphero_roll_time">
+      <block type="sphero_sprk_plus_roll_time">
         <value name="time">
           <block type="math_number"><field name="NUM">2</field></block>
         </value>
@@ -50,21 +51,24 @@
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
+      <block type="sphero_sprk_plus_stabilization"></block>
+
     </category>
 
     <category name="Lights" colour="130">
-      <block type="sphero_rgb">
+      <block type="sphero_sprk_plus_rgb">
         <value name="colour">
           <block type="colour_picker">
             <field name="COLOUR">#ff0000</field>
          </block>
         </value>
       </block>
-      <block type="sphero_backlight"></block>
+      <block type="sphero_sprk_plus_blink"></block>
+      <block type="sphero_sprk_plus_backlight"></block>
     </category>
 
     <category name="Events" colour="120">
-      <block type="sphero_collision"></block>
+      <block type="sphero_sprk_plus_collision"></block>
     </category>
 
     <sep></sep>

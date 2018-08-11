@@ -154,6 +154,8 @@ cwc.ui.Preview.prototype.decorate = function(node) {
     // Added messenger display for displaying user text.
     this.messenger_.addListener('__displayText__',
       this.handleDisplayText_.bind(this));
+    this.messenger_.addListener('__displayClear__',
+      this.handleDisplayClear_.bind(this));
   } else {
     // Monitor viewport and layout changes expect for messenger mode
     this.events_.listen(new goog.dom.ViewportSizeMonitor(),
@@ -515,6 +517,17 @@ cwc.ui.Preview.prototype.cleanUp = function() {
   this.log_.info('Clean up ...');
   this.events_.clear();
   this.messenger_.cleanUp();
+};
+
+
+/**
+ * @private
+ */
+cwc.ui.Preview.prototype.handleDisplayClear_ = function() {
+  let dialogInstance = this.helper.getInstance('dialog');
+  if (dialogInstance) {
+    dialogInstance.close('Preview Output');
+  }
 };
 
 

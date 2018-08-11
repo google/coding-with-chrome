@@ -105,6 +105,15 @@ cwc.framework.Messenger.prototype.addListener = function(name, func,
 
 
 /**
+ * @param {number} time in msec
+ * @export
+ */
+cwc.framework.Messenger.prototype.delay = function(time) {
+  this.senderStack_.addDelay(time);
+};
+
+
+/**
  * @param {string} appOrigin
  * @export
  */

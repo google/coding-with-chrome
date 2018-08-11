@@ -46,7 +46,7 @@ cwc.mode.sphero.sprkPlus.SimulationCommand = function(turtle) {
 cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['__handshake__'] =
     function() {
   this.speed_ = 40;
-  this.turtle.action('speed', 1);
+  this.turtle.action('speed', 2);
   this.turtle.action('scale', 1);
   this.turtle.reset();
 };

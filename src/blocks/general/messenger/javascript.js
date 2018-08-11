@@ -20,6 +20,17 @@
 
 
 /**
+ * Delay actions.
+ * @param {!Blockly.block} block
+ * @return {string}
+ */
+Blockly.JavaScript['general_messenger_delay'] = function(block) {
+  let time = block.getFieldValue('time') * 1000;
+  return 'cwcMessengerCommand.delay(' + time + ');\n';
+};
+
+
+/**
  * Display text on local screen.
  * @param {!Blockly.block} block
  * @return {string}
@@ -28,4 +39,13 @@ Blockly.JavaScript['general_messenger_display_text'] = function(block) {
   let value_text = Blockly.JavaScript.valueToCode(
     block, 'text', Blockly.JavaScript.ORDER_ATOMIC) || '';
   return 'cwcMessengerDisplay.displayText(String(' + value_text + '));\n';
+};
+
+
+/**
+ * Clear displayed text on local screen.
+ * @return {string}
+ */
+Blockly.JavaScript['general_messenger_display_clear'] = function() {
+  return 'cwcMessengerDisplay.clear();\n';
 };

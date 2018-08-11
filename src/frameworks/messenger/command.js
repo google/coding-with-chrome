@@ -1,5 +1,5 @@
 /**
- * @fileoverview Display Messenger for the Coding with Chrome editor.
+ * @fileoverview Command Messenger for the Coding with Chrome editor.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.MessengerDisplay');
+goog.provide('cwc.framework.MessengerCommand');
 
 
 /**
@@ -26,7 +26,7 @@ goog.provide('cwc.framework.MessengerDisplay');
  * @struct
  * @final
  */
-cwc.framework.MessengerDisplay = function(messenger) {
+cwc.framework.MessengerCommand = function(messenger) {
   /** @type {string} */
   this.name = 'Messenger Display';
 
@@ -34,24 +34,16 @@ cwc.framework.MessengerDisplay = function(messenger) {
   this.messenger_ = messenger;
 
   // Global mapping
-  if (typeof window['cwcMessengerDisplay'] === 'undefined') {
-    window['cwcMessengerDisplay'] = this;
+  if (typeof window['cwcMessengerCommand'] === 'undefined') {
+    window['cwcMessengerCommand'] = this;
   }
 };
 
 
 /**
+ * @param {number} time in msec
  * export
  */
-cwc.framework.MessengerDisplay.prototype['clear'] = function() {
-  this.messenger_.send('__displayClear__', {}, 250);
-};
-
-
-/**
- * @param {string} text
- * export
- */
-cwc.framework.MessengerDisplay.prototype['displayText'] = function(text) {
-  this.messenger_.send('__displayText__', {'text': text}, 250);
+cwc.framework.MessengerCommand.prototype['delay'] = function(time) {
+  this.messenger_.delay(time);
 };

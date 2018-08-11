@@ -179,10 +179,10 @@ cwc.ui.BlocklyToolbox.prototype.getTemplate = function() {
  */
 cwc.ui.BlocklyToolbox.prototype.update = function(template = this.template,
     data = this.data) {
-  if (!template) {
-    this.log_.warn('Was unable to update Blockly toolbox.');
+  if (!template || typeof template !== 'function') {
+    this.log_.error('Invalid Blockly toolbox template:', template);
+    return;
   }
-
   let blocklyInstance = this.helper.getInstance('blockly');
   if (blocklyInstance) {
     let workspace = blocklyInstance.getWorkspace();

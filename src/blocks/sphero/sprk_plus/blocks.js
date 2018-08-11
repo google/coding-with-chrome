@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero blocks for Blockly.
+ * @fileoverview Sphero SPRK+ blocks for Blockly.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -22,7 +22,7 @@
 /**
  * Sphero start Block.
  */
-Blockly.Blocks['sphero_start'] = {
+Blockly.Blocks['sphero_sprk_plus_start'] = {
   init: function() {
     this.setDeletable(false);
     this.setHelpUrl('');
@@ -39,7 +39,7 @@ Blockly.Blocks['sphero_start'] = {
 /**
  * Sphero roll.
  */
-Blockly.Blocks['sphero_roll'] = {
+Blockly.Blocks['sphero_sprk_plus_roll'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -57,7 +57,7 @@ Blockly.Blocks['sphero_roll'] = {
 /**
  * Sphero roll step.
  */
-Blockly.Blocks['sphero_roll_step'] = {
+Blockly.Blocks['sphero_sprk_plus_roll_step'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -78,7 +78,7 @@ Blockly.Blocks['sphero_roll_step'] = {
 /**
  * Sphero roll time.
  */
-Blockly.Blocks['sphero_roll_time'] = {
+Blockly.Blocks['sphero_sprk_plus_roll_time'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -100,9 +100,77 @@ Blockly.Blocks['sphero_roll_time'] = {
 
 
 /**
+ * Sphero roll time.
+ */
+Blockly.Blocks['sphero_sprk_plus_rotate_time'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('rotate'))
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField(i18t('for'));
+    this.appendValueInput('time').setCheck('Number')
+      .appendField(i18t('sec'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(
+      i18t('Move the Sphero in a direction for the given number of seconds'));
+  },
+};
+
+
+/**
+ * Sphero move raw.
+ */
+Blockly.Blocks['sphero_sprk_plus_move_raw'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('time').setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('roll for'));
+    this.appendValueInput('speed').setCheck('Number')
+      .appendField(i18t('sec with'));
+    this.appendDummyInput('heading')
+      .appendField(i18t('speed and'))
+      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField(i18t('heading'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(
+      i18t('Move the Sphero in a direction for the given number of seconds'));
+  },
+};
+
+
+/**
+ * Enable / disable stabilization.
+ */
+Blockly.Blocks['sphero_sprk_plus_stabilization'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('set stabilization('))
+      .appendField(new Blockly.FieldDropdown([
+        [i18t('enable'), 'enable'],
+        [i18t('disable'), 'disable'],
+      ]), 'enable')
+      .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(i18t(''));
+  },
+};
+
+
+/**
  * Sphero heading.
  */
-Blockly.Blocks['sphero_heading'] = {
+Blockly.Blocks['sphero_sprk_plus_heading'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -114,7 +182,27 @@ Blockly.Blocks['sphero_heading'] = {
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(i18t('Move the Sphero in a direction'));
+    this.setTooltip(i18t('Sets Sphero heading.'));
+  },
+};
+
+
+/**
+ * Sphero Speed.
+ */
+Blockly.Blocks['sphero_sprk_plus_speed'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('speed')
+      .setCheck('Number')
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('set speed('))
+      .appendField(new Blockly.FieldAngle(0), 'speed')
+      .appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(i18t('Sets Sphero speed.'));
   },
 };
 
@@ -122,7 +210,7 @@ Blockly.Blocks['sphero_heading'] = {
 /**
  * Sphero rgb.
  */
-Blockly.Blocks['sphero_rgb'] = {
+Blockly.Blocks['sphero_sprk_plus_rgb'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -138,9 +226,27 @@ Blockly.Blocks['sphero_rgb'] = {
 
 
 /**
+ * Sphero rgb.
+ */
+Blockly.Blocks['sphero_sprk_plus_blink'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendValueInput('colour')
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('set color blink ('));
+    this.appendDummyInput().appendField(')');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(i18t('Sets the leds on the Sphero ball.'));
+  },
+};
+
+
+/**
  * Sphero backlight.
  */
-Blockly.Blocks['sphero_backlight'] = {
+Blockly.Blocks['sphero_sprk_plus_backlight'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -160,7 +266,7 @@ Blockly.Blocks['sphero_backlight'] = {
 /**
  * Sphero stop.
  */
-Blockly.Blocks['sphero_stop'] = {
+Blockly.Blocks['sphero_sprk_plus_stop'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -181,9 +287,26 @@ Blockly.Blocks['sphero_stop'] = {
 
 
 /**
+ * Clear displayed text on local screen.
+ */
+Blockly.Blocks['sphero_sprk_plus_reset'] = {
+  init: function() {
+    this.setColour(150);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.addCircle())
+      .appendField(i18t('reset device'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
  * Collision detected.
  */
-Blockly.Blocks['sphero_collision'] = {
+Blockly.Blocks['sphero_sprk_plus_collision'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);

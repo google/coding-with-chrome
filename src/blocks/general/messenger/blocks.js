@@ -20,6 +20,25 @@
 
 
 /**
+ * Delay actions.
+ */
+Blockly.Blocks['general_messenger_delay'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('wait ('))
+      .appendField(new Blockly.FieldTextInput('2'), 'time')
+      .appendField('sec)');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(i18t('Delay actions for the given seconds'));
+  },
+};
+
+
+/**
  * Display text on local screen.
  */
 Blockly.Blocks['general_messenger_display_text'] = {
@@ -29,6 +48,23 @@ Blockly.Blocks['general_messenger_display_text'] = {
       .appendField(Blockly.BlocksTemplate.addCircle())
       .appendField(i18t('display text'))
       .setCheck('String');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  },
+};
+
+
+/**
+ * Clear displayed text on local screen.
+ */
+Blockly.Blocks['general_messenger_display_clear'] = {
+  init: function() {
+    this.setColour(150);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.addCircle())
+      .appendField(i18t('clear display'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
