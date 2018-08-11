@@ -180,6 +180,7 @@ cwc.framework.Messenger.prototype.send = function(name, value = {}, delay = 0) {
 /**
  * @param {string} name
  * @param {Object|string=} value
+ * @export
  */
 cwc.framework.Messenger.prototype.postMessage = function(name, value) {
   if (!this.appWindow) {
