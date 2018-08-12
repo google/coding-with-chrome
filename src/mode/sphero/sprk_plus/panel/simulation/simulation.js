@@ -31,7 +31,7 @@ goog.require('cwc.utils.Events');
  */
 cwc.mode.sphero.sprkPlus.Simulation = function(helper) {
   /** @type {string} */
-  this.name = 'Sphero Simulation';
+  this.name = 'Sphero SPRK+ Simulation';
 
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-sprk-plus-simulation');

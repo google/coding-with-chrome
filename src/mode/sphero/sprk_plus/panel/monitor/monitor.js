@@ -60,9 +60,6 @@ cwc.mode.sphero.sprkPlus.Monitor = function(helper, connection) {
   /** @type {boolean} */
   this.prepared = false;
 
-  /** @private {!cwc.protocol.lego.ev3.Api} */
-  this.api_ = this.connection.getApi();
-
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 };
@@ -85,11 +82,8 @@ cwc.mode.sphero.sprkPlus.Monitor.prototype.decorate = function(node) {
   this.nodeCache['rgb'] = goog.dom.getElement(this.prefix + 'rgb-value');
   this.nodeCache['position'] =
     goog.dom.getElement(this.prefix + 'position-value');
-  this.nodeCache['port_2'] = goog.dom.getElement(this.prefix + 'port_2-value');
-  this.nodeCache['gyroscope'] = goog.dom.getElement(
-    this.prefix + 'gyroscope-value');
-  this.nodeCache['motion_sensor'] = goog.dom.getElement(
-    this.prefix + 'motion_sensor-value');
+  this.nodeCache['collision'] =
+    goog.dom.getElement(this.prefix + 'collision-value');
 
   // Event Handler
   let eventTarget = this.connection.getEventTarget();
@@ -106,6 +100,14 @@ cwc.mode.sphero.sprkPlus.Monitor.prototype.decorate = function(node) {
       this.nodeCache['position'].firstChild.nodeValue =
         `x:${e.data.x} cm, y:${e.data.y} cm`;
     });
+
+  this.events_.listen(eventTarget,
+    Events.Type.COLLISION, () => {
+      this.nodeCache['collision'].firstChild.nodeValue = 'true';
+      setTimeout(() => {
+        this.nodeCache['collision'].firstChild.nodeValue = 'false';
+      }, 100);
+  });
 
   // Unload event
   let layoutInstance = this.helper.getInstance('layout');

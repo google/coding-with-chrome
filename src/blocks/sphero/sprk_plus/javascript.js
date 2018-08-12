@@ -80,7 +80,7 @@ Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
  */
 Blockly.JavaScript['sphero_sprk_plus_stabilization'] = function(block) {
   let enable = block.getFieldValue('enable') === 'enable' ? true : false;
-  return 'sphero.stabilization(' + enable + ');\n';
+  return 'sphero.setStabilization(' + enable + ');\n';
 };
 
 
@@ -145,12 +145,24 @@ Blockly.JavaScript['sphero_sprk_plus_stop'] = function(block) {
 
 
 /**
- * Gyro sensor change.
+ * Collision change.
  * @param {!Blockly.block} block
  * @return {string}
  */
 Blockly.JavaScript['sphero_sprk_plus_collision'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
-  return 'var collisionEvent = function(data) {\n' +
+  return 'var collisionEvent = function() {\n' +
       statements_code + '};\nsphero.onCollision(collisionEvent);\n';
+};
+
+
+/**
+ * Position change.
+ * @param {!Blockly.block} block
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_position_change'] = function(block) {
+  let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
+  return 'var positionEvent = function(position_x, position_y) {\n' +
+      statements_code + '};\nsphero.onPositionChange(positionEvent);\n';
 };

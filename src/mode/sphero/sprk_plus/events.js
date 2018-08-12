@@ -24,8 +24,7 @@
  * @enum {string}
  */
 cwc.mode.sphero.sprkPlus.SensorEvents = {
-  CHANGED_POSITION: 'CHANGED_POSITION',
-  CHANGED_SPEED: 'CHANGED_SPEED',
-  CHANGED_VELOCITY: 'CHANGED_VELOCITY',
   COLLISION: 'COLLISION',
+  POSITION: 'POSITION',
+  RGB: 'RGB',
 };

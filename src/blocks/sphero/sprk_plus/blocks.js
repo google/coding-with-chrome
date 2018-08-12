@@ -321,3 +321,24 @@ Blockly.Blocks['sphero_sprk_plus_collision'] = {
     this.setTooltip(i18t('Detect collision.'));
   },
 };
+
+
+/**
+ * Position change.
+ */
+Blockly.Blocks['sphero_sprk_plus_position_change'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(260);
+    this.appendDummyInput()
+      .appendField(Blockly.BlocksTemplate.point())
+      .appendField(i18t('on position change'));
+    this.appendStatementInput('CODE')
+      .appendField(i18t('@@BLOCKS__DO'))
+      .setAlign(Blockly.ALIGN_CENTRE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(i18t('Detect position change.'));
+  },
+};
+

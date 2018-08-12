@@ -33,3 +33,16 @@
 #{$prefix}sphero-sprk-plus-control-commands > .icon_button {
   padding: 5px;
 }
+
+
+#{$prefix}sphero-sprk-plus-control-color {
+  display: inline-block;
+  padding: 5px;
+}
+
+#{$prefix}sphero-sprk-plus-control-color-picker {
+  background: transparent;
+  border: 0;
+  height: 36px;
+  width: 36px;
+}

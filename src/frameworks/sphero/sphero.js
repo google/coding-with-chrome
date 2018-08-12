@@ -39,12 +39,30 @@ cwc.framework.Sphero = function() {
   /** @type {!function(?)} */
   this.collisionEvent = function() {};
 
+  /** @type {!Object} */
+  this.data = {
+    position: {
+      x: 0,
+      y: 0,
+    },
+  };
+
+  /** @private {} */
+  this.events_ = {
+    position: function() {},
+    collision: function() {},
+  };
+
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
     .addListener('__EVENT__COLLISION', this.handleCollision_)
     .addListener('__EVENT__changed_values', function(e) {
       console.log('Changed values event', e);
+    })
+    .addListener('__EVENT__POSITION', this.handlePositionChange_)
+    .addListener('__EVENT__RGB', function(e) {
+      console.log('RGB', e);
     })
     .addListener('__EVENT__changed_speed', function(e) {
       console.log('Changed speed event', e);
@@ -62,7 +80,7 @@ cwc.framework.Sphero = function() {
  * @param {boolean=} enable
  * @export
  */
-cwc.framwork.Sphero.prototype.setStabilization = function(enable) {
+cwc.framework.Sphero.prototype.setStabilization = function(enable) {
   this.messenger_.send('setStabilization', {'enable': enable});
 };
 
@@ -181,7 +199,18 @@ cwc.framework.Sphero.prototype.sleep = function() {
  */
 cwc.framework.Sphero.prototype.onCollision = function(func) {
   if (goog.isFunction(func)) {
-    this.collisionEvent = func;
+    this.events_.collision = func;
+  }
+};
+
+
+/**
+ * @param {!Function} func
+ * @export
+ */
+cwc.framework.Sphero.prototype.onPositionChange = function(func) {
+  if (goog.isFunction(func)) {
+    this.events_.position = func;
   }
 };
 
@@ -191,7 +220,17 @@ cwc.framework.Sphero.prototype.onCollision = function(func) {
  * @private
  */
 cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
-  this.collisionEvent(data);
+  this.events_.collision(data);
+};
+
+
+/**
+ * @param {event} e
+ * @private
+ */
+cwc.framework.Sphero.prototype.handlePositionChange_ = function(e) {
+  this.data.position = e.data;
+  this.events_.position(e.data.x, e.data.y);
 };
 
 

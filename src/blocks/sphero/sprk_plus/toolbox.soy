@@ -69,6 +69,47 @@
 
     <category name="Events" colour="120">
       <block type="sphero_sprk_plus_collision"></block>
+      <block type="sphero_sprk_plus_position_change">
+        <value name="CODE">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_operation">
+                <field name="OP">OR</field>
+                <value name="A">
+                  <block type="logic_compare">
+                    <field name="OP">GTE</field>
+                    <value name="A">
+                      <block type="variables_get">
+                        <field name="VAR">position_x</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="logic_compare">
+                    <field name="OP">GTE</field>
+                    <value name="A">
+                      <block type="variables_get">
+                        <field name="VAR">position_y</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
     </category>
 
     <sep></sep>

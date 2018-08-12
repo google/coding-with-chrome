@@ -37,6 +37,12 @@
     </div>
 
     <div id="{$prefix}commands">
+      <div id="{$prefix}color">
+        <input type="color" id="{$prefix}color-picker" name="color" value="#ffffff" />
+      </div>
+      <div class="mdl-tooltip" for="{$prefix}color">
+       Change the color of the LED.
+      </div>
       <div id="{$prefix}flash" class="icon_36px icon_button">flare</div>
       <div class="mdl-tooltip" for="{$prefix}flash">
         Let the connected unit flash.

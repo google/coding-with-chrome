@@ -35,7 +35,7 @@ goog.require('goog.ui.KeyboardShortcutHandler');
  */
 cwc.mode.sphero.sprkPlus.Control = function(helper, connection) {
   /** @type {string} */
-  this.name = 'Sphero 2.0 Control';
+  this.name = 'Sphero SPRK+ Control';
 
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-sprk-plus-control');
@@ -90,6 +90,18 @@ cwc.mode.sphero.sprkPlus.Control.prototype.decorate = function(node) {
  * @private
  */
 cwc.mode.sphero.sprkPlus.Control.prototype.addEventHandler_ = function() {
+  // Set Color
+  this.events_.listen('color-picker', goog.events.EventType.CHANGE,
+    function(e) {
+      let color = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+        e.target.value);
+      this.api.exec('setRGB', {
+        'red': parseInt(color[1], 16),
+        'green': parseInt(color[2], 16),
+        'blue': parseInt(color[3], 16),
+    });
+  });
+
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {
     this.api.exec('roll', {'speed': 50, 'heading': 270});
