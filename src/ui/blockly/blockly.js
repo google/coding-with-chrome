@@ -178,6 +178,10 @@ cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
   Blockly.HSV_SATURATION = 0.5;
   Blockly.HSV_VALUE = 0.7;
 
+  // Angle Field definition
+  Blockly.FieldAngle.CLOCKWISE = 1;
+  Blockly.FieldAngle.OFFSET = 90;
+
   // Loading user defined settings.
   let userConfigInstance = this.helper.getInstance('userConfig');
   if (userConfigInstance) {
@@ -526,6 +530,7 @@ cwc.ui.Blockly.prototype.setToolboxTemplate = function(template, data) {
 cwc.ui.Blockly.prototype.setToolboxFiles = function(files) {
   this.toolbox.setFiles(files);
 };
+
 
 /**
  * Cleans up the event listener and any other modification.

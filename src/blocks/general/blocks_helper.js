@@ -29,3 +29,12 @@ Blockly.BlocksHelper['validate_text'] = function(text) {
     .replace(/'/g, '')
     .replace(/\\/g, '');
 };
+
+
+/**
+ * @param {number|string} value
+ * @return {number}
+ */
+Blockly.BlocksHelper['validate_number'] = function(value) {
+  return Number(value.replace(/[^\d.-]/g, ''));
+};

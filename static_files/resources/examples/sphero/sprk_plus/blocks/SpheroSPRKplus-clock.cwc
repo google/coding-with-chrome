@@ -1,0 +1,32 @@
+{
+  "content": {
+    "blockly": {
+      "content": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n  <variables>\n    <variable type=\"\" id=\"z|V%2?~lr9LxgKmVThi]\">i</variable>\n  </variables>\n  <block type=\"sphero_start\" deletable=\"false\" x=\"-250\" y=\"-190\">\n    <next>\n      <block type=\"sphero_sprk_plus_heading\">\n        <value name=\"heading\">\n          <block type=\"general_input_angle\">\n            <field name=\"angle\">0</field>\n          </block>\n        </value>\n        <next>\n          <block type=\"sphero_sprk_plus_backlight\">\n            <field name=\"brightness\">254</field>\n            <next>\n              <block type=\"controls_for\">\n                <field name=\"VAR\" id=\"z|V%2?~lr9LxgKmVThi]\" variabletype=\"\">i</field>\n                <value name=\"FROM\">\n                  <block type=\"math_number\">\n                    <field name=\"NUM\">1</field>\n                  </block>\n                </value>\n                <value name=\"TO\">\n                  <block type=\"math_number\">\n                    <field name=\"NUM\">360</field>\n                  </block>\n                </value>\n                <value name=\"BY\">\n                  <block type=\"math_number\">\n                    <field name=\"NUM\">6</field>\n                  </block>\n                </value>\n                <statement name=\"DO\">\n                  <block type=\"sphero_sprk_plus_roll_time\">\n                    <value name=\"time\">\n                      <block type=\"math_number\">\n                        <field name=\"NUM\">1</field>\n                      </block>\n                    </value>\n                    <value name=\"speed\">\n                      <block type=\"math_number\">\n                        <field name=\"NUM\">0</field>\n                      </block>\n                    </value>\n                    <value name=\"heading\">\n                      <block type=\"variables_get\">\n                        <field name=\"VAR\" id=\"z|V%2?~lr9LxgKmVThi]\" variabletype=\"\">i</field>\n                      </block>\n                    </value>\n                  </block>\n                </statement>\n              </block>\n            </next>\n          </block>\n        </next>\n      </block>\n    </next>\n  </block>\n</xml>",
+      "name": "blockly",
+      "size": 2141,
+      "type": "application/blockly+xml",
+      "version": 1
+    },
+    "__javascript__": {
+      "content": "var i;\n\n\nsphero.roll(0, (0), 0x01, 500);\nsphero.setBackLed(254, 100);\nfor (i = 1; i <= 360; i += 6) {\n  sphero.rollTime(1, 0, i, true);\n}\n",
+      "name": "__javascript__",
+      "size": 138,
+      "type": "application/javascript",
+      "version": 1
+    }
+  },
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 3",
+  "frameworks": {},
+  "history": "",
+  "metadata": {
+    "__default__": {
+      "author": "Unknown",
+      "title": "Untitled Sphero SPRK+ blockly file",
+      "version": "1.0"
+    }
+  },
+  "mode": "sphero_sprk_plus_blockly",
+  "ui": "blockly"
+}

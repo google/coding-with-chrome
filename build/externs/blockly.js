@@ -73,6 +73,17 @@ Blockly.Events.UI;
 /** @type {Function} */
 Blockly.Events.disableOrphans = function() {};
 
+
+/** @type {Function} */
+Blockly.FieldAngle = function() {};
+
+/** @type {number} */
+Blockly.FieldAngle.CLOCKWISE = 1;
+
+/** @type {number} */
+Blockly.FieldAngle.OFFSET = 90;
+
+
 /**
  * @param {Blockly.Workspace} workspace Workspace to generate code from.
  * @return {string} Generated code.

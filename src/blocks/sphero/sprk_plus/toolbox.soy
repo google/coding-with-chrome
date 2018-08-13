@@ -32,7 +32,11 @@
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
-      <block type="sphero_sprk_plus_heading"></block>
+      <block type="sphero_sprk_plus_heading">
+        <value name="heading">
+          <block type="general_input_angle"></block>
+        </value>
+      </block>
       <block type="sphero_sprk_plus_speed"></block>
       <block type="sphero_sprk_plus_stop"></block>
     </category>
@@ -42,6 +46,9 @@
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
+        <value name="heading">
+          <block type="general_input_angle"></block>
+        </value>
       </block>
       <block type="sphero_sprk_plus_roll_time">
         <value name="time">
@@ -49,6 +56,9 @@
         </value>
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+        <value name="heading">
+          <block type="general_input_angle"></block>
         </value>
       </block>
       <block type="sphero_sprk_plus_stabilization"></block>

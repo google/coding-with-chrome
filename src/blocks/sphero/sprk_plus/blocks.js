@@ -64,9 +64,9 @@ Blockly.Blocks['sphero_sprk_plus_roll_step'] = {
     this.appendValueInput('speed').setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
       .appendField(i18t('roll with'));
-    this.appendDummyInput('heading')
-      .appendField(i18t('speed and'))
-      .appendField(new Blockly.FieldAngle(0), 'heading')
+    this.appendValueInput('heading')
+      .appendField(i18t('speed and'));
+    this.appendDummyInput()
       .appendField(i18t('heading'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -87,9 +87,9 @@ Blockly.Blocks['sphero_sprk_plus_roll_time'] = {
       .appendField(i18t('roll for'));
     this.appendValueInput('speed').setCheck('Number')
       .appendField(i18t('sec with'));
-    this.appendDummyInput('heading')
-      .appendField(i18t('speed and'))
-      .appendField(new Blockly.FieldAngle(0), 'heading')
+    this.appendValueInput('heading')
+      .appendField(i18t('speed and'));
+    this.appendDummyInput()
       .appendField(i18t('heading'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -177,8 +177,8 @@ Blockly.Blocks['sphero_sprk_plus_heading'] = {
     this.appendValueInput('heading')
       .setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set heading('))
-      .appendField(new Blockly.FieldAngle(0), 'heading')
+      .appendField(i18t('set heading('));
+    this.appendDummyInput()
       .appendField(')');
     this.setPreviousStatement(true);
     this.setNextStatement(true);

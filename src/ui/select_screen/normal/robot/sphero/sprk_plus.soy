@@ -53,6 +53,14 @@
           {/call}
 
           {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
+            {param title: 'Rectangle Example' /}
+            {param text: 'Try a Sphero example - rectangle' /}
+            {param file: 'sphero/sprk_plus/blocks/SpheroSPRKplus-rectangle.cwc' /}
+            {param opt_color_class: 'bg-blue' /}
+            {param opt_icon: 'perm_scan_wifi' /}
+          {/call}
+
+          {call cwc.soy.SelectScreenTemplate.fileCard data="all"}
             {param title: 'Collision Example' /}
             {param text: 'Try a Sphero example - change color on collision' /}
             {param file: 'sphero/sprk_plus/blocks/Sphero-collision.cwc' /}

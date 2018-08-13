@@ -38,6 +38,21 @@ Blockly.Blocks['general_infinity_loop'] = {
 
 
 /**
+ * Input angle block.
+ */
+Blockly.Blocks['general_input_angle'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(230);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldAngle(0), 'angle');
+    this.setOutput(true, 'Number');
+    this.setTooltip('');
+  },
+};
+
+
+/**
  * Library file
  */
 Blockly.Blocks['general_file_library'] = {

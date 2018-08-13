@@ -34,6 +34,18 @@ Blockly.JavaScript['general_infinity_loop'] = function(block) {
 
 
 /**
+ * Input angle block.
+ * @param {Blockly.Block} block
+ * @return {string}
+ */
+Blockly.JavaScript['general_input_angle'] = function(block) {
+  let value_angle = block.getFieldValue('angle');
+  let code = value_angle || 0;
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+
+/**
  * Library file
  * @param {Blockly.Block} block
  * @return {string}

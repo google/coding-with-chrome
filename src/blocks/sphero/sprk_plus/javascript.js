@@ -50,9 +50,10 @@ Blockly.JavaScript['sphero_sprk_plus_roll'] = function(block) {
 Blockly.JavaScript['sphero_sprk_plus_roll_step'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  let heading = parseInt(block.getFieldValue('heading'));
+  let heading = Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
   let duration = 500 + (speed * 20);
-  return 'sphero.roll(' + speed + ', ' +heading + ', 0x01, ' +
+  return 'sphero.roll(' + speed + ', ' + heading + ', 0x01, ' +
     duration + ');\n';
 };
 
@@ -67,9 +68,10 @@ Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  let heading = parseInt(block.getFieldValue('heading') || 0);
+  let heading = Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
   return 'sphero.rollTime(' + time + ', ' + speed + ', ' + heading +
-    ',true);\n';
+    ', true);\n';
 };
 
 
@@ -90,12 +92,10 @@ Blockly.JavaScript['sphero_sprk_plus_stabilization'] = function(block) {
  * @return {string}
  */
 Blockly.JavaScript['sphero_sprk_plus_heading'] = function(block) {
-  let angle_heading = parseInt(block.getFieldValue('heading'));
-  let value_heading = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
   let duration = 500;
-  return 'sphero.roll(0, ' + (angle_heading || value_heading || 0) +
-    ', 0x01, ' + duration + ');\n';
+  let heading = Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'sphero.roll(0, ' + heading + ', 0x01, ' + duration + ');\n';
 };
 
 
