@@ -20,7 +20,6 @@
 goog.provide('cwc.mode.aiy.Runner');
 
 goog.require('cwc.file.Files');
-goog.require('cwc.framework.Internal');
 goog.require('cwc.protocol.aiy.Events');
 goog.require('cwc.mode.aiy.Connection');
 goog.require('cwc.renderer.Helper');
@@ -66,9 +65,9 @@ cwc.mode.aiy.Runner.prototype.init = function() {
  * @private
  */
 cwc.mode.aiy.Runner.prototype.receivedData = function(event) {
-  let terminalInstance = this.helper.getInstance('terminal');
-  if (terminalInstance) {
-    terminalInstance.writeOutput(event.data);
+  let consoleInstance = this.helper.getInstance('console');
+  if (consoleInstance) {
+    consoleInstance.writeOutput(event.data);
   }
 };
 

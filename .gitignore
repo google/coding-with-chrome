@@ -5,6 +5,7 @@
 .nyc_output
 .project
 .settings
+.vscode
 OWNERS
 Thumbs.db
 coverage

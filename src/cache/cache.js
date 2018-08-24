@@ -104,7 +104,6 @@ cwc.Cache.prototype.update = async function(version) {
 cwc.Cache.prototype.loadFiles = async function(files) {
   let promises = [];
   for (let file of Object.keys(files)) {
-    console.log(file);
     if (goog.isString(files[file])) {
         promises.push(cwc.utils.Resources.getUriAsText('..' + files[file])
           .then((content) => {

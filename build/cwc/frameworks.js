@@ -20,23 +20,6 @@
 let closureBuilder = require('closure-builder');
 let glob = closureBuilder.globSupport();
 
-/**
- * AIY Framework
- */
-closureBuilder.build({
-  name: 'cwc.framework.AIY',
-  compress: true,
-  srcs: glob([
-    'src/frameworks/internal/aiy/*.js',
-  ]),
-  deps: [
-    'src/frameworks/internal/runner/runner.js',
-    'src/utils/logger.js',
-    'src/utils/stack_queue.js',
-  ],
-  out: 'genfiles/core/frameworks/internal/aiy_framework.js',
-});
-
 
 /**
  * Lego EV3 Framework
