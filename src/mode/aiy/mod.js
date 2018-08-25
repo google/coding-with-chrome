@@ -25,7 +25,7 @@ goog.require('cwc.mode.aiy.Editor');
 goog.require('cwc.mode.aiy.Layout');
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.aiy.Runner');
-goog.require('cwc.ui.Console');
+goog.require('cwc.ui.Terminal');
 goog.require('cwc.utils.Helper');
 
 
@@ -43,8 +43,8 @@ cwc.mode.aiy.Mod = function(helper) {
   /** @type {!cwc.mode.aiy.Editor} */
   this.editor = new cwc.mode.aiy.Editor(helper);
 
-  /** @type {!cwc.ui.Console} */
-  this.console = new cwc.ui.Console(helper);
+  /** @type {!cwc.ui.Terminal} */
+  this.terminal = new cwc.ui.Terminal(helper);
 
   /** @type {!cwc.mode.aiy.Connection} */
   this.connection = new cwc.mode.aiy.Connection(helper);
@@ -64,7 +64,7 @@ cwc.mode.aiy.Mod = function(helper) {
 cwc.mode.aiy.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
-  this.decorateConsole();
+  this.decorateTerminal();
   this.runner.init();
 
   this.toolbar.on('run', this.run.bind(this));
@@ -74,10 +74,9 @@ cwc.mode.aiy.Mod.prototype.decorate = function() {
 /**
  * Decorates console
  */
-cwc.mode.aiy.Mod.prototype.decorateConsole = async function() {
-  this.helper.setInstance('console', this.console, true);
-  await this.console.decorate();
-  this.console.showConsole(true);
+cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
+  this.helper.setInstance('terminal', this.terminal, true);
+  await this.terminal.decorate();
 };
 
 

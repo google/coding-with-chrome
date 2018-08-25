@@ -1,0 +1,54 @@
+/**
+ * Copyright 2018 The Coding with Chrome Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+#{$prefix}terminal-body {
+  background: #eee;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  width: 100%;
+}
+
+#{$prefix}terminal-content {
+  background: #f7f7f7;
+  flex: 1;
+  font-family: "Courier new", "Courier", monospace;
+  overflow-y: scroll;
+}
+
+#{$prefix}terminal-toolbar {
+  height: 24px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #ebebeb;
+  padding: 1px 5px;
+}
+
+#{$prefix}terminal-toolbar .material-icons {
+  color: #2B78FE;
+  vertical-align: middle;
+}
+
+#{$prefix}terminal-clear {
+  float: right;
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+}
+
+#{$prefix}terminal-clear .material-icons {
+  font-size: 20px;
+}
