@@ -20,3 +20,8 @@
     background-color: rgba(53,104,89, 0.04);
     cursor: pointer;
 }
+
+.{$prefix}gclassroom-course_work {
+  flex-direction: column;
+  align-items: start;
+}

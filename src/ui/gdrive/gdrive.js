@@ -563,7 +563,7 @@ cwc.ui.GDrive.prototype.getFile = function(fileId, callback) {
     let opts = {
       path: '/drive/v3/files/' + fileId,
     };
-    accountInstance.request(opts, callback);
+    return accountInstance.request(opts, callback);
   } else {
     console.error('GDrive.getFile missing account');
   }

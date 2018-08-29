@@ -113,22 +113,63 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
       let loaderEvent = (function() {
         let courseWorkId = goog.dom.dataset.get(element, 'id');
         let courseWork = idToCourseWork[courseWorkId];
-        let studentCopyDriveFiles = [];
-        for(let i = 0; i < courseWork['materials'].length; i++) {
-          let material = courseWork['materials'][i];
-          if('driveFile' in material && material['driveFile']['shareMode'] === 'STUDENT_COPY') {
-            let driveFile = material['driveFile']['driveFile'];
-            console.log('Student copy drive file:');
-            console.log(driveFile);
-            let fileId = driveFile['alternateLink'].match('^.*?id=(.*)$')[1];
-            console.log(fileId);
-            this.openGDriveFile(fileId);
-          }
-        }
+        this.getMyCourseWorkStudentSubmissions(
+            courseWork['courseId'], courseWorkId,
+            this.handleStudentSubmissions.bind(this));
       }).bind(this);
       this.events_.listen(element, goog.events.EventType.CLICK,
         loaderEvent, false, this);
     }).bind(this)();
+  }
+};
+
+cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data) {
+  let gdriveInstance = this.helper.getInstance('gdrive');
+  if (gdriveInstance) {
+    let attachments = (
+        data['studentSubmissions'][0]['assignmentSubmission']['attachments']);
+    let courseWorkId = data['studentSubmissions'][0]['courseWorkId'];
+    let getFilePromises = [];
+    for (let i = 0; i < attachments.length; i++) {
+      let attachment = attachments[i];
+      console.log('attachment i: ' + i);
+      console.log(attachment);
+      if ('driveFile' in attachment) {
+        let fileId = attachment['driveFile']['id'];
+        getFilePromises.push(gdriveInstance.getFile(fileId));
+      }
+    }
+
+    Promise.all(getFilePromises).then((files) => {
+      console.log('Got gDrive files');
+      console.log(files);
+      let idToDriveFile = {};
+      for (let i = 0; i < files.length; i++) {
+        idToDriveFile[files[i]['id']] = files[i];
+      }
+      let submissionContainer = goog.dom.getElement(
+          this.prefix + 'student_submission_' + courseWorkId);
+      goog.soy.renderElement(
+          submissionContainer,
+          cwc.soy.GClassroom.gClassroomStudentSubmissionListTemplate,
+          {prefix: this.prefix, submissions: files}
+      );
+      let elements = goog.dom.getElementsByClass(
+        this.prefix + 'student_submission');
+      for (let i = 0; i < elements.length; i++) {
+        let element = elements[i];
+        let loaderEvent = () => {
+          let driveFileId = goog.dom.dataset.get(element, 'id');
+          let driveFile = idToDriveFile[driveFileId];
+          gdriveInstance.downloadFile(driveFile);
+        };
+        this.events_.listen(element, goog.events.EventType.CLICK,
+          loaderEvent, false, this);
+      }
+    });
+  } else {
+      console.error(
+          'GClassroom.handleStudentSubmissions has no gdrive instance.');
   }
 };
 
@@ -218,6 +259,22 @@ cwc.ui.GClassroom.prototype.getMyCourseWork = function(courseId, callback) {
     accountInstance.request(opts, callback);
   } else {
     console.error('GClassroom.getMyCourseWork missing account');
+  }
+};
+
+cwc.ui.GClassroom.prototype.getMyCourseWorkStudentSubmissions = function(
+    courseId, courseWorkId, callback) {
+  let accountInstance = this.helper.getInstance('account');
+  if (accountInstance) {
+    let opts = {
+      subdomain: 'classroom',
+      path: '/v1/courses/' + courseId + '/courseWork/' + courseWorkId + (
+          '/studentSubmissions'),
+    };
+    accountInstance.request(opts, callback);
+  } else {
+    console.error(
+        'GClassroom.getMyCourseWorkStudentSubmissions missing account');
   }
 };
 

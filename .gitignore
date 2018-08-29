@@ -5,6 +5,7 @@
 .nyc_output
 .project
 .settings
+.idea
 OWNERS
 Thumbs.db
 coverage
