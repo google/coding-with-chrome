@@ -21,7 +21,9 @@ goog.provide('cwc.mode.aiy.Connection');
 
 goog.require('cwc.utils.Events');
 goog.require('cwc.protocol.aiy.Api');
+goog.require('cwc.protocol.mDNS.Api');
 goog.require('cwc.utils.Dialog');
+goog.require('cwc.utils.Database');
 
 /**
  * @constructor
@@ -42,6 +44,22 @@ cwc.mode.aiy.Connection = function(helper) {
 
   /** @private {cwc.utils.Dialog} */
   this.dialog_ = new cwc.utils.Dialog();
+
+  /** @private {!cwc.utils.Database} */
+  this.database_ = new cwc.utils.Database(this.name)
+    .setObjectStoreName('__aiy__');
+
+  /** @private {!cwc.protocol.mDNS.Api} */
+  this.mdns_ = helper.getInstance('mdns');
+};
+
+
+/**
+ * Performs init.
+ * @export
+ */
+cwc.mode.aiy.Connection.prototype.init = function() {
+  this.database_.open();
 };
 
 
@@ -50,7 +68,7 @@ cwc.mode.aiy.Connection = function(helper) {
  * @return {Promise}
  * @export
  */
-cwc.mode.aiy.Connection.prototype.init = function() {
+cwc.mode.aiy.Connection.prototype.connect = function() {
   return this.connectInteractive();
 };
 
@@ -61,39 +79,69 @@ cwc.mode.aiy.Connection.prototype.init = function() {
  * @return {!Promise}
  * @export
  */
-cwc.mode.aiy.Connection.prototype.connectAndSend = function(data) {
+cwc.mode.aiy.Connection.prototype.connectAndSendCode = function(data) {
   let blocker = Promise.resolve();
   if (!this.api_.isConnected()) {
     blocker = this.connectInteractive();
   }
-  return blocker.then(() => this.api_.send(data));
+  return blocker.then(() => this.api_.sendCode(data));
+};
+
+
+
+/**
+ * The AIY socket port.
+ * @const
+ */
+cwc.mode.aiy.Connection.PORT = '8765';
+
+
+/**
+ * The default AIY hostname.
+ * @const
+ */
+cwc.mode.aiy.Connection.DEFAULT_HOSTNAME = 'raspberrypi.local';
+
+
+/**
+ * Prompts the user for the hostname and then tries to connect to it.
+ * @return {Promise}
+ * @export
+ */
+cwc.mode.aiy.Connection.prototype.connectInteractive = async function() {
+  let host = this.findAIY_()
+         || await this.database_.get('host')
+         || cwc.mode.aiy.Connection.DEFAULT_HOSTNAME;
+
+  try {
+    host = await this.dialog_.showPrompt(
+      'Socket URL',
+      'Please type in the URL of the Raspberry Pi',
+      host
+    );
+    try {
+      const url = this.buildSocketUrl(host);
+      await this.api_.connect(url);
+      this.database_.put('host', host);
+    } catch (error) {
+      this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
+      return this.connectInteractive();
+    }
+  } catch (error) {
+    // Cancelled - do nothing
+  }
 };
 
 
 /**
- * The default WebSocket URL.
- * @const
- */
-cwc.mode.aiy.Connection.DEFAULT_URL = 'ws://raspberrypi.local:8765';
-
-
-/**
- * Prompts the user for the URL and then tries to connect to it.
+ * Attempts to reconnect to the previous successful url.
  * @return {Promise}
- * @private
+ * @export
  */
-cwc.mode.aiy.Connection.prototype.connectInteractive = function() {
-  return this.dialog_.showPrompt(
-    'Socket URL',
-    'Please type in the URL of the Raspberry Pi',
-    cwc.mode.aiy.Connection.DEFAULT_URL
-  ).then((url) => {
-    return this.api_.connect(url);
-  }).catch((error) => {
-    if (error instanceof MouseEvent) {
-      return;
-    }
-    this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
+cwc.mode.aiy.Connection.prototype.reconnect = async function() {
+  this.api_.disconnect();
+  return this.api_.reconnect().catch((err) => {
+    console.warn(`Failed to reconnect: ${err}`);
   });
 };
 
@@ -104,3 +152,26 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = function() {
 cwc.mode.aiy.Connection.prototype.getEventHandler = function() {
   return this.api_.getEventHandler();
 };
+
+
+/**
+ * Attempts to use mDNS to find the AIY device.
+ * @return {String}
+ * @private
+ */
+cwc.mode.aiy.Connection.prototype.findAIY_ = function() {
+  const ip = this.mdns_.getServiceList('_aiy_cwc._tcp.local')[0];
+  return ip;
+};
+
+
+/**
+ * Builds WebSocket URL from hostname.
+ * @param {!string} hostname
+ * @return {String}
+ * @private
+ */
+cwc.mode.aiy.Connection.prototype.buildSocketUrl = function(hostname) {
+  return `ws://${hostname}:${cwc.mode.aiy.Connection.PORT}`;
+};
+

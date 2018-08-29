@@ -27,7 +27,9 @@ goog.require('cwc.utils.EventData');
  * @enum {string}
  */
 cwc.protocol.aiy.Events.Type = {
-  RECEIVED_DATA: 'received_data',
+  RECEIVED_DATA_STDOUT: 'received_data_stdout',
+  RECEIVED_DATA_STDERR: 'received_data_stderr',
+  EXIT: 'exit'
 };
 
 
@@ -36,7 +38,27 @@ cwc.protocol.aiy.Events.Type = {
  * @return {!cwc.utils.EventData}
  * @final
  */
-cwc.protocol.aiy.Events.receivedData = function(data) {
+cwc.protocol.aiy.Events.receivedDataStdout = function(data) {
   return new cwc.utils.EventData(
-      cwc.protocol.aiy.Events.Type.RECEIVED_DATA, data);
+      cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDOUT, data);
+};
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.aiy.Events.receivedDataStderr = function(data) {
+  return new cwc.utils.EventData(
+      cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDERR, data);
+};
+
+/**
+ * @param {number} code
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.aiy.Events.exit = function(code) {
+  return new cwc.utils.EventData(
+      cwc.protocol.aiy.Events.Type.EXIT, code);
 };

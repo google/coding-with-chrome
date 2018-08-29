@@ -20,11 +20,10 @@
 goog.provide('cwc.ui.Terminal');
 
 goog.require('cwc.soy.ui.Terminal');
+goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
 goog.require('goog.dom.classlist');
-goog.require('goog.ui.KeyboardShortcutHandler');
-
 
 /**
  * Class represents the console the UI.
@@ -77,14 +76,6 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
 
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
 
-  let keyHandler = new goog.ui.KeyboardShortcutHandler(this.nodeInput);
-  keyHandler.setAlwaysPreventDefault(false);
-  keyHandler.registerShortcut('clear', goog.events.KeyCodes.L,
-    goog.ui.KeyboardShortcutHandler.Modifiers.CTRL);
-  goog.events.listen(
-    keyHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED,
-    this.handleKey_, false, this);
-
   this.events_.listen('clear', goog.events.EventType.CLICK, function() {
     this.clear();
   });
@@ -120,11 +111,9 @@ cwc.ui.Terminal.prototype.write = function(content) {
 
 /**
  * @param {string} content
- * @param {string=} type
- * @param {string=} icon
  */
-cwc.ui.Terminal.prototype.writeln = function(content, type, icon) {
-  this.write(content + '\n', type, icon);
+cwc.ui.Terminal.prototype.writeln = function(content) {
+  this.write(content + '\n');
 };
 
 

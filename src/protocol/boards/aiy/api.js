@@ -40,6 +40,9 @@ cwc.protocol.aiy.Api = function() {
 
   /** @private {!boolean} */
   this.connected_ = false;
+
+  /** @private {!string} */
+  this.url_ = '';
 };
 
 
@@ -58,12 +61,13 @@ cwc.protocol.aiy.NORMAL_CLOSURE = 1000;
 cwc.protocol.aiy.Api.prototype.connect = function(url) {
   if (this.connected_) {
     console.warn('Already connected to AIY, disconnect first!');
-    return;
+    return Promise.reject();
   }
   return new Promise((resolve, reject) => {
     const socket = new WebSocket(url);
     socket.addEventListener('open', () => {
       this.connected_ = true;
+      this.url_ = url;
       this.socket_ = socket;
       resolve();
     }, false);
@@ -78,6 +82,19 @@ cwc.protocol.aiy.Api.prototype.connect = function(url) {
     }, false);
   });
 };
+
+
+/**
+ * Reconnects to the AIY device.
+ * @return {!Promise}
+ */
+cwc.protocol.aiy.Api.prototype.reconnect = function() {
+  if (!this.url_) {
+    console.warn('Cannot reconnect; must connect first!');
+    return Promise.reject();
+  }
+  return this.connect(this.url_);
+}
 
 
 /**
@@ -103,14 +120,27 @@ cwc.protocol.aiy.Api.prototype.isConnected = function() {
 
 /**
  * @param {!string} data
- * @export
+ * @private
  */
-cwc.protocol.aiy.Api.prototype.send = function(data) {
+cwc.protocol.aiy.Api.prototype.send_ = function(data) {
   if (!this.connected_) {
     console.warn('AIY is not connected, unable to send data!');
     return;
   }
   this.socket_.send(data);
+};
+
+
+/**
+ * @param {!string} code
+ * @param {Array<string>} args
+ * @export
+ */
+cwc.protocol.aiy.Api.prototype.sendCode = function(code, args) {
+  return this.send_(JSON.stringify({
+    code,
+    args
+  }));
 };
 
 
@@ -125,14 +155,40 @@ cwc.protocol.aiy.Api.prototype.getEventHandler = function() {
 
 /**
  * Handles received message from WebSocket.
- * @param {string} data
+ * @param {string} messageData
  * @private
  */
-cwc.protocol.aiy.Api.prototype.handleMessage_ = function(data) {
-  if (!data) {
+cwc.protocol.aiy.Api.prototype.handleMessage_ = function(messageData) {
+  if (!messageData) {
     return;
   }
 
-  this.eventHandler.dispatchEvent(
-    cwc.protocol.aiy.Events.receivedData(data));
+  try {
+    const message = JSON.parse(messageData);
+    if (typeof(message) !== 'object') {
+      throw new Error(`Data type is ${typeof(message)}, not object.`);
+    }
+    const type = message.type;
+    if (!type) {
+      throw new Error(`Received message had no type field.`);
+    }
+    switch (type) {
+      case 'stdout':
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.aiy.Events.receivedDataStdout(atob(message.data)));
+        break;
+      case 'stderr':
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.aiy.Events.receivedDataStderr(atob(message.data)));
+        break;
+      case 'exit':
+        this.eventHandler.dispatchEvent(
+          cwc.protocol.aiy.Events.exit(message.code));
+        break;
+      default:
+        throw new Error(`Unknown message type: ${type}.`);
+    }
+  } catch (error) {
+    console.warn(`Received invalid message: ${error}`);
+  }
 };

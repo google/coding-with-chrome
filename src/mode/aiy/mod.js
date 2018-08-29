@@ -24,10 +24,12 @@ goog.require('cwc.mode.aiy.Toolbar');
 goog.require('cwc.mode.aiy.Editor');
 goog.require('cwc.mode.aiy.Layout');
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.mode.aiy.Runner');
 goog.require('cwc.ui.Terminal');
 goog.require('cwc.utils.Helper');
-
+goog.require('cwc.protocol.aiy.Events');
+goog.require('cwc.ui.EditorContent');
+goog.require('cwc.utils.Dialog');
+goog.require('cwc.utils.Events');
 
 /**
  * @constructor
@@ -52,22 +54,42 @@ cwc.mode.aiy.Mod = function(helper) {
   /** @type {!cwc.mode.aiy.Toolbar} */
   this.toolbar = new cwc.mode.aiy.Toolbar(helper);
 
-  /** @type {!cwc.mode.aiy.Runner} */
-  this.runner = new cwc.mode.aiy.Runner(helper, this.connection);
+  /** @type {!cwc.utils.Events} */
+  this.events = new cwc.utils.Events('AIY', '', this);
 };
 
 
 /**
  * Decorates the different parts of the modification.
- * @async
  */
 cwc.mode.aiy.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
   this.decorateTerminal();
-  this.runner.init();
+  this.connection.init();
+  this.initEvents();
 
   this.toolbar.on('run', this.run.bind(this));
+};
+
+
+cwc.mode.aiy.Mod.prototype.initEvents = function() {
+  const eventHandler = this.connection.getEventHandler();
+  this.events.listen(
+    eventHandler,
+    cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDERR,
+    this.receivedData.bind(this)
+  );
+  this.events.listen(
+    eventHandler,
+    cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDOUT,
+    this.receivedData.bind(this)
+  );
+  this.events.listen(
+    eventHandler,
+    cwc.protocol.aiy.Events.Type.EXIT,
+    this.receivedExit.bind(this)
+  );
 };
 
 
@@ -84,5 +106,28 @@ cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
  * Run code
  */
 cwc.mode.aiy.Mod.prototype.run = function() {
-  this.runner.run();
+  const editorInstance = this.editor.editor;
+  let pythonCode = editorInstance.getEditorContent(
+    cwc.ui.EditorContent.DEFAULT);
+  this.connection.connectAndSendCode(pythonCode);
+}
+
+
+/**
+ * Handles the received data event from AIY.
+ * @param {Event} event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.receivedData = function(event) {
+  this.terminal.write(event.data);
+};
+
+/**
+ * Handles the process exit event.
+ * @param {Event} event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.receivedExit = function(event) {
+  this.terminal.writeln('<process terminated>');
+  this.connection.reconnect();
 };
