@@ -66,7 +66,7 @@
     <ul class="mdl-list">
       {foreach $course_work in $courseWorks}
       <li class="mdl-list__item {$prefix}course_work" data-id={$course_work['id']}>
-        <span class="mdl-list__item-primary-content">
+        <span class="mdl-list__item-primary-content {$prefix}course_work_title">
          <i class="material-icons mdl-list__item-icon">expand_more</i>
          {$course_work['title']}
         </span>

@@ -56,6 +56,8 @@ cwc.ui.GClassroom = function(helper) {
 
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
+
+  this.idByCourseWorkExpanded_ = {};
 };
 
 cwc.ui.GClassroom.prototype.openDialog = function() {
@@ -108,22 +110,30 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
 
   let elements = goog.dom.getElementsByClass(this.prefix + 'course_work');
   for (let i = 0; i < elements.length; i++) {
-    (function() {
-      let element = elements[i];
-      let loaderEvent = (function() {
-        let courseWorkId = goog.dom.dataset.get(element, 'id');
+    let element = elements[i];
+    let courseWorkId = goog.dom.dataset.get(element, 'id');
+    this.idByCourseWorkExpanded_[courseWorkId] = false;
+    let loaderEvent = () => {
+      let iconElement = element.firstElementChild.firstElementChild;
+      if (this.idByCourseWorkExpanded_[courseWorkId]) {
+        let submissionContainer = goog.dom.getElement(
+          this.prefix + 'student_submission_' + courseWorkId);
+        goog.dom.removeChildren(submissionContainer);
+        goog.dom.setTextContent(iconElement, 'expand_more');
+        this.idByCourseWorkExpanded_[courseWorkId] = false;
+      } else {
         let courseWork = idToCourseWork[courseWorkId];
         this.getMyCourseWorkStudentSubmissions(
-            courseWork['courseId'], courseWorkId,
-            this.handleStudentSubmissions.bind(this));
-      }).bind(this);
-      this.events_.listen(element, goog.events.EventType.CLICK,
-        loaderEvent, false, this);
-    }).bind(this)();
+          courseWork['courseId'], courseWorkId, iconElement,
+          this.handleStudentSubmissions.bind(this));
+     }
+    };
+    this.events_.listen(element.firstElementChild, goog.events.EventType.CLICK,
+      loaderEvent, false, this);
   }
 };
 
-cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data) {
+cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data, iconElement) {
   let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     let attachments = (
@@ -154,6 +164,9 @@ cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data) {
           cwc.soy.GClassroom.gClassroomStudentSubmissionListTemplate,
           {prefix: this.prefix, submissions: files}
       );
+      goog.dom.setTextContent(iconElement, 'expand_less');
+      this.idByCourseWorkExpanded_[courseWorkId] = true;
+
       let elements = goog.dom.getElementsByClass(
         this.prefix + 'student_submission');
       for (let i = 0; i < elements.length; i++) {
@@ -263,7 +276,7 @@ cwc.ui.GClassroom.prototype.getMyCourseWork = function(courseId, callback) {
 };
 
 cwc.ui.GClassroom.prototype.getMyCourseWorkStudentSubmissions = function(
-    courseId, courseWorkId, callback) {
+    courseId, courseWorkId, iconElement, callback) {
   let accountInstance = this.helper.getInstance('account');
   if (accountInstance) {
     let opts = {
@@ -271,7 +284,9 @@ cwc.ui.GClassroom.prototype.getMyCourseWorkStudentSubmissions = function(
       path: '/v1/courses/' + courseId + '/courseWork/' + courseWorkId + (
           '/studentSubmissions'),
     };
-    accountInstance.request(opts, callback);
+    accountInstance.request(opts, (data) => {
+      callback(data, iconElement);
+    });
   } else {
     console.error(
         'GClassroom.getMyCourseWorkStudentSubmissions missing account');
