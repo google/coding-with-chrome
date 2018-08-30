@@ -47,6 +47,11 @@ chrome.app.runtime.onLaunched.addListener(
 
     chrome.app.window.create('index.html', editorConfig, function(editor) {
       if (editor) {
+        const mdnsServices = [
+          '_cros_p2p._tcp.local',
+          '_ssh._tcp.local'
+        ];
+
         editor.outerBounds.setPosition(
           Math.round((screenWidth - editorWidth) / 2),
           Math.round((screenHeight - editorHeight) / 2)
@@ -55,12 +60,11 @@ chrome.app.runtime.onLaunched.addListener(
           if (chrome.mdns) {
             let mDNS = editor.contentWindow.CWC_BUILDER.mDNS.bind(
               editor.contentWindow.CWC_BUILDER);
-            chrome.mdns.onServiceList.addListener((data) => {
-                mDNS('_cros_p2p._tcp.local', data);
-              }, {serviceType: '_cros_p2p._tcp.local'});
-            chrome.mdns.onServiceList.addListener((data) => {
-                mDNS('_ssh._tcp.local', data);
-              }, {serviceType: '_ssh._tcp.local'});
+            for (let service of mdnsServices) {
+              chrome.mdns.onServiceList.addListener((data) => {
+                  mDNS(service, data);
+                }, {serviceType: service});
+            }
           }
         });
         editor.drawAttention();
