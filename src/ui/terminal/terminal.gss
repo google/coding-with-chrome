@@ -24,10 +24,17 @@
 }
 
 #{$prefix}terminal-content {
-  background: #f7f7f7;
+  background: #111;
+  color: lime;
+  letter-spacing: 0.5px;
+  padding: 0.5em;
   flex: 1;
-  font-family: "Courier new", "Courier", monospace;
+  font-family: "Consolas", "Courier new","Courier",monospace;
   overflow-y: scroll;
+}
+
+#{$prefix}terminal-content .error {
+  color: red;
 }
 
 #{$prefix}terminal-toolbar {

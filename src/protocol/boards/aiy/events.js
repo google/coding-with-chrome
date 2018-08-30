@@ -27,9 +27,31 @@ goog.require('cwc.utils.EventData');
  * @enum {string}
  */
 cwc.protocol.aiy.Events.Type = {
+  CONNECTED: 'connected',
+  DISCONNECTED: 'disconnected',
   RECEIVED_DATA_STDOUT: 'received_data_stdout',
   RECEIVED_DATA_STDERR: 'received_data_stderr',
   EXIT: 'exit'
+};
+
+
+/**
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.aiy.Events.connected = function() {
+  return new cwc.utils.EventData(cwc.protocol.aiy.Events.Type.CONNECTED);
+};
+
+
+/**
+ * @param {number} code
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+cwc.protocol.aiy.Events.disconnected = function(code) {
+  return new cwc.utils.EventData(
+      cwc.protocol.aiy.Events.Type.DISCONNECTED, code);
 };
 
 

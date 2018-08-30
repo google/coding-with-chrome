@@ -64,6 +64,16 @@ cwc.mode.aiy.Connection.prototype.init = function() {
 
 
 /**
+ * Checks if AIY device is connected.
+ * @return {boolean}
+ * @export
+ */
+cwc.mode.aiy.Connection.prototype.isConnected = function() {
+  return this.api_.isConnected();
+};
+
+
+/**
  * Connects the AIY device.
  * @return {Promise}
  * @export
@@ -88,7 +98,6 @@ cwc.mode.aiy.Connection.prototype.connectAndSendCode = function(data) {
 };
 
 
-
 /**
  * The AIY socket port.
  * @const
@@ -105,13 +114,14 @@ cwc.mode.aiy.Connection.DEFAULT_HOSTNAME = 'raspberrypi.local';
 
 /**
  * Prompts the user for the hostname and then tries to connect to it.
+ * @param {string} host
  * @return {Promise}
  * @export
  */
-cwc.mode.aiy.Connection.prototype.connectInteractive = async function() {
-  let host = this.findAIY_()
-         || await this.database_.get('host')
-         || cwc.mode.aiy.Connection.DEFAULT_HOSTNAME;
+cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
+  host = host || await this.database_.get('host');
+  host = this.findAIY_(host) || host;
+  host = host || cwc.mode.aiy.Connection.DEFAULT_HOSTNAME;
 
   try {
     host = await this.dialog_.showPrompt(
@@ -124,8 +134,8 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function() {
       await this.api_.connect(url);
       this.database_.put('host', host);
     } catch (error) {
-      this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
-      return this.connectInteractive();
+      await this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
+      return this.connectInteractive(host);
     }
   } catch (error) {
     // Cancelled - do nothing
@@ -138,8 +148,19 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function() {
  * @return {Promise}
  * @export
  */
+cwc.mode.aiy.Connection.prototype.disconnect = function() {
+  if (this.api_.isConnected()) {
+    this.api_.disconnect();
+  }
+}
+
+/**
+ * Attempts to reconnect to the previous successful url.
+ * @return {Promise}
+ * @export
+ */
 cwc.mode.aiy.Connection.prototype.reconnect = async function() {
-  this.api_.disconnect();
+  this.disconnect();
   return this.api_.reconnect().catch((err) => {
     console.warn(`Failed to reconnect: ${err}`);
   });
@@ -159,19 +180,27 @@ cwc.mode.aiy.Connection.prototype.getEventHandler = function() {
  * @return {String}
  * @private
  */
-cwc.mode.aiy.Connection.prototype.findAIY_ = function() {
-  const ip = this.mdns_.getServiceList('_aiy_cwc._tcp.local')[0];
-  return ip;
+cwc.mode.aiy.Connection.prototype.findAIY_ = function(hint) {
+  const services = this.mdns_.getServiceList('_aiy_cwc._tcp.local');
+  const service = services.find((el) => {
+    return el.serviceHostPort === hint || el.ipAddress == hint;
+  }) || services[0];
+  if (service) {
+    return service.serviceHostPort;
+  }
+  return null;
 };
 
 
 /**
  * Builds WebSocket URL from hostname.
- * @param {!string} hostname
+ * @param {!string} host
  * @return {String}
  * @private
  */
-cwc.mode.aiy.Connection.prototype.buildSocketUrl = function(hostname) {
-  return `ws://${hostname}:${cwc.mode.aiy.Connection.PORT}`;
+cwc.mode.aiy.Connection.prototype.buildSocketUrl = function(host) {
+  if (host.indexOf(':') > 0) {
+    return `ws://${host}`
+  }
+  return `ws://${host}:${cwc.mode.aiy.Connection.PORT}`;
 };
-

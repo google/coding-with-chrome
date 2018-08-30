@@ -65,11 +65,14 @@ cwc.mode.aiy.Mod = function(helper) {
 cwc.mode.aiy.Mod.prototype.decorate = function() {
   this.layout.decorate();
   this.editor.decorate();
+  this.toolbar.decorate();
   this.decorateTerminal();
   this.connection.init();
+  this.connection.connect();
   this.initEvents();
 
   this.toolbar.on('run', this.run.bind(this));
+  this.toolbar.on('disconnect', this.disconnect.bind(this));
 };
 
 
@@ -78,7 +81,7 @@ cwc.mode.aiy.Mod.prototype.initEvents = function() {
   this.events.listen(
     eventHandler,
     cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDERR,
-    this.receivedData.bind(this)
+    this.receivedDataErr.bind(this)
   );
   this.events.listen(
     eventHandler,
@@ -89,6 +92,16 @@ cwc.mode.aiy.Mod.prototype.initEvents = function() {
     eventHandler,
     cwc.protocol.aiy.Events.Type.EXIT,
     this.receivedExit.bind(this)
+  );
+  this.events.listen(
+    eventHandler,
+    cwc.protocol.aiy.Events.Type.CONNECTED,
+    this.receivedConnected.bind(this)
+  );
+  this.events.listen(
+    eventHandler,
+    cwc.protocol.aiy.Events.Type.DISCONNECTED,
+    this.receivedDisconnected.bind(this)
   );
 };
 
@@ -114,6 +127,14 @@ cwc.mode.aiy.Mod.prototype.run = function() {
 
 
 /**
+ * Disconnect
+ */
+cwc.mode.aiy.Mod.prototype.disconnect = function() {
+  this.connection.disconnect();
+}
+
+
+/**
  * Handles the received data event from AIY.
  * @param {Event} event
  * @private
@@ -121,6 +142,17 @@ cwc.mode.aiy.Mod.prototype.run = function() {
 cwc.mode.aiy.Mod.prototype.receivedData = function(event) {
   this.terminal.write(event.data);
 };
+
+
+/**
+ * Handles the received stderr data event from AIY.
+ * @param {Event} event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.receivedDataErr = function(event) {
+  this.terminal.error(event.data);
+};
+
 
 /**
  * Handles the process exit event.
@@ -130,4 +162,24 @@ cwc.mode.aiy.Mod.prototype.receivedData = function(event) {
 cwc.mode.aiy.Mod.prototype.receivedExit = function(event) {
   this.terminal.writeln('<process terminated>');
   this.connection.reconnect();
+};
+
+
+/**
+ * Handles the connect event.
+ * @param {Event} event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.receivedConnected = function(event) {
+  this.toolbar.setStatus('Connected');
+};
+
+
+/**
+ * Handles the disconnect event.
+ * @param {Event} event
+ * @private
+ */
+cwc.mode.aiy.Mod.prototype.receivedDisconnected = function(event) {
+  this.toolbar.setStatus('Not connected');
 };

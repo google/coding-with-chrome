@@ -94,8 +94,9 @@ cwc.ui.Terminal.prototype.clear = function() {
 /**
  * Write text content into terminal content.
  * @param {string} content
+ * @param {string} className
  */
-cwc.ui.Terminal.prototype.write = function(content) {
+cwc.ui.Terminal.prototype.write_ = function(content, className) {
   if (!content) {
     return;
   }
@@ -103,9 +104,21 @@ cwc.ui.Terminal.prototype.write = function(content) {
     let nodeEntry = document.createElement('div');
     nodeEntry.appendChild(document.createTextNode(content));
     nodeEntry.className = this.prefix + 'content-entry';
+    if (className) {
+      nodeEntry += className;
+    }
     this.nodeContent.appendChild(nodeEntry);
     this.nodeContent.scrollTo(0, this.nodeContent.scrollHeight);
   }
+};
+
+
+/**
+ * Write text content into terminal content.
+ * @param {string} content
+ */
+cwc.ui.Terminal.prototype.write = function(content) {
+  this.write_(content);
 };
 
 
@@ -114,6 +127,23 @@ cwc.ui.Terminal.prototype.write = function(content) {
  */
 cwc.ui.Terminal.prototype.writeln = function(content) {
   this.write(content + '\n');
+};
+
+
+/**
+ * Write text content into terminal content.
+ * @param {string} content
+ */
+cwc.ui.Terminal.prototype.error = function(content) {
+  this.write_(content, 'error');
+};
+
+
+/**
+ * @param {string} content
+ */
+cwc.ui.Terminal.prototype.errorln = function(content) {
+  this.error(content + '\n');
 };
 
 

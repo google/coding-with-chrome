@@ -29,27 +29,25 @@
   <div id="{$prefix}aiy-container">
     <div id="{$prefix}aiy-toolbar" class="editor-toolbar mdl-layout__header">
       <div class="mdl-layout__header-row">
+        <div id="{$prefix}aiy-toolbar-status">
+          Not connected
+        </div>
+      </div>
+      <div class="mdl-layout__header-row">
         <nav class="mdl-navigation">
-
-          {call cwc.soy.ui.Template.navigationIcon}
-            {param prefix: $prefix + 'aiy-toolbar-' /}
-            {param id: 'upload' /}
-            {param icon: 'cloud_upload' /}
-            {param opt_title: 'Send file to AIY' /}
-          {/call}
-
-          {call cwc.soy.ui.Template.navigationIcon}
-            {param prefix: $prefix + 'aiy-toolbar-' /}
-            {param id: 'download' /}
-            {param icon: 'cloud_download' /}
-            {param opt_title: 'Get file from AIY' /}
-          {/call}
 
           {call cwc.soy.ui.Template.navigationIcon}
             {param prefix: $prefix + 'aiy-toolbar-' /}
             {param id: 'run' /}
             {param icon: 'play_circle_outline' /}
             {param opt_title: 'Run file on AIY' /}
+          {/call}
+
+          {call cwc.soy.ui.Template.navigationIcon}
+            {param prefix: $prefix + 'aiy-toolbar-' /}
+            {param id: 'disconnect' /}
+            {param icon: 'close' /}
+            {param opt_title: 'Close connection' /}
           {/call}
 
         </nav>

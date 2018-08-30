@@ -37,8 +37,18 @@ cwc.mode.aiy.Toolbar = function(helper) {
 
   /** @type {string} */
   this.prefix = this.helper.getPrefix('aiy-toolbar');
+
+  /** @type {Element} */
+  this.statusNode = null;
 };
 
+
+/**
+ * Decorates the toolbar.
+ */
+cwc.mode.aiy.Toolbar.prototype.decorate = function() {
+  this.statusNode = goog.dom.getElement(this.prefix + 'status');
+}
 
 /**
  * Uploads the file to the AIY device.
@@ -52,3 +62,12 @@ cwc.mode.aiy.Toolbar.prototype.on = function(id, callback) {
   }
   goog.events.listen(node, goog.events.EventType.CLICK, callback);
 };
+
+
+/**
+ * Sets the AIY status.
+ * @param {!string} status
+ */
+cwc.mode.aiy.Toolbar.prototype.setStatus = function(status) {
+  this.statusNode.innerText = status;
+}

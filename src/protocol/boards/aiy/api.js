@@ -69,10 +69,13 @@ cwc.protocol.aiy.Api.prototype.connect = function(url) {
       this.connected_ = true;
       this.url_ = url;
       this.socket_ = socket;
+      this.eventHandler.dispatchEvent(cwc.protocol.aiy.Events.connected());
       resolve();
     }, false);
     socket.addEventListener('close', (event) => {
       this.connected_ = false;
+      this.eventHandler.dispatchEvent(
+        cwc.protocol.aiy.Events.disconnected(event.code));
       if (event.code !== cwc.protocol.aiy.NORMAL_CLOSURE) {
         reject(new Error(`WebSocket closed with code ${event.code}`));
       }
