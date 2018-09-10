@@ -113,8 +113,26 @@ Blockly.JavaScript['sphero_sprk_plus_rgb'] = function(block) {
   let red = colour >> 16;
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
-  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100' +
-    ');\n';
+  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100);\n';
+};
+
+
+/**
+ * Sphero RGB blink.
+ * @param {!Blockly.block} block
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_blink'] = function(block) {
+  let colour = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
+    .replace('#', '')
+    .replace('\'', '')
+    .replace('"', ''), 16);
+  let red = colour >> 16;
+  let green = colour >> 8 & 0xFF;
+  let blue = colour & 0xFF;
+  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100);\n' +
+    'sphero.setRGB(0, 0, 0, 1, 100);\n';
 };
 
 

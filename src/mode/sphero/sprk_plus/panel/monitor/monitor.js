@@ -84,6 +84,7 @@ cwc.mode.sphero.sprkPlus.Monitor.prototype.decorate = function(node) {
     goog.dom.getElement(this.prefix + 'position-value');
   this.nodeCache['collision'] =
     goog.dom.getElement(this.prefix + 'collision-value');
+  this.nodeCache['speed'] = goog.dom.getElement(this.prefix + 'speed-value');
 
   // Event Handler
   let eventTarget = this.connection.getEventTarget();
@@ -98,6 +99,12 @@ cwc.mode.sphero.sprkPlus.Monitor.prototype.decorate = function(node) {
   this.events_.listen(eventTarget,
     Events.Type.POSITION, (e) => {
       this.nodeCache['position'].firstChild.nodeValue =
+        `x:${e.data.x} cm, y:${e.data.y} cm`;
+    });
+
+  this.events_.listen(eventTarget,
+    Events.Type.VELOCITY, (e) => {
+      this.nodeCache['speed'].firstChild.nodeValue =
         `x:${e.data.x} cm, y:${e.data.y} cm`;
     });
 

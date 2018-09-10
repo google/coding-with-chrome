@@ -100,6 +100,11 @@ cwc.mode.sphero.sprkPlus.Calibration.prototype.addEventHandler_ = function() {
     this.nodeSlider, goog.events.EventType.MOUSEUP, function() {
       this.api.exec('setCalibration');
     });
+
+  this.events_.listen(
+    'reset-location', goog.events.EventType.CLICK, function() {
+      this.api.exec('setLocation');
+    });
 };
 
 

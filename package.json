@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "bestzip": "^1.1.4",
+    "bestzip": "^1.1.6",
     "closure-builder": "^2.2.46",
     "closure-templates": "latest",
     "command-line-usage": "^5.0.5",
@@ -15,7 +15,7 @@
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "http-server": "latest",
-    "jasmine-core": "^3.2.0",
+    "jasmine-core": "^3.2.1",
     "jsdoc": "^3.5.5",
     "karma": "^2.0.5",
     "karma-chrome-launcher": "latest",
@@ -28,7 +28,7 @@
     "markdownlint-cli": "^0.8.1",
     "nw": "^0.31.5",
     "nw-builder": "^3.5.4",
-    "replace-in-file": "^3.4.0",
+    "replace-in-file": "^3.4.2",
     "rimraf": "^2.6.2"
   },
   "scripts": {

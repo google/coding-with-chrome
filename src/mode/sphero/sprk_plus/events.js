@@ -27,4 +27,5 @@ cwc.mode.sphero.sprkPlus.SensorEvents = {
   COLLISION: 'COLLISION',
   POSITION: 'POSITION',
   RGB: 'RGB',
+  VELOCITY: 'VELOCITY',
 };

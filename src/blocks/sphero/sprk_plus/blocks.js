@@ -226,7 +226,7 @@ Blockly.Blocks['sphero_sprk_plus_rgb'] = {
 
 
 /**
- * Sphero rgb.
+ * Sphero rgb blink.
  */
 Blockly.Blocks['sphero_sprk_plus_blink'] = {
   init: function() {

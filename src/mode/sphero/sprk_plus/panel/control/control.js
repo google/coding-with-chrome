@@ -95,12 +95,14 @@ cwc.mode.sphero.sprkPlus.Control.prototype.addEventHandler_ = function() {
     function(e) {
       let color = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
         e.target.value);
-      this.api.exec('setRGB', {
-        'red': parseInt(color[1], 16),
-        'green': parseInt(color[2], 16),
-        'blue': parseInt(color[3], 16),
+      this.events_.debounce('setRGB', () => {
+        this.api.exec('setRGB', {
+          'red': parseInt(color[1], 16),
+          'green': parseInt(color[2], 16),
+          'blue': parseInt(color[3], 16),
+        });
+      });
     });
-  });
 
   // Movements
   this.events_.listen('move-left', goog.events.EventType.CLICK, function() {

@@ -76,13 +76,13 @@
           {param name: 'Sphero 2.0' /}
         {/call}
 
-        {if $experimental}
-          {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
-            {param id: 'sphero_sprk_plus' /}
-            {param module: 'sphero' /}
-            {param name: 'Sphero SPRK+' /}
-          {/call}
+        {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
+          {param id: 'sphero_sprk_plus' /}
+          {param module: 'sphero' /}
+          {param name: 'Sphero SPRK+' /}
+        {/call}
 
+        {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarLink data="all"}
             {param id: 'sphero_bb8' /}
             {param module: 'sphero' /}
@@ -139,14 +139,14 @@
           {/param}
         {/call}
 
-        {if $experimental}
-          {call cwc.soy.SelectScreenTemplate.subTabBarContent}
-            {param id: 'sphero_sprk_plus' /}
-            {param content kind="html"}
-              {call cwc.soy.SelectScreenNormal.robot.sphero.sprkPlus.overview data="all" /}
-            {/param}
-          {/call}
+        {call cwc.soy.SelectScreenTemplate.subTabBarContent}
+          {param id: 'sphero_sprk_plus' /}
+          {param content kind="html"}
+            {call cwc.soy.SelectScreenNormal.robot.sphero.sprkPlus.overview data="all" /}
+          {/param}
+        {/call}
 
+        {if $experimental}
           {call cwc.soy.SelectScreenTemplate.subTabBarContent}
             {param id: 'sphero_bb8' /}
             {param content kind="html"}
@@ -215,12 +215,12 @@
             {param tab: 'sphero_classic' /}
           {/call}
 
-          {if $experimental}
-            {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-              {param text: 'Use Sphero SPRK+ robot' /}
-              {param tab: 'sphero_sprk_plus' /}
-            {/call}
+          {call cwc.soy.SelectScreenTemplate.selectSectionLink}
+            {param text: 'Use Sphero SPRK+ robot' /}
+            {param tab: 'sphero_sprk_plus' /}
+          {/call}
 
+          {if $experimental}
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
               {param text: 'Use Sphero BB-8 robot' /}
               {param tab: 'sphero_bb8' /}

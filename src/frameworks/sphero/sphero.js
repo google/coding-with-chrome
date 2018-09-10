@@ -49,14 +49,16 @@ cwc.framework.Sphero = function() {
 
   /** @private {} */
   this.events_ = {
-    position: function() {},
     collision: function() {},
+    position: function() {},
+    velocity: function() {},
   };
 
   /** @private {!cwc.framework.Messenger} */
   this.messenger_ = new cwc.framework.Messenger()
     .setListenerScope(this)
     .addListener('__EVENT__COLLISION', this.handleCollision_)
+    .addListener('__EVENT__VELOCITY', this.handleVelocity_)
     .addListener('__EVENT__changed_values', function(e) {
       console.log('Changed values event', e);
     })
@@ -221,6 +223,15 @@ cwc.framework.Sphero.prototype.onPositionChange = function(func) {
  */
 cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
   this.events_.collision(data);
+};
+
+
+/**
+ * @param {number} data
+ * @private
+ */
+cwc.framework.Sphero.prototype.handleVelocity_ = function(data) {
+  this.events_.velocity(data);
 };
 
 

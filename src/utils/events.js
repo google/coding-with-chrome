@@ -42,6 +42,9 @@ cwc.utils.Events = function(name = 'Events', prefix = '', scope = undefined) {
   /** @type {Object} */
   this.scope = scope;
 
+  /** @private {!Array} */
+  this.debouncer_ = [];
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
@@ -82,6 +85,20 @@ cwc.utils.Events.prototype.listen = function(src, type, listener,
       scope || this.scope);
   this.listener_.push(listenerKey);
   return listenerKey;
+};
+
+
+/**
+ * @param {string} name
+ * @param {function(?)} func
+ * @param {number=} delay
+ */
+cwc.utils.Events.prototype.debounce = function(name, func, delay = 25) {
+  if (this.debouncer_[name]) {
+    clearTimeout(this.debouncer_[name]);
+    this.debouncer_[name] = null;
+  }
+  this.debouncer_[name] = setTimeout(func, delay);
 };
 
 
