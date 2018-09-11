@@ -16,12 +16,18 @@
  * @author carheden@google.com (Adam Carheden)
  */
 
-
-window.top['cwc-validated'] = function(code, res) {
-  let msg = '<h2 style="font-style: italic; color: red;">' +
-    'No right triangles yet. Keep trying.</h2>';
-  if (res) {
-    msg = '<h2 style="color: green">That\'s a right triangle. Great Job!</h2>';
+/**
+ * @param {!string} code
+ * @return {Array<Object>}
+ */
+function checkCircle(code) {
+  let matches = code.match(
+    /draw.circle\(([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+)\)/);
+  if (matches) {
+    return {
+      message: 'Great circle. Lets continue to the next step.',
+      solved: true,
+    };
   }
-  document.getElementById('status').innerHTML = msg;
-};
+  return {solved: false};
+}

@@ -16,30 +16,38 @@
  * limitations under the License.
  *
  * @author carheden@google.com (Adam Carheden)
+ * @author mdiehl@workbenchplatform.com (Matt Diehl)
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.provide('cwc.ui.Tutorial');
 
-goog.require('cwc.mode.Modder.Events');
 goog.require('cwc.mode.Type');
 goog.require('cwc.renderer.Helper');
 goog.require('cwc.soy.ui.Tutorial');
-goog.require('cwc.ui.Helper');
+goog.require('cwc.ui.TutorialValidator');
+goog.require('cwc.utils.Database');
+goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 goog.require('cwc.utils.mime.Type');
+goog.require('cwc.utils.Resources');
 
 goog.require('goog.dom');
+goog.require('goog.html.SafeHtml');
+goog.require('goog.html.sanitizer.HtmlSanitizer');
 goog.require('goog.events');
 goog.require('goog.soy');
+goog.require('goog.string');
 goog.require('goog.style');
-
+goog.require('goog.ui.Component');
+goog.require('soydata.VERY_UNSAFE');
 
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
  * @struct
  * @final
+ * @export
  */
 cwc.ui.Tutorial = function(helper) {
   /** @type {string} */
@@ -57,135 +65,694 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
-  /** @private {string} */
-  this.content_ = '';
+  /** @private {!string} */
+  this.activeStepClass_ = this.prefix + 'step-container--active';
 
-  /** @private {string} */
-  this.contentType_ = '';
+  /** @private {!string} */
+  this.completedStepClass_ = this.prefix + 'step-container--complete';
 
   /** @private {!Element} */
-  this.contentNode;
+  this.nodeMediaOverlay_ = null;
+
+  /** @private {!Element} */
+  this.nodeMediaOverlayClose_ = null;
+
+  /** @private {!Element} */
+  this.nodeMediaOverlayContent_ = null;
+
+ /** @private {!cwc.utils.Database} */
+  this.imagesDb_ = null;
+
+  /** @private {!string} */
+  this.description_ = '';
+
+  /** @private {!string} */
+  this.url_ = '';
+
+  /** @private {!Array<object>} */
+  this.steps_ = [];
+
+  /** @private {!Object} */
+  this.state_ = {};
 
   /** @private {!cwc.utils.Events} */
-  this.events_ = new cwc.utils.Events(this.name, '', this);
+  this.editorEvents_ = new cwc.utils.Events(this.name+'_editor', '', this);
 
   /** @private {boolean} */
   this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
-  /** @private {string} */
-  this.validatePreview_ = '';
+  /** @private {!boolean} */
+  this.contentSet_ = false;
 
-  /** @private {string} */
-  this.processResults_ = '';
+  /** @private {!Array<DOMString>} */
+  this.objectURLs_ = [];
+
+  /** @private {cwc.ui.TutorialValidator} */
+  this.validator_ = null;
 };
-
 
 /**
  * @param {!Object} tutorial
+ * @param {cwc.utils.Database} imagesDb
+ * @export
  */
-cwc.ui.Tutorial.prototype.setTutorial = function(tutorial) {
-  if (!tutorial || !tutorial['content']) {
+cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
+  this.log_.info('Setting tutorial', tutorial);
+  this.clear();
+  if (!tutorial) {
+    this.log_.info('No tutorial');
     return;
   }
 
-  if (!tutorial['processResults']) {
-    this.log_.warn('Empty processRsults');
+  await this.setImagesDb_(imagesDb);
+  await this.parseSteps_(tutorial['steps']);
+  this.url_ = tutorial['url'];
+  this.description_ = this.parseDescription_(tutorial['description']);
+  this.contentSet_ = true;
+
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.enableTutorial(true);
+  } else {
+    this.log_.error('no sidebar, not enabling tutorial');
   }
-  if (!tutorial['validatePreview']) {
-    this.log_.warn('Empty validatePreview');
+  this.startTutorial();
+};
+
+/**
+ * @param {cwc.utils.Database} imagesDb
+ * @private
+ */
+cwc.ui.Tutorial.prototype.setImagesDb_ = async function(imagesDb) {
+  if (imagesDb) {
+    this.imagesDb_ = imagesDb;
+  } else {
+    const objectStoreName = '__tutorial__';
+    this.imagesDb_ = new cwc.utils.Database('Tutorial')
+    .setObjectStoreName(objectStoreName);
+    await this.imagesDb_.open({'objectStoreNames': [objectStoreName]});
   }
-  if (!('content' in tutorial)) {
-    this.log_.error('Tutorial has no content');
-    return;
-  }
-  if (!this.parseTutorialContent(tutorial['content'])) return;
-  this.processResults_ = tutorial['processResults'];
-  this.validatePreview_ = tutorial['validatePreview'];
+};
+
+/**
+ * Returns true if a tutorial has been loaded.
+ * @return {boolean}
+ * @export
+ */
+cwc.ui.Tutorial.prototype.hasTutorial = function() {
+  return this.contentSet_;
 };
 
 
 /**
- * @param {!string|object} tutorialContent
- * @return {!bool}
+ * @param {!object} steps
+ * @private
  */
-cwc.ui.Tutorial.prototype.parseTutorialContent = function(tutorialContent) {
-  this.log_.info('Loading tutorial data', tutorialContent);
-  let type = typeof tutorialContent;
-  switch (type) {
-    case 'string':
-      this.content_ = tutorialContent;
-      this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
-      break;
-    case 'object':
-      if (!('text' in tutorialContent)) {
-        this.log_.error('Tutorial content missing text key');
-        return;
+cwc.ui.Tutorial.prototype.parseSteps_ = async function(steps) {
+  this.log_.info('Loading steps', steps);
+
+  if (!steps) {
+    this.log_.warn('Tutorial has no steps.');
+    return;
+  }
+  if (!Array.isArray(steps)) {
+    this.log_.warn('Ignoring invalid steps', steps, '(Expecting an array)');
+    return;
+  }
+
+  if (this.steps_.length != 0) {
+    this.log_.warn('Replacing existing steps', this.steps_);
+  }
+  this.steps_ = [];
+
+  await Promise.all(steps.map((step, id) => {
+    return this.addStep_(step, id);
+  }));
+};
+
+/**
+ * @param {!object} stepTemplate
+ * @param {!int} id
+ * @private
+ */
+cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
+  let step = {
+    id: id,
+    title: '',
+    description: '',
+    validate: false,
+    code: false,
+    images: [],
+    videos: [],
+  };
+
+  if (typeof stepTemplate['title'] === 'string') {
+    step.title = stepTemplate['title'];
+  }
+
+  if (stepTemplate['validate']) {
+    step.validate = stepTemplate['validate'];
+  }
+
+  if ('code' in stepTemplate) {
+    if (typeof stepTemplate['code'] === 'string') {
+      step.code = stepTemplate['code'];
+    } else {
+      this.log_.warn('Expecting string for code of step ', id,
+        ', got ', stepTemplate['code']);
+    }
+  }
+
+  if (Array.isArray(stepTemplate['images'])) {
+    await this.appendBinaries_(stepTemplate['images'], step.images, 'image');
+  }
+
+  if (Array.isArray(stepTemplate['videos'])) {
+    step.videos = stepTemplate['videos'];
+  }
+
+  step.description = this.parseDescription_(stepTemplate['description']);
+  if (!step.description) {
+    this.log_.error('Skipping step', id, 'because parsing it\'s ' +
+      'description failed', stepTemplate['description']);
+    return;
+  }
+
+  this.steps_[id] = step;
+};
+
+/**
+ * @param {!string} key
+ * @param {!object} data
+ * @param {boolean} warnOnOverwrite
+ * @return {string|boolean}
+ */
+cwc.ui.Tutorial.prototype.ensureBlobInDB_ =
+  async function(key, data, warnOnOverwrite = false) {
+  if (warnOnOverwrite) {
+    let existingData = await this.imagesDb_.get(key);
+    if (existingData) {
+      this.log_.warn('Overwriting', key);
+    }
+  }
+  if (await this.imagesDb_.set(key, data)) {
+    return key;
+  }
+  return false;
+};
+
+/**
+ * @param {!string} url
+ * @param {!string} offlineMessage
+ * @return {!boolean}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.ensureUrlInDB_ =
+  async function(url, offlineMessage) {
+  let existingData = await this.imagesDb_.get(url);
+  if (existingData) {
+    this.log_.info('Not downloading', url,
+      'because it is already in the database');
+    return false;
+  }
+
+  if (this.helper.checkFeature('online')) {
+    this.log_.warn(offlineMessage);
+    return false;
+  }
+
+  let blob = await cwc.utils.Resources.getUriAsBlob(url);
+  return await this.ensureBlobInDB_(url, blob);
+};
+
+/**
+ * @param {!Array} source
+ * @param {!object} destination
+ * @param {!string} name
+ * @return {!Promise}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.appendBinaries_ =
+  function(source, destination, name) {
+  return Promise.all(source.map(async function(spec, index) {
+    switch (typeof spec) {
+      case 'string': {
+        if (await this.ensureUrlInDB_(spec, 'Ignoring '+name+' index '+index+
+          ' with url '+spec+' because we are offline')) {
+          destination[index] = spec;
+        }
+        break;
       }
-      this.content_ = tutorialContent['text'];
-      if (!('mime_type' in tutorialContent)) {
-        this.log_.warn('Tutorial content missing mime_type key, defaulting to',
-          cwc.utils.mime.Type.MARKDOWN.type);
-        this.contentType_ = cwc.utils.mime.Type.MARKDOWN.type;
-      } else {
-        this.contentType_ = tutorialContent['mime_type'];
+      case 'object': {
+        let key = await this.ensureObjectInDb_(spec);
+        if (key) {
+          destination[index] = key;
+        } else {
+          this.log_.warn('Failed to insert blob', spec);
+        }
+        break;
       }
-      break;
-    default:
-      this.log_.error('Can\'t process tutorial content of unknown type ', type);
-      return false;
+      default: {
+        this.log_.warn('Ignoring', name, index,
+          'because it is neither a string nor an object', spec);
+      }
+    }
+  }.bind(this)));
+};
+
+/**
+ * @param {!object} spec
+ * @return {!string|boolean}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.ensureObjectInDb_ = async function(spec) {
+   if (!('mime_type' in spec)) {
+    return false;
+  }
+  if (!('data' in spec)) {
+    return false;
+  }
+  const binaryData = atob(spec['data']);
+  const encodedData = new Uint8Array(binaryData.length);
+  for (let i=0; i<binaryData.length; i++) {
+    encodedData[i] = binaryData.charCodeAt(i);
+  }
+  const blob = new Blob([encodedData], {'type': spec['mime_type']});
+  let key = goog.string.createUniqueString();
+  await this.ensureBlobInDB_(key, blob, true);
+  return key;
+};
+
+
+/**
+ * @param {!object} description
+ * @private
+ * @return {boolean}
+ */
+cwc.ui.Tutorial.prototype.validateDescription_ = function(description) {
+  if (typeof description !== 'object') {
+    this.log_.error('Skipping step because it has invalid or ' +
+      'missing description:', description);
+    return false;
+  }
+  if (typeof description['text'] !== 'string') {
+    this.log_.error('Skipping step because it\'s description ' +
+      'has invalid or missing text:', description);
+    return false;
+  }
+  if (typeof description['mime_type'] !== 'string') {
+    this.log_.error('Skipping step because it\'s description '+
+      'has invalid or missing mime_type:', description);
+    return false;
   }
   return true;
 };
 
+/**
+ * @param {!object} description
+ * @private
+ * @return {string}
+ */
+cwc.ui.Tutorial.prototype.parseDescription_ = function(description) {
+  if (!this.validateDescription_(description)) {
+    return '';
+  }
+
+  const sanitizer = new goog.html.sanitizer.HtmlSanitizer();
+  switch (description['mime_type']) {
+    case cwc.utils.mime.Type.HTML.type: {
+      return soydata.VERY_UNSAFE.ordainSanitizedHtml(
+        goog.html.SafeHtml.unwrap(sanitizer.sanitize(description['text'])));
+    }
+    case cwc.utils.mime.Type.MARKDOWN.type: {
+      if (this.helper.checkJavaScriptFeature('marked')) {
+        return soydata.VERY_UNSAFE.ordainSanitizedHtml(
+          goog.html.SafeHtml.unwrap(sanitizer.sanitize(marked(
+            description['text']))));
+      } else {
+        this.log_.warn('Markdown not supported, displaying description text',
+          description);
+        return description['text'];
+      }
+    }
+    case cwc.utils.mime.Type.TEXT.type: {
+      return description['text'];
+    }
+    default: {
+      this.log_.error('Unknown or unsupported mime type',
+        description['mime_type']);
+    }
+  }
+  return '';
+};
+
+/**
+ * Renders the tutorial in the sidebar
+ * @export
+ */
 cwc.ui.Tutorial.prototype.startTutorial = function() {
-  if (!this.content_) {
+  this.log_.info('Starting tutorial ...');
+  if (!this.hasTutorial()) {
+    this.log_.error('Attempt to start tutorial before setting tutorial.');
     return;
   }
-
-  let htmlContent;
-  switch (this.contentType_) {
-    case cwc.utils.mime.Type.HTML.type:
-      htmlContent = this.content_;
-      break;
-    case cwc.utils.mime.Type.MARKDOWN.type:
-      if (this.helper.checkJavaScriptFeature('marked')) {
-        htmlContent = marked(this.content_);
-      } else {
-        this.log_.warn('Markdown not supported, displaying content as text');
-        htmlContent = this.content_;
-      }
-      break;
-    case cwc.utils.mime.Type.TEXT.type:
-      htmlContent = goog.soy.renderAsFragment(cwc.coy.ui.Tutorial.text,
-        {content: this.content_});
-      break;
-    default:
-      this.log_.error('Unknown or unsupported content type', this.contentType_);
-  }
-
-  this.log_.info('Starting tutorial ...');
-  let sidebarInstance = this.helper.getInstance('sidebar');
+  const sidebarInstance = this.helper.getInstance('sidebar');
+  const videoExtensions = ['mp4', 'webm', 'ogg'];
   if (sidebarInstance) {
     sidebarInstance.showTemplateContent('tutorial', 'Tutorial',
       cwc.soy.ui.Tutorial.template, {
         prefix: this.prefix,
-        webviewSupport: this.webviewSupport_,
+        description: this.description_,
+        online: this.helper.checkFeature('online'),
+        url: this.url_ ? this.url_ : '',
+        steps: this.steps_.map((step, index) => ({
+          id: index,
+          description: step.description,
+          images: step.images.filter((url = '') =>
+            !videoExtensions.some((ext) => url.endsWith(ext))
+          ),
+          number: index + 1,
+          title: step.title || `Step ${index + 1}`,
+          videos: step.images.filter((url = '') =>
+            videoExtensions.some((ext) => url.endsWith(ext))
+          ),
+          youtube_videos: (step.videos || []).map((video) =>
+            video['youtube_id']
+          ),
+        })),
       });
-    this.contentNode_ = goog.dom.getElement(this.prefix+'body');
-    if (!this.contentNode_) {
-      this.log_.error('Failed to render content node');
-    } else {
-      this.contentNode_.src = this.rendererHelper.getDataURL(htmlContent);
-    }
-    /**
-     * @todo replace this with Message instance when that code is complete
-     */
-    this.events_.listen(this.contentNode_, 'consolemessage',
-      this.handleConsoleMessage_);
-    this.setMessage();
   }
 
-  this.start();
+  this.state_ = {
+    completedSteps: [],
+    activeStepID: null,
+    inProgressStepID: null,
+  };
+
+  this.initUI_();
+  this.startValidate();
+};
+
+/**
+ * Actions that happen after the template is rendered:
+ * add event listeners, show active step, render images from DB
+ * @private
+ */
+cwc.ui.Tutorial.prototype.initUI_ = function() {
+  this.initSteps_();
+  this.initMedia_();
+
+  let state = {};
+  if (this.steps_.length > 0) {
+    state.activeStepID = this.state_.activeStepID || this.steps_[0].id;
+  }
+  this.setState_(state);
+};
+
+/**
+ * Captures references to elements needed by the media overlay
+ * @private
+ */
+cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
+  this.nodeMediaOverlay_ = goog.dom.getElement(this.prefix + 'media-overlay');
+  this.nodeMediaOverlayClose_ = goog.dom.getElement(
+    this.prefix + 'media-overlay-close');
+  this.nodeMediaOverlayContent_ = goog.dom.getElement(
+    this.prefix + 'media-overlay-content');
+
+  this.nodeMediaOverlayClose_.addEventListener('click', () => {
+    this.setState_({
+      expandedMedia: null,
+    });
+  });
+};
+
+
+/**
+ * Renders cached images and videos from database to DOM
+ * @private
+ */
+cwc.ui.Tutorial.prototype.initMedia_ = function() {
+  this.initMediaOverlay_();
+  let rootNode = goog.dom.getElement(this.prefix + 'container');
+  let nodeListImages = rootNode.querySelectorAll('.js-project-step-image');
+  if (this.imagesDb_) {
+    [].forEach.call(nodeListImages, (image) => {
+      let imageSrc = image.getAttribute('data-src');
+      this.imagesDb_.get(imageSrc).then((blob) => {
+        if (blob) {
+          let objectURL = URL.createObjectURL(blob);
+          image.src = objectURL;
+          this.objectURLs_.push(objectURL);
+        } else {
+          image.remove();
+        }
+      });
+    });
+  }
+};
+
+/**
+ * Sets initial state for each step
+ * @private
+ */
+cwc.ui.Tutorial.prototype.initSteps_ = function() {
+  let prefix = this.prefix + 'step-';
+  this.steps_.forEach((step) => {
+    let stepNode = goog.dom.getElement(prefix + step.id);
+    step.node = stepNode;
+    step.nodeContinue = stepNode.querySelector(
+        '.js-project-step-continue');
+    step.nodeHeader = stepNode.querySelector(
+        '.js-project-step-header'),
+    step.nodeListMediaExpand = stepNode.querySelectorAll(
+        '.js-project-step-media-expand');
+    step.nodeMessage = stepNode.querySelector('.'+prefix+'message');
+    goog.style.setElementShown(step.nodeMessage, false);
+  });
+  this.initStepButtons_();
+};
+
+
+/**
+ * Sets initial state for each step
+ * @private
+ */
+cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
+  this.steps_.forEach((step) => {
+    if (step.nodeContinue) {
+      goog.events.listen(step.nodeContinue, goog.events.EventType.CLICK,
+        this.completeCurrentStep_.bind(this));
+    }
+    goog.events.listen(step.nodeHeader, goog.events.EventType.CLICK,
+      this.jumpToStep_.bind(this, step.id));
+
+    [].forEach.call(step.nodeListMediaExpand, (toggle) => {
+      goog.events.listen(toggle, goog.events.EventType.CLICK,
+        this.onMediaClick_.bind(this, toggle));
+    });
+  });
+};
+
+
+/**
+ * Marks the current step complete and opens the next
+ * @private
+ */
+cwc.ui.Tutorial.prototype.completeCurrentStep_ = function() {
+  let completedSteps = this.state_.completedSteps.slice();
+  let currentStepIndex = this.steps_.findIndex((step) =>
+    step.id === this.state_.activeStepID);
+  let nextStep = this.steps_[currentStepIndex + 1] || {};
+  if (!completedSteps.includes(this.state_.activeStepID)) {
+    completedSteps.push(this.state_.activeStepID);
+  }
+  this.setState_({
+    completedSteps: completedSteps,
+    activeStepID: nextStep.id,
+    inProgressStepID: nextStep.id,
+  });
+};
+
+/**
+ * Opens a step, but only if it is complete or next
+ * @param {!number} stepID
+ * @private
+ */
+cwc.ui.Tutorial.prototype.jumpToStep_ = function(stepID) {
+  let canOpen = stepID === this.state_.inProgressStepID ||
+    this.state_.completedSteps.includes(stepID);
+  if (canOpen) {
+    this.setState_({
+      activeStepID: stepID,
+    });
+  }
+};
+
+/**
+ * @private
+ * @return {!Object}
+ */
+cwc.ui.Tutorial.prototype.getActiveStep_ = function() {
+  return this.steps_[this.state_.activeStepID];
+};
+
+
+/**
+ * @private
+ * @return {!Object|boolean}
+ */
+cwc.ui.Tutorial.prototype.getActiveMessageNode_ = function() {
+  let step = this.getActiveStep_();
+  if (!step) {
+    this.log_.warn('No active step, activeStepID = ', this.state_.activeStepID);
+    return false;
+  }
+  return step.nodeMessage;
+};
+
+/**
+ * @export
+ * @return {string|null}
+ */
+cwc.ui.Tutorial.prototype.getValidateFunction = function() {
+  let step = this.getActiveStep_();
+  if (!step || !step.validate) {
+    this.log_.info('No validation script for step', step);
+    return null;
+  }
+  return step.validate;
+};
+
+/**
+ * Shows media in a full screen overlay
+ * @param {Element} button
+ * @private
+ */
+cwc.ui.Tutorial.prototype.onMediaClick_ = function(button) {
+  let mediaType = button.getAttribute('data-media-type');
+  let mediaImg = button.querySelector('img');
+  let youtubeId = button.getAttribute('data-youtube-id');
+  let videoUrl = button.getAttribute('data-video-url');
+
+  if (mediaType === 'image' && mediaImg) {
+    let clone = mediaImg.cloneNode(true);
+    clone.removeAttribute('class');
+    this.setState_({
+      expandedMedia: clone,
+    });
+  } else if (mediaType === 'youtube' && youtubeId) {
+    let content = document.createElement(
+      this.webviewSupport_ ? 'webview' : 'iframe');
+    content.src = `https://www.youtube-nocookie.com/embed/${youtubeId}/?rel=0&amp;autoplay=0&showinfo=0`;
+
+    this.setState_({
+      expandedMedia: content,
+    });
+  } else if (mediaType === 'video') {
+    let video = document.createElement('video');
+    this.imagesDb_.get(videoUrl).then((blob) => {
+      if (blob) {
+        let objectURL = URL.createObjectURL(blob);
+        video.src = objectURL;
+        this.objectURLs_.push(objectURL);
+        video.controls = true;
+        this.setState_({
+          expandedMedia: video,
+        });
+      } else {
+        video.remove();
+      }
+    });
+  }
+};
+
+
+/**
+ * Event fired on media overlay close button click
+ * @private
+ */
+cwc.ui.Tutorial.prototype.onMediaClose_ = function() {
+  this.setState_({
+    expandedMedia: null,
+  });
+};
+
+
+/**
+ * Closes media overlay
+ * @private
+ */
+cwc.ui.Tutorial.prototype.hideMedia_ = function() {
+  while (this.nodeMediaOverlayContent_.firstChild) {
+    this.nodeMediaOverlayContent_.firstChild.remove();
+  }
+  this.nodeMediaOverlay_.classList.add('is-hidden');
+};
+
+
+/**
+ * Shows media overlay with the provided element
+ * @param {!Element} media
+ * @private
+ */
+cwc.ui.Tutorial.prototype.showMedia_ = function(media) {
+  this.nodeMediaOverlayContent_.appendChild(media);
+  this.nodeMediaOverlay_.classList.remove('is-hidden');
+};
+
+
+/**
+ * Updates the current state, then triggers a view update
+ * @param {!Object} change
+ * @private
+ */
+cwc.ui.Tutorial.prototype.setState_ = function(change) {
+  let prevStepID = this.state_.activeStepID;
+  Object.keys(change).forEach((key) => {
+    this.state_[key] = change[key];
+  });
+  if (prevStepID !== this.state_.activeStepID) {
+    let editorInstance = this.helper.getInstance('editor');
+    let activeStep = this.getActiveStep_();
+    if (editorInstance && activeStep.code) {
+      this.solved(false);
+      // TODO: support multiple editor views
+      editorInstance.setEditorContent(activeStep.code,
+        editorInstance.getCurrentView());
+    }
+    this.restartValidate_();
+  }
+  this.updateView_();
+};
+
+
+/**
+ * Updates the view to reflect the current state
+ * @private
+ */
+cwc.ui.Tutorial.prototype.updateView_ = function() {
+  this.steps_.forEach((step) => {
+    // active step
+    if (step.id === this.state_.activeStepID) {
+      step.node.classList.add(this.activeStepClass_);
+    } else {
+      step.node.classList.remove(this.activeStepClass_);
+    }
+
+    // completed steps
+    if (this.state_.completedSteps.includes(step.id)) {
+      step.node.classList.add(this.completedStepClass_);
+    } else {
+      step.node.classList.remove(this.completedStepClass_);
+    }
+  });
+
+  if (this.state_.expandedMedia) {
+    this.showMedia_(this.state_.expandedMedia);
+  } else {
+    this.hideMedia_();
+  }
 };
 
 /**
@@ -200,173 +767,92 @@ cwc.ui.Tutorial.prototype.handleConsoleMessage_ = function(event) {
 };
 
 /**
- * @return {string}
+ * Starts listening for editor changes
+ * @private
  */
-cwc.ui.Tutorial.prototype.getContent = function() {
-  return this.content_;
+cwc.ui.Tutorial.prototype.startValidate = function() {
+  let editorInstance = this.helper.getInstance('editor');
+  if (!editorInstance) {
+    this.log_.warn('startValidate: No editor instance');
+    return;
+  }
+  this.editorEvents_.listen(editorInstance.getEventTarget(),
+    goog.ui.Component.EventType.CHANGE, this.restartValidate_,
+    false, this);
 };
-
-
-cwc.ui.Tutorial.prototype.start = function() {
-  if (!this.webviewSupport_) {
-     this.log_.warn('No webview support');
-     return;
-  } // TODO(carheden): support iframe
-
-  // This attempts to run in case CONTENT_LOADED has already fired
-  this.runValidatePreview();
-  // This runs on future CONTENT_LOADED events
-  let previewInstance = this.helper.getInstance('preview');
-  goog.events.listen(previewInstance.getEventTarget(),
-    cwc.ui.PreviewEvents.Type.CONTENT_LOADED, () => {
-      this.runValidatePreview();
-    }, false, this);
-};
-
 
 /**
- * @param {Object} preview
+ * Restarts the validator
+ * @private
  */
-cwc.ui.Tutorial.prototype.runValidatePreview = function() {
-  if (!this.content_) {
-    this.log_.warn('runValidatePreview: No tutorial content');
-    return;
+cwc.ui.Tutorial.prototype.restartValidate_ = function() {
+  if (!this.validator_) {
+    this.validator_ = new cwc.ui.TutorialValidator(this.helper);
+  } else {
+    this.validator_.stop();
   }
-  if (this.validatePreview_) {
-    let previewInstance = this.helper.getInstance('preview');
-    let preview = previewInstance.getContent();
-    if (!preview) {
-      this.log_.warn('runValidatePreview: No preview submitted');
-        return;
-    }
-    preview.executeScript({code: this.validatePreview_}, (results) => {
-      this.log_.info('validatePreview returned', results);
-      let message = '';
-      let solved = false;
-      if (results.length >= 1) {
-        switch (typeof results[0]) {
-          case 'string':
-            message = results[0];
-            break;
-          case 'boolean':
-            solved = results[0];
-            break;
-          case 'object':
-            if ('message' in results[0]) message = results[0]['message'];
-            if ('solved' in results[0]) solved = results[0]['solved'];
-            break;
-          default:
-            this.log_.warn('validatePreview returned unknown type: ',
-              results[0]);
-        }
-      }
-      this.solved(solved);
-      this.setMessage(message);
-      this.processValidatePreviewResults_.bind(this)(results[0]);
-     });
-    return;
-  }
-  this.processValidatePreviewResults_(null);
+  this.validator_.start();
 };
 
 /**
  * @param {string} message
+ * @export
  */
 cwc.ui.Tutorial.prototype.setMessage = function(message) {
-  let messageDiv = goog.dom.getElement(this.prefix+'message');
-  if (!messageDiv) {
-    this.log_.error('Failed to get element with id "'+this.prefix+'message"');
+  let node = this.getActiveMessageNode_();
+  if (!node) {
+    this.log_.warn('No active message node, can\'t set message ', message);
     return;
   }
   if (message) {
-    goog.soy.renderElement(messageDiv, cwc.soy.ui.Tutorial.message,
+    goog.soy.renderElement(node, cwc.soy.ui.Tutorial.message,
       {message: message});
-    goog.style.setElementShown(messageDiv, true);
-  } else {
-    goog.style.setElementShown(messageDiv, false);
   }
+  goog.style.setElementShown(node, message ? true : false);
 };
 
 /**
- * @param {boolean} solved
+ * @param {!boolean} solved
+ * @export
  */
 cwc.ui.Tutorial.prototype.solved = function(solved) {
-  let messageDiv = goog.dom.getElement(this.prefix+'message');
-  if (!messageDiv) {
-    this.log_.error('Failed to get element with id "'+this.prefix+'message"');
+  let step = this.getActiveStep_();
+  if (!step || !step.node) {
+    this.log_.warn('Failed to get active step');
     return;
   }
   if (solved) {
-    goog.dom.classlist.add(messageDiv, 'solved');
+    goog.dom.classlist.add(step.node, 'solved');
   } else {
-    goog.dom.classlist.remove(messageDiv, 'solved');
+    goog.dom.classlist.remove(step.node, 'solved');
   }
 };
-
 
 /**
- * @param {!Object} results
- * @private
+ * Removes the tutorial from the sidebar and calls
+ * dependent object cleanup functions.
+ * @export
  */
-cwc.ui.Tutorial.prototype.processValidatePreviewResults_ = function(results) {
-  if (!this.processResults_) return;
-
-  this.log_.info('Processing results:', results);
-
-  if (!this.contentNode_) {
-    this.log_.warn('No content node, no place to run processResults.');
-    return;
-  }
-  let listenForResults = function() {
-    window.addEventListener('message', function(e) {
-      if (e.data && (typeof e.data) === 'object' &&
-          e.data.hasOwnProperty('cwc-validated-data') &&
-          (typeof window.top['cwc-validated'] == 'function')) {
-        window.top['cwc-validated'](e.data['cwc-validated-data']['code'],
-          e.data['cwc-validated-data']['results']);
-      }
-    });
-    return true;
-  };
-  let postResults = function(ret) {
-    if (ret !== true) {
-      this.log_.warn('Error injecting listener for preview validator tutorial',
-        'Sending results anyway. Error was: ', ret);
-    }
-
-    let editorContent = this.helper.getInstance('editor').getEditorContent();
-    let code = '';
-    for (let key in editorContent) {
-      if (editorContent.hasOwnProperty(key)) {
-        code = editorContent[key];
-      }
-    }
-    let args = {'cwc-validated-data': {'code': code, 'results': results}};
-    this.log_.info('Process results with arguments', args);
-    this.contentNode_.contentWindow.postMessage(args, '*');
-  }.bind(this);
-
-  // We attempt to inject the script twice because webview has no way to check
-  // if the page load is done. If it's not, executeScript() fails. If we
-  // always listen for 'loadstop', but it's already fired, we miss it and never
-  // execute.
-  let injectedCode = this.processResults_ +
-    '(' + listenForResults.toString() + ')()';
-  this.contentNode_.addEventListener('loadstop', () => {
-    this.contentNode_.executeScript({code: injectedCode}, postResults);
-  });
-  try {
-    this.contentNode_.executeScript({code: injectedCode}, postResults);
-  } catch (e) {
-    this.log_.info('Failed to inject results.',
-      'but it should run next time the preview changes:', e);
-  }
-};
-
-
 cwc.ui.Tutorial.prototype.clear = function() {
-  this.content_ = null;
-  this.processResults_ = null;
-  this.validatePreview_ = null;
-  this.contentNode_ = null;
+  this.state_ = {};
+  this.steps_ = [];
+  this.description_ = '';
+  this.url_ = '';
+  this.contentSet_ = false;
+  this.imagesDb_ = false;
+  this.nodeMediaOverlay_ = null;
+  this.nodeMediaOverlayClose_ = null;
+  this.nodeMediaOverlayContent_ = null;
+  this.editorEvents_.clear();
+  while (this.objectURLs_.length > 0) {
+    URL.revokeObjectURL(this.objectURLs_.pop());
+  }
+  let sidebarInstance = this.helper.getInstance('sidebar');
+  if (sidebarInstance) {
+    sidebarInstance.clear();
+  }
+  if (this.validator_) {
+    this.validator_.stop();
+    this.validator_ = null;
+  }
 };

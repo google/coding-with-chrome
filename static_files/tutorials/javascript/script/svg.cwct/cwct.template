@@ -1,7 +1,7 @@
 {
   "content": {
     "__javascript__": {
-      "___TEMPLATE___:content": "eng/triangle.js",
+      "content": "",
       "name": "__javascript__",
       "size": 0,
       "type": "application/javascript",
@@ -14,12 +14,77 @@
   "metadata": {
     "__tutorial__": {
       "eng": {
-        "content": {
-          "___TEMPLATE___:text": "eng/content.md",
+        "description": {
+          "___TEMPLATE___:text": "eng/description.md",
           "mime_type": "text/markdown"
         },
-        "___TEMPLATE___:validatePreview": "eng/validatePreview.js",
-        "___TEMPLATE___:processResults": "eng/processResults.js"
+        "steps": [
+          {
+            "title": "Somewhere to draw",
+            "description": {
+              "___TEMPLATE___:text": "eng/step1/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step1/code.js"
+          },
+          {
+            "title": "Find the center",
+            "description": {
+              "___TEMPLATE___:text": "eng/step2/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step2/code.js"
+          },
+          {
+            "title": "Size it down",
+            "description": {
+              "___TEMPLATE___:text": "eng/step3/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step3/code.js"
+          },
+          {
+            "title": "Three points",
+            "description": {
+              "___TEMPLATE___:text": "eng/step4/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step4/code.js"
+          },
+          {
+            "title": "Points to lines",
+            "description": {
+              "___TEMPLATE___:text": "eng/step5/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step5/code.js"
+          },
+          {
+            "title": "Add some color",
+            "description": {
+              "___TEMPLATE___:text": "eng/step6/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step6/code.js"
+          },
+          {
+            "title": "Finally, a triangle",
+            "description": {
+              "___TEMPLATE___:text": "eng/step7/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step7/code.js"
+          },
+          {
+            "title": "Challenge",
+            "description": {
+              "___TEMPLATE___:text": "eng/step8/text.md",
+              "mime_type": "text/markdown"
+            },
+            "___TEMPLATE___:code": "eng/step8/code.js",
+            "___TEMPLATE___:validate": "eng/step8/validate.js"
+          }
+        ]
       }
     },
     "__default__": {

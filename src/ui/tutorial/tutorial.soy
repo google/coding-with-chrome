@@ -15,34 +15,108 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * @author mdiehl@workbenchplatform.com (Matt Diehl)
  * @author carheden@google.com (Adam Carheden)
  */
 {namespace cwc.soy.ui.Tutorial autoescape="strict"}
 
-
 /**
- * Tutorial template.
+ * Main template for multi-step tutorial that appears inside the webview
  */
 {template .template}
+  {@param description: string}
+  {@param online: bool}
   {@param prefix: string}
-  {@param webviewSupport: bool}
+  {@param steps: list<?>}
+  {@param url: string}
 
-  <div id="{$prefix}message"></div>
-  {if $webviewSupport}
-    <webview id="{$prefix}body"></webview>
-  {else}
-    <iframe id="{$prefix}body"></iframe>
-  {/if}
+  <div id="{$prefix}container">
+    {if $url}
+      <div id="{$prefix}url" class="mdl-typography--caption">
+        Full Project: <a href="{$url}" target="_blank" noreferrer noopener>{$url}</a>
+      </div>
+    {/if}
+    <div id="{$prefix}description">
+      <p>{$description}</p>
+    </div>
+    <ol id="{$prefix}steps">
+      {foreach $step in $steps}
+        {call .step_ data="$step"}
+          {param online: $online /}
+          {param prefix: $prefix + 'step-' /}
+          {param isLastStep: isLast($step) /}
+        {/call}
+      {/foreach}
+    </ol>
+    <div id="{$prefix}media-overlay" class='is-hidden'>
+      <button type="button" id="{$prefix}media-overlay-close" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">arrow_back</i>
+      </button>
+      <div id="{$prefix}media-overlay-content"></div>
+    </div>
+  </div>
 {/template}
 
+
 /**
- * Text content
+ * Step
  */
-{template .text}
-  {@param content: string}
-  <div style='white-space: pre'>
-    {$content}
-  </div>
+{template .step_}
+  {@param description: string}
+  {@param id: int}
+  {@param images: list<string>}
+  {@param isLastStep: bool}
+  {@param number: number}
+  {@param online: bool}
+  {@param prefix: string}
+  {@param title: string}
+  {@param videos: list<string>}
+  {@param youtube_videos: list<string>}
+
+  <li id="{$prefix}{$id}" class="{$prefix}container js-project-step">
+    <div class="{$prefix}header js-project-step-header">
+      <div class="{$prefix}number">
+        <span class="{$prefix}number-text">{$number}</span>
+        <span class="{$prefix}number-check">
+          <i class="material-icons">checkmark</i>
+        </span>
+      </div>
+      <div class="{$prefix}title">{$title}</div>
+    </div>
+    <div class="{$prefix}content">
+      <div class="{$prefix}message"></div>
+      <div class="{$prefix}description">{$description}</div>
+      <div class="{$prefix}media">
+        {foreach $image in $images}
+          <button type="button" class="{$prefix}media-expand js-project-step-media-expand" title="Expand image" data-media-type="image">
+            <img data-src="{$image}" alt="" class="{$prefix}media-item js-project-step-image">
+            <i class="material-icons">fullscreen</i>
+          </button>
+        {/foreach}
+        {foreach $video in $videos}
+          <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="video" data-video-url="{$video}">
+            <div class="{$prefix}media-item-video">
+              <i class="material-icons">play_circle_outline</i>
+            </div>
+          </button>
+        {/foreach}
+        {if $online}
+          {foreach $video in $youtube_videos}
+            <button type="button" class="{$prefix}media-expand {$prefix}media-expand js-project-step-media-expand" title="Expand video" data-media-type="youtube" data-youtube-id="{$video}">
+              <div class="{$prefix}media-item-video">
+                <i class="material-icons">play_circle_outline</i>
+              </div>
+            </button>
+          {/foreach}
+        {/if}
+      </div>
+      {if not $isLastStep}
+        <div class="{$prefix}actions">
+          <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-button--raised js-project-step-continue">Continue</button>
+        </div>
+      {/if}
+    </div>
+  </li>
 {/template}
 
 /**

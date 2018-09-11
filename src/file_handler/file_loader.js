@@ -256,7 +256,6 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.enableDescription(file.getDescription());
-    sidebarInstance.enableTutorial(file.getTutorial(userLanguage));
     sidebarInstance.enableTour(file.getTour(userLanguage));
     sidebarInstance.showLibrary(true);
     sidebarInstance.showMedia(false);

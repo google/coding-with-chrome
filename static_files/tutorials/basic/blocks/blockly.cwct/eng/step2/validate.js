@@ -16,31 +16,31 @@
  * @author carheden@google.com (Adam Carheden)
  */
 
-
-window.top['cwc-validated'] = function(code) {
+/**
+ * @param {!string} code
+ * @return {Array<Object>}
+ */
+function checkBlueFill(code) {
   let matches = code.match(
     /draw.circle\(([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+), *([^,]+)\)/);
-  let msg = '';
   if (matches) {
-    msg = 'Great circle! Now can you make it ' +
-      '<span style="color: #3333ff">blue</span>?';
     if (matches[4].includes('#33ccff') ||
         matches[4].includes('#3366ff') ||
         matches[4].includes('#3333ff') ||
         matches[4].includes('#000099') ||
         matches[4].includes('#333399')) {
-      msg = 'Wonderful! Now make the border ' +
-      '<span style="color: #009900">green</span>.';
+      return {
+        message: 'That\'s my favorite shade of blue too! '+
+          'Let\'s continue to the next step.',
+        solved: true,
+      };
     }
-    if (matches[5].includes('#99ff99') ||
-        matches[5].includes('#66ff99') ||
-        matches[5].includes('#33ff33') ||
-        matches[5].includes('#33cc00') ||
-        matches[5].includes('#009900') ||
-        matches[5].includes('#006600') ||
-        matches[5].includes('#003300')) {
-      msg = 'Perfect! Now you\'re ready to program in blockly.';
-    }
+    return {
+      solved: false,
+    };
   }
-  document.getElementById('instructions').innerHTML = msg;
-};
+  return {
+    message: 'Where did the circle go?',
+    solved: false,
+  };
+}
