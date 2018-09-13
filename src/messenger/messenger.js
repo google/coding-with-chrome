@@ -259,7 +259,8 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
   if (!this.appWindow && 'source' in event) {
     this.setAppWindow(event['source']);
   } else if (this.appWindow !== event['source']) {
-    this.log_.error('App window is not matching!');
+    this.log_.warn('Ignoring message ', event,
+      ' because app window does not match!');
     return;
   }
   if (!this.appOrigin && 'origin' in event) {
@@ -269,7 +270,8 @@ cwc.Messenger.prototype.handleMessage_ = function(event) {
     return;
   }
   if (typeof this.listener_[event['data']['name']] === 'undefined') {
-    throw new Error('Name ' + event['data']['name'] + ' is not defined!');
+    this.log_.warn('Ignoring event', event, 'because name is not defined!');
+    return;
   }
   this.listener_[event['data']['name']](event['data']['value']);
   this.eventTarget_.dispatchEvent(cwc.MessengerEvents.execCommand(

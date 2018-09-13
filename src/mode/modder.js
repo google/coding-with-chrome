@@ -264,11 +264,6 @@ cwc.mode.Modder.prototype.postModeFileData = function() {
     if (tourInstance) {
       tourInstance.startTour();
     }
-
-    let tutorialInstance = this.helper.getInstance('tutorial');
-    if (tutorialInstance) {
-      tutorialInstance.startTutorial();
-    }
   }
 };
 

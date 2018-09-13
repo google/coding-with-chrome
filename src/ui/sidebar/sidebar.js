@@ -79,6 +79,7 @@ cwc.ui.Sidebar = function(helper) {
 /**
  * Decorates the given node and adds the sidebar to the ui.
  * @param {Element} node The target node to add the status bar.
+ * @export
  */
 cwc.ui.Sidebar.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
@@ -375,6 +376,7 @@ cwc.ui.Sidebar.prototype.hideContent = function() {
 
 
 /**
+ * @export
  * @param {string} contentName
  * @return {boolean}
  */

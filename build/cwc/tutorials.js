@@ -63,10 +63,15 @@ let replacePlaceholders = function(obj, pwd) {
   if (obj === null || typeof obj !== 'object') {
     return;
   }
+  let templateRE = /^___TEMPLATE___:(binary:)?/;
   for (let k in obj) {
-    if (k.match(/^___TEMPLATE___:/)) {
-      obj[k.replace('___TEMPLATE___:', '')] =
+    if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+    const matches = k.match(templateRE);
+    if (matches) {
+      const data = matches[1] ?
+        fs.readFileSync(pwd+'/'+obj[k]).toString('base64') :
         fs.readFileSync(pwd+'/'+obj[k], 'utf8');
+      obj[k.replace(matches[0], '')] = data;
       delete obj[k];
     } else {
       replacePlaceholders(obj[k], pwd);

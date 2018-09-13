@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 The Coding with Chrome Authors.
+ * Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * @author mdiehl@workbenchplatform.com (Matt Diehl)
+ * @author carheden@google.com (Adam Carheden)
  */
 
 
@@ -19,7 +22,7 @@
   margin: 10px;
 }
 
-#{$prefix}tutorial-message {
+.{$prefix}tutorial-step-message {
   color: #ffffff;
   text-align: center;
   padding: 0.25em;
@@ -28,6 +31,238 @@
   box-shadow: 3px 3px 2px 1px rgba(0,0,0,0.2);
 }
 
-#{$prefix}tutorial-message.solved {
+.{$prefix}tutorial-step-container.solved .{$prefix}tutorial-step-message {
   background-color: #3f51b5;
 }
+
+.{$prefix}tutorial-step-container.solved .{$prefix}tutorial-step-description,
+.{$prefix}tutorial-step-container.solved .{$prefix}tutorial-step-media {
+	filter: opacity(0.4);
+}
+
+#{$prefix}tutorial-container {
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  top: 34px;
+}
+
+#{$prefix}tutorial-description {
+  margin-top: 24px;
+}
+
+#{$prefix}tutorial-steps {
+  counter-reset: step-number;
+  list-style: none;
+  margin-top: 36px;
+  padding-left: 0;
+}
+
+.{$prefix}tutorial-step-actions {
+  margin-top: 24px;
+}
+
+.{$prefix}tutorial-step-container {
+  counter-increment: step-number;
+  padding-bottom: 20px;
+  padding-left: 36px;
+  position: relative;
+}
+
+/* Rich text cleanup */
+.{$prefix}tutorial-step-description br:last-child,
+.{$prefix}tutorial-step-description blockquote::after,
+.{$prefix}tutorial-step-description blockquote::before {
+  display: none; /* material css was applying broken pseudo content */
+}
+
+.{$prefix}tutorial-step-container--active {
+  padding-bottom: 48px;
+}
+
+.{$prefix}tutorial-step-container--complete:not(.{$prefix}tutorial-step-container--active) {
+  cursor: pointer;
+}
+
+.{$prefix}tutorial-step-content {
+  display: none;
+}
+
+.{$prefix}tutorial-step-media {
+  margin-top: 24px;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+.{$prefix}tutorial-step-media:empty {
+  display: none;
+}
+
+.{$prefix}tutorial-step-media-expand {
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: none;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 4px;
+  padding: 0;
+  position: relative;
+  vertical-align: middle;
+}
+
+.{$prefix}tutorial-step-media-expand i {
+  color: #fff;
+  font-size: 48px;
+  left: 50%;
+  opacity: .25;
+  position: absolute;
+  text-shadow: 0 0 8px rgba(0, 0, 0, .75);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 400ms;
+}
+
+.{$prefix}tutorial-step-media-expand:hover i {
+  opacity: 1;
+}
+
+.{$prefix}tutorial-step-media-item {
+  display: block;
+  height: 144px;
+  width: auto;
+}
+
+.{$prefix}tutorial-step-media-item-video {
+  background-color: #949394;
+  padding-bottom: 56.25%;
+  position: relative;
+  width: 144px;
+}
+
+.{$prefix}tutorial-step-media-item-video i {
+  color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.{$prefix}tutorial-step-container--active .{$prefix}tutorial-step-content {
+  display: block;
+}
+
+.{$prefix}tutorial-step-number {
+  background-color: #949394;
+  border-radius: 50%;
+  color: #FFF;
+  content: counter(step-number);
+  font-size: 12px;
+  left: 0;
+  line-height: 24px;
+  height: 24px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 24px;
+}
+
+.{$prefix}tutorial-step-number-check {
+  display: none;
+}
+
+.{$prefix}tutorial-step-container--complete .{$prefix}tutorial-step-number-check {
+  display: inline;
+}
+
+.{$prefix}tutorial-step-container--complete .{$prefix}tutorial-step-number-text {
+  display: none;
+}
+
+.{$prefix}tutorial-step-container--active .{$prefix}tutorial-step-number,
+.{$prefix}tutorial-step-container--complete .{$prefix}tutorial-step-number {
+  background-color: rgb(63,81,181);
+}
+
+.{$prefix}tutorial-step-container::before {
+  border-left: 1px solid #E0DFE0;
+  bottom: 10px;
+  content: '';
+  left: 12px;
+  position: absolute;
+  top: 36px;
+}
+
+.{$prefix}tutorial-step-container:last-child::before {
+  display: none;
+}
+
+.{$prefix}tutorial-step-title {
+  color: rgba(0, 0, 0, .38);
+  font-weight: 400;
+  margin: 0 0 24px;
+}
+
+.{$prefix}tutorial-step-container--active .{$prefix}tutorial-step-title {
+  color: rgba(0, 0, 0, .87);
+  font-weight: 700;
+}
+
+#{$prefix}tutorial-toolbar-chrome .mdl-layout__header-row {
+  height: 34px;
+  justify-content: flex-end;
+}
+
+#{$prefix}tutorial-toolbar-chrome .mdl-layout__header-row .mdl-navigation__link {
+  padding: 0 5px;
+}
+
+#{$prefix}tutorial-url {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+#{$prefix}tutorial-media-overlay {
+  align-items: center;
+  background-color: #000;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 34px; /* height of header */
+}
+
+#{$prefix}tutorial-media-overlay.is-hidden {
+  display: none;
+}
+
+#{$prefix}tutorial-media-overlay-content img,
+#{$prefix}tutorial-media-overlay-content video,
+#{$prefix}tutorial-media-overlay-content webview {
+  max-height: 90vh;
+  max-width: 90vw;
+}
+
+#{$prefix}tutorial-media-overlay video::-webkit-media-controls-fullscreen-button {
+  display: none;
+}
+
+#{$prefix}tutorial-media-overlay video,
+#{$prefix}tutorial-media-overlay webview {
+  height: 750px;
+  width: 1000px;
+}
+
+#{$prefix}tutorial-media-overlay-close {
+  color: #fff;
+  left: 16px;
+  position: absolute;
+  top: 16px;
+}
+

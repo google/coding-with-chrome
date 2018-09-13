@@ -16,8 +16,11 @@
  * @author carheden@google.com (Adam Carheden)
  */
 
-
-let validatePreview = function() {
+/**
+ * Checks the preview for right triangles
+ * @return {Array<Object>}
+ */
+function validate() {
   let getPoints = function(line) {
     return [
       {x: line.x1.baseVal.value, y: line.y1.baseVal.value},
@@ -96,6 +99,4 @@ let validatePreview = function() {
     solved: found,
     message: found ? 'Great Job!' : 'No right triangles yet. Keep trying.',
   };
-};
-
-validatePreview();
+}

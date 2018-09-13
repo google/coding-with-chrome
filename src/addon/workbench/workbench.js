@@ -20,11 +20,11 @@
 goog.provide('cwc.addon.Workbench');
 
 goog.require('cwc.addon.WorkbenchLoader');
-goog.require('cwc.addon.WorkbenchProject');
 goog.require('cwc.mode.Type');
 goog.require('cwc.soy.SelectScreenTemplate');
 goog.require('cwc.ui.SelectScreen.Events');
 goog.require('cwc.utils.Database');
+goog.require('cwc.utils.I18n');
 goog.require('cwc.utils.Logger');
 
 
@@ -154,6 +154,9 @@ cwc.addon.Workbench = function(helper) {
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
+
+  /** @private {!string} */
+  this.projectDetailLinkBase_ = 'https://edu.workbencheducation.com/cwists/preview/';
 };
 
 
@@ -210,7 +213,6 @@ cwc.addon.Workbench.prototype.filterProjectsByTag_ = function(
   ));
 };
 
-
 /**
  * @private
  */
@@ -223,7 +225,10 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
     if (!tabNode) return;
 
     const mode = tagMap[tag].mode;
-    const matchingProjects = this.filterProjectsByTag_(allProjects, tag);
+    const userLanguage = this.helper.getUserLanguage();
+    const userLanguageName = cwc.utils.I18n.getEnglishName()[userLanguage];
+    let matchingProjects = this.filterProjectsByTag_(allProjects.filter(
+      (project) => project.language == userLanguageName), tag);
 
     matchingProjects.forEach((project) => {
       const card = goog.soy.renderAsElement(
@@ -236,15 +241,35 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
         });
 
       card.addEventListener('click', () => {
+        let tutorialInstance = this.helper.getInstance('tutorial');
         this.helper.getInstance('mode')
           .loadMode(mode)
           .then(() => {
-            const projectUI = new cwc.addon.WorkbenchProject(
-              this.helper,
-              project,
-              this.imagesDb_,
-            );
-            projectUI.decorate();
+            // Map Workbench project data structure into CwC Tutorial structure
+            let tutorialSpec = {
+              'url': this.projectDetailLinkBase_ + project.id,
+              'description': {
+                'text': project['description'],
+                'mime_type': 'text/html',
+              },
+              'steps': project['steps'].sort((a, b) => {
+                return a.order - b.order;
+              }).map((step) => {
+                return {
+                  'title': step['title'],
+                  'description': {
+                    'text': step['description'],
+                    'mime_type': 'text/html',
+                  },
+                  'images': step['images'],
+                  'videos': step['videos'],
+                };
+              }),
+            };
+            return tutorialInstance.setTutorial(tutorialSpec, this.imagesDb_);
+          })
+          .then(() => {
+            tutorialInstance.startTutorial();
           });
       });
 
@@ -253,7 +278,6 @@ cwc.addon.Workbench.prototype.showRelevantProjects_ = async function() {
     });
   });
 };
-
 
 /**
  * @private
