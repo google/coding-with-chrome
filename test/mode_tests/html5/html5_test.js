@@ -20,7 +20,7 @@
 
 
 describe('[Mode HTML5]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('html5/blank.html', it);
     loadExampleFile('html5/form.html', it);

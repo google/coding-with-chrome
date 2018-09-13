@@ -20,7 +20,7 @@
 
 
 describe('[Mode Python - Python 3.x]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('python/blank.py', it);
     loadExampleFile('python/class-test.py', it);

@@ -20,7 +20,7 @@
 
 
 describe('[Mode Coffeescript - Advanced]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('coffeescript/blank.coffee', it);
     loadExampleFile('coffeescript/script/countdown.coffee', it);

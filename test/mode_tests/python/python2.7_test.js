@@ -20,7 +20,7 @@
 
 
 describe('[Mode Python - Python 2.7]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('python27/blank.py', it);
     loadExampleFile('python27/guess-number.py', it);

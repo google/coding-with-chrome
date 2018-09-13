@@ -20,7 +20,7 @@
 
 
 describe('[Mode Javascript - Advanced]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('javascript/blank.js', it);
     loadExampleFile('javascript/raw/countdown.js', it);

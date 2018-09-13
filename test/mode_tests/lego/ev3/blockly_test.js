@@ -20,7 +20,7 @@
 
 
 describe('[Mode EV3 - Blockly]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('lego/ev3/blank-blocks.cwc', it);
     loadExampleFile('lego/ev3/blocks/EV3-Color-Sensor.cwc', it);

@@ -20,7 +20,7 @@
 
 
 describe('[Mode Sphero Classic - Blockly]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('sphero/classic/blank-blocks.cwc', it);
     loadExampleFile('sphero/classic/blocks/Sphero-collision.cwc', it);

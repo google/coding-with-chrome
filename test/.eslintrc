@@ -13,6 +13,7 @@
     'loadTemplateFile': true,
     'loadTourFile': true,
     'loadTutorialFile': true,
+    'prepareEditor': true,
     'var_args': true,
     'window': true,
   }

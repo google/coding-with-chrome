@@ -210,10 +210,8 @@ closureBuilder.build({
   ]),
   deps: glob([
     'src/config/config.js',
-    'src/frameworks/messenger/*.js',
     'src/utils/dialog/*',
     'src/utils/logger.js',
-    'third_party/coding-with-chrome-libraries/src/utils/stack/stack.js',
   ]),
   out: 'genfiles/core/frameworks/internal/simple_framework.js',
 });

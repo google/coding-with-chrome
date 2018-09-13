@@ -122,7 +122,7 @@ cwc.utils.Features.prototype.detectChromeFeatures = function() {
   }
 
   // Running as Chrome App.
-  this.setChromeFeature('app', typeof chrome.app);
+  this.setChromeFeature('app', typeof chrome.app.window);
 
   // Running on Chrome OS.
   this.setChromeFeature('os', /\bCrOS\b/.test(navigator.userAgent));
@@ -134,7 +134,14 @@ cwc.utils.Features.prototype.detectChromeFeatures = function() {
   this.setChromeFeature('browser', typeof chrome.browser);
   this.setChromeFeature('serial', typeof chrome.serial);
   this.setChromeFeature('mdns', typeof chrome.mdns);
-  this.setChromeFeature('webview', true);
+
+  // App features.
+  this.setChromeFeature('mdns', false);
+  this.setChromeFeature('webview', false);
+  if (this.getChromeFeature('app')) {
+    this.setChromeFeature('mdns', typeof chrome.mdns);
+    this.setChromeFeature('webview', true);
+  }
 
   // System features.
   this.setChromeFeature('system', typeof chrome.system);

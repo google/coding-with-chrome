@@ -20,7 +20,7 @@
 
 
 describe('[Mode Basic - Blockly]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('basic/blank-blocks.cwc', it);
     loadExampleFile('basic/blocks/Hello-World.cwc', it);

@@ -22,14 +22,11 @@ goog.provide('cwc.framework.simple.Loader');
 goog.require('cwc.framework.simple.Command');
 goog.require('cwc.framework.simple.Draw');
 
-goog.require('cwc.framework.Messenger');
-
 
 /**
  * @export
  */
 cwc.framework.simple.Loader.mapFramework = function() {
-  new cwc.framework.Messenger(true);
   new cwc.framework.simple.Draw().mapGlobal();
   new cwc.framework.simple.Command().mapGlobal();
 };

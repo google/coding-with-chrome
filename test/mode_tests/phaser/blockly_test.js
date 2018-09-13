@@ -20,7 +20,7 @@
 
 
 describe('[Mode Phaser - Blockly]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('phaser/blank-blocks.cwc', it);
     loadExampleFile('phaser/blocks/bouncing-ball.cwc', it);

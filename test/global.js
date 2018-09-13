@@ -23,6 +23,14 @@ goog.require('cwc.utils.ByteTools');
 
 Locales = {};
 
+let prepareEditor = function() {
+  let cwcEditor = document.getElementById('cwc-editor');
+  if (!cwcEditor) {
+    document.body.insertAdjacentHTML(
+      'afterbegin', '<div id="cwc-editor"></div>');
+  }
+};
+
 let getTestBlockCode = function(block) {
   let blocklyDiv = document.getElementById('test-workspace');
   let workspace = Blockly.inject(blocklyDiv);

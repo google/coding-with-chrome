@@ -20,7 +20,7 @@
 
 
 describe('[Mode Basic - Advanced]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('basic/blank.cwc', it);
     loadExampleFile('basic/script/Draw-Portal-Turret.cwc', it);

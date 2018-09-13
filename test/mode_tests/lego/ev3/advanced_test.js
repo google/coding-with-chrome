@@ -20,7 +20,7 @@
 
 
 describe('[Mode EV3 - Advanced]', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="cwc-editor"></div>');
+  prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('lego/ev3/blank.cwc', it);
     loadExampleFile('lego/ev3/script/EV3-line-follower.cwc', it);
