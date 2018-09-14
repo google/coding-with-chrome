@@ -30,6 +30,16 @@ Blockly.JavaScript['simple_text_write'] = function(block) {
   return 'command.write(' + text + ');\n';
 };
 
+/**
+ * Write line.
+ * @param {!Blockly.block} block
+ * @return {string}
+ */
+Blockly.JavaScript['simple_text_writeLine'] = function(block) {
+  let text = Blockly.JavaScript.valueToCode(block, 'text',
+      Blockly.JavaScript.ORDER_ATOMIC);
+  return 'command.writeLine(' + text + ');\n';
+};
 
 /**
  * Draw circle.
