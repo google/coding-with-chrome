@@ -70,16 +70,16 @@ const sections = [{
   }, {
     header: 'Deploy commands (binary)',
     content: [{
-        name: 'publish-nw_app',
+        name: 'publish:nw_app',
         summary: 'Builds all binary versions of the app.',
     }, {
-        name: 'publish-nw_app-win',
+        name: 'publish:nw_app-win',
         summary: 'Builds Windows (32bit/64bit) binary version of the app.',
     }, {
-        name: 'publish-nw_app-mac',
+        name: 'publish:nw_app-mac',
         summary: 'Builds Mac (64bit) binary version of the app.',
     }, {
-        name: 'publish-nw_app-linux',
+        name: 'publish:nw_app-linux',
         summary: 'Builds Linux (32bit/64bit) binary version of the app.',
     }],
   }, {
@@ -88,16 +88,16 @@ const sections = [{
         name: 'test',
         summary: 'Perform all tests.',
     }, {
-        name: 'test-soy',
+        name: 'test:soy',
         summary: 'Test all soy files for compilation errors.',
     }, {
         name: 'test:units',
         summary: 'Perform general unit tests.',
     }, {
-        name: 'test-core',
+        name: 'test:core',
         summary: 'Perform core tests tests.',
     }, {
-        name: 'test-mode',
+        name: 'test:mode',
         summary: 'Perform mode tests.',
     }],
   },

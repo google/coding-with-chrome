@@ -26,7 +26,7 @@ Build the launcher
 To compile the binary launcher run the build script with the following command:
 
 ```bash
-npm run build-nw_app
+npm run build:nw_app
 ```
 
 Build the actual app
@@ -36,7 +36,7 @@ To compile the packed binary version run the build script with the following
 command:
 
 ```bash
-npm run publish-nw_app-win
+npm run publish:nw_app-win
 ```
 
 The build version will be compiled in the `/dist/binary/win64` and

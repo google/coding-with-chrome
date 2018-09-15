@@ -75,7 +75,7 @@ Build Release version
 ### Chrome App
 
 ```bash
-npm run publish-chrome_app
+npm run publish:chrome_app
 ```
 
 Use the generated **dist/chrome_app.zip** file for the upload to the

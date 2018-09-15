@@ -217,7 +217,6 @@ goog.addDependency('../../../../src/utils/number_tools.js', ['cwc.utils.NumberTo
 goog.addDependency('../../../../src/utils/resources.js', ['cwc.utils.Resources'], ['goog.net.XhrIo'], false);
 goog.addDependency('../../../../src/utils/stream_reader.js', ['cwc.utils.StreamReader'], ['cwc.utils.ByteTools'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/addon/message/message.soy.js', ['cwc.soy.addon.Message'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/addon/workbench/workbench_project.soy.js', ['cwc.soy.addon.WorkbenchProject'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/blocks.soy.js', ['cwc.soy.Blocks'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/lego/ev3/toolbox.soy.js', ['cwc.soy.ev3.Blocks'], ['cwc.soy.Blocks', 'goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/lego/wedo2/toolbox.soy.js', ['cwc.soy.lego.weDo2.Blocks'], ['cwc.soy.Blocks', 'soy', 'soydata'], false);

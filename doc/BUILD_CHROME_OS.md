@@ -26,7 +26,7 @@ Build the actual app
 To only compile the Chrome app run the build script with the following command:
 
 ```bash
-npm run build-chrome_app
+npm run build:chrome_app
 ```
 
 The build version will be compiled in the `dist/chrome_os` directory, together
