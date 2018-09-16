@@ -20,12 +20,7 @@
 
 
 describe('Simple Blocks', function() {
-  document.body.insertAdjacentHTML('afterbegin',
-    '<div id="test-workspace"></div>');
-  window['i18t'] = function(msg) {
-return msg;
-};
-
+  getTestBlockWorkspace();
   let blockPrefix = 'simple_';
   let blocks = [];
   for (let block in Blockly.Blocks) {

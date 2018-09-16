@@ -20,12 +20,7 @@
 
 
 describe('EV3 Blocks', function() {
-  document.body.insertAdjacentHTML('afterbegin',
-    '<div id="test-workspace"></div>');
-  window['i18t'] = function(msg) {
-return msg;
-};
-
+  getTestBlockWorkspace();
   let blockPrefix = 'ev3_';
   let blocks = [];
   for (let block in Blockly.Blocks) {

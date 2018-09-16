@@ -20,12 +20,7 @@
 
 
 describe('Sphero Blocks', function() {
-  document.body.insertAdjacentHTML('afterbegin',
-    '<div id="test-workspace"></div>');
-  window['i18t'] = function(msg) {
-return msg;
-};
-
+  getTestBlockWorkspace();
   let blockPrefix = 'sphero_';
   let blocks = [];
   for (let block in Blockly.Blocks) {
