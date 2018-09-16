@@ -18,6 +18,7 @@
  * @author carheden@google.com (Adam Carheden)
  */
 
+
 describe('Tutorial', function() {
   let sidebarId = 'cwc-sidebar';
   document.body.insertAdjacentHTML('afterbegin', `

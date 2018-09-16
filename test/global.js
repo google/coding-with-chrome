@@ -31,8 +31,19 @@ let prepareEditor = function() {
   }
 };
 
+let getTestBlockWorkspace = function() {
+  let workspace = document.getElementById('test-block-workspace');
+  if (!workspace) {
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div id="test-block-workspace"></div>');
+    window['i18t'] = function(msg) {
+      return msg;
+    };
+  }
+};
+
 let getTestBlockCode = function(block) {
-  let blocklyDiv = document.getElementById('test-workspace');
+  let blocklyDiv = document.getElementById('test-block-workspace');
   let workspace = Blockly.inject(blocklyDiv);
   let xmlCode = '<xml xmlns="http://www.w3.org/1999/xhtml">\n' +
     '<block type="' + block + '"></block>\n</xml>';

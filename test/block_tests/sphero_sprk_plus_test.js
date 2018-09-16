@@ -1,7 +1,7 @@
 /**
- * @fileoverview Phaser block tests.
+ * @fileoverview Sphero SPRK+ block tests.
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@
  */
 
 
-describe('Phaser Blocks', function() {
+describe('Sphero SPRK+ Blocks', function() {
   getTestBlockWorkspace();
-  let blockPrefix = 'phaser_';
+  let blockPrefix = 'sphero_sprk_plus_';
   let blocks = [];
   for (let block in Blockly.Blocks) {
     if (block.startsWith(blockPrefix)) {
@@ -52,12 +52,7 @@ describe('Phaser Blocks', function() {
   blocks.forEach(function(block) {
     it('Block ' + block + ' to workspace', function() {
       let code = getTestBlockCode(block);
-      if (block.includes('_body')) {
-        expect(code === '').toBe(true);
-      } else {
-        expect(code && code.length > 1).toBe(true);
-      }
+      expect(code && code.length > 1).toBe(true);
     });
   });
 });
-
