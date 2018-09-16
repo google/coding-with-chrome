@@ -59,6 +59,15 @@ cwc.framework.simple.Command.prototype.write = function(text) {
   this.addNode_(goog.dom.createTextNode(text));
 };
 
+/**
+ * Writes a text and line break on screen.
+ * @param {string} text
+ * @export
+ */
+cwc.framework.simple.Command.prototype.writeLine = function(text) {
+  this.addNode_(goog.dom.createTextNode(text));
+  this.addNode_(goog.dom.createElement('br'));
+};
 
 /**
  * @param {string} title
@@ -105,6 +114,7 @@ cwc.framework.simple.Command.prototype.mapGlobal = function() {
   }
   window['command'] = {
     'write': this.write.bind(this),
+    'writeLine': this.writeLine.bind(this),
     'showAlert': this.showAlert.bind(this),
     'showPrompt': this.showPrompt.bind(this),
     'showActionCancel': this.showActionCancel.bind(this),

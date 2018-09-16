@@ -39,6 +39,24 @@ Blockly.Blocks['simple_text_write'] = {
 
 
 /**
+ * Write line.
+ */
+Blockly.Blocks['simple_text_writeLine'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(290);
+    this.appendValueInput('text')
+      .setCheck('String')
+      .appendField(i18t('writeLine('));
+    this.appendDummyInput()
+      .appendField(')');
+    this.setPreviousStatement(true, ['Number', 'String']);
+    this.setNextStatement(true, ['Number', 'String']);
+    this.setTooltip(i18t('Writes the text on its own line the screen.'));
+  },
+};
+
+/**
  * Draw circle.
  */
 Blockly.Blocks['simple_draw_circle'] = {
