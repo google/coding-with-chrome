@@ -218,19 +218,36 @@ closureBuilder.build({
 
 
 /**
- * Sphero Framework
+ * Sphero 2.0 Framework
  */
 closureBuilder.build({
-  name: 'cwc.framework.Sphero',
+  name: 'cwc.framework.sphero.Sphero2',
   compress: true,
   srcs: glob([
-    'src/frameworks/sphero/*.js',
+    'src/frameworks/sphero/sphero2/*.js',
   ]),
   deps: glob([
     'src/frameworks/messenger/*.js',
     'third_party/coding-with-chrome-libraries/src/utils/stack/stack.js',
   ]),
-  out: 'genfiles/core/frameworks/internal/sphero_framework.js',
+  out: 'genfiles/core/frameworks/internal/sphero2_framework.js',
+});
+
+
+/**
+ * Sphero SPRK+ Framework
+ */
+closureBuilder.build({
+  name: 'cwc.framework.sphero.SprkPlus',
+  compress: true,
+  srcs: glob([
+    'src/frameworks/sphero/sprk_plus/*.js',
+  ]),
+  deps: glob([
+    'src/frameworks/messenger/*.js',
+    'third_party/coding-with-chrome-libraries/src/utils/stack/stack.js',
+  ]),
+  out: 'genfiles/core/frameworks/internal/sprk_plus_framework.js',
 });
 
 

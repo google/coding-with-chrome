@@ -22,7 +22,7 @@ goog.provide('cwc.mode.sphero.ollie.blockly.Mod');
 goog.require('cwc.mode.default.Mod');
 goog.require('cwc.mode.sphero.ollie.Connection');
 goog.require('cwc.mode.sphero.Monitor');
-goog.require('cwc.renderer.external.Sphero');
+goog.require('cwc.renderer.external.sphero.Sphero2');
 goog.require('cwc.soy.sphero.Blocks');
 
 
@@ -40,8 +40,8 @@ cwc.mode.sphero.ollie.blockly.Mod = function(helper) {
   /** @type {!cwc.mode.sphero.Monitor} */
   this.monitor = new cwc.mode.sphero.Monitor(helper, this.connection);
 
-  /** @type {!cwc.renderer.external.Sphero} */
-  this.renderer = new cwc.renderer.external.Sphero(helper);
+  /** @type {!cwc.renderer.external.sphero.Sphero2} */
+  this.renderer = new cwc.renderer.external.sphero.Sphero2(helper);
 };
 
 

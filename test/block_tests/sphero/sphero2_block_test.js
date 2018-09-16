@@ -19,9 +19,9 @@
  */
 
 
-describe('Sphero Blocks', function() {
+describe('Sphero 2.0 Blocks', function() {
   getTestBlockWorkspace();
-  let blockPrefix = 'sphero_';
+  let blockPrefix = 'sphero_sphero2_';
   let blocks = [];
   for (let block in Blockly.Blocks) {
     if (block.startsWith(blockPrefix)) {
@@ -49,10 +49,11 @@ describe('Sphero Blocks', function() {
     expect(blockScripts.length).toEqual(blocks.length);
   });
 
-  blocks.forEach(function(block) {
-    it('Block ' + block + ' to workspace', function() {
+  blocks.sort().forEach(function(block) {
+    it('Block ' + block, function(done) {
       let code = getTestBlockCode(block);
       expect(code && code.length > 1).toBe(true);
+      done();
     });
   });
 });

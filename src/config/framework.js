@@ -63,7 +63,8 @@ cwc.config.framework.Internal = {
   PYTHON3: '/frameworks/internal/python3_framework.js',
   RASPBERRY_PI: '/frameworks/internal/raspberry_pi_framework.js',
   SIMPLE: '/frameworks/internal/simple_framework.js',
-  SPHERO: '/frameworks/internal/sphero_framework.js',
+  SPHERO2: '/frameworks/internal/sphero2_framework.js',
+  SPHERO_SPRK_PLUS: '/frameworks/internal/sprk_plus_framework.js',
   TURTLE: '/frameworks/internal/turtle_framework.js',
   WEDO2: '/frameworks/internal/wedo2_framework.js',
 };

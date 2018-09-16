@@ -125,11 +125,11 @@ Blockly.Blocks['phaser_world_sort_direction'] = {
         .appendField(i18t('@@BLOCKS__SET'))
         .appendField(i18t('@@BLOCKS_PHASER__WORLD_SORT_DIRECTION'))
         .appendField(new Blockly.FieldDropdown([
-          [i18t('none'), 0],
-          [i18t('left to right'), 1],
-          [i18t('right to left'), 2],
-          [i18t('top to bottom'), 3],
-          [i18t('bottom to top'), 4],
+          [i18t('none'), '0'],
+          [i18t('left to right'), '1'],
+          [i18t('right to left'), '2'],
+          [i18t('top to bottom'), '3'],
+          [i18t('bottom to top'), '4'],
         ]), 'property');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

@@ -100,7 +100,7 @@ Blockly.Blocks['sphero_sprk_plus_roll_time'] = {
 
 
 /**
- * Sphero roll time.
+ * Sphero rotate time.
  */
 Blockly.Blocks['sphero_sprk_plus_rotate_time'] = {
   init: function() {
@@ -287,7 +287,7 @@ Blockly.Blocks['sphero_sprk_plus_stop'] = {
 
 
 /**
- * Clear displayed text on local screen.
+ * Reset device position.
  */
 Blockly.Blocks['sphero_sprk_plus_reset'] = {
   init: function() {

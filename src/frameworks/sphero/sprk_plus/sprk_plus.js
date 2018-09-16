@@ -1,9 +1,9 @@
 /**
- * @fileoverview Sphero framework for the messenger instance.
+ * @fileoverview Sphero SPRK+ framework for the messenger instance.
  * This Sphero framework will be used by the messenger instance to access the
  * Sphero over the messenger instance and the Bluetooth interface.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Sphero');
+goog.provide('cwc.framework.sphero.SprkPlus');
 
 goog.require('cwc.framework.Messenger');
 goog.require('cwc.framework.MessengerCommand');
@@ -32,9 +32,9 @@ goog.require('cwc.framework.MessengerDisplay');
  * @final
  * @export
  */
-cwc.framework.Sphero = function() {
+cwc.framework.sphero.SprkPlus = function() {
   /** @type {string} */
-  this.name = 'Sphero Framework';
+  this.name = 'Sphero SPRK+ Framework';
 
   /** @type {!function(?)} */
   this.collisionEvent = function() {};
@@ -82,7 +82,7 @@ cwc.framework.Sphero = function() {
  * @param {boolean=} enable
  * @export
  */
-cwc.framework.Sphero.prototype.setStabilization = function(enable) {
+cwc.framework.sphero.SprkPlus.prototype.setStabilization = function(enable) {
   this.messenger_.send('setStabilization', {'enable': enable});
 };
 
@@ -92,7 +92,8 @@ cwc.framework.Sphero.prototype.setStabilization = function(enable) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
+cwc.framework.sphero.SprkPlus.prototype.setBackLed = function(brightness,
+    delay) {
   this.messenger_.send('setBackLed', {'brightness': brightness}, delay);
 };
 
@@ -105,7 +106,7 @@ cwc.framework.Sphero.prototype.setBackLed = function(brightness, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
+cwc.framework.sphero.SprkPlus.prototype.setRGB = function(red, green, blue,
     persistent, delay) {
   this.messenger_.send('setRGB', {
     'red': red,
@@ -120,7 +121,8 @@ cwc.framework.Sphero.prototype.setRGB = function(red, green, blue,
  * @param {number=} delay
  * @export
  */
-cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, delay) {
+cwc.framework.sphero.SprkPlus.prototype.setMotionTimeout = function(timeout,
+    delay) {
   this.messenger_.send('setMotionTimeout', {'timeout': timeout}, delay);
 };
 
@@ -132,7 +134,8 @@ cwc.framework.Sphero.prototype.setMotionTimeout = function(timeout, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.roll = function(speed, heading, state, delay) {
+cwc.framework.sphero.SprkPlus.prototype.roll = function(speed, heading, state,
+    delay) {
   this.messenger_.send('roll', {
     'speed': speed,
     'heading': heading,
@@ -147,8 +150,8 @@ cwc.framework.Sphero.prototype.roll = function(speed, heading, state, delay) {
  * @param {boolean=} stop
  * @export
  */
-cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20, heading,
-    stop) {
+cwc.framework.sphero.SprkPlus.prototype.rollTime = function(time, speed = 20,
+    heading, stop) {
   let rollTime = Math.floor(time * 2) || 0;
   for (let num = 0; num < rollTime; num++) {
     this.roll(speed, heading, true, 500);
@@ -164,7 +167,7 @@ cwc.framework.Sphero.prototype.rollTime = function(time, speed = 20, heading,
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.boost = function(enable, delay) {
+cwc.framework.sphero.SprkPlus.prototype.boost = function(enable, delay) {
   this.messenger_.send('boost', {'enable': enable}, delay);
 };
 
@@ -173,7 +176,7 @@ cwc.framework.Sphero.prototype.boost = function(enable, delay) {
  * @param {number=} delay in msec
  * @export
  */
-cwc.framework.Sphero.prototype.stop = function(delay) {
+cwc.framework.sphero.SprkPlus.prototype.stop = function(delay) {
   this.messenger_.send('stop', null, delay);
 };
 
@@ -182,7 +185,7 @@ cwc.framework.Sphero.prototype.stop = function(delay) {
  * @param {number} heading
  * @export
  */
-cwc.framework.Sphero.prototype.calibrate = function(heading) {
+cwc.framework.sphero.SprkPlus.prototype.calibrate = function(heading) {
   this.messenger_.send('calibrate', {'heading': heading});
 };
 
@@ -190,7 +193,7 @@ cwc.framework.Sphero.prototype.calibrate = function(heading) {
 /**
  * @export
  */
-cwc.framework.Sphero.prototype.sleep = function() {
+cwc.framework.sphero.SprkPlus.prototype.sleep = function() {
   this.messenger_.send('sleep');
 };
 
@@ -199,7 +202,7 @@ cwc.framework.Sphero.prototype.sleep = function() {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Sphero.prototype.onCollision = function(func) {
+cwc.framework.sphero.SprkPlus.prototype.onCollision = function(func) {
   if (goog.isFunction(func)) {
     this.events_.collision = func;
   }
@@ -210,7 +213,7 @@ cwc.framework.Sphero.prototype.onCollision = function(func) {
  * @param {!Function} func
  * @export
  */
-cwc.framework.Sphero.prototype.onPositionChange = function(func) {
+cwc.framework.sphero.SprkPlus.prototype.onPositionChange = function(func) {
   if (goog.isFunction(func)) {
     this.events_.position = func;
   }
@@ -221,7 +224,7 @@ cwc.framework.Sphero.prototype.onPositionChange = function(func) {
  * @param {number} data
  * @private
  */
-cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
+cwc.framework.sphero.SprkPlus.prototype.handleCollision_ = function(data) {
   this.events_.collision(data);
 };
 
@@ -230,7 +233,7 @@ cwc.framework.Sphero.prototype.handleCollision_ = function(data) {
  * @param {number} data
  * @private
  */
-cwc.framework.Sphero.prototype.handleVelocity_ = function(data) {
+cwc.framework.sphero.SprkPlus.prototype.handleVelocity_ = function(data) {
   this.events_.velocity(data);
 };
 
@@ -239,12 +242,11 @@ cwc.framework.Sphero.prototype.handleVelocity_ = function(data) {
  * @param {event} e
  * @private
  */
-cwc.framework.Sphero.prototype.handlePositionChange_ = function(e) {
+cwc.framework.sphero.SprkPlus.prototype.handlePositionChange_ = function(e) {
   this.data.position = e.data;
   this.events_.position(e.data.x, e.data.y);
 };
 
 
 // Global mapping
-window['sphero'] = new cwc.framework.Sphero();
-
+window['sprkPlus'] = new cwc.framework.sphero.SprkPlus();

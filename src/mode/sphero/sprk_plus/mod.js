@@ -27,7 +27,7 @@ goog.require('cwc.mode.sphero.sprkPlus.Control');
 goog.require('cwc.mode.sphero.sprkPlus.Monitor');
 goog.require('cwc.mode.sphero.sprkPlus.SensorEvents');
 goog.require('cwc.mode.sphero.sprkPlus.Simulation');
-goog.require('cwc.renderer.external.Sphero');
+goog.require('cwc.renderer.external.sphero.SprkPlus');
 goog.require('cwc.soy.sphero.sprkPlus.Blocks');
 
 
@@ -62,8 +62,8 @@ cwc.mode.sphero.sprkPlus.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.sphero.sprkPlus.Simulation} */
   this.simulation = new cwc.mode.sphero.sprkPlus.Simulation(helper);
 
-  /** @type {!cwc.renderer.external.Sphero} */
-  this.renderer = new cwc.renderer.external.Sphero(helper);
+  /** @type {!cwc.renderer.external.sphero.SprkPlus} */
+  this.renderer = new cwc.renderer.external.sphero.SprkPlus(helper);
 };
 
 

@@ -26,7 +26,7 @@ goog.require('cwc.mode.sphero.sphero2.Connection');
 goog.require('cwc.mode.sphero.sphero2.Control');
 goog.require('cwc.mode.sphero.sphero2.SensorEvents');
 goog.require('cwc.mode.sphero.sphero2.Simulation');
-goog.require('cwc.renderer.external.Sphero');
+goog.require('cwc.renderer.external.sphero.Sphero2');
 goog.require('cwc.soy.sphero.Blocks');
 
 
@@ -58,8 +58,8 @@ cwc.mode.sphero.sphero2.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.sphero.sphero2.Simulation} */
   this.simulation = new cwc.mode.sphero.sphero2.Simulation(helper);
 
-  /** @type {!cwc.renderer.external.Sphero} */
-  this.renderer = new cwc.renderer.external.Sphero(helper);
+  /** @type {!cwc.renderer.external.sphero.Sphero2} */
+  this.renderer = new cwc.renderer.external.sphero.Sphero2(helper);
 };
 
 

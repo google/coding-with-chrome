@@ -22,14 +22,14 @@
 /**
  * Sphero start Block.
  */
-Blockly.Blocks['sphero_start'] = {
+Blockly.Blocks['sphero_sphero2_start'] = {
   init: function() {
     this.setDeletable(false);
     this.setHelpUrl('');
     this.setColour(65);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.runningMan())
-      .appendField(i18t('Programm Start'));
+      .appendField(i18t('Program Start'));
     this.setNextStatement(true);
     this.setTooltip(i18t('Defines the start of the program'));
   },
@@ -39,7 +39,7 @@ Blockly.Blocks['sphero_start'] = {
 /**
  * Sphero roll.
  */
-Blockly.Blocks['sphero_roll'] = {
+Blockly.Blocks['sphero_sphero2_roll'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -57,7 +57,7 @@ Blockly.Blocks['sphero_roll'] = {
 /**
  * Sphero roll step.
  */
-Blockly.Blocks['sphero_roll_step'] = {
+Blockly.Blocks['sphero_sphero2_roll_step'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -78,7 +78,7 @@ Blockly.Blocks['sphero_roll_step'] = {
 /**
  * Sphero roll time.
  */
-Blockly.Blocks['sphero_roll_time'] = {
+Blockly.Blocks['sphero_sphero2_roll_time'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -102,7 +102,7 @@ Blockly.Blocks['sphero_roll_time'] = {
 /**
  * Sphero heading.
  */
-Blockly.Blocks['sphero_heading'] = {
+Blockly.Blocks['sphero_sphero2_heading'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -122,7 +122,7 @@ Blockly.Blocks['sphero_heading'] = {
 /**
  * Sphero rgb.
  */
-Blockly.Blocks['sphero_rgb'] = {
+Blockly.Blocks['sphero_sphero2_rgb'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -140,7 +140,7 @@ Blockly.Blocks['sphero_rgb'] = {
 /**
  * Sphero backlight.
  */
-Blockly.Blocks['sphero_backlight'] = {
+Blockly.Blocks['sphero_sphero2_backlight'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -160,7 +160,7 @@ Blockly.Blocks['sphero_backlight'] = {
 /**
  * Sphero stop.
  */
-Blockly.Blocks['sphero_stop'] = {
+Blockly.Blocks['sphero_sphero2_stop'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -183,7 +183,7 @@ Blockly.Blocks['sphero_stop'] = {
 /**
  * Collision detected.
  */
-Blockly.Blocks['sphero_collision'] = {
+Blockly.Blocks['sphero_sphero2_collision'] = {
   init: function() {
     this.setHelpUrl('');
     this.setColour(260);
@@ -198,3 +198,17 @@ Blockly.Blocks['sphero_collision'] = {
     this.setTooltip(i18t('Detect collision.'));
   },
 };
+
+
+/**
+ * Deprecated: Alias for former blocks for compatibility reasons.
+ */
+Blockly.Blocks['sphero_start'] = Blockly.Blocks['sphero_sphero2_start'];
+Blockly.Blocks['sphero_roll'] = Blockly.Blocks['sphero_sphero2_roll'];
+Blockly.Blocks['sphero_roll_step'] = Blockly.Blocks['sphero_sphero2_roll_step'];
+Blockly.Blocks['sphero_roll_time'] = Blockly.Blocks['sphero_sphero2_roll_time'];
+Blockly.Blocks['sphero_heading'] = Blockly.Blocks['sphero_sphero2_heading'];
+Blockly.Blocks['sphero_rgb'] = Blockly.Blocks['sphero_sphero2_rgb'];
+Blockly.Blocks['sphero_backlight'] = Blockly.Blocks['sphero_sphero2_backlight'];
+Blockly.Blocks['sphero_stop'] = Blockly.Blocks['sphero_sphero2_stop'];
+Blockly.Blocks['sphero_collision'] = Blockly.Blocks['sphero_sphero2_collision'];

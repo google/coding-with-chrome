@@ -210,6 +210,7 @@ Blockly.JavaScript['simple_draw_text'] = function(block) {
     Blockly.JavaScript.ORDER_ATOMIC);
   let y = Blockly.JavaScript.valueToCode(block, 'y',
     Blockly.JavaScript.ORDER_ATOMIC);
-  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor');
+  let fillColor = Blockly.JavaScript.valueToCode(block, 'fillColor',
+    Blockly.JavaScript.ORDER_ATOMIC);
   return 'draw.text(' + text + ', ' + x + ', ' + y + ', ' + fillColor + ');\n';
 };

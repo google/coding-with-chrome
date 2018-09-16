@@ -23,8 +23,8 @@
  * Sphero start Block.
  * @return {string}
  */
-Blockly.JavaScript['sphero_start'] = function() {
-  return '';
+Blockly.JavaScript['sphero_sphero2_start'] = function() {
+  return '// Start Sphero 2.0\n';
 };
 
 
@@ -33,11 +33,11 @@ Blockly.JavaScript['sphero_start'] = function() {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_roll'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_roll'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   let duration = 500 + (speed * 20);
-  return 'sphero.roll(' + speed + ', undefined, undefined, ' +
+  return 'sphero2.roll(' + speed + ', undefined, undefined, ' +
     duration + ');\n';
 };
 
@@ -47,12 +47,12 @@ Blockly.JavaScript['sphero_roll'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_roll_step'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_roll_step'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   let heading = parseInt(block.getFieldValue('heading'));
   let duration = 500 + (speed * 20);
-  return 'sphero.roll(' + speed + ', ' +heading + ', 0x01, ' +
+  return 'sphero2.roll(' + speed + ', ' +heading + ', 0x01, ' +
     duration + ');\n';
 };
 
@@ -62,13 +62,13 @@ Blockly.JavaScript['sphero_roll_step'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_roll_time'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_roll_time'] = function(block) {
   let time = parseInt(Blockly.JavaScript.valueToCode(
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   let heading = parseInt(block.getFieldValue('heading') || 0);
-  return 'sphero.rollTime(' + time + ', ' + speed + ', ' + heading +
+  return 'sphero2.rollTime(' + time + ', ' + speed + ', ' + heading +
     ',true);\n';
 };
 
@@ -78,12 +78,12 @@ Blockly.JavaScript['sphero_roll_time'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_heading'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_heading'] = function(block) {
   let angle_heading = parseInt(block.getFieldValue('heading'));
   let value_heading = parseInt(Blockly.JavaScript.valueToCode(
     block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
   let duration = 500;
-  return 'sphero.roll(0, ' + (angle_heading || value_heading || 0) +
+  return 'sphero2.roll(0, ' + (angle_heading || value_heading || 0) +
     ', 0x01, ' + duration + ');\n';
 };
 
@@ -93,7 +93,7 @@ Blockly.JavaScript['sphero_heading'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_rgb'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_rgb'] = function(block) {
   let colour = parseInt(Blockly.JavaScript.valueToCode(
     block, 'colour', Blockly.JavaScript.ORDER_ATOMIC)
     .replace('#', '')
@@ -102,7 +102,7 @@ Blockly.JavaScript['sphero_rgb'] = function(block) {
   let red = colour >> 16;
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
-  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100' +
+  return 'sphero2.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100' +
     ');\n';
 };
 
@@ -112,10 +112,10 @@ Blockly.JavaScript['sphero_rgb'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_backlight'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_backlight'] = function(block) {
   let brightness = Math.min(Math.max(
       parseInt(block.getFieldValue('brightness')), 0), 254);
-  return 'sphero.setBackLed(' + brightness + ', 100);\n';
+  return 'sphero2.setBackLed(' + brightness + ', 100);\n';
 };
 
 
@@ -124,12 +124,12 @@ Blockly.JavaScript['sphero_backlight'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_stop'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_stop'] = function(block) {
   let dropdown_immediately = block.getFieldValue('immediately');
   if (dropdown_immediately == 'when finished') {
-    return 'sphero.stop(100);\n';
+    return 'sphero2.stop(100);\n';
   }
-  return 'sphero.stop();\n';
+  return 'sphero2.stop();\n';
 };
 
 
@@ -138,8 +138,27 @@ Blockly.JavaScript['sphero_stop'] = function(block) {
  * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_collision'] = function(block) {
+Blockly.JavaScript['sphero_sphero2_collision'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var collisionEvent = function(data) {\n' +
-      statements_code + '};\nsphero.onCollision(collisionEvent);\n';
+      statements_code + '};\nsphero2.onCollision(collisionEvent);\n';
 };
+
+
+/**
+ * Deprecated: Alias for former blocks for compatibility reasons.
+ */
+Blockly.JavaScript['sphero_start'] = Blockly.JavaScript['sphero_sphero2_start'];
+Blockly.JavaScript['sphero_roll'] = Blockly.JavaScript['sphero_sphero2_roll'];
+Blockly.JavaScript['sphero_roll_step'] =
+  Blockly.JavaScript['sphero_sphero2_roll_step'];
+Blockly.JavaScript['sphero_roll_time'] =
+  Blockly.JavaScript['sphero_sphero2_roll_time'];
+Blockly.JavaScript['sphero_heading'] =
+  Blockly.JavaScript['sphero_sphero2_heading'];
+Blockly.JavaScript['sphero_rgb'] = Blockly.JavaScript['sphero_sphero2_rgb'];
+Blockly.JavaScript['sphero_backlight'] =
+  Blockly.JavaScript['sphero_sphero2_backlight'];
+Blockly.JavaScript['sphero_stop'] = Blockly.JavaScript['sphero_sphero2_stop'];
+Blockly.JavaScript['sphero_collision'] =
+  Blockly.JavaScript['sphero_sphero2_collision'];

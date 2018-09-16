@@ -79,5 +79,6 @@ Blockly.JavaScript['phaser_world_arcade_physics'] = function(block) {
  */
 Blockly.JavaScript['phaser_world_sort_direction'] = function(block) {
   let dropdown_property = block.getFieldValue('property');
-  return 'game.physics.arcade.sortDirection = ' + dropdown_property + ';\n';
+  return 'game.physics.arcade.sortDirection = ' +
+    Number(dropdown_property) || 0 + ';\n';
 };

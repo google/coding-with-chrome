@@ -49,10 +49,11 @@ describe('Sphero SPRK+ Blocks', function() {
     expect(blockScripts.length).toEqual(blocks.length);
   });
 
-  blocks.forEach(function(block) {
-    it('Block ' + block + ' to workspace', function() {
+  blocks.sort().forEach(function(block) {
+    it('Block ' + block, function(done) {
       let code = getTestBlockCode(block);
       expect(code && code.length > 1).toBe(true);
+      done();
     });
   });
 });

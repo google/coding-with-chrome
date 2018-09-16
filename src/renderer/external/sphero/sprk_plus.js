@@ -1,7 +1,7 @@
 /**
- * @fileoverview Sphero renderer.
+ * @fileoverview Sphero SPRK+ renderer.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.external.Sphero');
+goog.provide('cwc.renderer.external.sphero.SprkPlus');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
@@ -32,17 +32,17 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.Sphero = function(helper) {
+cwc.renderer.external.sphero.SprkPlus = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {!Array} */
   this.pythonMapping = [
-    'sphero = window.sphero',
+    'sprkPlus = window.sprkPlus',
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.config.framework.Internal.SPHERO];
+  this.frameworks_ = [cwc.config.framework.Internal.SPHERO_SPRK_PLUS];
 };
 
 
@@ -50,7 +50,7 @@ cwc.renderer.external.Sphero = function(helper) {
  * Initializes and defines the Sphero renderer.
  * @return {!Promise}
  */
-cwc.renderer.external.Sphero.prototype.init = function() {
+cwc.renderer.external.sphero.SprkPlus.prototype.init = function() {
   return this.helper.getInstance('renderer')
     .setServerMode(true)
     .setRenderer(this.render.bind(this));
@@ -65,7 +65,7 @@ cwc.renderer.external.Sphero.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.Sphero.prototype.render = function(
+cwc.renderer.external.sphero.SprkPlus.prototype.render = function(
     editorContent,
     libraryFiles,
     rendererHelper,

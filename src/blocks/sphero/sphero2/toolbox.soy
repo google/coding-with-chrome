@@ -27,22 +27,22 @@
 {template .toolbox}
   <xml>
     <category name="Movements" colour="120">
-      <block type="sphero_roll">
+      <block type="sphero_sphero2_roll">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
-      <block type="sphero_heading"></block>
-      <block type="sphero_stop"></block>
+      <block type="sphero_sphero2_heading"></block>
+      <block type="sphero_sphero2_stop"></block>
     </category>
 
     <category name="Movements (Advance)" colour="120">
-      <block type="sphero_roll_step">
+      <block type="sphero_sphero2_roll_step">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
         </value>
       </block>
-      <block type="sphero_roll_time">
+      <block type="sphero_sphero2_roll_time">
         <value name="time">
           <block type="math_number"><field name="NUM">2</field></block>
         </value>
@@ -53,18 +53,18 @@
     </category>
 
     <category name="Lights" colour="130">
-      <block type="sphero_rgb">
+      <block type="sphero_sphero2_rgb">
         <value name="colour">
           <block type="colour_picker">
             <field name="COLOUR">#ff0000</field>
          </block>
         </value>
       </block>
-      <block type="sphero_backlight"></block>
+      <block type="sphero_sphero2_backlight"></block>
     </category>
 
     <category name="Events" colour="120">
-      <block type="sphero_collision"></block>
+      <block type="sphero_sphero2_collision"></block>
     </category>
 
     <sep></sep>

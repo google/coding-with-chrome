@@ -24,7 +24,7 @@
  * @return {string}
  */
 Blockly.JavaScript['sphero_sprk_plus_start'] = function() {
-  return '';
+  return '// Start Sphero SPRK+\n';
 };
 
 
@@ -37,7 +37,7 @@ Blockly.JavaScript['sphero_sprk_plus_roll'] = function(block) {
   let speed = parseInt(Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   let duration = 500 + (speed * 20);
-  return 'sphero.roll(' + speed + ', undefined, undefined, ' +
+  return 'sprkPlus.roll(' + speed + ', undefined, undefined, ' +
     duration + ');\n';
 };
 
@@ -53,7 +53,7 @@ Blockly.JavaScript['sphero_sprk_plus_roll_step'] = function(block) {
   let heading = Blockly.JavaScript.valueToCode(
     block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
   let duration = 500 + (speed * 20);
-  return 'sphero.roll(' + speed + ', ' + heading + ', 0x01, ' +
+  return 'sprkPlus.roll(' + speed + ', ' + heading + ', 0x01, ' +
     duration + ');\n';
 };
 
@@ -70,8 +70,26 @@ Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
   let heading = Blockly.JavaScript.valueToCode(
     block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'sphero.rollTime(' + time + ', ' + speed + ', ' + heading +
+  return 'sprkPlus.rollTime(' + time + ', ' + speed + ', ' + heading +
     ', true);\n';
+};
+
+
+/**
+ * Sphero rotate time.
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_rotate_time'] = function() {
+  return '//tbd';
+};
+
+
+/**
+ * Sphero move raw.
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_move_raw'] = function() {
+  return '//tbd';
 };
 
 
@@ -82,7 +100,7 @@ Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
  */
 Blockly.JavaScript['sphero_sprk_plus_stabilization'] = function(block) {
   let enable = block.getFieldValue('enable') === 'enable' ? true : false;
-  return 'sphero.setStabilization(' + enable + ');\n';
+  return 'sprkPlus.setStabilization(' + enable + ');\n';
 };
 
 
@@ -95,7 +113,16 @@ Blockly.JavaScript['sphero_sprk_plus_heading'] = function(block) {
   let duration = 500;
   let heading = Blockly.JavaScript.valueToCode(
     block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'sphero.roll(0, ' + heading + ', 0x01, ' + duration + ');\n';
+  return 'sprkPlus.roll(0, ' + heading + ', 0x01, ' + duration + ');\n';
+};
+
+
+/**
+ * Sphero speed.
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_speed'] = function() {
+  return '//tbd';
 };
 
 
@@ -113,7 +140,7 @@ Blockly.JavaScript['sphero_sprk_plus_rgb'] = function(block) {
   let red = colour >> 16;
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
-  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100);\n';
+  return 'sprkPlus.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100);\n';
 };
 
 
@@ -131,8 +158,8 @@ Blockly.JavaScript['sphero_sprk_plus_blink'] = function(block) {
   let red = colour >> 16;
   let green = colour >> 8 & 0xFF;
   let blue = colour & 0xFF;
-  return 'sphero.setRGB(' + red + ', ' + green + ', ' + blue + ', 1, 100);\n' +
-    'sphero.setRGB(0, 0, 0, 1, 100);\n';
+  return 'sprkPlus.setRGB(' + red + ', ' + green + ', ' + blue +
+    ', 1, 100);\n' + 'sprkPlus.setRGB(0, 0, 0, 1, 100);\n';
 };
 
 
@@ -144,7 +171,7 @@ Blockly.JavaScript['sphero_sprk_plus_blink'] = function(block) {
 Blockly.JavaScript['sphero_sprk_plus_backlight'] = function(block) {
   let brightness = Math.min(Math.max(
       parseInt(block.getFieldValue('brightness')), 0), 254);
-  return 'sphero.setBackLed(' + brightness + ', 100);\n';
+  return 'sprkPlus.setBackLed(' + brightness + ', 100);\n';
 };
 
 
@@ -156,9 +183,18 @@ Blockly.JavaScript['sphero_sprk_plus_backlight'] = function(block) {
 Blockly.JavaScript['sphero_sprk_plus_stop'] = function(block) {
   let dropdown_immediately = block.getFieldValue('immediately');
   if (dropdown_immediately == 'when finished') {
-    return 'sphero.stop(100);\n';
+    return 'sprkPlus.stop(100);\n';
   }
-  return 'sphero.stop();\n';
+  return 'sprkPlus.stop();\n';
+};
+
+
+/**
+ * Reset device position.
+ * @return {string}
+ */
+Blockly.JavaScript['sphero_sprk_plus_reset'] = function() {
+  return 'sprkPlus.reset();\n';
 };
 
 
@@ -170,7 +206,7 @@ Blockly.JavaScript['sphero_sprk_plus_stop'] = function(block) {
 Blockly.JavaScript['sphero_sprk_plus_collision'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var collisionEvent = function() {\n' +
-      statements_code + '};\nsphero.onCollision(collisionEvent);\n';
+      statements_code + '};\nsprkPlus.onCollision(collisionEvent);\n';
 };
 
 
@@ -182,5 +218,5 @@ Blockly.JavaScript['sphero_sprk_plus_collision'] = function(block) {
 Blockly.JavaScript['sphero_sprk_plus_position_change'] = function(block) {
   let statements_code = Blockly.JavaScript.statementToCode(block, 'CODE');
   return 'var positionEvent = function(position_x, position_y) {\n' +
-      statements_code + '};\nsphero.onPositionChange(positionEvent);\n';
+      statements_code + '};\nsprkPlus.onPositionChange(positionEvent);\n';
 };

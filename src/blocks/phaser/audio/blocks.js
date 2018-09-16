@@ -36,8 +36,8 @@ Blockly.Blocks['phaser_audio_add_bgm'] = {
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
         .appendField('%')
         .appendField(new Blockly.FieldDropdown([
-          ['no loop', false],
-          ['loop', true],
+          ['no loop', 'false'],
+          ['loop', 'true'],
         ]), 'loop');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');
@@ -65,8 +65,8 @@ Blockly.Blocks['phaser_audio_add'] = {
         .appendField(new Blockly.FieldNumber(100, 0, 200), 'volume')
         .appendField('%')
         .appendField(new Blockly.FieldDropdown([
-          ['no loop', false],
-          ['loop', true],
+          ['no loop', 'false'],
+          ['loop', 'true'],
         ]), 'loop');
     this.setPreviousStatement(true, 'Create');
     this.setNextStatement(true, 'Create');

@@ -32,7 +32,7 @@ Blockly.JavaScript['phaser_audio_add_bgm'] = function(block) {
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return 'if (typeof ' + variable + ' === \'undefined\') {\n' +
     '  ' + variable + ' = game.add.audio(\'' + text_audio + '\', ' +
-    number_volume / 100 + ', ' + (dropdown_loop || 'false') + ');\n' +
+    number_volume / 100 + ', ' + dropdown_loop + ');\n' +
     '} else {\n  ' + variable + '.stop();\n}\n' +
     variable + '.play();\n';
 };
@@ -50,7 +50,7 @@ Blockly.JavaScript['phaser_audio_add'] = function(block) {
   let variable = Blockly.JavaScript.valueToCode(block,
     'variable', Blockly.JavaScript.ORDER_ATOMIC);
   return variable + ' = game.add.audio(\'' + text_audio + '\', ' +
-    number_volume / 100 + ', ' + (dropdown_loop || 'false') + ');\n';
+    number_volume / 100 + ', ' + dropdown_loop + ');\n';
 };
 
 

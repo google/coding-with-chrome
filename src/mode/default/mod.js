@@ -46,8 +46,9 @@ cwc.mode.default.ConnectionTypes;
 
 
 /**
- * @typedef {cwc.renderer.external.EV3|
- *   cwc.renderer.external.Sphero|
+ * @typedef {cwc.renderer.external.lego.EV3|
+ *   cwc.renderer.external.sphero.Sphero2|
+ *   cwc.renderer.external.sphero.SprkPlus|
  *   cwc.renderer.internal.Coffeescript|
  *   cwc.renderer.internal.HTML5|
  *   cwc.renderer.internal.Javascript|

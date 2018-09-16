@@ -1,5 +1,5 @@
 /**
- * @fileoverview EV3 renderer.
+ * @fileoverview Sphero 2.0 renderer.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.renderer.external.EV3');
+goog.provide('cwc.renderer.external.sphero.Sphero2');
 
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.file.Files');
@@ -32,28 +32,29 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.renderer.external.EV3 = function(helper) {
+cwc.renderer.external.sphero.Sphero2 = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
   /** @type {!Array} */
   this.pythonMapping = [
-    'ev3 = window.ev3',
+    'sphero = window.sphero',
+    'sphero2 = window.sphero2',
   ];
 
   /** @private {!Array} */
-  this.frameworks_ = [cwc.config.framework.Internal.EV3];
+  this.frameworks_ = [cwc.config.framework.Internal.SPHERO2];
 };
 
 
 /**
- * Initializes and defines the EV3 renderer.
+ * Initializes and defines the Sphero renderer.
  * @return {!Promise}
  */
-cwc.renderer.external.EV3.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer');
-  rendererInstance.setServerMode(true);
-  return rendererInstance.setRenderer(this.render.bind(this));
+cwc.renderer.external.sphero.Sphero2.prototype.init = function() {
+  return this.helper.getInstance('renderer')
+    .setServerMode(true)
+    .setRenderer(this.render.bind(this));
 };
 
 
@@ -65,7 +66,7 @@ cwc.renderer.external.EV3.prototype.init = function() {
  * @return {string}
  * @export
  */
-cwc.renderer.external.EV3.prototype.render = function(
+cwc.renderer.external.sphero.Sphero2.prototype.render = function(
     editorContent,
     libraryFiles,
     rendererHelper,

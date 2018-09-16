@@ -27,7 +27,7 @@ goog.require('cwc.mode.lego.ev3.Hints');
 goog.require('cwc.mode.lego.ev3.Monitor');
 goog.require('cwc.mode.lego.ev3.SensorEvents');
 goog.require('cwc.mode.lego.ev3.Simulation');
-goog.require('cwc.renderer.external.EV3');
+goog.require('cwc.renderer.external.lego.EV3');
 goog.require('cwc.soy.ev3.Blocks');
 
 
@@ -60,8 +60,8 @@ cwc.mode.lego.ev3.Mod = function(helper, enableBlockly = false) {
   /** @type {!cwc.mode.lego.ev3.Simulation} */
   this.simulation = new cwc.mode.lego.ev3.Simulation(helper);
 
-  /** @type {!cwc.renderer.external.EV3} */
-  this.renderer = new cwc.renderer.external.EV3(helper);
+  /** @type {!cwc.renderer.external.lego.EV3} */
+  this.renderer = new cwc.renderer.external.lego.EV3(helper);
 };
 
 
