@@ -8,7 +8,7 @@
   "dependencies": {},
   "devDependencies": {
     "bestzip": "^1.1.6",
-    "closure-builder": "^2.2.46",
+    "closure-builder": "^2.3.0",
     "closure-templates": "latest",
     "command-line-usage": "^5.0.5",
     "escape-string-regexp": "^1.0.5",
@@ -17,7 +17,7 @@
     "http-server": "latest",
     "jasmine-core": "^3.2.1",
     "jsdoc": "^3.5.5",
-    "karma": "^2.0.5",
+    "karma": "^3.0.0",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",
