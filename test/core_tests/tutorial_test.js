@@ -20,11 +20,6 @@
 
 
 describe('Tutorial', function() {
-  let sidebarId = 'cwc-sidebar';
-  document.body.insertAdjacentHTML('afterbegin', `
-    <div id="cwc-editor" style="z-index: 1000;"></div>
-    <div id="${sidebarId}" style="z-index: 2000"></div>
-  `);
   document.head.insertAdjacentHTML('afterbegin',
     '<link rel="stylesheet" href="css/editor.css">');
 
@@ -43,13 +38,22 @@ describe('Tutorial', function() {
   let testTutorial = async function(tutorialTemplate) {
     let builder = new cwc.ui.Builder();
     await builder.decorate();
-    let sidebar = builder.getHelper().getInstance('sidebar');
-    expect(sidebar).not.toBeNull();
-    let sidebarNode = document.getElementById(sidebarId);
-    expect(sidebarNode).not.toBeNull();
-    sidebar.decorate(sidebarNode);
+    let loading = goog.dom.getElement('cwc-loading-screen');
+    if (loading) {
+      loading.remove();
+    }
+
+    let modeInstance = builder.getHelper().getInstance('mode');
+    expect(modeInstance).not.toBeNull();
+    let contentName = 'javascript';
+    modeInstance.setMode(contentName);
+    modeInstance.addEditorView(contentName, '', 'application/javascript');
+    modeInstance.setEditorView(contentName);
+    modeInstance.postMode();
+
     let tutorial = builder.getHelper().getInstance('tutorial');
     await tutorial.setTutorial(tutorialTemplate);
+
     return builder;
   };
 
@@ -86,81 +90,83 @@ describe('Tutorial', function() {
     return tutorialTemplate;
   };
 
-  let clickContinue = function(stepNumber) {
+
+  let clickStepButton = function(selector, stepNumber) {
     let steps = document.getElementsByClassName(tutorialStepContainerId);
     expect(steps.length).toBeGreaterThan(stepNumber);
     let content = steps[stepNumber].querySelector('.cwc-tutorial-step-content');
-    let button = content.querySelector('.cwc-tutorial-step-actions button');
+    let button = content.querySelector('.cwc-tutorial-step-actions ' +
+      '.cwc-tutorial-step-' + selector);
     expect(button).not.toBeNull();
     button.click();
   };
 
   let walkTutorial = async function(stepCount) {
-      let tutorialTemplate = getTutorialTemplate(stepCount);
-      let builder = await testTutorial(tutorialTemplate);
-      hasTutorial(builder);
+    let tutorialTemplate = getTutorialTemplate(stepCount);
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
 
-      // Correct content
-      let steps = document.getElementsByClassName(tutorialStepContainerId);
-      expect(steps.length).toEqual(stepCount);
-      let description = document.getElementById('cwc-tutorial-description');
-      expect(description).not.toBeNull();
-      expect(description.textContent).toEqual(
-        tutorialTemplate['description']['text']);
+    // Correct content
+    let steps = document.getElementsByClassName(tutorialStepContainerId);
+    expect(steps.length).toEqual(stepCount);
+    let description = document.getElementById('cwc-tutorial-description');
+    expect(description).not.toBeNull();
+    expect(description.textContent).toEqual(
+      tutorialTemplate['description']['text']);
 
-      // Validate step order and text
-      [].slice.call(steps).forEach((step, index) => {
-        if (index == 0) {
-          expect(step.className)
-            .toMatch(/\bcwc-tutorial-step-container--active\b/);
-        } else {
-          expect(step.className)
-            .not.toMatch(/\bcwc-tutorial-step-container--active\b/);
-        }
-
-        let number = step.querySelector('.cwc-tutorial-step-number-text');
-        expect(number).not.toBeNull();
-        expect(parseInt(number.textContent)).toBe(index + 1);
-
-        let title = step.querySelector('.cwc-tutorial-step-title');
-        expect(title).not.toBeNull();
-        expect(title.textContent).toEqual(
-          tutorialTemplate['steps'][index]['title']);
-
-        let stepDescription = step.querySelector(
-          '.cwc-tutorial-step-description');
-        expect(stepDescription).not.toBeNull();
-        expect(stepDescription.textContent).toEqual(
-          tutorialTemplate['steps'][index]['description']['text']);
-      });
-
-      // Click through each step
-      for (let i=0; i < stepCount - 1; i++) {
-        // Current step is visible
-        let content = steps[i].querySelector('.cwc-tutorial-step-content');
-        expect(content).not.toBeNull();
-        expect(content.offsetParent).not.toBeNull();
-
-        // Next step is not visible
-        let nextContent = steps[i+1]
-          .querySelector('.cwc-tutorial-step-content');
-        expect(nextContent).not.toBeNull();
-        expect(nextContent.offsetParent).toBeNull();
-
-        // Advance to the next step
-        clickContinue(i);
-
-        // Old current step is no longer visible
-        expect(content.offsetParent).toBeNull();
-        expect(steps[i].className)
-          .toMatch(/\bcwc-tutorial-step-container--complete\b/);
-
-        // New current step is now visible
-        expect(steps[i + 1].className)
+    // Validate step order and text
+    [].slice.call(steps).forEach((step, index) => {
+      if (index == 0) {
+        expect(step.className)
           .toMatch(/\bcwc-tutorial-step-container--active\b/);
-        expect(nextContent.offsetParent).not.toBeNull();
+      } else {
+        expect(step.className)
+          .not.toMatch(/\bcwc-tutorial-step-container--active\b/);
       }
-    };
+
+      let number = step.querySelector('.cwc-tutorial-step-number-text');
+      expect(number).not.toBeNull();
+      expect(parseInt(number.textContent)).toBe(index + 1);
+
+      let title = step.querySelector('.cwc-tutorial-step-title');
+      expect(title).not.toBeNull();
+      expect(title.textContent).toEqual(
+        tutorialTemplate['steps'][index]['title']);
+
+      let stepDescription = step.querySelector(
+        '.cwc-tutorial-step-description');
+      expect(stepDescription).not.toBeNull();
+      expect(stepDescription.textContent).toEqual(
+        tutorialTemplate['steps'][index]['description']['text']);
+    });
+
+    // Click through each step
+    for (let i=0; i < stepCount - 1; i++) {
+      // Current step is visible
+      let content = steps[i].querySelector('.cwc-tutorial-step-content');
+      expect(content).not.toBeNull();
+      expect(content.offsetParent).not.toBeNull();
+
+      // Next step is not visible
+      let nextContent = steps[i+1]
+        .querySelector('.cwc-tutorial-step-content');
+      expect(nextContent).not.toBeNull();
+      expect(nextContent.offsetParent).toBeNull();
+
+      // Advance to the next step
+      clickStepButton('continue', i);
+
+      // Old current step is no longer visible
+      expect(content.offsetParent).toBeNull();
+      expect(steps[i].className)
+        .toMatch(/\bcwc-tutorial-step-container--complete\b/);
+
+      // New current step is now visible
+      expect(steps[i + 1].className)
+        .toMatch(/\bcwc-tutorial-step-container--active\b/);
+      expect(nextContent.offsetParent).not.toBeNull();
+    }
+  };
 
   it('displays 0 steps correctly', async function() {
     await walkTutorial(0);
@@ -263,11 +269,11 @@ describe('Tutorial', function() {
     expect(tutorial.getValidateFunction()).toEqual(validate1);
 
     // Advance to the next step and check that
-    clickContinue(0);
+    clickStepButton('continue', 0);
     expect(tutorial.getValidateFunction()).toEqual(validate2);
 
     // Advance to the 3rd step and check that
-    clickContinue(1);
+    clickStepButton('continue', 1);
     expect(tutorial.getValidateFunction()).toBeNull();
   });
 
@@ -292,7 +298,7 @@ describe('Tutorial', function() {
     expect(stepMessage.innerHTML).toBe(message2);
 
     // Advance to the next step and check that
-    clickContinue(0);
+    clickStepButton('continue', 0);
     stepMessage = document.querySelector(
         '#cwc-tutorial-step-1 .cwc-tutorial-step-message');
     expect(stepMessage.innerHTML).toBe('');
@@ -319,7 +325,7 @@ describe('Tutorial', function() {
     expect(step.className).not.toMatch(/\bsolved\b/);
 
     // Advance to the next step and check that
-    clickContinue(0);
+    clickStepButton('continue', 0);
     step = document.querySelector(
         '#cwc-tutorial-step-1');
     expect(step.className).not.toMatch(/\bsolved\b/);
@@ -327,5 +333,137 @@ describe('Tutorial', function() {
     expect(step.className).toMatch(/\bsolved\b/);
     tutorial.solved(false);
     expect(step.className).not.toMatch(/\bsolved\b/);
+  });
+
+  let getCode = function(builder) {
+    let editorInstance = builder.getHelper().getInstance('editor');
+    expect(editorInstance).not.toBeNull();
+    return editorInstance.getEditorContent(
+      editorInstance.getCurrentView());
+  };
+
+  it('code loaded', async function() {
+    let tutorialTemplate = getTutorialTemplate(1);
+    let code = 'write(\'Hello, World!\');';
+    tutorialTemplate.steps[0].code = code;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    expect(getCode(builder)).toEqual(code);
+  });
+
+  it('code loaded on next step with empty editor', async function() {
+    let tutorialTemplate = getTutorialTemplate(2);
+    let code = 'write(\'Hello, World!\');';
+    tutorialTemplate.steps[1].code = code;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    expect(getCode(builder)).toEqual('');
+
+    clickStepButton('continue', 0);
+    expect(getCode(builder)).toEqual(code);
+  });
+
+  it('code loaded on next step with non-modified editor', async function() {
+    let tutorialTemplate = getTutorialTemplate(2);
+    let code0 = 'write(\'Hello, World!\');';
+    let code1 = 'console.log(\'Hello, World!\');';
+    tutorialTemplate.steps[0].code = code0;
+    tutorialTemplate.steps[1].code = code1;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    expect(getCode(builder)).toEqual(code0);
+
+    clickStepButton('continue', 0);
+    expect(getCode(builder)).toEqual(code1);
+  });
+
+  it('code not loaded on next step with modified editor', async function() {
+    let tutorialTemplate = getTutorialTemplate(2);
+    let code0 = 'write(\'Hello, World!\');';
+    let code1 = 'console.log(\'Hello, World!\');';
+    tutorialTemplate.steps[0].code = code0;
+    tutorialTemplate.steps[1].code = code1;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    expect(getCode(builder)).toEqual(code0);
+
+    let editorInstance = builder.getHelper().getInstance('editor');
+    expect(editorInstance).not.toBeNull();
+    let modifiedCode = '// Hello, World!';
+    editorInstance.setEditorContent(modifiedCode,
+      editorInstance.getCurrentView());
+    expect(getCode(builder)).toEqual(modifiedCode);
+
+    clickStepButton('continue', 0);
+    expect(getCode(builder)).toEqual(modifiedCode);
+  });
+
+  it('code loaded on Load Editor click with empty editor', async function() {
+    let tutorialTemplate = getTutorialTemplate(1);
+    let code = 'write(\'Hello, World!\');';
+    tutorialTemplate.steps[0].code = code;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    let editorInstance = builder.getHelper().getInstance('editor');
+    expect(editorInstance).not.toBeNull();
+    editorInstance.setEditorContent('',
+      editorInstance.getCurrentView());
+
+    expect(getCode(builder)).not.toEqual(code);
+
+    clickStepButton('load-code', 0);
+    expect(getCode(builder)).toEqual(code);
+  });
+
+  let loadFromDirtyEditor = async function(code, modifiedCode) {
+    let tutorialTemplate = getTutorialTemplate(1);
+    tutorialTemplate.steps[0].code = code;
+    let builder = await testTutorial(tutorialTemplate);
+    hasTutorial(builder);
+
+    let editorInstance = builder.getHelper().getInstance('editor');
+    expect(editorInstance).not.toBeNull();
+    editorInstance.setEditorContent(modifiedCode,
+      editorInstance.getCurrentView());
+
+    expect(getCode(builder)).not.toEqual(code);
+
+    clickStepButton('load-code', 0);
+    return builder;
+  };
+
+  it('user prompted before code loaded with dirty editor', async function() {
+    let code = 'write(\'Hello, World!\');';
+    let modifiedCode = '// Hello, World!';
+    let builder = await loadFromDirtyEditor(code, modifiedCode);
+    expect(getCode(builder)).not.toEqual(code);
+
+    let button = document.getElementById('cwc-dialog-action');
+    expect(button).not.toBeNull();
+    button.click();
+
+    setTimeout(function() {
+      expect(getCode(builder)).toEqual(code);
+    }, 100);
+  });
+
+  it('code not loaded if user cancels confirm dialog', async function() {
+    let code = 'write(\'Hello, World!\');';
+    let modifiedCode = '// Hello, World!';
+    let builder = await loadFromDirtyEditor(code, modifiedCode);
+    expect(getCode(builder)).not.toEqual(code);
+
+    let button = document.getElementById('cwc-dialog-cancel');
+    expect(button).not.toBeNull();
+    button.click();
+
+    setTimeout(function() {
+      expect(getCode(builder)).toEqual(modifiedCode);
+    }, 100);
   });
 });

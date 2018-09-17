@@ -76,6 +76,7 @@ cwc.mode.Modder.prototype.loadMode = function(mode) {
 /**
  * @param {cwc.mode.Type} mode
  * @return {!Promise}
+ * @export
  */
 cwc.mode.Modder.prototype.setMode = function(mode) {
   let modeConfig = cwc.mode.Config.get(mode);
@@ -187,6 +188,7 @@ cwc.mode.Modder.prototype.setFilename = function(filename) {
 
 /**
  * @param {cwc.mode.Type=} mode
+ * @export
  */
 cwc.mode.Modder.prototype.postMode = function(mode = this.mode) {
   this.log_.info('Post handling for', mode);
@@ -285,6 +287,7 @@ cwc.mode.Modder.prototype.addBlocklyView = function(name, content) {
  * @param {string=} content
  * @param {cwc.ui.EditorType=} type
  * @param {cwc.ui.EditorHint=} hints
+ * @export
  */
 cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
   let editorInstance = this.helper.getInstance('editor');
@@ -296,6 +299,7 @@ cwc.mode.Modder.prototype.addEditorView = function(name, content, type, hints) {
 
 /**
  * @param {string} name
+ * @export
  */
 cwc.mode.Modder.prototype.setEditorView = function(name) {
   let editorInstance = this.helper.getInstance('editor');
