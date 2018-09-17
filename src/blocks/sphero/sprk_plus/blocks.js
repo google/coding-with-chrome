@@ -199,8 +199,7 @@ Blockly.Blocks['sphero_sprk_plus_speed'] = {
     this.appendValueInput('speed')
       .setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('@@BLOCKS_ROBOT__SET_SPEED'))
-      .appendField(new Blockly.FieldAngle(0), 'speed');
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_SPEED'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets Sphero speed.'));

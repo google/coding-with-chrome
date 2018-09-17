@@ -64,12 +64,12 @@ Blockly.JavaScript['sphero_sprk_plus_roll_step'] = function(block) {
  * @return {string}
  */
 Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
-  let time = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'time', Blockly.JavaScript.ORDER_ATOMIC));
-  let speed = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC));
-  let heading = Blockly.JavaScript.valueToCode(
-    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
+  let time = Blockly.JavaScript.valueToCode(
+    block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
+  let heading = parseInt(Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
   return 'sprkPlus.rollTime(' + time + ', ' + speed + ', ' + heading +
     ', true);\n';
 };
@@ -119,10 +119,13 @@ Blockly.JavaScript['sphero_sprk_plus_heading'] = function(block) {
 
 /**
  * Sphero speed.
+ * @param {!Blockly.block} block
  * @return {string}
  */
-Blockly.JavaScript['sphero_sprk_plus_speed'] = function() {
-  return '//tbd';
+Blockly.JavaScript['sphero_sprk_plus_speed'] = function(block) {
+  let speed = Blockly.JavaScript.valueToCode(
+    block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'sprkPlus.speed(' + speed + ');\n';
 };
 
 
