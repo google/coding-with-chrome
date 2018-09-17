@@ -27,7 +27,7 @@ Blockly.Blocks['general_infinity_loop'] = {
     this.setHelpUrl('');
     this.setColour(120);
     this.appendDummyInput()
-      .appendField(i18t('repeat forever'));
+      .appendField(i18t('@@BLOCKS__REPEAT_FOREVER'));
     this.appendStatementInput('CODE')
       .setAlign(Blockly.ALIGN_CENTRE);
     this.setPreviousStatement(true);

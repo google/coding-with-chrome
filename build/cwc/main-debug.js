@@ -31,8 +31,7 @@ closureBuilder.build({
     'gensoyfiles/**/!(*_test).js',
     '!src/{blocks,blocks/**.js}',
     '!src/{frameworks,frameworks/**.js}',
-    '../coding-with-chrome-libraries/src/**/!(*_test).js',
-    // 'third_party/coding-with-chrome-libraries/src/**/!(*_test).js',
+    'third_party/coding-with-chrome-libraries/src/**/!(*_test).js',
   ]),
   externs: [
     'build/externs/blockly.js',

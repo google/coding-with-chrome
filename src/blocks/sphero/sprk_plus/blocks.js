@@ -29,7 +29,7 @@ Blockly.Blocks['sphero_sprk_plus_start'] = {
     this.setColour(65);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.runningMan())
-      .appendField(i18t('Programm Start'));
+      .appendField(i18t('@@BLOCKS_ROBOT__START'));
     this.setNextStatement(true);
     this.setTooltip(i18t('Defines the start of the program'));
   },
@@ -45,8 +45,9 @@ Blockly.Blocks['sphero_sprk_plus_roll'] = {
     this.setColour(260);
     this.appendValueInput('speed').setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('roll speed('));
-    this.appendDummyInput().appendField(')');
+      .appendField(i18t('@@BLOCKS_ROBOT__ROLL_WITH'));
+    this.appendDummyInput()
+      .appendField(i18t('@@BLOCKS_ROBOT__SPEED'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Move the Sphero in a direction'));
@@ -63,11 +64,12 @@ Blockly.Blocks['sphero_sprk_plus_roll_step'] = {
     this.setColour(260);
     this.appendValueInput('speed').setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('roll with'));
+      .appendField(i18t('@@BLOCKS_ROBOT__ROLL_WITH'));
     this.appendValueInput('heading')
-      .appendField(i18t('speed and'));
+      .appendField(i18t('@@BLOCKS_ROBOT__SPEED'))
+      .appendField(i18t('@@BLOCKS__AND'));
     this.appendDummyInput()
-      .appendField(i18t('heading'));
+      .appendField(i18t('@@BLOCKS_ROBOT__HEADING'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Move the Sphero in a direction'));
@@ -84,13 +86,15 @@ Blockly.Blocks['sphero_sprk_plus_roll_time'] = {
     this.setColour(260);
     this.appendValueInput('time').setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('roll for'));
+      .appendField(i18t('@@BLOCKS_ROBOT__ROLL_FOR'));
     this.appendValueInput('speed').setCheck('Number')
-      .appendField(i18t('sec with'));
+      .appendField(i18t('@@BLOCKS__SEC'))
+      .appendField(i18t('@@BLOCKS__WITH'));
     this.appendValueInput('heading')
-      .appendField(i18t('speed and'));
+      .appendField(i18t('@@BLOCKS_ROBOT__SPEED'))
+      .appendField(i18t('@@BLOCKS__AND'));
     this.appendDummyInput()
-      .appendField(i18t('heading'));
+      .appendField(i18t('@@BLOCKS_ROBOT__HEADING'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(
@@ -108,11 +112,11 @@ Blockly.Blocks['sphero_sprk_plus_rotate_time'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('rotate'))
+      .appendField(i18t('@@BLOCKS_ROBOT__ROTATE'))
       .appendField(new Blockly.FieldAngle(0), 'heading')
-      .appendField(i18t('for'));
+      .appendField(i18t('@@BLOCKS__FOR'));
     this.appendValueInput('time').setCheck('Number')
-      .appendField(i18t('sec'));
+      .appendField(i18t('@@BLOCKS__SEC'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(
@@ -154,10 +158,10 @@ Blockly.Blocks['sphero_sprk_plus_stabilization'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set stabilization('))
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_STABILIZATION'))
       .appendField(new Blockly.FieldDropdown([
-        [i18t('enable'), 'enable'],
-        [i18t('disable'), 'disable'],
+        [i18t('@@BLOCKS__ENABLE'), 'enable'],
+        [i18t('@@BLOCKS__DISABLE'), 'disable'],
       ]), 'enable')
       .appendField(')');
     this.setPreviousStatement(true);
@@ -177,9 +181,7 @@ Blockly.Blocks['sphero_sprk_plus_heading'] = {
     this.appendValueInput('heading')
       .setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set heading('));
-    this.appendDummyInput()
-      .appendField(')');
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_HEADING'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets Sphero heading.'));
@@ -197,9 +199,8 @@ Blockly.Blocks['sphero_sprk_plus_speed'] = {
     this.appendValueInput('speed')
       .setCheck('Number')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set speed('))
-      .appendField(new Blockly.FieldAngle(0), 'speed')
-      .appendField(')');
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_SPEED'))
+      .appendField(new Blockly.FieldAngle(0), 'speed');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets Sphero speed.'));
@@ -216,8 +217,7 @@ Blockly.Blocks['sphero_sprk_plus_rgb'] = {
     this.setColour(260);
     this.appendValueInput('colour')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set color ('));
-    this.appendDummyInput().appendField(')');
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_COLOR'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets the leds on the Sphero ball.'));
@@ -234,8 +234,7 @@ Blockly.Blocks['sphero_sprk_plus_blink'] = {
     this.setColour(260);
     this.appendValueInput('colour')
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set color blink ('));
-    this.appendDummyInput().appendField(')');
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_BLINK'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets the leds on the Sphero ball.'));
@@ -252,10 +251,9 @@ Blockly.Blocks['sphero_sprk_plus_backlight'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('set backlight ('))
+      .appendField(i18t('@@BLOCKS_ROBOT__SET_BACKLIGHT'))
       .appendField(new Blockly.FieldTextInput('254'), 'brightness')
-      .appendField('(0 - 254)')
-      .appendField(')');
+      .appendField('(0 - 254)');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Sets the back-light on the Sphero ball.'));
@@ -272,10 +270,10 @@ Blockly.Blocks['sphero_sprk_plus_stop'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('stop motors('))
+      .appendField(i18t('@@BLOCKS_ROBOT__STOP_MOTORS'))
       .appendField(new Blockly.FieldDropdown([
-        [i18t('when finished'), 'when finished'],
-        [i18t('immediately'), 'immediately'],
+        [i18t('@@BLOCKS__IMMEDIATELY'), 'when finished'],
+        [i18t('@@BLOCKS__WHEN_FINISHED'), 'immediately'],
       ]), 'immediately')
       .appendField(')');
     this.setPreviousStatement(true);
@@ -294,7 +292,7 @@ Blockly.Blocks['sphero_sprk_plus_reset'] = {
     this.setColour(150);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.addCircle())
-      .appendField(i18t('reset device'));
+      .appendField(i18t('@@BLOCKS_ROBOT__RESET_ROBOT'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -312,7 +310,7 @@ Blockly.Blocks['sphero_sprk_plus_collision'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('on collision'));
+      .appendField(i18t('@@BLOCKS_ROBOT__ON_COLLISION'));
     this.appendStatementInput('CODE')
       .appendField(i18t('@@BLOCKS__DO'))
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -332,7 +330,7 @@ Blockly.Blocks['sphero_sprk_plus_position_change'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('on position change'));
+      .appendField(i18t('@@BLOCKS_ROBOT__ON_POSITION_CHANGE'));
     this.appendStatementInput('CODE')
       .appendField(i18t('@@BLOCKS__DO'))
       .setAlign(Blockly.ALIGN_CENTRE);
@@ -341,4 +339,3 @@ Blockly.Blocks['sphero_sprk_plus_position_change'] = {
     this.setTooltip(i18t('Detect position change.'));
   },
 };
-

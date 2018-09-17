@@ -28,9 +28,9 @@ Blockly.Blocks['general_messenger_delay'] = {
     this.setColour(260);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.point())
-      .appendField(i18t('wait ('))
+      .appendField(i18t('@@BLOCKS__WAIT'))
       .appendField(new Blockly.FieldTextInput('2'), 'time')
-      .appendField('sec)');
+      .appendField(i18t('@@BLOCKS__SEC'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(i18t('Delay actions for the given seconds'));
@@ -46,7 +46,7 @@ Blockly.Blocks['general_messenger_display_text'] = {
     this.setColour(150);
     this.appendValueInput('text')
       .appendField(Blockly.BlocksTemplate.addCircle())
-      .appendField(i18t('display text'))
+      .appendField(i18t('@@BLOCKS__DISPLAY_TEXT'))
       .setCheck('String');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -64,7 +64,7 @@ Blockly.Blocks['general_messenger_display_clear'] = {
     this.setColour(150);
     this.appendDummyInput()
       .appendField(Blockly.BlocksTemplate.addCircle())
-      .appendField(i18t('clear display'));
+      .appendField(i18t('@@BLOCKS__CLEAR_DISPLAY'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');

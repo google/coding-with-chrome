@@ -79,7 +79,7 @@
     "deploy": "npm test && git push",
     "depswriter": "python third_party/closure-library/closure/bin/build/depswriter.py --root_with_prefix=\"src/ ../../../../src/\"",
     "documentation": "jsdoc src -r -c documentation.json -d docs",
-    "launch": "echo Lauching app. Please wait ... && npm run launch:linux --silent || npm run launch:mac --silent || npm run launch:win --silent",
+    "launch": "echo Lauching app. Please wait ... && npm run launch:linux --silent || npm run launch:mac --silent || npm run launch:win-experimental --silent",
     "launch:linux": "google-chrome --load-and-launch:app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch:mac": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --load-and-launch:app=$PWD/dist/chrome_os --enable-logging --v=1 --no-first-run",
     "launch:nw": "nw dist/nw_app",
