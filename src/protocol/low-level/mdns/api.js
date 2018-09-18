@@ -62,7 +62,7 @@ cwc.protocol.mDNS.Api.prototype.updateService_ = function(service, data = []) {
 /**
  * Returns the list of hosts associated with the given service.
  * @param {string} service
- * @returns {Array}
+ * @return {Array}
  * @export
  */
 cwc.protocol.mDNS.Api.prototype.getServiceList = function(service) {
@@ -76,7 +76,6 @@ cwc.protocol.mDNS.Api.prototype.getServiceList = function(service) {
 /**
  * Forces an immediate rescan / discovery of services.
  * @param {string} service
- * @returns {Array}
  * @export
  */
 cwc.protocol.mDNS.Api.prototype.forceDiscovery = function() {

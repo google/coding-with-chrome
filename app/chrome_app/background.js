@@ -49,7 +49,7 @@ chrome.app.runtime.onLaunched.addListener(
       if (editor) {
         const mdnsServices = [
           '_cros_p2p._tcp.local',
-          '_ssh._tcp.local'
+          '_ssh._tcp.local',
         ];
 
         editor.outerBounds.setPosition(
