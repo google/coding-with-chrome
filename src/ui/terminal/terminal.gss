@@ -37,6 +37,10 @@
   color: red;
 }
 
+#{$prefix}terminal-content .meta {
+  font-style: italic;
+}
+
 #{$prefix}terminal-toolbar {
   height: 24px;
   border-top: 1px solid #e5e5e5;

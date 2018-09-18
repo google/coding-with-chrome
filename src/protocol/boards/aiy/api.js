@@ -139,10 +139,23 @@ cwc.protocol.aiy.Api.prototype.send_ = function(data) {
  * @param {Array<string>} args
  * @export
  */
-cwc.protocol.aiy.Api.prototype.sendCode = function(code, args) {
+cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
   return this.send_(JSON.stringify({
+    type: 'run',
     code,
     args
+  }));
+};
+
+
+/**
+ * @param {!number} signum
+ * @export
+ */
+cwc.protocol.aiy.Api.prototype.sendSignal = function(signum) {
+  return this.send_(JSON.stringify({
+    type: 'signal',
+    'signum': signum
   }));
 };
 

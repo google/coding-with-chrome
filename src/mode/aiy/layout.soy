@@ -45,6 +45,13 @@
 
           {call cwc.soy.ui.Template.navigationIcon}
             {param prefix: $prefix + 'aiy-toolbar-' /}
+            {param id: 'terminate' /}
+            {param icon: 'stop' /}
+            {param opt_title: 'Terminate process' /}
+          {/call}
+
+          {call cwc.soy.ui.Template.navigationIcon}
+            {param prefix: $prefix + 'aiy-toolbar-' /}
             {param id: 'disconnect' /}
             {param icon: 'close' /}
             {param opt_title: 'Close connection' /}

@@ -105,7 +105,7 @@ cwc.ui.Terminal.prototype.write_ = function(content, className) {
     nodeEntry.appendChild(document.createTextNode(content));
     nodeEntry.className = this.prefix + 'content-entry';
     if (className) {
-      nodeEntry += className;
+      nodeEntry.classList.add(className);
     }
     this.nodeContent.appendChild(nodeEntry);
     this.nodeContent.scrollTo(0, this.nodeContent.scrollHeight);
@@ -131,7 +131,8 @@ cwc.ui.Terminal.prototype.writeln = function(content) {
 
 
 /**
- * Write text content into terminal content.
+ * Write text content into terminal content that represents error messages
+ * (e.g. STDERR).
  * @param {string} content
  */
 cwc.ui.Terminal.prototype.error = function(content) {
@@ -144,6 +145,24 @@ cwc.ui.Terminal.prototype.error = function(content) {
  */
 cwc.ui.Terminal.prototype.errorln = function(content) {
   this.error(content + '\n');
+};
+
+
+/**
+ * Write text content into terminal content that represents metadata (i.e.
+ * not direct output).
+ * @param {string} content
+ */
+cwc.ui.Terminal.prototype.writemeta = function(content) {
+  this.write_(content, 'meta');
+};
+
+
+/**
+ * @param {string} content
+ */
+cwc.ui.Terminal.prototype.writemetaln = function(content) {
+  this.writemeta(content + '\n');
 };
 
 

@@ -89,12 +89,12 @@ cwc.mode.aiy.Connection.prototype.connect = function() {
  * @return {!Promise}
  * @export
  */
-cwc.mode.aiy.Connection.prototype.connectAndSendCode = function(data) {
+cwc.mode.aiy.Connection.prototype.connectAndSendRun = function(data) {
   let blocker = Promise.resolve();
   if (!this.api_.isConnected()) {
     blocker = this.connectInteractive();
   }
-  return blocker.then(() => this.api_.sendCode(data));
+  return blocker.then(() => this.api_.sendRun(data));
 };
 
 
@@ -148,11 +148,25 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
  * @return {Promise}
  * @export
  */
+cwc.mode.aiy.Connection.prototype.sendTerminate = function() {
+  if (this.api_.isConnected()) {
+    // 2 is SIGINT
+    this.api_.sendSignal(2);
+  }
+};
+
+
+/**
+ * Attempts to reconnect to the previous successful url.
+ * @return {Promise}
+ * @export
+ */
 cwc.mode.aiy.Connection.prototype.disconnect = function() {
   if (this.api_.isConnected()) {
     this.api_.disconnect();
   }
-}
+};
+
 
 /**
  * Attempts to reconnect to the previous successful url.
@@ -200,7 +214,7 @@ cwc.mode.aiy.Connection.prototype.findAIY_ = function(hint) {
  */
 cwc.mode.aiy.Connection.prototype.buildSocketUrl = function(host) {
   if (host.indexOf(':') > 0) {
-    return `ws://${host}`
+    return `ws://${host}/spawn`
   }
-  return `ws://${host}:${cwc.mode.aiy.Connection.PORT}`;
+  return `ws://${host}:${cwc.mode.aiy.Connection.PORT}/spawn`;
 };

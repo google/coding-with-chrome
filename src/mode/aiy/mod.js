@@ -73,6 +73,7 @@ cwc.mode.aiy.Mod.prototype.decorate = function() {
 
   this.toolbar.on('run', this.run.bind(this));
   this.toolbar.on('disconnect', this.disconnect.bind(this));
+  this.toolbar.on('terminate', this.terminate.bind(this));
 };
 
 
@@ -118,11 +119,12 @@ cwc.mode.aiy.Mod.prototype.decorateTerminal = async function() {
 /**
  * Run code
  */
-cwc.mode.aiy.Mod.prototype.run = function() {
+cwc.mode.aiy.Mod.prototype.run = async function() {
   const editorInstance = this.editor.editor;
   let pythonCode = editorInstance.getEditorContent(
     cwc.ui.EditorContent.DEFAULT);
-  this.connection.connectAndSendCode(pythonCode);
+  await this.connection.connectAndSendRun(pythonCode);
+  this.terminal.writemetaln('<process starting>');
 }
 
 
@@ -131,6 +133,14 @@ cwc.mode.aiy.Mod.prototype.run = function() {
  */
 cwc.mode.aiy.Mod.prototype.disconnect = function() {
   this.connection.disconnect();
+}
+
+
+/**
+ * Terminates the running process
+ */
+cwc.mode.aiy.Mod.prototype.terminate = function() {
+  this.connection.sendTerminate();
 }
 
 
@@ -160,7 +170,7 @@ cwc.mode.aiy.Mod.prototype.receivedDataErr = function(event) {
  * @private
  */
 cwc.mode.aiy.Mod.prototype.receivedExit = function(event) {
-  this.terminal.writeln('<process terminated>');
+  this.terminal.writemetaln('<process terminated>');
   this.connection.reconnect();
 };
 
