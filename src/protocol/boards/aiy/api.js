@@ -170,6 +170,25 @@ cwc.protocol.aiy.Api.prototype.getEventHandler = function() {
 
 
 /**
+ * Parses and validates JSON message.
+ * @param {string} messageData
+ * @return {Object}
+ * @private
+ */
+cwc.protocol.aiy.Api.prototype.parseMessage_ = function(messageData) {
+  const message = JSON.parse(messageData);
+  if (typeof(message) !== 'object') {
+    throw new Error(`Data type is ${typeof(message)}, not object.`);
+  }
+  const type = message.type;
+  if (!type) {
+    throw new Error(`Received message had no type field.`);
+  }
+  return message;
+};
+
+
+/**
  * Handles received message from WebSocket.
  * @param {string} messageData
  * @private
@@ -180,15 +199,8 @@ cwc.protocol.aiy.Api.prototype.handleMessage_ = function(messageData) {
   }
 
   try {
-    const message = JSON.parse(messageData);
-    if (typeof(message) !== 'object') {
-      throw new Error(`Data type is ${typeof(message)}, not object.`);
-    }
-    const type = message.type;
-    if (!type) {
-      throw new Error(`Received message had no type field.`);
-    }
-    switch (type) {
+    const message = this.parseMessage_(messageData);
+    switch (message.type) {
       case 'stdout':
         this.eventHandler.dispatchEvent(
           cwc.protocol.aiy.Events.receivedDataStdout(atob(message.data)));
@@ -202,7 +214,7 @@ cwc.protocol.aiy.Api.prototype.handleMessage_ = function(messageData) {
           cwc.protocol.aiy.Events.exit(message.code));
         break;
       default:
-        throw new Error(`Unknown message type: ${type}.`);
+        throw new Error(`Unknown message type: ${message.type}.`);
     }
   } catch (error) {
     console.warn(`Received invalid message: ${error}`);

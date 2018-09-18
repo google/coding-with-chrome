@@ -79,28 +79,23 @@ cwc.mode.aiy.Mod.prototype.decorate = function() {
 
 cwc.mode.aiy.Mod.prototype.initEvents = function() {
   const eventHandler = this.connection.getEventHandler();
-  this.events.listen(
-    eventHandler,
+  this.events.listen(eventHandler,
     cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDERR,
     this.receivedDataErr.bind(this)
   );
-  this.events.listen(
-    eventHandler,
+  this.events.listen(eventHandler,
     cwc.protocol.aiy.Events.Type.RECEIVED_DATA_STDOUT,
     this.receivedData.bind(this)
   );
-  this.events.listen(
-    eventHandler,
+  this.events.listen(eventHandler,
     cwc.protocol.aiy.Events.Type.EXIT,
     this.receivedExit.bind(this)
   );
-  this.events.listen(
-    eventHandler,
+  this.events.listen(eventHandler,
     cwc.protocol.aiy.Events.Type.CONNECTED,
     this.receivedConnected.bind(this)
   );
-  this.events.listen(
-    eventHandler,
+  this.events.listen(eventHandler,
     cwc.protocol.aiy.Events.Type.DISCONNECTED,
     this.receivedDisconnected.bind(this)
   );
