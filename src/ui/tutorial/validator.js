@@ -27,6 +27,7 @@ goog.require('cwc.soy.ui.Tutorial');
 goog.require('goog.dom');
 goog.require('goog.events');
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -62,25 +63,6 @@ cwc.ui.TutorialValidator = function(helper) {
   this.running_ = false;
 };
 
-/**
- * Callback for validate
- * @param {!object} result
- * @private
- */
-cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
-  this.log_.info('Validation results:', result);
-  if (typeof result !== 'object') {
-    this.log_.warn('Ignoring script result because it is not an object');
-    return;
-  }
-  if ('message' in result && result['message']) {
-    this.tutorial.setMessage(result['message']);
-    this.tutorial.solved('solved' in result && result['solved']);
-  } else {
-    this.tutorial.setMessage('');
-    this.tutorial.solved(false);
-  }
-};
 
 /**
  * Creates a validator webview/iframe with the same code as the preview and
@@ -91,17 +73,14 @@ cwc.ui.TutorialValidator.prototype.start = function() {
     this.log_.info('No validation function, not running validation');
     return;
   }
-
+  if (!this.sandbox_) {
+    return;
+  }
   this.log_.info('Starting validation');
+  this.sandbox_ = this.webviewSupport_ ?
+    document.createElement('webview') : document.createElement('iframe');
 
   this.events_.clear();
-  if (!this.sandbox_) {
-    if (this.webviewSupport_) {
-      this.sandbox_ = document.createElement('webview');
-    } else {
-      this.sandbox_ = document.createElement('iframe');
-    }
-  }
   this.events_.listen(this.sandbox_,
     this.webviewSupport_ ? 'contentload' : 'onload',
     this.handleValidatorLoaded_);
@@ -123,9 +102,30 @@ cwc.ui.TutorialValidator.prototype.start = function() {
   this.sandbox_['src'] = contentUrl;
 };
 
+
+/**
+ * Callback for validate.
+ * @param {!object} result
+ * @private
+ */
+cwc.ui.TutorialValidator.prototype.processValidateResults_ = function(result) {
+  this.log_.info('Validation results:', result);
+  if (typeof result !== 'object') {
+    this.log_.warn('Ignoring script result because it is not an object');
+    return;
+  }
+  if ('message' in result && result['message']) {
+    this.tutorial.setMessage(result['message']);
+    this.tutorial.solved('solved' in result && result['solved']);
+  } else {
+    this.tutorial.setMessage('');
+    this.tutorial.solved(false);
+  }
+};
+
+
 /**
  * Injects code into an iframe/webview and handles the results.
- *
  * @param {string} code
  * @param {any} expect
  * @param {int} timeout
@@ -160,10 +160,10 @@ cwc.ui.TutorialValidator.prototype.injectCode_ = function(code, expect,
   });
 };
 
+
 /**
- * Injects the current step's validation function into the validator
+ * Injects the current step's validation function into the validator.
  * iframe/webview
- *
  * @private
  */
 cwc.ui.TutorialValidator.prototype.handleValidatorLoaded_ = async function() {
@@ -193,10 +193,10 @@ cwc.ui.TutorialValidator.prototype.handleValidatorLoaded_ = async function() {
   this.runValidator_();
 };
 
+
 /**
  * Listens for validator messages and calls the validator function.
  * This code is injected into the iframe/webview.
- *
  * @private
  * @return {boolean}
  */
@@ -204,19 +204,13 @@ cwc.ui.TutorialValidator.prototype.validationListener_ = function() {
   // Create a function to listen for validation messages
   window.addEventListener('message', function(event) {
     const validatorArgs = 'cwc-validate-args';
-    if (!event['data'] ||
-      typeof event['data'] !== 'object' ||
-      !event['data'].hasOwnProperty(validatorArgs)) {
+    if (!event['data'] || typeof event['data'] !== 'object' ||
+        !event['data'].hasOwnProperty(validatorArgs)) {
       console.log('validation listener: Ignoring unknown message', event);
       return false;
     }
 
     const validatorFunctionName = 'cwc-validate-script';
-    if (!window[validatorFunctionName]) {
-      console.error(`window[${validatorFunctionName}] is not defined. ` +
-        'Did it get injected?');
-      return false;
-    }
     if (typeof window[validatorFunctionName] !== 'function') {
       console.error(`window[${validatorFunctionName}] is not a function.`);
       return false;
@@ -235,9 +229,9 @@ cwc.ui.TutorialValidator.prototype.validationListener_ = function() {
   return true;
 };
 
+
 /**
- * Calls the validation function with the current editor code
- *
+ * Calls the validation function with the current editor code.
  * @private
  */
 cwc.ui.TutorialValidator.prototype.runValidator_ = function() {
@@ -258,9 +252,9 @@ cwc.ui.TutorialValidator.prototype.runValidator_ = function() {
   }, '*');
 };
 
+
 /**
- * Processes the results of the current step's validation function
- *
+ * Processes the results of the current step's validation function.
  * @param {Event} event
  * @private
  */
@@ -292,23 +286,24 @@ cwc.ui.TutorialValidator.prototype.handleValidatorMessage_ = function(event) {
   }
 };
 
+
 /**
- * Determins if the script is running
- *
+ * Determins if the script is running.
  * @return {boolean}
  */
 cwc.ui.TutorialValidator.prototype.running = function() {
   return this.running_;
 };
 
+
 /**
- * Stops validation and cleans up events and sandbox
+ * Stops validation and cleans up events and sandbox.
  */
 cwc.ui.TutorialValidator.prototype.stop = function() {
   this.log_.info('Stopping validation');
   this.events_.clear();
   if (this.running()) {
-    this.sandbox_['src'] = 'data:text/html;base64,';
+    this.sandbox_['src'] = 'about:blank';
   }
   this.running_ = false;
 };

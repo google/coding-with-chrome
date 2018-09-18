@@ -235,66 +235,6 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
 cwc.ui.GCloud.prototype.currentDirectory = function() {
   let accountInstance = this.helper.getInstance('account');
   if (!accountInstance) return;
-  let callback = (response) => {
-    let foldersContainer = goog.dom.getElement(
-        this.prefix + 'folders-container');
-    if ('prefixes' in response) {
-      let prefixes = response['prefixes'];
-      let nextFolders = [];
-      for (let i in prefixes) {
-        if (Object.prototype.hasOwnProperty.call(prefixes, i)) {
-          let folderList = prefixes[i].split('/');
-          let folder = folderList[folderList.length - 2];
-          nextFolders.push(folder);
-        }
-      }
-      goog.soy.renderElement(
-        foldersContainer, cwc.soy.GCloud.gCloudFolders,
-        {prefix: this.prefix, currentFolders: this.currentFolders,
-          nextFolders: nextFolders}
-      );
-      let selectFolderEvent = (event) => {
-        let selectedFolder = event.target.value;
-        this.storagePrefix += selectedFolder + '/';
-        this.currentFolders.push(selectedFolder);
-        this.currentDirectory();
-      };
-      let folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
-      goog.events.listenOnce(folderPicker, goog.events.EventType.CHANGE,
-        selectFolderEvent, false, this);
-    } else {
-      goog.soy.renderElement(
-        foldersContainer, cwc.soy.GCloud.gCloudFolders,
-        {prefix: this.prefix, currentFolders: this.currentFolders,
-          nextFolders: []}
-      );
-    }
-
-    let folderNavButtonClickEvent = (event) => {
-      let folderNavButtonId = event.target.id;
-      let rootOrIndex = folderNavButtonId.split(
-        this.prefix + 'folders-path-')[1];
-      if (rootOrIndex === 'root') {
-        this.storagePrefix = '';
-        this.currentFolders = [];
-      } else {
-        let clickedIndex = parseInt(rootOrIndex, 10);
-        this.storagePrefix = '';
-        for (let index = 0; index < clickedIndex + 1; index++) {
-          this.storagePrefix += this.currentFolders[index] + '/';
-        }
-        this.currentFolders = this.currentFolders.splice(0, clickedIndex + 1);
-      }
-      this.currentDirectory();
-    };
-    let folderNavElement = goog.dom.getElement(this.prefix + 'folders-nav');
-    let folderNavButtons = folderNavElement.getElementsByTagName('button');
-    for (let index= 0; index < folderNavButtons.length; index++) {
-      let folderNavButton = folderNavButtons[index];
-      goog.events.listen(folderNavButton, goog.events.EventType.CLICK,
-        folderNavButtonClickEvent, false, this);
-    }
-  };
   let params = {
     'delimiter': '/',
   };
@@ -304,7 +244,7 @@ cwc.ui.GCloud.prototype.currentDirectory = function() {
   accountInstance.request({
     path: '/storage/v1/b/' + this.bucketName + '/o',
     params: params,
-  }, callback);
+  }, this.currentDirectoryHandler_.bind(this));
 };
 
 
@@ -370,4 +310,70 @@ cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
     prefix: this.prefix, path: this.publicUrlPath,
     encodedPath: encodeURI(this.publicUrlPath),
   });
+};
+
+
+/**
+ * @param {!object} response
+ * @private
+ */
+cwc.ui.GCloud.prototype.currentDirectoryHandler_ = function(response) {
+  let foldersContainer = goog.dom.getElement(
+      this.prefix + 'folders-container');
+  if ('prefixes' in response) {
+    let prefixes = response['prefixes'];
+    let nextFolders = [];
+    for (let i in prefixes) {
+      if (Object.prototype.hasOwnProperty.call(prefixes, i)) {
+        let folderList = prefixes[i].split('/');
+        let folder = folderList[folderList.length - 2];
+        nextFolders.push(folder);
+      }
+    }
+    goog.soy.renderElement(
+      foldersContainer, cwc.soy.GCloud.gCloudFolders,
+      {prefix: this.prefix, currentFolders: this.currentFolders,
+        nextFolders: nextFolders}
+    );
+    let selectFolderEvent = (event) => {
+      let selectedFolder = event.target.value;
+      this.storagePrefix += selectedFolder + '/';
+      this.currentFolders.push(selectedFolder);
+      this.currentDirectory();
+    };
+    let folderPicker = goog.dom.getElement(this.prefix + 'folders-picker');
+    goog.events.listenOnce(folderPicker, goog.events.EventType.CHANGE,
+      selectFolderEvent, false, this);
+  } else {
+    goog.soy.renderElement(
+      foldersContainer, cwc.soy.GCloud.gCloudFolders,
+      {prefix: this.prefix, currentFolders: this.currentFolders,
+        nextFolders: []}
+    );
+  }
+
+  let folderNavButtonClickEvent = (event) => {
+    let folderNavButtonId = event.target.id;
+    let rootOrIndex = folderNavButtonId.split(
+      this.prefix + 'folders-path-')[1];
+    if (rootOrIndex === 'root') {
+      this.storagePrefix = '';
+      this.currentFolders = [];
+    } else {
+      let clickedIndex = parseInt(rootOrIndex, 10);
+      this.storagePrefix = '';
+      for (let index = 0; index < clickedIndex + 1; index++) {
+        this.storagePrefix += this.currentFolders[index] + '/';
+      }
+      this.currentFolders = this.currentFolders.splice(0, clickedIndex + 1);
+    }
+    this.currentDirectory();
+  };
+  let folderNavElement = goog.dom.getElement(this.prefix + 'folders-nav');
+  let folderNavButtons = folderNavElement.getElementsByTagName('button');
+  for (let index= 0; index < folderNavButtons.length; index++) {
+    let folderNavButton = folderNavButtons[index];
+    goog.events.listen(folderNavButton, goog.events.EventType.CLICK,
+      folderNavButtonClickEvent, false, this);
+  }
 };

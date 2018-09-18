@@ -20,6 +20,7 @@
  */
 {namespace cwc.soy.ui.Tutorial autoescape="strict"}
 
+
 /**
  * Main template for multi-step tutorial that appears inside the webview
  */
@@ -59,9 +60,18 @@
 
 
 /**
+ * Message
+ */
+{template .message}
+  {@param message: string}
+  {$message}
+{/template}
+
+
+/**
  * Step
  */
-{template .step_}
+{template .step_ private="true"}
   {@param description: string}
   {@param id: int}
   {@param images: list<string>}
@@ -117,12 +127,4 @@
       {/if}
     </div>
   </li>
-{/template}
-
-/**
- * Message
- */
-{template .message}
-  {@param message: string}
-  {$message}
 {/template}

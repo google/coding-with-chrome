@@ -42,6 +42,7 @@ goog.require('goog.style');
 goog.require('goog.ui.Component');
 goog.require('soydata.VERY_UNSAFE');
 
+
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -62,6 +63,9 @@ cwc.ui.Tutorial = function(helper) {
   /** @type {string} */
   this.prefix = this.helper.getPrefix('tutorial');
 
+  /** @type {!Array<string>} */
+  this.videoExtensions = ['mp4', 'webm', 'ogg'];
+
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 
@@ -80,7 +84,7 @@ cwc.ui.Tutorial = function(helper) {
   /** @private {!Element} */
   this.nodeMediaOverlayContent_ = null;
 
- /** @private {!cwc.utils.Database} */
+  /** @private {!cwc.utils.Database} */
   this.imagesDb_ = null;
 
   /** @private {!string} */
@@ -114,6 +118,7 @@ cwc.ui.Tutorial = function(helper) {
   this.rootNode_ = null;
 };
 
+
 /**
  * @param {!Object} tutorial
  * @param {cwc.utils.Database} imagesDb
@@ -142,6 +147,7 @@ cwc.ui.Tutorial.prototype.setTutorial = async function(tutorial, imagesDb) {
   this.startTutorial();
 };
 
+
 /**
  * @param {cwc.utils.Database} imagesDb
  * @private
@@ -156,6 +162,7 @@ cwc.ui.Tutorial.prototype.setImagesDb_ = async function(imagesDb) {
     await this.imagesDb_.open({'objectStoreNames': [objectStoreName]});
   }
 };
+
 
 /**
  * Returns true if a tutorial has been loaded.
@@ -193,56 +200,46 @@ cwc.ui.Tutorial.prototype.parseSteps_ = async function(steps) {
   }));
 };
 
+
 /**
  * @param {!object} stepTemplate
  * @param {!int} id
  * @private
  */
 cwc.ui.Tutorial.prototype.addStep_ = async function(stepTemplate, id) {
-  let step = {
-    id: id,
-    title: '',
-    description: '',
-    validate: false,
-    code: false,
-    images: [],
-    videos: [],
-  };
-
-  if (typeof stepTemplate['title'] === 'string') {
-    step.title = stepTemplate['title'];
+  let description = this.parseDescription_(stepTemplate['description']);
+  if (!description) {
+    this.log_.error('Skipping step', id, 'because parsing it\'s ' +
+      'description failed', stepTemplate['description']);
+    return;
   }
 
-  if (stepTemplate['validate']) {
-    step.validate = stepTemplate['validate'];
-  }
-
+  let code = false;
   if ('code' in stepTemplate) {
     if (typeof stepTemplate['code'] === 'string') {
-      step.code = stepTemplate['code'];
+      code = stepTemplate['code'];
     } else {
       this.log_.warn('Expecting string for code of step ', id,
         ', got ', stepTemplate['code']);
     }
   }
 
+  let images = [];
   if (Array.isArray(stepTemplate['images'])) {
-    await this.appendBinaries_(stepTemplate['images'], step.images, 'image');
+    await this.appendBinaries_(stepTemplate['images'], images, 'image');
   }
 
-  if (Array.isArray(stepTemplate['videos'])) {
-    step.videos = stepTemplate['videos'];
-  }
-
-  step.description = this.parseDescription_(stepTemplate['description']);
-  if (!step.description) {
-    this.log_.error('Skipping step', id, 'because parsing it\'s ' +
-      'description failed', stepTemplate['description']);
-    return;
-  }
-
-  this.steps_[id] = step;
+  this.steps_[id] = {
+    code: code,
+    description: description,
+    id: id,
+    images: images,
+    title: stepTemplate['title'] || '',
+    validate: stepTemplate['validate'] || false,
+    videos: stepTemplate['videos'] || [],
+  };
 };
+
 
 /**
  * @param {!string} key
@@ -263,6 +260,7 @@ cwc.ui.Tutorial.prototype.ensureBlobInDB_ =
   }
   return false;
 };
+
 
 /**
  * @param {!string} url
@@ -287,6 +285,7 @@ cwc.ui.Tutorial.prototype.ensureUrlInDB_ =
   let blob = await cwc.utils.Resources.getUriAsBlob(url);
   return await this.ensureBlobInDB_(url, blob);
 };
+
 
 /**
  * @param {!Array} source
@@ -322,6 +321,7 @@ cwc.ui.Tutorial.prototype.appendBinaries_ =
     }
   }.bind(this)));
 };
+
 
 /**
  * @param {!object} spec
@@ -371,6 +371,7 @@ cwc.ui.Tutorial.prototype.validateDescription_ = function(description) {
   return true;
 };
 
+
 /**
  * @param {!object} description
  * @private
@@ -404,13 +405,14 @@ cwc.ui.Tutorial.prototype.parseDescription_ = function(description) {
     default: {
       this.log_.error('Unknown or unsupported mime type',
         description['mime_type']);
+      return '';
     }
   }
-  return '';
 };
 
+
 /**
- * Renders the tutorial in the sidebar
+ * Renders the tutorial in the sidebar.
  * @export
  */
 cwc.ui.Tutorial.prototype.startTutorial = function() {
@@ -420,7 +422,6 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
     return;
   }
   const sidebarInstance = this.helper.getInstance('sidebar');
-  const videoExtensions = ['mp4', 'webm', 'ogg'];
   if (sidebarInstance) {
     sidebarInstance.showTemplateContent('tutorial', 'Tutorial',
       cwc.soy.ui.Tutorial.template, {
@@ -432,12 +433,12 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
           id: index,
           description: step.description,
           images: step.images.filter((url = '') =>
-            !videoExtensions.some((ext) => url.endsWith(ext))
+            !this.videoExtensions.some((ext) => url.endsWith(ext))
           ),
           number: index + 1,
           title: step.title || `Step ${index + 1}`,
           videos: step.images.filter((url = '') =>
-            videoExtensions.some((ext) => url.endsWith(ext))
+            this.videoExtensions.some((ext) => url.endsWith(ext))
           ),
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
@@ -458,9 +459,10 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
   this.startValidate();
 };
 
+
 /**
  * Actions that happen after the template is rendered:
- * add event listeners, show active step, render images from DB
+ * add event listeners, show active step, render images from DB.
  * @private
  */
 cwc.ui.Tutorial.prototype.initUI_ = function() {
@@ -475,7 +477,7 @@ cwc.ui.Tutorial.prototype.initUI_ = function() {
 };
 
 /**
- * Captures references to elements needed by the media overlay
+ * Captures references to elements needed by the media overlay.
  * @private
  */
 cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
@@ -494,7 +496,7 @@ cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
 
 
 /**
- * Renders cached images and videos from database to DOM
+ * Renders cached images and videos from database to DOM.
  * @private
  */
 cwc.ui.Tutorial.prototype.initMedia_ = function() {
@@ -517,8 +519,9 @@ cwc.ui.Tutorial.prototype.initMedia_ = function() {
   }
 };
 
+
 /**
- * Sets initial state for each step
+ * Sets initial state for each step.
  * @private
  */
 cwc.ui.Tutorial.prototype.initSteps_ = function() {
@@ -540,7 +543,7 @@ cwc.ui.Tutorial.prototype.initSteps_ = function() {
 
 
 /**
- * Sets initial state for each step
+ * Sets initial state for each step button.
  * @private
  */
 cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
@@ -561,7 +564,7 @@ cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
 
 
 /**
- * Marks the current step complete and opens the next
+ * Marks the current step complete and opens the next.
  * @private
  */
 cwc.ui.Tutorial.prototype.completeCurrentStep_ = function() {
@@ -580,8 +583,9 @@ cwc.ui.Tutorial.prototype.completeCurrentStep_ = function() {
   this.scrollToStep_();
 };
 
+
 /**
- * Opens a step, but only if it is complete or next
+ * Opens a step, but only if it is complete or next.
  * @param {!number} stepID
  * @private
  */
@@ -597,7 +601,7 @@ cwc.ui.Tutorial.prototype.jumpToStep_ = function(stepID) {
 
 
 /**
- * Scrolls the tutorial to the top of the given step
+ * Scrolls the tutorial to the top of the given step.
  * @param {number} stepID
  * @private
  */
@@ -617,6 +621,7 @@ cwc.ui.Tutorial.prototype.scrollToStep_ = function(stepID) {
   }
   this.rootNode_.scrollTop = step.offsetTop - this.rootNode_.offsetTop;
 };
+
 
 /**
  * @private
@@ -640,6 +645,7 @@ cwc.ui.Tutorial.prototype.getActiveMessageNode_ = function() {
   return step.nodeMessage;
 };
 
+
 /**
  * @export
  * @return {string|null}
@@ -653,8 +659,9 @@ cwc.ui.Tutorial.prototype.getValidateFunction = function() {
   return step.validate;
 };
 
+
 /**
- * Shows media in a full screen overlay
+ * Shows media in a full screen overlay.
  * @param {Element} button
  * @private
  */
@@ -698,7 +705,7 @@ cwc.ui.Tutorial.prototype.onMediaClick_ = function(button) {
 
 
 /**
- * Event fired on media overlay close button click
+ * Event fired on media overlay close button click.
  * @private
  */
 cwc.ui.Tutorial.prototype.onMediaClose_ = function() {
@@ -709,7 +716,7 @@ cwc.ui.Tutorial.prototype.onMediaClose_ = function() {
 
 
 /**
- * Closes media overlay
+ * Closes media overlay.
  * @private
  */
 cwc.ui.Tutorial.prototype.hideMedia_ = function() {
@@ -721,7 +728,7 @@ cwc.ui.Tutorial.prototype.hideMedia_ = function() {
 
 
 /**
- * Shows media overlay with the provided element
+ * Shows media overlay with the provided element.
  * @param {!Element} media
  * @private
  */
@@ -732,7 +739,7 @@ cwc.ui.Tutorial.prototype.showMedia_ = function(media) {
 
 
 /**
- * Updates the current state, then triggers a view update
+ * Updates the current state, then triggers a view update.
  * @param {!Object} change
  * @private
  */
@@ -784,6 +791,7 @@ cwc.ui.Tutorial.prototype.updateView_ = function() {
   }
 };
 
+
 /**
  * Logs console messages from the tutorial webview
  * @param {Event} event
@@ -794,6 +802,7 @@ cwc.ui.Tutorial.prototype.handleConsoleMessage_ = function(event) {
   // TODO: Log this to a tutorial developer console once we build one
   this.log_.info('['+browserEvent.level+']: '+browserEvent.message);
 };
+
 
 /**
  * Starts listening for editor changes
@@ -810,6 +819,7 @@ cwc.ui.Tutorial.prototype.startValidate = function() {
     false, this);
 };
 
+
 /**
  * Restarts the validator
  * @private
@@ -822,6 +832,7 @@ cwc.ui.Tutorial.prototype.restartValidate_ = function() {
   }
   this.validator_.start();
 };
+
 
 /**
  * @param {string} message
@@ -840,6 +851,7 @@ cwc.ui.Tutorial.prototype.setMessage = function(message) {
   goog.style.setElementShown(node, message ? true : false);
 };
 
+
 /**
  * @param {!boolean} solved
  * @export
@@ -856,6 +868,7 @@ cwc.ui.Tutorial.prototype.solved = function(solved) {
     goog.dom.classlist.remove(step.node, 'solved');
   }
 };
+
 
 /**
  * Removes the tutorial from the sidebar and calls

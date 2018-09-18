@@ -20,6 +20,7 @@
 goog.provide('cwc.ui.Blockly');
 
 goog.require('cwc.soy.ui.Blockly');
+goog.require('cwc.ui.BlocklyConfig');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.BlocklyToolbox');
 goog.require('cwc.ui.Helper');
@@ -64,9 +65,6 @@ cwc.ui.Blockly = function(helper) {
   /** @type {Element} */
   this.nodeEditor = null;
 
-  /** @type {string} */
-  this.mediaFiles = '../external/blockly/';
-
   /** @type {boolean} */
   this.modified = false;
 
@@ -97,27 +95,6 @@ cwc.ui.Blockly = function(helper) {
   /** @private {string} */
   this.viewName_ = '';
 
-  /** @private {Object} */
-  this.options_ = {
-    'path': this.mediaFiles,
-    'toolbox': '<xml><category></category></xml>',
-    'trashcan': true,
-    'grid': {
-      'spacing': 20,
-      'length': 3,
-      'colour': '#ccc',
-      'snap': true,
-    },
-    'zoom': {
-      'controls': true,
-      'wheel': true,
-      'startScale': 1.0,
-      'maxScale': 3,
-      'minScale': 0.5,
-      'scaleSpeed': 1.1,
-    },
-  };
-
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
 };
@@ -128,7 +105,8 @@ cwc.ui.Blockly = function(helper) {
  * @param {Element=} node
  * @param {Object=} options Optional dictionary of options.
  */
-cwc.ui.Blockly.prototype.decorate = function(node, options = this.options_) {
+cwc.ui.Blockly.prototype.decorate = function(node,
+    options = cwc.ui.BlocklyConfig) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     console.error('Invalid Blockly node:', this.node);

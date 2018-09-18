@@ -233,20 +233,22 @@ cwc.ui.Library.prototype.updateLibraryFileList = function(files = null,
  */
 cwc.ui.Library.prototype.syncFiles = function() {
   let fileInstance = this.helper.getInstance('file');
-  if (fileInstance) {
-    this.numOfFiles_ = 0;
-    let files = this.getFiles();
-    if (files && fileInstance.getFiles().getSize() > 0) {
-      this.log_.info('Syncing library ', fileInstance.getFiles().getSize(),
-        ' files...');
-      let blocklyInstance = this.helper.getInstance('blockly');
-      if (blocklyInstance) {
-        blocklyInstance.setToolboxFiles(files);
-      }
-      this.numOfFiles_ = fileInstance.getFiles().getSize();
-    } else if (!goog.isObject(files)) {
-      this.log_.error('Library data are in the wrong format!');
+  if (!fileInstance) {
+    return;
+  }
+
+  this.numOfFiles_ = 0;
+  let files = this.getFiles();
+  if (files && fileInstance.getFiles().getSize() > 0) {
+    this.log_.info('Syncing library ', fileInstance.getFiles().getSize(),
+      ' files...');
+    let blocklyInstance = this.helper.getInstance('blockly');
+    if (blocklyInstance) {
+      blocklyInstance.setToolboxFiles(files);
     }
+    this.numOfFiles_ = fileInstance.getFiles().getSize();
+  } else if (!goog.isObject(files)) {
+    this.log_.error('Library data are in the wrong format!');
   }
 };
 
@@ -351,19 +353,20 @@ cwc.ui.Library.prototype.getFiles = function() {
     return {};
   }
   let files = fileInstance.getFiles().getFiles();
+  if (!files || !goog.isObject(files)) {
+    return {};
+  }
   let fileList = {};
-  if (files && goog.isObject(files)) {
-    for (let file in files) {
-      if (files.hasOwnProperty(file)) {
-        let fileData = files[file];
-        let filename = fileData.getName();
-        fileList[filename] = {};
-        fileList[filename]['content'] = soydata.VERY_UNSAFE.ordainSanitizedUri(
-          fileData.getContent());
-        fileList[filename]['media_type'] = fileData.getMediaType();
-        fileList[filename]['size'] = fileData.getSize();
-        fileList[filename]['type'] = fileData.getType();
-      }
+  for (let file in files) {
+    if (files.hasOwnProperty(file)) {
+      let fileData = files[file];
+      let filename = fileData.getName();
+      fileList[filename] = {};
+      fileList[filename]['content'] = soydata.VERY_UNSAFE.ordainSanitizedUri(
+        fileData.getContent());
+      fileList[filename]['media_type'] = fileData.getMediaType();
+      fileList[filename]['size'] = fileData.getSize();
+      fileList[filename]['type'] = fileData.getType();
     }
   }
   return fileList;

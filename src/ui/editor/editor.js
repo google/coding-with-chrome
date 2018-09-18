@@ -24,6 +24,7 @@ goog.require('cwc.soy.ui.Editor');
 goog.require('cwc.ui.EditorAutocompleteBlacklistCodes');
 goog.require('cwc.ui.EditorAutocompleteBlacklistKeys');
 goog.require('cwc.ui.EditorAutocompleteList');
+goog.require('cwc.ui.EditorConfig');
 goog.require('cwc.ui.EditorContent');
 goog.require('cwc.ui.EditorHint');
 goog.require('cwc.ui.EditorInfobar');
@@ -87,12 +88,6 @@ cwc.ui.Editor = function(helper) {
   /** @type {cwc.ui.EditorToolbar} */
   this.toolbar = null;
 
-  /** @type {!Array} */
-  this.rulers = [{'color': '#ccc', 'column': 80, 'lineStyle': 'dashed'}];
-
-  /** @type {string} */
-  this.theme = 'default';
-
   /** @type {cwc.ui.StatusBar} */
   this.statusBar = null;
 
@@ -113,30 +108,6 @@ cwc.ui.Editor = function(helper) {
 
   /** @private {cwc.ui.EditorType|string} */
   this.editorType_ = cwc.ui.EditorType.UNKNOWN;
-
-  /** @private {Object} */
-  this.options_ = {
-    'autoCloseBrackets': true,
-    'autoCloseTags': true,
-    'foldGutter': true,
-    'gutters': [
-      'CodeMirror-linenumbers',
-      'CodeMirror-foldgutter',
-      'CodeMirror-lint-markers',
-    ],
-    'highlightSelectionMatches': {'showToken': /\w/},
-    'hint': this.editorHint_,
-    'lineNumbers': true,
-    'matchTags': {'bothTags': true},
-    'rulers': this.rulers,
-    'showTrailingSpace': true,
-    'styleActiveLine': true,
-    'theme': this.theme,
-    'foldOptions': {
-      'widget': '\u22EF',
-    },
-    'onUpdateLinting': this.handleLint_.bind(this),
-  };
 
   /** @private {boolean} */
   this.isVisible_ = true;
@@ -219,7 +190,7 @@ cwc.ui.Editor.prototype.decorate = function(node) {
  * @param {Element=} node
  */
 cwc.ui.Editor.prototype.decorateEditor = function(node) {
-  this.editor = new CodeMirror(node, this.options_);
+  this.editor = new CodeMirror(node, cwc.ui.EditorConfig);
   this.editor.setOption('extraKeys', {
     'Ctrl-Q': function(cm) {
       cm.foldCode(cm.getCursor());
@@ -678,15 +649,6 @@ cwc.ui.Editor.prototype.handleKeyUp_ = function(cm, e) {
     'globalScope': Object.assign(
       this.editorHintGlobals_, this.editorHintLocals_),
   });
-};
-
-
-/**
- * @param {Object} e
- * @private
- */
-cwc.ui.Editor.prototype.handleLint_ = function(e) {
-  this.log_.info('lint', e);
 };
 
 
