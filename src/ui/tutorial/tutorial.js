@@ -109,6 +109,9 @@ cwc.ui.Tutorial = function(helper) {
 
   /** @private {cwc.ui.TutorialValidator} */
   this.validator_ = null;
+
+  /** @private {Element} */
+  this.rootNode_ = null;
 };
 
 /**
@@ -440,7 +443,9 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
             video['youtube_id']
           ),
         })),
-      });
+      }
+    );
+    this.rootNode_ = goog.dom.getElement(this.prefix + 'container');
   }
 
   this.state_ = {
@@ -494,8 +499,8 @@ cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
  */
 cwc.ui.Tutorial.prototype.initMedia_ = function() {
   this.initMediaOverlay_();
-  let rootNode = goog.dom.getElement(this.prefix + 'container');
-  let nodeListImages = rootNode.querySelectorAll('.js-project-step-image');
+  let nodeListImages = this.rootNode_.querySelectorAll(
+    '.js-project-step-image');
   if (this.imagesDb_) {
     [].forEach.call(nodeListImages, (image) => {
       let imageSrc = image.getAttribute('data-src');
@@ -572,6 +577,7 @@ cwc.ui.Tutorial.prototype.completeCurrentStep_ = function() {
     activeStepID: nextStep.id,
     inProgressStepID: nextStep.id,
   });
+  this.scrollToStep_();
 };
 
 /**
@@ -587,6 +593,29 @@ cwc.ui.Tutorial.prototype.jumpToStep_ = function(stepID) {
       activeStepID: stepID,
     });
   }
+};
+
+
+/**
+ * Scrolls the tutorial to the top of the given step
+ * @param {number} stepID
+ * @private
+ */
+cwc.ui.Tutorial.prototype.scrollToStep_ = function(stepID) {
+  if (stepID === undefined) {
+    stepID = this.getActiveStep_().id;
+  }
+  let step = goog.dom.getElement(this.prefix + 'step-'+stepID);
+  if (!(step && this.rootNode_)) {
+    this.log_.warn('Failed to find root and/or step elements');
+    return;
+  }
+  if (!this.rootNode_.contains(step)) {
+    this.log_.error('step', stepID, 'isn\'t a child of ',
+      this.prefix+'container. Can\'t scroll to it.');
+    return;
+  }
+  this.rootNode_.scrollTop = step.offsetTop - this.rootNode_.offsetTop;
 };
 
 /**
