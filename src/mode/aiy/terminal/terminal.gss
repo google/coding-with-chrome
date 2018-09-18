@@ -29,7 +29,7 @@
   letter-spacing: 0.5px;
   padding: 0.5em;
   flex: 1;
-  font-family: "Consolas", "Courier new","Courier",monospace;
+  font-family: "Consolas","Courier new","Courier",monospace;
   overflow-y: scroll;
 }
 

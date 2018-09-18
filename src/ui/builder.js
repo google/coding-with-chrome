@@ -126,7 +126,6 @@ cwc.ui.supportedProtocols = {
   'serial': cwc.protocol.serial.Api,
 
   // Boards
-  'aiy': cwc.protocol.aiy.Api,
   'arduino': cwc.protocol.arduino.Api,
   'raspberryPi': cwc.protocol.raspberryPi.Api,
 };

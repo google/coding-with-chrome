@@ -40,7 +40,7 @@ cwc.mode.aiy.Connection = function(helper) {
   this.events_ = new cwc.utils.Events(this.name);
 
   /** @private {!cwc.protocol.aiy.Api} */
-  this.api_ = helper.getInstance('aiy', true);
+  this.api_ = new cwc.protocol.aiy.Api();
 
   /** @private {cwc.utils.Dialog} */
   this.dialog_ = new cwc.utils.Dialog();
@@ -74,12 +74,16 @@ cwc.mode.aiy.Connection.prototype.isConnected = function() {
 
 
 /**
- * Connects the AIY device.
+ * Tried to connects to the AIY device.
  * @return {Promise}
  * @export
  */
-cwc.mode.aiy.Connection.prototype.connect = function() {
-  return this.connectInteractive();
+cwc.mode.aiy.Connection.prototype.tryConnect = async function() {
+  try {
+    return await this.connectInteractive();
+  } catch (error) {
+    // Cancellation is ignored
+  }
 };
 
 
@@ -141,7 +145,7 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
       return this.connectInteractive(host);
     }
   } catch (error) {
-    // Cancelled - do nothing
+    throw new Error('Cancelled');
   }
 };
 

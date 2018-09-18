@@ -17,9 +17,9 @@
  *
  * @author fstanis@google.com (Filip Stanis)
  */
-goog.provide('cwc.ui.Terminal');
+goog.provide('cwc.mode.aiy.Terminal');
 
-goog.require('cwc.soy.ui.Terminal');
+goog.require('cwc.soy.mode.aiy.Terminal');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Logger');
 
@@ -32,7 +32,7 @@ goog.require('goog.dom.classlist');
  * @struct
  * @final
  */
-cwc.ui.Terminal = function(helper) {
+cwc.mode.aiy.Terminal = function(helper) {
   /** @type {string} */
   this.name = 'Terminal';
 
@@ -60,7 +60,7 @@ cwc.ui.Terminal = function(helper) {
  * Decorates the given node and adds the terminal to the ui.
  * @param {Element} node The target node to add the status bar.
  */
-cwc.ui.Terminal.prototype.decorate = function(node) {
+cwc.mode.aiy.Terminal.prototype.decorate = function(node) {
   this.node = node || goog.dom.getElement(this.prefix + 'chrome');
   if (!this.node) {
     this.log_.error('Invalid Terminal node:', this.node);
@@ -69,7 +69,7 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
 
   goog.soy.renderElement(
     this.node,
-    cwc.soy.ui.Terminal.template, {
+    cwc.soy.mode.aiy.Terminal.template, {
       'prefix': this.prefix,
     }
   );
@@ -85,7 +85,7 @@ cwc.ui.Terminal.prototype.decorate = function(node) {
 /**
  * Clears terminal including the history.
  */
-cwc.ui.Terminal.prototype.clear = function() {
+cwc.mode.aiy.Terminal.prototype.clear = function() {
   this.log_.info('Clear terminal');
   goog.dom.removeChildren(this.nodeContent);
 };
@@ -96,7 +96,7 @@ cwc.ui.Terminal.prototype.clear = function() {
  * @param {string} content
  * @param {string} className
  */
-cwc.ui.Terminal.prototype.write_ = function(content, className) {
+cwc.mode.aiy.Terminal.prototype.write_ = function(content, className) {
   if (!content) {
     return;
   }
@@ -117,7 +117,7 @@ cwc.ui.Terminal.prototype.write_ = function(content, className) {
  * Write text content into terminal content.
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.write = function(content) {
+cwc.mode.aiy.Terminal.prototype.write = function(content) {
   this.write_(content);
 };
 
@@ -125,7 +125,7 @@ cwc.ui.Terminal.prototype.write = function(content) {
 /**
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.writeln = function(content) {
+cwc.mode.aiy.Terminal.prototype.writeln = function(content) {
   this.write(content + '\n');
 };
 
@@ -135,7 +135,7 @@ cwc.ui.Terminal.prototype.writeln = function(content) {
  * (e.g. STDERR).
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.error = function(content) {
+cwc.mode.aiy.Terminal.prototype.error = function(content) {
   this.write_(content, 'error');
 };
 
@@ -143,7 +143,7 @@ cwc.ui.Terminal.prototype.error = function(content) {
 /**
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.errorln = function(content) {
+cwc.mode.aiy.Terminal.prototype.errorln = function(content) {
   this.error(content + '\n');
 };
 
@@ -153,7 +153,7 @@ cwc.ui.Terminal.prototype.errorln = function(content) {
  * not direct output).
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.writemeta = function(content) {
+cwc.mode.aiy.Terminal.prototype.writemeta = function(content) {
   this.write_(content, 'meta');
 };
 
@@ -161,7 +161,7 @@ cwc.ui.Terminal.prototype.writemeta = function(content) {
 /**
  * @param {string} content
  */
-cwc.ui.Terminal.prototype.writemetaln = function(content) {
+cwc.mode.aiy.Terminal.prototype.writemetaln = function(content) {
   this.writemeta(content + '\n');
 };
 
@@ -170,7 +170,7 @@ cwc.ui.Terminal.prototype.writemetaln = function(content) {
  * @param {goog.events.EventLike} event
  * @private
  */
-cwc.ui.Terminal.prototype.handleKey_ = function(event) {
+cwc.mode.aiy.Terminal.prototype.handleKey_ = function(event) {
   switch (event.identifier) {
     case 'clear':
       this.clear();

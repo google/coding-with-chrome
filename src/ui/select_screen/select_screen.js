@@ -346,7 +346,6 @@ cwc.ui.SelectScreen.prototype.handleFileClick_ = function(e) {
         break;
       }
       case 'switchTab': {
-        console.log(filename);
         document.getElementById(filename)['click']();
         break;
       }

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Layout template for the AIY modification.
+ * @fileoverview Editor template for the AIY modification.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,17 +17,17 @@
  *
  * @author fstanis@google.com (Filip Stanis)
  */
-{namespace cwc.soy.mode.AIY autoescape="strict"}
+{namespace cwc.soy.mode.aiy.Editor autoescape="strict"}
 
 
 /**
  * Editor template.
  */
-{template .editor}
+{template .template}
   {@param prefix: string}
 
   <div id="{$prefix}aiy-container">
-    <div id="{$prefix}aiy-toolbar" class="editor-toolbar mdl-layout__header">
+    <div id="{$prefix}aiy-toolbar" class="mdl-layout__header">
       <div class="mdl-layout__header-row">
         <div id="{$prefix}aiy-toolbar-status">
           Not connected

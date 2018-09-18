@@ -31,10 +31,6 @@
   padding: 0 5px;
 }
 
-#{$prefix}aiy-container .editor-toolbar {
-  padding-bottom: 15px;
-}
-
 #{$prefix}editor-toolbar-add-file {
   border-radius: 5px;
   border: 2px dashed #ccc;

@@ -20,11 +20,11 @@
 goog.provide('cwc.mode.aiy.Mod');
 
 goog.require('cwc.mode.aiy.Connection');
+goog.require('cwc.mode.aiy.Terminal');
 goog.require('cwc.mode.aiy.Toolbar');
 goog.require('cwc.mode.aiy.Editor');
 goog.require('cwc.mode.aiy.Layout');
 goog.require('cwc.mode.default.Mod');
-goog.require('cwc.ui.Terminal');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.protocol.aiy.Events');
 goog.require('cwc.ui.EditorContent');
@@ -45,8 +45,8 @@ cwc.mode.aiy.Mod = function(helper) {
   /** @type {!cwc.mode.aiy.Editor} */
   this.editor = new cwc.mode.aiy.Editor(helper);
 
-  /** @type {!cwc.ui.Terminal} */
-  this.terminal = new cwc.ui.Terminal(helper);
+  /** @type {!cwc.mode.aiy.Terminal} */
+  this.terminal = new cwc.mode.aiy.Terminal(helper);
 
   /** @type {!cwc.mode.aiy.Connection} */
   this.connection = new cwc.mode.aiy.Connection(helper);
@@ -68,7 +68,7 @@ cwc.mode.aiy.Mod.prototype.decorate = function() {
   this.toolbar.decorate();
   this.decorateTerminal();
   this.connection.init();
-  this.connection.connect();
+  this.connection.tryConnect();
   this.initEvents();
 
   this.toolbar.on('run', this.run.bind(this));
@@ -123,8 +123,15 @@ cwc.mode.aiy.Mod.prototype.run = async function() {
   const editorInstance = this.editor.editor;
   let pythonCode = editorInstance.getEditorContent(
     cwc.ui.EditorContent.DEFAULT);
-  await this.connection.connectAndSendRun(pythonCode);
-  this.terminal.writemetaln('<process starting>');
+  try {
+    await this.connection.connectAndSendRun(pythonCode);
+    this.terminal.writemetaln('<process starting>');
+  } catch (error) {
+    // Rethrow unless the user cancelled
+    if (String(error) !== 'Error: Cancelled') {
+      throw error;
+    }
+  }
 };
 
 

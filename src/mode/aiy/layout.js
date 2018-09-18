@@ -20,7 +20,7 @@
 goog.provide('cwc.mode.aiy.Layout');
 
 goog.require('cwc.utils.Helper');
-goog.require('cwc.soy.mode.AIY');
+goog.require('cwc.soy.mode.aiy.Editor');
 
 
 /**
@@ -39,5 +39,5 @@ cwc.mode.aiy.Layout = function(helper) {
 cwc.mode.aiy.Layout.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout', true);
   layoutInstance.decorateBlank();
-  layoutInstance.renderContent(cwc.soy.mode.AIY.editor);
+  layoutInstance.renderContent(cwc.soy.mode.aiy.Editor.template);
 };
