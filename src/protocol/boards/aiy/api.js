@@ -97,7 +97,7 @@ cwc.protocol.aiy.Api.prototype.reconnect = function() {
     return Promise.reject();
   }
   return this.connect(this.url_);
-}
+};
 
 
 /**
@@ -140,10 +140,10 @@ cwc.protocol.aiy.Api.prototype.send_ = function(data) {
  * @export
  */
 cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
-  return this.send_(JSON.stringify({
-    type: 'run',
-    code,
-    args
+  this.send_(JSON.stringify({
+    'type': 'run',
+    'code': code,
+    'args': args,
   }));
 };
 
@@ -153,9 +153,9 @@ cwc.protocol.aiy.Api.prototype.sendRun = function(code, args) {
  * @export
  */
 cwc.protocol.aiy.Api.prototype.sendSignal = function(signum) {
-  return this.send_(JSON.stringify({
-    type: 'signal',
-    'signum': signum
+  this.send_(JSON.stringify({
+    'type': 'signal',
+    'signum': signum,
   }));
 };
 

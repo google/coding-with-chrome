@@ -48,7 +48,8 @@ cwc.mode.aiy.Toolbar = function(helper) {
  */
 cwc.mode.aiy.Toolbar.prototype.decorate = function() {
   this.statusNode = goog.dom.getElement(this.prefix + 'status');
-}
+};
+
 
 /**
  * Uploads the file to the AIY device.
@@ -70,4 +71,4 @@ cwc.mode.aiy.Toolbar.prototype.on = function(id, callback) {
  */
 cwc.mode.aiy.Toolbar.prototype.setStatus = function(status) {
   this.statusNode.innerText = status;
-}
+};

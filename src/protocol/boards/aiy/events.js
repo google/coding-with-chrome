@@ -31,7 +31,7 @@ cwc.protocol.aiy.Events.Type = {
   DISCONNECTED: 'disconnected',
   RECEIVED_DATA_STDOUT: 'received_data_stdout',
   RECEIVED_DATA_STDERR: 'received_data_stderr',
-  EXIT: 'exit'
+  EXIT: 'exit',
 };
 
 

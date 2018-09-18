@@ -134,7 +134,10 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
       await this.api_.connect(url);
       this.database_.put('host', host);
     } catch (error) {
-      await this.dialog_.showAlert('Error connecting to AIY', 'Error code: ' + error);
+      await this.dialog_.showAlert(
+        'Error connecting to AIY',
+        `Error code: ${error}`
+      );
       return this.connectInteractive(host);
     }
   } catch (error) {
@@ -145,7 +148,6 @@ cwc.mode.aiy.Connection.prototype.connectInteractive = async function(host) {
 
 /**
  * Attempts to reconnect to the previous successful url.
- * @return {Promise}
  * @export
  */
 cwc.mode.aiy.Connection.prototype.sendTerminate = function() {
@@ -158,7 +160,6 @@ cwc.mode.aiy.Connection.prototype.sendTerminate = function() {
 
 /**
  * Attempts to reconnect to the previous successful url.
- * @return {Promise}
  * @export
  */
 cwc.mode.aiy.Connection.prototype.disconnect = function() {
@@ -191,6 +192,7 @@ cwc.mode.aiy.Connection.prototype.getEventHandler = function() {
 
 /**
  * Attempts to use mDNS to find the AIY device.
+ * @param {string} hint Address to prefer if multiple found
  * @return {String}
  * @private
  */
@@ -214,7 +216,7 @@ cwc.mode.aiy.Connection.prototype.findAIY_ = function(hint) {
  */
 cwc.mode.aiy.Connection.prototype.buildSocketUrl = function(host) {
   if (host.indexOf(':') > 0) {
-    return `ws://${host}/spawn`
+    return `ws://${host}/spawn`;
   }
   return `ws://${host}:${cwc.mode.aiy.Connection.PORT}/spawn`;
 };

@@ -63,7 +63,7 @@ cwc.protocol.mDNS.Api.prototype.updateService = function(service, data = []) {
 
 /**
  * @param {string} service
- * @returns {Array}
+ * @return {Array}
  */
 cwc.protocol.mDNS.Api.prototype.getServiceList = function(service) {
   return this.services_[service];
@@ -74,7 +74,7 @@ cwc.protocol.mDNS.Api.prototype.forceDiscovery = function() {
   if (chrome.mdns) {
     chrome.mdns.forceDiscovery();
   }
-}
+};
 
 
 /**

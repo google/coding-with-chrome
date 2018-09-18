@@ -125,7 +125,7 @@ cwc.mode.aiy.Mod.prototype.run = async function() {
     cwc.ui.EditorContent.DEFAULT);
   await this.connection.connectAndSendRun(pythonCode);
   this.terminal.writemetaln('<process starting>');
-}
+};
 
 
 /**
@@ -133,7 +133,7 @@ cwc.mode.aiy.Mod.prototype.run = async function() {
  */
 cwc.mode.aiy.Mod.prototype.disconnect = function() {
   this.connection.disconnect();
-}
+};
 
 
 /**
@@ -141,7 +141,7 @@ cwc.mode.aiy.Mod.prototype.disconnect = function() {
  */
 cwc.mode.aiy.Mod.prototype.terminate = function() {
   this.connection.sendTerminate();
-}
+};
 
 
 /**
@@ -166,10 +166,10 @@ cwc.mode.aiy.Mod.prototype.receivedDataErr = function(event) {
 
 /**
  * Handles the process exit event.
- * @param {Event} event
+ * @param {Event} opt_event
  * @private
  */
-cwc.mode.aiy.Mod.prototype.receivedExit = function(event) {
+cwc.mode.aiy.Mod.prototype.receivedExit = function(opt_event) {
   this.terminal.writemetaln('<process terminated>');
   this.connection.reconnect();
 };
@@ -177,19 +177,19 @@ cwc.mode.aiy.Mod.prototype.receivedExit = function(event) {
 
 /**
  * Handles the connect event.
- * @param {Event} event
+ * @param {Event} opt_event
  * @private
  */
-cwc.mode.aiy.Mod.prototype.receivedConnected = function(event) {
+cwc.mode.aiy.Mod.prototype.receivedConnected = function(opt_event) {
   this.toolbar.setStatus('Connected');
 };
 
 
 /**
  * Handles the disconnect event.
- * @param {Event} event
+ * @param {Event} opt_event
  * @private
  */
-cwc.mode.aiy.Mod.prototype.receivedDisconnected = function(event) {
+cwc.mode.aiy.Mod.prototype.receivedDisconnected = function(opt_event) {
   this.toolbar.setStatus('Not connected');
 };
