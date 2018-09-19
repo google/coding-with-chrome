@@ -1,7 +1,7 @@
 /**
  * @fileoverview Simulation Commands for the Sphero SPRK+ unit.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,10 @@ cwc.mode.sphero.sprkPlus.SimulationCommand = function(turtle) {
   this.heading_ = 0;
 
   /** @private {number} */
-  this.speed_ = 40;
+  this.scale_ = 1;
+
+  /** @private {number} */
+  this.speed_ = 10;
 };
 
 
@@ -45,9 +48,8 @@ cwc.mode.sphero.sprkPlus.SimulationCommand = function(turtle) {
  */
 cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['__handshake__'] =
     function() {
-  this.speed_ = 40;
-  this.turtle.action('speed', 2);
-  this.turtle.action('scale', 1);
+  this.turtle.action('scale', this.scale_);
+  this.turtle.action('speed', this.speed_);
   this.turtle.reset();
 };
 
@@ -71,4 +73,30 @@ cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['roll'] = function(data) {
   this.angle_ = heading;
   this.turtle.action('rt', angle);
   this.turtle.action('fd', speed);
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['setRGB'] = function(
+    data) {
+  let hexColor = '#' +
+    Number(data['red']).toString(16).padStart(2, 0) +
+    Number(data['green']).toString(16).padStart(2, 0) +
+    Number(data['blue']).toString(16).padStart(2, 0);
+  if (hexColor === '#000000') {
+    this.turtle.action('pen', null);
+  } else {
+    this.turtle.action('pen', hexColor);
+  }
+};
+
+
+/**
+ * @param {!Object} data
+ */
+cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['position'] = function(
+    data) {
+  this.turtle.action('moveToXY', {'x': data['x'], 'y': data['y']});
 };

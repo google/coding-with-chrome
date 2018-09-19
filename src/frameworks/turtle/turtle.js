@@ -96,6 +96,9 @@ cwc.framework.Turtle.prototype.addListener = function() {
   this.listener_['turnto'] = this.handleTurnto_.bind(this);
   this.listener_['play'] = this.handlePlay_.bind(this);
 
+  // Custom commands
+  this.listener_['moveToXY'] = this.handleMoveToXY_.bind(this);
+
   // Methods below happen in an instant, but line up in the animation queue.
   this.listener_['home'] = this.handleHome_.bind(this);
   this.listener_['pen'] = this.handlePen_.bind(this);
@@ -213,12 +216,24 @@ cwc.framework.Turtle.prototype.handleJump_ = function(x, y) {
 
 /**
  * Absolute motion on page.
- * @param {number} x
- * @param {number} y
+ * @param {Object} data
  * @private
  */
-cwc.framework.Turtle.prototype.handleMoveto_ = function(x, y) {
-  this.turtleTarget['moveto']({pageX: x, pageY: y});
+cwc.framework.Turtle.prototype.handleMoveto_ = function(data) {
+  this.turtleTarget['moveto']({
+    'pageX': data['x'],
+    'pageY': data['y'],
+  });
+};
+
+
+/**
+ * X/Y motion on page.
+ * @param {Object} data
+ * @private
+ */
+cwc.framework.Turtle.prototype.handleMoveToXY_ = function(data) {
+  this.turtleTarget['moveto'](data['x'], data['y']);
 };
 
 

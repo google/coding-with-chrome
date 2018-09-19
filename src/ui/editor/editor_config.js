@@ -21,7 +21,7 @@ goog.provide('cwc.ui.EditorConfig');
 
 
 /**
- * @emum {string|objct<string>|array<string>}
+ * @enum {string|objct<string>|array<string>}
  */
 cwc.ui.EditorConfig = {
   'autoCloseBrackets': true,

@@ -21,7 +21,7 @@ goog.provide('cwc.ui.BlocklyConfig');
 
 
 /**
- * @emum {string|objct<string>|array<string>}
+ * @enum {string|objct<string>|array<string>}
  */
 cwc.ui.BlocklyConfig = {
   'path': '../external/blockly/',
