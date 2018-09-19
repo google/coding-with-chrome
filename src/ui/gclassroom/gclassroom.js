@@ -20,7 +20,7 @@
 
 goog.provide('cwc.ui.GClassroom');
 
-/*goog.require('cwc.config.GClassroom');*/
+goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GClassroom');
 goog.require('cwc.ui.Helper');
 goog.require('cwc.utils.Events');
@@ -80,7 +80,7 @@ cwc.ui.GClassroom.prototype.handleCourses = function(data) {
 
 cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
   let gdriveInstance = this.helper.getInstance('gdrive');
-  if(gdriveInstance) {
+  if (gdriveInstance) {
     let getFileCallback = (function(file) {
       console.log('got gDrive file');
       console.log(file);
@@ -133,7 +133,21 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   }
 };
 
-cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data, iconElement) {
+cwc.ui.GClassroom.prototype.filterSupportedFiles = function(files) {
+  let supportedFiles = [];
+  files.forEach((file) => {
+    let ext_match = file.name.match('\\.[a-zA-Z]{1,4}$');
+    if (files.mimeType in cwc.config.GDrive.MIME_TYPES ||
+      (ext_match != null &&
+        ext_match[0] in cwc.config.GDrive.EXT_TO_MIME_TYPE)) {
+      supportedFiles.push(file);
+    }
+  });
+  return supportedFiles;
+}
+
+cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
+  data, iconElement) {
   let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     let attachments = (
@@ -151,8 +165,7 @@ cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(data, iconElemen
     }
 
     Promise.all(getFilePromises).then((files) => {
-      console.log('Got gDrive files');
-      console.log(files);
+      files = this.filterSupportedFiles(files);
       let idToDriveFile = {};
       for (let i = 0; i < files.length; i++) {
         idToDriveFile[files[i]['id']] = files[i];
@@ -225,15 +238,13 @@ cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
 
   let elements = goog.dom.getElementsByClass(this.prefix + 'course');
   for (let i = 0; i < elements.length; ++i) {
-    (function() {
-      let element = elements[i];
-      let loaderEvent = function() {
-        let courseId = goog.dom.dataset.get(element, 'id');
-        this.getMyCourseWork(courseId, this.handleCourseWorks.bind(this));
-      };
-      this.events_.listen(element, goog.events.EventType.CLICK,
-        loaderEvent, false, this);
-    }).bind(this)();
+    let element = elements[i];
+    let loaderEvent = () => {
+      let courseId = goog.dom.dataset.get(element, 'id');
+      this.getMyCourseWork(courseId, this.handleCourseWorks.bind(this));
+    };
+    this.events_.listen(element, goog.events.EventType.CLICK,
+      loaderEvent, false, this);
   }
 }
 
@@ -247,8 +258,8 @@ cwc.ui.GClassroom.prototype.getMyCourses_ = function(callback) {
     let opts = {
       subdomain: 'classroom',
       path: '/v1/courses',
-      params:  {
-          'studentId': 'me'
+      params: {
+          'studentId': 'me',
       },
     };
     accountInstance.request(opts, callback);
