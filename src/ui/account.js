@@ -283,10 +283,8 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
       }).bind(this);
 
       if (!this.authenticated) {
-          console.log('call authenticate again');
           this.authenticate(handleRequest);
       } else {
-          console.log('handleRequest');
           handleRequest();
       }
   });

@@ -70,7 +70,6 @@ cwc.ui.GClassroom.prototype.openDialog = function() {
  */
 cwc.ui.GClassroom.prototype.handleCourses = function(data) {
     let courses = data['courses'];
-    console.log(courses);
     let courseList = goog.dom.getElement(this.prefix + 'course_list');
     if (!courseList) {
         this.prepareDialog();
@@ -82,8 +81,6 @@ cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
   let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     let getFileCallback = (function(file) {
-      console.log('got gDrive file');
-      console.log(file);
       gdriveInstance.downloadFile(file);
     }).bind(this);
     gdriveInstance.getFile(fileId, getFileCallback);
@@ -156,8 +153,6 @@ cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
     let getFilePromises = [];
     for (let i = 0; i < attachments.length; i++) {
       let attachment = attachments[i];
-      console.log('attachment i: ' + i);
-      console.log(attachment);
       if ('driveFile' in attachment) {
         let fileId = attachment['driveFile']['id'];
         getFilePromises.push(gdriveInstance.getFile(fileId));

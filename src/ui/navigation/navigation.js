@@ -280,7 +280,6 @@ cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
 
 
 cwc.ui.Navigation.prototype.requestShowGoogleClassroomOverview = function() {
-  console.log('clicked classroom');
   let gclassroomInstance = this.helper.getInstance('gclassroom');
   if (gclassroomInstance) {
     gclassroomInstance.openDialog();
