@@ -39,6 +39,12 @@ goog.addDependency('../../../../src/frameworks/sphero/sprk_plus/sprk_plus.js', [
 goog.addDependency('../../../../src/frameworks/turtle/turtle.js', ['cwc.framework.Turtle'], [], false);
 goog.addDependency('../../../../src/messenger/events.js', ['cwc.MessengerEvents'], ['cwc.utils.EventData'], false);
 goog.addDependency('../../../../src/messenger/messenger.js', ['cwc.Messenger'], ['cwc.MessengerEvents', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.events.EventTarget'], false);
+goog.addDependency('../../../../src/mode/aiy/connection.js', ['cwc.mode.aiy.Connection'], ['cwc.protocol.aiy.Api', 'cwc.protocol.mDNS.Api', 'cwc.utils.Database', 'cwc.utils.Dialog', 'cwc.utils.Events'], false);
+goog.addDependency('../../../../src/mode/aiy/editor/editor.js', ['cwc.mode.aiy.Editor'], ['cwc.ui.Editor', 'cwc.ui.Helper'], false);
+goog.addDependency('../../../../src/mode/aiy/layout.js', ['cwc.mode.aiy.Layout'], ['cwc.soy.mode.aiy.Editor', 'cwc.utils.Helper'], false);
+goog.addDependency('../../../../src/mode/aiy/mod.js', ['cwc.mode.aiy.Mod'], ['cwc.mode.aiy.Connection', 'cwc.mode.aiy.Editor', 'cwc.mode.aiy.Layout', 'cwc.mode.aiy.Terminal', 'cwc.mode.aiy.Toolbar', 'cwc.mode.default.Mod', 'cwc.protocol.aiy.Events', 'cwc.ui.EditorContent', 'cwc.utils.Dialog', 'cwc.utils.Events', 'cwc.utils.Helper'], false);
+goog.addDependency('../../../../src/mode/aiy/terminal/terminal.js', ['cwc.mode.aiy.Terminal'], ['cwc.soy.mode.aiy.Terminal', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.dom.classlist'], false);
+goog.addDependency('../../../../src/mode/aiy/toolbar.js', ['cwc.mode.aiy.Toolbar'], ['cwc.soy.ui.EditorToolbar', 'cwc.ui.Helper', 'cwc.utils.mime.Type', 'goog.dom.classlist', 'goog.ui.MenuItem'], false);
 goog.addDependency('../../../../src/mode/basic/hints.js', ['cwc.mode.basic.Hints'], [], false);
 goog.addDependency('../../../../src/mode/basic/mod.js', ['cwc.mode.basic.Mod'], ['cwc.mode.basic.Hints', 'cwc.mode.default.Mod', 'cwc.soy.simple.Blocks'], false);
 goog.addDependency('../../../../src/mode/coffeescript/mod.js', ['cwc.mode.coffeescript.Mod'], ['cwc.mode.default.Mod', 'cwc.renderer.internal.Coffeescript'], false);
@@ -74,7 +80,7 @@ goog.addDependency('../../../../src/mode/makeblock/mbot_ranger/panel/simulation/
 goog.addDependency('../../../../src/mode/makeblock/mbot_ranger/panel/simulation/simulation.js', ['cwc.mode.makeblock.mBotRanger.Simulation'], ['cwc.MessengerEvents', 'cwc.mode.makeblock.mBotRanger.SimulationCommand', 'cwc.ui.Turtle', 'cwc.utils.Events'], false);
 goog.addDependency('../../../../src/mode/modder.js', ['cwc.mode.Modder'], ['cwc.mode.Config', 'cwc.mode.Type', 'cwc.utils.Helper', 'cwc.utils.Logger', 'cwc.utils.mime.Type', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/mode/mode_config.js', ['cwc.mode.Config'], ['cwc.mode.ConfigData'], false);
-goog.addDependency('../../../../src/mode/mode_config_data.js', ['cwc.mode.ConfigData', 'cwc.mode.Mod'], ['cwc.mode.Type', 'cwc.mode.basic.Mod', 'cwc.mode.coffeescript.Mod', 'cwc.mode.html5.Mod', 'cwc.mode.javascript.Mod', 'cwc.mode.json.Mod', 'cwc.mode.lego.ev3.Mod', 'cwc.mode.lego.weDo2.Mod', 'cwc.mode.makeblock.mBot.Mod', 'cwc.mode.makeblock.mBotRanger.Mod', 'cwc.mode.pencilCode.Mod', 'cwc.mode.phaser.Mod', 'cwc.mode.python.Mod', 'cwc.mode.sphero.bb8.Mod', 'cwc.mode.sphero.ollie.blockly.Mod', 'cwc.mode.sphero.sphero2.Mod', 'cwc.mode.sphero.sprkPlus.Mod', 'cwc.mode.text.Mod', 'cwc.utils.mime.Type'], false);
+goog.addDependency('../../../../src/mode/mode_config_data.js', ['cwc.mode.ConfigData', 'cwc.mode.Mod'], ['cwc.mode.Type', 'cwc.mode.aiy.Mod', 'cwc.mode.basic.Mod', 'cwc.mode.coffeescript.Mod', 'cwc.mode.html5.Mod', 'cwc.mode.javascript.Mod', 'cwc.mode.json.Mod', 'cwc.mode.lego.ev3.Mod', 'cwc.mode.lego.weDo2.Mod', 'cwc.mode.makeblock.mBot.Mod', 'cwc.mode.makeblock.mBotRanger.Mod', 'cwc.mode.pencilCode.Mod', 'cwc.mode.phaser.Mod', 'cwc.mode.python.Mod', 'cwc.mode.sphero.bb8.Mod', 'cwc.mode.sphero.ollie.blockly.Mod', 'cwc.mode.sphero.sphero2.Mod', 'cwc.mode.sphero.sprkPlus.Mod', 'cwc.mode.text.Mod', 'cwc.utils.mime.Type'], false);
 goog.addDependency('../../../../src/mode/mode_type.js', ['cwc.mode.Type'], [], false);
 goog.addDependency('../../../../src/mode/pencil_code/mod.js', ['cwc.mode.pencilCode.Mod'], ['cwc.mode.default.Mod', 'cwc.renderer.external.PencilCode'], false);
 goog.addDependency('../../../../src/mode/phaser/mod.js', ['cwc.mode.phaser.Mod'], ['cwc.mode.default.Mod', 'cwc.renderer.external.Phaser', 'cwc.soy.phaser.Blocks'], false);
@@ -107,11 +113,13 @@ goog.addDependency('../../../../src/mode/sphero/sprk_plus/panel/monitor/monitor.
 goog.addDependency('../../../../src/mode/sphero/sprk_plus/simulation/command.js', ['cwc.mode.sphero.sprkPlus.SimulationCommand'], [], false);
 goog.addDependency('../../../../src/mode/sphero/sprk_plus/simulation/simulation.js', ['cwc.mode.sphero.sprkPlus.Simulation'], ['cwc.MessengerEvents', 'cwc.mode.sphero.sprkPlus.SimulationCommand', 'cwc.ui.Turtle', 'cwc.utils.Events'], false);
 goog.addDependency('../../../../src/mode/text/mod.js', ['cwc.mode.text.Mod'], ['cwc.mode.default.Mod'], false);
+goog.addDependency('../../../../src/protocol/boards/aiy/api.js', ['cwc.protocol.aiy.Api'], ['goog.events', 'goog.events.EventTarget'], false);
+goog.addDependency('../../../../src/protocol/boards/aiy/events.js', ['cwc.protocol.aiy.Events'], ['cwc.utils.EventData'], false);
 goog.addDependency('../../../../src/protocol/boards/arduino/api.js', ['cwc.protocol.arduino.Api'], ['goog.events', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/protocol/boards/rasberry_pi/api.js', ['cwc.protocol.raspberryPi.Api'], ['cwc.protocol.raspberryPi.Events', 'goog.events', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/protocol/boards/rasberry_pi/events.js', ['cwc.protocol.raspberryPi.Events'], ['cwc.utils.EventData'], false);
 goog.addDependency('../../../../src/protocol/low-level/default/device.js', ['cwc.protocol.default.Device'], ['cwc.utils.Logger', 'goog.events.EventTarget'], false);
-goog.addDependency('../../../../src/protocol/low-level/mdns/api.js', ['cwc.protocol.mDNS.Api'], ['cwc.utils.Logger'], false);
+goog.addDependency('../../../../src/protocol/low-level/mdns/api.js', ['cwc.protocol.mDNS.Api'], ['cwc.utils.EventData', 'cwc.utils.Logger', 'goog.events.EventTarget'], false);
 goog.addDependency('../../../../src/protocol/low-level/serial/api.js', ['cwc.protocol.serial.Api'], ['cwc.protocol.serial.Devices', 'cwc.utils.Logger'], false);
 goog.addDependency('../../../../src/protocol/low-level/serial/device.js', ['cwc.protocol.serial.Device'], [], false);
 goog.addDependency('../../../../src/protocol/low-level/serial/devices.js', ['cwc.protocol.serial.Devices'], ['cwc.protocol.Serial.supportedDevicePaths', 'cwc.protocol.Serial.supportedDevices', 'cwc.protocol.Serial.unsupportedDevicePaths', 'cwc.protocol.serial.Device', 'cwc.utils.Events', 'cwc.utils.Logger', 'goog.Timer'], false);
@@ -235,6 +243,9 @@ goog.addDependency('../../../../test/genfiles/soy/src/blocks/phaser/toolbox_inpu
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/simple/toolbox.soy.js', ['cwc.soy.simple.Blocks'], ['cwc.soy.Blocks', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/sphero/sphero2/toolbox.soy.js', ['cwc.soy.sphero.Blocks'], ['cwc.soy.Blocks', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/blocks/sphero/sprk_plus/toolbox.soy.js', ['cwc.soy.sphero.sprkPlus.Blocks'], ['cwc.soy.Blocks', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/aiy/connect_screen.soy.js', ['cwc.soy.connectScreen.AIY'], ['goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/aiy/editor/editor.soy.js', ['cwc.soy.mode.aiy.Editor'], ['cwc.soy.ui.Template', 'goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/mode/aiy/terminal/terminal.soy.js', ['cwc.soy.mode.aiy.Terminal'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/layout.soy.js', ['cwc.soy.mode.default.Layout'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/default/panel/monitor.soy.js', ['cwc.soy.mode.default.Monitor'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/mode/lego/ev3/panel/control/control.soy.js', ['cwc.soy.mode.ev3.Control'], ['goog.asserts', 'soy', 'soydata'], false);
@@ -280,7 +291,8 @@ goog.addDependency('../../../../test/genfiles/soy/src/ui/notification/notificati
 goog.addDependency('../../../../test/genfiles/soy/src/ui/preview/preview.soy.js', ['cwc.soy.ui.Preview'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/preview/status_bar/status_bar.soy.js', ['cwc.soy.ui.PreviewStatusBar'], ['goog.asserts', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/preview/status_button/status_button.soy.js', ['cwc.soy.ui.PreviewStatusButton'], ['goog.asserts', 'soy', 'soydata'], false);
-goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/advanced.soy.js', ['cwc.soy.SelectScreenAdvanced'], ['cwc.soy.SelectScreenAdvanced.basic', 'cwc.soy.SelectScreenAdvanced.games', 'cwc.soy.SelectScreenAdvanced.graphic', 'cwc.soy.SelectScreenAdvanced.markup', 'cwc.soy.SelectScreenAdvanced.programming', 'cwc.soy.SelectScreenAdvanced.robot', 'cwc.soy.SelectScreenTemplate', 'goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/advanced.soy.js', ['cwc.soy.SelectScreenAdvanced'], ['cwc.soy.SelectScreenAdvanced.aiy', 'cwc.soy.SelectScreenAdvanced.basic', 'cwc.soy.SelectScreenAdvanced.games', 'cwc.soy.SelectScreenAdvanced.graphic', 'cwc.soy.SelectScreenAdvanced.markup', 'cwc.soy.SelectScreenAdvanced.programming', 'cwc.soy.SelectScreenAdvanced.robot', 'cwc.soy.SelectScreenTemplate', 'goog.asserts', 'soy', 'soydata'], false);
+goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/aiy/aiy.soy.js', ['cwc.soy.SelectScreenAdvanced.aiy'], ['cwc.soy.SelectScreenTemplate', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/basic/basic.soy.js', ['cwc.soy.SelectScreenAdvanced.basic'], ['cwc.soy.SelectScreenTemplate', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/games/games.soy.js', ['cwc.soy.SelectScreenAdvanced.games'], ['cwc.soy.SelectScreenTemplate', 'soy', 'soydata'], false);
 goog.addDependency('../../../../test/genfiles/soy/src/ui/select_screen/advanced/graphic/graphic.soy.js', ['cwc.soy.SelectScreenAdvanced.graphic'], ['cwc.soy.SelectScreenTemplate', 'soy', 'soydata'], false);
