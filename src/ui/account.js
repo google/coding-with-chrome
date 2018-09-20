@@ -217,6 +217,7 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  *   - token: Authorization bearer token.
  *   - raw: if true opts.path becomes the entire URI.
  * @param {function(?)=} callback Called when http request completes.
+ * @return {Promise} to wait on the completion of the http request.
  */
 cwc.ui.Account.prototype.request = function(opts, callback) {
   let params = opts.params || {};

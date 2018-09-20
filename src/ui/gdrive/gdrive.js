@@ -556,6 +556,7 @@ cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
 /**
  * @param {string} fileId
  * @param {function(?)} callback
+ * @return {Promise} to wait on the completion gdrive file request.
  */
 cwc.ui.GDrive.prototype.getFile = function(fileId, callback) {
   let accountInstance = this.helper.getInstance('account');
