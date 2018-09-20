@@ -73,14 +73,17 @@ cwc.ui.TutorialValidator.prototype.start = function() {
     this.log_.info('No validation function, not running validation');
     return;
   }
-  if (!this.sandbox_) {
-    return;
-  }
+
   this.log_.info('Starting validation');
-  this.sandbox_ = this.webviewSupport_ ?
-    document.createElement('webview') : document.createElement('iframe');
 
   this.events_.clear();
+  if (!this.sandbox_) {
+    if (this.webviewSupport_) {
+      this.sandbox_ = document.createElement('webview');
+    } else {
+      this.sandbox_ = document.createElement('iframe');
+    }
+  }
   this.events_.listen(this.sandbox_,
     this.webviewSupport_ ? 'contentload' : 'onload',
     this.handleValidatorLoaded_);
@@ -101,7 +104,6 @@ cwc.ui.TutorialValidator.prototype.start = function() {
   goog.dom.appendChild(document.body, this.sandbox_);
   this.sandbox_['src'] = contentUrl;
 };
-
 
 /**
  * Callback for validate.

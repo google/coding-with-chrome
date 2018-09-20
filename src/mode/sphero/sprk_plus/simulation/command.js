@@ -48,6 +48,8 @@ cwc.mode.sphero.sprkPlus.SimulationCommand = function(turtle) {
  */
 cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['__handshake__'] =
     function() {
+  this.angle_ = 0;
+  this.heading_ = 0;
   this.turtle.action('scale', this.scale_);
   this.turtle.action('speed', this.speed_);
   this.turtle.reset();
@@ -72,7 +74,7 @@ cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['roll'] = function(data) {
   }
   this.angle_ = heading;
   this.turtle.action('rt', angle);
-  this.turtle.action('fd', speed);
+  this.turtle.action('fd', speed * 0.75);
 };
 
 

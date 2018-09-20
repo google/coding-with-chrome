@@ -17,3 +17,11 @@
 #{$prefix}blockly-code {
   position: relative;
 }
+
+#{$prefix}blockly-toolbar .mdl-navigation {
+  height: auto;
+}
+
+#{$prefix}blockly-toolbar .mdl-navigation__link {
+  line-height: inherit;
+}

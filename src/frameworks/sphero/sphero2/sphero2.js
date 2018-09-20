@@ -47,7 +47,7 @@ cwc.framework.sphero.Sphero2 = function() {
     },
   };
 
-  /** @private {} */
+  /** @private {Object} */
   this.events_ = {
     collision: function() {},
     position: function() {},

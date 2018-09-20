@@ -242,13 +242,15 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
 
   // Handle tour data
   let tourInstance = this.helper.getInstance('tour');
-  if (tourInstance) {
-    tourInstance.setTour(file.getTour(userLanguage));
+  let tourAvailable = file.getTour(userLanguage);
+  if (tourInstance && tourAvailable) {
+    tourInstance.setTour(tourAvailable);
   }
 
   // Handle tutorial data
   let tutorialInstance = this.helper.getInstance('tutorial');
-  if (tutorialInstance) {
+  let tutorialAvailable = file.getTutorial(userLanguage);
+  if (tutorialInstance && tutorialAvailable) {
     tutorialInstance.setTutorial(file.getTutorial(userLanguage));
   }
 
@@ -256,7 +258,8 @@ cwc.fileHandler.FileLoader.prototype.loadCWCFile = async function(data,
   let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.enableDescription(file.getDescription());
-    sidebarInstance.enableTour(file.getTour(userLanguage));
+    sidebarInstance.enableTour(tourAvailable);
+    sidebarInstance.enableTutorial(tutorialAvailable);
     sidebarInstance.showLibrary(true);
     sidebarInstance.showMedia(false);
   }
