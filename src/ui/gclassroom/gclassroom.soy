@@ -45,7 +45,7 @@
     <h5>Select Course:</h5>
     <ul class="mdl-list">
       {foreach $course in $courses}
-      <li class="mdl-list__item {$prefix}course" data-id={$course['id']}>
+      <li class="mdl-list__item {$prefix}course" data-course-id="{$course['id']}">
         <span class="mdl-list__item-primary-content">
           {$course['descriptionHeading']}
         </span>
@@ -65,7 +65,7 @@
     <h5>Select Course Work:</h5>
     <ul class="mdl-list">
       {foreach $course_work in $courseWorks}
-      <li class="mdl-list__item {$prefix}course_work" data-id={$course_work['id']}>
+      <li class="mdl-list__item {$prefix}course_work" data-course-work-id="{$course_work['id']}">
         <span class="mdl-list__item-primary-content {$prefix}course_work_title">
          <i class="material-icons mdl-list__item-icon">expand_more</i>
          {$course_work['title']}
@@ -86,7 +86,7 @@
   {@param submissions: ?}
   <ul class="mdl-list">
       {foreach $submission in $submissions}
-      <li class="mdl-list__item {$prefix}student_submission" data-id="{$submission['id']}">
+      <li class="mdl-list__item {$prefix}student_submission" data-student-submission-id="{$submission['id']}">
           <span class="mdl-list__item-primary-content">
           {$submission['name']}
           </span>

@@ -82,7 +82,7 @@ cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
   if (gdriveInstance) {
     let getFileCallback = (function(file) {
       gdriveInstance.downloadFile(file);
-    }).bind(this);
+    });
     gdriveInstance.getFile(fileId, getFileCallback);
   } else {
     console.error('GClassroom.openGDriveFile has no gdrive instance.');
@@ -108,7 +108,7 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   let elements = goog.dom.getElementsByClass(this.prefix + 'course_work');
   for (let i = 0; i < elements.length; i++) {
     let element = elements[i];
-    let courseWorkId = goog.dom.dataset.get(element, 'id');
+    let courseWorkId = goog.dom.dataset.get(element, 'course-work-id');
     this.idByCourseWorkExpanded_[courseWorkId] = false;
     let loaderEvent = () => {
       let iconElement = element.firstElementChild.firstElementChild;
@@ -141,7 +141,7 @@ cwc.ui.GClassroom.prototype.filterSupportedFiles = function(files) {
     }
   });
   return supportedFiles;
-}
+};
 
 cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
   data, iconElement) {
@@ -180,7 +180,8 @@ cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
       for (let i = 0; i < elements.length; i++) {
         let element = elements[i];
         let loaderEvent = () => {
-          let driveFileId = goog.dom.dataset.get(element, 'id');
+          let driveFileId = goog.dom.dataset.get(
+            element, 'student-submission-id');
           let driveFile = idToDriveFile[driveFileId];
           gdriveInstance.downloadFile(driveFile);
         };
@@ -208,20 +209,20 @@ cwc.ui.GClassroom.prototype.decorate = function() {
   cwc.ui.Helper.mdlRefresh();
 };
 
-
 cwc.ui.GClassroom.prototype.prepareDialog = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
     title: 'Google Classroom',
   };
   dialogInstance.showTemplate(title, cwc.soy.GClassroom.gClassroomTemplate, {
-    prefix: this.prefix
+    prefix: this.prefix,
   });
   this.decorate();
-}
+};
+
 /**
  * Updates the GClassroom course list with the new courses.
- * @param {Object} files Course list with the result of the search.
+ * @param {Object} courses Course list with the result of the search.
  */
 cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
   let courseList = goog.dom.getElement(this.prefix + 'course_list');
@@ -235,13 +236,13 @@ cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
   for (let i = 0; i < elements.length; ++i) {
     let element = elements[i];
     let loaderEvent = () => {
-      let courseId = goog.dom.dataset.get(element, 'id');
+      let courseId = goog.dom.dataset.get(element, 'course-id');
       this.getMyCourseWork(courseId, this.handleCourseWorks.bind(this));
     };
     this.events_.listen(element, goog.events.EventType.CLICK,
       loaderEvent, false, this);
   }
-}
+};
 
 /**
  * @param {function(?)} callback
