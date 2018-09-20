@@ -176,16 +176,33 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
     menuBarInstance.setAuthenticated(authenticated);
   }
 
-  let navigationInstance = this.helper.getInstance('navigation');
-  if (navigationInstance) {
-    navigationInstance.enableOpenGoogleDriveFile(authenticated);
-    navigationInstance.enableSaveGoogleDriveFile(authenticated);
-  }
-
   if (!authenticated) {
     this.accessToken = '';
   }
   this.authenticated = authenticated;
+
+  let navigationInstance = this.helper.getInstance('navigation');
+  if (navigationInstance) {
+    navigationInstance.enableOpenGoogleDriveFile(authenticated);
+    navigationInstance.enableSaveGoogleDriveFile(authenticated);
+    navigationInstance.enableOpenGoogleClassroom(authenticated);
+
+    if (authenticated) {
+      this.request({
+        subdomain: 'classroom',
+        path: '/v1/courses',
+        params: {
+          'studentId': 'me',
+        },
+      }, function(response) {
+        if (Object.keys(response).length > 0) {
+          navigationInstance.enableOpenGoogleClassroom(true);
+        }
+      });
+    } else {
+      navigationInstance.enableOpenGoogleClassroom(false);
+    }
+  }
 };
 
 
@@ -200,58 +217,75 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  *   - token: Authorization bearer token.
  *   - raw: if true opts.path becomes the entire URI.
  * @param {function(?)=} callback Called when http request completes.
+ * @return {Promise} to wait on the completion of the http request.
  */
 cwc.ui.Account.prototype.request = function(opts, callback) {
   let params = opts.params || {};
-
-  let handleRequest = (function() {
-    let subdomain = 'www';
-    if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
-      opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
-      subdomain = opts.subdomain;
-    }
-
-    let uri = subdomain + '.googleapis.com';
-    let url = goog.Uri.create('https', null, uri, null, opts.path);
-    if (opts.raw) {
-      url = new goog.Uri(opts.path);
-    }
-    let method = opts.method || 'GET';
-    let content = opts.content;
-    let token = opts.token || this.accessToken || '';
-
-    for (let i in params) {
-      if (Object.prototype.hasOwnProperty.call(params, i)) {
-        url.setParameterValue(i, params[i]);
-      }
-    }
-
-    let headers = new Map(Object.entries(opts.header || {}));
-    headers.set('Authorization', 'Bearer ' + token);
-    headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
-
-    let xhrRepsonseEvent = function(event) {
-      this.handleXhrResponse(event, callback);
-    };
-
-    /** @type {goog.net.XhrIo} */
-    let xhr = new goog.net.XhrIo();
-    goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
-      false, this);
-    goog.events.listen(xhr, goog.net.EventType.ERROR, this.handleXhrError,
-      false, this);
-    goog.events.listen(xhr, goog.net.EventType.TIMEOUT, this.handleXhrTimeout,
-      false, this);
-
-    this.log_.info('Request: ' + method + ' ' + url);
-    xhr.send(url, method, content, headers);
-  }).bind(this);
-
-  if (!this.authenticated) {
-    this.authenticate(handleRequest);
-  } else {
-    handleRequest();
+  let subdomain = 'www';
+  if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
+    opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
+    subdomain = opts.subdomain;
   }
+
+  let uri = subdomain + '.googleapis.com';
+  let url = goog.Uri.create('https', null, uri, null, opts.path);
+  if (opts.raw) {
+    url = new goog.Uri(opts.path);
+  }
+  let method = opts.method || 'GET';
+  let content = opts.content;
+  let token = opts.token || this.accessToken || '';
+
+  for (let i in params) {
+    if (Object.prototype.hasOwnProperty.call(params, i)) {
+      url.setParameterValue(i, params[i]);
+    }
+  }
+
+  let headers = new Map(Object.entries(opts.header || {}));
+  headers.set('Authorization', 'Bearer ' + token);
+  headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
+
+  return new Promise((resolve, reject) => {
+      let handleRequest = (function() {
+          let xhrRepsonseEvent = (event) => {
+              this.handleXhrResponse(event, (response) => {
+                if (callback) {
+                  callback(response);
+                }
+                resolve(response);
+              });
+          };
+
+          let xhrErrorEvent = (event) => {
+            this.handleXhrError(event);
+            reject(event);
+          };
+
+          let xhrTimeoutEvent = (event) => {
+            this.handleXhrTimeout(event);
+            reject(event);
+          };
+
+          /** @type {goog.net.XhrIo} */
+          let xhr = new goog.net.XhrIo();
+          goog.events.listen(xhr, goog.net.EventType.COMPLETE, xhrRepsonseEvent,
+              false, this);
+          goog.events.listen(xhr, goog.net.EventType.ERROR, xhrErrorEvent,
+              false, this);
+          goog.events.listen(xhr, goog.net.EventType.TIMEOUT, xhrTimeoutEvent,
+              false, this);
+
+          this.log_.info('Request: ' + method + ' ' + url);
+          xhr.send(url, method, content, headers);
+      }).bind(this);
+
+      if (!this.authenticated) {
+          this.authenticate(handleRequest);
+      } else {
+          handleRequest();
+      }
+  });
 };
 
 

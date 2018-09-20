@@ -46,6 +46,7 @@ goog.require('cwc.ui.Console');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Experimental');
+goog.require('cwc.ui.GClassroom');
 goog.require('cwc.ui.GCloud');
 goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
@@ -137,6 +138,7 @@ cwc.ui.supportedProtocols = {
  */
 cwc.ui.oauth2Helpers = {
   'account': cwc.ui.Account,
+  'gclassroom': cwc.ui.GClassroom,
   'gcloud': cwc.ui.GCloud,
   'gdrive': cwc.ui.GDrive,
 };
