@@ -68,8 +68,8 @@ Blockly.JavaScript['sphero_sprk_plus_roll_time'] = function(block) {
     block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
   let speed = Blockly.JavaScript.valueToCode(
     block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
-  let heading = parseInt(Blockly.JavaScript.valueToCode(
-    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC));
+  let heading = Blockly.JavaScript.valueToCode(
+    block, 'heading', Blockly.JavaScript.ORDER_ATOMIC);
   return 'sprkPlus.rollTime(' + time + ', ' + speed + ', ' + heading +
     ', true);\n';
 };

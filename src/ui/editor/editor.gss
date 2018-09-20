@@ -73,3 +73,11 @@
 #{$prefix}editor-code-custom {
   box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
+
+#{$prefix}editor-toolbar .mdl-navigation {
+  height: auto;
+}
+
+#{$prefix}editor-toolbar .mdl-navigation__link {
+  line-height: inherit;
+}

@@ -60,7 +60,8 @@ cwc.mode.sphero.sprkPlus.Mod = function(helper, enableBlockly = false) {
   this.monitor = new cwc.mode.sphero.sprkPlus.Monitor(helper, this.connection);
 
   /** @type {!cwc.mode.sphero.sprkPlus.Simulation} */
-  this.simulation = new cwc.mode.sphero.sprkPlus.Simulation(helper);
+  this.simulation = new cwc.mode.sphero.sprkPlus.Simulation(helper,
+    this.connection);
 
   /** @type {!cwc.renderer.external.sphero.SprkPlus} */
   this.renderer = new cwc.renderer.external.sphero.SprkPlus(helper);

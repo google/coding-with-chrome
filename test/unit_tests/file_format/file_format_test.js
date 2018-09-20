@@ -199,7 +199,7 @@ describe('File format', function() {
   });
 
   it('getTutorial (no tutorial)', function() {
-    expect((new cwc.fileFormat.File()).getTutorial()).toBe(null);
+    expect((new cwc.fileFormat.File()).getTutorial()).toBe('');
   });
 
   it('getTutorial (default language)', function() {
@@ -236,7 +236,7 @@ describe('File format', function() {
   });
 
   it('getTour (no tour)', function() {
-    expect((new cwc.fileFormat.File()).getTour()).toBe(null);
+    expect((new cwc.fileFormat.File()).getTour()).toBe('');
   });
 
   it('getTour (default language)', function() {

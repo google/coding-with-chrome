@@ -25,16 +25,23 @@ goog.require('cwc.ui.Turtle');
 goog.require('cwc.utils.Events');
 
 
+goog.scope(function() {
+const Events = goog.module.get('cwc.lib.protocol.sphero.sprkPlus.Events');
+
 /**
  * @param {!cwc.utils.Helper} helper
+ * @param {!cwc.mode.sphero.sprkPlus.Connection} connection
  * @constructor
  */
-cwc.mode.sphero.sprkPlus.Simulation = function(helper) {
+cwc.mode.sphero.sprkPlus.Simulation = function(helper, connection) {
   /** @type {string} */
   this.name = 'Sphero SPRK+ Simulation';
 
   /** @type {string} */
   this.prefix = helper.getPrefix('sphero-sprk-plus-simulation');
+
+  /** @type {!cwc.mode.sphero.sprkPlus.Connection} */
+  this.connection = connection;
 
   /** @type {Element} */
   this.node = null;
@@ -62,6 +69,12 @@ cwc.mode.sphero.sprkPlus.Simulation = function(helper) {
 
   /** @type {!cwc.ui.Turtle} */
   this.turtle = new cwc.ui.Turtle(helper, this.sprite);
+
+  /** @private {Object} */
+  this.cache_ = {};
+
+  /** @type {boolean} */
+  this.connected_ = false;
 
   /** @type {!cwc.mode.sphero.SimulationCommand} */
   this.commands_ = new cwc.mode.sphero.sprkPlus.SimulationCommand(this.turtle);
@@ -95,6 +108,11 @@ cwc.mode.sphero.sprkPlus.Simulation.prototype.decorate = function(node) {
     this.events_.listen(previewInstance.getEventTarget(),
         cwc.MessengerEvents.Type.COMMAND, this.handleCommand_);
   }
+
+  // Roboter event
+  let connectionEvent = this.connection.getEventTarget();
+  this.events_.listen(
+    connectionEvent, Events.Type.POSITION, this.handlePosition_);
 };
 
 
@@ -115,5 +133,34 @@ cwc.mode.sphero.sprkPlus.Simulation.prototype.handleCommand_ = function(e) {
   if (typeof this.commands_[e.data['name']] === 'undefined') {
     return;
   }
-  this.commands_[e.data['name']](e.data['value']);
+  let commandName = e.data['name'];
+  if (commandName === '__handshake__') {
+    this.cache_ = {};
+    this.connected_ = false;
+  }
+  // Exclude specific commands if device is connected.
+  if (this.connected_) {
+    switch (commandName) {
+      case 'roll':
+        return;
+    }
+  }
+  this.commands_[commandName](e.data['value']);
 };
+
+
+/**
+ * @param {!Event} e
+ * @private
+ */
+cwc.mode.sphero.sprkPlus.Simulation.prototype.handlePosition_ = function(e) {
+  if (this.cache_['position'] &&
+      this.cache_['position']['x'] === e.data['x'] &&
+      this.cache_['position']['y'] === e.data['y']) {
+    return;
+  }
+  this.connected_ = true;
+  this.commands_['position'](e.data);
+  this.cache_['position'] = e.data;
+};
+});

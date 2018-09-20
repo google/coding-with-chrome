@@ -297,13 +297,16 @@ cwc.fileFormat.File.prototype.getFrameworks = function() {
 /**
  * @param {string} name
  * @param {string=} namespace
+ * @param {boolean=} quiet
  * @return {!string|Array}
  */
 cwc.fileFormat.File.prototype.getMetadata = function(
-    name, namespace = this.metedataNamespace_) {
+    name, namespace = this.metedataNamespace_, quiet = false) {
   if (!(namespace in this.metadata_) ||
       (name && !(name in this.metadata_[namespace]))) {
-    this.log_.warn('Unknown meta data', namespace + (name ? '.' + name : ''));
+    if (!quiet) {
+      this.log_.warn('Unknown meta data', namespace + (name ? '.' + name : ''));
+    }
     return '';
   }
   if (name) {
@@ -409,18 +412,12 @@ cwc.fileFormat.File.prototype.getTitle = function() {
  * @return {Object}
  */
 cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
-  let tour = this.getMetadata('', '__tour__');
-  let userLanguage = language;
-  if (tour) {
-    if (!tour[userLanguage]) {
-      this.log_.warn('Tour is not available in user\'s language', language);
-      userLanguage = 'eng';
-    }
-    if (tour[userLanguage]) {
-      return tour[userLanguage];
-    }
+  let tour = this.getMetadata(language, '__tour__', true);
+  if (!tour && this.getMetadata(null, '__tour__', true)) {
+    this.log_.warn('Tour is not available in user\'s language', language);
+    return this.getMetadata('eng', '__tour__', true);
   }
-  return null;
+  return tour;
 };
 
 
@@ -429,18 +426,12 @@ cwc.fileFormat.File.prototype.getTour = function(language = 'eng') {
  * @return {Object}
  */
 cwc.fileFormat.File.prototype.getTutorial = function(language = 'eng') {
-  let tutorial = this.getMetadata('', '__tutorial__');
-  let userLanguage = language;
-  if (tutorial) {
-    if (!tutorial[userLanguage]) {
-      this.log_.warn('Tutorial is not available in user\'s language', language);
-      userLanguage = 'eng';
-    }
-    if (tutorial[userLanguage]) {
-      return tutorial[userLanguage];
-    }
+  let tutorial = this.getMetadata(language, '__tutorial__', true);
+  if (!tutorial && this.getMetadata(null, '__tutorial__', true)) {
+    this.log_.warn('Tutorial is not available in user\'s language', language);
+    return this.getMetadata('eng', '__tutorial__', true);
   }
-  return null;
+  return tutorial;
 };
 
 

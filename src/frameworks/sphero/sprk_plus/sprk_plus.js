@@ -47,7 +47,7 @@ cwc.framework.sphero.SprkPlus = function() {
     },
   };
 
-  /** @private {} */
+  /** @private {Object} */
   this.events_ = {
     collision: function() {},
     position: function() {},
