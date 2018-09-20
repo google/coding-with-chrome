@@ -15,19 +15,15 @@
  */
 
 
-#{$prefix}editor-toolbar,
-.editor-toolbar {
+#{$prefix}editor-toolbar {
   display: flex !important;
-  min-height: 34px;
 }
 
-#{$prefix}editor-toolbar > .mdl-layout__header-row,
-.editor-toolbar > .mdl-layout__header-row {
+#{$prefix}editor-toolbar > .mdl-layout__header-row {
   height: 34px;
 }
 
-#{$prefix}editor-toolbar > .mdl-layout__header-row .mdl-navigation__link,
-.editor-toolbar > .mdl-layout__header-row .mdl-navigation__link {
+#{$prefix}editor-toolbar > .mdl-layout__header-row .mdl-navigation__link {
   padding: 0 5px;
 }
 

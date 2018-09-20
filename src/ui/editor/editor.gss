@@ -21,6 +21,10 @@
   flex-direction: column;
 }
 
+#{$prefix}editor-toolbar {
+  min-height: 34px;
+}
+
 #{$prefix}editor-view {
   bottom: 20px;
   position: absolute;
