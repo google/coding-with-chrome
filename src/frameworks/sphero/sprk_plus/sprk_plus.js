@@ -157,7 +157,7 @@ cwc.framework.sphero.SprkPlus.prototype.rollTime = function(time, speed = 20,
     this.roll(speed, heading, true, 500);
   }
   if (stop) {
-    this.roll(0, heading, true, 100);
+    this.roll(0, heading, true, 150);
   }
 };
 

@@ -46,13 +46,10 @@ cwc.mode.sphero.sprkPlus.Control = function(helper, connection) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
 
-  /**
-   * @type {!cwc.mode.sphero.sprkPlus.Connection|
-   *   cwc.mode.sphero.sprkPlus.Connection}
-   */
+  /** @type {!cwc.mode.sphero.sprkPlus.Connection} */
   this.connection = connection;
 
-  /** @type {!cwc.protocol.sphero.classic.Api} */
+  /** @type {!cwc.lib.protocol.sphero.sprkPlus.Api} */
   this.api = this.connection.getApi();
 
   /** @private {!cwc.utils.Events} */

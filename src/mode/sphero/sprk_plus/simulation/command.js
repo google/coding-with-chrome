@@ -19,6 +19,8 @@
  */
 goog.provide('cwc.mode.sphero.sprkPlus.SimulationCommand');
 
+goog.require('cwc.utils.Events');
+
 
 /**
  * @param {!cwc.ui.Turtle} turtle
@@ -39,7 +41,10 @@ cwc.mode.sphero.sprkPlus.SimulationCommand = function(turtle) {
   this.scale_ = 1;
 
   /** @private {number} */
-  this.speed_ = 10;
+  this.speed_ = 20;
+
+  /** @private {!cwc.utils.Events} */
+  this.events_ = new cwc.utils.Events();
 };
 
 
@@ -74,7 +79,7 @@ cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['roll'] = function(data) {
   }
   this.angle_ = heading;
   this.turtle.action('rt', angle);
-  this.turtle.action('fd', speed * 0.75);
+  this.turtle.action('fd', speed * 0.65);
 };
 
 
@@ -88,9 +93,13 @@ cwc.mode.sphero.sprkPlus.SimulationCommand.prototype['setRGB'] = function(
     Number(data['green']).toString(16).padStart(2, 0) +
     Number(data['blue']).toString(16).padStart(2, 0);
   if (hexColor === '#000000') {
-    this.turtle.action('pen', null);
+    this.events_.debounce('setRGB', () => {
+      this.turtle.action('pen', null);
+    }, 450);
   } else {
-    this.turtle.action('pen', hexColor);
+    this.events_.debounce('setRGB', () => {
+      this.turtle.action('pen', hexColor);
+    }, 450);
   }
 };
 
