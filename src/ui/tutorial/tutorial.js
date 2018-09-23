@@ -443,6 +443,7 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
           youtube_videos: (step.videos || []).map((video) =>
             video['youtube_id']
           ),
+          hasCode: step.code && step.code.trim().length > 0,
         })),
       }
     );
@@ -501,8 +502,8 @@ cwc.ui.Tutorial.prototype.initMediaOverlay_ = function() {
  */
 cwc.ui.Tutorial.prototype.initMedia_ = function() {
   this.initMediaOverlay_();
-  let nodeListImages = this.rootNode_.querySelectorAll(
-    '.js-project-step-image');
+  let nodeListImages = this.rootNode_.querySelectorAll('.' + this.prefix +
+    'step-image');
   if (this.imagesDb_) {
     [].forEach.call(nodeListImages, (image) => {
       let imageSrc = image.getAttribute('data-src');
@@ -526,16 +527,16 @@ cwc.ui.Tutorial.prototype.initMedia_ = function() {
  */
 cwc.ui.Tutorial.prototype.initSteps_ = function() {
   let prefix = this.prefix + 'step-';
+  let classPrefix = '.'+prefix;
   this.steps_.forEach((step) => {
     let stepNode = goog.dom.getElement(prefix + step.id);
     step.node = stepNode;
-    step.nodeContinue = stepNode.querySelector(
-        '.js-project-step-continue');
-    step.nodeHeader = stepNode.querySelector(
-        '.js-project-step-header'),
-    step.nodeListMediaExpand = stepNode.querySelectorAll(
-        '.js-project-step-media-expand');
-    step.nodeMessage = stepNode.querySelector('.'+prefix+'message');
+    step.nodeContinue = stepNode.querySelector(classPrefix + 'continue');
+    step.nodeLoadCode = stepNode.querySelector(classPrefix + 'load-code');
+    step.nodeHeader = stepNode.querySelector(classPrefix + 'header');
+    step.nodeListMediaExpand = stepNode.querySelectorAll(classPrefix +
+      'media-expand');
+    step.nodeMessage = stepNode.querySelector(classPrefix+'message');
     goog.style.setElementShown(step.nodeMessage, false);
   });
   this.initStepButtons_();
@@ -551,6 +552,10 @@ cwc.ui.Tutorial.prototype.initStepButtons_ = function() {
     if (step.nodeContinue) {
       goog.events.listen(step.nodeContinue, goog.events.EventType.CLICK,
         this.completeCurrentStep_.bind(this));
+    }
+    if (step.nodeLoadCode) {
+      goog.events.listen(step.nodeLoadCode, goog.events.EventType.CLICK,
+        this.loadCodeWithPrompt_.bind(this));
     }
     goog.events.listen(step.nodeHeader, goog.events.EventType.CLICK,
       this.jumpToStep_.bind(this, step.id));
@@ -744,24 +749,83 @@ cwc.ui.Tutorial.prototype.showMedia_ = function(media) {
  * @private
  */
 cwc.ui.Tutorial.prototype.setState_ = function(change) {
-  let prevStepID = this.state_.activeStepID;
+  let isEditorDirty = this.isEditorDirty_();
   Object.keys(change).forEach((key) => {
     this.state_[key] = change[key];
   });
-  if (prevStepID !== this.state_.activeStepID) {
-    let editorInstance = this.helper.getInstance('editor');
-    let activeStep = this.getActiveStep_();
-    if (editorInstance && activeStep.code) {
-      this.solved(false);
-      // TODO: support multiple editor views
-      editorInstance.setEditorContent(activeStep.code,
-        editorInstance.getCurrentView());
-    }
-    this.restartValidate_();
-  }
   this.updateView_();
+  if (!isEditorDirty) {
+    this.loadCode_();
+  }
 };
 
+/**
+ * Tests if the editor has been modified from the example code
+ * @return {!boolean}
+ * @private
+ */
+cwc.ui.Tutorial.prototype.isEditorDirty_ = function() {
+  let editorInstance = this.helper.getInstance('editor');
+  let activeStep = this.getActiveStep_();
+  let code = editorInstance.getEditorContent(editorInstance.getCurrentView());
+  code = code ? code.trim() : '';
+
+  // It's always ok to load code into an empty editor
+  if (code.length === 0) {
+    return false;
+  }
+  if (activeStep && activeStep.code && activeStep.code.trim() === code) {
+    return false;
+  }
+  return true;
+};
+
+/**
+ * Prompts to overwrite dirty editor and loads code if user confirms
+ * @private
+ */
+cwc.ui.Tutorial.prototype.loadCodeWithPrompt_ = function() {
+  if (!this.getActiveStep_().code) {
+    return;
+  }
+  if (!this.isEditorDirty_()) {
+    this.loadCode_();
+    return;
+  }
+
+  let dialogInstance = this.helper.getInstance('dialog');
+  let title = {
+    icon: 'warning',
+    title: 'Overwrite editor content?',
+  };
+  let content = 'Loading the example code will overwrite your changes in the ' +
+    'editor. Are you sure you want to load the example code?';
+  let action = i18t('Load example code into editor');
+  dialogInstance.showActionCancel(title, content, action).then((answer) => {
+    if (!answer) {
+      return;
+    }
+    this.loadCode_();
+  });
+};
+
+/**
+ * Loads example code into editor
+ * @private
+ */
+cwc.ui.Tutorial.prototype.loadCode_ = function() {
+  let activeStep = this.getActiveStep_();
+  if (!(activeStep && activeStep.code)) {
+    return;
+  }
+  let editorInstance = this.helper.getInstance('editor');
+  // TODO: support multiple editor views
+  editorInstance.setEditorContent(activeStep.code,
+    editorInstance.getCurrentView());
+  this.log_.info('Loaded example code into editor', activeStep.code);
+  this.solved(false);
+  this.restartValidate_();
+};
 
 /**
  * Updates the view to reflect the current state

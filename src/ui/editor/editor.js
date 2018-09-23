@@ -306,6 +306,7 @@ cwc.ui.Editor.prototype.setLocalHints = function(hints) {
 /**
  * @param {string=} name
  * @return {Object|string}
+ * @export
  */
 cwc.ui.Editor.prototype.getEditorContent = function(name) {
   let editorContent = {};
@@ -330,6 +331,7 @@ cwc.ui.Editor.prototype.getEditorContent = function(name) {
 /**
  * @param {string} content
  * @param {string=} view
+ * @export
  */
 cwc.ui.Editor.prototype.setEditorContent = function(content,
     view = cwc.ui.EditorContent.DEFAULT) {
@@ -502,6 +504,7 @@ cwc.ui.Editor.prototype.getViews = function() {
 
 /**
  * @return {string}
+ * @export
  */
 cwc.ui.Editor.prototype.getCurrentView = function() {
   return this.currentEditorView;
