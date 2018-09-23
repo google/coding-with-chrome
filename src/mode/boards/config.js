@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor mode config data for the Coding with Chrome editor.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,30 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ConfigData');
+goog.provide('cwc.mode.boards.Config');
 
-goog.require('cwc.mode.games.Config');
-goog.require('cwc.mode.markup.Config');
-goog.require('cwc.mode.programming.Config');
-goog.require('cwc.mode.raw.Config');
-goog.require('cwc.mode.robot.Config');
+goog.require('cwc.mode.Mod');
+goog.require('cwc.mode.Service');
+goog.require('cwc.mode.Type');
+goog.require('cwc.mode.raspberryPi.advanced.Mod');
+goog.require('cwc.utils.mime.Type');
 
 
 /**
  * enum {Object}
  */
-cwc.mode.ConfigData = Object.assign({},
-  cwc.mode.games.Config,
-  cwc.mode.markup.Config,
-  cwc.mode.programming.Config,
-  cwc.mode.raw.Config,
-  cwc.mode.robot.Config,
-);
+cwc.mode.boards.Config = {};
+
+
+/**
+ * Raspberry Pi mode.
+ * @deprecated Disabled because needs re-implementation and used less than 0.1%.
+ */
+cwc.mode.boards.Config[cwc.mode.Type.RASPBERRY_PI] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  icon: 'mode_edit',
+  mime_types: [cwc.utils.mime.Type.CWC.type],
+  mod: cwc.mode.raspberryPi.advanced.Mod,
+  name: 'Raspberry Pi',
+  template: 'raspberry_pi/blank.cwc',
+});

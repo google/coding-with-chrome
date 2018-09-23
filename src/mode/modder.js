@@ -20,11 +20,12 @@
  */
 goog.provide('cwc.mode.Modder');
 
-goog.require('cwc.utils.mime.Type');
 goog.require('cwc.mode.Config');
+goog.require('cwc.mode.Service');
 goog.require('cwc.mode.Type');
 goog.require('cwc.utils.Helper');
 goog.require('cwc.utils.Logger');
+goog.require('cwc.utils.mime.Type');
 
 goog.require('goog.events.EventTarget');
 
@@ -163,6 +164,23 @@ cwc.mode.Modder.prototype.setMode = function(mode) {
   if (consoleInstance) {
     consoleInstance.clear();
     consoleInstance.showConsole(false);
+  }
+
+  // Set menubar buttons based on used services.
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    let services = modeConfig.services;
+    if (services && services.length > 0) {
+    let service = cwc.mode.Service;
+      menuBarInstance.showBluetooth(services.includes(service.BLUETOOTH));
+      menuBarInstance.showBluetoothWeb(
+        services.includes(service.BLUETOOTH_WEB));
+      menuBarInstance.showGamepad(services.includes(service.GAMEPAD));
+      menuBarInstance.showUsb(services.includes(service.USB));
+      menuBarInstance.showServices(true);
+    } else {
+      menuBarInstance.showServices(false);
+    }
   }
 
   // Set status bar defaults.

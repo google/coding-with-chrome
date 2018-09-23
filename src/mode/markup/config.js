@@ -1,7 +1,7 @@
 /**
  * @fileoverview Editor mode config data for the Coding with Chrome editor.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,30 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ConfigData');
+goog.provide('cwc.mode.markup.Config');
 
-goog.require('cwc.mode.games.Config');
-goog.require('cwc.mode.markup.Config');
-goog.require('cwc.mode.programming.Config');
-goog.require('cwc.mode.raw.Config');
-goog.require('cwc.mode.robot.Config');
+goog.require('cwc.mode.Mod');
+goog.require('cwc.mode.Service');
+goog.require('cwc.mode.Type');
+goog.require('cwc.mode.html5.Mod');
+goog.require('cwc.utils.mime.Type');
 
 
 /**
  * enum {Object}
  */
-cwc.mode.ConfigData = Object.assign({},
-  cwc.mode.games.Config,
-  cwc.mode.markup.Config,
-  cwc.mode.programming.Config,
-  cwc.mode.raw.Config,
-  cwc.mode.robot.Config,
-);
+cwc.mode.markup.Config = {};
+
+
+/**
+ * HTML5 mode.
+ */
+cwc.mode.markup.Config[cwc.mode.Type.HTML5] = new cwc.mode.Mod({
+  authors: ['Markus Bordihn'],
+  auto_preview: true,
+  icon: 'public',
+  mime_types: [cwc.utils.mime.Type.HTML.type],
+  mod: cwc.mode.html5.Mod,
+  name: 'HTML 5',
+  template: 'html5/blank.html',
+});

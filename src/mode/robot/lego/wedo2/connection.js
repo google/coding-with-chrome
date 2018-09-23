@@ -91,20 +91,17 @@ cwc.mode.lego.weDo2.Connection.prototype.init = function() {
       false, this);
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setBluetoothWebHandler(this.requestDevice.bind(this));
+  }
+
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
-  let connectScreenInstance = this.helper.getInstance('connectScreen');
-  connectScreenInstance.requestBluetoothDevice(this.device_).then(
-    (bluetoothDevice) => {
-      bluetoothDevice.connect().then((device) => {
-        this.api_.connect(device);
-      });
-  }).catch(() => {
-    this.connectMonitor.start();
-  });
+  this.requestDevice();
 };
 
 
@@ -131,6 +128,20 @@ cwc.mode.lego.weDo2.Connection.prototype.connect = function(opt_event) {
 
 
 /**
+ * Disconnects the Sphero SPRK+.
+ */
+cwc.mode.lego.weDo2.Connection.prototype.disconnect = function() {
+  this.log_.info('Disconnect ...');
+  if (this.connectMonitor) {
+    this.connectMonitor.stop();
+  }
+  this.stop();
+  this.events_.clear();
+  this.api_.disconnect();
+};
+
+
+/**
  * Stops the current executions.
  */
 cwc.mode.lego.weDo2.Connection.prototype.stop = function() {
@@ -151,6 +162,24 @@ cwc.mode.lego.weDo2.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
+};
+
+
+/**
+ * Request device to connect.
+ */
+cwc.mode.lego.weDo2.Connection.prototype.requestDevice = function() {
+  let connectScreenInstance = this.helper.getInstance('connectScreen');
+  connectScreenInstance.requestBluetoothDevice(this.device_).then(
+    (bluetoothDevice) => {
+      bluetoothDevice.connect().then((device) => {
+        this.api_.connect(device);
+      }).catch((error) => {
+        this.helper.showError(error);
+      });
+  }).catch(() => {
+    this.connectMonitor.start();
+  });
 };
 
 

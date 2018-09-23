@@ -27,8 +27,14 @@
   z-index: 1;
 }
 
+#{$prefix}menu-bar-services-body > div {
+  float: right;
+  z-index: 1;
+}
+
 #{$prefix}menu-bar-account-logout-disabled,
 #{$prefix}menu-bar-bluetooth-disabled,
+#{$prefix}menu-bar-bluetooth-web-disabled,
 #{$prefix}menu-bar-gamepad {
   opacity: 0.5;
 }

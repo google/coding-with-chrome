@@ -91,22 +91,17 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
       false, this);
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setBluetoothWebHandler(this.requestDevice.bind(this));
+  }
+
   if (!this.connectMonitor) {
     this.connectMonitor = new goog.Timer(this.connectMonitorInterval);
     this.events_.listen(this.connectMonitor, goog.Timer.TICK,
       this.connect.bind(this));
   }
-  let connectScreenInstance = this.helper.getInstance('connectScreen');
-  connectScreenInstance.requestBluetoothDevice(this.device_).then(
-    (bluetoothDevice) => {
-      bluetoothDevice.connect().then((device) => {
-        this.api_.connect(device);
-      }).catch((error) => {
-        this.helper.showError(error);
-      });
-  }).catch(() => {
-    this.connectMonitor.start();
-  });
+  this.requestDevice();
 };
 
 
@@ -121,7 +116,6 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
     if (!bluetoothInstance) {
       return;
     }
-
     let devices = bluetoothInstance.getDevicesByName(this.device_.name);
     if (devices) {
       devices[0].connect().then((device) => {
@@ -167,6 +161,24 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
+};
+
+
+/**
+ * Request device to connect.
+ */
+cwc.mode.sphero.sprkPlus.Connection.prototype.requestDevice = function() {
+  let connectScreenInstance = this.helper.getInstance('connectScreen');
+  connectScreenInstance.requestBluetoothDevice(this.device_).then(
+    (bluetoothDevice) => {
+      bluetoothDevice.connect().then((device) => {
+        this.api_.connect(device);
+      }).catch((error) => {
+        this.helper.showError(error);
+      });
+  }).catch(() => {
+    this.connectMonitor.start();
+  });
 };
 
 

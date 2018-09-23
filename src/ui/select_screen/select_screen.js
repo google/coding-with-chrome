@@ -165,6 +165,11 @@ cwc.ui.SelectScreen.prototype.showSelectScreen = function(forceOverview) {
     navigationInstance.setHeader('Coding with Chrome', 'turned_in');
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.showServices(false);
+  }
+
   let guiInstance = this.helper.getInstance('gui', true);
   guiInstance.setTitle('');
   guiInstance.setStatus('');

@@ -1,7 +1,7 @@
 /**
- * @fileoverview Editor mode config data for the Coding with Chrome editor.
+ * @fileoverview Supported services for the Coding with Chrome editor.
  *
- * @license Copyright 2016 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,16 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.mode.ConfigData');
-
-goog.require('cwc.mode.games.Config');
-goog.require('cwc.mode.markup.Config');
-goog.require('cwc.mode.programming.Config');
-goog.require('cwc.mode.raw.Config');
-goog.require('cwc.mode.robot.Config');
+goog.provide('cwc.mode.Service');
 
 
 /**
- * enum {Object}
+ * Enum of services modes.
+ * @enum {string}
  */
-cwc.mode.ConfigData = Object.assign({},
-  cwc.mode.games.Config,
-  cwc.mode.markup.Config,
-  cwc.mode.programming.Config,
-  cwc.mode.raw.Config,
-  cwc.mode.robot.Config,
-);
+cwc.mode.Service = {
+  BLUETOOTH: 'bluetooth',
+  BLUETOOTH_WEB: 'bluetoothWeb',
+  GAMEPAD: 'gamepad',
+  USB: 'usb',
+};
