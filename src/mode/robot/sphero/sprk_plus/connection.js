@@ -107,10 +107,9 @@ cwc.mode.sphero.sprkPlus.Connection.prototype.init = function() {
 
 /**
  * Connects the Sphero SPRK+.
- * @param {Event=} opt_event
  * @export
  */
-cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function(opt_event) {
+cwc.mode.sphero.sprkPlus.Connection.prototype.connect = function() {
   if (!this.isConnected()) {
     let bluetoothInstance = this.helper.getInstance('bluetoothWeb');
     if (!bluetoothInstance) {

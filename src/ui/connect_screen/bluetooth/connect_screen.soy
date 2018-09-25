@@ -33,17 +33,14 @@
   {if $found_devices} 
     {call .devices data="all" /}
   {else}
-    {msg desc=""}
-      Please make sure that the bluetooth device is charged and turned on.
-    {/msg}
+    {msg desc=""}@@CONNECT_SCREEN__CONNECT_NOTE{/msg}
   {/if}
 
   {if $ble}
     <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-      <i class="material-icons">add</i> Search for Bluetooth devices ...
+      <i class="material-icons">add</i> {msg desc=""}@@CONNECT_SCREEN__SEARCH_FOR_DEVICE{/msg}
     </button>
   {/if}
-
 {/template}
 
 
@@ -130,16 +127,14 @@
   {@param prefix: string}
 
   <p>
-    {msg desc=""}Please make sure that{/msg} {$device['name']}
-    {msg desc=""}is charged and turned on.{/msg}
+    {msg desc=""}@@CONNECT_SCREEN__TURN_ON_NOTE{/msg} {$device['name']}
   </p>
 
   {if $ble}
     <button id="{$prefix}search-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-      <i class="material-icons">add</i> Search for {$device['name']} ...
+      <i class="material-icons">add</i> {msg desc=""}@@CONNECT_SCREEN__SEARCH_FOR{/msg} {$device['name']} ...
     </button>
   {/if}
-
 {/template}
 
 
@@ -195,7 +190,7 @@
           {elseif $id}
             data-id="{$id}"
           {/if}
-          title="{msg desc=""}Disonnect {$type} device{/msg}">
+          title="{msg desc=""}Disconnect {$type} device{/msg}">
           bluetooth_connected
         </i>
       {else}

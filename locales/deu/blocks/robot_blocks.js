@@ -19,7 +19,10 @@
  */
 /* eslint-disable max-len */
 Locales['deu']['BLOCKS_ROBOT'] = {
+  'EVENTS': 'Ereignisse',
   'HEADING': 'Richtung',
+  'LIGHTS': 'Lichter',
+  'MOVEMENTS': 'Bewegungen',
   'ON_COLLISION': 'bei Kollision',
   'ON_POSITION_CHANGE': 'bei Positionsänderung',
   'RESET_ROBOT': 'Roboter zurücksetzten',

@@ -87,6 +87,11 @@ cwc.mode.makeblock.mBot.Connection.prototype.init = function() {
       false, this);
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setBluetoothWebHandler(this.requestDevice.bind(this));
+  }
+
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
     if (bluetoothInstance.getDeviceByName(this.device_.namePrefix)) {
@@ -115,10 +120,9 @@ cwc.mode.makeblock.mBot.Connection.prototype.init = function() {
 
 /**
  * Connects the mBot robot.
- * @param {Event=} opt_event
  * @export
  */
-cwc.mode.makeblock.mBot.Connection.prototype.connect = function(opt_event) {
+cwc.mode.makeblock.mBot.Connection.prototype.connect = function() {
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (!bluetoothInstance) {
     return;
@@ -152,6 +156,13 @@ cwc.mode.makeblock.mBot.Connection.prototype.reset = function() {
   if (this.isConnected()) {
     this.api_.reset();
   }
+};
+
+
+/**
+ * Request device to connect.
+ */
+cwc.mode.makeblock.mBot.Connection.prototype.requestDevice = function() {
 };
 
 

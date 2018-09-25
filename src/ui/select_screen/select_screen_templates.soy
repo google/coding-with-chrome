@@ -236,7 +236,7 @@
   {call .dataActionLink_ data="all"}
     {param classes: 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect' /}
     {param content kind="html"}
-      {msg desc=""}{$text}{/msg}
+      {msg desc=""}@@SELECT_SCREEN__USE{/msg} {$text}
       <i class="material-icons">chevron_right</i>
     {/param}
   {/call}
@@ -380,7 +380,26 @@
 
 
 /**
- * Bluetooth web notification
+ * Bluetooth notification
+ */
+{template .bluetooth}
+  {@param bluetooth: bool}
+
+  {if not $bluetooth}
+    {call cwc.soy.ui.Infobar.template}
+      {param type: 'error' /}
+      {param content kind="html"}
+        {msg desc=""}@@SELECT_SCREEN__BLUETOOTH_NOT_AVAILABLE{/msg}
+        (Try <a href="https://chrome.google.com/webstore/detail/coding-with-chrome/becloognjehhioodmnimnehjcibkloed" target="_blank">Chrome App</a> or
+        <a href="https://github.com/google/coding-with-chrome/releases" target="_blank">Native App</a>)
+      {/param}
+    {/call}
+  {/if}
+{/template}
+
+
+/**
+ * Bluetooth Web notification
  */
 {template .bluetoothWeb}
   {@param bluetoothWeb: bool}

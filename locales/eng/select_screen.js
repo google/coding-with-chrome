@@ -19,9 +19,11 @@
  */
 /* eslint-disable max-len */
 Locales['eng']['SELECT_SCREEN'] = {
-  'LOAD_FILE': 'Load {$title}',
-  'BLUETOOTH_WEB_NOT_AVAILABLE': 'Required Web Bluetooth support is not available.',
+  'BLUETOOTH_NOT_AVAILABLE': 'Required Bluetooth support is not available.',
   'BLUETOOTH_WEB_LIGHT': 'Required Web Bluetooth support is currently limited on Windows OS.',
+  'BLUETOOTH_WEB_NOT_AVAILABLE': 'Required Web Bluetooth support is not available.',
+  'LOAD_FILE': 'Load {$title}',
+  'USE': 'Use',
 };
 
 

@@ -27,6 +27,10 @@
 
   {call cwc.soy.SelectScreenTemplate.container}
 
+    {param infobar kind="html"}
+      {call cwc.soy.SelectScreenTemplate.bluetooth data="all" /}
+    {/param}
+
     {param header kind="html"}
       {call cwc.soy.SelectScreenTemplate.header}
         {param title: 'Robots: mBot Ranger' /}

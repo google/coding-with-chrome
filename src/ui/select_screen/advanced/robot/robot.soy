@@ -146,7 +146,7 @@
 
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-            {param text: 'Use EV3 Robot' /}
+            {param text: 'EV3 Robot' /}
             {param tab: 'lego_ev3' /}
           {/call}
         {/param}
@@ -162,18 +162,18 @@
 
         {param content kind="html"}
           {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-            {param text: 'Use Sphero 2.0 robot' /}
+            {param text: 'Sphero 2.0 robot' /}
             {param tab: 'sphero_classic' /}
           {/call}
 
           {if $experimental}
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-              {param text: 'Use Sphero SPRK+ robot' /}
+              {param text: 'Sphero SPRK+ robot' /}
               {param tab: 'sphero_sprk_plus' /}
             {/call}
 
             {call cwc.soy.SelectScreenTemplate.selectSectionLink}
-              {param text: 'Use Sphero BB-8 robot' /}
+              {param text: 'Sphero BB-8 robot' /}
               {param tab: 'sphero_bb8' /}
             {/call}
           {/if}

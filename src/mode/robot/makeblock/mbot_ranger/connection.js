@@ -87,6 +87,11 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.init = function() {
       false, this);
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setBluetoothWebHandler(this.requestDevice.bind(this));
+  }
+
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
     if (bluetoothInstance.getDeviceByName(this.device_.namePrefix)) {
@@ -154,6 +159,13 @@ cwc.mode.makeblock.mBotRanger.Connection.prototype.reset = function(opt_event) {
   if (this.isConnected()) {
     this.api_.reset();
   }
+};
+
+
+/**
+ * Request device to connect.
+ */
+cwc.mode.makeblock.mBotRanger.Connection.prototype.requestDevice = function() {
 };
 
 

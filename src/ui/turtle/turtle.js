@@ -53,14 +53,14 @@ cwc.ui.Turtle = function(helper, image = '') {
   /** @type {string} */
   this.targetOrigin = '*';
 
-  /** @type {boolean} */
-  this.ready = false;
-
   /** @type {string} */
   this.image = image;
 
   /** @type {Array} */
   this.listener_ = [];
+
+  /** @private {boolean} */
+  this.webviewSupport_ = this.helper.checkChromeFeature('webview');
 
   /** @private {!cwc.utils.Logger} */
   this.log_ = new cwc.utils.Logger(this.name);
@@ -72,20 +72,18 @@ cwc.ui.Turtle = function(helper, image = '') {
  * @param {Element} node The target node to add the turtle window.
  */
 cwc.ui.Turtle.prototype.decorate = function(node) {
-  this.ready = false;
   this.node = node;
 
   goog.soy.renderElement(
       this.node, cwc.soy.Turtle.template, {'prefix': this.prefix});
 
-  // Content
+  // Turtle content
   this.nodeContent = goog.dom.getElement(this.prefix + 'content');
-  this.content = document.createElement('webview');
-  this.content.setAttribute('partition', 'turtle');
-  this.content.addEventListener('consolemessage',
-      this.handleConsoleMessage_.bind(this), false);
-  this.content.addEventListener('loadstop',
-      this.handleLoadStop_.bind(this), false);
+  this.content = this.webviewSupport_
+    ? document.createElement('webview') : document.createElement('iframe');
+  if (this.webviewSupport_) {
+    this.content.setAttribute('partition', 'turtle');
+  }
   goog.dom.appendChild(this.nodeContent, this.content);
   this.content.src = this.renderContent_();
 };
@@ -131,24 +129,4 @@ cwc.ui.Turtle.prototype.renderContent_ = function() {
   body += '\n<script>\n  new cwc.framework.Turtle();\n</script>\n';
   let html = helper.getHTMLGrid(body, header);
   return helper.getDataURL(html);
-};
-
-
-/**
- * Displays the end of the load event.
- * @param {Event=} opt_event
- */
-cwc.ui.Turtle.prototype.handleLoadStop_ = function(opt_event) {
-  this.log_.info('Turtle graphic loaded ...');
-  this.ready = true;
-};
-
-
-/**
- * Collects all messages from the preview window for the console.
- * @param {Event} e
- * @private
- */
-cwc.ui.Turtle.prototype.handleConsoleMessage_ = function(e) {
-  this.log_.info('Turtle Runner message:', e);
 };

@@ -19,8 +19,8 @@
  */
 goog.provide('cwc.ui.MenuBarUsb');
 
-
-goog.require('cwc.lib.protocol.bluetoothChrome.Events');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 
 /**

@@ -19,8 +19,9 @@
  */
 goog.provide('cwc.ui.MenuBarBluetoothWeb');
 
-
 goog.require('cwc.lib.protocol.bluetoothWeb.Events');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 
 goog.scope(function() {

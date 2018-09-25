@@ -19,8 +19,9 @@
  */
 goog.provide('cwc.ui.MenuBarBluetooth');
 
-
 goog.require('cwc.lib.protocol.bluetoothChrome.Events');
+goog.require('cwc.utils.Events');
+goog.require('cwc.utils.Logger');
 
 
 goog.scope(function() {
@@ -44,7 +45,7 @@ cwc.ui.MenuBarBluetooth = function(helper) {
   this.prefix = this.helper.getPrefix('menu-bar');
 
   /** @type {Element} */
-  this.node = null;
+  this.nodeConnect = null;
 
   /** @type {Element} */
   this.nodeConnected = null;
@@ -58,6 +59,9 @@ cwc.ui.MenuBarBluetooth = function(helper) {
   /** @type {boolean|undefined} */
   this.bluetoothConnectStatus = undefined;
 
+  /** @private {Function} */
+  this.clickHandler_ = function() {};
+
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name, this.prefix, this);
 
@@ -67,16 +71,10 @@ cwc.ui.MenuBarBluetooth = function(helper) {
 
 
 cwc.ui.MenuBarBluetooth.prototype.decorate = function() {
-  // Bluetooth body
-  this.show();
-
-  // Bluetooth enabled
-  this.node = goog.dom.getElement(this.prefix + 'bluetooth');
-  this.events_.listen(this.node, goog.events.EventType.CLICK,
-    function() {
-      let connectScreenInstance = this.helper.getInstance('connectScreen');
-      connectScreenInstance.showBluetoothDevices();
-    });
+  // Bluetooth connect
+  this.nodeConnect = goog.dom.getElement(this.prefix + 'bluetooth-connect');
+  this.events_.listen(this.nodeConnect, goog.events.EventType.CLICK,
+    this.handleClick_);
 
   // Bluetooth connected
   this.nodeConnected = goog.dom.getElement(
@@ -103,16 +101,33 @@ cwc.ui.MenuBarBluetooth.prototype.decorate = function() {
       BluetoothEvents.Type.DEVICE_STATE_CHANGE,
       this.handleBluetoothDeviceChange_);
   }
+
+  this.show();
+};
+
+
+/**
+ * @param {Function} func
+ */
+cwc.ui.MenuBarBluetooth.prototype.setClickHandler = function(func) {
+  this.clickHandler_ = func;
 };
 
 
 /**
  * @param {boolean=} visible
+ * @param {boolean=} connected
  */
-cwc.ui.MenuBarBluetooth.prototype.show = function(visible = true) {
+cwc.ui.MenuBarBluetooth.prototype.show = function(visible = true,
+    connected = false) {
   goog.style.setElementShown(
-    goog.dom.getElement(this.prefix + 'bluetooth-body'),
-    this.helper.checkChromeFeature('bluetooth') && visible);
+    goog.dom.getElement(this.prefix + 'bluetooth-body'), visible);
+  if (visible) {
+    let enabled = this.helper.checkChromeFeature('bluetooth');
+    goog.style.setElementShown(this.nodeConnect, !connected && enabled);
+    goog.style.setElementShown(this.nodeConnected, connected);
+    goog.style.setElementShown(this.nodeDisabled, !enabled);
+  }
 };
 
 
@@ -136,8 +151,6 @@ cwc.ui.MenuBarBluetooth.prototype.handleBluetoothAdapterChange_ = function(e) {
   if (this.bluetooth === e.data.enabled) {
     return;
   }
-  goog.style.setElementShown(this.node, e.data.enabled);
-  goog.style.setElementShown(this.nodeConnected, false);
   goog.style.setElementShown(this.nodeDisabled, !e.data.enabled);
   this.bluetooth = e.data.enabled;
 };
@@ -151,12 +164,18 @@ cwc.ui.MenuBarBluetooth.prototype.handleBluetoothDeviceChange_ = function(e) {
   if (this.bluetoothConnectStatus === e.data.connected) {
     return;
   }
-  goog.style.setElementShown(this.node, !e.data.connected);
-  goog.style.setElementShown(this.nodeConnected, e.data.connected);
-  goog.style.setElementShown(this.nodeDisabled, false);
+  this.show(true, e.data.connected);
   this.bluetoothConnectStatus = e.data.connected;
 };
 
+
+/**
+ * Cleans up the event listener and any other modification.
+ * @private
+ */
+cwc.ui.MenuBarBluetooth.prototype.handleClick_ = function() {
+  this.clickHandler_();
+};
 
 /**
  * Cleans up the event listener and any other modification.

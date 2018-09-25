@@ -1,5 +1,5 @@
 /**
- * @fileoverview Translation file for robot blocks (english).
+ * @fileoverview Translation file for the Connect screen (german).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -18,24 +18,9 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 /* eslint-disable max-len */
-Locales['eng']['BLOCKS_ROBOT'] = {
-  'EVENTS': 'Events',
-  'HEADING': 'heading',
-  'LIGHTS': 'Lights',
-  'MOVEMENTS': 'Movements',
-  'ON_COLLISION': 'on collision',
-  'ON_POSITION_CHANGE': 'on position change',
-  'RESET_ROBOT': 'reset robot',
-  'ROLL_FOR': 'roll for',
-  'ROLL_WITH': 'roll with',
-  'ROTATE': 'rotate',
-  'SET_BACKLIGHT': 'set backlight',
-  'SET_BLINK': 'set blink',
-  'SET_COLOR': 'set color',
-  'SET_HEADING': 'set heading',
-  'SET_SPEED': 'set speed',
-  'SET_STABILIZATION': 'set stabilization',
-  'SPEED': 'speed',
-  'START': 'Program Start',
-  'STOP_MOTORS': 'stop motors',
+Locales['deu']['CONNECT_SCREEN'] = {
+  'TURN_ON_NOTE': 'Bitte stelle sicher dass das folgende Gerät aufgeladen und eingeschaltet ist:',
+  'CONNECT_NOTE': 'Bitte stelle sicher dass das Bluetooth Gerät aufgeladen und eingeschaltet ist.',
+  'SEARCH_FOR': 'Such nach',
+  'SEARCH_FOR_DEVICE': 'Suche nach Bluetooth Geräte ...',
 };

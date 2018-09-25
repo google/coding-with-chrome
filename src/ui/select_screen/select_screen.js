@@ -277,6 +277,7 @@ cwc.ui.SelectScreen.prototype.addFileHandler_ = function() {
 cwc.ui.SelectScreen.prototype.showTemplate_ = function(template) {
   if (this.nodeContent && template) {
     goog.soy.renderElement(this.nodeContent, template, {
+      bluetooth: Feature.hasBluetooth(),
       bluetoothWeb: Feature.hasBluetoothWeb(),
       bluetoothWebLight: Feature.hasBluetoothWebLight(),
       debug: this.helper.debugEnabled(),

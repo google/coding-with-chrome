@@ -89,6 +89,11 @@ cwc.mode.lego.ev3.Connection.prototype.init = function() {
       false, this);
   }
 
+  let menuBarInstance = this.helper.getInstance('menuBar');
+  if (menuBarInstance) {
+    menuBarInstance.setBluetoothWebHandler(this.requestDevice.bind(this));
+  }
+
   let bluetoothInstance = this.helper.getInstance('bluetoothChrome');
   if (bluetoothInstance) {
     if (bluetoothInstance.getDeviceByName(this.device_.namePrefix)) {
@@ -194,6 +199,24 @@ cwc.mode.lego.ev3.Connection.prototype.stop = function() {
     previewInstance.stop();
   }
   this.api_.exec('stop');
+};
+
+
+/**
+ * Resets the connection.
+ * @export
+ */
+cwc.mode.lego.ev3.Connection.prototype.reset = function() {
+  if (this.isConnected()) {
+    this.api_.reset();
+  }
+};
+
+
+/**
+ * Request device to connect.
+ */
+cwc.mode.lego.ev3.Connection.prototype.requestDevice = function() {
 };
 
 

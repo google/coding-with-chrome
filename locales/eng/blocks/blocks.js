@@ -17,16 +17,17 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-/* eslint-disable max-len */
 Locales['eng']['BLOCKS'] = {
   'ALL': 'all',
   'AND': 'and',
   'AS': 'as',
   'CHANGE': 'change',
   'CLEAR_DISPLAY': 'clear_display',
+  'CONTROL': 'Control',
   'DEFINE': 'define',
   'DESTROY': 'destroy',
   'DISABLE': 'disable',
+  'DISPLAY': 'Display',
   'DISPLAY_TEXT': 'display text',
   'DO': 'do',
   'DOWN': 'down',

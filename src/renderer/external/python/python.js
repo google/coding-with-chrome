@@ -37,6 +37,9 @@ goog.require('cwc.utils.Helper');
 cwc.renderer.external.Python = function(helper) {
   /** @type {!cwc.utils.Helper} */
   this.helper = helper;
+
+  /** @private {cwc.Cache} */
+  this.cache_ = this.helper.getInstance('cache');
 };
 
 
@@ -45,7 +48,7 @@ cwc.renderer.external.Python = function(helper) {
  * @return {!Promise}
  */
 cwc.renderer.external.Python.prototype.init = function() {
-  let rendererInstance = this.helper.getInstance('renderer', true);
+  let rendererInstance = this.helper.getInstance('renderer');
   rendererInstance.setServerMode(true);
   return rendererInstance.setRenderer(this.render.bind(this));
 };
@@ -67,20 +70,7 @@ cwc.renderer.external.Python.prototype.render = function(
   // Python 2.x handling.
   if (content.includes('#!/usr/bin/python2.') ||
       content.includes('print \'')) {
-    let header = rendererHelper.getJavaScriptURLs([
-      cwc.config.framework.External.JQUERY.V2_2_4,
-      cwc.config.framework.External.SKULPT.CORE,
-      cwc.config.framework.External.SKULPT.STDLIB,
-      cwc.config.framework.Internal.PYTHON2,
-    ]);
-    header += rendererHelper.getStyleSheetURL(
-      /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
-    let body = '<div id="content"></div>' +
-    '<script id="code" type="text/python">\n' +
-      content +
-    '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
-
-    return rendererHelper.getHTML(body, header);
+    return this.renderPython2(content, rendererHelper);
   }
 
   // Python 3.x as default
@@ -92,8 +82,34 @@ cwc.renderer.external.Python.prototype.render = function(
   header += rendererHelper.getStyleSheetURL(
     /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
   let body = '<div id="container"></div>' +
+  // '<script>__BRYTHON__.has_indexedDB = false</script>' +
   '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
   '<script>new cwc.framework.Python3().run();</script>';
+
+  return rendererHelper.getHTML(body, header);
+};
+
+
+/**
+ * @param {string} content
+ * @param {cwc.renderer.Helper} rendererHelper
+ * @return {string}
+ * @export
+ */
+cwc.renderer.external.Python.prototype.renderPython2 = function(
+    content, rendererHelper) {
+  let header = rendererHelper.getJavaScriptURLs([
+    cwc.config.framework.External.JQUERY.V2_2_4,
+    cwc.config.framework.External.SKULPT.CORE,
+    cwc.config.framework.External.SKULPT.STDLIB,
+    cwc.config.framework.Internal.PYTHON2,
+  ]);
+  header += rendererHelper.getStyleSheetURL(
+    /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
+  let body = '<div id="content"></div>' +
+  '<script id="code" type="text/python">\n' +
+    content +
+  '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
 
   return rendererHelper.getHTML(body, header);
 };

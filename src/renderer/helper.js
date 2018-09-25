@@ -296,7 +296,7 @@ cwc.renderer.Helper.prototype.getJavaScriptContent = function(content) {
 cwc.renderer.Helper.prototype.getJavaScriptURL = function(url, filename,
     baseURL) {
   return cwc.soy.Renderer.javaScriptUrl({
-    url: (baseURL || '') + url,
+    url: this.getBaseUrl(url, baseURL),
     filename: filename || url,
   }).getContent();
 };
@@ -350,7 +350,7 @@ cwc.renderer.Helper.prototype.getJavaScriptDataURL = function(data,
 cwc.renderer.Helper.prototype.getStyleSheetURL = function(url, filename,
     baseURL) {
   return cwc.soy.Renderer.styleSheetUrl({
-    url: (baseURL || '') + url,
+    url: this.getBaseUrl(url, baseURL),
     filename: filename || url,
   }).getContent();
 };
@@ -407,6 +407,26 @@ cwc.renderer.Helper.prototype.getCacheFilesHeader = function(names, cache) {
     headers += this.getCacheFileHeader(name, cache);
   }
   return headers;
+};
+
+
+/**
+ * @param {string=} url
+ * @param {string=} baseUrl
+ * @return {string}
+ * @export
+ */
+cwc.renderer.Helper.prototype.getBaseUrl = function(url = '', baseUrl = '') {
+  if (baseUrl && !url.includes(baseUrl)) {
+    return baseUrl + url;
+  }
+  if (window.location && window.location.protocol && window.location.host &&
+      !url.includes(window.location.host) && (
+      window.location.protocol === 'http:' ||
+      window.location.protocol === 'https:')) {
+    return window.location.protocol + '//' + window.location.host + url;
+  }
+  return url;
 };
 
 

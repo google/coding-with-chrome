@@ -26,26 +26,7 @@
  */
 {template .toolbox}
   <xml>
-    <category name="Movements" colour="120">
-      <block type="sphero_sprk_plus_roll">
-        <value name="speed">
-          <block type="math_number"><field name="NUM">40</field></block>
-        </value>
-      </block>
-      <block type="sphero_sprk_plus_heading">
-        <value name="heading">
-          <block type="general_input_angle"></block>
-        </value>
-      </block>
-      <block type="sphero_sprk_plus_speed">
-        <value name="speed">
-          <block type="math_number"><field name="NUM">40</field></block>
-        </value>
-      </block>
-      <block type="sphero_sprk_plus_stop"></block>
-    </category>
-
-    <category name="Movements (Advance)" colour="120">
+    <category name="@@BLOCKS_ROBOT__MOVEMENTS" colour="120">
       <block type="sphero_sprk_plus_roll_step">
         <value name="speed">
           <block type="math_number"><field name="NUM">40</field></block>
@@ -65,11 +46,26 @@
           <block type="general_input_angle"></block>
         </value>
       </block>
+      <block type="sphero_sprk_plus_roll">
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="sphero_sprk_plus_heading">
+        <value name="heading">
+          <block type="general_input_angle"></block>
+        </value>
+      </block>
+      <block type="sphero_sprk_plus_speed">
+        <value name="speed">
+          <block type="math_number"><field name="NUM">40</field></block>
+        </value>
+      </block>
+      <block type="sphero_sprk_plus_stop"></block>
       <block type="sphero_sprk_plus_stabilization"></block>
-
     </category>
 
-    <category name="Lights" colour="130">
+    <category name="@@BLOCKS_ROBOT__LIGHTS" colour="130">
       <block type="sphero_sprk_plus_rgb">
         <value name="colour">
           <block type="colour_picker">
@@ -87,7 +83,7 @@
       <block type="sphero_sprk_plus_backlight"></block>
     </category>
 
-    <category name="Events" colour="120">
+    <category name="@@BLOCKS_ROBOT__EVENTS" colour="120">
       <block type="sphero_sprk_plus_collision"></block>
       <block type="sphero_sprk_plus_position_change">
         <value name="CODE">

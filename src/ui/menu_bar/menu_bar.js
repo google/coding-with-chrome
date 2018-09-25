@@ -33,7 +33,6 @@ goog.require('goog.dom.fullscreen');
 goog.require('goog.soy');
 
 
-goog.scope(function() {
 /**
  * @param {!cwc.utils.Helper} helper
  * @constructor
@@ -360,4 +359,3 @@ cwc.ui.MenuBar.prototype.setLanguage = function(language) {
 cwc.ui.MenuBar.prototype.cleanUp_ = function() {
   this.events_.clear();
 };
-});
