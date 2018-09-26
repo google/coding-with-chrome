@@ -410,7 +410,6 @@ cwc.ui.Tutorial.prototype.parseDescription_ = function(description) {
   }
 };
 
-
 /**
  * Renders the tutorial in the sidebar.
  * @export
@@ -421,7 +420,8 @@ cwc.ui.Tutorial.prototype.startTutorial = function() {
     this.log_.error('Attempt to start tutorial before setting tutorial.');
     return;
   }
-  const sidebarInstance = this.helper.getInstance('sidebar');
+
+  let sidebarInstance = this.helper.getInstance('sidebar');
   if (sidebarInstance) {
     sidebarInstance.showTemplateContent('tutorial', 'Tutorial',
       cwc.soy.ui.Tutorial.template, {
@@ -653,17 +653,15 @@ cwc.ui.Tutorial.prototype.getActiveMessageNode_ = function() {
 
 /**
  * @export
- * @return {string|null}
+ * @return {object|null}
  */
-cwc.ui.Tutorial.prototype.getValidateFunction = function() {
+cwc.ui.Tutorial.prototype.getValidate = function() {
   let step = this.getActiveStep_();
   if (!step || !step.validate) {
-    this.log_.info('No validation script for step', step);
     return null;
   }
   return step.validate;
 };
-
 
 /**
  * Shows media in a full screen overlay.
@@ -908,10 +906,8 @@ cwc.ui.Tutorial.prototype.setMessage = function(message) {
     this.log_.warn('No active message node, can\'t set message ', message);
     return;
   }
-  if (message) {
-    goog.soy.renderElement(node, cwc.soy.ui.Tutorial.message,
-      {message: message});
-  }
+  goog.soy.renderElement(node, cwc.soy.ui.Tutorial.message,
+    {message: (typeof message === 'string') ? message : ''});
   goog.style.setElementShown(node, message ? true : false);
 };
 
