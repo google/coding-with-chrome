@@ -23,6 +23,7 @@ describe('[Mode EV3 - Advanced]', function() {
   prepareEditor();
   describe('Prepare Mode', function() {
     loadTemplateFile('lego/ev3/blank.cwc', it);
+    loadExampleFile('lego/ev3/script/EV3-IR-Sensor.cwc', it);
     loadExampleFile('lego/ev3/script/EV3-line-follower.cwc', it);
   });
 });

@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.ui.Account');
+goog.provide('cwc.ui.gapi.Account');
 
 goog.require('cwc.utils.Logger');
 
@@ -31,9 +31,9 @@ goog.require('goog.net.XhrIo');
  * @constructor
  * @struct
  */
-cwc.ui.Account = function(helper) {
+cwc.ui.gapi.Account = function(helper) {
   /** @type {string} */
-  this.name = 'Account';
+  this.name = 'GAPI Account';
 
   /** @type {boolean} */
   this.online = false;
@@ -73,7 +73,8 @@ cwc.ui.Account = function(helper) {
 /**
  * Prepares the account status.
  */
-cwc.ui.Account.prototype.prepare = function() {
+cwc.ui.gapi.Account.prototype.prepare = function() {
+  this.log_.info('Preparing ...');
   goog.events.listen(window, 'offline', this.handleOnlineStatus_, false, this);
   goog.events.listen(window, 'online', this.handleOnlineStatus_, false, this);
   this.setOnlineStatus(window.navigator.onLine);
@@ -85,7 +86,7 @@ cwc.ui.Account.prototype.prepare = function() {
  * Handles the oAuth 2.0 authentication.
  * @param {function(?)=} callback
  */
-cwc.ui.Account.prototype.authenticate = function(callback) {
+cwc.ui.gapi.Account.prototype.authenticate = function(callback) {
   this.log_.info('Try to authenticated...');
   let authentificationEvent = (function(opt_access_token) {
     this.handleAuthentication_(opt_access_token);
@@ -100,7 +101,7 @@ cwc.ui.Account.prototype.authenticate = function(callback) {
 /**
  * Deauthenticates the user.
  */
-cwc.ui.Account.prototype.deauthenticate = function() {
+cwc.ui.gapi.Account.prototype.deauthenticate = function() {
   this.log_.info('De-authenticated token: ' + this.accessToken);
   let unauthenticationEvent = this.setUnauthenticated.bind(this);
   chrome.identity.removeCachedAuthToken({'token': this.accessToken},
@@ -111,7 +112,7 @@ cwc.ui.Account.prototype.deauthenticate = function() {
 /**
  * @return {boolean} Whether the user is authenticated.
  */
-cwc.ui.Account.prototype.isAuthenticated = function() {
+cwc.ui.gapi.Account.prototype.isAuthenticated = function() {
   let authentificationEvent = this.handleAuthentication_.bind(this);
   chrome.identity.getAuthToken({'interactive': false}, authentificationEvent);
   return this.authenticated;
@@ -121,9 +122,9 @@ cwc.ui.Account.prototype.isAuthenticated = function() {
 /**
  * Requests user informations.
  */
-cwc.ui.Account.prototype.requestUserInfo = function() {
+cwc.ui.gapi.Account.prototype.requestUserInfo = function() {
   this.request({
-    'path': '/oauth2/v1/userinfo',
+    'path': '/userinfo/v2/me',
     'callback': this.setUserInfo.bind(this),
   });
 };
@@ -133,19 +134,20 @@ cwc.ui.Account.prototype.requestUserInfo = function() {
  * Sets user information to the given user_info.
  * @param {Object} user_info
  */
-cwc.ui.Account.prototype.setUserInfo = function(user_info) {
+cwc.ui.gapi.Account.prototype.setUserInfo = function(user_info) {
   this.userName = user_info['name'] || '';
   this.userFamilyName = user_info['family_name'] || '';
   this.userGivenName = user_info['given_name'] || '';
   this.userPicture = user_info['picture'] || '';
   this.userLink = user_info['link'] || '';
+  this.userLocal = user_info['local'] || 'en';
 };
 
 
 /**
  * @param {boolean} online
  */
-cwc.ui.Account.prototype.setOnlineStatus = function(online) {
+cwc.ui.gapi.Account.prototype.setOnlineStatus = function(online) {
   this.online = online;
 };
 
@@ -153,7 +155,7 @@ cwc.ui.Account.prototype.setOnlineStatus = function(online) {
 /**
  * Sets authentication to true.
  */
-cwc.ui.Account.prototype.setAuthenticated = function() {
+cwc.ui.gapi.Account.prototype.setAuthenticated = function() {
   this.setAuthentication(true);
 };
 
@@ -161,7 +163,7 @@ cwc.ui.Account.prototype.setAuthenticated = function() {
 /**
  * Sets authentication to false.
  */
-cwc.ui.Account.prototype.setUnauthenticated = function() {
+cwc.ui.gapi.Account.prototype.setUnauthenticated = function() {
   this.setAuthentication(false);
 };
 
@@ -170,7 +172,7 @@ cwc.ui.Account.prototype.setUnauthenticated = function() {
  * Sets the authentication.
  * @param {boolean} authenticated
  */
-cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
+cwc.ui.gapi.Account.prototype.setAuthentication = function(authenticated) {
   let menuBarInstance = this.helper.getInstance('menuBar');
   if (menuBarInstance) {
     menuBarInstance.setAuthenticated(authenticated);
@@ -185,29 +187,13 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
   if (navigationInstance) {
     navigationInstance.enableOpenGoogleDriveFile(authenticated);
     navigationInstance.enableSaveGoogleDriveFile(authenticated);
-    navigationInstance.enableOpenGoogleClassroom(authenticated);
-
-    if (authenticated) {
-      this.request({
-        subdomain: 'classroom',
-        path: '/v1/courses',
-        params: {
-          'studentId': 'me',
-        },
-      }, function(response) {
-        if (Object.keys(response).length > 0) {
-          navigationInstance.enableOpenGoogleClassroom(true);
-        }
-      });
-    } else {
-      navigationInstance.enableOpenGoogleClassroom(false);
-    }
   }
+  this.handleClassroomAuthentication_(authenticated);
 };
 
 
 /**
- * @param {Object} opts Contains options for http request, listed below:
+ * @param {Object} options Contains options for http request, listed below:
  *   - content: data to send with request.
  *   - header: Object of optional headers.
  *   - method: http method type (GET, POST, PUT, etc.)
@@ -219,22 +205,23 @@ cwc.ui.Account.prototype.setAuthentication = function(authenticated) {
  * @param {function(?)=} callback Called when http request completes.
  * @return {Promise} to wait on the completion of the http request.
  */
-cwc.ui.Account.prototype.request = function(opts, callback) {
-  let params = opts.params || {};
+cwc.ui.gapi.Account.prototype.request = function(options, callback) {
+  let ignoreErrors = options.ignore_errors || false;
+  let params = options.params || {};
   let subdomain = 'www';
-  if (opts.subdomain && typeof(opts.subdomain) === 'string' &&
-    opts.subdomain.match(/^[0-9a-zA-Z]+$/)) {
-    subdomain = opts.subdomain;
+  if (options.subdomain && typeof(options.subdomain) === 'string' &&
+    options.subdomain.match(/^[0-9a-zA-Z]+$/)) {
+    subdomain = options.subdomain;
   }
 
   let uri = subdomain + '.googleapis.com';
-  let url = goog.Uri.create('https', null, uri, null, opts.path);
-  if (opts.raw) {
-    url = new goog.Uri(opts.path);
+  let url = goog.Uri.create('https', null, uri, null, options.path);
+  if (options.raw) {
+    url = new goog.Uri(options.path);
   }
-  let method = opts.method || 'GET';
-  let content = opts.content;
-  let token = opts.token || this.accessToken || '';
+  let method = options.method || 'GET';
+  let content = options.content;
+  let token = options.token || this.accessToken || '';
 
   for (let i in params) {
     if (Object.prototype.hasOwnProperty.call(params, i)) {
@@ -242,7 +229,7 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
     }
   }
 
-  let headers = new Map(Object.entries(opts.header || {}));
+  let headers = new Map(Object.entries(options.header || {}));
   headers.set('Authorization', 'Bearer ' + token);
   headers.set('X-JavaScript-User-Agent', 'Coding with Chrome');
 
@@ -258,12 +245,16 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
           };
 
           let xhrErrorEvent = (event) => {
-            this.handleXhrError(event);
+            if (!ignoreErrors) {
+              this.handleXhrError(event);
+            }
             reject(event);
           };
 
           let xhrTimeoutEvent = (event) => {
-            this.handleXhrTimeout(event);
+            if (!ignoreErrors) {
+              this.handleXhrTimeout(event);
+            }
             reject(event);
           };
 
@@ -290,15 +281,14 @@ cwc.ui.Account.prototype.request = function(opts, callback) {
 
 
 /**
- * Handles the Xhr repsonse.
+ * Handles the XHR response.
  * @param {Event} e
- * @param {function(?)=} optCallback
+ * @param {function(?)=} callback
  */
-cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
+cwc.ui.gapi.Account.prototype.handleXhrResponse = function(e, callback) {
   /** @type {EventTarget|goog.net.XhrIo} */
   let xhr = e.target;
   let response = '';
-  this.log_.info('Handle Xhr response:', xhr);
 
   if (xhr.isSuccess()) {
     let rawResponse = xhr.getResponseText();
@@ -307,9 +297,12 @@ cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
     } catch (error) {
       response = rawResponse;
     }
-    if (goog.isFunction(optCallback)) {
-      optCallback(response);
+    this.log_.info('Handle XHR response:', response);
+    if (goog.isFunction(callback)) {
+      callback(response);
     }
+  } else {
+    this.log_.error('XHR response was not successful:', xhr);
   }
 };
 
@@ -318,7 +311,7 @@ cwc.ui.Account.prototype.handleXhrResponse = function(e, optCallback) {
  * Handles Xhr errors.
  * @param {Event} event
  */
-cwc.ui.Account.prototype.handleXhrError = function(event) {
+cwc.ui.gapi.Account.prototype.handleXhrError = function(event) {
   this.helper.showError('Xhr request error!');
   this.log_.error(event);
 };
@@ -328,7 +321,7 @@ cwc.ui.Account.prototype.handleXhrError = function(event) {
  * Handles Xhr timeout.
  * @param {Event} event
  */
-cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
+cwc.ui.gapi.Account.prototype.handleXhrTimeout = function(event) {
   this.helper.showError('Xhr request timeout!');
   this.log_.error(event);
 };
@@ -336,12 +329,12 @@ cwc.ui.Account.prototype.handleXhrTimeout = function(event) {
 
 /**
  * Handles authentication and store access.
- * @param {string=} opt_access_token
+ * @param {string=} access_token
  * @private
  */
-cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
-  if (opt_access_token) {
-    this.accessToken = opt_access_token;
+cwc.ui.gapi.Account.prototype.handleAuthentication_ = function(access_token) {
+  if (access_token) {
+    this.accessToken = access_token;
     this.setAuthenticated();
     this.log_.info('Access token: ' + this.accessToken);
     this.requestUserInfo();
@@ -355,9 +348,37 @@ cwc.ui.Account.prototype.handleAuthentication_ = function(opt_access_token) {
 
 
 /**
- * @param {Event=} opt_event
+ * @param {boolean} authenticated
+ */
+cwc.ui.gapi.Account.prototype.handleClassroomAuthentication_ = function(
+    authenticated) {
+  let navigationInstance = this.helper.getInstance('navigation');
+  if (!navigationInstance) {
+    return;
+  }
+  if (authenticated) {
+    this.request({
+      ignore_errors: true,
+      subdomain: 'classroom',
+      path: '/v1/courses',
+      params: {
+        'studentId': 'me',
+      },
+    }).then((response) => {
+      navigationInstance.enableOpenGoogleClassroom(
+        Object.keys(response).length > 0);
+    }, () => {
+      navigationInstance.enableOpenGoogleClassroom(false);
+    });
+  } else {
+    navigationInstance.enableOpenGoogleClassroom(false);
+  }
+};
+
+
+/**
  * @private
  */
-cwc.ui.Account.prototype.handleOnlineStatus_ = function(opt_event) {
+cwc.ui.gapi.Account.prototype.handleOnlineStatus_ = function() {
   this.setOnlineStatus(window.navigator.onLine);
 };

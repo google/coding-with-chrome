@@ -30,7 +30,7 @@ chrome.app.runtime.onLaunched.addListener(
 
     let screenWidth = screen.availWidth;
     let screenHeight = screen.availHeight;
-    console.log('Screensize', screenWidth, 'x', screenHeight);
+    console.log('Screen-size', screenWidth, 'x', screenHeight);
     let editorWidth = 1280;
     let editorHeight = 720;
     let editorConfig = {

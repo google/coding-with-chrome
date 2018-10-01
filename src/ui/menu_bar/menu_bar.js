@@ -290,7 +290,7 @@ cwc.ui.MenuBar.prototype.setAuthenticated = function(auth) {
  * Logs in into Google Account for gDrive integration.
  */
 cwc.ui.MenuBar.prototype.loginAccount = function() {
-  this.helper.getInstance('account').authenticate();
+  this.helper.getInstance('gapi').authenticate();
 };
 
 
@@ -298,7 +298,7 @@ cwc.ui.MenuBar.prototype.loginAccount = function() {
  * Logs out of current Google Account.
  */
 cwc.ui.MenuBar.prototype.logoutAccount = function() {
-  this.helper.getInstance('account').deauthenticate();
+  this.helper.getInstance('gapi').deauthenticate();
 };
 
 

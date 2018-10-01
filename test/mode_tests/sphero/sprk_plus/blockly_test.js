@@ -1,7 +1,7 @@
 /**
- * @fileoverview Python 3.x framework for the messenger instance.
+ * @fileoverview Mode Sphero SPRK+ - Blockly
  *
- * @license Copyright 2017 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.framework.Python3');
 
 
-/**
- * @constructor
- * @struct
- * @final
- * @export
- */
-cwc.framework.Python3 = function() {
-  /** @type {string} */
-  this.name = 'Python 3.x Framework';
-
-  /** @type {boolean} */
-  this.indexedDBSupport = window.indexedDB && window.location &&
-    window.location.protocol !== 'data:';
-};
-
-
-/**
- * @export
- */
-cwc.framework.Python3.prototype.run = function() {
-  brython({
-    'indexedDB': this.indexedDBSupport,
+describe('[Mode Sphero SPRK+ - Blockly]', function() {
+  prepareEditor();
+  describe('Prepare Mode', function() {
+    loadTemplateFile('sphero/sprk_plus/blank-blocks.cwc', it);
+    loadExampleFile('sphero/sprk_plus/blocks/Sphero-collision.cwc', it);
+    loadExampleFile('sphero/sprk_plus/blocks/Sphero-rectangle.cwc', it);
   });
-};
+});

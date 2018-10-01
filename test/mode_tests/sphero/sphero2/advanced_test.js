@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode Sphero Classic - Blockly
+ * @fileoverview Mode Sphero 2.0 - Advanced
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,11 +19,10 @@
  */
 
 
-describe('[Mode Sphero Classic - Blockly]', function() {
+describe('[Mode Sphero 2.0 - Advanced]', function() {
   prepareEditor();
   describe('Prepare Mode', function() {
-    loadTemplateFile('sphero/classic/blank-blocks.cwc', it);
-    loadExampleFile('sphero/classic/blocks/Sphero-collision.cwc', it);
-    loadExampleFile('sphero/classic/blocks/Sphero-rectangle.cwc', it);
+    loadTemplateFile('sphero/classic/blank.cwc', it);
+    loadExampleFile('sphero/classic/script/Sphero-rectangle.cwc', it);
   });
 });

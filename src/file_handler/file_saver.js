@@ -91,7 +91,7 @@ cwc.fileHandler.FileSaver.prototype.saveFileAs = function() {
  */
 cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
   this.log_.info('Save file in Google Drive', this.gDriveId);
-  let gDriveInstance = this.helper.getInstance('gdrive', true);
+  let gDriveInstance = this.helper.getInstance('gapi').getDrive();
   this.prepareContent();
   if (save_file) {
     gDriveInstance.saveFile(this.filename, this.fileData, this.gDriveId);
@@ -106,7 +106,7 @@ cwc.fileHandler.FileSaver.prototype.saveGDriveFile = function(save_file) {
  */
 cwc.fileHandler.FileSaver.prototype.saveGCloudFile = function() {
   this.log_.info('Save file in Google Cloud');
-  let gCloudInstance = this.helper.getInstance('gcloud', true);
+  let gCloudInstance = this.helper.getInstance('gapi').getCloud();
   this.prepareContent();
   gCloudInstance.publishDialog(this.filename, this.fileData, this.mimeType);
 };

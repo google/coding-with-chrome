@@ -74,13 +74,32 @@ cwc.fileHandler.FileLoader.prototype.loadFile = function() {
 
 /**
  * Creates a request to load file.
- * @param {Function=} optCallback
+ * @param {Function=} callback
  */
-cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(optCallback) {
+cwc.fileHandler.FileLoader.prototype.requestLoadFile = function(callback) {
   let loadFile = function() {
     this.loadFile();
-    if (optCallback) {
-      optCallback();
+    if (callback) {
+      callback();
+    }
+  }.bind(this);
+  this.helper.handleUnsavedChanges(loadFile);
+};
+
+
+/**
+ * Creates a request to load file.
+ * @param {Function=} callback
+ */
+cwc.fileHandler.FileLoader.prototype.requestLoadGoogleDriveFile = function(
+    callback) {
+  let loadFile = function() {
+    let gapiInstance = this.helper.getInstance('gapi');
+    if (gapiInstance && gapiInstance.getDrive()) {
+      gapiInstance.getDrive().openDialog();
+    }
+    if (callback) {
+      callback();
     }
   }.bind(this);
   this.helper.handleUnsavedChanges(loadFile);

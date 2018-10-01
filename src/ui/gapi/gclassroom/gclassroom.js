@@ -18,7 +18,7 @@
  * @author efuquen@google.com (Edwin Fuquen)
  */
 
-goog.provide('cwc.ui.GClassroom');
+goog.provide('cwc.ui.gapi.Classroom');
 
 goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GClassroom');
@@ -35,7 +35,7 @@ goog.require('goog.events.EventType');
  * @struct
  * @final
  */
-cwc.ui.GClassroom = function(helper) {
+cwc.ui.gapi.Classroom = function(helper) {
   /** @type {string} */
   this.name = 'GClassroom';
 
@@ -57,18 +57,21 @@ cwc.ui.GClassroom = function(helper) {
   /** @private {!cwc.utils.Events} */
   this.events_ = new cwc.utils.Events(this.name);
 
+  /** @private {!Object} */
   this.idByCourseWorkExpanded_ = {};
 };
 
-cwc.ui.GClassroom.prototype.openDialog = function() {
+
+cwc.ui.gapi.Classroom.prototype.openDialog = function() {
     this.dialogType = 'open';
     this.getMyCourses_(this.handleCourses.bind(this));
 };
 
+
 /**
  * @param {Object} data List of courses.
  */
-cwc.ui.GClassroom.prototype.handleCourses = function(data) {
+cwc.ui.gapi.Classroom.prototype.handleCourses = function(data) {
     let courses = data['courses'];
     let courseList = goog.dom.getElement(this.prefix + 'course_list');
     if (!courseList) {
@@ -77,7 +80,8 @@ cwc.ui.GClassroom.prototype.handleCourses = function(data) {
     this.updateCourseList(courses);
 };
 
-cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
+
+cwc.ui.gapi.Classroom.prototype.openGDriveFile = function(fileId) {
   let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
     let getFileCallback = (function(file) {
@@ -89,7 +93,8 @@ cwc.ui.GClassroom.prototype.openGDriveFile = function(fileId) {
   }
 };
 
-cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
+
+cwc.ui.gapi.Classroom.prototype.handleCourseWorks = function(data) {
   let courseWorks = data['courseWork'];
   let idToCourseWork = {};
   for (let i = 0; i < courseWorks.length; i++) {
@@ -130,7 +135,8 @@ cwc.ui.GClassroom.prototype.handleCourseWorks = function(data) {
   }
 };
 
-cwc.ui.GClassroom.prototype.filterSupportedFiles = function(files) {
+
+cwc.ui.gapi.Classroom.prototype.filterSupportedFiles = function(files) {
   let supportedFiles = [];
   files.forEach((file) => {
     let ext_match = file.name.match('\\.[a-zA-Z]{1,4}$');
@@ -143,7 +149,8 @@ cwc.ui.GClassroom.prototype.filterSupportedFiles = function(files) {
   return supportedFiles;
 };
 
-cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
+
+cwc.ui.gapi.Classroom.prototype.handleStudentSubmissions = function(
   data, iconElement) {
   let gdriveInstance = this.helper.getInstance('gdrive');
   if (gdriveInstance) {
@@ -195,10 +202,11 @@ cwc.ui.GClassroom.prototype.handleStudentSubmissions = function(
   }
 };
 
+
 /**
  * Decorates the classroom library.
  */
-cwc.ui.GClassroom.prototype.decorate = function() {
+cwc.ui.gapi.Classroom.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventTarget = layoutInstance.getEventTarget();
@@ -209,7 +217,8 @@ cwc.ui.GClassroom.prototype.decorate = function() {
   cwc.ui.Helper.mdlRefresh();
 };
 
-cwc.ui.GClassroom.prototype.prepareDialog = function() {
+
+cwc.ui.gapi.Classroom.prototype.prepareDialog = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
     title: 'Google Classroom',
@@ -220,11 +229,12 @@ cwc.ui.GClassroom.prototype.prepareDialog = function() {
   this.decorate();
 };
 
+
 /**
  * Updates the GClassroom course list with the new courses.
  * @param {Object} courses Course list with the result of the search.
  */
-cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
+cwc.ui.gapi.Classroom.prototype.updateCourseList = function(courses) {
   let courseList = goog.dom.getElement(this.prefix + 'course_list');
   goog.soy.renderElement(
     courseList,
@@ -244,54 +254,57 @@ cwc.ui.GClassroom.prototype.updateCourseList = function(courses) {
   }
 };
 
+
 /**
  * @param {function(?)} callback
  * @private
  */
-cwc.ui.GClassroom.prototype.getMyCourses_ = function(callback) {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
-    let opts = {
+cwc.ui.gapi.Classroom.prototype.getMyCourses_ = function(callback) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance) {
+    let options = {
       subdomain: 'classroom',
       path: '/v1/courses',
       params: {
           'studentId': 'me',
       },
     };
-    accountInstance.request(opts, callback);
+    gapiInstance.request(options, callback);
   } else {
     console.error('GClassroom.getMyCourses missing account');
   }
 };
+
 
 /**
  * @param {int} courseId
  * @param {function(?)} callback
  * @private
  */
-cwc.ui.GClassroom.prototype.getMyCourseWork = function(courseId, callback) {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
+cwc.ui.gapi.Classroom.prototype.getMyCourseWork = function(courseId, callback) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance) {
     let opts = {
       subdomain: 'classroom',
       path: '/v1/courses/' + courseId + '/courseWork',
     };
-    accountInstance.request(opts, callback);
+    gapiInstance.request(opts, callback);
   } else {
     console.error('GClassroom.getMyCourseWork missing account');
   }
 };
 
-cwc.ui.GClassroom.prototype.getMyCourseWorkStudentSubmissions = function(
+
+cwc.ui.gapi.Classroom.prototype.getMyCourseWorkStudentSubmissions = function(
     courseId, courseWorkId, iconElement, callback) {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance) {
     let opts = {
       subdomain: 'classroom',
       path: '/v1/courses/' + courseId + '/courseWork/' + courseWorkId + (
           '/studentSubmissions'),
     };
-    accountInstance.request(opts, (data) => {
+    gapiInstance.request(opts, (data) => {
       callback(data, iconElement);
     });
   } else {
@@ -300,9 +313,10 @@ cwc.ui.GClassroom.prototype.getMyCourseWorkStudentSubmissions = function(
   }
 };
 
+
 /**
  * @private
  */
-cwc.ui.GClassroom.prototype.cleanUp_ = function() {
+cwc.ui.gapi.Classroom.prototype.cleanUp_ = function() {
   this.events_.clear();
 };

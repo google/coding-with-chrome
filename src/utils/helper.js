@@ -42,7 +42,7 @@ cwc.utils.AddonInstance;
 
 
 /**
- * @typedef {cwc.ui.Account|
+ * @typedef {cwc.ui.gapi.Account|
  *   cwc.file.File|
  *   cwc.fileHandler.FileExporter|
  *   cwc.fileHandler.FileLoader|
@@ -58,8 +58,8 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.Experimental|
- *   cwc.ui.GClassroom|
- *   cwc.ui.GDrive|
+ *   cwc.ui.gapi.Classroom|
+ *   cwc.ui.gapi.Drive|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|
  *   cwc.ui.Layout|
@@ -412,19 +412,6 @@ cwc.utils.Helper.prototype.experimentalEnabled = function(optName) {
   let experimentalInstance = this.getInstance('experimental');
   if (experimentalInstance) {
     return experimentalInstance.isEnabled(optName);
-  }
-  return false;
-};
-
-
-/**
- * @return {boolean}
- * @export
- */
-cwc.utils.Helper.prototype.isGoogleAccountEnabled = function() {
-  let accountInstance = this.getInstance('account');
-  if (accountInstance) {
-    return accountInstance.isAuthenticated();
   }
   return false;
 };

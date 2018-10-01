@@ -267,22 +267,22 @@ cwc.ui.Navigation.prototype.requestOpenFile = function() {
   }
 };
 
+
 /**
  * Request to open an existing file from Google Drive.
  */
 cwc.ui.Navigation.prototype.requestOpenGoogleDrive = function() {
-  let gdriveInstance = this.helper.getInstance('gdrive');
-  if (gdriveInstance) {
-    gdriveInstance.openDialog();
-    this.hide();
+  let fileLoaderInstance = this.helper.getInstance('fileLoader');
+  if (fileLoaderInstance) {
+    fileLoaderInstance.requestLoadGoogleDriveFile(this.hide.bind(this));
   }
 };
 
 
 cwc.ui.Navigation.prototype.requestShowGoogleClassroomOverview = function() {
-  let gclassroomInstance = this.helper.getInstance('gclassroom');
-  if (gclassroomInstance) {
-    gclassroomInstance.openDialog();
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance && gapiInstance.getClassroom()) {
+    gapiInstance.getClassroom().openDialog();
     this.hide();
   }
 };

@@ -25,6 +25,10 @@ html > body,
   font-family: 'Roboto','Helvetica','Arial',sans-serif!important;
 }
 
+.mdl-checkbox__tick-outline {
+  -webkit-mask: 0;
+}
+
 .mdl-dialog {
   z-index: 100;
 }

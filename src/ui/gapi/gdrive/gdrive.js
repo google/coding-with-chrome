@@ -18,7 +18,7 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 
-goog.provide('cwc.ui.GDrive');
+goog.provide('cwc.ui.gapi.Drive');
 
 goog.require('cwc.config.GDrive');
 goog.require('cwc.soy.GDrive');
@@ -35,7 +35,7 @@ goog.require('goog.events.EventType');
  * @struct
  * @final
  */
-cwc.ui.GDrive = function(helper) {
+cwc.ui.gapi.Drive = function(helper) {
   /** @type {string} */
   this.name = 'GDrive';
 
@@ -103,7 +103,7 @@ cwc.ui.GDrive = function(helper) {
 /**
  * Decorates the file library.
  */
-cwc.ui.GDrive.prototype.decorate = function() {
+cwc.ui.gapi.Drive.prototype.decorate = function() {
   let layoutInstance = this.helper.getInstance('layout');
   if (layoutInstance) {
     let eventTarget = layoutInstance.getEventTarget();
@@ -144,7 +144,7 @@ cwc.ui.GDrive.prototype.decorate = function() {
 /**
  * Shows the library.
  */
-cwc.ui.GDrive.prototype.showLibrary = function() {
+cwc.ui.gapi.Drive.prototype.showLibrary = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
     title: 'Google Drive',
@@ -161,7 +161,7 @@ cwc.ui.GDrive.prototype.showLibrary = function() {
 /**
  * Prepares and renders the GDrive result dialog.
  */
-cwc.ui.GDrive.prototype.prepareDialog = function() {
+cwc.ui.gapi.Drive.prototype.prepareDialog = function() {
   this.showLibrary();
 };
 
@@ -170,7 +170,7 @@ cwc.ui.GDrive.prototype.prepareDialog = function() {
  * Renders the GDrive result dialog.
  * @param {Object} files Filelist with the result of the search.
  */
-cwc.ui.GDrive.prototype.renderDialog = function(files) {
+cwc.ui.gapi.Drive.prototype.renderDialog = function(files) {
   let fileList = goog.dom.getElement(this.prefix + 'file_list');
   if (!fileList) {
     this.prepareDialog();
@@ -182,7 +182,7 @@ cwc.ui.GDrive.prototype.renderDialog = function(files) {
 /**
  * Displays a Google Drive open dialog.
  */
-cwc.ui.GDrive.prototype.openDialog = function() {
+cwc.ui.gapi.Drive.prototype.openDialog = function() {
   this.dialogType = 'open';
   this.getMyFiles();
 };
@@ -191,7 +191,7 @@ cwc.ui.GDrive.prototype.openDialog = function() {
 /*
  * Displays a Google Drive save dialog.
  */
-cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
+cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content, opt_id) {
   this.dialogType = 'save';
   this.saveFileName = name;
   this.saveFileContent = content;
@@ -202,7 +202,7 @@ cwc.ui.GDrive.prototype.saveDialog = function(name, content, opt_id) {
 /**
  * Returns all files which are created by the user.
  */
-cwc.ui.GDrive.prototype.getMyFiles = function() {
+cwc.ui.gapi.Drive.prototype.getMyFiles = function() {
   this.switchMenu(this.menuMyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
   let fileEvent = this.handleFileList.bind(this);
@@ -220,7 +220,7 @@ cwc.ui.GDrive.prototype.getMyFiles = function() {
 /**
  * Fetches all related files from Google drive.
  */
-cwc.ui.GDrive.prototype.getFile = function() {
+cwc.ui.gapi.Drive.prototype.getFile = function() {
   let fileEvent = this.handleFileList.bind(this);
   this.getFiles_({
     'pageSize': cwc.config.GDrive.PAGE_SIZE,
@@ -234,7 +234,7 @@ cwc.ui.GDrive.prototype.getFile = function() {
  * @param {string} file
  * @param {boolean=} trashed
  */
-cwc.ui.GDrive.prototype.getFolder = function(file, trashed = false) {
+cwc.ui.gapi.Drive.prototype.getFolder = function(file, trashed = false) {
   let name = file['name'];
   let id = file ['id'];
   console.log('Navigate to', name, 'folder');
@@ -258,7 +258,7 @@ cwc.ui.GDrive.prototype.getFolder = function(file, trashed = false) {
 /*
  * Switch to the clicked on sidebar menu.
  */
-cwc.ui.GDrive.prototype.switchMenu = function(node) {
+cwc.ui.gapi.Drive.prototype.switchMenu = function(node) {
   if (this.menuCurrent) {
     this.menuCurrent.classList.remove(this.prefix + 'menu-selected');
   }
@@ -270,7 +270,7 @@ cwc.ui.GDrive.prototype.switchMenu = function(node) {
 /**
  * Returns all files which are shared with the user.
  */
-cwc.ui.GDrive.prototype.getSharedFiles = function() {
+cwc.ui.gapi.Drive.prototype.getSharedFiles = function() {
   this.switchMenu(this.menuSharedFiles);
   this.parents = [{
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
@@ -288,7 +288,7 @@ cwc.ui.GDrive.prototype.getSharedFiles = function() {
 /**
  * Returns als marked files from the user.
  */
-cwc.ui.GDrive.prototype.getStarredFiles = function() {
+cwc.ui.gapi.Drive.prototype.getStarredFiles = function() {
   this.switchMenu(this.menuStarredFiles);
   this.parents = [{
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
@@ -306,7 +306,7 @@ cwc.ui.GDrive.prototype.getStarredFiles = function() {
 /**
  * Returns all last opened files by the user.
  */
-cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
+cwc.ui.gapi.Drive.prototype.getLastOpenedFiles = function() {
   this.switchMenu(this.menuLastOpenedFiles);
   this.parents = [{
     name: 'Recent', callback: this.getLastOpenedFiles.bind(this)}];
@@ -327,7 +327,7 @@ cwc.ui.GDrive.prototype.getLastOpenedFiles = function() {
 /**
  * Returns all trashed files by the user.
  */
-cwc.ui.GDrive.prototype.getTrashFiles = function() {
+cwc.ui.gapi.Drive.prototype.getTrashFiles = function() {
   this.switchMenu(this.menuTrashFiles);
   this.parents = [{
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
@@ -345,7 +345,7 @@ cwc.ui.GDrive.prototype.getTrashFiles = function() {
  * Updates the GDrive filelist with the new files.
  * @param {Object} files Filelist with the result of the search.
  */
-cwc.ui.GDrive.prototype.updateFileList = function(files) {
+cwc.ui.gapi.Drive.prototype.updateFileList = function(files) {
   let fileList = goog.dom.getElement(this.prefix + 'file_list');
   goog.soy.renderElement(
     fileList,
@@ -416,7 +416,7 @@ cwc.ui.GDrive.prototype.updateFileList = function(files) {
 /**
  * @param {Object} data List of files.
  */
-cwc.ui.GDrive.prototype.handleFileList = function(data) {
+cwc.ui.gapi.Drive.prototype.handleFileList = function(data) {
   this.data = {};
   if ('files' in data) {
     let files = data['files'];
@@ -431,12 +431,12 @@ cwc.ui.GDrive.prototype.handleFileList = function(data) {
 /**
  * @param {string} name
  * @param {string} content
- * @param {string=} opt_id
+ * @param {string=} id
  * @param {string=} parent_id
  */
-cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
-  let accountInstance = this.helper.getInstance('account');
-  if (name && content && accountInstance) {
+cwc.ui.gapi.Drive.prototype.saveFile = function(name, content, id, parent_id) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (name && content && gapiInstance) {
     let path = '/upload/drive/v3/files';
     let contentType = null;
     for (let ext in cwc.config.GDrive.EXT_TO_MIME_TYPE) {
@@ -457,8 +457,8 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
       metaData['parents'] = [parent_id];
     }
 
-    if (opt_id) {
-      path = '/upload/drive/v3/files/' + opt_id;
+    if (id) {
+      path = '/upload/drive/v3/files/' + id;
       method = 'PATCH';
     }
 
@@ -477,7 +477,7 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
     multipart.push(btoa(content));
     multipart.push(close_delim);
 
-    accountInstance.request({
+   gapiInstance.request({
       path: path,
       method: method,
       params: {
@@ -497,7 +497,7 @@ cwc.ui.GDrive.prototype.saveFile = function(name, content, opt_id, parent_id) {
 /**
  * @param {Object} file
  */
-cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
+cwc.ui.gapi.Drive.prototype.handleSaveFile = function(file) {
   let fileInstance = this.helper.getInstance('file');
   if (file) {
     this.helper.showInfo('Saved file ' + file['name'] + ' successful.');
@@ -514,11 +514,11 @@ cwc.ui.GDrive.prototype.handleSaveFile = function(file) {
  * Downloads and loads the content form the given file instance.
  * @param {Object} file File instance.
  */
-cwc.ui.GDrive.prototype.downloadFile = function(file) {
-  let accountInstance = this.helper.getInstance('account');
+cwc.ui.gapi.Drive.prototype.downloadFile = function(file) {
+  let gapiInstance = this.helper.getInstance('gapi');
   let fileLoaderInstance = this.helper.getInstance('fileLoader');
 
-  if (file && accountInstance && fileLoaderInstance) {
+  if (file && gapiInstance && fileLoaderInstance) {
     let id = file['id'];
     let name = file['name'];
     console.log('Downloading file: ' + name);
@@ -526,7 +526,7 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
       fileLoaderInstance.loadGDriveFileData(id, name, content);
     };
 
-    accountInstance.request({
+    gapiInstance.request({
       path: '/drive/v3/files/' + id,
       method: 'GET',
       params: {
@@ -542,14 +542,14 @@ cwc.ui.GDrive.prototype.downloadFile = function(file) {
  * @param {function(?)} callback
  * @private
  */
-cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
+cwc.ui.gapi.Drive.prototype.getFiles_ = function(params, callback) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance) {
     let opts = {
       path: '/drive/v3/files',
       params: params,
     };
-    accountInstance.request(opts, callback);
+    gapiInstance.request(opts, callback);
   }
 };
 
@@ -558,13 +558,13 @@ cwc.ui.GDrive.prototype.getFiles_ = function(params, callback) {
  * @param {function(?)} callback
  * @return {Promise} to wait on the completion gdrive file request.
  */
-cwc.ui.GDrive.prototype.getFile = function(fileId, callback) {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
+cwc.ui.gapi.Drive.prototype.getFile = function(fileId, callback) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (gapiInstance) {
     let opts = {
       path: '/drive/v3/files/' + fileId,
     };
-    return accountInstance.request(opts, callback);
+    return gapiInstance.request(opts, callback);
   } else {
     console.error('GDrive.getFile missing account');
   }
@@ -574,6 +574,6 @@ cwc.ui.GDrive.prototype.getFile = function(fileId, callback) {
 /**
  * @private
  */
-cwc.ui.GDrive.prototype.cleanUp_ = function() {
+cwc.ui.gapi.Drive.prototype.cleanUp_ = function() {
   this.events_.clear();
 };

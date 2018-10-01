@@ -1,6 +1,6 @@
 {
   "name": "binary",
-  "version": "5.8.16",
+  "version": "5.10.1",
   "main": "js/background.js",
   "window": {
     "title": "Coding with Chrome",

@@ -18,7 +18,7 @@
  * @author efuquen@google.com (Edwin Fuquen)
  */
 
-goog.provide('cwc.ui.GCloud');
+goog.provide('cwc.ui.gapi.Cloud');
 
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
@@ -35,7 +35,7 @@ goog.require('cwc.utils.Helper');
  * @struct
  * @final
  */
-cwc.ui.GCloud = function(helper) {
+cwc.ui.gapi.Cloud = function(helper) {
   /** @type {string} */
   this.name = 'GCloud';
 
@@ -77,8 +77,8 @@ cwc.ui.GCloud = function(helper) {
  * @param {string} content
  * @param {string} type
  */
-cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
-  let accountInstance = this.helper.getInstance('account', true);
+cwc.ui.gapi.Cloud.prototype.publishDialog = function(name, content, type) {
+  let gapiInstance = this.helper.getInstance('gapi');
   this.filename = name;
   this.fileContent = content;
   this.fileType = type;
@@ -96,7 +96,7 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
     });
     this.selectProjectDialog(response['projects']);
   };
-  accountInstance.request({
+  gapiInstance.request({
     subdomain: 'cloudresourcemanager',
     path: '/v1/projects',
     params: {
@@ -109,7 +109,7 @@ cwc.ui.GCloud.prototype.publishDialog = function(name, content, type) {
 /**
  * Resets Google Cloud dialog.
  */
-cwc.ui.GCloud.prototype.clear = function() {
+cwc.ui.gapi.Cloud.prototype.clear = function() {
   this.filename = '';
   this.fileContent = '';
   this.fileType = '';
@@ -122,10 +122,10 @@ cwc.ui.GCloud.prototype.clear = function() {
 
 
 /**
- * Populate the project select dropdown.
+ * Populate the project select drop-down.
  * @param {Object} projects Google Cloud Storage project ids.
  */
-cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
+cwc.ui.gapi.Cloud.prototype.selectProjectDialog = function(projects) {
   let dialogInstance = this.helper.getInstance('dialog');
   if (!dialogInstance) return;
 
@@ -151,12 +151,12 @@ cwc.ui.GCloud.prototype.selectProjectDialog = function(projects) {
 
 
 /**
- * Project dropdown selected callback. Gets a list of buckets to display.
+ * Project drop-down selected callback. Gets a list of buckets to display.
  * @param {string} projectId The project id selected.
  */
-cwc.ui.GCloud.prototype.selectProject = function(projectId) {
-  let accountInstance = this.helper.getInstance('account');
-  if (!accountInstance) return;
+cwc.ui.gapi.Cloud.prototype.selectProject = function(projectId) {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (!gapiInstance) return;
   console.log('Project id chosen: ' + projectId);
   this.projectId = projectId;
   let callback = (response) => {
@@ -173,7 +173,7 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
     });
     this.selectBucketDialog(response['items']);
   };
-  accountInstance.request({
+  gapiInstance.request({
     path: '/storage/v1/b',
     params: {
       'project': projectId,
@@ -183,10 +183,10 @@ cwc.ui.GCloud.prototype.selectProject = function(projectId) {
 
 
 /**
- * Populate the bucket select dropdown.
+ * Populate the bucket select drop-down.
  * @param {Object} items List of bucket objects for selected project id.
  */
-cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
+cwc.ui.gapi.Cloud.prototype.selectBucketDialog = function(items) {
   let bucketsContainer = goog.dom.getElement(
     this.prefix + 'buckets-container');
   goog.soy.renderElement(
@@ -232,16 +232,16 @@ cwc.ui.GCloud.prototype.selectBucketDialog = function(items) {
 /**
  * Gets folders present with the current storage prefix.
  */
-cwc.ui.GCloud.prototype.currentDirectory = function() {
-  let accountInstance = this.helper.getInstance('account');
-  if (!accountInstance) return;
+cwc.ui.gapi.Cloud.prototype.currentDirectory = function() {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (!gapiInstance) return;
   let params = {
     'delimiter': '/',
   };
   if (this.storagePrefix) {
     params['prefix'] = this.storagePrefix;
   }
-  accountInstance.request({
+  gapiInstance.request({
     path: '/storage/v1/b/' + this.bucketName + '/o',
     params: params,
   }, this.currentDirectoryHandler_.bind(this));
@@ -251,10 +251,10 @@ cwc.ui.GCloud.prototype.currentDirectory = function() {
 /**
  * Publish file in currently selected project, bucket, and folder.
  */
-cwc.ui.GCloud.prototype.publish = function() {
-  let accountInstance = this.helper.getInstance('account');
-  if (!accountInstance) return;
-  accountInstance.request({
+cwc.ui.gapi.Cloud.prototype.publish = function() {
+  let gapiInstance = this.helper.getInstance('gapi');
+  if (!gapiInstance) return;
+  gapiInstance.request({
     path: '/upload/storage/v1/b/' + this.bucketName + '/o',
     method: 'POST',
     params: {
@@ -272,10 +272,10 @@ cwc.ui.GCloud.prototype.publish = function() {
 /**
  * Makes the published file public.
  */
-cwc.ui.GCloud.prototype.makePublic = function() {
-  let accountInstance = this.helper.getInstance('account');
+cwc.ui.gapi.Cloud.prototype.makePublic = function() {
+  let gapiInstance = this.helper.getInstance('gapi');
   let dialogInstance = this.helper.getInstance('dialog');
-  if (!accountInstance) return;
+  if (!gapiInstance) return;
   if (!dialogInstance) return;
 
   let callback = (response) => {
@@ -283,7 +283,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
     this.setDialogPublicUrl();
     dialogInstance.setButtonText('publish', 'Republish');
   };
-  accountInstance.request({
+  gapiInstance.request({
     path: '/storage/v1/b/' + this.bucketName + '/o/' + encodeURIComponent(
         this.storagePrefix + this.filename),
     method: 'PUT',
@@ -304,7 +304,7 @@ cwc.ui.GCloud.prototype.makePublic = function() {
 /**
  * Display the public url of the published file.
  */
-cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
+cwc.ui.gapi.Cloud.prototype.setDialogPublicUrl = function() {
   let publicUrlContainer = goog.dom.getElement(this.prefix + 'public-url');
   goog.soy.renderElement(publicUrlContainer, cwc.soy.GCloud.gCloudPublicURL, {
     prefix: this.prefix, path: this.publicUrlPath,
@@ -317,7 +317,7 @@ cwc.ui.GCloud.prototype.setDialogPublicUrl = function() {
  * @param {!object} response
  * @private
  */
-cwc.ui.GCloud.prototype.currentDirectoryHandler_ = function(response) {
+cwc.ui.gapi.Cloud.prototype.currentDirectoryHandler_ = function(response) {
   let foldersContainer = goog.dom.getElement(
       this.prefix + 'folders-container');
   if ('prefixes' in response) {

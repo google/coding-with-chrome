@@ -1,5 +1,5 @@
 /**
- * @fileoverview Mode Sphero Classic - Advanced
+ * @fileoverview Mode Sphero SPRK+ - Advanced
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -19,10 +19,10 @@
  */
 
 
-describe('[Mode Sphero Classic - Advanced]', function() {
+describe('[Mode Sphero SPRK+ - Advanced]', function() {
   prepareEditor();
   describe('Prepare Mode', function() {
-    loadTemplateFile('sphero/classic/blank.cwc', it);
-    loadExampleFile('sphero/classic/script/Sphero-rectangle.cwc', it);
+    loadTemplateFile('sphero/sprk_plus/blank.cwc', it);
+    loadExampleFile('sphero/sprk_plus/script/Sphero-collision.cwc', it);
   });
 });

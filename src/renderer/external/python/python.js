@@ -107,9 +107,8 @@ cwc.renderer.external.Python.prototype.renderPython2 = function(
   header += rendererHelper.getStyleSheetURL(
     /** @type {string} */ (cwc.config.framework.StyleSheet.DIALOG));
   let body = '<div id="content"></div>' +
-  '<script id="code" type="text/python">\n' +
-    content +
-  '\n</script>\n<script>new cwc.framework.Python2().run();</script>';
+  '<script id="code" type="text/python">\n' + content +'\n</script>\n' +
+  '<script>new cwc.framework.Python2().run();</script>';
 
   return rendererHelper.getHTML(body, header);
 };

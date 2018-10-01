@@ -21,6 +21,7 @@ goog.provide('cwc.ui.Blockly');
 
 goog.require('cwc.soy.ui.Blockly');
 goog.require('cwc.ui.BlocklyConfig');
+goog.require('cwc.ui.BlocklyLegacy');
 goog.require('cwc.ui.BlocklyToolbar');
 goog.require('cwc.ui.BlocklyToolbox');
 goog.require('cwc.ui.Helper');
@@ -258,7 +259,8 @@ cwc.ui.Blockly.prototype.addView = function(name, xml) {
   let workspace = this.getWorkspace();
   if (workspace) {
     this.log_.info('Add view', name, '(', xml.length, ')');
-    let xmlDom = Blockly.Xml.textToDom(xml);
+    let xmlString = cwc.ui.BlocklyLegacy.parse(xml);
+    let xmlDom = Blockly.Xml.textToDom(xmlString);
     try {
       Blockly.Xml.domToWorkspace(xmlDom, workspace);
       this.resetZoom();

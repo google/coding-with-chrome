@@ -41,14 +41,10 @@ goog.require('cwc.protocol.serial.Api');
 goog.require('cwc.protocol.tcp.HTTPServer');
 goog.require('cwc.renderer.Renderer');
 goog.require('cwc.server.Server');
-goog.require('cwc.ui.Account');
 goog.require('cwc.ui.Console');
 goog.require('cwc.ui.Debug');
 goog.require('cwc.ui.Documentation');
 goog.require('cwc.ui.Experimental');
-goog.require('cwc.ui.GClassroom');
-goog.require('cwc.ui.GCloud');
-goog.require('cwc.ui.GDrive');
 goog.require('cwc.ui.Gui');
 goog.require('cwc.ui.Help');
 goog.require('cwc.ui.Helper');
@@ -66,6 +62,7 @@ goog.require('cwc.ui.StatusBar');
 goog.require('cwc.ui.Tour');
 goog.require('cwc.ui.Tutorial');
 goog.require('cwc.ui.connectScreen.Screens');
+goog.require('cwc.ui.gapi.Handler');
 goog.require('cwc.utils.Dialog');
 goog.require('cwc.utils.Events');
 goog.require('cwc.utils.Gamepad');
@@ -132,18 +129,6 @@ cwc.ui.supportedProtocols = {
 };
 
 
-/**
- * Specific oAuth2 helpers.
- * @enum {!Function}
- */
-cwc.ui.oauth2Helpers = {
-  'account': cwc.ui.Account,
-  'gclassroom': cwc.ui.GClassroom,
-  'gcloud': cwc.ui.GCloud,
-  'gdrive': cwc.ui.GDrive,
-};
-
-
 goog.scope(function() {
 const Logger = goog.module.get('cwc.lib.utils.log.Logger');
 
@@ -189,6 +174,7 @@ cwc.ui.Builder = function() {
   this.helper.setInstance('mdns', new cwc.protocol.mDNS.Api());
 };
 
+
 /**
  * @return {!cwc.utils.Helper}
  * @export
@@ -196,6 +182,7 @@ cwc.ui.Builder = function() {
 cwc.ui.Builder.prototype.getHelper = function() {
   return this.helper;
 };
+
 
 /**
  * Decorates the given node and adds the code editor.
@@ -277,13 +264,9 @@ cwc.ui.Builder.prototype.decorateUI = function() {
     this.setProgressFunc('Prepare helpers ...', this.prepareHelper);
     this.setProgressFunc('Gamepad support ...', this.prepareGamepad);
     this.setProgressFunc('Prepare addons ...', this.prepareAddons);
-    if (this.helper.checkChromeFeature('manifest.oauth2')) {
-      this.setProgressFunc('Prepare OAuth2 Helpers ...',
-        this.prepareOauth2Helper);
-    }
     this.setProgressFunc('Render editor GUI ...', this.renderGui);
     if (this.helper.checkChromeFeature('manifest.oauth2')) {
-      this.setProgressFunc('Prepare account support ...', this.prepareAccount);
+      this.setProgressFunc('Prepare GAPI ...', this.prepareGAPI);
     }
     this.setProgressFunc('Loading select screen ...', this.showSelectScreen);
     this.setProgressFunc('Loading cache ...', this.loadCache).then(() => {
@@ -368,22 +351,6 @@ cwc.ui.Builder.prototype.setProgressFunc = function(text, func, steps) {
 cwc.ui.Builder.prototype.raiseError = function(error, skipThrow = false) {
   if (!skipThrow) {
     throw error;
-  }
-};
-
-
-/**
- * Prepares account if needed.
- */
-cwc.ui.Builder.prototype.prepareAccount = function() {
-  let accountInstance = this.helper.getInstance('account');
-  if (accountInstance) {
-    accountInstance.prepare();
-  } else {
-    let menubarInstance = this.helper.getInstance('menuBar');
-    if (menubarInstance) {
-      menubarInstance.setAuthenticated(false);
-    }
   }
 };
 
@@ -498,7 +465,7 @@ cwc.ui.Builder.prototype.prepareHelper = function() {
 
 
 /**
- * Preparing general Gamepad support
+ * Prepare general Gamepad support
  */
 cwc.ui.Builder.prototype.prepareGamepad = function() {
   let gamepadInstance = new cwc.utils.Gamepad();
@@ -507,17 +474,11 @@ cwc.ui.Builder.prototype.prepareGamepad = function() {
 
 
 /**
- * Load additional oauth2 helpers.
+ * Prepare Google API support.
  */
-cwc.ui.Builder.prototype.prepareOauth2Helper = function() {
-  for (let helper in cwc.ui.oauth2Helpers) {
-    if (cwc.ui.oauth2Helpers.hasOwnProperty(helper)) {
-      this.setProgressFunc('Loading ' + helper + ' OAuth2 helper ...', () => {
-        this.loadHelper_(cwc.ui.oauth2Helpers[helper], helper);
-      }, 1);
-    }
-  }
-  this.prepared = true;
+cwc.ui.Builder.prototype.prepareGAPI = function() {
+  let gapiHandlerInstance = new cwc.ui.gapi.Handler(this.helper);
+  this.helper.setInstance('gapi', gapiHandlerInstance).prepare();
 };
 
 
