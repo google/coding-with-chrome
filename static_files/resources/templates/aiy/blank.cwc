@@ -1,0 +1,22 @@
+{
+  "author": "Unknown",
+  "content": {
+    "__python__": {
+      "name": "__python__",
+      "type": "text/python3",
+      "size": 0,
+      "content": "",
+      "version": 1
+    }
+  },
+  "description": "",
+  "files": {},
+  "flags": {},
+  "format": "Coding with Chrome File Format 2",
+  "frameworks": {},
+  "history": "",
+  "mode": "aiy",
+  "title": "Untitled Basic file",
+  "ui": "default",
+  "version": "1.0"
+}

@@ -103,10 +103,10 @@ cwc.mode.ConfigData = {};
  */
 cwc.mode.ConfigData[cwc.mode.Type.AIY] = new cwc.mode.Mod({
   authors: ['Filip Stanis'],
-  mime_types: [cwc.utils.mime.Type.PYTHON.type],
+  mime_types: [cwc.utils.mime.Type.CWC.type],
   mod: cwc.mode.aiy.Mod,
   name: 'AIY',
-  template: '',
+  template: 'aiy/blank.cwc',
 });
 
 
