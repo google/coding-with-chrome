@@ -14,7 +14,7 @@ Workflow
    for the file type (cwc.file.Type).
 
 3. The modder (cwc.mode.Modder) build the UI, loads the content and
-   defines the used renderer according the mode config (cwc.mode.ConfigData).
+   defines the used renderer according to the mode config (cwc.mode.ConfigData).
 
 Add a new file_type
 --------------------

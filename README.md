@@ -29,7 +29,7 @@ core philosophies:
    * input languages (blockly, javascript, coffeescript)
    * output modules (turtle graphics, javascript output, connected robots)
    * Flexible UI where elements can be easily added, modified or removed
-   * Tutorial engine for self learning
+   * Tutorial engine for self-learning
 
 Licensing
 ----------
