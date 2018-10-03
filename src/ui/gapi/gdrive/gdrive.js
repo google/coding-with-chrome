@@ -57,30 +57,31 @@ cwc.ui.gapi.Drive = function(helper) {
   /** @type {Element} */
   this.menuCurrent = null;
 
-  /** @type {!Element} */
-  this.menuMyFiles = cwc.ui.Helper.getListItem(
-    'My files', this.getMyFiles.bind(this));
+  /** @type {Object} */
+  this.menu = {
+    myFiles: cwc.ui.Helper.getListItem(
+      'My files', this.getMyFiles.bind(this)),
+    SharedFiles: cwc.ui.Helper.getListItem(
+      'Shared with me', this.getSharedFiles.bind(this)),
+    Starred: cwc.ui.Helper.getListItem(
+      'Starred', this.getStarredFiles.bind(this)),
+    Recent: cwc.ui.Helper.getListItem(
+      'Recent', this.getLastOpenedFiles.bind(this)),
+    Trash: cwc.ui.Helper.getListItem('Trash', this.getTrashFiles.bind(this)),
+  };
 
-  /** @type {!Element} */
-  this.menuSharedFiles = cwc.ui.Helper.getListItem(
-    'Shared with me', this.getSharedFiles.bind(this));
-
-  /** @type {!Element} */
-  this.menuStarredFiles = cwc.ui.Helper.getListItem(
-    'Starred', this.getStarredFiles.bind(this));
-
-  /** @type {!Element} */
-  this.menuLastOpenedFiles = cwc.ui.Helper.getListItem(
-    'Recent', this.getLastOpenedFiles.bind(this));
-
-  /** @type {!Element} */
-  this.menuTrashFiles = cwc.ui.Helper.getListItem(
-    'Trash', this.getTrashFiles.bind(this));
-
+  /** @type {Object} */
   this.dialogMenus = {
-    'open': [this.menuMyFiles, this.menuSharedFiles, this.menuStarredFiles,
-      this.menuLastOpenedFiles, this.menuTrashFiles],
-    'save': [this.menuMyFiles],
+    'open': [
+      this.menu.LastOpenedFiles,
+      this.menu.MyFiles,
+      this.menu.SharedFiles,
+      this.menu.StarredFiles,
+      this.menu.TrashFiles,
+    ],
+    'save': [
+      this.menu.MyFiles,
+    ],
   };
 
   /** @type {Array} */
@@ -142,9 +143,9 @@ cwc.ui.gapi.Drive.prototype.decorate = function() {
 
 
 /**
- * Shows the library.
+ * Prepares and renders the GDrive result dialog.
  */
-cwc.ui.gapi.Drive.prototype.showLibrary = function() {
+cwc.ui.gapi.Drive.prototype.prepareDialog = function() {
   let dialogInstance = this.helper.getInstance('dialog', true);
   let title = {
     title: 'Google Drive',
@@ -155,14 +156,6 @@ cwc.ui.gapi.Drive.prototype.showLibrary = function() {
     type: this.dialogType,
   });
   this.decorate();
-};
-
-
-/**
- * Prepares and renders the GDrive result dialog.
- */
-cwc.ui.gapi.Drive.prototype.prepareDialog = function() {
-  this.showLibrary();
 };
 
 
@@ -188,10 +181,12 @@ cwc.ui.gapi.Drive.prototype.openDialog = function() {
 };
 
 
-/*
+/**
  * Displays a Google Drive save dialog.
+ * @param {string} name
+ * @param {string} content
  */
-cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content, opt_id) {
+cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content) {
   this.dialogType = 'save';
   this.saveFileName = name;
   this.saveFileContent = content;
@@ -203,7 +198,7 @@ cwc.ui.gapi.Drive.prototype.saveDialog = function(name, content, opt_id) {
  * Returns all files which are created by the user.
  */
 cwc.ui.gapi.Drive.prototype.getMyFiles = function() {
-  this.switchMenu(this.menuMyFiles);
+  this.switchMenu(this.menu.MyFiles);
   this.parents = [{name: 'My files', id: 'root'}];
   let fileEvent = this.handleFileList.bind(this);
   this.getFiles_({
@@ -255,8 +250,9 @@ cwc.ui.gapi.Drive.prototype.getFolder = function(file, trashed = false) {
 };
 
 
-/*
+/**
  * Switch to the clicked on sidebar menu.
+ * @param {element} node
  */
 cwc.ui.gapi.Drive.prototype.switchMenu = function(node) {
   if (this.menuCurrent) {
@@ -271,7 +267,7 @@ cwc.ui.gapi.Drive.prototype.switchMenu = function(node) {
  * Returns all files which are shared with the user.
  */
 cwc.ui.gapi.Drive.prototype.getSharedFiles = function() {
-  this.switchMenu(this.menuSharedFiles);
+  this.switchMenu(this.menu.SharedFiles);
   this.parents = [{
     name: 'Shared with me', callback: this.getSharedFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -286,10 +282,10 @@ cwc.ui.gapi.Drive.prototype.getSharedFiles = function() {
 
 
 /**
- * Returns als marked files from the user.
+ * Returns all marked files from the user.
  */
 cwc.ui.gapi.Drive.prototype.getStarredFiles = function() {
-  this.switchMenu(this.menuStarredFiles);
+  this.switchMenu(this.menu.StarredFiles);
   this.parents = [{
     name: 'Starred', callback: this.getStarredFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -307,7 +303,7 @@ cwc.ui.gapi.Drive.prototype.getStarredFiles = function() {
  * Returns all last opened files by the user.
  */
 cwc.ui.gapi.Drive.prototype.getLastOpenedFiles = function() {
-  this.switchMenu(this.menuLastOpenedFiles);
+  this.switchMenu(this.menu.LastOpenedFiles);
   this.parents = [{
     name: 'Recent', callback: this.getLastOpenedFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);
@@ -328,7 +324,7 @@ cwc.ui.gapi.Drive.prototype.getLastOpenedFiles = function() {
  * Returns all trashed files by the user.
  */
 cwc.ui.gapi.Drive.prototype.getTrashFiles = function() {
-  this.switchMenu(this.menuTrashFiles);
+  this.switchMenu(this.menu.TrashFiles);
   this.parents = [{
     name: 'Trash', callback: this.getTrashFiles.bind(this)}];
   let fileEvent = this.handleFileList.bind(this);

@@ -36,7 +36,10 @@ cwc.mode.sphero.sphero2.SimulationCommand = function(turtle) {
   this.heading_ = 0;
 
   /** @private {number} */
-  this.speed_ = 40;
+  this.scale_ = 1;
+
+  /** @private {number} */
+  this.speed_ = 20;
 };
 
 
@@ -45,9 +48,8 @@ cwc.mode.sphero.sphero2.SimulationCommand = function(turtle) {
  */
 cwc.mode.sphero.sphero2.SimulationCommand.prototype['__handshake__'] = function(
     ) {
-  this.speed_ = 40;
-  this.turtle.action('speed', 1);
-  this.turtle.action('scale', 1);
+  this.turtle.action('speed', this.speed_);
+  this.turtle.action('scale', this.scale_);
   this.turtle.reset();
 };
 

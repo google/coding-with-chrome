@@ -1,5 +1,5 @@
 /**
- * @fileoverview Default Layout template.
+ * @fileoverview BUILD configuration for Coding with Chrome (win app).
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,36 +17,19 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-{namespace cwc.soy.mode.default.Layout autoescape="strict"}
+let mv = require('mv');
 
 
 /**
- * Blockly template.
+ * Windows 32 bit
  */
-{template .blockly}
-  {@param prefix: string}
-
-  <div id="{$prefix}editor-chrome"></div>
-  <div id="{$prefix}blockly-chrome" style="height: 100%; width: 100%;"></div>
-{/template}
-
+mv('dist/binary/win32/binary.exe',
+   'dist/binary/win32/Coding with Chrome.exe',
+   {mkdirp: false}, function() {});
 
 /**
- * Editor template.
+ * Windows 64 bit
  */
-{template .editor}
-  {@param prefix: string}
-
-  <div id="{$prefix}editor-chrome" style="height: 100%; width: 100%;"></div>
-{/template}
-
-
-/**
- * Preview template.
- */
-{template .preview}
-  {@param prefix: string}
-
-  <div id="{$prefix}preview-chrome">Preview</div>
-  <div id="{$prefix}message-chrome"></div>
-{/template}
+mv('dist/binary/win64/binary.exe',
+   'dist/binary/win64/Coding with Chrome.exe',
+   {mkdirp: false}, function() {});

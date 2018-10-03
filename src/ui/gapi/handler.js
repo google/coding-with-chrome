@@ -23,6 +23,7 @@ goog.require('cwc.ui.gapi.Account');
 goog.require('cwc.ui.gapi.Classroom');
 goog.require('cwc.ui.gapi.Cloud');
 goog.require('cwc.ui.gapi.Drive');
+goog.require('cwc.utils.Logger');
 
 
 /**

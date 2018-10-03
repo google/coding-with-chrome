@@ -80,3 +80,13 @@ npm run publish:chrome_app
 
 Use the generated **dist/chrome_app.zip** file for the upload to the
 Chrome Store or to share over other ways.
+
+### Binary (experimental)
+
+```bash
+npm run build:nw_app
+npm run publish:nw_app
+```
+
+Use the generated **dist/binary/*/*** folders to create an zip archive for
+the upload to GitHub or to share over other ways.

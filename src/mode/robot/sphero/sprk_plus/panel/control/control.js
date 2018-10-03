@@ -132,7 +132,9 @@ cwc.mode.sphero.sprkPlus.Control.prototype.addEventHandler_ = function() {
 
   // Stop
   this.events_.listen('stop', goog.events.EventType.CLICK, function() {
-    this.connection.stop();
+    this.events_.debounce('stop', () => {
+      this.connection.stop();
+    });
   });
 
   // Sleep

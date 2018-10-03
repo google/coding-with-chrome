@@ -34,6 +34,11 @@ cwc.ui.BlocklyLegacy.parse = function(xml = '') {
 
   // Fix former block names
   result = result
+    .replace(/phaser_physics_ball_sprite/g, 'phaser_physics_arcade_sprite_ball')
+    .replace(/phaser_physics_player_sprite/g,
+      'phaser_physics_arcade_sprite_player')
+    .replace(/phaser_physics_paddle_sprite/g,
+      'phaser_physics_arcade_sprite_paddle')
     .replace(/sphero_start/g, 'sphero_sphero2_start')
     .replace(/sphero_roll/g, 'sphero_sphero2_roll')
     .replace(/sphero_roll_step/g, 'sphero_sphero2_roll_step')

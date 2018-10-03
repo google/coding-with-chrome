@@ -42,8 +42,7 @@ cwc.utils.AddonInstance;
 
 
 /**
- * @typedef {cwc.ui.gapi.Account|
- *   cwc.file.File|
+ * @typedef {cwc.file.File|
  *   cwc.fileHandler.FileExporter|
  *   cwc.fileHandler.FileLoader|
  *   cwc.fileHandler.FileSaver|
@@ -58,8 +57,7 @@ cwc.utils.AddonInstance;
  *   cwc.ui.Documentation|
  *   cwc.ui.Editor|
  *   cwc.ui.Experimental|
- *   cwc.ui.gapi.Classroom|
- *   cwc.ui.gapi.Drive|
+ *   cwc.ui.gapi.Handler|
  *   cwc.ui.Gui|
  *   cwc.ui.Help|
  *   cwc.ui.Layout|
